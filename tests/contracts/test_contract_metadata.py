@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 CONTRACT = ROOT / "contracts/core/contract-metadata.schema.json"
 
+
 class ContractMetadataTests(unittest.TestCase):
 
     @classmethod
@@ -23,10 +24,8 @@ class ContractMetadataTests(unittest.TestCase):
         )
 
     def test_required_metadata_fields(self):
-        required = set(self.data["required"])
-
         self.assertEqual(
-            required,
+            set(self.data["required"]),
             {
                 "schema_id",
                 "schema_version",
@@ -51,12 +50,7 @@ class ContractMetadataTests(unittest.TestCase):
             self.assertIn(name, properties)
 
     def test_schema_version_is_semver_like(self):
-        pattern = self.data["properties"]["schema_version"]["pattern"]
-
         self.assertEqual(
-            pattern,
+            self.data["properties"]["schema_version"]["pattern"],
             "^[0-9]+\\.[0-9]+\\.[0-9]+$"
         )
-
-if __name__ == "__main__":
-    unittest.main()

@@ -20,6 +20,7 @@ EXPECTED_IDENTITIES = {
     "recovery_id",
 }
 
+
 class IdentityBoundaryTests(unittest.TestCase):
 
     @classmethod
@@ -63,8 +64,12 @@ class IdentityBoundaryTests(unittest.TestCase):
             self.data["properties"]["identities"]["properties"]
         )
 
-        self.assertEqual(identities, EXPECTED_IDENTITIES)
-        self.assertNotIn("universal_id", identities)
+        self.assertEqual(
+            identities,
+            EXPECTED_IDENTITIES
+        )
 
-if __name__ == "__main__":
-    unittest.main()
+        self.assertNotIn(
+            "universal_id",
+            identities
+        )
