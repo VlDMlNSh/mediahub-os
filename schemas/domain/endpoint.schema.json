@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/endpoint.schema.json",
+  "title": "MediaHub OS Endpoint",
+  "description": "Canonical interaction point associated with a MediaHub Device.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "device_id",
+    "component_id",
+    "protocol",
+    "address",
+    "direction",
+    "type",
+    "status",
+    "metadata"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "device_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "component_id": {
+      "type": ["string", "null"]
+    },
+    "protocol": {
+      "type": "string",
+      "minLength": 1
+    },
+    "address": {
+      "type": "string",
+      "minLength": 1
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "INPUT",
+        "OUTPUT",
+        "BIDIRECTIONAL"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "INACTIVE",
+        "UNKNOWN",
+        "FAILED"
+      ]
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/identity.schema.json",
+  "title": "MediaHub OS Device Identity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mediahub_id"
+  ],
+  "properties": {
+    "mediahub_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "vendor": {
+      "type": ["string", "null"]
+    },
+    "model": {
+      "type": ["string", "null"]
+    },
+    "serial": {
+      "type": ["string", "null"]
+    },
+    "vendor_id": {
+      "type": ["string", "null"]
+    },
+    "protocol_ids": {
+      "type": "object"
+    },
+    "hardware_ids": {
+      "type": "object"
+    }
+  }
+}

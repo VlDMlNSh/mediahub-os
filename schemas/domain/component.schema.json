@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/component.schema.json",
+  "title": "MediaHub OS Component",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "device_id",
+    "type",
+    "capabilities",
+    "endpoints",
+    "metadata"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "device_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capabilities": {
+      "type": "array"
+    },
+    "endpoints": {
+      "type": "array"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/device.schema.json",
+  "title": "MediaHub OS Device",
+  "description": "Canonical normalized MediaHub Device contract.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "identity",
+    "location",
+    "components",
+    "endpoints",
+    "capabilities",
+    "configuration",
+    "state",
+    "desired_state",
+    "health",
+    "availability",
+    "trust",
+    "lifecycle",
+    "bindings",
+    "relationships",
+    "metadata"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mediahub_id"
+      ],
+      "properties": {
+        "mediahub_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vendor": {
+          "type": ["string", "null"]
+        },
+        "model": {
+          "type": ["string", "null"]
+        },
+        "serial": {
+          "type": ["string", "null"]
+        },
+        "vendor_id": {
+          "type": ["string", "null"]
+        },
+        "protocol_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "hardware_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "location": {
+      "type": ["object", "null"]
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "endpoints": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "configuration": {
+      "type": ["object", "null"]
+    },
+    "state": {
+      "type": ["object", "null"]
+    },
+    "desired_state": {
+      "type": ["object", "null"]
+    },
+    "health": {
+      "type": ["object", "null"]
+    },
+    "availability": {
+      "type": ["object", "null"]
+    },
+    "trust": {
+      "type": ["object", "null"]
+    },
+    "lifecycle": {
+      "type": ["object", "null"]
+    },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}
