@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/identity/identity-boundary.schema.json",
+  "title": "MediaHub OS Identity Boundary",
+  "description": "Schema preserving canonical identity separation for MediaHub OS.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "owner",
+    "identities"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "mediahub.identity.boundary"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "owner": {
+      "const": "MediaHub OS Foundation"
+    },
+    "identities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "device_id",
+        "binding_id",
+        "adapter_id",
+        "adapter_instance_id",
+        "capability_id",
+        "event_id",
+        "command_id",
+        "execution_id",
+        "request_id",
+        "correlation_id",
+        "causation_id",
+        "recovery_id"
+      ],
+      "properties": {
+        "device_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "binding_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_instance_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capability_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "execution_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "correlation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "causation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recovery_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
