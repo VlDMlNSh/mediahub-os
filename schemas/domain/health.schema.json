@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/health.schema.json",
+  "title": "MediaHub OS Health",
+  "description": "Canonical health condition of a MediaHub entity.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "timestamp",
+    "source",
+    "details"
+  ],
+  "properties": {
+    "status": {
+      "enum": [
+        "HEALTHY",
+        "DEGRADED",
+        "WARNING",
+        "FAILED",
+        "UNKNOWN"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "details": {
+      "type": "object"
+    }
+  }
+}

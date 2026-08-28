@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/property.schema.json",
+  "title": "MediaHub OS Property",
+  "description": "Canonical typed property used by MediaHub domain contracts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "value",
+    "unit",
+    "constraints",
+    "metadata"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "enum": [
+        "BOOLEAN",
+        "INTEGER",
+        "FLOAT",
+        "STRING",
+        "ENUM",
+        "TIMESTAMP",
+        "DURATION",
+        "OBJECT",
+        "ARRAY"
+      ]
+    },
+    "value": {},
+    "unit": {
+      "type": ["string", "null"]
+    },
+    "constraints": {
+      "type": "object"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}

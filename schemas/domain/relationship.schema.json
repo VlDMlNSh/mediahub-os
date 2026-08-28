@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/relationship.schema.json",
+  "title": "MediaHub OS Relationship",
+  "description": "Canonical relationship between MediaHub domain entities.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "source",
+    "type",
+    "target",
+    "metadata",
+    "created_at",
+    "valid_from",
+    "valid_to"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "enum": [
+        "CONNECTED_TO",
+        "CONTROLS",
+        "CONTROLLED_BY",
+        "PART_OF",
+        "LOCATED_IN",
+        "USES",
+        "PROVIDES",
+        "DEPENDS_ON"
+      ]
+    },
+    "target": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid_from": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid_to": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    }
+  }
+}

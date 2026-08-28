@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/trust.schema.json",
+  "title": "MediaHub OS Trust",
+  "description": "Canonical trust state independent from availability and health.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "source",
+    "timestamp"
+  ],
+  "properties": {
+    "status": {
+      "enum": [
+        "TRUSTED",
+        "PENDING",
+        "UNTRUSTED",
+        "BLOCKED"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

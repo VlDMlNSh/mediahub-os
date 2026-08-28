@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/desired-state.schema.json",
+  "title": "MediaHub OS Desired State",
+  "description": "Canonical representation of system intent for a device property.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "property",
+    "value",
+    "unit",
+    "timestamp",
+    "source",
+    "priority"
+  ],
+  "properties": {
+    "property": {
+      "type": "string",
+      "minLength": 1
+    },
+    "value": {},
+    "unit": {
+      "type": ["string", "null"]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "enum": [
+        "USER",
+        "AUTOMATION",
+        "POLICY",
+        "AI",
+        "CLOUD",
+        "PROJECT",
+        "INTERNAL"
+      ]
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

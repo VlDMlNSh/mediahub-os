@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/availability.schema.json",
+  "title": "MediaHub OS Availability",
+  "description": "Canonical availability condition independent from health.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "timestamp",
+    "source"
+  ],
+  "properties": {
+    "status": {
+      "enum": [
+        "ONLINE",
+        "OFFLINE",
+        "UNKNOWN"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

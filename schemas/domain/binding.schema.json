@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/binding.schema.json",
+  "title": "MediaHub OS Binding",
+  "description": "Canonical protocol binding between a normalized Device and an external protocol mechanism.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "protocol",
+    "adapter",
+    "endpoint",
+    "priority",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "protocol": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adapter": {
+      "type": "string",
+      "minLength": 1
+    },
+    "endpoint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "status": {
+      "enum": [
+        "ACTIVE",
+        "DEGRADED",
+        "DISCONNECTED",
+        "FAILED",
+        "DISABLED"
+      ]
+    }
+  }
+}

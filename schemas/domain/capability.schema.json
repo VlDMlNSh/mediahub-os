@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://schemas/domain/capability.schema.json",
+  "title": "MediaHub OS Capability",
+  "description": "Canonical capability exposed by a MediaHub Device.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "version",
+    "status",
+    "properties",
+    "commands",
+    "events",
+    "constraints",
+    "dependencies",
+    "conflicts",
+    "safety_class",
+    "discovery_state"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "AVAILABLE",
+        "ENABLED",
+        "DISABLED",
+        "LIMITED",
+        "UNAVAILABLE",
+        "UNKNOWN"
+      ]
+    },
+    "properties": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "constraints": {
+      "type": "object"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "safety_class": {
+      "enum": [
+        "LOW_RISK",
+        "CONTROLLED",
+        "CRITICAL",
+        "SAFETY_SENSITIVE"
+      ]
+    },
+    "discovery_state": {
+      "enum": [
+        "DECLARED",
+        "DISCOVERED",
+        "VALIDATED",
+        "INFERRED",
+        "CONFIGURED"
+      ]
+    }
+  }
+}
