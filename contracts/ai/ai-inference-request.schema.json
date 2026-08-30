@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://contracts/ai/ai-inference-request.schema.json",
+  "title": "MediaHub AI Inference Request",
+  "description": "Canonical request contract for AI inference across the MediaHub runtime boundary.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "mediahub.ai.ai-inference-request"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "owner": {
+      "type": "string",
+      "const": "mediahub-ai"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "model": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "operation": {
+      "type": "string",
+      "enum": [
+        "generate",
+        "classify",
+        "embed",
+        "transcribe",
+        "transform"
+      ]
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "owner",
+    "request_id",
+    "operation",
+    "input"
+  ]
+}
