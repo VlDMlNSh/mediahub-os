@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://contracts/ai/ai-provider-adapter.schema.json",
+  "title": "MediaHub AI Provider Adapter",
+  "description": "Canonical adapter contract defining the runtime boundary between MediaHub AI inference and an AI provider.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "mediahub.ai.ai-provider-adapter"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "owner": {
+      "type": "string",
+      "const": "mediahub-ai"
+    },
+    "adapter_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_type": {
+      "type": "string",
+      "enum": [
+        "remote",
+        "local",
+        "hybrid"
+      ]
+    },
+    "adapter_type": {
+      "type": "string",
+      "enum": [
+        "native",
+        "http",
+        "grpc",
+        "sdk",
+        "process"
+      ]
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "infer",
+          "health",
+          "metadata"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "available",
+        "unavailable",
+        "degraded",
+        "unknown"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "uninitialized",
+        "initializing",
+        "ready",
+        "degraded",
+        "failed",
+        "stopped"
+      ]
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "endpoint": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "configuration_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "owner",
+    "adapter_id",
+    "provider_id",
+    "provider_type",
+    "adapter_type",
+    "operations",
+    "availability",
+    "state",
+    "capabilities",
+    "endpoint",
+    "configuration_ref"
+  ]
+}
