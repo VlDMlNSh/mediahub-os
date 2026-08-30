@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub.ai.ai-model-capability",
+  "title": "MediaHub AI Model Capability",
+  "description": "Canonical contract describing the capabilities exposed by an AI model.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "mediahub.ai.ai-model-capability"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "owner": {
+      "type": "string",
+      "const": "mediahub-ai"
+    },
+    "model_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capability_type": {
+      "type": "string",
+      "enum": [
+        "text",
+        "vision",
+        "audio",
+        "multimodal",
+        "embedding"
+      ]
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "infer",
+          "stream",
+          "embed"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "context_window": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "available",
+        "degraded",
+        "unavailable"
+      ]
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "owner",
+    "model_id",
+    "provider_id",
+    "capability_type",
+    "operations",
+    "context_window",
+    "availability"
+  ]
+}
