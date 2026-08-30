@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mediahub.local/contracts/ai/ai-provider.schema.json",
+  "title": "MediaHub AI Provider Contract",
+  "description": "Canonical contract for AI inference providers used by MediaHub OS.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "mediahub.ai.ai-provider"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "owner": {
+      "type": "string",
+      "const": "mediahub-ai"
+    },
+    "provider_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_type": {
+      "type": "string",
+      "enum": [
+        "remote",
+        "local",
+        "hybrid"
+      ]
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "endpoint": {
+      "type": "string",
+      "format": "uri"
+    },
+    "authentication": {
+      "type": "string",
+      "enum": [
+        "none",
+        "api_key",
+        "oauth",
+        "local"
+      ]
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "available",
+        "unavailable",
+        "degraded",
+        "unknown"
+      ]
+    },
+    "reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "owner",
+    "provider_id",
+    "provider_type",
+    "model",
+    "capabilities",
+    "authentication",
+    "availability"
+  ]
+}
