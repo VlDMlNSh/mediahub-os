@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://contracts/ai/ai-provider-registry.schema.json",
+  "title": "MediaHub AI Provider Registry",
+  "description": "Canonical registry contract for AI inference providers available to MediaHub OS.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "mediahub.ai.ai-provider-registry"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "owner": {
+      "type": "string",
+      "const": "mediahub-ai"
+    },
+    "providers": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "provider_id",
+          "enabled",
+          "priority"
+        ],
+        "properties": {
+          "provider_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "default_provider_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "selection_policy": {
+      "type": "string",
+      "enum": [
+        "EXPLICIT",
+        "PRIORITY",
+        "CAPABILITY",
+        "FAILOVER"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "owner",
+    "providers",
+    "default_provider_id",
+    "selection_policy",
+    "timestamp"
+  ]
+}

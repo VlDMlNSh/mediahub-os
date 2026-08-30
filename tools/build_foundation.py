@@ -40,7 +40,7 @@ def main():
         "unittest",
         "discover",
         "-s",
-        "tests/contracts",
+        "tests",
         "-p",
         "test_*.py",
     ])
