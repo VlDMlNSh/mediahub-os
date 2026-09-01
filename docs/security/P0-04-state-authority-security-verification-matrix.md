@@ -43,7 +43,7 @@ Explicitly out of scope and unauthorized:
 
 ## Evidence status
 
-Exact implementation commit: `d872196224affbfb3ef2dde21a896444e365c2f9`
+Implementation evidence captured on exact implementation commit `d872196224affbfb3ef2dde21a896444e365c2f9`.
 
 Execution environment:
 
@@ -59,6 +59,8 @@ Full repository regression captured from the exact implementation branch:
 - exit code 0
 
 The targeted P0-04 suite and focused adversarial execution remain required before final acceptance.
+
+A later documentation-only evidence-matrix commit may advance the branch HEAD; it does not retroactively change the identity of the captured execution evidence. Any final acceptance must reference the exact implementation commit actually executed.
 
 ## Capability inspection note
 
