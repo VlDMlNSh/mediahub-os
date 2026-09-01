@@ -196,10 +196,10 @@ class InMemoryStateAuthority(StateAuthority):
 
     def read(self, key=None):
         with self._lock:
-            payload = _thaw(self._canonical.payload)
+            payload = self._canonical.payload
             if key is None:
                 return CanonicalState(payload, self._canonical.generation, self._state_version, self._canonical.integrity_valid)
-            if not isinstance(key, str) or not isinstance(payload, dict):
+            if not isinstance(key, str) or not isinstance(payload, MappingProxyType):
                 raise KeyError(key)
             return payload[key]
 
