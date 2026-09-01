@@ -3,6 +3,7 @@
 from dataclasses import dataclass, field
 from types import MappingProxyType
 import math
+import threading
 
 from .authorization import AuthorizationContext, AuthorizationPolicy
 from .errors import AuthorizationDenied, GenerationMismatch, RuntimeInvariantError
@@ -157,6 +158,7 @@ class InMemoryStateAuthority(StateAuthority):
             raise ValueError("generation.state_version must be non-negative")
         self._policy = authorization_policy or AuthorizationPolicy()
         self._integrity_validator = integrity_validator or (lambda payload, _generation: True)
+        self._validate_integrity(initial_payload, generation)
         self._generation = generation
         self._state_version = initial_version
         self._canonical = CanonicalState(_freeze(initial_payload), generation, initial_version, True)
@@ -164,6 +166,7 @@ class InMemoryStateAuthority(StateAuthority):
         self._next_transaction_id = 1
         self._next_checkpoint_id = 1
         self._authority_token = object()
+        self._lock = threading.RLock()
 
     def _authorize(self, context, operation):
         if not isinstance(context, AuthorizationContext):
@@ -179,109 +182,115 @@ class InMemoryStateAuthority(StateAuthority):
             raise IntegrityFailure("integrity validation failed")
 
     def read(self, key=None):
-        payload = _thaw(self._canonical.payload)
-        if key is None:
-            return CanonicalState(payload, self._canonical.generation, self._state_version, self._canonical.integrity_valid)
-        if not isinstance(key, str) or not isinstance(payload, dict):
-            raise KeyError(key)
-        return payload[key]
+        with self._lock:
+            payload = _thaw(self._canonical.payload)
+            if key is None:
+                return CanonicalState(payload, self._canonical.generation, self._state_version, self._canonical.integrity_valid)
+            if not isinstance(key, str) or not isinstance(payload, dict):
+                raise KeyError(key)
+            return payload[key]
 
     def begin(self, context, payload=None):
-        self._authorize(context, self.OP_BEGIN)
-        candidate = _thaw(self._canonical.payload) if payload is None else payload
-        _validate_value(candidate)
-        transaction_id = "tx-{}".format(self._next_transaction_id)
-        self._next_transaction_id += 1
-        tx = Transaction(transaction_id, context, self._generation, self._state_version, candidate)
-        self._transactions[transaction_id] = tx
-        return tx
+        with self._lock:
+            self._authorize(context, self.OP_BEGIN)
+            candidate = _thaw(self._canonical.payload) if payload is None else payload
+            _validate_value(candidate)
+            transaction_id = "tx-{}".format(self._next_transaction_id)
+            self._next_transaction_id += 1
+            tx = Transaction(transaction_id, context, self._generation, self._state_version, candidate)
+            self._transactions[transaction_id] = tx
+            return tx
 
     def commit(self, transaction):
-        if not isinstance(transaction, Transaction):
-            raise InvalidTransaction("invalid transaction")
-        if self._transactions.get(transaction.transaction_id) is not transaction:
-            raise InvalidTransaction("unknown transaction")
-        if transaction.status != Transaction.ACTIVE:
-            raise InvalidTransaction("transaction is terminal")
-        self._authorize(transaction._context, self.OP_COMMIT)
-        if transaction._generation != self._generation:
-            raise GenerationMismatch("transaction generation is stale")
-        if transaction._state_version != self._state_version:
-            raise StaleTransaction("transaction targets stale canonical revision")
-        candidate = transaction._candidate
-        _validate_value(candidate)
-        validate_generation_compatibility(self._generation, self._generation, self._generation)
-        self._validate_integrity(candidate, self._generation)
+        with self._lock:
+            if not isinstance(transaction, Transaction):
+                raise InvalidTransaction("invalid transaction")
+            if self._transactions.get(transaction.transaction_id) is not transaction:
+                raise InvalidTransaction("unknown transaction")
+            if transaction.status != Transaction.ACTIVE:
+                raise InvalidTransaction("transaction is terminal")
+            self._authorize(transaction._context, self.OP_COMMIT)
+            if transaction._generation != self._generation:
+                raise GenerationMismatch("transaction generation is stale")
+            if transaction._state_version != self._state_version:
+                raise StaleTransaction("transaction targets stale canonical revision")
+            candidate = transaction._candidate
+            _validate_value(candidate)
+            validate_generation_compatibility(self._generation, self._generation, self._generation)
+            self._validate_integrity(candidate, self._generation)
 
-        new_version = self._state_version + 1
-        new_generation = Generation(
-            self._generation.generation_id,
-            self._generation.binary_version,
-            self._generation.schema_version,
-            str(new_version),
-            self._generation.integrity_reference,
-        )
-        new_canonical = CanonicalState(_freeze(candidate), new_generation, new_version, True)
-        self._canonical = new_canonical
-        self._generation = new_generation
-        self._state_version = new_version
-        transaction._status = Transaction.COMMITTED
-        self._transactions.pop(transaction.transaction_id, None)
-        return self.read()
+            new_version = self._state_version + 1
+            new_generation = Generation(
+                self._generation.generation_id,
+                self._generation.binary_version,
+                self._generation.schema_version,
+                str(new_version),
+                self._generation.integrity_reference,
+            )
+            new_canonical = CanonicalState(_freeze(candidate), new_generation, new_version, True)
+            self._canonical = new_canonical
+            self._generation = new_generation
+            self._state_version = new_version
+            transaction._status = Transaction.COMMITTED
+            self._transactions.pop(transaction.transaction_id, None)
+            return self.read()
 
     def abort(self, transaction):
-        if not isinstance(transaction, Transaction):
-            raise InvalidTransaction("invalid transaction")
-        if self._transactions.get(transaction.transaction_id) is not transaction:
-            if transaction.status == Transaction.ABORTED:
+        with self._lock:
+            if not isinstance(transaction, Transaction):
+                raise InvalidTransaction("invalid transaction")
+            if self._transactions.get(transaction.transaction_id) is not transaction:
+                if transaction.status == Transaction.ABORTED:
+                    return None
+                raise InvalidTransaction("unknown transaction")
+            if transaction.status != Transaction.ACTIVE:
                 return None
-            raise InvalidTransaction("unknown transaction")
-        if transaction.status != Transaction.ACTIVE:
+            self._authorize(transaction._context, self.OP_ABORT)
+            transaction._status = Transaction.ABORTED
+            self._transactions.pop(transaction.transaction_id, None)
             return None
-        self._authorize(transaction._context, self.OP_ABORT)
-        transaction._status = Transaction.ABORTED
-        self._transactions.pop(transaction.transaction_id, None)
-        return None
 
     def snapshot(self, context):
-        self._authorize(context, self.OP_SNAPSHOT)
-        state = self._canonical
-        checkpoint = Checkpoint(
-            checkpoint_id="cp-{}".format(self._next_checkpoint_id),
-            payload=state.payload,
-            generation=state.generation,
-            state_version=state.state_version,
-            integrity_valid=state.integrity_valid,
-            _authority_token=self._authority_token,
-        )
-        self._next_checkpoint_id += 1
-        return checkpoint
+        with self._lock:
+            self._authorize(context, self.OP_SNAPSHOT)
+            state = self._canonical
+            checkpoint = Checkpoint(
+                checkpoint_id="cp-{}".format(self._next_checkpoint_id),
+                payload=state.payload,
+                generation=state.generation,
+                state_version=state.state_version,
+                integrity_valid=state.integrity_valid,
+                _authority_token=self._authority_token,
+            )
+            self._next_checkpoint_id += 1
+            return checkpoint
 
     def restore(self, snapshot_reference, context):
-        self._authorize(context, self.OP_RESTORE)
-        if not isinstance(snapshot_reference, Checkpoint) or snapshot_reference._authority_token is not self._authority_token:
-            raise InvalidCheckpoint("checkpoint is not owned by this authority")
-        if not snapshot_reference.integrity_valid:
-            raise InvalidCheckpoint("checkpoint integrity is invalid")
-        candidate = _thaw(snapshot_reference.payload)
-        _validate_value(candidate)
-        if snapshot_reference.generation.generation_id != self._generation.generation_id:
-            raise GenerationMismatch("checkpoint generation is incompatible")
-        if snapshot_reference.generation.binary_version != self._generation.binary_version:
-            raise GenerationMismatch("checkpoint binary generation is incompatible")
-        if snapshot_reference.generation.schema_version != self._generation.schema_version:
-            raise GenerationMismatch("checkpoint schema is incompatible")
-        self._validate_integrity(candidate, snapshot_reference.generation)
+        with self._lock:
+            self._authorize(context, self.OP_RESTORE)
+            if not isinstance(snapshot_reference, Checkpoint) or snapshot_reference._authority_token is not self._authority_token:
+                raise InvalidCheckpoint("checkpoint is not owned by this authority")
+            if not snapshot_reference.integrity_valid:
+                raise InvalidCheckpoint("checkpoint integrity is invalid")
+            candidate = _thaw(snapshot_reference.payload)
+            _validate_value(candidate)
+            if snapshot_reference.generation.generation_id != self._generation.generation_id:
+                raise GenerationMismatch("checkpoint generation is incompatible")
+            if snapshot_reference.generation.binary_version != self._generation.binary_version:
+                raise GenerationMismatch("checkpoint binary generation is incompatible")
+            if snapshot_reference.generation.schema_version != self._generation.schema_version:
+                raise GenerationMismatch("checkpoint schema is incompatible")
+            self._validate_integrity(candidate, snapshot_reference.generation)
 
-        new_version = self._state_version + 1
-        new_generation = Generation(
-            self._generation.generation_id,
-            self._generation.binary_version,
-            self._generation.schema_version,
-            str(new_version),
-            self._generation.integrity_reference,
-        )
-        self._canonical = CanonicalState(_freeze(candidate), new_generation, new_version, True)
-        self._generation = new_generation
-        self._state_version = new_version
-        return self.read()
+            new_version = self._state_version + 1
+            new_generation = Generation(
+                self._generation.generation_id,
+                self._generation.binary_version,
+                self._generation.schema_version,
+                str(new_version),
+                self._generation.integrity_reference,
+            )
+            self._canonical = CanonicalState(_freeze(candidate), new_generation, new_version, True)
+            self._generation = new_generation
+            self._state_version = new_version
+            return self.read()
