@@ -1,6 +1,6 @@
 import unittest
 
-from runtime.mediahub_runtime.authorization import AuthorizationContext, AuthorizationPolicy
+from runtime.mediahub_runtime.authorization import AuthorizationContext, AuthorizationDenied, AuthorizationPolicy
 from runtime.mediahub_runtime.generation import Generation
 from runtime.mediahub_runtime.in_memory_state import (
     Checkpoint,
@@ -75,9 +75,9 @@ class InMemoryStateAuthorityTests(unittest.TestCase):
 
     def test_default_deny_is_preserved_per_operation(self):
         denied = InMemoryStateAuthority(Generation("g1", "b1", "s1", "0", "i1"))
-        with self.assertRaises(Exception):
+        with self.assertRaises(AuthorizationDenied):
             denied.begin(self.context)
-        with self.assertRaises(Exception):
+        with self.assertRaises(AuthorizationDenied):
             denied.snapshot(self.context)
 
     def test_integrity_is_independent_gate(self):
@@ -98,7 +98,6 @@ class InMemoryStateAuthorityTests(unittest.TestCase):
         self.assertEqual(rejecting.read().state_version, 0)
 
     def test_checkpoint_is_authority_bound_and_restore_creates_new_revision(self):
-        self.authority.begin(self.context).set_payload({"value": 1})
         tx = self.authority.begin(self.context, {"value": 1})
         self.authority.commit(tx)
         checkpoint = self.authority.snapshot(self.context)
