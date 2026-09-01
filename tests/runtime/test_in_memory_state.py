@@ -1,3 +1,4 @@
+import threading
 import unittest
 
 from runtime.mediahub_runtime.authorization import AuthorizationContext, AuthorizationDenied, AuthorizationPolicy
@@ -51,6 +52,28 @@ class InMemoryStateAuthorityTests(unittest.TestCase):
             self.authority.commit(second)
         self.assertEqual(self.authority.read().payload, {"value": 1})
         self.assertEqual(second.status, Transaction.ACTIVE)
+
+    def test_concurrent_commits_are_serialized_and_one_stales(self):
+        barrier = threading.Barrier(2)
+        results = []
+
+        def worker(value):
+            tx = self.authority.begin(self.context, {"value": value})
+            barrier.wait()
+            try:
+                self.authority.commit(tx)
+                results.append("committed")
+            except StaleTransaction:
+                results.append("stale")
+
+        threads = [threading.Thread(target=worker, args=(1,)), threading.Thread(target=worker, args=(2,))]
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join()
+        self.assertEqual(sorted(results), ["committed", "stale"])
+        self.assertEqual(self.authority.read().state_version, 1)
+        self.assertIn(self.authority.read().payload, ({"value": 1}, {"value": 2}))
 
     def test_abort_preserves_state_and_is_terminal(self):
         tx = self.authority.begin(self.context)
