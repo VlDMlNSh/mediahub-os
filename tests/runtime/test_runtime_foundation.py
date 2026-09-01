@@ -90,6 +90,21 @@ class DiagnosticsTests(unittest.TestCase):
         self.assertEqual(event.fields["voice"], "[REDACTED]")
         self.assertEqual(event.fields["safe"], "value")
 
+    def test_nested_sensitive_fields_are_redacted(self):
+        event = make_event(
+            "nested",
+            {
+                "safe": {"token": "nested-secret", "inner": {"password": "nested-password"}},
+                "items": [{"api_key": "list-secret", "value": "safe"}],
+                "tuple": ({"authorization": "tuple-secret"},),
+            },
+        )
+        self.assertEqual(event.fields["safe"]["token"], "[REDACTED]")
+        self.assertEqual(event.fields["safe"]["inner"]["password"], "[REDACTED]")
+        self.assertEqual(event.fields["items"][0]["api_key"], "[REDACTED]")
+        self.assertEqual(event.fields["items"][0]["value"], "safe")
+        self.assertEqual(event.fields["tuple"][0]["authorization"], "[REDACTED]")
+
 
 if __name__ == "__main__":
     unittest.main()
