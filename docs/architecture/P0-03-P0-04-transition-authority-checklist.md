@@ -67,6 +67,7 @@ If any field, authorization, baseline, scope, evidence identity, or acceptance a
 - P0-04 implementation authorization: **NOT GRANTED**.
 - P0-04 implementation: **NOT STARTED**.
 - Persistence authorization: **NOT GRANTED**.
+- Current P0-04 preparation head: `b8fc86defba307d5bb97691f727966533000a586`.
 
 ## Historical boundary
 
