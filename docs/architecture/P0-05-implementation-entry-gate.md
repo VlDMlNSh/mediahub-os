@@ -2,41 +2,30 @@
 
 ## Status
 
-BLOCKED — governance approval required
+IMPLEMENTATION AUTHORIZED — controlled scope
+
+P0-04 is ACCEPTED/FROZEN. Persistence remains NOT AUTHORIZED.
 
 ## Entry rule
 
-No P0-05 implementation may begin until the P0-05 integration boundary, consumer contract, and threat-to-test traceability are explicitly approved by governance.
+P0-05 implementation may proceed only within the approved integration boundary and consumer contract. Any expansion requires a new controlled architecture/security/governance decision.
 
 ## Preconditions
 
-- P0-04 is ACCEPTED/FROZEN;
-- P0-05 architecture reviewed;
-- consumer contract reviewed;
-- threat-to-test traceability reviewed;
-- security/privacy boundaries reviewed;
-- no persistence authorization exists;
-- implementation branch is based on the approved P0-05 architecture state.
+- P0-04 accepted/frozen;
+- P0-05 boundary and consumer contract approved;
+- threat-to-test traceability established;
+- no persistence authorization;
+- implementation based on the accepted P0-04 state.
 
-## Implementation constraints
+## Constraints
 
-Implementation must not:
-
-- alter frozen P0-04 semantics without a separate controlled change;
-- expose canonical mutable state;
-- introduce caller-selected revisions;
-- bypass authorization;
-- turn AI proposals into executable authority;
-- grant plugins implicit authority;
-- introduce subprocess/network/filesystem mutation;
-- introduce unsafe deserialization;
-- create a durable persistence path;
-- weaken diagnostics privacy or fail-closed behavior.
+No mutable canonical-state alias, caller-selected revision, authorization bypass, executable AI proposal path, implicit plugin authority, subprocess/network/filesystem mutation, unsafe deserialization, or durable persistence path.
 
 ## Evidence gate
 
-After implementation, acceptance requires exact-commit evidence from `mh-dev-01`, targeted and full regression, capability inspection, security/privacy negative-path verification, and explicit governance disposition.
+Acceptance requires exact-commit execution evidence, targeted and full regression, security/privacy negative-path tests, capability inspection, and explicit governance disposition.
 
 ## Stop conditions
 
-Stop immediately on any scope expansion, unexplained authority path, mutable canonical alias, authorization bypass, unexpected side effect capability, personal-data boundary violation, or mismatch between implementation and approved architecture.
+Stop on any authority bypass, unexpected capability, privacy violation, durable path, or divergence from approved architecture.
