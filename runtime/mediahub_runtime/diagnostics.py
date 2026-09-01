@@ -7,6 +7,7 @@ _SENSITIVE_KEYS = frozenset({
     "password", "passwd", "secret", "token", "authorization",
     "credential", "credentials", "voice", "raw_voice", "api_key",
 })
+_REDACTED = "[REDACTED]"
 
 
 @dataclass(frozen=True)
@@ -16,17 +17,27 @@ class DiagnosticEvent:
     fields: dict
 
 
+def _sanitize_value(value):
+    if isinstance(value, dict):
+        sanitized = {}
+        for key, nested_value in value.items():
+            normalized = str(key).lower()
+            if normalized in _SENSITIVE_KEYS:
+                sanitized[key] = _REDACTED
+            else:
+                sanitized[key] = _sanitize_value(nested_value)
+        return sanitized
+    if isinstance(value, list):
+        return [_sanitize_value(item) for item in value]
+    if isinstance(value, tuple):
+        return tuple(_sanitize_value(item) for item in value)
+    return value
+
+
 def sanitize_fields(fields):
     if not isinstance(fields, dict):
         raise TypeError("diagnostic fields must be a dictionary")
-    sanitized = {}
-    for key, value in fields.items():
-        normalized = str(key).lower()
-        if normalized in _SENSITIVE_KEYS:
-            sanitized[key] = "[REDACTED]"
-        else:
-            sanitized[key] = value
-    return sanitized
+    return _sanitize_value(fields)
 
 
 def make_event(event_type, fields=None):
