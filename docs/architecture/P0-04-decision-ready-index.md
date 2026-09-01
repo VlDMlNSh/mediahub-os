@@ -25,7 +25,7 @@ No lower-level artifact overrides a higher-level governance boundary.
 - P0-03 contract baseline: `9ae82f9e45bcb9c330ab283b13a482fbeea6b546`.
 - P0-04 preparation branch: `architecture/p0-04-in-memory-state-authority`.
 - P0-04 preparation PR: #8.
-- Current PR #8 head: `0b85e46fecebb2ca25fea261082ce2b82ead8b50`.
+- Current PR #8 head: `19eb003812b96b746723e3512d635429bb085add`.
 - PR #8 remains Draft/Open and contains documentation/gate preparation only.
 
 The P0-04 preparation head must not be treated as an implementation baseline. If implementation is later authorized, a new implementation commit must be explicitly identified and independently evidenced.
@@ -77,9 +77,16 @@ High-risk implementation obligations remain open until concrete evidence closes 
 
 Systemic risks intentionally deferred beyond P0-04 include durable crash consistency, cryptographic checkpoint key lifecycle, storage corruption/recovery media, persistence security, update/rollback interaction, production privilege boundaries, network/mTLS, hardware integrity/entropy, and retention/deletion/audit integrity.
 
+## Governance linkage
+
+- Formal P0-03 decision point: Issue #9.
+- P0-04 evidence/traceability gate: Issue #10.
+- P0-03 → P0-04 transition authority checklist: `P0-03-P0-04-transition-authority-checklist.md`.
+- P0-03 governance decision packet: `P0-03-governance-decision-packet.md`.
+
 ## Historical boundary
 
-This index does not infer or reconstruct historical MH-02…MH-16 responsibilities. Any such mapping requires authoritative historical evidence.
+This index does not infer or reconstruct MH-02…MH-16 responsibilities. Any such mapping requires authoritative historical evidence.
 
 ## Gate conclusion
 
