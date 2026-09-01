@@ -1,0 +1,41 @@
+{
+  "schema": "mhx-dev-host-1.0",
+  "host_id": "DEV-MACMINI-2011",
+  "role": "DEVELOPMENT_LAB_EXECUTION_HOST",
+  "platform": "macOS",
+  "resource_policy": {
+    "cpu": "best_effort",
+    "memory": "bounded",
+    "ai_inference": "disabled_by_default",
+    "heavy_builds": "scheduled_or_manual",
+    "concurrency": "low"
+  },
+  "paths": {
+    "workspace": "~/MediaHub/workspace",
+    "repositories": "~/MediaHub/workspace/repositories",
+    "corpus": "~/MediaHub/workspace/corpus",
+    "cache": "~/MediaHub/workspace/cache",
+    "builds": "~/MediaHub/workspace/builds",
+    "packages": "~/MediaHub/workspace/packages",
+    "backups": "~/MediaHub/workspace/backups",
+    "secrets": "KEYCHAIN_OR_ENV_ONLY"
+  },
+  "network": {
+    "default": "offline_first",
+    "outbound_ai": "explicit_adapter_only",
+    "inbound_services": "disabled_by_default",
+    "remote_deploy": "explicit_release_step"
+  },
+  "authority": {
+    "canonical_governance_write": "FORBIDDEN",
+    "worker_direct_master_write": "FORBIDDEN",
+    "integration_write": "MHX_REVIEWED_INTEGRATION_ONLY",
+    "product_deploy": "RELEASE_ARTIFACT_ONLY"
+  },
+  "product_target": {
+    "role": "FIRST_REAL_PROTOTYPE",
+    "host_identity": "PRODUCT-MODERN-MAC",
+    "deployment_mode": "PACKAGE_THEN_INSTALL",
+    "rollback": "PREVIOUS_RELEASE_ARTIFACT"
+  }
+}
