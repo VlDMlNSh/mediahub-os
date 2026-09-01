@@ -1,48 +1,29 @@
 #!/usr/bin/env python3
 """Minimal, offline-first development-host bootstrap for MediaHub OS."""
-import argparse, hashlib, json, os, pathlib, platform, shutil, tarfile, tempfile
+import argparse, hashlib, json, os, pathlib, platform, shutil, sys, tarfile, tempfile
 from datetime import datetime, timezone
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "config" / "dev-host.json"
+SENSITIVE_NAMES = {".env", ".env.local", ".env.production", "credentials.json", "secrets.json", "id_rsa", "id_ed25519", "known_hosts", "authorized_keys"}
+SENSITIVE_DIRS = {".ssh", ".gnupg", ".aws", "keychain", "secrets"}
 
-# Packaging is intentionally conservative: these paths may contain credentials,
-# private keys, personal data, or machine-local state and must never enter a
-# product release artifact implicitly.
-SENSITIVE_NAMES = {
-    ".env", ".env.local", ".env.production", "credentials.json", "secrets.json",
-    "id_rsa", "id_ed25519", "known_hosts", "authorized_keys",
-}
-SENSITIVE_DIRS = {".ssh", ".gnupg", ".aws", ".config", "keychain", "secrets"}
-
-def now():
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-
-def load():
-    return json.loads(CONFIG.read_text(encoding="utf-8"))
-
-def expand(p):
-    return pathlib.Path(os.path.expanduser(p))
-
+def now(): return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+def load(): return json.loads(CONFIG.read_text(encoding="utf-8"))
+def expand(p): return pathlib.Path(os.path.expanduser(p))
 def digest(path):
     h = hashlib.sha256()
     with path.open("rb") as f:
-        for block in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(block)
+        for block in iter(lambda: f.read(1024 * 1024), b""): h.update(block)
     return h.hexdigest()
-
-def unsafe_relative(rel):
-    parts = set(rel.parts)
-    return bool(parts & SENSITIVE_DIRS) or rel.name in SENSITIVE_NAMES or rel.name.startswith(".env.")
 
 def validate_source(source):
     violations = []
     for p in source.rglob("*"):
         rel = p.relative_to(source)
-        if any(part in SENSITIVE_DIRS for part in rel.parts) or unsafe_relative(rel):
+        if any(part in SENSITIVE_DIRS for part in rel.parts) or rel.name in SENSITIVE_NAMES or rel.name.startswith(".env."):
             violations.append({"path": rel.as_posix(), "reason": "sensitive_path"})
-        if p.is_symlink():
-            violations.append({"path": rel.as_posix(), "reason": "symlink_not_allowed"})
+        if p.is_symlink(): violations.append({"path": rel.as_posix(), "reason": "symlink_not_allowed"})
     return violations
 
 def layout(_args):
@@ -54,23 +35,13 @@ def layout(_args):
 
 def doctor(_args):
     cfg = load()
-    checks = {
-        "platform": platform.system(),
-        "offline_first": cfg["network"]["default"] == "offline_first",
-        "ai_inference_disabled": cfg["resource_policy"]["ai_inference"] == "disabled_by_default",
-        "secrets_external": cfg["paths"]["secrets"] == "KEYCHAIN_OR_ENV_ONLY",
-        "worker_master_write_forbidden": cfg["authority"]["worker_direct_master_write"] == "FORBIDDEN",
-        "deploy_requires_release_artifact": cfg["authority"]["product_deploy"] == "RELEASE_ARTIFACT_ONLY",
-        "inbound_services_disabled": cfg["network"]["inbound_services"] == "disabled_by_default",
-    }
-    ok = all(v for k, v in checks.items() if isinstance(v, bool))
-    print(json.dumps({"status":"OK" if ok else "REVIEW","checks":checks}, indent=2))
-    return 0 if ok else 1
+    checks = {"platform": platform.system(), "offline_first": cfg["network"]["default"] == "offline_first", "ai_inference_disabled": cfg["resource_policy"]["ai_inference"] == "disabled_by_default", "secrets_external": cfg["paths"]["secrets"] == "KEYCHAIN_OR_ENV_ONLY", "worker_master_write_forbidden": cfg["authority"]["worker_direct_master_write"] == "FORBIDDEN", "deploy_requires_release_artifact": cfg["authority"]["product_deploy"] == "RELEASE_ARTIFACT_ONLY", "inbound_services_disabled": cfg["network"]["inbound_services"] == "disabled_by_default"}
+    ok = all(v for v in checks.values() if isinstance(v, bool))
+    print(json.dumps({"status":"OK" if ok else "REVIEW","checks":checks}, indent=2)); return 0 if ok else 1
 
 def package(args):
     cfg = load(); source = pathlib.Path(args.source).resolve()
-    if not source.exists() or not source.is_dir():
-        print("SOURCE_NOT_FOUND", file=sys.stderr); return 2
+    if not source.exists() or not source.is_dir(): print("SOURCE_NOT_FOUND", file=sys.stderr); return 2
     violations = validate_source(source)
     if violations:
         print(json.dumps({"status":"PACKAGE_REFUSED","violations":violations}, indent=2)); return 4
