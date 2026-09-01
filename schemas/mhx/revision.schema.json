@@ -1,0 +1,17 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "type":"object",
+  "required":["revision","parent_revision","created_at","integrated_tasks","accepted_results","review"],
+  "properties":{
+    "revision":{"type":"string","pattern":"^R[0-9]+$"},
+    "parent_revision":{"type":"string","pattern":"^R[0-9]+$"},
+    "created_at":{"type":"string"},
+    "integrated_tasks":{"type":"array","items":{"type":"string"}},
+    "accepted_results":{"type":"array","items":{"type":"string"}},
+    "modified_artifacts":{"type":"array"},
+    "new_artifacts":{"type":"array"},
+    "new_evidence":{"type":"array"},
+    "superseded_artifacts":{"type":"array"},
+    "review":{"type":"object","required":["reviewer","status"],"properties":{"reviewer":{"type":"string"},"status":{"const":"READY"}}}
+  }
+}
