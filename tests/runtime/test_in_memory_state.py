@@ -111,7 +111,7 @@ class InMemoryStateAuthorityTests(unittest.TestCase):
                 ("test-service", "state-admin", "begin"),
                 ("test-service", "state-admin", "commit"),
             }),
-            integrity_validator=lambda _payload, _generation: False,
+            integrity_validator=lambda payload, _generation: payload.get("value") != 1,
         )
         tx = rejecting.begin(self.context)
         tx.set_payload({"value": 1})
