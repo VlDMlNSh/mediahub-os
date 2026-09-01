@@ -1,22 +1,22 @@
-# P0-05 — Governance Decision Packet v1.0
+# P0-05 — Governance Decision Packet v1.1
 
 ## Decision target
 
-Approval of the P0-05 State Authority Integration Boundary and Consumer Contract for implementation planning.
+Approval of the P0-05 State Authority Integration Boundary and Consumer Contract for controlled implementation.
 
-## Current status
+## Governance decision
 
-**DRAFT — GOVERNANCE DECISION REQUIRED**
+**APPROVED — IMPLEMENTATION AUTHORIZED**
 
-P0-04 In-Memory State Authority remains ACCEPTED/FROZEN.
+Decision recorded from explicit governance authorization:
 
-## Proposed decision
+> Разрешаю реализацию P0-05 в установленном scope. Persistence не разрешаю.
 
-Approve P0-05 architecture and consumer contract for controlled implementation, with the following invariant:
+## Decision boundary
 
-> State Authority remains the sole canonical-state mutation authority.
+P0-04 In-Memory State Authority remains ACCEPTED/FROZEN and is not modified by this decision.
 
-Approval would authorize only implementation of the defined integration boundary. It would not constitute implementation acceptance, production qualification, or persistence authorization.
+P0-05 implementation is authorized only for the defined integration boundary and consumer contracts. Implementation acceptance, security exit, and production qualification remain separate gates.
 
 ## Scope
 
@@ -34,22 +34,22 @@ Approval would authorize only implementation of the defined integration boundary
 
 SQLite, ZFS, filesystem persistence, durable checkpoints, network mutation, subprocess execution, cloud/hardware persistence, bootloader/systemd/appliance integration, installer/recovery media, update engine, and production qualification.
 
+**Persistence remains NOT AUTHORIZED.**
+
 ## Security/privacy requirements
 
 Default-deny, immutable reads, candidate isolation, fail-closed behavior, untrusted external/AI data, resource bounds, sanitized diagnostics, no arbitrary execution/network/filesystem mutation/unsafe deserialization, and personal-data minimization before any future durable boundary.
 
-## Acceptance path
+No consumer may obtain a direct canonical-state mutation primitive. AI proposals remain inert data. Plugins remain capability-scoped and default-deny. Diagnostics/telemetry remain observational.
 
-Architecture approval → implementation → exact-commit execution evidence → security/privacy verification → governance acceptance.
+## Implementation gate
 
-Architecture approval does not imply later implementation acceptance.
+Implementation may proceed only against the approved P0-05 architecture and consumer contract. Any scope expansion, authority bypass, new durable path, or security/privacy boundary weakening stops the phase and requires a new controlled governance decision.
 
-## Decision options
+## Evidence and acceptance gate
 
-1. **APPROVE** — authorize controlled P0-05 implementation within scope.
-2. **APPROVE WITH CONDITIONS** — authorize only with explicitly recorded conditions.
-3. **REJECT / RETURN** — revise architecture before implementation.
+After implementation, the exact implementation commit must be verified with targeted P0-05 tests, full repository regression, security/privacy negative-path tests, prohibited-capability inspection, exact commit identity, and clean/synchronized repository state. Successful execution does not itself grant governance acceptance.
 
-## Persistence
+## Change control
 
-**NOT AUTHORIZED.**
+Any modification of frozen P0-04 semantics, consumer authority, persistence boundary, or security invariants requires a separate architecture/security/governance review.
