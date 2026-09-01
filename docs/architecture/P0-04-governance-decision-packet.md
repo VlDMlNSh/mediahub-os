@@ -1,42 +1,52 @@
-# P0-04 — Governance Decision Packet v1.0
+# P0-04 — Governance Decision Packet v1.1
 
 ## Decision target
 
 P0-04 In-Memory State Authority acceptance.
 
+## Governance decision
+
+**ACCEPTED — P0-04 In-Memory State Authority v1.0**
+
+Decision scope is limited to the deterministic in-memory implementation defined by P0-03 and implemented by P0-04.
+
 ## Decision boundary
 
-This packet applies only to the deterministic in-memory implementation described by P0-03 and implemented by the P0-04 branch. It does not authorize persistence or any production/appliance integration.
+This acceptance does not authorize persistence or any production/appliance integration.
 
-## Current record
+The following remain explicitly NOT AUTHORIZED:
 
-| Item | Status |
-|---|---|
-| P0-03 State Authority Contract | ACCEPTED |
-| P0-04 implementation | PRESENT |
-| Security remediation | COMPLETE |
-| Security exit review | READY |
-| Exact-final-commit execution evidence | PENDING fresh rerun after this packet commit |
-| P0-04 governance acceptance | NOT GRANTED |
-| Persistence | NOT AUTHORIZED |
+- SQLite/ZFS/filesystem persistence;
+- cloud or hardware persistence;
+- bootloader/systemd/appliance integration;
+- installer/recovery media;
+- update engine;
+- durable checkpoint authenticity;
+- durable personal-data protection.
 
-## Required final evidence
+No merge is authorized by this governance decision unless separately approved.
 
-The final reviewed commit must have execution evidence from `mh-dev-01` showing:
+## Evidence basis
 
-- targeted P0-04 regression: 16/16 PASS;
-- full repository regression: 126/126 PASS;
-- prohibited-capability scan: 0 matches;
-- exact `git rev-parse HEAD` matching the reviewed commit;
-- clean and synchronized working tree.
+Accepted implementation state was verified on exact commit:
 
-Observed output, not expected counts, is authoritative.
+`7bda2c703c639103f309c03d9ba702a47df4a85e`
+
+Execution evidence on that exact HEAD:
+
+- targeted P0-04 regression: **16/16 PASS**;
+- full repository regression: **126/126 PASS**;
+- prohibited-capability scan: **0 matches**;
+- exact `git rev-parse HEAD`: matched reviewed commit;
+- working tree: clean and synchronized.
+
+Observed execution evidence is authoritative.
 
 ## Security and privacy position
 
-The implementation is bounded to in-memory state and demonstrates default-deny authorization, candidate isolation, atomic publication, failure preservation, generation/version checks, integrity validation, restore self-test/fail-closed behavior, immutable read/checkpoint boundaries, structural bounds, and absence of prohibited execution/network/filesystem/deserialization capabilities in the scanned runtime scope.
+P0-04 is accepted with its demonstrated security properties: single State Authority, candidate isolation, atomic publication, failure preservation, stale/concurrent transaction controls, generation/version binding, independent integrity validation, default-deny authorization, restore isolation and self-test/fail-closed behavior, immutable read/checkpoint boundaries, structural resource bounds, sanitized diagnostics, and absence of prohibited execution/network/filesystem/unsafe-deserialization capabilities in the scanned runtime scope.
 
-Personal-data protection is limited to the demonstrated in-memory and diagnostics boundaries. Durable personal-data protection is deferred and must be separately designed before persistence is authorized.
+Personal-data protection remains bounded to the demonstrated in-memory and diagnostics boundaries. Durable personal-data protection is deferred and requires a separate architecture and governance decision before persistence authorization.
 
 ## Deferred items
 
@@ -50,6 +60,8 @@ Personal-data protection is limited to the demonstrated in-memory and diagnostic
 - SQLite/ZFS/filesystem persistence;
 - cloud or hardware persistence.
 
-## Governance rule
+## Governance consequence
 
-Execution evidence does not itself grant acceptance. P0-04 may be accepted only by an explicit governance decision after exact-final-commit evidence is verified. No merge or persistence authorization follows automatically from this packet.
+P0-04 is now **ACCEPTED/FROZEN in the approved scope**.
+
+Acceptance does not retroactively authorize out-of-scope capabilities. Any expansion of the State Authority into persistence, durable recovery, production/appliance integration, or other deferred areas requires a new explicit architectural and governance gate.
