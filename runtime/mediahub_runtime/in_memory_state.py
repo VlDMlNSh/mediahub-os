@@ -25,6 +25,10 @@ class IntegrityFailure(RuntimeInvariantError):
     """Raised when independent integrity validation rejects a payload."""
 
 
+class SelfTestFailure(RuntimeInvariantError):
+    """Raised when restore self-test rejects a candidate state."""
+
+
 class InvalidTransaction(RuntimeInvariantError):
     """Raised when a transaction is not valid for the requested operation."""
 
@@ -145,7 +149,7 @@ class InMemoryStateAuthority(StateAuthority):
     OP_SNAPSHOT = "snapshot"
     OP_RESTORE = "restore"
 
-    def __init__(self, generation, initial_payload=None, authorization_policy=None, integrity_validator=None):
+    def __init__(self, generation, initial_payload=None, authorization_policy=None, integrity_validator=None, self_test=None):
         if not isinstance(generation, Generation):
             raise TypeError("generation must be a Generation")
         initial_payload = {} if initial_payload is None else initial_payload
@@ -158,6 +162,7 @@ class InMemoryStateAuthority(StateAuthority):
             raise ValueError("generation.state_version must be non-negative")
         self._policy = authorization_policy or AuthorizationPolicy()
         self._integrity_validator = integrity_validator or (lambda payload, _generation: True)
+        self._self_test = self_test or (lambda payload, _generation: True)
         self._validate_integrity(initial_payload, generation)
         self._generation = generation
         self._state_version = initial_version
@@ -180,6 +185,14 @@ class InMemoryStateAuthority(StateAuthority):
             raise IntegrityFailure("integrity validation failed") from exc
         if valid is not True:
             raise IntegrityFailure("integrity validation failed")
+
+    def _run_self_test(self, payload, generation):
+        try:
+            valid = self._self_test(payload, generation)
+        except Exception as exc:
+            raise SelfTestFailure("restore self-test failed") from exc
+        if valid is not True:
+            raise SelfTestFailure("restore self-test failed")
 
     def read(self, key=None):
         with self._lock:
@@ -284,6 +297,7 @@ class InMemoryStateAuthority(StateAuthority):
             if snapshot_reference.generation.schema_version != self._generation.schema_version:
                 raise GenerationMismatch("checkpoint schema is incompatible")
             self._validate_integrity(candidate, snapshot_reference.generation)
+            self._run_self_test(candidate, snapshot_reference.generation)
 
             new_version = self._state_version + 1
             new_generation = Generation(
