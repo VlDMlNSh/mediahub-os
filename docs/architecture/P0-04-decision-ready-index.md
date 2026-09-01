@@ -8,15 +8,15 @@ This index is a navigation and state-consolidation artifact. It does not replace
 
 ## Authoritative hierarchy
 
-1. **P0-03 State Authority Contract v1.0** — technical contract and invariants.
-2. **P0-03 formal governance decision** — sole boundary for changing P0-03 from pending to accepted and for authorizing the next phase.
-3. **P0-04 implementation gate** — bounded in-memory implementation scope after authorization.
-4. **P0-04 workplan** — implementation decomposition.
-5. **Security/privacy artifacts** — threat model, verification matrix, negative-test catalogs, exit criteria.
-6. **Evidence artifacts** — evidence template, integrity protocol, traceability matrix.
-7. **Execution evidence** — exact implementation commit, environment, commands, exit codes, test results and capability inspection.
-8. **Adversarial/security review** — assessment of concrete evidence and residual risk.
-9. **P0-04 acceptance decision** — separate acceptance gate after implementation and evidence.
+1. P0-03 State Authority Contract v1.0 — technical contract and invariants.
+2. P0-03 formal governance decision — sole boundary for changing P0-03 from pending to accepted and for authorizing the next phase.
+3. P0-04 implementation gate — bounded in-memory implementation scope after authorization.
+4. P0-04 workplan — implementation decomposition.
+5. Security/privacy artifacts — threat model, verification matrix, negative-test catalogs, exit criteria.
+6. Evidence artifacts — evidence template, integrity protocol, traceability matrix.
+7. Execution evidence — exact implementation commit, environment, commands, exit codes, test results and capability inspection.
+8. Adversarial/security review — assessment of concrete evidence and residual risk.
+9. P0-04 acceptance decision — separate acceptance gate after implementation and evidence.
 
 No lower-level artifact overrides a higher-level governance boundary.
 
@@ -25,7 +25,7 @@ No lower-level artifact overrides a higher-level governance boundary.
 - P0-03 contract baseline: `9ae82f9e45bcb9c330ab283b13a482fbeea6b546`.
 - P0-04 preparation branch: `architecture/p0-04-in-memory-state-authority`.
 - P0-04 preparation PR: #8.
-- Current PR #8 head: `1c47d7299a833777b9d7a3dd0994a1824397dbb1`.
+- Current PR #8 head: `0b85e46fecebb2ca25fea261082ce2b82ead8b50`.
 - PR #8 remains Draft/Open and contains documentation/gate preparation only.
 
 The P0-04 preparation head must not be treated as an implementation baseline. If implementation is later authorized, a new implementation commit must be explicitly identified and independently evidenced.
@@ -53,11 +53,7 @@ The P0-04 preparation head must not be treated as an implementation baseline. If
 
 ## Required decision path
 
-The only valid governance choices for P0-03 are:
-
-- `ACCEPT`;
-- `ACCEPT WITH CONDITIONS`;
-- `RETURN FOR REVISION`.
+The only valid governance choices for P0-03 are `ACCEPT`, `ACCEPT WITH CONDITIONS`, or `RETURN FOR REVISION`.
 
 A valid decision must identify the authority, UTC timestamp, exact P0-03 baseline, conditions if applicable, explicit P0-04 implementation authorization status, and explicit persistence authorization status. Missing or contradictory fields keep the state `PENDING`.
 
@@ -65,21 +61,9 @@ Even after `ACCEPT`, P0-04 implementation requires a separate explicit implement
 
 ## P0-04 scope lock
 
-If authorized, P0-04 remains limited to deterministic in-memory State Authority behavior:
+If authorized, P0-04 remains limited to deterministic in-memory State Authority behavior: canonical state; isolated candidate transactions; begin/commit/abort lifecycle; authority-owned monotonic revisions; generation compatibility; independent integrity validation seam; operation-specific default-deny authorization; immutable checkpoint identity; restore through candidate validation and publication as a new canonical revision; bounded inputs; privacy-safe diagnostics; functional, adversarial, security and privacy verification.
 
-- canonical state;
-- isolated candidate transactions;
-- begin/commit/abort lifecycle;
-- authority-owned monotonic revisions;
-- generation compatibility;
-- independent integrity validation seam;
-- operation-specific default-deny authorization;
-- immutable checkpoint identity;
-- restore through candidate validation and publication as a new canonical revision;
-- bounded inputs and privacy-safe diagnostics;
-- functional, adversarial, security and privacy verification.
-
-The following remain prohibited under P0-04: SQLite/ZFS/filesystem persistence, cloud or hardware persistence, subprocesses/arbitrary command execution, network transport/telemetry, bootloader/systemd appliance integration, installer/recovery media, update/rollback engine, production deployment topology, and real user/private data in fixtures or evidence.
+Still prohibited: SQLite/ZFS/filesystem/cloud/hardware persistence; subprocesses/arbitrary command execution; network transport/telemetry; bootloader/systemd appliance integration; installer/recovery media; update/rollback engine; production deployment topology; real user/private data in fixtures or evidence.
 
 ## Security and privacy gate
 
