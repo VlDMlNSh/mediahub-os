@@ -1,15 +1,11 @@
 """Deterministic in-memory State Authority implementation for P0-04."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from types import MappingProxyType
 import math
 
 from .authorization import AuthorizationContext, AuthorizationPolicy
-from .errors import (
-    AuthorizationDenied,
-    GenerationMismatch,
-    RuntimeInvariantError,
-)
+from .errors import AuthorizationDenied, GenerationMismatch, RuntimeInvariantError
 from .generation import Generation, validate_generation_compatibility
 from .state import StateAuthority
 
@@ -41,12 +37,11 @@ class InvalidCheckpoint(RuntimeInvariantError):
 
 
 def _validate_value(value, depth=0, budget=None):
-    if budget is None:
-        budget = [0]
+    budget = [0] if budget is None else budget
     budget[0] += 1
     if budget[0] > _MAX_NODES or depth > _MAX_DEPTH:
         raise MalformedState("state payload exceeds structural bounds")
-    if value is None or isinstance(value, bool) or isinstance(value, int):
+    if value is None or isinstance(value, (bool, int)):
         return
     if isinstance(value, float):
         if not math.isfinite(value):
@@ -74,9 +69,7 @@ def _validate_value(value, depth=0, budget=None):
 def _freeze(value):
     if isinstance(value, dict):
         return MappingProxyType({key: _freeze(item) for key, item in value.items()})
-    if isinstance(value, list):
-        return tuple(_freeze(item) for item in value)
-    if isinstance(value, tuple):
+    if isinstance(value, (list, tuple)):
         return tuple(_freeze(item) for item in value)
     return value
 
@@ -104,6 +97,7 @@ class Checkpoint:
     generation: Generation
     state_version: int
     integrity_valid: bool = True
+    _authority_token: object = field(default=None, repr=False, compare=False)
 
 
 class Transaction:
@@ -153,20 +147,23 @@ class InMemoryStateAuthority(StateAuthority):
     def __init__(self, generation, initial_payload=None, authorization_policy=None, integrity_validator=None):
         if not isinstance(generation, Generation):
             raise TypeError("generation must be a Generation")
-        _validate_value(initial_payload if initial_payload is not None else {})
+        initial_payload = {} if initial_payload is None else initial_payload
+        _validate_value(initial_payload)
+        try:
+            initial_version = int(generation.state_version)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("generation.state_version must be an integer string") from exc
+        if initial_version < 0:
+            raise ValueError("generation.state_version must be non-negative")
         self._policy = authorization_policy or AuthorizationPolicy()
         self._integrity_validator = integrity_validator or (lambda payload, _generation: True)
         self._generation = generation
-        self._state_version = int(generation.state_version)
-        self._canonical = CanonicalState(
-            payload=_freeze(initial_payload if initial_payload is not None else {}),
-            generation=generation,
-            state_version=self._state_version,
-            integrity_valid=True,
-        )
+        self._state_version = initial_version
+        self._canonical = CanonicalState(_freeze(initial_payload), generation, initial_version, True)
         self._transactions = {}
         self._next_transaction_id = 1
         self._next_checkpoint_id = 1
+        self._authority_token = object()
 
     def _authorize(self, context, operation):
         if not isinstance(context, AuthorizationContext):
@@ -182,13 +179,10 @@ class InMemoryStateAuthority(StateAuthority):
             raise IntegrityFailure("integrity validation failed")
 
     def read(self, key=None):
-        state = self._canonical
-        payload = _thaw(state.payload)
+        payload = _thaw(self._canonical.payload)
         if key is None:
-            return CanonicalState(payload, state.generation, state.state_version, state.integrity_valid)
-        if not isinstance(key, str):
-            raise TypeError("key must be a string")
-        if not isinstance(payload, dict):
+            return CanonicalState(payload, self._canonical.generation, self._state_version, self._canonical.integrity_valid)
+        if not isinstance(key, str) or not isinstance(payload, dict):
             raise KeyError(key)
         return payload[key]
 
@@ -205,6 +199,8 @@ class InMemoryStateAuthority(StateAuthority):
     def commit(self, transaction):
         if not isinstance(transaction, Transaction):
             raise InvalidTransaction("invalid transaction")
+        if self._transactions.get(transaction.transaction_id) is not transaction:
+            raise InvalidTransaction("unknown transaction")
         if transaction.status != Transaction.ACTIVE:
             raise InvalidTransaction("transaction is terminal")
         self._authorize(transaction._context, self.OP_COMMIT)
@@ -225,8 +221,7 @@ class InMemoryStateAuthority(StateAuthority):
             str(new_version),
             self._generation.integrity_reference,
         )
-        frozen_candidate = _freeze(candidate)
-        new_canonical = CanonicalState(frozen_candidate, new_generation, new_version, True)
+        new_canonical = CanonicalState(_freeze(candidate), new_generation, new_version, True)
         self._canonical = new_canonical
         self._generation = new_generation
         self._state_version = new_version
@@ -237,6 +232,10 @@ class InMemoryStateAuthority(StateAuthority):
     def abort(self, transaction):
         if not isinstance(transaction, Transaction):
             raise InvalidTransaction("invalid transaction")
+        if self._transactions.get(transaction.transaction_id) is not transaction:
+            if transaction.status == Transaction.ABORTED:
+                return None
+            raise InvalidTransaction("unknown transaction")
         if transaction.status != Transaction.ACTIVE:
             return None
         self._authorize(transaction._context, self.OP_ABORT)
@@ -253,19 +252,26 @@ class InMemoryStateAuthority(StateAuthority):
             generation=state.generation,
             state_version=state.state_version,
             integrity_valid=state.integrity_valid,
+            _authority_token=self._authority_token,
         )
         self._next_checkpoint_id += 1
         return checkpoint
 
     def restore(self, snapshot_reference, context):
         self._authorize(context, self.OP_RESTORE)
-        if not isinstance(snapshot_reference, Checkpoint) or not snapshot_reference.integrity_valid:
-            raise InvalidCheckpoint("invalid checkpoint")
+        if not isinstance(snapshot_reference, Checkpoint) or snapshot_reference._authority_token is not self._authority_token:
+            raise InvalidCheckpoint("checkpoint is not owned by this authority")
+        if not snapshot_reference.integrity_valid:
+            raise InvalidCheckpoint("checkpoint integrity is invalid")
         candidate = _thaw(snapshot_reference.payload)
         _validate_value(candidate)
-        self._validate_integrity(candidate, snapshot_reference.generation)
+        if snapshot_reference.generation.generation_id != self._generation.generation_id:
+            raise GenerationMismatch("checkpoint generation is incompatible")
+        if snapshot_reference.generation.binary_version != self._generation.binary_version:
+            raise GenerationMismatch("checkpoint binary generation is incompatible")
         if snapshot_reference.generation.schema_version != self._generation.schema_version:
             raise GenerationMismatch("checkpoint schema is incompatible")
+        self._validate_integrity(candidate, snapshot_reference.generation)
 
         new_version = self._state_version + 1
         new_generation = Generation(
