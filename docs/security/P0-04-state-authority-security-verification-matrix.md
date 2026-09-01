@@ -1,6 +1,6 @@
 # P0-04 — State Authority Security Verification Matrix
 
-Status: implementation verification in progress.
+Status: implementation verification completed; final governance acceptance pending.
 
 This matrix is governance/evidence guidance only. It does not authorize persistence or production deployment.
 
@@ -41,31 +41,66 @@ Explicitly out of scope and unauthorized:
 - SEC-SA-17 — no unsafe deserialization
 - SEC-SA-18 — no AI/external mutation authority
 
-## Evidence status
+## Execution evidence
 
-Implementation evidence captured on exact implementation commit `d872196224affbfb3ef2dde21a896444e365c2f9`.
+Evidence was executed against exact implementation commit `456deb9aadd3cae7d8978a7d89f540e1a029b7f4` on the approved validation environment `mh-dev-01`.
 
-Execution environment:
+Environment:
 
 - Python 3.12.3
-- Linux `mh-dev-01`, kernel 6.8.0-138-generic, x86_64
+- Linux kernel 6.8.0-138-generic
+- x86_64
 
-Full repository regression captured from the exact implementation branch:
+### Full repository regression
 
-- `python3 -m unittest discover -s tests -v`
-- 99 tests
+Command:
+
+`python3 -m unittest discover -s tests -t . -p 'test_*.py' -v`
+
+Result:
+
+- 123 tests
+- 123 passed
 - 0 failures
 - 0 errors
 - exit code 0
 
-The targeted P0-04 suite and focused adversarial execution remain required before final acceptance.
+The `-t .` top-level parameter is required for this repository layout because `tests/runtime` is itself a package named `runtime`; without an explicit top-level directory, unittest discovery shadows the implementation package `runtime/` and produces a false import failure.
 
-A later documentation-only evidence-matrix commit may advance the branch HEAD; it does not retroactively change the identity of the captured execution evidence. Any final acceptance must reference the exact implementation commit actually executed.
+### Targeted P0-04 regression
 
-## Capability inspection note
+Command:
 
-A repository-wide read-only grep was executed. Its only match was a hostile-input test fixture containing the literal string `subprocess.run()`. This is test data, not an execution capability. The implementation itself must continue to be inspected independently for prohibited imports/capabilities.
+`python3 -m unittest tests.runtime.test_in_memory_state -v`
+
+Result:
+
+- 13 tests
+- 13 passed
+- 0 failures
+- 0 errors
+- exit code 0
+
+### Capability inspection
+
+Command:
+
+`grep -RInE 'subprocess|os\\.system|os\\.popen|eval\\(|exec\\(|pickle\\.loads|marshal\\.loads|socket\\.|requests\\.|urllib\\.request|http\\.client|pathlib\\.Path\\.write|shutil\\.' runtime || true`
+
+Result:
+
+- no matches
+- read-only inspection
+- no prohibited execution, network, unsafe-deserialization, or filesystem-mutation capability detected by this scan
+
+## Evidence interpretation
+
+The execution evidence demonstrates the declared P0-04 implementation/test slice on the exact commit above. It does not by itself constitute governance acceptance.
+
+The full regression includes the pre-existing foundation/domain/contract suites plus the P0-04 runtime suites. The targeted suite provides focused evidence for transaction isolation, stale-writer handling, concurrency serialization, integrity gating, authorization, checkpoint binding/immutability, restore revision semantics, malformed/oversized input rejection, hostile-input data handling, and terminal transaction behavior.
 
 ## Acceptance rule
 
-P0-04 cannot be accepted solely from source inspection or the full regression result. Final acceptance requires exact-commit targeted/adversarial execution evidence, security/privacy review, and explicit governance acceptance.
+P0-04 cannot be accepted solely from source inspection or test results. Final acceptance requires security/privacy review, threat-to-test traceability review, residual-risk disposition, evidence-integrity verification, and explicit governance acceptance.
+
+Persistence remains NOT AUTHORIZED.
