@@ -133,6 +133,8 @@ Checkpoint creation MUST occur only from valid canonical state.
 
 Checkpoint identity MUST be immutable once the checkpoint is accepted.
 
+Checkpoint metadata and payload MUST be treated as untrusted at the persistence/read boundary until their authenticity, schema, generation, and integrity have been validated.
+
 Checkpoint deletion/retention policy is implementation-specific and is outside this design phase.
 
 ## 8. Restore Semantics
@@ -262,6 +264,7 @@ P0-02 is architecturally accepted only when all of the following are true:
 - [ ] stale transaction behavior is explicit;
 - [ ] generation compatibility and integrity validation are separate gates;
 - [ ] state version cannot be caller-selected arbitrarily;
+- [ ] checkpoint authenticity/integrity boundary is explicit;
 - [ ] restore cannot bypass State Authority;
 - [ ] restore creates a new accepted state revision;
 - [ ] authorization remains default-deny per operation;
@@ -280,7 +283,7 @@ P0-02 is architecturally accepted only when all of the following are true:
 | State-version monotonicity | Sections 3, 5, 6.1 | Mutation/concurrency tests |
 | Generation binding | Section 6 | Compatibility tests |
 | Integrity gate | Section 6 | Integrity tests |
-| Checkpoint validity | Section 7 | Checkpoint tests |
+| Checkpoint validity | Section 7 | Checkpoint/authenticity tests |
 | Safe restore | Section 8 | Recovery/adversarial tests |
 | Stale transaction rejection | Section 9 | Concurrency tests |
 | Default-deny authorization | Section 10 | Authorization tests |
@@ -294,6 +297,6 @@ P0-02 is architecturally accepted only when all of the following are true:
 
 **Rationale:** separates semantic authority from storage implementation, prevents premature coupling to SQLite/ZFS, and makes recovery subject to the same authorization, generation, integrity, validation, and atomic-publication boundaries as ordinary mutation.
 
-**Adversarial hardening added in v1.0 draft:** explicit commit linearization, authoritative state-version advancement, immutable checkpoint identity, restore-as-new-revision, operation-specific authorization, and untrusted-deserialization boundary.
+**Adversarial hardening added in v1.0 draft:** explicit commit linearization, authoritative state-version advancement, immutable checkpoint identity, restore-as-new-revision, operation-specific authorization, and untrusted-deserialization/checkpoint boundary.
 
 **Current state:** Draft. No implementation acceptance implied.
