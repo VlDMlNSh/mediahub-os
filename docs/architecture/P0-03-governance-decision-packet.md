@@ -66,3 +66,7 @@ No credentials, secrets, real personal data, or production-sensitive runtime pay
 ## Historical boundary
 
 This decision packet does not assign or infer semantic responsibilities for MH-02…MH-16. Such mapping remains unsupported without authoritative historical evidence.
+
+## Current transition-control reference
+
+For operational transition checks, use `P0-03-P0-04-transition-authority-checklist.md` together with the P0-04 gate state machine and scope lock. This packet remains the governance decision summary; it does not replace those controls.
