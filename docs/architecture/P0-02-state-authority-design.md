@@ -3,6 +3,7 @@
 **Status:** Architecture Draft / Controlled Design Phase  
 **Branch:** `architecture/p0-02-state-authority-design`  
 **Scope:** MediaHub OS Runtime Foundation  
+**Review:** `docs/architecture/P0-02-adversarial-review.md`  
 
 ## 1. Purpose
 
