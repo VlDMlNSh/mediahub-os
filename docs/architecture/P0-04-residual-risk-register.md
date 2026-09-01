@@ -1,6 +1,6 @@
 # P0-04 — Residual Risk Register v1.0
 
-Status: controlled remediation; final governance disposition pending.
+Status: security remediation conditions closed; final governance disposition pending.
 
 ## Accepted-by-scope residuals
 
@@ -20,8 +20,21 @@ Status: controlled remediation; final governance disposition pending.
 4. Personal-data-bearing state requires explicit data classification, minimization, retention, deletion and recovery controls before persistence is authorized.
 5. P0-04 acceptance, when eventually granted, applies only to the bounded in-memory implementation and its demonstrated properties.
 
-## Current blocking item
+## Remediation disposition
 
-The current remediation branch has hardened the read boundary so `CanonicalState.payload` and checkpoint payloads are recursively immutable at the API boundary. This change requires fresh execution evidence against the resulting exact commit before the SEC-SA traceability matrix can be promoted from controlled mapping to execution-backed evidence.
+The previously identified P0-04 security conditions are now execution-backed on hardened commit `1279024fc7c20a2eb291c1f5bc5dbf807e2350b0`:
 
-Governance acceptance remains **NOT GRANTED** until security exit criteria and explicit governance approval are complete.
+- restore self-test gate: PASS;
+- fail-closed self-test exception handling: PASS;
+- read-boundary immutability: PASS;
+- checkpoint payload/identity immutability: PASS;
+- targeted P0-04 regression: 16/16 PASS;
+- full repository regression: 126/126 PASS;
+- prohibited-capability scan: 0 matches;
+- working tree: clean and synchronized.
+
+No new persistence or production integration was introduced.
+
+## Remaining governance blockers
+
+Security traceability is now execution-backed, but P0-04 is not yet governance-accepted. Final disposition still requires evidence-integrity verification and explicit governance approval. Deferred persistence/appliance/privacy risks remain outside this phase and unauthorized.
