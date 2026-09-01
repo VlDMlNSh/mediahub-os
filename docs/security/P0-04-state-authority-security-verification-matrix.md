@@ -1,6 +1,6 @@
 # P0-04 — State Authority Security Verification Matrix
 
-Status: implementation verification completed; final governance acceptance pending.
+Status: security verification evidence complete for hardened remediation head; final governance acceptance pending.
 
 This matrix is governance/evidence guidance only. It does not authorize persistence or production deployment.
 
@@ -41,31 +41,15 @@ Explicitly out of scope and unauthorized:
 - SEC-SA-17 — no unsafe deserialization
 - SEC-SA-18 — no AI/external mutation authority
 
-## Execution evidence
+## Final execution evidence
 
-Evidence was executed against exact implementation commit `456deb9aadd3cae7d8978a7d89f540e1a029b7f4` on the approved validation environment `mh-dev-01`.
+Evidence was executed on the approved validation environment `mh-dev-01` against exact hardened remediation commit `1279024fc7c20a2eb291c1f5bc5dbf807e2350b0`.
 
 Environment:
 
 - Python 3.12.3
 - Linux kernel 6.8.0-138-generic
 - x86_64
-
-### Full repository regression
-
-Command:
-
-`python3 -m unittest discover -s tests -t . -p 'test_*.py' -v`
-
-Result:
-
-- 123 tests
-- 123 passed
-- 0 failures
-- 0 errors
-- exit code 0
-
-The `-t .` top-level parameter is required for this repository layout because `tests/runtime` is itself a package named `runtime`; without an explicit top-level directory, unittest discovery shadows the implementation package `runtime/` and produces a false import failure.
 
 ### Targeted P0-04 regression
 
@@ -75,11 +59,29 @@ Command:
 
 Result:
 
-- 13 tests
-- 13 passed
+- 16 tests
+- 16 passed
 - 0 failures
 - 0 errors
 - exit code 0
+
+The targeted suite explicitly verifies the hardened read boundary (`test_read_is_immutable_and_authority_owned_version`) and checkpoint payload immutability (`test_checkpoint_identity_and_payload_are_immutable`), in addition to authorization, isolation, stale-writer, integrity, restore self-test, failure preservation, malformed-input, and terminal-transaction controls.
+
+### Full repository regression
+
+Command:
+
+`python3 -m unittest discover -s tests -t . -p 'test_*.py' -v`
+
+Result:
+
+- 126 tests
+- 126 passed
+- 0 failures
+- 0 errors
+- exit code 0
+
+The `-t .` top-level parameter is required for this repository layout because `tests/runtime` is itself a package named `runtime`; without an explicit top-level directory, unittest discovery shadows the implementation package `runtime/` and produces a false import failure.
 
 ### Capability inspection
 
@@ -93,11 +95,19 @@ Result:
 - read-only inspection
 - no prohibited execution, network, unsafe-deserialization, or filesystem-mutation capability detected by this scan
 
+### Repository state integrity
+
+`git rev-parse HEAD` returned:
+
+`1279024fc7c20a2eb291c1f5bc5dbf807e2350b0`
+
+`git status --short --branch` returned the branch synchronized with `origin/remediation/p0-04-security-gates` and no working-tree changes.
+
 ## Evidence interpretation
 
-The execution evidence demonstrates the declared P0-04 implementation/test slice on the exact commit above. It does not by itself constitute governance acceptance.
+The evidence demonstrates the declared P0-04 implementation/test slice on the exact hardened commit above. It does not by itself constitute governance acceptance.
 
-The full regression includes the pre-existing foundation/domain/contract suites plus the P0-04 runtime suites. The targeted suite provides focused evidence for transaction isolation, stale-writer handling, concurrency serialization, integrity gating, authorization, checkpoint binding/immutability, restore revision semantics, malformed/oversized input rejection, hostile-input data handling, and terminal transaction behavior.
+All 18 SEC-SA controls have implementation/test or capability-inspection mappings in the threat-to-test traceability record. Controls requiring source/capability evidence are treated as passed only for this exact reviewed state.
 
 ## Acceptance rule
 
