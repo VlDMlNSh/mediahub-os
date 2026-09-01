@@ -10,6 +10,17 @@ from .errors import (
     RuntimeInvariantError,
 )
 from .generation import Generation, validate_generation_compatibility
+from .in_memory_state import (
+    CanonicalState,
+    Checkpoint,
+    InMemoryStateAuthority,
+    IntegrityFailure,
+    InvalidCheckpoint,
+    InvalidTransaction,
+    MalformedState,
+    StaleTransaction,
+    Transaction,
+)
 from .lifecycle import LifecycleState, LifecycleStateMachine
 from .proposals import Proposal, ProposalAuthority
 from .state import StateAuthority
@@ -19,17 +30,26 @@ __all__ = [
     "AuthorizationDecision",
     "AuthorizationPolicy",
     "AuthorizationDenied",
+    "CanonicalState",
+    "Checkpoint",
     "DiagnosticEvent",
     "ExpiredProposal",
     "Generation",
     "GenerationMismatch",
+    "InMemoryStateAuthority",
+    "IntegrityFailure",
+    "InvalidCheckpoint",
     "InvalidStateTransition",
+    "InvalidTransaction",
     "LifecycleState",
     "LifecycleStateMachine",
+    "MalformedState",
     "Proposal",
     "ProposalAuthority",
     "RuntimeInvariantError",
+    "StaleTransaction",
     "StateAuthority",
+    "Transaction",
     "make_event",
     "sanitize_fields",
     "validate_generation_compatibility",
