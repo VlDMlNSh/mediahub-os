@@ -1,5 +1,6 @@
 import threading
 import unittest
+from dataclasses import replace
 
 from runtime.mediahub_runtime.authorization import AuthorizationContext, AuthorizationDenied, AuthorizationPolicy
 from runtime.mediahub_runtime.generation import Generation
@@ -10,6 +11,7 @@ from runtime.mediahub_runtime.in_memory_state import (
     InvalidCheckpoint,
     InvalidTransaction,
     MalformedState,
+    SelfTestFailure,
     StaleTransaction,
     Transaction,
 )
@@ -33,9 +35,10 @@ class InMemoryStateAuthorityTests(unittest.TestCase):
 
     def test_read_isolation_and_authority_owned_version(self):
         before = self.authority.read()
+        before.payload["value"] = 77
         tx = self.authority.begin(self.context)
         tx.set_payload({"value": 1, "requested_version": 999})
-        self.assertEqual(before.payload, {"value": 0})
+        self.assertEqual(before.payload, {"value": 77})
         self.assertEqual(self.authority.read().payload, {"value": 0})
         committed = self.authority.commit(tx)
         self.assertEqual(committed.payload, {"value": 1, "requested_version": 999})
@@ -102,6 +105,8 @@ class InMemoryStateAuthorityTests(unittest.TestCase):
             denied.begin(self.context)
         with self.assertRaises(AuthorizationDenied):
             denied.snapshot(self.context)
+        with self.assertRaises(AuthorizationDenied):
+            denied.restore(Checkpoint("cp", {}, denied.read().generation, 0, True), self.context)
 
     def test_integrity_is_independent_gate(self):
         rejecting = InMemoryStateAuthority(
@@ -131,10 +136,62 @@ class InMemoryStateAuthorityTests(unittest.TestCase):
         self.assertEqual(restored.state_version, 3)
         self.assertEqual(checkpoint.state_version, 1)
 
+    def test_restore_requires_self_test_and_preserves_canonical_on_failure(self):
+        calls = []
+
+        def self_test(payload, generation):
+            calls.append((payload, generation.state_version))
+            return payload.get("value") != 1
+
+        authority = InMemoryStateAuthority(
+            Generation("g1", "b1", "s1", "0", "i1"),
+            {"value": 0},
+            AuthorizationPolicy({
+                ("test-service", "state-admin", "snapshot"),
+                ("test-service", "state-admin", "restore"),
+            }),
+            self_test=self_test,
+        )
+        checkpoint = authority.snapshot(self.context)
+        bad_checkpoint = replace(checkpoint, payload={"value": 1})
+        with self.assertRaises(SelfTestFailure):
+            authority.restore(bad_checkpoint, self.context)
+        self.assertEqual(calls, [({"value": 1}, "0")])
+        self.assertEqual(authority.read().payload, {"value": 0})
+        self.assertEqual(authority.read().state_version, 0)
+
+    def test_restore_self_test_exception_fails_closed(self):
+        def self_test(_payload, _generation):
+            raise RuntimeError("sensitive internal failure")
+
+        authority = InMemoryStateAuthority(
+            Generation("g1", "b1", "s1", "0", "i1"),
+            {"value": 0},
+            AuthorizationPolicy({
+                ("test-service", "state-admin", "snapshot"),
+                ("test-service", "state-admin", "restore"),
+            }),
+            self_test=self_test,
+        )
+        checkpoint = authority.snapshot(self.context)
+        with self.assertRaises(SelfTestFailure) as raised:
+            authority.restore(checkpoint, self.context)
+        self.assertEqual(str(raised.exception), "restore self-test failed")
+        self.assertEqual(authority.read().payload, {"value": 0})
+        self.assertEqual(authority.read().state_version, 0)
+
     def test_forged_checkpoint_is_rejected(self):
         forged = Checkpoint("cp-forged", {"value": 99}, self.authority.read().generation, 0, True)
         with self.assertRaises(InvalidCheckpoint):
             self.authority.restore(forged, self.context)
+
+    def test_invalid_checkpoint_integrity_is_rejected(self):
+        checkpoint = self.authority.snapshot(self.context)
+        invalid = replace(checkpoint, integrity_valid=False)
+        with self.assertRaises(InvalidCheckpoint):
+            self.authority.restore(invalid, self.context)
+        self.assertEqual(self.authority.read().payload, {"value": 0})
+        self.assertEqual(self.authority.read().state_version, 0)
 
     def test_checkpoint_identity_is_immutable(self):
         checkpoint = self.authority.snapshot(self.context)
