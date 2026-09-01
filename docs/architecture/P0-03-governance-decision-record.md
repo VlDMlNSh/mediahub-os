@@ -4,8 +4,6 @@
 
 Controlled record for the explicit project-authority decision on P0-03 State Authority Contract v1.0.
 
-This document is a decision record, not a decision itself. Until the decision fields below are completed by the project authority, P0-03 remains formally pending and P0-04 implementation remains unauthorized.
-
 ## Decision target
 
 **P0-03 State Authority Contract v1.0**
@@ -15,34 +13,40 @@ This document is a decision record, not a decision itself. Until the decision fi
 - P0-02 design: technical/adversarial review PASS with residual implementation obligations.
 - P0-03 contract: technical review PASS.
 - P0-03 adversarial review: PASS with residual implementation obligations.
-- P0-03 acceptance gate: technical/design criteria satisfied; formal acceptance pending.
+- P0-03 acceptance gate: technical/design criteria satisfied.
 - P0-04 gate, workplan, security matrix, abuse-case register, evidence template and traceability preparation available.
 
-## Decision options
+## Formal decision
 
-### Option A — ACCEPT
+**Decision: ACCEPT**
 
-Accept P0-03 as the governing contract and authorize P0-04 implementation strictly within the approved deterministic in-memory State Authority boundary.
+**Decision authority:** Project authority (explicit decision issued in the controlling project chat).
 
-### Option B — ACCEPT WITH CONDITIONS
+**Decision timestamp:** 2026-09-01T19:44Z
 
-Accept P0-03 subject to explicitly recorded conditions. Conditions must identify an owner/acceptance criterion and must not silently expand P0-04 scope.
+**Referenced P0-03 contract baseline:** `9ae82f9e45bcb9c330ab283b13a482fbeea6b546`
 
-### Option C — RETURN FOR REVISION
+**Conditions:** None beyond the existing P0-04 scope and security/privacy controls.
 
-Reject the current transition to P0-04 and identify the required contract/design revisions.
+## P0-04 implementation authorization
 
-## Explicit P0-04 boundary if authorized
+**Authorization: GRANTED** strictly for P0-04 In-Memory State Authority implementation derived from the accepted P0-03 baseline.
 
 Allowed only:
 
 - deterministic in-memory State Authority;
 - canonical/candidate/transaction/checkpoint model;
 - transaction lifecycle and stale rejection;
+- authority-owned monotonic revision sequencing;
 - generation compatibility plus independent integrity validation;
 - operation-specific default-deny authorization;
 - restore through candidate state and publication as a new canonical revision;
-- adversarial/security/privacy tests and exact-commit execution evidence.
+- bounded inputs and privacy-safe diagnostics;
+- functional, adversarial, security and privacy verification.
+
+## Persistence authorization
+
+**NOT GRANTED.**
 
 Still prohibited:
 
@@ -53,24 +57,20 @@ Still prohibited:
 - installer/recovery media;
 - update engine;
 - cloud persistence;
-- hardware persistence.
+- hardware persistence;
+- production deployment topology.
 
-## Decision fields
-
-- Decision: `PENDING`
-- Authority: `PENDING`
-- Date/time: `PENDING`
-- Conditions: `NONE RECORDED`
-- Authorization scope: `NOT GRANTED`
-- Effective implementation boundary: `P0-04 IN-MEMORY ONLY`
+AI, UI, plugins, network and external inputs remain non-authoritative and cannot mutate canonical state directly.
 
 ## Governance invariant
 
-Technical PASS, adversarial PASS, documentation completeness, or issue/PR existence do not constitute formal acceptance. Authorization must be explicit and traceable to the project-authority decision.
+This record supersedes the previous PENDING status for P0-03. It does not authorize any capability outside the explicitly stated P0-04 in-memory boundary.
+
+P0-04 acceptance remains a separate evidence-based gate and is not implied by this authorization.
 
 ## Security and privacy invariant
 
-The decision must preserve default-deny authorization, State Authority as the sole canonical mutation authority, untrusted-state validation boundaries, sanitized diagnostics, and prohibition of direct AI/external mutation. No personal or production-sensitive data is required for this decision.
+The implementation must preserve default-deny authorization, State Authority as the sole canonical mutation authority, untrusted-state validation boundaries, sanitized diagnostics, resource bounds, and prohibition of direct AI/external mutation. Verification must use synthetic data by default and must not introduce credentials, secrets, raw voice/audio, private content, or unnecessary personal data into source, tests, logs, issues, or evidence.
 
 ## Historical responsibility boundary
 
@@ -78,4 +78,4 @@ No semantic responsibility for MH-02…MH-16 is inferred from this decision reco
 
 ## Post-decision action
 
-If `ACCEPT` or `ACCEPT WITH CONDITIONS` is explicitly recorded, update Issue #9 and the P0-04 gate with the exact decision and scope before implementation begins. If `RETURN FOR REVISION` is recorded, implementation remains blocked and the required revision work must be opened explicitly.
+Create a new immutable P0-04 implementation baseline from the accepted P0-03 commit. Execute entry security checks before implementation, then proceed through implementation, adversarial verification, execution evidence, security/privacy review, and the separate P0-04 acceptance gate.
