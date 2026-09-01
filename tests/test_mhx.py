@@ -10,6 +10,9 @@ def run(tmp, *args, check=True):
         assert p.returncode == 0, p.stderr
     return p
 
+def create_task(tmp, task_id, objective, *extra):
+    return run(tmp, "task", "create", task_id, objective, *extra)
+
 def test_execution_loop_and_exact_cache(tmp_path):
     run(tmp_path, "init")
     (tmp_path / "sample.txt").write_text("a\nb\nc\n", encoding="utf-8")
@@ -18,7 +21,7 @@ def test_execution_loop_and_exact_cache(tmp_path):
     run(tmp_path, "chunk", "--lines", "2")
     chunks = json.loads((tmp_path / ".mhx/master/chunk-index.json").read_text())
     assert len(chunks["chunks"]) == 2
-    run(tmp_path, "task", "TASK-1", "inspect sample", "--task-class", "T1")
+    create_task(tmp_path, "TASK-1", "inspect sample", "--task-class", "T1")
     task = json.loads((tmp_path / ".mhx/tasks/pending/TASK-1.json").read_text())
     run(tmp_path, "task", "claim", "TASK-1", "W-LOCAL")
     raw = tmp_path / "result.json"
@@ -36,7 +39,7 @@ def test_execution_loop_and_exact_cache(tmp_path):
 
 def test_governance_firewall(tmp_path):
     run(tmp_path, "init")
-    p = run(tmp_path, "task", "TASK-G", "change validation", "--governance", check=False)
+    p = create_task(tmp_path, "TASK-G", "change validation", "--governance", check=False)
     assert p.returncode != 0
     assert "TASK_BLOCKED_GOVERNANCE" in p.stdout
     assert (tmp_path / ".mhx/tasks/failed/TASK-G.json").exists()
@@ -46,7 +49,7 @@ def test_hash_mismatch_rolls_back(tmp_path):
     run(tmp_path, "init")
     target = tmp_path / "sample.txt"
     target.write_text("old\n", encoding="utf-8")
-    run(tmp_path, "task", "TASK-2", "change file")
+    create_task(tmp_path, "TASK-2", "change file")
     run(tmp_path, "task", "claim", "TASK-2", "W-CODEX")
     raw = tmp_path / "result.json"
     raw.write_text(json.dumps({"task_id":"TASK-2","worker_id":"W-CODEX","input_revision":"R0","status":"FOUND","changed_artifacts":[{"path":"sample.txt","content":"new\n","content_hash":"0"*64}]}), encoding="utf-8")
