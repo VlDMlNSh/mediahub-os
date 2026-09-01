@@ -7,7 +7,7 @@ import threading
 
 from .authorization import AuthorizationContext, AuthorizationPolicy
 from .errors import AuthorizationDenied, GenerationMismatch, RuntimeInvariantError
-from .generation import Generation, validate_generation_compatibility
+from .generation import Generation
 from .state import StateAuthority
 
 _MAX_DEPTH = 8
@@ -210,13 +210,16 @@ class InMemoryStateAuthority(StateAuthority):
             if transaction.status != Transaction.ACTIVE:
                 raise InvalidTransaction("transaction is terminal")
             self._authorize(transaction._context, self.OP_COMMIT)
-            if transaction._generation != self._generation:
+            if transaction._generation.generation_id != self._generation.generation_id:
                 raise GenerationMismatch("transaction generation is stale")
+            if transaction._generation.binary_version != self._generation.binary_version:
+                raise GenerationMismatch("transaction binary generation is incompatible")
+            if transaction._generation.schema_version != self._generation.schema_version:
+                raise GenerationMismatch("transaction schema is incompatible")
             if transaction._state_version != self._state_version:
                 raise StaleTransaction("transaction targets stale canonical revision")
             candidate = transaction._candidate
             _validate_value(candidate)
-            validate_generation_compatibility(self._generation, self._generation, self._generation)
             self._validate_integrity(candidate, self._generation)
 
             new_version = self._state_version + 1
