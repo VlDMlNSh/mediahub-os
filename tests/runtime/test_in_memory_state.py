@@ -29,19 +29,22 @@ class InMemoryStateAuthorityTests(unittest.TestCase):
         }
         self.authority = InMemoryStateAuthority(
             Generation("g1", "b1", "s1", "0", "i1"),
-            {"value": 0},
+            {"value": 0, "nested": {"items": [1, 2]}},
             AuthorizationPolicy(grants),
         )
 
-    def test_read_isolation_and_authority_owned_version(self):
+    def test_read_is_immutable_and_authority_owned_version(self):
         before = self.authority.read()
-        before.payload["value"] = 77
+        with self.assertRaises(TypeError):
+            before.payload["value"] = 77
+        with self.assertRaises(TypeError):
+            before.payload["nested"]["items"] = ()
+        self.assertEqual(before.payload["value"], 0)
+        self.assertEqual(self.authority.read().payload["value"], 0)
         tx = self.authority.begin(self.context)
         tx.set_payload({"value": 1, "requested_version": 999})
-        self.assertEqual(before.payload, {"value": 77})
-        self.assertEqual(self.authority.read().payload, {"value": 0})
         committed = self.authority.commit(tx)
-        self.assertEqual(committed.payload, {"value": 1, "requested_version": 999})
+        self.assertEqual(committed.payload["value"], 1)
         self.assertEqual(committed.state_version, 1)
         self.assertEqual(committed.generation.state_version, "1")
 
@@ -83,7 +86,7 @@ class InMemoryStateAuthorityTests(unittest.TestCase):
         tx.set_payload({"value": 5})
         self.authority.abort(tx)
         self.assertEqual(tx.status, Transaction.ABORTED)
-        self.assertEqual(self.authority.read().payload, {"value": 0})
+        self.assertEqual(self.authority.read().payload["value"], 0)
         with self.assertRaises(InvalidTransaction):
             tx.set_payload({"value": 6})
         self.assertIsNone(self.authority.abort(tx))
@@ -190,14 +193,19 @@ class InMemoryStateAuthorityTests(unittest.TestCase):
         invalid = replace(checkpoint, integrity_valid=False)
         with self.assertRaises(InvalidCheckpoint):
             self.authority.restore(invalid, self.context)
-        self.assertEqual(self.authority.read().payload, {"value": 0})
+        self.assertEqual(self.authority.read().payload["value"], 0)
         self.assertEqual(self.authority.read().state_version, 0)
 
-    def test_checkpoint_identity_is_immutable(self):
+    def test_checkpoint_identity_and_payload_are_immutable(self):
         checkpoint = self.authority.snapshot(self.context)
         with self.assertRaises(Exception):
             checkpoint.checkpoint_id = "cp-mutated"
+        with self.assertRaises(TypeError):
+            checkpoint.payload["value"] = 99
+        with self.assertRaises(TypeError):
+            checkpoint.payload["nested"]["items"] = ()
         self.assertEqual(checkpoint.checkpoint_id, "cp-1")
+        self.assertEqual(checkpoint.payload["value"], 0)
 
     def test_malformed_and_oversized_state_is_rejected(self):
         with self.assertRaises(MalformedState):
@@ -209,7 +217,7 @@ class InMemoryStateAuthorityTests(unittest.TestCase):
         payload = {"value": "$(touch /tmp/should-not-exist); subprocess.run()"}
         tx = self.authority.begin(self.context, payload)
         committed = self.authority.commit(tx)
-        self.assertEqual(committed.payload, payload)
+        self.assertEqual(committed.payload["value"], payload["value"])
 
 
 if __name__ == "__main__":
