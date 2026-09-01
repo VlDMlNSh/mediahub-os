@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "type":"object","required":["schema","records"],
+  "properties":{"schema":{"const":"evidence-ledger-1.0"},"records":{"type":"array","items":{"type":"object","required":["evidence_id","observation","class","status"],"properties":{"evidence_id":{"type":"string"},"source":{"type":"string"},"observation":{"type":"string"},"artifact":{"type":"string"},"class":{"enum":["MODEL","STATIC","TEST","FAULT","RUNTIME","ANALYSIS"]},"status":{"const":"OBSERVED"}}}}}
+}

@@ -1,0 +1,10 @@
+{
+  "schema":"workers-1.0",
+  "workers":[
+    {"worker_id":"W-LOCAL","type":"LOCAL","capabilities":["search","hash","chunk","diff","index","test"],"trust_level":"DETERMINISTIC"},
+    {"worker_id":"W-GEMINI","type":"RESEARCH","capabilities":["research","cross_check"],"trust_level":"RESEARCH"},
+    {"worker_id":"W-PERPLEXITY","type":"RESEARCH","capabilities":["web_research","source_discovery"],"trust_level":"RESEARCH"},
+    {"worker_id":"W-CODEX","type":"IMPLEMENTATION","capabilities":["code","tests","repository_operations"],"trust_level":"EXECUTION"},
+    {"worker_id":"W-CLI","type":"IMPLEMENTATION","capabilities":["code","tests","repository_operations"],"trust_level":"EXECUTION"}
+  ]
+}

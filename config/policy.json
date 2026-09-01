@@ -1,0 +1,7 @@
+{
+  "schema":"mhx-policy-1.0",
+  "governance_firewall":{"blocked_impact_flags":["governance","historical","baseline"],"blocked_terms":["create-val","approve-governance","baseline-approve","historical-equivalence"]},
+  "master_write":"integration_only",
+  "worker_output":"untrusted",
+  "allowed_result_status":["FOUND","NOT_FOUND","OBSERVED","INFERRED","UNVERIFIED","CONFLICT","UNKNOWN"]
+}

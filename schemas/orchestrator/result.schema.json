@@ -1,0 +1,7 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "type":"object","required":["result_schema","result_id","task_id","worker_id","input_revision","status","provenance","result_hash"],
+  "properties":{
+    "result_schema":{"const":"1.0"},"result_id":{"type":"string"},"task_id":{"type":"string"},"worker_id":{"type":"string"},"input_revision":{"type":"string"},"status":{"enum":["FOUND","NOT_FOUND","OBSERVED","INFERRED","UNVERIFIED","CONFLICT","UNKNOWN"]},"findings":{"type":"array"},"evidence":{"type":"array"},"sources":{"type":"array"},"unknowns":{"type":"array"},"conflicts":{"type":"array"},"risks":{"type":"array"},"changed_artifacts":{"type":"array"},"confidence":{"type":"string"},"recommended_action":{"type":["string","null"]},"provenance":{"type":"object","required":["generated_by","generated_at","input_hash"],"properties":{"generated_by":{"type":"string"},"generated_at":{"type":"string"},"input_hash":{"type":"string"}}},"result_hash":{"type":"string","pattern":"^[a-f0-9]{64}$"}
+  }
+}

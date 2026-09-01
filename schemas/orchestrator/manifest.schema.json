@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "type":"object","required":["schema","root","files"],
+  "properties":{"schema":{"const":"manifest-1.0"},"generated_at":{"type":"string"},"root":{"type":"string"},"files":{"type":"array","items":{"type":"object","required":["source_id","path","type","size","content_hash"],"properties":{"source_id":{"type":"string"},"path":{"type":"string"},"type":{"type":"string"},"size":{"type":"integer","minimum":0},"content_hash":{"type":"string","pattern":"^[a-f0-9]{64}$"}}}}}
+}

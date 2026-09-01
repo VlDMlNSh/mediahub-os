@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "type":"object","required":["schema","artifacts"],
+  "properties":{"schema":{"const":"artifact-index-1.0"},"generated_at":{"type":"string"},"artifacts":{"type":"array","items":{"type":"object","required":["artifact_id","path","revision","content_hash","status"],"properties":{"artifact_id":{"type":"string"},"path":{"type":"string"},"revision":{"type":"string"},"content_hash":{"type":"string"},"status":{"enum":["DISCOVERED","INDEXED"]},"source":{"type":"string"}}}}}
+}
