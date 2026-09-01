@@ -6,6 +6,15 @@ from datetime import datetime, timezone
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "config" / "dev-host.json"
 
+# Packaging is intentionally conservative: these paths may contain credentials,
+# private keys, personal data, or machine-local state and must never enter a
+# product release artifact implicitly.
+SENSITIVE_NAMES = {
+    ".env", ".env.local", ".env.production", "credentials.json", "secrets.json",
+    "id_rsa", "id_ed25519", "known_hosts", "authorized_keys",
+}
+SENSITIVE_DIRS = {".ssh", ".gnupg", ".aws", ".config", "keychain", "secrets"}
+
 def now():
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
@@ -21,6 +30,20 @@ def digest(path):
         for block in iter(lambda: f.read(1024 * 1024), b""):
             h.update(block)
     return h.hexdigest()
+
+def unsafe_relative(rel):
+    parts = set(rel.parts)
+    return bool(parts & SENSITIVE_DIRS) or rel.name in SENSITIVE_NAMES or rel.name.startswith(".env.")
+
+def validate_source(source):
+    violations = []
+    for p in source.rglob("*"):
+        rel = p.relative_to(source)
+        if any(part in SENSITIVE_DIRS for part in rel.parts) or unsafe_relative(rel):
+            violations.append({"path": rel.as_posix(), "reason": "sensitive_path"})
+        if p.is_symlink():
+            violations.append({"path": rel.as_posix(), "reason": "symlink_not_allowed"})
+    return violations
 
 def layout(_args):
     cfg = load(); created = []
@@ -38,6 +61,7 @@ def doctor(_args):
         "secrets_external": cfg["paths"]["secrets"] == "KEYCHAIN_OR_ENV_ONLY",
         "worker_master_write_forbidden": cfg["authority"]["worker_direct_master_write"] == "FORBIDDEN",
         "deploy_requires_release_artifact": cfg["authority"]["product_deploy"] == "RELEASE_ARTIFACT_ONLY",
+        "inbound_services_disabled": cfg["network"]["inbound_services"] == "disabled_by_default",
     }
     ok = all(v for k, v in checks.items() if isinstance(v, bool))
     print(json.dumps({"status":"OK" if ok else "REVIEW","checks":checks}, indent=2))
@@ -45,14 +69,19 @@ def doctor(_args):
 
 def package(args):
     cfg = load(); source = pathlib.Path(args.source).resolve()
+    if not source.exists() or not source.is_dir():
+        print("SOURCE_NOT_FOUND", file=sys.stderr); return 2
+    violations = validate_source(source)
+    if violations:
+        print(json.dumps({"status":"PACKAGE_REFUSED","violations":violations}, indent=2)); return 4
     outdir = expand(cfg["paths"]["packages"]); outdir.mkdir(parents=True, exist_ok=True)
     release = args.release; archive = outdir / f"mediahub-os-{release}.tar.gz"
-    manifest = {"schema":"mhx-release-package-1.0","release":release,"created_at":now(),"source":str(source),"target":cfg["product_target"]["host_identity"],"deployment":"PACKAGE_THEN_INSTALL"}
+    manifest = {"schema":"mhx-release-package-1.1","release":release,"created_at":now(),"source":"LOCAL_WORKSPACE","target":cfg["product_target"]["host_identity"],"deployment":"PACKAGE_THEN_INSTALL","privacy_scan":"PASSED","symlinks":"REJECTED"}
     with tempfile.TemporaryDirectory() as td:
         staging = pathlib.Path(td) / "mediahub-os"
-        shutil.copytree(source, staging, ignore=shutil.ignore_patterns(".git", ".mhx", "__pycache__"))
+        shutil.copytree(source, staging, ignore=shutil.ignore_patterns(".git", ".mhx", "__pycache__"), symlinks=False)
         (staging / "release-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-        with tarfile.open(archive, "w:gz") as tf: tf.add(staging, arcname="mediahub-os")
+        with tarfile.open(archive, "w:gz") as tf: tf.add(staging, arcname="mediahub-os", recursive=True)
     manifest["package"] = archive.name; manifest["package_sha256"] = digest(archive)
     (outdir / f"mediahub-os-{release}.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(manifest, indent=2)); return 0
