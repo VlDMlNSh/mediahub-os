@@ -18,6 +18,7 @@ from .in_memory_state import (
     InvalidCheckpoint,
     InvalidTransaction,
     MalformedState,
+    SelfTestFailure,
     StaleTransaction,
     Transaction,
 )
@@ -47,6 +48,7 @@ __all__ = [
     "Proposal",
     "ProposalAuthority",
     "RuntimeInvariantError",
+    "SelfTestFailure",
     "StaleTransaction",
     "StateAuthority",
     "Transaction",
