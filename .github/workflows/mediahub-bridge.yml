@@ -52,7 +52,7 @@ jobs:
         shell: bash
         run: |
           set -eu
-          PYTHONPATH=runtime:. python3 -m unittest discover -s tests -p 'test_*.py' -v
+          PYTHONPATH=runtime:. python3 -m unittest discover -s tests -t . -p 'test_*.py' -v
 
       - name: Final bridge state
         if: ${{ always() }}
