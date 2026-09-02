@@ -59,7 +59,6 @@ __all__ = [
     "SelfTestFailure",
     "StaleTransaction",
     "StateAuthority",
-    "StaleTransaction",
     "Transaction",
     "make_event",
     "sanitize_fields",
