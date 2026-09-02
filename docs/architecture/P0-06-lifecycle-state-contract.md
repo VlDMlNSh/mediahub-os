@@ -1,13 +1,14 @@
 # P0-06 — Lifecycle State Contract v1.0
 
-**Status:** DRAFT — GOVERNANCE REVIEW REQUIRED
+**Status:** ACCEPTED — IMPLEMENTATION AUTHORIZED
 **Depends on:** P0-04 State Authority (ACCEPTED / FROZEN); P0-05 Consumer Boundary (ACCEPTED / FROZEN); P0-06 Core Runtime Services Contract v1.1
+**Governance acceptance:** P0-06 Governance Acceptance v1.1
 
 ## 1. Purpose
 
 Define the canonical representation and transition semantics for runtime lifecycle state without modifying P0-04 State Authority semantics.
 
-This document is a P0-06 domain-state contract. It does not authorize implementation or persistence.
+This document is a P0-06 domain-state contract. It does not authorize implementation outside the accepted P0-06 scope or authorize persistence.
 
 ## 2. Canonical representation
 
@@ -72,6 +73,8 @@ validate transition relation
         ↓
 begin authorized P0-05 transaction
         ↓
+re-check the authoritative revision
+        ↓
 update candidate payload.lifecycle.state
         ↓
 commit through P0-05 / P0-04
@@ -87,11 +90,15 @@ The lifecycle transaction inherits P0-04/P0-05 generation and freshness semantic
 
 If the authoritative state changes after the transaction begins, commit MUST fail closed according to the existing stale-transaction contract. No implicit rebase or last-writer-wins behavior is permitted.
 
+The service additionally rejects a revision change observed between its initial read and transaction establishment rather than rebasing the request onto newer state.
+
 ## 7. Authorization
 
 Lifecycle mutation requires explicit authorization through the P0-05 boundary.
 
-P0-06 MUST NOT create or self-grant a capability. The exact capability identifier and grant policy must be defined by the P0-06 authorization decision before implementation acceptance.
+The accepted capability identifier is `runtime.lifecycle.transition`.
+
+P0-06 MUST NOT create or self-grant a capability. The underlying P0-04 authorization policy remains the authority for operation grants.
 
 Unauthenticated or insufficiently authorized lifecycle requests MUST be rejected without state mutation.
 
@@ -102,7 +109,7 @@ Lifecycle input MUST be bounded and value-semantic.
 The accepted request consists only of:
 
 - one allowed lifecycle target value;
-- one explicit `AuthorizationContext`.
+- one explicit `AuthorizationContext` carrying the accepted capability identifier.
 
 No callback, arbitrary object, executable proposal, transaction handle supplied by a caller, filesystem path, network target, or persistence instruction is part of this contract.
 
@@ -126,4 +133,4 @@ This contract authorizes no persistence, network access, filesystem mutation, su
 
 ## 12. Acceptance rule
 
-This document remains non-authoritative until governance explicitly accepts it. Implementation relying on lifecycle semantics not defined here is outside the controlled P0-06 scope.
+This document is authoritative for P0-06 lifecycle semantics within the accepted implementation scope. Any change to the transition relation or authorization contract requires a new governance decision before implementation.
