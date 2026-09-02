@@ -1,7 +1,7 @@
 import pytest
 
 from mediahub_runtime.authorization import AuthorizationContext, AuthorizationPolicy
-from mediahub_runtime.consumer_boundary import ConsumerBoundary, ConsumerBoundaryError
+from mediahub_runtime.consumer_boundary import ConsumerBoundary, ConsumerBoundaryError, ConsumerTransaction
 from mediahub_runtime.generation import Generation
 from mediahub_runtime.in_memory_state import InMemoryStateAuthority
 from mediahub_runtime.proposals import Proposal
@@ -96,8 +96,18 @@ def test_ai_proposal_validation_has_no_mutation_path():
     assert not hasattr(boundary, "execute_proposal")
 
 
-def test_consumer_transaction_does_not_expose_authority_api():
+def test_consumer_transaction_is_opaque_and_does_not_expose_authority_api():
     boundary = make_boundary()
     tx = boundary.begin(request(boundary, "begin"))
+    assert isinstance(tx, ConsumerTransaction)
     assert not hasattr(tx, "commit")
     assert not hasattr(tx, "restore")
+    assert not hasattr(tx, "_authority_transaction")
+
+
+def test_forged_consumer_transaction_handle_fails_closed():
+    boundary = make_boundary()
+    forged = ConsumerTransaction("consumer-tx-999999")
+    with pytest.raises(ConsumerBoundaryError) as exc:
+        boundary.commit(request(boundary, "commit"), forged)
+    assert exc.value.code == "invalid_transaction"
