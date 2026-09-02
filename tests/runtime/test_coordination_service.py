@@ -11,7 +11,6 @@ from mediahub_runtime import (
     LifecycleState,
     RuntimeCoordinationService,
 )
-from mediahub_runtime.consumer_boundary import ConsumerBoundaryError
 from mediahub_runtime.coordination_service import (
     CoordinationRequest,
     CoordinationResult,
@@ -93,7 +92,7 @@ def test_sequence_requires_explicit_tuple_and_stops_on_failure():
     with pytest.raises(CoordinationServiceError) as exc:
         coordinator.coordinate_sequence((first, second))
 
-    assert exc.value.code == "invalid_request"
+    assert exc.value.code == "operation_rejected"
     assert authority.read().payload["lifecycle"]["state"] == LifecycleState.INITIALIZING.value
 
 
