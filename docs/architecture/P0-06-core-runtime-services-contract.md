@@ -1,4 +1,4 @@
-# P0-06 — Core Runtime Services Contract v1.0
+# P0-06 — Core Runtime Services Contract v1.1
 
 **Status:** ACCEPTED — IMPLEMENTATION AUTHORIZED
 **Depends on:** P0-06 Core Runtime Services Boundary v1.0; P0-05 Consumer Contract (ACCEPTED / FROZEN)
@@ -41,13 +41,23 @@ Services MUST NOT self-grant capabilities or reinterpret P0-04 generation/versio
 
 ### Responsibility
 
-Provide a controlled runtime lifecycle operation surface using the approved deterministic transition contract.
+Provide a controlled runtime lifecycle operation surface using the approved deterministic transition relation.
+
+### Authoritative-state rule
+
+The lifecycle transition relation is a validation mechanism, not an independent canonical state store.
+
+The authoritative lifecycle state MUST be represented in P0-04 State Authority state. The Lifecycle Service MUST NOT maintain a second authoritative lifecycle value and MUST NOT publish a lifecycle transition by mutating its local transition validator.
+
+The existing `LifecycleStateMachine` is therefore treated as a deterministic transition validator/compatibility primitive. Its mutable state MUST NOT be used as an authoritative publication source for P0-06.
 
 ### Required behavior
 
 - validate requested transition against the allowed transition relation;
+- obtain the current authoritative lifecycle state through the P0-05 boundary;
 - reject invalid transitions without partial state publication;
 - construct only explicitly authorized P0-05 requests;
+- publish the lifecycle value only through P0-05 / P0-04;
 - preserve State Authority generation/version semantics;
 - propagate failure without hidden retry or rebasing.
 
@@ -55,6 +65,8 @@ Provide a controlled runtime lifecycle operation surface using the approved dete
 
 - second lifecycle canonical store;
 - direct State Authority mutation;
+- treating a local `LifecycleStateMachine.state` as authoritative;
+- mutating a local validator before authoritative commit;
 - implicit transition recovery;
 - last-writer-wins publication;
 - hidden persistence.
