@@ -37,7 +37,7 @@ jobs:
         shell: bash
         run: |
           set -eu
-          expected='9149ba7847c58e8078664f6512852b64adc8777c'
+          expected='d9b5c9db128d8ec75dae6fbd03b5d54950bdddf5'
           actual="$(git rev-parse HEAD)"
           test "$actual" = "$expected"
           echo "verified_commit=$actual"
