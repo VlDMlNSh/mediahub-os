@@ -1,4 +1,4 @@
-"""Deterministic appliance lifecycle state machine."""
+"""Deterministic lifecycle transition validator for P0-06."""
 
 from enum import Enum
 
@@ -17,17 +17,21 @@ class LifecycleState(str, Enum):
 
 _TRANSITIONS = {
     LifecycleState.PROVISIONING: {LifecycleState.INITIALIZING},
-    LifecycleState.INITIALIZING: {LifecycleState.SELF_TEST, LifecycleState.SAFE_MODE},
-    LifecycleState.SELF_TEST: {LifecycleState.READY, LifecycleState.SAFE_MODE},
-    LifecycleState.READY: {LifecycleState.DEGRADED, LifecycleState.SAFE_MODE, LifecycleState.RECOVERY},
-    LifecycleState.DEGRADED: {LifecycleState.READY, LifecycleState.SAFE_MODE, LifecycleState.RECOVERY},
+    LifecycleState.INITIALIZING: {LifecycleState.SELF_TEST},
+    LifecycleState.SELF_TEST: {
+        LifecycleState.READY,
+        LifecycleState.DEGRADED,
+        LifecycleState.SAFE_MODE,
+    },
+    LifecycleState.READY: {LifecycleState.DEGRADED, LifecycleState.SAFE_MODE},
+    LifecycleState.DEGRADED: {LifecycleState.READY, LifecycleState.SAFE_MODE},
     LifecycleState.SAFE_MODE: {LifecycleState.RECOVERY},
-    LifecycleState.RECOVERY: {LifecycleState.SELF_TEST, LifecycleState.SAFE_MODE},
+    LifecycleState.RECOVERY: {LifecycleState.INITIALIZING},
 }
 
 
 class LifecycleStateMachine:
-    """State machine that permits only explicit fail-closed transitions."""
+    """Isolated deterministic validator; never canonical state authority."""
 
     def __init__(self, initial=LifecycleState.PROVISIONING):
         self._state = LifecycleState(initial)
@@ -47,11 +51,4 @@ class LifecycleStateMachine:
         return self._state
 
     def enter_safe_mode(self):
-        if self._state == LifecycleState.SAFE_MODE:
-            return self._state
-        if LifecycleState.SAFE_MODE not in _TRANSITIONS.get(self._state, set()):
-            raise InvalidStateTransition(
-                "cannot enter SAFE_MODE from {}".format(self._state.value)
-            )
-        self._state = LifecycleState.SAFE_MODE
-        return self._state
+        return self.transition(LifecycleState.SAFE_MODE)
