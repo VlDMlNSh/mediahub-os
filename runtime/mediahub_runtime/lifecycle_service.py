@@ -1,4 +1,4 @@
-"""P0-06 lifecycle service over the frozen consumer boundary."""
+"""P0-06 lifecycle service boundary."""
 
 from dataclasses import dataclass
 
@@ -16,7 +16,7 @@ class LifecycleRequest:
 
 
 class LifecycleService:
-    """Coordinates lifecycle transitions without becoming a state authority."""
+    """Coordinates lifecycle operations without owning canonical state."""
 
     def __init__(self, consumer_boundary, state_machine=None):
         if not isinstance(consumer_boundary, ConsumerBoundary):
@@ -36,26 +36,26 @@ class LifecycleService:
             raise ConsumerBoundaryError("invalid_request") from exc
         return LifecycleRequest(target, context)
 
-    @property
-    def state(self):
-        return self._machine.state
-
-    def transition(self, request):
-        """Validate lifecycle intent; publication remains explicitly gated.
-
-        The lifecycle state machine is consulted for transition validity only.
-        Actual lifecycle-state publication is intentionally not implemented
-        until the P0-06 contract defines its authoritative state mapping.
-        """
+    def validate_transition(self, request, current):
+        """Validate a transition without changing any state."""
         if not isinstance(request, LifecycleRequest):
             raise ConsumerBoundaryError("invalid_request")
         try:
+            current = LifecycleState(current)
             target = LifecycleState(request.target)
-        except (TypeError, ValueError) as exc:
-            raise ConsumerBoundaryError("invalid_request") from exc
-        current = self._machine.state
-        if target == current:
-            raise ConsumerBoundaryError("operation_rejected")
+            if current == target:
+                raise ConsumerBoundaryError("invalid_request")
+            validator = LifecycleStateMachine(initial=current)
+            return validator.transition(target)
+        except ConsumerBoundaryError:
+            raise
+        except Exception as exc:
+            raise ConsumerBoundaryError("operation_rejected") from exc
+
+    def transition(self, request):
+        """Fail closed until authoritative lifecycle-state storage is defined."""
+        if not isinstance(request, LifecycleRequest):
+            raise ConsumerBoundaryError("invalid_request")
         raise ConsumerBoundaryError("operation_rejected")
 
     def enter_safe_mode(self, context):
