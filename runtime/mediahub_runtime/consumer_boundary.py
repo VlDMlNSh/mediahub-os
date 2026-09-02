@@ -29,7 +29,7 @@ class OperationRequest:
 class ConsumerTransaction:
     """Opaque consumer handle; the authority transaction is never exposed."""
 
-    _authority_transaction: object
+    _handle: str
 
 
 class ConsumerBoundary:
@@ -47,6 +47,8 @@ class ConsumerBoundary:
     def __init__(self, authority, proposal_authority=None):
         self._authority = authority
         self._proposal_authority = proposal_authority or ProposalAuthority()
+        self._transactions = {}
+        self._next_handle = 1
 
     @staticmethod
     def request(operation, context):
@@ -63,7 +65,10 @@ class ConsumerBoundary:
         self._require_operation(request, "begin")
         try:
             tx = self._authority.begin(request.context, deepcopy(payload) if payload is not None else None)
-            return ConsumerTransaction(tx)
+            handle = "consumer-tx-{}".format(self._next_handle)
+            self._next_handle += 1
+            self._transactions[handle] = tx
+            return ConsumerTransaction(handle)
         except Exception as exc:
             raise self._sanitize(exc) from exc
 
@@ -78,7 +83,9 @@ class ConsumerBoundary:
         self._require_operation(request, "commit")
         tx = self._unwrap(transaction)
         try:
-            return self._authority.commit(tx)
+            result = self._authority.commit(tx)
+            self._transactions.pop(transaction._handle, None)
+            return result
         except Exception as exc:
             raise self._sanitize(exc) from exc
 
@@ -86,7 +93,9 @@ class ConsumerBoundary:
         self._require_operation(request, "abort")
         tx = self._unwrap(transaction)
         try:
-            return self._authority.abort(tx)
+            result = self._authority.abort(tx)
+            self._transactions.pop(transaction._handle, None)
+            return result
         except Exception as exc:
             raise self._sanitize(exc) from exc
 
@@ -116,11 +125,13 @@ class ConsumerBoundary:
         if not isinstance(request, OperationRequest) or request.operation != operation:
             raise ConsumerBoundaryError("invalid_request")
 
-    @staticmethod
-    def _unwrap(transaction):
+    def _unwrap(self, transaction):
         if not isinstance(transaction, ConsumerTransaction):
             raise ConsumerBoundaryError("invalid_transaction")
-        return transaction._authority_transaction
+        tx = self._transactions.get(transaction._handle)
+        if tx is None:
+            raise ConsumerBoundaryError("invalid_transaction")
+        return tx
 
     @classmethod
     def _sanitize(cls, exc):
