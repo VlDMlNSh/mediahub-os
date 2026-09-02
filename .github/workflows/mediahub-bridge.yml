@@ -52,7 +52,7 @@ jobs:
         shell: bash
         run: |
           set -eu
-          files='runtime/mediahub_runtime/lifecycle.py runtime/mediahub_runtime/coordination_service.py'
+          files='runtime/mediahub_runtime/lifecycle.py runtime/mediahub_runtime/lifecycle_service.py runtime/mediahub_runtime/coordination_service.py'
           if grep -nE '(^|[[:space:]])(import|from)[[:space:]]+(subprocess|socket|requests|urllib|http\.client)([[:space:]]|$)' $files; then
             echo 'forbidden external-execution-or-network import detected'
             exit 1
@@ -61,8 +61,8 @@ jobs:
             echo 'forbidden execution capability detected'
             exit 1
           fi
-          if grep -nE 'StateAuthority|InMemoryStateAuthority|_authority|\.execute\(|run_command' runtime/mediahub_runtime/coordination_service.py; then
-            echo 'coordination authority/execution bypass detected'
+          if grep -nE 'StateAuthority|InMemoryStateAuthority|_authority|\.execute\(|run_command' runtime/mediahub_runtime/lifecycle_service.py runtime/mediahub_runtime/coordination_service.py; then
+            echo 'authority/execution bypass detected'
             exit 1
           fi
           echo 'security_capability_scan=PASS'
@@ -71,7 +71,7 @@ jobs:
         shell: bash
         run: |
           set -eu
-          files='runtime/mediahub_runtime/lifecycle.py runtime/mediahub_runtime/coordination_service.py'
+          files='runtime/mediahub_runtime/lifecycle.py runtime/mediahub_runtime/lifecycle_service.py runtime/mediahub_runtime/coordination_service.py'
           if grep -nE '(^|[[:space:]])(import|from)[[:space:]]+(sqlite3|sqlalchemy|shelve|dbm|pickle)([[:space:]]|$)' $files; then
             echo 'persistence/unsafe-serialization import detected'
             exit 1
@@ -86,7 +86,7 @@ jobs:
         shell: bash
         run: |
           set -eu
-          PYTHONPATH=runtime:. python3 -m unittest discover -s tests -t . -p 'test_*.py' -v
+          PYTHONPATH=runtime:. python3 -m pytest tests/ -v
 
       - name: Final bridge state
         if: ${{ always() }}
