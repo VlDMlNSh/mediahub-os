@@ -46,7 +46,41 @@ jobs:
         shell: bash
         run: |
           set -eu
-          PYTHONPATH=runtime:. python3 -m unittest tests.runtime.test_lifecycle_service tests.runtime.test_coordination_service -v
+          PYTHONPATH=runtime:. python3 -m pytest tests/runtime/test_lifecycle_service.py tests/runtime/test_coordination_service.py -v
+
+      - name: Security and capability scan
+        shell: bash
+        run: |
+          set -eu
+          files='runtime/mediahub_runtime/lifecycle.py runtime/mediahub_runtime/coordination_service.py'
+          if grep -nE '(^|[[:space:]])(import|from)[[:space:]]+(subprocess|socket|requests|urllib|http\.client)([[:space:]]|$)' $files; then
+            echo 'forbidden external-execution-or-network import detected'
+            exit 1
+          fi
+          if grep -nE '(subprocess\.|socket\.|os\.system|os\.popen|Popen\(|check_output\(|check_call\(|create_subprocess|exec\(|eval\()' $files; then
+            echo 'forbidden execution capability detected'
+            exit 1
+          fi
+          if grep -nE 'StateAuthority|InMemoryStateAuthority|_authority|\.execute\(|run_command' runtime/mediahub_runtime/coordination_service.py; then
+            echo 'coordination authority/execution bypass detected'
+            exit 1
+          fi
+          echo 'security_capability_scan=PASS'
+
+      - name: Persistence scan
+        shell: bash
+        run: |
+          set -eu
+          files='runtime/mediahub_runtime/lifecycle.py runtime/mediahub_runtime/coordination_service.py'
+          if grep -nE '(^|[[:space:]])(import|from)[[:space:]]+(sqlite3|sqlalchemy|shelve|dbm|pickle)([[:space:]]|$)' $files; then
+            echo 'persistence/unsafe-serialization import detected'
+            exit 1
+          fi
+          if grep -nE '(sqlite3\.|create_engine\(|open\(|write_text\(|write_bytes\(|\.write\(|shelve\.|dbm\.)' $files; then
+            echo 'filesystem/persistence capability detected'
+            exit 1
+          fi
+          echo 'persistence_scan=PASS'
 
       - name: Full regression
         shell: bash
