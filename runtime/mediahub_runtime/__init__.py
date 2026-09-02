@@ -24,6 +24,7 @@ from .in_memory_state import (
     Transaction,
 )
 from .lifecycle import LifecycleState, LifecycleStateMachine
+from .lifecycle_service import LifecycleRequest, LifecycleService
 from .proposals import Proposal, ProposalAuthority
 from .state import StateAuthority
 
@@ -46,6 +47,8 @@ __all__ = [
     "InvalidCheckpoint",
     "InvalidStateTransition",
     "InvalidTransaction",
+    "LifecycleRequest",
+    "LifecycleService",
     "LifecycleState",
     "LifecycleStateMachine",
     "MalformedState",
@@ -56,6 +59,7 @@ __all__ = [
     "SelfTestFailure",
     "StaleTransaction",
     "StateAuthority",
+    "StaleTransaction",
     "Transaction",
     "make_event",
     "sanitize_fields",
