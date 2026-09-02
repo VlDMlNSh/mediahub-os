@@ -1,6 +1,5 @@
 """Controlled P0-05 consumer boundary around the frozen State Authority."""
 
-from copy import deepcopy
 from dataclasses import dataclass
 
 from .authorization import AuthorizationContext
@@ -35,6 +34,12 @@ class ConsumerTransaction:
 class ConsumerBoundary:
     """Narrow facade preserving State Authority exclusivity and fail-closed access."""
 
+    _MAX_DEPTH = 8
+    _MAX_NODES = 512
+    _MAX_STRING = 4096
+    _MAX_KEY_LENGTH = 128
+    _MAX_KEYS = 64
+
     _SANITIZED = {
         AuthorizationDenied: "authorization_denied",
         GenerationMismatch: "stale_generation",
@@ -64,7 +69,8 @@ class ConsumerBoundary:
     def begin(self, request, payload=None):
         self._require_operation(request, "begin")
         try:
-            tx = self._authority.begin(request.context, deepcopy(payload) if payload is not None else None)
+            candidate = self._safe_payload_copy(payload) if payload is not None else None
+            tx = self._authority.begin(request.context, candidate)
             handle = "consumer-tx-{}".format(self._next_handle)
             self._next_handle += 1
             self._transactions[handle] = tx
@@ -75,7 +81,7 @@ class ConsumerBoundary:
     def update(self, transaction, payload):
         tx = self._unwrap(transaction)
         try:
-            tx.set_payload(deepcopy(payload))
+            tx.set_payload(self._safe_payload_copy(payload))
         except Exception as exc:
             raise self._sanitize(exc) from exc
 
@@ -119,6 +125,40 @@ class ConsumerBoundary:
             return self._proposal_authority.validate(proposal, now)
         except Exception as exc:
             raise ConsumerBoundaryError("proposal_rejected") from exc
+
+    @classmethod
+    def _safe_payload_copy(cls, value, depth=0, budget=None):
+        """Bounded copy of the only payload types accepted by State Authority."""
+        budget = [0] if budget is None else budget
+        budget[0] += 1
+        if budget[0] > cls._MAX_NODES or depth > cls._MAX_DEPTH:
+            raise ConsumerBoundaryError("operation_rejected")
+
+        value_type = type(value)
+        if value is None or value_type is bool or value_type is int:
+            return value
+        if value_type is float:
+            if value != value or value in (float("inf"), float("-inf")):
+                raise ConsumerBoundaryError("operation_rejected")
+            return value
+        if value_type is str:
+            if len(value) > cls._MAX_STRING:
+                raise ConsumerBoundaryError("operation_rejected")
+            return value
+        if value_type is list:
+            return [cls._safe_payload_copy(item, depth + 1, budget) for item in value]
+        if value_type is tuple:
+            return tuple(cls._safe_payload_copy(item, depth + 1, budget) for item in value)
+        if value_type is dict:
+            if len(value) > cls._MAX_KEYS:
+                raise ConsumerBoundaryError("operation_rejected")
+            result = {}
+            for key, item in value.items():
+                if type(key) is not str or len(key) > cls._MAX_KEY_LENGTH:
+                    raise ConsumerBoundaryError("operation_rejected")
+                result[key] = cls._safe_payload_copy(item, depth + 1, budget)
+            return result
+        raise ConsumerBoundaryError("operation_rejected")
 
     @staticmethod
     def _require_operation(request, operation):
