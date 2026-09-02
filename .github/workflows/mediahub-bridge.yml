@@ -37,7 +37,7 @@ jobs:
         shell: bash
         run: |
           set -eu
-          expected='6191a6f56892d4aeb1444d04420a3665b989b896'
+          expected='9149ba7847c58e8078664f6512852b64adc8777c'
           actual="$(git rev-parse HEAD)"
           test "$actual" = "$expected"
           echo "verified_commit=$actual"
@@ -46,7 +46,7 @@ jobs:
         shell: bash
         run: |
           set -eu
-          PYTHONPATH=runtime:. python3 -m unittest tests.runtime.test_lifecycle_service -v
+          PYTHONPATH=runtime:. python3 -m unittest tests.runtime.test_lifecycle_service tests.runtime.test_coordination_service -v
 
       - name: Full regression
         shell: bash
