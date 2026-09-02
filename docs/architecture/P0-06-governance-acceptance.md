@@ -1,44 +1,51 @@
-# P0-06 — Governance Acceptance v1.0
+# P0-06 — Governance Acceptance v1.1
 
-**Status:** ACCEPTED — IMPLEMENTATION AUTHORIZED
+**Status:** ACCEPTED — IMPLEMENTATION AUTHORIZATION SUSPENDED PENDING RECONFIRMATION
 
 ## Scope
 
-This acceptance covers the P0-06 Core Runtime Services architecture and implementation entry gate. It does not constitute production qualification and does not freeze an implementation that does not yet exist.
+The original P0-06 governance acceptance authorized controlled implementation against the then-accepted P0-06 artifacts. The P0-06 service contract has subsequently been refined to v1.1 and a new Lifecycle State Contract v1.0 has been introduced to make canonical lifecycle representation and publication semantics explicit.
 
-## Accepted baseline
+Because the original acceptance authorized implementation only against the exact accepted artifacts, implementation authorization is suspended until governance reconfirms the revised contract set.
+
+## Frozen baseline
 
 - P0-04 State Authority: ACCEPTED / FROZEN.
 - P0-05 Consumer Boundary: ACCEPTED / FROZEN.
-- P0-06 architecture boundary: ACCEPTED.
-- P0-06 service contract: ACCEPTED.
-- P0-06 threat model: ACCEPTED.
-- P0-06 threat-to-test traceability: ACCEPTED.
-- P0-06 implementation entry gate: ACCEPTED.
-- P0-06 governance decision packet: ACCEPTED.
+- P0-04/P0-05 semantics are unchanged.
 
-## Acceptance findings
+## Revised P0-06 artifacts requiring reconfirmation
 
-1. P0-06 preserves P0-04 as the sole canonical mutation authority.
-2. P0-06 preserves P0-05 as the mandatory consumer authorization/integration boundary.
-3. Lifecycle behavior is constrained by a deterministic approved transition contract; no historical implementation of a lifecycle state machine is asserted by this acceptance.
-4. Health/readiness and diagnostics remain observation-oriented and bounded.
-5. AI proposals remain inert until explicit authorization.
-6. Plugin interaction remains capability-scoped; the full plugin subsystem is not authorized.
-7. Stale/freshness and generation semantics remain inherited from P0-04/P0-05.
-8. Persistence and external execution capabilities remain excluded.
-9. Required security threats have explicit verification paths.
-10. Implementation scope is sufficiently constrained to authorize controlled implementation.
+- P0-06 architecture boundary: previously accepted.
+- P0-06 Core Runtime Services Contract: v1.1.
+- P0-06 Lifecycle State Contract: v1.0, DRAFT — GOVERNANCE REVIEW REQUIRED.
+- P0-06 threat model: previously accepted.
+- P0-06 threat-to-test traceability: previously accepted.
+- P0-06 implementation entry gate: previously accepted, but implementation authorization is suspended by this document.
+- P0-06 governance decision packet: previously accepted, but its authorization is superseded by this suspension pending reconfirmation.
 
-## Decision
+## Reason for suspension
 
-**IMPLEMENTATION AUTHORIZED.**
+The v1.1 service contract introduces an explicit authoritative lifecycle-state rule: lifecycle state belongs in P0-04 canonical state and the existing `LifecycleStateMachine` is validation-only. The new Lifecycle State Contract further specifies the representation, transition relation, atomic publication sequence, and authorization requirement.
 
-The authorization is limited to the exact accepted P0-06 documents and their stated exclusions. Any authority-boundary change, persistence introduction, external execution, network/filesystem mutation, autonomous AI mutation, or P0-04/P0-05 semantic change requires a new governance decision.
+This is a controlled clarification of the P0-06 boundary, not a modification of P0-04 or P0-05. Nevertheless, the original governance decision was explicitly limited to the exact accepted documents, so the revised artifacts require explicit governance reconfirmation before implementation proceeds.
 
-## Implementation acceptance remains separate
+## Current decision
 
-This document does not approve implementation quality. After implementation, a separate P0-06 implementation acceptance must establish targeted tests, full regression, negative security evidence, capability scans, persistence scans, exact commit identity, clean state, and remote synchronization.
+**IMPLEMENTATION AUTHORIZATION: SUSPENDED PENDING GOVERNANCE RECONFIRMATION.**
+
+No substantive P0-06 implementation is authorized from this state. The existing lifecycle service boundary stub remains non-authoritative and fail-closed; it must not be treated as accepted implementation.
+
+## Required reconfirmation scope
+
+Governance reconfirmation must explicitly accept or reject:
+
+1. P0-06 Core Runtime Services Contract v1.1.
+2. P0-06 Lifecycle State Contract v1.0.
+3. The use of P0-04 `CanonicalState.payload.lifecycle.state` as the canonical lifecycle representation.
+4. The deterministic transition relation defined by the Lifecycle State Contract.
+5. The requirement that lifecycle publication occur only through P0-05 / P0-04 transaction semantics.
+6. The exact lifecycle mutation capability identifier and authorization policy.
 
 ## Production status
 
