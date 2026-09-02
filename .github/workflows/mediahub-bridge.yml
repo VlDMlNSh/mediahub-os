@@ -1,0 +1,67 @@
+name: MediaHub bridge
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bridge:
+    name: mh-dev-01 bridge smoke
+    runs-on: [self-hosted, mediahub-dev]
+    timeout-minutes: 30
+    steps:
+      - name: Checkout fixed verification target
+        uses: actions/checkout@v4
+        with:
+          ref: implementation/p0-06-core-runtime-services
+          fetch-depth: 1
+
+      - name: Probe runner and repository
+        shell: bash
+        run: |
+          set -eu
+          echo '=== MEDIAHUB BRIDGE ==='
+          echo "host=$(hostname)"
+          echo "user=$(id -un)"
+          echo "kernel=$(uname -sr)"
+          echo "arch=$(uname -m)"
+          echo "repo=$(git remote get-url origin)"
+          echo "branch=$(git branch --show-current)"
+          echo "commit=$(git rev-parse HEAD)"
+          echo '=== WORKTREE ==='
+          git status --short
+
+      - name: Verify fixed P0-06 target
+        shell: bash
+        run: |
+          set -eu
+          expected='6191a6f56892d4aeb1444d04420a3665b989b896'
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$expected"
+          echo "verified_commit=$actual"
+
+      - name: Targeted runtime tests
+        shell: bash
+        run: |
+          set -eu
+          PYTHONPATH=runtime python3 -m unittest tests.runtime.test_lifecycle_service -v
+
+      - name: Full regression
+        shell: bash
+        run: |
+          set -eu
+          PYTHONPATH=runtime python3 -m unittest discover -s tests -p 'test_*.py' -v
+
+      - name: Final bridge state
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -u
+          echo '=== BRIDGE RESULT ==='
+          echo "host=$(hostname)"
+          echo "user=$(id -un)"
+          echo "commit=$(git rev-parse HEAD 2>/dev/null || echo unavailable)"
+          echo 'worktree:'
+          git status --short 2>/dev/null || true
