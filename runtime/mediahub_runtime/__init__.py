@@ -2,6 +2,12 @@
 
 from .authorization import AuthorizationContext, AuthorizationDecision, AuthorizationPolicy
 from .consumer_boundary import ConsumerBoundary, ConsumerBoundaryError, ConsumerTransaction, OperationRequest
+from .coordination_service import (
+    CoordinationRequest,
+    CoordinationResult,
+    CoordinationServiceError,
+    RuntimeCoordinationService,
+)
 from .diagnostics import DiagnosticEvent, make_event, sanitize_fields
 from .errors import (
     AuthorizationDenied,
@@ -38,6 +44,9 @@ __all__ = [
     "ConsumerBoundary",
     "ConsumerBoundaryError",
     "ConsumerTransaction",
+    "CoordinationRequest",
+    "CoordinationResult",
+    "CoordinationServiceError",
     "DiagnosticEvent",
     "ExpiredProposal",
     "Generation",
@@ -55,6 +64,7 @@ __all__ = [
     "OperationRequest",
     "Proposal",
     "ProposalAuthority",
+    "RuntimeCoordinationService",
     "RuntimeInvariantError",
     "SelfTestFailure",
     "StaleTransaction",
