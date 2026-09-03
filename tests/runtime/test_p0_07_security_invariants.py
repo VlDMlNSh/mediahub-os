@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+import math
 
 import pytest
 
@@ -52,10 +53,24 @@ def test_proposal_cannot_escape_p0_07_capability_inventory():
         )
 
 
-def test_proposal_metadata_is_bounded():
+def test_proposal_metadata_is_bounded_at_p0_07_boundary():
+    boundary = ProposalPluginBoundary()
+    context = AuthorizationContext("ai", "configuration.propose")
     for field in ("proposal_id", "requested_action", "target", "generation"):
         with pytest.raises(ValueError):
-            _proposal(**{field: "x" * 129})
+            boundary.accept_proposal(
+                _proposal(**{field: "x" * 129}),
+                context,
+            )
+
+
+def test_proposal_confidence_must_be_finite_at_p0_07_boundary():
+    boundary = ProposalPluginBoundary()
+    context = AuthorizationContext("ai", "configuration.propose")
+    with pytest.raises(ValueError):
+        boundary.accept_proposal(_proposal(confidence=math.nan), context)
+    with pytest.raises(ValueError):
+        boundary.accept_proposal(_proposal(confidence=math.inf), context)
 
 
 def test_proposal_action_must_match_context_capability():
