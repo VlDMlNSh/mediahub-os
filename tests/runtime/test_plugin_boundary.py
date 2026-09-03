@@ -4,6 +4,8 @@ import pytest
 
 from mediahub_runtime.plugin_boundary import (
     MAX_PAYLOAD_DEPTH,
+    MAX_REQUEST_BYTES,
+    MAX_RESPONSE_BYTES,
     PluginBoundary,
     PluginBoundaryError,
     PluginRequest,
@@ -74,6 +76,28 @@ def test_boundary_rejects_non_finite_float():
             declaration,
             PluginRequest("example.plugin", "media.read", "read", {"x": float("inf")}),
         )
+
+
+def test_boundary_rejects_request_wire_size_limit():
+    boundary = PluginBoundary()
+    declaration = boundary.declare_capabilities(boundary.validate_manifest(manifest()))
+    payload = {"items": ["x" * 4096 for _ in range(MAX_REQUEST_BYTES // 4096 + 1)]}
+    with pytest.raises(PluginBoundaryError, match="payload_limit_exceeded"):
+        boundary.validate_request(
+            declaration,
+            PluginRequest("example.plugin", "media.read", "read", payload),
+        )
+
+
+def test_observation_rejects_response_wire_size_limit():
+    payload = {"items": ["x" * 4096 for _ in range(MAX_RESPONSE_BYTES // 4096 + 1)]}
+    with pytest.raises(PluginBoundaryError, match="payload_limit_exceeded"):
+        PluginBoundary().observation("example.plugin", "read", payload)
+
+
+def test_observation_rejects_oversized_operation():
+    with pytest.raises(PluginBoundaryError, match="observation_rejected"):
+        PluginBoundary().observation("example.plugin", "x" * 129, {})
 
 
 def test_observation_is_inert_and_bounded():
