@@ -60,7 +60,7 @@ class ConfigurationPolicyAuthorization:
                 raise ValueError("capability is not authorized by P0-07")
             if operation not in P0_07_OPERATIONS:
                 raise ValueError("operation is not authorized by P0-07")
-            if capability.rsplit(".", 1)[-1] != operation and operation != "read":
+            if capability.rsplit(".", 1)[-1] != operation:
                 raise ValueError("capability and operation do not match")
 
     def decide(self, context: AuthorizationContext, operation: str) -> bool:
