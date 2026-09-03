@@ -10,10 +10,11 @@ from mediahub_runtime.proposal_plugin_boundary import (
     ProposalPluginBoundary,
 )
 from mediahub_runtime.proposals import Proposal
+from mediahub_runtime.errors import ExpiredProposal
 
 
-def _proposal(action="configuration.propose", expires_delta=timedelta(minutes=5)):
-    return Proposal(
+def _proposal(action="configuration.propose", expires_delta=timedelta(minutes=5), **kwargs):
+    values = dict(
         proposal_id="p-1",
         requested_action=action,
         target="runtime",
@@ -21,6 +22,8 @@ def _proposal(action="configuration.propose", expires_delta=timedelta(minutes=5)
         generation="g-1",
         expires_at=datetime.now(timezone.utc) + expires_delta,
     )
+    values.update(kwargs)
+    return Proposal(**values)
 
 
 def test_proposal_boundary_is_inert():
@@ -33,8 +36,8 @@ def test_proposal_boundary_is_inert():
     assert not hasattr(boundary, "mutate")
 
 
-def test_expired_proposal_fails_closed():
-    with pytest.raises(Exception):
+def test_expired_proposal_fails_closed_with_typed_error():
+    with pytest.raises(ExpiredProposal):
         ProposalPluginBoundary().accept_proposal(
             _proposal(expires_delta=timedelta(seconds=-1)),
             AuthorizationContext("ai", "configuration.propose"),
@@ -45,6 +48,20 @@ def test_proposal_cannot_escape_p0_07_capability_inventory():
     with pytest.raises(PermissionError):
         ProposalPluginBoundary().accept_proposal(
             _proposal("shell.execute"),
+            AuthorizationContext("ai", "configuration.propose"),
+        )
+
+
+def test_proposal_metadata_is_bounded():
+    for field in ("proposal_id", "requested_action", "target", "generation"):
+        with pytest.raises(ValueError):
+            _proposal(**{field: "x" * 129})
+
+
+def test_proposal_action_must_match_context_capability():
+    with pytest.raises(PermissionError):
+        ProposalPluginBoundary().accept_proposal(
+            _proposal("configuration.update"),
             AuthorizationContext("ai", "configuration.propose"),
         )
 
