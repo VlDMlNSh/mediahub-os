@@ -11,6 +11,11 @@ from .configuration_policy import (
     validate_policy,
 )
 from .configuration_policy_authorization import P0_07_CAPABILITIES, ConfigurationPolicyAuthorization
+from .configuration_policy_operations import (
+    ConfigurationPolicyOperationBoundary,
+    ConfigurationPolicyOperationDecision,
+    ConfigurationPolicyOperationRequest,
+)
 from .consumer_boundary import ConsumerBoundary, ConsumerBoundaryError, ConsumerTransaction, OperationRequest
 from .coordination_service import (
     CoordinationRequest,
@@ -55,6 +60,9 @@ __all__ = [
     "Configuration",
     "ConfigurationPolicyAuthorization",
     "ConfigurationPolicyError",
+    "ConfigurationPolicyOperationBoundary",
+    "ConfigurationPolicyOperationDecision",
+    "ConfigurationPolicyOperationRequest",
     "ConsumerBoundary",
     "ConsumerBoundaryError",
     "ConsumerTransaction",
