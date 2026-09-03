@@ -1,0 +1,121 @@
+name: MediaHub P0-08 verification
+
+on:
+  workflow_dispatch:
+    inputs:
+      verification_sha:
+        description: 'Exact P0-08 implementation commit SHA to verify'
+        required: true
+        default: '9829fd6c4cc104172167b88c8f95dd63b12ac9f2'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  p0-08-verification:
+    name: P0-08 exact-head verification
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact P0-08 verification commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.verification_sha }}
+          fetch-depth: 1
+
+      - name: Verify runner, repository, exact head, and clean worktree
+        shell: bash
+        run: |
+          set -eu
+          test "$(id -un)" = "mediahub-runner"
+          test "$(id -u)" = "1001"
+          test "$(id -g)" = "1001"
+          test "$(hostname)" = "mh-dev-01"
+          if sudo -n true >/dev/null 2>&1; then
+            echo 'ERROR: runner has passwordless sudo capability'
+            exit 1
+          fi
+          expected='${{ inputs.verification_sha }}'
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$expected"
+          test -z "$(git status --short)"
+          echo "host=$(hostname)"
+          echo "user=$(id -un)"
+          echo "uid=$(id -u)"
+          echo "gid=$(id -g)"
+          echo "verified_commit=$actual"
+          echo 'worktree=clean'
+
+      - name: Verify frozen P0-03 through P0-07 layer integrity
+        shell: bash
+        run: |
+          set -eu
+          expected_p0_06_proposals='0fc1ea9b9f5e16ee4dae9bf25faf885f1b0d7a8a'
+          actual_p0_06_proposals="$(git rev-parse HEAD:runtime/mediahub_runtime/proposals.py)"
+          test "$actual_p0_06_proposals" = "$expected_p0_06_proposals"
+          echo "frozen_p0_06_proposals_blob=$actual_p0_06_proposals"
+          echo 'frozen_p0_06_proposals=UNCHANGED'
+
+      - name: Targeted P0-08 tests
+        shell: bash
+        run: |
+          set -eu
+          PYTHONPATH=runtime:. python3 -m pytest \
+            tests/runtime/test_plugin_manifest.py \
+            tests/runtime/test_plugin_capabilities.py \
+            tests/runtime/test_plugin_boundary.py \
+            tests/runtime/test_plugin_authorization.py \
+            tests/runtime/test_plugin_lifecycle.py \
+            tests/runtime/test_p0_08_lifecycle_security.py \
+            tests/runtime/test_plugin_resources.py \
+            tests/runtime/test_plugin_proposals.py \
+            tests/runtime/test_p0_08_security_invariants.py -v
+
+      - name: P0-08 forbidden capability scan
+        shell: bash
+        run: |
+          set -eu
+          files='runtime/mediahub_runtime/plugin_manifest.py runtime/mediahub_runtime/plugin_capabilities.py runtime/mediahub_runtime/plugin_boundary.py runtime/mediahub_runtime/plugin_authorization.py runtime/mediahub_runtime/plugin_lifecycle.py runtime/mediahub_runtime/plugin_resources.py runtime/mediahub_runtime/plugin_proposals.py'
+          if grep -nE '(^|[[:space:]])(import|from)[[:space:]]+(subprocess|socket|requests|urllib|http\.client|sqlite3|sqlalchemy|shelve|dbm|pickle|shutil)([[:space:]]|$)' $files; then
+            echo 'forbidden execution/network/persistence/unsafe-serialization import detected'
+            exit 1
+          fi
+          if grep -nE '(subprocess\.|socket\.|os\.system|os\.popen|Popen\(|check_output\(|check_call\(|create_subprocess|eval\(|exec\(|compile\(|open\()' $files; then
+            echo 'forbidden execution or external I/O capability detected'
+            exit 1
+          fi
+          if grep -nE '(sqlite3\.|create_engine\(|write_text\(|write_bytes\(|\.write\(|shelve\.|dbm\.|urlopen\(|requests\.)' $files; then
+            echo 'filesystem/persistence/network capability detected'
+            exit 1
+          fi
+          echo 'p0_08_capability_scan=PASS'
+          echo 'p0_08_persistence_scan=PASS'
+
+      - name: P0-08 authority binding scan
+        shell: bash
+        run: |
+          set -eu
+          if grep -RniE 'StateAuthority|CanonicalStore|PersistenceHandle|MutableState|Checkpoint|Transaction' runtime/mediahub_runtime/plugin_*.py; then
+            echo 'forbidden authority/persistence binding detected'
+            exit 1
+          fi
+          echo 'p0_08_authority_binding_scan=PASS'
+
+      - name: Full regression
+        shell: bash
+        run: |
+          set -eu
+          PYTHONPATH=runtime:. python3 -m pytest tests/ -v
+
+      - name: Final P0-08 verification state
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -u
+          echo '=== P0-08 VERIFICATION RESULT ==='
+          echo "host=$(hostname)"
+          echo "user=$(id -un)"
+          echo "commit=$(git rev-parse HEAD 2>/dev/null || echo unavailable)"
+          echo 'worktree:'
+          git status --short 2>/dev/null || true
