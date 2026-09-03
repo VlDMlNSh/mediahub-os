@@ -1,6 +1,15 @@
 """MediaHub OS runtime foundation."""
 
 from .authorization import AuthorizationContext, AuthorizationDecision, AuthorizationPolicy
+from .configuration_policy import (
+    Configuration,
+    ConfigurationPolicyError,
+    InvalidConfigurationPolicy,
+    Policy,
+    PolicyRule,
+    validate_configuration,
+    validate_policy,
+)
 from .consumer_boundary import ConsumerBoundary, ConsumerBoundaryError, ConsumerTransaction, OperationRequest
 from .coordination_service import (
     CoordinationRequest,
@@ -41,6 +50,8 @@ __all__ = [
     "AuthorizationDenied",
     "CanonicalState",
     "Checkpoint",
+    "Configuration",
+    "ConfigurationPolicyError",
     "ConsumerBoundary",
     "ConsumerBoundaryError",
     "ConsumerTransaction",
@@ -54,6 +65,7 @@ __all__ = [
     "InMemoryStateAuthority",
     "IntegrityFailure",
     "InvalidCheckpoint",
+    "InvalidConfigurationPolicy",
     "InvalidStateTransition",
     "InvalidTransaction",
     "LifecycleRequest",
@@ -62,6 +74,8 @@ __all__ = [
     "LifecycleStateMachine",
     "MalformedState",
     "OperationRequest",
+    "Policy",
+    "PolicyRule",
     "Proposal",
     "ProposalAuthority",
     "RuntimeCoordinationService",
@@ -72,5 +86,7 @@ __all__ = [
     "Transaction",
     "make_event",
     "sanitize_fields",
+    "validate_configuration",
     "validate_generation_compatibility",
+    "validate_policy",
 ]
