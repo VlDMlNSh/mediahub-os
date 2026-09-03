@@ -87,9 +87,10 @@ class ConfigurationPolicyOperationBoundary:
                 False, PolicyDecision(False, "capability denied"), "capability denied"
             )
 
+        canonical_operation = f"{request.resource_type}.{request.operation}"
         policy_decision = evaluate_policy(
             self._policy,
-            operation=request.operation,
+            operation=canonical_operation,
             resource=request.resource,
         )
         if not policy_decision.allowed:
