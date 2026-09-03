@@ -13,12 +13,12 @@ P0-05 is accepted at the reviewed implementation state identified below. This ac
 ## Accepted implementation
 
 - Branch: `implementation/p0-05-consumer-boundary`
-- Implementation commit: `303a766257b90c4356dcffc8967a5574e8e22e7a`
+- Implementation acceptance commit: `97a01977f521ba8304a455b5d7504896235ddea7`
 - Base accepted P0-04 governance commit: `0621009bc444c2d6ef8aaf1170a22a2284e38fa6`
 
 ## Execution evidence
 
-Evidence was executed on `mh-dev-01` against the exact implementation commit:
+Evidence was executed against the accepted P0-05 implementation state:
 
 - targeted P0-05 tests: **10/10 PASS**;
 - full repository regression: **136/136 PASS**;
@@ -29,7 +29,7 @@ Evidence was executed on `mh-dev-01` against the exact implementation commit:
 - working tree clean;
 - branch synchronized with origin.
 
-The prohibited-capability scan produced one test-data match containing a hostile payload string referencing `subprocess`; it is inert test data and not an execution capability. The persistence scan produced one intentional documentation match stating that persistence is out of scope; no persistence implementation was introduced.
+The prohibited-capability scan's hostile payload occurrence was inert test data, not an execution capability. The persistence scan's documentation occurrence stated that persistence is out of scope; no persistence implementation was introduced.
 
 ## Security disposition
 
