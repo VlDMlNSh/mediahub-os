@@ -7,6 +7,7 @@ mutation primitive, persistence request, or execution instruction.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from types import MappingProxyType
 from typing import Any, Mapping
 
 from mediahub_runtime.plugin_capabilities import CapabilityRequest
@@ -15,6 +16,16 @@ from mediahub_runtime.plugin_resources import ResourceLimitError, bounded_value_
 
 class PluginProposalError(ValueError):
     """Raised when an inert proposal is malformed or exceeds bounds."""
+
+
+def _freeze(value: Any) -> Any:
+    if type(value) is dict:
+        return MappingProxyType({key: _freeze(child) for key, child in value.items()})
+    if type(value) is list:
+        return tuple(_freeze(child) for child in value)
+    if type(value) is tuple:
+        return tuple(_freeze(child) for child in value)
+    return value
 
 
 @dataclass(frozen=True)
@@ -34,6 +45,7 @@ class InertPluginProposal:
             bounded_value_size(self.payload, max_depth=8, max_nodes=512)
         except ResourceLimitError as exc:
             raise PluginProposalError(str(exc)) from exc
+        object.__setattr__(self, "payload", _freeze(self.payload))
 
     @property
     def is_inert(self) -> bool:
@@ -44,13 +56,13 @@ class InertPluginProposal:
             "plugin_id": self.plugin_id,
             "capability": self.request.capability,
             "operation": self.request.operation,
-            "payload": dict(self.payload),
+            "payload": _thaw(self.payload),
         }
 
-    def __getattr__(self, name: str) -> Any:
-        if name in {
-            "execute", "commit", "authorize", "grant", "state_authority",
-            "persistence", "filesystem", "network", "subprocess",
-        }:
-            raise AttributeError(name)
-        raise AttributeError(name)
+
+def _thaw(value: Any) -> Any:
+    if isinstance(value, Mapping):
+        return {key: _thaw(child) for key, child in value.items()}
+    if type(value) is tuple:
+        return [_thaw(child) for child in value]
+    return value
