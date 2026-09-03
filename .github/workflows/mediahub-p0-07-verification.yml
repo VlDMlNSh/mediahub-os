@@ -2,6 +2,12 @@ name: MediaHub P0-07 verification
 
 on:
   workflow_dispatch:
+    inputs:
+      verification_sha:
+        description: 'Exact commit SHA to verify'
+        required: true
+        default: '249d9f4a604d20ba770b93f31e0db47af1f20228'
+        type: string
 
 permissions:
   contents: read
@@ -12,10 +18,10 @@ jobs:
     runs-on: [self-hosted, mediahub-runner]
     timeout-minutes: 30
     steps:
-      - name: Checkout exact P0-07 verification baseline
+      - name: Checkout exact P0-07 verification commit
         uses: actions/checkout@v4
         with:
-          ref: 249d9f4a604d20ba770b93f31e0db47af1f20228
+          ref: ${{ inputs.verification_sha }}
           fetch-depth: 1
 
       - name: Verify runner, repository, exact head, and clean worktree
@@ -30,7 +36,7 @@ jobs:
             echo 'ERROR: runner has passwordless sudo capability'
             exit 1
           fi
-          expected='249d9f4a604d20ba770b93f31e0db47af1f20228'
+          expected='${{ inputs.verification_sha }}'
           actual="$(git rev-parse HEAD)"
           test "$actual" = "$expected"
           test -z "$(git status --short)"
