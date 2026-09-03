@@ -6,7 +6,7 @@ on:
       verification_sha:
         description: 'Exact commit SHA to verify'
         required: true
-        default: '249d9f4a604d20ba770b93f31e0db47af1f20228'
+        default: '7c132c3728ae044ea3405c33a1adf26be0659d3f'
         type: string
 
 permissions:
@@ -90,7 +90,10 @@ jobs:
         shell: bash
         run: |
           set -eu
-          test "$(git rev-parse HEAD:runtime/mediahub_runtime/proposals.py)" = "$(git rev-parse 0fc1ea9b9f5e16ee4dae9bf25faf885f1b0d7a8a:runtime/mediahub_runtime/proposals.py)"
+          expected_proposals_blob='0fc1ea9b9f5e16ee4dae9bf25faf885f1b0d7a8a'
+          actual_proposals_blob="$(git rev-parse HEAD:runtime/mediahub_runtime/proposals.py)"
+          test "$actual_proposals_blob" = "$expected_proposals_blob"
+          echo "frozen_p0_06_proposals_blob=$actual_proposals_blob"
           echo 'frozen_p0_06_proposals=UNCHANGED'
 
       - name: Full regression
