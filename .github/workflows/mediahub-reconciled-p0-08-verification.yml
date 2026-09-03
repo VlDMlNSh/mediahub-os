@@ -9,7 +9,7 @@ on:
       verification_sha:
         description: 'Exact reconciliation commit SHA to verify'
         required: true
-        default: 'cae0f0098b49f9bae9476c8dd47a0acdd0a15f53'
+        default: 'cea9a7b249cb7f4c4157d7b4e49b9f00589be529'
         type: string
 
 permissions:
