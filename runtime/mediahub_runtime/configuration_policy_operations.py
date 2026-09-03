@@ -89,7 +89,7 @@ class ConfigurationPolicyOperationBoundary:
 
         policy_decision = evaluate_policy(
             self._policy,
-            operation=request.context.capability,
+            operation=request.operation,
             resource=request.resource,
         )
         if not policy_decision.allowed:
