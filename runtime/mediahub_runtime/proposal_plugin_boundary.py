@@ -24,6 +24,8 @@ class InertProposal:
             raise ValueError("invalid authorization context")
         if self.proposal.requested_action not in P0_07_CAPABILITIES:
             raise PermissionError("proposal action denied")
+        if self.context.capability != self.proposal.requested_action:
+            raise PermissionError("proposal capability mismatch")
 
 
 @dataclass(frozen=True)
