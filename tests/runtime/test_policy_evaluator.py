@@ -1,4 +1,4 @@
-from mediahub_runtime.configuration_policy import Policy, PolicyRule
+from mediahub_runtime.configuration_policy import MAX_IDENTIFIER_BYTES, Policy, PolicyRule
 from mediahub_runtime.policy_evaluator import PolicyDecision, evaluate_policy
 
 
@@ -60,6 +60,13 @@ def test_malformed_request_is_denied():
     assert evaluate_policy(policy, operation="", resource="runtime").allowed is False
     assert evaluate_policy(policy, operation="configuration.read", resource="").allowed is False
     assert evaluate_policy(object(), operation="configuration.read", resource="runtime").allowed is False
+
+
+def test_request_identifier_bounds_are_enforced():
+    policy = make_policy(PolicyRule("ALLOW", "configuration.read", "runtime"))
+    oversized = "x" * (MAX_IDENTIFIER_BYTES + 1)
+    assert evaluate_policy(policy, operation=oversized, resource="runtime").allowed is False
+    assert evaluate_policy(policy, operation="configuration.read", resource=oversized).allowed is False
 
 
 def test_wildcard_text_does_not_match():
