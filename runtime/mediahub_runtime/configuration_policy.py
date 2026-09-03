@@ -27,7 +27,6 @@ MAX_OBJECT_KEYS = 64
 MAX_POLICY_RULES = 64
 MAX_NAMESPACE_SCHEMA_BYTES = 128
 
-_ALLOWED_SCALARS = (type(None), bool, int, float, str)
 _SECRET_KEY_MARKERS = frozenset(
     {
         "password",
@@ -124,8 +123,13 @@ def _plain(value: Any) -> Any:
 
 def _document_size(value: Any) -> int:
     try:
-        encoded = json.dumps(_plain(value), ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")
-    except (TypeError, ValueError) as exc:
+        encoded = json.dumps(
+            _plain(value),
+            ensure_ascii=False,
+            separators=(",", ":"),
+            allow_nan=False,
+        ).encode("utf-8")
+    except (TypeError, ValueError):
         _fail("document is not JSON-compatible")
     if len(encoded) > DOCUMENT_MAX_BYTES:
         _fail("document exceeds allowed size")
@@ -150,8 +154,11 @@ class Configuration:
         _validate_string(self.scope, label="scope", limit=MAX_IDENTIFIER_BYTES)
         if self.scope != "device-local":
             _fail("only device-local scope is authorized")
-        frozen_metadata = _freeze_and_validate(self.metadata, depth=0, nodes=[0])
-        frozen_value = _freeze_and_validate(self.value, depth=0, nodes=[0])
+        if type(self.metadata) is not dict:
+            _fail("metadata must be a plain object")
+        nodes = [0]
+        frozen_metadata = _freeze_and_validate(self.metadata, depth=0, nodes=nodes)
+        frozen_value = _freeze_and_validate(self.value, depth=0, nodes=nodes)
         object.__setattr__(self, "metadata", frozen_metadata)
         object.__setattr__(self, "value", frozen_value)
         _document_size(
