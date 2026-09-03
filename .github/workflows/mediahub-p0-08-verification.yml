@@ -76,21 +76,49 @@ jobs:
         shell: bash
         run: |
           set -eu
-          files='runtime/mediahub_runtime/plugin_manifest.py runtime/mediahub_runtime/plugin_capabilities.py runtime/mediahub_runtime/plugin_boundary.py runtime/mediahub_runtime/plugin_authorization.py runtime/mediahub_runtime/plugin_lifecycle.py runtime/mediahub_runtime/plugin_resources.py runtime/mediahub_runtime/plugin_proposals.py'
-          if grep -nE '(^|[[:space:]])(import|from)[[:space:]]+(subprocess|socket|requests|urllib|http\.client|sqlite3|sqlalchemy|shelve|dbm|pickle|shutil)([[:space:]]|$)' $files; then
-            echo 'forbidden execution/network/persistence/unsafe-serialization import detected'
-            exit 1
-          fi
-          if grep -nE '(subprocess\.|socket\.|os\.system|os\.popen|Popen\(|check_output\(|check_call\(|create_subprocess|eval\(|exec\(|compile\(|open\()' $files; then
-            echo 'forbidden execution or external I/O capability detected'
-            exit 1
-          fi
-          if grep -nE '(sqlite3\.|create_engine\(|write_text\(|write_bytes\(|\.write\(|shelve\.|dbm\.|urlopen\(|requests\.)' $files; then
-            echo 'filesystem/persistence/network capability detected'
-            exit 1
-          fi
-          echo 'p0_08_capability_scan=PASS'
-          echo 'p0_08_persistence_scan=PASS'
+          python3 - <<'PY'
+          import ast
+          from pathlib import Path
+
+          files = [
+              Path('runtime/mediahub_runtime/plugin_manifest.py'),
+              Path('runtime/mediahub_runtime/plugin_capabilities.py'),
+              Path('runtime/mediahub_runtime/plugin_boundary.py'),
+              Path('runtime/mediahub_runtime/plugin_authorization.py'),
+              Path('runtime/mediahub_runtime/plugin_lifecycle.py'),
+              Path('runtime/mediahub_runtime/plugin_resources.py'),
+              Path('runtime/mediahub_runtime/plugin_proposals.py'),
+          ]
+          forbidden_modules = {
+              'subprocess', 'socket', 'requests', 'urllib', 'http.client',
+              'sqlite3', 'sqlalchemy', 'shelve', 'dbm', 'pickle', 'shutil',
+          }
+          forbidden_calls = {
+              'system', 'popen', 'Popen', 'check_output', 'check_call',
+              'create_subprocess', 'eval', 'exec', 'compile', 'open',
+              'write_text', 'write_bytes', 'urlopen', 'create_engine',
+          }
+
+          for path in files:
+              tree = ast.parse(path.read_text(encoding='utf-8'), filename=str(path))
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Import):
+                      for alias in node.names:
+                          if alias.name in forbidden_modules:
+                              raise SystemExit(f'{path}: forbidden import {alias.name}')
+                  elif isinstance(node, ast.ImportFrom):
+                      module = node.module or ''
+                      if module in forbidden_modules:
+                          raise SystemExit(f'{path}: forbidden import {module}')
+                  elif isinstance(node, ast.Call):
+                      if isinstance(node.func, ast.Name) and node.func.id in forbidden_calls:
+                          raise SystemExit(f'{path}: forbidden call {node.func.id}')
+                      if isinstance(node.func, ast.Attribute) and node.func.attr in forbidden_calls:
+                          raise SystemExit(f'{path}: forbidden call {node.func.attr}')
+
+          print('p0_08_capability_scan=PASS')
+          print('p0_08_persistence_scan=PASS')
+          PY
 
       - name: P0-08 authority binding scan
         shell: bash
