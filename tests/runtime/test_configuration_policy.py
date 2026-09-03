@@ -79,8 +79,11 @@ def test_string_bound_is_enforced():
 
 
 def test_node_and_depth_bounds_are_enforced():
+    too_deep = 1
+    for _ in range(MAX_DEPTH + 1):
+        too_deep = [too_deep]
     with pytest.raises(InvalidConfigurationPolicy):
-        make_config([[[[[[[[1]]]]]]])
+        make_config(too_deep)
     with pytest.raises(InvalidConfigurationPolicy):
         make_config([list(range(MAX_NODES))])
 
