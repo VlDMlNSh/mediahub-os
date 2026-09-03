@@ -10,6 +10,7 @@ from .configuration_policy import (
     validate_configuration,
     validate_policy,
 )
+from .configuration_policy_authorization import P0_07_CAPABILITIES, ConfigurationPolicyAuthorization
 from .consumer_boundary import ConsumerBoundary, ConsumerBoundaryError, ConsumerTransaction, OperationRequest
 from .coordination_service import (
     CoordinationRequest,
@@ -51,6 +52,7 @@ __all__ = [
     "CanonicalState",
     "Checkpoint",
     "Configuration",
+    "ConfigurationPolicyAuthorization",
     "ConfigurationPolicyError",
     "ConsumerBoundary",
     "ConsumerBoundaryError",
@@ -74,6 +76,7 @@ __all__ = [
     "LifecycleStateMachine",
     "MalformedState",
     "OperationRequest",
+    "P0_07_CAPABILITIES",
     "Policy",
     "PolicyRule",
     "Proposal",
