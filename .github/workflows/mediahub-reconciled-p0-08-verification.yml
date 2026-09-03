@@ -9,7 +9,7 @@ on:
       verification_sha:
         description: 'Exact reconciliation commit SHA to verify'
         required: true
-        default: 'edae7be878776f6bc29da442eaed73cda1452b8b'
+        default: 'cae0f0098b49f9bae9476c8dd47a0acdd0a15f53'
         type: string
 
 permissions:
@@ -34,7 +34,7 @@ jobs:
           test "$(id -un)" = "mediahub-runner"
           test "$(id -u)" = "1001"
           test "$(id -g)" = "1001"
-          test "$(hostname)" = "mh-dev-01-v2"
+          test "$(hostname)" = "mh-dev-01"
           if sudo -n true >/dev/null 2>&1; then
             echo 'ERROR: runner has passwordless sudo capability'
             exit 1
