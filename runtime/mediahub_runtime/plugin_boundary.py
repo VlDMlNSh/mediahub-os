@@ -6,6 +6,7 @@ transaction, persistence, filesystem, process, network, or credential handles.
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from typing import Any, Mapping
 
@@ -19,6 +20,9 @@ MAX_PAYLOAD_DEPTH = 8
 MAX_PAYLOAD_NODES = 512
 MAX_STRING_BYTES = 4096
 MAX_OBJECT_KEYS = 64
+MAX_OBJECT_KEY_BYTES = 128
+MAX_PLUGIN_ID_BYTES = 128
+MAX_OPERATION_BYTES = 128
 
 
 class PluginBoundaryError(ValueError):
@@ -69,14 +73,30 @@ class PluginBoundary:
         if not capability_request.is_declared_by(declaration):
             raise PluginBoundaryError("capability_not_declared")
         payload = _bounded_copy(request.payload)
+        _enforce_wire_size(payload, MAX_REQUEST_BYTES)
         return PluginRequest(request.plugin_id, request.capability, request.operation, payload)
 
     def observation(self, plugin_id: str, operation: str, payload: Any) -> PluginObservation:
-        if type(plugin_id) is not str or not plugin_id:
+        if not _bounded_identifier(plugin_id, MAX_PLUGIN_ID_BYTES):
             raise PluginBoundaryError("observation_rejected")
-        if type(operation) is not str or not operation:
+        if not _bounded_identifier(operation, MAX_OPERATION_BYTES):
             raise PluginBoundaryError("observation_rejected")
-        return PluginObservation(plugin_id, operation, _bounded_copy(payload))
+        bounded_payload = _bounded_copy(payload)
+        _enforce_wire_size(bounded_payload, MAX_RESPONSE_BYTES)
+        return PluginObservation(plugin_id, operation, bounded_payload)
+
+
+def _bounded_identifier(value: Any, limit: int) -> bool:
+    return type(value) is str and bool(value) and len(value.encode("utf-8")) <= limit and not any(ch.isspace() for ch in value)
+
+
+def _enforce_wire_size(value: Any, limit: int) -> None:
+    try:
+        encoded = json.dumps(value, ensure_ascii=False, allow_nan=False, separators=(",", ":"), sort_keys=True).encode("utf-8")
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise PluginBoundaryError("payload_rejected") from exc
+    if len(encoded) > limit:
+        raise PluginBoundaryError("payload_limit_exceeded")
 
 
 def _bounded_copy(value: Any, depth: int = 0, budget: list[int] | None = None) -> Any:
@@ -103,7 +123,7 @@ def _bounded_copy(value: Any, depth: int = 0, budget: list[int] | None = None) -
             raise PluginBoundaryError("payload_limit_exceeded")
         result = {}
         for key, item in value.items():
-            if type(key) is not str or len(key.encode("utf-8")) > 128:
+            if type(key) is not str or len(key.encode("utf-8")) > MAX_OBJECT_KEY_BYTES:
                 raise PluginBoundaryError("payload_rejected")
             result[key] = _bounded_copy(item, depth + 1, budget)
         return result
