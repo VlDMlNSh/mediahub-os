@@ -47,6 +47,7 @@ from .in_memory_state import (
 from .lifecycle import LifecycleState, LifecycleStateMachine
 from .lifecycle_service import LifecycleRequest, LifecycleService
 from .policy_evaluator import PolicyDecision, evaluate_policy
+from .proposal_plugin_boundary import InertProposal, PluginCapabilityGrant, ProposalPluginBoundary
 from .proposals import Proposal, ProposalAuthority
 from .state import StateAuthority
 
@@ -74,6 +75,7 @@ __all__ = [
     "Generation",
     "GenerationMismatch",
     "InMemoryStateAuthority",
+    "InertProposal",
     "IntegrityFailure",
     "InvalidCheckpoint",
     "InvalidConfigurationPolicy",
@@ -86,11 +88,13 @@ __all__ = [
     "MalformedState",
     "OperationRequest",
     "P0_07_CAPABILITIES",
+    "PluginCapabilityGrant",
     "Policy",
     "PolicyDecision",
     "PolicyRule",
     "Proposal",
     "ProposalAuthority",
+    "ProposalPluginBoundary",
     "RuntimeCoordinationService",
     "RuntimeInvariantError",
     "SelfTestFailure",
