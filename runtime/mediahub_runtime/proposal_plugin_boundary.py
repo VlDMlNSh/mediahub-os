@@ -4,10 +4,36 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timezone
+import math
 
 from .authorization import AuthorizationContext
 from .configuration_policy_authorization import P0_07_CAPABILITIES
 from .proposals import Proposal, ProposalAuthority
+
+
+_MAX_PROPOSAL_ID_BYTES = 128
+_MAX_ACTION_BYTES = 128
+_MAX_TARGET_BYTES = 128
+_MAX_GENERATION_BYTES = 128
+
+
+def _validate_proposal_bounds(proposal: Proposal) -> None:
+    for value, limit in (
+        (proposal.proposal_id, _MAX_PROPOSAL_ID_BYTES),
+        (proposal.requested_action, _MAX_ACTION_BYTES),
+        (proposal.target, _MAX_TARGET_BYTES),
+        (proposal.generation, _MAX_GENERATION_BYTES),
+    ):
+        if type(value) is not str or not value:
+            raise ValueError("proposal field must be a non-empty string")
+        if len(value.encode("utf-8")) > limit:
+            raise ValueError("proposal field exceeds allowed length")
+    if type(proposal.confidence) is not float or not math.isfinite(proposal.confidence):
+        raise ValueError("proposal confidence must be finite")
+    if not 0.0 <= proposal.confidence <= 1.0:
+        raise ValueError("proposal confidence is out of bounds")
+    if type(proposal.expires_at) is not datetime or proposal.expires_at.tzinfo is None:
+        raise ValueError("proposal expiry must be timezone-aware")
 
 
 @dataclass(frozen=True)
@@ -22,6 +48,7 @@ class InertProposal:
             raise ValueError("invalid proposal")
         if type(self.context) is not AuthorizationContext:
             raise ValueError("invalid authorization context")
+        _validate_proposal_bounds(self.proposal)
         if self.proposal.requested_action not in P0_07_CAPABILITIES:
             raise PermissionError("proposal action denied")
         if self.context.capability != self.proposal.requested_action:
