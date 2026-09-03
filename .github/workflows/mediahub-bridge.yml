@@ -12,10 +12,10 @@ jobs:
     runs-on: [self-hosted, mediahub-runner]
     timeout-minutes: 30
     steps:
-      - name: Checkout fixed verification target
+      - name: Checkout fixed P0-06 verification baseline
         uses: actions/checkout@v4
         with:
-          ref: implementation/p0-06-core-runtime-services
+          ref: d9b5c9db128d8ec75dae6fbd03b5d54950bdddf5
           fetch-depth: 1
 
       - name: Probe runner and repository
