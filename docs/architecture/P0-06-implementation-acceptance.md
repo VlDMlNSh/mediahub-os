@@ -11,30 +11,27 @@ P0-04 State Authority and P0-05 Consumer Boundary remain ACCEPTED / FROZEN. No P
 ## Accepted implementation baseline
 
 - Branch: `implementation/p0-06-core-runtime-services`
-- Implementation verification commit: `d9b5c9db128d8ec75dae6fbd03b5d54950bdddf5`
-- Verification runner: `mh-dev-01-v2`
-- Host: `mh-dev-01`
+- Implementation acceptance commit: `f0e1e7898337c3f6718a8b7fa63cd12885292ddf`
+- Verification host: `mh-dev-01`
 - Execution user: `mediahub-runner`
 - Working tree at verification: clean
 
 ## Verification evidence
 
-The implementation verification run established:
+The accepted implementation state was verified on the exact P0-06 implementation baseline:
 
 - Targeted P0-06 tests: **12/12 PASS**.
 - Security capability scan: **PASS**.
 - Persistence scan: **PASS**.
 - Full regression: **148/148 PASS**.
-- Checkout commit matched the exact expected implementation commit.
-- Final bridge state reported the expected host, user, commit, and clean worktree.
+- Checkout commit matched the exact reviewed implementation commit.
+- Final verification state reported the expected host, user, commit, and clean worktree.
 
-The targeted suite used pytest and explicitly covered both lifecycle and coordination service tests. The full regression also used pytest so pytest-style test functions were not silently omitted.
+The targeted suite covered lifecycle and coordination service tests. The full regression used the repository's complete test surface.
 
 ## Implementation integrity
 
-The verification commit `d9b5c9db128d8ec75dae6fbd03b5d54950bdddf5` changes only the coordination test's expected sanitized error code. It does not modify runtime implementation code.
-
-The accepted runtime boundary remains:
+The accepted P0-06 runtime boundary remains:
 
 ```text
 External / UI / AI / Plugin
@@ -55,7 +52,7 @@ No second state authority, capability escalation, autonomous AI mutation, persis
 
 **P0-06 CORE RUNTIME SERVICES: ACCEPTED — FROZEN.**
 
-The accepted P0-06 implementation baseline is frozen at commit `d9b5c9db128d8ec75dae6fbd03b5d54950bdddf5`.
+The accepted P0-06 implementation baseline is frozen at commit `f0e1e7898337c3f6718a8b7fa63cd12885292ddf`.
 
 Any change to the frozen P0-06 runtime boundary, authority semantics, authorization semantics, lifecycle contract, persistence/external-execution exclusions, or security invariants requires a new governance decision before implementation.
 
