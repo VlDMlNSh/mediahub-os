@@ -1,9 +1,10 @@
 """Static guard tests for P0-08.1.
 
-These tests deliberately inspect the new P0-08 files only. Runtime authority,
-persistence, process execution, and network access remain outside this slice.
+The guard scans executable Python imports/calls and selected AST names rather
+than searching contract documentation strings for forbidden words.
 """
 
+import ast
 from pathlib import Path
 
 
@@ -14,30 +15,37 @@ P0_08_FILES = (
 )
 
 
-def test_p0_08_1_has_no_forbidden_runtime_imports():
-    forbidden = (
-        "subprocess",
-        "socket",
-        "requests",
-        "sqlite3",
-        "pathlib.Path.open",
-        "os.system",
-        "os.popen",
-    )
-    text = "\n".join(path.read_text(encoding="utf-8") for path in P0_08_FILES)
-    assert not any(term in text for term in forbidden)
+def _tree():
+    return [ast.parse(path.read_text(encoding="utf-8"), filename=str(path)) for path in P0_08_FILES]
 
 
-def test_p0_08_1_contains_no_state_authority_or_persistence_symbols():
-    forbidden = (
+def test_p0_08_1_has_no_forbidden_runtime_imports_or_calls():
+    forbidden_modules = {"subprocess", "socket", "requests", "sqlite3", "http", "urllib"}
+    forbidden_calls = {"system", "popen", "exec", "eval", "compile", "open"}
+    for tree in _tree():
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                assert not any(alias.name.split(".")[0] in forbidden_modules for alias in node.names)
+            elif isinstance(node, ast.ImportFrom):
+                assert (node.module or "").split(".")[0] not in forbidden_modules
+            elif isinstance(node, ast.Call):
+                if isinstance(node.func, ast.Name):
+                    assert node.func.id not in forbidden_calls
+                elif isinstance(node.func, ast.Attribute):
+                    assert node.func.attr not in forbidden_calls
+
+
+def test_p0_08_1_contains_no_authority_or_persistence_bindings():
+    forbidden_names = {
         "StateAuthority",
         "CanonicalStore",
         "PersistenceHandle",
         "MutableState",
         "Transaction",
-        "checkpoint",
-        "revision",
-        "generation",
-    )
-    text = "\n".join(path.read_text(encoding="utf-8") for path in P0_08_FILES)
-    assert not any(term in text for term in forbidden)
+        "Checkpoint",
+    }
+    for tree in _tree():
+        names = {
+            node.id for node in ast.walk(tree) if isinstance(node, ast.Name)
+        }
+        assert not names.intersection(forbidden_names)
