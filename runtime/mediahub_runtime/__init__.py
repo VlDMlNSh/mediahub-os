@@ -46,65 +46,43 @@ from .in_memory_state import (
 )
 from .lifecycle import LifecycleState, LifecycleStateMachine
 from .lifecycle_service import LifecycleRequest, LifecycleService
+from .plugin_authorization import PluginAuthorization
+from .plugin_boundary import PluginBoundary, PluginObservation, PluginRequest
+from .plugin_capabilities import CapabilityDeclaration, CapabilityRequest
+from .plugin_lifecycle import PluginLifecycle, PluginLifecycleError, PluginState
+from .plugin_manifest import PluginManifest, PluginManifestError
+from .plugin_proposals import InertPluginProposal, PluginProposalError
+from .plugin_resources import (
+    ConcurrencyGuard,
+    ExecutionDeadline,
+    OutputLimiter,
+    RateLimiter,
+    ResourceClass,
+    ResourceLimitError,
+    ResourceLimits,
+    bounded_value_size,
+)
 from .policy_evaluator import PolicyDecision, evaluate_policy
 from .proposal_plugin_boundary import InertProposal, PluginCapabilityGrant, ProposalPluginBoundary
 from .proposals import Proposal, ProposalAuthority
 from .state import StateAuthority
 
 __all__ = [
-    "AuthorizationContext",
-    "AuthorizationDecision",
-    "AuthorizationPolicy",
-    "AuthorizationDenied",
-    "CanonicalState",
-    "Checkpoint",
-    "Configuration",
-    "ConfigurationPolicyAuthorization",
-    "ConfigurationPolicyError",
-    "ConfigurationPolicyOperationBoundary",
-    "ConfigurationPolicyOperationDecision",
-    "ConfigurationPolicyOperationRequest",
-    "ConsumerBoundary",
-    "ConsumerBoundaryError",
-    "ConsumerTransaction",
-    "CoordinationRequest",
-    "CoordinationResult",
-    "CoordinationServiceError",
-    "DiagnosticEvent",
-    "ExpiredProposal",
-    "Generation",
-    "GenerationMismatch",
-    "InMemoryStateAuthority",
-    "InertProposal",
-    "IntegrityFailure",
-    "InvalidCheckpoint",
-    "InvalidConfigurationPolicy",
-    "InvalidStateTransition",
-    "InvalidTransaction",
-    "LifecycleRequest",
-    "LifecycleService",
-    "LifecycleState",
-    "LifecycleStateMachine",
-    "MalformedState",
-    "OperationRequest",
-    "P0_07_CAPABILITIES",
-    "PluginCapabilityGrant",
-    "Policy",
-    "PolicyDecision",
-    "PolicyRule",
-    "Proposal",
-    "ProposalAuthority",
-    "ProposalPluginBoundary",
-    "RuntimeCoordinationService",
-    "RuntimeInvariantError",
-    "SelfTestFailure",
-    "StaleTransaction",
-    "StateAuthority",
-    "Transaction",
-    "evaluate_policy",
-    "make_event",
-    "sanitize_fields",
-    "validate_configuration",
-    "validate_generation_compatibility",
-    "validate_policy",
+    "AuthorizationContext", "AuthorizationDecision", "AuthorizationPolicy", "AuthorizationDenied",
+    "CanonicalState", "Checkpoint", "Configuration", "ConfigurationPolicyAuthorization",
+    "ConfigurationPolicyError", "ConfigurationPolicyOperationBoundary", "ConfigurationPolicyOperationDecision",
+    "ConfigurationPolicyOperationRequest", "ConsumerBoundary", "ConsumerBoundaryError", "ConsumerTransaction",
+    "CoordinationRequest", "CoordinationResult", "CoordinationServiceError", "DiagnosticEvent",
+    "ExpiredProposal", "Generation", "GenerationMismatch", "InMemoryStateAuthority", "InertProposal",
+    "IntegrityFailure", "InvalidCheckpoint", "InvalidConfigurationPolicy", "InvalidStateTransition",
+    "InvalidTransaction", "LifecycleRequest", "LifecycleService", "LifecycleState", "LifecycleStateMachine",
+    "MalformedState", "OperationRequest", "P0_07_CAPABILITIES", "PluginAuthorization", "PluginBoundary",
+    "PluginObservation", "PluginRequest", "CapabilityDeclaration", "CapabilityRequest", "PluginLifecycle",
+    "PluginLifecycleError", "PluginState", "PluginManifest", "PluginManifestError", "InertPluginProposal",
+    "PluginProposalError", "ConcurrencyGuard", "ExecutionDeadline", "OutputLimiter", "RateLimiter",
+    "ResourceClass", "ResourceLimitError", "ResourceLimits", "bounded_value_size", "PluginCapabilityGrant",
+    "Policy", "PolicyDecision", "PolicyRule", "Proposal", "ProposalAuthority", "ProposalPluginBoundary",
+    "RuntimeCoordinationService", "RuntimeInvariantError", "SelfTestFailure", "StaleTransaction",
+    "StateAuthority", "Transaction", "evaluate_policy", "make_event", "sanitize_fields",
+    "validate_configuration", "validate_generation_compatibility", "validate_policy",
 ]
