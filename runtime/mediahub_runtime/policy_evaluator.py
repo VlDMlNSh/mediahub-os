@@ -4,7 +4,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from .configuration_policy import Policy, PolicyRule, validate_policy
+from .configuration_policy import (
+    MAX_IDENTIFIER_BYTES,
+    Policy,
+    PolicyRule,
+    validate_policy,
+)
 
 
 @dataclass(frozen=True)
@@ -13,6 +18,10 @@ class PolicyDecision:
 
     allowed: bool
     reason: str
+
+
+def _valid_request_string(value: object) -> bool:
+    return type(value) is str and bool(value) and len(value.encode("utf-8")) <= MAX_IDENTIFIER_BYTES
 
 
 def evaluate_policy(policy: Policy, *, operation: str, resource: str) -> PolicyDecision:
@@ -26,9 +35,9 @@ def evaluate_policy(policy: Policy, *, operation: str, resource: str) -> PolicyD
     """
     if type(policy) is not Policy:
         return PolicyDecision(False, "malformed policy")
-    if type(operation) is not str or not operation:
+    if not _valid_request_string(operation):
         return PolicyDecision(False, "malformed operation")
-    if type(resource) is not str or not resource:
+    if not _valid_request_string(resource):
         return PolicyDecision(False, "malformed resource")
 
     try:
