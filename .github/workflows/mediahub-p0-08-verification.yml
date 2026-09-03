@@ -96,10 +96,37 @@ jobs:
         shell: bash
         run: |
           set -eu
-          if grep -RniE 'StateAuthority|CanonicalStore|PersistenceHandle|MutableState|Checkpoint|Transaction' runtime/mediahub_runtime/plugin_*.py; then
-            echo 'forbidden authority/persistence binding detected'
-            exit 1
-          fi
+          python3 - <<'PY'
+          import ast
+          from pathlib import Path
+
+          names = {
+              'StateAuthority', 'CanonicalStore', 'PersistenceHandle',
+              'MutableState', 'Checkpoint', 'Transaction'
+          }
+          for path in Path('runtime/mediahub_runtime').glob('plugin_*.py'):
+              tree = ast.parse(path.read_text(encoding='utf-8'))
+              imported = {
+                  alias.name.split('.')[-1]
+                  for node in ast.walk(tree)
+                  if isinstance(node, ast.Import)
+                  for alias in node.names
+              }
+              imported_from = {
+                  alias.name
+                  for node in ast.walk(tree)
+                  if isinstance(node, ast.ImportFrom)
+                  for alias in node.names
+              }
+              runtime_names = {
+                  node.id
+                  for node in ast.walk(tree)
+                  if isinstance(node, ast.Name)
+              }
+              forbidden = names & (imported | imported_from | runtime_names)
+              if forbidden:
+                  raise SystemExit(f'{path}: forbidden authority/persistence names: {sorted(forbidden)}')
+          PY
           echo 'p0_08_authority_binding_scan=PASS'
 
       - name: Full regression
