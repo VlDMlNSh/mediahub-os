@@ -41,6 +41,7 @@ from .in_memory_state import (
 )
 from .lifecycle import LifecycleState, LifecycleStateMachine
 from .lifecycle_service import LifecycleRequest, LifecycleService
+from .policy_evaluator import PolicyDecision, evaluate_policy
 from .proposals import Proposal, ProposalAuthority
 from .state import StateAuthority
 
@@ -78,6 +79,7 @@ __all__ = [
     "OperationRequest",
     "P0_07_CAPABILITIES",
     "Policy",
+    "PolicyDecision",
     "PolicyRule",
     "Proposal",
     "ProposalAuthority",
@@ -87,6 +89,7 @@ __all__ = [
     "StaleTransaction",
     "StateAuthority",
     "Transaction",
+    "evaluate_policy",
     "make_event",
     "sanitize_fields",
     "validate_configuration",
