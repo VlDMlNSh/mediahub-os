@@ -3,6 +3,7 @@ import pytest
 from mediahub_runtime.authorization import AuthorizationContext, AuthorizationPolicy
 from mediahub_runtime.plugin_authorization import PluginAuthorization
 from mediahub_runtime.plugin_boundary import PluginBoundary, PluginRequest
+from mediahub_runtime.plugin_capabilities import CapabilityRequest
 
 
 def manifest():
@@ -25,9 +26,9 @@ def setup():
         declaration,
         PluginRequest("example.plugin", "media.read", "read", {}),
     )
-    capability_request = __import__(
-        "mediahub_runtime.plugin_capabilities", fromlist=["CapabilityRequest"]
-    ).CapabilityRequest(request.plugin_id, request.capability, request.operation)
+    capability_request = CapabilityRequest(
+        request.plugin_id, request.capability, request.operation
+    )
     return declaration, capability_request
 
 
@@ -72,8 +73,6 @@ def test_authorization_rejects_capability_context_mismatch():
 def test_authorization_rejects_undeclared_request():
     boundary = PluginBoundary()
     declaration = boundary.declare_capabilities(boundary.validate_manifest(manifest()))
-    from mediahub_runtime.plugin_capabilities import CapabilityRequest
-
     request = CapabilityRequest("example.plugin", "media.update", "update")
     policy = AuthorizationPolicy({("example.plugin", "media.update", "update")})
     decision = PluginAuthorization(policy).decide(
