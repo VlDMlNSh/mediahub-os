@@ -1,6 +1,9 @@
 name: MediaHub P0-08 verification
 
 on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
     inputs:
       verification_sha:
@@ -21,7 +24,7 @@ jobs:
       - name: Checkout exact P0-08 verification commit
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.verification_sha }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || inputs.verification_sha }}
           fetch-depth: 1
 
       - name: Verify runner, repository, exact head, and clean worktree
@@ -36,7 +39,7 @@ jobs:
             echo 'ERROR: runner has passwordless sudo capability'
             exit 1
           fi
-          expected='${{ inputs.verification_sha }}'
+          expected='${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || inputs.verification_sha }}'
           actual="$(git rev-parse HEAD)"
           test "$actual" = "$expected"
           test -z "$(git status --short)"
