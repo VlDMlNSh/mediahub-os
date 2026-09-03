@@ -14,6 +14,15 @@ def test_proposal_is_inert_data():
     assert proposal.to_observation()["operation"] == "read"
 
 
+def test_proposal_payload_is_deeply_immutable():
+    payload = {"items": [{"value": "original"}]}
+    proposal = InertPluginProposal("example.plugin", request(), payload)
+    payload["items"][0]["value"] = "changed"
+    assert proposal.payload["items"][0]["value"] == "original"
+    with pytest.raises(TypeError):
+        proposal.payload["items"][0]["value"] = "blocked"
+
+
 def test_proposal_identity_must_match_request():
     with pytest.raises(PluginProposalError):
         InertPluginProposal("forged.plugin", request(), {})
