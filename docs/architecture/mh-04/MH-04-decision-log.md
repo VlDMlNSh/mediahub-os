@@ -10,5 +10,7 @@
 - MH4-D08 Security events/telemetry are non-mutating — PROPOSED.
 - MH4-D09 Security failure cannot create fallback authority — PROPOSED.
 - MH4-D10 Concrete security products/frameworks remain candidates — PROPOSED.
+- MH4-D11 All defined MH-04 compatibility, authority, trust, identity, authorization, capability, failure, quarantine, recovery, observability, historical and contradiction passes completed without identified contradiction — PROPOSED.
+- MH4-D12 The canonical mutation path remains the only mutation path: authenticated/authorized bounded command → Consumer Contract → State Authority → Event — PROPOSED.
 
-No parent architecture is silently modified.
+No parent architecture is silently modified. Governance approval is still required for ACCEPTED; explicit freeze is separately required for FROZEN.
