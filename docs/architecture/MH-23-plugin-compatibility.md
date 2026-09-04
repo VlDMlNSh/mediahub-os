@@ -1,0 +1,2 @@
+# MH-23 Plugin Compatibility
+Plugin identity/version/API/compatibility range/capabilities/permissions/dependencies/lifecycle/resource limits/security metadata/provenance/integrity are qualified before enablement. Upgrade: inspect → compatibility → security → migration → qualification → enable. Incompatibility: reject or quarantine. Plugins never gain authority through migration.
