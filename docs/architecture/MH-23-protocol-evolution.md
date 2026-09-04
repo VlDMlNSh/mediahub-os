@@ -1,0 +1,2 @@
+# MH-23 Protocol Evolution
+Protocol versions are independent compatibility dimensions. Negotiation or reachability does not grant authorization. Unknown authority-sensitive commands are rejected/quarantined; event semantics cannot silently become command semantics.
