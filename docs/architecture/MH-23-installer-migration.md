@@ -1,0 +1,2 @@
+# MH-23 Installer Migration
+Installer migration follows Preflight → Compatibility → Backup/Recovery Check → Artifact Verification → Migration → Health Gate → Observe → Promote. Installer cannot bypass authorization or create an authority split.
