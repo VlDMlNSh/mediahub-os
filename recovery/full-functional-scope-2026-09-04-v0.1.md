@@ -45,6 +45,23 @@ The functional baseline is reconstructed first; implementation must not begin un
 - A dedicated Vendor / Protocol Coverage Registry will track vendor/model/family, device class, protocol, discovery, pairing, configuration, control, telemetry, events, firmware, local/cloud behavior and MediaHub status.
 - Coverage status values may include CONFIRMED_SUPPORTED, REQUIRED, PLANNED, CANDIDATE, UNRESOLVED, NOT_SUPPORTED and DEPRECATED.
 
+### Smart Home Device Model & Capabilities — CONFIRMED_ACCEPTED
+
+- MediaHub uses a unified device model regardless of vendor, manufacturer, protocol or underlying integration mechanism.
+- A device entity includes, as applicable: Identity, Manufacturer, Model, Device Type, Room/Area, Groups, Capabilities, State, Controls, Sensors, Events, Configuration, Connectivity and Lifecycle.
+- The abstraction is capability-first: a device may expose multiple capabilities such as on/off, dimming, color, temperature, power measurement, motion detection and events.
+- Target device types include lights, switches, relays, outlets, sensors, climate devices, heating, ventilation, blinds/shutters/curtains, doors, locks, cameras, energy devices, multimedia devices, controllers and other supported equipment.
+- One physical device may expose multiple functional entities/capabilities within the MediaHub model.
+- MediaHub assigns devices to rooms/areas, suggesting assignment automatically where possible while allowing user correction.
+- Users can create/use groups by room, type, function, scene, zone or custom criteria.
+- Device state includes availability, operational state, sensor values, connectivity state, command execution state and relevant functional state.
+- Controls are presented through the unified MediaHub UI according to available capabilities.
+- Device events are available to automation, notifications, the Local Assistant, history and diagnostics as appropriate.
+- Connectivity is presented simply to ordinary users; detailed protocol/network information is reserved for advanced/engineer settings.
+- Device lifecycle is represented conceptually as: Discovered → Identified → Proposed → Integrated → Configured → Operational → Unavailable/Recovering → Replaced/Retired, with transitions determined by actual system state.
+- Manufacturer and protocol are properties of the integration layer; capability and device semantics belong to the MediaHub product model.
+- Core UX invariant: the user works with the device, not with the integration technology.
+
 ### KINCONY
 
 - KINCONY is a first-class supported vendor/integration.
