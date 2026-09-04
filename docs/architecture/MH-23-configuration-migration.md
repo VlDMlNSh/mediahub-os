@@ -1,0 +1,2 @@
+# MH-23 Configuration Migration
+Old Config → Parse → Validate → Semantic Compatibility → Migration → Policy Evaluation → Authorization → State Authority. Ambiguity affecting safety/security results in DENY, QUARANTINE or operator gate. No silent reinterpretation or privilege increase.
