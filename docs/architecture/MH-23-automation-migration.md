@@ -1,0 +1,2 @@
+# MH-23 Automation Migration
+Migration validates trigger, condition, action, safety class, policy, capability, authorization, rate limits, cooldown and idempotency. Ambiguous semantics are disabled/quarantined or require an operator. Similar names do not imply semantic continuity.
