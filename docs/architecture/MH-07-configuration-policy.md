@@ -104,11 +104,11 @@ Critical operations require stronger authorization, explicit policy, stronger au
 16. P0-04 remains canonical mutation authority.
 
 ## 17. Current implementation reconciliation
-The current P0-07 branch implements bounded immutable configuration/policy primitives, exact capability authorization, deterministic policy evaluation, operation validation, and inert proposal/plugin boundaries. The code explicitly states that it does not persist, execute, resolve credentials, access the network, or mutate State Authority. fileciteturn3file0L2-L2 fileciteturn5file0L2-L2 fileciteturn6file0L2-L2 fileciteturn7file0L2-L2
+The current P0-07 branch implements bounded immutable configuration/policy primitives, exact capability authorization, deterministic policy evaluation, operation validation, and inert proposal/plugin boundaries. The implementation is explicitly non-persistent, non-executable, credential-resolution-free, network-free, and does not mutate State Authority.
 
-The evaluator implements deterministic deny-by-default semantics, including conflict denial and no wildcard/priority/inheritance/merge/retry. fileciteturn4file0L2-L2
+The evaluator implements deterministic deny-by-default semantics, including conflict denial and no wildcard/priority/inheritance/merge/retry.
 
-The mutation adapter remains blocked because the current P0-05 surface authorizes its supplied context against P0-04 directly and no approved mechanism exists to compose P0-07 domain authorization with independently required P0-04 authorization. fileciteturn2file0L12-L17
+The mutation adapter remains blocked because the current P0-05 surface authorizes its supplied context against P0-04 directly and no approved mechanism exists to compose P0-07 domain authorization with independently required P0-04 authorization.
 
 ## 18. Acceptance state
 MH-7 architecture: CANDIDATE.
