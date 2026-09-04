@@ -1,0 +1,2 @@
+# MH-23 EOL
+Lifecycle: Active → Deprecated → Maintenance → EOL → Decommissioned. EOL requires migration guidance, security status, evidence retention and explicit disposition; EOL is not an implicit destructive operation.
