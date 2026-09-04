@@ -1,101 +1,70 @@
-# MH-18 — Media / Content Architecture
+# MH-18 — MEDIA / CONTENT ARCHITECTURE
+Status: PROPOSED / NOT ACCEPTED / NOT FROZEN
+Date: 2026-09-04
 
-**Status:** PROPOSED — AUDIT IN PROGRESS
-**Branch:** `mh-18-media-content-architecture`
-**Date:** 2026-09-04
+## 1. Canonical invariant
+MediaHub manages media/content as a domain, but content bytes, metadata, catalog, storage, index, cache and derivatives are never State Authority.
 
-## 1. Scope
+Source → Ingestion → Validation → Normalization → Content Model → Authorized Command → P0-05 → State Authority → Catalog/Metadata → Storage/Index/Playback.
 
-Media/content subsystem for MediaHub OS 11.x LTS / MediaHub iOS: ingestion, content identity, metadata, catalog, storage, derived artifacts, indexing/search, playback/streaming, processing, AI enrichment, rights/DRM boundary, device/live-media interaction, privacy, security, backup/recovery, observability and governance.
+No media file, indexer, transcoder, AI component, plugin, device or provider may bypass authorization.
 
-## 2. Governing invariant
+## 2. Model and identity
+Content is logical work; Asset is acquired representation; Object/File is byte object; Storage Locator is mutable physical location; External ID is provider-scoped; Digest/fingerprint are evidence; Version is schema/representation version. Filename/path/URL/digest are not domain identity.
 
-Media content, metadata, catalog, storage, indexes, caches and derived artifacts are NOT State Authority. Canonical runtime/domain mutation remains behind the existing State Authority / consumer boundary.
+## 3. Lifecycle
+DISCOVERED → INGESTING → VALIDATING → REGISTERED → INDEXED → AVAILABLE → PROCESSING → PUBLISHED → ARCHIVED → DELETED/QUARANTINED. Every transition has owner, authorization, observable failure and recovery semantics. Device lifecycle schema is not reused for media lifecycle.
 
-Canonical conceptual flow:
+## 4. Ingestion and validation
+Sources are untrusted by default. Pipeline: discovery, intake, identity, integrity, malware/safety analysis, extraction, normalization, classification, policy, registration, indexing, availability. Limits, timeout, cancellation, retry budget and idempotency are mandatory. Validation covers syntax, container/format, codec/stream, metadata, security, policy and rights. Malformed/hostile media is rejected, quarantined or requires verification.
 
-`Source → Ingestion → Validation → Normalization → Content Model → Authorized Command → State Authority → Catalog/Metadata → Storage/Index/Playback`
+## 5. Metadata/provenance
+Metadata sources: user, provider, device, extracted, computed, AI. Facts carry provenance, timestamp, version and confidence where applicable. Conflicts are explicit and resolved by contract/policy/user; no hidden priority. AI output is candidate data until authorized.
 
-No media file, indexer, transcoder, AI component or plugin may bypass the authorized mutation path.
+## 6. Storage
+Separate canonical metadata/state, content bytes, derivatives and cache. Storage is not authority. Candidate backends remain unselected pending evidence/ADR. Deletion distinguishes catalog removal, byte deletion, derivative/cache purge, external-copy revocation, secure deletion and retention hold.
 
-## 3. Current repository evidence
+## 7. Derived systems
+Index, search, thumbnails, previews, waveforms and transcodes are derived/rebuildable. Canonical Catalog → Index Builder → Search Index. Search result is never canonical state. Transcoding is isolated, bounded, cancellable, observable and cannot mutate canonical state directly.
 
-Repository: `VlDMlNSh/mediahub-os`, default branch `main`.
+## 8. Playback/streaming
+Playback uses authorized read model → media session → resolver → storage → decoder/player → output device. Session state is separate from global runtime state. LAN/remote streaming requires authentication, authorization, quotas and observability. Local operation must degrade gracefully without cloud.
 
-Observed repository structure contains:
-- `contracts/ai` with AI inference/model/provider contracts;
-- `contracts/core` and `contracts/identity`;
-- `schemas/domain` with generic domain schemas including identity, lifecycle, device, endpoint, relationship and state;
-- `schemas/ai` with AI request/response/model/provider schemas;
-- `docs/architecture` currently containing P0-06 Core Runtime Services artifacts;
-- `tests/ai`, `tests/contracts`, `tests/domain`, `tests/schemas`, `tests/static`;
-- CI workflows for P0-06/P0-07/P0-08 and bridge verification.
+## 9. Playlists/subtitles
+Playlist is ordered references; queue is session ordering; collection is grouping; smart collection is derived query unless explicitly modeled; favorite/bookmark are references. Multiple audio/subtitle tracks are supported architecturally. External subtitle/artwork data is untrusted.
 
-README currently describes the repository only as the foundation repository for MediaHub OS.
+## 10. Rights/DRM
+Rights metadata is descriptive and does not grant authorization. Provider/DRM authority remains external. No bypass, forged entitlement or circumvention. DRM integration requires platform, licensing, security and governance evidence.
 
-## 4. Audit classification
+## 11. Devices/live media
+MH-17 owns device/protocol boundary. Devices are not authority. Camera/microphone/live streams require explicit privacy/security authorization, bounded capture, retention and storage. RTSP/ONVIF/WebRTC are candidates only until verified. Recording enters normal ingestion.
 
-### VERIFIED
+## 12. AI
+Media AI may classify, OCR, transcribe, tag, summarize, detect scenes/objects, recommend, embed and identify probable duplicates. Flow: Media → AI → Candidate Metadata → Validation → Policy → Authorization → State Authority. AI cannot silently delete, publish, change rights or expose private media.
 
-- The repository is private and its default branch is `main`.
-- Current HEAD observed during audit is `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`.
-- P0-06 explicitly preserves a single canonical State Authority and requires service access through P0-05.
-- P0-06 explicitly excludes durable persistence, network transport/mutation, subprocess/shell execution, arbitrary filesystem mutation, cloud/hardware persistence, plugin subsystem implementation and autonomous AI mutation.
-- An identity-boundary schema exists and defines device, binding, adapter, capability, event, command, execution, request, correlation, causation and recovery identities.
-- A domain lifecycle schema exists, but it describes MediaHub Device lifecycle, not media-content lifecycle.
-- AI inference request schema exists with operations including generate, classify, embed, transcribe and transform.
-- No repository evidence was found for FFmpeg, GStreamer or VLC integration.
-- No repository evidence was found for media-specific ingestion, playback, streaming, transcoding, subtitles, playlists, camera/live media, media storage or media index implementation.
+## 13. Security/isolation
+Threats include malicious media, parser exploits, traversal, archive bombs, malformed codecs/subtitles/artwork, poisoned AI input and exfiltration. Processing requires least privilege, restricted filesystem/network, quotas and suitable isolation. Exact sandbox/codec technology is not canonical without ADR/evidence.
 
-### OBSERVED
+## 14. Privacy
+Apply MH-13 minimization, purpose limitation, access control, retention, redaction, explicit external transfer and audit. Do not log media payloads by default. Private content must not cross provider/AI/export boundaries without explicit authorization.
 
-- The repository is currently foundation/contract oriented rather than a media implementation repository.
-- Generic domain schemas and identity contracts provide useful integration primitives for MH-18 but do not constitute a media content model.
-- Existing AI contracts are a candidate integration boundary for media analysis; they do not establish media AI authorization semantics by themselves.
-- Current CI emphasizes contract/runtime governance and security boundaries rather than media processing.
+## 15. Backup/recovery/migration
+Back up media, canonical metadata and configuration according to separate contracts. Rebuild indexes/derivatives where possible. Restore gate: Integrity → Compatibility → Authorization → Restore → Validation → Health Gate. Data migration is distinct from transcoding.
 
-### HISTORICAL
+## 16. Resource governance
+Bound file/upload size, metadata, thumbnail/temp storage, index size, streams, processing concurrency, CPU/GPU, memory and bandwidth. Priority must preserve Core Runtime and active user playback over background indexing/AI/cache rebuild.
 
-- Recent Git history is dominated by P0-06/P0-07/P0-08 governance and verification work, including exact-head verification and isolated runner changes.
-- Historical PR descriptions explicitly state that P0-06/P0-04 work did not authorize persistence, external execution or production integration.
+## 17. APIs/export/plugins
+APIs distinguish browse/search/read/playback/import/upload/transcode/export/delete/metadata mutation. Every operation is capability-scoped. Export is explicit, bounded, auditable and privacy-aware. Plugins can extend adapters/providers/analyzers but never become Content or State Authority.
 
-### PROPOSED
+## 18. Technology neutrality
+FFmpeg, GStreamer, VLC, databases, search engines, object storage/NAS, CDN and DRM providers are CANDIDATE. Selection requires requirements → compatibility → security/resource/licensing analysis → ADR → evidence.
 
-- MH-18 content model, identity model, lifecycle, ingestion pipeline, storage abstraction, derived-artifact model, playback/session model, processing isolation, rights boundary and media API are to be designed in subsequent passes.
-- Technology choices such as FFmpeg/GStreamer/VLC, databases, search engines, object storage, NAS, CDN or DRM providers remain CANDIDATE until requirements/evidence/ADR.
+## 19. Testing/governance
+Testing covers contracts, corpus/fuzzing, security, privacy, performance, compatibility, recovery and authorization negatives. Evidence records exact version/platform/configuration/timestamp/scope. No VERIFIED/PASS/ACCEPTED/FROZEN claim is made for untested media implementation.
 
-### UNKNOWN / REQUIRES VERIFICATION
+## 20. Current decision
+Repository audit found foundation contracts but no observed media implementation. Therefore MH-18 establishes architecture and gates, not production authorization. Production ingestion, bulk import/export/deletion, storage migration, codec installation, provider/DRM integration and camera/live capture remain unauthorized until separate gates pass.
 
-- Actual implementation outside the visible repository artifacts or in unlisted branches/worktrees.
-- Full MH-01…MH-17 artifact set and exact traceability from those chats into repository files.
-- Concrete State Authority implementation status beyond the inspected P0-06 documentation.
-- Existing iOS-specific media implementation, if any exists outside this repository.
-- Runtime dependency manifests beyond the currently inspected tree.
-- Real device/provider capabilities and protocol behavior.
-- Media performance/resource requirements.
-- Legal/licensing/DRM requirements.
-- Backup/restore behavior for media content.
-
-### BLOCKED
-
-- No evidence currently authorizes production media ingestion, bulk export/deletion, storage migration, codec installation, external provider integration, DRM integration, camera access or live capture.
-
-### CONTRADICTIONS
-
-No confirmed contradiction was established from the inspected repository artifacts.
-
-Potential future contradiction to resolve: generic domain `lifecycle` is device-oriented and must not be reused as the media-content lifecycle without an explicit contract decision.
-
-## 5. Immediate architecture conclusion
-
-MH-18 must be built as a domain/content subsystem adjacent to, not inside, State Authority. The first implementation gate should define content identity and ingestion/validation contracts before any real media parser, codec, storage backend or network provider is integrated.
-
-## 6. Next gate
-
-Proceed to **MH-18.2 — Content Identity / Ingestion / Validation Contract** only after the repository audit evidence is recorded and unresolved implementation/dependency scope is explicitly tracked.
-
-## 7. Acceptance state
-
-`NOT ACCEPTED / NOT FROZEN`
-
-This artifact does not authorize production media integration.
+## 21. Acceptance
+Required acceptance includes all 50 requested domains, evidence register, contradiction/unknown resolution, traceability to MH-01…MH-18 and P0-03…P0-07, security/privacy review, tests and governance decision. Current status remains NOT ACCEPTED / NOT FROZEN.
