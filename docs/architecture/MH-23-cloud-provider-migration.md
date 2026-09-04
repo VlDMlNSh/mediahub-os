@@ -1,0 +1,2 @@
+# MH-23 Cloud Provider Migration
+Cloud/provider changes require data location, privacy, credentials, identity, API, quotas, model behavior, latency, cost, availability, jurisdiction, deletion and audit analysis. Cloud is external/untrusted by default and never becomes State Authority or unrestricted control plane.
