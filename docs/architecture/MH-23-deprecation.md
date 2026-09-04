@@ -1,0 +1,2 @@
+# MH-23 Deprecation
+Deprecation records reason, owner, affected consumers/components, compatibility, replacement, migration path, deadline, security implications, rollback constraints and evidence. Removal requires downstream-consumer analysis.
