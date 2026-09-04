@@ -1,0 +1,2 @@
+# MH-23 Branch Policy
+Canonical lines must be explicit. Main/release/security/hotfix/experiment branches may exist, but a branch never becomes canonical by existence alone. Every forked line needs owner, purpose, baseline, divergence, merge policy, security status and EOL. Long divergence requires governance.
