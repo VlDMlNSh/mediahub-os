@@ -1,23 +1,27 @@
-# MediaHub — Full Functional Scope / User Baseline v0.1
+# MediaHub — Full Functional Scope / User Baseline
 
 Date: 2026-09-04
-Status: RECOVERED FROM PRODUCT OWNER DESCRIPTION / REQUIRES ARCHITECTURAL RECONCILIATION
+Status: CONFIRMED_ACCEPTED BASELINE + USER-REVIEW CORRECTIONS
 
 ## 1. Governing principle
 
 This document captures the product-owner-defined functional scope before clean implementation. It is authoritative as a functional input, but does not silently override already accepted architectural invariants. Any conflict with MH-01…MH-23 must be explicitly reconciled and recorded.
 
+The functional baseline is reconstructed first; implementation must not begin until the complete capability inventory, reconciliation and master baseline are accepted.
+
 ## 2. Smart Home Hub
 
 - MediaHub is primarily a smart-home hub.
-- Home Assistant is the underlying smart-home integration and automation engine.
-- Home Assistant has no external user-facing interface in the product; it is embedded/hidden inside the MediaHub core.
-- MediaHub provides a unified native user interface over the underlying Home Assistant functionality.
-- Out-of-box support is required for automatic discovery/addition of devices from common smart-home manufacturers.
-- When a new device appears on the network, MediaHub automatically detects/indicates it and starts the onboarding flow.
-- Onboarding offers room assignment and device-type classification.
-- Throughout discovery, installation and configuration, MediaHub provides contextual pop-up hints, installation instructions and configuration guidance.
+- Home Assistant is an internal underlying smart-home integration/automation technology inside MediaHub Core.
+- Home Assistant has no external user-facing interface in the product.
+- The user must not need to know that Home Assistant exists or that it is used internally.
+- The user manages the smart home entirely through the native MediaHub UI and product model.
+- MediaHub must support out-of-box integration with the most widespread/common smart-home manufacturers, brands, protocols and ecosystems rather than being limited to a small fixed vendor list.
+- When a new device appears on the network or through an available discovery channel, MediaHub automatically detects it, identifies the manufacturer/device type/capabilities where possible, and offers the user integration.
+- The onboarding flow offers room assignment, device-type classification and configuration.
+- Throughout discovery, installation and configuration, MediaHub provides contextual pop-up hints, installation instructions and actionable configuration guidance.
 - Guidance may include concrete network/configuration actions, including which IP address/page to open and what settings to change when required.
+- The exact initial vendor/protocol coverage matrix is a separate registry to be established; the requirement itself is broad out-of-box coverage of the most widespread smart-home equipment.
 
 ### KINCONY
 
@@ -30,11 +34,10 @@ This document captures the product-owner-defined functional scope before clean i
 
 ### Smart-home external ecosystem export
 
-- The integrated smart-home system is exportable/bridgeable to remote user applications/ecosystems including Loxone, Yandex Alice and Apple HomeKit.
+- The integrated smart-home system is exportable/bridgeable to external user applications/ecosystems including Loxone, Yandex Alice and Apple HomeKit.
 - Apple HomeKit integration may require an additional server in the local network.
 - Yandex Alice integration is intended through Yandex Cloud.
-- A proprietary MediaHub assistant is intended for Loxone onboarding and automation construction.
-- The Loxone assistant runs locally on MediaHub.
+- MediaHub Local Assistant is a general MediaHub assistant that can be used for Loxone onboarding and automation construction; it is not a Loxone-specific assistant.
 
 ## 3. Video surveillance
 
@@ -47,17 +50,35 @@ This document captures the product-owner-defined functional scope before clean i
   1. surveillance recording storage;
   2. media library storage.
 
-## 4. Networking
+## 4. Networking, seamless coverage and MediaHub scaling modes
 
 - Out-of-box support is required for Ubiquiti and Keenetic networking equipment.
 - Product principle: eliminate unnecessary physical intermediary infrastructure where possible.
 - MediaHub is intended to replace a Ubiquiti server/controller layer where applicable.
 - MediaHub can participate directly in building/extending a seamless wireless home network alongside Keenetic and Ubiquiti equipment.
 - Example target deployment: one Ubiquiti access point plus one MediaHub can provide/extend home wireless coverage.
-- Multiple MediaHub units in one local network form a local cluster.
-- The cluster redistributes computing tasks/workloads among MediaHub nodes and supports additional coordinated functions.
-- The cluster also participates in seamless wireless networking.
-- MediaHub settings allow selection of which connection/path it rebroadcasts as the wireless network uplink: ordinary Internet or Internet routed through VPN.
+- Multiple MediaHub units in one local network can form a local MediaHub cluster.
+- The local cluster redistributes computing tasks/workloads among MediaHub nodes and supports additional coordinated functions.
+- The local cluster can also participate in seamless wireless networking.
+- MediaHub settings must expose these capabilities through simple user-facing actions rather than requiring users to manage complex network or cluster infrastructure.
+- A user should be able to select a simple action such as extending the seamless home network or joining/creating a local MediaHub cluster, after which MediaHub handles the underlying configuration as far as technically possible.
+- When another MediaHub is discovered on the local network, the system should identify its capabilities and offer the user a simple option to join or coordinate the nodes.
+- MediaHub settings allow selection of the relevant Internet uplink/path for the wireless network, including ordinary Internet or Internet routed through VPN, subject to the available network topology.
+
+### Local MediaHub Cluster
+
+- Several MediaHub nodes in the local network operate as a coordinated local cluster.
+- The cluster may distribute compute, AI, media processing, transcoding, automation and other authorized workloads.
+- The system should support degraded operation and failover where technically possible.
+- Exact topology, coordination, scheduling, failover and security semantics require later technical acceptance.
+
+### Cloud Cluster
+
+- MediaHub can participate in a distributed cloud compute/development cluster in addition to a local cluster.
+- The cloud cluster aggregates participating MediaHub compute capacity for authorized workloads.
+- MediaHub can use the cloud cluster when local capabilities are insufficient.
+- The user-facing configuration must remain simple; underlying distributed-compute mechanics are hidden from ordinary users.
+- Resource contribution, consent, metering, limits, data boundaries and security require later technical acceptance.
 
 ## 5. Distributed cloud development / compute environment
 
@@ -77,6 +98,7 @@ This document captures the product-owner-defined functional scope before clean i
 - This is an intentional product visual direction; implementation must not assume copying proprietary Apple assets.
 - MediaHub exposes normal settings and a separate advanced settings area intended for engineers.
 - Navigation should be highly intuitive and visually coherent across the product.
+- Ordinary users must not be exposed to internal infrastructure complexity such as Home Assistant administration, cluster orchestration or distributed-compute mechanics.
 
 ## 7. Phone as media/IO endpoint
 
@@ -103,20 +125,22 @@ This document captures the product-owner-defined functional scope before clean i
 ## 10. Cross-cutting product principles recovered from this scope
 
 - Hidden implementation layers should be replaced by a unified MediaHub experience where technically feasible.
+- Home Assistant is an internal implementation component, not a user-facing product or user-facing mental model.
 - Automatic discovery and guided onboarding are first-class product behavior.
 - Contextual instructions should be actionable, not merely descriptive.
 - Local-first operation is strongly implied for core smart-home, surveillance, networking and assistant functions; exact cloud fallback rules require formalization.
 - Engineer/advanced configuration exists separately from ordinary user settings.
+- Network extension, local clustering and cloud clustering should be exposed as simple MediaHub configuration choices while implementation complexity remains internal.
 - MediaHub is intended to unify smart home, surveillance, networking, media, mobile-device integration and distributed compute under one product surface.
 
 ## 11. Items explicitly requiring clarification / acceptance
 
-1. Exact definition of “all common manufacturers” and the initial supported vendor/protocol matrix.
-2. Home Assistant version/fork and exact boundary between HA runtime and MediaHub core.
+1. Exact initial vendor/protocol coverage matrix for “most widespread/common manufacturers”.
+2. Home Assistant version/fork and exact boundary between HA runtime and MediaHub Core.
 3. Whether Home Assistant add-ons/integrations may execute unchanged or require MediaHub adapters.
 4. KINCONY firmware discovery source, authenticity/signature verification, supported board models and safe USB flashing/recovery behavior.
 5. Whether automatic firmware flashing requires user confirmation.
-6. Exact Loxone integration mechanism and meaning of “MPV”/proprietary assistant terminology.
+6. Exact Loxone integration mechanism.
 7. Exact Yandex Cloud architecture and data/privacy boundary.
 8. Apple HomeKit bridge architecture and required additional server.
 9. Exact Dahua/Hikvision/Ajax product families, protocols, discovery mechanisms and supported camera/NVR/device classes.
@@ -125,12 +149,12 @@ This document captures the product-owner-defined functional scope before clean i
 12. Whether surveillance storage and media library storage can be resized/rebalanced after installation.
 13. Exact meaning of replacing a Ubiquiti server/controller and which controller functions MediaHub assumes.
 14. Exact Wi-Fi hardware/radio capabilities required for MediaHub to participate as an AP/mesh node.
-15. Exact cluster topology, consensus/coordination model, workload scheduling, failover and security boundaries.
-16. Whether compute contribution to the shared cloud environment is opt-in, how resources are metered/limited, and what data/code may cross the local boundary.
+15. Exact local-cluster topology, coordination model, workload scheduling, failover and security boundaries.
+16. Exact cloud-cluster architecture, resource contribution/consent, metering/limits and data boundary.
 17. Ownership/security model for the developer-only cloud development environment.
 18. Exact source-ingestion, copyright/licensing and moderation rules for generated educational video.
 19. Exact website generation architecture and publishing/deployment flow.
-20. Exact iPhone/Android discovery and transport protocols for audio/video; whether this means AirPlay, Miracast, WebRTC, USB, proprietary transport, or multiple paths.
+20. Exact iPhone/Android discovery and transport protocols for audio/video.
 21. Exact audio direction: phone microphone -> MediaHub, MediaHub -> phone speaker, phone audio -> MediaHub speakers, etc.
 22. Exact gaming input/video topology for Xbox/PlayStation and gaming PC.
 23. Supported mobile media types, sync direction, conflict resolution, offline behavior and privacy controls.
@@ -138,4 +162,4 @@ This document captures the product-owner-defined functional scope before clean i
 
 ## 12. Recovery classification
 
-All capabilities in this document are classified as PRODUCT-OWNER-DECLARED / RECOVERED INPUT for the new master specification. They must be mapped against MH-01…MH-23 and development history before implementation authorization.
+The core functional scope previously explicitly approved by the product owner remains CONFIRMED_ACCEPTED. The smart-home abstraction correction and MediaHub scaling/network modes are recorded here as the current user-review correction and must receive explicit user acceptance before being promoted to the immutable master baseline.
