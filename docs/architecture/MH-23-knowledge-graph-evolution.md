@@ -1,0 +1,2 @@
+# MH-23 Knowledge Graph Evolution
+Ontology, entity schema, relationship/predicate semantics, provenance and temporal model are versioned independently. INFERRED ≠ VERIFIED; PREDICTED ≠ FACT; OBSERVED ≠ AUTHORIZED. Unknown and conflict remain first-class states.
