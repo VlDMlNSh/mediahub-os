@@ -1,0 +1,2 @@
+# MH-23 Device Compatibility
+Device compatibility requires protocol, firmware, capability version, identity, authentication, certificates, commands and event/telemetry semantics. Replacement does not imply identity continuity. Enrollment is Discovery → Identity → Verification → Enrollment → Authorization.
