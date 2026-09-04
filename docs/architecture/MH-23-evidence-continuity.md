@@ -1,0 +1,2 @@
+# MH-23 Evidence Continuity
+Significant migrations retain source/target versions, artifact digest, migration ID, timestamp, operator/service identity, preflight, compatibility result, validation, result, health gate, rollback state and post-migration verification. Evidence excludes secrets and unnecessary personal data.
