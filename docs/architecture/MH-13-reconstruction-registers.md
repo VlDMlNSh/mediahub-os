@@ -16,9 +16,9 @@ This register is part of the governance-authorized MH-13 reconstruction. It reco
 - E-13-03 — `f470b1fe957a3eb68ce84f7251c53ef69f377297`, `docs/architecture/MH-21-privacy-invariants.md`; classification, purpose, minimization/redaction, destination/provider/region, retention, AI routing restrictions. **GIT-BACKED**.
 - E-13-04 — `ec6fb020953b00497eb55bd0cf397ecbb7761995`, `docs/architecture/MH-21-data-retention.md`; external transfer retention/deletion/provider/audit requirements. **GIT-BACKED**.
 - E-13-05 — `5450b5c1bf2b374e4d657ec3bc6f2b7245cb3885`, `docs/architecture/MH-17-privacy.md`; device privacy boundary and retention/deletion delegation. **GIT-BACKED**.
-- E-13-06 — `docs/architecture/MH-18-privacy.md`; media privacy application. **GIT-BACKED**.
-- E-13-07 — `docs/architecture/MH-18-privacy-testing.md`; privacy verification/testing. **GIT-BACKED**.
-- E-13-08 — `docs/architecture/MH-18-chat-sync.md`; architecture/development synchronization discipline. **GIT-BACKED**.
+- E-13-06 — `docs/architecture/MH-18-privacy.md` on `mh-18-media-content-architecture`, blob `5c4da4ddd79c6c137e07ab55d4b4e462a9ccfed9`; media privacy application. **GIT-BACKED / RESOLVED**.
+- E-13-07 — `docs/architecture/MH-18-privacy-testing.md` on `mh-18-media-content-architecture`, blob `5e3c3fa3292f558d867dfb2dcfaaa7da2fd34af8`; privacy verification/testing. **GIT-BACKED / RESOLVED**.
+- E-13-08 — `docs/architecture/MH-18-chat-sync.md` on `mh-18-media-content-architecture`, blob `246d058fecd6f75430e62142b3fa505c4ea6808c`; architecture/development synchronization discipline. **GIT-BACKED / RESOLVED**.
 - E-13-09 — MH-23 master index historical linkage warning. **GIT-BACKED**.
 - E-13-10 — direct MH-13 file search did not recover a historical canonical artifact. **OBSERVED**.
 - E-13-11 — MH-13 commit search did not recover a historical canonical commit. **OBSERVED**.
