@@ -1,0 +1,2 @@
+# MH-23 Failed Migration
+Handle interruption, power/storage failure, corrupted artifacts, incompatible schema/plugin/device/model/index, failed boot/recovery, compromise and insufficient capacity without false success, silent data loss, privilege increase, authority split or silent downgrade. Preserve evidence before recovery.
