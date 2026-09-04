@@ -1,0 +1,2 @@
+# MH-23 OS Generations
+Compatibility covers supported/minimum OS, kernel, service manager, filesystem, networking, security primitives, drivers, boot/recovery and update mechanisms. Host capability ≠ MediaHub capability. Exact current OS is UNKNOWN.
