@@ -1,0 +1,2 @@
+# MH-23 LTS
+LTS is a governance state with a supported baseline, security maintenance, critical-bug maintenance, compatibility policy, migration policy, upgrade path, EOL policy and retained evidence. No concrete support duration is asserted here. New features require qualification before LTS inclusion.
