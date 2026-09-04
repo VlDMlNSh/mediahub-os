@@ -1,0 +1,2 @@
+# MH-23 RAG Migration
+Embedding model, chunking, metadata schema and retrieval strategy changes invalidate assumptions about an old index. Canonical flow: Source → Reprocess → Validate → Index → Evaluate → Promote. Preserve old index until qualification when resources permit.
