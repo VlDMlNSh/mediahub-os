@@ -1,0 +1,2 @@
+# MH-23 Firmware Compatibility
+Firmware changes require identity, integrity/signature, capability, security and rollback analysis. Firmware update never implicitly changes MediaHub permissions or device identity. Anti-rollback may be required for security updates.
