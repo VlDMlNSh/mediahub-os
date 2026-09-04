@@ -1,19 +1,30 @@
 # MH-04 Acceptance Criteria
 
-MH-04 remains PROPOSED until all gates pass:
-1. MH-01 compatibility review.
-2. MH-02 compatibility review.
-3. MH-03 compatibility review.
-4. P0-03/P0-04/P0-05/P0-06 review.
-5. authority-path review.
-6. trust-boundary review.
-7. identity/authentication review.
-8. authorization/capability review.
-9. fail-closed/failure review.
-10. quarantine/recovery review.
-11. security observability review.
-12. historical reconciliation.
-13. contradiction review.
-14. evidence and decision register review.
+## Review result
+All defined architecture review passes for the current MH-04 scope are COMPLETED with no identified contradiction:
+- MH-01 compatibility;
+- MH-02 compatibility;
+- MH-03 compatibility;
+- P0-03/P0-04/P0-05/P0-06 protection review;
+- canonical authority-path review;
+- trust-boundary review;
+- identity/authentication review;
+- authorization/capability review;
+- fail-closed/failure review;
+- quarantine/recovery review;
+- security observability review;
+- historical/repository reconciliation;
+- contradiction review;
+- evidence/decision register review.
 
-Acceptance requires an unambiguous answer: every UI/API/device/plugin/AI/cloud/runtime service is identified/authenticated and receives only bounded authorization; none can bypass the single canonical mutation path. ACCEPTED requires governance approval. FROZEN requires a separate explicit freeze decision.
+## Acceptance condition
+MH-04 provides an unambiguous answer: every UI/API/device/plugin/AI/cloud/runtime service is treated as a bounded security principal, authenticated at the applicable boundary, granted explicit capabilities and evaluated by authorization/policy; no such actor can mutate canonical state directly. Authorized commands must re-enter the inherited Consumer Contract and State Authority path.
+
+## Status gate
+Review completion does NOT equal governance acceptance.
+
+Current status: `PROPOSED / REVIEW COMPLETE`.
+
+Transition to `ACCEPTED` requires explicit governance approval. Transition to `FROZEN` requires a separate explicit freeze decision.
+
+Production qualification remains absent while unresolved evidence items remain unresolved, including actual topology and production security qualification.
