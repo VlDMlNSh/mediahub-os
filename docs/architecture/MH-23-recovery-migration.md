@@ -1,0 +1,2 @@
+# MH-23 Recovery Migration
+Recovery is independently trusted. Failure flow: Detect → Stop/Contain → Preserve Evidence → Recover/Rollback → Verify. Recovery must distinguish software, configuration, policy, schema, data, security, boot and model rollback.
