@@ -1,0 +1,2 @@
+# MH-23 Data Migration
+Source → preflight → validated transform → migration → post-validation. Preserve provenance and evidence. Expand/contract, additive, transform, rewrite and derived-data rebuild are distinct classes. Destructive migration requires explicit authorization, recovery path, validation and rollback or documented irreversible boundary.
