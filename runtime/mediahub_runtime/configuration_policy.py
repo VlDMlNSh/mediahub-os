@@ -66,8 +66,15 @@ def _validate_string(value: str, *, label: str, limit: int = MAX_STRING_BYTES) -
 
 def _secret_key(key: str) -> bool:
     normalized = key.casefold().replace("-", "_")
-    return normalized in _SECRET_KEY_MARKERS or any(
-        marker in normalized.split("_") for marker in _SECRET_KEY_MARKERS
+    parts = normalized.split("_")
+    return any(
+        normalized == marker
+        or marker in normalized
+        or any(
+            parts[index : index + len(marker.split("_"))] == marker.split("_")
+            for index in range(len(parts) - len(marker.split("_")) + 1)
+        )
+        for marker in _SECRET_KEY_MARKERS
     )
 
 
