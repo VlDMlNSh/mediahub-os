@@ -1,0 +1,2 @@
+# MH-23 Schema Evolution
+Schema changes require version identity, compatibility analysis, preflight, validation, migration and post-validation. Additive changes require unknown-field/default/security/semantic analysis. Destructive changes require recovery and explicit governance gate.
