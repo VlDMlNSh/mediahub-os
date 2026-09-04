@@ -106,29 +106,44 @@ Emergency UX is explicit, visible, auditable, fail-safe and minimally dependent 
 ## 15. Evidence baseline
 
 Repository: `VlDMlNSh/mediahub-os`  
-MH-09 architecture branch: `architecture/mh-09-presentation-ui`
+MH-09 architecture branch: `architecture/mh-09-presentation-ui`  
+Current MH-09 branch head after the architecture-record completion pass: `9c7aceaf979112c63d893f324c1748a0be80fe95`.
 
-Current MH-09 branch head at time of record creation: `2b61e5faf00fcdfb909b5a408fa433f2921c79db`.
+The branch now contains the complete MH-09 artifact set required by the architecture prompt, including presentation model, proposal/capability/authorization contracts, session/navigation/lifecycle, synchronization/offline/optimistic/error/failure semantics, accessibility/localization/privacy, AI/plugin/admin/diagnostic/emergency boundaries, notifications/observability/persistence, media/content, knowledge-graph, hybrid-cloud, device/platform, testing and threat-model records, plus evidence/decision/contradiction/unknown/acceptance/dependency and master governance records.
 
-The repository also contains current workflow evidence that supersedes older forensic claims: `.github/workflows/mediahub-bridge.yml` now targets a fixed P0-06 verification commit, and a P0-07 verification workflow exists. Older claims must not be carried forward without current verification.
+Current repository workflow evidence supersedes older forensic claims where it differs. `.github/workflows/mediahub-bridge.yml` targets a fixed P0-06 verification commit, and a P0-07 verification workflow exists. Older claims must not be carried forward without current verification.
 
-P0-03…P0-06 remain frozen foundations according to the supplied architecture baseline. P0-07 remains implementation-in-progress and not accepted/frozen.
+P0-03…P0-06 remain frozen foundations according to the supplied architecture baseline. P0-07 remains implementation-in-progress and not accepted/frozen. MH-09 does not modify those foundations.
 
 ## 16. Contradiction / unknown policy
 
 Any conflict between MH-09 and frozen P0-03…P0-06 is STOP → DOCUMENT → CONTRADICTION REGISTER → GOVERNANCE DECISION. MH-09 must not modify frozen foundations for UI convenience.
 
-Unknowns remain `UNKNOWN` or `REQUIRES VERIFICATION`; no historical relationship is reconstructed by assumption.
+Unknowns remain `UNKNOWN` or `REQUIRES VERIFICATION`; no historical relationship is reconstructed by assumption. Hardware-specific UI assumptions remain unqualified unless evidence exists.
 
 ## 17. Acceptance gate
 
 MH-09 cannot become ACCEPTED/FROZEN until its UI boundary, read model, command/proposal model, authorization interaction, session/navigation/lifecycle model, synchronization/offline semantics, security/privacy, accessibility, AI/plugin/admin/diagnostic/emergency boundaries, testing/threat model, traceability, contradiction register, unknown register and evidence register are reviewed and separately accepted by governance.
 
+Architecture completion is therefore **not** equivalent to governance acceptance.
+
 ## 18. Development separation
 
 Implementation must occur in a separate development chat/workspace and implementation branch. This architecture chat and this master record are normative/reference artifacts only. The development workspace may consume MH-09 through the master prompt and return implementation evidence through the reverse master prompt; it must not silently rewrite MH-09 architectural decisions.
 
-## 19. Next architecture
+The architecture chats MH-1…MH-23 are intended as durable architecture/governance keepers. Development, debugging, prolonged implementation discussion and implementation merges belong outside those chats. GitHub is the durable repository record so architecture is not dependent on chat history.
+
+## 19. Governance decision for this pass
+
+**Architecture scope:** COMPLETED / PROPOSED  
+**Implementation authorization:** NOT GRANTED  
+**Verification:** NOT VERIFIED  
+**Governance acceptance:** NOT GRANTED  
+**Freeze:** NOT GRANTED
+
+This pass establishes the canonical MH-09 architecture package and the development/architecture separation. It does not self-accept or self-freeze the architecture.
+
+## 20. Next architecture
 
 After MH-09 governance completion, the next architecture keeper is:
 
