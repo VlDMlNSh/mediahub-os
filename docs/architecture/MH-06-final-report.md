@@ -1,79 +1,64 @@
 # MH-06 — Final Architecture Pass Report
 
-Status: CANDIDATE / REQUIRES VERIFICATION
+Status: HEALTH / READINESS SEMANTIC CONTRACT ACCEPTED; MH-06 OVERALL NOT FROZEN
 Date: 2026-09-04
 
-## A. Canonical Current State
-Core Runtime Services are an orchestration layer. They manage lifecycle, execution, supervision, scheduling, health/readiness and bounded recovery. They do not own canonical state mutation.
+## A. Governance decision
 
-## B. Historical / Accepted Baselines
-P0-04 remains the sole canonical mutation authority. P0-05 remains the mandatory integration and authorization boundary. P0-06 architecture/service/lifecycle contracts are treated as accepted baseline; implementation and production qualification remain separate evidence gates.
+OPTION B — NEW SEMANTIC CONTRACT is GOVERNANCE ACCEPTED for Health/Readiness by `MH-06-ADR-001-health-readiness-semantic-contract.md`, commit `1d6e9cd6ad320fff752c6ec6e1aa8a94525ef5be`.
 
-## C. Runtime Service Model
-Minimal conceptual core: Runtime Coordinator, Lifecycle Service, Health/Readiness. Supervisor, Scheduler, Resource Governance, Execution Context, Dependency Coordination, Recovery, Startup/Shutdown and Observability remain capabilities requiring evidence/ADR before topology or implementation is made canonical.
+## B. Canonical state and frozen baselines
 
-## D. Lifecycle
-Canonical P0-06 lifecycle remains PROVISIONING, INITIALIZING, SELF_TEST, READY, DEGRADED, SAFE_MODE, RECOVERY with its accepted transition relation. Generic STOPPING, STOPPED, FAILED and QUARANTINED belong to service/health/supervision domains unless separately governed.
+P0-04 remains the sole canonical mutation authority. P0-05 remains the mandatory integration/authorization boundary. P0-06 lifecycle/service contracts remain accepted/frozen and unchanged.
 
-## E. Startup / Shutdown
-Required behavior is ordered initialization with fail-closed handling of critical failures; no partially initialized service is published as healthy. Shutdown must reject new work and handle in-flight work according to explicit cancellation/transaction semantics.
+## C. Semantic contract
 
-## F. Health / Readiness
-Liveness is distinct from readiness. Health does not grant capability, and readiness does not imply trust.
+Health is observation-only with results UNKNOWN, HEALTHY, DEGRADED, FAILED, QUARANTINED. Readiness is an operation-scoped derived verdict with results UNKNOWN, NOT_READY, READY, DEGRADED, QUARANTINED. `P0-06 READY != Readiness READY`.
 
-## G. Supervision
-Supervision may observe liveness/health, apply bounded restart policy and quarantine, and coordinate dependency readiness. It cannot bypass authorization or mutate canonical state.
+Readiness is evaluated as `Readiness(operation, observations) -> verdict` using bounded lifecycle, service/dependency health and classification, authority availability, generation/integrity, operation requirements, resource and supervisory observations.
 
-## H. Scheduling
-Scheduler responsibilities are admission, priority, deadline, fairness, concurrency and resource constraints. Technology and numeric limits remain unresolved candidates.
+## D. Dependency and precedence
 
-## I. Resource Governance
-Resource classes include CPU, memory, storage, file descriptors, network/IPC, concurrency and queue depth. Concrete limits require host/hardware evidence.
+CRITICAL failure/UNKNOWN => NOT_READY. OPTIONAL failure => DEGRADED only where the operation permits it; otherwise NOT_READY. FORBIDDEN/INCOMPATIBLE => NOT_READY or QUARANTINED; never READY. UNKNOWN classification => fail-closed NOT_READY.
 
-## J. Execution Context
-Execution context carries identity, capability/authorization context, correlation, deadline, cancellation, resource and security context. It is not a state authority.
+Precedence: QUARANTINED → generation/integrity incompatibility → authority unavailable → lifecycle incompatible → critical dependency failure/unknown → operation resource constraint → optional degradation → all required observations healthy.
 
-## K. Dependency Model
-Dependencies must distinguish hard, soft, optional and runtime relationships. Critical cycles require explicit ADR. Full graph remains open.
+## E. Lifecycle
 
-## L. Recovery / Self-Healing
-Recovery is bounded and risk-tiered. Safe recovery candidates may include restart/reconnect/cache rebuild/bounded retry/degraded mode. Restricted and operator-only actions require stronger gates. No destructive autonomous recovery.
+P0-06 remains exactly PROVISIONING, INITIALIZING, SELF_TEST, READY, DEGRADED, SAFE_MODE, RECOVERY. STOPPING, STOPPED, FAILED and QUARANTINED are not added by this decision.
 
-## M. Failure Domains
-Failure must remain contained within task/service/dependency/runtime/host/storage/network/external-service domains and must not silently become canonical state corruption.
+## F. Quarantine
 
-## N. IPC Boundary
-Internal IPC is not implicitly trusted. Authentication, authorization, bounded payloads, request identity, timeout, cancellation, replay handling and audit context are required. Transport technology remains undecided.
+Quarantine is supervisory/health state, not P0-06 lifecycle. It blocks normal readiness and has no authority, capability or authorization semantics. Detailed runtime thresholds and recovery transitions remain unresolved evidence questions.
 
-## O. Observability
-Metrics, logs, traces, health and audit context are observational and non-authoritative.
+## G. Cross-MH reconciliation
 
-## P. Security Invariants
-All 20 recorded MH-06 security invariants remain mandatory architectural constraints. Any violation is a contradiction requiring governance review.
+MH-03 health semantics are reconciled: health remains observational/control metadata; readiness is separated as operation-specific usability; neither mutates canonical state nor issues capability. No semantic contradiction remains between MH-03 and accepted MH-06 Health/Readiness semantics.
 
-## Q. Configuration / Policy
-Runtime consumes governed configuration/policy; it does not invent hidden policy, hidden mutation, or a bypass around the P0-07 governance/API gap.
+## H. Security / authority
 
-## R. AI Interaction
-AI remains non-authoritative: analysis/recommendation/proposal only until policy, authorization and Consumer Boundary gates are satisfied.
+Health ≠ Trust. Readiness ≠ Trust. Readiness ≠ Authorization. Readiness ≠ Capability. Liveness ≠ Trust. The normal control path remains Readiness → Authorization → P0-05 → P0-04.
 
-## S. Persistence Boundary
-No hidden runtime persistence or second canonical state store is authorized. Physical persistence implementation remains outside the MH-6 architecture decision.
+## I. Evidence
 
-## T. Update / Recovery Boundary
-Runtime restart, application update, host update, data migration, security update and recovery are distinct operations with explicit rollback/governance requirements.
+Historical P0-06 acceptance at `d9b5c9db128d8ec75dae6fbd03b5d54950bdddf5` remains historical. No reproducible current workflow run for that exact frozen implementation has been established; current execution remains NOT VERIFIED. This acceptance does not close that evidence gap.
 
-## U. Contradictions
-C-01 lifecycle terminology; C-02 evidence continuity; C-03 architecture versus implementation qualification; C-04 P0-07 governance/API gap remain tracked. None authorizes changes to frozen baselines.
+## J. Open contradictions / unknowns
 
-## V. Unknowns
-Process topology, init framework, IPC transport, scheduler technology, resource limits, restart/backoff, host integration, observability stack, hardware constraints, isolation, deadlines, recovery rate limits, complete dependency graph, configuration schema integration and MediaHub iOS integration remain open.
+C-01 lifecycle terminology: RESOLVED.
+C-02 evidence continuity: OPEN.
+C-03 Health/Readiness semantic mapping: RESOLVED by accepted ADR.
+C-04 P0-07 governance/API gap: OPEN.
+C-05 concrete dependency/runtime policy: OPEN / UNKNOWN.
 
-## W. Decisions / ADR Candidates
-Topology, lifecycle/health relation, scheduler, resource governance, IPC transport, supervisor policy, recovery authorization, startup/shutdown orchestration, isolation, observability and host integration require evidence and/or ADR before becoming canonical implementation choices.
+Remaining UNKNOWNs include exact dependency graph, complete operation classes, operation-specific dependencies, resource policy, quarantine thresholds, recovery transitions, publication mechanism, runtime topology, IPC, implementation location, future reproducible CI and host/iOS integration.
 
-## X. Acceptance State
-MH-6 is not FROZEN and not PRODUCTION READY. The architecture pass is reconciled at the record level, but acceptance remains gated on complete evidence reconciliation, implementation verification, contradiction disposition, unknown handling and governance acceptance.
+## K. Acceptance meaning
 
-## Development boundary
-This report is an architecture/governance artifact. Production implementation and debugging must occur in a separate development workspace and consume MH-6 through the master/reverse-master prompt mechanism.
+The Health/Readiness semantic architecture is GOVERNANCE ACCEPTED. MH-6 overall is not FROZEN and is not PRODUCTION READY. Architecture acceptance does not imply implementation complete, tests passed, CI verified, deployment authorized or production qualified.
+
+## L. Implementation boundary
+
+IMPLEMENTATION AUTHORIZATION: NO.
+
+Development Chat must remain STOPPED for Health/Readiness implementation until a separate, explicit scoped implementation authorization is issued. No code change is authorized by this report or ADR.
