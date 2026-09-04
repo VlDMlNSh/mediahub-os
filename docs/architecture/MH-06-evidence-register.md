@@ -1,18 +1,21 @@
 # MH-06 — Evidence Register
 
-Status: IN PROGRESS
+Status: RECONCILED / REQUIRES VERIFICATION
 
-## Accepted evidence
-- P0-06 Core Runtime Services Contract v1.0 exists in repository and is ACCEPTED / IMPLEMENTATION AUTHORIZED.
-- P0-06 Governance Acceptance v1.0 exists and explicitly preserves P0-04 sole mutation authority, P0-05 authorization boundary, bounded health/readiness, inert AI proposals and external-capability exclusions.
-- P0-04 and P0-05 are recorded as ACCEPTED / FROZEN by P0-06 governance evidence.
+## Repository-resident evidence verified in this pass
+- MH-06 index, core runtime model, lifecycle model, security invariants, dependency map, decision log, contradiction register, unknown register and acceptance criteria are present on the default branch.
+- The lifecycle artifact explicitly preserves the accepted P0-06 seven-value canonical lifecycle relation and separates service/health states from canonical P0-06 lifecycle.
+- The core runtime artifact preserves P0-04 as sole canonical mutation authority and P0-05 as the mandatory integration/authorization boundary.
+- The security artifact contains the 20 MH-6 security invariants.
+- The acceptance artifact explicitly separates architecture acceptance from implementation quality and production qualification.
 
-## Evidence requiring completion
-- frozen P0-06 implementation verification chain;
-- exact implementation commit and tests;
-- reconciliation with MH-1…MH-5;
-- P0-03/P0-04/P0-05/P0-07 current evidence;
+## Evidence not independently closed by this pass
+- frozen P0-06 implementation verification chain and exact implementation/test evidence;
+- direct repository path reconciliation for P0-03/P0-04/P0-05/P0-07 source artifacts;
+- full semantic reconciliation with MH-1…MH-5;
 - runtime topology, host and hardware evidence;
-- security negative tests for future conceptual services.
+- security negative tests for future conceptual services;
+- implementation-specific startup/shutdown, scheduling, resource, IPC, isolation and recovery parameters.
 
-Rule: absence of evidence means REQUIRES VERIFICATION, not VERIFIED.
+## Evidence rule
+Repository presence is evidence of artifact existence, not proof of runtime correctness. Absence of evidence means REQUIRES VERIFICATION, not VERIFIED. Architecture acceptance, implementation verification and production qualification remain separate gates.
