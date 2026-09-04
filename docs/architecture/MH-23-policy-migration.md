@@ -1,0 +1,2 @@
+# MH-23 Policy Migration
+Policy semantics are security-sensitive. Changes to rule meaning, default, priority, scope, capability or DENY behavior require explicit compatibility analysis. DENY must never silently become ALLOW; inheritance, hidden merge and privilege escalation remain prohibited.
