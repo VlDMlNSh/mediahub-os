@@ -1,0 +1,2 @@
+# MH-23 Rollback
+Rollback is explicit and scoped: software, configuration, policy, data, schema, model, firmware and OS may have different rollback boundaries. Never rollback knowingly vulnerable security state without explicit security/governance decision.
