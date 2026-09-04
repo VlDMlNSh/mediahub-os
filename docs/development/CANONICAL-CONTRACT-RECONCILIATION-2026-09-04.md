@@ -98,3 +98,22 @@ The first slice should prove the authority chain with no persistence, cloud, plu
 **PRODUCTION: NO-GO**
 
 This document is a durable evidence/reconciliation record. It does not modify canonical architecture and does not authorize implementation, deletion, merge, acceptance, freeze, qualification, or deployment.
+
+## 9. Health / Readiness forensic reconciliation — 2026-09-04
+
+Direct inspection of the frozen P0-06 tree at `d9b5c9db128d8ec75dae6fbd03b5d54950bdddf5` establishes the following:
+
+- `CanonicalState` contains payload, generation, state version and integrity validity; State Authority `read()` is observation-only. The implementation also contains bounded integrity validation and an internal restore self-test failure type, but these do not form a Health/Readiness verdict contract.
+- `LifecycleService` validates the frozen lifecycle transition relation and publishes lifecycle mutation through the P0-05 Consumer Boundary; it does not define Health/Readiness semantics.
+- `diagnostics.py` provides immutable diagnostic events and sensitive-field redaction; diagnostics are observational and do not define readiness.
+- `Generation` provides exact generation compatibility checks; generation compatibility is an input to safety, not a readiness verdict.
+
+Architecture custody independently defines proposed Health/Readiness semantics: MH-03 defines readiness around usability of required dependencies/contracts and health as observational/control metadata; MH-06 defines readiness as safe acceptance of defined operations, explicitly separate from trust and mutation authority. MH-06 also keeps lifecycle, health and readiness as separate models and forbids silently adding generic health states to the accepted P0-06 lifecycle.
+
+**Reconciliation conclusion:** the frozen implementation contains the necessary observation ingredients but no independently specified, accepted Health/Readiness verdict contract or mapping from those ingredients to a readiness result. Therefore the gap is **implementation/evidence semantics, not architectural absence**.
+
+**Disposition:** keep Issue #27 open as GOVERNANCE RECONCILIATION REQUIRED / NO IMPLEMENTATION AUTHORIZATION. A future resolution requires either (a) explicit governance evidence accepting a bounded mapping of existing P0-06 observations to the proposed Health/Readiness semantics without introducing a new canonical contract, or (b) an explicit architecture decision followed by separately scoped implementation authorization. No frozen P0-06 artifact is modified by this conclusion.
+
+## 10. Verification state
+
+Historical P0-06 acceptance evidence remains 12/12 targeted tests and 148/148 full regression, but current reproducible CI execution for `d9b5c9...` remains **NOT VERIFIED**. P0-07 exact HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db` remains **CI NOT VERIFIED / NOT ACCEPTED / NOT FROZEN**. Production qualification remains **NOT GRANTED**.
