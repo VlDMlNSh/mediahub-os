@@ -1,0 +1,2 @@
+# MH-23 Decommissioning
+Revoke credentials/certificates; remove integrations; detach devices; address backups/cloud copies; satisfy privacy retention/deletion; preserve required evidence; handle media/content disposition; close audit. Destructive disposition requires an explicit gate.
