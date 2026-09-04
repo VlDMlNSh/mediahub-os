@@ -1,0 +1,2 @@
+# MH-23 Resource Compatibility
+Functional compatibility does not imply operational compatibility. Qualification covers CPU, RAM, storage, I/O, network, thermal, power, media processing, AI, observability and recovery capacity.
