@@ -67,15 +67,15 @@ def _validate_string(value: str, *, label: str, limit: int = MAX_STRING_BYTES) -
 def _secret_key(key: str) -> bool:
     normalized = key.casefold().replace("-", "_")
     parts = normalized.split("_")
-    return any(
-        normalized == marker
-        or marker in normalized
-        or any(
-            parts[index : index + len(marker.split("_"))] == marker.split("_")
-            for index in range(len(parts) - len(marker.split("_")) + 1)
-        )
-        for marker in _SECRET_KEY_MARKERS
-    )
+    for marker in _SECRET_KEY_MARKERS:
+        marker_parts = marker.split("_")
+        if normalized == marker:
+            return True
+        if len(parts) >= len(marker_parts):
+            for index in range(len(parts) - len(marker_parts) + 1):
+                if parts[index : index + len(marker_parts)] == marker_parts:
+                    return True
+    return False
 
 
 def _freeze_and_validate(value: Any, *, depth: int, nodes: list[int]) -> Any:
