@@ -1,0 +1,2 @@
+# MH-23 Safety Preservation
+Hard Safety > Manual Emergency > Explicit Admin Policy > Local Automation > Optimization > Recommendation. Migration cannot raise automation authority, make AI-only critical action authoritative, remove interlocks or alter emergency behavior implicitly.
