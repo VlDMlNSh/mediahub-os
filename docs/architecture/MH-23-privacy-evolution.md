@@ -1,0 +1,2 @@
+# MH-23 Privacy Evolution
+Migration inventory includes canonical data, backups, caches, indexes, derived data, embeddings, AI memory, logs, audit records, temporary files and cloud copies. Track purpose, retention, deletion, access, transfer and evidence. Deleting canonical data does not imply derived-copy deletion.
