@@ -1,0 +1,2 @@
+# MH-23 AI Model Compatibility
+Model, tokenizer, prompt contract, tool schema, agent contract, RAG index, embeddings, sources and evaluations are independent compatibility dimensions. API compatibility ≠ behavioral compatibility. Promotion requires regression, security, tool-use, prompt-injection, resource, privacy and safety evaluation. AI remains non-authoritative.
