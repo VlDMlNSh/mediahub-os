@@ -1,0 +1,2 @@
+# MH-23 Update Migration
+Updates are verified artifacts followed by bounded migration, health gate and evidence-backed promotion. Software rollback does not imply data/config/policy/schema rollback. Security updates may impose anti-rollback constraints.
