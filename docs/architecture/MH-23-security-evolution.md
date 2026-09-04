@@ -1,0 +1,2 @@
+# MH-23 Security Evolution
+Security evolution covers crypto agility, key/certificate/credential rotation, identity migration, vulnerabilities, dependency lifecycle, SBOM, signed artifacts, provenance and secure boot/recovery. Security transitions require verified overlap/transition; no implicit downgrade.
