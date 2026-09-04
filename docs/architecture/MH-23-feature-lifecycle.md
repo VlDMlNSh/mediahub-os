@@ -1,0 +1,2 @@
+# MH-23 Feature Lifecycle
+Proposed → Experimental → Candidate → Enabled → Stable → Deprecated → Maintenance → EOL → Removed. Feature flags are explicit, bounded, auditable, testable and removable; never a hidden security bypass.
