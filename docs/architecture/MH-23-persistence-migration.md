@@ -1,0 +1,2 @@
+# MH-23 Persistence Migration
+Persistence is storage, not authority. Physical persistence remains NOT AUTHORIZED. Storage-engine migration must be preceded by requirements, evidence, ADR, security/privacy/recovery analysis and explicit authorization. Canonical state semantics remain owned by State Authority.
