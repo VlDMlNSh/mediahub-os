@@ -1,6 +1,6 @@
 # MH-6 — Architecture Index
 
-Status: PROPOSED / REQUIRES VERIFICATION
+Status: CANDIDATE / RECONCILED / REQUIRES VERIFICATION
 
 ## Canonical role
 MH-6 defines Core Runtime Services as orchestration around the sole canonical mutation authority P0-04, with P0-05 as the mandatory integration/authorization boundary.
@@ -31,6 +31,7 @@ MH-6 defines Core Runtime Services as orchestration around the sole canonical mu
 - MH-06-contradiction-register.md
 - MH-06-unknowns.md
 - MH-06-acceptance-criteria.md
+- MH-06-final-report.md
 - MH-06-ARCHITECTURE-CHAT-CHARTER.md
 - MH-06-CHAT-MASTER-PROMPT.md
 - MH-06-REVERSE-MASTER-PROMPT.md
@@ -41,5 +42,10 @@ P0-05 Consumer Boundary: ACCEPTED / FROZEN.
 P0-06 architecture/service/lifecycle contracts: ACCEPTED; implementation/production qualification remains separately evidenced.
 P0-07: implementation in progress; mutation publication blocked by governance/API gap.
 
+## Pass result
+Repository-level architecture records are reconciled for internal consistency. Lifecycle terminology is explicitly separated from canonical P0-06 lifecycle; the sole mutation-authority invariant is preserved; security, evidence, contradiction and unknown gates remain open where proof is absent.
+
 ## Governance
 This index and the referenced artifacts are architecture records, not an implementation workspace. Development must occur in a separate development chat and consume these artifacts through the master/reverse-master prompt mechanism.
+
+MH-6 is not frozen and does not grant production qualification.
