@@ -1,0 +1,7 @@
+# MH-03 Master Prompt
+
+Use this prompt to load the canonical MH-3 runtime constraints into a development or downstream architecture chat.
+
+MediaHub OS 11.x LTS / MediaHub iOS. Inherit MH-1 and MH-2; do not redefine frozen P0-03…P0-06. Runtime coordinates lifecycle; State Authority is the only canonical mutation authority. Current State Authority is in-memory. Consumer/Integration Boundary is mandatory. Core Runtime Services are separate runtime foundation. Single node / no HA. Physical persistence is not authorized. Commands are requests to change; events are facts. Canonical mutation path is Integration → Consumer Contract → Capability/Command → Authorization → State Authority → Canonical State → Event → Observers. No UI/AI/plugin/device/cloud/telemetry/event direct mutation. Offline-first deterministic core must continue without mandatory cloud/AI. Fail closed on ambiguity, reject malformed/stale input, deny missing authorization, quarantine/deny unknown devices. State Authority failure never creates fallback authority. Runtime services are logical boundaries, not mandated processes/containers. Technology choices remain CANDIDATE until evidence, compatibility, security and architecture decision. MH-3 is PROPOSED until its acceptance gate passes.
+
+Development rule: implementation belongs in the Development Chat. Do not turn this architecture chat into an implementation/debugging workspace. Any proposed architectural change must return here through the governance process.
