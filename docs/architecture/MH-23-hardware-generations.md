@@ -1,0 +1,2 @@
+# MH-23 Hardware Generations
+Qualification covers CPU, RAM, storage, network, GPU, thermal, power, firmware, boot, drivers and peripherals. CPU architecture alone is insufficient. Required sequence: Discovery → Evidence → Compatibility → Security → Performance → Thermal → Reliability → Qualification. Current Mac mini 2011 candidate remains REQUIRES VERIFICATION.
