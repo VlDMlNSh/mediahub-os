@@ -1,0 +1,2 @@
+# MH-23 Media Compatibility
+Compatibility covers containers, codecs, audio/video, subtitles, metadata, artwork, playlists, collections, indexes and thumbnails. Canonical metadata is distinguished from rebuildable derived data. Rebuildable indexes/cache/thumbnails should not block migration when safely reproducible.
