@@ -1,12 +1,11 @@
 # MH-18 — Contradiction Register
+Status: OPEN / NO CONFIRMED CONTRADICTION
 
-**Status:** OPEN / NO CONFIRMED CONTRADICTION
+C-18-001 Device lifecycle schema vs media lifecycle: NOT A CONTRADICTION; separate contracts required.
+C-18-002 AI as mutation authority: CONSISTENT; P0-06 inert AI boundary preserved.
+C-18-003 Storage as State Authority: OPEN RISK; MH-18 explicitly separates storage from canonical state.
+C-18-004 Repository search absence vs global absence: RESOLVED AS EVIDENCE LIMIT.
+C-18-005 Technology assumptions vs neutrality: CONSISTENT; all media technologies remain candidate.
+C-18-006 Deletion vs retention/backup: OPEN POLICY DEPENDENCY; deletion scope must honor holds and backup contracts.
 
-| ID | Potential contradiction | Evidence | Disposition |
-|---|---|---|---|
-| C-18-001 | Device lifecycle schema could be mistaken for media lifecycle | `schemas/domain/lifecycle.schema.json` defines MediaHub Device lifecycle | NOT A CONTRADICTION YET; media lifecycle requires separate contract |
-| C-18-002 | Media AI could be interpreted as mutation authority | Existing AI inference request contract exists; P0-06 says AI proposals are inert data and services cannot autonomously mutate | CONSISTENT; MH-18 must preserve this boundary |
-| C-18-003 | Media storage could become implicit State Authority | P0-06 excludes durable persistence within its scope and preserves sole State Authority | OPEN; requires explicit MH-18 storage/state boundary |
-| C-18-004 | Repository absence of media code could be interpreted as proof of global absence | GitHub search/tree only covers inspected repository state | RESOLVED AS EVIDENCE LIMIT; mark unknown, not absent globally |
-
-Future contradictions must cite exact artifact/version/commit and must not be resolved by assumption.
+No confirmed cross-artifact contradiction was established. Future contradictions require exact artifact/version/commit evidence.
