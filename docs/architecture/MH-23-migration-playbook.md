@@ -1,0 +1,2 @@
+# MH-23 Migration Playbook
+1 Prepare: inventory/baseline/dependencies/versions/compatibility/risk. 2 Protect: backup/restore evidence/recovery/rollback. 3 Verify: artifacts/signatures/SBOM/compatibility/security. 4 Migrate: bounded/explicit/observable/transactional where possible. 5 Validate. 6 Health Gate. 7 Observe. 8 Promote only with evidence. 9 Recover/Rollback on failure.
