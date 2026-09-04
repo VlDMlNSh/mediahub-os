@@ -1,0 +1,2 @@
+# MH-23 Interoperability
+External standards/providers are compatibility mechanisms, not authority sources. Adapters isolate canonical semantics from external semantic changes. Integration ≠ trust; network reachability ≠ authorization.
