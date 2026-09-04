@@ -1,0 +1,2 @@
+# MH-23 Coexistence
+Old/new versions may coexist only when authority, protocol, schema, security, authorization, event semantics, ownership, migration locking and resource isolation are proven. Otherwise BLOCK. Two independent canonical State Authorities are prohibited.
