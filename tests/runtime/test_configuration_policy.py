@@ -61,9 +61,29 @@ def test_non_finite_numbers_are_rejected():
 
 
 def test_secret_and_credential_keys_are_rejected():
-    for key in ("password", "api_key", "access-token", "my_secret"):
+    for key in (
+        "password",
+        "api_key",
+        "access-token",
+        "my_secret",
+        "my_api_key",
+        "service_access_token",
+        "user_private_key",
+        "raw_secret_value",
+    ):
         with pytest.raises(InvalidConfigurationPolicy):
             make_config({key: "value"})
+
+
+def test_secret_markers_are_detected_as_contiguous_tokens():
+    for key in ("my-api-key", "service-refresh-token", "stored-private-key"):
+        with pytest.raises(InvalidConfigurationPolicy):
+            make_config({key: "value"})
+
+
+def test_non_secret_similar_keys_remain_allowed():
+    config = make_config({"tokenizer": "value", "secretary": "value", "credentialing": "value"})
+    assert config.value["tokenizer"] == "value"
 
 
 def test_collection_and_object_bounds_are_enforced():
