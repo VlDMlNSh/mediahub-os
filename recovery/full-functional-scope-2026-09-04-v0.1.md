@@ -62,6 +62,35 @@ The functional baseline is reconstructed first; implementation must not begin un
 - Manufacturer and protocol are properties of the integration layer; capability and device semantics belong to the MediaHub product model.
 - Core UX invariant: the user works with the device, not with the integration technology.
 
+### Automation / Scenes / Rules / Scheduling — CONFIRMED_ACCEPTED
+
+- MediaHub provides a unified Smart Home automation engine over the unified device model.
+- Automation may connect devices, device states, sensors, events, rooms/zones, groups, schedules, presence, energy, security, video surveillance, multimedia, networking and MediaHub state.
+- Triggers may include device state changes, sensor values, events, time/schedules, presence, room state, security events, surveillance events, network state, MediaHub state, energy conditions, multimedia events, user commands and Local Assistant commands.
+- Conditions may inspect device state, sensor values, time/date, presence, room/zone, energy state, network state, other automations and device availability.
+- Actions may control supported devices and subsystems, including lighting, climate, heating/HVAC, blinds, doors/locks, energy systems, multimedia, surveillance, networking, notifications and permitted external integrations.
+- Scenes provide a user-facing way to combine multiple actions into one MediaHub function.
+- Scheduling supports one-time, daily, weekly, recurring, time-based, event-relative and delayed actions.
+- Automation execution accounts for device unavailability, retry, timeout, cancellation, prevention of unwanted duplicate execution and recovery from transient failure; exact retry/idempotency semantics remain a later technical decision.
+- Critical local automations should be able to execute without Internet access when required local components are available.
+- Automation must not bypass system security, authorization or safety constraints; exact safety classes and confirmation rules remain subject to later contracts.
+- Local Assistant may create, explain, modify, diagnose and improve automations, scenes and schedules in natural language. Created automations become ordinary MediaHub automations and do not require the Assistant to remain available for execution.
+- Execution history and user-visible explanation of automation behavior are required, with exact data model defined later.
+
+### Notifications / Events / History — CONFIRMED_ACCEPTED
+
+- MediaHub provides a unified event model for events originating from devices, sensors, automations, surveillance, energy systems, networking, MediaHub Cluster, external integrations, Local Assistant and MediaHub itself.
+- Events may feed Automation, Notifications, History, Diagnostics and Local Assistant.
+- MediaHub notifies users about significant events including new-device discovery, integration/onboarding status, device failures or loss of connectivity, recovery, automation results, security/surveillance events, power/energy issues, network issues, MediaHub issues, cluster events and situations requiring user action.
+- Notifications should be contextual and actionable where possible rather than merely descriptive.
+- Notification priority includes informational, warning, important and critical levels; exact semantics remain to be defined.
+- MediaHub retains significant event history for user review, automation analysis, diagnostics, Local Assistant, energy analysis, security investigation and state recovery as appropriate.
+- Event history should support a causal chain such as Event → Trigger → Automation → Action → Result so users and engineers can understand why an action occurred.
+- Users should be able to ask why an action occurred and receive a comprehensible explanation based on the relevant event/automation chain.
+- Ordinary UI presents human-oriented information; Advanced/Engineer Settings may expose technical events, sources, integration details, network parameters, errors, correlation/request identifiers and extended execution history.
+- Local events and critical local notifications should not depend on Internet access when required local components are available.
+- Exact event schema, retention, aggregation, deduplication, privacy, cluster synchronization, cloud history, export and notification delivery channels remain later technical decisions.
+
 ### KINCONY
 
 - KINCONY is a first-class supported vendor/integration.
@@ -196,6 +225,7 @@ The functional baseline is reconstructed first; implementation must not begin un
 22. Exact gaming input/video topology for Xbox/PlayStation and gaming PC.
 23. Supported mobile media types, sync direction, conflict resolution, offline behavior and privacy controls.
 24. Exact visual UI design system; Apple-inspired visual direction must remain an original MediaHub implementation.
+25. Exact event schema, retention, aggregation, deduplication, privacy, cluster synchronization, cloud history, export and notification delivery semantics.
 
 ## Recovery classification
 
