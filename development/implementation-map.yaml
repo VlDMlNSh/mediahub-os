@@ -1,4 +1,4 @@
-schema_version: "1.1"
+schema_version: "1.2"
 status: DRAFT_BOUNDARIES_ONLY
 rules:
   - "Architecture component names define ownership boundaries, not production implementation details."
@@ -6,6 +6,8 @@ rules:
   - "Every canonical capability owner must have a declared implementation boundary, even when that boundary is a supporting/domain component."
 components:
   mediahub_core: [state_authority, consumer_boundary, orchestration]
+  product_core: [product_model, variants, capability_matrix]
+  runtime_core: [local_runtime, offline_first, lifecycle_coordination]
   security_core: [identity, authentication, authorization, trust, protected_communications]
   smart_home_core: [home_assistant_internal_runtime, device_function_model]
   device_onboarding: [discovery, identification, onboarding, firmware_workflow]
