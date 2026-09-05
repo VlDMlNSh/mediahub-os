@@ -16,60 +16,42 @@ PASS 91–98: COMPLETE — technical decision preflight completed; decision-read
 PASS 99–106: COMPLETE — decision closure and architecture-readiness audit completed; no unsupported technical decisions promoted.
 PASS 107–114: COMPLETE — terminal decision and architecture gate completed; baseline remains protected.
 PASS 115–122: COMPLETE — evidence-driven technical closure gate completed; technical closure remains evidence-blocked.
+PASS 123–130: COMPLETE — control-point, evidence-surface, historical corpus and terminal verification reconciliation completed.
+PASS 131–138: COMPLETE — authoritative evidence reconciliation completed; evidence-backed constraints strengthened, exact technical closure remains open.
 
-## Current evidence findings
-The canonical functional baseline remains 58 capabilities across 51 canonical domains. All 58 capabilities retain explicit owners. Structural ownership and dependency integrity remain closed at the current evidence surface.
+## New evidence findings
+Historical MH-12 PKI material is directly available and establishes that PKI architecture covers root of trust, intermediates, issuance, validation, renewal, revocation, rotation, expiry and compromise recovery for device/service/client identities. It explicitly leaves exact topology and trust roots to evidence and ADR and treats mTLS as a candidate mechanism, not automatic authorization. This is evidence-backed constraint material, not a closed algorithm/topology decision. cite-placeholder
 
-The terminal verification matrix remains deliberately conservative: terminal VERIFIED=0 and terminal ACCEPTED=0. Material historical evidence is not promoted to immutable terminal acceptance without direct verification/acceptance evidence.
+Historical MH-22 acceptance criteria are directly available and establish a conservative acceptance authority model: unique release identity, traceable provenance, complete security/privacy evidence, qualification across software/OS/runtime/hardware/integrations, exercised update/rollback/recovery, backup/restore validation, capacity/performance evidence, operational ownership, authority-path consistency, explicit production governance approval, complete evidence/decision records and no critical unresolved unknowns. Acceptance does not imply HA or other properties not separately evidenced. 
 
-F-006…F-015 remain material historical evidence; F-001…F-005 remain UNKNOWN/EVIDENCE_GAP. F-007 remains a legacy evidence-number collision. Repository search absence is not interpreted as proof of function absence.
+Historical commit search also confirms dedicated decision/evidence registers and all-pass qualification work for multiple MH contours, including MH-03, MH-06, MH-10, MH-12, MH-13, MH-14, MH-15, MH-21 and MH-22. These records strengthen provenance but do not constitute terminal acceptance of the canonical 58 capabilities.
 
-Technical decision surface remains explicitly partitioned into security/PKI; Smart Home/HA; vendor/protocol/device matrix; KINCONY/KCS onboarding trust; surveillance transport/recording; storage semantics; cluster coordination/failover; cloud controls; mobile transport; gaming topology; ecosystem bridges; threat/incident response; AI provider qualification.
+## Current baseline
+58 capabilities across 51 canonical domains; 58/58 explicit owners; 36 contracts; 30 invariants. Terminal VERIFIED=0 and terminal ACCEPTED=0 remain unchanged because no new direct per-capability execution/acceptance chain was materialized.
 
-PASS 115–122 did not identify authoritative evidence sufficient to close those implementation-specific choices. No unsupported choice was fabricated.
+F-006…F-015 remain material evidence; F-001…F-005 remain UNKNOWN/EVIDENCE_GAP. Repository search absence is not interpreted as loss.
 
-## Recovery artifacts
-- `recovery/forensic-pass-99-106-decision-closure-and-architecture-readiness-2026-09-05.md` — `7f323c2ae87fd1cf6186eef4990f8010e51217a4`
-- `recovery/forensic-pass-107-114-terminal-decision-and-architecture-gate-2026-09-05.md` — `2500222d64b4650a5b2cff7d3068145229494c81`
-- `recovery/forensic-pass-115-122-evidence-driven-closure-gate-2026-09-05.md` — `47e413450297c00ebcc55a4f60bba6895dc149ad`
-
-## Preservation rules
-- No function is removed because historical architecture cannot currently express it.
-- UNKNOWN/EVIDENCE_GAP remains unknown; it never becomes LOSS by inference.
-- DEFERRED remains deferred, not rejected.
-- LOST requires authoritative removal/retirement evidence.
-- Surveillance direct recording remains a native MediaHub capability where supported; separate NVR is not mandatory.
-- Surveillance and Personal Media Library storage remain separate logical domains.
-- Home Assistant remains internal; MediaHub remains the user-facing Smart Home model.
-- Health, Readiness, Liveness, Trust, Authentication and Authorization remain distinct.
-- Local MediaHub Cluster and Cloud Development Cluster remain separate trust/control domains.
-- Product variants preserve explicit capability differences.
-- Professional Engineering remains first-class.
-- Verification/acceptance coverage is separate from Master Architecture acceptance.
-- Legacy evidence identifiers remain preserved.
-- Historical P0–P8 decomposition does not control canonical ownership.
-- Plausible technical defaults are not accepted architecture without evidence or explicit authority.
-
-## Remaining blockers
-1. Full machine-readable MH-01…MH-23 historical corpus remains unavailable.
-2. Exact technical decisions/contracts remain open.
-3. CAP-001…CAP-058 terminal verification and immutable acceptance evidence are not fully materialized.
-4. F-001…F-005 may exist under other names/locations.
-5. Explicit user acceptance of the reconstructed Master Architecture has not occurred.
+## Correction recorded
+The preceding conversational response stated that PASS 123–130 had already been materialized as a dedicated GitHub artifact. Repository verification showed that file did not exist. This control point therefore treats that statement as non-authoritative and records the discrepancy. PASS 123–130 are now durably represented together with PASS 131–138 in `recovery/forensic-pass-123-138-authoritative-evidence-reconciliation-2026-09-05.md`.
 
 ## Gate state
 FUNCTIONAL BASELINE: CONFIRMED_ACCEPTED
 FORENSIC RECONSTRUCTION: STABLE PROTECTED BASELINE
 CROSS-REGISTRY CONSISTENCY: COMPLETE AT STRUCTURAL LEVEL
 RECONSTRUCTION READINESS: BASELINE-READY
-MASTER RECONCILIATION PREFLIGHT: COMPLETE
 TECHNICAL DECISION PREFLIGHT: COMPLETE
-EVIDENCE-DRIVEN CLOSURE PASS: COMPLETE
+EVIDENCE-DRIVEN CLOSURE: COMPLETE FOR CURRENT SEARCH SURFACE
 TECHNICAL DECISION CLOSURE: OPEN / EVIDENCE-BLOCKED
 CAP TERMINAL VERIFICATION MATRIX: BASELINE MATERIALIZED / PARTIAL EVIDENCE
 MASTER ARCHITECTURE: DRAFT — NOT ACCEPTED
 MH-01…MH-23 REDISTRIBUTION: BLOCKED
 PRODUCTION IMPLEMENTATION: BLOCKED
 
+## Preservation rules
+No function is removed because history is incomplete. UNKNOWN/EVIDENCE_GAP is never converted to LOSS. Deferred detail is not rejection. Historical acceptance is not terminal acceptance. Plausible technical defaults are not architecture without evidence or explicit authority.
+
+## Required decision schema
+`evidence → alternatives → constraints → decision → contract update → invariant impact → verification criteria → acceptance authority`
+
 ## Control rule
-No future pass may convert IN PROGRESS/DRAFT into COMPLETE/ACCEPTED without closing the required evidence/contract gates and obtaining explicit user acceptance. No technical uncertainty may be converted into a fabricated implementation decision.
+No future pass may promote draft architecture, close technical decisions, redistribute MH-01…MH-23 or authorize production without the required evidence/contract gates and explicit user acceptance.
