@@ -6,22 +6,28 @@ Status: IN PROGRESS — MASTER ARCHITECTURE NOT ACCEPTED
 
 ## Consolidated pass status
 PASS 0–42: COMPLETE/IN PROGRESS as previously recorded; no functional loss established.
-PASS 43 Historical identifier re-search: COMPLETE — F-001…F-005 unresolved; absence remains non-authoritative.
-PASS 44 Historical subject re-search: COMPLETE — no current search hits for Dahua/KINCONY/Home Assistant; default-branch search limitation prevents absence conclusion.
-PASS 45 Canonical capability preservation: COMPLETE — CAP-001…CAP-058 preserved, each with explicit owner and baseline accepted status.
-PASS 46 Contract completeness gate: COMPLETE structurally — CTR-001…CTR-036 present; technical closure remains open.
-PASS 47 Dependency integrity: COMPLETE — all accessible graph edge endpoints are declared nodes; no dangling endpoint identified.
-PASS 48 Terminal verification gate: COMPLETE for current evidence surface — terminal VERIFIED=0 and terminal ACCEPTED=0 remain correct because direct terminal evidence is not fully materialized.
-PASS 49 Acceptance collision/provenance audit: COMPLETE — F-007 legacy collision preserved; F-* remain immutable historical references.
-PASS 50 Master closure gate/anti-regression: COMPLETE — no basis for loss, retirement, architecture acceptance, MH redistribution or production authorization.
+PASS 43–50: COMPLETE — evidence-surface and terminal-gate audit completed; no capability loss established.
+PASS 51–58: COMPLETE — terminal closure and reconstruction-readiness audit completed; protected baseline established.
+PASS 59 Control-point integrity revalidation: COMPLETE — current gate semantics remain internally consistent.
+PASS 60 Canonical baseline freeze check: COMPLETE — CAP-001…CAP-058 preserved without removal, merge, downgrade or retirement.
+PASS 61 Requirement/contract/architecture traceability gate: COMPLETE AS GATE — traceability framework remains valid, but terminal per-CAP evidence is not falsely declared closed.
+PASS 62 Historical evidence integrity: COMPLETE — F-006…F-015 material; F-001…F-005 unresolved; F-007 legacy collision preserved.
+PASS 63 Technical-decision boundary audit: COMPLETE — technical unknowns remain explicitly separated from functional preservation.
+PASS 64 Architecture-entry anti-fabrication gate: COMPLETE — baseline is suitable for controlled Master Architecture reconciliation, but architecture is not accepted.
+PASS 65 Regression and redistribution protection: COMPLETE — P0–P8 remain historical evidence only; MH-01…MH-23 redistribution remains blocked.
+PASS 66 Final architecture-entry gate: COMPLETE — stable protected baseline reached; technical-contract closure and Master Architecture reconciliation are the next controlled activities.
 
 ## Current evidence findings
-The accessible acceptance corpus contains material historical evidence F-006…F-015. F-001…F-005 remain unresolved. Current GitHub search for key historical subjects does not establish absence because the search surface is default-branch-oriented. No capability is downgraded on that basis.
+The canonical functional baseline remains 58 capabilities across 51 canonical domains. All 58 capabilities retain explicit owners. Structural ownership and dependency integrity remain closed at the current evidence surface.
 
-The canonical capability registry contains CAP-001…CAP-058 with baseline status accepted. This baseline status is distinct from terminal verification/acceptance. The contract registry contains 36 contract families. The dependency graph is structurally internally referenced.
+The terminal verification matrix remains deliberately conservative: terminal VERIFIED=0 and terminal ACCEPTED=0. Material historical evidence is not promoted to immutable terminal acceptance without direct verification/acceptance evidence.
+
+F-006…F-015 remain material historical evidence; F-001…F-005 remain UNKNOWN/EVIDENCE_GAP. F-007 remains a legacy evidence-number collision. Historical search limitations do not constitute proof of function absence.
+
+Technical closure remains open for cryptography/key lifecycle, Home Assistant boundary/version, vendor/protocol/device matrix, KINCONY firmware trust workflow, camera transport/recording modes, storage semantics, cluster coordination/failover, cloud contribution controls, mobile transport, gaming topology, ecosystem bridges, threat/incident response, and AI provider qualification.
 
 ## New recovery artifact
-- `recovery/forensic-pass-43-50-evidence-surface-and-terminal-gate-audit-2026-09-05.md` — `47a93773540a17bc792a2b12e5327e71c9d13997`
+- `recovery/forensic-pass-59-66-canonical-baseline-and-architecture-entry-gate-2026-09-05.md` — `3f59be89dab1887debb86a66848a602b261e452e`
 
 ## Preservation rules
 - No function is removed because historical architecture cannot currently express it.
@@ -37,6 +43,7 @@ The canonical capability registry contains CAP-001…CAP-058 with baseline statu
 - Professional Engineering remains first-class.
 - Verification/acceptance coverage is separate from Master Architecture acceptance.
 - Legacy evidence identifiers remain preserved.
+- Historical P0–P8 decomposition does not control canonical ownership.
 
 ## Remaining blockers
 1. Full machine-readable MH-01…MH-23 historical corpus remains unavailable.
@@ -47,12 +54,13 @@ The canonical capability registry contains CAP-001…CAP-058 with baseline statu
 
 ## Gate state
 FUNCTIONAL BASELINE: CONFIRMED_ACCEPTED
-FORENSIC RECONSTRUCTION: IN PROGRESS
+FORENSIC RECONSTRUCTION: STABLE PROTECTED BASELINE / TECHNICAL CLOSURE OPEN
 CAP TERMINAL VERIFICATION MATRIX: BASELINE MATERIALIZED / PARTIAL EVIDENCE
 CROSS-REGISTRY CONSISTENCY: COMPLETE AT STRUCTURAL LEVEL
+RECONSTRUCTION READINESS: BASELINE-READY / ARCHITECTURE-NOT-ACCEPTED
 MASTER ARCHITECTURE: DRAFT — NOT ACCEPTED
 MH-01…MH-23 REDISTRIBUTION: BLOCKED
 PRODUCTION IMPLEMENTATION: BLOCKED
 
 ## Control rule
-This checkpoint is evidence of current recovery state. No future pass may convert IN PROGRESS/DRAFT into COMPLETE/ACCEPTED without closing the required evidence/contract gates and obtaining explicit user acceptance.
+This checkpoint is evidence of current recovery state. No future pass may convert IN PROGRESS/DRAFT into COMPLETE/ACCEPTED without closing the required evidence/contract gates and obtaining explicit user acceptance. No technical uncertainty may be converted into a fabricated implementation decision.
