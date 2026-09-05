@@ -1,10 +1,14 @@
-schema_version: "1.0"
-status: DRAFT
+schema_version: "1.1"
+status: IN_PROGRESS
+notes:
+  - "Cross-reference consistency pass: every edge endpoint is declared as a node."
+  - "Verification is cross-cutting; all_components is not a dependency endpoint."
 nodes:
   - mediahub_core
   - state_authority
   - security_core
   - identity
+  - privacy_security
   - smart_home_core
   - device_onboarding
   - device_management
@@ -14,6 +18,7 @@ nodes:
   - energy_core
   - surveillance_core
   - storage_core
+  - personal_media_core
   - media_core
   - mobile_media
   - audio_core
@@ -40,20 +45,26 @@ nodes:
   - export_core
   - installer_core
   - verification
+  - runtime_core
+  - integration_core
+  - health_readiness
+  - notification
 edges:
   - [mediahub_core, state_authority]
   - [mediahub_core, security_core]
   - [mediahub_core, ui_core]
   - [smart_home_core, device_onboarding]
+  - [smart_home_core, automation_core]
   - [device_onboarding, device_management]
   - [device_management, command_system]
-  - [smart_home_core, automation_core]
+  - [device_management, lifecycle_core]
   - [automation_core, scheduling_core]
   - [automation_core, event_core]
   - [automation_core, energy_core]
   - [automation_core, surveillance_core]
   - [surveillance_core, storage_core]
   - [media_core, storage_core]
+  - [media_core, personal_media_core]
   - [media_core, mobile_media]
   - [media_core, audio_core]
   - [media_core, gaming_core]
@@ -65,7 +76,6 @@ edges:
   - [network_core, cluster_core]
   - [cluster_core, resource_governance]
   - [cluster_core, storage_core]
-  - [cluster_core, cloud_development]
   - [assistant_core, smart_home_core]
   - [assistant_core, media_core]
   - [assistant_core, diagnostics]
@@ -90,7 +100,9 @@ edges:
   - [export_core, media_core]
   - [export_core, engineering_core]
   - [installer_core, device_management]
-  - [verification, all_components]
+  - [privacy_security, security_core]
+  - [runtime_core, mediahub_core]
+  - [integration_core, smart_home_core]
 security_boundaries:
   - local_runtime_vs_cloud_development
   - ordinary_user_vs_engineering_installer
@@ -98,3 +110,12 @@ security_boundaries:
   - trust_vs_authentication
   - authentication_vs_authorization
   - surveillance_storage_vs_personal_media_storage
+  - local_cluster_vs_cloud_development_cluster
+  - user_runtime_vs_privileged_cloud_development
+verification_scope:
+  - capability_registry
+  - contract_registry
+  - invariant_registry
+  - dependency_graph
+  - traceability
+  - acceptance_evidence
