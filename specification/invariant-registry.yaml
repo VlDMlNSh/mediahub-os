@@ -1,0 +1,33 @@
+schema_version: "1.0"
+status: CONFIRMED_BASELINE
+invariants:
+  - INV-001: Function preservation
+  - INV-002: Security by design
+  - INV-003: Discovery does not equal Trust
+  - INV-004: Presence does not equal Authentication
+  - INV-005: Authentication does not equal Authorization
+  - INV-006: Remote access does not increase authorization
+  - INV-007: Ordinary user does not receive Cloud Development access
+  - INV-008: Local-first operation
+  - INV-009: Offline-first operation where technically possible
+  - INV-010: Surveillance Storage is distinct from Personal Media Library Storage
+  - INV-011: MediaHub directly records supported surveillance streams
+  - INV-012: Unified device model
+  - INV-013: Unified media model
+  - INV-014: User works with device/function/room/scene/automation, not protocols
+  - INV-015: Home Assistant is internal and its UI is not user-facing
+  - INV-016: MediaHub is the sole user-facing Smart Home model
+  - INV-017: Local MediaHub Cluster appears as one coordinated system
+  - INV-018: Product variants preserve functional differences
+  - INV-019: Deferred does not mean rejected
+  - INV-020: Physical connection does not grant authorization
+  - INV-021: Security is system-level and cross-cutting
+  - INV-022: Health is observation-only
+  - INV-023: Readiness is operation-scoped
+  - INV-024: Health, Readiness, Liveness, Trust and Authorization remain distinct
+  - INV-025: Internal storage/processing/routing topology is hidden from ordinary users
+  - INV-026: Historical evidence is preserved; no silent deletion/reinterpretation
+  - INV-027: Canonical function is unique; cross-domain relationships do not create duplicate functions
+  - INV-028: Engineering/Professional contour is distinct from ordinary-user UI
+  - INV-029: Cloud Development Cluster is distinct from Local MediaHub Cluster
+  - INV-030: Surveillance recording does not require a separate NVR where MediaHub can provide the function
