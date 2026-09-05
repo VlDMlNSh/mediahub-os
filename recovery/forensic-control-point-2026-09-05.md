@@ -13,35 +13,25 @@ PASS 67–74: COMPLETE — master reconciliation preflight completed.
 PASS 75–82: COMPLETE — cross-registry technical gate completed.
 PASS 83–90: COMPLETE — technical contract reconciliation preflight completed.
 PASS 91–98: COMPLETE — technical decision preflight completed; decision-ready, not decision-closed.
-PASS 99 Decision-source authority audit: COMPLETE — technical decisions require authoritative evidence or explicit architectural authority.
-PASS 100 Security decision closure audit: COMPLETE — security surface enumerated; unsupported crypto/key/auth/trust choices remain OPEN.
-PASS 101 Integration decision closure audit: COMPLETE — HA/user-facing boundary, KINCONY/KCS preservation and extensibility protected; exact technical matrix remains OPEN.
-PASS 102 Media/storage decision closure audit: COMPLETE — native surveillance recording and logical storage separation protected; exact transport/filesystem semantics remain OPEN.
-PASS 103 Distributed/mobile/cloud decision closure audit: COMPLETE — local/cloud separation protected; coordination/failover/mobile/cloud details remain OPEN.
-PASS 104 Verification/acceptance readiness audit: COMPLETE — terminal evidence gate preserved; no unsupported promotion.
-PASS 105 Master Architecture entry gate: COMPLETE — protected baseline is sufficient for final candidate construction, not acceptance.
-PASS 106 Final anti-regression gate: COMPLETE — no capability LOST/RETIRED by inference; no draft promoted.
-PASS 107 Decision registry integrity: COMPLETE — DEC-001…DEC-012 accepted; DEC-A-001…DEC-A-004 remain DRAFT.
-PASS 108 Capability preservation gate: COMPLETE — CAP-001…CAP-058 preserved with explicit owners.
-PASS 109 Contract/invariant protection gate: COMPLETE — CTR-001…CTR-036 and INV-001…INV-030 preserved.
-PASS 110 Historical evidence gate: COMPLETE — accessible evidence remains partial; F-001…F-005 remain UNKNOWN/EVIDENCE_GAP.
-PASS 111 Terminal verification gate: COMPLETE — terminal VERIFIED/ACCEPTED not promoted without direct evidence.
-PASS 112 Master Architecture consistency gate: COMPLETE — no contradiction requiring feature removal or architectural replacement identified.
-PASS 113 Redistribution/implementation protection gate: COMPLETE — MH-01…MH-23 redistribution and production remain blocked.
-PASS 114 Final consolidated gate: COMPLETE — forensic baseline stable/protected; remaining work is decision closure, terminal evidence, final architecture candidate and explicit acceptance.
+PASS 99–106: COMPLETE — decision closure and architecture-readiness audit completed; no unsupported technical decisions promoted.
+PASS 107–114: COMPLETE — terminal decision and architecture gate completed; baseline remains protected.
+PASS 115–122: COMPLETE — evidence-driven technical closure gate completed; technical closure remains evidence-blocked.
 
 ## Current evidence findings
 The canonical functional baseline remains 58 capabilities across 51 canonical domains. All 58 capabilities retain explicit owners. Structural ownership and dependency integrity remain closed at the current evidence surface.
 
 The terminal verification matrix remains deliberately conservative: terminal VERIFIED=0 and terminal ACCEPTED=0. Material historical evidence is not promoted to immutable terminal acceptance without direct verification/acceptance evidence.
 
-F-006…F-015 remain material historical evidence; F-001…F-005 remain UNKNOWN/EVIDENCE_GAP. F-007 remains a legacy evidence-number collision. Historical search limitations do not constitute proof of function absence.
+F-006…F-015 remain material historical evidence; F-001…F-005 remain UNKNOWN/EVIDENCE_GAP. F-007 remains a legacy evidence-number collision. Repository search absence is not interpreted as proof of function absence.
 
-Technical decision surface is explicitly partitioned into security/PKI; Smart Home/HA; vendor/protocol/device matrix; KINCONY/KCS onboarding trust; surveillance transport/recording; storage semantics; cluster coordination/failover; cloud controls; mobile transport; gaming topology; ecosystem bridges; threat/incident response; AI provider qualification.
+Technical decision surface remains explicitly partitioned into security/PKI; Smart Home/HA; vendor/protocol/device matrix; KINCONY/KCS onboarding trust; surveillance transport/recording; storage semantics; cluster coordination/failover; cloud controls; mobile transport; gaming topology; ecosystem bridges; threat/incident response; AI provider qualification.
 
-## New recovery artifact
+PASS 115–122 did not identify authoritative evidence sufficient to close those implementation-specific choices. No unsupported choice was fabricated.
+
+## Recovery artifacts
 - `recovery/forensic-pass-99-106-decision-closure-and-architecture-readiness-2026-09-05.md` — `7f323c2ae87fd1cf6186eef4990f8010e51217a4`
 - `recovery/forensic-pass-107-114-terminal-decision-and-architecture-gate-2026-09-05.md` — `2500222d64b4650a5b2cff7d3068145229494c81`
+- `recovery/forensic-pass-115-122-evidence-driven-closure-gate-2026-09-05.md` — `47e413450297c00ebcc55a4f60bba6895dc149ad`
 
 ## Preservation rules
 - No function is removed because historical architecture cannot currently express it.
@@ -74,11 +64,12 @@ CROSS-REGISTRY CONSISTENCY: COMPLETE AT STRUCTURAL LEVEL
 RECONSTRUCTION READINESS: BASELINE-READY
 MASTER RECONCILIATION PREFLIGHT: COMPLETE
 TECHNICAL DECISION PREFLIGHT: COMPLETE
-TECHNICAL DECISION CLOSURE: OPEN
+EVIDENCE-DRIVEN CLOSURE PASS: COMPLETE
+TECHNICAL DECISION CLOSURE: OPEN / EVIDENCE-BLOCKED
 CAP TERMINAL VERIFICATION MATRIX: BASELINE MATERIALIZED / PARTIAL EVIDENCE
 MASTER ARCHITECTURE: DRAFT — NOT ACCEPTED
 MH-01…MH-23 REDISTRIBUTION: BLOCKED
 PRODUCTION IMPLEMENTATION: BLOCKED
 
 ## Control rule
-This checkpoint is evidence of current recovery state. No future pass may convert IN PROGRESS/DRAFT into COMPLETE/ACCEPTED without closing the required evidence/contract gates and obtaining explicit user acceptance. No technical uncertainty may be converted into a fabricated implementation decision.
+No future pass may convert IN PROGRESS/DRAFT into COMPLETE/ACCEPTED without closing the required evidence/contract gates and obtaining explicit user acceptance. No technical uncertainty may be converted into a fabricated implementation decision.
