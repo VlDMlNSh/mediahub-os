@@ -9,14 +9,15 @@ PASS 0–42: COMPLETE/IN PROGRESS as previously recorded; no functional loss est
 PASS 43–50: COMPLETE — evidence-surface and terminal-gate audit completed; no capability loss established.
 PASS 51–58: COMPLETE — terminal closure and reconstruction-readiness audit completed; protected baseline established.
 PASS 59–66: COMPLETE — canonical baseline and architecture-entry gate completed.
-PASS 67 Canonical registry preflight: COMPLETE — CAP-001…CAP-058 preserved with explicit owners.
-PASS 68 Contract registry preflight: COMPLETE — CTR-001…CTR-036 structurally present; technical closure remains open.
-PASS 69 Capability/evidence reconciliation preflight: COMPLETE — material historical evidence retained without promoting it to terminal acceptance.
-PASS 70 Historical search-surface qualification: COMPLETE — default-branch search limitations explicitly prevent absence conclusions for recovery branch.
-PASS 71 Traceability anti-fabrication preflight: COMPLETE — missing evidence remains a gap, not an invented test or acceptance result.
-PASS 72 Technical-contract readiness: COMPLETE — remaining technical questions classified as Master Architecture reconciliation inputs.
-PASS 73 Architecture boundary protection: COMPLETE — implementation vocabulary remains boundary-only; MH-01…MH-23 redistribution remains blocked.
-PASS 74 Master reconciliation preflight gate: COMPLETE — protected baseline is ready for controlled Master Architecture reconciliation.
+PASS 67–74: COMPLETE — master reconciliation preflight completed; protected baseline ready for controlled technical reconciliation.
+PASS 75 CAP-owner-boundary cross-check: COMPLETE — 58/58 canonical capabilities have explicit owners and corresponding declared boundaries.
+PASS 76 CAP-contract traceability gate: COMPLETE AS GATE — critical traces are explicit; full per-CAP contract closure remains open.
+PASS 77 Variant preservation audit: COMPLETE — variant restrictions preserved as requirements/contracts, not function loss.
+PASS 78 Boundary semantic audit: COMPLETE — key internal/user-facing, storage, security and cluster separations preserved.
+PASS 79 Terminal verification promotion audit: COMPLETE — no capability falsely promoted to terminal VERIFIED/ACCEPTED.
+PASS 80 Technical-contract closure gate: COMPLETE AS CLASSIFICATION — open items are architecture decisions, not missing capabilities.
+PASS 81 Anti-loss / anti-regression gate: COMPLETE — no authoritative LOST/RETIRED evidence identified.
+PASS 82 Cross-registry technical gate: COMPLETE — structural baseline coherent and ready for controlled technical contract resolution.
 
 ## Current evidence findings
 The canonical functional baseline remains 58 capabilities across 51 canonical domains. All 58 capabilities retain explicit owners. Structural ownership and dependency integrity remain closed at the current evidence surface.
@@ -28,7 +29,7 @@ F-006…F-015 remain material historical evidence; F-001…F-005 remain UNKNOWN/
 Technical closure remains open for cryptography/key lifecycle, Home Assistant boundary/version, vendor/protocol/device matrix, KINCONY firmware trust workflow, camera transport/recording modes, storage semantics, cluster coordination/failover, cloud contribution controls, mobile transport, gaming topology, ecosystem bridges, threat/incident response, and AI provider qualification.
 
 ## New recovery artifact
-- `recovery/forensic-pass-67-74-master-reconciliation-preflight-2026-09-05.md` — `091fcf726b44602017e5fa5081a77be70fa6d9d6`
+- `recovery/forensic-pass-75-82-cross-registry-technical-gate-2026-09-05.md` — `50f9893d527ec8893c91c258404bfceaf697ed64`
 
 ## Preservation rules
 - No function is removed because historical architecture cannot currently express it.
@@ -60,6 +61,7 @@ CAP TERMINAL VERIFICATION MATRIX: BASELINE MATERIALIZED / PARTIAL EVIDENCE
 CROSS-REGISTRY CONSISTENCY: COMPLETE AT STRUCTURAL LEVEL
 RECONSTRUCTION READINESS: BASELINE-READY / ARCHITECTURE-NOT-ACCEPTED
 MASTER RECONCILIATION PREFLIGHT: READY
+TECHNICAL CONTRACT RECONCILIATION: READY TO START
 MASTER ARCHITECTURE: DRAFT — NOT ACCEPTED
 MH-01…MH-23 REDISTRIBUTION: BLOCKED
 PRODUCTION IMPLEMENTATION: BLOCKED
