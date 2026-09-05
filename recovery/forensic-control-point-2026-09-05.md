@@ -12,14 +12,23 @@ PASS 59–66: COMPLETE — canonical baseline and architecture-entry gate comple
 PASS 67–74: COMPLETE — master reconciliation preflight completed.
 PASS 75–82: COMPLETE — cross-registry technical gate completed.
 PASS 83–90: COMPLETE — technical contract reconciliation preflight completed.
-PASS 91 Technical contract inventory: COMPLETE — open technical surface re-indexed against CTR-001…CTR-036.
-PASS 92 Security / PKI decision boundary: COMPLETE — decision surface isolated; exact cryptographic/operational choices remain OPEN.
-PASS 93 Smart Home / device integration decision boundary: COMPLETE — HA, vendor matrix and KINCONY/KCS trust workflow isolated as technical decisions.
-PASS 94 Surveillance / media / storage decision boundary: COMPLETE — native recording and logical storage separation protected; implementation semantics remain OPEN.
-PASS 95 Cluster / cloud / compute decision boundary: COMPLETE — local/cloud separation protected; coordination, failover and cloud controls remain OPEN.
-PASS 96 Mobile / gaming / ecosystem boundary: COMPLETE — platform/topology/bridge mechanisms remain OPEN without changing canonical capabilities.
-PASS 97 Threat / AI qualification boundary: COMPLETE — threat response and AI qualification surfaces remain OPEN.
-PASS 98 Technical decision closure gate: COMPLETE AS PREFLIGHT — decision-ready, not decision-closed.
+PASS 91–98: COMPLETE — technical decision preflight completed; decision-ready, not decision-closed.
+PASS 99 Decision-source authority audit: COMPLETE — technical decisions require authoritative evidence or explicit architectural authority.
+PASS 100 Security decision closure audit: COMPLETE — security surface enumerated; unsupported crypto/key/auth/trust choices remain OPEN.
+PASS 101 Integration decision closure audit: COMPLETE — HA/user-facing boundary, KINCONY/KCS preservation and extensibility protected; exact technical matrix remains OPEN.
+PASS 102 Media/storage decision closure audit: COMPLETE — native surveillance recording and logical storage separation protected; exact transport/filesystem semantics remain OPEN.
+PASS 103 Distributed/mobile/cloud decision closure audit: COMPLETE — local/cloud separation protected; coordination/failover/mobile/cloud details remain OPEN.
+PASS 104 Verification/acceptance readiness audit: COMPLETE — terminal evidence gate preserved; no unsupported promotion.
+PASS 105 Master Architecture entry gate: COMPLETE — protected baseline is sufficient for final candidate construction, not acceptance.
+PASS 106 Final anti-regression gate: COMPLETE — no capability LOST/RETIRED by inference; no draft promoted.
+PASS 107 Decision registry integrity: COMPLETE — DEC-001…DEC-012 accepted; DEC-A-001…DEC-A-004 remain DRAFT.
+PASS 108 Capability preservation gate: COMPLETE — CAP-001…CAP-058 preserved with explicit owners.
+PASS 109 Contract/invariant protection gate: COMPLETE — CTR-001…CTR-036 and INV-001…INV-030 preserved.
+PASS 110 Historical evidence gate: COMPLETE — accessible evidence remains partial; F-001…F-005 remain UNKNOWN/EVIDENCE_GAP.
+PASS 111 Terminal verification gate: COMPLETE — terminal VERIFIED/ACCEPTED not promoted without direct evidence.
+PASS 112 Master Architecture consistency gate: COMPLETE — no contradiction requiring feature removal or architectural replacement identified.
+PASS 113 Redistribution/implementation protection gate: COMPLETE — MH-01…MH-23 redistribution and production remain blocked.
+PASS 114 Final consolidated gate: COMPLETE — forensic baseline stable/protected; remaining work is decision closure, terminal evidence, final architecture candidate and explicit acceptance.
 
 ## Current evidence findings
 The canonical functional baseline remains 58 capabilities across 51 canonical domains. All 58 capabilities retain explicit owners. Structural ownership and dependency integrity remain closed at the current evidence surface.
@@ -28,10 +37,11 @@ The terminal verification matrix remains deliberately conservative: terminal VER
 
 F-006…F-015 remain material historical evidence; F-001…F-005 remain UNKNOWN/EVIDENCE_GAP. F-007 remains a legacy evidence-number collision. Historical search limitations do not constitute proof of function absence.
 
-Technical decision surface is now explicitly partitioned into: security/PKI; Smart Home/HA; vendor/protocol/device matrix; KINCONY/KCS onboarding trust; surveillance transport/recording; storage semantics; cluster coordination/failover; cloud controls; mobile transport; gaming topology; ecosystem bridges; threat/incident response; AI provider qualification.
+Technical decision surface is explicitly partitioned into security/PKI; Smart Home/HA; vendor/protocol/device matrix; KINCONY/KCS onboarding trust; surveillance transport/recording; storage semantics; cluster coordination/failover; cloud controls; mobile transport; gaming topology; ecosystem bridges; threat/incident response; AI provider qualification.
 
 ## New recovery artifact
-- `recovery/forensic-pass-91-98-technical-decision-matrix-preflight-2026-09-05.md` — `05730b17d68a68911939764c9a55f7a0d0e59730`
+- `recovery/forensic-pass-99-106-decision-closure-and-architecture-readiness-2026-09-05.md` — `7f323c2ae87fd1cf6186eef4990f8010e51217a4`
+- `recovery/forensic-pass-107-114-terminal-decision-and-architecture-gate-2026-09-05.md` — `2500222d64b4650a5b2cff7d3068145229494c81`
 
 ## Preservation rules
 - No function is removed because historical architecture cannot currently express it.
