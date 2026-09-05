@@ -9,16 +9,17 @@ PASS 0–42: COMPLETE/IN PROGRESS as previously recorded; no functional loss est
 PASS 43–50: COMPLETE — evidence-surface and terminal-gate audit completed; no capability loss established.
 PASS 51–58: COMPLETE — terminal closure and reconstruction-readiness audit completed; protected baseline established.
 PASS 59–66: COMPLETE — canonical baseline and architecture-entry gate completed.
-PASS 67–74: COMPLETE — master reconciliation preflight completed; protected baseline ready for controlled technical reconciliation.
-PASS 75–82: COMPLETE — cross-registry technical gate completed; structural baseline coherent.
-PASS 83 — Canonical baseline revalidation: COMPLETE — CAP-001…CAP-058 preserved; 58/58 owners explicit.
-PASS 84 — Contract decomposition gate: COMPLETE — CTR-001…CTR-036 structurally present; open technical details isolated without fabrication.
-PASS 85 — CAP→contract→invariant→boundary audit: COMPLETE AS STRUCTURAL GATE — critical semantic protections preserved; terminal per-CAP closure remains open.
-PASS 86 — Master Architecture semantic reconciliation: COMPLETE AT CURRENT LEVEL — no contradiction requiring replacement identified; architecture remains draft.
-PASS 87 — Historical conflict / anti-loss audit: COMPLETE — no authoritative LOST/RETIRED capability identified; UNKNOWN evidence preserved.
-PASS 88 — Verification/acceptance authority gate: COMPLETE — terminal VERIFIED=0 and ACCEPTED=0 remain correct; historical evidence not falsely promoted.
-PASS 89 — Decision-registry audit: COMPLETE — DEC-001…DEC-012 accepted; DEC-A-001…DEC-A-004 remain DRAFT.
-PASS 90 — Master reconciliation readiness gate: COMPLETE — technical contract closure is now the controlled next step.
+PASS 67–74: COMPLETE — master reconciliation preflight completed.
+PASS 75–82: COMPLETE — cross-registry technical gate completed.
+PASS 83–90: COMPLETE — technical contract reconciliation preflight completed.
+PASS 91 Technical contract inventory: COMPLETE — open technical surface re-indexed against CTR-001…CTR-036.
+PASS 92 Security / PKI decision boundary: COMPLETE — decision surface isolated; exact cryptographic/operational choices remain OPEN.
+PASS 93 Smart Home / device integration decision boundary: COMPLETE — HA, vendor matrix and KINCONY/KCS trust workflow isolated as technical decisions.
+PASS 94 Surveillance / media / storage decision boundary: COMPLETE — native recording and logical storage separation protected; implementation semantics remain OPEN.
+PASS 95 Cluster / cloud / compute decision boundary: COMPLETE — local/cloud separation protected; coordination, failover and cloud controls remain OPEN.
+PASS 96 Mobile / gaming / ecosystem boundary: COMPLETE — platform/topology/bridge mechanisms remain OPEN without changing canonical capabilities.
+PASS 97 Threat / AI qualification boundary: COMPLETE — threat response and AI qualification surfaces remain OPEN.
+PASS 98 Technical decision closure gate: COMPLETE AS PREFLIGHT — decision-ready, not decision-closed.
 
 ## Current evidence findings
 The canonical functional baseline remains 58 capabilities across 51 canonical domains. All 58 capabilities retain explicit owners. Structural ownership and dependency integrity remain closed at the current evidence surface.
@@ -27,10 +28,10 @@ The terminal verification matrix remains deliberately conservative: terminal VER
 
 F-006…F-015 remain material historical evidence; F-001…F-005 remain UNKNOWN/EVIDENCE_GAP. F-007 remains a legacy evidence-number collision. Historical search limitations do not constitute proof of function absence.
 
-Technical closure remains open for cryptography/key lifecycle, Home Assistant boundary/version, vendor/protocol/device matrix, KINCONY firmware trust workflow, camera transport/recording modes, storage semantics, cluster coordination/failover, cloud contribution controls, mobile transport, gaming topology, ecosystem bridges, threat/incident response, and AI provider qualification.
+Technical decision surface is now explicitly partitioned into: security/PKI; Smart Home/HA; vendor/protocol/device matrix; KINCONY/KCS onboarding trust; surveillance transport/recording; storage semantics; cluster coordination/failover; cloud controls; mobile transport; gaming topology; ecosystem bridges; threat/incident response; AI provider qualification.
 
 ## New recovery artifact
-- `recovery/forensic-pass-83-90-technical-contract-reconciliation-2026-09-05.md` — `093c2f373c7335382871728f7e8a47a2d6ad7bc7`
+- `recovery/forensic-pass-91-98-technical-decision-matrix-preflight-2026-09-05.md` — `05730b17d68a68911939764c9a55f7a0d0e59730`
 
 ## Preservation rules
 - No function is removed because historical architecture cannot currently express it.
@@ -47,22 +48,24 @@ Technical closure remains open for cryptography/key lifecycle, Home Assistant bo
 - Verification/acceptance coverage is separate from Master Architecture acceptance.
 - Legacy evidence identifiers remain preserved.
 - Historical P0–P8 decomposition does not control canonical ownership.
+- Plausible technical defaults are not accepted architecture without evidence or explicit authority.
 
 ## Remaining blockers
 1. Full machine-readable MH-01…MH-23 historical corpus remains unavailable.
-2. Exact technical contracts require explicit decision/evidence closure.
+2. Exact technical decisions/contracts remain open.
 3. CAP-001…CAP-058 terminal verification and immutable acceptance evidence are not fully materialized.
 4. F-001…F-005 may exist under other names/locations.
 5. Explicit user acceptance of the reconstructed Master Architecture has not occurred.
 
 ## Gate state
 FUNCTIONAL BASELINE: CONFIRMED_ACCEPTED
-FORENSIC RECONSTRUCTION: STABLE PROTECTED BASELINE / TECHNICAL CLOSURE OPEN
-CAP TERMINAL VERIFICATION MATRIX: BASELINE MATERIALIZED / PARTIAL EVIDENCE
+FORENSIC RECONSTRUCTION: STABLE PROTECTED BASELINE
 CROSS-REGISTRY CONSISTENCY: COMPLETE AT STRUCTURAL LEVEL
-RECONSTRUCTION READINESS: BASELINE-READY / ARCHITECTURE-NOT-ACCEPTED
+RECONSTRUCTION READINESS: BASELINE-READY
 MASTER RECONCILIATION PREFLIGHT: COMPLETE
-TECHNICAL CONTRACT RECONCILIATION: READY FOR DECISION CLOSURE
+TECHNICAL DECISION PREFLIGHT: COMPLETE
+TECHNICAL DECISION CLOSURE: OPEN
+CAP TERMINAL VERIFICATION MATRIX: BASELINE MATERIALIZED / PARTIAL EVIDENCE
 MASTER ARCHITECTURE: DRAFT — NOT ACCEPTED
 MH-01…MH-23 REDISTRIBUTION: BLOCKED
 PRODUCTION IMPLEMENTATION: BLOCKED
