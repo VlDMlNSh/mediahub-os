@@ -8,14 +8,15 @@ Status: IN PROGRESS — MASTER ARCHITECTURE NOT ACCEPTED
 PASS 0–42: COMPLETE/IN PROGRESS as previously recorded; no functional loss established.
 PASS 43–50: COMPLETE — evidence-surface and terminal-gate audit completed; no capability loss established.
 PASS 51–58: COMPLETE — terminal closure and reconstruction-readiness audit completed; protected baseline established.
-PASS 59 Control-point integrity revalidation: COMPLETE — current gate semantics remain internally consistent.
-PASS 60 Canonical baseline freeze check: COMPLETE — CAP-001…CAP-058 preserved without removal, merge, downgrade or retirement.
-PASS 61 Requirement/contract/architecture traceability gate: COMPLETE AS GATE — traceability framework remains valid, but terminal per-CAP evidence is not falsely declared closed.
-PASS 62 Historical evidence integrity: COMPLETE — F-006…F-015 material; F-001…F-005 unresolved; F-007 legacy collision preserved.
-PASS 63 Technical-decision boundary audit: COMPLETE — technical unknowns remain explicitly separated from functional preservation.
-PASS 64 Architecture-entry anti-fabrication gate: COMPLETE — baseline is suitable for controlled Master Architecture reconciliation, but architecture is not accepted.
-PASS 65 Regression and redistribution protection: COMPLETE — P0–P8 remain historical evidence only; MH-01…MH-23 redistribution remains blocked.
-PASS 66 Final architecture-entry gate: COMPLETE — stable protected baseline reached; technical-contract closure and Master Architecture reconciliation are the next controlled activities.
+PASS 59–66: COMPLETE — canonical baseline and architecture-entry gate completed.
+PASS 67 Canonical registry preflight: COMPLETE — CAP-001…CAP-058 preserved with explicit owners.
+PASS 68 Contract registry preflight: COMPLETE — CTR-001…CTR-036 structurally present; technical closure remains open.
+PASS 69 Capability/evidence reconciliation preflight: COMPLETE — material historical evidence retained without promoting it to terminal acceptance.
+PASS 70 Historical search-surface qualification: COMPLETE — default-branch search limitations explicitly prevent absence conclusions for recovery branch.
+PASS 71 Traceability anti-fabrication preflight: COMPLETE — missing evidence remains a gap, not an invented test or acceptance result.
+PASS 72 Technical-contract readiness: COMPLETE — remaining technical questions classified as Master Architecture reconciliation inputs.
+PASS 73 Architecture boundary protection: COMPLETE — implementation vocabulary remains boundary-only; MH-01…MH-23 redistribution remains blocked.
+PASS 74 Master reconciliation preflight gate: COMPLETE — protected baseline is ready for controlled Master Architecture reconciliation.
 
 ## Current evidence findings
 The canonical functional baseline remains 58 capabilities across 51 canonical domains. All 58 capabilities retain explicit owners. Structural ownership and dependency integrity remain closed at the current evidence surface.
@@ -27,7 +28,7 @@ F-006…F-015 remain material historical evidence; F-001…F-005 remain UNKNOWN/
 Technical closure remains open for cryptography/key lifecycle, Home Assistant boundary/version, vendor/protocol/device matrix, KINCONY firmware trust workflow, camera transport/recording modes, storage semantics, cluster coordination/failover, cloud contribution controls, mobile transport, gaming topology, ecosystem bridges, threat/incident response, and AI provider qualification.
 
 ## New recovery artifact
-- `recovery/forensic-pass-59-66-canonical-baseline-and-architecture-entry-gate-2026-09-05.md` — `3f59be89dab1887debb86a66848a602b261e452e`
+- `recovery/forensic-pass-67-74-master-reconciliation-preflight-2026-09-05.md` — `091fcf726b44602017e5fa5081a77be70fa6d9d6`
 
 ## Preservation rules
 - No function is removed because historical architecture cannot currently express it.
@@ -58,6 +59,7 @@ FORENSIC RECONSTRUCTION: STABLE PROTECTED BASELINE / TECHNICAL CLOSURE OPEN
 CAP TERMINAL VERIFICATION MATRIX: BASELINE MATERIALIZED / PARTIAL EVIDENCE
 CROSS-REGISTRY CONSISTENCY: COMPLETE AT STRUCTURAL LEVEL
 RECONSTRUCTION READINESS: BASELINE-READY / ARCHITECTURE-NOT-ACCEPTED
+MASTER RECONCILIATION PREFLIGHT: READY
 MASTER ARCHITECTURE: DRAFT — NOT ACCEPTED
 MH-01…MH-23 REDISTRIBUTION: BLOCKED
 PRODUCTION IMPLEMENTATION: BLOCKED
