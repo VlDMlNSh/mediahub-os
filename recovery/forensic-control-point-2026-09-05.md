@@ -22,6 +22,10 @@ PASS 12 Semantic Status Normalization: COMPLETE for governance terminology — l
 PASS 13 CAP Terminal Verification Matrix: BASELINE MATERIALIZED — deterministic CAP-001…CAP-058 ledger created; no capability is falsely promoted to VERIFIED/ACCEPTED without terminal evidence.
 PASS 14 Cross-Registry Consistency: COMPLETE at structural level — CAP owners, 36 contract families and 30 invariants are internally coherent with the current recovery baseline; technical contract closure remains open.
 PASS 15 Historical Semantic Recovery: IN PROGRESS — F-001…F-005 remain unresolved evidence gaps; subject-based searches did not establish absence or loss.
+PASS 16 Acceptance Corpus Reconciliation: COMPLETE FOR ACCESSIBLE CORPUS — recovery/acceptance contains F-007…F-015; recovery/accepted additionally contains F-006/F-007. Evidence is material but not terminal acceptance for all CAPs.
+PASS 17 Historical Identifier Recovery: COMPLETE FOR CURRENT REPOSITORY SEARCH SURFACE — F-001…F-005 and key subject searches produced no matches; negatives remain non-authoritative absence evidence.
+PASS 18 Canonical Registry Integrity: COMPLETE AT CURRENT BASELINE — CAP-001…CAP-058, 36 contract families and 30 invariants remain structurally coherent; technical details remain open.
+PASS 19 Terminal-Evidence Gate Audit: COMPLETE FOR CURRENT EVIDENCE SURFACE — terminal matrix remains PARTIAL; no CAP promoted to terminal VERIFIED/ACCEPTED without direct evidence.
 
 ## Current evidence findings
 
@@ -41,6 +45,7 @@ Subject-based repository searches for key historical functional themes (surveill
 - `recovery/evidence-id-normalization-policy-2026-09-05.md` — `283317bc2852712ad9974d47a8439d6fa016205f`
 - `recovery/forensic-semantic-status-normalization-2026-09-05.md` — `ba1e21e767d9e53ed45b382eff20a7d8e36c3e8e`
 - `recovery/capability-terminal-verification-matrix-2026-09-05.yaml` — `a4ddc0f148bd7371050d0a7cc62d5552d0a60515`
+- `recovery/forensic-pass-16-19-consolidated-2026-09-05.md` — `9ed998c914dd758af69faa62a72d7503687bcfc4`
 
 ## Preservation rules
 
@@ -79,12 +84,11 @@ PRODUCTION IMPLEMENTATION: BLOCKED
 
 ## Latest checkpoint commits
 
+- Consolidated passes 16–19: `9ed998c914dd758af69faa62a72d7503687bcfc4`
 - CAP terminal verification matrix: `a4ddc0f148bd7371050d0a7cc62d5552d0a60515`
 - Semantic status normalization: `ba1e21e767d9e53ed45b382eff20a7d8e36c3e8e`
 - Capability verification/acceptance reconstruction: `4dc69d26485a957761d109073852f21cb98c18b4`
 - Evidence ID normalization policy: `283317bc2852712ad9974d47a8439d6fa016205f`
-- Previous full semantic traceability: `b54294d1af6d39c3926a5bfd2bec4964f6fa3a98`
-- Previous verification/acceptance coverage: `b2e73fdc76163a831db11f62861866c322599e42`
 
 ## Control rule
 
