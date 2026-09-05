@@ -2,7 +2,7 @@
 
 Date: 2026-09-05
 Branch: recovery/full-functional-spec
-Status: IN PROGRESS — MASTER ARCHITECTURE NOT ACCEPTED
+Status: IN PROGRESS — MASTER ARCHITECTURE NOT ACCEPTED — TRANSITION READY
 
 ## Consolidated pass status
 PASS 0–42: COMPLETE/IN PROGRESS as previously recorded; no functional loss established.
@@ -18,61 +18,62 @@ PASS 107–114: COMPLETE — terminal decision and architecture gate completed; 
 PASS 115–122: COMPLETE — evidence-driven technical closure gate completed; technical closure remains evidence-blocked.
 PASS 123–138: COMPLETE — authoritative evidence reconciliation completed; evidence-backed constraints strengthened, exact technical closure remains open.
 PASS 139–154: COMPLETE — terminal traceability and architecture-entry audit completed; no new basis for technical closure or acceptance.
+PASS 155–174: COMPLETE — transition-readiness and MH-01…MH-23 redistribution gate completed.
 
-## Current evidence findings
-The canonical functional baseline remains 58 capabilities across 51 canonical domains. All 58 capabilities retain explicit owners. Structural ownership and dependency integrity remain closed at the current evidence surface.
+## Current canonical state
+Functional baseline: 58 capabilities / 51 canonical domains / 58 explicit owners.
+Contracts: CTR-001…CTR-036.
+Invariants: protected canonical set.
+Terminal capability verification: VERIFIED=0, ACCEPTED=0; partial evidence only.
+Master Architecture: DRAFT / NOT ACCEPTED.
+Technical decisions: OPEN / EVIDENCE-BLOCKED where implementation-specific evidence is absent.
 
-The terminal verification matrix remains deliberately conservative: terminal VERIFIED=0 and terminal ACCEPTED=0. Material historical evidence is not promoted to immutable terminal acceptance without direct verification/acceptance evidence.
+## Transition decision
+The forensic reconstruction baseline is now sufficiently stable for a controlled transition to a successor coordination chat. The next chat may use a Master Prompt to project the canonical reconstructed architecture into the already-created MH-01…MH-23 architecture chats.
 
-F-006…F-015 remain material historical evidence; F-001…F-005 remain UNKNOWN/EVIDENCE_GAP. F-007 remains a legacy evidence-number collision. Repository search absence is not interpreted as proof of function absence.
+This is a redistribution/projection operation, not an acceptance event and not production implementation.
 
-Technical decision surface remains explicitly partitioned into security/PKI; Smart Home/HA; vendor/protocol/device matrix; KINCONY/KCS onboarding trust; surveillance transport/recording; storage semantics; cluster coordination/failover; cloud controls; mobile transport; gaming topology; ecosystem bridges; threat/incident response; AI provider qualification.
+## MH-01…MH-23 redistribution protocol
+1. Freeze this control point as the source baseline.
+2. Generate and carry a successor-chat Master Prompt containing the canonical registries, accepted decisions, invariants, contracts, architecture candidate, historical-evidence rules, open technical decisions and anti-loss controls.
+3. Each MH-01…MH-23 chat receives only its scoped projection plus the global constraints it can affect.
+4. Existing historical material is preserved; no chat is allowed to erase or silently rewrite history.
+5. Each chat returns a structured Reverse Master Prompt/report covering evidence, contradictions, gaps, proposed decisions, contract impacts, invariant impacts, verification requirements and acceptance state.
+6. Reconcile all 23 responses centrally before changing canonical registries.
+7. Only after reconciliation may technical decisions be closed and Master Architecture considered for explicit acceptance.
+8. Production implementation remains blocked until the appropriate acceptance gates are satisfied.
 
-PASS 139–154 confirmed that evidence-backed constraints are increasing, but no authoritative evidence closes the remaining implementation-specific choices. No unsupported choice was fabricated.
+## Authority hierarchy
+`MASTER CONTROL POINT > CANONICAL REGISTRIES / ACCEPTED DECISIONS / INVARIANTS / CONTRACTS > MH-01…MH-23 ARCHITECTURE PROJECTIONS > DEVELOPMENT IMPLEMENTATION`
 
-## Recovery artifacts
-- `recovery/forensic-pass-115-122-evidence-driven-closure-gate-2026-09-05.md` — `47e413450297c00ebcc55a4f60bba6895dc149ad`
-- `recovery/forensic-pass-123-138-authoritative-evidence-reconciliation-2026-09-05.md` — `809799df1cea010a50cc0650ff45df1294874565`
-- `recovery/forensic-pass-139-154-terminal-traceability-and-architecture-entry-audit-2026-09-05.md` — `1afb05b9dd5185a114dfc37d3bd9ce58484b0367`
+Projection does not create authority. A local MH chat cannot override the canonical source.
 
 ## Preservation rules
-- No function is removed because historical architecture cannot currently express it.
-- UNKNOWN/EVIDENCE_GAP remains unknown; it never becomes LOSS by inference.
-- DEFERRED remains deferred, not rejected.
-- LOST requires authoritative removal/retirement evidence.
-- Surveillance direct recording remains a native MediaHub capability where supported; separate NVR is not mandatory.
+- No capability is removed because historical architecture is incomplete.
+- UNKNOWN/EVIDENCE_GAP never becomes LOSS by inference.
+- DEFERRED never becomes rejection.
+- Historical evidence remains evidence with provenance.
+- Native MediaHub surveillance recording remains preserved.
 - Surveillance and Personal Media Library storage remain separate logical domains.
-- Home Assistant remains internal; MediaHub remains the user-facing Smart Home model.
+- Home Assistant remains internal; MediaHub remains user-facing.
 - Health, Readiness, Liveness, Trust, Authentication and Authorization remain distinct.
 - Local MediaHub Cluster and Cloud Development Cluster remain separate trust/control domains.
-- Product variants preserve explicit capability differences.
-- Professional Engineering remains first-class.
-- Verification/acceptance coverage is separate from Master Architecture acceptance.
-- Legacy evidence identifiers remain preserved.
-- Historical P0–P8 decomposition does not control canonical ownership.
-- Plausible technical defaults are not accepted architecture without evidence or explicit authority.
-
-## Remaining blockers
-1. Full machine-readable MH-01…MH-23 historical corpus remains unavailable.
-2. Exact technical decisions/contracts remain open.
-3. CAP-001…CAP-058 terminal verification and immutable acceptance evidence are not fully materialized.
-4. F-001…F-005 may exist under other names/locations.
-5. Explicit user acceptance of the reconstructed Master Architecture has not occurred.
+- Product variants preserve explicit functional differences.
+- P0–P8 remain historical decomposition only.
+- Redistribution never silently promotes draft architecture to accepted architecture.
 
 ## Gate state
 FUNCTIONAL BASELINE: CONFIRMED_ACCEPTED
 FORENSIC RECONSTRUCTION: STABLE PROTECTED BASELINE
 CROSS-REGISTRY CONSISTENCY: COMPLETE AT STRUCTURAL LEVEL
-RECONSTRUCTION READINESS: BASELINE-READY
-MASTER RECONCILIATION PREFLIGHT: COMPLETE
+TRACEABILITY: COMPLETE AT STRUCTURAL LEVEL / TERMINAL EVIDENCE PARTIAL
 TECHNICAL DECISION PREFLIGHT: COMPLETE
 EVIDENCE-DRIVEN CLOSURE: COMPLETE FOR CURRENT SEARCH SURFACE
-TERMINAL TRACEABILITY AUDIT: COMPLETE AT STRUCTURAL LEVEL
+TRANSITION READINESS: READY
 TECHNICAL DECISION CLOSURE: OPEN / EVIDENCE-BLOCKED
-CAP TERMINAL VERIFICATION MATRIX: BASELINE MATERIALIZED / PARTIAL EVIDENCE
 MASTER ARCHITECTURE: DRAFT — NOT ACCEPTED
-MH-01…MH-23 REDISTRIBUTION: BLOCKED
+MH-01…MH-23 REDISTRIBUTION: READY TO BEGIN IN SUCCESSOR CHAT
 PRODUCTION IMPLEMENTATION: BLOCKED
 
 ## Control rule
-No future pass may convert IN PROGRESS/DRAFT into COMPLETE/ACCEPTED without closing the required evidence/contract gates and obtaining explicit user acceptance. No technical uncertainty may be converted into a fabricated implementation decision.
+The next chat must begin from this control point and its Master Prompt. It must not restart the forensic baseline, treat missing history as loss, accept draft decisions by assumption, delete historical evidence, redistribute authority, or begin production implementation.
