@@ -1,0 +1,58 @@
+schema_version: "1.0"
+status: IN PROGRESS
+basis: recovery/master-system-passport-2026-09-05.md
+domain_count: 51
+inventory_rule: "Canonical function IDs are stable; supporting domains do not create duplicates."
+domains:
+  - {id: D00, name: Product Core, capability_refs: [CAP-001]}
+  - {id: D01, name: Smart Home, capability_refs: [CAP-002,CAP-003]}
+  - {id: D02, name: KINCONY, capability_refs: [CAP-004]}
+  - {id: D03, name: Home Automation, capability_refs: [CAP-005]}
+  - {id: D04, name: Scheduling, capability_refs: [CAP-006]}
+  - {id: D05, name: Energy Management, capability_refs: [CAP-007]}
+  - {id: D06, name: Video Surveillance, capability_refs: [CAP-008]}
+  - {id: D07, name: Surveillance Storage, capability_refs: [CAP-009]}
+  - {id: D08, name: Media Ingestion, capability_refs: [CAP-010]}
+  - {id: D09, name: Personal Media Library, capability_refs: [CAP-011]}
+  - {id: D10, name: Mobile Media Sync, capability_refs: [CAP-012]}
+  - {id: D11, name: Media Playback, capability_refs: [CAP-013]}
+  - {id: D12, name: Live Media / Streaming, capability_refs: [CAP-014]}
+  - {id: D13, name: Audio System, capability_refs: [CAP-015]}
+  - {id: D14, name: Phone as Media/IO Endpoint, capability_refs: [CAP-016]}
+  - {id: D15, name: HDMI/Display, capability_refs: [CAP-017]}
+  - {id: D16, name: Gaming, capability_refs: [CAP-018]}
+  - {id: D17, name: External Smart-Home Ecosystems, capability_refs: [CAP-019]}
+  - {id: D18, name: MediaHub Local Assistant, capability_refs: [CAP-020]}
+  - {id: D19, name: Engineering / Professional Edition, capability_refs: [CAP-021,CAP-022]}
+  - {id: D20, name: Networking, capability_refs: [CAP-023]}
+  - {id: D21, name: MediaHub Cluster, capability_refs: [CAP-024]}
+  - {id: D22, name: Distributed Compute, capability_refs: [CAP-025]}
+  - {id: D23, name: Cloud Development / Supercomputing Environment, capability_refs: [CAP-026]}
+  - {id: D24, name: AI Content Generation, capability_refs: [CAP-027]}
+  - {id: D25, name: Website Generation, capability_refs: [CAP-028]}
+  - {id: D26, name: Device Management, capability_refs: [CAP-029]}
+  - {id: D27, name: Device Command System, capability_refs: [CAP-030]}
+  - {id: D28, name: Telemetry, capability_refs: [CAP-031]}
+  - {id: D29, name: Health / Readiness, capability_refs: [CAP-032]}
+  - {id: D30, name: Diagnostics, capability_refs: [CAP-033]}
+  - {id: D31, name: Self-Healing / Recovery, capability_refs: [CAP-034]}
+  - {id: D32, name: Offline-First, capability_refs: [CAP-035]}
+  - {id: D33, name: Data / Metadata, capability_refs: [CAP-036]}
+  - {id: D34, name: Search / Indexing, capability_refs: [CAP-037]}
+  - {id: D35, name: Knowledge Graph, capability_refs: [CAP-038]}
+  - {id: D36, name: Privacy / Data Governance, capability_refs: [CAP-039]}
+  - {id: D37, name: Security, capability_refs: [CAP-040,CAP-058]}
+  - {id: D38, name: Storage Management, capability_refs: [CAP-041]}
+  - {id: D39, name: Backup / Restore, capability_refs: [CAP-042]}
+  - {id: D40, name: Migration, capability_refs: [CAP-043]}
+  - {id: D41, name: Update / Firmware / Lifecycle, capability_refs: [CAP-044]}
+  - {id: D42, name: UI/UX, capability_refs: [CAP-045]}
+  - {id: D43, name: iOS/iPadOS Control Surface, capability_refs: [CAP-046]}
+  - {id: D44, name: Notification System, capability_refs: [CAP-047]}
+  - {id: D45, name: Resource Governance, capability_refs: [CAP-048]}
+  - {id: D46, name: Extensibility, capability_refs: [CAP-049]}
+  - {id: D47, name: Simulation / Testing, capability_refs: [CAP-050]}
+  - {id: D48, name: Media Lifecycle, capability_refs: [CAP-051]}
+  - {id: D49, name: Device Lifecycle, capability_refs: [CAP-052]}
+  - {id: D50, name: Product Variants, capability_refs: [CAP-053]}
+traceability_fields_required: [source_evidence, requirement, contract, owner, dependencies, security, data, ui, mobile, cluster, variants, test, acceptance]
