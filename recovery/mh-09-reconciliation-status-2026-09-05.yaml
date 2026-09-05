@@ -1,0 +1,32 @@
+mh: MH-09
+date: 2026-09-05
+status: RECONCILED_EVIDENCE_PARTIAL
+historical_evidence_coverage: PARTIAL
+canonical_mapping_coverage: COMPLETE_FOR_AVAILABLE_SCOPE
+capability_coverage: 58/58_PRESERVED
+contract_coverage: 30_RELEVANT_PRIMARY_OR_DOWNSTREAM_CONTRACTS_MAPPED
+invariant_coverage: RELEVANT_PROTECTED_SET_MAPPED
+ decision_coverage: DEC-001_TO_DEC-012_RETAINED; DEC-A-001_TO_DEC-A-004_NOT_PROMOTED
+dependency_coverage: MAPPED
+verification_coverage: PARTIAL
+acceptance_coverage: NOT_ACCEPTED
+contradictions: []
+evidence_gaps:
+  - complete_independent_historical_MH09_corpus_not_available_on_recovery_branch
+  - exact_UI_implementation_technology
+  - exact_mobile_transport_and_platform_implementation
+  - terminal_UI_verification_evidence
+open_decisions:
+  - UI_framework_and_rendering_technology
+  - mobile_transport_details
+  - plugin_UI_implementation
+  - cache_persistence_implementation
+  - platform_specific_component_choices
+proposed_registry_changes: []
+anti_loss_result: PASS_NO_CAPABILITY_REMOVED_OR_REASSIGNED
+production_gate: BLOCKED
+canonical_registry_authority: NONE
+artifacts:
+  reconciliation: recovery/mh-09-reconciliation-2026-09-05.md
+  reverse_master_prompt: recovery/mh-09-reverse-master-prompt-2026-09-05.md
+  architecture_package: docs/architecture/MH-09-master-record.md@architecture/mh-09-presentation-ui
