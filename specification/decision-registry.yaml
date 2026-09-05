@@ -1,0 +1,40 @@
+schema_version: "1.0"
+status: IN PROGRESS
+accepted_decisions:
+  - id: DEC-001
+    decision: "Functional baseline is primary product truth."
+  - id: DEC-002
+    decision: "Home Assistant is internal Smart Home integration/automation source of truth; HA UI is not user-facing."
+  - id: DEC-003
+    decision: "MediaHub can directly record supported cameras; separate NVR is not mandatory."
+  - id: DEC-004
+    decision: "Surveillance and Personal Media Library are separate logical storage domains."
+  - id: DEC-005
+    decision: "Local-first/offline-first is mandatory product direction where technically possible."
+  - id: DEC-006
+    decision: "Cloud Development is privileged internal infrastructure and never ordinary-user workspace."
+  - id: DEC-007
+    decision: "Local MediaHub Cluster is one coordinated user-facing system."
+  - id: DEC-008
+    decision: "Health is observation-only; Readiness is operation-scoped."
+  - id: DEC-009
+    decision: "Security is a system-level product invariant."
+  - id: DEC-010
+    decision: "Product variants retain explicit functional differences."
+  - id: DEC-011
+    decision: "P0-P8 are historical decomposition, not automatically canonical architecture."
+  - id: DEC-012
+    decision: "Deferred technical detail remains preserved and is not rejection."
+proposed_architecture_decisions:
+  - id: DEC-A-001
+    decision: "Use a capability-centric master architecture with domain services behind stable contracts."
+    status: DRAFT
+  - id: DEC-A-002
+    decision: "Use explicit authority/security boundaries around state, commands, trust and authorization."
+    status: DRAFT
+  - id: DEC-A-003
+    decision: "Use separate local-cluster and cloud-development trust/control planes."
+    status: DRAFT
+  - id: DEC-A-004
+    decision: "Use logical storage domains independent of physical storage substrate."
+    status: DRAFT
