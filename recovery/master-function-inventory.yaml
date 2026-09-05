@@ -1,8 +1,9 @@
-schema_version: "1.0"
-status: IN PROGRESS
+schema_version: "1.1"
+status: IN_PROGRESS
 basis: recovery/master-system-passport-2026-09-05.md
-domain_count: 51
 inventory_rule: "Canonical function IDs are stable; supporting domains do not create duplicates."
+domain_count: 51
+mapping_audit: "All CAP-001..CAP-058 are mapped; CAP-054..CAP-058 are included in existing domains where applicable."
 domains:
   - {id: D00, name: Product Core, capability_refs: [CAP-001]}
   - {id: D01, name: Smart Home, capability_refs: [CAP-002,CAP-003]}
@@ -30,7 +31,7 @@ domains:
   - {id: D23, name: Cloud Development / Supercomputing Environment, capability_refs: [CAP-026]}
   - {id: D24, name: AI Content Generation, capability_refs: [CAP-027]}
   - {id: D25, name: Website Generation, capability_refs: [CAP-028]}
-  - {id: D26, name: Device Management, capability_refs: [CAP-029]}
+  - {id: D26, name: Device Management, capability_refs: [CAP-029,CAP-052]}
   - {id: D27, name: Device Command System, capability_refs: [CAP-030]}
   - {id: D28, name: Telemetry, capability_refs: [CAP-031]}
   - {id: D29, name: Health / Readiness, capability_refs: [CAP-032]}
@@ -40,7 +41,7 @@ domains:
   - {id: D33, name: Data / Metadata, capability_refs: [CAP-036]}
   - {id: D34, name: Search / Indexing, capability_refs: [CAP-037]}
   - {id: D35, name: Knowledge Graph, capability_refs: [CAP-038]}
-  - {id: D36, name: Privacy / Data Governance, capability_refs: [CAP-039]}
+  - {id: D36, name: Privacy / Data Governance, capability_refs: [CAP-039,CAP-055]}
   - {id: D37, name: Security, capability_refs: [CAP-040,CAP-058]}
   - {id: D38, name: Storage Management, capability_refs: [CAP-041]}
   - {id: D39, name: Backup / Restore, capability_refs: [CAP-042]}
@@ -55,4 +56,8 @@ domains:
   - {id: D48, name: Media Lifecycle, capability_refs: [CAP-051]}
   - {id: D49, name: Device Lifecycle, capability_refs: [CAP-052]}
   - {id: D50, name: Product Variants, capability_refs: [CAP-053]}
+  - {id: D42, name: Contextual Guidance, capability_refs: [CAP-054]}
+  - {id: D36, name: Presence Context, capability_refs: [CAP-055]}
+  - {id: D46, name: Authorized Export, capability_refs: [CAP-056]}
+  - {id: D19, name: Installer / Multiboot Installation, capability_refs: [CAP-057]}
 traceability_fields_required: [source_evidence, requirement, contract, owner, dependencies, security, data, ui, mobile, cluster, variants, test, acceptance]
