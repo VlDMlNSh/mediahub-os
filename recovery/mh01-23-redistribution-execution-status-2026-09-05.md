@@ -30,15 +30,17 @@ Branch: recovery/full-functional-spec
 | MH-19 | historical contour | UNKNOWN/EVIDENCE_GAP | pending target chat |
 | MH-20 | automation governance | READY | pending target chat |
 | MH-21 | distributed AI/security/cloud | READY | pending target chat |
-| MH-22 | production qualification/acceptance | READY | pending target chat |
+| MH-22 | production qualification/acceptance | RECONCILED | COMPLETE — Reverse Master Prompt + Reconciliation Status recorded |
 | MH-23 | migration contour | UNKNOWN/EVIDENCE_GAP | pending target chat |
 
 ## Interpretation
 
-UNKNOWN/EVIDENCE_GAP is an explicit accounting state, not an empty contour and not functional loss. The projection matrix requires inaccessible historical scopes to remain UNKNOWN/EVIDENCE_GAP and requires all 23 scopes to be accounted for. 
+UNKNOWN/EVIDENCE_GAP is an explicit accounting state, not an empty contour and not functional loss. The projection matrix requires inaccessible historical scopes to remain UNKNOWN/EVIDENCE_GAP and requires all 23 scopes to be accounted for.
+
+MH-22 is now accounted for with an explicit reconciled result and documented evidence gaps. This does not imply Master Architecture acceptance or production qualification.
 
 ## Required next action
 
-Transfer `recovery/MH01-23-REDISTRIBUTION-ARCHITECTURE-CHAT-HANDOFF-MASTER-PROMPT-2026-09-05.md` into each existing MH-01…MH-23 architecture chat. Each chat must produce its Reverse Master Prompt. Central reconciliation then consumes all 23 outputs.
+Continue transferring the handoff prompt into each remaining MH-01…MH-23 architecture chat. Each chat must produce its Reverse Master Prompt. Central reconciliation then consumes all 23 outputs.
 
 No canonical registry change is authorized by an individual MH chat. No production implementation is authorized before explicit Master Architecture acceptance.
