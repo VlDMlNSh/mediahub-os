@@ -1,158 +1,196 @@
-schema_version: "1.0"
+schema_version: "1.1"
 status: IN_PROGRESS
 contracts:
   - id: CTR-001
     name: state-authority
     owner: state_authority
     scope: canonical system state and authoritative state transitions
+    required_semantics: mutation authority, concurrency, ordering, persistence, recovery, conflict resolution, idempotency
   - id: CTR-002
     name: consumer-boundary
     owner: runtime_core
     scope: ordinary-user versus privileged/internal consumers
+    required_semantics: role/capability surface, privilege boundary, rejection behavior, auditability
   - id: CTR-003
     name: identity-authentication-authorization
     owner: security_core
     scope: identity, authentication, authorization and role-scoped access
+    required_semantics: identity lifecycle, authentication factors, authorization decisions, session lifecycle, revocation, audit
   - id: CTR-004
     name: trust
     owner: security_core
     scope: device/node trust enrollment and trust state
+    required_semantics: enrollment, qualification, trust establishment, revocation, quarantine, renewal
   - id: CTR-005
     name: discovery-onboarding
     owner: device_onboarding
     scope: discovery -> identification -> integration -> connection -> configuration -> capability -> room
+    required_semantics: discovery is not trust, identity verification, enrollment gate, firmware workflow, rollback, idempotency
   - id: CTR-006
     name: device-command
     owner: command_system
     scope: authenticated, authorized, auditable device operations
+    required_semantics: command identity, authorization gate, validation, execution, timeout, retry, idempotency, result/audit
   - id: CTR-007
     name: event
     owner: event_core
     scope: event identity, causality, ordering and retention
+    required_semantics: immutable identity, source, causal chain, ordering, deduplication, retention, replay policy
   - id: CTR-008
     name: notification
     owner: event_core
     scope: actionable notifications and priority
+    required_semantics: severity, audience, acknowledgement, deduplication, delivery/retry and offline behavior
   - id: CTR-009
     name: automation
     owner: automation_core
     scope: trigger/condition/action/scene/schedule execution
+    required_semantics: authority, validation, conflict handling, idempotency, safety, failure and audit
   - id: CTR-010
     name: scheduling
     owner: scheduling_core
     scope: one-time and recurring schedules with execution semantics
+    required_semantics: timezone, clock source, missed execution, duplicate prevention, persistence, recovery
   - id: CTR-011
     name: media
     owner: media_core
     scope: unified media identity, ingestion, processing, playback and routing
+    required_semantics: identity, provenance, format/capability negotiation, lifecycle, authorization and failure recovery
   - id: CTR-012
     name: surveillance
     owner: surveillance_core
     scope: camera discovery, live, direct recording, archive, playback, search and export
+    required_semantics: stream identity, transport, recording policy, timestamps, retention handoff, integrity, privacy, export authorization
   - id: CTR-013
     name: surveillance-storage
     owner: storage_core
     scope: retention/capacity/health/recovery of surveillance recordings
+    required_semantics: logical isolation, retention, capacity pressure, integrity, failure, recovery and migration
   - id: CTR-014
     name: personal-media-storage
     owner: storage_core
     scope: personal media library storage and lifecycle
+    required_semantics: logical isolation, ownership, retention, indexing, backup/restore, migration and privacy
   - id: CTR-015
     name: storage-management
     owner: storage_core
     scope: system/surveillance/personal-media logical storage isolation
+    required_semantics: quotas, allocation, capacity pressure, health, repair, rebalance and failure domains
   - id: CTR-016
     name: network
     owner: network_core
     scope: Ethernet/Wi-Fi/VPN/network extension and network equipment integration
+    required_semantics: topology, addressing, trust boundary, degraded behavior, diagnostics, replacement and recovery
   - id: CTR-017
     name: cluster
     owner: cluster_core
     scope: node membership, coordinated workloads, degraded/failover behavior
+    required_semantics: identity, membership, coordination model, workload placement, failover, split-brain protection, recovery
   - id: CTR-018
     name: cloud-development-boundary
     owner: cloud_development
     scope: privileged cloud development; never ordinary-user direct access
+    required_semantics: privileged identity, workload authorization, egress control, data minimization, residency, audit, metering, isolation
   - id: CTR-019
     name: assistant-escalation
     owner: assistant_core
     scope: local-first assistant with controlled cloud escalation
+    required_semantics: local attempt, escalation criteria, user/data authorization, sensitive-data policy, provider/model qualification, audit, fallback
   - id: CTR-020
     name: health
     owner: observability
     scope: observation-only health semantics
+    required_semantics: observations, evidence provenance, freshness, aggregation without mutation authority
   - id: CTR-021
     name: readiness
     owner: observability
     scope: operation-scoped readiness semantics
+    required_semantics: operation context, required dependencies, readiness result, freshness and explicit distinction from trust/auth/capability
   - id: CTR-022
     name: diagnostics
     owner: diagnostics
     scope: diagnostic evidence without conflating health/trust/authorization
+    required_semantics: evidence collection, correlation, reproducibility, privacy, access control and export
   - id: CTR-023
     name: recovery
     owner: recovery_core
     scope: checkpoint, restore, rollback and filesystem integrity
+    required_semantics: checkpoint identity, integrity, atomicity, rollback, recovery ordering, validation and audit
   - id: CTR-024
     name: update-lifecycle
     owner: lifecycle_core
     scope: user-visible updates, firmware and lifecycle state
+    required_semantics: provenance, authenticity, compatibility, staged rollout, rollback, interruption safety and audit
   - id: CTR-025
     name: migration
     owner: migration_core
     scope: portable configuration/media/surveillance/project migration
+    required_semantics: source/destination qualification, compatibility, integrity, authorization, rollback and audit
   - id: CTR-026
     name: privacy
     owner: privacy_security
     scope: data minimization, access, processing and disclosure controls
+    required_semantics: classification, purpose, retention, residency, processing, export/egress, policy and audit
   - id: CTR-027
     name: engineering-project
     owner: engineering_core
     scope: Designer Project -> Digital Twin -> installation -> commissioning -> as-built
+    required_semantics: artifact provenance, versioning, equipment identity, topology consistency, commissioning state and as-built integrity
   - id: CTR-028
     name: mobile-endpoint
     owner: mobile_media
     scope: iPhone/iPad/Android endpoint identity, authorization and media/IO routing
+    required_semantics: endpoint identity, secure session, permissions, capability negotiation, offline behavior and revocation
   - id: CTR-029
     name: ecosystem-projection
     owner: ecosystem_gateway
     scope: HomeKit/Yandex/Loxone projection without replacing MediaHub authority
+    required_semantics: projection scope, authority preservation, identity/trust, synchronization, conflict handling and revocation
   - id: CTR-030
     name: variant-capability
     owner: product_core
     scope: explicit per-variant capability matrix and prohibited capabilities
+    required_semantics: capability availability, storage restrictions, hardware dependencies, prohibition semantics and acceptance tests
   - id: CTR-031
     name: guidance
     owner: guidance_core
     scope: contextual actionable installation/configuration guidance
+    required_semantics: context provenance, authorization, qualification, safe action boundaries and audit
   - id: CTR-032
     name: export
     owner: export_core
     scope: authorized export and destination compatibility
+    required_semantics: authorization, data classification, provenance, integrity, format compatibility, destination policy and audit
   - id: CTR-033
     name: telemetry
     owner: observability
     scope: normalized telemetry and provenance
+    required_semantics: source identity, timestamp, provenance, sampling, retention, privacy and integrity
   - id: CTR-034
     name: search-knowledge
     owner: search_core
     scope: unified indexing/search/knowledge graph access
+    required_semantics: indexing provenance, consistency, authorization filtering, freshness, offline operation and rebuild
   - id: CTR-035
     name: resource-governance
     owner: resource_governance
     scope: quotas, priorities and workload admission
+    required_semantics: resource identity, priority, admission, preemption/degradation, fairness, limits and audit
   - id: CTR-036
     name: verification-acceptance
     owner: verification
     scope: test evidence, acceptance state and traceability
+    required_semantics: requirement linkage, test identity, evidence provenance, reproducibility, acceptance authority and immutable history
 open_contract_details:
-  - exact cryptographic algorithms and key lifecycle
+  - exact cryptographic algorithms, key lifecycle, rotation and recovery
   - exact HA version/fork and adapter boundary
   - exact vendor/protocol matrix and supported device families
-  - exact camera transport/discovery/recording modes
-  - exact storage pool/filesystem/resizing semantics
-  - exact cluster consensus/scheduler/failover
-  - exact cloud contribution controls and metering
-  - exact mobile transport protocols
-  - exact gaming capture/input topology
+  - exact camera transport/discovery/recording modes and timestamp/integrity semantics
+  - exact storage pool/filesystem/resizing/rebalance semantics
+  - exact cluster identity, coordination, scheduler and failover
+  - exact cloud contribution controls, residency, egress and metering
+  - exact mobile transport protocols and platform permission boundaries
+  - exact gaming capture/input/display topology
   - exact HomeKit/Yandex/Loxone bridge mechanisms
+  - exact threat model and incident-response operating model
+  - exact AI provider/model qualification and quarantine policy
