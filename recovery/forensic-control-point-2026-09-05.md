@@ -7,75 +7,71 @@ Status: IN PROGRESS — MASTER ARCHITECTURE NOT ACCEPTED
 ## Consolidated pass status
 
 PASS 0 Source Inventory: IN PROGRESS — accessible GitHub corpus inventoried; full MH-01…MH-23 historical bodies are not exposed as one machine-readable corpus.
-PASS 1 Function Inventory: COMPLETE against currently accessible accepted baseline/evidence — 51 canonical domains, 58 canonical capabilities.
-PASS 2 Loss Audit: IN PROGRESS — no accessible-evidence item is silently classified as loss; historical gaps remain UNKNOWN.
-PASS 3 Duplicate Audit: COMPLETE for current registries — one canonical capability ID; cross-domain support may reference the same capability without creating a new canonical function.
-PASS 4 Conflict Audit: IN PROGRESS — known semantic conflicts reconciled; technical questions remain explicitly open.
-PASS 5 Ownership Audit: COMPLETE at current boundary level — all 58 canonical capability owners have explicit implementation boundaries; further historical reconciliation remains separate.
-PASS 6 Capability Reconstruction: COMPLETE at current canonical level — 58 capabilities registered; full source/contract/test/acceptance trace still being completed.
-PASS 7 Contract Audit: IN PROGRESS — 36 contract families registered; material technical details remain deferred/open.
-PASS 8 Invariant Audit: COMPLETE against accepted baseline — 30 invariants registered.
-PASS 9 Verification/Acceptance Coverage: IN PROGRESS — acceptance evidence is materially present but only partially covers the canonical capability set.
-Cross-reference consistency pass: COMPLETED for current dependency graph and capability-to-domain mapping.
+PASS 1 Function Inventory: COMPLETE — 51 canonical domains, 58 canonical capabilities.
+PASS 2 Loss Audit: IN PROGRESS — no accessible-evidence item is classified as loss solely because history is unavailable; historical gaps remain UNKNOWN.
+PASS 3 Duplicate Audit: COMPLETE — canonical capability uniqueness preserved.
+PASS 4 Conflict Audit: IN PROGRESS — known semantic conflicts reconciled; exact technical choices remain open.
+PASS 5 Ownership Audit: COMPLETE at boundary level — all 58 canonical capability owners have explicit implementation boundaries.
+PASS 6 Capability Reconstruction: COMPLETE at canonical level — CAP-001…CAP-058 preserved.
+PASS 7 Contract Audit: IN PROGRESS — 36 contract families; exact technical details remain deferred/open.
+PASS 8 Invariant Audit: COMPLETE — 30 confirmed baseline invariants.
+PASS 9 Verification/Acceptance Coverage: IN PROGRESS — materially present but partial.
+PASS 10 CAP Verification/Acceptance Reconstruction: COMPLETE for this pass at evidence-inventory level; detailed per-capability terminal evidence remains OPEN.
+PASS 11 Evidence ID Normalization: PROPOSED — legacy F-xxx numbering is preserved; stable EVD-* identifiers are recommended.
 
-## Repairs made in this recovery cycle
+## Current evidence findings
 
-1. Dependency graph schema upgraded to 1.1. Every dependency edge endpoint is now explicitly declared as a node; undefined endpoints `health_readiness`, `notification`, and `all_components` were resolved by declaring semantic nodes and removing the non-semantic `all_components` dependency edge.
-2. Capability-to-domain mapping normalized to exactly 51 unique domain IDs. CAP-054..CAP-058 are mapped into existing canonical domains instead of creating duplicate domain IDs.
-3. Supporting cross-domain relationships remain allowed; canonical capability ownership remains singular.
-4. Product/runtime implementation-boundary gaps for `product_core` and `runtime_core` were corrected.
-5. Verification/acceptance coverage audit was added as `recovery/verification-acceptance-coverage-audit-2026-09-05.md` (commit `b2e73fdc76163a831db11f62861866c322599e42`).
+The accessible acceptance corpus contains F-006/F-007 under recovery/accepted and F-007…F-015 under recovery/acceptance. F-001…F-005 were not found by current repository or commit searches. This is an evidence gap, not functional loss.
 
-## Verification / acceptance evidence finding
+The expected recovery/verification path is not present as a dedicated corpus. Historical acceptance/governance commits nevertheless exist for MH-03, MH-06, MH-10, MH-12, MH-13, MH-14, MH-15, MH-21 and MH-22.
 
-The accessible `recovery/accepted/` tree contains F-006 presence/people/context and F-007 users/identity/access/authorization.
+F-007 is used by two distinct historical artifacts with different subjects. It is treated as a legacy evidence-number collision, not a duplicate capability.
 
-The accessible `recovery/acceptance/` tree contains F-007 security/trust/safety through F-015 HDMI/display, covering security, energy, remote/mobile/cloud escalation, personal media, surveillance, media, audio, phone I/O and HDMI/display.
+## New recovery artifacts
 
-Direct repository code searches for F-001…F-005 returned no matching results. This is an evidence gap only and is not evidence that the corresponding functionality never existed.
+- `recovery/capability-verification-acceptance-reconstruction-2026-09-05.md`
+  - commit `4dc69d26485a957761d109073852f21cb98c18b4`
+- `recovery/evidence-id-normalization-policy-2026-09-05.md`
+  - commit `283317bc2852712ad9974d47a8439d6fa016205f`
 
-Historical commit search independently confirms acceptance-criteria/governance records for MH-03, MH-06, MH-10, MH-12, MH-13, MH-14, MH-15, MH-21 and MH-22. Other MH contours without matching accessible commits remain UNKNOWN.
-
-## Confirmed preservation rules
+## Preservation rules
 
 - No function is removed because historical architecture cannot currently express it.
-- DEFERRED means preserved/open, not rejected.
-- Missing historical chat evidence is UNKNOWN, not LOSS.
-- Surveillance recording is a native MediaHub capability and does not require a separate NVR where MediaHub can provide it.
-- Surveillance storage and Personal Media Library storage remain separate logical domains.
-- Home Assistant remains internal; MediaHub remains the user-facing Smart Home model.
-- Health, readiness, liveness, trust, authentication and authorization remain semantically distinct.
+- UNKNOWN evidence remains UNKNOWN, never LOSS by inference.
+- DEFERRED technical detail remains preserved/open, not rejected.
+- Surveillance direct recording remains a native MediaHub capability where supported; separate NVR is not mandatory.
+- Surveillance and Personal Media Library storage remain separate logical domains.
+- Home Assistant remains internal and MediaHub remains the sole user-facing Smart Home model.
+- Health, Readiness, Liveness, Trust, Authentication and Authorization remain distinct semantics.
 - Local MediaHub Cluster and Cloud Development Cluster remain separate trust/control domains.
-- Product variants retain explicit capability differences.
-- Professional Engineering is a first-class contour distinct from ordinary UX.
-- Acceptance coverage and architectural acceptance are separate gates.
+- Product variants preserve explicit capability differences.
+- Professional Engineering remains a first-class contour.
+- Verification/acceptance coverage is separate from Master Architecture acceptance.
 
-## Material historical recovery finding
+## Remaining blockers
 
-Currently accessible GitHub evidence identifies an expanded historical MH-18 media architecture. Its capabilities are preserved as recovery evidence and must be reconciled into the canonical model. This includes broader ingestion, metadata/provenance, indexing/search, duplicate detection, playback/streaming/live media, transcoding, subtitles/thumbnails/playlists, lifecycle, backup/recovery, migration, offline-first, export, privacy/security, AI analysis, API and observability concerns.
+1. Full machine-readable MH-01…MH-23 historical corpus remains unavailable.
+2. Exact technical contracts remain open: cryptography/key lifecycle, HA boundary/version, vendor/protocol matrix, KINCONY firmware trust workflow, camera transports/modes, storage pool/filesystem semantics, cluster coordination/failover, cloud contribution controls, mobile transport, gaming topology, ecosystem bridge mechanisms, threat/incident model, AI provider qualification.
+3. CAP-001…CAP-058 terminal verification and immutable acceptance evidence are not fully materialized.
+4. F-001…F-005 historical acceptance material may exist under other names/locations; current evidence does not establish either presence or absence.
+5. Explicit user acceptance of the reconstructed Master Architecture has not occurred.
 
-## Remaining gate blockers
+## Gate state
 
-1. Full machine-readable historical bodies for MH-01…MH-23 are not currently exposed in this runtime; exhaustive historical reconciliation therefore cannot truthfully be marked complete.
-2. Material technical contracts remain deferred: exact HA boundary/version, vendor/device matrix, KINCONY firmware trust workflow, surveillance transports/modes, storage pool/filesystem semantics, cluster coordination/failover, cloud contribution controls, mobile transport, gaming topology, ecosystem bridge mechanisms, and exact cryptographic/key lifecycle choices.
-3. Full CAP-001…CAP-058 verification and acceptance evidence matrix is not yet proven.
-4. User acceptance of the reconstructed master architecture has not occurred.
-
-## Acceptance state
-
-FUNCTIONAL BASELINE: CONFIRMED_ACCEPTED (upstream baseline)
+FUNCTIONAL BASELINE: CONFIRMED_ACCEPTED
 FORENSIC RECONSTRUCTION: IN PROGRESS
 MASTER ARCHITECTURE: DRAFT — NOT ACCEPTED
-DISTRIBUTION TO MH-01…MH-23: BLOCKED UNTIL MASTER ARCHITECTURE ACCEPTANCE
-PRODUCTION DEVELOPMENT: BLOCKED UNTIL REQUIRED ACCEPTANCE GATES
+MH-01…MH-23 REDISTRIBUTION: BLOCKED
+PRODUCTION IMPLEMENTATION: BLOCKED
 
 ## Latest checkpoint commits
 
-- Verification/acceptance coverage audit: `b2e73fdc76163a831db11f62861866c322599e42`
-- Implementation-map correction: `d9adc5b979adaa24d365cd0e76c9a8c0c0d040ae`
-- Full semantic traceability: `b54294d1af6d39c3926a5bfd2bec4964f6fa3a98`
-- Forensic closure matrix update: `ce0e280ce2158e437b6b1ca2904ccbd593ae4a3c`
+- Control point update: current commit produced by this update
+- Capability verification/acceptance reconstruction: `4dc69d26485a957761d109073852f21cb98c18b4`
+- Evidence ID normalization policy: `283317bc2852712ad9974d47a8439d6fa016205f`
+- Previous full semantic traceability: `b54294d1af6d39c3926a5bfd2bec4964f6fa3a98`
+- Previous verification/acceptance coverage: `b2e73fdc76163a831db11f62861866c322599e42`
 
 ## Control rule
 
-This document is a recovery checkpoint. Future chats must treat it as evidence of the current state and must not convert IN PROGRESS/DRAFT into COMPLETE/ACCEPTED without the missing evidence and explicit user acceptance.
+This checkpoint is evidence of current recovery state. No future pass may convert IN PROGRESS/DRAFT into COMPLETE/ACCEPTED without closing the required evidence/contract gates and obtaining explicit user acceptance.
