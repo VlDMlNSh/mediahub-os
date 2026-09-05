@@ -19,6 +19,9 @@ PASS 9 Verification/Acceptance Coverage: IN PROGRESS — materially present but 
 PASS 10 CAP Verification/Acceptance Reconstruction: COMPLETE for this pass at evidence-inventory level; detailed per-capability terminal evidence remains OPEN.
 PASS 11 Evidence ID Normalization: PROPOSED — legacy F-xxx numbering is preserved; stable EVD-* identifiers are recommended.
 PASS 12 Semantic Status Normalization: COMPLETE for governance terminology — legacy LOST/UNKNOWN/DEFERRED/open-boundary labels are now explicitly interpreted by disposition/status, without rewriting historical identifiers.
+PASS 13 CAP Terminal Verification Matrix: BASELINE MATERIALIZED — deterministic CAP-001…CAP-058 ledger created; no capability is falsely promoted to VERIFIED/ACCEPTED without terminal evidence.
+PASS 14 Cross-Registry Consistency: COMPLETE at structural level — CAP owners, 36 contract families and 30 invariants are internally coherent with the current recovery baseline; technical contract closure remains open.
+PASS 15 Historical Semantic Recovery: IN PROGRESS — F-001…F-005 remain unresolved evidence gaps; subject-based searches did not establish absence or loss.
 
 ## Current evidence findings
 
@@ -30,14 +33,14 @@ F-007 is used by two distinct historical artifacts with different subjects. It i
 
 Current semantic normalization found that `LOST-001` is a legacy identifier for a historical recovery finding whose disposition is `RECOVER_AND_RECONCILE`, while `LOST-002` is explicitly unknown-not-loss and `LOST-003` is deferred. These identifiers are preserved; their semantic states are governed by disposition. The former `known_unowned_gaps` are likewise treated as open boundary questions rather than absent canonical ownership.
 
+Subject-based repository searches for key historical functional themes (surveillance/Dahua/Hikvision/Ajax; KINCONY/KCS/USB/firmware; Home Assistant/Loxone/Yandex/HomeKit) returned no results in the accessible repository search. Because repository code search targets the default branch, these negative results are not treated as authoritative absence from the recovery branch and do not change the baseline.
+
 ## New recovery artifacts
 
-- `recovery/capability-verification-acceptance-reconstruction-2026-09-05.md`
-  - commit `4dc69d26485a957761d109073852f21cb98c18b4`
-- `recovery/evidence-id-normalization-policy-2026-09-05.md`
-  - commit `283317bc2852712ad9974d47a8439d6fa016205f`
-- `recovery/forensic-semantic-status-normalization-2026-09-05.md`
-  - commit `ba1e21e767d9e53ed45b382eff20a7d8e36c3e8e`
+- `recovery/capability-verification-acceptance-reconstruction-2026-09-05.md` — `4dc69d26485a957761d109073852f21cb98c18b4`
+- `recovery/evidence-id-normalization-policy-2026-09-05.md` — `283317bc2852712ad9974d47a8439d6fa016205f`
+- `recovery/forensic-semantic-status-normalization-2026-09-05.md` — `ba1e21e767d9e53ed45b382eff20a7d8e36c3e8e`
+- `recovery/capability-terminal-verification-matrix-2026-09-05.yaml` — `a4ddc0f148bd7371050d0a7cc62d5552d0a60515`
 
 ## Preservation rules
 
@@ -68,12 +71,15 @@ Current semantic normalization found that `LOST-001` is a legacy identifier for 
 
 FUNCTIONAL BASELINE: CONFIRMED_ACCEPTED
 FORENSIC RECONSTRUCTION: IN PROGRESS
+CAP TERMINAL VERIFICATION MATRIX: BASELINE MATERIALIZED / PARTIAL EVIDENCE
+CROSS-REGISTRY CONSISTENCY: COMPLETE AT STRUCTURAL LEVEL
 MASTER ARCHITECTURE: DRAFT — NOT ACCEPTED
 MH-01…MH-23 REDISTRIBUTION: BLOCKED
 PRODUCTION IMPLEMENTATION: BLOCKED
 
 ## Latest checkpoint commits
 
+- CAP terminal verification matrix: `a4ddc0f148bd7371050d0a7cc62d5552d0a60515`
 - Semantic status normalization: `ba1e21e767d9e53ed45b382eff20a7d8e36c3e8e`
 - Capability verification/acceptance reconstruction: `4dc69d26485a957761d109073852f21cb98c18b4`
 - Evidence ID normalization policy: `283317bc2852712ad9974d47a8439d6fa016205f`
