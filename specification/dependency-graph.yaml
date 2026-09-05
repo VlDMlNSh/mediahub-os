@@ -1,0 +1,100 @@
+schema_version: "1.0"
+status: DRAFT
+nodes:
+  - mediahub_core
+  - state_authority
+  - security_core
+  - identity
+  - smart_home_core
+  - device_onboarding
+  - device_management
+  - command_system
+  - automation_core
+  - scheduling_core
+  - energy_core
+  - surveillance_core
+  - storage_core
+  - media_core
+  - mobile_media
+  - audio_core
+  - gaming_core
+  - ecosystem_gateway
+  - network_core
+  - cluster_core
+  - assistant_core
+  - cloud_development
+  - engineering_core
+  - data_core
+  - search_core
+  - knowledge_core
+  - observability
+  - diagnostics
+  - recovery_core
+  - migration_core
+  - lifecycle_core
+  - ui_core
+  - event_core
+  - resource_governance
+  - guidance_core
+  - context_core
+  - export_core
+  - installer_core
+  - verification
+edges:
+  - [mediahub_core, state_authority]
+  - [mediahub_core, security_core]
+  - [mediahub_core, ui_core]
+  - [smart_home_core, device_onboarding]
+  - [device_onboarding, device_management]
+  - [device_management, command_system]
+  - [smart_home_core, automation_core]
+  - [automation_core, scheduling_core]
+  - [automation_core, event_core]
+  - [automation_core, energy_core]
+  - [automation_core, surveillance_core]
+  - [surveillance_core, storage_core]
+  - [media_core, storage_core]
+  - [media_core, mobile_media]
+  - [media_core, audio_core]
+  - [media_core, gaming_core]
+  - [media_core, network_core]
+  - [media_core, cluster_core]
+  - [mobile_media, security_core]
+  - [ecosystem_gateway, smart_home_core]
+  - [ecosystem_gateway, security_core]
+  - [network_core, cluster_core]
+  - [cluster_core, resource_governance]
+  - [cluster_core, storage_core]
+  - [cluster_core, cloud_development]
+  - [assistant_core, smart_home_core]
+  - [assistant_core, media_core]
+  - [assistant_core, diagnostics]
+  - [assistant_core, search_core]
+  - [assistant_core, knowledge_core]
+  - [assistant_core, cloud_development]
+  - [cloud_development, engineering_core]
+  - [engineering_core, data_core]
+  - [data_core, search_core]
+  - [search_core, knowledge_core]
+  - [observability, diagnostics]
+  - [observability, health_readiness]
+  - [recovery_core, storage_core]
+  - [recovery_core, lifecycle_core]
+  - [migration_core, storage_core]
+  - [migration_core, data_core]
+  - [lifecycle_core, security_core]
+  - [event_core, notification]
+  - [guidance_core, device_onboarding]
+  - [guidance_core, engineering_core]
+  - [context_core, automation_core]
+  - [export_core, media_core]
+  - [export_core, engineering_core]
+  - [installer_core, device_management]
+  - [verification, all_components]
+security_boundaries:
+  - local_runtime_vs_cloud_development
+  - ordinary_user_vs_engineering_installer
+  - discovery_vs_trust
+  - trust_vs_authentication
+  - authentication_vs_authorization
+  - surveillance_storage_vs_personal_media_storage
