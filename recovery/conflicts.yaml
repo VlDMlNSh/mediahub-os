@@ -1,0 +1,65 @@
+schema_version: "1.0"
+status: IN PROGRESS
+conflicts:
+  - id: CONFLICT-001
+    sources: [functional_baseline, historical_MH-01…MH-23]
+    conflict: "Full historical chat corpus is not currently machine-readable in the recovery runtime."
+    impact: "Cannot truthfully claim exhaustive historical reconciliation."
+    reconciliation: "Treat missing history as UNKNOWN evidence gap; preserve all accepted baseline capabilities."
+    decision_required: true
+  - id: CONFLICT-002
+    sources: [historical_P0-P8, master_reconstruction]
+    conflict: "Old P0-P8 decomposition may not match reconstructed functional ownership."
+    reconciliation: "P0-P8 are historical evidence only; RETAIN/REMAP/RETIRE/REPLACE per component after master architecture acceptance."
+    decision_required: false
+  - id: CONFLICT-003
+    sources: [health_model, readiness_model, security_model]
+    conflict: "Operational state can be mistakenly used as trust/authorization."
+    reconciliation: "Health=observation; Readiness=operation-scoped; Trust and Authorization remain independent."
+    decision_required: false
+  - id: CONFLICT-004
+    sources: [surveillance, storage]
+    conflict: "Surveillance recordings and Personal Media Library may share physical storage."
+    reconciliation: "Keep distinct logical domains, quotas/retention/permissions regardless of physical substrate."
+    decision_required: false
+  - id: CONFLICT-005
+    sources: [local_first, cloud_development]
+    conflict: "Cloud compute could become an implicit execution dependency."
+    reconciliation: "Local MediaHub remains primary runtime; cloud is controlled escalation/additional resource."
+    decision_required: false
+  - id: CONFLICT-006
+    sources: [local_cluster, cloud_cluster]
+    conflict: "Distributed compute could blur local and cloud trust boundaries."
+    reconciliation: "Separate cluster contracts, identities, trust domains and authorization boundaries."
+    decision_required: false
+  - id: CONFLICT-007
+    sources: [product_variants, unified_capability_model]
+    conflict: "Unified architecture can accidentally imply identical capabilities on all variants."
+    reconciliation: "Canonical capabilities plus explicit per-variant capability matrix and prohibited capabilities."
+    decision_required: false
+  - id: CONFLICT-008
+    sources: [Home_Assistant, MediaHub_UI]
+    conflict: "HA integration surface could leak into ordinary user experience."
+    reconciliation: "HA remains internal source of truth; MediaHub remains sole user-facing Smart Home model."
+    decision_required: false
+  - id: CONFLICT-009
+    sources: [security, automatic_onboarding]
+    conflict: "Automatic discovery/firmware onboarding can be mistaken for implicit trust."
+    reconciliation: "Discovery is not trust; firmware authenticity, authorization and safe enrollment are mandatory contracts."
+    decision_required: false
+  - id: CONFLICT-010
+    sources: [engineering, ordinary_UI]
+    conflict: "Engineering complexity can leak into ordinary product UX."
+    reconciliation: "Separate ordinary, advanced, installer and professional contours behind role/capability boundaries."
+    decision_required: false
+open_technical_reconciliations:
+  - exact Home Assistant boundary/version
+  - KINCONY firmware source/authenticity/confirmation policy
+  - exact Dahua/Hikvision/Ajax device families and transports
+  - exact network AP/mesh/controller replacement capabilities
+  - exact cluster scheduler/consensus/failover
+  - exact cloud contribution/privacy/metering model
+  - exact mobile transport and platform constraints
+  - exact gaming capture/input topology
+  - exact ecosystem bridge mechanisms
+  - exact storage pool/filesystem/rebalancing model
