@@ -1,0 +1,158 @@
+schema_version: "1.0"
+status: IN_PROGRESS
+contracts:
+  - id: CTR-001
+    name: state-authority
+    owner: state_authority
+    scope: canonical system state and authoritative state transitions
+  - id: CTR-002
+    name: consumer-boundary
+    owner: runtime_core
+    scope: ordinary-user versus privileged/internal consumers
+  - id: CTR-003
+    name: identity-authentication-authorization
+    owner: security_core
+    scope: identity, authentication, authorization and role-scoped access
+  - id: CTR-004
+    name: trust
+    owner: security_core
+    scope: device/node trust enrollment and trust state
+  - id: CTR-005
+    name: discovery-onboarding
+    owner: device_onboarding
+    scope: discovery -> identification -> integration -> connection -> configuration -> capability -> room
+  - id: CTR-006
+    name: device-command
+    owner: command_system
+    scope: authenticated, authorized, auditable device operations
+  - id: CTR-007
+    name: event
+    owner: event_core
+    scope: event identity, causality, ordering and retention
+  - id: CTR-008
+    name: notification
+    owner: event_core
+    scope: actionable notifications and priority
+  - id: CTR-009
+    name: automation
+    owner: automation_core
+    scope: trigger/condition/action/scene/schedule execution
+  - id: CTR-010
+    name: scheduling
+    owner: scheduling_core
+    scope: one-time and recurring schedules with execution semantics
+  - id: CTR-011
+    name: media
+    owner: media_core
+    scope: unified media identity, ingestion, processing, playback and routing
+  - id: CTR-012
+    name: surveillance
+    owner: surveillance_core
+    scope: camera discovery, live, direct recording, archive, playback, search and export
+  - id: CTR-013
+    name: surveillance-storage
+    owner: storage_core
+    scope: retention/capacity/health/recovery of surveillance recordings
+  - id: CTR-014
+    name: personal-media-storage
+    owner: storage_core
+    scope: personal media library storage and lifecycle
+  - id: CTR-015
+    name: storage-management
+    owner: storage_core
+    scope: system/surveillance/personal-media logical storage isolation
+  - id: CTR-016
+    name: network
+    owner: network_core
+    scope: Ethernet/Wi-Fi/VPN/network extension and network equipment integration
+  - id: CTR-017
+    name: cluster
+    owner: cluster_core
+    scope: node membership, coordinated workloads, degraded/failover behavior
+  - id: CTR-018
+    name: cloud-development-boundary
+    owner: cloud_development
+    scope: privileged cloud development; never ordinary-user direct access
+  - id: CTR-019
+    name: assistant-escalation
+    owner: assistant_core
+    scope: local-first assistant with controlled cloud escalation
+  - id: CTR-020
+    name: health
+    owner: observability
+    scope: observation-only health semantics
+  - id: CTR-021
+    name: readiness
+    owner: observability
+    scope: operation-scoped readiness semantics
+  - id: CTR-022
+    name: diagnostics
+    owner: diagnostics
+    scope: diagnostic evidence without conflating health/trust/authorization
+  - id: CTR-023
+    name: recovery
+    owner: recovery_core
+    scope: checkpoint, restore, rollback and filesystem integrity
+  - id: CTR-024
+    name: update-lifecycle
+    owner: lifecycle_core
+    scope: user-visible updates, firmware and lifecycle state
+  - id: CTR-025
+    name: migration
+    owner: migration_core
+    scope: portable configuration/media/surveillance/project migration
+  - id: CTR-026
+    name: privacy
+    owner: privacy_security
+    scope: data minimization, access, processing and disclosure controls
+  - id: CTR-027
+    name: engineering-project
+    owner: engineering_core
+    scope: Designer Project -> Digital Twin -> installation -> commissioning -> as-built
+  - id: CTR-028
+    name: mobile-endpoint
+    owner: mobile_media
+    scope: iPhone/iPad/Android endpoint identity, authorization and media/IO routing
+  - id: CTR-029
+    name: ecosystem-projection
+    owner: ecosystem_gateway
+    scope: HomeKit/Yandex/Loxone projection without replacing MediaHub authority
+  - id: CTR-030
+    name: variant-capability
+    owner: product_core
+    scope: explicit per-variant capability matrix and prohibited capabilities
+  - id: CTR-031
+    name: guidance
+    owner: guidance_core
+    scope: contextual actionable installation/configuration guidance
+  - id: CTR-032
+    name: export
+    owner: export_core
+    scope: authorized export and destination compatibility
+  - id: CTR-033
+    name: telemetry
+    owner: observability
+    scope: normalized telemetry and provenance
+  - id: CTR-034
+    name: search-knowledge
+    owner: search_core
+    scope: unified indexing/search/knowledge graph access
+  - id: CTR-035
+    name: resource-governance
+    owner: resource_governance
+    scope: quotas, priorities and workload admission
+  - id: CTR-036
+    name: verification-acceptance
+    owner: verification
+    scope: test evidence, acceptance state and traceability
+open_contract_details:
+  - exact cryptographic algorithms and key lifecycle
+  - exact HA version/fork and adapter boundary
+  - exact vendor/protocol matrix and supported device families
+  - exact camera transport/discovery/recording modes
+  - exact storage pool/filesystem/resizing semantics
+  - exact cluster consensus/scheduler/failover
+  - exact cloud contribution controls and metering
+  - exact mobile transport protocols
+  - exact gaming capture/input topology
+  - exact HomeKit/Yandex/Loxone bridge mechanisms
