@@ -1,0 +1,297 @@
+schema_version: "1.0"
+status: IN_PROGRESS
+basis:
+  master_passport: recovery/master-system-passport-2026-09-05.md
+  accepted_additions: recovery/functional-themes/chat-2026-09-05-accepted.md
+  historical_source_rule: "MH-01…MH-23 remain evidence; absence from accessible corpus is not loss"
+capabilities:
+  - id: CAP-001
+    domain: product_core
+    name: unified_mediahub_system
+    owner: mediahub_core
+    status: accepted
+  - id: CAP-002
+    domain: smart_home
+    name: unified_device_function_model
+    owner: smart_home_core
+    status: accepted
+  - id: CAP-003
+    domain: smart_home
+    name: home_assistant_internal_integration_automation
+    owner: smart_home_core
+    status: accepted
+  - id: CAP-004
+    domain: kincony
+    name: kincony_kcs_usb_firmware_network_onboarding
+    owner: device_onboarding
+    status: accepted
+  - id: CAP-005
+    domain: home_automation
+    name: automation_scenes_triggers_conditions_actions
+    owner: automation_core
+    status: accepted
+  - id: CAP-006
+    domain: scheduling
+    name: recurring_one_time_scheduling
+    owner: scheduling_core
+    status: accepted
+  - id: CAP-007
+    domain: energy
+    name: unified_energy_ups_solar_wind_generator_battery_consumers
+    owner: energy_core
+    status: accepted
+  - id: CAP-008
+    domain: surveillance
+    name: direct_camera_recording_live_archive_playback_events_export
+    owner: surveillance_core
+    status: accepted
+  - id: CAP-009
+    domain: surveillance_storage
+    name: dedicated_logical_surveillance_storage
+    owner: storage_core
+    status: accepted
+  - id: CAP-010
+    domain: media_ingestion
+    name: multi_source_media_ingestion
+    owner: media_core
+    status: accepted
+  - id: CAP-011
+    domain: personal_media_library
+    name: personal_media_library_index_search_duplicate_metadata
+    owner: personal_media_core
+    status: accepted
+  - id: CAP-012
+    domain: mobile_media_sync
+    name: iphone_android_bidirectional_media_sync
+    owner: mobile_media
+    status: accepted
+  - id: CAP-013
+    domain: media_playback
+    name: unified_photo_video_audio_playback
+    owner: media_core
+    status: accepted
+  - id: CAP-014
+    domain: live_media
+    name: live_media_streaming_routing_transcoding
+    owner: media_core
+    status: accepted
+  - id: CAP-015
+    domain: audio
+    name: multiroom_audio_and_3_5mm_output
+    owner: audio_core
+    status: accepted
+  - id: CAP-016
+    domain: phone_io
+    name: phone_camera_microphone_media_endpoint
+    owner: mobile_media
+    status: accepted
+  - id: CAP-017
+    domain: display
+    name: hdmi_4k_display_output
+    owner: media_core
+    status: accepted
+  - id: CAP-018
+    domain: gaming
+    name: xbox_playstation_gaming_pc_integration
+    owner: gaming_core
+    status: accepted
+  - id: CAP-019
+    domain: external_ecosystems
+    name: homekit_yandex_loxone_projection
+    owner: ecosystem_gateway
+    status: accepted
+  - id: CAP-020
+    domain: local_assistant
+    name: local_ai_assistant
+    owner: assistant_core
+    status: accepted
+  - id: CAP-021
+    domain: engineering
+    name: professional_designer_project_digital_twin
+    owner: engineering_core
+    status: accepted
+  - id: CAP-022
+    domain: engineering
+    name: engineering_schemes_selection_installation_commissioning_as_built
+    owner: engineering_core
+    status: accepted
+  - id: CAP-023
+    domain: networking
+    name: ethernet_wifi_keenetic_ubiquiti_network_extension
+    owner: network_core
+    status: accepted
+  - id: CAP-024
+    domain: cluster
+    name: local_mediahub_cluster_coordinated_compute_media_storage_failover
+    owner: cluster_core
+    status: accepted
+  - id: CAP-025
+    domain: distributed_compute
+    name: distributed_compute_and_ai_processing
+    owner: cluster_core
+    status: accepted
+  - id: CAP-026
+    domain: cloud_development
+    name: privileged_cloud_development_compute_assistant
+    owner: cloud_development
+    status: accepted
+  - id: CAP-027
+    domain: ai_content_generation
+    name: trusted_source_content_generation
+    owner: cloud_development
+    status: accepted
+  - id: CAP-028
+    domain: website_generation
+    name: parameterized_company_website_generation
+    owner: cloud_development
+    status: accepted
+  - id: CAP-029
+    domain: device_management
+    name: discovery_identification_configuration_lifecycle
+    owner: device_management
+    status: accepted
+  - id: CAP-030
+    domain: command_system
+    name: authenticated_authorized_device_commands
+    owner: command_system
+    status: accepted
+  - id: CAP-031
+    domain: telemetry
+    name: unified_telemetry
+    owner: observability
+    status: accepted
+  - id: CAP-032
+    domain: health_readiness
+    name: health_observation_and_operation_scoped_readiness
+    owner: observability
+    status: accepted
+  - id: CAP-033
+    domain: diagnostics
+    name: cross_domain_diagnostics
+    owner: diagnostics
+    status: accepted
+  - id: CAP-034
+    domain: recovery
+    name: self_recovery_checkpoints_filesystem_integrity
+    owner: recovery_core
+    status: accepted
+  - id: CAP-035
+    domain: offline_first
+    name: local_operation_without_internet_where_possible
+    owner: runtime_core
+    status: accepted
+  - id: CAP-036
+    domain: data_metadata
+    name: unified_data_metadata_provenance
+    owner: data_core
+    status: accepted
+  - id: CAP-037
+    domain: search
+    name: unified_search_indexing
+    owner: search_core
+    status: accepted
+  - id: CAP-038
+    domain: knowledge_graph
+    name: cross_domain_knowledge_graph
+    owner: knowledge_core
+    status: accepted
+  - id: CAP-039
+    domain: privacy
+    name: privacy_data_governance
+    owner: privacy_security
+    status: accepted
+  - id: CAP-040
+    domain: security
+    name: defense_in_depth_trust_authentication_authorization_secure_remote_access
+    owner: security_core
+    status: accepted
+  - id: CAP-041
+    domain: storage
+    name: system_surveillance_personal_media_logical_storage_domains
+    owner: storage_core
+    status: accepted
+  - id: CAP-042
+    domain: backup_restore
+    name: backup_restore
+    owner: recovery_core
+    status: accepted
+  - id: CAP-043
+    domain: migration
+    name: configuration_media_surveillance_project_migration
+    owner: migration_core
+    status: accepted
+  - id: CAP-044
+    domain: update_lifecycle
+    name: user_initiated_update_firmware_lifecycle
+    owner: lifecycle_core
+    status: accepted
+  - id: CAP-045
+    domain: uiux
+    name: unified_minimal_user_interface_engineering_installer_modes
+    owner: ui_core
+    status: accepted
+  - id: CAP-046
+    domain: ios_ipados
+    name: ios_ipados_control_surface_object_node
+    owner: mobile_media
+    status: accepted
+  - id: CAP-047
+    domain: notifications
+    name: contextual_notifications_event_history
+    owner: event_core
+    status: accepted
+  - id: CAP-048
+    domain: resource_governance
+    name: resource_quotas_priority_and_cluster_workload_governance
+    owner: resource_governance
+    status: accepted
+  - id: CAP-049
+    domain: extensibility
+    name: vendor_protocol_ecosystem_extensibility
+    owner: integration_core
+    status: accepted
+  - id: CAP-050
+    domain: simulation_testing
+    name: simulation_verification_acceptance
+    owner: verification
+    status: accepted
+  - id: CAP-051
+    domain: media_lifecycle
+    name: media_retention_processing_export_lifecycle
+    owner: media_core
+    status: accepted
+  - id: CAP-052
+    domain: device_lifecycle
+    name: device_onboarding_operation_update_retirement
+    owner: device_management
+    status: accepted
+  - id: CAP-053
+    domain: product_variants
+    name: mac_mini_mini_pc_raspberry_pi_ios_ipados_engineering_variants
+    owner: product_core
+    status: accepted
+  - id: CAP-054
+    domain: contextual_guidance
+    name: actionable_contextual_installation_configuration_guidance
+    owner: guidance_core
+    status: accepted
+  - id: CAP-055
+    domain: presence
+    name: privacy_governed_presence_context
+    owner: context_core
+    status: accepted
+  - id: CAP-056
+    domain: export
+    name: authorized_device_automation_media_surveillance_engineering_export
+    owner: export_core
+    status: accepted
+  - id: CAP-057
+    domain: installer
+    name: multiboot_hardware_detection_linux_mediahub_installation
+    owner: installer_core
+    status: accepted
+  - id: CAP-058
+    domain: security_safety
+    name: security_safety_system_invariant
+    owner: security_core
+    status: accepted
