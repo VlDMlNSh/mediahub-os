@@ -1,0 +1,48 @@
+version: "1.0"
+status: RECONCILED_NOT_AUTHORIZED
+source_candidate:
+  commit: 456deb9aadd3cae7d8978a7d89f540e1a029b7f4
+  blob: 9432a5a790ab24ae0bbc7dce2663f3e8b34743fc
+required_delta:
+  - id: D-01
+    requirement: command_identity_and_correlation
+    status: GAP
+  - id: D-02
+    requirement: consumer_boundary_enforcement
+    status: GAP
+  - id: D-03
+    requirement: explicit_idempotency_semantics
+    status: GAP
+  - id: D-04
+    requirement: command_to_event_causality
+    status: GAP
+  - id: D-05
+    requirement: event_reentry_through_governed_command_path
+    status: GAP
+  - id: D-06
+    requirement: system-level_no-shadow-authority_failure_semantics
+    status: GAP
+  - id: D-07
+    requirement: reproducible_evidence_generation
+    status: GAP
+  - id: D-08
+    requirement: current_security_negative_execution
+    status: GAP
+  - id: D-09
+    requirement: current_runtime_execution_V01_V15
+    status: GAP
+  - id: D-10
+    requirement: recovery_self_test_current_execution
+    status: GAP
+preserved_candidate_semantics:
+  - bounded_structural_validation
+  - generation_and_state_version_checks
+  - authorization_policy_boundary
+  - transaction_state_machine
+  - immutable_checkpoint_token_binding
+  - atomic_in_memory_publication
+  - persistence_free_foundation
+promotion:
+  allowed: false
+  reason: implementation_authorization_blocked
+  required_sequence: "architecture acceptance -> explicit implementation authorization -> implementation delta -> execution -> security -> evidence -> governance acceptance"
