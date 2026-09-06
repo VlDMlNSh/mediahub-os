@@ -65,6 +65,14 @@ jobs:
           echo 'verification_cases=V-01..V-15_PRESENT'
           echo 'persistence_boundary=EXPLICITLY_BLOCKED'
 
+      - name: Execute current static contract verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 --version
+          python3 -m unittest discover -s tests/static -p 'test_*.py' -v
+          echo 'static_contract_verification=EXECUTED'
+
       - name: Evidence-only classification
         shell: bash
         run: |
