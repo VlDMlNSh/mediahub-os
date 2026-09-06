@@ -44,8 +44,8 @@ jobs:
         run: |
           set -euo pipefail
           gate='architecture/MH-04-state-authority-implementation-gate.md'
-          grep -Fq 'Status: PROPOSED / NOT ACCEPTED' "$gate"
-          grep -Fq 'IMPLEMENTATION AUTHORIZATION: BLOCKED' "$gate"
+          grep -Fq '**Status:** PROPOSED / NOT ACCEPTED' "$gate"
+          grep -Fq '**IMPLEMENTATION AUTHORIZATION: BLOCKED**' "$gate"
           grep -Fq 'State Authority is the sole canonical mutation authority' "$gate"
           echo 'architecture_acceptance=NOT_ACCEPTED'
           echo 'implementation_authorization=BLOCKED'
@@ -60,8 +60,7 @@ jobs:
           for id in V-01 V-02 V-03 V-04 V-05 V-06 V-07 V-08 V-09 V-10 V-11 V-12 V-13 V-14 V-15; do
             grep -Fq "id: $id" "$matrix"
           done
-          grep -Fq 'V-13' "$matrix"
-          grep -Fq 'physical_persistence_not_authorized_by_current_foundation' "$matrix"
+          grep -Fq 'blocking_reason: physical_persistence_not_authorized_by_current_foundation' "$matrix"
           echo 'verification_cases=V-01..V-15_PRESENT'
           echo 'persistence_boundary=EXPLICITLY_BLOCKED'
 
