@@ -72,6 +72,13 @@ jobs:
           python3 -m unittest discover -s tests/static -p 'test_*.py' -v
           echo 'static_contract_verification=EXECUTED'
 
+      - name: Execute MH-04 evidence schema verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest tests.static.test_mh04_evidence_schema -v
+          echo 'evidence_schema_verification=EXECUTED'
+
       - name: Evidence-only classification
         shell: bash
         run: |
