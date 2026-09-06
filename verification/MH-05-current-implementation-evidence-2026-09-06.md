@@ -2,8 +2,8 @@
 
 **Status:** IMPLEMENTATION COMPLETE FOR LOCAL CONTRACT SCOPE / QUALIFICATION OPEN  
 **Branch:** `dev/mh05/current-implementation`  
-**Implementation revision previously evidenced:** `ed1cb88276edcbeb566c39e5295e42714c8658f4`  
-**Current verified pre-documentation-update HEAD:** `86cefc7d14a7dafa44aaa2425d9a69cda1b43f2c`  
+**Implementation baseline:** `a3f4cae3e0be61b0ad08acaabc999a419ab269ac`  
+**Checkpoint commit:** `3612246e8a2dc7fba0713047f5ca4a6434c40e38`  
 **PR:** #45
 
 ## Authorization
@@ -24,11 +24,13 @@ Product Owner explicitly authorized MH-05 Consumer Boundary implementation on 20
 
 ## Exact-head automated verification
 
-- MH-05 dedicated workflow on the current implementation merge-ref: PASS, 10/10 tests, Python 3.12.x.
-- MH-05 adversarial bypass audit on the current implementation merge-ref: PASS, 5/5 tests.
-- MH-04 verification-readiness workflow on the current implementation merge-ref: PASS, static 6/6 and runtime 33/33.
-- Current implementation head before this documentation-only reconciliation: `86cefc7d14a7dafa44aaa2425d9a69cda1b43f2c`.
-- Current PR merge-ref before this documentation-only reconciliation: `55ace0c81a8d93a4e863b0ceaf332295d724457d`.
+The current checkpoint commit `3612246e...` has fresh successful GitHub Actions execution:
+
+- MH-05 dedicated Consumer Boundary workflow: SUCCESS, 10/10 tests.
+- MH-05 adversarial Security Bypass Audit: SUCCESS, 5/5 tests.
+- MH-04 verification-readiness workflow: SUCCESS.
+
+The verification workflows execute against the current revision/PR merge context and record exact verification identity. These results are automated evidence, not independent human security qualification.
 
 ## Qualification state
 
@@ -38,7 +40,7 @@ Product Owner explicitly authorized MH-05 Consumer Boundary implementation on 20
 
 ## Evidence reconciliation
 
-This artifact previously recorded the earlier implementation SHA `ed1cb882...`; that value is retained above as historical provenance. The latest implementation verification had subsequently advanced to `86cefc7d...`. A documentation-only reconciliation commit is now being applied; therefore the new branch HEAD created by that documentation commit must itself receive fresh exact-head CI before it is treated as the current verification identity.
+Historical SHA values from earlier evidence documents are retained only as provenance. The current branch checkpoint is `3612246e...`; its parent `a3f4cae...` is the implementation/documentation baseline used for the one-hour development measurement. Fresh exact-head CI has subsequently executed successfully for the checkpoint revision.
 
 ## Known dependency observation
 
