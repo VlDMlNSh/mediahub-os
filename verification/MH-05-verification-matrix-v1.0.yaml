@@ -66,4 +66,3 @@ qualification_rule:
 qualification_blockers:
   - independent_security_review
   - independent_system_wide_negative_verification
-  - current_sha_execution_after_latest_documentation_commit
