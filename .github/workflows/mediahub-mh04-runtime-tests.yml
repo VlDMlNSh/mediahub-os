@@ -1,0 +1,25 @@
+name: MediaHub MH-04 Runtime Tests
+
+on:
+  push:
+    branches:
+      - dev/mh04/state-authority-foundation
+  workflow_dispatch:
+
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Runtime tests
+        run: python3 -m unittest discover -s tests/runtime -p 'test_*.py' -v
+      - name: Evidence identity
+        run: |
+          echo "git_sha=$(git rev-parse HEAD)"
+          echo "branch=${GITHUB_REF_NAME}"
+          echo "workflow_run=${GITHUB_RUN_ID}"
+          echo "classification=RUNTIME_TEST_EXECUTION"
