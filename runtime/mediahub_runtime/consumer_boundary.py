@@ -1,5 +1,6 @@
 """MH-05 governed ingress to the canonical in-memory State Authority."""
 
+import math
 from dataclasses import dataclass
 
 from .state_authority import (
@@ -118,8 +119,12 @@ class ConsumerBoundary:
         budget[0] += 1
         if budget[0] > cls._MAX_VALUE_NODES or depth > cls._MAX_VALUE_DEPTH:
             raise ConsumerBoundaryError("operation_rejected")
-        if value is None or type(value) in (bool, int, float, str):
+        if value is None or type(value) in (bool, int, str):
             if type(value) is str and len(value) > cls._MAX_STRING:
+                raise ConsumerBoundaryError("operation_rejected")
+            return
+        if type(value) is float:
+            if not math.isfinite(value):
                 raise ConsumerBoundaryError("operation_rejected")
             return
         if type(value) in (list, tuple):
