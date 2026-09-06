@@ -29,8 +29,10 @@ jobs:
           set -euo pipefail
           required=(
             architecture/MH-04-state-authority-implementation-gate.md
+            architecture/MH-04-state-authority-contract-v1.0.md
             verification/MH-04-verification-matrix-v1.0.yaml
             verification/MH-04-evidence-record.schema.yaml
+            verification/MH-04-qualification-gate-v1.0.md
             security/MH-04-authority-negative-test-matrix-v1.0.yaml
             security/MH-04-supervisor-negative-test-contract-v1.0.yaml
             verification/MH-04-candidate-api-to-v1.0-verification-map.md
@@ -40,28 +42,31 @@ jobs:
             echo "artifact_present=$f"
           done
 
-      - name: Verify blocked-by-design guardrails
+      - name: Verify accepted implementation scope and guardrails
         shell: bash
         run: |
           set -euo pipefail
           gate='architecture/MH-04-state-authority-implementation-gate.md'
-          grep -Fq '**Status:** PROPOSED / NOT ACCEPTED' "$gate"
-          grep -Fq '**IMPLEMENTATION AUTHORIZATION: BLOCKED**' "$gate"
+          grep -Fq 'ACCEPTED FOR AUTHORIZED IN-MEMORY SCOPE' 'architecture/MH-04-state-authority-contract-v1.0.md'
           grep -Fq 'State Authority is the sole canonical mutation authority' "$gate"
+          grep -Fq 'physical persistence' "$gate"
+          grep -Fq 'production release' "$gate"
+          qualification='verification/MH-04-qualification-gate-v1.0.md'
+          grep -Fq 'Status: OPEN' "$qualification"
+          grep -Fq 'V-13 recorded as BLOCKED' "$qualification"
           supervisor='security/MH-04-supervisor-negative-test-contract-v1.0.yaml'
-          grep -Fq 'implementation_authorization: BLOCKED' "$supervisor"
           grep -Fq 'actual_runtime_execution_required' "$supervisor"
           grep -Fq 'independent_security_review_required' "$supervisor"
-          echo 'architecture_acceptance=NOT_ACCEPTED'
-          echo 'implementation_authorization=BLOCKED'
-          echo 'shadow_authority_guard=present'
+          echo 'architecture_acceptance=ACCEPTED_FOR_AUTHORIZED_SCOPE'
+          echo 'implementation_authorization=AUTHORIZED_FOR_IN_MEMORY_SCOPE'
+          echo 'production_authorization=NOT_GRANTED'
+          echo 'persistence=BLOCKED_BY_SCOPE'
 
       - name: Verify verification matrix semantics
         shell: bash
         run: |
           set -euo pipefail
           matrix='verification/MH-04-verification-matrix-v1.0.yaml'
-          grep -Fq 'implementation_authorization: BLOCKED' "$matrix"
           for id in V-01 V-02 V-03 V-04 V-05 V-06 V-07 V-08 V-09 V-10 V-11 V-12 V-13 V-14 V-15; do
             grep -Fq "id: $id" "$matrix"
           done
@@ -75,15 +80,20 @@ jobs:
           set -euo pipefail
           python3 --version
           python3 -m unittest discover -s tests/static -p 'test_*.py' -v
-          echo 'static_contract_verification=EXECUTED'
 
-      - name: Evidence-only classification
+      - name: Execute current runtime verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests/runtime -p 'test_*.py' -v
+
+      - name: Evidence identity
         shell: bash
         run: |
           set -euo pipefail
           echo "git_sha=$(git rev-parse HEAD)"
           echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
           echo "workflow_run=${GITHUB_RUN_ID}"
-          echo 'classification=READINESS_ONLY'
+          echo 'classification=RUNTIME_AND_CONTRACT_VERIFICATION'
           echo 'production_authorization=NOT_GRANTED'
-          echo 'acceptance=NOT_GRANTED'
+          echo 'qualification=REVIEW_REQUIRED'
