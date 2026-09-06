@@ -2,42 +2,34 @@
 
 Status: TESTED / QUALIFICATION REVIEW REQUIRED
 Branch: dev/mh04/state-authority-foundation
-Code/test evidence SHA: 84a2c2cd7f47bc3dfe6ede27fac8d6bc41fe2154
+Current implementation baseline: 84a2c2cd7f47bc3dfe6ede27fac8d6bc41fe2154
 
 ## Governance
 
-Master Architecture, MH-01, MH-03 and MH-04 were explicitly accepted and State Authority implementation was explicitly authorized on 2026-09-06. This record does not authorize physical persistence or release.
+Master Architecture, MH-01, MH-03 and MH-04 were explicitly accepted and State Authority implementation was explicitly authorized on 2026-09-06. This record does not authorize physical persistence, HA, or production release.
 
-## Evidence identity
+## Current implementation observations
 
-The prior successful runtime/security/readiness executions remain valid for their recorded SHAs only. The hardening commit above contains new tests and therefore requires a fresh current-SHA CI execution before those new tests are classified as executed evidence.
+The current State Authority implementation includes command identity, correlation identity, source identity validation, authenticated authorization context, generation conflict detection, duplicate command rejection, atomic candidate-state publication, deterministic nested-state digesting, checkpoint token validation, detached reads, event emission after mutation, and fail-closed unavailability handling.
 
-## Current assessment
+## Recorded execution evidence
 
-Proven by prior execution:
-- authenticated authorization is required for mutation;
-- unauthorized mutation is denied;
-- stale generation is rejected atomically;
-- duplicate command IDs are rejected;
-- malformed commands are rejected without mutation;
-- unavailable State Authority fails closed;
-- checkpoint token is enforced;
-- read results are detached copies;
-- governed delete mutation works;
-- event contains command/correlation identity and canonical generation/version;
-- independent negative security tests pass;
-- concurrent same-generation writers have a single committed winner in the recorded runtime execution.
+Recorded current-implementation execution has demonstrated authorization enforcement, stale-writer rejection, duplicate-command rejection, malformed-command non-mutation, unavailable-authority fail-closed behavior, checkpoint token enforcement, detached reads, governed delete, command/correlation event identity, concurrent same-generation single-winner behavior, deterministic nested-state digest, and source-identity validation/trace behavior.
 
-Pending current-SHA execution:
-- deterministic nested-state digest hardening tests;
-- source-identity validation and trace tests.
+CI environment recorded for the current workflow: GitHub Actions Ubuntu 24.04 runner with Python 3.x runtime. Exact run identity must be retained with each execution; this document does not substitute for raw CI evidence.
+
+## Qualification boundary
 
 Not proven by this packet:
 - physical persistence/durability;
 - HA/cluster failover;
 - process restart durability;
-- full V-01…V-15 qualification;
-- system-wide consumer boundary integration outside this runtime package;
+- system-wide Consumer Boundary integration outside this runtime package;
+- full V-01…V-15 qualification acceptance;
 - production release readiness.
 
-Disposition: State Authority implementation remains within the authorized deterministic in-memory scope. Qualification remains OPEN until all applicable current-SHA evidence is executed and assessed. Production release remains NO-GO.
+V-13 remains BLOCKED because physical persistence is outside the authorized foundation scope.
+
+## Disposition
+
+State Authority implementation remains within the authorized deterministic in-memory scope. Qualification remains OPEN until every applicable verification case has current, reproducible evidence and all evidence identity and governance requirements are assessed. Production release remains NO-GO.
