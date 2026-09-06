@@ -32,6 +32,7 @@ jobs:
             verification/MH-04-verification-matrix-v1.0.yaml
             verification/MH-04-evidence-record.schema.yaml
             security/MH-04-authority-negative-test-matrix-v1.0.yaml
+            security/MH-04-supervisor-negative-test-contract-v1.0.yaml
             verification/MH-04-candidate-api-to-v1.0-verification-map.md
           )
           for f in "${required[@]}"; do
@@ -47,6 +48,10 @@ jobs:
           grep -Fq '**Status:** PROPOSED / NOT ACCEPTED' "$gate"
           grep -Fq '**IMPLEMENTATION AUTHORIZATION: BLOCKED**' "$gate"
           grep -Fq 'State Authority is the sole canonical mutation authority' "$gate"
+          supervisor='security/MH-04-supervisor-negative-test-contract-v1.0.yaml'
+          grep -Fq 'implementation_authorization: BLOCKED' "$supervisor"
+          grep -Fq 'actual_runtime_execution_required' "$supervisor"
+          grep -Fq 'independent_security_review_required' "$supervisor"
           echo 'architecture_acceptance=NOT_ACCEPTED'
           echo 'implementation_authorization=BLOCKED'
           echo 'shadow_authority_guard=present'
