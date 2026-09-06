@@ -25,6 +25,7 @@ class Command:
     value: object = None
     expected_generation: int | None = None
     authorization: AuthorizationContext | None = None
+    source_identity: str = ""
 
 @dataclass(frozen=True)
 class Event:
@@ -89,6 +90,7 @@ class StateAuthority:
     def _validate(self,c):
         if not isinstance(c,Command) or not c.command_id or not c.correlation_id: raise InvalidCommand("command identity required")
         if c.operation not in self._policy or not c.path or any(not isinstance(x,str) or not x for x in c.path): raise InvalidCommand("invalid command")
+        if c.source_identity and not isinstance(c.source_identity,str): raise InvalidCommand("invalid source identity")
     def _authorize(self,c):
         a=c.authorization
         if a is None or not a.authenticated or not self._policy[c.operation].issubset(a.permissions): raise AuthorizationDenied("authorization denied")
@@ -108,5 +110,16 @@ class StateAuthority:
             if not isinstance(cur,dict): raise InvalidCommand("delete path missing")
         if path[-1] not in cur: raise InvalidCommand("delete path missing")
         del cur[path[-1]]
-    @staticmethod
-    def _digest(state): return sha256(repr(sorted(state.items())).encode()).hexdigest()
+    @classmethod
+    def _canonicalize(cls, value):
+        if isinstance(value,dict):
+            return tuple((str(k), cls._canonicalize(v)) for k,v in sorted(value.items(), key=lambda item: str(item[0])))
+        if isinstance(value,(list,tuple)):
+            return tuple(cls._canonicalize(v) for v in value)
+        if isinstance(value,set):
+            return tuple(sorted((cls._canonicalize(v) for v in value), key=repr))
+        return value
+    @classmethod
+    def _digest(cls,state):
+        canonical=repr(cls._canonicalize(state)).encode("utf-8")
+        return sha256(canonical).hexdigest()
