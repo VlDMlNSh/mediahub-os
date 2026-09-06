@@ -1,0 +1,41 @@
+name: MediaHub MH-05 Security Bypass Audit
+
+on:
+  push:
+    branches:
+      - 'dev/mh05/**'
+  pull_request:
+    branches:
+      - 'recovery/full-functional-spec'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  security-audit:
+    name: MH-05 adversarial authority-boundary audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run adversarial bypass audit
+        env:
+          PYTHONPATH: runtime
+        run: python3 -m unittest discover -s tests/security -p 'test_mh05_*.py' -v
+      - name: Record exact verification identity
+        run: |
+          echo "commit=$(git rev-parse HEAD)"
+          echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+          echo "workflow_run=${GITHUB_RUN_ID}"
+          echo 'classification=MH05_ADVERSARIAL_AUTHORITY_BYPASS_AUDIT'
+          echo 'persistence=NOT_AUTHORIZED'
+          echo 'ha=NOT_AUTHORIZED'
+          echo 'production=NOT_AUTHORIZED'
