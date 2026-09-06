@@ -1,0 +1,112 @@
+from dataclasses import dataclass
+from copy import deepcopy
+from hashlib import sha256
+from threading import RLock
+
+class StateAuthorityError(RuntimeError): pass
+class AuthorizationDenied(StateAuthorityError): pass
+class ConflictDetected(StateAuthorityError): pass
+class DuplicateCommand(StateAuthorityError): pass
+class InvalidCommand(StateAuthorityError): pass
+class AuthorityUnavailable(StateAuthorityError): pass
+
+@dataclass(frozen=True)
+class AuthorizationContext:
+    subject: str
+    authenticated: bool
+    permissions: frozenset[str] = frozenset()
+
+@dataclass(frozen=True)
+class Command:
+    command_id: str
+    correlation_id: str
+    operation: str
+    path: tuple[str, ...]
+    value: object = None
+    expected_generation: int | None = None
+    authorization: AuthorizationContext | None = None
+
+@dataclass(frozen=True)
+class Event:
+    sequence: int
+    event_id: str
+    command_id: str
+    correlation_id: str
+    operation: str
+    path: tuple[str, ...]
+    generation: int
+    state_version: int
+    state_digest: str
+
+class StateAuthority:
+    """Single canonical, thread-safe, in-memory mutation authority."""
+    def __init__(self, initial_state=None, policy=None):
+        self._lock=RLock(); self._state=deepcopy(dict(initial_state or {}))
+        self._generation=0; self._version=0; self._sequence=0
+        self._events=[]; self._processed={}; self._available=True
+        self._policy=dict(policy or {"set":frozenset({"state.write"}),"delete":frozenset({"state.write"})})
+        self._token=sha256(b"mediahub-state-authority-v1").hexdigest()
+        self._observers=[]
+    def set_available(self, available):
+        with self._lock: self._available=bool(available)
+    def subscribe(self, observer):
+        with self._lock: self._observers.append(observer)
+    def read(self):
+        with self._lock:
+            self._require(); return deepcopy(self._state)
+    def metadata(self):
+        with self._lock: return {"generation":self._generation,"state_version":self._version,"event_sequence":self._sequence,"available":self._available}
+    def events(self):
+        with self._lock: return tuple(self._events)
+    def execute(self, command):
+        with self._lock:
+            self._require(); self._validate(command)
+            if command.command_id in self._processed: raise DuplicateCommand(command.command_id)
+            self._authorize(command)
+            if command.expected_generation is not None and command.expected_generation != self._generation:
+                raise ConflictDetected("stale generation")
+            candidate=deepcopy(self._state)
+            if command.operation=="set": self._set(candidate,command.path,deepcopy(command.value))
+            elif command.operation=="delete": self._delete(candidate,command.path)
+            self._state=candidate; self._generation+=1; self._version+=1; self._sequence+=1
+            event=Event(self._sequence,f"evt-{self._sequence:012d}",command.command_id,command.correlation_id,command.operation,command.path,self._generation,self._version,self._digest(self._state))
+            self._events.append(event); self._processed[command.command_id]=event; observers=tuple(self._observers)
+        for observer in observers: observer(event)
+        return event
+    def checkpoint(self):
+        with self._lock:
+            self._require(); return (self._token,deepcopy(self._state),self._generation,self._version)
+    def restore(self, checkpoint):
+        with self._lock:
+            self._require()
+            if not isinstance(checkpoint,tuple) or len(checkpoint)!=4: raise InvalidCommand("invalid checkpoint")
+            token,state,generation,version=checkpoint
+            if token!=self._token: raise AuthorizationDenied("checkpoint token rejected")
+            if not isinstance(state,dict) or generation<0 or version<generation: raise InvalidCommand("invalid checkpoint")
+            self._state=deepcopy(state); self._generation=generation; self._version=version; self._sequence=0; self._events.clear(); self._processed.clear()
+    def _require(self):
+        if not self._available: raise AuthorityUnavailable("State Authority unavailable; fail closed")
+    def _validate(self,c):
+        if not isinstance(c,Command) or not c.command_id or not c.correlation_id: raise InvalidCommand("command identity required")
+        if c.operation not in self._policy or not c.path or any(not isinstance(x,str) or not x for x in c.path): raise InvalidCommand("invalid command")
+    def _authorize(self,c):
+        a=c.authorization
+        if a is None or not a.authenticated or not self._policy[c.operation].issubset(a.permissions): raise AuthorizationDenied("authorization denied")
+    @staticmethod
+    def _set(state,path,value):
+        cur=state
+        for part in path[:-1]:
+            child=cur.setdefault(part,{})
+            if not isinstance(child,dict): raise InvalidCommand("path crosses scalar")
+            cur=child
+        cur[path[-1]]=value
+    @staticmethod
+    def _delete(state,path):
+        cur=state
+        for part in path[:-1]:
+            cur=cur.get(part)
+            if not isinstance(cur,dict): raise InvalidCommand("delete path missing")
+        if path[-1] not in cur: raise InvalidCommand("delete path missing")
+        del cur[path[-1]]
+    @staticmethod
+    def _digest(state): return sha256(repr(sorted(state.items())).encode()).hexdigest()
