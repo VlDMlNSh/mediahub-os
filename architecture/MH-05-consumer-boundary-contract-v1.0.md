@@ -1,6 +1,6 @@
 # MH-05 — Consumer Boundary Contract v1.0
 
-**Status:** PROPOSED / IMPLEMENTATION NOT AUTHORIZED  
+**Status:** ACCEPTED FOR AUTHORIZED IMPLEMENTATION / QUALIFICATION OPEN  
 **Owner:** `consumer_boundary`  
 **Dependency:** MH-04 State Authority / CTR-001
 
@@ -40,4 +40,4 @@ Implementation qualification MUST include positive path tests plus negative test
 
 ## Scope
 
-This document is an architecture/contract preparation artifact. It does not authorize implementation, persistence, HA, or production release.
+Product Owner explicitly authorized MH-05 implementation on 2026-09-06. This contract authorizes MH-05 only. It does not authorize persistence, HA, production release, recovery implementation, or unrelated capabilities.
