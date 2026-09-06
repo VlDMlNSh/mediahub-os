@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'dev/mh04/**'
+      - 'dev/mh05/**'
   pull_request:
     branches:
       - 'recovery/full-functional-spec'
@@ -83,9 +84,9 @@ jobs:
 
       - name: Execute current runtime verification
         shell: bash
-        run: |
-          set -euo pipefail
-          python3 -m unittest discover -s tests/runtime -p 'test_*.py' -v
+        env:
+          PYTHONPATH: runtime
+        run: python3 -m unittest discover -s tests/runtime -p 'test_*.py' -v
 
       - name: Evidence identity
         shell: bash
