@@ -1,17 +1,17 @@
 schema_version: "1.0"
-status: PROPOSED
+status: QUALIFICATION_OPEN
 contract: CTR-001
 architecture_gate: MH-04
-implementation_authorization: BLOCKED
+implementation_authorization: AUTHORIZED_FOR_IN_MEMORY_SCOPE
 purpose: >-
   Machine-readable verification matrix for the canonical State Authority.
-  This artifact defines executable verification surfaces without implementing
-  or authorizing a production State Authority.
+  This artifact records executable verification surfaces and current evidence
+  without granting physical persistence or production authorization.
 
 result_semantics:
   NOT_VERIFIED: test not executed or evidence incomplete
   TESTED: executed with reproducible command and captured actual result
-  QUALIFIED: tested result reviewed against qualification criteria
+  QUALIFIED: tested result reviewed and formally accepted against qualification criteria
   BLOCKED: execution prohibited by an unresolved prerequisite
 
 common_evidence:
@@ -37,7 +37,7 @@ cases:
     class: positive_negative
     expected_property: unauthorized_or_unattributable_mutation_is_rejected
     dependencies: [CTR-001, security_core, identity]
-    status: NOT_VERIFIED
+    status: TESTED
   - id: V-02
     name: boundary_enforcement
     class: negative
@@ -50,49 +50,49 @@ cases:
     class: positive_negative
     expected_property: legal_transition_applies_once_and_illegal_transition_is_non_mutating
     dependencies: [CTR-001]
-    status: NOT_VERIFIED
+    status: TESTED
   - id: V-04
     name: stale_command_rejection
     class: negative
     expected_property: stale_command_cannot_overwrite_newer_canonical_state
     dependencies: [CTR-001]
-    status: NOT_VERIFIED
+    status: TESTED
   - id: V-05
     name: concurrent_command_determinism
     class: concurrency
     expected_property: conflict_and_ordering_behavior_is_deterministic
     dependencies: [CTR-001]
-    status: NOT_VERIFIED
+    status: TESTED
   - id: V-06
     name: idempotent_retry
     class: retry
     expected_property: duplicate_retry_does_not_create_unintended_transition
     dependencies: [CTR-001]
-    status: NOT_VERIFIED
+    status: TESTED
   - id: V-07
     name: event_causality
     class: trace
     expected_property: event_is_fact_after_canonical_mutation_and_traceable_to_command
     dependencies: [CTR-001]
-    status: NOT_VERIFIED
+    status: TESTED
   - id: V-08
     name: event_reentry
     class: negative_positive
     expected_property: event_driven_mutation_reenters_governed_command_path
     dependencies: [CTR-001, event_core]
-    status: NOT_VERIFIED
+    status: TESTED
   - id: V-09
     name: failure_partial_failure
     class: fault_injection
     expected_property: failure_cannot_silently_create_invalid_canonical_state
     dependencies: [CTR-001]
-    status: NOT_VERIFIED
+    status: TESTED
   - id: V-10
     name: state_authority_unavailable
     class: degraded_mode
     expected_property: mutation_stops_without_shadow_authority
     dependencies: [CTR-001, P0-04]
-    status: NOT_VERIFIED
+    status: TESTED
   - id: V-11
     name: restart_recovery
     class: recovery
@@ -104,7 +104,7 @@ cases:
     class: resilience
     expected_property: local_deterministic_semantics_do_not_require_cloud_or_internet
     dependencies: [CTR-001, INV-008, INV-009]
-    status: NOT_VERIFIED
+    status: TESTED
   - id: V-13
     name: persistence_boundary
     class: negative
@@ -117,7 +117,7 @@ cases:
     class: adversarial
     expected_property: authority_and_authentication_boundaries_fail_closed
     dependencies: [CTR-001, security_core]
-    status: NOT_VERIFIED
+    status: TESTED
   - id: V-15
     name: evidence_integrity
     class: evidence
@@ -141,3 +141,8 @@ qualification_prerequisites:
   - implementation_authorization_explicitly_recorded
   - reproducible_test_environment
   - security_red_team_review
+
+qualification_note: >-
+  Current evidence is sufficient to classify the authorized in-memory foundation
+  as implemented and tested in its exercised surfaces, but not sufficient to
+  close the full V-01..V-15 qualification gate. Physical persistence remains blocked.
