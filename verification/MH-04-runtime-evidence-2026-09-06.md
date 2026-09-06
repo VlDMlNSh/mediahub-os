@@ -2,40 +2,19 @@
 
 Status: TESTED / QUALIFICATION REVIEW REQUIRED
 Branch: dev/mh04/state-authority-foundation
-Git SHA: 60a6b743bf0ec9c95d116ee8a0821c91194578c1
+Code/test evidence SHA: 84a2c2cd7f47bc3dfe6ede27fac8d6bc41fe2154
 
 ## Governance
 
 Master Architecture, MH-01, MH-03 and MH-04 were explicitly accepted and State Authority implementation was explicitly authorized on 2026-09-06. This record does not authorize physical persistence or release.
 
-## Runtime execution
+## Evidence identity
 
-Workflow: MediaHub MH-04 Runtime Tests
-Run: 34045182998
-Job: 101518872752
-Environment: GitHub Actions ubuntu-latest, Python 3.12
-Command: python3 -m unittest discover -s tests/runtime -p 'test_*.py' -v
-Observed result: job completed SUCCESS.
+The prior successful runtime/security/readiness executions remain valid for their recorded SHAs only. The hardening commit above contains new tests and therefore requires a fresh current-SHA CI execution before those new tests are classified as executed evidence.
 
-## Independent security execution
+## Current assessment
 
-Workflow: MediaHub MH-04 Security Negative Tests
-Run: 34045183022
-Job: 101518872757
-Environment: GitHub Actions ubuntu-latest, Python 3.12
-Command: python3 -m unittest discover -s tests/security -p 'test_mh04_state_authority_redteam.py' -v
-Observed result: job completed SUCCESS.
-
-## CI readiness
-
-Workflow: MediaHub MH-04 verification readiness
-Run: 34045185079
-Job: 101518878405
-Observed result: job completed SUCCESS; canonical artifact and guardrail checks passed.
-
-## Evidence assessment
-
-Proven by execution:
+Proven by prior execution:
 - authenticated authorization is required for mutation;
 - unauthorized mutation is denied;
 - stale generation is rejected atomically;
@@ -46,7 +25,12 @@ Proven by execution:
 - read results are detached copies;
 - governed delete mutation works;
 - event contains command/correlation identity and canonical generation/version;
-- independent negative security tests pass.
+- independent negative security tests pass;
+- concurrent same-generation writers have a single committed winner in the recorded runtime execution.
+
+Pending current-SHA execution:
+- deterministic nested-state digest hardening tests;
+- source-identity validation and trace tests.
 
 Not proven by this packet:
 - physical persistence/durability;
@@ -56,4 +40,4 @@ Not proven by this packet:
 - system-wide consumer boundary integration outside this runtime package;
 - production release readiness.
 
-Disposition: State Authority foundation is implementation-complete for the currently authorized in-memory scope and has executable test evidence. Qualification and acceptance remain governance activities; production release remains NO-GO.
+Disposition: State Authority implementation remains within the authorized deterministic in-memory scope. Qualification remains OPEN until all applicable current-SHA evidence is executed and assessed. Production release remains NO-GO.
