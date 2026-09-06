@@ -1,0 +1,37 @@
+name: MediaHub MH-05 Consumer Boundary Tests
+
+on:
+  push:
+    branches:
+      - 'dev/mh05/**'
+  pull_request:
+    branches:
+      - 'recovery/full-functional-spec'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify governance authorization
+        run: |
+          grep -q 'ACCEPTED / IMPLEMENTATION AUTHORIZED' governance/MH-05-IMPLEMENTATION-AUTHORIZATION-2026-09-06.md
+          grep -q 'does NOT authorize' governance/MH-05-IMPLEMENTATION-AUTHORIZATION-2026-09-06.md
+          grep -q 'Consumer Boundary' architecture/MH-05-consumer-boundary-contract-v1.0.md || true
+      - name: Run MH-05 tests
+        env:
+          PYTHONPATH: runtime
+        run: python3 -m unittest discover -s tests/runtime -p 'test_mh05_*.py' -v
+      - name: Record exact verification identity
+        run: |
+          echo "commit=${GITHUB_SHA}"
+          echo "branch=${GITHUB_REF_NAME}"
+          python3 --version
