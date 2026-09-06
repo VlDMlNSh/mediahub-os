@@ -18,9 +18,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Checkout exact revision
+      - name: Checkout exact implementation revision
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -32,7 +33,9 @@ jobs:
         run: python3 -m unittest discover -s tests/security -p 'test_mh05_*.py' -v
       - name: Record exact verification identity
         run: |
-          echo "commit=$(git rev-parse HEAD)"
+          echo "checked_out_commit=$(git rev-parse HEAD)"
+          echo "event_commit=${GITHUB_SHA}"
+          echo "pull_request_head_sha=${{ github.event.pull_request.head.sha || '' }}"
           echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
           echo "workflow_run=${GITHUB_RUN_ID}"
           echo 'classification=MH05_ADVERSARIAL_AUTHORITY_BYPASS_AUDIT'
