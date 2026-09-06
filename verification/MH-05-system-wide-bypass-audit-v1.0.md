@@ -1,9 +1,10 @@
 # MH-05 System-Wide Bypass Audit v1.0 — 2026-09-06
 
-**Status:** OPEN / STATIC AUDIT BASELINE
+**Status:** OPEN / QUALIFICATION BLOCKER
 **Scope:** Consumer Boundary → State Authority authority path
-**Current checkpoint:** `3612246e8a2dc7fba0713047f5ca4a6434c40e38`
-**Implementation baseline:** `a3f4cae3e0be61b0ad08acaabc999a419ab269ac`
+**Exact implementation HEAD:** `02cf173fd84d63243057183d55a30d9675590bf6`
+**Base branch:** `recovery/full-functional-spec`
+**Evidence classification:** automated/static supporting evidence; NOT independent qualification evidence
 
 ## Objective
 
@@ -19,13 +20,19 @@ Determine whether repository consumers can mutate canonical state, emit authorit
 6. Remote/cloud/AI/plugin/device sources do not gain authorization from source classification alone.
 7. Failure of State Authority is fail-closed and non-mutating.
 
-## Evidence status
+## Current exact-HEAD supporting evidence
 
-- MH-05 dedicated runtime suite: PASS, 10/10 on the current checkpoint verification context.
-- MH-05 adversarial authority-boundary audit: PASS, 5/5 on the current checkpoint verification context.
-- MH-04 verification readiness: PASS on the current checkpoint verification context.
-- Repository-wide dynamic bypass verification: NOT EXECUTED as an independent system-wide qualification activity.
-- Independent security/red-team verification: OPEN.
+- MH-05 dedicated runtime suite: SUCCESS on exact HEAD.
+- MH-05 adversarial authority-boundary audit: SUCCESS on exact HEAD.
+- MH-04 verification readiness: SUCCESS on exact HEAD.
+- Current implementation contains a single ConsumerBoundary ingress delegating mutation to the supplied StateAuthority; no boundary-local canonical state/event/checkpoint store is defined.
+- `ConsumerBoundary.execute()` validates request identity, authorization context, command identity, path bounds, payload bounds, and non-finite floats before invoking authority execution.
+
+## Independent qualification status
+
+- Repository-wide dynamic bypass verification: **NOT EXECUTED independently**.
+- Independent security/red-team verification: **OPEN**.
+- Therefore this document MUST NOT be interpreted as independent security approval or final qualification.
 
 ## Findings
 
