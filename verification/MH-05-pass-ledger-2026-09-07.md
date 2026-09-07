@@ -3,9 +3,8 @@
 ## Control point
 - Repository: `VlDMlNSh/mediahub-os`
 - Branch: `remediation/mh05-r3-event-evidence`
-- Current branch HEAD at ledger reconciliation: `69eb355b2d31a92be7cf108427f97d5cce99b61f`
-- Current executable implementation/audit control point: `69eb355b2d31a92be7cf108427f97d5cce99b61f`
-- Current documentation control point: `69eb355b2d31a92be7cf108427f97d5cce99b61f`
+- Last reconciled executable/documentation checkpoint before this ledger-only correction: `69eb355b2d31a92be7cf108427f97d5cce99b61f`
+- This commit is documentation-only; the authoritative current branch HEAD is always the GitHub PR HEAD and must be reconciled before qualification.
 - Immutable forensic target: `25f7e3e50708d4bcad37fa712a5000dd2a7dea06`
 - Qualification: OPEN / NOT QUALIFIED
 - Production: NOT AUTHORIZED
@@ -14,10 +13,10 @@
 ## Passes completed
 
 ### PASS A — exact HEAD reconciliation
-Repository branch and immutable forensic target rechecked. No forensic recovery repeated and no frozen baseline modified. Current branch is 83 commits ahead and 0 behind the immutable target.
+Repository branch and immutable forensic target rechecked. No forensic recovery repeated and no frozen baseline modified. At the preceding checkpoint the branch was 83 commits ahead and 0 behind the immutable target.
 
 ### PASS B — composition root
-Confirmed a single governed construction point for `StateAuthority` with `ConsumerBoundary` bound to it. Runtime tests and security tests are present; current exact-SHA execution is separately evidenced by GitHub Actions below.
+Confirmed a single governed construction point for `StateAuthority` with `ConsumerBoundary` bound to it. Runtime tests and security tests are present; exact-SHA execution is separately classified below.
 
 ### PASS C — restore functional matrix
 Restore tests cover checkpoint round-trip, malformed checkpoint non-mutation, distinction between checkpoint token and AuthorizationContext, dedicated restore authorization, prefix-preserving history, and post-restore authorization enforcement.
@@ -50,20 +49,20 @@ Master continuation protocol v2.3 requires actual HEAD reconciliation, exact-SHA
 Repository-local AST audit detects direct and qualified `StateAuthority` construction, secondary canonical storage, secondary canonical private reads, unauthorized restore calls, and ConsumerBoundary private canonical mutation.
 
 ### PASS M — qualification ledger reconciliation
-This ledger is reconciled to the actual current branch HEAD and no longer contains stale future control-point SHAs.
+The prior ledger contained stale future control-point SHAs. This correction removes those assertions and makes GitHub PR HEAD the authoritative current control point.
 
-### PASS N — current workflow/status reconciliation
-For exact current HEAD `69eb355b2d31a92be7cf108427f97d5cce99b61f`, GitHub Actions execution is observed:
+### PASS N — preceding exact-SHA execution
+At checkpoint `69eb355b2d31a92be7cf108427f97d5cce99b61f`, GitHub Actions execution was observed:
 - `34121261896` — MediaHub MH-05 Consumer Boundary Tests — SUCCESS;
 - `34121261899` — MediaHub MH-05 Security Bypass Audit — SUCCESS.
 
 Runtime execution recorded 33/33 MH-05 tests and 56/56 full regression tests; security/adversarial execution recorded 19/19. These are `EXECUTED` supporting evidence, not independent qualification.
 
-The legacy/standalone commit-status endpoint has no standalone statuses for this SHA; that is not treated as a CI failure because the current GitHub Actions runs are the observed execution evidence.
+Because this ledger correction creates a new Git commit, those preceding runs do not automatically qualify the new HEAD. Fresh exact-SHA execution is required before this new HEAD can be used as current execution evidence.
 
 ## V05 applicability
 
-For the current executable MH-05 runtime boundary:
+For the executable MH-05 runtime boundary inspected at the preceding checkpoint:
 - V05-06 automation direct mutation bypass — `NOT_APPLICABLE`;
 - V05-07 UI direct mutation bypass — `NOT_APPLICABLE`;
 - V05-08 AI direct mutation bypass — `NOT_APPLICABLE`;
@@ -71,7 +70,7 @@ For the current executable MH-05 runtime boundary:
 - V05-10 device direct mutation bypass — `NOT_APPLICABLE`;
 - V05-11 cloud direct mutation bypass — `NOT_APPLICABLE`.
 
-These dispositions are `STATIC_SUPPORT`, not PASS and not independent qualification. They are based on absence of executable implementation surfaces in the current runtime tree. Any future executable surface requires a new applicability assessment and exact-SHA negative verification.
+These dispositions are `STATIC_SUPPORT`, not PASS and not independent qualification. Any future executable surface requires a new applicability assessment and exact-SHA negative verification.
 
 ## Free-model parallelization status
 
@@ -81,15 +80,16 @@ The repository orchestration contract is aligned with continuation v2.3: paralle
 
 Implementation and tests are not qualification evidence until exact-SHA execution is observed. `workflow_runs=[]` or absent status is classified as EXECUTION EVIDENCE ABSENT; it is never a PASS.
 
-Historical execution evidence remains historical/supporting and does not qualify later changes. Current exact-SHA execution is recorded only when the GitHub Actions run targets the exact current SHA.
+Historical execution evidence remains historical/supporting and does not qualify later changes. Current exact-SHA execution is recorded only when GitHub Actions targets the exact current PR HEAD.
 
 ## Remaining blocking passes
 
-1. Independent security/red-team review on exact current HEAD.
-2. Independent system-wide negative verification on exact current HEAD, including F-03.
-3. Final F-04 historical evidence reconciliation against the current executable tree where required.
-4. Final evidence packet completeness and provenance reconciliation.
-5. Release Gate after qualification; this remains separate from MH-05 qualification.
+1. Fresh exact-SHA runtime/security execution for the new current PR HEAD created by this documentation correction.
+2. Independent security/red-team review on the exact current PR HEAD.
+3. Independent system-wide negative verification on the exact current PR HEAD, including F-03.
+4. Final F-04 historical evidence reconciliation against the current executable tree where required.
+5. Final evidence packet completeness and provenance reconciliation.
+6. Release Gate after qualification; this remains separate from MH-05 qualification.
 
 ## Qualification decision
 
