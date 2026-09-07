@@ -3,8 +3,9 @@
 ## Control point
 - Repository: `VlDMlNSh/mediahub-os`
 - Branch: `remediation/mh05-r3-event-evidence`
-- Latest observed implementation/audit control point: `0b38b26466097c8e29ff5722b343b518e0054a74`
-- Latest documentation commit: `223c8e73216866d6a96b13667218ebc7d838461d`
+- Current branch HEAD: `8750e0d6f91a2d1d63f6a6e62b211117f067ac45`
+- Latest executable implementation/audit control point: `0b38b26466097c8e29ff5722b343b518e0054a74`
+- Current documentation control point: `8750e0d6f91a2d1d63f6a6e62b211117f067ac45`
 - Immutable forensic target: `25f7e3e50708d4bcad37fa712a5000dd2a7dea06`
 - Qualification: OPEN / NOT QUALIFIED
 - Production: NOT AUTHORIZED
@@ -42,21 +43,25 @@ Health/readiness/availability is explicitly tested as distinct from authorizatio
 ### PASS J — ledger reconciliation
 Qualification status retained OPEN; historical execution evidence is preserved and never promoted to current-SHA evidence.
 
-### PASS K — continuation protocol v2.2
-Master continuation prompt requires actual HEAD reconciliation, exact-SHA classification, no unsupported background-agent claims, GitHub-controlled model orchestration when an actual execution layer exists, and explicit current-tree execution before Release Gate.
+### PASS K — continuation protocol v2.3
+Master continuation protocol v2.3 requires actual HEAD reconciliation, exact-SHA classification, no unsupported background-agent claims, repository-controlled free-model orchestration only when a real adapter exists, and explicit current-tree execution before Release Gate.
 
 ### PASS L — strengthened F-03 audit
-Repository-local AST audit detects direct and qualified `StateAuthority` construction, secondary canonical storage, secondary canonical private reads, unauthorized restore calls, and ConsumerBoundary private canonical mutation. fileciteturn114file0L2-L6
+Repository-local AST audit detects direct and qualified `StateAuthority` construction, secondary canonical storage, secondary canonical private reads, unauthorized restore calls, and ConsumerBoundary private canonical mutation.
 
-### PASS M — qualification ledger v2.2
-Remediation ledger explicitly records current audit control point and distinguishes IMPLEMENTED_NOT_EXECUTED from EXECUTED evidence.
+### PASS M — qualification ledger reconciliation
+Remediation ledger explicitly records the latest executable/audit control point and distinguishes IMPLEMENTED_NOT_EXECUTED from EXECUTED evidence.
 
 ### PASS N — workflow/status reconciliation
-Current audit SHA `0b38b26466097c8e29ff5722b343b518e0054a74` has no observed workflow runs and no combined status checks. This is recorded as missing execution evidence, not PASS.
+The latest executable/audit control point `0b38b26466097c8e29ff5722b343b518e0054a74` has no observed workflow runs in the available commit workflow query. This is recorded as missing execution evidence, not PASS. The current HEAD `8750e0d6f91a2d1d63f6a6e62b211117f067ac45` is documentation-only and does not retroactively qualify the executable control point.
+
+## Free-model parallelization status
+
+The repository orchestration contract is aligned with continuation v2.3: T1 supports four parallel low-cost inventory passes; T3 supports three independent adversarial passes; T4 supports verification and independent-review passes. Model output remains advisory and cannot qualify MH-05. If no real provider adapter is configured, orchestration must stop at deterministic planning rather than simulate model execution.
 
 ## Execution evidence rule
 
-Implementation and tests are not qualification evidence until exact-SHA GitHub Actions execution is observed. `workflow_runs=[]` from the available commit workflow query is classified as EXECUTION EVIDENCE ABSENT; it is never a PASS.
+Implementation and tests are not qualification evidence until exact-SHA GitHub Actions execution is observed. `workflow_runs=[]` or absent status is classified as EXECUTION EVIDENCE ABSENT; it is never a PASS.
 
 The last known successful executable evidence remains historical at:
 - `25beac177319714eed3565b2b673fd5ee5cbf5b1` — runtime/security success;
