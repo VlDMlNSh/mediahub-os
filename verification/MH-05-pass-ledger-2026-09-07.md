@@ -2,101 +2,60 @@
 
 ## Control point
 - Repository: `VlDMlNSh/mediahub-os`
-- Branch: `remediation/mh05-r3-event-evidence`
-- Last reconciled executable/documentation checkpoint before this ledger-only correction: `69eb355b2d31a92be7cf108427f97d5cce99b61f`
-- This commit is documentation-only; the authoritative current branch HEAD is always the GitHub PR HEAD and must be reconciled before qualification.
+- Executable checkpoint: `471f709f5633feab7aeb62dd3ea52effad6d2bc4`
+- Tree: `2279612908135418b2b5448d598274ea6741deaa`
 - Immutable forensic target: `25f7e3e50708d4bcad37fa712a5000dd2a7dea06`
 - Qualification: OPEN / NOT QUALIFIED
 - Production: NOT AUTHORIZED
 - MH-06: LOCKED
 
-## Passes completed
+## Completed engineering passes
 
-### PASS A — exact HEAD reconciliation
-Repository branch and immutable forensic target rechecked. No forensic recovery repeated and no frozen baseline modified. At the preceding checkpoint the branch was 83 commits ahead and 0 behind the immutable target.
+### PASS A — exact SHA
+R4 exact SHA and tree reconciled; immutable baseline unchanged.
 
 ### PASS B — composition root
-Confirmed a single governed construction point for `StateAuthority` with `ConsumerBoundary` bound to it. Runtime tests and security tests are present; exact-SHA execution is separately classified below.
+Single governed construction point for `StateAuthority` with `ConsumerBoundary` bound to it.
 
-### PASS C — restore functional matrix
-Restore tests cover checkpoint round-trip, malformed checkpoint non-mutation, distinction between checkpoint token and AuthorizationContext, dedicated restore authorization, prefix-preserving history, and post-restore authorization enforcement.
+### PASS C/D — restore functional and adversarial matrix
+Checkpoint round-trip, malformed input rejection, dedicated restore authorization, forged-token rejection, unavailable-authority fail-closed behavior and canonical authority identity preservation are covered by tests.
 
-### PASS D — restore adversarial matrix
-Restore security tests cover forged token rejection, valid checkpoint without authorization, malformed checkpoint, unavailable authority, and canonical authority identity preservation.
+### PASS E/F/G/H — restore governance
+Unavailable-authority fixture corrected; restore remains a governed ConsumerBoundary surface; checkpoint history remains coherent; restore is a dedicated privileged mutation path.
 
-### PASS E — restore fixture correction
-Unavailable-authority test captures the checkpoint before disabling availability, preventing a false-negative fixture.
+### PASS I — health/readiness authorization separation
+Availability does not imply mutation permission.
 
-### PASS F — restore reachability governance
-`ConsumerBoundary.restore(request, checkpoint)` is the governed recovery surface. Source/correlation request metadata and the real AuthorizationContext are propagated to State Authority.
+### PASS J — evidence reconciliation
+Historical evidence is retained and never promoted to current-SHA qualification evidence.
 
-### PASS G — restore history semantics
-Checkpoint/restore preserves a coherent checkpoint prefix including state, generation, version, sequence, canonical event history and processed-command history. Restore does not clear history or reset sequence.
+### PASS K — continuation governance
+Current orchestration requires actual HEAD reconciliation, exact-SHA classification, no invented background execution and no model authority to qualify or merge.
 
-### PASS H — policy safety
-Restore is excluded from ordinary `Command.operation` policy and remains a dedicated governed recovery API.
+### PASS L — F-03 local negative audit
+Exact R4 AST scan found one `StateAuthority` definition and confined protected canonical storage writes to that implementation. This is supporting evidence, not independent qualification.
 
-### PASS I — V05-05
-Health/readiness/availability is explicitly tested as distinct from authorization; availability does not imply permission.
+### PASS M — ledger reconciliation
+Current R4 checkpoint is explicitly distinguished from predecessor `69eb355...` evidence.
 
-### PASS J — ledger reconciliation
-Qualification status retained OPEN; historical execution evidence is preserved and never promoted to current-SHA evidence.
-
-### PASS K — continuation protocol v2.3
-Master continuation protocol v2.3 requires actual HEAD reconciliation, exact-SHA classification, no unsupported background-agent claims, repository-controlled free-model orchestration only when a real adapter exists, and explicit current-tree execution before Release Gate.
-
-### PASS L — strengthened F-03 audit
-Repository-local AST audit detects direct and qualified `StateAuthority` construction, secondary canonical storage, secondary canonical private reads, unauthorized restore calls, and ConsumerBoundary private canonical mutation.
-
-### PASS M — qualification ledger reconciliation
-The prior ledger contained stale future control-point SHAs. This correction removes those assertions and makes GitHub PR HEAD the authoritative current control point.
-
-### PASS N — preceding exact-SHA execution
-At checkpoint `69eb355b2d31a92be7cf108427f97d5cce99b61f`, GitHub Actions execution was observed:
-- `34121261896` — MediaHub MH-05 Consumer Boundary Tests — SUCCESS;
-- `34121261899` — MediaHub MH-05 Security Bypass Audit — SUCCESS.
-
-Runtime execution recorded 33/33 MH-05 tests and 56/56 full regression tests; security/adversarial execution recorded 19/19. These are `EXECUTED` supporting evidence, not independent qualification.
-
-Because this ledger correction creates a new Git commit, those preceding runs do not automatically qualify the new HEAD. Fresh exact-SHA execution is required before this new HEAD can be used as current execution evidence.
+### PASS N — exact-SHA execution
+R4 GitHub Actions: runtime `34143904463` SUCCESS; security `34143904462` SUCCESS. Local reproduction: 185 pytest tests passed; 19/19 MH-05 security tests passed; compileall and diff-check passed.
 
 ## V05 applicability
 
-For the executable MH-05 runtime boundary inspected at the preceding checkpoint:
-- V05-06 automation direct mutation bypass — `NOT_APPLICABLE`;
-- V05-07 UI direct mutation bypass — `NOT_APPLICABLE`;
-- V05-08 AI direct mutation bypass — `NOT_APPLICABLE`;
-- V05-09 plugin direct mutation bypass — `NOT_APPLICABLE`;
-- V05-10 device direct mutation bypass — `NOT_APPLICABLE`;
-- V05-11 cloud direct mutation bypass — `NOT_APPLICABLE`.
+V05-06 automation, V05-07 UI, V05-08 AI, V05-09 plugin, V05-10 device and V05-11 cloud direct-mutation surfaces remain `NOT_APPLICABLE` where no executable external consumer surface exists. These are applicability dispositions, not qualification PASS. New executable surfaces require fresh assessment.
 
-These dispositions are `STATIC_SUPPORT`, not PASS and not independent qualification. Any future executable surface requires a new applicability assessment and exact-SHA negative verification.
+## Independent qualification gates
 
-## Free-model parallelization status
+1. Independent security/red-team review against the exact final qualification SHA — OPEN.
+2. Independent system-wide negative verification including F-03 against the exact final qualification SHA — OPEN.
+3. Final evidence completeness and provenance reconciliation — OPEN.
+4. Release Gate after qualification — OPEN.
 
-The repository orchestration contract is aligned with continuation v2.3: parallel model passes are permitted only through a real configured execution layer. Model output remains advisory and cannot qualify MH-05, merge changes, authorize production, or modify the immutable baseline. If no real provider adapter is configured, orchestration must stop at deterministic planning rather than simulate model execution.
+Automated execution and owner review cannot substitute for the independent gates.
 
-## Evidence classification rule
+## Decision
 
-Implementation and tests are not qualification evidence until exact-SHA execution is observed. `workflow_runs=[]` or absent status is classified as EXECUTION EVIDENCE ABSENT; it is never a PASS.
+Until all mandatory gates are independently evidenced: `MH-05 = NOT QUALIFIED`; `Production = NOT AUTHORIZED`; `MH-06 = LOCKED`.
 
-Historical execution evidence remains historical/supporting and does not qualify later changes. Current exact-SHA execution is recorded only when GitHub Actions targets the exact current PR HEAD.
-
-## Remaining blocking passes
-
-1. Fresh exact-SHA runtime/security execution for the new current PR HEAD created by this documentation correction.
-2. Independent security/red-team review on the exact current PR HEAD.
-3. Independent system-wide negative verification on the exact current PR HEAD, including F-03.
-4. Final F-04 historical evidence reconciliation against the current executable tree where required.
-5. Final evidence packet completeness and provenance reconciliation.
-6. Release Gate after qualification; this remains separate from MH-05 qualification.
-
-## Qualification decision
-
-Until every mandatory gate is independently evidenced: `MH-05 = NOT QUALIFIED`, `Production = NOT AUTHORIZED`, `MH-06 = LOCKED`.
-
-## Development continuity
-
-GitHub is the project system of record. Every material implementation, test, evidence, review, and qualification decision must be committed. Chat context is not authoritative.
-
-External model orchestration is permitted only through a real configured execution layer. Model output is supporting/auditable evidence only and cannot independently merge or qualify. Secrets remain environment/secret-store only.
+No persistence, HA, recovery expansion, production release or unrelated capability authorization is inferred.
