@@ -12,16 +12,16 @@ CANONICAL_KEYS = {
 
 
 class MH05EventProjectionTests(unittest.TestCase):
+    def _event(self, command_id="cmd-projection", source="device-local"):
+        return StateAuthority().execute(Command(command_id, "corr-projection", "set", ("media", "volume"), 7, None, AUTH, source))
+
     def test_projection_preserves_trusted_provenance_and_time(self):
-        authority = StateAuthority()
-        runtime_event = authority.execute(
-            Command("cmd-projection-1", "corr-projection-1", "set", ("media", "volume"), 7, None, AUTH, "device-local")
-        )
+        runtime_event = self._event()
         canonical = project_runtime_event(runtime_event).as_dict()
         self.assertEqual(set(canonical), CANONICAL_KEYS)
         self.assertEqual(canonical["id"], runtime_event.event_id)
         self.assertEqual(canonical["source"], "device-local")
-        self.assertEqual(canonical["correlation_id"], "corr-projection-1")
+        self.assertEqual(canonical["correlation_id"], "corr-projection")
         self.assertEqual(canonical["causation_id"], None)
         self.assertEqual(canonical["timestamp"], runtime_event.timestamp)
         self.assertEqual(canonical["subject"], "state:media/volume")
@@ -43,8 +43,7 @@ class MH05EventProjectionTests(unittest.TestCase):
         self.assertEqual(authority.metadata()["event_sequence"], 0)
 
     def test_projection_cannot_accept_substitute_source_or_causation(self):
-        authority = StateAuthority()
-        runtime_event = authority.execute(Command("cmd-substitution", "corr-substitution", "set", ("x",), 1, None, AUTH, "real-source"))
+        runtime_event = self._event("cmd-substitution", "real-source")
         with self.assertRaises(TypeError):
             project_runtime_event(runtime_event, source_identity="attacker")
         with self.assertRaises(TypeError):
@@ -61,18 +60,24 @@ class MH05EventProjectionTests(unittest.TestCase):
             project_runtime_event(UntrustedEvent())
 
     def test_canonical_schema_rejects_extra_or_invalid_fields(self):
-        authority = StateAuthority()
-        event = project_runtime_event(authority.execute(Command("cmd-schema", "corr-schema", "set", ("x",), 1, None, AUTH, "local"))).as_dict()
+        event = project_runtime_event(self._event("cmd-schema")).as_dict()
         validate_canonical_event(event)
-        extra = dict(event, unexpected=True)
         with self.assertRaises(ProjectionError):
-            validate_canonical_event(extra)
-        invalid_timestamp = dict(event, timestamp="not-a-date")
+            validate_canonical_event(dict(event, unexpected=True))
         with self.assertRaises(ProjectionError):
-            validate_canonical_event(invalid_timestamp)
-        invalid_priority = dict(event, priority=-1)
+            validate_canonical_event(dict(event, timestamp="not-a-date"))
         with self.assertRaises(ProjectionError):
-            validate_canonical_event(invalid_priority)
+            validate_canonical_event(dict(event, priority=-1))
+
+    def test_evidence_fingerprint_is_deterministic_and_event_bound(self):
+        canonical = project_runtime_event(self._event("cmd-fingerprint"))
+        fingerprint = canonical.evidence_fingerprint()
+        self.assertEqual(fingerprint, canonical.evidence_fingerprint())
+        changed = canonical.as_dict()
+        changed["source"] = "different-source"
+        with self.assertRaises(ProjectionError):
+            validate_canonical_event({**changed, "metadata": {"changed": True}})
+        self.assertNotEqual(fingerprint, project_runtime_event(self._event("cmd-other")).evidence_fingerprint())
 
     def test_projection_is_observational(self):
         authority = StateAuthority({"x": 1})
