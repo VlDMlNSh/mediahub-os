@@ -1,11 +1,19 @@
 """Projection boundary from trusted runtime events to canonical domain events."""
 
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Any, Mapping
 
 
 class ProjectionError(ValueError):
     """Raised when a runtime event cannot be projected safely."""
+
+
+CANONICAL_EVENT_KEYS = frozenset({
+    "id", "type", "version", "timestamp", "source", "subject", "payload",
+    "severity", "priority", "correlation_id", "causation_id", "metadata",
+})
+CANONICAL_SEVERITIES = frozenset({"INFO", "NOTICE", "WARNING", "ERROR", "CRITICAL"})
 
 
 @dataclass(frozen=True)
@@ -40,6 +48,30 @@ class CanonicalEvent:
         }
 
 
+def validate_canonical_event(event: Mapping[str, Any]) -> None:
+    """Validate the executable subset of the canonical JSON Event schema."""
+    if not isinstance(event, Mapping) or set(event) != CANONICAL_EVENT_KEYS:
+        raise ProjectionError("canonical event keys do not match schema")
+    for field in ("id", "type", "version", "timestamp", "source", "subject"):
+        if not isinstance(event[field], str) or not event[field]:
+            raise ProjectionError(f"invalid canonical event {field}")
+    if not isinstance(event["payload"], Mapping) or not isinstance(event["metadata"], Mapping):
+        raise ProjectionError("payload and metadata must be objects")
+    if event["severity"] not in CANONICAL_SEVERITIES:
+        raise ProjectionError("invalid canonical event severity")
+    if not isinstance(event["priority"], int) or isinstance(event["priority"], bool) or event["priority"] < 0:
+        raise ProjectionError("invalid canonical event priority")
+    for field in ("correlation_id", "causation_id"):
+        if event[field] is not None and (not isinstance(event[field], str) or not event[field]):
+            raise ProjectionError(f"invalid canonical event {field}")
+    try:
+        parsed = datetime.fromisoformat(event["timestamp"].replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ProjectionError("invalid canonical event timestamp") from exc
+    if parsed.tzinfo is None:
+        raise ProjectionError("canonical event timestamp must include timezone")
+
+
 def project_runtime_event(
     runtime_event: Any,
     *,
@@ -68,7 +100,7 @@ def project_runtime_event(
         raise ProjectionError("invalid causation id")
     if not isinstance(runtime_event.timestamp, str) or not runtime_event.timestamp:
         raise ProjectionError("event timestamp required")
-    if severity not in {"INFO", "NOTICE", "WARNING", "ERROR", "CRITICAL"}:
+    if severity not in CANONICAL_SEVERITIES:
         raise ProjectionError("invalid severity")
     if not isinstance(priority, int) or isinstance(priority, bool) or priority < 0:
         raise ProjectionError("invalid priority")
@@ -91,7 +123,7 @@ def project_runtime_event(
     if metadata:
         event_metadata.update(dict(metadata))
 
-    return CanonicalEvent(
+    canonical = CanonicalEvent(
         id=runtime_event.event_id,
         type=f"state.{runtime_event.operation}",
         version="1.0",
@@ -105,3 +137,5 @@ def project_runtime_event(
         causation_id=runtime_event.causation_id,
         metadata=event_metadata,
     )
+    validate_canonical_event(canonical.as_dict())
+    return canonical
