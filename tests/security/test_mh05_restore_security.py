@@ -10,9 +10,11 @@ class TestMH05RestoreSecurity(unittest.TestCase):
 
     def test_forged_token_cannot_restore(self):
         authority = build_runtime({"x": 1})["state_authority"]
+        checkpoint = authority.checkpoint()
+        forged = ("forged", checkpoint[1], checkpoint[2], checkpoint[3], checkpoint[4], checkpoint[5], checkpoint[6])
         before = (authority.read(), authority.metadata(), authority.events())
         with self.assertRaises(AuthorizationDenied):
-            authority.restore(("forged", {"x": 9}, 99, 99), self.restore_allowed)
+            authority.restore(forged, self.restore_allowed)
         self.assertEqual((authority.read(), authority.metadata(), authority.events()), before)
 
     def test_restore_requires_authorization_even_with_valid_checkpoint(self):
