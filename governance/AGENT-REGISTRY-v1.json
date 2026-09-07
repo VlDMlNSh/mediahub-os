@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "control_plane": "A0",
+  "repository": "VlDMlNSh/mediahub-os",
+  "agents": [
+    {"id":"A0","role":"CONTROL_GOVERNANCE","authority":"scope_and_gate_decisions","can_merge":false},
+    {"id":"A1","role":"AUTHORITY_SECURITY","authority":"negative_verification_only","can_merge":false},
+    {"id":"A2","role":"EVIDENCE_CI","authority":"reproducibility_and_evidence","can_merge":false},
+    {"id":"A3","role":"HEALTH_READINESS","authority":"architecture_preparation_until_authorized","can_merge":false},
+    {"id":"A4","role":"PERSISTENCE_RECOVERY","authority":"architecture_preparation_until_authorized","can_merge":false},
+    {"id":"A5","role":"DEVICE_NETWORK","authority":"architecture_contracts_until_authorized","can_merge":false},
+    {"id":"A6","role":"MEDIA_SURVEILLANCE","authority":"architecture_contracts_until_authorized","can_merge":false},
+    {"id":"A7","role":"AI_ASSISTANT_RAG_KG","authority":"architecture_data_boundary_until_authorized","can_merge":false},
+    {"id":"A8","role":"UI_IOS","authority":"architecture_consumer_contracts_until_authorized","can_merge":false},
+    {"id":"A9","role":"OS_APPLIANCE_INSTALLER_UPDATE","authority":"architecture_recovery_design_until_authorized","can_merge":false},
+    {"id":"A10","role":"INTEGRATION_RELEASE","authority":"qualification_readiness_no_production_authority","can_merge":false}
+  ],
+  "global_invariants": [
+    "one_canonical_state_authority",
+    "consumer_boundary_has_no_persistence_event_or_authorization_authority",
+    "fail_closed",
+    "no_direct_consumer_mutation_of_canonical_state",
+    "independent_qualification_is_never_self_certified"
+  ],
+  "immutable_forensic_target": "25f7e3e50708d4bcad37fa712a5000dd2a7dea06"
+}
