@@ -1,8 +1,8 @@
-version: "1.4"
+version: "1.5"
 component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-remediation_head_sha: 5541c08fef8257368d06acd75b1f547659b4d804
+remediation_head_sha: 1dba8a966be3fb6f1c76d60d00da2651df741099
 
 # This ledger is a remediation record, not qualification approval.
 # The immutable baseline remains the forensic qualification target.
@@ -17,6 +17,7 @@ closed_or_remediated:
   - R3-AUTH: evidence builder requires and serializes the real AuthorizationContext; placeholder attribution removed
   - R3-IMMUTABILITY: CanonicalEvent payload and metadata are recursively frozen; detached serialization cannot mutate the event
   - CI-R3: remediation branch explicitly triggers MH-05 runtime and security workflows
+  - F-02-PROTOTYPE: governed runtime composition root now constructs exactly one StateAuthority and binds ConsumerBoundary to it
 
 execution_evidence:
   - exact_sha: 25beac177319714eed3565b2b673fd5ee5cbf5b1
@@ -25,19 +26,25 @@ execution_evidence:
     runtime_conclusion: success
     security_conclusion: success
     classification: EXECUTED
-    note: code/test revision was checked out exactly; subsequent ledger-only HEAD is re-executed below
+    note: historical executable remediation evidence
   - exact_sha: 5541c08fef8257368d06acd75b1f547659b4d804
     runtime_workflow: 34098385585
     security_workflow: 34098385588
     runtime_conclusion: success
     security_conclusion: success
     classification: EXECUTED
-    note: current branch HEAD includes the reconciled ledger and completed both MH-05 workflows
+    note: last known successful executable remediation revision
+  - exact_sha: 1dba8a966be3fb6f1c76d60d00da2651df741099
+    runtime_workflow: null
+    security_workflow: null
+    runtime_conclusion: not_observed
+    security_conclusion: not_observed
+    classification: IMPLEMENTED_NOT_EXECUTED
+    note: composition-root and audit-fixture changes are present; current SHA execution evidence is not yet observed through the available GitHub execution view
 
 not_yet_qualified:
   - independent_security_review
   - independent_system_wide_negative_verification
-  - F-02 canonical production composition
   - F-03 repository-wide mutation reachability
   - F-04 historical evidence revision reconciliation
   - F-05A restore authorization and reachability
