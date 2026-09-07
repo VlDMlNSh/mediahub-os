@@ -4,7 +4,8 @@
 - Repository: `VlDMlNSh/mediahub-os`
 - Branch: `remediation/mh05-r3-event-evidence`
 - Current implementation line: governed composition root + governed restore + system-wide negative audit + V05-05 test coverage
-- Current implementation HEAD: `cf3916ac10129d9b2999e046781897454095a854`
+- Current implementation HEAD at start of this pass: `0011d1936c972b745002c27b4393dd37fe8e0721`
+- Ledger reconciliation commit produced by this pass: `76ee68eee880b7e6784d2a140c52a72ea9825b4c`
 - Immutable forensic target: `25f7e3e50708d4bcad37fa712a5000dd2a7dea06`
 - Qualification: OPEN / NOT QUALIFIED
 - Production: NOT AUTHORIZED
@@ -16,44 +17,46 @@
 Confirmed the repository is the source of continuity for architecture, implementation, evidence, and development method. No forensic recovery was repeated.
 
 ### PASS B — composition root
-Confirmed `runtime/mediahub_runtime/composition_root.py` constructs one `StateAuthority` and binds one `ConsumerBoundary`. Added runtime coverage for composition and authorized mutation path.
+Confirmed `runtime/mediahub_runtime/composition_root.py` constructs one `StateAuthority` and binds one `ConsumerBoundary`. Runtime coverage exists for composition and authorized mutation path.
 
 ### PASS C — restore functional matrix
-Added `tests/runtime/test_mh05_restore.py` covering checkpoint round-trip, malformed checkpoint non-mutation, distinction between checkpoint token and AuthorizationContext, governed restore authorization, prefix-preserving history, and post-restore authorization enforcement.
+`tests/runtime/test_mh05_restore.py` covers checkpoint round-trip, malformed checkpoint non-mutation, distinction between checkpoint token and AuthorizationContext, governed restore authorization, prefix-preserving history, and post-restore authorization enforcement.
 
 ### PASS D — restore adversarial matrix
-Added `tests/security/test_mh05_restore_security.py` covering forged token rejection, valid-checkpoint/no-authorization rejection, malformed checkpoint rejection without mutation, unavailable-authority fail-closed behavior, and authority identity preservation.
+`tests/security/test_mh05_restore_security.py` covers forged token rejection, valid-checkpoint/no-authorization rejection, malformed checkpoint rejection without mutation, unavailable-authority fail-closed behavior, and authority identity preservation.
 
 ### PASS E — fixture correction
-Corrected the unavailable-authority test so the checkpoint is captured before availability is disabled. The corrected fixture is the version to execute.
+The unavailable-authority fixture captures the checkpoint before availability is disabled.
 
 ### PASS F — restore reachability governance
-Added `ConsumerBoundary.restore(request, checkpoint)` as the governed recovery surface. The boundary requires explicit source/correlation request metadata and passes the actual AuthorizationContext to State Authority. Direct restore remains authorization-protected at the canonical authority.
+`ConsumerBoundary.restore(request, checkpoint)` is the governed recovery surface. It requires explicit source/correlation request metadata and passes the actual AuthorizationContext to State Authority. Direct restore remains authorization-protected at the canonical authority.
 
 ### PASS G — restore history semantics
-Changed checkpoint/restore semantics from destructive history clearing to checkpoint-prefix restoration. The checkpoint captures state, generation, version, sequence, canonical events, and processed-command history; restore validates that history and restores the coherent prefix without resetting event sequence.
+Checkpoint/restore uses coherent checkpoint-prefix restoration. The checkpoint captures state, generation, version, sequence, canonical events, and processed-command history; restore validates that history and restores the coherent prefix without resetting event sequence.
 
 ### PASS H — policy safety review
-Removed `restore` from the ordinary `Command.operation` policy after review so restore cannot accidentally enter the normal set/delete command path as a no-op mutation event. Restore is intentionally a separate governed recovery API.
+`restore` is excluded from ordinary `Command.operation` policy. Restore is a separate governed recovery API and cannot be silently represented as a normal set/delete command.
 
 ### PASS I — V05-05 negative verification coverage
-Added `tests/security/test_mh05_health_not_authorization.py` proving that availability/readiness does not imply authorization and that unavailable authority is a distinct fail-closed condition.
+`tests/security/test_mh05_health_not_authorization.py` proves that availability/readiness does not imply authorization and unavailable authority is a distinct fail-closed condition.
 
-### PASS J — ledger reconciliation
-Updated `verification/MH-05-remediation-status-v1.1.yaml` to v1.9 and reconciled the remediation head to `939ff5f3a7ce273d028df7a6e4e661a5f850d9ce`; this pass ledger is now committed at `cf3916ac10129d9b2999e046781897454095a854` and records that documentation commit as the current control point.
+### PASS J — qualification-ledger reconciliation
+The remediation ledger was reconciled to the then-current exact implementation/control point and explicitly retained `QUALIFICATION_OPEN`.
 
-## Important qualification classification
+## Qualification evidence rule
 
-These passes are implementation and test additions. They do not by themselves constitute independent qualification. Current-SHA GitHub Actions execution evidence must be observed before the new executable revision can be classified as EXECUTED. The available workflow view currently shows no observed run for the latest documentation/control-point SHA.
+Implementation and test additions are not qualification evidence by themselves. Exact-SHA GitHub Actions execution evidence must be observed before an executable revision is classified as `EXECUTED`. Independent security and system-wide verification remain mandatory.
 
 ## Remaining blocking passes
 
-1. Current-SHA runtime/security execution evidence for the executable ancestor and final control-point tree.
-2. Repository-wide mutation reachability / F-03 execution evidence and independent verification.
-3. V05-06 through V05-11 negative verification where corresponding product surfaces actually exist; no fictitious surfaces should be invented solely for test satisfaction.
-4. F-04 historical evidence revision reconciliation.
+1. Observe exact-SHA runtime/security execution for the executable tree and reconcile the final control-point SHA.
+2. Obtain execution evidence for F-03 repository-wide negative audit and independent verification.
+3. Complete V05-06 through V05-11 only against product surfaces actually present in the repository; do not invent surfaces solely to satisfy a matrix.
+4. Reconcile F-04 historical evidence to current implementation SHA and current test evidence.
 5. Independent security/red-team review.
-6. Evidence reconciliation and release gate.
+6. Independent system-wide negative review.
+7. Final evidence packet reconciliation.
+8. Release Gate decision; until then MH-05 remains NOT QUALIFIED.
 
 ## Development-method rule
 
