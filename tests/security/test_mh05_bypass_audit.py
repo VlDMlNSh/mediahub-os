@@ -72,6 +72,9 @@ class MH05BypassAuditTests(unittest.TestCase):
             def execute(self, command):
                 raise AuthorityUnavailable("offline")
 
+            def restore(self, checkpoint, authorization=None):
+                raise AuthorityUnavailable("offline")
+
         boundary = ConsumerBoundary(UnavailableAuthority())
         request = boundary.request("runtime", "corr-unavailable", self.allowed)
         with self.assertRaises(ConsumerBoundaryError) as ctx:
