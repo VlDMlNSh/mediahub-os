@@ -1,12 +1,12 @@
 # MEDIAHUB OS 11.x LTS / MEDIAHUB iOS
-# MASTER PARALLEL AGENT CONTINUATION PROMPT v2.1
+# MASTER PARALLEL AGENT CONTINUATION PROMPT v2.2
 
 **FULL HISTORY PRESERVATION / ZERO ARCHITECTURAL DRIFT / PARALLEL QUALIFICATION SWARM / GITHUB MODEL ORCHESTRATION**
 
 Date: 2026-09-07
 Repository: `VlDMlNSh/mediahub-os`
 Current remediation branch: `remediation/mh05-r3-event-evidence`
-Known checkpoint HEAD: `7e0534def9358984e27a5b0ba6e8152670bfa1de`
+Current control-point rule: actual branch HEAD is authoritative; this document must never be treated as a frozen SHA source.
 Immutable forensic target: `25f7e3e50708d4bcad37fa712a5000dd2a7dea06`
 Base: `recovery/full-functional-spec`
 Base SHA: `0adb60e35d8822c927b6dd5a5a34643115c4d068`
@@ -14,11 +14,11 @@ Historical PR merge: `27ce528f1ce25b5676b676f2dd7bccd28eb4055c`
 
 ## 0. PRIMARY COMMAND
 
-CONTINUE FROM CURRENT REMEDIATION HEAD.
+CONTINUE FROM ACTUAL CURRENT REMEDIATION HEAD.
 
 Do not return to PASS 0. Do not repeat forensic recovery. Do not change the immutable forensic target. Do not force-push. Do not rewrite history. Do not expand scope beyond MH-05. Maximize safe parallelism without architectural drift.
 
-At the start of every major cycle query the actual branch HEAD. Never assume prompt metadata is current.
+At the start of every major cycle query the actual branch HEAD. Never assume prompt metadata or an older ledger SHA is current.
 
 Every claim must be classified as one of: `IMPLEMENTED`, `STATIC_SUPPORT`, `IMPLEMENTED_NOT_EXECUTED`, `EXECUTED`, `INDEPENDENTLY_REVIEWED`, `QUALIFIED`, `PRODUCTION_AUTHORIZED`.
 
@@ -169,6 +169,12 @@ Schema: missing required field, extra field, invalid severity, invalid priority 
 
 Evidence: real authorization context, source, correlation, causation, exact Event ID and fingerprint are preserved; Evidence remains observational and cannot become mutation authority.
 
+Restore: dedicated authorization, checkpoint integrity, malformed/forged input rejection, unavailable fail-closed behavior, governed ConsumerBoundary reachability, coherent checkpoint-prefix history, and no normal mutation authorization bypass after restore.
+
+Composition: exactly one canonical StateAuthority constructed by composition root; ConsumerBoundary is bound to that authority; no secondary canonical storage.
+
+System-wide negative audit: exact-SHA AST/static checks for constructor duplication, canonical storage duplication, restore reachability, direct boundary mutation, and aliases/import paths where repository structure permits.
+
 ## 14. CI-EVIDENCE RULE
 
 For every meaningful remediation commit record workflow run, workflow SHA, checked-out SHA, event SHA, branch, Python version, test command and conclusion.
@@ -178,6 +184,8 @@ For every meaningful remediation commit record workflow run, workflow SHA, check
 `success` = EXECUTED.
 `failure` = EXECUTED / FAILED.
 
+The available GitHub workflow query may expose only pull-request-triggered runs. Absence from that view must not be interpreted as proof that push-triggered execution never occurred; use observable workflow/run records only.
+
 ## 15. EXACT-SHA FORENSICS
 
 Use exact branch/ref/commit/tree/files/metadata. Do not use default-branch Code Search as proof of absence at an exact SHA. Do not repeat closed findings unless new evidence changes classification.
@@ -185,6 +193,8 @@ Use exact branch/ref/commit/tree/files/metadata. Do not use default-branch Code 
 ## 16. EVIDENCE RECONCILIATION
 
 Current evidence identity must contain immutable target, remediation branch and actual remediation HEAD. Historical evidence remains HISTORICAL / SUPPORTING. Current evidence must be CURRENT / EXACT-SHA.
+
+If a documentation commit changes the control-point SHA after executable code was last run, classify the executable ancestor separately and do not falsely claim current-HEAD execution. Prefer a fresh CI run on the final control-point tree before Release Gate.
 
 Never delete historical evidence merely to clean the repository.
 
@@ -255,4 +265,4 @@ Fastest correct path:
 
 PARALLEL ANALYSIS → MINIMAL REMEDIATION → PARALLEL TESTING → EXACT-SHA EXECUTION → INDEPENDENT REVIEW → EVIDENCE RECONCILIATION → QUALIFICATION GATE
 
-PRIMARY COMMAND: CONTINUE FROM CURRENT REMEDIATION HEAD. EXECUTE MAXIMUM SAFE PARALLEL PASSES. PRESERVE ALL HISTORY. ZERO ARCHITECTURAL DRIFT. MH-05 FIRST. MH-06 REMAINS LOCKED UNTIL MH-05 IS QUALIFIED.
+PRIMARY COMMAND: CONTINUE FROM ACTUAL CURRENT REMEDIATION HEAD. EXECUTE MAXIMUM SAFE PASSES. PRESERVE ALL HISTORY. ZERO ARCHITECTURAL DRIFT. MH-05 FIRST. MH-06 REMAINS LOCKED UNTIL MH-05 IS QUALIFIED.
