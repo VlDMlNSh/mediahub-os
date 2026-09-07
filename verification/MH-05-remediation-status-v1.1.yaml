@@ -1,8 +1,8 @@
-version: "1.8"
+version: "1.9"
 component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-remediation_head_sha: e293e6e6012e76cf4cf4203dd32a456dc8208a66
+remediation_head_sha: 939ff5f3a7ce273d028df7a6e4e661a5f850d9ce
 
 # This ledger is a remediation record, not qualification approval.
 # The immutable baseline remains the forensic qualification target.
@@ -20,10 +20,11 @@ closed_or_remediated:
   - CI-R3: remediation branch explicitly triggers MH-05 runtime and security workflows
   - F-02-PROTOTYPE: governed runtime composition root constructs exactly one StateAuthority and binds ConsumerBoundary to it
   - F-05-TEST-MATRIX: restore checkpoint functional and adversarial tests cover malformed/forged input, unavailable authority, dedicated restore authorization, and prefix-preserving history
-  - F-05A-REMEDIATED: restore now requires an explicit authenticated AuthorizationContext with state.restore permission and is exposed through a governed ConsumerBoundary restore surface carrying source/correlation request metadata
-  - F-05B-REMEDIATED: checkpoint captures canonical event/processed history and restore restores the checkpoint prefix instead of clearing history or resetting sequence
+  - F-05A-REMEDIATED: restore requires explicit authenticated AuthorizationContext with state.restore permission and is exposed through governed ConsumerBoundary restore surface carrying source/correlation request metadata
+  - F-05B-REMEDIATED: checkpoint captures canonical event/processed history and restore restores the checkpoint prefix without clearing history or resetting sequence
   - F-03-AUDIT: repository-wide runtime AST audit constrains StateAuthority construction, canonical storage, restore reachability, and ConsumerBoundary private mutation
   - V05-05-TEST: availability/readiness and authorization are tested as distinct controls; available state without authorization is denied and unavailable state is not classified as authorization denial
+  - POLICY-SAFETY: restore is intentionally excluded from ordinary Command.operation policy; only dedicated restore API can invoke checkpoint restore
 
 execution_evidence:
   - exact_sha: 25beac177319714eed3565b2b673fd5ee5cbf5b1
@@ -53,7 +54,14 @@ execution_evidence:
     runtime_conclusion: not_observed
     security_conclusion: not_observed
     classification: IMPLEMENTED_NOT_EXECUTED
-    note: current head contains governed restore authorization/reachability/history remediation and V05-05 test; execution evidence must be observed through GitHub Actions before classification changes
+    note: governed restore and V05-05 test revision; no observed workflow evidence
+  - exact_sha: 939ff5f3a7ce273d028df7a6e4e661a5f850d9ce
+    runtime_workflow: null
+    security_workflow: null
+    runtime_conclusion: not_observed
+    security_conclusion: not_observed
+    classification: IMPLEMENTED_NOT_EXECUTED
+    note: corrected restore policy separation; exact-SHA runtime/security execution still required
 
 not_yet_qualified:
   - independent_security_review
