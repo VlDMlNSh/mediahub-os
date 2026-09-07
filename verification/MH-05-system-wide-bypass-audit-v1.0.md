@@ -1,8 +1,9 @@
-# MH-05 System-Wide Bypass Audit v1.1 — 2026-09-07
+# MH-05 System-Wide Bypass Audit v1.2 — 2026-09-07
 
 **Status:** OPEN / QUALIFICATION BLOCKER  
 **Scope:** Consumer Boundary → State Authority authority path  
-**Control-point HEAD:** `ddf641a8d16224db270d0795bc04241f3a9d18f2`  
+**Current control point:** GitHub PR HEAD; reconcile exact SHA before qualification  
+**Last inspected executable checkpoint:** `69eb355b2d31a92be7cf108427f97d5cce99b61f`  
 **Evidence classification:** `STATIC_SUPPORT`; automated execution is supporting evidence only and is not independent qualification
 
 ## Objective
@@ -19,17 +20,17 @@ Determine whether repository consumers can mutate canonical state, emit authorit
 6. Remote/cloud/AI/plugin/device sources do not gain authorization from source classification alone.
 7. Failure of State Authority is fail-closed and non-mutating.
 
-## Exact-SHA supporting evidence
+## Supporting evidence
 
-The preceding implementation SHA `f205a4d8e2598543431f658a68dc9801a330a117` executed the MH-05 runtime suite (33/33) and full runtime regression (56/56), plus the MH-05 security/adversarial suite (19/19), all successfully. The current document commit itself is documentation-only; a fresh exact-SHA workflow run is required after this evidence update before final Release Gate consideration.
+At checkpoint `69eb355b2d31a92be7cf108427f97d5cce99b61f`, GitHub Actions recorded 33/33 MH-05 runtime tests, 56/56 full runtime regression and 19/19 adversarial security tests successfully. These are `EXECUTED` supporting evidence only.
 
-The repository contains an AST reachability test that checks composition-root-only StateAuthority construction, canonical storage confinement, restore-call confinement, private authority reads, and direct ConsumerBoundary mutation storage.
+The repository contains an AST reachability test covering composition-root-only StateAuthority construction, canonical storage confinement, restore-call confinement, private authority reads, and direct ConsumerBoundary mutation storage.
 
 ## Findings
 
-**F-01 — Event provenance boundary:** Runtime R3 now carries trusted source/correlation/causation provenance through the governed command/event path. Frozen MH-04 semantics are not altered merely to retrofit a dedicated source field into the historical Event contract.
+**F-01 — Event provenance boundary:** Runtime R3 carries trusted source/correlation/causation provenance through the governed command/event path.
 
-**F-02 — Python object encapsulation:** ConsumerBoundary keeps its authority reference privately. Python privacy is convention-level, so assurance must continue to rely on architectural composition, AST checks, runtime tests and independent review rather than the private name itself.
+**F-02 — Python object encapsulation:** ConsumerBoundary keeps its authority reference privately. Python privacy is convention-level; assurance relies on composition, AST checks, runtime tests and independent review.
 
 **F-03 — System-wide independent verification:** OPEN. Repository-local static/runtime evidence does not satisfy the independent system-wide negative verification gate. The independent reviewer must challenge the inventory and execute or independently substantiate the matrix against the exact final SHA.
 
@@ -39,4 +40,4 @@ This artifact does not establish independent penetration testing, production sec
 
 ## Disposition
 
-**No qualification PASS is claimed.** F-03 remains an external blocking gate. Persistence, HA, Recovery expansion, Production and MH-06 remain unauthorized/locked.
+**No qualification PASS is claimed.** F-03 remains an external blocking gate. Persistence, HA, Recovery expansion, Production and MH-06 remain unauthorized/locked. This document must not assert a stale branch HEAD as the current qualification target.
