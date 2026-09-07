@@ -3,8 +3,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
-  schedule:
-    - cron: '17 2 * * *'
 concurrency:
   group: mh05-ten-lane-orchestrator
   cancel-in-progress: true
@@ -22,13 +20,21 @@ jobs:
         with:
           ref: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
           fetch-depth: 0
+      - name: Checkout downstream toolchain manifest
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          path: .mh05-toolchain-source
+          sparse-checkout: |
+            ci-requirements.txt
+          fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Install pinned qualification toolchain
         run: |
           set -euo pipefail
-          python3 -m pip install --disable-pip-version-check --no-input -r ci-requirements.txt
+          python3 -m pip install --disable-pip-version-check --no-input -r .mh05-toolchain-source/ci-requirements.txt
           python3 -m pytest --version
           ruff --version
           mypy --version
@@ -37,6 +43,7 @@ jobs:
           R4_SHA: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
           R4_TREE: 2279612908135418b2b5448d598274ea6741deaa
           R4_BRANCH: remediation/mh05-r4-alamo-quality
+          TOOLCHAIN_REF: ${{ github.head_ref || github.ref_name }}
         run: |
           set -euo pipefail
           PROV_DIR="${RUNNER_TEMP}/mh05-provenance-${{ matrix.lane }}"
@@ -54,11 +61,12 @@ jobs:
             printf 'EXPECTED_SHA=%s\n' "$R4_SHA"
             printf 'EXPECTED_TREE=%s\n' "$R4_TREE"
             printf 'DIRTY=%s\n' "$(git status --porcelain)"
+            printf 'TOOLCHAIN_REF=%s\n' "$TOOLCHAIN_REF"
+            printf 'TOOLCHAIN_SHA256=%s\n' "$(sha256sum .mh05-toolchain-source/ci-requirements.txt | cut -d' ' -f1)"
             printf 'PYTHON_VERSION=%s\n' "$(python3 --version)"
             printf 'PYTEST_VERSION=%s\n' "$(python3 -m pytest --version)"
             printf 'RUFF_VERSION=%s\n' "$(ruff --version)"
             printf 'MYPY_VERSION=%s\n' "$(mypy --version)"
-            printf 'TOOLCHAIN_SHA256=%s\n' "$(sha256sum ci-requirements.txt | cut -d' ' -f1)"
             printf 'CONTEXT=PR66-CI\n'
             printf 'LANE=%s\n' "${{ matrix.lane }}"
           } | tee "$PROV_DIR/start"
