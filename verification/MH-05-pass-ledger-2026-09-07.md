@@ -3,8 +3,8 @@
 ## Control point
 - Repository: `VlDMlNSh/mediahub-os`
 - Branch: `remediation/mh05-r3-event-evidence`
-- Latest observed implementation/audit control point before this documentation commit: `0b38b26466097c8e29ff5722b343b518e0054a74`
-- This documentation reconciliation commit: `__CURRENT_COMMIT_SHA__` (populate from GitHub result; never infer)
+- Latest observed implementation/audit control point: `0b38b26466097c8e29ff5722b343b518e0054a74`
+- Latest documentation commit: `223c8e73216866d6a96b13667218ebc7d838461d`
 - Immutable forensic target: `25f7e3e50708d4bcad37fa712a5000dd2a7dea06`
 - Qualification: OPEN / NOT QUALIFIED
 - Production: NOT AUTHORIZED
@@ -43,13 +43,16 @@ Health/readiness/availability is explicitly tested as distinct from authorizatio
 Qualification status retained OPEN; historical execution evidence is preserved and never promoted to current-SHA evidence.
 
 ### PASS K — continuation protocol v2.2
-Master continuation prompt now requires actual HEAD reconciliation, exact-SHA classification, no unsupported background-agent claims, GitHub-controlled model orchestration when an actual execution layer exists, and explicit current-tree execution before Release Gate.
+Master continuation prompt requires actual HEAD reconciliation, exact-SHA classification, no unsupported background-agent claims, GitHub-controlled model orchestration when an actual execution layer exists, and explicit current-tree execution before Release Gate.
 
 ### PASS L — strengthened F-03 audit
-Repository-local AST audit now detects direct and qualified `StateAuthority` construction, secondary canonical storage, secondary canonical private reads, unauthorized restore calls, and ConsumerBoundary private canonical mutation.
+Repository-local AST audit detects direct and qualified `StateAuthority` construction, secondary canonical storage, secondary canonical private reads, unauthorized restore calls, and ConsumerBoundary private canonical mutation. fileciteturn114file0L2-L6
 
 ### PASS M — qualification ledger v2.2
 Remediation ledger explicitly records current audit control point and distinguishes IMPLEMENTED_NOT_EXECUTED from EXECUTED evidence.
+
+### PASS N — workflow/status reconciliation
+Current audit SHA `0b38b26466097c8e29ff5722b343b518e0054a74` has no observed workflow runs and no combined status checks. This is recorded as missing execution evidence, not PASS.
 
 ## Execution evidence rule
 
