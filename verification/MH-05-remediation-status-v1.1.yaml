@@ -1,8 +1,8 @@
-version: "1.9"
+version: "2.0"
 component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-remediation_head_sha: 939ff5f3a7ce273d028df7a6e4e661a5f850d9ce
+remediation_head_sha: 0011d1936c972b745002c27b4393dd37fe8e0721
 
 # This ledger is a remediation record, not qualification approval.
 # The immutable baseline remains the forensic qualification target.
@@ -27,6 +27,10 @@ closed_or_remediated:
   - POLICY-SAFETY: restore is intentionally excluded from ordinary Command.operation policy; only dedicated restore API can invoke checkpoint restore
 
 execution_evidence:
+  - exact_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
+    runtime_workflow: null
+    security_workflow: null
+    classification: BASELINE_TARGET
   - exact_sha: 25beac177319714eed3565b2b673fd5ee5cbf5b1
     runtime_workflow: 34098313702
     security_workflow: 34098313543
@@ -47,32 +51,40 @@ execution_evidence:
     runtime_conclusion: not_observed
     security_conclusion: not_observed
     classification: IMPLEMENTED_NOT_EXECUTED
-    note: repository-wide reachability audit revision; no observed PR-triggered workflow evidence
+    note: repository-wide reachability audit revision; no observed workflow evidence
   - exact_sha: e293e6e6012e76cf4cf4203dd32a456dc8208a66
     runtime_workflow: null
     security_workflow: null
     runtime_conclusion: not_observed
     security_conclusion: not_observed
     classification: IMPLEMENTED_NOT_EXECUTED
-    note: governed restore and V05-05 test revision; no observed workflow evidence
+    note: governed restore and V05-05 test revision
   - exact_sha: 939ff5f3a7ce273d028df7a6e4e661a5f850d9ce
     runtime_workflow: null
     security_workflow: null
     runtime_conclusion: not_observed
     security_conclusion: not_observed
     classification: IMPLEMENTED_NOT_EXECUTED
-    note: corrected restore policy separation; exact-SHA runtime/security execution still required
+    note: corrected restore policy separation
+  - exact_sha: 0011d1936c972b745002c27b4393dd37fe8e0721
+    runtime_workflow: null
+    security_workflow: null
+    runtime_conclusion: not_observed
+    security_conclusion: not_observed
+    classification: IMPLEMENTED_NOT_EXECUTED
+    note: current reconciled control point; CI evidence has not been observed for this exact SHA
 
 not_yet_qualified:
+  - current_sha_runtime_security_execution
   - independent_security_review
   - independent_system_wide_negative_verification
   - F-04 historical evidence revision reconciliation
+  - V05-06 automation_direct_mutation_bypass_rejected
   - V05-07 ui_direct_mutation_bypass_rejected
   - V05-08 ai_direct_mutation_bypass_rejected
   - V05-09 plugin_direct_mutation_bypass_rejected
   - V05-10 device_direct_mutation_bypass_rejected
   - V05-11 cloud_direct_mutation_bypass_rejected
-  - V05-06 automation_direct_mutation_bypass_rejected
 
 qualification_rules:
   exact_sha_execution_required: true
