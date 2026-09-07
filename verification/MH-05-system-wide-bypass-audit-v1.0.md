@@ -1,10 +1,10 @@
-# MH-05 System-Wide Bypass Audit v1.2 — 2026-09-07
+# MH-05 System-Wide Bypass Audit v1.3 — 2026-09-07
 
 **Status:** OPEN / QUALIFICATION BLOCKER  
 **Scope:** Consumer Boundary → State Authority authority path  
-**Current control point:** GitHub PR HEAD; reconcile exact SHA before qualification  
-**Last inspected executable checkpoint:** `69eb355b2d31a92be7cf108427f97d5cce99b61f`  
-**Evidence classification:** `STATIC_SUPPORT`; automated execution is supporting evidence only and is not independent qualification
+**Executable checkpoint inspected:** `471f709f5633feab7aeb62dd3ea52effad6d2bc4`  
+**Tree:** `2279612908135418b2b5448d598274ea6741deaa`  
+**Evidence classification:** `STATIC_SUPPORT` plus exact-SHA execution support; not independent qualification
 
 ## Objective
 
@@ -20,11 +20,13 @@ Determine whether repository consumers can mutate canonical state, emit authorit
 6. Remote/cloud/AI/plugin/device sources do not gain authorization from source classification alone.
 7. Failure of State Authority is fail-closed and non-mutating.
 
-## Supporting evidence
+## R4 supporting execution evidence
 
-At checkpoint `69eb355b2d31a92be7cf108427f97d5cce99b61f`, GitHub Actions recorded 33/33 MH-05 runtime tests, 56/56 full runtime regression and 19/19 adversarial security tests successfully. These are `EXECUTED` supporting evidence only.
+Exact R4 SHA `471f709f5633feab7aeb62dd3ea52effad6d2bc4` was executed locally and through GitHub Actions. Local runtime: 185 pytest tests passed; security suite: 19/19 MH-05 adversarial tests passed; compileall and diff-check passed. GitHub Actions exact-SHA runs `34143904463` (runtime) and `34143904462` (security) completed successfully.
 
-The repository contains an AST reachability test covering composition-root-only StateAuthority construction, canonical storage confinement, restore-call confinement, private authority reads, and direct ConsumerBoundary mutation storage.
+The repository AST audit found exactly one `StateAuthority` definition in `runtime/mediahub_runtime/state_authority.py`; protected canonical storage writes were confined to that implementation.
+
+These are execution/supporting evidence only. They do not establish independent qualification.
 
 ## Findings
 
@@ -32,7 +34,11 @@ The repository contains an AST reachability test covering composition-root-only 
 
 **F-02 — Python object encapsulation:** ConsumerBoundary keeps its authority reference privately. Python privacy is convention-level; assurance relies on composition, AST checks, runtime tests and independent review.
 
-**F-03 — System-wide independent verification:** OPEN. Repository-local static/runtime evidence does not satisfy the independent system-wide negative verification gate. The independent reviewer must challenge the inventory and execute or independently substantiate the matrix against the exact final SHA.
+**F-03 — System-wide independent verification:** OPEN. Repository-local static/runtime evidence does not satisfy the independent system-wide negative verification gate. An independent reviewer must challenge the inventory and execute or independently substantiate the matrix against the exact final qualification SHA.
+
+## V05 applicability
+
+V05-06 through V05-11 remain `NOT_APPLICABLE` for unavailable executable automation/UI/AI/plugin/device/cloud consumer surfaces. This is a scoped applicability disposition, not a PASS; any newly executable surface requires fresh assessment.
 
 ## Limitations
 
@@ -40,4 +46,4 @@ This artifact does not establish independent penetration testing, production sec
 
 ## Disposition
 
-**No qualification PASS is claimed.** F-03 remains an external blocking gate. Persistence, HA, Recovery expansion, Production and MH-06 remain unauthorized/locked. This document must not assert a stale branch HEAD as the current qualification target.
+**No qualification PASS is claimed.** F-03 remains an external blocking gate. Persistence, HA, Recovery expansion, Production and MH-06 remain unauthorized/locked.
