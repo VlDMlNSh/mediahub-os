@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from copy import deepcopy
+from datetime import datetime, timezone
 from hashlib import sha256
 from threading import RLock
 
@@ -26,6 +27,7 @@ class Command:
     expected_generation: int | None = None
     authorization: AuthorizationContext | None = None
     source_identity: str = ""
+    causation_id: str | None = None
 
 @dataclass(frozen=True)
 class Event:
@@ -38,6 +40,9 @@ class Event:
     generation: int
     state_version: int
     state_digest: str
+    source_identity: str = ""
+    causation_id: str | None = None
+    timestamp: str = ""
 
 class StateAuthority:
     """Single canonical, thread-safe, in-memory mutation authority."""
@@ -70,7 +75,20 @@ class StateAuthority:
             if command.operation=="set": self._set(candidate,command.path,deepcopy(command.value))
             elif command.operation=="delete": self._delete(candidate,command.path)
             self._state=candidate; self._generation+=1; self._version+=1; self._sequence+=1
-            event=Event(self._sequence,f"evt-{self._sequence:012d}",command.command_id,command.correlation_id,command.operation,command.path,self._generation,self._version,self._digest(self._state))
+            event=Event(
+                self._sequence,
+                f"evt-{self._sequence:012d}",
+                command.command_id,
+                command.correlation_id,
+                command.operation,
+                command.path,
+                self._generation,
+                self._version,
+                self._digest(self._state),
+                command.source_identity,
+                command.causation_id,
+                datetime.now(timezone.utc).isoformat(),
+            )
             self._events.append(event); self._processed[command.command_id]=event; observers=tuple(self._observers)
         for observer in observers: observer(event)
         return event
@@ -91,6 +109,7 @@ class StateAuthority:
         if not isinstance(c,Command) or not c.command_id or not c.correlation_id: raise InvalidCommand("command identity required")
         if c.operation not in self._policy or not c.path or any(not isinstance(x,str) or not x for x in c.path): raise InvalidCommand("invalid command")
         if c.source_identity and not isinstance(c.source_identity,str): raise InvalidCommand("invalid source identity")
+        if c.causation_id is not None and (not isinstance(c.causation_id,str) or not c.causation_id): raise InvalidCommand("invalid causation id")
     def _authorize(self,c):
         a=c.authorization
         if a is None or not a.authenticated or not self._policy[c.operation].issubset(a.permissions): raise AuthorizationDenied("authorization denied")
