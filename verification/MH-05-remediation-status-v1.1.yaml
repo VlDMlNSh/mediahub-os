@@ -1,8 +1,8 @@
-version: "2.0"
+version: "2.1"
 component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-remediation_head_sha: 0011d1936c972b745002c27b4393dd37fe8e0721
+remediation_head_sha: c67004fe6c7b0ff0ccacf9f9ba7bb7836b2e5b86
 
 # This ledger is a remediation record, not qualification approval.
 # The immutable baseline remains the forensic qualification target.
@@ -48,31 +48,28 @@ execution_evidence:
   - exact_sha: 457199fef5555727cf5c476e131932bb8cc2483a
     runtime_workflow: null
     security_workflow: null
-    runtime_conclusion: not_observed
-    security_conclusion: not_observed
     classification: IMPLEMENTED_NOT_EXECUTED
     note: repository-wide reachability audit revision; no observed workflow evidence
   - exact_sha: e293e6e6012e76cf4cf4203dd32a456dc8208a66
     runtime_workflow: null
     security_workflow: null
-    runtime_conclusion: not_observed
-    security_conclusion: not_observed
     classification: IMPLEMENTED_NOT_EXECUTED
     note: governed restore and V05-05 test revision
   - exact_sha: 939ff5f3a7ce273d028df7a6e4e661a5f850d9ce
     runtime_workflow: null
     security_workflow: null
-    runtime_conclusion: not_observed
-    security_conclusion: not_observed
     classification: IMPLEMENTED_NOT_EXECUTED
     note: corrected restore policy separation
   - exact_sha: 0011d1936c972b745002c27b4393dd37fe8e0721
     runtime_workflow: null
     security_workflow: null
-    runtime_conclusion: not_observed
-    security_conclusion: not_observed
     classification: IMPLEMENTED_NOT_EXECUTED
-    note: current reconciled control point; CI evidence has not been observed for this exact SHA
+    note: executable control point before documentation reconciliation
+  - exact_sha: c67004fe6c7b0ff0ccacf9f9ba7bb7836b2e5b86
+    runtime_workflow: null
+    security_workflow: null
+    classification: IMPLEMENTED_NOT_EXECUTED
+    note: latest ledger/pass-ledger reconciliation commit; requires workflow evidence for exact SHA if treated as final control point
 
 not_yet_qualified:
   - current_sha_runtime_security_execution
