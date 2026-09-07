@@ -1,8 +1,8 @@
-version: "1.2"
+version: "1.3"
 component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-remediation_head_sha: cd5870a7005988c26b3f894badf4e7e6132f18b1
+remediation_head_sha: 4339522e555e5baa08edde82101561943364997e
 
 # This ledger is a remediation record, not qualification approval.
 # The immutable baseline remains the forensic qualification target.
@@ -14,16 +14,7 @@ closed_or_remediated:
   - F-06B: correlation and causation continuity is represented; causation references must resolve to a prior runtime event
   - F-06C: canonical event has deterministic evidence fingerprint binding
   - R3: observational evidence-record builder binds emitted canonical Event identity and fingerprint
-
-new_runtime_guards:
-  - canonical_event_key_set_validation
-  - canonical_event_timestamp_validation
-  - canonical_event_priority_validation
-  - canonical_event_severity_validation
-  - causation_reference_integrity
-  - provenance_substitution_rejection
-  - canonical_event_evidence_fingerprint
-  - observational_evidence_record_binding
+  - CI-R3: remediation branch explicitly triggers MH-05 runtime and security workflows
 
 not_yet_qualified:
   - canonical_event_runtime_execution_evidence
