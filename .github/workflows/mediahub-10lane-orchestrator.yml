@@ -25,6 +25,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install pinned qualification toolchain
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --no-input -r ci-requirements.txt
+          python3 -m pytest --version
+          ruff --version
+          mypy --version
       - name: Capture provenance start
         env:
           R4_SHA: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
