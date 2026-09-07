@@ -25,9 +25,10 @@ class TestMH05RestoreSecurity(unittest.TestCase):
 
     def test_unavailable_authority_fails_closed_for_restore(self):
         authority = build_runtime({"x": 1})["state_authority"]
+        checkpoint = authority.checkpoint()
         authority.set_available(False)
         with self.assertRaises(Exception):
-            authority.restore(authority.checkpoint())
+            authority.restore(checkpoint)
 
     def test_restore_does_not_create_second_authority(self):
         graph = build_runtime({"x": 1})
