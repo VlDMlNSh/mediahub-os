@@ -1,8 +1,8 @@
-version: "2.1"
+version: "2.2"
 component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-remediation_head_sha: c67004fe6c7b0ff0ccacf9f9ba7bb7836b2e5b86
+remediation_head_sha: 0b38b26466097c8e29ff5722b343b518e0054a74
 
 # This ledger is a remediation record, not qualification approval.
 # The immutable baseline remains the forensic qualification target.
@@ -22,7 +22,7 @@ closed_or_remediated:
   - F-05-TEST-MATRIX: restore checkpoint functional and adversarial tests cover malformed/forged input, unavailable authority, dedicated restore authorization, and prefix-preserving history
   - F-05A-REMEDIATED: restore requires explicit authenticated AuthorizationContext with state.restore permission and is exposed through governed ConsumerBoundary restore surface carrying source/correlation request metadata
   - F-05B-REMEDIATED: checkpoint captures canonical event/processed history and restore restores the checkpoint prefix without clearing history or resetting sequence
-  - F-03-AUDIT: repository-wide runtime AST audit constrains StateAuthority construction, canonical storage, restore reachability, and ConsumerBoundary private mutation
+  - F-03-AUDIT: repository-wide runtime AST audit constrains StateAuthority construction, canonical storage, restore reachability, ConsumerBoundary private mutation, and canonical authority private reads
   - V05-05-TEST: availability/readiness and authorization are tested as distinct controls; available state without authorization is denied and unavailable state is not classified as authorization denial
   - POLICY-SAFETY: restore is intentionally excluded from ordinary Command.operation policy; only dedicated restore API can invoke checkpoint restore
 
@@ -64,12 +64,27 @@ execution_evidence:
     runtime_workflow: null
     security_workflow: null
     classification: IMPLEMENTED_NOT_EXECUTED
-    note: executable control point before documentation reconciliation
+    note: executable control point before ledger/prompt reconciliation
   - exact_sha: c67004fe6c7b0ff0ccacf9f9ba7bb7836b2e5b86
     runtime_workflow: null
     security_workflow: null
     classification: IMPLEMENTED_NOT_EXECUTED
-    note: latest ledger/pass-ledger reconciliation commit; requires workflow evidence for exact SHA if treated as final control point
+    note: pass-ledger reconciliation control point
+  - exact_sha: d97d5ebf31d273d8a35d4f57d14ca23a905b81b0
+    runtime_workflow: null
+    security_workflow: null
+    classification: IMPLEMENTED_NOT_EXECUTED
+    note: continuation/prompt reconciliation control point
+  - exact_sha: 3982e4b6de64e97eebbb2fc14fe49eb63ce98d82
+    runtime_workflow: null
+    security_workflow: null
+    classification: IMPLEMENTED_NOT_EXECUTED
+    note: documentation reconciliation control point
+  - exact_sha: 0b38b26466097c8e29ff5722b343b518e0054a74
+    runtime_workflow: null
+    security_workflow: null
+    classification: IMPLEMENTED_NOT_EXECUTED
+    note: strengthened system-wide authority reachability audit; exact-SHA execution required
 
 not_yet_qualified:
   - current_sha_runtime_security_execution
