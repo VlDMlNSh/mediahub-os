@@ -1,7 +1,7 @@
 """Adversarial MH-05 authority-boundary audit checks.
 
 These checks are deliberately repository-local and fail closed when a new
-runtime module introduces an obvious second canonical mutation owner.
+runtime module introduces an unauthorized canonical mutation owner.
 """
 
 import ast
@@ -15,6 +15,7 @@ from mediahub_runtime.state_authority import AuthorizationContext, AuthorityUnav
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 RUNTIME_PACKAGE = ROOT / "runtime" / "mediahub_runtime"
+COMPOSITION_ROOT = RUNTIME_PACKAGE / "composition_root.py"
 
 
 class MH05BypassAuditTests(unittest.TestCase):
@@ -35,16 +36,18 @@ class MH05BypassAuditTests(unittest.TestCase):
                 assigned.add(node.attr)
         self.assertTrue(forbidden.isdisjoint(assigned), sorted(forbidden & assigned))
 
-    def test_no_second_state_authority_constructor_in_runtime_package(self):
+    def test_only_composition_root_constructs_canonical_authority(self):
         offenders = []
+        constructors = []
         for path in RUNTIME_PACKAGE.rglob("*.py"):
-            if path.name == "state_authority.py":
-                continue
             tree = ast.parse(path.read_text(encoding="utf-8"))
             for node in ast.walk(tree):
                 if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "StateAuthority":
-                    offenders.append(str(path.relative_to(ROOT)))
+                    constructors.append(path.relative_to(ROOT).as_posix())
+                    if path != COMPOSITION_ROOT:
+                        offenders.append(path.relative_to(ROOT).as_posix())
         self.assertEqual(offenders, [])
+        self.assertEqual(constructors, [COMPOSITION_ROOT.relative_to(ROOT).as_posix()])
 
     def test_remote_like_identity_still_requires_explicit_authorization(self):
         request = self.boundary.request("remote-source", "corr-remote", AuthorizationContext("remote-source", True, frozenset()))
@@ -67,6 +70,9 @@ class MH05BypassAuditTests(unittest.TestCase):
                 raise AuthorityUnavailable("offline")
 
             def execute(self, command):
+                raise AuthorityUnavailable("offline")
+
+            def restore(self, checkpoint, authorization=None):
                 raise AuthorityUnavailable("offline")
 
         boundary = ConsumerBoundary(UnavailableAuthority())
