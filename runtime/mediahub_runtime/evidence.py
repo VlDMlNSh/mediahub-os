@@ -80,7 +80,7 @@ def build_evidence_record(
     now = datetime.now(timezone.utc).isoformat()
     emitted_event = dict(event_dict)
     emitted_event["evidence_fingerprint"] = fingerprint
-    record = {
+    record: dict[str, Any] = {
         "test_id": test_id,
         "contract": contract,
         "verification_target": verification_target,

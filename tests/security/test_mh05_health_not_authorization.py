@@ -1,7 +1,11 @@
 import unittest
 
 from mediahub_runtime.composition_root import build_runtime
-from mediahub_runtime.state_authority import AuthorizationContext, AuthorizationDenied, Command
+from mediahub_runtime.state_authority import (
+    AuthorizationContext,
+    AuthorizationDenied,
+    Command,
+)
 
 
 class TestMH05HealthNotAuthorization(unittest.TestCase):

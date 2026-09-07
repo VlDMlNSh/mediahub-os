@@ -10,8 +10,11 @@ import pathlib
 import unittest
 
 from mediahub_runtime.consumer_boundary import ConsumerBoundary, ConsumerBoundaryError
-from mediahub_runtime.state_authority import AuthorizationContext, AuthorityUnavailable, StateAuthority
-
+from mediahub_runtime.state_authority import (
+    AuthorityUnavailable,
+    AuthorizationContext,
+    StateAuthority,
+)
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 RUNTIME_PACKAGE = ROOT / "runtime" / "mediahub_runtime"
@@ -60,7 +63,7 @@ class MH05BypassAuditTests(unittest.TestCase):
         for payload in (math.nan, math.inf, -math.inf):
             with self.subTest(payload=payload):
                 with self.assertRaises(ConsumerBoundaryError) as ctx:
-                    self.boundary.execute(self.boundary.request("runtime", "corr-finite", self.allowed), "set", ("value",), payload, command_id=f"finite-{repr(payload)}")
+                    self.boundary.execute(self.boundary.request("runtime", "corr-finite", self.allowed), "set", ("value",), payload, command_id=f"finite-{payload!r}")
                 self.assertEqual(ctx.exception.code, "operation_rejected")
         self.assertEqual(self.authority.metadata()["event_sequence"], 0)
 

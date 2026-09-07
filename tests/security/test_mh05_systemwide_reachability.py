@@ -2,7 +2,6 @@ import ast
 import pathlib
 import unittest
 
-
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 RUNTIME = ROOT / "runtime" / "mediahub_runtime"
 AUTHORITY_FILE = RUNTIME / "state_authority.py"
@@ -24,8 +23,7 @@ class TestMH05SystemwideReachability(unittest.TestCase):
                     func = node.func
                     direct = isinstance(func, ast.Name) and func.id == "StateAuthority"
                     qualified = isinstance(func, ast.Attribute) and func.attr == "StateAuthority"
-                    if direct or qualified:
-                        if path != ALLOWED_CONSTRUCTOR_FILE:
+                    if (direct or qualified) and path != ALLOWED_CONSTRUCTOR_FILE:
                             offenders.append(str(path.relative_to(ROOT)))
         self.assertEqual(offenders, [])
 

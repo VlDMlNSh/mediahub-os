@@ -1,8 +1,17 @@
 import unittest
 
-from mediahub_runtime.event_projection import CanonicalEvent, ProjectionError, project_runtime_event, validate_canonical_event
-from mediahub_runtime.state_authority import AuthorizationContext, Command, StateAuthority, InvalidCommand
-
+from mediahub_runtime.event_projection import (
+    CanonicalEvent,
+    ProjectionError,
+    project_runtime_event,
+    validate_canonical_event,
+)
+from mediahub_runtime.state_authority import (
+    AuthorizationContext,
+    Command,
+    InvalidCommand,
+    StateAuthority,
+)
 
 AUTH = AuthorizationContext("projection-test", True, frozenset({"state.write"}))
 CANONICAL_KEYS = {

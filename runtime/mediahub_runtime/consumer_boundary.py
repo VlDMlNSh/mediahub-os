@@ -4,9 +4,9 @@ import math
 from dataclasses import dataclass
 
 from .state_authority import (
+    AuthorityUnavailable,
     AuthorizationContext,
     AuthorizationDenied,
-    AuthorityUnavailable,
     Command,
     ConflictDetected,
     DuplicateCommand,

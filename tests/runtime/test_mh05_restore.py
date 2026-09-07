@@ -1,7 +1,12 @@
 import unittest
 
 from mediahub_runtime.composition_root import build_runtime
-from mediahub_runtime.state_authority import AuthorizationContext, AuthorizationDenied, InvalidCommand
+from mediahub_runtime.consumer_boundary import ConsumerBoundaryError
+from mediahub_runtime.state_authority import (
+    AuthorizationContext,
+    AuthorizationDenied,
+    InvalidCommand,
+)
 
 
 class TestMH05Restore(unittest.TestCase):
@@ -55,7 +60,7 @@ class TestMH05Restore(unittest.TestCase):
         checkpoint = self.authority.checkpoint()
         self.authority.restore(checkpoint, self.restore_allowed)
         request = self.boundary.request("runtime", "c3", AuthorizationContext("runtime", True, frozenset()))
-        with self.assertRaises(Exception):
+        with self.assertRaises(ConsumerBoundaryError):
             self.boundary.execute(request, "set", ("value",), 9, command_id="unauthorized-after-restore")
         self.assertEqual(self.authority.read()["value"], 1)
 

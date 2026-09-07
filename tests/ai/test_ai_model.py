@@ -2,7 +2,6 @@ import json
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[2]
 CONTRACT_PATH = ROOT / "contracts/ai/ai-model.schema.json"
 SCHEMA_PATH = ROOT / "schemas/ai/ai-model.schema.json"

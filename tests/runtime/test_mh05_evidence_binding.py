@@ -1,9 +1,12 @@
 import unittest
 
-from mediahub_runtime.evidence import EvidenceError, build_evidence_record
 from mediahub_runtime.event_projection import project_runtime_event
-from mediahub_runtime.state_authority import AuthorizationContext, Command, StateAuthority
-
+from mediahub_runtime.evidence import EvidenceError, build_evidence_record
+from mediahub_runtime.state_authority import (
+    AuthorizationContext,
+    Command,
+    StateAuthority,
+)
 
 AUTH = AuthorizationContext("evidence-test", True, frozenset({"state.write"}))
 

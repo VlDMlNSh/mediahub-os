@@ -1,11 +1,12 @@
 """Projection boundary from trusted runtime events to canonical domain events."""
 
+import json
+from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import datetime
 from hashlib import sha256
-import json
 from types import MappingProxyType
-from typing import Any, Mapping
+from typing import Any
 
 
 class ProjectionError(ValueError):

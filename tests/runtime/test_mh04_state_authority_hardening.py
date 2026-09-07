@@ -7,7 +7,6 @@ from runtime.mediahub_runtime.state_authority import (
     StateAuthority,
 )
 
-
 AUTH = AuthorizationContext("hardening-operator", True, frozenset({"state.write"}))
 
 

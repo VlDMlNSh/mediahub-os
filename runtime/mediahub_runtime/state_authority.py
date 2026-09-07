@@ -1,8 +1,9 @@
-from dataclasses import dataclass
 from copy import deepcopy
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from hashlib import sha256
 from threading import RLock
+
 
 class StateAuthorityError(RuntimeError): pass
 class AuthorizationDenied(StateAuthorityError): pass

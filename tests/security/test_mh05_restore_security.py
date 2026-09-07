@@ -1,7 +1,12 @@
 import unittest
 
 from mediahub_runtime.composition_root import build_runtime
-from mediahub_runtime.state_authority import AuthorizationContext, AuthorizationDenied, InvalidCommand
+from mediahub_runtime.state_authority import (
+    AuthorityUnavailable,
+    AuthorizationContext,
+    AuthorizationDenied,
+    InvalidCommand,
+)
 
 
 class TestMH05RestoreSecurity(unittest.TestCase):
@@ -41,7 +46,7 @@ class TestMH05RestoreSecurity(unittest.TestCase):
         authority = build_runtime({"x": 1})["state_authority"]
         checkpoint = authority.checkpoint()
         authority.set_available(False)
-        with self.assertRaises(Exception):
+        with self.assertRaises(AuthorityUnavailable):
             authority.restore(checkpoint, self.restore_allowed)
 
     def test_restore_does_not_create_second_authority(self):
