@@ -1,30 +1,28 @@
-# MH-05 Evidence Reconciliation v1.3
+# MH-05 Evidence Reconciliation v1.4
 
-Date: 2026-09-07
-Branch: `remediation/mh05-r3-event-evidence`
-Last reconciled executable/documentation checkpoint before this documentation-only correction: `69eb355b2d31a92be7cf108427f97d5cce99b61f`
+Date: 2026-09-07  
+Executable checkpoint: `471f709f5633feab7aeb62dd3ea52effad6d2bc4`  
+Tree: `2279612908135418b2b5448d598274ea6741deaa`  
 Immutable forensic baseline: `25f7e3e50708d4bcad37fa712a5000dd2a7dea06`
 
 ## Exact-SHA execution evidence
 
-The checkpoint `69eb355b2d31a92be7cf108427f97d5cce99b61f` has direct exact-SHA GitHub Actions evidence:
+| Evidence | Exact SHA | Workflow | Run | Result |
+|---|---|---|---:|---|
+| Runtime | `471f709f5633feab7aeb62dd3ea52effad6d2bc4` | `mediahub-mh05-runtime.yml` | `34143904463` | SUCCESS |
+| Security / adversarial | `471f709f5633feab7aeb62dd3ea52effad6d2bc4` | `mediahub-mh05-security-audit.yml` | `34143904462` | SUCCESS |
 
-| Evidence | Workflow | Run | Result |
-|---|---|---:|---|
-| Runtime | `mediahub-mh05-runtime.yml` | `34121261896` | SUCCESS |
-| Security / adversarial bypass | `mediahub-mh05-security-audit.yml` | `34121261899` | SUCCESS |
+R4 local execution independently reproduced 185/185 pytest tests and 19/19 MH-05 security tests; compileall and diff-check also passed. These results are supporting execution evidence, not independent qualification.
 
-That execution produced 33/33 MH-05 tests, 56/56 full runtime regression, and 19/19 adversarial security tests. Classification: `EXECUTED`, not independent qualification.
+## Historical evidence
 
-## Documentation-only reconciliation
-
-This commit updates only qualification documentation. No runtime semantics are changed. Because this documentation update creates a new commit, the predecessor exact-SHA execution evidence above does not automatically qualify the new HEAD. Fresh exact-SHA execution is required for the resulting current PR HEAD.
+Predecessor checkpoint `69eb355b2d31a92be7cf108427f97d5cce99b61f` and runs `34121261896` / `34121261899` remain historical supporting evidence. They are not transferred to R4 by inference.
 
 ## Evidence rules
 
-- GitHub PR HEAD is the authoritative current control point.
-- Historical or predecessor execution is supporting evidence only when the SHA differs from current HEAD.
-- `workflow_runs=[]` or absent execution is `EXECUTION EVIDENCE ABSENT`, never PASS.
+- Exact SHA is mandatory for current executable evidence.
+- GitHub Actions checkout identity and workflow conclusion must be observed.
+- Historical execution is retained but cannot qualify a different SHA.
 - Automated execution is `EXECUTED`, not independent qualification.
 - Author/maintainer review is not independent qualification.
 - No evidence authorizes production, persistence, HA, recovery expansion, MH-06 or release.
@@ -35,6 +33,11 @@ This commit updates only qualification documentation. No runtime semantics are c
 `Production = NOT AUTHORIZED`  
 `MH-06 = LOCKED`
 
-Mandatory remaining gates are: fresh exact-SHA CI on the new current PR HEAD, independent security review, independent system-wide negative verification, final evidence completeness/reproducibility, and Release Gate decision.
+## Remaining mandatory gates
 
-No production, persistence, HA, recovery-expansion or MH-06 authorization is inferred from automated execution.
+1. Independent security/red-team review against exact final qualification SHA.
+2. Independent system-wide negative verification, including F-03, against exact final qualification SHA.
+3. Final evidence completeness/provenance reconciliation.
+4. Release Gate decision after qualification.
+
+A downstream documentation commit is a new SHA and therefore requires fresh exact-SHA execution if it is ever selected as the qualification target.
