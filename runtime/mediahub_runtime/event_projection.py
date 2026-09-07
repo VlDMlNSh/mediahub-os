@@ -2,6 +2,8 @@
 
 from dataclasses import dataclass
 from datetime import datetime
+from hashlib import sha256
+import json
 from typing import Any, Mapping
 
 
@@ -46,6 +48,12 @@ class CanonicalEvent:
             "causation_id": self.causation_id,
             "metadata": dict(self.metadata),
         }
+
+    def evidence_fingerprint(self) -> str:
+        """Return a deterministic hash binding evidence to this exact event."""
+        validate_canonical_event(self.as_dict())
+        serialized = json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+        return sha256(serialized.encode("utf-8")).hexdigest()
 
 
 def validate_canonical_event(event: Mapping[str, Any]) -> None:
