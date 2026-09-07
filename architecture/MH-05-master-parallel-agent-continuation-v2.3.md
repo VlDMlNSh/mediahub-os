@@ -1,6 +1,6 @@
 # MEDIAHUB OS 11.x LTS / MEDIAHUB iOS
 
-# MASTER PARALLEL AGENT CONTINUATION v2.3
+# MASTER PARALLEL AGENT CONTINUATION v2.4
 
 Date: 2026-09-07
 Repository: `VlDMlNSh/mediahub-os`
@@ -13,7 +13,8 @@ Continue MH-05 qualification with maximum safe parallelism. GitHub is the system
 ## 1. Immutable control
 
 Forensic target SHA: `25f7e3e50708d4bcad37fa712a5000dd2a7dea06`.
-Before every major pass, read actual branch HEAD. All claims must identify the exact SHA they concern.
+Current executable implementation evidence SHA: `14b5ea6d629087f20dde29866478086bc68d2af4`.
+Documentation HEAD may advance beyond the executable SHA; execution claims remain pinned to the exact executable SHA named above.
 
 ## 2. Authority
 
@@ -42,8 +43,15 @@ No API key or token may enter source, prompts, issues, artifacts or logs. Secret
 
 ## 5. Current MH-05 priorities
 
-P0: exact-SHA runtime/security execution; F-03 audit execution; independent negative verification.
-P1: F-04 evidence reconciliation; applicability matrix for V05-06…V05-11; independent security review.
+P0 exact-SHA runtime/security execution is COMPLETE for executable SHA `14b5ea6d...`:
+- runtime: 33/33 MH-05 tests and 56/56 full runtime regression;
+- security/adversarial: 19/19 tests;
+- both workflows verified exact checkout of `14b5ea6d...`.
+
+P0 residual: independent system-wide negative verification remains required; the repository's own AST/security audit is execution evidence but is not treated as an independent review.
+
+P1: independent security review; applicability evidence for V05-06…V05-11 has been recorded as NOT_APPLICABLE at the current runtime-only boundary; historical evidence reconciliation is recorded.
+
 P2: final evidence packet; Release Gate.
 
 For V05-06…V05-11, inspect the repository first. If a product surface does not exist at the qualified boundary, record `NOT_APPLICABLE` with repository evidence. Do not invent implementation merely to satisfy a test identifier.
@@ -74,13 +82,20 @@ Every pass returns:
 
 Stop code expansion when the remaining blocker is evidence rather than implementation. Do not create speculative architecture. Do not unlock MH-06 before formal MH-05 qualification.
 
-## 9. Current status at handoff
+## 9. Current status
 
 MH-05: `QUALIFICATION_OPEN` / `NOT QUALIFIED`.
 Production: `NOT AUTHORIZED`.
+Persistence: `NOT AUTHORIZED`.
+HA: `NOT AUTHORIZED`.
 MH-06: `LOCKED`.
-Latest branch HEAD at creation of this continuation document must be read again before the next execution cycle.
+
+Completed evidence records:
+- `verification/MH-05-evidence-reconciliation-2026-09-07.md`
+- `verification/MH-05-v05-surface-applicability-2026-09-07.md`
 
 ## 10. Definition of done
 
 MH-05 may transition only after exact-SHA runtime/security execution, F-03 execution, F-04 reconciliation, applicable V05 gates, independent security/systemwide review, complete evidence packet and Release Gate decision are all evidenced in GitHub.
+
+At this point exact-SHA execution and F-04 reconciliation are evidenced. Independent security review, independent system-wide negative verification, final evidence packet and Release Gate remain open. No code expansion is authorized solely to eliminate those evidence gates.
