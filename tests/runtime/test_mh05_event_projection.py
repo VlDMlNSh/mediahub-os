@@ -1,7 +1,7 @@
 import unittest
 
 from mediahub_runtime.event_projection import ProjectionError, project_runtime_event
-from mediahub_runtime.state_authority import AuthorizationContext, Command, StateAuthority
+from mediahub_runtime.state_authority import AuthorizationContext, Command, StateAuthority, InvalidCommand
 
 
 AUTH = AuthorizationContext("projection-test", True, frozenset({"state.write"}))
@@ -57,6 +57,26 @@ class MH05EventProjectionTests(unittest.TestCase):
         canonical = project_runtime_event(followed).as_dict()
         self.assertEqual(canonical["causation_id"], triggering.event_id)
         self.assertEqual(canonical["source"], "automation")
+
+    def test_unknown_causation_reference_is_rejected_before_mutation(self):
+        authority = StateAuthority({"x": 1})
+        before = authority.read()
+        with self.assertRaises(InvalidCommand):
+            authority.execute(
+                Command(
+                    "cmd-bad-cause",
+                    "corr-bad-cause",
+                    "set",
+                    ("x",),
+                    2,
+                    None,
+                    AUTH,
+                    "automation",
+                    "evt-does-not-exist",
+                )
+            )
+        self.assertEqual(authority.read(), before)
+        self.assertEqual(authority.metadata()["event_sequence"], 0)
 
     def test_projection_cannot_accept_substitute_source_or_causation(self):
         authority = StateAuthority()
