@@ -1,0 +1,48 @@
+name: MediaHub Free Model Orchestration
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: 'Task identifier from orchestration manifest'
+        required: true
+        default: 'mh05-qualification'
+      mode:
+        description: 'Execution mode'
+        required: true
+        default: 'analysis'
+      model:
+        description: 'Free/public model adapter name; must be configured by repository owner'
+        required: true
+        default: 'configured-free-model'
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  plan:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'model-task')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate orchestration policy
+        run: |
+          test -f architecture/MH-05-master-parallel-agent-continuation-v2.2.md
+          test -f architecture/free-model-orchestration.md
+          test -f architecture/free-model-agent-manifest.yaml
+          echo 'Model outputs are advisory only.'
+          echo 'No API keys may be committed, echoed, or embedded in prompts/artifacts.'
+      - name: Emit deterministic task envelope
+        env:
+          TASK: ${{ inputs.task || 'issue-model-task' }}
+          MODE: ${{ inputs.mode || 'analysis' }}
+          MODEL: ${{ inputs.model || 'configured-free-model' }}
+        run: |
+          printf 'task=%s\nmode=%s\nmodel=%s\ncommit=%s\n' "$TASK" "$MODE" "$MODEL" "$GITHUB_SHA"
+          echo 'execution_adapter=configured-by-owner'
+          echo 'network/model invocation is intentionally not hard-coded into this workflow'
+          echo 'qualification_authority=Git SHA + executable evidence + independent review'
