@@ -4,9 +4,8 @@ This test intentionally verifies only the contract inventory and fail-closed
 semantics. It does not claim runtime qualification or architecture acceptance.
 """
 
-from pathlib import Path
 import unittest
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "security" / "MH-04-supervisor-negative-test-contract-v1.0.yaml"

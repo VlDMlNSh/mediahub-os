@@ -1,8 +1,7 @@
 """Static checks for the MH-03 Supervisor authority contract."""
 
-from pathlib import Path
 import unittest
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 CONTRACT = ROOT / "security" / "MH-04-supervisor-negative-test-contract-v1.0.yaml"

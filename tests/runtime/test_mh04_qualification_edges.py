@@ -1,7 +1,14 @@
 import unittest
+
 from runtime.mediahub_runtime.state_authority import (
-    StateAuthority, Command, AuthorizationContext, AuthorizationDenied,
-    InvalidCommand, ConflictDetected, DuplicateCommand, AuthorityUnavailable,
+    AuthorityUnavailable,
+    AuthorizationContext,
+    AuthorizationDenied,
+    Command,
+    ConflictDetected,
+    DuplicateCommand,
+    InvalidCommand,
+    StateAuthority,
 )
 
 AUTH = AuthorizationContext("test-operator", True, frozenset({"state.write"}))

@@ -3,11 +3,11 @@ import unittest
 
 from runtime.mediahub_runtime.state_authority import (
     AuthorizationContext,
+    AuthorizationDenied,
     Command,
     ConflictDetected,
     StateAuthority,
 )
-
 
 AUTH = AuthorizationContext("qualification-operator", True, frozenset({"state.write"}))
 
@@ -49,7 +49,7 @@ class MH04QualificationConcurrencyTests(unittest.TestCase):
             attempts.append(event.command_id)
             # An observer receives a fact, not mutation authority. A direct
             # command still requires an explicit authorization context.
-            with self.assertRaises(Exception):
+            with self.assertRaises(AuthorizationDenied):
                 sa.execute(Command("observer-bypass", "corr-observer", "set", ("x",), 99, None, None))
 
         sa.subscribe(observer)

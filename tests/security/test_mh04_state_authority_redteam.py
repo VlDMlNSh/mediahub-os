@@ -1,5 +1,7 @@
 import unittest
+
 from runtime.mediahub_runtime.state_authority import *
+
 
 class StateAuthorityRedTeamTests(unittest.TestCase):
     def test_missing_auth_cannot_mutate(self):

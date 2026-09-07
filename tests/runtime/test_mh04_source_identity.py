@@ -1,6 +1,10 @@
 import unittest
 
-from runtime.mediahub_runtime.state_authority import AuthorizationContext, Command, StateAuthority
+from runtime.mediahub_runtime.state_authority import (
+    AuthorizationContext,
+    Command,
+    StateAuthority,
+)
 
 
 class MH04SourceIdentityTests(unittest.TestCase):

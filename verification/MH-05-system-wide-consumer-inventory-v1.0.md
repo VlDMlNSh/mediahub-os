@@ -1,53 +1,43 @@
-# MH-05 System-Wide Consumer Inventory v1.0
+# MH-05 System-Wide Consumer Inventory v1.2
 
-**Date:** 2026-09-06  
+**Date:** 2026-09-07  
 **Scope:** MH-05 Consumer Boundary authority-bypass verification  
-**Branch:** `dev/mh05/current-implementation`  
-**Verified implementation HEAD:** `86cefc7d14a7dafa44aaa2425d9a69cda1b43f2c`  
-**Exact PR merge-ref verified by CI:** `55ace0c81a8d93a4e863b0ceaf332295d724457d`
+**Branch:** `remediation/mh05-r3-event-evidence`  
+**Current control point:** GitHub PR HEAD; reconcile exact SHA before qualification  
+**Last inspected executable checkpoint:** `69eb355b2d31a92be7cf108427f97d5cce99b61f`  
+**Evidence classification:** `STATIC_SUPPORT` only; not independent qualification
 
 ## Purpose
 
-Provide a repository-wide negative-control inventory for the current implementation scope. This artifact does not authorize new capabilities and does not change MH-04 semantics.
+Provide a repository-wide negative-control inventory for the current MH-05 implementation scope without authorizing new capabilities or changing MH-04 semantics.
 
 ## Authority rule
 
-All canonical mutation must traverse `ConsumerBoundary -> StateAuthority`. Consumer-facing components may propose or request operations but may not become a second canonical state owner, mutation authority, event authority, checkpoint authority, or persistence authority.
+All canonical mutation must traverse `ConsumerBoundary -> StateAuthority`. Consumer-facing components may request operations but may not become a second canonical state owner, mutation authority, event authority, checkpoint authority, or persistence authority.
 
-## Inventory result
+## Repository inventory
 
-At the verified implementation tree, the runtime package contains the following executable runtime authorities:
+The executable MH-05 runtime boundary is under `runtime/mediahub_runtime/`. It contains `state_authority.py`, `consumer_boundary.py`, `composition_root.py`, `event_projection.py`, `evidence.py`, and the package surface. No second executable StateAuthority implementation is present in the inspected runtime package inventory.
 
-- `runtime/mediahub_runtime/state_authority.py` — canonical in-memory State Authority.
-- `runtime/mediahub_runtime/consumer_boundary.py` — governed consumer ingress; not a state owner.
-- `runtime/mediahub_runtime/__init__.py` — package surface only.
+## Explicit authority-risk categories
 
-No additional executable runtime authority is present in `runtime/mediahub_runtime/` at this checkpoint.
-
-## Explicitly checked authority-risk categories
-
-| Category | Current status | Disposition |
+| Category | Observation | Classification |
 |---|---|---|
-| Second StateAuthority constructor | Not found in verified runtime package inventory | PASS pending independent system-wide verification |
-| Boundary-local canonical state | Not present in ConsumerBoundary contract | PASS pending independent system-wide verification |
-| Boundary-local event store | Not present | PASS |
-| Boundary-local checkpoint store | Not present | PASS |
-| Health/readiness as authorization | Forbidden by contract; adversarial tests cover authorization separation | PASS for tested scope |
-| Remote/cloud/AI/plugin identity as implicit authorization | Explicitly rejected by current security tests | PASS for tested scope |
-| Authority unavailable fallback mutation | Fail-closed test present and passing | PASS |
-| Event-triggered mutation bypass | No dedicated alternate mutation API in current runtime package; re-entry remains through governed execution | PASS for current package |
-| Persistence-backed shadow authority | Persistence implementation is not authorized and not present in current runtime package | PASS |
+| Second StateAuthority constructor | AST security test restricts construction to composition root | STATIC_SUPPORT |
+| Boundary-local canonical state | AST security test checks forbidden authority storage outside StateAuthority | STATIC_SUPPORT |
+| Boundary-local event/checkpoint store | No such runtime storage surface identified | STATIC_SUPPORT |
+| Health/readiness/liveness/presence as authorization | Dedicated adversarial test surface exists | EXECUTED |
+| Remote/cloud/AI/plugin/device identity as implicit authorization | Adversarial coverage exists; broader dynamic verification remains external | EXECUTED + OPEN |
+| Authority-unavailable fallback mutation | Fail-closed adversarial coverage exists | EXECUTED |
+| Event-triggered mutation bypass | Governed command re-entry is required; independent system-wide verification remains open | STATIC_SUPPORT + OPEN |
+| Persistence-backed shadow authority | Outside authorized MH-05 scope and absent from current runtime package | STATIC_SUPPORT |
+| Recovery as second authority | Restore security/reachability tests exist; independent review remains required | EXECUTED + OPEN |
+| Installer/update direct mutation | No executable installer/update runtime surface in current inventory | STATIC_SUPPORT / NOT_APPLICABLE |
 
-## Exact-head automated evidence
+## Limitations / mandatory external gate
 
-The current PR merge-ref `55ace0c81a8d93a4e863b0ceaf332295d724457d` successfully executed the MH-05 adversarial audit: 5/5 tests passed. The audit verified fail-closed authority-unavailable behavior, absence of canonical mutation storage in ConsumerBoundary, absence of a second StateAuthority constructor, rejection of non-finite payloads, and explicit authorization requirement for remote-like identities.
-
-The same current merge-ref passed MH-05 runtime verification and MH-04 verification-readiness execution. These are automated evidence only and do not replace independent security review.
-
-## Limitations
-
-This document is a static repository-scope inventory, not an independent penetration test. It does not establish production security, persistence correctness, HA, recovery, or release qualification. Independent security review and system-wide negative verification remain required before MH-05 qualification can be closed.
+This inventory is not an independent penetration test. Static absence is not proof of runtime absence across future or external consumers, and repository-local execution does not establish independent review. A qualifying independent reviewer must inspect the exact final control-point SHA, challenge the inventory, and independently execute or otherwise substantiate the system-wide negative verification matrix.
 
 ## Decision
 
-**MH-05 qualification remains OPEN.** No authorization is granted for Persistence, HA, Recovery implementation, Production, or unrelated capability domains.
+**MH-05 qualification remains OPEN.** No PASS is claimed from this artifact. Persistence, HA, Recovery expansion, Production, release authorization, and MH-06 remain unauthorized/locked.
