@@ -54,6 +54,11 @@ jobs:
             printf 'EXPECTED_SHA=%s\n' "$R4_SHA"
             printf 'EXPECTED_TREE=%s\n' "$R4_TREE"
             printf 'DIRTY=%s\n' "$(git status --porcelain)"
+            printf 'PYTHON_VERSION=%s\n' "$(python3 --version)"
+            printf 'PYTEST_VERSION=%s\n' "$(python3 -m pytest --version)"
+            printf 'RUFF_VERSION=%s\n' "$(ruff --version)"
+            printf 'MYPY_VERSION=%s\n' "$(mypy --version)"
+            printf 'TOOLCHAIN_SHA256=%s\n' "$(sha256sum ci-requirements.txt | cut -d' ' -f1)"
             printf 'CONTEXT=PR66-CI\n'
             printf 'LANE=%s\n' "${{ matrix.lane }}"
           } | tee "$PROV_DIR/start"
