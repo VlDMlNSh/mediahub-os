@@ -1,9 +1,10 @@
 """Observational evidence binding for governed runtime executions."""
 
 from datetime import datetime, timezone
-from typing import Any, Mapping
+from typing import Any
 
-from .event_projection import CanonicalEvent, ProjectionError, validate_canonical_event
+from .event_projection import CanonicalEvent, validate_canonical_event
+from .state_authority import AuthorizationContext
 
 
 class EvidenceError(ValueError):
@@ -27,6 +28,7 @@ def build_evidence_record(
     canonical_event: CanonicalEvent,
     pre_state: Any,
     post_state: Any,
+    authorization_context: AuthorizationContext,
     authorization_result: str,
     validation_result: str,
     mutation_result: str,
@@ -43,13 +45,11 @@ def build_evidence_record(
     rejection_reason: str | None = None,
     failure_class: str | None = None,
 ) -> dict[str, Any]:
-    """Create an observational record bound to one canonical event.
-
-    This helper has no mutation capability. The emitted event is represented by
-    its canonical serialization and deterministic fingerprint.
-    """
+    """Create an observational record bound to one canonical event."""
     if not isinstance(canonical_event, CanonicalEvent):
         raise EvidenceError("canonical event required")
+    if not isinstance(authorization_context, AuthorizationContext):
+        raise EvidenceError("real authorization context required")
     event_dict = canonical_event.as_dict()
     validate_canonical_event(event_dict)
     fingerprint = canonical_event.evidence_fingerprint()
@@ -68,6 +68,14 @@ def build_evidence_record(
         raise EvidenceError("required evidence identity is missing")
     if not isinstance(exit_code, int) or isinstance(exit_code, bool):
         raise EvidenceError("invalid exit code")
+
+    authorization_record = {
+        "subject": authorization_context.subject,
+        "authenticated": authorization_context.authenticated,
+        "permissions": sorted(authorization_context.permissions),
+    }
+    if not authorization_record["subject"] or not isinstance(authorization_record["authenticated"], bool):
+        raise EvidenceError("invalid authorization context")
 
     now = datetime.now(timezone.utc).isoformat()
     emitted_event = dict(event_dict)
@@ -93,7 +101,7 @@ def build_evidence_record(
             "command_id": canonical_event.metadata.get("command_id", ""),
             "correlation_id": canonical_event.correlation_id,
             "source_identity": canonical_event.source,
-            "authorization_context": "observed-at-execution",
+            "authorization_context": authorization_record,
             "target": canonical_event.subject,
             "operation": canonical_event.payload.get("operation", ""),
         },
