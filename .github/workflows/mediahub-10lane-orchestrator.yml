@@ -20,24 +20,96 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Capture provenance start
+        env:
+          R4_SHA: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
+          R4_TREE: 2279612908135418b2b5448d598274ea6741deaa
+          R4_BRANCH: remediation/mh05-r4-alamo-quality
+        run: |
+          set -euo pipefail
+          T0=$(date +%s)
+          printf '%s\n' "$T0" > .mh05-t0
+          {
+            printf 'T0=%s\n' "$T0"
+            printf 'PID=%s\n' "$$"
+            printf 'BRANCH=%s\n' "$(git rev-parse --abbrev-ref HEAD)"
+            printf 'SHA=%s\n' "$(git rev-parse HEAD)"
+            printf 'TREE=%s\n' "$(git rev-parse HEAD^{tree})"
+            printf 'EXPECTED_SHA=%s\n' "$R4_SHA"
+            printf 'EXPECTED_TREE=%s\n' "$R4_TREE"
+            printf 'EXPECTED_BRANCH=%s\n' "$R4_BRANCH"
+            printf 'DIRTY=%s\n' "$(git status --porcelain)"
+            printf 'CONTEXT=PR66-CI\n'
+            printf 'LANE=%s\n' "${{ matrix.lane }}"
+          } | tee .mh05-provenance-start
       - name: Execute bounded lane
+        timeout-minutes: 59
         env:
           PYTHONPATH: runtime:.
           R4_SHA: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
           R4_TREE: 2279612908135418b2b5448d598274ea6741deaa
         run: |
-          case "${{ matrix.lane }}" in
-            T0-identity)
-              test "$(git rev-parse HEAD)" = "$R4_SHA"
-              test "$(git rev-parse HEAD^{tree})" = "$R4_TREE"
-              ;;
-            T0-clean) test -z "$(git status --short)" ;;
-            T1-authority) git grep -n 'StateAuthority' -- runtime tests tools verification ;;
-            T1-contracts) python3 tools/validate_contracts.py ;;
-            T2-runtime-tests) python3 -m pytest -q ;;
-            T3-security) python3 -m pytest -q tests/security ;;
-            T4-ruff) ruff check runtime tests tools verification ;;
-            T4-mypy) mypy runtime ;;
-            T4-compile) python3 -m compileall -q runtime tests tools verification ;;
-            T4-diff) git diff --check ;;
-          esac
+          set +e
+          timeout --signal=TERM --kill-after=30s 3540s bash -euo pipefail -c '
+            test "$(git rev-parse HEAD)" = "$R4_SHA"
+            test "$(git rev-parse HEAD^{tree})" = "$R4_TREE"
+            test -z "$(git status --short)"
+            case "${{ matrix.lane }}" in
+              T0-identity) true ;;
+              T0-clean) true ;;
+              T1-authority) git grep -n "StateAuthority" -- runtime tests tools verification ;;
+              T1-contracts) python3 tools/validate_contracts.py ;;
+              T2-runtime-tests) python3 -m pytest -q ;;
+              T3-security) python3 -m pytest -q tests/security ;;
+              T4-ruff) ruff check runtime tests tools verification ;;
+              T4-mypy) mypy runtime ;;
+              T4-compile) python3 -m compileall -q runtime tests tools verification ;;
+              T4-diff) git diff --check ;;
+              *) echo "UNKNOWN_LANE" >&2; exit 64 ;;
+            esac
+          '
+          rc=$?
+          printf 'RETURN_CODE=%s\n' "$rc" | tee .mh05-provenance-result
+          exit "$rc"
+      - name: Finalize provenance and lifecycle classification
+        if: ${{ always() }}
+        env:
+          R4_SHA: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
+          R4_TREE: 2279612908135418b2b5448d598274ea6741deaa
+          R4_BRANCH: remediation/mh05-r4-alamo-quality
+        run: |
+          set -euo pipefail
+          TEND=$(date +%s)
+          T0=$(cat .mh05-t0)
+          RC=$(sed -n 's/^RETURN_CODE=//p' .mh05-provenance-result 2>/dev/null || printf 'NOT_EXECUTED')
+          SHA=$(git rev-parse HEAD)
+          TREE=$(git rev-parse HEAD^{tree})
+          BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          DIRTY=$(git status --porcelain)
+          ELAPSED=$((TEND-T0))
+          CLASSIFICATION=PASS
+          if [ "$SHA" != "$R4_SHA" ] || [ "$TREE" != "$R4_TREE" ] || [ "$BRANCH" != "$R4_BRANCH" ] || [ -n "$DIRTY" ]; then
+            CLASSIFICATION=INCONCLUSIVE
+          elif [ "$ELAPSED" -gt 3600 ]; then
+            CLASSIFICATION=FAIL
+          elif [ "$RC" = "NOT_EXECUTED" ]; then
+            CLASSIFICATION=INCONCLUSIVE
+          elif [ "$RC" != "0" ]; then
+            CLASSIFICATION=FAIL
+          fi
+          {
+            cat .mh05-provenance-start
+            printf 'TEND=%s\n' "$TEND"
+            printf 'ELAPSED_SECONDS=%s\n' "$ELAPSED"
+            printf 'FINAL_SHA=%s\n' "$SHA"
+            printf 'FINAL_TREE=%s\n' "$TREE"
+            printf 'FINAL_BRANCH=%s\n' "$BRANCH"
+            printf 'FINAL_DIRTY=%s\n' "$DIRTY"
+            printf 'RETURN_CODE=%s\n' "$RC"
+            printf 'CLASSIFICATION=%s\n' "$CLASSIFICATION"
+          } | tee .mh05-provenance-final
+          if [ "$CLASSIFICATION" != "PASS" ]; then exit 1; fi
+      - name: Publish provenance summary
+        if: ${{ always() }}
+        run: |
+          cat .mh05-provenance-final 2>/dev/null || true
