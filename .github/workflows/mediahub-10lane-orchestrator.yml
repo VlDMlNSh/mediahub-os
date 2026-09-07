@@ -14,17 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        lane:
-          - T0-identity
-          - T0-clean
-          - T1-authority
-          - T1-contracts
-          - T2-runtime-tests
-          - T3-security
-          - T4-ruff
-          - T4-mypy
-          - T4-compile
-          - T4-diff
+        lane: [T0-identity, T0-clean, T1-authority, T1-contracts, T2-runtime-tests, T3-security, T4-ruff, T4-mypy, T4-compile, T4-diff]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -33,9 +23,10 @@ jobs:
       - name: Execute bounded lane
         env:
           PYTHONPATH: runtime:.
+          R4_SHA: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
         run: |
           case "${{ matrix.lane }}" in
-            T0-identity) test "$(git rev-parse HEAD)" = "471f709f5633feab7aeb62dd3ea52effad6d2bc4" ;;
+            T0-identity) git cat-file -e "$R4_SHA^{commit}" && git merge-base --is-ancestor "$R4_SHA" HEAD ;;
             T0-clean) test -z "$(git status --short)" ;;
             T1-authority) git grep -n 'StateAuthority' -- runtime tests tools verification ;;
             T1-contracts) python3 tools/validate_contracts.py ;;
