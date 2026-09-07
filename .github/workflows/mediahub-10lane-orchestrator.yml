@@ -32,8 +32,10 @@ jobs:
           R4_BRANCH: remediation/mh05-r4-alamo-quality
         run: |
           set -euo pipefail
+          PROV_DIR="${RUNNER_TEMP}/mh05-provenance-${{ matrix.lane }}"
+          mkdir -p "$PROV_DIR"
           T0=$(date +%s)
-          printf '%s\n' "$T0" > .mh05-t0
+          printf '%s\n' "$T0" > "$PROV_DIR/t0"
           {
             printf 'T0=%s\n' "$T0"
             printf 'PID=%s\n' "$$"
@@ -47,7 +49,8 @@ jobs:
             printf 'DIRTY=%s\n' "$(git status --porcelain)"
             printf 'CONTEXT=PR66-CI\n'
             printf 'LANE=%s\n' "${{ matrix.lane }}"
-          } | tee .mh05-provenance-start
+          } | tee "$PROV_DIR/start"
+          test -z "$(git status --porcelain)"
       - name: Execute bounded lane
         timeout-minutes: 59
         env:
@@ -56,6 +59,7 @@ jobs:
           R4_TREE: 2279612908135418b2b5448d598274ea6741deaa
         run: |
           set +e
+          PROV_DIR="${RUNNER_TEMP}/mh05-provenance-${{ matrix.lane }}"
           timeout --signal=TERM --kill-after=30s 3540s bash -euo pipefail -c '
             test "$(git rev-parse HEAD)" = "$R4_SHA"
             test "$(git rev-parse HEAD^{tree})" = "$R4_TREE"
@@ -73,9 +77,10 @@ jobs:
               T4-diff) git diff --check ;;
               *) echo "UNKNOWN_LANE" >&2; exit 64 ;;
             esac
-          '
+          ' >"$PROV_DIR/output" 2>&1
           rc=$?
-          printf 'RETURN_CODE=%s\n' "$rc" | tee .mh05-provenance-result
+          printf 'RETURN_CODE=%s\n' "$rc" | tee "$PROV_DIR/result"
+          cat "$PROV_DIR/output"
           exit "$rc"
       - name: Finalize provenance and lifecycle classification
         if: ${{ always() }}
@@ -84,9 +89,10 @@ jobs:
           R4_TREE: 2279612908135418b2b5448d598274ea6741deaa
         run: |
           set -euo pipefail
+          PROV_DIR="${RUNNER_TEMP}/mh05-provenance-${{ matrix.lane }}"
           TEND=$(date +%s)
-          T0=$(cat .mh05-t0)
-          RC=$(sed -n 's/^RETURN_CODE=//p' .mh05-provenance-result 2>/dev/null || printf 'NOT_EXECUTED')
+          T0=$(cat "$PROV_DIR/t0")
+          RC=$(sed -n 's/^RETURN_CODE=//p' "$PROV_DIR/result" 2>/dev/null || printf 'NOT_EXECUTED')
           SHA=$(git rev-parse HEAD)
           TREE=$(git rev-parse HEAD^{tree})
           DIRTY=$(git status --porcelain)
@@ -102,7 +108,7 @@ jobs:
             CLASSIFICATION=FAIL
           fi
           {
-            cat .mh05-provenance-start
+            cat "$PROV_DIR/start"
             printf 'TEND=%s\n' "$TEND"
             printf 'ELAPSED_SECONDS=%s\n' "$ELAPSED"
             printf 'FINAL_SHA=%s\n' "$SHA"
@@ -110,9 +116,12 @@ jobs:
             printf 'FINAL_DIRTY=%s\n' "$DIRTY"
             printf 'RETURN_CODE=%s\n' "$RC"
             printf 'CLASSIFICATION=%s\n' "$CLASSIFICATION"
-          } | tee .mh05-provenance-final
+            printf 'OUTPUT_BEGIN\n'
+            cat "$PROV_DIR/output" 2>/dev/null || true
+            printf 'OUTPUT_END\n'
+          } | tee "$PROV_DIR/final"
           if [ "$CLASSIFICATION" != "PASS" ]; then exit 1; fi
       - name: Publish provenance summary
         if: ${{ always() }}
         run: |
-          cat .mh05-provenance-final 2>/dev/null || true
+          cat "${RUNNER_TEMP}/mh05-provenance-${{ matrix.lane }}/final" 2>/dev/null || true
