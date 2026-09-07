@@ -1,11 +1,6 @@
-"""Projection boundary from internal runtime events to canonical domain events.
-
-This module deliberately performs no state mutation and owns no authority.
-It converts a trusted execution record into the frozen canonical Event shape.
-"""
+"""Projection boundary from trusted runtime events to canonical domain events."""
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from typing import Any, Mapping
 
 
@@ -48,35 +43,40 @@ class CanonicalEvent:
 def project_runtime_event(
     runtime_event: Any,
     *,
-    source_identity: str,
-    subject: str,
-    causation_id: str | None = None,
-    timestamp: str | None = None,
     severity: str = "INFO",
     priority: int = 0,
     metadata: Mapping[str, Any] | None = None,
 ) -> CanonicalEvent:
-    """Project a completed runtime event without mutating runtime state.
+    """Project a trusted completed runtime event without mutation authority.
 
-    The caller must supply provenance that has already been authenticated by
-    the governed execution path. This function does not authorize callers or
-    mutate StateAuthority.
+    Provenance, timestamp and causation are intentionally read only from the
+    immutable runtime event. Callers cannot substitute these security-relevant
+    fields at the projection boundary.
     """
-    required = ("event_id", "command_id", "correlation_id", "operation", "path")
+    required = (
+        "event_id", "command_id", "correlation_id", "operation", "path",
+        "source_identity", "causation_id", "timestamp", "generation",
+        "state_version", "state_digest", "sequence",
+    )
     if any(not hasattr(runtime_event, name) for name in required):
-        raise ProjectionError("incomplete runtime event")
-    if not isinstance(source_identity, str) or not source_identity:
+        raise ProjectionError("incomplete trusted runtime event")
+    if not isinstance(runtime_event.source_identity, str) or not runtime_event.source_identity:
         raise ProjectionError("source identity required")
-    if not isinstance(subject, str) or not subject:
-        raise ProjectionError("subject required")
-    if causation_id is not None and (not isinstance(causation_id, str) or not causation_id):
+    if runtime_event.causation_id is not None and (
+        not isinstance(runtime_event.causation_id, str) or not runtime_event.causation_id
+    ):
         raise ProjectionError("invalid causation id")
+    if not isinstance(runtime_event.timestamp, str) or not runtime_event.timestamp:
+        raise ProjectionError("event timestamp required")
     if severity not in {"INFO", "NOTICE", "WARNING", "ERROR", "CRITICAL"}:
         raise ProjectionError("invalid severity")
     if not isinstance(priority, int) or isinstance(priority, bool) or priority < 0:
         raise ProjectionError("invalid priority")
 
-    event_timestamp = timestamp or datetime.now(timezone.utc).isoformat()
+    subject = "state:" + "/".join(runtime_event.path)
+    if not subject or subject == "state:":
+        raise ProjectionError("event subject cannot be empty")
+
     payload = {
         "operation": runtime_event.operation,
         "path": list(runtime_event.path),
@@ -95,13 +95,13 @@ def project_runtime_event(
         id=runtime_event.event_id,
         type=f"state.{runtime_event.operation}",
         version="1.0",
-        timestamp=event_timestamp,
-        source=source_identity,
+        timestamp=runtime_event.timestamp,
+        source=runtime_event.source_identity,
         subject=subject,
         payload=payload,
         severity=severity,
         priority=priority,
         correlation_id=runtime_event.correlation_id,
-        causation_id=causation_id,
+        causation_id=runtime_event.causation_id,
         metadata=event_metadata,
     )
