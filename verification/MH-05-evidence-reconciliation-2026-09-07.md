@@ -1,30 +1,40 @@
-# MH-05 Evidence Reconciliation
+# MH-05 Evidence Reconciliation v1.1
 
 Date: 2026-09-07
-Current executable evidence SHA: `14b5ea6d629087f20dde29866478086bc68d2af4`
+Final control-point documentation HEAD: `ee2e2533727cf6db32f4173774e84875dfb21f57`
+Immutable forensic baseline: `25f7e3e50708d4bcad37fa712a5000dd2a7dea06`
+Branch: `remediation/mh05-r3-event-evidence`
 
 ## Exact-SHA execution evidence
 
+The implementation predecessor `f205a4d8e2598543431f658a68dc9801a330a117` has direct exact-SHA execution evidence:
+
 | Evidence | Workflow | Run | Result |
 |---|---|---:|---|
-| Runtime | `mediahub-mh05-runtime.yml` | `34100865518` | SUCCESS |
-| Security / adversarial bypass | `mediahub-mh05-security-audit.yml` | `34100865519` | SUCCESS |
+| Runtime | `mediahub-mh05-runtime.yml` | `34120994223` | SUCCESS |
+| Security / adversarial bypass | `mediahub-mh05-security-audit.yml` | `34120994236` | SUCCESS |
 
-Runtime execution checked out exactly `14b5ea6d629087f20dde29866478086bc68d2af4`, ran the MH-05 suite with **33/33 OK**, then the complete runtime regression with **56/56 OK**. The workflow recorded `qualification=EXECUTION_EVIDENCE_ONLY_NOT_APPROVAL`.
+At `f205a4d8…`, runtime executed 33/33 MH-05 tests and 56/56 full runtime regression; security executed 19/19 adversarial tests. These are `EXECUTED` evidence only.
 
-Security execution checked out exactly the same SHA and ran **19/19 OK** adversarial tests, including composition-root authority construction, unavailable-authority fail-closed behavior, restore authorization, malformed/forged restore input, canonical authority confinement and governed restore reachability. The workflow recorded production, persistence and HA as `NOT_AUTHORIZED`.
+## Documentation reconciliation
 
-## Historical evidence reconciliation
+Two documentation-only reconciliation commits subsequently corrected qualification artifacts:
 
-The earlier successful executable SHAs remain valid historical evidence for those revisions only:
+- `ddf641a8d16224db270d0795bc04241f3a9d18f2` — system-wide consumer inventory v1.1.
+- `ee2e2533727cf6db32f4173774e84875dfb21f57` — system-wide bypass audit v1.1.
 
-- `25beac177319714eed3565b2b673fd5ee5cbf5b1` — runtime `34098313702`, security `34098313543`.
-- `5541c08fef8257368d06acd75b1f547659b4d804` — runtime `34098385585`, security `34098385588`.
-
-Later implementation revisions without execution evidence are not promoted retroactively. The current SHA now has direct exact-SHA execution evidence, so the ledger must distinguish it from the older `IMPLEMENTED_NOT_EXECUTED` entries.
+No runtime semantic change was introduced by these documentation-only commits. Nevertheless, because exact-SHA qualification evidence is immutable, the final control-point must receive a fresh CI execution after the documentation reconciliation. The predecessor execution must not be promoted automatically to the final SHA.
 
 ## Qualification interpretation
 
-This reconciliation closes the stale-evidence issue for the current executable runtime/security cycle. It does **not** itself constitute qualification approval. Remaining mandatory gates are independent security review, independent system-wide negative verification, final evidence packet completeness and Release Gate decision.
+Current state: `MH-05 = NOT QUALIFIED`, `Production = NOT AUTHORIZED`, `MH-06 = LOCKED`.
 
-No production, persistence, HA or recovery-expansion authorization is inferred from these execution results.
+Remaining mandatory gates:
+
+1. fresh exact-SHA runtime/security execution on the final control-point;
+2. independent security review;
+3. independent system-wide negative verification;
+4. final evidence packet completeness and provenance reconciliation;
+5. Release Gate decision.
+
+No production, persistence, HA, recovery-expansion or MH-06 authorization is inferred from automated execution.
