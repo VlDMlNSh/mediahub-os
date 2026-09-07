@@ -1,3 +1,4 @@
+# Qualification evidence trigger: documentation reconciliation requires fresh exact-SHA execution.
 name: MediaHub MH-05 Consumer Boundary Tests
 
 on:
