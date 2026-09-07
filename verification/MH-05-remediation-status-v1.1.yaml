@@ -1,8 +1,8 @@
-version: "1.5"
+version: "1.6"
 component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-remediation_head_sha: 1dba8a966be3fb6f1c76d60d00da2651df741099
+remediation_head_sha: 8e1d55bade415609bfe99abceef02c15a1104b85
 
 # This ledger is a remediation record, not qualification approval.
 # The immutable baseline remains the forensic qualification target.
@@ -17,7 +17,8 @@ closed_or_remediated:
   - R3-AUTH: evidence builder requires and serializes the real AuthorizationContext; placeholder attribution removed
   - R3-IMMUTABILITY: CanonicalEvent payload and metadata are recursively frozen; detached serialization cannot mutate the event
   - CI-R3: remediation branch explicitly triggers MH-05 runtime and security workflows
-  - F-02-PROTOTYPE: governed runtime composition root now constructs exactly one StateAuthority and binds ConsumerBoundary to it
+  - F-02-PROTOTYPE: governed runtime composition root constructs exactly one StateAuthority and binds ConsumerBoundary to it
+  - F-05-TEST-MATRIX: restore checkpoint functional and adversarial tests added; forged and malformed restore inputs are non-mutating and unavailable authority fails closed
 
 execution_evidence:
   - exact_sha: 25beac177319714eed3565b2b673fd5ee5cbf5b1
@@ -33,14 +34,14 @@ execution_evidence:
     runtime_conclusion: success
     security_conclusion: success
     classification: EXECUTED
-    note: last known successful executable remediation revision
-  - exact_sha: 1dba8a966be3fb6f1c76d60d00da2651df741099
+    note: last known successful executable remediation revision before composition/restore additions
+  - exact_sha: 8e1d55bade415609bfe99abceef02c15a1104b85
     runtime_workflow: null
     security_workflow: null
     runtime_conclusion: not_observed
     security_conclusion: not_observed
     classification: IMPLEMENTED_NOT_EXECUTED
-    note: composition-root and audit-fixture changes are present; current SHA execution evidence is not yet observed through the available GitHub execution view
+    note: current continuation includes composition and restore test additions; execution evidence must be observed through GitHub Actions before classification changes
 
 not_yet_qualified:
   - independent_security_review
