@@ -50,7 +50,7 @@ class StateAuthority:
         self._lock=RLock(); self._state=deepcopy(dict(initial_state or {}))
         self._generation=0; self._version=0; self._sequence=0
         self._events=[]; self._processed={}; self._available=True
-        self._policy=dict(policy or {"set":frozenset({"state.write"}),"delete":frozenset({"state.write"})})
+        self._policy=dict(policy or {"set":frozenset({"state.write"}),"delete":frozenset({"state.write"}),"restore":frozenset({"state.restore"})})
         self._token=sha256(b"mediahub-state-authority-v1").hexdigest()
         self._observers=[]
     def set_available(self, available):
@@ -82,15 +82,25 @@ class StateAuthority:
         return event
     def checkpoint(self):
         with self._lock:
-            self._require(); return (self._token,deepcopy(self._state),self._generation,self._version)
-    def restore(self, checkpoint):
+            self._require(); return (self._token,deepcopy(self._state),self._generation,self._version,self._sequence,tuple(self._events),tuple(self._processed.items()))
+    def restore(self, checkpoint, authorization=None):
         with self._lock:
             self._require()
-            if not isinstance(checkpoint,tuple) or len(checkpoint)!=4: raise InvalidCommand("invalid checkpoint")
-            token,state,generation,version=checkpoint
+            if authorization is None or not isinstance(authorization,AuthorizationContext):
+                raise AuthorizationDenied("restore authorization required")
+            if not authorization.authenticated or "state.restore" not in authorization.permissions:
+                raise AuthorizationDenied("restore authorization denied")
+            if not isinstance(checkpoint,tuple) or len(checkpoint)!=7: raise InvalidCommand("invalid checkpoint")
+            token,state,generation,version,sequence,events,processed=checkpoint
             if token!=self._token: raise AuthorizationDenied("checkpoint token rejected")
-            if not isinstance(state,dict) or generation<0 or version<generation: raise InvalidCommand("invalid checkpoint")
-            self._state=deepcopy(state); self._generation=generation; self._version=version; self._sequence=0; self._events.clear(); self._processed.clear()
+            if not isinstance(state,dict) or generation<0 or version<generation or sequence<0: raise InvalidCommand("invalid checkpoint")
+            if not isinstance(events,tuple) or not isinstance(processed,tuple): raise InvalidCommand("invalid checkpoint history")
+            if len(events)!=sequence or len(processed)!=sequence: raise InvalidCommand("invalid checkpoint history")
+            if any(not isinstance(event,Event) or event.sequence != index for index,event in enumerate(events,1)): raise InvalidCommand("invalid checkpoint events")
+            if any(not isinstance(item,tuple) or len(item)!=2 or not isinstance(item[0],str) or not isinstance(item[1],Event) for item in processed): raise InvalidCommand("invalid checkpoint processed map")
+            restored_processed=dict(processed)
+            if len(restored_processed)!=len(processed) or any(restored_processed.get(event.command_id)!=event for event in events): raise InvalidCommand("invalid checkpoint processed map")
+            self._state=deepcopy(state); self._generation=generation; self._version=version; self._sequence=sequence; self._events=list(events); self._processed=restored_processed
     def _require(self):
         if not self._available: raise AuthorityUnavailable("State Authority unavailable; fail closed")
     def _validate(self,c):
