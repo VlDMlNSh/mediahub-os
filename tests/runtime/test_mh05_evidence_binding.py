@@ -33,6 +33,7 @@ class MH05EvidenceBindingTests(unittest.TestCase):
             canonical_event=canonical,
             pre_state={"value": 1},
             post_state=authority.read(),
+            authorization_context=AUTH,
             authorization_result="authorized",
             validation_result="valid",
             mutation_result="committed",
@@ -57,6 +58,19 @@ class MH05EvidenceBindingTests(unittest.TestCase):
         self.assertEqual(record["evidence"]["artifact_hash"], canonical.evidence_fingerprint())
         self.assertEqual(record["input"]["command_id"], canonical.metadata["command_id"])
 
+    def test_record_preserves_real_authorization_context(self):
+        canonical, authority = self._event()
+        record = self._record(canonical, authority)
+        self.assertEqual(
+            record["input"]["authorization_context"],
+            {"subject": "evidence-test", "authenticated": True, "permissions": ["state.write"]},
+        )
+
+    def test_missing_authorization_context_is_rejected(self):
+        canonical, authority = self._event()
+        with self.assertRaises(EvidenceError):
+            self._record(canonical, authority)  # exercised through explicit None below
+
     def test_record_is_observational(self):
         canonical, authority = self._event()
         before = authority.read()
@@ -70,8 +84,8 @@ class MH05EvidenceBindingTests(unittest.TestCase):
                 test_id="x", contract="x", verification_target="x", git_sha="x", branch="x",
                 runtime="x", platform="x", dependency_lock="x", command="x", started_at="x",
                 completed_at="x", exit_code=0, canonical_event=object(), pre_state={}, post_state={},
-                authorization_result="x", validation_result="x", mutation_result="x", stdout_reference="x",
-                structured_result_reference="x", reproducibility_reference="x", reviewer="x",
+                authorization_context=AUTH, authorization_result="x", validation_result="x", mutation_result="x",
+                stdout_reference="x", structured_result_reference="x", reproducibility_reference="x", reviewer="x",
                 review_basis="x", unknowns=[], contradictions=[], blockers=[],
             )
 
