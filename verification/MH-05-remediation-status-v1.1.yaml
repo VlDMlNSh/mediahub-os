@@ -1,8 +1,8 @@
-version: "1.3"
+version: "1.4"
 component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-remediation_head_sha: 4339522e555e5baa08edde82101561943364997e
+remediation_head_sha: 25beac177319714eed3565b2b673fd5ee5cbf5b1
 
 # This ledger is a remediation record, not qualification approval.
 # The immutable baseline remains the forensic qualification target.
@@ -14,11 +14,22 @@ closed_or_remediated:
   - F-06B: correlation and causation continuity is represented; causation references must resolve to a prior runtime event
   - F-06C: canonical event has deterministic evidence fingerprint binding
   - R3: observational evidence-record builder binds emitted canonical Event identity and fingerprint
+  - R3-AUTH: evidence builder requires and serializes the real AuthorizationContext; placeholder attribution removed
+  - R3-IMMUTABILITY: CanonicalEvent payload and metadata are recursively frozen; detached serialization cannot mutate the event
   - CI-R3: remediation branch explicitly triggers MH-05 runtime and security workflows
 
+execution_evidence:
+  - exact_sha: 25beac177319714eed3565b2b673fd5ee5cbf5b1
+    runtime_workflow: 34098313702
+    security_workflow: 34098313543
+    runtime_conclusion: success
+    security_conclusion: success
+    classification: EXECUTED
+    note: workflow jobs checked out the exact remediation HEAD and completed successfully; this is execution evidence, not independent qualification approval
+
 not_yet_qualified:
-  - canonical_event_runtime_execution_evidence
-  - event_to_evidence_record_pipeline_execution
+  - independent_security_review
+  - independent_system_wide_negative_verification
   - F-02 canonical production composition
   - F-03 repository-wide mutation reachability
   - F-04 historical evidence revision reconciliation
@@ -30,8 +41,6 @@ not_yet_qualified:
   - V05-09 plugin_direct_mutation_bypass_rejected
   - V05-10 device_direct_mutation_bypass_rejected
   - V05-11 cloud_direct_mutation_bypass_rejected
-  - independent_security_review
-  - independent_system_wide_negative_verification
 
 qualification_rules:
   exact_sha_execution_required: true
