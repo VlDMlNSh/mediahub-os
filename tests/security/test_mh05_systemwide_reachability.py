@@ -13,15 +13,23 @@ FORBIDDEN_AUTHORITY_STORAGE = {
 }
 
 
+def _attribute_name(node):
+    return node.attr if isinstance(node, ast.Attribute) else None
+
+
 class TestMH05SystemwideReachability(unittest.TestCase):
     def test_only_composition_root_constructs_state_authority(self):
         offenders = []
         for path in RUNTIME.rglob("*.py"):
             tree = ast.parse(path.read_text(encoding="utf-8"))
             for node in ast.walk(tree):
-                if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "StateAuthority":
-                    if path != ALLOWED_CONSTRUCTOR_FILE:
-                        offenders.append(str(path.relative_to(ROOT)))
+                if isinstance(node, ast.Call):
+                    func = node.func
+                    direct = isinstance(func, ast.Name) and func.id == "StateAuthority"
+                    qualified = isinstance(func, ast.Attribute) and func.attr == "StateAuthority"
+                    if direct or qualified:
+                        if path != ALLOWED_CONSTRUCTOR_FILE:
+                            offenders.append(str(path.relative_to(ROOT)))
         self.assertEqual(offenders, [])
 
     def test_canonical_authority_storage_is_confined_to_authority_module(self):
@@ -44,6 +52,17 @@ class TestMH05SystemwideReachability(unittest.TestCase):
             for node in ast.walk(tree):
                 if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "restore":
                     offenders.append(str(path.relative_to(ROOT)))
+        self.assertEqual(offenders, [])
+
+    def test_canonical_authority_private_reads_are_not_exposed_as_secondary_state(self):
+        offenders = []
+        for path in RUNTIME.rglob("*.py"):
+            if path == AUTHORITY_FILE:
+                continue
+            tree = ast.parse(path.read_text(encoding="utf-8"))
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Attribute) and node.attr in FORBIDDEN_AUTHORITY_STORAGE and not isinstance(node.ctx, ast.Store):
+                    offenders.append(f"{path.relative_to(ROOT)}:{node.attr}")
         self.assertEqual(offenders, [])
 
     def test_consumer_boundary_has_no_direct_private_authority_mutation(self):
