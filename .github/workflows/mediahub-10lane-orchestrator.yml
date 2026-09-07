@@ -28,6 +28,11 @@ jobs:
           sparse-checkout: |
             ci-requirements.txt
           fetch-depth: 1
+      - name: Exclude toolchain checkout from R4 worktree status
+        run: |
+          set -euo pipefail
+          printf '%s\n' '.mh05-toolchain-source/' >> .git/info/exclude
+          test -z "$(git status --porcelain)"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
