@@ -2,7 +2,7 @@ version: "1.4"
 component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-remediation_head_sha: 25beac177319714eed3565b2b673fd5ee5cbf5b1
+remediation_head_sha: 5541c08fef8257368d06acd75b1f547659b4d804
 
 # This ledger is a remediation record, not qualification approval.
 # The immutable baseline remains the forensic qualification target.
@@ -25,7 +25,14 @@ execution_evidence:
     runtime_conclusion: success
     security_conclusion: success
     classification: EXECUTED
-    note: workflow jobs checked out the exact remediation HEAD and completed successfully; this is execution evidence, not independent qualification approval
+    note: code/test revision was checked out exactly; subsequent ledger-only HEAD is re-executed below
+  - exact_sha: 5541c08fef8257368d06acd75b1f547659b4d804
+    runtime_workflow: 34098385585
+    security_workflow: 34098385588
+    runtime_conclusion: success
+    security_conclusion: success
+    classification: EXECUTED
+    note: current branch HEAD includes the reconciled ledger and completed both MH-05 workflows
 
 not_yet_qualified:
   - independent_security_review
