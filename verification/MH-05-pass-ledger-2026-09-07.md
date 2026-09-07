@@ -3,63 +3,80 @@
 ## Control point
 - Repository: `VlDMlNSh/mediahub-os`
 - Branch: `remediation/mh05-r3-event-evidence`
-- Current implementation line: governed composition root + governed restore + system-wide negative audit + V05-05 test coverage
-- Current implementation HEAD at start of this pass: `0011d1936c972b745002c27b4393dd37fe8e0721`
-- Ledger reconciliation commit produced by this pass: `76ee68eee880b7e6784d2a140c52a72ea9825b4c`
+- Latest observed implementation/audit control point before this documentation commit: `0b38b26466097c8e29ff5722b343b518e0054a74`
+- This documentation reconciliation commit: `__CURRENT_COMMIT_SHA__` (populate from GitHub result; never infer)
 - Immutable forensic target: `25f7e3e50708d4bcad37fa712a5000dd2a7dea06`
 - Qualification: OPEN / NOT QUALIFIED
 - Production: NOT AUTHORIZED
 - MH-06: LOCKED
 
-## Passes completed in this continuation
+## Passes completed
 
 ### PASS A — exact HEAD reconciliation
-Confirmed the repository is the source of continuity for architecture, implementation, evidence, and development method. No forensic recovery was repeated.
+Repository branch and immutable forensic target rechecked. No forensic recovery repeated and no frozen baseline modified.
 
 ### PASS B — composition root
-Confirmed `runtime/mediahub_runtime/composition_root.py` constructs one `StateAuthority` and binds one `ConsumerBoundary`. Runtime coverage exists for composition and authorized mutation path.
+Confirmed a single governed construction point for `StateAuthority` with `ConsumerBoundary` bound to it. Runtime tests exist; current exact-SHA execution remains unobserved.
 
 ### PASS C — restore functional matrix
-`tests/runtime/test_mh05_restore.py` covers checkpoint round-trip, malformed checkpoint non-mutation, distinction between checkpoint token and AuthorizationContext, governed restore authorization, prefix-preserving history, and post-restore authorization enforcement.
+Restore tests cover checkpoint round-trip, malformed checkpoint non-mutation, distinction between checkpoint token and AuthorizationContext, dedicated restore authorization, prefix-preserving history, and post-restore authorization enforcement.
 
 ### PASS D — restore adversarial matrix
-`tests/security/test_mh05_restore_security.py` covers forged token rejection, valid-checkpoint/no-authorization rejection, malformed checkpoint rejection without mutation, unavailable-authority fail-closed behavior, and authority identity preservation.
+Restore security tests cover forged token rejection, valid checkpoint without authorization, malformed checkpoint, unavailable authority, and canonical authority identity preservation.
 
-### PASS E — fixture correction
-The unavailable-authority fixture captures the checkpoint before availability is disabled.
+### PASS E — restore fixture correction
+Unavailable-authority test captures the checkpoint before disabling availability, preventing a false negative fixture.
 
 ### PASS F — restore reachability governance
-`ConsumerBoundary.restore(request, checkpoint)` is the governed recovery surface. It requires explicit source/correlation request metadata and passes the actual AuthorizationContext to State Authority. Direct restore remains authorization-protected at the canonical authority.
+`ConsumerBoundary.restore(request, checkpoint)` is the governed recovery surface. Source/correlation request metadata and the real AuthorizationContext are propagated to State Authority.
 
 ### PASS G — restore history semantics
-Checkpoint/restore uses coherent checkpoint-prefix restoration. The checkpoint captures state, generation, version, sequence, canonical events, and processed-command history; restore validates that history and restores the coherent prefix without resetting event sequence.
+Checkpoint/restore preserves a coherent checkpoint prefix including state, generation, version, sequence, canonical event history and processed-command history. Restore does not clear history or reset sequence.
 
-### PASS H — policy safety review
-`restore` is excluded from ordinary `Command.operation` policy. Restore is a separate governed recovery API and cannot be silently represented as a normal set/delete command.
+### PASS H — policy safety
+Restore is excluded from ordinary `Command.operation` policy and remains a dedicated governed recovery API.
 
-### PASS I — V05-05 negative verification coverage
-`tests/security/test_mh05_health_not_authorization.py` proves that availability/readiness does not imply authorization and unavailable authority is a distinct fail-closed condition.
+### PASS I — V05-05
+Health/readiness/availability is explicitly tested as distinct from authorization; availability does not imply permission.
 
-### PASS J — qualification-ledger reconciliation
-The remediation ledger was reconciled to the then-current exact implementation/control point and explicitly retained `QUALIFICATION_OPEN`.
+### PASS J — ledger reconciliation
+Qualification status retained OPEN; historical execution evidence is preserved and never promoted to current-SHA evidence.
 
-## Qualification evidence rule
+### PASS K — continuation protocol v2.2
+Master continuation prompt now requires actual HEAD reconciliation, exact-SHA classification, no unsupported background-agent claims, GitHub-controlled model orchestration when an actual execution layer exists, and explicit current-tree execution before Release Gate.
 
-Implementation and test additions are not qualification evidence by themselves. Exact-SHA GitHub Actions execution evidence must be observed before an executable revision is classified as `EXECUTED`. Independent security and system-wide verification remain mandatory.
+### PASS L — strengthened F-03 audit
+Repository-local AST audit now detects direct and qualified `StateAuthority` construction, secondary canonical storage, secondary canonical private reads, unauthorized restore calls, and ConsumerBoundary private canonical mutation.
+
+### PASS M — qualification ledger v2.2
+Remediation ledger explicitly records current audit control point and distinguishes IMPLEMENTED_NOT_EXECUTED from EXECUTED evidence.
+
+## Execution evidence rule
+
+Implementation and tests are not qualification evidence until exact-SHA GitHub Actions execution is observed. `workflow_runs=[]` from the available commit workflow query is classified as EXECUTION EVIDENCE ABSENT; it is never a PASS.
+
+The last known successful executable evidence remains historical at:
+- `25beac177319714eed3565b2b673fd5ee5cbf5b1` — runtime/security success;
+- `5541c08fef8257368d06acd75b1f547659b4d804` — runtime `34098385585`, security `34098385588`, both success.
+
+These do not qualify later composition/restore/audit changes.
 
 ## Remaining blocking passes
 
-1. Observe exact-SHA runtime/security execution for the executable tree and reconcile the final control-point SHA.
-2. Obtain execution evidence for F-03 repository-wide negative audit and independent verification.
-3. Complete V05-06 through V05-11 only against product surfaces actually present in the repository; do not invent surfaces solely to satisfy a matrix.
-4. Reconcile F-04 historical evidence to current implementation SHA and current test evidence.
+1. Exact-SHA runtime/security execution for the final executable control point.
+2. F-03 execution evidence and independent system-wide negative verification.
+3. F-04 historical evidence reconciliation against current executable tree.
+4. V05-06 automation, V05-07 UI, V05-08 AI, V05-09 plugin, V05-10 device, V05-11 cloud — only where corresponding product surfaces actually exist; otherwise document NOT_APPLICABLE with repository evidence rather than inventing code.
 5. Independent security/red-team review.
-6. Independent system-wide negative review.
-7. Final evidence packet reconciliation.
-8. Release Gate decision; until then MH-05 remains NOT QUALIFIED.
+6. Final evidence packet reconciliation.
+7. Release Gate.
 
-## Development-method rule
+## Qualification decision
 
-Every material pass, implementation change, test change, qualification decision, and evidence reconciliation must be committed to GitHub. Chat context is not the project system of record; GitHub is.
+Until every mandatory gate is evidenced: `MH-05 = NOT QUALIFIED`, `Production = NOT AUTHORIZED`, `MH-06 = LOCKED`.
 
-External model execution remains subject to the repository's GitHub-controlled orchestration contract. No model output is authoritative for merge or qualification, and no secrets are stored in prompts, source, evidence, issues, or logs.
+## Development continuity
+
+GitHub is the project system of record. Every material implementation, test, evidence, review, and qualification decision must be committed. Chat context is not authoritative.
+
+External model orchestration is permitted only through a real configured execution layer. Model output is supporting/auditable evidence only and cannot independently merge or qualify. Secrets remain environment/secret-store only.
