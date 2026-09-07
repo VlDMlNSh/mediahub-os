@@ -1,10 +1,9 @@
-# MH-05 System-Wide Bypass Audit v1.0 — 2026-09-06
+# MH-05 System-Wide Bypass Audit v1.1 — 2026-09-07
 
-**Status:** OPEN / QUALIFICATION BLOCKER
-**Scope:** Consumer Boundary → State Authority authority path
-**Exact implementation HEAD:** `02cf173fd84d63243057183d55a30d9675590bf6`
-**Base branch:** `recovery/full-functional-spec`
-**Evidence classification:** automated/static supporting evidence; NOT independent qualification evidence
+**Status:** OPEN / QUALIFICATION BLOCKER  
+**Scope:** Consumer Boundary → State Authority authority path  
+**Control-point HEAD:** `ddf641a8d16224db270d0795bc04241f3a9d18f2`  
+**Evidence classification:** `STATIC_SUPPORT`; automated execution is supporting evidence only and is not independent qualification
 
 ## Objective
 
@@ -20,28 +19,24 @@ Determine whether repository consumers can mutate canonical state, emit authorit
 6. Remote/cloud/AI/plugin/device sources do not gain authorization from source classification alone.
 7. Failure of State Authority is fail-closed and non-mutating.
 
-## Current exact-HEAD supporting evidence
+## Exact-SHA supporting evidence
 
-- MH-05 dedicated runtime suite: SUCCESS on exact HEAD.
-- MH-05 adversarial authority-boundary audit: SUCCESS on exact HEAD.
-- MH-04 verification readiness: SUCCESS on exact HEAD.
-- Current implementation contains a single ConsumerBoundary ingress delegating mutation to the supplied StateAuthority; no boundary-local canonical state/event/checkpoint store is defined.
-- `ConsumerBoundary.execute()` validates request identity, authorization context, command identity, path bounds, payload bounds, and non-finite floats before invoking authority execution.
+The preceding implementation SHA `f205a4d8e2598543431f658a68dc9801a330a117` executed the MH-05 runtime suite (33/33) and full runtime regression (56/56), plus the MH-05 security/adversarial suite (19/19), all successfully. The current document commit itself is documentation-only; a fresh exact-SHA workflow run is required after this evidence update before final Release Gate consideration.
 
-## Independent qualification status
-
-- Repository-wide dynamic bypass verification: **NOT EXECUTED independently**.
-- Independent security/red-team verification: **OPEN**.
-- Therefore this document MUST NOT be interpreted as independent security approval or final qualification.
+The repository contains an AST reachability test that checks composition-root-only StateAuthority construction, canonical storage confinement, restore-call confinement, private authority reads, and direct ConsumerBoundary mutation storage.
 
 ## Findings
 
-**F-01 — Event source identity propagation:** OPEN observation. Current MH-04 Event model does not expose source identity as a dedicated event field; changing it would alter MH-04 semantics and is outside MH-05 scope.
+**F-01 — Event provenance boundary:** Runtime R3 now carries trusted source/correlation/causation provenance through the governed command/event path. Frozen MH-04 semantics are not altered merely to retrofit a dedicated source field into the historical Event contract.
 
-**F-02 — Python object encapsulation:** OPEN observation. ConsumerBoundary keeps the authority reference privately (`_authority`), but Python privacy is convention-level. Architectural assurance must therefore come from code review and negative tests.
+**F-02 — Python object encapsulation:** ConsumerBoundary keeps its authority reference privately. Python privacy is convention-level, so assurance must continue to rely on architectural composition, AST checks, runtime tests and independent review rather than the private name itself.
 
-**F-03 — System-wide consumer inventory:** OPEN. Repository-wide negative verification must enumerate every mutation-capable consumer before qualification can close.
+**F-03 — System-wide independent verification:** OPEN. Repository-local static/runtime evidence does not satisfy the independent system-wide negative verification gate. The independent reviewer must challenge the inventory and execute or independently substantiate the matrix against the exact final SHA.
+
+## Limitations
+
+This artifact does not establish independent penetration testing, production security, persistence correctness, HA, recovery expansion, installer/update security, or release qualification. Static absence is not equivalent to dynamic proof for unavailable external consumers.
 
 ## Disposition
 
-No qualification PASS is claimed. Findings F-01 through F-03 remain open until corresponding evidence exists. Persistence, HA, Recovery implementation, and Production remain unauthorized.
+**No qualification PASS is claimed.** F-03 remains an external blocking gate. Persistence, HA, Recovery expansion, Production and MH-06 remain unauthorized/locked.
