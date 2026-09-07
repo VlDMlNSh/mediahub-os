@@ -1,0 +1,152 @@
+name: MediaHub MH-05 Ten-Lane Orchestrator
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+concurrency:
+  group: mh05-ten-lane-orchestrator
+  cancel-in-progress: true
+jobs:
+  lane:
+    name: ${{ matrix.lane }}
+    runs-on: self-hosted
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [T0-identity, T0-clean, T1-authority, T1-contracts, T2-runtime-tests, T3-security, T4-ruff, T4-mypy, T4-compile, T4-diff]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
+          fetch-depth: 0
+      - name: Checkout downstream toolchain manifest
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          path: .mh05-toolchain-source
+          sparse-checkout: |
+            ci-requirements.txt
+          fetch-depth: 1
+      - name: Exclude toolchain checkout from R4 worktree status
+        run: |
+          set -euo pipefail
+          printf '%s\n' '.mh05-toolchain-source/' >> .git/info/exclude
+          test -z "$(git status --porcelain)"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned qualification toolchain
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --no-input -r .mh05-toolchain-source/ci-requirements.txt
+          python3 -m pytest --version
+          ruff --version
+          mypy --version
+      - name: Capture provenance start
+        env:
+          R4_SHA: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
+          R4_TREE: 2279612908135418b2b5448d598274ea6741deaa
+          R4_BRANCH: remediation/mh05-r4-alamo-quality
+          TOOLCHAIN_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          PROV_DIR="${RUNNER_TEMP}/mh05-provenance-${{ matrix.lane }}"
+          mkdir -p "$PROV_DIR"
+          T0=$(date +%s)
+          printf '%s\n' "$T0" > "$PROV_DIR/t0"
+          {
+            printf 'T0=%s\n' "$T0"
+            printf 'PID=%s\n' "$$"
+            printf 'WORKFLOW_REF=%s\n' "${GITHUB_REF:-UNKNOWN}"
+            printf 'WORKFLOW_SHA=%s\n' "${GITHUB_WORKFLOW_SHA:-UNKNOWN}"
+            printf 'R4_BRANCH=%s\n' "$R4_BRANCH"
+            printf 'SHA=%s\n' "$(git rev-parse HEAD)"
+            printf 'TREE=%s\n' "$(git rev-parse HEAD^{tree})"
+            printf 'EXPECTED_SHA=%s\n' "$R4_SHA"
+            printf 'EXPECTED_TREE=%s\n' "$R4_TREE"
+            printf 'DIRTY=%s\n' "$(git status --porcelain)"
+            printf 'TOOLCHAIN_REF=%s\n' "$TOOLCHAIN_REF"
+            printf 'TOOLCHAIN_SHA256=%s\n' "$(sha256sum .mh05-toolchain-source/ci-requirements.txt | cut -d' ' -f1)"
+            printf 'PYTHON_VERSION=%s\n' "$(python3 --version)"
+            printf 'PYTEST_VERSION=%s\n' "$(python3 -m pytest --version)"
+            printf 'RUFF_VERSION=%s\n' "$(ruff --version)"
+            printf 'MYPY_VERSION=%s\n' "$(mypy --version)"
+            printf 'CONTEXT=PR66-CI\n'
+            printf 'LANE=%s\n' "${{ matrix.lane }}"
+          } | tee "$PROV_DIR/start"
+          test -z "$(git status --porcelain)"
+      - name: Execute bounded lane
+        timeout-minutes: 59
+        env:
+          PYTHONPATH: runtime:.
+          R4_SHA: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
+          R4_TREE: 2279612908135418b2b5448d598274ea6741deaa
+        run: |
+          set +e
+          PROV_DIR="${RUNNER_TEMP}/mh05-provenance-${{ matrix.lane }}"
+          timeout --signal=TERM --kill-after=30s 3540s bash -euo pipefail -c '
+            test "$(git rev-parse HEAD)" = "$R4_SHA"
+            test "$(git rev-parse HEAD^{tree})" = "$R4_TREE"
+            test -z "$(git status --short)"
+            case "${{ matrix.lane }}" in
+              T0-identity) true ;;
+              T0-clean) true ;;
+              T1-authority) git grep -n "StateAuthority" -- runtime tests tools verification ;;
+              T1-contracts) python3 tools/validate_contracts.py ;;
+              T2-runtime-tests) python3 -m pytest -q ;;
+              T3-security) python3 -m pytest -q tests/security ;;
+              T4-ruff) ruff check runtime tests tools verification ;;
+              T4-mypy) mypy runtime ;;
+              T4-compile) python3 -m compileall -q runtime tests tools verification ;;
+              T4-diff) git diff --check ;;
+              *) echo "UNKNOWN_LANE" >&2; exit 64 ;;
+            esac
+          ' >"$PROV_DIR/output" 2>&1
+          rc=$?
+          printf 'RETURN_CODE=%s\n' "$rc" | tee "$PROV_DIR/result"
+          cat "$PROV_DIR/output"
+          exit "$rc"
+      - name: Finalize provenance and lifecycle classification
+        if: ${{ always() }}
+        env:
+          R4_SHA: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
+          R4_TREE: 2279612908135418b2b5448d598274ea6741deaa
+        run: |
+          set -euo pipefail
+          PROV_DIR="${RUNNER_TEMP}/mh05-provenance-${{ matrix.lane }}"
+          TEND=$(date +%s)
+          T0=$(cat "$PROV_DIR/t0")
+          RC=$(sed -n 's/^RETURN_CODE=//p' "$PROV_DIR/result" 2>/dev/null || printf 'NOT_EXECUTED')
+          SHA=$(git rev-parse HEAD)
+          TREE=$(git rev-parse HEAD^{tree})
+          DIRTY=$(git status --porcelain)
+          ELAPSED=$((TEND-T0))
+          CLASSIFICATION=PASS
+          if [ "$SHA" != "$R4_SHA" ] || [ "$TREE" != "$R4_TREE" ] || [ -n "$DIRTY" ]; then
+            CLASSIFICATION=INCONCLUSIVE
+          elif [ "$ELAPSED" -gt 3600 ]; then
+            CLASSIFICATION=FAIL
+          elif [ "$RC" = "NOT_EXECUTED" ]; then
+            CLASSIFICATION=INCONCLUSIVE
+          elif [ "$RC" != "0" ]; then
+            CLASSIFICATION=FAIL
+          fi
+          {
+            cat "$PROV_DIR/start"
+            printf 'TEND=%s\n' "$TEND"
+            printf 'ELAPSED_SECONDS=%s\n' "$ELAPSED"
+            printf 'FINAL_SHA=%s\n' "$SHA"
+            printf 'FINAL_TREE=%s\n' "$TREE"
+            printf 'FINAL_DIRTY=%s\n' "$DIRTY"
+            printf 'RETURN_CODE=%s\n' "$RC"
+            printf 'CLASSIFICATION=%s\n' "$CLASSIFICATION"
+            printf 'OUTPUT_BEGIN\n'
+            cat "$PROV_DIR/output" 2>/dev/null || true
+            printf 'OUTPUT_END\n'
+          } | tee "$PROV_DIR/final"
+          if [ "$CLASSIFICATION" != "PASS" ]; then exit 1; fi
+      - name: Publish provenance summary
+        if: ${{ always() }}
+        run: |
+          cat "${RUNNER_TEMP}/mh05-provenance-${{ matrix.lane }}/final" 2>/dev/null || true
