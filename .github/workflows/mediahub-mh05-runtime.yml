@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'dev/mh05/**'
+      - 'remediation/mh05-r3-event-evidence'
   pull_request:
     branches:
       - 'recovery/full-functional-spec'
@@ -30,10 +31,14 @@ jobs:
           grep -q 'ACCEPTED / IMPLEMENTATION AUTHORIZED' governance/MH-05-IMPLEMENTATION-AUTHORIZATION-2026-09-06.md
           grep -q 'does NOT authorize' governance/MH-05-IMPLEMENTATION-AUTHORIZATION-2026-09-06.md
           grep -q 'Consumer Boundary' architecture/MH-05-consumer-boundary-contract-v1.0.md || true
-      - name: Run MH-05 tests
+      - name: Run MH-05 runtime tests
         env:
           PYTHONPATH: runtime
         run: python3 -m unittest discover -s tests/runtime -p 'test_mh05_*.py' -v
+      - name: Run full runtime regression
+        env:
+          PYTHONPATH: runtime
+        run: python3 -m unittest discover -s tests/runtime -p 'test_*.py' -v
       - name: Record exact verification identity
         run: |
           echo "checked_out_commit=$(git rev-parse HEAD)"
@@ -42,3 +47,4 @@ jobs:
           echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
           echo "workflow_run=${GITHUB_RUN_ID}"
           python3 --version
+          echo 'qualification=EXECUTION_EVIDENCE_ONLY_NOT_APPROVAL'
