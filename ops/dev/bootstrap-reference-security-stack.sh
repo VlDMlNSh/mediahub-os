@@ -2,9 +2,7 @@
 set -euo pipefail
 
 # MediaHub reference development host bootstrap.
-# This script is intentionally fail-closed: privileged package installation is
-# explicit and interactive; it never accepts or stores a password or secret.
-
+# Privileged installation is interactive and never accepts/stores passwords.
 readonly VENV="${HOME}/.venvs/mediahub-dev"
 readonly CONFIG_DIR="${HOME}/.config/mediahub"
 readonly TOOLCHAIN_FILE="${CONFIG_DIR}/dev-toolchain.env"
@@ -20,9 +18,7 @@ need_root() {
 install_system_packages() {
   need_root
   sudo apt-get update
-  sudo apt-get install -y --no-install-recommends \
-    python3.12-venv python3-pip pipx \
-    jq ripgrep fd-find shellcheck shfmt pre-commit age
+  sudo apt-get install -y --no-install-recommends python3.12-venv python3-pip pipx jq ripgrep fd-find shellcheck shfmt pre-commit age
 }
 
 install_python_stack() {
@@ -52,6 +48,7 @@ verify() {
   shfmt --version
   pre-commit --version
   age --version
+  (cd /home/mediahub/mediahub-os && PYTHONPATH=runtime:. python3 -m unittest discover -s tests -t . -p 'test_*.py' -q)
 }
 
 install_system_packages
