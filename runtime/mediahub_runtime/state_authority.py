@@ -69,26 +69,14 @@ class StateAuthority:
             self._require(); self._validate(command)
             if command.command_id in self._processed: raise DuplicateCommand(command.command_id)
             self._authorize(command)
+            self._validate_causation(command)
             if command.expected_generation is not None and command.expected_generation != self._generation:
                 raise ConflictDetected("stale generation")
             candidate=deepcopy(self._state)
             if command.operation=="set": self._set(candidate,command.path,deepcopy(command.value))
             elif command.operation=="delete": self._delete(candidate,command.path)
             self._state=candidate; self._generation+=1; self._version+=1; self._sequence+=1
-            event=Event(
-                self._sequence,
-                f"evt-{self._sequence:012d}",
-                command.command_id,
-                command.correlation_id,
-                command.operation,
-                command.path,
-                self._generation,
-                self._version,
-                self._digest(self._state),
-                command.source_identity,
-                command.causation_id,
-                datetime.now(timezone.utc).isoformat(),
-            )
+            event=Event(self._sequence,f"evt-{self._sequence:012d}",command.command_id,command.correlation_id,command.operation,command.path,self._generation,self._version,self._digest(self._state),command.source_identity,command.causation_id,datetime.now(timezone.utc).isoformat())
             self._events.append(event); self._processed[command.command_id]=event; observers=tuple(self._observers)
         for observer in observers: observer(event)
         return event
@@ -108,8 +96,11 @@ class StateAuthority:
     def _validate(self,c):
         if not isinstance(c,Command) or not c.command_id or not c.correlation_id: raise InvalidCommand("command identity required")
         if c.operation not in self._policy or not c.path or any(not isinstance(x,str) or not x for x in c.path): raise InvalidCommand("invalid command")
-        if c.source_identity and not isinstance(c.source_identity,str): raise InvalidCommand("invalid source identity")
+        if not isinstance(c.source_identity,str) or not c.source_identity: raise InvalidCommand("source identity required")
         if c.causation_id is not None and (not isinstance(c.causation_id,str) or not c.causation_id): raise InvalidCommand("invalid causation id")
+    def _validate_causation(self,c):
+        if c.causation_id is None: return
+        if not any(event.event_id == c.causation_id for event in self._events): raise InvalidCommand("causation event not found")
     def _authorize(self,c):
         a=c.authorization
         if a is None or not a.authenticated or not self._policy[c.operation].issubset(a.permissions): raise AuthorizationDenied("authorization denied")
@@ -131,14 +122,9 @@ class StateAuthority:
         del cur[path[-1]]
     @classmethod
     def _canonicalize(cls, value):
-        if isinstance(value,dict):
-            return tuple((str(k), cls._canonicalize(v)) for k,v in sorted(value.items(), key=lambda item: str(item[0])))
-        if isinstance(value,(list,tuple)):
-            return tuple(cls._canonicalize(v) for v in value)
-        if isinstance(value,set):
-            return tuple(sorted((cls._canonicalize(v) for v in value), key=repr))
+        if isinstance(value,dict): return tuple((str(k),cls._canonicalize(v)) for k,v in sorted(value.items(),key=lambda item:str(item[0])))
+        if isinstance(value,(list,tuple)): return tuple(cls._canonicalize(v) for v in value)
+        if isinstance(value,set): return tuple(sorted((cls._canonicalize(v) for v in value),key=repr))
         return value
     @classmethod
-    def _digest(cls,state):
-        canonical=repr(cls._canonicalize(state)).encode("utf-8")
-        return sha256(canonical).hexdigest()
+    def _digest(cls,state): return sha256(repr(cls._canonicalize(state)).encode("utf-8")).hexdigest()
