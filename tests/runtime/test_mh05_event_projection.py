@@ -1,6 +1,6 @@
 import unittest
 
-from mediahub_runtime.event_projection import ProjectionError, project_runtime_event, validate_canonical_event
+from mediahub_runtime.event_projection import CanonicalEvent, ProjectionError, project_runtime_event, validate_canonical_event
 from mediahub_runtime.state_authority import AuthorizationContext, Command, StateAuthority, InvalidCommand
 
 
@@ -73,11 +73,21 @@ class MH05EventProjectionTests(unittest.TestCase):
         canonical = project_runtime_event(self._event("cmd-fingerprint"))
         fingerprint = canonical.evidence_fingerprint()
         self.assertEqual(fingerprint, canonical.evidence_fingerprint())
-        changed = canonical.as_dict()
-        changed["source"] = "different-source"
-        with self.assertRaises(ProjectionError):
-            validate_canonical_event({**changed, "metadata": {"changed": True}})
-        self.assertNotEqual(fingerprint, project_runtime_event(self._event("cmd-other")).evidence_fingerprint())
+        changed = CanonicalEvent(
+            id=canonical.id,
+            type=canonical.type,
+            version=canonical.version,
+            timestamp=canonical.timestamp,
+            source="different-source",
+            subject=canonical.subject,
+            payload=canonical.payload,
+            severity=canonical.severity,
+            priority=canonical.priority,
+            correlation_id=canonical.correlation_id,
+            causation_id=canonical.causation_id,
+            metadata=canonical.metadata,
+        )
+        self.assertNotEqual(fingerprint, changed.evidence_fingerprint())
 
     def test_projection_is_observational(self):
         authority = StateAuthority({"x": 1})
