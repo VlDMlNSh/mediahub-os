@@ -1,31 +1,31 @@
-# MH-05 V05-06…V05-11 Surface Applicability
+# MH-05 V05-06…V05-11 Surface Applicability v1.1
 
 Date: 2026-09-07
-Inspected SHA: `14b5ea6d629087f20dde29866478086bc68d2af4`
+Branch: `remediation/mh05-r3-event-evidence`
+Inspection basis: `1564559f7150e9d02efc34c0523ee22b21b75d5b`
+Classification: `STATIC_SUPPORT`; not independent qualification
 
 ## Decision
 
-At the qualified MH-05 runtime boundary represented by this SHA, V05-06…V05-11 are **NOT_APPLICABLE**, not failed and not satisfied by invention.
+For the MH-05 runtime boundary represented by the inspected tree, V05-06…V05-11 are **NOT_APPLICABLE** rather than PASS. No implementation is invented merely to satisfy a gate identifier.
 
 | Gate | Surface | Status | Basis |
 |---|---|---|---|
-| V05-06 | automation direct mutation bypass | NOT_APPLICABLE | No automation implementation surface is present in the qualified runtime tree. |
-| V05-07 | UI direct mutation bypass | NOT_APPLICABLE | No UI implementation surface is present in the qualified runtime tree. |
-| V05-08 | AI direct mutation bypass | NOT_APPLICABLE | No AI implementation surface is present in the qualified runtime tree. |
-| V05-09 | plugin direct mutation bypass | NOT_APPLICABLE | No plugin implementation surface is present in the qualified runtime tree. |
-| V05-10 | device direct mutation bypass | NOT_APPLICABLE | No device implementation surface is present in the qualified runtime tree. |
-| V05-11 | cloud direct mutation bypass | NOT_APPLICABLE | No cloud implementation surface is present in the qualified runtime tree. |
+| V05-06 | automation direct mutation bypass | NOT_APPLICABLE | No executable automation implementation surface is present in the current runtime tree. |
+| V05-07 | UI direct mutation bypass | NOT_APPLICABLE | No executable UI implementation surface is present in the current runtime tree. |
+| V05-08 | AI direct mutation bypass | NOT_APPLICABLE | No executable AI implementation surface is present in the current runtime tree. |
+| V05-09 | plugin direct mutation bypass | NOT_APPLICABLE | No executable plugin implementation surface is present in the current runtime tree. |
+| V05-10 | device direct mutation bypass | NOT_APPLICABLE | No executable device implementation surface is present in the current runtime tree. |
+| V05-11 | cloud direct mutation bypass | NOT_APPLICABLE | No executable cloud implementation surface is present in the current runtime tree. |
 
-## Repository evidence
+## Scope interpretation
 
-The inspected repository root at the exact SHA contains architecture, contracts, development, docs, governance, planning, recovery, runtime and schemas/security areas; the executable runtime boundary is under `runtime/mediahub_runtime`. The runtime workflow and adversarial audit execute against this SHA. The adversarial audit explicitly records persistence, HA and production as not authorized.
-
-The runtime implementation is therefore being qualified as a governed runtime boundary, not as an implemented UI/AI/plugin/device/cloud/automation product surface. The continuation rules explicitly prohibit inventing implementation merely to satisfy these identifiers.
+The repository contains architecture/contracts/docs for these future consumer domains, but the executable MH-05 implementation under qualification is the Python runtime boundary in `runtime/mediahub_runtime`. The mandatory rule is therefore to qualify the implemented runtime scope and keep absent future surfaces out of the current implementation gate.
 
 ## Limitation
 
-This is a repository-scope applicability determination, not an independent security review. Any future introduction of one of these surfaces requires a new gate applicability assessment and new exact-SHA negative verification.
+This applicability decision is not an independent security review. Introduction of any executable UI, AI, plugin, device, cloud or automation mutation surface requires a new applicability assessment and exact-SHA negative verification before that surface can be considered governed.
 
 ## Status
 
-Evidence recorded. No code change required. MH-05 remains `QUALIFICATION_OPEN` pending the independent review and final evidence/release gate requirements.
+Evidence recorded as `STATIC_SUPPORT`. MH-05 remains `QUALIFICATION_OPEN` pending fresh exact-SHA execution after documentation reconciliation, independent security review, independent system-wide negative verification, final evidence completeness and Release Gate.
