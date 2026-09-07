@@ -1,7 +1,9 @@
 import unittest
+
 from runtime.mediahub_runtime.state_authority import *
 
 AUTH=AuthorizationContext("operator",True,frozenset({"state.write"}))
+RESTORE_AUTH=AuthorizationContext("operator",True,frozenset({"state.restore"}))
 
 def cmd(i,op="set",path=("devices","lamp"),value=True,gen=None,auth=AUTH):
     return Command(i,"corr-"+i,op,path,value,gen,auth)
@@ -34,9 +36,9 @@ class StateAuthorityTests(unittest.TestCase):
         with self.assertRaises(AuthorityUnavailable): sa.read()
     def test_checkpoint_token_and_restore(self):
         sa=StateAuthority(); sa.execute(cmd("c9")); checkpoint=sa.checkpoint(); sa.execute(cmd("c10",path=("x",),value=1))
-        sa.restore(checkpoint); self.assertEqual(sa.read()["devices"]["lamp"],True); self.assertNotIn("x",sa.read())
-        forged=("wrong",{},0,0)
-        with self.assertRaises(AuthorizationDenied): sa.restore(forged)
+        sa.restore(checkpoint, RESTORE_AUTH); self.assertEqual(sa.read()["devices"]["lamp"],True); self.assertNotIn("x",sa.read())
+        forged=("wrong",{},0,0,0,(),())
+        with self.assertRaises(AuthorizationDenied): sa.restore(forged, RESTORE_AUTH)
     def test_read_returns_copy_not_authority(self):
         sa=StateAuthority({"x":{"y":1}}); view=sa.read(); view["x"]["y"]=99
         self.assertEqual(sa.read()["x"]["y"],1)

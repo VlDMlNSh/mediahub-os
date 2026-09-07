@@ -1,10 +1,10 @@
-# MH-05 System-Wide Bypass Audit v1.0 — 2026-09-06
+# MH-05 System-Wide Bypass Audit v1.2 — 2026-09-07
 
-**Status:** OPEN / QUALIFICATION BLOCKER
-**Scope:** Consumer Boundary → State Authority authority path
-**Exact implementation HEAD:** `02cf173fd84d63243057183d55a30d9675590bf6`
-**Base branch:** `recovery/full-functional-spec`
-**Evidence classification:** automated/static supporting evidence; NOT independent qualification evidence
+**Status:** OPEN / QUALIFICATION BLOCKER  
+**Scope:** Consumer Boundary → State Authority authority path  
+**Current control point:** GitHub PR HEAD; reconcile exact SHA before qualification  
+**Last inspected executable checkpoint:** `69eb355b2d31a92be7cf108427f97d5cce99b61f`  
+**Evidence classification:** `STATIC_SUPPORT`; automated execution is supporting evidence only and is not independent qualification
 
 ## Objective
 
@@ -20,28 +20,24 @@ Determine whether repository consumers can mutate canonical state, emit authorit
 6. Remote/cloud/AI/plugin/device sources do not gain authorization from source classification alone.
 7. Failure of State Authority is fail-closed and non-mutating.
 
-## Current exact-HEAD supporting evidence
+## Supporting evidence
 
-- MH-05 dedicated runtime suite: SUCCESS on exact HEAD.
-- MH-05 adversarial authority-boundary audit: SUCCESS on exact HEAD.
-- MH-04 verification readiness: SUCCESS on exact HEAD.
-- Current implementation contains a single ConsumerBoundary ingress delegating mutation to the supplied StateAuthority; no boundary-local canonical state/event/checkpoint store is defined.
-- `ConsumerBoundary.execute()` validates request identity, authorization context, command identity, path bounds, payload bounds, and non-finite floats before invoking authority execution.
+At checkpoint `69eb355b2d31a92be7cf108427f97d5cce99b61f`, GitHub Actions recorded 33/33 MH-05 runtime tests, 56/56 full runtime regression and 19/19 adversarial security tests successfully. These are `EXECUTED` supporting evidence only.
 
-## Independent qualification status
-
-- Repository-wide dynamic bypass verification: **NOT EXECUTED independently**.
-- Independent security/red-team verification: **OPEN**.
-- Therefore this document MUST NOT be interpreted as independent security approval or final qualification.
+The repository contains an AST reachability test covering composition-root-only StateAuthority construction, canonical storage confinement, restore-call confinement, private authority reads, and direct ConsumerBoundary mutation storage.
 
 ## Findings
 
-**F-01 — Event source identity propagation:** OPEN observation. Current MH-04 Event model does not expose source identity as a dedicated event field; changing it would alter MH-04 semantics and is outside MH-05 scope.
+**F-01 — Event provenance boundary:** Runtime R3 carries trusted source/correlation/causation provenance through the governed command/event path.
 
-**F-02 — Python object encapsulation:** OPEN observation. ConsumerBoundary keeps the authority reference privately (`_authority`), but Python privacy is convention-level. Architectural assurance must therefore come from code review and negative tests.
+**F-02 — Python object encapsulation:** ConsumerBoundary keeps its authority reference privately. Python privacy is convention-level; assurance relies on composition, AST checks, runtime tests and independent review.
 
-**F-03 — System-wide consumer inventory:** OPEN. Repository-wide negative verification must enumerate every mutation-capable consumer before qualification can close.
+**F-03 — System-wide independent verification:** OPEN. Repository-local static/runtime evidence does not satisfy the independent system-wide negative verification gate. The independent reviewer must challenge the inventory and execute or independently substantiate the matrix against the exact final SHA.
+
+## Limitations
+
+This artifact does not establish independent penetration testing, production security, persistence correctness, HA, recovery expansion, installer/update security, or release qualification. Static absence is not equivalent to dynamic proof for unavailable external consumers.
 
 ## Disposition
 
-No qualification PASS is claimed. Findings F-01 through F-03 remain open until corresponding evidence exists. Persistence, HA, Recovery implementation, and Production remain unauthorized.
+**No qualification PASS is claimed.** F-03 remains an external blocking gate. Persistence, HA, Recovery expansion, Production and MH-06 remain unauthorized/locked. This document must not assert a stale branch HEAD as the current qualification target.

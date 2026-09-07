@@ -4,9 +4,9 @@ import math
 from dataclasses import dataclass
 
 from .state_authority import (
+    AuthorityUnavailable,
     AuthorizationContext,
     AuthorizationDenied,
-    AuthorityUnavailable,
     Command,
     ConflictDetected,
     DuplicateCommand,
@@ -48,6 +48,8 @@ class ConsumerBoundary:
             raise TypeError("authority must expose execute")
         if not callable(getattr(authority, "read", None)):
             raise TypeError("authority must expose read")
+        if not callable(getattr(authority, "restore", None)):
+            raise TypeError("authority must expose restore")
         self._authority = authority
 
     @classmethod
@@ -65,6 +67,19 @@ class ConsumerBoundary:
             return self._authority.read()
         except AuthorityUnavailable as exc:
             raise ConsumerBoundaryError("authority_unavailable") from exc
+
+    def restore(self, request, checkpoint):
+        self._validate_request(request)
+        try:
+            return self._authority.restore(checkpoint, request.authorization)
+        except AuthorizationDenied as exc:
+            raise ConsumerBoundaryError("authorization_denied") from exc
+        except InvalidCommand as exc:
+            raise ConsumerBoundaryError("invalid_command") from exc
+        except AuthorityUnavailable as exc:
+            raise ConsumerBoundaryError("authority_unavailable") from exc
+        except Exception as exc:
+            raise ConsumerBoundaryError("operation_rejected") from exc
 
     def execute(self, request, operation, path, value=None, expected_generation=None, command_id=None):
         self._validate_request(request)

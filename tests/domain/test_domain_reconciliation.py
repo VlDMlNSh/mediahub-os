@@ -98,17 +98,3 @@ class DomainReconciliationTests(unittest.TestCase):
         self.assertIn("causation_id", required)
 
 
-
-    def test_event_is_immutable_fact_boundary(self):
-        event = load("event.schema.json")
-
-        required = set(event["required"])
-
-        self.assertIn("id", required)
-        self.assertIn("timestamp", required)
-        self.assertIn("subject", required)
-        self.assertIn("payload", required)
-        self.assertIn("correlation_id", required)
-        self.assertIn("causation_id", required)
-
-
