@@ -1,0 +1,49 @@
+version: "1.1"
+component: MH-05 Consumer Boundary
+status: QUALIFICATION_OPEN
+baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
+remediation_head_sha: 330f029ff3caaff904bcd512cb581c8a47e469e0
+
+# This ledger is a remediation record, not qualification approval.
+# The immutable baseline remains the forensic qualification target.
+
+closed_or_remediated:
+  - F-01A: trusted source_identity is propagated from Command into Runtime Event and canonical Event
+  - F-01B: explicit Runtime Event -> Canonical Event projection boundary exists
+  - F-06A: source provenance continuity is represented in the projection path
+  - F-06B: correlation and causation continuity is represented; causation references must resolve to a prior runtime event
+  - F-06C: canonical event has deterministic evidence fingerprint binding
+
+new_runtime_guards:
+  - canonical_event_key_set_validation
+  - canonical_event_timestamp_validation
+  - canonical_event_priority_validation
+  - canonical_event_severity_validation
+  - causation_reference_integrity
+  - provenance_substitution_rejection
+
+not_yet_qualified:
+  - canonical_event_runtime_execution_evidence
+  - event_to_evidence_record_pipeline_execution
+  - F-02 canonical production composition
+  - F-03 repository-wide mutation reachability
+  - F-04 historical evidence revision reconciliation
+  - F-05A restore authorization and reachability
+  - F-05B restore history semantics
+  - V05-05 health_does_not_imply_authorization
+  - V05-07 ui_direct_mutation_bypass_rejected
+  - V05-08 ai_direct_mutation_bypass_rejected
+  - V05-09 plugin_direct_mutation_bypass_rejected
+  - V05-10 device_direct_mutation_bypass_rejected
+  - V05-11 cloud_direct_mutation_bypass_rejected
+  - independent_security_review
+  - independent_system_wide_negative_verification
+
+qualification_rules:
+  exact_sha_execution_required: true
+  independent_security_review_required: true
+  independent_system_wide_negative_verification_required: true
+  production_authorization: false
+  persistence_authorization: false
+  ha_authorization: false
+  recovery_expansion_authorization: false
