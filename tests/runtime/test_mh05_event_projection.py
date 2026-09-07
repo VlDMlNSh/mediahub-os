@@ -69,23 +69,42 @@ class MH05EventProjectionTests(unittest.TestCase):
         with self.assertRaises(ProjectionError):
             validate_canonical_event(dict(event, priority=-1))
 
+    def test_canonical_event_is_recursively_immutable(self):
+        canonical = CanonicalEvent(
+            id="evt-immutable", type="state.set", version="1.0", timestamp="2026-09-07T00:00:00+00:00",
+            source="test", subject="state:x", payload={"nested": {"items": [1, 2]}}, severity="INFO",
+            priority=0, correlation_id="corr", causation_id=None, metadata={"nested": {"flag": True}},
+        )
+        with self.assertRaises(TypeError):
+            canonical.payload["nested"] = {}
+        with self.assertRaises(TypeError):
+            canonical.payload["nested"]["items"] = ()
+        with self.assertRaises(TypeError):
+            canonical.payload["nested"]["items"][0] = 9
+        with self.assertRaises(TypeError):
+            canonical.metadata["nested"]["flag"] = False
+
+    def test_event_representation_is_detached_from_canonical_event(self):
+        canonical = CanonicalEvent(
+            id="evt-detached", type="state.set", version="1.0", timestamp="2026-09-07T00:00:00+00:00",
+            source="test", subject="state:x", payload={"nested": {"value": 1}}, severity="INFO",
+            priority=0, correlation_id="corr", causation_id=None, metadata={"command_id": "cmd"},
+        )
+        representation = canonical.as_dict()
+        representation["payload"]["nested"]["value"] = 99
+        representation["metadata"]["command_id"] = "tampered"
+        self.assertEqual(canonical.payload["nested"]["value"], 1)
+        self.assertEqual(canonical.metadata["command_id"], "cmd")
+
     def test_evidence_fingerprint_is_deterministic_and_event_bound(self):
         canonical = project_runtime_event(self._event("cmd-fingerprint"))
         fingerprint = canonical.evidence_fingerprint()
         self.assertEqual(fingerprint, canonical.evidence_fingerprint())
         changed = CanonicalEvent(
-            id=canonical.id,
-            type=canonical.type,
-            version=canonical.version,
-            timestamp=canonical.timestamp,
-            source="different-source",
-            subject=canonical.subject,
-            payload=canonical.payload,
-            severity=canonical.severity,
-            priority=canonical.priority,
-            correlation_id=canonical.correlation_id,
-            causation_id=canonical.causation_id,
-            metadata=canonical.metadata,
+            id=canonical.id, type=canonical.type, version=canonical.version, timestamp=canonical.timestamp,
+            source="different-source", subject=canonical.subject, payload=canonical.payload,
+            severity=canonical.severity, priority=canonical.priority, correlation_id=canonical.correlation_id,
+            causation_id=canonical.causation_id, metadata=canonical.metadata,
         )
         self.assertNotEqual(fingerprint, changed.evidence_fingerprint())
 
