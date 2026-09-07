@@ -2,7 +2,7 @@ import unittest
 
 from mediahub_runtime.composition_root import build_runtime, canonical_authority
 from mediahub_runtime.consumer_boundary import ConsumerBoundary
-from mediahub_runtime.state_authority import StateAuthority
+from mediahub_runtime.state_authority import AuthorizationContext, StateAuthority
 
 
 class TestMH05CompositionRoot(unittest.TestCase):
@@ -18,9 +18,7 @@ class TestMH05CompositionRoot(unittest.TestCase):
         graph = build_runtime()
         request = graph["consumer_boundary"].request(
             "prototype-ui", "corr-1",
-            __import__("mediahub_runtime.state_authority", fromlist=["AuthorizationContext"]).AuthorizationContext(
-                "tester", True, frozenset({"state.write"})
-            ),
+            AuthorizationContext("tester", True, frozenset({"state.write"})),
         )
         event = graph["consumer_boundary"].execute(
             request, "set", ("demo",), "ok", command_id="cmd-1"
