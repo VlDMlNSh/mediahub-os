@@ -3,7 +3,7 @@ component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
 current_control_point_rule: github_pr_head
-last_inspected_executable_checkpoint: 69eb355b2d31a92be7cf108427f97d5cce99b61f
+last_inspected_executable_checkpoint: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
 
 # Remediation record, not qualification approval.
 # GitHub PR HEAD plus observed exact-SHA workflow evidence remains authoritative.
@@ -44,11 +44,20 @@ execution_evidence:
     runtime_result: 33/33 MH-05; 56/56 full regression
     security_result: 19/19 adversarial
     checkout_identity: exact_sha_verified
+    classification: HISTORICAL_EXECUTED
+    note: predecessor checkpoint; does not qualify later commits
+  - exact_sha: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
+    runtime_workflow: 34143904463
+    security_workflow: 34143904462
+    runtime_conclusion: success
+    security_conclusion: success
+    runtime_result: exact-SHA workflow success; full runtime regression executed
+    security_result: 19/19 adversarial
+    checkout_identity: exact_sha_verified
     classification: EXECUTED
-    note: predecessor checkpoint; does not qualify later documentation commits
+    note: current R4 implementation checkpoint; independent review remains outstanding
 
 not_yet_qualified:
-  - fresh_exact_sha_execution_for_current_pr_head
   - independent_security_review
   - independent_system_wide_negative_verification
   - final_evidence_packet
