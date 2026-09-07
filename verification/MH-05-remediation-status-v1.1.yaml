@@ -1,11 +1,12 @@
-version: "1.7"
+version: "1.8"
 component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-remediation_head_sha: 457199fef5555727cf5c476e131932bb8cc2483a
+remediation_head_sha: e293e6e6012e76cf4cf4203dd32a456dc8208a66
 
 # This ledger is a remediation record, not qualification approval.
 # The immutable baseline remains the forensic qualification target.
+# GitHub commit SHA plus observed executable workflow evidence remains authoritative.
 
 closed_or_remediated:
   - F-01A: trusted source_identity is propagated from Command into Runtime Event and canonical Event projection
@@ -18,8 +19,11 @@ closed_or_remediated:
   - R3-IMMUTABILITY: CanonicalEvent payload and metadata are recursively frozen; detached serialization cannot mutate the event
   - CI-R3: remediation branch explicitly triggers MH-05 runtime and security workflows
   - F-02-PROTOTYPE: governed runtime composition root constructs exactly one StateAuthority and binds ConsumerBoundary to it
-  - F-05-TEST-MATRIX: restore checkpoint functional and adversarial tests added; forged and malformed restore inputs are non-mutating and unavailable authority fails closed
-  - F-03-AUDIT: repository-wide runtime AST audit added to constrain StateAuthority construction, canonical storage, restore reachability, and ConsumerBoundary private mutation
+  - F-05-TEST-MATRIX: restore checkpoint functional and adversarial tests cover malformed/forged input, unavailable authority, dedicated restore authorization, and prefix-preserving history
+  - F-05A-REMEDIATED: restore now requires an explicit authenticated AuthorizationContext with state.restore permission and is exposed through a governed ConsumerBoundary restore surface carrying source/correlation request metadata
+  - F-05B-REMEDIATED: checkpoint captures canonical event/processed history and restore restores the checkpoint prefix instead of clearing history or resetting sequence
+  - F-03-AUDIT: repository-wide runtime AST audit constrains StateAuthority construction, canonical storage, restore reachability, and ConsumerBoundary private mutation
+  - V05-05-TEST: availability/readiness and authorization are tested as distinct controls; available state without authorization is denied and unavailable state is not classified as authorization denial
 
 execution_evidence:
   - exact_sha: 25beac177319714eed3565b2b673fd5ee5cbf5b1
@@ -42,20 +46,25 @@ execution_evidence:
     runtime_conclusion: not_observed
     security_conclusion: not_observed
     classification: IMPLEMENTED_NOT_EXECUTED
-    note: current continuation includes composition, restore and repository-wide reachability tests; execution evidence must be observed through GitHub Actions before classification changes
+    note: repository-wide reachability audit revision; no observed PR-triggered workflow evidence
+  - exact_sha: e293e6e6012e76cf4cf4203dd32a456dc8208a66
+    runtime_workflow: null
+    security_workflow: null
+    runtime_conclusion: not_observed
+    security_conclusion: not_observed
+    classification: IMPLEMENTED_NOT_EXECUTED
+    note: current head contains governed restore authorization/reachability/history remediation and V05-05 test; execution evidence must be observed through GitHub Actions before classification changes
 
 not_yet_qualified:
   - independent_security_review
   - independent_system_wide_negative_verification
   - F-04 historical evidence revision reconciliation
-  - F-05A restore authorization and reachability
-  - F-05B restore history semantics
-  - V05-05 health_does_not_imply_authorization
   - V05-07 ui_direct_mutation_bypass_rejected
   - V05-08 ai_direct_mutation_bypass_rejected
   - V05-09 plugin_direct_mutation_bypass_rejected
   - V05-10 device_direct_mutation_bypass_rejected
   - V05-11 cloud_direct_mutation_bypass_rejected
+  - V05-06 automation_direct_mutation_bypass_rejected
 
 qualification_rules:
   exact_sha_execution_required: true
