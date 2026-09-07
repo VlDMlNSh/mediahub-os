@@ -2,104 +2,53 @@ version: "2.3"
 component: MH-05 Consumer Boundary
 status: QUALIFICATION_OPEN
 baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-remediation_head_sha: 14b5ea6d629087f20dde29866478086bc68d2af4
+current_control_point_rule: github_pr_head
+last_inspected_executable_checkpoint: 69eb355b2d31a92be7cf108427f97d5cce99b61f
 
-# This ledger is a remediation record, not qualification approval.
-# The immutable baseline remains the forensic qualification target.
-# GitHub commit SHA plus observed executable workflow evidence remains authoritative.
+# Remediation record, not qualification approval.
+# GitHub PR HEAD plus observed exact-SHA workflow evidence remains authoritative.
 
 closed_or_remediated:
-  - F-01A: trusted source_identity is propagated from Command into Runtime Event and canonical Event projection
-  - F-01B: explicit Runtime Event -> Canonical Event projection boundary exists
-  - F-06A: source provenance continuity is represented in the projection path
-  - F-06B: correlation and causation continuity is represented; causation references must resolve to a prior runtime event
-  - F-06C: canonical event has deterministic evidence fingerprint binding
-  - R3: observational evidence-record builder binds emitted canonical Event identity and fingerprint
-  - R3-AUTH: evidence builder requires and serializes the real AuthorizationContext; placeholder attribution removed
-  - R3-IMMUTABILITY: CanonicalEvent payload and metadata are recursively frozen; detached serialization cannot mutate the event
-  - CI-R3: remediation branch explicitly triggers MH-05 runtime and security workflows
-  - F-02-PROTOTYPE: governed runtime composition root constructs exactly one StateAuthority and binds ConsumerBoundary to it
-  - F-05-TEST-MATRIX: restore checkpoint functional and adversarial tests cover malformed/forged input, unavailable authority, dedicated restore authorization, and prefix-preserving history
-  - F-05A-REMEDIATED: restore requires explicit authenticated AuthorizationContext with state.restore permission and is exposed through governed ConsumerBoundary restore surface carrying source/correlation request metadata
-  - F-05B-REMEDIATED: checkpoint captures canonical event/processed history and restore restores the checkpoint prefix without clearing history or resetting sequence
-  - F-03-AUDIT: repository-wide runtime AST audit constrains StateAuthority construction, canonical storage, restore reachability, ConsumerBoundary private mutation, and canonical authority private reads
-  - F-03-EXECUTION: exact-SHA adversarial workflow executed the repository-wide authority-boundary audit successfully
-  - V05-05-TEST: availability/readiness and authorization are tested as distinct controls; available state without authorization is denied and unavailable state is not classified as authorization denial
-  - POLICY-SAFETY: restore is intentionally excluded from ordinary Command.operation policy; only dedicated restore API can invoke checkpoint restore
-  - V05-06..V05-11-APPLICABILITY: automation/UI/AI/plugin/device/cloud direct-mutation gates are NOT_APPLICABLE at the current runtime-only qualified boundary; no such implementation surfaces exist in the inspected runtime tree
+  - F-01A: trusted source_identity propagated through governed command/event path
+  - F-01B: explicit Runtime Event -> Canonical Event projection boundary
+  - F-06A: source provenance continuity
+  - F-06B: correlation/causation continuity with prior-event reference integrity
+  - F-06C: deterministic evidence fingerprint binding
+  - R3: observational evidence binds canonical Event identity/fingerprint
+  - R3-AUTH: real AuthorizationContext required; placeholder attribution removed
+  - R3-IMMUTABILITY: CanonicalEvent payload/metadata recursively frozen
+  - CI-R3: remediation branch triggers MH-05 runtime/security workflows
+  - F-02-PROTOTYPE: composition root constructs exactly one StateAuthority and binds ConsumerBoundary
+  - F-05-TEST-MATRIX: restore functional/adversarial coverage
+  - F-05A-REMEDIATED: authenticated governed restore surface
+  - F-05B-REMEDIATED: checkpoint history prefix preserved
+  - F-03-AUDIT: repository-local AST authority-boundary audit
+  - V05-05-TEST: availability/readiness distinct from authorization
+  - POLICY-SAFETY: restore excluded from ordinary Command.operation policy
+  - V05-06..V05-11-APPLICABILITY: absent executable future consumer surfaces are NOT_APPLICABLE
 
 execution_evidence:
   - exact_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
-    runtime_workflow: null
-    security_workflow: null
     classification: BASELINE_TARGET
   - exact_sha: 25beac177319714eed3565b2b673fd5ee5cbf5b1
-    runtime_workflow: 34098313702
-    security_workflow: 34098313543
-    runtime_conclusion: success
-    security_conclusion: success
-    classification: EXECUTED
-    note: historical executable remediation evidence
+    classification: HISTORICAL_EXECUTED
   - exact_sha: 5541c08fef8257368d06acd75b1f547659b4d804
-    runtime_workflow: 34098385585
-    security_workflow: 34098385588
-    runtime_conclusion: success
-    security_conclusion: success
-    classification: EXECUTED
-    note: historical executable remediation evidence
+    classification: HISTORICAL_EXECUTED
   - exact_sha: 14b5ea6d629087f20dde29866478086bc68d2af4
-    runtime_workflow: 34100865518
-    security_workflow: 34100865519
+    classification: HISTORICAL_EXECUTED
+  - exact_sha: 69eb355b2d31a92be7cf108427f97d5cce99b61f
+    runtime_workflow: 34121261896
+    security_workflow: 34121261899
     runtime_conclusion: success
     security_conclusion: success
+    runtime_result: 33/33 MH-05; 56/56 full regression
+    security_result: 19/19 adversarial
+    checkout_identity: exact_sha_verified
     classification: EXECUTED
-    runtime_result: 56/56 OK
-    mh05_runtime_result: 33/33 OK
-    security_result: 19/19 OK
-    checkout_identity: exact_sha_verified_in_both_workflows
-    note: current exact-SHA executable evidence; workflow classification remains execution evidence only
-  - exact_sha: 457199fef5555727cf5c476e131932bb8cc2483a
-    runtime_workflow: null
-    security_workflow: null
-    classification: IMPLEMENTED_NOT_EXECUTED
-    note: repository-wide reachability audit revision; no observed workflow evidence
-  - exact_sha: e293e6e6012e76cf4cf4203dd32a456dc8208a66
-    runtime_workflow: null
-    security_workflow: null
-    classification: IMPLEMENTED_NOT_EXECUTED
-    note: governed restore and V05-05 test revision
-  - exact_sha: 939ff5f3a7ce273d028df7a6e4e661a5f850d9ce
-    runtime_workflow: null
-    security_workflow: null
-    classification: IMPLEMENTED_NOT_EXECUTED
-    note: corrected restore policy separation
-  - exact_sha: 0011d1936c972b745002c27b4393dd37fe8e0721
-    runtime_workflow: null
-    security_workflow: null
-    classification: IMPLEMENTED_NOT_EXECUTED
-    note: executable control point before ledger/prompt reconciliation
-  - exact_sha: c67004fe6c7b0ff0ccacf9f9ba7bb7836b2e5b86
-    runtime_workflow: null
-    security_workflow: null
-    classification: IMPLEMENTED_NOT_EXECUTED
-    note: pass-ledger reconciliation control point
-  - exact_sha: d97d5ebf31d273d8a35d4f57d14ca23a905b81b0
-    runtime_workflow: null
-    security_workflow: null
-    classification: IMPLEMENTED_NOT_EXECUTED
-    note: continuation/prompt reconciliation control point
-  - exact_sha: 3982e4b6de64e97eebbb2fc14fe49eb63ce98d82
-    runtime_workflow: null
-    security_workflow: null
-    classification: IMPLEMENTED_NOT_EXECUTED
-    note: documentation reconciliation control point
-  - exact_sha: 0b38b26466097c8e29ff5722b343b518e0054a74
-    runtime_workflow: null
-    security_workflow: null
-    classification: IMPLEMENTED_NOT_EXECUTED
-    note: strengthened system-wide authority reachability audit; exact-SHA execution required
+    note: predecessor checkpoint; does not qualify later documentation commits
 
 not_yet_qualified:
+  - fresh_exact_sha_execution_for_current_pr_head
   - independent_security_review
   - independent_system_wide_negative_verification
   - final_evidence_packet
@@ -113,3 +62,4 @@ qualification_rules:
   persistence_authorization: false
   ha_authorization: false
   recovery_expansion_authorization: false
+  mh06_authorization: false
