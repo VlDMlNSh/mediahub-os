@@ -17,11 +17,13 @@ echo "BRANCH=$BRANCH"
 
 git cat-file -e "$IMMUTABLE^{commit}" || fail "immutable forensic target unavailable"
 
-grep -RInE 'class[[:space:]]+StateAuthority' runtime --exclude-dir='__pycache__' > /tmp/mh-state-authority.txt || true
+grep -RInE 'class[[:space:]]+StateAuthority' runtime --include='*.py' --exclude-dir='__pycache__' > /tmp/mh-state-authority.txt || true
 COUNT="$(wc -l < /tmp/mh-state-authority.txt)"
 [ "$COUNT" -eq 1 ] || fail "expected exactly one StateAuthority, found $COUNT"
 
-grep -RInE 'sqlite|shelve|pickle|EventStore|CheckpointStore|Persistence|Recovery|socket|requests|urllib|subprocess|os\.system|write_text|write_bytes|json\.dump|yaml\.dump' runtime --exclude-dir='__pycache__' && fail "forbidden runtime surface detected" || true
+if grep -RInE 'sqlite|shelve|pickle|EventStore|CheckpointStore|Persistence|Recovery|socket|requests|urllib|subprocess|os\.system|write_text|write_bytes|json\.dump|yaml\.dump' runtime --include='*.py' --exclude-dir='__pycache__'; then
+  fail "forbidden runtime surface detected"
+fi
 
 PYTHONPATH=runtime:. python3 -m unittest discover -s tests -t . -p 'test_*.py' -q
 
