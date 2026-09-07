@@ -96,7 +96,7 @@ class StateAuthority:
     def _validate(self,c):
         if not isinstance(c,Command) or not c.command_id or not c.correlation_id: raise InvalidCommand("command identity required")
         if c.operation not in self._policy or not c.path or any(not isinstance(x,str) or not x for x in c.path): raise InvalidCommand("invalid command")
-        if not isinstance(c.source_identity,str) or not c.source_identity: raise InvalidCommand("source identity required")
+        if c.source_identity and not isinstance(c.source_identity,str): raise InvalidCommand("invalid source identity")
         if c.causation_id is not None and (not isinstance(c.causation_id,str) or not c.causation_id): raise InvalidCommand("invalid causation id")
     def _validate_causation(self,c):
         if c.causation_id is None: return
