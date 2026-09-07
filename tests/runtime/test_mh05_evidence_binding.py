@@ -16,7 +16,7 @@ class MH05EvidenceBindingTests(unittest.TestCase):
         )
         return project_runtime_event(event), authority
 
-    def _record(self, canonical, authority):
+    def _record(self, canonical, authority, authorization_context=AUTH):
         return build_evidence_record(
             test_id="MH05-EVIDENCE-01",
             contract="MH-05",
@@ -33,7 +33,7 @@ class MH05EvidenceBindingTests(unittest.TestCase):
             canonical_event=canonical,
             pre_state={"value": 1},
             post_state=authority.read(),
-            authorization_context=AUTH,
+            authorization_context=authorization_context,
             authorization_result="authorized",
             validation_result="valid",
             mutation_result="committed",
@@ -69,7 +69,7 @@ class MH05EvidenceBindingTests(unittest.TestCase):
     def test_missing_authorization_context_is_rejected(self):
         canonical, authority = self._event()
         with self.assertRaises(EvidenceError):
-            self._record(canonical, authority)  # exercised through explicit None below
+            self._record(canonical, authority, authorization_context=None)
 
     def test_record_is_observational(self):
         canonical, authority = self._event()
