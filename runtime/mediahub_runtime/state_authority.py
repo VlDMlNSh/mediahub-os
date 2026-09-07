@@ -50,7 +50,7 @@ class StateAuthority:
         self._lock=RLock(); self._state=deepcopy(dict(initial_state or {}))
         self._generation=0; self._version=0; self._sequence=0
         self._events=[]; self._processed={}; self._available=True
-        self._policy=dict(policy or {"set":frozenset({"state.write"}),"delete":frozenset({"state.write"}),"restore":frozenset({"state.restore"})})
+        self._policy=dict(policy or {"set":frozenset({"state.write"}),"delete":frozenset({"state.write"})})
         self._token=sha256(b"mediahub-state-authority-v1").hexdigest()
         self._observers=[]
     def set_available(self, available):
