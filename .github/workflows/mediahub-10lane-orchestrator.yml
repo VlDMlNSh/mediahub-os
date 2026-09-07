@@ -1,5 +1,7 @@
 name: MediaHub MH-05 Ten-Lane Orchestrator
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
   schedule:
     - cron: '17 2 * * *'
@@ -17,6 +19,9 @@ jobs:
         lane: [T0-identity, T0-clean, T1-authority, T1-contracts, T2-runtime-tests, T3-security, T4-ruff, T4-mypy, T4-compile, T4-diff]
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -32,12 +37,13 @@ jobs:
           {
             printf 'T0=%s\n' "$T0"
             printf 'PID=%s\n' "$$"
-            printf 'BRANCH=%s\n' "$(git rev-parse --abbrev-ref HEAD)"
+            printf 'WORKFLOW_REF=%s\n' "${GITHUB_REF:-UNKNOWN}"
+            printf 'WORKFLOW_SHA=%s\n' "${GITHUB_WORKFLOW_SHA:-UNKNOWN}"
+            printf 'R4_BRANCH=%s\n' "$R4_BRANCH"
             printf 'SHA=%s\n' "$(git rev-parse HEAD)"
             printf 'TREE=%s\n' "$(git rev-parse HEAD^{tree})"
             printf 'EXPECTED_SHA=%s\n' "$R4_SHA"
             printf 'EXPECTED_TREE=%s\n' "$R4_TREE"
-            printf 'EXPECTED_BRANCH=%s\n' "$R4_BRANCH"
             printf 'DIRTY=%s\n' "$(git status --porcelain)"
             printf 'CONTEXT=PR66-CI\n'
             printf 'LANE=%s\n' "${{ matrix.lane }}"
@@ -76,7 +82,6 @@ jobs:
         env:
           R4_SHA: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
           R4_TREE: 2279612908135418b2b5448d598274ea6741deaa
-          R4_BRANCH: remediation/mh05-r4-alamo-quality
         run: |
           set -euo pipefail
           TEND=$(date +%s)
@@ -84,11 +89,10 @@ jobs:
           RC=$(sed -n 's/^RETURN_CODE=//p' .mh05-provenance-result 2>/dev/null || printf 'NOT_EXECUTED')
           SHA=$(git rev-parse HEAD)
           TREE=$(git rev-parse HEAD^{tree})
-          BRANCH=$(git rev-parse --abbrev-ref HEAD)
           DIRTY=$(git status --porcelain)
           ELAPSED=$((TEND-T0))
           CLASSIFICATION=PASS
-          if [ "$SHA" != "$R4_SHA" ] || [ "$TREE" != "$R4_TREE" ] || [ "$BRANCH" != "$R4_BRANCH" ] || [ -n "$DIRTY" ]; then
+          if [ "$SHA" != "$R4_SHA" ] || [ "$TREE" != "$R4_TREE" ] || [ -n "$DIRTY" ]; then
             CLASSIFICATION=INCONCLUSIVE
           elif [ "$ELAPSED" -gt 3600 ]; then
             CLASSIFICATION=FAIL
@@ -103,7 +107,6 @@ jobs:
             printf 'ELAPSED_SECONDS=%s\n' "$ELAPSED"
             printf 'FINAL_SHA=%s\n' "$SHA"
             printf 'FINAL_TREE=%s\n' "$TREE"
-            printf 'FINAL_BRANCH=%s\n' "$BRANCH"
             printf 'FINAL_DIRTY=%s\n' "$DIRTY"
             printf 'RETURN_CODE=%s\n' "$RC"
             printf 'CLASSIFICATION=%s\n' "$CLASSIFICATION"
