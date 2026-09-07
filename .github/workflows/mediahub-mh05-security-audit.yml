@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'dev/mh05/**'
+      - 'remediation/mh05-r3-event-evidence'
   pull_request:
     branches:
       - 'recovery/full-functional-spec'
