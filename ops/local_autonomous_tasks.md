@@ -1,3 +1,16 @@
+# Initial priority: controlled Cloud Development adapter and isolated cloud-development sandbox
+
+Before adding any external cloud AI provider, implement and qualify a provider-neutral Cloud Development Adapter and an isolated Cloud Development Sandbox. The adapter MUST be deny-by-default, non-authoritative, policy-gated, auditable, provenance-bound, and incapable of direct access to MediaHub State Authority, Home Assistant authority, production devices, secrets, or unrestricted local filesystem/network.
+
+Required first-wave scope:
+1. Define provider-neutral adapter contract: request classification, capability declaration, authorization, data minimization, egress policy, residency/policy checks, timeout/retry, response provenance, audit events, metering, revocation and fail-closed behavior.
+2. Define isolated sandbox boundary for cloud-development workloads: separate identity, filesystem/worktree, network egress boundary, credentials broker boundary, resource limits, secret scanning/DLP hook points, artifact/result quarantine and deterministic teardown.
+3. Implement only the smallest repository-native contract/adapter/sandbox skeleton justified by the existing architecture; do not add provider-specific bypasses or credentials.
+4. Add deterministic unit/negative-path tests for denied authority escalation, denied secret exposure, denied unrestricted egress, denied production access, malformed provider responses, timeout/retry, revocation and sandbox teardown.
+5. Record provenance/evidence and preserve R4 ancestry. No release/production authorization.
+
+Second wave is explicitly gated on first-wave tests and security checks: integrate Claude, Codex and other approved available models ONLY through the same Cloud Development Adapter and Sandbox. No direct provider integration into core/runtime authority. Provider access must remain replaceable and policy-controlled.
+
 # Local autonomous engineering queue — canonical passport aligned
 
 The approved MediaHub OS passport is the sole functional baseline. Do not introduce requirements that contradict it.
