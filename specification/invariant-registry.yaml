@@ -36,3 +36,17 @@ invariants:
   - INV-033: Local MediaHub Cluster and Cloud Development Cluster have separate trust/control planes
   - INV-034: iPhone/iPad clients are governed endpoints and cannot bypass State Authority
   - INV-035: User-created iPad dashboards bind to MediaHub capabilities, not direct device authority
+
+  - INV-036: Functional Baseline 1.0 is the normative single source of truth
+  - INV-037: Conflicting specification artifacts are blocked until reconciliation
+  - INV-038: Capability and contract registries are subordinate to the Functional Baseline
+  - INV-039: Architecture artifacts cannot redefine baseline authority boundaries
+  - INV-040: Baseline changes require a new version and governance review
+  - INV-041: Release remains locked until all qualification gates pass
+  - INV-042: Production remains unauthorized until explicit production authorization
+  - INV-043: Autonomous agents cannot self-qualify or authorize release/production
+  - INV-044: Mobile Access Layer contains exactly two applications and is not an AI tier
+  - INV-045: AI escalation order is Mobile Access Layer → Local AI → Local Cluster AI → Cloud Development AI
+  - INV-046: MediaHub State Authority remains sole platform authority
+  - INV-047: Home Assistant Core remains sole Smart Home authority
+  - INV-048: Cloud Development Environment is corporate engineering infrastructure, not ordinary-user cloud
