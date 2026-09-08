@@ -107,7 +107,7 @@ def main() -> int:
         f.write(prompt())
         prompt_file = f.name
     try:
-        p = subprocess.run([str(LLAMA), "-m", str(MODEL), "-f", prompt_file, "-n", "4096", "-c", "8192", "--temp", "0"], cwd=ROOT, text=True, capture_output=True, timeout=900)
+        p = subprocess.run([str(LLAMA), "-m", str(MODEL), "-f", prompt_file, "-n", "1024", "-c", "4096", "--temp", "0"], cwd=ROOT, text=True, capture_output=True, timeout=900)
     finally:
         Path(prompt_file).unlink(missing_ok=True)
     if p.returncode != 0:
