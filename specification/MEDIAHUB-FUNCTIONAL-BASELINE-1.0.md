@@ -252,18 +252,10 @@ OSS adoption rule: Real Capability Gap → Mature Component Search → License R
 
 ## 18. ARCHITECTURAL PROHIBITIONS
 
-Запрещено:
-
-1. Второй State Authority.
-2. AI как canonical authority.
-3. Cloud как uncontrolled authority.
-4. Bypass Home Assistant Core.
-5. Альтернативная production OTA authority без отдельного решения.
-6. Overlapping storage без доказанной необходимости.
-7. Несколько production AI runtimes без benchmark и decision.
-8. Reference product как core authority.
-9. Self-review как independent qualification.
-10. Любой hidden direct link, нарушающий domain contracts или trust boundaries.
+Запрещено: второй State Authority; AI как canonical authority; Cloud как uncontrolled authority;
+Bypass Home Assistant Core; альтернативная production OTA authority без отдельного решения;
+overlapping storage без доказанной необходимости; несколько production AI runtimes без benchmark;
+reference product как core authority; self-review как independent qualification; hidden direct links.
 
 ## 19. QUALIFICATION / RELEASE GATES
 
@@ -285,12 +277,11 @@ Passport → Capability → Contract → Architecture → Implementation → Tes
 ## 21. GIT / PROVENANCE INVARIANTS
 
 Immutable R4 baseline не изменяется: no rebase, amend, reset, force-push или modification.
-
 Ранее технически проверенный R4 anchor:
 - commit: `471f709f5633feab7aeb62dd3ea52effad6d2bc4`
 - tree: `2279612908135418b2b5448d598274ea6741deaa`
 
-В исходном тексте утверждённого пользователем паспорта указан SHA с окончанием `...2bc584`.
+В исходном тексте утверждённого паспорта указан SHA с окончанием `...2bc584`.
 Это расхождение не исправляется молча и не изменяет immutable R4 anchor; требуется отдельная
 technical reconciliation перед использованием SHA как machine identity.
 
