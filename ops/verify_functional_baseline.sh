@@ -10,7 +10,7 @@ INV="specification/invariant-registry.yaml"
 [ -f "$BASE" ]
 [ -f "$GOV" ]
 [ -f "$INV" ]
-grep -Fq 'Status: NORMATIVE / SINGLE SOURCE OF TRUTH' "$BASE"
+grep -Fq '**Status:** NORMATIVE / SINGLE SOURCE OF TRUTH' "$BASE"
 grep -Fq 'status: NORMATIVE_SINGLE_SOURCE_OF_TRUTH' "$GOV"
 grep -Fq 'baseline_id: MEDIAHUB-FUNCTIONAL-BASELINE-1.0' "$GOV"
 grep -Fq 'INV-036: Functional Baseline 1.0 is the normative single source of truth' "$INV"
