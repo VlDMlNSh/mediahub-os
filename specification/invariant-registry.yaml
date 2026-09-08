@@ -31,3 +31,8 @@ invariants:
   - INV-028: Engineering/Professional contour is distinct from ordinary-user UI
   - INV-029: Cloud Development Cluster is distinct from Local MediaHub Cluster
   - INV-030: Surveillance recording does not require a separate NVR where MediaHub can provide the function
+  - INV-031: AI execution tier selection is policy-controlled and never creates mutation authority
+  - INV-032: Local AI remains functional without mandatory cloud availability
+  - INV-033: Local MediaHub Cluster and Cloud Development Cluster have separate trust/control planes
+  - INV-034: iPhone/iPad clients are governed endpoints and cannot bypass State Authority
+  - INV-035: User-created iPad dashboards bind to MediaHub capabilities, not direct device authority

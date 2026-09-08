@@ -181,6 +181,26 @@ contracts:
     owner: verification
     scope: test evidence, acceptance state and traceability
     required_semantics: requirement linkage, test identity, evidence provenance, reproducibility, acceptance authority and immutable history
+  - id: CTR-037
+    name: hybrid-ai-fabric
+    owner: assistant_core
+    scope: local, local-cluster, cloud-development and mobile AI execution routing
+    required_semantics: tier selection, privacy classification, authorization, model qualification, provenance, fallback and audit
+  - id: CTR-038
+    name: mobile-dashboard
+    owner: ui_core
+    scope: iPhone/iPad minimal client and user-created smart-home dashboard definitions
+    required_semantics: endpoint identity, capability binding, permissions, validation, publication, offline behavior and revocation
+  - id: CTR-039
+    name: cluster-resource-control
+    owner: cluster_core
+    scope: trusted local cluster node identity, workload placement and resource governance
+    required_semantics: identity, membership, admission, scheduling, quotas, degradation, failover, split-brain protection, recovery and audit
+  - id: CTR-040
+    name: cloud-ai-development
+    owner: cloud_development
+    scope: privileged cloud development cluster execution and controlled escalation
+    required_semantics: privileged identity, workload authorization, data minimization, residency, egress, isolation, metering, audit and revocation
 open_contract_details:
   - exact cryptographic algorithms, key lifecycle, rotation and recovery
   - exact HA version/fork and adapter boundary

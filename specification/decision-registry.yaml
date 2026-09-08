@@ -38,3 +38,12 @@ proposed_architecture_decisions:
   - id: DEC-A-004
     decision: "Use logical storage domains independent of physical storage substrate."
     status: DRAFT
+  - id: DEC-A-005
+    decision: "Adopt a four-tier MediaHub AI Fabric: local, local-cluster, cloud-development and mobile client, routed by a deterministic AI Gateway."
+    status: DRAFT
+  - id: DEC-A-006
+    decision: "Treat Local MediaHub Cluster and Cloud Development Cluster as mandatory architecture tracks; qualify implementation substrates separately."
+    status: DRAFT
+  - id: DEC-A-007
+    decision: "Define MediaHub iOS as a minimal iPhone/iPad user client, with iPad additionally providing a governed smart-home dashboard builder and control surface."
+    status: DRAFT

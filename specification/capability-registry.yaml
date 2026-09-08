@@ -295,3 +295,28 @@ capabilities:
     name: security_safety_system_invariant
     owner: security_core
     status: accepted
+  - id: CAP-059
+    domain: hybrid_ai
+    name: hybrid_ai_fabric_local_cluster_cloud_mobile_routing
+    owner: assistant_core
+    status: accepted
+  - id: CAP-060
+    domain: ios_ipados
+    name: minimal_mediahub_ios_user_media_smart_home_client
+    owner: mobile_media
+    status: accepted
+  - id: CAP-061
+    domain: ios_ipados
+    name: ipad_smart_home_dashboard_builder_and_control_surface
+    owner: ui_core
+    status: accepted
+  - id: CAP-062
+    domain: cluster
+    name: local_cluster_node_identity_membership_scheduling_failover_governance
+    owner: cluster_core
+    status: accepted
+  - id: CAP-063
+    domain: cloud_development
+    name: cloud_cluster_privileged_gpu_ci_research_and_ai_execution
+    owner: cloud_development
+    status: accepted
