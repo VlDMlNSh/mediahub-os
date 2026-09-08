@@ -1,3 +1,5 @@
+baseline_id: MEDIAHUB-FUNCTIONAL-BASELINE-1.0
+baseline_document: specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md
 schema_version: "1.1"
 status: IN_PROGRESS
 contracts:
@@ -184,7 +186,7 @@ contracts:
   - id: CTR-037
     name: hybrid-ai-fabric
     owner: assistant_core
-    scope: local, local-cluster, cloud-development and mobile AI execution routing
+    scope: local, local-cluster and cloud-development AI execution routing; mobile is an access layer, not an AI execution tier
     required_semantics: tier selection, privacy classification, authorization, model qualification, provenance, fallback and audit
   - id: CTR-038
     name: mobile-dashboard
@@ -229,3 +231,6 @@ open_contract_details:
   - exact HomeKit/Yandex/Loxone bridge mechanisms
   - exact threat model and incident-response operating model
   - exact AI provider/model qualification and quarantine policy
+
+# Baseline governance binding: CTR entries implement MEDIAHUB-FUNCTIONAL-BASELINE-1.0.
+# Conflicting contract definitions are blocked until reconciliation.

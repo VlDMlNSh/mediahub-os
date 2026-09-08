@@ -1,3 +1,5 @@
+baseline_id: MEDIAHUB-FUNCTIONAL-BASELINE-1.0
+baseline_document: specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md
 schema_version: "1.0"
 status: IN_PROGRESS
 basis:
@@ -345,3 +347,6 @@ capabilities:
     name: authorized_ai_human_clone_real_person_generated_media_participation
     owner: cloud_development
     status: accepted
+
+# Baseline governance binding: CAP entries implement MEDIAHUB-FUNCTIONAL-BASELINE-1.0.
+# Conflicting capability definitions are blocked until reconciliation.

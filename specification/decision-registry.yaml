@@ -39,7 +39,7 @@ proposed_architecture_decisions:
     decision: "Use logical storage domains independent of physical storage substrate."
     status: DRAFT
   - id: DEC-A-005
-    decision: "Adopt a four-tier MediaHub AI Fabric: local, local-cluster, cloud-development and mobile client, routed by a deterministic AI Gateway."
+    decision: "Adopt MediaHub AI escalation as Mobile Access Layer → Local AI → Local Cluster AI → Cloud Development AI; Mobile Access Layer is not an AI compute tier, routed by a deterministic AI Gateway."
     status: DRAFT
   - id: DEC-A-006
     decision: "Treat Local MediaHub Cluster and Cloud Development Cluster as mandatory architecture tracks; qualify implementation substrates separately."

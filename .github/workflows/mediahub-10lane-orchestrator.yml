@@ -76,6 +76,12 @@ jobs:
             printf 'LANE=%s\n' "${{ matrix.lane }}"
           } | tee "$PROV_DIR/start"
           test -z "$(git status --porcelain)"
+      - name: Verify MediaHub Functional Baseline
+        run: |
+          set -euo pipefail
+          test -x ops/verify_functional_baseline.sh
+          ./ops/verify_functional_baseline.sh
+
       - name: Execute bounded lane
         timeout-minutes: 59
         env:
