@@ -1,4 +1,4 @@
-# MediaHub Autonomous Development Component Profile v2.0
+# MediaHub Autonomous Development Component Profile v2.1
 
 Date: 2026-09-08
 Status: ENGINEERING BASELINE
@@ -36,6 +36,16 @@ P0/P1 infrastructure: PostgreSQL/pgvector, object storage, Temporal, OTel, Prome
 P1 engineering/AI: IfcOpenShell, PaddleOCR, OpenCV, ONNX Runtime, llama.cpp, web-ifc, three.js/vtk.js.
 P1 cluster: local cluster + cloud development cluster, with K3s/Kubernetes and Argo CD selected by qualification per profile.
 
-## 6. Governance
+## 6. Cloud Development Platform / AI Human Clone boundary
+
+Cloud Development AI is the company-internal computational environment serving MediaHub company needs, not merely an engineering assistant. Its governed scope includes website infrastructure, Trusted Sources Intelligence Engine, AI Human Clone Platform, engineering/Digital Twin compute and broader commercial infrastructure.
+
+**AI Human Clone Platform** means authorized digital clones of real people participating in generated media content. It is not an AI developer clone. The implementation must carry identity provenance, explicit authorization/consent, use/content scope, model/asset provenance, revocation and audit records, and must distinguish synthetic media from the real person. No clone service may mutate canonical MediaHub state.
+
+Mobile architecture is the **MediaHub Mobile Access Layer** with two distinct clients: **MediaHub Core for iPad** and **Remote Mobile Application**. Both consume MediaHub APIs and never become alternate authorities or direct device-control paths.
+
+Cloud is never ordinary-user direct access. Local/cluster AI may request controlled cloud compute only through the MediaHub AI Gateway when deterministic policy permits and data controls are satisfied.
+
+## 7. Governance
 
 No component may mutate canonical state directly. External tools are replaceable implementation dependencies. Exact versions, license, SBOM, security scan, provenance, integration tests and rollback path are mandatory.

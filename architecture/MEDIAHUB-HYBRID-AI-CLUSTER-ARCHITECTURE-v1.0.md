@@ -7,11 +7,11 @@ Immutable MH-05 R4: `471f709f5633feab7aeb62dd3ea52effad6d2bc4`
 
 ## 1. Purpose
 
-Define the unified execution architecture for four AI tiers and two cluster planes:
+Define the unified execution architecture for the MediaHub Mobile Access Layer, three AI compute tiers and two cluster planes:
 - Local AI on a MediaHub node;
 - Local MediaHub Cluster AI across trusted local nodes;
-- Cloud Development Cluster AI in a separate privileged trust plane;
-- Mobile AI client capabilities for MediaHub iPhone/iPad;
+- Cloud Development AI in a separate privileged company trust plane;
+- MediaHub Core iPad and Remote Mobile Application as distinct mobile clients;
 - Local MediaHub Cluster as the building/runtime compute plane;
 - Cloud Development Cluster as privileged development/compute infrastructure.
 
@@ -67,22 +67,23 @@ artifact provenance/signing, resource governance, node trust, recovery evidence 
 
 ## 6. Cloud Development Cluster
 
-The cloud cluster is a privileged development/compute plane. It may provide burst GPU capacity,
-large-model inference, training/evaluation, simulation, CI and research workloads.
+The cloud development environment is the privileged computational environment serving the needs of the MediaHub company. It includes website generation/storage/maintenance infrastructure, the Trusted Sources Intelligence Engine, the AI Human Clone Platform for authorized real-person digital clones participating in generated media content, engineering and Digital Twin compute, commercial infrastructure, burst GPU capacity, large-model inference, training/evaluation, simulation, CI and research workloads.
 
 It must enforce privileged identity, workload authorization, data minimization, residency,
 egress controls, audit, metering, isolation and explicit transfer policy. It never receives direct
 State Authority access and cannot become a fallback authority for home/runtime state.
 
-## 7. Mobile product contour
+## 7. Mobile Access Layer
 
-MediaHub iOS is split conceptually into a minimal deployable Core and richer experiences.
-The minimal iPhone/iPad application must support secure identity/session, MediaHub connectivity,
-media access/control, smart-home operation, notifications, offline cache and the dashboard engine.
+MediaHub Mobile Access Layer consists of two distinct products/modes:
+1. **MediaHub Core for iPad** — the first minimal MediaHub Core client installed on iPad, providing
+   governed access to MediaHub and SmartHome through the MediaHub API. It never talks directly to devices.
+2. **Remote Mobile Application** — a remote iPhone/iPad client for accessing MediaHub services through
+   the MediaHub API. It is a client, not an alternate authority.
 
-The iPhone is primarily a mobile user/control endpoint. The iPad additionally serves as a
-persistent smart-home control surface with multi-room, media, climate, security, energy and
-custom dashboard experiences.
+Both clients use secure identity/session, governed MediaHub connectivity, media access/control,
+smart-home operation, notifications, offline cache where permitted, and policy-controlled AI Gateway access.
+Mobile is an access layer, not a mandatory AI execution tier.
 
 ## 8. iPad Dashboard Builder
 
@@ -93,15 +94,18 @@ Select capability -> select room/device/media -> configure presentation/permissi
 Published dashboards call governed MediaHub APIs. A dashboard cannot bypass authentication,
 authorization, State Authority or device trust boundaries.
 
-## 9. Mobile AI
+## 9. AI Human Clone Platform
 
-The mobile client may use on-device capabilities for low-latency interactions and call the
-MediaHub AI Gateway for local or cluster inference. Cloud AI is available only when policy permits.
-Mobile AI receives the same advisory-vs-authoritative boundary as every other AI surface.
+The AI Human Clone Platform creates and operates authorized digital representations of real people
+for participation in generated MediaHub media content. It is not an AI developer or autonomous software
+engineer. Each clone requires explicit identity provenance, authorization/consent records, permitted
+content/use scope, asset/model provenance, revocation, auditability and clear separation between
+synthetic output and the real person. Clone generation remains subject to applicable safety, rights,
+privacy and content policies. The platform cannot mutate canonical MediaHub state.
 
 ## 10. Reference execution flow
 
-User -> iPhone/iPad -> Mobile Gateway -> AI Gateway -> Local / Local Cluster / Cloud Development
+User -> MediaHub Core iPad / Remote Mobile Application -> MediaHub API -> AI Gateway -> Local / Local Cluster / Cloud Development
 -> result/proposal -> policy validation -> governed command path -> State Authority -> event/observation.
 
 For non-mutating tasks, the flow may terminate at an authorized read/search/media result.
@@ -116,7 +120,9 @@ and authorization. Repeated failure moves the system into bounded degraded mode 
 ## 12. Component policy
 
 Build as MediaHub IP: AI Gateway, AI Router, cluster semantics/control plane, resource governance,
-mobile API contracts, dashboard model/builder, authority and policy boundaries, recovery semantics.
+mobile API contracts, Mobile Core/Remote Mobile client contracts, dashboard model/builder, Trusted Sources
+Intelligence Engine orchestration/provenance semantics, AI Human Clone identity/authorization/provenance
+semantics, Cloud Development Platform control boundaries, authority and policy boundaries, recovery semantics.
 
 Adopt through isolated adapters: llama.cpp, PaddleOCR, OpenCV, ONNX Runtime, PostgreSQL/pgvector,
 OpenTelemetry, Prometheus, Temporal, restic, Cosign, Syft, Trivy, OpenBao, K3s/Kubernetes, Argo CD,

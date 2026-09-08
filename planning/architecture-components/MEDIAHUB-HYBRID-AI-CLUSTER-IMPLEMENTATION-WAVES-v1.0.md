@@ -14,7 +14,7 @@ Qualification: MH-05 remains open; production/release remain locked.
 ## Wave 1 — Architecture materialization
 - Define Hybrid AI Fabric and deterministic AI Gateway routing.
 - Define Local AI, Local Cluster AI, Cloud Development AI and Mobile Client tiers.
-- Define minimal iOS/iPadOS client and iPad dashboard builder.
+- Define Mobile Access Layer: MediaHub Core for iPad and Remote Mobile Application; keep mobile as client/access layer.
 - Define cluster identity, membership, scheduling, resource and recovery contracts.
 
 ## Wave 2 — Contract and registry reconciliation
@@ -40,14 +40,19 @@ Qualification: MH-05 remains open; production/release remain locked.
 - Evaluate K3s/Kubernetes and Argo CD as replaceable substrates.
 - Require OCI registry and signed artifacts before multi-node production rollout.
 
-## Wave 6 — Cloud development cluster
+## Wave 6 — Cloud Development Platform
 - Implement privileged cloud gateway and isolated workload admission.
+- Implement company website generation/storage/maintenance infrastructure.
+- Implement Trusted Sources Intelligence Engine contracts: discovery, retrieval, verification, provenance, change detection and evidence store.
+- Implement AI Human Clone Platform contracts for authorized real-person digital clones participating in generated media content, including identity provenance, consent/authorization, use scope, revocation and synthetic-content labeling.
+- Implement engineering/Digital Twin and broader commercial infrastructure tracks.
 - Qualify burst GPU, large-model, CI, research and evaluation workloads.
 - Enforce residency, egress, minimization, audit, metering and revocation.
 - Prohibit direct State Authority access.
 
-## Wave 7 — Mobile / iPad
-- Build minimal MediaHub iOS Core for iPhone/iPad.
+## Wave 7 — Mobile Access Layer
+- Build MediaHub Core for iPad as the minimal installed MediaHub Core client.
+- Build the Remote Mobile Application as a separate remote client.
 - Implement media and smart-home control through governed APIs.
 - Add iPad multi-room dashboards and user dashboard builder.
 - Validate endpoint identity, permissions, offline cache and revocation.

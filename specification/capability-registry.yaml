@@ -320,3 +320,28 @@ capabilities:
     name: cloud_cluster_privileged_gpu_ci_research_and_ai_execution
     owner: cloud_development
     status: accepted
+  - id: CAP-064
+    domain: ios_ipados
+    name: mediahub_core_ipad_minimal_installed_system_client
+    owner: mobile_media
+    status: accepted
+  - id: CAP-065
+    domain: mobile_remote_access
+    name: remote_mobile_application_mediahub_api_access
+    owner: mobile_media
+    status: accepted
+  - id: CAP-066
+    domain: cloud_development
+    name: cloud_development_platform_company_website_trusted_sources_human_clone_engineering_commercial
+    owner: cloud_development
+    status: accepted
+  - id: CAP-067
+    domain: trusted_sources
+    name: trusted_sources_intelligence_discovery_verification_provenance_knowledge
+    owner: cloud_development
+    status: accepted
+  - id: CAP-068
+    domain: synthetic_media
+    name: authorized_ai_human_clone_real_person_generated_media_participation
+    owner: cloud_development
+    status: accepted

@@ -201,6 +201,21 @@ contracts:
     owner: cloud_development
     scope: privileged cloud development cluster execution and controlled escalation
     required_semantics: privileged identity, workload authorization, data minimization, residency, egress, isolation, metering, audit and revocation
+  - id: CTR-041
+    name: mobile-access-layer
+    owner: mobile_media
+    scope: MediaHub Core for iPad and Remote Mobile Application client access through MediaHub APIs
+    required_semantics: client identity, authorization, API-only device access, session security, offline policy, revocation and audit
+  - id: CTR-042
+    name: trusted-sources-intelligence
+    owner: cloud_development
+    scope: trusted-source discovery, retrieval, verification, provenance and evidence management
+    required_semantics: source trust policy, retrieval, verification, provenance, change detection, evidence separation and audit
+  - id: CTR-043
+    name: ai-human-clone
+    owner: cloud_development
+    scope: authorized digital clones of real people participating in generated media content
+    required_semantics: identity provenance, consent/authorization, use scope, asset/model provenance, synthetic-content labeling, revocation and audit
 open_contract_details:
   - exact cryptographic algorithms, key lifecycle, rotation and recovery
   - exact HA version/fork and adapter boundary
