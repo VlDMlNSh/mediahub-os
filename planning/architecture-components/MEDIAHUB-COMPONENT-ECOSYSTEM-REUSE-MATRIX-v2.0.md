@@ -36,8 +36,11 @@ of record for MediaHub state, engineering truth, authorization or provenance.
 | P1 | three.js + vtk.js | digital-twin visualization | INTEGRATE in UI vertical |
 | P1 | OpenDroneMap | scan/photogrammetry ingestion | OPTIONAL adapter |
 | P1 | vLLM OR SGLang | high-throughput GPU inference | BENCHMARK, then select one |
-| P1/P2 | K3s + Argo CD | clustered self-healing deployment | DEFER until local baseline is reproducible |
-| P1/P2 | OCI registry/Harbor | signed artifact distribution | DEFER with cluster track |
+| P0/P1 | Local MediaHub Cluster | primary multi-node building runtime; scheduling, HA/failover, distributed media/AI/storage | REQUIRED architectural track; implementation gated by cluster contract/evidence |
+| P0/P1 | Cloud Development Cluster | privileged external compute/development plane; burst GPU/CI/research | REQUIRED separate plane; never canonical authority |
+| P1/P2 | K3s + Argo CD | candidate orchestration/GitOps substrate for local/edge and cloud cluster profiles | evaluate per deployment profile; not deferred as an architecture capability |
+| P1 | OCI registry | signed/container artifact distribution for cluster plane | REQUIRED before multi-node production rollout |
+| P2 | Harbor | full registry governance/UI/scanning integration | add only if registry scale/tenancy requires it |
 
 ## 3. Rejected or reference-only dependencies
 
