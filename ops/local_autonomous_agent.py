@@ -103,7 +103,7 @@ def main() -> int:
     if run(["git", "status", "--porcelain"]).stdout.strip():
         print("LOCAL_AGENT_BLOCKED: working tree is not clean", file=sys.stderr)
         return 22
-    with tempfile.NamedTemporaryFile("w", delete=False, dir=ROOT, prefix="local-agent-prompt-") as f:
+    with tempfile.NamedTemporaryFile("w", delete=False, dir="/tmp", prefix="mediahub-local-agent-prompt-") as f:
         f.write(prompt())
         prompt_file = f.name
     try:
