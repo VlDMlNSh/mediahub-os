@@ -1,0 +1,25 @@
+schema_version: "1.0"
+baseline_id: MEDIAHUB-FUNCTIONAL-BASELINE-1.0
+baseline_document: specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md
+
+capability_registry:
+  path: specification/capability-registry.yaml
+  rule: every_capability_must_be_compatible_with_baseline
+  canonical_entries: [CAP-064, CAP-065, CAP-066, CAP-067, CAP-068]
+
+contract_registry:
+  path: specification/contract-registry.yaml
+  rule: every_contract_must_be_compatible_with_baseline
+  canonical_entries: [CTR-041, CTR-042, CTR-043]
+
+artifact_classes:
+  - capability
+  - contract
+  - architecture
+  - implementation
+  - test
+  - security
+  - qualification
+
+conflict_policy: BLOCK_UNTIL_RECONCILED
+architecture_policy: DERIVATIVE_NOT_COMPETING_AUTHORITY
