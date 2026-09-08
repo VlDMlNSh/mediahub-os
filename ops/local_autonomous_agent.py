@@ -5,6 +5,7 @@ The local model proposes one bounded unified diff. Git and verification gates de
 whether that proposal is admissible. The model never becomes an authority.
 """
 from __future__ import annotations
+
 import os
 import re
 import subprocess
@@ -59,7 +60,7 @@ TASK QUEUE
 def extract(text: str) -> str:
     text = text.strip()
     if "```" in text:
-        blocks = re.findall(r"```(?:diff|patch)?\s*\n(.*?)```", text, flags=re.S)
+        blocks = re.findall(r"```(?:diff|patch)?\s*\n(.*?)```", text, flags=re.DOTALL)
         text = max(blocks, key=len) if blocks else text.replace("```diff", "").replace("```", "")
     start = text.find("diff --git ")
     if start < 0:
@@ -71,7 +72,7 @@ def safe_patch(patch: str) -> bool:
     if not patch or len(patch.splitlines()) > MAX_DIFF_LINES:
         return False
     for line in patch.splitlines():
-        if line.startswith("+++ b/") or line.startswith("--- a/"):
+        if line.startswith(("+++ b/", "--- a/")):
             path = line[6:].strip()
             if any(part in PROTECTED for part in Path(path).parts):
                 return False
@@ -107,7 +108,7 @@ def main() -> int:
         f.write(prompt())
         prompt_file = f.name
     try:
-        p = subprocess.run([str(LLAMA), "-m", str(MODEL), "-f", prompt_file, "-n", "384", "-c", "2048", "--temp", "0"], cwd=ROOT, text=True, capture_output=True, timeout=900)
+        p = subprocess.run([str(LLAMA), "-m", str(MODEL), "-f", prompt_file, "-n", "384", "-c", "2048", "--temp", "0"], cwd=ROOT, text=True, capture_output=True, timeout=900, check=False)
     finally:
         Path(prompt_file).unlink(missing_ok=True)
     if p.returncode != 0:
@@ -118,11 +119,11 @@ def main() -> int:
     if not safe_patch(patch):
         print("LOCAL_AGENT_BLOCKED: invalid or oversized patch", file=sys.stderr)
         return 24
-    check = subprocess.run(["git", "apply", "--check", "-"], cwd=ROOT, input=patch, text=True, capture_output=True)
+    check = subprocess.run(["git", "apply", "--check", "-"], cwd=ROOT, input=patch, text=True, capture_output=True, check=False)
     if check.returncode != 0:
         print("LOCAL_AGENT_BLOCKED: patch check failed\n" + check.stderr, file=sys.stderr)
         return 25
-    apply = subprocess.run(["git", "apply", "--index", "-"], cwd=ROOT, input=patch, text=True, capture_output=True)
+    apply = subprocess.run(["git", "apply", "--index", "-"], cwd=ROOT, input=patch, text=True, capture_output=True, check=False)
     if apply.returncode != 0:
         print("LOCAL_AGENT_BLOCKED: patch apply failed\n" + apply.stderr, file=sys.stderr)
         return 26
