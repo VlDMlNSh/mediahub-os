@@ -1,0 +1,58 @@
+schema_version: "1.0"
+status: NORMATIVE_SINGLE_SOURCE_OF_TRUTH
+baseline_id: MEDIAHUB-FUNCTIONAL-BASELINE-1.0
+baseline_document: specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md
+scope: MediaHub OS 11.x LTS / MediaHub iOS
+priority: highest_functional_authority
+
+normative_rule: >-
+  MediaHub Functional Baseline 1.0 является единственным нормативным источником
+  функциональной истины MediaHub OS 11.x LTS / MediaHub iOS. Все capability,
+  contract, architecture, implementation, test, security и qualification artifacts
+  должны быть совместимы с ним. При обнаружении противоречия baseline имеет приоритет,
+  а противоречащий artifact блокируется до reconciliation.
+
+rules:
+  - functional_documents_must_conform_to_baseline
+  - conflicting_artifacts_are_blocked_until_reconciled
+  - capability_and_contract_registries_implement_baseline
+  - architecture_is_derivative_not_competing_authority
+  - implementation_requires_traceability_to_capability_and_contract
+  - release_requires_qualification
+  - production_requires_explicit_authorization
+  - autonomous_agents_cannot_self_qualify
+  - baseline_1_0_cannot_be_mutated_in_place
+  - baseline_changes_require_new_version_and_governance_review
+
+functional_authorities:
+  platform_state: MediaHub State Authority
+  smart_home: Home Assistant Core
+  user_interface: MediaHub UI
+  cloud_development: Cloud Development AI
+
+mobile:
+  exact_application_count: 2
+  core_app: MediaHub Core iOS/iPadOS
+  remote_app: Remote Mobile Application
+  mobile_is_ai_tier: false
+
+ai_chain:
+  - Mobile Access Layer
+  - Local AI
+  - Local Cluster AI
+  - Cloud Development AI
+
+voice_order:
+  - Google Assistant
+  - Яндекс Алиса
+  - Apple Siri
+
+release_state:
+  release: LOCKED
+  production: NOT_AUTHORIZED
+
+immutable_r4_anchor:
+  commit: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
+  tree: 2279612908135418b2b5448d598274ea6741deaa
+
+sha_reconciliation_required: true

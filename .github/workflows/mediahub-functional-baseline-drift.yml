@@ -1,0 +1,34 @@
+name: MediaHub Functional Baseline Drift Gate
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+jobs:
+  baseline:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify normative baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md
+          test -f specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml
+          grep -Fq '**Status:** NORMATIVE / SINGLE SOURCE OF TRUTH' specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md
+          grep -Fq 'status: NORMATIVE_SINGLE_SOURCE_OF_TRUTH' specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml
+          grep -Fq 'baseline_id: MEDIAHUB-FUNCTIONAL-BASELINE-1.0' specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml
+          grep -Fq 'MediaHub Functional Baseline 1.0' specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml
+          grep -Fq 'conflicting_artifacts_are_blocked_until_reconciled' specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml
+          grep -Fq 'exact_application_count: 2' specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml
+          grep -Fq 'mobile_is_ai_tier: false' specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml
+          grep -Fq 'release: LOCKED' specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml
+          grep -Fq 'production: NOT_AUTHORIZED' specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml
+          grep -Fq 'baseline_id: MEDIAHUB-FUNCTIONAL-BASELINE-1.0' specification/MEDIAHUB-FUNCTIONAL-BASELINE-BINDINGS.yaml
+          git diff --check
+      - name: Enforce R4 ancestry
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor 471f709f5633feab7aeb62dd3ea52effad6d2bc4 HEAD
