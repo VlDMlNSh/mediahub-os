@@ -49,3 +49,17 @@ Cloud is never ordinary-user direct access. Local/cluster AI may request control
 ## 7. Governance
 
 No component may mutate canonical state directly. External tools are replaceable implementation dependencies. Exact versions, license, SBOM, security scan, provenance, integration tests and rollback path are mandatory.
+
+## 8. Provider-neutral Cloud Development execution bridge
+
+The MediaHub Cloud Development Adapter is the sole provider-neutral execution boundary for approved development harnesses.
+
+- Canonical path: local/cluster policy → Cloud Development Adapter → isolated sandbox → ECC-enabled Codex/Claude harness → quarantined result.
+- Provider identities are replaceable: the adapter exposes a common request/result/provenance contract and does not depend on provider SDKs.
+- Codex and Claude are allowlisted providers; provider credentials are never passed by MediaHub runtime code.
+- The bridge denies production, secrets, State Authority and unrestricted host-filesystem capabilities; egress is explicit and fail-closed.
+- Harness execution uses an explicit argv, minimal environment, bounded timeout/output, sandbox worktree and deterministic audit events.
+- Dangerous harness bypass flags are rejected by the adapter. Host-level network/filesystem isolation remains mandatory through the dedicated sandbox/systemd boundary.
+- ECC remains a harness accelerator and never becomes runtime authority or canonical build state.
+
+Qualification status as of 2026-09-09: adapter contract and negative-path execution bridge PASS; full repository suite PASS. Real Codex/Claude provider execution remains BLOCKED until legitimate provider authentication is present and independently qualified. The bridge does not bypass provider availability, residency, sanctions or network restrictions; geographic operation is therefore policy/endpoint dependent rather than guaranteed by the adapter.
