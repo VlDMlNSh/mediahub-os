@@ -111,7 +111,7 @@ def main() -> int:
     prompt_file.write_text(prompt(), encoding="utf-8")
     try:
         p = subprocess.run(
-            [str(LLAMA), "-m", str(MODEL), "-f", str(prompt_file), "-n", "384", "-c", "2048", "--temp", "0"],
+            [str(LLAMA), "-m", str(MODEL), "-f", str(prompt_file), "-n", "128", "-c", "2048", "--temp", "0"],
             cwd=ROOT, text=True, capture_output=True, timeout=900, check=False,
         )
     finally:
