@@ -6,14 +6,17 @@ whether that proposal is admissible. The model never becomes an authority.
 """
 from __future__ import annotations
 
+import json
 import re
 import subprocess
 import sys
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 ROOT = Path("/home/mediahub/dev/mediahub-os-autonomous")
 MODEL = Path("/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf")
-LLAMA = Path("/home/mediahub/local-ai/bin/llama-cli")
+LOCAL_AI_URL = "http://127.0.0.1:8081/completion"
 GIT = Path("/usr/bin/git")
 MAX_DIFF_LINES = 500
 PROTECTED = {".git", ".autonomous", ".github"}
@@ -97,8 +100,25 @@ def verify() -> bool:
     return True
 
 
+def generate(prompt_file: Path) -> tuple[int, str]:
+    payload = {"prompt": prompt_file.read_text(encoding="utf-8"), "n_predict": 128, "temperature": 0}
+    request = urllib.request.Request(
+        LOCAL_AI_URL,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=120) as response:
+            body = json.loads(response.read().decode("utf-8"))
+        return 0, str(body.get("content", ""))
+    except (urllib.error.URLError, TimeoutError, ValueError) as exc:
+        print(f"LOCAL_AGENT_LOCAL_AI_ERROR: {type(exc).__name__}", file=sys.stderr)
+        return 28, ""
+
+
 def main() -> int:
-    if not LLAMA.is_file() or not MODEL.is_file():
+    if not MODEL.is_file():
         print("LOCAL_AGENT_BLOCKED: local model runtime/model unavailable", file=sys.stderr)
         return 20
     if run(["git", "merge-base", "--is-ancestor", R4, "HEAD"]).returncode != 0:
@@ -110,17 +130,12 @@ def main() -> int:
     prompt_file = ROOT / ".autonomous" / "local-agent-prompt.txt"
     prompt_file.write_text(prompt(), encoding="utf-8")
     try:
-        p = subprocess.run(
-            [str(LLAMA), "-m", str(MODEL), "-f", str(prompt_file), "-n", "128", "-c", "2048", "--temp", "0"],
-            cwd=ROOT, text=True, capture_output=True, timeout=900, check=False,
-        )
+        rc, output = generate(prompt_file)
     finally:
         prompt_file.unlink(missing_ok=True)
-    if p.returncode != 0:
-        print("LOCAL_AGENT_MODEL_RC=" + str(p.returncode), file=sys.stderr)
-        print(p.stderr[-4000:], file=sys.stderr)
-        return 23
-    patch = extract(p.stdout)
+    if rc != 0:
+        return rc
+    patch = extract(output)
     if not safe_patch(patch):
         print("LOCAL_AGENT_BLOCKED: invalid or oversized patch", file=sys.stderr)
         return 24
