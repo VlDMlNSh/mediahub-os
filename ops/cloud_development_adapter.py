@@ -199,6 +199,6 @@ class CloudDevelopmentAdapter:
 
 # Provider wrappers keep credential handling outside the adapter process.
 ENTRYPOINTS = {
-    "codex": Path("/home/mediahub/.local/bin/codex-openrouter-smoke"),
-    "claude": Path("/home/mediahub/.local/bin/claude-openrouter-smoke"),
+    "codex": Path("/usr/local/libexec/mediahub/codex-openrouter"),
+    "claude": Path("/usr/local/libexec/mediahub/claude-openrouter"),
 }
