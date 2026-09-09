@@ -152,6 +152,8 @@ class CloudDevelopmentAdapter:
                               output, proc.returncode, self.provenance(request))
 
     def _validate_sandbox(self, sandbox: SandboxSpec) -> None:
+        if sandbox.root.is_symlink() or sandbox.worktree.is_symlink():
+            raise AdapterDenied("sandbox paths must not be symlinks")
         root = sandbox.root.resolve()
         worktree = sandbox.worktree.resolve()
         if root == Path("/") or worktree == Path("/"):

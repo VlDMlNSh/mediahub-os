@@ -130,6 +130,17 @@ def test_execute_provider_uses_allowlisted_wrapper_and_sandbox(tmp_path, monkeyp
     assert result.output.strip() == str(worktree)
 
 
+def test_sandbox_rejects_symlink_paths(tmp_path):
+    real_root = tmp_path / "real"
+    real_root.mkdir()
+    link = tmp_path / "link"
+    link.symlink_to(real_root, target_is_directory=True)
+    adapter = CloudDevelopmentAdapter()
+    adapter.authorize()
+    with pytest.raises(AdapterDenied):
+        adapter.execute(request(), SandboxSpec(root=link, worktree=link), ("true",))
+
+
 def test_execute_provider_denies_missing_wrapper(sandbox, monkeypatch):
     import ops.cloud_development_adapter as module
 
