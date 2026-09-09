@@ -85,7 +85,9 @@ def safe_patch(patch: str) -> bool:
         return False
     old_path = None
     for line in patch.splitlines():
-        if line.startswith("--- a/"):
+        if line.startswith("--- /dev/null"):
+            old_path = "/dev/null"
+        elif line.startswith("--- a/"):
             old_path = line[6:].strip()
         elif line.startswith("+++ b/"):
             path = line[6:].strip()
