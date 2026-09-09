@@ -20,6 +20,8 @@ MAX=900
 SLEEP=5
 CYCLE=BOOT
 LAST_RESULT=STARTING
+FAIL_STREAK=0
+MAX_FAIL_STREAK=3
 (while :; do
 	printf "STATE=RUNNING\nCYCLE=%s\nHEAD=%s\nLAST_RESULT=%s\nMODEL=%s\nTIMESTAMP=%s\n" "$(cat "$STATE/current_cycle" 2>/dev/null || echo BOOT)" "$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || echo UNKNOWN)" "$(cat "$STATE/current_result" 2>/dev/null || echo STARTING)" "$MEDIAHUB_LOCAL_MODEL" "$(date -u +%FT%TZ)" >"$HEARTBEAT.tmp"
 	mv -f "$HEARTBEAT.tmp" "$HEARTBEAT"
@@ -43,8 +45,16 @@ while [ ! -e "$STOPFILE" ]; do
 		echo "BASE_HEAD=$BASE_HEAD"
 		echo "BASE_TREE=$BASE_TREE"
 		echo "SOURCE_SHA=$BASE_HEAD"
-		git merge-base --is-ancestor 471f709f5633feab7aeb62dd3ea52effad6d2bc4 HEAD
-		test "$(git status --porcelain)" = ""
+		if ! git merge-base --is-ancestor 471f709f5633feab7aeb62dd3ea52effad6d2bc4 HEAD; then
+			echo "P0_BLOCKED: R4 ancestry invariant failed"
+			printf "BLOCKED\n" >"$STATE/current_result"
+			exit 21
+		fi
+		if [ -n "$(git status --porcelain)" ]; then
+			echo "P0_BLOCKED: baseline worktree is not clean"
+			printf "BLOCKED\n" >"$STATE/current_result"
+			exit 22
+		fi
 		set +e
 		timeout --signal=TERM --kill-after=20s "${MAX}s" ./ops/local_autonomous_agent.py
 		RC=$?
@@ -70,10 +80,25 @@ while [ ! -e "$STOPFILE" ]; do
 			ROLLBACK=BLOCKED_HEAD_CHANGED
 			LAST_RESULT=BLOCKED
 		fi
-		if [ "$RC" -eq 0 ] && [ "$POST_HEAD" = "$BASE_HEAD" ] && [ -z "$STATUS" ]; then LAST_RESULT=PASS; elif [ "${LAST_RESULT:-}" != "BLOCKED" ]; then LAST_RESULT=FAIL; fi
+		if [ "$RC" -eq 0 ] && [ "$POST_HEAD" != "$BASE_HEAD" ] && [ -z "$STATUS" ] && git merge-base --is-ancestor "$BASE_HEAD" "$POST_HEAD"; then
+			LAST_RESULT=PASS
+			FAIL_STREAK=0
+		elif [ "${LAST_RESULT:-}" != "BLOCKED" ]; then
+			if [ "$RC" -eq 30 ]; then LAST_RESULT=NO_PROGRESS; else LAST_RESULT=FAIL; fi
+			FAIL_STREAK=$((FAIL_STREAK + 1))
+		fi
 		printf "%s\n" "$LAST_RESULT" >"$STATE/current_result"
 		printf "%s\tSOURCE_SHA=%s\tBASE_TREE=%s\tRC=%s\tPOST_HEAD=%s\tPOST_TREE=%s\tROLLBACK=%s\tRESULT=%s\n" "$STAMP" "$BASE_HEAD" "$BASE_TREE" "$RC" "$POST_HEAD" "$POST_TREE" "$ROLLBACK" "$LAST_RESULT" >>"$PROVENANCE"
 		echo "CYCLE_RESULT=$LAST_RESULT"
-	} >>"$LOG" 2>&1 || true
+	} >>"$LOG" 2>&1 || {
+		printf "BLOCKED\n" >"$STATE/current_result"
+		exit 70
+	}
+	if [ "$FAIL_STREAK" -ge "$MAX_FAIL_STREAK" ]; then
+		echo "AUTONOMY_BLOCKED: repeated failures; fail-closed after $FAIL_STREAK cycles" >>"$LOG"
+		printf "BLOCKED\n" >"$STATE/current_result"
+		touch "$STOPFILE"
+		break
+	fi
 	sleep "$SLEEP"
 done

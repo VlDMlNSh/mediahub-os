@@ -185,11 +185,18 @@ def main() -> int:
         return 27
     msg = run(["git", "diff", "--cached", "--name-only"]).stdout.strip().splitlines()
     if not msg:
-        print("LOCAL_AGENT_NOOP")
-        return 0
+        print("LOCAL_AGENT_NOOP: no admissible downstream change")
+        return 30
     subject = "chore: local autonomous verified downstream increment"
-    run(["git", "commit", "-m", subject], timeout=120)
-    print("LOCAL_AGENT_COMMIT=" + run(["git", "rev-parse", "HEAD"]).stdout.strip())
+    commit = run(["git", "commit", "-m", subject], timeout=120)
+    if commit.returncode != 0:
+        print("LOCAL_AGENT_BLOCKED: commit failed\n" + commit.stderr, file=sys.stderr)
+        return 31
+    post_head = run(["git", "rev-parse", "HEAD"])
+    if post_head.returncode != 0 or not post_head.stdout.strip():
+        print("LOCAL_AGENT_BLOCKED: post-commit HEAD verification failed", file=sys.stderr)
+        return 32
+    print("LOCAL_AGENT_COMMIT=" + post_head.stdout.strip())
     return 0
 
 if __name__ == "__main__":
