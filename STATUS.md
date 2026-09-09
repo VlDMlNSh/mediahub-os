@@ -5,8 +5,8 @@ PHASE:1/2 - Secure development environment / agent orchestration
 
 ## Control Point
 - Branch: autonomous/os-build
-- HEAD: 7d7182f655f7addf08a89c6c44b33107ecbcf6bf
-- TREE: e00c4f57a7ee575bc63f663975f1cbfdcdabb4b0
+- HEAD: bfed8c9cb3cec0b460f471192904af773ef16e99
+- TREE: 63ee6d8691963c109d7feaefa0f424d8cdc17654
 - Immutable R4: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
 - R4 TREE: 2279612908135418b2b5448d598274ea6741deaa
 - R4 ancestry: PASS
@@ -19,7 +19,7 @@ PHASE:1/2 - Secure development environment / agent orchestration
 - Local health and inference smoke tests: PASS.
 - Provider-neutral AI admission boundary implemented with deny-by-default capabilities, explicit egress, bounded timeout, revocation and provenance.
 - Dedicated autonomous Python environment: pip 26.2.1, pytest 9.0.3, pip-audit 2.10.1; audit PASS.
-- Full local gate: PASS; 196 tests + 11 subtests; security 33 + 11 subtests.
+- Full local gate: PASS; 195 tests; security 33 + 11 subtests.
 - Semgrep: 0 findings; Bandit runtime: PASS; Ruff: PASS; mypy: PASS; ShellCheck/shfmt/diff-check: PASS.
 - Deterministic lifecycle harness: timeout termination, rollback evidence, stale heartbeat, restart, duplicate lock and STOP authority all PASS.
 
@@ -56,7 +56,7 @@ PHASE:1/2 - Secure development environment / agent orchestration
 - QUAL_CYCLE_3: PASS — local AI response size bounded; full verification passed.
 - QUAL_CYCLE_4: PASS — local AI health is fail-closed; full verification passed.
 - QUAL_CYCLE_5: PASS — HTTP redirects from local AI endpoint denied; full verification passed.
-- QUAL_CYCLE_6: PASS — transport boundary tests added; 197 tests passed; security/static verification passed.
+- QUAL_CYCLE_6: PASS — transport boundary tests added; 195 tests passed; security/static verification passed.
 - Qualified PASS count: 5 independent PASS records after the initial failed cycle.
-- Current HEAD/TREE: 7d7182f655f7addf08a89c6c44b33107ecbcf6bf / e00c4f57a7ee575bc63f663975f1cbfdcdabb4b0
+- Current HEAD/TREE: bfed8c9cb3cec0b460f471192904af773ef16e99 / 63ee6d8691963c109d7feaefa0f424d8cdc17654
 - Production/release authorization: NOT GRANTED.

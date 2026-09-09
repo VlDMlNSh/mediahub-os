@@ -2,8 +2,8 @@
 
 - phase: PHASE:1/2
 - branch: autonomous/os-build
-- head: 7d7182f655f7addf08a89c6c44b33107ecbcf6bf
-- tree: e00c4f57a7ee575bc63f663975f1cbfdcdabb4b0
+- head: bfed8c9cb3cec0b460f471192904af773ef16e99
+- tree: 63ee6d8691963c109d7feaefa0f424d8cdc17654
 - immutable_r4: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
 - r4_tree: 2279612908135418b2b5448d598274ea6741deaa
 - r4_ancestry: PASS
@@ -34,7 +34,7 @@ R4 history is immutable. AI is advisory and never authority. Secrets stay in cre
 - QUAL_CYCLE_3: PASS — local AI response size bounded; full verification passed.
 - QUAL_CYCLE_4: PASS — local AI health is fail-closed; full verification passed.
 - QUAL_CYCLE_5: PASS — HTTP redirects from local AI endpoint denied; full verification passed.
-- QUAL_CYCLE_6: PASS — transport boundary tests added; 197 tests passed; security/static verification passed.
+- QUAL_CYCLE_6: PASS — transport boundary tests added; 195 tests passed; security/static verification passed.
 - Qualified PASS count: 5 independent PASS records after the initial failed cycle.
-- Current HEAD/TREE: 7d7182f655f7addf08a89c6c44b33107ecbcf6bf / e00c4f57a7ee575bc63f663975f1cbfdcdabb4b0
+- Current HEAD/TREE: bfed8c9cb3cec0b460f471192904af773ef16e99 / 63ee6d8691963c109d7feaefa0f424d8cdc17654
 - Production/release authorization: NOT GRANTED.
