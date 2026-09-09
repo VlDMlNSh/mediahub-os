@@ -59,6 +59,7 @@ Return ONLY a unified git diff, no markdown fences, no commentary.
 Allowed: existing repository files under architecture/, planning/, specification/, ops/, tests/, docs/.
 Forbidden: .git/, .autonomous/, secrets, credentials, workflows that grant authority, history rewriting.
 The diff must be <= {MAX_DIFF_LINES} lines and must be directly applicable with `git apply`.
+Never change file modes, executable bits, rename metadata, or file type; preserve the existing mode of every tracked file. Do not emit `new file mode`, `old mode`, or `new mode` lines.
 Prefer tests, contracts, registries, documentation, and deterministic validation over speculative runtime changes.
 
 CURRENT STATE
