@@ -132,7 +132,7 @@ def generate(prompt_file: Path) -> tuple[int, str]:
             {"role": "system", "content": "Return only a directly applicable unified git diff. No commentary."},
             {"role": "user", "content": prompt_file.read_text(encoding="utf-8")},
         ],
-        "max_tokens": 128,
+        "max_tokens": 512,
         "temperature": 0,
     }
     request = urllib.request.Request(
