@@ -1,0 +1,33 @@
+[Unit]
+Description=MediaHub native provider gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mediahub-gateway
+Group=mediahub-agents
+LoadCredential=mediahub-openrouter:/etc/mediahub/credentials/openrouter_api_key
+LoadCredential=mediahub-opper:/etc/mediahub/credentials/opper_api_key
+LoadCredential=mediahub-continuum:/etc/mediahub/credentials/continuum_api_key
+ExecStart=/usr/bin/python3 /usr/local/libexec/mediahub/mediahub_provider_gateway_http.py
+Restart=on-failure
+RestartSec=5s
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+UMask=0077
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadOnlyPaths=/usr/local/libexec/mediahub/mediahub_provider_gateway_http.py
+
+[Install]
+WantedBy=multi-user.target
