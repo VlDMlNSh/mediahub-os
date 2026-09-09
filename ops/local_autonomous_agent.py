@@ -17,6 +17,14 @@ from pathlib import Path
 ROOT = Path("/home/mediahub/dev/mediahub-os-autonomous")
 MODEL = Path("/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf")
 LOCAL_AI_URL = "http://127.0.0.1:8081/v1/chat/completions"
+
+
+class NoRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, msg, headers, newurl):
+        raise urllib.error.HTTPError(request.full_url, code, "redirect denied", headers, None)
+
+
+LOCAL_AI_OPENER = urllib.request.build_opener(NoRedirectHandler)
 GIT = Path("/usr/bin/git")
 MAX_DIFF_LINES = 500
 PROTECTED = {".git", ".autonomous", ".github"}
@@ -103,7 +111,7 @@ def verify() -> bool:
 def generate(prompt_file: Path) -> tuple[int, str]:
     health = urllib.request.Request("http://127.0.0.1:8081/health", method="GET")
     try:
-        with urllib.request.urlopen(health, timeout=5) as response:
+        with LOCAL_AI_OPENER.open(health, timeout=5) as response:
             if response.status != 200:
                 raise urllib.error.URLError("local ai health status")
     except (urllib.error.URLError, TimeoutError) as exc:
@@ -124,7 +132,7 @@ def generate(prompt_file: Path) -> tuple[int, str]:
         method="POST",
     )
     try:
-        with urllib.request.urlopen(request, timeout=120) as response:
+        with LOCAL_AI_OPENER.open(request, timeout=120) as response:
             raw = response.read(1_048_577)
         if len(raw) > 1_048_576:
             print("LOCAL_AGENT_LOCAL_AI_ERROR: response_too_large", file=sys.stderr)
