@@ -21,7 +21,14 @@ while [ ! -e "$STOPFILE" ]; do
 		[ "$age" -le "$HEARTBEAT_MAX" ] && stale=0
 	fi
 	pid="$(cat "$PIDFILE" 2>/dev/null || true)"
-	if [ ! -s "$PIDFILE" ] || ! kill -0 "$pid" 2>/dev/null || [ "$stale" -eq 1 ]; then
+	owned=0
+	if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then
+		cmd="$(ps -p "$pid" -o args= 2>/dev/null || true)"
+		case "$cmd" in
+			*"$ROOT/ops/autonomous_os_loop.sh"*|*"./ops/autonomous_os_loop.sh"*) owned=1 ;;
+		esac
+	fi
+	if [ "$owned" -eq 0 ] || [ "$stale" -eq 1 ]; then
 		if [ "$stale" -eq 1 ] && kill -0 "$pid" 2>/dev/null; then
 			echo "$(date -u +%FT%TZ) stale heartbeat; terminating controller pid=$pid" >>"$LOG"
 			pkill -TERM -P "$pid" 2>/dev/null || true

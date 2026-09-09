@@ -30,3 +30,10 @@ def test_agent_does_not_treat_noop_as_success():
     assert "LOCAL_AGENT_NOOP: no admissible downstream change" in text
     assert "return 30" in text
     assert "commit.returncode != 0" in text
+
+
+def test_watchdog_validates_controller_ownership_before_termination():
+    text = (ROOT / "ops/autonomous_watchdog.sh").read_text(encoding="utf-8")
+    assert 'owned=0' in text
+    assert 'ps -p "$pid" -o args=' in text
+    assert 'if [ "$owned" -eq 0 ] || [ "$stale" -eq 1 ]' in text
