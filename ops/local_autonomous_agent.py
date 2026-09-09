@@ -175,6 +175,13 @@ def main() -> int:
     if apply.returncode != 0:
         print("LOCAL_AGENT_BLOCKED: patch apply failed\n" + apply.stderr, file=sys.stderr)
         return 26
+    changed = run(["git", "diff", "--cached", "--name-only"]).stdout.splitlines()
+    python_files = [path for path in changed if path.endswith(".py")]
+    if python_files:
+        lint_fix = subprocess.run(["ruff", "check", "--fix", *python_files], cwd=ROOT, text=True, capture_output=True, check=False)
+        if lint_fix.returncode != 0:
+            print("LOCAL_AGENT_BLOCKED: deterministic lint repair failed\n" + lint_fix.stderr, file=sys.stderr)
+            return 33
     if not verify():
         # Baseline is fail-closed clean; restore index+worktree without moving HEAD.
         rollback = run(["git", "restore", "--staged", "--worktree", "--", "."], timeout=120)
