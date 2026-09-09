@@ -18,6 +18,7 @@ MODEL = Path(os.environ.get("MEDIAHUB_LOCAL_MODEL", "/home/mediahub/local-ai/mod
 LLAMA = Path(os.environ.get("MEDIAHUB_LLAMA_CLI", "/home/mediahub/local-ai/bin/llama-cli"))
 MAX_DIFF_LINES = 500
 PROTECTED = {".git", ".autonomous", ".github"}
+ALLOWED_TOP = {"architecture", "planning", "specification", "ops", "tests", "docs", "contracts", "development", "governance", "verification", "runtime", "security"}
 R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
 
 
@@ -74,7 +75,10 @@ def safe_patch(patch: str) -> bool:
     for line in patch.splitlines():
         if line.startswith(("+++ b/", "--- a/")):
             path = line[6:].strip()
-            if any(part in PROTECTED for part in Path(path).parts):
+            parts = Path(path).parts
+            if any(part in PROTECTED for part in parts):
+                return False
+            if parts and parts[0] not in ALLOWED_TOP:
                 return False
             if path.startswith((".env", "/")) or "secret" in path.lower() or "credential" in path.lower():
                 return False
