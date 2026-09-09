@@ -3,6 +3,7 @@ set -euo pipefail
 ROOT="/home/mediahub/dev/mediahub-os-autonomous"
 STATE="$ROOT/.autonomous"
 LOGDIR="$STATE/logs"
+PROVENANCE="$STATE/provenance.log"
 LOCKFILE="$STATE/loop.lock"
 HEARTBEAT="$STATE/heartbeat.log"
 PIDFILE="$STATE/loop.pid"
@@ -36,22 +37,38 @@ while [ ! -e "$STOPFILE" ]; do
 	{
 		echo "=== MEDIAHUB LOCAL AUTONOMOUS CYCLE $STAMP ==="
 		cd "$ROOT"
+		BASE_HEAD="$(git rev-parse HEAD)"
+		BASE_TREE="$(git rev-parse 'HEAD^{tree}')"
 		echo "MODE=LOCAL_ONLY"
-		echo "HEAD=$(git rev-parse HEAD)"
-		echo "TREE=$(git rev-parse 'HEAD^{tree}')"
+		echo "BASE_HEAD=$BASE_HEAD"
+		echo "BASE_TREE=$BASE_TREE"
+		echo "SOURCE_SHA=$BASE_HEAD"
 		git merge-base --is-ancestor 471f709f5633feab7aeb62dd3ea52effad6d2bc4 HEAD
 		test "$(git status --porcelain)" = ""
 		set +e
 		timeout --signal=TERM --kill-after=20s "${MAX}s" ./ops/local_autonomous_agent.py
 		RC=$?
 		set -e
+		POST_HEAD="$(git rev-parse HEAD)"
+		POST_TREE="$(git rev-parse 'HEAD^{tree}')"
+		STATUS="$(git status --porcelain)"
 		echo "LOCAL_AGENT_RC=$RC"
-		echo "POST_HEAD=$(git rev-parse HEAD)"
-		echo "POST_TREE=$(git rev-parse 'HEAD^{tree}')"
+		echo "POST_HEAD=$POST_HEAD"
+		echo "POST_TREE=$POST_TREE"
 		echo "POST_STATUS:"
 		git status --short --branch
-		if [ "$RC" -eq 0 ]; then LAST_RESULT=PASS; else LAST_RESULT=FAIL; fi
+		ROLLBACK=NOT_REQUIRED
+		if [ "$RC" -ne 0 ] && [ "$POST_HEAD" = "$BASE_HEAD" ] && [ -n "$STATUS" ]; then
+			echo "ROLLBACK=REQUIRED"
+			git reset --hard "$BASE_HEAD"
+			ROLLBACK=APPLIED
+		elif [ "$RC" -ne 0 ] && [ "$POST_HEAD" != "$BASE_HEAD" ]; then
+			ROLLBACK=BLOCKED_HEAD_CHANGED
+			LAST_RESULT=BLOCKED
+		fi
+		if [ "$RC" -eq 0 ] && [ "$POST_HEAD" = "$BASE_HEAD" ] && [ -z "$STATUS" ]; then LAST_RESULT=PASS; elif [ "${LAST_RESULT:-}" != "BLOCKED" ]; then LAST_RESULT=FAIL; fi
 		printf "%s\n" "$LAST_RESULT" >"$STATE/current_result"
+		printf "%s\tSOURCE_SHA=%s\tBASE_TREE=%s\tRC=%s\tPOST_HEAD=%s\tPOST_TREE=%s\tROLLBACK=%s\tRESULT=%s\n" "$STAMP" "$BASE_HEAD" "$BASE_TREE" "$RC" "$POST_HEAD" "$POST_TREE" "$ROLLBACK" "$LAST_RESULT" >>"$PROVENANCE"
 		echo "CYCLE_RESULT=$LAST_RESULT"
 	} >>"$LOG" 2>&1 || true
 	sleep "$SLEEP"

@@ -20,7 +20,21 @@ while [ ! -e "$STOPFILE" ]; do
 		age=$((now - $(stat -c %Y "$HEARTBEAT")))
 		[ "$age" -le "$HEARTBEAT_MAX" ] && stale=0
 	fi
-	if [ ! -s "$PIDFILE" ] || ! kill -0 "$(cat "$PIDFILE" 2>/dev/null)" 2>/dev/null || [ "$stale" -eq 1 ]; then
+	pid="$(cat "$PIDFILE" 2>/dev/null || true)"
+	if [ ! -s "$PIDFILE" ] || ! kill -0 "$pid" 2>/dev/null || [ "$stale" -eq 1 ]; then
+		if [ "$stale" -eq 1 ] && kill -0 "$pid" 2>/dev/null; then
+			echo "$(date -u +%FT%TZ) stale heartbeat; terminating controller pid=$pid" >>"$LOG"
+			pkill -TERM -P "$pid" 2>/dev/null || true
+			kill -TERM "$pid" 2>/dev/null || true
+			for _ in 1 2 3 4 5; do
+				kill -0 "$pid" 2>/dev/null || break
+				sleep 1
+			done
+			if kill -0 "$pid" 2>/dev/null; then
+				pkill -KILL -P "$pid" 2>/dev/null || true
+				kill -KILL "$pid" 2>/dev/null || true
+			fi
+		fi
 		echo "$(date -u +%FT%TZ) restarting controller" >>"$LOG"
 		rm -f "$PIDFILE"
 		nohup "$ROOT/ops/autonomous_os_loop.sh" >>"$LOG" 2>&1 &
