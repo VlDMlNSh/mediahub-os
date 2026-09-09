@@ -5,8 +5,8 @@ PHASE:1/2 - Secure development environment / agent orchestration
 
 ## Control Point
 - Branch: autonomous/os-build
-- HEAD: 169432436879d129500c0d703f87250c1db72aab
-- TREE: b38873d8128ec21e2a29c0ab19cc0102f56f6a14
+- HEAD: a7a2fc375ba42c0b1aa4600574a84303bc50cc4e
+- TREE: c4db541b7349d9b1ed53a3032efc0763c6bc5c3d
 - Immutable R4: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
 - R4 TREE: 2279612908135418b2b5448d598274ea6741deaa
 - R4 ancestry: PASS
