@@ -101,6 +101,14 @@ def verify() -> bool:
 
 
 def generate(prompt_file: Path) -> tuple[int, str]:
+    health = urllib.request.Request("http://127.0.0.1:8081/health", method="GET")
+    try:
+        with urllib.request.urlopen(health, timeout=5) as response:
+            if response.status != 200:
+                raise urllib.error.URLError("local ai health status")
+    except (urllib.error.URLError, TimeoutError) as exc:
+        print(f"LOCAL_AGENT_LOCAL_AI_ERROR: {type(exc).__name__}", file=sys.stderr)
+        return 28, ""
     payload = {
         "messages": [
             {"role": "system", "content": "Return only a directly applicable unified git diff. No commentary."},
