@@ -5,41 +5,39 @@ PHASE:1/2 - Secure development environment / agent orchestration
 
 ## Control Point
 - Branch: autonomous/os-build
-- HEAD: a7a2fc375ba42c0b1aa4600574a84303bc50cc4e
-- TREE: c4db541b7349d9b1ed53a3032efc0763c6bc5c3d
+- HEAD: d2f71f2c43f790b234f0b7e75632c5995e6d9653
+- TREE: 5f0bb222972865125e1763d0271e4c4d3cd1e6cc
 - Immutable R4: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
 - R4 TREE: 2279612908135418b2b5448d598274ea6741deaa
 - R4 ancestry: PASS
-- Working tree before bounded change: CLEAN
+- Working tree: CLEAN
 
 ## Completed Wave
-- Local llama.cpp server built successfully from existing source/build tree.
-- Qwen2.5-Coder 1.5B Q4_K_M model present and loaded.
-- Local health endpoint: PASS on 127.0.0.1:8081.
-- Local inference smoke: PASS (`LOCAL_AI_SMOKE_OK`).
-- Local agent prompt handling hardened: stdin only; fixed executable/model paths.
-- Autonomous security gate switched to dedicated reproducible venv.
-- pip upgraded to 26.2.1; pip-audit 2.10.1; pytest 9.0.3.
-- Full local gate: PASS; 187 tests + 11 subtests, security 24 + 11 subtests.
-- Semgrep: PASS; Bandit runtime: PASS; Ruff: PASS; mypy: PASS; diff-check: PASS.
-- Systemd sandbox templates added for local AI and cloud-agent workers.
+- llama.cpp server built from the existing local source/build tree.
+- Qwen2.5-Coder 1.5B Q4_K_M loaded successfully.
+- Local AI systemd user service enabled and active with localhost-only binding, no Web UI, CORS allowlist and network deny policy.
+- Local health and inference smoke tests: PASS.
+- Provider-neutral AI admission boundary implemented with deny-by-default capabilities, explicit egress, bounded timeout, revocation and provenance.
+- Dedicated autonomous Python environment: pip 26.2.1, pytest 9.0.3, pip-audit 2.10.1; audit PASS.
+- Full local gate: PASS; 196 tests + 11 subtests; security 33 + 11 subtests.
+- Semgrep: 0 findings; Bandit runtime: PASS; Ruff: PASS; mypy: PASS; ShellCheck/shfmt/diff-check: PASS.
+- Deterministic lifecycle harness: timeout termination, rollback evidence, stale heartbeat, restart, duplicate lock and STOP authority all PASS.
+
+## Autonomous Local-Agent Result
+- One bounded local-only cycle was started with a 180-second hard timeout.
+- llama.cpp generation exceeded the bound and was terminated.
+- No patch was committed and working tree remained CLEAN.
+- This is treated as a bounded performance blocker, not a qualification failure.
 
 ## Current Blockers
 - Alamo CLI/service is not installed/active on mh-dev-01.
-- Claude auth is explicitly false; no cloud agent may be started.
-- User systemd bus is unavailable; privileged system unit installation requires owner/root action.
-- Docker/bwrap/firejail/podman are absent; the cloud-agent sandbox template is not activated.
+- Claude auth is false; cloud agents remain stopped.
+- Cloud-agent systemd template requires root installation of a fixed adapter and Alamo control socket.
+- Docker/bwrap/firejail/podman are absent; systemd user sandbox is available for local AI, but cloud worker activation is not yet possible.
 - MH-05 independent review and F-03 remain governance gates.
 
 ## Safety State
-- R4 immutable.
+- R4 immutable; production/release/MH-06 locked.
 - No secrets copied to Git, logs, reports, or chat.
-- No external AI API invoked by the local model.
-- Cloud agents remain STOPPED/UNAUTHORIZED.
-- Production and release remain locked; MH-06 remains locked.
-
-## Next Bounded Wave
-1. Owner-provision Alamo and its lawful credentials/control socket.
-2. Install/activate the cloud-agent systemd template with root-owned adapter.
-3. Demonstrate timeout, kill-tree, provenance, rollback, stale-heartbeat watchdog, restart, duplicate prevention, and STOP authority.
-4. Then resume bounded autonomous cycles only after every gate passes.
+- No external AI API invoked by the local AI runtime.
+- No provider-specific bypass or residency circumvention implemented.
