@@ -107,10 +107,15 @@ def main() -> int:
     if run(["git", "status", "--porcelain"]).stdout.strip():
         print("LOCAL_AGENT_BLOCKED: working tree is not clean", file=sys.stderr)
         return 22
-    p = subprocess.run(
-        [str(LLAMA), "-m", str(MODEL), "-f", "-", "-n", "384", "-c", "2048", "--temp", "0"],
-        cwd=ROOT, input=prompt(), text=True, capture_output=True, timeout=900, check=False,
-    )
+    prompt_file = ROOT / ".autonomous" / "local-agent-prompt.txt"
+    prompt_file.write_text(prompt(), encoding="utf-8")
+    try:
+        p = subprocess.run(
+            [str(LLAMA), "-m", str(MODEL), "-f", str(prompt_file), "-n", "384", "-c", "2048", "--temp", "0"],
+            cwd=ROOT, text=True, capture_output=True, timeout=900, check=False,
+        )
+    finally:
+        prompt_file.unlink(missing_ok=True)
     if p.returncode != 0:
         print("LOCAL_AGENT_MODEL_RC=" + str(p.returncode), file=sys.stderr)
         print(p.stderr[-4000:], file=sys.stderr)
