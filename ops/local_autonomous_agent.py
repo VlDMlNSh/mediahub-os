@@ -86,6 +86,8 @@ def safe_patch(patch: str) -> bool:
         return False
     old_path = None
     for line in patch.splitlines():
+        if line.startswith(("old mode ", "new mode ", "new file mode ", "deleted file mode ")):
+            return False
         if line.startswith("--- /dev/null"):
             old_path = "/dev/null"
         elif line.startswith("--- a/"):
