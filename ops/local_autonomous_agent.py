@@ -182,6 +182,10 @@ def main() -> int:
         if lint_fix.returncode != 0:
             print("LOCAL_AGENT_BLOCKED: deterministic lint repair failed\n" + lint_fix.stderr, file=sys.stderr)
             return 33
+        restage = run(["git", "add", "--", *changed], timeout=120)
+        if restage.returncode != 0:
+            print("LOCAL_AGENT_BLOCKED: restage after lint repair failed\n" + restage.stderr, file=sys.stderr)
+            return 34
     if not verify():
         # Baseline is fail-closed clean; restore index+worktree without moving HEAD.
         rollback = run(["git", "restore", "--staged", "--worktree", "--", "."], timeout=120)
