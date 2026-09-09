@@ -83,8 +83,11 @@ def extract(text: str) -> str:
 def safe_patch(patch: str) -> bool:
     if not patch or len(patch.splitlines()) > MAX_DIFF_LINES:
         return False
+    old_path = None
     for line in patch.splitlines():
-        if line.startswith(("+++ b/", "--- a/")):
+        if line.startswith("--- a/"):
+            old_path = line[6:].strip()
+        elif line.startswith("+++ b/"):
             path = line[6:].strip()
             parts = Path(path).parts
             if any(part in PROTECTED for part in parts):
@@ -92,6 +95,10 @@ def safe_patch(patch: str) -> bool:
             if parts and parts[0] not in ALLOWED_TOP:
                 return False
             if path.startswith((".env", "/")) or "secret" in path.lower() or "credential" in path.lower():
+                return False
+            # A tracked file must never be reintroduced as a new file. This makes
+            # model output idempotent even when the model ignores the task hint.
+            if old_path == "/dev/null" and run(["git", "ls-files", "--error-unmatch", path]).returncode == 0:
                 return False
     return True
 
