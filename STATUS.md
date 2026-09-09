@@ -5,8 +5,8 @@ PHASE:1/2 - Secure development environment / agent orchestration
 
 ## Control Point
 - Branch: autonomous/os-build
-- HEAD: d2f71f2c43f790b234f0b7e75632c5995e6d9653
-- TREE: 5f0bb222972865125e1763d0271e4c4d3cd1e6cc
+- HEAD: 5ed1de88669f815de08507ff3d4252d8694ec515
+- TREE: a82a8d187b66a3ed23a6f4ea2a3f3421e8bb7cf4
 - Immutable R4: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
 - R4 TREE: 2279612908135418b2b5448d598274ea6741deaa
 - R4 ancestry: PASS
@@ -29,8 +29,15 @@ PHASE:1/2 - Secure development environment / agent orchestration
 - No patch was committed and working tree remained CLEAN.
 - This is treated as a bounded performance blocker, not a qualification failure.
 
+## Autonomous Controller Qualification
+- Controller recovery hardening committed at exact checkpoint above.
+- Temporary fixture exercised controller timeout/termination, rollback and provenance: PASS.
+- Temporary fixture exercised watchdog stale-heartbeat detection/restart: PASS.
+- Duplicate controller lock and STOP authority: PASS.
+- Real cloud/Alamo-mediated controller execution remains BLOCKED because no operational Alamo control service is installed.
+
 ## Current Blockers
-- Alamo CLI/service is not installed/active on mh-dev-01.
+- Alamo CLI/service is not installed/active on mh-dev-01; `/home/mediahub/alamo-local-adapter` is an advisory prototype artifact, not an operational control plane.
 - Claude auth is false; cloud agents remain stopped.
 - Cloud-agent systemd template requires root installation of a fixed adapter and Alamo control socket.
 - Docker/bwrap/firejail/podman are absent; systemd user sandbox is available for local AI, but cloud worker activation is not yet possible.
