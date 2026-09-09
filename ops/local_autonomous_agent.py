@@ -46,7 +46,7 @@ def snapshot() -> str:
 def task() -> str:
     queue = ROOT / "ops/local_autonomous_tasks.md"
     base = queue.read_text() if queue.exists() else "Perform the smallest safe architecture-consistency improvement discoverable from the repository."
-    return base + "\n\nCURRENT TASK STATE\n- The first-wave Cloud Development Adapter skeleton already exists at ops/cloud-development-adapter.py. Do NOT create or re-add that file.\n- The Cloud Development second wave (Claude/Codex provider integration) is gated and must NOT be activated by the local-only agent.\n- Prefer a small regression test, contract, invariant, documentation correction, or deterministic validation that is not already present.\n"
+    return base + "\n\nCURRENT TASK STATE\n- The first-wave Cloud Development Adapter skeleton already exists at ops/cloud-development-adapter.py and is already tracked. Treat that implementation item as COMPLETE for this local cycle. Do NOT create, re-add, or replace that file.\n- The Cloud Development second wave (Claude/Codex provider integration) is gated and must NOT be activated by the local-only agent.\n- Select exactly one small change in an EXISTING repository file: preferably a regression test, contract, invariant, documentation correction, or deterministic validation.\n- Before emitting a diff, inspect CURRENT STATE and choose a path that is already tracked. Never emit a new-file diff for ops/cloud-development-adapter.py.\n"
 
 
 def prompt() -> str:
