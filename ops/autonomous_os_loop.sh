@@ -59,9 +59,13 @@ while [ ! -e "$STOPFILE" ]; do
 		git status --short --branch
 		ROLLBACK=NOT_REQUIRED
 		if [ "$RC" -ne 0 ] && [ "$POST_HEAD" = "$BASE_HEAD" ] && [ -n "$STATUS" ]; then
-			echo "ROLLBACK=REQUIRED"
-			git reset --hard "$BASE_HEAD"
-			ROLLBACK=APPLIED
+			echo "ROLLBACK=REQUIRED_NON_DESTRUCTIVE"
+			if git restore --staged --worktree -- . && [ -z "$(git status --porcelain)" ]; then
+				ROLLBACK=APPLIED_HEAD_PRESERVED
+			else
+				ROLLBACK=BLOCKED_RESTORE_FAILED
+				LAST_RESULT=BLOCKED
+			fi
 		elif [ "$RC" -ne 0 ] && [ "$POST_HEAD" != "$BASE_HEAD" ]; then
 			ROLLBACK=BLOCKED_HEAD_CHANGED
 			LAST_RESULT=BLOCKED

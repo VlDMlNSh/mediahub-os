@@ -176,8 +176,12 @@ def main() -> int:
         print("LOCAL_AGENT_BLOCKED: patch apply failed\n" + apply.stderr, file=sys.stderr)
         return 26
     if not verify():
-        run(["git", "reset", "--hard", "HEAD"], timeout=120)
-        print("LOCAL_AGENT_ROLLBACK: verification failed", file=sys.stderr)
+        # Baseline is fail-closed clean; restore index+worktree without moving HEAD.
+        rollback = run(["git", "restore", "--staged", "--worktree", "--", "."], timeout=120)
+        if rollback.returncode != 0 or run(["git", "status", "--porcelain"]).stdout.strip():
+            print("LOCAL_AGENT_ROLLBACK_BLOCKED: non-destructive restore failed", file=sys.stderr)
+            return 29
+        print("LOCAL_AGENT_ROLLBACK: verification failed; HEAD preserved", file=sys.stderr)
         return 27
     msg = run(["git", "diff", "--cached", "--name-only"]).stdout.strip().splitlines()
     if not msg:
