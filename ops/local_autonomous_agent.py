@@ -6,16 +6,15 @@ whether that proposal is admissible. The model never becomes an authority.
 """
 from __future__ import annotations
 
-import os
 import re
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
-ROOT = Path(os.environ.get("MEDIAHUB_ROOT", "/home/mediahub/dev/mediahub-os-autonomous"))
-MODEL = Path(os.environ.get("MEDIAHUB_LOCAL_MODEL", "/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf"))
-LLAMA = Path(os.environ.get("MEDIAHUB_LLAMA_CLI", "/home/mediahub/local-ai/bin/llama-cli"))
+ROOT = Path("/home/mediahub/dev/mediahub-os-autonomous")
+MODEL = Path("/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf")
+LLAMA = Path("/home/mediahub/local-ai/bin/llama-cli")
+GIT = Path("/usr/bin/git")
 MAX_DIFF_LINES = 500
 PROTECTED = {".git", ".autonomous", ".github"}
 ALLOWED_TOP = {"architecture", "planning", "specification", "ops", "tests", "docs", "contracts", "development", "governance", "verification", "runtime", "security"}
@@ -108,13 +107,10 @@ def main() -> int:
     if run(["git", "status", "--porcelain"]).stdout.strip():
         print("LOCAL_AGENT_BLOCKED: working tree is not clean", file=sys.stderr)
         return 22
-    with tempfile.NamedTemporaryFile("w", delete=False, dir="/tmp", prefix="mediahub-local-agent-prompt-") as f:
-        f.write(prompt())
-        prompt_file = f.name
-    try:
-        p = subprocess.run([str(LLAMA), "-m", str(MODEL), "-f", prompt_file, "-n", "384", "-c", "2048", "--temp", "0"], cwd=ROOT, text=True, capture_output=True, timeout=900, check=False)
-    finally:
-        Path(prompt_file).unlink(missing_ok=True)
+    p = subprocess.run(
+        [str(LLAMA), "-m", str(MODEL), "-f", "-", "-n", "384", "-c", "2048", "--temp", "0"],
+        cwd=ROOT, input=prompt(), text=True, capture_output=True, timeout=900, check=False,
+    )
     if p.returncode != 0:
         print("LOCAL_AGENT_MODEL_RC=" + str(p.returncode), file=sys.stderr)
         print(p.stderr[-4000:], file=sys.stderr)
@@ -123,11 +119,11 @@ def main() -> int:
     if not safe_patch(patch):
         print("LOCAL_AGENT_BLOCKED: invalid or oversized patch", file=sys.stderr)
         return 24
-    check = subprocess.run(["git", "apply", "--check", "-"], cwd=ROOT, input=patch, text=True, capture_output=True, check=False)
+    check = subprocess.run([str(GIT), "apply", "--check", "-"], cwd=ROOT, input=patch, text=True, capture_output=True, check=False)
     if check.returncode != 0:
         print("LOCAL_AGENT_BLOCKED: patch check failed\n" + check.stderr, file=sys.stderr)
         return 25
-    apply = subprocess.run(["git", "apply", "--index", "-"], cwd=ROOT, input=patch, text=True, capture_output=True, check=False)
+    apply = subprocess.run([str(GIT), "apply", "--index", "-"], cwd=ROOT, input=patch, text=True, capture_output=True, check=False)
     if apply.returncode != 0:
         print("LOCAL_AGENT_BLOCKED: patch apply failed\n" + apply.stderr, file=sys.stderr)
         return 26

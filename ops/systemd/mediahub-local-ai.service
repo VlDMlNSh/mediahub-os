@@ -1,0 +1,36 @@
+[Unit]
+Description=MediaHub local AI fallback (llama.cpp)
+After=local-fs.target
+
+[Service]
+Type=simple
+User=mediahub
+Group=mediahub
+WorkingDirectory=/home/mediahub/local-ai
+ExecStart=/home/mediahub/local-ai/build/bin/llama-server -m /home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf --host 127.0.0.1 --port 8081 --ctx-size 2048 --n-predict 384
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=30
+TimeoutStopSec=15
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+IPAddressDeny=0.0.0.0/0
+IPAddressDeny=::/0
+IPAddressAllow=127.0.0.1
+IPAddressAllow=::1
+ReadWritePaths=/home/mediahub/local-ai/runs
+UMask=0077
+
+[Install]
+WantedBy=default.target

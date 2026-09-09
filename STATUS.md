@@ -3,58 +3,43 @@
 ## Current Phase
 PHASE:1/2 - Secure development environment / agent orchestration
 
-## Progress by Epic
-- Foundation: 20%
-- OTA/Recovery: 0%
-- Security: 35%
-- AI Runtime: 5%
-- Mobile API: 0%
-- Observability: 20%
-- CI/CD: 25%
-- Hardware Abstraction: 0%
-- Documentation: 30%
+## Control Point
+- Branch: autonomous/os-build
+- HEAD: 169432436879d129500c0d703f87250c1db72aab
+- TREE: b38873d8128ec21e2a29c0ab19cc0102f56f6a14
+- Immutable R4: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
+- R4 TREE: 2279612908135418b2b5448d598274ea6741deaa
+- R4 ancestry: PASS
+- Working tree before bounded change: CLEAN
 
-## Last Commit
-- Hash: 0942d080bd39d9fa10922857d751ebb1c92faebb
-- Description: fix(ops): use explicit semgrep python rules
-- Timestamp: 2026-09-08T09:xx:xxZ
+## Completed Wave
+- Local llama.cpp server built successfully from existing source/build tree.
+- Qwen2.5-Coder 1.5B Q4_K_M model present and loaded.
+- Local health endpoint: PASS on 127.0.0.1:8081.
+- Local inference smoke: PASS (`LOCAL_AI_SMOKE_OK`).
+- Local agent prompt handling hardened: stdin only; fixed executable/model paths.
+- Autonomous security gate switched to dedicated reproducible venv.
+- pip upgraded to 26.2.1; pip-audit 2.10.1; pytest 9.0.3.
+- Full local gate: PASS; 187 tests + 11 subtests, security 24 + 11 subtests.
+- Semgrep: PASS; Bandit runtime: PASS; Ruff: PASS; mypy: PASS; diff-check: PASS.
+- Systemd sandbox templates added for local AI and cloud-agent workers.
 
-## Current Task
-Run bounded autonomous Codex cycles; keep Claude isolated and fail-closed until server authentication is genuinely available.
+## Current Blockers
+- Alamo CLI/service is not installed/active on mh-dev-01.
+- Claude auth is explicitly false; no cloud agent may be started.
+- User systemd bus is unavailable; privileged system unit installation requires owner/root action.
+- Docker/bwrap/firejail/podman are absent; the cloud-agent sandbox template is not activated.
+- MH-05 independent review and F-03 remain governance gates.
 
-## Completed Since Last Report
-- Codex autonomous controller and watchdog remain active.
-- Claude Code 2.1.263 installed; ECC 2.2.1 enabled for Claude/Codex.
-- Dedicated Claude worktree created.
-- Local security gate passes after replacing Semgrep auto-config with explicit Python rules.
-- R4 immutable guard preserved.
+## Safety State
+- R4 immutable.
+- No secrets copied to Git, logs, reports, or chat.
+- No external AI API invoked by the local model.
+- Cloud agents remain STOPPED/UNAUTHORIZED.
+- Production and release remain locked; MH-06 remains locked.
 
-## Test Results
-- Unit tests: PASS (185)
-- Security tests: PASS (24)
-- Ruff: PASS
-- mypy: PASS
-- Semgrep: PASS (151 rules, 0 findings)
-- Bandit: PASS
-- pip-audit: PASS
-- Compile/diff checks: PASS
-
-## Active Blockers
-- Claude server auth: NOT VERIFIED (auth status reports loggedIn=false).
-- GitHub Actions secrets are not readable by the local server; their values must never be copied into logs/chat.
-- MH-05 independent security/system review remains a governance blocker; AI/CI cannot substitute for independence.
-
-## Resources
-- CPU: low at checkpoint
-- RAM: ~1.1/7.7 GiB used
-- GPU: not applicable
-- Disk: ~17/109 GiB used
-- API usage: not exposed; secret values never printed
-
-## Next 3 Actions
-1. Re-check Claude auth without exposing credentials; if authenticated, launch read-only Claude smoke test in its isolated worktree.
-2. Continue Codex bounded development cycle and watchdog recovery.
-3. Advance only authorized downstream implementation; run full local verification after every change.
-
-## Server Status Command
-`cd /home/mediahub/dev/mediahub-os-autonomous && git status --short --branch && git rev-parse HEAD && claude auth status && pgrep -af 'autonomous_os_loop|autonomous_watchdog|codex exec|claude'`
+## Next Bounded Wave
+1. Owner-provision Alamo and its lawful credentials/control socket.
+2. Install/activate the cloud-agent systemd template with root-owned adapter.
+3. Demonstrate timeout, kill-tree, provenance, rollback, stale-heartbeat watchdog, restart, duplicate prevention, and STOP authority.
+4. Then resume bounded autonomous cycles only after every gate passes.
