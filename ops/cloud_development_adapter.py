@@ -170,40 +170,15 @@ class CloudDevelopmentAdapter:
         self.audit_events.append(record)
 
     def execute_provider(self, request: ProviderRequest, sandbox: SandboxSpec) -> ProviderResult:
-        """Execute only the allowlisted harness entrypoint for the provider."""
+        """Execute only the allowlisted provider wrapper inside the sandbox."""
         command = ENTRYPOINTS.get(request.provider)
         if command is None or not command.is_file() or not os.access(command, os.X_OK):
             raise AdapterDenied("provider entrypoint is unavailable")
-        return self.execute(request, sandbox, (str(command), request.prompt))
-
-
-ENTRYPOINTS = {
-    "codex": Path("/usr/local/bin/codex"),
-    "claude": Path("/home/mediahub/.nvm/versions/node/v22.23.2/bin/claude"),
-}
-
-
-PROVIDER_ENV = {
-    "codex": ("OPENROUTER_API_KEY",),
-    "claude": ("ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_BASE_URL"),
-}
-
-
-def credential_environment(provider: str, credential_directory: Path) -> dict[str, str]:
-    """Return provider env using systemd credentials without exposing their value."""
-    if provider not in PROVIDERS:
-        raise AdapterDenied("provider is not allowlisted")
-    if not credential_directory.is_dir():
-        raise AdapterDenied("credential broker directory is unavailable")
-    credential = credential_directory / "mediahub-openrouter"
-    if not credential.is_file():
-        raise AdapterDenied("provider credential is unavailable")
-    if credential.is_symlink() or credential.stat().st_mode & 0o077:
-        raise AdapterDenied("provider credential permissions are unsafe")
-    if provider == "codex":
-        return {"OPENROUTER_API_KEY_FILE": str(credential)}
-    return {"ANTHROPIC_AUTH_TOKEN_FILE": str(credential),
-            "ANTHROPIC_BASE_URL": "https://openrouter.ai/api"}
+        return self.execute(
+            request,
+            sandbox,
+            (str(command), request.prompt, str(sandbox.worktree)),
+        )
 
 
 # Provider wrappers keep credential handling outside the adapter process.

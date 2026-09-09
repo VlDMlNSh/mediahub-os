@@ -111,3 +111,31 @@ def test_timeout_and_revocation_fail_closed(sandbox):
     adapter.revoke()
     with pytest.raises(AdapterDenied):
         adapter.execute(request(), sandbox, ("python3", "-c", "print('NO')"))
+
+
+def test_execute_provider_uses_allowlisted_wrapper_and_sandbox(tmp_path, monkeypatch):
+    import ops.cloud_development_adapter as module
+
+    wrapper = tmp_path / "provider-wrapper"
+    wrapper.write_text("#!/bin/sh\nprintf '%s\\n' \"$2\"\n", encoding="utf-8")
+    wrapper.chmod(0o700)
+    monkeypatch.setitem(module.ENTRYPOINTS, "codex", wrapper)
+    root = tmp_path / "sandbox"
+    worktree = root / "worktree"
+    worktree.mkdir(parents=True)
+    adapter = CloudDevelopmentAdapter()
+    adapter.authorize()
+    result = adapter.execute_provider(request(), SandboxSpec(root=root, worktree=worktree))
+    assert result.status == "ok"
+    assert result.output.strip() == str(worktree)
+
+
+def test_execute_provider_denies_missing_wrapper(sandbox, monkeypatch):
+    import ops.cloud_development_adapter as module
+
+    missing = sandbox.root / "missing-wrapper"
+    monkeypatch.setitem(module.ENTRYPOINTS, "claude", missing)
+    adapter = CloudDevelopmentAdapter()
+    adapter.authorize()
+    with pytest.raises(AdapterDenied):
+        adapter.execute_provider(request("claude"), sandbox)
