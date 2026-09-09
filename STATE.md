@@ -2,8 +2,8 @@
 
 - phase: PHASE:1/2
 - branch: autonomous/os-build
-- head: 5ed1de88669f815de08507ff3d4252d8694ec515
-- tree: a82a8d187b66a3ed23a6f4ea2a3f3421e8bb7cf4
+- head: 7d7182f655f7addf08a89c6c44b33107ecbcf6bf
+- tree: e00c4f57a7ee575bc63f663975f1cbfdcdabb4b0
 - immutable_r4: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
 - r4_tree: 2279612908135418b2b5448d598274ea6741deaa
 - r4_ancestry: PASS
@@ -26,3 +26,15 @@
 ## Control Rules
 
 R4 history is immutable. AI is advisory and never authority. Secrets stay in credential stores. Cloud agents require Alamo mediation and isolated sandboxing. One bounded change-set per cycle. Rollback on verification failure. No production/release authorization from autonomous tooling.
+
+## Qualification Checkpoint 2026-09-09
+- Component: local autonomous AI transport/controller integration
+- QUAL_CYCLE_1: FAIL — direct llama-cli path repeatedly exceeded bounded runtime; no repository mutation.
+- QUAL_CYCLE_2: PASS — localhost completion transport migrated to running local AI server; full tests/security/static verification passed.
+- QUAL_CYCLE_3: PASS — local AI response size bounded; full verification passed.
+- QUAL_CYCLE_4: PASS — local AI health is fail-closed; full verification passed.
+- QUAL_CYCLE_5: PASS — HTTP redirects from local AI endpoint denied; full verification passed.
+- QUAL_CYCLE_6: PASS — transport boundary tests added; 197 tests passed; security/static verification passed.
+- Qualified PASS count: 5 independent PASS records after the initial failed cycle.
+- Current HEAD/TREE: 7d7182f655f7addf08a89c6c44b33107ecbcf6bf / e00c4f57a7ee575bc63f663975f1cbfdcdabb4b0
+- Production/release authorization: NOT GRANTED.
