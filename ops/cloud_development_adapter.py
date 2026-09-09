@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import signal
 import subprocess
 import time
 from collections.abc import Mapping, Sequence
@@ -124,22 +125,35 @@ class CloudDevelopmentAdapter:
         env = {k: os.environ[k] for k in sandbox.allowed_env if k in os.environ}
         env.update({"MEDIAHUB_ADAPTER_ID": ADAPTER_ID, "MEDIAHUB_TASK_ID": request.task_id})
         started = time.monotonic()
+        proc = subprocess.Popen(
+            argv,
+            cwd=sandbox.worktree,
+            env=env,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            start_new_session=True,
+        )
         try:
-            proc = subprocess.run(
-                argv,
-                cwd=sandbox.worktree,
-                env=env,
-                stdin=subprocess.DEVNULL,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                timeout=min(request.timeout_seconds, sandbox.max_timeout_seconds),
-                check=False,
+            output, _ = proc.communicate(
+                timeout=min(request.timeout_seconds, sandbox.max_timeout_seconds)
             )
         except subprocess.TimeoutExpired as exc:
             self._audit("timeout", task_id=request.task_id, provider=request.provider)
+            try:
+                os.killpg(proc.pid, signal.SIGTERM)
+            except ProcessLookupError:
+                pass
+            try:
+                proc.communicate(timeout=5)
+            except subprocess.TimeoutExpired:
+                try:
+                    os.killpg(proc.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                proc.communicate()
             raise AdapterDenied("provider execution timed out") from exc
-        output = proc.stdout or ""
         if len(output.encode()) > sandbox.max_output_bytes:
             self._audit("output_rejected", task_id=request.task_id)
             raise ProviderProtocolError("provider output exceeds bounded size")

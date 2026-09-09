@@ -150,3 +150,33 @@ def test_execute_provider_denies_missing_wrapper(sandbox, monkeypatch):
     adapter.authorize()
     with pytest.raises(AdapterDenied):
         adapter.execute_provider(request("claude"), sandbox)
+
+
+def test_timeout_starts_isolated_process_session(sandbox, monkeypatch):
+    adapter = CloudDevelopmentAdapter()
+    adapter.authorize()
+    seen = {}
+
+    class FakeProc:
+        pid = 4242
+        returncode = -15
+
+        calls = 0
+
+        def communicate(self, timeout=None):
+            self.calls += 1
+            if self.calls == 1:
+                raise subprocess.TimeoutExpired(("true",), timeout)
+            return ("", "")
+
+    import subprocess
+    monkeypatch.setattr(subprocess, "Popen", lambda *args, **kwargs: (
+        seen.update(kwargs) or FakeProc()
+    ))
+    module = __import__("ops.cloud_development_adapter", fromlist=["os"])
+    killed = []
+    monkeypatch.setattr(module.os, "killpg", lambda *args: killed.append(args))
+    with pytest.raises(AdapterDenied):
+        adapter.execute(request(timeout_seconds=1), sandbox, ("true",))
+    assert seen["start_new_session"] is True
+    assert killed == [(4242, module.signal.SIGTERM)]
