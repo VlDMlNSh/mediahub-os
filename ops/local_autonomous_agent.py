@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path("/home/mediahub/dev/mediahub-os-autonomous")
 MODEL = Path("/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf")
-LOCAL_AI_URL = "http://127.0.0.1:8081/completion"
+LOCAL_AI_URL = "http://127.0.0.1:8081/v1/chat/completions"
 GIT = Path("/usr/bin/git")
 MAX_DIFF_LINES = 500
 PROTECTED = {".git", ".autonomous", ".github"}
@@ -101,7 +101,14 @@ def verify() -> bool:
 
 
 def generate(prompt_file: Path) -> tuple[int, str]:
-    payload = {"prompt": prompt_file.read_text(encoding="utf-8"), "n_predict": 128, "temperature": 0}
+    payload = {
+        "messages": [
+            {"role": "system", "content": "Return only a directly applicable unified git diff. No commentary."},
+            {"role": "user", "content": prompt_file.read_text(encoding="utf-8")},
+        ],
+        "max_tokens": 128,
+        "temperature": 0,
+    }
     request = urllib.request.Request(
         LOCAL_AI_URL,
         data=json.dumps(payload).encode("utf-8"),
@@ -111,8 +118,9 @@ def generate(prompt_file: Path) -> tuple[int, str]:
     try:
         with urllib.request.urlopen(request, timeout=120) as response:
             body = json.loads(response.read().decode("utf-8"))
-        return 0, str(body.get("content", ""))
-    except (urllib.error.URLError, TimeoutError, ValueError) as exc:
+        content = body["choices"][0]["message"]["content"]
+        return 0, str(content)
+    except (KeyError, IndexError, urllib.error.URLError, TimeoutError, ValueError) as exc:
         print(f"LOCAL_AGENT_LOCAL_AI_ERROR: {type(exc).__name__}", file=sys.stderr)
         return 28, ""
 
