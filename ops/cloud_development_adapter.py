@@ -168,3 +168,16 @@ class CloudDevelopmentAdapter:
         record.update({k: json.dumps(v, sort_keys=True) if isinstance(v, (list, dict)) else str(v)
                        for k, v in fields.items()})
         self.audit_events.append(record)
+
+    def execute_provider(self, request: ProviderRequest, sandbox: SandboxSpec) -> ProviderResult:
+        """Execute only the allowlisted harness entrypoint for the provider."""
+        command = ENTRYPOINTS.get(request.provider)
+        if command is None or not command.is_file() or not os.access(command, os.X_OK):
+            raise AdapterDenied("provider entrypoint is unavailable")
+        return self.execute(request, sandbox, (str(command), request.prompt))
+
+
+ENTRYPOINTS = {
+    "codex": Path("/usr/local/bin/codex"),
+    "claude": Path("/home/mediahub/.nvm/versions/node/v22.23.2/bin/claude"),
+}
