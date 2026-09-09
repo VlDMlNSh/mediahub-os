@@ -1,5 +1,3 @@
-import os
-import json
 
 class CloudDevelopmentAdapter:
     def __init__(self, config):
