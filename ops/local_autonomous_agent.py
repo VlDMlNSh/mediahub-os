@@ -117,7 +117,11 @@ def generate(prompt_file: Path) -> tuple[int, str]:
     )
     try:
         with urllib.request.urlopen(request, timeout=120) as response:
-            body = json.loads(response.read().decode("utf-8"))
+            raw = response.read(1_048_577)
+        if len(raw) > 1_048_576:
+            print("LOCAL_AGENT_LOCAL_AI_ERROR: response_too_large", file=sys.stderr)
+            return 28, ""
+        body = json.loads(raw.decode("utf-8"))
         content = body["choices"][0]["message"]["content"]
         return 0, str(content)
     except (KeyError, IndexError, urllib.error.URLError, TimeoutError, ValueError) as exc:
