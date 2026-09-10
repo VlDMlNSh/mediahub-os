@@ -54,3 +54,34 @@ def test_execution_proposal_missing_identity_fails_closed():
     for values in (("", "work-1", "sha-1", "openai"), ("req-1", "", "sha-1", "openai"), ("req-1", "work-1", "", "openai"), ("req-1", "work-1", "sha-1", "")):
         with pytest.raises(PermissionError):
             contract.prepare_proposal(*values)
+
+def test_recovery_evidence_admits_verified_execution_proposal():
+    from types import SimpleNamespace
+
+    evidence = SimpleNamespace(verified=True, request_id="req-r", workload_id="work-r", source_sha="sha-r")
+    proposal = NativeExecutionContract().prepare_recovery_proposal(evidence, "openai")
+    assert proposal.request_id == "req-r"
+    assert proposal.workload_id == "work-r"
+    assert proposal.source_sha == "sha-r"
+    assert proposal.provider == "openai"
+
+
+def test_unverified_recovery_evidence_fails_closed():
+    from types import SimpleNamespace
+
+    evidence = SimpleNamespace(verified=False, request_id="req-r", workload_id="work-r", source_sha="sha-r")
+    with pytest.raises(PermissionError):
+        NativeExecutionContract().prepare_recovery_proposal(evidence, "openai")
+
+
+def test_recovery_evidence_missing_identity_fails_closed():
+    from types import SimpleNamespace
+
+    for evidence in (
+        SimpleNamespace(verified=True, request_id="", workload_id="work-r", source_sha="sha-r"),
+        SimpleNamespace(verified=True, request_id="req-r", workload_id="", source_sha="sha-r"),
+        SimpleNamespace(verified=True, request_id="req-r", workload_id="work-r", source_sha=""),
+    ):
+        with pytest.raises(PermissionError):
+            NativeExecutionContract().prepare_recovery_proposal(evidence, "openai")
+
