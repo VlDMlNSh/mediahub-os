@@ -83,8 +83,12 @@ while [ ! -e "$STOPFILE" ]; do
 		if [ "$RC" -eq 0 ] && [ "$POST_HEAD" != "$BASE_HEAD" ] && [ -z "$STATUS" ] && git merge-base --is-ancestor "$BASE_HEAD" "$POST_HEAD"; then
 			LAST_RESULT=PASS
 			FAIL_STREAK=0
+		elif [ "$RC" -eq 30 ]; then
+			# Queue wait is a non-error state; do not trip the repeated-failure circuit.
+			LAST_RESULT=NO_PROGRESS
+			FAIL_STREAK=0
 		elif [ "${LAST_RESULT:-}" != "BLOCKED" ]; then
-			if [ "$RC" -eq 30 ]; then LAST_RESULT=NO_PROGRESS; else LAST_RESULT=FAIL; fi
+			LAST_RESULT=FAIL
 			FAIL_STREAK=$((FAIL_STREAK + 1))
 		fi
 		printf "%s\n" "$LAST_RESULT" >"$STATE/current_result"
