@@ -77,6 +77,28 @@ class BoundedExecutionAdapter:
     def prepare_network(self, request: BoundedExecutionRequest) -> None:
         raise PermissionError("network access is not permitted at the admission boundary")
 
+
+@dataclass(frozen=True)
+class ExecutionVerification:
+    request: BoundedExecutionRequest
+    status: str
+    observed_source_sha: str
+
+    def validate(self) -> None:
+        self.request.validate()
+        if self.status not in {"COMPLETED", "FAILED"}:
+            raise PermissionError("unsupported verification status")
+        if not self.observed_source_sha or self.observed_source_sha != self.request.proposal.source_sha:
+            raise PermissionError("verification provenance does not match proposal")
+
+class VerificationBoundary:
+    def verify(
+        self, request: BoundedExecutionRequest, status: str, observed_source_sha: str,
+    ) -> ExecutionVerification:
+        verification = ExecutionVerification(request, status, observed_source_sha)
+        verification.validate()
+        return verification
+
 class NativeExecutionContract:
     def __init__(self, targets: tuple[ExecutionTarget, ...] = ()) -> None:
         self._targets = {t.provider: t for t in targets}
