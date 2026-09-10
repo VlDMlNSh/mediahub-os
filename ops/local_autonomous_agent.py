@@ -14,7 +14,7 @@ from pathlib import Path
 
 ROOT = Path("/home/mediahub/dev/mediahub-os-autonomous")
 MODEL = Path("/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf")
-LOCAL_AI_URL = "http://127.0.0.1:8081/v1/chat/completions"
+LOCAL_AI_URL = "http://127.0.0.1:8081/v1/chat/completions"  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
 GIT = Path("/usr/bin/git")
 RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 160
@@ -155,7 +155,8 @@ def verify() -> bool:
 def generate(text: str) -> tuple[int, str, str]:
     try:
         with LOCAL_AI_OPENER.open(
-            urllib.request.Request("http://127.0.0.1:8081/health"), timeout=5
+            urllib.request.Request("http://127.0.0.1:8081/health")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
+            , timeout=5
         ) as response:
             if response.status != 200:
                 return 28, "", "AI_REJECTED"
@@ -169,7 +170,7 @@ def generate(text: str) -> tuple[int, str, str]:
         "max_tokens": 256,
         "temperature": 0,
     }
-    req = urllib.request.Request(
+    req = urllib.request.Request(  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
         LOCAL_AI_URL, data=json.dumps(payload).encode(),
         headers={"Content-Type": "application/json"}, method="POST"
     )
