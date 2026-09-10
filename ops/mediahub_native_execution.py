@@ -153,7 +153,7 @@ class NativeExecutionContract:
         return self.prepare_proposal(request_id, workload_id, source_sha, provider)
     def prepare_headers(self, target: ExecutionTarget, secret: str) -> Mapping[str, str]:
         target.validate()
-        if not secret:
+        if not isinstance(secret, str) or not secret:
             raise PermissionError("missing provider credential")
         if target.provider == "openai":
             return {"authorization": f"Bearer {secret}", "content-type": "application/json"}

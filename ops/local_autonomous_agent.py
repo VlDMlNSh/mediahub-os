@@ -59,7 +59,7 @@ def prompt(feedback: str = "") -> str:
     current = (ROOT / TARGET).read_text(encoding="utf-8")
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
     return f"""MediaHub local coding cycle. R4={R4}. Modify ONLY the existing tracked file {TARGET}.
-Advance only to the next approved Wave 10 security task: harden NativeExecutionContract recovery-proposal admission against malformed evidence identity and verification types, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Preserve valid behavior, but add strict fail-closed type validation for CredentialRef and ExecutionTarget fields before normal validation. Reject wrong object and field types with PermissionError rather than leaking AttributeError/TypeError or accepting bool-as-string-like input. Keep HTTPS endpoint policy and existing provider/credential matching unchanged. Do not add provider-specific behavior or change the public contracts. The boundary must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
+Advance only to the next approved Wave 10 security task: harden NativeExecutionContract.prepare_headers against malformed provider credentials, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Preserve valid behavior, but require the secret credential input to be a non-empty string before constructing any authorization headers. Reject wrong object and field types with PermissionError rather than leaking AttributeError/TypeError or accepting bool-as-string-like input. Keep HTTPS endpoint policy and existing provider/credential matching unchanged. Do not weaken the existing provider-specific header behavior or change the public contracts. The boundary must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
 {current}{error}"""
 
 
@@ -169,8 +169,26 @@ def _fallback_recovery_patch(old: list[str], old_text: str) -> str:
     return diff if diff.endswith("\n") else diff + "\n"
 
 
+def _fallback_headers_patch(old: list[str], old_text: str) -> str:
+    original = """    def prepare_headers(self, target: ExecutionTarget, secret: str) -> Mapping[str, str]:
+        target.validate()
+        if not secret:
+            raise PermissionError(\"missing provider credential\")
+"""
+    hardened = """    def prepare_headers(self, target: ExecutionTarget, secret: str) -> Mapping[str, str]:
+        target.validate()
+        if not isinstance(secret, str) or not secret:
+            raise PermissionError(\"missing provider credential\")
+"""
+    if original not in old_text:
+        return ""
+    new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
+    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+    return diff if diff.endswith("\n") else diff + "\n"
+
+
 def fallback_patch() -> str:
-    """Return the pre-approved Wave 10 recovery-proposal admission hardening diff only."""
+    """Return the pre-approved Wave 10 prepare_headers credential hardening diff only."""
     path = ROOT / TARGET
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
     old_text = "".join(old)
@@ -206,6 +224,8 @@ def fallback_patch() -> str:
         new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
         diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
         return diff if diff.endswith("\n") else diff + "\n"
+    if "def prepare_headers(self, target: ExecutionTarget, secret: str)" in old_text and "not isinstance(secret, str)" not in old_text:
+        return _fallback_headers_patch(old, old_text)
     if "def prepare_recovery_proposal(" in old_text and "malformed recovery evidence" not in old_text:
         return _fallback_recovery_patch(old, old_text)
     if "class ExecutionProposal:" in old_text and "malformed execution proposal" not in old_text:
@@ -378,9 +398,9 @@ def main() -> int:
     patch = ""
     # Do not spend an AI cycle on a deterministic task that is already satisfied.
     target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    if "malformed recovery evidence" in target_text:
-        print("LOCAL_AGENT_NOOP: Wave 10 recovery-proposal admission hardening already satisfied")
-        state("BLOCKED", "recovery-proposal admission hardening already present")
+    if "not isinstance(secret, str)" in target_text:
+        print("LOCAL_AGENT_NOOP: Wave 10 prepare_headers credential hardening already satisfied")
+        state("BLOCKED", "prepare_headers credential hardening already present")
         return 30
 
     for _ in range(MAX_REGENERATIONS):
@@ -418,7 +438,7 @@ def main() -> int:
             print("LOCAL_AGENT_NOOP: no admissible downstream change")
             state("BLOCKED", "no admissible fallback task or tree is already changed")
             return 30
-        state("FALLBACK_SELECTED", "whitelist task: recovery-proposal admission hardening")
+        state("FALLBACK_SELECTED", "whitelist task: prepare_headers credential hardening")
         if not apply_checked(patch):
             state("BLOCKED", "fallback failed structural validation or git apply --check")
             return 25

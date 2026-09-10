@@ -63,6 +63,12 @@ def test_target_rejects_malformed_provider_identity():
         NativeExecutionContract().target([])
 
 
+def test_prepare_headers_rejects_non_string_secret():
+    target_obj = target("openai")
+    with pytest.raises(PermissionError, match="missing provider credential"):
+        NativeExecutionContract((target_obj,)).prepare_headers(target_obj, 123)
+
+
 def test_recovery_evidence_admits_verified_execution_proposal():
     from types import SimpleNamespace
 
