@@ -101,14 +101,15 @@ def fallback_patch() -> str:
         return ""
     addition = [
         "\n",
-        "\ndef test_catalog_has_unique_provider_model_pairs():\n",
+        "def test_catalog_has_unique_provider_model_pairs():\n",
         "    pairs = [(item.provider, item.model) for item in FREE_MODEL_CANDIDATES]\n",
         "    assert len(pairs) == len(set(pairs))\n",
     ]
     new = old + addition
-    return "".join(difflib.unified_diff(
+    diff = "".join(difflib.unified_diff(
         old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"
     ))
+    return diff if diff.endswith("\n") else diff + "\n"
 
 
 def apply_checked(patch: str) -> bool:
