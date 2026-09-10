@@ -212,6 +212,13 @@ def main() -> int:
 
     error = ""
     patch = ""
+    # Do not spend an AI cycle on a deterministic task that is already satisfied.
+    target_text = (ROOT / TARGET).read_text(encoding="utf-8")
+    if "def test_catalog_has_unique_provider_model_pairs():" in target_text:
+        print("LOCAL_AGENT_NOOP: downstream whitelist task already satisfied")
+        state("BLOCKED", "no admissible downstream change")
+        return 30
+
     for _ in range(MAX_REGENERATIONS):
         rc, output, ai_state = generate(prompt(error))
         if rc:
