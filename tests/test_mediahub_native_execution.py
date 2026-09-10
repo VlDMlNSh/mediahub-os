@@ -7,6 +7,7 @@ from ops.mediahub_native_execution import (
     ExecutionProposal,
     ExecutionTarget,
     NativeExecutionContract,
+    VerificationBoundary,
 )
 
 
@@ -143,3 +144,39 @@ def test_bounded_execution_adapter_denies_secret_and_network_access():
         adapter.prepare_headers(request)
     with pytest.raises(PermissionError):
         adapter.prepare_network(request)
+
+
+def test_verification_boundary_accepts_matching_completed_evidence():
+    proposal = ExecutionProposal("req-v", "work-v", "sha-v", "openai")
+    request = BoundedExecutionAdapter().admit(proposal, target())
+    verification = VerificationBoundary().verify(request, "COMPLETED", "sha-v")
+    assert verification.status == "COMPLETED"
+    assert verification.observed_source_sha == "sha-v"
+
+
+def test_verification_boundary_accepts_matching_failed_evidence():
+    proposal = ExecutionProposal("req-v", "work-v", "sha-v", "openai")
+    request = BoundedExecutionAdapter().admit(proposal, target())
+    verification = VerificationBoundary().verify(request, "FAILED", "sha-v")
+    assert verification.status == "FAILED"
+
+
+def test_verification_boundary_rejects_unknown_status():
+    proposal = ExecutionProposal("req-v", "work-v", "sha-v", "openai")
+    request = BoundedExecutionAdapter().admit(proposal, target())
+    with pytest.raises(PermissionError):
+        VerificationBoundary().verify(request, "RUNNING", "sha-v")
+
+
+def test_verification_boundary_rejects_provenance_mismatch():
+    proposal = ExecutionProposal("req-v", "work-v", "sha-v", "openai")
+    request = BoundedExecutionAdapter().admit(proposal, target())
+    with pytest.raises(PermissionError):
+        VerificationBoundary().verify(request, "COMPLETED", "other-sha")
+
+
+def test_verification_boundary_rejects_missing_provenance():
+    proposal = ExecutionProposal("req-v", "work-v", "sha-v", "openai")
+    request = BoundedExecutionAdapter().admit(proposal, target())
+    with pytest.raises(PermissionError):
+        VerificationBoundary().verify(request, "COMPLETED", "")
