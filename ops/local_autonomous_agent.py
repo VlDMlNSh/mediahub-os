@@ -107,7 +107,7 @@ def fallback_patch() -> str:
     ]
     new = old + addition
     return "".join(difflib.unified_diff(
-        old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""
+        old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"
     ))
 
 
