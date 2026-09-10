@@ -224,10 +224,10 @@ def fallback_patch() -> str:
         new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
         diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
         return diff if diff.endswith("\n") else diff + "\n"
-    if "def prepare_headers(self, target: ExecutionTarget, secret: str)" in old_text and "not isinstance(secret, str)" not in old_text:
-        return _fallback_headers_patch(old, old_text)
     if "def prepare_recovery_proposal(" in old_text and "malformed recovery evidence" not in old_text:
         return _fallback_recovery_patch(old, old_text)
+    if "def prepare_headers(self, target: ExecutionTarget, secret: str)" in old_text and "not isinstance(secret, str)" not in old_text:
+        return _fallback_headers_patch(old, old_text)
     if "class ExecutionProposal:" in old_text and "malformed execution proposal" not in old_text:
         return _fallback_proposal_patch(old, old_text)
     if "class ExecutionTarget:" in old_text and "malformed execution target" not in old_text:
@@ -396,12 +396,11 @@ def main() -> int:
 
     error = ""
     patch = ""
-    # Do not spend an AI cycle on a deterministic task that is already satisfied.
+    # Advance deterministically when the current Wave 10 task is already satisfied.
     target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    if "not isinstance(secret, str)" in target_text:
-        print("LOCAL_AGENT_NOOP: Wave 10 prepare_headers credential hardening already satisfied")
-        state("BLOCKED", "prepare_headers credential hardening already present")
-        return 30
+    headers_hardened = "not isinstance(secret, str)" in target_text
+    if headers_hardened:
+        print("LOCAL_AGENT_QUEUE_ADVANCE: prepare_headers hardening already satisfied")
 
     for _ in range(MAX_REGENERATIONS):
         rc, output, ai_state = generate(prompt(error))
@@ -438,7 +437,7 @@ def main() -> int:
             print("LOCAL_AGENT_NOOP: no admissible downstream change")
             state("BLOCKED", "no admissible fallback task or tree is already changed")
             return 30
-        state("FALLBACK_SELECTED", "whitelist task: prepare_headers credential hardening")
+        state("FALLBACK_SELECTED", "whitelist task: recovery-proposal admission hardening")
         if not apply_checked(patch):
             state("BLOCKED", "fallback failed structural validation or git apply --check")
             return 25
