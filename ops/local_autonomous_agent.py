@@ -137,11 +137,10 @@ def exact_target() -> bool:
 
 
 def verify() -> bool:
-    checks = [
-        (["git", "diff", "--check"], 120),
-        ([str(RUFF), "check", TARGET] if RUFF.is_file() else None, 120),
-        (["bash", "ops/security_scan_local.sh"], 900),
-    ]
+    checks = [(["git", "diff", "--check"], 120)]
+    if RUFF.is_file():
+        checks.append(([str(RUFF), "check", TARGET], 120))
+    checks.append((["bash", "ops/security_scan_local.sh"], 900))
     for item in checks:
         if item is None:
             continue
