@@ -29,6 +29,18 @@ class ExecutionTarget:
         if not self.model or not self.endpoint or not self.credential.path:
             raise ValueError("incomplete execution target")
 
+
+@dataclass(frozen=True)
+class ExecutionProposal:
+    request_id: str
+    workload_id: str
+    source_sha: str
+    provider: str
+
+    def validate(self) -> None:
+        if not all((self.request_id, self.workload_id, self.source_sha, self.provider)):
+            raise PermissionError("incomplete execution proposal")
+
 class NativeExecutionContract:
     def __init__(self, targets: tuple[ExecutionTarget, ...] = ()) -> None:
         self._targets = {t.provider: t for t in targets}
@@ -40,6 +52,13 @@ class NativeExecutionContract:
             return self._targets[provider]
         except KeyError as exc:
             raise PermissionError(f"provider not qualified: {provider}") from exc
+
+    def prepare_proposal(
+        self, request_id: str, workload_id: str, source_sha: str, provider: str
+    ) -> ExecutionProposal:
+        proposal = ExecutionProposal(request_id, workload_id, source_sha, provider)
+        proposal.validate()
+        return proposal
 
     def prepare_headers(self, target: ExecutionTarget, secret: str) -> Mapping[str, str]:
         target.validate()
