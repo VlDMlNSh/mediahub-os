@@ -27,7 +27,7 @@ class NoRedirectHandler(urllib.request.HTTPRedirectHandler):
 LOCAL_AI_OPENER = urllib.request.build_opener(NoRedirectHandler)
 GIT = Path("/usr/bin/git")
 MAX_DIFF_LINES = 500
-PROTECTED = {".git", ".autonomous", ".github"}
+PROTECTED = {".git", ".autonomous", ".github", "ops/cloud-development-adapter.py", "ops/cloud_development_adapter.py", "ops/local_autonomous_agent.py", "ops/autonomous_os_loop.sh", "ops/autonomous_watchdog.sh"}
 ALLOWED_TOP = {"architecture", "planning", "specification", "ops", "tests", "docs", "contracts", "development", "governance", "verification", "runtime", "security"}
 R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
 
@@ -95,7 +95,7 @@ def safe_patch(patch: str) -> bool:
         elif line.startswith("+++ b/"):
             path = line[6:].strip()
             parts = Path(path).parts
-            if any(part in PROTECTED for part in parts):
+            if path in PROTECTED or any(part in {".git", ".autonomous", ".github"} for part in parts):
                 return False
             if parts and parts[0] not in ALLOWED_TOP:
                 return False
