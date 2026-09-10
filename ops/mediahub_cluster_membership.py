@@ -57,6 +57,14 @@ class LocalClusterMembership:
         self._members[node_id] = updated
         return updated
 
+    def quarantine(self, node_id: str) -> ClusterMembership:
+        membership = self._members.get(node_id)
+        if membership is None or membership.state is not MembershipState.ACTIVE:
+            raise MembershipDenied("only active nodes can be quarantined")
+        updated = ClusterMembership(membership.identity, MembershipState.QUARANTINED)
+        self._members[node_id] = updated
+        return updated
+
     def revoke(self, node_id: str) -> ClusterMembership:
         membership = self._members.get(node_id)
         if membership is None:

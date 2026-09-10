@@ -87,3 +87,13 @@ def test_membership_does_not_expose_authority_or_network_access():
     membership = LocalClusterMembership()
     assert not hasattr(membership, "state_authority")
     assert not hasattr(membership, "network")
+
+
+def test_active_node_can_be_quarantined_and_is_not_active():
+    membership = LocalClusterMembership()
+    membership.enroll(identity())
+    membership.activate("node-a")
+    quarantined = membership.quarantine("node-a")
+    assert quarantined.state is MembershipState.QUARANTINED
+    with pytest.raises(MembershipDenied):
+        membership.require_active("node-a")

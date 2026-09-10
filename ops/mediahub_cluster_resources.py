@@ -42,6 +42,36 @@ class ClusterResourceLedger:
         self._reservations[reservation.workload_id] = reservation
         return reservation
 
+    def can_replace(self, reservation: ResourceReservation) -> bool:
+        """Check replacement admission without changing the reservation ledger."""
+        self._validate(reservation)
+        current = self._reservations.get(reservation.workload_id)
+        if current is None:
+            return False
+        capacity = self._capacities.get(reservation.node_id)
+        if capacity is None:
+            return False
+        return self._fits(
+            capacity,
+            self._used_excluding(reservation.node_id, reservation.workload_id),
+            reservation.capacity,
+        )
+
+    def replace(self, reservation: ResourceReservation) -> ResourceReservation:
+        """Atomically replace an existing workload reservation if it fits."""
+        self._validate(reservation)
+        current = self._reservations.get(reservation.workload_id)
+        if current is None:
+            raise ResourceDenied("unknown workload reservation")
+        capacity = self._capacities.get(reservation.node_id)
+        if capacity is None:
+            raise ResourceDenied("unknown node capacity")
+        used = self._used_excluding(reservation.node_id, reservation.workload_id)
+        if not self._fits(capacity, used, reservation.capacity):
+            raise ResourceDenied("resource overcommit denied")
+        self._reservations[reservation.workload_id] = reservation
+        return reservation
+
     def release(self, workload_id: str) -> ResourceReservation:
         reservation = self._reservations.pop(workload_id, None)
         if reservation is None:
@@ -52,7 +82,13 @@ class ClusterResourceLedger:
         return self._reservations.get(workload_id)
 
     def _used(self, node_id: str) -> ResourceCapacity:
-        items = [r.capacity for r in self._reservations.values() if r.node_id == node_id]
+        return self._used_excluding(node_id, None)
+
+    def _used_excluding(self, node_id: str, workload_id: str | None) -> ResourceCapacity:
+        items = [
+            r.capacity for r in self._reservations.values()
+            if r.node_id == node_id and r.workload_id != workload_id
+        ]
         return ResourceCapacity(
             sum(item.cpu for item in items),
             sum(item.memory_mb for item in items),

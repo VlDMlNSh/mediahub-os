@@ -81,3 +81,19 @@ def test_reservation_does_not_expose_authority_or_network():
     l = ledger()
     assert not hasattr(l, "state_authority")
     assert not hasattr(l, "network")
+
+
+def test_replace_moves_reservation_atomically():
+    l = ledger()
+    l.reserve(reservation(cpu=6))
+    replaced = l.replace(reservation(node="node-a", cpu=8))
+    assert replaced.capacity.cpu == 8
+    assert l.reserved("w1").node_id == "node-a"
+
+
+def test_can_replace_does_not_mutate_ledger():
+    l = ledger()
+    l.reserve(reservation(cpu=6))
+    candidate = reservation(node="node-a", cpu=8)
+    assert l.can_replace(candidate)
+    assert l.reserved("w1").capacity.cpu == 6
