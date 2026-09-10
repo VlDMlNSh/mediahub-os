@@ -60,6 +60,14 @@ class NativeExecutionContract:
         proposal.validate()
         return proposal
 
+
+    def prepare_recovery_proposal(self, evidence: object, provider: str) -> ExecutionProposal:
+        if not getattr(evidence, "verified", False):
+            raise PermissionError("verified recovery evidence is required")
+        request_id = getattr(evidence, "request_id", "")
+        workload_id = getattr(evidence, "workload_id", "")
+        source_sha = getattr(evidence, "source_sha", "")
+        return self.prepare_proposal(request_id, workload_id, source_sha, provider)
     def prepare_headers(self, target: ExecutionTarget, secret: str) -> Mapping[str, str]:
         target.validate()
         if not secret:
