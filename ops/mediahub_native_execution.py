@@ -50,6 +50,12 @@ class BoundedExecutionRequest:
     max_output_bytes: int
 
     def validate(self) -> None:
+        if not isinstance(self.proposal, ExecutionProposal) or not isinstance(self.target, ExecutionTarget):
+            raise PermissionError("malformed bounded execution request")
+        if not isinstance(self.timeout_seconds, int) or isinstance(self.timeout_seconds, bool):
+            raise PermissionError("execution timeout must be an integer")
+        if not isinstance(self.max_output_bytes, int) or isinstance(self.max_output_bytes, bool):
+            raise PermissionError("execution output limit must be an integer")
         self.proposal.validate()
         self.target.validate()
         if self.proposal.provider != self.target.provider:
