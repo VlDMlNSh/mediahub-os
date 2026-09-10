@@ -349,7 +349,7 @@ def main() -> int:
     patch = ""
     # Do not spend an AI cycle on a deterministic task that is already satisfied.
     target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    if "malformed execution proposal" in target_text or "malformed execution target" in target_text:
+    if "malformed execution proposal" in target_text:
         print("LOCAL_AGENT_NOOP: Wave 10 execution proposal hardening already satisfied")
         state("BLOCKED", "execution proposal hardening already present")
         return 30
