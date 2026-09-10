@@ -201,3 +201,27 @@ def test_verification_boundary_rejects_non_string_provenance_type():
     for observed_source_sha in (1, True, None):
         with pytest.raises(PermissionError):
             VerificationBoundary().verify(request, "COMPLETED", observed_source_sha)
+
+def test_bounded_execution_request_rejects_malformed_object_types():
+    proposal = ExecutionProposal("req-b", "work-b", "sha-b", "openai")
+    valid_target = target()
+    with pytest.raises(PermissionError):
+        BoundedExecutionAdapter().admit(object(), valid_target)
+    with pytest.raises(PermissionError):
+        BoundedExecutionAdapter().admit(proposal, object())
+
+
+def test_bounded_execution_request_rejects_non_integer_timeout_types():
+    proposal = ExecutionProposal("req-b", "work-b", "sha-b", "openai")
+    adapter = BoundedExecutionAdapter()
+    for timeout_seconds in (True, False, 1.5, "30", None):
+        with pytest.raises(PermissionError):
+            adapter.admit(proposal, target(), timeout_seconds)
+
+
+def test_bounded_execution_request_rejects_non_integer_output_limit_types():
+    proposal = ExecutionProposal("req-b", "work-b", "sha-b", "openai")
+    adapter = BoundedExecutionAdapter()
+    for max_output_bytes in (True, False, 1.5, "4096", None):
+        with pytest.raises(PermissionError):
+            adapter.admit(proposal, target(), 30, max_output_bytes)
