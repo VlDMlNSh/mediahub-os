@@ -129,7 +129,15 @@ class CloudDevelopmentAdapter:
 
         env = {k: os.environ[k] for k in sandbox.allowed_env if k in os.environ}
         if extra_env:
-            env.update(extra_env)
+            for key, value in extra_env.items():
+                if not isinstance(key, str) or not key.isidentifier() or not isinstance(value, str):
+                    raise AdapterDenied("provider environment is invalid")
+                if (("KEY" in key or "TOKEN" in key or "SECRET" in key or "PASSWORD" in key)
+                        and key not in {"OPENAI_API_KEY", "ANTHROPIC_API_KEY"}):
+                    raise AdapterDenied("unapproved credential environment variable")
+                if "\x00" in value or len(value) > 16 * 1024:
+                    raise AdapterDenied("provider environment value is outside bounds")
+                env[key] = value
         env.update({"MEDIAHUB_ADAPTER_ID": ADAPTER_ID, "MEDIAHUB_TASK_ID": request.task_id})
         started = time.monotonic()
         proc = subprocess.Popen(  # nosec B603 - argv is explicit, shell=False, sandbox cwd
@@ -238,6 +246,8 @@ class CloudDevelopmentAdapter:
         self.admit(request)
         if endpoint not in request.egress or endpoint not in self.allowed_egress:
             raise AdapterDenied("native endpoint is not allowlisted for this request")
+        if endpoint != endpoint.strip() or any(ch.isspace() for ch in endpoint):
+            raise AdapterDenied("native endpoint contains whitespace")
         spec, _ref, _endpoint = resolve_launch(request.provider, broker, endpoint, model, registry)
         command = build_command(request.provider, model, request.prompt, streaming=streaming)
         env = broker.environment(spec.provider, spec.credential_env)
