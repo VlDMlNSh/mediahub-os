@@ -6,9 +6,9 @@ credentials, policy and egress remain outside this registry.
 """
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 from types import MappingProxyType
-from typing import Mapping
 
 from ops.mediahub_canonical_protocol import Capability, ProviderAdapter
 

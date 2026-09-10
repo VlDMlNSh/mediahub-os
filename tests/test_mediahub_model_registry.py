@@ -1,5 +1,6 @@
 from ops.mediahub_model_registry import ModelRecord, ModelRegistry
 
+
 def test_unknown_model_denied():
     r=ModelRegistry((ModelRecord("openai","qualified-model"),))
     try: r.require("openai","unknown")

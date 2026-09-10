@@ -1,5 +1,10 @@
 from ops.mediahub_canonical_protocol import Protocol
-from ops.mediahub_native_execution import CredentialRef, ExecutionTarget, NativeExecutionContract
+from ops.mediahub_native_execution import (
+    CredentialRef,
+    ExecutionTarget,
+    NativeExecutionContract,
+)
+
 
 def target(provider="openai"):
     return ExecutionTarget(provider, "https://api.example.test/v1", Protocol.OPENAI_RESPONSES if provider == "openai" else Protocol.ANTHROPIC_MESSAGES, "test-model", CredentialRef(provider, "/credential"))

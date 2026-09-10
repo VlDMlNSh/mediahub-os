@@ -1,12 +1,12 @@
 import pytest
 
 from ops.mediahub_credential_broker import CredentialBroker
-from ops.mediahub_egress_controller import EgressController, EgressPolicy
-from ops.mediahub_policy_engine import DevelopmentPolicy, PolicyEngine, PolicyRequest
 from ops.mediahub_development_security_boundary import (
     DevelopmentBoundaryDenied,
     DevelopmentSecurityBoundary,
 )
+from ops.mediahub_egress_controller import EgressController, EgressPolicy
+from ops.mediahub_policy_engine import DevelopmentPolicy, PolicyEngine, PolicyRequest
 
 
 def build_boundary(tmp_path):
@@ -25,8 +25,8 @@ def build_boundary(tmp_path):
 
 
 def request(**kwargs):
-    values = dict(provider="openai", protocol="openai.responses",
-                  data_class="non-sensitive", timeout_seconds=60, prompt_bytes=10)
+    values = {"provider": "openai", "protocol": "openai.responses",
+                  "data_class": "non-sensitive", "timeout_seconds": 60, "prompt_bytes": 10}
     values.update(kwargs)
     return PolicyRequest(**values)
 

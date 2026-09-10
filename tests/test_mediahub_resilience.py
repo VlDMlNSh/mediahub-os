@@ -1,7 +1,7 @@
 import pytest
 
 from ops.mediahub_provider_gateway import FailureClass, Provider, ProviderGateway
-from ops.mediahub_resilience import RetryPolicy, ResilienceEngine
+from ops.mediahub_resilience import ResilienceEngine, RetryPolicy
 
 
 def gateway():

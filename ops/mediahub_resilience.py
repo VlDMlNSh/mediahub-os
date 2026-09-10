@@ -6,7 +6,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from random import Random
-from time import monotonic
 
 from ops.mediahub_provider_gateway import FailureClass, ProviderGateway
 
@@ -51,9 +50,9 @@ class ResilienceDecision:
 class ResilienceEngine:
     """Combines deterministic provider failover with a strict attempt budget."""
 
-    def __init__(self, gateway: ProviderGateway, policy: RetryPolicy = RetryPolicy()) -> None:
+    def __init__(self, gateway: ProviderGateway, policy: RetryPolicy | None = None) -> None:
         self.gateway = gateway
-        self.policy = policy
+        self.policy = policy if policy is not None else RetryPolicy()
 
     def first(self, *, now: float | None = None) -> ResilienceDecision:
         decision = self.gateway.choose(now=now)

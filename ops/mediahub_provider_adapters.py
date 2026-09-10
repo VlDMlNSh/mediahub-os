@@ -6,11 +6,16 @@ Credentials are supplied separately and are never stored in adapter state.
 from __future__ import annotations
 
 import json
+from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Mapping
 
 from ops.mediahub_canonical_protocol import (
-    CanonicalFailure, CanonicalRequest, CanonicalResponse, Capability, FailureClass, Protocol,
+    CanonicalFailure,
+    CanonicalRequest,
+    CanonicalResponse,
+    Capability,
+    FailureClass,
+    Protocol,
 )
 
 

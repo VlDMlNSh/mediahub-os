@@ -1,6 +1,8 @@
+import http.client
 import json
-from pathlib import Path
 import sys
+from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).parents[1] / "ops"))
 import mediahub_provider_gateway_http as module
 
@@ -54,7 +56,7 @@ def test_opper_does_not_claim_responses():
     module.upstream = lambda provider, path: ("api.opper.ai", "/v3/compat/chat/completions", "test")
     try:
         handler.forward("opper", "/v1/responses", b"{}")
-    except Exception as exc:
+    except (OSError, ValueError, http.client.HTTPException) as exc:
         assert "protocol capability" in str(exc) or "Opper" in str(exc)
     else:
         raise AssertionError("unsupported Opper Responses path was not rejected")

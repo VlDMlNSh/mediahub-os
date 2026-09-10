@@ -1,10 +1,12 @@
 """Provider-neutral execution contract for cloud development lanes."""
 from __future__ import annotations
+
+from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Mapping
 from urllib.parse import urlparse
 
-from ops.mediahub_canonical_protocol import CanonicalRequest, Protocol
+from ops.mediahub_canonical_protocol import Protocol
+
 
 @dataclass(frozen=True)
 class CredentialRef:

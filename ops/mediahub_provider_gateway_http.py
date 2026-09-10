@@ -11,6 +11,7 @@ import json
 import os
 import ssl
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
 from mediahub_provider_gateway import FailureClass, Provider, ProviderGateway
 
 LISTEN = ("127.0.0.1", int(os.environ.get("MEDIAHUB_GATEWAY_PORT", "18080")))
@@ -144,7 +145,7 @@ class Handler(BaseHTTPRequestHandler):
             status = last_status if last_status is not None else 502
             response_headers = {"Retry-After": last_retry_after} if last_retry_after else None
             self.reply(status if status >= 400 else 502, last_error.encode(), response_headers)
-        except Exception:
+        except Exception:  # noqa: BLE001 - fail closed at the HTTP boundary
             self.reply(502, json_error("MEDIAHUB_GATEWAY_INTERNAL_FAILURE"))
 
     def _choose(self, protocol: str, excluded: set[str]):

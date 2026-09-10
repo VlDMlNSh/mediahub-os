@@ -18,8 +18,8 @@ def engine():
 
 
 def request(**overrides):
-    values = dict(provider="openai", protocol="openai.responses",
-                  data_class="non-sensitive", timeout_seconds=60, prompt_bytes=10)
+    values = {"provider": "openai", "protocol": "openai.responses",
+                  "data_class": "non-sensitive", "timeout_seconds": 60, "prompt_bytes": 10}
     values.update(overrides)
     return PolicyRequest(**values)
 

@@ -1,6 +1,11 @@
 import json
+
 from ops.mediahub_canonical_protocol import CanonicalRequest, Protocol
-from ops.mediahub_provider_adapters import OpenAIResponsesAdapter, AnthropicMessagesAdapter
+from ops.mediahub_provider_adapters import (
+    AnthropicMessagesAdapter,
+    OpenAIResponsesAdapter,
+)
+
 
 def req(protocol):
     return CanonicalRequest("r1", "model-x", protocol, "hello", 30.0, generation={"max_output_tokens": 8})

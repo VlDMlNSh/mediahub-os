@@ -4,7 +4,9 @@ Model identifiers are configuration, not hard-coded CLI truth. Retired or
 explicitly denied identifiers cannot enter an execution target.
 """
 from __future__ import annotations
+
 from dataclasses import dataclass
+
 
 @dataclass(frozen=True)
 class ModelRecord:
