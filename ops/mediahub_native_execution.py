@@ -126,6 +126,8 @@ class NativeExecutionContract:
             target.validate()
 
     def target(self, provider: str) -> ExecutionTarget:
+        if not isinstance(provider, str) or not provider:
+            raise PermissionError("malformed provider identity")
         try:
             return self._targets[provider]
         except KeyError as exc:

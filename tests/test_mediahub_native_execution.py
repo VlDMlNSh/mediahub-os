@@ -58,6 +58,11 @@ def test_execution_proposal_missing_identity_fails_closed():
         with pytest.raises(PermissionError):
             contract.prepare_proposal(*values)
 
+def test_target_rejects_malformed_provider_identity():
+    with pytest.raises(PermissionError, match="malformed provider identity"):
+        NativeExecutionContract().target([])
+
+
 def test_recovery_evidence_admits_verified_execution_proposal():
     from types import SimpleNamespace
 
