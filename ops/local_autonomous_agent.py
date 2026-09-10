@@ -178,8 +178,16 @@ def main() -> int:
         return rc
     patch = extract(output)
     if not safe_patch(patch):
-        print("LOCAL_AGENT_BLOCKED: invalid or oversized patch", file=sys.stderr)
-        return 24
+        # One bounded regeneration is permitted. The first model response is
+        # untrusted; a malformed/protected patch must never be applied.
+        prompt_file.write_text(prompt() + "\nREGENERATION CONSTRAINT: previous proposal was rejected. Return a diff touching exactly one already-tracked file from the admissible repository paths; never touch protected paths, file modes, or new files.\n", encoding="utf-8")
+        rc, output = generate(prompt_file)
+        if rc != 0:
+            return rc
+        patch = extract(output)
+        if not safe_patch(patch):
+            print("LOCAL_AGENT_BLOCKED: invalid or oversized patch after bounded regeneration", file=sys.stderr)
+            return 24
     check = subprocess.run([str(GIT), "apply", "--check", "-"], cwd=ROOT, input=patch, text=True, capture_output=True, check=False)
     if check.returncode != 0:
         print("LOCAL_AGENT_BLOCKED: patch check failed\n" + check.stderr, file=sys.stderr)
