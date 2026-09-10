@@ -12,7 +12,7 @@ import os
 import ssl
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from mediahub_provider_gateway import FailureClass, Provider, ProviderGateway
+from ops.mediahub_provider_gateway import FailureClass, Provider, ProviderGateway
 
 LISTEN = ("127.0.0.1", int(os.environ.get("MEDIAHUB_GATEWAY_PORT", "18080")))
 MAX_BODY = 8 * 1024 * 1024

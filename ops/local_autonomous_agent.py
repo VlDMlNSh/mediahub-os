@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 import subprocess
 import sys
 import urllib.error
@@ -26,6 +27,7 @@ class NoRedirectHandler(urllib.request.HTTPRedirectHandler):
 
 LOCAL_AI_OPENER = urllib.request.build_opener(NoRedirectHandler)
 GIT = Path("/usr/bin/git")
+RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 500
 PROTECTED = {".git", ".autonomous", ".github", "ops/cloud-development-adapter.py", "ops/cloud_development_adapter.py", "ops/local_autonomous_agent.py", "ops/autonomous_os_loop.sh", "ops/autonomous_watchdog.sh"}
 ALLOWED_TOP = {"architecture", "planning", "specification", "ops", "tests", "docs", "contracts", "development", "governance", "verification", "runtime", "security"}
@@ -199,7 +201,10 @@ def main() -> int:
     changed = run(["git", "diff", "--cached", "--name-only"]).stdout.splitlines()
     python_files = [path for path in changed if path.endswith(".py")]
     if python_files:
-        lint_fix = subprocess.run(["ruff", "check", "--fix", *python_files], cwd=ROOT, text=True, capture_output=True, check=False)
+        if not RUFF.is_file():
+            print("LOCAL_AGENT_BLOCKED: ruff executable not found", file=sys.stderr)
+            return 32
+        lint_fix = subprocess.run([str(RUFF), "check", "--fix", *python_files], cwd=ROOT, text=True, capture_output=True, check=False)
         if lint_fix.returncode != 0:
             print("LOCAL_AGENT_BLOCKED: deterministic lint repair failed\n" + lint_fix.stderr, file=sys.stderr)
             return 33

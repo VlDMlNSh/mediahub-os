@@ -1,10 +1,7 @@
 import http.client
 import json
-import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parents[1] / "ops"))
-import mediahub_provider_gateway_http as module
+import ops.mediahub_provider_gateway_http as module
 
 
 def test_models_are_local_and_bounded():

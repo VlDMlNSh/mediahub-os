@@ -41,5 +41,5 @@ def test_watchdog_validates_controller_ownership_before_termination():
 
 def test_agent_runs_deterministic_lint_repair_before_verification():
     text = (ROOT / "ops/local_autonomous_agent.py").read_text(encoding="utf-8")
-    assert 'ruff", "check", "--fix"' in text
+    assert 'str(RUFF), "check", "--fix"' in text
     assert 'LOCAL_AGENT_BLOCKED: deterministic lint repair failed' in text
