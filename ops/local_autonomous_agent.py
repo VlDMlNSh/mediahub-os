@@ -19,7 +19,7 @@ GIT = Path("/usr/bin/git")
 RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 160
 MAX_REGENERATIONS = 3
-TARGET = "ops/mediahub_native_execution.py"
+TARGET = "tests/test_mediahub_native_execution.py"
 R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
 PROTECTED = {
     ".git", ".autonomous", ".github", "production", "credentials",
@@ -59,7 +59,7 @@ def prompt(feedback: str = "") -> str:
     current = (ROOT / TARGET).read_text(encoding="utf-8")
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
     return f"""MediaHub local coding cycle. R4={R4}. Modify ONLY the existing tracked file {TARGET}.
-Add the smallest provider-neutral ExecutionProposal contract to NativeExecutionContract. It MUST carry request_id, workload_id, source_sha and provider; validate all are non-empty; and expose prepare_proposal(request_id, workload_id, source_sha, provider) that returns the proposal without network calls, credentials access, State Authority access, or execution.
+Add focused negative and positive tests for the existing ExecutionProposal contract in ops/mediahub_native_execution.py: valid prepare_proposal preserves request_id/workload_id/source_sha/provider; missing request identity, workload identity, source provenance or provider is rejected. Tests must prove the proposal boundary has no execution or network side effects.
 Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
 {current}{error}"""
 
@@ -95,46 +95,32 @@ def safe_patch(patch: str) -> bool:
 
 
 def fallback_patch() -> str:
-    """Return the pre-approved Wave 10 ExecutionProposal contract diff only."""
+    """Return the pre-approved Wave 10 ExecutionProposal test diff only."""
     path = ROOT / TARGET
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
-    marker = "class ExecutionProposal:"
+    marker = "def test_execution_proposal_preserves_identity():"
     if any(marker in line for line in old):
         return ""
-    marker_text = "    def prepare_headers"
-    insertion = [
-        "    def prepare_proposal(\n",
-        "        self, request_id: str, workload_id: str, source_sha: str, provider: str\n",
-        "    ) -> ExecutionProposal:\n",
-        "        proposal = ExecutionProposal(request_id, workload_id, source_sha, provider)\n",
-        "        proposal.validate()\n",
-        "        return proposal\n",
+    addition = [
         "\n",
+        "def test_execution_proposal_preserves_identity():\n",
+        "    contract = NativeExecutionContract()\n",
+        "    proposal = contract.prepare_proposal(\"req-1\", \"work-1\", \"sha-1\", \"openai\")\n",
+        "    assert proposal.request_id == \"req-1\"\n",
+        "    assert proposal.workload_id == \"work-1\"\n",
+        "    assert proposal.source_sha == \"sha-1\"\n",
+        "    assert proposal.provider == \"openai\"\n",
+        "\n",
+        "\n",
+        "def test_execution_proposal_missing_identity_fails_closed():\n",
+        "    contract = NativeExecutionContract()\n",
+        "    for values in ((\"\", \"work-1\", \"sha-1\", \"openai\"), (\"req-1\", \"\", \"sha-1\", \"openai\"), (\"req-1\", \"work-1\", \"\", \"openai\"), (\"req-1\", \"work-1\", \"sha-1\", \"\")):\n",
+        "        with pytest.raises(PermissionError):\n",
+        "            contract.prepare_proposal(*values)\n",
     ]
-    contract = [
-        "\n",
-        "@dataclass(frozen=True)\n",
-        "class ExecutionProposal:\n",
-        "    request_id: str\n",
-        "    workload_id: str\n",
-        "    source_sha: str\n",
-        "    provider: str\n",
-        "\n",
-        "    def validate(self) -> None:\n",
-        "        if not all((self.request_id, self.workload_id, self.source_sha, self.provider)):\n",
-        "            raise PermissionError(\"incomplete execution proposal\")\n",
-        "\n",
-    ]
-    new = old[:]
-    insertion_at = next((i for i, line in enumerate(new) if line.startswith(marker_text)), None)
-    if insertion_at is None:
-        return ""
-    new[insertion_at:insertion_at] = insertion
-    class_end = next((i for i, line in enumerate(new) if line.startswith("class NativeExecutionContract:")), None)
-    if class_end is None:
-        return ""
-    # Insert the immutable proposal contract immediately before the execution contract.
-    new[class_end:class_end] = contract
+    new = old + addition
+    if not any(line.strip() == "import pytest" for line in new):
+        new.insert(0, "import pytest\n")
     diff = "".join(difflib.unified_diff(
         old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"
     ))
@@ -243,8 +229,8 @@ def main() -> int:
     patch = ""
     # Do not spend an AI cycle on a deterministic task that is already satisfied.
     target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    if "class ExecutionProposal:" in target_text:
-        print("LOCAL_AGENT_NOOP: Wave 10 proposal task already satisfied")
+    if "def test_execution_proposal_preserves_identity():" in target_text:
+        print("LOCAL_AGENT_NOOP: Wave 10 proposal tests already satisfied")
         state("BLOCKED", "no admissible downstream change")
         return 30
 

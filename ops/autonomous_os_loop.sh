@@ -95,10 +95,17 @@ while [ ! -e "$STOPFILE" ]; do
 		exit 70
 	}
 	if [ "$FAIL_STREAK" -ge "$MAX_FAIL_STREAK" ]; then
-		echo "AUTONOMY_BLOCKED: repeated failures; fail-closed after $FAIL_STREAK cycles" >>"$LOG"
+		echo "AUTONOMY_BLOCKED: repeated execution failures; fail-closed after $FAIL_STREAK cycles" >>"$LOG"
 		printf "BLOCKED\n" >"$STATE/current_result"
-		touch "$STOPFILE"
-		break
+		# Safety block is represented by state; the 24/7 supervisor remains alive for operator/controller correction.
+		FAIL_STREAK=0
+		sleep 60
+		continue
 	fi
-	sleep "$SLEEP"
+	if [ "$RC" -eq 30 ]; then
+		# No-progress is a queue wait, not a failure and must not terminate autonomy.
+		sleep 60
+	else
+		sleep "$SLEEP"
+	fi
 done

@@ -51,7 +51,7 @@ from ops.local_autonomous_agent import fallback_patch, safe_patch, state
 
 def test_fallback_patch_is_applyable_and_idempotent(tmp_path, monkeypatch):
     from ops import local_autonomous_agent as agent
-    target = tmp_path / "ops" / "mediahub_native_execution.py"
+    target = tmp_path / "tests" / "test_mediahub_native_execution.py"
     target.parent.mkdir()
     target.write_text(
         "from dataclasses import dataclass\n\n"
@@ -64,13 +64,13 @@ def test_fallback_patch_is_applyable_and_idempotent(tmp_path, monkeypatch):
     monkeypatch.setattr(agent, "ROOT", tmp_path)
     patch = fallback_patch()
     assert safe_patch(patch)
-    assert patch.startswith("--- a/ops/mediahub_native_execution.py")
-    target.write_text(target.read_text() + "\nclass ExecutionProposal:\n", encoding="utf-8")
+    assert patch.startswith("--- a/tests/test_mediahub_native_execution.py")
+    target.write_text(target.read_text() + "\ndef test_execution_proposal_preserves_identity():\n", encoding="utf-8")
     assert fallback_patch() == ""
 
 
 def test_safe_patch_rejects_wrong_target():
-    patch = fallback_patch().replace("ops/mediahub_native_execution.py", "tests/not_allowed.py")
+    patch = fallback_patch().replace("tests/test_mediahub_native_execution.py", "tests/not_allowed.py")
     assert not safe_patch(patch)
 
 
@@ -95,7 +95,7 @@ def test_safe_patch_rejects_protected_path_and_malformed_hunk():
     patch = fallback_patch()
     if not patch:
         return
-    assert not safe_patch(patch.replace("ops/mediahub_native_execution.py", ".github/workflows/x.yml"))
+    assert not safe_patch(patch.replace("tests/test_mediahub_native_execution.py", ".github/workflows/x.yml"))
     first_hunk = next(line for line in patch.splitlines() if line.startswith("@@ "))
     assert not safe_patch(patch.replace(first_hunk, "@@ malformed", 1))
 
@@ -130,7 +130,7 @@ def test_exact_target_accepts_only_target(monkeypatch):
     from ops import local_autonomous_agent as agent
 
     class Result:
-        stdout = "ops/mediahub_native_execution.py\n"
+        stdout = "tests/test_mediahub_native_execution.py\n"
         returncode = 0
 
     monkeypatch.setattr(agent, "run", lambda *args, **kwargs: Result())
@@ -139,7 +139,7 @@ def test_exact_target_accepts_only_target(monkeypatch):
 
 def _init_temp_repo(tmp_path):
     repo = tmp_path / "repo"
-    target = repo / "ops" / "mediahub_native_execution.py"
+    target = repo / "tests" / "test_mediahub_native_execution.py"
     target.parent.mkdir(parents=True)
     target.write_text(
         "from dataclasses import dataclass\n\n"
@@ -278,12 +278,12 @@ def test_failure_injection_matrix_is_explicitly_guarded():
     patch = _synthetic_target_patch()
     injections = {
         "MALFORMED_AI": not safe_patch("not a diff"),
-        "WRONG_TARGET": not safe_patch(patch.replace("ops/mediahub_native_execution.py", "tests/x.py")),
+        "WRONG_TARGET": not safe_patch(patch.replace("tests/test_mediahub_native_execution.py", "tests/x.py")),
         "MULTI_TARGET": not safe_patch(patch + "--- a/tests/x.py\n+++ b/tests/x.py\n@@ -1 +1 @@\n-a\n+b\n"),
         "NEW_FILE": not safe_patch(patch.replace("--- a/", "new file mode 100644\n--- /dev/null\n--- a/", 1)),
         "RENAME": not safe_patch(patch.replace("--- a/", "rename from ops/mediahub_native_execution.py\n--- a/", 1)),
         "MODE_CHANGE": not safe_patch(patch.replace("--- a/", "old mode 100644\n--- a/", 1)),
-        "PROTECTED_PATH": not safe_patch(patch.replace("ops/mediahub_native_execution.py", ".github/workflows/x.yml")),
+        "PROTECTED_PATH": not safe_patch(patch.replace("tests/test_mediahub_native_execution.py", ".github/workflows/x.yml")),
     }
     assert all(injections.values()), injections
 
@@ -301,9 +301,9 @@ def _configure_temp_agent_wave4(monkeypatch, repo, target):
 
 def _synthetic_target_patch():
     return (
-        "diff --git a/ops/mediahub_native_execution.py b/ops/mediahub_native_execution.py\n"
-        "--- a/ops/mediahub_native_execution.py\n"
-        "+++ b/ops/mediahub_native_execution.py\n"
+        "diff --git a/tests/test_mediahub_native_execution.py b/tests/test_mediahub_native_execution.py\n"
+        "--- a/tests/test_mediahub_native_execution.py\n"
+        "+++ b/tests/test_mediahub_native_execution.py\n"
         "@@ -1 +1,2 @@\n"
         " from dataclasses import dataclass\n"
         "+\n"
