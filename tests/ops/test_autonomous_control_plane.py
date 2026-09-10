@@ -133,3 +133,172 @@ def test_exact_target_accepts_only_target(monkeypatch):
 
     monkeypatch.setattr(agent, "run", lambda *args, **kwargs: Result())
     assert agent.exact_target()
+
+
+def _init_temp_repo(tmp_path):
+    repo = tmp_path / "repo"
+    target = repo / "tests" / "test_mediahub_free_model_catalog.py"
+    target.parent.mkdir(parents=True)
+    target.write_text(
+        "from mediahub_free_model_catalog import FREE_MODEL_CANDIDATES\n",
+        encoding="utf-8",
+    )
+    (repo / "model.gguf").write_bytes(b"test")
+    subprocess.run(["git", "init", "-q", str(repo)], check=True)
+    subprocess.run(["git", "-C", str(repo), "config", "user.email", "test@example.invalid"], check=True)
+    subprocess.run(["git", "-C", str(repo), "config", "user.name", "test"], check=True)
+    subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(repo), "commit", "-qm", "baseline"], check=True)
+    return repo, target
+
+
+def _configure_temp_agent(monkeypatch, repo, target):
+    from ops import local_autonomous_agent as agent
+    monkeypatch.setattr(agent, "ROOT", repo)
+    model = repo / "model.gguf"
+    monkeypatch.setattr(agent, "MODEL", model)
+    monkeypatch.setattr(agent, "RUFF", Path("/definitely/missing/ruff"))
+    monkeypatch.setattr(agent, "MAX_REGENERATIONS", 1)
+    monkeypatch.setattr(agent, "TARGET", str(target.relative_to(repo)))
+    return agent
+
+
+def test_ai_malformed_never_reaches_apply_or_commit(monkeypatch):
+    from ops import local_autonomous_agent as agent
+    calls = []
+    monkeypatch.setattr(agent, "apply_checked", lambda patch: calls.append(patch) or True)
+    malformed = "not a unified diff"
+    extracted = agent.extract(malformed)
+    assert extracted == ""
+    assert not agent.safe_patch(extracted)
+    assert calls == []
+
+
+def test_ai_timeout_selects_eligible_fallback(tmp_path, monkeypatch, capsys):
+    repo, target = _init_temp_repo(tmp_path)
+    agent = _configure_temp_agent_wave4(monkeypatch, repo, target)
+    monkeypatch.setattr(agent, "generate", lambda text: (28, "", "AI_TIMEOUT"))
+    monkeypatch.setattr(agent, "verify", lambda: True)
+    rc = agent.main()
+    output = capsys.readouterr().out
+    assert rc == 0
+    assert "LOCAL_AGENT_STATE=AI_TIMEOUT" in output
+    assert "LOCAL_AGENT_STATE=FALLBACK_SELECTED" in output
+    assert "LOCAL_AGENT_STATE=FALLBACK_APPLIED" in output
+    assert "LOCAL_AGENT_STATE=VERIFY_PASS" in output
+    assert "LOCAL_AGENT_STATE=COMMITTED" in output
+
+
+def test_fallback_validation_failure_blocks_without_commit(tmp_path, monkeypatch, capsys):
+    repo, target = _init_temp_repo(tmp_path)
+    agent = _configure_temp_agent_wave4(monkeypatch, repo, target)
+    monkeypatch.setattr(agent, "generate", lambda text: (28, "", "AI_TIMEOUT"))
+    monkeypatch.setattr(agent, "apply_checked", lambda patch: False)
+    rc = agent.main()
+    output = capsys.readouterr().out
+    assert rc == 25
+    assert "LOCAL_AGENT_STATE=FALLBACK_SELECTED" in output
+    assert "LOCAL_AGENT_STATE=BLOCKED evidence=fallback failed" in output
+    assert "LOCAL_AGENT_STATE=COMMITTED" not in output
+    assert subprocess.run(["git", "-C", str(repo), "status", "--porcelain"], capture_output=True, text=True, check=True).stdout == ""
+
+
+def test_verify_failure_rolls_back_and_never_commits(tmp_path, monkeypatch, capsys):
+    repo, target = _init_temp_repo(tmp_path)
+    agent = _configure_temp_agent_wave4(monkeypatch, repo, target)
+    baseline = subprocess.run(["git", "-C", str(repo), "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
+    monkeypatch.setattr(agent, "generate", lambda text: (28, "", "AI_TIMEOUT"))
+    monkeypatch.setattr(agent, "verify", lambda: False)
+    rc = agent.main()
+    output = capsys.readouterr().out
+    head = subprocess.run(["git", "-C", str(repo), "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
+    status = subprocess.run(["git", "-C", str(repo), "status", "--porcelain"], capture_output=True, text=True, check=True).stdout
+    assert rc == 27
+    assert "LOCAL_AGENT_STATE=VERIFY_FAIL" in output
+    assert "LOCAL_AGENT_STATE=ROLLED_BACK evidence=working tree clean" in output
+    assert "LOCAL_AGENT_STATE=COMMITTED" not in output
+    assert head == baseline
+    assert status == ""
+
+
+def test_commit_failure_blocks_and_never_emits_committed(tmp_path, monkeypatch, capsys):
+    repo, target = _init_temp_repo(tmp_path)
+    agent = _configure_temp_agent_wave4(monkeypatch, repo, target)
+    monkeypatch.setattr(agent, "generate", lambda text: (28, "", "AI_TIMEOUT"))
+    monkeypatch.setattr(agent, "verify", lambda: True)
+    real_run = agent.run
+
+    def failing_commit(cmd, timeout=120):
+        if cmd[:2] == ["git", "commit"]:
+            return subprocess.CompletedProcess(cmd, 1, "", "injected commit failure")
+        return real_run(cmd, timeout)
+
+    monkeypatch.setattr(agent, "run", failing_commit)
+    rc = agent.main()
+    output = capsys.readouterr().out
+    assert rc == 31
+    assert "LOCAL_AGENT_STATE=BLOCKED evidence=commit gate failed" in output
+    assert "LOCAL_AGENT_STATE=COMMITTED" not in output
+    assert subprocess.run(["git", "-C", str(repo), "status", "--porcelain"], capture_output=True, text=True, check=True).stdout != ""
+
+
+def test_state_machine_has_no_noop_or_unknown_pass_state():
+    from ops import local_autonomous_agent as agent
+    assert "NOOP" not in agent.STATES
+    assert "PASS" not in agent.STATES
+    assert "UNKNOWN_STATE" not in agent.STATES
+    assert agent.STATES[-1] == "BLOCKED"
+
+
+def test_rollback_requires_clean_tree(tmp_path, monkeypatch):
+    repo, target = _init_temp_repo(tmp_path)
+    agent = _configure_temp_agent_wave4(monkeypatch, repo, target)
+    target.write_text(target.read_text() + "# dirty\n", encoding="utf-8")
+    assert agent.rollback()
+    assert subprocess.run(["git", "-C", str(repo), "status", "--porcelain"], capture_output=True, text=True, check=True).stdout == ""
+
+
+def test_provenance_controller_records_required_commit_coordinates():
+    text = (ROOT / "ops/autonomous_os_loop.sh").read_text(encoding="utf-8")
+    for token in (
+        "SOURCE_SHA=", "BASE_TREE=", "POST_HEAD=", "POST_TREE=", "ROLLBACK=", "RESULT=",
+        "git merge-base --is-ancestor \"$BASE_HEAD\" \"$POST_HEAD\"",
+        "git status --porcelain",
+    ):
+        assert token in text
+
+
+def test_failure_injection_matrix_is_explicitly_guarded():
+    patch = _synthetic_target_patch()
+    injections = {
+        "MALFORMED_AI": not safe_patch("not a diff"),
+        "WRONG_TARGET": not safe_patch(patch.replace("tests/test_mediahub_free_model_catalog.py", "tests/x.py")),
+        "MULTI_TARGET": not safe_patch(patch + "--- a/tests/x.py\n+++ b/tests/x.py\n@@ -1 +1 @@\n-a\n+b\n"),
+        "NEW_FILE": not safe_patch(patch.replace("--- a/", "new file mode 100644\n--- /dev/null\n--- a/", 1)),
+        "RENAME": not safe_patch(patch.replace("--- a/", "rename from tests/test_mediahub_free_model_catalog.py\n--- a/", 1)),
+        "MODE_CHANGE": not safe_patch(patch.replace("--- a/", "old mode 100644\n--- a/", 1)),
+        "PROTECTED_PATH": not safe_patch(patch.replace("tests/test_mediahub_free_model_catalog.py", ".github/workflows/x.yml")),
+    }
+    assert all(injections.values()), injections
+
+
+# Wave 4 test helpers override the immutable production R4 anchor only inside isolated temp repositories.
+def _configure_temp_agent_wave4(monkeypatch, repo, target):
+    agent = _configure_temp_agent(monkeypatch, repo, target)
+    baseline = subprocess.run(
+        ["git", "-C", str(repo), "rev-parse", "HEAD"],
+        capture_output=True, text=True, check=True,
+    ).stdout.strip()
+    monkeypatch.setattr(agent, "R4", baseline)
+    return agent
+
+
+def _synthetic_target_patch():
+    return (
+        "diff --git a/tests/test_mediahub_free_model_catalog.py b/tests/test_mediahub_free_model_catalog.py\n"
+        "--- a/tests/test_mediahub_free_model_catalog.py\n"
+        "+++ b/tests/test_mediahub_free_model_catalog.py\n"
+        "@@ -1 +1,2 @@\n"
+        " from mediahub_free_model_catalog import FREE_MODEL_CANDIDATES\n"
+        "+\n"
+    )
