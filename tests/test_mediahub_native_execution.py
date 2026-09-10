@@ -180,3 +180,24 @@ def test_verification_boundary_rejects_missing_provenance():
     request = BoundedExecutionAdapter().admit(proposal, target())
     with pytest.raises(PermissionError):
         VerificationBoundary().verify(request, "COMPLETED", "")
+
+
+def test_verification_boundary_rejects_malformed_request_type():
+    with pytest.raises(PermissionError):
+        VerificationBoundary().verify(object(), "COMPLETED", "sha-v")
+
+
+def test_verification_boundary_rejects_non_string_status_types():
+    proposal = ExecutionProposal("req-v", "work-v", "sha-v", "openai")
+    request = BoundedExecutionAdapter().admit(proposal, target())
+    for status in (1, True, None):
+        with pytest.raises(PermissionError):
+            VerificationBoundary().verify(request, status, "sha-v")
+
+
+def test_verification_boundary_rejects_non_string_provenance_type():
+    proposal = ExecutionProposal("req-v", "work-v", "sha-v", "openai")
+    request = BoundedExecutionAdapter().admit(proposal, target())
+    for observed_source_sha in (1, True, None):
+        with pytest.raises(PermissionError):
+            VerificationBoundary().verify(request, "COMPLETED", observed_source_sha)
