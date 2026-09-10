@@ -135,7 +135,7 @@ def generate(prompt_file: Path) -> tuple[int, str]:
             {"role": "system", "content": "Return only a directly applicable unified git diff. No commentary."},
             {"role": "user", "content": prompt_file.read_text(encoding="utf-8")},
         ],
-        "max_tokens": 512,
+        "max_tokens": 192,
         "temperature": 0,
     }
     request = urllib.request.Request(
@@ -145,7 +145,7 @@ def generate(prompt_file: Path) -> tuple[int, str]:
         method="POST",
     )
     try:
-        with LOCAL_AI_OPENER.open(request, timeout=120) as response:
+        with LOCAL_AI_OPENER.open(request, timeout=90) as response:
             raw = response.read(1_048_577)
         if len(raw) > 1_048_576:
             print("LOCAL_AGENT_LOCAL_AI_ERROR: response_too_large", file=sys.stderr)
