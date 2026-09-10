@@ -92,6 +92,38 @@ def safe_patch(patch: str) -> bool:
             saw_hunk = True
     return old_path == TARGET and new_path == TARGET and saw_hunk and TARGET not in PROTECTED
 
+def _fallback_target_patch(old: list[str], old_text: str) -> str:
+    original = """    def validate(self) -> None:
+        if self.provider != self.credential.provider:
+            raise PermissionError("credential provider mismatch")
+        if urlparse(self.endpoint).scheme != "https":
+            raise PermissionError("execution endpoint must use HTTPS")
+        if not self.model or not self.endpoint or not self.credential.path:
+            raise ValueError("incomplete execution target")
+"""
+    hardened = """    def validate(self) -> None:
+        if not isinstance(self.credential, CredentialRef):
+            raise PermissionError("malformed execution credential reference")
+        if not all(isinstance(value, str) for value in (self.provider, self.endpoint, self.model)):
+            raise PermissionError("malformed execution target")
+        if not isinstance(self.protocol, Protocol):
+            raise PermissionError("malformed execution protocol")
+        if not isinstance(self.credential.provider, str) or not isinstance(self.credential.path, str):
+            raise PermissionError("malformed execution credential reference")
+        if self.provider != self.credential.provider:
+            raise PermissionError("credential provider mismatch")
+        if urlparse(self.endpoint).scheme != "https":
+            raise PermissionError("execution endpoint must use HTTPS")
+        if not self.model or not self.endpoint or not self.credential.path:
+            raise ValueError("incomplete execution target")
+"""
+    if original not in old_text:
+        return ""
+    new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
+    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+    return diff if diff.endswith("\n") else diff + "\n"
+
+
 def fallback_patch() -> str:
     """Return the pre-approved Wave 10 execution-target hardening diff only."""
     path = ROOT / TARGET
@@ -130,35 +162,7 @@ def fallback_patch() -> str:
         diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
         return diff if diff.endswith("\n") else diff + "\n"
     if "class ExecutionTarget:" in old_text and "malformed execution target" not in old_text:
-        original = """    def validate(self) -> None:
-        if self.provider != self.credential.provider:
-            raise PermissionError("credential provider mismatch")
-        if urlparse(self.endpoint).scheme != "https":
-            raise PermissionError("execution endpoint must use HTTPS")
-        if not self.model or not self.endpoint or not self.credential.path:
-            raise ValueError("incomplete execution target")
-"""
-        hardened = """    def validate(self) -> None:
-        if not isinstance(self.credential, CredentialRef):
-            raise PermissionError("malformed execution credential reference")
-        if not all(isinstance(value, str) for value in (self.provider, self.endpoint, self.model)):
-            raise PermissionError("malformed execution target")
-        if not isinstance(self.protocol, Protocol):
-            raise PermissionError("malformed execution protocol")
-        if not isinstance(self.credential.provider, str) or not isinstance(self.credential.path, str):
-            raise PermissionError("malformed execution credential reference")
-        if self.provider != self.credential.provider:
-            raise PermissionError("credential provider mismatch")
-        if urlparse(self.endpoint).scheme != "https":
-            raise PermissionError("execution endpoint must use HTTPS")
-        if not self.model or not self.endpoint or not self.credential.path:
-            raise ValueError("incomplete execution target")
-"""
-        if original not in old_text:
-            return ""
-        new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
-        return diff if diff.endswith("\n") else diff + "\n"
+        return _fallback_target_patch(old, old_text)
     if old_text.count("class VerificationBoundary:") == 1 and "class ExecutionVerification:" in old_text:
         if "malformed verification request" in old_text:
             return ""
@@ -365,7 +369,7 @@ def main() -> int:
             print("LOCAL_AGENT_NOOP: no admissible downstream change")
             state("BLOCKED", "no admissible fallback task or tree is already changed")
             return 30
-        state("FALLBACK_SELECTED", "whitelist task: bounded request hardening")
+        state("FALLBACK_SELECTED", "whitelist task: execution target hardening")
         if not apply_checked(patch):
             state("BLOCKED", "fallback failed structural validation or git apply --check")
             return 25

@@ -43,6 +43,10 @@ def require_spec(agent: str) -> NativeAgentSpec:
 def resolve_executable(spec: NativeAgentSpec) -> Path:
     executable = shutil.which(spec.executable_name)
     if executable is None:
+        nvm_candidate = Path.home() / ".nvm/versions/node/v22.23.2/bin" / spec.executable_name
+        if nvm_candidate.is_file() and nvm_candidate.stat().st_mode & 0o111:
+            executable = str(nvm_candidate)
+    if executable is None:
         raise NativeAgentDenied("qualified agent executable is unavailable")
     return Path(executable)
 
