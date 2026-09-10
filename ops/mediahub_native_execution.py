@@ -140,11 +140,14 @@ class NativeExecutionContract:
 
 
     def prepare_recovery_proposal(self, evidence: object, provider: str) -> ExecutionProposal:
-        if not getattr(evidence, "verified", False):
+        verified = getattr(evidence, "verified", None)
+        request_id = getattr(evidence, "request_id", None)
+        workload_id = getattr(evidence, "workload_id", None)
+        source_sha = getattr(evidence, "source_sha", None)
+        if verified is not True:
             raise PermissionError("verified recovery evidence is required")
-        request_id = getattr(evidence, "request_id", "")
-        workload_id = getattr(evidence, "workload_id", "")
-        source_sha = getattr(evidence, "source_sha", "")
+        if not all(isinstance(value, str) for value in (request_id, workload_id, source_sha, provider)):
+            raise PermissionError("malformed recovery evidence")
         return self.prepare_proposal(request_id, workload_id, source_sha, provider)
     def prepare_headers(self, target: ExecutionTarget, secret: str) -> Mapping[str, str]:
         target.validate()
