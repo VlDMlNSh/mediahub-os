@@ -22,6 +22,14 @@ class ExecutionTarget:
     credential: CredentialRef
 
     def validate(self) -> None:
+        if not isinstance(self.credential, CredentialRef):
+            raise PermissionError("malformed execution credential reference")
+        if not all(isinstance(value, str) for value in (self.provider, self.endpoint, self.model)):
+            raise PermissionError("malformed execution target")
+        if not isinstance(self.protocol, Protocol):
+            raise PermissionError("malformed execution protocol")
+        if not isinstance(self.credential.provider, str) or not isinstance(self.credential.path, str):
+            raise PermissionError("malformed execution credential reference")
         if self.provider != self.credential.provider:
             raise PermissionError("credential provider mismatch")
         if urlparse(self.endpoint).scheme != "https":
