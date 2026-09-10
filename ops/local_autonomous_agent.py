@@ -188,7 +188,7 @@ def _fallback_headers_patch(old: list[str], old_text: str) -> str:
 
 
 def fallback_patch() -> str:
-    """Return the pre-approved Wave 10 prepare_headers credential hardening diff only."""
+    """Return the pre-approved Wave 10 prepare_headers input hardening diff only."""
     path = ROOT / TARGET
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
     old_text = "".join(old)
