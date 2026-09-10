@@ -110,7 +110,12 @@ def fallback_patch() -> str:
         "        source_sha = getattr(evidence, \"source_sha\", \"\")\n",
         "        return self.prepare_proposal(request_id, workload_id, source_sha, provider)\n",
     ]
-    new = old[:-1] + addition + old[-1:]
+    marker = "    def prepare_headers("
+    try:
+        insert_at = next(i for i, line in enumerate(old) if line.startswith(marker))
+    except StopIteration:
+        return ""
+    new = old[:insert_at] + addition + old[insert_at:]
     diff = "".join(difflib.unified_diff(
         old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"
     ))
