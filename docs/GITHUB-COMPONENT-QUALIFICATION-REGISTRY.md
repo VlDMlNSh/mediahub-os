@@ -119,3 +119,20 @@ The following source areas are designated as implementation references, subject 
 
 No external source is copied into MediaHub Product merely because it is useful. Every imported code
 fragment must retain attribution/license metadata and pass SBOM, provenance, security and maintenance gates.
+
+## 6. Wave 04C prior-art decision — 2026-09-10
+
+For native Codex/Claude execution, the selected approach is controlled USE-AS-IS execution of the
+official CLIs through a MediaHub-native launch contract; no OpenRouter wrapper is accepted as a
+native implementation.
+
+- `openai/codex`: USE-AS-IS through `mediahub_native_agent_launcher`; reuse the documented `codex exec`
+  CLI surface, model selection and sandbox mode, while keeping MediaHub policy/credential authority outside Codex.
+- `anthropics/claude-code`: USE-AS-IS through the same launch contract; reuse the documented print-mode,
+  model and structured-output CLI surface, while keeping MediaHub policy/credential authority outside Claude Code.
+- `anthropics/sandbox-runtime`: REFERENCE/BORROW candidate for Wave 06 process/filesystem/network isolation;
+  not installed and not made an authority dependency in Wave 04C.
+- Daytona and E2B remain alternative sandbox-runtime candidates; neither is installed in this wave.
+
+The MediaHub implementation retains only the smallest stable launch contract required to bind agent,
+qualified provider/model, HTTPS endpoint, broker-owned credential reference and sandboxed process execution.
