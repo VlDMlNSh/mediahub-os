@@ -16,6 +16,7 @@ class Protocol(str, Enum):
     OPENAI_RESPONSES = "openai.responses"
     OPENAI_CHAT = "openai.chat.completions"
     ANTHROPIC_MESSAGES = "anthropic.messages"
+    GEMINI_GENERATE_CONTENT = "gemini.generateContent"
 
 
 class FailureClass(str, Enum):

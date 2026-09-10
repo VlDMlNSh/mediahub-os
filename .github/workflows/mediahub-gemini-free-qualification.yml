@@ -1,0 +1,63 @@
+name: MediaHub Gemini Free Qualification
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: Gemini model to qualify
+        required: true
+        default: gemini-2.5-flash
+        type: choice
+        options:
+          - gemini-2.5-flash
+          - gemini-2.5-flash-lite
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL: ${{ inputs.model }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify adapter contract
+        run: python3 -m pytest -q tests/test_mediahub_gemini_adapter.py
+      - name: Live Gemini free-tier smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$GEMINI_API_KEY"
+          python3 - <<'PY'
+          import json, os, urllib.error, urllib.request
+          model = os.environ["GEMINI_MODEL"]
+          url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+          payload = json.dumps({"contents":[{"role":"user","parts":[{"text":"Return exactly MEDIAHUB_GEMINI_FREE_OK"}]}]}).encode()
+          req = urllib.request.Request(url, data=payload, method="POST", headers={"x-goog-api-key":os.environ["GEMINI_API_KEY"],"content-type":"application/json"})
+          try:
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  body=json.load(r)
+                  text=body["candidates"][0]["content"]["parts"][0].get("text","")
+                  print(f"status={r.status}")
+                  print(f"model={model}")
+                  print(f"marker_present={text.strip() == 'MEDIAHUB_GEMINI_FREE_OK'}")
+                  if text.strip() != "MEDIAHUB_GEMINI_FREE_OK": raise SystemExit(2)
+          except urllib.error.HTTPError as e:
+              print(f"status={e.code}")
+              if e.code == 403: print("classification=POLICY_BLOCKED")
+              elif e.code == 401: print("classification=CREDENTIAL_FAILURE")
+              elif e.code == 429: print("classification=RATE_LIMITED")
+              else: print("classification=PROVIDER_FAILURE")
+              raise
+      - name: Evidence identity
+        if: always()
+        run: |
+          echo "commit=$(git rev-parse HEAD)"
+          echo "model=$GEMINI_MODEL"
+          echo 'secret_value=SUPPRESSED'
