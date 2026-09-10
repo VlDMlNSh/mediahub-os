@@ -66,6 +66,17 @@ def test_fallback_patch_is_applyable_and_idempotent(tmp_path, monkeypatch):
     patch = fallback_patch()
     assert safe_patch(patch)
     assert patch.startswith("--- a/ops/mediahub_native_execution.py")
+    checked = subprocess.run(
+        ["git", "apply", "--check", "-"], cwd=tmp_path, input=patch,
+        text=True, capture_output=True, check=False,
+    )
+    assert checked.returncode == 0, checked.stderr
+    applied = subprocess.run(
+        ["git", "apply", "-"], cwd=tmp_path, input=patch,
+        text=True, capture_output=True, check=False,
+    )
+    assert applied.returncode == 0, applied.stderr
+    assert "def prepare_recovery_proposal" in target.read_text(encoding="utf-8")
     target.write_text(target.read_text() + "\n    def prepare_recovery_proposal(self, evidence, provider):\n", encoding="utf-8")
     assert fallback_patch() == ""
 
