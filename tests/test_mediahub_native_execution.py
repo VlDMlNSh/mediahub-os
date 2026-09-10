@@ -1,3 +1,5 @@
+import pytest
+
 from ops.mediahub_canonical_protocol import Protocol
 from ops.mediahub_native_execution import (
     CredentialRef,
@@ -37,3 +39,18 @@ def test_non_https_denied():
     try: NativeExecutionContract((t,))
     except PermissionError: pass
     else: assert False
+
+def test_execution_proposal_preserves_identity():
+    contract = NativeExecutionContract()
+    proposal = contract.prepare_proposal("req-1", "work-1", "sha-1", "openai")
+    assert proposal.request_id == "req-1"
+    assert proposal.workload_id == "work-1"
+    assert proposal.source_sha == "sha-1"
+    assert proposal.provider == "openai"
+
+
+def test_execution_proposal_missing_identity_fails_closed():
+    contract = NativeExecutionContract()
+    for values in (("", "work-1", "sha-1", "openai"), ("req-1", "", "sha-1", "openai"), ("req-1", "work-1", "", "openai"), ("req-1", "work-1", "sha-1", "")):
+        with pytest.raises(PermissionError):
+            contract.prepare_proposal(*values)
