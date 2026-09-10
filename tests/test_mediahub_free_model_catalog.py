@@ -26,3 +26,7 @@ def test_free_tier_labels_distinguish_access_classes():
 def test_provider_list_is_stable_and_unique():
     listed = providers()
     assert listed == tuple(sorted(set(listed)))
+
+def test_catalog_has_unique_provider_model_pairs():
+    pairs = [(item.provider, item.model) for item in FREE_MODEL_CANDIDATES]
+    assert len(pairs) == len(set(pairs))
