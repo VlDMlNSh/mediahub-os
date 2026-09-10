@@ -46,6 +46,8 @@ class ExecutionProposal:
     provider: str
 
     def validate(self) -> None:
+        if not all(isinstance(value, str) for value in (self.request_id, self.workload_id, self.source_sha, self.provider)):
+            raise PermissionError("malformed execution proposal")
         if not all((self.request_id, self.workload_id, self.source_sha, self.provider)):
             raise PermissionError("incomplete execution proposal")
 
