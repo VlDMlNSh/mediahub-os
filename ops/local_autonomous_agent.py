@@ -59,7 +59,7 @@ def prompt(feedback: str = "") -> str:
     current = (ROOT / TARGET).read_text(encoding="utf-8")
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
     return f"""MediaHub local coding cycle. R4={R4}. Modify ONLY the existing tracked file {TARGET}.
-Advance only to the next approved Wave 10 task: connect VERIFIED/RECOVERED cluster recovery evidence to the existing provider-neutral ExecutionProposal boundary, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Add the smallest provider-neutral method needed on NativeExecutionContract to prepare an ExecutionProposal from a recovery-evidence-like object and provider identity. The method must require evidence.verified == True, preserve evidence.request_id, evidence.workload_id, evidence.source_sha and the supplied provider, and reject missing/invalid identity or unverified evidence with PermissionError. It must not import cluster modules, retrieve credentials, access network, mutate State Authority/Home Assistant, or execute workloads. Keep the existing ExecutionProposal contract unchanged and do not add provider-specific behavior. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
+Advance only to the next approved Wave 10 task: implement the smallest provider-neutral Bounded Execution Adapter admission boundary, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Add a BoundedExecutionRequest value object and BoundedExecutionAdapter that admits an existing ExecutionProposal against an existing ExecutionTarget with explicit bounded timeout and output-size limits. Require proposal validation, target validation, exact provider binding between proposal and target, positive timeout/output limits, and hard maximums of 900 seconds and 1 MiB. The adapter must only validate/prepare an immutable request; it must not execute subprocesses, access network, retrieve credentials, mutate State Authority/Home Assistant, or widen egress. Keep ExecutionProposal and ExecutionTarget contracts unchanged and do not add provider-specific behavior. Reject invalid/missing identity, provider mismatch, non-HTTPS target, and out-of-range limits with PermissionError or ValueError as appropriate. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
 {current}{error}"""
 
 
@@ -97,20 +97,48 @@ def fallback_patch() -> str:
     """Return the pre-approved Wave 10 recovery-to-proposal diff only."""
     path = ROOT / TARGET
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
-    marker = "    def prepare_recovery_proposal("
+    marker = "class BoundedExecutionAdapter:"
     if any(marker in line for line in old):
         return ""
     addition = [
         "\n",
-        "    def prepare_recovery_proposal(self, evidence: object, provider: str) -> ExecutionProposal:\n",
-        "        if not getattr(evidence, \"verified\", False):\n",
-        "            raise PermissionError(\"verified recovery evidence is required\")\n",
-        "        request_id = getattr(evidence, \"request_id\", \"\")\n",
-        "        workload_id = getattr(evidence, \"workload_id\", \"\")\n",
-        "        source_sha = getattr(evidence, \"source_sha\", \"\")\n",
-        "        return self.prepare_proposal(request_id, workload_id, source_sha, provider)\n",
+        "@dataclass(frozen=True)\n",
+        "class BoundedExecutionRequest:\n",
+        "    proposal: ExecutionProposal\n",
+        "    target: ExecutionTarget\n",
+        "    timeout_seconds: int\n",
+        "    max_output_bytes: int\n",
+        "\n",
+        "    def validate(self) -> None:\n",
+        "        self.proposal.validate()\n",
+        "        self.target.validate()\n",
+        "        if self.proposal.provider != self.target.provider:\n",
+        "            raise PermissionError(\"proposal provider does not match execution target\")\n",
+        "        if not 1 <= self.timeout_seconds <= 900:\n",
+        "            raise ValueError(\"execution timeout is outside the bounded policy\")\n",
+        "        if not 1 <= self.max_output_bytes <= 1_048_576:\n",
+        "            raise ValueError(\"execution output limit is outside the bounded policy\")\n",
+        "\n",
+        "class BoundedExecutionAdapter:\n",
+        "    def admit(\n",
+        "        self, proposal: ExecutionProposal, target: ExecutionTarget,\n",
+        "        timeout_seconds: int = 60, max_output_bytes: int = 1_048_576,\n",
+        "    ) -> BoundedExecutionRequest:\n",
+        "        request = BoundedExecutionRequest(proposal, target, timeout_seconds, max_output_bytes)\n",
+        "        request.validate()\n",
+        "        return request\n",
+        "\n",
+        "    def execute(self, request: BoundedExecutionRequest) -> None:\n",
+        "        raise PermissionError(\"execution is not permitted at the admission boundary\")\n",
+        "\n",
+        "    def prepare_headers(self, request: BoundedExecutionRequest) -> Mapping[str, str]:\n",
+        "        raise PermissionError(\"secret access is not permitted at the admission boundary\")\n",
+        "\n",
+        "    def prepare_network(self, request: BoundedExecutionRequest) -> None:\n",
+        "        raise PermissionError(\"network access is not permitted at the admission boundary\")\n",
+        "\n",
     ]
-    marker = "    def prepare_headers("
+    marker = "class NativeExecutionContract:"
     try:
         insert_at = next(i for i, line in enumerate(old) if line.startswith(marker))
     except StopIteration:
@@ -224,7 +252,7 @@ def main() -> int:
     patch = ""
     # Do not spend an AI cycle on a deterministic task that is already satisfied.
     target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    if "def prepare_recovery_proposal(" in target_text:
+    if "class BoundedExecutionAdapter:" in target_text:
         print("LOCAL_AGENT_NOOP: Wave 10 proposal tests already satisfied")
         state("BLOCKED", "no admissible downstream change")
         return 30
@@ -264,7 +292,7 @@ def main() -> int:
             print("LOCAL_AGENT_NOOP: no admissible downstream change")
             state("BLOCKED", "no admissible fallback task or tree is already changed")
             return 30
-        state("FALLBACK_SELECTED", "whitelist task: unique provider/model regression")
+        state("FALLBACK_SELECTED", "whitelist task: bounded execution admission")
         if not apply_checked(patch):
             state("BLOCKED", "fallback failed structural validation or git apply --check")
             return 25

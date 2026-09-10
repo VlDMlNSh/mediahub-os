@@ -76,8 +76,8 @@ def test_fallback_patch_is_applyable_and_idempotent(tmp_path, monkeypatch):
         text=True, capture_output=True, check=False,
     )
     assert applied.returncode == 0, applied.stderr
-    assert "def prepare_recovery_proposal" in target.read_text(encoding="utf-8")
-    target.write_text(target.read_text() + "\n    def prepare_recovery_proposal(self, evidence, provider):\n", encoding="utf-8")
+    assert "class BoundedExecutionAdapter:" in target.read_text(encoding="utf-8")
+    target.write_text(target.read_text() + "\nclass BoundedExecutionAdapter:\n", encoding="utf-8")
     assert fallback_patch() == ""
 
 
