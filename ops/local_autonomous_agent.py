@@ -59,7 +59,7 @@ def prompt(feedback: str = "") -> str:
     current = (ROOT / TARGET).read_text(encoding="utf-8")
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
     return f"""MediaHub local coding cycle. R4={R4}. Modify ONLY the existing tracked file {TARGET}.
-Advance only to the next approved Wave 10 task: harden BoundedExecutionRequest validation against malformed and bool/int-coerced bounds, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Preserve valid behavior, but add strict fail-closed type validation for the admitted ExecutionProposal and ExecutionTarget objects and for timeout_seconds/max_output_bytes before normal validation. Reject wrong object types and reject bool values for numeric bounds with PermissionError rather than leaking AttributeError/TypeError or accepting Python bool-as-int coercion. Keep the existing numeric policy bounds of 1..900 seconds and 1..1 MiB unchanged. Do not add provider-specific behavior or change the public contracts. The boundary must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
+Advance only to the next approved Wave 10 security task: harden ExecutionTarget validation against malformed credential references and provider/endpoint/model types, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Preserve valid behavior, but add strict fail-closed type validation for CredentialRef and ExecutionTarget fields before normal validation. Reject wrong object and field types with PermissionError rather than leaking AttributeError/TypeError or accepting bool-as-string-like input. Keep HTTPS endpoint policy and existing provider/credential matching unchanged. Do not add provider-specific behavior or change the public contracts. The boundary must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
 {current}{error}"""
 
 
@@ -93,7 +93,7 @@ def safe_patch(patch: str) -> bool:
     return old_path == TARGET and new_path == TARGET and saw_hunk and TARGET not in PROTECTED
 
 def fallback_patch() -> str:
-    """Return the pre-approved Wave 10 verification hardening diff only."""
+    """Return the pre-approved Wave 10 execution-target hardening diff only."""
     path = ROOT / TARGET
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
     old_text = "".join(old)
@@ -123,6 +123,36 @@ def fallback_patch() -> str:
             raise ValueError(\"execution timeout is outside the bounded policy\")
         if not 1 <= self.max_output_bytes <= 1_048_576:
             raise ValueError(\"execution output limit is outside the bounded policy\")
+"""
+        if original not in old_text:
+            return ""
+        new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
+        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+        return diff if diff.endswith("\n") else diff + "\n"
+    if "class ExecutionTarget:" in old_text and "malformed execution target" not in old_text:
+        original = """    def validate(self) -> None:
+        if self.provider != self.credential.provider:
+            raise PermissionError("credential provider mismatch")
+        if urlparse(self.endpoint).scheme != "https":
+            raise PermissionError("execution endpoint must use HTTPS")
+        if not self.model or not self.endpoint or not self.credential.path:
+            raise ValueError("incomplete execution target")
+"""
+        hardened = """    def validate(self) -> None:
+        if not isinstance(self.credential, CredentialRef):
+            raise PermissionError("malformed execution credential reference")
+        if not all(isinstance(value, str) for value in (self.provider, self.endpoint, self.model)):
+            raise PermissionError("malformed execution target")
+        if not isinstance(self.protocol, Protocol):
+            raise PermissionError("malformed execution protocol")
+        if not isinstance(self.credential.provider, str) or not isinstance(self.credential.path, str):
+            raise PermissionError("malformed execution credential reference")
+        if self.provider != self.credential.provider:
+            raise PermissionError("credential provider mismatch")
+        if urlparse(self.endpoint).scheme != "https":
+            raise PermissionError("execution endpoint must use HTTPS")
+        if not self.model or not self.endpoint or not self.credential.path:
+            raise ValueError("incomplete execution target")
 """
         if original not in old_text:
             return ""
@@ -295,9 +325,9 @@ def main() -> int:
     patch = ""
     # Do not spend an AI cycle on a deterministic task that is already satisfied.
     target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    if "malformed bounded execution request" in target_text:
-        print("LOCAL_AGENT_NOOP: Wave 10 bounded request hardening already satisfied")
-        state("BLOCKED", "bounded request hardening already present")
+    if "malformed execution target" in target_text:
+        print("LOCAL_AGENT_NOOP: Wave 10 execution target hardening already satisfied")
+        state("BLOCKED", "execution target hardening already present")
         return 30
 
     for _ in range(MAX_REGENERATIONS):
