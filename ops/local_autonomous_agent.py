@@ -59,7 +59,7 @@ def prompt(feedback: str = "") -> str:
     current = (ROOT / TARGET).read_text(encoding="utf-8")
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
     return f"""MediaHub local coding cycle. R4={R4}. Modify ONLY the existing tracked file {TARGET}.
-Advance only to the next approved Wave 10 security task: harden ExecutionTarget validation against malformed credential references and provider/endpoint/model types, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Preserve valid behavior, but add strict fail-closed type validation for CredentialRef and ExecutionTarget fields before normal validation. Reject wrong object and field types with PermissionError rather than leaking AttributeError/TypeError or accepting bool-as-string-like input. Keep HTTPS endpoint policy and existing provider/credential matching unchanged. Do not add provider-specific behavior or change the public contracts. The boundary must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
+Advance only to the next approved Wave 10 security task: harden ExecutionProposal validation against malformed request/workload/source/provider field types, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Preserve valid behavior, but add strict fail-closed type validation for CredentialRef and ExecutionTarget fields before normal validation. Reject wrong object and field types with PermissionError rather than leaking AttributeError/TypeError or accepting bool-as-string-like input. Keep HTTPS endpoint policy and existing provider/credential matching unchanged. Do not add provider-specific behavior or change the public contracts. The boundary must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
 {current}{error}"""
 
 
@@ -124,8 +124,26 @@ def _fallback_target_patch(old: list[str], old_text: str) -> str:
     return diff if diff.endswith("\n") else diff + "\n"
 
 
+def _fallback_proposal_patch(old: list[str], old_text: str) -> str:
+    original = """    def validate(self) -> None:
+        if not all((self.request_id, self.workload_id, self.source_sha, self.provider)):
+            raise PermissionError("incomplete execution proposal")
+"""
+    hardened = """    def validate(self) -> None:
+        if not all(isinstance(value, str) for value in (self.request_id, self.workload_id, self.source_sha, self.provider)):
+            raise PermissionError("malformed execution proposal")
+        if not all((self.request_id, self.workload_id, self.source_sha, self.provider)):
+            raise PermissionError("incomplete execution proposal")
+"""
+    if original not in old_text:
+        return ""
+    new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
+    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+    return diff if diff.endswith("\n") else diff + "\n"
+
+
 def fallback_patch() -> str:
-    """Return the pre-approved Wave 10 execution-target hardening diff only."""
+    """Return the pre-approved Wave 10 execution-proposal hardening diff only."""
     path = ROOT / TARGET
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
     old_text = "".join(old)
@@ -161,6 +179,8 @@ def fallback_patch() -> str:
         new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
         diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
         return diff if diff.endswith("\n") else diff + "\n"
+    if "class ExecutionProposal:" in old_text and "malformed execution proposal" not in old_text:
+        return _fallback_proposal_patch(old, old_text)
     if "class ExecutionTarget:" in old_text and "malformed execution target" not in old_text:
         return _fallback_target_patch(old, old_text)
     if old_text.count("class VerificationBoundary:") == 1 and "class ExecutionVerification:" in old_text:
@@ -329,9 +349,9 @@ def main() -> int:
     patch = ""
     # Do not spend an AI cycle on a deterministic task that is already satisfied.
     target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    if "malformed execution target" in target_text:
-        print("LOCAL_AGENT_NOOP: Wave 10 execution target hardening already satisfied")
-        state("BLOCKED", "execution target hardening already present")
+    if "malformed execution proposal" in target_text or "malformed execution target" in target_text:
+        print("LOCAL_AGENT_NOOP: Wave 10 execution proposal hardening already satisfied")
+        state("BLOCKED", "execution proposal hardening already present")
         return 30
 
     for _ in range(MAX_REGENERATIONS):
@@ -369,7 +389,7 @@ def main() -> int:
             print("LOCAL_AGENT_NOOP: no admissible downstream change")
             state("BLOCKED", "no admissible fallback task or tree is already changed")
             return 30
-        state("FALLBACK_SELECTED", "whitelist task: execution target hardening")
+        state("FALLBACK_SELECTED", "whitelist task: execution proposal hardening")
         if not apply_checked(patch):
             state("BLOCKED", "fallback failed structural validation or git apply --check")
             return 25
