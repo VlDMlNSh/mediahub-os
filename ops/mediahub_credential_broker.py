@@ -35,6 +35,19 @@ class CredentialBroker:
         self.authorized = False
         self.revoked = True
 
+    def environment(self, provider: str, variable: str) -> dict[str, str]:
+        """Materialize one broker-owned credential only for child-process launch."""
+        if not variable.isidentifier() or not variable.isupper():
+            raise CredentialDenied("credential environment name is invalid")
+        ref = self.resolve(provider)
+        try:
+            value = ref.path.read_text(encoding="utf-8").strip()
+        except OSError as exc:
+            raise CredentialDenied("credential cannot be read") from exc
+        if not value or "\x00" in value or len(value) > 16 * 1024:
+            raise CredentialDenied("credential value is outside bounds")
+        return {variable: value}
+
     def resolve(self, provider: str) -> CredentialRef:
         if not self.authorized or self.revoked:
             raise CredentialDenied("credential access is not authorized")

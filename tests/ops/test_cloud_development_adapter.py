@@ -161,22 +161,72 @@ def test_timeout_starts_isolated_process_session(sandbox, monkeypatch):
         pid = 4242
         returncode = -15
 
-        calls = 0
-
-        def communicate(self, timeout=None):
-            self.calls += 1
-            if self.calls == 1:
-                raise subprocess.TimeoutExpired(("true",), timeout)
-            return ("", "")
+        def wait(self, timeout=None):
+            return self.returncode
 
     import subprocess
     monkeypatch.setattr(subprocess, "Popen", lambda *args, **kwargs: (
         seen.update(kwargs) or FakeProc()
     ))
     module = __import__("ops.cloud_development_adapter", fromlist=["os"])
+    monkeypatch.setattr(
+        module.CloudDevelopmentAdapter,
+        "_collect_bounded",
+        staticmethod(lambda proc, timeout, max_bytes: (_ for _ in ()).throw(
+            subprocess.TimeoutExpired(("true",), timeout)
+        )),
+    )
     killed = []
     monkeypatch.setattr(module.os, "killpg", lambda *args: killed.append(args))
     with pytest.raises(AdapterDenied):
         adapter.execute(request(timeout_seconds=1), sandbox, ("true",))
     assert seen["start_new_session"] is True
     assert killed == [(4242, module.signal.SIGTERM)]
+
+
+def test_native_agent_requires_endpoint_egress_and_broker(tmp_path, monkeypatch):
+    from ops.mediahub_credential_broker import CredentialBroker
+    from ops.mediahub_model_registry import ModelRecord, ModelRegistry
+
+    credential_dir = tmp_path / "credentials"
+    credential_dir.mkdir()
+    credential = credential_dir / "mediahub-openai"
+    credential.write_text("synthetic-secret", encoding="utf-8")
+    credential.chmod(0o600)
+    broker = CredentialBroker(credential_dir, frozenset({"openai"}))
+    broker.authorize()
+    registry = ModelRegistry((ModelRecord("openai", "qualified-codex-model"),))
+    root = tmp_path / "sandbox"
+    worktree = root / "worktree"
+    worktree.mkdir(parents=True)
+    adapter = CloudDevelopmentAdapter()
+    endpoint = "https://api.openai.com/v1"
+    adapter.authorize(frozenset({endpoint}))
+    with pytest.raises(AdapterDenied):
+        adapter.execute_native_agent(request(egress=frozenset()), SandboxSpec(root, worktree),
+                                     broker, registry, "qualified-codex-model", endpoint)
+
+
+def test_native_agent_launch_contract_never_logs_credential(tmp_path):
+    from ops.mediahub_credential_broker import CredentialBroker
+    from ops.mediahub_model_registry import ModelRecord, ModelRegistry
+
+    credential_dir = tmp_path / "credentials"
+    credential_dir.mkdir()
+    credential = credential_dir / "mediahub-openai"
+    credential.write_text("synthetic-secret", encoding="utf-8")
+    credential.chmod(0o600)
+    broker = CredentialBroker(credential_dir, frozenset({"openai"}))
+    broker.authorize()
+    registry = ModelRegistry((ModelRecord("openai", "qualified-codex-model"),))
+    root = tmp_path / "sandbox"
+    worktree = root / "worktree"
+    worktree.mkdir(parents=True)
+    adapter = CloudDevelopmentAdapter()
+    endpoint = "https://api.openai.com/v1"
+    adapter.authorize(frozenset({endpoint}))
+    with pytest.raises((AdapterDenied, PermissionError)):
+        adapter.execute_native_agent(request(egress=frozenset({endpoint}), timeout_seconds=1),
+                                     SandboxSpec(root, worktree), broker, registry,
+                                     "unqualified", endpoint)
+    assert all("synthetic-secret" not in str(event) for event in adapter.audit_events)

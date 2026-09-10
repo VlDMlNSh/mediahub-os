@@ -47,15 +47,20 @@ def resolve_executable(spec: NativeAgentSpec) -> Path:
     return Path(executable)
 
 
-def build_command(agent: str, model: str, prompt: str) -> tuple[str, ...]:
+def build_command(agent: str, model: str, prompt: str, streaming: bool = False) -> tuple[str, ...]:
     spec = require_spec(agent)
     executable = resolve_executable(spec)
     if not model or not prompt:
         raise NativeAgentDenied("model and prompt are required")
     if agent == "codex":
+        # Codex --json is the structured non-interactive event surface.
         return (str(executable), "exec", "--json", "--ephemeral", "--skip-git-repo-check",
                 "--sandbox", "workspace-write", "--model", model, prompt)
-    return (str(executable), "-p", "--output-format", "json", "--model", model, prompt)
+    output_format = "stream-json" if streaming else "json"
+    command: tuple[str, ...] = (str(executable), "-p", "--output-format", output_format, "--model", model, prompt)
+    if streaming:
+        command = (str(executable), "-p", "--output-format", output_format, "--verbose", "--model", model, prompt)
+    return command
 
 
 def resolve_launch(agent: str, broker: CredentialBroker, endpoint: str,
