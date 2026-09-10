@@ -104,7 +104,7 @@ def generate(text: str) -> tuple[int, str]:
 def main() -> int:
     if not MODEL.is_file():
         return 20
-    if run(["git", "merge-base", "--is-ancestor", R4]).returncode:
+    if run(["git", "merge-base", "--is-ancestor", R4, "HEAD"]).returncode:
         return 21
     if run(["git", "status", "--porcelain"]).stdout.strip():
         return 22
