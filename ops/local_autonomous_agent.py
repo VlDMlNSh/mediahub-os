@@ -19,7 +19,7 @@ GIT = Path("/usr/bin/git")
 RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 160
 MAX_REGENERATIONS = 3
-TARGET = "tests/test_mediahub_free_model_catalog.py"
+TARGET = "ops/mediahub_native_execution.py"
 R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
 PROTECTED = {
     ".git", ".autonomous", ".github", "production", "credentials",
@@ -59,7 +59,7 @@ def prompt(feedback: str = "") -> str:
     current = (ROOT / TARGET).read_text(encoding="utf-8")
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
     return f"""MediaHub local coding cycle. R4={R4}. Modify ONLY the existing tracked file {TARGET}.
-Add exactly one test named test_catalog_has_unique_provider_model_pairs that asserts provider/model pairs in FREE_MODEL_CANDIDATES are unique.
+Add the smallest provider-neutral ExecutionProposal contract to NativeExecutionContract. It MUST carry request_id, workload_id, source_sha and provider; validate all are non-empty; and expose prepare_proposal(request_id, workload_id, source_sha, provider) that returns the proposal without network calls, credentials access, State Authority access, or execution.
 Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
 {current}{error}"""
 
@@ -88,24 +88,53 @@ def safe_patch(patch: str) -> bool:
         elif line.startswith("+++ b/"):
             new_path = line[6:].strip()
         elif line.startswith("@@ "):
+            if not re.fullmatch(r"@@ -\d+(?:,\d+)? \+\d+(?:,\d+)? @@(?:.*)", line):
+                return False
             saw_hunk = True
     return old_path == TARGET and new_path == TARGET and saw_hunk and TARGET not in PROTECTED
 
 
 def fallback_patch() -> str:
-    """Return a diff for one pre-approved, idempotent regression task only."""
+    """Return the pre-approved Wave 10 ExecutionProposal contract diff only."""
     path = ROOT / TARGET
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
-    marker = "def test_catalog_has_unique_provider_model_pairs():"
+    marker = "class ExecutionProposal:"
     if any(marker in line for line in old):
         return ""
-    addition = [
+    marker_text = "    def prepare_headers"
+    insertion = [
+        "    def prepare_proposal(\n",
+        "        self, request_id: str, workload_id: str, source_sha: str, provider: str\n",
+        "    ) -> ExecutionProposal:\n",
+        "        proposal = ExecutionProposal(request_id, workload_id, source_sha, provider)\n",
+        "        proposal.validate()\n",
+        "        return proposal\n",
         "\n",
-        "def test_catalog_has_unique_provider_model_pairs():\n",
-        "    pairs = [(item.provider, item.model) for item in FREE_MODEL_CANDIDATES]\n",
-        "    assert len(pairs) == len(set(pairs))\n",
     ]
-    new = old + addition
+    contract = [
+        "\n",
+        "@dataclass(frozen=True)\n",
+        "class ExecutionProposal:\n",
+        "    request_id: str\n",
+        "    workload_id: str\n",
+        "    source_sha: str\n",
+        "    provider: str\n",
+        "\n",
+        "    def validate(self) -> None:\n",
+        "        if not all((self.request_id, self.workload_id, self.source_sha, self.provider)):\n",
+        "            raise PermissionError(\"incomplete execution proposal\")\n",
+        "\n",
+    ]
+    new = old[:]
+    insertion_at = next((i for i, line in enumerate(new) if line.startswith(marker_text)), None)
+    if insertion_at is None:
+        return ""
+    new[insertion_at:insertion_at] = insertion
+    class_end = next((i for i, line in enumerate(new) if line.startswith("class NativeExecutionContract:")), None)
+    if class_end is None:
+        return ""
+    # Insert the immutable proposal contract immediately before the execution contract.
+    new[class_end:class_end] = contract
     diff = "".join(difflib.unified_diff(
         old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"
     ))
@@ -214,8 +243,8 @@ def main() -> int:
     patch = ""
     # Do not spend an AI cycle on a deterministic task that is already satisfied.
     target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    if "def test_catalog_has_unique_provider_model_pairs():" in target_text:
-        print("LOCAL_AGENT_NOOP: downstream whitelist task already satisfied")
+    if "class ExecutionProposal:" in target_text:
+        print("LOCAL_AGENT_NOOP: Wave 10 proposal task already satisfied")
         state("BLOCKED", "no admissible downstream change")
         return 30
 
