@@ -59,7 +59,7 @@ def prompt(feedback: str = "") -> str:
     current = (ROOT / TARGET).read_text(encoding="utf-8")
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
     return f"""MediaHub local coding cycle. R4={R4}. Modify ONLY the existing tracked file {TARGET}.
-Advance only to the next approved Wave 10 task: implement the smallest provider-neutral Verification Boundary for an already admitted BoundedExecutionRequest, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Add an immutable ExecutionVerification value object and VerificationBoundary that validates the admitted request, requires an explicit verification status of COMPLETED or FAILED, requires the observed source SHA to exactly match the proposal source SHA, and rejects missing identity, provenance mismatch, unsupported status, or malformed verification input fail-closed. The boundary must only validate and record verification data; it must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Keep existing ExecutionProposal, ExecutionTarget and BoundedExecutionRequest contracts unchanged and do not add provider-specific behavior. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
+Advance only to the next approved Wave 10 task: harden the existing provider-neutral Verification Boundary against malformed verification input, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Preserve the existing ExecutionVerification and VerificationBoundary contracts and behavior for valid COMPLETED/FAILED evidence, but add strict fail-closed type validation for the admitted BoundedExecutionRequest, verification status, and observed source SHA before normal validation. Reject wrong-type request/status/provenance inputs with PermissionError rather than leaking TypeError, AttributeError, or accepting bool/int coercions. Do not add provider-specific behavior or change existing ExecutionProposal, ExecutionTarget, or BoundedExecutionRequest contracts. The boundary must only validate and record verification data; it must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
 {current}{error}"""
 
 
@@ -92,11 +92,37 @@ def safe_patch(patch: str) -> bool:
             saw_hunk = True
     return old_path == TARGET and new_path == TARGET and saw_hunk and TARGET not in PROTECTED
 
-
 def fallback_patch() -> str:
-    """Return the pre-approved Wave 10 recovery-to-proposal diff only."""
+    """Return the pre-approved Wave 10 verification hardening diff only."""
     path = ROOT / TARGET
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
+    old_text = "".join(old)
+    if old_text.count("class VerificationBoundary:") == 1 and "class ExecutionVerification:" in old_text:
+        if "malformed verification request" in old_text:
+            return ""
+        original = """    def validate(self) -> None:
+        self.request.validate()
+        if self.status not in {\"COMPLETED\", \"FAILED\"}:
+            raise PermissionError(\"unsupported verification status\")
+        if not self.observed_source_sha or self.observed_source_sha != self.request.proposal.source_sha:
+            raise PermissionError(\"verification provenance does not match proposal\")
+"""
+        hardened = """    def validate(self) -> None:
+        if not isinstance(self.request, BoundedExecutionRequest):
+            raise PermissionError(\"malformed verification request\")
+        if not isinstance(self.status, str) or self.status not in {\"COMPLETED\", \"FAILED\"}:
+            raise PermissionError(\"unsupported verification status\")
+        if not isinstance(self.observed_source_sha, str) or not self.observed_source_sha:
+            raise PermissionError(\"malformed verification provenance\")
+        self.request.validate()
+        if self.observed_source_sha != self.request.proposal.source_sha:
+            raise PermissionError(\"verification provenance does not match proposal\")
+"""
+        if original not in old_text:
+            return ""
+        new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
+        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+        return diff if diff.endswith("\n") else diff + "\n"
     marker = "class VerificationBoundary:"
     if any(marker in line for line in old):
         return ""
@@ -134,7 +160,6 @@ def fallback_patch() -> str:
         old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"
     ))
     return diff if diff.endswith("\n") else diff + "\n"
-
 
 def apply_checked(patch: str) -> bool:
     if not safe_patch(patch):
@@ -238,9 +263,9 @@ def main() -> int:
     patch = ""
     # Do not spend an AI cycle on a deterministic task that is already satisfied.
     target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    if "class VerificationBoundary:" in target_text:
-        print("LOCAL_AGENT_NOOP: Wave 10 proposal tests already satisfied")
-        state("BLOCKED", "no admissible downstream change")
+    if "malformed verification request" in target_text:
+        print("LOCAL_AGENT_NOOP: Wave 10 verification hardening already satisfied")
+        state("BLOCKED", "verification hardening already present")
         return 30
 
     for _ in range(MAX_REGENERATIONS):
@@ -278,7 +303,7 @@ def main() -> int:
             print("LOCAL_AGENT_NOOP: no admissible downstream change")
             state("BLOCKED", "no admissible fallback task or tree is already changed")
             return 30
-        state("FALLBACK_SELECTED", "whitelist task: verification boundary")
+        state("FALLBACK_SELECTED", "whitelist task: verification boundary hardening")
         if not apply_checked(patch):
             state("BLOCKED", "fallback failed structural validation or git apply --check")
             return 25
