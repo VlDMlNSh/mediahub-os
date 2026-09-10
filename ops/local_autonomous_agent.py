@@ -59,7 +59,7 @@ def prompt(feedback: str = "") -> str:
     current = (ROOT / TARGET).read_text(encoding="utf-8")
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
     return f"""MediaHub local coding cycle. R4={R4}. Modify ONLY the existing tracked file {TARGET}.
-Advance only to the next approved Wave 10 task: harden the existing provider-neutral Verification Boundary against malformed verification input, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Preserve the existing ExecutionVerification and VerificationBoundary contracts and behavior for valid COMPLETED/FAILED evidence, but add strict fail-closed type validation for the admitted BoundedExecutionRequest, verification status, and observed source SHA before normal validation. Reject wrong-type request/status/provenance inputs with PermissionError rather than leaking TypeError, AttributeError, or accepting bool/int coercions. Do not add provider-specific behavior or change existing ExecutionProposal, ExecutionTarget, or BoundedExecutionRequest contracts. The boundary must only validate and record verification data; it must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
+Advance only to the next approved Wave 10 task: harden BoundedExecutionRequest validation against malformed and bool/int-coerced bounds, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Preserve valid behavior, but add strict fail-closed type validation for the admitted ExecutionProposal and ExecutionTarget objects and for timeout_seconds/max_output_bytes before normal validation. Reject wrong object types and reject bool values for numeric bounds with PermissionError rather than leaking AttributeError/TypeError or accepting Python bool-as-int coercion. Keep the existing numeric policy bounds of 1..900 seconds and 1..1 MiB unchanged. Do not add provider-specific behavior or change the public contracts. The boundary must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
 {current}{error}"""
 
 
@@ -97,6 +97,38 @@ def fallback_patch() -> str:
     path = ROOT / TARGET
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
     old_text = "".join(old)
+    if "class BoundedExecutionRequest:" in old_text and "isinstance(self.timeout_seconds, int)" not in old_text:
+        original = """    def validate(self) -> None:
+        self.proposal.validate()
+        self.target.validate()
+        if self.proposal.provider != self.target.provider:
+            raise PermissionError(\"proposal provider does not match execution target\")
+        if not 1 <= self.timeout_seconds <= 900:
+            raise ValueError(\"execution timeout is outside the bounded policy\")
+        if not 1 <= self.max_output_bytes <= 1_048_576:
+            raise ValueError(\"execution output limit is outside the bounded policy\")
+"""
+        hardened = """    def validate(self) -> None:
+        if not isinstance(self.proposal, ExecutionProposal) or not isinstance(self.target, ExecutionTarget):
+            raise PermissionError(\"malformed bounded execution request\")
+        if not isinstance(self.timeout_seconds, int) or isinstance(self.timeout_seconds, bool):
+            raise PermissionError(\"execution timeout must be an integer\")
+        if not isinstance(self.max_output_bytes, int) or isinstance(self.max_output_bytes, bool):
+            raise PermissionError(\"execution output limit must be an integer\")
+        self.proposal.validate()
+        self.target.validate()
+        if self.proposal.provider != self.target.provider:
+            raise PermissionError(\"proposal provider does not match execution target\")
+        if not 1 <= self.timeout_seconds <= 900:
+            raise ValueError(\"execution timeout is outside the bounded policy\")
+        if not 1 <= self.max_output_bytes <= 1_048_576:
+            raise ValueError(\"execution output limit is outside the bounded policy\")
+"""
+        if original not in old_text:
+            return ""
+        new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
+        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+        return diff if diff.endswith("\n") else diff + "\n"
     if old_text.count("class VerificationBoundary:") == 1 and "class ExecutionVerification:" in old_text:
         if "malformed verification request" in old_text:
             return ""
@@ -263,9 +295,9 @@ def main() -> int:
     patch = ""
     # Do not spend an AI cycle on a deterministic task that is already satisfied.
     target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    if "malformed verification request" in target_text:
-        print("LOCAL_AGENT_NOOP: Wave 10 verification hardening already satisfied")
-        state("BLOCKED", "verification hardening already present")
+    if "malformed bounded execution request" in target_text:
+        print("LOCAL_AGENT_NOOP: Wave 10 bounded request hardening already satisfied")
+        state("BLOCKED", "bounded request hardening already present")
         return 30
 
     for _ in range(MAX_REGENERATIONS):
@@ -303,7 +335,7 @@ def main() -> int:
             print("LOCAL_AGENT_NOOP: no admissible downstream change")
             state("BLOCKED", "no admissible fallback task or tree is already changed")
             return 30
-        state("FALLBACK_SELECTED", "whitelist task: verification boundary hardening")
+        state("FALLBACK_SELECTED", "whitelist task: bounded request hardening")
         if not apply_checked(patch):
             state("BLOCKED", "fallback failed structural validation or git apply --check")
             return 25
