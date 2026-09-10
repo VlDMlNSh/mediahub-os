@@ -41,6 +41,42 @@ class ExecutionProposal:
         if not all((self.request_id, self.workload_id, self.source_sha, self.provider)):
             raise PermissionError("incomplete execution proposal")
 
+
+@dataclass(frozen=True)
+class BoundedExecutionRequest:
+    proposal: ExecutionProposal
+    target: ExecutionTarget
+    timeout_seconds: int
+    max_output_bytes: int
+
+    def validate(self) -> None:
+        self.proposal.validate()
+        self.target.validate()
+        if self.proposal.provider != self.target.provider:
+            raise PermissionError("proposal provider does not match execution target")
+        if not 1 <= self.timeout_seconds <= 900:
+            raise ValueError("execution timeout is outside the bounded policy")
+        if not 1 <= self.max_output_bytes <= 1_048_576:
+            raise ValueError("execution output limit is outside the bounded policy")
+
+class BoundedExecutionAdapter:
+    def admit(
+        self, proposal: ExecutionProposal, target: ExecutionTarget,
+        timeout_seconds: int = 60, max_output_bytes: int = 1_048_576,
+    ) -> BoundedExecutionRequest:
+        request = BoundedExecutionRequest(proposal, target, timeout_seconds, max_output_bytes)
+        request.validate()
+        return request
+
+    def execute(self, request: BoundedExecutionRequest) -> None:
+        raise PermissionError("execution is not permitted at the admission boundary")
+
+    def prepare_headers(self, request: BoundedExecutionRequest) -> Mapping[str, str]:
+        raise PermissionError("secret access is not permitted at the admission boundary")
+
+    def prepare_network(self, request: BoundedExecutionRequest) -> None:
+        raise PermissionError("network access is not permitted at the admission boundary")
+
 class NativeExecutionContract:
     def __init__(self, targets: tuple[ExecutionTarget, ...] = ()) -> None:
         self._targets = {t.provider: t for t in targets}
