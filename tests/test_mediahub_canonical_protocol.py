@@ -19,9 +19,9 @@ def test_unknown_capability_is_denied():
 
 def test_wildcard_model_is_explicitly_qualified():
     matrix = CapabilityMatrix(
-        (Capability("openrouter", "*", Protocol.OPENAI_CHAT, "chat.completions"),)
+        (Capability("continuum", "*", Protocol.OPENAI_CHAT, "chat.completions"),)
     )
-    assert matrix.supports("openrouter", "model-x", Protocol.OPENAI_CHAT, "chat.completions")
+    assert matrix.supports("continuum", "model-x", Protocol.OPENAI_CHAT, "chat.completions")
 
 
 def test_protocols_are_distinct():

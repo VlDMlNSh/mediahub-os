@@ -18,13 +18,11 @@ LISTEN = ("127.0.0.1", int(os.environ.get("MEDIAHUB_GATEWAY_PORT", "18080")))
 MAX_BODY = 8 * 1024 * 1024
 TIMEOUT = 120
 PROVIDERS = (
-    Provider("openrouter", "openrouter.ai", 10),
     Provider("opper", "api.opper.ai", 20),
     Provider("continuum", "continuumcode.ai", 30),
 )
 # Only capabilities explicitly qualified by MediaHub are routable.
 CAPABILITIES: dict[str, frozenset[str]] = {
-    "openrouter": frozenset({"responses", "chat_completions"}),
     "opper": frozenset({"chat_completions"}),
     "continuum": frozenset({"responses", "messages"}),
 }
@@ -61,8 +59,6 @@ def compatible(provider: str, protocol: str) -> bool:
 
 def provider_target(provider: str, path: str) -> str:
     suffix = path.removeprefix("/api").removeprefix("/v1")
-    if provider == "openrouter":
-        return "/api/v1" + suffix
     if provider == "opper":
         if path != "/v1/chat/completions":
             raise http.client.HTTPException("Opper adapter only supports Chat Completions")
@@ -73,8 +69,6 @@ def provider_target(provider: str, path: str) -> str:
 
 
 def upstream(provider: str, path: str) -> tuple[str, str, str]:
-    if provider == "openrouter":
-        return "openrouter.ai", provider_target(provider, path), credential("mediahub-openrouter")
     if provider == "opper":
         return "api.opper.ai", provider_target(provider, path), credential("mediahub-opper")
     if provider == "continuum":

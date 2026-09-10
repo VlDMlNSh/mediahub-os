@@ -7,7 +7,6 @@ Wants=network-online.target
 Type=simple
 User=mediahub-gateway
 Group=mediahub-agents
-LoadCredential=mediahub-openrouter:/etc/mediahub/credentials/openrouter_api_key
 LoadCredential=mediahub-opper:/etc/mediahub/credentials/opper_api_key
 LoadCredential=mediahub-continuum:/etc/mediahub/credentials/continuum_api_key
 ExecStart=/usr/bin/python3 /usr/local/libexec/mediahub/mediahub_provider_gateway_http.py

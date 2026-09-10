@@ -266,6 +266,6 @@ class CloudDevelopmentAdapter:
         )
 
 
-# Legacy wrappers are retained only for compatibility tests. Native execution
-# must use mediahub_native_agent_launcher and never an OpenRouter-bound wrapper.
+# Legacy wrapper entrypoints are retained only for compatibility tests. Native
+# execution must use mediahub_native_agent_launcher and never a third-party wrapper.
 ENTRYPOINTS: dict[str, Path] = {}
