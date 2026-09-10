@@ -19,7 +19,7 @@ GIT = Path("/usr/bin/git")
 RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 160
 MAX_REGENERATIONS = 3
-TARGET = "tests/test_mediahub_native_execution.py"
+TARGET = "ops/mediahub_native_execution.py"
 R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
 PROTECTED = {
     ".git", ".autonomous", ".github", "production", "credentials",
@@ -59,8 +59,7 @@ def prompt(feedback: str = "") -> str:
     current = (ROOT / TARGET).read_text(encoding="utf-8")
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
     return f"""MediaHub local coding cycle. R4={R4}. Modify ONLY the existing tracked file {TARGET}.
-Add focused negative and positive tests for the existing ExecutionProposal contract in ops/mediahub_native_execution.py: valid prepare_proposal preserves request_id/workload_id/source_sha/provider; missing request identity, workload identity, source provenance or provider is rejected. Tests must prove the proposal boundary has no execution or network side effects.
-Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
+Advance only to the next approved Wave 10 task: connect VERIFIED/RECOVERED cluster recovery evidence to the existing provider-neutral ExecutionProposal boundary, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Add the smallest provider-neutral method needed on NativeExecutionContract to prepare an ExecutionProposal from a recovery-evidence-like object and provider identity. The method must require evidence.verified == True, preserve evidence.request_id, evidence.workload_id, evidence.source_sha and the supplied provider, and reject missing/invalid identity or unverified evidence with PermissionError. It must not import cluster modules, retrieve credentials, access network, mutate State Authority/Home Assistant, or execute workloads. Keep the existing ExecutionProposal contract unchanged and do not add provider-specific behavior. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
 {current}{error}"""
 
 
@@ -95,32 +94,23 @@ def safe_patch(patch: str) -> bool:
 
 
 def fallback_patch() -> str:
-    """Return the pre-approved Wave 10 ExecutionProposal test diff only."""
+    """Return the pre-approved Wave 10 recovery-to-proposal diff only."""
     path = ROOT / TARGET
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
-    marker = "def test_execution_proposal_preserves_identity():"
+    marker = "    def prepare_recovery_proposal("
     if any(marker in line for line in old):
         return ""
     addition = [
         "\n",
-        "def test_execution_proposal_preserves_identity():\n",
-        "    contract = NativeExecutionContract()\n",
-        "    proposal = contract.prepare_proposal(\"req-1\", \"work-1\", \"sha-1\", \"openai\")\n",
-        "    assert proposal.request_id == \"req-1\"\n",
-        "    assert proposal.workload_id == \"work-1\"\n",
-        "    assert proposal.source_sha == \"sha-1\"\n",
-        "    assert proposal.provider == \"openai\"\n",
-        "\n",
-        "\n",
-        "def test_execution_proposal_missing_identity_fails_closed():\n",
-        "    contract = NativeExecutionContract()\n",
-        "    for values in ((\"\", \"work-1\", \"sha-1\", \"openai\"), (\"req-1\", \"\", \"sha-1\", \"openai\"), (\"req-1\", \"work-1\", \"\", \"openai\"), (\"req-1\", \"work-1\", \"sha-1\", \"\")):\n",
-        "        with pytest.raises(PermissionError):\n",
-        "            contract.prepare_proposal(*values)\n",
+        "    def prepare_recovery_proposal(self, evidence: object, provider: str) -> ExecutionProposal:\n",
+        "        if not getattr(evidence, \"verified\", False):\n",
+        "            raise PermissionError(\"verified recovery evidence is required\")\n",
+        "        request_id = getattr(evidence, \"request_id\", \"\")\n",
+        "        workload_id = getattr(evidence, \"workload_id\", \"\")\n",
+        "        source_sha = getattr(evidence, \"source_sha\", \"\")\n",
+        "        return self.prepare_proposal(request_id, workload_id, source_sha, provider)\n",
     ]
-    new = old + addition
-    if not any(line.strip() == "import pytest" for line in new):
-        new.insert(0, "import pytest\n")
+    new = old[:-1] + addition + old[-1:]
     diff = "".join(difflib.unified_diff(
         old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"
     ))
