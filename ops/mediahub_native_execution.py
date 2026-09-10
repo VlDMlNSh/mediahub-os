@@ -85,10 +85,14 @@ class ExecutionVerification:
     observed_source_sha: str
 
     def validate(self) -> None:
-        self.request.validate()
-        if self.status not in {"COMPLETED", "FAILED"}:
+        if not isinstance(self.request, BoundedExecutionRequest):
+            raise PermissionError("malformed verification request")
+        if not isinstance(self.status, str) or self.status not in {"COMPLETED", "FAILED"}:
             raise PermissionError("unsupported verification status")
-        if not self.observed_source_sha or self.observed_source_sha != self.request.proposal.source_sha:
+        if not isinstance(self.observed_source_sha, str) or not self.observed_source_sha:
+            raise PermissionError("malformed verification provenance")
+        self.request.validate()
+        if self.observed_source_sha != self.request.proposal.source_sha:
             raise PermissionError("verification provenance does not match proposal")
 
 class VerificationBoundary:
