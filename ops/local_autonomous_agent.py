@@ -53,23 +53,19 @@ def task() -> str:
 
 
 def prompt() -> str:
-    return f"""You are a LOCAL MediaHub coding agent. Internet/cloud AI is unavailable and must not be required.
-Repository: {ROOT}
-Immutable R4: {R4}. Never modify it or rewrite history.
-Authority rules: AI output is advisory; State Authority remains canonical; fail closed; do not unlock qualification, release, or production.
-You may make exactly ONE small downstream change per cycle.
-Return ONLY a unified git diff, no markdown fences, no commentary.
-Allowed: existing repository files under architecture/, planning/, specification/, ops/, tests/, docs/.
-Forbidden: .git/, .autonomous/, secrets, credentials, workflows that grant authority, history rewriting.
-The diff must be <= {MAX_DIFF_LINES} lines and must be directly applicable with `git apply`.
-Never change file modes, executable bits, rename metadata, or file type; preserve the existing mode of every tracked file. Do not emit `new file mode`, `old mode`, or `new mode` lines.
-Prefer tests, contracts, registries, documentation, and deterministic validation over speculative runtime changes.
-
-CURRENT STATE
-{snapshot()}
-
-TASK QUEUE
-{task()}
+    # Keep the local-model prompt below the 4K context budget.
+    head = run(["git", "rev-parse", "HEAD"]).stdout.strip()
+    return f"""LOCAL MediaHub coding agent.
+Repo={ROOT}
+HEAD={head}
+R4={R4} immutable; never rewrite history.
+Return ONLY one small unified git diff, no fences/commentary.
+Touch exactly ONE already-tracked file under architecture/, planning/, specification/, ops/, tests/, docs/.
+Never touch .git/, .autonomous/, .github/, credentials, secrets, production authority, or file modes.
+No new files, renames, binary changes, or cloud-provider activation. Max 120 diff lines.
+Prefer a deterministic regression test, contract, invariant, or documentation correction.
+The AI is advisory; repository state and verification are authoritative.
+TASK: make the smallest safe downstream consistency improvement justified by the repository.
 """
 
 
