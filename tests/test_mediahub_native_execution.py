@@ -2,7 +2,9 @@ import pytest
 
 from ops.mediahub_canonical_protocol import Protocol
 from ops.mediahub_native_execution import (
+    BoundedExecutionAdapter,
     CredentialRef,
+    ExecutionProposal,
     ExecutionTarget,
     NativeExecutionContract,
 )
@@ -85,3 +87,59 @@ def test_recovery_evidence_missing_identity_fails_closed():
         with pytest.raises(PermissionError):
             NativeExecutionContract().prepare_recovery_proposal(evidence, "openai")
 
+
+
+def test_bounded_execution_adapter_admits_matching_proposal_and_target():
+    proposal = ExecutionProposal("req-b", "work-b", "sha-b", "openai")
+    request = BoundedExecutionAdapter().admit(proposal, target(), 30, 4096)
+    assert request.proposal == proposal
+    assert request.target.provider == "openai"
+    assert request.timeout_seconds == 30
+    assert request.max_output_bytes == 4096
+
+
+def test_bounded_execution_adapter_rejects_provider_mismatch():
+    proposal = ExecutionProposal("req-b", "work-b", "sha-b", "anthropic")
+    with pytest.raises(PermissionError):
+        BoundedExecutionAdapter().admit(proposal, target("openai"))
+
+
+def test_bounded_execution_adapter_rejects_timeout_outside_bounds():
+    proposal = ExecutionProposal("req-b", "work-b", "sha-b", "openai")
+    adapter = BoundedExecutionAdapter()
+    with pytest.raises(ValueError):
+        adapter.admit(proposal, target(), 0)
+    with pytest.raises(ValueError):
+        adapter.admit(proposal, target(), 901)
+
+
+def test_bounded_execution_adapter_rejects_output_limit_outside_bounds():
+    proposal = ExecutionProposal("req-b", "work-b", "sha-b", "openai")
+    adapter = BoundedExecutionAdapter()
+    with pytest.raises(ValueError):
+        adapter.admit(proposal, target(), 60, 0)
+    with pytest.raises(ValueError):
+        adapter.admit(proposal, target(), 60, 1_048_577)
+
+
+def test_bounded_execution_adapter_rejects_invalid_proposal():
+    adapter = BoundedExecutionAdapter()
+    with pytest.raises(PermissionError):
+        adapter.admit(ExecutionProposal("", "work-b", "sha-b", "openai"), target())
+
+
+def test_bounded_execution_adapter_never_executes():
+    proposal = ExecutionProposal("req-b", "work-b", "sha-b", "openai")
+    request = BoundedExecutionAdapter().admit(proposal, target())
+    with pytest.raises(PermissionError):
+        BoundedExecutionAdapter().execute(request)
+
+
+def test_bounded_execution_adapter_denies_secret_and_network_access():
+    proposal = ExecutionProposal("req-b", "work-b", "sha-b", "openai")
+    request = BoundedExecutionAdapter().admit(proposal, target())
+    adapter = BoundedExecutionAdapter()
+    with pytest.raises(PermissionError):
+        adapter.prepare_headers(request)
+    with pytest.raises(PermissionError):
+        adapter.prepare_network(request)
