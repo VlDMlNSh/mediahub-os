@@ -9,8 +9,9 @@ from __future__ import annotations
 import http.client
 import json
 import os
-import ssl
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+import requests
 
 from ops.mediahub_provider_gateway import FailureClass, Provider, ProviderGateway
 
@@ -153,21 +154,17 @@ class Handler(BaseHTTPRequestHandler):
         if not compatible(provider, protocol):
             raise http.client.HTTPException("provider protocol capability not qualified")
         host, target, key = upstream(provider, path)
-        conn = http.client.HTTPSConnection(
-            host, 443, timeout=TIMEOUT, context=ssl.create_default_context()
+        url = f"https://{host}{target}"
+        headers = {
+            "Authorization": "Bearer " + key,
+            "Content-Type": self.headers.get("Content-Type", "application/json"),
+            "Accept": self.headers.get("Accept", "application/json"),
+            "User-Agent": "MediaHub-Provider-Gateway/1.1",
+        }
+        response = requests.post(
+            url, data=body, headers=headers, timeout=TIMEOUT, allow_redirects=False, verify=True
         )
-        try:
-            headers = {
-                "Authorization": "Bearer " + key,
-                "Content-Type": self.headers.get("Content-Type", "application/json"),
-                "Accept": self.headers.get("Accept", "application/json"),
-                "User-Agent": "MediaHub-Provider-Gateway/1.1",
-            }
-            conn.request("POST", target, body=body, headers=headers)
-            response = conn.getresponse()
-            return response.status, response.read(MAX_BODY + 1), response.getheader("Retry-After")
-        finally:
-            conn.close()
+        return response.status_code, response.content[: MAX_BODY + 1], response.headers.get("Retry-After")
 
     def log_message(self, fmt: str, *args: object) -> None:
         # Never log request headers/body: prompts and credentials are sensitive.

@@ -33,7 +33,7 @@ class RetryPolicy:
         raw = min(self.base_delay_seconds * (2 ** (attempt - 1)), self.max_delay_seconds)
         if self.jitter_ratio == 0:
             return raw
-        source = rng or Random(0)
+        source = rng or Random(0)  # nosec B311 — deterministic non-cryptographic retry jitter only.
         return raw * (1 - self.jitter_ratio * source.random())
 
 

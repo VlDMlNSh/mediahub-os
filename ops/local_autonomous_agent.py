@@ -9,7 +9,7 @@ from __future__ import annotations
 import json
 import re
 import shutil
-import subprocess
+import subprocess  # nosec B404 — subprocess argv is constructed internally with shell=False.
 import sys
 import urllib.error
 import urllib.request
@@ -35,7 +35,8 @@ R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
 
 
 def run(cmd: list[str], timeout: int = 120, check: bool = False) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=timeout, check=check)
+    return subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=timeout, check=check)  # nosec B603 — argv is validated/generated internally; shell=False.
+
 
 
 def snapshot() -> str:
@@ -190,11 +191,13 @@ def main() -> int:
         if not safe_patch(patch):
             print("LOCAL_AGENT_BLOCKED: invalid or oversized patch after bounded regeneration", file=sys.stderr)
             return 24
-    check = subprocess.run([str(GIT), "apply", "--check", "-"], cwd=ROOT, input=patch, text=True, capture_output=True, check=False)
+    check = subprocess.run([str(GIT), "apply", "--check", "-"], cwd=ROOT, input=patch, text=True, capture_output=True, check=False)  # nosec B603 — fixed git executable and bounded model patch.
+
     if check.returncode != 0:
         print("LOCAL_AGENT_BLOCKED: patch check failed\n" + check.stderr, file=sys.stderr)
         return 25
-    apply = subprocess.run([str(GIT), "apply", "--index", "-"], cwd=ROOT, input=patch, text=True, capture_output=True, check=False)
+    apply = subprocess.run([str(GIT), "apply", "--index", "-"], cwd=ROOT, input=patch, text=True, capture_output=True, check=False)  # nosec B603 — fixed git executable and bounded model patch.
+
     if apply.returncode != 0:
         print("LOCAL_AGENT_BLOCKED: patch apply failed\n" + apply.stderr, file=sys.stderr)
         return 26
@@ -204,7 +207,8 @@ def main() -> int:
         if not RUFF.is_file():
             print("LOCAL_AGENT_BLOCKED: ruff executable not found", file=sys.stderr)
             return 32
-        lint_fix = subprocess.run([str(RUFF), "check", "--fix", *python_files], cwd=ROOT, text=True, capture_output=True, check=False)
+        lint_fix = subprocess.run([str(RUFF), "check", "--fix", *python_files], cwd=ROOT, text=True, capture_output=True, check=False)  # nosec B603 — absolute ruff path and repository-derived file list.
+
         if lint_fix.returncode != 0:
             print("LOCAL_AGENT_BLOCKED: deterministic lint repair failed\n" + lint_fix.stderr, file=sys.stderr)
             return 33
