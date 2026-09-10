@@ -219,7 +219,7 @@ def main() -> int:
     patch = ""
     # Do not spend an AI cycle on a deterministic task that is already satisfied.
     target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    if "def test_execution_proposal_preserves_identity():" in target_text:
+    if "def prepare_recovery_proposal(" in target_text:
         print("LOCAL_AGENT_NOOP: Wave 10 proposal tests already satisfied")
         state("BLOCKED", "no admissible downstream change")
         return 30
@@ -235,7 +235,18 @@ def main() -> int:
             error = "structural validation failed; use exact target path and complete ---/+++/@@ sections"
             continue
         if apply_checked(patch):
-            state("AI_SUCCESS", "structural validation and git apply --check passed")
+            if RUFF.is_file():
+                lint = subprocess.run(
+                    [str(RUFF), "check", TARGET], cwd=ROOT,
+                    text=True, capture_output=True, check=False
+                )  # nosec B603
+                if lint.returncode:
+                    print("LOCAL_AGENT_AI_LINT_REJECTED: candidate fails lint", file=sys.stderr)
+                    print(lint.stdout + lint.stderr, file=sys.stderr)
+                    rollback()
+                    error = "candidate failed lint; produce a syntactically and lint-clean patch or rely on deterministic fallback"
+                    continue
+            state("AI_SUCCESS", "structural validation, git apply --check and lint passed")
             break
         state("AI_REJECTED", "git apply --check rejected AI patch")
         error = "git apply --check rejected the patch"
