@@ -86,3 +86,39 @@ class HybridCloudEgressAdapter:
 
     def require_stable_transport(self, health_url: str) -> TransportProbe:
         return self.select(health_url)
+
+    def request(self, url: str, *, method: str = "GET", data: bytes | None = None,
+                headers: dict[str, str] | None = None) -> tuple[int, bytes]:
+        """Call an HTTPS cloud API only through the currently verified path.
+
+        Unknown/failed transport is never retried automatically because a
+        non-idempotent cloud operation could otherwise be duplicated.
+        """
+        if self._active is None:
+            raise CloudAPIUnavailable("no verified hybrid cloud transport is selected")
+        self._validate_url(url)
+        candidate = self._active
+        args = ["curl", "--fail-with-body", "--silent", "--show-error",
+                "--connect-timeout", "3", "--max-time", str(self._timeout),
+                "--interface", candidate.interface, "--request", method]
+        for key, value in (headers or {}).items():
+            if "\n" in key or "\r" in key or "\n" in value or "\r" in value:
+                raise CloudAPIUnavailable("invalid HTTP header")
+            args += ["--header", f"{key}: {value}"]
+        if data is not None:
+            args += ["--data-binary", "@-"]
+        args += [url, "--write-out", "\n__MH_HTTP_STATUS__%{http_code}"]
+        try:
+            result = run(args, input=data, capture_output=True, timeout=self._timeout + 3, check=False)
+        except (OSError, SubprocessError) as exc:
+            raise CloudAPIUnavailable("cloud API transport failed") from exc
+        if result.returncode != 0:
+            raise CloudAPIUnavailable("cloud API request failed")
+        marker = b"\n__MH_HTTP_STATUS__"
+        if marker not in result.stdout:
+            raise CloudAPIUnavailable("cloud API response status is unverifiable")
+        body, status = result.stdout.rsplit(marker, 1)
+        try:
+            return int(status.strip()), body
+        except ValueError as exc:
+            raise CloudAPIUnavailable("cloud API response status is invalid") from exc
