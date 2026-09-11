@@ -54,6 +54,9 @@ def test_egress_and_sensitive_data_are_denied():
         adapter.admit(request(egress=frozenset({"https://unapproved.example"})))
     with pytest.raises(AdapterDenied):
         adapter.admit(request(data_class="secret"))
+    for data_class in ("credential", "production", "pii", "internal", "unknown"):
+        with pytest.raises(AdapterDenied):
+            adapter.admit(request(data_class=data_class))
 
 
 def test_missing_provenance_and_bad_timeout_are_denied():

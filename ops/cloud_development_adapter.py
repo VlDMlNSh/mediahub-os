@@ -18,6 +18,7 @@ from ops.mediahub_native_agent_launcher import build_command, resolve_launch
 
 FORBIDDEN = frozenset({"production", "secrets", "state-authority", "host-filesystem"})
 PROVIDERS = frozenset({"codex", "claude"})
+EXPORTABLE_DATA_CLASSES = frozenset({"non-sensitive"})
 ADAPTER_ID = "mediahub.cloud-development-adapter.v1"
 
 
@@ -99,7 +100,7 @@ class CloudDevelopmentAdapter:
             raise AdapterDenied("egress is not allowlisted")
         if not 1 <= request.timeout_seconds <= 900:
             raise AdapterDenied("timeout is outside the bounded policy")
-        if request.data_class in {"secret", "credential", "production"}:
+        if request.data_class not in EXPORTABLE_DATA_CLASSES:
             raise AdapterDenied("data class is not exportable")
         if not request.source_sha:
             raise AdapterDenied("source provenance is required")
@@ -132,9 +133,8 @@ class CloudDevelopmentAdapter:
             for key, value in extra_env.items():
                 if not isinstance(key, str) or not key.isidentifier() or not isinstance(value, str):
                     raise AdapterDenied("provider environment is invalid")
-                if (("KEY" in key or "TOKEN" in key or "SECRET" in key or "PASSWORD" in key)
-                        and key not in {"OPENAI_API_KEY", "ANTHROPIC_API_KEY"}):
-                    raise AdapterDenied("unapproved credential environment variable")
+                if "KEY" in key or "TOKEN" in key or "SECRET" in key or "PASSWORD" in key:
+                    raise AdapterDenied("provider credentials must remain outside the adapter")
                 if "\x00" in value or len(value) > 16 * 1024:
                     raise AdapterDenied("provider environment value is outside bounds")
                 env[key] = value
