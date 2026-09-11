@@ -1,0 +1,237 @@
+schema_version: 1.0
+status: ACCEPTED_RECONCILIATION_ARTIFACT
+date: 2026-09-11
+source: FUNCTIONAL BASELINE 1.0
+principle: "Capability -> Contract -> Authority -> Adapter/Runtime -> Validation -> Qualification"
+
+rules:
+  - "No domain may create a hidden direct mutation path around MediaHub contracts."
+  - "Every state-changing operation enters the governed Command path."
+  - "Events are facts/notifications and never canonical mutation authority."
+  - "Telemetry is observational only."
+  - "External systems are adapters/integration peers, not MediaHub authority."
+  - "Future-gated capabilities cannot become runtime prerequisites before their acceptance gate."
+
+contracts:
+  platform_state:
+    capability: state_authority
+    contract: MediaHub_Command_Contract
+    authority: MediaHub_State_Authority
+    transport: internal_command_path
+    state: canonical_platform_state
+    events: MediaHub_Event_Contract
+    validation: schema_validation + authorization + invariant_validation
+    qualification: authority_path + stale_command + failure + recovery
+
+  smart_home:
+    capability: smart_home
+    contract: MediaHub_Smart_Home_Contract
+    authority: Home_Assistant_Core
+    adapter: MediaHub_Smart_Home_Layer
+    transport: governed_mediahub_api
+    state: Home_Assistant_domain_state + MediaHub_platform_metadata
+    events: normalized_smart_home_events
+    validation: integration_capability + device_identity + authorization
+    qualification: discovery + onboarding + state_consistency + automation_negative_paths
+
+  security_trust:
+    capability: security_trust
+    contract: MediaHub_Identity_Trust_Contract
+    authority: MediaHub_Security_Trust_Layer
+    adapter: device_and_workload_adapters
+    state: identities + trust + authorization_policy + revocation
+    events: security_audit_events
+    validation: authentication + authorization + least_privilege + policy
+    qualification: deny + quarantine + revoke + rotate + audit
+
+  media:
+    capability: media
+    contract: MediaHub_Media_Contract
+    authority: MediaHub_Media_Domain
+    adapter: media_source_and_endpoint_adapters
+    runtime: FFmpeg + OpenCV_where_required
+    state: media_asset_metadata + playback_intent + capability_metadata
+    events: media_domain_events
+    validation: codec_capability + resource_policy + authorization + provenance
+    qualification: playback + transcode + interruption + resource_exhaustion + provenance
+
+  documents:
+    capability: documents
+    contract: MediaHub_Document_Contract
+    authority: MediaHub_Document_Domain
+    adapter: document_ingestion_adapters
+    runtime: PaddleOCR + PostgreSQL + pgvector_where_qualified
+    state: document_metadata + provenance + workflow_state
+    events: document_domain_events
+    validation: type + provenance + access_policy + retention_policy
+    qualification: ingestion + OCR + indexing + retrieval + access_denial
+
+  digital_twin:
+    capability: digital_twin
+    contract: MediaHub_Digital_Twin_Contract
+    authority: MediaHub_Digital_Twin_Domain
+    adapter: IFC_and_geometry_adapters
+    runtime: IfcOpenShell + web-ifc + qualified_geometry_tools
+    state: model_metadata + topology + geometry_reference + entitlement_state
+    events: digital_twin_events
+    validation: IFC_schema + geometry_integrity + entitlement + provenance
+    qualification: import + validation + deterministic_processing + entitlement_boundaries
+
+  engineering:
+    capability: engineering
+    contract: MediaHub_Engineering_Contract
+    authority: MediaHub_Engineering_Domain
+    adapter: engineering_tool_adapters
+    state: project_metadata + calculation_artifacts + provenance
+    events: engineering_events
+    validation: input_schema + reproducibility + entitlement + authorization
+    qualification: deterministic_calculation + provenance + audit + negative_paths
+
+  network:
+    capability: network
+    contract: MediaHub_Network_Contract
+    authority: MediaHub_Network_Domain
+    adapter: vendor_api_adapters
+    state: topology_metadata + device_metadata + diagnostics
+    events: network_events
+    validation: device_identity + credential_scope + vendor_capability
+    qualification: discovery + diagnostics + credential_isolation + degraded_mode
+
+  local_ai:
+    capability: local_ai
+    contract: MediaHub_AI_Contract
+    authority: MediaHub_AI_Gateway
+    runtime: llama.cpp + ONNX_Runtime_where_benchmarked
+    state: model_registry_metadata + task_context + policy
+    events: AI_task_events
+    validation: model_provenance + tool_authorization + data_classification
+    qualification: advisory_boundary + tool_denial + offline_operation + provenance
+
+  local_cluster_ai:
+    capability: local_cluster_ai
+    contract: MediaHub_Cluster_Workload_Contract
+    authority: MediaHub_Cluster_Control
+    runtime: future_gated_cluster_runtime
+    state: workload_metadata + node_health + quotas
+    events: workload_events
+    validation: node_identity + workload_identity + quota + authorization
+    qualification: scheduling + node_loss + quota_enforcement + recovery
+
+  cloud_development_ai:
+    capability: cloud_development_ai
+    contract: MediaHub_Cloud_Egress_Contract
+    authority: Corporate_Cloud_Development_Boundary
+    adapter: MediaHub_AI_Gateway
+    state: task_metadata + metering + policy_evidence
+    events: cloud_task_events
+    validation: authorization + data_classification + residency + egress_policy
+    qualification: denial + revocation + egress_control + local_only_fallback
+
+  trusted_sources:
+    capability: trusted_sources_intelligence
+    contract: MediaHub_Evidence_Provenance_Contract
+    authority: MediaHub_Trusted_Sources_Engine
+    state: source_identity + evidence + verification_state + provenance
+    events: evidence_events
+    validation: source_policy + provenance + verification + change_detection
+    qualification: source_comparison + evidence_traceability + AI_generated_separation
+
+  ai_human_clone:
+    capability: ai_human_clone
+    contract: MediaHub_Synthetic_Identity_Contract
+    authority: Corporate_Cloud_Development_Boundary
+    state: consent + rights_scope + model_provenance + asset_provenance + revocation
+    events: synthetic_media_audit_events
+    validation: consent + authorization + rights + provenance + scope
+    qualification: consent_denial + revocation + synthetic_labeling + audit
+
+  mobile_core:
+    capability: mobile_core
+    contract: MediaHub_Mobile_Core_Contract
+    authority: MediaHub_State_Authority
+    runtime: local_ios_ipados_core
+    state: bounded_local_state + synchronized_authoritative_state
+    events: mobile_events
+    validation: authentication + authorization + contract_version + offline_policy
+    qualification: offline + reconnect + conflict + revocation
+
+  mobile_remote:
+    capability: mobile_remote
+    contract: MediaHub_Remote_Access_Contract
+    authority: MediaHub_API
+    runtime: remote_ios_application
+    state: no_independent_canonical_state
+    events: remote_access_events
+    validation: authentication + authorization + trust + privacy
+    qualification: session_revocation + network_loss + authorization_denial
+
+  voice:
+    capability: voice
+    contract: MediaHub_Voice_Command_Contract
+    authority: MediaHub_API_and_governed_integrations
+    adapters: [Google_Assistant, Yandex_Alice, Apple_Siri]
+    state: no_voice_authority
+    events: voice_interaction_events
+    validation: identity + authorization + command_validation
+    qualification: malformed_command + unauthorized_command + provider_loss
+
+  storage:
+    capability: storage
+    contract: MediaHub_Storage_Contract
+    authority: MediaHub_domain_state_authority
+    primitives: [PostgreSQL, pgvector, S3_compatible_interface]
+    state: domain_owned_storage
+    events: storage_lifecycle_events
+    validation: schema + integrity + access_policy
+    qualification: migration + corruption_detection + restore + capacity
+    activation: future_gated_until_persistence_architecture_is_accepted
+
+  backup_recovery:
+    capability: backup_recovery
+    contract: MediaHub_Recovery_Contract
+    authority: MediaHub_Recovery_Authority
+    primitive: restic
+    state: recovery_metadata + backup_manifest + verification_evidence
+    events: recovery_events
+    validation: integrity + provenance + authorization + restore_policy
+    qualification: restore + migration + disaster_recovery + authority_preservation
+
+  update:
+    capability: update
+    contract: MediaHub_Update_Contract
+    authority: MediaHub_Update_Authority
+    mechanism: RAUC
+    evidence: [Cosign, Syft, Trivy]
+    state: update_policy + eligibility + activation_state
+    events: update_lifecycle_events
+    validation: user_confirmation + integrity + compatibility + provenance + authorization
+    qualification: interrupted_update + rollback + signature_failure + recovery
+
+  observability:
+    capability: observability
+    contract: MediaHub_Observability_Contract
+    authority: MediaHub_Observability_Policy
+    primitives: [OpenTelemetry, Prometheus]
+    state: telemetry_configuration
+    events: telemetry_records
+    validation: schema + privacy + cardinality + retention
+    qualification: telemetry_loss + correlation + non_mutation
+
+  release:
+    capability: release
+    contract: MediaHub_Release_Evidence_Contract
+    authority: MediaHub_Release_Governance
+    primitives: [Cosign, Syft, Trivy]
+    state: release_evidence + gate_state
+    events: qualification_events
+    validation: provenance + security_policy + independent_review
+    qualification: MH05 + T5 + F03 + release_authorization + production_authorization
+
+current_foundation_constraints:
+  - "Single-node runtime."
+  - "In-memory State Authority."
+  - "No HA."
+  - "Physical persistence not yet authorized."
+  - "No mandatory Internet/cloud/AI/RAG dependency for deterministic core operation."
+  - "Recovery cannot create shadow authority."
+  - "Events cannot directly mutate canonical state."
