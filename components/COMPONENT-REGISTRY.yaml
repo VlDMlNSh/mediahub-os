@@ -1,81 +1,114 @@
-schema_version: 1.0
-registry_status: architecture-selected
+schema_version: 1.1
+registry_status: passport-reconciled
 last_reviewed: 2026-09-11
 principle: "Use mature open-source blocks, protocols, schemas and implementation patterns; do not adopt whole products unless explicitly justified. MediaHub retains architectural ownership and authoritative state."
 
 selection_rules:
   - "No dependency is selected solely for popularity."
-  - "Prefer permissive licenses for foundational/runtime components."
+  - "Prefer permissive licenses for foundational/runtime components where practical."
   - "Reference-only components must not become hidden runtime dependencies."
-  - "Every selected component requires version pinning, security review and acceptance tests."
-  - "MediaHub State Authority, domain model and release authority remain MediaHub-owned."
+  - "Every selected component requires version pinning, security review, provenance review and acceptance tests."
+  - "Functional Baseline 1.0 is the target capability source; frozen runtime governance still controls activation."
+  - "MediaHub State Authority, domain models, recovery authority, update authority and release authority remain MediaHub-owned."
 
 components:
-  - component: nats
-    category: messaging
-    status: selected
-    integration_mode: native
-    source: https://github.com/nats-io/nats-server
+  - component: home-assistant-core
+    category: smart_home_domain
+    status: target-selected
+    integration_mode: native_domain_core
+    source: https://github.com/home-assistant/core
     license: Apache-2.0
-    rationale: "Use NATS core messaging and JetStream durability for commands, events and durable streams without making the broker authoritative for domain state."
-    integration_notes: "MediaHub-defined subjects, schemas, idempotency keys, delivery policies and consumer lifecycle."
-    dependencies: [Go]
-    acceptance_criteria: [durable_delivery, reconnect_recovery, idempotent_consumers, bounded_retry, schema_versioning]
-
-  - component: etcd
-    category: coordination
-    status: selected
-    integration_mode: native
-    source: https://github.com/etcd-io/etcd
-    license: Apache-2.0
-    rationale: "Mature Raft-backed coordination primitive for leases, membership and quorum-sensitive control operations."
-    integration_notes: "Infrastructure primitive only; never replace MediaHub State Authority."
-    dependencies: [Raft]
-    acceptance_criteria: [quorum_loss_fail_closed, lease_expiry_handling, deterministic_leadership, split_brain_protection]
-
-  - component: temporal
-    category: durable_workflows
-    status: reference
-    integration_mode: reference
-    source: https://github.com/temporalio/temporal
-    license: MIT
-    rationale: "Reference for durable execution, timeout, retry, compensation and recovery semantics; avoid coupling the MediaHub domain model to a third-party workflow server."
-    integration_notes: "Extract workflow semantics into MediaHub-owned orchestration contracts."
-    dependencies: [Go]
-    acceptance_criteria: [deterministic_workflow, durable_progress, timeout_recovery, idempotent_activity]
+    rationale: "Functional Baseline explicitly defines Home Assistant Core as the authority for the Smart Home domain."
+    integration_notes: "MediaHub Smart Home Layer wraps the domain; MediaHub UI/API remain the unified user-facing surface. AI must not bypass Home Assistant Core."
+    acceptance_criteria: [integration_boundary, device_discovery, automation_integrity, state_consistency, qualification_per_adapter]
 
   - component: postgresql
     category: relational_state
-    status: selected
-    integration_mode: native
+    status: target-selected
+    integration_mode: native_future_gated
     source: https://github.com/postgres/postgres
     license: PostgreSQL License
-    rationale: "Primary relational persistence primitive for transactional MediaHub metadata and authoritative durable state where relational semantics are required."
-    integration_notes: "MediaHub owns schema, migrations, invariants and transaction boundaries."
+    rationale: "Functional Baseline names PostgreSQL as the base storage architecture."
+    integration_notes: "Target durable persistence only. Current MH-03 foundation remains in-memory/single-node until the persistence governance gate passes."
     dependencies: []
-    acceptance_criteria: [transactional_integrity, migration_rollback_strategy, backup_restore, concurrency_tests]
+    acceptance_criteria: [transactional_integrity, schema_ownership, migration_rollback, backup_restore, concurrency_tests]
 
-  - component: protobuf
-    category: contracts
-    status: selected
-    integration_mode: native
-    source: https://github.com/protocolbuffers/protobuf
-    license: BSD-3-Clause
-    rationale: "Stable, language-neutral contract format for internal RPC/event payloads where binary contracts are appropriate."
-    integration_notes: "Use versioned MediaHub schemas; never expose generated types as the domain model itself."
+  - component: pgvector
+    category: vector_search
+    status: target-selected
+    integration_mode: native_future_gated
+    source: https://github.com/pgvector/pgvector
+    license: PostgreSQL License
+    rationale: "Functional Baseline names pgvector as the default vector capability before considering a separate vector authority."
+    integration_notes: "Use inside PostgreSQL where benchmark and workload require semantic/vector retrieval. Avoid duplicate vector storage authority."
+    dependencies: [postgresql]
+    acceptance_criteria: [benchmark, query_quality, latency, index_integrity, backup_restore]
+
+  - component: ifcopenshell
+    category: digital_twin_bim
+    status: target-selected
+    integration_mode: native_adapter
+    source: https://github.com/IfcOpenShell/IfcOpenShell
+    license: LGPL-3.0-or-later
+    rationale: "Primary mature IFC/BIM processing foundation named by Functional Baseline."
+    integration_notes: "MediaHub owns Digital Twin domain contracts and provenance; IfcOpenShell is an implementation block, not the domain authority."
     dependencies: []
-    acceptance_criteria: [backward_compatibility, schema_evolution, deterministic_serialization]
+    acceptance_criteria: [ifc_import, schema_validation, geometry_consistency, provenance, security_review]
 
-  - component: grpc
-    category: service_transport
-    status: selected
-    integration_mode: native
-    source: https://github.com/grpc/grpc
+  - component: web-ifc
+    category: digital_twin_web
+    status: target-selected
+    integration_mode: native_adapter
+    source: https://github.com/ThatOpen/engine_web-ifc
+    license: MPL-2.0
+    rationale: "Browser/mobile-compatible IFC parsing capability for Digital Twin presentation and interaction."
+    integration_notes: "Expose through MediaHub-owned Digital Twin contracts; never make generated parser structures the domain model."
+    dependencies: []
+    acceptance_criteria: [ifc_parsing, browser_compatibility, performance_benchmark, security_review]
+
+  - component: paddleocr
+    category: document_ocr
+    status: target-selected
+    integration_mode: native_adapter
+    source: https://github.com/PaddlePaddle/PaddleOCR
     license: Apache-2.0
-    rationale: "Mature typed RPC transport for internal service-to-service operations where request/response semantics are preferable to events."
-    integration_notes: "Use protobuf contracts; NATS remains preferred for asynchronous domain events."
-    dependencies: [protobuf]
-    acceptance_criteria: [timeouts, cancellation, auth, retry_policy, compatibility]
+    rationale: "Mature OCR capability explicitly identified for the Document System."
+    integration_notes: "OCR output is evidence/derived data and requires provenance; it is not canonical state."
+    dependencies: [PaddlePaddle]
+    acceptance_criteria: [language_matrix, accuracy_benchmark, provenance, resource_limits, security_review]
+
+  - component: opencv
+    category: computer_vision
+    status: target-selected
+    integration_mode: native_library
+    source: https://github.com/opencv/opencv
+    license: Apache-2.0
+    rationale: "General computer-vision primitive for media, cameras, Digital Twin and engineering workloads."
+    integration_notes: "Use as a library primitive behind MediaHub-owned contracts."
+    dependencies: []
+    acceptance_criteria: [required_algorithms, performance, memory_limits, security_review]
+
+  - component: onnx-runtime
+    category: ai_inference
+    status: target-selected
+    integration_mode: native_runtime
+    source: https://github.com/microsoft/onnxruntime
+    license: MIT
+    rationale: "Portable local inference runtime explicitly named by Functional Baseline."
+    integration_notes: "Use only for qualified model/runtime combinations; model provenance and execution policy remain MediaHub-owned."
+    dependencies: []
+    acceptance_criteria: [model_compatibility, cpu_execution, accelerator_execution_where_supported, sandboxing, benchmark]
+
+  - component: llama.cpp
+    category: local_llm_runtime
+    status: target-selected
+    integration_mode: native_runtime
+    source: https://github.com/ggml-org/llama.cpp
+    license: MIT
+    rationale: "Primary candidate local LLM runtime for Local AI where its performance/resource profile is appropriate."
+    integration_notes: "Model registry, prompt policy, tool permissions, provenance and authorization remain MediaHub-owned."
+    dependencies: []
+    acceptance_criteria: [local_inference, memory_limits, model_provenance, sandboxing, benchmark]
 
   - component: opentelemetry
     category: observability
@@ -83,8 +116,8 @@ components:
     integration_mode: native
     source: https://github.com/open-telemetry/opentelemetry-collector
     license: Apache-2.0
-    rationale: "Vendor-neutral telemetry contract across server, cluster, agents and iOS."
-    integration_notes: "Standardize traces, metrics and logs before selecting visualization/storage backends."
+    rationale: "Vendor-neutral telemetry foundation explicitly required by Functional Baseline."
+    integration_notes: "Observability is non-authoritative and non-mutating."
     dependencies: []
     acceptance_criteria: [trace_correlation, structured_logs, metrics, health_signals, sampling_policy]
 
@@ -94,43 +127,10 @@ components:
     integration_mode: native
     source: https://github.com/prometheus/prometheus
     license: Apache-2.0
-    rationale: "Mature metrics collection/query model with broad ecosystem support."
-    integration_notes: "Metrics backend only; authoritative state remains elsewhere."
+    rationale: "Mature metrics foundation explicitly named by Functional Baseline."
+    integration_notes: "Metrics are operational evidence only."
     dependencies: []
-    acceptance_criteria: [metric_cardinality_control, retention_policy, alert_evaluation, scrape_failure_detection]
-
-  - component: sops
-    category: secrets
-    status: selected
-    integration_mode: native
-    source: https://github.com/getsops/sops
-    license: MPL-2.0
-    rationale: "Encrypted configuration/secrets workflow suitable for Git-backed infrastructure without plaintext production secrets."
-    integration_notes: "Use age as preferred key mechanism; define rotation and recovery procedures."
-    dependencies: [age]
-    acceptance_criteria: [encrypted_at_rest, key_rotation, recovery_procedure, no_plaintext_secrets]
-
-  - component: age
-    category: cryptography
-    status: selected
-    integration_mode: native
-    source: https://github.com/FiloSottile/age
-    license: BSD-3-Clause
-    rationale: "Small, auditable encryption primitive for secret material and selected artifact/configuration workflows."
-    integration_notes: "Do not invent a MediaHub cryptographic protocol where age-compatible primitives are sufficient."
-    dependencies: []
-    acceptance_criteria: [key_rotation, recovery, access_separation]
-
-  - component: restic
-    category: backup
-    status: selected
-    integration_mode: native
-    source: https://github.com/restic/restic
-    license: BSD-2-Clause
-    rationale: "Mature encrypted, deduplicated snapshot/restore implementation."
-    integration_notes: "MediaHub owns backup policy, manifests, verification and disaster-recovery orchestration."
-    dependencies: [Go]
-    acceptance_criteria: [encrypted_backup, integrity_check, restore_test, retention_policy, disaster_recovery_drill]
+    acceptance_criteria: [cardinality_control, retention, alert_evaluation, scrape_failure_detection]
 
   - component: cosign
     category: supply_chain
@@ -138,10 +138,10 @@ components:
     integration_mode: native
     source: https://github.com/sigstore/cosign
     license: Apache-2.0
-    rationale: "Artifact signing and verification for release integrity."
-    integration_notes: "Verification is a release/deployment gate, not optional telemetry."
+    rationale: "Artifact signing/verification for provenance and secure update/release gates."
+    integration_notes: "Verification is mandatory where policy requires it; signing does not grant runtime authority."
     dependencies: [Sigstore]
-    acceptance_criteria: [signed_artifact, verification_before_deploy, keyless_or_managed_key_policy]
+    acceptance_criteria: [signed_artifact, verification_before_install, key_management_policy]
 
   - component: syft
     category: supply_chain
@@ -149,10 +149,10 @@ components:
     integration_mode: native
     source: https://github.com/anchore/syft
     license: Apache-2.0
-    rationale: "SBOM generation for build artifacts and containers."
-    integration_notes: "SBOM is attached to release evidence and used by vulnerability policy."
+    rationale: "SBOM generation explicitly required for release evidence."
+    integration_notes: "Attach SBOM to immutable build/release evidence."
     dependencies: []
-    acceptance_criteria: [sbom_generation, reproducible_artifact_mapping, release_evidence]
+    acceptance_criteria: [sbom_generation, artifact_mapping, release_evidence]
 
   - component: trivy
     category: security_scanning
@@ -160,117 +160,186 @@ components:
     integration_mode: native
     source: https://github.com/aquasecurity/trivy
     license: Apache-2.0
-    rationale: "Practical vulnerability, secret, filesystem and container scanning for CI/release gates."
-    integration_notes: "Use policy thresholds; never treat scanner output as the sole security decision."
+    rationale: "Vulnerability/secrets/filesystem/container scanning for security gates."
+    integration_notes: "Scanner output feeds policy; it is not the sole security authority."
     dependencies: []
     acceptance_criteria: [image_scan, filesystem_scan, severity_policy, false_positive_workflow]
 
-  - component: caddy
-    category: edge
-    status: reference
-    integration_mode: reference
-    source: https://github.com/caddyserver/caddy
-    license: Apache-2.0
-    rationale: "Reference for automatic TLS, reverse proxy and HTTP lifecycle; runtime adoption only where it simplifies the MediaHub edge boundary."
-    integration_notes: "Do not introduce multiple edge proxies without a measured requirement."
-    dependencies: [Go]
-    acceptance_criteria: [tls_automation, secure_defaults, graceful_reload]
+  - component: restic
+    category: backup
+    status: target-selected
+    integration_mode: native_future_gated
+    source: https://github.com/restic/restic
+    license: BSD-2-Clause
+    rationale: "Mature encrypted deduplicated backup/restore primitive suitable for MediaHub recovery mechanics."
+    integration_notes: "MediaHub Recovery Authority owns policy, manifests, retention, verification and restore orchestration."
+    dependencies: []
+    acceptance_criteria: [encrypted_backup, integrity_check, restore_test, retention_policy, disaster_recovery_drill]
 
-  - component: jellyfin
-    category: media
+  - component: rauc
+    category: ota
+    status: target-selected
+    integration_mode: native_future_gated
+    source: https://github.com/rauc/rauc
+    license: LGPL-2.1-or-later
+    rationale: "Functional Baseline explicitly selects RAUC as the target atomic OTA mechanism."
+    integration_notes: "MediaHub Update Authority owns eligibility, provenance, authorization, activation and rollback policy. No second production OTA authority."
+    dependencies: []
+    acceptance_criteria: [atomic_update, signature_verification, rollback, power_loss_recovery, health_gate]
+
+  - component: openbao
+    category: secrets_identity
+    status: target-candidate
+    integration_mode: native_future_gated
+    source: https://github.com/openbao/openbao
+    license: MPL-2.0
+    rationale: "Functional Baseline explicitly names OpenBao for secrets/identity infrastructure; requires comparison with the existing SOPS/age design before activation."
+    integration_notes: "Do not introduce both OpenBao and another overlapping production secret authority without a capability and lifecycle decision."
+    dependencies: []
+    acceptance_criteria: [capability_gap, security_review, recovery, rotation, HA_or_local_mode_fit]
+
+  - component: protobuf
+    category: contracts
+    status: selected
+    integration_mode: native
+    source: https://github.com/protocolbuffers/protobuf
+    license: BSD-3-Clause
+    rationale: "Stable language-neutral contract format for internal RPC/event contracts."
+    integration_notes: "MediaHub-owned schemas; generated code is not the domain model."
+    dependencies: []
+    acceptance_criteria: [backward_compatibility, schema_evolution, deterministic_serialization]
+
+  - component: grpc
+    category: service_transport
+    status: selected
+    integration_mode: native
+    source: https://github.com/grpc/grpc
+    license: Apache-2.0
+    rationale: "Typed synchronous RPC where request/response semantics are required."
+    integration_notes: "Authorization and MediaHub contracts remain authoritative."
+    dependencies: [protobuf]
+    acceptance_criteria: [timeouts, cancellation, authentication, compatibility]
+
+  - component: temporal
+    category: durable_workflows
     status: reference
     integration_mode: reference
-    source: https://github.com/jellyfin/jellyfin
-    license: GPL-2.0-only
-    rationale: "Reference implementation for media library, playback and transcoding integration patterns; avoid importing a whole product into MediaHub Core."
-    integration_notes: "Reuse concepts and interoperable formats/APIs only after license and boundary review."
-    dependencies: [FFmpeg, .NET]
-    acceptance_criteria: [asset_model, transcoding, capability_negotiation, streaming_security]
+    source: https://github.com/temporalio/temporal
+    license: MIT
+    rationale: "Reference for durable workflow/retry/timeout semantics; not automatically a MediaHub runtime dependency."
+    integration_notes: "Adopt only if measured workflow capability gap justifies it."
+    dependencies: []
+    acceptance_criteria: [capability_gap, deterministic_workflow, timeout_recovery, idempotent_activity]
+
+  - component: nats
+    category: messaging
+    status: future-candidate
+    integration_mode: future_gated
+    source: https://github.com/nats-io/nats-server
+    license: Apache-2.0
+    rationale: "Potential asynchronous transport primitive, but not required by the current single-node frozen foundation."
+    integration_notes: "Must not become State Authority; activation requires event-scale capability evidence and governance approval."
+    dependencies: []
+    acceptance_criteria: [capability_gap, durable_delivery, idempotency, reconnect_recovery, degraded_mode]
+
+  - component: etcd
+    category: coordination
+    status: future-candidate
+    integration_mode: future_gated
+    source: https://github.com/etcd-io/etcd
+    license: Apache-2.0
+    rationale: "Potential coordination primitive for a future HA/cluster architecture; not part of the current single-node runtime foundation."
+    integration_notes: "May coordinate infrastructure but never becomes MediaHub State Authority."
+    dependencies: []
+    acceptance_criteria: [future_HA_requirement, quorum_loss_fail_closed, lease_expiry, split_brain_protection]
+
+  - component: sops
+    category: secrets
+    status: selected
+    integration_mode: native
+    source: https://github.com/getsops/sops
+    license: MPL-2.0
+    rationale: "Encrypted configuration/secrets workflow; retained as a deployment/configuration primitive pending OpenBao capability comparison."
+    integration_notes: "Must not create two overlapping secret authorities."
+    dependencies: [age]
+    acceptance_criteria: [encrypted_at_rest, rotation, recovery, no_plaintext_secrets]
+
+  - component: age
+    category: cryptography
+    status: selected
+    integration_mode: native
+    source: https://github.com/FiloSottile/age
+    license: BSD-3-Clause
+    rationale: "Small auditable encryption primitive for secret/configuration workflows."
+    integration_notes: "Cryptographic use remains policy-controlled."
+    dependencies: []
+    acceptance_criteria: [key_rotation, recovery, access_separation]
 
   - component: ffmpeg
     category: media_processing
     status: selected
-    integration_mode: native
+    integration_mode: native_isolated
     source: https://github.com/FFmpeg/FFmpeg
     license: LGPL-2.1-or-later / GPL-2.0-or-later depending on build options
-    rationale: "Industry-standard media processing primitives; essential for transcoding and media inspection."
-    integration_notes: "Pin build configuration and codecs explicitly; legal review for enabled components."
+    rationale: "Required media-processing primitive for MediaHub media capabilities."
+    integration_notes: "Pin build/codecs, sandbox execution, enforce resource/time limits and perform license review."
     dependencies: []
     acceptance_criteria: [deterministic_build, codec_matrix, resource_limits, sandboxing]
 
-  - component: seaweedfs
-    category: object_storage_reference
-    status: reference
-    integration_mode: reference
-    source: https://github.com/seaweedfs/seaweedfs
-    license: Apache-2.0
-    rationale: "Reference for scalable object/file storage and S3-compatible storage patterns."
-    integration_notes: "Adopt only storage primitives that materially improve MediaHub; do not add a distributed storage cluster without capacity evidence."
-    dependencies: [Go]
-    acceptance_criteria: [object_integrity, replication_policy, lifecycle, restore]
-
-  - component: paperless-ngx
-    category: documents
-    status: reference
-    integration_mode: reference
-    source: https://github.com/paperless-ngx/paperless-ngx
-    license: GPL-3.0
-    rationale: "Reference for document ingestion, OCR, indexing and archival workflows."
-    integration_notes: "MediaHub Documents remains its own domain; extract ingestion/indexing patterns rather than adopting the application wholesale."
-    dependencies: [Python, PostgreSQL]
-    acceptance_criteria: [ingestion, OCR_pipeline, indexing, retention]
-
-  - component: immich
-    category: media_asset_intelligence
-    status: reference
-    integration_mode: reference
-    source: https://github.com/immich-app/immich
+  - component: s3-compatible-object-storage
+    category: object_storage
+    status: target-interface
+    integration_mode: adapter
+    source: https://github.com/minio/minio
     license: AGPL-3.0
-    rationale: "Reference for mobile media backup, asset metadata, indexing and background media intelligence."
-    integration_notes: "Use interoperable metadata and processing patterns; avoid coupling MediaHub iOS to Immich internals."
-    dependencies: [PostgreSQL, Redis, ML components]
-    acceptance_criteria: [asset_identity, metadata_preservation, background_processing, mobile_sync]
-
-  - component: rauc
-    category: ota
-    status: reference
-    integration_mode: reference
-    source: https://github.com/rauc/rauc
-    license: LGPL-2.1-or-later
-    rationale: "Reference for atomic A/B update mechanics, signed bundles and fail-safe rollback."
-    integration_notes: "MediaHub Update Authority owns policy, eligibility and rollout; RAUC-like mechanics inform the implementation."
+    rationale: "Functional Baseline requires S3-compatible object storage; the protocol/interface is the architectural requirement, not a mandatory MinIO product dependency."
+    integration_notes: "Select concrete implementation only after license, operational and deployment review."
     dependencies: []
-    acceptance_criteria: [atomic_update, signature_verification, rollback, power_loss_recovery]
+    acceptance_criteria: [s3_compatibility, integrity, lifecycle, backup_restore, license_review]
 
-  - component: mender
-    category: ota
-    status: reference
-    integration_mode: reference
-    source: https://github.com/mendersoftware/mender
+  - component: oci-registry
+    category: artifact_registry
+    status: target-interface
+    integration_mode: adapter
+    source: https://github.com/goharbor/harbor
     license: Apache-2.0
-    rationale: "Reference for fleet update orchestration, deployment phases and update modules."
-    integration_notes: "Use concepts only where they improve MediaHub Update Authority."
+    rationale: "Functional Baseline requires an OCI registry; Harbor is a mature candidate implementation/reference, not yet a mandatory dependency."
+    integration_notes: "Registry must integrate with Cosign, SBOM and vulnerability gates."
     dependencies: []
-    acceptance_criteria: [staged_rollout, health_gate, rollback, device_compatibility]
+    acceptance_criteria: [oci_distribution, artifact_immutability_policy, signing_integration, sbom_integration, vulnerability_policy]
 
-  - component: age-plugin-yubikey
-    category: hardware_key_reference
-    status: candidate
-    integration_mode: reference
-    source: https://github.com/str4d/age-plugin-yubikey
-    license: MIT
-    rationale: "Candidate for hardware-backed recovery/signing workflows; must pass availability and operational recovery review before selection."
-    integration_notes: "Never make a single physical token the sole recovery path."
-    dependencies: [age, YubiKey]
-    acceptance_criteria: [hardware_backing, recovery_without_single_point_of_failure, rotation]
+  - component: opencv
+    category: computer_vision
+    status: target-selected
+    integration_mode: native_library
+    source: https://github.com/opencv/opencv
+    license: Apache-2.0
+    rationale: "Mature computer-vision primitive explicitly named by Functional Baseline."
+    integration_notes: "Use behind MediaHub-owned processing contracts."
+    dependencies: []
+    acceptance_criteria: [required_algorithms, benchmark, resource_limits, security_review]
+
+  - component: paddleocr
+    category: document_ocr
+    status: target-selected
+    integration_mode: native_adapter
+    source: https://github.com/PaddlePaddle/PaddleOCR
+    license: Apache-2.0
+    rationale: "Explicit Document System OCR target."
+    integration_notes: "OCR results are derived/provenance-bearing data."
+    dependencies: []
+    acceptance_criteria: [accuracy_benchmark, language_matrix, provenance, resource_limits]
 
 excluded:
   - component: redis
     status: rejected_as_foundational_dependency
-    rationale: "Not needed merely because other reference applications use it; introduces an additional stateful subsystem when NATS/JetStream and PostgreSQL/etcd already cover defined MediaHub requirements. Reconsider only with measured workload evidence."
+    rationale: "Do not add an overlapping stateful subsystem merely because reference products use it. Reconsider only with measured capability evidence."
   - component: kafka
     status: rejected_as_foundational_dependency
-    rationale: "Operational complexity is not justified for the current MediaHub event requirements; revisit only if throughput/retention requirements exceed NATS architecture."
+    rationale: "Operational complexity is not justified by the current functional baseline. Reconsider only if measured event scale proves a material gap."
   - component: kubernetes
     status: rejected_as_foundational_dependency
-    rationale: "Do not add Kubernetes as an architectural prerequisite; MediaHub targets controlled Linux/Docker environments and should retain a smaller failure domain unless a concrete deployment requirement proves otherwise."
+    rationale: "Kubernetes/K3s remains optional P1 infrastructure, not a prerequisite for the MediaHub architecture."
+  - component: mender
+    status: reference_only
+    rationale: "Functional Baseline selects RAUC as target OTA mechanism; Mender cannot create a second production OTA authority."
