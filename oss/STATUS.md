@@ -1,29 +1,22 @@
-# OSS implementation status
+# MediaHub OSS implementation status
 
-This wave implements MediaHub-owned contracts and safety gates; it does not claim upstream runtimes are production-qualified.
-
-| Wave | Component family | Code boundary | Activation |
+| Wave | Capability | Code boundary | Production activation |
 |---|---|---|---|
-| W0 | Protobuf/gRPC | contract layer | foundation |
-| W0 | OpenTelemetry/Prometheus | observation interfaces | foundation |
-| W0 | Cosign/Syft/Trivy | evidence policy | foundation |
-| W1 | SOPS/age/OpenBao | secret/config boundary | SOPS/age foundation; OpenBao gated |
-| W2 | PostgreSQL/pgvector | persistence/vector contracts | target-gated |
-| W2 | restic/object storage | backup contracts | restic target-gated; object storage future-gated |
-| W3 | Home Assistant Core | Smart Home authority adapter | target-gated |
-| W4 | FFmpeg/OpenCV/PaddleOCR | bounded media/OCR/CV | FFmpeg foundation; OCR/CV gated |
-| W5 | ONNX Runtime/llama.cpp | local inference contract | target-gated |
-| W6 | IfcOpenShell/web-ifc | digital-twin contract | target-gated |
-| W7 | NATS/JetStream/etcd | transport/coordination | future-gated |
-| W8 | RAUC/cluster/cloud | update/deployment | RAUC target-gated; cluster/cloud reference/future |
+| W0 | contracts/observability/supply-chain | implemented | gated |
+| W1 | SOPS/age/OpenBao | contract baseline | gated |
+| W2 | PostgreSQL/pgvector/restic/object storage | implemented boundaries | gated |
+| W3 | Home Assistant Core | Smart Home boundary | gated |
+| W4 | FFmpeg/OpenCV/PaddleOCR | bounded processing | gated |
+| W5 | ONNX Runtime/llama.cpp | inference/routing boundary | gated |
+| W6 | IfcOpenShell/web-ifc | Digital Twin boundary | gated |
+| W7 | NATS/JetStream/etcd | transport/coordination boundary | future-gated |
+| W8 | RAUC/cluster/cloud | OTA boundary | future/target-gated |
 
-## Hard invariants
+## Qualification rule
+No component may transition to active without complete MediaHub-owned qualification evidence and independent review.
 
-- No OSS component is a second State Authority.
-- Home Assistant Core is authoritative only for Smart Home domain.
-- AI runtimes provide inference only; MediaHub owns routing and escalation.
-- Persistence is not activated by this package and does not replace the MH-03 in-memory authority.
-- Backup implementations never define recovery policy.
-- Observability is non-authoritative.
-- Unbounded media execution is rejected.
-- Qualification and independent review remain release gates.
+## Authority rule
+No OSS component may become MediaHub State Authority. Home Assistant Core may be authoritative only inside the Smart Home domain. Observability, backup, transport, AI and engineering components remain non-authoritative.
+
+## Runtime rule
+The frozen MH-03 runtime remains unchanged until a separately governed migration establishes persistence, HA and other target capabilities.
