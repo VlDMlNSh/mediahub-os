@@ -1,0 +1,62 @@
+schema_version: 1.0
+status: accepted
+review_date: 2026-09-11
+
+layers:
+  control_plane:
+    state_authority: mediahub-owned
+    coordination: etcd
+    messaging: nats-jetstream
+    persistence: postgresql
+    synchronous_rpc: grpc
+    contracts: protobuf
+    workflow_semantics: mediahub-owned-temporal-reference
+
+  security:
+    secrets: sops-age
+    artifact_signing: cosign
+    sbom: syft
+    vulnerability_scanning: trivy
+    policy: mediahub-owned
+
+  reliability:
+    backup_mechanics: restic
+    recovery_authority: mediahub-owned
+    ota_mechanics: rauc-reference
+    rollout_semantics: mender-reference
+
+  data_plane:
+    media_processing: ffmpeg
+    media_domain: mediahub-owned
+    document_domain: mediahub-owned
+    asset_metadata: mediahub-owned
+    object_storage: mediahub-owned-interface
+
+  observability:
+    telemetry_contract: opentelemetry
+    metrics: prometheus
+    logs_and_traces_authority: mediahub-owned-observability-policy
+
+integration_policy:
+  selected: "May run as an explicit MediaHub dependency after version/security/acceptance gates."
+  reference: "May contribute patterns, schemas or algorithms but must not become an implicit runtime dependency."
+  mediahub_owned: "Authoritative contract, state, policy or lifecycle remains implemented and governed by MediaHub."
+
+prohibited_redundancy:
+  - redis_as_default_cache_or_event_bus
+  - kafka_as_default_event_platform
+  - kubernetes_as_runtime_prerequisite
+  - duplicate_metrics_stack
+  - duplicate_message_broker
+  - duplicate_relational_database
+
+release_gates:
+  - dependency_lock
+  - license_check
+  - sbom
+  - signature_verification
+  - vulnerability_scan
+  - integration_tests
+  - degraded_mode_tests
+  - rollback_test
+  - restore_test
