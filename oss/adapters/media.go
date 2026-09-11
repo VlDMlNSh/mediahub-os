@@ -1,12 +1,7 @@
 package adapters
 
-import "context"
-
-type MediaProcessor interface {
-	Component() Component
-	Process(ctx context.Context, input []byte, limits ResourceLimits) ([]byte, error)
-}
-
+// ResourceLimits are MediaHub-owned execution limits for FFmpeg/OpenCV/PaddleOCR
+// style workers. The concrete processor contract is defined in adapters/contracts.go.
 type ResourceLimits struct {
 	MaxBytes int64
 	TimeoutSeconds int
