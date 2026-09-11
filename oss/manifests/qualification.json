@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "policy": "fail-closed",
+  "activation_requires": [
+    "exact-version-or-immutable-digest",
+    "upstream-provenance",
+    "license-record",
+    "sbom",
+    "vulnerability-report",
+    "mediahub-adapter",
+    "functional-tests",
+    "negative-tests",
+    "degraded-recovery-tests",
+    "rollback-tests",
+    "independent-review"
+  ],
+  "components": [
+    {
+      "id": "home-assistant-core",
+      "version": "2026.9.1",
+      "status": "target-gated",
+      "authority": "smart-home-domain-only",
+      "provenance": "upstream-release",
+      "evidence": {"version": true, "provenance": true, "license": false, "sbom": false, "vulnerability": false, "adapter": false, "functional": false, "negative": false, "degraded": false, "recovery": false, "rollback": false, "independent_review": false}
+    },
+    {
+      "id": "postgresql",
+      "version": "18.6",
+      "status": "target-gated",
+      "authority": "mediahub-state-authority",
+      "provenance": "upstream-release",
+      "evidence": {"version": true, "provenance": true, "license": false, "sbom": false, "vulnerability": false, "adapter": false, "functional": false, "negative": false, "degraded": false, "recovery": false, "rollback": false, "independent_review": false}
+    },
+    {
+      "id": "pgvector", "version": null, "status": "target-gated", "evidence": {}},
+    {"id": "ifcopenshell", "version": null, "status": "target-gated", "evidence": {}},
+    {"id": "web-ifc", "version": null, "status": "target-gated", "evidence": {}},
+    {"id": "paddleocr", "version": null, "status": "target-gated", "evidence": {}},
+    {"id": "opencv", "version": null, "status": "target-gated", "evidence": {}},
+    {"id": "onnxruntime", "version": null, "status": "target-gated", "evidence": {}},
+    {"id": "llama-cpp", "version": null, "status": "target-gated", "evidence": {}},
+    {"id": "opentelemetry", "version": null, "status": "current-foundation", "evidence": {}},
+    {"id": "prometheus", "version": null, "status": "current-foundation", "evidence": {}},
+    {"id": "cosign", "version": null, "status": "current-foundation", "evidence": {}},
+    {"id": "syft", "version": null, "status": "current-foundation", "evidence": {}},
+    {"id": "trivy", "version": null, "status": "current-foundation", "evidence": {}},
+    {"id": "restic", "version": null, "status": "target-gated", "evidence": {}},
+    {"id": "rauc", "version": null, "status": "target-gated", "evidence": {}},
+    {"id": "sops", "version": null, "status": "current-foundation", "evidence": {}},
+    {"id": "age", "version": null, "status": "current-foundation", "evidence": {}},
+    {"id": "protobuf", "version": null, "status": "current-foundation", "evidence": {}},
+    {"id": "grpc", "version": null, "status": "current-foundation", "evidence": {}},
+    {"id": "ffmpeg", "version": null, "status": "current-foundation", "evidence": {}}
+  ]
+}
