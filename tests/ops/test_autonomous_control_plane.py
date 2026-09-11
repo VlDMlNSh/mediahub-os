@@ -344,3 +344,17 @@ def test_service_entrypoint_delegates_to_same_continuous_controller():
     text = (ROOT / "ops/autonomous_service_entrypoint.sh").read_text(encoding="utf-8")
     assert 'exec "$ROOT/ops/autonomous_os_loop.sh"' in text
     assert "local_autonomous_agent.py" not in text
+
+
+def test_controller_retains_liveness_when_preflight_blocks_a_cycle():
+    text = (ROOT / "ops/autonomous_os_loop.sh").read_text(encoding="utf-8")
+    assert "AUTONOMY_RETAINED: controller remains alive" in text
+    assert "exit 21" not in text
+    assert "exit 22" not in text
+    assert "exit 70" not in text
+
+
+def test_systemd_autonomous_service_is_enableable_at_boot():
+    text = (ROOT / "ops/systemd/mediahub-local-autonomous.service").read_text(encoding="utf-8")
+    assert "[Install]" in text
+    assert "WantedBy=multi-user.target" in text

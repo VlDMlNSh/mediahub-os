@@ -33,3 +33,6 @@ IPAddressAllow=127.0.0.1
 IPAddressAllow=::1
 ReadWritePaths=/home/mediahub/dev/mediahub-os-autonomous
 UMask=0077
+
+[Install]
+WantedBy=multi-user.target

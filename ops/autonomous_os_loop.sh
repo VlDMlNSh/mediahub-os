@@ -48,12 +48,16 @@ while [ ! -e "$STOPFILE" ]; do
 		if ! git merge-base --is-ancestor 471f709f5633feab7aeb62dd3ea52effad6d2bc4 HEAD; then
 			echo "P0_BLOCKED: R4 ancestry invariant failed"
 			printf "BLOCKED\n" >"$STATE/current_result"
-			exit 21
+			echo "AUTONOMY_RETAINED: controller remains alive; awaiting operator correction"
+			sleep 60
+			continue
 		fi
 		if [ -n "$(git status --porcelain)" ]; then
 			echo "P0_BLOCKED: baseline worktree is not clean"
 			printf "BLOCKED\n" >"$STATE/current_result"
-			exit 22
+			echo "AUTONOMY_RETAINED: controller remains alive; awaiting clean worktree"
+			sleep 60
+			continue
 		fi
 		set +e
 		timeout --signal=TERM --kill-after=20s "${MAX}s" ./ops/local_autonomous_agent.py
@@ -96,7 +100,9 @@ while [ ! -e "$STOPFILE" ]; do
 		echo "CYCLE_RESULT=$LAST_RESULT"
 	} >>"$LOG" 2>&1 || {
 		printf "BLOCKED\n" >"$STATE/current_result"
-		exit 70
+		echo "AUTONOMY_RETAINED: cycle failed closed; controller remains alive" >>"$LOG"
+		sleep 60
+		continue
 	}
 	if [ "$FAIL_STREAK" -ge "$MAX_FAIL_STREAK" ]; then
 		echo "AUTONOMY_BLOCKED: repeated execution failures; fail-closed after $FAIL_STREAK cycles" >>"$LOG"
