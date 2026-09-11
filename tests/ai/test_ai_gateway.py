@@ -104,3 +104,18 @@ def test_cloud_failure_falls_back_to_local_when_cluster_unavailable():
         cloud_available=False,
     ))
     assert decision.route is Route.LOCAL
+
+
+def test_free_hybrid_mode_is_text_only():
+    with pytest.raises(AIGatewayDenied):
+        AIGateway().route(request(text_only=False))
+
+
+def test_free_hybrid_mode_bounds_prompt_text():
+    with pytest.raises(AIGatewayDenied):
+        AIGateway().route(request(prompt_chars=24001))
+
+
+def test_free_hybrid_mode_allows_bounded_text():
+    decision = AIGateway().route(request(prompt_chars=12000, text_only=True))
+    assert decision.route is Route.LOCAL

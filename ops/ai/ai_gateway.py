@@ -14,6 +14,9 @@ class AIGatewayDenied(PermissionError):
     """Raised when a routing request cannot be admitted safely."""
 
 
+TEXT_ONLY_DATA_CLASSES = frozenset({"non-sensitive"})
+
+
 @dataclass(frozen=True)
 class AIRoutingRequest:
     request_id: str
@@ -30,11 +33,16 @@ class AIRoutingRequest:
     privacy_local_only: bool = False
     requires_distributed_compute: bool = False
     requires_cloud_compute: bool = False
+    text_only: bool = True
+    prompt_chars: int = 0
 
 
 @dataclass(frozen=True)
 class AIRoutingPolicy:
     exportable_data_classes: frozenset[str] = frozenset({"non-sensitive"})
+    max_prompt_chars: int = 24000
+    max_response_chars: int = 12000
+    text_only: bool = True
 
 
 class AIGateway:
@@ -48,6 +56,10 @@ class AIGateway:
             raise AIGatewayDenied("request identity and provenance are required")
         if not request.user_authorized:
             raise AIGatewayDenied("user authorization is required")
+        if self.policy.text_only and not request.text_only:
+            raise AIGatewayDenied("hybrid free-tier mode is text-only")
+        if request.prompt_chars < 0 or request.prompt_chars > self.policy.max_prompt_chars:
+            raise AIGatewayDenied("prompt exceeds bounded text budget")
 
         if request.privacy_local_only:
             if request.local_available and request.local_capable:
