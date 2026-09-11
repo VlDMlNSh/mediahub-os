@@ -31,11 +31,21 @@ while [ ! -e "$STOPFILE" ]; do
 	if [ "$stale" -eq 1 ] && [ "$owned" -eq 1 ]; then
 		echo "$(date -u +%FT%TZ) stale heartbeat; requesting graceful TERM pid=$pid" >>"$LOG"
 		kill -TERM "$pid" 2>/dev/null || true
+		stopped=0
 		for _ in 1 2 3 4 5; do
-			kill -0 "$pid" 2>/dev/null || break
+			if ! kill -0 "$pid" 2>/dev/null; then
+				stopped=1
+				break
+			fi
 			sleep 1
 		done
-		owned=0
+		if [ "$stopped" -eq 1 ]; then
+			owned=0
+			echo "$(date -u +%FT%TZ) controller stopped gracefully pid=$pid" >>"$LOG"
+		else
+			owned=1
+			echo "$(date -u +%FT%TZ) controller did not stop gracefully; replacement blocked pid=$pid" >>"$LOG"
+		fi
 	fi
 	if [ "$owned" -eq 0 ]; then
 		echo "$(date -u +%FT%TZ) ensuring controller exists" >>"$LOG"

@@ -41,6 +41,14 @@ def test_watchdog_validates_controller_ownership_before_termination():
     assert 'if [ "$owned" -eq 0 ]; then' in text
 
 
+def test_watchdog_never_replaces_a_controller_that_ignored_graceful_term():
+    text = (ROOT / "ops/autonomous_watchdog.sh").read_text(encoding="utf-8")
+    assert 'stopped=0' in text
+    assert 'stopped=1' in text
+    assert 'replacement blocked pid=$pid' in text
+    assert 'else\n\t\t\towned=1' in text
+
+
 def test_agent_runs_deterministic_lint_repair_before_verification():
     text = (ROOT / "ops/local_autonomous_agent.py").read_text(encoding="utf-8")
     assert 'str(RUFF), "check", "--fix"' in text
