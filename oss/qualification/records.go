@@ -49,21 +49,22 @@ func (r RecordsFile) ValidateAuthorityInvariants() error {
 	if strings.Contains(r.Raw, "authority: second-state-authority") || strings.Contains(r.Raw, "authority: alternate-state-authority") {
 		return fmt.Errorf("alternate State Authority is forbidden")
 	}
-	if strings.Contains(r.Raw, "authority: production-ota") {
-		lines := strings.Split(r.Raw, "\n")
-		for i, line := range lines {
-			if strings.TrimSpace(line) == "authority: production-ota" && i > 0 {
-				id := ""
-				for j := i - 1; j >= 0 && j >= i-5; j-- {
-					if strings.HasPrefix(strings.TrimSpace(lines[j]), "id: ") {
-						id = strings.TrimSpace(strings.TrimPrefix(strings.TrimSpace(lines[j]), "id: "))
-						break
-					}
-				}
-				if id != "rauc" {
-					return fmt.Errorf("production OTA authority must be rauc, got %s", id)
-				}
+
+	lines := strings.Split(r.Raw, "\n")
+	for i, line := range lines {
+		if strings.TrimSpace(line) != "authority: production-ota" {
+			continue
+		}
+		id := ""
+		for j := i - 1; j >= 0; j-- {
+			trimmed := strings.TrimSpace(lines[j])
+			if strings.HasPrefix(trimmed, "- id: ") {
+				id = strings.TrimSpace(strings.TrimPrefix(trimmed, "- id: "))
+				break
 			}
+		}
+		if id != "rauc" {
+			return fmt.Errorf("production OTA authority must be rauc, got %s", id)
 		}
 	}
 	return nil
