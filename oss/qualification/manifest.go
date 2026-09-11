@@ -14,12 +14,12 @@ type Manifest struct {
 }
 
 type Component struct {
-	ID         string                 `json:"id"`
-	Version    *string                `json:"version"`
-	Status     string                 `json:"status"`
-	Authority  string                 `json:"authority,omitempty"`
-	Provenance string                 `json:"provenance,omitempty"`
-	Evidence   map[string]bool        `json:"evidence"`
+	ID         string          `json:"id"`
+	Version    *string         `json:"version"`
+	Status     string          `json:"status"`
+	Authority  string          `json:"authority,omitempty"`
+	Provenance string          `json:"provenance,omitempty"`
+	Evidence   map[string]bool `json:"evidence"`
 }
 
 func LoadManifest(path string) (Manifest, error) {
@@ -40,19 +40,18 @@ func (m Manifest) Validate() error {
 		if c.ID == "" { return fmt.Errorf("component id is required") }
 		if seen[c.ID] { return fmt.Errorf("duplicate component: %s", c.ID) }
 		seen[c.ID] = true
-		if c.Status != "future-gated" && c.Version == nil && c.Status != "target-gated" && c.Status != "current-foundation" {
-			return fmt.Errorf("invalid status for %s: %s", c.ID, c.Status)
-		}
-		if c.Status == "current-foundation" || c.Status == "target-gated" {
-			if c.Version == nil || *c.Version == "" {
-				// A missing version is permitted only while the component remains inactive/gated.
-				continue
-			}
-		}
 		if c.Status == "active" {
 			if c.Version == nil || *c.Version == "" { return fmt.Errorf("active component %s has no exact version", c.ID) }
+			if !c.Evidence["version"] { return fmt.Errorf("active component %s missing version evidence", c.ID) }
 			for _, req := range m.Requires {
-				if !c.Evidence[req] { return fmt.Errorf("active component %s missing evidence: %s", c.ID, req) }
+				key := req
+				switch req {
+				case "exact-version-or-immutable-digest": key = "version"
+				case "mediahub-adapter": key = "adapter"
+				case "vulnerability-report": key = "vulnerability"
+				case "degraded-recovery-tests": key = "degraded"
+				}
+				if !c.Evidence[key] { return fmt.Errorf("active component %s missing evidence: %s", c.ID, req) }
 			}
 		}
 	}
