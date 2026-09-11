@@ -29,7 +29,11 @@
       "status": "target-gated",
       "authority": "mediahub-state-authority",
       "provenance": "upstream-release",
-      "evidence": {"version": true, "provenance": true, "license": false, "sbom": false, "vulnerability": false, "adapter": false, "functional": false, "negative": false, "degraded": false, "recovery": false, "rollback": false, "independent_review": false}
+      "source_artifact": "postgresql-18.6.tar.gz",
+      "source_sha256": "pending-independent-artifact-verification",
+      "license": "PostgreSQL-License",
+      "security_baseline": "postgresql-security-advisories-reviewed-2026-09-11",
+      "evidence": {"version": true, "provenance": true, "license": true, "sbom": false, "vulnerability": true, "adapter": false, "functional": false, "negative": false, "degraded": false, "recovery": false, "rollback": false, "independent_review": false}
     },
     {
       "id": "pgvector", "version": null, "status": "target-gated", "evidence": {}},
