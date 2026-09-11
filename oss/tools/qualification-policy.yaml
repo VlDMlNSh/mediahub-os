@@ -1,0 +1,25 @@
+schema_version: 1
+qualification:
+  stages:
+    - inventory
+    - provenance
+    - license
+    - sbom
+    - vulnerability
+    - contract
+    - functional
+    - negative
+    - degraded
+    - recovery
+    - performance
+    - rollback
+    - independent-review
+  fail_closed: true
+  release_blocking: true
+  prohibited_shortcuts:
+    - self-review-as-independent-review
+    - unverified-binary
+    - floating-production-version
+    - undocumented-network-egress
+    - hidden-state-mutation
+    - bypassed-recovery-boundary
