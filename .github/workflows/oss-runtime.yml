@@ -4,14 +4,10 @@ on:
   pull_request:
     paths:
       - 'oss/**'
-      - '.github/workflows/oss-runtime.yml'
   push:
-    branches:
-      - main
-      - 'engineering/**'
+    branches: [main]
     paths:
       - 'oss/**'
-      - '.github/workflows/oss-runtime.yml'
 
 jobs:
   test:
@@ -24,8 +20,5 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '1.24'
-          cache-dependency-path: oss/go.mod
-      - name: Test
-        run: go test ./...
-      - name: Vet
-        run: go vet ./...
+      - run: go test ./...
+      - run: go vet ./...
