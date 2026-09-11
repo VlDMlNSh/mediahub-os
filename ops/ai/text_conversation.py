@@ -12,6 +12,9 @@ from enum import StrEnum
 import fcntl
 import hashlib
 import math
+import os
+from pathlib import Path
+import tempfile
 import uuid
 from typing import Callable
 import json
@@ -91,18 +94,38 @@ class TextConversationController:
         if self.session is None or self.journal_path is None:
             return
         self.journal_path.parent.mkdir(parents=True, exist_ok=True)
-        record = {"conversation_id": self.session.conversation_id, "session_id": self.session.session_id,
+        record = {"version": 1, "conversation_id": self.session.conversation_id, "session_id": self.session.session_id,
                   "generation": self.session.generation, "state": self.session.state.value,
                   "retry_at": self.session.retry_at.isoformat() if self.session.retry_at else None,
                   "reason": self.session.reason, "last_request_fingerprint": self.session.last_request_fingerprint,
                   "last_response_fingerprint": self.session.last_response_fingerprint}
-        self.journal_path.write_text(json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
+        payload = json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
+        fd, temp_name = tempfile.mkstemp(prefix=self.journal_path.name + ".", dir=self.journal_path.parent)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as tmp:
+                tmp.write(payload)
+                tmp.flush()
+                os.fsync(tmp.fileno())
+            os.replace(temp_name, self.journal_path)
+            dir_fd = os.open(self.journal_path.parent, os.O_RDONLY)
+            try:
+                os.fsync(dir_fd)
+            finally:
+                os.close(dir_fd)
+        except OSError as exc:
+            try:
+                os.unlink(temp_name)
+            except FileNotFoundError:
+                pass
+            raise ConversationDenied("conversation checkpoint durability failed") from exc
 
     def restore(self) -> ConversationSession:
         if self.journal_path is None or not self.journal_path.exists():
             raise ConversationDenied("conversation checkpoint is unavailable")
         try:
             data = json.loads(self.journal_path.read_text(encoding="utf-8"))
+            if data.get("version") != 1:
+                raise ConversationDenied("unsupported conversation checkpoint version")
             state = ConversationState(data["state"])
             retry_at = datetime.fromisoformat(data["retry_at"]) if data.get("retry_at") else None
             self.session = ConversationSession(data["conversation_id"], data["session_id"],

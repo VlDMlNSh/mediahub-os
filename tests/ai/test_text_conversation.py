@@ -143,3 +143,11 @@ def test_corrupt_checkpoint_fails_closed(tmp_path):
     (tmp_path / "conversation.json").write_text("{broken", encoding="utf-8")
     with pytest.raises(ConversationDenied):
         ctl.restore()
+
+
+def test_unsupported_checkpoint_version_fails_closed(tmp_path):
+    ctl, _ = controller(tmp_path)
+    ctl.start_clean("s1")
+    (tmp_path / "conversation.json").write_text('{"version": 99}', encoding="utf-8")
+    with pytest.raises(ConversationDenied):
+        ctl.restore()
