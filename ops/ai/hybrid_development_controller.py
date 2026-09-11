@@ -64,12 +64,13 @@ class HybridDevelopmentController:
             raise HybridDevelopmentDenied("controller start failed closed") from exc
 
     def preflight(self) -> ControllerSnapshot:
-        if self.state is not ControllerState.RUNNING:
-            raise HybridDevelopmentDenied("controller is not running")
+        if self.state not in {ControllerState.RUNNING, ControllerState.WAITING}:
+            raise HybridDevelopmentDenied("controller is not runnable")
         try:
             probe = self.egress.require_stable_transport(self.health_url)
             if not probe.healthy:
                 raise CloudAPIUnavailable("transport health check failed")
+            self.state = ControllerState.RUNNING
             return self.snapshot(probe)
         except CloudAPIUnavailable as exc:
             # No cloud operation is admitted while transport is absent; keep the

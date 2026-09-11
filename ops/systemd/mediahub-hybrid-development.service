@@ -1,0 +1,32 @@
+[Unit]
+Description=MediaHub Hybrid Development Controller
+After=mediahub-local-autonomous.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mediahub
+WorkingDirectory=/home/mediahub/dev/mediahub-os-autonomous
+ExecStart=/usr/bin/python3 /home/mediahub/dev/mediahub-os-autonomous/ops/ai/hybrid_development_daemon.py --session-id %E{MH_HYBRID_SESSION_ID} --baseline-sha %E{MH_HYBRID_BASELINE_SHA} --r4-sha 471f709f5633feab7aeb62dd3ea52effad6d2bc4 --duration-hours %E{MH_HYBRID_DURATION_HOURS} --health-url %E{MH_HYBRID_HEALTH_URL} --paths %E{MH_HYBRID_PATHS}
+Restart=always
+RestartSec=10
+TimeoutStopSec=30
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+IPAddressDeny=any
+IPAddressAllow=127.0.0.1
+ReadWritePaths=/home/mediahub/dev/mediahub-os-autonomous/.hybrid-development
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
