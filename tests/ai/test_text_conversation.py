@@ -122,6 +122,7 @@ def test_restart_restores_wait_and_rotates_only_after_deadline(tmp_path):
     ctl, clock = controller(tmp_path)
     first = ctl.start_clean("s1")
     ctl.register_rate_limit(timedelta(minutes=10))
+    ctl.release()
     restored, restored_clock = controller(tmp_path)
     restored_clock.value = clock.value + timedelta(minutes=5)
     state = restored.restore()
@@ -133,6 +134,7 @@ def test_restart_restores_wait_and_rotates_only_after_deadline(tmp_path):
     fresh = restored.open_fresh_session()
     assert fresh.conversation_id != first.conversation_id
     assert fresh.generation == 2
+    restored.release()
 
 
 def test_corrupt_checkpoint_fails_closed(tmp_path):

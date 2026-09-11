@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 from datetime import datetime, timedelta, timezone
 from enum import StrEnum
+import fcntl
 import hashlib
 import math
 import uuid
@@ -46,6 +47,31 @@ class TextConversationController:
     conversation_factory: Callable[[], str] = lambda: uuid.uuid4().hex
     session: ConversationSession | None = None
     journal_path: Path | None = None
+    _lock_handle: object | None = None
+
+    def __post_init__(self) -> None:
+        if self.journal_path is None:
+            return
+        self.journal_path.parent.mkdir(parents=True, exist_ok=True)
+        lock_path = self.journal_path.with_name(self.journal_path.name + ".lock")
+        try:
+            handle = open(lock_path, "a+")
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as exc:
+            try:
+                handle.close()
+            except UnboundLocalError:
+                pass
+            raise ConversationDenied("conversation controller ownership is already held") from exc
+        self._lock_handle = handle
+
+    def release(self) -> None:
+        handle = self._lock_handle
+        if handle is None:
+            return
+        fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+        handle.close()
+        self._lock_handle = None
 
     def start_clean(self, session_id: str | None = None) -> ConversationSession:
         now = self._now()
@@ -58,6 +84,7 @@ class TextConversationController:
             state=ConversationState.READY,
             reason="clean session started",
         )
+        self.persist()
         return self.session
 
     def persist(self) -> None:
