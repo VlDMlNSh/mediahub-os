@@ -2,7 +2,7 @@
 
 **Status:** PROPOSED
 
-No unresolved contradiction with MH-1, MH-2 or P0-03…P0-06 was identified in this pass.
+The current pass identified one governance-level contradiction requiring explicit classification.
 
 | ID | Risk | Resolution | Status |
 |---|---|---|---|
@@ -13,5 +13,8 @@ No unresolved contradiction with MH-1, MH-2 or P0-03…P0-06 was identified in t
 | C03-05 | Persistence becomes hidden authority | prohibited/deferred | RESOLVED |
 | C03-06 | Cloud fallback becomes authority | prohibited | RESOLVED |
 | C03-07 | AI bypasses authorization | proposal only | RESOLVED |
+| C03-08 | Proposed PostgreSQL/etcd/NATS HA path conflicts with frozen P0-04 single-node/in-memory foundation | reclassify as future governance-gated extension; no current activation | GOVERNANCE REVIEW REQUIRED |
+
+C03-08 is not an implementation defect. It is an architectural change request against the frozen foundation and therefore cannot be silently activated.
 
 Any future conflict with a parent frozen decision requires: CONTRADICTION / GOVERNANCE CHANGE REQUIRED.
