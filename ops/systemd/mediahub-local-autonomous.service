@@ -1,7 +1,7 @@
 [Unit]
 Description=MediaHub continuous local autonomous development supervisor
-After=mediahub-local-ai.service
-Requires=mediahub-local-ai.service
+After=local-fs.target mediahub-local-ai.service
+Wants=mediahub-local-ai.service
 
 [Service]
 Type=simple

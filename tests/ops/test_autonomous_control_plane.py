@@ -367,3 +367,6 @@ def test_systemd_autonomous_service_is_enableable_at_boot():
     text = (ROOT / "ops/systemd/mediahub-local-autonomous.service").read_text(encoding="utf-8")
     assert "[Install]" in text
     assert "WantedBy=multi-user.target" in text
+    assert "After=local-fs.target mediahub-local-ai.service" in text
+    assert "Wants=mediahub-local-ai.service" in text
+    assert "Requires=mediahub-local-ai.service" not in text
