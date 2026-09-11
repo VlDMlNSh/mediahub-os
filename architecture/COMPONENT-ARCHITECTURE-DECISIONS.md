@@ -8,79 +8,55 @@ Registry: `components/COMPONENT-REGISTRY.yaml`
 
 MediaHub does not adopt complete third-party products by default. Third-party projects are evaluated as sources of stable implementation blocks, protocols, schemas, algorithms, lifecycle semantics and interoperability patterns.
 
-MediaHub retains ownership of:
+MediaHub retains ownership of domain model, State Authority, event semantics, authorization policy, device model, update authority, recovery authority, release gates and production authorization.
 
-- domain model;
-- State Authority;
-- event semantics;
-- authorization policy;
-- device model;
-- update authority;
-- recovery authority;
-- release gates;
-- production authorization.
+## Status model
 
-## Selected foundational primitives
+- CURRENT_FOUNDATION — compatible with the frozen runnable foundation.
+- TARGET_GATED — required by Functional Baseline 1.0 but activation requires explicit governance/qualification.
+- FUTURE_GATED — not activated until a demonstrated capability gap and acceptance gate.
+- REFERENCE — engineering source only; not an implicit runtime dependency.
+- EXCLUDED — not foundational.
 
-### Messaging — NATS
+## CURRENT_FOUNDATION / selected primitives
 
-Use NATS/JetStream for asynchronous commands, events and durable streams. Define MediaHub subjects, schemas, idempotency and retry semantics independently.
+- Protobuf + gRPC — typed contracts/RPC; generated types never become the domain model.
+- OpenTelemetry + Prometheus — non-authoritative observability.
+- SOPS + age — encrypted configuration/secrets mechanics.
+- Syft + Cosign + Trivy — SBOM, signing and vulnerability evidence.
+- FFmpeg — isolated media-processing primitive.
 
-### Coordination — etcd
+## TARGET_GATED
 
-Use etcd for quorum-sensitive coordination, leases, membership and distributed coordination. It is not the MediaHub State Authority.
+- PostgreSQL — transactional persistence; MediaHub owns schema/invariants.
+- pgvector — vector capability within PostgreSQL; no second state authority.
+- Home Assistant Core — Smart Home domain authority only; MediaHub Smart Home Layer remains the platform boundary.
+- IfcOpenShell + web-ifc — IFC/BIM interoperability primitives.
+- PaddleOCR — OCR engine behind the Document contract.
+- OpenCV — vision/image processing primitive.
+- ONNX Runtime + llama.cpp — inference runtimes behind the MediaHub AI Gateway.
+- restic — backup mechanics; MediaHub owns backup policy and recovery authority.
+- RAUC — OTA mechanics; MediaHub owns update policy, authorization and lifecycle.
 
-### Persistence — PostgreSQL
+## FUTURE_GATED
 
-Use PostgreSQL for transactional relational persistence. MediaHub owns schema and invariants.
+- NATS/JetStream — distributed asynchronous transport/durable streams only after measured need.
+- etcd — coordination/membership/leases only after measured need.
+- OpenBao — secrets service only after trust-boundary qualification.
+- S3-compatible object storage — interface target, implementation selected after license/security/operational review.
 
-### Contracts — Protobuf + gRPC
+## REFERENCE
 
-Use Protobuf for stable typed contracts and gRPC for synchronous internal RPC. NATS remains the preferred asynchronous transport.
+Temporal, Caddy, Jellyfin, SeaweedFS, Paperless-ngx, Immich, Mender, Kubernetes/K3s, Argo CD, Harbor, Qdrant, vLLM/SGLang, ComfyUI, OpenDroneMap, VTK/vtk.js, FreeCAD, CloudCompare, n8n.
 
-### Observability — OpenTelemetry + Prometheus
+## EXCLUDED as foundational authorities
 
-Standardize telemetry before committing to a visualization vendor. Correlation IDs and trace context are mandatory across service boundaries.
+Redis, Kafka, Kubernetes-as-runtime-prerequisite, duplicate brokers, duplicate relational databases, duplicate metrics stacks, duplicate production AI runtimes without benchmark evidence.
 
-### Secrets — SOPS + age
+## Acceptance gate
 
-Production secrets/configuration are encrypted at rest. Plaintext production secrets must never be committed to Git.
+Every TARGET_GATED/FUTURE_GATED dependency requires: capability gap → license review → provenance → security review → dependency/SBOM lock → explicit contract/adapter boundary → benchmark where applicable → negative tests → degraded/recovery tests → rollback/update test → independent qualification.
 
-### Backup — restic
+## Current-runtime constraint
 
-Use encrypted snapshot/deduplication/restore mechanics. Backup success is insufficient without periodic restore verification.
-
-### Supply chain — Syft + Cosign + Trivy
-
-Every release candidate must have an SBOM, artifact signature and security scan evidence. Deployment must verify the release artifact before execution.
-
-### Media — FFmpeg
-
-Use FFmpeg as a controlled media-processing primitive. Codec/build configuration is pinned and resource-limited.
-
-## Reference-only projects
-
-Temporal, Caddy, Jellyfin, SeaweedFS, Paperless-ngx, Immich, RAUC and Mender are reference implementations. Their concepts may be incorporated when they improve MediaHub, but they do not become implicit architectural dependencies.
-
-## Explicit exclusions from the foundational stack
-
-Redis, Kafka and Kubernetes are not foundational dependencies at this stage. They may be reconsidered only after measured requirements demonstrate that the selected primitives cannot satisfy MediaHub acceptance criteria.
-
-## Acceptance gate for future components
-
-A new dependency may enter `selected` status only when all are satisfied:
-
-1. clear functional benefit to MediaHub;
-2. no redundant subsystem already covering the requirement;
-3. compatible license and distribution model;
-4. active upstream or justified long-term maintenance path;
-5. security review completed;
-6. failure/degraded-mode behaviour defined;
-7. upgrade and rollback path defined;
-8. deterministic acceptance tests exist;
-9. no violation of State Authority ownership;
-10. dependency can be removed or replaced without architectural collapse.
-
-## Review rule
-
-Component selection is not permanent. Each major release reviews upstream health, security advisories, license changes, dependency drift and whether the component still materially improves MediaHub.
+MH-03 remains the reference runnable foundation: single node, in-memory State Authority, deterministic offline-first operation, with persistence/HA integrations future-governed. No component classification in this document silently activates a target dependency.
