@@ -13,13 +13,13 @@ type Contract interface {
 type Capability string
 
 const (
-	Observability Capability = "observability"
-	Persistence Capability = "persistence"
-	Backup Capability = "backup"
-	SmartHome Capability = "smart-home"
-	MediaProcessing Capability = "media-processing"
-	OCR Capability = "ocr"
-	ComputerVision Capability = "computer-vision"
-	LocalInference Capability = "local-inference"
-	DigitalTwin Capability = "digital-twin"
+	CapabilityObservability Capability = "observability"
+	CapabilityPersistence Capability = "persistence"
+	CapabilityBackup Capability = "backup"
+	CapabilitySmartHome Capability = "smart-home"
+	CapabilityMediaProcessing Capability = "media-processing"
+	CapabilityOCR Capability = "ocr"
+	CapabilityComputerVision Capability = "computer-vision"
+	CapabilityLocalInference Capability = "local-inference"
+	CapabilityDigitalTwin Capability = "digital-twin"
 )
