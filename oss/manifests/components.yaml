@@ -1,0 +1,88 @@
+schema_version: 1
+status: qualification-gated
+policy: MediaHub-owned-contracts
+components:
+  - id: home-assistant-core
+    class: smart-home-authority
+    status: target-gated
+    authority: smart-home-domain-only
+  - id: postgresql
+    class: persistence
+    status: target-gated
+    authority: mediahub-state-authority
+  - id: pgvector
+    class: vector-extension
+    status: target-gated
+    authority: mediahub-state-authority
+  - id: ifcopenshell
+    class: bim-ifc
+    status: target-gated
+  - id: web-ifc
+    class: bim-ifc-web
+    status: target-gated
+  - id: paddleocr
+    class: ocr
+    status: target-gated
+  - id: opencv
+    class: vision
+    status: target-gated
+  - id: onnxruntime
+    class: inference-runtime
+    status: target-gated
+  - id: llama-cpp
+    class: local-llm-runtime
+    status: target-gated
+  - id: opentelemetry
+    class: observability
+    status: current-foundation
+  - id: prometheus
+    class: metrics
+    status: current-foundation
+  - id: cosign
+    class: artifact-signing
+    status: current-foundation
+  - id: syft
+    class: sbom
+    status: current-foundation
+  - id: trivy
+    class: vulnerability-scanning
+    status: current-foundation
+  - id: restic
+    class: backup-mechanics
+    status: target-gated
+  - id: rauc
+    class: ota-mechanics
+    status: target-gated
+  - id: sops
+    class: secret-configuration
+    status: current-foundation
+  - id: age
+    class: encryption
+    status: current-foundation
+  - id: protobuf
+    class: contracts
+    status: current-foundation
+  - id: grpc
+    class: rpc
+    status: current-foundation
+  - id: ffmpeg
+    class: media-processing
+    status: current-foundation
+    isolation: required
+future_gated:
+  - nats-jetstream
+  - etcd
+  - openbao
+  - s3-compatible-object-storage
+requirements:
+  - exact-version-or-digest
+  - license-record
+  - upstream-provenance
+  - sbom
+  - vulnerability-scan
+  - contract-adapter
+  - negative-tests
+  - degraded-mode
+  - recovery-test
+  - rollback-test
+  - independent-qualification
