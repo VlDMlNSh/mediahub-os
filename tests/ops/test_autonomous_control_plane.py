@@ -321,3 +321,26 @@ def _synthetic_target_patch():
         " from dataclasses import dataclass\n"
         "+\n"
     )
+
+
+def test_systemd_autonomous_service_runs_continuous_controller():
+    text = (ROOT / "ops/systemd/mediahub-local-autonomous.service").read_text(encoding="utf-8")
+    assert "Type=simple" in text
+    assert "ExecStart=/home/mediahub/dev/mediahub-os-autonomous/ops/autonomous_os_loop.sh" in text
+    assert "Restart=on-failure" in text
+    assert "TimeoutStartSec=0" in text
+    assert "ExecStart=/usr/bin/python3 /home/mediahub/dev/mediahub-os-autonomous/ops/local_autonomous_agent.py" not in text
+
+
+def test_systemd_autonomous_timer_is_repository_approved():
+    text = (ROOT / "ops/systemd/mediahub-local-autonomous.timer").read_text(encoding="utf-8")
+    assert "OnBootSec=3min" in text
+    assert "OnUnitActiveSec=10min" in text
+    assert "Persistent=true" in text
+    assert "Unit=mediahub-local-autonomous.service" in text
+
+
+def test_service_entrypoint_delegates_to_same_continuous_controller():
+    text = (ROOT / "ops/autonomous_service_entrypoint.sh").read_text(encoding="utf-8")
+    assert 'exec "$ROOT/ops/autonomous_os_loop.sh"' in text
+    assert "local_autonomous_agent.py" not in text

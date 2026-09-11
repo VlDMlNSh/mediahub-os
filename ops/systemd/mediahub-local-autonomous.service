@@ -1,15 +1,17 @@
 [Unit]
-Description=MediaHub bounded local autonomous development cycle
+Description=MediaHub continuous local autonomous development supervisor
 After=mediahub-local-ai.service
 Requires=mediahub-local-ai.service
 
 [Service]
-Type=oneshot
+Type=simple
 User=mediahub
 Group=mediahub
 WorkingDirectory=/home/mediahub/dev/mediahub-os-autonomous
-ExecStart=/home/mediahub/dev/mediahub-os-autonomous/ops/autonomous_service_entrypoint.sh
-TimeoutStartSec=240
+ExecStart=/home/mediahub/dev/mediahub-os-autonomous/ops/autonomous_os_loop.sh
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=0
 TimeoutStopSec=30
 KillMode=control-group
 NoNewPrivileges=yes
