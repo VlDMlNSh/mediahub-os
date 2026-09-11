@@ -370,3 +370,32 @@ def test_systemd_autonomous_service_is_enableable_at_boot():
     assert "After=local-fs.target mediahub-local-ai.service" in text
     assert "Wants=mediahub-local-ai.service" in text
     assert "Requires=mediahub-local-ai.service" not in text
+
+
+def test_controller_pid_identity_is_bound_to_process_starttime():
+    text = (ROOT / "ops/autonomous_os_loop.sh").read_text(encoding="utf-8")
+    assert 'PROC_STARTTIME="$(awk' in text
+    assert 'PROC_STARTTIME' in text and 'PIDFILE' in text
+    assert "PROC_STARTTIME=%s" in text
+
+
+def test_watchdog_rejects_pid_reuse_by_process_starttime():
+    text = (ROOT / "ops/autonomous_watchdog.sh").read_text(encoding="utf-8")
+    assert 'recorded_starttime="${pid_record#*:}"' in text
+    assert 'current_starttime="$(awk' in text
+    assert '[ "$recorded_starttime" = "$current_starttime" ]' in text
+
+
+def test_watchdog_does_not_replace_after_stop_marker_race():
+    text = (ROOT / "ops/autonomous_watchdog.sh").read_text(encoding="utf-8")
+    assert 'if [ -e "$STOPFILE" ]; then' in text
+    assert 'recovery suppressed' in text
+
+
+def test_watchdog_systemd_unit_is_continuously_supervised():
+    text = (ROOT / "ops/systemd/mediahub-local-autonomous-watchdog.service").read_text(encoding="utf-8")
+    assert "Type=simple" in text
+    assert "ExecStart=/home/mediahub/dev/mediahub-os-autonomous/ops/autonomous_watchdog.sh" in text
+    assert "Restart=always" in text
+    assert "WantedBy=multi-user.target" in text
+    assert "Wants=mediahub-local-autonomous.service" in text

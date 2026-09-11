@@ -20,12 +20,16 @@ while [ ! -e "$STOPFILE" ]; do
 		age=$((now - $(stat -c %Y "$HEARTBEAT")))
 		[ "$age" -le "$HEARTBEAT_MAX" ] && stale=0
 	fi
-	pid="$(cat "$PIDFILE" 2>/dev/null || true)"
+	pid_record="$(cat "$PIDFILE" 2>/dev/null || true)"
+	pid="${pid_record%%:*}"
+	recorded_starttime="${pid_record#*:}"
 	owned=0
-	if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then
+	if [ -n "$pid" ] && [ "$pid" != "$pid_record" ] && kill -0 "$pid" 2>/dev/null; then
+		current_starttime="$(awk '{print $22}' "/proc/$pid/stat" 2>/dev/null || true)"
 		cmd="$(ps -p "$pid" -o args= 2>/dev/null || true)"
 		case "$cmd" in
-			*"$ROOT/ops/autonomous_os_loop.sh"*|*"./ops/autonomous_os_loop.sh"*) owned=1 ;;
+			*"$ROOT/ops/autonomous_os_loop.sh"*|*"./ops/autonomous_os_loop.sh"*)
+				[ -n "$recorded_starttime" ] && [ "$recorded_starttime" = "$current_starttime" ] && owned=1 ;;
 		esac
 	fi
 	if [ "$stale" -eq 1 ] && [ "$owned" -eq 1 ]; then
@@ -48,6 +52,10 @@ while [ ! -e "$STOPFILE" ]; do
 		fi
 	fi
 	if [ "$owned" -eq 0 ]; then
+		if [ -e "$STOPFILE" ]; then
+			echo "$(date -u +%FT%TZ) stop marker observed before replacement; recovery suppressed" >>"$LOG"
+			break
+		fi
 		echo "$(date -u +%FT%TZ) ensuring controller exists" >>"$LOG"
 		rm -f "$PIDFILE"
 		nohup "$ROOT/ops/autonomous_os_loop.sh" >>"$LOG" 2>&1 &

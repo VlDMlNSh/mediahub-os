@@ -11,7 +11,8 @@ STOPFILE="$STATE/STOP"
 mkdir -p "$LOGDIR"
 exec 9>"$LOCKFILE"
 flock -n 9 || exit 73
-echo $$ >"$PIDFILE"
+PROC_STARTTIME="$(awk '{print $22}' "/proc/$$/stat" 2>/dev/null || true)"
+printf '%s:%s\n' "$$" "$PROC_STARTTIME" >"$PIDFILE"
 trap 'rm -f "$PIDFILE"' EXIT
 export MEDIAHUB_ROOT="$ROOT"
 export MEDIAHUB_LOCAL_MODEL="/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf"
@@ -23,7 +24,7 @@ LAST_RESULT=STARTING
 FAIL_STREAK=0
 MAX_FAIL_STREAK=3
 (while :; do
-	printf "STATE=RUNNING\nCYCLE=%s\nHEAD=%s\nLAST_RESULT=%s\nMODEL=%s\nTIMESTAMP=%s\n" "$(cat "$STATE/current_cycle" 2>/dev/null || echo BOOT)" "$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || echo UNKNOWN)" "$(cat "$STATE/current_result" 2>/dev/null || echo STARTING)" "$MEDIAHUB_LOCAL_MODEL" "$(date -u +%FT%TZ)" >"$HEARTBEAT.tmp"
+	printf "STATE=RUNNING\nPID=%s\nPROC_STARTTIME=%s\nCYCLE=%s\nHEAD=%s\nLAST_RESULT=%s\nMODEL=%s\nTIMESTAMP=%s\n" "$$" "$PROC_STARTTIME" "$(cat "$STATE/current_cycle" 2>/dev/null || echo BOOT)" "$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || echo UNKNOWN)" "$(cat "$STATE/current_result" 2>/dev/null || echo STARTING)" "$MEDIAHUB_LOCAL_MODEL" "$(date -u +%FT%TZ)" >"$HEARTBEAT.tmp"
 	mv -f "$HEARTBEAT.tmp" "$HEARTBEAT"
 	sleep 5
 done) &
