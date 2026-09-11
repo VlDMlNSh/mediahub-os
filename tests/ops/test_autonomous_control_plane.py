@@ -37,7 +37,8 @@ def test_watchdog_validates_controller_ownership_before_termination():
     text = (ROOT / "ops/autonomous_watchdog.sh").read_text(encoding="utf-8")
     assert 'owned=0' in text
     assert 'ps -p "$pid" -o args=' in text
-    assert 'if [ "$owned" -eq 0 ] || [ "$stale" -eq 1 ]' in text
+    assert 'if [ "$stale" -eq 1 ] && [ "$owned" -eq 1 ]' in text
+    assert 'if [ "$owned" -eq 0 ]; then' in text
 
 
 def test_agent_runs_deterministic_lint_repair_before_verification():

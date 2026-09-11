@@ -28,21 +28,17 @@ while [ ! -e "$STOPFILE" ]; do
 			*"$ROOT/ops/autonomous_os_loop.sh"*|*"./ops/autonomous_os_loop.sh"*) owned=1 ;;
 		esac
 	fi
-	if [ "$owned" -eq 0 ] || [ "$stale" -eq 1 ]; then
-		if [ "$stale" -eq 1 ] && kill -0 "$pid" 2>/dev/null; then
-			echo "$(date -u +%FT%TZ) stale heartbeat; terminating controller pid=$pid" >>"$LOG"
-			pkill -TERM -P "$pid" 2>/dev/null || true
-			kill -TERM "$pid" 2>/dev/null || true
-			for _ in 1 2 3 4 5; do
-				kill -0 "$pid" 2>/dev/null || break
-				sleep 1
-			done
-			if kill -0 "$pid" 2>/dev/null; then
-				pkill -KILL -P "$pid" 2>/dev/null || true
-				kill -KILL "$pid" 2>/dev/null || true
-			fi
-		fi
-		echo "$(date -u +%FT%TZ) restarting controller" >>"$LOG"
+	if [ "$stale" -eq 1 ] && [ "$owned" -eq 1 ]; then
+		echo "$(date -u +%FT%TZ) stale heartbeat; requesting graceful TERM pid=$pid" >>"$LOG"
+		kill -TERM "$pid" 2>/dev/null || true
+		for _ in 1 2 3 4 5; do
+			kill -0 "$pid" 2>/dev/null || break
+			sleep 1
+		done
+		owned=0
+	fi
+	if [ "$owned" -eq 0 ]; then
+		echo "$(date -u +%FT%TZ) ensuring controller exists" >>"$LOG"
 		rm -f "$PIDFILE"
 		nohup "$ROOT/ops/autonomous_os_loop.sh" >>"$LOG" 2>&1 &
 		sleep 5
