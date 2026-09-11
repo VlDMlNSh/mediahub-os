@@ -210,6 +210,48 @@ def test_native_agent_requires_endpoint_egress_and_broker(tmp_path, monkeypatch)
                                      broker, registry, "qualified-codex-model", endpoint)
 
 
+def test_native_agent_brokered_credentials_reach_child_only(tmp_path, monkeypatch):
+    import ops.cloud_development_adapter as module
+    from ops.mediahub_credential_broker import CredentialBroker
+    from ops.mediahub_model_registry import ModelRecord, ModelRegistry
+
+    credential_dir = tmp_path / "credentials"
+    credential_dir.mkdir()
+    credential = credential_dir / "mediahub-openai"
+    credential.write_text("synthetic-secret", encoding="utf-8")
+    credential.chmod(0o600)
+    broker = CredentialBroker(credential_dir, frozenset({"openai"}))
+    broker.authorize()
+    registry = ModelRegistry((ModelRecord("openai", "qualified-codex-model"),))
+    root = tmp_path / "sandbox"
+    worktree = root / "worktree"
+    worktree.mkdir(parents=True)
+    adapter = CloudDevelopmentAdapter()
+    endpoint = "https://api.openai.com/v1"
+    adapter.authorize(frozenset({endpoint}))
+
+    class FakeProc:
+        pid = 4242
+        returncode = 0
+
+    seen = {}
+    monkeypatch.setattr(module, "resolve_launch", lambda *args: (
+        type("Spec", (), {"provider": "openai", "credential_env": "OPENAI_API_KEY", "endpoint_env": "OPENAI_BASE_URL"})(),
+        None, endpoint,
+    ))
+    monkeypatch.setattr(module, "build_command", lambda *args, **kwargs: ("true",))
+    monkeypatch.setattr(module.subprocess, "Popen", lambda *args, **kwargs: (seen.update(env=kwargs["env"]) or FakeProc()))
+    monkeypatch.setattr(module.CloudDevelopmentAdapter, "_collect_bounded", staticmethod(lambda proc, timeout, max_bytes: "ok"))
+
+    result = adapter.execute_native_agent(
+        request(egress=frozenset({endpoint})), SandboxSpec(root, worktree), broker, registry,
+        "qualified-codex-model", endpoint,
+    )
+    assert result.status == "ok"
+    assert seen["env"]["OPENAI_API_KEY"] == "synthetic-secret"
+    assert all("synthetic-secret" not in str(event) for event in adapter.audit_events)
+
+
 def test_native_agent_launch_contract_never_logs_credential(tmp_path):
     from ops.mediahub_credential_broker import CredentialBroker
     from ops.mediahub_model_registry import ModelRecord, ModelRegistry

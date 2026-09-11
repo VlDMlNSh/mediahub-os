@@ -119,7 +119,8 @@ class CloudDevelopmentAdapter:
         }
 
     def execute(self, request: ProviderRequest, sandbox: SandboxSpec,
-                command: Sequence[str], extra_env: Mapping[str, str] | None = None) -> ProviderResult:
+                command: Sequence[str], extra_env: Mapping[str, str] | None = None,
+                _allow_broker_credentials: bool = False) -> ProviderResult:
         self.admit(request)
         self._validate_sandbox(sandbox)
         argv = tuple(command)
@@ -133,7 +134,7 @@ class CloudDevelopmentAdapter:
             for key, value in extra_env.items():
                 if not isinstance(key, str) or not key.isidentifier() or not isinstance(value, str):
                     raise AdapterDenied("provider environment is invalid")
-                if "KEY" in key or "TOKEN" in key or "SECRET" in key or "PASSWORD" in key:
+                if ("KEY" in key or "TOKEN" in key or "SECRET" in key or "PASSWORD" in key) and not _allow_broker_credentials:
                     raise AdapterDenied("provider credentials must remain outside the adapter")
                 if "\x00" in value or len(value) > 16 * 1024:
                     raise AdapterDenied("provider environment value is outside bounds")
@@ -250,9 +251,27 @@ class CloudDevelopmentAdapter:
             raise AdapterDenied("native endpoint contains whitespace")
         spec, _ref, _endpoint = resolve_launch(request.provider, broker, endpoint, model, registry)
         command = build_command(request.provider, model, request.prompt, streaming=streaming)
-        env = broker.environment(spec.provider, spec.credential_env)
-        env[spec.endpoint_env] = endpoint
-        return self.execute(request, sandbox, command, extra_env=env)
+        credential_env = broker.environment(spec.provider, spec.credential_env)
+        extra_env = {spec.endpoint_env: endpoint}
+        return self._execute_with_broker_environment(
+            request, sandbox, command, credential_env=credential_env, extra_env=extra_env
+        )
+
+    def _execute_with_broker_environment(
+        self, request: ProviderRequest, sandbox: SandboxSpec, command: Sequence[str],
+        *, credential_env: Mapping[str, str], extra_env: Mapping[str, str] | None = None,
+    ) -> ProviderResult:
+        """Launch with credentials materialized only inside the brokered launch path."""
+        self.admit(request)
+        for key, value in credential_env.items():
+            if (not isinstance(key, str) or not key.isidentifier() or not isinstance(value, str)
+                    or not value or "\x00" in value or len(value) > 16 * 1024):
+                raise AdapterDenied("broker credential environment is invalid")
+        return self.execute(
+            request, sandbox, command,
+            extra_env={**(extra_env or {}), **credential_env},
+            _allow_broker_credentials=True,
+        )
 
     def execute_provider(self, request: ProviderRequest, sandbox: SandboxSpec) -> ProviderResult:
         """Execute only the allowlisted provider wrapper inside the sandbox."""
