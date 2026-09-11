@@ -9,6 +9,7 @@ from dataclasses import dataclass, field, replace
 from datetime import datetime, timedelta, timezone
 from enum import StrEnum
 import json
+import math
 from pathlib import Path
 from typing import Callable
 
@@ -67,24 +68,25 @@ class HybridSessionController:
     clock: Callable[[], datetime] = lambda: datetime.now(timezone.utc)
     session: HybridSession | None = field(default=None, init=False)
 
-    def start(self, session_id: str, baseline_sha: str, r4_sha: str, hours: float = 8.0) -> HybridSession:
+    def start(self, session_id: str, baseline_sha: str, r4_sha: str, duration: timedelta) -> HybridSession:
         if self.session is not None and self.session.state in {
             SessionState.RUNNING, SessionState.PAUSED, SessionState.STOPPING,
         }:
             raise SessionDenied("an active hybrid session already exists")
         if not session_id or not baseline_sha or not r4_sha:
             raise SessionDenied("session identity and provenance are required")
-        if hours <= 0 or hours > 24:
-            raise SessionDenied("session duration must be >0 and <=24 hours")
+        seconds = duration.total_seconds() if isinstance(duration, timedelta) else float("nan")
+        if not math.isfinite(seconds) or seconds <= 0:
+            raise SessionDenied("session duration must be a positive finite timedelta")
         now = self._now()
         self.session = HybridSession(
             session_id=session_id,
             baseline_sha=baseline_sha,
             r4_sha=r4_sha,
             started_at=now,
-            deadline=now + timedelta(hours=hours),
+            deadline=now + duration,
         )
-        self.journal.append(self.session, "SESSION_STARTED", duration_hours=hours)
+        self.journal.append(self.session, "SESSION_STARTED", duration_seconds=seconds)
         return self.session
 
     def heartbeat(self) -> HybridSession:
