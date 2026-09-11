@@ -11,5 +11,7 @@
 - MH3-D07: Event is fact; it does not imply a command.
 - MH3-D08: Observability is non-mutating.
 - MH3-D09: Single node / no HA is inherited and remains unchanged.
+- MH3-D10: Persistence/HA integration is a future governance-gated extension and does not override frozen P0-04.
+- MH3-D11: PostgreSQL, etcd and NATS integration must remain non-authoritative until an explicit compatibility, governance and acceptance gate authorizes activation.
 
 All MH-3 decisions are PROPOSED until the acceptance gate passes.
