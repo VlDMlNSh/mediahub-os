@@ -1,0 +1,178 @@
+schema_version: 1.0
+status: ACCEPTED_RECONCILIATION_ARTIFACT
+date: 2026-09-11
+source: FUNCTIONAL BASELINE 1.0
+
+status_definitions:
+  target: "Required by passport; implementation/qualification required."
+  foundation: "Required by current frozen architecture."
+  future_gated: "Required target capability but activation conflicts with or extends current frozen runtime and requires governance/acceptance gate."
+  conditional: "Passport permits/targets it but adoption requires demonstrated capability gap and qualification."
+  reference: "Useful implementation pattern; not a MediaHub authority or mandatory runtime dependency."
+
+capabilities:
+  state_authority:
+    passport_sections: [3, 45, 47, 48, 64, 66, 67]
+    status: foundation
+    authority: MediaHub_State_Authority
+    dependencies: [MediaHub_Command_Contract, Authorization_Policy, Consumer_Integration_Boundary]
+    forbidden: [AI_authority, cloud_authority, mobile_authority, backup_authority, ota_authority]
+
+  smart_home:
+    passport_sections: [4, 6, 7, 8, 9, 10, 12, 28, 29, 52, 57]
+    status: target
+    authority: Home_Assistant_Core
+    adapter_boundary: MediaHub_Smart_Home_Layer
+    candidate_components: [home-assistant-core]
+    qualification: [adapter_qualification, device_discovery, state_consistency, automation_negative_paths]
+
+  security_trust:
+    passport_sections: [34, 35, 38, 45, 56]
+    status: foundation_plus_target
+    authority: MediaHub_Security_Trust_Layer
+    primitives: [SOPS, age, OpenBao_candidate, Cosign, Syft, Trivy]
+    required_controls: [authentication, authorization, least_privilege, device_trust, quarantine, audit, encryption, egress_control, revocation]
+
+  media:
+    passport_sections: [22, 23, 55, 63]
+    status: target
+    authority: MediaHub_Media_Domain
+    primitives: [FFmpeg, OpenCV]
+    references: [Jellyfin, Immich]
+    required_controls: [codec_matrix, resource_limits, sandboxing, provenance, network_capability_negotiation]
+
+  documents:
+    passport_sections: [24, 31, 63]
+    status: target
+    authority: MediaHub_Document_Domain
+    primitives: [PaddleOCR, PostgreSQL, pgvector]
+    references: [Paperless_ngx]
+    required_controls: [ocr_provenance, indexing, metadata, retention, access_control]
+
+  digital_twin:
+    passport_sections: [25, 26, 54, 63]
+    status: target
+    authority: MediaHub_Digital_Twin_Domain
+    primitives: [IfcOpenShell, web-ifc, OpenCV]
+    references: [VTK, vtk.js, FreeCAD, CloudCompare, OpenDroneMap]
+    required_controls: [IFC_validation, geometry_integrity, provenance, entitlement, deterministic_processing]
+
+  engineering:
+    passport_sections: [26, 54, 63]
+    status: target
+    authority: MediaHub_Engineering_Domain
+    references: [IfcOpenShell, VTK, FreeCAD, CloudCompare]
+    required_controls: [calculation_provenance, reproducibility, entitlement, audit]
+
+  network:
+    passport_sections: [10, 11, 27, 37]
+    status: target
+    authority: MediaHub_Network_Domain
+    vendor_boundaries: [Ubiquiti_API, Keenetic_API]
+    required_controls: [credential_isolation, vendor_api_boundary, network_discovery, diagnostics, remote_access_control]
+
+  local_ai:
+    passport_sections: [15, 42, 53, 56]
+    status: target
+    authority: MediaHub_AI_Gateway
+    runtimes: [llama.cpp, ONNX_Runtime]
+    required_controls: [advisory_mode, tool_authorization, model_provenance, sandboxing, local_only_operation]
+
+  local_cluster_ai:
+    passport_sections: [16, 37, 42, 53]
+    status: future_gated
+    authority: MediaHub_Cluster_Control
+    runtimes: [ONNX_Runtime, llama.cpp]
+    conditional: [K3s_Kubernetes, vLLM, SGLang, GPU_cluster]
+    required_controls: [node_identity, workload_identity, quotas, health, recovery, authorization]
+
+  cloud_development_ai:
+    passport_sections: [17, 18, 19, 35, 42, 48, 49, 53, 54, 59]
+    status: target
+    authority: Corporate_Cloud_Development_Boundary
+    subsystems: [Website, Trusted_Sources_Intelligence, AI_Human_Clone, Engineering, Commercial_Infrastructure]
+    required_controls: [authorization, data_minimization, residency, egress_control, audit, metering, revocation, isolation]
+
+  trusted_sources_intelligence:
+    passport_sections: [18, 41, 54, 59]
+    status: target
+    authority: MediaHub_Trusted_Sources_Engine
+    required_contracts: [source_identity, provenance, evidence, verification_state, change_detection]
+    forbidden: [AI_generated_equals_verified]
+
+  ai_human_clone:
+    passport_sections: [19, 54, 59]
+    status: target
+    authority: MediaHub_Cloud_Development_Boundary
+    required_controls: [consent, authorization, identity_provenance, rights_holder_authorization, scope, voice_appearance_authorization, model_provenance, asset_provenance, audit, revocation, synthetic_separation]
+
+  mobile_core:
+    passport_sections: [20, 21, 51, 58]
+    status: target
+    authority: MediaHub_State_Authority
+    app: MediaHub_Core_iOS_iPadOS
+    required_controls: [local_first, offline_operation, contract_compatibility, authentication, authorization, audit, revocation]
+
+  mobile_remote:
+    passport_sections: [20, 21, 51, 58]
+    status: target
+    authority: MediaHub_API
+    app: MediaHub_iOS_Remote
+    required_controls: [remote_authentication, authorization, trust, privacy, audit, revocation]
+
+  voice:
+    passport_sections: [13, 60]
+    status: target
+    authority: MediaHub_API_and_governed_integrations
+    order: [Google_Assistant, Yandex_Alice, Apple_Siri]
+    forbidden: [voice_provider_as_mediahub_authority]
+
+  storage:
+    passport_sections: [40, 41]
+    status: future_gated
+    primary: PostgreSQL
+    vector: pgvector
+    object: S3_compatible_interface
+    backup: restic
+    forbidden: [overlapping_storage_authorities_without_benchmark]
+
+  backup_recovery:
+    passport_sections: [3, 33, 34, 36, 45, 62]
+    status: target
+    authority: MediaHub_Recovery_Authority
+    primitive: restic
+    required_controls: [backup, restore, migration, rollback, integrity_verification, disaster_recovery, authority_preservation]
+
+  update:
+    passport_sections: [32, 34, 45, 61, 66]
+    status: future_gated
+    authority: MediaHub_Update_Authority
+    mechanism: RAUC
+    evidence: [Cosign, Syft, Trivy]
+    forbidden: [multiple_independent_production_ota_authorities]
+
+  observability:
+    passport_sections: [39]
+    status: foundation
+    primitives: [OpenTelemetry, Prometheus]
+    authority: MediaHub_Observability_Policy
+    forbidden: [telemetry_as_state_authority, telemetry_as_mutation_path]
+
+  cluster:
+    passport_sections: [37]
+    status: future_gated
+    authority: MediaHub_Cluster_Control
+    required: [distributed_compute, GPU_compute, storage, scheduling, node_identity, health, telemetry, recovery, scaling]
+    optional: [K3s, Kubernetes, Argo_CD]
+
+  oss_governance:
+    passport_sections: [43, 44, 65]
+    status: foundation
+    lifecycle: [Real_Capability_Gap, Mature_Component_Search, License_Review, Security_Review, Provenance, Adapter, Benchmark, Adoption, Qualification]
+
+  release:
+    passport_sections: [46, 47, 48, 65, 66, 68]
+    status: foundation
+    authority: MediaHub_Release_Governance
+    gates: [implementation, unit, integration, negative_path, security, regression, provenance, independent_review, MH05, T5, F03, release_authorization, production_authorization]
+    forbidden: [AI_self_authorization, autonomous_production_authorization]
