@@ -1,62 +1,146 @@
-schema_version: 1.0
-status: accepted
+schema_version: 1.1
+status: reconciled_target_matrix
 review_date: 2026-09-11
+source: FUNCTIONAL_BASELINE_1.0 + MH-03
+
+activation_states:
+  current_foundation: "Active/allowed in the frozen current architecture."
+  target_gated: "Required target capability; not active until explicit architecture/acceptance gate."
+  conditional: "Activation requires demonstrated capability gap and qualification."
+  reference: "Implementation/reference material only; not a mandatory runtime dependency."
 
 layers:
   control_plane:
-    state_authority: mediahub-owned
-    coordination: etcd
-    messaging: nats-jetstream
-    persistence: postgresql
-    synchronous_rpc: grpc
-    contracts: protobuf
-    workflow_semantics: mediahub-owned-temporal-reference
+    state_authority:
+      owner: mediahub-owned
+      activation: current_foundation
+    coordination:
+      component: etcd
+      activation: target_gated
+      rule: "Infrastructure coordination only; never domain State Authority."
+    messaging:
+      component: nats-jetstream
+      activation: target_gated
+      rule: "Asynchronous transport only; MediaHub owns event schemas, idempotency and consumer semantics."
+    persistence:
+      component: postgresql
+      activation: target_gated
+      rule: "Transactional persistence target; current State Authority remains in-memory until persistence gate passes."
+    synchronous_rpc:
+      component: grpc
+      activation: conditional
+      rule: "Typed service transport; authorization and domain contracts remain MediaHub-owned."
+    contracts:
+      component: protobuf
+      activation: conditional
+      rule: "Versioned typed contract representation; generated code is not the domain model."
+    workflow_semantics:
+      owner: mediahub-owned
+      reference: temporal
+      activation: reference
 
   security:
-    secrets: sops-age
-    artifact_signing: cosign
-    sbom: syft
-    vulnerability_scanning: trivy
-    policy: mediahub-owned
+    secrets:
+      components: [sops, age]
+      activation: current_foundation
+      rule: "Encrypted configuration/secret mechanics; no duplicate production secret authority."
+    artifact_signing:
+      component: cosign
+      activation: current_foundation
+    sbom:
+      component: syft
+      activation: current_foundation
+    vulnerability_scanning:
+      component: trivy
+      activation: current_foundation
+    policy:
+      owner: mediahub-owned
 
   reliability:
-    backup_mechanics: restic
-    recovery_authority: mediahub-owned
-    ota_mechanics: rauc-reference
-    rollout_semantics: mender-reference
+    backup_mechanics:
+      component: restic
+      activation: target_gated
+    recovery_authority:
+      owner: mediahub-owned
+      activation: current_foundation
+    ota_mechanics:
+      component: rauc
+      activation: target_gated
+    update_authority:
+      owner: mediahub-owned
+      activation: current_foundation
+    rollout_semantics:
+      component: mender
+      activation: reference
 
   data_plane:
-    media_processing: ffmpeg
-    media_domain: mediahub-owned
-    document_domain: mediahub-owned
-    asset_metadata: mediahub-owned
-    object_storage: mediahub-owned-interface
+    media_processing:
+      component: ffmpeg
+      activation: conditional
+      rule: "Isolated, resource-limited processing primitive."
+    media_domain:
+      owner: mediahub-owned
+    document_domain:
+      owner: mediahub-owned
+    digital_twin_domain:
+      owner: mediahub-owned
+    engineering_domain:
+      owner: mediahub-owned
+    asset_metadata:
+      owner: mediahub-owned
+    object_storage:
+      interface: s3-compatible
+      activation: target_gated
+      rule: "Protocol/interface is required; concrete implementation requires license, security and operational qualification."
+
+  smart_home:
+    domain_authority:
+      component: home-assistant-core
+      activation: target_gated
+      rule: "Home Assistant Core is authoritative only for Smart Home domain state."
+    mediahub_boundary:
+      owner: mediahub-smart-home-layer
 
   observability:
-    telemetry_contract: opentelemetry
-    metrics: prometheus
-    logs_and_traces_authority: mediahub-owned-observability-policy
+    telemetry_contract:
+      component: opentelemetry
+      activation: current_foundation
+    metrics:
+      component: prometheus
+      activation: current_foundation
+    authority:
+      owner: mediahub-observability-policy
+      rule: "Telemetry is observational and non-mutating."
 
 integration_policy:
-  selected: "May run as an explicit MediaHub dependency after version/security/acceptance gates."
+  current_foundation: "Only dependencies explicitly compatible with the frozen single-node/in-memory foundation may be active."
+  target_gated: "May be implemented on a controlled branch/phase but must not become a current runtime prerequisite before its gate passes."
+  selected: "Explicit MediaHub dependency only after version/security/provenance/acceptance gates."
   reference: "May contribute patterns, schemas or algorithms but must not become an implicit runtime dependency."
   mediahub_owned: "Authoritative contract, state, policy or lifecycle remains implemented and governed by MediaHub."
 
 prohibited_redundancy:
+  - second_mediahub_state_authority
   - redis_as_default_cache_or_event_bus
   - kafka_as_default_event_platform
   - kubernetes_as_runtime_prerequisite
   - duplicate_metrics_stack
-  - duplicate_message_broker
+  - duplicate_message_broker_without_capability_gap
   - duplicate_relational_database
+  - second_production_ota_authority
+  - backup_tool_as_recovery_authority
+  - ai_or_cloud_as_state_authority
 
 release_gates:
   - dependency_lock
   - license_check
+  - provenance_review
   - sbom
   - signature_verification
   - vulnerability_scan
   - integration_tests
+  - negative_path_tests
   - degraded_mode_tests
   - rollback_test
   - restore_test
+  - independent_review
