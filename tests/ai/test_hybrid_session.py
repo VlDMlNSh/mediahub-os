@@ -1,0 +1,102 @@
+from datetime import datetime, timedelta, timezone
+
+import pytest
+
+from ops.ai.hybrid_session import (
+    HybridSessionController,
+    SessionDenied,
+    SessionJournal,
+    SessionState,
+)
+
+
+class Clock:
+    def __init__(self):
+        self.value = datetime(2026, 9, 11, 12, 0, tzinfo=timezone.utc)
+
+    def __call__(self):
+        return self.value
+
+
+def controller(tmp_path):
+    clock = Clock()
+    return HybridSessionController(SessionJournal(tmp_path / "session.jsonl"), clock), clock
+
+
+def test_start_is_bounded_and_provenance_locked(tmp_path):
+    ctl, clock = controller(tmp_path)
+    session = ctl.start("s1", "baseline", "r4", hours=8)
+    assert session.state is SessionState.RUNNING
+    assert session.deadline == clock.value + timedelta(hours=8)
+
+
+def test_second_active_session_is_denied(tmp_path):
+    ctl, _ = controller(tmp_path)
+    ctl.start("s1", "baseline", "r4")
+    with pytest.raises(SessionDenied):
+        ctl.start("s2", "baseline", "r4")
+
+
+def test_duration_is_hard_bounded(tmp_path):
+    ctl, _ = controller(tmp_path)
+    with pytest.raises(SessionDenied):
+        ctl.start("s1", "baseline", "r4", hours=24.1)
+    with pytest.raises(SessionDenied):
+        ctl.start("s1", "baseline", "r4", hours=0)
+
+
+def test_deadline_transitions_to_expired_and_blocks_new_cycle(tmp_path):
+    ctl, clock = controller(tmp_path)
+    ctl.start("s1", "baseline", "r4", hours=1)
+    clock.value += timedelta(hours=1)
+    state = ctl.heartbeat()
+    assert state.state is SessionState.EXPIRED
+    with pytest.raises(SessionDenied):
+        ctl.next_cycle("continue")
+
+
+def test_pause_resume_preserves_original_deadline(tmp_path):
+    ctl, clock = controller(tmp_path)
+    session = ctl.start("s1", "baseline", "r4", hours=8)
+    deadline = session.deadline
+    ctl.pause()
+    clock.value += timedelta(hours=1)
+    resumed = ctl.resume()
+    assert resumed.state is SessionState.RUNNING
+    assert resumed.deadline == deadline
+
+
+def test_pause_does_not_extend_budget(tmp_path):
+    ctl, clock = controller(tmp_path)
+    ctl.start("s1", "baseline", "r4", hours=1)
+    ctl.pause()
+    clock.value += timedelta(hours=1)
+    state = ctl.resume()
+    assert state.state is SessionState.EXPIRED
+
+
+def test_safe_stop_is_terminal(tmp_path):
+    ctl, _ = controller(tmp_path)
+    ctl.start("s1", "baseline", "r4")
+    ctl.safe_stop("AI boundary violation")
+    with pytest.raises(SessionDenied):
+        ctl.next_cycle("continue")
+
+
+def test_cycle_increments_only_after_heartbeat(tmp_path):
+    ctl, _ = controller(tmp_path)
+    ctl.start("s1", "baseline", "r4")
+    state = ctl.next_cycle("inspect")
+    assert state.cycle == 1
+    state = ctl.next_cycle("test")
+    assert state.cycle == 2
+
+
+def test_journal_is_append_only_jsonl_with_provenance(tmp_path):
+    ctl, _ = controller(tmp_path)
+    ctl.start("s1", "baseline", "r4")
+    ctl.next_cycle("inspect")
+    lines = (tmp_path / "session.jsonl").read_text(encoding="utf-8").splitlines()
+    assert len(lines) == 3
+    assert '"baseline_sha":"baseline"' in lines[-1]
+    assert '"r4_sha":"r4"' in lines[-1]
