@@ -72,9 +72,10 @@ class HybridDevelopmentController:
                 raise CloudAPIUnavailable("transport health check failed")
             return self.snapshot(probe)
         except CloudAPIUnavailable as exc:
-            self.state = ControllerState.SAFE_STOP
-            self.session.safe_stop("cloud egress unavailable")
-            raise HybridDevelopmentDenied("no verified cloud transport; SAFE_STOP") from exc
+            # No cloud operation is admitted while transport is absent; keep the
+            # bounded development session alive in WAITING for tunnel recovery.
+            self.state = ControllerState.WAITING
+            raise HybridDevelopmentDenied("no verified cloud transport; WAITING") from exc
 
     def prepare_task(self, task_id: str, envelope: str) -> ControllerSnapshot:
         if self.state is not ControllerState.RUNNING:

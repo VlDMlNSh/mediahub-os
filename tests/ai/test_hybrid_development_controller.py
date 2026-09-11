@@ -47,7 +47,7 @@ def test_no_transport_safe_stops(tmp_path):
     c.start("s1", "baseline", "r4", timedelta(hours=1))
     with pytest.raises(HybridDevelopmentDenied):
         c.preflight()
-    assert c.state is ControllerState.SAFE_STOP
+    assert c.state is ControllerState.WAITING
 
 
 def test_stop_is_terminal(tmp_path):
