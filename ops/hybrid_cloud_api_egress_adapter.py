@@ -34,7 +34,7 @@ class CloudAPIResponse:
 
 
 @dataclass
-class CloudAPIEgressAdapter:
+class HybridCloudAPIEgressAdapter:
     egress: EgressController
     tunnel_interface: str = ""
     require_vpn: bool = True

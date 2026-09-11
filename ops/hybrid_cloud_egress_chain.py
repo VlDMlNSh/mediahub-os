@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable
 
-from ops.cloud_api_egress_adapter import CloudAPIUnavailable, TunnelStatus
+from ops.hybrid_cloud_api_egress_adapter import CloudAPIUnavailable, TunnelStatus
 
 
 @dataclass(frozen=True)
@@ -14,7 +14,7 @@ class EgressPath:
 
 
 @dataclass
-class CloudAPIEgressChain:
+class HybridCloudAPIEgressChain:
     paths: tuple[EgressPath, ...]
     probe: Callable[[str], TunnelStatus]
     _active: int | None = None

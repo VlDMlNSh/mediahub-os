@@ -4,16 +4,16 @@ from unittest.mock import patch
 
 import pytest
 
-from ops.cloud_api_egress_adapter import CloudAPIUnavailable, CloudAPIEgressAdapter
+from ops.hybrid_cloud_api_egress_adapter import CloudAPIUnavailable, HybridCloudAPIEgressAdapter
 from ops.mediahub_egress_controller import EgressController, EgressPolicy, EgressDenied
 
 
 API = "https://api.example.test"
 
 
-def adapter(*, interface: str = "tun-vpm") -> CloudAPIEgressAdapter:
+def adapter(*, interface: str = "tun-vpm") -> HybridCloudAPIEgressAdapter:
     controller = EgressController(EgressPolicy(frozenset({API})))
-    return CloudAPIEgressAdapter(controller, tunnel_interface=interface)
+    return HybridCloudAPIEgressAdapter(controller, tunnel_interface=interface)
 
 
 def test_fail_closed_without_vpn_interface() -> None:
@@ -33,7 +33,7 @@ def test_request_requires_healthy_tunnel() -> None:
     client = adapter()
     healthy = type(client.check_tunnel())("tun-vpm", True, "test")
     with patch.object(client, "check_tunnel", return_value=healthy):
-        with patch("ops.cloud_api_egress_adapter.urlopen") as open_url:
+        with patch("ops.hybrid_cloud_api_egress_adapter.urlopen") as open_url:
             open_url.return_value.__enter__.return_value.status = 200
             open_url.return_value.__enter__.return_value.read.return_value = b"ok"
             client.authorize()
@@ -46,7 +46,7 @@ def test_transport_failure_is_fail_closed() -> None:
     client = adapter()
     healthy = type(client.check_tunnel())("tun-vpm", True, "test")
     with patch.object(client, "check_tunnel", return_value=healthy):
-        with patch("ops.cloud_api_egress_adapter.urlopen", side_effect=OSError("down")):
+        with patch("ops.hybrid_cloud_api_egress_adapter.urlopen", side_effect=OSError("down")):
             client.authorize()
             with pytest.raises(CloudAPIUnavailable):
                 client.request(API)
