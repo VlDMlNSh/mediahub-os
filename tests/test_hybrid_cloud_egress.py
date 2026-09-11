@@ -42,3 +42,22 @@ def test_falls_back_only_after_primary_failure():
         result = adapter.select("https://health.example.test")
     assert result.candidate.name == "wireguard"
     assert adapter.active_ip == "203.0.113.20"
+
+
+def test_request_uses_selected_interface_and_returns_status():
+    adapter = HybridCloudEgressAdapter(candidates())
+    adapter._active = candidates()[0]
+    fake = type("R", (), {"returncode": 0, "stdout": b"ok\n__MH_HTTP_STATUS__200", "stderr": b""})()
+    with patch("ops.hybrid_cloud_egress.run", return_value=fake) as run_call:
+        status, body = adapter.request("https://api.example.test", method="POST", data=b"{}", headers={"Content-Type": "application/json"})
+    assert status == 200
+    assert body == b"ok"
+    args = run_call.call_args.args[0]
+    assert "--interface" in args and "vpnproxymaster0" in args
+    assert "--data-binary" in args
+
+
+def test_request_requires_selected_transport():
+    adapter = HybridCloudEgressAdapter(candidates())
+    with pytest.raises(CloudAPIUnavailable):
+        adapter.request("https://api.example.test")
