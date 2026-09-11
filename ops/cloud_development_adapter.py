@@ -119,8 +119,13 @@ class CloudDevelopmentAdapter:
         }
 
     def execute(self, request: ProviderRequest, sandbox: SandboxSpec,
-                command: Sequence[str], extra_env: Mapping[str, str] | None = None,
-                _allow_broker_credentials: bool = False) -> ProviderResult:
+                command: Sequence[str], extra_env: Mapping[str, str] | None = None) -> ProviderResult:
+        return self._execute_impl(request, sandbox, command, extra_env=extra_env,
+                                  broker_credential_env=frozenset())
+
+    def _execute_impl(self, request: ProviderRequest, sandbox: SandboxSpec,
+                      command: Sequence[str], extra_env: Mapping[str, str] | None = None,
+                      broker_credential_env: frozenset[str] = frozenset()) -> ProviderResult:
         self.admit(request)
         self._validate_sandbox(sandbox)
         argv = tuple(command)
@@ -134,7 +139,7 @@ class CloudDevelopmentAdapter:
             for key, value in extra_env.items():
                 if not isinstance(key, str) or not key.isidentifier() or not isinstance(value, str):
                     raise AdapterDenied("provider environment is invalid")
-                if ("KEY" in key or "TOKEN" in key or "SECRET" in key or "PASSWORD" in key) and not _allow_broker_credentials:
+                if ("KEY" in key or "TOKEN" in key or "SECRET" in key or "PASSWORD" in key) and key not in broker_credential_env:
                     raise AdapterDenied("provider credentials must remain outside the adapter")
                 if "\x00" in value or len(value) > 16 * 1024:
                     raise AdapterDenied("provider environment value is outside bounds")
@@ -267,10 +272,10 @@ class CloudDevelopmentAdapter:
             if (not isinstance(key, str) or not key.isidentifier() or not isinstance(value, str)
                     or not value or "\x00" in value or len(value) > 16 * 1024):
                 raise AdapterDenied("broker credential environment is invalid")
-        return self.execute(
+        return self._execute_impl(
             request, sandbox, command,
             extra_env={**(extra_env or {}), **credential_env},
-            _allow_broker_credentials=True,
+            broker_credential_env=frozenset(credential_env),
         )
 
     def execute_provider(self, request: ProviderRequest, sandbox: SandboxSpec) -> ProviderResult:

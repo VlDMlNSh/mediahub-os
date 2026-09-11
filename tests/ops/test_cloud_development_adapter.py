@@ -210,6 +210,18 @@ def test_native_agent_requires_endpoint_egress_and_broker(tmp_path, monkeypatch)
                                      broker, registry, "qualified-codex-model", endpoint)
 
 
+def test_public_execute_cannot_enable_broker_credentials(tmp_path):
+    root = tmp_path / "sandbox"
+    worktree = root / "worktree"
+    worktree.mkdir(parents=True)
+    adapter = CloudDevelopmentAdapter()
+    adapter.authorize()
+    with pytest.raises(TypeError):
+        adapter.execute(request(), SandboxSpec(root, worktree), ("true",),
+                        extra_env={"OPENAI_API_KEY": "synthetic-secret"},
+                        _allow_broker_credentials=True)
+
+
 def test_native_agent_brokered_credentials_reach_child_only(tmp_path, monkeypatch):
     import ops.cloud_development_adapter as module
     from ops.mediahub_credential_broker import CredentialBroker
