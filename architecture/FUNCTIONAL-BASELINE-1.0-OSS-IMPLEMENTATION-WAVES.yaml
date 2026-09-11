@@ -1,0 +1,65 @@
+schema_version: 1.0
+status: accepted-plan
+baseline: FUNCTIONAL BASELINE 1.0
+immutability:
+  r4_sha: 471f709f5633feab7aeb62dd3ea52effad6d2bc584
+  r4_tree: 2279612908135418b2b5448d598274ea6741deaa
+  policy: no-rebase-no-amend-no-reset-no-force-push
+principle: "Use mature OSS as bounded implementation primitives; MediaHub owns authority, contracts, policy and lifecycle."
+waves:
+  W0_governance:
+    goal: establish reproducible dependency governance
+    components: [protobuf, grpc, OpenTelemetry, Prometheus, Cosign, Syft, Trivy]
+    status: ready
+    gate: deterministic-build-and-supply-chain
+  W1_security_trust:
+    goal: identity, secrets, authorization, trust boundaries
+    components: [SOPS, age, OpenBao]
+    status: target-gated
+    authority: MediaHub-owned
+    gate: security-review-and-negative-tests
+  W2_persistence_recovery:
+    goal: durable state, backup and restore without changing authority
+    components: [PostgreSQL, pgvector, restic, S3-compatible-object-storage]
+    status: target-gated
+    authority: MediaHub State Authority
+    gate: migration-restore-recovery-qualification
+  W3_smart_home:
+    goal: integrate Smart Home domain without bypassing HA Core
+    components: [Home Assistant Core]
+    status: target-gated
+    authority: Home Assistant Core for Smart Home domain
+    gate: adapter-qualification
+  W4_media_documents:
+    goal: media and document processing primitives
+    components: [FFmpeg, OpenCV, PaddleOCR]
+    status: target-gated
+    authority: MediaHub domain contracts
+    gate: benchmark-security-and-resource-isolation
+  W5_ai_local:
+    goal: local inference and AI gateway
+    components: [llama.cpp, ONNX Runtime]
+    status: target-gated
+    authority: MediaHub AI Gateway / State Authority remains external to model runtime
+    gate: model-provenance-resource-policy-offline-tests
+  W6_digital_twin_engineering:
+    goal: BIM/spatial/engineering primitives
+    components: [IfcOpenShell, web-ifc]
+    status: target-gated
+    authority: MediaHub-owned domain model
+    gate: license-provenance-benchmark-qualification
+  W7_transport_coordination:
+    goal: add distributed transport/coordination only when capability gap is demonstrated
+    components: [NATS-JetStream, etcd]
+    status: future-gated
+    authority: never State Authority
+    gate: measured-gap-ha-or-cluster-qualification
+  W8_update_cluster_cloud:
+    goal: controlled update, cluster and cloud development boundary
+    components: [RAUC, K3s-reference, Argo-CD-reference, Harbor-reference]
+    status: future-gated
+    authority: MediaHub update/release/cloud policy
+    gate: supply-chain-ha-cloud-egress-independent-review
+qualification:
+  every_component: [license, provenance, security, version-lock, integration, negative-path, degraded-mode, recovery, rollback, performance]
+  no_component_may: [become_state_authority, bypass_authorization, bypass_ha_core, define_public_domain_model, create_shadow_recovery_authority]
