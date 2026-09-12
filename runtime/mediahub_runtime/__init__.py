@@ -1,15 +1,12 @@
 """MediaHub OS runtime foundation."""
 
-from .authorization import (
-    AuthorizationContext,
-    AuthorizationDecision,
-    AuthorizationPolicy,
-)
-from .consumer_boundary import (
-    ConsumerBoundary,
-    ConsumerBoundaryError,
-    ConsumerTransaction,
-    OperationRequest,
+from .authorization import AuthorizationContext, AuthorizationDecision, AuthorizationPolicy
+from .consumer_boundary import ConsumerBoundary, ConsumerBoundaryError, ConsumerTransaction, OperationRequest
+from .coordination_service import (
+    CoordinationRequest,
+    CoordinationResult,
+    CoordinationServiceError,
+    RuntimeCoordinationService,
 )
 from .diagnostics import DiagnosticEvent, make_event, sanitize_fields
 from .errors import (
@@ -40,13 +37,16 @@ from .state import StateAuthority
 __all__ = [
     "AuthorizationContext",
     "AuthorizationDecision",
-    "AuthorizationDenied",
     "AuthorizationPolicy",
+    "AuthorizationDenied",
     "CanonicalState",
     "Checkpoint",
     "ConsumerBoundary",
     "ConsumerBoundaryError",
     "ConsumerTransaction",
+    "CoordinationRequest",
+    "CoordinationResult",
+    "CoordinationServiceError",
     "DiagnosticEvent",
     "ExpiredProposal",
     "Generation",
@@ -64,6 +64,7 @@ __all__ = [
     "OperationRequest",
     "Proposal",
     "ProposalAuthority",
+    "RuntimeCoordinationService",
     "RuntimeInvariantError",
     "SelfTestFailure",
     "StaleTransaction",
