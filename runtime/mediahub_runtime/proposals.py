@@ -16,7 +16,12 @@ class Proposal:
     expires_at: datetime
 
     def __post_init__(self):
-        if not self.proposal_id or not self.requested_action or not self.target or not self.generation:
+        if (
+            not self.proposal_id
+            or not self.requested_action
+            or not self.target
+            or not self.generation
+        ):
             raise ValueError("proposal identifiers and action fields must be non-empty")
         if not 0.0 <= self.confidence <= 1.0:
             raise ValueError("confidence must be between 0 and 1")

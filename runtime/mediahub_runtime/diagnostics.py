@@ -3,10 +3,20 @@
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-_SENSITIVE_KEYS = frozenset({
-    "password", "passwd", "secret", "token", "authorization",
-    "credential", "credentials", "voice", "raw_voice", "api_key",
-})
+_SENSITIVE_KEYS = frozenset(
+    {
+        "password",
+        "passwd",
+        "secret",
+        "token",
+        "authorization",
+        "credential",
+        "credentials",
+        "voice",
+        "raw_voice",
+        "api_key",
+    }
+)
 
 
 @dataclass(frozen=True)

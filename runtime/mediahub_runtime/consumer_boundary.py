@@ -1,6 +1,8 @@
 """Controlled P0-05 consumer boundary around the frozen State Authority."""
 
+import math
 from dataclasses import dataclass
+from typing import ClassVar
 
 from .authorization import AuthorizationContext
 from .errors import AuthorizationDenied, GenerationMismatch, RuntimeInvariantError
@@ -40,7 +42,7 @@ class ConsumerBoundary:
     _MAX_KEY_LENGTH = 128
     _MAX_KEYS = 64
 
-    _SANITIZED = {
+    _SANITIZED: ClassVar = {
         AuthorizationDenied: "authorization_denied",
         GenerationMismatch: "stale_generation",
         StaleTransaction: "stale_transaction",
@@ -69,9 +71,11 @@ class ConsumerBoundary:
     def begin(self, request, payload=None):
         self._require_operation(request, "begin")
         try:
-            candidate = self._safe_payload_copy(payload) if payload is not None else None
+            candidate = (
+                self._safe_payload_copy(payload) if payload is not None else None
+            )
             tx = self._authority.begin(request.context, candidate)
-            handle = "consumer-tx-{}".format(self._next_handle)
+            handle = f"consumer-tx-{self._next_handle}"
             self._next_handle += 1
             self._transactions[handle] = tx
             return ConsumerTransaction(handle)
@@ -138,7 +142,7 @@ class ConsumerBoundary:
         if value is None or value_type is bool or value_type is int:
             return value
         if value_type is float:
-            if value != value or value in (float("inf"), float("-inf")):
+            if not math.isfinite(value):
                 raise ConsumerBoundaryError("operation_rejected")
             return value
         if value_type is str:
@@ -148,7 +152,9 @@ class ConsumerBoundary:
         if value_type is list:
             return [cls._safe_payload_copy(item, depth + 1, budget) for item in value]
         if value_type is tuple:
-            return tuple(cls._safe_payload_copy(item, depth + 1, budget) for item in value)
+            return tuple(
+                cls._safe_payload_copy(item, depth + 1, budget) for item in value
+            )
         if value_type is dict:
             if len(value) > cls._MAX_KEYS:
                 raise ConsumerBoundaryError("operation_rejected")

@@ -75,7 +75,9 @@ class LifecycleService:
         try:
             after_begin = self._consumer.read()
             if not self._same_revision(before, after_begin):
-                self._consumer.abort(self._consumer.request("abort", request.context), tx)
+                self._consumer.abort(
+                    self._consumer.request("abort", request.context), tx
+                )
                 raise ConsumerBoundaryError("stale_transaction")
 
             candidate = self._payload_copy(after_begin.payload)
@@ -86,16 +88,22 @@ class LifecycleService:
             lifecycle["state"] = target.value
 
             self._consumer.update(tx, candidate)
-            return self._consumer.commit(self._consumer.request("commit", request.context), tx)
+            return self._consumer.commit(
+                self._consumer.request("commit", request.context), tx
+            )
         except ConsumerBoundaryError:
             try:
-                self._consumer.abort(self._consumer.request("abort", request.context), tx)
+                self._consumer.abort(
+                    self._consumer.request("abort", request.context), tx
+                )
             except ConsumerBoundaryError:
                 pass
             raise
         except Exception as exc:
             try:
-                self._consumer.abort(self._consumer.request("abort", request.context), tx)
+                self._consumer.abort(
+                    self._consumer.request("abort", request.context), tx
+                )
             except ConsumerBoundaryError:
                 pass
             raise ConsumerBoundaryError("operation_rejected") from exc
