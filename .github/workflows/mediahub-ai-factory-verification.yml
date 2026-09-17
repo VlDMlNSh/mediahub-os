@@ -8,6 +8,9 @@ on:
       - '.github/ai/**'
       - '.github/workflows/mediahub-openrouter-smoke.yml'
       - 'scripts/verify_ai_factory.py'
+      - 'docs/ai/ECC-INTEGRATION.md'
+      - 'oss/manifests/ecc.yaml'
+      - 'tests/ai/test_ecc_integration.py'
   workflow_dispatch:
 
 permissions:
@@ -23,3 +26,5 @@ jobs:
         uses: actions/checkout@v4
       - name: Run deterministic verification
         run: python3 scripts/verify_ai_factory.py
+      - name: Run ECC integration contract tests
+        run: python3 -m unittest tests/ai/test_ecc_integration.py
