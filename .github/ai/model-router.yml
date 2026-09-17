@@ -6,14 +6,30 @@ name: mediahub-ai-router
 providers:
   primary:
     - github-copilot-agent
+    - openai-api
     - anthropic
+    - gemini-api
+    - tabi-api
   fallback:
     - openrouter-free
+
+openai:
+  model: gpt-5.6-luna
+  endpoint: https://api.openai.com/v1/responses
+  max_output_tokens: 8
+  secret_name: OPENAI_API_KEY
+
+gemini:
+  secret_name: GEMINI_API_KEY
+
+tabi:
+  secret_name: TABITOKEN_API_KEY
 
 openrouter:
   model: openrouter/free
   endpoint: https://openrouter.ai/api/v1
   max_tokens: 4
+  secret_name: OPENROUTER_API_KEY
   smoke_prompt: Return exactly OK.
 
 routing:
