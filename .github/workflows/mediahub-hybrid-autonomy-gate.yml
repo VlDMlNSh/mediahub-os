@@ -1,0 +1,24 @@
+name: MediaHub hybrid autonomy gate
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    name: Verify bounded hybrid autonomy boundaries
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify AI factory
+        run: python3 scripts/verify_ai_factory.py
+      - name: Verify ECC dispatcher
+        run: python3 scripts/verify_ecc_dispatcher_policy.py
+      - name: Verify agent contracts
+        run: python3 -m unittest tests/ai/test_ai_agent_contracts.py tests/ai/test_ecc_integration.py tests/ai/test_ecc_adapter.py tests/ai/test_ecc_dispatcher_policy.py
