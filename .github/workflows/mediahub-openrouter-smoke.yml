@@ -6,7 +6,7 @@ on:
       endpoint:
         description: 'OpenRouter API endpoint'
         required: true
-        default: 'https://eu.openrouter.ai/api/v1'
+        default: 'https://openrouter.ai/api/v1'
         type: string
 
 permissions:
@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   openrouter-smoke:
-    name: Validate OpenRouter secret and API path
+    name: Validate OpenRouter free fallback path
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
@@ -26,10 +26,7 @@ jobs:
         run: |
           set -eu
           test -n "${OPENROUTER_API_KEY:-}"
-          case "$OPENROUTER_API_KEY" in
-            sk-or-*) echo 'openrouter_secret=present' ;;
-            *) echo 'ERROR: OPENROUTER_API_KEY has an unexpected prefix' ; exit 1 ;;
-          esac
+          echo 'openrouter_secret=present'
 
       - name: Query model catalog
         shell: bash
@@ -51,4 +48,33 @@ jobs:
           models = payload.get('data', [])
           assert isinstance(models, list) and models, 'OpenRouter returned no models'
           print(f'openrouter_api=PASS models_visible={len(models)}')
+          PY
+
+      - name: Execute zero-cost inference probe
+        shell: bash
+        run: |
+          set -eu
+          response_file="$(mktemp)"
+          trap 'rm -f "$response_file"' EXIT
+          status="$(curl -sS -o "$response_file" -w '%{http_code}' \
+            -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+            -H 'Content-Type: application/json' \
+            -H 'Accept: application/json' \
+            -d '{"model":"openrouter/free","messages":[{"role":"user","content":"Reply with exactly OK."}],"max_tokens":4,"temperature":0}' \
+            "$OPENROUTER_ENDPOINT/chat/completions")"
+          test "$status" = '200'
+          python3 - "$response_file" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          payload = json.loads(Path(sys.argv[1]).read_text())
+          choices = payload.get('choices', [])
+          assert isinstance(choices, list) and choices, 'OpenRouter returned no choices'
+          message = choices[0].get('message', {})
+          assert isinstance(message, dict), 'OpenRouter returned an invalid message'
+          content = str(message.get('content', '')).strip()
+          assert content == 'OK', f'unexpected probe response: {content!r}'
+          model = payload.get('model', 'unknown')
+          print(f'openrouter_inference=PASS model={model}')
           PY
