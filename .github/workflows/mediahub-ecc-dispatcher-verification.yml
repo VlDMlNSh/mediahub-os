@@ -1,0 +1,25 @@
+name: MediaHub ECC dispatcher verification
+
+on:
+  pull_request:
+    paths:
+      - 'oss/adapters/ecc/dispatcher-policy.yaml'
+      - 'scripts/verify_ecc_dispatcher_policy.py'
+      - 'tests/ai/test_ecc_dispatcher_policy.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify ECC dispatcher fail-closed policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run deterministic dispatcher verification
+        run: python3 scripts/verify_ecc_dispatcher_policy.py
+      - name: Run dispatcher policy tests
+        run: python3 -m unittest tests/ai/test_ecc_dispatcher_policy.py

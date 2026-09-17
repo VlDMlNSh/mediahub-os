@@ -13,6 +13,11 @@ REQUIRED_AGENTS = {
 }
 ROUTER = ROOT / ".github" / "ai" / "model-router.yml"
 WORKFLOW = ROOT / ".github" / "workflows" / "mediahub-openrouter-smoke.yml"
+ECC_DOC = ROOT / "docs" / "ai" / "ECC-INTEGRATION.md"
+ECC_MANIFEST = ROOT / "oss" / "manifests" / "ecc.yaml"
+ECC_DISPATCHER = ROOT / "oss" / "adapters" / "ecc" / "dispatcher-policy.yaml"
+AGENT_TASK = ROOT / "contracts" / "ai" / "ai-agent-task.schema.json"
+AGENT_RESULT = ROOT / "contracts" / "ai" / "ai-agent-result.schema.json"
 
 
 def fail(message: str) -> None:
@@ -72,4 +77,83 @@ require("set -x" not in workflow_text, "workflow must not enable shell tracing")
 require("echo $OPENROUTER_API_KEY" not in workflow_text, "workflow must not print API key")
 require("echo \"$OPENROUTER_API_KEY\"" not in workflow_text, "workflow must not print API key")
 
-print(f"AI_FACTORY_CHECK=PASS router={ROUTER.relative_to(ROOT)} agents={len(REQUIRED_AGENTS)}")
+require(ECC_DOC.is_file(), "ECC integration document missing")
+ecc_doc = ECC_DOC.read_text(encoding="utf-8")
+for needle in (
+    "Pinned upstream release: `v2.2.1`",
+    "MediaHub remains authoritative",
+    "ECC agents MUST NOT mutate State Authority directly.",
+    "Provider credentials remain outside the repository and outside agent prompts.",
+    "initial integration is deliberately documentation, policy, and contract definition only",
+):
+    require(needle in ecc_doc, f"ECC document: missing required contract: {needle}")
+for secret_name in ("OPENAI_API_KEY", "OPENROUTER_API_KEY", "ANTHROPIC_API_KEY", "GEMINI_API_KEY"):
+    require(secret_name not in ecc_doc, f"ECC document contains provider secret name: {secret_name}")
+
+require(ECC_MANIFEST.is_file(), "ECC manifest missing")
+ecc_manifest = ECC_MANIFEST.read_text(encoding="utf-8")
+for needle in (
+    "version: v2.2.1",
+    "ref: v2.2.1",
+    "status: target-gated",
+    "class: agent-harness",
+    "direct_state_authority_mutation: false",
+    "hidden_network_egress: false",
+    "unbounded_subprocesses: false",
+    "bypass_authorization: false",
+    "bypass_release_gates: false",
+    "production_authorization: human",
+    "fail_closed: true",
+    "release_blocking: true",
+    "independent-review",
+    "wholesale_source_import: false",
+    "hooks_enabled_by_default: false",
+    "commands_enabled_by_default: false",
+):
+    require(needle in ecc_manifest, f"ECC manifest: missing required contract: {needle}")
+
+require(ECC_DISPATCHER.is_file(), "ECC dispatcher policy missing")
+ecc_dispatcher = ECC_DISPATCHER.read_text(encoding="utf-8")
+for needle in (
+    "status: target-gated",
+    "fail_closed: true",
+    "unknown_agent: blocked",
+    "unlisted_agent: blocked",
+    "missing_authorization: blocked",
+    "missing_constraints: blocked",
+    "ecc_unavailable: degraded",
+    "verification_missing: blocked",
+    "successful_result_is_advisory: true",
+    "evidence_required: true",
+    "verification_required_before_mutation: true",
+    "state_authority_mutation_from_agent: false",
+    "provider_selection_authority_from_agent: false",
+    "release_authorization_from_agent: false",
+    "production_authorization_from_agent: false",
+    "direct_state_authority_mutation: false",
+    "direct_repository_mutation: false",
+    "mutation_requires_reviewable_mediahub_change: true",
+    "mutation_requires_verification: true",
+    "mutation_requires_existing_release_gates: true",
+    "production_authorization: human",
+):
+    require(needle in ecc_dispatcher, f"ECC dispatcher policy: missing required contract: {needle}")
+for agent in (
+    "planner",
+    "architect",
+    "spec-miner",
+    "tdd-guide",
+    "code-reviewer",
+    "security-reviewer",
+    "agent-architecture-audit",
+):
+    require(f"  {agent}:" in ecc_dispatcher, f"ECC dispatcher policy: missing allowlisted agent: {agent}")
+require(ecc_dispatcher.count("authority: advisory") == 7, "ECC dispatcher policy: every initial agent must be advisory")
+
+for path in (AGENT_TASK, AGENT_RESULT):
+    require(path.is_file(), f"AI agent contract missing: {path}")
+    contract = path.read_text(encoding="utf-8")
+    require('"additionalProperties": false' in contract, f"AI agent contract is not closed: {path}")
+    require('"owner": { "type": "string", "const": "mediahub-ai" }' in contract, f"AI agent contract owner mismatch: {path}")
+
+print(f"AI_FACTORY_CHECK=PASS router={ROUTER.relative_to(ROOT)} agents={len(REQUIRED_AGENTS)} ecc=target-gated dispatcher=fail-closed allowlist=7 agent-contracts=2")

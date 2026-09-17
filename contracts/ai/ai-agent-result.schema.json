@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://contracts/ai/ai-agent-result.schema.json",
+  "title": "MediaHub AI Agent Result",
+  "description": "Bounded advisory result envelope from a specialist agent. It never grants authority or implies verification, release, or production authorization.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": { "type": "string", "const": "mediahub.ai.ai-agent-result" },
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "owner": { "type": "string", "const": "mediahub-ai" },
+    "task_id": { "type": "string", "minLength": 1 },
+    "agent_id": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["completed", "failed", "degraded", "blocked"] },
+    "artifact": { "type": ["object", "null"], "additionalProperties": true },
+    "evidence": { "type": "object", "additionalProperties": true },
+    "error": { "type": ["object", "null"], "additionalProperties": true },
+    "metadata": { "type": "object", "additionalProperties": true }
+  },
+  "required": ["schema_id", "schema_version", "owner", "task_id", "agent_id", "status", "evidence"]
+}
