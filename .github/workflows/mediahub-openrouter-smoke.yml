@@ -2,12 +2,6 @@ name: MediaHub OpenRouter fallback smoke
 
 on:
   workflow_dispatch:
-    inputs:
-      endpoint:
-        description: 'OpenRouter API endpoint'
-        required: true
-        default: 'https://openrouter.ai/api/v1'
-        type: string
 
 permissions:
   contents: read
@@ -19,7 +13,7 @@ jobs:
     timeout-minutes: 5
     env:
       OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-      OPENROUTER_ENDPOINT: ${{ inputs.endpoint }}
+      OPENROUTER_ENDPOINT: https://openrouter.ai/api/v1
       OPENROUTER_MODEL: openrouter/free
     steps:
       - name: Validate secret presence without exposing it
