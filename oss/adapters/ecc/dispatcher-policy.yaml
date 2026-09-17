@@ -1,0 +1,60 @@
+version: 1
+status: target-gated
+fail_closed: true
+
+# MediaHub-owned deterministic dispatch boundary for ECC specialist workflows.
+# This is policy/schema documentation only; it is not an executable dispatcher.
+
+selection:
+  source: mediahub-ai-agent-task.agent_id
+  unknown_agent: blocked
+  unlisted_agent: blocked
+  missing_authorization: blocked
+  missing_constraints: blocked
+  ecc_unavailable: degraded
+  verification_missing: blocked
+
+allowed_agents:
+  planner:
+    mediahub_role: astra-coordination
+    authority: advisory
+  architect:
+    mediahub_role: astra-coordination
+    authority: advisory
+  spec-miner:
+    mediahub_role: astra-coordination
+    authority: advisory
+  tdd-guide:
+    mediahub_role: implementer-support
+    authority: advisory
+  code-reviewer:
+    mediahub_role: verification-support
+    authority: advisory
+  security-reviewer:
+    mediahub_role: security-support
+    authority: advisory
+  agent-architecture-audit:
+    mediahub_role: verification-support
+    authority: advisory
+
+result_policy:
+  accepted_statuses:
+    - completed
+    - failed
+    - degraded
+    - blocked
+  successful_result_is_advisory: true
+  evidence_required: true
+  verification_required_before_mutation: true
+  release_authorization_from_agent: false
+  production_authorization_from_agent: false
+  state_authority_mutation_from_agent: false
+  provider_selection_authority_from_agent: false
+
+mutation_policy:
+  direct_state_authority_mutation: false
+  direct_repository_mutation: false
+  mutation_requires_reviewable_mediahub_change: true
+  mutation_requires_verification: true
+  mutation_requires_existing_release_gates: true
+  production_authorization: human
