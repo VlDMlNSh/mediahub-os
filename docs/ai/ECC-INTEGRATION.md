@@ -22,6 +22,15 @@ ECC is not copied wholesale into MediaHub and does not become a MediaHub runtime
 
 The MediaHub agents remain authoritative. ECC output is advisory/untrusted until MediaHub verification accepts it.
 
+## Bounded task/result interface
+
+Selected specialist work is represented by two MediaHub-owned contracts:
+
+- `contracts/ai/ai-agent-task.schema.json` — bounded task envelope containing task identity, selected agent role, objective, context, constraints, and authorization context.
+- `contracts/ai/ai-agent-result.schema.json` — bounded advisory result envelope containing task identity, agent identity, status, artifact, and evidence.
+
+These contracts are distinct from the AI inference request/response contracts. They define the agent-workflow boundary; they do not grant execution authority, state mutation authority, provider authority, verification authority, release authority, or production authorization.
+
 ## Boundary rules
 
 1. MediaHub canonical contracts and schemas override ECC conventions.
@@ -51,10 +60,10 @@ An ECC integration change requires, at minimum:
 
 ## Initial adoption scope
 
-The initial integration is deliberately documentation and policy only. It does not install ECC, copy its hooks, add its commands, or execute arbitrary ECC automation in CI.
+The initial integration is deliberately documentation, policy, and contract definition only. It does not install ECC, copy its hooks, add its commands, or execute arbitrary ECC automation in CI.
 
 The first candidates for later controlled adoption are `planner`, `architect`, `spec-miner`, `tdd-guide`, `code-reviewer`, `security-reviewer`, and `agent-architecture-audit`.
 
 ## Rationale
 
-MediaHub's OSS boundary requires adapters to expose MediaHub-owned contracts and forbids hidden persistence, hidden network egress, unbounded execution, direct State Authority mutation, and bypass of release/authorization gates. ECC therefore enters through a bounded agent-integration policy rather than wholesale source import.
+MediaHub's OSS boundary requires adapters to expose MediaHub-owned contracts and forbids hidden persistence, hidden network egress, unbounded execution, direct State Authority mutation, and bypass of release/authorization gates. ECC therefore enters through a bounded agent-integration policy and task/result interface rather than wholesale source import.
