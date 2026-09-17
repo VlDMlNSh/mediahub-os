@@ -1,0 +1,47 @@
+component:
+  id: ecc
+  name: Everything Claude Code
+  upstream: https://github.com/affaan-m/ECC
+  version: v2.2.1
+  ref: v2.2.1
+  class: agent-harness
+  status: target-gated
+  integration_mode: external-agent-workflow
+
+policy:
+  mediahub_contracts_are_canonical: true
+  state_authority_owned_by_mediahub: true
+  direct_state_authority_mutation: false
+  hidden_persistence: false
+  hidden_network_egress: false
+  unbounded_subprocesses: false
+  bypass_authorization: false
+  bypass_release_gates: false
+  production_authorization: human
+
+qualification:
+  required:
+    - provenance
+    - license
+    - static-secret-scan
+    - tool-permission-review
+    - negative-tests
+    - degraded-mode
+    - recovery
+    - rollback
+    - independent-review
+  fail_closed: true
+  release_blocking: true
+
+adoption:
+  initial_agents:
+    - planner
+    - architect
+    - spec-miner
+    - tdd-guide
+    - code-reviewer
+    - security-reviewer
+    - agent-architecture-audit
+  wholesale_source_import: false
+  hooks_enabled_by_default: false
+  commands_enabled_by_default: false
