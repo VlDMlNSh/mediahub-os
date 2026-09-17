@@ -113,6 +113,36 @@ def test_native_result_failure_after_send_requires_reconciliation(tmp_path, monk
     assert dispatcher.reconcile_required()
 
 
+def test_restart_restores_and_blocks_unknown_outcome(tmp_path):
+    first = TaskDeliveryJournal(tmp_path / "delivery.json")
+    first.prepare("task-1", "do task", "conversation-1", "session-1", 1)
+    first.mark_dispatched()
+    first.mark_transport_unknown("crash after send")
+    first.release()
+    restored = TaskDeliveryJournal(tmp_path / "delivery.json")
+    restored.restore()
+    assert restored.delivery is not None
+    assert restored.delivery.state is DeliveryState.RECONCILIATION_REQUIRED
+    dispatcher, _ = make_dispatcher(tmp_path / "other")
+    dispatcher.delivery.release()
+    dispatcher.delivery = restored
+    with pytest.raises(DispatchDenied):
+        dispatcher.dispatch(request(), session_id="session-1", conversation_id="conversation-1", generation=1)
+
+
+def test_restart_identity_mismatch_is_fail_closed(tmp_path):
+    first = TaskDeliveryJournal(tmp_path / "delivery.json")
+    first.prepare("task-1", "do task", "conversation-1", "session-1", 1)
+    first.release()
+    restored = TaskDeliveryJournal(tmp_path / "delivery.json")
+    restored.restore()
+    dispatcher, _ = make_dispatcher(tmp_path / "other")
+    dispatcher.delivery.release()
+    dispatcher.delivery = restored
+    with pytest.raises(DispatchDenied):
+        dispatcher.admit(request(), session_id="session-2", conversation_id="conversation-1", generation=1)
+
+
 def test_success_can_be_acknowledged(tmp_path, monkeypatch):
     dispatcher, delivery = make_dispatcher(tmp_path)
     result = ProviderResult("codex", "task-1", "ok", "DONE", 0, {"task_id": "task-1"})
