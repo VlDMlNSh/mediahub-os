@@ -1,0 +1,58 @@
+name: MediaHub OpenAI provider smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Verify OpenAI API provider boundary
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_ENDPOINT: https://api.openai.com/v1/responses
+      OPENAI_MODEL: gpt-5.6-luna
+    steps:
+      - name: Verify secret is configured
+        shell: bash
+        run: |
+          test -n "${OPENAI_API_KEY:-}" || { echo 'OPENAI_API_KEY is not configured'; exit 1; }
+
+      - name: Run bounded OpenAI inference probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          payload=$(python3 - <<'PY'
+import json
+print(json.dumps({
+  'model': 'gpt-5.6-luna',
+  'input': 'Return a short readiness response.',
+  'max_output_tokens': 8
+}))
+PY
+)
+          response=$(curl --fail-with-body --silent --show-error \
+            --connect-timeout 10 --max-time 45 \
+            -H 'Content-Type: application/json' \
+            -H "Authorization: Bearer ${OPENAI_API_KEY}" \
+            -d "${payload}" \
+            "${OPENAI_ENDPOINT}")
+          python3 - <<'PY' "${response}"
+import json, sys
+payload = json.loads(sys.argv[1])
+text = (payload.get('output_text') or '').strip()
+if not text:
+    for item in payload.get('output', []):
+        for part in item.get('content', []):
+            value = part.get('text')
+            if isinstance(value, str) and value.strip():
+                text = value.strip()
+                break
+        if text:
+            break
+assert text, 'OpenAI returned empty inference content'
+print(f"openai_inference=PASS selected_model={payload.get('model', 'unknown')}")
+PY
