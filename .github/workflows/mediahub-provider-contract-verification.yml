@@ -47,7 +47,12 @@ jobs:
           for needle in required_router:
               assert needle in router, f'missing router contract: {needle}'
 
-          assert 'OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}' in openai
+          def assert_secret_binding(text, variable):
+              # Check the source expression structurally without ever printing its value.
+              pattern = rf'{re.escape(variable)}:\s*\$\{{\s*secrets\.{re.escape(variable)}\s*\}}'
+              assert re.search(pattern, text), f'missing GitHub Actions secret binding: {variable}'
+
+          assert_secret_binding(openai, 'OPENAI_API_KEY')
           assert 'OPENAI_ENDPOINT: https://api.openai.com/v1/responses' in openai
           assert 'OPENAI_MODEL: gpt-5.6-luna' in openai
           assert 'inputs:' not in openai
@@ -55,7 +60,7 @@ jobs:
           assert 'echo $OPENAI_API_KEY' not in openai
           assert 'echo "$OPENAI_API_KEY"' not in openai
 
-          assert 'OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}' in openrouter
+          assert_secret_binding(openrouter, 'OPENROUTER_API_KEY')
           assert 'OPENROUTER_ENDPOINT: https://openrouter.ai/api/v1' in openrouter
           assert 'OPENROUTER_MODEL: openrouter/free' in openrouter
           assert 'inputs:' not in openrouter
@@ -64,5 +69,5 @@ jobs:
           assert 'echo "$OPENROUTER_API_KEY"' not in openrouter
 
           assert not re.search(r'sk-[A-Za-z0-9_-]{12,}', router)
-          assert not re.search(r'Authorization\\s*:\\s*Bearer', router, re.IGNORECASE)
+          assert not re.search(r'Authorization\s*:\s*Bearer', router, re.IGNORECASE)
           print('PROVIDER_CONTRACT_CHECK=PASS')
