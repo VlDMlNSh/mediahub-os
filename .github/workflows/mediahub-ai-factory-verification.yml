@@ -1,0 +1,27 @@
+name: MediaHub AI Factory verification
+
+on:
+  pull_request:
+    paths:
+      - '.github/agents/**'
+      - '.github/copilot-instructions.md'
+      - '.github/*ai-router*'
+      - '.github/*ai-router*.yml'
+      - '.github/*ai-router*.yaml'
+      - '.github/workflows/mediahub-openrouter-smoke.yml'
+      - 'scripts/verify_ai_factory.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify AI factory policy and secret boundaries
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run deterministic verification
+        run: python3 scripts/verify_ai_factory.py
