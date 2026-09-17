@@ -93,6 +93,25 @@ class HybridDevelopmentController:
         except (DeliveryDenied, HybridDevelopmentDenied) as exc:
             raise HybridDevelopmentDenied("task admission failed closed") from exc
 
+    def restore_delivery(self) -> ControllerSnapshot:
+        """Restore delivery only against the currently active session/conversation."""
+        if self.state not in {ControllerState.RUNNING, ControllerState.WAITING}:
+            raise HybridDevelopmentDenied("controller is not in a recoverable state")
+        session = self.session.session
+        conversation = self.conversation.session
+        if session is None or conversation is None:
+            raise HybridDevelopmentDenied("session/conversation identity unavailable")
+        try:
+            self.delivery.restore_for_identity(
+                session_id=session.session_id,
+                conversation_id=conversation.conversation_id,
+                generation=conversation.generation,
+            )
+        except DeliveryDenied as exc:
+            self.state = ControllerState.SAFE_STOP
+            raise HybridDevelopmentDenied("delivery recovery failed closed") from exc
+        return self.snapshot()
+
     def request_api(self, url: str, *, method: str = "GET", data: bytes | None = None,
                     headers: dict[str, str] | None = None) -> tuple[int, bytes]:
         """Perform one cloud API operation after verified transport admission."""

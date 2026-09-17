@@ -147,6 +147,18 @@ class TaskDeliveryJournal:
             raise DeliveryDenied("task delivery checkpoint is invalid") from exc
         return self.delivery
 
+    def restore_for_identity(self, *, session_id: str, conversation_id: str,
+                             generation: int) -> TaskDelivery:
+        """Restore only when checkpoint identity exactly matches the active context."""
+        delivery = self.restore()
+        if (delivery.session_id != session_id or delivery.conversation_id != conversation_id
+                or delivery.generation != generation):
+            self.delivery = None
+            raise DeliveryDenied("restored delivery identity does not match current session")
+        if delivery.state is DeliveryState.SAFE_STOP:
+            raise DeliveryDenied("restored delivery is in SAFE_STOP")
+        return delivery
+
     def persist(self) -> None:
         if self.delivery is None:
             raise DeliveryDenied("no task delivery to persist")

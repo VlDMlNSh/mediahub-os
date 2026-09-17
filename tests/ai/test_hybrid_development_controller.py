@@ -50,6 +50,22 @@ def test_no_transport_safe_stops(tmp_path):
     assert c.state is ControllerState.WAITING
 
 
+def test_restore_delivery_binds_checkpoint_to_current_identity(tmp_path):
+    c = controller(tmp_path)
+    c.start("s1", "baseline", "r4", timedelta(hours=1))
+    c.delivery.prepare("t1", "text-only task", c.conversation.session.conversation_id, "s1", 1)
+    assert c.restore_delivery().delivery_state.value == "PREPARED"
+
+
+def test_restore_delivery_mismatch_safe_stops_controller(tmp_path):
+    c = controller(tmp_path)
+    c.start("s1", "baseline", "r4", timedelta(hours=1))
+    c.delivery.prepare("t1", "text-only task", "other-conversation", "s1", 1)
+    with pytest.raises(HybridDevelopmentDenied):
+        c.restore_delivery()
+    assert c.state is ControllerState.SAFE_STOP
+
+
 def test_stop_is_terminal(tmp_path):
     c = controller(tmp_path)
     c.start("s1", "baseline", "r4", timedelta(hours=1))
