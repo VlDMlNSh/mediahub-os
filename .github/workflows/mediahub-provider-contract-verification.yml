@@ -9,6 +9,7 @@ on:
       - '.github/workflows/mediahub-gemini-smoke.yml'
       - '.github/workflows/mediahub-anthropic-smoke.yml'
       - '.github/workflows/mediahub-provider-contract-verification.yml'
+      - 'tests/ai/test_provider_selector.py'
   workflow_dispatch:
 
 permissions:
@@ -87,3 +88,6 @@ jobs:
           assert not re.search(r'sk-[A-Za-z0-9_-]{12,}', router)
           assert not re.search(r'Authorization\s*:\s*Bearer', router, re.IGNORECASE)
           print('PROVIDER_CONTRACT_CHECK=PASS')
+
+      - name: Run deterministic selector tests
+        run: python3 -m unittest tests/ai/test_provider_selector.py -v
