@@ -1,0 +1,68 @@
+name: MediaHub provider contract verification
+
+on:
+  pull_request:
+    paths:
+      - '.github/ai/**'
+      - '.github/workflows/mediahub-openai-smoke.yml'
+      - '.github/workflows/mediahub-openrouter-smoke.yml'
+      - '.github/workflows/mediahub-provider-contract-verification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify provider boundaries
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify provider configuration
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          root = Path('.')
+          router = (root / '.github/ai/model-router.yml').read_text(encoding='utf-8')
+          openai = (root / '.github/workflows/mediahub-openai-smoke.yml').read_text(encoding='utf-8')
+          openrouter = (root / '.github/workflows/mediahub-openrouter-smoke.yml').read_text(encoding='utf-8')
+
+          required_router = [
+              'openai-api',
+              'gemini-api',
+              'tabi-api',
+              'openrouter-free',
+              'secret_name: OPENAI_API_KEY',
+              'secret_name: GEMINI_API_KEY',
+              'secret_name: TABITOKEN_API_KEY',
+              'secret_name: OPENROUTER_API_KEY',
+              'model: gpt-5.6-luna',
+              'model: openrouter/free',
+              'production_authorization: human',
+          ]
+          for needle in required_router:
+              assert needle in router, f'missing router contract: {needle}'
+
+          assert 'OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}' in openai
+          assert 'OPENAI_ENDPOINT: https://api.openai.com/v1/responses' in openai
+          assert 'OPENAI_MODEL: gpt-5.6-luna' in openai
+          assert 'inputs:' not in openai
+          assert 'set -x' not in openai
+          assert 'echo $OPENAI_API_KEY' not in openai
+          assert 'echo "$OPENAI_API_KEY"' not in openai
+
+          assert 'OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}' in openrouter
+          assert 'OPENROUTER_ENDPOINT: https://openrouter.ai/api/v1' in openrouter
+          assert 'OPENROUTER_MODEL: openrouter/free' in openrouter
+          assert 'inputs:' not in openrouter
+          assert 'set -x' not in openrouter
+          assert 'echo $OPENROUTER_API_KEY' not in openrouter
+          assert 'echo "$OPENROUTER_API_KEY"' not in openrouter
+
+          assert not re.search(r'sk-[A-Za-z0-9_-]{12,}', router)
+          assert not re.search(r'Authorization\\s*:\\s*Bearer', router, re.IGNORECASE)
+          print('PROVIDER_CONTRACT_CHECK=PASS')
