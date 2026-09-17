@@ -45,7 +45,11 @@ def main() -> int:
     delivery = TaskDeliveryJournal(state / "delivery.json")
     egress = HybridCloudEgressAdapter(parse_paths(args.paths))
     controller = HybridDevelopmentController(session, conversation, delivery, egress, args.health_url)
-    controller.start(args.session_id, args.baseline_sha, args.r4_sha, timedelta(hours=args.duration_hours))
+    session_checkpoint = state / "session.jsonl"
+    if session_checkpoint.exists():
+        controller.restore(args.session_id, args.baseline_sha, args.r4_sha)
+    else:
+        controller.start(args.session_id, args.baseline_sha, args.r4_sha, timedelta(hours=args.duration_hours))
 
     stopping = False
     def stop(_signum, _frame):

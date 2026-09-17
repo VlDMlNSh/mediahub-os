@@ -154,3 +154,40 @@ class HybridSessionController:
         if now.tzinfo is None:
             raise SessionDenied("clock must return timezone-aware datetime")
         return now
+
+    def restore(self, *, session_id: str, baseline_sha: str, r4_sha: str) -> HybridSession:
+        """Reconstruct one active session only from an unambiguous journal tail."""
+        if self.session is not None:
+            raise SessionDenied("session is already materialized")
+        if not self.journal.path.exists():
+            raise SessionDenied("session journal is unavailable")
+        try:
+            records = [json.loads(line) for line in self.journal.path.read_text(encoding="utf-8").splitlines() if line.strip()]
+        except (OSError, json.JSONDecodeError, TypeError) as exc:
+            raise SessionDenied("session journal is invalid") from exc
+        if not records:
+            raise SessionDenied("session journal is empty")
+        latest = records[-1]
+        if latest.get("session_id") != session_id or latest.get("baseline_sha") != baseline_sha or latest.get("r4_sha") != r4_sha:
+            raise SessionDenied("session journal identity or provenance mismatch")
+        state = SessionState(latest.get("state", ""))
+        if state in {SessionState.STOPPED, SessionState.EXPIRED, SessionState.SAFE_STOP, SessionState.STOPPING}:
+            raise SessionDenied("journal tail is terminal")
+        started = next((r for r in reversed(records) if r.get("event") == "SESSION_STARTED"), None)
+        if started is None or started.get("session_id") != session_id:
+            raise SessionDenied("session start provenance is unavailable")
+        started_at = datetime.fromisoformat(started["timestamp"])
+        duration_seconds = float(started.get("duration_seconds", 0))
+        if started_at.tzinfo is None or not math.isfinite(duration_seconds) or duration_seconds <= 0:
+            raise SessionDenied("session start provenance is invalid")
+        deadline = datetime.fromisoformat(started["deadline"]) if started.get("deadline") else started_at + timedelta(seconds=duration_seconds)
+        if deadline.tzinfo is None or deadline <= started_at:
+            raise SessionDenied("session deadline provenance is invalid")
+        restored = HybridSession(session_id, baseline_sha, r4_sha, started_at, deadline, state, int(latest.get("cycle", 0)), str(latest.get("reason", "restored")))
+        if self._now() >= restored.deadline:
+            self.session = replace(restored, state=SessionState.EXPIRED, reason="deadline reached during restore")
+            self.journal.append(self.session, "SESSION_EXPIRED")
+            return self.session
+        self.session = restored
+        self.journal.append(self.session, "SESSION_RESTORED")
+        return self.session

@@ -201,3 +201,22 @@ class HybridDevelopmentController:
             self.delivery.delivery.state if self.delivery.delivery else None,
             active, ip,
         )
+
+    def restore(self, session_id: str, baseline_sha: str, r4_sha: str) -> ControllerSnapshot:
+        """Restore a daemon checkpoint without creating a new identity."""
+        if self.state not in {ControllerState.READY, ControllerState.STOPPED}:
+            raise HybridDevelopmentDenied("controller is already active")
+        try:
+            session = self.session.restore(session_id=session_id, baseline_sha=baseline_sha, r4_sha=r4_sha)
+            conversation = self.conversation.restore()
+            if conversation.session_id != session.session_id:
+                raise HybridDevelopmentDenied("conversation checkpoint does not match session")
+            if conversation.state is ConversationState.SAFE_STOP:
+                raise HybridDevelopmentDenied("conversation checkpoint is in SAFE_STOP")
+            self.state = ControllerState.RUNNING
+            if self.delivery.path.exists():
+                self.restore_delivery()
+            return self.snapshot()
+        except (SessionDenied, ConversationDenied, HybridDevelopmentDenied) as exc:
+            self.state = ControllerState.SAFE_STOP
+            raise HybridDevelopmentDenied("controller restore failed closed") from exc

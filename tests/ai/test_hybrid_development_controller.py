@@ -6,9 +6,9 @@ import pytest
 from ops.ai.hybrid_development_controller import (
     ControllerState, HybridDevelopmentController, HybridDevelopmentDenied,
 )
-from ops.ai.hybrid_session import HybridSessionController, SessionJournal
-from ops.ai.task_delivery import TaskDeliveryJournal
-from ops.ai.text_conversation import TextConversationController
+from ops.ai.hybrid_session import HybridSessionController, SessionJournal, SessionState
+from ops.ai.task_delivery import TaskDeliveryJournal, DeliveryState
+from ops.ai.text_conversation import TextConversationController, ConversationState
 from ops.hybrid_cloud_egress import HybridCloudEgressAdapter, TransportCandidate, TransportProbe
 
 
@@ -71,3 +71,50 @@ def test_stop_is_terminal(tmp_path):
     c.start("s1", "baseline", "r4", timedelta(hours=1))
     c.stop()
     assert c.state is ControllerState.STOPPED
+
+
+def test_controller_restore_reconstructs_session_and_conversation(tmp_path):
+    first = controller(tmp_path)
+    first.start("s1", "baseline", "r4", timedelta(hours=1))
+    conversation_id = first.conversation.session.conversation_id
+    first.delivery.prepare("t1", "text-only task", conversation_id, "s1", 1)
+    first.delivery.release()
+    first.conversation.release()
+
+    restored = controller(tmp_path)
+    snapshot = restored.restore("s1", "baseline", "r4")
+    assert snapshot.state is ControllerState.RUNNING
+    assert snapshot.session_state is SessionState.RUNNING
+    assert snapshot.conversation_state is ConversationState.READY
+    assert snapshot.delivery_state is DeliveryState.PREPARED
+    assert restored.conversation.session.conversation_id == conversation_id
+
+
+def test_controller_restore_rejects_wrong_session_provenance(tmp_path):
+    first = controller(tmp_path)
+    first.start("s1", "baseline", "r4", timedelta(hours=1))
+    first.delivery.release()
+    first.conversation.release()
+    restored = controller(tmp_path)
+    with pytest.raises(HybridDevelopmentDenied):
+        restored.restore("s2", "baseline", "r4")
+    assert restored.state is ControllerState.SAFE_STOP
+
+
+def test_controller_restore_rejects_conversation_session_mismatch(tmp_path):
+    first = controller(tmp_path)
+    first.start("s1", "baseline", "r4", timedelta(hours=1))
+    first.conversation.session = first.conversation.session.__class__(
+        first.conversation.session.conversation_id,
+        "s2", first.conversation.session.generation,
+        first.conversation.session.state, first.conversation.session.retry_at,
+        first.conversation.session.reason, first.conversation.session.last_request_fingerprint,
+        first.conversation.session.last_response_fingerprint,
+    )
+    first.conversation.persist()
+    first.delivery.release()
+    first.conversation.release()
+    restored = controller(tmp_path)
+    with pytest.raises(HybridDevelopmentDenied):
+        restored.restore("s1", "baseline", "r4")
+    assert restored.state is ControllerState.SAFE_STOP
