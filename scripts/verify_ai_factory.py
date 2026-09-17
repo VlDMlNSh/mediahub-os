@@ -15,6 +15,8 @@ ROUTER = ROOT / ".github" / "ai" / "model-router.yml"
 WORKFLOW = ROOT / ".github" / "workflows" / "mediahub-openrouter-smoke.yml"
 ECC_DOC = ROOT / "docs" / "ai" / "ECC-INTEGRATION.md"
 ECC_MANIFEST = ROOT / "oss" / "manifests" / "ecc.yaml"
+AGENT_TASK = ROOT / "contracts" / "ai" / "ai-agent-task.schema.json"
+AGENT_RESULT = ROOT / "contracts" / "ai" / "ai-agent-result.schema.json"
 
 
 def fail(message: str) -> None:
@@ -109,4 +111,10 @@ for needle in (
 ):
     require(needle in ecc_manifest, f"ECC manifest: missing required contract: {needle}")
 
-print(f"AI_FACTORY_CHECK=PASS router={ROUTER.relative_to(ROOT)} agents={len(REQUIRED_AGENTS)} ecc=target-gated")
+for path in (AGENT_TASK, AGENT_RESULT):
+    require(path.is_file(), f"AI agent contract missing: {path}")
+    contract = path.read_text(encoding="utf-8")
+    require('"additionalProperties": false' in contract, f"AI agent contract is not closed: {path}")
+    require('"owner": { "type": "string", "const": "mediahub-ai" }' in contract, f"AI agent contract owner mismatch: {path}")
+
+print(f"AI_FACTORY_CHECK=PASS router={ROUTER.relative_to(ROOT)} agents={len(REQUIRED_AGENTS)} ecc=target-gated agent-contracts=2")
