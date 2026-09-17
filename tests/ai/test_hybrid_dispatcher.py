@@ -143,6 +143,32 @@ def test_restart_identity_mismatch_is_fail_closed(tmp_path):
         dispatcher.admit(request(), session_id="session-2", conversation_id="conversation-1", generation=1)
 
 
+def test_restore_for_current_session_requires_exact_identity(tmp_path):
+    first = TaskDeliveryJournal(tmp_path / "delivery.json")
+    first.prepare("task-1", "do task", "conversation-1", "session-1", 1)
+    first.release()
+    restored = TaskDeliveryJournal(tmp_path / "delivery.json")
+    dispatcher, _ = make_dispatcher(tmp_path / "other")
+    dispatcher.delivery.release()
+    dispatcher.delivery = restored
+    result = dispatcher.restore_for_current_session(
+        session_id="session-1", conversation_id="conversation-1", generation=1)
+    assert result.state is DeliveryState.PREPARED
+
+
+def test_restore_for_current_session_blocks_identity_mismatch(tmp_path):
+    first = TaskDeliveryJournal(tmp_path / "delivery.json")
+    first.prepare("task-1", "do task", "conversation-1", "session-1", 1)
+    first.release()
+    restored = TaskDeliveryJournal(tmp_path / "delivery.json")
+    dispatcher, _ = make_dispatcher(tmp_path / "other")
+    dispatcher.delivery.release()
+    dispatcher.delivery = restored
+    with pytest.raises(DispatchDenied):
+        dispatcher.restore_for_current_session(
+            session_id="session-2", conversation_id="conversation-1", generation=1)
+
+
 def test_success_can_be_acknowledged(tmp_path, monkeypatch):
     dispatcher, delivery = make_dispatcher(tmp_path)
     result = ProviderResult("codex", "task-1", "ok", "DONE", 0, {"task_id": "task-1"})

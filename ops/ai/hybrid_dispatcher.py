@@ -125,6 +125,20 @@ class HybridAgentDispatcher:
         except DeliveryDenied as exc:
             raise DispatchDenied("provider result cannot be acknowledged") from exc
 
+    def restore_for_current_session(self, *, session_id: str,
+                                    conversation_id: str, generation: int):
+        """Restore a durable delivery only when its identity matches exactly."""
+        try:
+            delivery = self.delivery.restore()
+        except DeliveryDenied as exc:
+            raise DispatchDenied("delivery checkpoint cannot be restored") from exc
+        if (delivery.session_id != session_id or delivery.conversation_id != conversation_id
+                or delivery.generation != generation):
+            raise DispatchDenied("restored delivery identity does not match current session")
+        if delivery.state is DeliveryState.SAFE_STOP:
+            raise DispatchDenied("restored delivery is in SAFE_STOP")
+        return delivery
+
     def reconcile_required(self) -> bool:
         delivery = self.delivery.delivery
         return delivery is not None and delivery.state is DeliveryState.RECONCILIATION_REQUIRED
