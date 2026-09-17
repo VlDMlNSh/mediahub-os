@@ -1,0 +1,28 @@
+version: 1
+name: mediahub-ai-router
+
+# Provider order is policy, not credential storage.
+# Secrets are injected only by the workflow runtime.
+providers:
+  primary:
+    - github-copilot-agent
+    - anthropic
+  fallback:
+    - openrouter-free
+
+openrouter:
+  model: openrouter/free
+  endpoint: https://openrouter.ai/api/v1
+  max_tokens: 4
+  smoke_prompt: Return exactly OK.
+
+routing:
+  rule: primary-unavailable-or-unconfigured
+  fallback_must_be_free: true
+  production_use_requires_review: true
+  never_store_credentials_in_repo: true
+
+verification:
+  required_before_merge: true
+  independent_review_required: true
+  production_authorization: human
