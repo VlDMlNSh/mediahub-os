@@ -6,6 +6,7 @@ on:
       - '.github/ai/**'
       - '.github/workflows/mediahub-openai-smoke.yml'
       - '.github/workflows/mediahub-openrouter-smoke.yml'
+      - '.github/workflows/mediahub-gemini-smoke.yml'
       - '.github/workflows/mediahub-provider-contract-verification.yml'
   workflow_dispatch:
 
@@ -30,6 +31,7 @@ jobs:
           router = (root / '.github/ai/model-router.yml').read_text(encoding='utf-8')
           openai = (root / '.github/workflows/mediahub-openai-smoke.yml').read_text(encoding='utf-8')
           openrouter = (root / '.github/workflows/mediahub-openrouter-smoke.yml').read_text(encoding='utf-8')
+          gemini = (root / '.github/workflows/mediahub-gemini-smoke.yml').read_text(encoding='utf-8')
 
           required_router = [
               'openai-api', 'gemini-api', 'tabi-api', 'openrouter-free',
@@ -63,6 +65,14 @@ jobs:
           assert 'set -x' not in openrouter
           assert 'echo $OPENROUTER_API_KEY' not in openrouter
           assert 'echo "$OPENROUTER_API_KEY"' not in openrouter
+
+          assert_secret_binding(gemini, 'GEMINI_API_KEY')
+          assert 'GEMINI_ENDPOINT: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent' in gemini
+          assert 'GEMINI_MODEL: gemini-3.6-flash' in gemini
+          assert 'inputs:' not in gemini
+          assert 'set -x' not in gemini
+          assert 'echo $GEMINI_API_KEY' not in gemini
+          assert 'echo "$GEMINI_API_KEY"' not in gemini
 
           assert not re.search(r'sk-[A-Za-z0-9_-]{12,}', router)
           assert not re.search(r'Authorization\s*:\s*Bearer', router, re.IGNORECASE)
