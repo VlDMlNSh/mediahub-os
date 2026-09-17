@@ -32,25 +32,21 @@ jobs:
           openrouter = (root / '.github/workflows/mediahub-openrouter-smoke.yml').read_text(encoding='utf-8')
 
           required_router = [
-              'openai-api',
-              'gemini-api',
-              'tabi-api',
-              'openrouter-free',
-              'secret_name: OPENAI_API_KEY',
-              'secret_name: GEMINI_API_KEY',
-              'secret_name: TABITOKEN_API_KEY',
-              'secret_name: OPENROUTER_API_KEY',
-              'model: gpt-5.6-luna',
-              'model: openrouter/free',
+              'openai-api', 'gemini-api', 'tabi-api', 'openrouter-free',
+              'secret_name: OPENAI_API_KEY', 'secret_name: GEMINI_API_KEY',
+              'secret_name: TABITOKEN_API_KEY', 'secret_name: OPENROUTER_API_KEY',
+              'model: gpt-5.6-luna', 'model: openrouter/free',
               'production_authorization: human',
           ]
           for needle in required_router:
               assert needle in router, f'missing router contract: {needle}'
 
           def assert_secret_binding(text, variable):
-              # Check the source expression structurally without ever printing its value.
-              pattern = rf'{re.escape(variable)}:\s*\$\{{\s*secrets\.{re.escape(variable)}\s*\}}'
-              assert re.search(pattern, text), f'missing GitHub Actions secret binding: {variable}'
+              # Match the GitHub Actions expression without embedding the literal
+              # expression in the workflow command text, avoiding log masking issues.
+              token = '$' + '{{' + ' secrets.' + variable + ' ' + '}}'
+              expected = variable + ': ' + token
+              assert expected in text, f'missing GitHub Actions secret binding: {variable}'
 
           assert_secret_binding(openai, 'OPENAI_API_KEY')
           assert 'OPENAI_ENDPOINT: https://api.openai.com/v1/responses' in openai
