@@ -83,7 +83,7 @@ for needle in (
     "MediaHub remains authoritative",
     "ECC agents MUST NOT mutate State Authority directly.",
     "Provider credentials remain outside the repository and outside agent prompts.",
-    "initial integration is deliberately documentation and policy only",
+    "initial integration is deliberately documentation, policy, and contract definition only",
 ):
     require(needle in ecc_doc, f"ECC document: missing required contract: {needle}")
 for secret_name in ("OPENAI_API_KEY", "OPENROUTER_API_KEY", "ANTHROPIC_API_KEY", "GEMINI_API_KEY"):
