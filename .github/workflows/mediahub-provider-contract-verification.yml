@@ -7,6 +7,7 @@ on:
       - '.github/workflows/mediahub-openai-smoke.yml'
       - '.github/workflows/mediahub-openrouter-smoke.yml'
       - '.github/workflows/mediahub-gemini-smoke.yml'
+      - '.github/workflows/mediahub-anthropic-smoke.yml'
       - '.github/workflows/mediahub-provider-contract-verification.yml'
   workflow_dispatch:
 
@@ -32,20 +33,20 @@ jobs:
           openai = (root / '.github/workflows/mediahub-openai-smoke.yml').read_text(encoding='utf-8')
           openrouter = (root / '.github/workflows/mediahub-openrouter-smoke.yml').read_text(encoding='utf-8')
           gemini = (root / '.github/workflows/mediahub-gemini-smoke.yml').read_text(encoding='utf-8')
+          anthropic = (root / '.github/workflows/mediahub-anthropic-smoke.yml').read_text(encoding='utf-8')
 
           required_router = [
-              'openai-api', 'gemini-api', 'tabi-api', 'openrouter-free',
-              'secret_name: OPENAI_API_KEY', 'secret_name: GEMINI_API_KEY',
-              'secret_name: TABITOKEN_API_KEY', 'secret_name: OPENROUTER_API_KEY',
-              'model: gpt-5.6-luna', 'model: openrouter/free',
+              'openai-api', 'anthropic', 'gemini-api', 'tabi-api', 'openrouter-free',
+              'secret_name: OPENAI_API_KEY', 'secret_name: ANTHROPIC_API_KEY',
+              'secret_name: GEMINI_API_KEY', 'secret_name: TABITOKEN_API_KEY',
+              'secret_name: OPENROUTER_API_KEY', 'model: gpt-5.6-luna',
+              'model: claude-opus-5', 'model: openrouter/free',
               'production_authorization: human',
           ]
           for needle in required_router:
               assert needle in router, f'missing router contract: {needle}'
 
           def assert_secret_binding(text, variable):
-              # Match the GitHub Actions expression without embedding the literal
-              # expression in the workflow command text, avoiding log masking issues.
               token = '$' + '{{' + ' secrets.' + variable + ' ' + '}}'
               expected = variable + ': ' + token
               assert expected in text, f'missing GitHub Actions secret binding: {variable}'
@@ -73,6 +74,15 @@ jobs:
           assert 'set -x' not in gemini
           assert 'echo $GEMINI_API_KEY' not in gemini
           assert 'echo "$GEMINI_API_KEY"' not in gemini
+
+          assert_secret_binding(anthropic, 'ANTHROPIC_API_KEY')
+          assert 'ANTHROPIC_ENDPOINT: https://api.anthropic.com/v1/messages' in anthropic
+          assert 'ANTHROPIC_MODEL: claude-opus-5' in anthropic
+          assert 'ANTHROPIC_VERSION: 2023-06-01' in anthropic
+          assert 'inputs:' not in anthropic
+          assert 'set -x' not in anthropic
+          assert 'echo $ANTHROPIC_API_KEY' not in anthropic
+          assert 'echo "$ANTHROPIC_API_KEY"' not in anthropic
 
           assert not re.search(r'sk-[A-Za-z0-9_-]{12,}', router)
           assert not re.search(r'Authorization\s*:\s*Bearer', router, re.IGNORECASE)
