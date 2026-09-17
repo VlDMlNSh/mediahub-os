@@ -13,6 +13,8 @@ REQUIRED_AGENTS = {
 }
 ROUTER = ROOT / ".github" / "ai" / "model-router.yml"
 WORKFLOW = ROOT / ".github" / "workflows" / "mediahub-openrouter-smoke.yml"
+ECC_DOC = ROOT / "docs" / "ai" / "ECC-INTEGRATION.md"
+ECC_MANIFEST = ROOT / "oss" / "manifests" / "ecc.yaml"
 
 
 def fail(message: str) -> None:
@@ -72,4 +74,39 @@ require("set -x" not in workflow_text, "workflow must not enable shell tracing")
 require("echo $OPENROUTER_API_KEY" not in workflow_text, "workflow must not print API key")
 require("echo \"$OPENROUTER_API_KEY\"" not in workflow_text, "workflow must not print API key")
 
-print(f"AI_FACTORY_CHECK=PASS router={ROUTER.relative_to(ROOT)} agents={len(REQUIRED_AGENTS)}")
+require(ECC_DOC.is_file(), "ECC integration document missing")
+ecc_doc = ECC_DOC.read_text(encoding="utf-8")
+for needle in (
+    "Pinned upstream release: `v2.2.1`",
+    "MediaHub remains authoritative",
+    "ECC agents MUST NOT mutate State Authority directly.",
+    "Provider credentials remain outside the repository and outside agent prompts.",
+    "initial integration is deliberately documentation and policy only",
+):
+    require(needle in ecc_doc, f"ECC document: missing required contract: {needle}")
+for secret_name in ("OPENAI_API_KEY", "OPENROUTER_API_KEY", "ANTHROPIC_API_KEY", "GEMINI_API_KEY"):
+    require(secret_name not in ecc_doc, f"ECC document contains provider secret name: {secret_name}")
+
+require(ECC_MANIFEST.is_file(), "ECC manifest missing")
+ecc_manifest = ECC_MANIFEST.read_text(encoding="utf-8")
+for needle in (
+    "version: v2.2.1",
+    "ref: v2.2.1",
+    "status: target-gated",
+    "class: agent-harness",
+    "direct_state_authority_mutation: false",
+    "hidden_network_egress: false",
+    "unbounded_subprocesses: false",
+    "bypass_authorization: false",
+    "bypass_release_gates: false",
+    "production_authorization: human",
+    "fail_closed: true",
+    "release_blocking: true",
+    "independent-review",
+    "wholesale_source_import: false",
+    "hooks_enabled_by_default: false",
+    "commands_enabled_by_default: false",
+):
+    require(needle in ecc_manifest, f"ECC manifest: missing required contract: {needle}")
+
+print(f"AI_FACTORY_CHECK=PASS router={ROUTER.relative_to(ROOT)} agents={len(REQUIRED_AGENTS)} ecc=target-gated")
