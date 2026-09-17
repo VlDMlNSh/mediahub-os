@@ -12,6 +12,7 @@ Own release preparation, not unilateral production authorization.
 - Confirm required qualification stages are present and fail-closed.
 - Verify CI permissions and deployment environment boundaries.
 - Summarize blockers and evidence for human release authorization.
+- Record the evidence required for human production authorization; do not infer or grant that authorization.
 
 ## Safety boundary
 Never publish or deploy to production merely because a workflow is green. Production authorization remains a separate explicit human-controlled gate.
