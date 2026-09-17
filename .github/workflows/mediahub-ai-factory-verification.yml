@@ -5,9 +5,7 @@ on:
     paths:
       - '.github/agents/**'
       - '.github/copilot-instructions.md'
-      - '.github/*ai-router*'
-      - '.github/*ai-router*.yml'
-      - '.github/*ai-router*.yaml'
+      - '.github/ai/**'
       - '.github/workflows/mediahub-openrouter-smoke.yml'
       - 'scripts/verify_ai_factory.py'
   workflow_dispatch:
