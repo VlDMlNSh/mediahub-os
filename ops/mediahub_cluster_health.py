@@ -34,6 +34,12 @@ class LocalClusterHealth:
         self._observations: dict[str, NodeHealthObservation] = {}
 
     def observe(self, observation: NodeHealthObservation) -> NodeHealthObservation:
+        if not isinstance(observation, NodeHealthObservation):
+            raise HealthObservationDenied("malformed health observation")
+        if not all(isinstance(value, str) for value in (observation.node_id, observation.source_sha)):
+            raise HealthObservationDenied("malformed health observation")
+        if not isinstance(observation.health, NodeHealth):
+            raise HealthObservationDenied("malformed health state")
         if not observation.node_id or not observation.source_sha:
             raise HealthObservationDenied("node identity and provenance are required")
         if observation.health is NodeHealth.UNKNOWN:

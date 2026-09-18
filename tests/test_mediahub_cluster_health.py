@@ -54,3 +54,15 @@ def test_health_does_not_expose_membership_or_authority():
     health = LocalClusterHealth()
     assert not hasattr(health, "membership")
     assert not hasattr(health, "state_authority")
+
+def test_health_observation_rejects_malformed_types():
+    health = LocalClusterHealth()
+    for value in (object(), None, 1, True):
+        with pytest.raises(HealthObservationDenied):
+            health.observe(value)
+    with pytest.raises(HealthObservationDenied):
+        health.observe(observation(node_id=1))
+    with pytest.raises(HealthObservationDenied):
+        health.observe(observation(source_sha=True))
+    with pytest.raises(HealthObservationDenied):
+        health.observe(observation(health="HEALTHY"))
