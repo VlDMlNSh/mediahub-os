@@ -115,3 +115,14 @@ def test_lifecycle_has_no_authority_or_network_imports() -> None:
     source = inspect.getsource(__import__("ops.mediahub_cluster_lifecycle", fromlist=["x"]))
     forbidden = ("requests", "urllib", "socket", "subprocess", "state_authority", "home_assistant")
     assert not any(token in source.lower() for token in forbidden)
+
+def test_admit_rejects_malformed_identity_types(lifecycle):
+    for value in (object(), None, 1, True):
+        with pytest.raises(LifecycleDenied):
+            lifecycle.admit(value)
+    with pytest.raises(LifecycleDenied):
+        lifecycle.admit(WorkloadIdentity(1, "a1", "n1", "r1", "sha1"))
+    with pytest.raises(LifecycleDenied):
+        lifecycle.admit(WorkloadIdentity("w1", True, "n1", "r1", "sha1"))
+    with pytest.raises(LifecycleDenied):
+        lifecycle.admit(WorkloadIdentity("w1", "a1", "n1", None, "sha1"))

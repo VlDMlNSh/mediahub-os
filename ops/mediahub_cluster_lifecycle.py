@@ -126,6 +126,13 @@ class ClusterWorkloadLifecycle:
 
     @staticmethod
     def _validate(identity: WorkloadIdentity) -> None:
+        if not isinstance(identity, WorkloadIdentity):
+            raise LifecycleDenied("malformed workload identity")
+        if not all(isinstance(value, str) for value in (
+            identity.workload_id, identity.assignment_id, identity.node_id,
+            identity.request_id, identity.source_sha,
+        )):
+            raise LifecycleDenied("malformed workload identity")
         if not all((identity.workload_id, identity.assignment_id, identity.node_id,
                     identity.request_id, identity.source_sha)):
             raise LifecycleDenied("all workload identity and provenance fields are required")
