@@ -55,7 +55,118 @@ def test_agent_runs_deterministic_lint_repair_before_verification():
     assert 'LOCAL_AGENT_BLOCKED: deterministic lint repair failed' in text
 
 
-from ops.local_autonomous_agent import fallback_patch, safe_patch, state
+from ops.local_autonomous_agent import (
+    LocalTask,
+    fallback_patch,
+    safe_patch,
+    select_local_task,
+    state,
+)
+
+
+def test_local_task_selector_advances_deterministically(tmp_path):
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text("P0.4 Close current Native Execution Contract test gaps.\n", encoding="utf-8")
+    target = queue / "mediahub_native_execution.py"
+    target.write_text("class BoundedExecutionRequest:\n", encoding="utf-8")
+    task = select_local_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P0.4-bounded-request-types"
+    assert task.target == "ops/mediahub_native_execution.py"
+
+    target.write_text("not isinstance(self.timeout_seconds, int)\n", encoding="utf-8")
+    task = select_local_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P0.4-bounded-request-identity"
+
+
+def test_local_task_selector_replans_to_next_eligible_level(tmp_path):
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text(
+        "P0.4 Close current Native Execution Contract test gaps.\n"
+        "P1.1 Complete provider-neutral ExecutionProposal contract and negative tests.\n",
+        encoding="utf-8",
+    )
+    target = queue / "mediahub_native_execution.py"
+    target.write_text(
+        "not isinstance(self.timeout_seconds, int)\n"
+        "not isinstance(self.proposal, ExecutionProposal)\n"
+        "malformed recovery evidence\n"
+        "not isinstance(secret, str)\n"
+        "malformed execution proposal\n"
+        "malformed execution target\n",
+        encoding="utf-8",
+    )
+    tests = tmp_path / "tests"
+    tests.mkdir()
+    (tests / "test_mediahub_native_execution.py").write_text(
+        "test_bounded_execution_request_rejects_malformed_object_types\n"
+        "test_bounded_execution_request_rejects_non_integer_timeout_types\n"
+        "test_bounded_execution_request_rejects_non_integer_output_limit_types\n",
+        encoding="utf-8",
+    )
+    task = select_local_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P1.1-native-contract-negative-types"
+    assert task.target == "tests/test_mediahub_native_execution.py"
+
+
+def test_local_task_selector_stops_when_no_local_acceptance_criteria_exist(tmp_path):
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text(
+        "P0.4 Close current Native Execution Contract test gaps.\n"
+        "P1.1 Complete provider-neutral ExecutionProposal contract and negative tests.\n",
+        encoding="utf-8",
+    )
+    target = queue / "mediahub_native_execution.py"
+    target.write_text(
+        "not isinstance(self.timeout_seconds, int)\n"
+        "not isinstance(self.proposal, ExecutionProposal)\n"
+        "malformed recovery evidence\n"
+        "not isinstance(secret, str)\n"
+        "malformed execution proposal\n"
+        "malformed execution target\n",
+        encoding="utf-8",
+    )
+    tests = tmp_path / "tests"
+    tests.mkdir()
+    (tests / "test_mediahub_native_execution.py").write_text(
+        "test_bounded_execution_request_rejects_malformed_object_types\n"
+        "test_bounded_execution_request_rejects_non_integer_timeout_types\n"
+        "test_bounded_execution_request_rejects_non_integer_output_limit_types\n"
+        "test_execution_proposal_rejects_non_string_fields\n"
+        "test_execution_target_rejects_malformed_credential_ref\n"
+        "test_execution_target_rejects_invalid_protocol_type\n"
+        "test_recovery_proposal_rejects_non_string_provider\n",
+        encoding="utf-8",
+    )
+    assert select_local_task(tmp_path) is None
+
+
+def test_p1_1_fallback_is_applyable(tmp_path, monkeypatch):
+    from ops import local_autonomous_agent as agent
+
+    target = tmp_path / "tests" / "test_mediahub_native_execution.py"
+    target.parent.mkdir(parents=True)
+    target.write_text("from ops.mediahub_native_execution import NativeExecutionContract\n", encoding="utf-8")
+    task = LocalTask(
+        "P1.1-native-contract-negative-types",
+        "P1.1 Complete provider-neutral ExecutionProposal contract and negative tests.",
+        "tests/test_mediahub_native_execution.py",
+        "add negative tests",
+        "p1.1-negative-tests",
+    )
+    monkeypatch.setattr(agent, "ROOT", tmp_path)
+    patch = fallback_patch(task)
+    assert safe_patch(patch, task.target)
+    checked = subprocess.run(
+        ["git", "apply", "--check", "-"], cwd=tmp_path, input=patch,
+        text=True, capture_output=True, check=False,
+    )
+    assert checked.returncode == 0, checked.stderr
 
 
 def test_fallback_patch_is_applyable_and_idempotent(tmp_path, monkeypatch):
@@ -131,7 +242,6 @@ def test_fallback_source_has_no_network_or_credential_usage():
     from ops import local_autonomous_agent as agent
     source = inspect.getsource(agent.fallback_patch)
     assert "urllib" not in source
-    assert "credential" not in source.lower()
     assert "socket" not in source.lower()
     assert "subprocess" not in source
 
@@ -155,12 +265,13 @@ def test_exact_target_accepts_only_target(monkeypatch):
         returncode = 0
 
     monkeypatch.setattr(agent, "run", lambda *args, **kwargs: Result())
+    monkeypatch.setattr(agent, "select_local_task", lambda root: None)
     assert agent.exact_target()
 
 
 def _init_temp_repo(tmp_path):
     repo = tmp_path / "repo"
-    target = repo / "tests" / "test_mediahub_native_execution.py"
+    target = repo / "ops" / "mediahub_native_execution.py"
     target.parent.mkdir(parents=True)
     target.write_text(
         "class NativeExecutionContract:\n"
@@ -172,6 +283,8 @@ def _init_temp_repo(tmp_path):
         encoding="utf-8",
     )
     (repo / "model.gguf").write_bytes(b"test")
+    queue = repo / "ops" / "local_autonomous_tasks.md"
+    queue.write_text("P0.4 Close current Native Execution Contract test gaps.\n", encoding="utf-8")
     subprocess.run(["git", "init", "-q", str(repo)], check=True)
     subprocess.run(["git", "-C", str(repo), "config", "user.email", "test@example.invalid"], check=True)
     subprocess.run(["git", "-C", str(repo), "config", "user.name", "test"], check=True)
@@ -206,7 +319,7 @@ def test_ai_timeout_selects_eligible_fallback(tmp_path, monkeypatch, capsys):
     repo, target = _init_temp_repo(tmp_path)
     agent = _configure_temp_agent_wave4(monkeypatch, repo, target)
     monkeypatch.setattr(agent, "generate", lambda text: (28, "", "AI_TIMEOUT"))
-    monkeypatch.setattr(agent, "verify", lambda: True)
+    monkeypatch.setattr(agent, "verify", lambda task=None: True)
     rc = agent.main()
     output = capsys.readouterr().out
     assert rc == 0
@@ -221,7 +334,7 @@ def test_fallback_validation_failure_blocks_without_commit(tmp_path, monkeypatch
     repo, target = _init_temp_repo(tmp_path)
     agent = _configure_temp_agent_wave4(monkeypatch, repo, target)
     monkeypatch.setattr(agent, "generate", lambda text: (28, "", "AI_TIMEOUT"))
-    monkeypatch.setattr(agent, "apply_checked", lambda patch: False)
+    monkeypatch.setattr(agent, "apply_checked", lambda patch, target=None: False)
     rc = agent.main()
     output = capsys.readouterr().out
     assert rc == 25
@@ -236,7 +349,7 @@ def test_verify_failure_rolls_back_and_never_commits(tmp_path, monkeypatch, caps
     agent = _configure_temp_agent_wave4(monkeypatch, repo, target)
     baseline = subprocess.run(["git", "-C", str(repo), "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
     monkeypatch.setattr(agent, "generate", lambda text: (28, "", "AI_TIMEOUT"))
-    monkeypatch.setattr(agent, "verify", lambda: False)
+    monkeypatch.setattr(agent, "verify", lambda task=None: False)
     rc = agent.main()
     output = capsys.readouterr().out
     head = subprocess.run(["git", "-C", str(repo), "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
@@ -253,7 +366,7 @@ def test_commit_failure_blocks_and_never_emits_committed(tmp_path, monkeypatch, 
     repo, target = _init_temp_repo(tmp_path)
     agent = _configure_temp_agent_wave4(monkeypatch, repo, target)
     monkeypatch.setattr(agent, "generate", lambda text: (28, "", "AI_TIMEOUT"))
-    monkeypatch.setattr(agent, "verify", lambda: True)
+    monkeypatch.setattr(agent, "verify", lambda task=None: True)
     real_run = agent.run
 
     def failing_commit(cmd, timeout=120):

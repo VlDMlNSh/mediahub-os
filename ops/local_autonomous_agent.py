@@ -10,6 +10,7 @@ import subprocess  # nosec B404
 import sys
 import urllib.error
 import urllib.request
+from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path("/home/mediahub/dev/mediahub-os-autonomous")
@@ -21,6 +22,89 @@ MAX_DIFF_LINES = 160
 MAX_REGENERATIONS = 3
 TARGET = "ops/mediahub_native_execution.py"
 R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
+
+@dataclass(frozen=True)
+class LocalTask:
+    task_id: str
+    queue_item: str
+    target: str
+    instruction: str
+    fallback_kind: str | None = None
+
+
+def _queue_contains(root: Path, item: str) -> bool:
+    path = root / "ops/local_autonomous_tasks.md"
+    return path.is_file() and item in path.read_text(encoding="utf-8")
+
+
+def select_local_task(root: Path) -> LocalTask | None:
+    """Select one deterministic, local, highest-priority eligible increment.
+
+    The queue is authoritative for phase availability; eligibility is derived only
+    from current repository state. Cloud/VPN/credential-dependent work is never
+    selected by this local lane.
+    """
+    native = root / "ops/mediahub_native_execution.py"
+    if _queue_contains(root, "P0.4 Close current Native Execution Contract test gaps.") and native.is_file():
+        text = native.read_text(encoding="utf-8")
+        checks = (
+            ("P0.4-bounded-request-types", "Harden BoundedExecutionRequest.validate against malformed object and boolean timeout/output types using PermissionError; preserve existing bounds.", "bounded-request"),
+            ("P0.4-bounded-request-identity", "Harden BoundedExecutionRequest.validate against malformed proposal/target objects; preserve provider matching and bounds.", "bounded-request-identity"),
+            ("P0.4-recovery-evidence-types", "Harden recovery proposal admission against malformed evidence types while preserving provenance checks.", "recovery-evidence"),
+            ("P0.4-provider-credential-types", "Require provider credentials to be non-empty strings before constructing authorization headers; preserve native provider headers.", "provider-credential"),
+            ("P0.4-proposal-types", "Harden ExecutionProposal validation against malformed field types; preserve contract semantics.", "proposal-types"),
+            ("P0.4-target-types", "Harden ExecutionTarget validation against malformed field types; preserve HTTPS and provider/credential matching.", "target-types"),
+        )
+        predicates = (
+            "not isinstance(self.timeout_seconds, int)",
+            "not isinstance(self.proposal, ExecutionProposal)",
+            "malformed recovery evidence",
+            "not isinstance(secret, str)",
+            "malformed execution proposal",
+            "malformed execution target",
+        )
+        for (task_id, instruction, fallback_kind), predicate in zip(checks, predicates):
+            if predicate not in text:
+                return LocalTask(task_id, "P0.4 Close current Native Execution Contract test gaps.", "ops/mediahub_native_execution.py", instruction, fallback_kind)
+
+        tests = root / "tests" / "test_mediahub_native_execution.py"
+        if tests.is_file():
+            test_text = tests.read_text(encoding="utf-8")
+            required_tests = (
+                "test_bounded_execution_request_rejects_malformed_object_types",
+                "test_bounded_execution_request_rejects_non_integer_timeout_types",
+                "test_bounded_execution_request_rejects_non_integer_output_limit_types",
+            )
+            if not all(marker in test_text for marker in required_tests):
+                return LocalTask(
+                    "P0.4-negative-test-coverage",
+                    "P0.4 Close current Native Execution Contract test gaps.",
+                    "tests/test_mediahub_native_execution.py",
+                    "Add focused negative tests covering malformed bounded request objects plus bool/non-int timeout and output-limit inputs; preserve existing tests and imports.",
+                    "native-negative-tests",
+                )
+
+    if _queue_contains(root, "P1.1 Complete provider-neutral") and tests.is_file():
+        test_text = tests.read_text(encoding="utf-8")
+        required = (
+            "test_execution_proposal_rejects_non_string_fields",
+            "test_execution_target_rejects_malformed_credential_ref",
+            "test_execution_target_rejects_invalid_protocol_type",
+            "test_recovery_proposal_rejects_non_string_provider",
+        )
+        if not all(marker in test_text for marker in required):
+            return LocalTask(
+                "P1.1-native-contract-negative-types",
+                "P1.1 Complete provider-neutral ExecutionProposal contract and negative tests.",
+                "tests/test_mediahub_native_execution.py",
+                "Add focused negative tests for non-string ExecutionProposal fields, malformed ExecutionTarget credential references/protocol types, and non-string recovery provider; do not alter production authority or network behavior.",
+                "p1.1-negative-tests",
+            )
+
+    # No higher-level local task has encoded acceptance criteria yet; stop rather than fabricate work.
+    # Higher-level queue items remain eligible only after their acceptance criteria
+    # are encoded as deterministic local tasks.
+    return None
 PROTECTED = {
     ".git", ".autonomous", ".github", "production", "credentials",
     "ops/cloud-development-adapter.py", "ops/cloud_development_adapter.py",
@@ -55,11 +139,15 @@ def run(cmd: list[str], timeout: int = 120) -> subprocess.CompletedProcess[str]:
     )  # nosec B603
 
 
-def prompt(feedback: str = "") -> str:
-    current = (ROOT / TARGET).read_text(encoding="utf-8")
+def prompt(task: LocalTask | None = None, feedback: str = "") -> str:
+    task = task or select_local_task(ROOT)
+    if task is None:
+        return ""
+    current = (ROOT / task.target).read_text(encoding="utf-8")
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
-    return f"""MediaHub local coding cycle. R4={R4}. Modify ONLY the existing tracked file {TARGET}.
-Advance only to the next approved Wave 10 security task: harden NativeExecutionContract.prepare_headers against malformed provider credentials, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Preserve valid behavior, but require the secret credential input to be a non-empty string before constructing any authorization headers. Reject wrong object and field types with PermissionError rather than leaking AttributeError/TypeError or accepting bool-as-string-like input. Keep HTTPS endpoint policy and existing provider/credential matching unchanged. Do not weaken the existing provider-specific header behavior or change the public contracts. The boundary must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
+    return f"""MediaHub local coding cycle. R4={R4}. Selected task={task.task_id}. Modify ONLY the existing tracked file {task.target}.
+Task: {task.instruction}
+Preserve existing contracts and fail-closed behavior. Do not execute anything. Do not access secrets, State Authority, Home Assistant, production or unrestricted network. Return ONLY one complete unified git diff, no markdown fences or commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous or cloud activation. The diff must pass git apply --check.
 {current}{error}"""
 
 
@@ -72,7 +160,8 @@ def extract(text: str) -> str:
     return text[start:].strip() if start >= 0 else ""
 
 
-def safe_patch(patch: str) -> bool:
+def safe_patch(patch: str, target: str | None = None) -> bool:
+    target = target or TARGET
     lines = patch.splitlines()
     if not patch or len(lines) > MAX_DIFF_LINES:
         return False
@@ -90,7 +179,7 @@ def safe_patch(patch: str) -> bool:
             if not re.fullmatch(r"@@ -\d+(?:,\d+)? \+\d+(?:,\d+)? @@(?:.*)", line):
                 return False
             saw_hunk = True
-    return old_path == TARGET and new_path == TARGET and saw_hunk and TARGET not in PROTECTED
+    return old_path == target and new_path == target and saw_hunk and target not in PROTECTED
 
 def _fallback_target_patch(old: list[str], old_text: str) -> str:
     original = """    def validate(self) -> None:
@@ -187,9 +276,70 @@ def _fallback_headers_patch(old: list[str], old_text: str) -> str:
     return diff if diff.endswith("\n") else diff + "\n"
 
 
-def fallback_patch() -> str:
-    """Return the pre-approved Wave 10 prepare_headers input hardening diff only."""
-    path = ROOT / TARGET
+def fallback_patch(task: LocalTask | None = None) -> str:
+    """Return only the deterministic fallback for the bound local task."""
+    task = task or select_local_task(ROOT)
+    if task is None:
+        task = LocalTask("legacy-fallback", "", TARGET, "", "legacy")
+    target = task.target
+    path = ROOT / target
+    if task.fallback_kind == "p1.1-negative-tests":
+        old = path.read_text(encoding="utf-8")
+        if "test_execution_proposal_rejects_non_string_fields" in old:
+            return ""
+        addition = '''\n\n\ndef test_execution_proposal_rejects_non_string_fields():
+    contract = NativeExecutionContract()
+    for values in (
+        (1, "work", "sha", "openai"),
+        ("req", None, "sha", "openai"),
+        ("req", "work", True, "openai"),
+        ("req", "work", "sha", 1),
+    ):
+        with pytest.raises(PermissionError):
+            contract.prepare_proposal(*values)
+
+
+def test_execution_target_rejects_malformed_credential_ref():
+    malformed = ExecutionTarget(
+        "openai", "https://api.example.test/v1", Protocol.OPENAI_RESPONSES,
+        "test-model", object(),
+    )
+    with pytest.raises(PermissionError):
+        malformed.validate()
+
+
+def test_execution_target_rejects_invalid_protocol_type():
+    malformed = ExecutionTarget(
+        "openai", "https://api.example.test/v1", "openai",
+        "test-model", CredentialRef("openai", "/credential"),
+    )
+    with pytest.raises(PermissionError):
+        malformed.validate()
+
+
+def test_recovery_proposal_rejects_non_string_provider():
+    from types import SimpleNamespace
+
+    evidence = SimpleNamespace(
+        verified=True, request_id="req-r", workload_id="work-r", source_sha="sha-r",
+    )
+    for provider in (1, True, None):
+        with pytest.raises(PermissionError):
+            NativeExecutionContract().prepare_recovery_proposal(evidence, provider)
+'''
+        new = old.rstrip() + addition
+        return "".join(difflib.unified_diff(
+            old.splitlines(keepends=True),
+            new.splitlines(keepends=True),
+            fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="\n",
+        ))
+    if task.fallback_kind == "native-negative-tests":
+        old = path.read_text(encoding="utf-8")
+        if "test_bounded_execution_rejects_malformed_types" in old:
+            return ""
+        addition = '''\n\ndef test_bounded_execution_rejects_malformed_types():\n    proposal = ExecutionProposal("req", "work", "sha", "openai")\n    adapter = BoundedExecutionAdapter()\n    for timeout in (True, False, 1.5, "30", None):\n        with pytest.raises(PermissionError):\n            adapter.admit(proposal, target(), timeout)\n    for output_limit in (True, False, 1.5, "4096", None):\n        with pytest.raises(PermissionError):\n            adapter.admit(proposal, target(), 30, output_limit)\n    with pytest.raises(PermissionError):\n        adapter.admit(object(), target())\n    with pytest.raises(PermissionError):\n        adapter.admit(proposal, object())\n    with pytest.raises(PermissionError):\n        NativeExecutionContract().prepare_proposal("", "work", "sha", "openai")\n    with pytest.raises(PermissionError):\n        NativeExecutionContract().prepare_headers(target(), True)\n'''
+        new = old.rstrip() + addition
+        return "".join(difflib.unified_diff(old.splitlines(keepends=True), new.splitlines(keepends=True), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="\n"))
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
     old_text = "".join(old)
     if "class BoundedExecutionRequest:" in old_text and "isinstance(self.timeout_seconds, int)" not in old_text:
@@ -296,8 +446,8 @@ def fallback_patch() -> str:
     ))
     return diff if diff.endswith("\n") else diff + "\n"
 
-def apply_checked(patch: str) -> bool:
-    if not safe_patch(patch):
+def apply_checked(patch: str, target: str | None = None) -> bool:
+    if not safe_patch(patch, target):
         return False
     check = subprocess.run(
         [str(GIT), "apply", "--check", "-"], cwd=ROOT, input=patch,
@@ -316,14 +466,18 @@ def apply_checked(patch: str) -> bool:
     return True
 
 
-def exact_target() -> bool:
-    return run(["git", "diff", "--cached", "--name-only"]).stdout.splitlines() == [TARGET]
+def exact_target(task: LocalTask | None = None) -> bool:
+    selected = task or select_local_task(ROOT)
+    expected = selected.target if selected else TARGET
+    return run(["git", "diff", "--cached", "--name-only"]).stdout.splitlines() == [expected]
 
 
-def verify() -> bool:
+def verify(task: LocalTask | None = None) -> bool:
     checks = [(["git", "diff", "--check"], 120)]
+    selected = task or select_local_task(ROOT)
+    verify_target = selected.target if selected else TARGET
     if RUFF.is_file():
-        checks.append(([str(RUFF), "check", TARGET], 120))
+        checks.append(([str(RUFF), "check", verify_target], 120))
     checks.append((["bash", "ops/security_scan_local.sh"], 900))
     for item in checks:
         if item is None:
@@ -394,28 +548,29 @@ def main() -> int:
         state("BLOCKED", "baseline not clean")
         return 22
 
+    task = select_local_task(ROOT)
+    if task is None:
+        print("LOCAL_AGENT_NOOP: no eligible local queue item")
+        state("BLOCKED", "no eligible local task; higher-level work requires explicit bounded acceptance criteria")
+        return 30
+    print(f"LOCAL_AGENT_TASK={task.task_id}")
     error = ""
     patch = ""
-    # Advance deterministically when the current Wave 10 task is already satisfied.
-    target_text = (ROOT / TARGET).read_text(encoding="utf-8")
-    headers_hardened = "not isinstance(secret, str)" in target_text
-    if headers_hardened:
-        print("LOCAL_AGENT_QUEUE_ADVANCE: prepare_headers hardening already satisfied")
 
     for _ in range(MAX_REGENERATIONS):
-        rc, output, ai_state = generate(prompt(error))
+        rc, output, ai_state = generate(prompt(task, error))
         if rc:
             state(ai_state, "local AI did not produce an admissible proposal")
             break
         patch = extract(output)
-        if not safe_patch(patch):
+        if not safe_patch(patch, task.target):
             state("AI_MALFORMED", "structural validation rejected AI output")
             error = "structural validation failed; use exact target path and complete ---/+++/@@ sections"
             continue
-        if apply_checked(patch):
+        if apply_checked(patch, task.target):
             if RUFF.is_file():
                 lint = subprocess.run(
-                    [str(RUFF), "check", TARGET], cwd=ROOT,
+                    [str(RUFF), "check", task.target], cwd=ROOT,
                     text=True, capture_output=True, check=False
                 )  # nosec B603
                 if lint.returncode:
@@ -431,24 +586,24 @@ def main() -> int:
     else:
         patch = ""
 
-    if not patch or not exact_target():
-        patch = fallback_patch()
+    if not patch or not exact_target(task):
+        patch = fallback_patch(task)
         if not patch:
             print("LOCAL_AGENT_NOOP: no admissible downstream change")
             state("BLOCKED", "no admissible fallback task or tree is already changed")
             return 30
-        state("FALLBACK_SELECTED", "whitelist task: recovery-proposal admission hardening")
-        if not apply_checked(patch):
+        state("FALLBACK_SELECTED", f"deterministic fallback for {task.task_id}")
+        if not apply_checked(patch, task.target):
             state("BLOCKED", "fallback failed structural validation or git apply --check")
             return 25
         state("FALLBACK_APPLIED", "fallback passed structural validation and git apply --check")
 
-    if not exact_target():
+    if not exact_target(task):
         rollback()
         return 27
     if RUFF.is_file():
         lint = subprocess.run(
-            [str(RUFF), "check", "--fix", TARGET], cwd=ROOT,
+            [str(RUFF), "check", "--fix", task.target], cwd=ROOT,
             text=True, capture_output=True, check=False
         )  # nosec B603
         if lint.returncode:
@@ -456,12 +611,12 @@ def main() -> int:
             print(lint.stdout + lint.stderr, file=sys.stderr)
             rollback()
             return 33
-        run(["git", "add", "--", TARGET])
-    if not exact_target():
+        run(["git", "add", "--", task.target])
+    if not exact_target(task):
         rollback()
         return 27
 
-    if not verify():
+    if not verify(task):
         state("VERIFY_FAIL", "verification gate failed")
         rollback()
         return 27
