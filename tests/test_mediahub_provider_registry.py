@@ -44,3 +44,9 @@ def test_registry_requires_identity_match():
     bad = ProviderRecord("other", adapter, "https://provider.example/v1", adapter.capabilities())
     with pytest.raises(ValueError):
         registry.register(bad)
+
+def test_register_rejects_malformed_record_types():
+    registry = ProviderRegistry()
+    for value in (object(), None, 1, True):
+        with pytest.raises(ValueError):
+            registry.register(value)

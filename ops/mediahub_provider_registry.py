@@ -28,6 +28,16 @@ class ProviderRegistry:
         self._providers: dict[str, ProviderRecord] = {}
 
     def register(self, record: ProviderRecord) -> None:
+        if not isinstance(record, ProviderRecord):
+            raise ValueError("malformed provider record")  # noqa: TRY004
+        if not isinstance(record.provider, str) or not isinstance(record.endpoint, str):
+            raise ValueError("malformed provider record")  # noqa: TRY004
+        if not isinstance(record.adapter, ProviderAdapter):
+            raise ValueError("malformed provider adapter")  # noqa: TRY004
+        if not isinstance(record.capabilities, tuple) or any(not isinstance(capability, Capability) for capability in record.capabilities):
+            raise ValueError("malformed provider capabilities")
+        if not isinstance(record.enabled, bool) or not isinstance(record.metadata, Mapping):
+            raise ValueError("malformed provider record")  # noqa: TRY004
         if not record.provider or record.provider != record.adapter.provider:
             raise ValueError("provider identity must match adapter identity")
         if not record.endpoint.startswith("https://"):
