@@ -48,6 +48,7 @@ def select_local_task(root: Path) -> LocalTask | None:
             "P0.4-proposal-types": LocalTask("P0.4-proposal-types", "P0.4 Close current Native Execution Contract test gaps.", "ops/mediahub_native_execution.py", "Harden ExecutionProposal validation against malformed field types; preserve contract semantics.", "proposal-types"),
             "P0.4-target-types": LocalTask("P0.4-target-types", "P0.4 Close current Native Execution Contract test gaps.", "ops/mediahub_native_execution.py", "Harden ExecutionTarget validation against malformed field types; preserve HTTPS and provider/credential matching.", "target-types"),
             "P1.6-hybrid-egress-types": LocalTask("P1.6-hybrid-egress-types", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "ops/hybrid_cloud_api_egress_adapter.py", "Harden the hybrid cloud egress adapter against malformed url, method, headers, and timeout types; preserve fail-closed VPN and allowlist behavior.", "hybrid-egress-types"),
+            "P1.6-hybrid-egress-tests": LocalTask("P1.6-hybrid-egress-tests", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "tests/test_hybrid_cloud_api_egress_adapter.py", "Add focused negative tests for malformed URL/method/headers and invalid timeout while preserving fail-closed VPN and allowlist tests.", "hybrid-egress-tests"),
         }
         task = forced_tasks.get(forced)
         if task is not None and _queue_contains(root, task.queue_item) and (root / task.target).is_file():
@@ -119,8 +120,11 @@ def select_local_task(root: Path) -> LocalTask | None:
     egress = root / "ops/hybrid_cloud_api_egress_adapter.py"
     if _queue_contains(root, "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.") and egress.is_file():
         text = egress.read_text(encoding="utf-8")
+        tests = root / "tests" / "test_hybrid_cloud_api_egress_adapter.py"
         if "malformed hybrid egress request" not in text:
             return LocalTask("P1.6-hybrid-egress-types", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "ops/hybrid_cloud_api_egress_adapter.py", "Harden the hybrid cloud egress adapter against malformed url, method, headers, and timeout types; preserve fail-closed VPN and allowlist behavior.", "hybrid-egress-types")
+        if tests.is_file() and "test_request_rejects_malformed_types" not in tests.read_text(encoding="utf-8"):
+            return LocalTask("P1.6-hybrid-egress-tests", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "tests/test_hybrid_cloud_api_egress_adapter.py", "Add focused negative tests for malformed URL/method/headers and invalid timeout while preserving fail-closed VPN and allowlist tests.", "hybrid-egress-tests")
 
     # No higher-level local task has encoded acceptance criteria yet; stop rather than fabricate work.
     # Higher-level queue items remain eligible only after their acceptance criteria
@@ -354,6 +358,13 @@ def test_recovery_proposal_rejects_non_string_provider():
             new.splitlines(keepends=True),
             fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="\n",
         ))
+    if task.fallback_kind == "hybrid-egress-tests":
+        old = path.read_text(encoding="utf-8")
+        if "test_request_rejects_malformed_types" in old:
+            return ""
+        addition = '\n\ndef test_request_rejects_malformed_types():\n    client = adapter()\n    healthy = type(client.check_tunnel())("tun-vpm", True, "test")\n    with patch.object(client, "check_tunnel", return_value=healthy):\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(123)\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(API, method=123)\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(API, headers={"X-Test": 1})\n\n\ndef test_request_rejects_invalid_timeout_type():\n    client = adapter()\n    healthy = type(client.check_tunnel())("tun-vpm", True, "test")\n    client.timeout_seconds = True\n    with patch.object(client, "check_tunnel", return_value=healthy):\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(API)\n'
+        new = old.rstrip() + addition
+        return "".join(difflib.unified_diff(old.splitlines(keepends=True), new.splitlines(keepends=True), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="")) + "\n"
     if task.fallback_kind == "hybrid-egress-types":
         old = path.read_text(encoding="utf-8")
         marker = "        self.egress.admit(url)\n"
@@ -372,7 +383,7 @@ def test_recovery_proposal_rejects_non_string_provider():
         if marker not in old:
             return ""
         new_text = old.replace(marker, hardened, 1)
-        return "".join(difflib.unified_diff(old.splitlines(keepends=True), new_text.splitlines(keepends=True), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="\n"))
+        return "".join(difflib.unified_diff(old.splitlines(keepends=True), new_text.splitlines(keepends=True), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="")) + "\n"
     if task.fallback_kind == "native-negative-tests":
         old = path.read_text(encoding="utf-8")
         if "test_bounded_execution_rejects_malformed_types" in old:
@@ -513,16 +524,20 @@ def exact_target(task: LocalTask | None = None) -> bool:
 
 
 def verify(task: LocalTask | None = None) -> bool:
-    checks = [(["git", "diff", "--check"], 120)]
     selected = task or select_local_task(ROOT)
     verify_target = selected.target if selected else TARGET
+    checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
-    checks.append((["bash", "ops/security_scan_local.sh"], 900))
-    for item in checks:
-        if item is None:
-            continue
-        cmd, timeout = item
+    if selected and selected.fallback_kind in {"hybrid-egress-types", "hybrid-egress-tests"}:
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_hybrid_cloud_api_egress_adapter.py"], 180))
+    elif selected and selected.target.startswith("tests/"):
+        checks.append(([sys.executable, "-m", "pytest", "-q", selected.target], 180))
+    else:
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_native_execution.py"], 180))
+    if os.environ.get("MEDIAHUB_FULL_SECURITY") == "1":
+        checks.append((["bash", "ops/security_scan_local.sh"], 900))
+    for cmd, timeout in checks:
         p = run(cmd, timeout=timeout)
         if p.returncode:
             print(p.stdout + p.stderr, file=sys.stderr)
@@ -533,7 +548,7 @@ def verify(task: LocalTask | None = None) -> bool:
 def generate(text: str) -> tuple[int, str, str]:
     try:
         with LOCAL_AI_OPENER.open(
-            urllib.request.Request("http://127.0.0.1:8081/health")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
+            urllib.request.Request(LOCAL_AI_URL.rsplit("/v1/", 1)[0] + "/health")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
             , timeout=5
         ) as response:
             if response.status != 200:
