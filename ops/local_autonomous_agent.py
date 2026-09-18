@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import difflib
 import json
+import os
 import re
 import shutil
 import subprocess  # nosec B404
@@ -13,15 +14,15 @@ import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
 
-ROOT = Path("/home/mediahub/dev/mediahub-os-autonomous")
+ROOT = Path(os.environ.get("MEDIAHUB_ROOT", "/home/mediahub/dev/mediahub-os-autonomous")).resolve()
 MODEL = Path("/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf")
-LOCAL_AI_URL = "http://127.0.0.1:8081/v1/chat/completions"  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
+LOCAL_AI_URL = os.environ.get("MEDIAHUB_AI_URL", "http://127.0.0.1:8081/v1/chat/completions")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
 GIT = Path("/usr/bin/git")
 RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 160
 MAX_REGENERATIONS = 3
 TARGET = "ops/mediahub_native_execution.py"
-R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
+R4 = os.environ.get("MEDIAHUB_R4_SHA", "471f709f5633feab7aeb62dd3ea52effad6d2bc4")
 
 @dataclass(frozen=True)
 class LocalTask:
@@ -38,6 +39,19 @@ def _queue_contains(root: Path, item: str) -> bool:
 
 
 def select_local_task(root: Path) -> LocalTask | None:
+    forced = os.environ.get("MEDIAHUB_TASK_ID", "").strip()
+    if forced:
+        forced_tasks = {
+            "P0.4-bounded-request-types": LocalTask("P0.4-bounded-request-types", "P0.4 Close current Native Execution Contract test gaps.", "ops/mediahub_native_execution.py", "Harden BoundedExecutionRequest.validate against malformed object and boolean timeout/output types using PermissionError; preserve existing bounds.", "bounded-request"),
+            "P0.4-recovery-evidence-types": LocalTask("P0.4-recovery-evidence-types", "P0.4 Close current Native Execution Contract test gaps.", "ops/mediahub_native_execution.py", "Harden recovery proposal admission against malformed evidence types while preserving provenance checks.", "recovery-evidence"),
+            "P0.4-provider-credential-types": LocalTask("P0.4-provider-credential-types", "P0.4 Close current Native Execution Contract test gaps.", "ops/mediahub_native_execution.py", "Require provider credentials to be non-empty strings before constructing authorization headers; preserve native provider headers.", "provider-credential"),
+            "P0.4-proposal-types": LocalTask("P0.4-proposal-types", "P0.4 Close current Native Execution Contract test gaps.", "ops/mediahub_native_execution.py", "Harden ExecutionProposal validation against malformed field types; preserve contract semantics.", "proposal-types"),
+            "P0.4-target-types": LocalTask("P0.4-target-types", "P0.4 Close current Native Execution Contract test gaps.", "ops/mediahub_native_execution.py", "Harden ExecutionTarget validation against malformed field types; preserve HTTPS and provider/credential matching.", "target-types"),
+        }
+        task = forced_tasks.get(forced)
+        if task is not None and _queue_contains(root, task.queue_item) and (root / task.target).is_file():
+            return task
+        return None
     """Select one deterministic, local, highest-priority eligible increment.
 
     The queue is authoritative for phase availability; eligibility is derived only
