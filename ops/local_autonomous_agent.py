@@ -185,6 +185,12 @@ def extract(text: str) -> str:
     return text[start:].strip() if start >= 0 else ""
 
 
+def unified_patch(old: str | list[str], new: str | list[str], target: str) -> str:
+    old_lines = old.splitlines() if isinstance(old, str) else [line.rstrip("\n") for line in old]
+    new_lines = new.splitlines() if isinstance(new, str) else [line.rstrip("\n") for line in new]
+    return "\n".join(difflib.unified_diff(old_lines, new_lines, fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="")) + "\n"
+
+
 def safe_patch(patch: str, target: str | None = None) -> bool:
     target = target or TARGET
     lines = patch.splitlines()
@@ -234,8 +240,7 @@ def _fallback_target_patch(old: list[str], old_text: str) -> str:
     if original not in old_text:
         return ""
     new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
-    return diff if diff.endswith("\n") else diff + "\n"
+    return unified_patch(old, new, TARGET)
 
 
 def _fallback_proposal_patch(old: list[str], old_text: str) -> str:
@@ -252,8 +257,7 @@ def _fallback_proposal_patch(old: list[str], old_text: str) -> str:
     if original not in old_text:
         return ""
     new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
-    return diff if diff.endswith("\n") else diff + "\n"
+    return unified_patch(old, new, TARGET)
 
 
 def _fallback_recovery_patch(old: list[str], old_text: str) -> str:
@@ -279,8 +283,7 @@ def _fallback_recovery_patch(old: list[str], old_text: str) -> str:
     if original not in old_text:
         return ""
     new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
-    return diff if diff.endswith("\n") else diff + "\n"
+    return unified_patch(old, new, TARGET)
 
 
 def _fallback_headers_patch(old: list[str], old_text: str) -> str:
@@ -297,8 +300,7 @@ def _fallback_headers_patch(old: list[str], old_text: str) -> str:
     if original not in old_text:
         return ""
     new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
-    return diff if diff.endswith("\n") else diff + "\n"
+    return unified_patch(old, new, TARGET)
 
 
 def fallback_patch(task: LocalTask | None = None) -> str:
@@ -353,18 +355,14 @@ def test_recovery_proposal_rejects_non_string_provider():
             NativeExecutionContract().prepare_recovery_proposal(evidence, provider)
 '''
         new = old.rstrip() + addition
-        return "".join(difflib.unified_diff(
-            old.splitlines(),
-            new.splitlines(),
-            fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="\n",
-        ))
+        return unified_patch(old, new, target)
     if task.fallback_kind == "hybrid-egress-tests":
         old = path.read_text(encoding="utf-8")
         if "test_request_rejects_malformed_types" in old:
             return ""
         addition = '\n\ndef test_request_rejects_malformed_types():\n    client = adapter()\n    healthy = type(client.check_tunnel())("tun-vpm", True, "test")\n    with patch.object(client, "check_tunnel", return_value=healthy):\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(123)\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(API, method=123)\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(API, headers={"X-Test": 1})\n\n\ndef test_request_rejects_invalid_timeout_type():\n    client = adapter()\n    healthy = type(client.check_tunnel())("tun-vpm", True, "test")\n    client.timeout_seconds = True\n    with patch.object(client, "check_tunnel", return_value=healthy):\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(API)\n'
         new = old.rstrip() + addition
-        return "\n".join(difflib.unified_diff(old.splitlines(), new.splitlines(), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="")) + "\n"
+        return unified_patch(old, new, target)
     if task.fallback_kind == "hybrid-egress-types":
         old = path.read_text(encoding="utf-8")
         marker = "        self.egress.admit(url)\n"
@@ -383,14 +381,14 @@ def test_recovery_proposal_rejects_non_string_provider():
         if marker not in old:
             return ""
         new_text = old.replace(marker, hardened, 1)
-        return "\n".join(difflib.unified_diff(old.splitlines(), new_text.splitlines(), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="")) + "\n"
+        return unified_patch(old, new_text, target)
     if task.fallback_kind == "native-negative-tests":
         old = path.read_text(encoding="utf-8")
         if "test_bounded_execution_rejects_malformed_types" in old:
             return ""
         addition = '''\n\ndef test_bounded_execution_rejects_malformed_types():\n    proposal = ExecutionProposal("req", "work", "sha", "openai")\n    adapter = BoundedExecutionAdapter()\n    for timeout in (True, False, 1.5, "30", None):\n        with pytest.raises(PermissionError):\n            adapter.admit(proposal, target(), timeout)\n    for output_limit in (True, False, 1.5, "4096", None):\n        with pytest.raises(PermissionError):\n            adapter.admit(proposal, target(), 30, output_limit)\n    with pytest.raises(PermissionError):\n        adapter.admit(object(), target())\n    with pytest.raises(PermissionError):\n        adapter.admit(proposal, object())\n    with pytest.raises(PermissionError):\n        NativeExecutionContract().prepare_proposal("", "work", "sha", "openai")\n    with pytest.raises(PermissionError):\n        NativeExecutionContract().prepare_headers(target(), True)\n'''
         new = old.rstrip() + addition
-        return "".join(difflib.unified_diff(old.splitlines(keepends=True), new.splitlines(keepends=True), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="\n"))
+        return unified_patch(old, new, target)
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
     old_text = "".join(old)
     if "class BoundedExecutionRequest:" in old_text and "isinstance(self.timeout_seconds, int)" not in old_text:
@@ -423,8 +421,7 @@ def test_recovery_proposal_rejects_non_string_provider():
         if original not in old_text:
             return ""
         new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
-        return diff if diff.endswith("\n") else diff + "\n"
+        return unified_patch(old, new, TARGET)
     if "def prepare_recovery_proposal(" in old_text and "malformed recovery evidence" not in old_text:
         return _fallback_recovery_patch(old, old_text)
     if "def prepare_headers(self, target: ExecutionTarget, secret: str)" in old_text and "not isinstance(secret, str)" not in old_text:
@@ -457,8 +454,7 @@ def test_recovery_proposal_rejects_non_string_provider():
         if original not in old_text:
             return ""
         new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
-        return diff if diff.endswith("\n") else diff + "\n"
+        return unified_patch(old, new, TARGET)
     marker = "class VerificationBoundary:"
     if any(marker in line for line in old):
         return ""
@@ -492,10 +488,7 @@ def test_recovery_proposal_rejects_non_string_provider():
     except StopIteration:
         return ""
     new = old[:insert_at] + addition + old[insert_at:]
-    diff = "".join(difflib.unified_diff(
-        old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"
-    ))
-    return diff if diff.endswith("\n") else diff + "\n"
+    return unified_patch(old, new, TARGET)
 
 def apply_checked(patch: str, target: str | None = None) -> bool:
     if not safe_patch(patch, target):
