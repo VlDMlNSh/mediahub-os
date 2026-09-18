@@ -2,6 +2,7 @@
 """Fail-closed local MediaHub coding agent with deterministic fallback."""
 from __future__ import annotations
 
+import atexit
 import difflib
 import json
 import os
@@ -13,6 +14,8 @@ import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
+
+from ops.ai.task_lease import LeaseDenied, TaskLease
 
 ROOT = Path(os.environ.get("MEDIAHUB_ROOT", "/home/mediahub/dev/mediahub-os-autonomous")).resolve()
 MODEL = Path("/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf")
@@ -602,6 +605,14 @@ def main() -> int:
         state("BLOCKED", "no eligible local task; higher-level work requires explicit bounded acceptance criteria")
         return 30
     print(f"LOCAL_AGENT_TASK={task.task_id}")
+    lease_root = Path(os.environ.get("MEDIAHUB_LEASE_ROOT", "/home/mediahub/.cache/mediahub-autonomous/leases"))
+    lease = TaskLease(lease_root / f"{task.task_id}.lock", task.task_id, os.environ.get("MEDIAHUB_WORKER_ID", str(os.getpid())))
+    try:
+        lease.acquire()
+    except LeaseDenied:
+        state("BLOCKED", "task lease is already held by another worker")
+        return 32
+    atexit.register(lease.release)
     error = ""
     patch = ""
 
