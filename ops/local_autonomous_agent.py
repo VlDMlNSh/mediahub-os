@@ -234,7 +234,7 @@ def _fallback_target_patch(old: list[str], old_text: str) -> str:
     if original not in old_text:
         return ""
     new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
     return diff if diff.endswith("\n") else diff + "\n"
 
 
@@ -252,7 +252,7 @@ def _fallback_proposal_patch(old: list[str], old_text: str) -> str:
     if original not in old_text:
         return ""
     new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
     return diff if diff.endswith("\n") else diff + "\n"
 
 
@@ -279,7 +279,7 @@ def _fallback_recovery_patch(old: list[str], old_text: str) -> str:
     if original not in old_text:
         return ""
     new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
     return diff if diff.endswith("\n") else diff + "\n"
 
 
@@ -297,7 +297,7 @@ def _fallback_headers_patch(old: list[str], old_text: str) -> str:
     if original not in old_text:
         return ""
     new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+    diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
     return diff if diff.endswith("\n") else diff + "\n"
 
 
@@ -423,7 +423,7 @@ def test_recovery_proposal_rejects_non_string_provider():
         if original not in old_text:
             return ""
         new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
         return diff if diff.endswith("\n") else diff + "\n"
     if "def prepare_recovery_proposal(" in old_text and "malformed recovery evidence" not in old_text:
         return _fallback_recovery_patch(old, old_text)
@@ -457,7 +457,7 @@ def test_recovery_proposal_rejects_non_string_provider():
         if original not in old_text:
             return ""
         new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
-        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm=""))
         return diff if diff.endswith("\n") else diff + "\n"
     marker = "class VerificationBoundary:"
     if any(marker in line for line in old):
