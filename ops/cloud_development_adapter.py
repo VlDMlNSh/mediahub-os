@@ -90,8 +90,18 @@ class CloudDevelopmentAdapter:
         self._audit("revoked")
 
     def admit(self, request: ProviderRequest) -> None:
-        if not self.authorized or self.revoked or not request.task_id:
+        if not isinstance(request, ProviderRequest):
+            raise AdapterDenied("request type is invalid")
+        if not self.authorized or self.revoked or not isinstance(request.task_id, str) or not request.task_id:
             raise AdapterDenied("request is not authorized")
+        if not isinstance(request.provider, str) or not isinstance(request.prompt, str):
+            raise AdapterDenied("provider request fields are invalid")
+        if not isinstance(request.source_sha, str) or not isinstance(request.data_class, str):
+            raise AdapterDenied("request provenance fields are invalid")
+        if not isinstance(request.capabilities, frozenset) or not isinstance(request.egress, frozenset):
+            raise AdapterDenied("request policy sets are invalid")
+        if not isinstance(request.timeout_seconds, int) or isinstance(request.timeout_seconds, bool):
+            raise AdapterDenied("timeout type is invalid")
         if request.provider not in self.allowed_providers:
             raise AdapterDenied("provider is not allowlisted")
         if request.capabilities & FORBIDDEN:

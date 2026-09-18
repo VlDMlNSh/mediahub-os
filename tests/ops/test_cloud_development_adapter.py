@@ -68,6 +68,25 @@ def test_missing_provenance_and_bad_timeout_are_denied():
         adapter.admit(request(timeout_seconds=901))
 
 
+def test_malformed_provider_request_types_are_denied():
+    adapter = CloudDevelopmentAdapter()
+    adapter.authorize()
+    with pytest.raises(AdapterDenied):
+        adapter.admit(object())
+    with pytest.raises(AdapterDenied):
+        adapter.admit(request(provider=None))
+    with pytest.raises(AdapterDenied):
+        adapter.admit(request(prompt=None))
+    with pytest.raises(AdapterDenied):
+        adapter.admit(request(source_sha=None))
+    with pytest.raises(AdapterDenied):
+        adapter.admit(request(capabilities={"production"}))
+    with pytest.raises(AdapterDenied):
+        adapter.admit(request(egress=["https://approved.example"]))
+    with pytest.raises(AdapterDenied):
+        adapter.admit(request(timeout_seconds=True))
+
+
 def test_unsafe_harness_flags_are_denied(sandbox):
     adapter = CloudDevelopmentAdapter()
     adapter.authorize()
