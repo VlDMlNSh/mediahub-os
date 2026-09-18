@@ -47,6 +47,7 @@ def select_local_task(root: Path) -> LocalTask | None:
             "P0.4-provider-credential-types": LocalTask("P0.4-provider-credential-types", "P0.4 Close current Native Execution Contract test gaps.", "ops/mediahub_native_execution.py", "Require provider credentials to be non-empty strings before constructing authorization headers; preserve native provider headers.", "provider-credential"),
             "P0.4-proposal-types": LocalTask("P0.4-proposal-types", "P0.4 Close current Native Execution Contract test gaps.", "ops/mediahub_native_execution.py", "Harden ExecutionProposal validation against malformed field types; preserve contract semantics.", "proposal-types"),
             "P0.4-target-types": LocalTask("P0.4-target-types", "P0.4 Close current Native Execution Contract test gaps.", "ops/mediahub_native_execution.py", "Harden ExecutionTarget validation against malformed field types; preserve HTTPS and provider/credential matching.", "target-types"),
+            "P1.6-hybrid-egress-types": LocalTask("P1.6-hybrid-egress-types", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "ops/hybrid_cloud_api_egress_adapter.py", "Harden the hybrid cloud egress adapter against malformed url, method, headers, and timeout types; preserve fail-closed VPN and allowlist behavior.", "hybrid-egress-types"),
         }
         task = forced_tasks.get(forced)
         if task is not None and _queue_contains(root, task.queue_item) and (root / task.target).is_file():
@@ -114,6 +115,12 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "Add focused negative tests for non-string ExecutionProposal fields, malformed ExecutionTarget credential references/protocol types, and non-string recovery provider; do not alter production authority or network behavior.",
                 "p1.1-negative-tests",
             )
+
+    egress = root / "ops/hybrid_cloud_api_egress_adapter.py"
+    if _queue_contains(root, "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.") and egress.is_file():
+        text = egress.read_text(encoding="utf-8")
+        if "malformed hybrid egress request" not in text:
+            return LocalTask("P1.6-hybrid-egress-types", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "ops/hybrid_cloud_api_egress_adapter.py", "Harden the hybrid cloud egress adapter against malformed url, method, headers, and timeout types; preserve fail-closed VPN and allowlist behavior.", "hybrid-egress-types")
 
     # No higher-level local task has encoded acceptance criteria yet; stop rather than fabricate work.
     # Higher-level queue items remain eligible only after their acceptance criteria
@@ -347,6 +354,25 @@ def test_recovery_proposal_rejects_non_string_provider():
             new.splitlines(keepends=True),
             fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="\n",
         ))
+    if task.fallback_kind == "hybrid-egress-types":
+        old = path.read_text(encoding="utf-8")
+        marker = "        self.egress.admit(url)\n"
+        if "malformed hybrid egress request" in old:
+            return ""
+        hardened = """        if not isinstance(url, str) or not url:
+            raise CloudAPIUnavailable("malformed hybrid egress request")
+        if not isinstance(method, str) or not method:
+            raise CloudAPIUnavailable("malformed hybrid egress request")
+        if headers is not None and (not isinstance(headers, dict) or any(not isinstance(k, str) or not isinstance(v, str) for k, v in headers.items())):
+            raise CloudAPIUnavailable("malformed hybrid egress request")
+        if not isinstance(self.timeout_seconds, (int, float)) or isinstance(self.timeout_seconds, bool) or self.timeout_seconds <= 0:
+            raise CloudAPIUnavailable("malformed hybrid egress request")
+        self.egress.admit(url)
+"""
+        if marker not in old:
+            return ""
+        new_text = old.replace(marker, hardened, 1)
+        return "".join(difflib.unified_diff(old.splitlines(keepends=True), new_text.splitlines(keepends=True), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="\n"))
     if task.fallback_kind == "native-negative-tests":
         old = path.read_text(encoding="utf-8")
         if "test_bounded_execution_rejects_malformed_types" in old:
