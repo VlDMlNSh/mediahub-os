@@ -14,6 +14,11 @@ class EgressPolicy:
     destinations: frozenset[str]
     max_destinations: int = 16
 
+    def __post_init__(self) -> None:
+        if not isinstance(self.destinations, frozenset) or any(not isinstance(destination, str) for destination in self.destinations):
+            raise EgressDenied("malformed egress destinations")
+        if not isinstance(self.max_destinations, int) or isinstance(self.max_destinations, bool) or self.max_destinations < 0:
+            raise EgressDenied("invalid egress destination limit")
 
 @dataclass
 class EgressController:

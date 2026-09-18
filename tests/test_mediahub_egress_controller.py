@@ -46,3 +46,11 @@ def test_revocation_is_terminal():
     controller.revoke()
     with pytest.raises(EgressDenied):
         controller.authorize()
+
+def test_egress_policy_rejects_malformed_types():
+    with pytest.raises(EgressDenied):
+        EgressPolicy({"https://example.test"})
+    with pytest.raises(EgressDenied):
+        EgressPolicy(frozenset({1}))
+    with pytest.raises(EgressDenied):
+        EgressPolicy(frozenset(), True)
