@@ -83,6 +83,11 @@ def test_execution_is_sandboxed_and_provider_neutral(sandbox):
     assert result.output.strip() == "BRIDGE_OK"
     assert result.provenance["adapter_id"] == "mediahub.cloud-development-adapter.v1"
     assert result.provenance["provider"] == "codex"
+    admitted = next(event for event in adapter.audit_events if event["event"] == "admitted")
+    completed = next(event for event in adapter.audit_events if event["event"] == "provider_completed")
+    assert int(admitted["request_bytes"]) == len(b"return HEALTHY")
+    assert int(completed["output_bytes"]) == len(b"BRIDGE_OK\n")
+    assert int(completed["duration_ms"]) >= 0
 
 
 def test_sandbox_escape_is_denied(tmp_path):

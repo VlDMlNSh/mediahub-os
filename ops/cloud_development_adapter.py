@@ -106,7 +106,7 @@ class CloudDevelopmentAdapter:
             raise AdapterDenied("source provenance is required")
         if not request.prompt or len(request.prompt.encode()) > 64 * 1024:
             raise AdapterDenied("prompt is empty or exceeds the bounded size")
-        self._audit("admitted", task_id=request.task_id, provider=request.provider)
+        self._audit("admitted", task_id=request.task_id, provider=request.provider, request_bytes=len(request.prompt.encode("utf-8")))
 
     def provenance(self, request: ProviderRequest) -> dict[str, str]:
         self.admit(request)
@@ -172,7 +172,8 @@ class CloudDevelopmentAdapter:
             self._audit("provider_failed", task_id=request.task_id, exit_code=str(proc.returncode))
         else:
             self._audit("provider_completed", task_id=request.task_id,
-                        duration_ms=str(int((time.monotonic() - started) * 1000)))
+                        duration_ms=str(int((time.monotonic() - started) * 1000)),
+                        output_bytes=str(len(output.encode("utf-8"))))
         return ProviderResult(request.provider, request.task_id, "ok" if proc.returncode == 0 else "failed",
                               output, proc.returncode, self.provenance(request))
 
