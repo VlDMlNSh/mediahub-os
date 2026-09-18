@@ -236,3 +236,41 @@ def test_bounded_execution_request_rejects_non_integer_output_limit_types():
     for max_output_bytes in (True, False, 1.5, "4096", None):
         with pytest.raises(PermissionError):
             adapter.admit(proposal, target(), 30, max_output_bytes)
+
+
+def test_execution_proposal_rejects_non_string_fields():
+    contract = NativeExecutionContract()
+    for values in (
+        (1, "work", "sha", "openai"),
+        ("req", None, "sha", "openai"),
+        ("req", "work", True, "openai"),
+        ("req", "work", "sha", 1),
+    ):
+        with pytest.raises(PermissionError):
+            contract.prepare_proposal(*values)
+
+
+def test_execution_target_rejects_malformed_credential_ref():
+    malformed = ExecutionTarget(
+        "openai", "https://api.example.test/v1", Protocol.OPENAI_RESPONSES,
+        "test-model", object(),
+    )
+    with pytest.raises(PermissionError):
+        malformed.validate()
+
+
+def test_execution_target_rejects_invalid_protocol_type():
+    malformed = ExecutionTarget(
+        "openai", "https://api.example.test/v1", "openai",
+        "test-model", CredentialRef("openai", "/credential"),
+    )
+    with pytest.raises(PermissionError):
+        malformed.validate()
+
+
+def test_recovery_proposal_rejects_non_string_provider():
+    from types import SimpleNamespace
+    evidence = SimpleNamespace(verified=True, request_id="req-r", workload_id="work-r", source_sha="sha-r")
+    for provider in (1, True, None):
+        with pytest.raises(PermissionError):
+            NativeExecutionContract().prepare_recovery_proposal(evidence, provider)
