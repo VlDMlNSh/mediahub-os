@@ -301,6 +301,8 @@ def _configure_temp_agent(monkeypatch, repo, target):
     monkeypatch.setattr(agent, "RUFF", Path("/definitely/missing/ruff"))
     monkeypatch.setattr(agent, "MAX_REGENERATIONS", 1)
     monkeypatch.setattr(agent, "TARGET", str(target.relative_to(repo)))
+    monkeypatch.setenv("MEDIAHUB_LEASE_ROOT", str(repo.parent / "leases"))
+    monkeypatch.setenv("MEDIAHUB_WORKER_ID", "test-worker")
     return agent
 
 
