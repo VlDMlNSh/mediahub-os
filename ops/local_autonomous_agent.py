@@ -364,7 +364,7 @@ def test_recovery_proposal_rejects_non_string_provider():
             return ""
         addition = '\n\ndef test_request_rejects_malformed_types():\n    client = adapter()\n    healthy = type(client.check_tunnel())("tun-vpm", True, "test")\n    with patch.object(client, "check_tunnel", return_value=healthy):\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(123)\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(API, method=123)\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(API, headers={"X-Test": 1})\n\n\ndef test_request_rejects_invalid_timeout_type():\n    client = adapter()\n    healthy = type(client.check_tunnel())("tun-vpm", True, "test")\n    client.timeout_seconds = True\n    with patch.object(client, "check_tunnel", return_value=healthy):\n        with pytest.raises(CloudAPIUnavailable):\n            client.request(API)\n'
         new = old.rstrip() + addition
-        return "".join(difflib.unified_diff(old.splitlines(), new.splitlines(), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="")) + "\n"
+        return "\n".join(difflib.unified_diff(old.splitlines(), new.splitlines(), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="")) + "\n"
     if task.fallback_kind == "hybrid-egress-types":
         old = path.read_text(encoding="utf-8")
         marker = "        self.egress.admit(url)\n"
@@ -383,7 +383,7 @@ def test_recovery_proposal_rejects_non_string_provider():
         if marker not in old:
             return ""
         new_text = old.replace(marker, hardened, 1)
-        return "".join(difflib.unified_diff(old.splitlines(), new_text.splitlines(), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="")) + "\n"
+        return "\n".join(difflib.unified_diff(old.splitlines(), new_text.splitlines(), fromfile=f"a/{target}", tofile=f"b/{target}", lineterm="")) + "\n"
     if task.fallback_kind == "native-negative-tests":
         old = path.read_text(encoding="utf-8")
         if "test_bounded_execution_rejects_malformed_types" in old:
