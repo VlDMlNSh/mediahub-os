@@ -49,3 +49,22 @@ def test_transport_failure_is_fail_closed() -> None:
         client.authorize()
         with pytest.raises(CloudAPIUnavailable):
             client.request(API)
+
+
+def test_request_rejects_malformed_types() -> None:
+    client = adapter()
+    healthy = type(client.check_tunnel())("tun-vpm", True, "test")
+    with patch.object(client, "check_tunnel", return_value=healthy), pytest.raises(CloudAPIUnavailable):
+        client.request(123)
+    with patch.object(client, "check_tunnel", return_value=healthy), pytest.raises(CloudAPIUnavailable):
+        client.request(API, method=123)
+    with patch.object(client, "check_tunnel", return_value=healthy), pytest.raises(CloudAPIUnavailable):
+        client.request(API, headers={"X-Test": 1})
+
+
+def test_request_rejects_invalid_timeout_type() -> None:
+    client = adapter()
+    healthy = type(client.check_tunnel())("tun-vpm", True, "test")
+    client.timeout_seconds = True
+    with patch.object(client, "check_tunnel", return_value=healthy), pytest.raises(CloudAPIUnavailable):
+        client.request(API)
