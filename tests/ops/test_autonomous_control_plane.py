@@ -455,6 +455,8 @@ def test_hybrid_development_systemd_unit_is_fail_closed_on_terminal_restore():
 
 
 def test_systemd_autonomous_service_runs_continuous_controller():
+    loop = (ROOT / "ops/autonomous_os_loop.sh").read_text(encoding="utf-8")
+    assert 'export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"' in loop
     text = (ROOT / "ops/systemd/mediahub-local-autonomous.service").read_text(encoding="utf-8")
     assert "Type=simple" in text
     assert "ExecStart=/home/mediahub/dev/mediahub-os-autonomous/ops/autonomous_os_loop.sh" in text

@@ -15,6 +15,7 @@ PROC_STARTTIME="$(awk '{print $22}' "/proc/$$/stat" 2>/dev/null || true)"
 printf '%s:%s\n' "$$" "$PROC_STARTTIME" >"$PIDFILE"
 trap 'rm -f "$PIDFILE"' EXIT
 export MEDIAHUB_ROOT="$ROOT"
+export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
 export MEDIAHUB_LOCAL_MODEL="/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf"
 export MEDIAHUB_LLAMA_CLI="/home/mediahub/local-ai/bin/llama-cli"
 MAX=900
