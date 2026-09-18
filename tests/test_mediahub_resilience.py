@@ -56,3 +56,9 @@ def test_invalid_retry_policy_rejected():
         RetryPolicy(max_attempts=0)
     with pytest.raises(ValueError):
         RetryPolicy(base_delay_seconds=3, max_delay_seconds=2)
+
+def test_retry_policy_rejects_malformed_types():
+    with pytest.raises(ValueError): RetryPolicy(max_attempts=True)
+    with pytest.raises(ValueError): RetryPolicy(base_delay_seconds="1")
+    with pytest.raises(ValueError): RetryPolicy(max_delay_seconds=None)
+    with pytest.raises(ValueError): RetryPolicy(jitter_ratio=False)

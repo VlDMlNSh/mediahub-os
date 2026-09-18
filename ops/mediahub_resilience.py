@@ -18,6 +18,14 @@ class RetryPolicy:
     jitter_ratio: float = 0.0
 
     def __post_init__(self) -> None:
+        if not isinstance(self.max_attempts, int) or isinstance(self.max_attempts, bool):
+            raise ValueError("max_attempts must be an integer")  # noqa: TRY004
+        if not isinstance(self.base_delay_seconds, (int, float)) or isinstance(self.base_delay_seconds, bool):
+            raise ValueError("base_delay_seconds must be numeric")  # noqa: TRY004
+        if not isinstance(self.max_delay_seconds, (int, float)) or isinstance(self.max_delay_seconds, bool):
+            raise ValueError("max_delay_seconds must be numeric")  # noqa: TRY004
+        if not isinstance(self.jitter_ratio, (int, float)) or isinstance(self.jitter_ratio, bool):
+            raise ValueError("jitter_ratio must be numeric")  # noqa: TRY004
         if self.max_attempts < 1:
             raise ValueError("max_attempts must be >= 1")
         if not 0 <= self.base_delay_seconds <= self.max_delay_seconds:
