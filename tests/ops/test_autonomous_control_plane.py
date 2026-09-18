@@ -332,6 +332,13 @@ def _synthetic_target_patch():
     )
 
 
+def test_hybrid_development_systemd_unit_is_fail_closed_on_terminal_restore():
+    text = (ROOT / "ops/systemd/mediahub-hybrid-development.service").read_text(encoding="utf-8")
+    assert "Restart=on-failure" in text
+    assert "Restart=always" not in text
+    assert "--r4-sha 471f709f5633feab7aeb62dd3ea52effad6d2bc4" in text
+
+
 def test_systemd_autonomous_service_runs_continuous_controller():
     text = (ROOT / "ops/systemd/mediahub-local-autonomous.service").read_text(encoding="utf-8")
     assert "Type=simple" in text
