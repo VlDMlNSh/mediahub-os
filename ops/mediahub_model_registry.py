@@ -16,6 +16,11 @@ class ModelRecord:
 
 class ModelRegistry:
     def __init__(self, records: tuple[ModelRecord, ...] = ()) -> None:
+        if not isinstance(records, tuple) or any(not isinstance(record, ModelRecord) for record in records):
+            raise ValueError("malformed model registry records")
+        if any(not isinstance(record.provider, str) or not isinstance(record.model, str) or not isinstance(record.enabled, bool)
+               for record in records):
+            raise ValueError("malformed model registry record")
         self._records = {(r.provider, r.model): r for r in records}
 
     def require(self, provider: str, model: str) -> ModelRecord:
