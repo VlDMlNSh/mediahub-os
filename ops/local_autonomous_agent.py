@@ -265,23 +265,17 @@ def exact_target() -> bool:
 
 
 def verify() -> bool:
-    commands = [
-        (["git", "diff", "--check"], 120),
-        ([str(RUFF), "check", TARGET], 120) if RUFF.is_file() else None,
-        ([".autonomous/venv/bin/python", "-m", "pytest", "-q"], 900),
-        ([".autonomous/venv/bin/python", "-m", "pytest", "-q", "tests/security"], 900),
-        (["mypy", "runtime"], 300),
-        (["semgrep", "--config", "p/python", "--error", "--metrics=off", "runtime", "tests"], 300),
-        (["bandit", "-r", "runtime", "-q"], 300),
-        ([".autonomous/venv/bin/pip-audit", "--local"], 300),
-    ]
-    for item in commands:
+    checks = [(["git", "diff", "--check"], 120)]
+    if RUFF.is_file():
+        checks.append(([str(RUFF), "check", TARGET], 120))
+    checks.append((["bash", "ops/security_scan_local.sh"], 900))
+    for item in checks:
         if item is None:
             continue
         cmd, timeout = item
-        result = run(cmd, timeout=timeout)
-        if result.returncode:
-            print(result.stdout + result.stderr, file=sys.stderr)
+        p = run(cmd, timeout=timeout)
+        if p.returncode:
+            print(p.stdout + p.stderr, file=sys.stderr)
             return False
     return True
 
@@ -387,7 +381,7 @@ def main() -> int:
             print("LOCAL_AGENT_NOOP: no admissible downstream change")
             state("BLOCKED", "no admissible fallback task or tree is already changed")
             return 30
-        state("FALLBACK_SELECTED", "whitelist task: hybrid session restore coverage")
+        state("FALLBACK_SELECTED", "whitelist task: recovery-proposal admission hardening")
         if not apply_checked(patch):
             state("BLOCKED", "fallback failed structural validation or git apply --check")
             return 25
