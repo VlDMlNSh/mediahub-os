@@ -81,5 +81,9 @@ class LocalClusterMembership:
 
     @staticmethod
     def _validate_identity(identity: ClusterNodeIdentity) -> None:
+        if not isinstance(identity, ClusterNodeIdentity):
+            raise MembershipDenied("malformed node identity")
+        if not all(isinstance(value, str) for value in (identity.node_id, identity.identity_id, identity.source_sha)):
+            raise MembershipDenied("malformed node identity")
         if not identity.node_id or not identity.identity_id or not identity.source_sha:
             raise MembershipDenied("node identity and provenance are required")

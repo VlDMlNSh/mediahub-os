@@ -97,3 +97,15 @@ def test_active_node_can_be_quarantined_and_is_not_active():
     assert quarantined.state is MembershipState.QUARANTINED
     with pytest.raises(MembershipDenied):
         membership.require_active("node-a")
+
+def test_enrollment_rejects_malformed_identity_types():
+    membership = LocalClusterMembership()
+    for value in (object(), None, 1, True):
+        with pytest.raises(MembershipDenied):
+            membership.enroll(value)
+    with pytest.raises(MembershipDenied):
+        membership.enroll(identity(node_id=1))
+    with pytest.raises(MembershipDenied):
+        membership.enroll(identity(identity_id=True))
+    with pytest.raises(MembershipDenied):
+        membership.enroll(identity(source_sha=None))
