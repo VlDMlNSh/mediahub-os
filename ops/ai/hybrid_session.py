@@ -5,13 +5,13 @@ mutate canonical state, or bypass the MediaHub AI Gateway.
 """
 from __future__ import annotations
 
+import json
+import math
+from collections.abc import Callable
 from dataclasses import dataclass, field, replace
 from datetime import datetime, timedelta, timezone
 from enum import StrEnum
-import json
-import math
 from pathlib import Path
-from typing import Callable
 
 
 class SessionState(StrEnum):
@@ -54,6 +54,8 @@ class SessionJournal:
             "state": session.state.value,
             "event": event,
             "timestamp": datetime.now(timezone.utc).isoformat(),
+            "started_at": session.started_at.isoformat(),
+            "deadline": session.deadline.isoformat(),
             "baseline_sha": session.baseline_sha,
             "r4_sha": session.r4_sha,
             **data,
@@ -176,7 +178,7 @@ class HybridSessionController:
         started = next((r for r in reversed(records) if r.get("event") == "SESSION_STARTED"), None)
         if started is None or started.get("session_id") != session_id:
             raise SessionDenied("session start provenance is unavailable")
-        started_at = datetime.fromisoformat(started["timestamp"])
+        started_at = datetime.fromisoformat(started.get("started_at", started["timestamp"]))
         duration_seconds = float(started.get("duration_seconds", 0))
         if started_at.tzinfo is None or not math.isfinite(duration_seconds) or duration_seconds <= 0:
             raise SessionDenied("session start provenance is invalid")

@@ -104,3 +104,42 @@ def test_journal_is_append_only_jsonl_with_provenance(tmp_path):
     assert len(lines) == 3
     assert '"baseline_sha":"baseline"' in lines[-1]
     assert '"r4_sha":"r4"' in lines[-1]
+
+def test_restore_rejects_identity_or_provenance_mismatch(tmp_path):
+    ctl, _ = controller(tmp_path)
+    ctl.start("s1", "baseline", "r4", duration=timedelta(hours=1))
+    with pytest.raises(SessionDenied):
+        HybridSessionController(SessionJournal(tmp_path / "session.jsonl"), ctl.clock).restore(
+            session_id="s1", baseline_sha="other", r4_sha="r4"
+        )
+
+
+def test_restore_rejects_terminal_journal_tail(tmp_path):
+    ctl, _ = controller(tmp_path)
+    ctl.start("s1", "baseline", "r4", duration=timedelta(hours=1))
+    ctl.stop("done")
+    with pytest.raises(SessionDenied):
+        HybridSessionController(SessionJournal(tmp_path / "session.jsonl"), ctl.clock).restore(
+            session_id="s1", baseline_sha="baseline", r4_sha="r4"
+        )
+
+
+def test_restore_expires_when_deadline_has_passed(tmp_path):
+    ctl, clock = controller(tmp_path)
+    session = ctl.start("s1", "baseline", "r4", duration=timedelta(hours=1))
+    clock.value = session.deadline + timedelta(seconds=1)
+    restored = HybridSessionController(SessionJournal(tmp_path / "session.jsonl"), ctl.clock).restore(
+        session_id="s1", baseline_sha="baseline", r4_sha="r4"
+    )
+    assert restored.state is SessionState.EXPIRED
+
+
+def test_restore_preserves_original_deadline(tmp_path):
+    ctl, clock = controller(tmp_path)
+    session = ctl.start("s1", "baseline", "r4", duration=timedelta(hours=1))
+    clock.value += timedelta(minutes=10)
+    restored = HybridSessionController(SessionJournal(tmp_path / "session.jsonl"), ctl.clock).restore(
+        session_id="s1", baseline_sha="baseline", r4_sha="r4"
+    )
+    assert restored.state is SessionState.RUNNING
+    assert restored.deadline == session.deadline
