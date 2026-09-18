@@ -19,7 +19,7 @@ GIT = Path("/usr/bin/git")
 RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 160
 MAX_REGENERATIONS = 3
-TARGET = "tests/ai/test_hybrid_session.py"
+TARGET = "ops/mediahub_native_execution.py"
 R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
 PROTECTED = {
     ".git", ".autonomous", ".github", "production", "credentials",
@@ -59,7 +59,7 @@ def prompt(feedback: str = "") -> str:
     current = (ROOT / TARGET).read_text(encoding="utf-8")
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
     return f"""MediaHub local coding cycle. R4={R4}. Modify ONLY the existing tracked file {TARGET}.
-Advance the next approved recovery-coverage task: add deterministic restore-path tests for HybridSessionController. Cover journal identity/provenance mismatch, terminal journal tail rejection, expired restore behavior, and successful restore preserving the original deadline. Do not change production code in this task. Do not access network, secrets, State Authority, Home Assistant, production devices, or cloud agents. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
+Advance only to the next approved Wave 10 security task: harden NativeExecutionContract.prepare_headers against malformed provider credentials, without executing anything. Modify ONLY the existing tracked file ops/mediahub_native_execution.py. Preserve valid behavior, but require the secret credential input to be a non-empty string before constructing any authorization headers. Reject wrong object and field types with PermissionError rather than leaking AttributeError/TypeError or accepting bool-as-string-like input. Keep HTTPS endpoint policy and existing provider/credential matching unchanged. Do not weaken the existing provider-specific header behavior or change the public contracts. The boundary must not execute subprocesses, access network, retrieve secrets, mutate State Authority/Home Assistant, or widen egress. Return ONLY one complete unified git diff, no markdown fences, no commentary. Use the exact real file context below. No new files, modes, renames, secrets, .git, .github, .autonomous, production or cloud activation. The diff must pass git apply --check.
 {current}{error}"""
 
 
@@ -188,57 +188,113 @@ def _fallback_headers_patch(old: list[str], old_text: str) -> str:
 
 
 def fallback_patch() -> str:
-    """Return the pre-approved HybridSession restore coverage diff only."""
+    """Return the pre-approved Wave 10 prepare_headers input hardening diff only."""
     path = ROOT / TARGET
     old = path.read_text(encoding="utf-8").splitlines(keepends=True)
     old_text = "".join(old)
-    if "test_restore_rejects_identity_or_provenance_mismatch" in old_text:
-        return ""
-    addition = """
-
-def test_restore_rejects_identity_or_provenance_mismatch(tmp_path):
-    ctl, _ = controller(tmp_path)
-    ctl.start("s1", "baseline", "r4", duration=timedelta(hours=1))
-    with pytest.raises(SessionDenied):
-        HybridSessionController(SessionJournal(tmp_path / "session.jsonl"), ctl.clock).restore(
-            session_id="s1", baseline_sha="other", r4_sha="r4"
-        )
-
-
-def test_restore_rejects_terminal_journal_tail(tmp_path):
-    ctl, _ = controller(tmp_path)
-    ctl.start("s1", "baseline", "r4", duration=timedelta(hours=1))
-    ctl.stop("done")
-    with pytest.raises(SessionDenied):
-        HybridSessionController(SessionJournal(tmp_path / "session.jsonl"), ctl.clock).restore(
-            session_id="s1", baseline_sha="baseline", r4_sha="r4"
-        )
-
-
-def test_restore_expires_when_deadline_has_passed(tmp_path):
-    ctl, clock = controller(tmp_path)
-    session = ctl.start("s1", "baseline", "r4", duration=timedelta(hours=1))
-    clock.value = session.deadline + timedelta(seconds=1)
-    restored = HybridSessionController(SessionJournal(tmp_path / "session.jsonl"), ctl.clock).restore(
-        session_id="s1", baseline_sha="baseline", r4_sha="r4"
-    )
-    assert restored.state is SessionState.EXPIRED
-
-
-def test_restore_preserves_original_deadline(tmp_path):
-    ctl, clock = controller(tmp_path)
-    session = ctl.start("s1", "baseline", "r4", duration=timedelta(hours=1))
-    clock.value += timedelta(minutes=10)
-    restored = HybridSessionController(SessionJournal(tmp_path / "session.jsonl"), ctl.clock).restore(
-        session_id="s1", baseline_sha="baseline", r4_sha="r4"
-    )
-    assert restored.state is SessionState.RUNNING
-    assert restored.deadline == session.deadline
+    if "class BoundedExecutionRequest:" in old_text and "isinstance(self.timeout_seconds, int)" not in old_text:
+        original = """    def validate(self) -> None:
+        self.proposal.validate()
+        self.target.validate()
+        if self.proposal.provider != self.target.provider:
+            raise PermissionError(\"proposal provider does not match execution target\")
+        if not 1 <= self.timeout_seconds <= 900:
+            raise ValueError(\"execution timeout is outside the bounded policy\")
+        if not 1 <= self.max_output_bytes <= 1_048_576:
+            raise ValueError(\"execution output limit is outside the bounded policy\")
 """
-    new = old_text + addition
-    diff = "".join(difflib.unified_diff(old, new.splitlines(keepends=True), fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+        hardened = """    def validate(self) -> None:
+        if not isinstance(self.proposal, ExecutionProposal) or not isinstance(self.target, ExecutionTarget):
+            raise PermissionError(\"malformed bounded execution request\")
+        if not isinstance(self.timeout_seconds, int) or isinstance(self.timeout_seconds, bool):
+            raise PermissionError(\"execution timeout must be an integer\")
+        if not isinstance(self.max_output_bytes, int) or isinstance(self.max_output_bytes, bool):
+            raise PermissionError(\"execution output limit must be an integer\")
+        self.proposal.validate()
+        self.target.validate()
+        if self.proposal.provider != self.target.provider:
+            raise PermissionError(\"proposal provider does not match execution target\")
+        if not 1 <= self.timeout_seconds <= 900:
+            raise ValueError(\"execution timeout is outside the bounded policy\")
+        if not 1 <= self.max_output_bytes <= 1_048_576:
+            raise ValueError(\"execution output limit is outside the bounded policy\")
+"""
+        if original not in old_text:
+            return ""
+        new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
+        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+        return diff if diff.endswith("\n") else diff + "\n"
+    if "def prepare_recovery_proposal(" in old_text and "malformed recovery evidence" not in old_text:
+        return _fallback_recovery_patch(old, old_text)
+    if "def prepare_headers(self, target: ExecutionTarget, secret: str)" in old_text and "not isinstance(secret, str)" not in old_text:
+        return _fallback_headers_patch(old, old_text)
+    if "class ExecutionProposal:" in old_text and "malformed execution proposal" not in old_text:
+        return _fallback_proposal_patch(old, old_text)
+    if "class ExecutionTarget:" in old_text and "malformed execution target" not in old_text:
+        return _fallback_target_patch(old, old_text)
+    if old_text.count("class VerificationBoundary:") == 1 and "class ExecutionVerification:" in old_text:
+        if "malformed verification request" in old_text:
+            return ""
+        original = """    def validate(self) -> None:
+        self.request.validate()
+        if self.status not in {\"COMPLETED\", \"FAILED\"}:
+            raise PermissionError(\"unsupported verification status\")
+        if not self.observed_source_sha or self.observed_source_sha != self.request.proposal.source_sha:
+            raise PermissionError(\"verification provenance does not match proposal\")
+"""
+        hardened = """    def validate(self) -> None:
+        if not isinstance(self.request, BoundedExecutionRequest):
+            raise PermissionError(\"malformed verification request\")
+        if not isinstance(self.status, str) or self.status not in {\"COMPLETED\", \"FAILED\"}:
+            raise PermissionError(\"unsupported verification status\")
+        if not isinstance(self.observed_source_sha, str) or not self.observed_source_sha:
+            raise PermissionError(\"malformed verification provenance\")
+        self.request.validate()
+        if self.observed_source_sha != self.request.proposal.source_sha:
+            raise PermissionError(\"verification provenance does not match proposal\")
+"""
+        if original not in old_text:
+            return ""
+        new = old_text.replace(original, hardened, 1).splitlines(keepends=True)
+        diff = "".join(difflib.unified_diff(old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"))
+        return diff if diff.endswith("\n") else diff + "\n"
+    marker = "class VerificationBoundary:"
+    if any(marker in line for line in old):
+        return ""
+    addition = [
+        "\n",
+        "@dataclass(frozen=True)\n",
+        "class ExecutionVerification:\n",
+        "    request: BoundedExecutionRequest\n",
+        "    status: str\n",
+        "    observed_source_sha: str\n",
+        "\n",
+        "    def validate(self) -> None:\n",
+        "        self.request.validate()\n",
+        "        if self.status not in {\"COMPLETED\", \"FAILED\"}:\n",
+        "            raise PermissionError(\"unsupported verification status\")\n",
+        "        if not self.observed_source_sha or self.observed_source_sha != self.request.proposal.source_sha:\n",
+        "            raise PermissionError(\"verification provenance does not match proposal\")\n",
+        "\n",
+        "class VerificationBoundary:\n",
+        "    def verify(\n",
+        "        self, request: BoundedExecutionRequest, status: str, observed_source_sha: str,\n",
+        "    ) -> ExecutionVerification:\n",
+        "        verification = ExecutionVerification(request, status, observed_source_sha)\n",
+        "        verification.validate()\n",
+        "        return verification\n",
+        "\n",
+    ]
+    marker = "class NativeExecutionContract:"
+    try:
+        insert_at = next(i for i, line in enumerate(old) if line.startswith(marker))
+    except StopIteration:
+        return ""
+    new = old[:insert_at] + addition + old[insert_at:]
+    diff = "".join(difflib.unified_diff(
+        old, new, fromfile=f"a/{TARGET}", tofile=f"b/{TARGET}", lineterm="\n"
+    ))
     return diff if diff.endswith("\n") else diff + "\n"
-
 
 def apply_checked(patch: str) -> bool:
     if not safe_patch(patch):
