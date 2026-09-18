@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 """Bounded 24/7 hybrid orchestrator; advisory scheduler, never release authority."""
 from __future__ import annotations
-import json, os, subprocess, time
+
+import json
+import os
+import subprocess
+import time
 from pathlib import Path
+
 ROOT=Path(os.environ.get('MEDIAHUB_ROOT','/home/mediahub/dev/mediahub-os-autonomous')).resolve()
 STATE=ROOT/'.autonomous'; LANES=Path('/home/mediahub/dev/parallel-lanes')
 ROLES=('planner','explorer','builder','reviewer','tester','security','optimizer')

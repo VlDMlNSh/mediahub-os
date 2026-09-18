@@ -56,6 +56,14 @@ def test_no_transport_safe_stops(tmp_path):
     assert c.state is ControllerState.WAITING
 
 
+def test_request_api_preserves_waiting_on_transport_loss(tmp_path):
+    c = controller(tmp_path, healthy=False)
+    c.start("s1", "baseline", "r4", timedelta(hours=1))
+    with pytest.raises(HybridDevelopmentDenied):
+        c.request_api("https://example.invalid/api")
+    assert c.state is ControllerState.WAITING
+
+
 def test_restore_delivery_binds_checkpoint_to_current_identity(tmp_path):
     c = controller(tmp_path)
     c.start("s1", "baseline", "r4", timedelta(hours=1))

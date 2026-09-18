@@ -132,7 +132,13 @@ class HybridDevelopmentController:
         except (CloudAPIUnavailable, DeliveryDenied, HybridDevelopmentDenied) as exc:
             if self.delivery.delivery is not None and self.delivery.delivery.state is DeliveryState.DISPATCHED:
                 self.delivery.mark_transport_unknown("cloud API outcome unknown")
-            self.state = ControllerState.WAITING if isinstance(exc, CloudAPIUnavailable) else ControllerState.SAFE_STOP
+            # preflight() deliberately converts unavailable transport into WAITING
+            # plus HybridDevelopmentDenied. Preserve that degraded state here;
+            # transport loss is recoverable and must not become a false SAFE_STOP.
+            if isinstance(exc, CloudAPIUnavailable) or self.state is ControllerState.WAITING:
+                self.state = ControllerState.WAITING
+            else:
+                self.state = ControllerState.SAFE_STOP
             raise HybridDevelopmentDenied("cloud API operation failed closed") from exc
 
     def mark_dispatched(self) -> ControllerSnapshot:
