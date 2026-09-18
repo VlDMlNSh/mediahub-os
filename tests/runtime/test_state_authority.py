@@ -1,5 +1,7 @@
 import unittest
 
+import pytest
+
 from runtime.mediahub_runtime.state_authority import *
 
 AUTH=AuthorizationContext("operator",True,frozenset({"state.write"}))
@@ -47,3 +49,12 @@ class StateAuthorityTests(unittest.TestCase):
         self.assertEqual(sa.read(),{})
 
 if __name__=="__main__": unittest.main()
+
+def test_malformed_command_types_are_rejected():
+    sa = StateAuthority()
+    for value in (object(), None, 1, True):
+        with pytest.raises(InvalidCommand):
+            sa.execute(value)
+    bad = Command(1, "corr", "set", ("x",), True, None, AUTH)
+    with pytest.raises(InvalidCommand):
+        sa.execute(bad)

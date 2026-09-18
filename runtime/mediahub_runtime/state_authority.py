@@ -105,10 +105,20 @@ class StateAuthority:
     def _require(self):
         if not self._available: raise AuthorityUnavailable("State Authority unavailable; fail closed")
     def _validate(self,c):
-        if not isinstance(c,Command) or not c.command_id or not c.correlation_id: raise InvalidCommand("command identity required")
-        if c.operation not in self._policy or not c.path or any(not isinstance(x,str) or not x for x in c.path): raise InvalidCommand("invalid command")
-        if c.source_identity and not isinstance(c.source_identity,str): raise InvalidCommand("invalid source identity")
-        if c.causation_id is not None and (not isinstance(c.causation_id,str) or not c.causation_id): raise InvalidCommand("invalid causation id")
+        if not isinstance(c, Command):
+            raise InvalidCommand("command identity required")
+        if not all(isinstance(value, str) for value in (c.command_id, c.correlation_id, c.operation)):
+            raise InvalidCommand("malformed command identity")
+        if not c.command_id or not c.correlation_id:
+            raise InvalidCommand("command identity required")
+        if not isinstance(c.path, tuple) or not c.path or any(not isinstance(x, str) or not x for x in c.path):
+            raise InvalidCommand("invalid command")
+        if c.source_identity and not isinstance(c.source_identity,str):
+            raise InvalidCommand("invalid source identity")
+        if c.causation_id is not None and (not isinstance(c.causation_id,str) or not c.causation_id):
+            raise InvalidCommand("invalid causation id")
+        if c.expected_generation is not None and (not isinstance(c.expected_generation,int) or isinstance(c.expected_generation,bool)):
+            raise InvalidCommand("invalid expected generation")
     def _validate_causation(self,c):
         if c.causation_id is None: return
         if not any(event.event_id == c.causation_id for event in self._events): raise InvalidCommand("causation event not found")
