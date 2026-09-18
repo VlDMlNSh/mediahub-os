@@ -143,3 +143,31 @@ def test_restore_preserves_original_deadline(tmp_path):
     )
     assert restored.state is SessionState.RUNNING
     assert restored.deadline == session.deadline
+
+
+def test_restore_rejects_invalid_journal_state(tmp_path):
+    ctl, _ = controller(tmp_path)
+    ctl.start("s1", "baseline", "r4", duration=timedelta(hours=1))
+    path = tmp_path / "session.jsonl"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    record = __import__('json').loads(lines[-1])
+    record["state"] = "UNKNOWN"
+    path.write_text("\n".join(lines[:-1] + [__import__('json').dumps(record)]) + "\n", encoding="utf-8")
+    with pytest.raises(SessionDenied):
+        HybridSessionController(SessionJournal(path), ctl.clock).restore(
+            session_id="s1", baseline_sha="baseline", r4_sha="r4"
+        )
+
+
+def test_restore_rejects_boolean_cycle_provenance(tmp_path):
+    ctl, _ = controller(tmp_path)
+    ctl.start("s1", "baseline", "r4", duration=timedelta(hours=1))
+    path = tmp_path / "session.jsonl"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    record = __import__('json').loads(lines[-1])
+    record["cycle"] = True
+    path.write_text("\n".join(lines[:-1] + [__import__('json').dumps(record)]) + "\n", encoding="utf-8")
+    with pytest.raises(SessionDenied):
+        HybridSessionController(SessionJournal(path), ctl.clock).restore(
+            session_id="s1", baseline_sha="baseline", r4_sha="r4"
+        )

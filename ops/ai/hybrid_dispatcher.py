@@ -67,8 +67,21 @@ class HybridAgentDispatcher:
             raise DispatchDenied("dispatcher cannot hold production authority")
         if not self.authorization.allow_cloud_agent:
             raise DispatchDenied("cloud-agent target is not explicitly enabled")
-        if not session_id or not conversation_id or generation < 1:
+        if not isinstance(request, DispatchRequest):
+            raise DispatchDenied("malformed dispatch request")
+        if not all(isinstance(value, str) and value for value in (
+            request.task_id, request.envelope, request.provider, request.model,
+            request.endpoint, request.source_sha, request.egress,
+        )):
+            raise DispatchDenied("malformed dispatch request")
+        if not isinstance(request.timeout_seconds, int) or isinstance(request.timeout_seconds, bool) or not 1 <= request.timeout_seconds <= 900:
+            raise DispatchDenied("dispatch timeout is outside the bounded policy")
+        if not isinstance(session_id, str) or not session_id:
             raise DispatchDenied("current session identity is required")
+        if not isinstance(conversation_id, str) or not conversation_id:
+            raise DispatchDenied("current conversation identity is required")
+        if not isinstance(generation, int) or isinstance(generation, bool) or generation < 1:
+            raise DispatchDenied("current generation identity is required")
         try:
             delivery = self.delivery.delivery
             if delivery is None:

@@ -177,3 +177,13 @@ def test_success_can_be_acknowledged(tmp_path, monkeypatch):
     dispatcher.acknowledge(result.output)
     assert delivery.delivery is not None
     assert delivery.delivery.state is DeliveryState.ACKNOWLEDGED
+
+
+def test_malformed_dispatch_identity_types_are_denied(tmp_path):
+    dispatcher, _ = make_dispatcher(tmp_path)
+    with pytest.raises(DispatchDenied):
+        dispatcher.admit(request(), session_id=1, conversation_id="conversation-1", generation=1)
+    with pytest.raises(DispatchDenied):
+        dispatcher.admit(request(), session_id="session-1", conversation_id="conversation-1", generation=True)
+    with pytest.raises(DispatchDenied):
+        dispatcher.admit(request(timeout_seconds=True), session_id="session-1", conversation_id="conversation-1", generation=1)

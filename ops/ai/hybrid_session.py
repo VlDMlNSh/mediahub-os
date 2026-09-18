@@ -172,7 +172,10 @@ class HybridSessionController:
         latest = records[-1]
         if latest.get("session_id") != session_id or latest.get("baseline_sha") != baseline_sha or latest.get("r4_sha") != r4_sha:
             raise SessionDenied("session journal identity or provenance mismatch")
-        state = SessionState(latest.get("state", ""))
+        try:
+            state = SessionState(latest.get("state", ""))
+        except (TypeError, ValueError) as exc:
+            raise SessionDenied("journal tail state is invalid") from exc
         if state in {SessionState.STOPPED, SessionState.EXPIRED, SessionState.SAFE_STOP, SessionState.STOPPING}:
             raise SessionDenied("journal tail is terminal")
         started = next((r for r in reversed(records) if r.get("event") == "SESSION_STARTED"), None)
@@ -185,7 +188,13 @@ class HybridSessionController:
         deadline = datetime.fromisoformat(started["deadline"]) if started.get("deadline") else started_at + timedelta(seconds=duration_seconds)
         if deadline.tzinfo is None or deadline <= started_at:
             raise SessionDenied("session deadline provenance is invalid")
-        restored = HybridSession(session_id, baseline_sha, r4_sha, started_at, deadline, state, int(latest.get("cycle", 0)), str(latest.get("reason", "restored")))
+        cycle = latest.get("cycle", 0)
+        if isinstance(cycle, bool) or not isinstance(cycle, int) or cycle < 0:
+            raise SessionDenied("session cycle provenance is invalid")
+        reason = latest.get("reason", "restored")
+        if not isinstance(reason, str):
+            raise SessionDenied("session reason provenance is invalid")
+        restored = HybridSession(session_id, baseline_sha, r4_sha, started_at, deadline, state, cycle, reason)
         if self._now() >= restored.deadline:
             self.session = replace(restored, state=SessionState.EXPIRED, reason="deadline reached during restore")
             self.journal.append(self.session, "SESSION_EXPIRED")
