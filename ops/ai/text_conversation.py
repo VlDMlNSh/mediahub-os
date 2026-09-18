@@ -6,18 +6,18 @@ actual ChatGPT UI conversation remains a transport/UI responsibility.
 """
 from __future__ import annotations
 
+import fcntl
+import hashlib
+import json
+import math
+import os
+import tempfile
+import uuid
+from collections.abc import Callable
 from dataclasses import dataclass, replace
 from datetime import datetime, timedelta, timezone
 from enum import StrEnum
-import fcntl
-import hashlib
-import math
-import os
 from pathlib import Path
-import tempfile
-import uuid
-from typing import Callable
-import json
 
 
 class ConversationState(StrEnum):
@@ -58,7 +58,7 @@ class TextConversationController:
         self.journal_path.parent.mkdir(parents=True, exist_ok=True)
         lock_path = self.journal_path.with_name(self.journal_path.name + ".lock")
         try:
-            handle = open(lock_path, "a+")
+            handle = open(lock_path, "a+")  # noqa: SIM115 — handle lifetime owns the inter-process lock
             fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         except OSError as exc:
             try:
@@ -77,7 +77,6 @@ class TextConversationController:
         self._lock_handle = None
 
     def start_clean(self, session_id: str | None = None) -> ConversationSession:
-        now = self._now()
         sid = session_id or self.session_factory()
         generation = 1 if self.session is None else self.session.generation + 1
         self.session = ConversationSession(

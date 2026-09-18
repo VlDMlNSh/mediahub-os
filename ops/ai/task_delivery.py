@@ -6,16 +6,16 @@ external provider without provider-side idempotency evidence.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
-from datetime import datetime, timezone
-from enum import StrEnum
 import fcntl
 import hashlib
 import json
 import os
-from pathlib import Path
 import tempfile
-from typing import Callable
+from collections.abc import Callable
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from enum import StrEnum
+from pathlib import Path
 
 
 class DeliveryState(StrEnum):
@@ -54,7 +54,7 @@ class TaskDeliveryJournal:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         lock_path = self.path.with_name(self.path.name + ".lock")
         try:
-            handle = open(lock_path, "a+")
+            handle = open(lock_path, "a+")  # noqa: SIM115 — handle lifetime owns the inter-process lock
             fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         except OSError as exc:
             try:

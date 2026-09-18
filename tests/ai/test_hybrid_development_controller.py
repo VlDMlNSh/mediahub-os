@@ -4,12 +4,18 @@ from pathlib import Path
 import pytest
 
 from ops.ai.hybrid_development_controller import (
-    ControllerState, HybridDevelopmentController, HybridDevelopmentDenied,
+    ControllerState,
+    HybridDevelopmentController,
+    HybridDevelopmentDenied,
 )
 from ops.ai.hybrid_session import HybridSessionController, SessionJournal, SessionState
-from ops.ai.task_delivery import TaskDeliveryJournal, DeliveryState
-from ops.ai.text_conversation import TextConversationController, ConversationState
-from ops.hybrid_cloud_egress import HybridCloudEgressAdapter, TransportCandidate, TransportProbe
+from ops.ai.task_delivery import DeliveryState, TaskDeliveryJournal
+from ops.ai.text_conversation import ConversationState, TextConversationController
+from ops.hybrid_cloud_egress import (
+    HybridCloudEgressAdapter,
+    TransportCandidate,
+    TransportProbe,
+)
 
 
 class FakeEgress(HybridCloudEgressAdapter):

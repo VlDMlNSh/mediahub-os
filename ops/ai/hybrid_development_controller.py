@@ -6,16 +6,20 @@ provider limits, permissions, or the existing AI Gateway.
 """
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import timedelta
 from enum import StrEnum
-from typing import Callable
 
 from ops.ai.hybrid_session import HybridSessionController, SessionDenied, SessionState
-from ops.ai.task_delivery import TaskDeliveryJournal, DeliveryDenied, DeliveryState
-from ops.ai.text_conversation import TextConversationController, ConversationDenied, ConversationState
-from ops.hybrid_cloud_egress import HybridCloudEgressAdapter, TransportProbe
+from ops.ai.task_delivery import DeliveryDenied, DeliveryState, TaskDeliveryJournal
+from ops.ai.text_conversation import (
+    ConversationDenied,
+    ConversationState,
+    TextConversationController,
+)
 from ops.hybrid_cloud_api_egress_adapter import CloudAPIUnavailable
+from ops.hybrid_cloud_egress import HybridCloudEgressAdapter, TransportProbe
 
 
 class ControllerState(StrEnum):

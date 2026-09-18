@@ -1,7 +1,8 @@
 """Deterministic, sticky fail-closed selection of approved cloud egress paths."""
 from __future__ import annotations
+
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
 
 from ops.hybrid_cloud_api_egress_adapter import CloudAPIUnavailable, TunnelStatus
 

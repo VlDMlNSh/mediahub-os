@@ -2,12 +2,25 @@ from pathlib import Path
 
 import pytest
 
-from ops.ai.hybrid_dispatcher import DispatchDenied, DispatchRequest, DispatchAuthorization, HybridAgentDispatcher
+from ops.ai.hybrid_dispatcher import (
+    DispatchAuthorization,
+    DispatchDenied,
+    DispatchRequest,
+    HybridAgentDispatcher,
+)
 from ops.ai.task_delivery import DeliveryState, TaskDeliveryJournal
-from ops.cloud_development_adapter import CloudDevelopmentAdapter, ProviderResult, SandboxSpec
+from ops.cloud_development_adapter import (
+    CloudDevelopmentAdapter,
+    ProviderResult,
+    SandboxSpec,
+)
+from ops.hybrid_cloud_egress import (
+    HybridCloudEgressAdapter,
+    TransportCandidate,
+    TransportProbe,
+)
 from ops.mediahub_credential_broker import CredentialBroker
 from ops.mediahub_model_registry import ModelRecord, ModelRegistry
-from ops.hybrid_cloud_egress import HybridCloudEgressAdapter, TransportCandidate, TransportProbe
 
 ENDPOINT = "https://api.openai.com/v1"
 
@@ -49,8 +62,8 @@ def make_dispatcher(tmp_path: Path, *, enabled=True, healthy=True):
 
 
 def request(**kwargs):
-    values = dict(task_id="task-1", envelope="do task", provider="codex",
-                  model="qualified", endpoint=ENDPOINT, source_sha="abc", egress=ENDPOINT)
+    values = {"task_id": "task-1", "envelope": "do task", "provider": "codex",
+              "model": "qualified", "endpoint": ENDPOINT, "source_sha": "abc", "egress": ENDPOINT}
     values.update(kwargs)
     return DispatchRequest(**values)
 

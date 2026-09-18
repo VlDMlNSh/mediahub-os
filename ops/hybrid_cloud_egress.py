@@ -1,10 +1,10 @@
 """Fail-closed egress selector for the hybrid development system."""
 from __future__ import annotations
 
-from dataclasses import dataclass
-from subprocess import run, SubprocessError
-from urllib.parse import urlparse
 import re
+from dataclasses import dataclass
+from subprocess import SubprocessError, run
+from urllib.parse import urlparse
 
 from ops.hybrid_cloud_api_egress_adapter import CloudAPIUnavailable
 

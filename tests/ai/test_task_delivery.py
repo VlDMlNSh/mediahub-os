@@ -1,6 +1,6 @@
-from datetime import datetime, timezone
 import json
 from pathlib import Path
+
 import pytest
 
 from ops.ai.task_delivery import DeliveryDenied, DeliveryState, TaskDeliveryJournal

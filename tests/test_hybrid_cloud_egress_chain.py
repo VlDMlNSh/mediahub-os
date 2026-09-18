@@ -1,6 +1,7 @@
-from ops.hybrid_cloud_api_egress_adapter import CloudAPIUnavailable, TunnelStatus
-from ops.hybrid_cloud_egress_chain import HybridCloudAPIEgressChain, EgressPath
 import pytest
+
+from ops.hybrid_cloud_api_egress_adapter import CloudAPIUnavailable, TunnelStatus
+from ops.hybrid_cloud_egress_chain import EgressPath, HybridCloudAPIEgressChain
 
 
 def test_chain_uses_first_healthy_and_stays_sticky():

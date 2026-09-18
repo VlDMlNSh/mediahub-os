@@ -1,5 +1,7 @@
 from unittest.mock import patch
+
 import pytest
+
 from ops.hybrid_cloud_api_egress_adapter import CloudAPIUnavailable
 from ops.hybrid_cloud_egress import HybridCloudEgressAdapter, TransportCandidate
 
@@ -19,8 +21,7 @@ def probe(candidate, healthy, ip=""):
 
 def test_fail_closed_when_all_candidates_fail():
     adapter = HybridCloudEgressAdapter(candidates())
-    with patch.object(adapter, "_probe", side_effect=lambda c, u: probe(c, False)):
-        with pytest.raises(CloudAPIUnavailable):
+    with patch.object(adapter, "_probe", side_effect=lambda c, u: probe(c, False)), pytest.raises(CloudAPIUnavailable):
             adapter.select("https://health.example.test")
 
 
