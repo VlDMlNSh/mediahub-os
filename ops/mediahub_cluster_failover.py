@@ -149,6 +149,13 @@ class AdmissionAwareFailover:
 
     @staticmethod
     def _validate_workload(workload: ClusterWorkload) -> None:
+        if not isinstance(workload, ClusterWorkload):
+            raise FailoverDenied("malformed workload")
+        if not all(isinstance(value, str) for value in (workload.workload_id, workload.source_sha)):
+            raise FailoverDenied("malformed workload identity")
+        if not all(isinstance(value, int) and not isinstance(value, bool)
+                   for value in (workload.cpu, workload.memory_mb, workload.gpu)):
+            raise FailoverDenied("malformed workload resources")
         if not workload.workload_id or not workload.source_sha:
             raise FailoverDenied("workload identity and provenance are required")
         if workload.cpu <= 0 or workload.memory_mb <= 0 or workload.gpu < 0:

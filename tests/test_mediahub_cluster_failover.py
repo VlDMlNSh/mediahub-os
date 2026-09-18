@@ -165,3 +165,13 @@ def test_not_ready_replacement_denied():
     with pytest.raises(FailoverDenied):
         coordinator.failover(workload, FailureClass.NODE_FAILED, "a2", "node-b")
     assert lifecycle.record("w1").state is LifecycleState.RUNNING
+
+def test_failover_rejects_malformed_workload_types():
+    failover, _, _, workload = make_env()
+    for value in (object(), None, 1, True):
+        with pytest.raises(FailoverDenied):
+            failover.failover(value, FailureClass.NODE_FAILED, "a2", "node-b")
+    with pytest.raises(FailoverDenied):
+        failover.failover(workload.__class__(1, workload.workload_class, 1, 128, 0, "sha"), FailureClass.NODE_FAILED, "a2", "node-b")
+    with pytest.raises(FailoverDenied):
+        failover.failover(workload.__class__(workload.workload_id, workload.workload_class, True, 128, 0, "sha"), FailureClass.NODE_FAILED, "a2", "node-b")
