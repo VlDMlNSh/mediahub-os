@@ -18,6 +18,7 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timedelta, timezone
 from enum import StrEnum
 from pathlib import Path
+from typing import TextIO
 
 
 class ConversationState(StrEnum):
@@ -50,7 +51,7 @@ class TextConversationController:
     conversation_factory: Callable[[], str] = lambda: uuid.uuid4().hex
     session: ConversationSession | None = None
     journal_path: Path | None = None
-    _lock_handle: object | None = None
+    _lock_handle: TextIO | None = None
 
     def __post_init__(self) -> None:
         if self.journal_path is None:

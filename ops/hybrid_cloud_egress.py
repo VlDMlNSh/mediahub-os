@@ -3,7 +3,10 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from subprocess import SubprocessError, run
+from subprocess import (  # nosec B404 — shell=False and fixed executable argv only
+    SubprocessError,
+    run,
+)
 from urllib.parse import urlparse
 
 from ops.hybrid_cloud_api_egress_adapter import CloudAPIUnavailable
@@ -51,15 +54,15 @@ class HybridCloudEgressAdapter:
     def _probe(self, candidate: TransportCandidate, health_url: str) -> TransportProbe:
         self._validate_url(health_url)
         try:
-            link = run(["ip", "link", "show", "dev", candidate.interface],
+            link = run(["/usr/bin/ip", "link", "show", "dev", candidate.interface],  # nosec B603
                        capture_output=True, text=True, check=False, timeout=2)
             if link.returncode != 0 or "UP" not in link.stdout:
                 return TransportProbe(candidate, False, detail="interface-unhealthy")
-            result = run(["curl", "--fail", "--silent", "--show-error",
+            result = run(["/usr/bin/curl", "--fail", "--silent", "--show-error",
                           "--connect-timeout", "2", "--max-time", str(self._timeout),
                           "--interface", candidate.interface, health_url],
                          capture_output=True, text=True, check=False,
-                         timeout=self._timeout + 2)
+                         timeout=self._timeout + 2)  # nosec B603
             if result.returncode != 0:
                 return TransportProbe(candidate, False, detail="health-request-failed")
             ip = result.stdout.strip()
@@ -109,7 +112,7 @@ class HybridCloudEgressAdapter:
             args += ["--data-binary", "@-"]
         args += [url, "--write-out", "\n__MH_HTTP_STATUS__%{http_code}"]
         try:
-            result = run(args, input=data, capture_output=True, timeout=self._timeout + 3, check=False)
+            result = run(args, input=data, capture_output=True, timeout=self._timeout + 3, check=False)  # nosec B603
         except (OSError, SubprocessError) as exc:
             raise CloudAPIUnavailable("cloud API transport failed") from exc
         if result.returncode != 0:

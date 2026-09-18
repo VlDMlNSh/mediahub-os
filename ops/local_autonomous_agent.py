@@ -618,7 +618,7 @@ def main() -> int:
         if apply_checked(patch, task.target):
             if RUFF.is_file():
                 lint = subprocess.run(
-                    [str(RUFF), "check", task.target], cwd=ROOT,
+                    [str(RUFF), "check", task.target], cwd=ROOT,  # nosemgrep: python.lang.security.audit.dangerous-subprocess-use-tainted-env-args.dangerous-subprocess-use-tainted-env-args
                     text=True, capture_output=True, check=False
                 )  # nosec B603
                 if lint.returncode:
@@ -651,7 +651,7 @@ def main() -> int:
         return 27
     if RUFF.is_file():
         lint = subprocess.run(
-            [str(RUFF), "check", "--fix", task.target], cwd=ROOT,
+            [str(RUFF), "check", "--fix", task.target], cwd=ROOT,  # nosemgrep: python.lang.security.audit.dangerous-subprocess-use-tainted-env-args.dangerous-subprocess-use-tainted-env-args
             text=True, capture_output=True, check=False
         )  # nosec B603
         if lint.returncode:

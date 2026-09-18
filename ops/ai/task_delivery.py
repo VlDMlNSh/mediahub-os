@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import StrEnum
 from pathlib import Path
+from typing import TextIO
 
 
 class DeliveryState(StrEnum):
@@ -48,7 +49,7 @@ class TaskDeliveryJournal:
     path: Path
     clock: Callable[[], datetime] = lambda: datetime.now(timezone.utc)
     delivery: TaskDelivery | None = None
-    _lock_handle: object | None = None
+    _lock_handle: TextIO | None = None
 
     def __post_init__(self) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
