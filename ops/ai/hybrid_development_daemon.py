@@ -50,7 +50,18 @@ def main() -> int:
     controller = HybridDevelopmentController(session, conversation, delivery, egress, args.health_url)
     session_checkpoint = state / "session.jsonl"
     if session_checkpoint.exists():
-        controller.restore(args.session_id, args.baseline_sha, args.r4_sha)
+        try:
+            controller.restore(args.session_id, args.baseline_sha, args.r4_sha)
+        except HybridDevelopmentDenied:
+            tail = session.journal.read_tail()
+            if (
+                tail.get("session_id") == args.session_id
+                and tail.get("baseline_sha") == args.baseline_sha
+                and tail.get("r4_sha") == args.r4_sha
+                and tail.get("state") in {"STOPPED", "EXPIRED", "SAFE_STOP", "STOPPING"}
+            ):
+                return 0
+            raise
     else:
         controller.start(args.session_id, args.baseline_sha, args.r4_sha, timedelta(hours=args.duration_hours))
 

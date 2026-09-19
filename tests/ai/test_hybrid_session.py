@@ -171,3 +171,13 @@ def test_restore_rejects_boolean_cycle_provenance(tmp_path):
         HybridSessionController(SessionJournal(path), ctl.clock).restore(
             session_id="s1", baseline_sha="baseline", r4_sha="r4"
         )
+
+def test_journal_read_tail_returns_terminal_record_without_materializing_session(tmp_path):
+    ctl, _ = controller(tmp_path)
+    ctl.start("s1", "baseline", "r4", duration=timedelta(hours=1))
+    ctl.stop("done")
+    tail = ctl.journal.read_tail()
+    assert tail["session_id"] == "s1"
+    assert tail["state"] == "STOPPED"
+    assert ctl.session is not None
+    assert ctl.session.state is SessionState.STOPPED

@@ -134,6 +134,8 @@ P0.2 Persist this master queue and generate machine-readable ownership/provenanc
 P0.3 Verify supervisor/watchdog restart, lock, checkpoint, rollback and journal semantics.
 P0.4 Close current Native Execution Contract test gaps.
 P0.5 Close hybrid session/delivery/conversation recovery gaps.
+P0.5.1 Terminal checkpoint startup: classify an exact-identity terminal journal tail as a clean daemon stop; never revive it or create a new identity.
+P0.5.2 Recovery regression: prove mismatched/invalid terminal provenance still fails closed.
 P0.6 Reconcile PR #80 remote/local evidence without push or merge.
 P0.7 Audit cloud-agent readiness; if credentials are absent, maintain BLOCKED with exact evidence.
 Exit: no unresolved control-plane ambiguity; queue scheduler can continuously select bounded work.

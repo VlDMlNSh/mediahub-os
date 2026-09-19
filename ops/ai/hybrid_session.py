@@ -64,6 +64,22 @@ class SessionJournal:
             handle.write(json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n")
 
 
+    def read_tail(self) -> dict[str, object]:
+        if not self.path.exists():
+            raise SessionDenied("session journal is unavailable")
+        try:
+            records = [
+                json.loads(line)
+                for line in self.path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+        except (OSError, json.JSONDecodeError, TypeError) as exc:
+            raise SessionDenied("session journal is invalid") from exc
+        if not records or not isinstance(records[-1], dict):
+            raise SessionDenied("session journal is empty")
+        return records[-1]
+
+
 @dataclass
 class HybridSessionController:
     journal: SessionJournal
