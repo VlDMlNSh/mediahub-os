@@ -1,10 +1,9 @@
-# MH-7 — Revision Model
+# MH-07 — Revision / Concurrency Model
 
-Status: CANDIDATE
+Status: CANDIDATE.
 
-Authoritative configuration/policy publication requiring concurrency control binds to the lower State Authority generation/state version.
+Configuration and Policy require explicit revision/version metadata where publication or concurrency requires it. A candidate is bound to the authoritative revision/generation observed when produced. Publication verifies expected generation/version and fails closed when stale.
 
-Stale candidates fail closed. MH-7 introduces no second transaction authority and no hidden merge, rebase, retry or last-write-wins behavior. Cross-document atomicity is not authorized.
+Replacement is complete-document replacement, not implicit merge. No LWW, hidden rebase, patch merge or retry. Rollback is an explicit new candidate derived from an identified accepted revision.
 
-Canonical publication:
-Candidate → validate → authorize → controlled ingress → verify expected lower-layer generation/version → atomic commit.
+P0-04 generation/state-version checks remain authoritative for runtime mutation. Current P0-07 objects do not yet expose complete revision/publication metadata.

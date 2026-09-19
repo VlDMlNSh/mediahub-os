@@ -1,17 +1,11 @@
-# MH-7 — Policy Evaluation
+# MH-07 — Policy Evaluation
 
-Status: CANDIDATE
+Status: CANDIDATE.
 
-Evaluation is deterministic, bounded and observational.
+Pipeline: validate input → normalize only by explicit schema rules → select applicable rules → evaluate → return bounded result/diagnostic context.
 
-Pipeline: input → validation → normalization → exact applicable rules → conflict detection → decision → bounded diagnostics.
+Malformed → DENY. Unsupported → DENY. No match → DENY. Explicit DENY → DENY. ALLOW without conflict → ALLOW. ALLOW+DENY conflict → DENY. Ambiguity → DENY.
 
-v1 decision semantics:
-- malformed → DENY
-- unsupported → DENY
-- no match → DENY
-- ambiguity/conflict → DENY
-- explicit DENY → DENY
-- explicit ALLOW without conflict → ALLOW
+No implicit precedence, retries, merge, inheritance or side effects. Evaluation cannot mutate configuration, policy, grants or State Authority.
 
-No implicit priority, wildcard, inheritance, hidden merge, LWW, retry, rebase, or hidden conflict resolution is permitted.
+Current evaluate_policy implementation provides exact operation/resource matching and fail-closed conflict/no-match behavior; full test verification is not established by repository inspection alone.

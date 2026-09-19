@@ -1,20 +1,9 @@
-# MH-7 — Acceptance Criteria
+# MH-07 — Acceptance Criteria
 
-Status: CANDIDATE / NOT ACCEPTED
+Status: CANDIDATE — NOT ACCEPTED.
 
-Freeze requires all of the following:
+Acceptance requires evidence for: separation of desired/observed/runtime state; unique State Authority; policy/authorization separation; deterministic deny-by-default evaluation; exact bounds; immutable candidates/reads; stale revision rejection; reset/delete semantics; failure/no-partial-apply behavior; security invariants; privacy; persistence; AI/plugin/runtime boundaries; compatibility with P0-03…P0-06; and explicit resolution of the P0-07 authorization gap.
 
-1. All canonical MH-7 artifacts exist and reconcile without contradiction.
-2. P0-03…P0-06 remain unchanged and preserved as frozen baseline.
-3. P0-07 targeted tests pass.
-4. Full repository regression passes.
-5. Security, capability/forbidden-call and persistence scans pass.
-6. P0-07→P0-05 authorization composition receives an explicit governance-approved resolution.
-7. Lifecycle and mode semantics are tested.
-8. Revision and stale-update behavior is evidenced.
-9. Runtime application/failure semantics are evidenced.
-10. Observability/privacy claims are evidenced.
-11. Repository state is clean and synchronized.
-12. Governance explicitly accepts and freezes MH-7.
+Required verification: targeted P0-07 tests, full regression, security/prohibited-capability scan, persistence/network/subprocess scan, and exact-head/clean-tree evidence.
 
-IMPLEMENTED is not VERIFIED; VERIFIED is not ACCEPTED; ACCEPTED is not FROZEN without explicit governance freeze.
+Until then MH-7 remains CANDIDATE/REQUIRES VERIFICATION and P0-07 remains NOT ACCEPTED/NOT FROZEN/NOT PRODUCTION QUALIFIED.

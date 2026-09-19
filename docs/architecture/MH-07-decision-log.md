@@ -1,42 +1,13 @@
-# MH-7 Decision Log
-
-Status: CANDIDATE — governance decisions pending
-
-## D-01 — Separation of concerns
-Configuration = desired behavior; Policy = admissibility conditions; Authorization = principal right; Runtime State = observed/effective state. P0-04 remains sole mutation authority.
+# MH-07 — Decision Log
 
 Status: CANDIDATE.
 
-## D-02 — Device-local v1
-Configuration and policy scope remain device-local. Tenant, organization, project, fleet and cloud-canonical scopes are deferred.
+D1 — Keep Configuration, Policy, Authorization and Runtime State separate. Rationale: preserve P0-03 authority. Status CANDIDATE.
 
-Status: CANDIDATE.
+D2 — Keep v1 device-local/transient/bounded/non-executable. Rationale: match P0-07 governance baseline and reduce attack surface. Status CANDIDATE.
 
-## D-03 — Fail closed
-Malformed, unsupported, ambiguous, conflicting and stale policy/configuration operations do not apply.
+D3 — Fail closed on ambiguity, malformed/unsupported policy and stale revision. Rationale: explicit safety baseline. Status CANDIDATE.
 
-Status: CANDIDATE.
+D4 — Do not solve the P0-07 mutation gap by changing P0-03…P0-06. Status GOVERNANCE CONSTRAINT.
 
-## D-04 — No implicit conflict resolution
-No priority, inheritance, merge, LWW, hidden retry or rebase. Any precedence system requires a separate ADR and governance approval.
-
-Status: CANDIDATE.
-
-## D-05 — Persistence neutrality
-Physical persistence is not authorized by MH-7. Future storage requires separate technology/security/compatibility review.
-
-Status: CANDIDATE.
-
-## D-06 — P0-07 mutation bridge
-Three candidates remain open: existing independently authorized context; explicit governance-approved authorization bridge; revised P0-05 contract. P0-07 code must not invent a mapping.
-
-Status: BLOCKED / REQUIRES GOVERNANCE DECISION.
-
-## ADR candidates
-- P0-07/P0-05 authorization composition.
-- Configuration publication and authoritative-source contract.
-- Policy mode transition authority.
-- Critical-operation policy and audit contract.
-- Runtime application/rollback semantics.
-- Future persistence boundary.
-- Future multi-scope policy architecture.
+D5 — Defer physical persistence and technology selection. Status GOVERNANCE CONSTRAINT.

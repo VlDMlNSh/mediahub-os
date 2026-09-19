@@ -1,9 +1,7 @@
-# MH-7 — Observability
+# MH-07 — Observability
 
-Status: CANDIDATE / EVIDENCE REQUIRED
+Status: CANDIDATE.
 
-Observability must distinguish at minimum: candidate, validation result, policy decision, authorization result, publication attempt, commit result, application result and observed runtime state.
+Auditable decisions should carry correlation identifier, decision result, source, policy revision, configuration revision, caller context, reason/category and timestamp.
 
-Diagnostics are bounded and must not expose credentials or sensitive payloads. Deny/conflict/stale outcomes must remain distinguishable for verification and auditability.
-
-No observability mechanism may become a mutation or persistence authority. Concrete telemetry schema and retention semantics remain subject to evidence and governance.
+Observability is read-only and cannot grant authority or mutate state. Secrets/credentials are never logged. Audit evidence distinguishes proposal, validation, policy decision, authorization, publication and observed runtime outcome.

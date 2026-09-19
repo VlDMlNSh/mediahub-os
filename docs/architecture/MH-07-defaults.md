@@ -1,9 +1,9 @@
-# MH-7 — Defaults
+# MH-07 — Defaults
 
-Status: CANDIDATE
+Status: CANDIDATE.
 
-No undocumented security-affecting default is permitted. Critical behavior defaults to fail-safe.
+Defaults are explicit data, never undocumented behavior. Every security-relevant default requires owner, rationale, security impact, version semantics and evidence.
 
-A future default requires: owner, rationale, security impact, version semantics, compatibility impact, and evidence.
+Critical behavior defaults fail safe: missing policy match is DENY; malformed/unsupported policy is DENY; missing authorization is DENY; stale publication is rejected; missing persistence is not silently replaced by a cache/checkpoint.
 
-Defaults must not silently create authorization, policy precedence, persistence, network access, execution, retry, merge or recovery behavior.
+Reset names its target default; reset is not delete. Security-affecting defaults require explicit decision evidence.

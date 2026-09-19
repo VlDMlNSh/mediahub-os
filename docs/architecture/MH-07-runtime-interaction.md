@@ -1,12 +1,9 @@
-# MH-7 — Runtime Interaction
+# MH-07 — Runtime Interaction
 
-Status: CANDIDATE
+Status: CANDIDATE.
 
-Canonical application path:
-Configuration Candidate → validation → policy → authorization → P0-05 → P0-04 transaction → atomic commit → runtime application → observed state.
+Runtime consumes only validated and independently authorized representations. Configuration never directly mutates Runtime State. Policy evaluation never mutates Runtime State. Canonical mutation remains Consumer Boundary → State Authority.
 
-Configuration and policy never directly mutate runtime state. Runtime consumes only validated and authorized representations.
+Path: candidate → validation → policy → authorization → P0-05 → P0-04 transaction → commit → runtime application → observed state.
 
-Publication success and runtime application success are distinct facts. Application failure cannot be reported as successful publication.
-
-Partial application and rollback semantics are UNKNOWN until an explicit runtime contract supplies evidence. Restart recovery remains UNKNOWN while physical persistence is unauthorized.
+Runtime may report incompatibility/application failure; it cannot silently reinterpret unauthorized configuration or create an alternate mutation/persistence channel.

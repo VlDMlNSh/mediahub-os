@@ -1,17 +1,9 @@
-# MH-7 — Authorization Boundary
+# MH-07 — Authorization Boundary
 
-Status: CANDIDATE / BLOCKED FOR PUBLICATION
+Status: CANDIDATE; P0-07 mutation path BLOCKED.
 
-Policy admissibility and principal authorization are separate gates. Authorization answers whether a principal may perform a concrete operation; policy answers whether that operation is admissible under policy.
+Policy and authorization are conjunctive, not substitutive: P0-07 domain authorization ALLOW AND P0-07 policy ALLOW AND independently valid P0-04/P0-05 authorization = mutation may proceed.
 
-The effective authorization condition is conjunctive with the independently required P0-05/P0-04 authorization.
+P0-07 MUST NOT translate configuration.* or policy.* into P0-04 begin/commit/abort privileges, mutate AuthorizationContext, mint capabilities or bypass P0-05.
 
-P0-07 capabilities cannot self-grant authority and are never silently translated into lower-layer capabilities.
-
-## Publication blocker
-Current P0-07 mutation publication is BLOCKED by the P0-07→P0-05 governance/API composition gap. Approved resolution classes are:
-1. existing-context model;
-2. explicit governance-approved authorization bridge;
-3. revised P0-05 contract.
-
-P0-03…P0-06 must not be changed merely to bypass this blocker.
+The approved composition mechanism is absent. Existing-context model, explicit authorization bridge, or revised P0-05 contract are ADR candidates; no choice is accepted here.

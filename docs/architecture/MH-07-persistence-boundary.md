@@ -1,9 +1,9 @@
-# MH-7 — Persistence Boundary
+# MH-07 — Persistence Boundary
 
-Status: CANDIDATE / NOT AUTHORIZED FOR PHYSICAL PERSISTENCE
+Status: CANDIDATE.
 
-MH-7 defines logical ownership only. Physical persistence is outside the authorized v1 architecture.
+Physical persistence is NOT AUTHORIZED by P0-07. Logical ownership is defined without selecting a database, file format, cache, KV store or cloud service.
 
-No database, file format, cache, KV store, cloud policy service or persistence-backed policy engine is selected or implied.
+Any future persistence layer must remain subordinate to the configuration/policy lifecycle and must not become State Authority, hidden checkpoint, recovery source or authorization store without an explicit decision.
 
-Configuration and policy are transient domain objects, not checkpoints or recovery sources. Any future persistence design requires explicit architecture evidence, security review, recovery semantics and governance acceptance.
+No network/cloud transfer is implicit. External sources are proposals until local validation, policy and authorization complete.

@@ -1,16 +1,9 @@
-# MH-7 — Policy Model
+# MH-07 — Policy Model
 
-Status: CANDIDATE
+Status: CANDIDATE.
 
-Policy defines admissibility under declared conditions. It is not authorization, runtime state, persistence, or mutation authority.
+Policy is bounded, deterministic, declarative, non-executable and device-local. v1 uses explicit ALLOW/DENY rules over exact operation/resource pairs.
 
-## Canonical shape
-- identity
-- namespace
-- version/revision
-- device-local scope in v1
-- bounded declarative rules
+Policy cannot mutate state, alter authorization grants, load plugins or invoke external work. Wildcards, inheritance, implicit priority, merge and LWW are forbidden. Conflicting applicable effects fail closed.
 
-Rules are deterministic, declarative, non-executable and bounded. v1 does not authorize wildcard matching, priority ordering, inheritance, hidden merging, LWW, or executable policy DSLs.
-
-Policy cannot grant itself or another principal capabilities. Policy-engine failure is fail-closed.
+Current implementation evidence covers PolicyRule/Policy bounds, explicit effects and device-local scope. Rich predicates, modes and revision semantics remain CANDIDATE/REQUIRES VERIFICATION.

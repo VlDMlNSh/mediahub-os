@@ -1,11 +1,9 @@
-# MH-7 — Policy Lifecycle
+# MH-07 — Policy Lifecycle
 
-Status: CANDIDATE
+Status: CANDIDATE.
 
-Canonical lifecycle:
+Conceptual lifecycle: Absent → Candidate → Validated → Authorized → Published → Active, with Superseded, Reset/Deleted and Quarantined recovery paths.
 
-Absent → Candidate → Validated → Authorized → Published → Active/Disabled/Dry-run/Recommendation/Supervised.
+Modes proposed for architecture: disabled, dry-run, recommendation, supervised, active, emergency-disabled, quarantined. Mode transitions require explicit authorization and audit. Emergency-disabled cannot weaken hard safety constraints.
 
-Superseded, Reset, Delete and Quarantined are explicit states or operations. Emergency-disabled is fail-safe behavior, not an authority bypass.
-
-Mode changes require explicit authorization and auditability. Policy publication never grants capabilities by itself.
+No mode is executable authority. Current P0-07 has no complete lifecycle/mode state machine; this remains CANDIDATE/REQUIRES VERIFICATION.

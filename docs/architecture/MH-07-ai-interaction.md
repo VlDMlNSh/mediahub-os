@@ -1,12 +1,9 @@
-# MH-7 — AI Interaction
+# MH-07 — AI Interaction
 
-Status: CANDIDATE
+Status: CANDIDATE.
 
-AI is a proposal and analysis source only. It may recommend configuration/policy changes, validate representations, analyze conflicts and provide bounded diagnostics.
+AI may analyze, recommend and propose configuration/policy changes. AI cannot publish policy, self-authorize, change capability grants, bypass Consumer Boundary, mutate State Authority or execute arbitrary policy code.
 
-AI cannot publish, self-authorize, grant capabilities, bypass P0-05, mutate P0-04, execute arbitrary configuration/policy content, or establish hidden persistence/network access.
+Canonical path: AI → inert proposal → validation → policy evaluation → independent authorization → P0-05 → P0-04.
 
-Canonical path:
-AI → Proposal → Validation → Policy → Authorization → Consumer Boundary → State Authority.
-
-AI-only approval is prohibited for critical operations.
+Confidence is advisory metadata, not authority. Critical execution never uses AI-only approval.

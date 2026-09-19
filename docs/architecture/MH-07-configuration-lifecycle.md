@@ -1,13 +1,11 @@
-# MH-7 — Configuration Lifecycle
+# MH-07 — Configuration Lifecycle
 
-Status: CANDIDATE
+Status: CANDIDATE.
 
-Canonical lifecycle:
+Conceptual states: Absent → Candidate → Validated → Authorized → Published → Applied → Superseded; Reset/Delete are explicit authorized operations.
 
-Absent → Candidate → Validated → Authorized → Published → Applied → Superseded.
+Construction creates Candidate. Validation creates Validated. Authorization is a decision, not publication. Published requires the authorized P0-05/P0-04 path. Applied means runtime accepted the published desired configuration; observed state may still differ.
 
-Reset and Delete are explicit domain operations with distinct semantics.
+Reset returns to an explicitly defined safe/default representation. Delete removes the object. Neither is an implicit fallback.
 
-A Candidate is not authoritative. Validation does not imply authorization. Authorization does not imply publication. Publication does not imply runtime application. Applied requires runtime evidence.
-
-Every transition is explicit, bounded and fail-closed on invalid, stale or unauthorized input.
+Current P0-07 does not implement this complete lifecycle; status is CANDIDATE/REQUIRES VERIFICATION.

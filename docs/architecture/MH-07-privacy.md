@@ -1,9 +1,7 @@
-# MH-7 — Privacy
+# MH-07 — Privacy Boundary
 
-Status: CANDIDATE / EVIDENCE REQUIRED
+Status: CANDIDATE.
 
-Configuration and policy must not carry credentials or hidden sensitive payloads. Opaque references remain inert and are not dereferenced by MH-7.
+Configuration and policy metadata may be sensitive. Apply minimization, access control, disclosure boundaries and redaction. Do not transmit configuration/policy to external cloud or AI services automatically.
 
-Diagnostics and observability must be bounded and avoid unnecessary sensitive values. Physical persistence and cloud policy synchronization are not authorized in v1.
-
-Any future persistence, remote synchronization or sensitive-data handling requires explicit data-flow evidence, minimization rationale, security/privacy review and governance acceptance.
+External transfer is an explicit bounded operation subject to authorization. Secrets are rejected from P0-07 values and audit/diagnostic output must avoid sensitive payload disclosure.
