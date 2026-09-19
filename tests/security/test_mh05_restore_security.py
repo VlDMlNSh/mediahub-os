@@ -6,6 +6,7 @@ from mediahub_runtime.state_authority import (
     AuthorizationContext,
     AuthorizationDenied,
     InvalidCommand,
+    Command,
 )
 
 
@@ -56,3 +57,35 @@ class TestMH05RestoreSecurity(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_tampered_event_digest_cannot_restore(self):
+        from dataclasses import replace
+
+        authority = build_runtime({"x": 1})["state_authority"]
+        allowed = AuthorizationContext("security-test", True, frozenset({"state.write"}))
+        authority.execute(Command(
+            command_id="cmd-1", correlation_id="corr-1", operation="set", path=("x",), value=2,
+            authorization=allowed, source_identity="security-test"
+        ))
+        checkpoint = authority.checkpoint()
+        tampered_event = replace(checkpoint[5][0], state_digest="0" * 64)
+        tampered = (checkpoint[0], checkpoint[1], checkpoint[2], checkpoint[3], checkpoint[4], (tampered_event,), checkpoint[6])
+        before = (authority.read(), authority.metadata(), authority.events())
+        with self.assertRaises(InvalidCommand):
+            authority.restore(tampered, self.restore_allowed)
+        self.assertEqual((authority.read(), authority.metadata(), authority.events()), before)
+
+    def test_tampered_checkpoint_state_cannot_restore(self):
+        authority = build_runtime({"x": 1})["state_authority"]
+        allowed = AuthorizationContext("security-test", True, frozenset({"state.write"}))
+        authority.execute(Command(
+            command_id="cmd-1", correlation_id="corr-1", operation="set", path=("x",), value=2,
+            authorization=allowed, source_identity="security-test"
+        ))
+        checkpoint = authority.checkpoint()
+        tampered_state = {"x": 999}
+        tampered = (checkpoint[0], tampered_state, checkpoint[2], checkpoint[3], checkpoint[4], checkpoint[5], checkpoint[6])
+        before = (authority.read(), authority.metadata(), authority.events())
+        with self.assertRaises(InvalidCommand):
+            authority.restore(tampered, self.restore_allowed)
+        self.assertEqual((authority.read(), authority.metadata(), authority.events()), before)

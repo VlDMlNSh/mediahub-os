@@ -98,6 +98,7 @@ class StateAuthority:
             if not isinstance(events,tuple) or not isinstance(processed,tuple): raise InvalidCommand("invalid checkpoint history")
             if len(events)!=sequence or len(processed)!=sequence: raise InvalidCommand("invalid checkpoint history")
             if any(not isinstance(event,Event) or event.sequence != index for index,event in enumerate(events,1)): raise InvalidCommand("invalid checkpoint events")
+            if events and events[-1].state_digest != self._digest(state): raise InvalidCommand("checkpoint state digest mismatch")
             if any(not isinstance(item,tuple) or len(item)!=2 or not isinstance(item[0],str) or not isinstance(item[1],Event) for item in processed): raise InvalidCommand("invalid checkpoint processed map")
             restored_processed=dict(processed)
             if len(restored_processed)!=len(processed) or any(restored_processed.get(event.command_id)!=event for event in events): raise InvalidCommand("invalid checkpoint processed map")
