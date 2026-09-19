@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://contracts/mobile/mobile-api-compatibility.schema.json",
+  "title": "MediaHub Mobile API Compatibility",
+  "description": "Bounded compatibility contract for MediaHub Core and Remote Mobile Application clients.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "owner", "client", "api", "connectivity"],
+  "properties": {
+    "schema_id": {"const": "mediahub.mobile.api_compatibility"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "owner": {"const": "MediaHub Mobile Access Layer"},
+    "client": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["client_id", "role", "platform", "supported_api_versions"],
+      "properties": {
+        "client_id": {"type": "string", "minLength": 1},
+        "role": {"enum": ["core", "remote"]},
+        "platform": {"enum": ["ios", "ipados"]},
+        "supported_api_versions": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "api": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["server_version", "selected_version"],
+      "properties": {
+        "server_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+        "selected_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"}
+      }
+    },
+    "connectivity": {
+      "enum": ["online", "offline", "degraded"]
+    }
+  }
+}
