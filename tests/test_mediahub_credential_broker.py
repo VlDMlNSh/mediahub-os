@@ -55,3 +55,22 @@ def test_revoke_is_terminal(tmp_path):
     broker.revoke()
     with pytest.raises(CredentialDenied):
         broker.resolve("openai")
+
+
+def test_revocation_blocks_environment_materialization(tmp_path):
+    path = tmp_path / "mediahub-openai"
+    path.write_text("SECRET", encoding="utf-8")
+    path.chmod(0o600)
+    broker = CredentialBroker(tmp_path, frozenset({"openai"}))
+    broker.authorize()
+    assert broker.environment("openai", "OPENAI_KEY") == {"OPENAI_KEY": "SECRET"}
+    broker.revoke()
+    with pytest.raises(CredentialDenied):
+        broker.environment("openai", "OPENAI_KEY")
+
+
+def test_revocation_cannot_be_undone_by_authorize(tmp_path):
+    broker = CredentialBroker(tmp_path, frozenset({"openai"}))
+    broker.revoke()
+    with pytest.raises(CredentialDenied):
+        broker.authorize()
