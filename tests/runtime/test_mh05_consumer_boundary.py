@@ -78,6 +78,50 @@ class ConsumerBoundaryTests(unittest.TestCase):
             self.boundary.execute(object(), "set", ("value",), 2, command_id="cmd-9")
         self.assertEqual(ctx.exception.code, "invalid_request")
 
+    def test_malformed_identifiers_are_rejected_before_authority(self):
+        malformed = [
+            ("", "corr-1"),
+            (" runtime", "corr-1"),
+            ("runtime", ""),
+            ("runtime", " corr-1"),
+            ("runtime", "x" * 257),
+        ]
+        for source, correlation in malformed:
+            with self.subTest(source=source, correlation=correlation):
+                with self.assertRaises(ConsumerBoundaryError):
+                    self.boundary.request(source, correlation, self.allowed)
+        self.assertEqual(self.authority.metadata()["event_sequence"], 0)
+
+    def test_malformed_operation_path_and_command_id_are_rejected(self):
+        request = self.request()
+        cases = [
+            (None, ("value",), "cmd-invalid-operation"),
+            ("set", (), "cmd-invalid-path"),
+            ("set", ("value", "x" * 129), "cmd-invalid-key"),
+            ("set", ("value",), ""),
+        ]
+        for operation, path, command_id in cases:
+            with self.subTest(operation=operation, path=path, command_id=command_id):
+                with self.assertRaises(ConsumerBoundaryError):
+                    self.boundary.execute(request, operation, path, 2, command_id=command_id)
+        self.assertEqual(self.authority.metadata()["event_sequence"], 0)
+
+    def test_malformed_value_shapes_are_rejected(self):
+        request = self.request()
+        malformed_values = [
+            float("nan"),
+            float("inf"),
+            "x" * 4097,
+            {"x" + str(i): i for i in range(65)},
+            {"x": {"x": {"x": {"x": {"x": {"x": {"x": {"x": {"x": 1}}}}}}}}},
+            [list(range(512)), 1],
+            object(),
+        ]
+        for value in malformed_values:
+            with self.subTest(value_type=type(value).__name__):
+                with self.assertRaises(ConsumerBoundaryError):
+                    self.boundary.execute(request, "set", ("value",), value, command_id="malformed-value")
+        self.assertEqual(self.authority.metadata()["event_sequence"], 0)
 
 if __name__ == "__main__":
     unittest.main()
