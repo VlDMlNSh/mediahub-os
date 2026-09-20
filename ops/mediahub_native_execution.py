@@ -53,6 +53,27 @@ class ExecutionProposal:
 
 
 @dataclass(frozen=True)
+class ExecutionAdmission:
+    proposal: ExecutionProposal
+    authorized: bool
+    observed_source_sha: str
+    recovery_verified: bool
+
+    def validate(self) -> None:
+        if not isinstance(self.proposal, ExecutionProposal):
+            raise PermissionError("malformed execution admission")
+        self.proposal.validate()
+        if self.authorized is not True:
+            raise PermissionError("execution authorization is required")
+        if self.recovery_verified is not True:
+            raise PermissionError("verified recovery evidence is required")
+        if not isinstance(self.observed_source_sha, str) or not self.observed_source_sha:
+            raise PermissionError("execution provenance is required")
+        if self.observed_source_sha != self.proposal.source_sha:
+            raise PermissionError("execution provenance does not match proposal")
+
+
+@dataclass(frozen=True)
 class BoundedExecutionRequest:
     proposal: ExecutionProposal
     target: ExecutionTarget
@@ -76,6 +97,15 @@ class BoundedExecutionRequest:
             raise ValueError("execution output limit is outside the bounded policy")
 
 class BoundedExecutionAdapter:
+    def admit_verified(
+        self, admission: ExecutionAdmission, target: ExecutionTarget,
+        timeout_seconds: int = 60, max_output_bytes: int = 1_048_576,
+    ) -> BoundedExecutionRequest:
+        if not isinstance(admission, ExecutionAdmission):
+            raise PermissionError("malformed execution admission")
+        admission.validate()
+        return self.admit(admission.proposal, target, timeout_seconds, max_output_bytes)
+
     def admit(
         self, proposal: ExecutionProposal, target: ExecutionTarget,
         timeout_seconds: int = 60, max_output_bytes: int = 1_048_576,

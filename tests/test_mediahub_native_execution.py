@@ -4,6 +4,7 @@ from ops.mediahub_canonical_protocol import Protocol
 from ops.mediahub_native_execution import (
     BoundedExecutionAdapter,
     CredentialRef,
+    ExecutionAdmission,
     ExecutionProposal,
     ExecutionTarget,
     NativeExecutionContract,
@@ -274,3 +275,28 @@ def test_recovery_proposal_rejects_non_string_provider():
     for provider in (1, True, None):
         with pytest.raises(PermissionError):
             NativeExecutionContract().prepare_recovery_proposal(evidence, provider)
+
+
+def test_verified_execution_admission_binds_authorization_recovery_and_provenance():
+    proposal = ExecutionProposal("req-a", "work-a", "sha-a", "openai")
+    admission = ExecutionAdmission(proposal, True, "sha-a", True)
+    request = BoundedExecutionAdapter().admit_verified(admission, target())
+    assert request.proposal == proposal
+
+
+def test_execution_admission_rejects_missing_authorization():
+    proposal = ExecutionProposal("req-a", "work-a", "sha-a", "openai")
+    with pytest.raises(PermissionError):
+        BoundedExecutionAdapter().admit_verified(ExecutionAdmission(proposal, False, "sha-a", True), target())
+
+
+def test_execution_admission_rejects_unverified_recovery():
+    proposal = ExecutionProposal("req-a", "work-a", "sha-a", "openai")
+    with pytest.raises(PermissionError):
+        BoundedExecutionAdapter().admit_verified(ExecutionAdmission(proposal, True, "sha-a", False), target())
+
+
+def test_execution_admission_rejects_provenance_mismatch():
+    proposal = ExecutionProposal("req-a", "work-a", "sha-a", "openai")
+    with pytest.raises(PermissionError):
+        BoundedExecutionAdapter().admit_verified(ExecutionAdmission(proposal, True, "other", True), target())
