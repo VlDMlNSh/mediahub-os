@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import atexit
 import difflib
+import hashlib
 import json
 import os
 import re
@@ -34,6 +35,18 @@ class LocalTask:
     target: str
     instruction: str
     fallback_kind: str | None = None
+
+
+@dataclass(frozen=True)
+class ExecutableTask(LocalTask):
+    owner: str = "local-autonomous"
+    base_sha: str = ""
+    acceptance_predicate: str = ""
+    verification_command: str = ""
+    expected_evidence: str = ""
+    dependency_set: tuple[str, ...] = ()
+    conflict_set: tuple[str, ...] = ()
+    acceptance_fingerprint: str = ""
 
 
 def _queue_contains(root: Path, item: str) -> bool:
@@ -133,6 +146,71 @@ def select_local_task(root: Path) -> LocalTask | None:
     # Higher-level queue items remain eligible only after their acceptance criteria
     # are encoded as deterministic local tasks.
     return None
+
+def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | None:
+    """Compile a selected candidate only when repository evidence is sufficient."""
+    target = root / task.target
+    if not target.is_file():
+        return None
+    def git(*args: str) -> str:
+        result = subprocess.run([str(GIT), *args], cwd=root, text=True, capture_output=True, check=False)  # nosec B603
+        return result.stdout.strip() if result.returncode == 0 else ""
+    base_sha = git("rev-parse", "HEAD")
+    branch = git("branch", "--show-current")
+    if not base_sha or not branch or git("status", "--porcelain"):
+        return None
+    fingerprint = hashlib.sha256(
+        f"{task.task_id}\n{task.queue_item}\n{task.target}\n{task.instruction}".encode()
+    ).hexdigest()
+    for path in (root / ".autonomous" / "evidence", root / ".autonomous" / "logs"):
+        if path.is_dir():
+            for evidence in path.rglob("*"):
+                if evidence.is_file():
+                    try:
+                        if fingerprint in evidence.read_text(encoding="utf-8", errors="ignore"):
+                            return None
+                    except OSError:
+                        continue
+    if task.task_id in git("log", "--all", "--format=%s").splitlines():
+        return None
+    worktrees = git("worktree", "list", "--porcelain")
+    if task.target in worktrees or task.task_id in worktrees:
+        return None
+    for lease_path in (root / ".autonomous" / "leases").glob("*.lock"):
+        try:
+            record = json.loads(lease_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if record.get("task_id") == task.task_id:
+            return None
+    dependencies = {
+        "P0.4": (),
+        "P1.1": ("P0.4",),
+        "P1.6": ("P1.1",),
+    }
+    conflicts = {
+        "ops/mediahub_native_execution.py": ("State Authority", "production", "R4"),
+        "tests/test_mediahub_native_execution.py": ("State Authority", "production", "R4"),
+        "ops/hybrid_cloud_api_egress_adapter.py": ("cloud activation", "credentials"),
+    }
+    phase = task.task_id.split("-", 1)[0]
+    verification = (
+        "pytest -q tests/test_mediahub_native_execution.py"
+        if "native_execution" in task.target
+        else "pytest -q tests/test_hybrid_cloud_api_egress_adapter.py"
+    )
+    return ExecutableTask(
+        **task.__dict__,
+        owner=os.environ.get("MEDIAHUB_WORKER_ID", "local-autonomous"),
+        base_sha=base_sha,
+        acceptance_predicate=f"queue={task.queue_item}; target={task.target}; acceptance={task.instruction}",
+        verification_command=verification,
+        expected_evidence="targeted tests; full relevant regression; security scan; ruff; git diff --check",
+        dependency_set=dependencies.get(phase, ()),
+        conflict_set=conflicts.get(task.target, ("R4", "production")),
+        acceptance_fingerprint=fingerprint,
+    )
+
 PROTECTED = {
     ".git", ".autonomous", ".github", "production", "credentials",
     "ops/cloud-development-adapter.py", "ops/cloud_development_adapter.py",
@@ -599,12 +677,17 @@ def main() -> int:
         state("BLOCKED", "baseline not clean")
         return 22
 
-    task = select_local_task(ROOT)
-    if task is None:
+    candidate = select_local_task(ROOT)
+    if candidate is None:
         print("LOCAL_AGENT_NOOP: no eligible local queue item")
         state("BLOCKED", "no eligible local task; higher-level work requires explicit bounded acceptance criteria")
         return 30
-    print(f"LOCAL_AGENT_TASK={task.task_id}")
+    task = compile_executable_task(ROOT, candidate)
+    if task is None:
+        print("LOCAL_AGENT_NOOP: candidate requires reconciliation or duplicate suppression")
+        state("BLOCKED", "candidate could not be compiled into an evidence-bound executable task")
+        return 31
+    print(f"LOCAL_AGENT_TASK={task.task_id} base_sha={task.base_sha} acceptance={task.acceptance_fingerprint}")
     lease_root = Path(os.environ.get("MEDIAHUB_LEASE_ROOT", "/home/mediahub/.cache/mediahub-autonomous/leases"))
     lease = TaskLease(
         lease_root / f"{task.task_id}.lock",

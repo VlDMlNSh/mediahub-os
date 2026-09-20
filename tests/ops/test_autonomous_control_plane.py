@@ -56,7 +56,9 @@ def test_agent_runs_deterministic_lint_repair_before_verification():
 
 
 from ops.local_autonomous_agent import (
+    ExecutableTask,
     LocalTask,
+    compile_executable_task,
     fallback_patch,
     safe_patch,
     select_local_task,
@@ -523,3 +525,52 @@ def test_watchdog_systemd_unit_is_continuously_supervised():
     assert "Restart=always" in text
     assert "WantedBy=multi-user.target" in text
     assert "Wants=mediahub-local-autonomous.service" in text
+
+
+
+def _git_init_for_compiler(root):
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.name", "test"], cwd=root, check=True)
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-qm", "baseline"], cwd=root, check=True)
+
+
+def test_task_compiler_binds_acceptance_and_repository_provenance(tmp_path, monkeypatch):
+    from ops import local_autonomous_agent as agent
+
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text("P0.4 Close current Native Execution Contract test gaps.\n", encoding="utf-8")
+    target = queue / "mediahub_native_execution.py"
+    target.write_text("bounded request\n", encoding="utf-8")
+    (tmp_path / ".autonomous").mkdir()
+    (tmp_path / ".autonomous" / "leases").mkdir(parents=True)
+    _git_init_for_compiler(tmp_path)
+    monkeypatch.setattr(agent, "GIT", Path("git"))
+    candidate = LocalTask("task-compiler-1", "P0.4 queue", "ops/mediahub_native_execution.py", "bounded acceptance")
+    compiled = compile_executable_task(tmp_path, candidate)
+    assert isinstance(compiled, ExecutableTask)
+    assert compiled.base_sha
+    assert compiled.acceptance_fingerprint
+    assert compiled.verification_command.startswith("pytest -q")
+    assert compiled.expected_evidence
+    assert compiled.dependency_set == ()
+    assert "R4" in compiled.conflict_set
+
+
+def test_task_compiler_suppresses_existing_equivalent_commit(tmp_path, monkeypatch):
+    from ops import local_autonomous_agent as agent
+
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text("P0.4 queue\n", encoding="utf-8")
+    target = queue / "mediahub_native_execution.py"
+    target.write_text("bounded request\n", encoding="utf-8")
+    (tmp_path / ".autonomous").mkdir()
+    (tmp_path / ".autonomous" / "leases").mkdir(parents=True)
+    _git_init_for_compiler(tmp_path)
+    subprocess.run(["git", "commit", "--allow-empty", "-qm", "task-compiler-2"], cwd=tmp_path, check=True)
+    monkeypatch.setattr(agent, "GIT", Path("git"))
+    candidate = LocalTask("task-compiler-2", "P0.4 queue", "ops/mediahub_native_execution.py", "bounded acceptance")
+    assert compile_executable_task(tmp_path, candidate) is None
