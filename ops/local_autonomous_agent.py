@@ -606,7 +606,15 @@ def main() -> int:
         return 30
     print(f"LOCAL_AGENT_TASK={task.task_id}")
     lease_root = Path(os.environ.get("MEDIAHUB_LEASE_ROOT", "/home/mediahub/.cache/mediahub-autonomous/leases"))
-    lease = TaskLease(lease_root / f"{task.task_id}.lock", task.task_id, os.environ.get("MEDIAHUB_WORKER_ID", str(os.getpid())))
+    lease = TaskLease(
+        lease_root / f"{task.task_id}.lock",
+        task.task_id,
+        os.environ.get("MEDIAHUB_WORKER_ID", str(os.getpid())),
+        worktree=str(ROOT),
+        branch=run(["git", "branch", "--show-current"]).stdout.strip(),
+        base_sha=run(["git", "rev-parse", "HEAD"]).stdout.strip(),
+        checkpoint_id=os.environ.get("MEDIAHUB_CHECKPOINT_ID"),
+    )
     try:
         lease.acquire()
     except LeaseDenied:
