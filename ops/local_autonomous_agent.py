@@ -147,6 +147,32 @@ def select_local_task(root: Path) -> LocalTask | None:
     # are encoded as deterministic local tasks.
     return None
 
+@dataclass(frozen=True)
+class QueueEncoding:
+    queue_id: str
+    description: str
+    status: str
+
+
+def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
+    """Report which canonical queue items have deterministic local acceptance encoding."""
+    path = root / "ops/local_autonomous_tasks.md"
+    if not path.is_file():
+        return ()
+    text = path.read_text(encoding="utf-8")
+    encoded = {
+        "P0.4": "P0.4 Close current Native Execution Contract test gaps.",
+        "P1.1": "P1.1 Complete provider-neutral `ExecutionProposal` contract and negative tests.",
+        "P1.6": "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.",
+    }
+    rows: list[QueueEncoding] = []
+    for match in re.finditer(r"(?m)^P(\d+\.\d+)\s+(.+)$", text):
+        queue_id = "P" + match.group(1)
+        description = match.group(2).strip()
+        rows.append(QueueEncoding(queue_id, description, "ENCODED" if queue_id in encoded else "NEEDS_ENCODING"))
+    return tuple(rows)
+
+
 def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | None:
     """Compile a selected candidate only when repository evidence is sufficient."""
     target = root / task.target

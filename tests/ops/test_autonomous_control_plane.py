@@ -60,6 +60,7 @@ from ops.local_autonomous_agent import (
     LocalTask,
     compile_executable_task,
     fallback_patch,
+    inspect_queue_encoding,
     safe_patch,
     select_local_task,
     state,
@@ -574,3 +575,17 @@ def test_task_compiler_suppresses_existing_equivalent_commit(tmp_path, monkeypat
     monkeypatch.setattr(agent, "GIT", Path("git"))
     candidate = LocalTask("task-compiler-2", "P0.4 queue", "ops/mediahub_native_execution.py", "bounded acceptance")
     assert compile_executable_task(tmp_path, candidate) is None
+
+
+
+def test_queue_encoding_marks_only_explicit_local_items_encoded(tmp_path):
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text(
+        "P0.4 Close current Native Execution Contract test gaps.\n"
+        "P1.3 Complete AI model/provider/capability registry verification.\n"
+        "P2.1 Inventory State Authority contracts and identify every mutation path.\n",
+        encoding="utf-8",
+    )
+    rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
+    assert rows == {"P0.4": "ENCODED", "P1.3": "NEEDS_ENCODING", "P2.1": "NEEDS_ENCODING"}
