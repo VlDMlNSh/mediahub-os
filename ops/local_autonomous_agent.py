@@ -164,6 +164,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P0.4": "P0.4 Close current Native Execution Contract test gaps.",
         "P1.1": "P1.1 Complete provider-neutral `ExecutionProposal` contract and negative tests.",
         "P1.6": "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.",
+        "P1.4": "P1.4 Complete provider selector and fallback semantics, including offline/degraded behavior.",
     }
     rows: list[QueueEncoding] = []
     for match in re.finditer(r"(?m)^P(\d+\.\d+)\s+(.+)$", text):
