@@ -629,7 +629,8 @@ def prompt(task: LocalTask | None = None, feedback: str = "") -> str:
     task = task or select_local_task(ROOT)
     if task is None:
         return ""
-    current = (ROOT / task.target).read_text(encoding="utf-8")
+    target_path = ROOT / task.target
+    current = target_path.read_text(encoding="utf-8") if target_path.is_file() else ""
     error = f"\nPrevious rejection: {feedback}\n" if feedback else ""
     return f"""MediaHub local coding cycle. R4={R4}. Selected task={task.task_id}. Modify ONLY the existing tracked file {task.target}.
 Task: {task.instruction}
