@@ -601,7 +601,28 @@ def select_local_task(root: Path) -> LocalTask | None:
     # bounded reconciliation of whether the repository already contains explicit
     # leader/source-of-truth, stale-leader, split-brain, duplicate-command and
     # replay contracts. This is discovery/encoding, not a semantic invention.
-    p25_gap = root / "docs" / "ops" / "P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
+    p27_evidence = root / "docs" / "ops" / "P2-7-ai-cloud-authority-verification-2026-09-21.md"
+    p27_surfaces = (
+        root / "ops/ai/ai_adapter.py",
+        root / "ops/ai/ai_gateway.py",
+        root / "ops/cloud_development_adapter.py",
+        root / "ops/mediahub_native_execution.py",
+        root / "tests/security/test_ai_adapter.py",
+        root / "tests/ops/test_cloud_development_adapter.py",
+        root / "tests/test_mediahub_native_execution.py",
+    )
+    if (_queue_contains(root, "P2.7 Verify all AI/cloud agents are non-authoritative with respect to State Authority.")
+            and not p27_evidence.exists()
+            and all(path.is_file() for path in p27_surfaces)):
+        return LocalTask(
+            "P2.7-ai-cloud-authority-verification",
+            "P2.7 Verify all AI/cloud agents are non-authoritative with respect to State Authority.",
+            "docs/ops/P2-7-ai-cloud-authority-verification-2026-09-21.md",
+            "Record deterministic local authority-boundary evidence from the existing AI/cloud modules and negative tests; prove forbidden state-authority/production/secret capabilities remain denied and native execution admission remains proposal/provenance-bound. Do not mutate State Authority or execute providers.",
+            "p2.7-ai-cloud-authority-verification",
+        )
+
+    p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
         return LocalTask(
@@ -657,6 +678,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P1.2": ("docs/ops/P1-2-execution-admission-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE"),
         "P2.4": ("docs/ops/P2-4-cluster-membership-failover-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P2.4 NOT CLOSED"),
         "P2.5": ("docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md", "Status: DISCOVERY_RECONCILIATION / IMPLEMENTATION NOT AUTHORIZED BY THIS RECORD"),
+        "P2.7": ("docs/ops/P2-7-ai-cloud-authority-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P2.7 NOT CLOSED"),
         "P0.1": (
             "recovery/reconciliation-report.md",
             "## P0.1 current control-point reconciliation — 2026-09-21",
@@ -1129,6 +1151,28 @@ def test_recovery_proposal_rejects_non_string_provider():
         if current not in old:
             return ""
         return unified_patch(old, old.replace(current, hardened_current, 1), target)
+    if task.fallback_kind == "p2.7-ai-cloud-authority-verification":
+        content = """# P2.7 AI / Cloud Authority Boundary Verification
+
+Status: VERIFIED_LOCAL_SUBSCOPE / P2.7 NOT CLOSED
+
+## Scope
+
+Verify only the repository-native authority boundary of the existing AI/cloud components. AI and cloud components remain advisory/proposal-generating and must not mutate State Authority, production, or retrieve secrets directly.
+
+## Verification
+
+Commands:
+- python3 -m pytest -q tests/security/test_ai_adapter.py tests/ops/test_cloud_development_adapter.py tests/test_mediahub_native_execution.py
+- python3 -c "from pathlib import Path; forbidden=('state_authority','home_assistant','subprocess','socket'); files=('ops/ai/ai_adapter.py','ops/ai/ai_gateway.py','ops/cloud_development_adapter.py'); [print(f, [x for x in forbidden if x in Path(f).read_text(encoding='utf-8').lower()]) for f in files]"
+
+Acceptance: existing deterministic tests pass and the inspected AI/cloud modules preserve forbidden-capability denial and proposal/provenance boundaries. No provider execution or State Authority mutation is performed.
+
+## Boundary
+
+This evidence does not qualify operational cloud execution, credentials, production access, or the broader P2.7 product scope.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p2.5-cluster-recovery-gap-reconciliation":
         content = """# P2.5 Cluster Recovery Gap Reconciliation
 
