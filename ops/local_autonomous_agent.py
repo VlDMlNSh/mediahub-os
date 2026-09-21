@@ -1109,7 +1109,7 @@ The controller writes this artifact only after executing the verification comman
     if task.fallback_kind == "p1.2-admission-boolean-type-hardening":
         old = path.read_text(encoding="utf-8")
         marker = "        if not isinstance(self.proposal, ExecutionProposal):\n            raise PermissionError(\"malformed execution admission\")\n"
-        hardened = marker + "        if not isinstance(self.authorization_verified, bool) or not isinstance(self.recovery_verified, bool):\n            raise PermissionError(\"execution admission verification flags must be boolean\")\n"
+        hardened = marker + "        if not isinstance(self.authorized, bool) or not isinstance(self.recovery_verified, bool):\n            raise PermissionError(\"execution admission verification flags must be boolean\")\n"
         if "execution admission verification flags must be boolean" in old:
             return ""
         if marker not in old:
