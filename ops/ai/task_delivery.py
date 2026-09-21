@@ -136,11 +136,23 @@ class TaskDeliveryJournal:
             data = json.loads(self.path.read_text(encoding="utf-8"))
             if data.get("version") != 1:
                 raise DeliveryDenied("unsupported task delivery checkpoint version")
+            required_strings = ("task_id", "request_fingerprint", "conversation_id", "session_id")
+            if any(not isinstance(data.get(key), str) or not data[key] for key in required_strings):
+                raise DeliveryDenied("task delivery checkpoint identity is invalid")
+            generation = data["generation"]
+            attempt = data["attempt"]
+            if not isinstance(generation, int) or isinstance(generation, bool) or generation < 1:
+                raise DeliveryDenied("task delivery checkpoint generation is invalid")
+            if not isinstance(attempt, int) or isinstance(attempt, bool) or attempt < 0:
+                raise DeliveryDenied("task delivery checkpoint attempt is invalid")
+            response_fingerprint = data.get("response_fingerprint", "")
+            reason = data.get("reason", "restored")
+            if not isinstance(response_fingerprint, str) or not isinstance(reason, str):
+                raise DeliveryDenied("task delivery checkpoint metadata is invalid")
             self.delivery = TaskDelivery(
                 data["task_id"], data["request_fingerprint"], data["conversation_id"],
-                data["session_id"], int(data["generation"]), DeliveryState(data["state"]),
-                int(data["attempt"]), data.get("response_fingerprint", ""),
-                data.get("reason", "restored"),
+                data["session_id"], generation, DeliveryState(data["state"]),
+                attempt, response_fingerprint, reason,
             )
         except DeliveryDenied:
             raise

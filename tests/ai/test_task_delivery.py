@@ -112,3 +112,17 @@ def test_restore_for_identity_rejects_safe_stop(tmp_path):
     with pytest.raises(DeliveryDenied):
         restored.restore_for_identity(session_id="sess", conversation_id="conv", generation=1)
     restored.release()
+
+
+def test_restore_rejects_boolean_generation_and_attempt(tmp_path: Path):
+    path = tmp_path / "delivery.json"
+    path.write_text(json.dumps({
+        "version": 1, "task_id": "task", "request_fingerprint": "fp",
+        "conversation_id": "conv", "session_id": "sess", "generation": True,
+        "state": "PREPARED", "attempt": False, "response_fingerprint": "",
+        "reason": "prepared",
+    }), encoding="utf-8")
+    journal = TaskDeliveryJournal(path)
+    with pytest.raises(DeliveryDenied):
+        journal.restore()
+    journal.release()
