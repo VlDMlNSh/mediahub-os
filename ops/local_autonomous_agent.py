@@ -142,6 +142,37 @@ def select_local_task(root: Path) -> LocalTask | None:
         if tests.is_file() and "test_request_rejects_malformed_types" not in tests.read_text(encoding="utf-8"):
             return LocalTask("P1.6-hybrid-egress-tests", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "tests/test_hybrid_cloud_api_egress_adapter.py", "Add focused negative tests for malformed URL/method/headers and invalid timeout while preserving fail-closed VPN and allowlist tests.", "hybrid-egress-tests")
 
+    p13_registry = root / "ops" / "mediahub_provider_registry.py"
+    p13_protocol = root / "ops" / "mediahub_canonical_protocol.py"
+    p13_adapters = root / "ops" / "mediahub_provider_adapters.py"
+    p13_gemini = root / "ops" / "mediahub_gemini_adapter.py"
+    p13_policy = root / "ops" / "mediahub_policy_engine.py"
+    p13_egress = root / "ops" / "mediahub_egress_controller.py"
+    p13_credentials = root / "ops" / "mediahub_credential_broker.py"
+    p13_evidence = root / "docs" / "ops" / "P1-3-provider-capability-registry-verification-2026-09-21.md"
+    p13_tests = (
+        root / "tests/test_mediahub_canonical_protocol.py",
+        root / "tests/test_mediahub_provider_registry.py",
+        root / "tests/test_mediahub_provider_adapters.py",
+        root / "tests/test_mediahub_gemini_adapter.py",
+        root / "tests/test_mediahub_policy_engine.py",
+        root / "tests/test_mediahub_egress_controller.py",
+        root / "tests/test_mediahub_credential_broker.py",
+        root / "tests/ai/test_ai_provider_registry.py",
+    )
+    if (_queue_contains(root, "P1.3 Complete AI model/provider/capability registry verification.")
+            and all(p.is_file() for p in (p13_registry, p13_protocol, p13_adapters, p13_gemini, p13_policy, p13_egress, p13_credentials, p13_evidence))
+            and all(p.is_file() for p in p13_tests)):
+        evidence_text = p13_evidence.read_text(encoding="utf-8")
+        if "41 passed" in evidence_text and "P1.3 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+            return LocalTask(
+                "P1.3-provider-capability-registry-verification",
+                "P1.3 Complete AI model/provider/capability registry verification.",
+                "ops/mediahub_provider_registry.py",
+                "Verify the existing provider registry, capability matrix, native adapters, policy, egress, credential and AI-provider schema boundaries using the recorded deterministic suite; do not perform live provider execution or acquire credentials.",
+                "p1.3-provider-capability-registry-verification",
+            )
+
     p14 = root / "ops" / "mediahub_provider_gateway.py"
     p14_gateway_tests = root / "tests" / "test_mediahub_provider_gateway.py"
     p14_resilience_tests = root / "tests" / "test_mediahub_resilience.py"
@@ -203,6 +234,13 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     # P1.4 may only be encoded when its claimed evidence surface exists in the
     # current tree. A historical evidence commit is not current acceptance
     # evidence and must not make the task executable.
+    p13_evidence = root / "docs/ops/P1-3-provider-capability-registry-verification-2026-09-21.md"
+    p13_registry = root / "ops/mediahub_provider_registry.py"
+    p13_protocol = root / "ops/mediahub_canonical_protocol.py"
+    if p13_registry.is_file() and p13_protocol.is_file() and p13_evidence.is_file():
+        evidence_text = p13_evidence.read_text(encoding="utf-8")
+        if "41 passed" in evidence_text and "P1.3 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+            encoded["P1.3"] = "P1.3 Complete AI model/provider/capability registry verification."
     p14_evidence = root / "docs/ops/P1-4-provider-selector-verification-2026-09-21.md"
     p14_gateway = root / "tests/test_mediahub_provider_gateway.py"
     p14_resilience = root / "tests/test_mediahub_resilience.py"
@@ -255,6 +293,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
     dependencies = {
         "P0.4": (),
         "P1.1": ("P0.4",),
+        "P1.3": ("P1.1",),
         "P1.6": ("P1.1",),
         "P1.4": (),
     }
@@ -262,11 +301,14 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "ops/mediahub_native_execution.py": ("State Authority", "production", "R4"),
         "tests/test_mediahub_native_execution.py": ("State Authority", "production", "R4"),
         "ops/hybrid_cloud_api_egress_adapter.py": ("cloud activation", "credentials"),
+        "ops/mediahub_provider_registry.py": ("live provider execution", "credentials", "cloud activation", "R4"),
         "tests/test_mediahub_provider_gateway.py": ("live provider execution", "credentials", "cloud activation", "R4"),
     }
     phase = task.task_id.split("-", 1)[0]
     verification = (
-        "pytest -q tests/test_mediahub_provider_gateway.py tests/test_mediahub_resilience.py"
+        "pytest -q tests/test_mediahub_canonical_protocol.py tests/test_mediahub_provider_registry.py tests/test_mediahub_provider_adapters.py tests/test_mediahub_gemini_adapter.py tests/test_mediahub_policy_engine.py tests/test_mediahub_egress_controller.py tests/test_mediahub_credential_broker.py tests/ai/test_ai_provider_registry.py"
+        if task.task_id.startswith("P1.3-")
+        else "pytest -q tests/test_mediahub_provider_gateway.py tests/test_mediahub_resilience.py"
         if task.task_id.startswith("P1.4-")
         else "pytest -q tests/test_mediahub_native_execution.py"
         if "native_execution" in task.target
