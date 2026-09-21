@@ -313,3 +313,5 @@ If a cloud agent is unavailable: continue local contract/test/security/recovery 
 ## Terminal gate order
 
 FUNCTIONAL BASELINE → CONTRACTS → INTEGRATION → RECOVERY → SECURITY → PERFORMANCE/SOAK → RELEASE CANDIDATE → INDEPENDENT REVIEW → RELEASE AUTHORIZATION (HUMAN) → PRODUCTION READINESS → PRODUCTION AUTHORIZATION (HUMAN).
+
+<!-- P2.3 machine-executable increment: bounded lifecycle contract; physical persistence remains separately gated. -->

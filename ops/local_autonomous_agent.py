@@ -84,6 +84,12 @@ def select_local_task(root: Path) -> LocalTask | None:
     from current repository state. Cloud/VPN/credential-dependent work is never
     selected by this local lane.
     """
+    p23 = root / "ops/mediahub_lifecycle_contract.py"
+    if _queue_contains(root, "P2.3 Complete persistence/versioning/migration/recovery contracts.") and p23.is_file():
+        text = p23.read_text(encoding="utf-8")
+        if "migration_id" in text and "not isinstance(self.migration_id, str)" not in text:
+            return LocalTask("P2.3-migration-contract-hardening", "P2.3 Complete persistence/versioning/migration/recovery contracts.", "ops/mediahub_lifecycle_contract.py", "Harden MigrationContract validation against malformed migration_id, source and target objects; preserve explicit version change and rollback semantics. Do not add physical persistence or a second State Authority.", "migration-contract-hardening")
+
     native = root / "ops/mediahub_native_execution.py"
     if _queue_contains(root, "P0.4 Close current Native Execution Contract test gaps.") and native.is_file():
         text = native.read_text(encoding="utf-8")
@@ -366,6 +372,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         return ()
     text = path.read_text(encoding="utf-8")
     encoded = {
+        "P2.3": "P2.3 Complete persistence/versioning/migration/recovery contracts.",
         "P0.4": "P0.4 Close current Native Execution Contract test gaps.",
         "P1.1": "P1.1 Complete provider-neutral `ExecutionProposal` contract and negative tests.",
         "P1.6": "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.",
@@ -516,6 +523,9 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         if task.task_id.startswith("P2.2-")
         else "pytest -q tests/test_hybrid_cloud_api_egress_adapter.py"
     )
+    if task.task_id.startswith("P2.3-"):
+        verification = "pytest -q tests/test_mediahub_lifecycle_contract.py"
+
     return ExecutableTask(
         **task.__dict__,
         owner=os.environ.get("MEDIAHUB_WORKER_ID", "local-autonomous"),
