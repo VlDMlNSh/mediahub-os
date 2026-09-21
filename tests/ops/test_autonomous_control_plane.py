@@ -185,6 +185,27 @@ def test_raw_queue_compiler_turns_factual_p05_item_into_bounded_task(tmp_path):
     assert task.target == "tests/ai/test_task_delivery.py"
 
 
+def test_raw_queue_compiler_turns_factual_p06_item_into_bounded_evidence_task(tmp_path):
+    from ops.local_autonomous_agent import (
+        compile_next_raw_queue_task,
+        inspect_queue_encoding,
+    )
+
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "recovery").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.6 Reconcile PR #80 remote/local evidence without push or merge.\n", encoding="utf-8"
+    )
+    (tmp_path / "recovery" / "reconciliation-report.md").write_text(
+        "# Reconciliation\n", encoding="utf-8"
+    )
+    task = compile_next_raw_queue_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P0.6-pr80-reconciliation-evidence"
+    assert task.target == "recovery/reconciliation-report.md"
+    assert inspect_queue_encoding(tmp_path)[0].status == "NEEDS_ENCODING"
+
+
 def test_raw_queue_compiler_returns_none_for_unencoded_real_item(tmp_path):
     from ops.local_autonomous_agent import (
         compile_next_raw_queue_task,

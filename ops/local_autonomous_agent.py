@@ -82,6 +82,23 @@ def read_raw_queue(root: Path) -> tuple[RawQueueItem, ...]:
     return tuple(rows)
 
 
+def _compile_p06_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "recovery/reconciliation-report.md"
+    if not target.is_file():
+        return None
+    text = target.read_text(encoding="utf-8")
+    if "## P0.6 PR #80 reconciliation — 2026-09-21" in text:
+        return None
+    queue_item = f"P0.6 {item.description}"
+    return LocalTask(
+        "P0.6-pr80-reconciliation-evidence",
+        queue_item,
+        "recovery/reconciliation-report.md",
+        "Append a bounded PR #80 reconciliation record using read-only remote/local Git evidence. Record exact PR head/merge refs, local HEAD, R4 ancestry, and the no-push/no-merge boundary. Do not import, cherry-pick, merge, or authorize the remote work.",
+        "p0.6-pr80-reconciliation-evidence",
+    )
+
+
 def _compile_p05_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "tests/ai/test_task_delivery.py"
     if not target.is_file():
@@ -97,7 +114,7 @@ def _compile_p05_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     return None
 
 
-RAW_QUEUE_COMPILERS = {"P0.5": _compile_p05_queue_item}
+RAW_QUEUE_COMPILERS = {"P0.5": _compile_p05_queue_item, "P0.6": _compile_p06_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
@@ -1068,6 +1085,13 @@ Acceptance: all existing autonomous-control-plane tests pass; source validation 
 The controller writes this artifact only after executing the verification command successfully against the current task base.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p0.6-pr80-reconciliation-evidence":
+        old = path.read_text(encoding="utf-8")
+        marker = "## P0.6 PR #80 reconciliation — 2026-09-21"
+        if marker in old:
+            return ""
+        content = """\n\n## P0.6 PR #80 reconciliation — 2026-09-21\n\nStatus: VERIFIED_LOCAL_RECONCILIATION / NO INTEGRATION\n\nScope: reconcile PR #80 remote/local evidence without push, merge, cherry-pick, ready-state change, release action, or production authorization.\n\nRemote Git evidence observed read-only from `origin`: `refs/pull/80/head` = `40f700981c6dceb4bfa47e69c43f539f15db686d`; `refs/pull/80/merge` = `e6caca15405eabc7102b17b5c12f6c407c87401b`.\n\nLocal control point at compilation: `HEAD` = `ff328899626e912a18d64553a5902010a6725252`; `HEAD^{{tree}}` = `39bbedc5067aa0a9064b06ef2ad6bc76585560db`; R4 = `471f709f5633feab7aeb62dd3ea52effad6d2bc4`; R4 ancestry = PASS.\n\nThe remote PR head was observed as a ref but was not imported into this worktree. No merge, cherry-pick, push, release, production authorization, credential access, or State Authority mutation was performed.\n\nAcceptance: exact remote/local SHAs are recorded, lineage remains intact, and the evidence explicitly preserves the non-integration boundary.\n"""
+        return unified_patch(old, old.rstrip() + content, target)
     if task.fallback_kind == "p0.5-delivery-identity-recovery-test":
         old = path.read_text(encoding="utf-8")
         if "test_restore_for_identity_rejects_mismatch" in old:
