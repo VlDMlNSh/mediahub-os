@@ -194,6 +194,23 @@ def test_p12_admission_evidence_task_is_selected_when_missing(tmp_path):
     assert task.task_id == "P1.2-execution-admission-verification"
 
 
+def test_p25_reconciliation_evidence_is_encoded_when_marker_is_current(tmp_path, monkeypatch):
+    from ops.local_autonomous_agent import inspect_queue_encoding
+    monkeypatch.setattr("ops.local_autonomous_agent._current_evidence_marker", lambda root, path, marker: True)
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "docs" / "ops").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "docs" / "ops" / "P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md").write_text(
+        "Status: DISCOVERY_RECONCILIATION / IMPLEMENTATION NOT AUTHORIZED BY THIS RECORD\n",
+        encoding="utf-8",
+    )
+    rows = inspect_queue_encoding(tmp_path)
+    assert next(row for row in rows if row.queue_id == "P2.5").status == "ENCODED"
+
+
 def test_p05_delivery_recovery_increment_is_selected_when_prior_markers_are_closed(tmp_path, monkeypatch):
     import ops.local_autonomous_agent as agent
 

@@ -656,6 +656,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P0.7": ("docs/ops/P0-7-cloud-agent-readiness-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.7 BLOCKED"),
         "P1.2": ("docs/ops/P1-2-execution-admission-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE"),
         "P2.4": ("docs/ops/P2-4-cluster-membership-failover-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P2.4 NOT CLOSED"),
+        "P2.5": ("docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md", "Status: DISCOVERY_RECONCILIATION / IMPLEMENTATION NOT AUTHORIZED BY THIS RECORD"),
         "P0.1": (
             "recovery/reconciliation-report.md",
             "## P0.1 current control-point reconciliation — 2026-09-21",
