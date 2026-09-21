@@ -508,7 +508,8 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
 def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | None:
     """Compile a selected candidate only when repository evidence is sufficient."""
     target = root / task.target
-    if not target.is_file():
+    allow_new_evidence = task.fallback_kind == "p2.4-cluster-membership-failover-verification" and task.target.startswith("docs/ops/")
+    if not target.is_file() and not allow_new_evidence:
         return None
     def git(*args: str) -> str:
         result = subprocess.run([str(GIT), *args], cwd=root, text=True, capture_output=True, check=False)  # nosec B603
