@@ -264,6 +264,27 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "p1.7-native-launch-verification",
             )
 
+    p18_evidence = root / "docs/ops/P1-8-cloud-development-metering-audit-revocation-verification-2026-09-21.md"
+    p18_files = (
+        root / "ops/cloud_development_adapter.py",
+        root / "tests/ops/test_cloud_development_adapter.py",
+        root / "tests/security/test_native_agent_launcher.py",
+        root / "tests/ai/test_hybrid_dispatcher.py",
+        root / "tests/ai/test_godmode_openrouter_launcher.py",
+    )
+    if (_queue_contains(root, "P1.8 Add metering/audit/revocation evidence for cloud-development workloads.")
+            and p18_evidence.is_file() and all(path.is_file() for path in p18_files)):
+        evidence_text = p18_evidence.read_text(encoding="utf-8")
+        if ("41 passed" in evidence_text
+                and "P1.8 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" not in evidence_text):
+            return LocalTask(
+                "P1.8-cloud-development-metering-audit-revocation-verification",
+                "P1.8 Add metering/audit/revocation evidence for cloud-development workloads.",
+                "ops/cloud_development_adapter.py",
+                "Verify bounded workload metering fields, audit outcomes, revocation fail-closed behavior and credential non-disclosure using deterministic local tests; do not perform live provider execution or acquire credentials.",
+                "p1.8-metering-audit-revocation",
+            )
+
     ecc = root / "ops/ai/ecc_policy.py"
     ecc_tests = root / "tests/ai/test_ecc_policy.py"
     dispatcher_tests = root / "tests/ai/test_hybrid_dispatcher.py"
@@ -305,6 +326,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P1.1": "P1.1 Complete provider-neutral `ExecutionProposal` contract and negative tests.",
         "P1.6": "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.",
         "P1.7": "P1.7 Qualify native Codex and Claude launch specifications without bypasses.",
+        "P1.8": "P1.8 Add metering/audit/revocation evidence for cloud-development workloads.",
     }
     # P1.4 may only be encoded when its claimed evidence surface exists in the
     # current tree. A historical evidence commit is not current acceptance
@@ -329,6 +351,12 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         evidence_text = p17_evidence.read_text(encoding="utf-8")
         if "41 passed" in evidence_text and "P1.7 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
             encoded["P1.7"] = "P1.7 Qualify native Codex and Claude launch specifications without bypasses."
+    p18_evidence = root / "docs/ops/P1-8-cloud-development-metering-audit-revocation-verification-2026-09-21.md"
+    p18_adapter = root / "ops/cloud_development_adapter.py"
+    if p18_adapter.is_file() and p18_evidence.is_file():
+        evidence_text = p18_evidence.read_text(encoding="utf-8")
+        if "41 passed" in evidence_text and "P1.8 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+            encoded["P1.8"] = "P1.8 Add metering/audit/revocation evidence for cloud-development workloads."
     p15_evidence = root / "docs/ops/P1-5-ecc-dispatcher-verification-2026-09-21.md"
     p15_ecc = root / "ops/ai/ecc_policy.py"
     p15_tests = root / "tests/ai/test_ecc_policy.py"
@@ -411,7 +439,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         else "pytest -q tests/ops/test_cloud_development_adapter.py tests/security/test_cloud_development_sandbox.py tests/test_hybrid_cloud_api_egress_adapter.py tests/test_hybrid_cloud_egress.py tests/test_hybrid_cloud_egress_chain.py tests/test_mediahub_credential_broker.py tests/test_mediahub_egress_controller.py tests/ai/test_hybrid_development_controller.py tests/ai/test_hybrid_dispatcher.py"
         if task.task_id.startswith("P1.6-")
         else "pytest -q tests/security/test_native_agent_launcher.py tests/ops/test_cloud_development_adapter.py tests/ai/test_hybrid_dispatcher.py tests/ai/test_godmode_openrouter_launcher.py"
-        if task.task_id.startswith("P1.7-")
+        if task.task_id.startswith("P1.7-") or task.task_id.startswith("P1.8-")
         else "pytest -q tests/test_hybrid_cloud_api_egress_adapter.py"
     )
     return ExecutableTask(
