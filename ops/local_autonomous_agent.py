@@ -470,15 +470,17 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
     fingerprint = hashlib.sha256(
         f"{task.task_id}\n{task.queue_item}\n{task.target}\n{task.instruction}".encode()
     ).hexdigest()
-    for path in (root / ".autonomous" / "evidence", root / ".autonomous" / "logs"):
-        if path.is_dir():
-            for evidence in path.rglob("*"):
-                if evidence.is_file():
-                    try:
-                        if fingerprint in evidence.read_text(encoding="utf-8", errors="ignore"):
-                            return None
-                    except OSError:
-                        continue
+    # Only durable evidence suppresses a task. Operational cycle logs may contain
+    # the compiler's own fingerprint and must never self-suppress the next cycle.
+    path = root / ".autonomous" / "evidence"
+    if path.is_dir():
+        for evidence in path.rglob("*"):
+            if evidence.is_file():
+                try:
+                    if fingerprint in evidence.read_text(encoding="utf-8", errors="ignore"):
+                        return None
+                except OSError:
+                    continue
     if task.task_id in git("log", "--all", "--format=%s").splitlines():
         return None
     worktrees = git("worktree", "list", "--porcelain")
