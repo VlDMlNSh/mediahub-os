@@ -381,6 +381,23 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "p1.5-ecc-dispatcher-verification",
             )
 
+    # P0.3 has a concrete controller/watchdog verification surface, but no
+    # durable evidence artifact exists. Close that verification gap before
+    # advancing deeper into the graph.
+    p03_evidence = root / "docs" / "ops" / "P0-3-controller-watchdog-verification-2026-09-21.md"
+    if (_queue_contains(root, "P0.3 Verify supervisor/watchdog restart, lock, checkpoint, rollback and journal semantics.")
+            and not p03_evidence.exists()
+            and (root / "tests/ops/test_autonomous_control_plane.py").is_file()
+            and (root / "ops/autonomous_watchdog.sh").is_file()
+            and (root / "ops/autonomous_os_loop.sh").is_file()):
+        return LocalTask(
+            "P0.3-controller-watchdog-verification",
+            "P0.3 Verify supervisor/watchdog restart, lock, checkpoint, rollback and journal semantics.",
+            "docs/ops/P0-3-controller-watchdog-verification-2026-09-21.md",
+            "Record deterministic local verification evidence for the existing controller/watchdog lock, ownership, PID starttime, stop-marker, supervision and liveness semantics; do not claim production daemon qualification beyond the executed local tests.",
+            "p0.3-controller-watchdog-verification",
+        )
+
     # P2.4 has a concrete local verification surface already implemented, but no
     # durable evidence artifact exists. Treat this as a bounded verification-gap
     # task; do not claim the broader leader/source-of-truth architecture is closed.
@@ -878,6 +895,30 @@ def test_recovery_proposal_rejects_non_string_provider():
         if current not in old:
             return ""
         return unified_patch(old, old.replace(current, hardened_current, 1), target)
+    if task.fallback_kind == "p0.3-controller-watchdog-verification":
+        content = """# P0.3 Controller / Watchdog Verification
+
+Status: VERIFIED_LOCAL_SUBSCOPE
+
+## Scope
+
+Deterministic local evidence for controller/watchdog lock, ownership, PID starttime, stop-marker race, supervision and liveness semantics. This does not authorize production deployment or claim full daemon qualification.
+
+## Verification
+
+Command:
+
+```text
+python3 -m pytest -q tests/ops/test_autonomous_control_plane.py
+```
+
+Acceptance: all existing autonomous-control-plane tests pass; source validation covers the controller and watchdog shell contracts; no production mutation, release or credential action is performed.
+
+## Provenance
+
+The controller writes this artifact only after executing the verification command successfully against the current task base.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p2.4-cluster-membership-failover-verification":
         content = """# P2.4 Cluster Membership / Failover Verification
 
@@ -1065,6 +1106,8 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_cluster_gateway.py"], 180))
     elif selected and selected.fallback_kind in {"hybrid-egress-types", "hybrid-egress-tests"}:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_hybrid_cloud_api_egress_adapter.py"], 180))
+    elif selected and selected.fallback_kind == "p0.3-controller-watchdog-verification":
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/ops/test_autonomous_control_plane.py"], 180))
     elif selected and selected.fallback_kind == "p2.4-cluster-membership-failover-verification":
         checks.append(([sys.executable, "-m", "pytest", "-q",
                         "tests/test_mediahub_cluster_membership.py",
