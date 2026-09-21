@@ -233,7 +233,7 @@ def select_local_task(root: Path) -> LocalTask | None:
             and p16_evidence.is_file() and all(path.is_file() for path in p16_files)):
         evidence_text = p16_evidence.read_text(encoding="utf-8")
         if ("72 passed" in evidence_text
-                and "P1.6 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text):
+                and "P1.6 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" not in evidence_text):
             return LocalTask(
                 "P1.6-cloud-development-contract-verification",
                 "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.",
@@ -251,7 +251,6 @@ def select_local_task(root: Path) -> LocalTask | None:
     ):
         evidence_text = ecc_evidence.read_text(encoding="utf-8")
         if ("23 passed" in evidence_text
-                and "P1.5 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text
                 and "P1.5 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" not in evidence_text):
             return LocalTask(
                 "P1.5-ecc-dispatcher-verification",
