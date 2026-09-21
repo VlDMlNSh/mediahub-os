@@ -813,10 +813,24 @@ def test_recovery_proposal_rejects_non_string_provider():
         old = path.read_text(encoding="utf-8")
         original = '    def __post_init__(self):\n        if not self.migration_id: raise ValueError("migration id required")\n        if not isinstance(self.rollback_supported,bool): raise ValueError("rollback_supported must be bool")\n        if self.source.revision==self.target.revision: raise ValueError("migration must change revision")\n'
         hardened = '    def __post_init__(self):\n        if not isinstance(self.migration_id, str) or not self.migration_id: raise ValueError("migration id required")\n        if not isinstance(self.source, VersionIdentity) or not isinstance(self.target, VersionIdentity): raise ValueError("migration versions required")\n        if not isinstance(self.rollback_supported,bool): raise ValueError("rollback_supported must be bool")\n        if self.source.revision==self.target.revision: raise ValueError("migration must change revision")\n'
-        if original not in old:
+        if original in old:
+            new = old.replace(original, hardened, 1)
+            return unified_patch(old, new, target)
+        current = """    def __post_init__(self):
+        if not self.migration_id: raise ValueError("migration id required")
+        if not isinstance(self.source, VersionIdentity) or not isinstance(self.target, VersionIdentity): raise TypeError("migration versions required")
+        if not isinstance(self.rollback_supported, bool): raise TypeError("rollback_supported must be bool")
+        if self.source.revision==self.target.revision: raise ValueError("migration must change revision")
+"""
+        hardened_current = """    def __post_init__(self):
+        if not isinstance(self.migration_id, str) or not self.migration_id: raise ValueError("migration id required")
+        if not isinstance(self.source, VersionIdentity) or not isinstance(self.target, VersionIdentity): raise TypeError("migration versions required")
+        if not isinstance(self.rollback_supported, bool): raise TypeError("rollback_supported must be bool")
+        if self.source.revision==self.target.revision: raise ValueError("migration must change revision")
+"""
+        if current not in old:
             return ""
-        new = old.replace(original, hardened, 1)
-        return unified_patch(old, new, target)
+        return unified_patch(old, old.replace(current, hardened_current, 1), target)
     if task.fallback_kind == "native-negative-tests":
         old = path.read_text(encoding="utf-8")
         if "test_bounded_execution_rejects_malformed_types" in old:
