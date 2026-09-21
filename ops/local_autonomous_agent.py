@@ -24,7 +24,7 @@ LOCAL_AI_URL = os.environ.get("MEDIAHUB_AI_URL", "http://127.0.0.1:8081/v1/chat/
 GIT = Path("/usr/bin/git")
 RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 160
-MAX_REGENERATIONS = 3
+MAX_REGENERATIONS = 1
 TARGET = "ops/mediahub_native_execution.py"
 R4 = os.environ.get("MEDIAHUB_R4_SHA", "471f709f5633feab7aeb62dd3ea52effad6d2bc4")
 
@@ -950,7 +950,9 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
-    if selected and selected.fallback_kind in {"hybrid-egress-types", "hybrid-egress-tests"}:
+    if selected and selected.task_id.startswith("P2.3-"):
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_lifecycle_contract.py"], 180))
+    elif selected and selected.fallback_kind in {"hybrid-egress-types", "hybrid-egress-tests"}:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_hybrid_cloud_api_egress_adapter.py"], 180))
     elif selected and selected.target.startswith("tests/"):
         checks.append(([sys.executable, "-m", "pytest", "-q", selected.target], 180))
