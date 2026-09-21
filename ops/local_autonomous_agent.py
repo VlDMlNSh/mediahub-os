@@ -54,6 +54,14 @@ def _queue_contains(root: Path, item: str) -> bool:
     return path.is_file() and item in path.read_text(encoding="utf-8")
 
 
+def _task_committed(root: Path, task_id: str) -> bool:
+    result = subprocess.run(
+        [str(GIT), "log", "--all", "--format=%s"],
+        cwd=root, text=True, capture_output=True, check=False,
+    )  # nosec B603
+    return result.returncode == 0 and task_id in result.stdout.splitlines()
+
+
 def select_local_task(root: Path) -> LocalTask | None:
     forced = os.environ.get("MEDIAHUB_TASK_ID", "").strip()
     if forced:
@@ -164,7 +172,9 @@ def select_local_task(root: Path) -> LocalTask | None:
             and all(p.is_file() for p in (p13_registry, p13_protocol, p13_adapters, p13_gemini, p13_policy, p13_egress, p13_credentials, p13_evidence))
             and all(p.is_file() for p in p13_tests)):
         evidence_text = p13_evidence.read_text(encoding="utf-8")
-        if "41 passed" in evidence_text and "P1.3 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+        if ("41 passed" in evidence_text
+                and "P1.3 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text
+                and not _task_committed(root, "P1.3-provider-capability-registry-verification")):
             return LocalTask(
                 "P1.3-provider-capability-registry-verification",
                 "P1.3 Complete AI model/provider/capability registry verification.",
@@ -199,7 +209,8 @@ def select_local_task(root: Path) -> LocalTask | None:
                 and all(marker in resilience_text for marker in required_resilience)
                 and "12 passed" in evidence_text
                 and "POLICY_BLOCKED" in evidence_text
-                and "SAFE_STOP" in evidence_text):
+                and "SAFE_STOP" in evidence_text
+                and not _task_committed(root, "P1.4-provider-selector-verification")):
             return LocalTask(
                 "P1.4-provider-selector-verification",
                 "P1.4 Complete provider selector and fallback semantics, including offline/degraded behavior.",
@@ -216,7 +227,9 @@ def select_local_task(root: Path) -> LocalTask | None:
         path.is_file() for path in (ecc, ecc_tests, dispatcher_tests, ecc_evidence)
     ):
         evidence_text = ecc_evidence.read_text(encoding="utf-8")
-        if "23 passed" in evidence_text and "P1.5 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+        if ("23 passed" in evidence_text
+                and "P1.5 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text
+                and not _task_committed(root, "P1.5-ecc-dispatcher-verification")):
             return LocalTask(
                 "P1.5-ecc-dispatcher-verification",
                 "P1.5 Complete ECC adapter/dispatcher policy, provenance, permissions and negative tests.",
