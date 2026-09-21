@@ -101,3 +101,14 @@ def test_restore_for_identity_rejects_mismatch(tmp_path):
     with pytest.raises(DeliveryDenied):
         restored.restore_for_identity(session_id="other", conversation_id="conv", generation=2)
     restored.release()
+
+def test_restore_for_identity_rejects_safe_stop(tmp_path):
+    path = tmp_path / "delivery.json"
+    first = TaskDeliveryJournal(path)
+    first.prepare("task", "payload", "conv", "sess", 1)
+    first.mark_safe_stop("operator stop")
+    first.release()
+    restored = TaskDeliveryJournal(path)
+    with pytest.raises(DeliveryDenied):
+        restored.restore_for_identity(session_id="sess", conversation_id="conv", generation=1)
+    restored.release()
