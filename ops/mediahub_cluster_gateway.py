@@ -39,8 +39,12 @@ class LocalClusterGateway:
         workload: ClusterWorkload,
         decision: RoutingDecision,
     ) -> ClusterExecutionProposal:
-        if not request_id:
-            raise ClusterGatewayDenied("request identity is required")
+        if not isinstance(request_id, str) or not request_id:
+            raise ClusterGatewayDenied("malformed request identity")
+        if not isinstance(workload, ClusterWorkload):
+            raise ClusterGatewayDenied("malformed cluster workload")
+        if not isinstance(decision, RoutingDecision):
+            raise ClusterGatewayDenied("malformed routing decision")
         if decision.route is not Route.LOCAL_CLUSTER:
             raise ClusterGatewayDenied("LOCAL_CLUSTER route authorization required")
         if decision.provider_state.value not in {"AVAILABLE", "TRANSIENT_FAILURE", "POLICY_BLOCKED", "QUARANTINED"}:
