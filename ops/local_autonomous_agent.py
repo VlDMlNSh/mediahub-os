@@ -62,6 +62,59 @@ def _task_committed(root: Path, task_id: str) -> bool:
     return result.returncode == 0 and task_id in result.stdout.splitlines()
 
 
+@dataclass(frozen=True)
+class RawQueueItem:
+    queue_id: str
+    description: str
+    source_line: int
+
+
+def read_raw_queue(root: Path) -> tuple[RawQueueItem, ...]:
+    """Parse canonical phase rows only; never invent queue work."""
+    path = root / "ops/local_autonomous_tasks.md"
+    if not path.is_file():
+        return ()
+    rows: list[RawQueueItem] = []
+    for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        match = re.match(r"^P(\d+\.\d+)\s+(.+)$", line.strip())
+        if match:
+            rows.append(RawQueueItem("P" + match.group(1), match.group(2).strip(), line_no))
+    return tuple(rows)
+
+
+def _compile_p05_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "tests/ai/test_task_delivery.py"
+    if not target.is_file():
+        return None
+    text = target.read_text(encoding="utf-8")
+    queue_item = f"P0.5 {item.description}"
+    if "test_restore_for_identity_rejects_mismatch" not in text:
+        return LocalTask("P0.5-delivery-identity-recovery-test", queue_item, "tests/ai/test_task_delivery.py", "Add a focused regression test proving TaskDeliveryJournal.restore_for_identity rejects session, conversation or generation mismatches without allowing delivery to proceed.", "p0.5-delivery-identity-recovery-test")
+    if "test_restore_for_identity_rejects_safe_stop" not in text:
+        return LocalTask("P0.5-delivery-safe-stop-recovery-test", queue_item, "tests/ai/test_task_delivery.py", "Add a focused regression test proving TaskDeliveryJournal.restore_for_identity rejects a persisted SAFE_STOP delivery state and does not permit dispatch.", "p0.5-delivery-safe-stop-recovery-test")
+    if "test_restore_rejects_boolean_generation_and_attempt" not in text:
+        return LocalTask("P0.5-delivery-provenance-type-test", queue_item, "tests/ai/test_task_delivery.py", "Add a focused regression test proving persisted boolean generation/attempt provenance is rejected instead of being coerced into integers.", "p0.5-delivery-provenance-type-test")
+    return None
+
+
+RAW_QUEUE_COMPILERS = {"P0.5": _compile_p05_queue_item}
+
+
+def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    """Compile a raw queue row only through an explicitly registered encoder."""
+    compiler = RAW_QUEUE_COMPILERS.get(item.queue_id)
+    return compiler(root, item) if compiler is not None else None
+
+
+def compile_next_raw_queue_task(root: Path) -> LocalTask | None:
+    """Select the first factual queue row with a deterministic bounded compiler."""
+    for item in read_raw_queue(root):
+        task = compile_raw_queue_item(root, item)
+        if task is not None and _queue_contains(root, task.queue_item):
+            return task
+    return None
+
+
 def select_local_task(root: Path) -> LocalTask | None:
     forced = os.environ.get("MEDIAHUB_TASK_ID", "").strip()
     if forced:
@@ -160,36 +213,6 @@ def select_local_task(root: Path) -> LocalTask | None:
             return LocalTask("P1.6-hybrid-egress-types", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "ops/hybrid_cloud_api_egress_adapter.py", "Harden the hybrid cloud egress adapter against malformed url, method, headers, and timeout types; preserve fail-closed VPN and allowlist behavior.", "hybrid-egress-types")
         if tests.is_file() and "test_request_rejects_malformed_types" not in tests.read_text(encoding="utf-8"):
             return LocalTask("P1.6-hybrid-egress-tests", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "tests/test_hybrid_cloud_api_egress_adapter.py", "Add focused negative tests for malformed URL/method/headers and invalid timeout while preserving fail-closed VPN and allowlist tests.", "hybrid-egress-tests")
-
-    # P0.5 is a concrete recovery/evidence gap with existing durable modules.
-    # Advance one bounded test increment at a time; never invent transport semantics.
-    p05_tests = root / "tests/ai/test_task_delivery.py"
-    if _queue_contains(root, "P0.5 Close hybrid session/delivery/conversation recovery gaps.") and p05_tests.is_file():
-        text = p05_tests.read_text(encoding="utf-8")
-        if "test_restore_for_identity_rejects_mismatch" not in text:
-            return LocalTask(
-                "P0.5-delivery-identity-recovery-test",
-                "P0.5 Close hybrid session/delivery/conversation recovery gaps.",
-                "tests/ai/test_task_delivery.py",
-                "Add a focused regression test proving TaskDeliveryJournal.restore_for_identity rejects session, conversation or generation mismatches without allowing delivery to proceed.",
-                "p0.5-delivery-identity-recovery-test",
-            )
-        if "test_restore_for_identity_rejects_safe_stop" not in text:
-            return LocalTask(
-                "P0.5-delivery-safe-stop-recovery-test",
-                "P0.5 Close hybrid session/delivery/conversation recovery gaps.",
-                "tests/ai/test_task_delivery.py",
-                "Add a focused regression test proving TaskDeliveryJournal.restore_for_identity rejects a persisted SAFE_STOP delivery state and does not permit dispatch.",
-                "p0.5-delivery-safe-stop-recovery-test",
-            )
-        if "test_restore_rejects_boolean_generation_and_attempt" not in text:
-            return LocalTask(
-                "P0.5-delivery-provenance-type-test",
-                "P0.5 Close hybrid session/delivery/conversation recovery gaps.",
-                "tests/ai/test_task_delivery.py",
-                "Add a focused regression test proving persisted boolean generation/attempt provenance is rejected instead of being coerced into integers.",
-                "p0.5-delivery-provenance-type-test",
-            )
 
     # P0.5.2 has a concrete daemon restore regression surface: terminal
     # identity must fail closed when baseline/R4 provenance is mismatched.
@@ -517,9 +540,11 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p2.5-cluster-recovery-gap-reconciliation",
         )
 
-    # No higher-level local task has encoded acceptance criteria yet; stop rather than fabricate work.
-    # Higher-level queue items remain eligible only after their acceptance criteria
-    # are encoded as deterministic local tasks.
+    # Existing local increments are exhausted; compile the next factual raw queue row.
+    # An unencoded row remains NEEDS_ENCODING rather than becoming speculative work.
+    raw_task = compile_next_raw_queue_task(root)
+    if raw_task is not None:
+        return raw_task
     return None
 
 @dataclass(frozen=True)
@@ -536,6 +561,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         return ()
     text = path.read_text(encoding="utf-8")
     encoded = {
+        "P0.5": "P0.5 Close hybrid session/delivery/conversation recovery gaps.",
         "P2.3": "P2.3 Complete persistence/versioning/migration/recovery contracts.",
         "P0.4": "P0.4 Close current Native Execution Contract test gaps.",
         "P1.1": "P1.1 Complete provider-neutral `ExecutionProposal` contract and negative tests.",
@@ -1042,6 +1068,24 @@ Acceptance: all existing autonomous-control-plane tests pass; source validation 
 The controller writes this artifact only after executing the verification command successfully against the current task base.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p0.5-delivery-identity-recovery-test":
+        old = path.read_text(encoding="utf-8")
+        if "test_restore_for_identity_rejects_mismatch" in old:
+            return ""
+        addition = '\n\ndef test_restore_for_identity_rejects_mismatch(tmp_path):\n    path = tmp_path / "delivery.json"\n    first = TaskDeliveryJournal(path)\n    first.prepare("task", "payload", "conv", "sess", 2)\n    first.release()\n    restored = TaskDeliveryJournal(path)\n    with pytest.raises(DeliveryDenied):\n        restored.restore_for_identity(session_id="other", conversation_id="conv", generation=2)\n    restored.release()\n'
+        return unified_patch(old, old.rstrip() + addition, target)
+    if task.fallback_kind == "p0.5-delivery-safe-stop-recovery-test":
+        old = path.read_text(encoding="utf-8")
+        if "test_restore_for_identity_rejects_safe_stop" in old:
+            return ""
+        addition = '\n\ndef test_restore_for_identity_rejects_safe_stop(tmp_path):\n    path = tmp_path / "delivery.json"\n    first = TaskDeliveryJournal(path)\n    first.prepare("task", "payload", "conv", "sess", 1)\n    first.mark_safe_stop("operator stop")\n    first.release()\n    restored = TaskDeliveryJournal(path)\n    with pytest.raises(DeliveryDenied):\n        restored.restore_for_identity(session_id="sess", conversation_id="conv", generation=1)\n    restored.release()\n'
+        return unified_patch(old, old.rstrip() + addition, target)
+    if task.fallback_kind == "p0.5-delivery-provenance-type-test":
+        old = path.read_text(encoding="utf-8")
+        if "test_restore_rejects_boolean_generation_and_attempt" in old:
+            return ""
+        addition = '\n\ndef test_restore_rejects_boolean_generation_and_attempt(tmp_path):\n    path = tmp_path / "delivery.json"\n    path.write_text(json.dumps({\n        "version": 1, "task_id": "task", "request_fingerprint": "fp",\n        "conversation_id": "conv", "session_id": "sess", "generation": True,\n        "state": "PREPARED", "attempt": False, "response_fingerprint": "",\n        "reason": "prepared",\n    }), encoding="utf-8")\n    journal = TaskDeliveryJournal(path)\n    with pytest.raises(DeliveryDenied):\n        journal.restore()\n    journal.release()\n'
+        return unified_patch(old, old.rstrip() + addition, target)
     if task.fallback_kind == "p2.4-cluster-membership-failover-verification":
         content = """# P2.4 Cluster Membership / Failover Verification
 
@@ -1360,6 +1404,11 @@ def main() -> int:
 
     candidate = select_local_task(ROOT)
     if candidate is None:
+        raw = read_raw_queue(ROOT)
+        if raw and compile_next_raw_queue_task(ROOT) is None:
+            print("LOCAL_AGENT_NOOP: factual queue exists but no bounded compiler is authorized")
+            state("BLOCKED", "NEEDS_ENCODING: no deterministic acceptance encoder for remaining factual queue rows")
+            return 30
         print("LOCAL_AGENT_NOOP: no eligible local queue item")
         state("BLOCKED", "no eligible local task; higher-level work requires explicit bounded acceptance criteria")
         return 30

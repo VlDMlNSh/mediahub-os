@@ -165,6 +165,41 @@ def test_p05_delivery_recovery_increment_is_selected_when_prior_markers_are_clos
     assert selected.task_id == "P0.5-delivery-identity-recovery-test"
 
 
+def test_raw_queue_compiler_turns_factual_p05_item_into_bounded_task(tmp_path):
+    from ops.local_autonomous_agent import compile_next_raw_queue_task, read_raw_queue
+
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "tests" / "ai").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.5 Close hybrid session/delivery/conversation recovery gaps.\n"
+        "P0.6 Reconcile PR #80 remote/local evidence without push or merge.\n", encoding="utf-8"
+    )
+    (tmp_path / "tests" / "ai" / "test_task_delivery.py").write_text(
+        "from ops.ai.task_delivery import TaskDeliveryJournal\n", encoding="utf-8"
+    )
+    rows = read_raw_queue(tmp_path)
+    assert [row.queue_id for row in rows] == ["P0.5", "P0.6"]
+    task = compile_next_raw_queue_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P0.5-delivery-identity-recovery-test"
+    assert task.target == "tests/ai/test_task_delivery.py"
+
+
+def test_raw_queue_compiler_returns_none_for_unencoded_real_item(tmp_path):
+    from ops.local_autonomous_agent import (
+        compile_next_raw_queue_task,
+        inspect_queue_encoding,
+    )
+
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.6 Reconcile PR #80 remote/local evidence without push or merge.\n", encoding="utf-8"
+    )
+    assert compile_next_raw_queue_task(tmp_path) is None
+    rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
+    assert rows["P0.6"] == "NEEDS_ENCODING"
+
+
 def test_p1_1_fallback_is_applyable(tmp_path, monkeypatch):
     from ops import local_autonomous_agent as agent
 
