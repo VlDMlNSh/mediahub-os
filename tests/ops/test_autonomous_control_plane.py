@@ -593,7 +593,7 @@ def test_queue_encoding_requires_current_p1_4_evidence_surface(tmp_path):
     assert rows["P1.4"] == "NEEDS_ENCODING"
     evidence = tmp_path / "docs" / "ops"
     evidence.mkdir(parents=True)
-    (evidence / "P1-4-provider-selector-verification-2026-09-19.md").write_text("evidence\n", encoding="utf-8")
+    (evidence / "P1-4-provider-selector-verification-2026-09-21.md").write_text("evidence\n", encoding="utf-8")
     rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
     assert rows["P1.4"] == "ENCODED"
 

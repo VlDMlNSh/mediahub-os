@@ -142,6 +142,41 @@ def select_local_task(root: Path) -> LocalTask | None:
         if tests.is_file() and "test_request_rejects_malformed_types" not in tests.read_text(encoding="utf-8"):
             return LocalTask("P1.6-hybrid-egress-tests", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "tests/test_hybrid_cloud_api_egress_adapter.py", "Add focused negative tests for malformed URL/method/headers and invalid timeout while preserving fail-closed VPN and allowlist tests.", "hybrid-egress-tests")
 
+    p14 = root / "ops" / "mediahub_provider_gateway.py"
+    p14_gateway_tests = root / "tests" / "test_mediahub_provider_gateway.py"
+    p14_resilience_tests = root / "tests" / "test_mediahub_resilience.py"
+    p14_evidence = root / "docs" / "ops" / "P1-4-provider-selector-verification-2026-09-21.md"
+    if (_queue_contains(root, "P1.4 Complete provider selector and fallback semantics, including offline/degraded behavior.")
+            and p14.is_file() and p14_gateway_tests.is_file() and p14_resilience_tests.is_file() and p14_evidence.is_file()):
+        required_gateway = (
+            "test_403_is_policy_blocked_and_skips_retry",
+            "test_transient_failure_allows_bounded_failover",
+            "test_permanent_4xx_does_not_fallback",
+            "test_second_transient_failure_opens_circuit",
+            "test_policy_blocked_provider_reopens_only_after_cooldown",
+        )
+        required_resilience = (
+            "test_permanent_failure_never_fails_over",
+            "test_policy_blocked_fails_over_without_retry_delay_semantics",
+            "test_transient_failure_uses_next_provider_and_budget",
+            "test_retry_budget_is_fail_closed",
+        )
+        gateway_text = p14_gateway_tests.read_text(encoding="utf-8")
+        resilience_text = p14_resilience_tests.read_text(encoding="utf-8")
+        evidence_text = p14_evidence.read_text(encoding="utf-8")
+        if (all(marker in gateway_text for marker in required_gateway)
+                and all(marker in resilience_text for marker in required_resilience)
+                and "12 passed" in evidence_text
+                and "POLICY_BLOCKED" in evidence_text
+                and "SAFE_STOP" in evidence_text):
+            return LocalTask(
+                "P1.4-provider-selector-verification",
+                "P1.4 Complete provider selector and fallback semantics, including offline/degraded behavior.",
+                "tests/test_mediahub_provider_gateway.py",
+                "Verify deterministic provider selection, policy-blocked no-retry semantics, bounded transient failover, permanent-failure safe-stop, circuit cooldown, and degraded local fallback using the existing provider gateway/resilience tests; do not perform live provider execution.",
+                "p1.4-provider-selector-verification",
+            )
+
     # No higher-level local task has encoded acceptance criteria yet; stop rather than fabricate work.
     # Higher-level queue items remain eligible only after their acceptance criteria
     # are encoded as deterministic local tasks.
@@ -168,7 +203,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     # P1.4 may only be encoded when its claimed evidence surface exists in the
     # current tree. A historical evidence commit is not current acceptance
     # evidence and must not make the task executable.
-    p14_evidence = root / "docs/ops/P1-4-provider-selector-verification-2026-09-19.md"
+    p14_evidence = root / "docs/ops/P1-4-provider-selector-verification-2026-09-21.md"
     p14_gateway = root / "tests/test_mediahub_provider_gateway.py"
     p14_resilience = root / "tests/test_mediahub_resilience.py"
     if (root / "ops/mediahub_provider_gateway.py").is_file() and p14_gateway.is_file() and p14_resilience.is_file() and p14_evidence.is_file():
@@ -221,15 +256,19 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "P0.4": (),
         "P1.1": ("P0.4",),
         "P1.6": ("P1.1",),
+        "P1.4": (),
     }
     conflicts = {
         "ops/mediahub_native_execution.py": ("State Authority", "production", "R4"),
         "tests/test_mediahub_native_execution.py": ("State Authority", "production", "R4"),
         "ops/hybrid_cloud_api_egress_adapter.py": ("cloud activation", "credentials"),
+        "tests/test_mediahub_provider_gateway.py": ("live provider execution", "credentials", "cloud activation", "R4"),
     }
     phase = task.task_id.split("-", 1)[0]
     verification = (
-        "pytest -q tests/test_mediahub_native_execution.py"
+        "pytest -q tests/test_mediahub_provider_gateway.py tests/test_mediahub_resilience.py"
+        if task.task_id.startswith("P1.4-")
+        else "pytest -q tests/test_mediahub_native_execution.py"
         if "native_execution" in task.target
         else "pytest -q tests/test_hybrid_cloud_api_egress_adapter.py"
     )
