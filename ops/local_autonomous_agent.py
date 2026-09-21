@@ -420,6 +420,21 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p2.4-cluster-membership-failover-verification",
         )
 
+    # P2.5 is currently an architecture-dependent queue item. First perform a
+    # bounded reconciliation of whether the repository already contains explicit
+    # leader/source-of-truth, stale-leader, split-brain, duplicate-command and
+    # replay contracts. This is discovery/encoding, not a semantic invention.
+    p25_gap = root / "docs" / "ops" / "P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
+    if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
+            and not p25_gap.exists()):
+        return LocalTask(
+            "P2.5-cluster-recovery-gap-reconciliation",
+            "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.",
+            "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md",
+            "Inventory existing repository contracts and tests for stale leader, split-brain, duplicate command, replay and recovery semantics; classify each as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence, without inventing leader election or source-of-truth semantics.",
+            "p2.5-cluster-recovery-gap-reconciliation",
+        )
+
     # No higher-level local task has encoded acceptance criteria yet; stop rather than fabricate work.
     # Higher-level queue items remain eligible only after their acceptance criteria
     # are encoded as deterministic local tasks.
@@ -525,7 +540,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
 def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | None:
     """Compile a selected candidate only when repository evidence is sufficient."""
     target = root / task.target
-    allow_new_evidence = task.fallback_kind in {"p0.3-controller-watchdog-verification", "p2.4-cluster-membership-failover-verification"} and task.target.startswith("docs/ops/")
+    allow_new_evidence = task.fallback_kind in {"p0.3-controller-watchdog-verification", "p2.4-cluster-membership-failover-verification", "p2.5-cluster-recovery-gap-reconciliation"} and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
     def git(*args: str) -> str:
@@ -895,6 +910,32 @@ def test_recovery_proposal_rejects_non_string_provider():
         if current not in old:
             return ""
         return unified_patch(old, old.replace(current, hardened_current, 1), target)
+    if task.fallback_kind == "p2.5-cluster-recovery-gap-reconciliation":
+        content = """# P2.5 Cluster Recovery Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / IMPLEMENTATION NOT AUTHORIZED BY THIS RECORD
+
+## Required scenarios
+
+- stale leader
+- split-brain
+- duplicate command
+- replay
+- recovery
+
+## Reconciliation method
+
+Search existing repository contracts and tests for explicit semantics. Classify each required scenario only from exact repository evidence as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS. Do not invent leader election, source-of-truth, fencing or replay semantics.
+
+## Current repository evidence
+
+The current local cluster implementation exposes membership, health, lifecycle, resources, gateway and failover contracts. Existing deterministic cluster verification is recorded separately. The repository search must remain the authority for whether leader/source-of-truth semantics exist; absence of an API is not permission to design one here.
+
+## Gate
+
+This artifact is an encoding/reconciliation step. Any resulting implementation work requires a separate bounded task with explicit acceptance criteria and authority.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p0.3-controller-watchdog-verification":
         content = """# P0.3 Controller / Watchdog Verification
 
@@ -1106,6 +1147,8 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_cluster_gateway.py"], 180))
     elif selected and selected.fallback_kind in {"hybrid-egress-types", "hybrid-egress-tests"}:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_hybrid_cloud_api_egress_adapter.py"], 180))
+    elif selected and selected.fallback_kind == "p2.5-cluster-recovery-gap-reconciliation":
+        checks.append(([sys.executable, "-c", "from pathlib import Path; import re; r=Path('ops/mediahub_cluster_failover.py').read_text(); t=Path('tests/test_mediahub_cluster_failover.py').read_text(); required=('leader','split','replay','duplicate'); print('P2.5 evidence scan', {k:(k in r.lower() or k in t.lower()) for k in required}); assert 'failover' in r.lower() and 'failover' in t.lower()"], 30))
     elif selected and selected.fallback_kind == "p0.3-controller-watchdog-verification":
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/ops/test_autonomous_control_plane.py"], 180))
     elif selected and selected.fallback_kind == "p2.4-cluster-membership-failover-verification":
