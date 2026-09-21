@@ -81,3 +81,15 @@ def test_gateway_has_no_network_or_state_authority_imports():
     imports += [node.module for node in tree.body if isinstance(node, ast.ImportFrom) and node.module]
     assert all(not name.startswith(("http", "urllib", "requests")) for name in imports)
     assert all("state_authority" not in name for name in imports)
+
+
+def test_propose_rejects_malformed_request_identity():
+    for value in (None, True, 1, object()):
+        with pytest.raises(ClusterGatewayDenied):
+            gateway().propose(value, workload(), decision(Route.LOCAL_CLUSTER))
+
+
+def test_propose_rejects_malformed_decision_type():
+    for value in (None, True, object()):
+        with pytest.raises(ClusterGatewayDenied):
+            gateway().propose("req-1", workload(), value)
