@@ -608,4 +608,4 @@ def test_queue_encoding_marks_only_explicit_local_items_encoded(tmp_path):
         encoding="utf-8",
     )
     rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
-    assert rows == {"P0.4": "ENCODED", "P1.3": "NEEDS_ENCODING", "P2.1": "NEEDS_ENCODING"}
+    assert rows == {"P0.4": "ENCODED", "P1.3": "NEEDS_ENCODING", "P2.1": "ENCODED"}

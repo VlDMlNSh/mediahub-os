@@ -264,6 +264,28 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "p1.7-native-launch-verification",
             )
 
+    p21_evidence = root / "docs/ops/P2-1-state-authority-mutation-inventory-2026-09-21.md"
+    p21_files = (
+        root / "runtime/mediahub_runtime/state_authority.py",
+        root / "runtime/mediahub_runtime/consumer_boundary.py",
+        root / "tests/runtime/test_state_authority.py",
+        root / "tests/runtime/test_mh04_state_authority_hardening.py",
+        root / "tests/runtime/test_mh05_consumer_boundary.py",
+        root / "tests/security/test_mh04_state_authority_redteam.py",
+    )
+    if (_queue_contains(root, "P2.1 Inventory State Authority contracts and identify every mutation path.")
+            and p21_evidence.is_file() and all(path.is_file() for path in p21_files)):
+        evidence_text = p21_evidence.read_text(encoding="utf-8")
+        if ("48 passed" in evidence_text
+                and "P2.1 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" not in evidence_text):
+            return LocalTask(
+                "P2.1-state-authority-mutation-inventory",
+                "P2.1 Inventory State Authority contracts and identify every mutation path.",
+                "runtime/mediahub_runtime/state_authority.py",
+                "Inventory canonical State Authority and Consumer Boundary mutation paths with deterministic authority/security tests and static source inspection; do not modify frozen P0-04/P0-05 contracts.",
+                "p2.1-state-authority-inventory",
+            )
+
     p18_evidence = root / "docs/ops/P1-8-cloud-development-metering-audit-revocation-verification-2026-09-21.md"
     p18_files = (
         root / "ops/cloud_development_adapter.py",
@@ -327,6 +349,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P1.6": "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.",
         "P1.7": "P1.7 Qualify native Codex and Claude launch specifications without bypasses.",
         "P1.8": "P1.8 Add metering/audit/revocation evidence for cloud-development workloads.",
+        "P2.1": "P2.1 Inventory State Authority contracts and identify every mutation path.",
     }
     # P1.4 may only be encoded when its claimed evidence surface exists in the
     # current tree. A historical evidence commit is not current acceptance
@@ -440,6 +463,8 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         if task.task_id.startswith("P1.6-")
         else "pytest -q tests/security/test_native_agent_launcher.py tests/ops/test_cloud_development_adapter.py tests/ai/test_hybrid_dispatcher.py tests/ai/test_godmode_openrouter_launcher.py"
         if task.task_id.startswith("P1.7-") or task.task_id.startswith("P1.8-")
+        else "pytest -q tests/runtime/test_state_authority.py tests/runtime/test_mh04_state_authority_hardening.py tests/runtime/test_mh05_consumer_boundary.py tests/security/test_mh04_state_authority_redteam.py tests/test_mediahub_cluster_failover.py tests/contracts/test_contract_domain_reconciliation.py"
+        if task.task_id.startswith("P2.1-")
         else "pytest -q tests/test_hybrid_cloud_api_egress_adapter.py"
     )
     return ExecutableTask(
