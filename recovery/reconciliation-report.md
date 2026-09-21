@@ -65,3 +65,15 @@ Local control point at compilation: `HEAD` = `ff328899626e912a18d64553a5902010a6
 The remote PR head was observed as a ref but was not imported into this worktree. No merge, cherry-pick, push, release, production authorization, credential access, or State Authority mutation was performed.
 
 Acceptance: exact remote/local SHAs are recorded, lineage remains intact, and the evidence explicitly preserves the non-integration boundary.
+
+## P0.1 current control-point reconciliation — 2026-09-21
+
+Status: VERIFIED_LOCAL_RECONCILIATION
+
+Repository control point at task compilation: branch `engineering/mh21-sandbox-lifecycle-20260910`; HEAD `46d87676bf5381732f5e8410c0f124567490d4d5`; tree `966929c70ffe983d43c01efb47e8a78b55aa3336`.
+
+R4: `471f709f5633feab7aeb62dd3ea52effad6d2bc4`; R4 ancestry: PASS. Worktree: clean at task compilation.
+
+Active execution infrastructure observed: one autonomous OS loop owner, one watchdog owner, and one hybrid orchestrator process; the authoritative worktree remains `/home/mediahub/dev/mediahub-os-autonomous`. Parallel worktrees remain separately owned and were not modified by this task.
+
+Boundary: this record is reconciliation evidence only. No R4 mutation, history rewrite, destructive cleanup, user-work overwrite, merge, release, or production authorization is performed.
