@@ -91,3 +91,13 @@ def test_corrupt_checkpoint_fails_closed(tmp_path: Path):
     with pytest.raises(DeliveryDenied):
         j.restore()
     j.release()
+
+def test_restore_for_identity_rejects_mismatch(tmp_path):
+    path = tmp_path / "delivery.json"
+    first = TaskDeliveryJournal(path)
+    first.prepare("task", "payload", "conv", "sess", 2)
+    first.release()
+    restored = TaskDeliveryJournal(path)
+    with pytest.raises(DeliveryDenied):
+        restored.restore_for_identity(session_id="other", conversation_id="conv", generation=2)
+    restored.release()
