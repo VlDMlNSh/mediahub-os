@@ -149,6 +149,22 @@ def test_local_task_selector_stops_when_no_local_acceptance_criteria_exist(tmp_p
     assert select_local_task(tmp_path) is None
 
 
+def test_p05_delivery_recovery_increment_is_selected_when_prior_markers_are_closed(tmp_path, monkeypatch):
+    import ops.local_autonomous_agent as agent
+
+    monkeypatch.setattr(agent, "ROOT", tmp_path)
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "tests" / "ai").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.5 Close hybrid session/delivery/conversation recovery gaps.\n", encoding="utf-8"
+    )
+    delivery = tmp_path / "tests" / "ai" / "test_task_delivery.py"
+    delivery.write_text("from ops.ai.task_delivery import TaskDeliveryJournal\n", encoding="utf-8")
+    selected = agent.select_local_task(tmp_path)
+    assert selected is not None
+    assert selected.task_id == "P0.5-delivery-identity-recovery-test"
+
+
 def test_p1_1_fallback_is_applyable(tmp_path, monkeypatch):
     from ops import local_autonomous_agent as agent
 

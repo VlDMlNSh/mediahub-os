@@ -161,6 +161,36 @@ def select_local_task(root: Path) -> LocalTask | None:
         if tests.is_file() and "test_request_rejects_malformed_types" not in tests.read_text(encoding="utf-8"):
             return LocalTask("P1.6-hybrid-egress-tests", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "tests/test_hybrid_cloud_api_egress_adapter.py", "Add focused negative tests for malformed URL/method/headers and invalid timeout while preserving fail-closed VPN and allowlist tests.", "hybrid-egress-tests")
 
+    # P0.5 is a concrete recovery/evidence gap with existing durable modules.
+    # Advance one bounded test increment at a time; never invent transport semantics.
+    p05_tests = root / "tests/ai/test_task_delivery.py"
+    if _queue_contains(root, "P0.5 Close hybrid session/delivery/conversation recovery gaps.") and p05_tests.is_file():
+        text = p05_tests.read_text(encoding="utf-8")
+        if "test_restore_for_identity_rejects_mismatch" not in text:
+            return LocalTask(
+                "P0.5-delivery-identity-recovery-test",
+                "P0.5 Close hybrid session/delivery/conversation recovery gaps.",
+                "tests/ai/test_task_delivery.py",
+                "Add a focused regression test proving TaskDeliveryJournal.restore_for_identity rejects session, conversation or generation mismatches without allowing delivery to proceed.",
+                "p0.5-delivery-identity-recovery-test",
+            )
+        if "test_restore_for_identity_rejects_safe_stop" not in text:
+            return LocalTask(
+                "P0.5-delivery-safe-stop-recovery-test",
+                "P0.5 Close hybrid session/delivery/conversation recovery gaps.",
+                "tests/ai/test_task_delivery.py",
+                "Add a focused regression test proving TaskDeliveryJournal.restore_for_identity rejects a persisted SAFE_STOP delivery state and does not permit dispatch.",
+                "p0.5-delivery-safe-stop-recovery-test",
+            )
+        if "test_restore_rejects_boolean_generation_and_attempt" not in text:
+            return LocalTask(
+                "P0.5-delivery-provenance-type-test",
+                "P0.5 Close hybrid session/delivery/conversation recovery gaps.",
+                "tests/ai/test_task_delivery.py",
+                "Add a focused regression test proving persisted boolean generation/attempt provenance is rejected instead of being coerced into integers.",
+                "p0.5-delivery-provenance-type-test",
+            )
+
     p13_registry = root / "ops" / "mediahub_provider_registry.py"
     p13_protocol = root / "ops" / "mediahub_canonical_protocol.py"
     p13_adapters = root / "ops" / "mediahub_provider_adapters.py"
@@ -988,6 +1018,24 @@ Leader election, canonical cluster source-of-truth semantics, stale-leader handl
 The controller writes this artifact only after executing the verification command successfully against the current task base.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p0.5-delivery-identity-recovery-test":
+        old = path.read_text(encoding="utf-8")
+        if "test_restore_for_identity_rejects_mismatch" in old:
+            return ""
+        addition = '\n\ndef test_restore_for_identity_rejects_mismatch(tmp_path):\n    path = tmp_path / "delivery.json"\n    first = TaskDeliveryJournal(path)\n    first.prepare("task", "payload", "conv", "sess", 2)\n    first.release()\n    restored = TaskDeliveryJournal(path)\n    with pytest.raises(DeliveryDenied):\n        restored.restore_for_identity(session_id="other", conversation_id="conv", generation=2)\n    restored.release()\n'
+        return unified_patch(old, old.rstrip() + addition, target)
+    if task.fallback_kind == "p0.5-delivery-safe-stop-recovery-test":
+        old = path.read_text(encoding="utf-8")
+        if "test_restore_for_identity_rejects_safe_stop" in old:
+            return ""
+        addition = '\n\ndef test_restore_for_identity_rejects_safe_stop(tmp_path):\n    path = tmp_path / "delivery.json"\n    first = TaskDeliveryJournal(path)\n    first.prepare("task", "payload", "conv", "sess", 1)\n    first.mark_safe_stop("operator stop")\n    first.release()\n    restored = TaskDeliveryJournal(path)\n    with pytest.raises(DeliveryDenied):\n        restored.restore_for_identity(session_id="sess", conversation_id="conv", generation=1)\n    restored.release()\n'
+        return unified_patch(old, old.rstrip() + addition, target)
+    if task.fallback_kind == "p0.5-delivery-provenance-type-test":
+        old = path.read_text(encoding="utf-8")
+        if "test_restore_rejects_boolean_generation_and_attempt" in old:
+            return ""
+        addition = '\n\ndef test_restore_rejects_boolean_generation_and_attempt(tmp_path):\n    path = tmp_path / "delivery.json"\n    path.write_text(json.dumps({\n        "version": 1, "task_id": "task", "request_fingerprint": "fp",\n        "conversation_id": "conv", "session_id": "sess", "generation": True,\n        "state": "PREPARED", "attempt": False, "response_fingerprint": "",\n        "reason": "prepared",\n    }), encoding="utf-8")\n    journal = TaskDeliveryJournal(path)\n    with pytest.raises(DeliveryDenied):\n        journal.restore()\n    journal.release()\n'
+        return unified_patch(old, old.rstrip() + addition, target)
     if task.fallback_kind == "p2.4-cluster-gateway-negative-tests":
         old = path.read_text(encoding="utf-8")
         if "test_propose_rejects_malformed_request_identity" in old:

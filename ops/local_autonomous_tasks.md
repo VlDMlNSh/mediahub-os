@@ -125,6 +125,12 @@ L. **Performance / Reliability** — latency, resource limits, watchdogs, degrad
 M. **Release / Independent Evidence** — RC packaging, SBOM/provenance, reproducible build, external review package; no self-authorization.
 N. **Operations / Recovery** — service health, restart semantics, backup/restore, migration and disaster recovery.
 
+## Controller hardening task — 2026-09-21
+
+Originating evidence: the continuous controller reached `NO_PROGRESS` while P0.5 remained a real queue item and its existing hybrid session/delivery modules exposed concrete recovery surfaces.
+
+Bounded task: extend the local selector with deterministic P0.5 recovery-test increments. Acceptance: one existing tracked test file per increment; exact task fingerprint; no network/provider/State Authority access; focused pytest; ruff; diff-check; clean committed tree; preserve R4 ancestry. This is controller hardening, not product authority.
+
 ## Phase P0 — Baseline and control-plane stabilization
 
 Goal: establish one authoritative work graph and remove autonomous NO_PROGRESS loops caused by missing bounded work.
