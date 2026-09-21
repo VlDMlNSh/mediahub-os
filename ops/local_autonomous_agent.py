@@ -99,6 +99,24 @@ def _compile_p01_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
+def _compile_p26_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "recovery/reconciliation-report.md"
+    baseline = root / "ops/verify_functional_baseline.sh"
+    if not target.is_file() or not baseline.is_file():
+        return None
+    text = target.read_text(encoding="utf-8")
+    if "## P2.6 Home Assistant source-of-truth verification — 2026-09-21" in text:
+        return None
+    queue_item = f"P2.6 {item.description}"
+    return LocalTask(
+        "P2.6-home-assistant-source-of-truth-verification",
+        queue_item,
+        "recovery/reconciliation-report.md",
+        "Record deterministic local verification that the normative functional baseline names Home Assistant Core as the Smart Home source of truth and that the functional-baseline gate preserves State Authority as canonical platform authority; do not access Home Assistant, mutate State Authority, or invent integration behavior.",
+        "p2.6-home-assistant-source-of-truth-verification",
+    )
+
+
 def _compile_p06_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "recovery/reconciliation-report.md"
     if not target.is_file():
@@ -131,7 +149,7 @@ def _compile_p05_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     return None
 
 
-RAW_QUEUE_COMPILERS = {"P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.6": _compile_p06_queue_item}
+RAW_QUEUE_COMPILERS = {"P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
@@ -1102,6 +1120,13 @@ Acceptance: all existing autonomous-control-plane tests pass; source validation 
 The controller writes this artifact only after executing the verification command successfully against the current task base.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p2.6-home-assistant-source-of-truth-verification":
+        old = path.read_text(encoding="utf-8")
+        marker = "## P2.6 Home Assistant source-of-truth verification — 2026-09-21"
+        if marker in old:
+            return ""
+        content = """\n\n## P2.6 Home Assistant source-of-truth verification — 2026-09-21\n\nStatus: VERIFIED_LOCAL_SUBSCOPE / P2.6 NOT CLOSED\n\nScope: verify only the existing normative functional-baseline statements and control gates. No Home Assistant runtime access, State Authority mutation, provider execution, or production operation is part of this task.\n\nAcceptance evidence: `ops/verify_functional_baseline.sh` is the repository-native deterministic gate. It requires the normative functional baseline, governance and invariant registry to identify Home Assistant Core, MediaHub State Authority, the canonical AI escalation path, locked release state and unauthorized production state; it also requires exact R4 ancestry and R4 tree identity.\n\nArchitectural boundary: this evidence confirms the repository's declared source-of-truth boundary. It does not qualify an operational Home Assistant adapter, runtime integration, command path, or production deployment.\n"""
+        return unified_patch(old, old.rstrip() + content, target)
     if task.fallback_kind == "p0.1-current-control-point-reconciliation":
         old = path.read_text(encoding="utf-8")
         marker = "## P0.1 current control-point reconciliation — 2026-09-21"
@@ -1364,6 +1389,8 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_lifecycle_contract.py"], 180))
     elif selected and selected.task_id.startswith("P2.4-"):
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_cluster_gateway.py"], 180))
+    elif selected and selected.fallback_kind == "p2.6-home-assistant-source-of-truth-verification":
+        checks.append((["bash", "ops/verify_functional_baseline.sh"], 60))
     elif selected and selected.fallback_kind in {"hybrid-egress-types", "hybrid-egress-tests"}:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_hybrid_cloud_api_egress_adapter.py"], 180))
     elif selected and selected.fallback_kind == "p2.5-cluster-recovery-gap-reconciliation":

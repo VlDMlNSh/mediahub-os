@@ -185,6 +185,24 @@ def test_raw_queue_compiler_turns_factual_p05_item_into_bounded_task(tmp_path):
     assert task.target == "tests/ai/test_task_delivery.py"
 
 
+def test_raw_queue_compiler_turns_factual_p26_item_into_bounded_ha_evidence_task(tmp_path):
+    from ops.local_autonomous_agent import compile_next_raw_queue_task
+
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "recovery").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P2.6 Verify Home Assistant Core remains Smart Home source of truth and cannot be bypassed.\n", encoding="utf-8"
+    )
+    (tmp_path / "ops" / "verify_functional_baseline.sh").write_text("#!/bin/sh\n", encoding="utf-8")
+    (tmp_path / "recovery" / "reconciliation-report.md").write_text(
+        "# Reconciliation\n", encoding="utf-8"
+    )
+    task = compile_next_raw_queue_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P2.6-home-assistant-source-of-truth-verification"
+    assert task.target == "recovery/reconciliation-report.md"
+
+
 def test_raw_queue_compiler_turns_factual_p01_item_into_bounded_reconciliation_task(tmp_path):
     from ops.local_autonomous_agent import compile_next_raw_queue_task
 
