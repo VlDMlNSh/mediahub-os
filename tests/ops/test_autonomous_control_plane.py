@@ -55,6 +55,15 @@ def test_agent_runs_deterministic_lint_repair_before_verification():
     assert 'LOCAL_AGENT_BLOCKED: deterministic lint repair failed' in text
 
 
+
+
+def _git_init_with_commit(root: Path) -> None:
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.name", "Test"], cwd=root, check=True)
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-qm", "base"], cwd=root, check=True)
+
 from ops.local_autonomous_agent import (
     ExecutableTask,
     LocalTask,
@@ -716,3 +725,72 @@ def test_queue_encoding_marks_only_explicit_local_items_encoded(tmp_path):
     )
     rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
     assert rows == {"P0.4": "ENCODED", "P1.3": "NEEDS_ENCODING", "P2.1": "ENCODED"}
+
+
+def test_queue_encoding_marks_current_p01_evidence_encoded(tmp_path):
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text(
+        "P0.1 Reconcile current local HEAD, R4 ancestry, functional baseline and active worktrees.\n", encoding="utf-8"
+    )
+    evidence = tmp_path / "recovery"
+    evidence.mkdir()
+    report = evidence / "reconciliation-report.md"
+    report.write_text("## P0.1 current control-point reconciliation — 2026-09-21\n", encoding="utf-8")
+    _git_init_with_commit(tmp_path)
+    rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
+    assert rows["P0.1"] == "ENCODED"
+
+
+def test_queue_encoding_marks_current_p06_evidence_encoded(tmp_path):
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text(
+        "P0.6 Reconcile PR #80 remote/local evidence without push or merge.\n", encoding="utf-8"
+    )
+    evidence = tmp_path / "recovery"
+    evidence.mkdir()
+    (evidence / "reconciliation-report.md").write_text(
+        "## P0.6 PR #80 reconciliation — 2026-09-21\n", encoding="utf-8"
+    )
+    _git_init_with_commit(tmp_path)
+    rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
+    assert rows["P0.6"] == "ENCODED"
+
+
+def test_queue_encoding_marks_current_p26_evidence_encoded(tmp_path):
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text(
+        "P2.6 Verify Home Assistant Core remains Smart Home source of truth and cannot be bypassed.\n", encoding="utf-8"
+    )
+    evidence = tmp_path / "recovery"
+    evidence.mkdir()
+    (evidence / "reconciliation-report.md").write_text(
+        "## P2.6 Home Assistant source-of-truth verification — 2026-09-21\n", encoding="utf-8"
+    )
+    _git_init_with_commit(tmp_path)
+    rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
+    assert rows["P2.6"] == "ENCODED"
+
+
+def test_queue_encoding_rejects_stale_copied_evidence_not_in_head(tmp_path):
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text(
+        "P0.6 Reconcile PR #80 remote/local evidence without push or merge.\n", encoding="utf-8"
+    )
+    evidence = tmp_path / "recovery"
+    evidence.mkdir()
+    report = evidence / "reconciliation-report.md"
+    report.write_text("base\n", encoding="utf-8")
+    _git_init_with_commit(tmp_path)
+    subprocess.run(["git", "checkout", "-qb", "stale-evidence"], cwd=tmp_path, check=True)
+    report.write_text("base\n## P0.6 PR #80 reconciliation — 2026-09-21\n", encoding="utf-8")
+    subprocess.run(["git", "add", "."], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "stale evidence"], cwd=tmp_path, check=True)
+    stale = report.read_text(encoding="utf-8")
+    subprocess.run(["git", "checkout", "-q", "master"], cwd=tmp_path, check=True)
+    report.write_text(stale, encoding="utf-8")
+    rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
+    assert rows["P0.6"] == "NEEDS_ENCODING"

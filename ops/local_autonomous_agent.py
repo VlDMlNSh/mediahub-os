@@ -82,6 +82,18 @@ def read_raw_queue(root: Path) -> tuple[RawQueueItem, ...]:
     return tuple(rows)
 
 
+def _current_evidence_marker(root: Path, relative_path: str, marker: str) -> bool:
+    """Return true only when the marker is present in the current tree and in HEAD ancestry."""
+    target = root / relative_path
+    if not target.is_file() or marker not in target.read_text(encoding="utf-8"):
+        return False
+    result = subprocess.run(
+        [str(GIT), "log", "HEAD", "-S", marker, "--format=%H", "--", relative_path],
+        cwd=root, text=True, capture_output=True, check=False,
+    )  # nosec B603
+    return result.returncode == 0 and bool(result.stdout.strip())
+
+
 def _compile_p01_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "recovery/reconciliation-report.md"
     if not target.is_file():
@@ -623,6 +635,31 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P2.1": "P2.1 Inventory State Authority contracts and identify every mutation path.",
         "P2.2": "P2.2 Enforce single-authority mutation boundaries.",
     }
+
+    # Queue/compiler state for these autonomous increments is evidence-bound:
+    # the marker must exist in the current tree AND have been introduced by a
+    # commit reachable from current HEAD. A copied/stale evidence file therefore
+    # cannot qualify the current repository state.
+    queue_evidence = {
+        "P0.1": (
+            "recovery/reconciliation-report.md",
+            "## P0.1 current control-point reconciliation — 2026-09-21",
+        ),
+        "P0.6": (
+            "recovery/reconciliation-report.md",
+            "## P0.6 PR #80 reconciliation — 2026-09-21",
+        ),
+        "P2.6": (
+            "recovery/reconciliation-report.md",
+            "## P2.6 Home Assistant source-of-truth verification — 2026-09-21",
+        ),
+    }
+    for queue_id, (relative_path, marker) in queue_evidence.items():
+        if _current_evidence_marker(root, relative_path, marker):
+            description = next((item.description for item in read_raw_queue(root) if item.queue_id == queue_id), None)
+            if description is not None:
+                encoded[queue_id] = f"{queue_id} {description}"
+
     p21_evidence = root / "docs/ops/P2-1-state-authority-mutation-inventory-2026-09-21.md"
     p21_authority = root / "runtime/mediahub_runtime/state_authority.py"
     if p21_authority.is_file() and p21_evidence.is_file():
