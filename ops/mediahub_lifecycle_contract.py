@@ -31,7 +31,7 @@ class PersistenceContract:
     durable: bool=False
     def __post_init__(self):
         if self.authority!="state-authority": raise ValueError("State Authority is canonical")
-        if not isinstance(self.durable,bool): raise ValueError("durable must be bool")
+        if not isinstance(self.durable, bool): raise TypeError("durable must be bool")
 
 @dataclass(frozen=True)
 class MigrationContract:
@@ -41,11 +41,11 @@ class MigrationContract:
     rollback_supported: bool
     def __post_init__(self):
         if not self.migration_id: raise ValueError("migration id required")
-        if not isinstance(self.rollback_supported,bool): raise ValueError("rollback_supported must be bool")
+        if not isinstance(self.rollback_supported, bool): raise TypeError("rollback_supported must be bool")
         if self.source.revision==self.target.revision: raise ValueError("migration must change revision")
 
 def transition(current: LifecycleState, target: LifecycleState) -> LifecycleState:
-    if not isinstance(current,LifecycleState) or not isinstance(target,LifecycleState): raise ValueError("invalid lifecycle state")
+    if not isinstance(current, LifecycleState) or not isinstance(target, LifecycleState): raise TypeError("invalid lifecycle state")
     if target not in _ALLOWED[current]: raise ValueError("invalid lifecycle transition")
     return target
 

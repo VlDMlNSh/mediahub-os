@@ -86,6 +86,9 @@ def select_local_task(root: Path) -> LocalTask | None:
     """
     p23 = root / "ops/mediahub_lifecycle_contract.py"
     if _queue_contains(root, "P2.3 Complete persistence/versioning/migration/recovery contracts.") and p23.is_file():
+        tests23 = root / "tests/test_mediahub_lifecycle_contract.py"
+        if tests23.is_file() and "test_migration_rejects_malformed_types" not in tests23.read_text(encoding="utf-8"):
+            return LocalTask("P2.3-migration-contract-tests", "P2.3 Complete persistence/versioning/migration/recovery contracts.", "tests/test_mediahub_lifecycle_contract.py", "Add focused negative tests for malformed migration_id, source and target objects while preserving the bounded lifecycle contract.", "migration-contract-tests")
         text = p23.read_text(encoding="utf-8")
         if "migration_id" in text and "not isinstance(self.migration_id, str)" not in text:
             return LocalTask("P2.3-migration-contract-hardening", "P2.3 Complete persistence/versioning/migration/recovery contracts.", "ops/mediahub_lifecycle_contract.py", "Harden MigrationContract validation against malformed migration_id, source and target objects; preserve explicit version change and rollback semantics. Do not add physical persistence or a second State Authority.", "migration-contract-hardening")
