@@ -173,8 +173,7 @@ def select_local_task(root: Path) -> LocalTask | None:
             and all(p.is_file() for p in p13_tests)):
         evidence_text = p13_evidence.read_text(encoding="utf-8")
         if ("41 passed" in evidence_text
-                and "P1.3 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text
-                and not _task_committed(root, "P1.3-provider-capability-registry-verification")):
+                and "P1.3 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" not in evidence_text):
             return LocalTask(
                 "P1.3-provider-capability-registry-verification",
                 "P1.3 Complete AI model/provider/capability registry verification.",
@@ -210,7 +209,7 @@ def select_local_task(root: Path) -> LocalTask | None:
                 and "12 passed" in evidence_text
                 and "POLICY_BLOCKED" in evidence_text
                 and "SAFE_STOP" in evidence_text
-                and not _task_committed(root, "P1.4-provider-selector-verification")):
+                and "P1.4 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" not in evidence_text):
             return LocalTask(
                 "P1.4-provider-selector-verification",
                 "P1.4 Complete provider selector and fallback semantics, including offline/degraded behavior.",
@@ -229,7 +228,7 @@ def select_local_task(root: Path) -> LocalTask | None:
         evidence_text = ecc_evidence.read_text(encoding="utf-8")
         if ("23 passed" in evidence_text
                 and "P1.5 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text
-                and not _task_committed(root, "P1.5-ecc-dispatcher-verification")):
+                and "P1.5 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" not in evidence_text):
             return LocalTask(
                 "P1.5-ecc-dispatcher-verification",
                 "P1.5 Complete ECC adapter/dispatcher policy, provenance, permissions and negative tests.",
