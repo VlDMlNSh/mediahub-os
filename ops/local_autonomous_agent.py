@@ -340,6 +340,29 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "p1.8-metering-audit-revocation",
             )
 
+    p24_gateway = root / "ops/mediahub_cluster_gateway.py"
+    p24_tests = root / "tests/test_mediahub_cluster_gateway.py"
+    if (_queue_contains(root, "P2.4 Complete cluster membership, leader/source-of-truth and failover evidence.")
+            and p24_gateway.is_file() and p24_tests.is_file()):
+        test_text = p24_tests.read_text(encoding="utf-8")
+        gateway_text = p24_gateway.read_text(encoding="utf-8")
+        if "test_propose_rejects_malformed_request_identity" not in test_text:
+            return LocalTask(
+                "P2.4-cluster-gateway-negative-tests",
+                "P2.4 Complete cluster membership, leader/source-of-truth and failover evidence.",
+                "tests/test_mediahub_cluster_gateway.py",
+                "Add focused negative tests proving LocalClusterGateway.propose rejects malformed request identity and routing decision types without scheduling or authority side effects.",
+                "p2.4-cluster-gateway-negative-tests",
+            )
+        if "malformed request identity" not in gateway_text:
+            return LocalTask(
+                "P2.4-cluster-gateway-input-hardening",
+                "P2.4 Complete cluster membership, leader/source-of-truth and failover evidence.",
+                "ops/mediahub_cluster_gateway.py",
+                "Harden LocalClusterGateway.propose against malformed request_id and decision objects while preserving LOCAL_CLUSTER-only routing, provenance and fail-closed scheduler admission.",
+                "p2.4-cluster-gateway-input-hardening",
+            )
+
     ecc = root / "ops/ai/ecc_policy.py"
     ecc_tests = root / "tests/ai/test_ecc_policy.py"
     dispatcher_tests = root / "tests/ai/test_hybrid_dispatcher.py"
@@ -831,6 +854,19 @@ def test_recovery_proposal_rejects_non_string_provider():
         if current not in old:
             return ""
         return unified_patch(old, old.replace(current, hardened_current, 1), target)
+    if task.fallback_kind == "p2.4-cluster-gateway-negative-tests":
+        old = path.read_text(encoding="utf-8")
+        if "test_propose_rejects_malformed_request_identity" in old:
+            return ""
+        addition = """\n\n\ndef test_propose_rejects_malformed_request_identity():\n    for value in (None, True, 1, object()):\n        with pytest.raises(ClusterGatewayDenied):\n            gateway().propose(value, workload(), decision(Route.LOCAL_CLUSTER))\n\n\ndef test_propose_rejects_malformed_decision_type():\n    for value in (None, True, object()):\n        with pytest.raises(ClusterGatewayDenied):\n            gateway().propose("req-1", workload(), value)\n"""
+        return unified_patch(old, old.rstrip() + addition, target)
+    if task.fallback_kind == "p2.4-cluster-gateway-input-hardening":
+        old = path.read_text(encoding="utf-8")
+        marker = "        if not request_id:\n            raise ClusterGatewayDenied(\"request identity is required\")\n"
+        hardened = "        if not isinstance(request_id, str) or not request_id:\n            raise ClusterGatewayDenied(\"malformed request identity\")\n        if not isinstance(workload, ClusterWorkload):\n            raise ClusterGatewayDenied(\"malformed cluster workload\")\n        if not isinstance(decision, RoutingDecision):\n            raise ClusterGatewayDenied(\"malformed routing decision\")\n"
+        if "malformed request identity" in old or marker not in old:
+            return ""
+        return unified_patch(old, old.replace(marker, hardened, 1), target)
     if task.fallback_kind == "native-negative-tests":
         old = path.read_text(encoding="utf-8")
         if "test_bounded_execution_rejects_malformed_types" in old:
@@ -973,6 +1009,8 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([str(RUFF), "check", verify_target], 120))
     if selected and selected.task_id.startswith("P2.3-"):
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_lifecycle_contract.py"], 180))
+    elif selected and selected.task_id.startswith("P2.4-"):
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_cluster_gateway.py"], 180))
     elif selected and selected.fallback_kind in {"hybrid-egress-types", "hybrid-egress-tests"}:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_hybrid_cloud_api_egress_adapter.py"], 180))
     elif selected and selected.target.startswith("tests/"):
