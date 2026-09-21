@@ -191,6 +191,20 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "p0.5-delivery-provenance-type-test",
             )
 
+    # P0.5.2 has a concrete daemon restore regression surface: terminal
+    # identity must fail closed when baseline/R4 provenance is mismatched.
+    p052_tests = root / "tests/ai/test_hybrid_development_daemon.py"
+    if _queue_contains(root, "P0.5.2 Recovery regression: prove mismatched/invalid terminal provenance still fails closed.") and p052_tests.is_file():
+        text = p052_tests.read_text(encoding="utf-8")
+        if "test_daemon_rejects_terminal_tail_with_baseline_or_r4_mismatch" not in text:
+            return LocalTask(
+                "P0.5.2-terminal-provenance-regression-test",
+                "P0.5.2 Recovery regression: prove mismatched/invalid terminal provenance still fails closed.",
+                "tests/ai/test_hybrid_development_daemon.py",
+                "Add a focused regression test proving a terminal session journal tail is not treated as a clean daemon stop when baseline_sha or r4_sha does not exactly match the requested identity.",
+                "p0.5.2-terminal-provenance-regression-test",
+            )
+
     p13_registry = root / "ops" / "mediahub_provider_registry.py"
     p13_protocol = root / "ops" / "mediahub_canonical_protocol.py"
     p13_adapters = root / "ops" / "mediahub_provider_adapters.py"
@@ -1035,6 +1049,12 @@ The controller writes this artifact only after executing the verification comman
         if "test_restore_rejects_boolean_generation_and_attempt" in old:
             return ""
         addition = '\n\ndef test_restore_rejects_boolean_generation_and_attempt(tmp_path):\n    path = tmp_path / "delivery.json"\n    path.write_text(json.dumps({\n        "version": 1, "task_id": "task", "request_fingerprint": "fp",\n        "conversation_id": "conv", "session_id": "sess", "generation": True,\n        "state": "PREPARED", "attempt": False, "response_fingerprint": "",\n        "reason": "prepared",\n    }), encoding="utf-8")\n    journal = TaskDeliveryJournal(path)\n    with pytest.raises(DeliveryDenied):\n        journal.restore()\n    journal.release()\n'
+        return unified_patch(old, old.rstrip() + addition, target)
+    if task.fallback_kind == "p0.5.2-terminal-provenance-regression-test":
+        old = path.read_text(encoding="utf-8")
+        if "test_daemon_rejects_terminal_tail_with_baseline_or_r4_mismatch" in old:
+            return ""
+        addition = '\n\ndef test_daemon_rejects_terminal_tail_with_baseline_or_r4_mismatch(monkeypatch, tmp_path):\n    class FakeJournal:\n        def __init__(self, path):\n            self.path = path\n\n        def read_tail(self):\n            return {"session_id": "s1", "baseline_sha": "other", "r4_sha": "other-r4", "state": "STOPPED"}\n\n    class FakeSession:\n        def __init__(self, journal):\n            self.journal = journal\n\n    class FakeConversation:\n        def __init__(self, journal_path):\n            pass\n\n    class FakeDelivery:\n        def __init__(self, path):\n            pass\n\n    class FakeEgress:\n        def __init__(self, paths):\n            pass\n\n    class FakeController:\n        def __init__(self, *args):\n            pass\n\n        def restore(self, *args):\n            raise daemon.HybridDevelopmentDenied("terminal restore")\n\n    checkpoint = tmp_path / ".hybrid-development" / "session.jsonl"\n    checkpoint.parent.mkdir()\n    checkpoint.write_text("terminal\\n", encoding="utf-8")\n    monkeypatch.setattr(daemon, "ROOT", tmp_path)\n    monkeypatch.setattr(daemon, "SessionJournal", FakeJournal)\n    monkeypatch.setattr(daemon, "HybridSessionController", FakeSession)\n    monkeypatch.setattr(daemon, "TextConversationController", FakeConversation)\n    monkeypatch.setattr(daemon, "TaskDeliveryJournal", FakeDelivery)\n    monkeypatch.setattr(daemon, "HybridCloudEgressAdapter", FakeEgress)\n    monkeypatch.setattr(daemon, "HybridDevelopmentController", FakeController)\n    monkeypatch.setattr(daemon, "parse_paths", lambda value: ())\n    import sys\n    monkeypatch.setattr(sys, "argv", [\n        "daemon", "--session-id", "s1", "--baseline-sha", "baseline",\n        "--r4-sha", "r4", "--duration-hours", "1",\n        "--health-url", "https://example.invalid/health", "--paths", "vpm:tun:src",\n    ])\n    with pytest.raises(daemon.HybridDevelopmentDenied):\n        daemon.main()\n'
         return unified_patch(old, old.rstrip() + addition, target)
     if task.fallback_kind == "p2.4-cluster-gateway-negative-tests":
         old = path.read_text(encoding="utf-8")
