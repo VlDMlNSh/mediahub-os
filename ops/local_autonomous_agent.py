@@ -218,6 +218,30 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "p1.4-provider-selector-verification",
             )
 
+    p16_evidence = root / "docs/ops/P1-6-cloud-development-contract-verification-2026-09-21.md"
+    p16_files = (
+        root / "ops/cloud_development_adapter.py", root / "ops/cloud_development_sandbox.py",
+        root / "ops/hybrid_cloud_api_egress_adapter.py", root / "ops/hybrid_cloud_egress.py",
+        root / "ops/hybrid_cloud_egress_chain.py", root / "ops/mediahub_credential_broker.py",
+        root / "ops/mediahub_egress_controller.py", root / "tests/ops/test_cloud_development_adapter.py",
+        root / "tests/security/test_cloud_development_sandbox.py", root / "tests/test_hybrid_cloud_api_egress_adapter.py",
+        root / "tests/test_hybrid_cloud_egress.py", root / "tests/test_hybrid_cloud_egress_chain.py",
+        root / "tests/test_mediahub_credential_broker.py", root / "tests/test_mediahub_egress_controller.py",
+        root / "tests/ai/test_hybrid_development_controller.py", root / "tests/ai/test_hybrid_dispatcher.py",
+    )
+    if (_queue_contains(root, "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.")
+            and p16_evidence.is_file() and all(path.is_file() for path in p16_files)):
+        evidence_text = p16_evidence.read_text(encoding="utf-8")
+        if ("72 passed" in evidence_text
+                and "P1.6 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text):
+            return LocalTask(
+                "P1.6-cloud-development-contract-verification",
+                "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.",
+                "ops/cloud_development_adapter.py",
+                "Verify the existing cloud-development adapter, sandbox, egress and credential broker contract boundaries using the recorded deterministic suite; do not activate VPN, execute live cloud agents, acquire credentials, or perform external provider calls.",
+                "p1.6-cloud-development-contract-verification",
+            )
+
     ecc = root / "ops/ai/ecc_policy.py"
     ecc_tests = root / "tests/ai/test_ecc_policy.py"
     dispatcher_tests = root / "tests/ai/test_hybrid_dispatcher.py"
@@ -270,6 +294,13 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         evidence_text = p13_evidence.read_text(encoding="utf-8")
         if "41 passed" in evidence_text and "P1.3 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
             encoded["P1.3"] = "P1.3 Complete AI model/provider/capability registry verification."
+    p16_evidence = root / "docs/ops/P1-6-cloud-development-contract-verification-2026-09-21.md"
+    p16_adapter = root / "ops/cloud_development_adapter.py"
+    p16_sandbox = root / "ops/cloud_development_sandbox.py"
+    if all(path.is_file() for path in (p16_evidence, p16_adapter, p16_sandbox)):
+        evidence_text = p16_evidence.read_text(encoding="utf-8")
+        if "72 passed" in evidence_text and "P1.6 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+            encoded["P1.6"] = "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification."
     p15_evidence = root / "docs/ops/P1-5-ecc-dispatcher-verification-2026-09-21.md"
     p15_ecc = root / "ops/ai/ecc_policy.py"
     p15_tests = root / "tests/ai/test_ecc_policy.py"
