@@ -264,6 +264,28 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "p1.7-native-launch-verification",
             )
 
+    p22_evidence = root / "docs/ops/P2-2-single-authority-boundary-verification-2026-09-21.md"
+    p22_files = (
+        root / "runtime/mediahub_runtime/state_authority.py",
+        root / "runtime/mediahub_runtime/consumer_boundary.py",
+        root / "tests/security/test_mh05_systemwide_reachability.py",
+        root / "tests/runtime/test_mh05_composition_root.py",
+        root / "tests/runtime/test_mh04_qualification_edges.py",
+        root / "tests/runtime/test_mh04_qualification_concurrency.py",
+    )
+    if (_queue_contains(root, "P2.2 Enforce single-authority mutation boundaries.")
+            and p22_evidence.is_file() and all(path.is_file() for path in p22_files)):
+        evidence_text = p22_evidence.read_text(encoding="utf-8")
+        if ("27 passed" in evidence_text
+                and "P2.2 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" not in evidence_text):
+            return LocalTask(
+                "P2.2-single-authority-boundary-verification",
+                "P2.2 Enforce single-authority mutation boundaries.",
+                "runtime/mediahub_runtime/consumer_boundary.py",
+                "Qualify existing single-authority mutation boundaries using reachability, composition, concurrency and security tests; do not alter frozen P0-04/P0-05 semantics.",
+                "p2.2-single-authority-boundary",
+            )
+
     p21_evidence = root / "docs/ops/P2-1-state-authority-mutation-inventory-2026-09-21.md"
     p21_files = (
         root / "runtime/mediahub_runtime/state_authority.py",
@@ -350,7 +372,32 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P1.7": "P1.7 Qualify native Codex and Claude launch specifications without bypasses.",
         "P1.8": "P1.8 Add metering/audit/revocation evidence for cloud-development workloads.",
         "P2.1": "P2.1 Inventory State Authority contracts and identify every mutation path.",
+        "P2.2": "P2.2 Enforce single-authority mutation boundaries.",
     }
+    p21_evidence = root / "docs/ops/P2-1-state-authority-mutation-inventory-2026-09-21.md"
+    p21_authority = root / "runtime/mediahub_runtime/state_authority.py"
+    if p21_authority.is_file() and p21_evidence.is_file():
+        evidence_text = p21_evidence.read_text(encoding="utf-8")
+        if "48 passed" in evidence_text and "P2.1 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+            encoded["P2.1"] = "P2.1 Inventory State Authority contracts and identify every mutation path."
+    p22_evidence = root / "docs/ops/P2-2-single-authority-boundary-verification-2026-09-21.md"
+    p22_boundary = root / "runtime/mediahub_runtime/consumer_boundary.py"
+    if p22_boundary.is_file() and p22_evidence.is_file():
+        evidence_text = p22_evidence.read_text(encoding="utf-8")
+        if "27 passed" in evidence_text and "P2.2 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+            encoded["P2.2"] = "P2.2 Enforce single-authority mutation boundaries."
+    p21_evidence = root / "docs/ops/P2-1-state-authority-mutation-inventory-2026-09-21.md"
+    p21_authority = root / "runtime/mediahub_runtime/state_authority.py"
+    if p21_authority.is_file() and p21_evidence.is_file():
+        evidence_text = p21_evidence.read_text(encoding="utf-8")
+        if "48 passed" in evidence_text and "P2.1 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+            encoded["P2.1"] = "P2.1 Inventory State Authority contracts and identify every mutation path."
+    p22_evidence = root / "docs/ops/P2-2-single-authority-boundary-verification-2026-09-21.md"
+    p22_boundary = root / "runtime/mediahub_runtime/consumer_boundary.py"
+    if p22_boundary.is_file() and p22_evidence.is_file():
+        evidence_text = p22_evidence.read_text(encoding="utf-8")
+        if "27 passed" in evidence_text and "P2.2 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+            encoded["P2.2"] = "P2.2 Enforce single-authority mutation boundaries."
     # P1.4 may only be encoded when its claimed evidence surface exists in the
     # current tree. A historical evidence commit is not current acceptance
     # evidence and must not make the task executable.
@@ -465,6 +512,8 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         if task.task_id.startswith("P1.7-") or task.task_id.startswith("P1.8-")
         else "pytest -q tests/runtime/test_state_authority.py tests/runtime/test_mh04_state_authority_hardening.py tests/runtime/test_mh05_consumer_boundary.py tests/security/test_mh04_state_authority_redteam.py tests/test_mediahub_cluster_failover.py tests/contracts/test_contract_domain_reconciliation.py"
         if task.task_id.startswith("P2.1-")
+        else "pytest -q tests/security/test_mh05_systemwide_reachability.py tests/runtime/test_mh05_composition_root.py tests/runtime/test_mh04_qualification_edges.py tests/runtime/test_mh04_qualification_concurrency.py tests/test_mediahub_development_security_boundary.py tests/test_mediahub_streaming_boundary.py"
+        if task.task_id.startswith("P2.2-")
         else "pytest -q tests/test_hybrid_cloud_api_egress_adapter.py"
     )
     return ExecutableTask(
