@@ -381,6 +381,28 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "p1.5-ecc-dispatcher-verification",
             )
 
+    # P2.4 has a concrete local verification surface already implemented, but no
+    # durable evidence artifact exists. Treat this as a bounded verification-gap
+    # task; do not claim the broader leader/source-of-truth architecture is closed.
+    p24_evidence = root / "docs" / "ops" / "P2-4-cluster-membership-failover-verification-2026-09-21.md"
+    if (_queue_contains(root, "P2.4 Complete cluster membership, leader/source-of-truth and failover evidence.")
+            and not p24_evidence.exists()
+            and all((root / name).is_file() for name in (
+                "tests/test_mediahub_cluster_membership.py",
+                "tests/test_mediahub_cluster_health.py",
+                "tests/test_mediahub_cluster_lifecycle.py",
+                "tests/test_mediahub_cluster_resources.py",
+                "tests/test_mediahub_cluster_gateway.py",
+                "tests/test_mediahub_cluster_failover.py",
+            ))):
+        return LocalTask(
+            "P2.4-cluster-membership-failover-verification",
+            "P2.4 Complete cluster membership, leader/source-of-truth and failover evidence.",
+            "docs/ops/P2-4-cluster-membership-failover-verification-2026-09-21.md",
+            "Record deterministic local verification evidence for the existing cluster membership, health, lifecycle, resources, gateway and failover contracts; explicitly preserve P2.4 leader/source-of-truth as an open architectural scope and do not claim P2.4 complete.",
+            "p2.4-cluster-membership-failover-verification",
+        )
+
     # No higher-level local task has encoded acceptance criteria yet; stop rather than fabricate work.
     # Higher-level queue items remain eligible only after their acceptance criteria
     # are encoded as deterministic local tasks.
@@ -854,6 +876,34 @@ def test_recovery_proposal_rejects_non_string_provider():
         if current not in old:
             return ""
         return unified_patch(old, old.replace(current, hardened_current, 1), target)
+    if task.fallback_kind == "p2.4-cluster-membership-failover-verification":
+        content = """# P2.4 Cluster Membership / Failover Verification
+
+Status: VERIFIED_LOCAL_SUBSCOPE / P2.4 NOT CLOSED
+
+## Scope
+
+This record covers deterministic local evidence for the existing cluster membership, health, lifecycle, resource, gateway and failover contracts. It does not establish the missing leader/source-of-truth architecture and therefore does not promote P2.4 to complete.
+
+## Verification
+
+Command:
+
+```text
+python3 -m pytest -q tests/test_mediahub_cluster_membership.py tests/test_mediahub_cluster_health.py tests/test_mediahub_cluster_lifecycle.py tests/test_mediahub_cluster_resources.py tests/test_mediahub_cluster_gateway.py tests/test_mediahub_cluster_failover.py
+```
+
+Acceptance: all existing deterministic tests for this bounded subscope pass; no network, State Authority mutation, production operation, or external provider execution.
+
+## Architectural boundary
+
+Leader election, canonical cluster source-of-truth semantics, stale-leader handling and split-brain resolution remain open until their contracts and acceptance criteria are encoded. This evidence intentionally does not claim those states.
+
+## Provenance
+
+The controller writes this artifact only after executing the verification command successfully against the current task base.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p2.4-cluster-gateway-negative-tests":
         old = path.read_text(encoding="utf-8")
         if "test_propose_rejects_malformed_request_identity" in old:
@@ -1013,6 +1063,14 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_cluster_gateway.py"], 180))
     elif selected and selected.fallback_kind in {"hybrid-egress-types", "hybrid-egress-tests"}:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_hybrid_cloud_api_egress_adapter.py"], 180))
+    elif selected and selected.fallback_kind == "p2.4-cluster-membership-failover-verification":
+        checks.append(([sys.executable, "-m", "pytest", "-q",
+                        "tests/test_mediahub_cluster_membership.py",
+                        "tests/test_mediahub_cluster_health.py",
+                        "tests/test_mediahub_cluster_lifecycle.py",
+                        "tests/test_mediahub_cluster_resources.py",
+                        "tests/test_mediahub_cluster_gateway.py",
+                        "tests/test_mediahub_cluster_failover.py"], 180))
     elif selected and selected.target.startswith("tests/"):
         checks.append(([sys.executable, "-m", "pytest", "-q", selected.target], 180))
     else:
