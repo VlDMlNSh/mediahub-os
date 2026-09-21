@@ -77,3 +77,13 @@ R4: `471f709f5633feab7aeb62dd3ea52effad6d2bc4`; R4 ancestry: PASS. Worktree: cle
 Active execution infrastructure observed: one autonomous OS loop owner, one watchdog owner, and one hybrid orchestrator process; the authoritative worktree remains `/home/mediahub/dev/mediahub-os-autonomous`. Parallel worktrees remain separately owned and were not modified by this task.
 
 Boundary: this record is reconciliation evidence only. No R4 mutation, history rewrite, destructive cleanup, user-work overwrite, merge, release, or production authorization is performed.
+
+## P2.6 Home Assistant source-of-truth verification — 2026-09-21
+
+Status: VERIFIED_LOCAL_SUBSCOPE / P2.6 NOT CLOSED
+
+Scope: verify only the existing normative functional-baseline statements and control gates. No Home Assistant runtime access, State Authority mutation, provider execution, or production operation is part of this task.
+
+Acceptance evidence: `ops/verify_functional_baseline.sh` is the repository-native deterministic gate. It requires the normative functional baseline, governance and invariant registry to identify Home Assistant Core, MediaHub State Authority, the canonical AI escalation path, locked release state and unauthorized production state; it also requires exact R4 ancestry and R4 tree identity.
+
+Architectural boundary: this evidence confirms the repository's declared source-of-truth boundary. It does not qualify an operational Home Assistant adapter, runtime integration, command path, or production deployment.
