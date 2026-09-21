@@ -158,6 +158,42 @@ def test_local_task_selector_stops_when_no_local_acceptance_criteria_exist(tmp_p
     assert select_local_task(tmp_path) is None
 
 
+def test_p07_readiness_evidence_task_is_selected_when_missing(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "tests" / "security").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.7 Audit cloud-agent readiness; if credentials are absent, maintain BLOCKED with exact evidence.\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "tests" / "security" / "test_native_agent_launcher.py").write_text(
+        "def test_cloud_launch_without_credential_remains_blocked(): pass\n", encoding="utf-8"
+    )
+    task = select_local_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P0.7-cloud-agent-readiness-verification"
+
+
+def test_p12_admission_evidence_task_is_selected_when_missing(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "tests").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P1.2 Bind proposal admission to existing authorization/provenance/recovery evidence.\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "ops" / "mediahub_native_execution.py").write_text(
+        "class ExecutionAdmission: pass\nnot isinstance(self.authorized, bool)\n", encoding="utf-8"
+    )
+    (tmp_path / "tests" / "test_mediahub_native_execution.py").write_text(
+        "def test_execution_admission_rejects_non_boolean_authorization_and_recovery(): pass\n",
+        encoding="utf-8",
+    )
+    task = select_local_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P1.2-execution-admission-verification"
+
+
 def test_p05_delivery_recovery_increment_is_selected_when_prior_markers_are_closed(tmp_path, monkeypatch):
     import ops.local_autonomous_agent as agent
 

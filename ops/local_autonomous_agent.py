@@ -567,6 +567,14 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p0.3-controller-watchdog-verification",
         )
 
+    p07_evidence = root / "docs" / "ops" / "P0-7-cloud-agent-readiness-verification-2026-09-21.md"
+    if (_queue_contains(root, "P0.7 Audit cloud-agent readiness; if credentials are absent, maintain BLOCKED with exact evidence.") and not p07_evidence.exists() and (root / "tests/security/test_native_agent_launcher.py").is_file()):
+        return LocalTask("P0.7-cloud-agent-readiness-verification", "P0.7 Audit cloud-agent readiness; if credentials are absent, maintain BLOCKED with exact evidence.", "docs/ops/P0-7-cloud-agent-readiness-verification-2026-09-21.md", "Record deterministic local evidence that native cloud launch remains blocked when no approved provider credential exists; do not create credentials, inspect secrets, invoke a provider, or activate cloud execution.", "p0.7-cloud-agent-readiness-verification")
+
+    p12_evidence = root / "docs" / "ops" / "P1-2-execution-admission-verification-2026-09-21.md"
+    if (_queue_contains(root, "P1.2 Bind proposal admission to existing authorization/provenance/recovery evidence.") and not p12_evidence.exists() and (root / "ops/mediahub_native_execution.py").is_file() and (root / "tests/test_mediahub_native_execution.py").is_file()):
+        return LocalTask("P1.2-execution-admission-verification", "P1.2 Bind proposal admission to existing authorization/provenance/recovery evidence.", "docs/ops/P1-2-execution-admission-verification-2026-09-21.md", "Record deterministic local evidence for authorization/recovery boolean validation and proposal provenance binding using the existing native execution tests; do not execute a provider or mutate State Authority.", "p1.2-execution-admission-verification")
+
     # P2.4 has a concrete local verification surface already implemented, but no
     # durable evidence artifact exists. Treat this as a bounded verification-gap
     # task; do not claim the broader leader/source-of-truth architecture is closed.
@@ -645,6 +653,9 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
             "docs/ops/P0-3-controller-watchdog-verification-2026-09-21.md",
             "Status: VERIFIED_LOCAL_SUBSCOPE",
         ),
+        "P0.7": ("docs/ops/P0-7-cloud-agent-readiness-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.7 BLOCKED"),
+        "P1.2": ("docs/ops/P1-2-execution-admission-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE"),
+        "P2.4": ("docs/ops/P2-4-cluster-membership-failover-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P2.4 NOT CLOSED"),
         "P0.1": (
             "recovery/reconciliation-report.md",
             "## P0.1 current control-point reconciliation — 2026-09-21",
@@ -1137,6 +1148,54 @@ The current local cluster implementation exposes membership, health, lifecycle, 
 This artifact is an encoding/reconciliation step. Any resulting implementation work requires a separate bounded task with explicit acceptance criteria and authority.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p0.7-cloud-agent-readiness-verification":
+        content = """# P0.7 Cloud-Agent Readiness Verification
+
+Status: VERIFIED_LOCAL_SUBSCOPE / P0.7 BLOCKED
+
+## Scope
+
+This record proves only the local missing-credential negative path. It does not create credentials, inspect secret values, invoke a cloud provider, activate VPN/cloud execution, or authorize production.
+
+## Verification
+
+Command: python3 -m pytest -q tests/security/test_native_agent_launcher.py
+
+Acceptance: the existing deterministic launcher test proves a cloud launch request without an approved provider credential is rejected fail-closed.
+
+## Boundary
+
+P0.7 remains credential/cloud gated. The absence of an approved credential is an explicit BLOCKED condition, not a reason to bypass the credential broker.
+
+## Provenance
+
+The controller writes this artifact only after the verification command succeeds against the current task base.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p1.2-execution-admission-verification":
+        content = """# P1.2 Execution Admission Verification
+
+Status: VERIFIED_LOCAL_SUBSCOPE
+
+## Scope
+
+This record covers deterministic local admission checks for boolean authorization/recovery verification flags and proposal provenance binding. It does not authorize provider execution or mutate State Authority.
+
+## Verification
+
+Command: python3 -m pytest -q tests/test_mediahub_native_execution.py
+
+Acceptance: the existing deterministic native execution tests prove verified admission requires boolean authorization and recovery flags, preserves provenance matching, and rejects malformed verification values.
+
+## Boundary
+
+This is local contract evidence only. Provider execution, credential acquisition and production authorization remain outside this task.
+
+## Provenance
+
+The controller writes this artifact only after the verification command succeeds against the current task base.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p0.3-controller-watchdog-verification":
         content = """# P0.3 Controller / Watchdog Verification
 
@@ -1436,6 +1495,10 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_hybrid_cloud_api_egress_adapter.py"], 180))
     elif selected and selected.fallback_kind == "p2.5-cluster-recovery-gap-reconciliation":
         checks.append(([sys.executable, "-c", "from pathlib import Path; import re; r=Path('ops/mediahub_cluster_failover.py').read_text(); t=Path('tests/test_mediahub_cluster_failover.py').read_text(); required=('leader','split','replay','duplicate'); print('P2.5 evidence scan', {k:(k in r.lower() or k in t.lower()) for k in required}); assert 'failover' in r.lower() and 'failover' in t.lower()"], 30))
+    elif selected and selected.fallback_kind == "p0.7-cloud-agent-readiness-verification":
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/security/test_native_agent_launcher.py"], 180))
+    elif selected and selected.fallback_kind == "p1.2-execution-admission-verification":
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_native_execution.py"], 180))
     elif selected and selected.fallback_kind == "p0.3-controller-watchdog-verification":
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/ops/test_autonomous_control_plane.py"], 180))
     elif selected and selected.fallback_kind == "p2.4-cluster-membership-failover-verification":
