@@ -641,6 +641,10 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     # commit reachable from current HEAD. A copied/stale evidence file therefore
     # cannot qualify the current repository state.
     queue_evidence = {
+        "P0.3": (
+            "docs/ops/P0-3-controller-watchdog-verification-2026-09-21.md",
+            "Status: VERIFIED_LOCAL_SUBSCOPE",
+        ),
         "P0.1": (
             "recovery/reconciliation-report.md",
             "## P0.1 current control-point reconciliation — 2026-09-21",

@@ -727,6 +727,23 @@ def test_queue_encoding_marks_only_explicit_local_items_encoded(tmp_path):
     assert rows == {"P0.4": "ENCODED", "P1.3": "NEEDS_ENCODING", "P2.1": "ENCODED"}
 
 
+def test_queue_encoding_marks_current_p03_evidence_encoded(tmp_path):
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text(
+        "P0.3 Verify supervisor/watchdog restart, lock, checkpoint, rollback and journal semantics.\n",
+        encoding="utf-8",
+    )
+    evidence = tmp_path / "docs" / "ops"
+    evidence.mkdir(parents=True)
+    (evidence / "P0-3-controller-watchdog-verification-2026-09-21.md").write_text(
+        "Status: VERIFIED_LOCAL_SUBSCOPE\n", encoding="utf-8"
+    )
+    _git_init_with_commit(tmp_path)
+    rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
+    assert rows["P0.3"] == "ENCODED"
+
+
 def test_queue_encoding_marks_current_p01_evidence_encoded(tmp_path):
     queue = tmp_path / "ops"
     queue.mkdir()
