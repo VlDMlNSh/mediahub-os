@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
+
 class LifecycleState(str, Enum):
     ABSENT="absent"; CANDIDATE="candidate"; VALIDATED="validated"; AUTHORIZED="authorized"; PUBLISHED="published"; APPLIED="applied"; SUPERSEDED="superseded"
 
