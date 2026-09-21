@@ -752,7 +752,13 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
 def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | None:
     """Compile a selected candidate only when repository evidence is sufficient."""
     target = root / task.target
-    allow_new_evidence = task.fallback_kind in {"p0.3-controller-watchdog-verification", "p2.4-cluster-membership-failover-verification", "p2.5-cluster-recovery-gap-reconciliation"} and task.target.startswith("docs/ops/")
+    allow_new_evidence = task.fallback_kind in {
+        "p0.3-controller-watchdog-verification",
+        "p0.7-cloud-agent-readiness-verification",
+        "p1.2-execution-admission-verification",
+        "p2.4-cluster-membership-failover-verification",
+        "p2.5-cluster-recovery-gap-reconciliation",
+    } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
     def git(*args: str) -> str:
