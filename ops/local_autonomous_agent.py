@@ -795,6 +795,13 @@ def test_recovery_proposal_rejects_non_string_provider():
             return ""
         new_text = old.replace(marker, hardened, 1)
         return unified_patch(old, new_text, target)
+    if task.fallback_kind == "migration-contract-tests":
+        old = path.read_text(encoding="utf-8")
+        if "test_migration_rejects_malformed_types" in old:
+            return ""
+        addition = '\n\ndef test_migration_rejects_malformed_types():\n    valid = VersionIdentity("mediahub-state", 1, "digest-1")\n    with pytest.raises(ValueError):\n        MigrationContract("", valid, VersionIdentity("mediahub-state", 2, "digest-2"), True)\n    with pytest.raises(TypeError):\n        MigrationContract("m1", object(), valid, True)\n    with pytest.raises(TypeError):\n        MigrationContract("m1", valid, object(), True)\n    with pytest.raises(TypeError):\n        MigrationContract("m1", valid, VersionIdentity("mediahub-state", 2, "digest-2"), 1)\n'
+        new = old.rstrip() + addition
+        return unified_patch(old, new, target)
     if task.fallback_kind == "migration-contract-hardening":
         old = path.read_text(encoding="utf-8")
         original = '    def __post_init__(self):\n        if not self.migration_id: raise ValueError("migration id required")\n        if not isinstance(self.rollback_supported,bool): raise ValueError("rollback_supported must be bool")\n        if self.source.revision==self.target.revision: raise ValueError("migration must change revision")\n'
