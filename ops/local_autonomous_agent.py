@@ -219,6 +219,30 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "p0.7-cloud-readiness-missing-credential-test",
             )
 
+    # P1.2 has a concrete malformed-type admission gap: boolean semantics must
+    # not accept integer/string truthiness at the authority boundary.
+    p12_prod = root / "ops/mediahub_native_execution.py"
+    p12_tests = root / "tests/test_mediahub_native_execution.py"
+    if _queue_contains(root, "P1.2 Bind proposal admission to existing authorization/provenance/recovery evidence.") and p12_prod.is_file() and p12_tests.is_file():
+        prod_text = p12_prod.read_text(encoding="utf-8")
+        test_text = p12_tests.read_text(encoding="utf-8")
+        if "test_execution_admission_rejects_non_boolean_authorization_and_recovery" not in test_text:
+            return LocalTask(
+                "P1.2-admission-boolean-type-test",
+                "P1.2 Bind proposal admission to existing authorization/provenance/recovery evidence.",
+                "tests/test_mediahub_native_execution.py",
+                "Add focused negative tests proving ExecutionAdmission rejects non-boolean authorization_verified and recovery_verified values; preserve provenance binding and fail-closed authority semantics.",
+                "p1.2-admission-boolean-type-test",
+            )
+        if "not isinstance(self.authorization_verified, bool)" not in prod_text:
+            return LocalTask(
+                "P1.2-admission-boolean-type-hardening",
+                "P1.2 Bind proposal admission to existing authorization/provenance/recovery evidence.",
+                "ops/mediahub_native_execution.py",
+                "Harden ExecutionAdmission validation to require boolean authorization_verified and recovery_verified values before accepting execution admission; preserve all existing provenance and authority checks.",
+                "p1.2-admission-boolean-type-hardening",
+            )
+
     p13_registry = root / "ops" / "mediahub_provider_registry.py"
     p13_protocol = root / "ops" / "mediahub_canonical_protocol.py"
     p13_adapters = root / "ops" / "mediahub_provider_adapters.py"
@@ -1076,6 +1100,21 @@ The controller writes this artifact only after executing the verification comman
             return ""
         addition = '\n\ndef test_cloud_launch_without_credential_remains_blocked(tmp_path):\n    credential_dir = tmp_path / "credentials"\n    credential_dir.mkdir()\n    broker = CredentialBroker(credential_dir, frozenset({"openai"}))\n    broker.authorize()\n    registry = ModelRegistry((ModelRecord("openai", "qualified"),))\n    with pytest.raises(NativeAgentDenied):\n        resolve_launch("codex", broker, "https://api.openai.com/v1", "qualified", registry)\n'
         return unified_patch(old, old.rstrip() + addition, target)
+    if task.fallback_kind == "p1.2-admission-boolean-type-test":
+        old = path.read_text(encoding="utf-8")
+        if "test_execution_admission_rejects_non_boolean_authorization_and_recovery" in old:
+            return ""
+        addition = '\n\ndef test_execution_admission_rejects_non_boolean_authorization_and_recovery():\n    proposal = ExecutionProposal("req-a", "work-a", "sha-a", "openai")\n    for authorization, recovery in ((1, True), ("yes", True), (True, 1), (True, "yes")):\n        with pytest.raises(PermissionError):\n            BoundedExecutionAdapter().admit_verified(\n                ExecutionAdmission(proposal, authorization, "sha-a", recovery), target()\n            )\n'
+        return unified_patch(old, old.rstrip() + addition, target)
+    if task.fallback_kind == "p1.2-admission-boolean-type-hardening":
+        old = path.read_text(encoding="utf-8")
+        marker = "        if not isinstance(self.proposal, ExecutionProposal):\n            raise PermissionError(\"malformed execution admission\")\n"
+        hardened = marker + "        if not isinstance(self.authorization_verified, bool) or not isinstance(self.recovery_verified, bool):\n            raise PermissionError(\"execution admission verification flags must be boolean\")\n"
+        if "execution admission verification flags must be boolean" in old:
+            return ""
+        if marker not in old:
+            return ""
+        return unified_patch(old, old.replace(marker, hardened, 1), target)
     if task.fallback_kind == "p2.4-cluster-gateway-negative-tests":
         old = path.read_text(encoding="utf-8")
         if "test_propose_rejects_malformed_request_identity" in old:

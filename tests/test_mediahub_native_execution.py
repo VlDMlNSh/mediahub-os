@@ -300,3 +300,11 @@ def test_execution_admission_rejects_provenance_mismatch():
     proposal = ExecutionProposal("req-a", "work-a", "sha-a", "openai")
     with pytest.raises(PermissionError):
         BoundedExecutionAdapter().admit_verified(ExecutionAdmission(proposal, True, "other", True), target())
+
+def test_execution_admission_rejects_non_boolean_authorization_and_recovery():
+    proposal = ExecutionProposal("req-a", "work-a", "sha-a", "openai")
+    for authorization, recovery in ((1, True), ("yes", True), (True, 1), (True, "yes")):
+        with pytest.raises(PermissionError):
+            BoundedExecutionAdapter().admit_verified(
+                ExecutionAdmission(proposal, authorization, "sha-a", recovery), target()
+            )
