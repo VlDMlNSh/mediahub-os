@@ -205,6 +205,20 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "p0.5.2-terminal-provenance-regression-test",
             )
 
+    # P0.7 has a concrete local readiness negative-path: native cloud launch
+    # must remain blocked when the credential broker has no approved credential.
+    p07_tests = root / "tests/security/test_native_agent_launcher.py"
+    if _queue_contains(root, "P0.7 Audit cloud-agent readiness; if credentials are absent, maintain BLOCKED with exact evidence.") and p07_tests.is_file():
+        text = p07_tests.read_text(encoding="utf-8")
+        if "test_cloud_launch_without_credential_remains_blocked" not in text:
+            return LocalTask(
+                "P0.7-cloud-readiness-missing-credential-test",
+                "P0.7 Audit cloud-agent readiness; if credentials are absent, maintain BLOCKED with exact evidence.",
+                "tests/security/test_native_agent_launcher.py",
+                "Add a focused negative test proving native cloud launch remains blocked when the authorized credential broker has no provider credential; do not create credentials or invoke a provider.",
+                "p0.7-cloud-readiness-missing-credential-test",
+            )
+
     p13_registry = root / "ops" / "mediahub_provider_registry.py"
     p13_protocol = root / "ops" / "mediahub_canonical_protocol.py"
     p13_adapters = root / "ops" / "mediahub_provider_adapters.py"
@@ -1055,6 +1069,12 @@ The controller writes this artifact only after executing the verification comman
         if "test_daemon_rejects_terminal_tail_with_baseline_or_r4_mismatch" in old:
             return ""
         addition = '\n\ndef test_daemon_rejects_terminal_tail_with_baseline_or_r4_mismatch(monkeypatch, tmp_path):\n    class FakeJournal:\n        def __init__(self, path):\n            self.path = path\n\n        def read_tail(self):\n            return {"session_id": "s1", "baseline_sha": "other", "r4_sha": "other-r4", "state": "STOPPED"}\n\n    class FakeSession:\n        def __init__(self, journal):\n            self.journal = journal\n\n    class FakeConversation:\n        def __init__(self, journal_path):\n            pass\n\n    class FakeDelivery:\n        def __init__(self, path):\n            pass\n\n    class FakeEgress:\n        def __init__(self, paths):\n            pass\n\n    class FakeController:\n        def __init__(self, *args):\n            pass\n\n        def restore(self, *args):\n            raise daemon.HybridDevelopmentDenied("terminal restore")\n\n    checkpoint = tmp_path / ".hybrid-development" / "session.jsonl"\n    checkpoint.parent.mkdir()\n    checkpoint.write_text("terminal\\n", encoding="utf-8")\n    monkeypatch.setattr(daemon, "ROOT", tmp_path)\n    monkeypatch.setattr(daemon, "SessionJournal", FakeJournal)\n    monkeypatch.setattr(daemon, "HybridSessionController", FakeSession)\n    monkeypatch.setattr(daemon, "TextConversationController", FakeConversation)\n    monkeypatch.setattr(daemon, "TaskDeliveryJournal", FakeDelivery)\n    monkeypatch.setattr(daemon, "HybridCloudEgressAdapter", FakeEgress)\n    monkeypatch.setattr(daemon, "HybridDevelopmentController", FakeController)\n    monkeypatch.setattr(daemon, "parse_paths", lambda value: ())\n    import sys\n    monkeypatch.setattr(sys, "argv", [\n        "daemon", "--session-id", "s1", "--baseline-sha", "baseline",\n        "--r4-sha", "r4", "--duration-hours", "1",\n        "--health-url", "https://example.invalid/health", "--paths", "vpm:tun:src",\n    ])\n    with pytest.raises(daemon.HybridDevelopmentDenied):\n        daemon.main()\n'
+        return unified_patch(old, old.rstrip() + addition, target)
+    if task.fallback_kind == "p0.7-cloud-readiness-missing-credential-test":
+        old = path.read_text(encoding="utf-8")
+        if "test_cloud_launch_without_credential_remains_blocked" in old:
+            return ""
+        addition = '\n\ndef test_cloud_launch_without_credential_remains_blocked(tmp_path):\n    credential_dir = tmp_path / "credentials"\n    credential_dir.mkdir()\n    broker = CredentialBroker(credential_dir, frozenset({"openai"}))\n    broker.authorize()\n    registry = ModelRegistry((ModelRecord("openai", "qualified"),))\n    with pytest.raises(NativeAgentDenied):\n        resolve_launch("codex", broker, "https://api.openai.com/v1", "qualified", registry)\n'
         return unified_patch(old, old.rstrip() + addition, target)
     if task.fallback_kind == "p2.4-cluster-gateway-negative-tests":
         old = path.read_text(encoding="utf-8")

@@ -1,6 +1,6 @@
 import pytest
 
-from ops.mediahub_credential_broker import CredentialBroker
+from ops.mediahub_credential_broker import CredentialBroker, CredentialDenied
 from ops.mediahub_model_registry import ModelRecord, ModelRegistry
 from ops.mediahub_native_agent_launcher import (
     NativeAgentDenied,
@@ -66,3 +66,12 @@ def test_missing_model_is_denied_by_registry(tmp_path):
     registry = ModelRegistry((ModelRecord("openai", "qualified"),))
     with pytest.raises(PermissionError):
         resolve_launch("codex", broker, "https://api.openai.com/v1", "unqualified", registry)
+
+def test_cloud_launch_without_credential_remains_blocked(tmp_path):
+    credential_dir = tmp_path / "credentials"
+    credential_dir.mkdir()
+    broker = CredentialBroker(credential_dir, frozenset({"openai"}))
+    broker.authorize()
+    registry = ModelRegistry((ModelRecord("openai", "qualified"),))
+    with pytest.raises(CredentialDenied):
+        resolve_launch("codex", broker, "https://api.openai.com/v1", "qualified", registry)
