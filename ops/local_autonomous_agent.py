@@ -346,14 +346,6 @@ def select_local_task(root: Path) -> LocalTask | None:
             and p24_gateway.is_file() and p24_tests.is_file()):
         test_text = p24_tests.read_text(encoding="utf-8")
         gateway_text = p24_gateway.read_text(encoding="utf-8")
-        if "test_propose_rejects_malformed_request_identity" not in test_text:
-            return LocalTask(
-                "P2.4-cluster-gateway-negative-tests",
-                "P2.4 Complete cluster membership, leader/source-of-truth and failover evidence.",
-                "tests/test_mediahub_cluster_gateway.py",
-                "Add focused negative tests proving LocalClusterGateway.propose rejects malformed request identity and routing decision types without scheduling or authority side effects.",
-                "p2.4-cluster-gateway-negative-tests",
-            )
         if "malformed request identity" not in gateway_text:
             return LocalTask(
                 "P2.4-cluster-gateway-input-hardening",
@@ -361,6 +353,14 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "ops/mediahub_cluster_gateway.py",
                 "Harden LocalClusterGateway.propose against malformed request_id and decision objects while preserving LOCAL_CLUSTER-only routing, provenance and fail-closed scheduler admission.",
                 "p2.4-cluster-gateway-input-hardening",
+            )
+        if "test_propose_rejects_malformed_request_identity" not in test_text:
+            return LocalTask(
+                "P2.4-cluster-gateway-negative-tests",
+                "P2.4 Complete cluster membership, leader/source-of-truth and failover evidence.",
+                "tests/test_mediahub_cluster_gateway.py",
+                "Add focused negative tests proving LocalClusterGateway.propose rejects malformed request identity and routing decision types without scheduling or authority side effects.",
+                "p2.4-cluster-gateway-negative-tests",
             )
 
     ecc = root / "ops/ai/ecc_policy.py"
