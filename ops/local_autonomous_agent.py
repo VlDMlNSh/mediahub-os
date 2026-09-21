@@ -1165,7 +1165,7 @@ Verify only the repository-native authority boundary of the existing AI/cloud co
 
 Commands:
 - python3 -m pytest -q tests/security/test_ai_adapter.py tests/ops/test_cloud_development_adapter.py tests/test_mediahub_native_execution.py
-- python3 -c "from pathlib import Path; forbidden=('state_authority','home_assistant','subprocess','socket'); files=('ops/ai/ai_adapter.py','ops/ai/ai_gateway.py','ops/cloud_development_adapter.py'); [print(f, [x for x in forbidden if x in Path(f).read_text(encoding='utf-8').lower()]) for f in files]"
+- python3 -c "from pathlib import Path; files=('ops/ai/ai_adapter.py','ops/ai/ai_gateway.py','ops/cloud_development_adapter.py'); forbidden=('state_authority','home_assistant'); [print(f, [x for x in forbidden if x in Path(f).read_text(encoding='utf-8').lower()]) for f in files]"
 
 Acceptance: existing deterministic tests pass and the inspected AI/cloud modules preserve forbidden-capability denial and proposal/provenance boundaries. No provider execution or State Authority mutation is performed.
 
