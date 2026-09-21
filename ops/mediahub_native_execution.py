@@ -62,6 +62,8 @@ class ExecutionAdmission:
     def validate(self) -> None:
         if not isinstance(self.proposal, ExecutionProposal):
             raise PermissionError("malformed execution admission")
+        if not isinstance(self.authorized, bool) or not isinstance(self.recovery_verified, bool):
+            raise PermissionError("execution admission verification flags must be boolean")
         self.proposal.validate()
         if self.authorized is not True:
             raise PermissionError("execution authorization is required")
