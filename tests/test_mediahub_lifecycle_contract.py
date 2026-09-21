@@ -43,3 +43,8 @@ def test_migration_rejects_malformed_types():
         MigrationContract("m1", valid, object(), True)
     with pytest.raises(TypeError):
         MigrationContract("m1", valid, VersionIdentity("mediahub-state", 2, "digest-2"), 1)
+
+def test_migration_rejects_unchanged_revision():
+    current = VersionIdentity("mediahub-state", 3, "digest-3")
+    with pytest.raises(ValueError):
+        MigrationContract("m1", current, current, True)
