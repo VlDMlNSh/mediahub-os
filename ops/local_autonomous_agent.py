@@ -380,6 +380,8 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         if task.task_id.startswith("P1.4-")
         else "pytest -q tests/test_mediahub_native_execution.py"
         if "native_execution" in task.target
+        else "pytest -q tests/ops/test_cloud_development_adapter.py tests/security/test_cloud_development_sandbox.py tests/test_hybrid_cloud_api_egress_adapter.py tests/test_hybrid_cloud_egress.py tests/test_hybrid_cloud_egress_chain.py tests/test_mediahub_credential_broker.py tests/test_mediahub_egress_controller.py tests/ai/test_hybrid_development_controller.py tests/ai/test_hybrid_dispatcher.py"
+        if task.task_id.startswith("P1.6-")
         else "pytest -q tests/test_hybrid_cloud_api_egress_adapter.py"
     )
     return ExecutableTask(
