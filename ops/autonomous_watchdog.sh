@@ -2,6 +2,7 @@
 set -u
 ROOT="/home/mediahub/dev/mediahub-os-autonomous"
 PIDFILE="$ROOT/.autonomous/loop.pid"
+CONTROLLER_PIDFILE="$ROOT/.autonomous/controller.pid"
 STATE="$ROOT/.autonomous"
 WATCHLOCK="$STATE/watchdog.lock"
 HEARTBEAT="$STATE/heartbeat.log"
@@ -11,6 +12,7 @@ LOG="$ROOT/.autonomous/watchdog.log"
 exec 9>"$WATCHLOCK"
 flock -n 9 || exit 73
 WATCHDOG_PIDFILE="$STATE/watchdog.pid"
+HYBRID_START="$STATE/hybrid_controller_start.log"
 echo $$ >"$WATCHDOG_PIDFILE"
 trap 'rm -f "$WATCHDOG_PIDFILE"' EXIT INT TERM
 while [ ! -e "$STOPFILE" ]; do
@@ -49,6 +51,32 @@ while [ ! -e "$STOPFILE" ]; do
 		else
 			owned=1
 			echo "$(date -u +%FT%TZ) controller did not stop gracefully; replacement blocked pid=$pid" >>"$LOG"
+		fi
+	fi
+	# Independently supervise the hybrid controller. The controller's flock remains the authority
+	# against duplicate instances; this watchdog only starts it when its recorded owner is absent.
+	controller_owned=0
+	controller_record="$(cat "$CONTROLLER_PIDFILE" 2>/dev/null || true)"
+	controller_pid="${controller_record%%:*}"
+	controller_starttime="${controller_record#*:}"
+	if [ -n "$controller_pid" ] && [ "$controller_pid" != "$controller_record" ] && kill -0 "$controller_pid" 2>/dev/null; then
+		current_controller_starttime="$(awk '{print $22}' "/proc/$controller_pid/stat" 2>/dev/null || true)"
+		controller_cmd="$(ps -p "$controller_pid" -o args= 2>/dev/null || true)"
+		case "$controller_cmd" in
+			*"$ROOT/ops/hybrid_orchestrator.py"*|*"python3 ops/hybrid_orchestrator.py"*)
+				[ -n "$controller_starttime" ] && [ "$controller_starttime" = "$current_controller_starttime" ] && controller_owned=1 ;;
+		esac
+	fi
+	if [ "$controller_owned" -eq 0 ] && [ ! -e "$STOPFILE" ]; then
+		echo "$(date -u +%FT%TZ) hybrid controller absent; starting flock-protected controller" >>"$HYBRID_START"
+		nohup python3 "$ROOT/ops/hybrid_orchestrator.py" >>"$STATE/hybrid_controller.log" 2>&1 &
+		controller_pid=$!
+		sleep 1
+		controller_starttime="$(awk '{print $22}' "/proc/$controller_pid/stat" 2>/dev/null || true)"
+		if [ -n "$controller_starttime" ]; then
+			echo "$controller_pid:$controller_starttime" >"$CONTROLLER_PIDFILE"
+		else
+			echo "" >"$CONTROLLER_PIDFILE"
 		fi
 	fi
 	if [ "$owned" -eq 0 ]; then
