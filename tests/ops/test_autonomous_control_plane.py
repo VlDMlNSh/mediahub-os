@@ -185,6 +185,23 @@ def test_raw_queue_compiler_turns_factual_p05_item_into_bounded_task(tmp_path):
     assert task.target == "tests/ai/test_task_delivery.py"
 
 
+def test_raw_queue_compiler_turns_factual_p01_item_into_bounded_reconciliation_task(tmp_path):
+    from ops.local_autonomous_agent import compile_next_raw_queue_task
+
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "recovery").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.1 Reconcile current local HEAD, R4 ancestry, functional baseline and active worktrees.\n", encoding="utf-8"
+    )
+    (tmp_path / "recovery" / "reconciliation-report.md").write_text(
+        "# Reconciliation\n", encoding="utf-8"
+    )
+    task = compile_next_raw_queue_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P0.1-current-control-point-reconciliation"
+    assert task.target == "recovery/reconciliation-report.md"
+
+
 def test_raw_queue_compiler_turns_factual_p06_item_into_bounded_evidence_task(tmp_path):
     from ops.local_autonomous_agent import (
         compile_next_raw_queue_task,

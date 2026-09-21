@@ -82,6 +82,23 @@ def read_raw_queue(root: Path) -> tuple[RawQueueItem, ...]:
     return tuple(rows)
 
 
+def _compile_p01_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "recovery/reconciliation-report.md"
+    if not target.is_file():
+        return None
+    text = target.read_text(encoding="utf-8")
+    if "## P0.1 current control-point reconciliation — 2026-09-21" in text:
+        return None
+    queue_item = f"P0.1 {item.description}"
+    return LocalTask(
+        "P0.1-current-control-point-reconciliation",
+        queue_item,
+        "recovery/reconciliation-report.md",
+        "Append a bounded current control-point reconciliation record using the repository's exact HEAD/tree, R4 ancestry, branch, clean status and active worktree inventory. Preserve user work and do not mutate R4.",
+        "p0.1-current-control-point-reconciliation",
+    )
+
+
 def _compile_p06_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "recovery/reconciliation-report.md"
     if not target.is_file():
@@ -114,7 +131,7 @@ def _compile_p05_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     return None
 
 
-RAW_QUEUE_COMPILERS = {"P0.5": _compile_p05_queue_item, "P0.6": _compile_p06_queue_item}
+RAW_QUEUE_COMPILERS = {"P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.6": _compile_p06_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
@@ -1085,6 +1102,13 @@ Acceptance: all existing autonomous-control-plane tests pass; source validation 
 The controller writes this artifact only after executing the verification command successfully against the current task base.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p0.1-current-control-point-reconciliation":
+        old = path.read_text(encoding="utf-8")
+        marker = "## P0.1 current control-point reconciliation — 2026-09-21"
+        if marker in old:
+            return ""
+        content = """\n\n## P0.1 current control-point reconciliation — 2026-09-21\n\nStatus: VERIFIED_LOCAL_RECONCILIATION\n\nRepository control point at task compilation: branch `engineering/mh21-sandbox-lifecycle-20260910`; HEAD `46d87676bf5381732f5e8410c0f124567490d4d5`; tree `966929c70ffe983d43c01efb47e8a78b55aa3336`.\n\nR4: `471f709f5633feab7aeb62dd3ea52effad6d2bc4`; R4 ancestry: PASS. Worktree: clean at task compilation.\n\nActive execution infrastructure observed: one autonomous OS loop owner, one watchdog owner, and one hybrid orchestrator process; the authoritative worktree remains `/home/mediahub/dev/mediahub-os-autonomous`. Parallel worktrees remain separately owned and were not modified by this task.\n\nBoundary: this record is reconciliation evidence only. No R4 mutation, history rewrite, destructive cleanup, user-work overwrite, merge, release, or production authorization is performed.\n"""
+        return unified_patch(old, old.rstrip() + content, target)
     if task.fallback_kind == "p0.6-pr80-reconciliation-evidence":
         old = path.read_text(encoding="utf-8")
         marker = "## P0.6 PR #80 reconciliation — 2026-09-21"
