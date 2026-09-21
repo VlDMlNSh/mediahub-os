@@ -578,6 +578,26 @@ def test_task_compiler_suppresses_existing_equivalent_commit(tmp_path, monkeypat
 
 
 
+def test_queue_encoding_requires_current_p1_4_evidence_surface(tmp_path):
+    queue = tmp_path / "ops"
+    queue.mkdir()
+    (queue / "local_autonomous_tasks.md").write_text(
+        "P1.4 Complete provider selector and fallback semantics, including offline/degraded behavior.\n",
+        encoding="utf-8",
+    )
+    (queue / "mediahub_provider_gateway.py").write_text("gateway\n", encoding="utf-8")
+    (tmp_path / "tests").mkdir()
+    (tmp_path / "tests" / "test_mediahub_provider_gateway.py").write_text("def test_gateway(): pass\n", encoding="utf-8")
+    (tmp_path / "tests" / "test_mediahub_resilience.py").write_text("def test_resilience(): pass\n", encoding="utf-8")
+    rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
+    assert rows["P1.4"] == "NEEDS_ENCODING"
+    evidence = tmp_path / "docs" / "ops"
+    evidence.mkdir(parents=True)
+    (evidence / "P1-4-provider-selector-verification-2026-09-19.md").write_text("evidence\n", encoding="utf-8")
+    rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
+    assert rows["P1.4"] == "ENCODED"
+
+
 def test_queue_encoding_marks_only_explicit_local_items_encoded(tmp_path):
     queue = tmp_path / "ops"
     queue.mkdir()

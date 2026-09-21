@@ -164,8 +164,15 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P0.4": "P0.4 Close current Native Execution Contract test gaps.",
         "P1.1": "P1.1 Complete provider-neutral `ExecutionProposal` contract and negative tests.",
         "P1.6": "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.",
-        "P1.4": "P1.4 Complete provider selector and fallback semantics, including offline/degraded behavior.",
     }
+    # P1.4 may only be encoded when its claimed evidence surface exists in the
+    # current tree. A historical evidence commit is not current acceptance
+    # evidence and must not make the task executable.
+    p14_evidence = root / "docs/ops/P1-4-provider-selector-verification-2026-09-19.md"
+    p14_gateway = root / "tests/test_mediahub_provider_gateway.py"
+    p14_resilience = root / "tests/test_mediahub_resilience.py"
+    if (root / "ops/mediahub_provider_gateway.py").is_file() and p14_gateway.is_file() and p14_resilience.is_file() and p14_evidence.is_file():
+        encoded["P1.4"] = "P1.4 Complete provider selector and fallback semantics, including offline/degraded behavior."
     rows: list[QueueEncoding] = []
     for match in re.finditer(r"(?m)^P(\d+\.\d+)\s+(.+)$", text):
         queue_id = "P" + match.group(1)
