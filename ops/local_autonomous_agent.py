@@ -234,7 +234,7 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "Add focused negative tests proving ExecutionAdmission rejects non-boolean authorization_verified and recovery_verified values; preserve provenance binding and fail-closed authority semantics.",
                 "p1.2-admission-boolean-type-test",
             )
-        if "not isinstance(self.authorization_verified, bool)" not in prod_text:
+        if "not isinstance(self.authorized, bool)" not in prod_text:
             return LocalTask(
                 "P1.2-admission-boolean-type-hardening",
                 "P1.2 Bind proposal admission to existing authorization/provenance/recovery evidence.",
