@@ -208,6 +208,23 @@ def select_local_task(root: Path) -> LocalTask | None:
                 "p1.4-provider-selector-verification",
             )
 
+    ecc = root / "ops/ai/ecc_policy.py"
+    ecc_tests = root / "tests/ai/test_ecc_policy.py"
+    dispatcher_tests = root / "tests/ai/test_hybrid_dispatcher.py"
+    ecc_evidence = root / "docs/ops/P1-5-ecc-dispatcher-verification-2026-09-21.md"
+    if _queue_contains(root, "P1.5 Complete ECC adapter/dispatcher policy, provenance, permissions and negative tests.") and all(
+        path.is_file() for path in (ecc, ecc_tests, dispatcher_tests, ecc_evidence)
+    ):
+        evidence_text = ecc_evidence.read_text(encoding="utf-8")
+        if "23 passed" in evidence_text and "P1.5 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+            return LocalTask(
+                "P1.5-ecc-dispatcher-verification",
+                "P1.5 Complete ECC adapter/dispatcher policy, provenance, permissions and negative tests.",
+                "ops/ai/ecc_policy.py",
+                "Verify fail-closed ECC advisory policy, provenance binding, allowlisted roles/capabilities, forbidden authority/credential/network-write capabilities, target-gated dispatcher permissions, session identity and recovery boundaries using existing deterministic tests; do not perform live cloud-agent execution.",
+                "p1.5-ecc-dispatcher-verification",
+            )
+
     # No higher-level local task has encoded acceptance criteria yet; stop rather than fabricate work.
     # Higher-level queue items remain eligible only after their acceptance criteria
     # are encoded as deterministic local tasks.
@@ -241,6 +258,14 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         evidence_text = p13_evidence.read_text(encoding="utf-8")
         if "41 passed" in evidence_text and "P1.3 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
             encoded["P1.3"] = "P1.3 Complete AI model/provider/capability registry verification."
+    p15_evidence = root / "docs/ops/P1-5-ecc-dispatcher-verification-2026-09-21.md"
+    p15_ecc = root / "ops/ai/ecc_policy.py"
+    p15_tests = root / "tests/ai/test_ecc_policy.py"
+    p15_dispatcher_tests = root / "tests/ai/test_hybrid_dispatcher.py"
+    if all(path.is_file() for path in (p15_ecc, p15_tests, p15_dispatcher_tests, p15_evidence)):
+        evidence_text = p15_evidence.read_text(encoding="utf-8")
+        if "23 passed" in evidence_text and "P1.5 = QUALIFICATION-CANDIDATE / DETERMINISTIC LOCAL ACCEPTANCE PASS" in evidence_text:
+            encoded["P1.5"] = "P1.5 Complete ECC adapter/dispatcher policy, provenance, permissions and negative tests."
     p14_evidence = root / "docs/ops/P1-4-provider-selector-verification-2026-09-21.md"
     p14_gateway = root / "tests/test_mediahub_provider_gateway.py"
     p14_resilience = root / "tests/test_mediahub_resilience.py"
