@@ -41,7 +41,7 @@ class MigrationContract:
     target: VersionIdentity
     rollback_supported: bool
     def __post_init__(self):
-        if not self.migration_id: raise ValueError("migration id required")
+        if not isinstance(self.migration_id, str) or not self.migration_id: raise ValueError("migration id required")
         if not isinstance(self.source, VersionIdentity) or not isinstance(self.target, VersionIdentity): raise TypeError("migration versions required")
         if not isinstance(self.rollback_supported, bool): raise TypeError("rollback_supported must be bool")
         if self.source.revision==self.target.revision: raise ValueError("migration must change revision")
