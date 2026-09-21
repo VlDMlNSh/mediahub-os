@@ -89,6 +89,8 @@ def select_local_task(root: Path) -> LocalTask | None:
         tests23 = root / "tests/test_mediahub_lifecycle_contract.py"
         if tests23.is_file() and "test_migration_rejects_malformed_types" not in tests23.read_text(encoding="utf-8"):
             return LocalTask("P2.3-migration-contract-tests", "P2.3 Complete persistence/versioning/migration/recovery contracts.", "tests/test_mediahub_lifecycle_contract.py", "Add focused negative tests for malformed migration_id, source and target objects while preserving the bounded lifecycle contract.", "migration-contract-tests")
+        if tests23.is_file() and "test_migration_rejects_unchanged_revision" not in tests23.read_text(encoding="utf-8"):
+            return LocalTask("P2.3-migration-revision-tests", "P2.3 Complete persistence/versioning/migration/recovery contracts.", "tests/test_mediahub_lifecycle_contract.py", "Add focused tests for migration revision monotonicity and rejection of unchanged source/target revisions.", "migration-revision-tests")
         text = p23.read_text(encoding="utf-8")
         if "migration_id" in text and "not isinstance(self.migration_id, str)" not in text:
             return LocalTask("P2.3-migration-contract-hardening", "P2.3 Complete persistence/versioning/migration/recovery contracts.", "ops/mediahub_lifecycle_contract.py", "Harden MigrationContract validation against malformed migration_id, source and target objects; preserve explicit version change and rollback semantics. Do not add physical persistence or a second State Authority.", "migration-contract-hardening")
@@ -795,6 +797,11 @@ def test_recovery_proposal_rejects_non_string_provider():
             return ""
         new_text = old.replace(marker, hardened, 1)
         return unified_patch(old, new_text, target)
+    if task.fallback_kind == "migration-revision-tests":
+        old = path.read_text(encoding="utf-8")
+        if "test_migration_rejects_unchanged_revision" in old: return ""
+        addition = '\n\ndef test_migration_rejects_unchanged_revision():\n    current = VersionIdentity("mediahub-state", 3, "digest-3")\n    with pytest.raises(ValueError):\n        MigrationContract("m1", current, current, True)\n'
+        return unified_patch(old, old.rstrip() + addition, target)
     if task.fallback_kind == "migration-contract-tests":
         old = path.read_text(encoding="utf-8")
         if "test_migration_rejects_malformed_types" in old:
@@ -991,7 +998,7 @@ def generate(text: str) -> tuple[int, str, str]:
         headers={"Content-Type": "application/json"}, method="POST"
     )
     try:
-        with LOCAL_AI_OPENER.open(req, timeout=60) as response:
+        with LOCAL_AI_OPENER.open(req, timeout=15) as response:
             raw = response.read(1_048_577)
         if len(raw) > 1_048_576:
             return 28, "", "AI_MALFORMED"
