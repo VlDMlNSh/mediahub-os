@@ -753,7 +753,6 @@ def select_local_task(root: Path) -> LocalTask | None:
             "docs/ops/P3-2-ingestion-metadata-index-gap-reconciliation-2026-09-22.md",
             "Record deterministic repository evidence for the P3.2 acceptance-surface gap. Inspect only existing media lifecycle/streaming surfaces and tests; classify ingestion, metadata and indexing as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not invent media semantics, do not qualify streaming transport as playback, and do not claim P3.2 closed.",
             "p3.2-ingestion-metadata-index-gap-reconciliation",
-        "p3.3-playback-control-gap-reconciliation",
         )
 
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
@@ -951,6 +950,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p2.7-ai-cloud-authority-verification",
         "p3.1-media-domain-lifecycle-inventory",
         "p3.2-ingestion-metadata-index-gap-reconciliation",
+        "p3.3-playback-control-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
