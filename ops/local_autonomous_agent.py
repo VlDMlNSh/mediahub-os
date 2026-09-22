@@ -1176,6 +1176,29 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p7.4-ordinary-user-cloud-development-access-gap-reconciliation",
         )
 
+    p75_evidence = root / "docs/ops/P7-5-data-minimization-residency-egress-gap-reconciliation-2026-09-22.md"
+    p75_sources = (
+        root / "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        root / "specification/contract-registry.yaml",
+        root / "docs/architecture/MH-13-privacy-data-governance.md",
+        root / "docs/architecture/MH-21-data-residency.md",
+        root / "ops/mediahub_policy_engine.py",
+        root / "ops/mediahub_egress_controller.py",
+        root / "tests/test_mediahub_policy_engine.py",
+        root / "tests/test_mediahub_egress_controller.py",
+    )
+    if (_queue_contains(root, "P7.5 Add data minimization, residency/policy and egress tests.")
+            and not p75_evidence.exists()
+            and all(path.is_file() for path in p75_sources)
+            and (root / "docs/ops/P7-4-ordinary-user-cloud-development-access-gap-reconciliation-2026-09-22.md").is_file()):
+        return LocalTask(
+            "P7.5-data-minimization-residency-egress-gap-reconciliation",
+            "P7.5 Add data minimization, residency/policy and egress tests.",
+            "docs/ops/P7-5-data-minimization-residency-egress-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the Cloud Development AI data-minimization, residency/policy and egress boundary. Inspect only existing baseline/contract/privacy/residency declarations plus PolicyEngine/EgressController implementations and tests; classify each acceptance surface as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not infer provider guarantees, regions, retention periods or external runtime behavior.",
+            "p7.5-data-minimization-residency-egress-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -1257,6 +1280,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P7.2": ("docs/ops/P7-2-human-clone-governance-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.2 NOT CLOSED"),
     "P7.3": ("docs/ops/P7-3-trusted-sources-knowledge-workflow-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.3 NOT CLOSED"),
     "P7.4": ("docs/ops/P7-4-ordinary-user-cloud-development-access-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.4 NOT CLOSED"),
+    "P7.5": ("docs/ops/P7-5-data-minimization-residency-egress-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.5 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1414,6 +1438,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p7.2-human-clone-governance-gap-reconciliation",
         "p7.3-trusted-sources-knowledge-workflow-gap-reconciliation",
         "p7.4-ordinary-user-cloud-development-access-gap-reconciliation",
+        "p7.5-data-minimization-residency-egress-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -2821,6 +2846,30 @@ The controller writes this artifact only after executing the verification comman
         content = """# P7.4 — Ordinary-user Cloud Development AI access boundary\n\nStatus: DISCOVERY_RECONCILIATION / P7.4 NOT CLOSED\n\n## Scope\n\nThis artifact records deterministic repository evidence for the existing requirement that ordinary users have no direct corporate Cloud Development AI access. It distinguishes repository policy declarations from executable enforcement evidence. It does not invent authentication, UI, provider, or production-authorization semantics.\n\n## Deterministic classification\n\n- Policy/declaration evidence: PRESENT where the source excerpts below explicitly describe Cloud Development AI, ordinary-user access, or controlled escalation.\n- Executable ordinary-user access enforcement: NOT ESTABLISHED by this reconciliation alone; the inspected adapter/test surfaces are generic Cloud Development controls and are not treated as proof of an ordinary-user-specific access gate.\n- Overall P7.4 status: PARTIAL — policy boundary is documented, while ordinary-user-specific executable acceptance is not demonstrated by the inspected evidence.\n\n## Source evidence\n\n""" + "\n\n".join(evidence_lines) + "\n"
         return unified_patch("", content, target)
 
+    if task.fallback_kind == "p7.5-data-minimization-residency-egress-gap-reconciliation":
+        target = task.target
+        sources = (
+            "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md", "specification/contract-registry.yaml",
+            "docs/architecture/MH-13-privacy-data-governance.md", "docs/architecture/MH-21-data-residency.md",
+            "ops/mediahub_policy_engine.py", "ops/mediahub_egress_controller.py",
+            "tests/test_mediahub_policy_engine.py", "tests/test_mediahub_egress_controller.py",
+        )
+        evidence_lines=[]
+        import hashlib
+        for rel in sources:
+            source=ROOT/rel
+            if not source.is_file(): return ""
+            digest=hashlib.sha256(source.read_bytes()).hexdigest()
+            matches=[]
+            for number,line in enumerate(source.read_text(encoding="utf-8").splitlines(),1):
+                low=line.lower()
+                if any(term in low for term in ("minimization","residency","egress","policy","export","data class","allowlist")):
+                    matches.append(f"{number}: {line.strip()}")
+                if len(matches)>=8: break
+            evidence_lines.append(f"### {rel}\nSHA256: {digest}\n"+"\n".join(f"- {m}" for m in matches))
+        content="""# P7.5 — Data minimization, residency/policy and egress boundary\n\nStatus: DISCOVERY_RECONCILIATION / P7.5 NOT CLOSED\n\n## Scope\n\nThis artifact records deterministic repository evidence for existing Cloud Development AI data-minimization, residency/policy and egress requirements. It does not infer provider guarantees, regions, retention periods or external runtime behavior.\n\n## Deterministic classification\n\n- Existing policy/contract declarations: PRESENT where recorded below.\n- Existing generic PolicyEngine/EgressController implementation and tests: PRESENT in the inspected repository surfaces.\n- Human-Clone-specific acceptance of minimization, residency/policy and egress: NOT ESTABLISHED by this reconciliation alone.\n- Overall P7.5 status: PARTIAL — generic controls are evidenced, but subsystem-specific acceptance is not demonstrated here.\n\n## Source evidence\n\n"""+"\n\n".join(evidence_lines)+"\n"
+        return unified_patch("", content, target)
+
     if task.fallback_kind == "p2.4-cluster-gateway-negative-tests":
         old = path.read_text(encoding="utf-8")
         if "test_propose_rejects_malformed_request_identity" in old:
@@ -2976,6 +3025,8 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([str(RUFF), "check", verify_target], 120))
     if selected and selected.fallback_kind == "p7.3-trusted-sources-knowledge-workflow-gap-reconciliation":
         checks.append(([sys.executable, "-c", "from pathlib import Path; files=('specification/contract-registry.yaml','docs/architecture/MH-21-rag-boundary.md','docs/architecture/MH-21-rag-security.md','docs/architecture/MH-21-knowledge-graph-interaction.md'); text=''.join(Path(f).read_text(encoding='utf-8') for f in files); required=('CTR-042','trusted-source discovery','retrieval','verification','provenance','change detection','evidence separation'); assert all(x in text for x in required); print('P7.3 repository contract evidence scan PASS')"], 30))
+    if selected and selected.fallback_kind == "p7.5-data-minimization-residency-egress-gap-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_policy_engine.py", "tests/test_mediahub_egress_controller.py"], 180))
     if selected and selected.fallback_kind == "p7.4-ordinary-user-cloud-development-access-gap-reconciliation":
         checks.append(([sys.executable, "-c", "from pathlib import Path; files=('specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml','specification/invariant-registry.yaml','recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md','ops/cloud_development_adapter.py','tests/ops/test_cloud_development_adapter.py'); text=''.join(Path(f).read_text(encoding='utf-8').lower() for f in files); required=('cloud development ai','ordinary users','direct access to cloud development','not a user-facing development workspace'); assert all(x in text for x in required); print('P7.4 repository access-boundary evidence scan PASS')"], 30))
     if selected and selected.fallback_kind == "p7.2-human-clone-governance-gap-reconciliation":
