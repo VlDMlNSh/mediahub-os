@@ -951,6 +951,27 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p5.2-authenticated-session-authorization-gap-reconciliation",
         )
 
+    p54_evidence = root / "docs/ops/P5-4-remote-control-state-synchronization-gap-reconciliation-2026-09-22.md"
+    p54_sources = (
+        root / "contracts/mobile/mobile-api-compatibility.schema.json",
+        root / "recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md",
+        root / "recovery/acceptance/F-014-phone-media-io-endpoint.md",
+        root / "docs/architecture/MH-21-device-interaction.md",
+        root / "ops/mediahub_lifecycle_contract.py",
+        root / "tests/test_mediahub_lifecycle_contract.py",
+        root / "tests/security/test_mh05_bypass_audit.py",
+    )
+    if (_queue_contains(root, "P5.4 Add remote-control and state synchronization tests.")
+            and not p54_evidence.exists()
+            and all(path.is_file() for path in p54_sources)):
+        return LocalTask(
+            "P5.4-remote-control-state-synchronization-gap-reconciliation",
+            "P5.4 Add remote-control and state synchronization tests.",
+            "docs/ops/P5-4-remote-control-state-synchronization-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for P5.4. Inspect existing mobile compatibility, remote-control boundary, media lifecycle and negative security tests; classify remote-control authorization, command/state synchronization, conflict/replay behavior and offline/degraded synchronization acceptance as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS. Do not invent transport, conflict-resolution or mobile protocol semantics.",
+            "p5.4-remote-control-state-synchronization-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -1020,6 +1041,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P4.4": ("docs/ops/P4-4-external-retrieval-state-authority-boundary-verification-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P4.4 NOT CLOSED"),
     "P4.5": ("docs/ops/P4-5-audit-revocation-offline-degraded-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.5 NOT CLOSED"),
     "P5.2": ("docs/ops/P5-2-authenticated-session-authorization-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P5.2 NOT CLOSED"),
+    "P5.4": ("docs/ops/P5-4-remote-control-state-synchronization-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P5.4 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1165,6 +1187,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p4.4-external-retrieval-state-authority-boundary-verification",
         "p4.5-audit-revocation-offline-degraded-gap-reconciliation",
         "p5.2-authenticated-session-authorization-gap-reconciliation",
+        "p5.4-remote-control-state-synchronization-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1606,6 +1629,37 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p5.4-remote-control-state-synchronization-gap-reconciliation":
+        content = """# P5.4 Remote Control / State Synchronization Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P5.4 NOT CLOSED
+
+## Queue requirement
+
+`P5.4 Add remote-control and state synchronization tests.`
+
+## Exact repository surfaces inspected
+
+- `contracts/mobile/mobile-api-compatibility.schema.json` — defines Core/Remote clients and online/offline/degraded connectivity, but no command synchronization or conflict contract.
+- `recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md` — requires mobile pairing/session and remote access but leaves protocol details open.
+- `recovery/acceptance/F-014-phone-media-io-endpoint.md` — requires bidirectional phone/MediaHub flows and offline-first behavior; protocol and conflict semantics remain deferred.
+- `docs/architecture/MH-21-device-interaction.md` — defines Cloud/Agent Proposal → Local Validation → Policy → Authorization → Consumer Boundary → State Authority → Device; remote AI has no automatic device-command authority.
+- `ops/mediahub_lifecycle_contract.py` / `tests/test_mediahub_lifecycle_contract.py` — provide generic media lifecycle/version invariants, not mobile command synchronization.
+- `tests/security/test_mh05_bypass_audit.py` — provides negative remote-command boundary coverage, not end-to-end mobile synchronization.
+
+## Classification
+
+- Remote-control authorization/command contract: PARTIAL at generic consumer-boundary/security level; mobile-specific command contract absent.
+- State synchronization contract: ABSENT as mobile-specific executable acceptance.
+- Conflict/replay synchronization tests: ABSENT.
+- Offline/degraded synchronization tests: ABSENT.
+- Provenance-bound end-to-end mobile synchronization evidence: ABSENT.
+
+## Gate
+
+This artifact records only repository-observed evidence. It does not invent transport, conflict-resolution, replay or offline synchronization semantics and does not close P5.4.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p5.2-authenticated-session-authorization-gap-reconciliation":
@@ -2373,6 +2427,8 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p5.4-remote-control-state-synchronization-gap-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_lifecycle_contract.py", "tests/security/test_mh05_bypass_audit.py"], 180))
     if selected and selected.fallback_kind == "p5.2-authenticated-session-authorization-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/ai/test_hybrid_session.py", "tests/contracts/test_mobile_api_compatibility.py"], 180))
     if selected and selected.fallback_kind == "p4.5-audit-revocation-offline-degraded-gap-reconciliation":
