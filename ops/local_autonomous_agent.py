@@ -161,12 +161,6 @@ def _compile_p05_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     return None
 
 
-def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
-    """Compile a raw queue row only through an explicitly registered encoder."""
-    compiler = RAW_QUEUE_COMPILERS.get(item.queue_id)
-    return compiler(root, item) if compiler is not None else None
-
-
 def _compile_p051_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     tests = root / "tests/ai/test_hybrid_development_daemon.py"
     daemon = root / "ops/ai/hybrid_development_daemon.py"
@@ -186,7 +180,31 @@ def _compile_p051_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None
     )
 
 
-RAW_QUEUE_COMPILERS = {"P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+def _compile_p052_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    tests = root / "tests/ai/test_hybrid_development_daemon.py"
+    daemon = root / "ops/ai/hybrid_development_daemon.py"
+    evidence = root / "docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md"
+    if not tests.is_file() or not daemon.is_file() or evidence.is_file():
+        return None
+    text = tests.read_text(encoding="utf-8")
+    if "test_daemon_rejects_terminal_tail_with_baseline_or_r4_mismatch" not in text:
+        return None
+    return LocalTask(
+        "P0.5.2-terminal-provenance-regression-verification",
+        f"P0.5.2 {item.description}",
+        "docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md",
+        "Record deterministic local evidence that terminal checkpoint restore remains fail-closed when baseline or R4 provenance does not exactly match the requested identity; preserve exact-identity clean-stop behavior and do not create a new identity.",
+        "p0.5.2-terminal-provenance-regression-verification",
+    )
+
+
+RAW_QUEUE_COMPILERS = {"P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+
+
+def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    """Compile a raw queue row only through an explicitly registered encoder."""
+    compiler = RAW_QUEUE_COMPILERS.get(item.queue_id)
+    return compiler(root, item) if compiler is not None else None
 
 
 def compile_next_raw_queue_task(root: Path) -> LocalTask | None:
@@ -714,6 +732,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P2.7": ("docs/ops/P2-7-ai-cloud-authority-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P2.7 NOT CLOSED"),
         "P3.1": ("docs/ops/P3-1-media-domain-lifecycle-inventory-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P3.1 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
+        "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
             "recovery/reconciliation-report.md",
             "## P0.1 current control-point reconciliation — 2026-09-21",
@@ -1212,6 +1231,29 @@ Acceptance: existing deterministic tests pass and the inspected AI/cloud modules
 ## Boundary
 
 This evidence does not qualify operational cloud execution, credentials, production access, or the broader P2.7 product scope.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p0.5.2-terminal-provenance-regression-verification":
+        content = """# P0.5.2 Terminal Provenance Regression Verification
+
+Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED
+
+## Repository-observed behavior
+
+Source: `ops/ai/hybrid_development_daemon.py`
+Tests: `tests/ai/test_hybrid_development_daemon.py`
+
+The daemon only accepts a terminal checkpoint as a clean stop when session identity, baseline SHA, R4 SHA and terminal state all match. A mismatch in baseline or R4 provenance is re-raised as `HybridDevelopmentDenied` rather than silently reviving or replacing the session identity.
+
+## Verification
+
+Command: `pytest -q tests/ai/test_hybrid_development_daemon.py`
+
+Acceptance: the deterministic mismatch regression passes while the exact-identity terminal-stop test remains passing.
+
+## Boundary
+
+This evidence qualifies only local terminal provenance reconciliation. It does not authorize production execution, release, credentials, external providers, State Authority mutation, or identity replacement.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p0.5.1-terminal-checkpoint-startup-verification":

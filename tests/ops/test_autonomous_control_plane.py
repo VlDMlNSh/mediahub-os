@@ -938,3 +938,20 @@ def test_multisegment_evidence_marker_encodes_current_p051_queue_row(tmp_path, m
     )
     rows = inspect_queue_encoding(tmp_path)
     assert next(row for row in rows if row.queue_id == "P0.5.1").status == "ENCODED"
+
+def test_raw_queue_compiler_encodes_p052_from_existing_daemon_regression(tmp_path):
+    from ops.local_autonomous_agent import compile_next_raw_queue_task
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.5.2 Recovery regression: prove mismatched/invalid terminal provenance still fails closed.\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "ops" / "ai").mkdir(parents=True)
+    (tmp_path / "ops" / "ai" / "hybrid_development_daemon.py").write_text("def main(): pass\n", encoding="utf-8")
+    (tmp_path / "tests" / "ai").mkdir(parents=True)
+    (tmp_path / "tests" / "ai" / "test_hybrid_development_daemon.py").write_text(
+        "def test_daemon_rejects_terminal_tail_with_baseline_or_r4_mismatch(): pass\n", encoding="utf-8"
+    )
+    task = compile_next_raw_queue_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P0.5.2-terminal-provenance-regression-verification"
