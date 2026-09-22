@@ -1337,6 +1337,27 @@ def test_p71_human_clone_contract_gap_reconciliation_is_selected_after_p65_evide
     assert task is not None and task.task_id == "P7.1-human-clone-contract-gap-reconciliation"
 
 
+
+def test_p74_ordinary_user_cloud_access_gap_reconciliation_is_selected_after_p73_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops").mkdir(parents=True); (tmp_path / "specification").mkdir(parents=True); (tmp_path / "docs/ops").mkdir(parents=True); (tmp_path / "recovery/acceptance").mkdir(parents=True); (tmp_path / "tests/ops").mkdir(parents=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text(
+        "P7.3 Implement Trusted Sources/knowledge workflows required by the subsystem.\n"
+        "P7.4 Ensure ordinary users have no direct corporate Cloud Development AI access.\n", encoding="utf-8")
+    (tmp_path / "docs/ops/P7-3-trusted-sources-knowledge-workflow-gap-reconciliation-2026-09-22.md").write_text(
+        "Status: DISCOVERY_RECONCILIATION / P7.3 NOT CLOSED\n", encoding="utf-8")
+    for rel in (
+        "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        "specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml",
+        "specification/invariant-registry.yaml",
+        "recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md",
+        "ops/cloud_development_adapter.py",
+        "tests/ops/test_cloud_development_adapter.py",
+    ):
+        (tmp_path / rel).write_text("Cloud Development AI ordinary users no direct access controlled escalation", encoding="utf-8")
+    task = select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P7.4-ordinary-user-cloud-development-access-gap-reconciliation"
+
 def test_p65_provider_fallback_gap_reconciliation_is_selected_after_p64_evidence(tmp_path):
     from ops.local_autonomous_agent import select_local_task
     (tmp_path / "ops").mkdir(parents=True); (tmp_path / "tests").mkdir(parents=True)

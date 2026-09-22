@@ -1155,6 +1155,27 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p7.3-trusted-sources-knowledge-workflow-gap-reconciliation",
         )
 
+    p74_evidence = root / "docs/ops/P7-4-ordinary-user-cloud-development-access-gap-reconciliation-2026-09-22.md"
+    p74_sources = (
+        root / "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        root / "specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml",
+        root / "specification/invariant-registry.yaml",
+        root / "recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md",
+        root / "ops/cloud_development_adapter.py",
+        root / "tests/ops/test_cloud_development_adapter.py",
+    )
+    if (_queue_contains(root, "P7.4 Ensure ordinary users have no direct corporate Cloud Development AI access.")
+            and not p74_evidence.exists()
+            and all(path.is_file() for path in p74_sources)
+            and (root / "docs/ops/P7-3-trusted-sources-knowledge-workflow-gap-reconciliation-2026-09-22.md").is_file()):
+        return LocalTask(
+            "P7.4-ordinary-user-cloud-development-access-gap-reconciliation",
+            "P7.4 Ensure ordinary users have no direct corporate Cloud Development AI access.",
+            "docs/ops/P7-4-ordinary-user-cloud-development-access-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the ordinary-user Cloud Development AI access boundary. Inspect only the functional baseline, governance/invariant declarations, accepted remote/cloud escalation requirement and existing Cloud Development Adapter tests; classify direct ordinary-user access as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Distinguish policy declarations from executable enforcement and do not invent authentication, UI, provider or production-authorization semantics.",
+            "p7.4-ordinary-user-cloud-development-access-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -1235,6 +1256,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P7.1": ("docs/ops/P7-1-human-clone-contract-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.1 NOT CLOSED"),
     "P7.2": ("docs/ops/P7-2-human-clone-governance-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.2 NOT CLOSED"),
     "P7.3": ("docs/ops/P7-3-trusted-sources-knowledge-workflow-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.3 NOT CLOSED"),
+    "P7.4": ("docs/ops/P7-4-ordinary-user-cloud-development-access-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.4 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
