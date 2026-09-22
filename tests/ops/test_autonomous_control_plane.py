@@ -955,3 +955,27 @@ def test_raw_queue_compiler_encodes_p052_from_existing_daemon_regression(tmp_pat
     task = compile_next_raw_queue_task(tmp_path)
     assert task is not None
     assert task.task_id == "P0.5.2-terminal-provenance-regression-verification"
+
+def test_p052_evidence_task_compiles_as_new_durable_artifact(tmp_path):
+    from ops.local_autonomous_agent import LocalTask, compile_executable_task
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "docs" / "ops").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.5.2 Recovery regression: prove mismatched/invalid terminal provenance still fails closed.\n", encoding="utf-8"
+    )
+    import subprocess
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.name", "Test"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "add", "."], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "base"], cwd=tmp_path, check=True)
+    task = LocalTask(
+        "P0.5.2-terminal-provenance-regression-verification",
+        "P0.5.2 Recovery regression: prove mismatched/invalid terminal provenance still fails closed.",
+        "docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md",
+        "record evidence",
+        "p0.5.2-terminal-provenance-regression-verification",
+    )
+    compiled = compile_executable_task(tmp_path, task)
+    assert compiled is not None
+    assert compiled.acceptance_fingerprint

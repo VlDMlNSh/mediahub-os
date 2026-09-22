@@ -838,6 +838,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p2.7-ai-cloud-authority-verification",
         "p3.1-media-domain-lifecycle-inventory",
         "p0.5.1-terminal-checkpoint-startup-verification",
+        "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
