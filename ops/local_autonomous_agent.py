@@ -799,6 +799,10 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
             "docs/checkpoints/MH-19-P5.3-2026-09-19.md",
             "# MH-19 P5.3 Verified Increment — Mobile API Compatibility",
         ),
+        "P9.5": (
+            "docs/architecture/MH-12-evidence-register.md",
+            "P9.5 credential broker revocation isolation",
+        ),
     }
     for queue_id, (relative_path, marker) in queue_evidence.items():
         if _current_evidence_marker(root, relative_path, marker):

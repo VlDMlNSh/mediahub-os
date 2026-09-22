@@ -1048,3 +1048,15 @@ def test_queue_encoding_marks_current_p51_and_p53_evidence_encoded(tmp_path, mon
     rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
     assert rows["P5.1"] == "ENCODED"
     assert rows["P5.3"] == "ENCODED"
+
+
+def test_queue_encoding_marks_current_p95_evidence_encoded(tmp_path, monkeypatch):
+    from ops.local_autonomous_agent import inspect_queue_encoding
+    monkeypatch.setattr("ops.local_autonomous_agent._current_evidence_marker", lambda root, path, marker: True)
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "docs" / "architecture").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P9.5 Credential broker isolation and revocation tests.\n", encoding="utf-8"
+    )
+    rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
+    assert rows["P9.5"] == "ENCODED"
