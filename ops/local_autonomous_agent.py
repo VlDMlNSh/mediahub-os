@@ -1027,6 +1027,23 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p6.1-voice-provider-order-gap-reconciliation",
         )
 
+    p62_evidence = root / "docs/ops/P6-2-voice-provider-adapter-gap-reconciliation-2026-09-22.md"
+    p62_sources = (
+        root / "specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml",
+        root / "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        root / "ops/verify_functional_baseline.sh",
+    )
+    if (_queue_contains(root, "P6.2 Implement each provider through bounded adapters.")
+            and not p62_evidence.exists()
+            and all(path.is_file() for path in p62_sources)):
+        return LocalTask(
+            "P6.2-voice-provider-adapter-gap-reconciliation",
+            "P6.2 Implement each provider through bounded adapters.",
+            "docs/ops/P6-2-voice-provider-adapter-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for provider-specific voice adapters. Inspect only repository-native voice/provider surfaces and baseline declarations; classify Google Assistant, Яндекс Алиса and Apple Siri adapter implementations as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS. Do not access external provider accounts or invent adapter protocols.",
+            "p6.2-voice-provider-adapter-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -1100,6 +1117,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P5.5": ("docs/ops/P5-5-mobile-access-not-ai-compute-gap-reconciliation-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P5.5 NOT CLOSED"),
     "P5.6": ("docs/ops/P5-6-ios-integration-lifecycle-accessibility-security-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P5.6 NOT CLOSED"),
     "P6.1": ("docs/ops/P6-1-voice-provider-order-gap-reconciliation-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P6.1 NOT CLOSED"),
+    "P6.2": ("docs/ops/P6-2-voice-provider-adapter-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P6.2 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1249,6 +1267,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p5.5-mobile-access-not-ai-compute-gap-reconciliation",
         "p5.6-ios-integration-lifecycle-accessibility-security-gap-reconciliation",
         "p6.1-voice-provider-order-gap-reconciliation",
+        "p6.2-voice-provider-adapter-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1690,6 +1709,33 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p6.2-voice-provider-adapter-gap-reconciliation":
+        content = """# P6.2 Voice Provider Adapter Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P6.2 NOT CLOSED
+
+## Queue requirement
+
+`P6.2 Implement each provider through bounded adapters.`
+
+## Exact repository evidence
+
+- `specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml` — declares Google Assistant, Яндекс Алиса and Apple Siri as the canonical provider order.
+- `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` — preserves provider ordering and voice authorization boundaries.
+- `ops/verify_functional_baseline.sh` — validates the baseline declarations.
+
+## Classification
+
+- Google Assistant bounded adapter: ABSENT.
+- Яндекс Алиса bounded adapter: ABSENT.
+- Apple Siri bounded adapter: ABSENT.
+- Provider-neutral voice adapter contract/test surface: ABSENT in inspected repository surfaces.
+
+## Gate
+
+Architecture/baseline declarations do not constitute provider implementations. No external provider execution or account access was performed. P6.2 remains open.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p6.1-voice-provider-order-gap-reconciliation":
@@ -2573,6 +2619,8 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p6.2-voice-provider-adapter-gap-reconciliation":
+        checks.append(([str(ROOT / "ops/verify_functional_baseline.sh")], 120))
     if selected and selected.fallback_kind == "p6.1-voice-provider-order-gap-reconciliation":
         checks.append(([str(ROOT / "ops/verify_functional_baseline.sh")], 120))
     if selected and selected.fallback_kind == "p5.6-ios-integration-lifecycle-accessibility-security-gap-reconciliation":
