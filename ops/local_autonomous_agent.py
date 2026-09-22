@@ -779,6 +779,31 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p3.4-media-authorization-storage-retention-recovery-gap-reconciliation",
         )
 
+    # P3.5 has generic failure/integration tests but no bounded media-specific
+    # integration/failure-injection acceptance pair. Encode only the factual gap.
+    p35_evidence = root / "docs/ops/P3-5-media-integration-failure-injection-gap-reconciliation-2026-09-22.md"
+    p35_sources = (
+        root / "ops/mediahub_lifecycle_contract.py",
+        root / "tests/test_mediahub_lifecycle_contract.py",
+        root / "ops/mediahub_streaming_boundary.py",
+        root / "tests/test_mediahub_streaming_boundary.py",
+        root / "tests/test_mediahub_cluster_failover.py",
+        root / "tests/test_mediahub_cluster_lifecycle.py",
+        root / "recovery/acceptance/F-010-personal-media-library-ingestion-sync.md",
+        root / "recovery/acceptance/F-012-media-playback-live-media-streaming.md",
+        root / "recovery/acceptance/F-014-phone-media-io-endpoint.md",
+    )
+    if (_queue_contains(root, "P3.5 Add integration and failure-injection tests.")
+            and not p35_evidence.exists()
+            and all(path.is_file() for path in p35_sources)):
+        return LocalTask(
+            "P3.5-media-integration-failure-injection-gap-reconciliation",
+            "P3.5 Add integration and failure-injection tests.",
+            "docs/ops/P3-5-media-integration-failure-injection-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the P3.5 acceptance-surface gap. Inspect existing media acceptance requirements plus media lifecycle/streaming tests and generic cluster failure tests; classify media integration and media-specific failure injection as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not treat generic cluster/provider failure tests as media integration acceptance and do not claim P3.5 closed.",
+            "p3.5-media-integration-failure-injection-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -976,6 +1001,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p3.2-ingestion-metadata-index-gap-reconciliation",
         "p3.3-playback-control-gap-reconciliation",
         "p3.4-media-authorization-storage-retention-recovery-gap-reconciliation",
+        "p3.5-media-integration-failure-injection-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1417,6 +1443,39 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p3.5-media-integration-failure-injection-gap-reconciliation":
+        content = """# P3.5 Media Integration / Failure-Injection Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P3.5 NOT CLOSED
+
+## Queue requirement
+
+`P3.5 Add integration and failure-injection tests.`
+
+## Media acceptance requirements
+
+- `recovery/acceptance/F-010-personal-media-library-ingestion-sync.md` defines media ingestion, unified-library, synchronization, offline-first and cluster behavior, while leaving several technical decisions deferred.
+- `recovery/acceptance/F-012-media-playback-live-media-streaming.md` defines unified playback, streaming, endpoints and cluster behavior, while leaving concrete transport/codec/DRM/transcoding decisions deferred.
+- `recovery/acceptance/F-014-phone-media-io-endpoint.md` defines phone/media endpoint flows and authorization invariants, while leaving remote protocol, streaming transport and background execution details deferred.
+
+## Exact implementation/test surfaces inspected
+
+- `ops/mediahub_lifecycle_contract.py` and `tests/test_mediahub_lifecycle_contract.py` — generic lifecycle/persistence/migration contract and deterministic tests.
+- `ops/mediahub_streaming_boundary.py` and `tests/test_mediahub_streaming_boundary.py` — provider-neutral streaming transport parsing and deterministic boundary tests.
+- `tests/test_mediahub_cluster_lifecycle.py` and `tests/test_mediahub_cluster_failover.py` — generic cluster lifecycle/failover failure behavior, not media integration acceptance.
+
+## Classification
+
+- Media integration acceptance: ABSENT in the inspected implementation/test surface.
+- Media-specific failure-injection acceptance: ABSENT in the inspected implementation/test surface.
+- Generic lifecycle/streaming/cluster failure tests: PRESENT but insufficient to satisfy P3.5.
+- Functional media integration requirements: PRESENT in accepted recovery documents, with concrete technical details partly deferred.
+
+## Gate
+
+This artifact records the factual gap only. It does not invent integration topology, failure modes, protocols, or production behavior. A future P3.5 implementation task requires explicit bounded media integration scenarios, deterministic failure injection, and provenance-bound acceptance evidence.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p3.4-media-authorization-storage-retention-recovery-gap-reconciliation":
@@ -1931,6 +1990,12 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p3.5-media-integration-failure-injection-gap-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q",
+                        "tests/test_mediahub_lifecycle_contract.py",
+                        "tests/test_mediahub_streaming_boundary.py",
+                        "tests/test_mediahub_cluster_lifecycle.py",
+                        "tests/test_mediahub_cluster_failover.py"], 180))
     if selected and selected.fallback_kind == "p3.4-media-authorization-storage-retention-recovery-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q",
                         "tests/test_mediahub_lifecycle_contract.py",
