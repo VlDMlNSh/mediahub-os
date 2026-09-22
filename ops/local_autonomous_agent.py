@@ -996,6 +996,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P4.2": ("docs/ops/P4-2-trusted-sources-intelligence-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.2 NOT CLOSED"),
     "P4.3": ("docs/ops/P4-3-source-trust-stale-data-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.3 NOT CLOSED"),
     "P4.4": ("docs/ops/P4-4-external-retrieval-state-authority-boundary-verification-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P4.4 NOT CLOSED"),
+    "P4.5": ("docs/ops/P4-5-audit-revocation-offline-degraded-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.5 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
