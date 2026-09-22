@@ -1413,6 +1413,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p7.1-human-clone-contract-gap-reconciliation",
         "p7.2-human-clone-governance-gap-reconciliation",
         "p7.3-trusted-sources-knowledge-workflow-gap-reconciliation",
+        "p7.4-ordinary-user-cloud-development-access-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -2946,6 +2947,8 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([str(RUFF), "check", verify_target], 120))
     if selected and selected.fallback_kind == "p7.3-trusted-sources-knowledge-workflow-gap-reconciliation":
         checks.append(([sys.executable, "-c", "from pathlib import Path; files=('specification/contract-registry.yaml','docs/architecture/MH-21-rag-boundary.md','docs/architecture/MH-21-rag-security.md','docs/architecture/MH-21-knowledge-graph-interaction.md'); text=''.join(Path(f).read_text(encoding='utf-8') for f in files); required=('CTR-042','trusted-source discovery','retrieval','verification','provenance','change detection','evidence separation'); assert all(x in text for x in required); print('P7.3 repository contract evidence scan PASS')"], 30))
+    if selected and selected.fallback_kind == "p7.4-ordinary-user-cloud-development-access-gap-reconciliation":
+        checks.append(([sys.executable, "-c", "from pathlib import Path; files=('specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml','specification/invariant-registry.yaml','recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md','ops/cloud_development_adapter.py','tests/ops/test_cloud_development_adapter.py'); text=''.join(Path(f).read_text(encoding='utf-8').lower() for f in files); required=('cloud development ai','ordinary users','no direct access','controlled escalation'); assert all(x in text for x in required); print('P7.4 repository access-boundary evidence scan PASS')"], 30))
     if selected and selected.fallback_kind == "p7.2-human-clone-governance-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q",
                         "tests/ops/test_cloud_development_adapter.py",
