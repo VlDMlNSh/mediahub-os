@@ -1137,6 +1137,24 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p7.2-human-clone-governance-gap-reconciliation",
         )
 
+    p73_evidence = root / "docs/ops/P7-3-trusted-sources-knowledge-workflow-gap-reconciliation-2026-09-22.md"
+    p73_sources = (
+        root / "specification/contract-registry.yaml",
+        root / "docs/architecture/MH-21-rag-boundary.md",
+        root / "docs/architecture/MH-21-rag-security.md",
+        root / "docs/architecture/MH-21-knowledge-graph-interaction.md",
+    )
+    if (_queue_contains(root, "P7.3 Implement Trusted Sources/knowledge workflows required by the subsystem.")
+            and not p73_evidence.exists()
+            and all(path.is_file() for path in p73_sources)):
+        return LocalTask(
+            "P7.3-trusted-sources-knowledge-workflow-gap-reconciliation",
+            "P7.3 Implement Trusted Sources/knowledge workflows required by the subsystem.",
+            "docs/ops/P7-3-trusted-sources-knowledge-workflow-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the Trusted Sources/knowledge workflow boundary. Inspect CTR-042 and existing RAG/knowledge architecture; classify source discovery, retrieval, verification, provenance, change detection, evidence separation and deterministic implementation/test acceptance as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS. Do not invent retrieval providers, indexes, knowledge schemas or external network behavior.",
+            "p7.3-trusted-sources-knowledge-workflow-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -1216,6 +1234,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P6.5": ("docs/ops/P6-5-provider-outage-fallback-gap-reconciliation-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P6.5 NOT CLOSED"),
     "P7.1": ("docs/ops/P7-1-human-clone-contract-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.1 NOT CLOSED"),
     "P7.2": ("docs/ops/P7-2-human-clone-governance-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.2 NOT CLOSED"),
+    "P7.3": ("docs/ops/P7-3-trusted-sources-knowledge-workflow-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.3 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1371,6 +1390,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p6.5-provider-outage-fallback-gap-reconciliation",
         "p7.1-human-clone-contract-gap-reconciliation",
         "p7.2-human-clone-governance-gap-reconciliation",
+        "p7.3-trusted-sources-knowledge-workflow-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1812,6 +1832,35 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p7.3-trusted-sources-knowledge-workflow-gap-reconciliation":
+        content = """# P7.3 Trusted Sources / Knowledge Workflow Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P7.3 NOT CLOSED
+
+## Queue requirement
+
+`P7.3 Implement Trusted Sources/knowledge workflows required by the subsystem.`
+
+## Exact repository evidence
+
+- `specification/contract-registry.yaml` — CTR-042 declares trusted-source discovery, retrieval, verification, provenance, change detection, evidence separation and audit.
+- `docs/architecture/MH-21-rag-boundary.md` — declares the conceptual source → ingestion → validation → classification → chunking → embedding → index → retrieval → context → AI pipeline and forbids retrieved data from becoming authority.
+- `docs/architecture/MH-21-rag-security.md` — defines hostile-input treatment, classification/minimization/privacy/authorization constraints and the non-authoritative nature of retrieved text.
+- `docs/architecture/MH-21-knowledge-graph-interaction.md` — defines knowledge-graph interaction boundaries.
+
+## Classification
+
+- Trusted Sources contract declaration: IMPLEMENTED at registry level.
+- RAG/knowledge architectural boundary: PRESENT.
+- Repository-native Trusted Sources runtime: ABSENT in inspected implementation surfaces.
+- Deterministic Trusted Sources workflow tests: ABSENT in inspected implementation surfaces.
+- External retrieval/provider qualification: ABSENT.
+
+## Gate
+
+Existing repository facts justify discovery evidence only. This does not create a retrieval service, index schema, provider integration or knowledge workflow implementation, and P7.3 remains open.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p7.2-human-clone-governance-gap-reconciliation":
@@ -2873,6 +2922,8 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p7.3-trusted-sources-knowledge-workflow-gap-reconciliation":
+        checks.append(([sys.executable, "-c", "from pathlib import Path; files=('specification/contract-registry.yaml','docs/architecture/MH-21-rag-boundary.md','docs/architecture/MH-21-rag-security.md','docs/architecture/MH-21-knowledge-graph-interaction.md'); text=''.join(Path(f).read_text(encoding='utf-8') for f in files); required=('CTR-042','trusted-source discovery','retrieval','verification','provenance','change detection','evidence separation'); assert all(x in text for x in required); print('P7.3 repository contract evidence scan PASS')"], 30))
     if selected and selected.fallback_kind == "p7.2-human-clone-governance-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q",
                         "tests/ops/test_cloud_development_adapter.py",

@@ -1288,6 +1288,18 @@ def test_queue_encoding_marks_current_p51_and_p53_evidence_encoded(tmp_path, mon
     assert rows["P5.3"] == "ENCODED"
 
 
+def test_p73_trusted_sources_gap_reconciliation_is_selected_after_p72_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops").mkdir(parents=True); (tmp_path / "specification").mkdir(parents=True); (tmp_path / "docs/architecture").mkdir(parents=True); (tmp_path / "docs/ops").mkdir(parents=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text("P7.2 Enforce consent, scope, provenance, audit and revocation.\nP7.3 Implement Trusted Sources/knowledge workflows required by the subsystem.\n", encoding="utf-8")
+    (tmp_path / "docs/ops/P7-2-human-clone-governance-gap-reconciliation-2026-09-22.md").write_text("Status: DISCOVERY_RECONCILIATION / P7.2 NOT CLOSED\n", encoding="utf-8")
+    (tmp_path / "specification/contract-registry.yaml").write_text("CTR-042 trusted-source discovery retrieval verification provenance change detection evidence separation", encoding="utf-8")
+    for rel in ("docs/architecture/MH-21-rag-boundary.md","docs/architecture/MH-21-rag-security.md","docs/architecture/MH-21-knowledge-graph-interaction.md"):
+        (tmp_path / rel).write_text("retrieval provenance evidence separation knowledge", encoding="utf-8")
+    task=select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P7.3-trusted-sources-knowledge-workflow-gap-reconciliation"
+
+
 def test_p72_human_clone_governance_gap_reconciliation_is_selected_after_p71_evidence(tmp_path):
     from ops.local_autonomous_agent import select_local_task
     (tmp_path / "ops").mkdir(parents=True); (tmp_path / "specification").mkdir(parents=True); (tmp_path / "docs/ops").mkdir(parents=True); (tmp_path / "tests").mkdir(parents=True)
