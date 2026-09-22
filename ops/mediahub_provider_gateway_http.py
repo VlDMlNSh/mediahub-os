@@ -21,14 +21,24 @@ TIMEOUT = 120
 PROVIDERS = (
     Provider("opper", "api.opper.ai", 20),
     Provider("continuum", "continuumcode.ai", 30),
+    Provider("experiential", "api.experientiallabs.ai", 35),
     Provider("zhipu", "api.z.ai", 40),
 )
 # Only capabilities explicitly qualified by MediaHub are routable.
 CAPABILITIES: dict[str, frozenset[str]] = {
     "opper": frozenset({"chat_completions"}),
     "continuum": frozenset({"responses", "messages"}),
+    "experiential": frozenset({"chat_completions"}),
     "zhipu": frozenset({"chat_completions"}),
 }
+# Platform-funded/free lanes are an explicit allow-list. This is a snapshot of
+# the public catalog; stale promotional entries must fail closed, never fall back
+# to a paid Experiential lane implicitly.
+EXPERIENTIAL_FREE_MODELS = frozenset({
+    "gpt-5.6-luna",
+    "nemotron-3-ultra-550b-a55b",
+    "nemotron-3-ultra-550b-a55b-free",
+})
 PATH_PROTOCOL = {
     "/v1/responses": "responses",
     "/v1/chat/completions": "chat_completions",
@@ -68,6 +78,10 @@ def provider_target(provider: str, path: str) -> str:
         return "/v3/compat/chat/completions"
     if provider == "continuum":
         return "/v1" + suffix
+    if provider == "experiential":
+        if path != "/v1/chat/completions":
+            raise http.client.HTTPException("Experiential adapter only supports Chat Completions")
+        return "/v1/chat/completions"
     if provider == "zhipu":
         if path != "/v1/chat/completions":
             raise http.client.HTTPException("Zhipu adapter only supports Chat Completions")
@@ -80,6 +94,8 @@ def upstream(provider: str, path: str) -> tuple[str, str, str]:
         return "api.opper.ai", provider_target(provider, path), credential("mediahub-opper")
     if provider == "continuum":
         return "continuumcode.ai", provider_target(provider, path), credential("mediahub-continuum")
+    if provider == "experiential":
+        return "api.experientiallabs.ai", provider_target(provider, path), credential("mediahub-experiential")
     if provider == "zhipu":
         return "api.z.ai", provider_target(provider, path), credential("mediahub-zhipu")
     raise RuntimeError("unknown provider")
@@ -125,8 +141,9 @@ class Handler(BaseHTTPRequestHandler):
             last_error = ""
             last_status: int | None = None
             last_retry_after: str | None = None
+            model = self._request_model(body)
             for _ in range(len(PROVIDERS)):
-                decision = self._choose(protocol, excluded)
+                decision = self._choose(protocol, excluded, model)
                 if not decision.provider:
                     break
                 try:
@@ -151,10 +168,19 @@ class Handler(BaseHTTPRequestHandler):
         except Exception:  # noqa: BLE001 - fail closed at the HTTP boundary
             self.reply(502, json_error("MEDIAHUB_GATEWAY_INTERNAL_FAILURE"))
 
-    def _choose(self, protocol: str, excluded: set[str]):
-        ineligible = frozenset(
-            p.name for p in PROVIDERS if not compatible(p.name, protocol)
-        )
+    @staticmethod
+    def _request_model(body: bytes) -> str | None:
+        try:
+            value = json.loads(body)
+        except (TypeError, ValueError):
+            return None
+        model = value.get("model") if isinstance(value, dict) else None
+        return model if isinstance(model, str) else None
+
+    def _choose(self, protocol: str, excluded: set[str], model: str | None):
+        ineligible = frozenset(p.name for p in PROVIDERS if not compatible(p.name, protocol))
+        if model not in EXPERIENTIAL_FREE_MODELS:
+            ineligible = ineligible | frozenset({"experiential"})
         return GATEWAY.choose(excluded=frozenset(excluded) | ineligible)
 
     def forward(self, provider: str, path: str, body: bytes) -> tuple[int, bytes, str | None]:

@@ -10,7 +10,7 @@ def test_models_are_local_and_bounded():
 
 
 def test_provider_order_is_deterministic():
-    assert [p.name for p in module.PROVIDERS] == ["opper", "continuum", "zhipu"]
+    assert [p.name for p in module.PROVIDERS] == ["opper", "continuum", "experiential", "zhipu"]
 
 
 def test_capability_matrix_is_explicit():
@@ -19,10 +19,12 @@ def test_capability_matrix_is_explicit():
     assert "responses" not in module.CAPABILITIES["opper"]
     assert "messages" in module.CAPABILITIES["continuum"]
     assert "chat_completions" in module.CAPABILITIES["zhipu"]
+    assert "chat_completions" in module.CAPABILITIES["experiential"]
+    assert "gpt-5.6-luna" in module.EXPERIENTIAL_FREE_MODELS
 
 
 def test_upstream_paths_and_credentials(tmp_path, monkeypatch):
-    for name in ("mediahub-opper", "mediahub-continuum", "mediahub-zhipu"):
+    for name in ("mediahub-opper", "mediahub-continuum", "mediahub-zhipu", "mediahub-experiential"):
         (tmp_path / name).write_text(name + "-secret", encoding="utf-8")
     monkeypatch.setenv("CREDENTIALS_DIRECTORY", str(tmp_path))
     assert module.upstream("continuum", "/v1/responses")[1] == "/v1/responses"
@@ -30,6 +32,14 @@ def test_upstream_paths_and_credentials(tmp_path, monkeypatch):
     assert module.upstream("continuum", "/v1/responses")[1] == "/v1/responses"
     assert module.upstream("continuum", "/v1/messages")[1] == "/v1/messages"
     assert module.upstream("zhipu", "/v1/chat/completions")[1] == "/api/paas/v4/chat/completions"
+    assert module.upstream("experiential", "/v1/chat/completions")[1] == "/v1/chat/completions"
+
+
+def test_experiential_is_only_selected_for_allowlisted_free_model():
+    handler = object.__new__(module.Handler)
+    assert handler._request_model(b'{"model":"gpt-5.6-luna"}') == "gpt-5.6-luna"
+    assert handler._request_model(b'{"model":"paid-model"}') == "paid-model"
+    assert module.EXPERIENTIAL_FREE_MODELS.isdisjoint({"paid-model"})
 
 
 def test_models_payload_is_json():
