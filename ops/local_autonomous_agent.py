@@ -929,6 +929,28 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p4.5-audit-revocation-offline-degraded-gap-reconciliation",
         )
 
+    p52_evidence = root / "docs/ops/P5-2-authenticated-session-authorization-gap-reconciliation-2026-09-22.md"
+    p52_sources = (
+        root / "contracts/mobile/mobile-api-compatibility.schema.json",
+        root / "ops/ai/hybrid_session.py",
+        root / "tests/ai/test_hybrid_session.py",
+        root / "recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md",
+        root / "recovery/acceptance/F-014-phone-media-io-endpoint.md",
+        root / "recovery/accepted/F-007-users-identity-access-authorization.md",
+        root / "docs/architecture/MH-12-authentication.md",
+        root / "docs/architecture/MH-12-authorization.md",
+    )
+    if (_queue_contains(root, "P5.2 Implement authenticated session and authorization contracts.")
+            and not p52_evidence.exists()
+            and all(path.is_file() for path in p52_sources)):
+        return LocalTask(
+            "P5.2-authenticated-session-authorization-gap-reconciliation",
+            "P5.2 Implement authenticated session and authorization contracts.",
+            "docs/ops/P5-2-authenticated-session-authorization-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for P5.2. Inspect the mobile compatibility contract, existing hybrid session implementation/tests, mobile authorization acceptance records and MH-12 authentication/authorization requirements. Classify authentication, session, mobile authorization, revocation, offline/degraded semantics, deterministic tests and provenance-bound acceptance as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS. Do not infer mobile authorization from the generic hybrid session and do not invent protocol semantics.",
+            "p5.2-authenticated-session-authorization-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -997,6 +1019,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P4.3": ("docs/ops/P4-3-source-trust-stale-data-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.3 NOT CLOSED"),
     "P4.4": ("docs/ops/P4-4-external-retrieval-state-authority-boundary-verification-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P4.4 NOT CLOSED"),
     "P4.5": ("docs/ops/P4-5-audit-revocation-offline-degraded-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.5 NOT CLOSED"),
+    "P5.2": ("docs/ops/P5-2-authenticated-session-authorization-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P5.2 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1141,6 +1164,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p4.3-source-trust-stale-data-gap-reconciliation",
         "p4.4-external-retrieval-state-authority-boundary-verification",
         "p4.5-audit-revocation-offline-degraded-gap-reconciliation",
+        "p5.2-authenticated-session-authorization-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1582,6 +1606,41 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p5.2-authenticated-session-authorization-gap-reconciliation":
+        content = """# P5.2 Authenticated Session / Authorization Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P5.2 NOT CLOSED
+
+## Queue requirement
+
+`P5.2 Implement authenticated session and authorization contracts.`
+
+## Exact repository surfaces inspected
+
+- `contracts/mobile/mobile-api-compatibility.schema.json` — defines Core/Remote mobile client identity, API compatibility and online/offline/degraded connectivity states, but contains no authentication/session/authorization fields.
+- `ops/ai/hybrid_session.py` — implements a bounded autonomous hybrid-development session lifecycle with provenance, deadline, pause/resume, safe-stop, terminal states and journal restoration. This is a development-session controller, not a mobile authentication/authorization contract.
+- `tests/ai/test_hybrid_session.py` — deterministic tests cover session lifecycle, provenance mismatch, expiration, terminal states and journal validation.
+- `recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md` — requires a mobile pairing/session protocol but does not provide an executable mobile auth contract.
+- `recovery/acceptance/F-014-phone-media-io-endpoint.md` — references mobile access boundaries but does not provide the required authenticated-session implementation.
+- `recovery/accepted/F-007-users-identity-access-authorization.md` — establishes identity/access/authorization requirements and boundaries, not an executable mobile session protocol.
+- `docs/architecture/MH-12-authentication.md` — requires issuance, binding, expiration, refresh, revocation, replay resistance, failed-auth handling, rate limits/quarantine and recovery.
+- `docs/architecture/MH-12-authorization.md` — requires explicit operation-specific, identity/context/policy-aware, auditable, fail-closed authorization.
+
+## Classification
+
+- Mobile authentication contract: ABSENT.
+- Mobile authenticated-session contract: ABSENT.
+- Mobile authorization contract: ABSENT.
+- Revocation: PARTIAL at generic development-session/credential infrastructure, but no mobile authenticated-session revocation contract was identified.
+- Offline/degraded mobile authentication/authorization semantics: PARTIAL as connectivity states only; authorization semantics are ABSENT.
+- Deterministic mobile authentication/authorization tests: ABSENT. Existing hybrid-session tests validate a different development-session domain.
+- Provenance-bound mobile acceptance evidence: ABSENT.
+
+## Gate
+
+This artifact records only repository-observed evidence. It does not invent pairing, token, refresh, authorization-scope or offline-authentication semantics and does not close P5.2.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p4.5-audit-revocation-offline-degraded-gap-reconciliation":
@@ -2314,6 +2373,8 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p5.2-authenticated-session-authorization-gap-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/ai/test_hybrid_session.py", "tests/contracts/test_mobile_api_compatibility.py"], 180))
     if selected and selected.fallback_kind == "p4.5-audit-revocation-offline-degraded-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q",
                         "tests/ops/test_cloud_development_adapter.py",

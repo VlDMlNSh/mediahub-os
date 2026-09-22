@@ -1288,6 +1288,36 @@ def test_queue_encoding_marks_current_p51_and_p53_evidence_encoded(tmp_path, mon
     assert rows["P5.3"] == "ENCODED"
 
 
+def test_p52_gap_reconciliation_is_selected_after_p45_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "contracts/mobile").mkdir(parents=True)
+    (tmp_path / "ops/ai").mkdir(parents=True)
+    (tmp_path / "tests/ai").mkdir(parents=True)
+    (tmp_path / "tests/contracts").mkdir(parents=True)
+    (tmp_path / "recovery/acceptance").mkdir(parents=True)
+    (tmp_path / "recovery/accepted").mkdir(parents=True)
+    (tmp_path / "docs/architecture").mkdir(parents=True)
+    (tmp_path / "docs/ops").mkdir(parents=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text(
+        "P4.5 Add audit/revocation and offline/degraded behavior.\n"
+        "P5.2 Implement authenticated session and authorization contracts.\n", encoding="utf-8"
+    )
+    for rel in (
+        "contracts/mobile/mobile-api-compatibility.schema.json", "ops/ai/hybrid_session.py",
+        "tests/ai/test_hybrid_session.py", "tests/contracts/test_mobile_api_compatibility.py",
+        "recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md",
+        "recovery/acceptance/F-014-phone-media-io-endpoint.md",
+        "recovery/accepted/F-007-users-identity-access-authorization.md",
+        "docs/architecture/MH-12-authentication.md", "docs/architecture/MH-12-authorization.md",
+    ):
+        (tmp_path / rel).write_text("mobile session authorization revocation offline", encoding="utf-8")
+    (tmp_path / "docs/ops/P4-5-audit-revocation-offline-degraded-gap-reconciliation-2026-09-22.md").write_text(
+        "Status: DISCOVERY_RECONCILIATION / P4.5 NOT CLOSED\n", encoding="utf-8"
+    )
+    task = select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P5.2-authenticated-session-authorization-gap-reconciliation"
+
+
 def test_queue_encoding_marks_current_p45_evidence_encoded(tmp_path, monkeypatch):
     from ops.local_autonomous_agent import inspect_queue_encoding
     monkeypatch.setattr("ops.local_autonomous_agent._current_evidence_marker", lambda root, path, marker: True)
