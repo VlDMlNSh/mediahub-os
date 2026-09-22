@@ -713,6 +713,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P2.5": ("docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md", "Status: DISCOVERY_RECONCILIATION / IMPLEMENTATION NOT AUTHORIZED BY THIS RECORD"),
         "P2.7": ("docs/ops/P2-7-ai-cloud-authority-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P2.7 NOT CLOSED"),
         "P3.1": ("docs/ops/P3-1-media-domain-lifecycle-inventory-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P3.1 NOT CLOSED"),
+        "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.1": (
             "recovery/reconciliation-report.md",
             "## P0.1 current control-point reconciliation — 2026-09-21",
@@ -799,7 +800,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     if (root / "ops/mediahub_provider_gateway.py").is_file() and p14_gateway.is_file() and p14_resilience.is_file() and p14_evidence.is_file():
         encoded["P1.4"] = "P1.4 Complete provider selector and fallback semantics, including offline/degraded behavior."
     rows: list[QueueEncoding] = []
-    for match in re.finditer(r"(?m)^P(\d+\.\d+)\s+(.+)$", text):
+    for match in re.finditer(r"(?m)^P(\d+(?:\.\d+)+)\s+(.+)$", text):
         queue_id = "P" + match.group(1)
         description = match.group(2).strip()
         rows.append(QueueEncoding(queue_id, description, "ENCODED" if queue_id in encoded else "NEEDS_ENCODING"))

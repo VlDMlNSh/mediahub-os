@@ -923,3 +923,18 @@ def test_raw_queue_compiler_encodes_p051_from_existing_daemon_contract(tmp_path)
     task = compile_next_raw_queue_task(tmp_path)
     assert task is not None
     assert task.task_id == "P0.5.1-terminal-checkpoint-startup-verification"
+
+def test_multisegment_evidence_marker_encodes_current_p051_queue_row(tmp_path, monkeypatch):
+    from ops.local_autonomous_agent import inspect_queue_encoding
+    monkeypatch.setattr("ops.local_autonomous_agent._current_evidence_marker", lambda root, path, marker: True)
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "docs" / "ops").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.5.1 Terminal checkpoint startup: classify an exact-identity terminal journal tail as a clean daemon stop; never revive it or create a new identity.\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "docs" / "ops" / "P0-5-1-terminal-checkpoint-startup-2026-09-22.md").write_text(
+        "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED\n", encoding="utf-8"
+    )
+    rows = inspect_queue_encoding(tmp_path)
+    assert next(row for row in rows if row.queue_id == "P0.5.1").status == "ENCODED"
