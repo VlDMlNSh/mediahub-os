@@ -845,6 +845,27 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p4.1-document-ingestion-index-search-gap-reconciliation",
         )
 
+    p42_evidence = root / "docs/ops/P4-2-trusted-sources-intelligence-gap-reconciliation-2026-09-22.md"
+    p42_sources = (
+        root / "specification/contract-registry.yaml",
+        root / "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        root / "docs/architecture/MH-21-rag-boundary.md",
+        root / "docs/architecture/MH-21-rag-security.md",
+        root / "docs/architecture/MH-21-cloud-boundary.md",
+        root / "docs/architecture/MH-21-data-egress.md",
+        root / "docs/architecture/MH-21-audit.md",
+    )
+    if (_queue_contains(root, "P4.2 Complete Trusted Sources Intelligence Engine boundaries: discovery, retrieval, verification, provenance, evidence and knowledge.")
+            and not p42_evidence.exists()
+            and all(path.is_file() for path in p42_sources)):
+        return LocalTask(
+            "P4.2-trusted-sources-intelligence-gap-reconciliation",
+            "P4.2 Complete Trusted Sources Intelligence Engine boundaries: discovery, retrieval, verification, provenance, evidence and knowledge.",
+            "docs/ops/P4-2-trusted-sources-intelligence-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the P4.2 acceptance-surface gap. Inspect the contract registry, functional baseline and existing RAG/cloud/security/audit architecture; classify Trusted Sources discovery, retrieval, verification, provenance, evidence and knowledge boundaries as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not infer implementation from architecture declarations and do not claim P4.2 closed.",
+            "p4.2-trusted-sources-intelligence-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -908,6 +929,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P3.4": ("docs/ops/P3-4-media-authorization-storage-retention-recovery-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.4 NOT CLOSED"),
     "P3.5": ("docs/ops/P3-5-media-integration-failure-injection-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.5 NOT CLOSED"),
     "P3.6": ("docs/ops/P3-6-media-benchmark-resource-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.6 NOT CLOSED"),
+    "P4.1": ("docs/ops/P4-1-document-ingestion-index-search-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.1 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1048,6 +1070,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p3.5-media-integration-failure-injection-gap-reconciliation",
         "p3.6-media-benchmark-resource-gap-reconciliation",
         "p4.1-document-ingestion-index-search-gap-reconciliation",
+        "p4.2-trusted-sources-intelligence-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1489,6 +1512,39 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p4.2-trusted-sources-intelligence-gap-reconciliation":
+        content = """# P4.2 Trusted Sources Intelligence Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P4.2 NOT CLOSED
+
+## Queue requirement
+
+`P4.2 Complete Trusted Sources Intelligence Engine boundaries: discovery, retrieval, verification, provenance, evidence and knowledge.`
+
+## Exact architecture/contract surfaces inspected
+
+- `specification/contract-registry.yaml` — CTR-042 defines trusted-source discovery, retrieval, verification, provenance and evidence management; required semantics include source trust policy, retrieval, verification, provenance, change detection, evidence separation and audit.
+- `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` — defines Trusted Sources Intelligence Engine as a first-class Cloud Development AI subsystem covering discovery, source search/classification, retrieval, verification, provenance and source comparison.
+- `docs/architecture/MH-21-rag-boundary.md` — defines a RAG flow including ingestion, retrieval and result handling; retrieved context is untrusted data.
+- `docs/architecture/MH-21-rag-security.md` — defines hostile-document handling, provenance, classification, privacy and authorization boundaries.
+- `docs/architecture/MH-21-cloud-boundary.md` — defines bounded external-compute transfer and validation/provenance/policy/authorization on returned data.
+- `docs/architecture/MH-21-data-egress.md` — requires bounded, authorized handling of sensitive data and destinations.
+- `docs/architecture/MH-21-audit.md` — requires provenance/audit context for workloads and results.
+
+## Classification
+
+- Trusted Sources discovery implementation contract: ABSENT as an executable acceptance surface.
+- Trusted Sources retrieval implementation contract: ABSENT as an executable acceptance surface.
+- Trusted Sources verification implementation contract: ABSENT as an executable acceptance surface.
+- Trusted Sources provenance/evidence implementation contract: ABSENT as an executable acceptance surface.
+- Trusted Sources knowledge integration implementation contract: ABSENT as an executable acceptance surface.
+- Architecture/requirements: PRESENT, but declarations are not implementation evidence.
+
+## Gate
+
+This artifact records only the factual acceptance-surface gap. It does not invent source ranking, trust scoring, crawlers, retrieval providers, knowledge schemas, change-detection algorithms or external execution. A future P4.2 implementation task requires explicit bounded contracts, deterministic tests, provenance-bound evidence and fail-closed treatment of retrieved data.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p4.1-document-ingestion-index-search-gap-reconciliation":
@@ -2096,6 +2152,9 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p4.2-trusted-sources-intelligence-gap-reconciliation":
+        checks.append(([sys.executable, "-c",
+                        "from pathlib import Path; files=('specification/contract-registry.yaml','specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','docs/architecture/MH-21-rag-boundary.md','docs/architecture/MH-21-rag-security.md','docs/architecture/MH-21-cloud-boundary.md','docs/architecture/MH-21-data-egress.md','docs/architecture/MH-21-audit.md'); text=''.join(Path(f).read_text(encoding='utf-8').lower() for f in files); required=('trusted-source','retrieval','verification','provenance','evidence'); assert all(x in text for x in required); print('P4.2 architecture evidence scan PASS')"], 30))
     if selected and selected.fallback_kind == "p4.1-document-ingestion-index-search-gap-reconciliation":
         checks.append(([sys.executable, "-c",
                         "from pathlib import Path; files=('specification/contract-registry.yaml','specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','docs/architecture/MH-21-rag-boundary.md','docs/architecture/MH-21-rag-security.md','docs/architecture/MH-21-resource-governance.md'); text=''.join(Path(f).read_text(encoding='utf-8').lower() for f in files); required=('document','ingestion','index','search'); assert all(x in text for x in required); print('P4.1 architecture evidence scan PASS')"], 30))
