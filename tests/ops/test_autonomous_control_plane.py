@@ -194,6 +194,22 @@ def test_p12_admission_evidence_task_is_selected_when_missing(tmp_path):
     assert task.task_id == "P1.2-execution-admission-verification"
 
 
+def test_queue_encoding_marks_current_p02_evidence_encoded(tmp_path, monkeypatch):
+    from ops.local_autonomous_agent import inspect_queue_encoding
+
+    monkeypatch.setattr("ops.local_autonomous_agent._current_evidence_marker", lambda root, path, marker: marker.startswith("## P0.2"))
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "recovery").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.2 Persist this master queue and generate machine-readable ownership/provenance only if justified by existing architecture.\n", encoding="utf-8"
+    )
+    (tmp_path / "recovery" / "reconciliation-report.md").write_text(
+        "## P0.2 master-queue ownership/provenance reconciliation — 2026-09-22\n", encoding="utf-8"
+    )
+    rows = inspect_queue_encoding(tmp_path)
+    assert rows[0].status == "ENCODED"
+
+
 def test_p25_reconciliation_evidence_is_encoded_when_marker_is_current(tmp_path, monkeypatch):
     from ops.local_autonomous_agent import inspect_queue_encoding
     monkeypatch.setattr("ops.local_autonomous_agent._current_evidence_marker", lambda root, path, marker: True)

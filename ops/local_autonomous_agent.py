@@ -787,6 +787,10 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
             "recovery/reconciliation-report.md",
             "## P2.6 Home Assistant source-of-truth verification — 2026-09-21",
         ),
+        "P0.2": (
+            "recovery/reconciliation-report.md",
+            "## P0.2 master-queue ownership/provenance reconciliation — 2026-09-22",
+        ),
     }
     for queue_id, (relative_path, marker) in queue_evidence.items():
         if _current_evidence_marker(root, relative_path, marker):
