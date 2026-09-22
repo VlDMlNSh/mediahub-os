@@ -1288,6 +1288,17 @@ def test_queue_encoding_marks_current_p51_and_p53_evidence_encoded(tmp_path, mon
     assert rows["P5.3"] == "ENCODED"
 
 
+def test_p63_gap_reconciliation_is_selected_after_p62_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "specification").mkdir(parents=True); (tmp_path / "docs/architecture").mkdir(parents=True); (tmp_path / "tests/security").mkdir(parents=True); (tmp_path / "ops").mkdir(parents=True); (tmp_path / "docs/ops").mkdir(parents=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text("P6.2 Implement each provider through bounded adapters.\nP6.3 Enforce consent, authorization, command provenance and replay protection.\n",encoding="utf-8")
+    for rel in ("specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md","docs/architecture/MH-12-authentication.md","docs/architecture/MH-12-authorization.md","docs/architecture/MH-21-device-interaction.md","tests/security/test_mh05_bypass_audit.py"):
+        (tmp_path / rel).write_text("consent authorization provenance replay",encoding="utf-8")
+    (tmp_path / "docs/ops/P6-2-voice-provider-adapter-gap-reconciliation-2026-09-22.md").write_text("Status: DISCOVERY_RECONCILIATION / P6.2 NOT CLOSED\n",encoding="utf-8")
+    task=select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P6.3-voice-consent-authorization-provenance-replay-gap-reconciliation"
+
+
 def test_p62_gap_reconciliation_is_selected_after_p61_evidence(tmp_path):
     from ops.local_autonomous_agent import select_local_task
     (tmp_path / "specification").mkdir(parents=True); (tmp_path / "ops").mkdir(parents=True); (tmp_path / "docs/ops").mkdir(parents=True)

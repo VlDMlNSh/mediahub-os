@@ -1044,6 +1044,25 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p6.2-voice-provider-adapter-gap-reconciliation",
         )
 
+    p63_evidence = root / "docs/ops/P6-3-voice-consent-authorization-provenance-replay-gap-reconciliation-2026-09-22.md"
+    p63_sources = (
+        root / "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        root / "docs/architecture/MH-12-authentication.md",
+        root / "docs/architecture/MH-12-authorization.md",
+        root / "docs/architecture/MH-21-device-interaction.md",
+        root / "tests/security/test_mh05_bypass_audit.py",
+    )
+    if (_queue_contains(root, "P6.3 Enforce consent, authorization, command provenance and replay protection.")
+            and not p63_evidence.exists()
+            and all(path.is_file() for path in p63_sources)):
+        return LocalTask(
+            "P6.3-voice-consent-authorization-provenance-replay-gap-reconciliation",
+            "P6.3 Enforce consent, authorization, command provenance and replay protection.",
+            "docs/ops/P6-3-voice-consent-authorization-provenance-replay-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for voice consent, authorization, command provenance and replay protection. Inspect existing normative authentication/authorization/device-boundary surfaces and negative tests; classify voice-specific acceptance as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS. Do not infer voice-specific semantics from generic security infrastructure and do not execute providers.",
+            "p6.3-voice-consent-authorization-provenance-replay-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -1118,6 +1137,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P5.6": ("docs/ops/P5-6-ios-integration-lifecycle-accessibility-security-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P5.6 NOT CLOSED"),
     "P6.1": ("docs/ops/P6-1-voice-provider-order-gap-reconciliation-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P6.1 NOT CLOSED"),
     "P6.2": ("docs/ops/P6-2-voice-provider-adapter-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P6.2 NOT CLOSED"),
+    "P6.3": ("docs/ops/P6-3-voice-consent-authorization-provenance-replay-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P6.3 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1268,6 +1288,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p5.6-ios-integration-lifecycle-accessibility-security-gap-reconciliation",
         "p6.1-voice-provider-order-gap-reconciliation",
         "p6.2-voice-provider-adapter-gap-reconciliation",
+        "p6.3-voice-consent-authorization-provenance-replay-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1709,6 +1730,36 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p6.3-voice-consent-authorization-provenance-replay-gap-reconciliation":
+        content = """# P6.3 Voice Consent / Authorization / Provenance / Replay Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P6.3 NOT CLOSED
+
+## Queue requirement
+
+`P6.3 Enforce consent, authorization, command provenance and replay protection.`
+
+## Exact repository evidence
+
+- `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` — requires voice/appearance authorization, provenance, audit and revocation at the broader platform level.
+- `docs/architecture/MH-12-authentication.md` — requires authentication lifecycle, revocation and replay resistance.
+- `docs/architecture/MH-12-authorization.md` — requires explicit operation-specific, identity/context/policy-aware, auditable and fail-closed authorization.
+- `docs/architecture/MH-21-device-interaction.md` — constrains remote commands through validation, policy, authorization and Consumer Boundary.
+- `tests/security/test_mh05_bypass_audit.py` — provides negative generic command-boundary coverage, not voice-specific acceptance.
+
+## Classification
+
+- Voice-specific consent contract: ABSENT.
+- Voice-specific authorization contract: ABSENT.
+- Voice command provenance contract: ABSENT.
+- Voice replay-protection tests: ABSENT.
+- Generic platform security boundaries: PRESENT/PARTIAL, but insufficient for voice-specific closure.
+
+## Gate
+
+No voice provider was executed and no voice-specific protocol semantics were invented. P6.3 remains open.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p6.2-voice-provider-adapter-gap-reconciliation":
@@ -2619,6 +2670,8 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p6.3-voice-consent-authorization-provenance-replay-gap-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/security/test_mh05_bypass_audit.py"], 120))
     if selected and selected.fallback_kind == "p6.2-voice-provider-adapter-gap-reconciliation":
         checks.append(([str(ROOT / "ops/verify_functional_baseline.sh")], 120))
     if selected and selected.fallback_kind == "p6.1-voice-provider-order-gap-reconciliation":
