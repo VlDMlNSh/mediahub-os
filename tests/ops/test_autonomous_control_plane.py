@@ -962,6 +962,30 @@ def test_p32_gap_reconciliation_is_selected_when_media_acceptance_is_missing(tmp
     assert task is not None and task.task_id == "P3.2-ingestion-metadata-index-gap-reconciliation"
 
 
+def test_p36_gap_reconciliation_is_selected_after_p35_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "tests").mkdir(parents=True)
+    (tmp_path / "docs/ops").mkdir(parents=True)
+    (tmp_path / "recovery/acceptance").mkdir(parents=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text(
+        "P3.5 Add integration and failure-injection tests.\n"
+        "P3.6 Benchmark bounded media operations and resource limits.\n", encoding="utf-8"
+    )
+    for rel in (
+        "ops/mediahub_streaming_boundary.py", "tests/test_mediahub_streaming_boundary.py",
+        "ops/mediahub_cluster_resources.py", "tests/test_mediahub_cluster_resources.py",
+        "recovery/acceptance/F-010-personal-media-library-ingestion-sync.md",
+        "recovery/acceptance/F-012-media-playback-live-media-streaming.md",
+    ):
+        (tmp_path / rel).write_text("", encoding="utf-8")
+    (tmp_path / "docs/ops/P3-5-media-integration-failure-injection-gap-reconciliation-2026-09-22.md").write_text(
+        "Status: DISCOVERY_RECONCILIATION / P3.5 NOT CLOSED\n", encoding="utf-8"
+    )
+    task = select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P3.6-media-benchmark-resource-gap-reconciliation"
+
+
 def test_p35_gap_reconciliation_is_selected_after_p34_evidence(tmp_path):
     from ops.local_autonomous_agent import select_local_task
     (tmp_path / "ops").mkdir(parents=True)

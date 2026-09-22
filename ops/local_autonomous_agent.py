@@ -804,6 +804,28 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p3.5-media-integration-failure-injection-gap-reconciliation",
         )
 
+    # P3.6 has generic resource/failover surfaces but no bounded media
+    # benchmark acceptance pair. Encode only the factual performance gap.
+    p36_evidence = root / "docs/ops/P3-6-media-benchmark-resource-gap-reconciliation-2026-09-22.md"
+    p36_sources = (
+        root / "ops/mediahub_streaming_boundary.py",
+        root / "tests/test_mediahub_streaming_boundary.py",
+        root / "ops/mediahub_cluster_resources.py",
+        root / "tests/test_mediahub_cluster_resources.py",
+        root / "recovery/acceptance/F-010-personal-media-library-ingestion-sync.md",
+        root / "recovery/acceptance/F-012-media-playback-live-media-streaming.md",
+    )
+    if (_queue_contains(root, "P3.6 Benchmark bounded media operations and resource limits.")
+            and not p36_evidence.exists()
+            and all(path.is_file() for path in p36_sources)):
+        return LocalTask(
+            "P3.6-media-benchmark-resource-gap-reconciliation",
+            "P3.6 Benchmark bounded media operations and resource limits.",
+            "docs/ops/P3-6-media-benchmark-resource-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the P3.6 acceptance-surface gap. Inspect accepted media workload requirements plus existing streaming and generic cluster-resource tests; classify bounded media benchmark coverage and media-specific resource limits as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not invent benchmark targets or treat generic resource tests as media benchmark acceptance, and do not claim P3.6 closed.",
+            "p3.6-media-benchmark-resource-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -1002,6 +1024,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p3.3-playback-control-gap-reconciliation",
         "p3.4-media-authorization-storage-retention-recovery-gap-reconciliation",
         "p3.5-media-integration-failure-injection-gap-reconciliation",
+        "p3.6-media-benchmark-resource-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1443,6 +1466,37 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p3.6-media-benchmark-resource-gap-reconciliation":
+        content = """# P3.6 Media Benchmark / Resource-Limit Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P3.6 NOT CLOSED
+
+## Queue requirement
+
+`P3.6 Benchmark bounded media operations and resource limits.`
+
+## Media workload requirements
+
+- `recovery/acceptance/F-010-personal-media-library-ingestion-sync.md` requires media ingestion, synchronization, offline-first behavior and cluster-backed storage/indexing/processing.
+- `recovery/acceptance/F-012-media-playback-live-media-streaming.md` requires unified playback, live media, streaming, endpoints, 4K where supported, transcoding and cluster distribution. Concrete codecs, profiles and protocols remain deferred.
+
+## Exact implementation/test surfaces inspected
+
+- `ops/mediahub_streaming_boundary.py` and `tests/test_mediahub_streaming_boundary.py` — bounded provider-neutral streaming transport parsing/tests; no throughput, latency or resource benchmark contract.
+- `ops/mediahub_cluster_resources.py` and `tests/test_mediahub_cluster_resources.py` — generic cluster resource accounting/constraints; not media workload benchmark acceptance.
+
+## Classification
+
+- Bounded media benchmark acceptance: ABSENT in the inspected implementation/test surface.
+- Media-specific resource-limit benchmark acceptance: ABSENT in the inspected implementation/test surface.
+- Generic streaming/resource tests: PRESENT but insufficient to satisfy P3.6.
+- Media workload requirements: PRESENT in accepted recovery documents; several technical performance dimensions remain deferred.
+
+## Gate
+
+This artifact records the factual gap only. It does not invent benchmark targets, hardware profiles, throughput limits, latency budgets, codec profiles, or production behavior. A future P3.6 implementation task requires explicit bounded workloads, measurable resource/latency criteria, deterministic benchmark execution, and provenance-bound evidence.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p3.5-media-integration-failure-injection-gap-reconciliation":
@@ -1990,6 +2044,10 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p3.6-media-benchmark-resource-gap-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q",
+                        "tests/test_mediahub_streaming_boundary.py",
+                        "tests/test_mediahub_cluster_resources.py"], 180))
     if selected and selected.fallback_kind == "p3.5-media-integration-failure-injection-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q",
                         "tests/test_mediahub_lifecycle_contract.py",
