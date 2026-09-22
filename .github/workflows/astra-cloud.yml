@@ -1,0 +1,20 @@
+name: Astra Cloud Runtime Validation
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [astra-cloud-bootstrap]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate contracts
+        run: python3 tools/validate_contracts.py
+      - name: Astra Cloud tests
+        run: python3 -m unittest tests/runtime_ai/test_astra_cloud.py
