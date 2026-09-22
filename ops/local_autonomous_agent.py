@@ -906,6 +906,29 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p4.4-external-retrieval-state-authority-boundary-verification",
         )
 
+    p45_evidence = root / "docs/ops/P4-5-audit-revocation-offline-degraded-gap-reconciliation-2026-09-22.md"
+    p45_sources = (
+        root / "ops/cloud_development_adapter.py",
+        root / "ops/mediahub_credential_broker.py",
+        root / "ops/mediahub_resilience.py",
+        root / "tests/ops/test_cloud_development_adapter.py",
+        root / "tests/test_mediahub_credential_broker.py",
+        root / "tests/test_mediahub_resilience.py",
+        root / "docs/architecture/MH-21-audit.md",
+        root / "docs/architecture/MH-21-provider-quarantine.md",
+        root / "docs/architecture/MH-21-offline-mode.md",
+    )
+    if (_queue_contains(root, "P4.5 Add audit/revocation and offline/degraded behavior.")
+            and not p45_evidence.exists()
+            and all(path.is_file() for path in p45_sources)):
+        return LocalTask(
+            "P4.5-audit-revocation-offline-degraded-gap-reconciliation",
+            "P4.5 Add audit/revocation and offline/degraded behavior.",
+            "docs/ops/P4-5-audit-revocation-offline-degraded-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the P4.5 acceptance surface. Inspect existing audit/revocation/offline/degraded architecture and deterministic cloud-adapter, credential-broker and resilience tests; classify audit, revocation and offline/degraded behavior as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not perform live cloud execution, acquire credentials, or claim P4.5 globally closed.",
+            "p4.5-audit-revocation-offline-degraded-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -972,6 +995,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P4.1": ("docs/ops/P4-1-document-ingestion-index-search-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.1 NOT CLOSED"),
     "P4.2": ("docs/ops/P4-2-trusted-sources-intelligence-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.2 NOT CLOSED"),
     "P4.3": ("docs/ops/P4-3-source-trust-stale-data-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.3 NOT CLOSED"),
+    "P4.4": ("docs/ops/P4-4-external-retrieval-state-authority-boundary-verification-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P4.4 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1115,6 +1139,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p4.2-trusted-sources-intelligence-gap-reconciliation",
         "p4.3-source-trust-stale-data-gap-reconciliation",
         "p4.4-external-retrieval-state-authority-boundary-verification",
+        "p4.5-audit-revocation-offline-degraded-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1556,6 +1581,39 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p4.5-audit-revocation-offline-degraded-gap-reconciliation":
+        content = """# P4.5 Audit / Revocation / Offline-Degraded Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P4.5 NOT CLOSED
+
+## Queue requirement
+
+`P4.5 Add audit/revocation and offline/degraded behavior.`
+
+## Exact implementation/test surfaces inspected
+
+- `ops/cloud_development_adapter.py` — records bounded authorization, timeout, provider outcome and revocation events; revoked adapters fail closed.
+- `ops/mediahub_credential_broker.py` — enforces authorization/revocation at credential materialization and exposes terminal revocation.
+- `ops/mediahub_resilience.py` — defines bounded provider failure classification and resilience behavior.
+- `tests/ops/test_cloud_development_adapter.py` — deterministic audit, timeout and revocation negative paths.
+- `tests/test_mediahub_credential_broker.py` — deterministic terminal revocation tests.
+- `tests/test_mediahub_resilience.py` — deterministic transient-failure/failover behavior.
+- `docs/architecture/MH-21-audit.md` — normative audit requirements.
+- `docs/architecture/MH-21-provider-quarantine.md` — normative provider blocking/quarantine lifecycle.
+- `docs/architecture/MH-21-offline-mode.md` — normative full-offline, degraded-connectivity and emergency-offline modes.
+
+## Classification
+
+- Audit implementation/test surface: PRESENT for inspected cloud-development paths, but not proven for all P4.2 retrieval flows.
+- Revocation implementation/test surface: PRESENT and fail-closed for inspected adapter/credential paths.
+- Offline/degraded implementation/test surface: PARTIAL; generic provider resilience exists, but no end-to-end Trusted Sources offline/degraded acceptance surface was identified.
+- Full P4.5 end-to-end acceptance: ABSENT.
+
+## Gate
+
+This artifact records the bounded local evidence only. It does not perform cloud execution, acquire credentials, invent offline semantics, or claim global P4.5 completion. A future closure task requires retrieval-specific audit/revocation evidence and deterministic offline/degraded scenarios.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p4.4-external-retrieval-state-authority-boundary-verification":
@@ -2255,6 +2313,11 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p4.5-audit-revocation-offline-degraded-gap-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q",
+                        "tests/ops/test_cloud_development_adapter.py",
+                        "tests/test_mediahub_credential_broker.py",
+                        "tests/test_mediahub_resilience.py"], 180))
     if selected and selected.fallback_kind == "p4.4-external-retrieval-state-authority-boundary-verification":
         checks.append(([sys.executable, "-m", "pytest", "-q",
                         "tests/security/test_mh05_systemwide_reachability.py",

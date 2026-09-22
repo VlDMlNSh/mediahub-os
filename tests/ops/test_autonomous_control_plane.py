@@ -962,6 +962,31 @@ def test_p32_gap_reconciliation_is_selected_when_media_acceptance_is_missing(tmp
     assert task is not None and task.task_id == "P3.2-ingestion-metadata-index-gap-reconciliation"
 
 
+def test_p45_gap_reconciliation_is_selected_after_p44_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "tests/ops").mkdir(parents=True)
+    (tmp_path / "tests").mkdir(exist_ok=True)
+    (tmp_path / "docs/architecture").mkdir(parents=True)
+    (tmp_path / "docs/ops").mkdir(parents=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text(
+        "P4.4 Ensure external retrieval cannot mutate State Authority directly.\n"
+        "P4.5 Add audit/revocation and offline/degraded behavior.\n", encoding="utf-8"
+    )
+    for rel in (
+        "ops/cloud_development_adapter.py", "ops/mediahub_credential_broker.py", "ops/mediahub_resilience.py",
+        "tests/ops/test_cloud_development_adapter.py", "tests/test_mediahub_credential_broker.py",
+        "tests/test_mediahub_resilience.py", "docs/architecture/MH-21-audit.md",
+        "docs/architecture/MH-21-provider-quarantine.md", "docs/architecture/MH-21-offline-mode.md",
+    ):
+        (tmp_path / rel).write_text("audit revocation offline degraded", encoding="utf-8")
+    (tmp_path / "docs/ops/P4-4-external-retrieval-state-authority-boundary-verification-2026-09-22.md").write_text(
+        "Status: VERIFIED_LOCAL_SUBSCOPE / P4.4 NOT CLOSED\n", encoding="utf-8"
+    )
+    task = select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P4.5-audit-revocation-offline-degraded-gap-reconciliation"
+
+
 def test_p44_authority_boundary_verification_is_selected_after_p43_evidence(tmp_path):
     from ops.local_autonomous_agent import select_local_task
     (tmp_path / "ops/ai").mkdir(parents=True)
