@@ -803,6 +803,14 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
             "docs/architecture/MH-12-evidence-register.md",
             "P9.5 credential broker revocation isolation",
         ),
+        "P9.6": (
+            "tests/runtime/test_mh05_consumer_boundary.py",
+            "def test_malformed_value_shapes_are_rejected(self):",
+        ),
+        "P9.7": (
+            "tests/security/test_mh05_restore_security.py",
+            "def test_tampered_checkpoint_state_cannot_restore(self):",
+        ),
         "P9.1": (
             "docs/security/P9.1-threat-model-refresh-2026-09-19.md",
             "# P9.1 — Threat Model Refresh",

@@ -1062,6 +1062,21 @@ def test_queue_encoding_marks_current_p91_evidence_encoded(tmp_path, monkeypatch
     assert rows["P9.1"] == "ENCODED"
 
 
+def test_queue_encoding_marks_current_p96_and_p97_evidence_encoded(tmp_path, monkeypatch):
+    from ops.local_autonomous_agent import inspect_queue_encoding
+    monkeypatch.setattr("ops.local_autonomous_agent._current_evidence_marker", lambda root, path, marker: True)
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "tests" / "runtime").mkdir(parents=True)
+    (tmp_path / "tests" / "security").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P9.6 Fuzz/malformed-input tests for public contracts where justified.\n"
+        "P9.7 Recovery and tamper-evidence tests.\n", encoding="utf-8"
+    )
+    rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
+    assert rows["P9.6"] == "ENCODED"
+    assert rows["P9.7"] == "ENCODED"
+
+
 def test_queue_encoding_marks_current_p95_evidence_encoded(tmp_path, monkeypatch):
     from ops.local_autonomous_agent import inspect_queue_encoding
     monkeypatch.setattr("ops.local_autonomous_agent._current_evidence_marker", lambda root, path, marker: True)

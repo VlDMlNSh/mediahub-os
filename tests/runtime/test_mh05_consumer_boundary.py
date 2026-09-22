@@ -87,8 +87,7 @@ class ConsumerBoundaryTests(unittest.TestCase):
             ("runtime", "x" * 257),
         ]
         for source, correlation in malformed:
-            with self.subTest(source=source, correlation=correlation):
-                with self.assertRaises(ConsumerBoundaryError):
+            with self.subTest(source=source, correlation=correlation), self.assertRaises(ConsumerBoundaryError):
                     self.boundary.request(source, correlation, self.allowed)
         self.assertEqual(self.authority.metadata()["event_sequence"], 0)
 
@@ -101,8 +100,7 @@ class ConsumerBoundaryTests(unittest.TestCase):
             ("set", ("value",), ""),
         ]
         for operation, path, command_id in cases:
-            with self.subTest(operation=operation, path=path, command_id=command_id):
-                with self.assertRaises(ConsumerBoundaryError):
+            with self.subTest(operation=operation, path=path, command_id=command_id), self.assertRaises(ConsumerBoundaryError):
                     self.boundary.execute(request, operation, path, 2, command_id=command_id)
         self.assertEqual(self.authority.metadata()["event_sequence"], 0)
 
@@ -118,8 +116,7 @@ class ConsumerBoundaryTests(unittest.TestCase):
             object(),
         ]
         for value in malformed_values:
-            with self.subTest(value_type=type(value).__name__):
-                with self.assertRaises(ConsumerBoundaryError):
+            with self.subTest(value_type=type(value).__name__), self.assertRaises(ConsumerBoundaryError):
                     self.boundary.execute(request, "set", ("value",), value, command_id="malformed-value")
         self.assertEqual(self.authority.metadata()["event_sequence"], 0)
 

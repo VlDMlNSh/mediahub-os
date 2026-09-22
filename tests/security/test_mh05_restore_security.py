@@ -5,8 +5,8 @@ from mediahub_runtime.state_authority import (
     AuthorityUnavailable,
     AuthorizationContext,
     AuthorizationDenied,
-    InvalidCommand,
     Command,
+    InvalidCommand,
 )
 
 
