@@ -920,6 +920,27 @@ def test_queue_encoding_rejects_stale_copied_evidence_not_in_head(tmp_path):
     assert rows["P0.6"] == "NEEDS_ENCODING"
 
 
+def test_p33_gap_reconciliation_is_selected_after_p32_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "tests").mkdir(parents=True)
+    (tmp_path / "docs/ops").mkdir(parents=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text(
+        "P3.2 Implement/qualify ingestion and metadata/index contracts.\n"
+        "P3.3 Implement/qualify playback/control contracts.\n", encoding="utf-8"
+    )
+    for rel in (
+        "ops/mediahub_lifecycle_contract.py", "tests/test_mediahub_lifecycle_contract.py",
+        "ops/mediahub_streaming_boundary.py", "tests/test_mediahub_streaming_boundary.py",
+    ):
+        (tmp_path / rel).write_text("", encoding="utf-8")
+    (tmp_path / "docs/ops/P3-2-ingestion-metadata-index-gap-reconciliation-2026-09-22.md").write_text(
+        "Status: DISCOVERY_RECONCILIATION / P3.2 NOT CLOSED\n", encoding="utf-8"
+    )
+    task = select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P3.3-playback-control-gap-reconciliation"
+
+
 def test_p32_gap_reconciliation_is_selected_when_media_acceptance_is_missing(tmp_path):
     from ops.local_autonomous_agent import select_local_task
     (tmp_path / "ops").mkdir(parents=True)

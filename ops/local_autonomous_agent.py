@@ -718,6 +718,25 @@ def select_local_task(root: Path) -> LocalTask | None:
     # P3.2 has no media-specific ingestion/metadata/index acceptance pair.
     # Encode only a factual discovery artifact so the controller can progress
     # without inventing media semantics.
+    p33_evidence = root / "docs/ops/P3-3-playback-control-gap-reconciliation-2026-09-22.md"
+    p33_sources = (
+        root / "ops/mediahub_streaming_boundary.py",
+        root / "tests/test_mediahub_streaming_boundary.py",
+        root / "ops/mediahub_lifecycle_contract.py",
+        root / "tests/test_mediahub_lifecycle_contract.py",
+    )
+    if (_queue_contains(root, "P3.3 Implement/qualify playback/control contracts.")
+            and not p33_evidence.exists()
+            and all(path.is_file() for path in p33_sources)
+            and (root / "docs/ops/P3-2-ingestion-metadata-index-gap-reconciliation-2026-09-22.md").is_file()):
+        return LocalTask(
+            "P3.3-playback-control-gap-reconciliation",
+            "P3.3 Implement/qualify playback/control contracts.",
+            "docs/ops/P3-3-playback-control-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the P3.3 acceptance-surface gap. Inspect only existing streaming/lifecycle surfaces and tests; classify playback and control as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not infer playback/control semantics from transport parsing and do not claim P3.3 closed.",
+            "p3.3-playback-control-gap-reconciliation",
+        )
+
     p32_evidence = root / "docs/ops/P3-2-ingestion-metadata-index-gap-reconciliation-2026-09-22.md"
     p32_sources = (
         root / "ops/mediahub_lifecycle_contract.py",
@@ -734,6 +753,7 @@ def select_local_task(root: Path) -> LocalTask | None:
             "docs/ops/P3-2-ingestion-metadata-index-gap-reconciliation-2026-09-22.md",
             "Record deterministic repository evidence for the P3.2 acceptance-surface gap. Inspect only existing media lifecycle/streaming surfaces and tests; classify ingestion, metadata and indexing as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not invent media semantics, do not qualify streaming transport as playback, and do not claim P3.2 closed.",
             "p3.2-ingestion-metadata-index-gap-reconciliation",
+        "p3.3-playback-control-gap-reconciliation",
         )
 
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
@@ -795,6 +815,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P2.7": ("docs/ops/P2-7-ai-cloud-authority-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P2.7 NOT CLOSED"),
         "P3.1": ("docs/ops/P3-1-media-domain-lifecycle-inventory-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P3.1 NOT CLOSED"),
     "P3.2": ("docs/ops/P3-2-ingestion-metadata-index-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.2 NOT CLOSED"),
+    "P3.3": ("docs/ops/P3-3-playback-control-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.3 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1371,6 +1392,34 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p3.3-playback-control-gap-reconciliation":
+        content = """# P3.3 Playback / Control Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P3.3 NOT CLOSED
+
+## Queue requirement
+
+`P3.3 Implement/qualify playback/control contracts.`
+
+## Exact repository surfaces inspected
+
+- `ops/mediahub_streaming_boundary.py` — provider-neutral streaming transport parsing/boundary.
+- `tests/test_mediahub_streaming_boundary.py` — deterministic streaming-boundary tests.
+- `ops/mediahub_lifecycle_contract.py` — generic lifecycle/persistence/version contract.
+- `tests/test_mediahub_lifecycle_contract.py` — deterministic lifecycle contract tests.
+
+## Classification
+
+- Playback contract: ABSENT in the inspected media-specific repository surface.
+- Control contract: ABSENT in the inspected media-specific repository surface.
+- Streaming transport boundary: PRESENT, but transport parsing does not establish playback or control semantics.
+- Generic lifecycle contract: PRESENT, but insufficient to satisfy P3.3.
+
+## Gate
+
+This artifact only encodes the factual acceptance-surface gap. It does not add playback/control semantics, implementation, qualification, or production authority. A future P3.3 implementation task requires explicit media playback/control contracts, deterministic tests, and provenance-bound acceptance evidence.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p3.2-ingestion-metadata-index-gap-reconciliation":
