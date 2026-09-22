@@ -962,6 +962,33 @@ def test_p32_gap_reconciliation_is_selected_when_media_acceptance_is_missing(tmp
     assert task is not None and task.task_id == "P3.2-ingestion-metadata-index-gap-reconciliation"
 
 
+def test_p44_authority_boundary_verification_is_selected_after_p43_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops/ai").mkdir(parents=True)
+    (tmp_path / "tests/security").mkdir(parents=True)
+    (tmp_path / "tests/ops").mkdir(parents=True)
+    (tmp_path / "docs/architecture").mkdir(parents=True)
+    (tmp_path / "docs/ops").mkdir(parents=True)
+    (tmp_path / "ops").mkdir(exist_ok=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text(
+        "P4.3 Add source trust/verification and stale-data handling.\n"
+        "P4.4 Ensure external retrieval cannot mutate State Authority directly.\n", encoding="utf-8"
+    )
+    for rel in (
+        "docs/architecture/MH-21-cloud-boundary.md", "docs/architecture/MH-21-security-invariants.md",
+        "docs/architecture/MH-21-rag-boundary.md", "docs/architecture/MH-21-rag-security.md",
+        "ops/ai/ai_adapter.py", "ops/cloud_development_adapter.py",
+        "tests/security/test_mh05_systemwide_reachability.py", "tests/security/test_ai_adapter.py",
+        "tests/ops/test_cloud_development_adapter.py",
+    ):
+        (tmp_path / rel).write_text("state authority retrieval rag", encoding="utf-8")
+    (tmp_path / "docs/ops/P4-3-source-trust-stale-data-gap-reconciliation-2026-09-22.md").write_text(
+        "Status: DISCOVERY_RECONCILIATION / P4.3 NOT CLOSED\n", encoding="utf-8"
+    )
+    task = select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P4.4-external-retrieval-state-authority-boundary-verification"
+
+
 def test_p43_gap_reconciliation_is_selected_after_p42_evidence(tmp_path):
     from ops.local_autonomous_agent import select_local_task
     (tmp_path / "ops").mkdir(parents=True)

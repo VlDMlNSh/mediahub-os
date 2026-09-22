@@ -885,6 +885,27 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p4.3-source-trust-stale-data-gap-reconciliation",
         )
 
+    p44_evidence = root / "docs/ops/P4-4-external-retrieval-state-authority-boundary-verification-2026-09-22.md"
+    p44_sources = (
+        root / "docs/architecture/MH-21-cloud-boundary.md",
+        root / "docs/architecture/MH-21-security-invariants.md",
+        root / "docs/architecture/MH-21-rag-boundary.md",
+        root / "docs/architecture/MH-21-rag-security.md",
+        root / "ops/ai/ai_adapter.py",
+        root / "ops/cloud_development_adapter.py",
+        root / "tests/security/test_mh05_systemwide_reachability.py",
+    )
+    if (_queue_contains(root, "P4.4 Ensure external retrieval cannot mutate State Authority directly.")
+            and not p44_evidence.exists()
+            and all(path.is_file() for path in p44_sources)):
+        return LocalTask(
+            "P4.4-external-retrieval-state-authority-boundary-verification",
+            "P4.4 Ensure external retrieval cannot mutate State Authority directly.",
+            "docs/ops/P4-4-external-retrieval-state-authority-boundary-verification-2026-09-22.md",
+            "Record deterministic local verification evidence for the external retrieval/RAG to State Authority boundary. Inspect the existing cloud/RAG authority declarations, forbidden-capability adapters and reachability tests; classify the boundary as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not access external retrieval services, mutate State Authority, or claim P4.4 production/runtime completion.",
+            "p4.4-external-retrieval-state-authority-boundary-verification",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -950,6 +971,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P3.6": ("docs/ops/P3-6-media-benchmark-resource-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.6 NOT CLOSED"),
     "P4.1": ("docs/ops/P4-1-document-ingestion-index-search-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.1 NOT CLOSED"),
     "P4.2": ("docs/ops/P4-2-trusted-sources-intelligence-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.2 NOT CLOSED"),
+    "P4.3": ("docs/ops/P4-3-source-trust-stale-data-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.3 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1092,6 +1114,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p4.1-document-ingestion-index-search-gap-reconciliation",
         "p4.2-trusted-sources-intelligence-gap-reconciliation",
         "p4.3-source-trust-stale-data-gap-reconciliation",
+        "p4.4-external-retrieval-state-authority-boundary-verification",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1533,6 +1556,36 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p4.4-external-retrieval-state-authority-boundary-verification":
+        content = """# P4.4 External Retrieval / State Authority Boundary Verification
+
+Status: VERIFIED_LOCAL_SUBSCOPE / P4.4 NOT CLOSED
+
+## Queue requirement
+
+`P4.4 Ensure external retrieval cannot mutate State Authority directly.`
+
+## Exact repository surfaces inspected
+
+- `docs/architecture/MH-21-cloud-boundary.md` — explicitly defines the approved external-compute path through validation, provenance, policy, authorization and Consumer Boundary; direct Cloud → State Authority is forbidden.
+- `docs/architecture/MH-21-security-invariants.md` — states that RAG context and remote results are data and cloud cannot self-authorize or mutate canonical state.
+- `docs/architecture/MH-21-rag-boundary.md` — treats retrieved context as untrusted data and not authority.
+- `docs/architecture/MH-21-rag-security.md` — treats documents/retrieved text as hostile or untrusted input subject to classification, privacy and authorization.
+- `ops/ai/ai_adapter.py` — deny-by-default forbidden capability set includes `state-authority`.
+- `ops/cloud_development_adapter.py` — deny-by-default forbidden capability set includes `state-authority`.
+- `tests/security/test_mh05_systemwide_reachability.py` — deterministic reachability checks cover confinement of canonical authority storage.
+
+## Classification
+
+- Architectural external-retrieval → State Authority boundary: IMPLEMENTED as an explicit deny/direct-path prohibition.
+- Local adapter forbidden-capability boundary: IMPLEMENTED for inspected AI/cloud adapters.
+- End-to-end external retrieval runtime proof: ABSENT; no live external retrieval or production path was executed.
+
+## Gate
+
+This evidence qualifies only the repository-local authority boundary. It does not prove all possible runtime/network paths, authorize external retrieval, mutate State Authority, or close P4.4 globally.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p4.3-source-trust-stale-data-gap-reconciliation":
@@ -2202,6 +2255,11 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p4.4-external-retrieval-state-authority-boundary-verification":
+        checks.append(([sys.executable, "-m", "pytest", "-q",
+                        "tests/security/test_mh05_systemwide_reachability.py",
+                        "tests/security/test_ai_adapter.py",
+                        "tests/ops/test_cloud_development_adapter.py"], 180))
     if selected and selected.fallback_kind == "p4.3-source-trust-stale-data-gap-reconciliation":
         checks.append(([sys.executable, "-c",
                         "from pathlib import Path; files=('specification/contract-registry.yaml','specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','docs/architecture/MH-21-provider-trust.md','docs/architecture/MH-21-rag-security.md','docs/architecture/MH-21-unknowns.md'); text=''.join(Path(f).read_text(encoding='utf-8').lower() for f in files); required=('trust','verification','retention','change detection'); assert all(x in text for x in required); print('P4.3 architecture evidence scan PASS')"], 30))
