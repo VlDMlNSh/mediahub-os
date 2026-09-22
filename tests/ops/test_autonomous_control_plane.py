@@ -962,6 +962,29 @@ def test_p32_gap_reconciliation_is_selected_when_media_acceptance_is_missing(tmp
     assert task is not None and task.task_id == "P3.2-ingestion-metadata-index-gap-reconciliation"
 
 
+def test_p34_gap_reconciliation_is_selected_after_p33_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "tests/security").mkdir(parents=True)
+    (tmp_path / "docs/ops").mkdir(parents=True)
+    (tmp_path / "runtime/mediahub_runtime").mkdir(parents=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text(
+        "P3.3 Implement/qualify playback/control contracts.\n"
+        "P3.4 Validate authorization, storage, retention and recovery semantics.\n", encoding="utf-8"
+    )
+    for rel in (
+        "ops/mediahub_lifecycle_contract.py", "tests/test_mediahub_lifecycle_contract.py",
+        "ops/mediahub_streaming_boundary.py", "tests/test_mediahub_streaming_boundary.py",
+        "runtime/mediahub_runtime/state_authority.py", "tests/security/test_mh05_restore_security.py",
+    ):
+        (tmp_path / rel).write_text("", encoding="utf-8")
+    (tmp_path / "docs/ops/P3-3-playback-control-gap-reconciliation-2026-09-22.md").write_text(
+        "Status: DISCOVERY_RECONCILIATION / P3.3 NOT CLOSED\n", encoding="utf-8"
+    )
+    task = select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P3.4-media-authorization-storage-retention-recovery-gap-reconciliation"
+
+
 def test_p31_media_domain_inventory_is_selected_from_existing_contract_surface(tmp_path):
     from ops.local_autonomous_agent import select_local_task
     (tmp_path / "ops").mkdir(parents=True)

@@ -755,6 +755,30 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p3.2-ingestion-metadata-index-gap-reconciliation",
         )
 
+    # P3.4 has no media-specific authorization/storage/retention/recovery
+    # acceptance pair. Encode only a factual discovery artifact from the
+    # existing media lifecycle/streaming surfaces and explicit generic
+    # security/recovery components; do not infer media semantics.
+    p34_evidence = root / "docs/ops/P3-4-media-authorization-storage-retention-recovery-gap-reconciliation-2026-09-22.md"
+    p34_sources = (
+        root / "ops/mediahub_lifecycle_contract.py",
+        root / "tests/test_mediahub_lifecycle_contract.py",
+        root / "ops/mediahub_streaming_boundary.py",
+        root / "tests/test_mediahub_streaming_boundary.py",
+        root / "runtime/mediahub_runtime/state_authority.py",
+        root / "tests/security/test_mh05_restore_security.py",
+    )
+    if (_queue_contains(root, "P3.4 Validate authorization, storage, retention and recovery semantics.")
+            and not p34_evidence.exists()
+            and all(path.is_file() for path in p34_sources)):
+        return LocalTask(
+            "P3.4-media-authorization-storage-retention-recovery-gap-reconciliation",
+            "P3.4 Validate authorization, storage, retention and recovery semantics.",
+            "docs/ops/P3-4-media-authorization-storage-retention-recovery-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the P3.4 acceptance-surface gap. Inspect only existing media lifecycle/streaming surfaces plus explicit generic authority/recovery components; classify media authorization, storage, retention and recovery as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not infer media semantics from generic infrastructure and do not claim P3.4 closed.",
+            "p3.4-media-authorization-storage-retention-recovery-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -951,6 +975,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p3.1-media-domain-lifecycle-inventory",
         "p3.2-ingestion-metadata-index-gap-reconciliation",
         "p3.3-playback-control-gap-reconciliation",
+        "p3.4-media-authorization-storage-retention-recovery-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1392,6 +1417,37 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p3.4-media-authorization-storage-retention-recovery-gap-reconciliation":
+        content = """# P3.4 Media Authorization / Storage / Retention / Recovery Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P3.4 NOT CLOSED
+
+## Queue requirement
+
+`P3.4 Validate authorization, storage, retention and recovery semantics.`
+
+## Exact repository surfaces inspected
+
+- `ops/mediahub_lifecycle_contract.py` — generic lifecycle/persistence/version/migration contract; no media authorization, storage or retention policy.
+- `tests/test_mediahub_lifecycle_contract.py` — deterministic generic lifecycle tests.
+- `ops/mediahub_streaming_boundary.py` — provider-neutral streaming transport boundary; no media storage or retention semantics.
+- `tests/test_mediahub_streaming_boundary.py` — deterministic streaming-boundary tests.
+- `runtime/mediahub_runtime/state_authority.py` — canonical generic state authority; not a media authorization/storage/retention contract.
+- `tests/security/test_mh05_restore_security.py` — generic restore/tamper security tests; not media-specific recovery acceptance.
+
+## Classification
+
+- Media authorization contract: ABSENT in the inspected media-specific repository surface.
+- Media storage contract: ABSENT in the inspected media-specific repository surface.
+- Media retention contract: ABSENT in the inspected media-specific repository surface.
+- Media recovery contract: ABSENT as a media-specific acceptance surface.
+- Generic lifecycle, authority and restore-security components: PRESENT but insufficient to satisfy P3.4.
+
+## Gate
+
+This artifact records only the factual acceptance-surface gap. It does not invent media policy, storage backends, retention rules, recovery workflows, or production authority. A future P3.4 implementation task requires explicit media-specific contracts, deterministic tests, and provenance-bound acceptance evidence.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p3.3-playback-control-gap-reconciliation":
@@ -1875,6 +1931,11 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p3.4-media-authorization-storage-retention-recovery-gap-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q",
+                        "tests/test_mediahub_lifecycle_contract.py",
+                        "tests/test_mediahub_streaming_boundary.py",
+                        "tests/security/test_mh05_restore_security.py"], 180))
     if selected and selected.task_id.startswith("P2.3-"):
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_lifecycle_contract.py"], 180))
     elif selected and selected.task_id.startswith("P2.4-"):
