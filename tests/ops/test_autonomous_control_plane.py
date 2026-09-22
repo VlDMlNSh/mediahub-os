@@ -227,6 +227,44 @@ def test_p05_delivery_recovery_increment_is_selected_when_prior_markers_are_clos
     assert selected.task_id == "P0.5-delivery-identity-recovery-test"
 
 
+def test_raw_queue_compiler_turns_factual_p02_item_into_bounded_reconciliation_task(tmp_path):
+    from ops.local_autonomous_agent import compile_next_raw_queue_task
+
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "recovery").mkdir(parents=True)
+    (tmp_path / "docs" / "ops" / "control-plane").mkdir(parents=True)
+    (tmp_path / "specification").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.2 Persist this master queue and generate machine-readable ownership/provenance only if justified by existing architecture.\n", encoding="utf-8"
+    )
+    (tmp_path / "recovery" / "reconciliation-report.md").write_text("# Reconciliation\n", encoding="utf-8")
+    (tmp_path / "docs" / "ops" / "control-plane" / "MH01-23-QUEUE-DISPATCH-2026-09-19.yaml").write_text("version: 1\n", encoding="utf-8")
+    for name in ("capability-registry.yaml", "contract-registry.yaml", "dependency-graph.yaml", "invariant-registry.yaml"):
+        (tmp_path / "specification" / name).write_text("version: 1\n", encoding="utf-8")
+    task = compile_next_raw_queue_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P0.2-master-queue-ownership-provenance-reconciliation"
+    assert task.target == "recovery/reconciliation-report.md"
+    assert task.fallback_kind == "p0.2-master-queue-ownership-provenance-reconciliation"
+
+
+def test_p02_compiler_requires_existing_architecture_sources(tmp_path):
+    from ops.local_autonomous_agent import compile_next_raw_queue_task
+
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "recovery").mkdir(parents=True)
+    (tmp_path / "docs" / "ops" / "control-plane").mkdir(parents=True)
+    (tmp_path / "specification").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.2 Persist this master queue and generate machine-readable ownership/provenance only if justified by existing architecture.\n", encoding="utf-8"
+    )
+    (tmp_path / "recovery" / "reconciliation-report.md").write_text("# Reconciliation\n", encoding="utf-8")
+    (tmp_path / "docs" / "ops" / "control-plane" / "MH01-23-QUEUE-DISPATCH-2026-09-19.yaml").write_text("version: 1\n", encoding="utf-8")
+    for name in ("capability-registry.yaml", "contract-registry.yaml", "dependency-graph.yaml"):
+        (tmp_path / "specification" / name).write_text("version: 1\n", encoding="utf-8")
+    assert compile_next_raw_queue_task(tmp_path) is None
+
+
 def test_raw_queue_compiler_turns_factual_p05_item_into_bounded_task(tmp_path):
     from ops.local_autonomous_agent import compile_next_raw_queue_task, read_raw_queue
 

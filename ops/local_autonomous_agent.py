@@ -180,6 +180,48 @@ def _compile_p051_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None
     )
 
 
+def _compile_p02_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "recovery/reconciliation-report.md"
+    dispatch = root / "docs/ops/control-plane/MH01-23-QUEUE-DISPATCH-2026-09-19.yaml"
+    queue = root / "ops/local_autonomous_tasks.md"
+    registries = (
+        root / "specification/capability-registry.yaml",
+        root / "specification/contract-registry.yaml",
+        root / "specification/dependency-graph.yaml",
+        root / "specification/invariant-registry.yaml",
+    )
+    if not target.is_file() or not dispatch.is_file() or not queue.is_file() or not all(path.is_file() for path in registries):
+        return None
+    marker = "## P0.2 master-queue ownership/provenance reconciliation — 2026-09-22"
+    if marker in target.read_text(encoding="utf-8"):
+        return None
+    def git(*args: str) -> str:
+        result = subprocess.run([str(GIT), *args], cwd=root, text=True, capture_output=True, check=False)  # nosec B603
+        return result.stdout.strip() if result.returncode == 0 else ""
+    head = git("rev-parse", "HEAD")
+    tree = git("rev-parse", "HEAD^{tree}")
+    branches = [line.removeprefix("branch refs/heads/") for line in git("worktree", "list", "--porcelain").splitlines() if line.startswith("branch refs/heads/")]
+    queue_sha = hashlib.sha256(queue.read_bytes()).hexdigest()
+    dispatch_sha = hashlib.sha256(dispatch.read_bytes()).hexdigest()
+    stale_lanes = []
+    for line in dispatch.read_text(encoding="utf-8").splitlines():
+        if line.startswith("  mh-") and ":" in line:
+            lane, task_name = line.strip().split(":", 1)
+            if not any(branch.startswith(f"engineering/{lane}-") for branch in branches):
+                stale_lanes.append(f"{lane}: {task_name.strip()}")
+    snapshot = {
+        "head": head, "tree": tree, "queue_sha256": queue_sha, "dispatch_sha256": dispatch_sha,
+        "branches": branches, "stale_dispatch_references": stale_lanes,
+    }
+    return LocalTask(
+        "P0.2-master-queue-ownership-provenance-reconciliation",
+        f"P0.2 {item.description}",
+        "recovery/reconciliation-report.md",
+        "Append a deterministic machine-readable P0.2 ownership/provenance reconciliation from existing queue/dispatch/governance artifacts. Projection snapshot computed at compilation: " + json.dumps(snapshot, sort_keys=True) + ". Treat the YAML as projection only; do not grant authority, invent ownership, mutate R4, modify parallel lanes, or infer semantics absent from existing artifacts. Explicitly classify stale dispatch references.",
+        "p0.2-master-queue-ownership-provenance-reconciliation",
+    )
+
+
 def _compile_p052_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     tests = root / "tests/ai/test_hybrid_development_daemon.py"
     daemon = root / "ops/ai/hybrid_development_daemon.py"
@@ -198,7 +240,7 @@ def _compile_p052_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None
     )
 
 
-RAW_QUEUE_COMPILERS = {"P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+RAW_QUEUE_COMPILERS = {"P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
@@ -1414,6 +1456,38 @@ The controller writes this artifact only after executing the verification comman
             return ""
         content = """\n\n## P2.6 Home Assistant source-of-truth verification — 2026-09-21\n\nStatus: VERIFIED_LOCAL_SUBSCOPE / P2.6 NOT CLOSED\n\nScope: verify only the existing normative functional-baseline statements and control gates. No Home Assistant runtime access, State Authority mutation, provider execution, or production operation is part of this task.\n\nAcceptance evidence: `ops/verify_functional_baseline.sh` is the repository-native deterministic gate. It requires the normative functional baseline, governance and invariant registry to identify Home Assistant Core, MediaHub State Authority, the canonical AI escalation path, locked release state and unauthorized production state; it also requires exact R4 ancestry and R4 tree identity.\n\nArchitectural boundary: this evidence confirms the repository's declared source-of-truth boundary. It does not qualify an operational Home Assistant adapter, runtime integration, command path, or production deployment.\n"""
         return unified_patch(old, old.rstrip() + content, target)
+    if task.fallback_kind == "p0.2-master-queue-ownership-provenance-reconciliation":
+        old = path.read_text(encoding="utf-8")
+        marker = "## P0.2 master-queue ownership/provenance reconciliation — 2026-09-22"
+        if marker in old:
+            return ""
+        snapshot = task.instruction.split("Projection snapshot computed at compilation: ", 1)[1].split(". Treat the YAML", 1)[0]
+        data = json.loads(snapshot)
+        lines = [
+            "```yaml",
+            "p02_projection_version: 1",
+            f"source_head: {data['head']}",
+            f"source_tree: {data['tree']}",
+            f"queue_sha256: {data['queue_sha256']}",
+            f"dispatch_sha256: {data['dispatch_sha256']}",
+            "projection_only: true",
+            "authority_grant: false",
+            "r4_mutation: false",
+            "existing_architecture_sources:",
+            "  - specification/capability-registry.yaml",
+            "  - specification/contract-registry.yaml",
+            "  - specification/dependency-graph.yaml",
+            "  - specification/invariant-registry.yaml",
+            "  - docs/ops/control-plane/MH01-23-QUEUE-DISPATCH-2026-09-19.yaml",
+            "stale_dispatch_references:",
+        ]
+        lines.extend(f"  - {x}" for x in data["stale_dispatch_references"] or ["none-observed"])
+        lines.append("worktree_branch_inventory:")
+        lines.extend(f"  - {x}" for x in data["branches"] or ["none-observed"])
+        lines.append("``")
+        yaml = "\n".join(lines)
+        content = f"""\n\n## P0.2 master-queue ownership/provenance reconciliation — 2026-09-22\n\nStatus: VERIFIED_LOCAL_SUBSCOPE / P0.2 NOT CLOSED\n\nScope: reconcile the existing persisted master queue with the repository's existing machine-readable dispatch and governance registries. This record is a projection only and does not create authority or replace canonical registries.\n\n{yaml}\n\nAcceptance boundary: the projection is bound to the exact current-tree HEAD/tree and queue/dispatch hashes captured at compilation, inventories observed worktree branches, and explicitly reports dispatch references that do not correspond to observed live worktree branches.\n\nGovernance boundary: no R4 mutation, history rewrite, merge, parallel-lane modification, credential access, production authorization, or State Authority mutation is performed.\n"""
+        return unified_patch(old, old.rstrip() + content, target)
     if task.fallback_kind == "p0.1-current-control-point-reconciliation":
         old = path.read_text(encoding="utf-8")
         marker = "## P0.1 current control-point reconciliation — 2026-09-21"
@@ -1686,7 +1760,7 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/security/test_native_agent_launcher.py"], 180))
     elif selected and selected.fallback_kind == "p1.2-execution-admission-verification":
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_native_execution.py"], 180))
-    elif selected and selected.fallback_kind == "p0.3-controller-watchdog-verification":
+    elif selected and selected.fallback_kind in {"p0.2-master-queue-ownership-provenance-reconciliation", "p0.3-controller-watchdog-verification"}:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/ops/test_autonomous_control_plane.py"], 180))
     elif selected and selected.fallback_kind == "p2.4-cluster-membership-failover-verification":
         checks.append(([sys.executable, "-m", "pytest", "-q",
