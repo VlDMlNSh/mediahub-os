@@ -21,11 +21,13 @@ TIMEOUT = 120
 PROVIDERS = (
     Provider("opper", "api.opper.ai", 20),
     Provider("continuum", "continuumcode.ai", 30),
+    Provider("zhipu", "api.z.ai", 40),
 )
 # Only capabilities explicitly qualified by MediaHub are routable.
 CAPABILITIES: dict[str, frozenset[str]] = {
     "opper": frozenset({"chat_completions"}),
     "continuum": frozenset({"responses", "messages"}),
+    "zhipu": frozenset({"chat_completions"}),
 }
 PATH_PROTOCOL = {
     "/v1/responses": "responses",
@@ -66,6 +68,10 @@ def provider_target(provider: str, path: str) -> str:
         return "/v3/compat/chat/completions"
     if provider == "continuum":
         return "/v1" + suffix
+    if provider == "zhipu":
+        if path != "/v1/chat/completions":
+            raise http.client.HTTPException("Zhipu adapter only supports Chat Completions")
+        return "/api/paas/v4/chat/completions"
     raise RuntimeError("unknown provider")
 
 
@@ -74,6 +80,8 @@ def upstream(provider: str, path: str) -> tuple[str, str, str]:
         return "api.opper.ai", provider_target(provider, path), credential("mediahub-opper")
     if provider == "continuum":
         return "continuumcode.ai", provider_target(provider, path), credential("mediahub-continuum")
+    if provider == "zhipu":
+        return "api.z.ai", provider_target(provider, path), credential("mediahub-zhipu")
     raise RuntimeError("unknown provider")
 
 

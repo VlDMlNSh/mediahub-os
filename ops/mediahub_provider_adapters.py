@@ -94,4 +94,11 @@ class AnthropicMessagesAdapter(NativeProviderAdapter):
         return CanonicalFailure(request.request_id, self.provider, FailureClass.TRANSIENT if result.status in {408,425,429,500,502,503,504} else FailureClass.PERMANENT, "provider request failed", result.status, retryable=result.status in {408,425,429,500,502,503,504})
 
 
-ADAPTERS = {"openai": OpenAIResponsesAdapter, "anthropic": AnthropicMessagesAdapter}
+from ops.mediahub_zhipu_adapter import ZhipuGLMAdapter
+
+
+ADAPTERS = {
+    "openai": OpenAIResponsesAdapter,
+    "anthropic": AnthropicMessagesAdapter,
+    "zhipu": ZhipuGLMAdapter,
+}

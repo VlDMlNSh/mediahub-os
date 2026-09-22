@@ -10,7 +10,7 @@ def test_models_are_local_and_bounded():
 
 
 def test_provider_order_is_deterministic():
-    assert [p.name for p in module.PROVIDERS] == ["opper", "continuum"]
+    assert [p.name for p in module.PROVIDERS] == ["opper", "continuum", "zhipu"]
 
 
 def test_capability_matrix_is_explicit():
@@ -18,16 +18,18 @@ def test_capability_matrix_is_explicit():
     assert "chat_completions" in module.CAPABILITIES["opper"]
     assert "responses" not in module.CAPABILITIES["opper"]
     assert "messages" in module.CAPABILITIES["continuum"]
+    assert "chat_completions" in module.CAPABILITIES["zhipu"]
 
 
 def test_upstream_paths_and_credentials(tmp_path, monkeypatch):
-    for name in ("mediahub-opper", "mediahub-continuum"):
+    for name in ("mediahub-opper", "mediahub-continuum", "mediahub-zhipu"):
         (tmp_path / name).write_text(name + "-secret", encoding="utf-8")
     monkeypatch.setenv("CREDENTIALS_DIRECTORY", str(tmp_path))
     assert module.upstream("continuum", "/v1/responses")[1] == "/v1/responses"
     assert module.upstream("opper", "/v1/chat/completions")[1] == "/v3/compat/chat/completions"
     assert module.upstream("continuum", "/v1/responses")[1] == "/v1/responses"
     assert module.upstream("continuum", "/v1/messages")[1] == "/v1/messages"
+    assert module.upstream("zhipu", "/v1/chat/completions")[1] == "/api/paas/v4/chat/completions"
 
 
 def test_models_payload_is_json():
