@@ -1,6 +1,8 @@
-"""MH-21 host execution proposal boundary for Astra.
-This module prepares, but does not perform, host execution. Host trust and
-authorization are explicit; enrollment is not inferred from reachability.
+"""MH-21 bounded Astra-to-host proposal boundary.
+
+This module admits a host execution *proposal* only. It never executes a
+command, resolves credentials, mutates State Authority, or grants device
+authority. Host reachability and enrollment are not authorization.
 """
 from __future__ import annotations
 
@@ -17,6 +19,7 @@ class HostTrust(StrEnum):
     VERIFIED = "VERIFIED"
     ENROLLED = "ENROLLED"
     AUTHORIZED = "AUTHORIZED"
+    ACTIVE = "ACTIVE"
     SUSPENDED = "SUSPENDED"
     QUARANTINED = "QUARANTINED"
     REVOKED = "REVOKED"
@@ -33,24 +36,49 @@ class HostExecutionProposal:
     output_limit_bytes: int
     trust: HostTrust
     authorization_id: str
+    capabilities: frozenset[str]
 
 
 class AstraHostGateway:
-    """Translate an approved Astra task into a bounded host proposal."""
+    """Translate an approved Astra task into a bounded, non-executing proposal."""
 
     MAX_TIMEOUT_SECONDS = 900
     MAX_OUTPUT_BYTES = 1_048_576
+    REQUIRED_CAPABILITY = "host.execute"
 
     @classmethod
-    def propose(cls, *, request_id: str, host_id: str, workload_id: str,
-                source_sha: str, command: str, timeout_seconds: int,
-                output_limit_bytes: int, trust: HostTrust,
-                authorization_id: str) -> HostExecutionProposal:
-        values = (request_id, host_id, workload_id, source_sha, command, authorization_id)
-        if any(not isinstance(value, str) or not value or value.strip() != value for value in values):
+    def propose(
+        cls,
+        *,
+        request_id: str,
+        host_id: str,
+        workload_id: str,
+        source_sha: str,
+        expected_source_sha: str,
+        command: str,
+        timeout_seconds: int,
+        output_limit_bytes: int,
+        trust: HostTrust,
+        authorization_id: str,
+        capabilities: frozenset[str],
+    ) -> HostExecutionProposal:
+        values = (
+            request_id, host_id, workload_id, source_sha,
+            expected_source_sha, command, authorization_id,
+        )
+        if any(
+            not isinstance(value, str) or not value or value.strip() != value
+            for value in values
+        ):
             raise HostGatewayDenied("host proposal identity is invalid")
-        if trust is not HostTrust.AUTHORIZED:
-            raise HostGatewayDenied("host is not explicitly authorized")
+        if source_sha != expected_source_sha:
+            raise HostGatewayDenied("host proposal provenance does not match task")
+        if trust is not HostTrust.ACTIVE:
+            raise HostGatewayDenied("host is not active and explicitly authorized")
+        if not isinstance(capabilities, frozenset):
+            raise HostGatewayDenied("host capabilities are invalid")
+        if cls.REQUIRED_CAPABILITY not in capabilities:
+            raise HostGatewayDenied("required host capability is absent")
         if not isinstance(timeout_seconds, int) or isinstance(timeout_seconds, bool):
             raise HostGatewayDenied("timeout is invalid")
         if not 1 <= timeout_seconds <= cls.MAX_TIMEOUT_SECONDS:
@@ -62,6 +90,14 @@ class AstraHostGateway:
         if len(command.encode("utf-8")) > 64 * 1024:
             raise HostGatewayDenied("command exceeds bounded size")
         return HostExecutionProposal(
-            request_id, host_id, workload_id, source_sha, command,
-            timeout_seconds, output_limit_bytes, trust, authorization_id,
+            request_id=request_id,
+            host_id=host_id,
+            workload_id=workload_id,
+            source_sha=source_sha,
+            command=command,
+            timeout_seconds=timeout_seconds,
+            output_limit_bytes=output_limit_bytes,
+            trust=trust,
+            authorization_id=authorization_id,
+            capabilities=capabilities,
         )
