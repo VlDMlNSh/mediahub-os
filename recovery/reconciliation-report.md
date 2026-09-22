@@ -87,3 +87,96 @@ Scope: verify only the existing normative functional-baseline statements and con
 Acceptance evidence: `ops/verify_functional_baseline.sh` is the repository-native deterministic gate. It requires the normative functional baseline, governance and invariant registry to identify Home Assistant Core, MediaHub State Authority, the canonical AI escalation path, locked release state and unauthorized production state; it also requires exact R4 ancestry and R4 tree identity.
 
 Architectural boundary: this evidence confirms the repository's declared source-of-truth boundary. It does not qualify an operational Home Assistant adapter, runtime integration, command path, or production deployment.
+
+## P0.2 master-queue ownership/provenance reconciliation — 2026-09-22
+
+Status: VERIFIED_LOCAL_SUBSCOPE / P0.2 NOT CLOSED
+
+Scope: reconcile the existing persisted master queue with the repository's existing machine-readable dispatch and governance registries. This record is a projection only and does not create authority or replace canonical registries.
+
+```yaml
+p02_projection_version: 1
+source_head: ab52504e3e3e2f85cd22b064df9d392a01175a0b
+source_tree: 79ddd9622167e1341a39982ad375f50c7412aa03
+queue_sha256: f4e069fe5b68fe9b67315e8899d091562b1f8a1581d2cbcbb44533a82efdc9c9
+dispatch_sha256: 7b5a8a7d4656b9c928648ef774263210634983c4fc09f24939949c75dfecdfc6
+projection_only: true
+authority_grant: false
+r4_mutation: false
+existing_architecture_sources:
+  - specification/capability-registry.yaml
+  - specification/contract-registry.yaml
+  - specification/dependency-graph.yaml
+  - specification/invariant-registry.yaml
+  - docs/ops/control-plane/MH01-23-QUEUE-DISPATCH-2026-09-19.yaml
+stale_dispatch_references:
+  - mh-1: P0.6
+  - mh-2: P2.1
+  - mh-3: P0.4
+  - mh-4: P2.4
+  - mh-5: P0.3
+  - mh-6: P1.3
+  - mh-7: P1.3
+  - mh-8: P1.5
+  - mh-9: P1.6
+  - mh-10: P1.6
+  - mh-11: P1.7
+  - mh-12: P9.1
+  - mh-13: P1.2
+  - mh-14: P9.4
+  - mh-15: P0.4
+  - mh-16: P10.1
+  - mh-17: P3.1
+  - mh-18: P4.1
+  - mh-19: P5.3
+  - mh-20: P6.1
+  - mh-21: P8.1
+  - mh-22: P11.1
+  - mh-23: P0.1
+worktree_branch_inventory:
+  - engineering/mh21-sandbox-lifecycle-20260910
+  - parallel/cluster-failover
+  - parallel/cluster-health
+  - parallel/cluster-lifecycle
+  - parallel/cluster-membership
+  - parallel/core-egress
+  - parallel/core-model
+  - parallel/core-provider
+  - parallel/core-resilience
+  - parallel/core-state
+  - engineering/mh01-pr80-reconciliation-20260918
+  - engineering/mh10-cloud-adapter-readiness-20260918
+  - engineering/mh11-codex-readiness-20260918
+  - engineering/mh12-security-redteam-20260918
+  - engineering/mh14-p94-sandbox-authority-20260919
+  - engineering/mh19-p5.3-mobile-api-compatibility-20260919
+  - engineering/mh04-execution-admission-redteam-20260918
+  - engineering/mh05-recovery-audit-20260918
+  - engineering/mh07-ai-registry-20260919
+  - engineering/mh08-plugin-extension-continuation-20260919
+  - parallel/native-headers
+  - parallel/native-proposal
+  - parallel/native-recovery
+  - parallel/native-target
+  - parallel/native-tests
+  - parallel/native-tests2
+  - autonomous/claude-os-build
+  - controller-hardening/evidence-encoders-20260921
+  - controller-hardening/p02-queue-provenance-20260922
+  - controller-hardening/p052-terminal-provenance-20260921
+  - controller-hardening/p07-readiness-20260921
+  - controller-hardening/p12-admission-types-20260921
+  - controller-hardening/p12-fallback-field-20260921
+  - controller-hardening/p12-fallback-fix-20260921
+  - controller-hardening/p27-authority-verification-20260921
+  - controller-hardening/queue-compiler-20260921
+  - controller-hardening/queue-compiler-p01-20260921
+  - controller-hardening/queue-compiler-p06-20260921
+  - controller-hardening/queue-compiler-p26-20260921
+  - recovery/p05-delivery-provenance-20260921
+  - evidence/mh-22-pr80-reconciliation
+``
+
+Acceptance boundary: the projection is bound to the exact current-tree HEAD/tree and queue/dispatch hashes captured at compilation, inventories observed worktree branches, and explicitly reports dispatch references that do not correspond to observed live worktree branches.
+
+Governance boundary: no R4 mutation, history rewrite, merge, parallel-lane modification, credential access, production authorization, or State Authority mutation is performed.
