@@ -2098,7 +2098,7 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([str(RUFF), "check", verify_target], 120))
     if selected and selected.fallback_kind == "p4.1-document-ingestion-index-search-gap-reconciliation":
         checks.append(([sys.executable, "-c",
-                        "from pathlib import Path; files=('specification/contract-registry.yaml','specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','docs/architecture/MH-21-rag-boundary.md','docs/architecture/MH-21-rag-security.md','docs/architecture/MH-21-resource-governance.md'); text='\n'.join(Path(f).read_text(encoding='utf-8').lower() for f in files); required=('document','ingestion','index','search'); assert all(x in text for x in required); print('P4.1 architecture evidence scan PASS')"], 30))
+                        "from pathlib import Path; files=('specification/contract-registry.yaml','specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','docs/architecture/MH-21-rag-boundary.md','docs/architecture/MH-21-rag-security.md','docs/architecture/MH-21-resource-governance.md'); text=''.join(Path(f).read_text(encoding='utf-8').lower() for f in files); required=('document','ingestion','index','search'); assert all(x in text for x in required); print('P4.1 architecture evidence scan PASS')"], 30))
     if selected and selected.fallback_kind == "p3.6-media-benchmark-resource-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q",
                         "tests/test_mediahub_streaming_boundary.py",
