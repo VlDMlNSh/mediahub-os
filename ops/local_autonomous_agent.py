@@ -791,6 +791,14 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
             "recovery/reconciliation-report.md",
             "## P0.2 master-queue ownership/provenance reconciliation — 2026-09-22",
         ),
+        "P5.1": (
+            "docs/checkpoints/MH-19-P5.1-2026-09-19.md",
+            "# MH-19 P5.1 Verified Increment — Two-App Mobile Model",
+        ),
+        "P5.3": (
+            "docs/checkpoints/MH-19-P5.3-2026-09-19.md",
+            "# MH-19 P5.3 Verified Increment — Mobile API Compatibility",
+        ),
     }
     for queue_id, (relative_path, marker) in queue_evidence.items():
         if _current_evidence_marker(root, relative_path, marker):
