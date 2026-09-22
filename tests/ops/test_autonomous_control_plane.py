@@ -962,6 +962,29 @@ def test_p32_gap_reconciliation_is_selected_when_media_acceptance_is_missing(tmp
     assert task is not None and task.task_id == "P3.2-ingestion-metadata-index-gap-reconciliation"
 
 
+def test_p41_gap_reconciliation_is_selected_after_p36_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "docs/ops").mkdir(parents=True)
+    (tmp_path / "docs/architecture").mkdir(parents=True)
+    (tmp_path / "specification").mkdir(parents=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text(
+        "P3.6 Benchmark bounded media operations and resource limits.\n"
+        "P4.1 Complete document ingestion/index/search contracts.\n", encoding="utf-8"
+    )
+    for rel in (
+        "specification/contract-registry.yaml", "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        "docs/architecture/MH-21-rag-boundary.md", "docs/architecture/MH-21-rag-security.md",
+        "docs/architecture/MH-21-resource-governance.md",
+    ):
+        (tmp_path / rel).write_text("document ingestion index search", encoding="utf-8")
+    (tmp_path / "docs/ops/P3-6-media-benchmark-resource-gap-reconciliation-2026-09-22.md").write_text(
+        "Status: DISCOVERY_RECONCILIATION / P3.6 NOT CLOSED\n", encoding="utf-8"
+    )
+    task = select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P4.1-document-ingestion-index-search-gap-reconciliation"
+
+
 def test_p36_gap_reconciliation_is_selected_after_p35_evidence(tmp_path):
     from ops.local_autonomous_agent import select_local_task
     (tmp_path / "ops").mkdir(parents=True)

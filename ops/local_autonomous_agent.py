@@ -826,6 +826,25 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p3.6-media-benchmark-resource-gap-reconciliation",
         )
 
+    p41_evidence = root / "docs/ops/P4-1-document-ingestion-index-search-gap-reconciliation-2026-09-22.md"
+    p41_sources = (
+        root / "specification/contract-registry.yaml",
+        root / "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        root / "docs/architecture/MH-21-rag-boundary.md",
+        root / "docs/architecture/MH-21-rag-security.md",
+        root / "docs/architecture/MH-21-resource-governance.md",
+    )
+    if (_queue_contains(root, "P4.1 Complete document ingestion/index/search contracts.")
+            and not p41_evidence.exists()
+            and all(path.is_file() for path in p41_sources)):
+        return LocalTask(
+            "P4.1-document-ingestion-index-search-gap-reconciliation",
+            "P4.1 Complete document ingestion/index/search contracts.",
+            "docs/ops/P4-1-document-ingestion-index-search-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the P4.1 acceptance-surface gap. Inspect the functional baseline, contract registry and existing RAG/security/resource architecture; classify document ingestion, indexing and search contracts as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not infer implementation from architecture declarations and do not claim P4.1 closed.",
+            "p4.1-document-ingestion-index-search-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -886,6 +905,9 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P3.1": ("docs/ops/P3-1-media-domain-lifecycle-inventory-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P3.1 NOT CLOSED"),
     "P3.2": ("docs/ops/P3-2-ingestion-metadata-index-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.2 NOT CLOSED"),
     "P3.3": ("docs/ops/P3-3-playback-control-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.3 NOT CLOSED"),
+    "P3.4": ("docs/ops/P3-4-media-authorization-storage-retention-recovery-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.4 NOT CLOSED"),
+    "P3.5": ("docs/ops/P3-5-media-integration-failure-injection-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.5 NOT CLOSED"),
+    "P3.6": ("docs/ops/P3-6-media-benchmark-resource-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.6 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1025,6 +1047,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p3.4-media-authorization-storage-retention-recovery-gap-reconciliation",
         "p3.5-media-integration-failure-injection-gap-reconciliation",
         "p3.6-media-benchmark-resource-gap-reconciliation",
+        "p4.1-document-ingestion-index-search-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1466,6 +1489,35 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p4.1-document-ingestion-index-search-gap-reconciliation":
+        content = """# P4.1 Document Ingestion / Index / Search Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P4.1 NOT CLOSED
+
+## Queue requirement
+
+`P4.1 Complete document ingestion/index/search contracts.`
+
+## Exact architecture/contract surfaces inspected
+
+- `specification/contract-registry.yaml` — CTR-034 defines unified indexing/search/knowledge-graph access and requires indexing provenance, consistency, authorization filtering, freshness, offline operation and rebuild.
+- `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` — defines Document System and document search capabilities.
+- `docs/architecture/MH-21-rag-boundary.md` — declares a RAG flow from ingestion through index and retrieval, with retrieved context treated as untrusted data.
+- `docs/architecture/MH-21-rag-security.md` — declares hostile-document handling, provenance, classification, privacy and authorization boundaries.
+- `docs/architecture/MH-21-resource-governance.md` — declares bounded resources for RAG retrieval/vector search and related AI workloads.
+
+## Classification
+
+- Document ingestion implementation contract: ABSENT as an executable document-specific acceptance surface.
+- Document indexing implementation contract: ABSENT as an executable document-specific acceptance surface.
+- Document search implementation contract: ABSENT as an executable document-specific acceptance surface.
+- Architecture/requirements: PRESENT, including explicit indexing/search/RAG semantics, but declarations are not implementation evidence.
+
+## Gate
+
+This artifact records only the factual acceptance-surface gap. It does not invent document schemas, OCR behavior, chunking, embedding models, vector stores, ranking, synchronization or production behavior. A future P4.1 implementation task requires explicit document contracts, deterministic tests, provenance-bound acceptance evidence and reproducible rebuild/search behavior.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p3.6-media-benchmark-resource-gap-reconciliation":
@@ -2044,6 +2096,9 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p4.1-document-ingestion-index-search-gap-reconciliation":
+        checks.append(([sys.executable, "-c",
+                        "from pathlib import Path; files=('specification/contract-registry.yaml','specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','docs/architecture/MH-21-rag-boundary.md','docs/architecture/MH-21-rag-security.md','docs/architecture/MH-21-resource-governance.md'); text='\n'.join(Path(f).read_text(encoding='utf-8').lower() for f in files); required=('document','ingestion','index','search'); assert all(x in text for x in required); print('P4.1 architecture evidence scan PASS')"], 30))
     if selected and selected.fallback_kind == "p3.6-media-benchmark-resource-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q",
                         "tests/test_mediahub_streaming_boundary.py",
