@@ -864,3 +864,32 @@ def test_queue_encoding_rejects_stale_copied_evidence_not_in_head(tmp_path):
     report.write_text(stale, encoding="utf-8")
     rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
     assert rows["P0.6"] == "NEEDS_ENCODING"
+
+
+def test_p31_media_domain_inventory_is_selected_from_existing_contract_surface(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "tests").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text("P3.1 Inventory media domain contracts and lifecycle states.\n", encoding="utf-8")
+    (tmp_path / "ops" / "mediahub_lifecycle_contract.py").write_text("class LifecycleState: pass\n", encoding="utf-8")
+    (tmp_path / "tests" / "test_mediahub_lifecycle_contract.py").write_text("def test_lifecycle_contract(): pass\n", encoding="utf-8")
+    task = select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P3.1-media-domain-lifecycle-inventory"
+
+
+def test_p31_current_evidence_encodes_queue_item(tmp_path, monkeypatch):
+    from ops.local_autonomous_agent import inspect_queue_encoding
+    monkeypatch.setattr("ops.local_autonomous_agent._current_evidence_marker", lambda root, path, marker: True)
+    (tmp_path / "ops").mkdir(parents=True); (tmp_path / "docs" / "ops").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text("P3.1 Inventory media domain contracts and lifecycle states.\n", encoding="utf-8")
+    (tmp_path / "docs" / "ops" / "P3-1-media-domain-lifecycle-inventory-2026-09-22.md").write_text("Status: VERIFIED_LOCAL_SUBSCOPE / P3.1 NOT CLOSED\n", encoding="utf-8")
+    assert inspect_queue_encoding(tmp_path)[0].status == "ENCODED"
+
+
+def test_p31_stale_evidence_does_not_encode_queue_item(tmp_path, monkeypatch):
+    from ops.local_autonomous_agent import inspect_queue_encoding
+    monkeypatch.setattr("ops.local_autonomous_agent._current_evidence_marker", lambda root, path, marker: False)
+    (tmp_path / "ops").mkdir(parents=True); (tmp_path / "docs" / "ops").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text("P3.1 Inventory media domain contracts and lifecycle states.\n", encoding="utf-8")
+    (tmp_path / "docs" / "ops" / "P3-1-media-domain-lifecycle-inventory-2026-09-22.md").write_text("Status: VERIFIED_LOCAL_SUBSCOPE / P3.1 NOT CLOSED\n", encoding="utf-8")
+    assert inspect_queue_encoding(tmp_path)[0].status == "NEEDS_ENCODING"

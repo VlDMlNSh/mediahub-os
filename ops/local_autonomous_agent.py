@@ -622,6 +622,20 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p2.7-ai-cloud-authority-verification",
         )
 
+    p31_evidence = root / "docs/ops/P3-1-media-domain-lifecycle-inventory-2026-09-22.md"
+    p31_contract = root / "ops/mediahub_lifecycle_contract.py"
+    p31_tests = root / "tests/test_mediahub_lifecycle_contract.py"
+    if (_queue_contains(root, "P3.1 Inventory media domain contracts and lifecycle states.")
+            and not p31_evidence.exists()
+            and p31_contract.is_file() and p31_tests.is_file()):
+        return LocalTask(
+            "P3.1-media-domain-lifecycle-inventory",
+            "P3.1 Inventory media domain contracts and lifecycle states.",
+            "docs/ops/P3-1-media-domain-lifecycle-inventory-2026-09-22.md",
+            "Record deterministic local inventory evidence for the existing media lifecycle contract, persistence/version identity and migration validation tests. Classify only repository-observed states/transitions; do not invent media ingestion, playback, storage, retention, authorization or external-provider semantics.",
+            "p3.1-media-domain-lifecycle-inventory",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -679,6 +693,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P2.4": ("docs/ops/P2-4-cluster-membership-failover-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P2.4 NOT CLOSED"),
         "P2.5": ("docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md", "Status: DISCOVERY_RECONCILIATION / IMPLEMENTATION NOT AUTHORIZED BY THIS RECORD"),
         "P2.7": ("docs/ops/P2-7-ai-cloud-authority-verification-2026-09-21.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P2.7 NOT CLOSED"),
+        "P3.1": ("docs/ops/P3-1-media-domain-lifecycle-inventory-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P3.1 NOT CLOSED"),
         "P0.1": (
             "recovery/reconciliation-report.md",
             "## P0.1 current control-point reconciliation — 2026-09-21",
@@ -782,6 +797,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p2.4-cluster-membership-failover-verification",
         "p2.5-cluster-recovery-gap-reconciliation",
         "p2.7-ai-cloud-authority-verification",
+        "p3.1-media-domain-lifecycle-inventory",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
@@ -833,7 +849,10 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "tests/test_mediahub_provider_gateway.py": ("live provider execution", "credentials", "cloud activation", "R4"),
     }
     phase = task.task_id.split("-", 1)[0]
-    verification = (
+    if task.task_id.startswith("P3.1-"):
+        verification = "pytest -q tests/test_mediahub_lifecycle_contract.py"
+    else:
+        verification = (
         "pytest -q tests/test_mediahub_canonical_protocol.py tests/test_mediahub_provider_registry.py tests/test_mediahub_provider_adapters.py tests/test_mediahub_gemini_adapter.py tests/test_mediahub_policy_engine.py tests/test_mediahub_egress_controller.py tests/test_mediahub_credential_broker.py tests/ai/test_ai_provider_registry.py"
         if task.task_id.startswith("P1.3-")
         else "pytest -q tests/test_mediahub_provider_gateway.py tests/test_mediahub_resilience.py"
@@ -849,7 +868,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         else "pytest -q tests/security/test_mh05_systemwide_reachability.py tests/runtime/test_mh05_composition_root.py tests/runtime/test_mh04_qualification_edges.py tests/runtime/test_mh04_qualification_concurrency.py tests/test_mediahub_development_security_boundary.py tests/test_mediahub_streaming_boundary.py"
         if task.task_id.startswith("P2.2-")
         else "pytest -q tests/test_hybrid_cloud_api_egress_adapter.py"
-    )
+        )
     if task.task_id.startswith("P2.3-"):
         verification = "pytest -q tests/test_mediahub_lifecycle_contract.py"
 
@@ -1172,6 +1191,35 @@ Acceptance: existing deterministic tests pass and the inspected AI/cloud modules
 ## Boundary
 
 This evidence does not qualify operational cloud execution, credentials, production access, or the broader P2.7 product scope.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p3.1-media-domain-lifecycle-inventory":
+        content = """# P3.1 Media Domain Contract and Lifecycle Inventory
+
+Status: VERIFIED_LOCAL_SUBSCOPE / P3.1 NOT CLOSED
+
+## Repository-observed contract
+
+Source: `ops/mediahub_lifecycle_contract.py`
+Tests: `tests/test_mediahub_lifecycle_contract.py`
+
+Observed lifecycle states: `ABSENT`, `CANDIDATE`, `VALIDATED`, `AUTHORIZED`, `PUBLISHED`, `APPLIED`, `SUPERSEDED`.
+
+Observed transitions are explicit and monotonic through the `_ALLOWED` transition map. Invalid transitions are rejected.
+
+Observed persistence contract requires `authority == state-authority`, a typed `VersionIdentity`, and an explicit boolean `durable` flag; physical durability is not implied by construction.
+
+Observed migration contract requires non-empty migration identity, typed source/target versions, boolean rollback support, and a revision change.
+
+## Verification
+
+Command: `pytest -q tests/test_mediahub_lifecycle_contract.py`
+
+Acceptance: the existing lifecycle/persistence/migration contract tests pass at the current repository state.
+
+## Boundary
+
+This evidence inventories only the repository-native lifecycle contract. It does not qualify media ingestion, metadata/indexing, playback/control, authorization, storage, retention, recovery, integration, performance, or production behavior.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p2.5-cluster-recovery-gap-reconciliation":
