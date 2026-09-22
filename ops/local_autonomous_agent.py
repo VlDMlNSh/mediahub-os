@@ -2792,6 +2792,35 @@ The controller writes this artifact only after executing the verification comman
         if marker not in old:
             return ""
         return unified_patch(old, old.replace(marker, hardened, 1), target)
+    if task.fallback_kind == "p7.4-ordinary-user-cloud-development-access-gap-reconciliation":
+        target = task.target
+        sources = (
+            "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+            "specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml",
+            "specification/invariant-registry.yaml",
+            "recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md",
+            "ops/cloud_development_adapter.py",
+            "tests/ops/test_cloud_development_adapter.py",
+        )
+        evidence_lines = []
+        for rel in sources:
+            source = ROOT / rel
+            if not source.is_file():
+                return ""
+            import hashlib
+            digest = hashlib.sha256(source.read_bytes()).hexdigest()
+            lines = source.read_text(encoding="utf-8").splitlines()
+            matches = []
+            for number, line in enumerate(lines, 1):
+                lower = line.lower()
+                if any(term in lower for term in ("cloud development ai", "ordinary users", "no direct access", "controlled escalation", "authorization", "credential")):
+                    matches.append(f"{number}: {line.strip()}")
+                if len(matches) >= 8:
+                    break
+            evidence_lines.append(f"### {rel}\nSHA256: {digest}\n" + "\n".join(f"- {item}" for item in matches))
+        content = """# P7.4 — Ordinary-user Cloud Development AI access boundary\n\nStatus: DISCOVERY_RECONCILIATION / P7.4 NOT CLOSED\n\n## Scope\n\nThis artifact records deterministic repository evidence for the existing requirement that ordinary users have no direct corporate Cloud Development AI access. It distinguishes repository policy declarations from executable enforcement evidence. It does not invent authentication, UI, provider, or production-authorization semantics.\n\n## Deterministic classification\n\n- Policy/declaration evidence: PRESENT where the source excerpts below explicitly describe Cloud Development AI, ordinary-user access, or controlled escalation.\n- Executable ordinary-user access enforcement: NOT ESTABLISHED by this reconciliation alone; the inspected adapter/test surfaces are generic Cloud Development controls and are not treated as proof of an ordinary-user-specific access gate.\n- Overall P7.4 status: PARTIAL — policy boundary is documented, while ordinary-user-specific executable acceptance is not demonstrated by the inspected evidence.\n\n## Source evidence\n\n""" + "\n\n".join(evidence_lines) + "\n"
+        return unified_patch("", content, target)
+
     if task.fallback_kind == "p2.4-cluster-gateway-negative-tests":
         old = path.read_text(encoding="utf-8")
         if "test_propose_rejects_malformed_request_identity" in old:
