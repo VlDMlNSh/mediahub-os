@@ -972,6 +972,25 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p5.4-remote-control-state-synchronization-gap-reconciliation",
         )
 
+    p55_evidence = root / "docs/ops/P5-5-mobile-access-not-ai-compute-gap-reconciliation-2026-09-22.md"
+    p55_sources = (
+        root / "contracts/mobile/mobile-api-compatibility.schema.json",
+        root / "ops/ai/ai_gateway.py",
+        root / "recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md",
+        root / "docs/architecture/MH-21-device-interaction.md",
+        root / "ops/verify_functional_baseline.sh",
+    )
+    if (_queue_contains(root, "P5.5 Validate that Mobile Access Layer is not an AI compute tier.")
+            and not p55_evidence.exists()
+            and all(path.is_file() for path in p55_sources)):
+        return LocalTask(
+            "P5.5-mobile-access-not-ai-compute-gap-reconciliation",
+            "P5.5 Validate that Mobile Access Layer is not an AI compute tier.",
+            "docs/ops/P5-5-mobile-access-not-ai-compute-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the Mobile Access Layer boundary. Verify the canonical escalation path, mobile contract ownership and AI gateway compute-tier separation from existing source/test/baseline surfaces. Classify the boundary as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS. Do not invent a mobile AI tier and do not claim global mobile qualification.",
+            "p5.5-mobile-access-not-ai-compute-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -1042,6 +1061,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P4.5": ("docs/ops/P4-5-audit-revocation-offline-degraded-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.5 NOT CLOSED"),
     "P5.2": ("docs/ops/P5-2-authenticated-session-authorization-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P5.2 NOT CLOSED"),
     "P5.4": ("docs/ops/P5-4-remote-control-state-synchronization-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P5.4 NOT CLOSED"),
+    "P5.5": ("docs/ops/P5-5-mobile-access-not-ai-compute-gap-reconciliation-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P5.5 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1188,6 +1208,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p4.5-audit-revocation-offline-degraded-gap-reconciliation",
         "p5.2-authenticated-session-authorization-gap-reconciliation",
         "p5.4-remote-control-state-synchronization-gap-reconciliation",
+        "p5.5-mobile-access-not-ai-compute-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1629,6 +1650,35 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p5.5-mobile-access-not-ai-compute-gap-reconciliation":
+        content = """# P5.5 Mobile Access Layer / AI Compute Boundary Reconciliation
+
+Status: VERIFIED_LOCAL_SUBSCOPE / P5.5 NOT CLOSED
+
+## Queue requirement
+
+`P5.5 Validate that Mobile Access Layer is not an AI compute tier.`
+
+## Exact repository surfaces inspected
+
+- `contracts/mobile/mobile-api-compatibility.schema.json` — assigns ownership to `MediaHub Mobile Access Layer` and distinguishes `core` and `remote` client roles; no AI compute role is defined.
+- `ops/ai/ai_gateway.py` — describes compute-tier selection and explicitly separates gateway routing from provider execution.
+- `recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md` — defines mobile access/escalation requirements rather than a mobile AI compute tier.
+- `docs/architecture/MH-21-device-interaction.md` — defines remote AI as proposal-only and keeps device authority local through validation/policy/authorization/Consumer Boundary/State Authority.
+- `ops/verify_functional_baseline.sh` — checks the canonical escalation sequence `Mobile Access Layer → Local AI → Local Cluster AI → Cloud Development AI`.
+
+## Classification
+
+- Mobile Access Layer as separate AI compute tier: ABSENT by contract/baseline.
+- Canonical escalation separation: IMPLEMENTED at repository architecture/baseline level.
+- Direct mobile AI/provider execution authority: ABSENT in inspected surfaces.
+- End-to-end operational proof across a real iOS client: ABSENT.
+
+## Gate
+
+The local boundary is verified, but this does not close P5.5 globally or qualify an iOS runtime. No mobile AI tier was invented.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p5.4-remote-control-state-synchronization-gap-reconciliation":
@@ -2427,6 +2477,8 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p5.5-mobile-access-not-ai-compute-gap-reconciliation":
+        checks.append(([str(ROOT / "ops/verify_functional_baseline.sh")], 120))
     if selected and selected.fallback_kind == "p5.4-remote-control-state-synchronization-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_lifecycle_contract.py", "tests/security/test_mh05_bypass_audit.py"], 180))
     if selected and selected.fallback_kind == "p5.2-authenticated-session-authorization-gap-reconciliation":

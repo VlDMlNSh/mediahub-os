@@ -1288,6 +1288,17 @@ def test_queue_encoding_marks_current_p51_and_p53_evidence_encoded(tmp_path, mon
     assert rows["P5.3"] == "ENCODED"
 
 
+def test_p55_gap_reconciliation_is_selected_after_p54_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "contracts/mobile").mkdir(parents=True); (tmp_path / "ops/ai").mkdir(parents=True); (tmp_path / "recovery/acceptance").mkdir(parents=True); (tmp_path / "docs/architecture").mkdir(parents=True); (tmp_path / "docs/ops").mkdir(parents=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text("P5.4 Add remote-control and state synchronization tests.\nP5.5 Validate that Mobile Access Layer is not an AI compute tier.\n",encoding="utf-8")
+    for rel in ("contracts/mobile/mobile-api-compatibility.schema.json","ops/ai/ai_gateway.py","recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md","docs/architecture/MH-21-device-interaction.md","ops/verify_functional_baseline.sh"):
+        (tmp_path / rel).write_text("Mobile Access Layer Local AI Local Cluster AI Cloud Development AI compute tier",encoding="utf-8")
+    (tmp_path / "docs/ops/P5-4-remote-control-state-synchronization-gap-reconciliation-2026-09-22.md").write_text("Status: DISCOVERY_RECONCILIATION / P5.4 NOT CLOSED\n",encoding="utf-8")
+    task=select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P5.5-mobile-access-not-ai-compute-gap-reconciliation"
+
+
 def test_p54_gap_reconciliation_is_selected_after_p52_evidence(tmp_path):
     from ops.local_autonomous_agent import select_local_task
     (tmp_path / "contracts/mobile").mkdir(parents=True); (tmp_path / "recovery/acceptance").mkdir(parents=True); (tmp_path / "docs/architecture").mkdir(parents=True); (tmp_path / "ops").mkdir(parents=True); (tmp_path / "tests/security").mkdir(parents=True); (tmp_path / "tests").mkdir(exist_ok=True); (tmp_path / "docs/ops").mkdir(parents=True)
