@@ -866,6 +866,25 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p4.2-trusted-sources-intelligence-gap-reconciliation",
         )
 
+    p43_evidence = root / "docs/ops/P4-3-source-trust-stale-data-gap-reconciliation-2026-09-22.md"
+    p43_sources = (
+        root / "specification/contract-registry.yaml",
+        root / "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        root / "docs/architecture/MH-21-provider-trust.md",
+        root / "docs/architecture/MH-21-rag-security.md",
+        root / "docs/architecture/MH-21-unknowns.md",
+    )
+    if (_queue_contains(root, "P4.3 Add source trust/verification and stale-data handling.")
+            and not p43_evidence.exists()
+            and all(path.is_file() for path in p43_sources)):
+        return LocalTask(
+            "P4.3-source-trust-stale-data-gap-reconciliation",
+            "P4.3 Add source trust/verification and stale-data handling.",
+            "docs/ops/P4-3-source-trust-stale-data-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the P4.3 acceptance-surface gap. Inspect existing provider-trust, RAG-security, functional-baseline, contract-registry and unknowns documents; classify source trust/verification and stale-data handling as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file evidence. Do not infer executable behavior from architecture declarations and do not claim P4.3 closed.",
+            "p4.3-source-trust-stale-data-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -930,6 +949,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P3.5": ("docs/ops/P3-5-media-integration-failure-injection-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.5 NOT CLOSED"),
     "P3.6": ("docs/ops/P3-6-media-benchmark-resource-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P3.6 NOT CLOSED"),
     "P4.1": ("docs/ops/P4-1-document-ingestion-index-search-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.1 NOT CLOSED"),
+    "P4.2": ("docs/ops/P4-2-trusted-sources-intelligence-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P4.2 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1071,6 +1091,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p3.6-media-benchmark-resource-gap-reconciliation",
         "p4.1-document-ingestion-index-search-gap-reconciliation",
         "p4.2-trusted-sources-intelligence-gap-reconciliation",
+        "p4.3-source-trust-stale-data-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1512,6 +1533,35 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p4.3-source-trust-stale-data-gap-reconciliation":
+        content = """# P4.3 Source Trust / Verification / Stale-Data Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P4.3 NOT CLOSED
+
+## Queue requirement
+
+`P4.3 Add source trust/verification and stale-data handling.`
+
+## Exact architecture/contract surfaces inspected
+
+- `specification/contract-registry.yaml` — trusted-sources contract requires source trust policy, retrieval, verification, provenance, change detection, evidence separation and audit.
+- `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` — requires source verification, provenance, source comparison, change detection and separation of verified evidence from external/inferred/AI-generated information.
+- `docs/architecture/MH-21-provider-trust.md` — defines provider trust lifecycle and evaluation dimensions including identity, retention, region, encryption, authentication, limits, versioning and revocation.
+- `docs/architecture/MH-21-rag-security.md` — defines hostile-document handling and untrusted retrieved data boundaries.
+- `docs/architecture/MH-21-unknowns.md` — records unresolved runtime/provider/RAG evidence gaps.
+
+## Classification
+
+- Source trust implementation contract: ABSENT as an executable acceptance surface.
+- Source verification implementation contract: ABSENT as an executable acceptance surface.
+- Stale-data/change-detection implementation contract: ABSENT as an executable acceptance surface.
+- Architecture/requirements: PRESENT, but declarations do not prove runtime behavior.
+
+## Gate
+
+This artifact records only the factual acceptance-surface gap. It does not invent trust scoring, freshness thresholds, change-detection algorithms, provider reputation data or retrieval behavior. A future P4.3 implementation task requires explicit trust/verification contracts, deterministic stale-data tests and provenance-bound evidence.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p4.2-trusted-sources-intelligence-gap-reconciliation":
@@ -2152,6 +2202,9 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p4.3-source-trust-stale-data-gap-reconciliation":
+        checks.append(([sys.executable, "-c",
+                        "from pathlib import Path; files=('specification/contract-registry.yaml','specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','docs/architecture/MH-21-provider-trust.md','docs/architecture/MH-21-rag-security.md','docs/architecture/MH-21-unknowns.md'); text=''.join(Path(f).read_text(encoding='utf-8').lower() for f in files); required=('trust','verification','stale','retention'); assert all(x in text for x in required); print('P4.3 architecture evidence scan PASS')"], 30))
     if selected and selected.fallback_kind == "p4.2-trusted-sources-intelligence-gap-reconciliation":
         checks.append(([sys.executable, "-c",
                         "from pathlib import Path; files=('specification/contract-registry.yaml','specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','docs/architecture/MH-21-rag-boundary.md','docs/architecture/MH-21-rag-security.md','docs/architecture/MH-21-cloud-boundary.md','docs/architecture/MH-21-data-egress.md','docs/architecture/MH-21-audit.md'); text=''.join(Path(f).read_text(encoding='utf-8').lower() for f in files); required=('trusted-source','retrieval','verification','provenance','evidence'); assert all(x in text for x in required); print('P4.2 architecture evidence scan PASS')"], 30))
