@@ -803,6 +803,10 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
             "docs/architecture/MH-12-evidence-register.md",
             "P9.5 credential broker revocation isolation",
         ),
+        "P9.1": (
+            "docs/security/P9.1-threat-model-refresh-2026-09-19.md",
+            "# P9.1 — Threat Model Refresh",
+        ),
     }
     for queue_id, (relative_path, marker) in queue_evidence.items():
         if _current_evidence_marker(root, relative_path, marker):
