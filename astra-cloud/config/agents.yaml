@@ -1,0 +1,31 @@
+agents:
+  - agent_id: architect
+    capabilities: [architecture]
+    version: v0
+    policy_profile: standard
+    allowed_tools: []
+    concurrency_limit: 2
+  - agent_id: coding
+    capabilities: [code]
+    version: v0
+    policy_profile: controlled-write
+    allowed_tools: [repository]
+    concurrency_limit: 2
+  - agent_id: review
+    capabilities: [review]
+    version: v0
+    policy_profile: read-only
+    allowed_tools: [repository]
+    concurrency_limit: 4
+  - agent_id: test
+    capabilities: [test]
+    version: v0
+    policy_profile: controlled-exec
+    allowed_tools: [host]
+    concurrency_limit: 2
+  - agent_id: reconcile
+    capabilities: [reconciliation]
+    version: v0
+    policy_profile: read-only
+    allowed_tools: [repository]
+    concurrency_limit: 4
