@@ -893,3 +893,33 @@ def test_p31_stale_evidence_does_not_encode_queue_item(tmp_path, monkeypatch):
     (tmp_path / "ops" / "local_autonomous_tasks.md").write_text("P3.1 Inventory media domain contracts and lifecycle states.\n", encoding="utf-8")
     (tmp_path / "docs" / "ops" / "P3-1-media-domain-lifecycle-inventory-2026-09-22.md").write_text("Status: VERIFIED_LOCAL_SUBSCOPE / P3.1 NOT CLOSED\n", encoding="utf-8")
     assert inspect_queue_encoding(tmp_path)[0].status == "NEEDS_ENCODING"
+
+
+def test_raw_queue_parser_preserves_multi_segment_queue_ids(tmp_path):
+    from ops.local_autonomous_agent import read_raw_queue
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.5.1 Terminal checkpoint startup: classify an exact-identity terminal journal tail as a clean daemon stop; never revive it or create a new identity.\n"
+        "P0.5.2 Recovery regression: prove mismatched/invalid terminal provenance still fails closed.\n",
+        encoding="utf-8",
+    )
+    rows = read_raw_queue(tmp_path)
+    assert [row.queue_id for row in rows] == ["P0.5.1", "P0.5.2"]
+
+
+def test_raw_queue_compiler_encodes_p051_from_existing_daemon_contract(tmp_path):
+    from ops.local_autonomous_agent import compile_next_raw_queue_task
+    (tmp_path / "ops").mkdir(parents=True)
+    (tmp_path / "ops" / "local_autonomous_tasks.md").write_text(
+        "P0.5.1 Terminal checkpoint startup: classify an exact-identity terminal journal tail as a clean daemon stop; never revive it or create a new identity.\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "ops" / "ai").mkdir(parents=True)
+    (tmp_path / "ops" / "ai" / "hybrid_development_daemon.py").write_text("def main(): pass\n", encoding="utf-8")
+    (tmp_path / "tests" / "ai").mkdir(parents=True)
+    (tmp_path / "tests" / "ai" / "test_hybrid_development_daemon.py").write_text(
+        "def test_daemon_treats_matching_terminal_restore_as_clean_exit(): pass\n", encoding="utf-8"
+    )
+    task = compile_next_raw_queue_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P0.5.1-terminal-checkpoint-startup-verification"

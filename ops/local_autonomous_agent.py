@@ -76,7 +76,7 @@ def read_raw_queue(root: Path) -> tuple[RawQueueItem, ...]:
         return ()
     rows: list[RawQueueItem] = []
     for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
-        match = re.match(r"^P(\d+\.\d+)\s+(.+)$", line.strip())
+        match = re.match(r"^P(\d+(?:\.\d+)+)\s+(.+)$", line.strip())
         if match:
             rows.append(RawQueueItem("P" + match.group(1), match.group(2).strip(), line_no))
     return tuple(rows)
@@ -161,13 +161,32 @@ def _compile_p05_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     return None
 
 
-RAW_QUEUE_COMPILERS = {"P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
-
-
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     """Compile a raw queue row only through an explicitly registered encoder."""
     compiler = RAW_QUEUE_COMPILERS.get(item.queue_id)
     return compiler(root, item) if compiler is not None else None
+
+
+def _compile_p051_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    tests = root / "tests/ai/test_hybrid_development_daemon.py"
+    daemon = root / "ops/ai/hybrid_development_daemon.py"
+    evidence = root / "docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md"
+    if not tests.is_file() or not daemon.is_file() or evidence.is_file():
+        return None
+    text = tests.read_text(encoding="utf-8")
+    required = "test_daemon_treats_matching_terminal_restore_as_clean_exit"
+    if required not in text:
+        return None
+    return LocalTask(
+        "P0.5.1-terminal-checkpoint-startup-verification",
+        f"P0.5.1 {item.description}",
+        "docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md",
+        "Record deterministic local evidence that an exact-identity terminal journal tail is treated as a clean daemon stop without revival or identity creation; preserve mismatched-terminal fail-closed behavior and do not alter production authority.",
+        "p0.5.1-terminal-checkpoint-startup-verification",
+    )
+
+
+RAW_QUEUE_COMPILERS = {"P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_next_raw_queue_task(root: Path) -> LocalTask | None:
@@ -798,6 +817,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p2.5-cluster-recovery-gap-reconciliation",
         "p2.7-ai-cloud-authority-verification",
         "p3.1-media-domain-lifecycle-inventory",
+        "p0.5.1-terminal-checkpoint-startup-verification",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
@@ -1191,6 +1211,29 @@ Acceptance: existing deterministic tests pass and the inspected AI/cloud modules
 ## Boundary
 
 This evidence does not qualify operational cloud execution, credentials, production access, or the broader P2.7 product scope.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p0.5.1-terminal-checkpoint-startup-verification":
+        content = """# P0.5.1 Terminal Checkpoint Startup Verification
+
+Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED
+
+## Repository-observed behavior
+
+Source: `ops/ai/hybrid_development_daemon.py`
+Tests: `tests/ai/test_hybrid_development_daemon.py`
+
+The daemon treats a denied restore as a clean exit only when the journal tail exactly matches the requested session identity, baseline SHA, R4 SHA, and a terminal state (`STOPPED`, `EXPIRED`, `SAFE_STOP`, or `STOPPING`). It does not revive the terminal session or create a replacement identity on that path.
+
+## Verification
+
+Command: `pytest -q tests/ai/test_hybrid_development_daemon.py`
+
+Acceptance: the exact-identity terminal restore path passes the existing deterministic test, while mismatched terminal provenance remains fail-closed under the separate regression test.
+
+## Boundary
+
+This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p3.1-media-domain-lifecycle-inventory":
