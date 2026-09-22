@@ -1082,6 +1082,24 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p6.4-home-assistant-mutation-boundary-gap-reconciliation",
         )
 
+    p65_evidence = root / "docs/ops/P6-5-provider-outage-fallback-gap-reconciliation-2026-09-22.md"
+    p65_sources = (
+        root / "ops/mediahub_provider_gateway.py",
+        root / "ops/mediahub_resilience.py",
+        root / "tests/test_mediahub_provider_gateway.py",
+        root / "tests/test_mediahub_resilience.py",
+    )
+    if (_queue_contains(root, "P6.5 Add provider outage/fallback tests without changing authority semantics.")
+            and not p65_evidence.exists()
+            and all(path.is_file() for path in p65_sources)):
+        return LocalTask(
+            "P6.5-provider-outage-fallback-gap-reconciliation",
+            "P6.5 Add provider outage/fallback tests without changing authority semantics.",
+            "docs/ops/P6-5-provider-outage-fallback-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for provider outage/fallback behavior using the existing ProviderGateway and ResilienceEngine contracts and tests. Classify outage handling, bounded transient failover, permanent-failure safe-stop, policy-blocked behavior and retry-budget semantics as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS. Do not execute external providers, acquire credentials, change authority semantics, or invent new fallback policy.",
+            "p6.5-provider-outage-fallback-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -1158,6 +1176,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P6.2": ("docs/ops/P6-2-voice-provider-adapter-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P6.2 NOT CLOSED"),
     "P6.3": ("docs/ops/P6-3-voice-consent-authorization-provenance-replay-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P6.3 NOT CLOSED"),
     "P6.4": ("docs/ops/P6-4-home-assistant-mutation-boundary-gap-reconciliation-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P6.4 NOT CLOSED"),
+    "P6.5": ("docs/ops/P6-5-provider-outage-fallback-gap-reconciliation-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P6.5 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1310,6 +1329,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p6.2-voice-provider-adapter-gap-reconciliation",
         "p6.3-voice-consent-authorization-provenance-replay-gap-reconciliation",
         "p6.4-home-assistant-mutation-boundary-gap-reconciliation",
+        "p6.5-provider-outage-fallback-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1751,6 +1771,36 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p6.5-provider-outage-fallback-gap-reconciliation":
+        content = """# P6.5 Provider Outage / Fallback Gap Reconciliation
+
+Status: VERIFIED_LOCAL_SUBSCOPE / P6.5 NOT CLOSED
+
+## Queue requirement
+
+`P6.5 Add provider outage/fallback tests without changing authority semantics.`
+
+## Exact repository evidence
+
+- `ops/mediahub_provider_gateway.py` — provider failure classification, bounded failover and circuit/cooldown state.
+- `ops/mediahub_resilience.py` — retry policy, bounded delay and failure-budget behavior.
+- `tests/test_mediahub_provider_gateway.py` — deterministic tests for policy-blocked, transient and permanent provider failures, circuit opening and cooldown.
+- `tests/test_mediahub_resilience.py` — deterministic tests for permanent-failure safe-stop, policy-blocked behavior, transient failover, retry budget and malformed retry policy types.
+
+## Classification
+
+- Provider outage/failure classification: IMPLEMENTED in the existing provider gateway contract.
+- Bounded transient failover: IMPLEMENTED and deterministically tested.
+- Permanent failure safe-stop/no fallback: IMPLEMENTED and deterministically tested.
+- Policy-blocked behavior without retry-delay semantics: IMPLEMENTED and deterministically tested.
+- Retry budget / bounded delay: IMPLEMENTED and deterministically tested.
+- Provider-specific live outage qualification: ABSENT; no external provider was executed.
+
+## Gate
+
+The existing local contract/test surface is sufficient for a bounded local P6.5 evidence record. This does not close the broader P6.5 product scope and does not alter authority, provider, credential or production semantics.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p6.4-home-assistant-mutation-boundary-gap-reconciliation":
@@ -2720,6 +2770,10 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p6.5-provider-outage-fallback-gap-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q",
+                        "tests/test_mediahub_provider_gateway.py",
+                        "tests/test_mediahub_resilience.py"], 180))
     if selected and selected.fallback_kind == "p6.4-home-assistant-mutation-boundary-gap-reconciliation":
         checks.append(([str(ROOT / "ops/verify_functional_baseline.sh")], 120))
     if selected and selected.fallback_kind == "p6.3-voice-consent-authorization-provenance-replay-gap-reconciliation":
