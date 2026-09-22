@@ -1288,6 +1288,24 @@ def test_queue_encoding_marks_current_p51_and_p53_evidence_encoded(tmp_path, mon
     assert rows["P5.3"] == "ENCODED"
 
 
+def test_p71_human_clone_contract_gap_reconciliation_is_selected_after_p65_evidence(tmp_path):
+    from ops.local_autonomous_agent import select_local_task
+    (tmp_path / "ops").mkdir(parents=True); (tmp_path / "specification").mkdir(parents=True); (tmp_path / "docs/ops").mkdir(parents=True)
+    (tmp_path / "ops/local_autonomous_tasks.md").write_text(
+        "P6.5 Add provider outage/fallback tests without changing authority semantics.\n"
+        "P7.1 Define Human Clone contract as separate Cloud Development AI subsystem.\n", encoding="utf-8")
+    (tmp_path / "docs/ops/P6-5-provider-outage-fallback-gap-reconciliation-2026-09-22.md").write_text(
+        "Status: VERIFIED_LOCAL_SUBSCOPE / P6.5 NOT CLOSED\n", encoding="utf-8")
+    (tmp_path / "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md").write_text(
+        "AI Human Clone separate Cloud Development AI subsystem consent authorization provenance revocation audit", encoding="utf-8")
+    (tmp_path / "specification/contract-registry.yaml").write_text(
+        "CTR-043 ai-human-clone consent/authorization use scope asset/model provenance revocation audit", encoding="utf-8")
+    (tmp_path / "specification/capability-registry.yaml").write_text(
+        "authorized_ai_human_clone_real_person_generated_media_participation", encoding="utf-8")
+    task = select_local_task(tmp_path)
+    assert task is not None and task.task_id == "P7.1-human-clone-contract-gap-reconciliation"
+
+
 def test_p65_provider_fallback_gap_reconciliation_is_selected_after_p64_evidence(tmp_path):
     from ops.local_autonomous_agent import select_local_task
     (tmp_path / "ops").mkdir(parents=True); (tmp_path / "tests").mkdir(parents=True)

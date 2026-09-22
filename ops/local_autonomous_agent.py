@@ -1100,6 +1100,23 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p6.5-provider-outage-fallback-gap-reconciliation",
         )
 
+    p71_evidence = root / "docs/ops/P7-1-human-clone-contract-gap-reconciliation-2026-09-22.md"
+    p71_sources = (
+        root / "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        root / "specification/contract-registry.yaml",
+        root / "specification/capability-registry.yaml",
+    )
+    if (_queue_contains(root, "P7.1 Define Human Clone contract as separate Cloud Development AI subsystem.")
+            and not p71_evidence.exists()
+            and all(path.is_file() for path in p71_sources)):
+        return LocalTask(
+            "P7.1-human-clone-contract-gap-reconciliation",
+            "P7.1 Define Human Clone contract as separate Cloud Development AI subsystem.",
+            "docs/ops/P7-1-human-clone-contract-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for the AI Human Clone contract boundary. Inspect the functional baseline, CTR-043 contract registry entry and capability registry; classify contract declaration, Cloud Development AI separation, identity/consent/scope/provenance/revocation requirements and deterministic implementation/test acceptance as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS. Do not invent a clone runtime, media-generation semantics, provider behavior, or production authorization.",
+            "p7.1-human-clone-contract-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -1177,6 +1194,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P6.3": ("docs/ops/P6-3-voice-consent-authorization-provenance-replay-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P6.3 NOT CLOSED"),
     "P6.4": ("docs/ops/P6-4-home-assistant-mutation-boundary-gap-reconciliation-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P6.4 NOT CLOSED"),
     "P6.5": ("docs/ops/P6-5-provider-outage-fallback-gap-reconciliation-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P6.5 NOT CLOSED"),
+    "P7.1": ("docs/ops/P7-1-human-clone-contract-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P7.1 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1330,6 +1348,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p6.3-voice-consent-authorization-provenance-replay-gap-reconciliation",
         "p6.4-home-assistant-mutation-boundary-gap-reconciliation",
         "p6.5-provider-outage-fallback-gap-reconciliation",
+        "p7.1-human-clone-contract-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1771,6 +1790,35 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p7.1-human-clone-contract-gap-reconciliation":
+        content = """# P7.1 AI Human Clone Contract Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P7.1 NOT CLOSED
+
+## Queue requirement
+
+`P7.1 Define Human Clone contract as separate Cloud Development AI subsystem.`
+
+## Exact repository evidence
+
+- `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` — defines AI Human Clone as a separate Cloud Development AI subsystem for authorized media content and requires consent, authorization, identity provenance, rights-holder authorization, scope, voice/appearance authorization, model/asset provenance, audit, revocation and real/synthetic separation.
+- `specification/contract-registry.yaml` — CTR-043 `ai-human-clone` declares the contract scope and required semantics: identity provenance, consent/authorization, use scope, asset/model provenance, synthetic-content labeling, revocation and audit.
+- `specification/capability-registry.yaml` — records the authorized AI Human Clone capability as part of the Cloud Development contour.
+
+## Classification
+
+- Human Clone contract declaration: IMPLEMENTED at specification/registry level.
+- Separation from State Authority / Smart Home authority: EXPLICIT in the functional baseline.
+- Required consent/authorization/scope/provenance/revocation/audit semantics: DECLARED by the existing contract boundary.
+- Human Clone runtime implementation: ABSENT in inspected repository surfaces.
+- Human Clone-specific deterministic test suite: ABSENT in inspected repository surfaces.
+- Production/media-generation/provider qualification: ABSENT.
+
+## Gate
+
+Existing architecture/registry facts justify a bounded discovery record only. This does not create a Human Clone runtime, select a provider/model, define media-generation behavior, authorize production, or close P7.1 globally.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p6.5-provider-outage-fallback-gap-reconciliation":
@@ -2770,6 +2818,9 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p7.1-human-clone-contract-gap-reconciliation":
+        checks.append(([sys.executable, "-c",
+                        "from pathlib import Path; files=('specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','specification/contract-registry.yaml','specification/capability-registry.yaml'); text=''.join(Path(f).read_text(encoding='utf-8') for f in files); required=('AI Human Clone','CTR-043','authorized_ai_human_clone_real_person_generated_media_participation','consent','provenance','revocation','audit'); assert all(x in text for x in required); print('P7.1 repository contract evidence scan PASS')"], 30))
     if selected and selected.fallback_kind == "p6.5-provider-outage-fallback-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q",
                         "tests/test_mediahub_provider_gateway.py",
