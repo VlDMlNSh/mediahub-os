@@ -180,7 +180,7 @@ class NativeExecutionContract:
         source_sha = getattr(evidence, "source_sha", None)
         if verified is not True:
             raise PermissionError("verified recovery evidence is required")
-        if not all(isinstance(value, str) for value in (request_id, workload_id, source_sha, provider)):
+        if not isinstance(request_id, str) or not isinstance(workload_id, str) or not isinstance(source_sha, str) or not isinstance(provider, str):
             raise PermissionError("malformed recovery evidence")
         return self.prepare_proposal(request_id, workload_id, source_sha, provider)
     def prepare_headers(self, target: ExecutionTarget, secret: str) -> Mapping[str, str]:
