@@ -991,6 +991,25 @@ def select_local_task(root: Path) -> LocalTask | None:
             "p5.5-mobile-access-not-ai-compute-gap-reconciliation",
         )
 
+    p56_evidence = root / "docs/ops/P5-6-ios-integration-lifecycle-accessibility-security-gap-reconciliation-2026-09-22.md"
+    p56_sources = (
+        root / "contracts/mobile/mobile-api-compatibility.schema.json",
+        root / "recovery/acceptance/F-014-phone-media-io-endpoint.md",
+        root / "recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md",
+        root / "tests/contracts/test_mobile_api_compatibility.py",
+        root / "docs/architecture/MH-21-device-interaction.md",
+    )
+    if (_queue_contains(root, "P5.6 Add iOS integration, lifecycle, accessibility and security qualification.")
+            and not p56_evidence.exists()
+            and all(path.is_file() for path in p56_sources)):
+        return LocalTask(
+            "P5.6-ios-integration-lifecycle-accessibility-security-gap-reconciliation",
+            "P5.6 Add iOS integration, lifecycle, accessibility and security qualification.",
+            "docs/ops/P5-6-ios-integration-lifecycle-accessibility-security-gap-reconciliation-2026-09-22.md",
+            "Record deterministic repository evidence for P5.6. Inspect mobile API contract/tests, accepted mobile endpoint requirements and device interaction boundaries; classify iOS integration, app lifecycle/background execution, accessibility, mobile security and end-to-end iOS qualification as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS. Do not infer an iOS implementation from schema platform enums and do not invent app behavior.",
+            "p5.6-ios-integration-lifecycle-accessibility-security-gap-reconciliation",
+        )
+
     p25_gap = root / "docs/ops/P2-5-cluster-recovery-gap-reconciliation-2026-09-21.md"
     if (_queue_contains(root, "P2.5 Test stale leader, split-brain, duplicate command, replay and recovery scenarios.")
             and not p25_gap.exists()):
@@ -1062,6 +1081,7 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
     "P5.2": ("docs/ops/P5-2-authenticated-session-authorization-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P5.2 NOT CLOSED"),
     "P5.4": ("docs/ops/P5-4-remote-control-state-synchronization-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P5.4 NOT CLOSED"),
     "P5.5": ("docs/ops/P5-5-mobile-access-not-ai-compute-gap-reconciliation-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P5.5 NOT CLOSED"),
+    "P5.6": ("docs/ops/P5-6-ios-integration-lifecycle-accessibility-security-gap-reconciliation-2026-09-22.md", "Status: DISCOVERY_RECONCILIATION / P5.6 NOT CLOSED"),
         "P0.5.1": ("docs/ops/P0-5-1-terminal-checkpoint-startup-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.1 NOT CLOSED"),
         "P0.5.2": ("docs/ops/P0-5-2-terminal-provenance-regression-2026-09-22.md", "Status: VERIFIED_LOCAL_SUBSCOPE / P0.5.2 NOT CLOSED"),
         "P0.1": (
@@ -1209,6 +1229,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p5.2-authenticated-session-authorization-gap-reconciliation",
         "p5.4-remote-control-state-synchronization-gap-reconciliation",
         "p5.5-mobile-access-not-ai-compute-gap-reconciliation",
+        "p5.6-ios-integration-lifecycle-accessibility-security-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
     } and task.target.startswith("docs/ops/")
@@ -1650,6 +1671,36 @@ Acceptance: the exact-identity terminal restore path passes the existing determi
 ## Boundary
 
 This evidence qualifies only the local daemon checkpoint-startup behavior. It does not authorize production daemon operation, release, external execution, credentials, State Authority mutation, or a new identity.
+"""
+        return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
+    if task.fallback_kind == "p5.6-ios-integration-lifecycle-accessibility-security-gap-reconciliation":
+        content = """# P5.6 iOS Integration / Lifecycle / Accessibility / Security Gap Reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P5.6 NOT CLOSED
+
+## Queue requirement
+
+`P5.6 Add iOS integration, lifecycle, accessibility and security qualification.`
+
+## Exact repository surfaces inspected
+
+- `contracts/mobile/mobile-api-compatibility.schema.json` — permits `ios` and `ipados` client platforms, but is only an API compatibility schema.
+- `tests/contracts/test_mobile_api_compatibility.py` — validates schema-level mobile client compatibility, not an iOS application runtime.
+- `recovery/acceptance/F-014-phone-media-io-endpoint.md` — requires phone/media endpoint behavior and notes iOS/Android background execution limits as deferred technical scope.
+- `recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md` — requires mobile pairing/session and remote access but leaves protocol details open.
+- `docs/architecture/MH-21-device-interaction.md` — defines the remote-command authority boundary independent of a specific iOS app implementation.
+
+## Classification
+
+- iOS application integration surface: ABSENT in the repository.
+- iOS lifecycle/background execution qualification: ABSENT.
+- Accessibility qualification: ABSENT.
+- Mobile-specific security qualification: PARTIAL at generic boundary/schema level; no iOS runtime qualification.
+- End-to-end iOS qualification: ABSENT.
+
+## Gate
+
+The iOS platform enum and API schema do not constitute an iOS application. This evidence does not invent Swift/UI/lifecycle/accessibility/security behavior and does not close P5.6.
 """
         return unified_patch("", content.splitlines(keepends=True), str(path.relative_to(ROOT)))
     if task.fallback_kind == "p5.5-mobile-access-not-ai-compute-gap-reconciliation":
@@ -2477,6 +2528,8 @@ def verify(task: LocalTask | None = None) -> bool:
     checks: list[tuple[list[str], int]] = [(["git", "diff", "--check"], 120)]
     if RUFF.is_file():
         checks.append(([str(RUFF), "check", verify_target], 120))
+    if selected and selected.fallback_kind == "p5.6-ios-integration-lifecycle-accessibility-security-gap-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q", "tests/contracts/test_mobile_api_compatibility.py"], 120))
     if selected and selected.fallback_kind == "p5.5-mobile-access-not-ai-compute-gap-reconciliation":
         checks.append(([str(ROOT / "ops/verify_functional_baseline.sh")], 120))
     if selected and selected.fallback_kind == "p5.4-remote-control-state-synchronization-gap-reconciliation":
