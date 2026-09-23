@@ -1,0 +1,58 @@
+# MediaHub host boundary for SentinelX.
+# Deny-by-default. No credentials are stored here.
+
+disabled_ops:
+  - script_run
+
+exec_strict: true
+
+allowed_commands:
+  - git status
+  - git diff
+  - git log
+  - git branch
+  - git rev-parse
+  - git show
+  - python3
+  - pytest
+  - ruff check
+  - mypy
+  - bash -n
+  - ls
+  - find
+  - grep
+  - head
+  - tail
+  - cat
+  - diff
+  - cmp
+  - stat
+  - realpath
+  - pwd
+  - whoami
+  - id
+  - du
+  - df
+  - free
+  - uptime
+
+services:
+  mediahub-astra.service:
+    - status
+    - restart
+    - reload
+  ollama.service:
+    - status
+    - restart
+    - reload
+  sentinelx-cloud-core.service:
+    - status
+    - restart
+    - reload
+
+file_ops:
+  paths:
+    - path: /home/mediahub/mediahub-os
+      access: rw
+    - path: /opt/mediahub/astra
+      access: r

@@ -1,0 +1,44 @@
+{
+  "schema_id": "mediahub.connector.cloud-service-registry",
+  "schema_version": "1.0.0",
+  "mode": "github_mediated",
+  "default_authentication": "github_oidc",
+  "host_credentials_allowed": false,
+  "long_lived_cloud_credentials_allowed": false,
+  "paid_resource_provisioning": "disabled_by_default",
+  "providers": {
+    "generic-oidc": {
+      "enabled": true,
+      "authentication": "github_oidc",
+      "secret_location": "none",
+      "runner": "github-hosted"
+    },
+    "tinyfish": {
+      "enabled": true,
+      "authentication": "github_secret",
+      "secret_name": "TINYFISH_API_KEY",
+      "secret_location": "github_actions",
+      "paid_usage": true,
+      "metered_execution": "explicit_opt_in",
+      "zero_cost_default": true,
+      "local_host_credentials": false
+    },
+    "openrouter": {
+      "enabled": true,
+      "authentication": "github_secret",
+      "secret_name": "OPENROUTER_API_KEY",
+      "secret_location": "github_actions",
+      "paid_usage": true,
+      "metered_execution": "explicit_user_configured_secret",
+      "zero_cost_default": true,
+      "local_host_credentials": false,
+      "runner": "github-hosted"
+    }
+  },
+  "policy": {
+    "unknown_provider": "deny",
+    "unknown_operation": "deny",
+    "missing_auth": "deny",
+    "cloud_provisioning_requires_approval": true
+  }
+}

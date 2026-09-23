@@ -1,0 +1,16 @@
+{
+  "schema_id": "mediahub.connector.openrouter",
+  "schema_version": "1.0.0",
+  "id": "openrouter",
+  "enabled": true,
+  "tier": "cloud",
+  "capabilities": ["reasoning", "analysis", "coding", "architecture", "review", "research", "web", "multimodal", "documents", "long_context", "bulk", "repository", "testing", "transform", "classify"],
+  "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+  "auth": "github_actions_secret",
+  "credential_env": "OPENROUTER_API_KEY",
+  "model_env": "MEDIAHUB_OPENROUTER_MODEL",
+  "host_credentials": false,
+  "credentials_in_repository": false,
+  "paid_resource_provisioning": "disabled",
+  "execution": "github_mediated"
+}

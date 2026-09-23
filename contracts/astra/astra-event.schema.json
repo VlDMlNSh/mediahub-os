@@ -1,0 +1,20 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://mediahub.local/contracts/astra/astra-event.schema.json",
+  "title":"MediaHub Astra Event",
+  "type":"object",
+  "additionalProperties":false,
+  "properties":{
+    "schema_id":{"const":"mediahub.ai.astra-event"},
+    "schema_version":{"type":"string","const":"1.0.0"},
+    "owner":{"type":"string","const":"mediahub-ai"},
+    "event_id":{"type":"string","minLength":1},
+    "request_id":{"type":"string","minLength":1},
+    "session_id":{"type":"string","minLength":1},
+    "execution_id":{"type":"string","minLength":1},
+    "event_type":{"enum":["task.accepted","task.planned","policy.checked","agent.selected","execution.started","execution.progress","artifact.created","validation.completed","approval.required","task.completed","task.failed"]},
+    "timestamp":{"type":"string","minLength":1},
+    "payload":{"type":"object"}
+  },
+  "required":["schema_id","schema_version","owner","event_id","request_id","session_id","execution_id","event_type","timestamp","payload"]
+}

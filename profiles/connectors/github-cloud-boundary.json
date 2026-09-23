@@ -1,0 +1,15 @@
+{
+  "schema_id": "mediahub.connector.github-cloud-boundary",
+  "schema_version": "1.0.0",
+  "id": "github-cloud-boundary",
+  "enabled": true,
+  "role": "external_credential_boundary",
+  "execution_location": "github-hosted-runner",
+  "local_host_credentials": false,
+  "tinyfish_secret_source": "github_actions_secret",
+  "cloud_authentication": "oidc_preferred",
+  "long_lived_cloud_credentials_on_host": false,
+  "task_transport": "git_repository",
+  "allowed_operations": ["tinyfish.web.run"],
+  "fail_closed": true
+}
