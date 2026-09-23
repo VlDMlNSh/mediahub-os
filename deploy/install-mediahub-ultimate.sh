@@ -47,8 +47,8 @@ assert r.status == "completed" and "MEDIAHUB_HARNESS_READY" in r.stdout
 print("NATIVE_HARNESS=PASS")
 PY
 
-log "7/8 full qualification and stability"
-MEDIAHUB_QUALIFY_LOOPS="$LOOPS" bash deploy/qualify-mediahub-reference-stack.sh
+log "7/8 autonomous development gate"
+MEDIAHUB_QUALIFY_LOOPS="$LOOPS" bash deploy/qualify-mediahub-autonomous-dev.sh
 
 log "8/8 final truth-state report"
 printf '%s\n' \

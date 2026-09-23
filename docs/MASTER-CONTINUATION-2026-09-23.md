@@ -604,3 +604,31 @@ J. Update this master continuation document with every material state transition
 - OpenAI's current developer documentation confirms repository-local skills under `.agents/skills/` and describes skills as discovered from their metadata before loading full instructions. This validates the MediaHub placement without requiring a global skill copy.
 - Canonical unlazy regression suite remains `34/34 passed` after the integration audit.
 - No MediaHub runtime architecture, Control Plane, provider boundary, cloud credentials, or production authorization state was changed by this audit.
+## 32. REFERENCE AUTONOMOUS DEVELOPMENT GATE — 2026-09-23
+
+Добавлен канонический локальный gate:
+- deploy/qualify-mediahub-autonomous-dev.sh
+- встроен в deploy/install-mediahub-ultimate.sh как этап автономной разработки перед финальной qualification.
+
+Gate фиксирует цикл подготовки к автономной разработке:
+1. repository identity + git diff --check;
+2. чувствительный-path boundary;
+3. contract / connector / host gates;
+4. полный runtime regression;
+5. bounded local autonomous execution через MediaHub Harness;
+6. повторная qualification stability loop;
+7. хэшированное pass-evidence;
+8. mutation boundary.
+
+Подтверждено на mh-dev-01:
+- 192 passed;
+- AUTONOMOUS_EXECUTION=PASS;
+- 2/2 qualification loops PASS;
+- AUTONOMOUS_DEV_GATE=PASS;
+- auto-commit DISABLED;
+- auto-push DISABLED;
+- credential creation DISABLED;
+- paid cloud DISABLED;
+- production deployment NOT AUTHORIZED.
+
+Это не новый Control Plane и не новый orchestrator. Gate является qualification/safety boundary существующего MediaHub Control Plane.
