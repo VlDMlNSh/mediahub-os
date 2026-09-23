@@ -16,12 +16,7 @@
   "secret_handling": "never_in_chat_never_in_repository",
   "provider_selection": "server_side_only",
   "approval": {
-    "sensitive_actions": [
-      "host_install",
-      "credential_change",
-      "production_deploy",
-      "destructive_action"
-    ],
+    "sensitive_actions": ["host_install", "credential_change", "production_deploy", "destructive_action"],
     "default": "deny_until_approved"
   },
   "fail_closed": true
