@@ -495,3 +495,22 @@ J. Update this master continuation document with every material state transition
 - GitHub publication remains non-destructive and authentication-gated: dev shell has no `gh`, SSH reports `Permission denied (publickey)`, and HTTPS push previously lacked credentials. No workaround or secret handling was attempted.
 - GitHub connector OAuth is available for repository inspection, but local six-commit history cannot be published through a blind tree rewrite without preserving commit ancestry; therefore no remote ref mutation was performed.
 - Remaining external gates are unchanged: production authorization, SentinelX enrollment, Experiential live gateway, and metered OpenRouter E2E.
+
+## 23. REFERENCE AUTONOMOUS DEVELOPMENT SYSTEM HARDENING — 2026-09-23
+
+- Performed a fresh installer/static audit and full post-fix qualification.
+- Corrected repository executable-bit defects on `deploy/install-mediahub-reference-stack.sh`, `deploy/preflight-mediahub-astra.sh`, and `deploy/qualify-mediahub-astra.sh`; all deployment/preflight/qualification shell scripts now have executable mode.
+- Re-ran shell syntax validation across the installer family: PASS.
+- Re-ran canonical preflight: PASS.
+- Re-ran canonical qualification: PASS; 192 runtime tests and 5/5 stability loops PASS.
+- Re-ran the complete pytest suite: 192 passed.
+- Re-ran contract validation: PASS; 14 contract files and identity separation PASS.
+- Re-ran connector validation: PASS.
+- Re-ran host registration validation: PASS.
+- Re-ran compileall and git diff check: PASS.
+- Re-ran focused cloud/relay/task ingress regression: 17 passed.
+- Reviewed GitHub cloud relay secret boundary: secrets are injected only through GitHub Actions secret variables and relay evidence has an explicit credential-material rejection guard; no credential values were read or created.
+- Repository secret scan produced only the intended guard-pattern reference in `.github/workflows/mediahub-cloud-relay.yml`; no actual credential value was detected.
+- Installer remains prepared for installation; no privileged operation was forced.
+- Untracked skill/provenance artifacts remain intentionally quarantined pending provenance decision and are not part of the installation baseline.
+- GitHub publication remains authorization-gated; no force-push or destructive ref mutation performed.
