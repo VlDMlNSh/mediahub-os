@@ -75,6 +75,7 @@ jobs:
             --disallowed-tools "Bash,WebFetch,WebSearch,NotebookEdit" \
             --permission-mode acceptEdits \
             --append-system-prompt "Bounded MediaHub development worker. Work only inside the checked-out repository. Do not use shell commands, network access, credentials, destructive operations, git mutations, commits, pushes, or production actions. Make only the requested bounded code changes and report the result." \
+            --debug-file .mediahub-claude-debug.log \
             "${TASK_PROMPT}" > .mediahub-claude-result.txt 2> .mediahub-claude-stderr.txt
           rc=$?
           set -e
@@ -86,7 +87,12 @@ jobs:
           s = re.sub(r"sk-ant-[A-Za-z0-9_-]+", "[REDACTED]", s)
           s = re.sub(r"(?i)(api[_ -]?key\s*[:=]\s*)[^\s]+", r"\1[REDACTED]", s)
           s = re.sub(r"(?i)(authorization\s*[:=]\s*bearer\s+)[^\s]+", r"\1[REDACTED]", s)
-          Path(".mediahub-claude-diagnostic.txt").write_text(s[-12000:])
+          d = Path(".mediahub-claude-debug.log")
+          ds = d.read_text(errors="replace") if d.exists() else ""
+          ds = re.sub(r"sk-ant-[A-Za-z0-9_-]+", "[REDACTED]", ds)
+          ds = re.sub(r"(?i)(api[_ -]?key\s*[:=]\s*)[^\s]+", r"\1[REDACTED]", ds)
+          ds = re.sub(r"(?i)(authorization\s*[:=]\s*bearer\s+)[^\s]+", r"\1[REDACTED]", ds)
+          Path(".mediahub-claude-diagnostic.txt").write_text((s[-6000:] + "\n--- DEBUG ---\n" + ds[-18000:]))
           PY3
           echo "CLAUDE_EXIT_CODE=${rc}"
           cat .mediahub-claude-version.txt
@@ -112,4 +118,5 @@ jobs:
             .mediahub-claude-version.txt
             .mediahub-claude-auth-status.txt
             .mediahub-claude-diagnostic.txt
+            .mediahub-claude-debug.log
           retention-days: 7
