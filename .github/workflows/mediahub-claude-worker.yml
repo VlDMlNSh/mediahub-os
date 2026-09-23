@@ -66,13 +66,33 @@ jobs:
           if re.search(r"(?i)(api[_ -]?key|secret|password|token|credential|authorization|bearer)", p):
               raise SystemExit("credential-bearing prompt rejected")
           PY
+          claude --version > .mediahub-claude-version.txt 2>&1
+          claude auth status > .mediahub-claude-auth-status.txt 2>&1 || true
+          set +e
           claude --print --output-format text \
             --bare \
             --allowed-tools "Read,Glob,Grep,Edit,Write" \
             --disallowed-tools "Bash,WebFetch,WebSearch,NotebookEdit" \
             --permission-mode acceptEdits \
             --append-system-prompt "Bounded MediaHub development worker. Work only inside the checked-out repository. Do not use shell commands, network access, credentials, destructive operations, git mutations, commits, pushes, or production actions. Make only the requested bounded code changes and report the result." \
-            "${TASK_PROMPT}" > .mediahub-claude-result.txt
+            "${TASK_PROMPT}" > .mediahub-claude-result.txt 2> .mediahub-claude-stderr.txt
+          rc=$?
+          set -e
+          python3 - <<'PY3'
+          import re
+          from pathlib import Path
+          p = Path(".mediahub-claude-stderr.txt")
+          s = p.read_text(errors="replace") if p.exists() else ""
+          s = re.sub(r"sk-ant-[A-Za-z0-9_-]+", "[REDACTED]", s)
+          s = re.sub(r"(?i)(api[_ -]?key\s*[:=]\s*)[^\s]+", r"\1[REDACTED]", s)
+          s = re.sub(r"(?i)(authorization\s*[:=]\s*bearer\s+)[^\s]+", r"\1[REDACTED]", s)
+          Path(".mediahub-claude-diagnostic.txt").write_text(s[-12000:])
+          PY3
+          echo "CLAUDE_EXIT_CODE=${rc}"
+          cat .mediahub-claude-version.txt
+          cat .mediahub-claude-auth-status.txt
+          cat .mediahub-claude-diagnostic.txt
+          exit "${rc}"
 
       - name: Credential-free evidence check
         run: |
@@ -87,5 +107,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mediahub-claude-worker-evidence-${{ github.run_id }}
-          path: .mediahub-claude-result.txt
+          path: |
+            .mediahub-claude-result.txt
+            .mediahub-claude-version.txt
+            .mediahub-claude-auth-status.txt
+            .mediahub-claude-diagnostic.txt
           retention-days: 7
