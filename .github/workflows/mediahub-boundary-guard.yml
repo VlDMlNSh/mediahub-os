@@ -34,4 +34,4 @@ jobs:
       - run: python3 tools/validate_contracts.py
       - run: python3 tools/validate_connectors.py
       - run: python3 -m compileall -q runtime tools
-      - run: python3 -m pytest -q tests/runtime
+      - run: PYTHONPATH=runtime python3 -m pytest -q tests/runtime
