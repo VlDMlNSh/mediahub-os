@@ -1,0 +1,76 @@
+name: MediaHub Claude bounded worker
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_prompt:
+        description: "Bounded development task"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mediahub-claude-worker
+  cancel-in-progress: false
+
+jobs:
+  claude:
+    if: vars.MEDIAHUB_ALLOW_METERED_ANTHROPIC == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run bounded Claude worker
+        env:
+          TASK_PROMPT: ${{ inputs.task_prompt }}
+        run: |
+          set -euo pipefail
+          test -n "${ANTHROPIC_API_KEY}"
+          python3 - <<'PY'
+          import os, re
+          p = os.environ["TASK_PROMPT"]
+          if not p.strip() or len(p) > 12000:
+              raise SystemExit("invalid task prompt")
+          if re.search(r"(?i)(api[_ -]?key|secret|password|token|credential|authorization|bearer)", p):
+              raise SystemExit("credential-bearing prompt rejected")
+          PY
+          claude --print --output-format text \
+            --bare \
+            --allowed-tools "Read,Glob,Grep,Edit,Write" \
+            --disallowed-tools "Bash,WebFetch,WebSearch,NotebookEdit" \
+            --permission-mode acceptEdits \
+            --append-system-prompt "Bounded MediaHub development worker. Work only inside the checked-out repository. Do not use shell commands, network access, credentials, destructive operations, git mutations, commits, pushes, or production actions. Make only the requested bounded code changes and report the result." \
+            "${TASK_PROMPT}" > .mediahub-claude-result.txt
+
+      - name: Credential-free evidence check
+        run: |
+          set -euo pipefail
+          if grep -Eiq '(sk-ant-|ANTHROPIC_API_KEY=|Authorization: Bearer|api[_-]?key[[:space:]]*[:=]|password[[:space:]]*[:=])' .mediahub-claude-result.txt; then
+            echo "credential material detected in evidence"
+            exit 1
+          fi
+          test -s .mediahub-claude-result.txt
+
+      - name: Upload sanitized evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: mediahub-claude-worker-evidence-${{ github.run_id }}
+          path: .mediahub-claude-result.txt
+          retention-days: 7
