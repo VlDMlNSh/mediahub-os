@@ -549,3 +549,14 @@ J. Update this master continuation document with every material state transition
 - Credentials created: NO. Paid cloud enabled: NO.
 - Production authorization, SentinelX enrollment and Experiential live gateway remain NOT_VERIFIED.
 - The reconciled branch is now ready for normal non-force GitHub publication.
+
+## 27. GITHUB PUBLICATION VERIFIED — 2026-09-23
+
+- GitHub Device Flow scope refresh completed successfully; local GitHub OAuth now includes `workflow` in addition to `repo` access.
+- Normal non-force push completed successfully to `VlDMlNSh/mediahub-os`.
+- Published branch: `implementation/p0-06-core-runtime-services`.
+- Published remote HEAD verified as `df105b9ed5ae631a3660d7831f1bb96bea4a035e`.
+- Local and remote branch tips are synchronized; no force-push or destructive ref operation was used.
+- Untracked skill/provenance artifacts remain intentionally quarantined: `.agents/`, `.claude/skills/`, `agent/`, `skills-lock.json`.
+- Qualification immediately preceding publication was PASS: 192 runtime tests, 5/5 stability, contracts/connector/host/security checks PASS.
+- External authorization gates remain explicit: SentinelX enrollment, production authorization and Experiential live gateway are not verified; paid cloud remains disabled and no credentials were created on the host.
