@@ -12,13 +12,16 @@
     "task_id":{"type":"string","pattern":"^[A-Za-z0-9._-]{1,128}$"},
     "request_id":{"type":"string","minLength":1},
     "session_id":{"type":"string","minLength":1},
-    "operation":{"enum":["tinyfish.web.run"]},
+    "operation":{"enum":["tinyfish.web.run","openrouter.infer"]},
     "approval_state":{"enum":["not_required","approved"]},
     "url":{"type":"string","pattern":"^https?://"},
-    "goal":{"type":"string","minLength":1,"maxLength":16000}
+    "goal":{"type":"string","minLength":1,"maxLength":16000},
+    "prompt":{"type":"string","minLength":1,"maxLength":65536},
+    "model":{"type":"string","minLength":1,"maxLength":256}
   },
   "required":[
     "schema_id","schema_version","owner","task_id","request_id",
-    "session_id","operation","approval_state","url","goal"
+    "session_id","operation","approval_state"
   ]
 }
+

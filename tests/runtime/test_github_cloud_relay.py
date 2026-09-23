@@ -100,3 +100,25 @@ def test_openrouter_relay_uses_github_secret_only(tmp_path, monkeypatch):
     assert result["output"] == "OK"
     assert "github-secret-test" not in json.dumps(result)
     assert captured["auth"] == "Bearer github-secret-test"
+
+
+def test_relay_rejects_oversized_task(tmp_path, monkeypatch):
+    relay = load_relay()
+    path = tmp_path / "large.json"
+    path.write_bytes(b"{" + b"a" * (relay.MAX_TASK_BYTES + 1) + b"}")
+    monkeypatch.setattr(relay, "DONE", tmp_path / "done")
+    relay.process(path)
+    result = json.loads((tmp_path / "done" / "large.result.json").read_text())
+    assert result["error"] == "task_too_large"
+
+
+def test_relay_rejects_unexpected_fields(tmp_path, monkeypatch):
+    relay = load_relay()
+    task = contract() | {"unexpected": "value"}
+    path = tmp_path / "task-extra.json"
+    path.write_text(json.dumps(task), encoding="utf-8")
+    monkeypatch.setattr(relay, "DONE", tmp_path / "done")
+    relay.process(path)
+    result = json.loads((tmp_path / "done" / "task-1.result.json").read_text())
+    assert result["error"] == "invalid_task_contract"
+

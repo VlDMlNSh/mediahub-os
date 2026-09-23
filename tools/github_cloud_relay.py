@@ -18,6 +18,7 @@ ALLOWED = {"tinyfish.web.run", "openrouter.infer"}
 TINYFISH_API = "https://agent.tinyfish.ai"
 OPENROUTER_API = "https://openrouter.ai/api/v1/chat/completions"
 MAX_RESULT_BYTES = 262_144
+MAX_TASK_BYTES = 131_072
 MAX_PROMPT_CHARS = 65_536
 MAX_OPENROUTER_OUTPUT_TOKENS = 1200
 MAX_OPENROUTER_TASKS_PER_RUN = 1
@@ -49,6 +50,9 @@ def request_json(request: urllib.request.Request, limit: int = MAX_RESULT_BYTES)
 
 
 def process(path: Path, *, openrouter_tasks_seen: int = 0) -> int:
+    if path.stat().st_size > MAX_TASK_BYTES:
+        fail(path.stem, "task_too_large")
+        return openrouter_tasks_seen
     data: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
     task_id = data.get("task_id")
     operation = data.get("operation")
@@ -64,6 +68,13 @@ def process(path: Path, *, openrouter_tasks_seen: int = 0) -> int:
         fail(task_id, "invalid_task_contract")
         return openrouter_tasks_seen
     if not isinstance(data.get("request_id"), str) or not isinstance(data.get("session_id"), str):
+        fail(task_id, "invalid_task_contract")
+        return openrouter_tasks_seen
+
+    allowed_fields = ({"schema_id", "schema_version", "owner", "task_id", "request_id", "session_id", "operation", "approval_state", "prompt", "model"}
+                      if operation == "openrouter.infer" else
+                      {"schema_id", "schema_version", "owner", "task_id", "request_id", "session_id", "operation", "approval_state", "url", "goal"})
+    if set(data) != allowed_fields:
         fail(task_id, "invalid_task_contract")
         return openrouter_tasks_seen
 
@@ -230,3 +241,4 @@ if __name__ == "__main__":
             openrouter_tasks_seen = process(task_file, openrouter_tasks_seen=openrouter_tasks_seen)
         except (OSError, ValueError, TypeError, TimeoutError):
             fail(task_file.stem, "relay_execution_failed")
+
