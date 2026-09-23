@@ -514,3 +514,15 @@ J. Update this master continuation document with every material state transition
 - Installer remains prepared for installation; no privileged operation was forced.
 - Untracked skill/provenance artifacts remain intentionally quarantined pending provenance decision and are not part of the installation baseline.
 - GitHub publication remains authorization-gated; no force-push or destructive ref mutation performed.
+
+## 24. GITHUB-MEDIATED CLOUD AUTHORIZATION HARDENING — 2026-09-23
+
+- GitHub connector authorization verified against `VlDMlNSh/mediahub-os`; repository permissions reported as admin/maintain/push-capable through the connector.
+- Local Git authorization on mh-dev-01 remains separate and unresolved: existing SSH keys were tested without exposing private material and GitHub returned `Permission denied (publickey)`; no credential workaround was attempted.
+- GitHub Actions cloud relay was hardened locally with `permissions: id-token: write` while retaining `contents: read`; YAML/static validation and the runtime suite remain clean.
+- Important boundary: GitHub OIDC permission only enables token issuance. A provider-side OIDC trust configuration is still required before an external cloud provider can accept GitHub-issued identity; no provider-side trust was fabricated or claimed.
+- OpenRouter and TinyFish remain key-based at the GitHub Actions boundary in the current repository contract. Their keys are not stored on mh-dev-01 and no key values were read or created.
+- SentinelX live enrollment is not complete: current SentinelX account reports zero enrolled hosts. No fake enrollment state was recorded.
+- Fresh canonical qualification after the workflow change: `PREFLIGHT=PASS`, `QUALIFICATION=PASS`, `192 passed`, stability `5/5 PASS`, credentials created `NO`, paid cloud enabled `NO`.
+- Working tree contains the reviewed workflow modification plus the previously quarantined untracked skill/provenance artifacts; those artifacts remain uncommitted pending provenance review.
+- Next autonomous work order: complete legitimate local GitHub authorization on mh-dev-01 via official GitHub authentication, verify non-destructive push capability, then publish the reviewed workflow/checkpoint without force-push; separately resolve SentinelX enrollment and only perform provider E2E where an actual supported authorization path exists.
