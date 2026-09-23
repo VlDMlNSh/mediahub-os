@@ -37,6 +37,21 @@ jobs:
       - name: Install Claude Code
         run: npm install -g @anthropic-ai/claude-code
 
+      - name: Trust workspace for non-interactive Claude Code
+        run: |
+          set -euo pipefail
+          python3 - <<'PY2'
+          import json
+          from pathlib import Path
+          path = Path.home() / ".claude.json"
+          data = {}
+          if path.exists():
+              data = json.loads(path.read_text())
+          projects = data.setdefault("projects", {})
+          projects.setdefault("/home/runner/work/mediahub-os/mediahub-os", {})["hasTrustDialogAccepted"] = True
+          path.write_text(json.dumps(data, sort_keys=True, indent=2) + "\n")
+          PY2
+
       - name: Run bounded Claude worker
         env:
           TASK_PROMPT: ${{ inputs.task_prompt }}
