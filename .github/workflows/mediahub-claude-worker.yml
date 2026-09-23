@@ -1,4 +1,4 @@
-name: MediaHub Claude bounded worker
+name: MediaHub Claude bounded worker via OpenRouter
 
 on:
   workflow_dispatch:
@@ -17,11 +17,14 @@ concurrency:
 
 jobs:
   claude:
-    if: vars.MEDIAHUB_ALLOW_METERED_ANTHROPIC == 'true'
+    if: vars.MEDIAHUB_ALLOW_METERED_OPENROUTER == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      ANTHROPIC_BASE_URL: https://openrouter.ai/api
+      ANTHROPIC_AUTH_TOKEN: ${{ secrets.OPENROUTER_API_KEY }}
+      ANTHROPIC_API_KEY: ""
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,7 +60,8 @@ jobs:
           TASK_PROMPT: ${{ inputs.task_prompt }}
         run: |
           set -euo pipefail
-          test -n "${ANTHROPIC_API_KEY}"
+          test -n "${OPENROUTER_API_KEY}"
+          test -n "${ANTHROPIC_AUTH_TOKEN}"
           python3 - <<'PY'
           import os, re
           p = os.environ["TASK_PROMPT"]
