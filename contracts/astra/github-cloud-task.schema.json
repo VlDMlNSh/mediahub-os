@@ -1,0 +1,24 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"mediahub://contracts/astra/github-cloud-task.schema.json",
+  "title":"MediaHub GitHub Cloud Task",
+  "description":"Allowlisted external task envelope. It carries no credentials.",
+  "type":"object",
+  "additionalProperties":false,
+  "properties":{
+    "schema_id":{"const":"mediahub.astra.github-cloud-task"},
+    "schema_version":{"type":"string","const":"1.0.0"},
+    "owner":{"const":"mediahub-ai"},
+    "task_id":{"type":"string","pattern":"^[A-Za-z0-9._-]{1,128}$"},
+    "request_id":{"type":"string","minLength":1},
+    "session_id":{"type":"string","minLength":1},
+    "operation":{"enum":["tinyfish.web.run"]},
+    "approval_state":{"enum":["not_required","approved"]},
+    "url":{"type":"string","pattern":"^https?://"},
+    "goal":{"type":"string","minLength":1,"maxLength":16000}
+  },
+  "required":[
+    "schema_id","schema_version","owner","task_id","request_id",
+    "session_id","operation","approval_state","url","goal"
+  ]
+}

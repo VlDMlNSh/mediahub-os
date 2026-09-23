@@ -1,0 +1,57 @@
+name: MediaHub cloud relay
+
+on:
+  push:
+    paths:
+      - ".mediahub/tasks/inbox/*.json"
+      - ".github/workflows/mediahub-cloud-relay.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mediahub-cloud-relay
+  cancel-in-progress: false
+
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout task queue
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run approved relay
+        env:
+          TINYFISH_API_KEY: ${{ secrets.TINYFISH_API_KEY }}
+          MEDIAHUB_ALLOW_METERED_TINYFISH: ${{ vars.MEDIAHUB_ALLOW_METERED_TINYFISH }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          MEDIAHUB_OPENROUTER_MODEL: ${{ vars.MEDIAHUB_OPENROUTER_MODEL }}
+          MEDIAHUB_ALLOW_METERED_OPENROUTER: ${{ vars.MEDIAHUB_ALLOW_METERED_OPENROUTER }}
+        run: python3 tools/github_cloud_relay.py
+
+      - name: Verify relay evidence is credential-free
+        shell: bash
+        run: |
+          if grep -RIl --exclude='*.pyc' -E 'sk-or-|OPENROUTER_API_KEY=|Authorization: Bearer|X-API-Key' .mediahub/tasks/done 2>/dev/null; then
+            echo "credential material detected in relay evidence"
+            exit 1
+          fi
+          echo "credential-free relay evidence check: PASS"
+
+      - name: Upload sanitized relay evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: mediahub-cloud-relay-evidence-${{ github.run_id }}
+          path: .mediahub/tasks/done/*.result.json
+          if-no-files-found: ignore
+          retention-days: 7
