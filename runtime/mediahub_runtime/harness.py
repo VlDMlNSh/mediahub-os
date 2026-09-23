@@ -39,6 +39,8 @@ class HarnessResult:
     output_bytes: int
 
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
 DEFAULT_POLICY = HarnessPolicy(
     allowed_executables=frozenset({
         "git", "python3", "pytest", "ruff", "mypy",
@@ -46,7 +48,7 @@ DEFAULT_POLICY = HarnessPolicy(
         "diff", "cmp", "stat", "realpath", "pwd", "whoami", "id",
         "du", "df", "free", "uptime",
     }),
-    allowed_roots=(Path("/home/mediahub/mediahub-os").resolve(),),
+    allowed_roots=(PROJECT_ROOT,),
 )
 
 
@@ -56,7 +58,7 @@ class MediaHubHarness:
     def __init__(self, policy: HarnessPolicy = DEFAULT_POLICY):
         self.policy = policy
 
-    def run(self, argv: Sequence[str], cwd: str | Path = "/home/mediahub/mediahub-os") -> HarnessResult:
+    def run(self, argv: Sequence[str], cwd: str | Path = PROJECT_ROOT) -> HarnessResult:
         self._validate(argv, cwd)
         workdir = Path(cwd).resolve()
         try:
