@@ -526,3 +526,13 @@ J. Update this master continuation document with every material state transition
 - Fresh canonical qualification after the workflow change: `PREFLIGHT=PASS`, `QUALIFICATION=PASS`, `192 passed`, stability `5/5 PASS`, credentials created `NO`, paid cloud enabled `NO`.
 - Working tree contains the reviewed workflow modification plus the previously quarantined untracked skill/provenance artifacts; those artifacts remain uncommitted pending provenance review.
 - Next autonomous work order: complete legitimate local GitHub authorization on mh-dev-01 via official GitHub authentication, verify non-destructive push capability, then publish the reviewed workflow/checkpoint without force-push; separately resolve SentinelX enrollment and only perform provider E2E where an actual supported authorization path exists.
+
+## 25. GITHUB PUBLICATION / REMOTE RECONCILIATION — 2026-09-23
+
+- Official GitHub Device Flow completed on `mh-dev-01` for account `VlDMlNSh`; local `gh` authentication is active with HTTPS Git protocol. No token value was exposed.
+- `gh auth setup-git` configured Git's GitHub credential helper without copying credentials into repository files.
+- Initial non-destructive push detected that the remote implementation branch had advanced independently. No force-push was used.
+- Remote history was fetched and reconciled into the local branch with a normal merge commit `98e3ed2`; remote-only implementation changes were preserved for conflicted source/workflow files, while local checkpoint/history ancestry was retained.
+- The GitHub cloud relay `id-token: write` permission from the local authorization-hardening checkpoint was reapplied after reconciliation. Provider-side OIDC trust remains unverified; OpenRouter/TinyFish remain GitHub Actions secret-based.
+- Existing untracked `.agents/`, `.claude/skills/`, `agent/`, and `skills-lock.json` artifacts remain quarantined and were not published.
+- Next: run the canonical qualification on the reconciled tree, commit the OIDC/checkpoint update, then perform a normal non-force push and verify the remote ref.
