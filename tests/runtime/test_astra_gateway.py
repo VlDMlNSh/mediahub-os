@@ -137,3 +137,16 @@ def test_tinyfish_connector_rejects_non_https_webhook():
     with pytest.raises(TinyFishConnectorError) as exc:
         connector.start(url="https://example.com", goal="check status", webhook_url="http://localhost")
     assert exc.value.code == "invalid_webhook_url"
+
+
+@pytest.mark.parametrize("webhook_url", [
+    "https://127.0.0.1/hook",
+    "https://192.168.1.1/hook",
+    "https://user:pass@example.com/hook",
+    "https://service.local/hook",
+])
+def test_tinyfish_connector_rejects_non_public_webhook(webhook_url):
+    connector = TinyFishConnector(api_key="test-only")
+    with pytest.raises(TinyFishConnectorError) as exc:
+        connector.start(url="https://example.com", goal="check status", webhook_url=webhook_url)
+    assert exc.value.code == "invalid_webhook_url"

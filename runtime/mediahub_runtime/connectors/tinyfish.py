@@ -70,7 +70,7 @@ class TinyFishConnector:
             "agent_config": {"mode": "strict", "max_steps": 50, "max_duration_seconds": 300},
         }
         if webhook_url:
-            if not webhook_url.startswith("https://"):
+            if not _validate_public_url(webhook_url) or not webhook_url.lower().startswith("https://"):
                 raise TinyFishConnectorError("invalid_webhook_url")
             payload["webhook_url"] = webhook_url
         request = urllib.request.Request(
