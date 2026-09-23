@@ -1,13 +1,16 @@
+from pathlib import Path
 import importlib.util
 import json
 
 import pytest
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
 
 def load_relay():
     spec = importlib.util.spec_from_file_location(
         "github_cloud_relay",
-        "/home/mediahub/mediahub-os/tools/github_cloud_relay.py",
+        str(REPO_ROOT / "tools" / "github_cloud_relay.py"),
     )
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
