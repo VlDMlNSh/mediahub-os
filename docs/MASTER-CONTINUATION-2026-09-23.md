@@ -592,3 +592,15 @@ J. Update this master continuation document with every material state transition
 - `agent/skills/unlazy` remains a divergent duplicate and is not the locked/canonical copy. It remains untracked and is not promoted.
 - Upstream skill regression suite executed from the canonical `.agents` copy: `34/34 passed`.
 - No source, runtime, credential, or cloud authorization changes were made during this verification.
+
+## 31. UNLAZY + CODEX INTEGRATION AUDIT AND CODEX CONFIG REQUALIFICATION — 2026-09-23
+
+- Read-only integration audit confirms the canonical repository skill location is `.agents/skills/unlazy`; there are no tracked skill files yet, and `agent/skills/unlazy` remains a divergent untracked duplicate and is not canonical.
+- Current Codex 0.151.0 supports repository skills under `.agents/skills/`; this matches the current OpenAI Codex skill layout. No global `~/.codex/skills/unlazy` copy was created because repository-local discovery is the appropriate project-scoped integration boundary.
+- Codex skill discovery is enabled in the installed runtime (`skill_search = stable/true`).
+- The existing `~/.codex/config.toml` was found syntactically valid but semantically rejected by Codex 0.151.0 because `[features.context_management] experimental_mode = true` is no longer a recognized feature configuration shape. A timestamped backup was preserved at `~/.codex/config.toml.pre-context-fix-20260923`; the incompatible two-line block was removed from the active config so Codex can load configuration again.
+- This does not disable the current Codex compaction/runtime mechanisms: installed feature inventory reports `remote_compaction_v2 = stable/true`; the removed block was an obsolete configuration key, not the current compaction control surface.
+- After the correction, `codex doctor` reports `config loaded`. Remaining doctor notes are external/non-blocking to this change: the active Continuum provider has no `CONTINUUM_API_KEY` (credentials are intentionally not created), and the system has two npm installation roots for Codex (`/usr/local` active versus the user nvm prefix). No credential or provider secret was created.
+- OpenAI's current developer documentation confirms repository-local skills under `.agents/skills/` and describes skills as discovered from their metadata before loading full instructions. This validates the MediaHub placement without requiring a global skill copy.
+- Canonical unlazy regression suite remains `34/34 passed` after the integration audit.
+- No MediaHub runtime architecture, Control Plane, provider boundary, cloud credentials, or production authorization state was changed by this audit.
