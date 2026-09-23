@@ -570,3 +570,14 @@ J. Update this master continuation document with every material state transition
 - Caddy `2.11.4` is installed as a user-local binary but is not running. This is expected from the current installer design in non-root mode: system integration/configuration is only prepared in root mode, and the installer explicitly leaves edge/auth services disabled until configuration is supplied. No privileged workaround was attempted.
 - No credentials were created or exposed; paid cloud remains disabled. Production authorization, SentinelX enrollment and Experiential live gateway remain NOT_VERIFIED.
 - Working tree still contains only the known quarantined untracked skill/provenance artifacts: `.agents/`, `.claude/skills/`, `agent/`, `skills-lock.json`.
+
+## 29. UNLAZY PROVENANCE AUDIT — 2026-09-23
+
+- Upstream repository `Leonxlnx/unlazy` was inspected through the authenticated GitHub connector.
+- The repository search resolves `SKILL.md` to commit `16671491f6679ad9378f52604d3bc2415b4120c7`.
+- Upstream `SKILL.md` content was fetched directly from that immutable commit. Its frontmatter and core completion-gate workflow match the local `.agents/skills/unlazy/SKILL.md` at the inspected semantic level, but the local provenance lock does not identify this commit.
+- Local `.agents/skills/unlazy/SKILL.md` SHA-256 is `0ea144724398f9df5ce4cb880ff472c8afee0193179eb2f2a5d82f1a0f633450`.
+- Local `agent/skills/unlazy/SKILL.md` SHA-256 is `5b63f7bb86f011a4a11fefc28254b2d763a3ee04917f49030215b824ab28e7a2` and differs from `.agents/skills/unlazy/SKILL.md` even after frontmatter normalization.
+- `skills-lock.json` records source `Leonxlnx/unlazy` but its `computedHash` (`7fcb511111a6d234d56dc1d9d38e0ae754c1762945ad7cd26679e799ee5e64ed`) matches neither local copy.
+- Decision: fail closed. No unlazy skill/provenance artifact is promoted into the tracked MediaHub baseline until its exact source commit and lock-generation method are reconciled. Existing untracked artifacts remain quarantined.
+- No repository source, runtime component, credential, or cloud authorization was changed by this audit.
