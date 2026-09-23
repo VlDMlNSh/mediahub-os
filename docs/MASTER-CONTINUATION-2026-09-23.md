@@ -581,3 +581,14 @@ J. Update this master continuation document with every material state transition
 - `skills-lock.json` records source `Leonxlnx/unlazy` but its `computedHash` (`7fcb511111a6d234d56dc1d9d38e0ae754c1762945ad7cd26679e799ee5e64ed`) matches neither local copy.
 - Decision: fail closed. No unlazy skill/provenance artifact is promoted into the tracked MediaHub baseline until its exact source commit and lock-generation method are reconciled. Existing untracked artifacts remain quarantined.
 - No repository source, runtime component, credential, or cloud authorization was changed by this audit.
+
+## 30. UNLAZY HASH ALGORITHM AND IMMUTABLE PROVENANCE VERIFIED — 2026-09-23
+
+- The previous provenance conclusion is superseded by direct verification of the `skills` CLI hash algorithm.
+- The installed `skills` CLI computes `computedHash` as SHA-256 over every regular file in the skill directory, sorted by relative POSIX path, hashing each relative path followed by its raw file bytes; `.git` and `node_modules` are excluded.
+- Applying the exact algorithm gives `.agents/skills/unlazy` = `7fcb511111a6d234d56dc1d9d38e0ae754c1762945ad7cd26679e799ee5e64ed`, exactly matching `skills-lock.json`.
+- The entire `.agents/skills/unlazy` directory (37 files) was compared against upstream `Leonxlnx/unlazy` at immutable commit `16671491f6679ad9378f52604d3bc2415b4120c7`; directory hash and file-tree comparison match exactly.
+- Therefore `.agents/skills/unlazy` + `skills-lock.json` are provenance-consistent and reproducible. No correction to the lockfile is required.
+- `agent/skills/unlazy` remains a divergent duplicate and is not the locked/canonical copy. It remains untracked and is not promoted.
+- Upstream skill regression suite executed from the canonical `.agents` copy: `34/34 passed`.
+- No source, runtime, credential, or cloud authorization changes were made during this verification.
