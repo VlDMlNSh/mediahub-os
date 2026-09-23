@@ -560,3 +560,13 @@ J. Update this master continuation document with every material state transition
 - Untracked skill/provenance artifacts remain intentionally quarantined: `.agents/`, `.claude/skills/`, `agent/`, `skills-lock.json`.
 - Qualification immediately preceding publication was PASS: 192 runtime tests, 5/5 stability, contracts/connector/host/security checks PASS.
 - External authorization gates remain explicit: SentinelX enrollment, production authorization and Experiential live gateway are not verified; paid cloud remains disabled and no credentials were created on the host.
+
+## 28. POST-PUBLICATION REQUALIFICATION — 2026-09-23
+
+- Re-ran canonical preflight and qualification on `mh-dev-01` after verified GitHub publication.
+- `PREFLIGHT=PASS`; contract validation: 14 files, identity separation PASS; connector boundary PASS; host registration PASS.
+- Runtime suite: `192 passed in 0.60s`; stability loop: `5/5 PASS`; autonomous local core PASS; security edge binaries PASS.
+- Local runtime services verified: FreeLLMAPI is reachable on `127.0.0.1:3001`; Ollama `0.34.1` is reachable on `127.0.0.1:11434`.
+- Caddy `2.11.4` is installed as a user-local binary but is not running. This is expected from the current installer design in non-root mode: system integration/configuration is only prepared in root mode, and the installer explicitly leaves edge/auth services disabled until configuration is supplied. No privileged workaround was attempted.
+- No credentials were created or exposed; paid cloud remains disabled. Production authorization, SentinelX enrollment and Experiential live gateway remain NOT_VERIFIED.
+- Working tree still contains only the known quarantined untracked skill/provenance artifacts: `.agents/`, `.claude/skills/`, `agent/`, `skills-lock.json`.
