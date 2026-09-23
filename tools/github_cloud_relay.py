@@ -5,6 +5,9 @@ import hashlib
 import json
 import os
 import time
+import ipaddress
+import re
+import socket
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -18,6 +21,7 @@ ALLOWED = {"tinyfish.web.run", "openrouter.infer"}
 TINYFISH_API = "https://agent.tinyfish.ai"
 OPENROUTER_API = "https://openrouter.ai/api/v1/chat/completions"
 MAX_RESULT_BYTES = 262_144
+MAX_TASK_BYTES = 131_072
 MAX_PROMPT_CHARS = 65_536
 MAX_OPENROUTER_OUTPUT_TOKENS = 1200
 MAX_OPENROUTER_TASKS_PER_RUN = 1
@@ -27,10 +31,23 @@ MAX_POLLS = 150
 
 def write_result(task_id: str, payload: dict[str, Any]) -> None:
     DONE.mkdir(parents=True, exist_ok=True)
-    (DONE / f"{task_id}.result.json").write_text(
-        json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n",
-        encoding="utf-8",
-    )
+    if DONE.is_symlink():
+        raise OSError("unsafe_done_directory")
+    target = DONE / f"{task_id}.result.json"
+    raw = (json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n").encode("utf-8")
+    flags = os.O_WRONLY | os.O_CREAT | os.O_TRUNC
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    fd = os.open(target, flags, 0o600)
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(raw)
+    except Exception:
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+        raise
 
 
 def fail(task_id: str, code: str) -> None:
@@ -48,11 +65,35 @@ def request_json(request: urllib.request.Request, limit: int = MAX_RESULT_BYTES)
     return data
 
 
+def _validate_public_url(value: str) -> bool:
+    try:
+        from urllib.parse import urlsplit
+        parsed = urlsplit(value)
+        if parsed.scheme not in {"https", "http"} or not parsed.hostname or parsed.username or parsed.password:
+            return False
+        host = parsed.hostname.rstrip(".").lower()
+        if host in {"localhost", "localhost.localdomain"} or host.endswith(".local"):
+            return False
+        try:
+            addresses = {ipaddress.ip_address(info[4][0]) for info in socket.getaddrinfo(host, None)}
+        except (OSError, ValueError):
+            return False
+        return bool(addresses) and all(not (addr.is_private or addr.is_loopback or addr.is_link_local or addr.is_multicast or addr.is_reserved or addr.is_unspecified) for addr in addresses)
+    except ValueError:
+        return False
+
+
 def process(path: Path, *, openrouter_tasks_seen: int = 0) -> int:
+    if path.is_symlink():
+        fail(path.stem, "unsafe_task_path")
+        return openrouter_tasks_seen
+    if path.stat().st_size > MAX_TASK_BYTES:
+        fail(path.stem, "task_too_large")
+        return openrouter_tasks_seen
     data: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
     task_id = data.get("task_id")
     operation = data.get("operation")
-    if not isinstance(task_id, str) or not task_id or "/" in task_id or len(task_id) > 128:
+    if not isinstance(task_id, str) or not task_id or len(task_id) > 128 or re.fullmatch(r"[A-Za-z0-9._-]{1,128}", task_id) is None:
         return openrouter_tasks_seen
     if operation not in ALLOWED:
         fail(task_id, "operation_not_allowed")
@@ -67,6 +108,13 @@ def process(path: Path, *, openrouter_tasks_seen: int = 0) -> int:
         fail(task_id, "invalid_task_contract")
         return openrouter_tasks_seen
 
+    allowed_fields = ({"schema_id", "schema_version", "owner", "task_id", "request_id", "session_id", "operation", "approval_state", "prompt"}
+                      if operation == "openrouter.infer" else
+                      {"schema_id", "schema_version", "owner", "task_id", "request_id", "session_id", "operation", "approval_state", "url", "goal"})
+    if set(data) != allowed_fields:
+        fail(task_id, "invalid_task_contract")
+        return openrouter_tasks_seen
+
     if operation == "openrouter.infer":
         openrouter_tasks_seen += 1
         if openrouter_tasks_seen > MAX_OPENROUTER_TASKS_PER_RUN:
@@ -78,7 +126,7 @@ def process(path: Path, *, openrouter_tasks_seen: int = 0) -> int:
             return openrouter_tasks_seen
 
         prompt = data.get("prompt")
-        model = data.get("model") or os.environ.get("MEDIAHUB_OPENROUTER_MODEL", "")
+        model = os.environ.get("MEDIAHUB_OPENROUTER_MODEL", "")
         if not isinstance(prompt, str) or not prompt.strip() or len(prompt) > MAX_PROMPT_CHARS:
             fail(task_id, "invalid_prompt")
             return openrouter_tasks_seen
@@ -139,7 +187,7 @@ def process(path: Path, *, openrouter_tasks_seen: int = 0) -> int:
             return openrouter_tasks_seen
 
     url, goal = data.get("url"), data.get("goal")
-    if not isinstance(url, str) or not url.startswith(("https://", "http://")):
+    if not isinstance(url, str) or not _validate_public_url(url):
         fail(task_id, "invalid_target_url")
         return openrouter_tasks_seen
     if not isinstance(goal, str) or not goal.strip() or len(goal) > 16000:
@@ -224,6 +272,8 @@ def process(path: Path, *, openrouter_tasks_seen: int = 0) -> int:
 
 if __name__ == "__main__":
     INBOX.mkdir(parents=True, exist_ok=True)
+    if INBOX.is_symlink() or INBOX.resolve() != (ROOT / ".mediahub" / "tasks" / "inbox").resolve():
+        raise SystemExit("unsafe_inbox_directory")
     openrouter_tasks_seen = 0
     for task_file in sorted(INBOX.glob("*.json")):
         try:

@@ -1,11 +1,16 @@
+from pathlib import Path
 import importlib.util
 import json
+
+import pytest
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 def load_relay():
     spec = importlib.util.spec_from_file_location(
         "github_cloud_relay",
-        "/home/mediahub/mediahub-os/tools/github_cloud_relay.py",
+        str(REPO_ROOT / "tools" / "github_cloud_relay.py"),
     )
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
@@ -80,13 +85,14 @@ def test_relay_polls_and_stores_goal_result(tmp_path, monkeypatch):
 
 def test_openrouter_relay_uses_github_secret_only(tmp_path, monkeypatch):
     relay = load_relay()
-    task = contract() | {"task_id": "or-1", "operation": "openrouter.infer", "prompt": "hello", "model": "openai/gpt-5.2"}
+    task = contract() | {"task_id": "or-1", "operation": "openrouter.infer", "prompt": "hello"}
     task.pop("url", None)
     task.pop("goal", None)
     path = tmp_path / "or-1.json"
     path.write_text(json.dumps(task), encoding="utf-8")
     monkeypatch.setenv("OPENROUTER_API_KEY", "github-secret-test")
     monkeypatch.setenv("MEDIAHUB_ALLOW_METERED_OPENROUTER", "true")
+    monkeypatch.setenv("MEDIAHUB_OPENROUTER_MODEL", "openai/gpt-5.2")
     monkeypatch.setattr(relay, "DONE", tmp_path / "done")
     captured = {}
     def fake_request(request):
@@ -100,3 +106,62 @@ def test_openrouter_relay_uses_github_secret_only(tmp_path, monkeypatch):
     assert result["output"] == "OK"
     assert "github-secret-test" not in json.dumps(result)
     assert captured["auth"] == "Bearer github-secret-test"
+
+
+def test_relay_rejects_oversized_task(tmp_path, monkeypatch):
+    relay = load_relay()
+    path = tmp_path / "large.json"
+    path.write_bytes(b"{" + b"a" * (relay.MAX_TASK_BYTES + 1) + b"}")
+    monkeypatch.setattr(relay, "DONE", tmp_path / "done")
+    relay.process(path)
+    result = json.loads((tmp_path / "done" / "large.result.json").read_text())
+    assert result["error"] == "task_too_large"
+
+
+def test_relay_rejects_unexpected_fields(tmp_path, monkeypatch):
+    relay = load_relay()
+    task = contract() | {"unexpected": "value"}
+    path = tmp_path / "task-extra.json"
+    path.write_text(json.dumps(task), encoding="utf-8")
+    monkeypatch.setattr(relay, "DONE", tmp_path / "done")
+    relay.process(path)
+    result = json.loads((tmp_path / "done" / "task-1.result.json").read_text())
+    assert result["error"] == "invalid_task_contract"
+
+
+def test_relay_rejects_symlinked_result_target(tmp_path, monkeypatch):
+    relay = load_relay()
+    path = tmp_path / "task-1.json"
+    path.write_text(json.dumps(contract()), encoding="utf-8")
+    done = tmp_path / "done"
+    done.mkdir()
+    victim = tmp_path / "victim.txt"
+    victim.write_text("unchanged", encoding="utf-8")
+    (done / "task-1.result.json").symlink_to(victim)
+    monkeypatch.setenv("MEDIAHUB_ALLOW_METERED_TINYFISH", "false")
+    monkeypatch.setattr(relay, "DONE", done)
+    with pytest.raises(OSError):
+        relay.process(path)
+    assert victim.read_text(encoding="utf-8") == "unchanged"
+
+
+def test_relay_rejects_symlinked_task(tmp_path, monkeypatch):
+    relay = load_relay()
+    real = tmp_path / "real.json"
+    real.write_text(json.dumps(contract()), encoding="utf-8")
+    path = tmp_path / "task-1.json"
+    path.symlink_to(real)
+    monkeypatch.setattr(relay, "DONE", tmp_path / "done")
+    relay.process(path)
+    result = json.loads((tmp_path / "done" / "task-1.result.json").read_text())
+    assert result["error"] == "unsafe_task_path"
+
+
+def test_relay_rejects_invalid_task_id(tmp_path, monkeypatch):
+    relay = load_relay()
+    task = contract() | {"task_id": "../escape"}
+    path = tmp_path / "bad.json"
+    path.write_text(json.dumps(task), encoding="utf-8")
+    monkeypatch.setattr(relay, "DONE", tmp_path / "done")
+    relay.process(path)
+    assert not (tmp_path / "done" / "../escape.result.json").exists()

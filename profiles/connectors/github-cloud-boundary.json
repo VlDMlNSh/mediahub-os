@@ -10,6 +10,6 @@
   "cloud_authentication": "oidc_preferred",
   "long_lived_cloud_credentials_on_host": false,
   "task_transport": "git_repository",
-  "allowed_operations": ["tinyfish.web.run"],
+  "allowed_operations": ["tinyfish.web.run", "openrouter.infer"],
   "fail_closed": true
 }

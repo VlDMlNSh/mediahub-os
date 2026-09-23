@@ -1,0 +1,28 @@
+{
+  "schema_id": "mediahub.connector.chatgpt-astra",
+  "schema_version": "1.0.0",
+  "id": "chatgpt-astra",
+  "enabled": true,
+  "role": "operator_client",
+  "operator": "ChatGPT",
+  "transport": "github_task_contract",
+  "gateway": "AstraGatewayRuntime",
+  "policy_authority": "MediaHub Codex",
+  "orchestrator": "CloudFirstOrchestrator",
+  "local_extension": "ollama",
+  "cloud_boundary": "github-cloud-boundary",
+  "task_inbox": ".mediahub/tasks/inbox",
+  "task_results": ".mediahub/tasks/done",
+  "secret_handling": "never_in_chat_never_in_repository",
+  "provider_selection": "server_side_only",
+  "approval": {
+    "sensitive_actions": [
+      "host_install",
+      "credential_change",
+      "production_deploy",
+      "destructive_action"
+    ],
+    "default": "deny_until_approved"
+  },
+  "fail_closed": true
+}
