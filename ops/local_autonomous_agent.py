@@ -2894,6 +2894,49 @@ The controller writes this artifact only after executing the verification comman
         if marker not in old:
             return ""
         return unified_patch(old, old.replace(marker, hardened, 1), target)
+    if task.fallback_kind == "p8.2-cross-domain-contract-gap-reconciliation":
+        target = task.target
+        sources = (
+            "specification/contract-registry.yaml",
+            "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+            "tests/contracts/test_contract_domain_reconciliation.py",
+            "tests/contracts/test_contract_metadata.py",
+            "tests/contracts/test_mobile_api_compatibility.py",
+            "tests/static/test_cross_contract.py",
+            "tests/test_mediahub_lifecycle_contract.py",
+            "ops/verify_functional_baseline.sh",
+        )
+        import hashlib
+        evidence = []
+        for rel in sources:
+            source = ROOT / rel
+            if not source.is_file():
+                return ""
+            digest = hashlib.sha256(source.read_bytes()).hexdigest()
+            evidence.append(f"### {rel}\nSHA256: {digest}")
+        content = """# P8.2 — Cross-domain contract reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P8.2 NOT CLOSED
+
+## Scope
+
+This artifact records deterministic repository evidence for contract coverage across Core, AI, Home Assistant, Media, Documents, Mobile and Voice. It distinguishes repository declarations and executable tests from unimplemented or unverified product behavior. It does not invent domain semantics, mutate State Authority, activate providers or claim P8.2 closure.
+
+## Deterministic classification
+
+- Core: inspected through canonical contract metadata, identity/domain reconciliation and lifecycle tests.
+- AI: inspected through the existing AI contract surfaces referenced by the repository baseline and cross-contract tests.
+- Home Assistant: inspected through the baseline verification boundary; this artifact does not claim external HA runtime qualification.
+- Media: inspected through the existing lifecycle contract and tests; ingestion/playback/storage qualification remains separately scoped.
+- Documents: no independent executable document contract is established by the inspected cross-domain test set; further qualification remains open.
+- Mobile: inspected through the existing mobile compatibility contract and tests; end-to-end iOS qualification remains separately scoped.
+- Voice: no independent executable voice-provider contract is established by the inspected cross-domain test set; provider qualification remains open.
+
+## Source evidence
+
+""" + chr(10) + chr(10).join(evidence) + chr(10)
+        return unified_patch("", content, target)
+
     if task.fallback_kind == "p8.1-escalation-path-reconciliation":
         target = task.target
         sources = (
@@ -3200,6 +3243,13 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_policy_engine.py", "tests/test_mediahub_egress_controller.py"], 180))
     if selected and selected.fallback_kind == "p7.6-degraded-offline-recovery-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_resilience.py"], 180))
+    if selected and selected.fallback_kind == "p8.2-cross-domain-contract-gap-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q",
+                        "tests/contracts/test_contract_domain_reconciliation.py",
+                        "tests/contracts/test_contract_metadata.py",
+                        "tests/contracts/test_mobile_api_compatibility.py",
+                        "tests/static/test_cross_contract.py",
+                        "tests/test_mediahub_lifecycle_contract.py"], 180))
     if selected and selected.fallback_kind == "p8.1-escalation-path-reconciliation":
         checks.append(([sys.executable, "-c", "from pathlib import Path; files=('specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml','docs/ops/P5-5-mobile-access-not-ai-compute-gap-reconciliation-2026-09-22.md','docs/ops/P7-4-ordinary-user-cloud-development-access-gap-reconciliation-2026-09-22.md','ops/mediahub_provider_gateway.py','ops/cloud_development_adapter.py'); assert all(Path(f).is_file() for f in files); print('P8.1 escalation-path evidence source scan PASS')"], 30))
     if selected and selected.fallback_kind == "p7.4-ordinary-user-cloud-development-access-gap-reconciliation":
