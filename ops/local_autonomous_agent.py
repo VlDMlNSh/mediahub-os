@@ -2996,7 +2996,6 @@ The controller writes this artifact only after executing the verification comman
             "tests/runtime/test_mh04_qualification_edges.py",
             "tests/security/test_mh05_health_not_authorization.py",
         )
-        import hashlib
         evidence = []
         for rel in sources:
             source = ROOT / rel
@@ -3068,7 +3067,6 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
             "tests/security/test_mh05_systemwide_reachability.py",
             "tests/security/test_mh04_state_authority_redteam.py",
         )
-        import hashlib
         evidence = []
         for rel in sources:
             source = ROOT / rel
@@ -3113,7 +3111,6 @@ P8.4 remains OPEN until the required security surfaces have deterministic accept
             "tests/test_mediahub_lifecycle_contract.py",
             "ops/verify_functional_baseline.sh",
         )
-        import hashlib
         evidence = []
         for rel in sources:
             source = ROOT / rel
@@ -3154,7 +3151,6 @@ This artifact records deterministic repository evidence for contract coverage ac
             "ops/mediahub_provider_gateway.py",
             "ops/cloud_development_adapter.py",
         )
-        import hashlib
         evidence_lines = []
         for rel in sources:
             source = ROOT / rel
@@ -3203,8 +3199,7 @@ This artifact records deterministic repository evidence for the existing escalat
             source = ROOT / rel
             if not source.is_file():
                 return ""
-            import hashlib
-            digest = hashlib.sha256(source.read_bytes()).hexdigest()
+                digest = hashlib.sha256(source.read_bytes()).hexdigest()
             lines = source.read_text(encoding="utf-8").splitlines()
             matches = []
             for number, line in enumerate(lines, 1):
@@ -3229,7 +3224,6 @@ This artifact records deterministic repository evidence for the existing escalat
             "tests/test_mediahub_resilience.py",
         )
         evidence_lines = []
-        import hashlib
         for rel in sources:
             source = ROOT / rel
             if not source.is_file():
@@ -3276,7 +3270,6 @@ The following remain separate until domain-specific deterministic evidence exist
             "tests/test_mediahub_policy_engine.py", "tests/test_mediahub_egress_controller.py",
         )
         evidence_lines=[]
-        import hashlib
         for rel in sources:
             source=ROOT/rel
             if not source.is_file(): return ""
