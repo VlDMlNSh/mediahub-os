@@ -1500,6 +1500,14 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
             "docs/checkpoints/MH-19-P5.3-2026-09-19.md",
             "# MH-19 P5.3 Verified Increment — Mobile API Compatibility",
         ),
+        "P9.1": (
+            "docs/ops/P9-1-threat-model-refresh-2026-09-24.md",
+            "P9.1 remains OPEN until the refreshed threat model",
+        ),
+        "P9.2": (
+            "docs/ops/P9-2-static-secret-dependency-provenance-review-2026-09-24.md",
+            "P9.2 remains OPEN until dependency provenance/license requirements",
+        ),
         "P9.5": (
             "docs/architecture/MH-12-evidence-register.md",
             "P9.5 credential broker revocation isolation",
