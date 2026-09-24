@@ -49,7 +49,10 @@ def main() -> int:
     egress = HybridCloudEgressAdapter(parse_paths(args.paths))
     controller = HybridDevelopmentController(session, conversation, delivery, egress, args.health_url)
     session_checkpoint = state / "session.jsonl"
-    if session_checkpoint.exists():
+    # A zero-byte/whitespace-only journal is an initialized but empty checkpoint,
+    # not a recoverable prior session. Start a fresh bounded session in that case.
+    has_checkpoint = session_checkpoint.exists() and session_checkpoint.read_text(encoding="utf-8").strip()
+    if has_checkpoint:
         try:
             controller.restore(args.session_id, args.baseline_sha, args.r4_sha)
         except HybridDevelopmentDenied:

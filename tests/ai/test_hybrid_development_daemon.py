@@ -160,3 +160,57 @@ def test_daemon_rejects_terminal_tail_with_baseline_or_r4_mismatch(monkeypatch, 
     ])
     with pytest.raises(daemon.HybridDevelopmentDenied):
         daemon.main()
+
+def test_daemon_treats_empty_checkpoint_as_fresh_session(monkeypatch, tmp_path):
+    class FakeJournal:
+        def __init__(self, path):
+            self.path = path
+
+        def read_tail(self):
+            raise AssertionError("empty checkpoint must not be restored")
+
+    class FakeSession:
+        def __init__(self, journal):
+            self.journal = journal
+            self.session = None
+
+    class FakeConversation:
+        def __init__(self, journal_path):
+            pass
+
+    class FakeDelivery:
+        def __init__(self, path):
+            pass
+
+    class FakeEgress:
+        def __init__(self, paths):
+            pass
+
+    class FakeController:
+        def __init__(self, *args):
+            self.state = type("State", (), {"value": "WAITING"})()
+
+        def start(self, *args):
+            return None
+
+        def poll(self):
+            raise KeyboardInterrupt
+
+    checkpoint = tmp_path / ".hybrid-development" / "session.jsonl"
+    checkpoint.parent.mkdir()
+    checkpoint.write_text("\n  \n", encoding="utf-8")
+    monkeypatch.setattr(daemon, "ROOT", tmp_path)
+    monkeypatch.setattr(daemon, "SessionJournal", FakeJournal)
+    monkeypatch.setattr(daemon, "HybridSessionController", FakeSession)
+    monkeypatch.setattr(daemon, "TextConversationController", FakeConversation)
+    monkeypatch.setattr(daemon, "TaskDeliveryJournal", FakeDelivery)
+    monkeypatch.setattr(daemon, "HybridCloudEgressAdapter", FakeEgress)
+    monkeypatch.setattr(daemon, "HybridDevelopmentController", FakeController)
+    monkeypatch.setattr(daemon, "parse_paths", lambda value: ())
+    monkeypatch.setattr(sys, "argv", [
+        "daemon", "--session-id", "s1", "--baseline-sha", "baseline",
+        "--r4-sha", "r4", "--duration-hours", "1",
+        "--health-url", "https://example.invalid/health", "--paths", "vpm:tun:src",
+    ])
+    with pytest.raises(KeyboardInterrupt):
+        daemon.main()
