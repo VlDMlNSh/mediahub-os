@@ -354,7 +354,6 @@ def _compile_p85_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
         str(target.relative_to(root)),
         "Record deterministic repository evidence for request-to-proposal-to-result/evidence provenance. Trace request_id, workload_id, source_sha and provider across existing native execution, cluster recovery and AI adapter boundaries; distinguish implemented binding from missing artifact/result journal linkage. Do not add persistence, execute providers, mutate State Authority, or claim P8.5 closed unless the full chain is demonstrated.",
         "p8.5-provenance-chain-reconciliation",
-        "p9.1-threat-model-refresh",
     )
 
 
@@ -1621,6 +1620,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p8.3-end-to-end-scenario-reconciliation",
         "p8.4-bounded-agent-security-reconciliation",
         "p8.5-provenance-chain-reconciliation",
+        "p9.1-threat-model-refresh",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
