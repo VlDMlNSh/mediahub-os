@@ -311,6 +311,31 @@ def _compile_p81_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
+def _compile_p91_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P9-1-threat-model-refresh-2026-09-24.md"
+    sources = (
+        "docs/architecture/MH-21-threat-model.md",
+        "docs/architecture/MH-21-security-invariants.md",
+        "docs/architecture/MH-21-security.md",
+        "docs/architecture/MH-21-network-boundary.md",
+        "docs/architecture/MH-21-data-egress.md",
+        "docs/architecture/MH-21-agent-limits.md",
+        "docs/architecture/MH-21-cloud-boundary.md",
+        "docs/architecture/MH-21-provider-quarantine.md",
+        "docs/architecture/MH-21-remote-policy.md",
+        "docs/architecture/MH-21-cloud-credentials.md",
+        "docs/architecture/MH-21-audit.md",
+        "docs/architecture/MH-21-recovery-security.md",
+    )
+    if target.is_file() or not all((root / rel).is_file() for rel in sources):
+        return None
+    return LocalTask(
+        "P9.1-threat-model-refresh", f"P9.1 {item.description}", str(target.relative_to(root)),
+        "Refresh the threat model from current architecture/security artifacts. Extract documented trust boundaries, assets, threat classes, controls and explicit unknowns/gaps; distinguish implemented controls from design claims and preserve release blockers. Do not invent threats, change authority, execute providers or claim security closure.",
+        "p9.1-threat-model-refresh",
+    )
+
+
 def _compile_p85_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "docs/ops/P8-5-provenance-chain-reconciliation-2026-09-24.md"
     sources = (
@@ -329,6 +354,7 @@ def _compile_p85_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
         str(target.relative_to(root)),
         "Record deterministic repository evidence for request-to-proposal-to-result/evidence provenance. Trace request_id, workload_id, source_sha and provider across existing native execution, cluster recovery and AI adapter boundaries; distinguish implemented binding from missing artifact/result journal linkage. Do not add persistence, execute providers, mutate State Authority, or claim P8.5 closed unless the full chain is demonstrated.",
         "p8.5-provenance-chain-reconciliation",
+        "p9.1-threat-model-refresh",
     )
 
 
@@ -362,7 +388,7 @@ def _compile_p84_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
-RAW_QUEUE_COMPILERS = {"P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+RAW_QUEUE_COMPILERS = {"P9.1": _compile_p91_queue_item, "P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
@@ -3024,6 +3050,27 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
 ## Source evidence
 
 """ + chr(10) + chr(10).join(evidence) + chr(10)
+        return unified_patch("", content, target)
+
+    if task.fallback_kind == "p9.1-threat-model-refresh":
+        target = task.target
+        sources = (
+            "docs/architecture/MH-21-threat-model.md", "docs/architecture/MH-21-security-invariants.md",
+            "docs/architecture/MH-21-security.md", "docs/architecture/MH-21-network-boundary.md",
+            "docs/architecture/MH-21-data-egress.md", "docs/architecture/MH-21-agent-limits.md",
+            "docs/architecture/MH-21-cloud-boundary.md", "docs/architecture/MH-21-provider-quarantine.md",
+            "docs/architecture/MH-21-remote-policy.md", "docs/architecture/MH-21-cloud-credentials.md",
+            "docs/architecture/MH-21-audit.md", "docs/architecture/MH-21-recovery-security.md",
+        )
+        evidence=[]
+        for rel in sources:
+            source=ROOT/rel
+            if not source.is_file(): return ""
+            digest=hashlib.sha256(source.read_bytes()).hexdigest()
+            lines=source.read_text(encoding="utf-8").splitlines()
+            hits=[f"L{i}: {line.strip()}" for i,line in enumerate(lines,1) if any(x in line.lower() for x in ("threat","boundary","egress","credential","quarantine","authorization","revocation","unknown","security"))]
+            evidence.append(f"### {rel}\nSHA256: {digest}\n"+"\n".join(f"- {x}" for x in hits[:25]))
+        content="# P9.1 — Threat-model refresh\n\nStatus: THREAT_MODEL_RECONCILIATION / P9.1 NOT CLOSED\n\n## Scope\n\nDeterministic refresh of documented security/threat surfaces against the current repository architecture. This is a repository evidence reconciliation, not a penetration test and not proof that every runtime path is secure.\n\n## Findings\n\n- Trust boundaries and security invariants are documented across local execution, cloud/provider boundaries, remote policy, credentials, egress and recovery.\n- Existing architecture documents contain explicit unknown/gap registers that must remain release considerations.\n- Documentation evidence is not equivalent to runtime qualification; negative tests and live endpoint behavior require separate evidence.\n- P9.1 remains OPEN until the refreshed threat model is reconciled with current implementation and security-test evidence and all release blockers are classified.\n\n## Source evidence\n\n"+"\n\n".join(evidence)+"\n"
         return unified_patch("", content, target)
 
     if task.fallback_kind == "p8.5-provenance-chain-reconciliation":
