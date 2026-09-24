@@ -485,7 +485,7 @@ def select_local_task(root: Path) -> LocalTask | None:
             "P1.6-hybrid-egress-tests": LocalTask("P1.6-hybrid-egress-tests", "P1.6 Complete Cloud Development Adapter + Sandbox + Egress + CredentialBroker contract qualification.", "tests/test_hybrid_cloud_api_egress_adapter.py", "Add focused negative tests for malformed URL/method/headers and invalid timeout while preserving fail-closed VPN and allowlist tests.", "hybrid-egress-tests"),
         }
         task = forced_tasks.get(forced)
-        if task is not None and _queue_contains(root, task.queue_item) and (root / task.target).is_file():
+        if task is not None and _queue_contains(root, task.queue_item) and (root / task.target).is_file() or task is not None and _queue_contains(root, task.queue_item) and task.fallback_kind == "p9.4-sandbox-authority-escalation-negative-tests":
             return task
         return None
     """Select one deterministic, local, highest-priority eligible increment.
