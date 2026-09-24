@@ -240,7 +240,31 @@ def _compile_p052_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None
     )
 
 
-RAW_QUEUE_COMPILERS = {"P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+
+def _compile_p81_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P8-1-escalation-path-reconciliation-2026-09-24.md"
+    if target.exists():
+        return None
+    sources = (
+        "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        "specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml",
+        "docs/ops/P5-5-mobile-access-not-ai-compute-gap-reconciliation-2026-09-22.md",
+        "docs/ops/P7-4-ordinary-user-cloud-development-access-gap-reconciliation-2026-09-22.md",
+        "ops/mediahub_provider_gateway.py",
+        "ops/cloud_development_adapter.py",
+    )
+    if not all((root / rel).is_file() for rel in sources):
+        return None
+    return LocalTask(
+        "P8.1-escalation-path-reconciliation",
+        f"P8.1 {item.description}",
+        str(target.relative_to(root)),
+        "Record deterministic repository evidence for the existing escalation path Mobile Access Layer → Local AI → Local Cluster AI → Cloud Development AI. Inspect only existing baseline/governance, mobile boundary, provider gateway and cloud-orchestrator surfaces; classify each hop as PRESENT, PARTIAL or NOT ESTABLISHED with exact file/line evidence. Do not invent routing behavior, add a Mobile AI tier, execute providers, acquire credentials, mutate State Authority or claim end-to-end closure.",
+        "p8.1-escalation-path-reconciliation",
+    )
+
+
+RAW_QUEUE_COMPILERS = {"P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
@@ -1316,6 +1340,10 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
         "P2.6": (
             "recovery/reconciliation-report.md",
             "## P2.6 Home Assistant source-of-truth verification — 2026-09-21",
+        ),
+        "P8.1": (
+            "docs/ops/P8-1-escalation-path-reconciliation-2026-09-24.md",
+            "Status: DISCOVERY_RECONCILIATION / P8.1 NOT CLOSED",
         ),
         "P0.2": (
             "recovery/reconciliation-report.md",
@@ -2840,6 +2868,52 @@ The controller writes this artifact only after executing the verification comman
         if marker not in old:
             return ""
         return unified_patch(old, old.replace(marker, hardened, 1), target)
+    if task.fallback_kind == "p8.1-escalation-path-reconciliation":
+        target = task.target
+        sources = (
+            "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+            "specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml",
+            "docs/ops/P5-5-mobile-access-not-ai-compute-gap-reconciliation-2026-09-22.md",
+            "docs/ops/P7-4-ordinary-user-cloud-development-access-gap-reconciliation-2026-09-22.md",
+            "ops/mediahub_provider_gateway.py",
+            "ops/cloud_development_adapter.py",
+        )
+        import hashlib
+        evidence_lines = []
+        for rel in sources:
+            source = ROOT / rel
+            if not source.is_file():
+                return ""
+            digest = hashlib.sha256(source.read_bytes()).hexdigest()
+            matches = []
+            for number, line in enumerate(source.read_text(encoding="utf-8").splitlines(), 1):
+                low = line.lower()
+                if any(term in low for term in ("mobile access", "local ai", "local cluster", "cloud development ai", "provider", "route", "routing", "escalat", "fallback")):
+                    matches.append(f"{number}: {line.strip()}")
+                if len(matches) >= 12:
+                    break
+            evidence_lines.append(f"### {rel}" + chr(10) + f"SHA256: {digest}" + chr(10) + chr(10).join(f"- {m}" for m in matches))
+        content = """# P8.1 — AI escalation path reconciliation
+
+Status: DISCOVERY_RECONCILIATION / P8.1 NOT CLOSED
+
+## Scope
+
+This artifact records deterministic repository evidence for the existing escalation path Mobile Access Layer → Local AI → Local Cluster AI → Cloud Development AI. It does not invent routing semantics, add a Mobile AI tier, execute providers, acquire credentials, mutate State Authority, or claim end-to-end closure.
+
+## Deterministic classification
+
+- Mobile Access Layer boundary: inspected from existing repository sources; it remains an access layer, not an AI compute tier.
+- Local AI: inspected as an existing repository-local AI surface only.
+- Local Cluster AI: absence of an explicit current hop is reported rather than inferred.
+- Cloud Development AI: inspected through existing policy/orchestration surfaces without activating a provider.
+- End-to-end escalation: NOT ESTABLISHED by this reconciliation alone.
+
+## Source evidence
+
+        """ + chr(10) + chr(10).join(evidence_lines) + chr(10)
+        return unified_patch("", content, target)
+
     if task.fallback_kind == "p7.4-ordinary-user-cloud-development-access-gap-reconciliation":
         target = task.target
         sources = (
@@ -3102,6 +3176,8 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_policy_engine.py", "tests/test_mediahub_egress_controller.py"], 180))
     if selected and selected.fallback_kind == "p7.6-degraded-offline-recovery-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_resilience.py"], 180))
+    if selected and selected.fallback_kind == "p8.1-escalation-path-reconciliation":
+        checks.append(([sys.executable, "-c", "from pathlib import Path; files=('specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml','docs/ops/P5-5-mobile-access-not-ai-compute-gap-reconciliation-2026-09-22.md','docs/ops/P7-4-ordinary-user-cloud-development-access-gap-reconciliation-2026-09-22.md','ops/mediahub_provider_gateway.py','ops/cloud_development_adapter.py'); assert all(Path(f).is_file() for f in files); print('P8.1 escalation-path evidence source scan PASS')"], 30))
     if selected and selected.fallback_kind == "p7.4-ordinary-user-cloud-development-access-gap-reconciliation":
         checks.append(([sys.executable, "-c", "from pathlib import Path; files=('specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md','specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml','specification/invariant-registry.yaml','recovery/acceptance/F-009-remote-access-mobile-and-cloud-escalation.md','ops/cloud_development_adapter.py','tests/ops/test_cloud_development_adapter.py'); text=''.join(Path(f).read_text(encoding='utf-8').lower() for f in files); required=('cloud development ai','ordinary users','direct access to cloud development','not a user-facing development workspace'); assert all(x in text for x in required); print('P7.4 repository access-boundary evidence scan PASS')"], 30))
     if selected and selected.fallback_kind == "p7.2-human-clone-governance-gap-reconciliation":

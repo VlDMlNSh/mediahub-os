@@ -1538,3 +1538,24 @@ def test_queue_encoding_marks_current_p95_evidence_encoded(tmp_path, monkeypatch
     )
     rows = {row.queue_id: row.status for row in inspect_queue_encoding(tmp_path)}
     assert rows["P9.5"] == "ENCODED"
+
+
+def test_raw_queue_compiler_encodes_p81_escalation_path_from_existing_surfaces(tmp_path):
+    from ops.local_autonomous_agent import compile_next_raw_queue_task
+    for rel in (
+        "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        "specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml",
+        "docs/ops/P5-5-mobile-access-not-ai-compute-gap-reconciliation-2026-09-22.md",
+        "docs/ops/P7-4-ordinary-user-cloud-development-access-gap-reconciliation-2026-09-22.md",
+        "ops/mediahub_provider_gateway.py",
+        "ops/cloud_development_adapter.py",
+    ):
+        q=tmp_path/rel
+        q.parent.mkdir(parents=True, exist_ok=True)
+        q.write_text("existing evidence\n", encoding="utf-8")
+    queue=tmp_path/"ops/local_autonomous_tasks.md"
+    queue.parent.mkdir(parents=True, exist_ok=True)
+    queue.write_text("P8.1 Validate escalation path: Mobile Access Layer → Local AI → Local Cluster AI → Cloud Development AI.\n", encoding="utf-8")
+    task=compile_next_raw_queue_task(tmp_path)
+    assert task is not None
+    assert task.task_id == "P8.1-escalation-path-reconciliation"
