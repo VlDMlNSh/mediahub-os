@@ -33,7 +33,7 @@ jobs:
 
 
       - name: Runtime adapter tests
-        run: PYTHONPATH=runtime python3 -m unittest tests.runtime.test_openrouter_connector tests.runtime.test_cloud_orchestrator
+        run: PYTHONPATH=runtime python3 -m pytest -q tests/runtime/test_openrouter_connector.py tests/runtime/test_cloud_orchestrator.py
 
       - name: End-to-end Astra cloud inference smoke test
         run: |
