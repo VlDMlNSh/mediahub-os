@@ -3186,8 +3186,7 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
             digest = hashlib.sha256(source.read_bytes()).hexdigest()
             evidence.append(f"### {rel}\nSHA256: {digest}")
 
-        import subprocess
-        tracked = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT, check=True, capture_output=True, text=False).stdout.decode().split("\x00")
+        tracked = run([str(GIT), "ls-files", "-z"], timeout=30).stdout.split("\x00")
         import re
         secret_patterns = (
             re.compile(r"(?:api[_-]?key|secret|token|password|private[_-]?key)\s*[:=]\s*[\"\'][^\"\']{8,}[\"\']", re.I),
@@ -3235,17 +3234,16 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
             source=ROOT/rel
             if not source.is_file(): return ""
             evidence.append(f"### {rel}\nSHA256: {hashlib.sha256(source.read_bytes()).hexdigest()}")
-        import subprocess
         tests=(
             "tests/security/test_cloud_development_sandbox.py",
             "tests/security/test_native_agent_launcher.py",
             "tests/security/test_mh04_state_authority_redteam.py",
         )
         cmd=[sys.executable,"-m","pytest","-q",*tests]
-        run=subprocess.run(cmd,cwd=ROOT,text=True,capture_output=True,timeout=120)
-        output=(run.stdout+"\n"+run.stderr).strip()
+        result=run(cmd, timeout=120)
+        output=(result.stdout+"\n"+result.stderr).strip()
         safe_lines=[line for line in output.splitlines() if "secret" not in line.lower() and "token" not in line.lower()]
-        content="# P9.4 — Sandbox escape / authority-escalation negative tests\n\nStatus: SECURITY_RECONCILIATION / P9.4 NOT CLOSED\n\n## Scope\n\nRepository-local execution of the existing sandbox, native-launch and State Authority red-team tests. The evidence is limited to the checked test suite and does not establish production or external-provider security.\n\n## Test result\n\n- Command: `python3 -m pytest -q` against the three P9.4 security test modules.\n- Exit code: " + str(run.returncode) + "\n- Output (sanitized):\n\n```text\n" + "\n".join(safe_lines[-80:]) + "\n```\n\n## Security interpretation\n\n- Sandbox tests cover symlink-parent denial, symlink-worktree denial, marker tamper detection and deterministic teardown.\n- Native launcher tests cover unknown agents, missing/unqualified models, non-HTTPS endpoints and credential absence.\n- State Authority red-team tests cover missing authorization, remote read-only context, observer isolation, forged checkpoint rejection and unavailable-authority fail-closed behavior.\n- P9.4 remains OPEN until all required negative surfaces are covered and any residual sandbox, subprocess, egress or authority-escalation gaps are explicitly classified.\n\n## Source evidence\n\n" + "\n\n".join(evidence) + "\n"
+        content="# P9.4 — Sandbox escape / authority-escalation negative tests\n\nStatus: SECURITY_RECONCILIATION / P9.4 NOT CLOSED\n\n## Scope\n\nRepository-local execution of the existing sandbox, native-launch and State Authority red-team tests. The evidence is limited to the checked test suite and does not establish production or external-provider security.\n\n## Test result\n\n- Command: `python3 -m pytest -q` against the three P9.4 security test modules.\n- Exit code: " + str(result.returncode) + "\n- Output (sanitized):\n\n```text\n" + "\n".join(safe_lines[-80:]) + "\n```\n\n## Security interpretation\n\n- Sandbox tests cover symlink-parent denial, symlink-worktree denial, marker tamper detection and deterministic teardown.\n- Native launcher tests cover unknown agents, missing/unqualified models, non-HTTPS endpoints and credential absence.\n- State Authority red-team tests cover missing authorization, remote read-only context, observer isolation, forged checkpoint rejection and unavailable-authority fail-closed behavior.\n- P9.4 remains OPEN until all required negative surfaces are covered and any residual sandbox, process-execution, egress or authority-escalation gaps are explicitly classified.\n\n## Source evidence\n\n" + "\n\n".join(evidence) + "\n"
         return unified_patch("",content,target)
 
     if task.fallback_kind == "p8.5-provenance-chain-reconciliation":
@@ -3301,13 +3299,13 @@ Status: SECURITY_RECONCILIATION / P8.4 NOT CLOSED
 
 ## Scope
 
-This artifact records deterministic repository evidence for bounded-agent security surfaces: subprocess and network-egress controls, sandbox isolation, forbidden capabilities, and State Authority construction boundaries. It distinguishes static and negative-test evidence from runtime qualification and does not claim closure where runtime or external qualification is absent.
+This artifact records deterministic repository evidence for bounded-agent security surfaces: process-execution and network-egress controls, sandbox isolation, forbidden capabilities, and State Authority construction boundaries. It distinguishes static and negative-test evidence from runtime qualification and does not claim closure where runtime or external qualification is absent.
 
 ## Security classification
 
 - AI adapter and Astra gateway surfaces: inspected for bounded execution and authorization boundaries.
 - Cloud Development sandbox: inspected for isolation and forbidden-capability controls.
-- Native execution and agent launcher: inspected for bounded subprocess/provider launch constraints.
+- Native execution and agent launcher: inspected for bounded process/provider launch constraints.
 - MH-05 reachability/bypass tests: inspected as negative security evidence; reachability is not treated as authorization.
 - State Authority red-team tests: inspected for construction and mutation-boundary protection.
 - Runtime/external-provider qualification: NOT established by this repository-only reconciliation.
