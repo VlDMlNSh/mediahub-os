@@ -357,6 +357,7 @@ def _compile_p93_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
         str(target.relative_to(root)),
         "Audit existing egress gates and endpoint allowlists against current architecture. Record exact configured/validated destination evidence, HTTPS and default-deny controls, and any endpoints or runtime paths not proven by tests. Do not perform live endpoint calls, weaken allowlists, acquire credentials or claim network security closure.",
         "p9.3-egress-endpoint-allowlist-audit",
+        "p9.4-sandbox-authority-escalation-negative-tests",
     )
 
 
