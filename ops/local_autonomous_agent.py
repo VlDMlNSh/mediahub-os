@@ -311,6 +311,27 @@ def _compile_p81_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
+def _compile_p85_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P8-5-provenance-chain-reconciliation-2026-09-24.md"
+    sources = (
+        "ops/mediahub_native_execution.py",
+        "ops/mediahub_cluster_failover.py",
+        "ops/ai/ai_adapter.py",
+        "tests/test_mediahub_native_execution.py",
+        "tests/test_mediahub_cluster_failover.py",
+        "tests/security/test_ai_adapter.py",
+    )
+    if target.is_file() or not all((root / rel).is_file() for rel in sources):
+        return None
+    return LocalTask(
+        "P8.5-provenance-chain-reconciliation",
+        f"P8.5 {item.description}",
+        str(target.relative_to(root)),
+        "Record deterministic repository evidence for request-to-proposal-to-result/evidence provenance. Trace request_id, workload_id, source_sha and provider across existing native execution, cluster recovery and AI adapter boundaries; distinguish implemented binding from missing artifact/result journal linkage. Do not add persistence, execute providers, mutate State Authority, or claim P8.5 closed unless the full chain is demonstrated.",
+        "p8.5-provenance-chain-reconciliation",
+    )
+
+
 def _compile_p84_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "docs/ops/P8-4-bounded-agent-security-reconciliation-2026-09-24.md"
     if target.exists():
@@ -338,10 +359,11 @@ def _compile_p84_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
         str(target.relative_to(root)),
         "Record deterministic repository evidence for bounded-agent security surfaces covering subprocess/egress controls, sandbox isolation, forbidden capabilities and State Authority construction boundaries. Inspect only the existing implementation and security tests; distinguish static/negative-test evidence from runtime qualification, identify any uncovered surfaces, and do not execute providers, mutate State Authority, add persistence, or claim P8.4 closed unless evidence establishes it.",
         "p8.4-bounded-agent-security-reconciliation",
+        "p8.5-provenance-chain-reconciliation",
     )
 
 
-RAW_QUEUE_COMPILERS = {"P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+RAW_QUEUE_COMPILERS = {"P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
@@ -3003,6 +3025,30 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
 ## Source evidence
 
 """ + chr(10) + chr(10).join(evidence) + chr(10)
+        return unified_patch("", content, target)
+
+    if task.fallback_kind == "p8.5-provenance-chain-reconciliation":
+        target = task.target
+        sources = (
+            "ops/mediahub_native_execution.py",
+            "ops/mediahub_cluster_failover.py",
+            "ops/ai/ai_adapter.py",
+            "tests/test_mediahub_native_execution.py",
+            "tests/test_mediahub_cluster_failover.py",
+            "tests/security/test_ai_adapter.py",
+        )
+        evidence = []
+        for rel in sources:
+            source = ROOT / rel
+            if not source.is_file():
+                return ""
+            digest = hashlib.sha256(source.read_bytes()).hexdigest()
+            matches = []
+            for i, line in enumerate(source.read_text(encoding="utf-8").splitlines(), 1):
+                if any(token in line for token in ("request_id", "workload_id", "source_sha", "provider", "result", "evidence")):
+                    matches.append(f"L{i}: {line.strip()}")
+            evidence.append(f"### {rel}\nSHA256: {digest}\n" + "\n".join(f"- {m}" for m in matches[:30]))
+        content = "# P8.5 — Provenance chain reconciliation\n\nStatus: PROVENANCE_RECONCILIATION / P8.5 NOT CLOSED\n\n## Scope\n\nThis record traces the existing provenance identifiers across request/proposal, recovery evidence and AI adapter result boundaries. It does not create a persistence mechanism or infer a complete request→artifact→result→evidence journal where the repository does not demonstrate one.\n\n## Deterministic findings\n\n- `request_id`, `workload_id`, `source_sha` and `provider` are validated and bound at the native execution proposal boundary.\n- Recovery evidence is required to be verified and provenance-matching before proposal admission.\n- Cluster recovery evidence carries request/workload/source provenance into native execution admission.\n- The AI adapter exposes source provenance in its result contract.\n- A single persistent, independently verifiable chain linking request → produced artifact → execution result → evidence is not established by these surfaces alone.\n\n## Closure\n\nP8.5 remains OPEN. Full closure requires an existing or explicitly authorized provenance record that links every lifecycle hop without adding hidden persistence or bypassing authority boundaries.\n\n## Source evidence\n\n""" + "\n\n".join(evidence) + "\n"
         return unified_patch("", content, target)
 
     if task.fallback_kind == "p8.4-bounded-agent-security-reconciliation":
