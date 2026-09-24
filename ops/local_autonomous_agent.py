@@ -333,6 +333,7 @@ def _compile_p91_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
         "P9.1-threat-model-refresh", f"P9.1 {item.description}", str(target.relative_to(root)),
         "Refresh the threat model from current architecture/security artifacts. Extract documented trust boundaries, assets, threat classes, controls and explicit unknowns/gaps; distinguish implemented controls from design claims and preserve release blockers. Do not invent threats, change authority, execute providers or claim security closure.",
         "p9.1-threat-model-refresh",
+        "p9.2-static-secret-dependency-provenance-review",
     )
 
 
