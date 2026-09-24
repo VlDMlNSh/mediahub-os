@@ -3005,6 +3005,56 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
 """ + chr(10) + chr(10).join(evidence) + chr(10)
         return unified_patch("", content, target)
 
+    if task.fallback_kind == "p8.4-bounded-agent-security-reconciliation":
+        target = task.target
+        sources = (
+            "ops/ai/ai_adapter.py",
+            "ops/ai/astra_host_execution_gate.py",
+            "ops/ai/astra_host_gateway.py",
+            "ops/ai/astra_task_gateway.py",
+            "ops/cloud_development_sandbox.py",
+            "ops/mediahub_native_execution.py",
+            "ops/mediahub_native_agent_launcher.py",
+            "tests/security/test_ai_adapter.py",
+            "tests/security/test_native_agent_launcher.py",
+            "tests/security/test_cloud_development_sandbox.py",
+            "tests/security/test_mh05_bypass_audit.py",
+            "tests/security/test_mh05_systemwide_reachability.py",
+            "tests/security/test_mh04_state_authority_redteam.py",
+        )
+        import hashlib
+        evidence = []
+        for rel in sources:
+            source = ROOT / rel
+            if not source.is_file():
+                return ""
+            evidence.append(f"### {rel}\nSHA256: {hashlib.sha256(source.read_bytes()).hexdigest()}")
+        content = """# P8.4 — Bounded-agent security reconciliation
+
+Status: SECURITY_RECONCILIATION / P8.4 NOT CLOSED
+
+## Scope
+
+This artifact records deterministic repository evidence for bounded-agent security surfaces: subprocess and network-egress controls, sandbox isolation, forbidden capabilities, and State Authority construction boundaries. It distinguishes static and negative-test evidence from runtime qualification and does not claim closure where runtime or external qualification is absent.
+
+## Security classification
+
+- AI adapter and Astra gateway surfaces: inspected for bounded execution and authorization boundaries.
+- Cloud Development sandbox: inspected for isolation and forbidden-capability controls.
+- Native execution and agent launcher: inspected for bounded subprocess/provider launch constraints.
+- MH-05 reachability/bypass tests: inspected as negative security evidence; reachability is not treated as authorization.
+- State Authority red-team tests: inspected for construction and mutation-boundary protection.
+- Runtime/external-provider qualification: NOT established by this repository-only reconciliation.
+
+## Closure
+
+P8.4 remains OPEN until the required security surfaces have deterministic acceptance coverage including any uncovered runtime, endpoint, credential, persistence, or authority-escalation paths.
+
+## Source evidence
+
+""" + chr(10) + chr(10).join(evidence) + chr(10)
+        return unified_patch("", content, target)
+
     if task.fallback_kind == "p8.2-cross-domain-contract-gap-reconciliation":
         target = task.target
         sources = (
