@@ -2,6 +2,9 @@ name: MediaHub OpenRouter GLM-5.2 Contract
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - implementation/openrouter-glm52-contract
 
 permissions:
   contents: read
