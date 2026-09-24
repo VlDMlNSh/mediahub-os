@@ -32,10 +32,11 @@ jobs:
         run: python3 -m unittest tests/ai/test_openrouter_glm52.py
 
 
+      - name: Install test runner
+        run: python3 -m pip install --disable-pip-version-check --quiet pytest
+
       - name: Runtime adapter tests
-        run: |
-          PYTHONPATH=runtime python3 -m unittest discover -s tests/runtime -p 'test_openrouter_connector.py' -t .
-          PYTHONPATH=runtime python3 -m unittest discover -s tests/runtime -p 'test_cloud_orchestrator.py' -t .
+        run: PYTHONPATH=runtime python3 -m pytest -q tests/runtime/test_openrouter_connector.py tests/runtime/test_cloud_orchestrator.py
 
       - name: End-to-end Astra cloud inference smoke test
         run: |
