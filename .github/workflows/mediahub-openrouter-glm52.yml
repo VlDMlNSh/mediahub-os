@@ -5,9 +5,11 @@ on:
   push:
     branches:
       - implementation/openrouter-glm52-contract
+      - integration/openrouter-runtime-clean
   pull_request:
     branches:
       - main
+      - implementation/p0-06-core-runtime-services
 
 permissions:
   contents: read
