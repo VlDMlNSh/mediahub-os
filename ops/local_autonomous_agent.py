@@ -452,7 +452,7 @@ def _compile_p84_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
-RAW_QUEUE_COMPILERS = {"P9.3": _compile_p93_queue_item, "P9.2": _compile_p92_queue_item, "P9.1": _compile_p91_queue_item, "P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+RAW_QUEUE_COMPILERS = {"P9.4": _compile_p94_queue_item, "P9.3": _compile_p93_queue_item, "P9.2": _compile_p92_queue_item, "P9.1": _compile_p91_queue_item, "P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
