@@ -1492,6 +1492,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p7.6-degraded-offline-recovery-gap-reconciliation",
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
+        "p8.1-escalation-path-reconciliation",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
