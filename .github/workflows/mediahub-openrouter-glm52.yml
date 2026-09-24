@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - implementation/openrouter-glm52-contract
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
