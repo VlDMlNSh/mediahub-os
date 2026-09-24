@@ -241,6 +241,28 @@ def _compile_p052_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None
 
 
 
+def _compile_p83_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P8-3-end-to-end-scenario-reconciliation-2026-09-24.md"
+    if target.exists():
+        return None
+    sources = (
+        "tests/ai/test_hybrid_session.py",
+        "tests/ai/test_hybrid_development_controller.py",
+        "tests/ai/test_hybrid_dispatcher.py",
+        "tests/ai/test_ai_gateway.py",
+        "tests/runtime/test_mh04_qualification_edges.py",
+        "tests/security/test_mh05_health_not_authorization.py",
+    )
+    if not all((root / rel).is_file() for rel in sources):
+        return None
+    return LocalTask(
+        "P8.3-end-to-end-scenario-reconciliation",
+        f"P8.3 {item.description}",
+        str(target.relative_to(root)),
+        "Record deterministic evidence for normal, degraded, recovery and revoked/denied-authorization state surfaces using only existing repository tests. Distinguish scenario coverage from true end-to-end closure; do not execute providers, mutate State Authority, access production or infer authorization from health/reachability.",
+        "p8.3-end-to-end-scenario-reconciliation",
+    )
+
 def _compile_p82_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "docs/ops/P8-2-cross-domain-contract-gap-reconciliation-2026-09-24.md"
     if target.exists():
@@ -290,7 +312,7 @@ def _compile_p81_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
-RAW_QUEUE_COMPILERS = {"P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+RAW_QUEUE_COMPILERS = {"P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
@@ -1520,6 +1542,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p0.5.2-terminal-provenance-regression-verification",
         "p8.1-escalation-path-reconciliation",
         "p8.2-cross-domain-contract-gap-reconciliation",
+        "p8.3-end-to-end-scenario-reconciliation",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
@@ -2911,6 +2934,47 @@ The controller writes this artifact only after executing the verification comman
         if marker not in old:
             return ""
         return unified_patch(old, old.replace(marker, hardened, 1), target)
+    if task.fallback_kind == "p8.3-end-to-end-scenario-reconciliation":
+        target = task.target
+        sources = (
+            "tests/ai/test_hybrid_session.py",
+            "tests/ai/test_hybrid_development_controller.py",
+            "tests/ai/test_hybrid_dispatcher.py",
+            "tests/ai/test_ai_gateway.py",
+            "tests/runtime/test_mh04_qualification_edges.py",
+            "tests/security/test_mh05_health_not_authorization.py",
+        )
+        import hashlib
+        evidence = []
+        for rel in sources:
+            source = ROOT / rel
+            if not source.is_file():
+                return ""
+            evidence.append(f"### {rel}\nSHA256: {hashlib.sha256(source.read_bytes()).hexdigest()}")
+        content = """# P8.3 — End-to-end state scenario reconciliation
+
+Status: SCENARIO_RECONCILIATION / P8.3 NOT CLOSED
+
+## Scope
+
+This artifact records deterministic evidence for normal, degraded, recovery and revoked/denied-authorization state surfaces already represented by the repository tests. It does not claim a production or external end-to-end run, and it does not treat health/reachability as authorization.
+
+## Scenario matrix
+
+- Normal: session lifecycle, bounded dispatch and authorized gateway paths are covered by existing tests.
+- Degraded: provider/cluster degraded states are represented by existing routing, resilience and qualification tests; this artifact does not assert external outage behavior.
+- Recovery: session/controller/delivery restore and provenance checks are covered by existing tests.
+- Revoked or denied authorization: explicit authorization denial and safe-stop paths are covered; this artifact does not infer revocation semantics where only denial is tested.
+
+## Closure
+
+P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios together as one executable cross-domain sequence.
+
+## Source evidence
+
+""" + chr(10) + chr(10).join(evidence) + chr(10)
+        return unified_patch("", content, target)
+
     if task.fallback_kind == "p8.2-cross-domain-contract-gap-reconciliation":
         target = task.target
         sources = (
@@ -3260,6 +3324,14 @@ def verify(task: LocalTask | None = None) -> bool:
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_policy_engine.py", "tests/test_mediahub_egress_controller.py"], 180))
     if selected and selected.fallback_kind == "p7.6-degraded-offline-recovery-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q", "tests/test_mediahub_resilience.py"], 180))
+    if selected and selected.fallback_kind == "p8.3-end-to-end-scenario-reconciliation":
+        checks.append(([sys.executable, "-m", "pytest", "-q",
+                        "tests/ai/test_hybrid_session.py",
+                        "tests/ai/test_hybrid_development_controller.py",
+                        "tests/ai/test_hybrid_dispatcher.py",
+                        "tests/ai/test_ai_gateway.py",
+                        "tests/runtime/test_mh04_qualification_edges.py",
+                        "tests/security/test_mh05_health_not_authorization.py"], 180))
     if selected and selected.fallback_kind == "p8.2-cross-domain-contract-gap-reconciliation":
         checks.append(([sys.executable, "-m", "pytest", "-q",
                         "tests/contracts/test_contract_domain_reconciliation.py",
