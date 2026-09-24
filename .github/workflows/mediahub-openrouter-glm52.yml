@@ -1,0 +1,54 @@
+name: MediaHub OpenRouter GLM-5.2 Contract
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      GLM52_MODEL: z-ai/glm-5.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate repository contracts
+        run: python3 tools/validate_contracts.py
+
+      - name: Validate GLM-5.2 contract
+        run: python3 -m unittest tests/ai/test_openrouter_glm52.py
+
+      - name: Validate OpenRouter credential presence
+        run: |
+          set -euo pipefail
+          test -n "${OPENROUTER_API_KEY}"
+
+      - name: Validate model availability without exposing credentials
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          key = os.environ["OPENROUTER_API_KEY"]
+          model = os.environ["GLM52_MODEL"]
+
+          request = urllib.request.Request(
+              "https://openrouter.ai/api/v1/models",
+              headers={"Authorization": f"Bearer {key}"},
+          )
+          with urllib.request.urlopen(request, timeout=30) as response:
+              payload = json.load(response)
+
+          ids = {item.get("id") for item in payload.get("data", [])}
+          if model not in ids:
+              raise SystemExit(f"required model is not available: {model}")
+
+          print(f"OPENROUTER_MODEL_AVAILABLE={model}")
+          PY
