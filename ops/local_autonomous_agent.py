@@ -314,7 +314,7 @@ def _compile_p81_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
 def _compile_p91_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "docs/ops/P9-1-threat-model-refresh-2026-09-24.md"
     sources = (
-        "docs/architecture/MH-21-threat-model.md",
+        "docs/architecture/MH-17-threat-model.md",
         "docs/architecture/MH-21-security-invariants.md",
         "docs/architecture/MH-21-security.md",
         "docs/architecture/MH-21-network-boundary.md",
@@ -325,7 +325,7 @@ def _compile_p91_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
         "docs/architecture/MH-21-remote-policy.md",
         "docs/architecture/MH-21-cloud-credentials.md",
         "docs/architecture/MH-21-audit.md",
-        "docs/architecture/MH-21-recovery-security.md",
+        "docs/architecture/MH-12-recovery-security.md",
     )
     if target.is_file() or not all((root / rel).is_file() for rel in sources):
         return None
@@ -3051,12 +3051,12 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
     if task.fallback_kind == "p9.1-threat-model-refresh":
         target = task.target
         sources = (
-            "docs/architecture/MH-21-threat-model.md", "docs/architecture/MH-21-security-invariants.md",
+            "docs/architecture/MH-17-threat-model.md", "docs/architecture/MH-21-security-invariants.md",
             "docs/architecture/MH-21-security.md", "docs/architecture/MH-21-network-boundary.md",
             "docs/architecture/MH-21-data-egress.md", "docs/architecture/MH-21-agent-limits.md",
             "docs/architecture/MH-21-cloud-boundary.md", "docs/architecture/MH-21-provider-quarantine.md",
             "docs/architecture/MH-21-remote-policy.md", "docs/architecture/MH-21-cloud-credentials.md",
-            "docs/architecture/MH-21-audit.md", "docs/architecture/MH-21-recovery-security.md",
+            "docs/architecture/MH-21-audit.md", "docs/architecture/MH-12-recovery-security.md",
         )
         evidence=[]
         for rel in sources:
