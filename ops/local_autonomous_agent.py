@@ -1519,6 +1519,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p0.5.1-terminal-checkpoint-startup-verification",
         "p0.5.2-terminal-provenance-regression-verification",
         "p8.1-escalation-path-reconciliation",
+        "p8.2-cross-domain-contract-gap-reconciliation",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
@@ -1529,6 +1530,21 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
     branch = git("branch", "--show-current")
     if not base_sha or not branch or git("status", "--porcelain"):
         return None
+    if task.fallback_kind == "p8.2-cross-domain-contract-gap-reconciliation" and not target.is_file():
+        fingerprint = hashlib.sha256(
+            f"{task.task_id}\n{task.queue_item}\n{task.target}\n{task.instruction}".encode()
+        ).hexdigest()
+        return ExecutableTask(
+            **task.__dict__,
+            owner=os.environ.get("MEDIAHUB_WORKER_ID", "local-autonomous"),
+            base_sha=base_sha,
+            acceptance_predicate=f"queue={task.queue_item}; target={task.target}; acceptance={task.instruction}",
+            verification_command="pytest -q tests/contracts/test_contract_domain_reconciliation.py tests/contracts/test_contract_metadata.py tests/contracts/test_mobile_api_compatibility.py tests/static/test_cross_contract.py tests/test_mediahub_lifecycle_contract.py",
+            expected_evidence="targeted tests; full relevant regression; ruff; git diff --check",
+            dependency_set=(),
+            conflict_set=("R4", "production"),
+            acceptance_fingerprint=fingerprint,
+        )
     fingerprint = hashlib.sha256(
         f"{task.task_id}\n{task.queue_item}\n{task.target}\n{task.instruction}".encode()
     ).hexdigest()
