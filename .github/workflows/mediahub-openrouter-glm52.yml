@@ -29,6 +29,34 @@ jobs:
       - name: Validate GLM-5.2 contract
         run: python3 -m unittest tests/ai/test_openrouter_glm52.py
 
+
+      - name: Runtime adapter tests
+        run: python3 -m unittest tests.runtime.test_openrouter_connector tests.runtime.test_cloud_orchestrator
+
+      - name: End-to-end Astra cloud inference smoke test
+        run: |
+          python3 - <<'PY'
+          import os
+          from runtime.mediahub_runtime.cloud_orchestrator import CloudFirstOrchestrator
+          from runtime.mediahub_runtime.connectors.openrouter import OpenRouterConnector
+
+          model = os.environ["GLM52_MODEL"]
+          connector = OpenRouterConnector(os.environ.get("OPENROUTER_API_KEY"), model)
+          orchestrator = CloudFirstOrchestrator(
+              credential_env=os.environ,
+              executors={"openrouter": lambda prompt: connector.infer(prompt).output},
+          )
+          decision, output = orchestrator.execute(
+              "coding",
+              "Reply with exactly: MEDIAHUB_GLM52_E2E_OK",
+              allow_local_extension=False,
+          )
+          assert decision.provider_id == "openrouter", decision
+          assert decision.model == model, decision
+          assert output.strip() == "MEDIAHUB_GLM52_E2E_OK", output
+          print("MEDIAHUB_GLM52_E2E=PASS")
+          PY
+
       - name: Validate OpenRouter credential presence
         run: |
           set -euo pipefail
