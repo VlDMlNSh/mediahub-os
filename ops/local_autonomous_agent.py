@@ -241,6 +241,31 @@ def _compile_p052_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None
 
 
 
+def _compile_p82_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P8-2-cross-domain-contract-gap-reconciliation-2026-09-24.md"
+    if target.exists():
+        return None
+    sources = (
+        "specification/contract-registry.yaml",
+        "specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md",
+        "tests/contracts/test_contract_domain_reconciliation.py",
+        "tests/contracts/test_contract_metadata.py",
+        "tests/contracts/test_mobile_api_compatibility.py",
+        "tests/static/test_cross_contract.py",
+        "tests/test_mediahub_lifecycle_contract.py",
+        "ops/verify_functional_baseline.sh",
+    )
+    if not all((root / rel).is_file() for rel in sources):
+        return None
+    return LocalTask(
+        "P8.2-cross-domain-contract-gap-reconciliation",
+        f"P8.2 {item.description}",
+        str(target.relative_to(root)),
+        "Record deterministic repository evidence for cross-domain contract coverage across Core, AI, Home Assistant, Media, Documents, Mobile and Voice. Inspect only the existing contract registry, functional baseline, cross-contract/domain tests, mobile contract tests, lifecycle contract tests and baseline verification script; classify observed acceptance surfaces as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS with exact file/line evidence. Do not infer executable behavior from registry declarations, invent missing domain implementations, mutate State Authority, activate providers or claim P8.2 closure unless the inspected evidence establishes it.",
+        "p8.2-cross-domain-contract-gap-reconciliation",
+    )
+
+
 def _compile_p81_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "docs/ops/P8-1-escalation-path-reconciliation-2026-09-24.md"
     if target.exists():
@@ -264,7 +289,7 @@ def _compile_p81_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
-RAW_QUEUE_COMPILERS = {"P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+RAW_QUEUE_COMPILERS = {"P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
