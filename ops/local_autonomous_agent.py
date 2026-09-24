@@ -337,6 +337,29 @@ def _compile_p91_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
+def _compile_p93_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P9-3-egress-endpoint-allowlist-audit-2026-09-24.md"
+    sources = (
+        "docs/architecture/MH-21-network-boundary.md",
+        "docs/architecture/MH-21-data-egress.md",
+        "ops/mediahub_egress_controller.py",
+        "ops/hybrid_cloud_api_egress_adapter.py",
+        "ops/hybrid_cloud_egress.py",
+        "ops/hybrid_cloud_egress_chain.py",
+        "tests/test_mediahub_egress_controller.py",
+        "tests/test_hybrid_cloud_api_egress_adapter.py",
+    )
+    if target.is_file() or not all((root / rel).is_file() for rel in sources):
+        return None
+    return LocalTask(
+        "P9.3-egress-endpoint-allowlist-audit",
+        f"P9.3 {item.description}",
+        str(target.relative_to(root)),
+        "Audit existing egress gates and endpoint allowlists against current architecture. Record exact configured/validated destination evidence, HTTPS and default-deny controls, and any endpoints or runtime paths not proven by tests. Do not perform live endpoint calls, weaken allowlists, acquire credentials or claim network security closure.",
+        "p9.3-egress-endpoint-allowlist-audit",
+    )
+
+
 def _compile_p92_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "docs/ops/P9-2-static-secret-dependency-provenance-review-2026-09-24.md"
     sources = (
@@ -407,7 +430,7 @@ def _compile_p84_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
-RAW_QUEUE_COMPILERS = {"P9.2": _compile_p92_queue_item, "P9.1": _compile_p91_queue_item, "P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+RAW_QUEUE_COMPILERS = {"P9.3": _compile_p93_queue_item, "P9.2": _compile_p92_queue_item, "P9.1": _compile_p91_queue_item, "P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
@@ -1508,6 +1531,10 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
             "docs/ops/P9-2-static-secret-dependency-provenance-review-2026-09-24.md",
             "P9.2 remains OPEN until dependency provenance/license requirements",
         ),
+        "P9.3": (
+            "docs/ops/P9-3-egress-endpoint-allowlist-audit-2026-09-24.md",
+            "P9.3 remains OPEN until all production-relevant egress paths",
+        ),
         "P9.5": (
             "docs/architecture/MH-12-evidence-register.md",
             "P9.5 credential broker revocation isolation",
@@ -1646,6 +1673,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p8.5-provenance-chain-reconciliation",
         "p9.1-threat-model-refresh",
         "p9.2-static-secret-dependency-provenance-review",
+        "p9.3-egress-endpoint-allowlist-audit",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
@@ -3096,6 +3124,28 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
             hits=[f"L{i}: {line.strip()}" for i,line in enumerate(lines,1) if any(x in line.lower() for x in ("threat","boundary","egress","credential","quarantine","authorization","revocation","unknown","security"))]
             evidence.append(f"### {rel}\nSHA256: {digest}\n"+"\n".join(f"- {x}" for x in hits[:25]))
         content="# P9.1 — Threat-model refresh\n\nStatus: THREAT_MODEL_RECONCILIATION / P9.1 NOT CLOSED\n\n## Scope\n\nDeterministic refresh of documented security/threat surfaces against the current repository architecture. This is a repository evidence reconciliation, not a penetration test and not proof that every runtime path is secure.\n\n## Findings\n\n- Trust boundaries and security invariants are documented across local execution, cloud/provider boundaries, remote policy, credentials, egress and recovery.\n- Existing architecture documents contain explicit unknown/gap registers that must remain release considerations.\n- Documentation evidence is not equivalent to runtime qualification; negative tests and live endpoint behavior require separate evidence.\n- P9.1 remains OPEN until the refreshed threat model is reconciled with current implementation and security-test evidence and all release blockers are classified.\n\n## Source evidence\n\n"+"\n\n".join(evidence)+"\n"
+        return unified_patch("", content, target)
+
+    if task.fallback_kind == "p9.3-egress-endpoint-allowlist-audit":
+        target = task.target
+        sources = (
+            "docs/architecture/MH-21-network-boundary.md", "docs/architecture/MH-21-data-egress.md",
+            "ops/mediahub_egress_controller.py", "ops/hybrid_cloud_api_egress_adapter.py",
+            "ops/hybrid_cloud_egress.py", "ops/hybrid_cloud_egress_chain.py",
+            "tests/test_mediahub_egress_controller.py", "tests/test_hybrid_cloud_api_egress_adapter.py",
+        )
+        evidence = []
+        for rel in sources:
+            source = ROOT / rel
+            if not source.is_file(): return ""
+            digest = hashlib.sha256(source.read_bytes()).hexdigest()
+            hits = []
+            for i, line in enumerate(source.read_text(encoding="utf-8").splitlines(), 1):
+                low = line.lower()
+                if any(token in low for token in ("allowlist", "allowlist", "https://", "egress", "deny", "admit", "endpoint")):
+                    hits.append(f"L{i}: {line.strip()}")
+            evidence.append(f"### {rel}\nSHA256: {digest}\n" + "\n".join(f"- {x}" for x in hits[:30]))
+        content = "# P9.3 — Egress and endpoint allowlist audit\n\nStatus: NETWORK_SECURITY_RECONCILIATION / P9.3 NOT CLOSED\n\n## Scope\n\nDeterministic repository audit of existing egress gates, endpoint validation and allowlist evidence. No live network requests are performed. Reachability is not treated as authorization.\n\n## Findings\n\n- Architecture documents define controlled outbound egress and default-deny/allowlist expectations.\n- Repository implementation contains egress admission and endpoint validation surfaces that are reviewed below.\n- Static evidence does not prove every runtime destination is constrained, nor does it establish external endpoint availability or certificate behavior.\n- P9.3 remains OPEN until all production-relevant egress paths have explicit allowlist acceptance evidence and uncovered paths are classified.\n\n## Source evidence\n\n" + "\n\n".join(evidence) + "\n"
         return unified_patch("", content, target)
 
     if task.fallback_kind == "p9.2-static-secret-dependency-provenance-review":
