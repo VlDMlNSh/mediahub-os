@@ -359,7 +359,6 @@ def _compile_p84_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
         str(target.relative_to(root)),
         "Record deterministic repository evidence for bounded-agent security surfaces covering subprocess/egress controls, sandbox isolation, forbidden capabilities and State Authority construction boundaries. Inspect only the existing implementation and security tests; distinguish static/negative-test evidence from runtime qualification, identify any uncovered surfaces, and do not execute providers, mutate State Authority, add persistence, or claim P8.4 closed unless evidence establishes it.",
         "p8.4-bounded-agent-security-reconciliation",
-        "p8.5-provenance-chain-reconciliation",
     )
 
 
@@ -1595,6 +1594,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p8.2-cross-domain-contract-gap-reconciliation",
         "p8.3-end-to-end-scenario-reconciliation",
         "p8.4-bounded-agent-security-reconciliation",
+        "p8.5-provenance-chain-reconciliation",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
