@@ -1,0 +1,14 @@
+{
+  "schema_id": "mediahub.connector.tinyfish",
+  "schema_version": "1.0.0",
+  "id": "tinyfish",
+  "enabled": true,
+  "tier": "external",
+  "capabilities": ["web", "browser_automation", "structured_web_data"],
+  "endpoint": "https://agent.tinyfish.ai/v1/automation/run-async",
+  "authentication": "user_owned_api_key",
+  "credential_scope": "github_actions_only",
+  "local_first_behavior": "optional_connector",
+  "max_duration_seconds": 300,
+  "credentials_in_repository": false
+}

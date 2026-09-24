@@ -1,4 +1,4 @@
-name: MediaHub Claude bounded worker via OpenRouter
+name: MediaHub Claude-compatible free worker
 
 on:
   workflow_dispatch:
@@ -12,12 +12,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: mediahub-claude-worker
+  group: mediahub-claude-free-worker
   cancel-in-progress: false
 
 jobs:
-  claude:
-    if: vars.MEDIAHUB_ALLOW_METERED_OPENROUTER == 'true'
+  free_openrouter:
+    if: vars.MEDIAHUB_ALLOW_FREE_OPENROUTER == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -25,6 +25,7 @@ jobs:
       ANTHROPIC_BASE_URL: https://openrouter.ai/api
       ANTHROPIC_AUTH_TOKEN: ${{ secrets.OPENROUTER_API_KEY }}
       ANTHROPIC_API_KEY: ""
+      ANTHROPIC_MODEL: openrouter/free
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,28 +41,24 @@ jobs:
       - name: Install Claude Code
         run: npm install -g @anthropic-ai/claude-code
 
-      - name: Trust workspace for non-interactive Claude Code
+      - name: Trust workspace
         run: |
           set -euo pipefail
-          python3 - <<'PY2'
+          python3 - <<'PY'
           import json
           from pathlib import Path
           path = Path.home() / ".claude.json"
-          data = {}
-          if path.exists():
-              data = json.loads(path.read_text())
-          projects = data.setdefault("projects", {})
-          projects.setdefault("/home/runner/work/mediahub-os/mediahub-os", {})["hasTrustDialogAccepted"] = True
+          data = json.loads(path.read_text()) if path.exists() else {}
+          data.setdefault("projects", {}).setdefault("/home/runner/work/mediahub-os/mediahub-os", {})["hasTrustDialogAccepted"] = True
           path.write_text(json.dumps(data, sort_keys=True, indent=2) + "\n")
-          PY2
+          PY
 
-      - name: Run bounded Claude worker
+      - name: Run bounded Claude-compatible free worker
         env:
           TASK_PROMPT: ${{ inputs.task_prompt }}
         run: |
           set -euo pipefail
           test -n "${OPENROUTER_API_KEY}"
-          test -n "${ANTHROPIC_AUTH_TOKEN}"
           python3 - <<'PY'
           import os, re
           p = os.environ["TASK_PROMPT"]
@@ -70,27 +67,25 @@ jobs:
           if re.search(r"(?i)(api[_ -]?key|secret|password|token|credential|authorization|bearer)", p):
               raise SystemExit("credential-bearing prompt rejected")
           PY
-          claude --print --output-format text \
-            --bare \
+          claude --print --output-format text --bare \
             --allowed-tools "Read,Glob,Grep,Edit,Write" \
             --disallowed-tools "Bash,WebFetch,WebSearch,NotebookEdit" \
             --permission-mode acceptEdits \
-            --append-system-prompt "Bounded MediaHub development worker. Work only inside the checked-out repository. Do not use shell commands, network access, credentials, destructive operations, git mutations, commits, pushes, or production actions. Make only the requested bounded code changes and report the result." \
-            "${TASK_PROMPT}" > .mediahub-claude-result.txt
+            --append-system-prompt "Bounded MediaHub worker. Work only inside the checked-out repository. Do not use shell commands, network access, credentials, destructive operations, git mutations, commits, pushes, or production actions. The model backend is OpenRouter free inference, not an Anthropic-paid model. Make only requested bounded changes and report the result." \
+            "${TASK_PROMPT}" > .mediahub-claude-free-result.txt
 
       - name: Credential-free evidence check
         run: |
           set -euo pipefail
-          if grep -Eiq '(sk-ant-|ANTHROPIC_API_KEY=|Authorization: Bearer|api[_-]?key[[:space:]]*[:=]|password[[:space:]]*[:=])' .mediahub-claude-result.txt; then
+          if grep -Eiq '(sk-ant-|sk-or-v1-|ANTHROPIC_API_KEY=|OPENROUTER_API_KEY=|Authorization: Bearer|api[_-]?key[[:space:]]*[:=]|password[[:space:]]*[:=])' .mediahub-claude-free-result.txt; then
             echo "credential material detected in evidence"
             exit 1
           fi
-          test -s .mediahub-claude-result.txt
+          test -s .mediahub-claude-free-result.txt
 
       - name: Upload sanitized evidence
         uses: actions/upload-artifact@v4
         with:
-          name: mediahub-claude-worker-evidence-${{ github.run_id }}
-          path: |
-            .mediahub-claude-result.txt
+          name: mediahub-claude-free-worker-evidence-${{ github.run_id }}
+          path: .mediahub-claude-free-result.txt
           retention-days: 7

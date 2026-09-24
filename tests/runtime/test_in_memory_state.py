@@ -1,0 +1,224 @@
+import threading
+import unittest
+from dataclasses import replace
+
+from runtime.mediahub_runtime.authorization import AuthorizationContext, AuthorizationDenied, AuthorizationPolicy
+from runtime.mediahub_runtime.generation import Generation
+from runtime.mediahub_runtime.in_memory_state import (
+    Checkpoint,
+    InMemoryStateAuthority,
+    IntegrityFailure,
+    InvalidCheckpoint,
+    InvalidTransaction,
+    MalformedState,
+    SelfTestFailure,
+    StaleTransaction,
+    Transaction,
+)
+
+
+class InMemoryStateAuthorityTests(unittest.TestCase):
+    def setUp(self):
+        self.context = AuthorizationContext("test-service", "state-admin")
+        grants = {
+            ("test-service", "state-admin", "begin"),
+            ("test-service", "state-admin", "commit"),
+            ("test-service", "state-admin", "abort"),
+            ("test-service", "state-admin", "snapshot"),
+            ("test-service", "state-admin", "restore"),
+        }
+        self.authority = InMemoryStateAuthority(
+            Generation("g1", "b1", "s1", "0", "i1"),
+            {"value": 0, "nested": {"items": [1, 2]}},
+            AuthorizationPolicy(grants),
+        )
+
+    def test_read_is_immutable_and_authority_owned_version(self):
+        before = self.authority.read()
+        with self.assertRaises(TypeError):
+            before.payload["value"] = 77
+        with self.assertRaises(TypeError):
+            before.payload["nested"]["items"] = ()
+        self.assertEqual(before.payload["value"], 0)
+        self.assertEqual(self.authority.read().payload["value"], 0)
+        tx = self.authority.begin(self.context)
+        tx.set_payload({"value": 1, "requested_version": 999})
+        committed = self.authority.commit(tx)
+        self.assertEqual(committed.payload["value"], 1)
+        self.assertEqual(committed.state_version, 1)
+        self.assertEqual(committed.generation.state_version, "1")
+
+    def test_stale_transaction_rejected_and_canonical_preserved(self):
+        first = self.authority.begin(self.context)
+        second = self.authority.begin(self.context)
+        first.set_payload({"value": 1})
+        second.set_payload({"value": 2})
+        self.authority.commit(first)
+        with self.assertRaises(StaleTransaction):
+            self.authority.commit(second)
+        self.assertEqual(self.authority.read().payload, {"value": 1})
+        self.assertEqual(second.status, Transaction.ACTIVE)
+
+    def test_concurrent_commits_are_serialized_and_one_stales(self):
+        barrier = threading.Barrier(2)
+        results = []
+
+        def worker(value):
+            tx = self.authority.begin(self.context, {"value": value})
+            barrier.wait()
+            try:
+                self.authority.commit(tx)
+                results.append("committed")
+            except StaleTransaction:
+                results.append("stale")
+
+        threads = [threading.Thread(target=worker, args=(1,)), threading.Thread(target=worker, args=(2,))]
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join()
+        self.assertEqual(sorted(results), ["committed", "stale"])
+        self.assertEqual(self.authority.read().state_version, 1)
+        self.assertIn(self.authority.read().payload, ({"value": 1}, {"value": 2}))
+
+    def test_abort_preserves_state_and_is_terminal(self):
+        tx = self.authority.begin(self.context)
+        tx.set_payload({"value": 5})
+        self.authority.abort(tx)
+        self.assertEqual(tx.status, Transaction.ABORTED)
+        self.assertEqual(self.authority.read().payload["value"], 0)
+        with self.assertRaises(InvalidTransaction):
+            tx.set_payload({"value": 6})
+        self.assertIsNone(self.authority.abort(tx))
+
+    def test_terminal_transaction_cannot_be_committed(self):
+        tx = self.authority.begin(self.context)
+        self.authority.abort(tx)
+        with self.assertRaises(InvalidTransaction):
+            self.authority.commit(tx)
+
+    def test_unregistered_transaction_is_rejected(self):
+        forged = Transaction("tx-forged", self.context, self.authority.read().generation, 0, {"value": 9})
+        with self.assertRaises(InvalidTransaction):
+            self.authority.commit(forged)
+
+    def test_default_deny_is_preserved_per_operation(self):
+        denied = InMemoryStateAuthority(Generation("g1", "b1", "s1", "0", "i1"))
+        with self.assertRaises(AuthorizationDenied):
+            denied.begin(self.context)
+        with self.assertRaises(AuthorizationDenied):
+            denied.snapshot(self.context)
+        with self.assertRaises(AuthorizationDenied):
+            denied.restore(Checkpoint("cp", {}, denied.read().generation, 0, True), self.context)
+
+    def test_integrity_is_independent_gate(self):
+        rejecting = InMemoryStateAuthority(
+            Generation("g1", "b1", "s1", "0", "i1"),
+            {"value": 0},
+            AuthorizationPolicy({
+                ("test-service", "state-admin", "begin"),
+                ("test-service", "state-admin", "commit"),
+            }),
+            integrity_validator=lambda payload, _generation: payload.get("value") != 1,
+        )
+        tx = rejecting.begin(self.context)
+        tx.set_payload({"value": 1})
+        with self.assertRaises(IntegrityFailure):
+            rejecting.commit(tx)
+        self.assertEqual(rejecting.read().payload, {"value": 0})
+        self.assertEqual(rejecting.read().state_version, 0)
+
+    def test_checkpoint_is_authority_bound_and_restore_creates_new_revision(self):
+        tx = self.authority.begin(self.context, {"value": 1})
+        self.authority.commit(tx)
+        checkpoint = self.authority.snapshot(self.context)
+        tx2 = self.authority.begin(self.context, {"value": 2})
+        self.authority.commit(tx2)
+        restored = self.authority.restore(checkpoint, self.context)
+        self.assertEqual(restored.payload, {"value": 1})
+        self.assertEqual(restored.state_version, 3)
+        self.assertEqual(checkpoint.state_version, 1)
+
+    def test_restore_requires_self_test_and_preserves_canonical_on_failure(self):
+        calls = []
+
+        def self_test(payload, generation):
+            calls.append((payload, generation.state_version))
+            return payload.get("value") != 1
+
+        authority = InMemoryStateAuthority(
+            Generation("g1", "b1", "s1", "0", "i1"),
+            {"value": 0},
+            AuthorizationPolicy({
+                ("test-service", "state-admin", "snapshot"),
+                ("test-service", "state-admin", "restore"),
+            }),
+            self_test=self_test,
+        )
+        checkpoint = authority.snapshot(self.context)
+        bad_checkpoint = replace(checkpoint, payload={"value": 1})
+        with self.assertRaises(SelfTestFailure):
+            authority.restore(bad_checkpoint, self.context)
+        self.assertEqual(calls, [({"value": 1}, "0")])
+        self.assertEqual(authority.read().payload, {"value": 0})
+        self.assertEqual(authority.read().state_version, 0)
+
+    def test_restore_self_test_exception_fails_closed(self):
+        def self_test(_payload, _generation):
+            raise RuntimeError("sensitive internal failure")
+
+        authority = InMemoryStateAuthority(
+            Generation("g1", "b1", "s1", "0", "i1"),
+            {"value": 0},
+            AuthorizationPolicy({
+                ("test-service", "state-admin", "snapshot"),
+                ("test-service", "state-admin", "restore"),
+            }),
+            self_test=self_test,
+        )
+        checkpoint = authority.snapshot(self.context)
+        with self.assertRaises(SelfTestFailure) as raised:
+            authority.restore(checkpoint, self.context)
+        self.assertEqual(str(raised.exception), "restore self-test failed")
+        self.assertEqual(authority.read().payload, {"value": 0})
+        self.assertEqual(authority.read().state_version, 0)
+
+    def test_forged_checkpoint_is_rejected(self):
+        forged = Checkpoint("cp-forged", {"value": 99}, self.authority.read().generation, 0, True)
+        with self.assertRaises(InvalidCheckpoint):
+            self.authority.restore(forged, self.context)
+
+    def test_invalid_checkpoint_integrity_is_rejected(self):
+        checkpoint = self.authority.snapshot(self.context)
+        invalid = replace(checkpoint, integrity_valid=False)
+        with self.assertRaises(InvalidCheckpoint):
+            self.authority.restore(invalid, self.context)
+        self.assertEqual(self.authority.read().payload["value"], 0)
+        self.assertEqual(self.authority.read().state_version, 0)
+
+    def test_checkpoint_identity_and_payload_are_immutable(self):
+        checkpoint = self.authority.snapshot(self.context)
+        with self.assertRaises(Exception):
+            checkpoint.checkpoint_id = "cp-mutated"
+        with self.assertRaises(TypeError):
+            checkpoint.payload["value"] = 99
+        with self.assertRaises(TypeError):
+            checkpoint.payload["nested"]["items"] = ()
+        self.assertEqual(checkpoint.checkpoint_id, "cp-1")
+        self.assertEqual(checkpoint.payload["value"], 0)
+
+    def test_malformed_and_oversized_state_is_rejected(self):
+        with self.assertRaises(MalformedState):
+            self.authority.begin(self.context, {"bad": object()})
+        with self.assertRaises(MalformedState):
+            self.authority.begin(self.context, {"bad": "x" * 4097})
+
+    def test_hostile_string_remains_data(self):
+        payload = {"value": "$(touch /tmp/should-not-exist); subprocess.run()"}
+        tx = self.authority.begin(self.context, payload)
+        committed = self.authority.commit(tx)
+        self.assertEqual(committed.payload["value"], payload["value"])
+
+
+if __name__ == "__main__":
+    unittest.main()
