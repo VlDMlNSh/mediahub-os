@@ -70,6 +70,17 @@ class OpenRouterConnector:
         try:
             with urllib.request.urlopen(request, timeout=self._timeout) as response:
                 raw = response.read(1_048_576)
+        except urllib.error.HTTPError as exc:
+            status = int(getattr(exc, "code", 0) or 0)
+            if status == 402:
+                raise OpenRouterConnectorError("openrouter_payment_required") from exc
+            if status in {401, 403}:
+                raise OpenRouterConnectorError("openrouter_auth_failed") from exc
+            if status == 429:
+                raise OpenRouterConnectorError("openrouter_rate_limited") from exc
+            if 500 <= status <= 599:
+                raise OpenRouterConnectorError("openrouter_provider_error") from exc
+            raise OpenRouterConnectorError("openrouter_http_error") from exc
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             raise OpenRouterConnectorError("openrouter_unavailable") from exc
 
