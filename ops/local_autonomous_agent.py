@@ -379,6 +379,28 @@ def _compile_p92_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
+def _compile_p94_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P9-4-sandbox-authority-escalation-negative-tests-2026-09-24.md"
+    sources = (
+        "ops/cloud_development_sandbox.py",
+        "ops/mediahub_native_execution.py",
+        "ops/mediahub_native_agent_launcher.py",
+        "runtime/mediahub_runtime/state_authority.py",
+        "tests/security/test_cloud_development_sandbox.py",
+        "tests/security/test_native_agent_launcher.py",
+        "tests/security/test_mh04_state_authority_redteam.py",
+    )
+    if target.is_file() or not all((root / rel).is_file() for rel in sources):
+        return None
+    return LocalTask(
+        "P9.4-sandbox-authority-escalation-negative-tests",
+        f"P9.4 {item.description}",
+        str(target.relative_to(root)),
+        "Reconcile existing negative tests for sandbox escape and authority escalation. Execute only repository-local security tests, record exact pass/fail results, and preserve gaps as release blockers. Do not access production, acquire credentials, execute cloud providers, or weaken fail-closed controls.",
+        "p9.4-sandbox-authority-escalation-negative-tests",
+    )
+
+
 def _compile_p85_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "docs/ops/P8-5-provenance-chain-reconciliation-2026-09-24.md"
     sources = (
@@ -3197,6 +3219,32 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
         deps = [line.strip() for line in req if line.strip() and not line.lstrip().startswith("#")]
         content = "# P9.2 — Static secret, dependency, license and provenance review\n\nStatus: SECURITY_RECONCILIATION / P9.2 NOT CLOSED\n\n## Scope\n\nDeterministic repository-only review. Secret scanning reports locations and keyword matches without reproducing values. Dependency review is based on repository manifests; license/provenance claims are not inferred where lock or authoritative metadata is absent. This is not a substitute for a dedicated runtime scanner or supply-chain service.\n\n## Static secret review\n\n- Tracked text files scanned: " + str(scanned) + "\n- Keyword findings (values omitted): " + str(len(findings)) + "\n" + ("\n".join(findings) if findings else "- No keyword matches found by this bounded scan.") + "\n\n## Dependency / license review\n\n- Declared autonomous dependencies: " + ", ".join(deps) + "\n- Repository contains no dependency lockfile in the reviewed top-level inventory. Exact transitive versions and authoritative license provenance are therefore NOT established by repository manifests alone.\n- `pip-audit` is declared as a review tool, but this artifact does not claim that an external advisory database scan was executed.\n\n## Provenance\n\n- The autonomous provenance journal is hashed as source evidence. Historical entries preserve source/tree/result fields, but this review does not treat journal content as proof of dependency integrity or secret absence.\n- P9.2 remains OPEN until dependency provenance/license requirements and any material secret-scan findings are explicitly classified and accepted or remediated.\n\n## Source evidence\n\n" + "\n\n".join(evidence) + "\n"
         return unified_patch("", content, target)
+
+    if task.fallback_kind == "p9.4-sandbox-authority-escalation-negative-tests":
+        target = task.target
+        sources = (
+            "ops/cloud_development_sandbox.py", "ops/mediahub_native_execution.py",
+            "ops/mediahub_native_agent_launcher.py", "runtime/mediahub_runtime/state_authority.py",
+            "tests/security/test_cloud_development_sandbox.py", "tests/security/test_native_agent_launcher.py",
+            "tests/security/test_mh04_state_authority_redteam.py",
+        )
+        evidence=[]
+        for rel in sources:
+            source=ROOT/rel
+            if not source.is_file(): return ""
+            evidence.append(f"### {rel}\nSHA256: {hashlib.sha256(source.read_bytes()).hexdigest()}")
+        import subprocess
+        tests=(
+            "tests/security/test_cloud_development_sandbox.py",
+            "tests/security/test_native_agent_launcher.py",
+            "tests/security/test_mh04_state_authority_redteam.py",
+        )
+        cmd=[sys.executable,"-m","pytest","-q",*tests]
+        run=subprocess.run(cmd,cwd=ROOT,text=True,capture_output=True,timeout=120)
+        output=(run.stdout+"\n"+run.stderr).strip()
+        safe_lines=[line for line in output.splitlines() if "secret" not in line.lower() and "token" not in line.lower()]
+        content="# P9.4 — Sandbox escape / authority-escalation negative tests\n\nStatus: SECURITY_RECONCILIATION / P9.4 NOT CLOSED\n\n## Scope\n\nRepository-local execution of the existing sandbox, native-launch and State Authority red-team tests. The evidence is limited to the checked test suite and does not establish production or external-provider security.\n\n## Test result\n\n- Command: `python3 -m pytest -q` against the three P9.4 security test modules.\n- Exit code: " + str(run.returncode) + "\n- Output (sanitized):\n\n```text\n" + "\n".join(safe_lines[-80:]) + "\n```\n\n## Security interpretation\n\n- Sandbox tests cover symlink-parent denial, symlink-worktree denial, marker tamper detection and deterministic teardown.\n- Native launcher tests cover unknown agents, missing/unqualified models, non-HTTPS endpoints and credential absence.\n- State Authority red-team tests cover missing authorization, remote read-only context, observer isolation, forged checkpoint rejection and unavailable-authority fail-closed behavior.\n- P9.4 remains OPEN until all required negative surfaces are covered and any residual sandbox, subprocess, egress or authority-escalation gaps are explicitly classified.\n\n## Source evidence\n\n" + "\n\n".join(evidence) + "\n"
+        return unified_patch("",content,target)
 
     if task.fallback_kind == "p8.5-provenance-chain-reconciliation":
         target = task.target
