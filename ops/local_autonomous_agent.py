@@ -1492,10 +1492,6 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
             "tests/security/test_mh05_restore_security.py",
             "def test_tampered_checkpoint_state_cannot_restore(self):",
         ),
-        "P9.1": (
-            "docs/security/P9.1-threat-model-refresh-2026-09-19.md",
-            "# P9.1 — Threat Model Refresh",
-        ),
     }
     for queue_id, (relative_path, marker) in queue_evidence.items():
         if _current_evidence_marker(root, relative_path, marker):
