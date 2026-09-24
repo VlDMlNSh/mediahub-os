@@ -6,6 +6,7 @@ from mediahub_runtime import (
     AstraGatewayError,
     AstraGatewayRuntime,
     AstraTaskRequest,
+    AutonomousTaskPolicy,
 )
 
 
@@ -33,6 +34,40 @@ def test_local_path_emits_typed_events_and_evidence():
         "validation.completed",
         "task.completed",
     ]
+
+
+def test_bounded_gateway_path_uses_existing_runtime_and_records_lifecycle_evidence():
+    gateway = AstraGatewayRuntime(executor=lambda _: "READY")
+    result = gateway.run_bounded(task())
+
+    assert result.status == "PASS"
+    assert result.attempts == 1
+    assert result.repairs == 0
+    assert result.result.output == "READY"
+    assert result.evidence[0].phase == "plan"
+    assert result.evidence[-1].phase == "verify"
+    assert all(len(item.detail_sha256) == 64 for item in result.evidence)
+
+
+def test_bounded_gateway_path_preserves_approval_boundary():
+    called = False
+
+    def executor(_):
+        nonlocal called
+        called = True
+        return "should-not-run"
+
+    gateway = AstraGatewayRuntime(executor=executor)
+    result = gateway.run_bounded(
+        task("production_deploy now"),
+        policy=AutonomousTaskPolicy(max_attempts=2, max_repairs=1),
+    )
+
+    assert result.status == "REPAIR_EXHAUSTED"
+    assert result.result is None
+    assert called is False
+    assert result.attempts == 1
+    assert result.repairs == 0
 
 
 def test_sensitive_action_stops_at_approval_boundary():

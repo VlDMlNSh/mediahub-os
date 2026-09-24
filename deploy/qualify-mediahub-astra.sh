@@ -8,8 +8,13 @@ python3 "$ROOT/tools/validate_contracts.py"
 python3 "$ROOT/tools/validate_connectors.py"
 python3 -m compileall -q "$ROOT/runtime" "$ROOT/tools"
 
-systemctl is-active --quiet ollama.service
-curl -fsS http://127.0.0.1:11434/api/tags >/dev/null
+python3 - <<'PY'
+import json
+from urllib.request import urlopen
+with urlopen("http://127.0.0.1:11434/api/tags", timeout=5) as response:
+    names = {item.get("name") for item in json.load(response).get("models", [])}
+assert "qwen2.5-coder:3b" in names, names
+PY
 systemctl is-active --quiet sentinelx-cloud-core.service
 systemctl is-active --quiet mediahub-astra.service
 

@@ -9,7 +9,8 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .astra_gateway import AstraTaskRequest
+from .astra_gateway import AstraGatewayRuntime, AstraTaskRequest
+from .autonomous_task import AutonomousTaskPolicy, AutonomousTaskResult
 
 MAX_TASK_BYTES = 70_000
 
@@ -30,9 +31,24 @@ class FileTaskIngress:
         if not self.inbox.exists():
             return ()
         tasks: list[AstraTaskRequest] = []
+        seen_request_ids: set[str] = set()
         for path in sorted(self.inbox.glob("*.json")):
-            tasks.append(self._read(path))
+            task = self._read(path)
+            if task.request_id in seen_request_ids:
+                raise TaskIngressError("duplicate_request_id")
+            seen_request_ids.add(task.request_id)
+            tasks.append(task)
         return tuple(tasks)
+
+    def run_pending_bounded(
+        self,
+        gateway: AstraGatewayRuntime,
+        policy: AutonomousTaskPolicy | None = None,
+    ) -> tuple[AutonomousTaskResult, ...]:
+        """Admit pending contracts through the existing Astra bounded path."""
+        if not isinstance(gateway, AstraGatewayRuntime):
+            raise TaskIngressError("invalid_gateway")
+        return tuple(gateway.run_bounded(task, policy=policy) for task in self.read_pending())
 
     @staticmethod
     def _read(path: Path) -> AstraTaskRequest:
@@ -53,7 +69,14 @@ class FileTaskIngress:
             raise TaskIngressError("invalid_task_contract")
         if data["owner"] != "mediahub-ai":
             raise TaskIngressError("invalid_task_contract")
+        if any(not isinstance(data[key], str) or not data[key].strip()
+               for key in ("request_id", "session_id", "user_command", "approval_state")):
+            raise TaskIngressError("invalid_task_contract")
+        if data["approval_state"] not in {"not_required", "approved", "pending", "rejected"}:
+            raise TaskIngressError("invalid_task_contract")
         client = data.get("client") or {}
+        if not isinstance(client, dict):
+            raise TaskIngressError("invalid_task_contract")
         context = data.get("context_refs", [])
         if not isinstance(context, list) or any(not isinstance(x, str) for x in context):
             raise TaskIngressError("invalid_task_contract")

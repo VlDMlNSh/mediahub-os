@@ -60,6 +60,16 @@ from .proposals import Proposal, ProposalAuthority
 from .state import StateAuthority
 from .task_ingress import FileTaskIngress, TaskIngressError, task_to_contract
 from .harness import HarnessError, HarnessPolicy, HarnessResult, MediaHubHarness
+from .worker_router import ClaudeCodeWorker, WorkerDecision, WorkerRouter, WorkerRouterError
+from .task_queue import FileTaskQueue, QueueLease, TaskQueueError
+from .lineage import LineageError, TaskEvidenceLineage, canonical_json, sha256_json
+from .autonomous_task import (
+    AutonomousEvidence,
+    AutonomousTaskError,
+    AutonomousTaskPolicy,
+    AutonomousTaskResult,
+    BoundedAutonomousTask,
+)
 
 __all__ = [
     "AgentRegistry",
@@ -73,6 +83,22 @@ __all__ = [
     "AuthorizationDecision",
     "AuthorizationDenied",
     "AuthorizationPolicy",
+    "FileTaskQueue",
+    "QueueLease",
+    "TaskQueueError",
+    "LineageError",
+    "TaskEvidenceLineage",
+    "canonical_json",
+    "sha256_json",
+    "AutonomousEvidence",
+    "AutonomousTaskError",
+    "AutonomousTaskPolicy",
+    "AutonomousTaskResult",
+    "BoundedAutonomousTask",
+    "ClaudeCodeWorker",
+    "WorkerDecision",
+    "WorkerRouter",
+    "WorkerRouterError",
     "CanonicalState",
     "Checkpoint",
     "ConsumerBoundary",

@@ -632,3 +632,519 @@ Gate фиксирует цикл подготовки к автономной р
 - production deployment NOT AUTHORIZED.
 
 Это не новый Control Plane и не новый orchestrator. Gate является qualification/safety boundary существующего MediaHub Control Plane.
+## 33. BOUNDED AUTONOMOUS TASK LIFECYCLE — 2026-09-23
+
+Добавлен runtime-компонент runtime/mediahub_runtime/autonomous_task.py для существующего Control Plane. Он не владеет canonical state, provider routing или authorization; его ответственность ограничена последовательностью Plan -> Execute -> Verify -> Repair.
+
+Гарантии компонента:
+- максимальное число попыток: 1..8;
+- repair budget строго меньше общего attempt budget;
+- общий wall-clock deadline ограничен 900 секундами и по умолчанию равен 120 сек.;
+- repair выполняется только после неуспешной verification или execution failure и только при наличии оставшегося бюджета;
+- скрытых/unbounded retries нет;
+- успешный результат возвращается только после явного verification PASS;
+- при исчерпании repair budget возвращается REPAIR_EXHAUSTED, а не ложный PASS;
+- plan failure является терминальным FAILED;
+- evidence хранит только bounded digest/byte-count, а не произвольный результат или секреты.
+
+Добавлены runtime tests: tests/runtime/test_autonomous_task.py.
+
+Результаты wave:
+- targeted regression: 13 passed;
+- full runtime regression: 196 passed in 0.61s;
+- autonomous qualification gate: 196 passed in 0.56s;
+- contract files: 14; contract validation PASS; connector boundary PASS; host registration PASS;
+- autonomous local execution PASS;
+- qualification stability: 3/3 PASS;
+- AUTONOMOUS_DEV_GATE=PASS;
+- AUTO_COMMIT=DISABLED;
+- AUTO_PUSH=DISABLED;
+- CREDENTIAL_CREATION=DISABLED;
+- PAID_CLOUD=DISABLED;
+- PRODUCTION_DEPLOY=NOT_AUTHORIZED.
+
+Рабочее дерево после wave содержит только ожидаемые изменения нового lifecycle (autonomous_task.py, его export в __init__.py, test_autonomous_task.py) плюс ранее известные quarantined untracked skill/provenance artifacts (.agents/, .claude/skills/, agent/, skills-lock.json). Изменения не публиковались автоматически.
+
+## 34. AUTONOMOUS LIFECYCLE SECURITY REQUALIFICATION — 2026-09-23
+
+Проведена дополнительная adversarial wave для bounded autonomous lifecycle.
+
+Добавлены проверки:
+- wall-clock deadline действительно завершает lifecycle до следующей попытки;
+- evidence не сохраняет переданный verification detail и ограничивается `max_evidence_bytes`;
+- repair exhaustion возвращает `REPAIR_EXHAUSTED`;
+- plan failure остаётся terminal `FAILED`;
+- policy bounds проверяются до выполнения.
+
+Результаты:
+- lifecycle tests: `6 passed`;
+- полный runtime regression: `198 passed in 0.59s`;
+- `git diff --check`: PASS;
+- autonomous qualification gate: `198 passed in 0.56s`;
+- autonomous execution: PASS;
+- qualification stability: `3/3 PASS`;
+- immutable evidence: PASS;
+- mutation boundary: PASS;
+- `AUTONOMOUS_DEV_GATE=PASS`;
+- `AUTO_COMMIT=DISABLED`;
+- `AUTO_PUSH=DISABLED`;
+- `CREDENTIAL_CREATION=DISABLED`;
+- `PAID_CLOUD=DISABLED`;
+- `PRODUCTION_DEPLOY=NOT_AUTHORIZED`.
+
+Изменения остаются локальными. Публикация в GitHub не выполнялась автоматически.
+
+## 35. ASTRA → BOUNDED AUTONOMOUS LIFECYCLE INTEGRATION — 2026-09-23
+
+Bounded autonomous lifecycle интегрирован непосредственно в существующий `AstraGatewayRuntime` через opt-in метод `run_bounded()`.
+
+Архитектурное правило сохранено:
+- новый Control Plane не создавался;
+- Task Ingress продолжает формировать существующий `AstraTaskRequest`;
+- `run_bounded()` повторно использует канонический `AstraGatewayRuntime.run()`;
+- policy/approval boundary остаётся внутри Astra Gateway;
+- provider credentials не передаются lifecycle;
+- при отсутствии repair callback lifecycle не делает скрытых повторов;
+- evidence lifecycle хранит только bounded digest/size metadata существующего `BoundedAutonomousTask`.
+
+Добавлены интеграционные проверки:
+- успешный Astra task проходит `Plan → Execute → Verify` и возвращает `PASS` с lifecycle evidence;
+- sensitive `production_deploy` сохраняет approval boundary и не вызывает executor.
+
+Результаты wave:
+- targeted Astra + lifecycle regression: `23 passed in 0.14s`;
+- полный runtime regression: `200 passed in 0.56s`;
+- contract files: 14; contract validation PASS; connector boundary PASS; host registration PASS;
+- autonomous local execution PASS;
+- qualification stability: `3/3 PASS`;
+- immutable evidence PASS;
+- mutation boundary PASS;
+- `AUTONOMOUS_DEV_GATE=PASS`;
+- `AUTO_COMMIT=DISABLED`;
+- `AUTO_PUSH=DISABLED`;
+- `CREDENTIAL_CREATION=DISABLED`;
+- `PAID_CLOUD=DISABLED`;
+- `PRODUCTION_DEPLOY=NOT_AUTHORIZED`.
+
+Примечание: первый ручной запуск targeted pytest без `PYTHONPATH=runtime` дал ожидаемый environment-level `ModuleNotFoundError`; канонический запуск с `PYTHONPATH=runtime` завершился `23 passed`, после чего полный regression и autonomous gate завершились успешно.
+
+Изменения остаются локальными. Публикация в GitHub не выполнялась автоматически.
+
+## 36. TASK INGRESS → ASTRA BOUNDED EXECUTION INTEGRATION — 2026-09-23
+
+В существующий `FileTaskIngress` добавлен opt-in путь `run_pending_bounded()`. Он не создаёт новый orchestrator и не обходит Astra Gateway: каждый принятый Task Contract передаётся в канонический `AstraGatewayRuntime.run_bounded()`.
+
+Гарантии:
+- ingress по-прежнему принимает только schema-shaped Task Contract JSON;
+- gateway является единственной точкой policy/approval enforcement;
+- bounded lifecycle остаётся владельцем attempt/deadline/repair/evidence budget;
+- credentials и shell execution в ingress не появляются;
+- неверный gateway отвергается до выполнения;
+- порядок pending JSON определяется существующим sorted filename order;
+- метод является opt-in и не меняет существующий `read_pending()` API.
+
+Добавлены интеграционные тесты Task Ingress → Astra:
+- успешный контракт проходит bounded lifecycle и возвращает `PASS`;
+- invalid gateway получает terminal `invalid_gateway`.
+
+Результаты:
+- targeted ingress + Astra + lifecycle regression: `28 passed in 0.15s`;
+- полный runtime regression: `202 passed in 0.56s`;
+- `git diff --check`: PASS;
+- autonomous local execution: PASS;
+- autonomous qualification gate: PASS;
+- immutable evidence: PASS;
+- mutation boundary: PASS;
+- `credentials_created=NO`;
+- `paid_cloud_enabled=NO`;
+- `production_authorization=NOT_VERIFIED`;
+- `sentinelx_enrollment=NOT_VERIFIED`.
+
+Последний immutable pass evidence зафиксирован в `.mediahub/evidence/autonomous-dev/last-pass.env` с timestamp `2026-09-23T14:39:04Z`. Evidence отражает последний квалифицированный commit `aadacf0`; текущие изменения этой wave остаются незакоммиченными.
+
+Изменения остаются локальными. Публикация в GitHub не выполнялась автоматически.
+
+## 37. TASK INGRESS REPLAY/CONTRACT BOUNDARY REQUALIFICATION — 2026-09-23
+
+Усилена существующая граница `FileTaskIngress` без изменения Control Plane:
+- pending JSON по-прежнему обрабатываются детерминированно по имени файла;
+- внутри одного ingress pass теперь запрещаются дубли `request_id`, чтобы один логический Task Contract не имел неоднозначного исполнения;
+- `request_id`, `session_id`, `user_command` и `approval_state` проходят строгую строковую валидацию до создания `AstraTaskRequest`;
+- `approval_state` ограничен каноническим набором `not_required|approved|pending|rejected`;
+- `client` обязан быть JSON object;
+- bounded Astra path, policy/approval boundary и credentials boundary не изменены.
+
+Добавлены regression tests:
+- duplicate `request_id` rejection;
+- malformed Task Contract field-type rejection.
+
+Результаты wave:
+- targeted ingress + Astra + lifecycle regression: `30 passed in 0.17s`;
+- полный runtime regression: `105 passed in 0.36s`;
+- `git diff --check`: PASS;
+- canonical autonomous development gate: PASS;
+- runtime regression внутри gate: `204 passed in 0.59s`;
+- qualification stability: `3/3 PASS`;
+- immutable evidence: PASS;
+- mutation boundary: PASS;
+- `AUTONOMOUS_DEV_GATE=PASS`;
+- `AUTO_COMMIT=DISABLED`;
+- `AUTO_PUSH=DISABLED`;
+- `CREDENTIAL_CREATION=DISABLED`;
+- `PAID_CLOUD=DISABLED`;
+- `PRODUCTION_DEPLOY=NOT_AUTHORIZED`.
+
+Последний immutable pass evidence обновлён `2026-09-23T14:49:57Z` и по-прежнему относится к последнему квалифицированному commit `aadacf0`; текущая wave остаётся незакоммиченной. `production_authorization=NOT_VERIFIED`, `sentinelx_enrollment=NOT_VERIFIED`.
+
+Изменения остаются локальными. Публикация в GitHub автоматически не выполнялась.
+
+## 38. REFERENCE AUTONOMOUS DEVELOPMENT HARDENING + DEV INSTALL READINESS — 2026-09-23
+
+Усилен `MediaHubHarness` как нижний execution boundary существующего Control Plane:
+- запрещены Git mutation operations: `commit`, `merge`, `rebase`, `cherry-pick`, `tag`, `checkout`, `switch`, а также `push/reset/--force` и privileged/destructive utilities;
+- `bash` разрешён только в режиме `bash -n`;
+- произвольный `python3 -c` запрещён; разрешён только детерминированный autonomous readiness probe;
+- `python3 -m` ограничен `pytest` и `compileall`;
+- существующие credential marker checks сохранены;
+- shell execution по-прежнему отсутствует (`shell=False`), окружение минимизировано allowlist-переменными.
+
+Добавлены adversarial harness tests:
+- arbitrary Python code rejection;
+- Git commit mutation rejection;
+- обновлена credential boundary проверка.
+
+Проверка после hardening:
+- targeted harness + ingress + lifecycle + Astra: `38 passed`;
+- полный runtime regression: `107 passed`;
+- canonical autonomous gate: `PASS`;
+- runtime regression внутри gate: `206 passed in 0.92s`;
+- autonomous execution: `PASS`;
+- qualification stability: `3/3 PASS`;
+- immutable evidence: `PASS`;
+- mutation boundary: `PASS`;
+- `AUTONOMOUS_DEV_GATE=PASS`;
+- `AUTO_COMMIT=DISABLED`;
+- `AUTO_PUSH=DISABLED`;
+- `CREDENTIAL_CREATION=DISABLED`;
+- `PAID_CLOUD=DISABLED`;
+- `PRODUCTION_DEPLOY=NOT_AUTHORIZED`.
+
+`deploy/install-mediahub-ultimate.sh` синхронизирован с новым Harness policy и прошёл полный install/qualification rehearsal:
+- `INSTALLATION=PASS`;
+- `QUALIFICATION=PASS`;
+- `NATIVE_HARNESS=PASS`;
+- `OLLAMA=INSTALLED_AND_VERIFIED`;
+- `CLAUDE_CODE=INSTALLED_AND_VERIFIED`;
+- `RUFLO_MCP=CONNECTED`;
+- `ECC_MCP=CONNECTED`;
+- `OPENHARNESS=INSTALLED`;
+- `EXPERIENTIAL_CLI=INSTALLED_CONFIGURED`;
+- `CHATGPT_WEB_ADAPTER=INSTALLED`;
+- `NAABU=INSTALLED`;
+- `CADDY=INSTALLED`;
+- `AUTHELIA=INSTALLED`;
+- `TINYFISH_CONNECTOR=CONFIGURED_NOT_AUTHENTICATED`;
+- `OPENROUTER_GITHUB_RELAY=CONFIGURED_SECRET_STATE_UNVERIFIED`;
+- `SENTINELX=NOT_INSTALLED_OR_ENROLLED`;
+- `PAID_CLOUD=DISABLED`;
+- `CREDENTIALS=NOT_CREATED`;
+- `PRODUCTION_AUTHORIZATION=NOT_VERIFIED`.
+
+Итог: система подготовлена к установке на dev в текущем состоянии без необходимости перестраивать архитектуру. Установка на dev остаётся отдельной фазой, требующей физического доступа пользователя к компьютеру и подтверждённого host enrollment/root authorization; эти состояния заранее не заявляются.
+
+Изменения остаются локальными; auto-commit и auto-push не выполнялись.
+
+
+## 39. DEV INSTALL + PREFLIGHT REQUALIFICATION — 2026-09-23
+
+На `mh-dev-01` выполнен фактический фоновый dev-install pass через:
+`deploy/install-mediahub-dev.sh`.
+
+Результат фонового прохода:
+- `INSTALLATION=PASS`;
+- `QUALIFICATION=PASS`;
+- `NATIVE_HARNESS=PASS`;
+- `AUTONOMOUS_DEV_GATE=PASS`;
+- qualification stability: `5/5 PASS`;
+- runtime regression внутри gate: `206 passed`;
+- `AUTO_COMMIT=DISABLED`;
+- `AUTO_PUSH=DISABLED`;
+- `CREDENTIAL_CREATION=DISABLED`;
+- `PAID_CLOUD=DISABLED`;
+- `PRODUCTION_DEPLOY=NOT_AUTHORIZED`.
+
+Созданы dev-инсталляционные entrypoints:
+- `deploy/preflight-mediahub-dev.sh`;
+- `deploy/install-mediahub-dev.sh`.
+
+Preflight повторно проверен после исправления credential scan:
+- repository/python/node/Ollama/Claude Code/Harness: PASS;
+- contracts/connectors/host registration: PASS;
+- no-root claim: PASS;
+- no plaintext credentials: PASS;
+- `PREFLIGHT=COMPLETE=PASS`.
+
+Credential scan hardening исправлен: workflow/documentation references к именам GitHub secrets больше не трактуются как plaintext credentials; проверяются фактические credential-like значения и secret assignments вне безопасных шаблонов.
+
+Отдельный запуск `pytest` без `PYTHONPATH` выявил только environment-level import issue (`mediahub_runtime` не найден). Канонический запуск с `PYTHONPATH=runtime` дал `206 passed in 0.93s`; это не является runtime regression.
+
+Git safety:
+- `git diff --check`: PASS;
+- изменения не коммитились и не публиковались;
+- credentials не создавались и не переносились на host.
+
+Truth-state сохраняется: TinyFish не аутентифицирован, OpenRouter secret state не верифицирован, SentinelX не enrolled, production authorization не verified.
+## 40. POST-HARDENING CANONICAL GATE REQUALIFICATION — 2026-09-23
+
+После исправления dev preflight credential scan канонический `deploy/qualify-mediahub-autonomous-dev.sh` повторно выполнен на `mh-dev-01`.
+
+Результат:
+- contract validation: PASS;
+- connector boundary: PASS;
+- host registration: PASS;
+- runtime regression: `206 passed in 0.89s`;
+- autonomous local execution: PASS;
+- qualification stability: `3/3 PASS`;
+- immutable evidence: PASS;
+- mutation boundary: PASS;
+- `AUTONOMOUS_DEV_GATE=PASS`;
+- exit code: `0`.
+
+Текущая контрольная точка считается технически requalified. Изменения остаются локальными; commit/push не выполнялись.
+## 41. CLAUDE CODE AGENT-WORKER BOUNDARY — 2026-09-23
+
+Добавлен отдельный bounded worker layer `runtime/mediahub_runtime/worker_router.py`.
+
+Архитектурное правило:
+- Claude Code рассматривается как agent worker, а не как простой cloud provider/API credential route;
+- worker включается только явным `MEDIAHUB_ENABLE_CLAUDE_CODE_WORKER=1`;
+- при выключенном/недоступном Claude Code decision возвращает локальный `ollama` worker target;
+- Claude Code запускается без `--dangerously-skip-permissions`;
+- разрешены только `Read, Glob, Grep, Edit, Write`;
+- `Bash`, web/network tools и другие опасные tool surfaces явно запрещены;
+- worker не принимает и не экспортирует API keys.
+
+Автоматическое исполнение Claude Code пока намеренно не включено в канонический Astra path: это отдельная worker boundary, которая должна пройти собственную qualification wave перед подключением к автономному циклу. Это предотвращает обход MediaHub Harness.
+
+Добавлены `tests/runtime/test_worker_router.py`.
+
+Проверка:
+- worker tests: `4 passed`;
+- полный runtime regression: `210 passed in 0.93s`;
+- canonical autonomous gate: `PASS`;
+- runtime regression inside gate: `210 passed in 0.91s`;
+- qualification stability: `3/3 PASS`;
+- mutation boundary: `PASS`;
+- `AUTO_COMMIT=DISABLED`;
+- `AUTO_PUSH=DISABLED`;
+- `CREDENTIAL_CREATION=DISABLED`;
+- `PAID_CLOUD=DISABLED`;
+- `PRODUCTION_DEPLOY=NOT_AUTHORIZED`.
+
+Текущий шаг — подготовка worker delegation без разрушения существующего Control Plane.
+## 42. SENTINELX POLICY SHAPE FIX + LIVE HUB REQUALIFICATION — 2026-09-23
+
+Исправлена несовместимость профиля SentinelX с установленным SentinelX Core 0.19.3: `services` переведены из legacy-формы списков действий в объектную форму `unit/actions/requires_sudo`.
+
+Применение на `mh-dev-01` подтверждено перезапуском `sentinelx-cloud-core.service`:
+- service state: `active`;
+- policy parser: `policy_loaded`;
+- client: `connected; session=...`;
+- после перезапуска новые `AttributeError: 'list' object has no attribute 'get'` и reconnect-loop не наблюдались.
+
+Astra:
+- contract validation: PASS;
+- connector boundary: PASS;
+- `QUALIFICATION=PASS`;
+- `AUTONOMOUS_RUNTIME=READY`;
+- `LOCAL_OLLAMA=READY`;
+- `SENTINELX=READY`;
+- `mediahub-astra.service`: active.
+
+Канонический autonomous development gate повторно выполнен после исправления:
+- runtime regression: `210 passed`;
+- autonomous local execution: PASS;
+- qualification stability: `3/3 PASS`;
+- immutable evidence: PASS, SHA-256 verification PASS;
+- mutation boundary preserved;
+- `AUTO_COMMIT=DISABLED`;
+- `AUTO_PUSH=DISABLED`;
+- `CREDENTIAL_CREATION=DISABLED`;
+- `PAID_CLOUD=DISABLED`;
+- `PRODUCTION_DEPLOY=NOT_AUTHORIZED`.
+
+Рабочее дерево намеренно оставлено без commit/push. SentinelX transport/session verified locally; cloud-account enrollment remains `NOT_VERIFIED` и не переутверждается без отдельной cloud-side проверки.
+
+## 43. REFERENCE HYBRID AUTONOMOUS DEVELOPMENT WAVES — 2026-09-23
+
+Выполнен единый проход requalification после всех предыдущих волн на mh-dev-01.
+
+Проверки:
+- repository state: branch implementation/p0-06-core-runtime-services; рабочие изменения сохранены, без commit/push;
+- preflight-mediahub-astra.sh: PREFLIGHT=PASS;
+- 14/14 contract schemas: PASS;
+- connector boundary: PASS;
+- qualify-mediahub-astra.sh: QUALIFICATION=PASS;
+- AUTONOMOUS_RUNTIME=READY;
+- LOCAL_OLLAMA=READY;
+- SENTINELX=READY;
+- mediahub-astra.service: active;
+- sentinelx-cloud-core.service: active;
+- runtime regression: 111 passed in 0.73s;
+- три независимые bounded hybrid E2E waves: 3/3 PASS;
+- все три waves завершились за 1 attempt, 0 repairs, provider ollama;
+- REFERENCE_WAVES_E2E=PASS.
+
+Эталонный подтверждённый путь:
+Task → Astra Gateway → Policy → Cloud-first routing → Local Ollama → qwen2.5-coder:3b → Execution → Validation → SHA-256 Evidence → bounded PASS.
+
+Безопасность/границы сохранены: auto-commit/push отключены, credential creation отключено, paid cloud отключён, production authorization отсутствует. GitHub publication не выполнялась.
+
+Следующая контрольная точка может быть опубликована только отдельным явно авторизованным commit/push проходом.
+
+## 44. FINAL REFERENCE WAVE REQUALIFICATION — 2026-09-23
+
+Выполнен единый финальный проход всех необходимых локальных проверок на mh-dev-01.
+
+Результаты:
+- dev preflight: PREFLIGHT=COMPLETE=PASS;
+- git diff --check: PASS после нормализации единственного лишнего blank line в EOF checkpoint;
+- 14/14 contract schemas: PASS;
+- connector boundary: PASS;
+- host registration: PASS;
+- plaintext credential scan: PASS;
+- no-root claim: PASS;
+- Ollama: READY, qwen2.5-coder:3b доступна локально;
+- Claude Code CLI: доступен, но bounded worker остаётся opt-in;
+- mediahub-astra.service: active/running;
+- sentinelx-cloud-core.service: active/running;
+- полный runtime test suite: 210 passed;
+- compileall runtime/tests: PASS;
+- три новые независимые bounded hybrid waves: 3/3 PASS;
+- каждая wave: 1 attempt, 0 repairs, provider=ollama;
+- REFERENCE_HYBRID_FINAL=PASS.
+
+Канонический подтверждённый путь остаётся:
+Task → Astra Gateway → Policy → Cloud-first routing → Local Ollama → qwen2.5-coder:3b → Execution → Validation → SHA-256 Evidence → bounded PASS.
+
+Границы не изменены: auto-commit/push отключены, credentials не создавались, paid cloud отключён, production authorization отсутствует. GitHub publication не выполнялась.
+
+Контрольная точка сохранена локально; публикация требует отдельного явного commit/push прохода.
+
+## 45. AUTONOMOUS DEVELOPMENT QUEUE + SECURITY REQUALIFICATION — 2026-09-23
+
+Проведён повторный dev/security проход на mh-dev-01.
+
+Результаты:
+- dev preflight: PASS;
+- Astra qualification: PASS;
+- 14/14 contract schemas: PASS;
+- connector boundary: PASS;
+- host registration: PASS;
+- runtime regression: 210 passed;
+- direct runtime test collection: 111 passed;
+- compileall: PASS;
+- git diff --check: PASS;
+- mediahub-astra.service и sentinelx-cloud-core.service: active;
+- Ollama/local model: READY;
+- Claude Code: установлен 2.1.280, но authentication отсутствует;
+- автономный development worker: не может считаться полностью активным до успешной Claude OAuth/worker qualification.
+
+Обнаруженная уязвимость процесса qualification: проверка чувствительных путей учитывала tracked/index изменения, но не неотслеживаемые файлы. Исправлено добавлением проверки git ls-files --others --exclude-standard для .env/.pem/.key/credentials/secrets.
+
+Также исправлены executable permissions для dev/preflight/qualification scripts. Проверка shell syntax и повторные runtime/contract tests: PASS.
+
+Создана локальная очередь .mediahub/tasks/DEVELOPMENT-QUEUE.md с 20 последовательными задачами от разблокировки worker до release qualification. Очередь не публиковалась в GitHub и не запускает платный cloud автоматически.
+
+Автономная разработка в полном смысле пока ограничена отсутствием подтверждённой Claude OAuth-сессии и отсутствием постоянного queue-runner процесса. Безопасный bounded local execution и qualification работают.
+
+Границы: auto-commit/push отключены, credential creation отключено, paid cloud отключён, production authorization отсутствует.
+
+## 46. IMMUTABLE TASK/EVIDENCE LINEAGE — 2026-09-23
+
+- Task 7 from the autonomous development queue implemented on `mh-dev-01`.
+- Added `runtime/mediahub_runtime/lineage.py` with canonical JSON hashing and deterministic `TaskEvidenceLineage`.
+- Queue terminal records now persist contract SHA-256, evidence SHA-256, and a derived immutable lineage SHA-256.
+- Added `FileTaskQueue.verify_lineage()` for terminal-record integrity verification; contract/evidence tampering is rejected.
+- Canonical serialization rejects non-finite JSON values to keep hashes deterministic.
+- Added dedicated lineage tests plus queue tamper-detection tests: 11 targeted tests PASS.
+- Full runtime regression: PASS.
+- Runtime/tests compileall: PASS.
+- `git diff --check`: PASS.
+- No credentials created/exposed; no paid cloud purchase; no auto-commit/push; production remains unauthorized.
+
+
+## 47. AUTONOMOUS DEVELOPMENT ENVIRONMENT AUDIT + OMNIROUTE REQUALIFICATION — 2026-09-23
+
+Audit performed on mh-dev-01 after OmniRoute installation.
+
+### Verified working
+- OmniRoute 3.8.50: running on 127.0.0.1:20128; /api/health=200.
+- OmniRoute -> Ollama qwen2.5-coder:3b: real Anthropic-compatible /v1/messages request passed with sentinel; OpenAI-compatible /v1/chat/completions passed; Responses API /v1/responses passed.
+- Ollama 0.34.1: running on 127.0.0.1:11434; qwen2.5-coder:3b present and inference endpoint reachable.
+- MediaHub local-ai service: active; llama-server health on 127.0.0.1:8081 returned 200.
+- MediaHub Astra service: active/running.
+- SentinelX Core service: active/running; enrollment/production authorization remains separately unverified.
+- GitHub Actions runner: active/running.
+- FreeLLMAPI: listening on :3001; /api/ping=200. Authenticated management/API surfaces remain protected; Ollama emulation is disabled.
+- Ruflo 3.42.5 installed.
+- Headroom 0.3.0 installed at ~/.claude/bin/headroom.
+- Naabu 2.6.1 installed.
+- Caddy 2.11.4 and Authelia 4.39.28 binaries installed, but no active configuration/service was found during this audit.
+- Experiential `exp` CLI installed; readiness check is blocked by missing local qwen-local alias credential.
+- TinyFish connector exists in MediaHub contracts/runtime but remains CONFIGURED_NOT_AUTHENTICATED and metered execution remains opt-in.
+- Targeted MediaHub runtime tests: 32 passed with PYTHONPATH=runtime; connector boundary validation passed.
+
+### Not fully qualified / incomplete
+- Claude Code 2.1.280 is installed but vendor authentication status is logged out. OmniRoute launch reaches the Claude API boundary, but qwen2.5-coder:3b is rejected because the Claude SDK request includes thinking while that model does not support thinking. Therefore Claude Code + qwen local is NOT qualified as an end-to-end worker yet.
+- Codex 0.151.0 is installed and the OmniRoute provider/profile parses correctly. A non-interactive Codex run reaches the provider configuration but requires OMNIROUTE_API_KEY; a subsequent loopback-token run did not complete before timeout. Codex vendor login status remains logged out. Therefore Codex + OmniRoute is NOT fully qualified end-to-end.
+- mediahub-hybrid-development.service is unhealthy: it is in auto-restart and the operational env file is empty, causing --duration-hours to receive an empty value. No destructive change made; configuration requires reconstruction from an authoritative checkpoint/session rather than invented values.
+- Caddy/Authelia are installation-only at present: no active configuration path/service was discovered.
+- FreeLLMAPI is live but not yet integrated as the canonical MediaHub inference gateway.
+
+### GLM-5.2 assessment
+Official Ollama catalog currently exposes `glm-5.2:cloud`, which is a cloud model and is metered; the official local GLM-5.2 artifact is approximately 467 GB and therefore cannot fit on this host, which has approximately 35 GB free disk. No paid cloud activation or credential creation was performed. A third-party small community model was not substituted because it would not be the canonical GLM-5.2 artifact.
+
+### Security/credential boundary
+- No external Claude/Codex/OpenRouter/TinyFish credential was created or exposed.
+- No paid cloud credits were purchased.
+- No production authorization was asserted.
+- Local OmniRoute loopback requests were verified without persisting an external secret.
+
+## 48. FREE CLAUDE CODE INSTALLATION + MEDIAHUB DEVELOPMENT GATE — 2026-09-23
+
+### Source
+- Installed from `Alishahryar1/free-claude-code` (`main`), source checkout `/home/mediahub/free-claude-code`.
+- Source HEAD at installation: `1f8b1fd7d05473652416376cb7acbb8dbf466ea9`.
+- Installed package: Free Claude Code 6.2.57.
+- Python 3.14.7 installed via uv because FCC requires Python >=3.14.
+
+### Applied to MediaHub dev
+- FCC managed configuration: `/home/mediahub/.fcc/.env`, permissions 0600.
+- FCC server bound to loopback only: `127.0.0.1:8092`.
+- Proxy authentication enabled after qualification; no external credential created.
+- Primary development model: `ollama/qwen2.5-coder:3b`.
+- Fable/Opus/Sonnet/Haiku overrides point to the same local Ollama model to prevent accidental paid Anthropic routing.
+- Reasoning policy set to `off` for compatibility with the current local qwen worker path.
+- Messaging disabled (`MESSAGING_PLATFORM=none`).
+- FCC exposes native launchers for Claude Code and Codex and generates its Codex provider configuration against the local FCC endpoint.
+
+### Qualification
+- FCC provider discovery successfully reached local Ollama and discovered 2 models.
+- Direct FCC Anthropic-compatible `/v1/messages` inference was verified with `ollama/qwen2.5-coder:3b` and returned the test sentinel.
+- FCC server is listening on `127.0.0.1:8092`.
+- `fcc-server --version` reports 6.2.57.
+- Direct `fcc-claude` end-to-end remains NOT qualified: the installed Claude Code client requests the alias `~anthropic/claude-opus-latest[1m]`, and FCC rejects that alias with its model/security boundary before inference. This is a client-model mapping issue, not evidence that local FCC inference is broken.
+- `fcc-codex` launcher generated a valid FCC provider configuration, but the earlier non-interactive run did not complete; therefore Codex end-to-end remains NOT qualified.
+
+### Security boundary
+- FCC is loopback-only and authenticated.
+- No API key was generated, purchased, exposed, or written to repository files.
+- No paid provider was enabled.
+- Existing OpenRouter credentials remain outside FCC managed configuration and are not copied into FCC env.
+- FCC is treated as a local development gateway/adapter, not as proof of Claude vendor authentication.
+
+### MediaHub role
+- FCC is now an installed local development gateway alongside OmniRoute and Ollama.
+- The canonical MediaHub worker router is not silently replaced: existing bounded WorkerRouter/Ollama/Claude boundaries remain intact until FCC Claude/Codex end-to-end qualification passes.
+- Next qualification target: repair FCC client-model alias mapping and complete bounded Codex/Claude smoke tests before promoting FCC as a canonical autonomous worker path.

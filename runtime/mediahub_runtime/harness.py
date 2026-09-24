@@ -100,11 +100,21 @@ class MediaHubHarness:
         workdir = Path(cwd).resolve()
         if not any(workdir == root or root in workdir.parents for root in self.policy.allowed_roots):
             raise HarnessError("cwd_not_allowed")
-        forbidden = {"sudo", "rm", "reset", "--hard", "push", "--force", "curl", "wget"}
+        forbidden = {
+            "sudo", "rm", "reset", "--hard", "push", "--force", "curl", "wget",
+            "commit", "merge", "rebase", "cherry-pick", "tag", "checkout", "switch",
+        }
         if any(item in forbidden for item in argv):
             raise HarnessError("argument_not_allowed")
         if executable == "bash" and tuple(argv[1:]) != ("-n",):
             raise HarnessError("argument_not_allowed")
+        if executable == "python3":
+            if len(argv) >= 2 and argv[1] == "-c":
+                if tuple(argv[1:]) != ("-c", "print('MEDIAHUB_AUTONOMOUS_EXECUTION_READY')"):
+                    raise HarnessError("argument_not_allowed")
+            elif len(argv) >= 2 and argv[1] == "-m":
+                if len(argv) < 3 or argv[2] not in {"pytest", "compileall"}:
+                    raise HarnessError("argument_not_allowed")
         if any(any(marker in item.lower() for marker in ("api_key", "token", "secret", "password", "credential")) for item in argv):
             raise HarnessError("credential_argument_rejected")
 

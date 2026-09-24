@@ -38,17 +38,26 @@ allowed_commands:
 
 services:
   mediahub-astra.service:
-    - status
-    - restart
-    - reload
+    unit: mediahub-astra.service
+    actions:
+      - status
+      - restart
+      - reload
+    requires_sudo: true
   ollama.service:
-    - status
-    - restart
-    - reload
+    unit: ollama.service
+    actions:
+      - status
+      - restart
+      - reload
+    requires_sudo: true
   sentinelx-cloud-core.service:
-    - status
-    - restart
-    - reload
+    unit: sentinelx-cloud-core.service
+    actions:
+      - status
+      - restart
+      - reload
+    requires_sudo: true
 
 file_ops:
   paths:

@@ -233,6 +233,30 @@ class AstraGatewayRuntime:
             self._emit(events, task, execution_id, "task.failed", {"error_code": exc.code})
             return AstraTaskResult(task.request_id, task.session_id, execution_id, "failed", provider_id, model, None, None, tuple(events), exc.code)
 
+    def run_bounded(self, task: AstraTaskRequest, policy=None):
+        """Run the existing Astra task path through the bounded autonomous lifecycle."""
+        from .autonomous_task import AutonomousTaskPolicy, BoundedAutonomousTask
+
+        lifecycle_policy = policy or AutonomousTaskPolicy()
+
+        def plan():
+            self._validate_task(task)
+            return task
+
+        def execute(planned_task, _attempt):
+            return self.run(planned_task)
+
+        def verify(result, _attempt):
+            return result.status == "completed", result.status
+
+        lifecycle = BoundedAutonomousTask(
+            plan=plan,
+            execute=execute,
+            verify=verify,
+            policy=lifecycle_policy,
+        )
+        return lifecycle.run()
+
     @staticmethod
     def _capability(command: str) -> str:
         normalized = command.lower()

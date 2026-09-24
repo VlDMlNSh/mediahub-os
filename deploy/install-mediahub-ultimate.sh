@@ -42,8 +42,8 @@ python3 tools/validate_host_registration.py
 log "6/8 native MediaHub Harness"
 PYTHONPATH=runtime python3 - <<'PY'
 from mediahub_runtime import MediaHubHarness
-r = MediaHubHarness().run(["python3", "-c", "print('MEDIAHUB_HARNESS_READY')"])
-assert r.status == "completed" and "MEDIAHUB_HARNESS_READY" in r.stdout
+r = MediaHubHarness().run(["python3", "-c", "print('MEDIAHUB_AUTONOMOUS_EXECUTION_READY')"])
+assert r.status == "completed" and "MEDIAHUB_AUTONOMOUS_EXECUTION_READY" in r.stdout
 print("NATIVE_HARNESS=PASS")
 PY
 

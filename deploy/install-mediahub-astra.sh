@@ -27,7 +27,11 @@ curl -fsSL "$SENTINELX_BOOTSTRAP" | SENTINELX_ENROLL_MODE=paste bash
 # The config contains no credentials and is installed root-owned.
 install -d -m 0755 /etc/sentinelx
 install -m 0644 "$REPO/profiles/sentinelx/mediahub-config.yaml" /etc/sentinelx/config.yaml
-systemctl restart sentinelx-cloud-core.service
+if systemctl cat sentinelx-cloud-core.service >/dev/null 2>&1; then
+  systemctl restart sentinelx-cloud-core.service
+else
+  echo "SENTINELX=NOT_INSTALLED_OR_ENROLLED"
+fi
 
 install -d -m 0755 "$APP_ROOT"
 cp -a "$REPO/runtime" "$APP_ROOT/"
@@ -38,8 +42,8 @@ cp -a "$REPO/tools" "$APP_ROOT/"
 cat > /etc/systemd/system/$SERVICE <<EOF
 [Unit]
 Description=MediaHub Astra local-first runtime
-After=network-online.target ollama.service sentinelx-cloud-core.service
-Wants=network-online.target sentinelx-cloud-core.service
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=simple

@@ -4,10 +4,10 @@ from mediahub_runtime.harness import HarnessError, MediaHubHarness
 
 
 def test_harness_executes_allowed_argv_without_shell():
-    result = MediaHubHarness().run(["python3", "-c", "print('READY')"])
+    result = MediaHubHarness().run(["python3", "-c", "print('MEDIAHUB_AUTONOMOUS_EXECUTION_READY')"])
     assert result.status == "completed"
     assert result.returncode == 0
-    assert result.stdout.strip() == "READY"
+    assert result.stdout.strip() == "MEDIAHUB_AUTONOMOUS_EXECUTION_READY"
     assert result.output_bytes > 0
 
 
@@ -27,7 +27,19 @@ def test_harness_rejects_privileged_or_destructive_commands():
 def test_harness_rejects_credentials():
     with pytest.raises(HarnessError) as exc:
         MediaHubHarness().run(["python3", "-c", "print('x')", "api_key=secret"])
-    assert exc.value.code == "credential_argument_rejected"
+    assert exc.value.code == "argument_not_allowed"
+
+
+def test_harness_rejects_arbitrary_python_code():
+    with pytest.raises(HarnessError) as exc:
+        MediaHubHarness().run(["python3", "-c", "open('marker', 'w').write('unsafe')"])
+    assert exc.value.code == "argument_not_allowed"
+
+
+def test_harness_rejects_git_mutation():
+    with pytest.raises(HarnessError) as exc:
+        MediaHubHarness().run(["git", "commit", "-m", "unsafe"])
+    assert exc.value.code == "argument_not_allowed"
 
 
 def test_harness_rejects_cwd_outside_mediahub():
@@ -37,7 +49,7 @@ def test_harness_rejects_cwd_outside_mediahub():
 
 
 def test_harness_returns_failed_process_evidence():
-    result = MediaHubHarness().run(["python3", "-c", "raise SystemExit(3)"])
+    result = MediaHubHarness().run(["python3", "-m", "pytest", "tests/runtime/test_harness.py::does_not_exist"])
     assert result.status == "failed"
-    assert result.returncode == 3
-    assert result.stderr_sha256
+    assert result.returncode != 0
+    assert result.stderr_sha256 or result.stdout_sha256

@@ -66,7 +66,7 @@ class CloudFirstOrchestrator:
     ):
         self._cloud = tuple(sorted(cloud_routes, key=lambda r: r.priority))
         self._local = tuple(sorted(local_routes, key=lambda r: r.priority))
-        self._env = dict(credential_env or os.environ)
+        self._env = dict(os.environ if credential_env is None else credential_env)
         self._executors = dict(executors or {})
 
     def decide(self, capability: str, *, allow_local_extension: bool = True) -> OrchestrationDecision:

@@ -22,6 +22,9 @@ fi
 if git diff --cached --name-only | grep -E '(^|/)(\.env|.*\.pem|.*\.key|credentials|secrets?)($|[./])' >/dev/null; then
   fail "sensitive path appears in index"
 fi
+if git ls-files --others --exclude-standard | grep -E '(^|/)(\.env|.*\.pem|.*\.key|credentials|secrets?)($|[./])' >/dev/null; then
+  fail "sensitive untracked path appears in working tree"
+fi
 
 log "3/8 contract and connector gates"
 python3 tools/validate_contracts.py
