@@ -2910,9 +2910,7 @@ This artifact records deterministic repository evidence for the existing escalat
 - Cloud Development AI: inspected through existing policy/orchestration surfaces without activating a provider.
 - End-to-end escalation: NOT ESTABLISHED by this reconciliation alone.
 
-## Source evidence
-
-        """ + chr(10) + chr(10).join(evidence_lines) + chr(10)
+## Source evidence""" + chr(10) + chr(10).join(evidence_lines) + chr(10)
         return unified_patch("", content, target)
 
     if task.fallback_kind == "p7.4-ordinary-user-cloud-development-access-gap-reconciliation":
