@@ -1572,6 +1572,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p8.1-escalation-path-reconciliation",
         "p8.2-cross-domain-contract-gap-reconciliation",
         "p8.3-end-to-end-scenario-reconciliation",
+        "p8.4-bounded-agent-security-reconciliation",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
