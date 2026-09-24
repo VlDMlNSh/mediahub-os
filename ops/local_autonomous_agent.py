@@ -308,11 +308,40 @@ def _compile_p81_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
         str(target.relative_to(root)),
         "Record deterministic repository evidence for the existing escalation path Mobile Access Layer → Local AI → Local Cluster AI → Cloud Development AI. Inspect only existing baseline/governance, mobile boundary, provider gateway and cloud-orchestrator surfaces; classify each hop as PRESENT, PARTIAL or NOT ESTABLISHED with exact file/line evidence. Do not invent routing behavior, add a Mobile AI tier, execute providers, acquire credentials, mutate State Authority or claim end-to-end closure.",
         "p8.1-escalation-path-reconciliation",
-        "p8.2-cross-domain-contract-gap-reconciliation",
     )
 
 
-RAW_QUEUE_COMPILERS = {"P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+def _compile_p84_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P8-4-bounded-agent-security-reconciliation-2026-09-24.md"
+    if target.exists():
+        return None
+    sources = (
+        "ops/ai/ai_adapter.py",
+        "ops/ai/astra_host_execution_gate.py",
+        "ops/ai/astra_host_gateway.py",
+        "ops/ai/astra_task_gateway.py",
+        "ops/cloud_development_sandbox.py",
+        "ops/mediahub_native_execution.py",
+        "ops/mediahub_native_agent_launcher.py",
+        "tests/security/test_ai_adapter.py",
+        "tests/security/test_native_agent_launcher.py",
+        "tests/security/test_cloud_development_sandbox.py",
+        "tests/security/test_mh05_bypass_audit.py",
+        "tests/security/test_mh05_systemwide_reachability.py",
+        "tests/security/test_mh04_state_authority_redteam.py",
+    )
+    if not all((root / rel).is_file() for rel in sources):
+        return None
+    return LocalTask(
+        "P8.4-bounded-agent-security-reconciliation",
+        f"P8.4 {item.description}",
+        str(target.relative_to(root)),
+        "Record deterministic repository evidence for bounded-agent security surfaces covering subprocess/egress controls, sandbox isolation, forbidden capabilities and State Authority construction boundaries. Inspect only the existing implementation and security tests; distinguish static/negative-test evidence from runtime qualification, identify any uncovered surfaces, and do not execute providers, mutate State Authority, add persistence, or claim P8.4 closed unless evidence establishes it.",
+        "p8.4-bounded-agent-security-reconciliation",
+    )
+
+
+RAW_QUEUE_COMPILERS = {"P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
