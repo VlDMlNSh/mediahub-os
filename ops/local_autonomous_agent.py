@@ -336,6 +336,25 @@ def _compile_p91_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
+def _compile_p92_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P9-2-static-secret-dependency-provenance-review-2026-09-24.md"
+    sources = (
+        "ops/requirements-autonomous.txt",
+        "docs/architecture/MH-12-secrets.md",
+        ".gitignore",
+        ".autonomous/provenance.log",
+    )
+    if target.is_file() or not all((root / rel).is_file() for rel in sources):
+        return None
+    return LocalTask(
+        "P9.2-static-secret-dependency-provenance-review",
+        f"P9.2 {item.description}",
+        str(target.relative_to(root)),
+        "Perform a deterministic repository review of tracked-text secret exposure patterns, dependency manifest/license metadata and provenance evidence. Report findings without printing secret values, distinguish static review from runtime vulnerability scanning, and preserve release blockers where dependency locks, licenses or external provenance are not established. Do not acquire credentials, invoke providers, mutate State Authority or claim security closure.",
+        "p9.2-static-secret-dependency-provenance-review",
+    )
+
+
 def _compile_p85_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "docs/ops/P8-5-provenance-chain-reconciliation-2026-09-24.md"
     sources = (
@@ -387,7 +406,7 @@ def _compile_p84_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
-RAW_QUEUE_COMPILERS = {"P9.1": _compile_p91_queue_item, "P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+RAW_QUEUE_COMPILERS = {"P9.2": _compile_p92_queue_item, "P9.1": _compile_p91_queue_item, "P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
@@ -3067,6 +3086,56 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
             hits=[f"L{i}: {line.strip()}" for i,line in enumerate(lines,1) if any(x in line.lower() for x in ("threat","boundary","egress","credential","quarantine","authorization","revocation","unknown","security"))]
             evidence.append(f"### {rel}\nSHA256: {digest}\n"+"\n".join(f"- {x}" for x in hits[:25]))
         content="# P9.1 — Threat-model refresh\n\nStatus: THREAT_MODEL_RECONCILIATION / P9.1 NOT CLOSED\n\n## Scope\n\nDeterministic refresh of documented security/threat surfaces against the current repository architecture. This is a repository evidence reconciliation, not a penetration test and not proof that every runtime path is secure.\n\n## Findings\n\n- Trust boundaries and security invariants are documented across local execution, cloud/provider boundaries, remote policy, credentials, egress and recovery.\n- Existing architecture documents contain explicit unknown/gap registers that must remain release considerations.\n- Documentation evidence is not equivalent to runtime qualification; negative tests and live endpoint behavior require separate evidence.\n- P9.1 remains OPEN until the refreshed threat model is reconciled with current implementation and security-test evidence and all release blockers are classified.\n\n## Source evidence\n\n"+"\n\n".join(evidence)+"\n"
+        return unified_patch("", content, target)
+
+    if task.fallback_kind == "p9.2-static-secret-dependency-provenance-review":
+        target = task.target
+        sources = (
+            "ops/requirements-autonomous.txt", "docs/architecture/MH-12-secrets.md",
+            ".gitignore", ".autonomous/provenance.log",
+        )
+        evidence = []
+        for rel in sources:
+            source = ROOT / rel
+            if not source.is_file():
+                return ""
+            digest = hashlib.sha256(source.read_bytes()).hexdigest()
+            evidence.append(f"### {rel}\nSHA256: {digest}")
+
+        import subprocess
+        tracked = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT, check=True, capture_output=True, text=False).stdout.decode().split("\x00")
+        import re
+        secret_patterns = (
+            re.compile(r"(?:api[_-]?key|secret|token|password|private[_-]?key)\s*[:=]\s*[\"\'][^\"\']{8,}[\"\']", re.I),
+            re.compile(r"authorization\s*:\s*bearer\s+[A-Za-z0-9._~+/=-]{16,}", re.I),
+            re.compile(r"\bsk-[A-Za-z0-9_-]{16,}\b"),
+        )
+        findings = []
+        scanned = 0
+        for rel in tracked:
+            if not rel or rel.startswith((".git/", ".venv", "node_modules/")):
+                continue
+            source = ROOT / rel
+            try:
+                raw = source.read_bytes()
+                if b"\x00" in raw[:8192]:
+                    continue
+                lines = raw.decode("utf-8").splitlines()
+            except (OSError, UnicodeDecodeError):
+                continue
+            scanned += 1
+            for i, line in enumerate(lines, 1):
+                low = line.lower()
+                if any(pattern.search(line) for pattern in secret_patterns):
+                    findings.append(f"- {rel}:L{i} matched a secret-related keyword; value intentionally omitted")
+                    if len(findings) >= 40:
+                        break
+            if len(findings) >= 40:
+                break
+
+        req = (ROOT / "ops/requirements-autonomous.txt").read_text(encoding="utf-8").splitlines()
+        deps = [line.strip() for line in req if line.strip() and not line.lstrip().startswith("#")]
+        content = "# P9.2 — Static secret, dependency, license and provenance review\n\nStatus: SECURITY_RECONCILIATION / P9.2 NOT CLOSED\n\n## Scope\n\nDeterministic repository-only review. Secret scanning reports locations and keyword matches without reproducing values. Dependency review is based on repository manifests; license/provenance claims are not inferred where lock or authoritative metadata is absent. This is not a substitute for a dedicated runtime scanner or supply-chain service.\n\n## Static secret review\n\n- Tracked text files scanned: " + str(scanned) + "\n- Keyword findings (values omitted): " + str(len(findings)) + "\n" + ("\n".join(findings) if findings else "- No keyword matches found by this bounded scan.") + "\n\n## Dependency / license review\n\n- Declared autonomous dependencies: " + ", ".join(deps) + "\n- Repository contains no dependency lockfile in the reviewed top-level inventory. Exact transitive versions and authoritative license provenance are therefore NOT established by repository manifests alone.\n- `pip-audit` is declared as a review tool, but this artifact does not claim that an external advisory database scan was executed.\n\n## Provenance\n\n- The autonomous provenance journal is hashed as source evidence. Historical entries preserve source/tree/result fields, but this review does not treat journal content as proof of dependency integrity or secret absence.\n- P9.2 remains OPEN until dependency provenance/license requirements and any material secret-scan findings are explicitly classified and accepted or remediated.\n\n## Source evidence\n\n" + "\n\n".join(evidence) + "\n"
         return unified_patch("", content, target)
 
     if task.fallback_kind == "p8.5-provenance-chain-reconciliation":
