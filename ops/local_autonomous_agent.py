@@ -286,6 +286,7 @@ def _compile_p81_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
         str(target.relative_to(root)),
         "Record deterministic repository evidence for the existing escalation path Mobile Access Layer → Local AI → Local Cluster AI → Cloud Development AI. Inspect only existing baseline/governance, mobile boundary, provider gateway and cloud-orchestrator surfaces; classify each hop as PRESENT, PARTIAL or NOT ESTABLISHED with exact file/line evidence. Do not invent routing behavior, add a Mobile AI tier, execute providers, acquire credentials, mutate State Authority or claim end-to-end closure.",
         "p8.1-escalation-path-reconciliation",
+        "p8.2-cross-domain-contract-gap-reconciliation",
     )
 
 
