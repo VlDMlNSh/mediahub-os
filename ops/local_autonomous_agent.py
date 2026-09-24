@@ -1637,6 +1637,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p8.4-bounded-agent-security-reconciliation",
         "p8.5-provenance-chain-reconciliation",
         "p9.1-threat-model-refresh",
+        "p9.2-static-secret-dependency-provenance-review",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
