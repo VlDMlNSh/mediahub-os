@@ -4,12 +4,13 @@ from time import monotonic
 from uuid import uuid4
 from .model import AuditRecord, Execution, Event, FailureClass, TaskStatus, validate_task_transition
 from .repository import ControlPlaneRepository
+from .retry_policy import RetryPolicy
 
 class ControlPlaneService:
     """Small deterministic coordinator for the first orchestration vertical slice."""
-    def __init__(self, repository: ControlPlaneRepository, agent_registry=None, retry_backoff_seconds: float = 5.0):
+    def __init__(self, repository: ControlPlaneRepository, agent_registry=None, retry_backoff_seconds: float = 5.0, retry_policy: RetryPolicy | None = None):
         if retry_backoff_seconds < 0: raise ValueError("retry_backoff_seconds must be non-negative")
-        self.repository=repository; self.agent_registry=agent_registry; self.retry_backoff_seconds=retry_backoff_seconds
+        self.repository=repository; self.agent_registry=agent_registry; self.retry_policy=retry_policy or RetryPolicy(retry_backoff_seconds)
     def mark_ready(self, task_id: str) -> None:
         task=self.repository.get_task(task_id)
         if task is None: raise KeyError(task_id)
@@ -29,7 +30,8 @@ class ControlPlaneService:
         if task is None: raise KeyError(task_id)
         attempt=task.attempt+1; self.repository.record_execution(Execution(str(uuid4()),task_id,agent_id,generation,'FAILED',reason,failure_class)); self.repository.update_task(replace(task,attempt=attempt,status=TaskStatus.FAILED))
         if attempt < task.max_attempts:
-            retry_at = monotonic() + self.retry_backoff_seconds * (2 ** max(0, attempt - 1))
+            decision = self.retry_policy.decide(failure_class, attempt, task.max_attempts)
+            retry_at = monotonic() + decision.delay_seconds
             self.repository.update_task(replace(self.repository.get_task(task_id),status=TaskStatus.RETRY_WAIT,retry_not_before=retry_at))
         self.repository.release_lease(lease.lease_id,agent_id,generation)
         if self.agent_registry is not None and failure_class in {FailureClass.WORKER, FailureClass.INFRASTRUCTURE}: self.agent_registry.record_failure(agent_id)
