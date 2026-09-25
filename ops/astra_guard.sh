@@ -5,6 +5,8 @@ STATE="$ROOT/.autonomous"
 PIDFILE="$STATE/astra.pid"
 LOCK="$STATE/astra-guard.lock"
 LOG="$STATE/astra-guard.log"
+HEARTBEAT="$STATE/astra_heartbeat.json"
+HEARTBEAT_MAX=45
 exec 9>"$LOCK"
 flock -n 9 || exit 73
 mkdir -p "$STATE"
@@ -20,6 +22,18 @@ while :; do
       *"$ROOT/ops/astra_orchestrator.py"*)
         [[ -n "$recorded_start" && "$recorded_start" == "$current_start" ]] && owned=1 ;;
     esac
+  fi
+  if [[ "$owned" -eq 1 && -s "$HEARTBEAT" ]]; then
+    now="$(date +%s)"
+    heartbeat_mtime="$(stat -c %Y "$HEARTBEAT" 2>/dev/null || echo 0)"
+    heartbeat_age=$((now - heartbeat_mtime))
+    if [[ "$heartbeat_age" -gt "$HEARTBEAT_MAX" ]]; then
+      printf '%s Astra heartbeat stale age=%ss; restarting coordinator\n' "$(date -u +%FT%TZ)" "$heartbeat_age" >>"$LOG"
+      kill -TERM "$pid" 2>/dev/null || true
+      sleep 2
+      kill -KILL "$pid" 2>/dev/null || true
+      owned=0
+    fi
   fi
   if [[ "$owned" -eq 0 ]]; then
     printf '%s Astra absent; starting resident coordinator\n' "$(date -u +%FT%TZ)" >>"$LOG"
