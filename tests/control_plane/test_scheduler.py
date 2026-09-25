@@ -53,3 +53,13 @@ def test_atomic_claim_enforces_capacity_at_repository_boundary():
     import pytest
     with pytest.raises(ValueError, match='capacity'):
         repo.claim_task('t2','a1',1,max_concurrency=1)
+
+
+def test_scheduler_prefers_least_loaded_eligible_agent():
+    r=AgentRegistry(30,90)
+    r.register(Agent('a1','n1','1',AgentStatus.IDLE,('linux',)))
+    r.register(Agent('a2','n2','1',AgentStatus.IDLE,('linux',)))
+    scheduler=TaskScheduler(r,max_concurrency_per_agent=3)
+    task=Task('fair','build',status=TaskStatus.READY,required_capabilities=('linux',))
+    assert scheduler.select(task,active_by_agent={'a1':2,'a2':0}).agent_id=='a2'
+    assert scheduler.select(task,active_by_agent={'a1':1,'a2':1}).agent_id=='a1'
