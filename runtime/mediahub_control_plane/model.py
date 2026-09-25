@@ -6,6 +6,11 @@ class AgentStatus(str, Enum):
     REGISTERING='REGISTERING'; ONLINE='ONLINE'; IDLE='IDLE'; CLAIMING='CLAIMING'; BUSY='BUSY'; VERIFYING='VERIFYING'; DEGRADED='DEGRADED'; UNHEALTHY='UNHEALTHY'; DISCONNECTED='DISCONNECTED'; DRAINING='DRAINING'; OFFLINE='OFFLINE'
 class TaskStatus(str, Enum):
     PENDING='PENDING'; READY='READY'; CLAIMED='CLAIMED'; RUNNING='RUNNING'; VERIFYING='VERIFYING'; SUCCEEDED='SUCCEEDED'; FAILED='FAILED'; RETRY_WAIT='RETRY_WAIT'; BLOCKED='BLOCKED'; CANCELLED='CANCELLED'; EXPIRED='EXPIRED'
+class FailureClass(str, Enum):
+    TASK='TASK'
+    WORKER='WORKER'
+    INFRASTRUCTURE='INFRASTRUCTURE'
+
 class LeaseStatus(str, Enum):
     ACTIVE='ACTIVE'; RENEWED='RENEWED'; EXPIRING='EXPIRING'; EXPIRED='EXPIRED'; RELEASED='RELEASED'; REVOKED='REVOKED'
 
@@ -23,7 +28,7 @@ class Lease:
     lease_id: str; task_id: str; agent_id: str; created_at: float; expires_at: float; last_renewed_at: float; generation: int=1; status: LeaseStatus=LeaseStatus.ACTIVE
 @dataclass(frozen=True, slots=True)
 class Execution:
-    execution_id: str; task_id: str; agent_id: str; lease_generation: int; status: str; result: Any=None
+    execution_id: str; task_id: str; agent_id: str; lease_generation: int; status: str; result: Any=None; failure_class: FailureClass|None=None
 @dataclass(frozen=True, slots=True)
 class Checkpoint:
     checkpoint_id: str; task_id: str; sequence: int; payload: Any

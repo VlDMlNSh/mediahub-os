@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import replace
 from time import monotonic
 from uuid import uuid4
-from .model import AuditRecord, Execution, Event, TaskStatus, validate_task_transition
+from .model import AuditRecord, Execution, Event, FailureClass, TaskStatus, validate_task_transition
 from .repository import ControlPlaneRepository
 
 class ControlPlaneService:
@@ -22,17 +22,17 @@ class ControlPlaneService:
         self.repository.assert_lease_owner(lease.lease_id,agent_id,generation)
         execution=Execution(str(uuid4()),task_id,agent_id,generation,'SUCCEEDED',result); self.repository.record_execution(execution)
         self._transition(task_id,TaskStatus.VERIFYING); self._transition(task_id,TaskStatus.SUCCEEDED); self.repository.release_lease(lease.lease_id,agent_id,generation); self._record('TaskSucceeded',task_id,agent_id,'SUCCEEDED'); return execution
-    def fail(self, task_id, agent_id, generation, reason='EXECUTION_FAILED'):
+    def fail(self, task_id, agent_id, generation, reason='EXECUTION_FAILED', failure_class: FailureClass = FailureClass.TASK):
         lease=self.repository.get_lease_for_task(task_id)
         if lease is None: raise PermissionError('no authoritative lease')
         self.repository.assert_lease_owner(lease.lease_id,agent_id,generation); task=self.repository.get_task(task_id)
         if task is None: raise KeyError(task_id)
-        attempt=task.attempt+1; self.repository.record_execution(Execution(str(uuid4()),task_id,agent_id,generation,'FAILED',reason)); self.repository.update_task(replace(task,attempt=attempt,status=TaskStatus.FAILED))
+        attempt=task.attempt+1; self.repository.record_execution(Execution(str(uuid4()),task_id,agent_id,generation,'FAILED',reason,failure_class)); self.repository.update_task(replace(task,attempt=attempt,status=TaskStatus.FAILED))
         if attempt < task.max_attempts:
             retry_at = monotonic() + self.retry_backoff_seconds * (2 ** max(0, attempt - 1))
             self.repository.update_task(replace(self.repository.get_task(task_id),status=TaskStatus.RETRY_WAIT,retry_not_before=retry_at))
         self.repository.release_lease(lease.lease_id,agent_id,generation)
-        if self.agent_registry is not None and reason in {'EXECUTION_FAILED', 'VERIFICATION_FAILED'}: self.agent_registry.record_failure(agent_id)
+        if self.agent_registry is not None and failure_class in {FailureClass.WORKER, FailureClass.INFRASTRUCTURE}: self.agent_registry.record_failure(agent_id)
         self._record('TaskFailed',task_id,agent_id,reason); return self.repository.get_task(task_id)
     def recover_expired(self, task_id, now=None):
         lease=self.repository.get_lease_for_task(task_id)

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from time import monotonic
 from typing import Any, Callable
 
-from .model import Lease, TaskStatus
+from .model import FailureClass, Lease, TaskStatus
 from .service import ControlPlaneService
 
 
@@ -30,7 +30,7 @@ class WorkerRuntime:
 
     def _best_effort_fail(self, task_id: str, agent_id: str, generation: int, reason: str) -> None:
         try:
-            self.service.fail(task_id, agent_id, generation, reason)
+            self.service.fail(task_id, agent_id, generation, reason, FailureClass.INFRASTRUCTURE if reason == "LEASE_LOST" else FailureClass.TASK)
         except PermissionError:
             # Once fencing rejects us, the worker is no longer authoritative.
             pass
