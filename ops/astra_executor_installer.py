@@ -10,7 +10,7 @@ MANIFEST=ROOT/"config"/"astra_executor_install_manifest.json"
 ALLOWED=frozenset({"aider","goose","openhands","qodo","pr-agent","pullfrog","sweep","tabby"})
 @dataclass(frozen=True)
 class InstallSpec:
-    name:str; package:str; version:str; sha256:str; executable:str; index_url:str|None=None
+    name:str; package:str; version:str; sha256:str; executable:str; index_url:str|None=None; method:str="uv_tool"; python:str="3.12"
 
 def prefix()->Path:
     p=Path(os.environ.get("MEDIAHUB_EXECUTOR_PREFIX",str(Path.home()/".local/mediahub-executors"))).expanduser().resolve()
@@ -26,7 +26,9 @@ def specs()->tuple[InstallSpec,...]:
         if r.get("name") not in ALLOWED: raise ValueError("executor not allowlisted")
         digest=str(r.get("sha256","")).lower()
         if len(digest)!=64 or any(c not in "0123456789abcdef" for c in digest): raise ValueError("invalid SHA-256")
-        out.append(InstallSpec(str(r["name"]),str(r["package"]),str(r["version"]),digest,str(r["executable"]),r.get("index_url")))
+        method=str(r.get("method","uv_tool"));
+        if method not in {"uv_tool"}: raise ValueError("unsupported install method")
+        out.append(InstallSpec(str(r["name"]),str(r["package"]),str(r["version"]),digest,str(r["executable"]),r.get("index_url"),method,str(r.get("python","3.12"))))
     return tuple(out)
 
 def run(argv:list[str],timeout:int=180):
@@ -34,19 +36,24 @@ def run(argv:list[str],timeout:int=180):
     return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False)
 
 def install(s:InstallSpec)->dict:
-    p=prefix()/s.name; p.mkdir(parents=True,exist_ok=True)
+    if s.method != "uv_tool":
+        raise ValueError(f"unsupported install method: {s.method}")
+    uv = shutil.which("uv")
+    if not uv:
+        raise RuntimeError("uv is required for uv_tool installation")
     with tempfile.TemporaryDirectory(prefix="astra-install-") as td:
-        wheel_dir=Path(td); argv=[sys.executable,"-m","pip","download","--disable-pip-version-check","--no-deps","--only-binary=:all:","--dest",str(wheel_dir),f"{s.package}=={s.version}"]
+        wheel_dir=Path(td)
+        argv=[sys.executable,"-m","pip","download","--disable-pip-version-check","--no-deps","--only-binary=:all:","--dest",str(wheel_dir),f"{s.package}=={s.version}"]
         if s.index_url: argv += ["--index-url",s.index_url]
         r=run(argv)
-        if r.returncode: raise RuntimeError(f"download failed: {s.name}")
+        if r.returncode: raise RuntimeError(f"download failed: {s.name}: {(r.stderr or r.stdout).strip()[-500:]}")
         wheels=sorted(wheel_dir.glob("*.whl"))
         if len(wheels)!=1: raise RuntimeError(f"expected one wheel: {s.name}")
         digest=hashlib.sha256(wheels[0].read_bytes()).hexdigest()
         if digest!=s.sha256: raise RuntimeError(f"SHA-256 mismatch: {s.name}")
-        r=run([sys.executable,"-m","pip","install","--disable-pip-version-check","--no-deps","--no-index","--find-links",str(wheel_dir),"--target",str(p),str(wheels[0])])
-        if r.returncode: raise RuntimeError(f"install failed: {s.name}")
-    return {"name":s.name,"status":"INSTALLED","version":s.version,"sha256":s.sha256,"prefix":str(p)}
+        r=run([uv,"tool","install","--python",s.python,"--force",str(wheels[0])])
+        if r.returncode: raise RuntimeError(f"uv tool install failed: {s.name}")
+    return {"name":s.name,"status":"INSTALLED","version":s.version,"sha256":s.sha256,"method":s.method,"executable":s.executable}
 
 def main(argv:list[str])->int:
     if argv not in (["plan"],["install"]): return 2

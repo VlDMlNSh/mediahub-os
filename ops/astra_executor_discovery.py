@@ -5,6 +5,7 @@ Never reads or emits secret values and never executes repository/user input.
 from __future__ import annotations
 import json
 import os
+import re
 import shutil
 import subprocess
 import time
@@ -24,14 +25,14 @@ class ExecutorSpec:
     version_args: tuple[str, ...]
 
 SPECS = (
-    ExecutorSpec("aider", "aider", ("code_generation", "refactoring", "bug_analysis"), ("ANTHROPIC_API_KEY", "OPENROUTER_API_KEY"), ("--version",)),
+    ExecutorSpec("aider", "aider", ("code_generation", "refactoring", "bug_analysis", "test_failure_analysis"), ("ANTHROPIC_API_KEY", "OPENAI_API_KEY", "OPENROUTER_API_KEY", "GEMINI_API_KEY", "GROQ_API_KEY", "TOGETHER_API_KEY"), ("--version",)),
     ExecutorSpec("goose", "goose", ("code_generation", "refactoring", "bug_analysis", "test_design"), ("OPENROUTER_API_KEY",), ("--version",)),
     ExecutorSpec("openhands", "openhands", ("code_generation", "refactoring", "architecture"), ("OPENAI_API_KEY", "OPENROUTER_API_KEY"), ("--version",)),
-    ExecutorSpec("qodo", "qodo", ("code_review", "test_design", "bug_analysis"), ("GEMINI_API_KEY",), ("--version",)),
-    ExecutorSpec("pr-agent", "pr-agent", ("code_review", "bug_analysis"), ("GEMINI_API_KEY",), ("--version",)),
+    ExecutorSpec("qodo", "qodo", ("code_review", "test_design", "bug_analysis", "refactoring"), ("GEMINI_API_KEY", "OPENAI_API_KEY", "OPENROUTER_API_KEY"), ("--version",)),
+    ExecutorSpec("pr-agent", "pr-agent", ("code_review", "bug_analysis", "test_failure_analysis", "documentation"), ("OPENAI_API_KEY", "ANTHROPIC_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY"), ("--version",)),
     ExecutorSpec("pullfrog", "pullfrog", ("code_generation", "bug_analysis"), ("OPENROUTER_API_KEY",), ("--version",)),
     ExecutorSpec("sweep", "sweep", ("code_generation", "refactoring"), ("OPENAI_API_KEY",), ("--version",)),
-    ExecutorSpec("tabby", "tabby", ("code_generation", "indexing"), ("TABBY_API_KEY",), ("--version",)),
+    ExecutorSpec("tabby", "tabby", ("code_generation", "indexing"), ("TABITOKEN_API_KEY",), ("--version",)),
 )
 
 def _probe(spec: ExecutorSpec) -> dict:
@@ -52,8 +53,13 @@ def _probe(spec: ExecutorSpec) -> dict:
     try:
         proc = subprocess.run([path, *spec.version_args], cwd=ROOT, text=True,
                               capture_output=True, timeout=TIMEOUT, check=False)
-        version = (proc.stdout or proc.stderr).strip().splitlines()
-        version_line = version[0][:160] if version else ""
+        lines = [x.strip() for x in ((proc.stdout or "") + "\n" + (proc.stderr or "")).splitlines() if x.strip()]
+        preferred = next((x for x in lines if spec.name.lower() in x.lower() and re.search(r"\d+\.\d+", x)), None)
+        if preferred:
+            version_line = preferred[:160]
+        else:
+            match = re.search(r"(?i)(?:version\s+)?v?(\d+\.\d+(?:\.\d+)?)", "\n".join(lines))
+            version_line = match.group(1) if match else (lines[0][:160] if lines else "")
         healthy = proc.returncode == 0
     except (OSError, subprocess.SubprocessError):
         version_line = ""
