@@ -21,6 +21,8 @@ from ops.ai.task_lease import ORPHANED, LeaseDenied, TaskLease, classify_lease_r
 ROOT = Path(os.environ.get("MEDIAHUB_ROOT", "/home/mediahub/dev/mediahub-os-autonomous")).resolve()
 MODEL = Path("/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf")
 LOCAL_AI_URL = os.environ.get("MEDIAHUB_AI_URL", "http://127.0.0.1:8081/v1/chat/completions")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
+FCM_ROUTER_URL = os.environ.get("MEDIAHUB_FCM_ROUTER_URL", "http://127.0.0.1:19280/v1/chat/completions")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
+FCM_ROUTER_ENABLED = os.environ.get("MEDIAHUB_FCM_ROUTER", "1") == "1"
 GIT = Path("/usr/bin/git")
 RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 160
@@ -3954,11 +3956,28 @@ def verify(task: LocalTask | None = None) -> bool:
     return True
 
 
-def generate(text: str) -> tuple[int, str, str]:
+def _fcm_router_ready() -> bool:
+    if not FCM_ROUTER_ENABLED:
+        return False
+    try:
+        base = FCM_ROUTER_URL.rsplit("/v1/", 1)[0]
+        with LOCAL_AI_OPENER.open(
+            urllib.request.Request(base + "/health"), timeout=3
+        ) as response:
+            if response.status != 200:
+                return False
+            body = json.loads(response.read(65536).decode("utf-8"))
+        active = int(body.get("activeModelCount", 0))
+        broken = int(body.get("brokenModelCount", active))
+        return bool(body.get("running")) and active > 0 and broken < active
+    except (urllib.error.URLError, TimeoutError, ValueError, TypeError):
+        return False
+
+
+def _generate_endpoint(url: str, text: str, model: str | None) -> tuple[int, str, str]:
     try:
         with LOCAL_AI_OPENER.open(
-            urllib.request.Request(LOCAL_AI_URL.rsplit("/v1/", 1)[0] + "/health")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
-            , timeout=5
+            urllib.request.Request(url.rsplit("/v1/", 1)[0] + "/health"), timeout=5
         ) as response:
             if response.status != 200:
                 return 28, "", "AI_REJECTED"
@@ -3972,8 +3991,10 @@ def generate(text: str) -> tuple[int, str, str]:
         "max_tokens": 256,
         "temperature": 0,
     }
+    if model:
+        payload["model"] = model
     req = urllib.request.Request(  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
-        LOCAL_AI_URL, data=json.dumps(payload).encode(),
+        url, data=json.dumps(payload).encode(),
         headers={"Content-Type": "application/json"}, method="POST"
     )
     try:
@@ -3989,6 +4010,17 @@ def generate(text: str) -> tuple[int, str, str]:
     except (KeyError, IndexError, urllib.error.URLError, ValueError, UnicodeDecodeError) as exc:
         print(f"LOCAL_AGENT_LOCAL_AI_ERROR: {type(exc).__name__}", file=sys.stderr)
         return 28, "", "AI_MALFORMED"
+
+
+def generate(text: str) -> tuple[int, str, str]:
+    # FCM is an optional provider boundary: use it only when its router
+    # reports at least one currently healthy model, then fail back to the
+    # existing local model without changing Control Plane semantics.
+    if _fcm_router_ready():
+        rc, content, status = _generate_endpoint(FCM_ROUTER_URL, text, "fcm")
+        if rc == 0:
+            return rc, content, "FCM_" + status
+    return _generate_endpoint(LOCAL_AI_URL, text, None)
 
 
 def rollback() -> bool:
