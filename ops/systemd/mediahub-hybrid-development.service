@@ -2,6 +2,7 @@
 Description=MediaHub Hybrid Development Controller
 After=mediahub-local-autonomous.service network-online.target
 Wants=network-online.target
+ConditionPathExists=/etc/mediahub/hybrid-development.env
 
 [Service]
 Type=simple

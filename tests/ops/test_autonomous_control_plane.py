@@ -673,6 +673,13 @@ def _synthetic_target_patch():
     )
 
 
+def test_hybrid_development_systemd_unit_requires_explicit_environment():
+    text = (ROOT / "ops/systemd/mediahub-hybrid-development.service").read_text(encoding="utf-8")
+    assert "ConditionPathExists=/etc/mediahub/hybrid-development.env" in text
+    assert "Restart=on-failure" in text
+    assert "Restart=always" not in text
+
+
 def test_hybrid_development_systemd_unit_is_fail_closed_on_terminal_restore():
     text = (ROOT / "ops/systemd/mediahub-hybrid-development.service").read_text(encoding="utf-8")
     assert "Restart=on-failure" in text
