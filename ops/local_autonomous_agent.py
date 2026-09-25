@@ -4004,13 +4004,19 @@ def main() -> int:
     candidate = select_local_task(ROOT)
     if candidate is None:
         raw = read_raw_queue(ROOT)
-        if raw and compile_next_raw_queue_task(ROOT) is None:
-            print("LOCAL_AGENT_NOOP: factual queue exists but no bounded compiler is authorized")
-            state("BLOCKED", "NEEDS_ENCODING: no deterministic acceptance encoder for remaining factual queue rows")
-            return 30
-        print("LOCAL_AGENT_NOOP: no eligible local queue item")
-        state("BLOCKED", "no eligible local task; higher-level work requires explicit bounded acceptance criteria")
-        return 30
+        if raw:
+            encoding = inspect_queue_encoding(ROOT)
+            needs_encoding = [row for row in encoding if row.status == "NEEDS_ENCODING"]
+            if needs_encoding:
+                print("LOCAL_AGENT_NOOP: factual queue exists but no bounded compiler is authorized")
+                state("BLOCKED", "NEEDS_ENCODING: no deterministic acceptance encoder for remaining factual queue rows")
+                return 30
+            print("LOCAL_AGENT_IDLE: canonical queue is fully encoded but no bounded local task is currently eligible")
+            state("IDLE", "all canonical queue rows are encoded; waiting for a new eligible bounded task or event")
+            return 0
+        print("LOCAL_AGENT_IDLE: no eligible local queue item")
+        state("IDLE", "no eligible local task; waiting for a new bounded task or event")
+        return 0
     task = compile_executable_task(ROOT, candidate)
     if task is None:
         print("LOCAL_AGENT_NOOP: candidate requires reconciliation or duplicate suppression")
