@@ -17,6 +17,7 @@ HEARTBEAT = STATE / "astra_heartbeat.json"
 LOOP_PID = STATE / "loop.pid"
 COMMAND_BUS_PID = STATE / "astra_command_bus.pid"
 STOP = STATE / "STOP"
+STALE_PROBE_PID = STATE / ".stale-probe.pid"
 
 @dataclass(frozen=True)
 class ProcIdentity:
@@ -156,6 +157,32 @@ def scenario_stop_resume() -> dict:
     after = wait_until(lambda: heartbeat() if heartbeat().get("loop_pid") == resumed_pid else None)
     return {"scenario":"stop-resume","astra_pid":astra_pid,"stopped":stopped,"resumed_loop_pid":resumed_pid,"result":"PASS","before":before,"after":after}
 
+
+def scenario_stale_pid() -> dict:
+    """Prove a stale/unrelated PID cannot pass the process identity fence."""
+    proc = subprocess.Popen(["/bin/sleep", "30"], start_new_session=True)
+    try:
+        STALE_PROBE_PID.write_text(f"{proc.pid}:stale-probe\n")
+        pid = pid_from_file(STALE_PROBE_PID)
+        try:
+            fixed_identity(pid or -1, ("ops/autonomous_os_loop.sh",))
+        except RuntimeError as exc:
+            return {
+                "scenario": "stale-pid",
+                "pid": pid,
+                "result": "PASS",
+                "rejection": str(exc),
+            }
+        raise RuntimeError("stale/unrelated PID passed the identity fence")
+    finally:
+        STALE_PROBE_PID.unlink(missing_ok=True)
+        try:
+            proc.terminate()
+            proc.wait(timeout=3)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait(timeout=3)
+
 def scenario_idle() -> dict:
     hb = heartbeat()
     if hb.get("state") != "RUNNING" or hb.get("failure_streak") != 0:
@@ -168,6 +195,7 @@ SCENARIOS = {
     "command-bus-restart": scenario_command_bus_restart,
     "stop-resume": scenario_stop_resume,
     "clean-idle": scenario_idle,
+    "stale-pid": scenario_stale_pid,
 }
 
 def main() -> int:

@@ -32,3 +32,20 @@ def test_clean_idle_is_bounded_to_healthy_heartbeat(monkeypatch):
     monkeypatch.setattr(probe, 'heartbeat', lambda: {'state':'RUNNING','failure_streak':0})
     result = probe.scenario_idle()
     assert result['result'] == 'PASS'
+
+
+def test_stale_pid_is_rejected(monkeypatch):
+    class FakeProc:
+        pid = 999999
+        def wait(self, timeout=None):
+            return 0
+        def terminate(self):
+            return None
+        def kill(self):
+            return None
+
+    monkeypatch.setattr(probe.subprocess, 'Popen', lambda *a, **k: FakeProc())
+    monkeypatch.setattr(probe, 'pid_from_file', lambda path: 999999)
+    monkeypatch.setattr(probe, 'fixed_identity', lambda pid, allowed: (_ for _ in ()).throw(RuntimeError('refusing stale identity')))
+    result = probe.scenario_stale_pid()
+    assert result['result'] == 'PASS'
