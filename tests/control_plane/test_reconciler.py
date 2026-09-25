@@ -52,3 +52,18 @@ def test_reconciler_does_not_release_retry_wait_before_backoff():
     assert r.get_task('retry').status is TaskStatus.RETRY_WAIT
     assert rec.reconcile_once(100.0)==('retry',)
     assert r.get_task('retry').status is TaskStatus.READY and r.get_task('retry').retry_not_before is None
+
+
+def test_reconciler_expiry_uses_infrastructure_backoff_and_penalizes_worker():
+    from runtime.mediahub_control_plane.agent_registry import AgentRegistry
+    from runtime.mediahub_control_plane.model import Agent, AgentStatus, CircuitState
+    r=InMemoryControlPlaneRepository(); registry=AgentRegistry(30,90,failure_quarantine_threshold=1)
+    registry.register(Agent('a','n','1',status=AgentStatus.IDLE))
+    r.create_task(Task('retry','build',status=TaskStatus.READY,max_attempts=3))
+    lease=r.claim_task('retry','a',1); r.update_task(Task('retry','build',status=TaskStatus.RUNNING,max_attempts=3))
+    now=lease.expires_at+1
+    assert ControlPlaneReconciler(r,registry).reconcile_once(now)==('retry',)
+    task=r.get_task('retry')
+    assert task.status is TaskStatus.RETRY_WAIT and task.attempt==1
+    assert task.retry_not_before == now+15.0
+    assert registry.circuit_state('a') is CircuitState.OPEN
