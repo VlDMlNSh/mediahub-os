@@ -35,6 +35,7 @@ class AgentRegistry:
         self.dead_timeout_seconds = dead_timeout_seconds
         self.failure_quarantine_threshold = failure_quarantine_threshold
         self._failure_counts: dict[str, int] = {}
+        self._quarantined: set[str] = set()
         self._agents: dict[str, Agent] = {}
         self._last_heartbeat: dict[str, Heartbeat] = {}
 
@@ -55,7 +56,7 @@ class AgentRegistry:
         if agent.node_id != beat.node_id:
             raise ValueError("heartbeat node does not match registered identity")
         self._last_heartbeat[beat.agent_id] = beat
-        status = AgentStatus.IDLE if beat.health == "healthy" and agent.status in {AgentStatus.ONLINE, AgentStatus.DEGRADED, AgentStatus.DISCONNECTED} else agent.status
+        status = AgentStatus.IDLE if beat.health == "healthy" and agent.status in {AgentStatus.ONLINE, AgentStatus.DEGRADED, AgentStatus.DISCONNECTED} and beat.agent_id not in self._quarantined else agent.status
         if beat.health != "healthy":
             status = AgentStatus.DEGRADED
         self._agents[beat.agent_id] = replace(agent, status=status, version=beat.version or agent.version, capabilities=beat.capabilities or agent.capabilities)
@@ -82,6 +83,7 @@ class AgentRegistry:
         count = self._failure_counts.get(agent_id, 0) + 1
         self._failure_counts[agent_id] = count
         if count >= self.failure_quarantine_threshold and agent.status not in {AgentStatus.OFFLINE, AgentStatus.DRAINING}:
+            self._quarantined.add(agent_id)
             agent = replace(agent, status=AgentStatus.DEGRADED)
             self._agents[agent_id] = agent
         return agent
@@ -89,6 +91,7 @@ class AgentRegistry:
     def record_success(self, agent_id: str) -> Agent:
         agent = self._agents[agent_id]
         self._failure_counts[agent_id] = 0
+        self._quarantined.discard(agent_id)
         if agent.status == AgentStatus.DEGRADED:
             agent = replace(agent, status=AgentStatus.IDLE)
             self._agents[agent_id] = agent

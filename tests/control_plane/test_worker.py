@@ -103,5 +103,18 @@ def test_failure_quarantines_agent_after_threshold():
     registry.heartbeat(Heartbeat('a','n',datetime.now(timezone.utc)))
     repo=InMemoryControlPlaneRepository(); service=ControlPlaneService(repo,registry)
     repo.create_task(Task('t','build',status=TaskStatus.READY)); service.claim('t','a',1)
-    service.fail('t','a',1,'boom')
+    service.fail('t','a',1,'EXECUTION_FAILED')
     assert registry.get('a').status.name == 'DEGRADED'
+
+
+def test_lease_loss_does_not_penalize_agent_as_execution_failure():
+    from runtime.mediahub_control_plane.agent_registry import AgentRegistry, Heartbeat
+    from datetime import datetime, timezone
+    registry=AgentRegistry(30,90,failure_quarantine_threshold=1)
+    from runtime.mediahub_control_plane.model import Agent
+    registry.register(Agent('a','n','1',capabilities=('linux',)))
+    registry.heartbeat(Heartbeat('a','n',datetime.now(timezone.utc)))
+    repo=InMemoryControlPlaneRepository(); service=ControlPlaneService(repo,registry)
+    repo.create_task(Task('t','build',status=TaskStatus.READY)); lease=service.claim('t','a',1); repo.expire_lease(lease.lease_id,lease.expires_at)
+    with pytest.raises(LeaseLost): WorkerRuntime(service).execute('t','a',1,lambda p,c:p,lambda r:True)
+    assert registry.failure_count('a') == 0

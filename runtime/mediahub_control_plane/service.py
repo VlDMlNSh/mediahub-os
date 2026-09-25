@@ -29,7 +29,7 @@ class ControlPlaneService:
         if attempt < task.max_attempts:
             self.repository.update_task(replace(self.repository.get_task(task_id),status=TaskStatus.RETRY_WAIT))
         self.repository.release_lease(lease.lease_id,agent_id,generation)
-        if self.agent_registry is not None: self.agent_registry.record_failure(agent_id)
+        if self.agent_registry is not None and reason in {'EXECUTION_FAILED', 'VERIFICATION_FAILED'}: self.agent_registry.record_failure(agent_id)
         self._record('TaskFailed',task_id,agent_id,reason); return self.repository.get_task(task_id)
     def recover_expired(self, task_id, now=None):
         lease=self.repository.get_lease_for_task(task_id)
