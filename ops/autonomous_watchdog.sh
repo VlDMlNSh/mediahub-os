@@ -67,8 +67,10 @@ while [ ! -e "$STOPFILE" ]; do
 				[ -n "$astra_starttime" ] && [ "$astra_starttime" = "$current_astra_starttime" ] && astra_owned=1 ;;
 		esac
 	fi
-	if [ "$astra_owned" -eq 0 ] && [ ! -e "$STOPFILE" ]; then
-		echo "$(date -u +%FT%TZ) Astra Coordinator absent; starting" >>"$STATE/astra_supervisor.log"
+	# Astra itself is never suppressed by the development STOP marker. STOP may halt
+	# execution lanes, but the supervisory coordinator remains resident and observable.
+	if [ "$astra_owned" -eq 0 ]; then
+		echo "$(date -u +%FT%TZ) Astra Coordinator absent; starting resident supervisor" >>"$STATE/astra_supervisor.log"
 		nohup /usr/bin/python3 "$ROOT/ops/astra_orchestrator.py" >>"$STATE/astra.log" 2>&1 &
 		astra_pid=$!
 		sleep 1
