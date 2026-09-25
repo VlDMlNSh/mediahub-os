@@ -3,6 +3,7 @@ set -u
 ROOT="/home/mediahub/dev/mediahub-os-autonomous"
 PIDFILE="$ROOT/.autonomous/loop.pid"
 CONTROLLER_PIDFILE="$ROOT/.autonomous/controller.pid"
+ASTRA_PIDFILE="$ROOT/.autonomous/astra.pid"
 STATE="$ROOT/.autonomous"
 WATCHLOCK="$STATE/watchdog.lock"
 HEARTBEAT="$STATE/heartbeat.log"
@@ -53,6 +54,30 @@ while [ ! -e "$STOPFILE" ]; do
 			echo "$(date -u +%FT%TZ) controller did not stop gracefully; replacement blocked pid=$pid" >>"$LOG"
 		fi
 	fi
+	# Supervise the resident Astra Coordinator. The coordinator lock remains the authority
+	astra_owned=0
+	astra_record="$(cat "$ASTRA_PIDFILE" 2>/dev/null || true)"
+	astra_pid="${astra_record%%:*}"
+	astra_starttime="${astra_record#*:}"
+	if [ -n "$astra_pid" ] && [ "$astra_pid" != "$astra_record" ] && kill -0 "$astra_pid" 2>/dev/null; then
+		current_astra_starttime="$(awk '{print $22}' "/proc/$astra_pid/stat" 2>/dev/null || true)"
+		astra_cmd="$(ps -p "$astra_pid" -o args= 2>/dev/null || true)"
+		case "$astra_cmd" in
+			*"$ROOT/ops/astra_orchestrator.py"*)
+				[ -n "$astra_starttime" ] && [ "$astra_starttime" = "$current_astra_starttime" ] && astra_owned=1 ;;
+		esac
+	fi
+	if [ "$astra_owned" -eq 0 ] && [ ! -e "$STOPFILE" ]; then
+		echo "$(date -u +%FT%TZ) Astra Coordinator absent; starting" >>"$STATE/astra_supervisor.log"
+		nohup /usr/bin/python3 "$ROOT/ops/astra_orchestrator.py" >>"$STATE/astra.log" 2>&1 &
+		astra_pid=$!
+		sleep 1
+		astra_starttime="$(awk '{print $22}' "/proc/$astra_pid/stat" 2>/dev/null || true)"
+		if [ -n "$astra_starttime" ]; then
+			echo "$astra_pid:$astra_starttime" >"$ASTRA_PIDFILE"
+		fi
+	fi
+
 	# Independently supervise the hybrid controller. The controller's flock remains the authority
 	# against duplicate instances; this watchdog only starts it when its recorded owner is absent.
 	controller_owned=0
