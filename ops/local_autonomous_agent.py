@@ -3281,6 +3281,34 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
         content = "# P9.2 — Static secret, dependency, license and provenance review\n\nStatus: SECURITY_RECONCILIATION / P9.2 NOT CLOSED\n\n## Scope\n\nDeterministic repository-only review. Secret scanning reports locations and keyword matches without reproducing values. Dependency review is based on repository manifests; license/provenance claims are not inferred where lock or authoritative metadata is absent. This is not a substitute for a dedicated runtime scanner or supply-chain service.\n\n## Static secret review\n\n- Tracked text files scanned: " + str(scanned) + "\n- Keyword findings (values omitted): " + str(len(findings)) + "\n" + ("\n".join(findings) if findings else "- No keyword matches found by this bounded scan.") + "\n\n## Dependency / license review\n\n- Declared autonomous dependencies: " + ", ".join(deps) + "\n- Repository contains no dependency lockfile in the reviewed top-level inventory. Exact transitive versions and authoritative license provenance are therefore NOT established by repository manifests alone.\n- `pip-audit` is declared as a review tool, but this artifact does not claim that an external advisory database scan was executed.\n\n## Provenance\n\n- The autonomous provenance journal is hashed as source evidence. Historical entries preserve source/tree/result fields, but this review does not treat journal content as proof of dependency integrity or secret absence.\n- P9.2 remains OPEN until dependency provenance/license requirements and any material secret-scan findings are explicitly classified and accepted or remediated.\n\n## Source evidence\n\n" + "\n\n".join(evidence) + "\n"
         return unified_patch("", content, target)
 
+    if task.fallback_kind == "p9.6-malformed-input-security-qualification":
+        target = task.target
+        content = """# P9.6 — Malformed-input security qualification evidence
+
+Status: SECURITY_RECONCILIATION / P9.6 NOT CLOSED
+
+Scope: repository-local coverage record for malformed public-contract inputs. This does not claim exhaustive fuzzing or external scanner coverage.
+
+Verification command: `pytest -q tests/test_mediahub_native_execution.py tests/runtime/test_mh05_consumer_boundary.py tests/security/test_mh05_restore_security.py`
+
+Boundary: report only behavior demonstrated by the named existing tests. Remaining malformed-input classes require separate bounded tests where justified.
+"""
+        return unified_patch("", content.splitlines(keepends=True), target)
+
+    if task.fallback_kind == "p9.7-recovery-tamper-evidence":
+        target = task.target
+        content = """# P9.7 — Recovery / tamper-evidence record
+
+Status: SECURITY_RECONCILIATION / P9.7 NOT CLOSED
+
+Scope: repository-local recovery and tamper-evidence checks only. This record does not introduce durable persistence or claim disaster-recovery qualification.
+
+Verification command: `pytest -q tests/security/test_mh05_restore_security.py tests/runtime/test_state_authority.py`
+
+Boundary: production backup/restore, cross-node disaster recovery and durable persistence remain separate qualification gates.
+"""
+        return unified_patch("", content.splitlines(keepends=True), target)
+
     if task.fallback_kind == "p9.5-credential-broker-revocation-isolation":
         target = task.target
         content = """# P9.5 — Credential broker revocation / isolation evidence
