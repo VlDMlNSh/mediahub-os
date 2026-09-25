@@ -61,6 +61,20 @@ def fixed_identity(pid: int, allowed: tuple[str, ...]) -> ProcIdentity:
         raise RuntimeError(f"refusing to signal unexpected process pid={pid}: {ident}")
     return ident
 
+def find_owned_process(fragment: str) -> int | None:
+    try:
+        result = subprocess.run(["/usr/bin/pgrep", "-f", fragment], text=True, capture_output=True, check=False)
+    except OSError:
+        return None
+    for line in result.stdout.splitlines():
+        try:
+            pid = int(line.strip())
+        except ValueError:
+            continue
+        if pid != os.getpid() and proc_identity(pid) is not None:
+            return pid
+    return None
+
 def terminate_owned(pid: int, allowed: tuple[str, ...]) -> ProcIdentity:
     ident = fixed_identity(pid, allowed)
     os.kill(pid, signal.SIGTERM)
@@ -93,7 +107,7 @@ def scenario_loop_restart() -> dict:
     return {"scenario":"controller-restart","before_pid":pid,"after_pid":new_pid,"old_start":ident.start,"result":"PASS","before":before,"after":after}
 
 def scenario_command_bus_restart() -> dict:
-    pid = pid_from_file(COMMAND_BUS_PID)
+    pid = pid_from_file(COMMAND_BUS_PID) or find_owned_process("ops/astra_command_bus.py")
     if pid is None:
         raise RuntimeError("command-bus pid unavailable")
     ident = fixed_identity(pid, ("ops/astra_command_bus.py",))
