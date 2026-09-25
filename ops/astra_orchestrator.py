@@ -95,17 +95,25 @@ def _snapshot(loop_pid: int | None, hybrid_pid: int | None, state: AstraState) -
         "failure_streak": state.failures,
         "last_error": state.last_error,
     }
-def _find_process(fragment: str) -> int | None:
+def _find_process(expected_script: Path) -> int | None:
+    """Find only a direct interpreter-to-script process, never incidental text matches."""
     result = subprocess.run(
-        ["/usr/bin/pgrep", "-f", fragment],
+        ["/usr/bin/ps", "-eo", "pid=,args="],
         text=True, capture_output=True, check=False,
     )  # nosec B603
+    expected = str(expected_script)
     for line in result.stdout.splitlines():
+        parts = line.strip().split()
+        if len(parts) < 3:
+            continue
         try:
-            candidate = int(line.strip())
+            candidate = int(parts[0])
         except ValueError:
             continue
-        if candidate != os.getpid():
+        if candidate == os.getpid() or parts[2] != expected:
+            continue
+        interpreter = Path(parts[1])
+        if interpreter.name in {"bash", "sh", "python", "python3"}:
             return candidate
     return None
 
@@ -157,9 +165,9 @@ def run() -> int:
     signal.signal(signal.SIGINT, stop)
     try:
         while True:
-            loop_pid = _owned_pid(LOOP_PIDFILE, "autonomous_os_loop.sh") or _find_process("ops/autonomous_os_loop.sh")
-            hybrid_pid = _owned_pid(CONTROLLER_PIDFILE, "hybrid_orchestrator.py") or _find_process("ops/hybrid_orchestrator.py")
-            command_bus_pid = _find_process("ops/astra_command_bus.py")
+            loop_pid = _owned_pid(LOOP_PIDFILE, "autonomous_os_loop.sh") or _find_process(LOOP_SCRIPT)
+            hybrid_pid = _owned_pid(CONTROLLER_PIDFILE, "hybrid_orchestrator.py") or _find_process(HYBRID_SCRIPT)
+            command_bus_pid = _find_process(COMMAND_BUS)
             if command_bus_pid is None:
                 state.last_action = "RECONCILE_COMMAND_BUS_START"
                 _start_command_bus()
