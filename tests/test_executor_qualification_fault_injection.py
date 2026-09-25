@@ -28,3 +28,18 @@ def test_untrusted_pr_requires_proxy():
 def test_capability_mismatch_blocks():
     c=RouteCandidate("goose",frozenset({"documentation"}),True,True,"LOCAL_TRUSTED","local-cli")
     assert FailoverRouter().select("t1","code_patch",[c]).executor_id is None
+
+def test_inventory_ignores_unqualified_executor():
+    inventory={"executors":[
+        {"name":"bad","qualification":"UNQUALIFIED","status":"HEALTHY","capabilities":["code_patch"]},
+        {"name":"good","qualification":"QUALIFIED","status":"HEALTHY","capabilities":["code_patch"]},
+    ]}
+    assert FailoverRouter().select_inventory("t1","code_patch",inventory).executor_id=="good"
+
+def test_external_pr_blocks_direct_local_cli_from_inventory():
+    inventory={"executors":[
+        {"name":"aider","qualification":"QUALIFIED","status":"HEALTHY",
+         "capabilities":["code_patch"],"transport":"local-cli","trust_boundary":"LOCAL_TRUSTED"}
+    ]}
+    decision=FailoverRouter().select_inventory("t1","code_patch",inventory,external_pr=True)
+    assert decision.executor_id is None
