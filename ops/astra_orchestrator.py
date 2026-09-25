@@ -27,6 +27,8 @@ LOOP_SCRIPT = ROOT / "ops" / "autonomous_os_loop.sh"
 HYBRID_SCRIPT = ROOT / "ops" / "hybrid_orchestrator.py"
 LOOP_PIDFILE = STATE / "loop.pid"
 CONTROLLER_PIDFILE = STATE / "controller.pid"
+COMMAND_BUS = ROOT / "ops" / "astra_command_bus.py"
+COMMAND_BUS_PIDFILE = STATE / "astra_command_bus.pid"
 
 class AstraState:
     def __init__(self) -> None:
@@ -116,6 +118,15 @@ def _start_loop() -> None:
         stderr=subprocess.DEVNULL,
     )
 
+def _start_command_bus() -> None:
+    subprocess.Popen(
+        ["/usr/bin/python3", str(COMMAND_BUS)],
+        cwd=ROOT,
+        start_new_session=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
 def _start_hybrid() -> None:
     subprocess.Popen(  # nosec B603
         ["/usr/bin/python3", str(HYBRID_SCRIPT)],
@@ -145,20 +156,24 @@ def run() -> int:
     signal.signal(signal.SIGTERM, stop)
     signal.signal(signal.SIGINT, stop)
     try:
-        while not STOPFILE.exists():
+        while True:
             loop_pid = _owned_pid(LOOP_PIDFILE, "autonomous_os_loop.sh") or _find_process("ops/autonomous_os_loop.sh")
             hybrid_pid = _owned_pid(CONTROLLER_PIDFILE, "hybrid_orchestrator.py") or _find_process("ops/hybrid_orchestrator.py")
+            command_bus_pid = _find_process("ops/astra_command_bus.py")
+            if command_bus_pid is None:
+                state.last_action = "RECONCILE_COMMAND_BUS_START"
+                _start_command_bus()
 
-            if loop_pid is None:
+            if not STOPFILE.exists() and loop_pid is None:
                 state.last_action = "RECONCILE_LOOP_START"
                 _start_loop()
                 loop_pid = None
-            elif hybrid_pid is None:
+            elif not STOPFILE.exists() and hybrid_pid is None:
                 state.last_action = "RECONCILE_HYBRID_START"
                 _start_hybrid()
                 hybrid_pid = None
             else:
-                state.last_action = "OBSERVE"
+                state.last_action = "OBSERVE_STOPPED" if STOPFILE.exists() else "OBSERVE"
 
             state.failures = 0
             state.last_error = ""
