@@ -63,3 +63,11 @@ def test_scheduler_prefers_least_loaded_eligible_agent():
     task=Task('fair','build',status=TaskStatus.READY,required_capabilities=('linux',))
     assert scheduler.select(task,active_by_agent={'a1':2,'a2':0}).agent_id=='a2'
     assert scheduler.select(task,active_by_agent={'a1':1,'a2':1}).agent_id=='a1'
+
+def test_scheduler_prefers_agent_with_fewer_task_failures_when_load_equal():
+    r=AgentRegistry(30,90)
+    r.register(Agent('a1','n1','1',AgentStatus.IDLE,('linux',)))
+    r.register(Agent('a2','n2','1',AgentStatus.IDLE,('linux',)))
+    s=TaskScheduler(r,max_concurrency_per_agent=2)
+    t=Task('t','build',status=TaskStatus.READY,required_capabilities=('linux',))
+    assert s.select(t,active_by_agent={'a1':0,'a2':0},failure_by_agent={'a1':2,'a2':0}).agent_id=='a2'

@@ -20,16 +20,16 @@ class TaskScheduler:
         if task.architecture is not None and agent.architecture != task.architecture: return False
         return set(task.required_capabilities).issubset(agent.capabilities)
 
-    def select(self, task: Task, agents: tuple[Agent, ...] | None = None, active_by_agent: dict[str, int] | None = None) -> ScheduleDecision:
+    def select(self, task: Task, agents: tuple[Agent, ...] | None = None, active_by_agent: dict[str, int] | None = None, failure_by_agent: dict[str, int] | None = None) -> ScheduleDecision:
         if task.status is not TaskStatus.READY: return ScheduleDecision(task.task_id,None,'task_not_ready')
         if self.dependency_resolver is not None and not self.dependency_resolver(task): return ScheduleDecision(task.task_id,None,'dependencies_blocked')
-        agents=self.registry.all() if agents is None else agents; active_by_agent={} if active_by_agent is None else active_by_agent
+        agents=self.registry.all() if agents is None else agents; active_by_agent={} if active_by_agent is None else active_by_agent; failure_by_agent={} if failure_by_agent is None else failure_by_agent
         candidates=[a for a in agents if self._eligible(a,task) and active_by_agent.get(a.agent_id,0)<self.max_concurrency_per_agent]
         if not candidates:
             if any(self._eligible(a,task) for a in agents): return ScheduleDecision(task.task_id,None,'agent_capacity_exhausted')
             return ScheduleDecision(task.task_id,None,'no_eligible_agent')
         # Least-loaded first prevents deterministic starvation while task_id remains the tie-break.
-        candidates.sort(key=lambda a:(active_by_agent.get(a.agent_id,0),a.agent_id))
+        candidates.sort(key=lambda a:(active_by_agent.get(a.agent_id,0),failure_by_agent.get(a.agent_id,0),a.agent_id))
         return ScheduleDecision(task.task_id,candidates[0].agent_id,'eligible')
 
     def order_ready(self, tasks: tuple[Task, ...]) -> tuple[Task, ...]:

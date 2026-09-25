@@ -7,6 +7,7 @@ class ControlPlaneRepository:
     def get_task(self, task_id: str) -> Task|None: raise NotImplementedError
     def list_tasks(self) -> tuple[Task, ...]: raise NotImplementedError
     def list_leases(self) -> tuple[Lease, ...]: raise NotImplementedError
+    def list_executions(self) -> tuple[Execution, ...]: raise NotImplementedError
     def claim_task(self, task_id: str, agent_id: str, generation: int, max_concurrency: int | None = None) -> Lease: raise NotImplementedError
     def renew_lease(self, lease_id: str, agent_id: str, generation: int, expires_at: float) -> Lease: raise NotImplementedError
     def record_execution(self, execution: Execution) -> Execution: raise NotImplementedError
@@ -35,6 +36,8 @@ class InMemoryControlPlaneRepository(ControlPlaneRepository):
         with self._lock: return tuple(self.tasks.values())
     def list_leases(self):
         with self._lock: return tuple(self.leases.values())
+    def list_executions(self):
+        with self._lock: return tuple(self.executions.values())
     def claim_task(self, task_id, agent_id, generation, max_concurrency=None):
         import time, uuid
         with self._lock:

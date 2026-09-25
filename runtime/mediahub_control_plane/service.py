@@ -25,7 +25,7 @@ class ControlPlaneService:
         if lease is None: raise PermissionError('no authoritative lease')
         self.repository.assert_lease_owner(lease.lease_id,agent_id,generation); task=self.repository.get_task(task_id)
         if task is None: raise KeyError(task_id)
-        attempt=task.attempt+1; self.repository.update_task(replace(task,attempt=attempt,status=TaskStatus.FAILED))
+        attempt=task.attempt+1; self.repository.record_execution(Execution(str(uuid4()),task_id,agent_id,generation,'FAILED',reason)); self.repository.update_task(replace(task,attempt=attempt,status=TaskStatus.FAILED))
         if attempt < task.max_attempts:
             self.repository.update_task(replace(self.repository.get_task(task_id),status=TaskStatus.RETRY_WAIT))
         self.repository.release_lease(lease.lease_id,agent_id,generation); self._record('TaskFailed',task_id,agent_id,reason); return self.repository.get_task(task_id)
@@ -44,10 +44,10 @@ class ControlPlaneService:
         validate_task_transition(task.status,target); self.repository.update_task(replace(task,status=target))
     def _record(self,event_type,task_id,agent_id,result):
         event_id=str(uuid4()); self.repository.append_event(Event(event_id,event_type,monotonic(),'task',task_id,{'agent_id':agent_id})); self.repository.append_audit(AuditRecord(event_id,monotonic(),agent_id,event_type,'task',task_id,None,None,result))
-    def dispatch_once(self, task_id, scheduler, generation):
+    def dispatch_once(self, task_id, scheduler, generation, active_by_agent=None, failure_by_agent=None):
         task=self.repository.get_task(task_id)
         if task is None: raise KeyError(task_id)
-        decision=scheduler.select(task)
+        decision=scheduler.select(task) if active_by_agent is None and failure_by_agent is None else scheduler.select(task, active_by_agent=active_by_agent, failure_by_agent=failure_by_agent)
         if decision.agent_id is None: return decision
         try:
             lease=self.repository.claim_task(task_id,decision.agent_id,generation,scheduler.max_concurrency_per_agent)

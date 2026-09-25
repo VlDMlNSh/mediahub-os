@@ -22,11 +22,16 @@ class ControlLoop:
             for lease in repo.list_leases():
                 if lease.status.name in {'ACTIVE','RENEWED','EXPIRING'}:
                     active_by_agent[lease.agent_id]=active_by_agent.get(lease.agent_id,0)+1
+            failure_by_task_agent={}
+            for execution in repo.list_executions():
+                if execution.status == 'FAILED':
+                    key=(execution.task_id,execution.agent_id); failure_by_task_agent[key]=failure_by_task_agent.get(key,0)+1
             tasks=self.scheduler.order_ready(repo.list_tasks())
             for task in tasks:
-                decision=self.scheduler.select(task, active_by_agent=active_by_agent)
+                failures={a.agent_id:failure_by_task_agent.get((task.task_id,a.agent_id),0) for a in self.scheduler.registry.all()}
+                decision=self.scheduler.select(task, active_by_agent=active_by_agent, failure_by_agent=failures)
                 if decision.agent_id is None: continue
-                result=self.service.dispatch_once(task.task_id,self.scheduler,self.generation)
+                result=self.service.dispatch_once(task.task_id,self.scheduler,self.generation,active_by_agent,failures)
                 if getattr(result,'agent_id',None):
                     dispatched += 1
                     active_by_agent[result.agent_id]=active_by_agent.get(result.agent_id,0)+1

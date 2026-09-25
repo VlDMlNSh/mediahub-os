@@ -86,3 +86,10 @@ def test_failure_uses_retry_budget_and_reconciler_requeues():
     from runtime.mediahub_control_plane.reconciler import ControlPlaneReconciler
     assert ControlPlaneReconciler(repo).reconcile_once() == ("retry",)
     assert repo.get_task("retry").status is TaskStatus.READY
+
+def test_failure_records_execution_history():
+    repo, service, lease = running_task()
+    with pytest.raises(ValueError, match='verification'):
+        WorkerRuntime(service).execute('t','a',1,lambda payload,ctx: payload,lambda result: False)
+    failures=[e for e in repo.list_executions() if e.status=='FAILED']
+    assert len(failures)==1 and failures[0].task_id=='t' and failures[0].agent_id=='a'
