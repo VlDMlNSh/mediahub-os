@@ -23,6 +23,9 @@ MODEL = Path("/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.
 LOCAL_AI_URL = os.environ.get("MEDIAHUB_AI_URL", "http://127.0.0.1:8081/v1/chat/completions")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
 FCM_ROUTER_URL = os.environ.get("MEDIAHUB_FCM_ROUTER_URL", "http://127.0.0.1:19280/v1/chat/completions")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
 FCM_ROUTER_ENABLED = os.environ.get("MEDIAHUB_FCM_ROUTER", "1") == "1"
+OMNIROUTE_URL = os.environ.get("MEDIAHUB_OMNIROUTE_URL", "http://127.0.0.1:20128/v1/chat/completions")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
+OMNIROUTE_ENABLED = os.environ.get("MEDIAHUB_OMNIROUTE", "1") == "1"
+OMNIROUTE_API_KEY = os.environ.get("OMNIROUTE_API_KEY", "")
 GIT = Path("/usr/bin/git")
 RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 160
@@ -3974,6 +3977,20 @@ def _fcm_router_ready() -> bool:
         return False
 
 
+def _omniroute_ready() -> bool:
+    if not OMNIROUTE_ENABLED:
+        return False
+    try:
+        base = OMNIROUTE_URL.rsplit("/v1/", 1)[0]
+        req = urllib.request.Request(base + "/health")
+        if OMNIROUTE_API_KEY:
+            req.add_header("Authorization", "Bearer " + OMNIROUTE_API_KEY)
+        with LOCAL_AI_OPENER.open(req, timeout=3) as response:
+            return response.status == 200
+    except (urllib.error.URLError, TimeoutError):
+        return False
+
+
 def _generate_endpoint(url: str, text: str, model: str | None) -> tuple[int, str, str]:
     try:
         with LOCAL_AI_OPENER.open(
@@ -3997,6 +4014,8 @@ def _generate_endpoint(url: str, text: str, model: str | None) -> tuple[int, str
         url, data=json.dumps(payload).encode(),
         headers={"Content-Type": "application/json"}, method="POST"
     )
+    if url == OMNIROUTE_URL and OMNIROUTE_API_KEY:
+        req.add_header("Authorization", "Bearer " + OMNIROUTE_API_KEY)
     try:
         with LOCAL_AI_OPENER.open(req, timeout=15) as response:
             raw = response.read(1_048_577)
@@ -4020,6 +4039,10 @@ def generate(text: str) -> tuple[int, str, str]:
         rc, content, status = _generate_endpoint(FCM_ROUTER_URL, text, "fcm")
         if rc == 0:
             return rc, content, "FCM_" + status
+    if _omniroute_ready():
+        rc, content, status = _generate_endpoint(OMNIROUTE_URL, text, "qwen2.5-coder-3b:latest")
+        if rc == 0:
+            return rc, content, "OMNIROUTE_" + status
     return _generate_endpoint(LOCAL_AI_URL, text, None)
 
 

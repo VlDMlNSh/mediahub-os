@@ -18,3 +18,8 @@ def test_local_ai_redirects_are_denied() -> None:
         assert "redirect denied" in str(exc.reason)
     else:
         raise AssertionError("redirect must be denied")
+
+
+def test_omniroute_is_local_optional_transport() -> None:
+    from ops.local_autonomous_agent import OMNIROUTE_URL
+    assert OMNIROUTE_URL == "http://127.0.0.1:20128/v1/chat/completions"
