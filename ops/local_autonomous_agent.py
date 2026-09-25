@@ -1645,12 +1645,28 @@ def inspect_queue_encoding(root: Path) -> tuple[QueueEncoding, ...]:
             "tests/security/test_mh05_restore_security.py",
             "def test_tampered_checkpoint_state_cannot_restore(self):",
         ),
+        "P8.2": ("docs/ops/P8-2-cross-domain-contract-gap-reconciliation-2026-09-24.md", "Status: DISCOVERY_RECONCILIATION / P8.2 NOT CLOSED"),
+        "P8.3": ("docs/ops/P8-3-end-to-end-scenario-reconciliation-2026-09-24.md", "Status: SCENARIO_RECONCILIATION / P8.3 NOT CLOSED"),
+        "P8.4": ("docs/ops/P8-4-bounded-agent-security-reconciliation-2026-09-24.md", "Status: SECURITY_RECONCILIATION / P8.4 NOT CLOSED"),
+        "P8.5": ("docs/ops/P8-5-provenance-chain-reconciliation-2026-09-24.md", "Status: PROVENANCE_RECONCILIATION / P8.5 NOT CLOSED"),
+        "P9.4": ("docs/ops/P9-4-sandbox-authority-escalation-negative-tests-2026-09-24.md", "Status: SECURITY_RECONCILIATION / P9.4 NOT CLOSED"),
     }
     for queue_id, (relative_path, marker) in queue_evidence.items():
         if _current_evidence_marker(root, relative_path, marker):
             description = next((item.description for item in read_raw_queue(root) if item.queue_id == queue_id), None)
             if description is not None:
                 encoded[queue_id] = f"{queue_id} {description}"
+
+    # Release-evidence fallback tasks are encoded once their repository-only
+    # evidence artifact exists in current HEAD. This is an encoding state, not
+    # a closure/authorization state; unresolved HUMAN_GATE/PARTIAL/ABSENT
+    # classifications remain release blockers.
+    for item in read_raw_queue(root):
+        if re.match(r"^P(?:10|11|12|13|14)\.\d+$", item.queue_id):
+            slug = re.sub(r"[^a-z0-9]+", "-", item.queue_id.lower() + "-" + item.description.lower()).strip("-")
+            relative_path = f"docs/ops/autonomous-evidence/{slug}-2026-09-25.md"
+            if _current_evidence_marker(root, relative_path, "Status:"):
+                encoded[item.queue_id] = f"{item.queue_id} {item.description}"
 
     p21_evidence = root / "docs/ops/P2-1-state-authority-mutation-inventory-2026-09-21.md"
     p21_authority = root / "runtime/mediahub_runtime/state_authority.py"
