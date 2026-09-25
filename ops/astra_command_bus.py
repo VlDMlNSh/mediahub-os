@@ -28,8 +28,8 @@ def _gh(*args: str) -> subprocess.CompletedProcess[str]:
 
 
 def _issues() -> list[dict]:
-    result = _gh("api", f"repos/{REPO}/issues",
-                 "-f", "state=open", "-f", f"labels={LABEL}", "-f", "per_page=50")
+    result = _gh("api", "--method", "GET",
+                 f"repos/{REPO}/issues?state=open&labels={LABEL}&per_page=50")
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or "github query failed")
     return json.loads(result.stdout or "[]")
