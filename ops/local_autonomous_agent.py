@@ -16,7 +16,7 @@ import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
 
-from ops.ai.task_lease import LeaseDenied, TaskLease
+from ops.ai.task_lease import ORPHANED, LeaseDenied, TaskLease, classify_lease_record
 
 ROOT = Path(os.environ.get("MEDIAHUB_ROOT", "/home/mediahub/dev/mediahub-os-autonomous")).resolve()
 MODEL = Path("/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf")
@@ -1842,8 +1842,19 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
             record = json.loads(lease_path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             continue
-        if record.get("task_id") == task.task_id:
-            return None
+        if record.get("task_id") != task.task_id:
+            continue
+        # Reconcile only provably orphaned leases. A live-but-expired owner remains
+        # a safety block until its execution is explicitly recovered; never create a
+        # second owner merely because the TTL elapsed.
+        lease_state = classify_lease_record(record)
+        if lease_state == ORPHANED:
+            try:
+                lease_path.unlink()
+            except OSError:
+                return None
+            continue
+        return None
     dependencies = {
         "P0.4": (),
         "P1.1": ("P0.4",),
