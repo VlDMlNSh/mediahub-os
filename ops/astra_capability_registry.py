@@ -26,6 +26,27 @@ def capabilities_from_inventory(inventory: dict) -> tuple[ExecutorCapability, ..
 def register_qualified(registry: AgentRegistry, inventory: dict) -> tuple[Agent, ...]:
     return tuple(registry.register(Agent(c.executor_id,c.node_id,c.version,AgentStatus.IDLE,tuple(sorted(c.capabilities)))) for c in capabilities_from_inventory(inventory))
 
+
+MAC_XCODE_SCHEMA_VERSION = 3
+MAC_XCODE_AGENT_ID = "df3-mac-xcode"
+
+def register_mac_xcode(registry: AgentRegistry, manifest: dict, node_id: str, agent_id: str = MAC_XCODE_AGENT_ID) -> Agent:
+    """Register one qualified macOS/Xcode lane using its existing lane manifest as evidence."""
+    if not node_id:
+        raise ValueError("node_id is required")
+    if manifest.get("schema_version") != MAC_XCODE_SCHEMA_VERSION:
+        raise ValueError("unsupported mac-xcode manifest schema")
+    if manifest.get("lane") != "mac-xcode" or manifest.get("platform") != "Darwin":
+        raise ValueError("invalid mac-xcode lane identity")
+    if manifest.get("architecture") != "arm64":
+        raise ValueError("unsupported mac-xcode architecture")
+    if manifest.get("qualified") is not True or manifest.get("reason") != "QUALIFIED":
+        raise ValueError("mac-xcode lane is not qualified")
+    capabilities = tuple(sorted(set(str(x) for x in manifest.get("capabilities", ()))))
+    if not capabilities:
+        raise ValueError("qualified mac-xcode lane must advertise capabilities")
+    return registry.register(Agent(agent_id, node_id, str(manifest.get("xcode_version") or ""), AgentStatus.IDLE, capabilities, manifest["architecture"]))
+
 def routing_table(inventory: dict) -> dict[str, tuple[str,...]]:
     table={}
     for c in capabilities_from_inventory(inventory):

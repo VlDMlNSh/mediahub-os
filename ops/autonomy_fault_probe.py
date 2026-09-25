@@ -161,6 +161,7 @@ def scenario_stop_resume() -> dict:
 def scenario_stale_pid() -> dict:
     """Prove a stale/unrelated PID cannot pass the process identity fence."""
     proc = subprocess.Popen(["/bin/sleep", "30"], start_new_session=True)
+    STALE_PROBE_PID.parent.mkdir(parents=True, exist_ok=True)
     try:
         STALE_PROBE_PID.write_text(f"{proc.pid}:stale-probe\n")
         pid = pid_from_file(STALE_PROBE_PID)
