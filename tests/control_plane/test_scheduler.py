@@ -33,3 +33,12 @@ def test_scheduler_orders_ready_tasks_by_priority_then_id():
     scheduler=TaskScheduler(r)
     tasks=(Task('b','x',priority=1,status=TaskStatus.READY),Task('a','x',priority=3,status=TaskStatus.READY),Task('c','x',priority=3,status=TaskStatus.READY),Task('z','x',status=TaskStatus.PENDING))
     assert tuple(t.task_id for t in scheduler.order_ready(tasks))==('a','c','b')
+
+
+def test_scheduler_respects_per_agent_concurrency_capacity():
+    r=AgentRegistry(30,90)
+    r.register(Agent('a1','n1','1',AgentStatus.IDLE,('linux',)))
+    scheduler=TaskScheduler(r, max_concurrency_per_agent=1)
+    t=Task('t','build',status=TaskStatus.READY,required_capabilities=('linux',))
+    assert scheduler.select(t, active_by_agent={'a1': 1}).reason=='agent_capacity_exhausted'
+    assert scheduler.select(t, active_by_agent={'a1': 0}).agent_id=='a1'

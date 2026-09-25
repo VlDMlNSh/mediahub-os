@@ -17,10 +17,19 @@ class ControlLoop:
     def tick(self):
         try:
             changed=self.reconciler.reconcile_once(); dispatched=0
-            tasks=self.scheduler.order_ready(self.service.repository.list_tasks())
+            repo=self.service.repository
+            active_by_agent={}
+            for lease in repo.list_leases():
+                if lease.status.name in {'ACTIVE','RENEWED','EXPIRING'}:
+                    active_by_agent[lease.agent_id]=active_by_agent.get(lease.agent_id,0)+1
+            tasks=self.scheduler.order_ready(repo.list_tasks())
             for task in tasks:
+                decision=self.scheduler.select(task, active_by_agent=active_by_agent)
+                if decision.agent_id is None: continue
                 result=self.service.dispatch_once(task.task_id,self.scheduler,self.generation)
-                if getattr(result,'agent_id',None): dispatched += 1
+                if getattr(result,'agent_id',None):
+                    dispatched += 1
+                    active_by_agent[result.agent_id]=active_by_agent.get(result.agent_id,0)+1
             self.stats=ControlLoopStats(self.stats.ticks+1,self.stats.reconciled+len(changed),self.stats.dispatched+dispatched,self.stats.errors)
         except Exception:
             self.stats=ControlLoopStats(self.stats.ticks+1,self.stats.reconciled,self.stats.dispatched,self.stats.errors+1)
