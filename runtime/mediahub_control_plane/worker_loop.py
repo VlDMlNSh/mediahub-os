@@ -109,6 +109,13 @@ class LeaseRenewalSupervisor:
             self._thread = None
 
     def _run(self) -> None:
+        # Establish a renewal immediately so very short-lived leases do not
+        # depend on scheduler timing before the first interval elapses.
+        try:
+            self.renew()
+        except Exception:
+            self.on_lost()
+            return
         while not self._stop.wait(self.interval_seconds):
             try:
                 self.renew()

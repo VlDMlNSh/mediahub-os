@@ -63,8 +63,10 @@ class WorkerRuntime:
             try:
                 self.service.repository.assert_lease_owner(lease.lease_id, agent_id, generation)
                 duration = current.expires_at - current.last_renewed_at
+                now = (self.service.repository.now() if hasattr(self.service.repository, "now")
+                       else self.clock())
                 return self.service.repository.renew_lease(
-                    current.lease_id, agent_id, generation, self.clock() + duration
+                    current.lease_id, agent_id, generation, now + duration
                 )
             except (PermissionError, ValueError, KeyError) as exc:
                 raise LeaseLost("lease renewal failed") from exc
