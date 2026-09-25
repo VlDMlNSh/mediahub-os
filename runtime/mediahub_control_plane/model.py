@@ -9,6 +9,7 @@ class TaskStatus(str, Enum):
 class CircuitState(str, Enum):
     CLOSED='CLOSED'
     OPEN='OPEN'
+    HALF_OPEN='HALF_OPEN'
 
 class FailureClass(str, Enum):
     TASK='TASK'

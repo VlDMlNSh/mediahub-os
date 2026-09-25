@@ -37,6 +37,7 @@ class AgentRegistry:
         self._failure_counts: dict[str, int] = {}
         self._quarantined: set[str] = set()
         self._circuit: dict[str, CircuitState] = {}
+        self._probe_in_flight: set[str] = set()
         self._agents: dict[str, Agent] = {}
         self._last_heartbeat: dict[str, Heartbeat] = {}
 
@@ -106,6 +107,22 @@ class AgentRegistry:
 
     def is_dispatch_allowed(self, agent_id: str) -> bool:
         return self.circuit_state(agent_id) is CircuitState.CLOSED
+
+    def begin_probe(self, agent_id: str) -> bool:
+        if self.circuit_state(agent_id) is not CircuitState.OPEN or agent_id in self._probe_in_flight:
+            return False
+        self._circuit[agent_id] = CircuitState.HALF_OPEN
+        self._probe_in_flight.add(agent_id)
+        return True
+
+    def probe_result(self, agent_id: str, success: bool) -> Agent:
+        if agent_id not in self._probe_in_flight:
+            raise ValueError('no probe in flight')
+        self._probe_in_flight.discard(agent_id)
+        if success:
+            return self.record_success(agent_id)
+        self._circuit[agent_id] = CircuitState.OPEN
+        return self._agents[agent_id]
 
     def failure_count(self, agent_id: str) -> int:
         return self._failure_counts.get(agent_id, 0)

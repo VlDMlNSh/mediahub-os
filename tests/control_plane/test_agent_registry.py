@@ -75,3 +75,17 @@ def test_circuit_breaker_opens_only_for_quarantined_failures_and_closes_on_succe
     r.record_failure('a1'); assert r.circuit_state('a1') is CircuitState.CLOSED
     r.record_failure('a1'); assert r.circuit_state('a1') is CircuitState.OPEN and not r.is_dispatch_allowed('a1')
     r.record_success('a1'); assert r.circuit_state('a1') is CircuitState.CLOSED and r.is_dispatch_allowed('a1')
+
+
+def test_open_circuit_allows_exactly_one_half_open_probe():
+    from runtime.mediahub_control_plane.model import CircuitState
+    r=AgentRegistry(30,90,failure_quarantine_threshold=1)
+    r.register(agent(),t()); r.record_failure('a1')
+    assert r.begin_probe('a1') is True
+    assert r.circuit_state('a1') is CircuitState.HALF_OPEN
+    assert r.begin_probe('a1') is False
+    r.probe_result('a1', False)
+    assert r.circuit_state('a1') is CircuitState.OPEN
+    assert r.begin_probe('a1') is True
+    assert r.probe_result('a1', True).status is AgentStatus.IDLE
+    assert r.circuit_state('a1') is CircuitState.CLOSED
