@@ -84,6 +84,36 @@ def test_all_candidates_failed_returns_last_failure_and_stays_bounded():
     assert len(calls) == 2
 
 
+def test_ambiguous_transport_outcome_fails_closed_without_failover():
+    calls = []
+    def send(http, timeout):
+        calls.append(http.url)
+        raise TimeoutError("transport timeout")
+
+    out = coordinator(send).execute(request())
+    assert out.failure_class is FailureClass.TRANSIENT
+    assert out.outcome_ambiguous is True
+    assert calls == [OpenAIChatAdapter.endpoint]
+
+
+def test_ambiguous_transport_can_fail_over_only_with_explicit_replay_safety():
+    calls = []
+    def send(http, timeout):
+        calls.append(http.url)
+        if len(calls) == 1:
+            raise TimeoutError("transport timeout")
+        return AdapterResult(200, {}, b'{"ok":true}')
+
+    replay_safe = CanonicalRequest(
+        "exec-1", "model-x", Protocol.OPENAI_CHAT,
+        [{"role": "user", "content": "hello"}], 7.0,
+        provider_extensions={"allow_ambiguous_replay": True},
+    )
+    out = coordinator(send).execute(replay_safe)
+    assert out.provider == "openrouter"
+    assert calls == [OpenAIChatAdapter.endpoint, OpenRouterAdapter.endpoint]
+
+
 def test_missing_credential_is_policy_blocked_and_does_not_send():
     calls = []
     out = ProviderExecutionCoordinator(

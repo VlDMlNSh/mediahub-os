@@ -62,6 +62,7 @@ class CanonicalFailure:
     retry_after_seconds: float | None = None
     retryable: bool = False
     policy_blocked: bool = False
+    outcome_ambiguous: bool = False
     provenance: Mapping[str, str] = field(default_factory=dict)
 
 

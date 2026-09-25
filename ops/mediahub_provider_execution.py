@@ -94,6 +94,8 @@ class ProviderExecutionCoordinator:
                 return failure
 
             last_failure = failure
+            if failure.outcome_ambiguous and request.provider_extensions.get("allow_ambiguous_replay") is not True:
+                return failure
             excluded = frozenset(set(excluded) | {provider})
             decision = self.engine.after_failure(
                 provider,

@@ -215,7 +215,13 @@ def execute_adapter(adapter: NativeProviderAdapter, request: CanonicalRequest, c
     try:
         result = send(http_request, request.timeout_seconds)
     except (TimeoutError, ConnectionError, OSError):
-        return _failure(request, adapter.provider, None)
+        failure = _failure(request, adapter.provider, None)
+        return CanonicalFailure(
+            failure.request_id, failure.provider, failure.failure_class,
+            failure.message, failure.status_code, failure.retry_after_seconds,
+            retryable=True, policy_blocked=failure.policy_blocked,
+            outcome_ambiguous=True, provenance=failure.provenance,
+        )
     if 200 <= result.status < 300:
         try:
             return adapter.decode_response(request, result.body)
