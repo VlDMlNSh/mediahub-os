@@ -512,10 +512,28 @@ def _compile_p84_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
 RAW_QUEUE_COMPILERS = {"P9.7": _compile_p97_queue_item, "P9.6": _compile_p96_queue_item, "P9.5": _compile_p95_queue_item, "P9.4": _compile_p94_queue_item, "P9.3": _compile_p93_queue_item, "P9.2": _compile_p92_queue_item, "P9.1": _compile_p91_queue_item, "P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
+def _compile_release_evidence_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    if not re.match(r"^P(?:10|11|12|13|14)\.\d+$", item.queue_id):
+        return None
+    slug = re.sub(r"[^a-z0-9]+", "-", item.queue_id.lower() + "-" + item.description.lower()).strip("-")
+    target = root / "docs/ops/autonomous-evidence" / f"{slug}-2026-09-25.md"
+    if target.exists():
+        return None
+    return LocalTask(
+        f"{item.queue_id}-bounded-release-evidence",
+        f"{item.queue_id} {item.description}",
+        str(target.relative_to(root)),
+        "Create a repository-only bounded evidence record for this release/reliability queue item. Classify the requested capability as OBSERVED, PARTIAL, ABSENT, or HUMAN_GATE using only current repository artifacts and deterministic checks. Never simulate human authorization, production access, external credentials, disaster recovery, or performance results that were not actually measured. Explicitly preserve unresolved gaps as release blockers.",
+        "release-evidence-reconciliation",
+    )
+
+
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     """Compile a raw queue row only through an explicitly registered encoder."""
     compiler = RAW_QUEUE_COMPILERS.get(item.queue_id)
-    return compiler(root, item) if compiler is not None else None
+    if compiler is not None:
+        return compiler(root, item)
+    return _compile_release_evidence_queue_item(root, item)
 
 
 def compile_next_raw_queue_task(root: Path) -> LocalTask | None:
@@ -1758,6 +1776,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p9.5-credential-broker-revocation-isolation",
         "p9.6-malformed-input-security-qualification",
         "p9.7-recovery-tamper-evidence",
+        "release-evidence-reconciliation",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
@@ -3280,6 +3299,28 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
         deps = [line.strip() for line in req if line.strip() and not line.lstrip().startswith("#")]
         content = "# P9.2 — Static secret, dependency, license and provenance review\n\nStatus: SECURITY_RECONCILIATION / P9.2 NOT CLOSED\n\n## Scope\n\nDeterministic repository-only review. Secret scanning reports locations and keyword matches without reproducing values. Dependency review is based on repository manifests; license/provenance claims are not inferred where lock or authoritative metadata is absent. This is not a substitute for a dedicated runtime scanner or supply-chain service.\n\n## Static secret review\n\n- Tracked text files scanned: " + str(scanned) + "\n- Keyword findings (values omitted): " + str(len(findings)) + "\n" + ("\n".join(findings) if findings else "- No keyword matches found by this bounded scan.") + "\n\n## Dependency / license review\n\n- Declared autonomous dependencies: " + ", ".join(deps) + "\n- Repository contains no dependency lockfile in the reviewed top-level inventory. Exact transitive versions and authoritative license provenance are therefore NOT established by repository manifests alone.\n- `pip-audit` is declared as a review tool, but this artifact does not claim that an external advisory database scan was executed.\n\n## Provenance\n\n- The autonomous provenance journal is hashed as source evidence. Historical entries preserve source/tree/result fields, but this review does not treat journal content as proof of dependency integrity or secret absence.\n- P9.2 remains OPEN until dependency provenance/license requirements and any material secret-scan findings are explicitly classified and accepted or remediated.\n\n## Source evidence\n\n" + "\n\n".join(evidence) + "\n"
         return unified_patch("", content, target)
+
+    if task.fallback_kind == "release-evidence-reconciliation":
+        target = task.target
+        phase = task.queue_item.split()[0]
+        if not target.parent.exists():
+            target.parent.mkdir(parents=True, exist_ok=True)
+        head = subprocess.run([str(GIT), "rev-parse", "HEAD"], cwd=ROOT, text=True, capture_output=True, check=False).stdout.strip()
+        branch = subprocess.run([str(GIT), "branch", "--show-current"], cwd=ROOT, text=True, capture_output=True, check=False).stdout.strip()
+        content = (
+            f"# {task.queue_item} — bounded autonomous evidence\\n\\n"
+            "Status: NOT CLOSED / evidence-only reconciliation\\n\\n"
+            f"Phase: {phase}\\n"
+            f"Repository HEAD at evidence capture: \\`{head}\\`\\n"
+            f"Branch: \\`{branch}\\`\\n\\n"
+            "## Boundary\\n\\n"
+            "This artifact records only repository-local evidence. It does not simulate human approval, production authorization, external credentials, cloud-provider execution, backup/restore success, performance measurements, or disaster-recovery qualification. Any missing evidence remains a release blocker.\\n\\n"
+            "## Classification\\n\\n"
+            "The requested capability is classified as PARTIAL/ABSENT/HUMAN_GATE unless current repository artifacts provide direct evidence. This task itself does not authorize closure of the queue item.\\n\\n"
+            "## Required next evidence\\n\\n"
+            f"{task.instruction}\\n"
+        )
+        return unified_patch("", content.splitlines(keepends=True), target)
 
     if task.fallback_kind == "p9.6-malformed-input-security-qualification":
         target = task.target
