@@ -99,14 +99,14 @@ def scenario_astra_restart() -> dict:
     return {"scenario":"astra-restart","before_pid":pid,"after_pid":new_pid,"old_start":ident.start,"result":"PASS","before":before,"after":after}
 
 def scenario_loop_restart() -> dict:
-    pid = pid_from_file(LOOP_PID)
+    pid = pid_from_file(LOOP_PID) or find_owned_process("ops/autonomous_os_loop.sh")
     if pid is None:
         raise RuntimeError("loop pid unavailable")
     ident = fixed_identity(pid, ("ops/autonomous_os_loop.sh",))
     before = heartbeat()
     terminate_owned(pid, ("ops/autonomous_os_loop.sh",))
     def new_loop_pid():
-        candidate = pid_from_file(LOOP_PID)
+        candidate = pid_from_file(LOOP_PID) or find_owned_process("ops/autonomous_os_loop.sh")
         return candidate if candidate and candidate != pid and proc_identity(candidate) else None
     new_pid = wait_until(new_loop_pid)
     after = wait_until(lambda: heartbeat() if heartbeat().get("loop_pid") == new_pid else None)
