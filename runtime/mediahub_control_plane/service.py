@@ -12,6 +12,8 @@ class ControlPlaneService:
     def __init__(self, repository: ControlPlaneRepository, agent_registry=None, retry_backoff_seconds: float = 5.0, retry_policy: RetryPolicy | None = None, metrics: ControlPlaneMetrics | None = None):
         if retry_backoff_seconds < 0: raise ValueError("retry_backoff_seconds must be non-negative")
         self.repository=repository; self.agent_registry=agent_registry; self.retry_policy=retry_policy or RetryPolicy(retry_backoff_seconds); self.metrics=metrics or ControlPlaneMetrics()
+        if self.agent_registry is not None:
+            self.agent_registry.attach_metrics(self.metrics)
     def mark_ready(self, task_id: str) -> None:
         task=self.repository.get_task(task_id)
         if task is None: raise KeyError(task_id)

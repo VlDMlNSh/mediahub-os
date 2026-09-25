@@ -4,6 +4,7 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 
 from .model import Agent, AgentStatus, CircuitState
+from .metrics import ControlPlaneMetrics
 
 
 @dataclass(frozen=True)
@@ -26,7 +27,7 @@ def _utcnow() -> datetime:
 
 
 class AgentRegistry:
-    def __init__(self, heartbeat_timeout_seconds: int = 30, dead_timeout_seconds: int = 90, failure_quarantine_threshold: int = 3):
+    def __init__(self, heartbeat_timeout_seconds: int = 30, dead_timeout_seconds: int = 90, failure_quarantine_threshold: int = 3, metrics: ControlPlaneMetrics | None = None):
         if heartbeat_timeout_seconds <= 0 or dead_timeout_seconds <= heartbeat_timeout_seconds:
             raise ValueError("timeouts must satisfy 0 < heartbeat_timeout < dead_timeout")
         self.heartbeat_timeout_seconds = heartbeat_timeout_seconds
@@ -40,6 +41,12 @@ class AgentRegistry:
         self._probe_in_flight: set[str] = set()
         self._agents: dict[str, Agent] = {}
         self._last_heartbeat: dict[str, Heartbeat] = {}
+        self.metrics = metrics
+
+    def attach_metrics(self, metrics: ControlPlaneMetrics) -> None:
+        if self.metrics is not None and self.metrics is not metrics:
+            raise ValueError("agent registry metrics already attached")
+        self.metrics = metrics
 
     def register(self, agent: Agent, now: datetime | None = None) -> Agent:
         now = now or _utcnow()
@@ -86,17 +93,23 @@ class AgentRegistry:
         count = self._failure_counts.get(agent_id, 0) + 1
         self._failure_counts[agent_id] = count
         if count >= self.failure_quarantine_threshold and agent.status not in {AgentStatus.OFFLINE, AgentStatus.DRAINING}:
+            previous = self._circuit.get(agent_id, CircuitState.CLOSED)
             self._quarantined.add(agent_id)
             self._circuit[agent_id] = CircuitState.OPEN
+            if previous is not CircuitState.OPEN and self.metrics is not None:
+                self.metrics.inc("circuit_opened")
             agent = replace(agent, status=AgentStatus.DEGRADED)
             self._agents[agent_id] = agent
         return agent
 
     def record_success(self, agent_id: str) -> Agent:
         agent = self._agents[agent_id]
+        previous = self._circuit.get(agent_id, CircuitState.CLOSED)
         self._failure_counts[agent_id] = 0
         self._quarantined.discard(agent_id)
         self._circuit[agent_id] = CircuitState.CLOSED
+        if previous is not CircuitState.CLOSED and self.metrics is not None:
+            self.metrics.inc("circuit_closed")
         if agent.status == AgentStatus.DEGRADED:
             agent = replace(agent, status=AgentStatus.IDLE)
             self._agents[agent_id] = agent
@@ -113,6 +126,8 @@ class AgentRegistry:
             return False
         self._circuit[agent_id] = CircuitState.HALF_OPEN
         self._probe_in_flight.add(agent_id)
+        if self.metrics is not None:
+            self.metrics.inc("circuit_half_open_probes")
         return True
 
     def probe_result(self, agent_id: str, success: bool) -> Agent:
@@ -122,6 +137,8 @@ class AgentRegistry:
         if success:
             return self.record_success(agent_id)
         self._circuit[agent_id] = CircuitState.OPEN
+        if self.metrics is not None:
+            self.metrics.inc("circuit_opened")
         return self._agents[agent_id]
 
     def probe_from_heartbeat(self, agent_id: str, now: datetime | None = None) -> bool:

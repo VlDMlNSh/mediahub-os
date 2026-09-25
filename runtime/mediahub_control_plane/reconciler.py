@@ -43,11 +43,7 @@ class ControlPlaneReconciler:
                     previous = self.agent_registry.circuit_state(agent.agent_id)
                     probed = self.agent_registry.probe_from_heartbeat(agent.agent_id)
                     current = self.agent_registry.circuit_state(agent.agent_id)
-                    if probed:
-                        self.metrics.inc('circuit_half_open_probes')
                     if current is not previous:
-                        if current is CircuitState.CLOSED:
-                            self.metrics.inc('circuit_closed')
                         self._record('AgentCircuitChanged', None, agent.agent_id, previous.value, current.value, {'probe': True, 'success': probed})
         return tuple(changed)
 

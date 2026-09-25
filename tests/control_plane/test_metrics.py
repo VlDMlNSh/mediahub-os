@@ -46,3 +46,23 @@ def test_metrics_capture_retry_and_fencing_failure():
     except PermissionError:
         pass
     assert metrics.snapshot().fencing_failures == 1
+
+
+def test_agent_circuit_metrics_capture_open_half_open_close():
+    from datetime import datetime, timezone
+    from runtime.mediahub_control_plane.agent_registry import Heartbeat
+
+    metrics = ControlPlaneMetrics()
+    registry = AgentRegistry(failure_quarantine_threshold=1)
+    registry.register(Agent('a', 'n', '1', AgentStatus.IDLE))
+    service = ControlPlaneService(InMemoryControlPlaneRepository(), registry, metrics=metrics)
+    registry.heartbeat(Heartbeat('a', 'n', datetime.now(timezone.utc)))
+
+    service.agent_registry.record_failure('a')
+    assert registry.circuit_state('a').value == 'OPEN'
+    assert metrics.snapshot().circuit_opened == 1
+
+    assert registry.probe_from_heartbeat('a') is True
+    snapshot = metrics.snapshot()
+    assert snapshot.circuit_half_open_probes == 1
+    assert snapshot.circuit_closed == 1
