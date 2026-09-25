@@ -380,6 +380,62 @@ def _compile_p92_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
+def _compile_p95_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P9-5-credential-broker-revocation-isolation-2026-09-25.md"
+    sources = (
+        root / "ops/mediahub_credential_broker.py",
+        root / "tests/test_mediahub_credential_broker.py",
+        root / "ops/mediahub_native_execution.py",
+        root / "tests/security/test_native_agent_launcher.py",
+    )
+    if target.exists() or not all(path.is_file() for path in sources):
+        return None
+    return LocalTask(
+        "P9.5-credential-broker-revocation-isolation",
+        f"P9.5 {item.description}",
+        "docs/ops/P9-5-credential-broker-revocation-isolation-2026-09-25.md",
+        "Record deterministic repository evidence for credential-broker isolation and revocation. Inspect only the existing credential broker, native execution boundary, and local security tests; classify credential issuance, provider binding, revocation/denial, secret non-disclosure, and State Authority/production isolation as IMPLEMENTED, PARTIAL, ABSENT or AMBIGUOUS. Do not inspect secret values, invoke providers, create credentials, or claim runtime/cloud qualification.",
+        "p9.5-credential-broker-revocation-isolation",
+    )
+
+
+def _compile_p96_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P9-6-malformed-input-security-qualification-2026-09-25.md"
+    sources = (
+        root / "ops/mediahub_native_execution.py",
+        root / "tests/test_mediahub_native_execution.py",
+        root / "tests/runtime/test_mh05_consumer_boundary.py",
+        root / "tests/security/test_mh05_restore_security.py",
+    )
+    if target.exists() or not all(path.is_file() for path in sources):
+        return None
+    return LocalTask(
+        "P9.6-malformed-input-security-qualification",
+        f"P9.6 {item.description}",
+        "docs/ops/P9-6-malformed-input-security-qualification-2026-09-25.md",
+        "Record deterministic repository evidence for malformed-input security coverage using only existing public-contract implementations and tests. Identify covered type/shape rejection and remaining justified gaps; do not invent fuzz results, execute external providers, mutate State Authority, or claim exhaustive fuzz qualification.",
+        "p9.6-malformed-input-security-qualification",
+    )
+
+
+def _compile_p97_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
+    target = root / "docs/ops/P9-7-recovery-tamper-evidence-2026-09-25.md"
+    sources = (
+        root / "tests/security/test_mh05_restore_security.py",
+        root / "runtime/mediahub_runtime",
+        root / "docs/ops/control-plane",
+    )
+    if target.exists() or not all(path.exists() for path in sources):
+        return None
+    return LocalTask(
+        "P9.7-recovery-tamper-evidence",
+        f"P9.7 {item.description}",
+        "docs/ops/P9-7-recovery-tamper-evidence-2026-09-25.md",
+        "Record deterministic repository evidence for recovery and tamper-evidence controls from existing restore-security tests and control-plane recovery contracts. Classify only observed protections and gaps; do not add persistence, mutate State Authority, or claim production disaster-recovery qualification.",
+        "p9.7-recovery-tamper-evidence",
+    )
+
+
 def _compile_p94_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     target = root / "docs/ops/P9-4-sandbox-authority-escalation-negative-tests-2026-09-24.md"
     sources = (
@@ -453,7 +509,7 @@ def _compile_p84_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
     )
 
 
-RAW_QUEUE_COMPILERS = {"P9.4": _compile_p94_queue_item, "P9.3": _compile_p93_queue_item, "P9.2": _compile_p92_queue_item, "P9.1": _compile_p91_queue_item, "P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
+RAW_QUEUE_COMPILERS = {"P9.7": _compile_p97_queue_item, "P9.6": _compile_p96_queue_item, "P9.5": _compile_p95_queue_item, "P9.4": _compile_p94_queue_item, "P9.3": _compile_p93_queue_item, "P9.2": _compile_p92_queue_item, "P9.1": _compile_p91_queue_item, "P8.5": _compile_p85_queue_item, "P8.4": _compile_p84_queue_item, "P8.3": _compile_p83_queue_item, "P8.2": _compile_p82_queue_item, "P8.1": _compile_p81_queue_item, "P0.2": _compile_p02_queue_item, "P0.1": _compile_p01_queue_item, "P0.5": _compile_p05_queue_item, "P0.5.1": _compile_p051_queue_item, "P0.5.2": _compile_p052_queue_item, "P0.6": _compile_p06_queue_item, "P2.6": _compile_p26_queue_item}
 
 
 def compile_raw_queue_item(root: Path, item: RawQueueItem) -> LocalTask | None:
@@ -1699,6 +1755,9 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p9.2-static-secret-dependency-provenance-review",
         "p9.3-egress-endpoint-allowlist-audit",
         "p9.4-sandbox-authority-escalation-negative-tests",
+        "p9.5-credential-broker-revocation-isolation",
+        "p9.6-malformed-input-security-qualification",
+        "p9.7-recovery-tamper-evidence",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
@@ -3221,6 +3280,22 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
         deps = [line.strip() for line in req if line.strip() and not line.lstrip().startswith("#")]
         content = "# P9.2 — Static secret, dependency, license and provenance review\n\nStatus: SECURITY_RECONCILIATION / P9.2 NOT CLOSED\n\n## Scope\n\nDeterministic repository-only review. Secret scanning reports locations and keyword matches without reproducing values. Dependency review is based on repository manifests; license/provenance claims are not inferred where lock or authoritative metadata is absent. This is not a substitute for a dedicated runtime scanner or supply-chain service.\n\n## Static secret review\n\n- Tracked text files scanned: " + str(scanned) + "\n- Keyword findings (values omitted): " + str(len(findings)) + "\n" + ("\n".join(findings) if findings else "- No keyword matches found by this bounded scan.") + "\n\n## Dependency / license review\n\n- Declared autonomous dependencies: " + ", ".join(deps) + "\n- Repository contains no dependency lockfile in the reviewed top-level inventory. Exact transitive versions and authoritative license provenance are therefore NOT established by repository manifests alone.\n- `pip-audit` is declared as a review tool, but this artifact does not claim that an external advisory database scan was executed.\n\n## Provenance\n\n- The autonomous provenance journal is hashed as source evidence. Historical entries preserve source/tree/result fields, but this review does not treat journal content as proof of dependency integrity or secret absence.\n- P9.2 remains OPEN until dependency provenance/license requirements and any material secret-scan findings are explicitly classified and accepted or remediated.\n\n## Source evidence\n\n" + "\n\n".join(evidence) + "\n"
         return unified_patch("", content, target)
+
+    if task.fallback_kind == "p9.5-credential-broker-revocation-isolation":
+        target = task.target
+        content = """# P9.5 — Credential broker revocation / isolation evidence
+
+Status: SECURITY_RECONCILIATION / P9.5 NOT CLOSED
+
+Scope: repository-local evidence only. Do not read or emit credential values, invoke providers, create credentials, or grant production authorization.
+
+Verification command: `pytest -q tests/test_mediahub_credential_broker.py tests/security/test_native_agent_launcher.py`
+
+Review boundary: credential broker, native execution admission and native launcher negative tests. This record does not claim external secret-store, cloud-provider, rotation-service or production revocation qualification.
+
+Source evidence: `ops/mediahub_credential_broker.py`, `tests/test_mediahub_credential_broker.py`, `ops/mediahub_native_execution.py`, `tests/security/test_native_agent_launcher.py`.
+"""
+        return unified_patch("", content.splitlines(keepends=True), target)
 
     if task.fallback_kind == "p9.4-sandbox-authority-escalation-negative-tests":
         target = task.target
