@@ -92,7 +92,10 @@ def scenario_astra_restart() -> dict:
     before = heartbeat()
     terminate_owned(pid, ("ops/astra_orchestrator.py",))
     after = wait_until(lambda: heartbeat() if heartbeat().get("state") == "RUNNING" and heartbeat().get("head") else None)
-    new_pid = wait_until(lambda: (p := pid_from_file(STATE / "astra.pid")) if p and p != pid and proc_identity(p) else None)
+    def new_astra_pid():
+        candidate = pid_from_file(STATE / "astra.pid")
+        return candidate if candidate and candidate != pid and proc_identity(candidate) else None
+    new_pid = wait_until(new_astra_pid)
     return {"scenario":"astra-restart","before_pid":pid,"after_pid":new_pid,"old_start":ident.start,"result":"PASS","before":before,"after":after}
 
 def scenario_loop_restart() -> dict:
@@ -102,7 +105,10 @@ def scenario_loop_restart() -> dict:
     ident = fixed_identity(pid, ("ops/autonomous_os_loop.sh",))
     before = heartbeat()
     terminate_owned(pid, ("ops/autonomous_os_loop.sh",))
-    new_pid = wait_until(lambda: (p := pid_from_file(LOOP_PID)) if p and p != pid and proc_identity(p) else None)
+    def new_loop_pid():
+        candidate = pid_from_file(LOOP_PID)
+        return candidate if candidate and candidate != pid and proc_identity(candidate) else None
+    new_pid = wait_until(new_loop_pid)
     after = wait_until(lambda: heartbeat() if heartbeat().get("loop_pid") == new_pid else None)
     return {"scenario":"controller-restart","before_pid":pid,"after_pid":new_pid,"old_start":ident.start,"result":"PASS","before":before,"after":after}
 
@@ -112,7 +118,10 @@ def scenario_command_bus_restart() -> dict:
         raise RuntimeError("command-bus pid unavailable")
     ident = fixed_identity(pid, ("ops/astra_command_bus.py",))
     terminate_owned(pid, ("ops/astra_command_bus.py",))
-    new_pid = wait_until(lambda: (p := pid_from_file(COMMAND_BUS_PID)) if p and p != pid and proc_identity(p) else None)
+    def new_command_bus_pid():
+        candidate = pid_from_file(COMMAND_BUS_PID) or find_owned_process("ops/astra_command_bus.py")
+        return candidate if candidate and candidate != pid and proc_identity(candidate) else None
+    new_pid = wait_until(new_command_bus_pid)
     return {"scenario":"command-bus-restart","before_pid":pid,"after_pid":new_pid,"old_start":ident.start,"result":"PASS"}
 
 def scenario_stop_resume() -> dict:
@@ -123,7 +132,7 @@ def scenario_stop_resume() -> dict:
     if astra_pid is None or proc_identity(astra_pid) is None:
         raise RuntimeError("Astra did not remain resident during STOP")
     STOP.unlink(missing_ok=True)
-    resumed_pid = wait_until(lambda: (p := pid_from_file(LOOP_PID)) if p and proc_identity(p) else None)
+    resumed_pid = wait_until(lambda: pid_from_file(LOOP_PID) if pid_from_file(LOOP_PID) and proc_identity(pid_from_file(LOOP_PID)) else None)
     after = wait_until(lambda: heartbeat() if heartbeat().get("loop_pid") == resumed_pid else None)
     return {"scenario":"stop-resume","astra_pid":astra_pid,"stopped":stopped,"resumed_loop_pid":resumed_pid,"result":"PASS","before":before,"after":after}
 
