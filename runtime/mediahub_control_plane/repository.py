@@ -5,6 +5,8 @@ from .model import Task, Lease, Execution, Event, AuditRecord, TaskStatus, Lease
 class ControlPlaneRepository:
     def create_task(self, task: Task) -> Task: raise NotImplementedError
     def get_task(self, task_id: str) -> Task|None: raise NotImplementedError
+    def list_tasks(self) -> tuple[Task, ...]: raise NotImplementedError
+    def list_leases(self) -> tuple[Lease, ...]: raise NotImplementedError
     def claim_task(self, task_id: str, agent_id: str, generation: int) -> Lease: raise NotImplementedError
     def renew_lease(self, lease_id: str, agent_id: str, generation: int, expires_at: float) -> Lease: raise NotImplementedError
     def record_execution(self, execution: Execution) -> Execution: raise NotImplementedError
@@ -29,6 +31,10 @@ class InMemoryControlPlaneRepository(ControlPlaneRepository):
             return task
     def get_task(self, task_id):
         with self._lock: return self.tasks.get(task_id)
+    def list_tasks(self):
+        with self._lock: return tuple(self.tasks.values())
+    def list_leases(self):
+        with self._lock: return tuple(self.leases.values())
     def claim_task(self, task_id, agent_id, generation):
         import time, uuid
         with self._lock:
