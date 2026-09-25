@@ -82,3 +82,17 @@ class ControlPlaneService:
             return type(decision)(task_id, None, 'claim_lost_race')
         self._transition(task_id, TaskStatus.RUNNING)
         return lease
+
+    def fail(self, task_id: str, agent_id: str, generation: int, reason: str = "EXECUTION_FAILED"):
+        """Record a worker-owned failure only while its lease is still authoritative."""
+        lease = self.repository.get_lease_for_task(task_id)
+        if lease is None:
+            raise PermissionError("no authoritative lease")
+        self.repository.assert_lease_owner(lease.lease_id, agent_id, generation)
+        task = self.repository.get_task(task_id)
+        if task is None:
+            raise KeyError(task_id)
+        self._transition(task_id, TaskStatus.FAILED)
+        self.repository.release_lease(lease.lease_id, agent_id, generation)
+        self._record("TaskFailed", task_id, agent_id, reason)
+        return self.repository.get_task(task_id)
