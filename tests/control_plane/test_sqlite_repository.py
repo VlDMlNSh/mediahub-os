@@ -204,6 +204,78 @@ def test_sqlite_runtime_vertical_slice_is_durable(tmp_path):
     assert final.get_lease_for_task("t") is None
 
 
+def test_integrity_check_and_backup_restore_preserve_durable_state(tmp_path):
+    path = tmp_path / "authoritative.db"
+    repo = SQLiteControlPlaneRepository(path)
+    repo.create_task(Task("t", "build", status=TaskStatus.READY, idempotency_key="k", payload={"x": 1}))
+    lease = repo.claim_and_start("t", "agent-a", 7)
+    repo.append_event(Event("event", "Claimed", 1.0, "task", "t", {"phase": "running"}))
+    repo.append_audit(AuditRecord("audit", 1.0, "agent-a", "claim", "task", "t", "READY", "RUNNING", "RECORDED"))
+    repo.record_execution(Execution("exec", "t", "agent-a", 7, "SUCCEEDED", {"ok": True}))
+
+    repo.validate_integrity()
+    snapshot = repo.backup_to(tmp_path / "snapshot.db")
+    restored = SQLiteControlPlaneRepository.restore_snapshot(snapshot, tmp_path / "restored.db")
+    restored.validate_integrity()
+
+    assert restored.get_task("t").status is TaskStatus.RUNNING
+    assert restored.get_task("t").idempotency_key == "k"
+    restored_lease = restored.get_lease_for_task("t")
+    assert restored_lease.lease_id == lease.lease_id
+    assert restored_lease.generation == 7
+    assert restored.list_executions()[0].execution_id == "exec"
+
+
+def test_backup_is_consistent_during_in_flight_operation(tmp_path):
+    path = tmp_path / "authoritative.db"
+    repo = SQLiteControlPlaneRepository(path)
+    repo.create_task(Task("t", "build", status=TaskStatus.READY, idempotency_key="k"))
+    lease = repo.claim_and_start("t", "agent-a", 3)
+    snapshot = repo.backup_to(tmp_path / "in-flight.db")
+
+    restored = SQLiteControlPlaneRepository.restore_snapshot(snapshot, tmp_path / "recovered.db")
+    assert restored.get_task("t").status is TaskStatus.RUNNING
+    assert restored.get_lease_for_task("t").generation == lease.generation
+    assert restored.get_lease_for_task("t").status is LeaseStatus.ACTIVE
+
+
+def test_corrupt_authoritative_database_fails_closed(tmp_path):
+    path = tmp_path / "corrupt.db"
+    repo = SQLiteControlPlaneRepository(path)
+    repo.create_task(Task("t", "build", status=TaskStatus.READY, idempotency_key="k"))
+    with open(path, "r+b") as handle:
+        handle.truncate(100)
+
+    with pytest.raises((sqlite3.DatabaseError, RuntimeError)):
+        SQLiteControlPlaneRepository(path)
+
+
+def test_restore_refuses_overwrite_existing_target(tmp_path):
+    source = SQLiteControlPlaneRepository(tmp_path / "source.db")
+    source.create_task(Task("t", "build", status=TaskStatus.READY, idempotency_key="k"))
+    snapshot = source.backup_to(tmp_path / "snapshot.db")
+    target = tmp_path / "target.db"
+    target.write_bytes(b"existing")
+
+    with pytest.raises(FileExistsError):
+        SQLiteControlPlaneRepository.restore_snapshot(snapshot, target)
+    assert target.read_bytes() == b"existing"
+
+
+def test_schema_initialization_rolls_back_if_process_dies_before_commit(tmp_path):
+    import os
+    import subprocess
+    import sys
+
+    path = tmp_path / "init-crash.db"
+    script = "from runtime.mediahub_control_plane.sqlite_repository import _SCHEMA; import sqlite3, os; db=sqlite3.connect(r'" + str(path) + "', isolation_level=None); db.executescript('BEGIN IMMEDIATE;' + _SCHEMA + \"INSERT INTO meta(key,value) VALUES('schema_version','1');\"); os._exit(0)"
+    subprocess.run([sys.executable, "-c", script], cwd=".", check=True)
+
+    reopened = SQLiteControlPlaneRepository(path)
+    reopened.validate_integrity()
+    assert reopened.list_tasks() == ()
+
+
 def test_schema_version_is_fail_closed(tmp_path):
     path = tmp_path / "future.db"
     db = sqlite3.connect(path)

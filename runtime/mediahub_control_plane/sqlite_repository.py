@@ -80,9 +80,8 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
                 raise RuntimeError("control-plane schema contains unknown tables; refusing implicit migration")
             if existing:
                 self._assert_schema(db)
-            db.executescript(_SCHEMA)
+            db.executescript("BEGIN IMMEDIATE;" + _SCHEMA + "INSERT INTO meta(key,value) VALUES('schema_version','" + self.SCHEMA_VERSION + "');COMMIT;")
             self._assert_schema(db)
-            db.execute("INSERT INTO meta(key,value) VALUES('schema_version',?)", (self.SCHEMA_VERSION,))
 
     @classmethod
     def _assert_schema(cls, db):
@@ -101,6 +100,49 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
 
     def now(self) -> float:
         return float(self.clock())
+
+    def validate_integrity(self) -> None:
+        """Fail closed if the authoritative SQLite file is unreadable or corrupt."""
+        if self.path == ":memory:":
+            return
+        with self._connect() as db:
+            quick = db.execute("PRAGMA quick_check").fetchone()[0]
+            if quick != "ok":
+                raise RuntimeError(f"control-plane sqlite quick_check failed: {quick}")
+            full = db.execute("PRAGMA integrity_check").fetchone()[0]
+            if full != "ok":
+                raise RuntimeError(f"control-plane sqlite integrity_check failed: {full}")
+
+    def backup_to(self, destination: str | Path) -> Path:
+        """Create a consistent SQLite snapshot without mutating authoritative state."""
+        if self.path == ":memory:":
+            raise ValueError("cannot snapshot an in-memory repository")
+        destination = Path(destination)
+        if destination.exists():
+            raise FileExistsError(destination)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        self.validate_integrity()
+        with self._connect() as source, sqlite3.connect(str(destination)) as target:
+            source.backup(target)
+        snapshot = SQLiteControlPlaneRepository(destination)
+        snapshot.validate_integrity()
+        return destination
+
+    @classmethod
+    def restore_snapshot(cls, snapshot: str | Path, destination: str | Path) -> "SQLiteControlPlaneRepository":
+        """Restore a validated snapshot into a new database; never overwrite an existing target."""
+        snapshot = Path(snapshot)
+        destination = Path(destination)
+        if destination.exists():
+            raise FileExistsError(destination)
+        source_repo = cls(snapshot)
+        source_repo.validate_integrity()
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        with source_repo._connect() as source, sqlite3.connect(str(destination)) as target:
+            source.backup(target)
+        restored = cls(destination)
+        restored.validate_integrity()
+        return restored
 
     @staticmethod
     def _task(row):
