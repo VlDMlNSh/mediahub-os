@@ -1,0 +1,10 @@
+{
+  "action": "STATUS",
+  "clean": true,
+  "detail": "transport-direct-probe",
+  "head": "d8e913e1adb7981a26de24075dd4ba2b89d3b9bb",
+  "node": "dev2",
+  "result": "OK",
+  "schema": 1,
+  "ts": "2026-09-25T10:22:02Z"
+}
