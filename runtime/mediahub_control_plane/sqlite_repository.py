@@ -247,7 +247,7 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
             if not row: raise KeyError(lease_id)
             if now < row["expires_at"]: raise ValueError("lease has not expired")
             if row["status"] not in (LeaseStatus.ACTIVE.value,LeaseStatus.RENEWED.value,LeaseStatus.EXPIRING.value):
-                if row["status"] is LeaseStatus.EXPIRED.value: db.commit(); return self._lease(row)
+                if row["status"] == LeaseStatus.EXPIRED.value: db.commit(); return self._lease(row)
                 raise ValueError("lease not expirable")
             db.execute("UPDATE leases SET status=? WHERE lease_id=?", (LeaseStatus.EXPIRED.value, lease_id)); db.commit()
         return replace(self._lease(row), status=LeaseStatus.EXPIRED)
@@ -265,7 +265,11 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
             if task and TaskStatus(task["status"]) in (TaskStatus.CLAIMED, TaskStatus.RUNNING):
                 attempt = task["attempt"] + 1
                 target = TaskStatus.RETRY_WAIT if attempt < task["max_attempts"] else TaskStatus.EXPIRED
-                db.execute("UPDATE tasks SET status=?,attempt=?,retry_not_before=? WHERE task_id=?", (target.value,attempt,retry_not_before,task["task_id"]))
+                # Preserve the explicit state-machine path RUNNING -> EXPIRED -> RETRY_WAIT
+                # inside the same transaction; no intermediate state is externally visible.
+                db.execute("UPDATE tasks SET status=?,attempt=?,retry_not_before=? WHERE task_id=?", (TaskStatus.EXPIRED.value,attempt,None,task["task_id"]))
+                if target is TaskStatus.RETRY_WAIT:
+                    db.execute("UPDATE tasks SET status=?,retry_not_before=? WHERE task_id=?", (target.value,retry_not_before,task["task_id"]))
             if event is not None and audit is not None:
                 self._insert_event_audit(db,event,audit)
             db.commit()

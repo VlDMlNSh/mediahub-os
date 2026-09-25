@@ -129,3 +129,46 @@ def test_complete_atomic_rolls_back_all_state_on_audit_constraint_failure(tmp_pa
     assert repo.get_task("t").status is TaskStatus.RUNNING
     assert repo.get_lease_for_task("t").status.value == "ACTIVE"
     assert repo.list_executions() == ()
+
+
+def test_reconciler_uses_atomic_expiry_and_schedules_retry(tmp_path):
+    from runtime.mediahub_control_plane.reconciler import ControlPlaneReconciler
+
+    now = [100.0]
+    repo = SQLiteControlPlaneRepository(tmp_path / "control-plane.db", clock=lambda: now[0])
+    repo.create_task(Task("t", "build", status=TaskStatus.READY, max_attempts=2, idempotency_key="k", payload={"x": 1}))
+    service = ControlPlaneService(repo)
+    lease = service.claim("t", "agent-a", 1)
+    expired_at = lease.expires_at + 1
+    changed = ControlPlaneReconciler(repo).reconcile_once(now=expired_at)
+
+    task = repo.get_task("t")
+    persisted_lease = repo.get_lease_for_task("t")
+    assert changed == ("t",)
+    assert persisted_lease.status is LeaseStatus.EXPIRED
+    assert task.status is TaskStatus.RETRY_WAIT
+    assert task.attempt == 1
+    assert task.retry_not_before == expired_at + 15.0
+    assert len(repo.list_executions()) == 0
+
+    # A second reconciliation cannot re-expire the same lease or increment the attempt.
+    changed_again = ControlPlaneReconciler(repo).reconcile_once(now=expired_at + 1)
+    assert changed_again == ()
+    assert repo.get_task("t").attempt == 1
+    assert len(repo.list_executions()) == 0
+
+
+def test_reconciler_expiry_exhausts_attempts_without_duplicate_execution(tmp_path):
+    from runtime.mediahub_control_plane.reconciler import ControlPlaneReconciler
+
+    now = [100.0]
+    repo = SQLiteControlPlaneRepository(tmp_path / "control-plane.db", clock=lambda: now[0])
+    repo.create_task(Task("t", "build", status=TaskStatus.READY, max_attempts=1, idempotency_key="k", payload={"x": 1}))
+    lease = ControlPlaneService(repo).claim("t", "agent-a", 1)
+    reconciler = ControlPlaneReconciler(repo)
+    reconciler.reconcile_once(now=lease.expires_at + 1)
+
+    assert repo.get_task("t").status is TaskStatus.EXPIRED
+    assert repo.get_task("t").attempt == 1
+    assert repo.get_lease_for_task("t").status is LeaseStatus.EXPIRED
+    assert len(repo.list_executions()) == 0
