@@ -19,7 +19,7 @@ from pathlib import Path
 from ops.ai.task_lease import ORPHANED, LeaseDenied, TaskLease, classify_lease_record
 
 ROOT = Path(os.environ.get("MEDIAHUB_ROOT", "/home/mediahub/dev/mediahub-os-autonomous")).resolve()
-MODEL = Path("/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf")
+MODEL = Path(os.environ.get("MEDIAHUB_LOCAL_MODEL", "/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf")).expanduser()
 LOCAL_AI_URL = os.environ.get("MEDIAHUB_AI_URL", "http://127.0.0.1:8081/v1/chat/completions")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
 FCM_ROUTER_URL = os.environ.get("MEDIAHUB_FCM_ROUTER_URL", "http://127.0.0.1:19280/v1/chat/completions")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
 FCM_ROUTER_ENABLED = os.environ.get("MEDIAHUB_FCM_ROUTER", "1") == "1"
