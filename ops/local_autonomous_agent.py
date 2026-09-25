@@ -3301,7 +3301,7 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
         return unified_patch("", content, target)
 
     if task.fallback_kind == "release-evidence-reconciliation":
-        target = task.target
+        target = ROOT / task.target
         phase = task.queue_item.split()[0]
         if not target.parent.exists():
             target.parent.mkdir(parents=True, exist_ok=True)
