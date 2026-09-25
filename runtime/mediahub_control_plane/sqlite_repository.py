@@ -113,6 +113,51 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
                                r["status"], _unjson(r["result"]), r["failure_class"])
                      for r in rows)
 
+    def _insert_event_audit(self, db, event, audit):
+        db.execute("INSERT INTO events VALUES(?,?,?,?,?,?,?)", (event.event_id,event.event_type,event.timestamp,event.entity_type,event.entity_id,_json(event.payload),event.correlation_id))
+        db.execute("INSERT INTO audit VALUES(?,?,?,?,?,?,?,?,?,?)", (audit.event_id,audit.timestamp,audit.actor,audit.action,audit.resource,audit.resource_id,audit.previous_state,audit.new_state,audit.result,audit.correlation_id))
+
+    def claim_and_start(self, task_id, agent_id, generation, max_concurrency=None, event=None, audit=None):
+        import uuid
+        now = self.now()
+        with self._connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            row = db.execute("SELECT * FROM tasks WHERE task_id=?", (task_id,)).fetchone()
+            if not row: raise KeyError(task_id)
+            if TaskStatus(row["status"]) is not TaskStatus.READY: raise ValueError("task not claimable")
+            if db.execute("SELECT 1 FROM leases WHERE task_id=? AND status IN ('ACTIVE','RENEWED','EXPIRING')", (task_id,)).fetchone(): raise ValueError("task already leased")
+            if max_concurrency is not None:
+                if max_concurrency <= 0: raise ValueError("max_concurrency must be positive")
+                count = db.execute("SELECT COUNT(*) FROM leases WHERE agent_id=? AND status IN ('ACTIVE','RENEWED','EXPIRING')", (agent_id,)).fetchone()[0]
+                if count >= max_concurrency: raise ValueError("agent capacity exhausted")
+            validate_task_transition(TaskStatus(row["status"]), TaskStatus.CLAIMED)
+            validate_task_transition(TaskStatus.CLAIMED, TaskStatus.RUNNING)
+            lease = Lease(str(uuid.uuid4()), task_id, agent_id, now, now + 60.0, now, generation, LeaseStatus.ACTIVE)
+            db.execute("UPDATE tasks SET status=? WHERE task_id=?", (TaskStatus.RUNNING.value, task_id))
+            db.execute("INSERT INTO leases VALUES(?,?,?,?,?,?,?,?)", (lease.lease_id,task_id,agent_id,now,lease.expires_at,now,generation,lease.status.value))
+            if event is not None and audit is not None:
+                self._insert_event_audit(db, event, audit)
+            db.commit()
+        return lease
+
+    def complete_atomic(self, task_id, agent_id, generation, lease_id, execution, event, audit):
+        with self._connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            lease = db.execute("SELECT * FROM leases WHERE lease_id=?", (lease_id,)).fetchone()
+            now = self.now()
+            if (not lease or lease["task_id"] != task_id or lease["agent_id"] != agent_id or
+                lease["generation"] != generation or lease["status"] not in ('ACTIVE','RENEWED') or now >= lease["expires_at"]):
+                raise PermissionError("stale lease owner")
+            task = db.execute("SELECT * FROM tasks WHERE task_id=?", (task_id,)).fetchone()
+            validate_task_transition(TaskStatus(task["status"]), TaskStatus.VERIFYING)
+            validate_task_transition(TaskStatus.VERIFYING, TaskStatus.SUCCEEDED)
+            db.execute("INSERT OR IGNORE INTO executions VALUES(?,?,?,?,?,?,?)", (execution.execution_id,execution.task_id,execution.agent_id,execution.lease_generation,execution.status,_json(execution.result),execution.failure_class.value if execution.failure_class else None))
+            db.execute("UPDATE tasks SET status=? WHERE task_id=?", (TaskStatus.SUCCEEDED.value, task_id))
+            db.execute("UPDATE leases SET status=? WHERE lease_id=?", (LeaseStatus.RELEASED.value, lease_id))
+            self._insert_event_audit(db, event, audit)
+            db.commit()
+        return execution
+
     def claim_task(self, task_id, agent_id, generation, max_concurrency=None):
         import uuid
         now = self.now()

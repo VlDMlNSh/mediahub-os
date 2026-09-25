@@ -19,11 +19,19 @@ class ControlPlaneService:
         if task is None: raise KeyError(task_id)
         validate_task_transition(task.status,TaskStatus.READY); self.repository.update_task(replace(task,status=TaskStatus.READY))
     def claim(self, task_id, agent_id, generation):
+        event_id=str(uuid4()); timestamp=monotonic()
+        event=Event(event_id,'TaskClaimed',timestamp,'task',task_id,{'agent_id':agent_id})
+        audit=AuditRecord(event_id,timestamp,agent_id,'TaskClaimed','task',task_id,'READY','RUNNING','RECORDED')
         try:
-            lease=self.repository.claim_task(task_id,agent_id,generation)
+            if hasattr(self.repository,'claim_and_start'):
+                lease=self.repository.claim_and_start(task_id,agent_id,generation,event=event,audit=audit)
+            else:
+                lease=self.repository.claim_task(task_id,agent_id,generation)
+                self._transition(task_id,TaskStatus.RUNNING)
+                self.repository.append_event(event); self.repository.append_audit(audit)
         except (ValueError,PermissionError):
             self.metrics.inc('claim_conflicts'); raise
-        self.metrics.inc('claims'); self._transition(task_id,TaskStatus.RUNNING); return lease
+        self.metrics.inc('claims'); return lease
     def complete(self, task_id, agent_id, generation, result=None, lease_id=None):
         lease=self.repository.get_lease_for_task(task_id)
         if lease is None: raise KeyError(task_id)
@@ -33,8 +41,15 @@ class ControlPlaneService:
             self.repository.assert_lease_owner(lease.lease_id,agent_id,generation)
         except PermissionError:
             self.metrics.inc('fencing_failures'); raise
-        execution=Execution(str(uuid4()),task_id,agent_id,generation,'SUCCEEDED',result); self.repository.record_execution(execution)
-        self._transition(task_id,TaskStatus.VERIFYING); self._transition(task_id,TaskStatus.SUCCEEDED); self.repository.release_lease(lease.lease_id,agent_id,generation); self._record('TaskSucceeded',task_id,agent_id,'SUCCEEDED'); return execution
+        execution=Execution(str(uuid4()),task_id,agent_id,generation,'SUCCEEDED',result)
+        event_id=str(uuid4()); timestamp=monotonic()
+        event=Event(event_id,'TaskSucceeded',timestamp,'task',task_id,{'agent_id':agent_id})
+        audit=AuditRecord(event_id,timestamp,agent_id,'TaskSucceeded','task',task_id,'RUNNING','SUCCEEDED','RECORDED')
+        if hasattr(self.repository,'complete_atomic'):
+            execution=self.repository.complete_atomic(task_id,agent_id,generation,lease.lease_id,execution,event,audit)
+        else:
+            self.repository.record_execution(execution); self._transition(task_id,TaskStatus.VERIFYING); self._transition(task_id,TaskStatus.SUCCEEDED); self.repository.release_lease(lease.lease_id,agent_id,generation); self.repository.append_event(event); self.repository.append_audit(audit)
+        return execution
     def fail(self, task_id, agent_id, generation, reason='EXECUTION_FAILED', failure_class: FailureClass = FailureClass.TASK, lease_id=None):
         lease=self.repository.get_lease_for_task(task_id)
         if lease is None: raise PermissionError('no authoritative lease')

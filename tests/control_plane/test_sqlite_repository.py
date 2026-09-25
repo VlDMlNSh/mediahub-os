@@ -1,6 +1,10 @@
+import multiprocessing
+import sqlite3
+
 import pytest
 
 from runtime.mediahub_control_plane.model import AuditRecord, Event, Execution, Task, TaskStatus
+from runtime.mediahub_control_plane.service import ControlPlaneService
 from runtime.mediahub_control_plane.sqlite_repository import SQLiteControlPlaneRepository
 
 
@@ -53,3 +57,45 @@ def test_event_and_audit_append_are_idempotent(tmp_path):
     assert repo.append_event(event) == event
     assert repo.append_audit(audit) == audit
     assert repo.append_audit(audit) == audit
+
+
+def _claim_worker(path, agent_id, output):
+    repo = SQLiteControlPlaneRepository(path)
+    try:
+        lease = repo.claim_and_start("t", agent_id, 1)
+        output.put((agent_id, "ok", lease.lease_id))
+    except ValueError:
+        output.put((agent_id, "conflict", None))
+
+
+def test_claim_and_start_has_single_winner_across_processes(tmp_path):
+    path = str(tmp_path / "control-plane.db")
+    repo = SQLiteControlPlaneRepository(path)
+    ready(repo)
+    ctx = multiprocessing.get_context("fork")
+    output = ctx.Queue()
+    workers = [ctx.Process(target=_claim_worker, args=(path, agent, output)) for agent in ("agent-a", "agent-b")]
+    for worker in workers:
+        worker.start()
+    results = [output.get(timeout=5) for _ in workers]
+    for worker in workers:
+        worker.join(timeout=5)
+    assert sorted(result[1] for result in results) == ["conflict", "ok"]
+    assert repo.get_task("t").status is TaskStatus.RUNNING
+    assert len(repo.list_leases()) == 1
+
+
+def test_complete_atomic_rolls_back_all_state_on_audit_constraint_failure(tmp_path):
+    path = tmp_path / "control-plane.db"
+    repo = SQLiteControlPlaneRepository(path)
+    ready(repo)
+    service = ControlPlaneService(repo)
+    lease = service.claim("t", "agent-a", 1)
+    execution = Execution("exec", "t", "agent-a", 1, "SUCCEEDED", {"ok": True})
+    bad_event = Event("event", None, 1.0, "task", "t")
+    bad_audit = AuditRecord("event", 1.0, "agent-a", "complete", "task", "t", "RUNNING", "SUCCEEDED", "RECORDED")
+    with pytest.raises(sqlite3.IntegrityError):
+        repo.complete_atomic("t", "agent-a", 1, lease.lease_id, execution, bad_event, bad_audit)
+    assert repo.get_task("t").status is TaskStatus.RUNNING
+    assert repo.get_lease_for_task("t").status.value == "ACTIVE"
+    assert repo.list_executions() == ()
