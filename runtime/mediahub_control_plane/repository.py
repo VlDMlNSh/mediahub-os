@@ -10,6 +10,11 @@ class ControlPlaneRepository:
     def record_execution(self, execution: Execution) -> Execution: raise NotImplementedError
     def append_event(self, event: Event) -> Event: raise NotImplementedError
     def append_audit(self, record: AuditRecord) -> AuditRecord: raise NotImplementedError
+    def update_task(self, task: Task) -> Task: raise NotImplementedError
+    def get_lease_for_task(self, task_id: str) -> Lease | None: raise NotImplementedError
+    def assert_lease_owner(self, lease_id: str, agent_id: str, generation: int) -> None: raise NotImplementedError
+    def release_lease(self, lease_id: str, agent_id: str, generation: int) -> Lease: raise NotImplementedError
+    def expire_lease(self, lease_id: str, now: float) -> Lease: raise NotImplementedError
 
 class InMemoryControlPlaneRepository(ControlPlaneRepository):
     """Deterministic reference repository; not durable production persistence."""
@@ -60,3 +65,35 @@ class InMemoryControlPlaneRepository(ControlPlaneRepository):
         with self._lock:
             if record.event_id in self.audit: return self.audit[record.event_id]
             self.audit[record.event_id]=record; return record
+    def update_task(self, task):
+        from .model import validate_task_transition
+        with self._lock:
+            current=self.tasks.get(task.task_id)
+            if current is None: raise KeyError(task.task_id)
+            validate_task_transition(current.status, task.status)
+            self.tasks[task.task_id]=task; return task
+    def get_lease_for_task(self, task_id):
+        with self._lock:
+            lid=self._lease_by_task.get(task_id)
+            return self.leases.get(lid) if lid else None
+    def assert_lease_owner(self, lease_id, agent_id, generation):
+        import time
+        with self._lock:
+            lease=self.leases.get(lease_id)
+            if not lease or lease.agent_id != agent_id or lease.generation != generation or lease.status not in (LeaseStatus.ACTIVE, LeaseStatus.RENEWED) or time.monotonic() >= lease.expires_at:
+                raise PermissionError('stale lease owner')
+    def release_lease(self, lease_id, agent_id, generation):
+        from dataclasses import replace
+        with self._lock:
+            lease=self.leases.get(lease_id)
+            if not lease or lease.agent_id != agent_id or lease.generation != generation: raise PermissionError('stale lease owner')
+            if lease.status not in (LeaseStatus.ACTIVE, LeaseStatus.RENEWED): raise ValueError('lease not releasable')
+            lease=replace(lease,status=LeaseStatus.RELEASED); self.leases[lease_id]=lease; self._lease_by_task.pop(lease.task_id,None); return lease
+    def expire_lease(self, lease_id, now):
+        from dataclasses import replace
+        with self._lock:
+            lease=self.leases.get(lease_id)
+            if not lease: raise KeyError(lease_id)
+            if now < lease.expires_at: raise ValueError('lease has not expired')
+            if lease.status not in (LeaseStatus.ACTIVE, LeaseStatus.RENEWED, LeaseStatus.EXPIRING): raise ValueError('lease not expirable')
+            lease=replace(lease,status=LeaseStatus.EXPIRED); self.leases[lease_id]=lease; return lease
