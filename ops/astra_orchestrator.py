@@ -29,6 +29,8 @@ LOOP_PIDFILE = STATE / "loop.pid"
 CONTROLLER_PIDFILE = STATE / "controller.pid"
 COMMAND_BUS = ROOT / "ops" / "astra_command_bus.py"
 COMMAND_BUS_PIDFILE = STATE / "astra_command_bus.pid"
+FCM_RECONCILER = ROOT / "ops" / "fcm_model_reconciler.py"
+FCM_RECONCILER_PIDFILE = STATE / "fcm_model_reconciler.pid"
 
 class AstraState:
     def __init__(self) -> None:
@@ -135,6 +137,15 @@ def _start_command_bus() -> None:
         stderr=subprocess.DEVNULL,
     )
 
+def _start_fcm_reconciler() -> None:
+    subprocess.Popen(  # nosec B603
+        ["/usr/bin/python3", str(FCM_RECONCILER)],
+        cwd=ROOT,
+        start_new_session=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
 def _start_hybrid() -> None:
     subprocess.Popen(  # nosec B603
         ["/usr/bin/python3", str(HYBRID_SCRIPT)],
@@ -168,9 +179,14 @@ def run() -> int:
             loop_pid = _owned_pid(LOOP_PIDFILE, "autonomous_os_loop.sh") or _find_process(LOOP_SCRIPT)
             hybrid_pid = _owned_pid(CONTROLLER_PIDFILE, "hybrid_orchestrator.py") or _find_process(HYBRID_SCRIPT)
             command_bus_pid = _find_process(COMMAND_BUS)
+            fcm_pid = _owned_pid(FCM_RECONCILER_PIDFILE, "fcm_model_reconciler.py") or _find_process(FCM_RECONCILER)
             if command_bus_pid is None:
                 state.last_action = "RECONCILE_COMMAND_BUS_START"
                 _start_command_bus()
+
+            if fcm_pid is None:
+                state.last_action = "RECONCILE_FCM_MODEL_DISCOVERY_START"
+                _start_fcm_reconciler()
 
             if not STOPFILE.exists() and loop_pid is None:
                 state.last_action = "RECONCILE_LOOP_START"
