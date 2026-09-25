@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 
-from .model import Agent, AgentStatus
+from .model import Agent, AgentStatus, CircuitState
 
 
 @dataclass(frozen=True)
@@ -36,6 +36,7 @@ class AgentRegistry:
         self.failure_quarantine_threshold = failure_quarantine_threshold
         self._failure_counts: dict[str, int] = {}
         self._quarantined: set[str] = set()
+        self._circuit: dict[str, CircuitState] = {}
         self._agents: dict[str, Agent] = {}
         self._last_heartbeat: dict[str, Heartbeat] = {}
 
@@ -47,6 +48,7 @@ class AgentRegistry:
         status = AgentStatus.ONLINE if agent.status == AgentStatus.REGISTERING else agent.status
         updated = replace(agent, status=status)
         self._agents[agent.agent_id] = updated
+        self._circuit.setdefault(agent.agent_id, CircuitState.CLOSED)
         return updated
 
     def heartbeat(self, beat: Heartbeat) -> Agent:
@@ -84,6 +86,7 @@ class AgentRegistry:
         self._failure_counts[agent_id] = count
         if count >= self.failure_quarantine_threshold and agent.status not in {AgentStatus.OFFLINE, AgentStatus.DRAINING}:
             self._quarantined.add(agent_id)
+            self._circuit[agent_id] = CircuitState.OPEN
             agent = replace(agent, status=AgentStatus.DEGRADED)
             self._agents[agent_id] = agent
         return agent
@@ -92,10 +95,17 @@ class AgentRegistry:
         agent = self._agents[agent_id]
         self._failure_counts[agent_id] = 0
         self._quarantined.discard(agent_id)
+        self._circuit[agent_id] = CircuitState.CLOSED
         if agent.status == AgentStatus.DEGRADED:
             agent = replace(agent, status=AgentStatus.IDLE)
             self._agents[agent_id] = agent
         return agent
+
+    def circuit_state(self, agent_id: str) -> CircuitState:
+        return self._circuit.get(agent_id, CircuitState.CLOSED)
+
+    def is_dispatch_allowed(self, agent_id: str) -> bool:
+        return self.circuit_state(agent_id) is CircuitState.CLOSED
 
     def failure_count(self, agent_id: str) -> int:
         return self._failure_counts.get(agent_id, 0)

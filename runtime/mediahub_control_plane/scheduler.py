@@ -24,8 +24,10 @@ class TaskScheduler:
         if task.status is not TaskStatus.READY: return ScheduleDecision(task.task_id,None,'task_not_ready')
         if self.dependency_resolver is not None and not self.dependency_resolver(task): return ScheduleDecision(task.task_id,None,'dependencies_blocked')
         agents=self.registry.all() if agents is None else agents; active_by_agent={} if active_by_agent is None else active_by_agent; failure_by_agent={} if failure_by_agent is None else failure_by_agent
-        candidates=[a for a in agents if self._eligible(a,task) and active_by_agent.get(a.agent_id,0)<self.max_concurrency_per_agent]
+        candidates=[a for a in agents if self._eligible(a,task) and self.registry.is_dispatch_allowed(a.agent_id) and active_by_agent.get(a.agent_id,0)<self.max_concurrency_per_agent]
         if not candidates:
+            compatible=[a for a in agents if (task.architecture is None or a.architecture == task.architecture) and set(task.required_capabilities).issubset(a.capabilities)]
+            if any(not self.registry.is_dispatch_allowed(a.agent_id) for a in compatible): return ScheduleDecision(task.task_id,None,'agent_circuit_open')
             if any(self._eligible(a,task) for a in agents): return ScheduleDecision(task.task_id,None,'agent_capacity_exhausted')
             return ScheduleDecision(task.task_id,None,'no_eligible_agent')
         # Least-loaded first prevents deterministic starvation while task_id remains the tie-break.

@@ -71,3 +71,14 @@ def test_scheduler_prefers_agent_with_fewer_task_failures_when_load_equal():
     s=TaskScheduler(r,max_concurrency_per_agent=2)
     t=Task('t','build',status=TaskStatus.READY,required_capabilities=('linux',))
     assert s.select(t,active_by_agent={'a1':0,'a2':0},failure_by_agent={'a1':2,'a2':0}).agent_id=='a2'
+
+
+def test_scheduler_reports_open_circuit_separately_from_capacity():
+    from runtime.mediahub_control_plane.model import Agent, AgentStatus, Task, TaskStatus
+    from runtime.mediahub_control_plane.agent_registry import AgentRegistry
+    registry=AgentRegistry(failure_quarantine_threshold=1)
+    registry.register(Agent('a','n','1',status=AgentStatus.IDLE,capabilities=('linux',)))
+    registry.record_failure('a')
+    from runtime.mediahub_control_plane.scheduler import TaskScheduler
+    decision=TaskScheduler(registry).select(Task('t','build',status=TaskStatus.READY,required_capabilities=('linux',)))
+    assert decision.reason == 'agent_circuit_open' and decision.agent_id is None

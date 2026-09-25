@@ -65,3 +65,13 @@ def test_healthy_heartbeat_recovers_infrastructure_degradation_but_not_quarantin
     assert r.get("a1").status == AgentStatus.DEGRADED
     assert r.heartbeat(Heartbeat("a1", "n1", t() + timedelta(seconds=33))).status == AgentStatus.DEGRADED
     assert r.record_success("a1").status == AgentStatus.IDLE
+
+
+def test_circuit_breaker_opens_only_for_quarantined_failures_and_closes_on_success():
+    from runtime.mediahub_control_plane.model import CircuitState
+    r=AgentRegistry(30,90,failure_quarantine_threshold=2)
+    r.register(agent(),t()); r.heartbeat(Heartbeat('a1','n1',t()))
+    assert r.circuit_state('a1') is CircuitState.CLOSED and r.is_dispatch_allowed('a1')
+    r.record_failure('a1'); assert r.circuit_state('a1') is CircuitState.CLOSED
+    r.record_failure('a1'); assert r.circuit_state('a1') is CircuitState.OPEN and not r.is_dispatch_allowed('a1')
+    r.record_success('a1'); assert r.circuit_state('a1') is CircuitState.CLOSED and r.is_dispatch_allowed('a1')
