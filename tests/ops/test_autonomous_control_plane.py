@@ -427,12 +427,22 @@ def test_fallback_patch_is_applyable_and_idempotent(tmp_path, monkeypatch):
     assert fallback_patch() == ""
 
 
-def test_safe_patch_rejects_wrong_target():
+def test_safe_patch_rejects_wrong_target(tmp_path, monkeypatch):
+    from ops import local_autonomous_agent as agent
+    target = tmp_path / "ops" / "mediahub_native_execution.py"
+    target.parent.mkdir(parents=True)
+    target.write_text("class NativeExecutionContract:\n", encoding="utf-8")
+    monkeypatch.setattr(agent, "ROOT", tmp_path)
     patch = fallback_patch().replace("ops/mediahub_native_execution.py", "tests/not_allowed.py")
     assert not safe_patch(patch)
 
 
-def test_safe_patch_rejects_multiple_targets():
+def test_safe_patch_rejects_multiple_targets(tmp_path, monkeypatch):
+    from ops import local_autonomous_agent as agent
+    target = tmp_path / "ops" / "mediahub_native_execution.py"
+    target.parent.mkdir(parents=True)
+    target.write_text("class NativeExecutionContract:\n", encoding="utf-8")
+    monkeypatch.setattr(agent, "ROOT", tmp_path)
     patch = fallback_patch()
     if not patch:
         return
@@ -440,7 +450,12 @@ def test_safe_patch_rejects_multiple_targets():
     assert not safe_patch(patch + extra)
 
 
-def test_safe_patch_rejects_new_file_rename_and_mode_changes():
+def test_safe_patch_rejects_new_file_rename_and_mode_changes(tmp_path, monkeypatch):
+    from ops import local_autonomous_agent as agent
+    target = tmp_path / "ops" / "mediahub_native_execution.py"
+    target.parent.mkdir(parents=True)
+    target.write_text("class NativeExecutionContract:\n", encoding="utf-8")
+    monkeypatch.setattr(agent, "ROOT", tmp_path)
     patch = fallback_patch()
     if not patch:
         return
@@ -449,7 +464,12 @@ def test_safe_patch_rejects_new_file_rename_and_mode_changes():
     assert not safe_patch(patch.replace("--- a/", "old mode 100644\n--- a/", 1))
 
 
-def test_safe_patch_rejects_protected_path_and_malformed_hunk():
+def test_safe_patch_rejects_protected_path_and_malformed_hunk(tmp_path, monkeypatch):
+    from ops import local_autonomous_agent as agent
+    target = tmp_path / "ops" / "mediahub_native_execution.py"
+    target.parent.mkdir(parents=True)
+    target.write_text("class NativeExecutionContract:\n", encoding="utf-8")
+    monkeypatch.setattr(agent, "ROOT", tmp_path)
     patch = fallback_patch()
     if not patch:
         return
