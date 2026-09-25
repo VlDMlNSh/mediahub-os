@@ -3306,8 +3306,8 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
         phase = task.queue_item.split()[0]
         if not target.parent.exists():
             target.parent.mkdir(parents=True, exist_ok=True)
-        head = subprocess.run([str(GIT), "rev-parse", "HEAD"], cwd=ROOT, text=True, capture_output=True, check=False).stdout.strip()
-        branch = subprocess.run([str(GIT), "branch", "--show-current"], cwd=ROOT, text=True, capture_output=True, check=False).stdout.strip()
+        head = run([str(GIT), "rev-parse", "HEAD"]).stdout.strip()
+        branch = run([str(GIT), "branch", "--show-current"]).stdout.strip()
         content = (
             f"# {task.queue_item} — bounded autonomous evidence\\n\\n"
             "Status: NOT CLOSED / evidence-only reconciliation\\n\\n"
