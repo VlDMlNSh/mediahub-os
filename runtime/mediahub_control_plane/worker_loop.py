@@ -21,9 +21,9 @@ class WorkerLoop:
     def __init__(self, repository, worker: WorkerRuntime, agent_id: str, generation: int,
                  executor_for: Callable[[str], Callable[[Any, Any], Any]],
                  verifier_for: Callable[[str], Callable[[Any], bool]],
-                 interval_seconds: float = 1.0):
-        if interval_seconds <= 0:
-            raise ValueError("interval_seconds must be positive")
+                 interval_seconds: float = 1.0, renewal_interval_seconds: float = 1.0):
+        if interval_seconds <= 0 or renewal_interval_seconds <= 0:
+            raise ValueError("interval_seconds and renewal_interval_seconds must be positive")
         self.repository = repository
         self.worker = worker
         self.agent_id = agent_id
@@ -31,6 +31,7 @@ class WorkerLoop:
         self.executor_for = executor_for
         self.verifier_for = verifier_for
         self.interval_seconds = interval_seconds
+        self.renewal_interval_seconds = renewal_interval_seconds
         self._stop = Event()
         self.stats = WorkerLoopStats()
 
@@ -46,8 +47,20 @@ class WorkerLoop:
             if task is None or task.status.name != "RUNNING":
                 continue
             try:
+                executor = self.executor_for(task.type)
+                def supervised_executor(payload, context):
+                    lost = Event()
+                    supervisor = LeaseRenewalSupervisor(context.renew, self.renewal_interval_seconds, lost.set)
+                    supervisor.start()
+                    try:
+                        result = executor(payload, context)
+                        if lost.is_set():
+                            raise LeaseLost("lease renewal lost during execution")
+                        return result
+                    finally:
+                        supervisor.stop()
                 self.worker.execute(task.task_id, self.agent_id, self.generation,
-                                    self.executor_for(task.type), self.verifier_for(task.type))
+                                    supervised_executor, self.verifier_for(task.type))
                 executed += 1
             except LeaseLost:
                 failures += 1
@@ -75,7 +88,7 @@ class LeaseRenewalSupervisor:
 
     def __init__(self, renew: Callable[[], Any], interval_seconds: float, on_lost: Callable[[], None]):
         if interval_seconds <= 0:
-            raise ValueError("interval_seconds must be positive")
+            raise ValueError("interval_seconds and renewal_interval_seconds must be positive")
         self.renew = renew
         self.interval_seconds = interval_seconds
         self.on_lost = on_lost
