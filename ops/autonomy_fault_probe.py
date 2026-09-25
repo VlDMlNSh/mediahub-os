@@ -89,7 +89,12 @@ def find_owned_process(fragment: str) -> int | None:
 def terminate_owned(pid: int, allowed: tuple[str, ...]) -> ProcIdentity:
     ident = fixed_identity(pid, allowed)
     os.kill(pid, signal.SIGTERM)
-    wait_until(lambda: proc_identity(pid) is None, timeout=8.0)
+    try:
+        wait_until(lambda: proc_identity(pid) is None, timeout=3.0)
+    except TimeoutError:
+        # Bounded escalation is limited to the already identity-fenced repository process.
+        os.kill(pid, signal.SIGKILL)
+        wait_until(lambda: proc_identity(pid) is None, timeout=5.0)
     return ident
 
 def scenario_astra_restart() -> dict:
