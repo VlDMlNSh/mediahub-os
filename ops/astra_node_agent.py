@@ -20,6 +20,18 @@ def atomic(path,data):
     tmp=path.with_suffix(".tmp")
     tmp.write_text(json.dumps(data,indent=2,sort_keys=True)+"\n")
     tmp.replace(path)
+def refresh_transport():
+    if os.environ.get("ASTRA_NODE_AUTO_SYNC", "1") != "1":
+        return True, "disabled"
+    r=run(["git","fetch","origin","engineering/mh21-sandbox-lifecycle-20260910"])
+    if r.returncode:
+        return False, (r.stderr or r.stdout)[-500:]
+    r=run(["git","merge","--ff-only","origin/engineering/mh21-sandbox-lifecycle-20260910"])
+    if r.returncode:
+        return False, (r.stderr or r.stdout)[-500:]
+    return True, "synced"
+
+
 def snapshot(action="STATUS",result="OK",detail=""):
     r=run(["git","rev-parse","HEAD"])
     clean=not bool(run(["git","status","--porcelain"]).stdout.strip())
@@ -59,6 +71,11 @@ def main():
     last=""
     while True:
         try:
+            synced, detail = refresh_transport()
+            if not synced:
+                snapshot("TRANSPORT","FAILED",detail)
+                time.sleep(INTERVAL)
+                continue
             cmd=json.loads(COMMAND.read_text()) if COMMAND.exists() else {}
             ident=str(cmd.get("command_id",""))
             action=str(cmd.get("action",""))
