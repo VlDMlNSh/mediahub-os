@@ -46,7 +46,7 @@ def _probe(spec: ExecutorSpec) -> dict:
     env_state = {key: ("PRESENT" if os.environ.get(key) else "ABSENT")
                  for key in spec.secret_requirements}
     if not path:
-        return {"name": spec.name, "command": spec.command, "status": "UNAVAILABLE",
+        return {"name": spec.name, "command": spec.command, "status": "UNINSTALLED",
                 "qualification": "UNQUALIFIED", "path": None,
                 "capabilities": list(spec.capabilities), "secret_requirements": env_state}
     try:
