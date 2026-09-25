@@ -67,3 +67,18 @@ class ControlPlaneService:
         event_id = str(uuid4())
         self.repository.append_event(Event(event_id, event_type, monotonic(), "task", task_id, {"agent_id": agent_id}))
         self.repository.append_audit(AuditRecord(event_id, monotonic(), agent_id, event_type, "task", task_id, None, None, result))
+
+    def dispatch_once(self, task_id: str, scheduler, generation: int):
+        """Select then atomically claim; a concurrent winner causes a clean retry signal."""
+        task = self.repository.get_task(task_id)
+        if task is None:
+            raise KeyError(task_id)
+        decision = scheduler.select(task)
+        if decision.agent_id is None:
+            return decision
+        try:
+            lease = self.repository.claim_task(task_id, decision.agent_id, generation)
+        except (ValueError, PermissionError):
+            return type(decision)(task_id, None, 'claim_lost_race')
+        self._transition(task_id, TaskStatus.RUNNING)
+        return lease
