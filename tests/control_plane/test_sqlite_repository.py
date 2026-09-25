@@ -172,3 +172,33 @@ def test_reconciler_expiry_exhausts_attempts_without_duplicate_execution(tmp_pat
     assert repo.get_task("t").attempt == 1
     assert repo.get_lease_for_task("t").status is LeaseStatus.EXPIRED
     assert len(repo.list_executions()) == 0
+
+
+def test_sqlite_runtime_vertical_slice_is_durable(tmp_path):
+    from runtime.mediahub_control_plane.worker import WorkerRuntime
+    from runtime.mediahub_control_plane.worker_loop import WorkerLoop
+
+    repo = SQLiteControlPlaneRepository(tmp_path / "control-plane.db")
+    service = ControlPlaneService(repo)
+    repo.create_task(Task("t", "build", status=TaskStatus.READY, max_attempts=2))
+    class Registry:
+        def all(self): return ()
+        def select(self, task, **kwargs): return None
+    class Scheduler:
+        max_concurrency_per_agent = 1
+        registry = Registry()
+        def order_ready(self, tasks): return tuple(tasks)
+        def select(self, task, **kwargs):
+            from types import SimpleNamespace
+            return SimpleNamespace(agent_id="agent-a")
+
+    lease = service.dispatch_once("t", Scheduler(), 7)
+    assert lease.agent_id == "agent-a"
+    assert repo.get_task("t").status is TaskStatus.RUNNING
+    reopened = SQLiteControlPlaneRepository(tmp_path / "control-plane.db")
+    loop = WorkerLoop(reopened, WorkerRuntime(ControlPlaneService(reopened)), "agent-a", 7,
+                      lambda _: lambda payload, ctx: "ok", lambda _: lambda result: result == "ok")
+    assert loop.run(max_polls=1).executed == 1
+    final = SQLiteControlPlaneRepository(tmp_path / "control-plane.db")
+    assert final.get_task("t").status is TaskStatus.SUCCEEDED
+    assert final.get_lease_for_task("t") is None

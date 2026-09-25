@@ -92,10 +92,17 @@ class ControlPlaneService:
         if decision.agent_id is None:
             self.metrics.inc('dispatch_rejections'); return decision
         try:
-            lease=self.repository.claim_task(task_id,decision.agent_id,generation,scheduler.max_concurrency_per_agent)
+            event_id=str(uuid4()); timestamp=monotonic()
+            event=Event(event_id,'TaskClaimed',timestamp,'task',task_id,{'agent_id':decision.agent_id})
+            audit=AuditRecord(event_id,timestamp,decision.agent_id,'TaskClaimed','task',task_id,'READY','RUNNING','RECORDED')
+            if hasattr(self.repository,'claim_and_start'):
+                lease=self.repository.claim_and_start(task_id,decision.agent_id,generation,event=event,audit=audit)
+            else:
+                lease=self.repository.claim_task(task_id,decision.agent_id,generation,scheduler.max_concurrency_per_agent)
+                self._transition(task_id,TaskStatus.RUNNING)
+                self.repository.append_event(event); self.repository.append_audit(audit)
         except (ValueError,PermissionError) as exc:
             self.metrics.inc('claim_conflicts')
             reason='agent_capacity_exhausted' if 'capacity' in str(exc) else 'claim_lost_race'
             self.metrics.inc('dispatch_rejections'); return type(decision)(task_id,None,reason)
-        self.metrics.inc('claims'); self.metrics.inc('dispatch_successes')
-        self._transition(task_id,TaskStatus.RUNNING); return lease
+        self.metrics.inc('claims'); self.metrics.inc('dispatch_successes'); return lease

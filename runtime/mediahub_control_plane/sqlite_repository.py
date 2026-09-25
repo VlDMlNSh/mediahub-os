@@ -221,7 +221,7 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
     def get_lease_for_task(self, task_id):
         with self._connect() as db:
             row = db.execute("SELECT * FROM leases WHERE task_id=? ORDER BY created_at DESC LIMIT 1", (task_id,)).fetchone()
-        return self._lease(row) if row else None
+        return self._lease(row) if row and row["status"] != LeaseStatus.RELEASED.value else None
 
     def assert_lease_owner(self, lease_id, agent_id, generation):
         now = self.now()
