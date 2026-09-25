@@ -44,7 +44,12 @@ class InMemoryControlPlaneRepository(ControlPlaneRepository):
             task=self.tasks.get(task_id)
             if task is None: raise KeyError(task_id)
             if task.status is not TaskStatus.READY: raise ValueError('task not claimable')
-            if task_id in self._lease_by_task: raise ValueError('task already leased')
+            if task_id in self._lease_by_task:
+                existing=self.leases.get(self._lease_by_task[task_id])
+                if existing is not None and existing.status is LeaseStatus.EXPIRED:
+                    self._lease_by_task.pop(task_id)
+                else:
+                    raise ValueError('task already leased')
             if max_concurrency is not None and max_concurrency <= 0: raise ValueError('max_concurrency must be positive')
             if max_concurrency is not None:
                 active=sum(1 for l in self.leases.values() if l.agent_id == agent_id and l.status in (LeaseStatus.ACTIVE,LeaseStatus.RENEWED,LeaseStatus.EXPIRING))

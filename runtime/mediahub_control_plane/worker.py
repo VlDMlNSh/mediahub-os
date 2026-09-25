@@ -28,9 +28,9 @@ class WorkerRuntime:
         self.clock = clock
         self.completed_tasks = 0
 
-    def _best_effort_fail(self, task_id: str, agent_id: str, generation: int, reason: str) -> None:
+    def _best_effort_fail(self, task_id: str, agent_id: str, generation: int, reason: str, lease_id: str) -> None:
         try:
-            self.service.fail(task_id, agent_id, generation, reason, FailureClass.INFRASTRUCTURE if reason == "LEASE_LOST" else FailureClass.TASK)
+            self.service.fail(task_id, agent_id, generation, reason, FailureClass.INFRASTRUCTURE if reason == "LEASE_LOST" else FailureClass.TASK, lease_id=lease_id)
         except PermissionError:
             # Once fencing rejects us, the worker is no longer authoritative.
             pass
@@ -58,10 +58,10 @@ class WorkerRuntime:
 
         def renew() -> Lease:
             current = self.service.repository.get_lease_for_task(task_id)
-            if current is None:
-                raise LeaseLost("lease disappeared")
+            if current is None or current.lease_id != lease.lease_id:
+                raise LeaseLost("lease identity changed")
             try:
-                self.service.repository.assert_lease_owner(current.lease_id, agent_id, generation)
+                self.service.repository.assert_lease_owner(lease.lease_id, agent_id, generation)
                 duration = current.expires_at - current.last_renewed_at
                 return self.service.repository.renew_lease(
                     current.lease_id, agent_id, generation, self.clock() + duration
@@ -74,25 +74,25 @@ class WorkerRuntime:
             result = executor(task.payload, context)
             self.service.repository.assert_lease_owner(lease.lease_id, agent_id, generation)
         except LeaseLost:
-            self._best_effort_fail(task_id, agent_id, generation, "LEASE_LOST")
+            self._best_effort_fail(task_id, agent_id, generation, "LEASE_LOST", lease.lease_id)
             raise
         except PermissionError as exc:
-            self._best_effort_fail(task_id, agent_id, generation, "LEASE_LOST")
+            self._best_effort_fail(task_id, agent_id, generation, "LEASE_LOST", lease.lease_id)
             raise LeaseLost("lease ownership lost during execution") from exc
         except Exception:
-            self._best_effort_fail(task_id, agent_id, generation, "EXECUTION_FAILED")
+            self._best_effort_fail(task_id, agent_id, generation, "EXECUTION_FAILED", lease.lease_id)
             raise
 
         try:
             verified = bool(verifier(result))
         except Exception:
-            self._best_effort_fail(task_id, agent_id, generation, "VERIFICATION_FAILED")
+            self._best_effort_fail(task_id, agent_id, generation, "VERIFICATION_FAILED", lease.lease_id)
             raise
         if not verified:
-            self._best_effort_fail(task_id, agent_id, generation, "VERIFICATION_FAILED")
+            self._best_effort_fail(task_id, agent_id, generation, "VERIFICATION_FAILED", lease.lease_id)
             raise ValueError("execution verification failed")
 
-        execution = self.service.complete(task_id, agent_id, generation, result)
+        execution = self.service.complete(task_id, agent_id, generation, result, lease_id=lease.lease_id)
         self.completed_tasks += 1
         return execution
 

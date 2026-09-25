@@ -136,3 +136,31 @@ def test_failure_class_is_recorded_and_task_failures_do_not_quarantine():
     execution=repo.list_executions()[0]
     assert execution.failure_class is FailureClass.TASK
     assert registry.failure_count('a') == 0
+
+
+def test_stale_worker_cannot_complete_reclaimed_lease_with_same_generation():
+    from runtime.mediahub_control_plane.reconciler import ControlPlaneReconciler
+
+    repo = InMemoryControlPlaneRepository()
+    service = ControlPlaneService(repo)
+    repo.create_task(Task("t", "build", status=TaskStatus.READY, max_attempts=2))
+    first = service.claim("t", "a", 1)
+    worker = WorkerRuntime(service)
+    reclaimed = {}
+
+    def executor(payload, context):
+        reconciler = ControlPlaneReconciler(repo)
+        reconciler.reconcile_once(first.expires_at)
+        retry_task = repo.get_task("t")
+        reconciler.reconcile_once(retry_task.retry_not_before + 0.001)
+        reclaimed["lease"] = service.claim("t", "a", 1)
+        return "stale-result"
+
+    with pytest.raises(LeaseLost, match="lease ownership lost"):
+        worker.execute("t", "a", 1, executor, lambda result: True)
+
+    assert reclaimed["lease"].lease_id != first.lease_id
+    assert repo.get_task("t").status is TaskStatus.RUNNING
+    assert repo.get_lease_for_task("t").lease_id == reclaimed["lease"].lease_id
+    assert repo.list_executions() == ()
+    assert service.metrics.snapshot().fencing_failures >= 1

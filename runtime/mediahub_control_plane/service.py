@@ -22,18 +22,22 @@ class ControlPlaneService:
         except (ValueError,PermissionError):
             self.metrics.inc('claim_conflicts'); raise
         self.metrics.inc('claims'); self._transition(task_id,TaskStatus.RUNNING); return lease
-    def complete(self, task_id, agent_id, generation, result=None):
+    def complete(self, task_id, agent_id, generation, result=None, lease_id=None):
         lease=self.repository.get_lease_for_task(task_id)
         if lease is None: raise KeyError(task_id)
+        if lease_id is not None and lease.lease_id != lease_id:
+            self.metrics.inc('fencing_failures'); raise PermissionError('stale lease identity')
         try:
             self.repository.assert_lease_owner(lease.lease_id,agent_id,generation)
         except PermissionError:
             self.metrics.inc('fencing_failures'); raise
         execution=Execution(str(uuid4()),task_id,agent_id,generation,'SUCCEEDED',result); self.repository.record_execution(execution)
         self._transition(task_id,TaskStatus.VERIFYING); self._transition(task_id,TaskStatus.SUCCEEDED); self.repository.release_lease(lease.lease_id,agent_id,generation); self._record('TaskSucceeded',task_id,agent_id,'SUCCEEDED'); return execution
-    def fail(self, task_id, agent_id, generation, reason='EXECUTION_FAILED', failure_class: FailureClass = FailureClass.TASK):
+    def fail(self, task_id, agent_id, generation, reason='EXECUTION_FAILED', failure_class: FailureClass = FailureClass.TASK, lease_id=None):
         lease=self.repository.get_lease_for_task(task_id)
         if lease is None: raise PermissionError('no authoritative lease')
+        if lease_id is not None and lease.lease_id != lease_id:
+            self.metrics.inc('fencing_failures'); raise PermissionError('stale lease identity')
         try:
             self.repository.assert_lease_owner(lease.lease_id,agent_id,generation)
         except PermissionError:
