@@ -1,7 +1,7 @@
 {
-  "action": "STATUS",
-  "command_id": "640993d2-0af5-42d0-85db-dad0eee5e260",
-  "expires_at": "2026-09-25T09:43:15Z",
   "schema": 1,
-  "target": "dev2"
+  "command_id": "transport-verify-20260925T1020Z",
+  "target": "dev2",
+  "action": "STATUS",
+  "expires_at": "2026-09-25T12:00:00Z"
 }
