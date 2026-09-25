@@ -202,3 +202,38 @@ def test_sqlite_runtime_vertical_slice_is_durable(tmp_path):
     final = SQLiteControlPlaneRepository(tmp_path / "control-plane.db")
     assert final.get_task("t").status is TaskStatus.SUCCEEDED
     assert final.get_lease_for_task("t") is None
+
+
+def test_schema_version_is_fail_closed(tmp_path):
+    path = tmp_path / "future.db"
+    db = sqlite3.connect(path)
+    db.execute("CREATE TABLE meta(key TEXT PRIMARY KEY, value TEXT NOT NULL)")
+    db.execute("INSERT INTO meta VALUES('schema_version','999')")
+    db.commit(); db.close()
+    with pytest.raises(RuntimeError, match="unsupported control-plane schema"):
+        SQLiteControlPlaneRepository(path)
+
+
+def test_partial_schema_is_fail_closed(tmp_path):
+    path = tmp_path / "partial.db"
+    db = sqlite3.connect(path)
+    db.execute("CREATE TABLE tasks(task_id TEXT PRIMARY KEY)")
+    db.commit(); db.close()
+    with pytest.raises(RuntimeError, match="schema mismatch"):
+        SQLiteControlPlaneRepository(path)
+
+
+def test_unmarked_but_complete_schema_is_adopted_as_version_one(tmp_path):
+    path = tmp_path / "legacy.db"
+    db = sqlite3.connect(path)
+    db.executescript("""CREATE TABLE meta(key TEXT PRIMARY KEY, value TEXT NOT NULL);
+CREATE TABLE tasks(task_id TEXT PRIMARY KEY, idempotency_key TEXT UNIQUE, type TEXT NOT NULL, payload TEXT, priority INTEGER NOT NULL, status TEXT NOT NULL, dependencies TEXT NOT NULL, attempt INTEGER NOT NULL, max_attempts INTEGER NOT NULL, required_capabilities TEXT NOT NULL, architecture TEXT, retry_not_before REAL);
+CREATE TABLE leases(lease_id TEXT PRIMARY KEY, task_id TEXT NOT NULL, agent_id TEXT NOT NULL, created_at REAL NOT NULL, expires_at REAL NOT NULL, last_renewed_at REAL NOT NULL, generation INTEGER NOT NULL, status TEXT NOT NULL);
+CREATE TABLE executions(execution_id TEXT PRIMARY KEY, task_id TEXT NOT NULL, agent_id TEXT NOT NULL, lease_generation INTEGER NOT NULL, status TEXT NOT NULL, result TEXT, failure_class TEXT);
+CREATE TABLE events(event_id TEXT PRIMARY KEY, event_type TEXT NOT NULL, timestamp REAL NOT NULL, entity_type TEXT NOT NULL, entity_id TEXT NOT NULL, payload TEXT, correlation_id TEXT);
+CREATE TABLE audit(event_id TEXT PRIMARY KEY, timestamp REAL NOT NULL, actor TEXT NOT NULL, action TEXT NOT NULL, resource TEXT NOT NULL, resource_id TEXT NOT NULL, previous_state TEXT, new_state TEXT, result TEXT NOT NULL, correlation_id TEXT);""")
+    db.commit(); db.close()
+    SQLiteControlPlaneRepository(path)
+    db = sqlite3.connect(path)
+    assert db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == '1'
+    db.close()

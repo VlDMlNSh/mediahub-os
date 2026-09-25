@@ -44,6 +44,20 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
     """Durable repository; one SQLite database is the authoritative state store."""
 
     SCHEMA_VERSION = "1"
+    _REQUIRED_COLUMNS = {
+        "meta": {"key", "value"},
+        "tasks": {"task_id", "idempotency_key", "type", "payload", "priority", "status",
+                   "dependencies", "attempt", "max_attempts", "required_capabilities", "architecture",
+                   "retry_not_before"},
+        "leases": {"lease_id", "task_id", "agent_id", "created_at", "expires_at", "last_renewed_at",
+                   "generation", "status"},
+        "executions": {"execution_id", "task_id", "agent_id", "lease_generation", "status", "result",
+                       "failure_class"},
+        "events": {"event_id", "event_type", "timestamp", "entity_type", "entity_id", "payload",
+                   "correlation_id"},
+        "audit": {"event_id", "timestamp", "actor", "action", "resource", "resource_id",
+                  "previous_state", "new_state", "result", "correlation_id"},
+    }
 
     def __init__(self, path: str | Path, *, timeout: float = 5.0, clock=time.time):
         self.path = str(path)
@@ -53,11 +67,30 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
         if self.path != ":memory:":
             Path(self.path).parent.mkdir(parents=True, exist_ok=True)
         with self._connect() as db:
+            existing = {row[0] for row in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+            meta_exists = "meta" in existing
+            version_row = db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone() if meta_exists else None
+            if version_row is not None:
+                version = version_row[0]
+                if version != self.SCHEMA_VERSION:
+                    raise RuntimeError(f"unsupported control-plane schema: {version}")
+                self._assert_schema(db)
+                return
+            if existing - set(self._REQUIRED_COLUMNS):
+                raise RuntimeError("control-plane schema contains unknown tables; refusing implicit migration")
+            if existing:
+                self._assert_schema(db)
             db.executescript(_SCHEMA)
-            db.execute("INSERT OR IGNORE INTO meta(key,value) VALUES('schema_version',?)", (self.SCHEMA_VERSION,))
-            version = db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0]
-            if version != self.SCHEMA_VERSION:
-                raise RuntimeError(f"unsupported control-plane schema: {version}")
+            self._assert_schema(db)
+            db.execute("INSERT INTO meta(key,value) VALUES('schema_version',?)", (self.SCHEMA_VERSION,))
+
+    @classmethod
+    def _assert_schema(cls, db):
+        for table, required in cls._REQUIRED_COLUMNS.items():
+            columns = {row[1] for row in db.execute(f"PRAGMA table_info({table})")}
+            if not required.issubset(columns):
+                missing = sorted(required - columns)
+                raise RuntimeError(f"control-plane schema mismatch for {table}: missing {missing}")
 
     def _connect(self):
         db = sqlite3.connect(self.path, timeout=self.timeout, isolation_level=None)
