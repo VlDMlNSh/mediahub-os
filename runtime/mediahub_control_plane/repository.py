@@ -7,7 +7,7 @@ class ControlPlaneRepository:
     def get_task(self, task_id: str) -> Task|None: raise NotImplementedError
     def list_tasks(self) -> tuple[Task, ...]: raise NotImplementedError
     def list_leases(self) -> tuple[Lease, ...]: raise NotImplementedError
-    def claim_task(self, task_id: str, agent_id: str, generation: int) -> Lease: raise NotImplementedError
+    def claim_task(self, task_id: str, agent_id: str, generation: int, max_concurrency: int | None = None) -> Lease: raise NotImplementedError
     def renew_lease(self, lease_id: str, agent_id: str, generation: int, expires_at: float) -> Lease: raise NotImplementedError
     def record_execution(self, execution: Execution) -> Execution: raise NotImplementedError
     def append_event(self, event: Event) -> Event: raise NotImplementedError
@@ -35,32 +35,34 @@ class InMemoryControlPlaneRepository(ControlPlaneRepository):
         with self._lock: return tuple(self.tasks.values())
     def list_leases(self):
         with self._lock: return tuple(self.leases.values())
-    def claim_task(self, task_id, agent_id, generation):
+    def claim_task(self, task_id, agent_id, generation, max_concurrency=None):
         import time, uuid
         with self._lock:
             task=self.tasks.get(task_id)
             if task is None: raise KeyError(task_id)
             if task.status is not TaskStatus.READY: raise ValueError('task not claimable')
             if task_id in self._lease_by_task: raise ValueError('task already leased')
-            lease=Lease(str(uuid.uuid4()),task_id,agent_id,time.monotonic(),time.monotonic()+60,time.monotonic(),generation,LeaseStatus.ACTIVE)
+            if max_concurrency is not None and max_concurrency <= 0: raise ValueError('max_concurrency must be positive')
+            if max_concurrency is not None:
+                active=sum(1 for l in self.leases.values() if l.agent_id == agent_id and l.status in (LeaseStatus.ACTIVE,LeaseStatus.RENEWED,LeaseStatus.EXPIRING))
+                if active >= max_concurrency: raise ValueError('agent capacity exhausted')
+            now=time.monotonic(); lease=Lease(str(uuid.uuid4()),task_id,agent_id,now,now+60,now,generation,LeaseStatus.ACTIVE)
             from dataclasses import replace
             self.tasks[task_id]=replace(task, status=TaskStatus.CLAIMED)
             self.leases[lease.lease_id]=lease; self._lease_by_task[task_id]=lease.lease_id
             return lease
     def renew_lease(self, lease_id, agent_id, generation, expires_at):
-        import dataclasses
+        import dataclasses, time
         with self._lock:
             lease=self.leases.get(lease_id)
             if not lease: raise KeyError(lease_id)
             if lease.agent_id != agent_id or lease.generation != generation: raise PermissionError('stale lease owner')
             if lease.status not in (LeaseStatus.ACTIVE,LeaseStatus.RENEWED): raise ValueError('lease not renewable')
-            lease=dataclasses.replace(lease,expires_at=expires_at,last_renewed_at=__import__('time').monotonic(),status=LeaseStatus.RENEWED)
-            self.leases[lease_id]=lease; return lease
+            lease=dataclasses.replace(lease,expires_at=expires_at,last_renewed_at=time.monotonic(),status=LeaseStatus.RENEWED); self.leases[lease_id]=lease; return lease
     def record_execution(self, execution):
         with self._lock:
             if execution.execution_id in self.executions: return self.executions[execution.execution_id]
-            lease_id=self._lease_by_task.get(execution.task_id)
-            lease=self.leases.get(lease_id) if lease_id else None
+            lease_id=self._lease_by_task.get(execution.task_id); lease=self.leases.get(lease_id) if lease_id else None
             if not lease or lease.agent_id != execution.agent_id or lease.generation != execution.lease_generation: raise PermissionError('stale execution')
             self.executions[execution.execution_id]=execution; return execution
     def append_event(self,event):
@@ -76,18 +78,15 @@ class InMemoryControlPlaneRepository(ControlPlaneRepository):
         with self._lock:
             current=self.tasks.get(task.task_id)
             if current is None: raise KeyError(task.task_id)
-            validate_task_transition(current.status, task.status)
-            self.tasks[task.task_id]=task; return task
+            validate_task_transition(current.status, task.status); self.tasks[task.task_id]=task; return task
     def get_lease_for_task(self, task_id):
         with self._lock:
-            lid=self._lease_by_task.get(task_id)
-            return self.leases.get(lid) if lid else None
+            lid=self._lease_by_task.get(task_id); return self.leases.get(lid) if lid else None
     def assert_lease_owner(self, lease_id, agent_id, generation):
         import time
         with self._lock:
             lease=self.leases.get(lease_id)
-            if not lease or lease.agent_id != agent_id or lease.generation != generation or lease.status not in (LeaseStatus.ACTIVE, LeaseStatus.RENEWED) or time.monotonic() >= lease.expires_at:
-                raise PermissionError('stale lease owner')
+            if not lease or lease.agent_id != agent_id or lease.generation != generation or lease.status not in (LeaseStatus.ACTIVE, LeaseStatus.RENEWED) or time.monotonic() >= lease.expires_at: raise PermissionError('stale lease owner')
     def release_lease(self, lease_id, agent_id, generation):
         from dataclasses import replace
         with self._lock:
@@ -101,5 +100,5 @@ class InMemoryControlPlaneRepository(ControlPlaneRepository):
             lease=self.leases.get(lease_id)
             if not lease: raise KeyError(lease_id)
             if now < lease.expires_at: raise ValueError('lease has not expired')
-            if lease.status not in (LeaseStatus.ACTIVE, LeaseStatus.RENEWED, LeaseStatus.EXPIRING): raise ValueError('lease not expirable')
+            if lease.status not in (LeaseStatus.ACTIVE,LeaseStatus.RENEWED,LeaseStatus.EXPIRING): raise ValueError('lease not expirable')
             lease=replace(lease,status=LeaseStatus.EXPIRED); self.leases[lease_id]=lease; return lease

@@ -42,3 +42,14 @@ def test_scheduler_respects_per_agent_concurrency_capacity():
     t=Task('t','build',status=TaskStatus.READY,required_capabilities=('linux',))
     assert scheduler.select(t, active_by_agent={'a1': 1}).reason=='agent_capacity_exhausted'
     assert scheduler.select(t, active_by_agent={'a1': 0}).agent_id=='a1'
+
+
+def test_atomic_claim_enforces_capacity_at_repository_boundary():
+    r=AgentRegistry(30,90); r.register(Agent('a1','n1','1',AgentStatus.IDLE,('linux',)))
+    from runtime.mediahub_control_plane.repository import InMemoryControlPlaneRepository
+    repo=InMemoryControlPlaneRepository()
+    repo.create_task(Task('t1','x',status=TaskStatus.READY)); repo.create_task(Task('t2','x',status=TaskStatus.READY))
+    repo.claim_task('t1','a1',1,max_concurrency=1)
+    import pytest
+    with pytest.raises(ValueError, match='capacity'):
+        repo.claim_task('t2','a1',1,max_concurrency=1)

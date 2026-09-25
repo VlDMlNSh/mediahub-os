@@ -1,102 +1,57 @@
 from __future__ import annotations
-
 from dataclasses import replace
 from time import monotonic
 from uuid import uuid4
-
 from .model import AuditRecord, Execution, Event, TaskStatus, validate_task_transition
 from .repository import ControlPlaneRepository
 
-
 class ControlPlaneService:
     """Small deterministic coordinator for the first orchestration vertical slice."""
-
-    def __init__(self, repository: ControlPlaneRepository):
-        self.repository = repository
-
+    def __init__(self, repository: ControlPlaneRepository): self.repository=repository
     def mark_ready(self, task_id: str) -> None:
-        task = self.repository.get_task(task_id)
-        if task is None:
-            raise KeyError(task_id)
-        validate_task_transition(task.status, TaskStatus.READY)
-        self.repository.update_task(replace(task, status=TaskStatus.READY))
-
-    def claim(self, task_id: str, agent_id: str, generation: int):
-        lease = self.repository.claim_task(task_id, agent_id, generation)
-        self._transition(task_id, TaskStatus.RUNNING)
-        return lease
-
-    def complete(self, task_id: str, agent_id: str, generation: int, result=None):
-        lease = self.repository.get_lease_for_task(task_id)
-        if lease is None:
-            raise KeyError(task_id)
-        self.repository.assert_lease_owner(lease.lease_id, agent_id, generation)
-        execution = Execution(str(uuid4()), task_id, agent_id, generation, "SUCCEEDED", result)
-        self.repository.record_execution(execution)
-        self._transition(task_id, TaskStatus.VERIFYING)
-        self._transition(task_id, TaskStatus.SUCCEEDED)
-        self.repository.release_lease(lease.lease_id, agent_id, generation)
-        self._record("TaskSucceeded", task_id, agent_id, "SUCCEEDED")
-        return execution
-
-    def fail(self, task_id: str, agent_id: str, generation: int, reason: str = "EXECUTION_FAILED"):
-        """Record a worker-owned failure; retry while the attempt budget remains."""
-        lease = self.repository.get_lease_for_task(task_id)
-        if lease is None:
-            raise PermissionError("no authoritative lease")
-        self.repository.assert_lease_owner(lease.lease_id, agent_id, generation)
-        task = self.repository.get_task(task_id)
-        if task is None:
-            raise KeyError(task_id)
-        attempt = task.attempt + 1
-        self.repository.update_task(replace(task, attempt=attempt, status=TaskStatus.FAILED))
+        task=self.repository.get_task(task_id)
+        if task is None: raise KeyError(task_id)
+        validate_task_transition(task.status,TaskStatus.READY); self.repository.update_task(replace(task,status=TaskStatus.READY))
+    def claim(self, task_id, agent_id, generation):
+        lease=self.repository.claim_task(task_id,agent_id,generation); self._transition(task_id,TaskStatus.RUNNING); return lease
+    def complete(self, task_id, agent_id, generation, result=None):
+        lease=self.repository.get_lease_for_task(task_id)
+        if lease is None: raise KeyError(task_id)
+        self.repository.assert_lease_owner(lease.lease_id,agent_id,generation)
+        execution=Execution(str(uuid4()),task_id,agent_id,generation,'SUCCEEDED',result); self.repository.record_execution(execution)
+        self._transition(task_id,TaskStatus.VERIFYING); self._transition(task_id,TaskStatus.SUCCEEDED); self.repository.release_lease(lease.lease_id,agent_id,generation); self._record('TaskSucceeded',task_id,agent_id,'SUCCEEDED'); return execution
+    def fail(self, task_id, agent_id, generation, reason='EXECUTION_FAILED'):
+        lease=self.repository.get_lease_for_task(task_id)
+        if lease is None: raise PermissionError('no authoritative lease')
+        self.repository.assert_lease_owner(lease.lease_id,agent_id,generation); task=self.repository.get_task(task_id)
+        if task is None: raise KeyError(task_id)
+        attempt=task.attempt+1; self.repository.update_task(replace(task,attempt=attempt,status=TaskStatus.FAILED))
         if attempt < task.max_attempts:
-            task = self.repository.get_task(task_id)
-            self.repository.update_task(replace(task, status=TaskStatus.RETRY_WAIT))
-        self.repository.release_lease(lease.lease_id, agent_id, generation)
-        self._record("TaskFailed", task_id, agent_id, reason)
-        return self.repository.get_task(task_id)
-
-    def recover_expired(self, task_id: str, now: float | None = None) -> bool:
-        lease = self.repository.get_lease_for_task(task_id)
-        if lease is None:
-            return False
-        if now is None:
-            now = monotonic()
-        if now < lease.expires_at:
-            return False
-        self.repository.expire_lease(lease.lease_id, now)
-        task = self.repository.get_task(task_id)
-        if task is None:
-            raise KeyError(task_id)
-        if task.status in (TaskStatus.CLAIMED, TaskStatus.RUNNING):
-            self._transition(task_id, TaskStatus.EXPIRED)
-        self._record("LeaseExpired", task_id, lease.agent_id, "RECOVERY_REQUIRED")
-        return True
-
-    def _transition(self, task_id: str, target: TaskStatus) -> None:
-        task = self.repository.get_task(task_id)
-        if task is None:
-            raise KeyError(task_id)
-        validate_task_transition(task.status, target)
-        self.repository.update_task(replace(task, status=target))
-
-    def _record(self, event_type: str, task_id: str, agent_id: str, result: str) -> None:
-        event_id = str(uuid4())
-        self.repository.append_event(Event(event_id, event_type, monotonic(), "task", task_id, {"agent_id": agent_id}))
-        self.repository.append_audit(AuditRecord(event_id, monotonic(), agent_id, event_type, "task", task_id, None, None, result))
-
-    def dispatch_once(self, task_id: str, scheduler, generation: int):
-        """Select then atomically claim; a concurrent winner causes a clean retry signal."""
-        task = self.repository.get_task(task_id)
-        if task is None:
-            raise KeyError(task_id)
-        decision = scheduler.select(task)
-        if decision.agent_id is None:
-            return decision
+            self.repository.update_task(replace(self.repository.get_task(task_id),status=TaskStatus.RETRY_WAIT))
+        self.repository.release_lease(lease.lease_id,agent_id,generation); self._record('TaskFailed',task_id,agent_id,reason); return self.repository.get_task(task_id)
+    def recover_expired(self, task_id, now=None):
+        lease=self.repository.get_lease_for_task(task_id)
+        if lease is None: return False
+        now=monotonic() if now is None else now
+        if now < lease.expires_at: return False
+        self.repository.expire_lease(lease.lease_id,now); task=self.repository.get_task(task_id)
+        if task is None: raise KeyError(task_id)
+        if task.status in (TaskStatus.CLAIMED,TaskStatus.RUNNING): self._transition(task_id,TaskStatus.EXPIRED)
+        self._record('LeaseExpired',task_id,lease.agent_id,'RECOVERY_REQUIRED'); return True
+    def _transition(self, task_id, target):
+        task=self.repository.get_task(task_id)
+        if task is None: raise KeyError(task_id)
+        validate_task_transition(task.status,target); self.repository.update_task(replace(task,status=target))
+    def _record(self,event_type,task_id,agent_id,result):
+        event_id=str(uuid4()); self.repository.append_event(Event(event_id,event_type,monotonic(),'task',task_id,{'agent_id':agent_id})); self.repository.append_audit(AuditRecord(event_id,monotonic(),agent_id,event_type,'task',task_id,None,None,result))
+    def dispatch_once(self, task_id, scheduler, generation):
+        task=self.repository.get_task(task_id)
+        if task is None: raise KeyError(task_id)
+        decision=scheduler.select(task)
+        if decision.agent_id is None: return decision
         try:
-            lease = self.repository.claim_task(task_id, decision.agent_id, generation)
-        except (ValueError, PermissionError):
-            return type(decision)(task_id, None, 'claim_lost_race')
-        self._transition(task_id, TaskStatus.RUNNING)
-        return lease
+            lease=self.repository.claim_task(task_id,decision.agent_id,generation,scheduler.max_concurrency_per_agent)
+        except (ValueError,PermissionError) as exc:
+            reason='agent_capacity_exhausted' if 'capacity' in str(exc) else 'claim_lost_race'
+            return type(decision)(task_id,None,reason)
+        self._transition(task_id,TaskStatus.RUNNING); return lease
