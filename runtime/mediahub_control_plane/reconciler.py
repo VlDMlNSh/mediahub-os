@@ -3,7 +3,7 @@ from dataclasses import replace
 from time import monotonic
 from uuid import uuid4
 from .dependencies import dependencies_satisfied
-from .model import AuditRecord, Event, FailureClass, LeaseStatus, TaskStatus
+from .model import AuditRecord, CircuitState, Event, FailureClass, LeaseStatus, TaskStatus
 from .retry_policy import RetryPolicy
 from .metrics import ControlPlaneMetrics
 
@@ -36,7 +36,19 @@ class ControlPlaneReconciler:
                         if current != previous:
                             self._record('AgentCircuitChanged',lease.task_id,lease.agent_id,previous.value,current.value,{'failure_count':self.agent_registry.failure_count(lease.agent_id)})
                     changed.append(task.task_id)
-        if self.agent_registry is not None: self.agent_registry.reconcile()
+        if self.agent_registry is not None:
+            self.agent_registry.reconcile()
+            for agent in self.agent_registry.all():
+                if self.agent_registry.circuit_state(agent.agent_id) is CircuitState.OPEN:
+                    previous = self.agent_registry.circuit_state(agent.agent_id)
+                    probed = self.agent_registry.probe_from_heartbeat(agent.agent_id)
+                    current = self.agent_registry.circuit_state(agent.agent_id)
+                    if probed:
+                        self.metrics.inc('circuit_half_open_probes')
+                    if current is not previous:
+                        if current is CircuitState.CLOSED:
+                            self.metrics.inc('circuit_closed')
+                        self._record('AgentCircuitChanged', None, agent.agent_id, previous.value, current.value, {'probe': True, 'success': probed})
         return tuple(changed)
 
     def _record(self, event_type, task_id, agent_id, previous_state, new_state, payload=None):

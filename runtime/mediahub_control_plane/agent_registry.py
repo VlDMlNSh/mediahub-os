@@ -124,6 +124,16 @@ class AgentRegistry:
         self._circuit[agent_id] = CircuitState.OPEN
         return self._agents[agent_id]
 
+    def probe_from_heartbeat(self, agent_id: str, now: datetime | None = None) -> bool:
+        """Run at most one local recovery probe using the latest authenticated heartbeat."""
+        if not self.begin_probe(agent_id):
+            return False
+        now = now or _utcnow()
+        beat = self._last_heartbeat.get(agent_id)
+        healthy = beat is not None and beat.health == 'healthy' and (now - beat.timestamp).total_seconds() < self.dead_timeout_seconds
+        self.probe_result(agent_id, healthy)
+        return healthy
+
     def failure_count(self, agent_id: str) -> int:
         return self._failure_counts.get(agent_id, 0)
 

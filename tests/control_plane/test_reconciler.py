@@ -69,6 +69,34 @@ def test_reconciler_expiry_uses_infrastructure_backoff_and_penalizes_worker():
     assert registry.circuit_state('a') is CircuitState.OPEN
 
 
+def test_reconciler_closes_open_circuit_from_fresh_healthy_heartbeat():
+    from datetime import datetime, timedelta, timezone
+    from runtime.mediahub_control_plane.agent_registry import AgentRegistry, Heartbeat
+    from runtime.mediahub_control_plane.model import Agent, AgentStatus, CircuitState
+    r=InMemoryControlPlaneRepository(); registry=AgentRegistry(30,90,failure_quarantine_threshold=1)
+    registry.register(Agent('a','n','1',status=AgentStatus.IDLE))
+    now=datetime.now(timezone.utc)
+    registry.heartbeat(Heartbeat('a','n',now,health='healthy'))
+    registry.record_failure('a')
+    assert registry.circuit_state('a') is CircuitState.OPEN
+    ControlPlaneReconciler(r,registry).reconcile_once()
+    assert registry.circuit_state('a') is CircuitState.CLOSED
+    assert registry.failure_count('a') == 0
+
+
+def test_reconciler_does_not_close_open_circuit_from_stale_heartbeat():
+    from datetime import datetime, timedelta, timezone
+    from runtime.mediahub_control_plane.agent_registry import AgentRegistry, Heartbeat
+    from runtime.mediahub_control_plane.model import Agent, AgentStatus, CircuitState
+    r=InMemoryControlPlaneRepository(); registry=AgentRegistry(30,90,failure_quarantine_threshold=1)
+    registry.register(Agent('a','n','1',status=AgentStatus.IDLE))
+    stale=datetime.now(timezone.utc)-timedelta(seconds=120)
+    registry.heartbeat(Heartbeat('a','n',stale,health='healthy'))
+    registry.record_failure('a')
+    ControlPlaneReconciler(r,registry).reconcile_once()
+    assert registry.circuit_state('a') is CircuitState.OPEN
+
+
 def test_reconciler_records_audit_and_event_for_expiry_and_retry():
     r=InMemoryControlPlaneRepository(); r.create_task(Task('t','build',status=TaskStatus.READY,max_attempts=2))
     lease=r.claim_task('t','a',1); r.update_task(Task('t','build',status=TaskStatus.RUNNING,max_attempts=2))
