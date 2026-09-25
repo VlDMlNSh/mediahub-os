@@ -28,3 +28,18 @@ def test_reconciler_is_idempotent_after_convergence():
     rec=ControlPlaneReconciler(r)
     assert rec.reconcile_once()==('b',)
     assert rec.reconcile_once()==()
+
+
+def test_reconciler_requeues_expired_task_when_retry_budget_remains():
+    r=InMemoryControlPlaneRepository(); r.create_task(Task('retry','build',status=TaskStatus.READY,max_attempts=2))
+    lease=r.claim_task('retry','a',1); r.update_task(Task('retry','build',status=TaskStatus.RUNNING,max_attempts=2))
+    assert ControlPlaneReconciler(r).reconcile_once(lease.expires_at+1)==('retry',)
+    task=r.get_task('retry')
+    assert task.status is TaskStatus.RETRY_WAIT and task.attempt==1
+
+
+def test_reconciler_exhausted_expired_task_is_terminal():
+    r=InMemoryControlPlaneRepository(); r.create_task(Task('dead','build',status=TaskStatus.READY,max_attempts=1))
+    lease=r.claim_task('dead','a',1); r.update_task(Task('dead','build',status=TaskStatus.RUNNING,max_attempts=1))
+    assert ControlPlaneReconciler(r).reconcile_once(lease.expires_at+1)==('dead',)
+    assert r.get_task('dead').status is TaskStatus.EXPIRED and r.get_task('dead').attempt==1

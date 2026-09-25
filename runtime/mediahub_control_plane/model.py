@@ -34,11 +34,11 @@ class Event:
 class AuditRecord:
     event_id: str; timestamp: float; actor: str; action: str; resource: str; resource_id: str; previous_state: str|None; new_state: str|None; result: str; correlation_id: str|None=None
 
-_TASK = {TaskStatus.PENDING:{TaskStatus.READY,TaskStatus.BLOCKED,TaskStatus.CANCELLED},TaskStatus.READY:{TaskStatus.CLAIMED,TaskStatus.CANCELLED,TaskStatus.BLOCKED},TaskStatus.CLAIMED:{TaskStatus.RUNNING,TaskStatus.EXPIRED,TaskStatus.CANCELLED},TaskStatus.RUNNING:{TaskStatus.VERIFYING,TaskStatus.FAILED,TaskStatus.EXPIRED},TaskStatus.VERIFYING:{TaskStatus.SUCCEEDED,TaskStatus.FAILED},TaskStatus.FAILED:{TaskStatus.RETRY_WAIT,TaskStatus.CANCELLED},TaskStatus.RETRY_WAIT:{TaskStatus.READY,TaskStatus.BLOCKED},TaskStatus.BLOCKED:{TaskStatus.READY,TaskStatus.CANCELLED}}
+_TASK = {TaskStatus.PENDING:{TaskStatus.READY,TaskStatus.BLOCKED,TaskStatus.CANCELLED},TaskStatus.READY:{TaskStatus.CLAIMED,TaskStatus.CANCELLED,TaskStatus.BLOCKED},TaskStatus.CLAIMED:{TaskStatus.RUNNING,TaskStatus.EXPIRED,TaskStatus.CANCELLED},TaskStatus.RUNNING:{TaskStatus.VERIFYING,TaskStatus.FAILED,TaskStatus.EXPIRED},TaskStatus.VERIFYING:{TaskStatus.SUCCEEDED,TaskStatus.FAILED},TaskStatus.FAILED:{TaskStatus.RETRY_WAIT,TaskStatus.CANCELLED},TaskStatus.RETRY_WAIT:{TaskStatus.READY,TaskStatus.BLOCKED},TaskStatus.BLOCKED:{TaskStatus.READY,TaskStatus.CANCELLED},TaskStatus.EXPIRED:{TaskStatus.RETRY_WAIT,TaskStatus.CANCELLED}}
 _AGENT = {AgentStatus.REGISTERING:{AgentStatus.ONLINE,AgentStatus.OFFLINE},AgentStatus.ONLINE:{AgentStatus.IDLE,AgentStatus.BUSY,AgentStatus.DEGRADED,AgentStatus.DRAINING,AgentStatus.OFFLINE},AgentStatus.IDLE:{AgentStatus.CLAIMING,AgentStatus.DRAINING,AgentStatus.OFFLINE,AgentStatus.DEGRADED},AgentStatus.CLAIMING:{AgentStatus.BUSY,AgentStatus.IDLE,AgentStatus.DEGRADED},AgentStatus.BUSY:{AgentStatus.VERIFYING,AgentStatus.IDLE,AgentStatus.DEGRADED,AgentStatus.DISCONNECTED},AgentStatus.VERIFYING:{AgentStatus.IDLE,AgentStatus.BUSY,AgentStatus.DEGRADED},AgentStatus.DEGRADED:{AgentStatus.ONLINE,AgentStatus.IDLE,AgentStatus.DISCONNECTED,AgentStatus.OFFLINE},AgentStatus.UNHEALTHY:{AgentStatus.DEGRADED,AgentStatus.OFFLINE},AgentStatus.DISCONNECTED:{AgentStatus.ONLINE,AgentStatus.DEGRADED,AgentStatus.OFFLINE},AgentStatus.DRAINING:{AgentStatus.IDLE,AgentStatus.OFFLINE}}
 _LEASE = {LeaseStatus.ACTIVE:{LeaseStatus.RENEWED,LeaseStatus.EXPIRING,LeaseStatus.EXPIRED,LeaseStatus.REVOKED,LeaseStatus.RELEASED},LeaseStatus.RENEWED:{LeaseStatus.RENEWED,LeaseStatus.EXPIRING,LeaseStatus.EXPIRED,LeaseStatus.REVOKED,LeaseStatus.RELEASED},LeaseStatus.EXPIRING:{LeaseStatus.EXPIRED,LeaseStatus.RENEWED,LeaseStatus.REVOKED},LeaseStatus.EXPIRED:{LeaseStatus.RELEASED},LeaseStatus.REVOKED:{LeaseStatus.RELEASED}}
-def _validate(table, current, target):
-    if target not in table.get(current, set()): raise ValueError(f'invalid transition: {current} -> {target}')
-def validate_task_transition(current, target): _validate(_TASK,current,target)
-def validate_agent_transition(current, target): _validate(_AGENT,current,target)
-def validate_lease_transition(current, target): _validate(_LEASE,current,target)
+def _validate(table,current,target):
+    if target not in table.get(current,set()): raise ValueError(f'invalid transition: {current} -> {target}')
+def validate_task_transition(current,target): _validate(_TASK,current,target)
+def validate_agent_transition(current,target): _validate(_AGENT,current,target)
+def validate_lease_transition(current,target): _validate(_LEASE,current,target)
