@@ -72,3 +72,17 @@ def test_worker_runtime_can_process_sequential_tasks():
         worker.run_once(task_id, "a", 1, lambda payload, ctx: "done", lambda result: result == "done")
     assert worker.completed_tasks == 2
     assert all(repo.get_task(task_id).status is TaskStatus.SUCCEEDED for task_id in ("t1", "t2"))
+
+
+def test_failure_uses_retry_budget_and_reconciler_requeues():
+    repo = InMemoryControlPlaneRepository()
+    service = ControlPlaneService(repo)
+    repo.create_task(Task("retry", "build", status=TaskStatus.READY, max_attempts=2))
+    service.claim("retry", "a", 1)
+    failed = service.fail("retry", "a", 1, "EXECUTION_FAILED")
+    assert failed.attempt == 1
+    assert failed.status is TaskStatus.RETRY_WAIT
+
+    from runtime.mediahub_control_plane.reconciler import ControlPlaneReconciler
+    assert ControlPlaneReconciler(repo).reconcile_once() == ("retry",)
+    assert repo.get_task("retry").status is TaskStatus.READY

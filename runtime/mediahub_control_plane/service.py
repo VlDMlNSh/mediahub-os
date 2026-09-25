@@ -4,7 +4,7 @@ from dataclasses import replace
 from time import monotonic
 from uuid import uuid4
 
-from .model import AuditRecord, Execution, Event, LeaseStatus, TaskStatus, validate_task_transition
+from .model import AuditRecord, Execution, Event, TaskStatus, validate_task_transition
 from .repository import ControlPlaneRepository
 
 
@@ -38,6 +38,24 @@ class ControlPlaneService:
         self.repository.release_lease(lease.lease_id, agent_id, generation)
         self._record("TaskSucceeded", task_id, agent_id, "SUCCEEDED")
         return execution
+
+    def fail(self, task_id: str, agent_id: str, generation: int, reason: str = "EXECUTION_FAILED"):
+        """Record a worker-owned failure; retry while the attempt budget remains."""
+        lease = self.repository.get_lease_for_task(task_id)
+        if lease is None:
+            raise PermissionError("no authoritative lease")
+        self.repository.assert_lease_owner(lease.lease_id, agent_id, generation)
+        task = self.repository.get_task(task_id)
+        if task is None:
+            raise KeyError(task_id)
+        attempt = task.attempt + 1
+        self.repository.update_task(replace(task, attempt=attempt, status=TaskStatus.FAILED))
+        if attempt < task.max_attempts:
+            task = self.repository.get_task(task_id)
+            self.repository.update_task(replace(task, status=TaskStatus.RETRY_WAIT))
+        self.repository.release_lease(lease.lease_id, agent_id, generation)
+        self._record("TaskFailed", task_id, agent_id, reason)
+        return self.repository.get_task(task_id)
 
     def recover_expired(self, task_id: str, now: float | None = None) -> bool:
         lease = self.repository.get_lease_for_task(task_id)
@@ -82,17 +100,3 @@ class ControlPlaneService:
             return type(decision)(task_id, None, 'claim_lost_race')
         self._transition(task_id, TaskStatus.RUNNING)
         return lease
-
-    def fail(self, task_id: str, agent_id: str, generation: int, reason: str = "EXECUTION_FAILED"):
-        """Record a worker-owned failure only while its lease is still authoritative."""
-        lease = self.repository.get_lease_for_task(task_id)
-        if lease is None:
-            raise PermissionError("no authoritative lease")
-        self.repository.assert_lease_owner(lease.lease_id, agent_id, generation)
-        task = self.repository.get_task(task_id)
-        if task is None:
-            raise KeyError(task_id)
-        self._transition(task_id, TaskStatus.FAILED)
-        self.repository.release_lease(lease.lease_id, agent_id, generation)
-        self._record("TaskFailed", task_id, agent_id, reason)
-        return self.repository.get_task(task_id)
