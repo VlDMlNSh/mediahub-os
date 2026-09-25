@@ -3,7 +3,7 @@ import sqlite3
 
 import pytest
 
-from runtime.mediahub_control_plane.model import AuditRecord, Event, Execution, Task, TaskStatus
+from runtime.mediahub_control_plane.model import AuditRecord, Event, Execution, LeaseStatus, Task, TaskStatus
 from runtime.mediahub_control_plane.service import ControlPlaneService
 from runtime.mediahub_control_plane.sqlite_repository import SQLiteControlPlaneRepository
 
@@ -83,6 +83,36 @@ def test_claim_and_start_has_single_winner_across_processes(tmp_path):
     assert sorted(result[1] for result in results) == ["conflict", "ok"]
     assert repo.get_task("t").status is TaskStatus.RUNNING
     assert len(repo.list_leases()) == 1
+
+
+def test_expire_and_reconcile_is_idempotent_after_restart(tmp_path):
+    path = tmp_path / "control-plane.db"
+    now = [100.0]
+    repo = SQLiteControlPlaneRepository(path, clock=lambda: now[0])
+    ready(repo)
+    lease = repo.claim_task("t", "agent-a", 1)
+    now[0] = lease.expires_at + 1
+    event = Event("expiry", "LeaseExpired", now[0], "task", "t", {"agent_id": "agent-a"})
+    audit = AuditRecord("expiry", now[0], "reconciler", "LeaseExpired", "task", "t", "RUNNING", "EXPIRED", "RECORDED")
+    repo.expire_and_reconcile(lease.lease_id, now[0], event, audit)
+    repo = SQLiteControlPlaneRepository(path, clock=lambda: now[0])
+    assert repo.get_lease_for_task("t").status is LeaseStatus.EXPIRED
+    assert repo.get_task("t").status is TaskStatus.EXPIRED
+    repo.expire_and_reconcile(lease.lease_id, now[0], event, audit)
+    assert repo.get_task("t").attempt == 1
+
+
+def test_crash_before_commit_leaves_no_partial_state(tmp_path):
+    path = str(tmp_path / "control-plane.db")
+    repo = SQLiteControlPlaneRepository(path)
+    ready(repo)
+    script = "import sqlite3, os; path=os.environ['CP_DB']; db=sqlite3.connect(path,isolation_level=None); db.execute('BEGIN IMMEDIATE'); db.execute(\"UPDATE tasks SET status='RUNNING' WHERE task_id='t'\"); db.execute(\"INSERT INTO leases VALUES('crash-lease','t','agent-a',1,61,1,1,'ACTIVE')\"); os._exit(0)"
+    import os, subprocess, sys
+    env = dict(os.environ, CP_DB=str(path))
+    subprocess.run([sys.executable, "-c", script], env=env, check=True)
+    reopened = SQLiteControlPlaneRepository(path)
+    assert reopened.get_task("t").status is TaskStatus.READY
+    assert reopened.list_leases() == ()
 
 
 def test_complete_atomic_rolls_back_all_state_on_audit_constraint_failure(tmp_path):

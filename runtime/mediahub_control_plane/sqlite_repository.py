@@ -246,6 +246,27 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
             row = db.execute("SELECT * FROM leases WHERE lease_id=?", (lease_id,)).fetchone()
             if not row: raise KeyError(lease_id)
             if now < row["expires_at"]: raise ValueError("lease has not expired")
-            if row["status"] not in (LeaseStatus.ACTIVE.value,LeaseStatus.RENEWED.value,LeaseStatus.EXPIRING.value): raise ValueError("lease not expirable")
+            if row["status"] not in (LeaseStatus.ACTIVE.value,LeaseStatus.RENEWED.value,LeaseStatus.EXPIRING.value):
+                if row["status"] is LeaseStatus.EXPIRED.value: db.commit(); return self._lease(row)
+                raise ValueError("lease not expirable")
             db.execute("UPDATE leases SET status=? WHERE lease_id=?", (LeaseStatus.EXPIRED.value, lease_id)); db.commit()
         return replace(self._lease(row), status=LeaseStatus.EXPIRED)
+
+    def expire_and_reconcile(self, lease_id, now, event=None, audit=None, retry_not_before=None):
+        with self._connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            lease = db.execute("SELECT * FROM leases WHERE lease_id=?", (lease_id,)).fetchone()
+            if not lease: raise KeyError(lease_id)
+            if now < lease["expires_at"]: raise ValueError("lease has not expired")
+            if lease["status"] not in (LeaseStatus.ACTIVE.value,LeaseStatus.RENEWED.value,LeaseStatus.EXPIRING.value):
+                return self._lease(lease)
+            task = db.execute("SELECT * FROM tasks WHERE task_id=?", (lease["task_id"],)).fetchone()
+            db.execute("UPDATE leases SET status=? WHERE lease_id=?", (LeaseStatus.EXPIRED.value, lease_id))
+            if task and TaskStatus(task["status"]) in (TaskStatus.CLAIMED, TaskStatus.RUNNING):
+                attempt = task["attempt"] + 1
+                target = TaskStatus.RETRY_WAIT if attempt < task["max_attempts"] else TaskStatus.EXPIRED
+                db.execute("UPDATE tasks SET status=?,attempt=?,retry_not_before=? WHERE task_id=?", (target.value,attempt,retry_not_before,task["task_id"]))
+            if event is not None and audit is not None:
+                self._insert_event_audit(db,event,audit)
+            db.commit()
+        return self._lease(lease)
