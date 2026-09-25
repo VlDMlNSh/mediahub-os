@@ -18,3 +18,18 @@ def test_scheduler_is_deterministic_and_blocks_non_ready():
     t=Task('t2','build',status=TaskStatus.PENDING,required_capabilities=('linux',))
     assert TaskScheduler(r).select(t).agent_id is None
     assert TaskScheduler(r).select(Task('t3','build',status=TaskStatus.READY,required_capabilities=('gpu',))).reason=='no_eligible_agent'
+
+
+def test_scheduler_filters_by_architecture():
+    r=AgentRegistry(30,90)
+    r.register(Agent('arm','n1','1',AgentStatus.IDLE,('linux',), 'arm64'))
+    r.register(Agent('x86','n2','1',AgentStatus.IDLE,('linux',), 'x86_64'))
+    t=Task('t','build',status=TaskStatus.READY,architecture='arm64')
+    assert TaskScheduler(r).select(t).agent_id=='arm'
+
+
+def test_scheduler_orders_ready_tasks_by_priority_then_id():
+    r=AgentRegistry(30,90)
+    scheduler=TaskScheduler(r)
+    tasks=(Task('b','x',priority=1,status=TaskStatus.READY),Task('a','x',priority=3,status=TaskStatus.READY),Task('c','x',priority=3,status=TaskStatus.READY),Task('z','x',status=TaskStatus.PENDING))
+    assert tuple(t.task_id for t in scheduler.order_ready(tasks))==('a','c','b')

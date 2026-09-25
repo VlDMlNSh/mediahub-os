@@ -9,6 +9,7 @@ class ScheduleDecision:
     reason: str
 
 class TaskScheduler:
+    """Deterministic capability/architecture-aware selector."""
     def __init__(self, registry, dependency_resolver=None):
         self.registry = registry
         self.dependency_resolver = dependency_resolver
@@ -17,10 +18,10 @@ class TaskScheduler:
     def _eligible(agent: Agent, task: Task) -> bool:
         if agent.status not in {AgentStatus.ONLINE, AgentStatus.IDLE}:
             return False
-        required = set(task.required_capabilities)
-        if not required.issubset(agent.capabilities):
+        if task.architecture is not None and agent.architecture != task.architecture:
             return False
-        return True
+        required = set(task.required_capabilities)
+        return required.issubset(agent.capabilities)
 
     def select(self, task: Task, agents: tuple[Agent, ...] | None = None) -> ScheduleDecision:
         if task.status is not TaskStatus.READY:
@@ -32,3 +33,8 @@ class TaskScheduler:
         if not candidates:
             return ScheduleDecision(task.task_id, None, 'no_eligible_agent')
         return ScheduleDecision(task.task_id, candidates[0].agent_id, 'eligible')
+
+    def order_ready(self, tasks: tuple[Task, ...]) -> tuple[Task, ...]:
+        """Priority-first deterministic queue ordering; task_id is the stable tie-breaker."""
+        return tuple(sorted((t for t in tasks if t.status is TaskStatus.READY),
+                            key=lambda t: (-t.priority, t.task_id)))

@@ -14,7 +14,7 @@ class Node:
     node_id: str; hostname: str; platform: str; architecture: str; capabilities: tuple[str,...]=(); status: str='OFFLINE'; last_seen: float=0.0
 @dataclass(frozen=True, slots=True)
 class Agent:
-    agent_id: str; node_id: str; version: str; status: AgentStatus=AgentStatus.REGISTERING; capabilities: tuple[str,...]=()
+    agent_id: str; node_id: str; version: str; status: AgentStatus=AgentStatus.REGISTERING; capabilities: tuple[str,...]=(); architecture: str|None=None
 @dataclass(frozen=True, slots=True)
 class Task:
     task_id: str; type: str; payload: Any=None; priority: int=0; status: TaskStatus=TaskStatus.PENDING; dependencies: tuple[str,...]=(); idempotency_key: str|None=None; attempt: int=0; max_attempts: int=1; required_capabilities: tuple[str,...]=(); architecture: str|None=None
