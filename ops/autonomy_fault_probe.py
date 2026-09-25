@@ -62,16 +62,27 @@ def fixed_identity(pid: int, allowed: tuple[str, ...]) -> ProcIdentity:
     return ident
 
 def find_owned_process(fragment: str) -> int | None:
+    expected = {
+        "ops/autonomous_os_loop.sh": str(ROOT / "ops" / "autonomous_os_loop.sh"),
+        "ops/astra_command_bus.py": str(ROOT / "ops" / "astra_command_bus.py"),
+    }.get(fragment)
+    if expected is None:
+        return None
     try:
-        result = subprocess.run(["/usr/bin/pgrep", "-f", fragment], text=True, capture_output=True, check=False)
+        result = subprocess.run(["/usr/bin/ps", "-eo", "pid=,args="], text=True, capture_output=True, check=False)
     except OSError:
         return None
     for line in result.stdout.splitlines():
+        parts = line.strip().split()
+        if len(parts) < 3:
+            continue
         try:
-            pid = int(line.strip())
+            pid = int(parts[0])
         except ValueError:
             continue
-        if pid != os.getpid() and proc_identity(pid) is not None:
+        if pid == os.getpid() or parts[2] != expected:
+            continue
+        if Path(parts[1]).name in {"bash", "sh", "python", "python3"} and proc_identity(pid) is not None:
             return pid
     return None
 
@@ -108,7 +119,7 @@ def scenario_loop_restart() -> dict:
     def new_loop_pid():
         candidate = pid_from_file(LOOP_PID) or find_owned_process("ops/autonomous_os_loop.sh")
         return candidate if candidate and candidate != pid and proc_identity(candidate) else None
-    new_pid = wait_until(new_loop_pid)
+    new_pid = wait_until(new_loop_pid, timeout=25.0)
     after = wait_until(lambda: heartbeat() if heartbeat().get("loop_pid") == new_pid else None)
     return {"scenario":"controller-restart","before_pid":pid,"after_pid":new_pid,"old_start":ident.start,"result":"PASS","before":before,"after":after}
 
@@ -121,7 +132,7 @@ def scenario_command_bus_restart() -> dict:
     def new_command_bus_pid():
         candidate = pid_from_file(COMMAND_BUS_PID) or find_owned_process("ops/astra_command_bus.py")
         return candidate if candidate and candidate != pid and proc_identity(candidate) else None
-    new_pid = wait_until(new_command_bus_pid)
+    new_pid = wait_until(new_command_bus_pid, timeout=25.0)
     return {"scenario":"command-bus-restart","before_pid":pid,"after_pid":new_pid,"old_start":ident.start,"result":"PASS"}
 
 def scenario_stop_resume() -> dict:
