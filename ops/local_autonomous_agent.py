@@ -1698,6 +1698,7 @@ def compile_executable_task(root: Path, task: LocalTask) -> ExecutableTask | Non
         "p9.1-threat-model-refresh",
         "p9.2-static-secret-dependency-provenance-review",
         "p9.3-egress-endpoint-allowlist-audit",
+        "p9.4-sandbox-authority-escalation-negative-tests",
     } and task.target.startswith("docs/ops/")
     if not target.is_file() and not allow_new_evidence:
         return None
