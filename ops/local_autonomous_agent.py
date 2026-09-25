@@ -3302,6 +3302,7 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
 
     if task.fallback_kind == "release-evidence-reconciliation":
         target = ROOT / task.target
+        target_rel = task.target
         phase = task.queue_item.split()[0]
         if not target.parent.exists():
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -3320,7 +3321,7 @@ P8.3 remains OPEN until a deterministic acceptance surface ties these scenarios 
             "## Required next evidence\\n\\n"
             f"{task.instruction}\\n"
         )
-        return unified_patch("", content.splitlines(keepends=True), target)
+        return unified_patch("", content.splitlines(keepends=True), target_rel)
 
     if task.fallback_kind == "p9.6-malformed-input-security-qualification":
         target = task.target
