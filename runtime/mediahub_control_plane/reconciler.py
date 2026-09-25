@@ -37,7 +37,7 @@ class ControlPlaneReconciler:
                         retry_not_before=now+delay_seconds
                     event_id=str(uuid4())
                     event=Event(event_id,'LeaseExpired',now,'task',task.task_id,{'agent_id':lease.agent_id,'previous_state':task.status.value,'new_state':TaskStatus.EXPIRED.value})
-                    audit=AuditRecord(event_id,now,lease.agent_id,'LeaseExpired','task',task.task_id,task.status.value,target.value,'RECORDED')
+                    audit=AuditRecord(event_id,now,lease.agent_id,'LeaseExpired','task',task.task_id,task.status.value,TaskStatus.EXPIRED.value,'RECORDED')
                     if hasattr(self.repository,'expire_and_reconcile'):
                         self.repository.expire_and_reconcile(lease.lease_id,now,event=event,audit=audit,retry_not_before=retry_not_before)
                     else:
