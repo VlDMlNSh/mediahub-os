@@ -143,7 +143,11 @@ def scenario_command_bus_restart() -> dict:
 def scenario_stop_resume() -> dict:
     before = heartbeat()
     STOP.write_text("fault-probe\n")
-    stopped = wait_until(lambda: heartbeat() if heartbeat().get("state") == "RUNNING" and not proc_identity(int(heartbeat().get("loop_pid",0))) else None)
+    def stopped_state():
+        hb = heartbeat()
+        loop_pid = hb.get("loop_pid")
+        return hb if hb.get("state") == "RUNNING" and (loop_pid is None or proc_identity(int(loop_pid)) is None) else None
+    stopped = wait_until(stopped_state, timeout=25.0)
     astra_pid = pid_from_file(STATE / "astra.pid")
     if astra_pid is None or proc_identity(astra_pid) is None:
         raise RuntimeError("Astra did not remain resident during STOP")
