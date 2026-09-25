@@ -67,3 +67,12 @@ def test_reconciler_expiry_uses_infrastructure_backoff_and_penalizes_worker():
     assert task.status is TaskStatus.RETRY_WAIT and task.attempt==1
     assert task.retry_not_before == now+15.0
     assert registry.circuit_state('a') is CircuitState.OPEN
+
+
+def test_reconciler_records_audit_and_event_for_expiry_and_retry():
+    r=InMemoryControlPlaneRepository(); r.create_task(Task('t','build',status=TaskStatus.READY,max_attempts=2))
+    lease=r.claim_task('t','a',1); r.update_task(Task('t','build',status=TaskStatus.RUNNING,max_attempts=2))
+    assert ControlPlaneReconciler(r).reconcile_once(lease.expires_at+1)==('t',)
+    event_types=[e.event_type for e in r.events.values()]
+    assert 'LeaseExpired' in event_types and 'TaskRetryScheduled' in event_types
+    assert len(r.audit)==len(r.events)
