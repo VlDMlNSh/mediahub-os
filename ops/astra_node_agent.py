@@ -32,12 +32,29 @@ def refresh_transport():
     return True, "synced"
 
 
+def publish_result():
+    if os.environ.get("ASTRA_NODE_AUTO_PUBLISH", "1") != "1":
+        return True, "disabled"
+    r=run(["git","notes","--ref=refs/notes/astra-control-bus","append","-F",str(RESULT),"HEAD"])
+    if r.returncode:
+        return False, (r.stderr or r.stdout)[-500:]
+    r=run(["git","push","origin","refs/notes/astra-control-bus"])
+    if r.returncode:
+        return False, (r.stderr or r.stdout)[-500:]
+    return True, "published"
+
 def snapshot(action="STATUS",result="OK",detail=""):
     r=run(["git","rev-parse","HEAD"])
     clean=not bool(run(["git","status","--porcelain"]).stdout.strip())
     atomic(RESULT,{"schema":1,"node":NODE,"action":action,"result":result,
         "detail":detail,"head":r.stdout.strip(),"clean":clean,
         "ts":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime())})
+    published, publish_detail = publish_result()
+    if not published:
+        atomic(RESULT,{"schema":1,"node":NODE,"action":action,"result":"FAILED",
+            "detail":"result publication failed: "+publish_detail,
+            "head":r.stdout.strip(),"clean":clean,
+            "ts":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime())})
 def valid_command(cmd):
     if not isinstance(cmd,dict) or cmd.get("schema")!=1:
         return False
