@@ -43,3 +43,12 @@ def test_reconciler_exhausted_expired_task_is_terminal():
     lease=r.claim_task('dead','a',1); r.update_task(Task('dead','build',status=TaskStatus.RUNNING,max_attempts=1))
     assert ControlPlaneReconciler(r).reconcile_once(lease.expires_at+1)==('dead',)
     assert r.get_task('dead').status is TaskStatus.EXPIRED and r.get_task('dead').attempt==1
+
+
+def test_reconciler_does_not_release_retry_wait_before_backoff():
+    r=InMemoryControlPlaneRepository(); r.create_task(Task('retry','build',status=TaskStatus.RETRY_WAIT,retry_not_before=100.0))
+    rec=ControlPlaneReconciler(r)
+    assert rec.reconcile_once(99.0)==()
+    assert r.get_task('retry').status is TaskStatus.RETRY_WAIT
+    assert rec.reconcile_once(100.0)==('retry',)
+    assert r.get_task('retry').status is TaskStatus.READY and r.get_task('retry').retry_not_before is None

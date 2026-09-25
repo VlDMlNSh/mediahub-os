@@ -84,7 +84,8 @@ def test_failure_uses_retry_budget_and_reconciler_requeues():
     assert failed.status is TaskStatus.RETRY_WAIT
 
     from runtime.mediahub_control_plane.reconciler import ControlPlaneReconciler
-    assert ControlPlaneReconciler(repo).reconcile_once() == ("retry",)
+    assert ControlPlaneReconciler(repo).reconcile_once(failed.retry_not_before - 0.001) == ()
+    assert ControlPlaneReconciler(repo).reconcile_once(failed.retry_not_before + 0.001) == ("retry",)
     assert repo.get_task("retry").status is TaskStatus.READY
 
 def test_failure_records_execution_history():

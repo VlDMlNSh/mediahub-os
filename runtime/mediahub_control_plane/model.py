@@ -17,7 +17,7 @@ class Agent:
     agent_id: str; node_id: str; version: str; status: AgentStatus=AgentStatus.REGISTERING; capabilities: tuple[str,...]=(); architecture: str|None=None
 @dataclass(frozen=True, slots=True)
 class Task:
-    task_id: str; type: str; payload: Any=None; priority: int=0; status: TaskStatus=TaskStatus.PENDING; dependencies: tuple[str,...]=(); idempotency_key: str|None=None; attempt: int=0; max_attempts: int=1; required_capabilities: tuple[str,...]=(); architecture: str|None=None
+    task_id: str; type: str; payload: Any=None; priority: int=0; status: TaskStatus=TaskStatus.PENDING; dependencies: tuple[str,...]=(); idempotency_key: str|None=None; attempt: int=0; max_attempts: int=1; required_capabilities: tuple[str,...]=(); architecture: str|None=None; retry_not_before: float|None=None
 @dataclass(frozen=True, slots=True)
 class Lease:
     lease_id: str; task_id: str; agent_id: str; created_at: float; expires_at: float; last_renewed_at: float; generation: int=1; status: LeaseStatus=LeaseStatus.ACTIVE

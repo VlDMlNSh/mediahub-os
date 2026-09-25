@@ -7,7 +7,9 @@ from .repository import ControlPlaneRepository
 
 class ControlPlaneService:
     """Small deterministic coordinator for the first orchestration vertical slice."""
-    def __init__(self, repository: ControlPlaneRepository, agent_registry=None): self.repository=repository; self.agent_registry=agent_registry
+    def __init__(self, repository: ControlPlaneRepository, agent_registry=None, retry_backoff_seconds: float = 5.0):
+        if retry_backoff_seconds < 0: raise ValueError("retry_backoff_seconds must be non-negative")
+        self.repository=repository; self.agent_registry=agent_registry; self.retry_backoff_seconds=retry_backoff_seconds
     def mark_ready(self, task_id: str) -> None:
         task=self.repository.get_task(task_id)
         if task is None: raise KeyError(task_id)
@@ -27,7 +29,8 @@ class ControlPlaneService:
         if task is None: raise KeyError(task_id)
         attempt=task.attempt+1; self.repository.record_execution(Execution(str(uuid4()),task_id,agent_id,generation,'FAILED',reason)); self.repository.update_task(replace(task,attempt=attempt,status=TaskStatus.FAILED))
         if attempt < task.max_attempts:
-            self.repository.update_task(replace(self.repository.get_task(task_id),status=TaskStatus.RETRY_WAIT))
+            retry_at = monotonic() + self.retry_backoff_seconds * (2 ** max(0, attempt - 1))
+            self.repository.update_task(replace(self.repository.get_task(task_id),status=TaskStatus.RETRY_WAIT,retry_not_before=retry_at))
         self.repository.release_lease(lease.lease_id,agent_id,generation)
         if self.agent_registry is not None and reason in {'EXECUTION_FAILED', 'VERIFICATION_FAILED'}: self.agent_registry.record_failure(agent_id)
         self._record('TaskFailed',task_id,agent_id,reason); return self.repository.get_task(task_id)
