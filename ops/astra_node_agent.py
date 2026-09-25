@@ -3,7 +3,7 @@
 Only executes the fixed command vocabulary below; command payloads are never shell.
 """
 from __future__ import annotations
-import json, os, subprocess, time
+import calendar, json, os, subprocess, time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 NODE=os.environ.get("ASTRA_NODE","dev2")
@@ -67,7 +67,7 @@ def valid_command(cmd):
         return False
     try:
         expiry=time.strptime(expires,"%Y-%m-%dT%H:%M:%SZ")
-        return time.mktime(expiry) >= time.time()
+        return calendar.timegm(expiry) >= time.time()
     except ValueError:
         return False
 
