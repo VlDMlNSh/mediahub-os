@@ -5,13 +5,14 @@ from uuid import uuid4
 from .dependencies import dependencies_satisfied
 from .model import AuditRecord, Event, FailureClass, LeaseStatus, TaskStatus
 from .retry_policy import RetryPolicy
+from .metrics import ControlPlaneMetrics
 
 class ControlPlaneReconciler:
     """Deterministic, idempotent convergence pass over observable control-plane state."""
-    def __init__(self, repository, agent_registry=None, retry_policy: RetryPolicy | None = None):
-        self.repository=repository; self.agent_registry=agent_registry; self.retry_policy=retry_policy or RetryPolicy()
+    def __init__(self, repository, agent_registry=None, retry_policy: RetryPolicy | None = None, metrics: ControlPlaneMetrics | None = None):
+        self.repository=repository; self.agent_registry=agent_registry; self.retry_policy=retry_policy or RetryPolicy(); self.metrics=metrics or ControlPlaneMetrics()
     def reconcile_once(self, now: float | None = None) -> tuple[str, ...]:
-        now=monotonic() if now is None else now; changed=[]; tasks=self.repository.list_tasks()
+        now=monotonic() if now is None else now; changed=[]; self.metrics.inc('reconcile_ticks'); tasks=self.repository.list_tasks()
         completed={t.task_id for t in tasks if t.status is TaskStatus.SUCCEEDED}
         for task in tasks:
             retry_due = task.retry_not_before is None or now >= task.retry_not_before
@@ -21,13 +22,13 @@ class ControlPlaneReconciler:
                 self.repository.update_task(replace(task,status=TaskStatus.READY,retry_not_before=None)); self._record('TaskReady',task.task_id,None,task.status.value,TaskStatus.READY.value); changed.append(task.task_id)
         for lease in self.repository.list_leases():
             if lease.status in {LeaseStatus.ACTIVE,LeaseStatus.RENEWED,LeaseStatus.EXPIRING} and now >= lease.expires_at:
-                self.repository.expire_lease(lease.lease_id,now); task=self.repository.get_task(lease.task_id)
+                self.repository.expire_lease(lease.lease_id,now); self.metrics.inc('lease_expiries'); task=self.repository.get_task(lease.task_id)
                 if task and task.status in {TaskStatus.CLAIMED,TaskStatus.RUNNING}:
                     attempt=task.attempt+1
                     self.repository.update_task(replace(task,attempt=attempt,status=TaskStatus.EXPIRED)); self._record('LeaseExpired',task.task_id,lease.agent_id,task.status.value,TaskStatus.EXPIRED.value)
                     if attempt < task.max_attempts:
                         decision=self.retry_policy.decide(FailureClass.INFRASTRUCTURE,attempt,task.max_attempts)
-                        self.repository.update_task(replace(self.repository.get_task(task.task_id),status=TaskStatus.RETRY_WAIT,retry_not_before=now+decision.delay_seconds)); self._record('TaskRetryScheduled',task.task_id,lease.agent_id,TaskStatus.EXPIRED.value,TaskStatus.RETRY_WAIT.value,{'failure_class':FailureClass.INFRASTRUCTURE.value,'delay_seconds':decision.delay_seconds})
+                        self.repository.update_task(replace(self.repository.get_task(task.task_id),status=TaskStatus.RETRY_WAIT,retry_not_before=now+decision.delay_seconds)); self.metrics.inc('task_retries'); self._record('TaskRetryScheduled',task.task_id,lease.agent_id,TaskStatus.EXPIRED.value,TaskStatus.RETRY_WAIT.value,{'failure_class':FailureClass.INFRASTRUCTURE.value,'delay_seconds':decision.delay_seconds})
                     if self.agent_registry is not None:
                         previous=self.agent_registry.circuit_state(lease.agent_id)
                         self.agent_registry.record_failure(lease.agent_id)

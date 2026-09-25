@@ -1,6 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from time import monotonic, sleep
+from .metrics import ControlPlaneMetrics
 
 @dataclass(frozen=True, slots=True)
 class ControlLoopStats:
@@ -10,9 +11,9 @@ class ControlLoopStats:
     errors: int = 0
 
 class ControlLoop:
-    def __init__(self, reconciler, scheduler, service, generation=1, interval_seconds=1.0):
+    def __init__(self, reconciler, scheduler, service, generation=1, interval_seconds=1.0, metrics: ControlPlaneMetrics | None = None):
         if interval_seconds <= 0: raise ValueError('interval_seconds must be positive')
-        self.reconciler=reconciler; self.scheduler=scheduler; self.service=service; self.generation=generation; self.interval_seconds=interval_seconds; self._stop=False; self.stats=ControlLoopStats()
+        self.reconciler=reconciler; self.scheduler=scheduler; self.service=service; self.generation=generation; self.interval_seconds=interval_seconds; self._stop=False; self.stats=ControlLoopStats(); self.metrics=metrics or service.metrics
     def stop(self): self._stop=True
     def tick(self):
         try:
@@ -37,7 +38,7 @@ class ControlLoop:
                     active_by_agent[result.agent_id]=active_by_agent.get(result.agent_id,0)+1
             self.stats=ControlLoopStats(self.stats.ticks+1,self.stats.reconciled+len(changed),self.stats.dispatched+dispatched,self.stats.errors)
         except Exception:
-            self.stats=ControlLoopStats(self.stats.ticks+1,self.stats.reconciled,self.stats.dispatched,self.stats.errors+1)
+            self.metrics.inc('reconcile_errors'); self.stats=ControlLoopStats(self.stats.ticks+1,self.stats.reconciled,self.stats.dispatched,self.stats.errors+1)
         return self.stats
     def run(self,max_ticks=None):
         while not self._stop and (max_ticks is None or self.stats.ticks < max_ticks):
