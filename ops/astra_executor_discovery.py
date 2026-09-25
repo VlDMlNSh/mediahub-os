@@ -36,6 +36,13 @@ SPECS = (
 
 def _probe(spec: ExecutorSpec) -> dict:
     path = shutil.which(spec.command)
+    if not path:
+        for candidate in (Path("/home/mediahub/.local/bin") / spec.command,
+                          Path("/usr/local/bin") / spec.command,
+                          Path("/usr/bin") / spec.command):
+            if candidate.is_file() and os.access(candidate, os.X_OK):
+                path = str(candidate)
+                break
     env_state = {key: ("PRESENT" if os.environ.get(key) else "ABSENT")
                  for key in spec.secret_requirements}
     if not path:

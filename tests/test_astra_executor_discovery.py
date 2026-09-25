@@ -12,6 +12,10 @@ def test_inventory_is_fail_closed_and_secret_free(monkeypatch, tmp_path):
     monkeypatch.setattr(d, "STATUS", tmp_path / ".autonomous" / "executor_capabilities.json")
     monkeypatch.setenv("ANTHROPIC_API_KEY", "SECRET-VALUE")
     monkeypatch.setattr(d.shutil, "which", lambda _: None)
+    monkeypatch.setattr(d, "SPECS", tuple(
+        d.ExecutorSpec(x.name, "definitely-not-installed-" + x.command, x.capabilities,
+                       x.secret_requirements, x.version_args) for x in d.SPECS
+    ))
     payload = d.discover()
     text = d.STATUS.read_text()
     assert "SECRET-VALUE" not in text
