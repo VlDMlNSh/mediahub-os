@@ -38,3 +38,18 @@ def test_unhealthy_heartbeat_degrades_agent():
     r = AgentRegistry(30, 90)
     r.register(agent(), t())
     assert r.heartbeat(Heartbeat("a1", "n1", t(), health="degraded")).status == AgentStatus.DEGRADED
+
+
+def test_repeated_failures_quarantine_agent_until_success():
+    r = AgentRegistry(30, 90, failure_quarantine_threshold=2)
+    r.register(agent(), t())
+    r.heartbeat(Heartbeat("a1", "n1", t()))
+    assert r.record_failure("a1").status == AgentStatus.IDLE
+    assert r.record_failure("a1").status == AgentStatus.DEGRADED
+    assert r.failure_count("a1") == 2
+    assert r.record_success("a1").status == AgentStatus.IDLE
+    assert r.failure_count("a1") == 0
+
+
+def test_quarantine_threshold_must_be_positive():
+    with pytest.raises(ValueError): AgentRegistry(30, 90, failure_quarantine_threshold=0)

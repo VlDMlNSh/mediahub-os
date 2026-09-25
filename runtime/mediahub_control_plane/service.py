@@ -7,7 +7,7 @@ from .repository import ControlPlaneRepository
 
 class ControlPlaneService:
     """Small deterministic coordinator for the first orchestration vertical slice."""
-    def __init__(self, repository: ControlPlaneRepository): self.repository=repository
+    def __init__(self, repository: ControlPlaneRepository, agent_registry=None): self.repository=repository; self.agent_registry=agent_registry
     def mark_ready(self, task_id: str) -> None:
         task=self.repository.get_task(task_id)
         if task is None: raise KeyError(task_id)
@@ -28,7 +28,9 @@ class ControlPlaneService:
         attempt=task.attempt+1; self.repository.record_execution(Execution(str(uuid4()),task_id,agent_id,generation,'FAILED',reason)); self.repository.update_task(replace(task,attempt=attempt,status=TaskStatus.FAILED))
         if attempt < task.max_attempts:
             self.repository.update_task(replace(self.repository.get_task(task_id),status=TaskStatus.RETRY_WAIT))
-        self.repository.release_lease(lease.lease_id,agent_id,generation); self._record('TaskFailed',task_id,agent_id,reason); return self.repository.get_task(task_id)
+        self.repository.release_lease(lease.lease_id,agent_id,generation)
+        if self.agent_registry is not None: self.agent_registry.record_failure(agent_id)
+        self._record('TaskFailed',task_id,agent_id,reason); return self.repository.get_task(task_id)
     def recover_expired(self, task_id, now=None):
         lease=self.repository.get_lease_for_task(task_id)
         if lease is None: return False

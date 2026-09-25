@@ -93,3 +93,15 @@ def test_failure_records_execution_history():
         WorkerRuntime(service).execute('t','a',1,lambda payload,ctx: payload,lambda result: False)
     failures=[e for e in repo.list_executions() if e.status=='FAILED']
     assert len(failures)==1 and failures[0].task_id=='t' and failures[0].agent_id=='a'
+
+
+def test_failure_quarantines_agent_after_threshold():
+    from runtime.mediahub_control_plane.agent_registry import AgentRegistry, Heartbeat
+    from datetime import datetime, timezone
+    registry=AgentRegistry(30,90,failure_quarantine_threshold=1)
+    registry.register(__import__('runtime.mediahub_control_plane.model',fromlist=['Agent']).Agent('a','n','1',capabilities=('linux',)))
+    registry.heartbeat(Heartbeat('a','n',datetime.now(timezone.utc)))
+    repo=InMemoryControlPlaneRepository(); service=ControlPlaneService(repo,registry)
+    repo.create_task(Task('t','build',status=TaskStatus.READY)); service.claim('t','a',1)
+    service.fail('t','a',1,'boom')
+    assert registry.get('a').status.name == 'DEGRADED'

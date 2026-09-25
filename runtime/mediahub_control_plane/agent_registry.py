@@ -26,11 +26,15 @@ def _utcnow() -> datetime:
 
 
 class AgentRegistry:
-    def __init__(self, heartbeat_timeout_seconds: int = 30, dead_timeout_seconds: int = 90):
+    def __init__(self, heartbeat_timeout_seconds: int = 30, dead_timeout_seconds: int = 90, failure_quarantine_threshold: int = 3):
         if heartbeat_timeout_seconds <= 0 or dead_timeout_seconds <= heartbeat_timeout_seconds:
             raise ValueError("timeouts must satisfy 0 < heartbeat_timeout < dead_timeout")
         self.heartbeat_timeout_seconds = heartbeat_timeout_seconds
+        if failure_quarantine_threshold <= 0:
+            raise ValueError("failure_quarantine_threshold must be positive")
         self.dead_timeout_seconds = dead_timeout_seconds
+        self.failure_quarantine_threshold = failure_quarantine_threshold
+        self._failure_counts: dict[str, int] = {}
         self._agents: dict[str, Agent] = {}
         self._last_heartbeat: dict[str, Heartbeat] = {}
 
@@ -72,6 +76,26 @@ class AgentRegistry:
                 self._agents[agent_id] = replace(agent, status=AgentStatus.DEGRADED)
                 changes[agent_id] = AgentStatus.DEGRADED
         return changes
+
+    def record_failure(self, agent_id: str) -> Agent:
+        agent = self._agents[agent_id]
+        count = self._failure_counts.get(agent_id, 0) + 1
+        self._failure_counts[agent_id] = count
+        if count >= self.failure_quarantine_threshold and agent.status not in {AgentStatus.OFFLINE, AgentStatus.DRAINING}:
+            agent = replace(agent, status=AgentStatus.DEGRADED)
+            self._agents[agent_id] = agent
+        return agent
+
+    def record_success(self, agent_id: str) -> Agent:
+        agent = self._agents[agent_id]
+        self._failure_counts[agent_id] = 0
+        if agent.status == AgentStatus.DEGRADED:
+            agent = replace(agent, status=AgentStatus.IDLE)
+            self._agents[agent_id] = agent
+        return agent
+
+    def failure_count(self, agent_id: str) -> int:
+        return self._failure_counts.get(agent_id, 0)
 
     def get(self, agent_id: str) -> Agent:
         return self._agents[agent_id]
