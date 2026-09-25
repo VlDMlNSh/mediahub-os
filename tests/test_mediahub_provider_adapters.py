@@ -114,6 +114,12 @@ def test_malformed_success_is_permanent():
     assert out.failure_class.value == "permanent" and out.retryable is False
 
 
+def test_empty_success_is_permanent():
+    adapter = OpenAIResponsesAdapter(); r = req(Protocol.OPENAI_RESPONSES)
+    out = execute_adapter(adapter, r, "secret", lambda *_: AdapterResult(200, {}, b""))
+    assert out.failure_class.value == "permanent" and out.retryable is False
+
+
 def test_execute_contract_passes_canonical_timeout_to_transport():
     adapter = OpenAIResponsesAdapter(); r = req(Protocol.OPENAI_RESPONSES)
     seen = {}

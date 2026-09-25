@@ -198,8 +198,10 @@ def _failure(request: CanonicalRequest, provider: str, status: int | None, *, re
 def _decode_json_response(request: CanonicalRequest, provider: str, result: AdapterResult) -> CanonicalResponse:
     if not 200 <= result.status < 300:
         raise ValueError("non-success response")
+    if not result.body:
+        raise ValueError("empty provider response")
     try:
-        body = json.loads(result.body or b"{}")
+        body = json.loads(result.body)
     except (TypeError, ValueError, json.JSONDecodeError) as exc:
         raise ValueError("malformed JSON response") from exc
     if not isinstance(body, dict):
