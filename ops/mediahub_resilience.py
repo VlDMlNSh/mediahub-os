@@ -62,8 +62,10 @@ class ResilienceEngine:
         self.gateway = gateway
         self.policy = policy if policy is not None else RetryPolicy()
 
-    def first(self, *, now: float | None = None) -> ResilienceDecision:
-        decision = self.gateway.choose(now=now)
+    def first(
+        self, *, excluded: frozenset[str] = frozenset(), now: float | None = None
+    ) -> ResilienceDecision:
+        decision = self.gateway.choose(excluded=excluded, now=now)
         return ResilienceDecision(decision.provider, None, False, 1, 0.0, decision.reason)
 
     def after_failure(
@@ -74,13 +76,14 @@ class ResilienceEngine:
         *,
         attempt: int,
         retry_after: float | None = None,
+        excluded: frozenset[str] = frozenset(),
         now: float | None = None,
     ) -> ResilienceDecision:
         if attempt >= self.policy.max_attempts:
             failure = self.gateway.classify(status, message)
             self.gateway.record(provider, failure, now)
             return ResilienceDecision(None, failure, False, attempt, 0.0, "retry budget exhausted")
-        decision = self.gateway.failover(provider, status, message)
+        decision = self.gateway.failover(provider, status, message, excluded=excluded)
         if decision.provider is None:
             return ResilienceDecision(None, decision.failure, False, attempt, 0.0, decision.reason)
         if decision.failure is FailureClass.PERMANENT:

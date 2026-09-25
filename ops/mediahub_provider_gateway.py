@@ -94,10 +94,17 @@ class ProviderGateway:
                 return GatewayDecision(provider.name, None, False, "highest-priority available provider")
         return GatewayDecision(None, FailureClass.TRANSIENT, False, "all providers unavailable")
 
-    def failover(self, provider: str, status: int | None, message: str = "") -> GatewayDecision:
+    def failover(
+        self,
+        provider: str,
+        status: int | None,
+        message: str = "",
+        *,
+        excluded: frozenset[str] = frozenset(),
+    ) -> GatewayDecision:
         failure = self.classify(status, message)
         self.record(provider, failure)
-        excluded = frozenset({provider})
+        excluded = frozenset(set(excluded) | {provider})
         if failure is FailureClass.POLICY_BLOCKED:
             decision = self.choose(excluded=excluded)
             return GatewayDecision(decision.provider, failure, False, "provider policy blocked; deterministic failover")
