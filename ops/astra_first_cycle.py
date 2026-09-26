@@ -32,6 +32,7 @@ LOCK = STATE / "coordinator.lock"
 BRANCH = "engineering/mh21-sandbox-lifecycle-20260910"
 R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
 AGENT = "astra-local-qwen"
+LOCAL_GENERATION_MAX_TOKENS = 256
 
 TASKS = (
     {
@@ -89,7 +90,7 @@ def generate_patch(task: dict) -> str:
     target = target_path.read_text(encoding="utf-8")
     prompt = task["instruction"] + " Return only the function code, no markdown, no explanation."
     if ":8081/" in os.environ["MEDIAHUB_AI_URL"]:
-        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": 64, "temperature": 0}).encode()
+        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": LOCAL_GENERATION_MAX_TOKENS, "temperature": 0}).encode()
         request = urllib.request.Request(os.environ["MEDIAHUB_AI_URL"], data=body, headers={"Content-Type": "application/json"}, method="POST")
         try:
             with urllib.request.urlopen(request, timeout=30) as response:
