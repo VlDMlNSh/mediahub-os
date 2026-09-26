@@ -1,0 +1,96 @@
+name: MediaHub Cloud Development Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: Cloud provider lane
+        required: true
+        type: choice
+        options: [gemini, openrouter, anthropic, openai, groq, together, huggingface]
+      task_id:
+        description: Non-secret MediaHub task identifier
+        required: true
+        type: string
+      capability:
+        description: Qualified capability class
+        required: true
+        type: string
+      target_ref:
+        description: Trusted branch/ref containing the task
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mediahub-cloud-${{ inputs.task_id }}
+  cancel-in-progress: false
+
+jobs:
+  agent:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PROVIDER: ${{ inputs.provider }}
+      TASK_ID: ${{ inputs.task_id }}
+      CAPABILITY: ${{ inputs.capability }}
+      TARGET_REF: ${{ inputs.target_ref }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - name: Checkout trusted target
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ inputs.target_ref }}
+          fetch-depth: 1
+
+      - name: Validate non-secret task contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$TASK_ID" =~ ^[A-Za-z0-9._:/-]{1,160}$ ]]
+          [[ "$CAPABILITY" =~ ^[A-Za-z0-9._:/-]{1,160}$ ]]
+          [[ "$TARGET_REF" =~ ^[A-Za-z0-9._:/-]{1,160}$ ]]
+
+      - name: Execute qualified cloud lane
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$CAPABILITY" in
+            code_review|bug_analysis|architecture|security_review|test_design|test_failure_analysis|code_generation|refactoring|documentation|qualification) ;;
+            *) echo "unsupported capability" >&2; exit 2 ;;
+          esac
+          case "$PROVIDER" in
+            gemini)
+              test -n "$GEMINI_API_KEY"
+              python3 - <<'PY'
+          import json, os, urllib.request
+          prompt = f"MediaHub task {os.environ['TASK_ID']} capability {os.environ['CAPABILITY']}. Return bounded engineering analysis/proposal only."
+          body = json.dumps({"contents":[{"role":"user","parts":[{"text":prompt}]}],"generationConfig":{"temperature":0,"maxOutputTokens":512}}).encode()
+          req = urllib.request.Request("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent", data=body, headers={"x-goog-api-key":os.environ["GEMINI_API_KEY"],"content-type":"application/json"})
+          with urllib.request.urlopen(req, timeout=60) as r:
+              out = r.read(1048576)
+          data=json.loads(out)
+          text=data["candidates"][0]["content"]["parts"][0]["text"]
+          open("cloud-agent-result.txt","w",encoding="utf-8").write(text)
+          PY
+              ;;
+            *)
+              echo "Provider lane $PROVIDER requires its qualified adapter implementation; no fallback is permitted." >&2
+              exit 3
+              ;;
+          esac
+
+      - name: Upload evidence
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: mediahub-cloud-agent-${{ inputs.task_id }}
+          path: cloud-agent-result.txt
+          if-no-files-found: error
