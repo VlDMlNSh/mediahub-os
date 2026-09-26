@@ -309,3 +309,16 @@ CREATE TABLE audit(event_id TEXT PRIMARY KEY, timestamp REAL NOT NULL, actor TEX
     db = sqlite3.connect(path)
     assert db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == '2'
     db.close()
+
+def test_meta_only_database_bootstraps_full_schema(tmp_path):
+    import sqlite3
+    from runtime.mediahub_control_plane.sqlite_repository import SQLiteControlPlaneRepository
+    path = tmp_path / "control.sqlite3"
+    with sqlite3.connect(path) as db:
+        db.execute("CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)")
+        db.commit()
+    repo = SQLiteControlPlaneRepository(path)
+    assert repo.list_tasks() == ()
+    assert repo.list_leases() == ()
+    assert repo.list_executions() == ()
+    assert repo.list_operations() == ()

@@ -90,6 +90,12 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
                 return
             if existing - set(self._REQUIRED_COLUMNS):
                 raise RuntimeError("control-plane schema contains unknown tables; refusing implicit migration")
+            if existing == {"meta"}:
+                db.executescript(_SCHEMA)
+                db.execute("INSERT OR REPLACE INTO meta(key,value) VALUES('schema_version',?)", (self.SCHEMA_VERSION,))
+                db.commit()
+                self._assert_schema(db)
+                return
             if existing:
                 legacy_required = {k:v for k,v in self._REQUIRED_COLUMNS.items() if k != 'operations'}
                 for table, required in legacy_required.items():
