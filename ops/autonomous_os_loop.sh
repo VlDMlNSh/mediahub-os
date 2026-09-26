@@ -17,10 +17,15 @@ printf '%s:%s\n' "$$" "$PROC_STARTTIME" >"$PIDFILE"
 trap 'rm -f "$PIDFILE"' EXIT
 export MEDIAHUB_ROOT="$ROOT"
 export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
-export MEDIAHUB_LOCAL_MODEL="/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf"
+export MEDIAHUB_LOCAL_MODEL="${MEDIAHUB_LOCAL_MODEL:-/home/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf}"
+export MEDIAHUB_LOCAL_MODEL_NAME="${MEDIAHUB_LOCAL_MODEL_NAME:-qwen2.5-coder:3b}"
+export MEDIAHUB_AI_URL="${MEDIAHUB_AI_URL:-http://127.0.0.1:11434/v1/chat/completions}"
+PYTHON_BIN="$ROOT/.venv-mediahub/bin/python"
+[ -x "$PYTHON_BIN" ] || PYTHON_BIN="/usr/bin/python3"
+export MEDIAHUB_PYTHON="$PYTHON_BIN"
 export MEDIAHUB_LLAMA_CLI="/home/mediahub/local-ai/bin/llama-cli"
 if [ ! -e "$STOPFILE" ]; then
-	nohup /usr/bin/python3 "$ROOT/ops/astra_orchestrator.py" >>"$STATE/astra.log" 2>&1 &
+	nohup "$PYTHON_BIN" "$ROOT/ops/astra_orchestrator.py" >>"$STATE/astra.log" 2>&1 &
 	printf "%s:%s\n" "$!" "$(awk "{print \\$22}" "/proc/$!/stat" 2>/dev/null || true)" >"$ASTRA_PIDFILE"
 fi
 MAX=900
@@ -67,7 +72,7 @@ while [ ! -e "$STOPFILE" ]; do
 			continue
 		fi
 		set +e
-		timeout --signal=TERM --kill-after=20s "${MAX}s" ./ops/local_autonomous_agent.py
+		timeout --signal=TERM --kill-after=20s "${MAX}s" "$PYTHON_BIN" ./ops/local_autonomous_agent.py
 		RC=$?
 		set -e
 		POST_HEAD="$(git rev-parse HEAD)"

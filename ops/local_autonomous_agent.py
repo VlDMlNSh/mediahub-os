@@ -26,6 +26,7 @@ FCM_ROUTER_ENABLED = os.environ.get("MEDIAHUB_FCM_ROUTER", "1") == "1"
 OMNIROUTE_URL = os.environ.get("MEDIAHUB_OMNIROUTE_URL", "http://127.0.0.1:20128/v1/chat/completions")  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
 OMNIROUTE_ENABLED = os.environ.get("MEDIAHUB_OMNIROUTE", "1") == "1"
 OMNIROUTE_API_KEY = os.environ.get("OMNIROUTE_API_KEY", "")
+LOCAL_AI_MODEL = os.environ.get("MEDIAHUB_LOCAL_MODEL_NAME", "")
 GIT = Path("/usr/bin/git")
 RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 160
@@ -3991,14 +3992,18 @@ def _omniroute_ready() -> bool:
         return False
 
 
-def _generate_endpoint(url: str, text: str, model: str | None) -> tuple[int, str, str]:
+def _endpoint_ready(url: str) -> bool:
+    base = url.rsplit("/v1/", 1)[0]
+    health_path = "/api/version" if ":11434" in base else "/health"
     try:
-        with LOCAL_AI_OPENER.open(
-            urllib.request.Request(url.rsplit("/v1/", 1)[0] + "/health"), timeout=5
-        ) as response:
-            if response.status != 200:
-                return 28, "", "AI_REJECTED"
+        with LOCAL_AI_OPENER.open(urllib.request.Request(base + health_path), timeout=5) as response:
+            return response.status == 200
     except (urllib.error.URLError, TimeoutError):
+        return False
+
+
+def _generate_endpoint(url: str, text: str, model: str | None) -> tuple[int, str, str]:
+    if not _endpoint_ready(url):
         return 28, "", "AI_TIMEOUT"
     payload = {
         "messages": [
@@ -4008,8 +4013,9 @@ def _generate_endpoint(url: str, text: str, model: str | None) -> tuple[int, str
         "max_tokens": 256,
         "temperature": 0,
     }
-    if model:
-        payload["model"] = model
+    selected_model = model or LOCAL_AI_MODEL
+    if selected_model:
+        payload["model"] = selected_model
     req = urllib.request.Request(  # nosemgrep: python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object
         url, data=json.dumps(payload).encode(),
         headers={"Content-Type": "application/json"}, method="POST"
@@ -4057,8 +4063,8 @@ def rollback() -> bool:
 
 
 def main() -> int:
-    if not MODEL.is_file():
-        state("BLOCKED", "local model absent")
+    if not MODEL.is_file() and not _endpoint_ready(LOCAL_AI_URL) and not _omniroute_ready() and not _fcm_router_ready():
+        state("BLOCKED", "no local AI execution endpoint available")
         return 20
     if run(["git", "merge-base", "--is-ancestor", R4, "HEAD"]).returncode:
         state("BLOCKED", "R4 ancestry failed")
