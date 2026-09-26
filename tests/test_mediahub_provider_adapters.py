@@ -7,6 +7,9 @@ from ops.mediahub_provider_adapters import (
     OpenAIChatAdapter,
     OpenAIResponsesAdapter,
     OpenRouterAdapter,
+    GroqChatAdapter,
+    TogetherChatAdapter,
+    HuggingFaceChatAdapter,
     ZhipuGLMAdapter,
     AdapterResult,
     execute_adapter,
@@ -127,3 +130,15 @@ def test_execute_contract_passes_canonical_timeout_to_transport():
         seen["timeout"] = timeout; seen["url"] = http.url; return AdapterResult(200, {}, b"{}")
     out = execute_adapter(adapter, r, "secret", send)
     assert out.request_id == "r1" and seen == {"timeout": 30.0, "url": adapter.endpoint}
+
+
+def test_openai_compatible_external_provider_endpoints():
+    request = CanonicalRequest("req-ext", "test-model", Protocol.OPENAI_CHAT, [{"role": "user", "content": "ping"}], 10)
+    assert GroqChatAdapter().build_http_request(request, "secret").url == "https://api.groq.com/openai/v1/chat/completions"
+    assert TogetherChatAdapter().build_http_request(request, "secret").url == "https://api.together.xyz/v1/chat/completions"
+    assert HuggingFaceChatAdapter().build_http_request(request, "secret").url == "https://router.huggingface.co/v1/chat/completions"
+
+
+def test_external_provider_adapters_do_not_store_credentials():
+    for adapter in (GroqChatAdapter(), TogetherChatAdapter(), HuggingFaceChatAdapter()):
+        assert "secret" not in vars(adapter).values()

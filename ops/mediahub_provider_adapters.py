@@ -172,6 +172,30 @@ class GeminiGenerateContentAdapter(NativeProviderAdapter):
         return _failure(request, self.provider, status_code, retry_after=_retry_after(headers or {}))
 
 
+class GroqChatAdapter(OpenAIChatAdapter):
+    provider = "groq"
+    endpoint = "https://api.groq.com/openai/v1/chat/completions"
+
+    def capabilities(self) -> tuple[Capability, ...]:
+        return (Capability(self.provider, "*", Protocol.OPENAI_CHAT, "chat_completions"),)
+
+
+class TogetherChatAdapter(OpenAIChatAdapter):
+    provider = "together"
+    endpoint = "https://api.together.xyz/v1/chat/completions"
+
+    def capabilities(self) -> tuple[Capability, ...]:
+        return (Capability(self.provider, "*", Protocol.OPENAI_CHAT, "chat_completions"),)
+
+
+class HuggingFaceChatAdapter(OpenAIChatAdapter):
+    provider = "huggingface"
+    endpoint = "https://router.huggingface.co/v1/chat/completions"
+
+    def capabilities(self) -> tuple[Capability, ...]:
+        return (Capability(self.provider, "*", Protocol.OPENAI_CHAT, "chat_completions"),)
+
+
 class OpenRouterAdapter(OpenAIChatAdapter):
     provider = "openrouter"
     endpoint = "https://openrouter.ai/api/v1/chat/completions"
@@ -236,5 +260,8 @@ ADAPTERS = {
     "anthropic": AnthropicMessagesAdapter,
     "gemini": GeminiGenerateContentAdapter,
     "openrouter": OpenRouterAdapter,
+    "groq": GroqChatAdapter,
+    "together": TogetherChatAdapter,
+    "huggingface": HuggingFaceChatAdapter,
     "zhipu": ZhipuGLMAdapter,
 }
