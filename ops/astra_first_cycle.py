@@ -87,7 +87,7 @@ def clean_model_diff(text: str) -> str:
 def generate_patch(task: dict) -> str:
     target_path = ROOT / task["path"]
     target = target_path.read_text(encoding="utf-8")
-    prompt = f"Return ONLY one complete Python test function, no markdown. {task['instruction']} Use pytest.raises where needed and only existing imports. The function will be appended to the file."
+    prompt = task["instruction"] + " Return only the function code, no markdown, no explanation."
     if ":8081/" in os.environ["MEDIAHUB_AI_URL"]:
         body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": 96, "temperature": 0}).encode()
         request = urllib.request.Request(os.environ["MEDIAHUB_AI_URL"], data=body, headers={"Content-Type": "application/json"}, method="POST")
