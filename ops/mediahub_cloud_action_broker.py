@@ -20,6 +20,9 @@ class CloudDispatch:
     task_id: str
     capability: str
     ref: str
+    execution_id: str
+    generation: int
+    operation_key: str
 
 
 def _safe(value: str, name: str) -> str:
@@ -33,6 +36,10 @@ def dispatch(plan: CloudDispatch, *, repository: str = "VlDMlNSh/mediahub-os") -
     task_id = _safe(plan.task_id, "task_id")
     capability = _safe(plan.capability, "capability")
     ref = _safe(plan.ref, "ref")
+    execution_id = _safe(plan.execution_id, "execution_id")
+    operation_key = _safe(plan.operation_key, "operation_key")
+    if not isinstance(plan.generation, int) or plan.generation < 1:
+        raise ValueError("invalid generation")
     repo = _safe(repository, "repository")
     cmd = [
         "gh", "workflow", "run", WORKFLOW,
@@ -42,6 +49,9 @@ def dispatch(plan: CloudDispatch, *, repository: str = "VlDMlNSh/mediahub-os") -
         "-f", f"task_id={task_id}",
         "-f", f"capability={capability}",
         "-f", f"target_ref={ref}",
+        "-f", f"execution_id={execution_id}",
+        "-f", f"generation={plan.generation}",
+        "-f", f"operation_key={operation_key}",
     ]
     result = subprocess.run(cmd, check=False, capture_output=True, text=True, timeout=20)
     if result.returncode != 0:
