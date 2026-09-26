@@ -87,21 +87,12 @@ def clean_model_diff(text: str) -> str:
 def generate_patch(task: dict) -> str:
     target_path = ROOT / task["path"]
     target = target_path.read_text(encoding="utf-8")
-    tail = "\n".join(target.splitlines()[-24:])
-    prompt = f"""MediaHub Astra bounded coding task. Return ONLY one complete Python test function, no markdown and no explanation.
-Task: {task['instruction']}
-The function must be self-contained and use only imports already present in the file.
-The function will be appended to the end of {task['path']}.
-Current tail of file:
----
-{tail}
----
-"""
+    prompt = f"Return ONLY one complete Python test function, no markdown. {task['instruction']} Use pytest.raises where needed and only existing imports. The function will be appended to the file."
     if ":8081/" in os.environ["MEDIAHUB_AI_URL"]:
-        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": 160, "temperature": 0}).encode()
+        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": 96, "temperature": 0}).encode()
         request = urllib.request.Request(os.environ["MEDIAHUB_AI_URL"], data=body, headers={"Content-Type": "application/json"}, method="POST")
         try:
-            with urllib.request.urlopen(request, timeout=45) as response:
+            with urllib.request.urlopen(request, timeout=30) as response:
                 payload = json.loads(response.read(262144).decode("utf-8"))
             content = str(payload["choices"][0]["message"]["content"])
         except Exception as exc:
