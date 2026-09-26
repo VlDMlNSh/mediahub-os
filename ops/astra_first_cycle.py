@@ -37,13 +37,13 @@ TASKS = (
     {
         "id": "ASTRA-FIRST-001",
         "path": "tests/ops/test_patch_admission.py",
-        "instruction": "Add one regression test named test_admission_limits_patch_size. The test must construct a StructuredPatch containing a small valid unified diff and assert admit_patch(..., max_patch_bytes=10) raises PatchAdmissionError. Do not modify imports or existing tests.",
+        "instruction": "Return exactly this function: def test_admission_limits_patch_size(tmp_path): proposal = StructuredPatch.from_json(json.dumps({\"files\": [{\"path\": \"tests/x.py\", \"operation\": \"modify\", \"patch\": \"\"}]})); with pytest.raises(PatchAdmissionError): admit_patch(proposal, tmp_path, allowed_paths=(\"tests/**\",), max_patch_bytes=1). Format it as normal indented Python.",
         "test": "pytest -q tests/ops/test_patch_admission.py",
     },
     {
         "id": "ASTRA-FIRST-002",
         "path": "tests/ops/test_coordinator_lease.py",
-        "instruction": "Add one regression test named test_heartbeat_requires_current_owner. Acquire a CoordinatorLease as coord-a, release it, then create coord-b and acquire it. Assert that calling heartbeat on the released coord-a raises CoordinatorLeaseError. Keep all existing tests unchanged.",
+        "instruction": "Return exactly this function: def test_heartbeat_requires_current_owner(tmp_path): db = tmp_path / \"control.sqlite3\"; lock = tmp_path / \"coord.lock\"; first = CoordinatorLease(db, lock, branch=\"engineering/test\"); first.acquire(\"coord-a\", now=100.0); first.release(now=101.0); second = CoordinatorLease(db, lock, branch=\"engineering/test\"); second.acquire(\"coord-b\", now=102.0); with pytest.raises(CoordinatorLeaseError): first.heartbeat(now=103.0); second.release(now=104.0). Format it as normal indented Python.",
         "test": "pytest -q tests/ops/test_coordinator_lease.py",
     },
 )
