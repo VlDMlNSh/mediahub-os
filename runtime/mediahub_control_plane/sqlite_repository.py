@@ -8,7 +8,7 @@ from pathlib import Path
 from threading import RLock
 from typing import Any
 
-from .model import AuditRecord, Execution, Event, Lease, LeaseStatus, Task, TaskStatus, validate_task_transition
+from .model import AuditRecord, Execution, Event, ExternalOperation, Lease, LeaseStatus, OperationStatus, Task, TaskStatus, validate_task_transition
 from .repository import ControlPlaneRepository
 
 _SCHEMA = """
@@ -31,6 +31,10 @@ CREATE TABLE IF NOT EXISTS events (event_id TEXT PRIMARY KEY, event_type TEXT NO
 CREATE TABLE IF NOT EXISTS audit (event_id TEXT PRIMARY KEY, timestamp REAL NOT NULL,
   actor TEXT NOT NULL, action TEXT NOT NULL, resource TEXT NOT NULL, resource_id TEXT NOT NULL,
   previous_state TEXT, new_state TEXT, result TEXT NOT NULL, correlation_id TEXT);
+CREATE TABLE IF NOT EXISTS operations (operation_id TEXT PRIMARY KEY, task_id TEXT NOT NULL,
+  operation_key TEXT NOT NULL UNIQUE, provider TEXT NOT NULL, model TEXT NOT NULL,
+  attempt INTEGER NOT NULL, generation INTEGER NOT NULL, status TEXT NOT NULL,
+  replay_allowed INTEGER NOT NULL, result TEXT, created_at REAL NOT NULL, resolved_at REAL);
 """
 
 
@@ -57,6 +61,8 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
                    "correlation_id"},
         "audit": {"event_id", "timestamp", "actor", "action", "resource", "resource_id",
                   "previous_state", "new_state", "result", "correlation_id"},
+        "operations": {"operation_id", "task_id", "operation_key", "provider", "model", "attempt",
+                       "generation", "status", "replay_allowed", "result", "created_at", "resolved_at"},
     }
 
     def __init__(self, path: str | Path, *, timeout: float = 5.0, clock=time.time):
@@ -72,6 +78,12 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
             version_row = db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone() if meta_exists else None
             if version_row is not None:
                 version = version_row[0]
+                if version == '1':
+                    db.execute('BEGIN IMMEDIATE')
+                    db.execute('CREATE TABLE IF NOT EXISTS operations (operation_id TEXT PRIMARY KEY, task_id TEXT NOT NULL, operation_key TEXT NOT NULL UNIQUE, provider TEXT NOT NULL, model TEXT NOT NULL, attempt INTEGER NOT NULL, generation INTEGER NOT NULL, status TEXT NOT NULL, replay_allowed INTEGER NOT NULL, result TEXT, created_at REAL NOT NULL, resolved_at REAL)')
+                    db.execute("UPDATE meta SET value='1' WHERE key='schema_version'")
+                    db.commit()
+                    version = self.SCHEMA_VERSION
                 if version != self.SCHEMA_VERSION:
                     raise RuntimeError(f"unsupported control-plane schema: {version}")
                 self._assert_schema(db)
@@ -79,7 +91,18 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
             if existing - set(self._REQUIRED_COLUMNS):
                 raise RuntimeError("control-plane schema contains unknown tables; refusing implicit migration")
             if existing:
+                legacy_required = {k:v for k,v in self._REQUIRED_COLUMNS.items() if k != 'operations'}
+                for table, required in legacy_required.items():
+                    columns = {row[1] for row in db.execute(f"PRAGMA table_info({table})")}
+                    if not required.issubset(columns):
+                        missing = sorted(required - columns)
+                        raise RuntimeError(f"control-plane schema mismatch for {table}: missing {missing}")
+                db.execute('BEGIN IMMEDIATE')
+                db.execute('CREATE TABLE IF NOT EXISTS operations (operation_id TEXT PRIMARY KEY, task_id TEXT NOT NULL, operation_key TEXT NOT NULL UNIQUE, provider TEXT NOT NULL, model TEXT NOT NULL, attempt INTEGER NOT NULL, generation INTEGER NOT NULL, status TEXT NOT NULL, replay_allowed INTEGER NOT NULL, result TEXT, created_at REAL NOT NULL, resolved_at REAL)')
+                db.execute("INSERT INTO meta(key,value) VALUES('schema_version','1')")
+                db.commit()
                 self._assert_schema(db)
+                return
             db.executescript("BEGIN IMMEDIATE;" + _SCHEMA + "INSERT INTO meta(key,value) VALUES('schema_version','" + self.SCHEMA_VERSION + "');COMMIT;")
             self._assert_schema(db)
 
@@ -191,6 +214,70 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
     def _insert_event_audit(self, db, event, audit):
         db.execute("INSERT INTO events VALUES(?,?,?,?,?,?,?)", (event.event_id,event.event_type,event.timestamp,event.entity_type,event.entity_id,_json(event.payload),event.correlation_id))
         db.execute("INSERT INTO audit VALUES(?,?,?,?,?,?,?,?,?,?)", (audit.event_id,audit.timestamp,audit.actor,audit.action,audit.resource,audit.resource_id,audit.previous_state,audit.new_state,audit.result,audit.correlation_id))
+
+    @staticmethod
+    def _operation(row):
+        return ExternalOperation(row['operation_id'], row['task_id'], row['operation_key'], row['provider'],
+                                 row['model'], row['attempt'], row['generation'], OperationStatus(row['status']),
+                                 bool(row['replay_allowed']), _unjson(row['result']), row['created_at'], row['resolved_at'])
+
+    def list_operations(self):
+        with self._connect() as db:
+            rows=db.execute('SELECT * FROM operations ORDER BY created_at, operation_id').fetchall()
+        return tuple(self._operation(row) for row in rows)
+
+    def get_operation(self, operation_id):
+        with self._connect() as db:
+            row=db.execute('SELECT * FROM operations WHERE operation_id=?',(operation_id,)).fetchone()
+        return self._operation(row) if row else None
+
+    def get_operation_by_key(self, operation_key):
+        with self._connect() as db:
+            row=db.execute('SELECT * FROM operations WHERE operation_key=?',(operation_key,)).fetchone()
+        return self._operation(row) if row else None
+
+    def create_operation(self, operation):
+        with self._connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            existing=db.execute('SELECT * FROM operations WHERE operation_key=?',(operation.operation_key,)).fetchone()
+            if existing:
+                db.commit(); return self._operation(existing)
+            db.execute('INSERT INTO operations VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
+                       (operation.operation_id,operation.task_id,operation.operation_key,operation.provider,operation.model,
+                        operation.attempt,operation.generation,operation.status.value,int(operation.replay_allowed),
+                        _json(operation.result),operation.created_at,operation.resolved_at))
+            db.commit()
+        return operation
+
+    def mark_operation_reconciliation_required(self, operation_id, reason):
+        with self._connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            row=db.execute('SELECT * FROM operations WHERE operation_id=?',(operation_id,)).fetchone()
+            if not row: raise KeyError(operation_id)
+            if row['status'] == OperationStatus.RECONCILIATION_REQUIRED.value:
+                db.commit(); return self._operation(row)
+            if row['status'] not in (OperationStatus.IN_FLIGHT.value, OperationStatus.REPLAY_AUTHORIZED.value):
+                raise ValueError('operation cannot enter reconciliation')
+            db.execute('UPDATE operations SET status=?, replay_allowed=0, result=? WHERE operation_id=?',
+                       (OperationStatus.RECONCILIATION_REQUIRED.value,_json({'status':'RECONCILIATION_REQUIRED','reason':reason}),operation_id))
+            db.commit()
+            row=db.execute('SELECT * FROM operations WHERE operation_id=?',(operation_id,)).fetchone()
+        return self._operation(row)
+
+    def resolve_operation(self, operation_id, result, *, replay_authorized=False):
+        now=self.now()
+        with self._connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            row=db.execute('SELECT * FROM operations WHERE operation_id=?',(operation_id,)).fetchone()
+            if not row: raise KeyError(operation_id)
+            if row['status'] == OperationStatus.RESOLVED.value:
+                db.commit(); return self._operation(row)
+            status=OperationStatus.REPLAY_AUTHORIZED if replay_authorized else OperationStatus.RESOLVED
+            db.execute('UPDATE operations SET status=?, replay_allowed=?, result=?, resolved_at=? WHERE operation_id=?',
+                       (status.value,int(replay_authorized),_json(result),now,operation_id))
+            db.commit()
+            row=db.execute('SELECT * FROM operations WHERE operation_id=?',(operation_id,)).fetchone()
+        return self._operation(row)
 
     def claim_and_start(self, task_id, agent_id, generation, max_concurrency=None, event=None, audit=None):
         import uuid

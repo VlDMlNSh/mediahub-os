@@ -8,3 +8,10 @@ def test_valid_task_transition(): validate_task_transition(TaskStatus.READY, Tas
 def test_records_are_immutable():
     t=Task('t','x')
     with pytest.raises((AttributeError,TypeError)): t.status=TaskStatus.READY
+
+def test_reconciliation_transition_invariants():
+    validate_task_transition(TaskStatus.RUNNING, TaskStatus.RECONCILIATION_REQUIRED)
+    validate_task_transition(TaskStatus.RECONCILIATION_REQUIRED, TaskStatus.VERIFYING)
+    validate_task_transition(TaskStatus.RECONCILIATION_REQUIRED, TaskStatus.READY)
+    with pytest.raises(ValueError): validate_task_transition(TaskStatus.READY, TaskStatus.RECONCILIATION_REQUIRED)
+    with pytest.raises(ValueError): validate_task_transition(TaskStatus.SUCCEEDED, TaskStatus.RECONCILIATION_REQUIRED)

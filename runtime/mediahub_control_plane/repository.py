@@ -1,6 +1,7 @@
 from __future__ import annotations
 from threading import RLock
-from .model import Task, Lease, Execution, Event, AuditRecord, TaskStatus, LeaseStatus
+from typing import Any
+from .model import Task, Lease, Execution, Event, AuditRecord, ExternalOperation, OperationStatus, TaskStatus, LeaseStatus
 
 class ControlPlaneRepository:
     def create_task(self, task: Task) -> Task: raise NotImplementedError
@@ -8,6 +9,12 @@ class ControlPlaneRepository:
     def list_tasks(self) -> tuple[Task, ...]: raise NotImplementedError
     def list_leases(self) -> tuple[Lease, ...]: raise NotImplementedError
     def list_executions(self) -> tuple[Execution, ...]: raise NotImplementedError
+    def get_operation(self, operation_id: str) -> ExternalOperation | None: raise NotImplementedError
+    def list_operations(self) -> tuple[ExternalOperation, ...]: raise NotImplementedError
+    def get_operation_by_key(self, operation_key: str) -> ExternalOperation | None: raise NotImplementedError
+    def create_operation(self, operation: ExternalOperation) -> ExternalOperation: raise NotImplementedError
+    def resolve_operation(self, operation_id: str, result: Any, *, replay_authorized: bool = False) -> ExternalOperation: raise NotImplementedError
+    def mark_operation_reconciliation_required(self, operation_id: str, reason: str) -> ExternalOperation: raise NotImplementedError
     def claim_task(self, task_id: str, agent_id: str, generation: int, max_concurrency: int | None = None) -> Lease: raise NotImplementedError
     def renew_lease(self, lease_id: str, agent_id: str, generation: int, expires_at: float) -> Lease: raise NotImplementedError
     def record_execution(self, execution: Execution) -> Execution: raise NotImplementedError
@@ -22,7 +29,7 @@ class ControlPlaneRepository:
 class InMemoryControlPlaneRepository(ControlPlaneRepository):
     """Deterministic reference repository; not durable production persistence."""
     def __init__(self):
-        self._lock=RLock(); self.tasks={}; self.leases={}; self.executions={}; self.events={}; self.audit={}; self._task_keys={}; self._lease_by_task={}
+        self._lock=RLock(); self.tasks={}; self.leases={}; self.executions={}; self.operations={}; self.events={}; self.audit={}; self._task_keys={}; self._operation_keys={}; self._lease_by_task={}
     def create_task(self, task):
         with self._lock:
             if task.task_id in self.tasks: raise ValueError('duplicate task_id')
@@ -67,6 +74,34 @@ class InMemoryControlPlaneRepository(ControlPlaneRepository):
             if lease.agent_id != agent_id or lease.generation != generation: raise PermissionError('stale lease owner')
             if lease.status not in (LeaseStatus.ACTIVE,LeaseStatus.RENEWED): raise ValueError('lease not renewable')
             lease=dataclasses.replace(lease,expires_at=expires_at,last_renewed_at=time.monotonic(),status=LeaseStatus.RENEWED); self.leases[lease_id]=lease; return lease
+    def get_operation(self, operation_id):
+        with self._lock: return self.operations.get(operation_id)
+    def list_operations(self):
+        with self._lock: return tuple(self.operations.values())
+    def get_operation_by_key(self, operation_key):
+        with self._lock:
+            oid=self._operation_keys.get(operation_key); return self.operations.get(oid) if oid else None
+    def create_operation(self, operation):
+        with self._lock:
+            if operation.operation_id in self.operations: return self.operations[operation.operation_id]
+            if operation.operation_key in self._operation_keys: return self.operations[self._operation_keys[operation.operation_key]]
+            self.operations[operation.operation_id]=operation; self._operation_keys[operation.operation_key]=operation.operation_id; return operation
+    def mark_operation_reconciliation_required(self, operation_id, reason):
+        from dataclasses import replace
+        with self._lock:
+            op=self.operations.get(operation_id)
+            if op is None: raise KeyError(operation_id)
+            if op.status is OperationStatus.RECONCILIATION_REQUIRED: return op
+            if op.status not in (OperationStatus.IN_FLIGHT, OperationStatus.REPLAY_AUTHORIZED): raise ValueError('operation cannot enter reconciliation')
+            op=replace(op,status=OperationStatus.RECONCILIATION_REQUIRED,replay_allowed=False,result={'status':'RECONCILIATION_REQUIRED','reason':reason}); self.operations[operation_id]=op; return op
+    def resolve_operation(self, operation_id, result, *, replay_authorized=False):
+        from dataclasses import replace
+        with self._lock:
+            op=self.operations.get(operation_id)
+            if op is None: raise KeyError(operation_id)
+            if op.status is OperationStatus.RESOLVED: return op
+            status=OperationStatus.REPLAY_AUTHORIZED if replay_authorized else OperationStatus.RESOLVED
+            op=replace(op,status=status,replay_allowed=replay_authorized,result=result,resolved_at=__import__('time').time()); self.operations[operation_id]=op; return op
     def record_execution(self, execution):
         with self._lock:
             if execution.execution_id in self.executions: return self.executions[execution.execution_id]

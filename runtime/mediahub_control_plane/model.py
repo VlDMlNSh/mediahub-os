@@ -5,7 +5,7 @@ from typing import Any
 class AgentStatus(str, Enum):
     REGISTERING='REGISTERING'; ONLINE='ONLINE'; IDLE='IDLE'; CLAIMING='CLAIMING'; BUSY='BUSY'; VERIFYING='VERIFYING'; DEGRADED='DEGRADED'; UNHEALTHY='UNHEALTHY'; DISCONNECTED='DISCONNECTED'; DRAINING='DRAINING'; OFFLINE='OFFLINE'
 class TaskStatus(str, Enum):
-    PENDING='PENDING'; READY='READY'; CLAIMED='CLAIMED'; RUNNING='RUNNING'; VERIFYING='VERIFYING'; SUCCEEDED='SUCCEEDED'; FAILED='FAILED'; RETRY_WAIT='RETRY_WAIT'; BLOCKED='BLOCKED'; CANCELLED='CANCELLED'; EXPIRED='EXPIRED'
+    PENDING='PENDING'; READY='READY'; CLAIMED='CLAIMED'; RUNNING='RUNNING'; VERIFYING='VERIFYING'; SUCCEEDED='SUCCEEDED'; FAILED='FAILED'; RETRY_WAIT='RETRY_WAIT'; BLOCKED='BLOCKED'; CANCELLED='CANCELLED'; EXPIRED='EXPIRED'; RECONCILIATION_REQUIRED='RECONCILIATION_REQUIRED'
 class CircuitState(str, Enum):
     CLOSED='CLOSED'
     OPEN='OPEN'
@@ -18,6 +18,12 @@ class FailureClass(str, Enum):
 
 class LeaseStatus(str, Enum):
     ACTIVE='ACTIVE'; RENEWED='RENEWED'; EXPIRING='EXPIRING'; EXPIRED='EXPIRED'; RELEASED='RELEASED'; REVOKED='REVOKED'
+
+class OperationStatus(str, Enum):
+    IN_FLIGHT='IN_FLIGHT'
+    RECONCILIATION_REQUIRED='RECONCILIATION_REQUIRED'
+    RESOLVED='RESOLVED'
+    REPLAY_AUTHORIZED='REPLAY_AUTHORIZED'
 
 @dataclass(frozen=True, slots=True)
 class Node:
@@ -35,6 +41,11 @@ class Lease:
 class Execution:
     execution_id: str; task_id: str; agent_id: str; lease_generation: int; status: str; result: Any=None; failure_class: FailureClass|None=None
 @dataclass(frozen=True, slots=True)
+class ExternalOperation:
+    operation_id: str; task_id: str; operation_key: str; provider: str; model: str; attempt: int; generation: int
+    status: OperationStatus=OperationStatus.RECONCILIATION_REQUIRED; replay_allowed: bool=False
+    result: Any=None; created_at: float=0.0; resolved_at: float|None=None
+@dataclass(frozen=True, slots=True)
 class Checkpoint:
     checkpoint_id: str; task_id: str; sequence: int; payload: Any
 @dataclass(frozen=True, slots=True)
@@ -44,7 +55,7 @@ class Event:
 class AuditRecord:
     event_id: str; timestamp: float; actor: str; action: str; resource: str; resource_id: str; previous_state: str|None; new_state: str|None; result: str; correlation_id: str|None=None
 
-_TASK = {TaskStatus.PENDING:{TaskStatus.READY,TaskStatus.BLOCKED,TaskStatus.CANCELLED},TaskStatus.READY:{TaskStatus.CLAIMED,TaskStatus.CANCELLED,TaskStatus.BLOCKED},TaskStatus.CLAIMED:{TaskStatus.RUNNING,TaskStatus.EXPIRED,TaskStatus.CANCELLED},TaskStatus.RUNNING:{TaskStatus.VERIFYING,TaskStatus.FAILED,TaskStatus.EXPIRED},TaskStatus.VERIFYING:{TaskStatus.SUCCEEDED,TaskStatus.FAILED},TaskStatus.FAILED:{TaskStatus.RETRY_WAIT,TaskStatus.CANCELLED},TaskStatus.RETRY_WAIT:{TaskStatus.READY,TaskStatus.BLOCKED},TaskStatus.BLOCKED:{TaskStatus.READY,TaskStatus.CANCELLED},TaskStatus.EXPIRED:{TaskStatus.RETRY_WAIT,TaskStatus.CANCELLED}}
+_TASK = {TaskStatus.PENDING:{TaskStatus.READY,TaskStatus.BLOCKED,TaskStatus.CANCELLED},TaskStatus.READY:{TaskStatus.CLAIMED,TaskStatus.CANCELLED,TaskStatus.BLOCKED},TaskStatus.CLAIMED:{TaskStatus.RUNNING,TaskStatus.EXPIRED,TaskStatus.CANCELLED},TaskStatus.RUNNING:{TaskStatus.VERIFYING,TaskStatus.FAILED,TaskStatus.EXPIRED,TaskStatus.RECONCILIATION_REQUIRED},TaskStatus.VERIFYING:{TaskStatus.SUCCEEDED,TaskStatus.FAILED},TaskStatus.FAILED:{TaskStatus.RETRY_WAIT,TaskStatus.CANCELLED},TaskStatus.RETRY_WAIT:{TaskStatus.READY,TaskStatus.BLOCKED},TaskStatus.BLOCKED:{TaskStatus.READY,TaskStatus.CANCELLED},TaskStatus.EXPIRED:{TaskStatus.RETRY_WAIT,TaskStatus.CANCELLED},TaskStatus.RECONCILIATION_REQUIRED:{TaskStatus.VERIFYING,TaskStatus.FAILED,TaskStatus.RETRY_WAIT,TaskStatus.BLOCKED,TaskStatus.READY}}
 _AGENT = {AgentStatus.REGISTERING:{AgentStatus.ONLINE,AgentStatus.OFFLINE},AgentStatus.ONLINE:{AgentStatus.IDLE,AgentStatus.BUSY,AgentStatus.DEGRADED,AgentStatus.DRAINING,AgentStatus.OFFLINE},AgentStatus.IDLE:{AgentStatus.CLAIMING,AgentStatus.DRAINING,AgentStatus.OFFLINE,AgentStatus.DEGRADED},AgentStatus.CLAIMING:{AgentStatus.BUSY,AgentStatus.IDLE,AgentStatus.DEGRADED},AgentStatus.BUSY:{AgentStatus.VERIFYING,AgentStatus.IDLE,AgentStatus.DEGRADED,AgentStatus.DISCONNECTED},AgentStatus.VERIFYING:{AgentStatus.IDLE,AgentStatus.BUSY,AgentStatus.DEGRADED},AgentStatus.DEGRADED:{AgentStatus.ONLINE,AgentStatus.IDLE,AgentStatus.DISCONNECTED,AgentStatus.OFFLINE},AgentStatus.UNHEALTHY:{AgentStatus.DEGRADED,AgentStatus.OFFLINE},AgentStatus.DISCONNECTED:{AgentStatus.ONLINE,AgentStatus.DEGRADED,AgentStatus.OFFLINE},AgentStatus.DRAINING:{AgentStatus.IDLE,AgentStatus.OFFLINE}}
 _LEASE = {LeaseStatus.ACTIVE:{LeaseStatus.RENEWED,LeaseStatus.EXPIRING,LeaseStatus.EXPIRED,LeaseStatus.REVOKED,LeaseStatus.RELEASED},LeaseStatus.RENEWED:{LeaseStatus.RENEWED,LeaseStatus.EXPIRING,LeaseStatus.EXPIRED,LeaseStatus.REVOKED,LeaseStatus.RELEASED},LeaseStatus.EXPIRING:{LeaseStatus.EXPIRED,LeaseStatus.RENEWED,LeaseStatus.REVOKED},LeaseStatus.EXPIRED:{LeaseStatus.RELEASED},LeaseStatus.REVOKED:{LeaseStatus.RELEASED}}
 def _validate(table,current,target):
