@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import ast
+import difflib
 import json
 import os
 import subprocess
@@ -12,7 +14,7 @@ from uuid import uuid4
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-os.environ.setdefault("MEDIAHUB_AI_URL", "http://127.0.0.1:11434/v1/chat/completions")
+os.environ.setdefault("MEDIAHUB_AI_URL", "http://127.0.0.1:8081/v1/chat/completions")
 os.environ.setdefault("MEDIAHUB_LOCAL_MODEL_NAME", "qwen2.5-coder:3b")
 
 from ops.astra_coordinator_lease import CoordinatorLease, CoordinatorLeaseError
@@ -82,12 +84,40 @@ def clean_model_diff(text: str) -> str:
 
 
 def generate_patch(task: dict) -> str:
-    target = (ROOT / task["path"]).read_text(encoding="utf-8")
-    prompt = f"""MediaHub Astra bounded coding task. Return ONLY a complete unified git diff for one file.\n\nTask: {task['instruction']}\n\nTarget file path: {task['path']}\nCurrent file contents:\n---\n{target}\n---\nConstraints: modify only this file; do not delete existing tests; do not add dependencies; produce a patch that applies cleanly to the exact current file.\n"""
-    rc, content, status = _generate_endpoint(os.environ["MEDIAHUB_AI_URL"], prompt, os.environ["MEDIAHUB_LOCAL_MODEL_NAME"])
+    target_path = ROOT / task["path"]
+    target = target_path.read_text(encoding="utf-8")
+    tail = "\n".join(target.splitlines()[-24:])
+    prompt = f"""MediaHub Astra bounded coding task. Return ONLY one complete Python test function, no markdown and no explanation.
+Task: {task['instruction']}
+The function must be self-contained and use only imports already present in the file.
+The function will be appended to the end of {task['path']}.
+Current tail of file:
+---
+{tail}
+---
+"""
+    model = None if ":8081/" in os.environ["MEDIAHUB_AI_URL"] else os.environ["MEDIAHUB_LOCAL_MODEL_NAME"]
+    rc, content, status = _generate_endpoint(os.environ["MEDIAHUB_AI_URL"], prompt, model)
     if rc != 0:
         raise RuntimeError(f"local AI generation failed: {status}")
-    return clean_model_diff(content)
+    code = content.strip()
+    if code.startswith("```"):
+        lines = code.splitlines()
+        if lines and lines[0].startswith("```"): lines = lines[1:]
+        if lines and lines[-1].strip() == "```": lines = lines[:-1]
+        code = "\n".join(lines).strip()
+    if not code.startswith("def test_"):
+        raise PatchAdmissionError("local model did not return a test function")
+    try:
+        ast.parse(code + "\n")
+    except SyntaxError as exc:
+        raise PatchAdmissionError("local model returned invalid Python") from exc
+    if "subprocess" in code or "os.system" in code or "eval(" in code or "exec(" in code:
+        raise PatchAdmissionError("generated test contains forbidden execution primitive")
+    new_text = target.rstrip() + "\n\n" + code.rstrip() + "\n"
+    diff = difflib.unified_diff(target.splitlines(True), new_text.splitlines(True), fromfile=f"a/{task['path']}", tofile=f"b/{task['path']}", lineterm="")
+    patch = "diff --git a/{0} b/{0}\n".format(task["path"]) + "".join(diff)
+    return patch + ("\n" if not patch.endswith("\n") else "")
 
 
 def record_failure(repo: SQLiteControlPlaneRepository, service: ControlPlaneService, task_id: str, generation: int, reason: str) -> None:
