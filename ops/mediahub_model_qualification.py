@@ -13,24 +13,30 @@ def _post(url: str, body: dict[str, Any], timeout: float = 180.0) -> tuple[dict[
         return json.loads(response.read().decode()), (time.monotonic() - started) * 1000
 
 def _chat(url: str, model: str, content: str, *, max_tokens: int) -> tuple[dict[str, Any], float]:
-    return _post(url, {"model": model, "messages": [{"role": "user", "content": content}], "stream": False,
-                  "options": {"temperature": 0, "num_predict": max_tokens, "seed": 7}})
+    body = {"model": model, "messages": [{"role": "user", "content": content}], "stream": False,
+            "options": {"temperature": 0, "num_predict": max_tokens, "seed": 7}}
+    return _post(url, body)
 
-def qualify_ollama(model: str, *, url: str = "http://127.0.0.1:11434/api/chat") -> dict[str, Any]:
+def _generate(url: str, model: str, content: str, *, max_tokens: int) -> tuple[dict[str, Any], float]:
+    body = {"model": model, "prompt": content, "stream": False,
+            "options": {"temperature": 0, "num_predict": max_tokens, "seed": 7}}
+    return _post(url, body)
+
+def qualify_ollama(model: str, *, url: str = "http://127.0.0.1:11434/api/generate") -> dict[str, Any]:
     with urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=5) as response:
         tags = json.loads(response.read().decode())
     models = {row["name"]: row for row in tags.get("models", [])}
     if model not in models:
         return {"status": "NOT_QUALIFIED", "reason": "model-not-loaded"}
-    marker_payload, marker_ms = _chat(url, model, f"Return exactly {MARKER}", max_tokens=32)
-    marker_text = marker_payload.get("message", {}).get("content", "").strip()
+    marker_payload, marker_ms = _generate(url, model, f"Return exactly {MARKER}", max_tokens=32)
+    marker_text = marker_payload.get("response", "").strip()
     digest = models[model].get("digest", "")
     if marker_text != MARKER:
         return {"status": "NOT_QUALIFIED", "reason": "marker-mismatch", "latency_ms": marker_ms, "digest": digest}
     prompt = ("Produce only this unified diff. File qualification_target.py currently contains VALUE = 1. "
               "Change it to VALUE = 2. No prose and no code fences.")
-    coding_payload, coding_ms = _chat(url, model, prompt, max_tokens=128)
-    diff = coding_payload.get("message", {}).get("content", "").strip()
+    coding_payload, coding_ms = _generate(url, model, prompt, max_tokens=128)
+    diff = coding_payload.get("response", "").strip()
     coding_ok = "+++ b/qualification_target.py" in diff and "-VALUE = 1" in diff and "+VALUE = 2" in diff
     patch_ok = test_ok = False
     if coding_ok:
