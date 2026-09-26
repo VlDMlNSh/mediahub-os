@@ -20,3 +20,8 @@ def test_local_generation_timeout_allows_slow_local_model():
 
 def test_local_generation_timeout_covers_coder_latency():
     assert astra_first_cycle.LOCAL_MODEL_TIMEOUT_SECONDS >= 120
+
+
+def test_git_push_arguments_use_supported_git_push_syntax():
+    assert "--ff-only" not in astra_first_cycle.GIT_PUSH_ARGS
+    assert astra_first_cycle.GIT_PUSH_ARGS[0] == "origin"

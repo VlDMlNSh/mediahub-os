@@ -34,6 +34,7 @@ R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
 AGENT = "astra-local-qwen"
 LOCAL_GENERATION_MAX_TOKENS = 256
 LOCAL_MODEL_TIMEOUT_SECONDS = 120
+GIT_PUSH_ARGS = ("origin", f"{BRANCH}:{BRANCH}")
 
 TASKS = (
     {
@@ -182,7 +183,7 @@ def execute_task(repo: SQLiteControlPlaneRepository, service: ControlPlaneServic
     commit_sha = git("rev-parse", "HEAD")
     if commit_sha == base or run("/usr/bin/git", "merge-base", "--is-ancestor", base, commit_sha).returncode != 0:
         raise RuntimeError("commit provenance/ancestry check failed")
-    push = run("/usr/bin/git", "push", "--ff-only", "origin", f"{BRANCH}:{BRANCH}", timeout=180)
+    push = run("/usr/bin/git", "push", *GIT_PUSH_ARGS, timeout=180)
     if push.returncode:
         raise RuntimeError(push.stderr.strip() or "fast-forward push failed")
     remote = run("/usr/bin/git", "ls-remote", "origin", f"refs/heads/{BRANCH}", timeout=30)
