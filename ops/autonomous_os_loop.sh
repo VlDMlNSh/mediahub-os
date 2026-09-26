@@ -7,7 +7,6 @@ PROVENANCE="$STATE/provenance.log"
 LOCKFILE="$STATE/loop.lock"
 HEARTBEAT="$STATE/heartbeat.log"
 PIDFILE="$STATE/loop.pid"
-ASTRA_PIDFILE="$STATE/astra.pid"
 STOPFILE="$STATE/STOP"
 mkdir -p "$LOGDIR"
 exec 9>"$LOCKFILE"
@@ -26,7 +25,6 @@ export MEDIAHUB_PYTHON="$PYTHON_BIN"
 export MEDIAHUB_LLAMA_CLI="/home/mediahub/local-ai/bin/llama-cli"
 if [ ! -e "$STOPFILE" ]; then
 	nohup "$PYTHON_BIN" "$ROOT/ops/astra_orchestrator.py" >>"$STATE/astra.log" 2>&1 9>&- &
-	printf "%s:%s\n" "$!" "$(awk '{print \$22}' "/proc/$!/stat" 2>/dev/null || true)" >"$ASTRA_PIDFILE"
 fi
 MAX=900
 SLEEP=5

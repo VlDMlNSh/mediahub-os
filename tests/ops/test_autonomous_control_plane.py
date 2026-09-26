@@ -754,9 +754,10 @@ def test_astra_child_does_not_inherit_loop_lock_fd():
     assert "2>&1 9>&- &" in text
 
 
-def test_astra_pid_starttime_capture_does_not_expand_shell_positional_parameters():
+def test_astra_pidfile_is_owned_by_astra_supervisor():
     text = (ROOT / "ops/autonomous_os_loop.sh").read_text(encoding="utf-8")
-    assert "awk '{print $22}'" in text
+    assert 'ASTRA_PIDFILE=' not in text
+    assert '>$ASTRA_PIDFILE' not in text
 
 
 def test_controller_pid_identity_is_bound_to_process_starttime():
