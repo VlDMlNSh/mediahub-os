@@ -75,8 +75,9 @@ class ControlPlaneService:
                 task=self.repository.get_task(task.task_id)
                 self.repository.update_task(replace(task,status=TaskStatus.SUCCEEDED))
         elif outcome == 'FAILED':
-            if task.status is TaskStatus.RECONCILIATION_REQUIRED:
-                self.repository.update_task(replace(task,status=TaskStatus.FAILED,attempt=task.attempt+1))
+            # A definite provider failure resolves the external operation, but does not
+            # decide the task lifecycle; retry/fail policy remains the scheduler/service's job.
+            pass
         event_id=str(uuid4()); now=self.repository.now() if hasattr(self.repository,'now') else monotonic()
         self.repository.append_event(Event(event_id,'ExternalOperationReconciled',now,'operation',operation_id,{'outcome':outcome,'task_id':operation.task_id}))
         self.repository.append_audit(AuditRecord(event_id,now,agent_id,'ExternalOperationReconciled','operation',operation_id,OperationStatus.RECONCILIATION_REQUIRED.value,op.status.value,'RECORDED'))

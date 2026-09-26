@@ -46,6 +46,7 @@ class ProviderExecutionCoordinator:
         send: Callable[[object, float], AdapterResult],
         retry_policy: RetryPolicy | None = None,
         sleep_fn: Callable[[float], None] = sleep,
+        operation_service=None,
     ) -> None:
         self.gateway = gateway
         self.engine = ResilienceEngine(gateway, retry_policy)
@@ -53,6 +54,7 @@ class ProviderExecutionCoordinator:
         self.credential_for = credential_for
         self.send = send
         self.sleep_fn = sleep_fn
+        self.operation_service = operation_service
 
     def _qualified(self, request: CanonicalRequest) -> Mapping[str, NativeProviderAdapter]:
         operation = _OPERATION[request.protocol]
@@ -62,6 +64,27 @@ class ProviderExecutionCoordinator:
             if matrix.supports(adapter.provider, request.model, request.protocol, operation):
                 qualified.setdefault(adapter.provider, adapter)
         return qualified
+
+    def _begin_operation(self, request: CanonicalRequest, provider: str):
+        if self.operation_service is None:
+            return None
+        ext=request.provider_extensions
+        required=(ext.get("task_id"),ext.get("agent_id"),ext.get("generation"))
+        if any(value is None for value in required):
+            return None
+        logical_key=str(ext.get("operation_key") or request.request_id)
+        key=f"{logical_key}:{provider}"
+        return self.operation_service.begin_external_operation(
+            str(ext["task_id"]),str(ext["agent_id"]),int(ext["generation"]),provider,request.model,key
+        )
+
+    def _mark_operation_ambiguous(self, request: CanonicalRequest, operation, failure: CanonicalFailure):
+        if self.operation_service is None or operation is None:
+            return
+        ext=request.provider_extensions
+        self.operation_service.mark_external_ambiguous(
+            operation.operation_id,str(ext["agent_id"]),int(ext["generation"]),failure.message
+        )
 
     def execute(self, request: CanonicalRequest) -> CanonicalResponse | CanonicalFailure:
         qualified = self._qualified(request)
@@ -87,7 +110,15 @@ class ProviderExecutionCoordinator:
                     "provider credential is unavailable", retryable=False, policy_blocked=True,
                 )
             else:
+                operation = self._begin_operation(request, provider)
                 failure = execute_adapter(adapter, request, credential, self.send)
+                if isinstance(failure, CanonicalResponse) and operation is not None:
+                    self.operation_service.reconcile_external_operation(operation.operation_id, request.provider_extensions["agent_id"], "SUCCEEDED", {"provider": provider, "request_id": request.request_id})
+                elif not isinstance(failure, CanonicalResponse) and operation is not None:
+                    if failure.outcome_ambiguous:
+                        self._mark_operation_ambiguous(request, operation, failure)
+                    else:
+                        self.operation_service.reconcile_external_operation(operation.operation_id, request.provider_extensions["agent_id"], "FAILED", {"provider": provider, "request_id": request.request_id, "failure": failure.failure_class.value})
 
             if isinstance(failure, CanonicalResponse):
                 self.gateway.record(provider, FailureClass.SUCCESS)
