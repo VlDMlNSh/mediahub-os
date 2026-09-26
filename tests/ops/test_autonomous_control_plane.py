@@ -749,6 +749,11 @@ def test_systemd_autonomous_service_is_enableable_at_boot():
     assert "Requires=mediahub-local-ai.service" not in text
 
 
+def test_astra_child_does_not_inherit_loop_lock_fd():
+    text = (ROOT / "ops/autonomous_os_loop.sh").read_text(encoding="utf-8")
+    assert "2>&1 9>&- &" in text
+
+
 def test_astra_pid_starttime_capture_does_not_expand_shell_positional_parameters():
     text = (ROOT / "ops/autonomous_os_loop.sh").read_text(encoding="utf-8")
     assert "awk '{print $22}'" in text

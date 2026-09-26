@@ -25,7 +25,7 @@ PYTHON_BIN="$ROOT/.venv-mediahub/bin/python"
 export MEDIAHUB_PYTHON="$PYTHON_BIN"
 export MEDIAHUB_LLAMA_CLI="/home/mediahub/local-ai/bin/llama-cli"
 if [ ! -e "$STOPFILE" ]; then
-	nohup "$PYTHON_BIN" "$ROOT/ops/astra_orchestrator.py" >>"$STATE/astra.log" 2>&1 &
+	nohup "$PYTHON_BIN" "$ROOT/ops/astra_orchestrator.py" >>"$STATE/astra.log" 2>&1 9>&- &
 	printf "%s:%s\n" "$!" "$(awk '{print \$22}' "/proc/$!/stat" 2>/dev/null || true)" >"$ASTRA_PIDFILE"
 fi
 MAX=900
