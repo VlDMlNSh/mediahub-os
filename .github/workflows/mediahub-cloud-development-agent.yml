@@ -20,6 +20,18 @@ on:
         description: Trusted branch/ref containing the task
         required: true
         type: string
+      execution_id:
+        description: Control Plane execution identity
+        required: true
+        type: string
+      generation:
+        description: Control Plane lease generation
+        required: true
+        type: string
+      operation_key:
+        description: Control Plane external-operation idempotency key
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -37,6 +49,9 @@ jobs:
       TASK_ID: ${{ inputs.task_id }}
       CAPABILITY: ${{ inputs.capability }}
       TARGET_REF: ${{ inputs.target_ref }}
+      EXECUTION_ID: ${{ inputs.execution_id }}
+      GENERATION: ${{ inputs.generation }}
+      OPERATION_KEY: ${{ inputs.operation_key }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -58,6 +73,9 @@ jobs:
           [[ "$TASK_ID" =~ ^[A-Za-z0-9._:/-]{1,160}$ ]]
           [[ "$CAPABILITY" =~ ^[A-Za-z0-9._:/-]{1,160}$ ]]
           [[ "$TARGET_REF" =~ ^[A-Za-z0-9._:/-]{1,160}$ ]]
+          [[ "$EXECUTION_ID" =~ ^[A-Za-z0-9._:/-]{1,256}$ ]]
+          [[ "$OPERATION_KEY" =~ ^[A-Za-z0-9._:/-]{1,256}$ ]]
+          [[ "$GENERATION" =~ ^[1-9][0-9]*$ ]]
 
       - name: Execute qualified cloud lane
         shell: bash
@@ -88,9 +106,35 @@ jobs:
               ;;
           esac
 
+      - name: Build provenance-bound evidence manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os
+          result=open("cloud-agent-result.txt","r",encoding="utf-8").read()
+          manifest={
+            "schema_version":1,
+            "task_id":os.environ["TASK_ID"],
+            "execution_id":os.environ["EXECUTION_ID"],
+            "generation":int(os.environ["GENERATION"]),
+            "operation_key":os.environ["OPERATION_KEY"],
+            "provider":os.environ["PROVIDER"],
+            "model":"gemini-3.5-flash-lite" if os.environ["PROVIDER"]=="gemini" else "unknown",
+            "capability":os.environ["CAPABILITY"],
+            "result":result,
+            "artifact_sha256":hashlib.sha256(result.encode("utf-8")).hexdigest(),
+            "run_id":str(os.environ["GITHUB_RUN_ID"]),
+            "target_sha":os.environ["GITHUB_SHA"],
+          }
+          json.dump(manifest,open("cloud-evidence.json","w",encoding="utf-8"),sort_keys=True,separators=(",",":"))
+          PY
+
       - name: Upload evidence
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: mediahub-cloud-agent-${{ inputs.task_id }}
-          path: cloud-agent-result.txt
+          name: mediahub-cloud-agent-${{ inputs.task_id }}-${{ inputs.execution_id }}
+          path: |
+            cloud-agent-result.txt
+            cloud-evidence.json
           if-no-files-found: error
