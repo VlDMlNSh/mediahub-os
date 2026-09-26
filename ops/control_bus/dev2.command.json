@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "command_id": "transport-verify-20260925T1020Z",
+  "target": "dev2",
+  "action": "STATUS",
+  "expires_at": "2026-09-25T12:00:00Z"
+}

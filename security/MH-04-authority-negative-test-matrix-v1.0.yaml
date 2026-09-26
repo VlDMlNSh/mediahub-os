@@ -1,0 +1,103 @@
+schema_version: "1.0"
+status: PROPOSED
+contract: CTR-001
+implementation_authorization: BLOCKED
+purpose: adversarial verification surface for canonical authority boundaries
+
+cases:
+  - id: SEC-MH04-01
+    vector: ui_direct_mutation
+    attempt: UI submits state mutation outside governed command path
+    expected: DENY
+    invariant: INV-001
+    status: NOT_VERIFIED
+  - id: SEC-MH04-02
+    vector: ai_direct_mutation
+    attempt: AI output attempts direct canonical state mutation
+    expected: DENY
+    invariant: INV-005
+    status: NOT_VERIFIED
+  - id: SEC-MH04-03
+    vector: cloud_escalation
+    attempt: cloud-originated request attempts authorization escalation
+    expected: DENY
+    invariant: INV-006
+    status: NOT_VERIFIED
+  - id: SEC-MH04-04
+    vector: plugin_bypass
+    attempt: plugin invokes mutation API without governed authorization context
+    expected: DENY
+    invariant: INV-020
+    status: NOT_VERIFIED
+  - id: SEC-MH04-05
+    vector: device_presence_trust_confusion
+    attempt: discovered_or_connected_device treated as trusted authorizer
+    expected: DENY
+    invariant: INV-003
+    status: NOT_VERIFIED
+  - id: SEC-MH04-06
+    vector: discovery_authentication_confusion
+    attempt: discovery result treated as authenticated identity
+    expected: DENY
+    invariant: INV-004
+    status: NOT_VERIFIED
+  - id: SEC-MH04-07
+    vector: authentication_authorization_confusion
+    attempt: authenticated identity without required capability performs mutation
+    expected: DENY
+    invariant: INV-005
+    status: NOT_VERIFIED
+  - id: SEC-MH04-08
+    vector: replay
+    attempt: previously accepted command replayed outside retry/idempotency semantics
+    expected: deterministic reject_or_idempotent_result
+    status: NOT_VERIFIED
+  - id: SEC-MH04-09
+    vector: stale_command
+    attempt: obsolete concurrency context overwrites newer state
+    expected: DENY
+    status: NOT_VERIFIED
+  - id: SEC-MH04-10
+    vector: race_condition
+    attempt: conflicting concurrent commands violate transition invariant
+    expected: deterministic_conflict_without_invariant_violation
+    status: NOT_VERIFIED
+  - id: SEC-MH04-11
+    vector: malformed_command
+    attempt: malformed_or_ambiguous command reaches mutation boundary
+    expected: DENY
+    status: NOT_VERIFIED
+  - id: SEC-MH04-12
+    vector: cache_authority_fallback
+    attempt: unavailable State Authority causes cache to become mutation authority
+    expected: DENY_AND_STOP_MUTATION
+    status: NOT_VERIFIED
+  - id: SEC-MH04-13
+    vector: database_authority_fallback
+    attempt: persistence layer becomes mutation authority
+    expected: DENY_AND_STOP_MUTATION
+    status: BLOCKED
+    blocking_reason: physical_persistence_not_authorized
+  - id: SEC-MH04-14
+    vector: event_direct_mutation
+    attempt: event consumer mutates canonical state without governed command
+    expected: DENY
+    status: NOT_VERIFIED
+  - id: SEC-MH04-15
+    vector: telemetry_or_health_mutation
+    attempt: telemetry/health/readiness path mutates canonical state directly
+    expected: DENY
+    invariant: INV-022
+    status: NOT_VERIFIED
+  - id: SEC-MH04-16
+    vector: recovery_authority_takeover
+    attempt: recovery subsystem creates alternate canonical state during authority failure
+    expected: DENY_AND_STOP_MUTATION
+    status: NOT_VERIFIED
+
+review_rules:
+  - security_cases_require_independent_review
+  - failed_closed_is_required_for_ambiguous_authority
+  - passing_negative_test_does_not_equal_qualification
+  - evidence_must_include_actual_execution
+  - no_case_may_grant_authority

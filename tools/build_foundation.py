@@ -17,6 +17,7 @@ def run(command):
         cwd=ROOT,
         text=True,
         capture_output=True,
+        check=False,
     )
 
     if result.returncode != 0:

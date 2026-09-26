@@ -1,0 +1,37 @@
+schema_version: "1.0"
+status: IN PROGRESS
+rule: "Every accepted capability must be traceable through requirement, contract, owner, architecture, dependency, implementation boundary, test and acceptance."
+coverage:
+  source_evidence: "master passport + accepted recovery additions + accessible historical GitHub evidence"
+  requirement: "master functional inventory"
+  contract: "specification/contract-registry.yaml"
+  invariant: "specification/invariant-registry.yaml"
+  owner: "specification/capability-registry.yaml"
+  architecture: "architecture/master-mediahub-architecture-reconstruction-2026-09-05.md"
+  dependencies: "specification/dependency-graph.yaml"
+  implementation_boundary: "development/implementation-map.yaml"
+  test: "verification contract; detailed per-capability tests remain to be authored"
+  acceptance: "master architecture acceptance pending"
+critical_traceability:
+  CAP-008: [CTR-012, INV-011, surveillance_core, CAP-009, CAP-040]
+  CAP-011: [CTR-014, INV-010, personal_media_core, CAP-012, CAP-036]
+  CAP-024: [CTR-017, INV-017, cluster_core, CAP-025, CAP-048]
+  CAP-026: [CTR-018, INV-007, cloud_development, CAP-020, CAP-025]
+  CAP-040: [CTR-003, CTR-004, CTR-026, INV-002, INV-003, INV-004, INV-005, INV-006, INV-020, INV-021]
+  CAP-053: [CTR-030, INV-018, product_core, variant_matrix]
+variant_matrix:
+  full_mac_mini:
+    surveillance_local_hdd: true
+    personal_media_local_storage: true
+    hi_end_audio: true
+  full_mini_pc:
+    surveillance_local_hdd: true
+    personal_media_local_storage: true
+    hi_end_audio: hardware_dependent
+  simplified_raspberry_pi:
+    surveillance_local_hdd: false
+    personal_media_local_storage: false
+  ios_ipados_object:
+    surveillance_local_hdd: false
+    personal_media_local_storage: false
+    local_node: platform_constrained

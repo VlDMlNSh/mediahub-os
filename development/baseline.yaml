@@ -1,0 +1,31 @@
+schema_version: "1.0"
+status: NOT_AUTHORIZED_FOR_IMPLEMENTATION
+source_architecture: architecture/master-mediahub-architecture-reconstruction-2026-09-05.md
+functional_source: recovery/master-system-passport-2026-09-05.md
+implementation_rule: "No production implementation starts from this draft until architecture is accepted."
+required_traceability:
+  - capability
+  - requirement
+  - contract
+  - architecture_component
+  - dependency
+  - implementation_boundary
+  - test
+  - acceptance
+quality_gates:
+  - no_unexplained_functional_loss
+  - no_unowned_capability
+  - conflict_disposition_recorded
+  - contract_coverage
+  - invariant_coverage
+  - dependency_coverage
+  - security_coverage
+  - variant_coverage
+  - testability
+  - acceptance_state
+product_variants:
+  full_mac_mini: full
+  full_mini_pc: full
+  simplified_raspberry_pi: reduced_no_local_hdd_surveillance_or_personal_media_storage
+  ios_ipados_object: platform_constrained_no_local_hdd_surveillance_or_personal_media_storage
+  professional_engineering: separate_professional_contour

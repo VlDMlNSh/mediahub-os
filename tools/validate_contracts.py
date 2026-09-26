@@ -2,6 +2,7 @@
 
 import json
 import sys
+from json import JSONDecodeError
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -15,7 +16,7 @@ def validate_json(path: Path) -> dict:
     try:
         with path.open(encoding="utf-8") as handle:
             data = json.load(handle)
-    except Exception as exc:
+    except (JSONDecodeError, OSError, UnicodeDecodeError) as exc:
         fail(f"{path}: invalid JSON: {exc}")
 
     if not isinstance(data, dict):

@@ -1,0 +1,68 @@
+version: "1.0"
+component: MH-05 Consumer Boundary
+status: QUALIFICATION_OPEN
+implementation_authorization: AUTHORIZED_FOR_CURRENT_CONTRACT_SCOPE
+
+# TESTED = directly exercised by current automated evidence.
+# STATIC_VERIFIED = checked by current static inventory/contract evidence.
+# NOT_EXECUTED = additional evidence required before qualification.
+
+cases:
+  - id: V05-01
+    property: governed_positive_command_path
+    status: TESTED
+  - id: V05-02
+    property: missing_consumer_identity_rejected
+    status: TESTED
+  - id: V05-03
+    property: missing_authorization_rejected
+    status: TESTED
+  - id: V05-04
+    property: readiness_does_not_imply_authorization
+    status: TESTED
+  - id: V05-05
+    property: health_does_not_imply_authorization
+    status: NOT_EXECUTED
+  - id: V05-06
+    property: event_mutation_requires_reentry
+    status: STATIC_VERIFIED
+  - id: V05-07
+    property: ui_direct_mutation_bypass_rejected
+    status: NOT_EXECUTED
+  - id: V05-08
+    property: ai_direct_mutation_bypass_rejected
+    status: NOT_EXECUTED
+  - id: V05-09
+    property: plugin_direct_mutation_bypass_rejected
+    status: NOT_EXECUTED
+  - id: V05-10
+    property: device_direct_mutation_bypass_rejected
+    status: NOT_EXECUTED
+  - id: V05-11
+    property: cloud_direct_mutation_bypass_rejected
+    status: NOT_EXECUTED
+  - id: V05-12
+    property: persistence_shadow_authority_rejected
+    status: STATIC_VERIFIED
+  - id: V05-13
+    property: recovery_shadow_authority_rejected
+    status: STATIC_VERIFIED
+  - id: V05-14
+    property: remote_access_does_not_escalate_authority
+    status: TESTED
+  - id: V05-15
+    property: rejection_is_non_mutating
+    status: TESTED
+  - id: V05-16
+    property: evidence_preserves_source_and_causality
+    status: TESTED
+
+qualification_rule:
+  require_current_sha_execution: true
+  require_independent_security_review: true
+  require_no_shadow_authority: true
+  require_all_blocking_cases_closed: true
+
+qualification_blockers:
+  - independent_security_review
+  - independent_system_wide_negative_verification

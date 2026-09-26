@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "source_policy": "trusted-public-pypi-release-metadata",
+  "executors": [
+    {
+      "name": "aider",
+      "package": "aider-chat",
+      "version": "0.86.2",
+      "sha256": "64f6a0c66c9f4633ad9f479bca3e64ebcba02b9da03c6b604b74a44736b2416e",
+      "executable": "aider",
+      "method": "uv_tool",
+      "python": "3.12"
+    },
+    {
+      "name": "pr-agent",
+      "package": "pr-agent",
+      "version": "0.46.0",
+      "sha256": "6a37f507cc3bf0cb00be79b8b96e7885bf35b27a905adb1926965af839f247f5",
+      "executable": "pr-agent",
+      "method": "uv_tool",
+      "python": "3.12"
+    },
+    {
+      "name": "qodo",
+      "package": "qodo-cli",
+      "version": "0.11.0",
+      "sha256": "099a10ac48b1606a8caab82ff20d23dbc5ecb736daca67631e8aaed8910beb60",
+      "executable": "qodo",
+      "method": "uv_tool",
+      "python": "3.12"
+    }
+  ]
+}

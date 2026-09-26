@@ -1,0 +1,284 @@
+schema: mediahub-capability-terminal-verification-matrix-v1
+status: PARTIAL_BASELINE
+purpose: >-
+  Deterministic terminal verification/acceptance ledger for CAP-001..CAP-058.
+  Absence of evidence is a VERIFICATION_GAP and never FUNCTION_LOSS.
+  Existing historical F-* identifiers are preserved and may be attached as evidence.
+gate_separation:
+  functional_baseline: CONFIRMED_ACCEPTED
+  capability_verification: PARTIAL
+  acceptance_evidence: PARTIAL
+  master_architecture_acceptance: NOT_ACCEPTED
+  production_authorization: BLOCKED
+status_vocabulary:
+  VERIFIED: direct verification evidence identified
+  ACCEPTED: authoritative acceptance evidence identified
+  VERIFIED_ACCEPTANCE_GAP: verification exists or is inferable but terminal acceptance evidence is incomplete
+  VERIFICATION_GAP: no direct terminal verification evidence currently materialized
+  EVIDENCE_GAP: historical evidence may exist outside accessible corpus
+  DEFERRED: technical verification detail intentionally deferred
+  UNKNOWN: evidence availability unresolved
+rules:
+  - CAP identifiers are canonical and immutable.
+  - Every CAP must have one canonical owner.
+  - Verification evidence must not be invented from architecture prose.
+  - Acceptance evidence must identify authoritative acceptance state/authority when available.
+  - Historical F-* identifiers are legacy evidence labels, not globally unique IDs.
+  - Missing F-* evidence never downgrades the capability baseline.
+  - Master Architecture acceptance is a separate gate from capability acceptance.
+coverage_summary:
+  total_capabilities: 58
+  terminal_verified: 0
+  terminal_accepted: 0
+  partial_or_gap: 58
+  evidence_backed_capabilities: >-
+    CAPs intersecting the currently accessible acceptance corpus include
+    presence/context, identity/access, security/trust, energy, remote/mobile/cloud
+    escalation, personal media library, surveillance recording, media playback/live
+    streaming, audio, phone media endpoint, and HDMI/display output.
+  note: >-
+    The current corpus is materially useful but does not prove terminal verification
+    and immutable acceptance for all 58 capabilities.
+capabilities:
+  - id: CAP-001
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: mediahub_core
+  - id: CAP-002
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: smart_home_core
+  - id: CAP-003
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: smart_home_core
+  - id: CAP-004
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: device_onboarding
+  - id: CAP-005
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: automation_core
+  - id: CAP-006
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: scheduling_core
+  - id: CAP-007
+    verification_status: VERIFIED_ACCEPTANCE_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: energy_core
+    historical_evidence: F-008
+  - id: CAP-008
+    verification_status: VERIFIED_ACCEPTANCE_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: surveillance_core
+    historical_evidence: F-011
+  - id: CAP-009
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: storage_core
+  - id: CAP-010
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: media_core
+  - id: CAP-011
+    verification_status: VERIFIED_ACCEPTANCE_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: personal_media_core
+    historical_evidence: F-010
+  - id: CAP-012
+    verification_status: VERIFIED_ACCEPTANCE_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: mobile_media
+    historical_evidence: F-010
+  - id: CAP-013
+    verification_status: VERIFIED_ACCEPTANCE_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: media_core
+    historical_evidence: F-012
+  - id: CAP-014
+    verification_status: VERIFIED_ACCEPTANCE_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: media_core
+    historical_evidence: F-012
+  - id: CAP-015
+    verification_status: VERIFIED_ACCEPTANCE_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: audio_core
+    historical_evidence: F-013
+  - id: CAP-016
+    verification_status: VERIFIED_ACCEPTANCE_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: mobile_media
+    historical_evidence: F-014
+  - id: CAP-017
+    verification_status: VERIFIED_ACCEPTANCE_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: media_core
+    historical_evidence: F-015
+  - id: CAP-018
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: gaming_core
+  - id: CAP-019
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: ecosystem_gateway
+  - id: CAP-020
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: assistant_core
+  - id: CAP-021
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: engineering_core
+  - id: CAP-022
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: engineering_core
+  - id: CAP-023
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: network_core
+  - id: CAP-024
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: cluster_core
+  - id: CAP-025
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: cluster_core
+  - id: CAP-026
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: cloud_development
+  - id: CAP-027
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: cloud_development
+  - id: CAP-028
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: cloud_development
+  - id: CAP-029
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: device_management
+  - id: CAP-030
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: command_system
+  - id: CAP-031
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: observability
+  - id: CAP-032
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: observability
+  - id: CAP-033
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: diagnostics
+  - id: CAP-034
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: recovery_core
+  - id: CAP-035
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: runtime_core
+  - id: CAP-036
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: data_core
+  - id: CAP-037
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: search_core
+  - id: CAP-038
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: knowledge_core
+  - id: CAP-039
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: privacy_security
+  - id: CAP-040
+    verification_status: VERIFIED_ACCEPTANCE_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: security_core
+    historical_evidence: F-007
+  - id: CAP-041
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: storage_core
+  - id: CAP-042
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: recovery_core
+  - id: CAP-043
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: migration_core
+  - id: CAP-044
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: lifecycle_core
+  - id: CAP-045
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: ui_core
+  - id: CAP-046
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: mobile_media
+  - id: CAP-047
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: event_core
+  - id: CAP-048
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: resource_governance
+  - id: CAP-049
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: integration_core
+  - id: CAP-050
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: verification
+  - id: CAP-051
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: media_core
+  - id: CAP-052
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: device_management
+  - id: CAP-053
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: product_core
+  - id: CAP-054
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: guidance_core
+  - id: CAP-055
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: context_core
+  - id: CAP-056
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: export_core
+  - id: CAP-057
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: installer_core
+  - id: CAP-058
+    verification_status: VERIFICATION_GAP
+    acceptance_status: VERIFICATION_GAP
+    owner: security_core

@@ -1,0 +1,87 @@
+version: "1.0"
+status: PROPOSED_NOT_ACCEPTED
+classification: verification_only
+implementation_authorization: BLOCKED
+production_authorization: NOT_GRANTED
+
+execution:
+  target: current_runtime_state_authority
+  source_of_truth: canonical_contract_and_invariants
+  historical_candidate_is_not_accepted: true
+
+cases:
+  - id: V-01
+    class: authorization
+    requirement: authorized_mutation_succeeds
+  - id: V-02
+    class: boundary
+    requirement: non_authoritative_consumers_cannot_mutate
+  - id: V-03
+    class: mutation_path
+    requirement: governed_command_path_is_enforced
+  - id: V-04
+    class: concurrency
+    requirement: stale_writer_is_rejected
+  - id: V-05
+    class: concurrency
+    requirement: concurrent_conflict_is_deterministic
+  - id: V-06
+    class: idempotency
+    requirement: duplicate_command_identity_has_explicit_semantics
+  - id: V-07
+    class: events
+    requirement: successful_mutation_emits_causal_event
+  - id: V-08
+    class: events
+    requirement: event_driven_mutation_reenters_command_path
+  - id: V-09
+    class: validation
+    requirement: invalid_mutation_does_not_change_canonical_state
+  - id: V-10
+    class: failure
+    requirement: unavailable_authority_has_no_shadow_mutation
+  - id: V-11
+    class: recovery
+    requirement: restart_recovery_preserves_contract_semantics
+  - id: V-12
+    class: offline_first
+    requirement: deterministic_local_operation_without_cloud
+  - id: V-13
+    class: persistence
+    requirement: physical_persistence
+    status: BLOCKED
+    blocking_reason: physical_persistence_not_authorized_by_current_foundation
+  - id: V-14
+    class: security
+    requirement: independent_authorization_negative_tests
+  - id: V-15
+    class: evidence
+    requirement: reproducible_evidence_record_is_generated
+
+evidence:
+  required_identity:
+    - test_id
+    - contract
+    - target
+    - git_sha
+    - branch
+    - environment
+    - command
+    - timestamp
+    - command_id
+    - correlation_id
+  required_observation:
+    - authorization_context
+    - pre_state
+    - post_state
+    - validation_result
+    - mutation_result
+    - emitted_events
+    - artifact_hash
+    - reproducibility
+  assessment_values:
+    - NOT_VERIFIED
+    - TESTED
+    - QUALIFIED
+    - BLOCKED
+  non_authority: true

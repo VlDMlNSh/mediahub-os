@@ -1,0 +1,177 @@
+from __future__ import annotations
+from dataclasses import replace
+from time import monotonic
+from uuid import uuid4
+from .model import AuditRecord, Execution, Event, ExternalOperation, FailureClass, OperationStatus, TaskStatus, validate_task_transition
+from .repository import ControlPlaneRepository
+from .retry_policy import RetryPolicy
+from .metrics import ControlPlaneMetrics
+
+class ControlPlaneService:
+    """Small deterministic coordinator for the first orchestration vertical slice."""
+    def __init__(self, repository: ControlPlaneRepository, agent_registry=None, retry_backoff_seconds: float = 5.0, retry_policy: RetryPolicy | None = None, metrics: ControlPlaneMetrics | None = None):
+        if retry_backoff_seconds < 0: raise ValueError("retry_backoff_seconds must be non-negative")
+        self.repository=repository; self.agent_registry=agent_registry; self.retry_policy=retry_policy or RetryPolicy(retry_backoff_seconds); self.metrics=metrics or ControlPlaneMetrics()
+        if self.agent_registry is not None:
+            self.agent_registry.attach_metrics(self.metrics)
+    def begin_external_operation(self, task_id: str, agent_id: str, generation: int, provider: str, model: str, operation_key: str):
+        """Persist an external operation before dispatch; operation_key is the durable deduplication boundary."""
+        task=self.repository.get_task(task_id)
+        if task is None: raise KeyError(task_id)
+        if task.status is not TaskStatus.RUNNING: raise ValueError("task must be RUNNING before external dispatch")
+        lease=self.repository.get_lease_for_task(task_id)
+        if lease is None or lease.agent_id != agent_id or lease.generation != generation:
+            raise PermissionError("stale lease owner")
+        existing=self.repository.get_operation_by_key(operation_key)
+        if existing is not None:
+            if existing.task_id != task_id or existing.generation != generation:
+                raise ValueError("operation_key already belongs to another execution")
+            return existing
+        operation=ExternalOperation(str(uuid4()),task_id,operation_key,provider,model,task.attempt,generation,OperationStatus.IN_FLIGHT,False,None,self.repository.now() if hasattr(self.repository,'now') else monotonic(),None)
+        return self.repository.create_operation(operation)
+
+    def mark_external_ambiguous(self, operation_id: str, agent_id: str, generation: int, reason: str = 'AMBIGUOUS_TRANSPORT'):
+        operation=self.repository.get_operation(operation_id)
+        if operation is None: raise KeyError(operation_id)
+        if operation.generation != generation: raise PermissionError('stale operation generation')
+        task=self.repository.get_task(operation.task_id)
+        if task is None: raise KeyError(operation.task_id)
+        if task.status is TaskStatus.RUNNING:
+            self.repository.update_task(replace(task,status=TaskStatus.RECONCILIATION_REQUIRED))
+        if operation.status is OperationStatus.IN_FLIGHT:
+            operation=self.repository.mark_operation_reconciliation_required(operation_id, reason)
+        event_id=str(uuid4()); now=self.repository.now() if hasattr(self.repository,'now') else monotonic()
+        self.repository.append_event(Event(event_id,'ExternalOperationAmbiguous',now,'operation',operation_id,{'task_id':operation.task_id,'reason':reason}))
+        self.repository.append_audit(AuditRecord(event_id,now,agent_id,'ExternalOperationAmbiguous','operation',operation_id,operation.status.value,OperationStatus.RECONCILIATION_REQUIRED.value,'RECORDED'))
+        return self.repository.get_operation(operation_id)
+
+    def recover_inflight_operations(self):
+        # After restart, an IN_FLIGHT external operation is uncertain by definition.
+        recovered=[]
+        for operation in self.repository.list_operations():
+            if operation.status is not OperationStatus.IN_FLIGHT:
+                continue
+            task=self.repository.get_task(operation.task_id)
+            if task is not None and task.status is TaskStatus.RUNNING:
+                self.repository.update_task(replace(task,status=TaskStatus.RECONCILIATION_REQUIRED))
+            recovered.append(self.repository.mark_operation_reconciliation_required(operation.operation_id,'PROCESS_RESTART_OR_UNCERTAIN_DISPATCH'))
+        return tuple(recovered)
+
+    def reconcile_external_operation(self, operation_id: str, agent_id: str, outcome: str, evidence=None, allow_replay=False):
+        operation=self.repository.get_operation(operation_id)
+        if operation is None: raise KeyError(operation_id)
+        if operation.status not in (OperationStatus.RECONCILIATION_REQUIRED, OperationStatus.IN_FLIGHT): raise ValueError('operation is not awaiting reconciliation')
+        task=self.repository.get_task(operation.task_id)
+        if task is None: raise KeyError(operation.task_id)
+        if outcome not in {'SUCCEEDED','FAILED','REPLAY_AUTHORIZED'}: raise ValueError('unsupported reconciliation outcome')
+        if outcome == 'REPLAY_AUTHORIZED' and not allow_replay: raise PermissionError('explicit replay authorization required')
+        op=self.repository.resolve_operation(operation_id, {'outcome':outcome,'evidence':evidence}, replay_authorized=(outcome=='REPLAY_AUTHORIZED'))
+        if outcome == 'REPLAY_AUTHORIZED':
+            if task.status is TaskStatus.RECONCILIATION_REQUIRED:
+                self.repository.update_task(replace(task,status=TaskStatus.READY))
+        elif outcome == 'SUCCEEDED':
+            if task.status is TaskStatus.RECONCILIATION_REQUIRED:
+                self.repository.update_task(replace(task,status=TaskStatus.VERIFYING))
+                task=self.repository.get_task(task.task_id)
+                self.repository.update_task(replace(task,status=TaskStatus.SUCCEEDED))
+        elif outcome == 'FAILED':
+            # A definite provider failure resolves the external operation, but does not
+            # decide the task lifecycle; retry/fail policy remains the scheduler/service's job.
+            pass
+        event_id=str(uuid4()); now=self.repository.now() if hasattr(self.repository,'now') else monotonic()
+        self.repository.append_event(Event(event_id,'ExternalOperationReconciled',now,'operation',operation_id,{'outcome':outcome,'task_id':operation.task_id}))
+        self.repository.append_audit(AuditRecord(event_id,now,agent_id,'ExternalOperationReconciled','operation',operation_id,OperationStatus.RECONCILIATION_REQUIRED.value,op.status.value,'RECORDED'))
+        return op
+
+    def mark_ready(self, task_id: str) -> None:
+        task=self.repository.get_task(task_id)
+        if task is None: raise KeyError(task_id)
+        validate_task_transition(task.status,TaskStatus.READY); self.repository.update_task(replace(task,status=TaskStatus.READY))
+    def claim(self, task_id, agent_id, generation):
+        event_id=str(uuid4()); timestamp=monotonic()
+        event=Event(event_id,'TaskClaimed',timestamp,'task',task_id,{'agent_id':agent_id})
+        audit=AuditRecord(event_id,timestamp,agent_id,'TaskClaimed','task',task_id,'READY','RUNNING','RECORDED')
+        try:
+            if hasattr(self.repository,'claim_and_start'):
+                lease=self.repository.claim_and_start(task_id,agent_id,generation,event=event,audit=audit)
+            else:
+                lease=self.repository.claim_task(task_id,agent_id,generation)
+                self._transition(task_id,TaskStatus.RUNNING)
+                self.repository.append_event(event); self.repository.append_audit(audit)
+        except (ValueError,PermissionError):
+            self.metrics.inc('claim_conflicts'); raise
+        self.metrics.inc('claims'); return lease
+    def complete(self, task_id, agent_id, generation, result=None, lease_id=None):
+        lease=self.repository.get_lease_for_task(task_id)
+        if lease is None: raise KeyError(task_id)
+        if lease_id is not None and lease.lease_id != lease_id:
+            self.metrics.inc('fencing_failures'); raise PermissionError('stale lease identity')
+        try:
+            self.repository.assert_lease_owner(lease.lease_id,agent_id,generation)
+        except PermissionError:
+            self.metrics.inc('fencing_failures'); raise
+        execution=Execution(str(uuid4()),task_id,agent_id,generation,'SUCCEEDED',result)
+        event_id=str(uuid4()); timestamp=monotonic()
+        event=Event(event_id,'TaskSucceeded',timestamp,'task',task_id,{'agent_id':agent_id})
+        audit=AuditRecord(event_id,timestamp,agent_id,'TaskSucceeded','task',task_id,'RUNNING','SUCCEEDED','RECORDED')
+        if hasattr(self.repository,'complete_atomic'):
+            execution=self.repository.complete_atomic(task_id,agent_id,generation,lease.lease_id,execution,event,audit)
+        else:
+            self.repository.record_execution(execution); self._transition(task_id,TaskStatus.VERIFYING); self._transition(task_id,TaskStatus.SUCCEEDED); self.repository.release_lease(lease.lease_id,agent_id,generation); self.repository.append_event(event); self.repository.append_audit(audit)
+        return execution
+    def fail(self, task_id, agent_id, generation, reason='EXECUTION_FAILED', failure_class: FailureClass = FailureClass.TASK, lease_id=None):
+        lease=self.repository.get_lease_for_task(task_id)
+        if lease is None: raise PermissionError('no authoritative lease')
+        if lease_id is not None and lease.lease_id != lease_id:
+            self.metrics.inc('fencing_failures'); raise PermissionError('stale lease identity')
+        try:
+            self.repository.assert_lease_owner(lease.lease_id,agent_id,generation)
+        except PermissionError:
+            self.metrics.inc('fencing_failures'); raise
+        task=self.repository.get_task(task_id)
+        if task is None: raise KeyError(task_id)
+        attempt=task.attempt+1; self.repository.record_execution(Execution(str(uuid4()),task_id,agent_id,generation,'FAILED',reason,failure_class)); self.repository.update_task(replace(task,attempt=attempt,status=TaskStatus.FAILED))
+        if attempt < task.max_attempts:
+            decision = self.retry_policy.decide(failure_class, attempt, task.max_attempts)
+            retry_at = monotonic() + decision.delay_seconds
+            self.repository.update_task(replace(self.repository.get_task(task_id),status=TaskStatus.RETRY_WAIT,retry_not_before=retry_at)); self.metrics.inc('task_retries')
+        self.repository.release_lease(lease.lease_id,agent_id,generation)
+        if self.agent_registry is not None and failure_class in {FailureClass.WORKER, FailureClass.INFRASTRUCTURE}: self.agent_registry.record_failure(agent_id)
+        self._record('TaskFailed',task_id,agent_id,reason); return self.repository.get_task(task_id)
+    def recover_expired(self, task_id, now=None):
+        lease=self.repository.get_lease_for_task(task_id)
+        if lease is None: return False
+        now=monotonic() if now is None else now
+        if now < lease.expires_at: return False
+        self.repository.expire_lease(lease.lease_id,now); task=self.repository.get_task(task_id)
+        if task is None: raise KeyError(task_id)
+        if task.status in (TaskStatus.CLAIMED,TaskStatus.RUNNING): self._transition(task_id,TaskStatus.EXPIRED)
+        self._record('LeaseExpired',task_id,lease.agent_id,'RECOVERY_REQUIRED'); return True
+    def _transition(self, task_id, target):
+        task=self.repository.get_task(task_id)
+        if task is None: raise KeyError(task_id)
+        validate_task_transition(task.status,target); self.repository.update_task(replace(task,status=target))
+    def _record(self,event_type,task_id,agent_id,result):
+        event_id=str(uuid4()); self.repository.append_event(Event(event_id,event_type,monotonic(),'task',task_id,{'agent_id':agent_id})); self.repository.append_audit(AuditRecord(event_id,monotonic(),agent_id,event_type,'task',task_id,None,None,result))
+    def dispatch_once(self, task_id, scheduler, generation, active_by_agent=None, failure_by_agent=None):
+        task=self.repository.get_task(task_id)
+        if task is None: raise KeyError(task_id)
+        self.metrics.inc('dispatch_attempts')
+        decision=scheduler.select(task) if active_by_agent is None and failure_by_agent is None else scheduler.select(task, active_by_agent=active_by_agent, failure_by_agent=failure_by_agent)
+        if decision.agent_id is None:
+            self.metrics.inc('dispatch_rejections'); return decision
+        try:
+            event_id=str(uuid4()); timestamp=monotonic()
+            event=Event(event_id,'TaskClaimed',timestamp,'task',task_id,{'agent_id':decision.agent_id})
+            audit=AuditRecord(event_id,timestamp,decision.agent_id,'TaskClaimed','task',task_id,'READY','RUNNING','RECORDED')
+            if hasattr(self.repository,'claim_and_start'):
+                lease=self.repository.claim_and_start(task_id,decision.agent_id,generation,event=event,audit=audit)
+            else:
+                lease=self.repository.claim_task(task_id,decision.agent_id,generation,scheduler.max_concurrency_per_agent)
+                self._transition(task_id,TaskStatus.RUNNING)
+                self.repository.append_event(event); self.repository.append_audit(audit)
+        except (ValueError,PermissionError) as exc:
+            self.metrics.inc('claim_conflicts')
+            reason='agent_capacity_exhausted' if 'capacity' in str(exc) else 'claim_lost_race'
+            self.metrics.inc('dispatch_rejections'); return type(decision)(task_id,None,reason)
+        self.metrics.inc('claims'); self.metrics.inc('dispatch_successes'); return lease

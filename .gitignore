@@ -6,3 +6,10 @@ __pycache__/
 build/
 dist/
 *.egg-info/
+
+.autonomous/
+
+# Hybrid development runtime state (generated, durable, not source)
+.hybrid-development/
+
+.venv-mediahub/
