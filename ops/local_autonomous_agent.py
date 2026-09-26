@@ -27,6 +27,10 @@ OMNIROUTE_URL = os.environ.get("MEDIAHUB_OMNIROUTE_URL", "http://127.0.0.1:20128
 OMNIROUTE_ENABLED = os.environ.get("MEDIAHUB_OMNIROUTE", "1") == "1"
 OMNIROUTE_API_KEY = os.environ.get("OMNIROUTE_API_KEY", "")
 LOCAL_AI_MODEL = os.environ.get("MEDIAHUB_LOCAL_MODEL_NAME", "")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite")
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
+OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "openrouter/free")
 GIT = Path("/usr/bin/git")
 RUFF = Path(shutil.which("ruff") or "")
 MAX_DIFF_LINES = 160
@@ -4037,7 +4041,57 @@ def _generate_endpoint(url: str, text: str, model: str | None) -> tuple[int, str
         return 28, "", "AI_MALFORMED"
 
 
+def _generate_gemini(text: str) -> tuple[int, str, str]:
+    if not GEMINI_API_KEY:
+        return 29, "", "GEMINI_CREDENTIAL_MISSING"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
+    payload = {"contents":[{"role":"user","parts":[{"text":"Return only a complete unified git diff.\n" + text}]}],"generationConfig":{"temperature":0,"maxOutputTokens":256}}
+    req = urllib.request.Request(url, data=json.dumps(payload).encode(), headers={"Content-Type":"application/json","x-goog-api-key":GEMINI_API_KEY}, method="POST")
+    try:
+        with LOCAL_AI_OPENER.open(req, timeout=15) as response:
+            body=json.loads(response.read(1_048_577).decode("utf-8"))
+            content=str(body["candidates"][0]["content"]["parts"][0].get("text", ""))
+            return (0, content, "GEMINI_AI_SUCCESS") if content else (28, "", "GEMINI_AI_MALFORMED")
+    except urllib.error.HTTPError as exc:
+        if exc.code == 429:
+            return 28, "", "GEMINI_RATE_LIMITED"
+        if exc.code in (401,403):
+            return 29, "", "GEMINI_POLICY_OR_CREDENTIAL"
+        return 28, "", "GEMINI_PROVIDER_FAILURE"
+    except (TimeoutError, urllib.error.URLError, KeyError, IndexError, ValueError, UnicodeDecodeError):
+        return 28, "", "GEMINI_AI_MALFORMED"
+
+
+def _generate_openrouter(text: str) -> tuple[int, str, str]:
+    if not OPENROUTER_API_KEY:
+        return 29, "", "OPENROUTER_CREDENTIAL_MISSING"
+    url = "https://openrouter.ai/api/v1/chat/completions"
+    payload = {"model":OPENROUTER_MODEL,"messages":[{"role":"system","content":"Return only a complete unified git diff."},{"role":"user","content":text}],"max_tokens":256,"temperature":0}
+    req = urllib.request.Request(url, data=json.dumps(payload).encode(), headers={"Content-Type":"application/json","Authorization":"Bearer "+OPENROUTER_API_KEY}, method="POST")
+    try:
+        with LOCAL_AI_OPENER.open(req, timeout=15) as response:
+            body=json.loads(response.read(1_048_577).decode("utf-8"))
+            content=str(body["choices"][0]["message"].get("content", ""))
+            return (0, content, "OPENROUTER_AI_SUCCESS") if content else (28, "", "OPENROUTER_AI_MALFORMED")
+    except urllib.error.HTTPError as exc:
+        if exc.code == 429:
+            return 28, "", "OPENROUTER_RATE_LIMITED"
+        if exc.code in (401,403):
+            return 29, "", "OPENROUTER_POLICY_OR_CREDENTIAL"
+        return 28, "", "OPENROUTER_PROVIDER_FAILURE"
+    except (TimeoutError, urllib.error.URLError, KeyError, IndexError, ValueError, UnicodeDecodeError):
+        return 28, "", "OPENROUTER_AI_MALFORMED"
+
+
 def generate(text: str) -> tuple[int, str, str]:
+    # Live-qualified cloud routes are preferred when authorized credentials
+    # are present; every cloud failure falls through without retry amplification.
+    rc, content, status = _generate_gemini(text)
+    if rc == 0:
+        return rc, content, status
+    rc, content, status = _generate_openrouter(text)
+    if rc == 0:
+        return rc, content, status
     # FCM is an optional provider boundary: use it only when its router
     # reports at least one currently healthy model, then fail back to the
     # existing local model without changing Control Plane semantics.
