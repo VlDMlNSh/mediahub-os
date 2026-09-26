@@ -8,6 +8,7 @@ import os
 import subprocess
 import time
 import sys
+import urllib.request
 from pathlib import Path
 from uuid import uuid4
 
@@ -96,10 +97,19 @@ Current tail of file:
 {tail}
 ---
 """
-    model = None if ":8081/" in os.environ["MEDIAHUB_AI_URL"] else os.environ["MEDIAHUB_LOCAL_MODEL_NAME"]
-    rc, content, status = _generate_endpoint(os.environ["MEDIAHUB_AI_URL"], prompt, model)
-    if rc != 0:
-        raise RuntimeError(f"local AI generation failed: {status}")
+    if ":8081/" in os.environ["MEDIAHUB_AI_URL"]:
+        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": 160, "temperature": 0}).encode()
+        request = urllib.request.Request(os.environ["MEDIAHUB_AI_URL"], data=body, headers={"Content-Type": "application/json"}, method="POST")
+        try:
+            with urllib.request.urlopen(request, timeout=45) as response:
+                payload = json.loads(response.read(262144).decode("utf-8"))
+            content = str(payload["choices"][0]["message"]["content"])
+        except Exception as exc:
+            raise RuntimeError(f"local AI generation failed: {type(exc).__name__}") from exc
+    else:
+        rc, content, status = _generate_endpoint(os.environ["MEDIAHUB_AI_URL"], prompt, os.environ["MEDIAHUB_LOCAL_MODEL_NAME"])
+        if rc != 0:
+            raise RuntimeError(f"local AI generation failed: {status}")
     code = content.strip()
     if code.startswith("```"):
         lines = code.splitlines()
