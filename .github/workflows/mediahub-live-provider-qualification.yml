@@ -1,0 +1,198 @@
+name: MediaHub Live Provider Qualification
+
+on:
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: Provider lane to qualify
+        required: true
+        type: choice
+        options:
+          - openai
+          - anthropic
+          - gemini
+          - openrouter
+          - groq
+          - together
+          - huggingface
+      model:
+        description: Exact provider model identifier
+        required: true
+        type: string
+      ref:
+        description: Repository ref containing the adapter code to qualify
+        required: true
+        default: main
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mediahub-live-provider-qualification
+  cancel-in-progress: false
+
+jobs:
+  qualify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      PROVIDER: ${{ inputs.provider }}
+      MODEL: ${{ inputs.model }}
+      QUALIFICATION_REF: ${{ inputs.ref }}
+    steps:
+      - name: Checkout target adapter ref
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+
+      - name: Verify provider adapter contracts
+        run: |
+          python3 -m pytest -q \
+            tests/test_mediahub_canonical_protocol.py \
+            tests/test_mediahub_provider_adapters.py \
+            tests/test_mediahub_provider_execution.py \
+            tests/test_mediahub_provider_gateway.py \
+            tests/test_mediahub_provider_plane.py
+
+      - name: Live provider smoke
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, sys, urllib.error, urllib.request
+
+          provider = os.environ["PROVIDER"]
+          model = os.environ["MODEL"]
+          marker = "MEDIAHUB_LIVE_PROVIDER_OK"
+
+          secret_env = {
+              "openai": "OPENAI_API_KEY",
+              "anthropic": "ANTHROPIC_API_KEY",
+              "gemini": "GEMINI_API_KEY",
+              "openrouter": "OPENROUTER_API_KEY",
+              "groq": "GROQ_API_KEY",
+              "together": "TOGETHER_API_KEY",
+              "huggingface": "HF_TOKEN",
+          }[provider]
+          credential = os.environ.get(secret_env, "")
+          if not credential:
+              raise SystemExit(f"credential_missing:{secret_env}")
+
+          if provider == "openai":
+              url = "https://api.openai.com/v1/responses"
+              headers = {"Authorization": f"Bearer {credential}", "Content-Type": "application/json"}
+              payload = {"model": model, "input": marker, "max_output_tokens": 16}
+          elif provider == "anthropic":
+              url = "https://api.anthropic.com/v1/messages"
+              headers = {
+                  "x-api-key": credential,
+                  "anthropic-version": "2023-06-01",
+                  "Content-Type": "application/json",
+              }
+              payload = {
+                  "model": model,
+                  "max_tokens": 16,
+                  "messages": [{"role": "user", "content": f"Reply exactly {marker}"}],
+              }
+          elif provider == "gemini":
+              url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+              headers = {"x-goog-api-key": credential, "Content-Type": "application/json"}
+              payload = {
+                  "contents": [{"role": "user", "parts": [{"text": f"Reply exactly {marker}"}]}],
+                  "generationConfig": {"maxOutputTokens": 16},
+              }
+          else:
+              endpoint = {
+                  "openrouter": "https://openrouter.ai/api/v1/chat/completions",
+                  "groq": "https://api.groq.com/openai/v1/chat/completions",
+                  "together": "https://api.together.xyz/v1/chat/completions",
+                  "huggingface": "https://router.huggingface.co/v1/chat/completions",
+              }[provider]
+              url = endpoint
+              headers = {"Authorization": f"Bearer {credential}", "Content-Type": "application/json"}
+              payload = {
+                  "model": model,
+                  "messages": [{"role": "user", "content": f"Reply exactly {marker}"}],
+                  "max_tokens": 16,
+              }
+
+          request = urllib.request.Request(
+              url,
+              data=json.dumps(payload, separators=(",", ":")).encode(),
+              method="POST",
+              headers=headers,
+          )
+          try:
+              with urllib.request.urlopen(request, timeout=45) as response:
+                  body = json.loads(response.read().decode())
+                  status = response.status
+          except urllib.error.HTTPError as exc:
+              body = exc.read().decode(errors="replace")
+              print(f"provider={provider}")
+              print(f"model={model}")
+              print(f"status={exc.code}")
+              if exc.code in {401, 403}:
+                  print("classification=POLICY_OR_CREDENTIAL_FAILURE")
+              elif exc.code == 429:
+                  print("classification=RATE_LIMITED")
+              else:
+                  print("classification=PROVIDER_FAILURE")
+              raise
+
+          if provider == "openai":
+              text = "".join(
+                  item.get("text", "")
+                  for item in body.get("output", [])
+                  if isinstance(item, dict)
+                  for item in item.get("content", [])
+                  if isinstance(item, dict)
+                  and item.get("type") == "output_text"
+              ).strip()
+          elif provider == "anthropic":
+              text = "".join(
+                  item.get("text", "")
+                  for item in body.get("content", [])
+                  if isinstance(item, dict) and item.get("type") == "text"
+              ).strip()
+          elif provider == "gemini":
+              text = body["candidates"][0]["content"]["parts"][0].get("text", "").strip()
+          else:
+              text = body["choices"][0]["message"].get("content", "").strip()
+
+          print(f"provider={provider}")
+          print(f"model={model}")
+          print(f"status={status}")
+          print(f"marker_present={text == marker}")
+          print(f"response_nonempty={bool(text)}")
+          if text != marker:
+              raise SystemExit("marker_mismatch")
+
+          if provider == "openrouter":
+              print(f"route_model={body.get('model', 'unknown')}")
+
+          print("qualification=LIVE_QUALIFIED")
+
+          PY
+
+      - name: Sanitized evidence
+        if: always()
+        run: |
+          echo "commit=$(git rev-parse HEAD)"
+          echo "provider=$PROVIDER"
+          echo "model=$MODEL"
+          echo "ref=$QUALIFICATION_REF"
+          echo "secret_values=SUPPRESSED"
