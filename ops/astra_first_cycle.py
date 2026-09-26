@@ -33,6 +33,7 @@ BRANCH = "engineering/mh21-sandbox-lifecycle-20260910"
 R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
 AGENT = "astra-local-qwen"
 LOCAL_GENERATION_MAX_TOKENS = 256
+LOCAL_MODEL_TIMEOUT_SECONDS = 60
 
 TASKS = (
     {
@@ -104,7 +105,7 @@ def generate_patch(task: dict) -> str:
         body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": LOCAL_GENERATION_MAX_TOKENS, "temperature": 0}).encode()
         request = urllib.request.Request(os.environ["MEDIAHUB_AI_URL"], data=body, headers={"Content-Type": "application/json"}, method="POST")
         try:
-            with urllib.request.urlopen(request, timeout=30) as response:
+            with urllib.request.urlopen(request, timeout=LOCAL_MODEL_TIMEOUT_SECONDS) as response:
                 payload = json.loads(response.read(262144).decode("utf-8"))
             content = str(payload["choices"][0]["message"]["content"])
         except Exception as exc:

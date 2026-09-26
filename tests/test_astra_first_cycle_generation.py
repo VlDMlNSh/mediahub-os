@@ -12,3 +12,7 @@ def test_generated_patch_has_valid_git_and_unified_headers():
     assert patch.startswith("diff --git a/tests/x.py b/tests/x.py\n")
     assert "--- a/tests/x.py\n" in patch
     assert "+++ b/tests/x.py\n" in patch
+
+
+def test_local_generation_timeout_allows_slow_local_model():
+    assert astra_first_cycle.LOCAL_MODEL_TIMEOUT_SECONDS >= 60
