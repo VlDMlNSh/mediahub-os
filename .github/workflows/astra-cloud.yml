@@ -16,5 +16,5 @@ jobs:
           python-version: "3.12"
       - name: Validate contracts
         run: python3 tools/validate_contracts.py
-      - name: Astra Cloud tests
-        run: python3 -m unittest tests/runtime_ai/test_astra_cloud.py
+      - name: Astra Cloud AI tests
+        run: python3 -m unittest discover -s tests/ai -p 'test_*.py'
