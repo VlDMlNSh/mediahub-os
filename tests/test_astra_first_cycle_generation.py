@@ -16,3 +16,7 @@ def test_generated_patch_has_valid_git_and_unified_headers():
 
 def test_local_generation_timeout_allows_slow_local_model():
     assert astra_first_cycle.LOCAL_MODEL_TIMEOUT_SECONDS >= 60
+
+
+def test_local_generation_timeout_covers_coder_latency():
+    assert astra_first_cycle.LOCAL_MODEL_TIMEOUT_SECONDS >= 120

@@ -33,7 +33,7 @@ BRANCH = "engineering/mh21-sandbox-lifecycle-20260910"
 R4 = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
 AGENT = "astra-local-qwen"
 LOCAL_GENERATION_MAX_TOKENS = 256
-LOCAL_MODEL_TIMEOUT_SECONDS = 60
+LOCAL_MODEL_TIMEOUT_SECONDS = 120
 
 TASKS = (
     {
