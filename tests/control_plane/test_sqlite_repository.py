@@ -307,5 +307,5 @@ CREATE TABLE audit(event_id TEXT PRIMARY KEY, timestamp REAL NOT NULL, actor TEX
     db.commit(); db.close()
     SQLiteControlPlaneRepository(path)
     db = sqlite3.connect(path)
-    assert db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == '1'
+    assert db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == '2'
     db.close()

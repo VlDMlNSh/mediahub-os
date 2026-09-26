@@ -47,7 +47,7 @@ def _unjson(value: str | None) -> Any:
 class SQLiteControlPlaneRepository(ControlPlaneRepository):
     """Durable repository; one SQLite database is the authoritative state store."""
 
-    SCHEMA_VERSION = "1"
+    SCHEMA_VERSION = "2"
     _REQUIRED_COLUMNS = {
         "meta": {"key", "value"},
         "tasks": {"task_id", "idempotency_key", "type", "payload", "priority", "status",
@@ -81,7 +81,7 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
                 if version == '1':
                     db.execute('BEGIN IMMEDIATE')
                     db.execute('CREATE TABLE IF NOT EXISTS operations (operation_id TEXT PRIMARY KEY, task_id TEXT NOT NULL, operation_key TEXT NOT NULL UNIQUE, provider TEXT NOT NULL, model TEXT NOT NULL, attempt INTEGER NOT NULL, generation INTEGER NOT NULL, status TEXT NOT NULL, replay_allowed INTEGER NOT NULL, result TEXT, created_at REAL NOT NULL, resolved_at REAL)')
-                    db.execute("UPDATE meta SET value='1' WHERE key='schema_version'")
+                    db.execute("UPDATE meta SET value='2' WHERE key='schema_version'")
                     db.commit()
                     version = self.SCHEMA_VERSION
                 if version != self.SCHEMA_VERSION:
@@ -99,7 +99,7 @@ class SQLiteControlPlaneRepository(ControlPlaneRepository):
                         raise RuntimeError(f"control-plane schema mismatch for {table}: missing {missing}")
                 db.execute('BEGIN IMMEDIATE')
                 db.execute('CREATE TABLE IF NOT EXISTS operations (operation_id TEXT PRIMARY KEY, task_id TEXT NOT NULL, operation_key TEXT NOT NULL UNIQUE, provider TEXT NOT NULL, model TEXT NOT NULL, attempt INTEGER NOT NULL, generation INTEGER NOT NULL, status TEXT NOT NULL, replay_allowed INTEGER NOT NULL, result TEXT, created_at REAL NOT NULL, resolved_at REAL)')
-                db.execute("INSERT INTO meta(key,value) VALUES('schema_version','1')")
+                db.execute("INSERT INTO meta(key,value) VALUES('schema_version','2')")
                 db.commit()
                 self._assert_schema(db)
                 return
