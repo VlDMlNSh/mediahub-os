@@ -85,6 +85,17 @@ def clean_model_diff(text: str) -> str:
     return text[marker:] + "\n"
 
 
+def _build_unified_patch(path: str, old_text: str, new_text: str) -> str:
+    diff = difflib.unified_diff(
+        old_text.splitlines(True),
+        new_text.splitlines(True),
+        fromfile=f"a/{path}",
+        tofile=f"b/{path}",
+        lineterm="\n",
+    )
+    return f"diff --git a/{path} b/{path}\n" + "".join(diff)
+
+
 def generate_patch(task: dict) -> str:
     target_path = ROOT / task["path"]
     target = target_path.read_text(encoding="utf-8")
@@ -119,9 +130,7 @@ def generate_patch(task: dict) -> str:
     if "subprocess" in code or "os.system" in code or "eval(" in code or "exec(" in code:
         raise PatchAdmissionError("generated test contains forbidden execution primitive")
     new_text = target.rstrip() + "\n\n" + code.rstrip() + "\n"
-    diff = difflib.unified_diff(target.splitlines(True), new_text.splitlines(True), fromfile=f"a/{task['path']}", tofile=f"b/{task['path']}", lineterm="")
-    patch = "diff --git a/{0} b/{0}\n".format(task["path"]) + "".join(diff)
-    return patch + ("\n" if not patch.endswith("\n") else "")
+    return _build_unified_patch(task["path"], target, new_text)
 
 
 def record_failure(repo: SQLiteControlPlaneRepository, service: ControlPlaneService, task_id: str, generation: int, reason: str) -> None:
