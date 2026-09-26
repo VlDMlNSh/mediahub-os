@@ -184,3 +184,23 @@ def test_provider_failover_uses_provider_scoped_operation_keys(tmp_path):
     assert out.provider=='openrouter'
     assert repo.get_operation_by_key('operation-3:openai').status is OperationStatus.RESOLVED
     assert repo.get_operation_by_key('operation-3:openrouter').status is OperationStatus.RESOLVED
+
+def test_resolved_operation_is_executor_side_deduplicated(tmp_path):
+    from runtime.mediahub_control_plane.model import Task, TaskStatus
+    from runtime.mediahub_control_plane.service import ControlPlaneService
+    from runtime.mediahub_control_plane.sqlite_repository import SQLiteControlPlaneRepository
+    repo=SQLiteControlPlaneRepository(tmp_path/'cp.sqlite'); repo.create_task(Task('task-dedup','provider',status=TaskStatus.READY))
+    service=ControlPlaneService(repo); service.claim('task-dedup','agent-dedup',6)
+    req=CanonicalRequest('req-dedup','model-x',Protocol.OPENAI_CHAT,[{'role':'user','content':'hello'}],7.0,
+        provider_extensions={'task_id':'task-dedup','agent_id':'agent-dedup','generation':6,'operation_key':'operation-dedup'})
+    calls=[]
+    def send(http, timeout):
+        calls.append(http.url)
+        return AdapterResult(200,{},b'{"ok":true}')
+    coord=ProviderExecutionCoordinator(
+        ProviderGateway((Provider('openai','https://openai.example',10),)),
+        adapters=(OpenAIChatAdapter(),), credential_for=lambda _: 'credential', send=send, operation_service=service,
+    )
+    first=coord.execute(req); second=coord.execute(req)
+    assert first.output == second.output
+    assert calls == [OpenAIChatAdapter.endpoint]

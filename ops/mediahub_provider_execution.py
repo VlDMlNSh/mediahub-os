@@ -22,6 +22,7 @@ from ops.mediahub_provider_adapters import (
     NativeProviderAdapter,
     execute_adapter,
 )
+from runtime.mediahub_control_plane.model import OperationStatus
 from ops.mediahub_provider_gateway import ProviderGateway
 from ops.mediahub_resilience import ResilienceEngine, RetryPolicy
 
@@ -74,9 +75,11 @@ class ProviderExecutionCoordinator:
             return None
         logical_key=str(ext.get("operation_key") or request.request_id)
         key=f"{logical_key}:{provider}"
-        return self.operation_service.begin_external_operation(
+        existing=self.operation_service.repository.get_operation_by_key(key)
+        operation=self.operation_service.begin_external_operation(
             str(ext["task_id"]),str(ext["agent_id"]),int(ext["generation"]),provider,request.model,key
         )
+        return operation, existing is not None
 
     def _mark_operation_ambiguous(self, request: CanonicalRequest, operation, failure: CanonicalFailure):
         if self.operation_service is None or operation is None:
@@ -110,10 +113,23 @@ class ProviderExecutionCoordinator:
                     "provider credential is unavailable", retryable=False, policy_blocked=True,
                 )
             else:
-                operation = self._begin_operation(request, provider)
+                operation_state = self._begin_operation(request, provider)
+                operation, existed = operation_state if operation_state is not None else (None, False)
+                if existed and operation is not None and operation.status is OperationStatus.RESOLVED:
+                    body = None
+                    if isinstance(operation.result, dict):
+                        evidence = operation.result.get("evidence", operation.result)
+                        body = evidence.get("body") if isinstance(evidence, dict) else None
+                    else:
+                        body = operation.result
+                    if body is not None:
+                        return CanonicalResponse(request.request_id, operation.provider, operation.model, body)
+                    return CanonicalFailure(request.request_id, provider, FailureClass.POLICY_BLOCKED, "resolved operation has no replayable response", retryable=False, policy_blocked=True)
+                if existed and operation is not None and operation.status in {OperationStatus.IN_FLIGHT, OperationStatus.RECONCILIATION_REQUIRED, OperationStatus.REPLAY_AUTHORIZED}:
+                    return CanonicalFailure(request.request_id, provider, FailureClass.POLICY_BLOCKED, "operation requires reconciliation before replay", retryable=False, policy_blocked=True)
                 failure = execute_adapter(adapter, request, credential, self.send)
                 if isinstance(failure, CanonicalResponse) and operation is not None:
-                    self.operation_service.reconcile_external_operation(operation.operation_id, request.provider_extensions["agent_id"], "SUCCEEDED", {"provider": provider, "request_id": request.request_id})
+                    self.operation_service.reconcile_external_operation(operation.operation_id, request.provider_extensions["agent_id"], "SUCCEEDED", {"provider": provider, "request_id": request.request_id, "body": failure.output})
                 elif not isinstance(failure, CanonicalResponse) and operation is not None:
                     if failure.outcome_ambiguous:
                         self._mark_operation_ambiguous(request, operation, failure)
