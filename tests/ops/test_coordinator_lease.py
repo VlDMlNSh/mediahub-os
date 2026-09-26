@@ -38,3 +38,6 @@ def test_epoch_increments_after_release(tmp_path):
     second = CoordinatorLease(db, lock, branch="engineering/test")
     assert second.acquire("coord-b", now=102.0).epoch == 2
     second.release(now=103.0)
+
+def test_heartbeat_requires_current_owner(tmp_path):
+    db = tmp_path / "control.sqlite3"; lock = tmp_path / "coord.lock"; first = CoordinatorLease(db, lock, branch="engineering/test"); first.acquire("coord-a", now=100.0); first.release(now=101.0); second = CoordinatorLease(db, lock, branch="engineering/test"); second.acquire("coord-b", now=102.0); pytest.raises(CoordinatorLeaseError, first.heartbeat, now=103.0); second.release(now=104.0)
