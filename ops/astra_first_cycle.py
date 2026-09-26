@@ -107,8 +107,10 @@ def generate_patch(task: dict) -> str:
         if lines and lines[0].startswith("```"): lines = lines[1:]
         if lines and lines[-1].strip() == "```": lines = lines[:-1]
         code = "\n".join(lines).strip()
-    if not code.startswith("def test_"):
+    marker = code.find("def test_")
+    if marker < 0:
         raise PatchAdmissionError("local model did not return a test function")
+    code = code[marker:]
     try:
         ast.parse(code + "\n")
     except SyntaxError as exc:
