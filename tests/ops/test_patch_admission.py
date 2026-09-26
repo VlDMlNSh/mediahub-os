@@ -33,3 +33,7 @@ def test_admit_patch_accepts_bounded_unified_diff(tmp_path):
     admitted = admit_patch(proposal, tmp_path, allowed_paths=("tests/**",))
     assert admitted.changed_files == ("tests/x.py",)
     assert target.read_text(encoding="utf-8") == "VALUE = 2\n"
+
+def test_admission_limits_patch_size(tmp_path):
+    proposal = StructuredPatch.from_json(json.dumps({"files": [{"path": "tests/x.py", "operation": "modify", "patch": ""}]}))
+    pytest.raises(PatchAdmissionError, admit_patch, proposal, tmp_path, allowed_paths=("tests/**",), max_patch_bytes=1)
