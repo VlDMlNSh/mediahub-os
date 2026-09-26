@@ -9,13 +9,15 @@ from __future__ import annotations
 
 import json
 import re
+import os
+import shutil
 import subprocess
 import time
 from pathlib import Path
 
 ROOT = Path("/home/mediahub/dev/mediahub-os-autonomous")
 STATE = ROOT / ".autonomous"
-GH = "/home/mediahub/.local/gh-bootstrap/root/usr/bin/gh"
+GH = os.environ.get("MEDIAHUB_GH_CLI") or shutil.which("gh") or "/home/mediahub/.local/gh/root/usr/bin/gh"
 REPO = "VlDMlNSh/mediahub-os"
 LABEL = "astra-command"
 POLL_SECONDS = 30
