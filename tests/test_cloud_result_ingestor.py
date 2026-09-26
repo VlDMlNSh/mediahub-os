@@ -1,8 +1,9 @@
+import hashlib
 import json
 from pathlib import Path
 
-from ops.mediahub_cloud_result_ingestor import ingest_manifest
-from runtime.mediahub_control_plane.model import Task, TaskStatus
+from ops.mediahub_cloud_result_ingestor import ingest_github_run, ingest_manifest
+from runtime.mediahub_control_plane.model import Execution, Task, TaskStatus
 from runtime.mediahub_control_plane.repository import InMemoryControlPlaneRepository
 from runtime.mediahub_control_plane.service import ControlPlaneService
 
@@ -13,15 +14,13 @@ def _fixture(tmp_path):
                 idempotency_key="idem-e2e-1", max_attempts=2)
     repo.create_task(task)
     service = ControlPlaneService(repo)
-    lease = service.claim("task-e2e-1", "astra-e2e", 7)
+    service.claim("task-e2e-1", "astra-e2e", 7)
     operation = service.begin_external_operation(
         "task-e2e-1", "astra-e2e", 7, "gemini", "gemini-3.5-flash-lite",
         "op:task-e2e-1:exec-e2e-1:g7",
     )
-    from runtime.mediahub_control_plane.model import Execution
     repo.record_execution(Execution("exec-e2e-1", "task-e2e-1", "astra-e2e", 7, "DISPATCHED"))
     result = "bounded engineering proposal"
-    import hashlib
     manifest = {
         "schema_version": 1,
         "task_id": "task-e2e-1",
@@ -58,3 +57,53 @@ def test_ingestion_rejects_generation_mismatch(tmp_path):
     import pytest
     with pytest.raises(PermissionError):
         ingest_manifest(repo, path)
+
+
+def test_github_run_ingestion_authenticates_run_and_artifact(tmp_path, monkeypatch):
+    repo, path, _ = _fixture(tmp_path)
+    manifest = json.loads(path.read_text())
+    manifest["target_sha"] = "b" * 40
+
+    class Result:
+        returncode = 0
+        stdout = json.dumps({
+            "databaseId": "123",
+            "workflowName": "MediaHub Cloud Development Agent",
+            "status": "completed",
+            "conclusion": "success",
+            "event": "workflow_dispatch",
+            "headSha": "b" * 40,
+        })
+        stderr = ""
+
+    def fake_run(argv, **kwargs):
+        if argv[1:4] == ["run", "view", "123"]:
+            return Result()
+        download_dir = Path(argv[-1])
+        artifact = download_dir / "cloud-evidence.json"
+        artifact.write_text(json.dumps(manifest), encoding="utf-8")
+        return type("DownloadResult", (), {"returncode": 0, "stdout": "", "stderr": ""})()
+
+    monkeypatch.setattr("ops.mediahub_cloud_result_ingestor.subprocess.run", fake_run)
+    assert ingest_github_run(repo, "123") == "RECORDED"
+
+
+def test_github_run_ingestion_rejects_untrusted_workflow(tmp_path, monkeypatch):
+    repo, _, _ = _fixture(tmp_path)
+
+    class Result:
+        returncode = 0
+        stdout = json.dumps({
+            "databaseId": "123",
+            "workflowName": "Untrusted Workflow",
+            "status": "completed",
+            "conclusion": "success",
+            "event": "workflow_dispatch",
+            "headSha": "c" * 40,
+        })
+        stderr = ""
+
+    monkeypatch.setattr("ops.mediahub_cloud_result_ingestor.subprocess.run", lambda *a, **k: Result())
+    import pytest
+    with pytest.raises(PermissionError):
+        ingest_github_run(repo, "123")
