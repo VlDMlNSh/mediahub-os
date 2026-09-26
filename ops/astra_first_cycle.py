@@ -84,7 +84,7 @@ def clean_model_diff(text: str) -> str:
 def generate_patch(task: dict) -> str:
     target = (ROOT / task["path"]).read_text(encoding="utf-8")
     prompt = f"""MediaHub Astra bounded coding task. Return ONLY a complete unified git diff for one file.\n\nTask: {task['instruction']}\n\nTarget file path: {task['path']}\nCurrent file contents:\n---\n{target}\n---\nConstraints: modify only this file; do not delete existing tests; do not add dependencies; produce a patch that applies cleanly to the exact current file.\n"""
-    rc, content, status = _generate_endpoint(os.environ["MEDIAHUB_AI_URL"], prompt, "local")
+    rc, content, status = _generate_endpoint(os.environ["MEDIAHUB_AI_URL"], prompt, os.environ["MEDIAHUB_LOCAL_MODEL_NAME"])
     if rc != 0:
         raise RuntimeError(f"local AI generation failed: {status}")
     return clean_model_diff(content)
@@ -103,7 +103,7 @@ def execute_task(repo: SQLiteControlPlaneRepository, service: ControlPlaneServic
     task_id = task["id"]
     existing = repo.get_task(task_id)
     if existing is None:
-        repo.create_task(Task(task_id, "bounded_code_change", payload={"path": task["path"], "instruction": task["instruction"]}, priority=100, status=TaskStatus.READY, idempotency_key=task_id, max_attempts=1, required_capabilities=("code_generation",)))
+        repo.create_task(Task(task_id, "bounded_code_change", payload={"path": task["path"], "instruction": task["instruction"]}, priority=100, status=TaskStatus.READY, idempotency_key=task_id, max_attempts=3, required_capabilities=("code_generation",)))
     elif existing.status is TaskStatus.SUCCEEDED:
         return {"task_id": task_id, "status": "ALREADY_SUCCEEDED"}
     lease = service.claim(task_id, AGENT, epoch)
