@@ -32,17 +32,10 @@ class WorkerRuntime:
         try:
             self.service.fail(task_id, agent_id, generation, reason, FailureClass.INFRASTRUCTURE if reason == "LEASE_LOST" else FailureClass.TASK, lease_id=lease_id)
         except PermissionError:
-            # Once fencing rejects us, the worker is no longer authoritative.
             pass
 
-    def execute(
-        self,
-        task_id: str,
-        agent_id: str,
-        generation: int,
-        executor: Callable[[Any, ExecutionContext], Any],
-        verifier: Callable[[Any], bool],
-    ):
+    def execute(self, task_id: str, agent_id: str, generation: int,
+                executor: Callable[[Any, ExecutionContext], Any], verifier: Callable[[Any], bool]):
         lease = self.service.repository.get_lease_for_task(task_id)
         if lease is None:
             raise LeaseLost("task has no lease")
@@ -62,12 +55,9 @@ class WorkerRuntime:
                 raise LeaseLost("lease identity changed")
             try:
                 self.service.repository.assert_lease_owner(lease.lease_id, agent_id, generation)
-                duration = current.expires_at - current.last_renewed_at
-                now = (self.service.repository.now() if hasattr(self.service.repository, "now")
-                       else self.clock())
-                return self.service.repository.renew_lease(
-                    current.lease_id, agent_id, generation, now + duration
-                )
+                duration = max(current.expires_at - current.last_renewed_at, 1.0)
+                now = (self.service.repository.now() if hasattr(self.service.repository, "now") else self.clock())
+                return self.service.repository.renew_lease(current.lease_id, agent_id, generation, now + duration)
             except (PermissionError, ValueError, KeyError) as exc:
                 raise LeaseLost("lease renewal failed") from exc
 
@@ -99,5 +89,4 @@ class WorkerRuntime:
         return execution
 
     def run_once(self, task_id: str, agent_id: str, generation: int, executor, verifier):
-        """Alias for one task; callers may invoke repeatedly without recreating the runtime."""
         return self.execute(task_id, agent_id, generation, executor, verifier)

@@ -23,3 +23,13 @@
 | Security sweep | independent security evidence | OPEN |
 | Disaster recovery | host/worker/model/CP/SQLite/network/provider/Astra recovery | PARTIAL |
 | GOLD release | all mandatory gates fresh and green | NOT QUALIFIED |
+
+## Fresh verification wave — 2026-09-26
+
+- Full DF3 regression: **901 passed, 2 warnings, 27 subtests**.
+- Focused lifecycle/model/Control Plane regression: **51 passed**.
+- Astra edge/task gateway/lease/worker-loop regression: **21 passed**.
+- Native agent launcher after installing Codex CLI 0.157.1: **7 passed**.
+- DF3 Ollama exact marker: **PASS**.
+- DF3 Qwen2.5-Coder 1.5B coding/patch qualification: **NOT_QUALIFIED**; evidence recorded in `docs/ops/df3-qwen15b-qualification-20260926.md`.
+- Autonomous local agent E2E attempt: **IDLE** because the canonical queue is fully encoded and no eligible bounded task exists; this is not an autonomous coding PASS.
