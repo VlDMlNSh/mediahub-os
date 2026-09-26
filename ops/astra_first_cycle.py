@@ -5,8 +5,12 @@ import json
 import os
 import subprocess
 import time
+import sys
 from pathlib import Path
 from uuid import uuid4
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
 os.environ.setdefault("MEDIAHUB_AI_URL", "http://127.0.0.1:11434/v1/chat/completions")
 os.environ.setdefault("MEDIAHUB_LOCAL_MODEL_NAME", "qwen2.5-coder:3b")
@@ -19,7 +23,6 @@ from runtime.mediahub_control_plane.service import ControlPlaneService
 from runtime.mediahub_control_plane.sqlite_repository import SQLiteControlPlaneRepository
 from ops.local_autonomous_agent import _generate_endpoint
 
-ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / ".autonomous"
 DB = STATE / "control-plane.sqlite3"
 LOCK = STATE / "coordinator.lock"
