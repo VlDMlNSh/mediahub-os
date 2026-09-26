@@ -37,13 +37,13 @@ TASKS = (
     {
         "id": "ASTRA-FIRST-001",
         "path": "tests/ops/test_patch_admission.py",
-        "instruction": "Return exactly this function: def test_admission_limits_patch_size(tmp_path): proposal = StructuredPatch.from_json(json.dumps({\"files\": [{\"path\": \"tests/x.py\", \"operation\": \"modify\", \"patch\": \"\"}]})); with pytest.raises(PatchAdmissionError): admit_patch(proposal, tmp_path, allowed_paths=(\"tests/**\",), max_patch_bytes=1). Format it as normal indented Python.",
+        "instruction": "Return exactly one Python function on one line: def test_admission_limits_patch_size(tmp_path): proposal = StructuredPatch.from_json(json.dumps({\"files\": [{\"path\": \"tests/x.py\", \"operation\": \"modify\", \"patch\": \"\"}]})); pytest.raises(PatchAdmissionError, admit_patch, proposal, tmp_path, allowed_paths=(\"tests/**\",), max_patch_bytes=1)",
         "test": "pytest -q tests/ops/test_patch_admission.py",
     },
     {
         "id": "ASTRA-FIRST-002",
         "path": "tests/ops/test_coordinator_lease.py",
-        "instruction": "Return exactly this function: def test_heartbeat_requires_current_owner(tmp_path): db = tmp_path / \"control.sqlite3\"; lock = tmp_path / \"coord.lock\"; first = CoordinatorLease(db, lock, branch=\"engineering/test\"); first.acquire(\"coord-a\", now=100.0); first.release(now=101.0); second = CoordinatorLease(db, lock, branch=\"engineering/test\"); second.acquire(\"coord-b\", now=102.0); with pytest.raises(CoordinatorLeaseError): first.heartbeat(now=103.0); second.release(now=104.0). Format it as normal indented Python.",
+        "instruction": "Return exactly one Python function on one line: def test_heartbeat_requires_current_owner(tmp_path): db = tmp_path / \"control.sqlite3\"; lock = tmp_path / \"coord.lock\"; first = CoordinatorLease(db, lock, branch=\"engineering/test\"); first.acquire(\"coord-a\", now=100.0); first.release(now=101.0); second = CoordinatorLease(db, lock, branch=\"engineering/test\"); second.acquire(\"coord-b\", now=102.0); pytest.raises(CoordinatorLeaseError, first.heartbeat, now=103.0); second.release(now=104.0)",
         "test": "pytest -q tests/ops/test_coordinator_lease.py",
     },
 )
@@ -89,7 +89,7 @@ def generate_patch(task: dict) -> str:
     target = target_path.read_text(encoding="utf-8")
     prompt = task["instruction"] + " Return only the function code, no markdown, no explanation."
     if ":8081/" in os.environ["MEDIAHUB_AI_URL"]:
-        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": 96, "temperature": 0}).encode()
+        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "max_tokens": 64, "temperature": 0}).encode()
         request = urllib.request.Request(os.environ["MEDIAHUB_AI_URL"], data=body, headers={"Content-Type": "application/json"}, method="POST")
         try:
             with urllib.request.urlopen(request, timeout=30) as response:
