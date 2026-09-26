@@ -11,3 +11,5 @@ dist/
 
 # Hybrid development runtime state (generated, durable, not source)
 .hybrid-development/
+
+.venv-mediahub/
