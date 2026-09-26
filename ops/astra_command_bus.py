@@ -7,6 +7,7 @@ Issue text is never executed as shell input.
 """
 from __future__ import annotations
 
+import fcntl
 import json
 import re
 import os
@@ -21,6 +22,7 @@ GH = os.environ.get("MEDIAHUB_GH_CLI") or shutil.which("gh") or "/home/mediahub/
 REPO = "VlDMlNSh/mediahub-os"
 LABEL = "astra-command"
 POLL_SECONDS = 30
+LOCKFILE = STATE / "command_bus.lock"
 COMMAND_RE = re.compile(r"^\[ASTRA\]\s+(CONTINUE|STATUS|STOP|RESUME)$", re.IGNORECASE)
 
 
@@ -101,6 +103,12 @@ def process_once() -> int:
 
 def run_forever() -> int:
     STATE.mkdir(parents=True, exist_ok=True)
+    lock_handle = LOCKFILE.open("a+", encoding="utf-8")
+    try:
+        fcntl.flock(lock_handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        lock_handle.close()
+        return 73
     while True:
         try:
             processed = process_once()
