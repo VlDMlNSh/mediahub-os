@@ -1,0 +1,50 @@
+{
+  "cycles": [
+    {
+      "commit_sha": "5acbfdece11e5ab14e8ab785c549f0a05e182b3a",
+      "cycle": 1,
+      "execution_id": "exec-17de6f6700cf4408a19bf6d6e36f6ea1",
+      "generation": 1,
+      "lease_id": "lease-256cdd5ea1fe424a9ed017d5b6ac6090",
+      "next_task_id": "ASTRA-ca57224dd87a4579",
+      "owner_id": "github-actions-36324321415",
+      "patch_sha256": "66ce68fe16c749e7051d376fc460de801cd027ff6945e5bebe3cee6c62e316a1",
+      "remote_sha": "5acbfdece11e5ab14e8ab785c549f0a05e182b3a",
+      "target_sha": "e685b6f466d4824b5970221b5a5ddba9ce591516",
+      "task_id": "ASTRA-E2E-36324321415-1",
+      "tests": [
+        "pytest -q tests/test_astra_generated_e2e_cycle_1.py"
+      ]
+    },
+    {
+      "commit_sha": "a773e544ca36a394cca3662a37bf25e155e76a96",
+      "cycle": 2,
+      "execution_id": "exec-065921ee8b4146608d3afe76b8a03e72",
+      "generation": 1,
+      "lease_id": "lease-ec6624af00e94d1dbb0aade3df55d263",
+      "next_task_id": null,
+      "owner_id": "github-actions-36324321415",
+      "patch_sha256": "5fffcb01d1a88bee0a02b63d1eece66375aa5889d2adb2635e78a3b13301f782",
+      "remote_sha": "a773e544ca36a394cca3662a37bf25e155e76a96",
+      "target_sha": "5acbfdece11e5ab14e8ab785c549f0a05e182b3a",
+      "task_id": "ASTRA-ca57224dd87a4579",
+      "tests": [
+        "pytest -q tests/test_astra_generated_e2e_cycle_2.py"
+      ]
+    }
+  ],
+  "e2e_branch": "engineering/astra-e2e-36324321415",
+  "model": "gemini-3.5-flash-lite",
+  "scheduler_events": [
+    "ENQUEUED",
+    "CLAIMED",
+    "ENQUEUED",
+    "COMPLETED",
+    "CLAIMED",
+    "COMPLETED"
+  ],
+  "schema_version": 1,
+  "worker": "gemini",
+  "workflow_run_id": "36324321415",
+  "workflow_sha": "164c112718c0bc8e7d8c10a85534f8d3f4abb292"
+}
