@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "gold-wave-mh-dev-02-20260927T2030Z",
+  "command_id": "qualification-wave-mh-dev-02-20260927T2045Z",
   "node_id": "mh-dev-02",
   "operation": "coding",
-  "title": "Astra Gold full qualification wave",
-  "description": "Execute the remaining Astra Gold qualification sequence through GitHub Transport only. Enforce canonical-worker exclusivity and stop/disable any legacy competing worker using the canonical deployment/process-manager configuration. Then run fresh transport identity, runtime E2E, scheduler E2E, fencing, restart/crash recovery, backup/restore, provider/model matrix, repository tests, and qualification validators. Install/qualify Colibri if applicable. For Qwen3.8-27B-Uncensored-Cyber-agentic-imatrix-GGUF, only inspect/download/checksum if storage permits; keep it quarantined and excluded from autonomous worker selection/tool execution pending separate qualification. Preserve context_management.experimental_mode=true. Publish detailed evidence with exact SHAs, timestamps, tests, PASS/PARTIAL/FAIL. Do not claim 24h soak or GOLD authorization unless those gates are genuinely completed with fresh evidence.",
+  "title": "Astra + agent installation and qualification wave",
+  "description": "Through GitHub Transport only: enforce canonical worker exclusivity; install and test all discussed agents/components available for this node (ECC, DeepSeek Harness, Stagewise, delx-memory-bun, FreeLLMAPI, Kimi K3 in C, Colibri where supported); qualify each with fresh evidence and isolate any component that cannot safely be qualified. Inspect/download/checksum Qwen3.8-27B-Uncensored-Cyber-agentic-imatrix-GGUF only if storage permits; keep quarantined and excluded from autonomous selection/tool execution. Preserve Codex context_management.experimental_mode=true. Run fresh transport, runtime, scheduler, fencing, recovery, backup/restore, provider/model and repo tests. Publish exact evidence and PASS/PARTIAL/FAIL. Do not claim 24h soak or Astra GOLD unless genuinely completed with fresh evidence.",
   "target_sha": "main"
 }
