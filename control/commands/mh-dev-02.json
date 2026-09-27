@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "runtime-e2e-gold-mh02-20260927T1855Z",
+  "command_id": "runtime-e2e-gold-mh02-retry-20260927T1900Z",
   "node_id": "mh-dev-02",
   "operation": "coding",
-  "title": "runtime-e2e-gold-mh02",
-  "description": "Bounded runtime E2E qualification: execute a tiny coding task, verify artifact and tests, and return provider/model/evidence metadata.",
+  "title": "runtime-e2e-gold-mh02-retry",
+  "description": "Bounded runtime E2E qualification after runtime root verification. Return provider, model, execution and verification evidence.",
   "target_sha": "main"
 }
