@@ -40,7 +40,7 @@ def publish(result):
         run(args,30).check_returncode()
     commit=run(["git","commit","-m",f"astra: result {NODE_ID}"],30)
     if commit.returncode not in (0,1): raise RuntimeError(commit.stderr)
-    run(["git","push","--force-with-lease","origin",f"astra-node/{NODE_ID}"],120).check_returncode()
+    run(["git","push","--force","origin",f"astra-node/{NODE_ID}"],120).check_returncode()
     run(["git","checkout","-B","main","origin/main"],30).check_returncode()
 
 def execute(cmd):
