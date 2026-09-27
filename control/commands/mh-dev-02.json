@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "repair-canonical-worker-mh-dev-02-20260927T2340Z",
+  "command_id": "health-verify-mh-dev-02-20260927T2350Z",
   "node_id": "mh-dev-02",
-  "operation": "coding",
-  "title": "Repair and qualify canonical Astra worker on mh-dev-02",
-  "description": "Inspect mh-dev-02 and repair the deployment/process-manager state so the running Astra process is the canonical worker from the current main branch. Resolve the stale worker identity using the repository-supported service/bootstrap mechanism only; do not use Desktop Commander, Remote Desktop Commander, or SentinelX. Require the running process to report the canonical agent path /home/mediahub/astra-work/astra_github_agent.py, current canonical agent_source_sha from main, worktree /home/mediahub/astra-work, transport_version self-reexec-v1, pid and runtime package availability. Do not expose secrets. Publish fresh evidence with exact PASS or BLOCKED status and diagnostic details. Do not start the 24h soak in this task.",
+  "operation": "health",
+  "title": "Verify canonical Astra worker identity after repair attempt",
+  "description": "Return fresh canonical worker identity only: transport_version, agent_source_sha, pid, cwd, agent_path, worktree, platform, python, and status. Do not expose secrets.",
   "target_sha": "main"
 }
