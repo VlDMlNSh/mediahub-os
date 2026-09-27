@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "command_id": "health-mh-dev-02-1790502603386",
+  "command_id": "health-mh-dev-02-1790504018289",
   "node_id": "mh-dev-02",
   "operation": "health",
-  "issued_at": 1790502603
+  "issued_at": 1790504018
 }
