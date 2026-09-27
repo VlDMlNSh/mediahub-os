@@ -3,9 +3,10 @@ set -euo pipefail
 
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
-BASE="specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md"
-GOV="specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml"
-INV="specification/invariant-registry.yaml"
+TOOLCHAIN_ROOT="${TOOLCHAIN_ROOT:-"$ROOT/.mh05-toolchain-source"}"
+BASE="$TOOLCHAIN_ROOT/specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md"
+GOV="$TOOLCHAIN_ROOT/specification/MEDIAHUB-FUNCTIONAL-BASELINE-GOVERNANCE.yaml"
+INV="$TOOLCHAIN_ROOT/specification/invariant-registry.yaml"
 
 check() {
   local name="$1"; shift
