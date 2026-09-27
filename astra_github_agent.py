@@ -49,7 +49,19 @@ def execute(cmd):
         return {"status":"ready","node_id":NODE_ID,"hostname":platform.node(),
                 "platform":platform.platform(),"python":platform.python_version()}
     if operation not in OPERATIONS: raise ValueError("unsupported operation")
-    runtime_root=os.environ.get("ASTRA_RUNTIME_ROOT","/opt/mediahub/astra/runtime")
+    configured=os.environ.get("ASTRA_RUNTIME_ROOT","").strip()
+    candidates=[]
+    if configured:
+        candidates.append(Path(configured))
+    candidates.extend([ROOT/"runtime",Path("/opt/mediahub/astra/runtime"),Path("/home/mediahub/dev/mediahub-os-autonomous/runtime"),Path("/Users/voktor/astra-work/runtime")])
+    runtime_root=None
+    for candidate in candidates:
+        if (candidate/"mediahub_runtime"/"astra_gateway.py").exists():
+            runtime_root=candidate
+            break
+    if runtime_root is None:
+        raise ModuleNotFoundError("mediahub_runtime runtime root not found; checked: " + ", ".join(str(p) for p in candidates))
+    runtime_root=str(runtime_root)
     if runtime_root not in sys.path:
         sys.path.insert(0,runtime_root)
     from mediahub_runtime.astra_gateway import AstraGatewayRuntime
