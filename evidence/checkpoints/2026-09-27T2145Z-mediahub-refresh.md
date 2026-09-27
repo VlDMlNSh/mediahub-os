@@ -1,49 +1,40 @@
-# MediaHub OS / Astra — continuation checkpoint
-- checkpoint_time_utc: 2026-09-27T21:45:00Z
-- refresh_observed_at_utc: 2026-09-27T21:45:00Z
+# MediaHub OS / Astra — current continuation checkpoint
+- captured_at_utc: 2026-09-27T22:28:52Z
 - canonical_repository: VlDMlNSh/mediahub-os
+- current_main_after_evidence: 3a369037e99058d51e37eee3d26fb3941a6506f
 - immutable_baseline: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
-- current_main: f435cfa07cf54e4b49f0147675c86a1c87a23ec4
-- prior_master_checkpoint: evidence/checkpoints/2026-09-27T2145Z-mediahub-master-continuation.md
 
-## Fresh verification
-- main HEAD remains f435cfa07cf54e4b49f0147675c86a1c87a23ec4
-- Astra Verify run 36352851906: SUCCESS
-- provider qualification run 36352594082: SUCCESS
-- 24h GOLD soak run 36349663466: IN_PROGRESS
-- 24h soak first real test: PASS; autonomous verification loop still IN_PROGRESS
-- FreeLLMAPI qualification run 36352080531: PENDING, no jobs assigned at refresh; therefore live self-hosted qualification is NOT EXECUTED / NOT QUALIFIED
+## Fresh transport wave
+Fresh GitHub Transport health commands were issued to all three nodes with command_id health-verify-20260928T0018Z.
+- mh-dev-01: PASS; self-reexec-v1; canonical agent SHA cd7a83c6b6b8d6065a157274e79e315e2aa5012c0f8ee9466de92980570b9e1a; worktree /home/mediahub/astra-work.
+- mh-dev-02: BLOCKED; fresh result is legacy health schema and does not expose transport_version, agent_source_sha, agent_path, or worktree.
+- Voktors-Mini.Dlink: PASS; self-reexec-v1; canonical agent SHA cd7a83c6b6b8d6065a157274e79e315e2aa5012c0f8ee9466de92980570b9e1a; worktree /Users/voktor/astra-work.
+Evidence: evidence/transport-health-current.json, commit 3a369037e99058d51e37eee3d26fb3941a6506f.
 
-## Fresh node evidence
-- mh-dev-01 result commit: 9b9685de8cf208af4930c83e8ffb37039255a9c9; status ready; worker SHA cd7a83c6b6b8d6065a157274e79e315e2aa5012c0f8ee9466de92980570b9e1a
-- mh-dev-02 result commit: 9e30e4d716e526abbf66aca60872785f33a9de0a; status ready
-- Voktors-Mini.Dlink result commit: 63cd187303d55d1aa6d89c035af5194b38b302d5; status ready; worker SHA cd7a83c6b6b8d6065a157274e79e315e2aa5012c0f8ee9466de92980570b9e1a
+## Provider / soak
+- FreeLLMAPI run 36352080531: PENDING, zero jobs; live self-hosted qualification NOT EXECUTED.
+- Astra GOLD soak 36349663466: IN_PROGRESS; preflight PASS and first real test PASS, 24h verification loop still IN_PROGRESS.
+- A newer GOLD soak run 36352080584: PENDING, zero jobs.
+- Latest Astra Verify 36352999546: SUCCESS on main before the transport evidence commit.
+- Latest cloud qualification 36352594082: SUCCESS, but provider evidence remains the prior qualification snapshot and must not be treated as fresh.
+- OpenRouter/OpenAI/Gemini/UnoRouter/ZeroRouter/Claude statuses therefore remain STALE relative to a fresh qualification pass unless a new provider qualification run executes.
 
-## Provider evidence
-- evidence/provider-model.json remains source_run 36352594082, timestamp 2026-09-27T21:42:23Z
-- OpenRouter PARTIAL; OpenAI BLOCKED; Gemini PENDING/BLOCKED_RUNTIME; UnoRouter BLOCKED; ZeroRouter BLOCKED; missing credentials remain missing.
-- Fresh Gemini or provider requalification has not been executed after this checkpoint.
-- Fresh cross-provider failover drill has not been executed.
+## Pre-soak
+Required fresh bundle remains incomplete:
+transport-health.json, runtime-e2e.json, scheduler-e2e.json, fencing.json, recovery.json, backup-restore.json, provider-model.json.
+verify_pre_soak_bundle.py cannot PASS.
 
-## Pre-soak gates
-- transport-health.json: NOT PRESENT
-- runtime-e2e.json: NOT PRESENT
-- scheduler-e2e.json: NOT PRESENT
-- fencing.json: NOT PRESENT
-- recovery.json: NOT PRESENT
-- backup-restore.json: NOT PRESENT
-- verify_pre_soak_bundle.py therefore cannot be reported PASS.
-- 3-node health evidence is fresh, but full 3-node qualification is NOT YET ESTABLISHED.
+## Architectural/product passport
+The repository tree currently contains substantial Astra/runtime/qualification/recovery architecture, but the supplied MediaHub OS 11.x LTS / MediaHub iOS passport is broader than the presently verified implementation surface. No claim is made that MediaHub Core iOS/iPadOS, Remote Mobile, full State Authority, Digital Twin, Engineering, Document System, vendor qualification matrix, OTA/recovery production lifecycle, Trusted Sources Intelligence Engine, or AI Human Clone are production-complete merely because the passport specifies them.
+
+## Hard blockers
+1. mh-dev-02 canonical worker/process-manager migration and fresh identity proof.
+2. FreeLLMAPI self-hosted live qualification.
+3. Fresh Gemini/provider qualification and cross-provider failover drill.
+4. Fresh pre-soak evidence bundle and deterministic verification.
+5. Full three-node fencing/recovery/backup-restore qualification.
+6. 24h soak completion.
+7. Independent verification and human authorization.
 
 ## Safety
-- no secrets recorded
-- no auth/billing/quota bypass
-- no destructive operations
-- no Desktop Commander/SentinelX/SSH transport used
-- GOLD remains NOT QUALIFIED
-
-## Next gate
-1. obtain actual FreeLLMAPI self-hosted runner execution/evidence
-2. then Gemini runtime qualification
-3. then live cross-provider failover
-4. then pre-soak evidence bundle and verification
+No secret values recorded. No auth/billing/quota bypass. No destructive operation. No direct host transport used. GOLD remains NOT QUALIFIED.
