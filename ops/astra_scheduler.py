@@ -72,6 +72,17 @@ class Scheduler:
     def enqueue(self, kind: str, payload: str, target_sha: str, task_id: str | None = None) -> str:
         task_id = task_id or f"ASTRA-{uuid.uuid4().hex[:16]}"
         now = time.time()
+        existing = self.db.execute(
+            "SELECT kind,payload,target_sha FROM tasks WHERE task_id=?", (task_id,)
+        ).fetchone()
+        if existing is not None:
+            if (
+                existing["kind"] != kind
+                or existing["payload"] != payload
+                or existing["target_sha"] != target_sha
+            ):
+                raise RuntimeError("conflicting duplicate task identity")
+            return task_id
         self.db.execute(
             "INSERT INTO tasks VALUES(?,?,?,?,?,?,?,?)",
             (task_id, kind, payload, "READY", 1, target_sha, now, now),
@@ -148,7 +159,8 @@ class Scheduler:
 
     def generate_next(self, lease: Lease, kind: str, payload: str, target_sha: str) -> str:
         self.verify_lease(lease)
-        return self.enqueue(kind, payload, target_sha)
+        task_id = f"ASTRA-NEXT-{lease.execution_id}"
+        return self.enqueue(kind, payload, target_sha, task_id=task_id)
 
     def complete(self, lease: Lease, succeeded: bool, detail: str) -> None:
         self.verify_lease(lease)
