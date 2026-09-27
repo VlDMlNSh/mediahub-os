@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "health-verify-20260928T0018Z",
+  "command_id": "night-independent-cloud-review-20260928T0035Z",
   "node_id": "Voktors-Mini.Dlink",
-  "operation": "health",
-  "title": "Fresh Astra transport health verification",
-  "description": "Read-only fresh transport health. Return exact structured evidence. Do not modify files, services, credentials, packages, or processes.",
+  "operation": "review",
+  "title": "Night independent cloud-auth review",
+  "description": "Read-only independent review. Inspect the current cloud-auth baseline, provider qualification workflow, CloudFirstOrchestrator routing, provider adapters, and relevant tests. Check fail-closed behavior, provider endpoint/model selection, evidence freshness, secret-safety, and whether cost_optimized routing can accidentally bypass auth/billing/quota/rate limits. Do not modify files, credentials, packages, services, or processes. Return only actionable findings with exact paths and severity plus a compact verification checklist for the primary writer. Do not rank providers or declare a provider QUALIFIED without fresh live evidence.",
   "target_sha": "main"
 }
