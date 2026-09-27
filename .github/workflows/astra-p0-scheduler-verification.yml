@@ -63,7 +63,7 @@ jobs:
           for path,content in generated.items():
               if not isinstance(content,str) or not content.strip():
                   raise SystemExit(f"empty generated file: {path}")
-              if not content.lstrip().startswith(("#","import ","from ","def ","class ",""""")):
+              if not content.lstrip().startswith(("#","import ","from ","def ","class ","\"\"\"")):
                   raise SystemExit(f"generated file is not valid-looking Python: {path}")
           test_source=generated["tests/test_astra_generated_ollama_e2e.py"]
           if "def test_cycle_marker" not in test_source or "cycle_marker()" not in test_source:
