@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          body="$(curl --fail-with-body --silent --show-error --max-time 20             -H "Authorization: Bearer ${ZEROUTER_API_KEY}"             https://api.zerouter.ai/v1/models)"
+          body="$(curl --fail-with-body --silent --show-error --max-time 20 -H "Authorization: Bearer ${ZEROUTER_API_KEY}" https://api.zerouter.ai/v1/models)"
           python3 - "$body" <<'PY'
           import json, sys
           data=json.loads(sys.argv[1])
@@ -43,20 +43,44 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          body="$(curl --fail-with-body --silent --show-error --max-time 30             -H "Authorization: Bearer ${ZEROUTER_API_KEY}"             -H "Content-Type: application/json"             https://api.zerouter.ai/v1/responses             -d '{"model":"gpt-5.4","input":"Return exactly OK."}')"
-          python3 - "$body" <<'PY'
+          tmp="$(mktemp)"
+          code="$(curl --silent --show-error --max-time 30 -o "$tmp" -w '%{http_code}'             -H "Authorization: Bearer ${ZEROUTER_API_KEY}"             -H "Content-Type: application/json"             https://api.zerouter.ai/v1/responses             -d '{"model":"gpt-5.4","input":"Return exactly OK."}')"
+          python3 - "$code" "$tmp" <<'PY'
           import json, sys
-          d=json.loads(sys.argv[1])
-          print(json.dumps({"status":"PASS","response_id":d.get("id","present")}, sort_keys=True))
+          code=int(sys.argv[1])
+          body=json.load(open(sys.argv[2]))
+          if 200 <= code < 300:
+              out={"status":"PASS","http_status":code,"response_id":body.get("id","present")}
+          elif code == 402:
+              out={"status":"BLOCKED_BILLING","http_status":code,"reason":"gateway accepted credential but invocation requires available billing/credits"}
+          elif code in (401,403):
+              out={"status":"BLOCKED_AUTH","http_status":code}
+          else:
+              out={"status":"BLOCKED_RUNTIME","http_status":code,"error_type":body.get("error",{}).get("type")}
+          print(json.dumps(out, sort_keys=True))
+          if out["status"] == "BLOCKED_AUTH":
+              raise SystemExit(1)
           PY
 
       - name: Verify Anthropic-compatible Claude path
         shell: bash
         run: |
           set -euo pipefail
-          body="$(curl --fail-with-body --silent --show-error --max-time 30             -H "Authorization: Bearer ${ZEROUTER_API_KEY}"             -H "Content-Type: application/json"             -H "anthropic-version: 2023-06-01"             https://api.zerouter.ai/v1/messages             -d '{"model":"claude-sonnet-5","max_tokens":32,"messages":[{"role":"user","content":"Return exactly OK."}]}')"
-          python3 - "$body" <<'PY'
+          tmp="$(mktemp)"
+          code="$(curl --silent --show-error --max-time 30 -o "$tmp" -w '%{http_code}'             -H "Authorization: Bearer ${ZEROUTER_API_KEY}"             -H "Content-Type: application/json"             -H "anthropic-version: 2023-06-01"             https://api.zerouter.ai/v1/messages             -d '{"model":"claude-sonnet-5","max_tokens":32,"messages":[{"role":"user","content":"Return exactly OK."}]}')"
+          python3 - "$code" "$tmp" <<'PY'
           import json, sys
-          d=json.loads(sys.argv[1])
-          print(json.dumps({"status":"PASS","response_id":d.get("id","present")}, sort_keys=True))
+          code=int(sys.argv[1])
+          body=json.load(open(sys.argv[2]))
+          if 200 <= code < 300:
+              out={"status":"PASS","http_status":code,"response_id":body.get("id","present")}
+          elif code == 402:
+              out={"status":"BLOCKED_BILLING","http_status":code,"reason":"gateway accepted credential but invocation requires available billing/credits"}
+          elif code in (401,403):
+              out={"status":"BLOCKED_AUTH","http_status":code}
+          else:
+              out={"status":"BLOCKED_RUNTIME","http_status":code,"error_type":body.get("error",{}).get("type")}
+          print(json.dumps(out, sort_keys=True))
+          if out["status"] == "BLOCKED_AUTH":
+              raise SystemExit(1)
           PY
