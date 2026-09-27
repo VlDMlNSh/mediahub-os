@@ -325,7 +325,7 @@ class CloudFirstOrchestrator:
         credential_env: Mapping[str, str] | None = None,
         executors: Mapping[str, Callable[[str], str]] | None = None,
     ):
-        self._cloud = tuple(sorted(cloud_routes, key=lambda r: r.priority))
+        self._cloud = self._order_cloud_routes(tuple(cloud_routes))
         self._local = tuple(sorted(local_routes, key=lambda r: r.priority))
         self._env = dict(os.environ if credential_env is None else credential_env)
         self._executors = dict(executors or {})
@@ -335,6 +335,25 @@ class CloudFirstOrchestrator:
         self._executors.setdefault("unorouter", UnoRouterExecutor(env=self._env))
         self._executors.setdefault("claude", OmniRouteClaudeExecutor(env=self._env))
         self._executors.setdefault("kimi-k3-in-c", self._kimi_k3)
+
+    def _order_cloud_routes(self, routes: tuple[ProviderRoute, ...]) -> tuple[ProviderRoute, ...]:
+        """Apply an explicit cost-optimized routing profile without bypassing provider policy."""
+        profile = self._env.get("MEDIAHUB_CLOUD_ROUTING_PROFILE", "balanced").strip().lower()
+        if profile != "cost_optimized":
+            return tuple(sorted(routes, key=lambda r: r.priority))
+        cost_rank = {
+            "openrouter": 10,
+            "gemini": 20,
+            "deepseek": 30,
+            "kimi": 40,
+            "perplexity": 50,
+            "unorouter": 60,
+            "openai": 70,
+            "claude": 80,
+            "cursor": 90,
+            "chatgpt": 100,
+        }
+        return tuple(sorted(routes, key=lambda r: (cost_rank.get(r.provider_id, 1000), r.priority))
 
     def decide(self, capability: str, *, allow_local_extension: bool = True) -> OrchestrationDecision:
         if not isinstance(capability, str) or not capability.strip():
