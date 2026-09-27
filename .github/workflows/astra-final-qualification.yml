@@ -144,7 +144,7 @@ jobs:
                   raise RuntimeError("target SHA fence mismatch")
 
               patch = gemini_patch(cycle, actual_target)
-              patch_path = root / f"qualification/cycle-{cycle}.patch"
+              patch_path = Path(f"/tmp/astra-e2e-{os.environ['GITHUB_RUN_ID']}-cycle-{cycle}.patch")
               patch_path.write_text(patch, encoding="utf-8")
               subprocess.run(["git", "apply", "--check", str(patch_path)], check=True)
               subprocess.run(["git", "apply", str(patch_path)], check=True)
