@@ -336,7 +336,7 @@ jobs:
               headers={"Content-Type":"application/json"},
               method="POST",
           )
-          with urllib.request.urlopen(req,timeout=180) as response:
+          with urllib.request.urlopen(req,timeout=600) as response:
               data=json.load(response)
           patch=str(data.get("response","")).strip()
           fence=chr(96)*3
