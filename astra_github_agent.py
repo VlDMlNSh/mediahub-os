@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """MediaHub Astra GitHub transport worker."""
 from __future__ import annotations
-import json, os, platform, subprocess, time
+import json, os, platform, subprocess, sys, time
 from pathlib import Path
 
 REPO=os.environ.get("ASTRA_GITHUB_REPO","VlDMlNSh/mediahub-os")
@@ -49,6 +49,9 @@ def execute(cmd):
         return {"status":"ready","node_id":NODE_ID,"hostname":platform.node(),
                 "platform":platform.platform(),"python":platform.python_version()}
     if operation not in OPERATIONS: raise ValueError("unsupported operation")
+    runtime_root=os.environ.get("ASTRA_RUNTIME_ROOT","/opt/mediahub/astra/runtime")
+    if runtime_root not in sys.path:
+        sys.path.insert(0,runtime_root)
     from mediahub_runtime.astra_gateway import AstraGatewayRuntime
     return AstraGatewayRuntime().run_bounded({
         "task_id":cmd.get("command_id","github-task"),"title":cmd.get("title",operation),
