@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """MediaHub Astra GitHub transport worker."""
 from __future__ import annotations
-import hashlib, json, os, platform, subprocess, sys, time
+import hashlib, importlib, json, os, platform, subprocess, sys, time
 from pathlib import Path
 
 REPO=os.environ.get("ASTRA_GITHUB_REPO","VlDMlNSh/mediahub-os")
@@ -74,10 +74,22 @@ def execute(cmd):
             break
     if runtime_root is None:
         raise ModuleNotFoundError("mediahub_runtime runtime root not found; checked: " + ", ".join(str(p) for p in candidates))
-    runtime_root=str(runtime_root)
+    runtime_root=str(runtime_root.resolve())
+    package_dir=Path(runtime_root)/"mediahub_runtime"
+    if not package_dir.is_dir() or not (package_dir/"__init__.py").is_file():
+        raise ModuleNotFoundError("mediahub_runtime package is incomplete at " + str(package_dir))
     if runtime_root not in sys.path:
         sys.path.insert(0,runtime_root)
-    from mediahub_runtime.astra_gateway import AstraGatewayRuntime
+    os.environ["PYTHONPATH"]=runtime_root + (os.pathsep + os.environ["PYTHONPATH"] if os.environ.get("PYTHONPATH") else "")
+    importlib.invalidate_caches()
+    try:
+        from mediahub_runtime.astra_gateway import AstraGatewayRuntime
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError(
+            "mediahub_runtime import failed; runtime_root=" + runtime_root +
+            "; package_dir=" + str(package_dir) +
+            "; sys_executable=" + sys.executable
+        ) from exc
     return AstraGatewayRuntime().run_bounded({
         "task_id":cmd.get("command_id","github-task"),"title":cmd.get("title",operation),
         "description":cmd.get("description",""),"capability":operation})
