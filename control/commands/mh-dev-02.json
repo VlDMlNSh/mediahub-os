@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "health-verify-mh-dev-02-20260927T2350Z",
+  "command_id": "health-verify-mh-dev-02-20260928T0005Z",
   "node_id": "mh-dev-02",
   "operation": "health",
-  "title": "Verify canonical Astra worker identity after repair attempt",
-  "description": "Return fresh canonical worker identity only: transport_version, agent_source_sha, pid, cwd, agent_path, worktree, platform, python, and status. Do not expose secrets.",
+  "title": "Verify canonical Astra worker after service parameterization",
+  "description": "Return fresh worker identity including transport_version, agent_source_sha, pid, cwd, agent_path, worktree, platform, python, and status. If legacy process remains, report it explicitly. Do not expose secrets.",
   "target_sha": "main"
 }
