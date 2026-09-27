@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "command_id": "health-mh-dev-01-1790504018289",
+  "command_id": "chat-sync-mh-dev-01-20260927T1855Z",
   "node_id": "mh-dev-01",
   "operation": "health",
-  "issued_at": 1790504018
+  "issued_at": 1790522100
 }
