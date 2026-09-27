@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
