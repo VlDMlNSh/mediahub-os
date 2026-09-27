@@ -1,0 +1,453 @@
+name: Astra Final Qualification
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: astra-final-qualification-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  real-coding-e2e:
+    name: Astra two-cycle Gemini coding E2E
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL: gemini-3.5-flash-lite
+      E2E_BRANCH: engineering/astra-e2e-${{ github.run_id }}
+      E2E_OWNER: github-actions-${{ github.run_id }}
+      SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Checkout trusted Astra branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+
+      - name: Install pinned qualification toolchain
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --no-input -r ci-requirements.txt
+          python3 -m pytest --version
+
+      - name: Verify P0 before E2E
+        run: |
+          set -euo pipefail
+          python3 -m pytest -q tests/test_astra_github_coding_protocol.py tests/test_astra_scheduler.py
+          test -z "$(git status --porcelain)"
+
+      - name: Run two consecutive autonomous coding cycles
+        run: |
+          set -euo pipefail
+          mkdir -p qualification
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          import re
+          import subprocess
+          import urllib.request
+          from pathlib import Path
+          from ops.astra_scheduler import Scheduler
+
+          root = Path.cwd()
+          branch = os.environ["E2E_BRANCH"]
+          owner = os.environ["E2E_OWNER"]
+          model = os.environ["GEMINI_MODEL"]
+          api_key = os.environ["GEMINI_API_KEY"]
+          if not api_key:
+              raise SystemExit("GEMINI_API_KEY is not configured in GitHub Actions")
+
+          subprocess.run(["git", "checkout", "-b", branch], check=True)
+          subprocess.run(["git", "config", "user.name", "Astra Qualification Bot"], check=True)
+          subprocess.run(["git", "config", "user.email", "astra-qualification@users.noreply.github.com"], check=True)
+          initial_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+
+          scheduler = Scheduler(f"/tmp/astra-e2e-{os.environ['GITHUB_RUN_ID']}.db", lease_seconds=900)
+          scheduler.enqueue(
+              "coding",
+              "cycle-1",
+              initial_sha,
+              task_id=f"ASTRA-E2E-{os.environ['GITHUB_RUN_ID']}-1",
+          )
+
+          evidence = {
+              "schema_version": 1,
+              "workflow_run_id": os.environ["GITHUB_RUN_ID"],
+              "workflow_sha": os.environ["GITHUB_SHA"],
+              "worker": "gemini",
+              "model": model,
+              "e2e_branch": branch,
+              "cycles": [],
+          }
+
+          def gemini_patch(cycle: int, target_sha: str) -> str:
+              filename = f"ops/astra_generated_e2e_cycle_{cycle}.py"
+              testname = f"tests/test_astra_generated_e2e_cycle_{cycle}.py"
+              prompt = f"""
+          You are the bounded coding worker for Astra qualification cycle {cycle}.
+          Target Git SHA: {target_sha}
+          Return ONLY a unified git diff, with no commentary or markdown.
+          The diff MUST add exactly these two files:
+          - {filename}
+          - {testname}
+          The production file must define def cycle_marker() -> str and return exactly "ASTRA_E2E_CYCLE_{cycle}".
+          The test file must import cycle_marker and assert that exact value.
+          Do not touch any other paths. Do not use shell commands or credentials.
+          """
+              body = json.dumps({
+                  "contents": [{"role": "user", "parts": [{"text": prompt.strip()}]}],
+                  "generationConfig": {"temperature": 0, "maxOutputTokens": 1200},
+              }).encode()
+              url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+              req = urllib.request.Request(
+                  url,
+                  data=body,
+                  headers={"x-goog-api-key": api_key, "content-type": "application/json"},
+                  method="POST",
+              )
+              with urllib.request.urlopen(req, timeout=60) as response:
+                  data = json.load(response)
+              text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+              fence = chr(96) * 3
+              if text.startswith(fence):
+                  text = text.strip(fence).strip()
+                  if text.startswith("diff"):
+                      pass
+              if not text.startswith("diff --git "):
+                  raise RuntimeError("Gemini did not return a unified diff")
+              paths = re.findall(r"^diff --git a/(.*?) b/(.*?)$", text, flags=re.MULTILINE)
+              expected = {(filename, filename), (testname, testname)}
+              if set(paths) != expected:
+                  raise RuntimeError(f"unexpected patch paths: {paths}")
+              return text + "\n"
+
+          for cycle in (1, 2):
+              task = scheduler.select()
+              if task is None:
+                  raise RuntimeError(f"cycle {cycle}: scheduler returned no task")
+              lease = scheduler.claim(task, owner)
+              actual_target = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+              if actual_target != lease.target_sha:
+                  raise RuntimeError("target SHA fence mismatch")
+
+              patch = gemini_patch(cycle, actual_target)
+              patch_path = Path(f"/tmp/astra-e2e-{os.environ['GITHUB_RUN_ID']}-cycle-{cycle}.patch")
+              patch_path.write_text(patch, encoding="utf-8")
+              subprocess.run(["git", "apply", "--check", str(patch_path)], check=True)
+              subprocess.run(["git", "apply", str(patch_path)], check=True)
+              subprocess.run(
+                  ["python3", "-m", "pytest", "-q",
+                   f"tests/test_astra_generated_e2e_cycle_{cycle}.py"],
+                  check=True,
+              )
+
+              expected_files = {
+                  f"ops/astra_generated_e2e_cycle_{cycle}.py",
+                  f"tests/test_astra_generated_e2e_cycle_{cycle}.py",
+              }
+              status = subprocess.check_output(["git", "status", "--porcelain"], text=True).splitlines()
+              status_paths = {re.sub(r"^.. ", "", line) for line in status}
+              status_paths.discard(f"qualification/cycle-{cycle}.patch")
+              if status_paths != expected_files:
+                  raise RuntimeError(f"unexpected worktree paths: {status_paths}")
+
+              subprocess.run(["git", "add", *sorted(expected_files)], check=True)
+              subprocess.run(
+                  ["git", "commit", "-m", f"astra(e2e): complete autonomous coding cycle {cycle}"],
+                  check=True,
+              )
+              commit_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+              subprocess.run(["git", "push", "origin", branch], check=True)
+              remote = subprocess.check_output(
+                  ["git", "ls-remote", "origin", f"refs/heads/{branch}"],
+                  text=True,
+              ).split()[0]
+              if remote != commit_sha:
+                  raise RuntimeError(f"remote SHA mismatch: {remote} != {commit_sha}")
+
+              next_id = None
+              if cycle == 1:
+                  next_id = scheduler.generate_next(lease, "coding", "cycle-2", remote)
+              scheduler.complete(lease, True, f"commit={commit_sha};remote={remote}")
+              evidence["cycles"].append({
+                  "cycle": cycle,
+                  "task_id": task.task_id,
+                  "generation": task.generation,
+                  "lease_id": lease.lease_id,
+                  "execution_id": lease.execution_id,
+                  "owner_id": lease.owner_id,
+                  "target_sha": actual_target,
+                  "commit_sha": commit_sha,
+                  "remote_sha": remote,
+                  "next_task_id": next_id,
+                  "tests": [f"pytest -q tests/test_astra_generated_e2e_cycle_{cycle}.py"],
+                  "patch_sha256": hashlib.sha256(patch.encode()).hexdigest(),
+              })
+
+          evidence["scheduler_events"] = [
+              row["event"] for row in scheduler.db.execute(
+                  "SELECT event FROM events ORDER BY id"
+              ).fetchall()
+          ]
+          report = root / f"qualification/astra-e2e-{os.environ['GITHUB_RUN_ID']}.json"
+          report.write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          subprocess.run(["git", "add", str(report)], check=True)
+          subprocess.run(["git", "commit", "-m", "astra(e2e): record final qualification evidence"], check=True)
+          evidence_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          subprocess.run(["git", "push", "origin", branch], check=True)
+          final_remote = subprocess.check_output(
+              ["git", "ls-remote", "origin", f"refs/heads/{branch}"],
+              text=True,
+          ).split()[0]
+          if final_remote != evidence_sha:
+              raise RuntimeError("final evidence remote SHA mismatch")
+          evidence["evidence_commit_sha"] = evidence_sha
+          evidence["evidence_remote_sha"] = final_remote
+          print(json.dumps(evidence, indent=2, sort_keys=True))
+          PY
+
+      - name: Publish E2E artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: astra-final-e2e-${{ github.run_id }}
+          path: qualification/astra-e2e-${{ github.run_id }}.json
+          if-no-files-found: error
+
+  self-hosted-runtime:
+    name: Self-hosted Astra runtime discovery
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Astra branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+
+      - name: Verify server transport, resident runtime and Ollama
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "hostname=$(hostname)"
+          echo "arch=$(uname -m)"
+          echo "user=$(id -un)"
+          if command -v systemctl >/dev/null 2>&1; then
+            echo "service_active=$(systemctl is-active mediahub-astra.service || true)"
+            echo "service_enabled=$(systemctl is-enabled mediahub-astra.service || true)"
+            test "$(systemctl is-active mediahub-astra.service)" = "active"
+            test "$(systemctl is-enabled mediahub-astra.service)" = "enabled"
+          else
+            echo "service_check=SKIPPED_NON_LINUX"
+          fi
+          python3 -m pytest -q tests/test_astra_github_coding_protocol.py tests/test_astra_scheduler.py
+          python3 - <<'PY'
+          import json, urllib.request
+          try:
+              with urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=3) as r:
+                  data=json.load(r)
+              names=[m.get("name") for m in data.get("models", []) if isinstance(m, dict)]
+              print("ollama=PASS")
+              print("ollama_models="+",".join(n for n in names if n))
+          except Exception as exc:
+              print(f"ollama=UNAVAILABLE:{type(exc).__name__}")
+          PY
+          echo "self_hosted_runtime=PASS"
+
+  ollama-coding-e2e:
+    name: Ollama coding worker E2E
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Astra branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Verify Ollama coding model
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, urllib.request
+          with urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=5) as r:
+              data=json.load(r)
+          names=[m.get("name","") for m in data.get("models",[]) if isinstance(m,dict)]
+          print("ollama_models="+",".join(names))
+          if not any(name.startswith("qwen2.5-coder:3b") or name.startswith("qwen2.5-coder-3b") for name in names):
+              raise SystemExit("qwen2.5-coder:3b model not present")
+          print("ollama_model=PASS")
+          PY
+
+      - name: Run Ollama autonomous coding cycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          import re
+          import subprocess
+          import urllib.request
+          from pathlib import Path
+
+          branch=f"engineering/astra-ollama-e2e-{os.environ['GITHUB_RUN_ID']}"
+          owner=f"ollama-worker-{os.environ['GITHUB_RUN_ID']}"
+          root=Path.cwd()
+          subprocess.run(["git","checkout","-b",branch],check=True)
+          subprocess.run(["git","config","user.name","Astra Ollama Qualification Bot"],check=True)
+          subprocess.run(["git","config","user.email","astra-qualification@users.noreply.github.com"],check=True)
+          target=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+
+          prompt="""You are Astra's bounded local Ollama coding worker.
+Return ONLY valid JSON with exactly two string fields:
+{"ops/astra_generated_ollama_e2e.py":"...file contents...","tests/test_astra_generated_ollama_e2e.py":"...file contents..."}
+The production file must define cycle_marker() -> str and return exactly "ASTRA_OLLAMA_E2E".
+The test file must import cycle_marker and assert exactly that value.
+Do not touch any other file or use external resources."""
+          body=json.dumps({
+              "model":"qwen2.5-coder:3b",
+              "prompt":prompt,
+              "stream":False,
+              "format":"json",
+              "options":{"temperature":0,"num_predict":256}
+          }).encode()
+          req=urllib.request.Request(
+              "http://127.0.0.1:11434/api/generate",
+              data=body,
+              headers={"Content-Type":"application/json"},
+              method="POST",
+          )
+          with urllib.request.urlopen(req,timeout=600) as response:
+              data=json.load(response)
+          generated=json.loads(str(data.get("response","")))
+          expected_files={
+              "ops/astra_generated_ollama_e2e.py",
+              "tests/test_astra_generated_ollama_e2e.py"
+          }
+          if set(generated)!=expected_files:
+              raise SystemExit(f"unexpected Ollama generated paths: {set(generated)}")
+          for path, content in generated.items():
+              if not isinstance(content,str) or not content.strip():
+                  raise SystemExit(f"empty Ollama file: {path}")
+              Path(path).parent.mkdir(parents=True,exist_ok=True)
+              Path(path).write_text(content,encoding="utf-8")
+          subprocess.run(["python3","-m","pytest","-q","tests/test_astra_generated_ollama_e2e.py"],check=True)
+          expected_files={
+              "ops/astra_generated_ollama_e2e.py",
+              "tests/test_astra_generated_ollama_e2e.py"
+          }
+          status=subprocess.check_output(["git","status","--porcelain"],text=True).splitlines()
+          paths_now={re.sub(r"^.. ","",line) for line in status}
+          if paths_now!=expected_files:
+              raise SystemExit(f"unexpected worktree paths: {paths_now}")
+          generated_text=json.dumps(generated,sort_keys=True).encode()
+          subprocess.run(["git","add",*sorted(expected_files)],check=True)
+          subprocess.run(["git","commit","-m","astra(ollama-e2e): complete local coding cycle"],check=True)
+          commit=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+          subprocess.run(["git","push","origin",branch],check=True)
+          remote=subprocess.check_output(["git","ls-remote","origin",f"refs/heads/{branch}"],text=True).split()[0]
+          if remote!=commit:
+              raise SystemExit(f"remote SHA mismatch: {remote} != {commit}")
+          evidence={
+              "schema_version":1,
+              "workflow_run_id":os.environ["GITHUB_RUN_ID"],
+              "worker":"ollama",
+              "model":"qwen2.5-coder:3b",
+              "owner_id":owner,
+              "target_sha":target,
+              "commit_sha":commit,
+              "remote_sha":remote,
+              "generated_sha256":hashlib.sha256(generated_text).hexdigest(),
+              "test":"pytest -q tests/test_astra_generated_ollama_e2e.py",
+              "status":"PASS"
+          }
+          p=Path("qualification")/f"astra-ollama-e2e-{os.environ['GITHUB_RUN_ID']}.json"
+          p.write_text(json.dumps(evidence,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          subprocess.run(["git","add",str(p)],check=True)
+          subprocess.run(["git","commit","-m","astra(ollama-e2e): record qualification evidence"],check=True)
+          evidence_commit=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+          subprocess.run(["git","push","origin",branch],check=True)
+          final_remote=subprocess.check_output(["git","ls-remote","origin",f"refs/heads/{branch}"],text=True).split()[0]
+          if final_remote!=evidence_commit:
+              raise SystemExit("evidence remote SHA mismatch")
+          print(json.dumps({**evidence, "evidence_commit_sha": evidence_commit, "evidence_remote_sha": final_remote},indent=2,sort_keys=True))
+          PY
+
+  provider-smoke:
+    name: Provider registry and OpenRouter smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      OPENROUTER_MODEL: ${{ vars.MEDIAHUB_OPENROUTER_MODEL || 'openrouter/free' }}
+    steps:
+      - name: Checkout Astra branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+
+      - name: Classify configured agent registry without secrets
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path("profiles/agent-registry.json")
+          if not path.exists():
+              print("registry_file=ABSENT_ON_CANONICAL_BRANCH")
+              print("registry_status=NON_FATAL")
+              raise SystemExit(0)
+          data=json.loads(path.read_text(encoding="utf-8"))
+          agents=data.get("agents", [])
+          print("registered_agents=" + ",".join(a["id"] for a in agents))
+          for a in agents:
+              print(f"{a['id']}:registered={bool(a.get('enabled'))}:activation={a.get('activation','local')}")
+          PY
+
+      - name: OpenRouter live smoke
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, urllib.request
+          key=os.environ.get("OPENROUTER_API_KEY","").strip()
+          model=os.environ.get("OPENROUTER_MODEL","").strip()
+          if not key or not model:
+              print("openrouter=NOT_CONFIGURED")
+              raise SystemExit(0)
+          body=json.dumps({
+              "model":model,
+              "messages":[{"role":"user","content":"Return exactly MEDIAHUB_OPENROUTER_OK"}],
+              "max_tokens":32,
+              "temperature":0,
+          }).encode()
+          req=urllib.request.Request(
+              "https://openrouter.ai/api/v1/chat/completions",
+              data=body,
+              headers={"Authorization":"Bearer "+key,"Content-Type":"application/json"},
+              method="POST",
+          )
+          with urllib.request.urlopen(req, timeout=30) as r:
+              data=json.load(r)
+          choices=data.get("choices")
+          if not isinstance(choices, list) or not choices:
+              raise SystemExit("openrouter response has no choices")
+          print("openrouter=PASS")
+          print("openrouter_model="+str(data.get("model",model)))
+          PY
