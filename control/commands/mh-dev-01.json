@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "node_id": "mh-dev-01",
-  "command_id": "postfix-audit-mh-dev-01-20260927T1903Z",
+  "command_id": "parallel-qual-mh-dev-01-20260927T1910Z",
   "operation": "coding",
-  "title": "Post-fix production scheduler integration audit",
-  "description": "Audit the actual production GitHub transport/runtime integration after the runtime import fix. Verify mediahub_runtime import, actual installed service/entrypoint, durable scheduler/control-loop integration, persistence, restart behavior, GitHub transport path, and identify remaining PRE-SOAK blockers. Do not bypass safety or destructive controls."
+  "title": "Distributed GOLD qualification lane",
+  "description": "Ollama scheduler lane: qualify durable scheduler lifecycle, two autonomous cycles, fencing, recovery and evidence. Use local qwen2.5-coder and return structured evidence with remote_sha where applicable."
 }
