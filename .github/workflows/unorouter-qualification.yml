@@ -1,0 +1,44 @@
+name: UnoRouter credential qualification
+
+on:
+  push:
+    paths:
+      - ".github/workflows/unorouter-qualification.yml"
+      - "runtime/mediahub_runtime/cloud_orchestrator.py"
+      - "profiles/agent-registry.json"
+  workflow_dispatch:
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
+    steps:
+      - name: Validate credential presence and model catalog access
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${UNOROUTER_API_KEY}"
+          body="$(curl --fail-with-body --silent --show-error --max-time 20             -H "Authorization: Bearer ${UNOROUTER_API_KEY}"             https://api.unorouter.com/v1/models)"
+          python3 - "$body" <<'PY'
+          import json, sys
+          data=json.loads(sys.argv[1])
+          models=data.get("data", [])
+          ids=[str(m.get("id","")) for m in models]
+          anthropic=any("claude" in x.lower() for x in ids)
+          openai=any(("gpt" in x.lower() or "codex" in x.lower()) for x in ids)
+          print(json.dumps({
+              "status":"PASS",
+              "model_count":len(ids),
+              "claude_catalog_visible":anthropic,
+              "openai_or_codex_catalog_visible":openai
+          }, sort_keys=True))
+          PY
+
+      - name: Publish sanitized qualification evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "UNOROUTER_API_KEY=present"
+          echo "No secret value will be printed."
