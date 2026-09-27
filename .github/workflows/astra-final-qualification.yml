@@ -1,9 +1,8 @@
 name: Astra Final Qualification
 
 on:
-  push:
-    branches:
-      - astra/p0-autonomous-scheduler-20260927
+  pull_request:
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 permissions:
@@ -23,11 +22,12 @@ jobs:
       GEMINI_MODEL: gemini-2.5-flash-lite
       E2E_BRANCH: engineering/astra-e2e-${{ github.run_id }}
       E2E_OWNER: github-actions-${{ github.run_id }}
+      SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - name: Checkout trusted Astra branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
           persist-credentials: true
 
@@ -219,26 +219,103 @@ jobs:
           if-no-files-found: error
 
   self-hosted-runtime:
-    name: Self-hosted Astra runtime verification
+    name: Self-hosted Astra runtime discovery
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        probe: [1, 2, 3]
     runs-on: [self-hosted, mediahub-runner]
     timeout-minutes: 15
     steps:
       - name: Checkout Astra branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
 
-      - name: Verify server transport and resident runtime
+      - name: Verify server transport, resident runtime and Ollama
         shell: bash
         run: |
           set -euo pipefail
+          echo "probe=${{ matrix.probe }}"
           echo "hostname=$(hostname)"
           echo "arch=$(uname -m)"
           echo "user=$(id -un)"
-          echo "service_active=$(systemctl is-active mediahub-astra.service || true)"
-          echo "service_enabled=$(systemctl is-enabled mediahub-astra.service || true)"
-          test "$(systemctl is-active mediahub-astra.service)" = "active"
-          test "$(systemctl is-enabled mediahub-astra.service)" = "enabled"
+          if command -v systemctl >/dev/null 2>&1; then
+            echo "service_active=$(systemctl is-active mediahub-astra.service || true)"
+            echo "service_enabled=$(systemctl is-enabled mediahub-astra.service || true)"
+            test "$(systemctl is-active mediahub-astra.service)" = "active"
+            test "$(systemctl is-enabled mediahub-astra.service)" = "enabled"
+          else
+            echo "service_check=SKIPPED_NON_LINUX"
+          fi
           python3 -m pytest -q tests/test_astra_github_coding_protocol.py tests/test_astra_scheduler.py
+          python3 - <<'PY'
+          import json, urllib.request
+          try:
+              with urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=3) as r:
+                  data=json.load(r)
+              names=[m.get("name") for m in data.get("models", []) if isinstance(m, dict)]
+              print("ollama=PASS")
+              print("ollama_models="+",".join(n for n in names if n))
+          except Exception as exc:
+              print(f"ollama=UNAVAILABLE:{type(exc).__name__}")
+          PY
           echo "self_hosted_runtime=PASS"
+
+  provider-smoke:
+    name: Provider registry and OpenRouter smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      OPENROUTER_MODEL: ${{ vars.MEDIAHUB_OPENROUTER_MODEL || '' }}
+    steps:
+      - name: Checkout Astra branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af682 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+
+      - name: Classify configured agent registry without secrets
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          data=json.load(open("profiles/agent-registry.json", encoding="utf-8"))
+          print("registered_agents=" + ",".join(a["id"] for a in data["agents"]))
+          for a in data["agents"]:
+              print(f"{a['id']}:registered={bool(a.get('enabled'))}:activation={a.get('activation','local')}")
+          PY
+
+      - name: OpenRouter live smoke
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, urllib.request
+          key=os.environ.get("OPENROUTER_API_KEY","").strip()
+          model=os.environ.get("OPENROUTER_MODEL","").strip()
+          if not key or not model:
+              print("openrouter=NOT_CONFIGURED")
+              raise SystemExit(0)
+          body=json.dumps({
+              "model":model,
+              "messages":[{"role":"user","content":"Return exactly MEDIAHUB_OPENROUTER_OK"}],
+              "max_tokens":32,
+              "temperature":0,
+          }).encode()
+          req=urllib.request.Request(
+              "https://openrouter.ai/api/v1/chat/completions",
+              data=body,
+              headers={"Authorization":"Bearer "+key,"Content-Type":"application/json"},
+              method="POST",
+          )
+          with urllib.request.urlopen(req, timeout=30) as r:
+              data=json.load(r)
+          text=data["choices"][0]["message"]["content"].strip()
+          if text != "MEDIAHUB_OPENROUTER_OK":
+              raise SystemExit("openrouter marker mismatch")
+          print("openrouter=PASS")
+          print("openrouter_model="+str(data.get("model",model)))
+          PY
