@@ -50,6 +50,23 @@ def test_valid_fence():
     )
 
 
+def test_invalid_target_sha_is_rejected():
+    import pytest
+    with pytest.raises(ProtocolError):
+        ExecutionIdentity.from_mapping({
+            "schema_version": 1,
+            "task_id": "ASTRA-P0-001",
+            "execution_id": "exec-1",
+            "generation": 1,
+            "lease_id": "lease-1",
+            "owner_id": "mh-dev-01",
+            "operation_key": "coding.test",
+            "target_sha": "not-a-sha",
+            "created_at": "2026-09-27T00:00:00Z",
+            "expires_at": "2026-09-27T01:00:00Z",
+        })
+
+
 def test_stale_generation_is_fenced():
     import pytest
     with pytest.raises(ProtocolError):
@@ -82,6 +99,26 @@ def test_duplicate_conflicting_result_is_rejected():
         security_results=item.security_results,
         commit_sha="d" * 40,
         remote_sha="d" * 40,
+        artifact_sha256=item.artifact_sha256,
+        terminal_status=item.terminal_status,
+    )
+    with pytest.raises(ProtocolError):
+        accept_result(conflicting, current=item)
+
+
+def test_duplicate_changed_files_are_conflicting():
+    import pytest
+    item = evidence()
+    conflicting = EvidenceEnvelope(
+        identity=item.identity,
+        worker=item.worker,
+        model=item.model,
+        provider=item.provider,
+        changed_files=("different.py",),
+        tests=item.tests,
+        security_results=item.security_results,
+        commit_sha=item.commit_sha,
+        remote_sha=item.remote_sha,
         artifact_sha256=item.artifact_sha256,
         terminal_status=item.terminal_status,
     )
