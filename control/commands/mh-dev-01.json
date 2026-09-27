@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "health-multiagent-01-20260927T1830Z",
+  "command_id": "health-gate-20260927T1838Z-mh01",
   "node_id": "mh-dev-01",
   "operation": "health",
-  "title": "health-multiagent-01-20260927T1830Z",
-  "description": "fresh transport/runtime identity for multi-agent qualification",
-  "target_sha": "28190b2"
+  "title": "health-gate-20260927T1838Z-mh01",
+  "description": "Fresh canonical transport identity probe after multi-agent integration.",
+  "target_sha": "main"
 }
