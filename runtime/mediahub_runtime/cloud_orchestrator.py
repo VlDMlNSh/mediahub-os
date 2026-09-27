@@ -325,9 +325,9 @@ class CloudFirstOrchestrator:
         credential_env: Mapping[str, str] | None = None,
         executors: Mapping[str, Callable[[str], str]] | None = None,
     ):
+        self._env = dict(os.environ if credential_env is None else credential_env)
         self._cloud = self._order_cloud_routes(tuple(cloud_routes))
         self._local = tuple(sorted(local_routes, key=lambda r: r.priority))
-        self._env = dict(os.environ if credential_env is None else credential_env)
         self._executors = dict(executors or {})
         self._freellmapi = FreeLLMAPIExecutor()
         self._kimi_k3 = KimiK3InCExecutor()
