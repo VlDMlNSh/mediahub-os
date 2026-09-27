@@ -70,3 +70,26 @@ def test_failover_uses_indexed_credential_slot():
     assert output == "ok"
     assert decision.model == "model-a"
     assert len(seen) == 2
+
+
+def test_openrouter_route_builds_compatible_executor():
+    route = ProviderRoute(
+        "openrouter",
+        "cloud",
+        frozenset({"coding"}),
+        "OPENROUTER_API_KEY",
+        "MEDIAHUB_OPENROUTER_MODEL",
+        1,
+    )
+    orchestrator = CloudFirstOrchestrator(
+        cloud_routes=(route,),
+        local_routes=(),
+        credential_env={
+            "OPENROUTER_API_KEY": "key",
+            "MEDIAHUB_OPENROUTER_MODEL": "model",
+        },
+    )
+    decision, executor = orchestrator._candidates("coding", allow_local_extension=False)[0]
+    assert decision.provider_id == "openrouter"
+    assert decision.model == "model"
+    assert executor.__class__.__name__ == "OpenAICompatibleExecutor"
