@@ -41,7 +41,7 @@ class OrchestrationDecision:
 
 
 DEFAULT_CLOUD_ROUTES = (
-    ProviderRoute("openrouter", "cloud", frozenset({"reasoning", "analysis", "coding", "architecture", "review", "research", "web", "multimodal", "documents", "long_context", "bulk", "repository", "testing", "transform", "classify"}), "OPENROUTER_API_KEY", "MEDIAHUB_OPENROUTER_MODEL", 5),
+    ProviderRoute("openrouter", "cloud", frozenset({"reasoning", "analysis", "coding", "architecture", "review", "research", "web", "multimodal", "documents", "long_context", "bulk", "repository", "testing", "transform", "classify"}), "OPENROUTER_API_KEY|UNOROUTER_API_KEY", "MEDIAHUB_OPENROUTER_MODEL", 5),
     ProviderRoute("openai", "cloud", frozenset({"reasoning", "analysis", "coding"}), "OPENAI_API_KEY", "MEDIAHUB_OPENAI_MODEL", 10),
     ProviderRoute("claude", "cloud", frozenset({"coding", "architecture", "review", "reasoning"}), "ANTHROPIC_API_KEY", "MEDIAHUB_CLAUDE_MODEL", 20),
     ProviderRoute("gemini", "cloud", frozenset({"multimodal", "documents", "reasoning"}), "GEMINI_API_KEY", "MEDIAHUB_GEMINI_MODEL", 30),
@@ -128,8 +128,11 @@ class CloudFirstOrchestrator:
     def _configured(self, route: ProviderRoute) -> bool:
         if route.credential_env is None:
             return True
-        value = self._env.get(route.credential_env)
-        return bool(value and value.strip())
+        for env_name in route.credential_env.split("|"):
+            value = self._env.get(env_name)
+            if value and value.strip():
+                return True
+        return False
 
     def _model(self, route: ProviderRoute) -> str | None:
         if route.model_env:
