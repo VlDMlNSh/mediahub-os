@@ -23,6 +23,7 @@ grep -Fq 'production: NOT_AUTHORIZED' "$GOV"
 
 R4_SHA='471f709f5633feab7aeb62dd3ea52effad6d2bc4'
 R4_TREE='2279612908135418b2b5448d598274ea6741deaa'
+git cat-file -e "$R4_SHA^{commit}"
 git merge-base --is-ancestor "$R4_SHA" HEAD
 test "$(git rev-parse "$R4_SHA^{tree}")" = "$R4_TREE"
 
