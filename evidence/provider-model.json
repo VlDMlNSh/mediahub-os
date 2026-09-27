@@ -1,0 +1,18 @@
+{
+  "schema": "mediahub.provider-model.v1",
+  "source_run": 36352472775,
+  "commit": "392592ba57b9368b26091c82b6bea45d4b7fa049",
+  "timestamp": "2026-09-27T21:39:37Z",
+  "secret_values": "SUPPRESSED",
+  "providers": {
+    "openrouter": {"credential_present": true, "catalog_status": "PASS", "inference_status": "PASS", "qualification_status": "PARTIAL", "models_tested": ["kwaipilot/kat-coder-pro-v2.5", "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"], "failure_class": "BLOCKED_BILLING"},
+    "openai": {"credential_present": true, "catalog_status": "PASS", "inference_status": "FAIL", "qualification_status": "PENDING", "models_tested": ["gpt-5.3-chat-latest", "gpt-5.2-codex"], "failure_class": "FAIL"},
+    "gemini": {"credential_present": true, "catalog_status": "PASS", "inference_status": "FAIL", "qualification_status": "PENDING", "models_tested": ["gemini-2.5-flash", "gemini-2.5-pro"], "failure_class": "FAIL"},
+    "deepseek": {"credential_present": false, "catalog_status": "NOT_RUN", "inference_status": "FAIL", "qualification_status": "credential_missing"},
+    "kimi": {"credential_present": false, "catalog_status": "NOT_RUN", "inference_status": "FAIL", "qualification_status": "credential_missing"},
+    "perplexity": {"credential_present": false, "catalog_status": "NOT_RUN", "inference_status": "FAIL", "qualification_status": "credential_missing"},
+    "claude": {"credential_present": false, "catalog_status": "NOT_RUN", "inference_status": "FAIL", "qualification_status": "credential_missing"},
+    "unorouter": {"credential_present": true, "catalog_status": "PASS", "inference_status": "BLOCKED", "qualification_status": "BLOCKED", "models_tested": ["gpt-4o-image", "absolutereality:free"], "failure_class": "BLOCKED_AUTH"},
+    "zerouter": {"credential_present": true, "catalog_status": "BLOCKED_AUTH", "inference_status": "FAIL", "qualification_status": "blocked"}
+  }
+}
