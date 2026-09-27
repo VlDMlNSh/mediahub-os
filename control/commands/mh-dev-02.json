@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "repair-and-qualification-mh-dev-02-20260927T2115Z",
+  "command_id": "canonical-health-mh-dev-02-20260927T2118Z",
   "node_id": "mh-dev-02",
-  "operation": "coding",
-  "title": "Repair runtime import and qualify node",
-  "description": "First repair/verify canonical Astra runtime import using the updated self-reexec GitHub worker. Do not use legacy workers. Confirm runtime package discovery from the canonical worktree and publish exact sanitized diagnostics if import fails. Then run fresh runtime, scheduler, fencing, recovery, backup-restore, provider/model and agent qualification. Validate OpenRouter credential alias presence only without exposing secret values; use UNOROUTER_API_KEY or OPENROUTER_API_KEY if available. Qualify ECC, DeepSeek Harness, Stagewise, delx-memory-bun, FreeLLMAPI, Kimi K3 in C and Colibri where supported. Keep Qwen3.8 cyber model quarantined and excluded from autonomous execution. Preserve context_management.experimental_mode=true. Publish fresh evidence; no 24h or GOLD claim.",
+  "operation": "health",
+  "title": "Canonical worker identity and runtime-path diagnosis",
+  "description": "Return health only. Must report canonical self-reexec-v1 identity, agent_path, worktree, agent_source_sha, cwd, pid and runtime package presence/path without secrets. This is a diagnostic gate before another repair command.",
   "target_sha": "b8502ed4e399e76ce42db38abe7f74cf28eb0f12"
 }
