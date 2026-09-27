@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "health-gate-20260927T1838Z-mh01",
+  "command_id": "runtime-e2e-gold-mh01-20260927T1855Z",
   "node_id": "mh-dev-01",
-  "operation": "health",
-  "title": "health-gate-20260927T1838Z-mh01",
-  "description": "Fresh canonical transport identity probe after multi-agent integration.",
+  "operation": "coding",
+  "title": "runtime-e2e-gold-mh01",
+  "description": "Bounded runtime E2E qualification: execute a tiny coding task, verify artifact and tests, and return provider/model/evidence metadata.",
   "target_sha": "main"
 }
