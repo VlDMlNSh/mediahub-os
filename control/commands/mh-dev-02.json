@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "qualification-openrouter-mh-dev-02-20260927T2055Z",
+  "command_id": "repair-and-qualification-mh-dev-02-20260927T2115Z",
   "node_id": "mh-dev-02",
   "operation": "coding",
-  "title": "Astra provider + agent qualification",
-  "description": "Fresh qualification wave. Use canonical GitHub Transport only. Validate the OpenRouter credential integration without printing or persisting secret material; accept OPENROUTER_API_KEY and the GitHub Actions secret alias UNOROUTER_API_KEY. If the secret is not present in this node environment, record NOT_PRESENT rather than failing or exposing it. Run a minimal non-destructive OpenRouter provider/model connectivity check only when credential is available, then continue all local agent qualification: ECC, DeepSeek Harness, Stagewise, delx-memory-bun, FreeLLMAPI, Kimi K3 in C, Colibri. Also run fresh runtime/scheduler/fencing/recovery/backup-restore checks. Keep Qwen3.8 cyber model quarantined and excluded from autonomous selection/tool execution. Preserve context_management.experimental_mode=true. Publish exact evidence, no secret values.",
-  "target_sha": "main"
+  "title": "Repair runtime import and qualify node",
+  "description": "First repair/verify canonical Astra runtime import using the updated self-reexec GitHub worker. Do not use legacy workers. Confirm runtime package discovery from the canonical worktree and publish exact sanitized diagnostics if import fails. Then run fresh runtime, scheduler, fencing, recovery, backup-restore, provider/model and agent qualification. Validate OpenRouter credential alias presence only without exposing secret values; use UNOROUTER_API_KEY or OPENROUTER_API_KEY if available. Qualify ECC, DeepSeek Harness, Stagewise, delx-memory-bun, FreeLLMAPI, Kimi K3 in C and Colibri where supported. Keep Qwen3.8 cyber model quarantined and excluded from autonomous execution. Preserve context_management.experimental_mode=true. Publish fresh evidence; no 24h or GOLD claim.",
+  "target_sha": "b8502ed4e399e76ce42db38abe7f74cf28eb0f12"
 }
