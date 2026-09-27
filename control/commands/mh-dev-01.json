@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "command_id": "health-qualification-mh-dev-01-20260927T2025Z",
+  "command_id": "runtime-e2e-qualification-mh-dev-01-20260927T2040Z",
   "node_id": "mh-dev-01",
-  "operation": "health",
-  "title": "Astra transport health",
-  "description": "Fresh canonical transport identity probe"
+  "operation": "coding",
+  "title": "Runtime E2E qualification — Linux node 01",
+  "description": "Execute a bounded runtime E2E qualification on this node. Use the configured AstraGatewayRuntime and local Ollama/runtime only. Create exactly one small node-specific evidence artifact under control/evidence/runtime-e2e/ named mh-dev-01-runtime.txt containing a timestamp, node id, provider/model identity if available, and a deterministic test result. Run a focused verification test. Do not modify production code, do not touch secrets, do not perform destructive operations, and commit/push the result. Return execution/task identity, target SHA, provider/model, changed files, tests, commit SHA, remote SHA, artifact SHA256, and terminal status."
 }
