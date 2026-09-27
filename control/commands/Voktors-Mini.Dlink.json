@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "multiagent-mac-runtime-20260927T1832Z",
+  "command_id": "health-gate-20260927T1838Z-mac",
   "node_id": "Voktors-Mini.Dlink",
-  "operation": "review",
-  "title": "multiagent-mac-runtime-20260927T1832Z",
-  "description": "Return three concrete verification checks required before PRE-SOAK.",
-  "target_sha": "28190b2"
+  "operation": "health",
+  "title": "health-gate-20260927T1838Z-mac",
+  "description": "Fresh canonical transport identity probe after multi-agent runtime qualification preparation.",
+  "target_sha": "main"
 }
