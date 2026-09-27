@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "gold-agent-expansion-mac-20260927T1917Z",
+  "command_id": "gold-harness-stack-mac-20260927T1920Z",
   "node_id": "Voktors-Mini.Dlink",
   "operation": "coding_v2",
-  "title": "Gold agent expansion Voktors-Mini.Dlink",
-  "description": "Install and qualify additional development agents using user-space tooling only: DeepSeek Harness (dsh) and stagewise CLI/agent where headless installation is supported. Do not use sudo and do not alter the canonical launchd transport. Verify versions/help and local-provider connectivity where supported. Then execute a bounded canonical Astra runtime E2E, record provider/model/execution/tests/evidence, and push the result to the node result branch. If stagewise requires an interactive desktop-only setup, record that fact as NOT_HEADLESS rather than treating it as a transport failure.",
+  "title": "Gold harness stack Voktors-Mini.Dlink",
+  "description": "Using only user-space tooling and GitHub-controlled execution, install/complete DeepSeek Harness (dsh) and stagewise where headless installation is supported. Add illegal-xd/delx-memory-bun as the local-first MCP persistent-memory component for DSH/Astra using documented Bun runtime and loopback HTTP/stdio mode. Do not use sudo and do not alter canonical launchd transport. Validate versions/help, build/install status, delx-memory doctor/health, DSH startup readiness, and local-provider connectivity where supported. Treat illegal-xd/WebTool-DeepSeek as client-side Chrome extension only: document optional UI integration, do not install a browser extension as a server agent. If stagewise requires interactive GUI, record NOT_HEADLESS. Then execute bounded canonical Astra runtime E2E and publish provider/model/execution/tests/evidence to the node result branch.",
   "target_sha": "main"
 }
