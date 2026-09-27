@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "canonical-health-mh-dev-02-20260927T2118Z",
+  "command_id": "health-reconcile-mh-dev-02-20260927T2315Z",
   "node_id": "mh-dev-02",
   "operation": "health",
-  "title": "Canonical worker identity and runtime-path diagnosis",
-  "description": "Return health only. Report canonical self-reexec-v1 identity, agent_path, worktree, agent_source_sha, cwd, pid and runtime package presence/path without secrets. This is a diagnostic gate before another repair command.",
-  "target_sha": "b8502ed4e399e76ce42db38abe7f74cf28eb0f12"
+  "title": "Fresh canonical worker identity after runtime hardening",
+  "description": "Return only fresh canonical worker identity. Report transport_version, agent_source_sha, pid, cwd, agent_path, worktree, runtime package presence if available, and status. Do not expose secrets. This command is a deployment/process-manager gate; do not claim restart unless the reported running process proves the new canonical worker identity.",
+  "target_sha": "main"
 }
