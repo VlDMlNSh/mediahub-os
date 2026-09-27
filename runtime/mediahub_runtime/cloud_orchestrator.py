@@ -321,8 +321,15 @@ class CloudFirstOrchestrator:
         if route.credential_env is None:
             return True
         for env_name in route.credential_env.split("|"):
-            value = self._env.get(env_name)
-            if value and value.strip():
+            if self._env.get(env_name, "").strip():
+                return True
+            prefix = f"{env_name}_"
+            if any(
+                name.startswith(prefix)
+                and name[len(prefix):].isdigit()
+                and value.strip()
+                for name, value in self._env.items()
+            ):
                 return True
         return False
 
