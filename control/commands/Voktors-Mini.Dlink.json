@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "node_id": "Voktors-Mini.Dlink",
-  "command_id": "parallel-qual-mac-20260927T1910Z",
+  "command_id": "runtime-discovery-Voktors-Mini.Dlink-20260927T1615Z",
   "operation": "coding",
-  "title": "Distributed GOLD qualification lane",
-  "description": "Ollama provider lane: independently qualify provider/model smoke and evidence-led review of qualification artifacts. Use local qwen2.5-coder:1.5b and return structured evidence."
+  "title": "Runtime discovery and three-node qualification",
+  "description": "After merge 7256dd14ee04b57dd73103e60410cef92f7d4a16, execute through GitHub Transport. Verify mediahub_runtime discovery on this node, then run an independent qualification lane using local Ollama. Return structured evidence: runtime path, model, tests, scheduler/recovery/provider findings, and blockers. Do not bypass controls."
 }
