@@ -110,7 +110,7 @@ jobs:
                   "credential_present": credential_present,
                   "catalog_status": classify(catalog_code) if catalog_code is not None else "NOT_RUN",
                   "inference_status": inference,
-                  "qualification_status": ("QUALIFIED" if len(tests) >= 2 and all(t.get("status") == "PASS" and t.get("marker_present") for t in tests) else ("BLOCKED" if tests and all(str(t.get("status","")).startswith("BLOCKED") for t in tests) else ("PARTIAL" if tests and any(t.get("status") == "PASS" for t in tests) else "PENDING"))),
+                  "qualification_status": ("credential_missing" if not credential_present else ("blocked" if (catalog_code is not None and not (200 <= catalog_code < 300)) and not tests else ("QUALIFIED" if len(tests) >= 2 and all(t.get("status") == "PASS" and t.get("marker_present") for t in tests) else ("BLOCKED" if tests and all(str(t.get("status","")).startswith("BLOCKED") for t in tests) else ("PARTIAL" if tests and any(t.get("status") == "PASS" for t in tests) else "PENDING"))))),
                   "models_tested": [t.get("model") for t in tests if t.get("model")],
                   "tests": tests,
                   "selected_model": tests[0].get("model") if tests else None,
@@ -161,7 +161,7 @@ jobs:
               result("gemini",False)
           else:
               code,body,_=request("https://generativelanguage.googleapis.com/v1beta/models",headers={"x-goog-api-key":key})
-              model_ids=[m.get("name","").split("/")[-1] for m in body.get("models",[]) if isinstance(m,dict) and m.get("name")]
+              model_ids=[m.get("name","").split("/")[-1] for m in body.get("models",[]) if isinstance(m,dict) and m.get("name") and "generateContent" in m.get("supportedGenerationMethods",[])]
               tests=[]
               for model in choose(model_ids,("flash","pro")):
                   url="https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent"
