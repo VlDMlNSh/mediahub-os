@@ -1,7 +1,8 @@
 {
   "schema": 1,
-  "command_id": "health-mh-dev-02-1790504018289",
   "node_id": "mh-dev-02",
-  "operation": "health",
-  "issued_at": 1790504018
+  "command_id": "parallel-qual-mh-dev-02-20260927T1910Z",
+  "operation": "coding",
+  "title": "Distributed GOLD qualification lane",
+  "description": "Ollama recovery lane: independently qualify scheduler recovery, lease/generation fencing, duplicate idempotency and negative cases. Use local qwen2.5-coder and return structured evidence."
 }
