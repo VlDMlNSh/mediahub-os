@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "night-transport-schema-20260928T0035Z",
+  "command_id": "health-repair-20260928T0216Z",
   "node_id": "mh-dev-02",
-  "operation": "research",
-  "title": "Night transport evidence repair",
-  "description": "Read-only bounded night pass. Investigate why fresh mh-dev-02 health evidence lacks transport_version, agent_source_sha, agent_path, and worktree while the canonical worker contract requires them. Inspect only the relevant worker source, command/result schema, and recent evidence. Do not modify services, credentials, packages, processes, or unrelated files. Produce exact root-cause evidence and a minimal recommended repair plan; do not claim PASS unless the returned result contains the required identity fields.",
+  "operation": "health",
+  "title": "Fresh mh-dev-02 transport identity gate",
+  "description": "Fresh health-only gate after the failed night research command. Return canonical worker identity fields: status,node_id,hostname,platform,python,transport_version,agent_source_sha,agent_path,worktree,pid,cwd. Do not modify services, credentials, packages, or files.",
   "target_sha": "main"
 }
