@@ -1,0 +1,103 @@
+name: FreeLLMAPI Live Qualification
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'runtime/mediahub_runtime/local_providers.py'
+      - 'runtime/mediahub_runtime/cloud_orchestrator.py'
+      - 'tests/ai/**'
+      - '.github/workflows/freellmapi-qualification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: freellmapi-live-qualification
+  cancel-in-progress: false
+
+jobs:
+  qualify:
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 10
+    env:
+      FREELLMAPI_URL: ${{ vars.MEDIAHUB_FREELLMAPI_URL }}
+      FREELLMAPI_KEY_FILE: ${{ vars.MEDIAHUB_FREELLMAPI_KEY_FILE }}
+      FREELLMAPI_MODEL: ${{ vars.MEDIAHUB_FREELLMAPI_MODEL }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify target node
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          test -f "${FREELLMAPI_KEY_FILE:-$HOME/.config/mediahub/freellmapi.key}"
+      - name: Verify adapter tests
+        run: |
+          python3 -m pytest -q tests/ai/test_cloud_orchestrator_failover.py
+      - name: Query FreeLLMAPI models
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="${FREELLMAPI_URL:-http://127.0.0.1:3001/v1}"
+          key_file="${FREELLMAPI_KEY_FILE:-$HOME/.config/mediahub/freellmapi.key}"
+          key="$(cat "$key_file")"
+          python3 - "$url" "$key" <<'PY'
+          import json, sys, urllib.request
+          url, key = sys.argv[1], sys.argv[2]
+          req = urllib.request.Request(
+              url.rstrip("/") + "/models",
+              headers={"Authorization": "Bearer " + key},
+          )
+          with urllib.request.urlopen(req, timeout=10) as response:
+              body = json.loads(response.read().decode())
+              print("models_http_status=" + str(response.status))
+              models = body.get("data", [])
+              print("model_count=" + str(len(models)))
+              print("model_ids=" + json.dumps([m.get("id") for m in models if isinstance(m, dict)], separators=(",", ":")))
+          PY
+      - name: Live inference qualification
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="${FREELLMAPI_URL:-http://127.0.0.1:3001/v1}"
+          key_file="${FREELLMAPI_KEY_FILE:-$HOME/.config/mediahub/freellmapi.key}"
+          model="${FREELLMAPI_MODEL:-qwen2.5-coder:3b}"
+          key="$(cat "$key_file")"
+          python3 - "$url" "$key" "$model" <<'PY'
+          import json, sys, urllib.request
+          url, key, model = sys.argv[1], sys.argv[2], sys.argv[3]
+          marker = "MEDIAHUB_FREELLMAPI_LIVE_OK"
+          payload = {
+              "model": model,
+              "messages": [{"role": "user", "content": "Reply exactly " + marker}],
+              "temperature": 0,
+              "max_tokens": 32,
+          }
+          req = urllib.request.Request(
+              url.rstrip("/") + "/chat/completions",
+              data=json.dumps(payload, separators=(",", ":")).encode(),
+              headers={"Authorization": "Bearer " + key, "Content-Type": "application/json"},
+              method="POST",
+          )
+          with urllib.request.urlopen(req, timeout=120) as response:
+              body = json.loads(response.read().decode())
+              text = body["choices"][0]["message"]["content"].strip()
+              print("inference_http_status=" + str(response.status))
+              print("model=" + model)
+              print("response_nonempty=" + str(bool(text)).lower())
+              print("marker_present=" + str(text == marker).lower())
+              if text != marker:
+                  raise SystemExit("marker_mismatch")
+          print("qualification=LIVE_QUALIFIED")
+          PY
+      - name: Sanitized evidence
+        if: always()
+        run: |
+          echo "node=$(hostname)"
+          echo "provider=freellmapi"
+          echo "url=${FREELLMAPI_URL:-http://127.0.0.1:3001/v1}"
+          echo "model=${FREELLMAPI_MODEL:-qwen2.5-coder:3b}"
+          echo "secret_values=SUPPRESSED"
