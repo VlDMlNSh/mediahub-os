@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "qualification-wave-mh-dev-01-20260927T2045Z",
+  "command_id": "qualification-openrouter-mh-dev-01-20260927T2055Z",
   "node_id": "mh-dev-01",
   "operation": "coding",
-  "title": "Astra + agent installation and qualification wave",
-  "description": "Through GitHub Transport only: enforce canonical worker exclusivity; install and test all discussed agents/components available for this node (ECC, DeepSeek Harness, Stagewise, delx-memory-bun, FreeLLMAPI, Kimi K3 in C, Colibri where supported); qualify each with fresh evidence and isolate any component that cannot safely be qualified. Inspect/download/checksum Qwen3.8-27B-Uncensored-Cyber-agentic-imatrix-GGUF only if storage permits; keep quarantined and excluded from autonomous selection/tool execution. Preserve Codex context_management.experimental_mode=true. Run fresh transport, runtime, scheduler, fencing, recovery, backup/restore, provider/model and repo tests. Publish exact evidence and PASS/PARTIAL/FAIL. Do not claim 24h soak or Astra GOLD unless genuinely completed with fresh evidence.",
+  "title": "Astra provider + agent qualification",
+  "description": "Fresh qualification wave. Use canonical GitHub Transport only. Validate the OpenRouter credential integration without printing or persisting secret material; accept OPENROUTER_API_KEY and the GitHub Actions secret alias UNOROUTER_API_KEY. If the secret is not present in this node environment, record NOT_PRESENT rather than failing or exposing it. Run a minimal non-destructive OpenRouter provider/model connectivity check only when credential is available, then continue all local agent qualification: ECC, DeepSeek Harness, Stagewise, delx-memory-bun, FreeLLMAPI, Kimi K3 in C, Colibri. Also run fresh runtime/scheduler/fencing/recovery/backup-restore checks. Keep Qwen3.8 cyber model quarantined and excluded from autonomous selection/tool execution. Preserve context_management.experimental_mode=true. Publish exact evidence, no secret values.",
   "target_sha": "main"
 }
