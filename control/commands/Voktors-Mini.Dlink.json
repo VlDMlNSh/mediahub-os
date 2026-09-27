@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "health-gate-20260927T1838Z-mac",
+  "command_id": "runtime-e2e-gold-mac-20260927T1855Z",
   "node_id": "Voktors-Mini.Dlink",
-  "operation": "health",
-  "title": "health-gate-20260927T1838Z-mac",
-  "description": "Fresh canonical transport identity probe after multi-agent runtime qualification preparation.",
+  "operation": "coding",
+  "title": "runtime-e2e-gold-mac",
+  "description": "Bounded runtime E2E qualification: execute a tiny coding task, verify artifact and tests, and return provider/model/evidence metadata.",
   "target_sha": "main"
 }
