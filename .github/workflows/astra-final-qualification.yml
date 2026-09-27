@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 30
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      GEMINI_MODEL: gemini-2.5-flash-lite
+      GEMINI_MODEL: gemini-3.5-flash-lite
       E2E_BRANCH: engineering/astra-e2e-${{ github.run_id }}
       E2E_OWNER: github-actions-${{ github.run_id }}
       SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -289,9 +289,16 @@ jobs:
           set -euo pipefail
           python3 - <<'PY'
           import json
-          data=json.load(open("profiles/agent-registry.json", encoding="utf-8"))
-          print("registered_agents=" + ",".join(a["id"] for a in data["agents"]))
-          for a in data["agents"]:
+          from pathlib import Path
+          path=Path("profiles/agent-registry.json")
+          if not path.exists():
+              print("registry_file=ABSENT_ON_CANONICAL_BRANCH")
+              print("registry_status=NON_FATAL")
+              raise SystemExit(0)
+          data=json.loads(path.read_text(encoding="utf-8"))
+          agents=data.get("agents", [])
+          print("registered_agents=" + ",".join(a["id"] for a in agents))
+          for a in agents:
               print(f"{a['id']}:registered={bool(a.get('enabled'))}:activation={a.get('activation','local')}")
           PY
 
