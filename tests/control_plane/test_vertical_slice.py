@@ -26,3 +26,17 @@ def test_fail_sets_deterministic_exponential_retry_backoff():
     t=r.get_task('retry')
     assert t.status is TaskStatus.RETRY_WAIT and t.attempt==1 and t.retry_not_before is not None
     assert 9.0 <= t.retry_not_before - __import__('time').monotonic() <= 11.0
+
+
+def test_sqlite_expired_lease_uses_repository_clock(tmp_path):
+    from runtime.mediahub_control_plane.model import Task, TaskStatus
+    from runtime.mediahub_control_plane.service import ControlPlaneService
+    from runtime.mediahub_control_plane.sqlite_repository import SQLiteControlPlaneRepository
+    clock = [2_000_000_000.0]
+    r = SQLiteControlPlaneRepository(tmp_path / "control.sqlite3", clock=lambda: clock[0])
+    s = ControlPlaneService(r)
+    r.create_task(Task("sqlite-expired", "build", status=TaskStatus.READY))
+    lease = s.claim("sqlite-expired", "a", 1)
+    clock[0] = lease.expires_at + 1
+    assert s.recover_expired("sqlite-expired") is True
+    assert r.get_task("sqlite-expired").status is TaskStatus.EXPIRED

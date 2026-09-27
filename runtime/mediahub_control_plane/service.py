@@ -141,7 +141,7 @@ class ControlPlaneService:
     def recover_expired(self, task_id, now=None):
         lease=self.repository.get_lease_for_task(task_id)
         if lease is None: return False
-        now=monotonic() if now is None else now
+        now=(self.repository.now() if hasattr(self.repository,'now') else monotonic()) if now is None else now
         if now < lease.expires_at: return False
         self.repository.expire_lease(lease.lease_id,now); task=self.repository.get_task(task_id)
         if task is None: raise KeyError(task_id)
