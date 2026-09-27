@@ -1,0 +1,31 @@
+name: Astra Verify
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile
+        run: python -m compileall -q .
+      - name: Signed command smoke test
+        env:
+          ASTRA_COMMAND_HMAC_KEY: smoke-test-key
+        run: |
+          python tools/sign_astra_command.py smoke-node health > /tmp/command.json
+          python - <<'PY'
+          import json
+          c=json.load(open("/tmp/command.json"))
+          assert c["node_id"] == "smoke-node"
+          assert c["operation"] == "health"
+          assert len(c["signature"]) == 64
+          PY
