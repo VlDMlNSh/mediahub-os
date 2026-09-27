@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "node_id": "mh-dev-02",
-  "command_id": "qualification-after-health-mh-dev-02-20260927T1935Z",
-  "operation": "coding",
-  "title": "Qualification after transport self-update probe",
-  "description": "Execute now through GitHub Transport. The worker has already processed a post-self-reexec health command. Verify portable mediahub_runtime discovery and run qualification with local Ollama. Return runtime path, model, tests, and blockers."
+  "command_id": "version-health-mh-dev-02-20260927T1940Z",
+  "operation": "health",
+  "title": "Transport version health",
+  "description": "Return transport_version and agent_source_sha."
 }
