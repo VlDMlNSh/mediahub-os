@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "runtime-e2e-gold-mac-20260927T1855Z",
+  "command_id": "gold-agent-expansion-mac-20260927T1917Z",
   "node_id": "Voktors-Mini.Dlink",
-  "operation": "coding",
-  "title": "runtime-e2e-gold-mac",
-  "description": "Bounded runtime E2E qualification: execute a tiny coding task, verify artifact and tests, and return provider/model/evidence metadata.",
+  "operation": "coding_v2",
+  "title": "Gold agent expansion Voktors-Mini.Dlink",
+  "description": "Install and qualify additional development agents using user-space tooling only: DeepSeek Harness (dsh) and stagewise CLI/agent where headless installation is supported. Do not use sudo and do not alter the canonical launchd transport. Verify versions/help and local-provider connectivity where supported. Then execute a bounded canonical Astra runtime E2E, record provider/model/execution/tests/evidence, and push the result to the node result branch. If stagewise requires an interactive desktop-only setup, record that fact as NOT_HEADLESS rather than treating it as a transport failure.",
   "target_sha": "main"
 }
