@@ -170,7 +170,11 @@ class Scheduler:
         try:
             succeeded, detail = worker(task, lease)
             if succeeded:
-                self.generate_next(lease, "reconcile", f"after:{task.task_id}", lease.target_sha)
+                match = __import__("re").search(r"\\bremote_sha=([0-9a-f]{40})\\b", detail)
+                if match is None:
+                    raise RuntimeError("successful worker result must include verified remote_sha")
+                next_target_sha = match.group(1)
+                self.generate_next(lease, "reconcile", f"after:{task.task_id}", next_target_sha)
             self.complete(lease, succeeded, detail)
             return "SUCCEEDED" if succeeded else "REQUEUED"
         except Exception as exc:
