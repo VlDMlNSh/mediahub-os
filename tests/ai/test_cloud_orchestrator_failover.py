@@ -115,3 +115,40 @@ def test_freellmapi_candidate_uses_selected_model_and_local_gateway():
     assert len(candidates) == 2
     assert [d.model for d, _ in candidates] == ["model-a", "model-b"]
     assert all(e.__class__.__name__ == "FreeLLMAPIExecutor" for _, e in candidates)
+
+
+def test_openai_route_uses_native_responses_executor():
+    route = ProviderRoute(
+        "openai", "cloud", frozenset({"coding"}), "OPENAI_API_KEY",
+        "MEDIAHUB_OPENAI_MODEL", 1,
+    )
+    orchestrator = CloudFirstOrchestrator(
+        cloud_routes=(route,), local_routes=(),
+        credential_env={"OPENAI_API_KEY": "key", "MEDIAHUB_OPENAI_MODEL": "model"},
+    )
+    decision, executor = orchestrator._candidates("coding", allow_local_extension=False)[0]
+    assert decision.provider_id == "openai"
+    assert executor.__class__.__name__ == "OpenAIResponsesExecutor"
+
+
+def test_gemini_route_uses_native_executor():
+    route = ProviderRoute(
+        "gemini", "cloud", frozenset({"reasoning"}), "GEMINI_API_KEY",
+        "MEDIAHUB_GEMINI_MODEL", 1,
+    )
+    orchestrator = CloudFirstOrchestrator(
+        cloud_routes=(route,), local_routes=(),
+        credential_env={"GEMINI_API_KEY": "key", "MEDIAHUB_GEMINI_MODEL": "model"},
+    )
+    decision, executor = orchestrator._candidates("reasoning", allow_local_extension=False)[0]
+    assert decision.provider_id == "gemini"
+    assert executor.__class__.__name__ == "GeminiExecutor"
+
+
+def test_http_error_classification():
+    from mediahub_runtime.cloud_orchestrator import _http_error_code
+    assert _http_error_code(401) == "provider_auth_failed"
+    assert _http_error_code(403) == "provider_auth_failed"
+    assert _http_error_code(402) == "provider_billing_blocked"
+    assert _http_error_code(429) == "provider_rate_limited"
+    assert _http_error_code(500) == "provider_server_error"
