@@ -266,6 +266,142 @@ jobs:
           PY
           echo "self_hosted_runtime=PASS"
 
+  ollama-coding-e2e:
+    name: Ollama coding worker E2E
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Astra branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Verify Ollama coding model
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, urllib.request
+          with urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=5) as r:
+              data=json.load(r)
+          names=[m.get("name","") for m in data.get("models",[]) if isinstance(m,dict)]
+          print("ollama_models="+",".join(names))
+          if not any(name.startswith("qwen2.5-coder:3b") or name.startswith("qwen2.5-coder-3b") for name in names):
+              raise SystemExit("qwen2.5-coder:3b model not present")
+          print("ollama_model=PASS")
+          PY
+
+      - name: Run Ollama autonomous coding cycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          import re
+          import subprocess
+          import urllib.request
+          from pathlib import Path
+
+          branch=f"engineering/astra-ollama-e2e-{os.environ['GITHUB_RUN_ID']}"
+          owner=f"ollama-worker-{os.environ['GITHUB_RUN_ID']}"
+          root=Path.cwd()
+          subprocess.run(["git","checkout","-b",branch],check=True)
+          subprocess.run(["git","config","user.name","Astra Ollama Qualification Bot"],check=True)
+          subprocess.run(["git","config","user.email","astra-qualification@users.noreply.github.com"],check=True)
+          target=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+
+          prompt="""
+          You are Astra's bounded local Ollama coding worker.
+          Return ONLY a unified git diff. Do not return markdown fences or commentary.
+          Add exactly these two files:
+          - ops/astra_generated_ollama_e2e.py
+          - tests/test_astra_generated_ollama_e2e.py
+          The production file must define cycle_marker() -> str and return exactly "ASTRA_OLLAMA_E2E".
+          The test file must import cycle_marker and assert exactly that value.
+          Do not touch any other file or use external resources.
+          """
+          body=json.dumps({
+              "model":"qwen2.5-coder:3b",
+              "prompt":prompt,
+              "stream":False,
+              "options":{"temperature":0}
+          }).encode()
+          req=urllib.request.Request(
+              "http://127.0.0.1:11434/api/generate",
+              data=body,
+              headers={"Content-Type":"application/json"},
+              method="POST",
+          )
+          with urllib.request.urlopen(req,timeout=180) as response:
+              data=json.load(response)
+          patch=str(data.get("response","")).strip()
+          fence=chr(96)*3
+          if patch.startswith(fence):
+              patch=patch[len(fence):].strip()
+              if patch.startswith("diff"):
+                  patch=patch.split("\n",1)[1] if "\n" in patch else patch
+              if patch.endswith(fence):
+                  patch=patch[:-len(fence)].rstrip()
+          if not patch.startswith("diff --git "):
+              raise SystemExit("Ollama did not return a unified diff")
+          paths=re.findall(r"^diff --git a/(.*?) b/(.*?)$",patch,flags=re.MULTILINE)
+          expected={
+              ("ops/astra_generated_ollama_e2e.py","ops/astra_generated_ollama_e2e.py"),
+              ("tests/test_astra_generated_ollama_e2e.py","tests/test_astra_generated_ollama_e2e.py")
+          }
+          if set(paths)!=expected:
+              raise SystemExit(f"unexpected Ollama patch paths: {paths}")
+          patch_path=Path(f"/tmp/astra-ollama-{os.environ['GITHUB_RUN_ID']}.patch")
+          patch_path.write_text(patch+"\n",encoding="utf-8")
+          subprocess.run(["git","apply","--check",str(patch_path)],check=True)
+          subprocess.run(["git","apply",str(patch_path)],check=True)
+          subprocess.run(["python3","-m","pytest","-q","tests/test_astra_generated_ollama_e2e.py"],check=True)
+          expected_files={
+              "ops/astra_generated_ollama_e2e.py",
+              "tests/test_astra_generated_ollama_e2e.py"
+          }
+          status=subprocess.check_output(["git","status","--porcelain"],text=True).splitlines()
+          paths_now={re.sub(r"^.. ","",line) for line in status}
+          if paths_now!=expected_files:
+              raise SystemExit(f"unexpected worktree paths: {paths_now}")
+          subprocess.run(["git","add",*sorted(expected_files)],check=True)
+          subprocess.run(["git","commit","-m","astra(ollama-e2e): complete local coding cycle"],check=True)
+          commit=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+          subprocess.run(["git","push","origin",branch],check=True)
+          remote=subprocess.check_output(["git","ls-remote","origin",f"refs/heads/{branch}"],text=True).split()[0]
+          if remote!=commit:
+              raise SystemExit(f"remote SHA mismatch: {remote} != {commit}")
+          evidence={
+              "schema_version":1,
+              "workflow_run_id":os.environ["GITHUB_RUN_ID"],
+              "worker":"ollama",
+              "model":"qwen2.5-coder:3b",
+              "owner_id":owner,
+              "target_sha":target,
+              "commit_sha":commit,
+              "remote_sha":remote,
+              "patch_sha256":hashlib.sha256(patch.encode()).hexdigest(),
+              "test":"pytest -q tests/test_astra_generated_ollama_e2e.py",
+              "status":"PASS"
+          }
+          p=Path("qualification")/f"astra-ollama-e2e-{os.environ['GITHUB_RUN_ID']}.json"
+          p.write_text(json.dumps(evidence,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          subprocess.run(["git","add",str(p)],check=True)
+          subprocess.run(["git","commit","-m","astra(ollama-e2e): record qualification evidence"],check=True)
+          evidence_commit=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+          subprocess.run(["git","push","origin",branch],check=True)
+          final_remote=subprocess.check_output(["git","ls-remote","origin",f"refs/heads/{branch}"],text=True).split()[0]
+          if final_remote!=evidence_commit:
+              raise SystemExit("evidence remote SHA mismatch")
+          evidence["evidence_commit_sha"]=evidence_commit
+          evidence["evidence_remote_sha"]=final_remote
+          print(json.dumps(evidence,indent=2,sort_keys=True))
+          PY
+
   provider-smoke:
     name: Provider registry and OpenRouter smoke
     runs-on: ubuntu-24.04
