@@ -39,6 +39,7 @@ jobs:
       - name: Install pinned qualification toolchain
         run: |
           set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --no-input -r ci-requirements.txt
           python3 -m pytest --version
 
       - name: Verify P0 before E2E
@@ -251,7 +252,6 @@ jobs:
           else
             echo "service_check=SKIPPED_NON_LINUX"
           fi
-          python3 -m pip install --disable-pip-version-check --no-input -r ci-requirements.txt
           python3 -m pytest -q tests/test_astra_github_coding_protocol.py tests/test_astra_scheduler.py
           python3 - <<'PY'
           import json, urllib.request
