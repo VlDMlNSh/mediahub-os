@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+ "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.mediahub.astra.github-agent</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/voktor/astra-work/ops/astra-github-bootstrap.sh</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>ASTRA_GITHUB_REPO</key>
+    <string>VlDMlNSh/mediahub-os</string>
+    <key>ASTRA_WORKTREE</key>
+    <string>/Users/voktor/astra-work</string>
+    <key>ASTRA_STATE_DIR</key>
+    <string>/Users/voktor/astra-state</string>
+    <key>ASTRA_NODE_ID</key>
+    <string>Voktors-Mini.Dlink</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+</dict>
+</plist>
