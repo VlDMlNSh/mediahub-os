@@ -314,20 +314,17 @@ jobs:
           subprocess.run(["git","config","user.email","astra-qualification@users.noreply.github.com"],check=True)
           target=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
 
-          prompt="""
-          You are Astra's bounded local Ollama coding worker.
-          Return ONLY a unified git diff. Do not return markdown fences or commentary.
-          Add exactly these two files:
-          - ops/astra_generated_ollama_e2e.py
-          - tests/test_astra_generated_ollama_e2e.py
-          The production file must define cycle_marker() -> str and return exactly "ASTRA_OLLAMA_E2E".
-          The test file must import cycle_marker and assert exactly that value.
-          Do not touch any other file or use external resources.
-          """
+          prompt="""You are Astra's bounded local Ollama coding worker.
+Return ONLY valid JSON with exactly two string fields:
+{"ops/astra_generated_ollama_e2e.py":"...file contents...","tests/test_astra_generated_ollama_e2e.py":"...file contents..."}
+The production file must define cycle_marker() -> str and return exactly "ASTRA_OLLAMA_E2E".
+The test file must import cycle_marker and assert exactly that value.
+Do not touch any other file or use external resources."""
           body=json.dumps({
               "model":"qwen2.5-coder:3b",
               "prompt":prompt,
               "stream":False,
+              "format":"json",
               "options":{"temperature":0,"num_predict":256}
           }).encode()
           req=urllib.request.Request(
@@ -338,27 +335,18 @@ jobs:
           )
           with urllib.request.urlopen(req,timeout=600) as response:
               data=json.load(response)
-          patch=str(data.get("response","")).strip()
-          fence=chr(96)*3
-          if patch.startswith(fence):
-              patch=patch[len(fence):].strip()
-              if patch.startswith("diff"):
-                  patch=patch.split("\n",1)[1] if "\n" in patch else patch
-              if patch.endswith(fence):
-                  patch=patch[:-len(fence)].rstrip()
-          if not patch.startswith("diff --git "):
-              raise SystemExit("Ollama did not return a unified diff")
-          paths=re.findall(r"^diff --git a/(.*?) b/(.*?)$",patch,flags=re.MULTILINE)
-          expected={
-              ("ops/astra_generated_ollama_e2e.py","ops/astra_generated_ollama_e2e.py"),
-              ("tests/test_astra_generated_ollama_e2e.py","tests/test_astra_generated_ollama_e2e.py")
+          generated=json.loads(str(data.get("response","")))
+          expected_files={
+              "ops/astra_generated_ollama_e2e.py",
+              "tests/test_astra_generated_ollama_e2e.py"
           }
-          if set(paths)!=expected:
-              raise SystemExit(f"unexpected Ollama patch paths: {paths}")
-          patch_path=Path(f"/tmp/astra-ollama-{os.environ['GITHUB_RUN_ID']}.patch")
-          patch_path.write_text(patch+"\n",encoding="utf-8")
-          subprocess.run(["git","apply","--check",str(patch_path)],check=True)
-          subprocess.run(["git","apply",str(patch_path)],check=True)
+          if set(generated)!=expected_files:
+              raise SystemExit(f"unexpected Ollama generated paths: {set(generated)}")
+          for path, content in generated.items():
+              if not isinstance(content,str) or not content.strip():
+                  raise SystemExit(f"empty Ollama file: {path}")
+              Path(path).parent.mkdir(parents=True,exist_ok=True)
+              Path(path).write_text(content,encoding="utf-8")
           subprocess.run(["python3","-m","pytest","-q","tests/test_astra_generated_ollama_e2e.py"],check=True)
           expected_files={
               "ops/astra_generated_ollama_e2e.py",
@@ -368,6 +356,7 @@ jobs:
           paths_now={re.sub(r"^.. ","",line) for line in status}
           if paths_now!=expected_files:
               raise SystemExit(f"unexpected worktree paths: {paths_now}")
+          generated_text=json.dumps(generated,sort_keys=True).encode()
           subprocess.run(["git","add",*sorted(expected_files)],check=True)
           subprocess.run(["git","commit","-m","astra(ollama-e2e): complete local coding cycle"],check=True)
           commit=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
