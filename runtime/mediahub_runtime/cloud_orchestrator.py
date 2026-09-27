@@ -62,6 +62,52 @@ class UnoRouterExecutor:
         return output
 
 
+class OpenAICompatibleExecutor:
+    """OpenAI Chat Completions adapter for compatible cloud gateways."""
+
+    def __init__(self, env=None, credential_env="OPENAI_API_KEY", model_env="MEDIAHUB_OPENAI_MODEL", base_url="", timeout=45):
+        self._env = dict(os.environ if env is None else env)
+        self._credential_env = credential_env
+        self._model_env = model_env
+        self._base_url = base_url.rstrip("/")
+        self._timeout = timeout
+
+    def __call__(self, prompt: str) -> str:
+        key = self._env.get(self._credential_env, "").strip()
+        model = self._env.get(self._model_env, "").strip()
+        if not key:
+            raise CloudOrchestratorError("provider_credential_missing")
+        if not model:
+            raise CloudOrchestratorError("provider_model_unconfigured")
+        body = json.dumps({
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "stream": False,
+        }, separators=(",", ":")).encode("utf-8")
+        request = urllib.request.Request(
+            f"{self._base_url}/chat/completions",
+            data=body,
+            headers={
+                "Authorization": f"Bearer {key}",
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=self._timeout) as response:
+                raw = response.read(1_048_576)
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            raise CloudOrchestratorError("provider_request_failed") from exc
+        try:
+            data = json.loads(raw.decode("utf-8"))
+            output = data["choices"][0]["message"]["content"]
+        except (UnicodeDecodeError, json.JSONDecodeError, KeyError, IndexError, TypeError) as exc:
+            raise CloudOrchestratorError("provider_invalid_response") from exc
+        if not isinstance(output, str) or not output:
+            raise CloudOrchestratorError("provider_empty_response")
+        return output
+
+
 class OmniRouteClaudeExecutor:
     """Claude-compatible Anthropic Messages adapter through OmniRoute."""
 
@@ -285,6 +331,21 @@ class CloudFirstOrchestrator:
             return UnoRouterExecutor(env=env)
         if provider_id == "claude":
             return OmniRouteClaudeExecutor(env=env)
+        compatible = {
+            "openrouter": ("OPENROUTER_API_KEY", "MEDIAHUB_OPENROUTER_MODEL", "https://openrouter.ai/api/v1"),
+            "openai": ("OPENAI_API_KEY", "MEDIAHUB_OPENAI_MODEL", "https://api.openai.com/v1"),
+            "perplexity": ("PERPLEXITY_API_KEY", "MEDIAHUB_PERPLEXITY_MODEL", "https://api.perplexity.ai"),
+            "kimi": ("KIMI_API_KEY", "MEDIAHUB_KIMI_MODEL", "https://api.moonshot.ai/v1"),
+            "deepseek": ("DEEPSEEK_API_KEY", "MEDIAHUB_DEEPSEEK_MODEL", "https://api.deepseek.com"),
+        }
+        if provider_id in compatible:
+            credential_env, model_env, base_url = compatible[provider_id]
+            return OpenAICompatibleExecutor(
+                env=env,
+                credential_env=credential_env,
+                model_env=model_env,
+                base_url=base_url,
+            )
         return self._executors.get(provider_id)
 
     def _credentials(self, route: ProviderRoute) -> tuple[str, ...]:
