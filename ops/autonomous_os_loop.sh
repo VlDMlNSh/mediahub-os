@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT="/home/mediahub/dev/mediahub-os-autonomous"
+ROOT="${MEDIAHUB_ROOT:-/home/mediahub/dev/mediahub-os-autonomous}"
 STATE="$ROOT/.autonomous"
 LOGDIR="$STATE/logs"
 PROVENANCE="$STATE/provenance.log"
