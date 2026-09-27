@@ -1,8 +1,8 @@
 {
   "schema": 1,
+  "command_id": "health-qualification-mh-dev-02-20260927T1955Z",
   "node_id": "mh-dev-02",
-  "command_id": "runtime-identity-health-mh-dev-02-20260927T1950Z",
   "operation": "health",
-  "title": "Report persistent transport runtime identity",
-  "description": "Return transport_version, agent_source_sha, pid, cwd, agent_path and worktree. Read-only; do not modify files."
+  "title": "Astra transport health",
+  "description": "Fresh canonical transport identity probe"
 }
