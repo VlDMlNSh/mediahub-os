@@ -1,0 +1,187 @@
+"""Controlled P0-05 consumer boundary around the frozen State Authority."""
+
+import math
+from dataclasses import dataclass
+from typing import ClassVar
+
+from .authorization import AuthorizationContext
+from .errors import AuthorizationDenied, GenerationMismatch, RuntimeInvariantError
+from .in_memory_state import InvalidCheckpoint, InvalidTransaction, StaleTransaction
+from .proposals import ProposalAuthority
+
+
+class ConsumerBoundaryError(RuntimeError):
+    """Stable, sanitized error exposed by the consumer boundary."""
+
+    def __init__(self, code):
+        self.code = code
+        super().__init__(code)
+
+
+@dataclass(frozen=True)
+class OperationRequest:
+    """Inert consumer intent; it carries no executable capability."""
+
+    operation: str
+    context: AuthorizationContext
+
+
+@dataclass(frozen=True)
+class ConsumerTransaction:
+    """Opaque consumer handle; the authority transaction is never exposed."""
+
+    _handle: str
+
+
+class ConsumerBoundary:
+    """Narrow facade preserving State Authority exclusivity and fail-closed access."""
+
+    _MAX_DEPTH = 8
+    _MAX_NODES = 512
+    _MAX_STRING = 4096
+    _MAX_KEY_LENGTH = 128
+    _MAX_KEYS = 64
+
+    _SANITIZED: ClassVar = {
+        AuthorizationDenied: "authorization_denied",
+        GenerationMismatch: "stale_generation",
+        StaleTransaction: "stale_transaction",
+        InvalidTransaction: "invalid_transaction",
+        InvalidCheckpoint: "invalid_checkpoint",
+        RuntimeInvariantError: "operation_rejected",
+    }
+
+    def __init__(self, authority, proposal_authority=None):
+        self._authority = authority
+        self._proposal_authority = proposal_authority or ProposalAuthority()
+        self._transactions = {}
+        self._next_handle = 1
+
+    @staticmethod
+    def request(operation, context):
+        if not isinstance(operation, str) or not operation:
+            raise ConsumerBoundaryError("invalid_request")
+        if not isinstance(context, AuthorizationContext):
+            raise ConsumerBoundaryError("authorization_denied")
+        return OperationRequest(operation, context)
+
+    def read(self, key=None):
+        return self._authority.read(key)
+
+    def begin(self, request, payload=None):
+        self._require_operation(request, "begin")
+        try:
+            candidate = (
+                self._safe_payload_copy(payload) if payload is not None else None
+            )
+            tx = self._authority.begin(request.context, candidate)
+            handle = f"consumer-tx-{self._next_handle}"
+            self._next_handle += 1
+            self._transactions[handle] = tx
+            return ConsumerTransaction(handle)
+        except Exception as exc:
+            raise self._sanitize(exc) from exc
+
+    def update(self, transaction, payload):
+        tx = self._unwrap(transaction)
+        try:
+            tx.set_payload(self._safe_payload_copy(payload))
+        except Exception as exc:
+            raise self._sanitize(exc) from exc
+
+    def commit(self, request, transaction):
+        self._require_operation(request, "commit")
+        tx = self._unwrap(transaction)
+        try:
+            result = self._authority.commit(tx)
+            self._transactions.pop(transaction._handle, None)
+            return result
+        except Exception as exc:
+            raise self._sanitize(exc) from exc
+
+    def abort(self, request, transaction):
+        self._require_operation(request, "abort")
+        tx = self._unwrap(transaction)
+        try:
+            result = self._authority.abort(tx)
+            self._transactions.pop(transaction._handle, None)
+            return result
+        except Exception as exc:
+            raise self._sanitize(exc) from exc
+
+    def snapshot(self, request):
+        self._require_operation(request, "snapshot")
+        try:
+            return self._authority.snapshot(request.context)
+        except Exception as exc:
+            raise self._sanitize(exc) from exc
+
+    def restore(self, request, checkpoint):
+        self._require_operation(request, "restore")
+        try:
+            return self._authority.restore(checkpoint, request.context)
+        except Exception as exc:
+            raise self._sanitize(exc) from exc
+
+    def validate_proposal(self, proposal, now=None):
+        """Validate inert proposal data without executing or mutating state."""
+        try:
+            return self._proposal_authority.validate(proposal, now)
+        except Exception as exc:
+            raise ConsumerBoundaryError("proposal_rejected") from exc
+
+    @classmethod
+    def _safe_payload_copy(cls, value, depth=0, budget=None):
+        """Bounded copy of the only payload types accepted by State Authority."""
+        budget = [0] if budget is None else budget
+        budget[0] += 1
+        if budget[0] > cls._MAX_NODES or depth > cls._MAX_DEPTH:
+            raise ConsumerBoundaryError("operation_rejected")
+
+        value_type = type(value)
+        if value is None or value_type is bool or value_type is int:
+            return value
+        if value_type is float:
+            if not math.isfinite(value):
+                raise ConsumerBoundaryError("operation_rejected")
+            return value
+        if value_type is str:
+            if len(value) > cls._MAX_STRING:
+                raise ConsumerBoundaryError("operation_rejected")
+            return value
+        if value_type is list:
+            return [cls._safe_payload_copy(item, depth + 1, budget) for item in value]
+        if value_type is tuple:
+            return tuple(
+                cls._safe_payload_copy(item, depth + 1, budget) for item in value
+            )
+        if value_type is dict:
+            if len(value) > cls._MAX_KEYS:
+                raise ConsumerBoundaryError("operation_rejected")
+            result = {}
+            for key, item in value.items():
+                if type(key) is not str or len(key) > cls._MAX_KEY_LENGTH:
+                    raise ConsumerBoundaryError("operation_rejected")
+                result[key] = cls._safe_payload_copy(item, depth + 1, budget)
+            return result
+        raise ConsumerBoundaryError("operation_rejected")
+
+    @staticmethod
+    def _require_operation(request, operation):
+        if not isinstance(request, OperationRequest) or request.operation != operation:
+            raise ConsumerBoundaryError("invalid_request")
+
+    def _unwrap(self, transaction):
+        if not isinstance(transaction, ConsumerTransaction):
+            raise ConsumerBoundaryError("invalid_transaction")
+        tx = self._transactions.get(transaction._handle)
+        if tx is None:
+            raise ConsumerBoundaryError("invalid_transaction")
+        return tx
+
+    @classmethod
+    def _sanitize(cls, exc):
+        for error_type, code in cls._SANITIZED.items():
+            if isinstance(exc, error_type):
+                return ConsumerBoundaryError(code)
+        return ConsumerBoundaryError("operation_rejected")

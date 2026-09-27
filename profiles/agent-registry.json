@@ -1,0 +1,147 @@
+{
+  "schema_id": "mediahub.ai.agent-registry",
+  "schema_version": "1.0.0",
+  "agents": [
+    {
+      "id": "openrouter",
+      "enabled": true,
+      "tier": "external",
+      "capabilities": [
+        "reasoning",
+        "analysis",
+        "coding",
+        "architecture",
+        "review",
+        "research",
+        "web",
+        "multimodal",
+        "documents",
+        "long_context",
+        "bulk",
+        "repository",
+        "testing",
+        "transform",
+        "classify"
+      ],
+      "activation": "credentialed_only"
+    },
+    {
+      "id": "kimi-k3-in-c",
+      "enabled": true,
+      "tier": "local",
+      "capabilities": [
+        "reasoning",
+        "long_context",
+        "coding"
+      ],
+      "activation": "checkpoint_required"
+    },
+    {
+      "id": "freellmapi",
+      "enabled": true,
+      "tier": "local_gateway",
+      "capabilities": [
+        "reasoning",
+        "analysis",
+        "coding",
+        "architecture",
+        "review",
+        "research",
+        "web",
+        "documents",
+        "long_context",
+        "bulk",
+        "repository",
+        "testing",
+        "transform",
+        "classify"
+      ]
+    },
+    {
+      "id": "ollama",
+      "enabled": true,
+      "tier": "local",
+      "capabilities": [
+        "coding",
+        "transform",
+        "classify",
+        "private"
+      ]
+    },
+    {
+      "id": "claude",
+      "enabled": true,
+      "tier": "external",
+      "capabilities": [
+        "coding",
+        "architecture",
+        "review"
+      ],
+      "activation": "credentialed_only"
+    },
+    {
+      "id": "cursor",
+      "enabled": true,
+      "tier": "external",
+      "capabilities": [
+        "repository",
+        "coding",
+        "testing"
+      ],
+      "activation": "credentialed_only"
+    },
+    {
+      "id": "gemini",
+      "enabled": true,
+      "tier": "external",
+      "capabilities": [
+        "multimodal",
+        "documents"
+      ],
+      "activation": "credentialed_only"
+    },
+    {
+      "id": "perplexity",
+      "enabled": true,
+      "tier": "external",
+      "capabilities": [
+        "research",
+        "web"
+      ],
+      "activation": "credentialed_only"
+    },
+    {
+      "id": "kimi",
+      "enabled": true,
+      "tier": "external",
+      "capabilities": [
+        "reasoning",
+        "long_context"
+      ],
+      "activation": "credentialed_only"
+    },
+    {
+      "id": "deepseek",
+      "enabled": true,
+      "tier": "external",
+      "capabilities": [
+        "coding",
+        "reasoning",
+        "bulk"
+      ],
+      "activation": "credentialed_only"
+    },
+    {
+      "id": "chatgpt",
+      "enabled": true,
+      "tier": "external",
+      "capabilities": [
+        "reasoning",
+        "analysis"
+      ],
+      "activation": "credentialed_only"
+    }
+  ],
+  "selection": "cloud_first_capability_then_local_gateway_then_local_model",
+  "credentials": "user_owned"
+}
