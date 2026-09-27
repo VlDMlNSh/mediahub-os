@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "runtime-e2e-gold-mh02-canonical-v2-20260927T1905Z",
+  "command_id": "gold-agent-expansion-mh02-20260927T1916Z",
   "node_id": "mh-dev-02",
   "operation": "coding_v2",
-  "title": "runtime-e2e-gold-mh02-canonical-v2",
-  "description": "Canonical-only bounded runtime E2E qualification. Execute a tiny coding task and return provider/model/execution/verification evidence.",
-  "target_sha": "3d14a6a"
+  "title": "Gold agent expansion mh-dev-02",
+  "description": "First isolate the canonical Astra worker: do not allow any legacy worker to write control/results. Then install and qualify additional development agents in user space: DeepSeek Harness (dsh) and stagewise CLI/agent where headless installation is supported. Do not use sudo and do not modify canonical transport. Verify versions/help and local-provider connectivity where supported. Finally run canonical bounded runtime E2E and publish fresh evidence with provider/model/execution/tests. If a legacy worker is still present, stop only that user-owned legacy process through the node's existing safe process-management path; never stop the canonical worker.",
+  "target_sha": "main"
 }
