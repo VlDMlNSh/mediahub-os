@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "tooling-gold-wave-20260927T2015Z",
+  "command_id": "gold-wave-mh-dev-01-20260927T2030Z",
   "node_id": "mh-dev-01",
-  "operation": "gold-qualification-wave",
-  "title": "Astra Gold qualification wave",
-  "description": "Execute the complete remaining Astra Gold qualification pass through GitHub Transport only. First enforce canonical-worker exclusivity and eliminate/disable any legacy worker competing with the canonical self-reexec-v1 agent; do not use Desktop Commander or SentinelX. Then qualify transport identity, runtime E2E, scheduler E2E, fencing, restart/crash recovery, backup/restore, provider/model matrix, ECC/Colibri tooling where present, and the quarantined Qwen3.8 GGUF inventory. For Qwen, verify only artifact integrity/storage and keep it excluded from autonomous execution unless separately authorized. Run repository tests and qualification validators. Publish fresh evidence to the repository's established qualification/evidence paths, including exact command output, source SHA, runtime identity, commit/push identity, timestamps, and PASS/PARTIAL/FAIL. Do not claim 24h soak or GOLD authorization unless the required soak and independent authorization evidence already exists. Preserve context_management.experimental_mode=true and all immutable baselines.",
+  "operation": "coding",
+  "title": "Astra Gold full qualification wave",
+  "description": "Execute the remaining Astra Gold qualification sequence through GitHub Transport only. Enforce canonical-worker exclusivity and stop/disable any legacy competing worker using the canonical deployment/process-manager configuration. Then run fresh transport identity, runtime E2E, scheduler E2E, fencing, restart/crash recovery, backup/restore, provider/model matrix, repository tests, and qualification validators. Install/qualify Colibri if applicable. For Qwen3.8-27B-Uncensored-Cyber-agentic-imatrix-GGUF, only inspect/download/checksum if storage permits; keep it quarantined and excluded from autonomous worker selection/tool execution pending separate qualification. Preserve context_management.experimental_mode=true. Publish detailed evidence with exact SHAs, timestamps, tests, PASS/PARTIAL/FAIL. Do not claim 24h soak or GOLD authorization unless those gates are genuinely completed with fresh evidence.",
   "target_sha": "main"
 }
