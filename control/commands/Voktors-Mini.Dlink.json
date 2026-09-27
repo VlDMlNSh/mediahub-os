@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "qualification-wave-Voktors-Mini.Dlink-20260927T2045Z",
+  "command_id": "fresh-pre-soak-qualification-Voktors-Mini.Dlink-20260927T2155Z",
   "node_id": "Voktors-Mini.Dlink",
   "operation": "coding",
-  "title": "Astra + agent installation and qualification wave",
-  "description": "Through GitHub Transport only: enforce canonical worker exclusivity; install and test all discussed agents/components available for this node (ECC, DeepSeek Harness, Stagewise, delx-memory-bun, FreeLLMAPI, Kimi K3 in C, Colibri where supported); qualify each with fresh evidence and isolate any component that cannot safely be qualified. Inspect/download/checksum Qwen3.8-27B-Uncensored-Cyber-agentic-imatrix-GGUF only if storage permits; keep quarantined and excluded from autonomous selection/tool execution. Preserve Codex context_management.experimental_mode=true. Run fresh transport, runtime, scheduler, fencing, recovery, backup/restore, provider/model and repo tests. Publish exact evidence and PASS/PARTIAL/FAIL. Do not claim 24h soak or Astra GOLD unless genuinely completed with fresh evidence.",
+  "title": "Fresh PRE-SOAK qualification and UnoRouter validation",
+  "description": "Run the canonical fresh qualification sequence for PRE-SOAK: transport identity, runtime E2E, scheduler E2E, fencing, recovery, backup/restore, provider/model matrix, and repo tests. Validate UnoRouter using UNOROUTER_API_KEY only if present in the node environment; never print or persist the secret. Validate the new native UnoRouter route and configured model if MEDIAHUB_UNOROUTER_MODEL is set; otherwise record model-unconfigured without exposing credentials. Qualify ECC, DeepSeek Harness, Stagewise, delx-memory-bun, FreeLLMAPI, Kimi K3 in C, and Colibri where supported. Keep Qwen3.8 cyber model quarantined and excluded from autonomous execution. Preserve context_management.experimental_mode=true. Publish fresh evidence and exact PASS/PARTIAL/FAIL results. Do not start 24h soak and do not claim GOLD.",
   "target_sha": "main"
 }
