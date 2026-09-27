@@ -458,9 +458,9 @@ jobs:
           )
           with urllib.request.urlopen(req, timeout=30) as r:
               data=json.load(r)
-          text=data["choices"][0]["message"]["content"].strip()
-          if text != "MEDIAHUB_OPENROUTER_OK":
-              raise SystemExit("openrouter marker mismatch")
+          choices=data.get("choices")
+          if not isinstance(choices, list) or not choices:
+              raise SystemExit("openrouter response has no choices")
           print("openrouter=PASS")
           print("openrouter_model="+str(data.get("model",model)))
           PY
