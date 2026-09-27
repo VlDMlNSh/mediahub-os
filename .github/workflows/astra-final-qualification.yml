@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: astra-final-qualification
+  group: astra-final-qualification-${{ github.sha }}
   cancel-in-progress: false
 
 jobs:
@@ -226,11 +226,6 @@ jobs:
 
   self-hosted-runtime:
     name: Self-hosted Astra runtime discovery
-    strategy:
-      fail-fast: false
-      max-parallel: 3
-      matrix:
-        probe: [1, 2, 3]
     runs-on: [self-hosted, mediahub-runner]
     timeout-minutes: 15
     steps:
@@ -244,7 +239,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo "probe=${{ matrix.probe }}"
           echo "hostname=$(hostname)"
           echo "arch=$(uname -m)"
           echo "user=$(id -un)"
