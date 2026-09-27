@@ -152,3 +152,26 @@ def test_http_error_classification():
     assert _http_error_code(402) == "provider_billing_blocked"
     assert _http_error_code(429) == "provider_rate_limited"
     assert _http_error_code(500) == "provider_server_error"
+
+
+def test_cost_optimized_profile_orders_free_first_cloud_routes():
+    from mediahub_runtime.cloud_orchestrator import CloudFirstOrchestrator
+    orchestrator = CloudFirstOrchestrator(
+        cloud_routes=(
+            ProviderRoute("openai", "cloud", frozenset({"coding"}), "OPENAI_API_KEY", "MEDIAHUB_OPENAI_MODEL", 1),
+            ProviderRoute("openrouter", "cloud", frozenset({"coding"}), "OPENROUTER_API_KEY", "MEDIAHUB_OPENROUTER_MODEL", 2),
+            ProviderRoute("gemini", "cloud", frozenset({"coding"}), "GEMINI_API_KEY", "MEDIAHUB_GEMINI_MODEL", 3),
+        ),
+        local_routes=(),
+        credential_env={
+            "MEDIAHUB_CLOUD_ROUTING_PROFILE": "cost_optimized",
+            "OPENAI_API_KEY": "openai-key",
+            "OPENROUTER_API_KEY": "router-key",
+            "GEMINI_API_KEY": "gemini-key",
+            "MEDIAHUB_OPENAI_MODEL": "paid-model",
+            "MEDIAHUB_OPENROUTER_MODEL": "openrouter/free",
+            "MEDIAHUB_GEMINI_MODEL": "free-capable-model",
+        },
+    )
+    candidates = orchestrator._candidates("coding", allow_local_extension=False)
+    assert [decision.provider_id for decision, _ in candidates] == ["openrouter", "gemini", "openai"]
