@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "gold-agent-expansion-mh02-20260927T1916Z",
+  "command_id": "gold-harness-stack-mh02-20260927T1919Z",
   "node_id": "mh-dev-02",
   "operation": "coding_v2",
-  "title": "Gold agent expansion mh-dev-02",
-  "description": "First isolate the canonical Astra worker: do not allow any legacy worker to write control/results. Then install and qualify additional development agents in user space: DeepSeek Harness (dsh) and stagewise CLI/agent where headless installation is supported. Do not use sudo and do not modify canonical transport. Verify versions/help and local-provider connectivity where supported. Finally run canonical bounded runtime E2E and publish fresh evidence with provider/model/execution/tests. If a legacy worker is still present, stop only that user-owned legacy process through the node's existing safe process-management path; never stop the canonical worker.",
+  "title": "Gold harness stack mh-dev-02",
+  "description": "First isolate any legacy Astra worker so only the canonical worker may write control/results. Using only normal user-space and GitHub-controlled execution, install/complete DeepSeek Harness (dsh) and stagewise where headless operation is supported. Add illegal-xd/delx-memory-bun as the local-first MCP persistent-memory component for DSH/Astra, using documented Bun runtime and loopback HTTP/stdio mode. Do not use sudo, do not modify canonical Astra transport, and do not change production services. Validate versions/help, build/install status, delx-memory doctor/health, DSH local startup readiness, and connectivity to existing Ollama/OpenAI-compatible endpoint. Treat illegal-xd/WebTool-DeepSeek as client-side Chrome extension only: document as optional UI integration, do not install a browser extension on the server. Then execute canonical bounded Astra coding qualification and publish fresh evidence to control/results/mh-dev-02.json via GitHub.",
   "target_sha": "main"
 }
