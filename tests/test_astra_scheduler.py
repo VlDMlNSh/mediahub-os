@@ -71,3 +71,28 @@ def test_success_without_verified_remote_sha_is_rejected(tmp_path):
         assert "remote_sha" in str(exc)
     else:
         raise AssertionError("success without verified remote SHA was accepted")
+
+
+def test_next_generation_is_idempotent_after_repeated_reconcile(tmp_path):
+    s = Scheduler(tmp_path / "astra.db", lease_seconds=60)
+    s.enqueue("coding", "cycle-1", SHA)
+    task = s.select()
+    lease = s.claim(task, "worker-1")
+    next_id = s.generate_next(lease, "reconcile", "after:" + task.task_id, "b" * 40)
+    duplicate_id = s.generate_next(lease, "reconcile", "after:" + task.task_id, "b" * 40)
+    assert duplicate_id == next_id
+    assert s.db.execute("SELECT COUNT(*) FROM tasks WHERE task_id=?", (next_id,)).fetchone()[0] == 1
+
+
+def test_conflicting_duplicate_next_generation_is_rejected(tmp_path):
+    s = Scheduler(tmp_path / "astra.db", lease_seconds=60)
+    s.enqueue("coding", "cycle-1", SHA)
+    task = s.select()
+    lease = s.claim(task, "worker-1")
+    s.generate_next(lease, "reconcile", "after:" + task.task_id, "b" * 40)
+    try:
+        s.generate_next(lease, "reconcile", "different", "c" * 40)
+    except RuntimeError as exc:
+        assert "conflicting duplicate" in str(exc)
+    else:
+        raise AssertionError("conflicting duplicate next task was accepted")
