@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "multiagent-02-runtime-20260927T1832Z",
+  "command_id": "multiagent-02-final-20260927T1835Z",
   "node_id": "mh-dev-02",
   "operation": "architecture",
-  "title": "multiagent-02-runtime-20260927T1832Z",
-  "description": "Return three concrete Astra multi-agent architecture risks and mitigations.",
+  "title": "multiagent-02-final-20260927T1835Z",
+  "description": "Return three concrete Astra multi-agent architecture risks and mitigations. Keep the answer concise.",
   "target_sha": "28190b2"
 }
