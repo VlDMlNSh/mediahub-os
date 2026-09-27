@@ -139,7 +139,6 @@ DEFAULT_CLOUD_ROUTES = (
     ProviderRoute("openrouter", "cloud", frozenset({"reasoning", "analysis", "coding", "architecture", "review", "research", "web", "multimodal", "documents", "long_context", "bulk", "repository", "testing", "transform", "classify"}), "OPENROUTER_API_KEY", "MEDIAHUB_OPENROUTER_MODEL", 5),
     ProviderRoute("openai", "cloud", frozenset({"reasoning", "analysis", "coding"}), "OPENAI_API_KEY", "MEDIAHUB_OPENAI_MODEL", 10),
     ProviderRoute("claude", "cloud", frozenset({"coding", "architecture", "review", "reasoning"}), "OMNIROUTE_API_KEY", "MEDIAHUB_CLAUDE_MODEL", 20),
-    ProviderRoute("claude-direct", "cloud", frozenset({"coding", "architecture", "review", "reasoning"}), "ANTHROPIC_API_KEY", "MEDIAHUB_CLAUDE_MODEL", 21),
     ProviderRoute("gemini", "cloud", frozenset({"multimodal", "documents", "reasoning"}), "GEMINI_API_KEY", "MEDIAHUB_GEMINI_MODEL", 30),
     ProviderRoute("perplexity", "cloud", frozenset({"research", "web"}), "PERPLEXITY_API_KEY", "MEDIAHUB_PERPLEXITY_MODEL", 40),
     ProviderRoute("kimi", "cloud", frozenset({"reasoning", "long_context"}), "KIMI_API_KEY", "MEDIAHUB_KIMI_MODEL", 50),
