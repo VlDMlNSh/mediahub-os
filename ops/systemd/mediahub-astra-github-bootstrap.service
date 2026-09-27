@@ -11,6 +11,7 @@ Environment=ASTRA_GITHUB_REPO=VlDMlNSh/mediahub-os
 Environment=ASTRA_WORKTREE=/home/mediahub/astra-work
 Environment=ASTRA_STATE_DIR=/var/lib/mediahub-astra
 Environment=ASTRA_NODE_ID=mh-dev-01
+ExecStartPre=/usr/bin/git clone --depth=1 --branch main git@github.com:VlDMlNSh/mediahub-os.git /home/mediahub/astra-work
 ExecStart=/usr/bin/env bash /home/mediahub/astra-work/ops/astra-github-bootstrap.sh
 Restart=on-failure
 RestartSec=3
