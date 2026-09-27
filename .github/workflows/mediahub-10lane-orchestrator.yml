@@ -27,6 +27,7 @@ jobs:
           path: .mh05-toolchain-source
           sparse-checkout: |
             ci-requirements.txt
+            ops/verify_functional_baseline.sh
           fetch-depth: 1
       - name: Exclude toolchain checkout from R4 worktree status
         run: |
