@@ -368,6 +368,12 @@ class CloudFirstOrchestrator:
                 model_env=model_env,
                 base_url=base_url,
             )
+        if provider_id == "freellmapi":
+            return FreeLLMAPIExecutor(
+                base_url=env.get("MEDIAHUB_FREELLMAPI_URL") or None,
+                key_file=env.get("MEDIAHUB_FREELLMAPI_KEY_FILE") or None,
+                model=env.get("MEDIAHUB_FREELLMAPI_MODEL") or None,
+            )
         return self._executors.get(provider_id)
 
     def _credentials(self, route: ProviderRoute) -> tuple[str, ...]:
