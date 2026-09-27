@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "health-verify-20260928T0018Z",
+  "command_id": "health-verify-20260928T0025Z",
   "node_id": "mh-dev-02",
   "operation": "health",
-  "title": "Fresh Astra transport health verification",
+  "title": "Fresh Astra transport health verification after canonical worker refresh",
   "description": "Read-only fresh transport health. Return exact structured evidence. Do not modify files, services, credentials, packages, or processes.",
   "target_sha": "main"
 }
