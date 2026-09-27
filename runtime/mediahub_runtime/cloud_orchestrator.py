@@ -8,12 +8,58 @@ No credentials are stored in this module or repository.
 """
 from __future__ import annotations
 
+import json
 import os
+import urllib.error
+import urllib.request
 from dataclasses import dataclass
 from typing import Callable, Mapping
 
 from .kimi_k3_in_c import KimiK3InCExecutor
 from .local_providers import FreeLLMAPIExecutor
+
+
+class UnoRouterExecutor:
+    """OpenAI-compatible UnoRouter adapter using a secret from the environment."""
+
+    def __init__(self, env=None, timeout=30):
+        self._env = dict(os.environ if env is None else env)
+        self._timeout = timeout
+
+    def __call__(self, prompt: str) -> str:
+        key = self._env.get("UNOROUTER_API_KEY", "").strip()
+        model = self._env.get("MEDIAHUB_UNOROUTER_MODEL", "").strip()
+        if not key:
+            raise CloudOrchestratorError("unorouter_credential_missing")
+        if not model:
+            raise CloudOrchestratorError("unorouter_model_unconfigured")
+        body = json.dumps({
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "stream": False,
+        }, separators=(",", ":")).encode("utf-8")
+        request = urllib.request.Request(
+            "https://api.unorouter.com/v1/chat/completions",
+            data=body,
+            headers={
+                "Authorization": f"Bearer {key}",
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=self._timeout) as response:
+                raw = response.read(1_048_576)
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            raise CloudOrchestratorError("unorouter_request_failed") from exc
+        try:
+            data = json.loads(raw.decode("utf-8"))
+            output = data["choices"][0]["message"]["content"]
+        except (UnicodeDecodeError, json.JSONDecodeError, KeyError, IndexError, TypeError) as exc:
+            raise CloudOrchestratorError("unorouter_invalid_response") from exc
+        if not isinstance(output, str) or not output:
+            raise CloudOrchestratorError("unorouter_empty_response")
+        return output
 
 
 class CloudOrchestratorError(RuntimeError):
@@ -41,7 +87,8 @@ class OrchestrationDecision:
 
 
 DEFAULT_CLOUD_ROUTES = (
-    ProviderRoute("openrouter", "cloud", frozenset({"reasoning", "analysis", "coding", "architecture", "review", "research", "web", "multimodal", "documents", "long_context", "bulk", "repository", "testing", "transform", "classify"}), "OPENROUTER_API_KEY|UNOROUTER_API_KEY", "MEDIAHUB_OPENROUTER_MODEL", 5),
+    ProviderRoute("unorouter", "cloud", frozenset({"reasoning", "analysis", "coding", "architecture", "review", "research", "web", "multimodal", "documents", "long_context", "bulk", "repository", "testing", "transform", "classify"}), "UNOROUTER_API_KEY", "MEDIAHUB_UNOROUTER_MODEL", 4),
+    ProviderRoute("openrouter", "cloud", frozenset({"reasoning", "analysis", "coding", "architecture", "review", "research", "web", "multimodal", "documents", "long_context", "bulk", "repository", "testing", "transform", "classify"}), "OPENROUTER_API_KEY", "MEDIAHUB_OPENROUTER_MODEL", 5),
     ProviderRoute("openai", "cloud", frozenset({"reasoning", "analysis", "coding"}), "OPENAI_API_KEY", "MEDIAHUB_OPENAI_MODEL", 10),
     ProviderRoute("claude", "cloud", frozenset({"coding", "architecture", "review", "reasoning"}), "ANTHROPIC_API_KEY", "MEDIAHUB_CLAUDE_MODEL", 20),
     ProviderRoute("gemini", "cloud", frozenset({"multimodal", "documents", "reasoning"}), "GEMINI_API_KEY", "MEDIAHUB_GEMINI_MODEL", 30),
@@ -76,6 +123,7 @@ class CloudFirstOrchestrator:
         self._freellmapi = FreeLLMAPIExecutor()
         self._kimi_k3 = KimiK3InCExecutor()
         self._executors.setdefault("freellmapi", self._freellmapi)
+        self._executors.setdefault("unorouter", UnoRouterExecutor(env=self._env))
         self._executors.setdefault("kimi-k3-in-c", self._kimi_k3)
 
     def decide(self, capability: str, *, allow_local_extension: bool = True) -> OrchestrationDecision:
