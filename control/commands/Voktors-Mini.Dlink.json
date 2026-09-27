@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "multiagent-mac-review-20260927",
+  "command_id": "multiagent-mac-review-20260927T1830Z",
   "node_id": "Voktors-Mini.Dlink",
   "operation": "review",
-  "title": "multiagent-mac-review-20260927",
-  "description": "Review the multi-agent qualification boundary. Return three verification checks that should be recorded before PRE-SOAK.",
-  "target_sha": "7b310de"
+  "title": "multiagent-mac-review-20260927T1830Z",
+  "description": "Review multi-agent qualification and return three evidence checks needed before PRE-SOAK.",
+  "target_sha": "28190b2"
 }
