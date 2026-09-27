@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>Label</key><string>com.mediahub.astra.github-agent</string>
+<key>ProgramArguments</key><array>
+<string>/usr/bin/python3</string>
+<string>/opt/mediahub/astra/astra_github_agent.py</string>
+</array>
+<key>EnvironmentVariables</key><dict>
+<key>ASTRA_GITHUB_REPO</key><string>VlDMlNSh/mediahub-os</string>
+</dict>
+<key>RunAtLoad</key><true/>
+<key>KeepAlive</key><true/>
+<key>ProcessType</key><string>Background</string>
+<key>StandardOutPath</key><string>/tmp/mediahub-astra-github.log</string>
+<key>StandardErrorPath</key><string>/tmp/mediahub-astra-github.err</string>
+</dict></plist>
