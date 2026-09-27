@@ -6,6 +6,7 @@ import difflib
 import json
 import os
 import subprocess
+import threading
 import time
 import sys
 import urllib.request
@@ -135,6 +136,36 @@ def generate_patch(task: dict) -> str:
     return _build_unified_patch(task["path"], target, new_text)
 
 
+def generate_patch_with_lease(repo: SQLiteControlPlaneRepository, service: ControlPlaneService, task: dict, lease_id: str, generation: int) -> str:
+    stop = threading.Event()
+    failure: list[BaseException] = []
+
+    def renew_loop() -> None:
+        while not stop.wait(20.0):
+            try:
+                current = repo.get_lease_for_task(task["id"])
+                if current is None or current.lease_id != lease_id:
+                    raise CoordinatorLeaseError("execution lease identity changed")
+                duration = max(current.expires_at - current.last_renewed_at, 60.0)
+                now = repo.now()
+                repo.renew_lease(lease_id, AGENT, generation, now + duration)
+            except BaseException as exc:
+                failure.append(exc)
+                stop.set()
+                return
+
+    thread = threading.Thread(target=renew_loop, name=f"lease-renew-{task['id']}", daemon=True)
+    thread.start()
+    try:
+        patch = generate_patch(task)
+        if failure:
+            raise CoordinatorLeaseError("execution lease renewal failed") from failure[0]
+        return patch
+    finally:
+        stop.set()
+        thread.join(timeout=2.0)
+
+
 def record_failure(repo: SQLiteControlPlaneRepository, service: ControlPlaneService, task_id: str, generation: int, reason: str) -> None:
     task = repo.get_task(task_id)
     if task and task.status is TaskStatus.RUNNING:
@@ -154,7 +185,7 @@ def execute_task(repo: SQLiteControlPlaneRepository, service: ControlPlaneServic
     lease = service.claim(task_id, AGENT, epoch)
     generation = lease.generation
     base = git("rev-parse", "HEAD")
-    patch = generate_patch(task)
+    patch = generate_patch_with_lease(repo, service, task, lease.lease_id, generation)
     proposal = StructuredPatch.from_json(json.dumps({"files": [{"path": task["path"], "operation": "modify", "patch": patch}]}))
     try:
         admission = admit_patch(proposal, ROOT, allowed_paths=("tests/ops/**",), forbidden_paths=(".github/**", "credentials/**", ".autonomous/**"), max_patch_bytes=32_000)
