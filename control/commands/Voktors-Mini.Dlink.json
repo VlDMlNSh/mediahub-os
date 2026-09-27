@@ -1,7 +1,8 @@
 {
   "schema": 1,
-  "command_id": "health-Voktors-Mini.Dlink-1790504018289",
   "node_id": "Voktors-Mini.Dlink",
-  "operation": "health",
-  "issued_at": 1790504018
+  "command_id": "parallel-qual-mac-20260927T1910Z",
+  "operation": "coding",
+  "title": "Distributed GOLD qualification lane",
+  "description": "Ollama provider lane: independently qualify provider/model smoke and evidence-led review of qualification artifacts. Use local qwen2.5-coder:1.5b and return structured evidence."
 }
