@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "sol-pi-install-qualify-Voktors-Mini.Dlink-20260927T2325Z",
+  "command_id": "omniroute-qualify-Voktors-Mini.Dlink-20260928T0015Z",
   "node_id": "Voktors-Mini.Dlink",
-  "operation": "coding",
-  "title": "Install and qualify NVIDIA SoL-Pi on the canonical node",
-  "description": "Install the upstream NVIDIA NVlabs/SoL-Pi GitHub extension through the supported Pi package mechanism only; do not patch or vendor Pi. First inspect node state, Node.js, npm, and Pi availability. Require Node.js >=22.19 and tested Pi release @earendil-works/pi-coding-agent@0.85.1 before declaring install qualified. Use the upstream repository git:github.com/NVlabs/SoL-Pi. Prefer project-local installation for the MediaHub project. Run the upstream source checks available from the checkout, install with pi install <absolute-checkout> --approve, verify pi list, validate the effective sol-pi.json with all four mechanisms enabled only if the required provider/model values can be safely configured, and perform an offline Pi startup check with no prompt. Never print or persist secrets. Do not modify upstream Pi source. Publish exact PASS/PARTIAL/BLOCKED evidence including versions, checkout commit, install scope, config path and failed prerequisite if any. This is an installation/qualification task; do not start the 24h soak.",
+  "operation": "health",
+  "title": "Qualify OmniRoute Claude gateway on canonical Astra node",
+  "description": "Perform a bounded read-only OmniRoute qualification. Inspect whether an OmniRoute executable/service is already installed and report version/process/listening state without exposing secrets. Check OMNIROUTE_API_KEY presence only as boolean. Check OMNIROUTE_BASE_URL (default http://127.0.0.1:20128) and Claude model configuration presence only, never values containing credentials. If the gateway is reachable and credentials are present, perform one minimal Anthropic-compatible /v1/messages request through OmniRoute using the configured Claude model; do not print request headers or secret values. Verify a non-empty response and report HTTP status, model identifier, gateway endpoint host/port, and a sanitized PASS/BLOCKED result. Do not install packages, change services, modify files, commit, push, or start the 24h soak. Also verify the installed canonical worker source SHA and runtime import path. Return exact structured evidence.",
   "target_sha": "main"
 }
