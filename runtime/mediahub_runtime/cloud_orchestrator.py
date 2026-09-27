@@ -205,19 +205,114 @@ class CloudFirstOrchestrator:
         raise CloudOrchestratorError("no_provider_available")
 
     def execute(self, capability: str, prompt: str, *, allow_local_extension: bool = True) -> tuple[OrchestrationDecision, str]:
+        """Execute with bounded provider/model/key failover.
+
+        Failover is driven by the configured route order. A provider may expose
+        multiple model slots and credential slots through environment variables:
+        MEDIAHUB_<PROVIDER>_MODELS (comma-separated) and
+        <CREDENTIAL_ENV>_1, <CREDENTIAL_ENV>_2, ... . The primary singular
+        variables remain supported for backward compatibility.
+
+        We retry only on provider execution/configuration failures. The prompt
+        is never sent to more than one candidate after a successful response.
+        """
         if not isinstance(prompt, str) or not prompt:
             raise CloudOrchestratorError("invalid_prompt")
-        decision = self.decide(capability, allow_local_extension=allow_local_extension)
-        executor = self._executors.get(decision.provider_id)
-        if executor is None:
-            raise CloudOrchestratorError("provider_adapter_unavailable")
-        try:
-            output = executor(prompt)
-        except Exception as exc:
-            raise CloudOrchestratorError("provider_execution_failed") from exc
-        if not isinstance(output, str) or not output:
-            raise CloudOrchestratorError("empty_provider_result")
-        return decision, output
+
+        candidates = self._candidates(capability, allow_local_extension=allow_local_extension)
+        last_error = None
+        for decision, executor in candidates:
+            try:
+                output = executor(prompt)
+            except CloudOrchestratorError as exc:
+                last_error = exc
+                continue
+            except Exception as exc:
+                last_error = CloudOrchestratorError("provider_execution_failed")
+                last_error.__cause__ = exc
+                continue
+            if isinstance(output, str) and output:
+                return decision, output
+            last_error = CloudOrchestratorError("empty_provider_result")
+
+        if last_error is not None:
+            raise last_error
+        raise CloudOrchestratorError("no_provider_available")
+
+    def _candidates(self, capability: str, *, allow_local_extension: bool) -> tuple[tuple[OrchestrationDecision, Callable[[str], str]], ...]:
+        if not isinstance(capability, str) or not capability.strip():
+            raise CloudOrchestratorError("invalid_capability")
+
+        routes = list(self._cloud)
+        if allow_local_extension:
+            routes.extend(self._local)
+
+        candidates = []
+        for route in routes:
+            if capability not in route.capabilities:
+                continue
+            if not self._configured(route):
+                continue
+            models = self._models(route)
+            credentials = self._credentials(route)
+            if route.credential_env is None:
+                credentials = (None,)
+            if not models:
+                models = (self._model(route),)
+            for credential in credentials:
+                for model in models:
+                    env = dict(self._env)
+                    if route.credential_env and credential:
+                        env[route.credential_env] = credential
+                    if route.model_env and model:
+                        env[route.model_env] = model
+                    executor = self._executor_for(route.provider_id, env)
+                    if executor is None:
+                        continue
+                    candidates.append((
+                        OrchestrationDecision(
+                            route.provider_id,
+                            route.tier,
+                            model,
+                            "cloud_provider_configured" if route.tier == "cloud" else "cloud_unavailable_local_extension",
+                        ),
+                        executor,
+                    ))
+        return tuple(candidates)
+
+    def _executor_for(self, provider_id: str, env: Mapping[str, str]):
+        if provider_id == "unorouter":
+            return UnoRouterExecutor(env=env)
+        if provider_id == "claude":
+            return OmniRouteClaudeExecutor(env=env)
+        return self._executors.get(provider_id)
+
+    def _credentials(self, route: ProviderRoute) -> tuple[str, ...]:
+        if not route.credential_env:
+            return ()
+        values = []
+        primary = self._env.get(route.credential_env, "").strip()
+        if primary:
+            values.append(primary)
+        prefix = f"{route.credential_env}_"
+        indexed = []
+        for name, value in self._env.items():
+            if name.startswith(prefix) and name[len(prefix):].isdigit() and value.strip():
+                indexed.append((int(name[len(prefix):]), value.strip()))
+        values.extend(value for _, value in sorted(indexed))
+        return tuple(dict.fromkeys(values))
+
+    def _models(self, route: ProviderRoute) -> tuple[str, ...]:
+        if not route.model_env:
+            return ()
+        values = []
+        primary = self._env.get(route.model_env, "").strip()
+        if primary:
+            values.append(primary)
+        plural = self._env.get(f"{route.model_env}S", "")
+        if plural:
+            values.extend(item.strip() for item in plural.split(",") if item.strip())
+        return tuple(dict.fromkeys(values))
 
     def configured_cloud_providers(self) -> tuple[str, ...]:
         return tuple(route.provider_id for route in self._cloud if self._configured(route))
