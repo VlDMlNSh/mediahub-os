@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "date": "2026-09-27",
+  "ecc": {
+    "status": "QUEUED_VIA_GITHUB_TRANSPORT",
+    "source": "affaan-m/everything-claude-code",
+    "integration": "project-local Codex surface only",
+    "policy": "preserve existing user configuration and context_management.experimental_mode"
+  },
+  "colIARI": {
+    "status": "UNIDENTIFIED",
+    "note": "No reliable software/agent project matching the supplied name was found. No installation attempted."
+  },
+  "qwen3_8_27b_uncensored_cyber_agentic_imatrix_gguf": {
+    "status": "NOT_AUTO_INSTALLED",
+    "reason": "The artifact is explicitly an uncensored/offensive-security model; it is not required for the current Astra qualification path.",
+    "integration": "excluded from automatic worker/provider registration"
+  },
+  "astra": {
+    "transport": "PASS on mh-dev-01 and Voktors-Mini.Dlink; mh-dev-02 result stream remains contaminated by legacy worker",
+    "runtime": "BLOCKED on mh-dev-02",
+    "pre_soak": "BLOCKED"
+  }
+}
