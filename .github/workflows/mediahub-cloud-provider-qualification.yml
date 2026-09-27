@@ -147,7 +147,7 @@ jobs:
               code, body, _ = request("https://api.openai.com/v1/models", key=key)
               model_ids = ids(body) if isinstance(body, dict) else []
               tests=[]
-              for model in choose(model_ids, ("gpt-5","codex","gpt")):
+              for model in choose(model_ids, ("gpt-5.6","gpt-5.5","gpt-5.4","gpt-5")):
                   c,b,latency=request("https://api.openai.com/v1/responses",key=key,headers={"Content-Type":"application/json"},payload={"model":model,"input":marker,"max_output_tokens":16})
                   text=str(b.get("output_text","")).strip() if isinstance(b,dict) else ""
                   if not text and isinstance(b,dict):
@@ -163,7 +163,7 @@ jobs:
               code,body,_=request("https://generativelanguage.googleapis.com/v1beta/models",headers={"x-goog-api-key":key})
               model_ids=[m.get("name","").split("/")[-1] for m in body.get("models",[]) if isinstance(m,dict) and m.get("name") and "generateContent" in m.get("supportedGenerationMethods",[])]
               tests=[]
-              for model in choose(model_ids,("flash","pro")):
+              for model in choose(model_ids,("3.6","3.5","3.1","3.0","flash","pro")):
                   url="https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent"
                   c,b,latency=request(url,headers={"Content-Type":"application/json","x-goog-api-key":key},payload={"contents":[{"role":"user","parts":[{"text":"Reply exactly "+marker}]}],"generationConfig":{"maxOutputTokens":16}})
                   text=""
