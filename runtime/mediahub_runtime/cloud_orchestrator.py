@@ -64,7 +64,56 @@ class UnoRouterExecutor:
         return output
 
 
-class OpenAICompatibleExecutor:
+class OpenAIResponsesExecutor:
+    """OpenAI native Responses API adapter."""
+
+    def __init__(self, env=None, timeout=45):
+        self._env = dict(os.environ if env is None else env)
+        self._timeout = timeout
+
+    def __call__(self, prompt: str) -> str:
+        key = self._env.get("OPENAI_API_KEY", "").strip()
+        model = self._env.get("MEDIAHUB_OPENAI_MODEL", "").strip()
+        if not key:
+            raise CloudOrchestratorError("openai_credential_missing")
+        if not model:
+            raise CloudOrchestratorError("openai_model_unconfigured")
+        body = json.dumps({
+            "model": model,
+            "input": prompt,
+            "max_output_tokens": 1200,
+        }, separators=(",", ":")).encode("utf-8")
+        request = urllib.request.Request(
+            "https://api.openai.com/v1/responses",
+            data=body,
+            headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=self._timeout) as response:
+                raw = response.read(1_048_576)
+        except urllib.error.HTTPError as exc:
+            raise CloudOrchestratorError(_http_error_code(exc.code)) from exc
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            raise CloudOrchestratorError("openai_request_failed") from exc
+        try:
+            data = json.loads(raw.decode("utf-8"))
+            output = data.get("output_text", "")
+            if not output:
+                output = "".join(
+                    part.get("text", "")
+                    for item in data.get("output", [])
+                    if isinstance(item, dict)
+                    for part in item.get("content", [])
+                    if isinstance(part, dict) and part.get("type") == "output_text"
+                )
+        except (UnicodeDecodeError, json.JSONDecodeError, TypeError) as exc:
+            raise CloudOrchestratorError("openai_invalid_response") from exc
+        if not isinstance(output, str) or not output.strip():
+            raise CloudOrchestratorError("openai_empty_response")
+        return output
+
+    class OpenAICompatibleExecutor:
     """OpenAI Chat Completions adapter for compatible cloud gateways."""
 
     def __init__(self, env=None, credential_env="OPENAI_API_KEY", model_env="MEDIAHUB_OPENAI_MODEL", base_url="", timeout=45):
@@ -112,7 +161,51 @@ class OpenAICompatibleExecutor:
         return output
 
 
-class OmniRouteClaudeExecutor:
+class GeminiExecutor:
+    """Google Gemini native generateContent adapter."""
+
+    def __init__(self, env=None, timeout=45):
+        self._env = dict(os.environ if env is None else env)
+        self._timeout = timeout
+
+    def __call__(self, prompt: str) -> str:
+        key = self._env.get("GEMINI_API_KEY", "").strip()
+        model = self._env.get("MEDIAHUB_GEMINI_MODEL", "").strip()
+        if not key:
+            raise CloudOrchestratorError("gemini_credential_missing")
+        if not model:
+            raise CloudOrchestratorError("gemini_model_unconfigured")
+        body = json.dumps({
+            "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+            "generationConfig": {"maxOutputTokens": 1200},
+        }, separators=(",", ":")).encode("utf-8")
+        request = urllib.request.Request(
+            f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+            data=body,
+            headers={"x-goog-api-key": key, "Content-Type": "application/json"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=self._timeout) as response:
+                raw = response.read(1_048_576)
+        except urllib.error.HTTPError as exc:
+            raise CloudOrchestratorError(_http_error_code(exc.code)) from exc
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            raise CloudOrchestratorError("gemini_request_failed") from exc
+        try:
+            data = json.loads(raw.decode("utf-8"))
+            output = "".join(
+                part.get("text", "")
+                for part in data["candidates"][0]["content"]["parts"]
+                if isinstance(part, dict) and isinstance(part.get("text"), str)
+            )
+        except (UnicodeDecodeError, json.JSONDecodeError, KeyError, IndexError, TypeError) as exc:
+            raise CloudOrchestratorError("gemini_invalid_response") from exc
+        if not output.strip():
+            raise CloudOrchestratorError("gemini_empty_response")
+        return output
+
+    class OmniRouteClaudeExecutor:
     """Claude-compatible Anthropic Messages adapter through OmniRoute."""
 
     def __init__(self, env=None, timeout=45):
@@ -353,6 +446,10 @@ class CloudFirstOrchestrator:
             return UnoRouterExecutor(env=env)
         if provider_id == "claude":
             return OmniRouteClaudeExecutor(env=env)
+        if provider_id == "gemini":
+            return GeminiExecutor(env=env)
+        if provider_id == "openai":
+            return OpenAIResponsesExecutor(env=env)
         compatible = {
             "openrouter": ("OPENROUTER_API_KEY", "MEDIAHUB_OPENROUTER_MODEL", "https://openrouter.ai/api/v1"),
             "openai": ("OPENAI_API_KEY", "MEDIAHUB_OPENAI_MODEL", "https://api.openai.com/v1"),
