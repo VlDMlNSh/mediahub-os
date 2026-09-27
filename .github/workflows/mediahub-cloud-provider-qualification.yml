@@ -40,6 +40,8 @@ jobs:
         run: python3 -m pip install --disable-pip-version-check --no-input pytest
 
       - name: Verify adapter tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/runtime
         run: python3 -m pytest -q tests/ai/test_cloud_orchestrator_failover.py
 
       - name: Live catalog and inference qualification
