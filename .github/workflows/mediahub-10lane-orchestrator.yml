@@ -28,7 +28,7 @@ jobs:
           sparse-checkout: |
             ci-requirements.txt
             ops/verify_functional_baseline.sh
-          fetch-depth: 1
+          fetch-depth: 0
       - name: Exclude toolchain checkout from R4 worktree status
         run: |
           set -euo pipefail
