@@ -56,6 +56,11 @@ class ExecutionIdentity:
         )
         if any(not isinstance(value[key], str) or not value[key] for key in strings):
             raise ProtocolError("identity string fields must be non-empty")
+        if (
+            len(value["target_sha"]) != 40
+            or any(ch not in "0123456789abcdefABCDEF" for ch in value["target_sha"])
+        ):
+            raise ProtocolError("target_sha must be a 40-character hexadecimal SHA")
         return cls(**{key: value[key] for key in REQUIRED_IDENTITY})  # type: ignore[arg-type]
 
 
@@ -127,7 +132,14 @@ class EvidenceEnvelope:
             str(self.identity.generation),
             self.identity.lease_id,
             self.identity.owner_id,
+            self.identity.operation_key,
             self.identity.target_sha,
+            self.worker,
+            self.model,
+            self.provider,
+            ",".join(self.changed_files),
+            ",".join(self.tests),
+            ",".join(self.security_results),
             self.commit_sha,
             self.remote_sha,
             self.artifact_sha256,
