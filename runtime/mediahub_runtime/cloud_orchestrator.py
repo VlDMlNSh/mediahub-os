@@ -353,7 +353,7 @@ class CloudFirstOrchestrator:
             "cursor": 90,
             "chatgpt": 100,
         }
-        return tuple(sorted(routes, key=lambda r: (cost_rank.get(r.provider_id, 1000), r.priority))
+        return tuple(sorted(routes, key=lambda r: (cost_rank.get(r.provider_id, 1000), r.priority)))
 
     def decide(self, capability: str, *, allow_local_extension: bool = True) -> OrchestrationDecision:
         if not isinstance(capability, str) or not capability.strip():
