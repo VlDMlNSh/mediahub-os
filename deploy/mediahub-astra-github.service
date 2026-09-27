@@ -1,0 +1,22 @@
+[Unit]
+Description=MediaHub Astra GitHub Node Agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mediahub
+Group=mediahub
+WorkingDirectory=/opt/mediahub/astra
+Environment=PYTHONPATH=/opt/mediahub/astra/runtime:/opt/mediahub/astra
+Environment=ASTRA_GITHUB_REPO=VlDMlNSh/mediahub-os
+EnvironmentFile=-/etc/mediahub/astra-github.env
+ExecStart=/usr/bin/python3 /opt/mediahub/astra/astra_github_agent.py
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ReadWritePaths=/var/lib/mediahub-astra /opt/mediahub/astra
+[Install]
+WantedBy=multi-user.target
