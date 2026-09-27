@@ -83,7 +83,7 @@ jobs:
           verifier="${RUNNER_TEMP}/verify_functional_baseline.sh"
           cp .mh05-toolchain-source/ops/verify_functional_baseline.sh "$verifier"
           chmod +x "$verifier"
-          "$verifier"
+          (cd .mh05-toolchain-source && "$verifier")
       - name: Execute bounded lane
         timeout-minutes: 59
         env:
