@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "health-verify-20260928T0018Z",
+  "command_id": "night-cloud-auth-20260928T0035Z",
   "node_id": "mh-dev-01",
-  "operation": "health",
-  "title": "Fresh Astra transport health verification",
-  "description": "Read-only fresh transport health. Return exact structured evidence. Do not modify files, services, credentials, packages, or processes.",
+  "operation": "coding_v2",
+  "title": "Night cloud-auth qualification hardening",
+  "description": "Autonomous bounded night pass. Work only in the canonical repository and only on cloud provider/model qualification. First inspect current main state, provider qualification workflow, CloudFirstOrchestrator, adapter contracts, provider-model evidence schema, and relevant tests. Then: (1) identify evidence-backed defects that can prevent fresh qualification or make qualification claims unsafe; (2) implement the smallest safe fixes for workflow/API correctness, test coverage, evidence freshness, and fail-closed qualification semantics; (3) do not invent credentials, read or print secret values, bypass auth/billing/quota/rate limits, simulate provider inference, or weaken qualification gates; (4) run focused tests plus applicable static/compile checks; (5) record exact PASS/BLOCKED evidence and commit/push only the reviewed changes to the canonical branch. If a live provider cannot be qualified because credentials or provider-side limits are unavailable, preserve that as BLOCKED and continue with other independently verifiable engineering work. Do not alter unrelated architecture. End with a concise machine-readable evidence record suitable for the next Astra wave.",
   "target_sha": "main"
 }
