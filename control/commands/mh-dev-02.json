@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "node_id": "mh-dev-02",
-  "command_id": "version-health-mh-dev-02-20260927T1940Z",
+  "command_id": "runtime-identity-health-mh-dev-02-20260927T1950Z",
   "operation": "health",
-  "title": "Transport version health",
-  "description": "Return transport_version and agent_source_sha."
+  "title": "Report persistent transport runtime identity",
+  "description": "Return transport_version, agent_source_sha, pid, cwd, agent_path and worktree. Read-only; do not modify files."
 }
