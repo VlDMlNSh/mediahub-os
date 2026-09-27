@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "runtime-e2e-gold-mh01-20260927T1855Z",
+  "command_id": "gold-agent-expansion-mh01-20260927T1915Z",
   "node_id": "mh-dev-01",
-  "operation": "coding",
-  "title": "runtime-e2e-gold-mh01",
-  "description": "Bounded runtime E2E qualification: execute a tiny coding task, verify artifact and tests, and return provider/model/evidence metadata.",
+  "operation": "coding_v2",
+  "title": "Gold agent expansion mh-dev-01",
+  "description": "Install and qualify additional development agents using only the node's normal user account and GitHub-controlled execution: DeepSeek Harness (dsh) and stagewise CLI/agent where headless installation is supported. Do not use sudo, do not modify the canonical Astra transport, and do not change production services. Prefer local user-space installation. Verify installed versions/help output and whether each agent can reach the existing local Ollama/OpenAI-compatible endpoint. Then execute a bounded Astra coding qualification through the existing canonical runtime, record provider/model/execution/test evidence, and push the result to the node result file.",
   "target_sha": "main"
 }
