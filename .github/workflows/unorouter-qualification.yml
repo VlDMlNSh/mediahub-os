@@ -21,19 +21,11 @@ jobs:
         run: |
           set -euo pipefail
           test -n "${UNOROUTER_API_KEY}"
-          body="$(curl --fail-with-body --silent --show-error --max-time 20             -H "Authorization: Bearer ${UNOROUTER_API_KEY}"             https://api.unorouter.com/v1/models)"
+          body="$(curl --fail-with-body --silent --show-error --max-time 20 -H "Authorization: Bearer ${UNOROUTER_API_KEY}" https://api.unorouter.com/v1/models)"
           python3 - "$body" <<'PY'
           import json, sys
-          d=json.loads(sys.argv[1])
-          ids=[str(x.get("id","")) for x in d.get("data",[])]
-          print(json.dumps({
-            "status":"PASS",
-            "credential_present":True,
-            "model_count":len(ids),
-            "free_models":[x for x in ids if x.endswith(":free")][:20],
-            "claude_models":[x for x in ids if "claude" in x.lower()][:20],
-            "gpt_or_codex_models":[x for x in ids if ("gpt" in x.lower() or "codex" in x.lower())][:20]
-          },sort_keys=True))
+          d=json.loads(sys.argv[1]); ids=[str(x.get("id","")) for x in d.get("data",[])]
+          print(json.dumps({"status":"PASS","credential_present":True,"model_count":len(ids),"free_models":[x for x in ids if x.endswith(":free")][:20],"claude_models":[x for x in ids if "claude" in x.lower()][:20],"gpt_or_codex_models":[x for x in ids if ("gpt" in x.lower() or "codex" in x.lower())][:20]},sort_keys=True))
           PY
 
       - name: Verify free OpenAI-compatible inference
@@ -41,25 +33,21 @@ jobs:
         run: |
           set -euo pipefail
           tmp="$(mktemp)"
-          code="$(curl --silent --show-error --max-time 45 -o "$tmp" -w '%{http_code}'             -H "Authorization: Bearer ${UNOROUTER_API_KEY}"             -H "Content-Type: application/json"             https://api.unorouter.com/v1/chat/completions             -d '{"model":"gpt-oss-120b:free","messages":[{"role":"user","content":"Return exactly OK."}],"max_tokens":8}')"
+          code="$(curl --silent --show-error --max-time 45 -o "$tmp" -w '%{http_code}' -H "Authorization: Bearer ${UNOROUTER_API_KEY}" -H "Content-Type: application/json" https://api.unorouter.com/v1/chat/completions -d '{"model":"gpt-oss-120b:free","messages":[{"role":"user","content":"Return exactly OK."}],"max_tokens":8}')"
           python3 - "$code" "$tmp" <<'PY'
           import json,sys
           code=int(sys.argv[1]); d=json.load(open(sys.argv[2]))
-          if 200 <= code < 300:
-            print(json.dumps({"status":"PASS","http_status":code,"model":"gpt-oss-120b:free","response_id":d.get("id","present")},sort_keys=True))
-          elif code in (401,403):
-            print(json.dumps({"status":"BLOCKED_AUTH","http_status":code},sort_keys=True)); raise SystemExit(1)
-          elif code==402:
-            print(json.dumps({"status":"BLOCKED_BILLING","http_status":code},sort_keys=True))
-          else:
-            print(json.dumps({"status":"BLOCKED_RUNTIME","http_status":code,"error_type":d.get("error",{}).get("type")},sort_keys=True))
+          if 200 <= code < 300: print(json.dumps({"status":"PASS","http_status":code,"model":"gpt-oss-120b:free","response_id":d.get("id","present")},sort_keys=True))
+          elif code in (401,403): print(json.dumps({"status":"BLOCKED_AUTH","http_status":code},sort_keys=True)); raise SystemExit(1)
+          elif code==402: print(json.dumps({"status":"BLOCKED_BILLING","http_status":code},sort_keys=True))
+          else: print(json.dumps({"status":"BLOCKED_RUNTIME","http_status":code,"error_type":d.get("error",{}).get("type")},sort_keys=True))
           PY
 
       - name: Verify Claude-compatible inference
         shell: bash
         run: |
           set -euo pipefail
-          models="$(curl --fail-with-body --silent --show-error --max-time 20             -H "Authorization: Bearer ${UNOROUTER_API_KEY}" https://api.unorouter.com/v1/models)"
+          models="$(curl --fail-with-body --silent --show-error --max-time 20 -H "Authorization: Bearer ${UNOROUTER_API_KEY}" https://api.unorouter.com/v1/models)"
           model="$(python3 - "$models" <<'PY'
           import json,sys
           ids=[str(x.get("id","")) for x in json.loads(sys.argv[1]).get("data",[])]
@@ -70,18 +58,16 @@ jobs:
           )"
           test -n "$model"
           tmp="$(mktemp)"
-          code="$(curl --silent --show-error --max-time 45 -o "$tmp" -w '%{http_code}'             -H "Authorization: Bearer ${UNOROUTER_API_KEY}"             -H "Content-Type: application/json"             -H "anthropic-version: 2023-06-01"             https://api.unorouter.com/v1/messages             -d "{"model":"$model","max_tokens":8,"messages":[{"role":"user","content":"Return exactly OK."}]}")"
-          python3 - "$code" "$tmp" "$model" <<'PY'
-          import json,sys
-          code=int(sys.argv[1]); d=json.load(open(sys.argv[2])); model=sys.argv[3]
-          if 200 <= code < 300:
-            print(json.dumps({"status":"PASS","http_status":code,"model":model,"response_id":d.get("id","present")},sort_keys=True))
-          elif code in (401,403):
-            print(json.dumps({"status":"BLOCKED_AUTH","http_status":code,"model":model},sort_keys=True)); raise SystemExit(1)
-          elif code==402:
-            print(json.dumps({"status":"BLOCKED_BILLING","http_status":code,"model":model},sort_keys=True))
-          else:
-            print(json.dumps({"status":"BLOCKED_RUNTIME","http_status":code,"model":model,"error_type":d.get("error",{}).get("type")},sort_keys=True))
+          python3 - "$model" "$tmp" <<'PY'
+          import json, os, subprocess, sys
+          model, path = sys.argv[1], sys.argv[2]
+          payload=json.dumps({"model":model,"max_tokens":8,"messages":[{"role":"user","content":"Return exactly OK."}]})
+          p=subprocess.run(["curl","--silent","--show-error","--max-time","45","-o",path,"-w","%{http_code}","-H",f"Authorization: Bearer {os.environ['UNOROUTER_API_KEY']}","-H","Content-Type: application/json","-H","anthropic-version: 2023-06-01","https://api.unorouter.com/v1/messages","-d",payload],capture_output=True,text=True,check=True)
+          code=int(p.stdout.strip()); d=json.load(open(path))
+          if 200 <= code < 300: print(json.dumps({"status":"PASS","http_status":code,"model":model,"response_id":d.get("id","present")},sort_keys=True))
+          elif code in (401,403): print(json.dumps({"status":"BLOCKED_AUTH","http_status":code,"model":model},sort_keys=True)); raise SystemExit(1)
+          elif code==402: print(json.dumps({"status":"BLOCKED_BILLING","http_status":code,"model":model},sort_keys=True))
+          else: print(json.dumps({"status":"BLOCKED_RUNTIME","http_status":code,"model":model,"error_type":d.get("error",{}).get("type")},sort_keys=True))
           PY
 
       - name: Verify Codex custom-provider configuration
