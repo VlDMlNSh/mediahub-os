@@ -373,7 +373,7 @@ Do not touch any other file or use external resources."""
               "target_sha":target,
               "commit_sha":commit,
               "remote_sha":remote,
-              "patch_sha256":hashlib.sha256(patch.encode()).hexdigest(),
+              "generated_sha256":hashlib.sha256(generated_text).hexdigest(),
               "test":"pytest -q tests/test_astra_generated_ollama_e2e.py",
               "status":"PASS"
           }
@@ -386,9 +386,7 @@ Do not touch any other file or use external resources."""
           final_remote=subprocess.check_output(["git","ls-remote","origin",f"refs/heads/{branch}"],text=True).split()[0]
           if final_remote!=evidence_commit:
               raise SystemExit("evidence remote SHA mismatch")
-          evidence["evidence_commit_sha"]=evidence_commit
-          evidence["evidence_remote_sha"]=final_remote
-          print(json.dumps(evidence,indent=2,sort_keys=True))
+          print(json.dumps({**evidence, "evidence_commit_sha": evidence_commit, "evidence_remote_sha": final_remote},indent=2,sort_keys=True))
           PY
 
   provider-smoke:
