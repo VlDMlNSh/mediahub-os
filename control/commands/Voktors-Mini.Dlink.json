@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "night-independent-cloud-review-20260928T0035Z",
+  "command_id": "cloud-auth-independent-review-20260928T0220Z",
   "node_id": "Voktors-Mini.Dlink",
   "operation": "review",
-  "title": "Night independent cloud-auth review",
-  "description": "Read-only independent review. Inspect the current cloud-auth baseline, provider qualification workflow, CloudFirstOrchestrator routing, provider adapters, and relevant tests. Check fail-closed behavior, provider endpoint/model selection, evidence freshness, secret-safety, and whether cost_optimized routing can accidentally bypass auth/billing/quota/rate limits. Do not modify files, credentials, packages, services, or processes. Return only actionable findings with exact paths and severity plus a compact verification checklist for the primary writer. Do not rank providers or declare a provider QUALIFIED without fresh live evidence.",
+  "title": "Continuous independent Astra cloud-auth review",
+  "description": "Read-only independent review of current main cloud authorization state. Inspect provider qualification workflow, CloudFirstOrchestrator, adapters, evidence freshness, fail-closed semantics, secret safety, endpoint/model selection, and cost_optimized routing. Return actionable findings with paths, severity, and verification checklist. Do not modify anything and do not declare provider QUALIFIED without fresh live evidence.",
   "target_sha": "main"
 }
