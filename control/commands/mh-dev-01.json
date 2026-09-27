@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "fresh-pre-soak-qualification-mh-dev-01-20260927T2155Z",
+  "command_id": "health-reconcile-mh-dev-01-20260927T2315Z",
   "node_id": "mh-dev-01",
-  "operation": "coding",
-  "title": "Fresh PRE-SOAK qualification and UnoRouter validation",
-  "description": "Run the canonical fresh qualification sequence for PRE-SOAK: transport identity, runtime E2E, scheduler E2E, fencing, recovery, backup/restore, provider/model matrix, and repo tests. Validate UnoRouter using UNOROUTER_API_KEY only if present in the node environment; never print or persist the secret. Validate the new native UnoRouter route and configured model if MEDIAHUB_UNOROUTER_MODEL is set; otherwise record model-unconfigured without exposing credentials. Qualify ECC, DeepSeek Harness, Stagewise, delx-memory-bun, FreeLLMAPI, Kimi K3 in C, and Colibri where supported. Keep Qwen3.8 cyber model quarantined and excluded from autonomous execution. Preserve context_management.experimental_mode=true. Publish fresh evidence and exact PASS/PARTIAL/FAIL results. Do not start 24h soak and do not claim GOLD.",
+  "operation": "health",
+  "title": "Fresh canonical worker identity after runtime hardening",
+  "description": "Return only fresh canonical worker identity. Report transport_version, agent_source_sha, pid, cwd, agent_path, worktree, runtime package presence if available, and status. Do not expose secrets. This command is a deployment/process-manager gate; do not claim restart unless the reported running process proves the new canonical worker identity.",
   "target_sha": "main"
 }
