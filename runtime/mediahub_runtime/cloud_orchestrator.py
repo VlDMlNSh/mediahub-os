@@ -50,6 +50,8 @@ class UnoRouterExecutor:
         try:
             with urllib.request.urlopen(request, timeout=self._timeout) as response:
                 raw = response.read(1_048_576)
+        except urllib.error.HTTPError as exc:
+            raise CloudOrchestratorError(_http_error_code(exc.code)) from exc
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             raise CloudOrchestratorError("unorouter_request_failed") from exc
         try:
@@ -96,6 +98,8 @@ class OpenAICompatibleExecutor:
         try:
             with urllib.request.urlopen(request, timeout=self._timeout) as response:
                 raw = response.read(1_048_576)
+        except urllib.error.HTTPError as exc:
+            raise CloudOrchestratorError(_http_error_code(exc.code)) from exc
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             raise CloudOrchestratorError("provider_request_failed") from exc
         try:
@@ -141,6 +145,8 @@ class OmniRouteClaudeExecutor:
         try:
             with urllib.request.urlopen(request, timeout=self._timeout) as response:
                 raw = response.read(1_048_576)
+        except urllib.error.HTTPError as exc:
+            raise CloudOrchestratorError(_http_error_code(exc.code)) from exc
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             raise CloudOrchestratorError("omniroute_request_failed") from exc
         try:
@@ -154,6 +160,22 @@ class OmniRouteClaudeExecutor:
         if not output:
             raise CloudOrchestratorError("omniroute_empty_response")
         return output
+
+
+def _http_error_code(status: int) -> str:
+    if status == 401:
+        return "provider_auth_failed"
+    if status == 402:
+        return "provider_billing_blocked"
+    if status in (403,):
+        return "provider_auth_failed"
+    if status == 429:
+        return "provider_rate_limited"
+    if 400 <= status < 500:
+        return "provider_request_rejected"
+    if 500 <= status < 600:
+        return "provider_server_error"
+    return "provider_http_error"
 
 
 class CloudOrchestratorError(RuntimeError):
