@@ -153,12 +153,12 @@ jobs:
           if not key:
               result("gemini",False)
           else:
-              code,body,_=request("https://generativelanguage.googleapis.com/v1beta/models?key="+key)
+              code,body,_=request("https://generativelanguage.googleapis.com/v1beta/models",headers={"x-goog-api-key":key})
               model_ids=[m.get("name","").split("/")[-1] for m in body.get("models",[]) if isinstance(m,dict) and m.get("name")]
               tests=[]
               for model in choose(model_ids,("flash","pro")):
-                  url="https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent?key="+key
-                  c,b,latency=request(url,headers={"Content-Type":"application/json"},payload={"contents":[{"role":"user","parts":[{"text":"Reply exactly "+marker}]}],"generationConfig":{"maxOutputTokens":16}})
+                  url="https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent"
+                  c,b,latency=request(url,headers={"Content-Type":"application/json","x-goog-api-key":key},payload={"contents":[{"role":"user","parts":[{"text":"Reply exactly "+marker}]}],"generationConfig":{"maxOutputTokens":16}})
                   text=""
                   try: text="".join(p.get("text","") for p in b["candidates"][0]["content"]["parts"] if isinstance(p,dict)).strip()
                   except Exception: pass
