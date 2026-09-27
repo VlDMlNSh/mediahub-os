@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "multiagent-02-final-20260927T1835Z",
+  "command_id": "health-gate-20260927T1838Z-mh02",
   "node_id": "mh-dev-02",
-  "operation": "architecture",
-  "title": "multiagent-02-final-20260927T1835Z",
-  "description": "Return three concrete Astra multi-agent architecture risks and mitigations. Keep the answer concise.",
-  "target_sha": "28190b2"
+  "operation": "health",
+  "title": "health-gate-20260927T1838Z-mh02",
+  "description": "Fresh canonical transport identity probe after runtime repair and legacy-worker cleanup.",
+  "target_sha": "main"
 }
