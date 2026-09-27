@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "node_id": "mh-dev-01",
-  "command_id": "runtime-discovery-mh-dev-01-20260927T1615Z",
+  "command_id": "transport-reload-mh-dev-01-20260927T1925Z",
   "operation": "coding",
-  "title": "Runtime discovery and three-node qualification",
-  "description": "After merge 7256dd14ee04b57dd73103e60410cef92f7d4a16, execute through GitHub Transport. Verify mediahub_runtime discovery on this node, then run an independent qualification lane using local Ollama. Return structured evidence: runtime path, model, tests, scheduler/recovery/provider findings, and blockers. Do not bypass controls."
+  "title": "Post-self-reexec three-node qualification",
+  "description": "Execute through GitHub Transport after merged self-reexec commit b91224d765974fafc768e19615b7466c8db26055. Verify the worker reloads the current agent source, then verify portable mediahub_runtime discovery and run an independent qualification lane using local Ollama. Return structured evidence: runtime path, worker source/reload evidence if observable, model, tests, scheduler/recovery/provider findings, and blockers. Do not bypass controls."
 }
