@@ -4,6 +4,6 @@
   "node_id": "mh-dev-02",
   "operation": "health",
   "title": "Canonical worker identity and runtime-path diagnosis",
-  "description": "Return health only. Must report canonical self-reexec-v1 identity, agent_path, worktree, agent_source_sha, cwd, pid and runtime package presence/path without secrets. This is a diagnostic gate before another repair command.",
+  "description": "Return health only. Report canonical self-reexec-v1 identity, agent_path, worktree, agent_source_sha, cwd, pid and runtime package presence/path without secrets. This is a diagnostic gate before another repair command.",
   "target_sha": "b8502ed4e399e76ce42db38abe7f74cf28eb0f12"
 }
