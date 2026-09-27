@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "captured_at": "2026-09-27T18:36:00Z",
+  "qualification": "multi-agent",
+  "status": "BLOCKED_PRE_SOAK",
+  "transport": {
+    "status": "PASS",
+    "fresh_node_identity": ["mh-dev-01"],
+    "canonical_transport_version": "self-reexec-v1"
+  },
+  "runtime": {
+    "status": "PASS_ON_MH_DEV_01",
+    "provider": "freellmapi",
+    "model": "qwen2.5-coder:3b",
+    "evidence": {
+      "execution_id": "exec-runtime-qualification-freellmapi-2",
+      "artifact_sha256": "bfaca971606877ff9d64ade9363a70fa40cd1ad6c4e365df324287feebfb0c",
+      "autonomous_status": "PASS"
+    }
+  },
+  "providers": {
+    "ollama": "READY",
+    "freellmapi": "INSTALLED_AND_HEALTHY_ON_MH_DEV_01",
+    "kimi_k3_in_c": "ENGINE_BUILT_CHECKPOINT_UNAVAILABLE"
+  },
+  "kimi_k3_in_c": {
+    "binary": "/home/mediahub/kimi-k3-in-c/bin/k3",
+    "checkpoint_required_bytes": 1560936091448,
+    "available_local_storage_on_root_gb": 23,
+    "secondary_disk_gb": 465,
+    "full_checkpoint_fits_secondary_disk": false
+  },
+  "blocking": [
+    "Second disk formatting requires interactive root authorization; no password was supplied to the session.",
+    "Even after formatting, a 465 GB disk cannot hold the 1.56 TB Kimi K3 checkpoint.",
+    "mh-dev-02 canonical runtime execution still returns ModuleNotFoundError and has a legacy agent that requires process-manager cleanup.",
+    "Voktors-Mini.Dlink has not produced fresh runtime evidence after the canonical runtime deployment."
+  ],
+  "next_gate": "runtime_e2e_all_nodes_then_scheduler_fencing_recovery_backup_provider_pre_soak"
+}
