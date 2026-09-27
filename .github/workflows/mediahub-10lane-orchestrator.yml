@@ -27,6 +27,7 @@ jobs:
           path: .mh05-toolchain-source
           sparse-checkout: |
             ci-requirements.txt
+            ops/verify_functional_baseline.sh
           fetch-depth: 1
       - name: Exclude toolchain checkout from R4 worktree status
         run: |
@@ -77,10 +78,16 @@ jobs:
           } | tee "$PROV_DIR/start"
           test -z "$(git status --porcelain)"
       - name: Verify MediaHub Functional Baseline
+        env:
+          TOOLCHAIN_REF: ${{ github.head_ref || github.ref_name }}
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
         run: |
           set -euo pipefail
-          test -x ops/verify_functional_baseline.sh
-          ./ops/verify_functional_baseline.sh
+          test -n "$TOOLCHAIN_REF"
+          verifier="${RUNNER_TEMP}/verify_functional_baseline.sh"
+          cp .mh05-toolchain-source/ops/verify_functional_baseline.sh "$verifier"
+          chmod +x "$verifier"
+          "$verifier"
 
       - name: Execute bounded lane
         timeout-minutes: 59
