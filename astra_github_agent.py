@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """MediaHub Astra GitHub transport worker."""
 from __future__ import annotations
-import json, os, platform, subprocess, sys, time
+import hashlib, json, os, platform, subprocess, sys, time
 from pathlib import Path
 
 REPO=os.environ.get("ASTRA_GITHUB_REPO","VlDMlNSh/mediahub-os")
@@ -11,6 +11,7 @@ INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
 OPERATIONS={"health","research","architecture","review","documents","coding"}
+RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
     return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False)
@@ -22,6 +23,14 @@ def sync():
     else:
         subprocess.run(["git","-C",str(ROOT),"fetch","--depth","1","origin","main"],check=True,timeout=120)
         subprocess.run(["git","-C",str(ROOT),"reset","--hard","origin/main"],check=True,timeout=120)
+
+def maybe_reexec_updated_agent():
+    target=ROOT/"astra_github_agent.py"
+    if not target.exists():
+        return
+    target_sha=hashlib.sha256(target.read_bytes()).hexdigest()
+    if target_sha != RUNNING_AGENT_SHA:
+        os.execv(sys.executable,[sys.executable,str(target),*sys.argv[1:]])
 
 def read_command():
     path=ROOT/"control"/"commands"/f"{NODE_ID}.json"
@@ -74,7 +83,7 @@ def main():
     last_id=""
     while True:
         try:
-            sync(); cmd=read_command()
+            sync(); maybe_reexec_updated_agent(); cmd=read_command()
             if cmd and cmd.get("command_id")!=last_id:
                 started=time.time()
                 try: value,rc=execute(cmd),0
