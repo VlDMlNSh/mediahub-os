@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "health-repair-20260928T0216Z",
+  "command_id": "cloud-auth-provider-codex-claude-20260928T0235Z",
   "node_id": "mh-dev-02",
-  "operation": "health",
-  "title": "Fresh mh-dev-02 transport identity gate",
-  "description": "Fresh health-only gate after the failed night research command. Return canonical worker identity fields: status,node_id,hostname,platform,python,transport_version,agent_source_sha,agent_path,worktree,pid,cwd. Do not modify services, credentials, packages, or files.",
+  "operation": "coding_v2",
+  "title": "Live cloud auth: free lanes, Claude, Codex",
+  "description": "Execute a bounded live cloud-authorization qualification wave from current main. First inspect provider qualification workflow, CloudFirstOrchestrator, adapters and tests. Qualify every available free-model lane without assuming a free quota: OpenRouter free models and Gemini free-tier generation where credentials are present; also qualify DeepSeek/Kimi/Perplexity when credentials are present. Add or harden direct Anthropic Claude API authorization using ANTHROPIC_API_KEY and current active model selection, while retaining OmniRoute as a separately qualified gateway path. Explicitly qualify OpenAI Codex-capable API access by cataloging available Codex model IDs and performing the standard non-empty marker inference through the OpenAI Responses API when an eligible model and credential are available; do not conflate Codex API access with ChatGPT account login. Implement only minimal evidence-backed fixes and tests required for these paths. Never read/output secrets, invent credentials, bypass auth/billing/quota/rate limits, or simulate inference. Record fresh per-provider/model PASS/BLOCKED/credential_missing evidence with timestamps, HTTP classification, model IDs (not secrets), marker confirmation and qualification status. Commit/push reviewed changes and evidence only.",
   "target_sha": "main"
 }
