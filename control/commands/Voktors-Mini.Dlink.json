@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "omniroute-qualify-Voktors-Mini.Dlink-20260928T0015Z",
+  "command_id": "health-verify-20260928T0018Z",
   "node_id": "Voktors-Mini.Dlink",
   "operation": "health",
-  "title": "Qualify OmniRoute Claude gateway on canonical Astra node",
-  "description": "Perform a bounded read-only OmniRoute qualification. Inspect whether an OmniRoute executable/service is already installed and report version/process/listening state without exposing secrets. Check OMNIROUTE_API_KEY presence only as boolean. Check OMNIROUTE_BASE_URL (default http://127.0.0.1:20128) and Claude model configuration presence only, never values containing credentials. If the gateway is reachable and credentials are present, perform one minimal Anthropic-compatible /v1/messages request through OmniRoute using the configured Claude model; do not print request headers or secret values. Verify a non-empty response and report HTTP status, model identifier, gateway endpoint host/port, and a sanitized PASS/BLOCKED result. Do not install packages, change services, modify files, commit, push, or start the 24h soak. Also verify the installed canonical worker source SHA and runtime import path. Return exact structured evidence.",
+  "title": "Fresh Astra transport health verification",
+  "description": "Read-only fresh transport health. Return exact structured evidence. Do not modify files, services, credentials, packages, or processes.",
   "target_sha": "main"
 }
