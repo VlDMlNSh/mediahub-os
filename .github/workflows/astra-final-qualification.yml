@@ -71,6 +71,8 @@ jobs:
               raise SystemExit("GEMINI_API_KEY is not configured in GitHub Actions")
 
           subprocess.run(["git", "checkout", "-b", branch], check=True)
+          subprocess.run(["git", "config", "user.name", "Astra Qualification Bot"], check=True)
+          subprocess.run(["git", "config", "user.email", "astra-qualification@users.noreply.github.com"], check=True)
           initial_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
 
           scheduler = Scheduler(f"/tmp/astra-e2e-{os.environ['GITHUB_RUN_ID']}.db", lease_seconds=900)
