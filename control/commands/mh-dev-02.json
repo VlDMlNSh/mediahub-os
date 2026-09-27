@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "health-verify-20260928T0025Z",
+  "command_id": "night-transport-schema-20260928T0035Z",
   "node_id": "mh-dev-02",
-  "operation": "health",
-  "title": "Fresh Astra transport health verification after canonical worker refresh",
-  "description": "Read-only fresh transport health. Return exact structured evidence. Do not modify files, services, credentials, packages, or processes.",
+  "operation": "research",
+  "title": "Night transport evidence repair",
+  "description": "Read-only bounded night pass. Investigate why fresh mh-dev-02 health evidence lacks transport_version, agent_source_sha, agent_path, and worktree while the canonical worker contract requires them. Inspect only the relevant worker source, command/result schema, and recent evidence. Do not modify services, credentials, packages, processes, or unrelated files. Produce exact root-cause evidence and a minimal recommended repair plan; do not claim PASS unless the returned result contains the required identity fields.",
   "target_sha": "main"
 }
