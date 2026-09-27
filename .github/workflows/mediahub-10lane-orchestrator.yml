@@ -83,9 +83,8 @@ jobs:
         run: |
           set -euo pipefail
           test -n "$TOOLCHAIN_REF"
-          test -x ops/verify_functional_baseline.sh || true
           verifier="${RUNNER_TEMP}/verify_functional_baseline.sh"
-          git show "$TOOLCHAIN_REF:ops/verify_functional_baseline.sh" > "$verifier"
+          cp .mh05-toolchain-source/ops/verify_functional_baseline.sh "$verifier"
           chmod +x "$verifier"
           "$verifier"
 
