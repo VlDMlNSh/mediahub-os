@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "health-reconcile-mh-dev-01-20260927T2315Z",
+  "command_id": "sol-pi-install-qualify-mh-dev-01-20260927T2325Z",
   "node_id": "mh-dev-01",
-  "operation": "health",
-  "title": "Fresh canonical worker identity after runtime hardening",
-  "description": "Return only fresh canonical worker identity. Report transport_version, agent_source_sha, pid, cwd, agent_path, worktree, runtime package presence if available, and status. Do not expose secrets. This command is a deployment/process-manager gate; do not claim restart unless the reported running process proves the new canonical worker identity.",
+  "operation": "coding",
+  "title": "Install and qualify NVIDIA SoL-Pi on the canonical node",
+  "description": "Install the upstream NVIDIA NVlabs/SoL-Pi GitHub extension through the supported Pi package mechanism only; do not patch or vendor Pi. First inspect node state, Node.js, npm, and Pi availability. Require Node.js >=22.19 and tested Pi release @earendil-works/pi-coding-agent@0.85.1 before declaring install qualified. Use the upstream repository git:github.com/NVlabs/SoL-Pi. Prefer project-local installation for the MediaHub project. Run the upstream source checks available from the checkout, install with pi install <absolute-checkout> --approve, verify pi list, validate the effective sol-pi.json with all four mechanisms enabled only if the required provider/model values can be safely configured, and perform an offline Pi startup check with no prompt. Never print or persist secrets. Do not modify upstream Pi source. Publish exact PASS/PARTIAL/BLOCKED evidence including versions, checkout commit, install scope, config path and failed prerequisite if any. This is an installation/qualification task; do not start the 24h soak.",
   "target_sha": "main"
 }
