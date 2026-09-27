@@ -93,3 +93,25 @@ def test_openrouter_route_builds_compatible_executor():
     assert decision.provider_id == "openrouter"
     assert decision.model == "model"
     assert executor.__class__.__name__ == "OpenAICompatibleExecutor"
+
+
+def test_freellmapi_candidate_uses_selected_model_and_local_gateway():
+    route = ProviderRoute(
+        "freellmapi", "local_gateway", frozenset({"coding"}), None,
+        "MEDIAHUB_FREELLMAPI_MODEL", 1,
+    )
+    orchestrator = CloudFirstOrchestrator(
+        cloud_routes=(),
+        local_routes=(route,),
+        credential_env={
+            "MEDIAHUB_FREELLMAPI_URL": "http://127.0.0.1:3001/v1",
+            "MEDIAHUB_FREELLMAPI_KEY_FILE": "/tmp/freellmapi.key",
+            "MEDIAHUB_FREELLMAPI_MODEL": "model-a",
+            "MEDIAHUB_FREELLMAPI_MODELS": "model-a,model-b",
+        },
+        executors={},
+    )
+    candidates = orchestrator._candidates("coding", allow_local_extension=True)
+    assert len(candidates) == 2
+    assert [d.model for d, _ in candidates] == ["model-a", "model-b"]
+    assert all(e.__class__.__name__ == "FreeLLMAPIExecutor" for _, e in candidates)
