@@ -1,8 +1,9 @@
 {
   "schema": 1,
-  "command_id": "runtime-e2e-qualification-Voktors-Mini.Dlink-20260927T2040Z",
+  "command_id": "multiagent-mac-review-20260927",
   "node_id": "Voktors-Mini.Dlink",
-  "operation": "coding",
-  "title": "Runtime E2E qualification — Mac node",
-  "description": "Execute a bounded runtime E2E qualification on this node. Use the configured AstraGatewayRuntime and local Ollama/runtime only. Create exactly one small node-specific evidence artifact under control/evidence/runtime-e2e/ named Voktors-Mini.Dlink-runtime.txt containing a timestamp, node id, provider/model identity if available, and a deterministic test result. Run a focused verification test. Do not modify production code, do not touch secrets, do not perform destructive operations, and commit/push the result. Return execution/task identity, target SHA, provider/model, changed files, tests, commit SHA, remote SHA, artifact SHA256, and terminal status."
+  "operation": "review",
+  "title": "multiagent-mac-review-20260927",
+  "description": "Review the multi-agent qualification boundary. Return three verification checks that should be recorded before PRE-SOAK.",
+  "target_sha": "7b310de"
 }
