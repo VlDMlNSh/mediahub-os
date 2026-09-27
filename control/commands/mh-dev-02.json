@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "gold-harness-stack-mh02-20260927T1919Z",
+  "command_id": "tooling-ecc-qwen-20260927T1945Z",
   "node_id": "mh-dev-02",
-  "operation": "coding_v2",
-  "title": "Gold harness stack mh-dev-02",
-  "description": "First isolate any legacy Astra worker so only the canonical worker may write control/results. Using only normal user-space and GitHub-controlled execution, install/complete DeepSeek Harness (dsh) and stagewise where headless operation is supported. Add illegal-xd/delx-memory-bun as the local-first MCP persistent-memory component for DSH/Astra, using documented Bun runtime and loopback HTTP/stdio mode. Do not use sudo, do not modify canonical Astra transport, and do not change production services. Validate versions/help, build/install status, delx-memory doctor/health, DSH local startup readiness, and connectivity to existing Ollama/OpenAI-compatible endpoint. Treat illegal-xd/WebTool-DeepSeek as client-side Chrome extension only: document as optional UI integration, do not install a browser extension on the server. Then execute canonical bounded Astra coding qualification and publish fresh evidence to control/results/mh-dev-02.json via GitHub.",
+  "operation": "coding",
+  "title": "tooling-ecc-qwen-20260927T1945Z",
+  "description": "Install and qualify ECC from the canonical upstream affaan-m/everything-claude-code using the project-local Codex-compatible surface only; do not overwrite existing user config. Also inspect local storage and model runtimes. Do NOT download or execute any Qwen cyber/offensive-security model. For Qwen model inventory, only record that it was evaluated and blocked from automatic installation. For ECC: clone/update a pinned source under a temporary/cache path, run its documented Codex compatibility checks if available, and copy only project-local .codex skills/agents/rules needed for Astra development. Preserve existing context_management experimental_mode=true. Return changed files, commit/runtime identity, ECC version/source SHA, tests, and status.",
   "target_sha": "main"
 }
