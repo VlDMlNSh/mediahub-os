@@ -39,7 +39,6 @@ jobs:
       - name: Install pinned qualification toolchain
         run: |
           set -euo pipefail
-          python3 -m pip install --disable-pip-version-check --no-input -r ci-requirements.txt
           python3 -m pytest --version
 
       - name: Verify P0 before E2E
