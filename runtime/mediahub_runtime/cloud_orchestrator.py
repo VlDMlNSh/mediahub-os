@@ -113,7 +113,7 @@ class OpenAIResponsesExecutor:
             raise CloudOrchestratorError("openai_empty_response")
         return output
 
-    class OpenAICompatibleExecutor:
+class OpenAICompatibleExecutor:
     """OpenAI Chat Completions adapter for compatible cloud gateways."""
 
     def __init__(self, env=None, credential_env="OPENAI_API_KEY", model_env="MEDIAHUB_OPENAI_MODEL", base_url="", timeout=45):
@@ -205,7 +205,7 @@ class GeminiExecutor:
             raise CloudOrchestratorError("gemini_empty_response")
         return output
 
-    class OmniRouteClaudeExecutor:
+class OmniRouteClaudeExecutor:
     """Claude-compatible Anthropic Messages adapter through OmniRoute."""
 
     def __init__(self, env=None, timeout=45):
