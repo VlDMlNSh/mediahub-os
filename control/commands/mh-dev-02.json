@@ -1,8 +1,9 @@
 {
   "schema": 1,
-  "command_id": "runtime-e2e-qualification-mh-dev-02-20260927T2040Z",
+  "command_id": "multiagent-02-architecture-20260927T1830Z",
   "node_id": "mh-dev-02",
-  "operation": "coding",
-  "title": "Runtime E2E qualification — Linux node 02",
-  "description": "Execute a bounded runtime E2E qualification on this node. Use the configured AstraGatewayRuntime and local Ollama/runtime only. Create exactly one small node-specific evidence artifact under control/evidence/runtime-e2e/ named mh-dev-02-runtime.txt containing a timestamp, node id, provider/model identity if available, and a deterministic test result. Run a focused verification test. Do not modify production code, do not touch secrets, do not perform destructive operations, and commit/push the result. Return execution/task identity, target SHA, provider/model, changed files, tests, commit SHA, remote SHA, artifact SHA256, and terminal status."
+  "operation": "architecture",
+  "title": "multiagent-02-architecture-20260927T1830Z",
+  "description": "Analyze Astra multi-agent routing and return three concrete risks and mitigations.",
+  "target_sha": "28190b2"
 }
