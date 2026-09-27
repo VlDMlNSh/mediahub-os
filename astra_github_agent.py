@@ -57,7 +57,10 @@ def execute(cmd):
     if operation=="health":
         return {"status":"ready","node_id":NODE_ID,"hostname":platform.node(),
                 "platform":platform.platform(),"python":platform.python_version(),
-                "transport_version":"self-reexec-v1","agent_source_sha":RUNNING_AGENT_SHA}
+                "transport_version":"self-reexec-v1","agent_source_sha":RUNNING_AGENT_SHA,
+                "pid":os.getpid(),"cwd":os.getcwd(),
+                "agent_path":str(Path(__file__).resolve()),
+                "worktree":str(ROOT.resolve())}
     if operation not in OPERATIONS: raise ValueError("unsupported operation")
     configured=os.environ.get("ASTRA_RUNTIME_ROOT","").strip()
     candidates=[]
