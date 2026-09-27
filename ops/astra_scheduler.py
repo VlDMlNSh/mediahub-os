@@ -170,7 +170,7 @@ class Scheduler:
         try:
             succeeded, detail = worker(task, lease)
             if succeeded:
-                match = __import__("re").search(r"\\bremote_sha=([0-9a-f]{40})\\b", detail)
+                match = __import__("re").search(r"\bremote_sha=([0-9a-f]{40})\b", detail)
                 if match is None:
                     raise RuntimeError("successful worker result must include verified remote_sha")
                 next_target_sha = match.group(1)
