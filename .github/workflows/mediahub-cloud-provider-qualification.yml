@@ -1,0 +1,212 @@
+name: MediaHub Cloud Provider Qualification
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "runtime/mediahub_runtime/cloud_orchestrator.py"
+      - "runtime/mediahub_runtime/local_providers.py"
+      - "profiles/agent-registry.json"
+      - "tests/ai/**"
+      - ".github/workflows/mediahub-cloud-provider-qualification.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mediahub-cloud-provider-qualification
+  cancel-in-progress: false
+
+jobs:
+  qualify-external:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
+      PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+      OMNIROUTE_API_KEY: ${{ secrets.OMNIROUTE_API_KEY }}
+      OMNIROUTE_BASE_URL: ${{ vars.OMNIROUTE_BASE_URL }}
+      UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
+      ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify adapter tests
+        run: python3 -m pytest -q tests/ai/test_cloud_orchestrator_failover.py
+
+      - name: Live catalog and inference qualification
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, time, urllib.error, urllib.request
+          from pathlib import Path
+
+          marker = "MEDIAHUB_CLOUD_LIVE_OK"
+          timeout = 45
+          results = {}
+
+          def request(url, *, key=None, headers=None, payload=None):
+              h = dict(headers or {})
+              if key:
+                  h.setdefault("Authorization", "Bearer " + key)
+              data = None if payload is None else json.dumps(payload, separators=(",", ":")).encode()
+              req = urllib.request.Request(url, data=data, headers=h, method="POST" if data else "GET")
+              started = time.monotonic()
+              try:
+                  with urllib.request.urlopen(req, timeout=timeout) as r:
+                      raw = r.read(2_000_000)
+                      return r.status, json.loads(raw.decode()), round(time.monotonic() - started, 3)
+              except urllib.error.HTTPError as e:
+                  raw = e.read(2_000_000)
+                  try: body = json.loads(raw.decode())
+                  except Exception: body = {}
+                  return e.code, body, round(time.monotonic() - started, 3)
+              except Exception as e:
+                  return None, {"error_type": type(e).__name__}, round(time.monotonic() - started, 3)
+
+          def classify(code):
+              if code is None: return "BLOCKED_RUNTIME"
+              if 200 <= code < 300: return "PASS"
+              if code in (401, 403): return "BLOCKED_AUTH"
+              if code == 402: return "BLOCKED_BILLING"
+              if code == 429: return "BLOCKED_RATE_LIMIT"
+              if 500 <= code < 600: return "BLOCKED_RUNTIME"
+              return "FAIL"
+
+          def ids(body):
+              return [str(x.get("id")) for x in body.get("data", []) if isinstance(x, dict) and x.get("id")]
+
+          def choose(model_ids, hints=()):
+              low = [(m.lower(), m) for m in model_ids]
+              selected = []
+              for hint in hints:
+                  for lo, original in low:
+                      if hint in lo and original not in selected:
+                          selected.append(original)
+                          break
+              for original in model_ids:
+                  if original not in selected:
+                      selected.append(original)
+                  if len(selected) >= 2:
+                      break
+              return selected[:2]
+
+          def result(provider, credential_present, catalog_code=None, catalog_models=None, tests=None, failure=None):
+              tests = tests or []
+              inference = "PASS" if any(t.get("status") == "PASS" for t in tests) else ("BLOCKED" if any(t.get("status","").startswith("BLOCKED") for t in tests) else "FAIL")
+              results[provider] = {
+                  "provider": provider,
+                  "credential_present": credential_present,
+                  "catalog_status": classify(catalog_code) if catalog_code is not None else "NOT_RUN",
+                  "inference_status": inference,
+                  "models_tested": [t.get("model") for t in tests if t.get("model")],
+                  "selected_model": tests[0].get("model") if tests else None,
+                  "failure_class": failure or next((t.get("status") for t in tests if t.get("status") != "PASS"), None),
+                  "secret_values": "SUPPRESSED",
+                  "latencies_seconds": [t.get("latency_seconds") for t in tests],
+              }
+
+          def openai_like(provider, key, catalog_url, endpoint, models_hints=()):
+              if not key:
+                  result(provider, False); return
+              code, body, _ = request(catalog_url, key=key)
+              model_ids = ids(body) if isinstance(body, dict) else []
+              tests = []
+              for model in choose(model_ids, models_hints):
+                  p = {"model": model, "messages":[{"role":"user","content":"Reply exactly " + marker}], "max_tokens":16}
+                  c, b, latency = request(endpoint, key=key, headers={"Content-Type":"application/json"}, payload=p)
+                  text = ""
+                  try: text = b["choices"][0]["message"].get("content","").strip()
+                  except Exception: pass
+                  tests.append({"model":model,"status":classify(c) if text else ("FAIL" if c and 200 <= c < 300 else classify(c)),"response_nonempty":bool(text),"marker_present":text==marker,"latency_seconds":latency,"http_status":c})
+              result(provider, True, code, model_ids, tests)
+
+          openai_like("openrouter", os.environ.get("OPENROUTER_API_KEY",""), "https://openrouter.ai/api/v1/models", "https://openrouter.ai/api/v1/chat/completions", ("coder","reason","free"))
+          openai_like("deepseek", os.environ.get("DEEPSEEK_API_KEY",""), "https://api.deepseek.com/models", "https://api.deepseek.com/chat/completions", ("reason","coder","chat"))
+          openai_like("kimi", os.environ.get("KIMI_API_KEY",""), "https://api.moonshot.ai/v1/models", "https://api.moonshot.ai/v1/chat/completions", ("kimi","thinking","reason"))
+          openai_like("perplexity", os.environ.get("PERPLEXITY_API_KEY",""), "https://api.perplexity.ai/models", "https://api.perplexity.ai/chat/completions", ("sonar","reason","search"))
+
+          # OpenAI Responses API.
+          key = os.environ.get("OPENAI_API_KEY","")
+          if not key:
+              result("openai", False)
+          else:
+              code, body, _ = request("https://api.openai.com/v1/models", key=key)
+              model_ids = ids(body) if isinstance(body, dict) else []
+              tests=[]
+              for model in choose(model_ids, ("gpt-5","codex","gpt")):
+                  c,b,latency=request("https://api.openai.com/v1/responses",key=key,headers={"Content-Type":"application/json"},payload={"model":model,"input":marker,"max_output_tokens":16})
+                  text=str(b.get("output_text","")).strip() if isinstance(b,dict) else ""
+                  if not text and isinstance(b,dict):
+                      text="".join(part.get("text","") for item in b.get("output",[]) if isinstance(item,dict) for part in item.get("content",[]) if isinstance(part,dict) and part.get("type")=="output_text").strip()
+                  tests.append({"model":model,"status":classify(c) if text else ("FAIL" if c and 200<=c<300 else classify(c)),"response_nonempty":bool(text),"marker_present":text==marker,"latency_seconds":latency,"http_status":c})
+              result("openai",True,code,model_ids,tests)
+
+          # Gemini native generateContent.
+          key=os.environ.get("GEMINI_API_KEY","")
+          if not key:
+              result("gemini",False)
+          else:
+              code,body,_=request("https://generativelanguage.googleapis.com/v1beta/models?key="+key)
+              model_ids=[m.get("name","").split("/")[-1] for m in body.get("models",[]) if isinstance(m,dict) and m.get("name")]
+              tests=[]
+              for model in choose(model_ids,("flash","pro")):
+                  url="https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent?key="+key
+                  c,b,latency=request(url,headers={"Content-Type":"application/json"},payload={"contents":[{"role":"user","parts":[{"text":"Reply exactly "+marker}]}],"generationConfig":{"maxOutputTokens":16}})
+                  text=""
+                  try: text="".join(p.get("text","") for p in b["candidates"][0]["content"]["parts"] if isinstance(p,dict)).strip()
+                  except Exception: pass
+                  tests.append({"model":model,"status":classify(c) if text else ("FAIL" if c and 200<=c<300 else classify(c)),"response_nonempty":bool(text),"marker_present":text==marker,"latency_seconds":latency,"http_status":c})
+              result("gemini",True,code,model_ids,tests)
+
+          # UnoRouter.
+          openai_like("unorouter",os.environ.get("UNOROUTER_API_KEY",""),"https://api.unorouter.com/v1/models","https://api.unorouter.com/v1/chat/completions",("gpt","codex","free"))
+
+          # ZeroRouter: catalog + one inference, no billing bypass.
+          key=os.environ.get("ZEROUTER_API_KEY","")
+          if not key:
+              result("zerouter",False)
+          else:
+              code,body,_=request("https://api.zerouter.ai/v1/models",key=key)
+              model_ids=ids(body) if isinstance(body,dict) else []
+              tests=[]
+              for model in choose(model_ids,("gpt","codex","claude"))[:1]:
+                  c,b,latency=request("https://api.zerouter.ai/v1/responses",key=key,headers={"Content-Type":"application/json"},payload={"model":model,"input":marker,"max_output_tokens":16})
+                  tests.append({"model":model,"status":classify(c),"response_nonempty":bool(b),"marker_present":False,"latency_seconds":latency,"http_status":c})
+              result("zerouter",True,code,model_ids,tests)
+
+          # OmniRoute/Claude. A local default URL is intentionally not treated as live
+          # on a hosted runner; absence of an external base URL remains runtime-unverified.
+          key=os.environ.get("OMNIROUTE_API_KEY","")
+          base=os.environ.get("OMNIROUTE_BASE_URL","").strip().rstrip("/")
+          if not key:
+              result("claude",False)
+          elif not base:
+              result("claude",True,failure="BLOCKED_RUNTIME:OMNIROUTE_BASE_URL_UNCONFIGURED")
+          else:
+              # /models is not assumed for Anthropic-compatible gateways.
+              model=os.environ.get("MEDIAHUB_CLAUDE_MODEL","").strip()
+              if not model:
+                  result("claude",True,failure="FAIL:MEDIAHUB_CLAUDE_MODEL_UNCONFIGURED")
+              else:
+                  c,b,latency=request(base+"/v1/messages",key=key,headers={"Content-Type":"application/json","anthropic-version":"2023-06-01"},payload={"model":model,"max_tokens":16,"messages":[{"role":"user","content":"Reply exactly "+marker}]})
+                  text="".join(x.get("text","") for x in b.get("content",[]) if isinstance(x,dict) and x.get("type")=="text").strip() if isinstance(b,dict) else ""
+                  result("claude",True,tests=[{"model":model,"status":classify(c) if text else ("FAIL" if c and 200<=c<300 else classify(c)),"response_nonempty":bool(text),"marker_present":text==marker,"latency_seconds":latency,"http_status":c}])
+
+          Path("cloud-provider-evidence.json").write_text(json.dumps({"schema":"mediahub.cloud-provider-evidence.v1","providers":results,"secret_values":"SUPPRESSED"},indent=2,sort_keys=True)+"\n")
+          print(json.dumps(results,sort_keys=True))
+          PY
+
+      - name: Upload sanitized evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mediahub-cloud-provider-evidence
+          path: cloud-provider-evidence.json
+          if-no-files-found: error
