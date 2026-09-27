@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "qualification-openrouter-mh-dev-01-20260927T2055Z",
+  "command_id": "fresh-pre-soak-qualification-mh-dev-01-20260927T2155Z",
   "node_id": "mh-dev-01",
   "operation": "coding",
-  "title": "Astra provider + agent qualification",
-  "description": "Fresh qualification wave. Use canonical GitHub Transport only. Validate the OpenRouter credential integration without printing or persisting secret material; accept OPENROUTER_API_KEY and the GitHub Actions secret alias UNOROUTER_API_KEY. If the secret is not present in this node environment, record NOT_PRESENT rather than failing or exposing it. Run a minimal non-destructive OpenRouter provider/model connectivity check only when credential is available, then continue all local agent qualification: ECC, DeepSeek Harness, Stagewise, delx-memory-bun, FreeLLMAPI, Kimi K3 in C, Colibri. Also run fresh runtime/scheduler/fencing/recovery/backup-restore checks. Keep Qwen3.8 cyber model quarantined and excluded from autonomous selection/tool execution. Preserve context_management.experimental_mode=true. Publish exact evidence, no secret values.",
+  "title": "Fresh PRE-SOAK qualification and UnoRouter validation",
+  "description": "Run the canonical fresh qualification sequence for PRE-SOAK: transport identity, runtime E2E, scheduler E2E, fencing, recovery, backup/restore, provider/model matrix, and repo tests. Validate UnoRouter using UNOROUTER_API_KEY only if present in the node environment; never print or persist the secret. Validate the new native UnoRouter route and configured model if MEDIAHUB_UNOROUTER_MODEL is set; otherwise record model-unconfigured without exposing credentials. Qualify ECC, DeepSeek Harness, Stagewise, delx-memory-bun, FreeLLMAPI, Kimi K3 in C, and Colibri where supported. Keep Qwen3.8 cyber model quarantined and excluded from autonomous execution. Preserve context_management.experimental_mode=true. Publish fresh evidence and exact PASS/PARTIAL/FAIL results. Do not start 24h soak and do not claim GOLD.",
   "target_sha": "main"
 }
