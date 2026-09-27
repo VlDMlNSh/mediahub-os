@@ -73,7 +73,7 @@ jobs:
           subprocess.run(["git", "checkout", "-b", branch], check=True)
           initial_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
 
-          scheduler = Scheduler("qualification/astra-e2e.db", lease_seconds=900)
+          scheduler = Scheduler(f"/tmp/astra-e2e-{os.environ['GITHUB_RUN_ID']}.db", lease_seconds=900)
           scheduler.enqueue(
               "coding",
               "cycle-1",
