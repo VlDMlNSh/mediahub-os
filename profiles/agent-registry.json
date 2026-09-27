@@ -96,13 +96,16 @@
     {
       "id": "claude",
       "enabled": true,
-      "tier": "external",
+      "tier": "external_gateway",
       "capabilities": [
         "coding",
         "architecture",
         "review"
       ],
-      "activation": "credentialed_only"
+      "activation": "credentialed_only",
+      "credential": "OMNIROUTE_API_KEY",
+      "model_env": "MEDIAHUB_CLAUDE_MODEL",
+      "gateway": "omniroute"
     },
     {
       "id": "cursor",
