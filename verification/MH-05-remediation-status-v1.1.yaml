@@ -1,0 +1,65 @@
+version: "2.3"
+component: MH-05 Consumer Boundary
+status: QUALIFICATION_OPEN
+baseline_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
+current_control_point_rule: github_pr_head
+last_inspected_executable_checkpoint: 69eb355b2d31a92be7cf108427f97d5cce99b61f
+
+# Remediation record, not qualification approval.
+# GitHub PR HEAD plus observed exact-SHA workflow evidence remains authoritative.
+
+closed_or_remediated:
+  - F-01A: trusted source_identity propagated through governed command/event path
+  - F-01B: explicit Runtime Event -> Canonical Event projection boundary
+  - F-06A: source provenance continuity
+  - F-06B: correlation/causation continuity with prior-event reference integrity
+  - F-06C: deterministic evidence fingerprint binding
+  - R3: observational evidence binds canonical Event identity/fingerprint
+  - R3-AUTH: real AuthorizationContext required; placeholder attribution removed
+  - R3-IMMUTABILITY: CanonicalEvent payload/metadata recursively frozen
+  - CI-R3: remediation branch triggers MH-05 runtime/security workflows
+  - F-02-PROTOTYPE: composition root constructs exactly one StateAuthority and binds ConsumerBoundary
+  - F-05-TEST-MATRIX: restore functional/adversarial coverage
+  - F-05A-REMEDIATED: authenticated governed restore surface
+  - F-05B-REMEDIATED: checkpoint history prefix preserved
+  - F-03-AUDIT: repository-local AST authority-boundary audit
+  - V05-05-TEST: availability/readiness distinct from authorization
+  - POLICY-SAFETY: restore excluded from ordinary Command.operation policy
+  - V05-06..V05-11-APPLICABILITY: absent executable future consumer surfaces are NOT_APPLICABLE
+
+execution_evidence:
+  - exact_sha: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
+    classification: BASELINE_TARGET
+  - exact_sha: 25beac177319714eed3565b2b673fd5ee5cbf5b1
+    classification: HISTORICAL_EXECUTED
+  - exact_sha: 5541c08fef8257368d06acd75b1f547659b4d804
+    classification: HISTORICAL_EXECUTED
+  - exact_sha: 14b5ea6d629087f20dde29866478086bc68d2af4
+    classification: HISTORICAL_EXECUTED
+  - exact_sha: 69eb355b2d31a92be7cf108427f97d5cce99b61f
+    runtime_workflow: 34121261896
+    security_workflow: 34121261899
+    runtime_conclusion: success
+    security_conclusion: success
+    runtime_result: 33/33 MH-05; 56/56 full regression
+    security_result: 19/19 adversarial
+    checkout_identity: exact_sha_verified
+    classification: EXECUTED
+    note: predecessor checkpoint; does not qualify later documentation commits
+
+not_yet_qualified:
+  - fresh_exact_sha_execution_for_current_pr_head
+  - independent_security_review
+  - independent_system_wide_negative_verification
+  - final_evidence_packet
+  - release_gate_decision
+
+qualification_rules:
+  exact_sha_execution_required: true
+  independent_security_review_required: true
+  independent_system_wide_negative_verification_required: true
+  production_authorization: false
+  persistence_authorization: false
+  ha_authorization: false
+  recovery_expansion_authorization: false
+  mh06_authorization: false

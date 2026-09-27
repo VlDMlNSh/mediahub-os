@@ -1,0 +1,73 @@
+name: MediaHub Cloud Evidence Ingestion
+
+on:
+  workflow_run:
+    workflows: ["MediaHub Cloud Development Agent"]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  publish:
+    if: ${{ github.event.workflow_run.conclusion != 'cancelled' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download cloud evidence artifact
+        uses: actions/download-artifact@v4
+        with:
+          path: evidence
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          merge-multiple: true
+        continue-on-error: true
+
+      - name: Locate evidence artifact
+        id: locate
+        shell: bash
+        run: |
+          set -euo pipefail
+          find evidence -type f -maxdepth 3 -print
+          test -s "$(find evidence -name cloud-evidence.json -type f | head -1)"
+          cp "$(find evidence -name cloud-evidence.json -type f | head -1)" cloud-evidence.json
+
+      - name: Validate provenance
+        shell: bash
+        env:
+          EXPECTED_RUN_ID: ${{ github.event.workflow_run.id }}
+          EXPECTED_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os
+          d=json.load(open("cloud-evidence.json",encoding="utf-8"))
+          assert d["schema_version"] == 1
+          assert d["run_id"] == os.environ["EXPECTED_RUN_ID"]
+          assert d["target_sha"] == os.environ["EXPECTED_HEAD_SHA"]
+          assert hashlib.sha256(d["result"].encode()).hexdigest() == d["artifact_sha256"]
+          for k in ("task_id","execution_id","operation_key","provider","model","capability"):
+              assert isinstance(d[k],str) and d[k]
+          assert isinstance(d["generation"],int) and d["generation"] > 0
+          PY
+
+      - name: Publish immutable evidence branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch="automation/cloud-evidence-${RUN_ID}"
+          git init evidence-repo
+          cd evidence-repo
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "${{ github.event.repository.default_branch }}"
+          git checkout -b "$branch" "FETCH_HEAD"
+          mkdir -p "ops/evidence/cloud/${RUN_ID}"
+          cp ../cloud-evidence.json "ops/evidence/cloud/${RUN_ID}/manifest.json"
+          git config user.name "mediahub-cloud-evidence"
+          git config user.email "mediahub-cloud-evidence@users.noreply.github.com"
+          git add "ops/evidence/cloud/${RUN_ID}/manifest.json"
+          git commit -m "evidence(cloud): record run ${RUN_ID}"
+          git push --set-upstream origin "$branch"

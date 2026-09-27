@@ -1,0 +1,92 @@
+version: "1.0"
+status: "ENGINEERING_BASELINE"
+immutable_r4: "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
+passport: "recovery/master-system-passport-2026-09-05.md"
+architecture_acceptance: "governance/MEDIAHUB-ARCHITECTURE-ACCEPTANCE-2026-09-06.md"
+rules:
+  - "Never modify immutable R4."
+  - "Components implement MediaHub contracts; they do not become domain authorities."
+  - "Every dependency requires exact pinning, license/security/provenance evidence and rollback path."
+  - "No production/release/qualification authorization is implied."
+  - "All mutations traverse State Authority canonical path."
+components:
+  owned:
+    - state_authority
+    - product_model
+    - device_function_model
+    - automation_semantics
+    - security_identity_authorization
+    - storage_domain_model
+    - media_domain_model
+    - surveillance_domain_model
+    - ai_gateway
+    - knowledge_graph
+    - engineering_project_model
+    - digital_twin_graph
+    - drawing_ir
+    - engineering_graph
+    - cable_graph
+    - deterministic_document_generator
+    - engineering_validation_rules
+    - mobile_api_contracts
+    - cluster_resource_governance
+    - installer_update_recovery
+    - evidence_provenance
+  adopted:
+    p0:
+      - ifcopenshell
+      - paddleocr
+      - opencv
+      - onnxruntime
+      - llama_cpp
+      - postgresql_pgvector
+      - s3_compatible_object_storage
+      - opentelemetry_collector
+      - prometheus
+      - cosign_sigstore
+      - syft
+      - trivy
+      - restic
+      - rauc
+      - secrets_manager
+    p1:
+      - web_ifc
+      - three_js
+      - vtk
+      - vtk_js
+      - opendronemap
+      - cloudcompare_external
+      - comfyui_or_invokeai
+      - temporal
+      - k3s_kubernetes
+      - argo_cd
+      - oci_registry
+      - vllm_or_sglang
+  reference_only:
+    - jellyfin
+    - immich
+    - mender
+    - massing
+    - freecad
+stages:
+  - id: A
+    name: architecture_materialization
+    status: active
+  - id: B
+    name: foundation
+    status: queued
+  - id: C
+    name: product_verticals
+    status: queued
+  - id: D
+    name: engineering_moat
+    status: queued
+  - id: E
+    name: local_ai
+    status: queued
+  - id: F
+    name: production_engineering
+    status: queued
+  - id: G
+    name: scale
+    status: queued

@@ -1,0 +1,20 @@
+project:
+  name: mediahub-os
+  mode: bounded-hybrid
+  upstream: arbazkhan971/godmode
+  upstream_commit: 18bfc31d669804856ba232f04cdbd172afbdc379
+provider:
+  name: openrouter
+  endpoint: https://openrouter.ai/api/v1
+  model: openrouter/free
+  credential: OPENROUTER_API_KEY
+  credential_storage: out-of-band
+policy:
+  state_authority: denied
+  production: denied
+  release: denied
+  secrets: denied
+  network_write: denied
+  merge: human
+verification:
+  required: true

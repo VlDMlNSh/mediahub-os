@@ -1,0 +1,4 @@
+# MediaHub Godmode OpenRouter profile. Credentials are supplied out-of-band.
+provider = "openrouter"
+base_url = "https://openrouter.ai/api/v1"
+model = "openrouter/free"

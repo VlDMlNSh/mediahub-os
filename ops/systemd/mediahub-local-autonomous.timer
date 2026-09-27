@@ -1,0 +1,12 @@
+[Unit]
+Description=MediaHub local autonomous development scheduler
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=10min
+RandomizedDelaySec=60
+Persistent=true
+Unit=mediahub-local-autonomous.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,38 @@
+[Unit]
+Description=MediaHub autonomous controller watchdog
+After=local-fs.target mediahub-local-autonomous.service
+Wants=mediahub-local-autonomous.service
+
+[Service]
+Type=simple
+User=mediahub
+Group=mediahub
+WorkingDirectory=/home/mediahub/dev/mediahub-os-autonomous
+ExecStart=/home/mediahub/dev/mediahub-os-autonomous/ops/autonomous_watchdog.sh
+Restart=always
+RestartSec=10
+TimeoutStartSec=0
+TimeoutStopSec=30
+KillMode=control-group
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+IPAddressDeny=any
+IPAddressAllow=127.0.0.1
+IPAddressAllow=::1
+ReadWritePaths=/home/mediahub/dev/mediahub-os-autonomous
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

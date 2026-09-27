@@ -1,0 +1,50 @@
+schema_version: "1.0"
+status: IN PROGRESS
+principle: "Every capability must have one canonical owner and zero or more supporting subsystems."
+canonical_owners:
+  state_authority: [state]
+  runtime_core: [consumer_boundary, offline_runtime, cross_domain_orchestration]
+  smart_home_core: [smart_home, Home_Assistant_internal_boundary]
+  device_onboarding: [discovery, identification, integration_selection, KINCONY_onboarding]
+  device_management: [device_lifecycle]
+  command_system: [device_commands]
+  automation_core: [automation, scenes]
+  scheduling_core: [scheduling]
+  energy_core: [energy]
+  surveillance_core: [surveillance]
+  storage_core: [system_storage, surveillance_storage, personal_media_storage]
+  media_core: [media_ingestion, playback, live_media, transcoding, media_lifecycle]
+  personal_media_core: [personal_media_library]
+  mobile_media: [mobile_sync, phone_IO, iOS_iPadOS]
+  audio_core: [audio, multiroom, 3_5mm]
+  gaming_core: [gaming]
+  ecosystem_gateway: [HomeKit, Yandex_Alice, Loxone_projection]
+  network_core: [Ethernet, WiFi, VPN, Keenetic, Ubiquiti]
+  cluster_core: [local_cluster, distributed_compute]
+  cloud_development: [cloud_development, content_generation, website_generation]
+  assistant_core: [Local_Assistant]
+  engineering_core: [Professional_Edition, Digital_Twin, engineering_documents]
+  observability: [telemetry, health, readiness]
+  diagnostics: [diagnostics]
+  recovery_core: [self_recovery, backup_restore]
+  migration_core: [migration]
+  lifecycle_core: [updates, firmware, lifecycle]
+  data_core: [data_metadata]
+  search_core: [search, indexing]
+  knowledge_core: [knowledge_graph]
+  privacy_security: [privacy]
+  security_core: [security, trust, authentication, authorization]
+  ui_core: [ordinary_UI, engineering_UI, installer_UI]
+  event_core: [events, notifications, history]
+  resource_governance: [resource_quotas, workload_admission]
+  export_core: [export]
+  guidance_core: [contextual_guidance]
+  context_core: [presence_context]
+  installer_core: [multiboot_installer]
+  integration_core: [extensibility]
+  verification: [simulation, testing, acceptance]
+known_unowned_gaps:
+  - "Exact cross-domain state authority contract needs final contract specification."
+  - "Exact cluster authority/coordination implementation remains open."
+  - "Exact vendor/protocol adapter ownership matrix remains open."
+  - "Exact mobile transport ownership between media and platform boundary remains open."

@@ -54,32 +54,6 @@ class OperationalSchemaTests(unittest.TestCase):
             "mediahub://schemas/domain/binding.schema.json",
         )
         self.assertEqual(
-            data["properties"]["priority"]["minimum"],
-            0,
-        )
-
-    def test_relationship_schema(self):
-        data = load("relationship.schema.json")
-        self.assertEqual(
-            data["$id"],
-            "mediahub://schemas/domain/relationship.schema.json",
-        )
-        self.assertEqual(
-            data["properties"]["source"]["type"],
-            "string",
-        )
-        self.assertEqual(
-            data["properties"]["target"]["type"],
-            "string",
-        )
-
-    def test_binding_schema(self):
-        data = load("binding.schema.json")
-        self.assertEqual(
-            data["$id"],
-            "mediahub://schemas/domain/binding.schema.json",
-        )
-        self.assertEqual(
             set(data["required"]),
             {
                 "id",

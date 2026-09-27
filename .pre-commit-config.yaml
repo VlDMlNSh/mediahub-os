@@ -1,0 +1,18 @@
+repos:
+  - repo: local
+    hooks:
+      - id: python-compile
+        name: Python compile
+        entry: python3 -m compileall -q runtime tests ops
+        language: system
+        pass_filenames: false
+      - id: ruff
+        name: Ruff
+        entry: ruff check runtime tests ops
+        language: system
+        pass_filenames: false
+      - id: diff-check
+        name: Git diff check
+        entry: git diff --check
+        language: system
+        pass_filenames: false

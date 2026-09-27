@@ -1,0 +1,32 @@
+version: 1
+repository: VlDMlNSh/mediahub-os
+head_observed: 3990504c61dfef6dd746526995b44dafb5225c2d
+r4: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
+policy: one-task-one-live-lease-one-isolated-worktree-one-owner
+lanes:
+  mh-1: P0.6
+  mh-2: P2.1
+  mh-3: P0.4
+  mh-4: P2.4
+  mh-5: P0.3
+  mh-6: P1.3
+  mh-7: P1.3
+  mh-8: P1.5
+  mh-9: P1.6
+  mh-10: P1.6
+  mh-11: P1.7
+  mh-12: P9.1
+  mh-13: P1.2
+  mh-14: P9.4
+  mh-15: P0.4
+  mh-16: P10.1
+  mh-17: P3.1
+  mh-18: P4.1
+  mh-19: P5.3
+  mh-20: P6.1
+  mh-21: P8.1
+  mh-22: P11.1
+  mh-23: P0.1
+cloud: BLOCKED_UNVERIFIED
+privileged: BLOCKED_UNVERIFIED
+merge_release_production: HUMAN_ONLY

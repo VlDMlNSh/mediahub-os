@@ -1,0 +1,53 @@
+version: 1
+project: MEDIAHUB OS 11.x LTS / MEDIAHUB iOS
+execution:
+  authority: github_sha_and_executable_evidence
+  model_output: advisory_only
+  background_claims_allowed: false
+  secrets:
+    location: runner_environment_or_secret_store
+    forbidden_locations: [source, prompts, issues, artifacts, logs]
+roles:
+  orchestrator:
+    tier: 0
+    concurrency: 1
+    responsibilities: [head_reconciliation, task_graph, conflict_detection, evidence_index]
+  inventory:
+    tier: 1
+    concurrency: 4
+    responsibilities: [static_search, file_inventory, contract_extraction, test_discovery]
+  architecture:
+    tier: 2
+    concurrency: 1
+    responsibilities: [invariant_review, authority_review, drift_detection]
+  evidence:
+    tier: 2
+    concurrency: 2
+    responsibilities: [provenance, causality, event_evidence_reconciliation]
+  restore:
+    tier: 2
+    concurrency: 2
+    responsibilities: [checkpoint_restore_review, authorization_review]
+  security_red_team:
+    tier: 3
+    concurrency: 3
+    responsibilities: [bypass_search, mutation_reachability, malformed_input, adversarial_restore]
+  verification:
+    tier: 4
+    concurrency: 2
+    responsibilities: [ci_sha_verification, test_matrix, evidence_consistency]
+  independent_review:
+    tier: 4
+    concurrency: 2
+    responsibilities: [independent_security_review, systemwide_negative_review]
+  release_gate:
+    tier: 5
+    concurrency: 1
+    responsibilities: [final_evidence_review, qualification_decision]
+policy:
+  protected_baseline: 25f7e3e50708d4bcad37fa712a5000dd2a7dea06
+  mh05_scope_lock: true
+  no_force_push: true
+  no_model_self_qualification: true
+  no_unverified_ci_claims: true
+  serialize_same_file_writes: true

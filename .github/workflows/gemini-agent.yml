@@ -1,0 +1,90 @@
+name: MediaHub Gemini PR Code Review
+
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: gemini-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  GEMINI_MODEL: gemini-2.5-flash
+  MAX_DIFF_BYTES: "120000"
+
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GITHUB_TOKEN: ${{ github.token }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      REPOSITORY: ${{ github.repository }}
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - name: Checkout trusted workflow source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+
+      - name: Fetch PR commits without executing PR code
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          git fetch --no-tags --depth=1 origin "refs/pull/${PR_NUMBER}/head:refs/remotes/origin/pr/${PR_NUMBER}"
+
+      - name: Generate bounded PR diff
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --no-ext-diff --unified=80 "$BASE_SHA" "refs/remotes/origin/pr/${PR_NUMBER}" > pr_diff.full.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, re
+
+          src = Path("pr_diff.full.txt").read_text(encoding="utf-8", errors="replace")
+          sections = re.split(r"(?=^diff --git )", src, flags=re.MULTILINE)
+          ignored = re.compile(r"(^|/)(?:package-lock\.json|yarn\.lock|pnpm-lock\.yaml|go\.sum)$|(?:^|/)(?:dist|build|coverage|vendor|\.terraform|generated|generated-code)(?:/|$)|\.(?:min\.js|min\.css|map|lock)$", re.I)
+          kept = []
+          omitted = []
+          for section in sections:
+              if not section.strip():
+                  continue
+              first = section.splitlines()[0]
+              m = re.match(r"diff --git a/(.*?) b/(.*)$", first)
+              path = m.group(2) if m else "unknown"
+              if "Binary files" in section or ignored.search(path):
+                  omitted.append(path)
+                  continue
+              kept.append(section)
+
+          limit = int(os.environ.get("MAX_DIFF_BYTES", "120000"))
+          header = "# MediaHub PR diff\n\n"
+          if omitted:
+              header += "Omitted binary/generated/lock artifacts:\n" + "\n".join(f"- {p}" for p in sorted(set(omitted))) + "\n\n"
+          out = header + "".join(kept)
+          raw = out.encode("utf-8")
+          if len(raw) > limit:
+              out = raw[:limit].decode("utf-8", errors="ignore")
+              out += "\n\n[DIFF_TRUNCATED_BY_WORKFLOW]\n"
+          Path("pr_diff.txt").write_text(out, encoding="utf-8")
+          print(f"diff_bytes={len(out.encode('utf-8'))}")
+          print(f"omitted_files={len(set(omitted))}")
+          PY
+
+      - name: Setup Go 1.23
+        uses: actions/setup-go@v5.6.0
+        with:
+          go-version: '1.23'
+          cache: false
+
+      - name: Run Gemini autonomous review
+        run: go run .github/scripts/agent/main.go

@@ -1,0 +1,19 @@
+schema_version: "1.0"
+status: IN PROGRESS
+rule: "Do not classify absent historical evidence as feature loss"
+confirmed_or_high-confidence:
+  - id: LOST-001
+    capability: expanded_media_architecture_surface
+    evidence: historical MH-18 branch identified in PASS-0 source inventory
+    disposition: RECOVER_AND_RECONCILE
+    note: "Ingestion, metadata, provenance, indexing, search, duplicate detection, playback, streaming, live media, transcoding, subtitles, thumbnails, playlists, storage lifecycle, backup/recovery, migration, offline-first, export, rights/DRM, privacy/security, AI analysis, API and observability were historically present as artifacts."
+  - id: LOST-002
+    capability: historical_MH-01_to_MH-23_coverage
+    evidence: full conversation corpus not machine-readable in current runtime
+    disposition: UNKNOWN_NOT_LOSS
+    note: "Requires extraction/access to all historical chat bodies."
+  - id: LOST-003
+    capability: detailed_implementation_contracts
+    evidence: accepted passport leaves multiple technical details open
+    disposition: DEFERRED
+    note: "Technical deferral does not remove product capability."
