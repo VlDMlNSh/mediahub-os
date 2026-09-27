@@ -62,6 +62,54 @@ class UnoRouterExecutor:
         return output
 
 
+class OmniRouteClaudeExecutor:
+    """Claude-compatible Anthropic Messages adapter through OmniRoute."""
+
+    def __init__(self, env=None, timeout=45):
+        self._env = dict(os.environ if env is None else env)
+        self._timeout = timeout
+
+    def __call__(self, prompt: str) -> str:
+        key = self._env.get("OMNIROUTE_API_KEY", "").strip()
+        model = self._env.get("MEDIAHUB_CLAUDE_MODEL", "").strip()
+        base_url = self._env.get("OMNIROUTE_BASE_URL", "http://127.0.0.1:20128").strip().rstrip("/")
+        if not key:
+            raise CloudOrchestratorError("omniroute_credential_missing")
+        if not model:
+            raise CloudOrchestratorError("claude_model_unconfigured")
+        body = json.dumps({
+            "model": model,
+            "max_tokens": int(self._env.get("MEDIAHUB_CLAUDE_MAX_OUTPUT_TOKENS", "4096")),
+            "messages": [{"role": "user", "content": prompt}],
+        }, separators=(",", ":")).encode("utf-8")
+        request = urllib.request.Request(
+            f"{base_url}/v1/messages",
+            data=body,
+            headers={
+                "Authorization": f"Bearer {key}",
+                "Content-Type": "application/json",
+                "anthropic-version": "2023-06-01",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=self._timeout) as response:
+                raw = response.read(1_048_576)
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            raise CloudOrchestratorError("omniroute_request_failed") from exc
+        try:
+            data = json.loads(raw.decode("utf-8"))
+            output = "".join(
+                item.get("text", "") for item in data["content"]
+                if isinstance(item, dict) and item.get("type") == "text"
+            )
+        except (UnicodeDecodeError, json.JSONDecodeError, KeyError, TypeError) as exc:
+            raise CloudOrchestratorError("omniroute_invalid_response") from exc
+        if not output:
+            raise CloudOrchestratorError("omniroute_empty_response")
+        return output
+
+
 class CloudOrchestratorError(RuntimeError):
     def __init__(self, code: str):
         self.code = code
@@ -90,7 +138,8 @@ DEFAULT_CLOUD_ROUTES = (
     ProviderRoute("unorouter", "cloud", frozenset({"reasoning", "analysis", "coding", "architecture", "review", "research", "web", "multimodal", "documents", "long_context", "bulk", "repository", "testing", "transform", "classify"}), "UNOROUTER_API_KEY", "MEDIAHUB_UNOROUTER_MODEL", 4),
     ProviderRoute("openrouter", "cloud", frozenset({"reasoning", "analysis", "coding", "architecture", "review", "research", "web", "multimodal", "documents", "long_context", "bulk", "repository", "testing", "transform", "classify"}), "OPENROUTER_API_KEY", "MEDIAHUB_OPENROUTER_MODEL", 5),
     ProviderRoute("openai", "cloud", frozenset({"reasoning", "analysis", "coding"}), "OPENAI_API_KEY", "MEDIAHUB_OPENAI_MODEL", 10),
-    ProviderRoute("claude", "cloud", frozenset({"coding", "architecture", "review", "reasoning"}), "ANTHROPIC_API_KEY", "MEDIAHUB_CLAUDE_MODEL", 20),
+    ProviderRoute("claude", "cloud", frozenset({"coding", "architecture", "review", "reasoning"}), "OMNIROUTE_API_KEY", "MEDIAHUB_CLAUDE_MODEL", 20),
+    ProviderRoute("claude-direct", "cloud", frozenset({"coding", "architecture", "review", "reasoning"}), "ANTHROPIC_API_KEY", "MEDIAHUB_CLAUDE_MODEL", 21),
     ProviderRoute("gemini", "cloud", frozenset({"multimodal", "documents", "reasoning"}), "GEMINI_API_KEY", "MEDIAHUB_GEMINI_MODEL", 30),
     ProviderRoute("perplexity", "cloud", frozenset({"research", "web"}), "PERPLEXITY_API_KEY", "MEDIAHUB_PERPLEXITY_MODEL", 40),
     ProviderRoute("kimi", "cloud", frozenset({"reasoning", "long_context"}), "KIMI_API_KEY", "MEDIAHUB_KIMI_MODEL", 50),
@@ -124,6 +173,7 @@ class CloudFirstOrchestrator:
         self._kimi_k3 = KimiK3InCExecutor()
         self._executors.setdefault("freellmapi", self._freellmapi)
         self._executors.setdefault("unorouter", UnoRouterExecutor(env=self._env))
+        self._executors.setdefault("claude", OmniRouteClaudeExecutor(env=self._env))
         self._executors.setdefault("kimi-k3-in-c", self._kimi_k3)
 
     def decide(self, capability: str, *, allow_local_extension: bool = True) -> OrchestrationDecision:
