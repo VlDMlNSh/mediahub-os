@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "tooling-colibri-qwen-20260927T2005Z",
+  "command_id": "tooling-gold-wave-20260927T2015Z",
   "node_id": "mh-dev-01",
-  "operation": "coding",
-  "title": "tooling-colibri-qwen-install",
-  "description": "Install Colibri from the canonical GitHub source and prepare it as an additional local model-engine provider. Also download and checksum the requested Qwen3.8-27B-Uncensored-Cyber-agentic-imatrix-GGUF IQ4_XS artifact into an isolated model directory if storage permits. Do not expose the Qwen cyber model to autonomous execution, tool-calling, or Astra worker selection yet; keep it quarantined pending separate qualification. Preserve all existing Astra/Codex configuration, especially context_management.experimental_mode=true. Use /home/mediahub or the second disk as appropriate after checking free space. Build/test Colibri with its documented smoke checks. Return exact source SHAs, model file SHA256/size, storage before/after, build/test results, and status.",
+  "operation": "gold-qualification-wave",
+  "title": "Astra Gold qualification wave",
+  "description": "Execute the complete remaining Astra Gold qualification pass through GitHub Transport only. First enforce canonical-worker exclusivity and eliminate/disable any legacy worker competing with the canonical self-reexec-v1 agent; do not use Desktop Commander or SentinelX. Then qualify transport identity, runtime E2E, scheduler E2E, fencing, restart/crash recovery, backup/restore, provider/model matrix, ECC/Colibri tooling where present, and the quarantined Qwen3.8 GGUF inventory. For Qwen, verify only artifact integrity/storage and keep it excluded from autonomous execution unless separately authorized. Run repository tests and qualification validators. Publish fresh evidence to the repository's established qualification/evidence paths, including exact command output, source SHA, runtime identity, commit/push identity, timestamps, and PASS/PARTIAL/FAIL. Do not claim 24h soak or GOLD authorization unless the required soak and independent authorization evidence already exists. Preserve context_management.experimental_mode=true and all immutable baselines.",
   "target_sha": "main"
 }
