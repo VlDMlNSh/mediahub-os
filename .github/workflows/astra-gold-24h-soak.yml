@@ -18,6 +18,9 @@ concurrency:
   group: astra-gold-24h-real-soak
   cancel-in-progress: false
 
+# Canonical GOLD trigger is intentionally on the qualified evidence/execution
+# paths so the existing pending run is replaced by the current main revision.
+
 jobs:
   preflight:
     name: GOLD preflight on canonical node
