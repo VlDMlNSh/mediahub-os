@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "cloud-auth-continuation-20260928T0220Z",
+  "command_id": "astra-gold-qualification-session-20260928T0530Z",
   "node_id": "mh-dev-01",
-  "operation": "coding_v2",
-  "title": "Continuous Astra cloud-auth qualification pass",
-  "description": "Continue bounded cloud authorization qualification from current main. Inspect qualification workflow, CloudFirstOrchestrator, adapters, evidence schema, tests. Implement only evidence-backed minimal fixes that improve live qualification correctness, freshness, fail-closed semantics, and test coverage. Never read/output secrets, invent credentials, bypass auth/billing/quota/rate limits, simulate inference, or weaken gates. Run focused tests/static checks, commit/push reviewed changes, and publish machine-readable evidence. If providers are blocked, preserve BLOCKED and continue with independently verifiable engineering work.",
+  "operation": "qualification",
+  "title": "Astra GOLD qualification supervisor — test session",
+  "description": "Run the bounded GOLD qualification executor repeatedly as the test Astra qualification duty. Execute repository-local compile/tests and strict pre-soak verification; preserve BLOCKED for missing/stale/non-PASS evidence. Never create duplicate workers or Actions runs, never read/output secrets, never bypass auth/billing/quota/rate limits, and never promote simulated or stale evidence to PASS.",
   "target_sha": "main"
 }
