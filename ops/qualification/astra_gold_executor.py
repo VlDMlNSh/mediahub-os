@@ -45,6 +45,10 @@ def main():
                           "iteration":last,"secret_values":"SUPPRESSED",
                           "elapsed_seconds":round(time.time()-started,3)},sort_keys=True))
         if last["status"]=="PASS": return 0
+        # A blocked pre-soak is a queue gate, not a 24h soak. Return immediately
+        # so the canonical worker can advance to the evidence-producing wave.
+        if "fresh_pre_soak_bundle_not_all_PASS" in last.get("blocked_reasons", []):
+            return 2
         time.sleep(min(interval,max(0,int(deadline-time.time()))))
     final={"schema":"mediahub.astra-gold-qualification.v1","status":last["status"] if last else "BLOCKED",
            "executor":"test-astra","iteration":last,"elapsed_seconds":round(time.time()-started,3),
