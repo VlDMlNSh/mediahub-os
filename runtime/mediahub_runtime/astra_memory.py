@@ -129,7 +129,9 @@ class AstraMemory:
         values = tuple(latest.values())
         if include_expired:
             return values
-        return tuple(record for record in values if not record.expired())
+        active = tuple(record for record in values if not record.expired())
+        superseded_ids = {tag.split(":", 1)[1] for record in active for tag in record.tags if tag.startswith("supersedes:") and tag.split(":", 1)[1]}
+        return tuple(record for record in active if record.memory_id not in superseded_ids)
 
     def select(
         self,
