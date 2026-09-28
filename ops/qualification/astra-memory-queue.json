@@ -37,7 +37,7 @@
     },
     {
       "id": "MEM-06",
-      "status": "QUEUED",
+      "status": "IMPLEMENTED_PENDING_RUNTIME",
       "title": "Conversation compaction and hierarchical summaries without deleting raw history"
     },
     {
