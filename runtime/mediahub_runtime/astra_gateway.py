@@ -216,6 +216,7 @@ class AstraGatewayRuntime:
             memory_context = context_manager.build(
                 task.user_command,
                 task_id=task.request_id,
+                session_id=task.session_id,
                 context_refs=task.context_refs,
             )
         try:
@@ -247,12 +248,12 @@ class AstraGatewayRuntime:
             self._emit(events, task, execution_id, "validation.completed", {"valid": True})
             self._emit(events, task, execution_id, "task.completed", {"acceptance": "output_present"})
             if self._memory is not None:
-                self._memory.remember("episodic", f"Task {task.request_id} completed via {provider_id}/{model}", tags=("task", "completed", capability), task_id=task.request_id, source=execution_id, ttl_seconds=604800)
+                self._memory.remember("episodic", f"Task {task.request_id} completed via {provider_id}/{model}", tags=("task", "completed", capability), task_id=task.request_id, session_id=task.session_id, source=execution_id, ttl_seconds=604800)
             return AstraTaskResult(task.request_id, task.session_id, execution_id, "completed", provider_id, model, output, evidence, tuple(events))
         except AstraGatewayError as exc:
             self._emit(events, task, execution_id, "task.failed", {"error_code": exc.code})
             if self._memory is not None:
-                self._memory.remember("episodic", f"Task {task.request_id} failed with {exc.code}", tags=("task", "failed", capability), task_id=task.request_id, source=execution_id, ttl_seconds=604800)
+                self._memory.remember("episodic", f"Task {task.request_id} failed with {exc.code}", tags=("task", "failed", capability), task_id=task.request_id, session_id=task.session_id, source=execution_id, ttl_seconds=604800)
             return AstraTaskResult(task.request_id, task.session_id, execution_id, "failed", provider_id, model, None, None, tuple(events), exc.code)
 
     def run_bounded(self, task: AstraTaskRequest, policy=None):
