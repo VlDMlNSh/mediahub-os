@@ -42,7 +42,7 @@
     },
     {
       "id": "MEM-07",
-      "status": "QUEUED",
+      "status": "IMPLEMENTED_PENDING_RUNTIME",
       "title": "Semantic retrieval/index with deterministic fallback and bounded context budgets"
     },
     {
