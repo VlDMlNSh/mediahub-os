@@ -35,7 +35,7 @@ jobs:
           test "$(id -un)" = "mediahub-runner"
           test -z "$(git status --short)"
           blob_sha="$(git hash-object astra_github_agent.py)"
-          test "$blob_sha" = "3b4767c33caf4d5a633893e11001426d4a2ecc8b"
+          test "$blob_sha" = "994849b0da4a3c9e4262b9ee4a960cd7964e85d8"
           echo "runner=$(hostname)"
           echo "agent_blob_sha=$blob_sha"
       - name: Verify existing canonical Astra worker
