@@ -57,7 +57,7 @@
     },
     {
       "id": "MEM-10",
-      "status": "QUEUED",
+      "status": "IMPLEMENTED_PENDING_RUNTIME",
       "title": "MediaHub Developer chat/project context API contract"
     },
     {
