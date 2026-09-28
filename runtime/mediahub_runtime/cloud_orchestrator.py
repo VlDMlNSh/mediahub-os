@@ -365,7 +365,7 @@ class CloudFirstOrchestrator:
                     route.provider_id,
                     route.tier,
                     self._model(route),
-                    "cloud_provider_configured",
+                    "cloud_provider_admitted",
                 )
 
         if allow_local_extension:
@@ -456,7 +456,7 @@ class CloudFirstOrchestrator:
                             route.provider_id,
                             route.tier,
                             model,
-                            "cloud_provider_configured" if route.tier == "cloud" else "cloud_unavailable_local_extension",
+                            "cloud_provider_admitted" if route.tier == "cloud" else "cloud_unavailable_local_extension",
                         ),
                         executor,
                     ))
