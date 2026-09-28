@@ -27,12 +27,12 @@
     },
     {
       "id": "MEM-04",
-      "status": "QUEUED",
+      "status": "IMPLEMENTED_PENDING_RUNTIME",
       "title": "Session memory: durable chat sessions, decisions, unfinished work and message provenance"
     },
     {
       "id": "MEM-05",
-      "status": "QUEUED",
+      "status": "IMPLEMENTED_PENDING_RUNTIME",
       "title": "Project memory: project identity, repository, revision, architecture, requirements and active state"
     },
     {
@@ -71,5 +71,5 @@
       "title": "Independent GOLD verification of memory continuity and bounded context behavior"
     }
   ],
-  "execution_policy": "Autonomous qualification may advance only one write surface at a time, must use fresh tests/evidence, must not create duplicate workers or Actions runs, and must preserve BLOCKED/UNVERIFIED when live evidence is unavailable."
+  "execution_policy": "Autonomous qualification may advance only one write surface at a time, must use fresh tests/evidence, must not create duplicate workers or Actions runs, and must preserve BLOCKED/UNVERIFIED when live evidence is unavailable. Implementation status does not imply GOLD qualification; runtime/soak evidence must independently promote items to VERIFIED."
 }
