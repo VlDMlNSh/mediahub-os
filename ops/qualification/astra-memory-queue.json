@@ -52,7 +52,7 @@
     },
     {
       "id": "MEM-09",
-      "status": "QUEUED",
+      "status": "IMPLEMENTED_PENDING_RUNTIME",
       "title": "Security/privacy redaction and secret-storage rejection gates"
     },
     {
