@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 
 from runtime.mediahub_runtime.astra_memory import AstraMemory, MEMORY_CLASSES
+from runtime.mediahub_runtime.astra_context import AstraContextBudget, AstraContextManager
 
 
 class AstraMemoryTests(unittest.TestCase):
@@ -38,6 +39,24 @@ class AstraMemoryTests(unittest.TestCase):
             record = memory.remember("working", "temporary selection", ttl_seconds=0)
             self.assertTrue(record.expired())
             self.assertEqual(memory.records(), ())
+
+    def test_context_manager_enforces_record_and_character_budget(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            memory = AstraMemory(Path(tmp) / "memory.jsonl")
+            memory.remember("project", "project architecture decision " + ("x" * 100))
+            memory.remember("episodic", "recent session result")
+            context = AstraContextManager(memory, AstraContextBudget(max_records=1, max_chars=80))
+            rendered = context.build("project architecture")
+            self.assertLessEqual(len(rendered), 80)
+            self.assertTrue(rendered.startswith("[project]"))
+
+    def test_context_manager_can_retrieve_explicit_memory_reference(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            memory = AstraMemory(Path(tmp) / "memory.jsonl")
+            record = memory.remember("semantic", "stable project fact")
+            context = AstraContextManager(memory)
+            selected = context.select("unrelated query", context_refs=(record.memory_id,))
+            self.assertEqual(selected[0].memory_id, record.memory_id)
 
 
 if __name__ == "__main__":
