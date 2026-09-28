@@ -1,1 +1,41 @@
-# MediaHub LLM Gateway — эталонная архитектура\n\n## Назначение\n\nNew API используется как relay/control substrate: PostgreSQL, Redis, channel registry, priority/weight selection, model mapping, retry/failover и usage layer. Политика MediaHub/Astra остаётся выше gateway и является источником истины для квалификации.\n\nMediaHub не форкает AGPL-код New API: используется опубликованный контейнер. Для GOLD production следует зафиксировать проверенный release tag/digest вместо moving tag.\n\n## Маршрутизация\n\nREQUEST → MediaHub alias → eligible channels → priority → weighted selection → upstream → retry/failover → response/evidence.\n\nПриоритеты в манифесте задают классы: прямые квалифицированные провайдеры выше router/fallback каналов. Вес распределяет нагрузку внутри одного уровня.\n\n## Модельный слой\n\n`config/model-mapping.json` задаёт публичные MediaHub aliases и fallback chains. `config/channels.json` задаёт upstream model lists и provider-specific mapping. Циклические mapping не допускаются.\n\n## NaraRouter multi-key\n\nNew API хранит multi-key channel как newline-separated keys. `gateway-init.py` собирает `NARA_KEY_1`, `NARA_KEY_2`, `NARA_KEY_3` в один channel. Поэтому добавление NARA_KEY_2 и NARA_KEY_3 не требует новых каналов или изменения routing topology.\n\n## Gemini test-and-skip\n\nGemini имеет `test_and_skip=true`. На старте initializer выполняет health-check Google Generative Language API. При отсутствии ключа или неуспешном health-check канал не создаётся; остальные маршруты не зависят от Gemini.\n\n## Секреты\n\nВ Git хранятся только имена переменных. Значения приходят из deployment secret store / GitHub Secrets. Access tokens и upstream keys не записываются в репозиторий и не выводятся в логи.\n\n## Deployment\n\n1. Создать `.env` из `.env.example` через secret store.\n2. `docker compose up -d`.\n3. `docker compose run --rm gateway-init`.\n4. Проверить `/api/status` и `/v1/models`.\n5. Перед GOLD выполнить provider qualification и зафиксировать release image.\n\n## ASTRA\n\nBranch `feature/gateway-ethalon` является candidate revision. ASTRA Gold должен квалифицировать именно этот revision после PR review/merge policy. Нельзя считать gateway production-ready только по статическому анализу; нужны fresh runtime evidence, provider health и failover tests.\n
+# MediaHub LLM Gateway — эталонная архитектура
+
+## Назначение
+
+New API используется как relay/control substrate: PostgreSQL, Redis, channel registry, priority/weight selection, model mapping, retry/failover и usage layer. Политика MediaHub/Astra остаётся выше gateway и является источником истины для квалификации.
+
+MediaHub не форкает AGPL-код New API: используется опубликованный контейнер. Для GOLD production следует зафиксировать проверенный release tag/digest вместо moving tag.
+
+## Маршрутизация
+
+REQUEST → MediaHub alias → eligible channels → priority → weighted selection → upstream → retry/failover → response/evidence.
+
+Приоритеты в манифесте задают классы: прямые квалифицированные провайдеры выше router/fallback каналов. Вес распределяет нагрузку внутри одного уровня.
+
+## Модельный слой
+
+config/model-mapping.json задаёт публичные MediaHub aliases и fallback chains. config/channels.json задаёт upstream model lists и provider-specific mapping. Циклические mapping не допускаются.
+
+## NaraRouter multi-key
+
+New API хранит multi-key channel как newline-separated keys. gateway-init.py собирает NARA_KEY_1, NARA_KEY_2, NARA_KEY_3 в один channel. Поэтому добавление NARA_KEY_2 и NARA_KEY_3 не требует новых каналов или изменения routing topology.
+
+## Gemini test-and-skip
+
+Gemini имеет test_and_skip=true. На старте initializer выполняет health-check Google Generative Language API. При отсутствии ключа или неуспешном health-check канал не создаётся; остальные маршруты не зависят от Gemini.
+
+## Секреты
+
+В Git хранятся только имена переменных. Значения приходят из deployment secret store / GitHub Secrets. Access tokens и upstream keys не записываются в Git и не выводятся в логи.
+
+## Deployment
+
+1. Создать .env из .env.example через secret store.
+2. docker compose up -d.
+3. docker compose run --rm gateway-init.
+4. Проверить /api/status и /v1/models.
+5. Перед GOLD выполнить provider qualification и зафиксировать release image.
+
+## ASTRA
+
+Branch feature/gateway-ethalon является candidate revision. ASTRA Gold должен квалифицировать именно этот revision после PR review/merge policy. Нельзя считать gateway production-ready только по статическому анализу; нужны fresh runtime evidence, provider health и failover tests.
