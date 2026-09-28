@@ -33,9 +33,17 @@ class AstraContextManager:
         refs = tuple(str(ref).strip() for ref in context_refs if str(ref).strip())
         records = list(self.memory.select(query, task_id=task_id, session_id=session_id, project_id=project_id, limit=self.budget.max_records))
         if refs:
+            selected_ids = {record.memory_id for record in records}
             for record in self.memory.records():
-                if record.memory_id in refs and record not in records:
-                    records.append(record)
+                if record.memory_id not in refs or record.memory_id in selected_ids:
+                    continue
+                if task_id and record.task_id not in (None, task_id):
+                    continue
+                if session_id and record.session_id not in (None, session_id):
+                    continue
+                if project_id and record.project_id not in (None, project_id):
+                    continue
+                records.append(record)
         return tuple(records[: self.budget.max_records])
 
     def build(
