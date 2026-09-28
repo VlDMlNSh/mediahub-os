@@ -69,7 +69,7 @@ from .autonomous_task import (
     BoundedAutonomousTask,
 )
 from .execution_adapter import (\n    CodexAdapter,\n    CursorAdapter,\n    ExecutionAdapterError,\n    ExecutionResult,\n)\nfrom .execution_backends import (
-    BackendKind,
+    BackendDispatchError,\n    BackendKind,
     ExecutionBackend,
     ExecutionBackendRegistry,
     VerificationState,
