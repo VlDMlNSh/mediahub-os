@@ -61,3 +61,5 @@ jobs:
           os.kill(pid, signal.SIGKILL)
           print("qualification_executor=force_terminated")
           PY
+
+# one-shot recovery wave: release only the blocked qualification child
