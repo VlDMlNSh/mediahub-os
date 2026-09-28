@@ -6,8 +6,7 @@ services:
     command: --log-dir /app/logs
     ports:
       - "${GATEWAY_BIND_ADDRESS:-127.0.0.1}:${GATEWAY_PORT:-3000}:3000"
-    env_file:
-      - .env
+    env_file: [.env]
     environment:
       SQL_DSN: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
       REDIS_CONN_STRING: redis://:${REDIS_PASSWORD}@redis:6379
@@ -24,12 +23,9 @@ services:
       - gateway_data:/data
       - gateway_logs:/app/logs
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    networks:
-      - mediahub-gateway
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+    networks: [mediahub-gateway]
     healthcheck:
       test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1:3000/api/status | grep -q 'success'"]
       interval: 30s
@@ -45,10 +41,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - gateway_pg_data:/var/lib/postgresql/data
-    networks:
-      - mediahub-gateway
+    volumes: [gateway_pg_data:/var/lib/postgresql/data]
+    networks: [mediahub-gateway]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
@@ -60,10 +54,8 @@ services:
     container_name: mediahub-gateway-redis
     restart: unless-stopped
     command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
-    volumes:
-      - gateway_redis_data:/data
-    networks:
-      - mediahub-gateway
+    volumes: [gateway_redis_data:/data]
+    networks: [mediahub-gateway]
     healthcheck:
       test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
       interval: 10s
@@ -71,21 +63,18 @@ services:
       retries: 10
 
   gateway-init:
-    image: alpine:3.20
+    image: python:3.12-alpine
     container_name: mediahub-gateway-init
     restart: "no"
-    env_file:
-      - .env
+    env_file: [.env]
     environment:
       GATEWAY_URL: http://new-api:3000
     volumes:
       - ./scripts:/scripts:ro
       - ./config:/config:ro
     depends_on:
-      new-api:
-        condition: service_healthy
-    networks:
-      - mediahub-gateway
+      new-api: {condition: service_healthy}
+    networks: [mediahub-gateway]
     entrypoint: ["/bin/sh", "/scripts/init-gateway.sh"]
 
 networks:
