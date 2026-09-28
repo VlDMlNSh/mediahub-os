@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .cloud_orchestrator import CloudFirstOrchestrator, CloudOrchestratorError
+from .astra_memory import AstraMemory
 
 
 class AstraGatewayError(RuntimeError):
