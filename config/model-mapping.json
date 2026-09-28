@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "aliases": {
+    "mediahub-fast": {"model":"gpt-oss-120b","chain":["openrouter","unorouter","zerouter","nara","orca"]},
+    "mediahub-reasoning": {"model":"deepseek-reasoner","chain":["deepseek","openrouter","nara"]},
+    "mediahub-code": {"model":"Qwen/Qwen3-30B-A3B-Instruct-2507","chain":["silicon-1","silicon-2","openrouter"]},
+    "mediahub-general": {"model":"mistral-small-latest","chain":["mistral-1","mistral-2","openrouter","unorouter","zerouter"]},
+    "mediahub-vision": {"model":"gemini-2.5-flash","chain":["gemini","openrouter","unorouter"]}
+  },
+  "fallback_policy": {
+    "same_model_first": true,
+    "retryable_http": [408,409,425,429,500,502,503,504],
+    "max_attempts_per_channel": 2,
+    "max_channels": 5,
+    "backoff_seconds": [1,2,4]
+  }
+}
