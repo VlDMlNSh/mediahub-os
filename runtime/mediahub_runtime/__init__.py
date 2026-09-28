@@ -68,6 +68,12 @@ from .autonomous_task import (
     AutonomousTaskResult,
     BoundedAutonomousTask,
 )
+from .execution_backends import (
+    BackendKind,
+    ExecutionBackend,
+    ExecutionBackendRegistry,
+    VerificationState,
+)
 
 __all__ = [
     "AgentRegistry",
@@ -90,6 +96,10 @@ __all__ = [
     "WorkerDecision",
     "WorkerRouter",
     "WorkerRouterError",
+    "BackendKind",
+    "ExecutionBackend",
+    "ExecutionBackendRegistry",
+    "VerificationState",
     "CanonicalState",
     "Checkpoint",
     "ConsumerBoundary",
