@@ -1,0 +1,75 @@
+{
+  "schema": "mediahub.astra-memory-queue.v2",
+  "purpose": "Long-lived Astra memory for MediaHub Developer chat sessions and projects.",
+  "rules": [
+    "Chat is an interface to memory, not the memory itself.",
+    "Raw messages remain durable; summaries and facts are derived layers.",
+    "Memory is advisory and never overrides policy, authorization, evidence, or GitHub source of truth.",
+    "Context retrieval is bounded by explicit record and character budgets.",
+    "Every durable item should retain provenance to session, project, task, message, or commit when available.",
+    "Secrets and credentials must never be stored in memory."
+  ],
+  "items": [
+    {
+      "id": "MEM-01",
+      "status": "DONE",
+      "title": "Five-class durable memory foundation"
+    },
+    {
+      "id": "MEM-02",
+      "status": "DONE",
+      "title": "Gateway integration with durable memory and task outcome recording"
+    },
+    {
+      "id": "MEM-03",
+      "status": "DONE",
+      "title": "Bounded Context Manager for session/project/task context"
+    },
+    {
+      "id": "MEM-04",
+      "status": "QUEUED",
+      "title": "Session memory: durable chat sessions, decisions, unfinished work and message provenance"
+    },
+    {
+      "id": "MEM-05",
+      "status": "QUEUED",
+      "title": "Project memory: project identity, repository, revision, architecture, requirements and active state"
+    },
+    {
+      "id": "MEM-06",
+      "status": "QUEUED",
+      "title": "Conversation compaction and hierarchical summaries without deleting raw history"
+    },
+    {
+      "id": "MEM-07",
+      "status": "QUEUED",
+      "title": "Semantic retrieval/index with deterministic fallback and bounded context budgets"
+    },
+    {
+      "id": "MEM-08",
+      "status": "QUEUED",
+      "title": "Memory provenance, conflict/supersession and lifecycle controls"
+    },
+    {
+      "id": "MEM-09",
+      "status": "QUEUED",
+      "title": "Security/privacy redaction and secret-storage rejection gates"
+    },
+    {
+      "id": "MEM-10",
+      "status": "QUEUED",
+      "title": "MediaHub Developer chat/project context API contract"
+    },
+    {
+      "id": "MEM-11",
+      "status": "QUEUED",
+      "title": "24h memory soak: restart, session continuation, project recall and recovery"
+    },
+    {
+      "id": "MEM-12",
+      "status": "QUEUED",
+      "title": "Independent GOLD verification of memory continuity and bounded context behavior"
+    }
+  ],
+  "execution_policy": "Autonomous qualification may advance only one write surface at a time, must use fresh tests/evidence, must not create duplicate workers or Actions runs, and must preserve BLOCKED/UNVERIFIED when live evidence is unavailable."
+}
