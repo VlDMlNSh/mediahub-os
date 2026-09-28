@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "astra-gold-qualification-session-20260928T0830Z",
+  "command_id": "astra-health-qualification-20260928T0855Z",
   "node_id": "mh-dev-01",
-  "operation": "qualification",
-  "title": "Astra GOLD qualification supervisor — current main",
-  "description": "Run the canonical Astra GOLD qualification executor on current main. Execute repository-local compile/tests and strict pre-soak verification; preserve BLOCKED for missing/stale/non-PASS evidence. Never create duplicate workers or Actions runs, never read/output secrets, never bypass auth/billing/quota/rate limits, and never promote simulated or stale evidence to PASS.",
+  "operation": "health",
+  "title": "Astra live transport health — current main",
+  "description": "Prove canonical GitHub Transport worker identity, node identity, worktree, source revision, and transport health. Return sanitized evidence only; never expose secrets.",
   "target_sha": "main"
 }
