@@ -24,7 +24,10 @@ class AstraRetrievalTests(unittest.TestCase):
     def test_semantic_scores_only_re_rank_scoped_lexical_candidates(self):
         class Scorer:
             def score(self, query, records):
-                return [0.1, 0.9]
+                return [
+                    0.9 if "beta" in record.content else 0.1
+                    for record in records
+                ]
 
         with tempfile.TemporaryDirectory() as tmp:
             memory = AstraMemory(Path(tmp) / "memory.jsonl")
