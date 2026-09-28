@@ -5,6 +5,7 @@ from runtime.mediahub_runtime.execution_backends import (
     ExecutionBackend,
     ExecutionBackendRegistry,
     VerificationState,
+    BackendDispatchError,
 )
 
 
@@ -27,6 +28,21 @@ class ExecutionBackendRegistryTests(unittest.TestCase):
     def test_unverified_backends_are_not_dispatchable_as_verified(self):
         registry = ExecutionBackendRegistry()
         self.assertEqual(registry.verified(), ())
+
+    def test_dispatch_requires_verified_state(self):
+        registry = ExecutionBackendRegistry()
+        with self.assertRaisesRegex(BackendDispatchError, "backend_not_verified"):
+            registry.require_dispatchable("codex")
+
+    def test_verified_backend_is_dispatchable(self):
+        backend = ExecutionBackend(
+            backend_id="codex", display_name="Codex",
+            kind=BackendKind.ENGINEERING_AGENT, node_id="mh-dev-01",
+            command_env="MEDIAHUB_CODEX_COMMAND",
+            verification_state=VerificationState.VERIFIED,
+        )
+        registry = ExecutionBackendRegistry((backend,))
+        self.assertIs(registry.require_dispatchable("codex"), backend)
 
     def test_duplicate_backend_ids_are_rejected(self):
         backend = ExecutionBackend(
