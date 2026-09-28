@@ -16,6 +16,8 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Iterable, Sequence
 
+from .astra_security import redact, require_safe
+
 MEMORY_CLASSES = (
     "working",
     "episodic",
@@ -78,19 +80,22 @@ class AstraMemory:
         ttl_seconds: float | None = None,
         memory_id: str | None = None,
     ) -> MemoryRecord:
+        safe_content = require_safe(content, "content") or ""
+        safe_source = require_safe(source, "source")
+        safe_tags = tuple(require_safe(str(tag), "tag") or "" for tag in tags)
         now = time.time()
         record = MemoryRecord(
             memory_id=memory_id or uuid.uuid4().hex,
             memory_class=memory_class,
-            content=content.strip(),
+            content=safe_content.strip(),
             created_at=now,
             updated_at=now,
             importance=importance,
-            tags=tuple(sorted({str(tag).strip() for tag in tags if str(tag).strip()})),
+            tags=tuple(sorted({tag.strip() for tag in safe_tags if tag.strip()})),
             task_id=task_id,
             session_id=session_id,
             project_id=project_id,
-            source=source,
+            source=safe_source,
             ttl_seconds=ttl_seconds,
         )
         with self.path.open("a", encoding="utf-8") as handle:
@@ -164,8 +169,12 @@ class AstraMemory:
 
     def export_context(self, records: Iterable[MemoryRecord]) -> str:
         return "\n".join(
-            f"[{record.memory_class}] {record.content}"
-            + (f" (tags: {', '.join(record.tags)})" if record.tags else "")
+            f"[{record.memory_class}] {redact(record.content)}"
+            + (
+                f" (tags: {', '.join(redact(tag) for tag in record.tags)})"
+                if record.tags
+                else ""
+            )
             for record in records
         )
 
