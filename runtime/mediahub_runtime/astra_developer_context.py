@@ -82,6 +82,7 @@ class DeveloperContextContract:
             project_id=request.project_id,
             user_command=request.message,
             context_refs=request.context_refs,
+            task_id=request.task_id,
             client_platform=request.client_platform,
             client_version=request.client_version,
         )
