@@ -122,6 +122,8 @@ def main():
                 try: value,rc=execute(cmd),0
                 except Exception as exc: value,rc={"error":repr(exc)},1
                 publish({"schema":1,"node_id":NODE_ID,"command_id":cmd.get("command_id"),
+                         "target_sha":cmd.get("target_sha"),
+                         "execution_head":run(["git","rev-parse","HEAD"],10).stdout.strip(),
                          "returncode":rc,"duration_seconds":round(time.time()-started,3),
                          "result":value,"completed_at":int(time.time())})
                 last_id=str(cmd.get("command_id"))
