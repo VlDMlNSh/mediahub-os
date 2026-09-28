@@ -225,11 +225,11 @@ class AstraGatewayRuntime:
             if self._legacy_executor is not None:
                 agent = self._registry.select(capability)
                 provider_id, tier, model = agent.agent_id, agent.tier, OllamaExecutor.model
-                prompt = task.user_command if not memory_context else task.user_command + "\n\nRelevant durable memory:\n" + memory_context
+                prompt = context_manager.compose_prompt(task.user_command, task_id=task.request_id, session_id=task.session_id, project_id=task.project_id, context_refs=task.context_refs) if self._memory is not None else task.user_command
                 output = self._legacy_executor(prompt)
                 reason = "legacy_injected_executor"
             else:
-                routed_command = task.user_command if not memory_context else task.user_command + "\n\nRelevant durable memory:\n" + memory_context
+                routed_command = context_manager.compose_prompt(task.user_command, task_id=task.request_id, session_id=task.session_id, project_id=task.project_id, context_refs=task.context_refs) if self._memory is not None else task.user_command
                 decision, output = self._orchestrator.execute(capability, routed_command)
                 provider_id, tier, model, reason = decision.provider_id, decision.tier, decision.model or "unspecified", decision.reason
         except (CloudOrchestratorError, AstraGatewayError) as exc:
