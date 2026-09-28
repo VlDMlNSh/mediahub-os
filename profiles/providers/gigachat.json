@@ -1,0 +1,37 @@
+{
+  "provider_id": "gigachat",
+  "display_name": "GigaChat",
+  "vendor": "Sber",
+  "status": "registered",
+  "registration_scope": "provider-registry-only",
+  "credentials": {
+    "secret_ref": "GIGACHAT_API_PERS",
+    "client_id": "01a0e9b4-b923-79b2-9996-e2e33d3fd63f",
+    "credential_type": "authorization-key",
+    "secret_required": true,
+    "secret_value_in_repo": false
+  },
+  "auth": {
+    "type": "oauth2_client_credentials_like_basic",
+    "token_endpoint": "https://ngw.devices.sberbank.ru:9443/api/v2/oauth",
+    "scope": "GIGACHAT_API_PERS",
+    "token_ttl_seconds": 1800,
+    "refresh_required": true,
+    "authorization_header": "Basic",
+    "api_authorization": "Bearer"
+  },
+  "api": {
+    "base_url": "https://api.giga.chat",
+    "models_endpoint": "/v1/models",
+    "protocol": "gigachat"
+  },
+  "qualification": {
+    "enabled": false,
+    "required_before_production": true
+  },
+  "security": {
+    "access_token_persist": false,
+    "access_token_logging": false,
+    "secret_logging": false
+  }
+}
