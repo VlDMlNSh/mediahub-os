@@ -45,6 +45,7 @@ class AstraTaskRequest:
     request_id: str
     session_id: str
     user_command: str
+    project_id: str | None = None
     approval_state: str = "not_required"
     context_refs: tuple[str, ...] = ()
     client_platform: str = "unknown"
@@ -217,6 +218,7 @@ class AstraGatewayRuntime:
                 task.user_command,
                 task_id=task.request_id,
                 session_id=task.session_id,
+                project_id=task.project_id,
                 context_refs=task.context_refs,
             )
         try:
@@ -248,7 +250,7 @@ class AstraGatewayRuntime:
             self._emit(events, task, execution_id, "validation.completed", {"valid": True})
             self._emit(events, task, execution_id, "task.completed", {"acceptance": "output_present"})
             if self._memory is not None:
-                self._memory.remember("episodic", f"Task {task.request_id} completed via {provider_id}/{model}", tags=("task", "completed", capability), task_id=task.request_id, session_id=task.session_id, source=execution_id, ttl_seconds=604800)
+                self._memory.remember("episodic", f"Task {task.request_id} completed via {provider_id}/{model}", tags=("task", "completed", capability), task_id=task.request_id, session_id=task.session_id, project_id=task.project_id, source=execution_id, ttl_seconds=604800)
             return AstraTaskResult(task.request_id, task.session_id, execution_id, "completed", provider_id, model, output, evidence, tuple(events))
         except AstraGatewayError as exc:
             self._emit(events, task, execution_id, "task.failed", {"error_code": exc.code})
@@ -300,6 +302,8 @@ class AstraGatewayRuntime:
         for value in (task.request_id, task.session_id, task.user_command):
             if not isinstance(value, str) or not value.strip():
                 raise AstraGatewayError("invalid_task")
+        if task.project_id is not None and (not isinstance(task.project_id, str) or not task.project_id.strip()):
+            raise AstraGatewayError("invalid_project")
         if task.approval_state not in {"not_required", "approved", "pending", "rejected"}:
             raise AstraGatewayError("invalid_approval_state")
         if len(task.user_command.encode("utf-8")) > cls.MAX_COMMAND_BYTES:
