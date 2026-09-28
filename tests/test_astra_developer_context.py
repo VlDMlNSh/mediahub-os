@@ -45,6 +45,14 @@ class DeveloperContextContractTests(unittest.TestCase):
         self.assertEqual(task.session_id, "s1")
         self.assertFalse(hasattr(task, "api_key"))
 
+    def test_preserves_task_scope_in_gateway_mapping(self):
+        request = DeveloperContextContract.parse({
+            "request_id": "r1", "session_id": "s1", "project_id": "p1",
+            "task_id": "t1", "message": "x",
+        })
+        task = DeveloperContextContract.to_gateway_task(request)
+        self.assertEqual(task.task_id, "t1")
+
 
 if __name__ == "__main__":
     unittest.main()
