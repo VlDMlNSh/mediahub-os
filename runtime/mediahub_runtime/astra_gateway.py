@@ -212,12 +212,13 @@ class AstraGatewayRuntime:
             return AstraTaskResult(task.request_id, task.session_id, execution_id, "failed", None, None, None, None, tuple(events), "approval_required")
         self._emit(events, task, execution_id, "policy.checked", {"allowed": True})
         capability = self._capability(task.user_command)
+        scope_task_id = task.task_id or task.request_id
         memory_context = ""
         if self._memory is not None:
             context_manager = AstraContextManager(self._memory)
             memory_context = context_manager.build(
                 task.user_command,
-                task_id=task.task_id,
+                task_id=scope_task_id,
                 session_id=task.session_id,
                 project_id=task.project_id,
                 context_refs=task.context_refs,
