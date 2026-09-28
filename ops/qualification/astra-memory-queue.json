@@ -47,7 +47,7 @@
     },
     {
       "id": "MEM-08",
-      "status": "QUEUED",
+      "status": "IMPLEMENTED_PENDING_RUNTIME",
       "title": "Memory provenance, conflict/supersession and lifecycle controls"
     },
     {
