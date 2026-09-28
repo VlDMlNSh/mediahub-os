@@ -93,14 +93,21 @@ def qualify(backend_id: str) -> dict:
 
 def main() -> int:
     node_id = platform.node()
+    try:
+        repo_revision = subprocess.run(["git", "rev-parse", "HEAD"], text=True, capture_output=True, timeout=10, check=False).stdout.strip()
+    except (OSError, subprocess.TimeoutExpired):
+        repo_revision = ""
     payload = {
         "schema": "mediahub.execution-backends.v1",
         "status": "PASS",
         "captured_at": int(time.time()),
         "node_id": node_id,
+        "repo_revision": repo_revision,
         "backends": {backend_id: qualify(backend_id) for backend_id in BACKENDS},
         "secret_values": "SUPPRESSED",
     }
+    if not repo_revision:
+        payload["status"] = "BLOCKED"
     if any(item["verification_state"] != "VERIFIED" for item in payload["backends"].values()):
         payload["status"] = "BLOCKED"
     canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
