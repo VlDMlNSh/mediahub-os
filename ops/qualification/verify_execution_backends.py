@@ -14,12 +14,16 @@ REQUIRED_BACKENDS = ("codex", "cursor")
 REQUIRED_CHECKS = ("node_identity", "binary_identity", "bounded_execution")
 
 
-def verify(payload: dict) -> dict:
+def verify(payload: dict, expected_revision: str | None = None) -> dict:
     blocked: list[str] = []
     if payload.get("schema") != "mediahub.execution-backends.v1":
         blocked.append("invalid_schema")
     if payload.get("status") != "PASS":
         blocked.append("evidence_status_not_PASS")
+    if payload.get("node_id") != "mh-dev-01":
+        blocked.append("node_identity_invalid")
+    if expected_revision is not None and payload.get("repo_revision") != expected_revision:
+        blocked.append("repo_revision_mismatch")
     backends = payload.get("backends")
     if not isinstance(backends, dict):
         blocked.append("backends_missing")
@@ -58,8 +62,9 @@ def verify(payload: dict) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("evidence", type=Path)
+    parser.add_argument("--expected-revision")
     args = parser.parse_args()
-    result = verify(json.loads(args.evidence.read_text(encoding="utf-8")))
+    result = verify(json.loads(args.evidence.read_text(encoding="utf-8")), args.expected_revision)
     print(json.dumps(result, sort_keys=True))
     return 0 if result["status"] == "PASS" else 2
 
