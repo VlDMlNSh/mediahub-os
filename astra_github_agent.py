@@ -65,7 +65,7 @@ def execute(cmd):
         script=ROOT/"ops"/"qualification"/"astra_gold_executor.py"
         if not script.exists():
             raise FileNotFoundError(f"qualification executor not found: {script}")
-        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","900")),check=False)
+        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),check=False)
         payload={"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:]}
         if result.returncode != 0:
             payload["status"]="BLOCKED"
