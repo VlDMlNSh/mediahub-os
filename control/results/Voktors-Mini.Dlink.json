@@ -1,0 +1,13 @@
+{
+  "command_id": "cloud-auth-independent-review-20260928T0220Z",
+  "completed_at": 1790579632,
+  "duration_seconds": 0.02,
+  "execution_head": "cccd5ebec52a6a77c0efc4e31fa044538ac973ec",
+  "node_id": "Voktors-Mini.Dlink",
+  "result": {
+    "error": "SyntaxError('unexpected character after line continuation character', ('/Users/voktor/astra-work/runtime/mediahub_runtime/__init__.py', 71, 159, 'from .execution_adapter import (\\\\n    CodexAdapter,\\\\n    CursorAdapter,\\\\n    ExecutionAdapterError,\\\\n    ExecutionResult,\\\\n)\\\\nfrom .execution_backends import (\\n'))"
+  },
+  "returncode": 1,
+  "schema": 1,
+  "target_sha": "main"
+}
