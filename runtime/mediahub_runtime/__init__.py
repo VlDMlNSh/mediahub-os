@@ -73,8 +73,10 @@ from .execution_adapter import (
     CursorAdapter,
     ExecutionAdapterError,
     ExecutionResult,
-)\nfrom .execution_backends import (
-    BackendDispatchError,\n    BackendKind,
+)
+from .execution_backends import (
+    BackendDispatchError,
+    BackendKind,
     ExecutionBackend,
     ExecutionBackendRegistry,
     VerificationState,
@@ -104,7 +106,8 @@ __all__ = [
     "CodexAdapter",
     "CursorAdapter",
     "ExecutionAdapterError",
-    "ExecutionResult",\n    "BackendKind",
+    "ExecutionResult",
+    "BackendKind",
     "ExecutionBackend",
     "ExecutionBackendRegistry",
     "VerificationState",
