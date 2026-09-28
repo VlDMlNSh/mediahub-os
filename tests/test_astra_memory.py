@@ -69,6 +69,24 @@ class AstraMemoryTests(unittest.TestCase):
             self.assertEqual(len(selected), 1)
             self.assertEqual(selected[0].project_id, "p1")
 
+    def test_explicit_reference_cannot_escape_project_scope(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            memory = AstraMemory(Path(tmp) / "memory.jsonl")
+            foreign = memory.remember("project", "foreign project fact", session_id="s2", project_id="p2")
+            selected = AstraContextManager(memory).select(
+                "unrelated", session_id="s1", project_id="p1", context_refs=(foreign.memory_id,)
+            )
+            self.assertEqual(selected, ())
+
+    def test_explicit_reference_respects_session_scope(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            memory = AstraMemory(Path(tmp) / "memory.jsonl")
+            foreign = memory.remember("project", "foreign session fact", session_id="s2", project_id="p1")
+            selected = AstraContextManager(memory).select(
+                "unrelated", session_id="s1", project_id="p1", context_refs=(foreign.memory_id,)
+            )
+            self.assertEqual(selected, ())
+
     def test_context_manager_scopes_to_session_and_project(self):
         with tempfile.TemporaryDirectory() as tmp:
             memory = AstraMemory(Path(tmp) / "memory.jsonl")
