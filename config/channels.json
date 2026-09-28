@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "defaults": {"group": "default", "status": 1, "auto_ban": 1, "weight": 100},
+  "channels": [
+    {"id":"deepseek","name":"DeepSeek","type":43,"base_url_env":"DEEPSEEK_BASE_URL","key_env":"DEEPSEEK_API_KEY","models":["deepseek-chat","deepseek-reasoner"],"priority":100,"weight":100,"test_model":"deepseek-chat"},
+    {"id":"kimi","name":"Kimi","type":25,"base_url_env":"KIMI_BASE_URL","key_env":"KIMI_API_KEY","models":["kimi-k2","kimi-k2-thinking"],"priority":100,"weight":100,"test_model":"kimi-k2"},
+    {"id":"mistral-1","name":"Mistral 1","type":42,"base_url_env":"MISTRAL_BASE_URL","key_env":"MISTRAL_KEY_1","models":["mistral-large-latest","mistral-small-latest"],"priority":100,"weight":100,"test_model":"mistral-small-latest"},
+    {"id":"mistral-2","name":"Mistral 2","type":42,"base_url_env":"MISTRAL_BASE_URL","key_env":"MISTRAL_KEY_2","models":["mistral-large-latest","mistral-small-latest"],"priority":99,"weight":100,"test_model":"mistral-small-latest"},
+    {"id":"silicon-1","name":"SiliconFlow 1","type":40,"base_url_env":"SILICON_BASE_URL","key_env":"SILICON_KEY_1","models":["Qwen/Qwen3-30B-A3B-Instruct-2507","deepseek-ai/DeepSeek-V3.1"],"priority":90,"weight":100,"test_model":"Qwen/Qwen3-30B-A3B-Instruct-2507"},
+    {"id":"silicon-2","name":"SiliconFlow 2","type":40,"base_url_env":"SILICON_BASE_URL","key_env":"SILICON_KEY_2","models":["Qwen/Qwen3-30B-A3B-Instruct-2507","deepseek-ai/DeepSeek-V3.1"],"priority":89,"weight":100,"test_model":"Qwen/Qwen3-30B-A3B-Instruct-2507"},
+    {"id":"zai-1","name":"Z.ai 1","type":16,"base_url_env":"ZAI_BASE_URL","key_env":"ZAI_KEY_1","models":["glm-4.5","glm-4.5-air"],"priority":90,"weight":100,"test_model":"glm-4.5-air"},
+    {"id":"zai-2","name":"Z.ai 2","type":16,"base_url_env":"ZAI_BASE_URL","key_env":"ZAI_KEY_2","models":["glm-4.5","glm-4.5-air"],"priority":89,"weight":100,"test_model":"glm-4.5-air"},
+    {"id":"openrouter","name":"OpenRouter","type":20,"key_env":"OPENROUTER_API_KEY","base_url":"https://openrouter.ai/api/v1","models":["openai/gpt-oss-120b","google/gemini-2.5-flash"],"priority":80,"weight":100,"test_model":"openai/gpt-oss-120b"},
+    {"id":"unorouter","name":"UnoRouter","type":1,"base_url_env":"UNOROUTER_BASE_URL","key_env":"UNOROUTER_API_KEY","models":["gpt-oss-120b","claude-3-7-sonnet"],"priority":79,"weight":100,"test_model":"gpt-oss-120b"},
+    {"id":"zerouter","name":"ZeroRouter","type":1,"base_url_env":"ZEROUTER_BASE_URL","key_env":"ZEROUTER_API_KEY","models":["gpt-oss-120b","claude-3-7-sonnet"],"priority":78,"weight":100,"test_model":"gpt-oss-120b"},
+    {"id":"nara","name":"NaraRouter","type":1,"base_url_env":"NARA_BASE_URL","key_envs":["NARA_KEY_1","NARA_KEY_2","NARA_KEY_3"],"multi_key":true,"multi_key_mode":"random","models":["gpt-oss-120b","deepseek-v3"],"priority":77,"weight":100,"test_model":"gpt-oss-120b"},
+    {"id":"orca","name":"OrcaRouter","type":1,"base_url_env":"ORCA_BASE_URL","key_env":"ORCA_KEY","models":["gpt-oss-120b","deepseek-v3"],"priority":76,"weight":100,"test_model":"gpt-oss-120b"},
+    {"id":"llm7","name":"LLM7","type":1,"base_url_env":"LLM7_BASE_URL","key_env":"LLM7_TOKEN","models":["gpt-4o-mini","claude-3-5-sonnet"],"priority":75,"weight":100,"test_model":"gpt-4o-mini"},
+    {"id":"sambanova","name":"SambaNova","type":1,"base_url_env":"SAMBANOVA_BASE_URL","key_env":"SAMBANOVA_KEY","models":["Meta-Llama-3.3-70B-Instruct"],"priority":70,"weight":100,"test_model":"Meta-Llama-3.3-70B-Instruct"},
+    {"id":"gigachat","name":"GigaChat","type":1,"base_url_env":"GIGACHAT_BASE_URL","key_env":"GIGACHAT_API_PERS","models":["GigaChat"],"priority":60,"weight":100,"status":0,"test_model":"GigaChat"},
+    {"id":"gemini","name":"Gemini test-and-skip","type":24,"key_env":"GEMINI_API_KEY","base_url":"https://generativelanguage.googleapis.com","models":["gemini-2.5-flash","gemini-2.5-pro"],"priority":50,"weight":100,"test_model":"gemini-2.5-flash","test_and_skip":true}
+  ]
+}
