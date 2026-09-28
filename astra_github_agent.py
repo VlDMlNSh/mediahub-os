@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
@@ -69,6 +69,42 @@ def execute(cmd):
         payload={"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:]}
         payload["status"]="PASS" if result.returncode == 0 else "BLOCKED"
         return payload
+    if operation == "timezone_sync":
+        target_timezone = "Europe/Moscow"
+        commands = [
+            ["timedatectl", "set-timezone", target_timezone],
+            ["sudo", "-n", "timedatectl", "set-timezone", target_timezone],
+        ]
+        applied = False
+        attempts = []
+        for argv in commands:
+            result = subprocess.run(argv, cwd=ROOT, text=True, capture_output=True, timeout=30, check=False)
+            attempts.append({
+                "command": " ".join(argv[:2]) + (" " + argv[2] if len(argv) > 2 else ""),
+                "returncode": result.returncode,
+                "stderr": result.stderr[-2000:],
+            })
+            if result.returncode == 0:
+                applied = True
+                break
+        verify = subprocess.run(
+            ["timedatectl", "show", "-p", "Timezone", "-p", "NTPSynchronized", "-p", "NTP"],
+            cwd=ROOT, text=True, capture_output=True, timeout=30, check=False,
+        )
+        values = {}
+        for line in verify.stdout.splitlines():
+            if "=" in line:
+                key, value = line.split("=", 1)
+                values[key] = value
+        return {
+            "status": "PASS" if applied and values.get("Timezone") == target_timezone else "BLOCKED",
+            "target_timezone": target_timezone,
+            "applied": applied,
+            "verified_timezone": values.get("Timezone"),
+            "ntp_synchronized": values.get("NTPSynchronized"),
+            "ntp_enabled": values.get("NTP"),
+            "attempts": attempts,
+        }
     if operation == "pre_soak_evidence":
         script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
         if not script.exists():
