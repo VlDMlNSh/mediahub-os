@@ -67,7 +67,7 @@ class CloudAdmissionTests(unittest.TestCase):
         self.assertEqual(orchestrator.admitted_cloud_providers(), ("test-cloud",))
         decision = orchestrator.decide("coding", allow_local_extension=False)
         self.assertEqual(decision.provider_id, "test-cloud")
-        self.assertEqual(decision.reason, "cloud_provider_configured")
+        self.assertEqual(decision.reason, "cloud_provider_admitted")
 
     def test_partial_provider_is_fail_closed_to_local(self):
         orchestrator = self._orchestrator(self._evidence(qualification="PARTIAL"))
