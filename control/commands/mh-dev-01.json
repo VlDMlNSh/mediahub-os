@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "astra-gold-qualification-session-20260928T0530Z",
+  "command_id": "execution-backend-qualification-20260928T1007Z",
   "node_id": "mh-dev-01",
-  "operation": "qualification",
-  "title": "Astra GOLD qualification supervisor — test session",
-  "description": "Run the bounded GOLD qualification executor repeatedly as the test Astra qualification duty. Execute repository-local compile/tests and strict pre-soak verification; preserve BLOCKED for missing/stale/non-PASS evidence. Never create duplicate workers or Actions runs, never read/output secrets, never bypass auth/billing/quota/rate limits, and never promote simulated or stale evidence to PASS.",
+  "operation": "execution_backend_qualification",
+  "title": "Codex/Cursor bounded runtime qualification",
+  "description": "Run the repository-local bounded execution-backend qualification probe on mh-dev-01. Capture only sanitized identity, exit status, output size and digest. Never print command configuration, command output, credentials, or secrets. Do not alter verification state except through independently verified evidence.",
   "target_sha": "main"
 }
