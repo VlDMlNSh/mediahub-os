@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Iterable
 
 from .astra_memory import AstraMemory, MemoryRecord
+from .astra_security import redact
 
 
 @dataclass(frozen=True)
@@ -92,9 +93,9 @@ class AstraContextManager:
         used = 0
         for record in records:
             chunk = (
-                f"[{record.memory_class}] {record.content}"
-                + (f" (tags: {', '.join(record.tags)})" if record.tags else "")
-                + (f" (source: {record.source})" if record.source else "")
+                f"[{record.memory_class}] {redact(record.content)}"
+                + (f" (tags: {', '.join(redact(tag) for tag in record.tags)})" if record.tags else "")
+                + (f" (source: {redact(record.source)})" if record.source else "")
             )
             remaining = self.budget.max_chars - used
             if remaining <= 0:
