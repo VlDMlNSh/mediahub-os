@@ -16,6 +16,8 @@ class AstraMemoryTests(unittest.TestCase):
                     f"{memory_class} qualification evidence",
                     tags=("qualification", memory_class),
                     task_id="gold-1",
+                    session_id="session-1",
+                    project_id="project-1",
                 )
             reloaded = AstraMemory(Path(tmp) / "memory.jsonl")
             self.assertEqual(
@@ -57,6 +59,25 @@ class AstraMemoryTests(unittest.TestCase):
             context = AstraContextManager(memory)
             selected = context.select("unrelated query", context_refs=(record.memory_id,))
             self.assertEqual(selected[0].memory_id, record.memory_id)
+
+    def test_memory_scopes_by_session_and_project(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            memory = AstraMemory(Path(tmp) / "memory.jsonl")
+            memory.remember("project", "shared project fact", session_id="s1", project_id="p1")
+            memory.remember("project", "other project fact", session_id="s2", project_id="p2")
+            selected = memory.select("project fact", session_id="s1", project_id="p1")
+            self.assertEqual(len(selected), 1)
+            self.assertEqual(selected[0].project_id, "p1")
+
+    def test_context_manager_scopes_to_session_and_project(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            memory = AstraMemory(Path(tmp) / "memory.jsonl")
+            memory.remember("project", "MediaHub architecture", session_id="s1", project_id="p1")
+            memory.remember("project", "unrelated architecture", session_id="s2", project_id="p2")
+            context = AstraContextManager(memory)
+            rendered = context.build("architecture", session_id="s1", project_id="p1")
+            self.assertIn("MediaHub architecture", rendered)
+            self.assertNotIn("unrelated architecture", rendered)
 
 
 if __name__ == "__main__":
