@@ -97,6 +97,22 @@ class AstraMemoryTests(unittest.TestCase):
             self.assertIn("MediaHub architecture", rendered)
             self.assertNotIn("unrelated architecture", rendered)
 
+    def test_memory_rejects_secret_like_content_and_source(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            memory = AstraMemory(Path(tmp) / "memory.jsonl")
+            with self.assertRaisesRegex(ValueError, "content"):
+                memory.remember("episodic", "api_key=abcdefghijklmnopqrstuvwxyz")
+            with self.assertRaisesRegex(ValueError, "source"):
+                memory.remember("episodic", "safe text", source="Bearer abcdefghijklmnop")
+
+    def test_context_export_redacts_defense_in_depth(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            memory = AstraMemory(Path(tmp) / "memory.jsonl")
+            record = memory.remember("episodic", "safe text", tags=("normal",))
+            rendered = memory.export_context((record,))
+            self.assertIn("safe text", rendered)
+            self.assertNotIn("[REDACTED_SECRET]", rendered)
+
 
 if __name__ == "__main__":
     unittest.main()
