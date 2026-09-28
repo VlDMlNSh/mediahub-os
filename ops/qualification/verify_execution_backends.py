@@ -24,6 +24,10 @@ def verify(payload: dict, expected_revision: str | None = None) -> dict:
         blocked.append("node_identity_invalid")
     if expected_revision is not None and payload.get("repo_revision") != expected_revision:
         blocked.append("repo_revision_mismatch")
+    if payload.get("command_id") is not None and payload.get("command_id") != "execution-backend-qualification-20260928T1014Z":
+        blocked.append("command_id_mismatch")
+    if payload.get("target_sha") and payload.get("execution_head") and payload.get("target_sha") != payload.get("execution_head"):
+        blocked.append("execution_head_mismatch")
     backends = payload.get("backends")
     if not isinstance(backends, dict):
         blocked.append("backends_missing")
