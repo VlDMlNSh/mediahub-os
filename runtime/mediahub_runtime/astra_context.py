@@ -26,10 +26,12 @@ class AstraContextManager:
         query: str,
         *,
         task_id: str | None = None,
+        session_id: str | None = None,
+        project_id: str | None = None,
         context_refs: Iterable[str] = (),
     ) -> tuple[MemoryRecord, ...]:
         refs = tuple(str(ref).strip() for ref in context_refs if str(ref).strip())
-        records = list(self.memory.select(query, task_id=task_id, limit=self.budget.max_records))
+        records = list(self.memory.select(query, task_id=task_id, session_id=session_id, project_id=project_id, limit=self.budget.max_records))
         if refs:
             for record in self.memory.records():
                 if record.memory_id in refs and record not in records:
@@ -41,9 +43,11 @@ class AstraContextManager:
         query: str,
         *,
         task_id: str | None = None,
+        session_id: str | None = None,
+        project_id: str | None = None,
         context_refs: Iterable[str] = (),
     ) -> str:
-        records = self.select(query, task_id=task_id, context_refs=context_refs)
+        records = self.select(query, task_id=task_id, session_id=session_id, project_id=project_id, context_refs=context_refs)
         chunks: list[str] = []
         used = 0
         for record in records:
