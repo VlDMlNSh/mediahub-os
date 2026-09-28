@@ -130,8 +130,21 @@ class AstraMemory:
         if include_expired:
             return values
         active = tuple(record for record in values if not record.expired())
-        superseded_ids = {tag.split(":", 1)[1] for record in active for tag in record.tags if tag.startswith("supersedes:") and tag.split(":", 1)[1]}
+        by_id = {record.memory_id: record for record in active}
+        superseded_ids = set()
+        for record in active:
+            for tag in record.tags:
+                if not tag.startswith("supersedes:"):
+                    continue
+                target_id = tag.split(":", 1)[1]
+                target = by_id.get(target_id)
+                if target is not None and self._same_scope(record, target):
+                    superseded_ids.add(target_id)
         return tuple(record for record in active if record.memory_id not in superseded_ids)
+
+    @staticmethod
+    def _same_scope(left: MemoryRecord, right: MemoryRecord) -> bool:
+        return (left.task_id, left.session_id, left.project_id) == (right.task_id, right.session_id, right.project_id)
 
     def select(
         self,
