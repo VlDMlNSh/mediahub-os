@@ -68,7 +68,12 @@ from .autonomous_task import (
     AutonomousTaskResult,
     BoundedAutonomousTask,
 )
-from .execution_adapter import (\n    CodexAdapter,\n    CursorAdapter,\n    ExecutionAdapterError,\n    ExecutionResult,\n)\nfrom .execution_backends import (
+from .execution_adapter import (
+    CodexAdapter,
+    CursorAdapter,
+    ExecutionAdapterError,
+    ExecutionResult,
+)\nfrom .execution_backends import (
     BackendDispatchError,\n    BackendKind,
     ExecutionBackend,
     ExecutionBackendRegistry,
@@ -96,7 +101,10 @@ __all__ = [
     "WorkerDecision",
     "WorkerRouter",
     "WorkerRouterError",
-    "CodexAdapter",\n    "CursorAdapter",\n    "ExecutionAdapterError",\n    "ExecutionResult",\n    "BackendKind",
+    "CodexAdapter",
+    "CursorAdapter",
+    "ExecutionAdapterError",
+    "ExecutionResult",\n    "BackendKind",
     "ExecutionBackend",
     "ExecutionBackendRegistry",
     "VerificationState",
