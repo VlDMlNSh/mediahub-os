@@ -38,7 +38,7 @@ class ExecutionAdapterTests(unittest.TestCase):
 
     def test_verified_backend_uses_argument_vector_without_shell(self):
         adapter = CodexAdapter(backend("codex", VerificationState.VERIFIED))
-        with patch.dict(os.environ, {"MEDIAHUB_CODEX_COMMAND": "python -c \"print(\\\"ok\\\")\""}, clear=False):
+        with patch.dict(os.environ, {"MEDIAHUB_CODEX_COMMAND": "python3 -c \"print(\\\"ok\\\")\""}, clear=False):
             result = adapter.execute("bounded prompt")
         self.assertEqual(result.backend_id, "codex")
         self.assertEqual(result.output, "ok")
