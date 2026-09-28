@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "astra-pre-soak-evidence-wave-20260928T0930Z",
+  "command_id": "astra-timezone-sync-moscow-20260928T20260928122125",
   "node_id": "mh-dev-01",
-  "operation": "pre_soak_evidence",
-  "title": "Astra GOLD pre-soak evidence producer — current main",
-  "description": "Produce fresh pre-soak evidence on canonical mh-dev-01. Run only bounded real checks; never fabricate PASS, never read/output secrets, never bypass auth/billing/quota/rate limits. Return BLOCKED for evidence classes without a dedicated live producer.",
+  "operation": "timezone_sync",
+  "title": "Set canonical server timezone to Europe/Moscow",
+  "description": "Set system timezone to Europe/Moscow through Astra GitHub transport only; preserve NTP synchronization; verify resulting timezone and NTP state. Never output secrets.",
   "target_sha": "main"
 }
