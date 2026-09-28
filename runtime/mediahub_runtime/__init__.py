@@ -68,7 +68,7 @@ from .autonomous_task import (
     AutonomousTaskResult,
     BoundedAutonomousTask,
 )
-from .execution_backends import (
+from .execution_adapter import (\n    CodexAdapter,\n    CursorAdapter,\n    ExecutionAdapterError,\n    ExecutionResult,\n)\nfrom .execution_backends import (
     BackendKind,
     ExecutionBackend,
     ExecutionBackendRegistry,
@@ -96,7 +96,7 @@ __all__ = [
     "WorkerDecision",
     "WorkerRouter",
     "WorkerRouterError",
-    "BackendKind",
+    "CodexAdapter",\n    "CursorAdapter",\n    "ExecutionAdapterError",\n    "ExecutionResult",\n    "BackendKind",
     "ExecutionBackend",
     "ExecutionBackendRegistry",
     "VerificationState",
