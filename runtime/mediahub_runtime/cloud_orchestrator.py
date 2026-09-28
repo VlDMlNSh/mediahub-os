@@ -360,7 +360,7 @@ class CloudFirstOrchestrator:
             raise CloudOrchestratorError("invalid_capability")
 
         for route in self._cloud:
-            if capability in route.capabilities and self._configured(route):
+            if capability in route.capabilities and self._configured(route) and self._admitted(route):
                 return OrchestrationDecision(
                     route.provider_id,
                     route.tier,
@@ -432,6 +432,8 @@ class CloudFirstOrchestrator:
             if capability not in route.capabilities:
                 continue
             if not self._configured(route):
+                continue
+            if route.tier == "cloud" and not self._admitted(route):
                 continue
             models = self._models(route)
             credentials = self._credentials(route)
@@ -521,6 +523,51 @@ class CloudFirstOrchestrator:
 
     def configured_cloud_providers(self) -> tuple[str, ...]:
         return tuple(route.provider_id for route in self._cloud if self._configured(route))
+
+    def admitted_cloud_providers(self) -> tuple[str, ...]:
+        """Return only cloud providers backed by fresh current qualification evidence."""
+        return tuple(
+            route.provider_id
+            for route in self._cloud
+            if self._configured(route) and self._admitted(route)
+        )
+
+    def _admitted(self, route: ProviderRoute) -> bool:
+        """Fail closed unless current provider/model qualification explicitly passes."""
+        if route.tier != "cloud":
+            return True
+        evidence_path = self._env.get(
+            "MEDIAHUB_PROVIDER_EVIDENCE_FILE", "evidence/provider-model.json"
+        ).strip()
+        expected_commit = self._env.get(
+            "MEDIAHUB_RELEASE_COMMIT", self._env.get("GITHUB_SHA", "")
+        ).strip()
+        if not evidence_path or not expected_commit:
+            return False
+        try:
+            with open(evidence_path, "r", encoding="utf-8") as handle:
+                evidence = json.load(handle)
+            timestamp = evidence.get("timestamp")
+            evidence_commit = str(evidence.get("commit", "")).strip()
+            if not timestamp or evidence_commit != expected_commit:
+                return False
+            from datetime import datetime, timedelta, timezone
+            captured_at = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+            if captured_at.tzinfo is None:
+                captured_at = captured_at.replace(tzinfo=timezone.utc)
+            max_age_hours = float(
+                self._env.get("MEDIAHUB_PROVIDER_EVIDENCE_MAX_AGE_HOURS", "6")
+            )
+            if max_age_hours <= 0 or datetime.now(timezone.utc) - captured_at > timedelta(hours=max_age_hours):
+                return False
+            provider = evidence.get("providers", {}).get(route.provider_id, {})
+            return (
+                provider.get("catalog_status") == "PASS"
+                and provider.get("inference_status") == "PASS"
+                and provider.get("qualification_status") == "QUALIFIED"
+            )
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            return False
 
     def _configured(self, route: ProviderRoute) -> bool:
         if route.credential_env is None:
