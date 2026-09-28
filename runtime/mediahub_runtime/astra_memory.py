@@ -37,6 +37,8 @@ class MemoryRecord:
     importance: float = 0.5
     tags: tuple[str, ...] = field(default_factory=tuple)
     task_id: str | None = None
+    session_id: str | None = None
+    project_id: str | None = None
     source: str | None = None
     ttl_seconds: float | None = None
 
@@ -70,6 +72,8 @@ class AstraMemory:
         importance: float = 0.5,
         tags: Iterable[str] = (),
         task_id: str | None = None,
+        session_id: str | None = None,
+        project_id: str | None = None,
         source: str | None = None,
         ttl_seconds: float | None = None,
         memory_id: str | None = None,
@@ -84,6 +88,8 @@ class AstraMemory:
             importance=importance,
             tags=tuple(sorted({str(tag).strip() for tag in tags if str(tag).strip()})),
             task_id=task_id,
+            session_id=session_id,
+            project_id=project_id,
             source=source,
             ttl_seconds=ttl_seconds,
         )
@@ -109,6 +115,8 @@ class AstraMemory:
                     importance=float(payload.get("importance", 0.5)),
                     tags=tuple(payload.get("tags", ())),
                     task_id=payload.get("task_id"),
+                    session_id=payload.get("session_id"),
+                    project_id=payload.get("project_id"),
                     source=payload.get("source"),
                     ttl_seconds=payload.get("ttl_seconds"),
                 )
@@ -124,6 +132,8 @@ class AstraMemory:
         *,
         memory_classes: Sequence[str] = MEMORY_CLASSES,
         task_id: str | None = None,
+        session_id: str | None = None,
+        project_id: str | None = None,
         limit: int = 8,
     ) -> tuple[MemoryRecord, ...]:
         if limit <= 0:
@@ -136,6 +146,10 @@ class AstraMemory:
             if record.memory_class not in allowed:
                 continue
             if task_id and record.task_id not in (None, task_id):
+                continue
+            if session_id and record.session_id not in (None, session_id):
+                continue
+            if project_id and record.project_id not in (None, project_id):
                 continue
             content_tokens = set(_TOKEN_RE.findall(record.content.lower()))
             tag_tokens = set(_TOKEN_RE.findall(" ".join(record.tags).lower()))
