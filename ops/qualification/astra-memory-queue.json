@@ -62,7 +62,7 @@
     },
     {
       "id": "MEM-11",
-      "status": "QUEUED",
+      "status": "IMPLEMENTED_PENDING_RUNTIME",
       "title": "24h memory soak: restart, session continuation, project recall and recovery"
     },
     {
