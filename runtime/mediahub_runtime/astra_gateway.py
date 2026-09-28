@@ -46,6 +46,7 @@ class AstraTaskRequest:
     session_id: str
     user_command: str
     project_id: str | None = None
+    task_id: str | None = None
     approval_state: str = "not_required"
     context_refs: tuple[str, ...] = ()
     client_platform: str = "unknown"
@@ -216,7 +217,7 @@ class AstraGatewayRuntime:
             context_manager = AstraContextManager(self._memory)
             memory_context = context_manager.build(
                 task.user_command,
-                task_id=task.request_id,
+                task_id=task.task_id,
                 session_id=task.session_id,
                 project_id=task.project_id,
                 context_refs=task.context_refs,
@@ -225,7 +226,7 @@ class AstraGatewayRuntime:
             if self._legacy_executor is not None:
                 agent = self._registry.select(capability)
                 provider_id, tier, model = agent.agent_id, agent.tier, OllamaExecutor.model
-                prompt = context_manager.compose_prompt(task.user_command, task_id=task.request_id, session_id=task.session_id, project_id=task.project_id, context_refs=task.context_refs) if self._memory is not None else task.user_command
+                prompt = context_manager.compose_prompt(task.user_command, task_id=task.task_id, session_id=task.session_id, project_id=task.project_id, context_refs=task.context_refs) if self._memory is not None else task.user_command
                 output = self._legacy_executor(prompt)
                 reason = "legacy_injected_executor"
             else:
@@ -304,6 +305,8 @@ class AstraGatewayRuntime:
                 raise AstraGatewayError("invalid_task")
         if task.project_id is not None and (not isinstance(task.project_id, str) or not task.project_id.strip()):
             raise AstraGatewayError("invalid_project")
+        if task.task_id is not None and (not isinstance(task.task_id, str) or not task.task_id.strip()):
+            raise AstraGatewayError("invalid_task_id")
         if task.approval_state not in {"not_required", "approved", "pending", "rejected"}:
             raise AstraGatewayError("invalid_approval_state")
         if len(task.user_command.encode("utf-8")) > cls.MAX_COMMAND_BYTES:
