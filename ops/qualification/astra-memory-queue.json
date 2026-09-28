@@ -67,7 +67,7 @@
     },
     {
       "id": "MEM-12",
-      "status": "QUEUED",
+      "status": "IMPLEMENTED_PENDING_RUNTIME",
       "title": "Independent GOLD verification of memory continuity and bounded context behavior"
     }
   ],
