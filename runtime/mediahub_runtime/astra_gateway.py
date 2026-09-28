@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import urllib.error
 import urllib.request
 from collections.abc import Callable
@@ -13,6 +14,7 @@ from pathlib import Path
 
 from .cloud_orchestrator import CloudFirstOrchestrator, CloudOrchestratorError
 from .astra_memory import AstraMemory
+from .astra_context import AstraContextManager
 
 
 class AstraGatewayError(RuntimeError):
@@ -189,6 +191,11 @@ class AstraGatewayRuntime:
         self._orchestrator = orchestrator or CloudFirstOrchestrator(
             executors={"ollama": OllamaExecutor()}
         )
+        if memory is None:
+            state_dir = Path(os.environ.get("ASTRA_STATE_DIR", "/var/lib/mediahub-astra"))
+            memory_path = Path(os.environ.get("MEDIAHUB_ASTRA_MEMORY_FILE", str(state_dir / "memory.jsonl")))
+            memory = AstraMemory(memory_path)
+        self._memory = memory
 
     def run(self, task: AstraTaskRequest) -> AstraTaskResult:
         self._validate_task(task)
@@ -205,8 +212,12 @@ class AstraGatewayRuntime:
         capability = self._capability(task.user_command)
         memory_context = ""
         if self._memory is not None:
-            records = self._memory.select(task.user_command, task_id=task.request_id, limit=8)
-            memory_context = self._memory.export_context(records)
+            context_manager = AstraContextManager(self._memory)
+            memory_context = context_manager.build(
+                task.user_command,
+                task_id=task.request_id,
+                context_refs=task.context_refs,
+            )
         try:
             if self._legacy_executor is not None:
                 agent = self._registry.select(capability)
