@@ -21,6 +21,14 @@ class VerificationState(str, Enum):
     BLOCKED = "BLOCKED"
 
 
+class BackendDispatchError(RuntimeError):
+    """Sanitized refusal to dispatch an unqualified execution backend."""
+
+    def __init__(self, code: str):
+        self.code = code
+        super().__init__(code)
+
+
 @dataclass(frozen=True)
 class ExecutionBackend:
     backend_id: str
@@ -92,3 +100,9 @@ class ExecutionBackendRegistry:
             for backend in self._backends.values()
             if backend.verification_state is VerificationState.VERIFIED
         )
+
+    def require_dispatchable(self, backend_id: str) -> ExecutionBackend:
+        backend = self.get(backend_id)
+        if backend.verification_state is not VerificationState.VERIFIED:
+            raise BackendDispatchError("backend_not_verified")
+        return backend
