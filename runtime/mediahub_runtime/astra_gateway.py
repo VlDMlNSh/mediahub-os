@@ -182,7 +182,7 @@ class AstraGatewayRuntime:
         {"host_install", "credential_change", "production_deploy", "destructive_action"}
     )
 
-    def __init__(self, executor: Callable[[str], str] | None = None, registry: AgentRegistry | None = None, orchestrator: CloudFirstOrchestrator | None = None):
+    def __init__(self, executor: Callable[[str], str] | None = None, registry: AgentRegistry | None = None, orchestrator: CloudFirstOrchestrator | None = None, memory=None):
         self._legacy_executor = executor
         self._registry = registry or AgentRegistry()
         self._orchestrator = orchestrator or CloudFirstOrchestrator(
@@ -202,14 +202,20 @@ class AstraGatewayRuntime:
             return AstraTaskResult(task.request_id, task.session_id, execution_id, "failed", None, None, None, None, tuple(events), "approval_required")
         self._emit(events, task, execution_id, "policy.checked", {"allowed": True})
         capability = self._capability(task.user_command)
+        memory_context = ""
+        if self._memory is not None:
+            records = self._memory.select(task.user_command, task_id=task.request_id, limit=8)
+            memory_context = self._memory.export_context(records)
         try:
             if self._legacy_executor is not None:
                 agent = self._registry.select(capability)
                 provider_id, tier, model = agent.agent_id, agent.tier, OllamaExecutor.model
-                output = self._legacy_executor(task.user_command)
+                prompt = task.user_command if not memory_context else task.user_command + "\n\nRelevant durable memory:\n" + memory_context
+                output = self._legacy_executor(prompt)
                 reason = "legacy_injected_executor"
             else:
-                decision, output = self._orchestrator.execute(capability, task.user_command)
+                routed_command = task.user_command if not memory_context else task.user_command + "\n\nRelevant durable memory:\n" + memory_context
+                decision, output = self._orchestrator.execute(capability, routed_command)
                 provider_id, tier, model, reason = decision.provider_id, decision.tier, decision.model or "unspecified", decision.reason
         except (CloudOrchestratorError, AstraGatewayError) as exc:
             code = getattr(exc, "code", "provider_execution_failed")
