@@ -113,6 +113,24 @@ class AstraMemoryTests(unittest.TestCase):
             self.assertIn("safe text", rendered)
             self.assertNotIn("[REDACTED_SECRET]", rendered)
 
+    def test_superseded_memory_is_hidden_from_selector_and_explicit_refs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            memory = AstraMemory(Path(tmp) / "memory.jsonl")
+            old = memory.remember("semantic", "old architecture", project_id="p1")
+            memory.remember("semantic", "new architecture", project_id="p1", tags=(f"supersedes:{old.memory_id}",))
+            self.assertNotIn(old.memory_id, {r.memory_id for r in memory.select("architecture", project_id="p1")})
+            selected = AstraContextManager(memory).select(
+                "unrelated", project_id="p1", context_refs=(old.memory_id,)
+            )
+            self.assertEqual(selected, ())
+
+    def test_supersession_cannot_cross_project_scope(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            memory = AstraMemory(Path(tmp) / "memory.jsonl")
+            old = memory.remember("semantic", "project one fact", project_id="p1")
+            memory.remember("semantic", "project two fact", project_id="p2", tags=(f"supersedes:{old.memory_id}",))
+            self.assertIn(old.memory_id, {r.memory_id for r in memory.records()})
+
 
 if __name__ == "__main__":
     unittest.main()
