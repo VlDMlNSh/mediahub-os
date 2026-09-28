@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
@@ -69,6 +69,13 @@ def execute(cmd):
         payload={"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:]}
         payload["status"]="PASS" if result.returncode == 0 else "BLOCKED"
         return payload
+    if operation == "pre_soak_evidence":
+        script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
+        if not script.exists():
+            raise FileNotFoundError(f"pre-soak evidence producer not found: {script}")
+        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=900,check=False)
+        return {"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:],
+                "status":"PASS" if result.returncode == 0 else "BLOCKED"}
     if operation == "qualification":
         script=ROOT/"ops"/"qualification"/"astra_gold_executor.py"
         if not script.exists():
