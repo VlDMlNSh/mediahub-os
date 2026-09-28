@@ -5,5 +5,5 @@
   "operation": "execution_backend_qualification",
   "title": "Codex/Cursor bounded runtime qualification",
   "description": "Run the repository-local bounded execution-backend qualification probe on mh-dev-01. Capture only sanitized identity, exit status, output size and digest. Never print command configuration, command output, credentials, or secrets. Do not alter verification state except through independently verified evidence.",
-  "target_sha": "fb787725b640c2460841c8e9a58124a1933b619d"
+  "target_sha": "cccd5ebec52a6a77c0efc4e31fa044538ac973e"
 }
