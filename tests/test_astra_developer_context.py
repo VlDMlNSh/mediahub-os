@@ -53,6 +53,13 @@ class DeveloperContextContractTests(unittest.TestCase):
         task = DeveloperContextContract.to_gateway_task(request)
         self.assertEqual(task.task_id, "t1")
 
+    def test_rejects_blank_task_id(self):
+        with self.assertRaisesRegex(DeveloperContextContractError, "task_id"):
+            DeveloperContextContract.parse({
+                "request_id": "r1", "session_id": "s1", "message": "x",
+                "task_id": "   ",
+            })
+
 
 if __name__ == "__main__":
     unittest.main()
