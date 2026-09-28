@@ -1,0 +1,28 @@
+{
+  "schema": "mediahub.execution-backends.v1",
+  "status": "BLOCKED",
+  "reason": "RUNTIME_EVIDENCE_REQUIRED",
+  "backends": {
+    "codex": {
+      "node_id": "mh-dev-01",
+      "verification_state": "UNVERIFIED",
+      "checks": {
+        "node_identity": "NOT EXECUTED",
+        "binary_identity": "NOT EXECUTED",
+        "bounded_execution": "NOT EXECUTED"
+      },
+      "secret_values": "SUPPRESSED"
+    },
+    "cursor": {
+      "node_id": "mh-dev-01",
+      "verification_state": "UNVERIFIED",
+      "checks": {
+        "node_identity": "NOT EXECUTED",
+        "binary_identity": "NOT EXECUTED",
+        "bounded_execution": "NOT EXECUTED"
+      },
+      "secret_values": "SUPPRESSED"
+    }
+  },
+  "evidence_digest": "sha256:PENDING_RUNTIME_EVIDENCE"
+}
