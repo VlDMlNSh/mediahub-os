@@ -22,13 +22,20 @@ def evidence(status="PASS"):
             for backend_id in ("codex", "cursor")
         },
         "evidence_digest": "sha256:bundle",
+        "node_id": "mh-dev-01",
+        "repo_revision": "abc123",
     }
 
 
 class ExecutionBackendEvidenceTests(unittest.TestCase):
     def test_complete_evidence_passes(self):
-        result = verify(evidence())
+        result = verify(evidence(), "abc123")
         self.assertEqual(result["status"], "PASS")
+
+    def test_revision_mismatch_is_blocked(self):
+        result = verify(evidence(), "wrong")
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("repo_revision_mismatch", result["blocked_reasons"])
 
     def test_missing_backend_is_blocked(self):
         payload = evidence()
