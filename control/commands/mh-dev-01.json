@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "command_id": "astra-pre-soak-evidence-wave-20260928T0908Z",
+  "command_id": "astra-pre-soak-evidence-wave-20260928T0920Z",
   "node_id": "mh-dev-01",
   "operation": "pre_soak_evidence",
   "title": "Astra GOLD pre-soak evidence producer — current main",
