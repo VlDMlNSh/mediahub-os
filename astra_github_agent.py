@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
@@ -61,6 +61,14 @@ def execute(cmd):
                 "pid":os.getpid(),"cwd":os.getcwd(),
                 "agent_path":str(Path(__file__).resolve()),
                 "worktree":str(ROOT.resolve())}
+    if operation == "execution_backend_qualification":
+        script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
+        if not script.exists():
+            raise FileNotFoundError(f"execution backend qualification probe not found: {script}")
+        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
+        payload={"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:]}
+        payload["status"]="PASS" if result.returncode == 0 else "BLOCKED"
+        return payload
     if operation == "qualification":
         script=ROOT/"ops"/"qualification"/"astra_gold_executor.py"
         if not script.exists():
