@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-provider-qualification-20260929-r12",
+  "command_id": "astra-provider-qualification-20260929-r13",
   "node_id": "mh-dev-01",
   "operation": "provider_model_qualification",
-  "target_sha": "ee2eb28ea97e2b41287bdc020c3bc7e2cc9a4c93",
+  "target_sha": "bc1b2b72f41f64e959d2e707de1aa759d96f5923",
   "workflow_only": true,
-  "title": "Astra provider/model qualification r12",
-  "description": "Credentialed GitHub Actions qualification. Persistent worker must ignore this command. Test all configured providers including UnoRouter and ZeroRouter; OpenAI direct excluded. Preserve only sanitized diagnostics."
+  "title": "Astra provider/model qualification r13",
+  "description": "Fresh credentialed qualification after compatible response parser fix. Test all configured providers including UnoRouter and ZeroRouter; OpenAI direct excluded."
 }
