@@ -22,6 +22,7 @@ def sync():
         subprocess.run(["git","clone","--depth","1",REMOTE,str(ROOT)],check=True,timeout=120)
     else:
         subprocess.run(["git","-C",str(ROOT),"fetch","--depth","50","origin","main"],check=True,timeout=120)
+        subprocess.run(["git","-C",str(ROOT),"fetch","origin",f"astra-node/{NODE_ID}:refs/remotes/origin/astra-node/{NODE_ID}"],check=False,timeout=120)
         subprocess.run(["git","-C",str(ROOT),"reset","--hard","origin/main"],check=True,timeout=120)
 
 def maybe_reexec_updated_agent():
@@ -39,6 +40,27 @@ def read_command():
     except Exception: return None
     if cmd.get("node_id")!=NODE_ID or cmd.get("operation") not in OPERATIONS: return None
     return cmd
+
+def published_command_id():
+    state=STATE/"last_command_id"
+    try:
+        value=state.read_text(encoding="utf-8").strip()
+        if value: return value
+    except OSError:
+        pass
+    ref=f"origin/astra-node/{NODE_ID}"
+    try:
+        raw=run(["git","show",f"{ref}:control/results/{NODE_ID}.json"],30)
+        if raw.returncode==0:
+            return str(json.loads(raw.stdout).get("command_id",""))
+    except Exception:
+        pass
+    return ""
+
+def mark_published(command_id):
+    tmp=STATE/"last_command_id.tmp"
+    tmp.write_text(str(command_id)+"\n",encoding="utf-8")
+    tmp.replace(STATE/"last_command_id")
 
 def publish(result):
     path=ROOT/"control"/"results"/f"{NODE_ID}.json"
@@ -62,9 +84,6 @@ def execute(cmd):
                 "agent_path":str(Path(__file__).resolve()),
                 "worktree":str(ROOT.resolve())}
     if operation in {"autonomous_qualification_queue", "autonomous_gold_mission"}:
-        # Stateful autonomous qualification coordinator. It owns progression,
-        # retries transient blockers with bounded backoff, and never converts a
-        # missing/failed evidence gate into PASS.
         backend_script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
         evidence_script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
         verifier_script=ROOT/"ops"/"qualification"/"verify_pre_soak_bundle.py"
@@ -80,7 +99,6 @@ def execute(cmd):
                 return {"status":"BLOCKED","phase":"target_reconciliation",
                         "reason":"target_sha_not_ancestor_of_current_main","target_sha":target_sha,
                         "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
-        # The legacy queue remains a single-pass compatibility operation.
         cycles=1 if operation=="autonomous_qualification_queue" else max_cycles
         for cycle in range(1,cycles+1):
             if operation=="autonomous_gold_mission" and cycle>1:
@@ -124,9 +142,6 @@ def execute(cmd):
                     continue
                 return {"status":"BLOCKED","phase":"strict_pre_soak_verification",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
-            # Distributed verification has no live producer in the current
-            # repository. Refuse to invent evidence; expose this as the next
-            # explicit admission gate instead of silently skipping it.
             distributed_candidates=list((ROOT/"ops"/"qualification").glob("*distributed*")) if (ROOT/"ops"/"qualification").exists() else []
             if not distributed_candidates:
                 return {"status":"BLOCKED","phase":"distributed_verification",
@@ -205,175 +220,98 @@ def execute(cmd):
         except Exception as exc:
             return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
     if operation == "codex_gateway_diagnostic":
-        # Probe configured OpenAI-compatible gateways without exposing credentials.
         import tempfile
-        gateways = [
-            ("unorouter", "UNOROUTER_API_KEY", "https://api.unorouter.com/v1", "gpt-5.4"),
-            ("zerouter", "ZEROUTER_API_KEY", "https://api.zerouter.ai/v1", "gpt-5.4"),
-        ]
-        results = []
-        for name, key_name, base_url, model in gateways:
-            credential_present = bool(os.environ.get(key_name))
-            item = {"gateway": name, "credential_presence": {key_name: credential_present},
-                    "status": "BLOCKED", "secret_values": "SUPPRESSED"}
+        gateways=[("unorouter","UNOROUTER_API_KEY","https://api.unorouter.com/v1","gpt-5.4"),("zerouter","ZEROUTER_API_KEY","https://api.zerouter.ai/v1","gpt-5.4")]
+        results=[]
+        for name,key_name,base_url,model in gateways:
+            credential_present=bool(os.environ.get(key_name))
+            item={"gateway":name,"credential_presence":{key_name:credential_present},"status":"BLOCKED","secret_values":"SUPPRESSED"}
             if not credential_present:
-                item["reason"] = "credential_missing"
-                results.append(item)
-                continue
+                item["reason"]="credential_missing"; results.append(item); continue
             with tempfile.TemporaryDirectory(prefix="astra-codex-gateway-") as home:
-                config = Path(home) / "config.toml"
-                config.write_text(
-                    f'model = "{model}"\\n'
-                    f'model_provider = "{name}"\\n'
-                    f'[model_providers.{name}]\\n'
-                    f'name = "{name}"\\n'
-                    f'base_url = "{base_url}"\\n'
-                    f'wire_api = "responses"\\n'
-                    f'env_key = "{key_name}"\\n',
-                    encoding="utf-8")
-                env = {key: os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM") if os.environ.get(key)}
-                env.update({"CODEX_HOME": home, key_name: os.environ[key_name]})
-                argv=["/usr/local/bin/codex","exec","--skip-git-repo-check","--model",model,
-                      "print('MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK')"]
-                started = time.monotonic()
+                config=Path(home)/"config.toml"
+                config.write_text(f'model = "{model}"\nmodel_provider = "{name}"\n[model_providers.{name}]\nname = "{name}"\nbase_url = "{base_url}"\nwire_api = "responses"\nenv_key = "{key_name}"\n',encoding="utf-8")
+                env={key:os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM") if os.environ.get(key)}
+                env.update({"CODEX_HOME":home,key_name:os.environ[key_name]})
+                argv=["/usr/local/bin/codex","exec","--skip-git-repo-check","--model",model,"print('MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK')"]
+                started=time.monotonic()
                 try:
-                    p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,
-                                     stdin=subprocess.DEVNULL,timeout=30,check=False,env=env)
+                    p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=30,check=False,env=env)
                     combined=(p.stdout or "")+(p.stderr or "")
-                    item.update({"returncode":p.returncode,
-                                 "duration_seconds":round(time.monotonic()-started,3),
-                                 "output_bytes":len(combined.encode("utf-8","replace")),
-                                 "marker_present":"MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK" in (p.stdout or ""),
-                                 "status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED"})
-                    if item["status"] != "PASS":
+                    item.update({"returncode":p.returncode,"duration_seconds":round(time.monotonic()-started,3),"output_bytes":len(combined.encode("utf-8","replace")),"marker_present":"MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK" in (p.stdout or ""),"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED"})
+                    if item["status"]!="PASS":
                         text=combined.lower()
-                        if "403 forbidden" in text and ("country, region" in text or "territory not supported" in text):
-                            item["reason"]="provider_region_restricted"
-                        elif "401" in text or "unauthorized" in text or "authentication" in text:
-                            item["reason"]="authentication_or_authorization"
-                        elif "402" in text or "billing" in text or "quota" in text:
-                            item["reason"]="billing_or_quota"
-                        elif "timeout" in text or "timed out" in text:
-                            item["reason"]="network_or_timeout"
-                        else:
-                            item["reason"]="nonzero_exit_unknown"
-                except Exception as exc:
-                    item["reason"]=type(exc).__name__
+                        if "403 forbidden" in text and ("country, region" in text or "territory not supported" in text): item["reason"]="provider_region_restricted"
+                        elif "401" in text or "unauthorized" in text or "authentication" in text: item["reason"]="authentication_or_authorization"
+                        elif "402" in text or "billing" in text or "quota" in text: item["reason"]="billing_or_quota"
+                        elif "timeout" in text or "timed out" in text: item["reason"]="network_or_timeout"
+                        else: item["reason"]="nonzero_exit_unknown"
+                except Exception as exc: item["reason"]=type(exc).__name__
                 results.append(item)
-        return {"status":"PASS" if any(x["status"]=="PASS" for x in results) else "BLOCKED",
-                "phase":"codex_gateway_diagnostic","gateways":results,"secret_values":"SUPPRESSED"}
+        return {"status":"PASS" if any(x["status"]=="PASS" for x in results) else "BLOCKED","phase":"codex_gateway_diagnostic","gateways":results,"secret_values":"SUPPRESSED"}
 
     if operation == "codex_diagnostic":
         diagnostics=[]
-        probes=[
-            ["/usr/local/bin/codex","--version"],
-            ["/usr/local/bin/codex","exec","--help"],
-        ]
+        probes=[["/usr/local/bin/codex","--version"],["/usr/local/bin/codex","exec","--help"]]
         for argv in probes:
             try:
                 p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=20,check=False)
                 diagnostics.append({"argv":argv,"returncode":p.returncode,"stdout":p.stdout[-4000:],"stderr":p.stderr[-4000:]})
-            except Exception as exc:
-                diagnostics.append({"argv":argv,"error":repr(exc)})
+            except Exception as exc: diagnostics.append({"argv":argv,"error":repr(exc)})
         config=Path(os.environ.get("CODEX_HOME",str(Path.home()/".codex")))/"config.toml"
         diagnostics.append({"config_path":str(config),"config_exists":config.exists(),"config_sha256":hashlib.sha256(config.read_bytes()).hexdigest() if config.exists() else ""})
         return {"status":"PASS","node_id":NODE_ID,"diagnostics":diagnostics,"secret_values":"SUPPRESSED"}
     if operation == "execution_backend_qualification":
         script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
-        if not script.exists():
-            raise FileNotFoundError(f"execution backend qualification probe not found: {script}")
+        if not script.exists(): raise FileNotFoundError(f"execution backend qualification probe not found: {script}")
         result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
-        payload={"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:]}
-        payload["status"]="PASS" if result.returncode == 0 else "BLOCKED"
-        return payload
+        return {"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:],"status":"PASS" if result.returncode==0 else "BLOCKED"}
     if operation == "timezone_sync":
-        target_timezone = "Europe/Moscow"
-        commands = [
-            ["timedatectl", "set-timezone", target_timezone],
-            ["sudo", "-n", "timedatectl", "set-timezone", target_timezone],
-        ]
-        applied = False
-        attempts = []
+        target_timezone="Europe/Moscow"
+        commands=[["timedatectl","set-timezone",target_timezone],["sudo","-n","timedatectl","set-timezone",target_timezone]]
+        applied=False; attempts=[]
         for argv in commands:
-            result = subprocess.run(argv, cwd=ROOT, text=True, capture_output=True, timeout=30, check=False)
-            attempts.append({
-                "command": " ".join(argv[:2]) + (" " + argv[2] if len(argv) > 2 else ""),
-                "returncode": result.returncode,
-                "stderr": result.stderr[-2000:],
-            })
-            if result.returncode == 0:
-                applied = True
-                break
-        verify = subprocess.run(
-            ["timedatectl", "show", "-p", "Timezone", "-p", "NTPSynchronized", "-p", "NTP"],
-            cwd=ROOT, text=True, capture_output=True, timeout=30, check=False,
-        )
-        values = {}
+            result=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=30,check=False)
+            attempts.append({"command":" ".join(argv[:2])+(" "+argv[2] if len(argv)>2 else ""),"returncode":result.returncode,"stderr":result.stderr[-2000:]})
+            if result.returncode==0: applied=True; break
+        verify=subprocess.run(["timedatectl","show","-p","Timezone","-p","NTPSynchronized","-p","NTP"],cwd=ROOT,text=True,capture_output=True,timeout=30,check=False)
+        values={}
         for line in verify.stdout.splitlines():
             if "=" in line:
-                key, value = line.split("=", 1)
-                values[key] = value
-        return {
-            "status": "PASS" if applied and values.get("Timezone") == target_timezone else "BLOCKED",
-            "target_timezone": target_timezone,
-            "applied": applied,
-            "verified_timezone": values.get("Timezone"),
-            "ntp_synchronized": values.get("NTPSynchronized"),
-            "ntp_enabled": values.get("NTP"),
-            "attempts": attempts,
-        }
+                key,value=line.split("=",1); values[key]=value
+        return {"status":"PASS" if applied and values.get("Timezone")==target_timezone else "BLOCKED","target_timezone":target_timezone,"applied":applied,"verified_timezone":values.get("Timezone"),"ntp_synchronized":values.get("NTPSynchronized"),"ntp_enabled":values.get("NTP"),"attempts":attempts}
     if operation == "pre_soak_evidence":
         script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
-        if not script.exists():
-            raise FileNotFoundError(f"pre-soak evidence producer not found: {script}")
+        if not script.exists(): raise FileNotFoundError(f"pre-soak evidence producer not found: {script}")
         result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=900,check=False)
-        return {"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:],
-                "status":"PASS" if result.returncode == 0 else "BLOCKED"}
+        return {"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:],"status":"PASS" if result.returncode==0 else "BLOCKED"}
     if operation == "qualification":
         script=ROOT/"ops"/"qualification"/"astra_gold_executor.py"
-        if not script.exists():
-            raise FileNotFoundError(f"qualification executor not found: {script}")
+        if not script.exists(): raise FileNotFoundError(f"qualification executor not found: {script}")
         result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),check=False)
         payload={"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:]}
-        if result.returncode != 0:
-            payload["status"]="BLOCKED"
+        if result.returncode!=0: payload["status"]="BLOCKED"
         return payload
     if operation not in OPERATIONS: raise ValueError("unsupported operation")
     configured=os.environ.get("ASTRA_RUNTIME_ROOT","").strip()
-    candidates=[]
-    if configured:
-        candidates.append(Path(configured))
+    candidates=[Path(configured)] if configured else []
     candidates.extend([ROOT/"runtime",Path("/opt/mediahub/astra/runtime"),Path("/home/mediahub/dev/mediahub-os-autonomous/runtime"),Path("/Users/voktor/astra-work/runtime")])
     runtime_root=None
     for candidate in candidates:
-        if (candidate/"mediahub_runtime"/"astra_gateway.py").exists():
-            runtime_root=candidate
-            break
-    if runtime_root is None:
-        raise ModuleNotFoundError("mediahub_runtime runtime root not found; checked: " + ", ".join(str(p) for p in candidates))
-    runtime_root=str(runtime_root.resolve())
-    package_dir=Path(runtime_root)/"mediahub_runtime"
-    if not package_dir.is_dir() or not (package_dir/"__init__.py").is_file():
-        raise ModuleNotFoundError("mediahub_runtime package is incomplete at " + str(package_dir))
-    if runtime_root not in sys.path:
-        sys.path.insert(0,runtime_root)
-    os.environ["PYTHONPATH"]=runtime_root + (os.pathsep + os.environ["PYTHONPATH"] if os.environ.get("PYTHONPATH") else "")
+        if (candidate/"mediahub_runtime"/"astra_gateway.py").exists(): runtime_root=candidate; break
+    if runtime_root is None: raise ModuleNotFoundError("mediahub_runtime runtime root not found; checked: "+", ".join(str(p) for p in candidates))
+    runtime_root=str(runtime_root.resolve()); package_dir=Path(runtime_root)/"mediahub_runtime"
+    if not package_dir.is_dir() or not (package_dir/"__init__.py").is_file(): raise ModuleNotFoundError("mediahub_runtime package is incomplete at "+str(package_dir))
+    if runtime_root not in sys.path: sys.path.insert(0,runtime_root)
+    os.environ["PYTHONPATH"]=runtime_root+(os.pathsep+os.environ["PYTHONPATH"] if os.environ.get("PYTHONPATH") else "")
     importlib.invalidate_caches()
-    try:
-        from mediahub_runtime.astra_gateway import AstraGatewayRuntime
-    except ModuleNotFoundError as exc:
-        raise ModuleNotFoundError(
-            "mediahub_runtime import failed; runtime_root=" + runtime_root +
-            "; package_dir=" + str(package_dir) +
-            "; sys_executable=" + sys.executable
-        ) from exc
-    return AstraGatewayRuntime().run_bounded({
-        "task_id":cmd.get("command_id","github-task"),"title":cmd.get("title",operation),
-        "description":cmd.get("description",""),"capability":operation})
+    try: from mediahub_runtime.astra_gateway import AstraGatewayRuntime
+    except ModuleNotFoundError as exc: raise ModuleNotFoundError("mediahub_runtime import failed; runtime_root="+runtime_root+"; package_dir="+str(package_dir)+"; sys_executable="+sys.executable) from exc
+    return AstraGatewayRuntime().run_bounded({"task_id":cmd.get("command_id","github-task"),"title":cmd.get("title",operation),"description":cmd.get("description",""),"capability":operation})
 
 def main():
     STATE.mkdir(parents=True,exist_ok=True)
-    last_id=""
+    last_id=published_command_id()
     while True:
         try:
             sync(); maybe_reexec_updated_agent(); cmd=read_command()
@@ -381,20 +319,16 @@ def main():
                 started=time.time()
                 try: value,rc=execute(cmd),0
                 except Exception as exc: value,rc={"error":repr(exc)},1
-                publish({"schema":1,"node_id":NODE_ID,"command_id":cmd.get("command_id"),
-                         "target_sha":cmd.get("target_sha"),
-                         "execution_head":run(["git","rev-parse","HEAD"],10).stdout.strip(),
-                         "returncode":rc,"duration_seconds":round(time.time()-started,3),
-                         "result":value,"completed_at":int(time.time())})
+                publish({"schema":1,"node_id":NODE_ID,"command_id":cmd.get("command_id"),"target_sha":cmd.get("target_sha"),
+                         "execution_head":run(["git","rev-parse","HEAD"],10).stdout.strip(),"returncode":rc,
+                         "duration_seconds":round(time.time()-started,3),"result":value,"completed_at":int(time.time())})
+                mark_published(cmd.get("command_id",""))
                 last_id=str(cmd.get("command_id"))
-                if os.environ.get("ASTRA_ONESHOT","0")=="1":
-                    return
+                if os.environ.get("ASTRA_ONESHOT","0")=="1": return
         except Exception as exc:
             (STATE/"last_error.json").write_text(json.dumps({"error":repr(exc),"time":int(time.time())}))
-            if os.environ.get("ASTRA_ONESHOT","0")=="1":
-                return
-        if os.environ.get("ASTRA_ONESHOT","0")=="1":
-            return
+            if os.environ.get("ASTRA_ONESHOT","0")=="1": return
+        if os.environ.get("ASTRA_ONESHOT","0")=="1": return
         time.sleep(INTERVAL)
 
 if __name__=="__main__": main()
