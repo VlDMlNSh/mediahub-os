@@ -5,7 +5,7 @@ import hashlib,json,os,platform,shlex,shutil,subprocess,tempfile,time
 from pathlib import Path
 BACKENDS={"codex":"MEDIAHUB_CODEX_COMMAND","cursor":"MEDIAHUB_CURSOR_COMMAND"}
 FORBIDDEN=(";","&&","||","|",">","<","\n","\r")
-PROMPT="print('MEDIAHUB_EXECUTION_BACKEND_QUALIFICATION')"; TIMEOUT=30
+PROMPT="print('MEDIAHUB_EXECUTION_BACKEND_QUALIFICATION')"; TIMEOUT=45
 def digest(data:str)->str:return "sha256:"+hashlib.sha256(data.encode("utf-8","replace")).hexdigest()
 def classify(text:str)->str:
  t=text.lower()
@@ -43,12 +43,12 @@ def qualify(backend_id:str)->dict:
  base={key:os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM","XDG_CONFIG_HOME","CODEX_HOME","OPENAI_API_KEY","OPENAI_BASE_URL","OPENAI_ORG_ID","UNOROUTER_API_KEY","ZEROUTER_API_KEY","CURSOR_API_KEY","CURSOR_AGENT_API_KEY") if os.environ.get(key)}
  attempts=[]
  if backend_id=="codex":
-  attempts.append(("default",argv,base,None))
   for name,key,url,model in (("unorouter","UNOROUTER_API_KEY","https://api.unorouter.com/v1","gpt-5.4"),("zerouter","ZEROUTER_API_KEY","https://api.zerouter.ai/v1","gpt-5.4")):
    if not os.environ.get(key): continue
    home=tempfile.mkdtemp(prefix=f"astra-{name}-"); cfg=Path(home)/"config.toml"
    cfg.write_text(f'model = "{model}"\nmodel_provider = "{name}"\n[model_providers.{name}]\nname = "{name}"\nbase_url = "{url}"\nwire_api = "responses"\nenv_key = "{key}"\n',encoding="utf-8")
    e=dict(base); e["CODEX_HOME"]=home; attempts.append((name,[*argv[:2],"--model",model,*argv[2:]],e,home))
+  attempts.append(("default",argv,base,None))
  else: attempts.append(("default",argv,base,None))
  try:
   last_reason="nonzero_exit_unknown"
