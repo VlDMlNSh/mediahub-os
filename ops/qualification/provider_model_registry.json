@@ -242,7 +242,11 @@
         "general"
       ],
       "cost_class": "free",
-      "persistence_class": "workers_ai"
+      "persistence_class": "workers_ai",
+      "adapter": "cloudflare_workers_ai",
+      "account_id_env": [
+        "CLOUDFLARE_ACCOUNT_ID_1"
+      ]
     },
     {
       "id": "cloudflare-2",
@@ -260,7 +264,11 @@
         "general"
       ],
       "cost_class": "free",
-      "persistence_class": "workers_ai"
+      "persistence_class": "workers_ai",
+      "adapter": "cloudflare_workers_ai",
+      "account_id_env": [
+        "CLOUDFLARE_ACCOUNT_ID_2"
+      ]
     },
     {
       "id": "nararouter-1",
