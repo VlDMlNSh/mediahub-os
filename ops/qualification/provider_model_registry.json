@@ -1,125 +1,334 @@
 {
   "schema": "mediahub.provider-model-registry.v1",
   "selection_order": [
-    "siliconflow-1", "siliconflow-2",
-    "novita-1", "novita-2",
-    "zai-1", "zai-2",
-    "kimi-1", "llm7-1", "sambanova-1",
-    "aionlabs-1", "cloudflare-1", "cloudflare-2",
-    "nararouter-1", "orcarouter-1", "unorouter-1", "zerouter-1"
+    "siliconflow-1",
+    "siliconflow-2",
+    "novita-1",
+    "novita-2",
+    "zai-1",
+    "zai-2",
+    "kimi-1",
+    "llm7-1",
+    "sambanova-1",
+    "aionlabs-1",
+    "cloudflare-1",
+    "cloudflare-2",
+    "nararouter-1",
+    "orcarouter-1",
+    "unorouter-1",
+    "zerouter-1"
   ],
   "providers": [
     {
-      "id": "siliconflow-1", "provider": "SiliconFlow", "family": "siliconflow",
-      "credential_env": ["SILICONFLOW_API_KEY_1", "SILICONFLOW_API_KEY"],
+      "id": "siliconflow-1",
+      "provider": "SiliconFlow",
+      "family": "siliconflow",
+      "credential_env": [
+        "SILICONFLOW_API_KEY_1",
+        "SILICONFLOW_API_KEY"
+      ],
       "base_url": "https://api.siliconflow.cn/v1",
-      "models": ["deepseek-ai/DeepSeek-R1-Distill-Qwen-7B", "Qwen/Qwen2.5-7B-Instruct", "THUDM/glm-4-9b-chat"],
-      "capabilities": ["coding", "reasoning", "general"], "cost_class": "free", "persistence_class": "permanent_free"
+      "models": [
+        "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+        "Qwen/Qwen2.5-7B-Instruct",
+        "THUDM/glm-4-9b-chat"
+      ],
+      "capabilities": [
+        "coding",
+        "reasoning",
+        "general"
+      ],
+      "cost_class": "free",
+      "persistence_class": "permanent_free"
     },
     {
-      "id": "siliconflow-2", "provider": "SiliconFlow", "family": "siliconflow",
-      "credential_env": ["SILICONFLOW_API_KEY_2"],
+      "id": "siliconflow-2",
+      "provider": "SiliconFlow",
+      "family": "siliconflow",
+      "credential_env": [
+        "SILICONFLOW_API_KEY_2"
+      ],
       "base_url": "https://api.siliconflow.cn/v1",
-      "models": ["deepseek-ai/DeepSeek-R1-Distill-Qwen-7B", "Qwen/Qwen2.5-7B-Instruct", "THUDM/glm-4-9b-chat"],
-      "capabilities": ["coding", "reasoning", "general"], "cost_class": "free", "persistence_class": "permanent_free"
+      "models": [
+        "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+        "Qwen/Qwen2.5-7B-Instruct",
+        "THUDM/glm-4-9b-chat"
+      ],
+      "capabilities": [
+        "coding",
+        "reasoning",
+        "general"
+      ],
+      "cost_class": "free",
+      "persistence_class": "permanent_free"
     },
     {
-      "id": "novita-1", "provider": "Novita", "family": "novita",
-      "credential_env": ["NOVITA_API_KEY_1", "NOVITA_API_KEY"],
+      "id": "novita-1",
+      "provider": "Novita",
+      "family": "novita",
+      "credential_env": [
+        "NOVITA_API_KEY_1",
+        "NOVITA_API_KEY"
+      ],
       "base_url": "https://api.novita.ai/openai/v1",
-      "models": ["meta-llama/Llama-3.2-1B-Instruct", "Qwen/Qwen2.5-7B-Instruct", "THUDM/glm-4-9b-chat"],
-      "capabilities": ["fast", "coding", "general"], "cost_class": "free", "persistence_class": "permanent_free"
+      "models": [
+        "meta-llama/Llama-3.2-1B-Instruct",
+        "Qwen/Qwen2.5-7B-Instruct",
+        "THUDM/glm-4-9b-chat"
+      ],
+      "capabilities": [
+        "fast",
+        "coding",
+        "general"
+      ],
+      "cost_class": "free",
+      "persistence_class": "permanent_free"
     },
     {
-      "id": "novita-2", "provider": "Novita", "family": "novita",
-      "credential_env": ["NOVITA_API_KEY_2"],
+      "id": "novita-2",
+      "provider": "Novita",
+      "family": "novita",
+      "credential_env": [
+        "NOVITA_API_KEY_2"
+      ],
       "base_url": "https://api.novita.ai/openai/v1",
-      "models": ["meta-llama/Llama-3.2-1B-Instruct", "Qwen/Qwen2.5-7B-Instruct", "THUDM/glm-4-9b-chat"],
-      "capabilities": ["fast", "coding", "general"], "cost_class": "free", "persistence_class": "permanent_free"
+      "models": [
+        "meta-llama/Llama-3.2-1B-Instruct",
+        "Qwen/Qwen2.5-7B-Instruct",
+        "THUDM/glm-4-9b-chat"
+      ],
+      "capabilities": [
+        "fast",
+        "coding",
+        "general"
+      ],
+      "cost_class": "free",
+      "persistence_class": "permanent_free"
     },
     {
-      "id": "zai-1", "provider": "Z.ai", "family": "zai",
-      "credential_env": ["ZAI_API_KEY_1", "ZAI_API_KEY"],
+      "id": "zai-1",
+      "provider": "Z.ai",
+      "family": "zai",
+      "credential_env": [
+        "ZAI_API_KEY_1",
+        "ZAI_API_KEY"
+      ],
       "base_url": "https://api.z.ai/api/paas/v4",
-      "models": ["glm-4.7-flash", "glm-4.5-flash"],
-      "capabilities": ["fast", "general"], "cost_class": "free", "persistence_class": "permanent_free"
+      "models": [
+        "glm-4.7-flash",
+        "glm-4.5-flash"
+      ],
+      "capabilities": [
+        "fast",
+        "general"
+      ],
+      "cost_class": "free",
+      "persistence_class": "permanent_free"
     },
     {
-      "id": "zai-2", "provider": "Z.ai", "family": "zai",
-      "credential_env": ["ZAI_API_KEY_2"],
+      "id": "zai-2",
+      "provider": "Z.ai",
+      "family": "zai",
+      "credential_env": [
+        "ZAI_API_KEY_2"
+      ],
       "base_url": "https://api.z.ai/api/paas/v4",
-      "models": ["glm-4.7-flash", "glm-4.5-flash"],
-      "capabilities": ["fast", "general"], "cost_class": "free", "persistence_class": "permanent_free"
+      "models": [
+        "glm-4.7-flash",
+        "glm-4.5-flash"
+      ],
+      "capabilities": [
+        "fast",
+        "general"
+      ],
+      "cost_class": "free",
+      "persistence_class": "permanent_free"
     },
     {
-      "id": "kimi-1", "provider": "Kimi", "family": "kimi",
-      "credential_env": ["KIMI_API_KEY", "MOONSHOT_API_KEY"],
+      "id": "kimi-1",
+      "provider": "Kimi",
+      "family": "kimi",
+      "credential_env": [
+        "KIMI_API_KEY",
+        "MOONSHOT_API_KEY"
+      ],
       "base_url": "https://api.moonshot.cn/v1",
-      "models": ["kimi-k2.5"],
-      "capabilities": ["general", "reasoning"], "cost_class": "free", "persistence_class": "free_tier"
+      "models": [
+        "kimi-k2.5"
+      ],
+      "capabilities": [
+        "general",
+        "reasoning"
+      ],
+      "cost_class": "free",
+      "persistence_class": "free_tier"
     },
     {
-      "id": "llm7-1", "provider": "LLM7", "family": "llm7",
-      "credential_env": ["LLM7_API_KEY"],
+      "id": "llm7-1",
+      "provider": "LLM7",
+      "family": "llm7",
+      "credential_env": [
+        "LLM7_API_KEY"
+      ],
       "base_url": "https://api.llm7.io/v1",
-      "models": ["default"],
-      "capabilities": ["general"], "cost_class": "free", "persistence_class": "free_tier"
+      "models": [
+        "default"
+      ],
+      "capabilities": [
+        "general"
+      ],
+      "cost_class": "free",
+      "persistence_class": "free_tier"
     },
     {
-      "id": "sambanova-1", "provider": "SambaNova", "family": "sambanova",
-      "credential_env": ["SAMBANOVA_API_KEY"],
+      "id": "sambanova-1",
+      "provider": "SambaNova",
+      "family": "sambanova",
+      "credential_env": [
+        "SAMBANOVA_API_KEY"
+      ],
       "base_url": "https://api.sambanova.ai/v1",
-      "models": ["DeepSeek-V3.1", "Meta-Llama-3.3-70B-Instruct"],
-      "capabilities": ["large_context", "coding", "general"], "cost_class": "free", "persistence_class": "free_tier"
+      "models": [
+        "DeepSeek-V3.1",
+        "Meta-Llama-3.3-70B-Instruct"
+      ],
+      "capabilities": [
+        "large_context",
+        "coding",
+        "general"
+      ],
+      "cost_class": "free",
+      "persistence_class": "free_tier"
     },
     {
-      "id": "aionlabs-1", "provider": "Aion Labs", "family": "aionlabs",
-      "credential_env": ["AIONLABS_API_KEY"],
+      "id": "aionlabs-1",
+      "provider": "Aion Labs",
+      "family": "aionlabs",
+      "credential_env": [
+        "AIONLABS_API_KEY"
+      ],
       "base_url": "https://api.aionlabs.ai/v1",
-      "models": ["default"],
-      "capabilities": ["general"], "cost_class": "free", "persistence_class": "free_tier"
+      "models": [
+        "aion-labs/aion-3.5-mini",
+        "aion-labs/aion-3.5"
+      ],
+      "capabilities": [
+        "general"
+      ],
+      "cost_class": "free",
+      "persistence_class": "free_tier"
     },
     {
-      "id": "cloudflare-1", "provider": "Cloudflare", "family": "cloudflare",
-      "credential_env": ["CLOUDFLARE_API_TOKEN_1", "CLOUDFLARE_API_TOKEN"],
+      "id": "cloudflare-1",
+      "provider": "Cloudflare",
+      "family": "cloudflare",
+      "credential_env": [
+        "CLOUDFLARE_API_TOKEN_1",
+        "CLOUDFLARE_API_TOKEN"
+      ],
       "base_url": "https://api.cloudflare.com/client/v4/accounts",
-      "models": ["@cf/meta/llama-3.1-8b-instruct"],
-      "capabilities": ["fast", "general"], "cost_class": "free", "persistence_class": "workers_ai"
+      "models": [
+        "@cf/meta/llama-3.1-8b-instruct"
+      ],
+      "capabilities": [
+        "fast",
+        "general"
+      ],
+      "cost_class": "free",
+      "persistence_class": "workers_ai"
     },
     {
-      "id": "cloudflare-2", "provider": "Cloudflare", "family": "cloudflare",
-      "credential_env": ["CLOUDFLARE_API_TOKEN_2"],
+      "id": "cloudflare-2",
+      "provider": "Cloudflare",
+      "family": "cloudflare",
+      "credential_env": [
+        "CLOUDFLARE_API_TOKEN_2"
+      ],
       "base_url": "https://api.cloudflare.com/client/v4/accounts",
-      "models": ["@cf/meta/llama-3.1-8b-instruct"],
-      "capabilities": ["fast", "general"], "cost_class": "free", "persistence_class": "workers_ai"
+      "models": [
+        "@cf/meta/llama-3.1-8b-instruct"
+      ],
+      "capabilities": [
+        "fast",
+        "general"
+      ],
+      "cost_class": "free",
+      "persistence_class": "workers_ai"
     },
     {
-      "id": "nararouter-1", "provider": "NaraRouter", "family": "nararouter",
-      "credential_env": ["NARAROUTER_API_KEY_1", "NARAROUTER_API_KEY"],
+      "id": "nararouter-1",
+      "provider": "NaraRouter",
+      "family": "nararouter",
+      "credential_env": [
+        "NARAROUTER_API_KEY_1",
+        "NARAROUTER_API_KEY"
+      ],
       "base_url": "https://api.nararouter.com/v1",
-      "models": ["default"],
-      "capabilities": ["burst", "general"], "cost_class": "router", "persistence_class": "router"
+      "models": [
+        "default"
+      ],
+      "capabilities": [
+        "burst",
+        "general"
+      ],
+      "cost_class": "router",
+      "persistence_class": "router"
     },
     {
-      "id": "orcarouter-1", "provider": "OrcaRouter", "family": "orcarouter",
-      "credential_env": ["ORCAROUTER_API_KEY"],
+      "id": "orcarouter-1",
+      "provider": "OrcaRouter",
+      "family": "orcarouter",
+      "credential_env": [
+        "ORCAROUTER_API_KEY"
+      ],
       "base_url": "https://api.orcarouter.com/v1",
-      "models": ["default"],
-      "capabilities": ["burst", "general"], "cost_class": "router", "persistence_class": "router"
+      "models": [
+        "default"
+      ],
+      "capabilities": [
+        "burst",
+        "general"
+      ],
+      "cost_class": "router",
+      "persistence_class": "router"
     },
     {
-      "id": "unorouter-1", "provider": "UnoRouter", "family": "unorouter",
-      "credential_env": ["UNOROUTER_API_KEY"],
+      "id": "unorouter-1",
+      "provider": "UnoRouter",
+      "family": "unorouter",
+      "credential_env": [
+        "UNOROUTER_API_KEY"
+      ],
       "base_url": "https://api.unorouter.com/v1",
-      "models": ["gpt-oss-120b:free"],
-      "capabilities": ["burst", "general", "coding"], "cost_class": "router", "persistence_class": "router"
+      "models": [
+        "gpt-oss-120b:free"
+      ],
+      "capabilities": [
+        "burst",
+        "general",
+        "coding"
+      ],
+      "cost_class": "router",
+      "persistence_class": "router"
     },
     {
-      "id": "zerouter-1", "provider": "ZeroRouter", "family": "zerouter",
-      "credential_env": ["ZEROUTER_API_KEY"],
+      "id": "zerouter-1",
+      "provider": "ZeroRouter",
+      "family": "zerouter",
+      "credential_env": [
+        "ZEROUTER_API_KEY"
+      ],
       "base_url": "https://api.zerouter.ai/v1",
-      "models": ["gpt-5.4"],
-      "capabilities": ["burst", "general", "coding"], "cost_class": "router", "persistence_class": "router"
+      "models": [
+        "gpt-5.4"
+      ],
+      "capabilities": [
+        "burst",
+        "general",
+        "coding"
+      ],
+      "cost_class": "router",
+      "persistence_class": "router"
     }
   ]
 }
