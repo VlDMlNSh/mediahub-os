@@ -156,6 +156,7 @@ jobs:
               "strict_pre_soak_verification",
               "distributed_verification",
               "gold_qualification",
+              "local_component_inventory",
               "target_reconciliation",
               "autonomous_retry_window_exhausted",
           }
