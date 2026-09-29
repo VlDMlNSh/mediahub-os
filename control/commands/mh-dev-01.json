@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-provider-qualification-20260929-r8",
+  "command_id": "astra-provider-qualification-20260929-r9",
   "node_id": "mh-dev-01",
   "operation": "provider_model_qualification",
-  "target_sha": "c49624ab4e66dbb1e1dd1aae55ee2bcade088780",
-  "title": "Astra provider/model qualification r8",
-  "description": "Fresh full provider/model qualification against current main after wiring all available GitHub Secrets and adding provider-specific adapters. OpenAI direct remains excluded. UnoRouter and ZeroRouter remain eligible. Include all registry providers; do not bypass, fabricate, or reuse stale evidence.",
+  "target_sha": "e763a1e4895415e915225b78aceb454f5eaf7797",
+  "title": "Astra provider/model qualification r9",
+  "description": "Fresh qualification after current Gemini and Hugging Face model routing metadata. Preserve all available credentials; OpenAI direct excluded; UnoRouter and ZeroRouter eligible. No stale evidence or fabricated qualification.",
   "mode": "autonomous"
 }
