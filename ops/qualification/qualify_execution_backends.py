@@ -119,6 +119,41 @@ def request_openai_compatible(provider: dict, model: str, key: str) -> dict:
         }
 
 
+def discover_default_model(provider: dict, key: str) -> dict:
+    url = provider["base_url"].rstrip("/") + "/models"
+    req = urllib.request.Request(url, method="GET", headers={"Authorization": "Bearer " + key, "Accept": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as response:
+            payload = json.loads(response.read(128 * 1024).decode("utf-8", "replace"))
+            for item in payload.get("data") or []:
+                if isinstance(item, dict) and item.get("id"): return {"model": str(item["id"])}
+            return {"classification": "model_unavailable"}
+    except urllib.error.HTTPError as exc:
+        raw = exc.read(32 * 1024).decode("utf-8", "replace")
+        return {"classification": classify(exc.code, raw, exc)}
+    except Exception as exc:
+        return {"classification": classify(None, str(exc), exc)}
+
+def request_cloudflare_workers_ai(provider: dict, model: str, key: str) -> dict:
+    account_env = (provider.get("account_id_env") or [None])[0]
+    account_id = os.environ.get(account_env or "")
+    if not account_id: return {"classification": "account_id_absent"}
+    url = provider["base_url"].rstrip("/") + "/" + account_id + "/ai/run/" + model
+    body = json.dumps({"messages": [{"role": "user", "content": MARKER}], "max_tokens": 16}).encode()
+    req = urllib.request.Request(url, data=body, method="POST", headers={"Authorization": "Bearer " + key, "Content-Type": "application/json", "Accept": "application/json"})
+    started = time.monotonic()
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as response:
+            raw = response.read(128 * 1024).decode("utf-8", "replace")
+            payload = json.loads(raw); result = payload.get("result") or {}
+            content = str(result.get("response") or result.get("text") or "")
+            return {"status_code": response.status, "latency_seconds": round(time.monotonic()-started,3), "output_bytes": len(raw.encode("utf-8","replace")), "output_sha256": digest(raw), "response_usable": bool(content.strip()), "marker_echoed": MARKER in content, "classification": "PASS" if content.strip() else "request_failed"}
+    except urllib.error.HTTPError as exc:
+        raw = exc.read(32 * 1024).decode("utf-8", "replace")
+        return {"status_code": exc.code, "latency_seconds": round(time.monotonic()-started,3), "output_bytes": len(raw.encode("utf-8","replace")), "output_sha256": digest(raw), "classification": classify(exc.code, raw, exc)}
+    except Exception as exc:
+        return {"status_code": None, "latency_seconds": round(time.monotonic()-started,3), "output_bytes": 0, "output_sha256": "", "classification": classify(None, str(exc), exc)}
+
 def qualify(provider: dict) -> dict:
     env_name, present = credential(provider)
     base = {
@@ -142,13 +177,16 @@ def qualify(provider: dict) -> dict:
     key = os.environ[env_name]
     for model in provider["models"]:
         if model == "default":
-            base["models_tested"].append({
-                "model": model,
-                "status": "SKIPPED",
-                "reason": "model_id_required_for_generic_provider",
-            })
-            continue
-        result = request_openai_compatible(provider, model, key)
+            discovered = discover_default_model(provider, key)
+            if discovered.get("model"):
+                model = discovered["model"]
+            else:
+                base["models_tested"].append({"model": "default", "status": "BLOCKED", "reason": discovered.get("classification", "model_discovery_failed")})
+                continue
+        if provider.get("adapter") == "cloudflare_workers_ai":
+            result = request_cloudflare_workers_ai(provider, model, key)
+        else:
+            result = request_openai_compatible(provider, model, key)
         safe = {k: v for k, v in result.items() if k != "response_body"}
         safe["model"] = model
         base["models_tested"].append(safe)
