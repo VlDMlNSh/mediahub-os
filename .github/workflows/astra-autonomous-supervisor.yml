@@ -39,31 +39,71 @@ jobs:
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
 
-      - name: Detect existing canonical worker
+      - name: Inspect and reconcile canonical worker processes
         id: worker
         shell: bash
         run: |
           set -euo pipefail
-          if pgrep -af "astra_github_agent.py" | grep -v "grep"; then
-            echo "present=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "present=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Do not create duplicate worker
-        if: steps.worker.outputs.present == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "canonical_worker_present=true"
-          echo "duplicate_worker_launch=false"
+          python3 - <<'PY'
+          import os, signal, time
+          from pathlib import Path
+          target="/home/mediahub/astra-work/astra_github_agent.py"
+          matches=[]
+          for entry in Path("/proc").iterdir():
+              if not entry.name.isdigit(): continue
+              pid=int(entry.name)
+              if pid == os.getpid(): continue
+              try:
+                  raw=(entry/"cmdline").read_bytes().split(b"\0")
+                  argv=[x.decode(errors="replace") for x in raw if x]
+                  cwd=os.readlink(entry/"cwd")
+              except (FileNotFoundError, PermissionError, ProcessLookupError):
+                  continue
+              if target in argv and cwd=="/home/mediahub/astra-work":
+                  matches.append((pid, argv))
+          matches.sort(key=lambda x:x[0])
+          print("canonical_worker_matches=",len(matches))
+          for pid,argv in matches: print("pid=",pid,"argv="," ".join(argv))
+          if len(matches)>1:
+              for pid,_ in matches[1:]:
+                  try: os.kill(pid, signal.SIGTERM)
+                  except ProcessLookupError: pass
+              time.sleep(2)
+              survivors=[pid for pid,_ in matches[1:] if Path(f"/proc/{pid}").exists()]
+              if survivors: raise SystemExit("BLOCK: duplicate canonical Astra workers remain: "+str(survivors))
+              matches=matches[:1]
+          with open(os.environ["GITHUB_OUTPUT"],"a") as out:
+              out.write("present="+("true" if matches else "false")+"\n")
+          PY
 
       - name: Execute queued mission in bounded five-cycle supervisor
         if: steps.worker.outputs.present != 'true'
         shell: bash
         run: |
           set -euo pipefail
-          ASTRA_WORKTREE="$GITHUB_WORKSPACE"           python3 astra_github_agent.py
+          ASTRA_WORKTREE="$GITHUB_WORKSPACE" python3 astra_github_agent.py
+
+      - name: Wait for canonical worker to consume current mission
+        if: steps.worker.outputs.present == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="$(python3 -c 'import json; print(json.load(open("control/commands/mh-dev-01.json"))["command_id"])')"
+          deadline=$(( $(date +%s) + 150 ))
+          while [ "$(date +%s)" -lt "$deadline" ]; do
+            git fetch origin "astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01" 2>/dev/null || true
+            if git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/astra-result.json 2>/dev/null; then
+              if python3 - "$expected" <<'PY'
+          import json,sys
+          d=json.load(open("/tmp/astra-result.json"))
+          raise SystemExit(0 if d.get("command_id")==sys.argv[1] else 1)
+          PY
+              then exit 0; fi
+            fi
+            sleep 10
+          done
+          echo "BLOCK: canonical worker did not consume current mission within 150s"
+          exit 1
 
       - name: Verify fresh result publication
         shell: bash
