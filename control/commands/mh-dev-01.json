@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-autonomous-gold-mission-1790676521962",
+  "command_id": "astra-autonomous-gold-mission-20260929-r2",
   "node_id": "mh-dev-01",
   "operation": "autonomous_gold_mission",
-  "target_sha": "5a23a3355ba985262da29bbddf89169415d50444",
-  "title": "Autonomous Astra GOLD mission",
-  "description": "Autonomous qualification after router-priority backend fix. Execute up to five bounded cycles; retry transient blockers; never bypass gates or fabricate PASS.",
+  "target_sha": "eefcfd93cd7ee15d7ecd5a6491d009f4da80947a",
+  "title": "Autonomous Astra GOLD mission r2",
+  "description": "Autonomous full Astra GOLD qualification. Execute up to five bounded cycles; use configured provider credentials when available; retry transient blockers; advance only through real gates; never bypass gates or fabricate PASS.",
   "mode": "autonomous"
 }
