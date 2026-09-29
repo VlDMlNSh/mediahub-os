@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Capture bounded, sanitized runtime evidence for local engineering backends.
-
-This probe runs only on the node where the Astra worker executes. It never
-prints command configuration or command output. The output is digest-only.
-"""
+"""Capture bounded, sanitized runtime evidence for local engineering backends."""
 from __future__ import annotations
 
 import hashlib
@@ -47,10 +43,13 @@ def qualify(backend_id: str) -> dict:
     if not argv:
         result["reason"] = "empty_command"
         return result
-    if backend_id == "codex" and Path(argv[0]).name == "codex" and (len(argv) == 1 or argv[1] != "exec"):
-        argv.insert(1, "exec")
-    if backend_id == "codex" and "--skip-git-repo-check" not in argv:
-        argv.insert(2, "--skip-git-repo-check")
+    if backend_id == "codex" and Path(argv[0]).name == "codex":
+        if len(argv) == 1 or argv[1] != "exec":
+            argv.insert(1, "exec")
+        if "--skip-git-repo-check" not in argv:
+            argv.insert(2, "--skip-git-repo-check")
+        if "--full-auto" not in argv:
+            argv.insert(2, "--full-auto")
     if backend_id == "cursor" and Path(argv[0]).name in {"cursor", "cursor-agent"} and (len(argv) == 1 or argv[1] not in {"agent", "exec"}):
         argv.append("--print")
     if not shutil.which(argv[0]):
@@ -59,9 +58,12 @@ def qualify(backend_id: str) -> dict:
     result["checks"]["binary_identity"] = "PASS"
     started = time.monotonic()
     try:
-        proc = subprocess.run([*argv, PROMPT], text=True, capture_output=True, timeout=TIMEOUT, check=False, env={key: os.environ[key] for key in ("PATH", "HOME", "USER", "LOGNAME", "SHELL", "CODEX_HOME", "OPENAI_API_KEY", "OPENAI_BASE_URL", "OPENAI_ORG_ID", "CURSOR_API_KEY", "CURSOR_AGENT_API_KEY") if os.environ.get(key)})
-    except (OSError, subprocess.TimeoutExpired):
-        result["reason"] = "bounded_execution_failed"
+        proc = subprocess.run([*argv, PROMPT], text=True, capture_output=True, timeout=TIMEOUT, check=False, env={key: os.environ[key] for key in ("PATH", "HOME", "USER", "LOGNAME", "SHELL", "TERM", "XDG_CONFIG_HOME", "CODEX_HOME", "OPENAI_API_KEY", "OPENAI_BASE_URL", "OPENAI_ORG_ID", "CURSOR_API_KEY", "CURSOR_AGENT_API_KEY") if os.environ.get(key)})
+    except subprocess.TimeoutExpired:
+        result["reason"] = "bounded_execution_timeout"
+        return result
+    except OSError as exc:
+        result["reason"] = f"bounded_execution_oserror_{getattr(exc, 'errno', 'unknown')}"
         return result
     combined = (proc.stdout or "") + (proc.stderr or "")
     result["duration_seconds"] = round(time.monotonic() - started, 3)
