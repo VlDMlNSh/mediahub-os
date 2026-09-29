@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "astra-exec-backend-qualification-20260929T020000Z",
+  "command_id": "astra-exec-backend-qualification-20260929T840212Z",
   "node_id": "mh-dev-01",
   "operation": "execution_backend_qualification",
   "title": "Fresh canonical execution backend qualification",
-  "description": "Run the canonical mh-dev-01 execution backend qualification through Astra GitHub transport only. Return sanitized evidence; do not expose secrets.",
+  "description": "Run fresh canonical execution backend qualification through Astra GitHub transport only. Return sanitized evidence; do not expose secrets.",
   "target_sha": "main"
 }
