@@ -1,0 +1,33 @@
+name: SiliconFlow Key2 Live Probe 2
+
+on:
+  push:
+    paths:
+      - ".github/workflows/siliconflow-key2-live-probe-2.yml"
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      SILICONFLOW_API_KEY: ${{ secrets.SILICON_KEY_2 }}
+    steps:
+      - shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os, urllib.request, urllib.error, time, json
+          key=os.environ.get("SILICONFLOW_API_KEY","").strip()
+          print(json.dumps({"credential_present":bool(key)}))
+          if not key: raise SystemExit(1)
+          req=urllib.request.Request("https://api.siliconflow.cn/v1/models",headers={"Authorization":"Bearer "+key})
+          t=time.monotonic()
+          try:
+              with urllib.request.urlopen(req,timeout=20) as r:
+                  print(json.dumps({"http_code":r.status,"latency_seconds":round(time.monotonic()-t,3),"status":"PASS"}))
+                  raise SystemExit(0)
+          except urllib.error.HTTPError as e:
+              print(json.dumps({"http_code":e.code,"latency_seconds":round(time.monotonic()-t,3),"status":"BLOCKED"}))
+              raise SystemExit(2)
+          PY
