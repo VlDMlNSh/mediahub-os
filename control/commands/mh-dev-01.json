@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-second-test-run-retry-20260929T1002Z-r2",
+  "command_id": "astra-second-test-run-retry-20260929T1025Z-r3",
   "node_id": "mh-dev-01",
   "operation": "autonomous_qualification_queue",
   "title": "Second Astra test run",
-  "description": "Continue the autonomous qualification queue on the canonical node. Cursor is deferred by operator request. Retry the current execution-backend gate using the updated non-interactive Codex probe, then advance only through admissible gates. Do not fabricate results or create duplicate GOLD runs.",
+  "description": "Continue autonomous qualification. Cursor remains deferred by operator request. Re-run execution backend qualification using sanitized failure classification, then advance only through admissible gates. Do not fabricate PASS/T0/GOLD or create duplicate GOLD runs.",
   "target_sha": "main"
 }
