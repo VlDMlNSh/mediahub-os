@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-local-component-qualification-20260929-r2",
+  "command_id": "astra-local-ai-capability-20260929-r1",
   "node_id": "mh-dev-01",
-  "operation": "local_component_qualification",
-  "target_sha": "21aa82a7e461ad0685296d09e89b3801fa2e222f",
-  "title": "Astra local component qualification r2",
-  "description": "Read-only qualification using canonical NVM/local tool paths. Probe OmniRoute, free-claude-code, free-coding-models, Claude Code, Codex, Bun, Ollama, and relevant runtimes; include Ollama model inventory and OmniRoute capability help. No install/stop/restart/destructive action; secrets suppressed."
+  "operation": "local_ai_capability_qualification",
+  "target_sha": "d1a1d6bd3f7a16f395bed79bded92711bd1b986e",
+  "title": "Astra local AI capability qualification r1",
+  "description": "Bounded read-only local AI smoke: Ollama API/model inventory and one bounded generation using qwen2.5-coder:3b marker; inventory localhost listeners and probe read-only /health and /v1/models endpoints. No install, stop, restart, deletion, or secret output."
 }
