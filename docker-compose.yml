@@ -19,9 +19,8 @@ services:
       ERROR_LOG_ENABLED: ${ERROR_LOG_ENABLED:-true}
       BATCH_UPDATE_ENABLED: ${BATCH_UPDATE_ENABLED:-true}
       NODE_NAME: ${NODE_NAME:-mediahub-gateway}
-    volumes:
-      - gateway_data:/data
-      - gateway_logs:/app/logs
+      HEALTH_CHECK_ENABLED: ${HEALTH_CHECK_ENABLED:-true}
+    volumes: [gateway_data:/data, gateway_logs:/app/logs]
     depends_on:
       postgres: {condition: service_healthy}
       redis: {condition: service_healthy}
@@ -53,11 +52,11 @@ services:
     image: redis:7-alpine
     container_name: mediahub-gateway-redis
     restart: unless-stopped
-    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    command: ["redis-server","--requirepass","${REDIS_PASSWORD}"]
     volumes: [gateway_redis_data:/data]
     networks: [mediahub-gateway]
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      test: ["CMD","redis-cli","-a","${REDIS_PASSWORD}","ping"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -69,18 +68,22 @@ services:
     env_file: [.env]
     environment:
       GATEWAY_URL: http://new-api:3000
-    volumes:
-      - ./scripts:/scripts:ro
-      - ./config:/config:ro
+      HEALTH_CHECK_ENABLED: ${HEALTH_CHECK_ENABLED:-true}
+    volumes: [./scripts:/scripts:ro, ./config:/config:ro]
     depends_on:
       new-api: {condition: service_healthy}
     networks: [mediahub-gateway]
-    entrypoint: ["/bin/sh", "/scripts/init-gateway.sh"]
+    entrypoint: ["/bin/sh","/scripts/init-gateway.sh"]
+
+# Capacity notes: direct stable ~140M/day; routers ~25M/day; test-and-skip ~50K/day; total realistic ~165M/day.
+# Aion ~20K | Cloudflare 1/2 ~20-30K each | Mistral 1/2 ~33M each | SiliconFlow 1/2 ~20-30M each
+# Z.ai 1/2 ~1-2M each | Novita 1/2 ~5-10M each | DeepSeek ~5-10M | HF ~2-5M | Kimi ~1.5M
+# LLM7 ~1M | SambaNova ~200K | routers: OpenRouter ~100K, Nara ~3-10M, Uno/Zero/Orca ~3-5M each.
+# Gemini 0-100K | Groq 0-200K (expected skip on RU IP).
 
 networks:
   mediahub-gateway:
     driver: bridge
-
 volumes:
   gateway_data:
   gateway_logs:
