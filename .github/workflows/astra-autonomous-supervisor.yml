@@ -163,6 +163,7 @@ jobs:
                   "local_component_inventory",
                   "local_component_qualification",
                   "local_ai_capability_qualification",
+                  "codex_gateway_diagnostic",
                   "target_reconciliation",
                   "autonomous_retry_window_exhausted",
               }
