@@ -16,7 +16,14 @@
     "nararouter-1",
     "orcarouter-1",
     "unorouter-1",
-    "zerouter-1"
+    "zerouter-1",
+    "deepseek-1",
+    "gemini-1",
+    "groq-1",
+    "mistral-1",
+    "mistral-2",
+    "openrouter-1",
+    "huggingface-1"
   ],
   "providers": [
     {
@@ -329,6 +336,143 @@
       ],
       "cost_class": "router",
       "persistence_class": "router"
+    },
+    {
+      "id": "deepseek-1",
+      "provider": "DeepSeek",
+      "family": "deepseek",
+      "credential_env": [
+        "DEEPSEEK_API_KEY"
+      ],
+      "base_url": "https://api.deepseek.com/v1",
+      "models": [
+        "deepseek-chat",
+        "deepseek-reasoner"
+      ],
+      "capabilities": [
+        "coding",
+        "reasoning",
+        "general"
+      ],
+      "cost_class": "trial",
+      "persistence_class": "trial"
+    },
+    {
+      "id": "gemini-1",
+      "provider": "Google Gemini",
+      "family": "gemini",
+      "credential_env": [
+        "GEMINI_API_KEY"
+      ],
+      "base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
+      "models": [
+        "gemini-3.8-flash",
+        "gemini-3.5-flash-lite"
+      ],
+      "capabilities": [
+        "fast",
+        "general",
+        "reasoning"
+      ],
+      "cost_class": "free_tier",
+      "persistence_class": "free_tier"
+    },
+    {
+      "id": "groq-1",
+      "provider": "Groq",
+      "family": "groq",
+      "credential_env": [
+        "GROQ_API_KEY"
+      ],
+      "base_url": "https://api.groq.com/openai/v1",
+      "models": [
+        "openai/gpt-oss-20b",
+        "openai/gpt-oss-120b"
+      ],
+      "capabilities": [
+        "fast",
+        "coding",
+        "reasoning"
+      ],
+      "cost_class": "free_tier",
+      "persistence_class": "free_tier"
+    },
+    {
+      "id": "mistral-1",
+      "provider": "Mistral",
+      "family": "mistral",
+      "credential_env": [
+        "MISTRAL_API_KEY_1"
+      ],
+      "base_url": "https://api.mistral.ai/v1",
+      "models": [
+        "mistral-small-latest",
+        "mistral-large-latest"
+      ],
+      "capabilities": [
+        "coding",
+        "general"
+      ],
+      "cost_class": "free_tier",
+      "persistence_class": "free_tier"
+    },
+    {
+      "id": "mistral-2",
+      "provider": "Mistral",
+      "family": "mistral",
+      "credential_env": [
+        "MISTRAL_API_KEY_2"
+      ],
+      "base_url": "https://api.mistral.ai/v1",
+      "models": [
+        "mistral-small-latest",
+        "mistral-large-latest"
+      ],
+      "capabilities": [
+        "coding",
+        "general"
+      ],
+      "cost_class": "free_tier",
+      "persistence_class": "free_tier"
+    },
+    {
+      "id": "openrouter-1",
+      "provider": "OpenRouter",
+      "family": "openrouter",
+      "credential_env": [
+        "OPENROUTER_API_KEY"
+      ],
+      "base_url": "https://openrouter.ai/api/v1",
+      "models": [
+        "openai/gpt-oss-120b:free",
+        "google/gemini-2.5-flash:free"
+      ],
+      "capabilities": [
+        "burst",
+        "general",
+        "coding"
+      ],
+      "cost_class": "router",
+      "persistence_class": "router"
+    },
+    {
+      "id": "huggingface-1",
+      "provider": "Hugging Face",
+      "family": "huggingface",
+      "credential_env": [
+        "HF_TOKEN"
+      ],
+      "base_url": "https://router.huggingface.co/v1",
+      "models": [
+        "openai/gpt-oss-120b",
+        "Qwen/Qwen3-Coder-480B-A35B-Instruct"
+      ],
+      "capabilities": [
+        "coding",
+        "general"
+      ],
+      "cost_class": "free_tier",
+      "persistence_class": "free_tier"
     }
   ]
 }
