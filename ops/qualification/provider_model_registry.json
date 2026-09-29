@@ -6,7 +6,7 @@
     "zai-1", "zai-2",
     "kimi-1", "llm7-1", "sambanova-1",
     "aionlabs-1", "cloudflare-1", "cloudflare-2",
-    "nararouter-1", "orcarouter-1"
+    "nararouter-1", "orcarouter-1", "unorouter-1", "zerouter-1"
   ],
   "providers": [
     {
@@ -106,6 +106,20 @@
       "base_url": "https://api.orcarouter.com/v1",
       "models": ["default"],
       "capabilities": ["burst", "general"], "cost_class": "router", "persistence_class": "router"
+    {
+      "id": "unorouter-1", "provider": "UnoRouter", "family": "unorouter",
+      "credential_env": ["UNOROUTER_API_KEY"],
+      "base_url": "https://api.unorouter.com/v1",
+      "models": ["gpt-oss-120b:free"],
+      "capabilities": ["burst", "general", "coding"], "cost_class": "router", "persistence_class": "router"
+    },
+    {
+      "id": "zerouter-1", "provider": "ZeroRouter", "family": "zerouter",
+      "credential_env": ["ZEROUTER_API_KEY"],
+      "base_url": "https://api.zerouter.ai/v1",
+      "models": ["gpt-5.4"],
+      "capabilities": ["burst", "general", "coding"], "cost_class": "router", "persistence_class": "router"
+    }
     }
   ]
 }
