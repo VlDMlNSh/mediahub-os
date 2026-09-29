@@ -41,7 +41,7 @@ def qualify(backend_id:str)->dict:
     except subprocess.TimeoutExpired: result["reason"]="bounded_execution_timeout"; return result
     except OSError as exc: result["reason"]=f"bounded_execution_oserror_{getattr(exc,'errno','unknown')}"; return result
     combined=(proc.stdout or "")+(proc.stderr or "")
-    preview=" ".join(combined.split())[:800]\n    for secret in ("OPENAI_API_KEY","CURSOR_API_KEY","CURSOR_AGENT_API_KEY"): preview=preview.replace(secret,"[REDACTED]")\n    result.update({"duration_seconds":round(time.monotonic()-started,3),"returncode":proc.returncode,"output_bytes":len(combined.encode("utf-8","replace")),"output_sha256":digest(combined),"output_preview":preview})
+    result.update({"duration_seconds":round(time.monotonic()-started,3),"returncode":proc.returncode,"output_bytes":len(combined.encode("utf-8","replace")),"output_sha256":digest(combined)})
     if proc.returncode!=0: result["reason"]=classify(combined); return result
     if not combined.strip(): result["reason"]="empty_output"; return result
     result["checks"]["bounded_execution"]="PASS"; result["verification_state"]="VERIFIED"; return result
