@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-local-component-inventory-20260929-r3",
+  "command_id": "astra-local-component-qualification-20260929-r1",
   "node_id": "mh-dev-01",
-  "operation": "local_component_inventory",
-  "target_sha": "f834d02460b5f1e61add39a3fb029c036abb4fdf",
-  "title": "Astra local component inventory r3",
-  "description": "Read-only expanded inventory with protected-path handling. Discover OmniRoute, free-claude-code, OpenFlux, free-coding-models, Codex CLI, Astra stack, active processes, Python/npm/systemd evidence, and generate autonomous qualification queue candidates. Never expose secrets; no destructive actions."
+  "operation": "local_component_qualification",
+  "target_sha": "8128e3acedf178e0bd02a1932c686c1733aabaf1",
+  "title": "Astra local component qualification r1",
+  "description": "Bounded read-only runtime qualification of locally discovered components. Probe executable identity/version and correlate with active process evidence. Never expose secrets; do not install, stop, restart, or modify local services."
 }
