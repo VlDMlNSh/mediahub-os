@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
@@ -61,6 +61,31 @@ def execute(cmd):
                 "pid":os.getpid(),"cwd":os.getcwd(),
                 "agent_path":str(Path(__file__).resolve()),
                 "worktree":str(ROOT.resolve())}
+    if operation == "autonomous_qualification_queue":
+        # Astra owns progression: execute the next admissible gate, stop only on
+        # a hard blocker, and preserve fresh evidence at every transition.
+        backend_script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
+        backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
+        steps=[{"operation":"execution_backend_qualification","returncode":backend.returncode,
+                "stdout":backend.stdout[-12000:],"stderr":backend.stderr[-8000:]}]
+        if backend.returncode != 0:
+            return {"status":"BLOCKED","phase":"execution_backend_qualification","steps":steps}
+        evidence_script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
+        evidence=subprocess.run([sys.executable,str(evidence_script)],cwd=ROOT,text=True,capture_output=True,timeout=900,check=False)
+        steps.append({"operation":"pre_soak_evidence","returncode":evidence.returncode,
+                      "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]})
+        if evidence.returncode != 0:
+            return {"status":"BLOCKED","phase":"pre_soak_evidence","steps":steps}
+        gold=ROOT/"ops"/"qualification"/"astra_gold_executor.py"
+        qualification=subprocess.run([sys.executable,str(gold)],cwd=ROOT,text=True,
+                                     capture_output=True,
+                                     timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),
+                                     check=False)
+        steps.append({"operation":"qualification","returncode":qualification.returncode,
+                      "stdout":qualification.stdout[-12000:],"stderr":qualification.stderr[-8000:]})
+        return {"status":"PASS" if qualification.returncode==0 else "BLOCKED",
+                "phase":"qualification","steps":steps}
+
     if operation == "execution_backend_qualification":
         script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
         if not script.exists():
