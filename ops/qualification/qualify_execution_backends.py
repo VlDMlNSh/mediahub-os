@@ -107,7 +107,11 @@ def request_openai_compatible(provider: dict, model: str, key: str) -> dict:
             if choices and isinstance(choices[0], dict):
                 msg = choices[0].get("message") or {}
                 content = str(msg.get("content") or "")
-            if not content:\n                output_text = payload.get("output_text")\n                if output_text:\n                    content = str(output_text)\n            usable = bool(content.strip())
+            if not content:
+                output_text = payload.get("output_text")
+                if output_text:
+                    content = str(output_text)
+            usable = bool(content.strip())
             return {
                 "status_code": response.status,
                 "latency_seconds": elapsed,
