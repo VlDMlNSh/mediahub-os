@@ -318,6 +318,7 @@
       "models": [
         "gpt-oss-120b:free"
       ],
+      "adapter": "chat_completions_compatible",
       "capabilities": [
         "burst",
         "general",
@@ -337,6 +338,7 @@
       "models": [
         "gpt-5.4"
       ],
+      "adapter": "responses_compatible",
       "capabilities": [
         "burst",
         "general",
