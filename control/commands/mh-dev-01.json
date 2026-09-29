@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-local-component-qualification-20260929-r1",
+  "command_id": "astra-local-component-qualification-20260929-r2",
   "node_id": "mh-dev-01",
   "operation": "local_component_qualification",
-  "target_sha": "8128e3acedf178e0bd02a1932c686c1733aabaf1",
-  "title": "Astra local component qualification r1",
-  "description": "Bounded read-only runtime qualification of locally discovered components. Probe executable identity/version and correlate with active process evidence. Never expose secrets; do not install, stop, restart, or modify local services."
+  "target_sha": "21aa82a7e461ad0685296d09e89b3801fa2e222f",
+  "title": "Astra local component qualification r2",
+  "description": "Read-only qualification using canonical NVM/local tool paths. Probe OmniRoute, free-claude-code, free-coding-models, Claude Code, Codex, Bun, Ollama, and relevant runtimes; include Ollama model inventory and OmniRoute capability help. No install/stop/restart/destructive action; secrets suppressed."
 }
