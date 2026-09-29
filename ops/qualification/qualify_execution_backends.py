@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Capture bounded, sanitized runtime evidence for local engineering backends."""
 from __future__ import annotations
-import hashlib,json,os,platform,shlex,shutil,subprocess,time
+import hashlib,json,os,platform,shlex,shutil,subprocess,tempfile,time
 from pathlib import Path
 BACKENDS={"codex":"MEDIAHUB_CODEX_COMMAND","cursor":"MEDIAHUB_CURSOR_COMMAND"}
 FORBIDDEN=(";","&&","||","|",">","<","\n","\r")
