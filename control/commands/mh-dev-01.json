@@ -1,8 +1,9 @@
 {
-  "command_id": "astra-autonomous-qualification-20260929-r26",
+  "command_id": "astra-autonomous-gold-mission-20260929T1790674429872",
   "node_id": "mh-dev-01",
-  "operation": "autonomous_qualification_queue",
-  "target_sha": "61411cce9b96fd436f1b063b7bead44597448df2",
-  "title": "Run autonomous Astra GOLD full qualification queue",
-  "description": "Execute the canonical Astra GOLD qualification queue autonomously: fresh execution-backend qualification, fresh pre-soak evidence capture, strict pre-soak verification, required distributed verification, then Astra GOLD 24h executor. Stop at first failed gate; never fabricate PASS, never bypass provider/auth/quota/fencing/recovery gates, and never create duplicate GOLD runs."
+  "operation": "autonomous_gold_mission",
+  "target_sha": "02a8450656de6b5e26afc63e9a7ea7de530524a1",
+  "title": "Autonomous Astra GOLD mission",
+  "description": "Operate Astra autonomously through the complete qualification queue without manual Continue prompts. Observe, reconcile, select, execute, verify, and record each dependency. Establish worker/runtime state and reconcile to target SHA, then execute backend qualification, fresh pre-soak evidence, strict verifier, distributed verification, and canonical GOLD executor when all admission gates pass. On a failed gate, diagnose and implement an in-scope repository fix when possible, commit it, self-sync, and continue with a fresh evidence cycle. Never fabricate PASS, bypass provider/auth/quota/region/fencing/recovery controls, expose secrets, or create duplicate GOLD runs. Preserve canonical node mh-dev-01 and GitHub transport. Continue until Astra GOLD is actually qualified or an objectively non-remediable external blocker remains; record every state transition and final evidence. Existing completed 24h run is historical baseline and must not be duplicated.",
+  "mode": "autonomous"
 }
