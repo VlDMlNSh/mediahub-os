@@ -120,3 +120,5 @@ jobs:
           assert r.get("command_id") == "astra-exec-backend-qualification-20260929T020000Z"
           assert r.get("node_id") == "mh-dev-01"
           PY
+
+# qualification transport recovery wave: current main
