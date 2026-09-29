@@ -1,0 +1,100 @@
+name: Provider Cross-Key Authentication Audit
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cross-key-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      KEY_SILICONFLOW_1: ${{ secrets.SILICON_KEY_1 }}
+      KEY_SILICONFLOW_2: ${{ secrets.SILICON_KEY_2 }}
+      KEY_KIMI_1: ${{ secrets.KIMI_API_KEY }}
+      CF_ACCOUNT_1: ${{ secrets.CF_ACCOUNT_ID_1 }}
+      CF_ACCOUNT_2: ${{ secrets.CF_ACCOUNT_ID_2 }}
+      CF_TOKEN_1: ${{ secrets.CF_API_TOKEN_1 }}
+      CF_TOKEN_2: ${{ secrets.CF_API_TOKEN_2 }}
+    steps:
+      - name: Cross-provider authentication matrix
+        shell: bash
+        run: |
+          set -u
+          python3 - <<'PY'
+          import os, subprocess, json, re
+
+          keys = {
+              "SILICON_KEY_1": os.environ.get("KEY_SILICONFLOW_1", ""),
+              "SILICON_KEY_2": os.environ.get("KEY_SILICONFLOW_2", ""),
+              "KIMI_API_KEY": os.environ.get("KEY_KIMI_1", ""),
+          }
+
+          providers = [
+              ("siliconflow", "https://api.siliconflow.cn/v1/models", "bearer"),
+              ("novita", "https://api.novita.ai/openai/v1/models", "bearer"),
+              ("zai", "https://api.z.ai/api/paas/v4/models", "bearer"),
+              ("kimi", "https://api.moonshot.cn/v1/models", "bearer"),
+              ("llm7", "https://api.llm7.io/v1/models", "bearer"),
+              ("sambanova", "https://api.sambanova.ai/v1/models", "bearer"),
+              ("aionlabs", "https://api.aionlabs.ai/v1/models", "bearer"),
+              ("nararouter", "https://api.nararouter.com/v1/models", "bearer"),
+              ("orcarouter", "https://api.orcarouter.com/v1/models", "bearer"),
+              ("unorouter", "https://api.unorouter.com/v1/models", "bearer"),
+              ("zerouter", "https://api.zerouter.ai/v1/models", "bearer"),
+              ("deepseek", "https://api.deepseek.com/v1/models", "bearer"),
+              ("gemini", "https://generativelanguage.googleapis.com/v1beta/openai/models", "x-goog-api-key"),
+              ("groq", "https://api.groq.com/openai/v1/models", "bearer"),
+              ("mistral", "https://api.mistral.ai/v1/models", "bearer"),
+              ("openrouter", "https://openrouter.ai/api/v1/models", "bearer"),
+              ("huggingface", "https://router.huggingface.co/v1/models", "bearer"),
+          ]
+
+          # Cloudflare is tested separately against both account endpoints because its
+          # API authentication is account-scoped rather than OpenAI-compatible.
+          cf_targets = []
+          for i in ("1", "2"):
+              account = os.environ.get("CF_ACCOUNT_" + i, "")
+              if account:
+                  cf_targets.append((f"cloudflare-account-{i}",
+                    f"https://api.cloudflare.com/client/v4/accounts/{account}",
+                    "bearer"))
+
+          def run(url, key, mode):
+              headers = ["-H", "Accept: application/json"]
+              if mode == "bearer":
+                  headers += ["-H", f"Authorization: Bearer {key}"]
+              else:
+                  headers += ["-H", f"x-goog-api-key: {key}"]
+              p = subprocess.run(
+                  ["curl", "-sS", "--connect-timeout", "8", "--max-time", "15",
+                   "-o", "/tmp/body", "-w", "%{http_code}", *headers, url],
+                  text=True, capture_output=True)
+              code = p.stdout.strip() or "000"
+              body = ""
+              try:
+                  body = open("/tmp/body", encoding="utf-8", errors="replace").read()
+              except Exception:
+                  pass
+              # Never print response bodies: they may contain provider metadata.
+              return code
+
+          results = []
+          for key_name, key in keys.items():
+              present = bool(key.strip())
+              print(f"KEY={key_name} PRESENT={str(present).lower()}")
+              if not present:
+                  for provider, _, _ in providers + cf_targets:
+                      results.append((key_name, provider, "MISSING"))
+                      print(f"RESULT key={key_name} provider={provider} http=000 status=MISSING")
+                  continue
+              for provider, url, mode in providers + cf_targets:
+                  code = run(url, key.strip(), mode)
+                  status = "AUTH_ACCEPTED" if code == "200" else ("AUTH_REJECTED" if code in {"401","403"} else "NON_AUTH_RESPONSE")
+                  results.append((key_name, provider, code, status))
+                  print(f"RESULT key={key_name} provider={provider} http={code} status={status}")
+
+          accepted = [r for r in results if len(r) == 4 and r[3] == "AUTH_ACCEPTED"]
+          print("SUMMARY_BEGIN")
+          print(json.dumps({"accepted": accepted, "count": len(accepted)}, separators=(",", ":")))
+          print("SUMMARY_END")
+          PY
