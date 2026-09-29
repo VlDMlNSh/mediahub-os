@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "astra-second-test-run-20260929T1790649465Z",
+  "command_id": "astra-second-test-run-deferred-cursor-20260929T180000Z",
   "node_id": "mh-dev-01",
   "operation": "qualification",
   "title": "Fresh canonical execution backend qualification",
-  "description": "Second Astra test run. Temporarily defer execution-backend/Codex qualification as a non-blocking diagnostic. Execute the canonical current-main qualification path on mh-dev-01, run all admissible pre-soak/runtime checks, and start the existing single canonical GOLD 24h soak only if its hard admission gates pass. Never fabricate PASS/T0/GOLD and never create a duplicate GOLD worker/run.",
+  "description": "Second Astra test run: Cursor qualification explicitly deferred by operator. Run the canonical current-main qualification path on mh-dev-01, execute all admissible pre-soak checks, and start the single existing GOLD 24h soak only when hard admission gates pass. Never fabricate PASS/T0/GOLD and never create a duplicate GOLD worker/run.",
   "target_sha": "main"
 }
