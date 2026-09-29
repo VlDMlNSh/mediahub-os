@@ -36,7 +36,7 @@ def qualify(backend_id:str)->dict:
     result["checks"]["binary_identity"]="PASS"
     started=time.monotonic()
     try:
-        proc=subprocess.run([*argv,"MEDIAHUB_EXECUTION_BACKEND_QUALIFICATION"],text=True,capture_output=True,timeout=TIMEOUT,check=False,env={key:os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM","XDG_CONFIG_HOME","CODEX_HOME","OPENAI_API_KEY","OPENAI_BASE_URL","OPENAI_ORG_ID","CURSOR_API_KEY","CURSOR_AGENT_API_KEY") if os.environ.get(key)})
+        proc=subprocess.run([*argv,PROMPT],text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=TIMEOUT,check=False,env={key:os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM","XDG_CONFIG_HOME","CODEX_HOME","OPENAI_API_KEY","OPENAI_BASE_URL","OPENAI_ORG_ID","CURSOR_API_KEY","CURSOR_AGENT_API_KEY") if os.environ.get(key)})
     except subprocess.TimeoutExpired: result["reason"]="bounded_execution_timeout"; return result
     except OSError as exc: result["reason"]=f"bounded_execution_oserror_{getattr(exc,'errno','unknown')}"; return result
     combined=(proc.stdout or "")+(proc.stderr or "")
