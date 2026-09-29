@@ -1,0 +1,29 @@
+name: SiliconFlow Key2 Live Probe 3
+
+on:
+  push:
+    paths:
+      - ".github/workflows/siliconflow-key2-live-probe-3.yml"
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      SILICONFLOW_API_KEY: ${{ secrets.SILICON_KEY_2 }}
+    steps:
+      - shell: bash
+        run: |
+          set -euo pipefail
+          key="$(printf '%s' "${SILICONFLOW_API_KEY}" | tr -d '\r\n')"
+          test -n "$key"
+          code="$(curl -sS -o /tmp/sf-body -w '%{http_code}' --connect-timeout 10 --max-time 20 -H "Authorization: Bearer $key" https://api.siliconflow.cn/v1/models)"
+          echo "HTTP_CODE=$code"
+          if [ "$code" = "200" ]; then
+            echo "LIVE_AUTH=PASS"
+            exit 0
+          else
+            echo "LIVE_AUTH=BLOCKED"
+            exit 2
+          fi
