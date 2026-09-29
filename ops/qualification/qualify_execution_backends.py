@@ -31,7 +31,6 @@ def qualify(backend_id:str)->dict:
     if backend_id=="codex" and Path(argv[0]).name=="codex":
         if len(argv)==1 or argv[1]!="exec": argv.insert(1,"exec")
         if "--skip-git-repo-check" not in argv: argv.insert(2,"--skip-git-repo-check")
-        if "--full-auto" not in argv: argv.insert(2,"--full-auto")
     if backend_id=="cursor" and Path(argv[0]).name in {"cursor","cursor-agent"} and (len(argv)==1 or argv[1] not in {"agent","exec"}): argv.append("--print")
     if not shutil.which(argv[0]): result["reason"]="executable_not_found"; return result
     result["checks"]["binary_identity"]="PASS"
