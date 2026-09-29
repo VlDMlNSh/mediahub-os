@@ -387,8 +387,14 @@ def main():
                          "returncode":rc,"duration_seconds":round(time.time()-started,3),
                          "result":value,"completed_at":int(time.time())})
                 last_id=str(cmd.get("command_id"))
+                if os.environ.get("ASTRA_ONESHOT","0")=="1":
+                    return
         except Exception as exc:
             (STATE/"last_error.json").write_text(json.dumps({"error":repr(exc),"time":int(time.time())}))
+            if os.environ.get("ASTRA_ONESHOT","0")=="1":
+                return
+        if os.environ.get("ASTRA_ONESHOT","0")=="1":
+            return
         time.sleep(INTERVAL)
 
 if __name__=="__main__": main()
