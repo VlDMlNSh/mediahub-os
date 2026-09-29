@@ -120,6 +120,5 @@
       "models": ["gpt-5.4"],
       "capabilities": ["burst", "general", "coding"], "cost_class": "router", "persistence_class": "router"
     }
-    }
   ]
 }
