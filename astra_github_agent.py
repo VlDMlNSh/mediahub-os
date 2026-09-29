@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
@@ -134,6 +134,65 @@ def execute(cmd):
             return {"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_PROVIDER_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED","argv":argv,"returncode":p.returncode,"stdout":p.stdout[-8000:],"stderr":p.stderr[-8000:],"credential_presence":{"OPENAI_API_KEY":bool(os.environ.get("OPENAI_API_KEY"))},"secret_values":"SUPPRESSED"}
         except Exception as exc:
             return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
+    if operation == "codex_gateway_diagnostic":
+        # Probe configured OpenAI-compatible gateways without exposing credentials.
+        import tempfile
+        gateways = [
+            ("unorouter", "UNOROUTER_API_KEY", "https://api.unorouter.com/v1", "gpt-5.4"),
+            ("zerouter", "ZEROUTER_API_KEY", "https://api.zerouter.ai/v1", "gpt-5.4"),
+        ]
+        results = []
+        for name, key_name, base_url, model in gateways:
+            credential_present = bool(os.environ.get(key_name))
+            item = {"gateway": name, "credential_presence": {key_name: credential_present},
+                    "status": "BLOCKED", "secret_values": "SUPPRESSED"}
+            if not credential_present:
+                item["reason"] = "credential_missing"
+                results.append(item)
+                continue
+            with tempfile.TemporaryDirectory(prefix="astra-codex-gateway-") as home:
+                config = Path(home) / "config.toml"
+                config.write_text(
+                    f'model = "{model}"\\n'
+                    f'model_provider = "{name}"\\n'
+                    f'[model_providers.{name}]\\n'
+                    f'name = "{name}"\\n'
+                    f'base_url = "{base_url}"\\n'
+                    f'wire_api = "responses"\\n'
+                    f'env_key = "{key_name}"\\n',
+                    encoding="utf-8")
+                env = {key: os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM") if os.environ.get(key)}
+                env.update({"CODEX_HOME": home, key_name: os.environ[key_name]})
+                argv=["/usr/local/bin/codex","exec","--skip-git-repo-check","--model",model,
+                      "print('MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK')"]
+                started = time.monotonic()
+                try:
+                    p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,
+                                     stdin=subprocess.DEVNULL,timeout=30,check=False,env=env)
+                    combined=(p.stdout or "")+(p.stderr or "")
+                    item.update({"returncode":p.returncode,
+                                 "duration_seconds":round(time.monotonic()-started,3),
+                                 "output_bytes":len(combined.encode("utf-8","replace")),
+                                 "marker_present":"MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK" in (p.stdout or ""),
+                                 "status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED"})
+                    if item["status"] != "PASS":
+                        text=combined.lower()
+                        if "403 forbidden" in text and ("country, region" in text or "territory not supported" in text):
+                            item["reason"]="provider_region_restricted"
+                        elif "401" in text or "unauthorized" in text or "authentication" in text:
+                            item["reason"]="authentication_or_authorization"
+                        elif "402" in text or "billing" in text or "quota" in text:
+                            item["reason"]="billing_or_quota"
+                        elif "timeout" in text or "timed out" in text:
+                            item["reason"]="network_or_timeout"
+                        else:
+                            item["reason"]="nonzero_exit_unknown"
+                except Exception as exc:
+                    item["reason"]=type(exc).__name__
+                results.append(item)
+        return {"status":"PASS" if any(x["status"]=="PASS" for x in results) else "BLOCKED",
+                "phase":"codex_gateway_diagnostic","gateways":results,"secret_values":"SUPPRESSED"}
+
     if operation == "codex_diagnostic":
         diagnostics=[]
         probes=[
