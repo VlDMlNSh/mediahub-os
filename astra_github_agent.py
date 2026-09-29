@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","codex_diagnostic"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
@@ -86,6 +86,21 @@ def execute(cmd):
         return {"status":"PASS" if qualification.returncode==0 else "BLOCKED",
                 "phase":"qualification","steps":steps}
 
+    if operation == "codex_diagnostic":
+        diagnostics=[]
+        probes=[
+            ["/usr/local/bin/codex","--version"],
+            ["/usr/local/bin/codex","exec","--help"],
+        ]
+        for argv in probes:
+            try:
+                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=20,check=False)
+                diagnostics.append({"argv":argv,"returncode":p.returncode,"stdout":p.stdout[-4000:],"stderr":p.stderr[-4000:]})
+            except Exception as exc:
+                diagnostics.append({"argv":argv,"error":repr(exc)})
+        config=Path(os.environ.get("CODEX_HOME",str(Path.home()/".codex")))/"config.toml"
+        diagnostics.append({"config_path":str(config),"config_exists":config.exists(),"config_sha256":hashlib.sha256(config.read_bytes()).hexdigest() if config.exists() else ""})
+        return {"status":"PASS","node_id":NODE_ID,"diagnostics":diagnostics,"secret_values":"SUPPRESSED"}
     if operation == "execution_backend_qualification":
         script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
         if not script.exists():
