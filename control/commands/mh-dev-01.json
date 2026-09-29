@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-codex-provider-diagnostic-20260929-r22",
+  "command_id": "astra-codex-gateway-diagnostic-20260929-r23",
   "node_id": "mh-dev-01",
-  "operation": "codex_provider_diagnostic",
-  "target_sha": "14a82b2d94a85d844e3a38ece9393d7a1cfe544e",
-  "title": "Isolate fresh Codex provider failure",
-  "description": "Run bounded Codex provider diagnostic with stdin closed; suppress credentials and report only non-secret output."
+  "operation": "codex_gateway_diagnostic",
+  "target_sha": "773489e9e99cb0706d8b825641792428603163ad",
+  "title": "Probe configured Codex-compatible gateways",
+  "description": "Run bounded Codex diagnostics through configured UnoRouter and ZeroRouter gateways using temporary config; suppress credentials and classify provider/auth/billing/network blockers."
 }
