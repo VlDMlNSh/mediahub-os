@@ -219,3 +219,4 @@ jobs:
           if-no-files-found: error
 
 # Canonical fresh-provider qualification trigger for Astra admission.
+# Triggered by this workflow revision so configured repository credentials can be re-qualified.
