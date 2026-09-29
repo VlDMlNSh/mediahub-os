@@ -157,6 +157,32 @@ def discover_default_model(provider: dict, key: str) -> dict:
     except Exception as exc:
         return {"classification": classify(None, str(exc), exc)}
 
+def request_responses_compatible(provider: dict, model: str, key: str) -> dict:
+    url = provider["base_url"].rstrip("/") + "/responses"
+    body = json.dumps({"model": model, "input": MARKER, "max_output_tokens": 16}).encode()
+    req = urllib.request.Request(url, data=body, method="POST", headers={
+        "Authorization": "Bearer " + key, "Content-Type": "application/json", "Accept": "application/json"
+    })
+    started = time.monotonic()
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as response:
+            raw = response.read(128 * 1024).decode("utf-8", "replace")
+            elapsed = round(time.monotonic() - started, 3)
+            payload = json.loads(raw)
+            content = str(payload.get("output_text") or "")
+            if not content:
+                for item in payload.get("output") or []:
+                    if not isinstance(item, dict): continue
+                    for part in item.get("content") or []:
+                        if isinstance(part, dict) and part.get("text"):
+                            content += str(part["text"])
+            return {"status_code": response.status, "latency_seconds": elapsed, "output_bytes": len(raw.encode("utf-8","replace")), "output_sha256": digest(raw), "response_usable": bool(content.strip()), "marker_echoed": MARKER in content, "classification": "PASS" if content.strip() else "request_failed"}
+    except urllib.error.HTTPError as exc:
+        raw = exc.read(32 * 1024).decode("utf-8", "replace")
+        return {"status_code": exc.code, "latency_seconds": round(time.monotonic()-started,3), "output_bytes": len(raw.encode("utf-8","replace")), "output_sha256": digest(raw), "classification": classify(exc.code, raw, exc), "diagnostic": classify_detail(exc.code, raw)}
+    except Exception as exc:
+        return {"status_code": None, "latency_seconds": round(time.monotonic()-started,3), "output_bytes": 0, "output_sha256": "", "classification": classify(None, str(exc), exc), "diagnostic": classify_detail(None, str(exc))}
+
 def request_cloudflare_workers_ai(provider: dict, model: str, key: str) -> dict:
     account_env = (provider.get("account_id_env") or [None])[0]
     account_id = os.environ.get(account_env or "")
@@ -208,6 +234,8 @@ def qualify(provider: dict) -> dict:
                 continue
         if provider.get("adapter") == "cloudflare_workers_ai":
             result = request_cloudflare_workers_ai(provider, model, key)
+        elif provider.get("adapter") == "responses_compatible":
+            result = request_responses_compatible(provider, model, key)
         else:
             result = request_openai_compatible(provider, model, key)
         safe = {k: v for k, v in result.items() if k != "response_body"}
