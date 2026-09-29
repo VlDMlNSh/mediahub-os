@@ -69,7 +69,8 @@ def main():
     relevant=[x[-2500:] for x in processes.get("stdout","").splitlines() if any(n in x.lower() for n in ("omniroute","free-claude-code","fcc-server","free-coding-models","openflux","claude","astra"))]
     qualified=[r["component"] for r in records if r["state"]=="RUNTIME_PASS"]
     evidence=json.dumps({"records":records,"relevant_processes":relevant,"node":platform.node()},sort_keys=True).encode()
-    result={"schema":"mediahub.local-component-qualification.v1","status":"PASS" if qualified else "BLOCKED","node_id":platform.node(),"qualified_runtime_components":qualified,"records":records,"relevant_processes":relevant,"evidence_digest":"sha256:"+hashlib.sha256(evidence).hexdigest(),"secret_values":"SUPPRESSED"}
+    process_only = ["free-claude-code server", "free-coding-models"]
+    result={"schema":"mediahub.local-component-qualification.v1","status":"PASS" if qualified else "BLOCKED","node_id":platform.node(),"qualified_runtime_components":qualified,"records":records,"process_only_components":process_only,"relevant_processes":relevant,"evidence_digest":"sha256:"+hashlib.sha256(evidence).hexdigest(),"secret_values":"SUPPRESSED"}
     print(json.dumps(result,indent=2,sort_keys=True))
     raise SystemExit(0 if qualified else 2)
 if __name__=="__main__": main()
