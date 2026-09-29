@@ -52,6 +52,11 @@ jobs:
       ORCAROUTER_API_KEY: ${{ secrets.ORCAROUTER_API_KEY }}
       UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
       ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
+      SILICONFLOW_API_KEY_2: ${{ secrets.SILICON_KEY_2 }}
+      NOVITA_API_KEY_1: ${{ secrets.NOVITA_KEY_1 }}
+      NOVITA_API_KEY_2: ${{ secrets.NOVITA_KEY_2 }}
+      ZAI_API_KEY_1: ${{ secrets.ZAI_KEY_1 }}
+      ZAI_API_KEY_2: ${{ secrets.ZAI_KEY_2 }}
       SILICONFLOW_API_KEY_1: ${{ secrets.SILICON_KEY_1 }}
       CLOUDFLARE_ACCOUNT_ID_1: ${{ secrets.CF_ACCOUNT_ID_1 }}
       DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
