@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-second-gold-admission-20260929-r16",
+  "command_id": "astra-codex-config-isolation-20260929-r17",
   "node_id": "mh-dev-01",
-  "operation": "autonomous_qualification_queue",
-  "title": "Second GOLD admission after verified worker recovery",
-  "description": "Execute the next admissible qualification step on canonical mh-dev-01 against current main. If backend verification passes, continue through fresh pre-soak evidence and canonical GOLD admission. Do not duplicate GOLD.",
-  "target_sha": "327ba4a60eca23f1e7fda918f9bddb71d60867fe"
+  "operation": "codex_config_isolation",
+  "target_sha": "e08031539b894905e071978645c5581a7ee6cdfd",
+  "title": "Bounded Codex config isolation diagnostic",
+  "description": "Determine whether the local Codex user config is the blocker. Do not modify config or expose secrets."
 }
