@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","autonomous_gold_mission","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic","provider_model_qualification"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","autonomous_gold_mission","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic","provider_model_qualification","local_component_inventory"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
@@ -261,6 +261,16 @@ def execute(cmd):
         config=Path(os.environ.get("CODEX_HOME",str(Path.home()/".codex")))/"config.toml"
         diagnostics.append({"config_path":str(config),"config_exists":config.exists(),"config_sha256":hashlib.sha256(config.read_bytes()).hexdigest() if config.exists() else ""})
         return {"status":"PASS","node_id":NODE_ID,"diagnostics":diagnostics,"secret_values":"SUPPRESSED"}
+    if operation == "local_component_inventory":
+        script=ROOT/"ops"/"qualification"/"inventory_local_components.py"
+        if not script.exists(): raise FileNotFoundError(f"local component inventory probe not found: {script}")
+        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
+        payload={"returncode":result.returncode,"stdout":result.stdout[-40000:],"stderr":result.stderr[-12000:]}
+        if result.stdout.strip():
+            try: payload["inventory"]=json.loads(result.stdout)
+            except json.JSONDecodeError: pass
+        payload["status"]="PASS" if result.returncode==0 else "BLOCKED"
+        return payload
     if operation == "provider_model_qualification":
         script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
         if not script.exists(): raise FileNotFoundError(f"provider/model qualification probe not found: {script}")
