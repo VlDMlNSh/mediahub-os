@@ -33,6 +33,7 @@ jobs:
       SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
       SILICONFLOW_API_KEY_1: ${{ secrets.SILICON_KEY_1 }}
       SILICONFLOW_API_KEY_2: ${{ secrets.SILICON_KEY_2 }}
+      SILICONFLOW_API_KEY_3: ${{ secrets.SILICON_KEY_3 }}
       NOVITA_API_KEY: ${{ secrets.NOVITA_API_KEY }}
       NOVITA_API_KEY_1: ${{ secrets.NOVITA_KEY_1 }}
       NOVITA_API_KEY_2: ${{ secrets.NOVITA_KEY_2 }}
