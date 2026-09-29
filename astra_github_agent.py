@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","autonomous_gold_mission","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
@@ -61,30 +61,100 @@ def execute(cmd):
                 "pid":os.getpid(),"cwd":os.getcwd(),
                 "agent_path":str(Path(__file__).resolve()),
                 "worktree":str(ROOT.resolve())}
-    if operation == "autonomous_qualification_queue":
-        # Astra owns progression: execute the next admissible gate, stop only on
-        # a hard blocker, and preserve fresh evidence at every transition.
+    if operation in {"autonomous_qualification_queue", "autonomous_gold_mission"}:
+        # Stateful autonomous qualification coordinator. It owns progression,
+        # retries transient blockers with bounded backoff, and never converts a
+        # missing/failed evidence gate into PASS.
         backend_script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
-        backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
-        steps=[{"operation":"execution_backend_qualification","returncode":backend.returncode,
-                "stdout":backend.stdout[-12000:],"stderr":backend.stderr[-8000:]}]
-        if backend.returncode != 0:
-            return {"status":"BLOCKED","phase":"execution_backend_qualification","steps":steps}
         evidence_script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
-        evidence=subprocess.run([sys.executable,str(evidence_script)],cwd=ROOT,text=True,capture_output=True,timeout=900,check=False)
-        steps.append({"operation":"pre_soak_evidence","returncode":evidence.returncode,
-                      "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]})
-        if evidence.returncode != 0:
-            return {"status":"BLOCKED","phase":"pre_soak_evidence","steps":steps}
+        verifier_script=ROOT/"ops"/"qualification"/"verify_pre_soak_bundle.py"
         gold=ROOT/"ops"/"qualification"/"astra_gold_executor.py"
-        qualification=subprocess.run([sys.executable,str(gold)],cwd=ROOT,text=True,
-                                     capture_output=True,
-                                     timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),
-                                     check=False)
-        steps.append({"operation":"qualification","returncode":qualification.returncode,
-                      "stdout":qualification.stdout[-12000:],"stderr":qualification.stderr[-8000:]})
-        return {"status":"PASS" if qualification.returncode==0 else "BLOCKED",
-                "phase":"qualification","steps":steps}
+        started=time.time()
+        max_cycles=max(1,int(os.environ.get("ASTRA_AUTONOMOUS_MAX_CYCLES","12")))
+        retry_seconds=max(30,int(os.environ.get("ASTRA_AUTONOMOUS_RETRY_SECONDS","300")))
+        steps=[]
+        target_sha=cmd.get("target_sha","")
+        if target_sha:
+            ancestry=run(["git","merge-base","--is-ancestor",target_sha,"HEAD"],30)
+            if ancestry.returncode != 0:
+                return {"status":"BLOCKED","phase":"target_reconciliation",
+                        "reason":"target_sha_not_ancestor_of_current_main","target_sha":target_sha,
+                        "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
+        # The legacy queue remains a single-pass compatibility operation.
+        cycles=1 if operation=="autonomous_qualification_queue" else max_cycles
+        for cycle in range(1,cycles+1):
+            if operation=="autonomous_gold_mission" and cycle>1:
+                sync()
+                ancestry=run(["git","merge-base","--is-ancestor",target_sha,"HEAD"],30) if target_sha else None
+                if ancestry is not None and ancestry.returncode != 0:
+                    return {"status":"BLOCKED","phase":"target_reconciliation",
+                            "reason":"target_sha_not_ancestor_of_current_main","target_sha":target_sha,
+                            "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip(),
+                            "cycles":steps}
+            cycle_record={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
+            backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,
+                                   capture_output=True,timeout=120,check=False)
+            cycle_record["backend"]={"returncode":backend.returncode,
+                                     "stdout":backend.stdout[-12000:],"stderr":backend.stderr[-8000:]}
+            steps.append(cycle_record)
+            if backend.returncode != 0:
+                if operation=="autonomous_gold_mission" and cycle<cycles:
+                    time.sleep(retry_seconds)
+                    continue
+                return {"status":"BLOCKED","phase":"execution_backend_qualification",
+                        "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            evidence=subprocess.run([sys.executable,str(evidence_script)],cwd=ROOT,text=True,
+                                    capture_output=True,timeout=900,check=False)
+            cycle_record["pre_soak"]={"returncode":evidence.returncode,
+                                      "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]}
+            if evidence.returncode != 0:
+                if operation=="autonomous_gold_mission" and cycle<cycles:
+                    time.sleep(retry_seconds)
+                    continue
+                return {"status":"BLOCKED","phase":"pre_soak_evidence",
+                        "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            verifier=subprocess.run([sys.executable,str(verifier_script),"evidence"],
+                                    cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
+            cycle_record["strict_verifier"]={"returncode":verifier.returncode,
+                                              "stdout":verifier.stdout[-12000:],
+                                              "stderr":verifier.stderr[-8000:]}
+            if verifier.returncode != 0:
+                if operation=="autonomous_gold_mission" and cycle<cycles:
+                    time.sleep(retry_seconds)
+                    continue
+                return {"status":"BLOCKED","phase":"strict_pre_soak_verification",
+                        "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            # Distributed verification has no live producer in the current
+            # repository. Refuse to invent evidence; expose this as the next
+            # explicit admission gate instead of silently skipping it.
+            distributed_candidates=list((ROOT/"ops"/"qualification").glob("*distributed*")) if (ROOT/"ops"/"qualification").exists() else []
+            if not distributed_candidates:
+                return {"status":"BLOCKED","phase":"distributed_verification",
+                        "reason":"no_dedicated_distributed_verification_producer",
+                        "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            for candidate in distributed_candidates:
+                if candidate.suffix==".py":
+                    distributed=subprocess.run([sys.executable,str(candidate)],cwd=ROOT,text=True,
+                                               capture_output=True,timeout=1800,check=False)
+                    cycle_record["distributed_verification"]={"script":str(candidate.relative_to(ROOT)),
+                                                              "returncode":distributed.returncode,
+                                                              "stdout":distributed.stdout[-12000:],
+                                                              "stderr":distributed.stderr[-8000:]}
+                    if distributed.returncode != 0:
+                        return {"status":"BLOCKED","phase":"distributed_verification",
+                                "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            qualification=subprocess.run([sys.executable,str(gold)],cwd=ROOT,text=True,
+                                         capture_output=True,
+                                         timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),
+                                         check=False)
+            cycle_record["gold"]={"returncode":qualification.returncode,
+                                  "stdout":qualification.stdout[-12000:],
+                                  "stderr":qualification.stderr[-8000:]}
+            return {"status":"PASS" if qualification.returncode==0 else "BLOCKED",
+                    "phase":"gold_qualification","steps":steps,
+                    "elapsed_seconds":round(time.time()-started,3)}
+        return {"status":"BLOCKED","phase":"autonomous_retry_window_exhausted",
+                "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
 
     if operation == "codex_config_isolation":
         argv=["/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_CONFIG_ISOLATION_OK')"]
