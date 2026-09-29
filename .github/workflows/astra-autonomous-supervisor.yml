@@ -158,6 +158,7 @@ jobs:
               "gold_qualification",
               "local_component_inventory",
               "local_component_qualification",
+              "local_ai_capability_qualification",
               "target_reconciliation",
               "autonomous_retry_window_exhausted",
           }
