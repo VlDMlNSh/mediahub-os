@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
@@ -124,6 +124,14 @@ def execute(cmd):
             return {"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_PROCESS_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED",
                     "argv":argv,"returncode":p.returncode,"stdout":p.stdout[-4000:],"stderr":p.stderr[-4000:],
                     "codex_processes":lines,"secret_values":"SUPPRESSED"}
+        except Exception as exc:
+            return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
+    if operation == "codex_provider_diagnostic":
+        argv=["/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_PROVIDER_DIAGNOSTIC_OK')"]
+        env={key:os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM","XDG_CONFIG_HOME","CODEX_HOME","OPENAI_BASE_URL","OPENAI_ORG_ID") if os.environ.get(key)}
+        try:
+            p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=20,check=False,env=env)
+            return {"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_PROVIDER_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED","argv":argv,"returncode":p.returncode,"stdout":p.stdout[-8000:],"stderr":p.stderr[-8000:],"credential_presence":{"OPENAI_API_KEY":bool(os.environ.get("OPENAI_API_KEY"))},"secret_values":"SUPPRESSED"}
         except Exception as exc:
             return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
     if operation == "codex_diagnostic":
