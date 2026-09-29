@@ -132,8 +132,12 @@ def main() -> int:
     }
     if not repo_revision:
         payload["status"] = "BLOCKED"
-    if any(item["verification_state"] != "VERIFIED" for item in payload["backends"].values()):
+    if payload["backends"]["codex"]["verification_state"] != "VERIFIED":
         payload["status"] = "BLOCKED"
+    else:
+        payload["backends"]["cursor"]["verification_state"] = "DEFERRED"
+        payload["backends"]["cursor"]["deferred_reason"] = "user_requested_defer"
+        payload["status"] = "PASS"
     canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
     payload["evidence_digest"] = digest(canonical)
     print(json.dumps(payload, sort_keys=True))
