@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-autonomous-gold-mission-1790675863885",
+  "command_id": "astra-autonomous-gold-mission-1790676521962",
   "node_id": "mh-dev-01",
   "operation": "autonomous_gold_mission",
-  "target_sha": "652d2bc5f40f2a5d419543b576633bcee2d0bd6e",
+  "target_sha": "5a23a3355ba985262da29bbddf89169415d50444",
   "title": "Autonomous Astra GOLD mission",
-  "description": "Autonomous qualification. Execute the complete gate queue without manual Continue prompts; reconcile target, run backend qualification, fresh pre-soak evidence, strict verification, distributed verification, and canonical GOLD only when gates pass. Retry transient blockers with bounded backoff. Never fabricate PASS, bypass provider/auth/quota/region/fencing/recovery controls, expose secrets, or duplicate GOLD. This command is intentionally issued to trigger the canonical queue supervisor and produce fresh execution evidence.",
+  "description": "Autonomous qualification after router-priority backend fix. Execute up to five bounded cycles; retry transient blockers; never bypass gates or fabricate PASS.",
   "mode": "autonomous"
 }
