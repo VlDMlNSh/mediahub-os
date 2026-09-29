@@ -106,6 +106,7 @@
       "base_url": "https://api.orcarouter.com/v1",
       "models": ["default"],
       "capabilities": ["burst", "general"], "cost_class": "router", "persistence_class": "router"
+    },
     {
       "id": "unorouter-1", "provider": "UnoRouter", "family": "unorouter",
       "credential_env": ["UNOROUTER_API_KEY"],
