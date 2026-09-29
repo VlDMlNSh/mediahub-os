@@ -52,3 +52,14 @@
   "schema": 1,
   "ts": "2026-09-29T13:16:03Z"
 }
+
+{
+  "action": "TRANSPORT",
+  "clean": true,
+  "detail": "git@github.com: Permission denied (publickey).\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n",
+  "head": "7eaa0d3fb74013f216a0be2eaf47424287c7db9a",
+  "node": "dev2",
+  "result": "FAILED",
+  "schema": 1,
+  "ts": "2026-09-29T13:16:51Z"
+}
