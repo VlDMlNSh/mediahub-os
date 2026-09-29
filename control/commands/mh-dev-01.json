@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-provider-qualification-20260929-r10",
+  "command_id": "astra-provider-qualification-20260929-r11",
   "node_id": "mh-dev-01",
   "operation": "provider_model_qualification",
-  "target_sha": "5db23f5cd3559d995ed122cf066b9ec9cd803201",
-  "title": "Astra provider/model qualification r10",
-  "description": "Fresh bounded qualification of all configured provider/model credentials on canonical mh-dev-01. Include UnoRouter and ZeroRouter; exclude OpenAI direct. Suppress all secret values. Record endpoint/auth/model/rate-limit/region outcomes and qualify only verified usable models."
+  "target_sha": "beb49a34c7719c2970083114c3a2e0928ad9db72",
+  "title": "Astra provider/model qualification r11",
+  "description": "Fresh bounded qualification with sanitized provider error diagnostics. Test all configured providers including UnoRouter and ZeroRouter; exclude OpenAI direct. Never emit secret values or raw error bodies. Record diagnostic class alongside HTTP classification."
 }
