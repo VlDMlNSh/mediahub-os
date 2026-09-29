@@ -56,6 +56,10 @@ def qualify(backend_id: str) -> dict:
     if not argv:
         result["reason"] = "empty_command"
         return result
+    # Normalize legacy node configuration that points directly to the Codex
+    # binary: the bounded qualification contract requires non-interactive exec.
+    if backend_id == "codex" and Path(argv[0]).name == "codex" and (len(argv) == 1 or argv[1] != "exec"):
+        argv.insert(1, "exec")
     executable = shutil.which(argv[0])
     if not executable:
         result["reason"] = "executable_not_found"
