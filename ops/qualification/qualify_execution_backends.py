@@ -32,6 +32,11 @@ def digest(data: str) -> str:
 def qualify(backend_id: str) -> dict:
     env_name = BACKENDS[backend_id]
     raw = os.environ.get(env_name, "").strip()
+    if not raw and backend_id == "codex":
+        for candidate in ("/usr/local/bin/codex", "/usr/bin/codex"):
+            if Path(candidate).is_file() and os.access(candidate, os.X_OK):
+                raw = candidate
+                break
     result = {
         "node_id": platform.node(),
         "verification_state": "UNVERIFIED",
