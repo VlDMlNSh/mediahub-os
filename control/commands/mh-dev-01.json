@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-autonomous-gold-mission-20260929T1790675421398",
+  "command_id": "astra-autonomous-gold-mission-1790675863885",
   "node_id": "mh-dev-01",
   "operation": "autonomous_gold_mission",
-  "target_sha": "b5eaf6c6bcf2a072563c09f089193ea0b5578846",
+  "target_sha": "652d2bc5f40f2a5d419543b576633bcee2d0bd6e",
   "title": "Autonomous Astra GOLD mission",
-  "description": "Operate Astra autonomously through the complete qualification queue without manual Continue prompts. Observe, reconcile, select, execute, verify, and record each dependency. Establish worker/runtime state and reconcile to target SHA, then execute backend qualification, fresh pre-soak evidence, strict verifier, distributed verification, and canonical GOLD executor when all admission gates pass. On a failed gate, diagnose and implement an in-scope repository fix when possible, commit it, self-sync, and continue with a fresh evidence cycle. Never fabricate PASS, bypass provider/auth/quota/region/fencing/recovery controls, expose secrets, or create duplicate GOLD runs. Preserve canonical node mh-dev-01 and GitHub transport. Continue until Astra GOLD is actually qualified or an objectively non-remediable external blocker remains; record every state transition and final evidence. Existing completed 24h run is historical baseline and must not be duplicated. Mission implementation is pinned to this target revision; continue only on an ancestor-compatible current main.",
+  "description": "Autonomous qualification. Execute the complete gate queue without manual Continue prompts; reconcile target, run backend qualification, fresh pre-soak evidence, strict verification, distributed verification, and canonical GOLD only when gates pass. Retry transient blockers with bounded backoff. Never fabricate PASS, bypass provider/auth/quota/region/fencing/recovery controls, expose secrets, or duplicate GOLD. This command is intentionally issued to trigger the canonical queue supervisor and produce fresh execution evidence.",
   "mode": "autonomous"
 }
