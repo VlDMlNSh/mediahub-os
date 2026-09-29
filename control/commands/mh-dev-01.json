@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-provider-model-qualification-20260929-r17",
+  "command_id": "astra-provider-model-qualification-20260929-r18",
   "node_id": "mh-dev-01",
   "operation": "provider_model_qualification",
-  "target_sha": "4e5f2a3331403c13ecf470cb39cece9e8df69ad6",
+  "target_sha": "6dec1f09ff85ef894741f58f9b071dc57b309925",
   "workflow_only": true,
-  "title": "Astra provider/model qualification r17",
-  "description": "Fresh credentialed general provider/model qualification using corrected chat and Responses adapters; OpenAI direct excluded; UnoRouter and ZeroRouter retained; secrets suppressed."
+  "title": "Astra provider/model qualification r18",
+  "description": "Fresh credentialed provider/model qualification with Responses payload aligned to verified ZeroRouter workflow; OpenAI direct excluded; UnoRouter and ZeroRouter retained; secrets suppressed."
 }
