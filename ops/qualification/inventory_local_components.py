@@ -13,6 +13,18 @@ KNOWN = [
     ("OmniRoute", ["omniroute", "omni-route", "omni"], ["/opt/omniroute", "/usr/local/bin/omniroute", "/usr/bin/omniroute"]),
     ("free-claude-code", ["free-claude-code", "claude"], ["/opt/free-claude-code", "/usr/local/bin/claude", "/usr/bin/claude"]),
     ("OpenFlux", ["openflux"], ["/opt/openflux", "/usr/local/bin/openflux", "/usr/bin/openflux"]),
+    ("free-coding-models", ["free-coding-models"], []),
+    ("Codex CLI", ["codex"], ["/usr/local/bin/codex", "/usr/bin/codex"]),
+    ("Node.js", ["node"], []),
+    ("Bun", ["bun"], []),
+    ("Claude Code", ["claude"], []),
+    ("SentinelX", [], ["/etc/systemd/system/sentinelx-cloud-core.service"]),
+    ("Astra GitHub Agent", [], ["/home/mediahub/astra-work/astra_github_agent.py"]),
+    ("Astra Command Bus", [], ["/home/mediahub/dev/mediahub-os-autonomous/ops/astra_command_bus.py"]),
+    ("Astra Executor Discovery", [], ["/home/mediahub/dev/mediahub-os-autonomous/ops/astra_executor_discovery.py"]),
+    ("Astra Orchestrator", [], ["/home/mediahub/dev/mediahub-os-autonomous/ops/astra_orchestrator.py"]),
+    ("Hybrid Orchestrator", [], ["/home/mediahub/dev/mediahub-os-autonomous/ops/hybrid_orchestrator.py"]),
+    ("free-claude-code server", [], ["/home/mediahub/.local/bin/fcc-server"]),
     ("Ollama", ["ollama"], ["/usr/local/bin/ollama", "/usr/bin/ollama"]),
     ("llama.cpp", ["llama-server", "llama-cli"], ["/opt/llama.cpp", "/usr/local/bin/llama-server", "/usr/local/bin/llama-cli"]),
     ("ONNX Runtime", [], ["/opt/onnxruntime"]),
@@ -88,13 +100,15 @@ def main():
     processes = cmd(["ps", "-eo", "pid=,comm=,args="], 10)
 
     discovery = []
-    needles = ("omni", "claude", "openflux", "astra", "ollama", "llama", "mediahub")
+    needles = ("omni", "claude", "openflux", "astra", "ollama", "llama", "mediahub", "free-coding-models", "fcc-server", "bun")
     for line in processes.get("stdout", "").splitlines():
         low = line.lower()
         if any(n in low for n in needles):
             discovery.append(line[-2000:])
 
     queue = []
+    found_names = {r["component"] for r in records if r["status"] == "FOUND"}
+    process_text = "\n".join(discovery).lower()
     for r in records:
         if r["status"] == "FOUND":
             queue.append({
@@ -102,6 +116,36 @@ def main():
                 "qualification_state": "DISCOVERED",
                 "next_gate": "local_component_runtime_qualification",
                 "requirements": ["identity", "version_provenance", "runtime_smoke", "resource_limits", "security_boundary", "recovery_behavior", "evidence_digest"]
+            })
+    process_aliases = {
+        "OmniRoute": "omniroute",
+        "free-claude-code": "free-claude-code",
+        "OpenFlux": "openflux",
+        "Claude Code": "claude ",
+        "free-coding-models": "free-coding-models",
+        "Bun": "bun.exe",
+        "Astra Command Bus": "astra_command_bus.py",
+        "Astra Executor Discovery": "astra_executor_discovery.py",
+        "Astra Orchestrator": "astra_orchestrator.py",
+        "Hybrid Orchestrator": "hybrid_orchestrator.py",
+        "free-claude-code server": "fcc-server",
+    }
+    for name, needle in process_aliases.items():
+        if needle.lower() in process_text and name not in found_names:
+            queue.append({
+                "component": name,
+                "qualification_state": "DISCOVERED",
+                "discovery": "active_process",
+                "next_gate": "local_component_runtime_qualification",
+                "requirements": ["identity", "version_provenance", "runtime_smoke", "resource_limits", "security_boundary", "recovery_behavior", "evidence_digest"]
+            })
+    for name in ("OmniRoute", "free-claude-code", "OpenFlux"):
+        if name not in {q["component"] for q in queue}:
+            queue.append({
+                "component": name,
+                "qualification_state": "USER_REPORTED_NOT_VERIFIED",
+                "next_gate": "local_component_runtime_qualification",
+                "scope": "user-reported-local; canonical-node-unverified"
             })
     for name, version in python_packages.items():
         queue.append({
