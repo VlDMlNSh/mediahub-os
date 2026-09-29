@@ -40,6 +40,8 @@ def qualify(backend_id:str)->dict:
  if backend_id=="cursor" and Path(argv[0]).name in {"cursor","cursor-agent"} and (len(argv)==1 or argv[1] not in {"agent","exec"}): argv.append("--print")
  if not shutil.which(argv[0]): result["reason"]="executable_not_found"; return result
  result["checks"]["binary_identity"]="PASS"; started=time.monotonic()
+ credential_presence={key:bool(os.environ.get(key)) for key in ("OPENAI_API_KEY","UNOROUTER_API_KEY","ZEROUTER_API_KEY","CURSOR_API_KEY","CURSOR_AGENT_API_KEY")}
+ result["credential_presence"]=credential_presence
  base={key:os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM","XDG_CONFIG_HOME","CODEX_HOME","OPENAI_API_KEY","OPENAI_BASE_URL","OPENAI_ORG_ID","UNOROUTER_API_KEY","ZEROUTER_API_KEY","CURSOR_API_KEY","CURSOR_AGENT_API_KEY") if os.environ.get(key)}
  attempts=[]
  if backend_id=="codex":
@@ -51,18 +53,21 @@ def qualify(backend_id:str)->dict:
   attempts.append(("default",argv,base,None))
  else: attempts.append(("default",argv,base,None))
  try:
-  last_reason="nonzero_exit_unknown"
+  last_reason="nonzero_exit_unknown"; attempt_evidence=[]
   for name,cmd,env,home in attempts:
    p,combined=run_codex(cmd,env)
    if p is not None:
+    reason="" if p.returncode==0 else classify(combined)
+    attempt_evidence.append({"provider":name,"returncode":p.returncode,"reason":reason,"duration_seconds":round(time.monotonic()-started,3),"output_bytes":len(combined.encode("utf-8","replace")),"verification_state":"VERIFIED" if p.returncode==0 and combined.strip() else "UNVERIFIED"})
     result.update({"duration_seconds":round(time.monotonic()-started,3),"returncode":p.returncode,"output_bytes":len(combined.encode("utf-8","replace")),"output_sha256":digest(combined),"provider_attempt":name})
     if p.returncode==0 and combined.strip():
-     result["checks"]["bounded_execution"]="PASS"; result["verification_state"]="VERIFIED"; return result
-    last_reason=classify(combined)
+     result["checks"]["bounded_execution"]="PASS"; result["verification_state"]="VERIFIED"; result["attempts"]=attempt_evidence; return result
+    last_reason=reason
    else:
+    attempt_evidence.append({"provider":name,"returncode":124,"reason":"bounded_execution_timeout","duration_seconds":round(time.monotonic()-started,3),"verification_state":"UNVERIFIED"})
     result["duration_seconds"]=round(time.monotonic()-started,3); last_reason="bounded_execution_timeout"
    if home: shutil.rmtree(home,ignore_errors=True)
-  result["reason"]=last_reason; return result
+  result["reason"]=last_reason; result["attempts"]=attempt_evidence; return result
  finally:
   for _,_,_,home in attempts:
    if home: shutil.rmtree(home,ignore_errors=True)
