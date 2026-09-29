@@ -1,80 +1,210 @@
 #!/usr/bin/env python3
-"""Capture bounded, sanitized runtime evidence for local engineering backends."""
+"""Bounded provider/model qualification for the Astra compute pool.
+
+Secrets are read only from environment variables and are never emitted.
+A provider is QUALIFIED only after a live bounded request returns a usable
+model response. Missing credentials are SKIPPED, not failures.
+"""
 from __future__ import annotations
-import hashlib,json,os,platform,shlex,shutil,subprocess,tempfile,time
+
+import concurrent.futures
+import hashlib
+import json
+import os
+import platform
+import time
+import urllib.error
+import urllib.request
 from pathlib import Path
-BACKENDS={"codex":"MEDIAHUB_CODEX_COMMAND","cursor":"MEDIAHUB_CURSOR_COMMAND"}
-FORBIDDEN=(";","&&","||","|",">","<","\n","\r")
-PROMPT="print('MEDIAHUB_EXECUTION_BACKEND_QUALIFICATION')"; TIMEOUT=45
-def digest(data:str)->str:return "sha256:"+hashlib.sha256(data.encode("utf-8","replace")).hexdigest()
-def classify(text:str)->str:
- t=text.lower()
- if "403" in t and any(x in t for x in ("country","region","territory","supported")): return "provider_region_restricted"
- if any(x in t for x in ("unauthorized","authentication","not authenticated","api key","login")): return "authentication_or_authorization"
- if any(x in t for x in ("usage:","unknown option","unrecognized option","invalid option","unexpected argument")): return "cli_invocation_error"
- if any(x in t for x in ("network","connection","connect","dns","timed out","timeout")): return "network_or_timeout"
- if any(x in t for x in ("permission denied","operation not permitted")): return "permission_error"
- if any(x in t for x in ("model","provider","quota","rate limit")): return "provider_or_quota"
- return "nonzero_exit_unknown"
-def run_codex(argv,env):
- try:
-  p=subprocess.run([*argv,PROMPT],text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=TIMEOUT,check=False,env=env)
-  combined=(p.stdout or "")+(p.stderr or "")
-  return p,combined
- except subprocess.TimeoutExpired:return None,"TIMEOUT"
-def qualify(backend_id:str)->dict:
- raw=os.environ.get(BACKENDS[backend_id],"").strip()
- if not raw:
-  candidates={"codex":("/usr/local/bin/codex","/usr/bin/codex"),"cursor":("/usr/local/bin/cursor-agent","/usr/bin/cursor-agent","/usr/local/bin/cursor","/usr/bin/cursor")}[backend_id]
-  for candidate in candidates:
-   if Path(candidate).is_file() and os.access(candidate,os.X_OK): raw=candidate; break
- result={"node_id":platform.node(),"verification_state":"UNVERIFIED","checks":{"node_identity":"PASS" if platform.node()=="mh-dev-01" else "FAIL","binary_identity":"FAIL","bounded_execution":"FAIL"},"secret_values":"SUPPRESSED"}
- if not raw: result["reason"]="command_not_configured"; return result
- if any(token in raw for token in FORBIDDEN): result["reason"]="unsafe_command_syntax"; return result
- try: argv=shlex.split(raw)
- except ValueError: result["reason"]="invalid_command_syntax"; return result
- if not argv: result["reason"]="empty_command"; return result
- if backend_id=="codex" and Path(argv[0]).name=="codex":
-  if len(argv)==1 or argv[1]!="exec": argv.insert(1,"exec")
-  if "--skip-git-repo-check" not in argv: argv.insert(2,"--skip-git-repo-check")
- if backend_id=="cursor" and Path(argv[0]).name in {"cursor","cursor-agent"} and (len(argv)==1 or argv[1] not in {"agent","exec"}): argv.append("--print")
- if not shutil.which(argv[0]): result["reason"]="executable_not_found"; return result
- result["checks"]["binary_identity"]="PASS"; started=time.monotonic()
- credential_presence={key:bool(os.environ.get(key)) for key in ("OPENAI_API_KEY","UNOROUTER_API_KEY","ZEROUTER_API_KEY","CURSOR_API_KEY","CURSOR_AGENT_API_KEY")}
- result["credential_presence"]=credential_presence
- base={key:os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM","XDG_CONFIG_HOME","CODEX_HOME","OPENAI_API_KEY","OPENAI_BASE_URL","OPENAI_ORG_ID","UNOROUTER_API_KEY","ZEROUTER_API_KEY","CURSOR_API_KEY","CURSOR_AGENT_API_KEY") if os.environ.get(key)}
- attempts=[]
- if backend_id=="codex":
-  for name,key,url,model in (("unorouter","UNOROUTER_API_KEY","https://api.unorouter.com/v1","gpt-5.4"),("zerouter","ZEROUTER_API_KEY","https://api.zerouter.ai/v1","gpt-5.4")):
-   if not os.environ.get(key): continue
-   home=tempfile.mkdtemp(prefix=f"astra-{name}-"); cfg=Path(home)/"config.toml"
-   cfg.write_text(f'model = "{model}"\nmodel_provider = "{name}"\n[model_providers.{name}]\nname = "{name}"\nbase_url = "{url}"\nwire_api = "responses"\nenv_key = "{key}"\n',encoding="utf-8")
-   e=dict(base); e["CODEX_HOME"]=home; attempts.append((name,[*argv[:2],"--model",model,*argv[2:]],e,home))
-  attempts.append(("default",argv,base,None))
- else: attempts.append(("default",argv,base,None))
- try:
-  last_reason="nonzero_exit_unknown"; attempt_evidence=[]
-  for name,cmd,env,home in attempts:
-   p,combined=run_codex(cmd,env)
-   if p is not None:
-    reason="" if p.returncode==0 else classify(combined)
-    attempt_evidence.append({"provider":name,"returncode":p.returncode,"reason":reason,"duration_seconds":round(time.monotonic()-started,3),"output_bytes":len(combined.encode("utf-8","replace")),"verification_state":"VERIFIED" if p.returncode==0 and combined.strip() else "UNVERIFIED"})
-    result.update({"duration_seconds":round(time.monotonic()-started,3),"returncode":p.returncode,"output_bytes":len(combined.encode("utf-8","replace")),"output_sha256":digest(combined),"provider_attempt":name})
-    if p.returncode==0 and combined.strip():
-     result["checks"]["bounded_execution"]="PASS"; result["verification_state"]="VERIFIED"; result["attempts"]=attempt_evidence; return result
-    last_reason=reason
-   else:
-    attempt_evidence.append({"provider":name,"returncode":124,"reason":"bounded_execution_timeout","duration_seconds":round(time.monotonic()-started,3),"verification_state":"UNVERIFIED"})
-    result["duration_seconds"]=round(time.monotonic()-started,3); last_reason="bounded_execution_timeout"
-   if home: shutil.rmtree(home,ignore_errors=True)
-  result["reason"]=last_reason; result["attempts"]=attempt_evidence; return result
- finally:
-  for _,_,_,home in attempts:
-   if home: shutil.rmtree(home,ignore_errors=True)
-def main()->int:
- try: repo_revision=subprocess.run(["git","rev-parse","HEAD"],text=True,capture_output=True,timeout=10,check=False).stdout.strip()
- except (OSError,subprocess.TimeoutExpired): repo_revision=""
- payload={"schema":"mediahub.execution-backends.v1","status":"PASS","captured_at":int(time.time()),"node_id":platform.node(),"repo_revision":repo_revision,"backends":{b:qualify(b) for b in BACKENDS},"secret_values":"SUPPRESSED"}
- if not repo_revision or payload["backends"]["codex"]["verification_state"]!="VERIFIED": payload["status"]="BLOCKED"
- payload["evidence_digest"]=digest(json.dumps(payload,sort_keys=True,separators=(",",":"))); print(json.dumps(payload,sort_keys=True)); return 0 if payload["status"]=="PASS" else 2
-if __name__=="__main__": raise SystemExit(main())
+
+ROOT = Path(__file__).resolve().parents[2]
+REGISTRY = ROOT / "ops" / "qualification" / "provider_model_registry.json"
+TIMEOUT = max(5, int(os.environ.get("ASTRA_PROVIDER_TIMEOUT_SECONDS", "20")))
+MARKER = "MEDIAHUB_PROVIDER_QUALIFICATION_OK"
+
+
+def digest(value: str) -> str:
+    return "sha256:" + hashlib.sha256(value.encode("utf-8", "replace")).hexdigest()
+
+
+def classify(status: int | None, text: str, exc: Exception | None = None) -> str:
+    t = text.lower()
+    if status in (401, 403):
+        if any(x in t for x in ("country", "region", "territory", "location", "supported")):
+            return "regional_restriction"
+        return "authentication_or_authorization"
+    if status == 404 or "model" in t and any(x in t for x in ("not found", "does not exist", "unavailable")):
+        return "model_unavailable"
+    if status in (408, 504) or isinstance(exc, TimeoutError):
+        return "timeout"
+    if status == 429 or any(x in t for x in ("rate limit", "too many requests", "quota")):
+        return "rate_limit_or_quota"
+    if exc is not None:
+        if isinstance(exc, urllib.error.URLError):
+            reason = str(exc.reason).lower()
+            if "name or service not known" in reason or "nodename" in reason:
+                return "dns"
+            return "network"
+        return "network"
+    if status is not None and status >= 500:
+        return "provider_unavailable"
+    return "request_failed"
+
+
+def credential(provider: dict) -> tuple[str | None, bool]:
+    for name in provider.get("credential_env", []):
+        if os.environ.get(name):
+            return name, True
+    return None, False
+
+
+def request_openai_compatible(provider: dict, model: str, key: str) -> dict:
+    url = provider["base_url"].rstrip("/") + "/chat/completions"
+    body = json.dumps({
+        "model": model,
+        "messages": [{"role": "user", "content": MARKER}],
+        "temperature": 0,
+        "max_tokens": 16,
+    }).encode()
+    req = urllib.request.Request(
+        url,
+        data=body,
+        method="POST",
+        headers={
+            "Authorization": "Bearer " + key,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+    )
+    started = time.monotonic()
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as response:
+            raw = response.read(128 * 1024).decode("utf-8", "replace")
+            elapsed = round(time.monotonic() - started, 3)
+            try:
+                payload = json.loads(raw)
+            except json.JSONDecodeError:
+                payload = {}
+            content = ""
+            choices = payload.get("choices") or []
+            if choices and isinstance(choices[0], dict):
+                msg = choices[0].get("message") or {}
+                content = str(msg.get("content") or "")
+            usable = bool(content.strip())
+            return {
+                "status_code": response.status,
+                "latency_seconds": elapsed,
+                "output_bytes": len(raw.encode("utf-8", "replace")),
+                "output_sha256": digest(raw),
+                "response_usable": usable,
+                "marker_echoed": MARKER in content,
+                "classification": "PASS" if usable else "request_failed",
+            }
+    except urllib.error.HTTPError as exc:
+        raw = exc.read(32 * 1024).decode("utf-8", "replace")
+        return {
+            "status_code": exc.code,
+            "latency_seconds": round(time.monotonic() - started, 3),
+            "output_bytes": len(raw.encode("utf-8", "replace")),
+            "output_sha256": digest(raw),
+            "classification": classify(exc.code, raw, exc),
+        }
+    except Exception as exc:
+        return {
+            "status_code": None,
+            "latency_seconds": round(time.monotonic() - started, 3),
+            "output_bytes": 0,
+            "output_sha256": "",
+            "classification": classify(None, str(exc), exc),
+        }
+
+
+def qualify(provider: dict) -> dict:
+    env_name, present = credential(provider)
+    base = {
+        "provider_id": provider["id"],
+        "provider": provider["provider"],
+        "family": provider["family"],
+        "credential_present": present,
+        "credential_env": env_name or "SUPPRESSED",
+        "models": provider["models"],
+        "capabilities": provider["capabilities"],
+        "cost_class": provider["cost_class"],
+        "persistence_class": provider["persistence_class"],
+        "verification_state": "SKIPPED" if not present else "UNVERIFIED",
+        "models_tested": [],
+        "region_availability": "UNVERIFIED",
+    }
+    if not present:
+        base["reason"] = "credential_absent"
+        return base
+
+    key = os.environ[env_name]
+    for model in provider["models"]:
+        if model == "default":
+            base["models_tested"].append({
+                "model": model,
+                "status": "SKIPPED",
+                "reason": "model_id_required_for_generic_provider",
+            })
+            continue
+        result = request_openai_compatible(provider, model, key)
+        safe = {k: v for k, v in result.items() if k != "response_body"}
+        safe["model"] = model
+        base["models_tested"].append(safe)
+        if result.get("classification") == "PASS":
+            base["verification_state"] = "QUALIFIED"
+            base["region_availability"] = "AVAILABLE"
+            base["selected_model"] = model
+            base["latency_seconds"] = result["latency_seconds"]
+            return base
+        if result.get("classification") == "regional_restriction":
+            base["region_availability"] = "REGION_UNAVAILABLE"
+            base["verification_state"] = "SKIPPED"
+            base["reason"] = "regional_restriction"
+            return base
+
+    base["reason"] = "no_model_qualified"
+    return base
+
+
+def main() -> int:
+    registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
+    providers = registry["providers"]
+    started = time.monotonic()
+    with concurrent.futures.ThreadPoolExecutor(max_workers=min(4, len(providers))) as pool:
+        results = list(pool.map(qualify, providers))
+
+    qualified = [r for r in results if r["verification_state"] == "QUALIFIED"]
+    families = sorted({r["family"] for r in qualified})
+    payload = {
+        "schema": "mediahub.provider-model-qualification.v1",
+        "status": "PASS" if qualified else "BLOCKED",
+        "captured_at": int(time.time()),
+        "node_id": platform.node(),
+        "repo_revision": "",
+        "elapsed_seconds": round(time.monotonic() - started, 3),
+        "providers": results,
+        "summary": {
+            "qualified_providers": len(qualified),
+            "qualified_models": sum(1 for r in qualified if r.get("selected_model")),
+            "provider_families": len(families),
+            "families": families,
+        },
+        "secret_values": "SUPPRESSED",
+    }
+    try:
+        payload["repo_revision"] = __import__("subprocess").run(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True,
+            capture_output=True, timeout=10, check=False
+        ).stdout.strip()
+    except Exception:
+        pass
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    payload["evidence_digest"] = digest(canonical)
+    print(json.dumps(payload, sort_keys=True))
+    return 0 if qualified else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
