@@ -159,7 +159,7 @@ def discover_default_model(provider: dict, key: str) -> dict:
 
 def request_responses_compatible(provider: dict, model: str, key: str) -> dict:
     url = provider["base_url"].rstrip("/") + "/responses"
-    body = json.dumps({"model": model, "input": MARKER, "max_output_tokens": 16}).encode()
+    body = json.dumps({"model": model, "input": MARKER}).encode()
     req = urllib.request.Request(url, data=body, method="POST", headers={
         "Authorization": "Bearer " + key, "Content-Type": "application/json", "Accept": "application/json"
     })
