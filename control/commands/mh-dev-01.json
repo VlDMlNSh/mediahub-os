@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-local-ai-capability-20260929-r1",
+  "command_id": "astra-provider-qualification-20260929-r10",
   "node_id": "mh-dev-01",
-  "operation": "local_ai_capability_qualification",
-  "target_sha": "d1a1d6bd3f7a16f395bed79bded92711bd1b986e",
-  "title": "Astra local AI capability qualification r1",
-  "description": "Bounded read-only local AI smoke: Ollama API/model inventory and one bounded generation using qwen2.5-coder:3b marker; inventory localhost listeners and probe read-only /health and /v1/models endpoints. No install, stop, restart, deletion, or secret output."
+  "operation": "provider_model_qualification",
+  "target_sha": "5db23f5cd3559d995ed122cf066b9ec9cd803201",
+  "title": "Astra provider/model qualification r10",
+  "description": "Fresh bounded qualification of all configured provider/model credentials on canonical mh-dev-01. Include UnoRouter and ZeroRouter; exclude OpenAI direct. Suppress all secret values. Record endpoint/auth/model/rate-limit/region outcomes and qualify only verified usable models."
 }
