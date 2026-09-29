@@ -19,12 +19,12 @@ KNOWN = [
     ("Bun", ["bun"], []),
     ("Claude Code", ["claude"], []),
     ("SentinelX", [], ["/etc/systemd/system/sentinelx-cloud-core.service"]),
-    ("Astra GitHub Agent", [], ["/home/mediahub/astra-work/astra_github_agent.py"]),
-    ("Astra Command Bus", [], ["/home/mediahub/dev/mediahub-os-autonomous/ops/astra_command_bus.py"]),
-    ("Astra Executor Discovery", [], ["/home/mediahub/dev/mediahub-os-autonomous/ops/astra_executor_discovery.py"]),
-    ("Astra Orchestrator", [], ["/home/mediahub/dev/mediahub-os-autonomous/ops/astra_orchestrator.py"]),
-    ("Hybrid Orchestrator", [], ["/home/mediahub/dev/mediahub-os-autonomous/ops/hybrid_orchestrator.py"]),
-    ("free-claude-code server", [], ["/home/mediahub/.local/bin/fcc-server"]),
+    ("Astra GitHub Agent", [], []),
+    ("Astra Command Bus", [], []),
+    ("Astra Executor Discovery", [], []),
+    ("Astra Orchestrator", [], []),
+    ("Hybrid Orchestrator", [], []),
+    ("free-claude-code server", [], []),
     ("Ollama", ["ollama"], ["/usr/local/bin/ollama", "/usr/bin/ollama"]),
     ("llama.cpp", ["llama-server", "llama-cli"], ["/opt/llama.cpp", "/usr/local/bin/llama-server", "/usr/local/bin/llama-cli"]),
     ("ONNX Runtime", [], ["/opt/onnxruntime"]),
@@ -80,7 +80,11 @@ def main():
                 hits.append(p)
         for raw in paths:
             p = Path(raw)
-            if p.exists():
+            try:
+                exists = p.exists()
+            except (PermissionError, OSError):
+                exists = False
+            if exists:
                 s = str(p)
                 if s not in hits:
                     hits.append(s)
