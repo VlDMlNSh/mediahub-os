@@ -29,6 +29,7 @@ jobs:
       ASTRA_AUTONOMOUS_MAX_CYCLES: "5"
       ASTRA_AUTONOMOUS_RETRY_SECONDS: "30"
       ASTRA_QUALIFICATION_TIMEOUT: "87000"
+      ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
       ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
@@ -44,6 +45,7 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
+          mkdir -p "$ASTRA_STATE_DIR"
 
       - name: Inspect canonical worker and avoid duplicate execution
         id: worker
