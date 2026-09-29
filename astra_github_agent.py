@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","codex_diagnostic","codex_config_isolation"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","codex_diagnostic","codex_config_isolation","codex_process_diagnostic"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
@@ -93,6 +93,17 @@ def execute(cmd):
             return {"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_CONFIG_ISOLATION_OK" in (p.stdout or "") else "BLOCKED",
                     "argv":argv,"returncode":p.returncode,"stdout":p.stdout[-4000:],"stderr":p.stderr[-4000:],
                     "secret_values":"SUPPRESSED"}
+        except Exception as exc:
+            return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
+    if operation == "codex_process_diagnostic":
+        argv=["/usr/bin/timeout","12","/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_PROCESS_DIAGNOSTIC_OK')"]
+        try:
+            p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=20,check=False)
+            ps=subprocess.run(["/usr/bin/ps","-eo","pid,ppid,stat,etime,cmd"],text=True,capture_output=True,timeout=10,check=False)
+            lines=[x for x in ps.stdout.splitlines() if "codex" in x.lower()][:20]
+            return {"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_PROCESS_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED",
+                    "argv":argv,"returncode":p.returncode,"stdout":p.stdout[-4000:],"stderr":p.stderr[-4000:],
+                    "codex_processes":lines,"secret_values":"SUPPRESSED"}
         except Exception as exc:
             return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
     if operation == "codex_diagnostic":
