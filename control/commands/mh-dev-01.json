@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-codex-config-isolation-20260929-r17",
+  "command_id": "astra-codex-process-diagnostic-20260929-r18",
   "node_id": "mh-dev-01",
-  "operation": "codex_config_isolation",
-  "target_sha": "e08031539b894905e071978645c5581a7ee6cdfd",
-  "title": "Bounded Codex config isolation diagnostic",
-  "description": "Determine whether the local Codex user config is the blocker. Do not modify config or expose secrets."
+  "operation": "codex_process_diagnostic",
+  "target_sha": "c4dfac1fc3e824bc7ecf22ebe200032989610a9e",
+  "title": "Bounded Codex process-state diagnostic",
+  "description": "Run Codex with a 12s hard process timeout and inspect only sanitized process state. Do not modify config or expose secrets."
 }
