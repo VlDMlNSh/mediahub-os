@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-provider-qualification-20260929-r7",
+  "command_id": "astra-provider-qualification-20260929-r8",
   "node_id": "mh-dev-01",
   "operation": "provider_model_qualification",
-  "target_sha": "084c4c8635e8885de668ccd1bec23bea47a71b74",
-  "title": "Astra provider/model qualification r7",
-  "description": "Fresh provider/model qualification after correcting Aion Labs registry to concrete documented model IDs. OpenAI direct remains excluded; UnoRouter and ZeroRouter remain eligible. Do not bypass or fabricate gates.",
+  "target_sha": "c49624ab4e66dbb1e1dd1aae55ee2bcade088780",
+  "title": "Astra provider/model qualification r8",
+  "description": "Fresh full provider/model qualification against current main after wiring all available GitHub Secrets and adding provider-specific adapters. OpenAI direct remains excluded. UnoRouter and ZeroRouter remain eligible. Include all registry providers; do not bypass, fabricate, or reuse stale evidence.",
   "mode": "autonomous"
 }
