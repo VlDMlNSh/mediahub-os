@@ -30,9 +30,26 @@ jobs:
       ASTRA_AUTONOMOUS_RETRY_SECONDS: "30"
       ASTRA_QUALIFICATION_TIMEOUT: "87000"
       ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
-      ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
+      SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
+      SILICONFLOW_API_KEY_1: ${{ secrets.SILICONFLOW_API_KEY_1 }}
+      SILICONFLOW_API_KEY_2: ${{ secrets.SILICONFLOW_API_KEY_2 }}
+      NOVITA_API_KEY: ${{ secrets.NOVITA_API_KEY }}
+      NOVITA_API_KEY_1: ${{ secrets.NOVITA_API_KEY_1 }}
+      NOVITA_API_KEY_2: ${{ secrets.NOVITA_API_KEY_2 }}
+      ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+      ZAI_API_KEY_1: ${{ secrets.ZAI_API_KEY_1 }}
+      ZAI_API_KEY_2: ${{ secrets.ZAI_API_KEY_2 }}
+      KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
+      MOONSHOT_API_KEY: ${{ secrets.MOONSHOT_API_KEY }}
+      LLM7_API_KEY: ${{ secrets.LLM7_API_KEY }}
+      SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
+      AIONLABS_API_KEY: ${{ secrets.AIONLABS_API_KEY }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_API_TOKEN_1: ${{ secrets.CLOUDFLARE_API_TOKEN_1 }}
+      CLOUDFLARE_API_TOKEN_2: ${{ secrets.CLOUDFLARE_API_TOKEN_2 }}
+      NARAROUTER_API_KEY: ${{ secrets.NARAROUTER_API_KEY }}
+      NARAROUTER_API_KEY_1: ${{ secrets.NARAROUTER_API_KEY_1 }}
+      ORCAROUTER_API_KEY: ${{ secrets.ORCAROUTER_API_KEY }}
 
     steps:
       - uses: actions/checkout@v4
