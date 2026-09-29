@@ -52,6 +52,7 @@ jobs:
       ORCAROUTER_API_KEY: ${{ secrets.ORCAROUTER_API_KEY }}
       UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
       ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
 
     steps:
       - uses: actions/checkout@v4
