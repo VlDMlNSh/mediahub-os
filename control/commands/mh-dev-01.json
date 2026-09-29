@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-provider-qualification-20260929-r5",
+  "command_id": "astra-provider-qualification-20260929-r6",
   "node_id": "mh-dev-01",
   "operation": "provider_model_qualification",
-  "target_sha": "3a0f13a9bc3e6df0920de477944a7eb51e5e1ce8",
-  "title": "Astra provider/model qualification r5",
-  "description": "Fresh provider/model qualification on the current provider-pool architecture. OpenAI direct is excluded; UnoRouter and ZeroRouter are eligible qualified routers. Do not bypass or fabricate gates.",
+  "target_sha": "214d464d76366cded0194d061d20ba5da93e569c",
+  "title": "Astra provider/model qualification r6",
+  "description": "Fresh provider/model qualification after restoring UnoRouter and ZeroRouter wiring. OpenAI direct is excluded; UnoRouter and ZeroRouter are eligible qualified routers. Do not bypass or fabricate gates.",
   "mode": "autonomous"
 }
