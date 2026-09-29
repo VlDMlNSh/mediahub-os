@@ -1,7 +1,29 @@
-from mediahub_runtime.cloud_orchestrator import CloudFirstOrchestrator, ProviderRoute
+import json
+from datetime import datetime, timezone
 
 
-def test_failover_uses_next_model_after_first_executor_failure():
+def admitted_env(tmp_path, base, provider_ids):
+    path = tmp_path / "provider-model.json"
+    payload = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "commit": "test-commit",
+        "providers": {
+            provider_id: {
+                "catalog_status": "PASS",
+                "inference_status": "PASS",
+                "qualification_status": "QUALIFIED",
+            }
+            for provider_id in provider_ids
+        },
+    }
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    env = dict(base)
+    env["MEDIAHUB_PROVIDER_EVIDENCE_FILE"] = str(path)
+    env["MEDIAHUB_RELEASE_COMMIT"] = "test-commit"
+    return env
+
+
+def test_failover_uses_next_model_after_first_executor_failure(tmp_path):
     route = ProviderRoute(
         "fake",
         "cloud",
@@ -21,11 +43,11 @@ def test_failover_uses_next_model_after_first_executor_failure():
     orchestrator = CloudFirstOrchestrator(
         cloud_routes=(route,),
         local_routes=(),
-        credential_env={
+        credential_env=admitted_env(tmp_path, {
             "FAKE_API_KEY": "key-1",
             "FAKE_MODEL": "model-a",
             "FAKE_MODELS": "model-a,model-b",
-        },
+        }, ["fake"]),
         executors={"fake": executor},
     )
 
@@ -37,7 +59,7 @@ def test_failover_uses_next_model_after_first_executor_failure():
     assert len(calls) == 2
 
 
-def test_failover_uses_indexed_credential_slot():
+def test_failover_uses_indexed_credential_slot(tmp_path):
     route = ProviderRoute(
         "fake",
         "cloud",
@@ -57,11 +79,11 @@ def test_failover_uses_indexed_credential_slot():
     orchestrator = CloudFirstOrchestrator(
         cloud_routes=(route,),
         local_routes=(),
-        credential_env={
+        credential_env=admitted_env(tmp_path, {
             "FAKE_API_KEY_1": "key-1",
             "FAKE_API_KEY_2": "key-2",
             "FAKE_MODEL": "model-a",
-        },
+        }, ["fake"]),
         executors={"fake": executor},
     )
 
@@ -72,7 +94,7 @@ def test_failover_uses_indexed_credential_slot():
     assert len(seen) == 2
 
 
-def test_openrouter_route_builds_compatible_executor():
+def test_openrouter_route_builds_compatible_executor(tmp_path):
     route = ProviderRoute(
         "openrouter",
         "cloud",
@@ -84,10 +106,10 @@ def test_openrouter_route_builds_compatible_executor():
     orchestrator = CloudFirstOrchestrator(
         cloud_routes=(route,),
         local_routes=(),
-        credential_env={
+        credential_env=admitted_env(tmp_path, {
             "OPENROUTER_API_KEY": "key",
             "MEDIAHUB_OPENROUTER_MODEL": "model",
-        },
+        }, ["openrouter"]),
     )
     decision, executor = orchestrator._candidates("coding", allow_local_extension=False)[0]
     assert decision.provider_id == "openrouter"
@@ -117,28 +139,28 @@ def test_freellmapi_candidate_uses_selected_model_and_local_gateway():
     assert all(e.__class__.__name__ == "FreeLLMAPIExecutor" for _, e in candidates)
 
 
-def test_openai_route_uses_native_responses_executor():
+def test_openai_route_uses_native_responses_executor(tmp_path):
     route = ProviderRoute(
         "openai", "cloud", frozenset({"coding"}), "OPENAI_API_KEY",
         "MEDIAHUB_OPENAI_MODEL", 1,
     )
     orchestrator = CloudFirstOrchestrator(
         cloud_routes=(route,), local_routes=(),
-        credential_env={"OPENAI_API_KEY": "key", "MEDIAHUB_OPENAI_MODEL": "model"},
+        credential_env=admitted_env(tmp_path, {"OPENAI_API_KEY": "key", "MEDIAHUB_OPENAI_MODEL": "model"}, ["openai"]),
     )
     decision, executor = orchestrator._candidates("coding", allow_local_extension=False)[0]
     assert decision.provider_id == "openai"
     assert executor.__class__.__name__ == "OpenAIResponsesExecutor"
 
 
-def test_gemini_route_uses_native_executor():
+def test_gemini_route_uses_native_executor(tmp_path):
     route = ProviderRoute(
         "gemini", "cloud", frozenset({"reasoning"}), "GEMINI_API_KEY",
         "MEDIAHUB_GEMINI_MODEL", 1,
     )
     orchestrator = CloudFirstOrchestrator(
         cloud_routes=(route,), local_routes=(),
-        credential_env={"GEMINI_API_KEY": "key", "MEDIAHUB_GEMINI_MODEL": "model"},
+        credential_env=admitted_env(tmp_path, {"GEMINI_API_KEY": "key", "MEDIAHUB_GEMINI_MODEL": "model"}, ["gemini"]),
     )
     decision, executor = orchestrator._candidates("reasoning", allow_local_extension=False)[0]
     assert decision.provider_id == "gemini"
@@ -154,7 +176,7 @@ def test_http_error_classification():
     assert _http_error_code(500) == "provider_server_error"
 
 
-def test_cost_optimized_profile_orders_free_first_cloud_routes():
+def test_cost_optimized_profile_orders_free_first_cloud_routes(tmp_path):
     from mediahub_runtime.cloud_orchestrator import CloudFirstOrchestrator
     orchestrator = CloudFirstOrchestrator(
         cloud_routes=(
@@ -163,7 +185,7 @@ def test_cost_optimized_profile_orders_free_first_cloud_routes():
             ProviderRoute("gemini", "cloud", frozenset({"coding"}), "GEMINI_API_KEY", "MEDIAHUB_GEMINI_MODEL", 3),
         ),
         local_routes=(),
-        credential_env={
+        credential_env=admitted_env(tmp_path, {
             "MEDIAHUB_CLOUD_ROUTING_PROFILE": "cost_optimized",
             "OPENAI_API_KEY": "openai-key",
             "OPENROUTER_API_KEY": "router-key",
@@ -171,7 +193,7 @@ def test_cost_optimized_profile_orders_free_first_cloud_routes():
             "MEDIAHUB_OPENAI_MODEL": "paid-model",
             "MEDIAHUB_OPENROUTER_MODEL": "openrouter/free",
             "MEDIAHUB_GEMINI_MODEL": "free-capable-model",
-        },
+        }, ["openai", "openrouter", "gemini"]),
     )
     candidates = orchestrator._candidates("coding", allow_local_extension=False)
     assert [decision.provider_id for decision, _ in candidates] == ["openrouter", "gemini", "openai"]
