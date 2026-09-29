@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-provider-qualification-20260929-r14",
+  "command_id": "astra-provider-qualification-20260929-r15",
   "node_id": "mh-dev-01",
   "operation": "provider_model_qualification",
-  "target_sha": "bc1b2b72f41f64e959d2e707de1aa759d96f5923",
+  "target_sha": "9be60810f3ec0f498d3b39ad813697fdfc1479d7",
   "workflow_only": true,
-  "title": "Astra provider/model qualification r14",
-  "description": "Fresh credentialed qualification after verified parser fix. Test all configured providers including UnoRouter and ZeroRouter; OpenAI direct excluded."
+  "title": "Astra provider/model qualification r15",
+  "description": "Fresh credentialed qualification on corrected parser; test all configured providers including UnoRouter and ZeroRouter; OpenAI direct excluded."
 }
