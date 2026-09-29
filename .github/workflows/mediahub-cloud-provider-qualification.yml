@@ -217,3 +217,5 @@ jobs:
           name: mediahub-cloud-provider-evidence
           path: cloud-provider-evidence.json
           if-no-files-found: error
+
+# Canonical fresh-provider qualification trigger for Astra admission.
