@@ -10,7 +10,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","codex_diagnostic","codex_config_isolation","codex_process_diagnostic"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 def run(argv,timeout=120):
@@ -95,6 +95,26 @@ def execute(cmd):
                     "secret_values":"SUPPRESSED"}
         except Exception as exc:
             return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
+    if operation == "codex_cleanup_stale_probes":
+        ps=subprocess.run(["/usr/bin/ps","-eo","pid=,ppid=,cmd="],text=True,capture_output=True,timeout=10,check=False)
+        targets=[]
+        for line in ps.stdout.splitlines():
+            parts=line.strip().split(None,2)
+            if len(parts)==3 and "codex exec" in parts[2] and "MEDIAHUB_EXECUTION_BACKEND_QUALIFICATION" in parts[2]:
+                try: targets.append(int(parts[0]))
+                except ValueError: pass
+        terminated=[]
+        for pid in targets:
+            p=subprocess.run(["/bin/kill","-TERM",str(pid)],text=True,capture_output=True,timeout=5,check=False)
+            terminated.append({"pid":pid,"returncode":p.returncode})
+        time.sleep(2)
+        ps2=subprocess.run(["/usr/bin/ps","-eo","pid=,ppid=,cmd="],text=True,capture_output=True,timeout=10,check=False)
+        remaining=[]
+        for line in ps2.stdout.splitlines():
+            parts=line.strip().split(None,2)
+            if len(parts)==3 and "codex exec" in parts[2] and "MEDIAHUB_EXECUTION_BACKEND_QUALIFICATION" in parts[2]:
+                remaining.append(parts[0])
+        return {"status":"PASS" if not remaining else "BLOCKED","matched_pids":targets,"terminated":terminated,"remaining_pids":remaining,"secret_values":"SUPPRESSED"}
     if operation == "codex_process_diagnostic":
         argv=["/usr/bin/timeout","12","/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_PROCESS_DIAGNOSTIC_OK')"]
         try:
