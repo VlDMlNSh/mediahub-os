@@ -6,16 +6,16 @@ on:
       - ".github/workflows/astra-queue-recovery.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: astra-queue-recovery
   cancel-in-progress: false
 
 jobs:
-  release-blocked-qualification:
+  release-and-run-canonical-qualification:
     runs-on: [self-hosted, mediahub-runner]
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - name: Release only the bounded blocked qualification child
         shell: bash
@@ -62,4 +62,61 @@ jobs:
           print("qualification_executor=force_terminated")
           PY
 
-# one-shot recovery wave: release only the blocked qualification child
+      - name: Checkout current main for canonical transport probe
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Verify canonical node identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          echo "host=$(hostname)"
+          echo "user=$(id -un)"
+          echo "runner_identity=PASS"
+          echo "head=$(git rev-parse HEAD)"
+
+      - name: Execute pending Astra command through canonical worker code
+        shell: bash
+        env:
+          ASTRA_GITHUB_REPO: VlDMlNSh/mediahub-os
+          ASTRA_NODE_ID: mh-dev-01
+          ASTRA_WORKTREE: /home/mediahub/astra-work
+          ASTRA_POLL_SECONDS: "15"
+        run: |
+          set -euo pipefail
+          test -f astra_github_agent.py
+          timeout --signal=TERM --kill-after=20s 180s python3 astra_github_agent.py &
+          worker_pid=$!
+          trap 'kill "$worker_pid" 2>/dev/null || true' EXIT
+          deadline=$(( $(date +%s) + 165 ))
+          while [ "$(date +%s)" -lt "$deadline" ]; do
+            if git ls-remote --heads origin astra-node/mh-dev-01 | grep -q .; then
+              echo "worker_result_branch_observed=true"
+              break
+            fi
+            sleep 10
+          done
+          wait "$worker_pid" || true
+
+      - name: Verify fresh result provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "astra-node/mh-dev-01"
+          git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/mh-dev-01-result.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("/tmp/mh-dev-01-result.json")
+          r=json.loads(p.read_text())
+          print("command_id=",r.get("command_id"))
+          print("target_sha=",r.get("target_sha"))
+          print("execution_head=",r.get("execution_head"))
+          print("agent_source_sha=",r.get("result",{}).get("agent_source_sha", r.get("agent_source_sha")))
+          print("completed_at=",r.get("completed_at"))
+          assert r.get("command_id") == "astra-exec-backend-qualification-20260929T020000Z"
+          assert r.get("node_id") == "mh-dev-01"
+          PY
