@@ -71,6 +71,5 @@ def main()->int:
  except (OSError,subprocess.TimeoutExpired): repo_revision=""
  payload={"schema":"mediahub.execution-backends.v1","status":"PASS","captured_at":int(time.time()),"node_id":platform.node(),"repo_revision":repo_revision,"backends":{b:qualify(b) for b in BACKENDS},"secret_values":"SUPPRESSED"}
  if not repo_revision or payload["backends"]["codex"]["verification_state"]!="VERIFIED": payload["status"]="BLOCKED"
- else: payload["backends"]["cursor"]["verification_state"]="DEFERRED"; payload["backends"]["cursor"]["deferred_reason"]="user_requested_defer"
  payload["evidence_digest"]=digest(json.dumps(payload,sort_keys=True,separators=(",",":"))); print(json.dumps(payload,sort_keys=True)); return 0 if payload["status"]=="PASS" else 2
 if __name__=="__main__": raise SystemExit(main())
