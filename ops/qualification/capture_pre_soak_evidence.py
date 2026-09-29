@@ -79,8 +79,24 @@ def main() -> int:
                   "bounded live marker was not observed", returncode=rc,
                   marker_present="MEDIAHUB_OLLAMA_LIVE_OK" in out)
 
-    # These gates require dedicated live producers; a generic unit test is not
-    # promoted to runtime evidence.
+    # Provider/model evidence is produced by the live qualification engine.
+    provider_script = ROOT / "ops" / "qualification" / "qualify_execution_backends.py"
+    provider = subprocess.run([str(Path(__import__("sys").executable)), str(provider_script)],
+                              cwd=ROOT, text=True, capture_output=True, timeout=120, check=False)
+    provider_payload = {}
+    try:
+        provider_payload = json.loads(provider.stdout.strip().splitlines()[-1])
+    except Exception:
+        provider_payload = {"status": "BLOCKED", "reason": "invalid_provider_qualification_output"}
+    provider_status = "PASS" if provider.returncode == 0 and provider_payload.get("status") == "PASS" else "BLOCKED"
+    if provider_status != "PASS":
+        blocked = True
+    write("provider-model.json", provider_status, "cloud_provider_live_qualification",
+          "" if provider_status == "PASS" else "no qualified provider/model was observed",
+          qualification=provider_payload)
+
+    # Remaining gates intentionally remain fail-closed until their dedicated
+    # live producers exist. They are not inferred from unit tests.
     for name, check, reason in (
         ("scheduler-e2e.json", "scheduler_live_e2e",
          "no dedicated live scheduler evidence producer is implemented"),
@@ -90,8 +106,6 @@ def main() -> int:
          "no dedicated live recovery evidence producer is implemented"),
         ("backup-restore.json", "backup_restore",
          "no dedicated live backup/restore evidence producer is implemented"),
-        ("provider-model.json", "cloud_provider_live_qualification",
-         "fresh provider evidence must come from the live provider qualification path; stale repository evidence is not promoted"),
     ):
         blocked = True
         write(name, "BLOCKED", check, reason)
