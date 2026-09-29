@@ -5,7 +5,7 @@ import hashlib,json,os,platform,shlex,shutil,subprocess,time
 from pathlib import Path
 BACKENDS={"codex":"MEDIAHUB_CODEX_COMMAND","cursor":"MEDIAHUB_CURSOR_COMMAND"}
 FORBIDDEN=(";","&&","||","|",">","<","\n","\r")
-PROMPT="MEDIAHUB_EXECUTION_BACKEND_QUALIFICATION"
+PROMPT="print('MEDIAHUB_EXECUTION_BACKEND_QUALIFICATION')"
 TIMEOUT=30
 def digest(data:str)->str:return "sha256:"+hashlib.sha256(data.encode("utf-8","replace")).hexdigest()
 def classify(text:str)->str:
@@ -32,6 +32,7 @@ def qualify(backend_id:str)->dict:
         if len(argv)==1 or argv[1]!="exec": argv.insert(1,"exec")
         if "--skip-git-repo-check" not in argv: argv.insert(2,"--skip-git-repo-check")
         if "--full-auto" not in argv: argv.insert(2,"--full-auto")
+        if "--" not in argv: argv.append("--")
     if backend_id=="cursor" and Path(argv[0]).name in {"cursor","cursor-agent"} and (len(argv)==1 or argv[1] not in {"agent","exec"}): argv.append("--print")
     if not shutil.which(argv[0]): result["reason"]="executable_not_found"; return result
     result["checks"]["binary_identity"]="PASS"
