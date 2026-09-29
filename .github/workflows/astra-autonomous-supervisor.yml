@@ -9,6 +9,8 @@ on:
       - "ops/qualification/**"
       - ".github/workflows/astra-autonomous-supervisor.yml"
   workflow_dispatch:
+  schedule:
+    - cron: "*/10 * * * *"
 
 permissions:
   contents: write
@@ -20,13 +22,17 @@ concurrency:
 jobs:
   supervise:
     runs-on: [self-hosted, mediahub-runner]
-    timeout-minutes: 12
+    timeout-minutes: 60
     env:
       ASTRA_NODE_ID: mh-dev-01
       ASTRA_ONESHOT: "1"
       ASTRA_AUTONOMOUS_MAX_CYCLES: "5"
       ASTRA_AUTONOMOUS_RETRY_SECONDS: "30"
       ASTRA_QUALIFICATION_TIMEOUT: "87000"
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
+      ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -39,13 +45,13 @@ jobs:
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
 
-      - name: Inspect and reconcile canonical worker processes
+      - name: Inspect canonical worker and avoid duplicate execution
         id: worker
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import os, signal, time
+          import os
           from pathlib import Path
           target="/home/mediahub/astra-work/astra_github_agent.py"
           matches=[]
@@ -54,29 +60,18 @@ jobs:
               pid=int(entry.name)
               if pid == os.getpid(): continue
               try:
-                  raw=(entry/"cmdline").read_bytes().split(b"\0")
-                  argv=[x.decode(errors="replace") for x in raw if x]
+                  argv=[x.decode(errors="replace") for x in (entry/"cmdline").read_bytes().split(b"\0") if x]
                   cwd=os.readlink(entry/"cwd")
               except (FileNotFoundError, PermissionError, ProcessLookupError):
                   continue
               if target in argv and cwd=="/home/mediahub/astra-work":
-                  matches.append((pid, argv))
-          matches.sort(key=lambda x:x[0])
+                  matches.append(pid)
           print("canonical_worker_matches=",len(matches))
-          for pid,argv in matches: print("pid=",pid,"argv="," ".join(argv))
-          if len(matches)>1:
-              for pid,_ in matches[1:]:
-                  try: os.kill(pid, signal.SIGTERM)
-                  except ProcessLookupError: pass
-              time.sleep(2)
-              survivors=[pid for pid,_ in matches[1:] if Path(f"/proc/{pid}").exists()]
-              if survivors: raise SystemExit("BLOCK: duplicate canonical Astra workers remain: "+str(survivors))
-              matches=matches[:1]
           with open(os.environ["GITHUB_OUTPUT"],"a") as out:
               out.write("present="+("true" if matches else "false")+"\n")
           PY
 
-      - name: Execute queued mission in bounded five-cycle supervisor
+      - name: Execute queued mission with GitHub-injected provider credentials
         if: steps.worker.outputs.present != 'true'
         shell: bash
         run: |
@@ -113,9 +108,7 @@ jobs:
           git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/astra-result.json
           python3 - <<'PY'
           import json
-          from pathlib import Path
-          p=Path("/tmp/astra-result.json")
-          d=json.loads(p.read_text())
+          d=json.load(open("/tmp/astra-result.json"))
           print(json.dumps({
               "command_id": d.get("command_id"),
               "node_id": d.get("node_id"),
