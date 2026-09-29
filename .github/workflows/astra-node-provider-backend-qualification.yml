@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: astra-node-provider-backend-qualification
@@ -35,7 +35,23 @@ jobs:
       - name: Run bounded backend qualification
         run: |
           set -euo pipefail
-          python3 ops/qualification/qualify_execution_backends.py | tee astra-node-provider-backend-evidence.json
+          python3 ops/qualification/qualify_execution_backends.py > astra-node-provider-backend-evidence.json
+          cat astra-node-provider-backend-evidence.json
+
+      - name: Publish sanitized node evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          test -s astra-node-provider-backend-evidence.json
+          git config user.name "Astra Provider Qualification"
+          git config user.email "astra-provider-qualification@localhost"
+          git fetch origin astra-provider-qualification/mh-dev-01:refs/remotes/origin/astra-provider-qualification/mh-dev-01 || true
+          git checkout -B astra-provider-qualification/mh-dev-01
+          mkdir -p control/provider-evidence
+          cp astra-node-provider-backend-evidence.json control/provider-evidence/mh-dev-01.json
+          git add control/provider-evidence/mh-dev-01.json
+          git commit -m "astra: provider qualification evidence mh-dev-01" || true
+          git push --force origin astra-provider-qualification/mh-dev-01
 
       - name: Upload sanitized evidence
         if: always()
