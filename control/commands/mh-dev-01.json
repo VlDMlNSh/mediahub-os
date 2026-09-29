@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "astra-autonomous-qualification-20260929T1790649078Z",
+  "command_id": "astra-second-test-run-20260929T1790649465Z",
   "node_id": "mh-dev-01",
-  "operation": "autonomous_qualification_queue",
+  "operation": "qualification",
   "title": "Fresh canonical execution backend qualification",
-  "description": "Astra autonomous qualification mode: observe current qualification state, reconcile gates, execute the next admissible queue item on canonical mh-dev-01, verify fresh evidence, record result, and continue until qualification is complete or a hard external blocker is reached. Do not fabricate PASS/T0/GOLD, do not duplicate GOLD runs, preserve provenance.",
+  "description": "Second Astra test run. Temporarily defer execution-backend/Codex qualification as a non-blocking diagnostic. Execute the canonical current-main qualification path on mh-dev-01, run all admissible pre-soak/runtime checks, and start the existing single canonical GOLD 24h soak only if its hard admission gates pass. Never fabricate PASS/T0/GOLD and never create a duplicate GOLD worker/run.",
   "target_sha": "main"
 }
