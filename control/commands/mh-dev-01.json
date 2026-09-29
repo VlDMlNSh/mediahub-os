@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "command_id": "astra-exec-backend-qualification-20260929T1790648964Z",
+  "command_id": "astra-autonomous-qualification-20260929T1790649078Z",
   "node_id": "mh-dev-01",
-  "operation": "execution_backend_qualification",
+  "operation": "autonomous_qualification_queue",
   "title": "Fresh canonical execution backend qualification",
-  "description": "Run fresh canonical execution backend qualification through Astra GitHub transport only. Return sanitized evidence; do not expose secrets.",
+  "description": "Astra autonomous qualification mode: observe current qualification state, reconcile gates, execute the next admissible queue item on canonical mh-dev-01, verify fresh evidence, record result, and continue until qualification is complete or a hard external blocker is reached. Do not fabricate PASS/T0/GOLD, do not duplicate GOLD runs, preserve provenance.",
   "target_sha": "main"
 }
