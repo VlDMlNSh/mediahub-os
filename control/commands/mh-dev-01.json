@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-autonomous-gold-mission-20260929-r3",
+  "command_id": "astra-autonomous-gold-mission-20260929-r4",
   "node_id": "mh-dev-01",
   "operation": "autonomous_gold_mission",
-  "target_sha": "0e1c02c6304a191578c779cfee83531cbb885eb1",
-  "title": "Autonomous Astra GOLD mission r3",
-  "description": "Autonomous full Astra GOLD qualification. Execute up to five bounded cycles; use configured provider credentials when available; retry transient blockers; advance only through real gates; never bypass gates or fabricate PASS.",
+  "target_sha": "407614eafda14d681da6b177653a954ad6b77d11",
+  "title": "Autonomous Astra GOLD mission r4",
+  "description": "Autonomous Astra qualification on the current provider-pool architecture. Qualify eligible providers/models first; continue through real pre-soak and distributed gates; never use legacy OpenAI/UnoRouter/ZeroRouter credentials; never bypass or fabricate a gate.",
   "mode": "autonomous"
 }
