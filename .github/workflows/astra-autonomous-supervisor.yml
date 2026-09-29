@@ -50,6 +50,8 @@ jobs:
       NARAROUTER_API_KEY: ${{ secrets.NARAROUTER_API_KEY }}
       NARAROUTER_API_KEY_1: ${{ secrets.NARAROUTER_API_KEY_1 }}
       ORCAROUTER_API_KEY: ${{ secrets.ORCAROUTER_API_KEY }}
+      UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
+      ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
 
     steps:
       - uses: actions/checkout@v4
