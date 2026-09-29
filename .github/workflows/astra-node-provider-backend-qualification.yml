@@ -1,0 +1,46 @@
+name: Astra Node Provider Backend Qualification
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "ops/qualification/qualify_execution_backends.py"
+      - ".github/workflows/astra-node-provider-backend-qualification.yml"
+      - "runtime/mediahub_runtime/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: astra-node-provider-backend-qualification
+  cancel-in-progress: false
+
+jobs:
+  qualify-node:
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 10
+    env:
+      UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
+      ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify canonical node
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+
+      - name: Run bounded backend qualification
+        run: |
+          set -euo pipefail
+          python3 ops/qualification/qualify_execution_backends.py | tee astra-node-provider-backend-evidence.json
+
+      - name: Upload sanitized evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-node-provider-backend-evidence
+          path: astra-node-provider-backend-evidence.json
+          if-no-files-found: error
