@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-codex-gateway-diagnostic-20260929-r23",
+  "command_id": "astra-autonomous-qualification-20260929-r24",
   "node_id": "mh-dev-01",
-  "operation": "codex_gateway_diagnostic",
-  "target_sha": "773489e9e99cb0706d8b825641792428603163ad",
-  "title": "Probe configured Codex-compatible gateways",
-  "description": "Run bounded Codex diagnostics through configured UnoRouter and ZeroRouter gateways using temporary config; suppress credentials and classify provider/auth/billing/network blockers."
+  "operation": "autonomous_qualification_queue",
+  "target_sha": "03f03b9303313101ab94939b195f7afbfab98d36",
+  "title": "Run autonomous Astra GOLD admission queue",
+  "description": "Execute the canonical autonomous qualification queue in order: fresh execution-backend qualification, fresh pre-soak evidence capture, then Astra GOLD executor. Stop at first failed gate; never fabricate PASS or start 24h soak before strict admission."
 }
