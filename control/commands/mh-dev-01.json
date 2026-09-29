@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-local-component-inventory-20260929-r1",
+  "command_id": "astra-local-component-inventory-20260929-r2",
   "node_id": "mh-dev-01",
   "operation": "local_component_inventory",
-  "target_sha": "1a3d7dcc8e71c371ba18ac96f60a08621d7fe778",
-  "title": "Astra local component inventory r1",
-  "description": "Read-only inventory of installed local MediaHub/Astra components and runtime tooling. Explicitly include OmniRoute, free-claude-code, OpenFlux, Ollama, llama.cpp and all components in COMPONENT-REGISTRY. Discover installed executables, Python packages, npm globals, systemd services and relevant processes. Produce qualification queue candidates without secrets or destructive changes."
+  "target_sha": "4ace882862403062a319d7c6db7a958c343dd37d",
+  "title": "Astra local component inventory r2",
+  "description": "Read-only expanded inventory. Discover user-reported local components OmniRoute, free-claude-code, OpenFlux plus installed AI/runtime/tooling components, active processes, Python/npm/systemd evidence, and generate autonomous qualification queue candidates. Never expose secrets; no destructive actions."
 }
