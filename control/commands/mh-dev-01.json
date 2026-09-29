@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-codex-gateway-diagnostic-20260929-r1",
+  "command_id": "astra-provider-qualification-20260929-r16",
   "node_id": "mh-dev-01",
-  "operation": "codex_gateway_diagnostic",
-  "target_sha": "624a8f5d17625fa67ad22b97581572377c9d8ee3",
+  "operation": "provider_qualification",
+  "target_sha": "4e5f2a3331403c13ecf470cb39cece9e8df69ad6",
   "workflow_only": true,
-  "title": "Astra UnoRouter/ZeroRouter Codex gateway diagnostic r1",
-  "description": "Fresh credentialed Codex gateway diagnostic for UnoRouter and ZeroRouter; OpenAI direct excluded; secrets suppressed."
+  "title": "Astra provider qualification r16",
+  "description": "Fresh credentialed general provider/model qualification using corrected Responses adapter; OpenAI direct excluded; UnoRouter and ZeroRouter retained; secrets suppressed."
 }
