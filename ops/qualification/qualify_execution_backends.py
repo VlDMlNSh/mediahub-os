@@ -33,8 +33,12 @@ def digest(data: str) -> str:
 def qualify(backend_id: str) -> dict:
     env_name = BACKENDS[backend_id]
     raw = os.environ.get(env_name, "").strip()
-    if not raw and backend_id == "codex":
-        for candidate in ("/usr/local/bin/codex", "/usr/bin/codex"):
+    if not raw:
+        candidates = {
+            "codex": ("/usr/local/bin/codex", "/usr/bin/codex"),
+            "cursor": ("/usr/local/bin/cursor-agent", "/usr/bin/cursor-agent", "/usr/local/bin/cursor", "/usr/bin/cursor"),
+        }[backend_id]
+        for candidate in candidates:
             if Path(candidate).is_file() and os.access(candidate, os.X_OK):
                 raw = candidate
                 break
@@ -66,6 +70,8 @@ def qualify(backend_id: str) -> dict:
     # binary: the bounded qualification contract requires non-interactive exec.
     if backend_id == "codex" and Path(argv[0]).name == "codex" and (len(argv) == 1 or argv[1] != "exec"):
         argv.insert(1, "exec")
+    if backend_id == "cursor" and Path(argv[0]).name in {"cursor", "cursor-agent"} and (len(argv) == 1 or argv[1] not in {"agent", "exec"}):
+        argv.append("--print")
     executable = shutil.which(argv[0])
     if not executable:
         result["reason"] = "executable_not_found"
@@ -79,7 +85,15 @@ def qualify(backend_id: str) -> dict:
             capture_output=True,
             timeout=TIMEOUT,
             check=False,
-            env={"PATH": os.environ.get("PATH", "")},
+            env={
+                key: os.environ[key]
+                for key in (
+                    "PATH", "HOME", "USER", "LOGNAME", "SHELL",
+                    "CODEX_HOME", "OPENAI_API_KEY", "OPENAI_BASE_URL", "OPENAI_ORG_ID",
+                    "CURSOR_API_KEY", "CURSOR_AGENT_API_KEY",
+                )
+                if os.environ.get(key)
+            },
         )
     except (OSError, subprocess.TimeoutExpired):
         result["reason"] = "bounded_execution_failed"
