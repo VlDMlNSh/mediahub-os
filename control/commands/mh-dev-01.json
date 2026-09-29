@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-autonomous-qualification-20260929-r24",
+  "command_id": "astra-autonomous-qualification-20260929-r25",
   "node_id": "mh-dev-01",
   "operation": "autonomous_qualification_queue",
-  "target_sha": "03f03b9303313101ab94939b195f7afbfab98d36",
+  "target_sha": "097a94ba68bb7492218a29739b6ab33997bb24f0",
   "title": "Run autonomous Astra GOLD admission queue",
   "description": "Execute the canonical autonomous qualification queue in order: fresh execution-backend qualification, fresh pre-soak evidence capture, then Astra GOLD executor. Stop at first failed gate; never fabricate PASS or start 24h soak before strict admission."
 }
