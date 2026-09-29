@@ -27,6 +27,23 @@ def digest(value: str) -> str:
     return "sha256:" + hashlib.sha256(value.encode("utf-8", "replace")).hexdigest()
 
 
+def classify_detail(status: int | None, text: str) -> str:
+    t = text.lower()
+    patterns = (
+        ("invalid_api_key", ("invalid api key", "invalid api_key", "invalid_api_key", "incorrect api key", "invalid token", "unauthorized")),
+        ("permission_denied", ("permission denied", "access denied", "forbidden", "not permitted")),
+        ("regional_restriction", ("country", "region", "territory", "location", "supported countries", "unsupported region")),
+        ("insufficient_balance", ("insufficient balance", "insufficient funds", "billing", "payment required", "credits")),
+        ("model_unavailable", ("model not found", "model_not_found", "does not exist", "unknown model", "unsupported model")),
+        ("rate_limit_or_quota", ("rate limit", "too many requests", "quota", "rate_limit")),
+        ("service_unavailable", ("service unavailable", "temporarily unavailable", "overloaded")),
+    )
+    for label, needles in patterns:
+        if any(n in t for n in needles):
+            return label
+    return "unspecified_http_error" if status is not None else "unspecified_error"
+
+
 def classify(status: int | None, text: str, exc: Exception | None = None) -> str:
     t = text.lower()
     if status in (401, 403):
@@ -108,6 +125,7 @@ def request_openai_compatible(provider: dict, model: str, key: str) -> dict:
             "output_bytes": len(raw.encode("utf-8", "replace")),
             "output_sha256": digest(raw),
             "classification": classify(exc.code, raw, exc),
+            "diagnostic": classify_detail(exc.code, raw),
         }
     except Exception as exc:
         return {
@@ -116,6 +134,7 @@ def request_openai_compatible(provider: dict, model: str, key: str) -> dict:
             "output_bytes": 0,
             "output_sha256": "",
             "classification": classify(None, str(exc), exc),
+            "diagnostic": classify_detail(None, str(exc)),
         }
 
 
