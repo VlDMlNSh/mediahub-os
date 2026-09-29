@@ -106,7 +106,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          ASTRA_WORKTREE="$GITHUB_WORKSPACE" python3 astra_github_agent.py
+          ASTRA_WORKTREE="$GITHUB_WORKSPACE" ASTRA_WORKFLOW_ONLY=1 python3 astra_github_agent.py
 
       - name: Wait for canonical worker to consume current mission
         if: steps.worker.outputs.present == 'true'
