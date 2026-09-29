@@ -39,6 +39,7 @@ def read_command():
     try: cmd=json.loads(path.read_text())
     except Exception: return None
     if cmd.get("node_id")!=NODE_ID or cmd.get("operation") not in OPERATIONS: return None
+    if cmd.get("workflow_only") is True and os.environ.get("ASTRA_WORKFLOW_ONLY") != "1": return None
     return cmd
 
 def published_command_id():
