@@ -16,5 +16,9 @@ jobs:
           python-version: "3.12"
       - name: Validate contracts
         run: python3 tools/validate_contracts.py
+      - name: Install test runner
+        run: python3 -m pip install pytest
       - name: Astra Cloud tests
-        run: python3 -m unittest tests/runtime_ai/test_astra_cloud.py
+        env:
+          PYTHONPATH: runtime
+        run: python3 -m pytest -q tests/ai/test_cloud_orchestrator_failover.py

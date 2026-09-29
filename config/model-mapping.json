@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "aliases": {
+    "mediahub-fast": {"model":"gpt-oss-120b","chain":["groq","sambanova","openrouter","nara","unorouter","zerouter","orca"]},
+    "mediahub-reasoning": {"model":"deepseek-reasoner","chain":["deepseek","mistral-1","mistral-2","nara","openrouter"]},
+    "mediahub-code": {"model":"Qwen/Qwen3-30B-A3B-Instruct-2507","chain":["silicon-1","silicon-2","novita-1","novita-2","openrouter"]},
+    "mediahub-general": {"model":"mistral-small-latest","chain":["mistral-1","mistral-2","silicon-1","silicon-2","nara","openrouter","unorouter","zerouter"]},
+    "mediahub-roleplay": {"model":"aionlabs-roleplay","chain":["aionlabs","mistral-1","mistral-2","nara"]},
+    "mediahub-vision": {"model":"gemini-2.5-flash","chain":["gemini","openrouter","unorouter"]},
+    "mediahub-local-small": {"model":"meta-llama/Llama-3.2-1B-Instruct","chain":["novita-1","novita-2","hf"]},
+    "mediahub-ru": {"model":"GigaChat","chain":["gigachat","mistral-1","nara","openrouter"]}
+  },
+  "providers": {
+    "aionlabs": {"aliases":["roleplay","aionlabs-roleplay","aionlabs-chat"]},
+    "novita": {"models":["meta-llama/Llama-3.2-1B-Instruct","Qwen/Qwen2.5-7B-Instruct","THUDM/glm-4-9b-chat","BAAI/bge-m3"]},
+    "groq": {"models":["llama-3.3-70b-versatile","openai/gpt-oss-120b","whisper-large-v3"]},
+    "_tomorrow_dashscope": {"enabled":false,"models":["qwen3-max"],"comment":"Раскомментировать 30 сентября 2026"},
+    "_tomorrow_nous": {"enabled":false,"models":["step-3.7","laguna-s","longcat"],"comment":"Раскомментировать 30 сентября 2026"}
+  },
+  "fallback_policy": {"same_model_first":true,"retryable_http":[408,409,425,429,500,502,503,504],"max_attempts_per_channel":2,"max_channels":7,"backoff_seconds":[1,2,4]}
+}

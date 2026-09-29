@@ -1,0 +1,91 @@
+services:
+  new-api:
+    image: calciumion/new-api:latest
+    container_name: mediahub-new-api
+    restart: unless-stopped
+    command: --log-dir /app/logs
+    ports:
+      - "${GATEWAY_BIND_ADDRESS:-127.0.0.1}:${GATEWAY_PORT:-3000}:3000"
+    env_file: [.env]
+    environment:
+      SQL_DSN: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_CONN_STRING: redis://:${REDIS_PASSWORD}@redis:6379
+      TZ: ${TZ:-Europe/Moscow}
+      SESSION_SECRET: ${SESSION_SECRET}
+      CRYPTO_SECRET: ${CRYPTO_SECRET:-${SESSION_SECRET}}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+      SESSION_COOKIE_TRUSTED_URL: ${SESSION_COOKIE_TRUSTED_URL:-}
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-none}
+      ERROR_LOG_ENABLED: ${ERROR_LOG_ENABLED:-true}
+      BATCH_UPDATE_ENABLED: ${BATCH_UPDATE_ENABLED:-true}
+      NODE_NAME: ${NODE_NAME:-mediahub-gateway}
+      HEALTH_CHECK_ENABLED: ${HEALTH_CHECK_ENABLED:-true}
+    volumes: [gateway_data:/data, gateway_logs:/app/logs]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+    networks: [mediahub-gateway]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1:3000/api/status | grep -q 'success'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  postgres:
+    image: postgres:15
+    container_name: mediahub-gateway-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes: [gateway_pg_data:/var/lib/postgresql/data]
+    networks: [mediahub-gateway]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: mediahub-gateway-redis
+    restart: unless-stopped
+    command: ["redis-server","--requirepass","${REDIS_PASSWORD}"]
+    volumes: [gateway_redis_data:/data]
+    networks: [mediahub-gateway]
+    healthcheck:
+      test: ["CMD","redis-cli","-a","${REDIS_PASSWORD}","ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  gateway-init:
+    image: python:3.12-alpine
+    container_name: mediahub-gateway-init
+    restart: "no"
+    env_file: [.env]
+    environment:
+      GATEWAY_URL: http://new-api:3000
+      HEALTH_CHECK_ENABLED: ${HEALTH_CHECK_ENABLED:-true}
+    volumes: [./scripts:/scripts:ro, ./config:/config:ro]
+    depends_on:
+      new-api: {condition: service_healthy}
+    networks: [mediahub-gateway]
+    entrypoint: ["/bin/sh","/scripts/init-gateway.sh"]
+
+# Capacity notes: direct stable ~140M/day; routers ~25M/day; test-and-skip ~50K/day; total realistic ~165M/day.
+# Aion ~20K | Cloudflare 1/2 ~20-30K each | Mistral 1/2 ~33M each | SiliconFlow 1/2 ~20-30M each
+# Z.ai 1/2 ~1-2M each | Novita 1/2 ~5-10M each | DeepSeek ~5-10M | HF ~2-5M | Kimi ~1.5M
+# LLM7 ~1M | SambaNova ~200K | routers: OpenRouter ~100K, Nara ~3-10M, Uno/Zero/Orca ~3-5M each.
+# Gemini 0-100K | Groq 0-200K (expected skip on RU IP).
+
+networks:
+  mediahub-gateway:
+    driver: bridge
+volumes:
+  gateway_data:
+  gateway_logs:
+  gateway_pg_data:
+  gateway_redis_data:
