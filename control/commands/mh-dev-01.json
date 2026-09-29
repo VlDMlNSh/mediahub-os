@@ -1,9 +1,8 @@
 {
-  "command_id": "astra-provider-qualification-20260929-r9",
+  "command_id": "astra-local-component-inventory-20260929-r1",
   "node_id": "mh-dev-01",
-  "operation": "provider_model_qualification",
-  "target_sha": "e763a1e4895415e915225b78aceb454f5eaf7797",
-  "title": "Astra provider/model qualification r9",
-  "description": "Fresh qualification after current Gemini and Hugging Face model routing metadata. Preserve all available credentials; OpenAI direct excluded; UnoRouter and ZeroRouter eligible. No stale evidence or fabricated qualification.",
-  "mode": "autonomous"
+  "operation": "local_component_inventory",
+  "target_sha": "1a3d7dcc8e71c371ba18ac96f60a08621d7fe778",
+  "title": "Astra local component inventory r1",
+  "description": "Read-only inventory of installed local MediaHub/Astra components and runtime tooling. Explicitly include OmniRoute, free-claude-code, OpenFlux, Ollama, llama.cpp and all components in COMPONENT-REGISTRY. Discover installed executables, Python packages, npm globals, systemd services and relevant processes. Produce qualification queue candidates without secrets or destructive changes."
 }
