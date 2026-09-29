@@ -1,0 +1,104 @@
+name: SiliconFlow Key2 Live Probe
+
+on:
+  push:
+    paths:
+      - ".github/workflows/siliconflow-key2-live-probe.yml"
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      SILICONFLOW_API_KEY: ${{ secrets.SILICON_KEY_2 }}
+    steps:
+      - name: Live authentication and inference probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, time, urllib.request, urllib.error
+
+          key = os.environ.get("SILICONFLOW_API_KEY", "")
+          out = {"credential_present": bool(key), "secret_values": "SUPPRESSED"}
+
+          if not key:
+              out.update(status="BLOCKED", classification="credential_absent")
+              print(json.dumps(out))
+              raise SystemExit(1)
+
+          headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+
+          def request(path, body=None):
+              url = "https://api.siliconflow.cn/v1/" + path
+              data = None if body is None else json.dumps(body).encode()
+              req = urllib.request.Request(url, data=data, headers=headers, method="GET" if body is None else "POST")
+              t0 = time.monotonic()
+              try:
+                  with urllib.request.urlopen(req, timeout=20) as r:
+                      raw = r.read(200000)
+                      return r.status, time.monotonic()-t0, raw
+              except urllib.error.HTTPError as e:
+                  raw = e.read(4000)
+                  return e.code, time.monotonic()-t0, raw
+
+          status, latency, raw = request("models")
+          out["models_http_status"] = status
+          out["models_latency_seconds"] = round(latency, 3)
+
+          if status != 200:
+              out.update(status="BLOCKED", classification=f"http_{status}")
+              print(json.dumps(out))
+              raise SystemExit(2)
+
+          payload = json.loads(raw.decode("utf-8", "replace"))
+          ids = [x.get("id") for x in payload.get("data", []) if isinstance(x, dict) and x.get("id")]
+          preferred = [
+              "Qwen/Qwen2.5-7B-Instruct",
+              "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+              "THUDM/glm-4-9b-chat",
+          ]
+          model = next((m for m in preferred if m in ids), ids[0] if ids else None)
+          out["model_catalog_count"] = len(ids)
+          out["selected_model"] = model
+
+          if not model:
+              out.update(status="BLOCKED", classification="no_model")
+              print(json.dumps(out))
+              raise SystemExit(3)
+
+          body = {
+              "model": model,
+              "messages": [{"role": "user", "content": "Reply with exactly MEDIAHUB_SILICONFLOW_KEY2_OK"}],
+              "max_tokens": 16,
+              "temperature": 0
+          }
+          s2, lat2, raw2 = request("chat/completions", body)
+          out["inference_http_status"] = s2
+          out["inference_latency_seconds"] = round(lat2, 3)
+
+          try:
+              p2 = json.loads(raw2.decode("utf-8", "replace"))
+              content = (((p2.get("choices") or [{}])[0].get("message") or {}).get("content") or "")
+          except Exception:
+              content = ""
+
+          out["marker_present"] = "MEDIAHUB_SILICONFLOW_KEY2_OK" in content
+          if s2 == 200 and out["marker_present"]:
+              out.update(status="PASS", classification="authenticated_inference")
+              print(json.dumps(out))
+              raise SystemExit(0)
+
+          if s2 == 401:
+              cls = "authentication_or_authorization"
+          elif s2 == 403:
+              cls = "permission_denied"
+          elif s2 == 429:
+              cls = "rate_limit_or_quota"
+          else:
+              cls = f"http_{s2}"
+          out.update(status="BLOCKED", classification=cls)
+          print(json.dumps(out))
+          raise SystemExit(4)
+          PY
