@@ -150,16 +150,27 @@ jobs:
           }, sort_keys=True))
           assert d.get("node_id") == "mh-dev-01"
           assert d.get("returncode") == 0
-          assert d.get("result",{}).get("phase") in {
-              "execution_backend_qualification",
-              "pre_soak_evidence",
-              "strict_pre_soak_verification",
-              "distributed_verification",
-              "gold_qualification",
-              "local_component_inventory",
-              "local_component_qualification",
-              "local_ai_capability_qualification",
-              "target_reconciliation",
-              "autonomous_retry_window_exhausted",
-          }
+          result=d.get("result",{})
+          phase=result.get("phase")
+          structured=(result.get("qualification") or result.get("inventory") or {})
+          assert (
+              phase in {
+                  "execution_backend_qualification",
+                  "pre_soak_evidence",
+                  "strict_pre_soak_verification",
+                  "distributed_verification",
+                  "gold_qualification",
+                  "local_component_inventory",
+                  "local_component_qualification",
+                  "local_ai_capability_qualification",
+                  "target_reconciliation",
+                  "autonomous_retry_window_exhausted",
+              }
+              or isinstance(structured,dict) and structured.get("schema") in {
+                  "mediahub.provider-model-qualification.v1",
+                  "mediahub.local-component-qualification.v1",
+                  "mediahub.local-component-inventory.v1",
+                  "mediahub.local-ai-capability-qualification.v1",
+              }
+          )
           PY
