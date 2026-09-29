@@ -1,8 +1,8 @@
 {
-  "command_id": "astra-codex-process-diagnostic-20260929-r18",
+  "command_id": "astra-codex-cleanup-stale-20260929-r19",
   "node_id": "mh-dev-01",
-  "operation": "codex_process_diagnostic",
-  "target_sha": "c4dfac1fc3e824bc7ecf22ebe200032989610a9e",
-  "title": "Bounded Codex process-state diagnostic",
-  "description": "Run Codex with a 12s hard process timeout and inspect only sanitized process state. Do not modify config or expose secrets."
+  "operation": "codex_cleanup_stale_probes",
+  "target_sha": "63b82acfa072376a51a448e57f5337667aadfc59",
+  "title": "Clean stale bounded Codex qualification probes",
+  "description": "Terminate only stale codex exec processes whose command line contains the exact Astra qualification marker. Never touch app-server or unrelated Codex processes."
 }
