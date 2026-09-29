@@ -1,0 +1,99 @@
+name: Astra autonomous queue supervisor
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "control/commands/**"
+      - "astra_github_agent.py"
+      - "ops/qualification/**"
+      - ".github/workflows/astra-autonomous-supervisor.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: astra-autonomous-supervisor
+  cancel-in-progress: false
+
+jobs:
+  supervise:
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 12
+    env:
+      ASTRA_NODE_ID: mh-dev-01
+      ASTRA_ONESHOT: "1"
+      ASTRA_AUTONOMOUS_MAX_CYCLES: "5"
+      ASTRA_AUTONOMOUS_RETRY_SECONDS: "30"
+      ASTRA_QUALIFICATION_TIMEOUT: "87000"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+
+      - name: Verify canonical node
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+
+      - name: Detect existing canonical worker
+        id: worker
+        shell: bash
+        run: |
+          set -euo pipefail
+          if pgrep -af "astra_github_agent.py" | grep -v "grep"; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Do not create duplicate worker
+        if: steps.worker.outputs.present == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "canonical_worker_present=true"
+          echo "duplicate_worker_launch=false"
+
+      - name: Execute queued mission in bounded five-cycle supervisor
+        if: steps.worker.outputs.present != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          ASTRA_WORKTREE="$GITHUB_WORKSPACE"           python3 astra_github_agent.py
+
+      - name: Verify fresh result publication
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01" || true
+          git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/astra-result.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("/tmp/astra-result.json")
+          d=json.loads(p.read_text())
+          print(json.dumps({
+              "command_id": d.get("command_id"),
+              "node_id": d.get("node_id"),
+              "returncode": d.get("returncode"),
+              "phase": d.get("result",{}).get("phase"),
+              "status": d.get("result",{}).get("status"),
+              "cycles": len(d.get("result",{}).get("steps",[])),
+              "execution_head": d.get("execution_head"),
+          }, sort_keys=True))
+          assert d.get("node_id") == "mh-dev-01"
+          assert d.get("returncode") == 0
+          assert d.get("result",{}).get("phase") in {
+              "execution_backend_qualification",
+              "pre_soak_evidence",
+              "strict_pre_soak_verification",
+              "distributed_verification",
+              "gold_qualification",
+              "target_reconciliation",
+              "autonomous_retry_window_exhausted",
+          }
+          PY
