@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-autonomous-gold-mission-20260929-r4",
+  "command_id": "astra-provider-qualification-20260929-r5",
   "node_id": "mh-dev-01",
-  "operation": "autonomous_gold_mission",
-  "target_sha": "407614eafda14d681da6b177653a954ad6b77d11",
-  "title": "Autonomous Astra GOLD mission r4",
-  "description": "Autonomous Astra qualification on the current provider-pool architecture. Qualify eligible providers/models first; continue through real pre-soak and distributed gates; never use legacy OpenAI/UnoRouter/ZeroRouter credentials; never bypass or fabricate a gate.",
+  "operation": "provider_model_qualification",
+  "target_sha": "3a0f13a9bc3e6df0920de477944a7eb51e5e1ce8",
+  "title": "Astra provider/model qualification r5",
+  "description": "Fresh provider/model qualification on the current provider-pool architecture. OpenAI direct is excluded; UnoRouter and ZeroRouter are eligible qualified routers. Do not bypass or fabricate gates.",
   "mode": "autonomous"
 }
