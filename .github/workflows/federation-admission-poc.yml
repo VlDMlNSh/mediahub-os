@@ -13,10 +13,11 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Run deterministic federation PoC
+      - name: Run deterministic federation PoCs
         run: |
-          python3 -m pytest -q tests/federation/test_admission_poc.py
+          python3 -m pytest -q tests/federation/test_admission_poc.py tests/federation/test_cluster_trust_poc.py
           python3 ops/federation/federation_admission_poc.py > federation-admission-evidence.json
+          python3 ops/federation/cluster_trust_poc.py > cluster-trust-evidence.json
       - name: Validate evidence
         run: |
           python3 - <<'PY'
@@ -35,12 +36,22 @@ jobs:
           assert len(e["scenarios"]) == 8
           assert all(s["pass"] for s in e["scenarios"])
           assert all(required <= s.keys() for s in e["scenarios"])
+
+          with open("cluster-trust-evidence.json", encoding="utf-8") as f:
+              t = json.load(f)
+          assert t["schema"] == "mediahub.cluster-trust-poc.v1"
+          assert t["pass"] is True
+          assert len(t["scenarios"]) == 4
+          assert all(s["pass"] for s in t["scenarios"])
           print("FEDERATION_ADMISSION_POC_PASS")
-          print("schema=mediahub.federation-admission-poc.v2")
-          print("scenarios=8")
+          print("CLUSTER_TRUST_POC_PASS")
+          print("admission_scenarios=8")
+          print("trust_scenarios=4")
           PY
       - name: Upload evidence
         uses: actions/upload-artifact@v4
         with:
           name: federation-admission-poc-evidence
-          path: federation-admission-evidence.json
+          path: |
+            federation-admission-evidence.json
+            cluster-trust-evidence.json
