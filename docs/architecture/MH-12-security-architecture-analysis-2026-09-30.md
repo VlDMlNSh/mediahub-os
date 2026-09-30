@@ -1,10 +1,10 @@
 # MH-12 — Security Architecture Analysis — 2026-09-30
 
-Status: ANALYSIS COMPLETE / CLOSURE BLOCKED BY EXPLICIT SECURITY GOVERNANCE DECISIONS
+Status: ARCHITECTURE RECONCILED / ETALON BASELINE / AUTONOMOUS QUALIFICATION QUEUED / CLOSURE PENDING EVIDENCE
 
 ## 1. Scope
 
-Independent security reconciliation of MH-4 and MH-12 against the current authoritative GitHub branch `engineering/mh21-sandbox-lifecycle-20260910` at `ea7177ed099d3f0f436993571aac88b36f0a4cbc`.
+Independent security reconciliation of MH-4 and MH-12 against the current authoritative GitHub branch `engineering/mh21-sandbox-lifecycle-20260910` at the latest verified branch revision recorded after this reconciliation.
 
 This document does not create a second Security Architecture and does not replace MH-4.
 
@@ -188,4 +188,4 @@ Closure requires explicit governance decisions for the unresolved authority/reco
 - MH-06 security/recovery invariants.
 - MH-21 security/data-egress/cloud boundary.
 - P5.2, P7.5, P7.6, P8.5, P9.1–P9.7 reconciliation records.
-- GitHub branch `engineering/mh21-sandbox-lifecycle-20260910`, commit `ea7177ed099d3f0f436993571aac88b36f0a4cbc`.
+- GitHub branch `engineering/mh21-sandbox-lifecycle-20260910`, current verified HEAD `91f841b1b00f412e218892732c645cae0f1935d8` before the queue-record write.
