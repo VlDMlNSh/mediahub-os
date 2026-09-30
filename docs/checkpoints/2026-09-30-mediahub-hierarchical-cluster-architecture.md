@@ -45,6 +45,8 @@ This fabric is intended to provide a substantially larger aggregate development 
 
 The contribution of compute capacity does not mean that a MediaHub device becomes a permanent member of the Cloud Development Cluster. The device remains part of its local MediaHub Cluster and contributes bounded compute resources through a separately controlled execution relationship.
 
+Developer servers should be treated as interchangeable cluster capacity rather than requiring one permanent "master compute server". Astra and the scheduler are logical cluster services and should be able to continue on any admitted developer node or redundant service set. A developer cluster may therefore start with one available server and expand horizontally as additional developer servers appear.
+
 ## Compute contribution boundary
 
 Compute contribution is distinct from user-data federation.
@@ -52,6 +54,7 @@ Compute contribution is distinct from user-data federation.
 A contributing MediaHub node exposes only an explicitly schedulable compute capability. It does not automatically expose:
 
 - the user's media library;
+- personal files or personal data;
 - local storage;
 - local credentials;
 - local network services;
@@ -73,13 +76,46 @@ A compute contribution request therefore requires:
 9. result/evidence reporting;
 10. lease termination and resource release.
 
+## Developer privacy boundary
+
+The MediaHub developer/company environment must not provide developers or developer personnel with access to personal user data.
+
+This is a hard architectural invariant, not merely a default preference.
+
+Developer compute may receive an executable workload or privacy-bounded input only when the job contract explicitly permits it. The developer environment must not expose raw personal data to developers, administrative operators, or unrelated development services.
+
+For user-originated cloud escalation:
+
+- the local MediaHub remains the preferred place for processing personal data;
+- only the minimum information necessary for the admitted computation may cross the boundary;
+- where feasible, computation should use transformed, redacted, encrypted, aggregated, or otherwise privacy-preserving inputs rather than raw personal data;
+- job execution identity is not permission to inspect the user's source data;
+- logs, metrics, traces and evidence must not contain personal payloads;
+- results must be bounded to the requested output;
+- access to user-originated execution material expires with the job lease;
+- developer personnel do not receive persistent access to the user's data as a consequence of cloud execution.
+
+If a requested computation intrinsically requires raw personal data and the architecture cannot process it without exposing that data to the developer environment, the workload must remain local or be denied/escalated only after an explicit product-level privacy policy is defined. It must never silently become developer-accessible data.
+
+This separation means:
+
+Compute Contribution
+  !=
+User Data Access
+  !=
+Developer Personnel Access
+
+A MediaHub node may contribute CPU/GPU/NPU capacity while the developer environment remains unable to inspect the user's personal data.
+
 ## Data locality
 
-Compute may travel to data, or bounded data may travel to compute, depending on workload policy.
+Compute may travel to data, or bounded transformed data may travel to compute, depending on workload policy.
 
 For user-owned data, local execution remains preferred.
 
 For developer workloads, source code, build artifacts, model shards, datasets and other engineering inputs may be distributed to admitted compute contributors when the workload contract permits it.
+
+For user-originated workloads, personal data must remain local whenever feasible. If bounded input must cross the boundary, it must satisfy the Developer Privacy Boundary above.
 
 A compute contributor must not receive more data than the admitted job requires.
 
@@ -101,7 +137,7 @@ Cross-domain traffic is selective and policy-controlled:
 - remote processing inputs/outputs;
 - development artifacts.
 
-Local media remains local unless policy explicitly requires transfer.
+Local media remains local unless policy explicitly requires transfer and the privacy boundary permits it.
 
 ## Plane separation
 
@@ -127,6 +163,9 @@ Separate policy-controlled path for approved external API destinations.
 
 ### Compute Contribution Plane
 Request-scoped control and workload transport used to contribute available MediaHub compute to the developer-side compute fabric.
+
+### Privacy Boundary
+Independent authorization/data-minimization boundary ensuring developer compute and developer personnel do not gain access to personal user data.
 
 The Compute Contribution Plane must not become a general-purpose bridge into the user's local network.
 
@@ -157,6 +196,8 @@ The external compute contribution mechanism must not replace the local data plan
 
 Compute contribution and user-data federation are separate authorization domains.
 
+Developer compute authorization does not imply developer personnel authorization to view user data.
+
 ## Scheduler implication
 
 Scheduling is cluster-aware and resource-aware.
@@ -172,6 +213,7 @@ A job should declare:
 - network requirements;
 - data-transfer limits;
 - result limits;
+- privacy/data-class requirements;
 - whether contributed MediaHub compute is eligible.
 
 The scheduler should prefer:
@@ -189,9 +231,12 @@ Large local datasets should preferably be processed where the data resides, avoi
 - Credentials are never included in node capability metadata.
 - Development Mesh does not imply access to Media Data Plane.
 - Compute contribution does not imply storage or network access.
+- Compute contribution does not imply access to personal user data.
+- Developer personnel do not receive access to personal user data.
 - Every contributed compute job has explicit identity, scope and lease.
 - A contributor can revoke/lose execution authority when the lease expires.
 - A developer workload cannot enumerate arbitrary user-local resources.
+- User-originated logs/evidence contain no personal payloads.
 - External API routing must respect provider access restrictions.
 - No VPN mechanism is to be used to bypass regional/provider restrictions.
 
@@ -223,15 +268,16 @@ Control:
 3. compute capability advertisement PoC;
 4. compute contribution lease PoC;
 5. developer scheduler simulation;
-6. Development Mesh PoC;
-7. Media Transport direct/relay benchmark;
-8. Storage Fabric benchmark;
-9. Compute Fabric benchmark;
-10. local MediaHub compute-contributor PoC;
-11. Cloud Development Cluster PoC;
-12. distributed developer compute PoC;
-13. federation/sync PoC;
-14. end-to-end MediaHub distributed-development qualification.
+6. privacy/data-boundary PoC;
+7. Development Mesh PoC;
+8. Media Transport direct/relay benchmark;
+9. Storage Fabric benchmark;
+10. Compute Fabric benchmark;
+11. local MediaHub compute-contributor PoC;
+12. Cloud Development Cluster PoC;
+13. distributed developer compute PoC;
+14. federation/sync PoC;
+15. end-to-end MediaHub distributed-development qualification.
 
 ## Scope and safety
 
