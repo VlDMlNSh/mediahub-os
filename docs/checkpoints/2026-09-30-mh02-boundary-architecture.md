@@ -1,7 +1,7 @@
 # MH-2 Checkpoint — Boundary Architecture
 
 Date: 2026-09-30
-Status: QUALIFIED
+Status: ETALON CANDIDATE / RECONCILED / QUALIFICATION PENDING
 Repository: VlDMlNSh/mediahub-os
 Branch: architecture/mh02-boundaries-20260930
 Base: 863e61783272e0107ce74ab1620212285946aca8
@@ -9,7 +9,7 @@ R4: 471f709f5633feab7aeb62dd3ea52effad6d2bc4
 
 ## Result
 
-MH-2 boundary architecture is qualified for the logical boundary scope.
+MH-2 boundary architecture is reconciled and frozen as the logical-boundary qualification target; independent qualification is pending.
 
 Canonical artifacts:
 - `architecture/MH-02-boundary-architecture-v1.0.md`
@@ -43,3 +43,8 @@ Q-MH2-01: whether a narrowly qualified emergency/safety control path may exist w
 The historical Section 4 checkpoint at commit 863e61783272e0107ce74ab1620212285946aca8 was read through GitHub transport before MH-2 writes. The declared R4 baseline was checked through GitHub comparison and the valid 40-character SHA 471f709f5633feab7aeb62dd3ea52effad6d2bc4 was confirmed as an ancestor.
 
 No history rewrite, reset, amend or force-push was performed.
+
+## Qualification target
+
+Exact target commit: `408f4733791d6a859228a5d3d6fc5936d1bea134`.
+Qualification remains pending until fresh independent evidence closes the blueprint final gate.
