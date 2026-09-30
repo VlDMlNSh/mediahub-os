@@ -45,5 +45,8 @@ def test_federation_admission_poc_has_expected_state_boundaries():
     assert [x["state"] for x in by_id["s5"]["state_transitions"]][-3:] == [
         "LEASE_EXPIRED", "TERMINATED", "CLOSED"
     ]
-    assert by_id["s7"]["final_authorization_state"] == "ACTIVE"
+    assert [x["state"] for x in by_id["s7"]["state_transitions"]] == [
+        "ADMITTED", "DENIED", "CLOSED"
+    ]
+    assert by_id["s7"]["final_authorization_state"] == "CLOSED"
     assert by_id["s8"]["admission_decision"] == "DENY"
