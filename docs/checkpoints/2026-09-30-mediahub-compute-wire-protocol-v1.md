@@ -697,3 +697,114 @@ Each must have:
 14. external component adapters.
 
 No production deployment is implied by this document.
+
+
+## 29. Time and clock contract
+
+Lease validity is determined by the authority, not by a contributor's wall clock.
+
+Required:
+- authority-issued issued_at/expires_at;
+- local monotonic clock for execution timeout;
+- bounded wall-clock skew;
+- freshness window for signed capability advertisements;
+- explicit behavior when time synchronization is unavailable.
+
+A node may conservatively stop work early. It may never extend an expired lease based only on its local clock.
+
+## 30. Schema evolution rules
+
+When Protobuf becomes the canonical wire encoding:
+- deleted field numbers are reserved;
+- deleted field names are reserved where tooling requires it;
+- enum values are never silently reused;
+- compatibility is checked in CI;
+- protocol major changes require a new package/version;
+- security-sensitive semantic changes require a policy version bump even when wire-compatible.
+
+Buf is the preferred schema-governance tool because it provides build, lint, generation and breaking-change detection.
+
+## 31. Authoritative-state publication
+
+A state mutation is considered committed only after the authoritative store accepts it.
+
+For events transported through NATS/JetStream:
+1. validate command;
+2. transactionally persist state transition;
+3. persist event/outbox record;
+4. publish/ack transport event;
+5. mark delivery state.
+
+A transport acknowledgement is never proof that the state transition committed.
+
+This is the basis for an eventual transactional-outbox implementation.
+
+## 32. gRPC control semantics
+
+For synchronous control RPCs:
+- every call has a deadline;
+- cancellation propagates to the server;
+- authentication and trace context are carried in metadata;
+- interceptors enforce common validation/auth/observability rules;
+- retry is only permitted for explicitly idempotent operations.
+
+Long-running execution is not represented by an unbounded RPC. Use job IDs and asynchronous state.
+
+## 33. Sandbox escalation
+
+Process/cgroup/namespace isolation is the v1 baseline only for trusted developer artifacts.
+
+For untrusted or higher-risk contributor workloads, the architecture must support an isolation-class escalation:
+- OCI/container baseline;
+- stronger runtime class;
+- microVM/KVM class where required.
+
+The workload contract selects the minimum isolation class. The scheduler must not downgrade it.
+
+## 34. Network enforcement principle
+
+NetworkPolicy is enforced at the execution boundary, not only in scheduler metadata.
+
+The scheduler supplies a policy ID; the worker runtime must enforce it locally.
+
+Where a kernel-level policy engine is used, identity-based egress controls may be implemented with Cilium/eBPF or equivalent. The MediaHub policy remains authoritative.
+
+## 35. Artifact verification
+
+Artifact admission requires:
+- immutable digest;
+- signature/provenance verification;
+- source revision;
+- policy-compatible signer identity.
+
+Cosign/Sigstore is a candidate implementation.
+
+The artifact is verified before execution and the verified digest is bound into the lease/evidence.
+
+## 36. Observability privacy
+
+OpenTelemetry trace propagation is allowed for correlation.
+
+Forbidden telemetry:
+- API keys;
+- private keys;
+- personal media content;
+- user filesystem contents;
+- raw model/provider payloads unless explicitly classified as non-sensitive engineering data.
+
+High-cardinality IDs remain event/trace fields.
+
+## 37. Security boundary conclusion
+
+External components implement mechanisms.
+MediaHub contracts implement authority.
+
+No component may infer authorization merely because it can:
+- reach a node;
+- schedule a task;
+- issue a message;
+- obtain an identity;
+- mount storage;
+- establish a VPN;
+- verify an artifact.
+
