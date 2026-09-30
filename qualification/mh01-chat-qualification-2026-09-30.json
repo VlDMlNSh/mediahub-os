@@ -21,8 +21,8 @@
     "no_secrets",
     "no_duplicate_run"
   ],
-  "target_commit": "PENDING_PR_HEAD",
-  "target_tree": "PENDING_PR_HEAD",
+  "target_commit": "01735c1ca38fc4bb729e0c139e57d1fc52b66011",
+  "target_tree": "c965d862dc64ef187ea71a572ea51fe51136141b",
   "queue_reference": "issue-114",
   "created_at": "2026-09-30"
 }
