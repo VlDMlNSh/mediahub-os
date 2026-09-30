@@ -1,7 +1,9 @@
-# MediaHub Cloud Development Fabric — Reference Architecture
+# MediaHub Cloud Development Fabric — Reference Architecture v2
 
 Date: 2026-09-30
-Status: reference architecture for implementation
+Status: normative reference architecture for subsequent implementation
+Scope: permanent developer/company environment
+Production deployment: not authorized by this document
 
 ## 1. Objective
 
@@ -9,166 +11,221 @@ The Cloud Development Fabric is the permanent developer/company environment comp
 
 It is a heterogeneous distributed compute fabric, not a literal single-machine supercomputer.
 
-Hard invariant: Compute Contribution != User Data Access != Developer Personnel Access.
+Hard invariant:
 
-## 2. Planes
+Compute Contribution != User Data Access != Developer Personnel Access
+
+## 2. Developer network planes
 
 - Developer Control Plane: GitHub, Astra, scheduler, policy, authoritative state, evidence.
 - Developer Compute Plane: developer servers, Ray/ExecutionBackend, contributed workers.
 - Developer Storage Plane: source, builds, models, approved datasets, evidence.
 - Development Mesh: private management/discovery, encrypted, direct P2P preferred.
 - Compute Contribution Plane: capability, admission, lease, dispatch, heartbeat, result, revocation.
+- High-Speed Interconnect Plane: direct developer-node links using Thunderbolt/USB4 networking.
+- Developer Egress Plane: ordinary Internet connectivity for developer nodes.
+- Optional Developer Shared Egress: explicit IP forwarding/NAT through a peer over HIGH_SPEED.
 - Media Data Plane: local MediaHub LAN/P2P; never exported by default.
 - Protected Registration Plane: MediaHub -> CPRG -> exact provider registration; VPN-backed registration only.
-- High-Speed Interconnect Plane: direct developer-node links using Thunderbolt/USB4 networking, with optional RDMA after qualification.
 
-## 3. Mac mini high-speed fabric
+## 3. Developer node interface model
 
-When developer servers are Mac mini systems, treat each as a normal developer node with a dedicated high-speed interface and subnet.
+Each developer node publishes a measured interface inventory:
 
-Linux mainline provides USB4/Thunderbolt networking through CONFIG_USB4_NET and the thunderbolt_net module. Its kernel configuration explicitly describes networking between computers over USB4/Thunderbolt and interoperability with hosts implementing Apple ThunderboltIP, including macOS and Windows. citeturn0search0
+- INTERNET
+- DEV_MESH
+- HIGH_SPEED
+- optional DEV_STORAGE
+- optional CPRG registration interface/path
 
-Therefore the baseline high-speed design is:
+Each interface has:
+- address;
+- link state;
+- MTU;
+- measured bandwidth;
+- measured RTT;
+- loss;
+- route class;
+- allowed destinations;
+- trust state.
 
-Mac mini A <== Thunderbolt/USB4 ==> Mac mini B
+No interface is trusted merely because it is physically present.
 
-Use a dedicated point-to-point IP subnet. Do not assume Thunderbolt cabling creates an arbitrary multi-node Ethernet fabric. For more nodes, use multiple controlled links or an appropriate high-speed Ethernet/fabric.
+HIGH_SPEED and DEV_MESH never become default gateways automatically.
 
-Example logical subnet: 10.30.0.0/24.
+## 4. Primary Development Node
 
-## 4. RDMA
+Primary is a dynamic role, not a permanent hardware identity.
 
-RDMA is an optimization candidate, not a correctness dependency.
-
-A GitHub project, exo, contains an optional macOS RDMA path and notes OS-version compatibility constraints. This is useful implementation evidence, but not sufficient qualification evidence for MediaHub. citeturn0search0
-
-V1: ordinary IP over Thunderbolt/USB4 + gRPC/NATS/Ray.
-V2: optional RDMA-aware tensor/object transport after measured qualification.
-
-## 5. Routing
-
-Developer nodes may have:
-- HIGH_SPEED: Thunderbolt/USB4 or validated RDMA interface.
-- DEV_MESH: encrypted management network.
-- INTERNET: ordinary Internet.
-- optional STORAGE network.
-
-Rules:
-- developer compute traffic may prefer HIGH_SPEED;
-- control traffic may use DEV_MESH;
-- ordinary Internet remains INTERNET;
-- MediaHub user traffic never uses HIGH_SPEED;
-- CPRG is not reachable through HIGH_SPEED unless a future explicit contract requires it;
-- default route must not move to HIGH_SPEED.
-
-## 6. Scheduler
-
-Placement cost must include:
-- compute time;
-- input transfer time;
-- output transfer time;
-- scheduling overhead;
-- failure penalty.
-
-Preferred hierarchy:
-1. same developer node;
-2. developer peer over HIGH_SPEED;
-3. developer peer over Development Mesh;
-4. admitted MediaHub contributor;
-5. external cloud provider only when explicitly authorized.
-
-This is a performance policy. Security authorization remains independent.
-
-## 7. Developer node model
-
-Logical roles:
-- CONTROL
-- SCHEDULER
-- COMPUTE
-- STORAGE
-- EVIDENCE
-- CI
-
-Small installations may co-locate roles. CPRG remains a separate security domain and must not become a developer compute node.
-
-## 8. Execution
-
-Developer cluster resources:
+Selection score is based on measured:
 - CPU;
-- GPU;
-- NPU where supported;
-- memory;
+- GPU/NPU;
+- RAM;
 - NVMe;
-- high-speed links.
+- available capacity;
+- high-speed bandwidth;
+- RTT;
+- storage bandwidth;
+- reliability/uptime;
+- control-plane readiness.
 
-Execution remains behind the MediaHub ExecutionBackend contract.
+The primary may host scheduler/control roles but must not be the only copy of authoritative developer state.
 
-Ray is an execution substrate, not a security authority.
+Primary loss must permit role migration.
 
-containerd/OCI is an isolation mechanism, not a policy authority.
+## 5. Mac mini high-speed fabric
 
-## 9. Storage
+Baseline:
 
-Three separate storage classes:
+Mac mini A <== Thunderbolt/USB4 == > Mac mini B
 
-1. Local MediaHub storage — personal media/data; never automatically exported.
-2. Developer engineering storage — source, builds, models, approved datasets, evidence.
-3. Ephemeral execution workspace — per lease, bounded, destroyed after close.
+Linux mainline provides USB4/Thunderbolt IP networking through USB4_NET/thunderbolt_net and documents interoperability with Apple ThunderboltIP hosts including macOS and Windows.
 
-No shared mount is permitted between contributor workers and user MediaHub storage.
+This establishes the technology as a valid V1 IP-link candidate.
 
-## 10. High-speed security
+It does not establish:
+- arbitrary multi-node Ethernet switching;
+- shared memory;
+- automatic cluster membership;
+- trust;
+- automatic Internet routing.
 
-Thunderbolt/USB4 is a physical interconnect, not an authorization system.
+Use a dedicated high-speed subnet and model every physical edge.
 
-Required:
-- peer identity;
-- dedicated subnet;
-- host firewall;
-- authenticated control protocol;
-- no trust based on MAC address alone;
-- no default forwarding;
-- no bridge into MediaHub LAN;
-- appropriate host-side device authorization/security;
-- unauthorized peer detection and quarantine.
+For N nodes:
+- point-to-point links are represented as graph edges;
+- topology is discovered;
+- each edge has measured capacity/RTT/loss;
+- scheduler uses the graph when placing distributed workloads.
 
-## 11. Failure model
+## 6. Shared Internet over HIGH_SPEED
 
-Link states:
-UNKNOWN -> PROBING -> UP -> DEGRADED -> DOWN -> QUARANTINED.
+A HIGH_SPEED interface is an IP network interface, so a developer node may forward Internet traffic through a peer.
 
-A high-speed link failure must remove that link from placement without corrupting authoritative state. Scheduler must safely re-place work when the workload permits it.
+Example:
 
-Physical connectivity alone never makes a peer trusted.
+Node A INTERNET
+     |
+   router/NAT
+     |
+ HIGH_SPEED
+     |
+Node B developer traffic
 
-## 12. Distributed workload model
+This is supported only as an explicit developer-network capability.
 
-Supported workload contracts:
-- NONE;
-- MAP;
-- MAP_REDUCE;
-- SHARDED_STATE.
+V1 default:
+- each developer node has independent Internet when possible;
+- each node keeps its own default route;
+- HIGH_SPEED has no default route.
 
-Only explicitly partitionable workloads may cross nodes.
+Optional shared egress:
+- explicit enablement;
+- forwarding/NAT firewall policy;
+- capability advertisement;
+- bandwidth quota;
+- audit;
+- failure detection;
+- no forwarding of user MediaHub traffic.
 
-Results must have deterministic merge semantics and independently verifiable evidence.
+The primary node is not automatically the Internet gateway because it has more compute.
 
-## 13. Developer-to-developer compute
+## 7. High-speed compute
 
-Developer Mac minis can form a high-speed compute cluster. The fast interconnect is used for:
-- object movement;
+HIGH_SPEED is preferred for:
+- large developer objects;
 - model shards;
 - build artifacts;
-- distributed task coordination where beneficial;
-- intermediate results.
+- distributed task coordination;
+- intermediate results;
+- developer storage traffic where justified.
 
-It does not imply shared memory or transparent remote CPU execution.
+Placement cost includes:
+- compute;
+- serialization;
+- input transfer;
+- output transfer;
+- bandwidth;
+- RTT;
+- contention;
+- failure/retry penalty.
 
-## 14. MediaHub contribution
+## 8. Execution architecture
 
-Remote MediaHub contributors use the ordinary external network and the Compute Contribution Plane.
+Execution path:
 
-Contributor execution is:
+Scheduler
+ -> AdmissionPolicy
+ -> ComputeLease
+ -> ExecutionBackend
+ -> isolated worker
+ -> result/evidence
+
+Candidate backend:
+- Ray.
+
+Candidate worker runtime:
+- containerd/OCI;
+- stronger isolation class for higher-risk workloads.
+
+Network policy is enforced at execution boundary.
+
+## 9. Control transport
+
+Synchronous:
+- gRPC with deadlines/cancellation.
+
+Asynchronous:
+- NATS/JetStream with durable delivery where needed.
+
+Authoritative state:
+- MediaHub-owned persistent state.
+
+Transport acknowledgements are never authoritative commit evidence.
+
+## 10. Developer Mesh
+
+Development Mesh is a private encrypted management/discovery network.
+
+Primary candidate:
+- Netmaker/WireGuard.
+
+Alternative:
+- Headscale/WireGuard.
+
+HIGH_SPEED remains preferred for bulk developer traffic when the direct link is healthy.
+
+Development Mesh is not a replacement for the local Media Mesh and is not a user LAN bridge.
+
+## 11. Routing
+
+Rules:
+
+- INTERNET -> ordinary developer Internet.
+- DEV_MESH -> private management/discovery only.
+- HIGH_SPEED -> developer peer traffic only by default.
+- DEV_STORAGE -> storage traffic only.
+- shared developer egress -> explicit route/policy only.
+- Media Mesh -> never forwarded through developer HIGH_SPEED.
+- CPRG -> registration-only protected path.
+- no automatic route redistribution across planes.
+
+## 12. Storage
+
+Three separate classes:
+
+1. Local MediaHub storage — personal media/data.
+2. Developer engineering storage — source/build/model/approved datasets/evidence.
+3. Ephemeral execution workspace — lease-scoped.
+
+No contributor worker receives a shared mount to local MediaHub storage.
+
+## 13. Compute Contribution
+
+MediaHub nodes may contribute otherwise unused CPU/GPU/NPU capacity.
+
+Contribution is:
+- opt-in;
 - capability-scoped;
 - admission-controlled;
 - lease-bound;
@@ -178,75 +235,148 @@ Contributor execution is:
 - auditable;
 - revocable.
 
-The high-speed developer fabric and the contributor plane are different performance domains.
+Contribution traffic uses ordinary network connectivity and the Compute Contribution Plane.
 
-## 15. GitHub mechanisms
+It does not require a flat network connection to the user's Media Mesh.
 
-- Linux kernel thunderbolt_net / CONFIG_USB4_NET: high-speed IP transport reference.
-- exo: distributed execution and optional macOS RDMA reference.
-- Ray: distributed execution and resource scheduling.
-- NATS/JetStream: asynchronous durable transport.
-- gRPC: bounded control RPC.
-- containerd/OCI: worker isolation.
-- Buf/Protovalidate: schema governance.
-- SPIRE: workload identity patterns.
+## 14. Privacy boundary
+
+Developer compute may receive only data allowed by the workload's privacy class.
+
+Default:
+- public engineering data may execute in the developer fabric;
+- developer confidential data requires authorized developer nodes;
+- user-derived non-personal data requires explicit policy;
+- user personal/sensitive data remains local unless a future explicit policy and protection contract permits movement;
+- secrets never move to contributed MediaHub workers by default.
+
+Developer personnel access to user data is a separate prohibition.
+
+## 15. CPRG
+
+CPRG remains outside the compute path.
+
+CPRG VPN-backed connectivity is used exclusively for API-key registration.
+
+CPRG is not:
+- Internet gateway;
+- developer compute;
+- storage;
+- MediaHub data gateway;
+- HIGH_SPEED transit;
+- general VPN.
+
+## 16. High-speed security
+
+Required:
+- cryptographic peer identity;
+- authenticated control;
+- dedicated interface/subnet;
+- host firewall;
+- default-deny forwarding;
+- explicit service allowlist;
+- unauthorized-peer quarantine;
+- no bridge to Media Mesh;
+- no trust from physical attachment.
+
+## 17. Failure model
+
+HIGH_SPEED:
+UNKNOWN -> PROBING -> UP -> DEGRADED -> DOWN -> QUARANTINED
+
+When down:
+- remove edge from placement;
+- use DEV_MESH if available;
+- re-place partitionable work;
+- preserve authoritative state;
+- do not modify default Internet routing.
+
+Primary down:
+- elect/migrate primary role;
+- continue from replicated durable state;
+- preserve node identity semantics.
+
+Developer WAN down:
+- local developer-to-developer execution may continue;
+- WAN-dependent tasks pause/fail according to workload policy.
+
+## 18. Mac mini shared-egress qualification
+
+A dedicated qualification phase must verify:
+
+1. A has Internet.
+2. A and B have HIGH_SPEED IP connectivity.
+3. B can reach Internet through A only when explicit shared-egress mode is enabled.
+4. B's ordinary default route remains unchanged when shared mode is disabled.
+5. MediaHub user subnets cannot use A as transit.
+6. Firewall blocks unauthorized forwarding.
+7. Egress failure is detected.
+8. Compute jobs continue or fail safely according to policy.
+9. Scheduler does not mistake shared egress for compute bandwidth.
+10. Audit evidence identifies the egress node and policy.
+
+## 19. External components
+
+- Linux thunderbolt_net / USB4_NET: high-speed IP transport reference.
+- iperf3: bandwidth/RTT/loss qualification.
+- Ray: execution backend.
+- NATS/JetStream: asynchronous transport.
+- gRPC: control RPC.
+- containerd/OCI: isolation.
+- Buf/Protovalidate: schemas/validation.
+- SPIRE: optional workload identity.
 - Cosign/Sigstore: artifact verification.
 - OpenTelemetry: telemetry.
 - Netmaker/WireGuard: Development Mesh.
+- Headscale/WireGuard: alternative Development Mesh.
+- CoreDNS: developer DNS.
+- FRR: optional dynamic routing.
 - SeaweedFS: optional developer storage.
+- OpenWrt/OpenWISP: local network/AP management mechanisms.
 
 External components remain replaceable mechanisms. MediaHub contracts remain authoritative.
 
-## 16. Pushback
+## 20. Qualification sequence
 
-1. Do not call Thunderbolt a supercomputer bus. It is a high-speed network/interconnect.
-2. More bandwidth does not automatically improve distributed workloads; transfer cost must enter placement.
-3. Do not expose the high-speed developer network to MediaHub users.
-4. Do not make RDMA mandatory.
-5. Do not use physical Thunderbolt connectivity as a security boundary.
-6. Do not mix developer and user storage.
-7. Mac mini hardware generations, OS versions, controllers, firmware, cables and topology must be qualified per node class.
+A. two-node HIGH_SPEED IP qualification.
+B. shared-egress controlled qualification.
+C. three+ node topology.
+D. scheduler cost-aware placement.
+E. link failure/recovery.
+F. developer WAN failure.
+G. primary role migration.
+H. MediaHub compute contribution.
+I. privacy and network negative tests.
+J. evidence reproducibility.
+K. optional RDMA benchmark.
 
-## 17. Qualification sequence
+RDMA remains optional and never a correctness dependency.
 
-Phase A: two Mac minis, direct Thunderbolt/USB4, dedicated IP subnet, throughput/RTT benchmark.
-Phase B: three or more developer nodes, mixed HIGH_SPEED and DEV_MESH, topology-aware scheduling and link failure tests.
-Phase C: one MediaHub contributor, bounded workload, zero user data.
-Phase D: partitioned workloads and deterministic merge.
-Phase E: optional RDMA benchmark against normal IP; IP remains fallback.
+## 21. Acceptance gates
 
-## 18. Acceptance gates
+- developer interfaces inventoried;
+- HIGH_SPEED links measured;
+- no accidental default route;
+- shared Internet is opt-in;
+- user MediaHub traffic cannot use developer egress;
+- topology is represented explicitly;
+- placement uses measured network cost;
+- primary migration works;
+- developer state survives link loss;
+- contributor cannot reach MediaHub LAN/storage;
+- CPRG remains outside compute;
+- privacy boundary is enforceable;
+- evidence is machine-verifiable.
 
-- peer identity verified;
-- unauthorized peers rejected;
-- high-speed link isolated from MediaHub LAN;
-- default route unchanged;
-- link failure causes safe re-placement;
-- authoritative state survives link loss;
-- measured bandwidth/RTT affect placement;
-- no user data crosses merely because high-speed connectivity exists;
-- distributed results remain deterministic and verifiable.
+## 22. Final principle
 
-## 19. Reference topology
+Mac mini servers can form a high-speed developer compute fabric using direct Thunderbolt/USB4 IP links.
 
-Developer Mac mini A <== HIGH_SPEED ==> Developer Mac mini B
-          |                                  |
-          +---------- DEV_MESH --------------+
-                         |
-                  Developer Control
-                         |
-                    Scheduler
-                         |
-              +----------+----------+
-              |                     |
-       Developer workers     MediaHub contributors
-                                  |
-                           ordinary network
-                                  |
-                         bounded worker/evidence
+Those links can also carry controlled developer Internet traffic when one node is deliberately configured as an egress router.
 
-CPRG remains outside the compute path and retains its separate registration-only contract.
-
-## 20. Final principle
-
-The Cloud Development Fabric is a hierarchical heterogeneous compute environment: fast local interconnects between developer servers, governed contribution from MediaHub nodes, separate storage/security domains, and explicit admission/lease/isolation contracts.
+Neither capability changes the fundamental hierarchy:
+- MediaHub local network remains user-facing;
+- Cloud Development Fabric remains developer-facing;
+- Compute Contribution is request-scoped;
+- CPRG is registration-only;
+- MediaHub-owned contracts remain authoritative.
