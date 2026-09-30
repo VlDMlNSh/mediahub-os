@@ -6,6 +6,8 @@ on:
       - "ops/federation/**"
       - "tests/federation/**"
       - "docs/checkpoints/2026-09-30-mediahub-federation-admission-poc-contract.md"
+      - "docs/checkpoints/2026-09-30-central-protected-registration-gateway.md"
+      - "docs/checkpoints/2026-09-30-cprg-threat-model-and-hardening.md"
 
 jobs:
   federation-admission-poc:
@@ -15,11 +17,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run deterministic federation PoCs
         run: |
-          python3 -m pytest -q tests/federation/test_admission_poc.py tests/federation/test_cluster_trust_poc.py tests/federation/test_compute_contribution_poc.py tests/federation/test_privacy_data_boundary_poc.py
+          python3 -m pytest -q             tests/federation/test_admission_poc.py             tests/federation/test_cluster_trust_poc.py             tests/federation/test_compute_contribution_poc.py             tests/federation/test_privacy_data_boundary_poc.py             tests/federation/test_cprg_security_poc.py
           python3 ops/federation/federation_admission_poc.py > federation-admission-evidence.json
           python3 ops/federation/cluster_trust_poc.py > cluster-trust-evidence.json
           python3 ops/federation/compute_contribution_poc.py > compute-contribution-evidence.json
           python3 ops/federation/privacy_data_boundary_poc.py > privacy-data-boundary-evidence.json
+          python3 ops/federation/cprg_security_poc.py > cprg-security-evidence.json
       - name: Validate evidence
         run: |
           python3 - <<'PY'
@@ -46,7 +49,15 @@ jobs:
           assert len(t["scenarios"]) == 4
           assert all(s["pass"] for s in t["scenarios"])
 
-          with open("privacy-data-boundary-evidence.json", encoding="utf-8") as f:\n              p = json.load(f)\n          assert p["schema"] == "mediahub.privacy-data-boundary-poc.v1"\n          assert p["pass"] is True\n          assert len(p["scenarios"]) == 4\n          assert all(s["pass"] for s in p["scenarios"])\n          assert all(not s["raw_personal_data_exposed"] for s in p["scenarios"])\n\n          with open("compute-contribution-evidence.json", encoding="utf-8") as f:
+          with open("privacy-data-boundary-evidence.json", encoding="utf-8") as f:
+              p = json.load(f)
+          assert p["schema"] == "mediahub.privacy-data-boundary-poc.v1"
+          assert p["pass"] is True
+          assert len(p["scenarios"]) == 4
+          assert all(s["pass"] for s in p["scenarios"])
+          assert all(not s["raw_personal_data_exposed"] for s in p["scenarios"])
+
+          with open("compute-contribution-evidence.json", encoding="utf-8") as f:
               c = json.load(f)
           assert c["schema"] == "mediahub.compute-contribution-poc.v1"
           assert c["pass"] is True
@@ -55,13 +66,33 @@ jobs:
           assert c["scenarios"][0]["decision"] == "ALLOW"
           assert all(s["decision"] == "DENY" for s in c["scenarios"][1:])
 
+          with open("cprg-security-evidence.json", encoding="utf-8") as f:
+              g = json.load(f)
+          assert g["schema"] == "mediahub.cprg-security-poc.v1"
+          assert g["mode"] == "non-production-deterministic"
+          assert g["pass"] is True
+          assert len(g["scenarios"]) == 8
+          assert all(s["pass"] for s in g["scenarios"])
+          assert all(s["closed"] for s in g["scenarios"])
+          assert all(
+              s["active"] is False
+              for s in g["scenarios"]
+              if s["scenario"] != "S2_exact_registration_allowed"
+          )
+          allowed = next(s for s in g["scenarios"] if s["scenario"] == "S2_exact_registration_allowed")
+          assert allowed["operation"] == "api_key_registration"
+          assert allowed["destination"] == "provider-registration"
+
           print("FEDERATION_ADMISSION_POC_PASS")
           print("CLUSTER_TRUST_POC_PASS")
           print("COMPUTE_CONTRIBUTION_POC_PASS")
           print("PRIVACY_DATA_BOUNDARY_POC_PASS")
+          print("CPRG_SECURITY_POC_PASS")
           print("admission_scenarios=8")
           print("trust_scenarios=4")
           print("compute_contribution_scenarios=4")
+          print("privacy_scenarios=4")
+          print("cprg_scenarios=8")
           PY
       - name: Upload evidence
         uses: actions/upload-artifact@v4
@@ -72,3 +103,4 @@ jobs:
             cluster-trust-evidence.json
             compute-contribution-evidence.json
             privacy-data-boundary-evidence.json
+            cprg-security-evidence.json
