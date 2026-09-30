@@ -192,12 +192,26 @@ class PolicyEngine:
                 "no applicable policy", "",
             )
 
-        # Security/safety are never relaxed by a lower scope.
+        # Security/safety are mandatory constraints. Any critical non-allow
+        # therefore fails closed even when a lower-priority critical rule allows.
         critical = [
             rule for rule in matches if rule.policy.policy_class in _CRITICAL_CLASSES
         ]
-        if any(rule.decision is not Decision.ALLOW for rule in critical):
-            selected = max(critical, key=self._sort_key)
+        critical_non_allow = [rule for rule in critical if rule.decision is not Decision.ALLOW]
+        if critical_non_allow:
+            decisions = {rule.decision for rule in critical_non_allow}
+            if len(decisions) > 1:
+                selected = max(critical_non_allow, key=self._sort_key)
+                return PolicyDecision(
+                    Decision.DENY,
+                    selected.policy.policy_id,
+                    selected.policy.version,
+                    selected.policy.scope,
+                    selected.policy.policy_class,
+                    "critical policy conflict; fail closed",
+                    selected.policy.provenance,
+                )
+            selected = max(critical_non_allow, key=self._sort_key)
             return self._decision(selected)
 
         # Explicit deny wins over allow at the same effective precedence.
