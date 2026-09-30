@@ -397,3 +397,46 @@ Corrections were incorporated into the compute wire protocol:
 
 No contradiction was found with the previously fixed Local Cluster / Cloud Development Cluster / CPRG architecture.
 
+
+## P0 additions — Cloud Development Fabric
+
+### G37 — High-speed interconnect qualification
+Thunderbolt/USB4 capability varies by Mac mini hardware, OS, controller, firmware and topology.
+Need a node-class qualification record covering:
+- physical link;
+- negotiated link;
+- IP interface;
+- throughput;
+- RTT;
+- packet loss;
+- MTU;
+- reconnect;
+- sleep/wake;
+- peer authorization.
+
+### G38 — High-speed topology
+Point-to-point Thunderbolt links must not be mistaken for a general multi-node fabric.
+Need explicit topology discovery and scheduler representation.
+
+### G39 — High-speed security
+Physical adjacency does not establish trust.
+Need peer identity, host firewall, dedicated subnet, default-deny forwarding and unauthorized-peer quarantine.
+
+### G40 — RDMA qualification
+RDMA is optional and must not become a correctness dependency.
+Need exact hardware/OS/driver matrix, transport security, failure semantics and benchmark evidence.
+
+### G41 — Performance-aware placement
+Scheduler currently needs measured network cost.
+Need bandwidth, RTT, transfer size, serialization cost and failure penalty in placement decisions.
+
+### G42 — Mac mini node classes
+Need explicit hardware classes because Thunderbolt/USB4, GPU/NPU capabilities and OS support differ.
+
+## Pushback — Cloud Development Fabric
+
+- A high-speed interconnect is not shared memory.
+- A cluster of Mac minis is not automatically a single pooled CPU/GPU.
+- Remote execution still has serialization, scheduling and failure overhead.
+- RDMA should optimize large-object movement only after measurements demonstrate benefit.
+- User MediaHub traffic must never be opportunistically routed over the developer high-speed fabric.
