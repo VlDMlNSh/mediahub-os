@@ -398,3 +398,35 @@ Independently qualify MH-3 against:
 ### Expected result
 
 Produce an independent qualification evidence record and, if gaps remain, create the smallest bounded remediation queue items. Do not manufacture closure.
+
+## MH-3 requalification queue — 2026-09-30
+
+**Queue item:** MH3-Q2
+**Lane:** mh-3 / Architecture-Contract / QA-Verification
+**Status:** QUEUED_FOR_AUTONOMOUS_REQUALIFICATION
+**Owner:** autonomous qualification worker; no self-authorization
+**Target:** MH-3 Runtime Foundation Architecture
+**Candidate branch:** architecture/mh3-runtime-foundation-20260930
+**Input baseline:** 6f3726bf2795a0a06203c78dda13412e8981cdce
+
+### Required sequence
+
+1. Verify candidate ancestry and provenance from GitHub.
+2. Read MH-3 reference hardening/requalification pack.
+3. Re-run MH-1/MH-2/P0 authority compatibility.
+4. Independently check C03-04 supervisor authority.
+5. Independently check distributed execution/topology boundaries.
+6. Independently check User/Developer isolation and resource semantics.
+7. Map R-01…R-23 to direct evidence.
+8. Verify all MH-3 cross-lane handoffs.
+9. Execute fresh targeted repository qualification where available.
+10. Record PASS/PARTIAL/FAIL/INCONCLUSIVE with blockers.
+11. Do not promote ACCEPTED/FROZEN or authorize merge/release/production.
+
+### Blocking rules
+
+Any unresolved authority ambiguity, missing direct evidence, fabricated/simulated evidence, provenance failure, State Authority bypass, Security/Policy bypass, or unresolved mandatory governance decision forces INCONCLUSIVE/FAIL for the affected gate.
+
+### Expected artifact
+
+Create an independent requalification result record on this candidate branch. Preserve history; no force-push; no merge.
