@@ -353,7 +353,7 @@ Traceability matrix creation commit:
 
 `7bbb0dcdd591a48b0371accfab33c6b933821293`
 
-The matrix blob SHA and final parent/branch read-back are still to be recorded.
+The matrix blob/content SHA after read-back is `8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6`. The master reconciliation update commit is `633d734e0a741413bbcdc0d1d00f08bc0a256fe5`, with read-back content SHA `f3a66e292302984be95ae8085f17e03cd538baae`.
 
 ## 21. Final MH-24 status
 
