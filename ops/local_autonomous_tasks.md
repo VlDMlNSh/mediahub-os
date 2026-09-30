@@ -327,27 +327,29 @@ FUNCTIONAL BASELINE → CONTRACTS → INTEGRATION → RECOVERY → SECURITY → 
 
 **Queue item:** MH3-Q1  
 **Lane:** mh-3 / Architecture-Contract / QA-Verification  
-**Status:** QUEUED_FOR_AUTONOMOUS_QUALIFICATION  
+**Status:** INCONCLUSIVE_AFTER_AUTONOMOUS_QUALIFICATION_PASS  
 **Owner:** autonomous qualification worker; no self-authorization  
 **Target:** MH-3 Runtime Foundation Architecture  
 **Source evidence:** `docs/ops/MH-3-runtime-foundation-reconciliation-2026-09-30.md`  
 **Candidate branch:** `architecture/mh3-runtime-foundation-20260930`  
-**Proposed qualification baseline:** `0226ab722009756aed1c1a063ef958e0ff787c2e`
+**Proposed qualification baseline:** `6457678902396e33db968cb1a64cbffe465236b4`
 
 ### Qualification execution checkpoint
 
 - Qualification pass executed against candidate HEAD `6457678902396e33db968cb1a64cbffe465236b4`.
+- Result record committed on candidate branch as `4c2acf8a962ad5eaa690578dbf6be175c188cbb4`.
 - Result: `INCONCLUSIVE`.
 - Blocking classes: governance decisions G-01/G-06; independent acceptance evidence G-02; supervisor review G-03; cross-lane evidence G-04; fresh executable qualification G-05.
 - No ACCEPTED/FROZEN/merge/release/production authorization implied.
 
 ### Qualification provenance checkpoint
 
-- Candidate HEAD verified: `0226ab722009756aed1c1a063ef958e0ff787c2e`
-- Candidate tree: `1628c71dc22e56655f2db4c76a45109e96e3acdb`
+- Candidate qualification input: `6457678902396e33db968cb1a64cbffe465236b4`
+- Result record: `4c2acf8a962ad5eaa690578dbf6be175c188cbb4`
 - Source baseline: `7eaa0d3fb74013f216a0be2eaf47424287c7db9a`
-- Candidate compare: 3 commits ahead / 0 behind.
+- Candidate compare before result record: 4 commits ahead / 0 behind.
 - Blueprint SHA: `d3427bb8c6c3bc93d34f8243e885e45e8c2b77e2`
+- A separate commit `9fe8eae54aeb4d033ba45e1e2a676fd1c81cefa6` is excluded because it is not on the candidate branch.
 
 ### Qualification objective
 
