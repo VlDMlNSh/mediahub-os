@@ -38,17 +38,24 @@ jobs:
 
       - name: Run MH-03 contract and authority tests
         env:
-          PYTHONPATH: .
+          PYTHONPATH: runtime
         run: |
           set -euo pipefail
           python3 -m unittest             tests.static.test_supervisor_contract             verification.test_mh04_supervisor_contract             tests.runtime.test_mh04_state_authority_hardening             tests.runtime.test_state_authority
 
       - name: Run control-plane regression suite
         env:
-          PYTHONPATH: .
+          PYTHONPATH: runtime
         run: |
           set -euo pipefail
           python3 -m unittest discover -s tests/control_plane -p 'test_*.py' -v
+
+      - name: Run MH-05 cross-lane evidence tests
+        env:
+          PYTHONPATH: runtime
+        run: |
+          set -euo pipefail
+          python3 -m unittest             tests.runtime.test_mh05_consumer_boundary             tests.runtime.test_mh05_event_projection             tests.runtime.test_mh05_evidence_binding
 
       - name: Emit evidence classification
         if: success()
