@@ -1,0 +1,45 @@
+{
+  "schema": "mediahub.mh22-qualification-evidence.v1",
+  "queue_id": "MH22-AQ-001",
+  "required": [
+    "qualification_run_id",
+    "candidate_commit",
+    "candidate_tree",
+    "r4_commit",
+    "pass_id",
+    "domain",
+    "test_id",
+    "executor_id",
+    "executor_version",
+    "environment_id",
+    "input_fixture_hash",
+    "started_at",
+    "finished_at",
+    "result",
+    "exit_status",
+    "artifact_hashes",
+    "logs",
+    "reproducibility_status",
+    "review_status"
+  ],
+  "result_enum": [
+    "PASS",
+    "FAIL",
+    "BLOCKED",
+    "NOT_IMPLEMENTED",
+    "UNKNOWN",
+    "EVIDENCE_GAP"
+  ],
+  "invariants": [
+    "candidate_commit MUST equal the exact qualification candidate",
+    "candidate_tree MUST equal the exact qualification candidate tree",
+    "r4_commit MUST equal 471f709f5633feab7aeb62dd3ea52effad6d2bc4",
+    "UNKNOWN MUST NOT be promoted to PASS",
+    "EVIDENCE_GAP MUST NOT be promoted to PASS",
+    "NOT_IMPLEMENTED MUST NOT be interpreted as REMOVED",
+    "missing evidence MUST NOT be interpreted as PASS",
+    "production_authorization MUST remain false for autonomous qualification",
+    "release_authorization MUST remain false for autonomous qualification",
+    "state_authority_mutation MUST remain false for autonomous qualification"
+  ]
+}
