@@ -4,7 +4,39 @@ Date: 2026-09-30
 
 ## Scope
 
-This document threat-models the Central Protected Registration Gateway (CPRG), a small dedicated server whose protected VPN path is used exclusively for API-key registration. It does not authorize production deployment.
+This document threat-models the Central Protected Registration Gateway (CPRG), a small dedicated registration appliance whose protected VPN path is used exclusively for API-key registration. It does not authorize production deployment.
+
+## Hosting architecture
+
+CPRG is a **logical registration authority with an independently replaceable physical host**.
+
+Approved architectural hosting forms:
+- dedicated small server under the user's administrative control;
+- rented cloud/VPS server in Europe.
+
+These are deployment alternatives, not two simultaneous registration authorities.
+
+The physical host is intentionally outside:
+- the MediaHub user/data plane;
+- the developer compute cluster;
+- Astra workers;
+- CI runners;
+- user storage.
+
+No provider, VPS plan, region beyond the architectural Europe option, VPN implementation, or production host is selected by this checkpoint.
+
+### Hosting security invariant
+
+Changing the CPRG host must not change:
+- the registration protocol;
+- node trust semantics;
+- authorization scope;
+- lease semantics;
+- routing isolation;
+- audit requirements;
+- fail-closed behavior.
+
+A cloud/VPS location must not be used as a mechanism to bypass provider restrictions. Provider-specific access remains subject to applicable provider policies and terms.
 
 ## Security objective
 
@@ -30,6 +62,8 @@ The strongest invariant is:
 7. GitHub secret-management boundary.
 8. Provider-specific registration metadata.
 9. Network policy and routing state.
+10. CPRG logical identity and trust-anchor state.
+11. Migration/revocation state.
 
 ## Trust boundaries
 
@@ -52,6 +86,10 @@ Only the exact registration operation allowed by policy may traverse this path.
 ### B5 — CPRG host
 
 The host is a high-value control-plane component and must be hardened independently from the developer cluster.
+
+### B6 — CPRG hosting provider
+
+When CPRG is cloud/VPS hosted, the hosting provider becomes an additional infrastructure trust boundary. Provider compromise or host isolation failure must not grant access to MediaHub, developer compute, or user data.
 
 ## Threats and required mitigations
 
@@ -302,6 +340,55 @@ Required controls:
 Acceptance evidence:
 CPRG shutdown test shows Media Mesh and local compute continue while registration is unavailable.
 
+### T16 — Cloud hosting compromise or isolation failure
+
+Risk:
+A VPS/cloud compromise, host escape, provider-side isolation failure, or control-plane compromise creates a path toward MediaHub or developer infrastructure.
+
+Required controls:
+- no inbound trust from CPRG to internal planes;
+- no routes to Media Mesh or developer Mesh;
+- registration-only outbound firewall;
+- no shared cloud account credentials with developer infrastructure;
+- separate administrative identities;
+- minimal host image;
+- independent monitoring;
+- documented replacement procedure.
+
+Acceptance evidence:
+Host compromise simulation shows CPRG cannot reach protected internal networks or developer compute.
+
+### T17 — Hosting migration creates split-brain CPRG authorities
+
+Risk:
+Old and new CPRG hosts both accept registrations during migration.
+
+Required controls:
+- one active logical registration authority;
+- explicit activation/revocation state;
+- migration epoch/version;
+- old authority becomes read-only or revoked before new authority becomes authoritative, according to the migration protocol;
+- nodes reject stale authority metadata.
+
+Acceptance evidence:
+A migration test proves that stale CPRG state cannot authorize a new registration after cutover.
+
+### T18 — Loss of CPRG logical identity
+
+Risk:
+Host replacement causes an unintended trust reset or permits an unauthorized replacement to impersonate CPRG.
+
+Required controls:
+- explicit CPRG identity;
+- protected trust-anchor state;
+- controlled identity rotation;
+- emergency revocation;
+- node-side validation of CPRG identity;
+- migration evidence.
+
+Acceptance evidence:
+An unapproved replacement host cannot authenticate as the active CPRG authority.
+
 ## Required state machine
 
 Registration state must be explicit:
@@ -326,6 +413,51 @@ Every registration attempt should be evaluated as:
 (node_identity, request_id, operation, provider, destination, lease, credential_scope)
 
 A valid node alone is insufficient.
+
+## CPRG logical identity contract
+
+The architecture requires a distinct CPRG identity separate from:
+- MediaHub node identities;
+- developer server identities;
+- GitHub identities;
+- provider identities.
+
+The CPRG identity contract must eventually define:
+- identity format;
+- trust anchor;
+- rotation;
+- expiration;
+- revocation;
+- migration epoch;
+- emergency kill switch;
+- node-side verification;
+- evidence required for activation.
+
+This is an architectural contract only. No key generation or deployment is performed by this checkpoint.
+
+## Migration and disaster-recovery contract
+
+The future implementation must support:
+
+1. normal operation with exactly one active CPRG authority;
+2. planned host replacement;
+3. emergency host replacement;
+4. CPRG outage;
+5. identity rotation;
+6. emergency revocation;
+7. rollback without reopening stale registration sessions.
+
+During CPRG outage:
+- MediaHub normal data plane continues;
+- local compute continues;
+- developer compute fabric remains independent;
+- new API-key registration fails closed.
+
+During migration:
+- no registration request may be silently transferred between authorities;
+- active leases are explicitly terminated or revalidated;
+- old authority cannot regain authority after revocation;
+- migration produces independent evidence.
 
 ## Routing invariants
 
@@ -357,19 +489,23 @@ This prevents unrelated compromise domains from accumulating on the registration
 ## Qualification sequence
 
 1. Static configuration review.
-2. Identity/authentication negative tests.
-3. Routing isolation tests.
-4. Destination allowlist tests.
-5. Replay tests.
-6. Lease expiry tests.
-7. Credential leakage tests.
-8. Audit privacy tests.
-9. Resource exhaustion tests.
-10. Host service/package baseline.
-11. CPRG outage test proving MediaHub data-plane continuity.
-12. Provider registration canary.
-13. Recovery/restart test.
-14. Evidence bundle and independent verification.
+2. Hosting/isolation review.
+3. CPRG identity contract tests.
+4. Identity/authentication negative tests.
+5. Routing isolation tests.
+6. Destination allowlist tests.
+7. Replay tests.
+8. Lease expiry tests.
+9. Credential leakage tests.
+10. Audit privacy tests.
+11. Resource exhaustion tests.
+12. Host service/package baseline.
+13. CPRG outage test proving MediaHub data-plane continuity.
+14. Provider registration canary.
+15. Recovery/restart test.
+16. Planned migration/replacement test.
+17. Emergency revocation test.
+18. Evidence bundle and independent verification.
 
 ## Explicit non-goals
 
@@ -378,8 +514,15 @@ This checkpoint does not authorize:
 - provider-specific regional-access workarounds;
 - storage of permanent provider credentials on CPRG;
 - general remote access;
-- developer cluster access through CPRG.
+- developer cluster access through CPRG;
+- selecting a VPS provider;
+- creating a cloud server;
+- generating production trust keys.
 
 ## Decision
 
-The dedicated small-server model is accepted as the preferred CPRG architecture, subject to the qualification gates above. The VPN remains a narrowly scoped registration transport, not a general connectivity mechanism.
+The dedicated-server model is accepted as the CPRG architecture, with two approved physical hosting options: a dedicated server under user control or a rented European cloud/VPS server.
+
+The VPN remains a narrowly scoped registration transport, not a general connectivity mechanism.
+
+No implementation or infrastructure deployment is authorized by this checkpoint.
