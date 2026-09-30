@@ -1,0 +1,24 @@
+{
+  "schema": "mediahub.mh22-qualification-executor-manifest.v1",
+  "executor_id": "mh22-qualification-executor",
+  "executor_version": "1.0.0",
+  "r4_commit": "471f709f5633feab7aeb62dd3ea52effad6d2bc4",
+  "capabilities": {
+    "candidate_identity": true,
+    "r4_ancestry": true,
+    "machine_readable_output": true,
+    "stdout_stderr_capture": true,
+    "environment_fingerprint": true,
+    "fixture_hashes": true,
+    "artifact_hashes": true,
+    "timestamps": true,
+    "reproducibility_metadata": true,
+    "isolation_manifest": true,
+    "cleanup_proof": false,
+    "production_authorization": false,
+    "state_authority_mutation": false,
+    "production_credentials": false,
+    "user_data": false
+  },
+  "adapters": {}
+}
