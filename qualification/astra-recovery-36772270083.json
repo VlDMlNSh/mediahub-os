@@ -1,0 +1,23 @@
+{
+  "gates": {
+    "controller_restart_and_lease_recovery": "PASS",
+    "duplicate_conflicting_result_rejected": "PASS",
+    "duplicate_identical_result_idempotent": "PASS",
+    "operation_key_mismatch": "PASS",
+    "stale_generation_fenced": "PASS",
+    "worker_disappearance_requeue": "PASS",
+    "wrong_owner_fenced": "PASS",
+    "wrong_target_fenced": "PASS"
+  },
+  "notes": [
+    "Controller restart and worker disappearance were simulated with a durable SQLite ledger.",
+    "Fence tests cover owner, generation, target SHA and operation key.",
+    "Duplicate evidence tests cover idempotent identical and conflicting results.",
+    "This is qualification evidence for failure/recovery semantics, not a substitute for a physical multi-node crash drill."
+  ],
+  "operator": "GitHub Actions",
+  "schema_version": 1,
+  "status": "PASS",
+  "workflow_run_id": "36772270083",
+  "workflow_sha": "63e71f8edfb4a93af6f2e76e75ac048c0d8b209d"
+}
