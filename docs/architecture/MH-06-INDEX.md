@@ -1,6 +1,6 @@
 # MH-6 — Architecture Index
 
-Status: HEALTH / READINESS SEMANTIC CONTRACT ACCEPTED; MH-6 OVERALL NOT FROZEN
+Status: HEALTH / READINESS SEMANTIC CONTRACT ACCEPTED; Q1-Q12 RECORDED; RECONCILIATION COMPLETE FOR AVAILABLE GITHUB EVIDENCE; MH-6 OVERALL NOT FROZEN
 
 ## Canonical role
 MH-6 defines Core Runtime Services as orchestration around the sole canonical mutation authority P0-04, with P0-05 as the mandatory integration/authorization boundary.
@@ -50,6 +50,9 @@ P0-07: implementation in progress; mutation publication blocked by governance/AP
 
 ## Evidence control
 Historical P0-06 acceptance at `d9b5c9db128d8ec75dae6fbd03b5d54950bdddf5` remains historical evidence. Current reproducible CI for that exact frozen implementation is NOT VERIFIED.
+
+## 2026-09-30 reconciliation
+Q1-Q12 user decisions were recorded as D/D/D/D/D/D/D/D/D/D/D/D. Reconciliation is recorded in `MH-06-RECONCILIATION-2026-09-30.md`. The result is COMPLETE FOR AVAILABLE GITHUB EVIDENCE, with direct evidence gaps for MH-02/MH-04/MH-05 and open topology/ownership/verification items. No implementation authorization or freeze is implied.
 
 ## Governance
 The Health/Readiness semantic contract is accepted. MH-6 as a whole is not frozen and does not grant implementation authorization or production qualification. Development must remain separate and stopped for Health/Readiness until a distinct scoped implementation authorization is granted.
