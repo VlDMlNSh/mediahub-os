@@ -156,11 +156,49 @@ The architecture must support Mac mini, Mini PC, Raspberry Pi and iPad without c
 
 Hardware / Platform, MediaHub OS Core, State Authority, Security / Identity / Trust, MediaHub API, Local AI, Local Cluster AI, Cloud Development AI, Mobile/Core iPadOS, Remote Access, Network System, Cluster formation and qualification.
 
+### Q11 — semantic model of MediaHub OS
+
+**Decision: C — hybrid platform model.**
+
+MediaHub OS is one product/platform architecture. On supported hardware where clean system installation is possible, MediaHub may provide its own system installation based on the qualified underlying platform; Linux is the baseline for clean Mac mini/Mini PC installations. Where the platform constrains replacement of the base OS, including Apple platforms, MediaHub operates as a deeply integrated system platform/adaptation over the platform OS while preserving the same canonical MediaHub domains, contracts, security model and authority model.
+
+This does not create separate MediaHub architectures. Platform-specific system implementations are deployment mechanisms for the same architecture.
+
+### Q12 — State Authority across multiple nodes
+
+**Decision: C — one logical distributed State Authority.**
+
+With multiple MediaHub nodes, State Authority remains a single logical canonical authority, physically distributed across qualified nodes. Leadership, replication, quorum, conflict handling, failover and split-brain prevention are implementation mechanisms of that one authority, not separate authorities.
+
+No node may create an independent competing State Authority. Exact topology remains subject to later qualification.
+
+### Q13 — cluster scope
+
+**Decision: 9 — the complete qualified cluster model.**
+
+After automatic discovery, capability qualification and explicit user confirmation, the MediaHub cluster may form all applicable qualified cluster subsystems:
+
+1. compute;
+2. storage;
+3. Smart Home;
+4. network / mesh;
+5. Wi-Fi mesh;
+6. critical-function redundancy / HA;
+7. distributed AI;
+8. distributed media;
+9. other qualified cluster capabilities defined by the architecture.
+
+The cluster is therefore a unified logical MediaHub cluster with capability-specific distributed subsystems. A subsystem is formed only when its required capabilities, trust, contracts, topology and qualification conditions are satisfied. A missing capability reduces the cluster capability set; it does not create another architecture.
+
+### Section 2 — final reconciliation
+
+Section 2 is closed. The remaining technical details are explicitly carried forward to the passport sections where they belong: OS semantics/platform implementation, State Authority topology, API/contracts, Security/Egress Gateway, Hardware Abstraction and detailed cluster qualification.
+
 ### Open questions carried forward
 
-1. Exact semantic definition of MediaHub OS across Linux, macOS, iPadOS and Raspberry Pi: operating-system image, distribution/system layer, or unified platform with platform-specific system implementations.
-2. Exact State Authority topology across multiple MediaHub nodes: replication, leader/authority semantics, conflict handling, quorum, split-brain prevention and failover.
-3. Exact scope of automatic cluster formation: compute, storage, Smart Home, network/mesh, redundancy, or a qualified subset of these capabilities.
+1. Exact platform implementation and qualification model for MediaHub OS across Linux, macOS, iPadOS and Raspberry Pi.
+2. Exact State Authority topology: replication, leader/authority semantics, conflict handling, quorum, split-brain prevention and failover.
+3. Exact qualification rules for each distributed cluster subsystem and the conditions under which a subsystem may join or leave the cluster.
 4. Exact API Gateway topology and trust model.
 5. Exact Security/Egress Gateway implementation and separation from network gateway/firewall roles.
 6. Exact Hardware Abstraction Layer boundaries and capability-schema format.
@@ -185,10 +223,13 @@ Hardware / Platform, MediaHub OS Core, State Authority, Security / Identity / Tr
 - User confidentiality takes precedence over convenience.
 - Hardware profile determines capabilities.
 - MediaHub iOS OS and MediaHub Remote Access are separate applications.
+- State Authority is one logical distributed authority across qualified MediaHub nodes.
+- Cluster = one logical MediaHub cluster with qualified capability-specific distributed subsystems.
+- Missing cluster capability != alternate architecture.
 
 ## Final Section 1 status
 
-Section 1 product requirements are sufficiently reconciled to proceed to Section 2. Section 2 is now functionally reconciled for the confirmed hardware-profile and unified-architecture principle. Remaining OS semantic, State Authority topology, cluster scope, API and security-gateway details are explicitly carried forward and must be resolved in their relevant passport sections.
+Section 1 product requirements are sufficiently reconciled to proceed to Section 2. Section 2 is closed. The confirmed model is one MediaHub architecture with heterogeneous qualified hardware profiles, a hybrid platform implementation model, one logical distributed State Authority, and one logical cluster with qualified distributed subsystems. Remaining implementation details are carried forward to their relevant passport sections.
 
 ## Deferred decisions
 
@@ -198,9 +239,9 @@ Section 1 product requirements are sufficiently reconciled to proceed to Section
 - VPN protocol/provider and detailed routing policy;
 - subscription enforcement mechanics;
 - detailed capability matrix for Media/Entertainment/Documents on specialized profiles;
-- exact semantic definition of MediaHub OS across target platforms;
-- State Authority multi-node topology;
-- exact cluster formation scope;
+- exact platform implementation and qualification model for MediaHub OS across target platforms;
+- State Authority multi-node topology and qualification;
+- exact qualification rules for each cluster subsystem;
 - final API Gateway topology;
 - final Security/Egress Gateway topology;
 - Hardware Abstraction Layer and capability-schema specification.
