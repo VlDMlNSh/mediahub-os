@@ -1,6 +1,6 @@
 # MH-02 — Архитектура границ системы
 
-**Status:** QUALIFIED FOR ARCHITECTURAL CHECKPOINT  
+**Status:** ETALON CANDIDATE / RECONCILED / QUALIFICATION PENDING  
 **Scope:** logical system boundaries and cross-boundary authority/contracts  
 **Product:** MediaHub OS / MediaHub iOS  
 **Branch:** `architecture/mh02-boundaries-20260930`  
@@ -265,4 +265,4 @@ No other user decision is required to define the MH-2 logical boundary model.
 
 MH-2 defines the system boundary architecture without replacing downstream domain architectures. The architecture has one logical platform authority, one Smart Home operational authority, explicit trust/data/deployment boundaries, Local First operation, Developer/User isolation, contract-mediated integration and no hidden authority paths.
 
-This checkpoint does not authorize production release, production deployment, credential provisioning, or architecture freeze.
+This checkpoint is the canonical MH-2 architectural target for independent qualification. It does not authorize production release, production deployment, credential provisioning, or architecture freeze.
