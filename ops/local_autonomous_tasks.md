@@ -321,3 +321,63 @@ If a cloud agent is unavailable: continue local contract/test/security/recovery 
 FUNCTIONAL BASELINE → CONTRACTS → INTEGRATION → RECOVERY → SECURITY → PERFORMANCE/SOAK → RELEASE CANDIDATE → INDEPENDENT REVIEW → RELEASE AUTHORIZATION (HUMAN) → PRODUCTION READINESS → PRODUCTION AUTHORIZATION (HUMAN).
 
 <!-- P2.3 machine-executable increment: bounded lifecycle contract; physical persistence remains separately gated. -->
+
+
+## MH-3 architecture qualification queue — 2026-09-30
+
+**Queue item:** MH3-Q1  
+**Lane:** mh-3 / Architecture-Contract / QA-Verification  
+**Status:** QUEUED_FOR_AUTONOMOUS_QUALIFICATION  
+**Owner:** autonomous qualification worker; no self-authorization  
+**Target:** MH-3 Runtime Foundation Architecture  
+**Source evidence:** `docs/ops/MH-3-runtime-foundation-reconciliation-2026-09-30.md`  
+**Candidate branch:** `architecture/mh3-runtime-foundation-20260930`  
+**Proposed qualification baseline:** `df29ed2da9e84b4c14f52fb7c0a7c8a0819c88f9`
+
+### Qualification objective
+
+Independently qualify MH-3 against:
+- MH-1 compatibility;
+- MH-2 compatibility;
+- P0-03/P0-04/P0-05/P0-06 authority boundaries;
+- runtime/node/service/workload/execution models;
+- lifecycle/startup/shutdown/recovery;
+- dependency/discovery/admission/qualification;
+- local/cluster/controlled-cloud execution;
+- resource and memory semantics;
+- User/Developer isolation;
+- split-brain and State Authority epoch semantics;
+- offline/degraded operation;
+- observability and handoff boundaries;
+- R-01…R-23 invariants;
+- contradiction register and historical reconciliation.
+
+### Required qualification gates
+
+1. Repository baseline and provenance verified from GitHub.
+2. Every acceptance criterion mapped to direct repository evidence.
+3. All R-01…R-23 invariants independently checked.
+4. Historical single-node/no-HA constraint reconciled explicitly; no silent override.
+5. Cluster/Dynamic Primary semantics proven non-authoritative with respect to State Authority.
+6. No shadow State Authority or alternate mutation path.
+7. Runtime/security/policy/domain authority boundaries preserved.
+8. Discovery/liveness/readiness/health/qualification/trust remain distinct.
+9. Failure, partition, recovery and reintegration semantics are explicit.
+10. Open governance decisions remain OPEN unless independently resolved by authoritative evidence.
+11. Targeted architecture consistency checks and applicable repository tests executed.
+12. diff-check/provenance/commit ancestry verified.
+13. Result recorded as PASS / PARTIAL / FAIL / INCONCLUSIVE.
+14. Autonomous worker MUST NOT promote MH-3 to ACCEPTED/FROZEN or authorize merge/release/production. Governance approval remains human-controlled.
+
+### Blocking conditions
+
+- contradiction with frozen MH-1/MH-2/P0 decisions;
+- missing direct evidence for a mandatory criterion;
+- unresolved authority ambiguity;
+- invented or simulated runtime/cluster/qualification evidence;
+- inability to establish provenance;
+- any attempt to bypass State Authority, Security Authority or Policy Authority.
+
+### Expected result
+
+Produce an independent qualification evidence record and, if gaps remain, create the smallest bounded remediation queue items. Do not manufacture closure.
