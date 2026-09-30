@@ -332,7 +332,15 @@ FUNCTIONAL BASELINE → CONTRACTS → INTEGRATION → RECOVERY → SECURITY → 
 **Target:** MH-3 Runtime Foundation Architecture  
 **Source evidence:** `docs/ops/MH-3-runtime-foundation-reconciliation-2026-09-30.md`  
 **Candidate branch:** `architecture/mh3-runtime-foundation-20260930`  
-**Proposed qualification baseline:** `df29ed2da9e84b4c14f52fb7c0a7c8a0819c88f9`
+**Proposed qualification baseline:** `0226ab722009756aed1c1a063ef958e0ff787c2e`
+
+### Qualification provenance checkpoint
+
+- Candidate HEAD verified: `0226ab722009756aed1c1a063ef958e0ff787c2e`
+- Candidate tree: `1628c71dc22e56655f2db4c76a45109e96e3acdb`
+- Source baseline: `7eaa0d3fb74013f216a0be2eaf47424287c7db9a`
+- Candidate compare: 3 commits ahead / 0 behind.
+- Blueprint SHA: `d3427bb8c6c3bc93d34f8243e885e45e8c2b77e2`
 
 ### Qualification objective
 
