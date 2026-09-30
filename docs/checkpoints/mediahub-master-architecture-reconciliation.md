@@ -1,7 +1,7 @@
 # MediaHub Master Architecture Reconciliation
 
 Date: 2026-09-30
-Status: active master checkpoint
+Status: active master checkpoint / MH-24 reconciliation candidate
 Passport: MEDIAHUB OS 11.x LTS / MEDIAHUB iOS — FUNCTIONAL BASELINE 1.0
 
 ## Provenance
@@ -18,7 +18,7 @@ Verification: the declared R4 SHA was not resolved by the available GitHub API a
 
 - Section 1 — НАЗНАЧЕНИЕ: functionally reconciled and closed.
 - Section 2 — ОСНОВНАЯ АРХИТЕКТУРНАЯ МОДЕЛЬ: functionally reconciled and closed.
-- Sections 3–68: unresolved / not started.
+- Historical snapshot: Sections 3–68 were unresolved/not started at the time of the pre-MH-24 snapshot. This line is retained as historical provenance.
 
 ## Section 1 — confirmed requirements
 
@@ -354,3 +354,65 @@ Section 1 product requirements are sufficiently reconciled to proceed to Section
 - Media is not the sole product center.
 - Cloud Development is not canonical local authority.
 - Hardware-specific capability differences do not justify separate MediaHub architectures.
+
+
+## MH-24 — Functional Baseline 2.0 reconciliation
+
+Date: 2026-09-30
+
+The full 68-section passport supplied for MH-24 has now been reconciled against the accumulated MH-1…MH-23 decisions, canonical checkpoint documents, and current GitHub state.
+
+### Current artifacts
+
+- Functional Baseline 2.0 candidate: `docs/checkpoints/mediahub-functional-baseline-2.0.md`
+  - creation commit: `26de2e57316155e32e540ce43349b4cd124873c2`
+  - blob/content SHA: `e01c37e9fe15f91dc5c3ccdab40a47bc281fcfb8`
+- MH-24 traceability matrix: `docs/checkpoints/mediahub-mh24-traceability-matrix.md`
+  - creation commit: `7bbb0dcdd591a48b0371accfab33c6b933821293`
+  - blob/content SHA: `8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6`
+- MH-24 reconciliation report: `docs/checkpoints/mediahub-mh24-reconciliation-report.md`
+  - creation commit: `fbd3dd53bc4884cafb975a41e7b040d86d5b3ae7`
+  - blob/content SHA: `24979e14798f673090f7f4d08dab4a67ebf19783`
+
+### Reconciliation result
+
+The candidate baseline confirms:
+
+- one MediaHub architecture over qualified heterogeneous platforms;
+- one logical distributed MediaHub State Authority;
+- Home Assistant Core as Smart Home operational authority;
+- AI, Cloud, Knowledge, Migration, Qualification and Scheduler are non-authoritative;
+- hierarchical Local MediaHub Cluster and separate Cloud Development Cluster;
+- Developer Compute Fabric with bounded Compute Contribution;
+- Developer Privacy Boundary as a hard invariant;
+- CPRG as registration-only;
+- separated Internet, Media Mesh, Development Mesh, HIGH_SPEED, Compute Contribution and protected registration planes;
+- capability-driven hardware qualification;
+- evidence-first qualification and release governance;
+- Functional Baseline 1.0 preserved as historical provenance.
+
+### Reconciled contradictions
+
+The MH-24 candidate records and resolves the major conflicts involving:
+
+1. historical minimal runtime vs target persistent/distributed platform;
+2. critical Last Write Wins;
+3. flat/global federation interpretation;
+4. developer compute vs user-data access;
+5. CPRG as general VPN gateway;
+6. permanent Primary Development Node/master;
+7. iPad Core vs Remote Mobile;
+8. mandatory TV/source recording;
+9. R4 SHA provenance discrepancy.
+
+### Current open decisions
+
+Open items are implementation/qualification decisions only: State Authority topology, HA takeover semantics, concrete gateway/network topology, Wi-Fi mechanism, VPN protocol/provider, HIGH_SPEED/RDMA topology, storage implementation, scheduler/election, compute-contribution workload classes, CPRG crypto/bootstrap formats, revocation/recovery custody, retention/deletion, mobile packaging/capability matrix, entitlements, production AI provider policy, Digital Twin/Engineering entitlement, and production evidence per product edition.
+
+### Acceptance state
+
+Functional Baseline 2.0 is **RECONCILED CANDIDATE — NOT YET OWNER-ACCEPTED**.
+
+Functional Baseline 1.0 remains preserved and is not rewritten.
+
+The final Reference Architecture is intentionally deferred until Baseline 2.0 is accepted.
