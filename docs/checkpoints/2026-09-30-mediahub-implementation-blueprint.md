@@ -590,3 +590,87 @@ The first external integration should be selected only after the deterministic c
 - Do not make Ray/NATS/Netmaker/SeaweedFS/SPIRE/OpenFGA a replacement for MediaHub's own contracts.
 - Do not promise exactly-once execution from message delivery alone.
 - Do not begin production deployment before the deterministic security gates pass.
+
+
+## 17.5 — Refined implementation stack after 13-pass review
+
+Schema/tooling:
+- Protobuf as candidate canonical wire representation.
+- Buf for schema compilation, linting, generation and breaking-change gates.
+- Protovalidate for semantic message validation.
+
+Control transport:
+- gRPC for bounded synchronous control calls with deadlines/cancellation.
+- NATS/JetStream for asynchronous durable events and redelivery.
+
+Execution:
+- MediaHub-owned ExecutionBackend interface.
+- Ray adapter for distributed developer workloads.
+- containerd/OCI adapter for isolated Linux execution.
+
+Identity/security:
+- MediaHub identity contract first.
+- SPIFFE/SPIRE mapping only where it reduces implementation risk.
+- Cosign/Sigstore for artifact verification where applicable.
+
+Network:
+- MediaHub NetworkPolicy contract first.
+- Development Mesh may use Netmaker/WireGuard.
+- Execution-boundary enforcement may use Cilium/eBPF or another kernel policy mechanism where justified.
+
+Observability:
+- OpenTelemetry trace context and stable semantic conventions.
+- Evidence remains MediaHub-owned.
+
+Storage:
+- authoritative state store remains an explicit design decision.
+- SeaweedFS is an optional developer-storage adapter, not job state authority.
+
+## 17.6 — Transactional state rule
+
+Authoritative state transition:
+validate -> transaction -> state commit -> durable outbox/event -> transport publication.
+
+Never:
+transport ACK -> assume state committed.
+
+## 17.7 — Trust-to-isolation mapping
+
+Workload trust determines minimum isolation class:
+
+TRUSTED_ENGINEERING
+-> process/OCI baseline
+
+UNTRUSTED_ENGINEERING
+-> stronger sandbox
+
+HIGH_RISK_UNTRUSTED
+-> microVM-capable execution class where available
+
+Scheduler must reject placement when the node cannot satisfy the requested isolation class.
+
+## 17.8 — Schema governance
+
+Every protocol schema change must pass:
+- formatting;
+- lint;
+- semantic validation;
+- backward-compatibility check;
+- security-policy review when semantics affect authorization.
+
+Deleted Protobuf fields are reserved; enum values are not reused.
+
+## 17.9 — Implementation sequence correction
+
+Before any real Ray/NATS integration, implement:
+1. protocol schemas;
+2. validators;
+3. authoritative state abstraction;
+4. transactional outbox abstraction;
+5. lease/fencing;
+6. deterministic scheduler;
+7. local isolated executor;
+8. evidence verification.
+
+Then integrate transports and external execution components.
+
