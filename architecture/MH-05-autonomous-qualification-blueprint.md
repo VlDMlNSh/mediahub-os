@@ -1,7 +1,7 @@
 # MH-05 — Autonomous Qualification Blueprint
 
 Status: READY_FOR_AUTONOMOUS_QUALIFICATION
-Target: exact commit fe06f7f0ad25d4be5a12afd8b140f97083c0f5ca on engineering/mh21-sandbox-lifecycle-20260910
+Target: exact commit 48df5409a4505a99ab1931525706610ddeb5930e on engineering/mh21-sandbox-lifecycle-20260910
 
 ## Execution rule
 Use fresh evidence tied to the exact target revision. Do not transfer historical evidence. Do not self-certify. Do not mutate production or immutable historical objects.
