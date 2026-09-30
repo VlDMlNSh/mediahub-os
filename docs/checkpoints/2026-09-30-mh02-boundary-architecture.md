@@ -46,5 +46,5 @@ No history rewrite, reset, amend or force-push was performed.
 
 ## Qualification target
 
-Exact target commit: `408f4733791d6a859228a5d3d6fc5936d1bea134`.
+Exact target commit: `c96269725b3e4e07af646c4d86ddde9bdb4d84c3`.
 Qualification remains pending until fresh independent evidence closes the blueprint final gate.
