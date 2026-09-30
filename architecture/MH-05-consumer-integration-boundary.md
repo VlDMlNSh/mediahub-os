@@ -1,8 +1,9 @@
 # MH-05 — Consumer Integration Boundary
 
-## Architectural decision record
+## Canonical architectural baseline
 
-Status: CLOSED — product decisions Q1–Q12 = D
+Status: RECONCILED — READY FOR INDEPENDENT AUTONOMOUS QUALIFICATION  
+Product decisions Q1–Q12: D
 
 This record fixes the MH-05 Consumer Integration Boundary as a continuation of MH-01..MH-04. It does not replace or create a competing State Authority.
 
@@ -76,12 +77,31 @@ Reconnect -> Identity Verification -> Capability Revalidation -> Trust Reassessm
 
 Recovery does not automatically restore trust.
 
-## Qualification
+## Qualification contract
 
-Each integration is qualified for compatibility, identity, security, protocol, capability, functional behavior, failure handling, recovery, performance, interoperability, lifecycle, provenance, update and rollback.
+The independent qualification target is this exact Git revision, not historical MH-05 implementation branches or prior R4 evidence. Qualification must independently verify:
+
+1. Contract completeness and internal consistency.
+2. Preservation of MH-01..MH-04 authority, trust, runtime and security boundaries.
+3. Adapter/plugin non-authority and capability scoping.
+4. Unknown-device DENY/QUARANTINE behavior.
+5. Cloud/data classification and egress-deny semantics.
+6. Event authentication/validation and the event != mutation-permission invariant.
+7. State synchronization conflict handling and fail-closed critical behavior.
+8. Lifecycle, revocation and recovery re-admission rules.
+9. OSS/provenance/qualification requirements.
+10. Explicit forbidden-path inventory: State Authority bypass, UI/API bypass, AI authority, cloud authority, Developer Cloud -> User Data, unrestricted plugin/API passthrough, Smart Home bypass, CPRG bypass, cache-as-authority.
+
+Architecture text is not implementation evidence. Historical R4 qualification evidence is not transferable to this architecture revision.
 
 ## Final MH-05 architectural position
 
 MediaHub is a Controlled Open Platform. Broad interoperability is permitted through versioned contracts, qualified adapters, sandboxed integrations and capability-scoped SDKs while preserving Local First data sovereignty, State Authority, MH-02 boundaries, MH-03 runtime contracts, MH-04 security architecture and Home Assistant operational authority.
+
+Qualification is a separate state transition:
+
+RECONCILED -> VERIFIED -> QUALIFIED
+
+Qualification does not imply release or production authorization.
 
 No MH-06 work is implied by this record.
