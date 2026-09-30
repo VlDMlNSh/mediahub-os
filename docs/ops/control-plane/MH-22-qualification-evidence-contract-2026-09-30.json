@@ -16,6 +16,7 @@
     "started_at",
     "finished_at",
     "result",
+    "coverage_status",
     "exit_status",
     "artifact_hashes",
     "logs",
@@ -30,6 +31,11 @@
     "UNKNOWN",
     "EVIDENCE_GAP"
   ],
+  "coverage_status_enum": [
+    "FULL",
+    "PARTIAL",
+    "NONE"
+  ],
   "invariants": [
     "candidate_commit MUST equal the exact qualification candidate",
     "candidate_tree MUST equal the exact qualification candidate tree",
@@ -38,6 +44,8 @@
     "EVIDENCE_GAP MUST NOT be promoted to PASS",
     "NOT_IMPLEMENTED MUST NOT be interpreted as REMOVED",
     "missing evidence MUST NOT be interpreted as PASS",
+    "PARTIAL coverage MUST NOT satisfy production qualification even when result is PASS",
+    "overall QUALIFIED verdict requires result PASS and coverage FULL for every P1-P23",
     "production_authorization MUST remain false for autonomous qualification",
     "release_authorization MUST remain false for autonomous qualification",
     "state_authority_mutation MUST remain false for autonomous qualification"
