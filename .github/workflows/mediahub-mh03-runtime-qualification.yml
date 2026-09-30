@@ -1,0 +1,65 @@
+name: MediaHub MH-03 Runtime Foundation Qualification
+
+on:
+  push:
+    branches:
+      - architecture/mh3-runtime-foundation-20260930
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mh03-runtime-qualification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+
+      - name: Verify candidate identity
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+          echo "candidate_sha=${GITHUB_SHA}"
+          echo "branch=${GITHUB_REF_NAME}"
+
+      - name: Run MH-03 contract and authority tests
+        run: |
+          set -euo pipefail
+          python3 -m unittest             tests.static.test_supervisor_contract             verification.test_mh04_supervisor_contract             tests.runtime.test_mh04_state_authority_hardening             tests.runtime.test_state_authority             tests.runtime.test_mh05_consumer_boundary             tests.runtime.test_mh05_event_projection             tests.runtime.test_mh05_evidence_binding
+
+      - name: Run control-plane regression suite
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests/control_plane -p 'test_*.py' -v
+
+      - name: Emit evidence classification
+        run: |
+          set -euo pipefail
+          mkdir -p qualification
+          cat > qualification/mh03-runtime-qualification-evidence.txt <<EOF
+          qualification=MH-03-runtime-foundation
+          classification=EXECUTED_REPOSITORY_TESTS
+          candidate_sha=${GITHUB_SHA}
+          branch=${GITHUB_REF_NAME}
+          workflow_run=${GITHUB_RUN_ID}
+          supervisor_contract=STATIC_ONLY_UNTIL_NEGATIVE_RUNTIME_EXECUTION
+          architecture_acceptance=NOT_GRANTED
+          governance_acceptance=NOT_GRANTED
+          production_authorization=NOT_GRANTED
+          EOF
+          cat qualification/mh03-runtime-qualification-evidence.txt
+
+      - name: Upload evidence
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: mh03-runtime-qualification-${{ github.sha }}
+          path: qualification/mh03-runtime-qualification-evidence.txt
