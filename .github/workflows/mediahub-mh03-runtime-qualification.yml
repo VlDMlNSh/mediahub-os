@@ -24,6 +24,11 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install qualification dependencies
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --no-input -r ci-requirements.txt
+
       - name: Verify candidate identity
         run: |
           set -euo pipefail
