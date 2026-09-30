@@ -84,10 +84,32 @@ def test_security_deny_overrides_user_allow():
     assert engine.evaluate(request()).decision is Decision.DENY
 
 
+def test_critical_deny_overrides_lower_scope_critical_allow():
+    engine = PolicyEngine((
+        PolicyRule(
+            policy("security-deny", scope=Scope.SECURITY, cls=PolicyClass.SECURITY),
+            Decision.DENY,
+        ),
+        PolicyRule(
+            policy("safety-allow", scope=Scope.SESSION, cls=PolicyClass.SAFETY),
+            Decision.ALLOW,
+        ),
+    ))
+    assert engine.evaluate(request()).decision is Decision.DENY
+
+
 def test_critical_conflict_fails_closed():
     engine = PolicyEngine((
         PolicyRule(policy("security-allow", cls=PolicyClass.SECURITY), Decision.ALLOW),
         PolicyRule(policy("security-deny", cls=PolicyClass.SECURITY), Decision.DENY),
+    ))
+    assert engine.evaluate(request()).decision is Decision.DENY
+
+
+def test_mixed_critical_non_allow_decisions_fail_closed():
+    engine = PolicyEngine((
+        PolicyRule(policy("security-deny", cls=PolicyClass.SECURITY), Decision.DENY),
+        PolicyRule(policy("safety-quarantine", cls=PolicyClass.SAFETY), Decision.QUARANTINE),
     ))
     assert engine.evaluate(request()).decision is Decision.DENY
 
