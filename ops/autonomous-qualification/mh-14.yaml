@@ -1,0 +1,28 @@
+lane_id: mh-14
+track: architecture
+subject: persistence
+status: QUEUED
+qualification: autonomous
+source:
+  architecture: docs/architecture/MH-14/MH-14-persistence-architecture.md
+  gaps: docs/architecture/MH-14/MH-14-gaps.md
+  blueprint: docs/architecture/MH-14/MH-14-qualification-blueprint.md
+  acceptance: docs/architecture/MH-14/MH-14-acceptance-criteria.md
+authority:
+  canonical_mutation_authority: State Authority
+  physical_persistence_implementation: NOT_AUTHORIZED
+  production_authorization: NOT_AUTHORIZED
+rules:
+  inspect_only_until_gate: true
+  no_history_rewrite: true
+  no_backend_selection_without_adr: true
+  no_competing_authority: true
+  fail_closed_on_ambiguity: true
+outputs:
+  - qualification_report
+  - gap_disposition
+  - contradiction_report
+  - evidence_matrix
+  - provenance_record
+  - closure_recommendation
+next_gate: MH-14 Persistence Architecture Closure
