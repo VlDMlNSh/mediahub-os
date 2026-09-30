@@ -1,7 +1,7 @@
 # MH-13 — Privacy / Data Governance
 
-**Status:** RECONSTRUCTED / PROPOSED  
-**Acceptance:** NOT YET VERIFIED  
+**Status:** ACCEPTED RECONSTRUCTION / ETALON BASELINE / RECONCILED  
+**Acceptance:** ACCEPTED RECONSTRUCTION; QUALIFICATION QUEUED  
 **Frozen:** NO  
 **Production implementation:** NOT AUTHORIZED
 
@@ -223,7 +223,7 @@ Acceptance MUST NOT be inferred from creation of this file. Before governance ac
 
 This document is intended for a dedicated reconstruction branch and subsequent normal Git review. It does not authorize production implementation, deployment, provider integration, deletion-engine implementation, consent-engine implementation, media capture implementation, telemetry implementation, or AI/cloud routing implementation.
 
-**Current state:** RECONSTRUCTED / PROPOSED  
+**Current state:** ACCEPTED RECONSTRUCTION / ETALON BASELINE / RECONCILED  
 **Historical original:** NOT RECOVERED  
 **Acceptance:** NOT YET VERIFIED  
 **Frozen:** NO  
@@ -231,4 +231,92 @@ This document is intended for a dedicated reconstruction branch and subsequent n
 
 ## 12. Governance handoff
 
-This artifact is a reconstruction candidate for independent verification and governance acceptance. It MUST NOT be marked ACCEPTED or FROZEN automatically.
+This artifact is the accepted reconstruction and etalon privacy baseline for autonomous qualification. Historical original remains NOT RECOVERED. Qualification is independently queued in GitHub Issue #128 and must not be inferred from architecture text. Frozen and production authorization remain separate states.
+
+
+## 13. Etalon privacy baseline
+
+The following policy surface is the canonical MH-13 qualification target. It extends the reconstructed minimum architecture without creating a new authority.
+
+### 13.1 Data domains and ownership
+Privacy governance covers User, System, Security, Smart Home, Media, Documents, Engineering, Digital Twin, Network, Identity, Credential/Secret, AI Context, AI Memory, AI Output, Telemetry, Audit, Recovery, Backup, Integration, Plugin, Developer, Corporate, Model and Qualification data.
+
+For each class, qualification must identify authoritative owner, operational owner, processor, readers, writers, retention authority, deletion authority, export authority, backup and recovery policy. Ownership never implies authorization.
+
+### 13.2 Classification, purpose and minimization
+Supported policy classes are Public, Internal, User, Sensitive, Highly Sensitive, Security, Secret, Restricted Developer and Corporate. Classification may be deterministic, automatic, AI-assisted or user-confirmed; AI classification is not authoritative by itself.
+
+Sensitive operations require an explicit purpose. Purpose is bounded and cannot become an indefinite permission. Every consumer request is reduced to Minimum Necessary Data.
+
+### 13.3 Context, RAG and Knowledge Graph
+AI Context Assembly must evaluate identity, authorization, policy, purpose, sensitivity, residency and retention. AI must not receive full user context by default.
+
+Retrieval follows Identity -> Authorization -> Classification -> Purpose -> Retrieval Scope -> Provenance. Embeddings, vector indexes, OCR/index copies and Knowledge Graph projections inherit source-data authorization. Graph controls apply to entity, relation, property and collection/domain; traversal cannot use one permitted entity to disclose unrelated protected entities.
+
+### 13.4 Data-flow and residency
+Governed data flow is Source -> Classification -> Purpose -> Destination -> Authorization -> Policy -> Transport -> Processing -> Storage -> Retention -> Deletion. External transfer additionally requires Egress Decision -> Destination Verification -> Audit.
+
+Local node and local cluster are the default residency boundary. Mobile, integrations, cloud and backup are separate residency decisions. Developer Domain is not a User Data residency destination.
+
+### 13.5 Local First and cloud
+Without Internet, local AI/search/Documents/Media/Smart Home/diagnostics remain available where locally implemented; cloud-dependent functions degrade without weakening privacy.
+
+Cloud processing requires classification, purpose, authorization, policy, egress decision, provider/destination verification and audit. Implicit upload, bulk synchronization, hidden telemetry and silent training transfer are prohibited.
+
+### 13.6 Developer, support and telemetry boundaries
+Developer Domain may use source code, corporate data, synthetic data, approved test data, OSS research and qualification artifacts, but not User Documents, Media, Smart Home state, Digital Twin, Identity data, private telemetry, backups or AI Memory.
+
+Support follows Issue -> Local Diagnosis -> Sanitized Evidence -> User/Policy Authorization -> Controlled Export. Export is scoped, time-limited where appropriate, classified and auditable.
+
+Telemetry and logs require classification, redaction, secret filtering, PII minimization and configurable retention. Credentials, private keys, passwords and private content must not enter ordinary telemetry or diagnostic paths.
+
+### 13.7 AI Memory and outputs
+AI Memory is separated into session, user preference, task, domain, engineering and system categories. Each category requires explicit persistence, visibility, retention, deletion, export and model-access semantics.
+
+AI outputs receive classification and policy treatment. An output does not automatically cross a trust-domain boundary or become authoritative.
+
+### 13.8 Domain applications
+Documents, Media, Smart Home/camera, Digital Twin, Engineering and Network data remain under their existing domain authorities while inheriting MH-13 privacy constraints. Media AI organization does not imply cloud upload. Camera processing is local-first by default. Digital Twin export is scoped; full Twin export is not implicit. Network metadata is not presumed non-sensitive.
+
+### 13.9 Identity, credentials and secrets
+Identity, authentication/session state, device identity and authorization state have dedicated protection policies. Credentials, keys and secrets are not ordinary User Data and are not automatically included in exports or ordinary backups/telemetry.
+
+### 13.10 Backup, recovery, deletion and retention
+Backup inherits source privacy properties and does not create a new permission model. Restore preserves data, permissions, classification, provenance and applicable retention metadata. Recovery requires purpose, scope, authorization, audit and controlled credentials.
+
+Deletion evaluates primary data, replicas, indexes, embeddings, caches, derived artifacts and backups. Logical deletion, inaccessible state, scheduled physical deletion and retained security/audit evidence are distinct outcomes. Unlimited retention is not the default.
+
+### 13.11 Export, portability, sharing and consent
+Export is explicit, scoped, authenticated, policy-checked and auditable. Portability preserves schema/version/provenance/relationships/permissions where applicable but does not require export of secrets or internal security mechanisms.
+
+Sharing is identity-aware, scope-limited, purpose-limited and time-limited where appropriate. Consent, authentication, authorization and policy remain distinct controls. Family/child restrictions are inherited from existing identity/policy architecture and do not create a second identity authority.
+
+### 13.12 Integrations, plugins and mobile
+Third-party integrations receive only declared data, approved scope, required purpose and permitted duration. Plugin manifests must declare data classes, purpose, network, storage, retention, external destinations, AI access and secrets; undeclared access is denied.
+
+Mobile applications use local minimization, secure storage, session controls, remote revoke, notification privacy, API scoping and bounded offline cache. Wall Panel receives minimum necessary context and does not expose secrets, full network topology or sensitive content without need.
+
+### 13.13 Privacy UI, observability and audit
+Material privacy behavior should expose source, sensitivity where useful, local/cloud processing state and sharing/AI status without unnecessary technical overload.
+
+Privacy observability covers data access, export, sharing, cloud transfer, AI context access, policy decisions, retention, deletion, plugin access and support export. Audit records who, what, when, purpose, policy, destination, scope and result while minimizing protected payload.
+
+### 13.14 Threat model and incident response
+Qualification covers unauthorized access, overcollection, hidden collection, secondary use, cross-domain leakage, cloud/developer/plugin/AI leakage, inference, backup, telemetry, retention, deletion, export and correlation risks.
+
+Incident response is Detect -> Contain -> Scope -> Classify -> Revoke -> Investigate -> Recover -> Verify -> Audit. Controls may include egress block, integration/plugin quarantine, credential revocation, cache invalidation, node isolation and cloud/AI processing disablement.
+
+### 13.15 Availability, observability, migration
+Privacy controls preserve Local First availability where safe. Critical security controls remain enforced; cloud functions may become unavailable while safe local functions continue.
+
+Observability never justifies unrestricted collection. Migration preserves ownership, permissions, classification, provenance, retention and deletion semantics and does not silently move sensitive data into a new trust domain.
+
+## 14. Etalon closure invariant
+
+**Local First + Data Minimization + Purpose Limitation + Explicit Trust Boundaries + Identity-Aware + Policy-Driven + Classification-Aware + Egress-Controlled + Residency-Aware + AI-Context-Minimized + Developer-Isolated + Cloud-Controlled + Observable + Auditable + Deletable Where Permitted + Recoverable + Portable Where Permitted.**
+
+No subsystem, integration, plugin, AI component, cloud service, telemetry path or developer workflow receives User Data merely because it is technically capable of reading it.
+
+## 15. Qualification control
+
+GitHub Issue #128 is the autonomous qualification queue entry. Qualification must use fresh exact-revision evidence and independently test the 23 waves recorded there. Architecture acceptance does not equal implementation qualification, release authorization or production authorization.
