@@ -13,7 +13,7 @@ The local cluster is assembled inside the user's local network and exists primar
 Its purpose includes, according to the system passport and product architecture:
 - extending user-configurable capabilities and settings;
 - extending available local compute/AI/storage capacity;
-- extending silent wireless/network coverage and related local infrastructure capabilities;
+- extending seamless wireless/network coverage and related local infrastructure capabilities;
 - keeping ordinary user media and local workloads close to the user and local data.
 
 The local cluster is therefore a user-facing resource fabric. Its resources belong to the user's local MediaHub environment and are coordinated as one local cluster.
@@ -146,7 +146,7 @@ MEDIAHUB FEDERATION
     - user settings/capability extension
     - local AI/compute expansion
     - local storage/media
-    - silent wireless/network coverage extension
+    - seamless wireless/network coverage extension
     - local resource coordination
 
           | controlled federation
