@@ -28,6 +28,9 @@ The architectural goal is to keep VPN functionality out of ordinary MediaHub nod
 16. Failure or unavailability of the protected registration path must fail closed for the registration operation.
 17. Mesh connectivity and the protected registration path are separate security domains.
 18. Any provider-specific network access must comply with the provider's applicable terms and access policies.
+19. **Registration capability does not imply MediaHub data access, developer compute access, or developer-personnel access.**
+20. **The server-side firewall must enforce registration-only egress independently of client routing configuration.**
+21. CPRG must not host Astra, CI runners, developer workloads, user storage, or MediaHub media services.
 
 ## Future hosting option
 
@@ -61,19 +64,20 @@ The default route for MediaHub nodes remains direct. CPRG must not become a defa
 
 ## Registration lifecycle
 
-```
 REQUEST
   -> AUTHENTICATE
   -> POLICY CHECK
   -> ISSUE SHORT LEASE
   -> OPEN PROTECTED REGISTRATION PATH
   -> REGISTER API KEY
+  -> VERIFY RESULT
   -> RECORD RESULT / AUDIT
   -> CLOSE PATH
   -> EXPIRE LEASE
-```
 
 The protected path exists only for the registration request. It is not persistent connectivity.
+
+Any failure after lease activation must converge to a closed state. A closed request ID cannot be reused to reopen a registration session.
 
 ## Security model
 
@@ -82,25 +86,69 @@ The central server is the sole trusted registration boundary. Client nodes recei
 The registration protocol must enforce:
 
 - authenticated node identity;
+- proof of possession;
 - least privilege;
 - explicit operation scope;
+- destination allowlisting;
 - bounded request payloads;
 - short-lived authorization/lease;
-- replay protection where applicable;
-- auditability;
+- replay protection;
+- rate and concurrency limits;
+- auditability without secret/personal-data leakage;
 - automatic closure;
 - isolation from the Media Data Plane;
 - fail-closed behavior for registration failures.
 
+## Primary threat classes
+
+The CPRG threat model explicitly covers:
+
+- general-purpose VPN escape;
+- stolen/forged node identity;
+- credential leakage;
+- replay;
+- stale/extended leases;
+- provider endpoint abuse;
+- CPRG-to-MediaHub/developer lateral movement;
+- registration abuse and enumeration;
+- audit-log privacy leakage;
+- DNS/routing manipulation;
+- resource exhaustion;
+- unnecessary host services;
+- administrative credential compromise;
+- backup leakage;
+- CPRG outage and dependency failure.
+
+Detailed mitigations, acceptance evidence, and the qualification sequence are maintained in:
+docs/checkpoints/2026-09-30-cprg-threat-model-and-hardening.md
+
+## Qualification gates before production
+
+1. Static configuration review.
+2. Identity/authentication negative tests.
+3. Routing isolation tests.
+4. Destination allowlist tests.
+5. Replay tests.
+6. Lease expiry and forced teardown tests.
+7. Credential leakage tests.
+8. Audit privacy tests.
+9. Resource exhaustion tests.
+10. Host service/package baseline.
+11. CPRG outage test proving MediaHub data-plane continuity.
+12. Provider registration canary.
+13. Recovery/restart test.
+14. Independent evidence verification.
+
+No production deployment is authorized until these gates pass.
+
 ## Architectural consequence
 
-This creates three distinct planes:
+This creates four distinct planes:
 
 1. **Media Data Plane** — direct local/mesh traffic.
 2. **Federation/Control Plane** — admission, job coordination, cloud escalation, and ordinary management.
 3. **Protected Registration Plane** — centralized CPRG path used exclusively for API-key registration.
-
-No production deployment is authorized by this checkpoint.
+4. **Compute Contribution Plane** — bounded compute contribution from MediaHub nodes to the developer compute fabric; it never grants access to user data or CPRG.
 
 GOLD #176 remains untouched.
 Immutable R4 baseline remains untouched.
