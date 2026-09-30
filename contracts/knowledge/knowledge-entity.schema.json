@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://contracts/knowledge/knowledge-entity.schema.json",
+  "title": "MediaHub Knowledge Entity",
+  "description": "Non-authoritative semantic entity reference for the MediaHub Knowledge Platform.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "entity_id",
+    "entity_type",
+    "source",
+    "authority_ref",
+    "provenance",
+    "lifecycle",
+    "classification"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "mediahub.knowledge.entity"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "entity_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entity_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authority_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_ref", "observed_at"],
+      "properties": {
+        "source_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "document_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actor_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transformation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "lifecycle": {
+      "enum": [
+        "candidate",
+        "active",
+        "historical",
+        "removed",
+        "unresolved"
+      ]
+    },
+    "classification": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
