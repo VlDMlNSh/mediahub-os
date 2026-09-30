@@ -1,0 +1,53 @@
+name: MH-22 Qualification Executor
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_commit:
+        description: Exact candidate commit SHA to qualify
+        required: true
+        type: string
+      run_id:
+        description: Qualification run identity
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CANDIDATE_COMMIT: ${{ inputs.candidate_commit }}
+      QUALIFICATION_RUN_ID: ${{ inputs.run_id }}
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.candidate_commit }}
+          fetch-depth: 0
+
+      - name: Verify candidate identity
+        run: |
+          test "$(git rev-parse HEAD)" = "$CANDIDATE_COMMIT"
+          test "$(git rev-parse HEAD^{tree})" != ""
+          test "$(git merge-base HEAD 471f709f5633feab7aeb62dd3ea52effad6d2bc4)" = "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
+
+      - name: Execute MH-22 runner
+        run: |
+          set +e
+          python3 qualification/mh22_qualification_executor.py             --repo "$GITHUB_WORKSPACE"             --candidate-commit "$CANDIDATE_COMMIT"             --r4 471f709f5633feab7aeb62dd3ea52effad6d2bc4             --run-id "$QUALIFICATION_RUN_ID"             --output "$GITHUB_WORKSPACE/mh22-qualification-evidence.json"
+          rc=$?
+          test -f "$GITHUB_WORKSPACE/mh22-qualification-evidence.json"
+          echo "executor_exit_status=$rc"
+          exit $rc
+
+      - name: Upload evidence bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mh22-qualification-${{ inputs.run_id }}
+          path: mh22-qualification-evidence.json
+          if-no-files-found: error
