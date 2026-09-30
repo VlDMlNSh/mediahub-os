@@ -12,63 +12,93 @@ Branch: main
 Immutable R4 baseline declared by project history:
 - SHA: 471f709f5633feab7aeb62dd3ea52effad6d2bc584
 - Tree: 2279612908135418b2b5448d598274ea6741deaa
-Verification status: GitHub API did not resolve the declared SHA at this checkpoint; it is retained as declared historical provenance and must not be rewritten.
+Verification: the declared R4 SHA was not resolved by the available GitHub API at this checkpoint; it is retained as declared historical provenance and is not rewritten.
 
 ## Passport progress
 
-- Section 1 — НАЗНАЧЕНИЕ: substantially reconciled from user answers; one product-boundary item remains for explicit resolution below.
+- Section 1 — НАЗНАЧЕНИЕ: functionally reconciled and closed.
 - Sections 2–68: unresolved / not started.
 
 ## Section 1 — confirmed requirements
 
-1. MediaHub is one product: a local operating system/platform for buildings.
-2. Target scope is not restricted to a single building type; deployment profiles may vary while remaining one product.
-3. MediaHub unifies Smart Home, Media, AI, Documents, energy, video surveillance, security, climate, networking, integrations and entertainment.
-4. Entertainment includes games launched from gaming PCs and supported mainstream consoles.
-5. Digital Twin and advanced Engineering are paid functional extensions.
-6. Smart Home is core/mandatory.
-7. Media is core on Mac mini/mini-PC deployments; it is not mandatory on iPad-specialized deployments.
-8. Documents is core on Mac mini/mini-PC deployments; it is not mandatory on iPad-specialized deployments.
-9. Local AI is mandatory, including on iPad/iOS where a qualified small-memory local assistant is available.
-10. Engineering as equipment/system integration, equipment configuration and integration is mandatory; advanced Digital Twin/Engineering functionality is a paid extension.
-11. Network is core on Mac mini/mini-PC deployments; it is not mandatory on iPad-specialized deployments.
-12. A user-facing remote-access mobile application is mandatory.
-13. Security is a key core subsystem covering system security, cybersecurity and resistance to attacks and vulnerabilities.
-14. Observability, Backup/Recovery and Update/Migration are core.
-15. Camera surveillance recording to local storage is a MediaHub capability, subject to node hardware qualification.
-16. Media is one peer domain system, not the sole center of the product.
-17. AI is intended to provide optional-assistant, core-subsystem, automation-engine, knowledge-interface, engineering-assistant and multimodal capabilities while remaining non-authoritative.
-18. Engineering spans developer environment, user/object management, CAD/BIM/Digital Twin, infrastructure diagnostics, AI development workflows, distributed compute, equipment integration and equipment configuration.
-19. The Cloud Development Environment is part of the broader MediaHub ecosystem but remains a separate security/control domain from MediaHub OS and its State Authority.
-20. Compute Contribution is intended for every MediaHub deployment, subject to capability, opt-in, admission, lease, isolation, revocation, audit and network restrictions already defined by the compute contract.
-21. Compute Contribution supports development acceleration, distributed AI, CI/build, inference, training, rendering, simulation, data processing and storage processing, plus approved company development workloads.
-22. Cloud capabilities include development, backup, remote access, notifications, optional AI, model registry, software distribution, telemetry, disaster recovery, cloud storage and compute.
-23. MediaHub may act as Gateway, Router, Firewall, DHCP, DNS, AP, Controller, Media Server and Smart Home Node, with role separation and deployment qualification still required.
-24. Hardware independence is a design objective. Target classes include Mac mini, mini-PC, Raspberry Pi specialized editions and iPad specialized editions. Hardware capability determines feature set.
-25. A single-node MediaHub deployment is valid.
-26. A multi-node deployment is intended to form a cluster automatically and may provide HA, distributed storage, compute clustering, network mesh and Wi-Fi mesh.
-27. If one MediaHub node fails, another qualified node must automatically continue critical functions without manual intervention.
-28. Critical functions include security, access control, surveillance, climate and energy.
-29. Critical functions must remain operational, to the qualified extent of the deployment, through Internet failure, Cloud failure, failure of one MediaHub node, partial local-network failure, failure of the primary AI subsystem and failure of one storage component.
-30. External integrations and OSS components must be provenance-checked and must not use unknown/untrusted software components.
-31. MediaHub State Authority is mandatory/core. The term does not mean governmental authority.
-32. Mobile remote access and a specialized iPad MediaHub installation are distinct concepts.
-33. iPad is not merely a remote client in the specialized deployment model. An iPad may run a hardware-adapted, reduced-capability MediaHub OS/node, analogous to a specialized Raspberry Pi edition.
-34. A specialized iPad MediaHub installation provides local MediaHub functionality subject to iPad hardware and OS constraints and may also expose the ordinary remote-access application experience where applicable.
-35. iPad may contain local AI and may participate in qualified Compute Contribution; actual capabilities are determined by its hardware/software capability profile.
-36. Camera recording on iPad is not mandatory. Recording is available only when the node's hardware, storage and OS profile passes qualification. Raspberry Pi specialized deployments likewise do not provide surveillance recording in the baseline profile.
-37. Personal VPN is not yet product-defined; its placement remains open between optional user capability, network profile and gateway function.
-38. MediaHub may perform per-client/per-network routing policy, including VPN versus direct paths, subject to later security and network qualification.
-39. Cloud Development is explicitly separated from MediaHub State Authority: controlled contracts connect the user/local domain and developer domain; the developer domain does not become canonical user-state authority.
-40. Local operation and confidentiality have highest product-level priority.
+### Product
 
-## Architecture invariants confirmed
+1. MediaHub is one product: a local operating system for buildings.
+2. It combines Smart Home, Media, AI, Documents, energy, surveillance, security, climate, networking, integrations and entertainment.
+3. Entertainment includes games launched from gaming PCs and supported mainstream consoles.
+4. Deployment profiles may differ by building and hardware while remaining one product.
+5. Local operation and confidentiality have highest product priority.
 
-- MediaHub State Authority = canonical platform authority.
+### Core capabilities
+
+6. Smart Home is mandatory.
+7. Media is a full-node core capability; specialized profiles may provide a reduced/qualified Media capability.
+8. Documents is a full-node core capability; specialized profiles may omit it.
+9. Local AI is a mandatory product capability, subject to qualified hardware/runtime availability.
+10. Core Engineering is mandatory and covers equipment integration, equipment setup, diagnostics and configuration of object systems.
+11. Network is core on full Mac mini/mini-PC profiles; specialized profiles may have reduced network-management capabilities.
+12. Security, Observability, Backup/Recovery and Update/Migration are core.
+13. Surveillance is a core domain. Local recording is a separate hardware-dependent capability.
+
+### Applications / OS surfaces
+
+14. MediaHub iOS OS and MediaHub Remote Access are two completely different applications.
+15. MediaHub iOS OS is a hardware-adapted, reduced-capability local MediaHub OS for supported Apple hardware, analogous in product role to a specialized Raspberry Pi MediaHub edition.
+16. MediaHub Remote Access is a separate remote-access application family with iOS and Android applications.
+17. MediaHub Remote Access is not the MediaHub iOS OS and must not be conflated in identity, contracts, deployment or release architecture.
+18. A specialized iPad installation is a MediaHub OS/node, not merely a remote client.
+19. iPad may run Local AI and qualified Compute Contribution subject to its hardware/software capability profile.
+
+### Specialized hardware
+
+20. Raspberry Pi and iPad profiles are specialized MediaHub OS deployments.
+21. Specialized profiles have hardware-qualified capability sets.
+22. Raspberry Pi baseline includes Smart Home, full surveillance/integration/control of available equipment, but local surveillance recording to hard disk is not mandatory.
+23. iPad baseline follows the same principle: Smart Home and surveillance/integration/control are required capabilities to the extent supported by hardware/OS; local recording is not mandatory.
+24. Hardware independence is a design objective. Capability is determined by qualification, not device name alone.
+25. Single-node MediaHub is valid.
+
+### HA / cluster
+
+26. Multiple MediaHub nodes automatically form a cluster.
+27. The cluster may provide HA, distributed storage, compute clustering, network mesh and Wi-Fi mesh.
+28. If one qualified MediaHub node fails, another qualified node must automatically continue critical functions without manual intervention.
+29. Critical availability is tiered: security, access control and surveillance are higher-criticality; climate and energy are also critical. Media/AI/entertainment are lower tiers unless later requirements elevate them.
+30. Critical functions must remain operational, to the qualified extent of the deployment, through Internet failure, Cloud failure, one-node failure, partial LAN failure, primary-AI failure and one-storage-component failure.
+31. HA implementation topology (active/passive, active/active, quorum, replication, storage and failure domains) remains a later architecture decision.
+32. Multiple MediaHub nodes may require multiple Home Assistant Core instances. The architecture must define clustered Smart Home authority, replication, split-brain prevention and failover rather than assuming a single HA instance remains the only runtime.
+
+### Network / VPN
+
+33. MediaHub may act as Gateway, Router, Firewall, DHCP, DNS, AP, Controller, Media Server and Smart Home Node, subject to role separation and qualification.
+34. Personal VPN is a MediaHub Gateway function.
+35. MediaHub may apply per-client/per-network routing policy selecting VPN or direct paths. Protocol, provider and detailed policy remain later decisions.
+
+### Engineering / Digital Twin
+
+36. Digital Twin and advanced Engineering are paid functional extensions.
+37. Paid scope includes full object model, CAD/BIM, spatial model, simulation, engineering workflows, advanced AI engineering, engineering-network diagrams, cable schedules, as-built documentation and generation of project packages for electrical supply, automation, ventilation, HVAC, heating, water supply, low-voltage systems, energy and backup power.
+38. Exact subscription entitlements and enforcement remain later implementation decisions.
+
+### Cloud Development
+
+39. Cloud Development Environment is part of the broader MediaHub ecosystem but is a separate security/control domain from MediaHub OS and its State Authority.
+40. Cloud capabilities include development, backup, remote access, notifications, optional AI, model registry, software distribution, telemetry, disaster recovery, cloud storage and compute.
+41. Cloud Development cannot override canonical local MediaHub state.
+
+### Compute Contribution
+
+42. Compute Contribution is intended for every MediaHub deployment, subject to capability, opt-in, admission, lease, isolation, revocation, audit and network restrictions.
+43. It supports development acceleration, distributed AI, CI/build, inference, training, rendering, simulation, data processing, storage processing and approved company development workloads.
+44. Compute Contribution != User Data Access != Developer Personnel Access.
+
+## Architecture invariants
+
+- MediaHub State Authority = canonical platform authority; it is not governmental authority.
 - Home Assistant Core = Smart Home authority.
 - AI != authority.
-- Mobile remote-access application != authority.
-- Specialized iPad MediaHub node != authority; it is a node implementation of MediaHub OS.
+- MediaHub Remote Access != authority.
+- MediaHub iOS OS node != authority.
 - Cloud != authority over canonical MediaHub state.
 - Scheduler != authority.
 - OSS component != authority.
@@ -76,55 +106,31 @@ Verification status: GitHub API did not resolve the declared SHA at this checkpo
 - Local First.
 - Unknown device => DENY/QUARANTINE.
 - Ambiguous state => FAIL CLOSED.
-- Compute Contribution != User Data Access != Developer Personnel Access.
 - CPRG remains registration-only.
-- Integration follows Contract -> Adapter -> Validation -> Integration -> Qualification.
-- Security boundaries must not depend only on physical connectivity.
+- Integration = Contract -> Adapter -> Validation -> Integration -> Qualification.
+- Security boundaries cannot depend only on physical connectivity.
 - User confidentiality takes precedence over convenience.
-- HA is a product requirement for qualified multi-node deployments, not yet a specific implementation topology.
-- Hardware profile determines capabilities; capability absence on a specialized node does not invalidate the single-product identity.
+- Hardware profile determines capabilities.
+- MediaHub iOS OS and MediaHub Remote Access are separate applications.
 
-## Section 1 architecture interpretation
+## Final Section 1 status
 
-### Product boundary
+Section 1 product requirements are sufficiently reconciled to proceed to Section 2. Implementation and qualification questions deliberately deferred to later passport sections must not be silently assumed here.
 
-MediaHub OS is the local building operating system and its node implementations.
+## Deferred decisions
 
-The Cloud Development Environment is a separate development domain in the broader MediaHub ecosystem. It may provide compute, storage, development, AI, backup, distribution and other approved services, but it is not part of the canonical local State Authority and cannot override canonical local state.
-
-### Node taxonomy
-
-The current model distinguishes:
-
-- Full MediaHub node: Mac mini / mini-PC class with the full local feature profile.
-- Specialized MediaHub node: Raspberry Pi or iPad profile with a reduced hardware-qualified capability set.
-- Remote-access application: user-facing mobile application for remote access; this is distinct from the specialized iPad MediaHub OS deployment.
-
-A single physical iPad installation can therefore be a specialized MediaHub node while also exposing user-facing UI capabilities. This does not make it the canonical State Authority.
-
-### HA requirement
-
-The product requirement is automatic continuation of critical functions after failure of one qualified MediaHub node, without manual intervention. The implementation topology (active/passive, active/active, quorum, replicated state, storage strategy and failure-domain design) remains an architecture decision for later reconciliation.
-
-### Surveillance recording
-
-Surveillance recording is a MediaHub capability, not a universal node invariant. The capability matrix will determine whether a given Mac mini, mini-PC, Raspberry Pi or iPad deployment can record locally.
-
-## Open decisions remaining inside Section 1
-
-- exact role and product semantics of personal VPN;
+- exact HA topology and qualification;
+- exact critical SLOs;
 - exact hardware capability matrix;
-- exact implementation and qualification model for HA;
-- exact criticality/availability targets per subsystem;
-- precise boundary of paid Digital Twin/Engineering features;
-- final classification of Media/Entertainment capabilities on specialized deployments.
+- VPN protocol/provider and detailed routing policy;
+- subscription enforcement mechanics;
+- detailed capability matrix for Media/Entertainment/Documents on specialized profiles.
 
 ## Rejected / corrected interpretations
 
-- “State Authority” is not governmental authority.
-- A specialized iPad installation is not merely the remote-access client; it can be a reduced-capability MediaHub OS/node.
-- The remote-access application remains a distinct product surface.
+- State Authority does not mean governmental authority.
+- iPad MediaHub OS is not the remote-access application.
+- MediaHub iOS OS and MediaHub Remote Access are separate applications.
+- Surveillance capability and local recording are separate requirements.
 - Media is not the sole product center.
-- iOS/iPad is not automatically the canonical state owner.
-- Compute Contribution does not grant access to user data or developer personnel privileges.
-- Cloud Development is not the canonical local authority.
+- Cloud Development is not canonical local authority.
