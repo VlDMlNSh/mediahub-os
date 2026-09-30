@@ -440,3 +440,124 @@ Need explicit hardware classes because Thunderbolt/USB4, GPU/NPU capabilities an
 - Remote execution still has serialization, scheduling and failure overhead.
 - RDMA should optimize large-object movement only after measurements demonstrate benefit.
 - User MediaHub traffic must never be opportunistically routed over the developer high-speed fabric.
+
+
+## P0 additions — Network Infrastructure and Mac mini Fabric
+
+### G43 — Interface inventory contract
+Every MediaHub/developer node needs an authoritative interface inventory:
+- interface identity;
+- plane;
+- address;
+- MTU;
+- link state;
+- bandwidth;
+- RTT;
+- loss;
+- route class;
+- capabilities.
+
+### G44 — Wi-Fi/AP capability matrix
+MediaHub hardware variants need explicit qualification for:
+- AP mode;
+- radio count;
+- bands;
+- channel width;
+- 802.11k/v/r where supported;
+- wired backhaul;
+- client isolation;
+- failover.
+
+### G45 — Vendor interoperability
+Ubiquiti and Keenetic compatibility must be expressed as concrete tested capabilities, not brand-level assumptions.
+
+### G46 — Wi-Fi roaming versus mesh
+Architecture must not conflate seamless roaming with wireless mesh forwarding.
+
+### G47 — Network segmentation
+Need executable policy for MGMT/HOME/IOT/MEDIA/CAMERA/SECURITY/GUEST/DEV/CPRG.
+
+### G48 — User VPN routing
+Need explicit kill-switch/fallback semantics, DNS behavior and per-client/per-network policy.
+
+### G49 — Developer HIGH_SPEED route isolation
+Need proof that Thunderbolt/USB4 interfaces never become accidental default gateways.
+
+### G50 — Shared developer egress
+Need explicit forwarding/NAT capability, firewall policy, bandwidth quotas and failure evidence.
+
+### G51 — High-speed topology graph
+Scheduler needs a graph of developer nodes and measured high-speed edges.
+
+### G52 — Primary node role migration
+Primary must be a dynamic role with tested failover and durable state.
+
+### G53 — Network cost model
+Placement needs measured bandwidth, RTT, serialization and contention costs.
+
+### G54 — Developer DNS/DHCP
+Need exact ownership and failover semantics for DNS, DHCP and discovery.
+
+### G55 — IPv6
+Need explicit dual-stack behavior and negative tests for route leakage over IPv6.
+
+### G56 — MTU/path-MTU
+Need per-plane MTU policy and fragmentation tests, especially over HIGH_SPEED/VPN.
+
+### G57 — Interface sleep/wake
+Mac mini and USB4/Thunderbolt link recovery after sleep, restart or cable reconnect must be qualified.
+
+### G58 — Shared-egress isolation
+A developer node acting as egress must never become a transit router for MediaHub user traffic.
+
+### G59 — License/vendor boundary
+Ubiquiti/Keenetic controller reuse and every external GitHub component require license/distribution review.
+
+### G60 — Network evidence
+Every qualification must emit machine-readable evidence covering topology, routes, interface state, firewall state and measured performance.
+
+## 14–23 review cycle record
+
+The combined Cloud Development + Network architecture was re-reviewed through 20 focused passes:
+
+14. interface-plane separation
+15. Wi-Fi AP/controller/mesh distinction
+16. local WAN/backhaul model
+17. user VPN route and failure semantics
+18. developer HIGH_SPEED route isolation
+19. Thunderbolt/USB4 IP viability
+20. shared developer Internet over HIGH_SPEED
+21. multi-node topology representation
+22. primary-node migration
+23. scheduler network-cost model
+24. developer/user data-plane separation
+25. CPRG isolation
+26. DNS/DHCP/discovery boundaries
+27. IPv4/IPv6 leakage
+28. MTU/path-MTU
+29. sleep/wake/reconnect
+30. shared-egress security
+31. component-boundary review
+32. license/distribution boundary
+33. qualification/evidence completeness
+
+Result: the reference architecture was corrected after each pass where a missing invariant or boundary was identified. No new contradiction was found with the previously fixed Local MediaHub Cluster, Cloud Development Cluster, Compute Contribution, CPRG, or MediaHub-owned compute protocol contracts.
+
+## Pushback — Network + Cloud
+
+1. Do not make the primary developer node the universal Internet gateway simply because it has the strongest CPU/GPU.
+2. Do not use Thunderbolt/USB4 as if it were shared memory.
+3. Do not treat a direct cable as a trust decision.
+4. Do not equate seamless Wi-Fi roaming with wireless mesh.
+5. Do not assume Ubiquiti/Keenetic interoperability from brand recognition alone.
+6. Do not put user Wi-Fi traffic onto the developer HIGH_SPEED fabric.
+7. Do not make shared developer Internet a hidden fallback route.
+8. Do not let a developer egress node become a general router for MediaHub.
+9. Do not let Network Mesh software become the MediaHub authority.
+10. Do not add a distributed execution framework before the interface, lease, network and privacy contracts are testable.
+11. Do not claim a Mac mini cluster is a supercomputer without measured workload-level scaling.
+12. Do not make RDMA a correctness dependency.
+13. Do not treat discovery as authorization.
+14. Do not allow VPN presence to imply data-plane permission.
+15. Do not skip IPv6, MTU and sleep/wake qualification.
+16. Do not distribute proprietary vendor controller code without legal/license review.
