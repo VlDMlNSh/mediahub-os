@@ -1,0 +1,37 @@
+{
+  "schema": "mediahub.mh22-qualification-traceability.v1",
+  "candidate_commit": "f792f96179bc1e61646a472781f980b919c09bc7",
+  "status": "TRACEABILITY_ONLY_NOT_QUALIFICATION",
+  "policy": "Existing tests are evidence candidates only. No PASS is inferred from file existence.",
+  "passes": [
+    {"id":1,"domain":"architecture_completeness","classification":"PARTIAL","candidates":["tests/contracts/test_contract_domain_reconciliation.py","tests/domain/test_domain_reconciliation.py"]},
+    {"id":2,"domain":"authority","classification":"PARTIAL","candidates":["tests/contracts/test_identity_boundary.py","tests/runtime/test_state_authority.py","tests/runtime/test_mh04_state_authority_hardening.py"]},
+    {"id":3,"domain":"identity","classification":"PARTIAL","candidates":["tests/contracts/test_identity_boundary.py","tests/runtime/test_mh04_source_identity.py"]},
+    {"id":4,"domain":"trust","classification":"EVIDENCE_GAP","candidates":["tests/security/test_mh04_state_authority_redteam.py"]},
+    {"id":5,"domain":"security","classification":"PARTIAL","candidates":["tests/security/test_mh04_state_authority_redteam.py","tests/security/test_mh05_bypass_audit.py","tests/security/test_mh05_restore_security.py"]},
+    {"id":6,"domain":"privacy","classification":"EVIDENCE_GAP","candidates":["tests/security/test_cloud_development_sandbox.py"]},
+    {"id":7,"domain":"hardware","classification":"EVIDENCE_GAP","candidates":[]},
+    {"id":8,"domain":"software","classification":"PARTIAL","candidates":["tests/runtime/test_component_adapters.py","tests/schemas/test_foundation_schemas.py"]},
+    {"id":9,"domain":"supply_chain","classification":"EVIDENCE_GAP","candidates":["docs/architecture/MH-12-supply-chain-security.md"]},
+    {"id":10,"domain":"device","classification":"PARTIAL","candidates":["tests/domain/test_device_schema.py"]},
+    {"id":11,"domain":"protocol","classification":"EVIDENCE_GAP","candidates":["tests/contracts/test_mobile_api_compatibility.py"]},
+    {"id":12,"domain":"smart_home","classification":"EVIDENCE_GAP","candidates":[]},
+    {"id":13,"domain":"state_authority_persistence","classification":"PARTIAL","candidates":["tests/runtime/test_state_authority.py","tests/runtime/test_mh05_restore.py"]},
+    {"id":14,"domain":"network_egress","classification":"PARTIAL","candidates":["tests/security/test_cloud_development_sandbox.py"]},
+    {"id":15,"domain":"resource_management","classification":"EVIDENCE_GAP","candidates":["tests/control_plane/test_metrics.py","tests/control_plane/test_retry_policy.py"]},
+    {"id":16,"domain":"ai","classification":"PARTIAL","candidates":["tests/ai/test_ai_gateway.py","tests/ai/test_ai_routing.py","tests/ai/test_ai_model_capability.py"]},
+    {"id":17,"domain":"media","classification":"EVIDENCE_GAP","candidates":[]},
+    {"id":18,"domain":"knowledge","classification":"EVIDENCE_GAP","candidates":[]},
+    {"id":19,"domain":"cloud","classification":"PARTIAL","candidates":["tests/ops/test_cloud_development_adapter.py","tests/security/test_cloud_development_sandbox.py"]},
+    {"id":20,"domain":"api_event_integration","classification":"PARTIAL","candidates":["tests/contracts/test_mobile_api_compatibility.py","tests/runtime/test_mh05_event_projection.py"]},
+    {"id":21,"domain":"failure_recovery","classification":"PARTIAL","candidates":["tests/runtime/test_mh05_restore.py","tests/security/test_mh05_restore_reachability.py"]},
+    {"id":22,"domain":"update_migration","classification":"EVIDENCE_GAP","candidates":[".github/workflows/mediahub-runner-migration-smoke.yml","docs/architecture/MH-21-update-recovery.md"]},
+    {"id":23,"domain":"production_admission","classification":"EVIDENCE_GAP","candidates":["qualification/FINAL-QUALIFICATION-TRIGGER.md","docs/GITHUB-COMPONENT-QUALIFICATION-REGISTRY.md"]}
+  ],
+  "required_next_actions": [
+    "Independently review each candidate test for scope, determinism, isolation, and evidence output.",
+    "Bind only approved repository-local commands into executor adapters.",
+    "Execute against exact candidate and record machine-readable evidence.",
+    "Keep P7 hardware and P23 production admission blocked until their specific evidence requirements are met."
+  ]
+}
