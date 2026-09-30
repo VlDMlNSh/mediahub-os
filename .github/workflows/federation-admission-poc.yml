@@ -21,12 +21,22 @@ jobs:
         run: |
           python3 - <<'PY'
           import json
+          required = {
+              "scenario", "pass", "job_id", "source_cluster", "destination_domain",
+              "workload_class", "admission_decision", "state_transitions",
+              "payload_bytes", "result_bytes", "capability_scope", "lease_until",
+              "lease_active", "execution_result", "failure_retry",
+              "final_authorization_state", "evidence_timestamp",
+          }
           with open("federation-admission-evidence.json", encoding="utf-8") as f:
               e = json.load(f)
+          assert e["schema"] == "mediahub.federation-admission-poc.v2"
           assert e["pass"] is True
           assert len(e["scenarios"]) == 8
           assert all(s["pass"] for s in e["scenarios"])
+          assert all(required <= s.keys() for s in e["scenarios"])
           print("FEDERATION_ADMISSION_POC_PASS")
+          print("schema=mediahub.federation-admission-poc.v2")
           print("scenarios=8")
           PY
       - name: Upload evidence
