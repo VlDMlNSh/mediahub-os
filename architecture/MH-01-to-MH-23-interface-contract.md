@@ -30,7 +30,7 @@ Every MH MUST return: requirements, architecture rules, implementation constrain
 | 17 | Device/Protocol | explicit trust | device/integration architecture |
 | 18 | Media/Content | product scope | media architecture |
 | 19 | Knowledge/Digital Twin | knowledge ≠ authority | representation/knowledge architecture |
-| 20 | Automation/Energy/Self-Healing | safety hierarchy | automation architecture |
+| 20 | Architecture Audit | existing MH-01…MH-19 architecture + invariants | independent audit, contradictions, gaps, risks, invariants, corrections, downstream requirements |
 | 21 | Hybrid Cloud/Distributed AI | cloud non-authority | controlled external-compute architecture |
 | 22 | Production/Qualification | governance gates | qualification/operations evidence |
 | 23 | Evolution/Migration | compatibility rules | migration/versioning architecture |
