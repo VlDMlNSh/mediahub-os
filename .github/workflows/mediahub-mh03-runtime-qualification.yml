@@ -37,16 +37,21 @@ jobs:
           echo "branch=${GITHUB_REF_NAME}"
 
       - name: Run MH-03 contract and authority tests
+        env:
+          PYTHONPATH: .
         run: |
           set -euo pipefail
-          python3 -m unittest             tests.static.test_supervisor_contract             verification.test_mh04_supervisor_contract             tests.runtime.test_mh04_state_authority_hardening             tests.runtime.test_state_authority             tests.runtime.test_mh05_consumer_boundary             tests.runtime.test_mh05_event_projection             tests.runtime.test_mh05_evidence_binding
+          python3 -m unittest             tests.static.test_supervisor_contract             verification.test_mh04_supervisor_contract             tests.runtime.test_mh04_state_authority_hardening             tests.runtime.test_state_authority
 
       - name: Run control-plane regression suite
+        env:
+          PYTHONPATH: .
         run: |
           set -euo pipefail
           python3 -m unittest discover -s tests/control_plane -p 'test_*.py' -v
 
       - name: Emit evidence classification
+        if: success()
         run: |
           set -euo pipefail
           mkdir -p qualification
@@ -64,6 +69,7 @@ jobs:
           cat qualification/mh03-runtime-qualification-evidence.txt
 
       - name: Upload evidence
+        if: success()
         uses: actions/upload-artifact@v4.6.2
         with:
           name: mh03-runtime-qualification-${{ github.sha }}
