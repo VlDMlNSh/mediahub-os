@@ -1,0 +1,36 @@
+name: Federation Admission PoC
+
+on:
+  push:
+    paths:
+      - "ops/federation/**"
+      - "tests/federation/**"
+      - "docs/checkpoints/2026-09-30-mediahub-federation-admission-poc-contract.md"
+
+jobs:
+  federation-admission-poc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run deterministic federation PoC
+        run: |
+          python3 -m pytest -q tests/federation/test_admission_poc.py
+          python3 ops/federation/federation_admission_poc.py > federation-admission-evidence.json
+      - name: Validate evidence
+        run: |
+          python3 - <<'PY'
+          import json
+          with open("federation-admission-evidence.json", encoding="utf-8") as f:
+              e = json.load(f)
+          assert e["pass"] is True
+          assert len(e["scenarios"]) == 8
+          assert all(s["pass"] for s in e["scenarios"])
+          print("FEDERATION_ADMISSION_POC_PASS")
+          print("scenarios=8")
+          PY
+      - name: Upload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: federation-admission-poc-evidence
+          path: federation-admission-evidence.json
