@@ -255,6 +255,22 @@ The following are intentionally limited to architectural choices that cannot be 
 5. **Q3.15 — historical retention:** Should State Authority history be retained indefinitely as an immutable audit/provenance record, or should retention be policy-based by data class and legal/storage constraints?
 
 
+
+### Section 3 — additional confirmed decisions
+
+11. State Authority uses explicit consistency classes:
+   - strong consistency for security/access-control/critical state;
+   - transactional consistency for configuration;
+   - eventual consistency may be used for telemetry and derived state;
+   - audit/provenance history is immutable append-only.
+12. During inter-node partition, the designated active/leading MediaHub node continues qualified operation. A disconnected secondary node must not independently commit critical canonical changes. It may perform only operations permitted by the partition policy and must reconcile after rejoining.
+13. Physical equipment state is treated as validated observed input. The architecture distinguishes desired/configured state from observed/actual state.
+14. Security-sensitive and otherwise irreversible operations require a fresh authorization and policy check at execution time, even when originated by a schedule, automation or prior command.
+15. State Authority history retention is policy-based and depends on data class, storage and applicable constraints.
+
+### Clarification
+The user's Q3.12 statement is reconciled as: the cluster has one designated active authority node for the current authority epoch; on partition, only that node may continue critical canonical mutations. A secondary node does not become an independent authority. Exact leader election/failover semantics remain a later technical architecture decision.
+
 ## Architecture invariants
 
 - MediaHub State Authority = canonical platform authority; it is not governmental authority.
