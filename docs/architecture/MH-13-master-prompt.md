@@ -54,6 +54,12 @@ Purpose-bound use; minimization; privacy-aware classification before applicable 
 
 The forensic conclusion remains permanently relevant: the original historical MH-13 artifact was not recovered. Any reconstructed artifact must preserve this fact and must never rewrite the historical lineage.
 
+## Qualification handoff
+
+Autonomous qualification queue: GitHub Issue #128 — `[MH-13] Autonomous qualification — Privacy / Data Governance`.
+
+Qualification transition: `RECONCILED -> VERIFIED -> QUALIFIED`. Qualification requires fresh exact-revision evidence and does not grant production/release authorization.
+
 ## Development handoff
 
 The development workspace should consume MH-13 as architecture input and return implementation findings, proposed changes and verification evidence through normal governance. It must not reinterpret the reconstructed artifact as production authorization.
