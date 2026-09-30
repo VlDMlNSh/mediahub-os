@@ -271,6 +271,37 @@ The following are intentionally limited to architectural choices that cannot be 
 ### Clarification
 The user's Q3.12 statement is reconciled as: the cluster has one designated active authority node for the current authority epoch; on partition, only that node may continue critical canonical mutations. A secondary node does not become an independent authority. Exact leader election/failover semantics remain a later technical architecture decision.
 
+
+## Section 4 — SMART HOME / HOME ASSISTANT CORE
+
+### Confirmed requirements
+
+1. Home Assistant Core is the sole source of truth for Smart Home devices and their operational Smart Home state.
+2. State Authority remains the canonical platform authority for system identity, lifecycle, authorization, policy, cross-domain consistency and canonical system references; this does not override the user's decision that HA Core is the sole source of truth for Smart Home device state.
+3. A physical Smart Home device has one canonical HA Core owner at a time, even when multiple HA Core instances can discover it.
+4. On owner failure, takeover/failover behavior is class-dependent and must be defined by the architecture according to device criticality and safety characteristics.
+5. Home Assistant Core executes Smart Home automation. MediaHub may additionally execute a separate cross-domain orchestration layer for workflows spanning Smart Home and other domains.
+6. AI never bypasses Smart Home authority. AI-originated actions follow the controlled path through MediaHub policy and HA Core before reaching the device.
+7. External Smart Home systems such as Loxone, Apple HomeKit and voice ecosystems are integration/interface contours, not competing Smart Home authorities.
+8. Physical/manual/external control is treated according to per-device/per-object policy; the architecture distinguishes observed physical state from desired state and does not universally force one behavior for all devices.
+
+### Invariants
+
+- HA Core = sole Smart Home device-state authority.
+- No second Smart Home authority.
+- Multiple HA Core instances do not imply multiple independent owners of one device.
+- AI cannot directly command Smart Home hardware.
+- External Smart Home ecosystems cannot bypass HA Core.
+- Cross-domain orchestration cannot silently replace HA Core's authority inside the Smart Home domain.
+
+### Open questions requiring product-owner decisions
+
+1. **Q4.8 — HA Core failure takeover:** For a failed HA Core owner, should takeover policy be determined automatically from a predefined device criticality/safety class, or must each device/object explicitly declare its failover policy?
+2. **Q4.9 — Smart Home state vs platform state:** Should MediaHub State Authority maintain a synchronized canonical *reference* of Smart Home device identity/state for cross-domain decisions while HA Core remains the sole operational source of truth, or should cross-domain consumers query HA Core on demand and State Authority retain only identity/lifecycle metadata?
+3. **Q4.10 — cross-domain orchestration authority:** When a cross-domain workflow contains Smart Home actions, should the workflow engine be allowed to sequence those actions, while HA Core remains the final execution authority for every Smart Home operation?
+4. **Q4.11 — loss of HA Core:** If HA Core is unavailable but the physical device is still reachable, should MediaHub permit any direct emergency/safety control path, or must all Smart Home control remain blocked until a qualified HA Core authority is available?
+5. **Q4.12 — duplicate discovery:** When two HA Core instances discover the same physical device, should MediaHub automatically nominate the canonical owner according to qualification/topology/policy, or require explicit user confirmation before ownership is established?
+
 ## Architecture invariants
 
 - MediaHub State Authority = canonical platform authority; it is not governmental authority.
