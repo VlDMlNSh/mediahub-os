@@ -297,3 +297,103 @@ Use traces/events for high-cardinality identities; metrics remain bounded.
 
 No external component should be deployed until P0 gaps G1-G12 have deterministic tests or explicit justified exceptions.
 
+
+
+## P0 additions found during 13 review passes
+
+### G31 — Clock/freshness contract
+Capability and lease expiry require an explicit skew/freshness model.
+Need:
+- authority clock;
+- local monotonic timeout;
+- maximum accepted skew;
+- stale advertisement threshold;
+- NTP/time-source failure behavior.
+
+### G32 — Transactional state/event publication
+The architecture must prevent a published event from claiming a state transition that was never committed.
+Need:
+- transactional outbox or equivalent;
+- event sequence/version;
+- replay-safe consumers;
+- recovery of unpublished committed events.
+
+### G33 — Protocol schema evolution
+Need formal compatibility policy:
+- reserved fields;
+- enum non-reuse;
+- major versioning;
+- Buf breaking checks;
+- policy-version coupling for security semantics.
+
+### G34 — RPC timeout/cancellation semantics
+Synchronous control calls need explicit deadlines and cancellation propagation.
+Need:
+- default deadlines by operation;
+- maximum deadlines;
+- idempotent retry classification;
+- no unbounded control RPC.
+
+### G35 — Isolation-class escalation
+OCI isolation is not sufficient for every untrusted workload.
+Need:
+- trust classification;
+- minimum isolation class;
+- container/OCI baseline;
+- microVM escalation;
+- scheduler prohibition on isolation downgrade.
+
+### G36 — Kernel network enforcement
+Scheduler metadata alone is insufficient.
+Need:
+- execution-boundary network enforcement;
+- default deny;
+- explicit egress allowlist;
+- negative LAN/CPRG tests;
+- proof that policy remains after scheduler restart.
+
+## External component selection update
+
+The GitHub review added four reusable primitives to the candidate set:
+
+- **Buf** — schema build/lint/breaking-change governance.
+- **Protovalidate** — semantic validation rules attached to Protobuf schemas.
+- **containerd + OCI Runtime Spec** — lifecycle and portable isolation model.
+- **Cosign/Sigstore** — artifact signature/provenance verification.
+
+Additional mechanism references:
+- gRPC metadata/deadlines/interceptors;
+- OpenTelemetry stable tracing API;
+- Cilium identity-based network policy concepts.
+
+These are mechanism candidates, not authority replacements.
+
+## 13-pass review outcome
+
+Passes performed:
+1. fencing/stale authority
+2. idempotency
+3. schema evolution
+4. RPC deadline/cancellation
+5. OCI isolation
+6. untrusted workload sandboxing
+7. heterogeneous scheduling
+8. message acknowledgement/redelivery
+9. workload identity
+10. observability/privacy
+11. artifact provenance
+12. network enforcement
+13. distributed storage boundary
+
+Corrections were incorporated into the compute wire protocol:
+- clock/freshness contract;
+- transactional state/event publication;
+- schema evolution rules;
+- gRPC timeout/cancellation semantics;
+- isolation escalation;
+- execution-boundary network enforcement;
+- artifact verification binding;
+- telemetry privacy constraints.
+
+No contradiction was found with the previously fixed Local Cluster / Cloud Development Cluster / CPRG architecture.
+
