@@ -1,0 +1,119 @@
+{
+  "schema": "mediahub.mh22-qualification-executor-manifest.v1.1",
+  "executor_id": "mh22-qualification-executor",
+  "executor_version": "1.0.1",
+  "r4_commit": "471f709f5633feab7aeb62dd3ea52effad6d2bc4",
+  "policy": "PARTIAL adapters may produce evidence but can never satisfy qualification; all 23 passes require FULL coverage for QUALIFIED.",
+  "capabilities": {
+    "candidate_identity": true,
+    "r4_ancestry": true,
+    "machine_readable_output": true,
+    "stdout_stderr_capture": true,
+    "environment_fingerprint": true,
+    "fixture_hashes": false,
+    "artifact_hashes": true,
+    "timestamps": true,
+    "reproducibility_metadata": true,
+    "isolation_manifest": true,
+    "cleanup_proof": false,
+    "production_authorization": false,
+    "state_authority_mutation": false,
+    "production_credentials": false,
+    "user_data": false
+  },
+  "adapters": {
+    "1": {
+      "coverage_status": "PARTIAL",
+      "review_status": "CANDIDATE",
+      "test_id": "P1-domain-reconciliation",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/contracts/test_contract_domain_reconciliation.py"
+      ]
+    },
+    "2": {
+      "coverage_status": "PARTIAL",
+      "review_status": "CANDIDATE",
+      "test_id": "P2-state-authority",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/runtime/test_state_authority.py"
+      ]
+    },
+    "3": {
+      "coverage_status": "PARTIAL",
+      "review_status": "CANDIDATE",
+      "test_id": "P3-source-identity",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/runtime/test_mh04_source_identity.py"
+      ]
+    },
+    "5": {
+      "coverage_status": "PARTIAL",
+      "review_status": "CANDIDATE",
+      "test_id": "P5-state-authority-redteam",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/security/test_mh04_state_authority_redteam.py"
+      ]
+    },
+    "13": {
+      "coverage_status": "PARTIAL",
+      "review_status": "CANDIDATE",
+      "test_id": "P13-restore-state-authority",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/runtime/test_state_authority.py",
+        "tests/runtime/test_mh05_restore.py"
+      ]
+    },
+    "16": {
+      "coverage_status": "PARTIAL",
+      "review_status": "CANDIDATE",
+      "test_id": "P16-ai-gateway-routing-capability",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/ai/test_ai_gateway.py",
+        "tests/ai/test_ai_routing.py",
+        "tests/ai/test_ai_model_capability.py"
+      ]
+    },
+    "20": {
+      "coverage_status": "PARTIAL",
+      "review_status": "CANDIDATE",
+      "test_id": "P20-api-event",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/contracts/test_mobile_api_compatibility.py",
+        "tests/runtime/test_mh05_event_projection.py"
+      ]
+    },
+    "21": {
+      "coverage_status": "PARTIAL",
+      "review_status": "CANDIDATE",
+      "test_id": "P21-restore-reachability",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/runtime/test_mh05_restore.py",
+        "tests/security/test_mh05_restore_reachability.py"
+      ]
+    }
+  }
+}\n
