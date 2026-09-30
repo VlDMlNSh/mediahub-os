@@ -100,6 +100,9 @@ def run(job: Job, *, now: float, declared_capability: str, payload: bytes) -> No
         job.authorization_active = False
         raise PermissionError("lease expired")
     if declared_capability not in job.capability_scope:
+        job.authorization_active = False
+        job.transition(State.DENIED, "undeclared_capability", now)
+        job.transition(State.CLOSED, "request_scope_ended", now + 0.001)
         raise PermissionError("undeclared capability")
     job.payload_bytes = len(payload)
     job.transition(State.RUNNING, "bounded_execution", now)
