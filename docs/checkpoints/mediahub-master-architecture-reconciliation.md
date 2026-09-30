@@ -17,7 +17,8 @@ Verification: the declared R4 SHA was not resolved by the available GitHub API a
 ## Passport progress
 
 - Section 1 — НАЗНАЧЕНИЕ: functionally reconciled and closed.
-- Sections 2–68: unresolved / not started.
+- Section 2 — ОСНОВНАЯ АРХИТЕКТУРНАЯ МОДЕЛЬ: functionally reconciled and closed.
+- Sections 3–68: unresolved / not started.
 
 ## Section 1 — confirmed requirements
 
@@ -92,6 +93,78 @@ Verification: the declared R4 SHA was not resolved by the available GitHub API a
 43. It supports development acceleration, distributed AI, CI/build, inference, training, rendering, simulation, data processing, storage processing and approved company development workloads.
 44. Compute Contribution != User Data Access != Developer Personnel Access.
 
+## Section 2 — ОСНОВНАЯ АРХИТЕКТУРНАЯ МОДЕЛЬ
+
+### Confirmed requirements
+
+1. MediaHub has one unified software core and one unified contract model across hardware profiles.
+2. MediaHub does not require identical hardware capabilities across installations.
+3. Every installation must undergo hardware detection and hardware-profile qualification.
+4. Available functions are determined by the qualified hardware profile, not by product name alone.
+5. Missing hardware capability does not create a different MediaHub architecture; the corresponding capability is unavailable in that profile.
+6. The architecture is one product architecture over heterogeneous qualified hardware profiles.
+7. Domain boundaries and deployment boundaries are distinct: a domain is a logical responsibility/contract boundary; a deployment is a concrete runtime/hardware placement.
+8. Security / Identity / Trust uses a centralized control-plane model with enforcement points inside each domain.
+9. MediaHub API direction is a unified API gateway plus versioned domain contracts; this remains preliminary until contract and API sections are reconciled.
+10. Mobile canonical model is fixed: MediaHub Core iOS/iPadOS is a local full-minimal MediaHub OS edition; MediaHub iOS Remote / Android Remote is a separate remote-access application.
+11. Cloud interaction follows the controlled boundary: MediaHub -> Security / Egress Gateway -> AI Gateway -> Cloud Development AI.
+12. Cluster formation starts with automatic discovery, then proposal, then explicit user confirmation before cluster formation.
+13. For clean installations on Mac mini and Mini PC, Linux is the baseline platform under consideration.
+14. In parallel, MediaHub is developed as an adaptable system for macOS, iPadOS and Raspberry Pi.
+
+### Decisions
+
+- Unified architecture, unified contracts, heterogeneous hardware capability profiles.
+- Hardware qualification is a prerequisite for declaring a capability available on an installation.
+- Hardware Abstraction Layer is an architectural mechanism for keeping domain contracts independent from physical hardware differences.
+- A hardware profile is a qualified capability description, not a separate product architecture.
+- macOS/iPadOS/Raspberry Pi adaptations remain implementations of the same MediaHub architecture; clean Mac mini/Mini PC installations use Linux as the baseline platform under consideration.
+- Security/Identity/Trust is a control plane, but enforcement is distributed to the domains that execute protected operations.
+- Cloud Development is never reached by an uncontrolled direct path from local domains; egress and AI policy gates mediate the path.
+- Automatic discovery alone does not authorize cluster formation; explicit user confirmation is required.
+
+### Rationale
+
+The architecture must support Mac mini, Mini PC, Raspberry Pi and iPad without creating incompatible architectural branches. Hardware differences are therefore represented as qualified capabilities behind a common abstraction and contract surface. This preserves one product architecture while allowing capability reduction or extension by hardware.
+
+### Constraints
+
+- No architectural fork merely because a device lacks a capability.
+- No capability may be advertised as available without hardware/runtime qualification.
+- Linux for clean Mac mini/Mini PC installations is a baseline platform direction, not yet a final OS semantic definition for the MediaHub OS product.
+- macOS, iPadOS and Raspberry Pi support must preserve the same canonical domain and contract model where platform constraints permit.
+- Physical hardware must not become an implicit authority or bypass domain contracts.
+- Security control-plane centralization must not become a single enforcement point or single point of failure.
+- The cloud boundary must preserve Local First and confidentiality-first requirements.
+
+### Invariants
+
+- MediaHub Architecture = one architecture + one contract model + qualified hardware profiles.
+- Capability availability = hardware/software qualification result.
+- Missing capability != alternate architecture.
+- Domain != deployment.
+- Security / Identity / Trust = centralized control plane + distributed enforcement.
+- Remote Access != local Core.
+- MediaHub Core iOS/iPadOS != remote client.
+- Cluster formation = discovery -> proposal -> user confirmation -> formation.
+- Cloud access = Security/Egress Gateway -> AI Gateway -> Cloud Development AI.
+- Cloud != local State Authority.
+- Local First.
+- Unknown/ambiguous protected state follows existing DENY/QUARANTINE / FAIL CLOSED rules.
+
+### Affected components
+
+Hardware / Platform, MediaHub OS Core, State Authority, Security / Identity / Trust, MediaHub API, Local AI, Local Cluster AI, Cloud Development AI, Mobile/Core iPadOS, Remote Access, Network System, Cluster formation and qualification.
+
+### Open questions carried forward
+
+1. Exact semantic definition of MediaHub OS across Linux, macOS, iPadOS and Raspberry Pi: operating-system image, distribution/system layer, or unified platform with platform-specific system implementations.
+2. Exact State Authority topology across multiple MediaHub nodes: replication, leader/authority semantics, conflict handling, quorum, split-brain prevention and failover.
+3. Exact scope of automatic cluster formation: compute, storage, Smart Home, network/mesh, redundancy, or a qualified subset of these capabilities.
+4. Exact API Gateway topology and trust model.
+5. Exact Security/Egress Gateway implementation and separation from network gateway/firewall roles.
+6. Exact Hardware Abstraction Layer boundaries and capability-schema format.
+
 ## Architecture invariants
 
 - MediaHub State Authority = canonical platform authority; it is not governmental authority.
@@ -115,7 +188,7 @@ Verification: the declared R4 SHA was not resolved by the available GitHub API a
 
 ## Final Section 1 status
 
-Section 1 product requirements are sufficiently reconciled to proceed to Section 2. Implementation and qualification questions deliberately deferred to later passport sections must not be silently assumed here.
+Section 1 product requirements are sufficiently reconciled to proceed to Section 2. Section 2 is now functionally reconciled for the confirmed hardware-profile and unified-architecture principle. Remaining OS semantic, State Authority topology, cluster scope, API and security-gateway details are explicitly carried forward and must be resolved in their relevant passport sections.
 
 ## Deferred decisions
 
@@ -124,7 +197,13 @@ Section 1 product requirements are sufficiently reconciled to proceed to Section
 - exact hardware capability matrix;
 - VPN protocol/provider and detailed routing policy;
 - subscription enforcement mechanics;
-- detailed capability matrix for Media/Entertainment/Documents on specialized profiles.
+- detailed capability matrix for Media/Entertainment/Documents on specialized profiles;
+- exact semantic definition of MediaHub OS across target platforms;
+- State Authority multi-node topology;
+- exact cluster formation scope;
+- final API Gateway topology;
+- final Security/Egress Gateway topology;
+- Hardware Abstraction Layer and capability-schema specification.
 
 ## Rejected / corrected interpretations
 
@@ -134,3 +213,4 @@ Section 1 product requirements are sufficiently reconciled to proceed to Section
 - Surveillance capability and local recording are separate requirements.
 - Media is not the sole product center.
 - Cloud Development is not canonical local authority.
+- Hardware-specific capability differences do not justify separate MediaHub architectures.
