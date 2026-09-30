@@ -10,7 +10,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 REPO = os.environ.get("MEDIAHUB_GITHUB_REPO", "VlDMlNSh/mediahub-os")
-BRANCH = os.environ.get("MEDIAHUB_GITHUB_BRANCH", "engineering/mh21-godmode-openrouter")
+BRANCH = os.environ.get("MEDIAHUB_GITHUB_BRANCH", "engineering/mh21-sandbox-lifecycle-20260910")
 INTERVAL = max(15, int(os.environ.get("MEDIAHUB_SITE_POLL_SECONDS", "60")))
 STATE = Path(os.environ.get("MEDIAHUB_ROOT", "/home/mediahub/dev/mediahub-os-autonomous")) / ".autonomous"
 STATE.mkdir(parents=True, exist_ok=True)

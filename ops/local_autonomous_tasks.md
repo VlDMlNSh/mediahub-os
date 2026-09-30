@@ -321,3 +321,17 @@ If a cloud agent is unavailable: continue local contract/test/security/recovery 
 FUNCTIONAL BASELINE → CONTRACTS → INTEGRATION → RECOVERY → SECURITY → PERFORMANCE/SOAK → RELEASE CANDIDATE → INDEPENDENT REVIEW → RELEASE AUTHORIZATION (HUMAN) → PRODUCTION READINESS → PRODUCTION AUTHORIZATION (HUMAN).
 
 <!-- P2.3 machine-executable increment: bounded lifecycle contract; physical persistence remains separately gated. -->
+
+
+# MH-22 autonomous qualification queue — 2026-09-30
+
+Qualification request: **MH22-AQ-001**
+- Lane: mh-22
+- Objective: autonomous qualification of the MH-22 architecture/control surface against the canonical Production Qualification Architecture requirements.
+- State: QUEUED
+- Priority: P0
+- Scope: architecture completeness, authority separation, identity/trust, security/privacy, hardware/platform/software, device/protocol, Smart Home, State Authority, storage/persistence, network, Section 24 Resource Management, AI/media/documents/knowledge, cloud, API/events, failure/recovery, update/rollback, migration gates, evidence, compatibility, production admission and continuous requalification.
+- Required evidence: exact GitHub commit/tree, R4 ancestry, machine-readable qualification report, 23-pass result, cross-domain contradiction/evidence/security/failure/recovery/admission checks.
+- Forbidden: production/release authorization, State Authority mutation, credentials, provider bypass, user-data access, destructive history rewrite.
+- Completion states: PASS | FAIL | BLOCKED | NO_PROGRESS.
+- Admission rule: queue membership grants qualification work only; it does not grant production or release authority.
