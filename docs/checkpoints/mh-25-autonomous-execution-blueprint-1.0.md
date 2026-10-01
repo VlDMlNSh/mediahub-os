@@ -63,5 +63,8 @@ A GOLD result is valid only when:
 Historical or older-SHA GOLD runs do not qualify newer Agent Fabric changes.
 
 ## Current execution anchor
-Current main HEAD after this pass: 9389d97a0a394599fad7eb609e7334186aa109a1
+Current main HEAD at queue activation: 02b4c64464be588d6a98eb729182379dfbca31f2
 Agent source blob SHA: 769306d93be818161af7ce49ba9b202eed6c5b24
+
+## First real queue test activation
+The first 24h queue test is implemented by `.github/workflows/mh25-first-24h-autonomous-queue.yml` and is intentionally separate from GOLD promotion. It runs only on the workflow-file activation push or explicit workflow dispatch, uses the canonical `mh-dev-01` runner, and executes bounded queue waves. Queue workers create task branches and evidence; they do not merge to `main`.
