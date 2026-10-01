@@ -335,3 +335,28 @@ Qualification request: **MH22-AQ-001**
 - Forbidden: production/release authorization, State Authority mutation, credentials, provider bypass, user-data access, destructive history rewrite.
 - Completion states: PASS | FAIL | BLOCKED | NO_PROGRESS.
 - Admission rule: queue membership grants qualification work only; it does not grant production or release authority.
+
+
+# MH-14 autonomous qualification queue — 2026-10-01
+
+Qualification request: **MH14-AQ-001**
+- Lane: mh-14
+- Subject: Persistence Architecture
+- State: QUEUED
+- Priority: P0
+- Target branch: `engineering/mh21-sandbox-lifecycle-20260910`
+- Scope: canonical persistence boundary, State Authority separation, transactions/concurrency, consistency classes, journal/snapshot/recovery, persistence domains, backup/restore, durability/RPO/RTO, storage lifecycle, migration, corruption recovery, security/privacy inheritance, observability, distributed persistence, cloud/Local First boundary, resource/capacity limits, and cross-MH contradiction analysis.
+- Canonical inputs:
+  - `docs/architecture/MH-14/MH-14-persistence-architecture.md`
+  - `docs/architecture/MH-14/MH-14-gaps.md`
+  - `docs/architecture/MH-14/MH-14-qualification-blueprint.md`
+  - `docs/architecture/MH-14/MH-14-acceptance-criteria.md`
+  - `docs/architecture/MH-14/MH-14-decision-log.md`
+  - `ops/autonomous-qualification/mh-14.yaml`
+- Authority: State Authority is the sole canonical mutation authority; persistence is storage only.
+- Evidence rule: architecture prose is not implementation evidence; every result binds to exact revision/environment.
+- Forbidden: production/release authorization, State Authority mutation, backend selection without ADR, provider/credential bypass, fabricated hardware/cloud evidence, direct storage bypass, competing authority, stale canonical writes, split-brain commit, recovery bypass, destructive history rewrite.
+- Required outputs: qualification report, per-wave gap disposition, contradiction report, evidence matrix, provenance record, unresolved governance decisions, closure recommendation, and explicit implementation-authorization separation.
+- Completion states: PASS | PARTIAL | BLOCKED | FAIL | NO_PROGRESS.
+- Transition: `QUEUED -> Wave 0..10 -> Closure -> handoff`.
+- Admission rule: queue membership grants qualification work only; it does not grant implementation, release, or production authority.
