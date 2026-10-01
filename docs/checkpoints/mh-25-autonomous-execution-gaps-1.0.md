@@ -1,6 +1,13 @@
 # MH-25 — Autonomous Execution Gap Register 1.0
 
 Status: LIVE — NO FALSE CLOSURE
+
+## First 24h queue test
+- Workflow: `.github/workflows/mh25-first-24h-autonomous-queue.yml`
+- Activation commit: `6abda158653411f71330b8cd9db1eaaf7a75f7e6`
+- Trigger: push path activation; manual dispatch also available.
+- Intended role: real bounded queue soak, not G0-G9 promotion.
+- Run acceptance remains evidence-based; a GitHub workflow being triggered does not equal PASS.
 Date: 2026-10-01
 
 | Gate | Status | Evidence / blocker |
@@ -21,6 +28,7 @@ Date: 2026-10-01
 - Manifest validation: PASS in run 36920920287; same run failed at invariant assertion because the referenced text anchors were incorrect.
 - The invariant check was subsequently corrected.
 - Current workflow fixes are committed; a fresh PASS for the latest HEAD is still required.
+- Queue engine is now present at `runtime/mediahub_runtime/autonomous_queue.py`; it uses ClaimStore, bounded A2 builder execution, independent read-only A3 verification, task branches, and evidence. No automatic merge to main.
 - SentinelX cannot provide a stable active execution slot for mh-dev-01 under the current Free-plan 1-active-host limit.
 
 ## No-go conditions
