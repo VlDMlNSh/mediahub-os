@@ -1,0 +1,32 @@
+schema: mediahub.agent-fabric.provider-config.v1
+mode: local
+coordinator: A0-ASTRA
+verification: A3-VERIFIER
+providers:
+  - id: CODEX_LOCAL
+    kind: local-process
+    command_env: MEDIAHUB_CODEX_EXECUTOR
+    default_command: codex
+    enabled: true
+    authority: executor-only
+    workspace_isolation: required
+  - id: CLAUDE_LOCAL
+    kind: local-process
+    command_env: MEDIAHUB_CLAUDE_EXECUTOR
+    default_command: claude
+    enabled: true
+    authority: executor-only
+    workspace_isolation: required
+concurrency:
+  max_parallel_executors: 2
+  require_disjoint_claims: true
+  shared_surfaces: serialized
+failure:
+  missing_binary: BLOCKED
+  nonzero_exit: FAILED
+  timeout: FAILED
+  malformed_result: REJECTED
+security:
+  create_credentials: false
+  expose_credentials: false
+  quota_bypass: false
