@@ -51,3 +51,14 @@ AUTONOMOUS_DEVELOPMENT = ENABLED only after every gate G0-G9 has fresh PASS evid
 - Attempted service restart was accepted by SentinelX, but subsequent service status remained inactive; therefore no fresh worker-running evidence was obtained.
 - The canonical GitHub repo remains the authoritative source for queue code; SentinelX did not provide valid evidence of the first 24h runner execution.
 - No G0/G2/G3/G4/G5/G7/G8/G9 promotion is permitted from this pass.
+
+
+## Queue hardening — 2026-10-02
+- Autonomous queue now uses task-scoped Git worktrees, allowing bounded concurrent builders without sharing a mutable checkout.
+- Default bounded worker budget is 3; the environment remains authoritative and may reduce it.
+- Task dependencies are now enforced before dispatch; unsatisfied dependencies remain queued.
+- Queue selection/IDLE/completed-task tests were added in commit `4741b877b7d10ccd4ae9301eb16df2defe6f5dfc`.
+- Isolated-worktree execution and dependency gating were added in commits `b68a6a8aca6e8d710c4164169561d6720f872904`, `34183ecfe01b795b5cba6422ce64bdf1e5771a8f`, and `cdb71bfc383efe97103c92dea941d6373392f29d`.
+- Queue task MH25-QUEUE-001 is intentionally marked VERIFY with fresh CI still pending; it is not represented as independently verified.
+- MH25-QUEUE-002 is seeded as the next independently schedulable test task.
+- These implementation commits do not promote G0-G9. Fresh exact-HEAD executable evidence remains required.
