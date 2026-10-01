@@ -4,8 +4,8 @@ Status: LIVE / FAIL-CLOSED
 
 | ID | Gap | State | Required evidence |
 |---|---|---|---|
-| G1 | Claude provider authentication/policy | BLOCKED | Successful non-mutating Claude probe on mh-dev-01 |
-| G2 | Codex non-interactive probe | BLOCKED | stdin=/dev/null marker PASS |
+| G1 | Claude provider authentication/policy | BLOCKED | Direct Ollama Anthropic endpoint responds, but Claude CLI rejects the local model identity; real Claude/Anthropic auth remains unavailable |
+| G2 | Codex non-interactive probe | BLOCKED | stdin=/dev/null marker PASS; local Ollama launch starts but marker PASS not yet observed |
 | G3 | Astra provider dispatch wiring | BLOCKED | task->claim->provider->process evidence |
 | G4 | isolated worktrees | BLOCKED | two task-scoped worktrees |
 | G5 | concurrent disjoint execution | BLOCKED | overlapping timestamps + distinct claims |
@@ -23,7 +23,7 @@ Status: LIVE / FAIL-CLOSED
 - CODEX_LOCAL and CLAUDE_LOCAL provider contracts exist.
 - GitHub Transport control blueprint exists.
 - mh-dev-01 has Codex CLI 0.151.0 and Claude Code 2.1.280.
-- Claude fresh live probe previously returned HTTP 403/security-policy denial.
+- Claude first-party login remains unauthenticated; local compatibility endpoint responds, but Claude CLI model validation blocks the qwen model mapping.
 - Codex fresh successful model marker has not yet been proven.
 - No credential or quota bypass is permitted.
 
