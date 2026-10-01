@@ -36,3 +36,13 @@ Do not close G0-G9 from implementation commits, PR existence, historical GOLD, o
 
 ## Promotion condition
 AUTONOMOUS_DEVELOPMENT = ENABLED only after every gate G0-G9 has fresh PASS evidence tied to one exact HEAD and independently verified evidence bundle.
+
+
+## SentinelX execution pass — 2026-10-01
+- Host mh-dev-01 is connected and pingable.
+- SentinelX reports Free plan limit=1; host is currently parked/non-operational from the plan perspective despite zero active hosts being reported.
+- SentinelX agent is 0.19.3; mediahub-astra.service is installed but reported inactive (dead).
+- Service unit runs as mediahub from /opt/mediahub/astra; SentinelX operator identity is sentinelx, which cannot read /home/mediahub/mediahub-os due Unix permissions.
+- Attempted service restart was accepted by SentinelX, but subsequent service status remained inactive; therefore no fresh worker-running evidence was obtained.
+- The canonical GitHub repo remains the authoritative source for queue code; SentinelX did not provide valid evidence of the first 24h runner execution.
+- No G0/G2/G3/G4/G5/G7/G8/G9 promotion is permitted from this pass.
