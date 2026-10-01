@@ -1,6 +1,9 @@
 name: MH-25 Dual Local Executor Probe
 
 on:
+  push:
+    branches:
+      - astra/dual-local-executors-live-20261002
   workflow_dispatch:
     inputs:
       target_sha:
