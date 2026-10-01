@@ -2,10 +2,15 @@
 
 Status: LIVE — NO FALSE CLOSURE
 
+Current execution HEAD: `a26d561051976baee2797b47018a83ee6fbd7adf`
+Seeded READY task: `ops/agent-fabric/tasks/MH25-QUEUE-001.json`
+
 ## First 24h queue test
 - Workflow: `.github/workflows/mh25-first-24h-autonomous-queue.yml`
 - Activation commit: `6abda158653411f71330b8cd9db1eaaf7a75f7e6`
 - Trigger: push path activation; manual dispatch also available.
+- Activation commit for the current test: `a26d561051976baee2797b47018a83ee6fbd7adf`.
+- Queue seed task: `MH25-QUEUE-001` (READY; test-only bounded surface).
 - Intended role: real bounded queue soak, not G0-G9 promotion.
 - Run acceptance remains evidence-based; a GitHub workflow being triggered does not equal PASS.
 Date: 2026-10-01
