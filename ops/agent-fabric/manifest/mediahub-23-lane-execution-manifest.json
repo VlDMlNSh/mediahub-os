@@ -1,0 +1,291 @@
+{
+  "schema": "mediahub.agent-fabric.execution-manifest.v1",
+  "authority": "A0-ASTRA-coordination",
+  "generated_at": "2026-10-01",
+  "source_policy": "read-only reconciliation; UNKNOWN is not promotable",
+  "immutable_anchors": [
+    {
+      "name": "R4",
+      "sha": "471f709f5633feab7aeb62dd3ea52effad6d2bc4"
+    },
+    {
+      "name": "MH-05",
+      "evidence": "34143904463,34143904462"
+    }
+  ],
+  "lanes": [
+    {
+      "lane_id": "MH-01",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "#138",
+      "notes": "governance-only PR; qualification revision 816787335cad4b84c1cb8f08a2acb5f54b245a9a"
+    },
+    {
+      "lane_id": "MH-02",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-03",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-04",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-05",
+      "disposition": "VERIFY",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "CI evidence exists; qualification not yet closed"
+    },
+    {
+      "lane_id": "MH-06",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-07",
+      "disposition": "BLOCKED",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "#118",
+      "notes": "broader qualification/reconciliation evidence pending"
+    },
+    {
+      "lane_id": "MH-08",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-09",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-10",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-11",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-12",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-13",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-14",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-15",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-16",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-17",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-18",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-19",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-20",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-21",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    },
+    {
+      "lane_id": "MH-22",
+      "disposition": "BLOCKED",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "#136",
+      "notes": "full-domain evidence gaps; P7/P23 noted"
+    },
+    {
+      "lane_id": "MH-23",
+      "disposition": "WAIT",
+      "owner": "UNKNOWN",
+      "base_sha": "UNKNOWN",
+      "head_sha": "UNKNOWN",
+      "lease": "UNKNOWN",
+      "worker": "UNKNOWN",
+      "pr": "UNKNOWN",
+      "notes": "No authoritative ownership/dependency/lease/worker evidence"
+    }
+  ],
+  "global_dependency_order": "UNKNOWN_PENDING_ARCHITECT_RECONCILIATION",
+  "collision_policy": "exact_write_block + incompatible_overlap_block",
+  "required_evidence": [
+    "task",
+    "claim",
+    "worker",
+    "verification",
+    "commit",
+    "evidence"
+  ],
+  "promotion_rule": "PR existence alone never promotes a lane; exact base/head/owner/lease/worker/verification evidence required",
+  "serialized_surfaces": [
+    "R4",
+    "MH-05 qualification evidence",
+    "shared runtime authority",
+    "qualification metadata",
+    "release gates",
+    "production authorization controls"
+  ],
+  "status": "RECONCILIATION_BASELINE_NOT_YET_QUALIFIED"
+}
