@@ -1,17 +1,17 @@
 # MEDIAHUB OS / MEDIAHUB iOS
 # FUNCTIONAL BASELINE 2.0
 
-**Document status:** RECONCILIATION CANDIDATE — PENDING OWNER ACCEPTANCE  
+**Document status:** ACCEPTED — CANONICAL IMMUTABLE REFERENCE POINT  
 **Version:** 2.0.0  
-**Architecture revision:** MH-24 / 2026-09-30  
+**Architecture revision:** MH-24 / 2026-10-01  
 **Scope:** MediaHub OS 11.x LTS / MediaHub iOS and associated development infrastructure  
-**Supersedes:** Functional Baseline 1.0 as the next functional reference, while preserving Baseline 1.0 as immutable historical provenance.
+**Supersedes:** Functional Baseline 1.0 as the current functional reference, while preserving Baseline 1.0 as immutable historical provenance.
 
-## 0. Purpose and authority
+## 0. Acceptance and authority
 
-This document reconciles the user-supplied 68-section functional passport, MH-1…MH-23 decisions, canonical checkpoint documents, and the current GitHub repository state.
+This document is the accepted Functional Baseline 2.0 produced by MH-24 reconciliation. It reconciles the user-supplied 68-section functional passport, MH-1…MH-23 decisions, canonical checkpoint documents, and the current GitHub repository state.
 
-It does **not** claim that architecture is implemented merely because a repository artifact exists. The following states remain distinct:
+Acceptance does **not** claim implementation, verification, qualification or production merely because an architectural artifact exists. The following states remain distinct:
 
 - Requirement
 - Decision
@@ -21,6 +21,9 @@ It does **not** claim that architecture is implemented merely because a reposito
 - Historical Record
 - Open Decision
 - Rejected Option
+- Verified
+- Qualified
+- Production Authorized
 
 Implementation is never inferred from architecture. Qualification is never inferred from implementation.
 
@@ -59,10 +62,12 @@ Developer domain is not a user-data domain.
 
 ### 2.3 Mobile
 
-Exactly two functional application roles:
+Exactly two functional application roles are retained in the baseline product architecture:
 
 - MediaHub Core for iOS/iPadOS: local full-minimal MediaHub Core edition, not a remote client.
 - MediaHub Remote Access: separate remote access/management application family.
+
+Developer Mobile is a separate developer-only application surface and is governed by the Developer Domain boundary; it is not a Remote Access client and does not gain user-data access by virtue of developer status.
 
 No mobile application is an authority.
 
@@ -215,7 +220,9 @@ Supported/target profiles:
 - Linux;
 - macOS;
 - iPadOS Core;
-- Raspberry Pi / specialized profiles.
+- Raspberry Pi / specialized profiles;
+- iOS Developer Mobile;
+- iOS Remote Access.
 
 Clean Mac mini/Mini PC installations use Linux as the baseline implementation direction. Apple platforms remain integrated platform adaptations where the base OS cannot be replaced.
 
@@ -446,289 +453,72 @@ Candidate bindings:
 
 Transport acknowledgement is not proof of authoritative state commit.
 
-Idempotency, deadlines, cancellation, replay resistance, stale epoch/fencing and transactional state/event publication are mandatory.
-
-## 23. Observability
-
-Observability includes metrics, logs, traces, health/readiness, diagnostics, alerts and audit.
-
-OpenTelemetry/Prometheus are target technologies.
-
-Forbidden in developer-facing telemetry:
-
-- API keys;
-- private keys;
-- personal media;
-- user filesystem contents;
-- raw sensitive provider/model payloads;
-- personal payloads in evidence.
-
-Operational identifiers are allowed when they do not reveal protected payloads.
-
-## 24. Resource management
-
-Resource management covers:
-
-CPU, GPU, NPU, memory, storage, network, Thunderbolt/USB4, reservations, leases, thermal/power envelopes, workload placement and rescheduling.
-
-Resource Manager and scheduler allocate resources; they do not own canonical system authority.
-
-Placement must be capability-aware and performance-aware. Large local datasets should be processed near their data when policy permits.
-
-## 25. User experience
-
-Unified MediaHub UI hides implementation topology.
-
-UI is minimal, mostly gray, intuitive, macOS-like in interaction quality while retaining MediaHub identity.
-
-Technical backend components, databases, schedulers and network planes are not exposed as separate user products unless required for administration.
-
-## 26. Product editions and paid boundaries
-
-Editions:
-
-- MediaHub OS Full for Mac mini;
-- MediaHub OS Full for Mini PC;
-- Hub OS Raspberry Pi;
-- MediaHub Core iOS/iPadOS;
-- MediaHub iOS Remote;
-- OS Developer;
-- iOS Developer.
-
-Paid boundaries include Document, Digital Twin professional, Engineering and relevant commercial capabilities.
-
-Digital Twin is not a separate OS.
-
-## 27. Lifecycle and device management
-
-Device lifecycle follows:
-
-Discover → Identify → Authenticate → Capability → Trust → Qualify → Admit → Integrate → Operate → Observe → Update → Revoke.
-
-Unknown/untrusted devices are denied or quarantined.
-
-Capability drift, identity revocation, ownership change and failed qualification must converge to a safe state.
-
-## 28. Functional 68-section reconciliation
-
-| # | Passport section | Baseline 2.0 status | Implementation status |
-|---:|---|---|---|
-| 1 | Назначение | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 2 | Архитектурная модель | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 3 | State Authority | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 4 | Home Assistant Core | RECONCILED | PLANNED/PARTIAL |
-| 5 | UI | RECONCILED | PLANNED/PARTIAL |
-| 6 | Smart Home | RECONCILED | PLANNED/PARTIAL |
-| 7 | Manufacturers | RECONCILED | PLANNED / qualification-gated |
-| 8 | Kincony/KCS | RECONCILED | PLANNED |
-| 9 | Wired protocols | RECONCILED | PLANNED |
-| 10 | Wireless | RECONCILED | PLANNED |
-| 11 | Virtual Ubiquiti Server | RECONCILED | PLANNED |
-| 12 | Smart Home Automation | RECONCILED | PLANNED/PARTIAL |
-| 13 | Voice | RECONCILED | PLANNED |
-| 14 | AI architecture | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 15 | Local AI | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 16 | Local Cluster AI | RECONCILED | PLANNED/PARTIAL |
-| 17 | Cloud Development AI | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 18 | Trusted Sources Intelligence | RECONCILED | PLANNED |
-| 19 | AI Human Clone | RECONCILED | PLANNED |
-| 20 | Mobile Access Layer | RECONCILED | PLANNED/PARTIAL |
-| 21 | Mobile invariants | RECONCILED | ARCHITECTURE_DEFINED |
-| 22 | iPhone Media | RECONCILED | PLANNED |
-| 23 | Media System | RECONCILED | PLANNED/PARTIAL |
-| 24 | Document System | RECONCILED | PLANNED |
-| 25 | Digital Twin | RECONCILED | PLANNED |
-| 26 | Engineering System | RECONCILED | PLANNED |
-| 27 | Network Architecture | RECONCILED | ARCHITECTURE_DEFINED/PARTIAL |
-| 28 | Equipment discovery | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 29 | Smart Home export | RECONCILED | PLANNED |
-| 30 | Product Editions | RECONCILED | ARCHITECTURE_DEFINED |
-| 31 | Paid functions | RECONCILED | PLANNED |
-| 32 | Update System | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 33 | Backup/Recovery | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 34 | Security | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 35 | Cloud security | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 36 | Local First | RECONCILED | ARCHITECTURE_DEFINED/PARTIAL |
-| 37 | Cluster | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 38 | New devices | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 39 | Observability | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 40 | Data/Storage | RECONCILED | ARCHITECTURE_DEFINED/PARTIAL |
-| 41 | Knowledge/Search | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 42 | AI Escalation | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 43 | OSS Foundation | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 44 | OSS Adoption Rule | CONFIRMED | IMPLEMENTED as governance |
-| 45 | Architectural prohibitions | CONFIRMED | IMPLEMENTED as governance |
-| 46 | Production/qualification gates | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 47 | Git/provenance | RECONCILED | IMPLEMENTED for repository governance |
-| 48 | Autonomous development | RECONCILED | IMPLEMENTED as governance |
-| 49 | Developer ecosystem | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 50 | Overall chain | RECONCILED | ARCHITECTURE_DEFINED |
-| 51 | Mobile chain | RECONCILED | ARCHITECTURE_DEFINED |
-| 52 | Smart Home chain | RECONCILED | ARCHITECTURE_DEFINED/PARTIAL |
-| 53 | AI chain | RECONCILED | ARCHITECTURE_DEFINED/PARTIAL |
-| 54 | Cloud Development structure | RECONCILED | ARCHITECTURE_DEFINED/PARTIAL |
-| 55 | UX | RECONCILED | PLANNED |
-| 56 | AI principle | CONFIRMED | GOVERNANCE_IMPLEMENTED |
-| 57 | Smart Home principle | CONFIRMED | GOVERNANCE_IMPLEMENTED |
-| 58 | Mobile principle | CONFIRMED | ARCHITECTURE_DEFINED |
-| 59 | Cloud AI principle | CONFIRMED | ARCHITECTURE_DEFINED |
-| 60 | Voice order | CONFIRMED | PLANNED |
-| 61 | Update principle | CONFIRMED | PARTIALLY_IMPLEMENTED |
-| 62 | Local-first | CONFIRMED | ARCHITECTURE_DEFINED/PARTIAL |
-| 63 | Functional model | RECONCILED | ARCHITECTURE_DEFINED |
-| 64 | Architectural invariant | CONFIRMED | GOVERNANCE_IMPLEMENTED |
-| 65 | Qualification | RECONCILED | PARTIALLY_IMPLEMENTED |
-| 66 | Release | CONFIRMED | GOVERNANCE_IMPLEMENTED |
-| 67 | Final architectural baseline | RECONCILED | ARCHITECTURE_DEFINED |
-| 68 | Development chain | CONFIRMED | GOVERNANCE_IMPLEMENTED |
-
-**Important:** the implementation labels above are conservative architecture-to-repository assessments. They are not production qualification claims.
-
-## 29. Major contradictions and resolutions
-
-### C-01 — Functional Baseline 1.0 vs MH-03 runtime foundation
-**Conflict:** Baseline 1.0 defines future persistent/distributed capabilities while MH-03 froze an earlier minimal runtime foundation.
-
-**Resolution:** MH-03 remains historical foundation provenance. Functional Baseline 2.0 is the reconciled target architecture; persistent/distributed capabilities require implementation and qualification gates.
-
-### C-02 — Last Write Wins for critical state
-**Conflict:** older distributed-state material could permit generic LWW semantics.
-
-**Resolution:** unconditional LWW is rejected for critical canonical state. Strong consistency / explicit authority epoch / fencing / fail-closed conflict handling apply.
-
-### C-03 — Flat federation / global VPN interpretation
-**Conflict:** earlier federation wording could imply one global resource network.
-
-**Resolution:** hierarchical Local MediaHub Cluster + separate Cloud Development Cluster. Compute Contribution is request-scoped; no global full-tunnel.
-
-### C-04 — Developer compute vs user data
-**Conflict:** aggregate developer compute could be interpreted as access to local user resources.
-
-**Resolution:** Compute Contribution, User Data Access and Developer Personnel Access are independent authorization domains. Personal user data stays local unless an explicit privacy policy permits bounded processing.
-
-### C-05 — CPRG as general VPN gateway
-**Conflict:** protected registration could be interpreted as general transit.
-
-**Resolution:** CPRG VPN is exclusively for bounded API-key registration. CPRG is not NAT/proxy/transit/default gateway.
-
-### C-06 — Primary Development Node as permanent master
-**Conflict:** selecting the strongest server could create a master/SPOF.
-
-**Resolution:** Primary Development Node is a dynamic operational role selected from qualified measurements. It is not the authority and not a permanent master.
-
-### C-07 — iPad Core vs Remote Mobile
-**Conflict:** older wording could conflate iPad MediaHub OS with remote access.
-
-**Resolution:** iPad/iPadOS Core is a local full-minimal MediaHub OS edition; Remote Mobile is a separate application family.
-
-### C-08 — TV/source recording
-**Conflict:** generic media scope could imply mandatory TV/source recording.
-
-**Resolution:** TV/source recording is not mandatory Media capability.
-
-### C-09 — R4 SHA provenance discrepancy
-**Conflict:** historical passport text and project declaration contain a SHA formatting discrepancy.
-
-**Resolution:** immutable declared R4 anchor remains unchanged; no silent correction. Machine verification remains a separate technical reconciliation item.
-
-## 30. Open decisions that remain genuinely unresolved
-
-1. Exact State Authority replication/leader-election/quorum implementation.
-2. Exact consistency class schema and transaction boundaries beyond the reconciled classes.
-3. HA Core owner takeover semantics per Smart Home safety class.
-4. API Gateway and Security/Egress Gateway concrete topology.
-5. Final IP/VLAN/VRF/firewall/DNS/DHCP/service-discovery network implementation.
-6. Final seamless-Wi-Fi/roaming mechanism and vendor qualification.
-7. Personal VPN protocol/provider and per-network/per-client policy.
-8. Final high-speed Mac mini topology and whether/where RDMA is justified.
-9. Distributed storage implementation after benchmark.
-10. Developer Fabric primary-node election algorithm and scheduler implementation.
-11. Exact compute-contribution workload classes and contributor opt-in UX.
-12. Exact bootstrap/trust-root/cryptographic formats for CPRG.
-13. Revocation-state distribution and recovery-authority custody.
-14. Data retention/deletion schedules by legal/product class.
-15. Exact mobile hardware capability matrix and iPad Core runtime packaging.
-16. Subscription/entitlement enforcement implementation.
-17. Final AI model-router/provider policy and benchmark-based production selection.
-18. Exact Digital Twin/Engineering entitlement and artifact model.
-19. Production qualification evidence for each product edition.
-20. Final Reference Architecture after owner acceptance of this baseline.
-
-These are not repeated MH-1…MH-23 questions; they are the remaining implementation/qualification decisions identified by reconciliation.
-
-## 31. Rejected options retained as provenance
-
-- Second independent MediaHub State Authority.
-- AI as canonical State Authority.
-- Cloud as uncontrolled authority.
-- AI direct physical-device authority.
-- Bypass of Home Assistant Core.
-- Flat global VPN/federated resource pool.
-- Permanent full-tunnel Local-to-Cloud architecture.
-- CPRG as general VPN/NAT/proxy/transit gateway.
-- Developer personnel access to user personal data.
-- Compute contribution implying user-data federation.
-- Permanent Primary Development Node/master.
-- Unconditional Last Write Wins for critical state.
-- Multiple competing production OTA authorities without decision.
-- Multiple production AI runtimes without benchmark.
-- Reference OSS product as core authority.
-- Self-review as independent qualification.
-- Mandatory TV/source recording capability.
-- Provider-specific network workaround for regional restrictions.
-
-## 32. Canonical document map
-
-Current canonical candidates after MH-24 reconciliation:
-
-- `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` — immutable historical baseline.
-- `docs/checkpoints/mediahub-master-architecture-reconciliation.md` — reconciliation history/control record.
-- `docs/checkpoints/2026-09-30-mediahub-implementation-blueprint.md` — implementation blueprint.
-- `docs/checkpoints/2026-09-30-mediahub-architecture-gaps-and-pushback.md` — gap/pushback register.
-- `docs/checkpoints/2026-09-30-mediahub-compute-wire-protocol-v1.md` — compute protocol.
-- `docs/checkpoints/2026-09-30-mediahub-hierarchical-cluster-architecture.md` — cluster/federation architecture.
-- `docs/checkpoints/2026-09-30-cloud-development-fabric-reference-architecture.md` — developer fabric.
-- `docs/checkpoints/2026-09-30-mediahub-network-infrastructure-reference-architecture-v1.md` — network reference architecture.
-- CPRG threat/identity/bootstrap documents — security architecture.
-- **`docs/checkpoints/mediahub-functional-baseline-2.0.md` — this document.**
-
-A separate final Reference Architecture is intentionally deferred until Functional Baseline 2.0 owner acceptance.
-
-## 33. Traceability and provenance
-
-Primary source classes:
-
-1. User-supplied 68-section passport in MH-24.
-2. MH-1…MH-23 historical decisions.
-3. Canonical checkpoint documents in GitHub.
-4. Current repository implementation/evidence.
-
-Key current GitHub evidence anchors include:
-
-- repository HEAD at reconciliation start: `863e61783272e0107ce74ab1620212285946aca8`;
-- Section 2 closure: `38110d7610845874b7287313eee251c289ed5604`;
-- Section 3 closure: `f7ab2f4a2a1cab463466a87d344f0261ce7da48a`;
-- Section 4 reconciliation: `863e61783272e0107ce74ab1620212285946aca8`;
-- compute protocol hardening: `313f257529fbc8b2d732467355c42eb0d1be5a03`;
-- implementation blueprint: `dfc2478b663bf88a2aef27b5ef30db17a36f9a9e`;
-- cloud development fabric: `038cb7460b32281e419396dd106c0228b834b693`;
-- network passport extension: `b2eafbe42e16ae877487572b5006272679fdc93f`;
-- CPRG threat model hardening: `286c1457b73c6376a3c7fe18b9a900fe3e2b8216`;
-- CPRG trust contract: `c57e0161885695ec0ddffad35dc57fba3271ef70`;
-- CPRG bootstrap/recovery: `4b0840b087326af828377d5a2ec03b6b7066f1fd` (historical checkpoint commit).
-
-Qualification evidence is referenced by its own evidence records and must not be inferred from these documentation commits.
-
-## 34. Baseline acceptance rule
-
-This document becomes the immutable Functional Baseline 2.0 reference only after explicit owner acceptance.
-
-After acceptance:
-
-- content is not silently edited;
-- changes require a new baseline/revision;
-- provenance remains preserved;
-- architecture and implementation remain separate;
-- every implementation claim requires fresh evidence.
-
-**Current status: RECONCILED CANDIDATE — NOT YET OWNER-ACCEPTED.**
+## 23. Traceability and provenance
+
+The 68 passport sections are reconciled in `docs/checkpoints/mediahub-mh24-traceability-matrix.md`.
+
+MH-1…MH-23 remain historical architectural provenance. Functional Baseline 1.0 remains preserved and is superseded as the current functional reference by this accepted Baseline 2.0.
+
+Key MH-24 provenance:
+
+- Baseline candidate creation commit: `26de2e57316155e32e540ce43349b4cd124873c2`.
+- Baseline candidate blob SHA: `e01c37e9fe15f91dc5c3ccdab40a47bc281fcfb8`.
+- Traceability matrix creation commit: `7bbb0dcdd591a48b0371accfab33c6b933821293`.
+- Traceability matrix blob SHA: `8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6`.
+- Master reconciliation update commit: `633d734e0a741413bbcdc0d1d00f08bc0a256fe5`.
+- Master reconciliation blob SHA: `f3a66e292302984be95ae8085f17e03cd538baae`.
+
+The acceptance update is the controlled successor to the candidate artifact. The accepted file is now the canonical functional reference; future changes require an explicit architectural change process and a new baseline revision.
+
+## 24. MH-24 closure criteria
+
+MH-24 closure is based on the reconciliation evidence recorded in `mediahub-mh24-reconciliation-report.md`:
+
+- full passport received;
+- all 68 sections represented and reconciled;
+- MH-1…MH-23 reconciled;
+- authority, security and privacy boundaries reconciled;
+- capability, platform and cluster models reconciled;
+- persistence, network, Smart Home, Media, Documents, Knowledge, Digital Twin, Engineering, AI, Compute Fabric and Cloud reconciled;
+- update/recovery/migration and qualification models reconciled;
+- contradictions registered and resolved or explicitly carried as implementation/open items;
+- GitHub drift identified;
+- canonical document set established;
+- Baseline 2.0 produced and synchronized;
+- historical provenance preserved;
+- no implementation status falsely inferred.
+
+## 25. Open implementation / qualification work carried forward
+
+The following are intentionally downstream of MH-24 and do not invalidate the accepted functional baseline:
+
+1. State Authority leader election/quorum/replication implementation.
+2. Exact consistency-class schema and transaction boundaries.
+3. HA takeover policy by safety class.
+4. API Gateway/Security-Egress Gateway topology.
+5. Final IP/VLAN/VRF/firewall/DNS/DHCP/discovery implementation.
+6. Wi-Fi roaming/controller/interoperability qualification.
+7. Personal VPN provider/protocol/traffic policy.
+8. Thunderbolt/USB4 topology and RDMA applicability.
+9. Distributed storage implementation.
+10. Primary Development Node election and scheduler algorithm.
+11. Compute Contribution workload classes and UX.
+12. CPRG cryptographic/bootstrap formats and custody.
+13. Data retention/deletion schedules.
+14. Mobile capability matrix and packaging.
+15. Entitlement/subscription enforcement.
+16. Production AI model-router/provider policy.
+17. Digital Twin/Engineering entitlement and artifact implementation.
+18. Product-edition production qualification evidence.
+
+These are implementation/qualification work items for the next stages and are not unresolved contradictions in the accepted baseline.
+
+## 26. Canonical status
+
+**FUNCTIONAL BASELINE 2.0 — ACCEPTED / CANONICAL / IMMUTABLE REFERENCE POINT**
+
+This document is the functional reference for subsequent Reference Architecture, Reference Implementation Blueprint, implementation, verification and qualification work.
+
+It does not claim that those downstream stages are already complete.
+
+Baseline 1.0 remains retained as historical provenance.
