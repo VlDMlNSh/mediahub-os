@@ -37,6 +37,9 @@ def load_tasks() -> list[dict]:
 def completed(task_id: str) -> bool:
     return (STATE / "completed" / f"{task_id}.json").is_file()
 
+def dependencies_satisfied(task: dict) -> bool:
+    return all(completed(str(dep)) for dep in task.get("dependencies", ()))
+
 def evidence(task_id: str, payload: dict) -> None:
     target = STATE / "evidence"
     target.mkdir(parents=True, exist_ok=True)
@@ -130,7 +133,7 @@ def process_task(task: dict) -> dict:
 
 def main() -> int:
     STATE.mkdir(parents=True, exist_ok=True)
-    tasks = [t for t in load_tasks() if not completed(str(t["task_id"]))]
+    tasks = [t for t in load_tasks() if not completed(str(t["task_id"])) and dependencies_satisfied(t)]
     if not tasks:
         print(json.dumps({"status":"IDLE","reason":"no_ready_tasks"}, sort_keys=True)); return 0
     selected = tasks[:MAX_WORKERS]
