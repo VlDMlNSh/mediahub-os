@@ -1,0 +1,78 @@
+name: MH-25 Dual Local Executor Probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_sha:
+        description: Exact source SHA to probe
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mh25-dual-local-executor-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact target
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+
+      - name: Canonical node preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          test -n "$(command -v codex)"
+          test -n "$(command -v claude)"
+          codex --version
+          claude --version
+
+      - name: Codex non-interactive marker probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f /tmp/mh25-codex-probe.txt
+          codex exec --skip-git-repo-check --sandbox read-only             'Return exactly MEDIAHUB_CODEX_LOCAL_EXECUTOR_OK. Do not modify files or use tools.'             < /dev/null > /tmp/mh25-codex-probe.txt 2>&1
+          grep -Fx 'MEDIAHUB_CODEX_LOCAL_EXECUTOR_OK' /tmp/mh25-codex-probe.txt
+
+      - name: Claude non-mutating marker probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f /tmp/mh25-claude-probe.txt
+          claude -p             'Return exactly MEDIAHUB_CLAUDE_LOCAL_EXECUTOR_OK. Do not modify files or use tools.'             --output-format text > /tmp/mh25-claude-probe.txt 2>&1
+          grep -Fx 'MEDIAHUB_CLAUDE_LOCAL_EXECUTOR_OK' /tmp/mh25-claude-probe.txt
+
+      - name: Provider evidence
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "target_sha=${{ inputs.target_sha }}"
+            echo "host=$(hostname)"
+            echo "user=$(id -un)"
+            echo "codex=$(codex --version 2>&1 || true)"
+            echo "claude=$(claude --version 2>&1 || true)"
+            echo "--- codex output ---"
+            cat /tmp/mh25-codex-probe.txt 2>/dev/null || true
+            echo "--- claude output ---"
+            cat /tmp/mh25-claude-probe.txt 2>/dev/null || true
+          } > mh25-dual-provider-evidence.txt
+
+      - name: Upload provider evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mh25-dual-provider-evidence-${{ github.run_id }}
+          path: mh25-dual-provider-evidence.txt
+          if-no-files-found: error
