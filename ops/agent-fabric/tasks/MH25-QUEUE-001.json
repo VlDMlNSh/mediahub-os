@@ -1,0 +1,28 @@
+{
+  "schema": "mediahub.agent-fabric.task.v1",
+  "task_id": "MH25-QUEUE-001",
+  "status": "READY",
+  "priority": "P0",
+  "mission": "Harden the autonomous queue with deterministic unit coverage for READY-task selection, completed-task suppression, and the no-ready-task IDLE path.",
+  "boundary": [
+    "runtime/mediahub_runtime/autonomous_queue.py",
+    "tests/test_autonomous_queue.py"
+  ],
+  "forbidden_surfaces": [
+    ".github/workflows/",
+    "docs/checkpoints/",
+    "runtime/mediahub_runtime/agent_fabric.py",
+    "astra_github_agent.py",
+    "user data",
+    "credentials",
+    "production infrastructure"
+  ],
+  "dependencies": [],
+  "acceptance": [
+    "Tests directly cover READY filtering and deterministic priority/task ordering.",
+    "Tests directly cover suppression of a task when its completed evidence marker exists.",
+    "Tests directly cover the no-ready-task path returning IDLE with exit code 0.",
+    "All existing Agent Fabric and autonomous queue tests pass.",
+    "No production behavior outside the declared boundary is changed."
+  ]
+}
