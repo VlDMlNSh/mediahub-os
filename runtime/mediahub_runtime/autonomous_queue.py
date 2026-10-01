@@ -90,7 +90,7 @@ def process_task(task: dict) -> dict:
         if test.returncode != 0: raise RuntimeError("tests_failed")
         diff = run(["git", "diff", "--check"], 60)
         if diff.returncode: raise RuntimeError("diff_check_failed")
-        verifier = run([CODEX, "exec", "--full-auto", "--skip-git-repo-check", verifier_prompt(task)], TASK_TIMEOUT)
+        verifier = run([CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)], TASK_TIMEOUT)
         record["verifier"] = {"returncode": verifier.returncode, "stdout": verifier.stdout[-12000:], "stderr": verifier.stderr[-8000:]}
         if verifier.returncode != 0: raise RuntimeError("verifier_failed")
         status = run(["git", "status", "--porcelain"], 60)
