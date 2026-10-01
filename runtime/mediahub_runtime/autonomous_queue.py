@@ -106,7 +106,7 @@ def process_task(task: dict) -> dict:
         status = run(["git", "status", "--porcelain"], 60, worktree)
         if not status.stdout.strip(): raise RuntimeError("no_changes")
         if run(["git", "add", "-A"], 60, worktree).returncode: raise RuntimeError("git_add_failed")
-        commit = run(["git", "commit", "-m", f"astra: complete {task["task_id"]}"], 120, worktree)
+        commit = run(["git", "commit", "-m", f"astra: complete {task['task_id']}"], 120, worktree)
         if commit.returncode: raise RuntimeError("git_commit_failed")
         push = run(["git", "push", "--force-with-lease", "origin", f"HEAD:refs/heads/{branch}"], 180, worktree)
         record["push"] = {"returncode": push.returncode, "stdout": push.stdout[-4000:], "stderr": push.stderr[-4000:]}
