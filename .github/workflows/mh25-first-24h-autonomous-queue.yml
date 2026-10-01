@@ -1,4 +1,5 @@
 name: MH-25 first 24h autonomous development queue
+# Activation marker: queue task MH25-QUEUE-001
 
 on:
   push:
