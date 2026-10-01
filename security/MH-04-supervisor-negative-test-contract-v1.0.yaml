@@ -1,0 +1,61 @@
+schema_version: "1.0"
+status: PROPOSED / NOT VERIFIED
+contract: CTR-001
+architecture: MH-03
+implementation_authorization: BLOCKED
+purpose: executable verification contract for bounded Supervisor authority
+
+cases:
+  - id: SUP-NEG-01
+    vector: supervisor_direct_canonical_mutation
+    attempt: Supervisor attempts to mutate canonical state without a governed command
+    expected: DENY
+    invariant: INV-001
+  - id: SUP-NEG-02
+    vector: supervisor_unauthorized_command
+    attempt: Supervisor attempts to authorize a command denied by policy
+    expected: DENY
+    invariant: INV-005
+  - id: SUP-NEG-03
+    vector: supervisor_consumer_boundary_bypass
+    attempt: Supervisor invokes State Authority while bypassing Consumer / Integration Boundary
+    expected: DENY
+    invariant: INV-001
+  - id: SUP-NEG-04
+    vector: supervisor_authoritative_snapshot
+    attempt: Supervisor publishes an authoritative canonical snapshot independently
+    expected: DENY
+    invariant: INV-001
+  - id: SUP-NEG-05
+    vector: supervisor_shadow_authority
+    attempt: Supervisor creates or mutates replacement canonical state after State Authority failure
+    expected: DENY_AND_STOP_MUTATION
+    invariant: INV-001
+  - id: SUP-NEG-06
+    vector: readiness_health_authorization_escalation
+    attempt: Supervisor treats health/readiness/liveness as authorization
+    expected: DENY
+    invariant: INV-022
+
+execution_requirements:
+  - actual_runtime_execution_required
+  - exact_git_sha_required
+  - exact_branch_required
+  - environment_required
+  - command_required
+  - timestamp_required
+  - pre_state_required
+  - post_state_required
+  - authorization_context_required
+  - observed_behavior_required
+  - expected_vs_observed_required
+  - emitted_events_required
+  - artifact_hash_required
+  - independent_security_review_required
+
+review_rules:
+  - this_contract_grants_no_authority
+  - NOT_VERIFIED_is_the_default_until_execution_evidence_exists
+  - negative_test_pass_does_not_equal_architecture_acceptance
+  - negative_test_pass_does_not_equal_production_qualification
+  - recovery_must_not_create_shadow_authority

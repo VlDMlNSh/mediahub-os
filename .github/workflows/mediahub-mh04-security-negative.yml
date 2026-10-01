@@ -1,0 +1,24 @@
+name: MediaHub MH-04 Security Negative Tests
+
+on:
+  push:
+    branches:
+      - dev/mh04/state-authority-foundation
+  workflow_dispatch:
+
+jobs:
+  redteam:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Independent negative tests
+        run: python3 -m unittest discover -s tests/security -p 'test_mh04_state_authority_redteam.py' -v
+      - name: Evidence identity
+        run: |
+          echo "git_sha=$(git rev-parse HEAD)"
+          echo "branch=${GITHUB_REF_NAME}"
+          echo "workflow_run=${GITHUB_RUN_ID}"
+          echo "classification=INDEPENDENT_SECURITY_NEGATIVE_EXECUTION"
