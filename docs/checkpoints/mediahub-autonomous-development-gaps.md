@@ -12,6 +12,7 @@ Evidence currently known: incomplete.
 State: BLOCKING.
 Required: canonical task lifecycle, claim/lease/heartbeat, dependency graph, retry/defer/block semantics, next-task selection and durable evidence.
 No duplicate queue authority.
+MH-25 now adds a repository-native task contract and ClaimStore primitive; integration and runtime evidence remain required.
 
 ## G2 — End-to-end worker execution
 State: BLOCKING.
@@ -63,8 +64,25 @@ State: CLOSED.
 Canonical file:
 docs/checkpoints/mediahub-absolute-autonomous-development-blueprint.md
 
+## G14 — Authoritative 23-lane execution manifest
+State: BLOCKING.
+Required: one machine-readable manifest for MH-01..MH-23 binding ownership, dependencies, exact base/head SHAs, claims/leases, worker identity, overlap and verification path.
+Queued task:
+ops/agent-fabric/tasks/MH-25-23-lane-manifest.json
+GitHub Issue: #143
+No lane may be promoted based on PR existence alone.
+
+## G15 — Agent Fabric runtime integration
+State: BLOCKING.
+Required: ClaimStore integrated into Astra lifecycle, deterministic collision/lease execution evidence, task→claim→worker→verification→commit→evidence chain, and independent final verification.
+Current implementation:
+runtime/mediahub_runtime/agent_fabric.py
+Tests:
+tests/test_agent_fabric.py
+These are implementation artifacts, not qualification evidence until executed independently.
+
 ## Exit condition
 
-Full autonomous development may be declared only after G0–G9 have fresh evidence appropriate to the intended scope. G10–G11 then become the first implementation frontier if not already complete.
+Full autonomous development may be declared only after G0–G9 and the MH-25 prerequisites G14–G15 have fresh evidence appropriate to the intended scope. G10–G11 then become the first implementation frontier if not already complete.
 
 The existence of this register does not stop independent non-blocked repository work; it prevents false claims of autonomous completion.
