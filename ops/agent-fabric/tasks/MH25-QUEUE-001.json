@@ -1,7 +1,7 @@
 {
   "schema": "mediahub.agent-fabric.task.v1",
   "task_id": "MH25-QUEUE-001",
-  "status": "READY",
+  "status": "VERIFY",
   "priority": "P0",
   "mission": "Harden the autonomous queue with deterministic unit coverage for READY-task selection, completed-task suppression, and the no-ready-task IDLE path.",
   "boundary": [
@@ -18,6 +18,8 @@
     "production infrastructure"
   ],
   "dependencies": [],
+  "implementation_commit": "4741b877b7d10ccd4ae9301eb16df2defe6f5dfc",
+  "verification": "PENDING_FRESH_CI",
   "acceptance": [
     "Tests directly cover READY filtering and deterministic priority/task ordering.",
     "Tests directly cover suppression of a task when its completed evidence marker exists.",
