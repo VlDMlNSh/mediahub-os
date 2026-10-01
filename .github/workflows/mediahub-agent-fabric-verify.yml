@@ -53,7 +53,8 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           files = [
-              Path("docs/checkpoints/mediahub-autonomous-development-blueprint.md"),
+              Path(".github/agent-system/architecture.md"),
+              Path(".github/agent-system/boundaries.md"),
               Path("docs/checkpoints/mediahub-github-component-final-manifest-2.0.md"),
           ]
           text = "\n".join(p.read_text(encoding="utf-8") for p in files)
