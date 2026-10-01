@@ -14,6 +14,7 @@ STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
 OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","autonomous_gold_mission","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic","provider_model_qualification","local_component_inventory","local_component_qualification","local_ai_capability_qualification"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 AGENT_ID=os.environ.get('ASTRA_AGENT_ID','A0-ASTRA')
+WORKER_ID=os.environ.get('ASTRA_WORKER_ID',f"{AGENT_ID}:{os.getpid()}")
 CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS','900')),3600.0))
 
 def run(argv,timeout=120):
@@ -387,11 +388,13 @@ def main():
                 finally:
                     if claim_store is not None and claim is not None:
                         try:
-                            claim_store.release(claim.task_id, 'VERIFIED' if rc == 0 else 'REJECTED')
+                            result_status = value.get("status") if isinstance(value, dict) else None
+                            claim_status = 'VERIFIED' if rc == 0 and result_status not in {"BLOCKED", "REJECTED"} else 'REJECTED'
+                            claim_store.release(claim.task_id, claim_status)
                         except Exception as release_exc:
                             value = {**(value if isinstance(value,dict) else {'result':value}), 'claim_release_error':repr(release_exc)}
                             rc=1
-                publish({'schema':1,'node_id':NODE_ID,'agent_id':AGENT_ID,'worker_id':AGENT_ID,
+                publish({'schema':1,'node_id':NODE_ID,'agent_id':AGENT_ID,'worker_id':WORKER_ID,
                          'command_id':cmd.get('command_id'),'target_sha':cmd.get('target_sha'),
                          'execution_head':run(['git','rev-parse','HEAD'],10).stdout.strip(),'returncode':rc,
                          'claim':asdict(claim) if claim is not None else None,
