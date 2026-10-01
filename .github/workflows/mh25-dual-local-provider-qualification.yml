@@ -1,0 +1,93 @@
+name: MH-25 Dual Local Provider Qualification
+
+on:
+  push:
+    branches:
+      - astra/dual-local-executors-live-20261002
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mh25-dual-local-provider-qualification
+  cancel-in-progress: false
+
+jobs:
+  qualify:
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          python3 -m compileall -q runtime ops
+
+      - name: Unit verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_*.py' -q
+
+      - name: Codex local marker
+        id: codex
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          command -v codex
+          timeout 90s codex exec --oss --local-provider ollama             --model qwen2.5-coder-3b:latest             --skip-git-repo-check --sandbox read-only             'Return exactly MEDIAHUB_CODEX_LOCAL_EXECUTOR_OK. Do not modify files or use tools.'             < /dev/null 2>&1 | tee codex-probe.txt
+          test "${PIPESTATUS[0]}" -eq 0
+          grep -Fx MEDIAHUB_CODEX_LOCAL_EXECUTOR_OK codex-probe.txt
+
+      - name: Claude local marker
+        id: claude
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          test -x /home/mediahub/.local/bin/mediahub-executors/claude
+          timeout 90s /home/mediahub/.local/bin/mediahub-executors/claude             -p 'Return exactly MEDIAHUB_CLAUDE_LOCAL_EXECUTOR_OK. Do not modify files or use tools.'             --output-format text < /dev/null 2>&1 | tee claude-probe.txt
+          test "${PIPESTATUS[0]}" -eq 0
+          grep -Fx MEDIAHUB_CLAUDE_LOCAL_EXECUTOR_OK claude-probe.txt
+
+      - name: Qualification decision
+        shell: bash
+        run: |
+          set -euo pipefail
+          codex_ok=0
+          claude_ok=0
+          grep -Fx MEDIAHUB_CODEX_LOCAL_EXECUTOR_OK codex-probe.txt >/dev/null 2>&1 && codex_ok=1 || true
+          grep -Fx MEDIAHUB_CLAUDE_LOCAL_EXECUTOR_OK claude-probe.txt >/dev/null 2>&1 && claude_ok=1 || true
+          {
+            echo "source_sha=${GITHUB_SHA}"
+            echo "codex_marker_pass=${codex_ok}"
+            echo "claude_marker_pass=${claude_ok}"
+            if [ "$codex_ok" -eq 1 ] && [ "$claude_ok" -eq 1 ]; then
+              echo "D2=PASS"
+            else
+              echo "D2=BLOCKED"
+              echo "GOLD=BLOCKED"
+            fi
+          } > mh25-provider-qualification.txt
+          cat mh25-provider-qualification.txt
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mh25-provider-qualification-${{ github.sha }}
+          path: |
+            codex-probe.txt
+            claude-probe.txt
+            mh25-provider-qualification.txt
+          if-no-files-found: warn
