@@ -1,0 +1,33 @@
+version: 1
+schema: mediahub.agent-fabric.registry.v1
+coordinator:
+  id: astra
+  role: coordinator
+  persistent_profile: true
+  single_coordination_authority: true
+agents:
+  - id: architect
+    role: architecture
+    persistent_profile: true
+    runtime: task_scoped
+  - id: builder
+    role: implementation
+    persistent_profile: true
+    runtime: task_scoped
+  - id: verifier
+    role: verification
+    persistent_profile: true
+    runtime: task_scoped
+dynamic_workers:
+  enabled: true
+  source_roles: [architect, builder, verifier]
+  nested_delegation: false
+limits:
+  default_parallel_workers: 3
+  hard_limit: environment_reconciled
+  adaptive: true
+claims:
+  collision_policy: exact_write_block_and_incompatible_overlap_block
+verification:
+  independent: true
+  worker_assertion_is_not_evidence: true
