@@ -1,0 +1,30 @@
+{
+  "schema": "mediahub.agent-fabric.task.v1",
+  "task_id": "MH25-QUEUE-002",
+  "status": "READY",
+  "priority": "P1",
+  "mission": "Add deterministic unit coverage proving autonomous queue execution uses isolated worktree paths and bounded worker selection.",
+  "boundary": [
+    "tests/test_autonomous_queue.py"
+  ],
+  "forbidden_surfaces": [
+    ".github/workflows/",
+    "docs/checkpoints/",
+    "runtime/mediahub_runtime/agent_fabric.py",
+    "runtime/mediahub_runtime/autonomous_queue.py",
+    "astra_github_agent.py",
+    "user data",
+    "credentials",
+    "production infrastructure"
+  ],
+  "dependencies": [
+    "MH25-QUEUE-001"
+  ],
+  "acceptance": [
+    "Tests assert worktree paths are task-scoped and deterministic.",
+    "Tests assert worker selection is bounded by MAX_WORKERS.",
+    "Tests do not execute Codex, git worktrees, network operations, or production infrastructure.",
+    "All existing Agent Fabric and autonomous queue tests pass.",
+    "No production behavior outside the declared boundary is changed."
+  ]
+}
