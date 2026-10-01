@@ -58,7 +58,12 @@ jobs:
               Path("docs/checkpoints/mediahub-github-component-final-manifest-2.0.md"),
           ]
           text = "\n".join(p.read_text(encoding="utf-8") for p in files)
-          required = ["AI", "Authority", "Cloud", "State Authority", "Remote Mobile", "Local Core"]
+          required = [
+              "A0 Astra is the single coordination authority",
+              "A profile does not imply a permanently running process.",
+              "Only verified work is integrated.",
+              "A claim grants coordination ownership only; it never grants MediaHub domain authority.",
+          ]
           missing = [item for item in required if item not in text]
           assert not missing, f"missing invariant tokens: {missing}"
           print("architecture_invariants=PASS")
