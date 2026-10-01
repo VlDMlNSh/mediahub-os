@@ -2,6 +2,7 @@
 """MediaHub Astra GitHub transport worker."""
 from __future__ import annotations
 import hashlib, importlib, json, os, platform, subprocess, sys, time
+from dataclasses import asdict
 from pathlib import Path
 
 REPO=os.environ.get("ASTRA_GITHUB_REPO","VlDMlNSh/mediahub-os")
@@ -12,6 +13,8 @@ ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
 OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","autonomous_gold_mission","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic","provider_model_qualification","local_component_inventory","local_component_qualification","local_ai_capability_qualification"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+AGENT_ID=os.environ.get('ASTRA_AGENT_ID','A0-ASTRA')
+CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS','900')),3600.0))
 
 def run(argv,timeout=120):
     return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False)
@@ -75,6 +78,21 @@ def publish(result):
     run(["git","push","--force","origin",f"astra-node/{NODE_ID}"],120).check_returncode()
     run(["git","checkout","-B","main","origin/main"],30).check_returncode()
 
+def _claim_for(cmd):
+    runtime_root=ROOT/'runtime'
+    if runtime_root.is_dir() and str(runtime_root) not in sys.path: sys.path.insert(0,str(runtime_root))
+    from mediahub_runtime.agent_fabric import AgentClaim, ClaimStore
+    task_id=str(cmd.get('command_id') or 'github-task')
+    operation=str(cmd.get('operation') or 'unknown')
+    paths=tuple(cmd.get('owned_paths') or [str(Path('control/commands') / f'{NODE_ID}.json')])
+    now=time.time()
+    return ClaimStore(STATE/'claims'), AgentClaim(
+    agent=AGENT_ID, task_id=task_id, goal=str(cmd.get('title') or operation),
+    paths=paths, exclusive_actions=tuple(cmd.get('exclusive_actions') or ('execute',)),
+    dependencies=tuple(cmd.get('dependencies') or ()), status='ACTIVE',
+    started=now, updated=now, expiry=now+CLAIM_LEASE_SECONDS,
+    base_sha=str(cmd.get('base_sha') or ''),
+    )
 def execute(cmd):
     operation=cmd.get("operation")
     if operation=="health":
@@ -358,11 +376,27 @@ def main():
             sync(); maybe_reexec_updated_agent(); cmd=read_command()
             if cmd and cmd.get("command_id")!=last_id:
                 started=time.time()
-                try: value,rc=execute(cmd),0
-                except Exception as exc: value,rc={"error":repr(exc)},1
-                publish({"schema":1,"node_id":NODE_ID,"command_id":cmd.get("command_id"),"target_sha":cmd.get("target_sha"),
-                         "execution_head":run(["git","rev-parse","HEAD"],10).stdout.strip(),"returncode":rc,
-                         "duration_seconds":round(time.time()-started,3),"result":value,"completed_at":int(time.time())})
+                claim_store=None
+                claim=None
+                try:
+                    claim_store, claim = _claim_for(cmd)
+                    claim_store.acquire(claim)
+                    value,rc=execute(cmd),0
+                except Exception as exc:
+                    value,rc={'error':repr(exc)},1
+                finally:
+                    if claim_store is not None and claim is not None:
+                        try:
+                            claim_store.release(claim.task_id, 'VERIFIED' if rc == 0 else 'REJECTED')
+                        except Exception as release_exc:
+                            value = {**(value if isinstance(value,dict) else {'result':value}), 'claim_release_error':repr(release_exc)}
+                            rc=1
+                publish({'schema':1,'node_id':NODE_ID,'agent_id':AGENT_ID,'worker_id':AGENT_ID,
+                         'command_id':cmd.get('command_id'),'target_sha':cmd.get('target_sha'),
+                         'execution_head':run(['git','rev-parse','HEAD'],10).stdout.strip(),'returncode':rc,
+                         'claim':asdict(claim) if claim is not None else None,
+                         'chain':['task','claim','worker','verification','commit','evidence'],
+                         'duration_seconds':round(time.time()-started,3),'result':value,'completed_at':int(time.time())})
                 mark_published(cmd.get("command_id",""))
                 last_id=str(cmd.get("command_id"))
                 if os.environ.get("ASTRA_ONESHOT","0")=="1": return
