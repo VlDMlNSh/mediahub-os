@@ -3,6 +3,7 @@
 Promotion-safe: workers create task branches and evidence, but never merge to main.
 """
 from __future__ import annotations
+import concurrent.futures
 import json, os, subprocess, time
 from pathlib import Path
 from .agent_fabric import AgentClaim, ClaimStore
@@ -11,12 +12,15 @@ ROOT = Path(__file__).resolve().parents[2]
 TASK_DIR = ROOT / "ops" / "agent-fabric" / "tasks"
 STATE = Path(os.environ.get("ASTRA_QUEUE_STATE_DIR", "/var/lib/mediahub-astra/queue"))
 CLAIMS = STATE / "claims"
-MAX_WORKERS = max(1, min(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "1")), 3))
+MAX_WORKERS = max(1, min(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "3")), 3))
 CODEX = os.environ.get("ASTRA_CODEX_BIN", "/usr/local/bin/codex")
 TASK_TIMEOUT = max(60, int(os.environ.get("ASTRA_QUEUE_TASK_TIMEOUT", "1800")))
 
-def run(argv: list[str], timeout: int = 300) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(argv, cwd=ROOT, text=True, capture_output=True, timeout=timeout, check=False)
+def run(argv: list[str], timeout: int = 300, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(argv, cwd=cwd or ROOT, text=True, capture_output=True, timeout=timeout, check=False)
+
+def worktree_path(task_id: str) -> Path:
+    return STATE / "worktrees" / task_id
 
 def load_tasks() -> list[dict]:
     tasks = []
@@ -76,32 +80,38 @@ def process_task(task: dict) -> dict:
     claim = claim_for(task)
     started = time.time()
     branch = f"astra/auto/{task['task_id']}"
+    worktree = worktree_path(str(task["task_id"]))
     record = {"task_id": task["task_id"], "started_at": int(started), "base_sha": claim.base_sha,
               "branch": branch, "status": "BLOCKED"}
     try:
         store.acquire(claim)
-        checkout = run(["git", "checkout", "-B", branch, "origin/main"], 60)
-        if checkout.returncode: raise RuntimeError("checkout_failed")
-        build = run([CODEX, "exec", "--full-auto", "--skip-git-repo-check", builder_prompt(task)], TASK_TIMEOUT)
+        worktree.parent.mkdir(parents=True, exist_ok=True)
+        if worktree.exists():
+            cleanup = run(["git", "worktree", "remove", "--force", str(worktree)], 120)
+            if cleanup.returncode:
+                raise RuntimeError("worktree_cleanup_failed")
+        checkout = run(["git", "worktree", "add", "--force", "-B", branch, str(worktree), "origin/main"], 120)
+        if checkout.returncode: raise RuntimeError("worktree_create_failed")
+        build = run([CODEX, "exec", "--full-auto", "--skip-git-repo-check", builder_prompt(task)], TASK_TIMEOUT, worktree)
         record["builder"] = {"returncode": build.returncode, "stdout": build.stdout[-12000:], "stderr": build.stderr[-8000:]}
         if build.returncode != 0: raise RuntimeError("builder_failed")
-        test = run(["python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"], 900)
+        test = run(["python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"], 900, worktree)
         record["tests"] = {"returncode": test.returncode, "stdout": test.stdout[-8000:], "stderr": test.stderr[-6000:]}
         if test.returncode != 0: raise RuntimeError("tests_failed")
-        diff = run(["git", "diff", "--check"], 60)
+        diff = run(["git", "diff", "--check"], 60, worktree)
         if diff.returncode: raise RuntimeError("diff_check_failed")
-        verifier = run([CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)], TASK_TIMEOUT)
+        verifier = run([CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)], TASK_TIMEOUT, worktree)
         record["verifier"] = {"returncode": verifier.returncode, "stdout": verifier.stdout[-12000:], "stderr": verifier.stderr[-8000:]}
         if verifier.returncode != 0: raise RuntimeError("verifier_failed")
-        status = run(["git", "status", "--porcelain"], 60)
+        status = run(["git", "status", "--porcelain"], 60, worktree)
         if not status.stdout.strip(): raise RuntimeError("no_changes")
-        if run(["git", "add", "-A"], 60).returncode: raise RuntimeError("git_add_failed")
-        commit = run(["git", "commit", "-m", f"astra: complete {task['task_id']}"], 120)
+        if run(["git", "add", "-A"], 60, worktree).returncode: raise RuntimeError("git_add_failed")
+        commit = run(["git", "commit", "-m", f"astra: complete {task["task_id"]}"], 120, worktree)
         if commit.returncode: raise RuntimeError("git_commit_failed")
-        push = run(["git", "push", "--force-with-lease", "origin", f"HEAD:refs/heads/{branch}"], 180)
+        push = run(["git", "push", "--force-with-lease", "origin", f"HEAD:refs/heads/{branch}"], 180, worktree)
         record["push"] = {"returncode": push.returncode, "stdout": push.stdout[-4000:], "stderr": push.stderr[-4000:]}
         if push.returncode: raise RuntimeError("git_push_failed")
-        record["head_sha"] = run(["git", "rev-parse", "HEAD"], 30).stdout.strip()
+        record["head_sha"] = run(["git", "rev-parse", "HEAD"], 30, worktree).stdout.strip()
         record["status"] = "VERIFIED"
         (STATE / "completed" / f"{task['task_id']}.json").write_text(json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     except Exception as exc:
@@ -109,8 +119,11 @@ def process_task(task: dict) -> dict:
     finally:
         try: store.release(claim.task_id, "VERIFIED" if record["status"] == "VERIFIED" else "REJECTED")
         except Exception as exc: record["claim_release_error"] = repr(exc)
-        try: run(["git", "checkout", "-B", "main", "origin/main"], 60)
-        except Exception: pass
+        try:
+            if worktree.exists():
+                run(["git", "worktree", "remove", "--force", str(worktree)], 120)
+        except Exception:
+            record["worktree_cleanup_error"] = True
         record["elapsed_seconds"] = round(time.time() - started, 3)
         evidence(task["task_id"], record)
     return record
@@ -121,7 +134,8 @@ def main() -> int:
     if not tasks:
         print(json.dumps({"status":"IDLE","reason":"no_ready_tasks"}, sort_keys=True)); return 0
     selected = tasks[:MAX_WORKERS]
-    results = [process_task(task) for task in selected]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=len(selected)) as pool:
+        results = list(pool.map(process_task, selected))
     print(json.dumps({"status":"PASS" if all(r["status"]=="VERIFIED" for r in results) else "BLOCKED",
                       "workers": len(selected), "results": results}, sort_keys=True))
     return 0 if all(r["status"]=="VERIFIED" for r in results) else 2
