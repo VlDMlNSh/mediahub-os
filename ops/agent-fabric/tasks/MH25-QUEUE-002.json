@@ -17,9 +17,7 @@
     "credentials",
     "production infrastructure"
   ],
-  "dependencies": [
-    "MH25-QUEUE-001"
-  ],
+  "dependencies": [],
   "acceptance": [
     "Tests assert worktree paths are task-scoped and deterministic.",
     "Tests assert worker selection is bounded by MAX_WORKERS.",
