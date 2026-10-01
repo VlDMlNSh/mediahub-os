@@ -50,4 +50,15 @@ jobs:
           PY
       - name: Read-back architecture invariants
         run: |
-          grep -R "AI ≠ Authority\|Cloud ≠ State Authority\|Remote Mobile ≠ Local Core" -n docs/checkpoints/mediahub-autonomous-development-blueprint.md docs/checkpoints/mediahub-github-component-final-manifest-2.0.md
+          python - <<'PY'
+          from pathlib import Path
+          files = [
+              Path("docs/checkpoints/mediahub-autonomous-development-blueprint.md"),
+              Path("docs/checkpoints/mediahub-github-component-final-manifest-2.0.md"),
+          ]
+          text = "\n".join(p.read_text(encoding="utf-8") for p in files)
+          required = ["AI", "Authority", "Cloud", "State Authority", "Remote Mobile", "Local Core"]
+          missing = [item for item in required if item not in text]
+          assert not missing, f"missing invariant tokens: {missing}"
+          print("architecture_invariants=PASS")
+          PY
