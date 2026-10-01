@@ -1,0 +1,65 @@
+name: MH-25 first 24h autonomous development queue
+
+on:
+  push:
+    paths:
+      - .github/workflows/mh25-first-24h-autonomous-queue.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mh25-first-24h-autonomous-development
+  cancel-in-progress: false
+
+jobs:
+  first-24h-queue:
+    name: First real 24h queue run
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 1450
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Canonical runner preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          test -z "$(git status --short)"
+          test "$(git hash-object astra_github_agent.py)" = "769306d93be818161af7ce49ba9b202eed6c5b24"
+          python3 -m compileall -q runtime tests astra_github_agent.py
+          PYTHONPATH=runtime:. python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Observe canonical Astra worker
+        shell: bash
+        run: |
+          set -euo pipefail
+          pgrep -af "astra_github_agent.py" | tee /tmp/mh25-worker.txt
+          test "$(grep -c "astra_github_agent.py" /tmp/mh25-worker.txt)" -ge 1
+      - name: Execute bounded autonomous queue waves for 24h
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/mh25-24h
+          start="$(date +%s)"
+          end=$((start+86400))
+          wave=0
+          while [ "$(date +%s)" -lt "$end" ]; do
+            wave=$((wave+1))
+            echo "wave=$wave started=$(date -u +%FT%TZ)"
+            git fetch origin main --depth=50
+            git reset --hard origin/main
+            PYTHONPATH=runtime:. python3 -m mediahub_runtime.autonomous_queue | tee "/tmp/mh25-24h/wave-$wave.log" || true
+            test "$(pgrep -f "astra_github_agent.py" | wc -l)" -ge 1
+            sleep 600
+          done
+          echo "queue_24h=PASS"
+      - name: Upload 24h queue evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mh25-first-24h-queue-${{ github.run_id }}
+          path: /tmp/mh25-24h/
+          retention-days: 14
