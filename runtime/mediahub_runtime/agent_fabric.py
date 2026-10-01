@@ -62,7 +62,10 @@ class ClaimStore:
         claims = []
         for path in sorted(self.root.glob("*.json")):
             try:
-                claims.append(AgentClaim(**json.loads(path.read_text(encoding="utf-8"))))
+                data = json.loads(path.read_text(encoding="utf-8"))
+                if data.get("status") in {"ASSIGNED", "ACTIVE", "READY_FOR_VERIFY"} and data.get("expiry", 0) <= time.time():
+                    data["status"] = "EXPIRED"
+                claims.append(AgentClaim(**data))
             except (OSError, json.JSONDecodeError, TypeError) as exc:
                 raise AgentFabricError("invalid_claim_store") from exc
         return tuple(claims)
