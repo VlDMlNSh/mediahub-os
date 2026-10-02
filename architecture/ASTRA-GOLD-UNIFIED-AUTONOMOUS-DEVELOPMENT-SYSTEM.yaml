@@ -1,5 +1,5 @@
 schema: mediahub.astra-gold.autonomous-development.v1
-status: QUALIFICATION_READY
+status: QUALIFICATION_READY_HYBRID_FABRIC
 name: ASTRA_GOLD
 definition: "Unified distributed autonomous hybrid development system for MediaHub"
 authority:
@@ -23,6 +23,11 @@ authority:
   transports:
     authority: transport_only
     values: [github, fcc, omniroute]
+  cloud_fabric:
+    authority: none
+    admission: runtime_evidence_required
+    registered_agents: [gemini, perplexity, kimi, deepseek, chatgpt, openrouter, unorouter, claude, gigachat]
+    rule: registration_or_credential_reference_never_implies_authorization
   ecc:
     authority: none
     role: auxiliary_support
@@ -49,6 +54,11 @@ layers:
     - duplicate_suppression
     - restart_recovery
     - result_publication
+  hybrid_provider_fabric:
+    direct_cloud: [gemini, perplexity, kimi, deepseek, chatgpt, gigachat]
+    cloud_gateways: [openrouter, unorouter, claude]
+    local: [codex, cursor, ollama, kimi-k3-in-c, deepseek-harness]
+    admission_sequence: [credential_presence, auth_success, model_discovery, non_mutating_probe, task_execution, result_validation, independent_a3]
   execution:
     mandatory_paths:
       - CODEX_FCC
@@ -103,6 +113,9 @@ qualification:
   fail_closed: true
   gates:
     - identity
+    - hybrid_provider_fabric_authentication
+    - hybrid_provider_model_discovery
+    - hybrid_provider_non_mutating_probe
     - control_plane
     - executor_fabric
     - twenty_three_wave
@@ -132,6 +145,8 @@ rules:
   quota_bypass: false
   executor_architecture_authority: false
   cloud_state_authority: false
+  provider_authority: false
+  registration_implies_authorization: false
   transport_state_authority: false
   ecc_provider_selection: false
   a2_self_verification: false
