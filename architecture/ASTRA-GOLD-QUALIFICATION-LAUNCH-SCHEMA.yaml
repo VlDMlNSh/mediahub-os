@@ -80,7 +80,8 @@ gates:
     failure: BLOCKED
   G9_24H_SOAK:
     duration_hours: 24
-    required: [continuous_heartbeat, no_unexplained_controller_restart, no_duplicate_claim_corruption, no_unresolved_execution_failure, evidence_integrity, no_authority_boundary_violation]
+    required: [continuous_heartbeat, no_unexplained_controller_restart, no_duplicate_claim_corruption, no_unresolved_execution_failure, evidence_integrity, no_authority_boundary_violation, workflow_run_identity]
+    workflow_run_identity: [workflow_run_id, workflow_run_url]
     pass_rule: all_required_conditions_hold_for_full_duration
     failure: ROLLBACK_OR_REQUALIFY
   G10_LAUNCH_READY:
