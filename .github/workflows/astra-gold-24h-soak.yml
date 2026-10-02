@@ -55,6 +55,14 @@ jobs:
           set -euo pipefail
           python3 -m compileall -q runtime tests astra_github_agent.py
           PYTHONPATH=runtime:. python3 -m pytest -q tests/
+      - name: Verify G9 evidence contract
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f evidence/astra-gold/g9-24h-soak.json
+          PYTHONPATH=. python3 ops/qualification/verify_g9_24h_soak.py evidence/astra-gold/g9-24h-soak.json
+
       - name: Preflight evidence
         if: always()
         run: |
