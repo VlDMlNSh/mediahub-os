@@ -14,7 +14,7 @@ REQUIRED = (
     "no_authority_boundary_violation",
 )
 
-def verify(path: Path) -> dict:
+def verify(path: Path, telemetry_path: Path) -> dict:
     try:
         data=json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc:
@@ -28,6 +28,15 @@ def verify(path: Path) -> dict:
         return {"status":"BLOCKED","reason":"g9_source_sha_invalid"}
     if data.get("secret_values") != "SUPPRESSED":
         return {"status":"BLOCKED","reason":"secret_policy_invalid"}
+    telemetry_sha=str(data.get("telemetry_sha256","")).lower()
+    if not re.fullmatch(r"[0-9a-f]{64}", telemetry_sha):
+        return {"status":"BLOCKED","reason":"g9_telemetry_sha256_invalid"}
+    try:
+        actual_telemetry_sha=hashlib.sha256(telemetry_path.read_bytes()).hexdigest()
+    except OSError as exc:
+        return {"status":"BLOCKED","reason":"g9_telemetry_unreadable","detail":type(exc).__name__}
+    if actual_telemetry_sha != telemetry_sha:
+        return {"status":"BLOCKED","reason":"g9_telemetry_sha256_mismatch"}
     conditions=data.get("conditions",{})
     missing=[x for x in REQUIRED if conditions.get(x) is not True]
     if missing:
@@ -47,8 +56,9 @@ def verify(path: Path) -> dict:
 def main() -> int:
     p=argparse.ArgumentParser()
     p.add_argument("evidence",type=Path)
+    p.add_argument("--telemetry",type=Path,required=True)
     args=p.parse_args()
-    result=verify(args.evidence)
+    result=verify(args.evidence,args.telemetry)
     print(json.dumps(result,indent=2,sort_keys=True))
     return 0 if result["status"]=="PASS" else 2
 
