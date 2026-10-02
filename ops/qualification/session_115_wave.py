@@ -11,6 +11,16 @@ PATHS=(("CODEX_FCC",("fcc-codex",),"FCC/Codex"),("CLAUDE_FCC",("fcc-claude",),"F
 ("CLAUDE_CODE_DIRECT",("claude",),"Claude Code direct"))
 MARKERS={p:f"MEDIAHUB_115_{p}_OK" for p,_,_ in PATHS}
 def sha256_file(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+def executable_identity(binary):
+    p=Path(binary)
+    return {"path":str(p),"sha256":sha256_file(p) if p.is_file() else "","size_bytes":p.stat().st_size if p.is_file() else 0}
+def validate_record(rec):
+    required=("command_id","round","path","node_id","source_sha","executor_id","provider_or_transport_id","timestamp","timeout_seconds","status","verification_status")
+    if any(rec.get(k) in (None,"") for k in required): return False
+    if rec["round"]<1 or rec["round"]>ROUNDS: return False
+    if rec["status"]=="PASS" and rec.get("verification_status")!="PASS": return False
+    if rec["status"]=="PASS" and not rec.get("marker_present"): return False
+    return True
 def source_sha(): return subprocess.run(["git","rev-parse","HEAD"],cwd=ROOT,text=True,capture_output=True,timeout=10,check=True).stdout.strip()
 def run(argv,cwd,timeout=45):
     started=time.monotonic()
