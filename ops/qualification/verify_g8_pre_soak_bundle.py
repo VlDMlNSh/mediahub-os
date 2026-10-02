@@ -25,10 +25,20 @@ def verify(path: Path) -> dict:
     if data.get("secret_values")!="SUPPRESSED": return {"status":"BLOCKED","reason":"secret_policy_invalid"}
     manifest=data.get("evidence_manifest")
     if not isinstance(manifest,dict): return {"status":"BLOCKED","reason":"evidence_manifest_missing"}
+    expected_files={
+        "g4_115":"g4-115.json",
+        "g5_coordination":"g5-coordination.json",
+        "g6_recovery":"g6-recovery.json",
+        "a3_independent":"a3-independent.json",
+        "clean_worktree":"clean-worktree.json",
+    }
     for key in SURFACES:
         ref=manifest.get(key)
         if not isinstance(ref,dict): return {"status":"BLOCKED","reason":"manifest_surface_missing","surface":key}
         evidence_path=Path(str(ref.get("path","")))
+        expected_name=expected_files[key]
+        if evidence_path.name != expected_name or evidence_path.parent.name != "astra-gold":
+            return {"status":"BLOCKED","reason":"manifest_evidence_path_invalid","surface":key}
         expected=str(ref.get("sha256","")).lower()
         if not SHA64.fullmatch(expected): return {"status":"BLOCKED","reason":"manifest_digest_invalid","surface":key}
         if not evidence_path.is_file(): return {"status":"BLOCKED","reason":"manifest_evidence_missing","surface":key}
