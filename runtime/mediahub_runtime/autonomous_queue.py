@@ -37,6 +37,12 @@ def load_tasks() -> list[dict]:
 def completed(task_id: str) -> bool:
     marker = STATE / "completed" / f"{task_id}.json"
     if marker.is_file():
+        try:
+            marker_payload = json.loads(marker.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return False
+        if marker_payload.get("task_id") != task_id or marker_payload.get("status") != "VERIFIED" or not marker_payload.get("head_sha"):
+            return False
         return True
     evidence_path = STATE / "evidence" / f"{task_id}.json"
     if not evidence_path.is_file():
@@ -45,14 +51,22 @@ def completed(task_id: str) -> bool:
         payload = json.loads(evidence_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return False
-    if payload.get("status") != "VERIFIED" or not payload.get("head_sha"):
+    if payload.get("task_id") != task_id or payload.get("status") != "VERIFIED" or not payload.get("head_sha"):
         return False
     claim_path = CLAIMS / f"{task_id}.json"
     try:
         claim = json.loads(claim_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return False
-    return claim.get("status") == "VERIFIED"
+    if claim.get("status") == "VERIFIED":
+        return True
+    # Evidence is written only after commit+verification+push. If the worker dies
+    # before claim release, the immutable VERIFIED evidence is the recovery record.
+    # An unexpired ACTIVE claim is still live and must not be treated as complete.
+    try:
+        return claim.get("status") in {"ACTIVE", "READY_FOR_VERIFY"} and float(claim.get("expiry", 0)) <= time.time()
+    except (TypeError, ValueError):
+        return False
 
 def dependencies_satisfied(task: dict) -> bool:
     return all(completed(str(dep)) for dep in task.get("dependencies", ()))
