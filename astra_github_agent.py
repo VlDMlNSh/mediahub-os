@@ -71,6 +71,29 @@ def mark_published(command_id):
     tmp.write_text(str(command_id)+"\n",encoding="utf-8")
     tmp.replace(STATE/"last_command_id")
 
+def mark_inflight(command_id):
+    path=STATE/"inflight_command_id"
+    try:
+        current=path.read_text(encoding="utf-8").strip()
+    except OSError:
+        current=""
+    if current and current != str(command_id):
+        raise RuntimeError("different_command_inflight")
+    if current == str(command_id):
+        raise RuntimeError("command_replay_after_crash")
+    tmp=STATE/"inflight_command_id.tmp"
+    tmp.write_text(str(command_id)+"\n",encoding="utf-8")
+    tmp.replace(path)
+
+def clear_inflight(command_id):
+    path=STATE/"inflight_command_id"
+    try:
+        current=path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return
+    if current == str(command_id):
+        path.unlink(missing_ok=True)
+
 def publish(result):
     path=ROOT/"control"/"results"/f"{NODE_ID}.json"
     path.parent.mkdir(parents=True,exist_ok=True)
@@ -504,6 +527,7 @@ def main():
             sync(); maybe_reexec_updated_agent(); cmd=read_command()
             if cmd and cmd.get("command_id")!=last_id:
                 started=time.time()
+                mark_inflight(cmd.get("command_id",""))
                 claim_store=None
                 claim=None
                 try:
@@ -552,6 +576,7 @@ def main():
                          'chain':['task','claim','worker','verification','commit','evidence'],
                          'duration_seconds':round(time.time()-started,3),'result':value,'completed_at':int(time.time())})
                 mark_published(cmd.get("command_id",""))
+                clear_inflight(cmd.get("command_id",""))
                 last_id=str(cmd.get("command_id"))
                 if os.environ.get("ASTRA_ONESHOT","0")=="1": return
         except Exception as exc:
