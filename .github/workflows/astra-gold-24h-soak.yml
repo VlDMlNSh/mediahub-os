@@ -136,7 +136,7 @@ jobs:
           set -euo pipefail
           test -s /var/lib/mediahub-astra/g9_telemetry.jsonl
           mkdir -p evidence/astra-gold
-          python3 ops/qualification/capture_g9_24h_soak.py             --telemetry /var/lib/mediahub-astra/g9_telemetry.jsonl             --output evidence/astra-gold/g9-24h-soak.json             --source-sha "$(git rev-parse HEAD)"
+          python3 ops/qualification/capture_g9_24h_soak.py             --telemetry /var/lib/mediahub-astra/g9_telemetry.jsonl             --output evidence/astra-gold/g9-24h-soak.json             --source-sha "$(git rev-parse HEAD)"             --workflow-run-id "${GITHUB_RUN_ID}"             --workflow-run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
       - name: Verify G9 evidence contract
         shell: bash
         run: |
