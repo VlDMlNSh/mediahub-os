@@ -26,9 +26,19 @@ def verify(path: Path) -> dict:
     actual = hashlib.sha256(canonical_bytes).hexdigest()
     if actual != digest:
         return {"status":"BLOCKED","reason":"bundle_integrity_mismatch"}
+    import re
+    source_sha=str(data.get("source_sha",""))
+    if not re.fullmatch(r"[0-9a-fA-F]{40}", source_sha):
+        return {"status":"BLOCKED","reason":"bundle_source_sha_invalid"}
     if not data.get("source_sha") or not data.get("a3_independent",{}).get("source_sha"):
         return {"status":"BLOCKED","reason":"bundle_source_sha_missing"}
     if data["source_sha"] != data["a3_independent"]["source_sha"]:
+        return {"status":"BLOCKED","reason":"bundle_source_sha_mismatch"}
+    for key in ("g4_115","g5_coordination","g6_recovery","a3_independent"):
+        nested = data.get(key,{})
+        nested_sha = str(nested.get("source_sha", data["source_sha"]))
+        if not re.fullmatch(r"[0-9a-fA-F]{40}", nested_sha) or nested_sha != data["source_sha"]:
+            return {"status":"BLOCKED","reason":"nested_source_sha_mismatch","surface":key}
         return {"status":"BLOCKED","reason":"bundle_source_sha_mismatch"}
     return {"status":"PASS","prerequisites_verified":len(REQUIRED),"g4_observations":115}
 
