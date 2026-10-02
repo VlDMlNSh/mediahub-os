@@ -533,8 +533,10 @@ class CloudFirstOrchestrator:
         )
 
     def _admitted(self, route: ProviderRoute) -> bool:
-        """Fail closed unless current provider/model qualification explicitly passes."""
-        if route.tier != "cloud":
+        """Fail closed unless the route is a built-in baseline or has fresh qualification evidence."""
+        # Ollama is the bounded built-in local baseline used by Astra's direct local executor.
+        # Every other route, including local gateways/harnesses, requires fresh qualification evidence.
+        if route.provider_id == "ollama":
             return True
         evidence_path = self._env.get(
             "MEDIAHUB_PROVIDER_EVIDENCE_FILE", "evidence/provider-model.json"
