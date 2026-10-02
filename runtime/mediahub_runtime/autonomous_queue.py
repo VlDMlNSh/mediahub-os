@@ -175,9 +175,17 @@ def process_task(task: dict) -> dict:
         except Exception as exc: record["claim_release_error"] = repr(exc)
         try:
             if worktree.exists():
-                run(["git", "worktree", "remove", "--force", str(worktree)], 120)
+                existing = run(["git", "status", "--porcelain"], 60, worktree)
+                if existing.returncode != 0:
+                    record["worktree_cleanup_error"] = "uninspectable"
+                elif existing.stdout.strip():
+                    record["worktree_cleanup_error"] = "dirty_worktree_preserved"
+                else:
+                    cleanup = run(["git", "worktree", "remove", str(worktree)], 120)
+                    if cleanup.returncode:
+                        record["worktree_cleanup_error"] = "remove_failed"
         except Exception:
-            record["worktree_cleanup_error"] = True
+            record["worktree_cleanup_error"] = "cleanup_exception"
         record["elapsed_seconds"] = round(time.time() - started, 3)
         evidence(task["task_id"], record)
     return record
