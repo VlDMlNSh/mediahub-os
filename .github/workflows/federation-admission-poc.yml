@@ -15,6 +15,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - name: Install test dependencies
+        run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
       - name: Run deterministic federation PoCs
         run: |
           python3 -m pytest -q             tests/federation/test_admission_poc.py             tests/federation/test_cluster_trust_poc.py             tests/federation/test_compute_contribution_poc.py             tests/federation/test_privacy_data_boundary_poc.py             tests/federation/test_cprg_security_poc.py

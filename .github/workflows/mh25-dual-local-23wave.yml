@@ -62,36 +62,36 @@ jobs:
               grep -Fx MEDIAHUB_OMNI_CLAUDE_OK /tmp/omni-claude.out >/dev/null 2>&1 && omni_claude_status=PASS
             fi
             python3 - <<PY
-import json
-print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status"}))
-PY
+          import json
+          print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status"}))
+          PY
             python3 - <<PY >> mh25-23wave.jsonl
-import json
-print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status"}))
-PY
+          import json
+          print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status"}))
+          PY
           done
       - name: Selection and evidence
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-import json, statistics, os, shutil, pathlib
-rows=[json.loads(x) for x in pathlib.Path("mh25-23wave.jsonl").read_text().splitlines() if x.strip()]
-keys=["fcc_codex","fcc_claude","omni_codex","omni_claude"]
-summary={}
-for k in keys:
-    n=sum(r[k]=="PASS" for r in rows)
-    summary[k]={"pass_count":n,"rounds":len(rows),"pass_rate":n/len(rows)}
-selected=[k for k,v in summary.items() if v["pass_count"]==len(rows)]
-payload={"schema":"mediahub.dual-local-executor-23wave.v1","source_sha":os.environ["GITHUB_SHA"],
-         "node":os.uname().nodename,"summary":summary,"selected_full_pass":selected,
-         "ecc":{"path":shutil.which("ecc") or shutil.which("ecc-cli") or "NOT_FOUND"},
-         "policy":"provider/backend identity remains explicit; no credentials emitted"}
-pathlib.Path("mh25-23wave-qualification.json").write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n")
-print(json.dumps(payload,indent=2,sort_keys=True))
-if not ({"fcc_codex","fcc_claude"} <= set(selected)):
-    raise SystemExit(2)
-PY
+          import json, statistics, os, shutil, pathlib
+          rows=[json.loads(x) for x in pathlib.Path("mh25-23wave.jsonl").read_text().splitlines() if x.strip()]
+          keys=["fcc_codex","fcc_claude","omni_codex","omni_claude"]
+          summary={}
+          for k in keys:
+              n=sum(r[k]=="PASS" for r in rows)
+              summary[k]={"pass_count":n,"rounds":len(rows),"pass_rate":n/len(rows)}
+          selected=[k for k,v in summary.items() if v["pass_count"]==len(rows)]
+          payload={"schema":"mediahub.dual-local-executor-23wave.v1","source_sha":os.environ["GITHUB_SHA"],
+                   "node":os.uname().nodename,"summary":summary,"selected_full_pass":selected,
+                   "ecc":{"path":shutil.which("ecc") or shutil.which("ecc-cli") or "NOT_FOUND"},
+                   "policy":"provider/backend identity remains explicit; no credentials emitted"}
+          pathlib.Path("mh25-23wave-qualification.json").write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(payload,indent=2,sort_keys=True))
+          if not ({"fcc_codex","fcc_claude"} <= set(selected)):
+              raise SystemExit(2)
+          PY
       - name: Upload qualification evidence
         if: always()
         uses: actions/upload-artifact@v4

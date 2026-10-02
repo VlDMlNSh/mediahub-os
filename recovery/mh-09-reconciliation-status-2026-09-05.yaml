@@ -6,7 +6,7 @@ canonical_mapping_coverage: COMPLETE_FOR_AVAILABLE_SCOPE
 capability_coverage: 58/58_PRESERVED
 contract_coverage: 30_RELEVANT_PRIMARY_OR_DOWNSTREAM_CONTRACTS_MAPPED
 invariant_coverage: RELEVANT_PROTECTED_SET_MAPPED
- decision_coverage: DEC-001_TO_DEC-012_RETAINED; DEC-A-001_TO_DEC-A-004_NOT_PROMOTED
+decision_coverage: DEC-001_TO_DEC-012_RETAINED; DEC-A-001_TO_DEC-A-004_NOT_PROMOTED
 dependency_coverage: MAPPED
 verification_coverage: PARTIAL
 acceptance_coverage: NOT_ACCEPTED
