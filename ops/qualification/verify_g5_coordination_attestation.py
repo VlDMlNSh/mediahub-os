@@ -8,7 +8,7 @@ REQUIRED = ("node_id","running_agent_source_sha","coordination_authority_id",
             "coordination_state","coordination_transport","active_claim_count",
             "reservation_result")
 
-def verify(path: Path) -> dict:
+def verify(path: Path, expected_source_sha: str | None = None) -> dict:
     try:
         data=json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc:
@@ -19,6 +19,7 @@ def verify(path: Path) -> dict:
     if not data.get("fresh",False):
         return {"status":"BLOCKED","reason":"fresh_attestation_required"}
     source_sha=str(data.get("running_agent_source_sha",""))
+    if expected_source_sha is not None and source_sha.lower() != expected_source_sha.lower(): return {"status":"BLOCKED","reason":"running_agent_source_sha_not_expected"}
     if not re.fullmatch(r"[0-9a-fA-F]{40}", source_sha):
         return {"status":"BLOCKED","reason":"running_agent_source_sha_invalid"}
     if data.get("secret_values") != "SUPPRESSED":
@@ -57,8 +58,9 @@ def verify(path: Path) -> dict:
 def main() -> int:
     p=argparse.ArgumentParser()
     p.add_argument("attestation",type=Path)
+    p.add_argument("--source-sha",default=None)
     args=p.parse_args()
-    result=verify(args.attestation)
+    result=verify(args.attestation,args.source_sha)
     print(json.dumps(result,indent=2,sort_keys=True))
     return 0 if result["status"]=="PASS" else 2
 
