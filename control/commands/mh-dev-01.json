@@ -1,14 +1,14 @@
 {
-  "command_id": "MH25-ASTRA-TRANSPORT-HEALTH-20261002-01",
+  "command_id": "MH25-ASTRA-TRANSPORT-HEALTH-20261002-02",
   "node_id": "mh-dev-01",
   "operation": "health",
-  "target_sha": "636130e0fef00483a8aee0f1eef033eaa4073272",
+  "target_sha": "0d3e4885d07e23c43c30edbdfca10afdb7372fed",
   "workflow_only": false,
   "owned_paths": [
     "control/results/mh-dev-01.json"
   ],
-  "title": "Astra transport health after node-ref repair",
-  "description": "Verify one active Astra node can consume the canonical main command and publish a result to its node branch.",
+  "title": "Astra transport health and claim-release verification",
+  "description": "Verify updated Astra agent source is synchronized from main, consumes a fresh command, publishes node evidence, and releases its claim.",
   "exclusive_actions": [
     "execute"
   ]
