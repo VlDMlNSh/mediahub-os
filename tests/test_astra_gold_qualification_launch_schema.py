@@ -192,6 +192,17 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
             p.write_text(json.dumps(base),encoding="utf-8")
             self.assertEqual(verify(p)["status"],"BLOCKED")
 
+    def test_reducer_separates_physical_blockers(self):
+        from ops.qualification.geometric_progress_controller import reduce_state
+        e={"gates":{"G0_IDENTITY":"PASS","G1_BOUNDARY":"PASS","G2_CONTROL_PLANE":"PASS",
+                    "G3_EXECUTION_PATH":"PASS","G4_23_WAVE_QUALIFICATION":"BLOCKED",
+                    "G5_CONCURRENCY":"PASS","G6_RECOVERY":"BLOCKED","G7_INTEGRATED_A3":"PASS",
+                    "G8_PRE_SOAK":"BLOCKED","G9_24H_SOAK":"BLOCKED"}}
+        s=reduce_state(e)
+        self.assertEqual(s["next"]["gate"],"G4_23_WAVE_QUALIFICATION")
+        self.assertEqual(s["next"]["kind"],"PHYSICAL")
+        self.assertEqual(s["physical_blockers"],4)
+
     def test_geometric_progress_controller_halves_active_budget(self):
         from ops.qualification.geometric_progress_controller import plan
         e={"gates":{"G0_IDENTITY":"BLOCKED"}}
