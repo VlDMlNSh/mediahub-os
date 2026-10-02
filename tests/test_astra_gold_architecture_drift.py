@@ -67,8 +67,8 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
         self.assertEqual(u["builder"]["role"], "bounded_implementation")
         self.assertEqual(u["verifier"]["role"], "independent_verification")
         self.assertTrue(self.qual["principles"]["fail_closed"])
-        self.assertTrue(u["qualification"]["fail_closed"])
-        self.assertTrue(u["rules"]["missing_or_contradictory_evidence_blocks"])
+        self.assertTrue(self.unified["qualification"]["fail_closed"])
+        self.assertTrue(self.unified["rules"]["missing_or_contradictory_evidence_blocks"])
 
     def test_gate_and_executor_contracts_are_identical(self):
         q = self.qual["gates"]

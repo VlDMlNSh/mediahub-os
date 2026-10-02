@@ -36,8 +36,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install test dependency
-        run: python3 -m pip install --disable-pip-version-check --no-input pytest
+      - name: Install test dependencies
+        run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
 
       - name: Verify adapter tests
         env:
