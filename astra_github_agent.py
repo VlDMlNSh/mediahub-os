@@ -20,8 +20,34 @@ COMMAND_HMAC_MAX_AGE_SECONDS=max(60,int(os.environ.get("ASTRA_COMMAND_HMAC_MAX_A
 COMMAND_HMAC_KEY=os.environ.get("ASTRA_COMMAND_HMAC_KEY","")
 EXECUTED_COMMANDS=STATE/"executed_command_ids"
 
-def run(argv,timeout=120):
-    return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False)
+SAFE_SUBPROCESS_ENV = {
+    "PATH", "HOME", "USER", "LOGNAME", "SHELL", "TERM", "LANG", "LC_ALL",
+    "TMPDIR", "XDG_CONFIG_HOME", "CODEX_HOME", "PYTHONPATH",
+    "ASTRA_NODE_ID", "ASTRA_STATE_DIR", "ASTRA_WORKTREE",
+    "ASTRA_WORKFLOW_ONLY", "ASTRA_QUALIFICATION_TIMEOUT",
+}
+PROVIDER_ENV_PREFIXES = (
+    "SILICONFLOW_API_KEY", "NOVITA_API_KEY", "ZAI_API_KEY", "KIMI_API_KEY",
+    "MOONSHOT_API_KEY", "LLM7_API_KEY", "SAMBANOVA_API_KEY", "AIONLABS_API_KEY",
+    "CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "NARAROUTER_API_KEY",
+    "ORCAROUTER_API_KEY", "UNOROUTER_API_KEY", "ZEROUTER_API_KEY",
+    "DEEPSEEK_API_KEY", "GEMINI_API_KEY", "GROQ_API_KEY", "HF_TOKEN",
+    "MISTRAL_API_KEY", "OPENROUTER_API_KEY",
+)
+
+def _safe_env(extra=None, include_provider_credentials=False):
+    env = {k: v for k, v in os.environ.items() if k in SAFE_SUBPROCESS_ENV}
+    if include_provider_credentials:
+        for key, value in os.environ.items():
+            if value and any(key == prefix or key.startswith(prefix + "_") for prefix in PROVIDER_ENV_PREFIXES):
+                env[key] = value
+    if extra:
+        env.update({k: str(v) for k, v in extra.items() if v is not None})
+    return env
+
+def run(argv,timeout=120, *, env=None):
+    return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False,
+                          env=_safe_env(env))
 
 def sync():
     ROOT.parent.mkdir(parents=True,exist_ok=True)
@@ -160,7 +186,8 @@ def execute(cmd):
                             "cycles":steps}
             cycle_record={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
             backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,
-                                   capture_output=True,timeout=120,check=False)
+                                   capture_output=True,timeout=120,check=False,
+                                   env=_safe_env(include_provider_credentials=True))
             cycle_record["backend"]={"returncode":backend.returncode,
                                      "stdout":backend.stdout[-12000:],"stderr":backend.stderr[-8000:]}
             steps.append(cycle_record)
@@ -171,7 +198,7 @@ def execute(cmd):
                 return {"status":"BLOCKED","phase":"execution_backend_qualification",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
             evidence=subprocess.run([sys.executable,str(evidence_script)],cwd=ROOT,text=True,
-                                    capture_output=True,timeout=900,check=False)
+                                    capture_output=True,timeout=900,check=False,env=_safe_env())
             cycle_record["pre_soak"]={"returncode":evidence.returncode,
                                       "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]}
             if evidence.returncode != 0:
@@ -181,7 +208,7 @@ def execute(cmd):
                 return {"status":"BLOCKED","phase":"pre_soak_evidence",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
             verifier=subprocess.run([sys.executable,str(verifier_script),"evidence"],
-                                    cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
+                                    cwd=ROOT,text=True,capture_output=True,timeout=300,check=False,env=_safe_env())
             cycle_record["strict_verifier"]={"returncode":verifier.returncode,
                                               "stdout":verifier.stdout[-12000:],
                                               "stderr":verifier.stderr[-8000:]}
@@ -210,7 +237,7 @@ def execute(cmd):
             qualification=subprocess.run([sys.executable,str(gold)],cwd=ROOT,text=True,
                                          capture_output=True,
                                          timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),
-                                         check=False)
+                                         check=False,env=_safe_env())
             cycle_record["gold"]={"returncode":qualification.returncode,
                                   "stdout":qualification.stdout[-12000:],
                                   "stderr":qualification.stderr[-8000:]}
