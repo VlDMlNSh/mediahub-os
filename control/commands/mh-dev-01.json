@@ -1,8 +1,8 @@
 {
-  "command_id": "MH25-ASTRA-TRANSPORT-HEALTH-20261002-02",
+  "command_id": "MH25-ASTRA-TRANSPORT-HEALTH-20261003-01",
   "node_id": "mh-dev-01",
   "operation": "health",
-  "target_sha": "0d3e4885d07e23c43c30edbdfca10afdb7372fed",
+  "target_sha": "5b298e90e5800c6866c5d3ed2c24575ff3315bd4",
   "workflow_only": false,
   "owned_paths": [
     "control/results/mh-dev-01.json"
