@@ -1,0 +1,142 @@
+schema: mediahub.astra-gold.governance.v1
+status: CANONICAL_GOVERNANCE_SOURCE
+version: 1.0
+date: 2026-10-02
+system: ASTRA_GOLD
+authority_source: architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml
+reference_architecture: architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md
+unified_system_model: architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml
+purpose: >-
+  Single machine-readable source for gate identity, runtime thresholds, invariant
+  enforcement, credential lifecycle, the human approval record and executor
+  classes. Prose documents reference this file instead of restating these values,
+  so a review or code change touches one place instead of three.
+
+gate_registry:
+  source_of_truth: architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml
+  rule: gate ids are identical in the qualification schema, the unified model and this registry
+  gates:
+    - {id: G0_IDENTITY, order: 0, name: Identity, failure: BLOCKED}
+    - {id: G1_BOUNDARY, order: 1, name: Boundary, failure: BLOCKED}
+    - {id: G2_CONTROL_PLANE, order: 2, name: Control Plane, failure: BLOCKED}
+    - {id: G3_EXECUTION_PATH, order: 3, name: Execution Path, failure: BLOCKED}
+    - {id: G4_23_WAVE_QUALIFICATION, order: 4, name: 23-Wave Qualification, failure: BLOCKED}
+    - {id: G5_CONCURRENCY, order: 5, name: Concurrency, failure: BLOCKED}
+    - {id: G6_RECOVERY, order: 6, name: Recovery, failure: BLOCKED}
+    - {id: G7_INTEGRATED_A3, order: 7, name: Integrated A3, failure: BLOCKED}
+    - {id: G8_PRE_SOAK, order: 8, name: Pre-Soak, failure: BLOCKED}
+    - {id: G9_24H_SOAK, order: 9, name: 24H SOAK, failure: ROLLBACK_OR_REQUALIFY}
+    - {id: G10_LAUNCH_READY, order: 10, name: Launch Ready, failure: BLOCKED}
+    - {id: G11_LAUNCH, order: 11, name: Human Launch, failure: ROLLBACK}
+
+runtime_thresholds:
+  unit: seconds
+  heartbeat_ttl_seconds: 120
+  lease_ttl_seconds: 600
+  executor_timeout_seconds: 900
+  evidence_freshness_window_seconds: 86400
+  result_publication_timeout_seconds: 120
+  retry_backoff_seconds: 30
+  max_parallel_autonomous_claims: 2
+  soak_duration_hours: 24
+  minimum_rounds_per_mandatory_path: 23
+  rule: >-
+    heartbeat, lease, timeout and freshness values are the numeric bounds used by
+    G2/G3/G6/G8; max_parallel, soak duration and rounds mirror the qualification
+    schema and cannot diverge from it
+
+invariant_registry:
+  rule: every invariant is bound to an enforcing test; an invariant without an existing test file is a defect
+  invariants:
+    - {id: INV_NO_CREDENTIALS_IN_GIT, statement: No credentials in Git., enforced_by: tests/test_repo_hygiene.py}
+    - {id: INV_NO_SECRETS_IN_EVIDENCE, statement: No secrets in evidence., enforced_by: tests/test_astra_security.py}
+    - {id: INV_NO_PROVIDER_STATE_AUTHORITY, statement: No provider State Authority., enforced_by: tests/test_astra_gold_architecture_drift.py}
+    - {id: INV_NO_TRANSPORT_STATE_AUTHORITY, statement: No transport State Authority., enforced_by: tests/test_astra_gold_architecture_drift.py}
+    - {id: INV_NO_MODEL_AUTHORITY_BY_IMPLICATION, statement: No model authority by implication., enforced_by: tests/test_astra_gold_qualification_launch_schema.py}
+    - {id: INV_NO_EXECUTOR_ARCHITECTURE_AUTHORITY, statement: No executor architecture authority., enforced_by: tests/test_astra_gold_architecture_drift.py}
+    - {id: INV_NO_CANDIDATE_SELF_QUALIFICATION, statement: No candidate self-qualification., enforced_by: tests/test_astra_gold_architecture_drift.py}
+    - {id: INV_NO_CANDIDATE_SELF_PROMOTION, statement: No candidate self-promotion., enforced_by: tests/test_astra_gold_qualification_launch_schema.py}
+    - {id: INV_NO_A2_SELF_VERIFICATION, statement: No A2 self-verification., enforced_by: tests/test_astra_gold_architecture_drift.py}
+    - {id: INV_NO_HIDDEN_PROVIDER_SELECTION, statement: No hidden provider selection., enforced_by: tests/test_cloud_admission.py}
+    - {id: INV_NO_CREDENTIAL_CREATION_BY_AUXILIARY, statement: No credential creation by auxiliary tooling., enforced_by: tests/test_astra_gold_qualification_launch_schema.py}
+    - {id: INV_NO_LAUNCH_WITHOUT_INDEPENDENT_A3, statement: No launch without independent A3., enforced_by: tests/test_astra_gold_architecture_drift.py}
+    - {id: INV_NO_LAUNCH_WITHOUT_RECOVERY, statement: No launch without recovery., enforced_by: tests/test_astra_gold_architecture_drift.py}
+    - {id: INV_NO_LAUNCH_WITHOUT_CURRENT_SOAK, statement: No launch without current 24H SOAK., enforced_by: tests/test_astra_gold_architecture_drift.py}
+    - {id: INV_NO_QUALIFICATION_FROM_HISTORICAL_EVIDENCE, statement: No qualification from historical evidence., enforced_by: tests/test_astra_gold_architecture_drift.py}
+    - {id: INV_MISSING_EVIDENCE_BLOCKS, statement: Missing evidence means BLOCKED., enforced_by: tests/test_astra_gold_governance_contract.py}
+
+credential_lifecycle:
+  rule: credential boundaries are asserted, and credentials must also rotate, expire, revoke and be audited
+  credentials_in_git: false
+  credentials_in_evidence: false
+  rotation_required: true
+  max_credential_age_days: 90
+  revocation_supported: true
+  audit_required: true
+  per_provider_isolation: true
+  creation_authority: HUMAN
+  auxiliary_creation_allowed: false
+
+human_approval_record:
+  rule: G11 is HUMAN_ONLY and an unsigned or stale approval never launches
+  decision_authority: HUMAN_ONLY
+  unsigned_approval_rejected: true
+  approval_expires_with_sha_change: true
+  required_fields:
+    - approver_identity
+    - approval_timestamp
+    - approved_source_sha
+    - release_target
+    - fresh_evidence_bundle
+    - A3_verification_record
+    - soak_record
+    - rollback_target
+    - approval_signature
+  covers_launch_inputs:
+    - approved_source_sha
+    - launch_target
+    - fresh_evidence_bundle
+    - A3_verification_record
+    - soak_record
+    - rollback_target
+
+evidence_metadata:
+  source_of_truth: architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml
+  required_metadata: [command_id, node_id, component_id, executor_id, provider_or_model_id, source_sha, round, timestamp, exit_status, timeout, workspace, verification_status, evidence_digest]
+  secret_values: SUPPRESSED
+  authorization_tokens: SUPPRESSED
+  raw_provider_responses: REDACTED
+
+executor_classes:
+  rule: >-
+    local and cloud executors share one admission ladder and carry executor-only
+    authority; a cloud executor path is an intended extension of the hybrid
+    fabric, not a new authority plane
+  local_executors: [codex, claude_code]
+  cloud_executors: [gemini, perplexity, kimi, deepseek, chatgpt_openai, gigachat, siliconflow, novita, zai, llm7, sambanova, aionlabs, cloudflare, groq, mistral, huggingface]
+  cloud_gateway_executors: [openrouter, unorouter, zerouter, nararouter, orcarouter]
+  mandatory_execution_paths: [CODEX_FCC, CLAUDE_FCC, CODEX_OMNIROUTE, CLAUDE_OMNIROUTE, CLAUDE_CODE_DIRECT]
+  rules:
+    executor_authority: EXECUTOR_ONLY
+    cloud_executor_requires_admission: true
+    each_executor_path_requires_fresh_rounds: true
+    gateway_path_is_not_native_provider_qualification: true
+    provider_identity_preserved: true
+    credential_boundary_isolated: true
+    no_cloud_executor_authority: true
+    independent_a3_required: true
+    no_self_promotion: true
+  candidate_cloud_executor_paths:
+    - {id: GEMINI_DIRECT, provider: gemini, credential_env: GEMINI_API_KEY, status: NOT_PROVEN, authority: none}
+    - {id: PERPLEXITY_DIRECT, provider: perplexity, credential_env: PERPLEXITY_API_KEY, status: NOT_PROVEN, authority: none}
+    - {id: KIMI_DIRECT, provider: kimi, credential_env: KIMI_API_KEY, status: NOT_PROVEN, authority: none}
+    - {id: DEEPSEEK_DIRECT, provider: deepseek, credential_env: DEEPSEEK_API_KEY, status: NOT_PROVEN, authority: none}
+    - {id: OPENAI_DIRECT, provider: chatgpt_openai, credential_env: OPENAI_API_KEY, status: NOT_PROVEN, authority: none}
+    - {id: ANTHROPIC_DIRECT, provider: claude, credential_env: ANTHROPIC_API_KEY, status: NOT_PROVEN, authority: none}
+    - {id: GIGACHAT_DIRECT, provider: gigachat, credential_env: GIGACHAT_API_PERS, status: NOT_PROVEN, authority: none}
+    - {id: OPENROUTER_GATEWAY, provider: openrouter, credential_env: OPENROUTER_API_KEY, status: NOT_PROVEN, authority: none}
+  extension_policy:
+    mandatory_paths_unchanged_until_qualified: true
+    candidate_paths_do_not_replace_mandatory_paths: true
+    promotion_requires: [credential_present, auth_success, model_discovery, non_mutating_probe, task_execution, result_validation, independent_a3]
+    promotion_requires_rounds: 23
