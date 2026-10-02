@@ -120,7 +120,14 @@ def process_task(task: dict) -> dict:
         if verifier.returncode != 0: raise RuntimeError("verifier_failed")
         status = run(["git", "status", "--porcelain"], 60, worktree)
         if not status.stdout.strip(): raise RuntimeError("no_changes")
-        if run(["git", "add", "-A"], 60, worktree).returncode: raise RuntimeError("git_add_failed")
+        boundary = tuple(str(p).strip("/") for p in task.get("boundary", []) if str(p).strip("/"))
+        changed = [line[3:] for line in status.stdout.splitlines() if len(line) >= 4]
+        if not boundary or any(not any(path == allowed or path.startswith(allowed + "/") for allowed in boundary) for path in changed):
+            raise RuntimeError("boundary_violation")
+        if run(["git", "add", "--", *boundary], 60, worktree).returncode: raise RuntimeError("git_add_failed")
+        staged = run(["git", "diff", "--cached", "--name-only"], 60, worktree)
+        if staged.returncode or any(not any(path == allowed or path.startswith(allowed + "/") for allowed in boundary) for path in staged.stdout.splitlines()):
+            raise RuntimeError("staged_boundary_violation")
         commit = run(["git", "commit", "-m", f"astra: complete {task['task_id']}"], 120, worktree)
         if commit.returncode: raise RuntimeError("git_commit_failed")
         push = run(["git", "push", "origin", f"HEAD:refs/heads/{branch}"], 180, worktree)
