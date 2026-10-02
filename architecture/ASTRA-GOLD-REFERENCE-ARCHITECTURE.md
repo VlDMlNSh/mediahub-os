@@ -436,7 +436,7 @@ Launch requires:
 - rollback target;
 - Human authorization.
 
-G11 is HUMAN_ONLY.
+Human launch authorization is required before G11.\n\nG11 is HUMAN_ONLY.
 
 ASTRA may prepare LAUNCH_READY.
 ASTRA does not self-authorize production launch.
