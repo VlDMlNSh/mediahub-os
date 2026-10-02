@@ -210,6 +210,10 @@ def execute(cmd):
         max_cycles=max(1,int(os.environ.get("ASTRA_AUTONOMOUS_MAX_CYCLES","12")))
         retry_seconds=max(30,int(os.environ.get("ASTRA_AUTONOMOUS_RETRY_SECONDS","300")))
         steps=[]
+        evidence_dir=STATE/"qualification_evidence"
+        evidence_dir.mkdir(parents=True,exist_ok=True)
+        qualification_env=os.environ.copy()
+        qualification_env["ASTRA_EVIDENCE_DIR"]=str(evidence_dir)
         target_sha=cmd.get("target_sha","")
         if target_sha:
             current_head=run(["git","rev-parse","HEAD"],10).stdout.strip()
@@ -231,7 +235,7 @@ def execute(cmd):
                             "current_head":current_head,"cycles":steps}
             cycle_record={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
             backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,
-                                   capture_output=True,timeout=120,check=False)
+                                   capture_output=True,timeout=120,check=False,env=qualification_env)
             cycle_record["backend"]={"returncode":backend.returncode,
                                      "stdout":backend.stdout[-12000:],"stderr":backend.stderr[-8000:]}
             steps.append(cycle_record)
@@ -242,7 +246,7 @@ def execute(cmd):
                 return {"status":"BLOCKED","phase":"execution_backend_qualification",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
             evidence=subprocess.run([sys.executable,str(evidence_script)],cwd=ROOT,text=True,
-                                    capture_output=True,timeout=900,check=False)
+                                    capture_output=True,timeout=900,check=False,env=qualification_env)
             cycle_record["pre_soak"]={"returncode":evidence.returncode,
                                       "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]}
             if evidence.returncode != 0:
@@ -251,8 +255,8 @@ def execute(cmd):
                     continue
                 return {"status":"BLOCKED","phase":"pre_soak_evidence",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
-            verifier=subprocess.run([sys.executable,str(verifier_script),"evidence"],
-                                    cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
+            verifier=subprocess.run([sys.executable,str(verifier_script),str(evidence_dir)],
+                                    cwd=ROOT,text=True,capture_output=True,timeout=300,check=False,env=qualification_env)
             cycle_record["strict_verifier"]={"returncode":verifier.returncode,
                                               "stdout":verifier.stdout[-12000:],
                                               "stderr":verifier.stderr[-8000:]}
@@ -281,7 +285,7 @@ def execute(cmd):
             qualification=subprocess.run([sys.executable,str(gold)],cwd=ROOT,text=True,
                                          capture_output=True,
                                          timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),
-                                         check=False)
+                                         check=False,env=qualification_env)
             cycle_record["gold"]={"returncode":qualification.returncode,
                                   "stdout":qualification.stdout[-12000:],
                                   "stderr":qualification.stderr[-8000:]}
