@@ -218,7 +218,9 @@ The native Claude Code path is now explicitly represented as an additional quali
 Direct Codex/native and other provider-specific paths may be added after independent runtime proof.
 
 ### 4.5 Auxiliary intelligence
-ECC is auxiliary local assistant support. It can assist with analysis where explicitly allowed, but it cannot:
+ECC is an explicit ASTRA GOLD auxiliary support component. It participates in the distributed scheme only as an advisory/diagnostic/context-support lane. It is not an A0/A1/A2/A3 role, not a provider, not a transport authority, and not a state authority.
+
+ECC can assist with analysis where explicitly allowed, but it cannot:
 - select providers;
 - create credentials;
 - mutate State Authority;
