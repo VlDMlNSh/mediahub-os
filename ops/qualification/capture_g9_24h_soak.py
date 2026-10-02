@@ -37,7 +37,9 @@ def main() -> int:
         return write_blocked(a.output,"source_sha_invalid")
 
     try:
-        lines=a.telemetry.read_text(encoding="utf-8").splitlines()
+        telemetry_bytes=a.telemetry.read_bytes()
+        telemetry_sha256=hashlib.sha256(telemetry_bytes).hexdigest()
+        lines=telemetry_bytes.decode("utf-8").splitlines()
     except OSError as exc:
         return write_blocked(a.output,"telemetry_unreadable",detail=type(exc).__name__)
 
@@ -120,6 +122,8 @@ def main() -> int:
         "duration_hours":24,
         "source_sha":a.source_sha,
         "telemetry_source_sha":a.source_sha.lower(),
+        "telemetry_sha256":telemetry_sha256,
+        "telemetry_path":str(a.telemetry),
         "started_at":start_iso,
         "ended_at":end_iso,
         "conditions":conditions,
