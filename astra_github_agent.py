@@ -263,10 +263,13 @@ def execute(cmd):
                 "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
 
     if operation == "reconcile_controller_processes":
+        # This operation is diagnostic/reconciliation only. It MUST NOT terminate
+        # processes: controller.lock is the authoritative duplicate-controller guard.
         ps=subprocess.run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
+        if ps.returncode != 0:
+            return {"status":"BLOCKED","reason":"process_inventory_failed","returncode":ps.returncode,"credentials":"SUPPRESSED"}
         current=os.getpid()
         matches=[]
-        terminated=[]
         for line in ps.stdout.splitlines():
             parts=line.strip().split(None,1)
             if len(parts)!=2: continue
@@ -275,19 +278,8 @@ def execute(cmd):
             args=parts[1]
             if pid!=current and "astra_github_agent.py" in args and f"ASTRA_NODE_ID={NODE_ID}" in args:
                 matches.append({"pid":pid,"args":args[-1000:]})
-                p=subprocess.run(["/bin/kill","-TERM",str(pid)],text=True,capture_output=True,timeout=5,check=False)
-                terminated.append({"pid":pid,"returncode":p.returncode})
-        time.sleep(2)
-        ps2=subprocess.run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
-        remaining=[]
-        for line in ps2.stdout.splitlines():
-            parts=line.strip().split(None,1)
-            if len(parts)==2 and "astra_github_agent.py" in parts[1] and f"ASTRA_NODE_ID={NODE_ID}" in parts[1]:
-                try:
-                    if int(parts[0])!=current: remaining.append(parts[0])
-                except ValueError: pass
-        return {"status":"PASS" if not remaining else "BLOCKED","current_pid":current,
-                "matched_duplicates":matches,"terminated":terminated,"remaining_duplicates":remaining,
+        return {"status":"PASS" if not matches else "BLOCKED","current_pid":current,
+                "matched_duplicates":matches,"termination_performed":False,
                 "node_id":NODE_ID,"credentials":"SUPPRESSED"}
 
     if operation == "dual_local_executor_23wave":
