@@ -47,9 +47,9 @@ def main():
 
     revision = run(["git", "rev-parse", "HEAD"])
 
-    contracts = sorted(
+    schemas = sorted(
         str(path.relative_to(ROOT))
-        for path in ROOT.glob("contracts/**/*.json")
+        for path in ROOT.glob("schemas/**/*.json")
     )
 
     manifest = {
@@ -63,7 +63,7 @@ def main():
         "toolchain": {
             "python": run([sys.executable, "--version"]),
         },
-        "contracts": contracts,
+        "schemas": schemas,
         "validation": {
             "contract_validation": "PASS",
             "unit_tests": "PASS",

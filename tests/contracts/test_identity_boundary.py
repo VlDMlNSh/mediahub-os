@@ -3,7 +3,8 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-CONTRACT = ROOT / "contracts/identity/identity-boundary.schema.json"
+# schemas/ is the single canonical schema source (audit defect D2).
+CONTRACT = ROOT / "schemas/identity/identity-boundary.schema.json"
 
 EXPECTED_IDENTITIES = {
     "device_id",
@@ -35,7 +36,7 @@ class IdentityBoundaryTests(unittest.TestCase):
         )
         self.assertEqual(
             self.data["$id"],
-            "mediahub://contracts/identity/identity-boundary.schema.json"
+            "mediahub://schemas/identity/identity-boundary.schema.json"
         )
 
     def test_instance_metadata_contract(self):

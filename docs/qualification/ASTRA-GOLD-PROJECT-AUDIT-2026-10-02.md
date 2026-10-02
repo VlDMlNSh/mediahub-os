@@ -49,20 +49,25 @@ Only `runtime/mediahub_runtime/proposals.py` exists from that family. These work
 failing. They cannot pass until the corresponding P0-07/P0-08 subsystems exist. Resolution is
 an A1/Human decision: build the subsystems, or remove the dormant workflows.
 
-### D2 — Duplicated schema trees have diverged
+### D2 — Duplicated schema trees have diverged (RESOLVED)
 
-`contracts/` and `schemas/` both carry `ai/*`, `core/*`, `identity/*`. Seven files are
-byte-identical; two differ:
+`contracts/` and `schemas/` both carried `ai/*`, `core/*`, `identity/*`. Seven files were
+byte-identical; two differed:
 
-- `core/contract-metadata.schema.json` — the `contracts/` copy declares
-  `optional`/`constraints` with `additionalProperties: true`; the `schemas/` copy does not.
-- `identity/identity-boundary.schema.json` — differs in `$id` namespace, descriptions,
+- `core/contract-metadata.schema.json` — the `contracts/` copy declared
+  `optional`/`constraints` with `additionalProperties: true`; the `schemas/` copy did not.
+- `identity/identity-boundary.schema.json` — differed in `$id` namespace, descriptions,
   formatting, and one `type`/`additionalProperties` detail.
 
-`tools/validate_contracts.py` validates only `contracts/`; `tests/schemas/*` validate
-only `schemas/`. Both currently pass, so this is a **drift risk**, not a live failure.
-Consolidating or designating one canonical tree is an A1 architecture decision; it is left
-open rather than silently rewritten.
+`tools/validate_contracts.py` validated only `contracts/`; `tests/schemas/*` validated
+only `schemas/`. Both passed, so this was a **drift risk**, not a live failure.
+
+**Resolution:** `schemas/` is now the single canonical schema tree. The duplicate
+`contracts/{ai,core,identity}` files were removed; `tools/validate_contracts.py`,
+`tools/build_foundation.py`, `tests/ai/*`, `tests/contracts/*` and
+`tests/static/test_cross_contract.py` all target `schemas/`. `contracts/README.md` records
+the decision, and `test_cross_contract.py` fails closed if a second schema tree reappears.
+The canonical `schemas/` tree validates clean (25 files, 9 metadata-envelope contracts).
 
 ### D3 — Non-existent trigger path (harmless)
 
@@ -90,7 +95,7 @@ and the 24h soak. Gates G0–G11 remain BLOCKED; `ASTRA_GOLD_ELIGIBLE` is not as
 | YAML + JSON parse (incl. `.github/`) | 0 failures |
 | `unittest discover` | PASS (201) |
 | `pytest -q tests/` | PASS (232) |
-| `tools/validate_contracts.py` | PASS (9 files) |
+| `tools/validate_contracts.py` | PASS (25 schemas, 9 envelope contracts) |
 | soak-pin drift gate | PASS |
 | federation tests + PoC scripts | 16 tests PASS, 5 scripts OK |
 | rewritten workflow: YAML parse + embedded Python heredoc compile | PASS |

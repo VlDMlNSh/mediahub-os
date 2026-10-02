@@ -1,15 +1,40 @@
 #!/usr/bin/env python3
+"""Validate the canonical MediaHub OS schema tree.
+
+Audit defect D2 resolved the `contracts/` vs `schemas/` duplication in favour
+of a single canonical source: ``schemas/``. This validator therefore walks
+``schemas/`` (not ``contracts/``) and enforces:
+
+- every schema is a JSON object using JSON Schema draft 2020-12 and declares a
+  non-empty ``$id``;
+- the common metadata envelope (``schema_id``/``schema_version``/``owner``) is
+  all-or-nothing: a schema either opts out entirely or declares all three, and
+  ``schema_version`` must be a string carrying an ``X.Y.Z`` value when
+  constrained;
+- the identity boundary preserves canonical identity separation.
+
+Exit code is 0 on success and 1 on the first failure (fail-closed).
+"""
 
 import json
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CONTRACT_ROOT = ROOT / "contracts"
+SCHEMA_ROOT = ROOT / "schemas"
+IDENTITY_BOUNDARY = (
+    SCHEMA_ROOT / "identity" / "identity-boundary.schema.json"
+)
+
+DRAFT_2020_12 = "https://json-schema.org/draft/2020-12/schema"
+
+METADATA_KEYS = ("schema_id", "schema_version", "owner")
+
 
 def fail(message: str) -> None:
     print(f"FAIL: {message}")
     raise SystemExit(1)
+
 
 def validate_json(path: Path) -> dict:
     try:
@@ -23,54 +48,60 @@ def validate_json(path: Path) -> dict:
 
     return data
 
-def validate_common_metadata(path: Path, data: dict) -> None:
-    required = {
-        "schema_id",
-        "schema_version",
-        "owner",
-    }
 
+def validate_common_metadata(path: Path, data: dict) -> bool:
+    """Validate the optional common metadata envelope.
+
+    Returns True when the schema carries the envelope, False when it opts out.
+    """
     properties = data.get("properties", {})
 
-    if not required.issubset(properties):
-        missing = sorted(required - set(properties))
-        fail(f"{path}: missing metadata properties: {missing}")
+    present = [key for key in METADATA_KEYS if key in properties]
+
+    if not present:
+        return False
+
+    if len(present) != len(METADATA_KEYS):
+        missing = sorted(set(METADATA_KEYS) - set(present))
+        fail(f"{path}: incomplete metadata envelope, missing {missing}")
 
     schema_version = properties["schema_version"]
 
-    if schema_version.get("type") != "string":
+    version_type = schema_version.get("type")
+    version_const = schema_version.get("const")
+
+    if version_type != "string" and not isinstance(version_const, str):
         fail(f"{path}: schema_version must be a string")
 
-    if "const" in schema_version:
-        version = schema_version["const"]
-        parts = version.split(".")
+    if isinstance(version_const, str):
+        parts = version_const.split(".")
         if len(parts) != 3 or not all(part.isdigit() for part in parts):
-            fail(f"{path}: invalid schema version: {version}")
+            fail(f"{path}: invalid schema version: {version_const}")
 
-def validate_contract(path: Path) -> None:
+    return True
+
+
+def validate_schema(path: Path) -> bool:
     data = validate_json(path)
 
-    if data.get("$schema") != (
-        "https://json-schema.org/draft/2020-12/schema"
-    ):
+    if data.get("$schema") != DRAFT_2020_12:
         fail(f"{path}: unsupported or invalid $schema")
 
     if not data.get("$id"):
         fail(f"{path}: missing $id")
 
-    validate_common_metadata(path, data)
+    has_envelope = validate_common_metadata(path, data)
 
     print(f"PASS {path}")
 
+    return has_envelope
+
+
 def validate_identity_boundary() -> None:
-    path = (
-        CONTRACT_ROOT
-        / "identity"
-        / "identity-boundary.schema.json"
-    )
+    path = IDENTITY_BOUNDARY
 
     if not path.exists():
-        fail("identity boundary contract is missing")
+        fail("identity boundary schema is missing")
 
     data = validate_json(path)
 
@@ -108,21 +139,30 @@ def validate_identity_boundary() -> None:
 
     print("PASS identity separation")
 
+
 def main() -> int:
-    files = sorted(CONTRACT_ROOT.glob("**/*.json"))
+    files = sorted(SCHEMA_ROOT.glob("**/*.json"))
 
     if not files:
-        fail("no contract schemas found")
+        fail("no schemas found under schemas/")
+
+    envelope_contracts = 0
 
     for path in files:
-        validate_contract(path)
+        if validate_schema(path):
+            envelope_contracts += 1
+
+    if envelope_contracts == 0:
+        fail("no metadata-envelope contracts found under schemas/")
 
     validate_identity_boundary()
 
     print(f"CONTRACT_FILES={len(files)}")
+    print(f"ENVELOPE_CONTRACTS={envelope_contracts}")
     print("CONTRACT_VALIDATION=PASS")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
