@@ -88,6 +88,99 @@ gates:
     requires: [LAUNCH_READY, release_sha, release_evidence_bundle, rollback_target]
     output: LAUNCHED
     failure: ROLLBACK
+candidate_review_inventory:
+  status: REVIEW_AND_TEST_CANDIDATE_ONLY
+  rule: registration_does_not_imply_qualification_or_launch
+  candidates:
+    - id: openopc
+      category: autonomous_development_system
+      source: https://github.com/HKUDS/OpenOPC
+      status: NOT_PROVEN
+    - id: sol-pi
+      category: autonomous_development_or_coding_candidate
+      source: user_supplied_identifier
+      status: NOT_PROVEN
+      identity_verification_required: true
+    - id: colibri
+      category: coding_or_agent_candidate
+      source: user_supplied_identifier
+      status: NOT_PROVEN
+      identity_verification_required: true
+    - id: webtool-deepseek
+      category: web_tool_or_agent_candidate
+      source: https://github.com/illegal-xd/WebTool-DeepSeek
+      status: NOT_PROVEN
+      identity_verification_required: true
+    - id: deepseek-harness
+      category: coding_harness
+      source: user_supplied_identifier
+      status: NOT_PROVEN
+      identity_verification_required: true
+    - id: stagewise
+      category: coding_agent_or_development_tool
+      source: user_supplied_identifier
+      status: NOT_PROVEN
+      identity_verification_required: true
+    - id: minicpm-v-4.5-8b-1mk
+      category: local_model_candidate
+      source: user_supplied_identifier
+      status: NOT_PROVEN
+      identity_verification_required: true
+      exact_variant_required: true
+    - id: free-coding-models
+      category: free_model_discovery_and_benchmark_router
+      source: https://github.com/vava-nessa/free-coding-models
+      status: NOT_PROVEN
+      role_boundary: discovery_and_routing_only
+      no_executor_authority: true
+      no_state_authority: true
+      no_credential_creation: true
+    - id: freellmapi
+      category: local_model_gateway
+      source: user_supplied_identifier
+      status: NOT_PROVEN
+      role_boundary: transport_and_gateway_only
+      no_state_authority: true
+      no_architecture_authority: true
+    - id: unlazy
+      category: developer_tool_or_agent_candidate
+      source: user_supplied_identifier
+      status: NOT_PROVEN
+      identity_verification_required: true
+    - id: naabu
+      category: security_or_networking_tool_candidate
+      source: user_supplied_identifier
+      status: NOT_PROVEN
+      role_boundary: bounded_non_authoritative_tool
+      safety_review_required: true
+    - id: codex-chatgpt-web
+      category: browser_bridge_and_coding_harness
+      source: https://github.com/miuuyy/codex-chatgpt-web
+      status: NOT_PROVEN
+      role_boundary: transport_or_harness_only
+      no_state_authority: true
+      no_credential_creation: true
+      account_and_browser_session_security_review_required: true
+  admission:
+    all_candidates_require:
+      - exact_source_identity
+      - exact_commit_or_release
+      - provenance
+      - dependency_integrity
+      - runtime_identity
+      - sandbox_boundary
+      - non_mutating_probe
+      - bounded_task_probe
+      - result_validation
+      - failure_recovery
+      - concurrency_isolation
+      - independent_a3
+    minimum_fresh_rounds: 23
+    fresh_evidence_only: true
+    no_implicit_promotion: true
+    no_self_qualification: true
+    launch_requires_existing_astrogold_gates: true
+
 candidate_component_admission:
   autonomous_development_system:
     placement: CANDIDATE_EXECUTION_SURFACE
