@@ -36,6 +36,11 @@ def verify(path: Path) -> dict:
         return {"status":"BLOCKED","reason":"bundle_source_sha_mismatch"}
     if data.get("secret_values") != "SUPPRESSED":
         return {"status":"BLOCKED","reason":"secret_policy_invalid"}
+    nested_secret_fields=("g4_115","g5_coordination","g6_recovery","a3_independent")
+    for key in nested_secret_fields:
+        nested=data.get(key,{})
+        if nested.get("secret_values") != "SUPPRESSED":
+            return {"status":"BLOCKED","reason":"nested_secret_policy_invalid","surface":key}
     for key in ("g4_115","g5_coordination","g6_recovery","a3_independent"):
         nested = data.get(key,{})
         if "source_sha" not in nested:
