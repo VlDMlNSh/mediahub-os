@@ -26,6 +26,49 @@ class TestAstraGithubAgentReplayFence(unittest.TestCase):
         self.assertTrue(self.mod.is_processed("command-A"))
         self.assertTrue(self.mod.is_processed("command-B") is False)
 
+    def test_remote_publication_is_reconciled_without_reexecution(self):
+        import json
+        original_run = self.mod.run
+        self.addCleanup(lambda: setattr(self.mod, "run", original_run))
+        result = {"command_id": "command-A", "target_sha": "abc123", "execution_head": "abc123", "returncode": 0}
+        class Fake:
+            def __init__(self, code, stdout=""):
+                self.returncode = code
+                self.stdout = stdout
+                self.stderr = ""
+        def fake_run(argv, timeout=30):
+            if argv[:3] == ["git", "rev-parse", "--verify"]:
+                return Fake(0, "remote-tip\\n")
+            if argv[:2] == ["git", "show"]:
+                return Fake(0, json.dumps(result))
+            raise AssertionError(argv)
+        self.mod.run = fake_run
+        command = {"command_id": "command-A", "target_sha": "abc123"}
+        self.assertTrue(self.mod.reconcile_published_state("command-A", command))
+        self.assertTrue(self.mod.is_processed("command-A"))
+        self.assertEqual(self.mod.published_command_id(), "command-A")
+        self.assertFalse((self.mod.STATE / "inflight_command_id").exists())
+
+    def test_remote_publication_identity_mismatch_fails_closed(self):
+        import json
+        original_run = self.mod.run
+        self.addCleanup(lambda: setattr(self.mod, "run", original_run))
+        class Fake:
+            def __init__(self, code, stdout=""):
+                self.returncode = code
+                self.stdout = stdout
+                self.stderr = ""
+        def fake_run(argv, timeout=30):
+            if argv[:3] == ["git", "rev-parse", "--verify"]:
+                return Fake(0, "remote-tip\\n")
+            if argv[:2] == ["git", "show"]:
+                return Fake(0, json.dumps({"command_id":"command-A","target_sha":"wrong","execution_head":"wrong"}))
+            raise AssertionError(argv)
+        self.mod.run = fake_run
+        with self.assertRaisesRegex(RuntimeError, "published_result_target_mismatch"):
+            self.mod.reconcile_published_state("command-A", {"command_id":"command-A","target_sha":"abc123"})
+        self.assertFalse(self.mod.is_processed("command-A"))
+
     def test_marker_is_hashed_and_validated(self):
         self.mod.mark_processed("command-A")
         marker = self.mod.processed_marker("command-A")
