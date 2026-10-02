@@ -40,6 +40,10 @@ def completed(task_id: str) -> bool:
 def dependencies_satisfied(task: dict) -> bool:
     return all(completed(str(dep)) for dep in task.get("dependencies", ()))
 
+def boundary_allows(path: str, boundary: tuple[str, ...]) -> bool:
+    normalized = path.replace("\\", "/").lstrip("./")
+    return bool(boundary) and any(normalized == allowed or normalized.startswith(allowed + "/") for allowed in boundary)
+
 def evidence(task_id: str, payload: dict) -> None:
     target = STATE / "evidence"
     target.mkdir(parents=True, exist_ok=True)
@@ -122,11 +126,11 @@ def process_task(task: dict) -> dict:
         if not status.stdout.strip(): raise RuntimeError("no_changes")
         boundary = tuple(str(p).strip("/") for p in task.get("boundary", []) if str(p).strip("/"))
         changed = [line[3:] for line in status.stdout.splitlines() if len(line) >= 4]
-        if not boundary or any(not any(path == allowed or path.startswith(allowed + "/") for allowed in boundary) for path in changed):
+        if not boundary or any(not boundary_allows(path, boundary) for path in changed):
             raise RuntimeError("boundary_violation")
         if run(["git", "add", "--", *boundary], 60, worktree).returncode: raise RuntimeError("git_add_failed")
         staged = run(["git", "diff", "--cached", "--name-only"], 60, worktree)
-        if staged.returncode or any(not any(path == allowed or path.startswith(allowed + "/") for allowed in boundary) for path in staged.stdout.splitlines()):
+        if staged.returncode or any(not boundary_allows(path, boundary) for path in staged.stdout.splitlines()):
             raise RuntimeError("staged_boundary_violation")
         commit = run(["git", "commit", "-m", f"astra: complete {task['task_id']}"], 120, worktree)
         if commit.returncode: raise RuntimeError("git_commit_failed")
