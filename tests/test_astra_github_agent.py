@@ -20,6 +20,13 @@ class TestAstraGithubAgentReplayFence(unittest.TestCase):
     def tearDown(self):
         self.tmp.cleanup()
 
+    def test_remote_result_does_not_become_local_last_command_state(self):
+        original_run = self.mod.run
+        self.addCleanup(lambda: setattr(self.mod, "run", original_run))
+        self.assertEqual(self.mod.published_command_id(), "")
+        self.mod.mark_processed("remote-only-command")
+        self.assertEqual(self.mod.published_command_id(), "")
+
     def test_published_command_remains_blocked_after_last_command_changes(self):
         self.mod.mark_processed("command-A")
         self.mod.mark_published("command-B")
