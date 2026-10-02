@@ -1,0 +1,103 @@
+schema: mediahub.astra-gold.hybrid-agent-fabric.v1
+system: ASTRA_GOLD
+status: QUALIFICATION_GATED
+authority:
+  coordinator: A0-ASTRA
+  provider_authority: none
+  state_authority: A0-ASTRA
+admission:
+  registration_is_authorization: false
+  credential_reference_is_authorization: false
+  runtime_auth_success_required: true
+  model_discovery_required: true
+  non_mutating_probe_required: true
+  evidence_freshness_required: true
+  a3_verification_required: true
+  fail_closed: true
+
+cloud_agents:
+  - id: gemini
+    class: direct_cloud
+    capabilities: [multimodal, documents]
+    credential_ref: GEMINI_API_KEY
+    status: NOT_PROVEN
+  - id: perplexity
+    class: direct_cloud
+    capabilities: [research, web]
+    credential_ref: PERPLEXITY_API_KEY
+    status: NOT_PROVEN
+  - id: kimi
+    class: direct_cloud
+    capabilities: [reasoning, long_context]
+    credential_ref: KIMI_API_KEY
+    status: NOT_PROVEN
+  - id: deepseek
+    class: direct_cloud
+    capabilities: [coding, reasoning, bulk]
+    credential_ref: DEEPSEEK_API_KEY
+    status: NOT_PROVEN
+  - id: chatgpt
+    class: direct_cloud
+    capabilities: [reasoning, analysis]
+    credential_ref: OPENAI_API_KEY
+    status: NOT_PROVEN
+  - id: gigachat
+    class: direct_cloud
+    capabilities: [reasoning, analysis, documents]
+    credential_ref: GIGACHAT_API_PERS
+    status: REGISTERED_NOT_QUALIFIED
+
+gateways:
+  - id: openrouter
+    class: cloud_gateway
+    credential_ref: OPENROUTER_API_KEY
+    status: NOT_PROVEN
+  - id: unorouter
+    class: cloud_gateway
+    credential_ref: UNOROUTER_API_KEY
+    status: NOT_PROVEN
+  - id: claude
+    class: cloud_gateway
+    credential_ref: OMNIROUTE_API_KEY
+    status: NOT_PROVEN
+
+local_fabric:
+  - id: codex
+    class: local_tooling
+  - id: cursor
+    class: local_tooling
+  - id: ollama
+    class: local_model
+  - id: kimi-k3-in-c
+    class: local_model
+  - id: deepseek-harness
+    class: local_harness
+
+qualification:
+  per_agent:
+    - executable_or_transport_identity
+    - credential_presence_without_secret_disclosure
+    - auth_success
+    - model_discovery
+    - non_mutating_probe
+    - task_execution
+    - result_schema_validation
+    - source_sha
+    - isolated_workspace
+    - a3_verification
+  evidence:
+    secret_values: SUPPRESSED
+    authorization_tokens: SUPPRESSED
+    raw_provider_responses: REDACTED
+  states:
+    - REGISTERED
+    - CREDENTIAL_PRESENT
+    - AUTH_SUCCESS
+    - MODEL_DISCOVERY_PASS
+    - PROBE_PASS
+    - EXECUTION_PASS
+    - A3_VERIFIED
+    - ASTRA_GOLD_ELIGIBLE
+    - NOT_PROVEN
+    - BLOCKED
+    - FAILED
