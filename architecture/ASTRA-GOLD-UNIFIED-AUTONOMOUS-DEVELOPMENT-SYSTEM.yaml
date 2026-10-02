@@ -79,7 +79,7 @@ layers:
         qualification: NOT_PROVEN
         evaluation_variants: [E2B, E4B, 12B, 26B_MoE, 31B_Dense]
         admission: model_specific_runtime_evidence_required
-    candidate_desktop_agent_policy:
+    candidate_autonomous_system_policy:
       openopc:
         authority: none
         provider_selection: false
@@ -92,10 +92,8 @@ layers:
         admission: runtime_and_security_evidence_required
         no_self_promotion: true
         no_self_qualification: true
-        no_state_authority: true
-        no_provider_authority: true
-        no_credential_creation: true
-        openflux:
+    candidate_desktop_agent_policy:
+      openflux:
         authority: none
         provider_selection: false
         credential_creation: false
