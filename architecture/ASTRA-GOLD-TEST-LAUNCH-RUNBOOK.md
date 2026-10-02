@@ -222,3 +222,7 @@ STOP:
 - Do not modify sudoers, polkit, SentinelX policy, systemd unit ownership, or runner registration as part of autonomous qualification.
 - Required recovery action is a normal administrator-authorized start of the existing service, followed by runner/GitHub handshake verification.
 - Re-registration is not indicated by current evidence.
+
+
+## 72h extended validation
+After G8 and a successful fresh G9 24h soak, Human may authorize an extended 72h validation. The extended run is non-promotional: failure returns the system to REQUALIFY/BLOCKED and does not imply GOLD. Automatic start is prohibited before explicit Human authorization.
