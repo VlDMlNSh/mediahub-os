@@ -35,10 +35,14 @@ def main():
             print(json.dumps({"status":"BLOCKED","reason":"evidence_json_invalid","surface":key})); return 2
         if not isinstance(payload,dict) or payload.get("status")!="PASS":
             print(json.dumps({"status":"BLOCKED","reason":"evidence_not_pass","surface":key})); return 2
-        if payload.get("source_sha") and str(payload["source_sha"]).lower()!=a.source_sha.lower():
-            print(json.dumps({"status":"BLOCKED","reason":"evidence_source_sha_mismatch","surface":key})); return 2
-        if payload.get("target_sha") and str(payload["target_sha"]).lower()!=a.source_sha.lower():
-            print(json.dumps({"status":"BLOCKED","reason":"evidence_target_sha_mismatch","surface":key})); return 2
+        source_sha=payload.get("source_sha")
+        target_sha=payload.get("target_sha")
+        if source_sha is None and target_sha is None:
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_sha_binding_missing","surface":key})); return 2
+        if source_sha is not None and (not isinstance(source_sha,str) or not SHA40.fullmatch(source_sha) or source_sha.lower()!=a.source_sha.lower()):
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_source_sha_invalid_or_mismatch","surface":key})); return 2
+        if target_sha is not None and (not isinstance(target_sha,str) or not SHA40.fullmatch(target_sha) or target_sha.lower()!=a.source_sha.lower()):
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_target_sha_invalid_or_mismatch","surface":key})); return 2
         if payload.get("secret_values")!="SUPPRESSED":
             print(json.dumps({"status":"BLOCKED","reason":"evidence_secret_policy","surface":key})); return 2
         refs[key]={"path":str(path),"sha256":digest,"status":"PASS"}
