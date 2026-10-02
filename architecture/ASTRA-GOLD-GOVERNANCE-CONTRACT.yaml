@@ -48,8 +48,8 @@ runtime_thresholds:
 invariant_registry:
   rule: every invariant is bound to an enforcing test; an invariant without an existing test file is a defect
   invariants:
-    - {id: INV_NO_CREDENTIALS_IN_GIT, statement: No credentials in Git., enforced_by: tests/test_repo_hygiene.py}
-    - {id: INV_NO_SECRETS_IN_EVIDENCE, statement: No secrets in evidence., enforced_by: tests/test_astra_security.py}
+    - {id: INV_NO_CREDENTIALS_IN_GIT, statement: No credentials in Git., enforced_by: tests/test_repo_secret_hygiene.py}
+    - {id: INV_NO_SECRETS_IN_EVIDENCE, statement: No secrets in evidence., enforced_by: tests/test_repo_secret_hygiene.py}
     - {id: INV_NO_PROVIDER_STATE_AUTHORITY, statement: No provider State Authority., enforced_by: tests/test_astra_gold_architecture_drift.py}
     - {id: INV_NO_TRANSPORT_STATE_AUTHORITY, statement: No transport State Authority., enforced_by: tests/test_astra_gold_architecture_drift.py}
     - {id: INV_NO_MODEL_AUTHORITY_BY_IMPLICATION, statement: No model authority by implication., enforced_by: tests/test_astra_gold_qualification_launch_schema.py}

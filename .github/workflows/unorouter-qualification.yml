@@ -5,7 +5,6 @@ on:
   push:
     paths:
       - ".github/workflows/unorouter-qualification.yml"
-      - ".github/workflows/unorouter-runtime-qualification.yml"
       - "runtime/mediahub_runtime/cloud_orchestrator.py"
       - "profiles/agent-registry.json"
   workflow_dispatch:
