@@ -9,7 +9,9 @@ on:
       - "architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml"
       - "astra_github_agent.py"
       - "ops/agent-fabric/**"
-      - "ops/qualification/**"\n      - "profiles/agent-registry.json"\n      - "profiles/providers/**"
+      - "ops/qualification/**"
+      - "profiles/agent-registry.json"
+      - "profiles/providers/**"
       - ".github/workflows/astra-gold-unified-qualification.yml"
 
 permissions:
