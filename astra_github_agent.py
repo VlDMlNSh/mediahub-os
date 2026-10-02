@@ -114,6 +114,34 @@ def mark_inflight(command_id):
     tmp.write_text(str(command_id)+"\n",encoding="utf-8")
     tmp.replace(path)
 
+def reconcile_published_state(command_id, cmd):
+    """Recover a remotely published result without re-executing the command."""
+    branch=f"origin/astra-node/{NODE_ID}"
+    result_path=f"control/results/{NODE_ID}.json"
+    tip=run(["git","rev-parse","--verify",branch],30)
+    if tip.returncode != 0:
+        return False
+    raw=run(["git","show",f"{branch}:{result_path}"],30)
+    if raw.returncode != 0:
+        return False
+    try:
+        result=json.loads(raw.stdout)
+    except Exception:
+        raise RuntimeError("published_result_corrupt")
+    if str(result.get("command_id","")) != str(command_id):
+        return False
+    expected_target=str(cmd.get("target_sha",""))
+    published_target=str(result.get("target_sha",""))
+    if expected_target and published_target != expected_target:
+        raise RuntimeError("published_result_target_mismatch")
+    execution_head=str(result.get("execution_head",""))
+    if expected_target and execution_head != expected_target:
+        raise RuntimeError("published_result_execution_head_mismatch")
+    mark_published(command_id)
+    mark_processed(command_id)
+    clear_inflight(command_id)
+    return True
+
 def clear_inflight(command_id):
     path=STATE/"inflight_command_id"
     try:
@@ -568,6 +596,10 @@ def _main_loop(last_id):
             if cmd and command_id!=last_id:
                 if is_processed(command_id):
                     raise RuntimeError("command_replay_after_publication")
+                if reconcile_published_state(command_id, cmd):
+                    last_id=command_id
+                    if os.environ.get("ASTRA_ONESHOT","0")=="1": return
+                    continue
                 started=time.time()
                 mark_inflight(command_id)
                 claim_store=None
