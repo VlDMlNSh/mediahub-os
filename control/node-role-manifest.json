@@ -1,0 +1,40 @@
+{
+  "schema": "mediahub.astra-gold.node-role-manifest.v1",
+  "status": "DESIGN_LOCKED_NOT_QUALIFIED",
+  "principles": [
+    "Control-plane components are concentrated on mh-dev-01.",
+    "Provider/execution workloads are concentrated on mh-dev-02.",
+    "Qualification/recovery/evidence workloads are concentrated on mh-dev-03.",
+    "Installation and qualification require fresh node evidence.",
+    "Provider credentials remain node-local and never enter GitHub."
+  ],
+  "nodes": {
+    "mh-dev-01": {
+      "role": "control_transport",
+      "primary": ["Astra GitHub Agent", "Astra Command Bus", "Astra Orchestrator", "Hybrid Orchestrator"],
+      "secondary": ["Node.js", "Bun"],
+      "avoid_by_default": ["large local model stores", "provider execution pools", "G4 115-round execution"]
+    },
+    "mh-dev-02": {
+      "role": "provider_execution",
+      "primary": ["Codex CLI", "Claude Code", "free-claude-code", "OmniRoute", "OpenFlux", "free-coding-models", "Ollama", "llama.cpp", "bubblewrap"],
+      "secondary": ["FFmpeg", "OpenCV", "PaddleOCR"],
+      "provider_registry": "ops/qualification/provider_model_registry.json",
+      "qualification_operations": ["local_component_inventory", "local_component_qualification", "local_ai_capability_qualification", "provider_model_qualification", "dual_local_executor_23wave"]
+    },
+    "mh-dev-03": {
+      "role": "qualification_recovery",
+      "primary": ["G4 115-round verifier", "pre-soak evidence", "integrated A3 verification", "recovery/fencing", "backup/restore verification"],
+      "secondary": ["Prometheus", "PostgreSQL", "NATS", "etcd", "protobuf", "restic", "OpenBao", "SOPS", "age", "Cosign", "Syft", "Trivy"],
+      "execution_policy": "Do not become the primary provider execution node unless an explicit recovery test requires it."
+    }
+  },
+  "gate_dependencies": {
+    "G0-G3": ["mh-dev-01"],
+    "G4": ["mh-dev-02", "mh-dev-03"],
+    "G5": ["mh-dev-01", "mh-dev-02", "mh-dev-03"],
+    "G6": ["mh-dev-03"],
+    "G7-G10": ["mh-dev-01", "mh-dev-02", "mh-dev-03"]
+  },
+  "launch": {"human_authorization_required": true, "automatic_launch": false}
+}
