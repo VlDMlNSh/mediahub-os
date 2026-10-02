@@ -44,5 +44,23 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
         self.assertTrue(model["model_is_not_authority"])
         self.assertTrue(agent["agent_is_not_authority"])
 
+
+    def test_openopc_candidate_is_qualified_separately_without_authority(self):
+        data = self.load()
+        candidate = data["candidate_component_admission"]["autonomous_development_system"]
+        openopc = candidate["openopc"]
+        self.assertEqual(openopc["qualification"], "NOT_PROVEN")
+        self.assertFalse(openopc["authority"] != "none")
+        self.assertFalse(openopc["provider_selection"])
+        self.assertFalse(openopc["credential_creation"])
+        self.assertFalse(openopc["state_authority"])
+        self.assertFalse(openopc["architecture_authority"])
+        self.assertFalse(openopc["self_promotion"])
+        self.assertFalse(openopc["self_qualification"])
+        self.assertEqual(openopc["qualification_rounds"]["minimum"], 23)
+        self.assertTrue(openopc["qualification_rounds"]["fresh_evidence_per_round"])
+        self.assertTrue(openopc["qualification_rounds"]["isolated_workspace_per_round"])
+        self.assertTrue(openopc["security_attention"]["versioned_release_required_for_gold"])
+
 if __name__ == "__main__":
     unittest.main()
