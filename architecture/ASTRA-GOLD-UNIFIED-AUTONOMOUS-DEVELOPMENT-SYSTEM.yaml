@@ -123,6 +123,7 @@ qualification:
     - hybrid_provider_fabric_authentication
     - hybrid_provider_model_discovery
     - hybrid_provider_non_mutating_probe
+    - auxiliary_fabric_boundary
     - control_plane
     - executor_fabric
     - twenty_three_wave
@@ -156,5 +157,8 @@ rules:
   registration_implies_authorization: false
   transport_state_authority: false
   ecc_provider_selection: false
+  ecc_credential_creation: false
+  ecc_state_authority: false
+  ecc_architecture_authority: false
   a2_self_verification: false
   destructive_actions_without_human_authorization: false
