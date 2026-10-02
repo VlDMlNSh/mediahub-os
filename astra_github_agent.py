@@ -49,14 +49,22 @@ def run(argv,timeout=120, *, env=None):
     return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False,
                           env=_safe_env(env))
 
+def _canonical_remote():
+    canonical=f"git@github.com:{REPO}.git"
+    allowed={canonical, f"https://github.com/{REPO}.git"}
+    if REMOTE not in allowed:
+        raise RuntimeError("ASTRA_GITHUB_REMOTE is outside the canonical repository")
+
 def sync():
+    _canonical_remote()
     ROOT.parent.mkdir(parents=True,exist_ok=True)
     if not (ROOT/".git").exists():
-        subprocess.run(["git","clone","--depth","1",REMOTE,str(ROOT)],check=True,timeout=120)
+        run(["git","clone","--depth","1",REMOTE,str(ROOT)],120).check_returncode()
     else:
-        subprocess.run(["git","-C",str(ROOT),"fetch","--depth","50","origin","main"],check=True,timeout=120)
-        subprocess.run(["git","-C",str(ROOT),"fetch","origin",f"+astra-node/{NODE_ID}:refs/remotes/origin/astra-node/{NODE_ID}"],check=False,timeout=120)
-        subprocess.run(["git","-C",str(ROOT),"reset","--hard","origin/main"],check=True,timeout=120)
+        run(["git","-C",str(ROOT),"remote","set-url","origin",REMOTE],30).check_returncode()
+        run(["git","-C",str(ROOT),"fetch","--depth","50","origin","main"],120).check_returncode()
+        run(["git","-C",str(ROOT),"fetch","origin",f"+astra-node/{NODE_ID}:refs/remotes/origin/astra-node/{NODE_ID}"],120).check_returncode()
+        run(["git","-C",str(ROOT),"reset","--hard","origin/main"],120).check_returncode()
 
 def maybe_reexec_updated_agent():
     target=ROOT/"astra_github_agent.py"
