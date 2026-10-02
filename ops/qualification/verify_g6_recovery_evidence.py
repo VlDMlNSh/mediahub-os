@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fail-closed verifier for G6 publication-recovery evidence."""
 from __future__ import annotations
-import argparse, json, re, sys
+import argparse, hashlib, json, re, sys
 from pathlib import Path
 
 SCENARIOS=("timeout","executor_failure","transport_interruption","stale_claim",
@@ -39,6 +39,13 @@ def verify(path: Path) -> dict:
             return {"status":"BLOCKED","reason":"scenario_evidence_digest_invalid","scenario":name}
         if item.get("secret_values") not in (None, "SUPPRESSED"):
             return {"status":"BLOCKED","reason":"scenario_secret_policy_violation","scenario":name}
+        canonical=dict(item)
+        canonical.pop("evidence_digest",None)
+        actual=hashlib.sha256(
+            json.dumps(canonical,sort_keys=True,separators=(",",":")).encode("utf-8")
+        ).hexdigest()
+        if actual != digest:
+            return {"status":"BLOCKED","reason":"scenario_evidence_digest_mismatch","scenario":name}
         source_shas.add(sha.lower())
     if len(source_shas) != 1:
         return {"status":"BLOCKED","reason":"scenario_source_sha_mismatch"}
