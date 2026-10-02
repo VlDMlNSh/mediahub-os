@@ -1,0 +1,81 @@
+name: ASTRA GOLD unified autonomous development qualification
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.md"
+      - "architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml"
+      - "astra_github_agent.py"
+      - "ops/agent-fabric/**"
+      - "ops/qualification/**"
+      - ".github/workflows/astra-gold-unified-qualification.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: astra-gold-unified-qualification
+  cancel-in-progress: false
+
+jobs:
+  qualify:
+    name: Whole-system ASTRA GOLD qualification
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 1450
+    env:
+      ASTRA_NODE_ID: mh-dev-01
+      ASTRA_AUTONOMOUS_MAX_CYCLES: "12"
+      ASTRA_AUTONOMOUS_RETRY_SECONDS: "300"
+      ASTRA_QUALIFICATION_TIMEOUT: "87000"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+
+      - name: Canonical runtime preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          test -z "$(git status --short)"
+          python3 -m compileall -q runtime tests astra_github_agent.py
+          PYTHONPATH=runtime:. python3 -m unittest discover -s tests -p 'test_*.py'
+
+      - name: Execute unified ASTRA GOLD mission
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import astra_github_agent
+
+          target_sha=os.environ["GITHUB_SHA"]
+          command={
+              "command_id": f"ASTRA-GOLD-UNIFIED-{os.environ['GITHUB_RUN_ID']}",
+              "node_id": "mh-dev-01",
+              "operation": "autonomous_gold_mission",
+              "target_sha": target_sha,
+              "workflow_only": False,
+              "owned_paths": ["architecture", "ops/agent-fabric", "ops/qualification", "control/qualification"]
+          }
+          result=astra_github_agent.execute(command)
+          print(json.dumps(result, indent=2, sort_keys=True))
+          if result.get("status") != "PASS":
+              raise SystemExit(2)
+          PY
+
+      - name: Publish sanitized qualification marker
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          echo "system=ASTRA_GOLD"
+          echo "scope=whole_system"
+          echo "commit=$(git rev-parse HEAD 2>/dev/null || echo unavailable)"
+          echo "node=mh-dev-01"
+          echo "credentials=SUPPRESSED"
+
