@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - .github/workflows/mh25-dual-local-executor-23wave.yml
+      - control/qualification/**
+      - ops/agent-fabric/**
   workflow_dispatch:
 
 permissions:
@@ -29,6 +31,20 @@ jobs:
           test "$(hostname)" = "mh-dev-01"
           test -z "$(git status --short)"
           python3 -m compileall -q runtime tests astra_github_agent.py
+      - name: Runtime identity and launcher inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          id
+          printf 'PATH=%s\n' "$PATH"
+          for x in codex claude fcc-codex fcc-claude omniroute ecc ecc-cli; do
+            if command -v "$x" >/tmp/mh25-"$x"-path 2>/dev/null; then
+              printf '%s=' "$x"
+              cat /tmp/mh25-"$x"-path
+            else
+              printf '%s=NOT_FOUND\n' "$x"
+            fi
+          done
       - name: Execute 23 qualification rounds
         shell: bash
         env:
