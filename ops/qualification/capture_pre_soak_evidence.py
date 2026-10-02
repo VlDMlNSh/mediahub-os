@@ -16,7 +16,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-EVIDENCE = ROOT / "evidence"
+EVIDENCE = Path(__import__("os").environ.get("ASTRA_EVIDENCE_DIR", str(ROOT / "evidence")))
 AGENT = ROOT / "astra_github_agent.py"
 NODE = platform.node()
 NOW = int(time.time())
