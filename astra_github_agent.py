@@ -74,13 +74,26 @@ def publish(result):
     path=ROOT/"control"/"results"/f"{NODE_ID}.json"
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
-    for args in (["git","config","user.name","Astra Node Agent"],["git","config","user.email","astra-node@localhost"],
-                 ["git","checkout","-B",f"astra-node/{NODE_ID}"],["git","add",str(path.relative_to(ROOT))]):
+    branch=f"astra-node/{NODE_ID}"
+    for args in (["git","config","user.name","Astra Node Agent"],["git","config","user.email","astra-node@localhost"]):
         run(args,30).check_returncode()
+    local=run(["git","rev-parse","--verify",f"refs/heads/{branch}"],30)
+    if local.returncode == 0:
+        run(["git","checkout",branch],30).check_returncode()
+        sync_branch=run(["git","pull","--ff-only","origin",branch],120)
+        if sync_branch.returncode != 0: raise RuntimeError("node_branch_reconciliation_failed")
+    else:
+        remote=run(["git","rev-parse","--verify",f"refs/remotes/origin/{branch}"],30)
+        if remote.returncode == 0:
+            run(["git","checkout","-b",branch,f"origin/{branch}"],30).check_returncode()
+        else:
+            run(["git","checkout","-b",branch,"origin/main"],30).check_returncode()
+    run(["git","add",str(path.relative_to(ROOT))],30).check_returncode()
     commit=run(["git","commit","-m",f"astra: result {NODE_ID}"],30)
     if commit.returncode not in (0,1): raise RuntimeError(commit.stderr)
-    run(["git","push","--force","origin",f"astra-node/{NODE_ID}"],120).check_returncode()
-    run(["git","checkout","-B","main","origin/main"],30).check_returncode()
+    run(["git","push","origin",f"HEAD:refs/heads/{branch}"],120).check_returncode()
+    run(["git","checkout","main"],30).check_returncode()
+    run(["git","pull","--ff-only","origin","main"],120).check_returncode()
 
 def _claim_for(cmd):
     runtime_root=ROOT/'runtime'
