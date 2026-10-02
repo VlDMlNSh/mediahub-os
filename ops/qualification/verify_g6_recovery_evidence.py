@@ -11,7 +11,7 @@ SCENARIOS=("timeout","executor_failure","transport_interruption","stale_claim",
 RECOVERY=("published_result_identity","source_sha","remote_branch_tip",
           "local_processed_state_reconciliation")
 
-def verify(path: Path) -> dict:
+def verify(path: Path, expected_source_sha: str | None = None) -> dict:
     try:
         data=json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc:
@@ -20,6 +20,9 @@ def verify(path: Path) -> dict:
         return {"status":"BLOCKED","reason":"fresh_recovery_evidence_required"}
     if data.get("secret_values") not in (None, "SUPPRESSED"):
         return {"status":"BLOCKED","reason":"secret_policy_violation"}
+    top_source_sha=str(data.get("source_sha",""))
+    if not re.fullmatch(r"[0-9a-fA-F]{40}",top_source_sha): return {"status":"BLOCKED","reason":"top_level_source_sha_invalid"}
+    if expected_source_sha is not None and top_source_sha.lower() != expected_source_sha.lower(): return {"status":"BLOCKED","reason":"top_level_source_sha_not_expected"}
     scenarios=data.get("scenarios",{})
     source_shas=set()
     for name in SCENARIOS:
@@ -67,6 +70,8 @@ def verify(path: Path) -> dict:
     if len(source_shas) != 1:
         return {"status":"BLOCKED","reason":"scenario_source_sha_mismatch"}
 
+    if top_source_sha.lower() != next(iter(source_shas)):
+        return {"status":"BLOCKED","reason":"top_level_source_sha_mismatch"}
     missing=[s for s in SCENARIOS if scenarios.get(s,{}).get("status")!="PASS"]
     if missing:
         return {"status":"BLOCKED","reason":"required_recovery_scenarios_not_passed","missing":missing}
@@ -100,8 +105,9 @@ def verify(path: Path) -> dict:
 def main() -> int:
     p=argparse.ArgumentParser()
     p.add_argument("evidence",type=Path)
+    p.add_argument("--source-sha",default=None)
     args=p.parse_args()
-    result=verify(args.evidence)
+    result=verify(args.evidence,args.source_sha)
     print(json.dumps(result,indent=2,sort_keys=True))
     return 0 if result["status"]=="PASS" else 2
 
