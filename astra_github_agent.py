@@ -17,6 +17,18 @@ AGENT_ID=os.environ.get('ASTRA_AGENT_ID','A0-ASTRA')
 WORKER_ID=os.environ.get('ASTRA_WORKER_ID',f"{AGENT_ID}:{os.getpid()}")
 CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS','900')),3600.0))
 
+G9_TELEMETRY=STATE/"g9_telemetry.jsonl"
+
+def g9_event(event, **fields):
+    payload={"timestamp":time.time(),"event":event,"node_id":NODE_ID,"worker_id":WORKER_ID}
+    payload.update(fields)
+    try:
+        G9_TELEMETRY.parent.mkdir(parents=True,exist_ok=True)
+        with G9_TELEMETRY.open("a",encoding="utf-8") as handle:
+            handle.write(json.dumps(payload,sort_keys=True,separators=(",",":"))+"\n")
+    except OSError:
+        pass
+
 def run(argv,timeout=120):
     return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False)
 
@@ -591,6 +603,7 @@ def main():
     except (OSError, ImportError) as exc:
         raise RuntimeError("duplicate_controller_or_lock_unavailable") from exc
     try:
+        g9_event("controller_started",pid=os.getpid(),agent_source_sha=RUNNING_AGENT_SHA)
         last_id=published_command_id()
         _main_loop(last_id)
     finally:
@@ -602,6 +615,7 @@ def main():
 def _main_loop(last_id):
     while True:
         try:
+            g9_event("heartbeat",pid=os.getpid())
             sync(); maybe_reexec_updated_agent(); cmd=read_command()
             if cmd and cmd.get("target_sha"):
                 sync(str(cmd["target_sha"]))
@@ -622,6 +636,7 @@ def _main_loop(last_id):
                 try:
                     claim_store, claim = _claim_for(cmd)
                     claim_store.acquire(claim)
+                    g9_event("claim_acquired",command_id=command_id,task_id=claim.task_id,paths=list(claim.paths))
                     heartbeat_stop = threading.Event()
                     heartbeat_error = []
                     def _heartbeat():
@@ -629,6 +644,7 @@ def _main_loop(last_id):
                         while not heartbeat_stop.wait(interval):
                             try:
                                 claim_store.heartbeat(claim.task_id, lease_seconds=CLAIM_LEASE_SECONDS)
+                                g9_event("claim_heartbeat",command_id=command_id,task_id=claim.task_id)
                             except Exception as heartbeat_exc:
                                 heartbeat_error.append(repr(heartbeat_exc))
                                 return
@@ -638,7 +654,9 @@ def _main_loop(last_id):
                         daemon=True,
                     )
                     heartbeat_thread.start()
+                    g9_event("execution_started",command_id=command_id)
                     value,rc=execute(cmd),0
+                    g9_event("execution_completed",command_id=command_id,returncode=rc)
                     heartbeat_stop.set()
                     heartbeat_thread.join(timeout=5)
                     if heartbeat_error:
@@ -646,6 +664,7 @@ def _main_loop(last_id):
                                  "claim_heartbeat_error": heartbeat_error[-1]}
                         rc=1
                 except Exception as exc:
+                    g9_event("execution_failed",command_id=command_id,error=type(exc).__name__)
                     value,rc={'error':repr(exc)},1
                 finally:
                     if claim_store is not None and claim is not None:
@@ -655,6 +674,7 @@ def _main_loop(last_id):
                             result_status = value.get("status") if isinstance(value, dict) else None
                             claim_status = 'VERIFIED' if rc == 0 and result_status not in {"BLOCKED", "REJECTED"} else 'REJECTED'
                             claim_store.release(claim.task_id, claim_status)
+                            g9_event("claim_released",command_id=command_id,task_id=claim.task_id,status=claim_status)
                         except Exception as release_exc:
                             value = {**(value if isinstance(value,dict) else {'result':value}), 'claim_release_error':repr(release_exc)}
                             rc=1
@@ -670,6 +690,7 @@ def _main_loop(last_id):
                 last_id=command_id
                 if os.environ.get("ASTRA_ONESHOT","0")=="1": return
         except Exception as exc:
+            g9_event("controller_error",error=type(exc).__name__)
             (STATE/"last_error.json").write_text(json.dumps({"error":repr(exc),"time":int(time.time())}))
             if os.environ.get("ASTRA_ONESHOT","0")=="1": return
         if os.environ.get("ASTRA_ONESHOT","0")=="1": return
