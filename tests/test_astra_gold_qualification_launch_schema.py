@@ -211,6 +211,16 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
         self.assertEqual(s["next"]["kind"],"PHYSICAL")
         self.assertEqual(s["physical_blockers"],4)
 
+    def test_launch_gate_consumes_effective_canonical_state(self):
+        from ops.qualification.qualification_launch_gate import evaluate, load_schema
+        evidence={"gates":{"G0_IDENTITY":"PASS","G1_BOUNDARY":"PASS","G2_CONTROL_PLANE":"PASS",
+                           "G3_EXECUTION_PATH":"PASS","G4_23_WAVE_QUALIFICATION":"PASS"},
+                  "gate_evidence":{"G4_23_WAVE_QUALIFICATION":{"status":"PASS","fresh":False}}}
+        result=evaluate(evidence, load_schema())
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(result["next_blocker"], "G4_23_WAVE_QUALIFICATION")
+        self.assertEqual(result["gate_results"]["G4_23_WAVE_QUALIFICATION"], "BLOCKED")
+
     def test_geometric_progress_controller_halves_active_budget(self):
         from ops.qualification.geometric_progress_controller import plan
         e={"gates":{"G0_IDENTITY":"BLOCKED"}}
