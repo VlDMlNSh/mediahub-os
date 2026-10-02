@@ -98,5 +98,20 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
         self.assertIn("colibri", controls["unresolved_identity"]["examples"])
         self.assertIn("unlazy", controls["unresolved_identity"]["examples"])
 
+    def test_reference_architecture_and_unified_model_alignment_contract(self):
+        reference = Path("architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md").read_text(encoding="utf-8")
+        unified = yaml.safe_load(Path("architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml").read_text(encoding="utf-8"))
+        self.assertIn("Human is the final authority", reference)
+        self.assertIn("RECONCILIATION_REQUIRED", reference)
+        self.assertEqual(unified["reference_architecture"], "architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md")
+        self.assertEqual(unified["qualification_contract"], "architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml")
+        self.assertTrue(unified["contract_alignment"].startswith("CANONICAL"))
+        self.assertTrue(unified["reconciliation"]["required"])
+        self.assertEqual(unified["reconciliation"]["failure_state"], "RECONCILIATION_REQUIRED")
+        self.assertEqual(len(unified["qualification"]["gate_contract"]), 12)
+        self.assertTrue(unified["rules"]["missing_or_contradictory_evidence_blocks"])
+        self.assertTrue(unified["rules"]["gold_active_requires_human_launch"])
+        self.assertTrue(unified["rules"]["evidence_is_immutable"])
+
 if __name__ == "__main__":
     unittest.main()
