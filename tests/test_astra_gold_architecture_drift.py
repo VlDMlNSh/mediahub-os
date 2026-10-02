@@ -141,6 +141,15 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
             ],
         )
         self.assertEqual(
+            self.qual["evidence_bundle"]["required_metadata"],
+            [
+                "command_id", "node_id", "component_id", "executor_id",
+                "provider_or_model_id", "transport_id", "source_sha", "round",
+                "timestamp", "exit_status", "timeout", "workspace",
+                "verification_status", "evidence_digest",
+            ],
+        )
+        self.assertEqual(
             self.unified["evidence"],
             [
                 "command_id", "node_id", "component_id", "executor_id",
