@@ -9,6 +9,8 @@ from pathlib import Path
 import sys
 import yaml
 
+from ops.qualification.current_qualification_state import build as reduce_current_state
+
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = ROOT / "architecture" / "ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml"
 
@@ -42,12 +44,14 @@ def evaluate(evidence: dict, schema: dict) -> dict:
     if statuses.get("G11_LAUNCH") != "HUMAN_AUTHORIZED":
         failures.append("G11_LAUNCH_HUMAN_AUTHORIZATION")
     if failures or missing_launch:
+        reduced=reduce_current_state(evidence)
         return {
             "status": "BLOCKED",
             "launch_ready": False,
             "failed_gates": failures,
             "missing_launch_inputs": missing_launch,
             "gate_results": results,
+            "next_blocker": reduced["failed_gates"][0] if reduced["failed_gates"] else "launch_inputs",
         }
 
     return {
