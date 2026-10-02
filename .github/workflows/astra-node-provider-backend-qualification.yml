@@ -2,19 +2,10 @@ name: Astra Node Provider Backend Qualification (DISABLED — superseded by cano
 # Disabled: canonical qualification path owns this scope.
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "ops/qualification/qualify_execution_backends.py"
-      - ".github/workflows/astra-node-provider-backend-qualification.yml"
-      - "runtime/mediahub_runtime/**"
-  workflow_dispatch:
-
-on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: astra-node-provider-backend-qualification
