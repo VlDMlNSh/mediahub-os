@@ -14,6 +14,17 @@ def build(source: dict) -> dict:
     evidence=dict(source.get("gate_evidence",{}))
     failures=[]
     effective=dict(gates)
+    prerequisites = {
+        "G5_CONCURRENCY": ("G4_23_WAVE_QUALIFICATION",),
+        "G6_RECOVERY": ("G4_23_WAVE_QUALIFICATION","G5_CONCURRENCY"),
+        "G7_INTEGRATED_A3": ("G4_23_WAVE_QUALIFICATION","G5_CONCURRENCY","G6_RECOVERY"),
+        "G8_PRE_SOAK": ("G4_23_WAVE_QUALIFICATION","G5_CONCURRENCY","G6_RECOVERY","G7_INTEGRATED_A3"),
+        "G9_24H_SOAK": ("G8_PRE_SOAK",),
+        "G10_LAUNCH_READY": ("G4_23_WAVE_QUALIFICATION","G5_CONCURRENCY","G6_RECOVERY","G7_INTEGRATED_A3","G8_PRE_SOAK","G9_24H_SOAK"),
+    }
+    for gate, required_gates in prerequisites.items():
+        if gates.get(gate) == "PASS" and any(effective.get(dep) != "PASS" for dep in required_gates):
+            effective[gate] = "BLOCKED"
     for gate in GATES:
         if gate=="G11_LAUNCH":
             if gates.get(gate)!="HUMAN_AUTHORIZED": failures.append(gate)
