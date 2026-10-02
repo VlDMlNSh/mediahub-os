@@ -62,5 +62,25 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
         self.assertTrue(openopc["qualification_rounds"]["isolated_workspace_per_round"])
         self.assertTrue(openopc["security_attention"]["versioned_release_required_for_gold"])
 
+
+    def test_expanded_candidate_inventory_is_not_implicitly_qualified(self):
+        data = self.load()
+        candidates = data["candidate_review_inventory"]["candidates"]
+        ids = {item["id"] for item in candidates}
+        expected = {
+            "openopc", "sol-pi", "colibri", "webtool-deepseek",
+            "deepseek-harness", "stagewise", "minicpm-v-4.5-8b-1mk",
+            "free-coding-models", "freellmapi", "unlazy", "naabu",
+            "codex-chatgpt-web",
+        }
+        self.assertTrue(expected.issubset(ids))
+        for item in candidates:
+            self.assertEqual(item["status"], "NOT_PROVEN")
+        admission = data["candidate_review_inventory"]["admission"]
+        self.assertEqual(admission["minimum_fresh_rounds"], 23)
+        self.assertTrue(admission["fresh_evidence_only"])
+        self.assertTrue(admission["no_implicit_promotion"])
+        self.assertTrue(admission["no_self_qualification"])
+
 if __name__ == "__main__":
     unittest.main()
