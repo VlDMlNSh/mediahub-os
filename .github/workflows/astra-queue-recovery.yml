@@ -12,54 +12,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  release-blocked-qualification:
+  disabled:
     if: ${{ false }}
-    runs-on: [self-hosted, mediahub-runner]
-    timeout-minutes: 5
+    runs-on: ubuntu-latest
     steps:
-      - name: Release only the bounded blocked qualification child
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import os, signal, time
-          from pathlib import Path
-
-          target = "astra_gold_executor.py"
-          matches = []
-          for entry in Path("/proc").iterdir():
-              if not entry.name.isdigit():
-                  continue
-              try:
-                  pid = int(entry.name)
-                  raw = (entry / "cmdline").read_bytes().split(b"\0")
-                  cmd = " ".join(x.decode(errors="replace") for x in raw if x)
-              except (FileNotFoundError, PermissionError, ProcessLookupError):
-                  continue
-              if target in cmd and pid != os.getpid():
-                  matches.append((pid, cmd))
-
-          print("qualification_executor_matches=", len(matches))
-          for pid, cmd in matches:
-              print("pid=", pid, "cmd=", cmd[:300])
-
-          if len(matches) == 0:
-              print("qualification_executor=absent")
-              raise SystemExit(0)
-          if len(matches) != 1:
-              raise SystemExit("BLOCK: expected exactly one canonical qualification executor")
-
-          pid, _ = matches[0]
-          os.kill(pid, signal.SIGTERM)
-          deadline = time.time() + 10
-          while time.time() < deadline:
-              if not Path(f"/proc/{pid}").exists():
-                  print("qualification_executor=terminated")
-                  raise SystemExit(0)
-              time.sleep(0.5)
-
-          os.kill(pid, signal.SIGKILL)
-          print("qualification_executor=force_terminated")
-          PY
-
-# one-shot recovery wave: release only the blocked qualification child
+      - run: echo "Disabled: canonical ASTRA GOLD state machine owns recovery."
