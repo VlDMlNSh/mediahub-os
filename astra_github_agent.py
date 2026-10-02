@@ -601,6 +601,7 @@ def main():
         import fcntl
         fcntl.flock(controller_lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except (OSError, ImportError) as exc:
+        g9_event("duplicate_controller_or_lock_failure",error=type(exc).__name__)
         raise RuntimeError("duplicate_controller_or_lock_unavailable") from exc
     try:
         g9_event("controller_started",pid=os.getpid(),agent_source_sha=RUNNING_AGENT_SHA)
