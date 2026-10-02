@@ -12,6 +12,10 @@ def verify(path: Path) -> dict:
     except Exception as exc: return {"status":"BLOCKED","reason":"invalid_a3_evidence_json","detail":repr(exc)}
     if data.get("fresh") is not True: return {"status":"BLOCKED","reason":"fresh_a3_evidence_required"}
     if data.get("verifier_role") != "A3": return {"status":"BLOCKED","reason":"independent_a3_verifier_required"}
+    for field in ("verifier_role","source_evidence_path","a3_evidence_path"):
+        value=data.get(field)
+        if not isinstance(value,str) or not value.strip() or value.strip().lower() in {"unknown","undefined","none","null","n/a","na","tbd","todo","placeholder","unset"}:
+            return {"status":"BLOCKED","reason":"a3_identity_invalid","field":field}
     if data.get("independence_attested") is not True: return {"status":"BLOCKED","reason":"a3_independence_not_attested"}
     if data.get("source_evidence_path") == data.get("a3_evidence_path"): return {"status":"BLOCKED","reason":"self_verification_surface"}
     missing=[x for x in REQUIRED if data.get(x,{}).get("status")!="PASS"]
