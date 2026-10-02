@@ -45,7 +45,7 @@ Those remain live, credentialed, exact-SHA operations.
 | Compile | `python -m compileall -q runtime tests astra_github_agent.py` | PASS |
 | Unit tests | `PYTHONPATH=runtime python -m unittest discover -s tests` | PASS (197) |
 | Unit tests | `PYTHONPATH=runtime:. python -m pytest -q tests/` | PASS (228) |
-| Contracts | `python tools/validate_contracts.py` | PASS (9 files) |
+| Contracts | `python tools/validate_contracts.py` | PASS (25 schemas, 9 envelope contracts) |
 | Architecture drift | `tests/test_astra_gold_architecture_drift.py` | PASS |
 | Qualification schema | `tests/test_astra_gold_qualification_launch_schema.py` | PASS |
 | Evidence contracts | `tests/test_astra_gold_evidence_contracts.py` | PASS |

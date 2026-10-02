@@ -1,78 +1,60 @@
-import json
+"""Cross-tree contract guard (audit defect D2).
+
+The whole-project audit found that ``contracts/`` and ``schemas/`` both carried
+``ai/``, ``core/`` and ``identity/`` schemas, and that two of the duplicated
+files had drifted apart (``core/contract-metadata.schema.json`` and
+``identity/identity-boundary.schema.json``). The conflict was resolved in favour
+of a single canonical source: ``schemas/``.
+
+This test fails closed if a second schema tree (or any duplicated schema file)
+reappears under ``contracts/``.
+"""
+
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+SCHEMA_ROOT = ROOT / "schemas"
+CONTRACT_ROOT = ROOT / "contracts"
+
+CANONICAL_SUBTREES = (
+    "ai/ai-model.schema.json",
+    "core/contract-metadata.schema.json",
+    "identity/identity-boundary.schema.json",
+)
+
 
 class CrossContractTests(unittest.TestCase):
 
-    def load(self, relative_path):
-        path = ROOT / relative_path
-        with path.open(encoding="utf-8") as handle:
-            return json.load(handle)
+    def test_contracts_tree_carries_no_duplicate_schemas(self):
+        if not CONTRACT_ROOT.exists():
+            return
 
-    def test_core_contract_matches_core_schema(self):
-        contract = self.load(
-            "contracts/core/contract-metadata.schema.json"
-        )
-        schema = self.load(
-            "schemas/core/contract-metadata.schema.json"
+        duplicates = sorted(
+            str(path.relative_to(ROOT))
+            for path in CONTRACT_ROOT.glob("**/*.json")
         )
 
         self.assertEqual(
-            schema["$id"],
-            "mediahub://schemas/core/contract-metadata.schema.json",
+            duplicates,
+            [],
+            "contracts/ must not duplicate the canonical schemas/ tree: "
+            f"{duplicates}",
         )
 
-        self.assertEqual(
-            schema["properties"]["schema_id"]["type"],
-            "string",
+    def test_canonical_schema_subtrees_exist(self):
+        for relative in CANONICAL_SUBTREES:
+            self.assertTrue(
+                (SCHEMA_ROOT / relative).is_file(),
+                f"missing canonical schema: schemas/{relative}",
+            )
+
+    def test_schemas_tree_is_the_only_schema_source(self):
+        self.assertTrue(
+            any(SCHEMA_ROOT.rglob("*.schema.json")),
+            "schemas/ must contain the canonical schema files",
         )
 
-        self.assertIn("schema_id", contract["properties"])
-
-    def test_identity_contract_matches_identity_schema(self):
-        contract = self.load(
-            "contracts/identity/identity-boundary.schema.json"
-        )
-        schema = self.load(
-            "schemas/identity/identity-boundary.schema.json"
-        )
-
-        self.assertEqual(
-            schema["$id"],
-            "mediahub://schemas/identity/identity-boundary.schema.json",
-        )
-
-        self.assertEqual(
-            contract["properties"]["schema_id"]["const"],
-            schema["properties"]["schema_id"]["const"],
-        )
-
-        self.assertEqual(
-            contract["properties"]["schema_version"]["const"],
-            schema["properties"]["schema_version"]["const"],
-        )
-
-    def test_identity_property_sets_match(self):
-        contract = self.load(
-            "contracts/identity/identity-boundary.schema.json"
-        )
-        schema = self.load(
-            "schemas/identity/identity-boundary.schema.json"
-        )
-
-        contract_ids = set(
-            contract["properties"]["identities"]["properties"]
-        )
-
-        schema_ids = set(
-            schema["properties"]["identities"]["properties"]
-        )
-
-        self.assertEqual(contract_ids, schema_ids)
-        self.assertNotIn("universal_id", contract_ids)
-        self.assertNotIn("universal_id", schema_ids)
 
 if __name__ == "__main__":
     unittest.main()

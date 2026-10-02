@@ -3,7 +3,8 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-CONTRACT = ROOT / "contracts/core/contract-metadata.schema.json"
+# schemas/ is the single canonical schema source (audit defect D2).
+CONTRACT = ROOT / "schemas/core/contract-metadata.schema.json"
 
 
 class ContractMetadataTests(unittest.TestCase):
@@ -20,7 +21,7 @@ class ContractMetadataTests(unittest.TestCase):
         )
         self.assertEqual(
             self.data["$id"],
-            "mediahub://contracts/core/contract-metadata.schema.json"
+            "mediahub://schemas/core/contract-metadata.schema.json"
         )
 
     def test_required_metadata_fields(self):

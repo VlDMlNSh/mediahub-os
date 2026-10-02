@@ -5,11 +5,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 
-REQUEST_CONTRACT = ROOT / "contracts/ai/ai-inference-request.schema.json"
-REQUEST_SCHEMA = ROOT / "schemas/ai/ai-inference-request.schema.json"
-
-RESPONSE_CONTRACT = ROOT / "contracts/ai/ai-inference-response.schema.json"
-RESPONSE_SCHEMA = ROOT / "schemas/ai/ai-inference-response.schema.json"
+# schemas/ is the single canonical schema source (audit defect D2).
+REQUEST_CONTRACT = ROOT / "schemas/ai/ai-inference-request.schema.json"
+RESPONSE_CONTRACT = ROOT / "schemas/ai/ai-inference-response.schema.json"
 
 
 class AIInferenceContractTests(unittest.TestCase):
@@ -21,18 +19,6 @@ class AIInferenceContractTests(unittest.TestCase):
         )
         cls.response = json.loads(
             RESPONSE_CONTRACT.read_text(encoding="utf-8")
-        )
-
-    def test_request_contract_matches_schema(self):
-        self.assertEqual(
-            REQUEST_CONTRACT.read_bytes(),
-            REQUEST_SCHEMA.read_bytes(),
-        )
-
-    def test_response_contract_matches_schema(self):
-        self.assertEqual(
-            RESPONSE_CONTRACT.read_bytes(),
-            RESPONSE_SCHEMA.read_bytes(),
         )
 
     def test_request_metadata(self):

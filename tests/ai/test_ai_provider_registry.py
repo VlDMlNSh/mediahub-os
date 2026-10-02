@@ -4,11 +4,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 
+# schemas/ is the single canonical schema source (audit defect D2).
 CONTRACT = (
-    ROOT / "contracts/ai/ai-provider-registry.schema.json"
-)
-
-SCHEMA = (
     ROOT / "schemas/ai/ai-provider-registry.schema.json"
 )
 
@@ -108,16 +105,6 @@ class AIProviderRegistryContractTests(unittest.TestCase):
                 "selection_policy",
                 "timestamp",
             },
-        )
-
-    def test_contract_matches_schema(self):
-        schema = json.loads(
-            SCHEMA.read_text(encoding="utf-8")
-        )
-
-        self.assertEqual(
-            self.data,
-            schema,
         )
 
 

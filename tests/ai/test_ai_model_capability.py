@@ -5,8 +5,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 
-CONTRACT_PATH = ROOT / "contracts/ai/ai-model-capability.schema.json"
-SCHEMA_PATH = ROOT / "schemas/ai/ai-model-capability.schema.json"
+# schemas/ is the single canonical schema source (audit defect D2).
+CONTRACT_PATH = ROOT / "schemas/ai/ai-model-capability.schema.json"
 
 
 class AIModelCapabilityContractTests(unittest.TestCase):
@@ -15,9 +15,6 @@ class AIModelCapabilityContractTests(unittest.TestCase):
     def setUpClass(cls):
         cls.contract = json.loads(
             CONTRACT_PATH.read_text(encoding="utf-8")
-        )
-        cls.schema = json.loads(
-            SCHEMA_PATH.read_text(encoding="utf-8")
         )
 
     def test_schema_is_json_schema_2020_12(self):
@@ -108,9 +105,6 @@ class AIModelCapabilityContractTests(unittest.TestCase):
                 "unavailable",
             ],
         )
-
-    def test_contract_matches_schema(self):
-        self.assertEqual(self.contract, self.schema)
 
 
 if __name__ == "__main__":

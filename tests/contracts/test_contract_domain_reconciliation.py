@@ -4,8 +4,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DOMAIN_DIR = ROOT / "schemas/domain"
+# schemas/ is the single canonical schema source (audit defect D2).
 IDENTITY_CONTRACT = (
-    ROOT / "contracts/identity/identity-boundary.schema.json"
+    ROOT / "schemas/identity/identity-boundary.schema.json"
 )
 
 

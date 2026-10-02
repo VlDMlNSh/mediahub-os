@@ -4,7 +4,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-CONTRACT = ROOT / "contracts/ai/ai-provider.schema.json"
+# schemas/ is the single canonical schema source (audit defect D2).
+CONTRACT = ROOT / "schemas/ai/ai-provider.schema.json"
 
 
 class AIProviderContractTests(unittest.TestCase):
