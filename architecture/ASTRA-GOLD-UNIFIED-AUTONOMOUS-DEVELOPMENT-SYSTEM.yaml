@@ -129,15 +129,20 @@ layers:
     - independent_a3
   evidence:
     - command_id
-    - executor_identity
-    - provider_identity
+    - node_id
+    - component_id
+    - executor_id
+    - provider_or_model_id
+    - transport_id
     - source_sha
     - round
+    - timestamp
     - exit_status
     - timeout
     - marker
     - workspace
-    - verification
+    - verification_status
+    - evidence_digest
   observability:
     - heartbeat
     - health
