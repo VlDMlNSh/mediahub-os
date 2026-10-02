@@ -372,6 +372,8 @@ class CloudFirstOrchestrator:
             for route in self._local:
                 if capability not in route.capabilities:
                     continue
+                if not self._admitted(route):
+                    continue
                 executor = self._executors.get(route.provider_id)
                 if hasattr(executor, "available") and not executor.available():
                     continue
@@ -433,7 +435,7 @@ class CloudFirstOrchestrator:
                 continue
             if not self._configured(route):
                 continue
-            if route.tier == "cloud" and not self._admitted(route):
+            if not self._admitted(route):
                 continue
             models = self._models(route)
             credentials = self._credentials(route)
