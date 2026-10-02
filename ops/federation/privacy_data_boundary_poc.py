@@ -42,11 +42,13 @@ def evaluate_boundary(
     personal_requested = any(
         item.personal and item.name in contract.required_data for item in available_data
     )
-    raw_personal_data_exposed = personal_requested and developer_execution_allowed
+    # Pre-decision condition: raw personal data would cross the boundary if the
+    # request were admitted. This is the attempt, not the outcome.
+    raw_personal_data_would_cross = personal_requested and developer_execution_allowed
 
     if contract.developer_personnel_access:
         decision, reason = "DENY", "developer_personnel_access_forbidden"
-    elif raw_personal_data_exposed:
+    elif raw_personal_data_would_cross:
         decision, reason = "DENY", "raw_personal_data_would_cross_boundary"
     elif not developer_execution_allowed:
         decision, reason = "DENY", "developer_execution_not_admitted"
@@ -54,6 +56,12 @@ def evaluate_boundary(
         decision, reason = "DENY", "unsupported_workload_class"
     else:
         decision, reason = "ALLOW", "privacy_boundary_satisfied"
+
+    # Exposure is a post-decision fact: it is True only when raw personal data
+    # actually crossed the boundary, i.e. only on an ALLOW that requested it.
+    # The pre-decision condition is reported separately so a blocked attempt
+    # stays visible in the evidence without being counted as exposure.
+    raw_personal_data_exposed = decision == "ALLOW" and raw_personal_data_would_cross
 
     return {
         "schema": SCHEMA,
@@ -63,6 +71,7 @@ def evaluate_boundary(
         "result_fields": list(contract.result_fields),
         "developer_personnel_access": contract.developer_personnel_access,
         "personal_data_requested": personal_requested,
+        "raw_personal_data_would_cross": raw_personal_data_would_cross,
         "raw_personal_data_exposed": raw_personal_data_exposed,
         "developer_execution_allowed": developer_execution_allowed,
         "decision": decision,
@@ -126,6 +135,12 @@ def run_all() -> dict:
     assert scenarios[1]["decision"] == "DENY"
     assert scenarios[2]["decision"] == "DENY"
     assert scenarios[3]["decision"] == "DENY"
+
+    # A denied attempt must stay visible as an attempt, and must never be
+    # recorded as an actual exposure.
+    assert scenarios[1]["raw_personal_data_would_cross"] is True
+    assert scenarios[1]["raw_personal_data_exposed"] is False
+    assert all(item["raw_personal_data_exposed"] is False for item in scenarios)
 
     return {
         "schema": SCHEMA,
