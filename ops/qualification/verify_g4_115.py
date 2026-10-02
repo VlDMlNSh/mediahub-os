@@ -1,0 +1,105 @@
+#!/usr/bin/env python3
+"""Independent, fail-closed verifier for the canonical G4 115-round contract."""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+CONTRACT = ROOT / "control" / "qualification" / "g4-115.json"
+
+
+def digest(value: object) -> str:
+    raw = json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    return "sha256:" + hashlib.sha256(raw).hexdigest()
+
+
+def verify(evidence: dict, contract: dict, expected_sha: str | None = None) -> dict:
+    blocked: list[str] = []
+    if evidence.get("schema") != "mediahub.astra-gold.g4-115-evidence.v1":
+        blocked.append("invalid_evidence_schema")
+    if evidence.get("status") != "PASS":
+        blocked.append("evidence_status_not_PASS")
+    if evidence.get("source_sha") != (expected_sha or evidence.get("source_sha")):
+        blocked.append("source_sha_missing_or_mismatch")
+
+    paths = contract["mandatory_paths"]
+    rounds = evidence.get("rounds")
+    if not isinstance(rounds, list):
+        blocked.append("rounds_missing")
+        rounds = []
+
+    if len(rounds) != contract["total_rounds"]:
+        blocked.append(f"round_count={len(rounds)}_expected={contract['total_rounds']}")
+
+    seen_commands: set[str] = set()
+    seen_pairs: set[tuple[str, int]] = set()
+    counts = {path: 0 for path in paths}
+    for index, item in enumerate(rounds, 1):
+        if not isinstance(item, dict):
+            blocked.append(f"round_{index}_not_object")
+            continue
+        missing = [key for key in contract["required_round_fields"] if key not in item]
+        if missing:
+            blocked.append(f"round_{index}_missing:{','.join(missing)}")
+            continue
+        path = item.get("path")
+        round_no = item.get("round")
+        if path not in counts:
+            blocked.append(f"round_{index}_unknown_path")
+        else:
+            counts[path] += 1
+        command_id = str(item.get("command_id"))
+        if command_id in seen_commands:
+            blocked.append(f"duplicate_command_id:{command_id}")
+        seen_commands.add(command_id)
+        pair = (str(path), int(round_no) if isinstance(round_no, int) else -1)
+        if pair in seen_pairs:
+            blocked.append(f"duplicate_path_round:{path}:{round_no}")
+        seen_pairs.add(pair)
+        if item.get("source_sha") != evidence.get("source_sha"):
+            blocked.append(f"round_{index}_source_sha_mismatch")
+        if item.get("exit_status") != 0:
+            blocked.append(f"round_{index}_nonzero_exit")
+        if item.get("timeout") is not False:
+            blocked.append(f"round_{index}_timeout_not_false")
+        if item.get("marker_present") is not True:
+            blocked.append(f"round_{index}_marker_missing")
+        if item.get("verification_status") != "PASS":
+            blocked.append(f"round_{index}_verification_not_PASS")
+        if not str(item.get("evidence_digest", "")).startswith("sha256:"):
+            blocked.append(f"round_{index}_digest_invalid")
+
+    for path, count in counts.items():
+        if count != contract["rounds_per_path"]:
+            blocked.append(f"{path}_round_count={count}_expected={contract['rounds_per_path']}")
+
+    expected_digest = evidence.get("evidence_digest")
+    if not isinstance(expected_digest, str) or not expected_digest.startswith("sha256:"):
+        blocked.append("evidence_digest_invalid")
+
+    return {
+        "schema": "mediahub.astra-gold.g4-115-verification.v1",
+        "status": "PASS" if not blocked else "BLOCKED",
+        "blocked_reasons": blocked,
+        "rounds_verified": len(rounds),
+        "path_counts": counts,
+        "secret_values": "SUPPRESSED",
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("evidence", type=Path)
+    parser.add_argument("--expected-sha")
+    args = parser.parse_args()
+    contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    result = verify(json.loads(args.evidence.read_text(encoding="utf-8")), contract, args.expected_sha)
+    print(json.dumps(result, indent=2, sort_keys=True))
+    return 0 if result["status"] == "PASS" else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
