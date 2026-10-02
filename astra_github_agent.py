@@ -30,7 +30,8 @@ def sync():
             raise RuntimeError("dirty_worktree_sync_blocked")
         subprocess.run(["git","-C",str(ROOT),"fetch","--depth","50","origin","main"],check=True,timeout=120)
         subprocess.run(["git","-C",str(ROOT),"fetch","origin",f"astra-node/{NODE_ID}:refs/remotes/origin/astra-node/{NODE_ID}"],check=False,timeout=120)
-        subprocess.run(["git","-C",str(ROOT),"checkout","-B","main","origin/main"],check=True,timeout=120)
+        subprocess.run(["git","-C",str(ROOT),"checkout","main"],check=True,timeout=30)
+        subprocess.run(["git","-C",str(ROOT),"pull","--ff-only","origin","main"],check=True,timeout=120)
 
 def maybe_reexec_updated_agent():
     target=ROOT/"astra_github_agent.py"
