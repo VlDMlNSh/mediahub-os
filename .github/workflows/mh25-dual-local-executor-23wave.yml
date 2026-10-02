@@ -1,0 +1,74 @@
+name: MH-25 dual local executor 23-wave qualification
+
+on:
+  push:
+    paths:
+      - .github/workflows/mh25-dual-local-executor-23wave.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mh25-dual-local-executor-23wave
+  cancel-in-progress: false
+
+jobs:
+  qualify:
+    name: 23-wave FCC / OmniRoute / ECC qualification
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Canonical preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test -z "$(git status --short)"
+          python3 -m compileall -q runtime tests astra_github_agent.py
+      - name: Execute 23 qualification rounds
+        shell: bash
+        env:
+          PYTHONPATH: .
+          ASTRA_WORKTREE: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os
+          import astra_github_agent as a
+          command = {
+              "command_id": "MH25-DUAL-EXECUTOR-23WAVE-${{ github.run_id }}",
+              "node_id": "mh-dev-01",
+              "operation": "dual_local_executor_23wave",
+              "target_sha": "${{ github.sha }}",
+              "workflow_only": False,
+              "owned_paths": ["control/qualification/mh-dev-01-dual-local-executors"],
+              "title": "MH-25 23-round FCC vs OmniRoute local executor qualification",
+          }
+          result = a.execute(command)
+          os.makedirs("/tmp/mh25-dual-qualification", exist_ok=True)
+          with open("/tmp/mh25-dual-qualification/result.json", "w", encoding="utf-8") as f:
+              json.dump(result, f, indent=2, sort_keys=True)
+              f.write("\n")
+          print(json.dumps({
+              "status": result.get("status"),
+              "phase": result.get("phase"),
+              "node_id": result.get("node_id"),
+              "rounds": len(result.get("rounds", [])),
+              "summary": result.get("summary"),
+              "selection_order": result.get("selection_order"),
+              "selected_full_pass": result.get("selected_full_pass"),
+              "ecc_policy": result.get("ecc_policy"),
+          }, indent=2, sort_keys=True))
+          raise SystemExit(0 if result.get("status") == "PASS" else 1)
+          PY
+      - name: Publish qualification artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mh25-dual-local-executor-23wave-${{ github.run_id }}
+          path: /tmp/mh25-dual-qualification/
+          retention-days: 30
