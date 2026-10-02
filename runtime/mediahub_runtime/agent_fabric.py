@@ -121,44 +121,71 @@ class ClaimStore:
 
     def heartbeat(self, task_id: str, *, now: float | None = None, lease_seconds: float = 900.0) -> AgentClaim:
         path = self._path(task_id)
+        lock_path = self.root / ".acquire.lock"
         try:
-            data = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            raise AgentFabricError("claim_not_found") from exc
-        current = time.time() if now is None else now
-        if data.get("status") not in {"ASSIGNED", "ACTIVE"}:
-            raise AgentFabricError("claim_not_active")
-        data["status"] = "ACTIVE"
-        data["updated"] = current
-        data["expiry"] = current + max(1.0, lease_seconds)
-        tmp = path.with_suffix(".tmp")
+            lock_fd = os.open(lock_path, os.O_WRONLY | os.O_CREAT, 0o600)
+            import fcntl
+            fcntl.flock(lock_fd, fcntl.LOCK_EX)
+        except (OSError, ImportError) as exc:
+            raise AgentFabricError("claim_lock_unavailable") from exc
         try:
-            tmp.write_text(json.dumps(data, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
-            os.replace(tmp, path)
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                raise AgentFabricError("claim_not_found") from exc
+            current = time.time() if now is None else now
+            if data.get("status") not in {"ASSIGNED", "ACTIVE"}:
+                raise AgentFabricError("claim_not_active")
+            data["status"] = "ACTIVE"
+            data["updated"] = current
+            data["expiry"] = current + max(1.0, lease_seconds)
+            tmp = path.with_suffix(".tmp")
+            try:
+                tmp.write_text(json.dumps(data, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
+                os.replace(tmp, path)
+            finally:
+                try:
+                    tmp.unlink()
+                except FileNotFoundError:
+                    pass
+            return AgentClaim(**data)
         finally:
             try:
-                tmp.unlink()
-            except FileNotFoundError:
-                pass
-        return AgentClaim(**data)
+                fcntl.flock(lock_fd, fcntl.LOCK_UN)
+            finally:
+                os.close(lock_fd)
 
     def release(self, task_id: str, status: str = "CLOSED") -> None:
         if status not in {"VERIFIED", "INTEGRATED", "CLOSED", "REJECTED", "DEFERRED"}:
             raise AgentFabricError("invalid_release_status")
         path = self._path(task_id)
+        lock_path = self.root / ".acquire.lock"
         try:
-            data = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            raise AgentFabricError("claim_not_found") from exc
-        data["status"] = status
-        data["updated"] = time.time()
-        data["expiry"] = data["updated"]
-        tmp = path.with_suffix(".tmp")
+            lock_fd = os.open(lock_path, os.O_WRONLY | os.O_CREAT, 0o600)
+            import fcntl
+            fcntl.flock(lock_fd, fcntl.LOCK_EX)
+        except (OSError, ImportError) as exc:
+            raise AgentFabricError("claim_lock_unavailable") from exc
         try:
-            tmp.write_text(json.dumps(data, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
-            os.replace(tmp, path)
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                raise AgentFabricError("claim_not_found") from exc
+            data["status"] = status
+            data["updated"] = time.time()
+            data["expiry"] = data["updated"]
+            tmp = path.with_suffix(".tmp")
+            try:
+                tmp.write_text(json.dumps(data, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
+                os.replace(tmp, path)
+            finally:
+                try:
+                    tmp.unlink()
+                except FileNotFoundError:
+                    pass
         finally:
             try:
-                tmp.unlink()
-            except FileNotFoundError:
-                pass
+                fcntl.flock(lock_fd, fcntl.LOCK_UN)
+            finally:
+                os.close(lock_fd)
+
