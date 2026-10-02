@@ -7,7 +7,7 @@ from pathlib import Path
 REQUIRED=("focused_tests","regression","contracts","architecture_conformance",
           "security","concurrency","failure","recovery","exact_sha_evidence")
 
-def verify(path: Path) -> dict:
+def verify(path: Path, expected_source_sha: str | None = None) -> dict:
     try: data=json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc: return {"status":"BLOCKED","reason":"invalid_a3_evidence_json","detail":repr(exc)}
     if data.get("fresh") is not True: return {"status":"BLOCKED","reason":"fresh_a3_evidence_required"}
@@ -21,6 +21,7 @@ def verify(path: Path) -> dict:
     missing=[x for x in REQUIRED if data.get(x,{}).get("status")!="PASS"]
     if missing: return {"status":"BLOCKED","reason":"a3_required_checks_not_passed","missing":missing}
     source_sha=str(data.get("source_sha",""))
+    if expected_source_sha is not None and source_sha.lower() != expected_source_sha.lower(): return {"status":"BLOCKED","reason":"a3_source_sha_not_expected"}
     verified_sha=str(data.get("verified_sha",""))
     if not re.fullmatch(r"[0-9a-fA-F]{40}", source_sha) or not re.fullmatch(r"[0-9a-fA-F]{40}", verified_sha) or source_sha.lower() != verified_sha.lower():
         return {"status":"BLOCKED","reason":"a3_exact_sha_mismatch"}
@@ -41,8 +42,9 @@ def verify(path: Path) -> dict:
 def main() -> int:
     p=argparse.ArgumentParser()
     p.add_argument("evidence",type=Path)
+    p.add_argument("--source-sha",default=None)
     args=p.parse_args()
-    result=verify(args.evidence)
+    result=verify(args.evidence,args.source_sha)
     print(json.dumps(result,indent=2,sort_keys=True))
     return 0 if result["status"]=="PASS" else 2
 
