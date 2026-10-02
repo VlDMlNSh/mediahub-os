@@ -1,0 +1,32 @@
+schema: mediahub.agent-fabric.node-role-map.v1
+controller:
+  node_id: mh-dev-02
+  agent_id: A0-ASTRA
+  role: github-transport-controller
+  max_parallel_controller_tasks: 1
+execution:
+  node_id: mh-dev-01
+  role: local-execution
+  providers:
+    - CODEX_LOCAL_FCC
+    - CLAUDE_LOCAL_FCC
+  max_parallel_executors: 2
+  require_disjoint_claims: true
+routing:
+  controller_to_executor: github-transport
+  command_path: control/commands/<node>.json
+  result_path: control/results/<node>.json
+  result_branch: astra-node/<node>
+fencing:
+  required:
+    - task_id
+    - claim_id
+    - owner_id
+    - generation
+    - target_sha
+    - provider
+    - workspace
+security:
+  create_credentials: false
+  expose_credentials: false
+  quota_bypass: false
