@@ -27,7 +27,9 @@ jobs:
   qualify:
     name: Whole-system ASTRA GOLD qualification
     runs-on: [self-hosted, mediahub-runner]
-    timeout-minutes: 1450
+    timeout-minutes: 10
+    # DISABLED on PR baseline: production qualification requires fresh runner admission and human-approved terminal activation.
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}
     env:
       ASTRA_NODE_ID: mh-dev-01
       ASTRA_AUTONOMOUS_MAX_CYCLES: "12"
