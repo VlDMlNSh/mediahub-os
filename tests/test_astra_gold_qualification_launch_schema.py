@@ -50,7 +50,7 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
         candidate = data["candidate_component_admission"]["autonomous_development_system"]
         openopc = candidate["openopc"]
         self.assertEqual(openopc["qualification"], "NOT_PROVEN")
-        self.assertFalse(openopc["authority"] != "none")
+        self.assertEqual(openopc["authority"], "none")
         self.assertFalse(openopc["provider_selection"])
         self.assertFalse(openopc["credential_creation"])
         self.assertFalse(openopc["state_authority"])
