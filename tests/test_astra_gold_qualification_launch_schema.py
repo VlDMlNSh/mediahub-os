@@ -192,6 +192,20 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
             p.write_text(json.dumps(base),encoding="utf-8")
             self.assertEqual(verify(p)["status"],"BLOCKED")
 
+    def test_g8_rejects_source_sha_mismatch(self):
+        from ops.qualification.verify_g8_pre_soak_bundle import verify
+        import tempfile, json
+        base={k:{"status":"PASS"} for k in ("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree","fresh_bundle")}
+        base["g4_115"].update(observations=115,paths=5)
+        base["g5_coordination"]["max_parallel"]=2
+        base["a3_independent"].update(independence_attested=True,source_sha="a"*40)
+        base["clean_worktree"]["dirty"]=False
+        base.update(fresh=True,bundle_sha256="b"*64,source_sha="c"*40)
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"g8.json"; p.write_text(json.dumps(base),encoding="utf-8")
+            self.assertEqual(verify(p)["status"], "BLOCKED")
+            self.assertEqual(verify(p)["reason"], "bundle_source_sha_mismatch")
+
     def test_current_state_reducer_is_fail_closed(self):
         from ops.qualification.current_qualification_state import build
         state=build({"gates":{"G4_23_WAVE_QUALIFICATION":"PASS"},
