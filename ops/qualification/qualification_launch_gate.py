@@ -33,6 +33,8 @@ def evaluate(evidence: dict, schema: dict) -> dict:
     launch = evidence.get("launch", {})
     required = schema["launch_contract"]["required_inputs"]
     missing_launch = [key for key in required if not launch.get(key)]
+    if "G11_LAUNCH" in statuses and statuses["G11_LAUNCH"] != "HUMAN_AUTHORIZED":
+        failures.append("G11_LAUNCH_HUMAN_AUTHORIZATION")
     if failures or missing_launch:
         return {
             "status": "BLOCKED",
