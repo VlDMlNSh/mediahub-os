@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fail-closed verifier for independent A3 evidence."""
 from __future__ import annotations
-import argparse, hashlib, json, sys
+import argparse, hashlib, json, re, sys
 from pathlib import Path
 
 REQUIRED=("focused_tests","regression","contracts","architecture_conformance",
@@ -16,8 +16,12 @@ def verify(path: Path) -> dict:
     if data.get("source_evidence_path") == data.get("a3_evidence_path"): return {"status":"BLOCKED","reason":"self_verification_surface"}
     missing=[x for x in REQUIRED if data.get(x,{}).get("status")!="PASS"]
     if missing: return {"status":"BLOCKED","reason":"a3_required_checks_not_passed","missing":missing}
-    if not data.get("source_sha") or not data.get("verified_sha") or data["source_sha"] != data["verified_sha"]:
+    source_sha=str(data.get("source_sha",""))
+    verified_sha=str(data.get("verified_sha",""))
+    if not re.fullmatch(r"[0-9a-fA-F]{40}", source_sha) or not re.fullmatch(r"[0-9a-fA-F]{40}", verified_sha) or source_sha.lower() != verified_sha.lower():
         return {"status":"BLOCKED","reason":"a3_exact_sha_mismatch"}
+    if data.get("secret_values") not in (None, "SUPPRESSED"):
+        return {"status":"BLOCKED","reason":"secret_policy_violation"}
     digest = str(data.get("evidence_sha256","")).lower()
     if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest):
         return {"status":"BLOCKED","reason":"a3_evidence_integrity_invalid"}
