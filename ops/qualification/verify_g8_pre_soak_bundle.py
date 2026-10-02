@@ -8,6 +8,7 @@ REQUIRED=("g4_115","g5_coordination","g6_recovery","a3_independent","clean_workt
 SURFACES=("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree")
 SHA40=re.compile(r"^[0-9a-fA-F]{40}$")
 SHA64=re.compile(r"^[0-9a-f]{64}$")
+REQUIRED_EVIDENCE_METADATA=("command_id","node_id","component_id","executor_id","provider_or_model_id","transport_id","source_sha","round","timestamp","exit_status","timeout","workspace","verification_status","evidence_digest")
 
 def verify(path: Path) -> dict:
     try: data=json.loads(path.read_text(encoding="utf-8"))
@@ -48,6 +49,9 @@ def verify(path: Path) -> dict:
         except Exception: return {"status":"BLOCKED","reason":"manifest_evidence_json_invalid","surface":key}
         if not isinstance(evidence,dict) or evidence.get("status")!="PASS":
             return {"status":"BLOCKED","reason":"manifest_evidence_not_pass","surface":key}
+        missing_metadata=[field for field in REQUIRED_EVIDENCE_METADATA if field not in evidence]
+        if missing_metadata:
+            return {"status":"BLOCKED","reason":"manifest_evidence_metadata_missing","surface":key,"fields":missing_metadata}
         evidence_sha=str(evidence.get("source_sha",evidence.get("target_sha","")))
         if not SHA40.fullmatch(evidence_sha) or evidence_sha.lower()!=source_sha.lower():
             return {"status":"BLOCKED","reason":"manifest_evidence_source_sha_mismatch","surface":key}
