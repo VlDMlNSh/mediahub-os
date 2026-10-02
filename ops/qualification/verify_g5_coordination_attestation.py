@@ -20,6 +20,14 @@ def verify(path: Path) -> dict:
         return {"status":"BLOCKED","reason":"fresh_attestation_required"}
     if data.get("reservation_result") != "PASS":
         return {"status":"BLOCKED","reason":"reservation_not_pass"}
+    if not isinstance(data.get("active_claim_count"), int) or not 0 <= data["active_claim_count"] <= 2:
+        return {"status":"BLOCKED","reason":"active_claim_count_invalid"}
+    if data.get("duplicate_controller_detected") is not False:
+        return {"status":"BLOCKED","reason":"duplicate_controller_not_proven_absent"}
+    if data.get("shared_surface_serialization") is not True:
+        return {"status":"BLOCKED","reason":"shared_surface_serialization_not_attested"}
+    if data.get("disjoint_claims_attested") is not True:
+        return {"status":"BLOCKED","reason":"disjoint_claims_not_attested"}
     if not data["coordination_authority_id"] or not data["coordination_state"] or not data["coordination_transport"]:
         return {"status":"BLOCKED","reason":"shared_coordination_domain_unresolved"}
     return {"status":"PASS","node_id":data["node_id"],
