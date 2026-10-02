@@ -23,7 +23,7 @@ class AstraTransportSafetyTests(unittest.TestCase):
         self.assertIn('git","rev-parse","--verify"', block)
         self.assertIn('git","show"', block)
         self.assertIn('published_result_target_mismatch', block)
-        self.assertIn('published_result_execution_head_mismatch', block)
+        self.assertIn('published_result_execution_head_invalid', block)
         self.assertIn('mark_processed(command_id)', block)
 
     def test_controller_reconciliation_is_diagnostic(self):
