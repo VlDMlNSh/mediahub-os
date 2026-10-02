@@ -39,6 +39,14 @@ def main():
         missing_metadata=[field for field in REQUIRED_EVIDENCE_METADATA if field not in payload]
         if missing_metadata:
             print(json.dumps({"status":"BLOCKED","reason":"evidence_metadata_missing","surface":key,"fields":missing_metadata})); return 2
+        evidence_digest=str(payload.get("evidence_digest","")).lower()
+        if not re.fullmatch(r"[0-9a-f]{64}",evidence_digest):
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_digest_invalid","surface":key})); return 2
+        evidence_canonical=dict(payload)
+        evidence_canonical.pop("evidence_digest",None)
+        evidence_actual=hashlib.sha256(json.dumps(evidence_canonical,sort_keys=True,separators=(",",":")).encode("utf-8")).hexdigest()
+        if evidence_actual!=evidence_digest:
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_digest_mismatch","surface":key})); return 2
         if payload.get("fresh") is not True:
             print(json.dumps({"status":"BLOCKED","reason":"evidence_not_fresh","surface":key})); return 2
         source_sha=payload.get("source_sha")
