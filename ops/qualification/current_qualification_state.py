@@ -22,9 +22,6 @@ def build(source: dict) -> dict:
         "G9_24H_SOAK": ("G8_PRE_SOAK",),
         "G10_LAUNCH_READY": ("G4_23_WAVE_QUALIFICATION","G5_CONCURRENCY","G6_RECOVERY","G7_INTEGRATED_A3","G8_PRE_SOAK","G9_24H_SOAK"),
     }
-    for gate, required_gates in prerequisites.items():
-        if gates.get(gate) == "PASS" and any(effective.get(dep) != "PASS" for dep in required_gates):
-            effective[gate] = "BLOCKED"
     for gate in GATES:
         if gate=="G11_LAUNCH":
             if gates.get(gate)!="HUMAN_AUTHORIZED": failures.append(gate)
@@ -34,6 +31,9 @@ def build(source: dict) -> dict:
             e=evidence.get(gate,{})
             if status=="PASS" and e.get("fresh") is not True: status="BLOCKED"
             if gate=="G7_INTEGRATED_A3" and e.get("independence_attested") is not True: status="BLOCKED"
+        required_gates=prerequisites.get(gate, ())
+        if status=="PASS" and any(effective.get(dep)!="PASS" for dep in required_gates):
+            status="BLOCKED"
         effective[gate]=status
         if status!="PASS": failures.append(gate)
     return {"schema":"mediahub.astra-gold.current-qualification-state.v1",
