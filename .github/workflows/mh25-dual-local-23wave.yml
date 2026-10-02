@@ -35,6 +35,12 @@ jobs:
           command -v ecc || command -v ecc-cli || true
           curl -fsS --max-time 5 http://127.0.0.1:8092/v1/models >/tmp/fcc-models.json
           curl -fsS --max-time 5 http://127.0.0.1:20128/v1/models >/tmp/omni-models.json
+      - name: ASTRA GOLD architecture drift gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --no-input PyYAML
+          python3 -m unittest -v tests/test_astra_gold_architecture_drift.py
       - name: 23 round analysis and setup probes
         shell: bash
         run: |
