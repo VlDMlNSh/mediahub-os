@@ -324,8 +324,10 @@ class CloudFirstOrchestrator:
         local_routes: tuple[ProviderRoute, ...] = DEFAULT_LOCAL_ROUTES,
         credential_env: Mapping[str, str] | None = None,
         executors: Mapping[str, Callable[[str], str]] | None = None,
+        admitted_local_providers: frozenset[str] = frozenset({"ollama"}),
     ):
         self._env = dict(os.environ if credential_env is None else credential_env)
+        self._admitted_local_providers = frozenset(admitted_local_providers)
         self._cloud = self._order_cloud_routes(tuple(cloud_routes))
         self._local = tuple(sorted(local_routes, key=lambda r: r.priority))
         self._executors = dict(executors or {})
@@ -538,8 +540,10 @@ class CloudFirstOrchestrator:
         """Fail closed unless the route is a built-in baseline or has fresh qualification evidence."""
         # Ollama is the bounded built-in local baseline used by Astra's direct local executor.
         # Every other route, including local gateways/harnesses, requires fresh qualification evidence.
-        if route.provider_id == "ollama":
+        if route.provider_id in self._admitted_local_providers:
             return True
+        if route.tier != "cloud":
+            return False
         evidence_path = self._env.get(
             "MEDIAHUB_PROVIDER_EVIDENCE_FILE", "evidence/provider-model.json"
         ).strip()
