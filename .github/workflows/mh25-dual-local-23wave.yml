@@ -5,7 +5,7 @@ on:
     paths:
       - .github/workflows/mh25-dual-local-23wave.yml
       - astra_github_agent.py
-      - ops/agent-fabric/providers/dual-local-executors.yaml
+      - ops/agent-fabric/**
   workflow_dispatch:
 permissions:
   contents: read
