@@ -1,10 +1,14 @@
-name: MH-25 first 24h autonomous development queue
+name: MH-25 first 24h autonomous development queue (DISABLED — G9 requires fresh G8 first)
+# Disabled: canonical qualification path owns this scope.
 # Activation marker: queue task MH25-QUEUE-001
 
 on:
   push:
     paths:
       - .github/workflows/mh25-first-24h-autonomous-queue.yml
+  workflow_dispatch:
+
+on:
   workflow_dispatch:
 
 permissions:
@@ -16,6 +20,7 @@ concurrency:
 
 jobs:
   first-24h-queue:
+    if: ${{ false }}
     name: First real 24h queue run
     runs-on: [self-hosted, mediahub-runner]
     timeout-minutes: 1450
