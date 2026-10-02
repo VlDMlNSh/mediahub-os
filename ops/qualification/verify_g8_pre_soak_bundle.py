@@ -63,6 +63,7 @@ def verify(path: Path) -> dict:
         for field in ("node_id","component_id","executor_id","provider_or_model_id","transport_id","workspace"):
             if evidence[field].strip().lower() in placeholder_values:
                 return {"status":"BLOCKED","reason":"manifest_evidence_identity_placeholder","surface":key,"field":field}
+        if evidence.get("verification_status") != "PASS": return {"status":"BLOCKED","reason":"manifest_evidence_verification_status_not_pass","surface":key}
         if not isinstance(evidence.get("round"),int) or evidence["round"] < 1:
             return {"status":"BLOCKED","reason":"manifest_evidence_round_invalid","surface":key}
         if not isinstance(evidence.get("timestamp"),(int,float,str)) or (isinstance(evidence.get("timestamp"),str) and not evidence["timestamp"].strip()):
@@ -76,7 +77,7 @@ def verify(path: Path) -> dict:
         evidence_actual=hashlib.sha256(json.dumps(evidence_canonical,sort_keys=True,separators=(",",":")).encode("utf-8")).hexdigest()
         if evidence_actual != evidence_digest:
             return {"status":"BLOCKED","reason":"manifest_evidence_digest_mismatch","surface":key}
-        evidence_sha=str(evidence.get("source_sha",evidence.get("target_sha","")))
+        evidence_sha=str(evidence.get("source_sha",""))
         if not SHA40.fullmatch(evidence_sha) or evidence_sha.lower()!=source_sha.lower():
             return {"status":"BLOCKED","reason":"manifest_evidence_source_sha_mismatch","surface":key}
         if evidence.get("secret_values")!="SUPPRESSED":
