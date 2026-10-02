@@ -130,7 +130,25 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
         self.assertTrue(u["rules"]["gold_active_requires_human_launch"])
         self.assertTrue(u["rules"]["evidence_is_immutable"])
         self.assertTrue(u["qualification"]["fresh_evidence_required"])
-        self.assertFalse(u["qualification"]["historical_evidence_reuse"])\n        self.assertEqual(\n            q["promotion"]["states"],\n            [\n                "REGISTERED", "CREDENTIAL_PRESENT", "AUTH_SUCCESS",\n                "MODEL_DISCOVERY_PASS", "PROBE_PASS", "EXECUTION_PASS",\n                "RESULT_VALIDATION_PASS", "A3_VERIFIED", "ASTRA_GOLD_ELIGIBLE",\n                "LAUNCH_READY", "LAUNCHED",\n            ],\n        )\n        self.assertEqual(\n            self.unified["evidence"],\n            [\n                "command_id", "node_id", "component_id", "executor_id",\n                "provider_or_model_id", "transport_id", "source_sha", "round",\n                "timestamp", "exit_status", "timeout", "marker", "workspace",\n                "verification_status", "evidence_digest",\n            ],\n        )
+        self.assertFalse(u["qualification"]["historical_evidence_reuse"])
+        self.assertEqual(
+            q["promotion"]["states"],
+            [
+                "REGISTERED", "CREDENTIAL_PRESENT", "AUTH_SUCCESS",
+                "MODEL_DISCOVERY_PASS", "PROBE_PASS", "EXECUTION_PASS",
+                "RESULT_VALIDATION_PASS", "A3_VERIFIED", "ASTRA_GOLD_ELIGIBLE",
+                "LAUNCH_READY", "LAUNCHED",
+            ],
+        )
+        self.assertEqual(
+            self.unified["evidence"],
+            [
+                "command_id", "node_id", "component_id", "executor_id",
+                "provider_or_model_id", "transport_id", "source_sha", "round",
+                "timestamp", "exit_status", "timeout", "marker", "workspace",
+                "verification_status", "evidence_digest",
+            ],
+        )
 
     def test_reference_architecture_contains_reconciliation_and_launch_guards(self):
         self.assertIn("Reconciliation Contract", self.ref)
