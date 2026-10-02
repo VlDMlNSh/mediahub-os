@@ -150,6 +150,25 @@ layers:
     - duplicate_controller
     - transport_interruption
     - replay_idempotency
+reconciliation:
+  contract_version: 2
+  required: true
+  canonical_sources:
+    - architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md
+    - architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml
+    - architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml
+  checks:
+    - architecture_vs_implementation
+    - registry_vs_runtime_identity
+    - state_vs_evidence
+    - tested_sha_vs_source_sha
+    - provider_model_identity_vs_evidence
+    - qualification_state_vs_gate_state
+    - candidate_admission_vs_inventory
+    - control_plane_vs_worker_state
+    - evidence_completeness
+  failure_state: RECONCILIATION_REQUIRED
+  admission_rule: any_drift_or_ambiguity_blocks
 qualification:
   mode: whole_system
   rounds_minimum: 23
