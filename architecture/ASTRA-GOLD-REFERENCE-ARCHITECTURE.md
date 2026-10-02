@@ -508,4 +508,7 @@ No document can override the Human authority rule or the fail-closed invariant.
 
 
 ## Extended soak planning
+
+**Scheduling invariant:** the repository may prepare the 72h run configuration, but no GitHub workflow may autonomously start G9/G72 until the Human launch authorization gate is explicitly satisfied.
+
 The first permitted soak remains G9 = 24h. A 72h soak is an extended validation window only after a fresh G9 pass and explicit Human authorization; it does not replace G9 and cannot be auto-promoted to GOLD.
