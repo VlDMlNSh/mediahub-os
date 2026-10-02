@@ -2,7 +2,7 @@
   "command_id": "MH25-DUAL-EXECUTOR-23WAVE-20261002-05",
   "node_id": "mh-dev-01",
   "operation": "dual_local_executor_23wave",
-  "target_sha": "05f94dbbb1beb7536e85262e3db129b477101815",
+  "target_sha": "5beff7571614856723c6155936cc143260026fa2",
   "workflow_only": false,
   "owned_paths": [
     "control/qualification/mh-dev-01-dual-local-executors"
