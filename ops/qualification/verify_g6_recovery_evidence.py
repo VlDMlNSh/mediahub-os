@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fail-closed verifier for G6 publication-recovery evidence."""
 from __future__ import annotations
-import argparse, json, sys
+import argparse, json, re, sys
 from pathlib import Path
 
 SCENARIOS=("timeout","executor_failure","transport_interruption","stale_claim",
@@ -17,7 +17,25 @@ def verify(path: Path) -> dict:
         return {"status":"BLOCKED","reason":"invalid_recovery_evidence_json","detail":repr(exc)}
     if data.get("fresh") is not True:
         return {"status":"BLOCKED","reason":"fresh_recovery_evidence_required"}
+    if data.get("secret_values") not in (None, "SUPPRESSED"):
+        return {"status":"BLOCKED","reason":"secret_policy_violation"}
     scenarios=data.get("scenarios",{})
+    source_shas=set()
+    for name in SCENARIOS:
+        item=scenarios.get(name,{})
+        if not isinstance(item,dict):
+            return {"status":"BLOCKED","reason":"scenario_record_invalid","scenario":name}
+        if item.get("fresh") is not True:
+            return {"status":"BLOCKED","reason":"scenario_not_fresh","scenario":name}
+        sha=str(item.get("source_sha",""))
+        if not re.fullmatch(r"[0-9a-fA-F]{40}",sha):
+            return {"status":"BLOCKED","reason":"scenario_source_sha_invalid","scenario":name}
+        if not item.get("command_id") or not item.get("node_id"):
+            return {"status":"BLOCKED","reason":"scenario_identity_missing","scenario":name}
+        source_shas.add(sha.lower())
+    if len(source_shas) != 1:
+        return {"status":"BLOCKED","reason":"scenario_source_sha_mismatch"}
+
     missing=[s for s in SCENARIOS if scenarios.get(s,{}).get("status")!="PASS"]
     if missing:
         return {"status":"BLOCKED","reason":"required_recovery_scenarios_not_passed","missing":missing}
