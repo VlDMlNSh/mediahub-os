@@ -320,7 +320,7 @@ class AstraGatewayRuntime:
             raise AstraGatewayError("invalid_context")
         if any(not isinstance(ref, str) or not ref.strip() for ref in task.context_refs):
             raise AstraGatewayError("invalid_context")
-        if task.approval_state == "approved" and not hasattr(task, "approval_token"):
+        if task.approval_state == "approved" and (not isinstance(task.approval_token, str) or not task.approval_token):
             raise AstraGatewayError("approval_proof_missing")
 
     @classmethod
