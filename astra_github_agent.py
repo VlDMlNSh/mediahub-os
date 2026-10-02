@@ -35,6 +35,8 @@ PROVIDER_ENV_PREFIXES = (
     "MISTRAL_API_KEY", "OPENROUTER_API_KEY",
 )
 
+EXTRA_SUBPROCESS_ENV = {"OPENAI_BASE_URL", "OPENAI_ORG_ID", "GIT_SSH_COMMAND", "SSH_AUTH_SOCK"}
+
 def _safe_env(extra=None, include_provider_credentials=False):
     env = {k: v for k, v in os.environ.items() if k in SAFE_SUBPROCESS_ENV}
     if include_provider_credentials:
@@ -42,12 +44,14 @@ def _safe_env(extra=None, include_provider_credentials=False):
             if value and any(key == prefix or key.startswith(prefix + "_") for prefix in PROVIDER_ENV_PREFIXES):
                 env[key] = value
     if extra:
-        env.update({k: str(v) for k, v in extra.items() if v is not None})
+        allowed_extra = set(EXTRA_SUBPROCESS_ENV)
+        allowed_extra.update(k for k in extra if any(k == p or k.startswith(p + "_") for p in PROVIDER_ENV_PREFIXES))
+        env.update({k: str(v) for k, v in extra.items() if v is not None and k in allowed_extra})
     return env
 
-def run(argv,timeout=120, *, env=None):
-    return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False,
-                          env=_safe_env(env))
+def run(argv,timeout=120, *, env=None, cwd=ROOT, stdin=None, include_provider_credentials=False):
+    return subprocess.run(argv,cwd=cwd,text=True,capture_output=True,stdin=stdin,timeout=timeout,check=False,
+                          env=_safe_env(env, include_provider_credentials=include_provider_credentials))
 
 def _canonical_remote():
     canonical=f"git@github.com:{REPO}.git"
@@ -203,9 +207,9 @@ def execute(cmd):
                             "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip(),
                             "cycles":steps}
             cycle_record={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
-            backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,
+            backend=run([sys.executable,str(backend_script)],cwd=ROOT,text=True,
                                    capture_output=True,timeout=120,check=False,
-                                   env=_safe_env(include_provider_credentials=True))
+                                   include_provider_credentials=True)
             cycle_record["backend"]={"returncode":backend.returncode,
                                      "stdout":backend.stdout[-12000:],"stderr":backend.stderr[-8000:]}
             steps.append(cycle_record)
@@ -215,8 +219,8 @@ def execute(cmd):
                     continue
                 return {"status":"BLOCKED","phase":"execution_backend_qualification",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
-            evidence=subprocess.run([sys.executable,str(evidence_script)],cwd=ROOT,text=True,
-                                    capture_output=True,timeout=900,check=False,env=_safe_env())
+            evidence=run([sys.executable,str(evidence_script)],cwd=ROOT,text=True,
+                                    capture_output=True,timeout=900,check=False,)
             cycle_record["pre_soak"]={"returncode":evidence.returncode,
                                       "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]}
             if evidence.returncode != 0:
@@ -225,7 +229,7 @@ def execute(cmd):
                     continue
                 return {"status":"BLOCKED","phase":"pre_soak_evidence",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
-            verifier=subprocess.run([sys.executable,str(verifier_script),"evidence"],
+            verifier=run([sys.executable,str(verifier_script),"evidence"],
                                     cwd=ROOT,text=True,capture_output=True,timeout=300,check=False,env=_safe_env())
             cycle_record["strict_verifier"]={"returncode":verifier.returncode,
                                               "stdout":verifier.stdout[-12000:],
@@ -243,7 +247,7 @@ def execute(cmd):
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
             for candidate in distributed_candidates:
                 if candidate.suffix==".py":
-                    distributed=subprocess.run([sys.executable,str(candidate)],cwd=ROOT,text=True,
+                    distributed=run([sys.executable,str(candidate)],cwd=ROOT,text=True,
                                                capture_output=True,timeout=1800,check=False)
                     cycle_record["distributed_verification"]={"script":str(candidate.relative_to(ROOT)),
                                                               "returncode":distributed.returncode,
@@ -252,7 +256,7 @@ def execute(cmd):
                     if distributed.returncode != 0:
                         return {"status":"BLOCKED","phase":"distributed_verification",
                                 "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
-            qualification=subprocess.run([sys.executable,str(gold)],cwd=ROOT,text=True,
+            qualification=run([sys.executable,str(gold)],cwd=ROOT,text=True,
                                          capture_output=True,
                                          timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),
                                          check=False,env=_safe_env())
@@ -266,7 +270,7 @@ def execute(cmd):
                 "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
 
     if operation == "reconcile_controller_processes":
-        ps=subprocess.run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
+        ps=run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
         current=os.getpid()
         matches=[]
         terminated=[]
@@ -278,10 +282,10 @@ def execute(cmd):
             args=parts[1]
             if pid!=current and "astra_github_agent.py" in args and f"ASTRA_NODE_ID={NODE_ID}" in args:
                 matches.append({"pid":pid,"args":args[-1000:]})
-                p=subprocess.run(["/bin/kill","-TERM",str(pid)],text=True,capture_output=True,timeout=5,check=False)
+                p=run(["/bin/kill","-TERM",str(pid)],text=True,capture_output=True,timeout=5,check=False)
                 terminated.append({"pid":pid,"returncode":p.returncode})
         time.sleep(2)
-        ps2=subprocess.run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
+        ps2=run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
         remaining=[]
         for line in ps2.stdout.splitlines():
             parts=line.strip().split(None,1)
@@ -307,7 +311,7 @@ def execute(cmd):
         def probe(argv, marker, timeout=35):
             started=time.monotonic()
             try:
-                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,
+                p=run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,
                                  timeout=timeout,check=False)
                 out=(p.stdout or "")[-12000:]
                 err=(p.stderr or "")[-12000:]
@@ -408,14 +412,14 @@ def execute(cmd):
     if operation == "codex_config_isolation":
         argv=["/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_CONFIG_ISOLATION_OK')"]
         try:
-            p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=45,check=False)
+            p=run(argv,cwd=ROOT,text=True,capture_output=True,timeout=45,check=False)
             return {"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_CONFIG_ISOLATION_OK" in (p.stdout or "") else "BLOCKED",
                     "argv":argv,"returncode":p.returncode,"stdout":p.stdout[-4000:],"stderr":p.stderr[-4000:],
                     "secret_values":"SUPPRESSED"}
         except Exception as exc:
             return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
     if operation == "codex_cleanup_stale_probes":
-        ps=subprocess.run(["/usr/bin/ps","-eo","pid=,ppid=,cmd="],text=True,capture_output=True,timeout=10,check=False)
+        ps=run(["/usr/bin/ps","-eo","pid=,ppid=,cmd="],text=True,capture_output=True,timeout=10,check=False)
         targets=[]
         for line in ps.stdout.splitlines():
             parts=line.strip().split(None,2)
@@ -424,10 +428,10 @@ def execute(cmd):
                 except ValueError: pass
         terminated=[]
         for pid in targets:
-            p=subprocess.run(["/bin/kill","-TERM",str(pid)],text=True,capture_output=True,timeout=5,check=False)
+            p=run(["/bin/kill","-TERM",str(pid)],text=True,capture_output=True,timeout=5,check=False)
             terminated.append({"pid":pid,"returncode":p.returncode})
         time.sleep(2)
-        ps2=subprocess.run(["/usr/bin/ps","-eo","pid=,ppid=,cmd="],text=True,capture_output=True,timeout=10,check=False)
+        ps2=run(["/usr/bin/ps","-eo","pid=,ppid=,cmd="],text=True,capture_output=True,timeout=10,check=False)
         remaining=[]
         for line in ps2.stdout.splitlines():
             parts=line.strip().split(None,2)
@@ -437,8 +441,8 @@ def execute(cmd):
     if operation == "codex_process_diagnostic":
         argv=["/usr/bin/timeout","12","/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_PROCESS_DIAGNOSTIC_OK')"]
         try:
-            p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=20,check=False)
-            ps=subprocess.run(["/usr/bin/ps","-eo","pid,ppid,stat,etime,cmd"],text=True,capture_output=True,timeout=10,check=False)
+            p=run(argv,cwd=ROOT,text=True,capture_output=True,timeout=20,check=False)
+            ps=run(["/usr/bin/ps","-eo","pid,ppid,stat,etime,cmd"],text=True,capture_output=True,timeout=10,check=False)
             lines=[x for x in ps.stdout.splitlines() if "codex" in x.lower()][:20]
             return {"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_PROCESS_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED",
                     "argv":argv,"returncode":p.returncode,"stdout":p.stdout[-4000:],"stderr":p.stderr[-4000:],
@@ -449,7 +453,7 @@ def execute(cmd):
         argv=["/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_PROVIDER_DIAGNOSTIC_OK')"]
         env={key:os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM","XDG_CONFIG_HOME","CODEX_HOME","OPENAI_BASE_URL","OPENAI_ORG_ID") if os.environ.get(key)}
         try:
-            p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=20,check=False,env=env)
+            p=run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=20,check=False,env=env)
             return {"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_PROVIDER_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED","argv":argv,"returncode":p.returncode,"stdout":p.stdout[-8000:],"stderr":p.stderr[-8000:],"credential_presence":{"OPENAI_API_KEY":bool(os.environ.get("OPENAI_API_KEY"))},"secret_values":"SUPPRESSED"}
         except Exception as exc:
             return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
@@ -470,7 +474,7 @@ def execute(cmd):
                 argv=["/usr/local/bin/codex","exec","--skip-git-repo-check","--model",model,"print('MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK')"]
                 started=time.monotonic()
                 try:
-                    p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=30,check=False,env=env)
+                    p=run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=30,check=False,env=env)
                     combined=(p.stdout or "")+(p.stderr or "")
                     item.update({"returncode":p.returncode,"duration_seconds":round(time.monotonic()-started,3),"output_bytes":len(combined.encode("utf-8","replace")),"marker_present":"MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK" in (p.stdout or ""),"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED"})
                     if item["status"]!="PASS":
@@ -489,7 +493,7 @@ def execute(cmd):
         probes=[["/usr/local/bin/codex","--version"],["/usr/local/bin/codex","exec","--help"]]
         for argv in probes:
             try:
-                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=20,check=False)
+                p=run(argv,cwd=ROOT,text=True,capture_output=True,timeout=20,check=False)
                 diagnostics.append({"argv":argv,"returncode":p.returncode,"stdout":p.stdout[-4000:],"stderr":p.stderr[-4000:]})
             except Exception as exc: diagnostics.append({"argv":argv,"error":repr(exc)})
         config=Path(os.environ.get("CODEX_HOME",str(Path.home()/".codex")))/"config.toml"
@@ -498,7 +502,7 @@ def execute(cmd):
     if operation == "local_ai_capability_qualification":
         script=ROOT/"ops"/"qualification"/"qualify_local_ai_capabilities.py"
         if not script.exists(): raise FileNotFoundError(f"local AI capability qualifier not found: {script}")
-        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
+        result=run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
         payload={"returncode":result.returncode,"stdout":result.stdout[-40000:],"stderr":result.stderr[-12000:],"status":"PASS" if result.returncode==0 else "BLOCKED"}
         if result.stdout.strip():
             try: payload["qualification"]=json.loads(result.stdout)
@@ -507,7 +511,7 @@ def execute(cmd):
     if operation == "local_component_qualification":
         script=ROOT/"ops"/"qualification"/"qualify_local_components.py"
         if not script.exists(): raise FileNotFoundError(f"local component qualifier not found: {script}")
-        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
+        result=run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
         payload={"returncode":result.returncode,"stdout":result.stdout[-40000:],"stderr":result.stderr[-12000:],"status":"PASS" if result.returncode==0 else "BLOCKED"}
         if result.stdout.strip():
             try: payload["qualification"]=json.loads(result.stdout)
@@ -516,7 +520,7 @@ def execute(cmd):
     if operation == "local_component_inventory":
         script=ROOT/"ops"/"qualification"/"inventory_local_components.py"
         if not script.exists(): raise FileNotFoundError(f"local component inventory probe not found: {script}")
-        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
+        result=run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
         payload={"returncode":result.returncode,"stdout":result.stdout[-40000:],"stderr":result.stderr[-12000:]}
         if result.stdout.strip():
             try: payload["inventory"]=json.loads(result.stdout)
@@ -526,7 +530,7 @@ def execute(cmd):
     if operation == "provider_model_qualification":
         script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
         if not script.exists(): raise FileNotFoundError(f"provider/model qualification probe not found: {script}")
-        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
+        result=run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
         payload={"returncode":result.returncode,"stdout":result.stdout[-30000:],"stderr":result.stderr[-12000:]}
         if result.stdout.strip():
             try:
@@ -538,17 +542,17 @@ def execute(cmd):
     if operation == "execution_backend_qualification":
         script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
         if not script.exists(): raise FileNotFoundError(f"execution backend qualification probe not found: {script}")
-        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
+        result=run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
         return {"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:],"status":"PASS" if result.returncode==0 else "BLOCKED"}
     if operation == "timezone_sync":
         target_timezone="Europe/Moscow"
         commands=[["timedatectl","set-timezone",target_timezone],["sudo","-n","timedatectl","set-timezone",target_timezone]]
         applied=False; attempts=[]
         for argv in commands:
-            result=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=30,check=False)
+            result=run(argv,cwd=ROOT,text=True,capture_output=True,timeout=30,check=False)
             attempts.append({"command":" ".join(argv[:2])+(" "+argv[2] if len(argv)>2 else ""),"returncode":result.returncode,"stderr":result.stderr[-2000:]})
             if result.returncode==0: applied=True; break
-        verify=subprocess.run(["timedatectl","show","-p","Timezone","-p","NTPSynchronized","-p","NTP"],cwd=ROOT,text=True,capture_output=True,timeout=30,check=False)
+        verify=run(["timedatectl","show","-p","Timezone","-p","NTPSynchronized","-p","NTP"],cwd=ROOT,text=True,capture_output=True,timeout=30,check=False)
         values={}
         for line in verify.stdout.splitlines():
             if "=" in line:
@@ -557,12 +561,12 @@ def execute(cmd):
     if operation == "pre_soak_evidence":
         script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
         if not script.exists(): raise FileNotFoundError(f"pre-soak evidence producer not found: {script}")
-        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=900,check=False)
+        result=run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=900,check=False)
         return {"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:],"status":"PASS" if result.returncode==0 else "BLOCKED"}
     if operation == "qualification":
         script=ROOT/"ops"/"qualification"/"astra_gold_executor.py"
         if not script.exists(): raise FileNotFoundError(f"qualification executor not found: {script}")
-        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),check=False)
+        result=run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),check=False)
         payload={"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:]}
         if result.returncode!=0: payload["status"]="BLOCKED"
         return payload
