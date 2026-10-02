@@ -1,14 +1,14 @@
 {
-  "command_id": "MH25-DUAL-EXECUTOR-23WAVE-20261002-05",
+  "command_id": "MH25-ASTRA-TRANSPORT-HEALTH-20261002-02",
   "node_id": "mh-dev-01",
-  "operation": "dual_local_executor_23wave",
-  "target_sha": "5beff7571614856723c6155936cc143260026fa2",
+  "operation": "health",
+  "target_sha": "0d3e4885d07e23c43c30edbdfca10afdb7372fed",
   "workflow_only": false,
   "owned_paths": [
-    "control/qualification/mh-dev-01-dual-local-executors"
+    "control/results/mh-dev-01.json"
   ],
-  "title": "MH-25 23-round FCC vs OmniRoute local executor qualification",
-  "description": "Run 23 bounded rounds for local Codex and Claude through FCC and OmniRoute, inventory ECC, compare pass rate and latency, and return exact evidence.",
+  "title": "Astra transport health and claim-release verification",
+  "description": "Verify updated Astra agent source is synchronized from main, consumes a fresh command, publishes node evidence, and releases its claim.",
   "exclusive_actions": [
     "execute"
   ]
