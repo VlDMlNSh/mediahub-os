@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """MediaHub Astra GitHub transport worker."""
 from __future__ import annotations
-import hashlib, importlib, json, os, platform, subprocess, sys, time, threading
+import hashlib, importlib, json, os, platform, re, subprocess, sys, time, threading
 from dataclasses import asdict
 from pathlib import Path
 
@@ -19,8 +19,23 @@ CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS
 
 G9_TELEMETRY=STATE/"g9_telemetry.jsonl"
 
+def telemetry_source_sha():
+    """Bind every G9 observation to the exact repository commit being executed."""
+    try:
+        result=subprocess.run(
+            ["git","-C",str(ROOT),"rev-parse","HEAD"],
+            text=True,capture_output=True,timeout=10,check=False,
+        )
+        value=result.stdout.strip()
+        if re.fullmatch(r"[0-9a-fA-F]{40}",value):
+            return value.lower()
+    except (OSError, subprocess.SubprocessError):
+        pass
+    return ""
+
 def g9_event(event, **fields):
-    payload={"timestamp":time.time(),"event":event,"node_id":NODE_ID,"worker_id":WORKER_ID}
+    payload={"timestamp":time.time(),"event":event,"node_id":NODE_ID,
+             "worker_id":WORKER_ID,"source_sha":telemetry_source_sha()}
     payload.update(fields)
     try:
         G9_TELEMETRY.parent.mkdir(parents=True,exist_ok=True)
