@@ -107,54 +107,55 @@ layers:
         qualification: NOT_PROVEN
         role: candidate_local_desktop_agent_execution_surface
         source: https://github.com/EDEAI/OpenFlux
-  execution:
-    mandatory_paths:
-      - CODEX_FCC
-      - CLAUDE_FCC
-      - CODEX_OMNIROUTE
-      - CLAUDE_OMNIROUTE
-      - CLAUDE_CODE_DIRECT
-    optional_future_paths:
-      - CODEX_DIRECT
-      - CLAUDE_DIRECT
-  verification:
-    - focused_tests
-    - regression
-    - contracts
-    - architecture_conformance
-    - security
-    - concurrency
-    - failure
-    - recovery
-    - independent_a3
-  evidence:
-    - command_id
-    - node_id
-    - component_id
-    - executor_id
-    - provider_or_model_id
-    - transport_id
-    - source_sha
-    - round
-    - timestamp
-    - exit_status
-    - timeout
-    - marker
-    - workspace
-    - verification_status
-    - evidence_digest
-  observability:
-    - heartbeat
-    - health
-    - structured_logs
-    - evidence_freshness
-  recovery:
-    - timeout
-    - stale_claim
-    - worker_restart
-    - duplicate_controller
-    - transport_interruption
-    - replay_idempotency
+execution:
+  mandatory_paths:
+    - CODEX_FCC
+    - CLAUDE_FCC
+    - CODEX_OMNIROUTE
+    - CLAUDE_OMNIROUTE
+    - CLAUDE_CODE_DIRECT
+  optional_future_paths:
+    - CODEX_DIRECT
+    - CLAUDE_DIRECT
+verification:
+  - focused_tests
+  - regression
+  - contracts
+  - architecture_conformance
+  - security
+  - concurrency
+  - failure
+  - recovery
+  - independent_a3
+evidence:
+  - command_id
+  - node_id
+  - component_id
+  - executor_id
+  - provider_or_model_id
+  - transport_id
+  - source_sha
+  - round
+  - timestamp
+  - exit_status
+  - timeout
+  - marker
+  - workspace
+  - verification_status
+  - evidence_digest
+observability:
+  - heartbeat
+  - health
+  - structured_logs
+  - evidence_freshness
+recovery:
+  - timeout
+  - stale_claim
+  - worker_restart
+  - duplicate_controller
+  - transport_interruption
+  - replay_idempotency
+
 reconciliation:
   contract_version: 2
   required: true
