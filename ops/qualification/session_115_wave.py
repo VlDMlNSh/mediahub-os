@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Session-scoped 115-round evidence producer; never grants GOLD authority."""
 from __future__ import annotations
-import hashlib,json,os,shutil,subprocess,tempfile,time,uuid
+import hashlib,json,os,re,shutil,subprocess,tempfile,time,uuid
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 OUT=Path(os.environ.get("ASTRA_115_EVIDENCE_DIR",str(ROOT/"evidence"/"session-115")))
@@ -17,6 +17,9 @@ def executable_identity(binary):
 def validate_record(rec):
     required=("command_id","round","path","component_id","node_id","source_sha","executor_id","provider_or_model_id","transport_id","provider_or_transport_id","timestamp","timeout_seconds","timeout","workspace","exit_status","status","verification_status","marker","marker_present","result_validation")
     if any(rec.get(k) in (None,"") for k in required): return False
+    if not re.fullmatch(r"[0-9a-fA-F]{40}",str(rec.get("source_sha",""))): return False
+    if not re.fullmatch(r"MH115-[0-9]{2}-[A-Z0-9_]+-[0-9a-f]{32}",str(rec.get("command_id",""))): return False
+    if not re.fullmatch(r"[0-9a-f]{64}",str(rec.get("evidence_digest",""))): return False
     if rec["round"]<1 or rec["round"]>ROUNDS: return False
     if rec["status"]=="PASS" and rec.get("verification_status")!="PASS": return False
     if rec["status"]=="PASS" and not rec.get("marker_present"): return False
