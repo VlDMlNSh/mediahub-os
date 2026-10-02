@@ -64,7 +64,17 @@ layers:
     local_tooling: [codex, claude-code, cursor, deepseek-harness, stagewise]
     local_models: [ollama, kimi-k3-in-c]
     auxiliary: [ecc, delx-memory-bun]
+    candidate_desktop_agents: [openflux]
     admission_sequence: [credential_presence, auth_success, model_discovery, non_mutating_probe, task_execution, result_validation, independent_a3]
+    candidate_desktop_agent_policy:
+      openflux:
+        authority: none
+        provider_selection: false
+        credential_creation: false
+        state_authority: false
+        qualification: NOT_PROVEN
+        role: candidate_local_desktop_agent_execution_surface
+        source: https://github.com/EDEAI/OpenFlux
   execution:
     mandatory_paths:
       - CODEX_FCC
