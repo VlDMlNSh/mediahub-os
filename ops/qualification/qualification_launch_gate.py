@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 import sys
 import yaml
@@ -29,9 +30,23 @@ def evaluate(evidence: dict, schema: dict) -> dict:
     approved_sha = str(launch.get("approved_source_sha",""))
     if launch.get("approved_source_sha") and (len(approved_sha) != 40 or any(ch not in "0123456789abcdefABCDEF" for ch in approved_sha)):
         missing_launch.append("approved_source_sha:invalid")
+    def record_ok(key: str) -> bool:
+        value = launch.get(key)
+        if not isinstance(value, dict):
+            return False
+        if value.get("status") not in ("PASS", "LAUNCH_READY"):
+            return False
+        if value.get("fresh") is not True:
+            return False
+        record_sha = str(value.get("source_sha", ""))
+        if not re.fullmatch(r"[0-9a-fA-F]{40}", record_sha):
+            return False
+        if record_sha.lower() != approved_sha.lower():
+            return False
+        return True
     for key in ("fresh_evidence_bundle","A3_verification_record","soak_record"):
-        if launch.get(key) is not True:
-            missing_launch.append(key + ":explicit_confirmation_required")
+        if not record_ok(key):
+            missing_launch.append(key + ":validated_evidence_record_required")
     if failures or missing_launch:
         return {
             "status":"BLOCKED",
