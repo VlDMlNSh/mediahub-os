@@ -313,3 +313,10 @@ evidence_bundle:
 promotion:
   states: [REGISTERED, CREDENTIAL_PRESENT, AUTH_SUCCESS, MODEL_DISCOVERY_PASS, PROBE_PASS, EXECUTION_PASS, RESULT_VALIDATION_PASS, A3_VERIFIED, ASTRA_GOLD_ELIGIBLE, LAUNCH_READY, LAUNCHED]
   no_implicit_transitions: true
+
+
+extended_soak_72h:
+  enabled: false
+  requires: [G8_PRE_SOAK, G9_24H_PASS, HUMAN_AUTHORIZED]
+  promotional: false
+  failure_action: ROLLBACK_OR_REQUALIFY
