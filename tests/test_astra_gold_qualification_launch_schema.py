@@ -139,5 +139,24 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
             p.write_text(json.dumps(base), encoding="utf-8")
             self.assertEqual(verify(p)["status"], "PASS")
 
+    def test_g6_verifier_is_fresh_and_fail_closed(self):
+        from ops.qualification.verify_g6_recovery_evidence import verify
+        import tempfile, json
+        scenarios = {name: {"status":"PASS"} for name in (
+            "timeout","executor_failure","transport_interruption","stale_claim",
+            "worker_restart","duplicate_controller","replay_idempotency")}
+        scenarios["result_publication_recovery"] = {
+            "status":"PASS","published_result_identity":"r1","source_sha":"a"*40,
+            "remote_branch_tip":"b"*40,"local_processed_state_reconciliation":"PASS",
+            "duplicate_execution_detected":False,"evidence_rewritten":False}
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"g6.json"
+            payload={"fresh":False,"scenarios":scenarios}
+            p.write_text(json.dumps(payload),encoding="utf-8")
+            self.assertEqual(verify(p)["status"],"BLOCKED")
+            payload["fresh"]=True
+            p.write_text(json.dumps(payload),encoding="utf-8")
+            self.assertEqual(verify(p)["status"],"PASS")
+
 if __name__ == "__main__":
     unittest.main()
