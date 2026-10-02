@@ -161,6 +161,54 @@ candidate_review_inventory:
       no_state_authority: true
       no_credential_creation: true
       account_and_browser_session_security_review_required: true
+  category_specific_controls:
+    local_model:
+      examples: [minicpm-v-4.5-8b-1mk]
+      required_additional:
+        - exact_model_variant
+        - weight_or_checkpoint_provenance
+        - runtime_backend_identity
+        - memory_profile
+        - multimodal_probe_when_supported
+        - inference_isolation
+    gateway_or_router:
+      examples: [freellmapi, free-coding-models]
+      required_additional:
+        - upstream_provider_inventory
+        - routing_policy_transparency
+        - credential_isolation
+        - failover_behavior
+        - provider_identity_preservation
+        - no_hidden_state_authority
+    browser_bridge:
+      examples: [webtool-deepseek, codex-chatgpt-web]
+      required_additional:
+        - browser_session_isolation
+        - cookie_token_boundary
+        - tool_permission_boundary
+        - prompt_injection_resistance
+        - account_session_recovery
+    coding_harness_or_ide:
+      examples: [deepseek-harness, stagewise, sol-pi]
+      required_additional:
+        - plugin_or_extension_boundary
+        - workspace_isolation
+        - tool_execution_allowlist
+        - subprocess_boundary
+        - review_rework_integrity
+    security_tool:
+      examples: [naabu]
+      required_additional:
+        - explicit_target_scope
+        - dry_run_or_safe_probe
+        - network_permission_boundary
+        - rate_limit_control
+        - audit_log
+        - destructive_action_absence
+    unresolved_identity:
+      examples: [colibri, unlazy]
+      rule: no_runtime_admission_until_exact_upstream_identity_is_resolved
+
   admission:
     all_candidates_require:
       - exact_source_identity
