@@ -15,7 +15,7 @@ def executable_identity(binary):
     p=Path(binary)
     return {"path":str(p),"sha256":sha256_file(p) if p.is_file() else "","size_bytes":p.stat().st_size if p.is_file() else 0}
 def validate_record(rec):
-    required=("command_id","round","path","node_id","source_sha","executor_id","provider_or_transport_id","timestamp","timeout_seconds","timeout","workspace","status","verification_status","marker","marker_present","result_validation","evidence_digest")
+    required=("command_id","round","path","node_id","source_sha","executor_id","provider_or_transport_id","timestamp","timeout_seconds","timeout","workspace","status","verification_status","marker","marker_present","result_validation")
     if any(rec.get(k) in (None,"") for k in required): return False
     if rec["round"]<1 or rec["round"]>ROUNDS: return False
     if rec["status"]=="PASS" and rec.get("verification_status")!="PASS": return False
@@ -69,9 +69,9 @@ def main():
                             result=run(command_for(path,MARKERS[path]),Path(ws),45)
                             marker=MARKERS[path] in result["stdout_tail"]
                             rec.update(result,binary=binary,binary_identity=executable_identity(binary),provider_or_transport_id=provider_identity(path,binary),workspace=ws,workspace_ephemeral=True,marker=MARKERS[path],marker_present=marker,result_validation=(result["returncode"]==0 and marker),status="PASS" if result["returncode"]==0 and marker else ("TIMEOUT" if result["returncode"]==124 else "BLOCKED"),verification_status="PASS" if result["returncode"]==0 and marker else "BLOCKED",timeout=(result.get("timeout") is True))
-            digest_payload=dict(rec); digest_payload.pop("evidence_digest",None); rec["evidence_digest"]=hashlib.sha256(json.dumps(digest_payload,sort_keys=True,separators=(",",":")).encode()).hexdigest()
             if not validate_record(rec):
                 rec.update(status="BLOCKED",verification_status="BLOCKED",reason="round_evidence_schema_invalid")
+            digest_payload=dict(rec); digest_payload.pop("evidence_digest",None); rec["evidence_digest"]=hashlib.sha256(json.dumps(digest_payload,sort_keys=True,separators=(",",":")).encode()).hexdigest()
             manifest["observations"].append(rec)
             (OUT/f"{n:02d}-{path}.json").write_text(json.dumps(rec,indent=2,sort_keys=True)+"\n")
             (OUT/"manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n")
