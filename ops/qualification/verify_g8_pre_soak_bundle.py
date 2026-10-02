@@ -53,6 +53,12 @@ def verify(path: Path) -> dict:
             return {"status":"BLOCKED","reason":"manifest_evidence_source_sha_mismatch","surface":key}
         if evidence.get("secret_values")!="SUPPRESSED":
             return {"status":"BLOCKED","reason":"manifest_evidence_secret_policy","surface":key}
+        summary_fields=("status","observations","paths","max_parallel","independence_attested","dirty","source_sha","target_sha","fresh")
+        for field in summary_fields:
+            if field in data.get(key,{}) and data[key].get(field) != evidence.get(field):
+                return {"status":"BLOCKED","reason":"manifest_summary_mismatch","surface":key,"field":field}
+    if set(manifest) != set(SURFACES):
+        return {"status":"BLOCKED","reason":"manifest_surface_set_invalid"}
     digest=str(data.get("bundle_sha256","")).lower()
     if not SHA64.fullmatch(digest): return {"status":"BLOCKED","reason":"bundle_integrity_invalid"}
     canonical=dict(data); canonical.pop("bundle_sha256",None)
