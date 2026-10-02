@@ -31,10 +31,14 @@ def main() -> int:
     p.add_argument("--telemetry",type=Path,required=True)
     p.add_argument("--output",type=Path,required=True)
     p.add_argument("--source-sha",required=True)
+    p.add_argument("--workflow-run-id",type=int,required=True)
+    p.add_argument("--workflow-run-url",required=True)
     a=p.parse_args()
 
     if not SHA40.fullmatch(a.source_sha):
         return write_blocked(a.output,"source_sha_invalid")
+    if a.workflow_run_id <= 0 or not a.workflow_run_url.startswith("https://github.com/"):
+        return write_blocked(a.output,"workflow_run_identity_invalid")
 
     try:
         telemetry_bytes=a.telemetry.read_bytes()
@@ -124,6 +128,8 @@ def main() -> int:
         "telemetry_source_sha":a.source_sha.lower(),
         "telemetry_sha256":telemetry_sha256,
         "telemetry_path":str(a.telemetry),
+        "workflow_run_id":a.workflow_run_id,
+        "workflow_run_url":a.workflow_run_url,
         "started_at":start_iso,
         "ended_at":end_iso,
         "conditions":conditions,
