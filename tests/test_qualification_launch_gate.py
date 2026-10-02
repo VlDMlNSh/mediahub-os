@@ -20,6 +20,28 @@ class TestQualificationLaunchGate(unittest.TestCase):
         self.assertEqual(result["status"], "BLOCKED")
         self.assertTrue(result["missing_launch_inputs"])
 
+    def test_g11_requires_explicit_human_authorization(self):
+        schema = load_schema()
+        evidence = {
+            "gates": {gate: "PASS" for gate in schema["gates"] if gate != "G11_LAUNCH"},
+            "launch": {key: "present" for key in schema["launch_contract"]["required_inputs"]},
+        }
+        result = evaluate(evidence, schema)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("G11_LAUNCH_HUMAN_AUTHORIZATION", result["failed_gates"])
+
+    def test_g11_human_authorization_is_not_implicit(self):
+        schema = load_schema()
+        evidence = {
+            "gates": {
+                **{gate: "PASS" for gate in schema["gates"] if gate != "G11_LAUNCH"},
+                "G11_LAUNCH": "HUMAN_AUTHORIZED",
+            },
+            "launch": {key: "present" for key in schema["launch_contract"]["required_inputs"]},
+        }
+        result = evaluate(evidence, schema)
+        self.assertEqual(result["status"], "LAUNCH_READY")
+
     def test_complete_evidence_reaches_launch_ready_only(self):
         schema = load_schema()
         evidence = {
