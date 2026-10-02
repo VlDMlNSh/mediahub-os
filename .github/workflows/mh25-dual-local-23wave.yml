@@ -63,10 +63,11 @@ jobs:
             record_probe() {
               local executor_id="$1"
               local provider_model_id="$2"
-              local timeout_s="$3"
-              local output="$4"
-              local rc="$5"
-              local marker="$6"
+              local transport_id="$3"
+              local timeout_s="$4"
+              local output="$5"
+              local rc="$6"
+              local marker="$7"
               local status=FAIL
               local verification_status=FAIL
               if [ "$rc" -eq 0 ] && grep -Fx "$marker" "$output" >/dev/null 2>&1; then
@@ -77,7 +78,7 @@ jobs:
               fi
               python3 - "$executor_id" "$provider_model_id" "$timeout_s" "$output" "$rc" "$status" "$verification_status" "$marker" "$i" "$ts" "$workspace" >> mh25-23wave.jsonl <<'PY'
 import hashlib, json, os, sys, uuid
-(executor_id, provider_model_id, timeout_s, output, rc, status,
+(executor_id, provider_model_id, transport_id, timeout_s, output, rc, status,
  verification_status, marker, round_no, timestamp, workspace) = sys.argv[1:]
 try:
     exit_status=int(rc)
@@ -117,11 +118,11 @@ PY
             command -v fcc-claude >/dev/null 2>&1 || fcc_claude_rc=127
             command -v omniroute >/dev/null 2>&1 || { omni_codex_rc=127; omni_claude_rc=127; }
             command -v claude >/dev/null 2>&1 || direct_claude_rc=127
-            record_probe "CODEX_FCC" "${FCC_CODEX_PROVIDER_MODEL_ID:-UNRESOLVED_FCC_MODEL}" 25 /tmp/fcc-codex.out "$fcc_codex_rc" "MEDIAHUB_FCC_CODEX_OK"
-            record_probe "CLAUDE_FCC" "${FCC_CLAUDE_PROVIDER_MODEL_ID:-UNRESOLVED_FCC_MODEL}" 25 /tmp/fcc-claude.out "$fcc_claude_rc" "MEDIAHUB_FCC_CLAUDE_OK"
-            record_probe "CODEX_OMNIROUTE" "${OMNI_CODEX_PROVIDER_MODEL_ID:-UNRESOLVED_OMNI_MODEL}" 30 /tmp/omni-codex.out "$omni_codex_rc" "MEDIAHUB_OMNI_CODEX_OK"
-            record_probe "CLAUDE_OMNIROUTE" "${OMNI_CLAUDE_PROVIDER_MODEL_ID:-UNRESOLVED_OMNI_MODEL}" 30 /tmp/omni-claude.out "$omni_claude_rc" "MEDIAHUB_OMNI_CLAUDE_OK"
-            record_probe "CLAUDE_CODE_DIRECT" "${DIRECT_CLAUDE_PROVIDER_MODEL_ID:-UNRESOLVED_DIRECT_MODEL}" 30 /tmp/direct-claude.out "$direct_claude_rc" "MEDIAHUB_DIRECT_CLAUDE_OK"
+            record_probe "CODEX_FCC" "${FCC_CODEX_PROVIDER_MODEL_ID:-UNRESOLVED_FCC_MODEL}" "fcc" 25 /tmp/fcc-codex.out "$fcc_codex_rc" "MEDIAHUB_FCC_CODEX_OK"
+            record_probe "CLAUDE_FCC" "${FCC_CLAUDE_PROVIDER_MODEL_ID:-UNRESOLVED_FCC_MODEL}" "fcc" 25 /tmp/fcc-claude.out "$fcc_claude_rc" "MEDIAHUB_FCC_CLAUDE_OK"
+            record_probe "CODEX_OMNIROUTE" "${OMNI_CODEX_PROVIDER_MODEL_ID:-UNRESOLVED_OMNI_MODEL}" "omniroute" 30 /tmp/omni-codex.out "$omni_codex_rc" "MEDIAHUB_OMNI_CODEX_OK"
+            record_probe "CLAUDE_OMNIROUTE" "${OMNI_CLAUDE_PROVIDER_MODEL_ID:-UNRESOLVED_OMNI_MODEL}" "omniroute" 30 /tmp/omni-claude.out "$omni_claude_rc" "MEDIAHUB_OMNI_CLAUDE_OK"
+            record_probe "CLAUDE_CODE_DIRECT" "${DIRECT_CLAUDE_PROVIDER_MODEL_ID:-UNRESOLVED_DIRECT_MODEL}" "native" 30 /tmp/direct-claude.out "$direct_claude_rc" "MEDIAHUB_DIRECT_CLAUDE_OK"
           done
       - name: Selection and evidence
         shell: bash
@@ -144,7 +145,7 @@ if len({r.get("command_id") for r in rows}) != 115:
     raise SystemExit("command_id values are not unique")
 if any(r.get("source_sha") != os.environ["GITHUB_SHA"] for r in rows):
     raise SystemExit("source_sha mismatch in round evidence")
-if any(not r.get("evidence_digest") for r in rows):
+if any(not r.get("evidence_digest") or not r.get("transport_id") for r in rows):
     raise SystemExit("missing evidence_digest in round evidence")
 if any(r.get("provider_model_id","").startswith("UNRESOLVED_") for r in rows):
     raise SystemExit("provider/model identity unresolved; qualification is fail-closed")
