@@ -24,7 +24,7 @@ jobs:
       - name: Compile
         run: python -m compileall -q .
       - name: Cloud admission unit tests
-        run: python -m unittest -v tests.test_cloud_admission tests.test_hybrid_agent_auth_probe tests.test_astra_gold_registry tests.test_openopc_registry tests.test_openflux_registry tests.test_qualification_launch_gate tests.test_astra_gold_architecture_drift tests.test_agent_fabric
+        run: python -m unittest -v tests.test_cloud_admission tests.test_hybrid_agent_auth_probe tests.test_astra_gold_registry tests.test_openopc_registry tests.test_openflux_registry tests.test_qualification_launch_gate tests.test_astra_gold_architecture_drift tests.test_agent_fabric tests.test_astra_transport_safety
 
       - name: Signed command smoke test
         env:
