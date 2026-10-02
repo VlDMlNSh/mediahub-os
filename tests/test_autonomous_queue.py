@@ -41,8 +41,7 @@ def test_main_returns_idle_when_no_ready_tasks(monkeypatch, tmp_path: Path, caps
 
 
 def test_claim_uses_task_boundary(monkeypatch):
-    class R: stdout = "abc123
-"
+    class R: stdout = "abc123\n"
     monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: R())
     claim = autonomous_queue.claim_for({"task_id":"T1","mission":"m","boundary":["docs/a","ops/b"]})
     assert claim.base_sha == "abc123"
