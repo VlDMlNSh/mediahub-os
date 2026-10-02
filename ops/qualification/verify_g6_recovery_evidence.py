@@ -2,6 +2,7 @@
 """Fail-closed verifier for G6 publication-recovery evidence."""
 from __future__ import annotations
 import argparse, hashlib, json, re, sys
+from datetime import datetime
 from pathlib import Path
 
 SCENARIOS=("timeout","executor_failure","transport_interruption","stale_claim",
@@ -32,8 +33,16 @@ def verify(path: Path) -> dict:
             return {"status":"BLOCKED","reason":"scenario_source_sha_invalid","scenario":name}
         if not item.get("command_id") or not item.get("node_id"):
             return {"status":"BLOCKED","reason":"scenario_identity_missing","scenario":name}
-        if not item.get("timestamp"):
+        timestamp=item.get("timestamp")
+        if not isinstance(timestamp,(int,float,str)) or (isinstance(timestamp,str) and not timestamp.strip()):
             return {"status":"BLOCKED","reason":"scenario_timestamp_missing","scenario":name}
+        if isinstance(timestamp,str):
+            try:
+                datetime.fromisoformat(timestamp.replace("Z","+00:00"))
+            except ValueError:
+                return {"status":"BLOCKED","reason":"scenario_timestamp_invalid","scenario":name}
+        elif not isinstance(timestamp,(int,float)):
+            return {"status":"BLOCKED","reason":"scenario_timestamp_invalid","scenario":name}
         digest=str(item.get("evidence_digest","")).lower()
         if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest):
             return {"status":"BLOCKED","reason":"scenario_evidence_digest_invalid","scenario":name}
