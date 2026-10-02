@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fail-closed verifier for fresh G5 shared-coordination attestations."""
 from __future__ import annotations
-import argparse, json, sys
+import argparse, json, re, sys
 from pathlib import Path
 
 REQUIRED = ("node_id","running_agent_source_sha","coordination_authority_id",
@@ -18,6 +18,11 @@ def verify(path: Path) -> dict:
         return {"status":"BLOCKED","reason":"missing_attestation_fields","missing":missing}
     if not data.get("fresh",False):
         return {"status":"BLOCKED","reason":"fresh_attestation_required"}
+    source_sha=str(data.get("running_agent_source_sha",""))
+    if not re.fullmatch(r"[0-9a-fA-F]{40}", source_sha):
+        return {"status":"BLOCKED","reason":"running_agent_source_sha_invalid"}
+    if data.get("secret_values") not in (None, "SUPPRESSED"):
+        return {"status":"BLOCKED","reason":"secret_policy_violation"}
     if data.get("reservation_result") != "PASS":
         return {"status":"BLOCKED","reason":"reservation_not_pass"}
     if not isinstance(data.get("active_claim_count"), int) or not 0 <= data["active_claim_count"] <= 2:
