@@ -226,7 +226,7 @@ def execute(cmd):
             "fcc_claude": "MEDIAHUB_FCC_CLAUDE_OK",
             "omni_claude": "MEDIAHUB_OMNI_CLAUDE_OK",
             "omni_codex": "MEDIAHUB_OMNI_CODEX_OK",
-            "claude_code_direct": "MEDIAHUB_CLAUDE_CODE_DIRECT_OK",
+            "claude_code_direct": "MEDIAHUB_DIRECT_CLAUDE_OK",
         }
         rounds = []
         def probe(argv, marker, timeout=35):
