@@ -81,6 +81,27 @@ jobs:
           }, indent=2, sort_keys=True))
           raise SystemExit(0 if result.get("status") == "PASS" else 1)
           PY
+      - name: Materialize canonical G4 evidence
+        if: always()
+        shell: bash
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 ops/qualification/materialize_g4_evidence.py \
+            /tmp/mh25-dual-qualification/result.json \
+            /tmp/mh25-dual-qualification/g4-115.json \
+            --expected-sha "${{ github.sha }}"
+      - name: Independently verify G4 evidence
+        if: always()
+        shell: bash
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 ops/qualification/verify_g4_115.py \
+            /tmp/mh25-dual-qualification/g4-115.json \
+            --expected-sha "${{ github.sha }}"
       - name: Publish qualification artifact
         if: always()
         uses: actions/upload-artifact@v4
