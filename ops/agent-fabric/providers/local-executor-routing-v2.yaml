@@ -26,6 +26,11 @@ executors:
     transport: omniroute
     launcher: omniroute
     authority: executor-only
+  - id: CLAUDE_CODE_DIRECT
+    client: claude_code
+    transport: native
+    launcher: claude
+    authority: executor-only
 
 auxiliary:
   - id: ECC_LOCAL_ASSISTANT
@@ -52,6 +57,7 @@ routing:
 
 qualification:
   rounds_minimum: 23
+  mandatory_executor_paths: [CODEX_FCC, CLAUDE_FCC, CODEX_OMNIROUTE, CLAUDE_OMNIROUTE, CLAUDE_CODE_DIRECT]
   qualification_scope: whole_system
   stdin: /dev/null
   timeout_required: true
