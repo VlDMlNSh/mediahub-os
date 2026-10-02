@@ -173,6 +173,7 @@ evidence:
     - component_id
     - executor_id
     - provider_or_model_id
+    - transport_id
     - source_sha
     - round
     - timestamp
