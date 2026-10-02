@@ -29,6 +29,29 @@ def build(source: dict) -> dict:
         if gate in FRESH:
             e=evidence.get(gate,{})
             if status=="PASS" and e.get("fresh") is not True: status="BLOCKED"
+            if status=="PASS" and gate=="G9_24H_SOAK":
+                source_sha=str(source.get("source_sha","")).lower()
+                evidence_sha=str(e.get("source_sha","")).lower()
+                conditions=e.get("conditions",{})
+                required_conditions=(
+                    "continuous_heartbeat",
+                    "no_unexplained_controller_restart",
+                    "no_duplicate_claim_corruption",
+                    "no_unresolved_execution_failure",
+                    "evidence_integrity",
+                    "no_authority_boundary_violation",
+                )
+                digest=str(e.get("evidence_digest",""))
+                if (
+                    not source_sha
+                    or evidence_sha != source_sha
+                    or e.get("duration_hours") != 24
+                    or e.get("secret_values") != "SUPPRESSED"
+                    or any(conditions.get(k) is not True for k in required_conditions)
+                    or len(digest) != 64
+                    or any(ch not in "0123456789abcdef" for ch in digest)
+                ):
+                    status="BLOCKED"
             if gate=="G7_INTEGRATED_A3" and e.get("independence_attested") is not True: status="BLOCKED"
         required_gates=prerequisites.get(gate, ())
         if status=="PASS" and any(effective.get(dep)!="PASS" for dep in required_gates):
