@@ -18,8 +18,15 @@ def verify(path: Path) -> dict:
     if missing: return {"status":"BLOCKED","reason":"a3_required_checks_not_passed","missing":missing}
     if not data.get("source_sha") or not data.get("verified_sha") or data["source_sha"] != data["verified_sha"]:
         return {"status":"BLOCKED","reason":"a3_exact_sha_mismatch"}
-    if not data.get("evidence_sha256"):
-        return {"status":"BLOCKED","reason":"a3_evidence_integrity_missing"}
+    digest = str(data.get("evidence_sha256","")).lower()
+    if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest):
+        return {"status":"BLOCKED","reason":"a3_evidence_integrity_invalid"}
+    evidence_path = Path(str(data.get("source_evidence_path","")))
+    if not evidence_path.is_file():
+        return {"status":"BLOCKED","reason":"a3_source_evidence_missing"}
+    actual = hashlib.sha256(evidence_path.read_bytes()).hexdigest()
+    if actual != digest:
+        return {"status":"BLOCKED","reason":"a3_evidence_digest_mismatch"}
     return {"status":"PASS","verifier_role":"A3","source_sha":data["source_sha"],
             "evidence_sha256":data["evidence_sha256"],"checks_verified":len(REQUIRED)}
 
