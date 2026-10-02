@@ -27,6 +27,8 @@ jobs:
       FREELLMAPI_MODEL: ${{ vars.MEDIAHUB_FREELLMAPI_MODEL }}
     steps:
       - uses: actions/checkout@v4
+      - name: Install test dependencies
+        run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
       - name: Verify target node
         shell: bash
         run: |
