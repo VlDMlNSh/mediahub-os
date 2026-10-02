@@ -139,7 +139,6 @@ evidence:
   - timestamp
   - exit_status
   - timeout
-  - marker
   - workspace
   - verification_status
   - evidence_digest
