@@ -59,6 +59,10 @@ def verify(path: Path) -> dict:
         for field in string_fields:
             if not isinstance(evidence.get(field),str) or not evidence[field].strip():
                 return {"status":"BLOCKED","reason":"manifest_evidence_metadata_invalid","surface":key,"field":field}
+        placeholder_values={"unknown","undefined","none","null","n/a","na","tbd","todo","placeholder","unset"}
+        for field in ("node_id","component_id","executor_id","provider_or_model_id","transport_id","workspace"):
+            if evidence[field].strip().lower() in placeholder_values:
+                return {"status":"BLOCKED","reason":"manifest_evidence_identity_placeholder","surface":key,"field":field}
         if not isinstance(evidence.get("round"),int) or evidence["round"] < 1:
             return {"status":"BLOCKED","reason":"manifest_evidence_round_invalid","surface":key}
         if not isinstance(evidence.get("timestamp"),(int,float,str)) or (isinstance(evidence.get("timestamp"),str) and not evidence["timestamp"].strip()):
