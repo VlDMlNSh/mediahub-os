@@ -9,6 +9,8 @@ from __future__ import annotations
 import argparse, json, math, sys
 from pathlib import Path
 
+from ops.qualification.current_qualification_state import build as reduce_current_state
+
 ORDER=(
     ("G0_IDENTITY","close identity/source gaps"),
     ("G1_BOUNDARY","close authority/transport/workspace boundaries"),
@@ -25,21 +27,20 @@ ORDER=(
 )
 
 def reduce_state(evidence: dict) -> dict:
-    gates=evidence.get("gates",{})
-    gate_evidence=evidence.get("gate_evidence",{})
-    physical={"G4_23_WAVE_QUALIFICATION","G5_CONCURRENCY","G6_RECOVERY","G7_INTEGRATED_A3","G8_PRE_SOAK","G9_24H_SOAK"}
+    state=reduce_current_state(evidence)
+    physical={"G4_23_WAVE_QUALIFICATION","G5_CONCURRENCY","G6_RECOVERY",
+              "G7_INTEGRATED_A3","G8_PRE_SOAK","G9_24H_SOAK"}
+    actions=dict(ORDER)
     blockers=[]
-    for gate, action in ORDER:
+    for gate in state["failed_gates"]:
         if gate=="G11_LAUNCH":
-            if gates.get(gate) != "HUMAN_AUTHORIZED":
-                blockers.append({"gate":gate,"action":"human authorization","kind":"HUMAN","reason":"explicit human authorization required"})
-            continue
-        if gates.get(gate) != "PASS":
-            ge=gate_evidence.get(gate,{})
-            reason="gate_not_passed"
-            if gate in physical and ge.get("fresh") is not True:
-                reason="fresh_physical_or_integrated_evidence_missing"
-            blockers.append({"gate":gate,"action":action,"kind":"PHYSICAL" if gate in physical else "ENGINEERING","reason":reason})
+            kind="HUMAN"; reason="explicit human authorization required"
+        elif gate in physical:
+            kind="PHYSICAL"; reason="fresh physical or integrated evidence missing"
+        else:
+            kind="ENGINEERING"; reason="gate not passed"
+        blockers.append({"gate":gate,"action":actions.get(gate,"human authorization"),
+                         "kind":kind,"reason":reason})
     return {"blockers":blockers,"next":blockers[0] if blockers else None,
             "remaining_count":len(blockers),
             "physical_blockers":sum(x["kind"]=="PHYSICAL" for x in blockers)}
