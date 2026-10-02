@@ -35,12 +35,19 @@ jobs:
           test "$worker_blob_sha" = "$blob_sha"
           echo "runner=$(hostname)"
           echo "agent_blob_sha=$blob_sha"
+      - name: Require fresh G8 admission bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f evidence/astra-gold/g8-pre-soak.json
+          PYTHONPATH=. python3 ops/qualification/verify_g8_pre_soak_bundle.py evidence/astra-gold/g8-pre-soak.json
+
       - name: Verify existing canonical Astra worker
         shell: bash
         run: |
           set -euo pipefail
-          pgrep -af "astra_github_agent.py" | tee /tmp/astra-workers.txt
-          test "$(grep -c "astra_github_agent.py" /tmp/astra-workers.txt)" -ge 1
+          pgrep -af "[a]stra_github_agent.py" | tee /tmp/astra-workers.txt
+          test "$(grep -c "[a]stra_github_agent.py" /tmp/astra-workers.txt)" -ge 1
           echo "canonical_worker_present=true"
       - name: Repository and runtime regression
         shell: bash
@@ -53,7 +60,7 @@ jobs:
         run: |
           echo "phase=GOLD_PREFLIGHT"
           echo "commit=$(git rev-parse HEAD)"
-          echo "worker_present=$(pgrep -f 'astra_github_agent.py' >/dev/null && echo true || echo false)"
+          echo "worker_present=$(pgrep -f '[a]stra_github_agent.py' >/dev/null && echo true || echo false)"
 
   soak:
     name: 24h autonomous runtime soak
