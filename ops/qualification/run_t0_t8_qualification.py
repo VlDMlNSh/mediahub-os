@@ -41,6 +41,8 @@ def main():
         return block("T0","exact_source_sha_mismatch",steps)
 
     EVIDENCE.mkdir(parents=True,exist_ok=True)
+    os.environ["ASTRA_115_EVIDENCE_DIR"]=str(EVIDENCE)
+    os.environ["ASTRA_EVIDENCE_DIR"]=str(EVIDENCE)
 
     # T0/T1/T2: deterministic local preflight and bounded provider discovery.
     for name,argv,timeout in (
