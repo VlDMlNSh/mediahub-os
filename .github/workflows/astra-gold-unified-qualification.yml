@@ -56,6 +56,12 @@ jobs:
           python3 -m compileall -q runtime tests astra_github_agent.py
           PYTHONPATH=runtime:. python3 -m unittest discover -s tests -p 'test_*.py'
 
+      - name: Canonical qualification launch gate schema
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v tests/test_astra_gold_qualification_launch_schema.py tests/test_qualification_launch_gate.py
+
       - name: Qualify hybrid cloud provider authentication
         shell: bash
         run: |
