@@ -97,6 +97,28 @@ def verify(path: Path) -> dict:
             return {"status":"BLOCKED","reason":"manifest_evidence_source_sha_mismatch","surface":key}
         if evidence.get("secret_values")!="SUPPRESSED":
             return {"status":"BLOCKED","reason":"manifest_evidence_secret_policy","surface":key}
+        if key == "g5_coordination":
+            nested_sha=str(evidence.get("running_agent_source_sha",""))
+            if not SHA40.fullmatch(nested_sha) or nested_sha.lower()!=source_sha.lower():
+                return {"status":"BLOCKED","reason":"g5_running_agent_source_sha_mismatch"}
+        if key == "g6_recovery":
+            scenarios=evidence.get("scenarios")
+            if not isinstance(scenarios,dict):
+                return {"status":"BLOCKED","reason":"g6_scenarios_missing"}
+            for scenario_name, scenario in scenarios.items():
+                if not isinstance(scenario,dict):
+                    return {"status":"BLOCKED","reason":"g6_scenario_record_invalid","scenario":scenario_name}
+                nested_sha=str(scenario.get("source_sha",""))
+                if not SHA40.fullmatch(nested_sha) or nested_sha.lower()!=source_sha.lower():
+                    return {"status":"BLOCKED","reason":"g6_scenario_source_sha_mismatch","scenario":scenario_name}
+        if key == "a3_independent":
+            nested_source_sha=str(evidence.get("source_sha",""))
+            nested_verified_sha=str(evidence.get("verified_sha",""))
+            if (not SHA40.fullmatch(nested_source_sha)
+                    or not SHA40.fullmatch(nested_verified_sha)
+                    or nested_source_sha.lower()!=source_sha.lower()
+                    or nested_verified_sha.lower()!=source_sha.lower()):
+                return {"status":"BLOCKED","reason":"a3_nested_source_sha_mismatch"}
         summary_fields=("status","observations","paths","max_parallel","independence_attested","dirty","source_sha","target_sha","fresh")
         for field in summary_fields:
             if field in data.get(key,{}) and data[key].get(field) != evidence.get(field):
