@@ -34,12 +34,15 @@ def verify(path: Path) -> dict:
         return {"status":"BLOCKED","reason":"bundle_source_sha_missing"}
     if data["source_sha"] != data["a3_independent"]["source_sha"]:
         return {"status":"BLOCKED","reason":"bundle_source_sha_mismatch"}
+    if data.get("secret_values") != "SUPPRESSED":
+        return {"status":"BLOCKED","reason":"secret_policy_invalid"}
     for key in ("g4_115","g5_coordination","g6_recovery","a3_independent"):
         nested = data.get(key,{})
-        nested_sha = str(nested.get("source_sha", data["source_sha"]))
+        if "source_sha" not in nested:
+            return {"status":"BLOCKED","reason":"nested_source_sha_missing","surface":key}
+        nested_sha = str(nested["source_sha"])
         if not re.fullmatch(r"[0-9a-fA-F]{40}", nested_sha) or nested_sha != data["source_sha"]:
             return {"status":"BLOCKED","reason":"nested_source_sha_mismatch","surface":key}
-        return {"status":"BLOCKED","reason":"bundle_source_sha_mismatch"}
     return {"status":"PASS","prerequisites_verified":len(REQUIRED),"g4_observations":115}
 
 def main() -> int:
