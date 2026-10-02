@@ -209,3 +209,16 @@ STOP:
 ## 15. Execution order
 
 `RECONCILE → RUNNER RECOVERY → PREFLIGHT → G0/G1 → G2/G3 → 115 ROUNDS → G5 → G6 → A3 → PRE-SOAK → [HUMAN STOP] → SOAK_24H → LAUNCH_READY → [HUMAN LAUNCH]`
+
+
+## 16. Runner recovery evidence — 2026-10-02
+
+- Runner unit is owned by `mediahub-runner`.
+- `ExecStart=/home/mediahub-runner/actions-runner/runsvc.sh`.
+- `Restart=no`; therefore an OOM/failure does not automatically restart the runner.
+- Current operator identity observed through Desktop Commander: `mediahub`, UID 1000, member of sudo group.
+- Non-interactive privileged start is not available through the current Desktop Commander command policy; `systemctl start` returns `Interactive authentication required`.
+- SentinelX separately rejects the runner service with `service_not_allowed`.
+- Do not modify sudoers, polkit, SentinelX policy, systemd unit ownership, or runner registration as part of autonomous qualification.
+- Required recovery action is a normal administrator-authorized start of the existing service, followed by runner/GitHub handshake verification.
+- Re-registration is not indicated by current evidence.
