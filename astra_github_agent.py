@@ -20,7 +20,7 @@ CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS
 def run(argv,timeout=120):
     return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False)
 
-def sync():
+def sync(target_sha=""):
     ROOT.parent.mkdir(parents=True,exist_ok=True)
     if not (ROOT/".git").exists():
         subprocess.run(["git","clone","--depth","1",REMOTE,str(ROOT)],check=True,timeout=120)
@@ -29,9 +29,15 @@ def sync():
         if status.stdout.strip():
             raise RuntimeError("dirty_worktree_sync_blocked")
         subprocess.run(["git","-C",str(ROOT),"fetch","--depth","50","origin","main"],check=True,timeout=120)
-        subprocess.run(["git","-C",str(ROOT),"fetch","origin",f"astra-node/{NODE_ID}:refs/remotes/origin/astra-node/{NODE_ID}"],check=False,timeout=120)
-        subprocess.run(["git","-C",str(ROOT),"checkout","main"],check=True,timeout=30)
-        subprocess.run(["git","-C",str(ROOT),"pull","--ff-only","origin","main"],check=True,timeout=120)
+        subprocess.run(["git","-C",str(ROOT),"fetch","--depth","50","origin","+refs/heads/*:refs/remotes/origin/*"],check=True,timeout=120)
+        if target_sha:
+            check=subprocess.run(["git","-C",str(ROOT),"cat-file","-e",f"{target_sha}^{{commit}}"],capture_output=True,check=False,timeout=30)
+            if check.returncode != 0:
+                raise RuntimeError("target_sha_not_fetched")
+            subprocess.run(["git","-C",str(ROOT),"checkout","--detach",target_sha],check=True,timeout=30)
+        else:
+            subprocess.run(["git","-C",str(ROOT),"checkout","main"],check=True,timeout=30)
+            subprocess.run(["git","-C",str(ROOT),"pull","--ff-only","origin","main"],check=True,timeout=120)
 
 def maybe_reexec_updated_agent():
     target=ROOT/"astra_github_agent.py"
