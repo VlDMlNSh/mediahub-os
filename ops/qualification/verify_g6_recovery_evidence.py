@@ -31,8 +31,16 @@ def verify(path: Path) -> dict:
         sha=str(item.get("source_sha",""))
         if not re.fullmatch(r"[0-9a-fA-F]{40}",sha):
             return {"status":"BLOCKED","reason":"scenario_source_sha_invalid","scenario":name}
-        if not item.get("command_id") or not item.get("node_id"):
-            return {"status":"BLOCKED","reason":"scenario_identity_missing","scenario":name}
+        for field in ("command_id","node_id"):
+            value=item.get(field)
+            if not isinstance(value,str) or not value.strip() or value.strip().lower() in {"unknown","undefined","none","null","n/a","na","tbd","todo","placeholder","unset"}:
+                return {"status":"BLOCKED","reason":"scenario_identity_invalid","scenario":name,"field":field}
+        for field in ("executor_id","provider_or_model_id","transport_id","workspace","verification_status"):
+            value=item.get(field)
+            if not isinstance(value,str) or not value.strip() or value.strip().lower() in {"unknown","undefined","none","null","n/a","na","tbd","todo","placeholder","unset"}:
+                return {"status":"BLOCKED","reason":"scenario_metadata_invalid","scenario":name,"field":field}
+        if item.get("status") != "PASS" or item.get("verification_status") != "PASS":
+            return {"status":"BLOCKED","reason":"scenario_verification_not_pass","scenario":name}
         timestamp=item.get("timestamp")
         if not isinstance(timestamp,(int,float,str)) or (isinstance(timestamp,str) and not timestamp.strip()):
             return {"status":"BLOCKED","reason":"scenario_timestamp_missing","scenario":name}
