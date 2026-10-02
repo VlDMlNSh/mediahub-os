@@ -45,7 +45,21 @@ def main() -> int:
             continue
         if data.get("status") != "PASS":
             invalid.append(f"{name}: status={data.get('status')!r}")
+            continue
+        if data.get("secret_values") != "SUPPRESSED":
+            invalid.append(f"{name}: secret_values is not SUPPRESSED")
+        if not data.get("target_sha"):
+            invalid.append(f"{name}: target_sha missing")
 
+    source_shas = set()
+    for name in REQUIRED:
+        path = args.evidence_dir / name
+        if path.is_file():
+            try: source_shas.add(json.loads(path.read_text()).get("target_sha"))
+            except Exception: pass
+    source_shas.discard(None)
+    if len(source_shas) != 1:
+        invalid.append("evidence target_sha is not singular across bundle")
     if invalid:
         raise SystemExit("BLOCK: " + "; ".join(invalid))
 
