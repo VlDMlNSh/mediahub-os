@@ -1,0 +1,113 @@
+schema: mediahub.astra-gold.qualification-launch.v1
+status: CANONICAL_QUALIFICATION_AND_LAUNCH_GATE
+version: 1.0
+date: 2026-10-02
+system: ASTRA_GOLD
+authority:
+  final: HUMAN
+  coordination: A0-ASTRA
+  architecture: A1
+  implementation: A2
+  independent_verification: A3
+  executor_authority: EXECUTOR_ONLY
+  state_authority: A0-ASTRA
+principles:
+  fresh_evidence_required: true
+  historical_evidence_reuse: false
+  fail_closed: true
+  credentials_in_repository: false
+  secrets_in_evidence: false
+  self_qualification: false
+  self_promotion: false
+  launch_without_a3: false
+  launch_without_recovery: false
+  launch_without_soak: false
+lifecycle:
+  - DISCOVER
+  - PREFLIGHT
+  - ADMIT
+  - QUALIFY
+  - EXECUTE
+  - VERIFY
+  - INTEGRATE
+  - RECONCILE
+  - PRE_SOAK
+  - SOAK_24H
+  - LAUNCH_READY
+  - LAUNCHED
+  - BLOCKED
+  - ROLLBACK
+gates:
+  G0_IDENTITY:
+    required: [node_identity, executor_identity, provider_or_model_identity, repository_identity, exact_source_sha, clean_worktree]
+    failure: BLOCKED
+  G1_BOUNDARY:
+    required: [authority_boundary, transport_boundary, state_authority_boundary, credential_boundary, isolated_workspace]
+    failure: BLOCKED
+  G2_CONTROL_PLANE:
+    required: [command_contract, claim_lease, queue_progress, duplicate_suppression, result_publication, heartbeat]
+    failure: BLOCKED
+  G3_EXECUTION_PATH:
+    required: [executable_or_runtime_identity, timeout_enforcement, nonzero_exit_handling, malformed_result_rejection, success_marker, result_schema_validation]
+    failure: BLOCKED
+  G4_23_WAVE_QUALIFICATION:
+    minimum_rounds_per_mandatory_path: 23
+    mandatory_paths: [CODEX_FCC, CLAUDE_FCC, CODEX_OMNIROUTE, CLAUDE_OMNIROUTE, CLAUDE_CODE_DIRECT]
+    per_round: [fresh_command_id, exact_sha, executor_identity, provider_or_transport_identity, isolated_workspace, exit_status, timeout, marker, result_validation]
+    pass_rule: every_required_round_passes
+    failure: BLOCKED
+  G5_CONCURRENCY:
+    max_parallel_autonomous_claims: 2
+    disjoint_claims_required: true
+    shared_surfaces_serialized: true
+    duplicate_controller_rejected: true
+    failure: BLOCKED
+  G6_RECOVERY:
+    required_scenarios: [timeout, executor_failure, transport_interruption, stale_claim, worker_restart, duplicate_controller, replay_idempotency, result_publication_recovery]
+    pass_rule: every_required_scenario_passes
+    failure: BLOCKED
+  G7_INTEGRATED_A3:
+    verifier: A3
+    independence_required: true
+    required: [focused_tests, regression, contracts, architecture_conformance, security, concurrency, failure, recovery, exact_sha_evidence]
+    failure: BLOCKED
+  G8_PRE_SOAK:
+    required: [all_mandatory_paths_pass, all_recovery_scenarios_pass, a3_pass, clean_worktree, fresh_evidence_bundle]
+    failure: BLOCKED
+  G9_24H_SOAK:
+    duration_hours: 24
+    required: [continuous_heartbeat, no_unexplained_controller_restart, no_duplicate_claim_corruption, no_unresolved_execution_failure, evidence_integrity, no_authority_boundary_violation]
+    pass_rule: all_required_conditions_hold_for_full_duration
+    failure: ROLLBACK_OR_REQUALIFY
+  G10_LAUNCH_READY:
+    requires: [G0_IDENTITY, G1_BOUNDARY, G2_CONTROL_PLANE, G3_EXECUTION_PATH, G4_23_WAVE_QUALIFICATION, G5_CONCURRENCY, G6_RECOVERY, G7_INTEGRATED_A3, G8_PRE_SOAK, G9_24H_SOAK]
+    output: LAUNCH_READY
+    failure: BLOCKED
+  G11_LAUNCH:
+    human_authorization_required: true
+    requires: [LAUNCH_READY, release_sha, release_evidence_bundle, rollback_target]
+    output: LAUNCHED
+    failure: ROLLBACK
+component_specific_admission:
+  local_model:
+    placement: LOCAL_MODEL_FABRIC
+    model_is_not_executor: true
+    model_is_not_authority: true
+    required: [model_id, exact_variant, weight_provenance, runtime_identity, local_resource_profile, non_mutating_probe, capability_probes, latency_memory_measurement, failure_recovery, isolated_task_execution, result_validation, A3_verification]
+  candidate_desktop_agent:
+    placement: CANDIDATE_EXECUTION_SURFACE
+    agent_is_not_authority: true
+    required: [identity_provenance, version_integrity, sandbox_boundary, non_mutating_probe, isolated_workspace_execution, result_validation, recovery, A3_verification]
+launch_contract:
+  decision: HUMAN_ONLY
+  required_inputs: [approved_source_sha, launch_target, fresh_evidence_bundle, A3_verification_record, soak_record, rollback_target]
+  prohibited: [executor_self_promotion, provider_self_promotion, model_self_promotion, stale_evidence_promotion, missing_a3_promotion]
+evidence_bundle:
+  required_metadata: [command_id, node_id, component_id, executor_id, provider_or_model_id, source_sha, round, timestamp, exit_status, timeout, workspace, verification_status, evidence_digest]
+  secret_policy:
+    secret_values: SUPPRESSED
+    authorization_tokens: SUPPRESSED
+    raw_provider_responses: REDACTED
+promotion:
+  states: [REGISTERED, CREDENTIAL_PRESENT, AUTH_SUCCESS, MODEL_DISCOVERY_PASS, PROBE_PASS, EXECUTION_PASS, A3_VERIFIED, ASTRA_GOLD_ELIGIBLE, LAUNCH_READY, LAUNCHED]
+  no_implicit_transitions: true
