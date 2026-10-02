@@ -496,7 +496,15 @@ requirements are satisfied.
 BLOCKED:
 a mandatory gate lacks valid evidence or contains a failure/conflict.
 
-## 18. Canonical relationship to existing ASTRA GOLD documents
+## 18. Operational transport policy
+
+GitHub Transport is the sole project control, repository, evidence and development channel for MediaHub ASTRA GOLD.
+
+Remote Desktop is prohibited for ordinary development, qualification, authorization checks, installation, repository inspection and evidence collection. It may not be substituted for GitHub Transport. Any physical-runtime operation that is fundamentally impossible through GitHub Transport must be explicitly identified as a runtime exception before use; otherwise the operation is NOT_PROVEN and the workflow continues through GitHub-only analysis.
+
+This policy does not grant Desktop runtime authority and does not permit credential bypass, secret extraction or destructive operations.
+
+## 19. Canonical relationship to existing ASTRA GOLD documents
 
 This document is the reference architecture.
 
