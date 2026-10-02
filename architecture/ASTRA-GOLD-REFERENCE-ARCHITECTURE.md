@@ -386,6 +386,8 @@ Exact upstream identity must be resolved first.
 
 ## 12. Qualification gates
 
+G9 — 24H SOAK
+
 G0 — Identity
 G1 — Boundary
 G2 — Control Plane
