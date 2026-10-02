@@ -1,16 +1,8 @@
-name: Astra autonomous queue supervisor
+name: Astra autonomous queue supervisor (DISABLED — superseded by canonical unified qualification)
+# Disabled: duplicate autonomous controller. Canonical control path is astra-gold-unified-qualification.yml.
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "control/commands/**"
-      - "astra_github_agent.py"
-      - "ops/qualification/**"
-      - ".github/workflows/astra-autonomous-supervisor.yml"
   workflow_dispatch:
-  schedule:
-    - cron: "*/10 * * * *"
 
 permissions:
   contents: write
@@ -21,6 +13,7 @@ concurrency:
 
 jobs:
   supervise:
+    if: ${{ false }}
     runs-on: [self-hosted, mediahub-runner]
     timeout-minutes: 60
     env:
