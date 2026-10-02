@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fail-closed G8 pre-soak bundle verifier."""
 from __future__ import annotations
-import argparse, json, sys
+import argparse, hashlib, json, sys
 from pathlib import Path
 
 REQUIRED=("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree","fresh_bundle")
@@ -17,7 +17,15 @@ def verify(path: Path) -> dict:
     if data.get("g5_coordination",{}).get("max_parallel") != 2: return {"status":"BLOCKED","reason":"g5_parallelism_contract_invalid"}
     if data.get("a3_independent",{}).get("independence_attested") is not True: return {"status":"BLOCKED","reason":"a3_independence_missing"}
     if data.get("clean_worktree",{}).get("dirty") is not False: return {"status":"BLOCKED","reason":"worktree_not_clean"}
-    if not data.get("bundle_sha256"): return {"status":"BLOCKED","reason":"bundle_integrity_missing"}
+    digest = str(data.get("bundle_sha256","")).lower()
+    if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest):
+        return {"status":"BLOCKED","reason":"bundle_integrity_invalid"}
+    canonical = dict(data)
+    canonical.pop("bundle_sha256", None)
+    canonical_bytes = json.dumps(canonical, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    actual = hashlib.sha256(canonical_bytes).hexdigest()
+    if actual != digest:
+        return {"status":"BLOCKED","reason":"bundle_integrity_mismatch"}
     if not data.get("source_sha") or not data.get("a3_independent",{}).get("source_sha"):
         return {"status":"BLOCKED","reason":"bundle_source_sha_missing"}
     if data["source_sha"] != data["a3_independent"]["source_sha"]:
