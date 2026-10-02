@@ -56,10 +56,6 @@ gateways:
     class: cloud_gateway
     credential_ref: UNOROUTER_API_KEY
     status: NOT_PROVEN
-  - id: claude-code
-    class: local_executor
-    credential_ref: ANTHROPIC_API_KEY_or_gateway
-    status: NOT_PROVEN
   - id: claude
     class: cloud_gateway
     credential_ref: OMNIROUTE_API_KEY
@@ -134,8 +130,6 @@ local_fabric:
   - id: claude-code
     class: local_executor
     status: NOT_PROVEN
-  - id: codex
-    class: local_tooling
   - id: cursor
     class: local_tooling
   - id: ollama
