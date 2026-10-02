@@ -45,7 +45,14 @@ def completed(task_id: str) -> bool:
         payload = json.loads(evidence_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return False
-    return payload.get("status") == "VERIFIED" and bool(payload.get("head_sha"))
+    if payload.get("status") != "VERIFIED" or not payload.get("head_sha"):
+        return False
+    claim_path = CLAIMS / f"{task_id}.json"
+    try:
+        claim = json.loads(claim_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    return claim.get("status") == "VERIFIED"
 
 def dependencies_satisfied(task: dict) -> bool:
     return all(completed(str(dep)) for dep in task.get("dependencies", ()))
@@ -204,8 +211,6 @@ def process_task(task: dict) -> dict:
         heartbeat_stop.set()
         if heartbeat_thread is not None:
             heartbeat_thread.join(timeout=5)
-        try: store.release(claim.task_id, "VERIFIED" if record["status"] == "VERIFIED" else "REJECTED")
-        except Exception as exc: record["claim_release_error"] = repr(exc)
         try:
             if worktree.exists():
                 existing = run(["git", "status", "--porcelain"], 60, worktree)
@@ -222,6 +227,11 @@ def process_task(task: dict) -> dict:
         record["elapsed_seconds"] = round(time.time() - started, 3)
         try:
             evidence(task["task_id"], record)
+            try:
+                store.release(claim.task_id, "VERIFIED" if record["status"] == "VERIFIED" else "REJECTED")
+            except Exception as exc:
+                record["claim_release_error"] = repr(exc)
+                record["status"] = "BLOCKED"
             if record["status"] == "VERIFIED":
                 (STATE / "completed" / f"{task['task_id']}.json").write_text(
                     json.dumps({"task_id": task["task_id"], "head_sha": record.get("head_sha"), "status": "VERIFIED"}, sort_keys=True) + "\n",
