@@ -1,9 +1,9 @@
 {
-  "command_id": "astra-provider-model-qualification-20260929-r18",
+  "command_id": "mh25-autonomous-gold-queue-20261002-r1",
   "node_id": "mh-dev-01",
-  "operation": "provider_model_qualification",
-  "target_sha": "6dec1f09ff85ef894741f58f9b071dc57b309925",
-  "workflow_only": true,
-  "title": "Astra provider/model qualification r18",
-  "description": "Fresh credentialed provider/model qualification with Responses payload aligned to verified ZeroRouter workflow; OpenAI direct excluded; UnoRouter and ZeroRouter retained; secrets suppressed."
+  "operation": "autonomous_gold_mission",
+  "target_sha": "47f19ffcce4bd6560c61c836bbb662e7686c250c",
+  "workflow_only": false,
+  "title": "MH-25 autonomous development queue and GOLD qualification",
+  "description": "Run the bounded autonomous qualification/development queue. Execute provider/backend qualification, fresh pre-soak evidence, strict verification, distributed verification when available, and only then GOLD qualification. Do not report PASS without observable evidence. Preserve claim/lease boundaries and exact target SHA."
 }
