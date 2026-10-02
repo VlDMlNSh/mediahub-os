@@ -523,7 +523,23 @@ def execute(cmd):
 
 def main():
     STATE.mkdir(parents=True,exist_ok=True)
-    last_id=published_command_id()
+    controller_lock_path=STATE/"controller.lock"
+    try:
+        controller_lock_fd=os.open(controller_lock_path, os.O_WRONLY | os.O_CREAT, 0o600)
+        import fcntl
+        fcntl.flock(controller_lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except (OSError, ImportError) as exc:
+        raise RuntimeError("duplicate_controller_or_lock_unavailable") from exc
+    try:
+        last_id=published_command_id()
+        _main_loop(last_id)
+    finally:
+        try:
+            fcntl.flock(controller_lock_fd, fcntl.LOCK_UN)
+        finally:
+            os.close(controller_lock_fd)
+
+def _main_loop(last_id):
     while True:
         try:
             sync(); maybe_reexec_updated_agent(); cmd=read_command()
