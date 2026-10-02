@@ -31,6 +31,10 @@ def evaluate(evidence: dict, schema: dict) -> dict:
     approved_sha = str(launch.get("approved_source_sha",""))
     if launch.get("approved_source_sha") and (len(approved_sha) != 40 or any(ch not in "0123456789abcdefABCDEF" for ch in approved_sha)):
         missing_launch.append("approved_source_sha:invalid")
+    for key in ("launch_target","rollback_target"):
+        value=launch.get(key)
+        if not isinstance(value,str) or not value.strip():
+            missing_launch.append(key + ":nonempty_string_required")
     def record_ok(key: str) -> bool:
         value = launch.get(key)
         if not isinstance(value, dict):
