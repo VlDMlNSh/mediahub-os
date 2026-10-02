@@ -47,3 +47,10 @@ def test_claim_uses_task_boundary(monkeypatch):
     assert claim.base_sha == "abc123"
     assert claim.paths == ("docs/a","ops/b")
     assert claim.agent == "A2-BUILDER"
+
+
+def test_boundary_allows_normalized_paths():
+    assert autonomous_queue.boundary_allows("./docs/a.txt", ("docs/a",))
+    assert autonomous_queue.boundary_allows("docs/a/b.txt", ("docs/a",))
+    assert not autonomous_queue.boundary_allows("docs/ab.txt", ("docs/a",))
+    assert not autonomous_queue.boundary_allows("runtime/x.py", ("docs/a",))
