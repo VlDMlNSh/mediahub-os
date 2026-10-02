@@ -37,7 +37,7 @@ def main():
     OUT.mkdir(parents=True,exist_ok=True)
     try: head=source_sha()
     except Exception as e: print(json.dumps({"status":"BLOCKED","reason":repr(e)})); return 2
-    manifest={"schema":"mediahub.astra-gold.session-115-wave.v1","status":"RUNNING","source_sha":head,"rounds_minimum_per_path":ROUNDS,"mandatory_path_count":5,"total_observations_minimum":115,"fresh_evidence_only":True,"historical_evidence_reuse":False,"fail_closed":True,"started_at":int(time.time()),"observations":[]}
+    manifest={"schema":"mediahub.astra-gold.session-115-wave.v1","status":"RUNNING","source_sha":head,"rounds_minimum_per_path":ROUNDS,"mandatory_path_count":5,"total_observations_minimum":115,"fresh_evidence_only":True,"workspace_artifact_policy":"ephemeral_workspace_with_source_archive_digest","historical_evidence_reuse":False,"fail_closed":True,"started_at":int(time.time()),"observations":[]}
     (OUT/"manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n")
     for n in range(1,ROUNDS+1):
         for path,candidates,transport in PATHS:
@@ -50,12 +50,14 @@ def main():
                     archive=subprocess.run(["git","archive","--format=tar",head],cwd=ROOT,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30,check=False)
                     if archive.returncode!=0: rec.update(status="BLOCKED",reason="isolated_workspace_creation_failed")
                     else:
+                        archive_sha256=hashlib.sha256(archive.stdout).hexdigest()
+                        rec["source_archive_sha256"]=archive_sha256
                         ext=subprocess.run(["tar","-xf","-"],cwd=ws,input=archive.stdout,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30,check=False)
                         if ext.returncode!=0: rec.update(status="BLOCKED",reason="isolated_workspace_extraction_failed")
                         else:
                             result=run(command_for(path,MARKERS[path]),Path(ws),45)
                             marker=MARKERS[path] in result["stdout_tail"]
-                            rec.update(result,binary=binary,binary_sha256=sha256_file(Path(binary)) if Path(binary).is_file() else "",provider_or_transport_id=provider_identity(path,binary),workspace=str(Path(ws)),marker=MARKERS[path],marker_present=marker,status="PASS" if result["returncode"]==0 and marker else ("TIMEOUT" if result["returncode"]==124 else "BLOCKED"),verification_status="PASS" if result["returncode"]==0 and marker else "BLOCKED")
+                            rec.update(result,binary=binary,binary_sha256=sha256_file(Path(binary)) if Path(binary).is_file() else "",provider_or_transport_id=provider_identity(path,binary),workspace_ephemeral=True,marker=MARKERS[path],marker_present=marker,status="PASS" if result["returncode"]==0 and marker else ("TIMEOUT" if result["returncode"]==124 else "BLOCKED"),verification_status="PASS" if result["returncode"]==0 and marker else "BLOCKED")
             manifest["observations"].append(rec)
             (OUT/f"{n:02d}-{path}.json").write_text(json.dumps(rec,indent=2,sort_keys=True)+"\n")
             (OUT/"manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n")
