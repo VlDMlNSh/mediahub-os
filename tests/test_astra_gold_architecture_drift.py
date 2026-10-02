@@ -29,6 +29,7 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
         cls.ref = REF.read_text(encoding="utf-8")
         cls.qual = yaml.safe_load(QUAL.read_text(encoding="utf-8"))
         cls.unified = yaml.safe_load(UNIFIED.read_text(encoding="utf-8"))
+        print("ASTRA_UNIFIED_KEYS", sorted(cls.unified.keys()))
 
     def test_canonical_sources_are_explicit(self):
         u = self.unified
