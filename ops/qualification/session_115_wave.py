@@ -19,6 +19,13 @@ def run(argv,cwd,timeout=45):
         return {"returncode":p.returncode,"duration_seconds":round(time.monotonic()-started,3),"stdout_tail":p.stdout[-4000:],"stderr_tail":p.stderr[-4000:]}
     except subprocess.TimeoutExpired as e:
         return {"returncode":124,"duration_seconds":round(time.monotonic()-started,3),"stdout_tail":str(e.stdout or "")[-2000:],"stderr_tail":str(e.stderr or "")[-2000:],"timeout":True}
+def provider_identity(path, binary):
+    if path in {"CODEX_FCC","CLAUDE_FCC"}:
+        return "fcc-wrapper:" + binary
+    if "OMNIROUTE" in path:
+        return "omniroute:" + binary
+    return "direct:" + binary
+
 def command_for(path,marker):
     if path=="CODEX_FCC": return ["fcc-codex","exec","--skip-git-repo-check","--sandbox","read-only",f"Return exactly {marker}. Do not modify files or use tools."]
     if path=="CLAUDE_FCC": return ["fcc-claude","-p",f"Return exactly {marker}. Do not modify files or use tools.","--output-format","text"]
@@ -48,7 +55,7 @@ def main():
                         else:
                             result=run(command_for(path,MARKERS[path]),Path(ws),45)
                             marker=MARKERS[path] in result["stdout_tail"]
-                            rec.update(result,binary=binary,binary_sha256=sha256_file(Path(binary)) if Path(binary).is_file() else "",workspace=str(Path(ws)),marker=MARKERS[path],marker_present=marker,status="PASS" if result["returncode"]==0 and marker else ("TIMEOUT" if result["returncode"]==124 else "BLOCKED"),verification_status="PASS" if result["returncode"]==0 and marker else "BLOCKED")
+                            rec.update(result,binary=binary,binary_sha256=sha256_file(Path(binary)) if Path(binary).is_file() else "",provider_or_transport_id=provider_identity(path,binary),workspace=str(Path(ws)),marker=MARKERS[path],marker_present=marker,status="PASS" if result["returncode"]==0 and marker else ("TIMEOUT" if result["returncode"]==124 else "BLOCKED"),verification_status="PASS" if result["returncode"]==0 and marker else "BLOCKED")
             manifest["observations"].append(rec)
             (OUT/f"{n:02d}-{path}.json").write_text(json.dumps(rec,indent=2,sort_keys=True)+"\n")
             (OUT/"manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n")
