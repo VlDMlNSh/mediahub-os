@@ -1,6 +1,6 @@
 schema: mediahub.astra-gold.qualification-launch.v1
 status: CANONICAL_QUALIFICATION_AND_LAUNCH_GATE
-version: 1.0
+version: 1.1
 date: 2026-10-02
 system: ASTRA_GOLD
 authority:
@@ -88,6 +88,67 @@ gates:
     requires: [LAUNCH_READY, release_sha, release_evidence_bundle, rollback_target]
     output: LAUNCHED
     failure: ROLLBACK
+candidate_component_admission:
+  autonomous_development_system:
+    placement: CANDIDATE_EXECUTION_SURFACE
+    authority: none
+    may_be_selected_for_astrogold: true
+    qualification_does_not_change_a0_a3_boundaries: true
+    required:
+      - source_repository_identity
+      - exact_source_sha
+      - version_or_commit_integrity
+      - runtime_identity
+      - dependency_lock_or_environment_fingerprint
+      - credential_boundary
+      - provider_boundary
+      - workspace_sandbox
+      - non_mutating_probe
+      - task_decomposition_probe
+      - bounded_execution_probe
+      - result_validation
+      - failure_recovery
+      - replay_idempotency
+      - concurrency_boundary
+      - audit_evidence
+      - independent_a3_verification
+    openopc:
+      source: https://github.com/HKUDS/OpenOPC
+      qualification: NOT_PROVEN
+      authority: none
+      provider_selection: false
+      credential_creation: false
+      state_authority: false
+      architecture_authority: false
+      self_promotion: false
+      self_qualification: false
+      security_attention:
+        versioned_release_required_for_gold: true
+        reproducible_source_identity_required: true
+        dependency_provenance_required: true
+        public_security_policy_present_but_runtime_security_still_unverified: true
+      functional_probes:
+        - native_task_mode
+        - company_mode
+        - task_state_machine
+        - dependency_dag
+        - delegation
+        - review_and_rework
+        - blocker_escalation_to_human
+        - execution_trace_integrity
+        - memory_or_learning_boundary
+        - external_agent_adapter_boundary
+        - stop_cancel_resume
+        - malformed_result_rejection
+        - timeout_handling
+        - worker_restart_recovery
+        - duplicate_controller_rejection
+      qualification_rounds:
+        minimum: 23
+        fresh_evidence_per_round: true
+        isolated_workspace_per_round: true
+      admission: runtime_and_security_evidence_required
+
 component_specific_admission:
   local_model:
     placement: LOCAL_MODEL_FABRIC
