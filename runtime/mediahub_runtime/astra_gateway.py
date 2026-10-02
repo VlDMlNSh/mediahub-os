@@ -118,7 +118,7 @@ class AgentRegistry:
             try:
                 descriptor = AgentDescriptor(
                     item["id"], bool(item["enabled"]), item["tier"],
-                    frozenset(item["capabilities"]),
+                    frozenset(item.get("capabilities", ())),
                 )
             except (KeyError, TypeError) as exc:
                 raise AstraGatewayError("agent_registry_invalid") from exc
