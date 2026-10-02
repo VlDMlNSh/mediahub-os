@@ -10,6 +10,7 @@ FILES={
  "g5_coordination":"g5-coordination.json",
  "g6_recovery":"g6-recovery.json",
  "a3_independent":"a3-independent.json",
+ "clean_worktree":"clean-worktree.json",
 }
 SHA40=re.compile(r"^[0-9a-fA-F]{40}$")
 
