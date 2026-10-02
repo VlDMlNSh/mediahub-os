@@ -15,7 +15,7 @@ concurrency:
 jobs:
   qualify:
     runs-on: [self-hosted, mediahub-runner]
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -53,6 +53,7 @@ jobs:
             fcc_claude_status=BLOCKED
             omni_codex_status=BLOCKED
             omni_claude_status=BLOCKED
+            direct_claude_status=BLOCKED
             if command -v fcc-codex >/dev/null 2>&1; then
               timeout 25s fcc-codex exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_FCC_CODEX_OK" </dev/null > /tmp/fcc-codex.out 2>&1 || true
               grep -Fx MEDIAHUB_FCC_CODEX_OK /tmp/fcc-codex.out >/dev/null 2>&1 && fcc_codex_status=PASS
@@ -67,9 +68,14 @@ jobs:
               timeout 30s omniroute run claude --model auto -- -p "Return exactly MEDIAHUB_OMNI_CLAUDE_OK" --output-format text </dev/null > /tmp/omni-claude.out 2>&1 || true
               grep -Fx MEDIAHUB_OMNI_CLAUDE_OK /tmp/omni-claude.out >/dev/null 2>&1 && omni_claude_status=PASS
             fi
+            if command -v claude >/dev/null 2>&1; then
+              timeout 30s claude -p "Return exactly MEDIAHUB_DIRECT_CLAUDE_OK" --output-format text </dev/null > /tmp/direct-claude.out 2>&1 || true
+              grep -Fx MEDIAHUB_DIRECT_CLAUDE_OK /tmp/direct-claude.out >/dev/null 2>&1 && direct_claude_status=PASS
+            fi
+
             python3 - <<PY
 import json
-print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status"}))
+print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status","direct_claude":"$direct_claude_status"}))
 PY
             python3 - <<PY >> mh25-23wave.jsonl
 import json
@@ -83,19 +89,22 @@ PY
           python3 - <<'PY'
 import json, statistics, os, shutil, pathlib
 rows=[json.loads(x) for x in pathlib.Path("mh25-23wave.jsonl").read_text().splitlines() if x.strip()]
-keys=["fcc_codex","fcc_claude","omni_codex","omni_claude"]
+keys=["fcc_codex","fcc_claude","omni_codex","omni_claude","direct_claude"]
 summary={}
 for k in keys:
     n=sum(r[k]=="PASS" for r in rows)
     summary[k]={"pass_count":n,"rounds":len(rows),"pass_rate":n/len(rows)}
 selected=[k for k,v in summary.items() if v["pass_count"]==len(rows)]
-payload={"schema":"mediahub.dual-local-executor-23wave.v1","source_sha":os.environ["GITHUB_SHA"],
+payload={"schema":"mediahub.dual-local-executor-23wave.v2","source_sha":os.environ["GITHUB_SHA"],
          "node":os.uname().nodename,"summary":summary,"selected_full_pass":selected,
+         "required_paths":["CODEX_FCC","CLAUDE_FCC","CODEX_OMNIROUTE","CLAUDE_OMNIROUTE","CLAUDE_CODE_DIRECT"],
+         "required_rounds_per_path":23,
+         "required_total_rounds":115,
          "ecc":{"path":shutil.which("ecc") or shutil.which("ecc-cli") or "NOT_FOUND"},
          "policy":"provider/backend identity remains explicit; no credentials emitted"}
 pathlib.Path("mh25-23wave-qualification.json").write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n")
 print(json.dumps(payload,indent=2,sort_keys=True))
-if not ({"fcc_codex","fcc_claude"} <= set(selected)):
+if set(selected) != set(keys):
     raise SystemExit(2)
 PY
       - name: Upload qualification evidence
