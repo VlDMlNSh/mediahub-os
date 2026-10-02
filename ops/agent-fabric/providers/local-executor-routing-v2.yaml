@@ -1,7 +1,9 @@
-schema: mediahub.agent-fabric.local-executor-routing.v2
-status: RUNTIME_QUALIFICATION_GATED
+schema: mediahub.astra-gold.executor-routing.v3
+system: ASTRA_GOLD
+status: ASTRA_GOLD_QUALIFICATION_GATED
 node: mh-dev-01
 controller: mh-dev-02
+qualification_authority: ASTRA_GOLD
 
 executors:
   - id: CODEX_FCC
@@ -35,6 +37,7 @@ auxiliary:
 
 routing:
   selection_requires:
+    - whole_system_astrogold_admission
     - executable_identity
     - provider_identity
     - exact_source_sha
@@ -49,6 +52,7 @@ routing:
 
 qualification:
   rounds_minimum: 23
+  qualification_scope: whole_system
   stdin: /dev/null
   timeout_required: true
   marker_required: true
