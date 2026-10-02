@@ -122,16 +122,26 @@ def mark_published(command_id):
     tmp.write_text(str(command_id)+"\n",encoding="utf-8")
     tmp.replace(STATE/"last_command_id")
 
+def _canonical_node_branch():
+    import re
+    if not re.fullmatch(r"mh-dev-[0-9]{2}", NODE_ID):
+        raise ValueError("invalid canonical node id")
+    return f"astra-node/{NODE_ID}"
+
 def publish(result):
+    branch=_canonical_node_branch()
     path=ROOT/"control"/"results"/f"{NODE_ID}.json"
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
+    remote=run(["git","-C",str(ROOT),"remote","get-url","origin"],30)
+    if remote.returncode != 0 or remote.stdout.strip() not in {REMOTE, f"https://github.com/{REPO}.git", f"git@github.com:{REPO}.git"}:
+        raise RuntimeError("origin remote is outside the canonical Astra repository")
     for args in (["git","config","user.name","Astra Node Agent"],["git","config","user.email","astra-node@localhost"],
-                 ["git","checkout","-B",f"astra-node/{NODE_ID}"],["git","add",str(path.relative_to(ROOT))]):
+                 ["git","checkout","-B",branch],["git","add",str(path.relative_to(ROOT))]):
         run(args,30).check_returncode()
     commit=run(["git","commit","-m",f"astra: result {NODE_ID}"],30)
     if commit.returncode not in (0,1): raise RuntimeError(commit.stderr)
-    run(["git","push","--force","origin",f"astra-node/{NODE_ID}"],120).check_returncode()
+    run(["git","push","--force-with-lease","origin",branch],120).check_returncode()
     run(["git","checkout","-B","main","origin/main"],30).check_returncode()
 
 def _claim_for(cmd):
