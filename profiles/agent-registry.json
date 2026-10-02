@@ -80,7 +80,9 @@
         "testing",
         "transform",
         "classify"
-      ]
+      ],
+      "source": "https://github.com/tashfeenahmed/freellmapi",
+      "identity_verification_required": false
     },
     {
       "id": "ollama",
@@ -353,7 +355,8 @@
       "state_authority": false,
       "architecture_authority": false,
       "identity_verification_required": true,
-      "source": "user_supplied_candidate_identifier"
+      "source": "user_supplied_identifier",
+      "identity_status": "UNRESOLVED"
     },
     {
       "id": "webtool-deepseek",
@@ -381,7 +384,7 @@
       "state_authority": false,
       "architecture_authority": false,
       "identity_verification_required": true,
-      "source": "user_supplied_candidate_identifier"
+      "source": "https://github.com/OpenBMB/MiniCPM-V"
     },
     {
       "id": "free-coding-models",
@@ -409,7 +412,8 @@
       "state_authority": false,
       "architecture_authority": false,
       "identity_verification_required": true,
-      "source": "user_supplied_candidate_identifier"
+      "source": "user_supplied_identifier",
+      "identity_status": "UNRESOLVED"
     },
     {
       "id": "naabu",
@@ -422,8 +426,8 @@
       "credential_creation": false,
       "state_authority": false,
       "architecture_authority": false,
-      "identity_verification_required": true,
-      "source": "user_supplied_candidate_identifier"
+      "identity_verification_required": false,
+      "source": "https://github.com/projectdiscovery/naabu"
     },
     {
       "id": "codex-chatgpt-web",
