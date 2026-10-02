@@ -1,9 +1,1 @@
-{
-  "command_id": "MH25-DUAL-EXECUTOR-23WAVE-20261002-01",
-  "node_id": "mh-dev-01",
-  "operation": "dual_local_executor_23wave",
-  "target_sha": "d3de4e6cdeb4cf654ece18d0bd10a9a19a44db36",
-  "workflow_only": false,
-  "title": "MH-25 23-round FCC vs OmniRoute local executor qualification",
-  "description": "Run 23 bounded analysis/probe rounds for local Codex and Claude through FCC and OmniRoute, inventory ECC, compare pass rate and latency, and return exact evidence. Credentials must remain suppressed. No production authority."
-}
+{"command_id":"MH25-RECOVER-DUPLICATE-CONTROLLER-20261002-01","node_id":"mh-dev-01","operation":"reconcile_controller_processes","target_sha":"b2a78292e4c015fa35e0bce9ca6b7c3f5da3aa9c","workflow_only":false,"owned_paths":["control/recovery/mh-dev-01-controller"],"title":"Recover duplicate mh-dev-01 Astra controller processes","description":"Keep current controller process and terminate duplicate Astra GitHub transport processes for this node. Do not touch unrelated processes."}
