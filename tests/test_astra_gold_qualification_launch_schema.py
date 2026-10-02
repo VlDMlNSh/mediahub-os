@@ -113,5 +113,16 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
         self.assertTrue(unified["rules"]["gold_active_requires_human_launch"])
         self.assertTrue(unified["rules"]["evidence_is_immutable"])
 
+    def test_session_115_wave_contract_is_exact_and_fail_closed(self):
+        source = Path("ops/qualification/session_115_wave.py").read_text(encoding="utf-8")
+        self.assertIn('"total_observations_minimum":115', source)
+        self.assertIn('"rounds_minimum_per_path":ROUNDS', source)
+        self.assertIn('ROUNDS=23', source)
+        for path in ["CODEX_FCC", "CLAUDE_FCC", "CODEX_OMNIROUTE",
+                     "CLAUDE_OMNIROUTE", "CLAUDE_CODE_DIRECT"]:
+            self.assertIn(f'"{path}"', source)
+        self.assertIn('status="BLOCKED"', source)
+        self.assertIn('"verification_status":"UNVERIFIED"', source)
+
 if __name__ == "__main__":
     unittest.main()
