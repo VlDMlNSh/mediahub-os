@@ -4,7 +4,7 @@ Promotion-safe: workers create task branches and evidence, but never merge to ma
 """
 from __future__ import annotations
 import concurrent.futures
-import json, os, subprocess, time
+import json, os, re, subprocess, time
 from pathlib import Path
 from .agent_fabric import AgentClaim, ClaimStore
 
@@ -15,12 +15,29 @@ CLAIMS = STATE / "claims"
 MAX_WORKERS = max(1, min(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "3")), 3))
 CODEX = os.environ.get("ASTRA_CODEX_BIN", "/usr/local/bin/codex")
 TASK_TIMEOUT = max(60, int(os.environ.get("ASTRA_QUEUE_TASK_TIMEOUT", "1800")))
+SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
+
+
+def _safe_env() -> dict[str, str]:
+    allowed = {"PATH", "HOME", "LANG", "LC_ALL", "TMPDIR"}
+    return {key: value for key, value in os.environ.items() if key in allowed}
 
 def run(argv: list[str], timeout: int = 300, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(argv, cwd=cwd or ROOT, text=True, capture_output=True, timeout=timeout, check=False)
+    return subprocess.run(argv, cwd=cwd or ROOT, text=True, capture_output=True, timeout=timeout, check=False, env=_safe_env())
+
+def _validate_task_id(task_id: str) -> str:
+    value = str(task_id)
+    if not SAFE_ID.fullmatch(value) or value in {".", ".."} or ".." in value:
+        raise RuntimeError("invalid_task_id")
+    return value
 
 def worktree_path(task_id: str) -> Path:
-    return STATE / "worktrees" / task_id
+    safe_id = _validate_task_id(task_id)
+    path = (STATE / "worktrees" / safe_id).resolve()
+    root = (STATE / "worktrees").resolve()
+    if root != path.parent:
+        raise RuntimeError("worktree_path_escape")
+    return path
 
 def load_tasks() -> list[dict]:
     tasks = []
@@ -82,8 +99,9 @@ def process_task(task: dict) -> dict:
     store = ClaimStore(CLAIMS)
     claim = claim_for(task)
     started = time.time()
-    branch = f"astra/auto/{task['task_id']}"
-    worktree = worktree_path(str(task["task_id"]))
+    safe_task_id = _validate_task_id(task["task_id"])
+    branch = f"astra/auto/{safe_task_id}"
+    worktree = worktree_path(safe_task_id)
     record = {"task_id": task["task_id"], "started_at": int(started), "base_sha": claim.base_sha,
               "branch": branch, "status": "BLOCKED"}
     try:
