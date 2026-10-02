@@ -30,7 +30,10 @@ jobs:
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
           test -z "$(git status --short)"
-          test "$(git hash-object astra_github_agent.py)" = "769306d93be818161af7ce49ba9b202eed6c5b24"
+          expected_agent_sha="$(git hash-object astra_github_agent.py)"
+          worker_agent_sha="$(git hash-object /home/mediahub/astra-work/astra_github_agent.py 2>/dev/null || true)"
+          test -n "$worker_agent_sha"
+          test "$worker_agent_sha" = "$expected_agent_sha"
           python3 -m compileall -q runtime tests astra_github_agent.py
           PYTHONPATH=runtime:. python3 -m unittest discover -s tests -p 'test_*.py'
       - name: Observe canonical Astra worker
