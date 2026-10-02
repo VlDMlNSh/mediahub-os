@@ -177,7 +177,9 @@ reconciliation:
 
 qualification:
   mode: whole_system
-  rounds_minimum: 23
+  rounds_minimum_per_mandatory_path: 23
+  mandatory_path_count: 5
+  total_rounds_minimum: 115
   concurrency:
     max_parallel: 2
     require_disjoint_claims: true
