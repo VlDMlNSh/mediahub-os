@@ -23,6 +23,10 @@ def verify(path: Path) -> dict:
         return {"status":"BLOCKED","reason":"running_agent_source_sha_invalid"}
     if data.get("secret_values") != "SUPPRESSED":
         return {"status":"BLOCKED","reason":"secret_policy_violation"}
+    for field in ("node_id","coordination_authority_id","coordination_state","coordination_transport"):
+        value=data.get(field)
+        if not isinstance(value,str) or not value.strip() or value.strip().lower() in {"unknown","undefined","none","null","n/a","na","tbd","todo","placeholder","unset"}:
+            return {"status":"BLOCKED","reason":"coordination_identity_invalid","field":field}
     timestamp=data.get("timestamp")
     if not isinstance(timestamp,(int,float)) and not isinstance(timestamp,str):
         return {"status":"BLOCKED","reason":"timestamp_missing"}
