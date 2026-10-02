@@ -18,6 +18,8 @@ def verify(path: Path) -> dict:
     if data.get("a3_independent",{}).get("independence_attested") is not True: return {"status":"BLOCKED","reason":"a3_independence_missing"}
     if data.get("clean_worktree",{}).get("dirty") is not False: return {"status":"BLOCKED","reason":"worktree_not_clean"}
     if not data.get("bundle_sha256"): return {"status":"BLOCKED","reason":"bundle_integrity_missing"}
+    if data.get("source_sha") and data.get("a3_independent",{}).get("source_sha") and data["source_sha"] != data["a3_independent"]["source_sha"]:
+        return {"status":"BLOCKED","reason":"bundle_source_sha_mismatch"}
     return {"status":"PASS","prerequisites_verified":len(REQUIRED),"g4_observations":115}
 
 def main() -> int:
