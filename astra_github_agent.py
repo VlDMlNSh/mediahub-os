@@ -226,6 +226,7 @@ def execute(cmd):
             "fcc_claude": "MEDIAHUB_FCC_CLAUDE_OK",
             "omni_claude": "MEDIAHUB_OMNI_CLAUDE_OK",
             "omni_codex": "MEDIAHUB_OMNI_CODEX_OK",
+            "claude_code_direct": "MEDIAHUB_CLAUDE_CODE_DIRECT_OK",
         }
         rounds = []
         def probe(argv, marker, timeout=35):
@@ -277,6 +278,13 @@ def execute(cmd):
             else:
                 rec["executors"]["omni_claude"]={"status":"BLOCKED","reason":"binary_missing"}
                 rec["executors"]["omni_codex"]={"status":"BLOCKED","reason":"binary_missing"}
+            if shutil.which("claude"):
+                rec["executors"]["claude_code_direct"] = probe(
+                    ["claude","--print","--output-format","text","--bare",
+                     f"Return exactly {marker_map["claude_code_direct"]}. Do not modify files or use tools."],
+                    marker_map["claude_code_direct"],35)
+            else:
+                rec["executors"]["claude_code_direct"]={"status":"BLOCKED","reason":"binary_missing"}
             rounds.append(rec)
         summary={}
         for key in marker_map:
