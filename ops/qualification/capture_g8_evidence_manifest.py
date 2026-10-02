@@ -13,6 +13,7 @@ FILES={
  "clean_worktree":"clean-worktree.json",
 }
 SHA40=re.compile(r"^[0-9a-fA-F]{40}$")
+REQUIRED_EVIDENCE_METADATA=("command_id","node_id","component_id","executor_id","provider_or_model_id","transport_id","source_sha","round","timestamp","exit_status","timeout","workspace","verification_status","evidence_digest")
 
 def main():
     p=argparse.ArgumentParser()
@@ -35,6 +36,9 @@ def main():
             print(json.dumps({"status":"BLOCKED","reason":"evidence_json_invalid","surface":key})); return 2
         if not isinstance(payload,dict) or payload.get("status")!="PASS":
             print(json.dumps({"status":"BLOCKED","reason":"evidence_not_pass","surface":key})); return 2
+        missing_metadata=[field for field in REQUIRED_EVIDENCE_METADATA if field not in payload]
+        if missing_metadata:
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_metadata_missing","surface":key,"fields":missing_metadata})); return 2
         if payload.get("fresh") is not True:
             print(json.dumps({"status":"BLOCKED","reason":"evidence_not_fresh","surface":key})); return 2
         source_sha=payload.get("source_sha")
