@@ -288,7 +288,7 @@ def execute(cmd):
                            "statuses":{s:sum(1 for v in vals if v.get("status")==s) for s in ("PASS","BLOCKED","TIMEOUT")}}
         ranked=sorted(summary.items(),key=lambda kv:(kv[1]["pass_count"],-(kv[1]["median_latency_seconds"] or 999999)),reverse=True)
         selected=[k for k,v in ranked if v["pass_count"]==23]
-        return {"status":"PASS" if len(selected)>=2 and {"fcc_codex","fcc_claude"} <= set(selected) else "BLOCKED",
+        return {"status":"PASS" if set(selected) == set(marker_map) else "BLOCKED",
                 "phase":"23_round_local_executor_qualification","node_id":NODE_ID,
                 "rounds":rounds,"summary":summary,"selection_order":ranked,"selected_full_pass":selected,
                 "ecc_policy":"inventory-only; no authority or provider credentials","credentials":"SUPPRESSED"}
