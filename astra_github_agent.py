@@ -224,7 +224,7 @@ def execute(cmd):
         if target_sha:
             current_head=run(["git","rev-parse","HEAD"],10).stdout.strip()
             if current_head != target_sha:
-                sync()
+                sync(target_sha)
                 current_head=run(["git","rev-parse","HEAD"],10).stdout.strip()
                 if current_head != target_sha:
                     return {"status":"BLOCKED","phase":"target_reconciliation",
@@ -233,7 +233,7 @@ def execute(cmd):
         cycles=1 if operation=="autonomous_qualification_queue" else max_cycles
         for cycle in range(1,cycles+1):
             if operation=="autonomous_gold_mission" and cycle>1:
-                sync()
+                sync(target_sha)
                 current_head=run(["git","rev-parse","HEAD"],10).stdout.strip() if target_sha else ""
                 if target_sha and current_head != target_sha:
                     return {"status":"BLOCKED","phase":"target_reconciliation",
