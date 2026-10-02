@@ -68,6 +68,7 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
         self.assertEqual(u["builder"]["role"], "bounded_implementation")
         self.assertEqual(u["verifier"]["role"], "independent_verification")
         self.assertTrue(self.qual["principles"]["fail_closed"])
+        self.assertIn("qualification", u)
         self.assertTrue(u["qualification"]["fail_closed"])
         self.assertTrue(u["rules"]["missing_or_contradictory_evidence_blocks"])
 
@@ -79,7 +80,9 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
             EXPECTED_PATHS,
         )
         self.assertEqual(q["G4_23_WAVE_QUALIFICATION"]["minimum_rounds_per_mandatory_path"], 23)
-        self.assertEqual(u := self.unified["qualification"]["rounds_minimum"], 23)
+        self.assertEqual(u := self.unified["qualification"]["rounds_minimum_per_mandatory_path"], 23)
+        self.assertEqual(self.unified["qualification"]["mandatory_path_count"], 5)
+        self.assertEqual(self.unified["qualification"]["total_rounds_minimum"], 115)
         self.assertEqual(
             self.unified["execution"]["mandatory_paths"],
             EXPECTED_PATHS,
