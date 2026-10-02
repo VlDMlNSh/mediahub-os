@@ -1,0 +1,101 @@
+{
+  "schema": "mediahub.astra-gold.autonomous-preflight.v1",
+  "purpose": "Bounded fail-closed chain from three-node installation evidence to the first autonomous controller start and admission to G4.",
+  "authority": {
+    "production_launch": "human_only",
+    "g4_start": "evidence_gated",
+    "historical_evidence_reuse": false,
+    "credential_source": "node_local_only"
+  },
+  "optimization": {
+    "objective": "minimize_time_to_authorized_g4_without_relaxing_gates",
+    "rule": "each completed phase removes at least one uncertainty or blocker; no phase may declare success from historical evidence"
+  },
+  "phases": [
+    {
+      "id": "P0",
+      "name": "identity_boundary",
+      "nodes": ["mh-dev-01", "mh-dev-02", "mh-dev-03"],
+      "max_minutes": 15,
+      "checks": ["node_id", "canonical_repo", "git_remote", "worktree", "state_dir", "clock"],
+      "failure": "STOP"
+    },
+    {
+      "id": "P1",
+      "name": "role_runtime_preflight",
+      "nodes": ["mh-dev-01", "mh-dev-02", "mh-dev-03"],
+      "max_minutes": 45,
+      "checks": ["role_components", "binary_presence", "version_probe", "required_services", "storage_paths"],
+      "failure": "REMEDIATE_THEN_REPEAT"
+    },
+    {
+      "id": "P2",
+      "name": "provider_backend_qualification",
+      "nodes": ["mh-dev-02"],
+      "max_minutes": 45,
+      "checks": ["credential_presence_without_emission", "live_bounded_model_request", "response_digest", "provider_classification"],
+      "failure": "BLOCK_PATH_ONLY"
+    },
+    {
+      "id": "P3",
+      "name": "cross_node_control_preflight",
+      "nodes": ["mh-dev-01", "mh-dev-02", "mh-dev-03"],
+      "max_minutes": 30,
+      "checks": ["command_transport", "lease", "hmac", "queue_visibility", "evidence_write", "clock_skew"],
+      "failure": "STOP"
+    },
+    {
+      "id": "P4",
+      "name": "controller_dry_run",
+      "nodes": ["mh-dev-01", "mh-dev-02", "mh-dev-03"],
+      "max_minutes": 20,
+      "checks": ["controller_startup", "claim_lifecycle", "fail_closed", "no_g4_admission_without_prerequisites"],
+      "failure": "STOP"
+    },
+    {
+      "id": "P5",
+      "name": "autonomous_controller_start",
+      "nodes": ["mh-dev-01", "mh-dev-02", "mh-dev-03"],
+      "max_minutes": 15,
+      "checks": ["fresh_health", "controller_identity", "active_claim", "heartbeat", "evidence_digest"],
+      "failure": "STOP"
+    },
+    {
+      "id": "P6",
+      "name": "g4_admission",
+      "nodes": ["mh-dev-02", "mh-dev-03"],
+      "max_minutes": 60,
+      "checks": ["five_execution_paths", "provider_qualification", "pre_soak_bundle", "exact_contract", "fresh_sha"],
+      "failure": "DO_NOT_START_G4"
+    },
+    {
+      "id": "P7",
+      "name": "g4_115",
+      "nodes": ["mh-dev-02", "mh-dev-03"],
+      "max_minutes": 480,
+      "checks": ["exactly_23_per_path", "exactly_115_total", "unique_round_identity", "required_digests", "independent_verifier"],
+      "failure": "INVALIDATE_AND_DIAGNOSE"
+    }
+  ],
+  "mandatory_execution_paths": [
+    "FCC_to_Codex",
+    "FCC_to_Claude",
+    "OmniRoute_to_Claude",
+    "OmniRoute_to_Codex",
+    "Direct_Claude_Code"
+  ],
+  "time_model": {
+    "node_preflight_minutes": "90-180",
+    "controller_start_minutes_after_access": "105-225",
+    "g4_admission_minutes_after_controller": "30-60",
+    "g4_execution_minutes": "120-480",
+    "24h_soak_minutes": 1440
+  },
+  "evidence_policy": {
+    "fresh_only": true,
+    "secrets_suppressed": true,
+    "missing_backend": "BLOCKED",
+    "historical_pass": "NON_ADMISSIBLE",
+    "installation_status_never_implies_qualification": true
+  }
+}
