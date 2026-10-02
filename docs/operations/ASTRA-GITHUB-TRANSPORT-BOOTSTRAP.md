@@ -22,3 +22,16 @@ The bootstrap therefore makes the executable path and the synchronized source tr
 Existing nodes may use different process managers and filesystem paths. The process-manager entry point should invoke this bootstrap with the node's `ASTRA_WORKTREE` and other environment settings rather than pinning a copied `astra_github_agent.py`.
 
 Do not perform a destructive replacement of a live process as part of routine GitHub task execution. Rollout should be controlled per node and verified with the health evidence contract above.
+
+
+## Cluster coordination requirement
+
+The node-local `ASTRA_STATE_DIR` or `ASTRA_QUEUE_STATE_DIR` is not, by itself, evidence of a cluster-wide claim authority. A qualification run involving multiple physical nodes MUST provide fresh coordination attestation showing that all participating nodes use the same declared coordination authority and that the authority enforces the canonical limit of two active autonomous claims.
+
+Separate local state directories MUST be treated as separate coordination domains unless an external shared-state mechanism is explicitly verified. GitHub transport publication is not a substitute for atomic claim reservation.
+
+G5 MUST remain BLOCKED until this attestation is present. No configuration value or matching path name may be treated as proof of shared storage.
+
+## Result publication recovery evidence
+
+For G6, a publication-recovery test MUST reconcile the immutable result identity with the remote per-node branch tip and the local processed-command state after an induced interruption. A successful push alone is insufficient evidence of complete recovery.
