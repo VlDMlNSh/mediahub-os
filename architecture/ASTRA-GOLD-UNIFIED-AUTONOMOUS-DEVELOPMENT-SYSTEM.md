@@ -14,6 +14,19 @@ It is not a name for Astra coordinator alone. ASTRA GOLD is the integrated contr
 Qualification is therefore performed against the **whole system**, not against isolated components.
 
 ## 2. System topology
+## 2.1 Candidate desktop execution surface: OpenFlux
+
+OpenFlux is admitted to the architecture only as a **qualification-gated candidate desktop agent**. The identified candidate is the EDEAI/OpenFlux Tauri desktop agent, which documents multi-agent task splitting, multi-LLM connectivity, MCP/tool integration, browser automation, desktop control, memory, sandboxing and local execution. These capabilities are architectural candidates, not MediaHub qualification evidence. [External source: EDEAI/OpenFlux README]
+
+Boundary:
+- OpenFlux is **not** A0, A1, A2 or A3.
+- OpenFlux has no coordination authority, provider authority, credential-creation authority or MediaHub State Authority.
+- OpenFlux cannot promote itself or a provider to ASTRA GOLD eligibility.
+- OpenFlux remains NOT_PROVEN until identity, provenance, sandbox boundary, non-mutating probe, bounded execution, result validation, recovery and independent A3 verification are demonstrated on an approved node.
+- The canonical source identity currently recorded is EDEAI/OpenFlux; other projects named OpenFlux remain separate candidates until positively identified.
+
+Placement: candidate_desktop_agents -> executor admission gate -> isolated workspace -> A3 verification.
+
 
 ```
                                   HUMAN AUTHORITY
