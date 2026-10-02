@@ -52,7 +52,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: astra-gold-g8-admission-${{ github.run_id }}
-          path: evidence/astra-gold/g8-pre-soak.json
+          path: |
+            evidence/astra-gold/g8-pre-soak.json
+            evidence/astra-gold/g4-115.json
+            evidence/astra-gold/g5-coordination.json
+            evidence/astra-gold/g6-recovery.json
+            evidence/astra-gold/a3-independent.json
+            evidence/astra-gold/clean-worktree.json
+          if-no-files-found: error
           retention-days: 14
 
       - name: Verify existing canonical Astra worker
