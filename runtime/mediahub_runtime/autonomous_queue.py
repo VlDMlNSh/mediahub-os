@@ -114,7 +114,7 @@ def process_task(task: dict) -> dict:
         checkout = run(["git", "worktree", "add", "-b", branch, str(worktree), claim.base_sha], 120)
         if checkout.returncode: raise RuntimeError("worktree_create_failed")
         if heartbeat_failed.is_set(): raise RuntimeError("claim_heartbeat_failed")
-        build = run([CODEX, "exec", "--full-auto", "--skip-git-repo-check", builder_prompt(task)], TASK_TIMEOUT, worktree)
+        build = run([CODEX, "exec", "--sandbox", "workspace-write", "--ask-for-approval", "never", "--skip-git-repo-check", builder_prompt(task)], TASK_TIMEOUT, worktree)
         if heartbeat_failed.is_set(): raise RuntimeError("claim_heartbeat_failed")
         record["builder"] = {
             "returncode": build.returncode,
