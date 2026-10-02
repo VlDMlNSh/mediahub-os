@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import os
 import subprocess
+import shutil
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
@@ -95,7 +96,9 @@ class MediaHubHarness:
         if not argv or any(not isinstance(item, str) or not item for item in argv):
             raise HarnessError("invalid_argv")
         executable = Path(argv[0]).name
-        if executable not in self.policy.allowed_executables:
+        resolved_executable = Path(shutil.which(executable) or "").resolve()
+        if executable not in self.policy.allowed_executables or not resolved_executable.is_file():
+            raise HarnessError("executable_not_allowed")
             raise HarnessError("executable_not_allowed")
         workdir = Path(cwd).resolve()
         if not any(workdir == root or root in workdir.parents for root in self.policy.allowed_roots):
@@ -106,6 +109,10 @@ class MediaHubHarness:
         }
         if any(item in forbidden for item in argv):
             raise HarnessError("argument_not_allowed")
+        if executable == "git":
+            git_unsafe = {"-c", "--config-env", "config", "alias", "push", "fetch", "pull", "clone", "remote", "worktree", "submodule", "tag"}
+            if any(item in git_unsafe or item.startswith("-c") for item in argv[1:]):
+                raise HarnessError("git_argument_not_allowed")
         if executable == "bash" and tuple(argv[1:]) != ("-n",):
             raise HarnessError("argument_not_allowed")
         if executable == "python3":
