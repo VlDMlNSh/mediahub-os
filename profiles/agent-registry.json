@@ -336,7 +336,8 @@
       "claude": "NOT_PROVEN",
       "gigachat": "REGISTERED_NOT_QUALIFIED",
       "ecc": "NOT_PROVEN",
-      "openflux": "NOT_PROVEN"
+      "openflux": "NOT_PROVEN",
+      "gemma-4": "NOT_PROVEN"
     },
     "rule": "registration_or_credential_reference_never_implies_successful_authorization",
     "cloud_agents": [
@@ -371,7 +372,8 @@
       "fcc": "transport/gateway, not an agent",
       "ecc": "auxiliary support only; no provider selection, credential creation, architecture authority, or state authority",
       "provider_model_registry": "candidate provider/model catalog, not authorization proof",
-      "openflux": "candidate desktop agent/execution surface; no A0-A3 authority, provider authority, credential creation, or MediaHub state authority until qualification"
+      "openflux": "candidate desktop agent/execution surface; no A0-A3 authority, provider authority, credential creation, or MediaHub state authority until qualification",
+      "gemma-4": "model family only; not executor, coordinator, provider authority, credential creator, or state authority; evaluate local inference role per concrete variant"
     },
     "auxiliary_agents": [
       "ecc",
@@ -379,6 +381,9 @@
     ],
     "candidate_desktop_agents": [
       "openflux"
+    ],
+    "local_models": [
+      "gemma-4"
     ]
   }
 }
