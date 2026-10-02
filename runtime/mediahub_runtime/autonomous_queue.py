@@ -4,7 +4,7 @@ Promotion-safe: workers create task branches and evidence, but never merge to ma
 """
 from __future__ import annotations
 import concurrent.futures
-import json, os, subprocess, time
+import hashlib, json, os, subprocess, time
 from pathlib import Path
 from .agent_fabric import AgentClaim, ClaimStore
 
@@ -96,7 +96,13 @@ def process_task(task: dict) -> dict:
         checkout = run(["git", "worktree", "add", "--force", "-B", branch, str(worktree), "origin/main"], 120)
         if checkout.returncode: raise RuntimeError("worktree_create_failed")
         build = run([CODEX, "exec", "--full-auto", "--skip-git-repo-check", builder_prompt(task)], TASK_TIMEOUT, worktree)
-        record["builder"] = {"returncode": build.returncode, "stdout": build.stdout[-12000:], "stderr": build.stderr[-8000:]}
+        record["builder"] = {
+            "returncode": build.returncode,
+            "stdout_sha256": hashlib.sha256(build.stdout.encode()).hexdigest(),
+            "stderr_sha256": hashlib.sha256(build.stderr.encode()).hexdigest(),
+            "stdout_bytes": len(build.stdout.encode()),
+            "stderr_bytes": len(build.stderr.encode()),
+        }
         if build.returncode != 0: raise RuntimeError("builder_failed")
         test = run(["python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"], 900, worktree)
         record["tests"] = {"returncode": test.returncode, "stdout": test.stdout[-8000:], "stderr": test.stderr[-6000:]}
@@ -104,7 +110,13 @@ def process_task(task: dict) -> dict:
         diff = run(["git", "diff", "--check"], 60, worktree)
         if diff.returncode: raise RuntimeError("diff_check_failed")
         verifier = run([CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)], TASK_TIMEOUT, worktree)
-        record["verifier"] = {"returncode": verifier.returncode, "stdout": verifier.stdout[-12000:], "stderr": verifier.stderr[-8000:]}
+        record["verifier"] = {
+            "returncode": verifier.returncode,
+            "stdout_sha256": hashlib.sha256(verifier.stdout.encode()).hexdigest(),
+            "stderr_sha256": hashlib.sha256(verifier.stderr.encode()).hexdigest(),
+            "stdout_bytes": len(verifier.stdout.encode()),
+            "stderr_bytes": len(verifier.stderr.encode()),
+        }
         if verifier.returncode != 0: raise RuntimeError("verifier_failed")
         status = run(["git", "status", "--porcelain"], 60, worktree)
         if not status.stdout.strip(): raise RuntimeError("no_changes")
