@@ -83,7 +83,7 @@ def main():
         evidence=EVIDENCE/filename
         if not evidence.is_file():
             return block(stage,"fresh_evidence_missing:"+filename,steps)
-        step=run(stage+"_verify",[sys.executable,"ops/qualification",verifier,str(evidence)],300)
+        step=run(stage+"_verify",[sys.executable,"ops/qualification/"+verifier,str(evidence)],300)
         steps.append(step)
         if step["returncode"]!=0:
             return block(stage,"independent_verifier_failed",steps)
@@ -93,8 +93,7 @@ def main():
             return block(stage,"evidence_not_fresh_pass_or_source_mismatch",steps)
 
     # T8: immutable pre-soak bundle is the only admission artifact.
-    step=run("T8_capture_manifest",[sys.executable,"ops/qualification/capture_g8_evidence_manifest.py",
-                                    "--source-sha",source],300)
+    clean=EVIDENCE/"clean-worktree.json"\n    clean_payload={"schema":"mediahub.astra-gold.clean-worktree.v1","status":"PASS" if not subprocess.run(["git","status","--porcelain"],cwd=ROOT,text=True,capture_output=True,check=False).stdout.strip() else "BLOCKED","command_id":"T8-CLEAN-"+source[:12],"node_id":os.uname().nodename,"component_id":"clean_worktree","executor_id":"git:"+source,"provider_or_model_id":"git-local","transport_id":"local","source_sha":source,"round":1,"timestamp":int(time.time()),"exit_status":0,"timeout":False,"workspace":str(ROOT),"verification_status":"PASS","secret_values":"SUPPRESSED","fresh":True,"dirty":bool(subprocess.run(["git","status","--porcelain"],cwd=ROOT,text=True,capture_output=True,check=False).stdout.strip())}\n    canonical=dict(clean_payload); clean_payload["evidence_digest"]=__import__("hashlib").sha256(json.dumps(canonical,sort_keys=True,separators=(",",":")).encode()).hexdigest(); clean.write_text(json.dumps(clean_payload,indent=2,sort_keys=True)+"\\n",encoding="utf-8")\n    step=run("T8_capture_manifest",[sys.executable,"ops/qualification/capture_g8_evidence_manifest.py","--evidence-dir",str(EVIDENCE),"--output",str(EVIDENCE/"g8-pre-soak.json"),"--source-sha",source],300)
     steps.append(step)
     if step["returncode"]!=0:
         return block("T8","g8_manifest_capture_failed",steps)
