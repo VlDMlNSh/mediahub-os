@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "controller": "astra",
+  "source_branch": "astra/dual-local-executors-live-20261002",
+  "execution_policy": {
+    "single_coordinator": true,
+    "nested_agents": false,
+    "max_parallel_workers": 2,
+    "exact_sha_required": true,
+    "independent_verification_required": true,
+    "gold_requires_all_previous_pass": true
+  },
+  "queue": [
+    {"id":"G0","task":"controller preflight","status":"QUEUED"},
+    {"id":"G1","task":"Claude provider qualification","provider":"CLAUDE_LOCAL","status":"QUEUED"},
+    {"id":"G2","task":"Codex provider qualification","provider":"CODEX_LOCAL","status":"QUEUED"},
+    {"id":"G3","task":"two disjoint claims concurrently","status":"QUEUED"},
+    {"id":"G4","task":"A3 independent verification","status":"QUEUED"},
+    {"id":"G5","task":"failure timeout restart recovery","status":"QUEUED"},
+    {"id":"G6","task":"exact SHA qualification","status":"QUEUED"},
+    {"id":"G7","task":"single-node E2E","status":"QUEUED"},
+    {"id":"G8","task":"multi-node fencing recovery","status":"QUEUED"},
+    {"id":"G9","task":"24h GOLD soak","status":"QUEUED"}
+  ]
+}
