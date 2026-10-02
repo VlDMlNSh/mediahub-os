@@ -1,0 +1,138 @@
+schema: mediahub.astra-gold.autonomous-development.v1
+status: QUALIFICATION_READY
+name: ASTRA_GOLD
+definition: "Unified distributed autonomous hybrid development system for MediaHub"
+authority:
+  human:
+    role: final_architecture_production_security_authority
+  astra:
+    id: A0-ASTRA
+    role: single_coordination_authority
+  architect:
+    id: A1
+    role: architecture_contracts
+  builder:
+    id: A2
+    role: bounded_implementation
+  verifier:
+    id: A3
+    role: independent_verification
+  executors:
+    authority: executor_only
+    clients: [codex, claude_code]
+  transports:
+    authority: transport_only
+    values: [github, fcc, omniroute]
+  ecc:
+    authority: none
+    role: auxiliary_support
+layers:
+  coordination:
+    - astra
+    - mission_decomposition
+    - scheduling
+    - claims
+    - conflict_detection
+    - integration
+    - architecture_reconciliation
+  role_fabric:
+    - architect
+    - builder
+    - verifier
+    - dynamic_task_scoped_workers
+  controller:
+    - command_ingestion
+    - queue
+    - claim_leases
+    - heartbeat
+    - liveness
+    - duplicate_suppression
+    - restart_recovery
+    - result_publication
+  execution:
+    mandatory_paths:
+      - CODEX_FCC
+      - CLAUDE_FCC
+      - CODEX_OMNIROUTE
+      - CLAUDE_OMNIROUTE
+    optional_future_paths:
+      - CODEX_DIRECT
+      - CLAUDE_DIRECT
+  verification:
+    - focused_tests
+    - regression
+    - contracts
+    - architecture_conformance
+    - security
+    - concurrency
+    - failure
+    - recovery
+    - independent_a3
+  evidence:
+    - command_id
+    - executor_identity
+    - provider_identity
+    - source_sha
+    - round
+    - exit_status
+    - timeout
+    - marker
+    - workspace
+    - verification
+  observability:
+    - heartbeat
+    - health
+    - structured_logs
+    - evidence_freshness
+  recovery:
+    - timeout
+    - stale_claim
+    - worker_restart
+    - duplicate_controller
+    - transport_interruption
+    - replay_idempotency
+qualification:
+  mode: whole_system
+  rounds_minimum: 23
+  concurrency:
+    max_parallel: 2
+    require_disjoint_claims: true
+    shared_surfaces: serialized
+  fresh_evidence_required: true
+  historical_evidence_reuse: false
+  fail_closed: true
+  gates:
+    - identity
+    - control_plane
+    - executor_fabric
+    - twenty_three_wave
+    - concurrency
+    - recovery
+    - integrated_a3
+    - pre_soak
+    - soak_24h
+    - gold_active
+states:
+  - DESIGNED
+  - PREFLIGHT
+  - ADMITTED
+  - QUALIFICATION
+  - EXECUTION
+  - VERIFICATION
+  - INTEGRATION
+  - RECONCILIATION
+  - SOAK
+  - GOLD_ACTIVE
+  - BLOCKED
+  - FAILED
+  - RECONCILIATION_REQUIRED
+rules:
+  credentials_in_git: false
+  credential_values_in_evidence: false
+  quota_bypass: false
+  executor_architecture_authority: false
+  cloud_state_authority: false
+  transport_state_authority: false
+  ecc_provider_selection: false
+  a2_self_verification: false
+  destructive_actions_without_human_authorization: false
