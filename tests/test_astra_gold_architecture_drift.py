@@ -1,5 +1,6 @@
 import unittest
 from pathlib import Path
+import re
 import yaml
 
 ROOT = Path(__file__).parents[1]
@@ -158,6 +159,19 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
                 "verification_status", "evidence_digest",
             ],
         )
+
+    def test_autonomous_workflows_are_fail_closed_and_source_bound(self):
+        workflows = ROOT / ".github" / "workflows"
+        unified = (workflows / "astra-gold-unified-qualification.yml").read_text(encoding="utf-8")
+        soak = (workflows / "astra-gold-24h-soak.yml").read_text(encoding="utf-8")
+        queue = (workflows / "mh25-first-24h-autonomous-queue.yml").read_text(encoding="utf-8")
+        self.assertIn("permissions:\n  contents: read", unified)
+        self.assertNotRegex(soak, r'test "\$blob_sha" = "[0-9a-f]{40}"')
+        self.assertNotIn("git reset --hard", queue)
+        self.assertNotIn("autonomous_queue | tee", queue)
+        self.assertNotIn("autonomous_queue | tee", queue.replace(" | ", " "))
+        self.assertNotIn("python3 -m mediahub_runtime.autonomous_queue | tee", queue)
+        self.assertIn('python3 -m mediahub_runtime.autonomous_queue | tee', queue)
 
     def test_reference_architecture_contains_reconciliation_and_launch_guards(self):
         self.assertIn("Reconciliation Contract", self.ref)
