@@ -60,7 +60,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m unittest -v tests/test_astra_gold_qualification_launch_schema.py tests/test_qualification_launch_gate.py
+          python3 -m unittest -v tests/test_astra_gold_qualification_launch_schema.py tests/test_qualification_launch_gate.py tests/test_openopc_registry.py
 
       - name: Qualify hybrid cloud provider authentication
         shell: bash
