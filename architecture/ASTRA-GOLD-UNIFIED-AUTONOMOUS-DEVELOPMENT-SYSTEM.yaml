@@ -65,7 +65,19 @@ layers:
     local_models: [ollama, kimi-k3-in-c]
     auxiliary: [ecc, delx-memory-bun]
     candidate_desktop_agents: [openflux]
+    local_model_candidates: [gemma-4]
     admission_sequence: [credential_presence, auth_success, model_discovery, non_mutating_probe, task_execution, result_validation, independent_a3]
+    local_model_candidate_policy:
+      gemma-4:
+        authority: none
+        role: local_model_family_candidate
+        executor_authority: false
+        provider_selection: false
+        credential_creation: false
+        state_authority: false
+        qualification: NOT_PROVEN
+        evaluation_variants: [E2B, E4B, 12B, 26B_MoE, 31B_Dense]
+        admission: model_specific_runtime_evidence_required
     candidate_desktop_agent_policy:
       openflux:
         authority: none
