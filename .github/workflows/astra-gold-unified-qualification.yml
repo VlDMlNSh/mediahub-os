@@ -9,7 +9,7 @@ on:
       - "architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml"
       - "astra_github_agent.py"
       - "ops/agent-fabric/**"
-      - "ops/qualification/**"
+      - "ops/qualification/**"\n      - "profiles/agent-registry.json"\n      - "profiles/providers/**"
       - ".github/workflows/astra-gold-unified-qualification.yml"
 
 permissions:
@@ -29,6 +29,15 @@ jobs:
       ASTRA_AUTONOMOUS_MAX_CYCLES: "12"
       ASTRA_AUTONOMOUS_RETRY_SECONDS: "300"
       ASTRA_QUALIFICATION_TIMEOUT: "87000"
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+      KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GIGACHAT_API_PERS: ${{ secrets.GIGACHAT_API_PERS }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -43,6 +52,12 @@ jobs:
           test -z "$(git status --short)"
           python3 -m compileall -q runtime tests astra_github_agent.py
           PYTHONPATH=runtime:. python3 -m unittest discover -s tests -p 'test_*.py'
+
+      - name: Qualify hybrid cloud provider authentication
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 ops/qualification/hybrid_agent_auth_probe.py
 
       - name: Execute unified ASTRA GOLD mission
         shell: bash
