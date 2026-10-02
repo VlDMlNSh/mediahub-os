@@ -272,6 +272,30 @@
       "provider_selection": false,
       "credential_creation": false,
       "state_authority": false
+    },
+    {
+      "id": "openflux",
+      "enabled": true,
+      "tier": "candidate_desktop_agent",
+      "capabilities": [
+        "multi_agent",
+        "coding",
+        "repository",
+        "testing",
+        "browser_automation",
+        "desktop_automation",
+        "mcp",
+        "memory",
+        "workflow_orchestration"
+      ],
+      "activation": "qualification_required",
+      "qualification": "pending",
+      "authority": "none",
+      "provider_selection": false,
+      "credential_creation": false,
+      "state_authority": false,
+      "source": "https://github.com/EDEAI/OpenFlux",
+      "identity_note": "Open-source Tauri desktop AI agent candidate; not yet installed or runtime-qualified on canonical MediaHub nodes"
     }
   ],
   "selection": "cloud_first_capability_then_local_harness_then_local_gateway_then_local_model",
@@ -311,7 +335,8 @@
       "unorouter": "NOT_PROVEN",
       "claude": "NOT_PROVEN",
       "gigachat": "REGISTERED_NOT_QUALIFIED",
-      "ecc": "NOT_PROVEN"
+      "ecc": "NOT_PROVEN",
+      "openflux": "NOT_PROVEN"
     },
     "rule": "registration_or_credential_reference_never_implies_successful_authorization",
     "cloud_agents": [
@@ -345,11 +370,15 @@
       "omniroute": "transport/gateway, not an agent",
       "fcc": "transport/gateway, not an agent",
       "ecc": "auxiliary support only; no provider selection, credential creation, architecture authority, or state authority",
-      "provider_model_registry": "candidate provider/model catalog, not authorization proof"
+      "provider_model_registry": "candidate provider/model catalog, not authorization proof",
+      "openflux": "candidate desktop agent/execution surface; no A0-A3 authority, provider authority, credential creation, or MediaHub state authority until qualification"
     },
     "auxiliary_agents": [
       "ecc",
       "delx-memory-bun"
+    ],
+    "candidate_desktop_agents": [
+      "openflux"
     ]
   }
 }
