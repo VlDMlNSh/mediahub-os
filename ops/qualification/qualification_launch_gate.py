@@ -26,6 +26,12 @@ def evaluate(evidence: dict, schema: dict) -> dict:
     launch=evidence.get("launch",{})
     required=schema["launch_contract"]["required_inputs"]
     missing_launch=[key for key in required if not launch.get(key)]
+    approved_sha = str(launch.get("approved_source_sha",""))
+    if launch.get("approved_source_sha") and (len(approved_sha) != 40 or any(ch not in "0123456789abcdefABCDEF" for ch in approved_sha)):
+        missing_launch.append("approved_source_sha:invalid")
+    for key in ("fresh_evidence_bundle","A3_verification_record","soak_record"):
+        if launch.get(key) is not True:
+            missing_launch.append(key + ":explicit_confirmation_required")
     if failures or missing_launch:
         return {
             "status":"BLOCKED",
