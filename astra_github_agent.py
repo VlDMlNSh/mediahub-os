@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """MediaHub Astra GitHub transport worker."""
 from __future__ import annotations
-import hashlib, importlib, json, os, platform, subprocess, sys, time
+import hashlib, hmac, importlib, json, os, platform, subprocess, sys, time
 from dataclasses import asdict
 from pathlib import Path
 
@@ -16,6 +16,9 @@ RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 AGENT_ID=os.environ.get('ASTRA_AGENT_ID','A0-ASTRA')
 WORKER_ID=os.environ.get('ASTRA_WORKER_ID',f"{AGENT_ID}:{os.getpid()}")
 CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS','900')),3600.0))
+COMMAND_HMAC_MAX_AGE_SECONDS=max(60,int(os.environ.get("ASTRA_COMMAND_HMAC_MAX_AGE_SECONDS","900")))
+COMMAND_HMAC_KEY=os.environ.get("ASTRA_COMMAND_HMAC_KEY","")
+EXECUTED_COMMANDS=STATE/"executed_command_ids"
 
 def run(argv,timeout=120):
     return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False)
@@ -37,13 +40,39 @@ def maybe_reexec_updated_agent():
     if target_sha != RUNNING_AGENT_SHA:
         os.execv(sys.executable,[sys.executable,str(target),*sys.argv[1:]])
 
+def _canonical_command_body(cmd):
+    return json.dumps({k:v for k,v in cmd.items() if k != "signature"}, sort_keys=True, separators=(",", ":")).encode("utf-8")
+
+def _command_auth_valid(cmd):
+    if not COMMAND_HMAC_KEY: return False
+    signature, issued_at, command_id = cmd.get("signature"), cmd.get("issued_at"), cmd.get("command_id")
+    if not isinstance(signature,str) or not signature or not isinstance(issued_at,int): return False
+    if not isinstance(command_id,str) or not command_id or len(command_id)>128: return False
+    if abs(int(time.time())-issued_at)>COMMAND_HMAC_MAX_AGE_SECONDS: return False
+    expected=hmac.new(COMMAND_HMAC_KEY.encode("utf-8"), _canonical_command_body(cmd), hashlib.sha256).hexdigest()
+    return hmac.compare_digest(signature, expected)
+
+def _command_already_executed(command_id):
+    try: return (EXECUTED_COMMANDS/f"{command_id}.done").is_file()
+    except OSError: return True
+
+def _mark_command_executed(command_id):
+    EXECUTED_COMMANDS.mkdir(parents=True,exist_ok=True)
+    tmp=EXECUTED_COMMANDS/f"{command_id}.tmp"
+    tmp.write_text(str(int(time.time()))+"\n",encoding="utf-8")
+    tmp.replace(EXECUTED_COMMANDS/f"{command_id}.done")
+
 def read_command():
     path=ROOT/"control"/"commands"/f"{NODE_ID}.json"
     if not path.exists(): return None
     try: cmd=json.loads(path.read_text())
     except Exception: return None
+    if not isinstance(cmd,dict): return None
     if cmd.get("node_id")!=NODE_ID or cmd.get("operation") not in OPERATIONS: return None
     if cmd.get("workflow_only") is True and os.environ.get("ASTRA_WORKFLOW_ONLY") != "1": return None
+    if not _command_auth_valid(cmd): return None
+    command_id=str(cmd.get("command_id"))
+    if _command_already_executed(command_id): return None
     return cmd
 
 def published_command_id():
