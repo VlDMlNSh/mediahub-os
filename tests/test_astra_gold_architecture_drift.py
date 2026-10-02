@@ -168,9 +168,8 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
         self.assertIn("permissions:\n  contents: read", unified)
         self.assertNotRegex(soak, r'test "\$blob_sha" = "[0-9a-f]{40}"')
         self.assertNotIn("git reset --hard", queue)
-        self.assertNotIn("python3 -m mediahub_runtime.autonomous_queue | tee", queue.replace(" || ", " "))
+        self.assertNotIn("|| true", queue)
         self.assertIn("python3 -m mediahub_runtime.autonomous_queue | tee", queue)
-        self.assertNotIn("autonomous_queue | tee", queue.replace("|| true", ""))
 
     def test_reference_architecture_contains_reconciliation_and_launch_guards(self):
         self.assertIn("Reconciliation Contract", self.ref)
