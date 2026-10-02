@@ -58,6 +58,21 @@ def test_remote_must_be_canonical(monkeypatch):
         raise AssertionError("non-canonical remote was accepted")
 
 
+def test_repository_identity_is_pinned(monkeypatch):
+    agent = load_agent(
+        monkeypatch,
+        ASTRA_GITHUB_REPO="attacker/repo",
+        ASTRA_GITHUB_REMOTE="git@github.com:attacker/repo.git",
+        ASTRA_NODE_ID="mh-dev-02",
+    )
+    try:
+        agent._canonical_remote()
+    except RuntimeError:
+        pass
+    else:
+        raise AssertionError("non-canonical repository was accepted")
+
+
 def test_canonical_node_branch_is_strict(monkeypatch):
     agent = load_agent(monkeypatch, ASTRA_NODE_ID="mh-dev-02")
     assert agent._canonical_node_branch() == "astra-node/mh-dev-02"
