@@ -1,0 +1,4 @@
+# Development / qualification test dependencies.
+# Canonical CI and qualification runners install this file before running tests.
+PyYAML>=6.0
+pytest>=8.0

@@ -12,6 +12,7 @@ import json
 import platform
 import shutil
 import subprocess
+import sys
 import time
 from pathlib import Path
 
@@ -95,20 +96,16 @@ def main() -> int:
           "" if provider_status == "PASS" else "no qualified provider/model was observed",
           qualification=provider_payload)
 
-    # Remaining gates intentionally remain fail-closed until their dedicated
-    # live producers exist. They are not inferred from unit tests.
-    for name, check, reason in (
-        ("scheduler-e2e.json", "scheduler_live_e2e",
-         "no dedicated live scheduler evidence producer is implemented"),
-        ("fencing.json", "multi_node_fencing",
-         "no dedicated live fencing evidence producer is implemented"),
-        ("recovery.json", "runtime_recovery",
-         "no dedicated live recovery evidence producer is implemented"),
-        ("backup-restore.json", "backup_restore",
-         "no dedicated live backup/restore evidence producer is implemented"),
-    ):
+    # Runtime gates are produced by exercising the real runtime modules. The
+    # producer is fail-closed: it reports PASS only on the canonical node and
+    # only when every module observation holds.
+    prereq = ROOT / "ops" / "qualification" / "produce_runtime_prereq_evidence.py"
+    prereq_run = subprocess.run(
+        [sys.executable, str(prereq), "--out", str(EVIDENCE)],
+        cwd=ROOT, text=True, capture_output=True, timeout=300, check=False,
+    )
+    if prereq_run.returncode != 0:
         blocked = True
-        write(name, "BLOCKED", check, reason)
 
     return 2 if blocked else 0
 

@@ -395,7 +395,7 @@ G5 — Concurrency
 G6 — Recovery
 G7 — Integrated A3
 G8 — Pre-Soak
-G9 — 24h Soak
+G9 — 24H SOAK
 G10 — Launch Ready
 G11 — Human Launch
 
@@ -412,7 +412,7 @@ Required before 24h soak:
 - architecture reconciliation;
 - no unresolved qualification blocker.
 
-## 14. 24h soak
+## 14. 24H SOAK
 
 Required observations:
 - continuous heartbeat;
@@ -423,7 +423,7 @@ Required observations:
 - no authority-boundary violation;
 - deterministic recovery behavior.
 
-24h soak is a current-state gate, not a historical certification.
+24H SOAK is a current-state gate, not a historical certification.
 
 ## 15. Launch contract
 
@@ -456,7 +456,7 @@ ASTRA does not self-authorize production launch.
 - No credential creation by auxiliary tooling.
 - No launch without independent A3.
 - No launch without recovery.
-- No launch without current 24h soak.
+- No launch without current 24H SOAK.
 - No qualification from historical evidence.
 - No silent transition after contradictory evidence.
 - Missing evidence means BLOCKED.
@@ -488,7 +488,7 @@ SOAK:
 24h observation is active.
 
 GOLD_ACTIVE:
-only after current qualification, A3, pre-soak, 24h soak and Human launch
+only after current qualification, A3, pre-soak, 24H SOAK and Human launch
 requirements are satisfied.
 
 BLOCKED:

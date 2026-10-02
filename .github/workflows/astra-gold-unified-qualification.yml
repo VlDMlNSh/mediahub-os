@@ -47,6 +47,9 @@ jobs:
         with:
           fetch-depth: 50
 
+      - name: Install test dependencies
+        run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
+
       - name: Canonical runtime preflight
         shell: bash
         run: |

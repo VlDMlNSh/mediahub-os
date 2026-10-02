@@ -262,19 +262,19 @@ def execute(cmd):
                 rec["omniroute_probe"]=probe(["/usr/bin/curl","-fsS","--max-time","5","http://127.0.0.1:20128/v1/models"],"data")
             rec["executors"]["fcc_codex"] = probe(
                 ["fcc-codex","exec","--skip-git-repo-check","--sandbox","read-only",
-                 f"Return exactly {marker_map["fcc_codex"]}. Do not modify files or use tools."],
+                 f"Return exactly {marker_map['fcc_codex']}. Do not modify files or use tools."],
                 marker_map["fcc_codex"],30) if shutil.which("fcc-codex") else {"status":"BLOCKED","reason":"binary_missing"}
             rec["executors"]["fcc_claude"] = probe(
-                ["fcc-claude","-p",f"Return exactly {marker_map["fcc_claude"]}. Do not modify files or use tools.",
+                ["fcc-claude","-p",f"Return exactly {marker_map['fcc_claude']}. Do not modify files or use tools.",
                  "--output-format","text"],marker_map["fcc_claude"],30) if shutil.which("fcc-claude") else {"status":"BLOCKED","reason":"binary_missing"}
             if shutil.which("omniroute"):
                 rec["executors"]["omni_claude"]=probe(
                     ["omniroute","run","claude","--model","auto","--","-p",
-                     f"Return exactly {marker_map["omni_claude"]}. Do not modify files or use tools.","--output-format","text"],
+                     f"Return exactly {marker_map['omni_claude']}. Do not modify files or use tools.","--output-format","text"],
                     marker_map["omni_claude"],35)
                 rec["executors"]["omni_codex"]=probe(
                     ["omniroute","run","codex","--model","auto","--","exec","--skip-git-repo-check",
-                     "--sandbox","read-only",f"Return exactly {marker_map["omni_codex"]}. Do not modify files or use tools."],
+                     "--sandbox","read-only",f"Return exactly {marker_map['omni_codex']}. Do not modify files or use tools."],
                     marker_map["omni_codex"],35)
             else:
                 rec["executors"]["omni_claude"]={"status":"BLOCKED","reason":"binary_missing"}
@@ -282,7 +282,7 @@ def execute(cmd):
             if shutil.which("claude"):
                 rec["executors"]["claude_code_direct"] = probe(
                     ["claude","--print","--output-format","text","--bare",
-                     f"Return exactly {marker_map["claude_code_direct"]}. Do not modify files or use tools."],
+                     f"Return exactly {marker_map['claude_code_direct']}. Do not modify files or use tools."],
                     marker_map["claude_code_direct"],35)
             else:
                 rec["executors"]["claude_code_direct"]={"status":"BLOCKED","reason":"binary_missing"}
