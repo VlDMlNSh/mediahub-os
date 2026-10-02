@@ -15,7 +15,7 @@ def executable_identity(binary):
     p=Path(binary)
     return {"path":str(p),"sha256":sha256_file(p) if p.is_file() else "","size_bytes":p.stat().st_size if p.is_file() else 0}
 def validate_record(rec):
-    required=("command_id","round","path","node_id","source_sha","executor_id","provider_or_transport_id","timestamp","timeout_seconds","timeout","workspace","status","verification_status","marker","marker_present","result_validation")
+    required=("command_id","round","path","component_id","node_id","source_sha","executor_id","provider_or_model_id","transport_id","provider_or_transport_id","timestamp","timeout_seconds","timeout","workspace","exit_status","status","verification_status","marker","marker_present","result_validation")
     if any(rec.get(k) in (None,"") for k in required): return False
     if rec["round"]<1 or rec["round"]>ROUNDS: return False
     if rec["status"]=="PASS" and rec.get("verification_status")!="PASS": return False
@@ -53,7 +53,7 @@ def main():
     for n in range(1,ROUNDS+1):
         for path,candidates,transport in PATHS:
             command_id=f"MH115-{n:02d}-{path}-{uuid.uuid4().hex}"
-            rec={"schema":"mediahub.astra-gold.round-evidence.v1","command_id":command_id,"round":n,"path":path,"node_id":os.environ.get("ASTRA_NODE_ID",os.uname().nodename),"source_sha":head,"executor_id":os.environ.get("ASTRA_EXECUTOR_ID",f"{path}@{os.getuid()}"),"provider_or_transport_id":transport,"timestamp":int(time.time()),"verification_status":"UNVERIFIED","timeout_seconds":45,"timeout":False,"workspace":None,"marker":MARKERS[path],"marker_present":False,"result_validation":False,"evidence_digest":""}
+            rec={"schema":"mediahub.astra-gold.round-evidence.v1","command_id":command_id,"round":n,"path":path,"component_id":path,"node_id":os.environ.get("ASTRA_NODE_ID",os.uname().nodename),"source_sha":head,"executor_id":os.environ.get("ASTRA_EXECUTOR_ID",f"{path}@{os.getuid()}"),"provider_or_model_id":transport,"transport_id":transport.split("/")[0],"provider_or_transport_id":transport,"timestamp":int(time.time()),"verification_status":"UNVERIFIED","timeout_seconds":45,"timeout":False,"workspace":None,"marker":MARKERS[path],"marker_present":False,"result_validation":False,"evidence_digest":""}
             binary=next((shutil.which(x) for x in candidates if shutil.which(x)),None)
             if binary is None: rec.update(status="BLOCKED",reason="executor_binary_missing",workspace=None)
             else:
@@ -68,9 +68,9 @@ def main():
                         else:
                             result=run(command_for(path,MARKERS[path]),Path(ws),45)
                             marker=MARKERS[path] in result["stdout_tail"]
-                            rec.update(result,binary=binary,binary_identity=executable_identity(binary),provider_or_transport_id=provider_identity(path,binary),workspace=ws,workspace_ephemeral=True,marker=MARKERS[path],marker_present=marker,result_validation=(result["returncode"]==0 and marker),status="PASS" if result["returncode"]==0 and marker else ("TIMEOUT" if result["returncode"]==124 else "BLOCKED"),verification_status="PASS" if result["returncode"]==0 and marker else "BLOCKED",timeout=(result.get("timeout") is True))
+                            rec.update(result,binary=binary,binary_identity=executable_identity(binary),provider_or_model_id=provider_identity(path,binary),provider_or_transport_id=provider_identity(path,binary),transport_id=path.split("_")[1] if "_" in path else "DIRECT",workspace=ws,workspace_ephemeral=True,exit_status=result["returncode"],marker=MARKERS[path],marker_present=marker,result_validation=(result["returncode"]==0 and marker),status="PASS" if result["returncode"]==0 and marker else ("TIMEOUT" if result["returncode"]==124 else "BLOCKED"),verification_status="PASS" if result["returncode"]==0 and marker else "BLOCKED",timeout=(result.get("timeout") is True))
             if not validate_record(rec):
-                rec.update(status="BLOCKED",verification_status="BLOCKED",reason="round_evidence_schema_invalid")
+                rec.update(status="BLOCKED",verification_status="BLOCKED",reason="round_evidence_schema_invalid",exit_status=rec.get("returncode"))
             digest_payload=dict(rec); digest_payload.pop("evidence_digest",None); rec["evidence_digest"]=hashlib.sha256(json.dumps(digest_payload,sort_keys=True,separators=(",",":")).encode()).hexdigest()
             manifest["observations"].append(rec)
             (OUT/f"{n:02d}-{path}.json").write_text(json.dumps(rec,indent=2,sort_keys=True)+"\n")
