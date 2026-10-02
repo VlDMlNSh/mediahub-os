@@ -37,6 +37,11 @@ class TestQualificationLaunchGate(unittest.TestCase):
                 **{gate: "PASS" for gate in schema["gates"] if gate != "G11_LAUNCH"},
                 "G11_LAUNCH": "HUMAN_AUTHORIZED",
             },
+            "gate_evidence": {
+                gate: {"status":"PASS","fresh":True,
+                       **({"independence_attested":True} if gate=="G7_INTEGRATED_A3" else {})}
+                for gate in ("G4_23_WAVE_QUALIFICATION","G5_CONCURRENCY","G6_RECOVERY","G7_INTEGRATED_A3","G8_PRE_SOAK")
+            },
             "launch": {key: "present" for key in schema["launch_contract"]["required_inputs"]},
         }
         result = evaluate(evidence, schema)
