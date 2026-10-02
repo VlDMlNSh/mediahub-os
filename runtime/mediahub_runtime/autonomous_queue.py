@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 TASK_DIR = ROOT / "ops" / "agent-fabric" / "tasks"
 STATE = Path(os.environ.get("ASTRA_QUEUE_STATE_DIR", "/var/lib/mediahub-astra/queue"))
 CLAIMS = STATE / "claims"
-MAX_WORKERS = max(1, min(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "3")), 3))
+MAX_WORKERS = max(1, min(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "2")), 2))
 CODEX = os.environ.get("ASTRA_CODEX_BIN", "/usr/local/bin/codex")
 TASK_TIMEOUT = max(60, int(os.environ.get("ASTRA_QUEUE_TASK_TIMEOUT", "1800")))
 
