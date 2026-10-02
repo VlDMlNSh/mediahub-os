@@ -5,7 +5,8 @@ import hashlib, hmac, importlib, json, os, platform, subprocess, sys, time
 from dataclasses import asdict
 from pathlib import Path
 
-REPO=os.environ.get("ASTRA_GITHUB_REPO","VlDMlNSh/mediahub-os")
+CANONICAL_REPO="VlDMlNSh/mediahub-os"
+REPO=os.environ.get("ASTRA_GITHUB_REPO",CANONICAL_REPO)
 REMOTE=os.environ.get("ASTRA_GITHUB_REMOTE",f"git@github.com:{REPO}.git")
 NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
@@ -54,8 +55,10 @@ def run(argv,timeout=120, *, env=None, cwd=ROOT, stdin=None, include_provider_cr
                           env=_safe_env(env, include_provider_credentials=include_provider_credentials))
 
 def _canonical_remote():
-    canonical=f"git@github.com:{REPO}.git"
-    allowed={canonical, f"https://github.com/{REPO}.git"}
+    if REPO != CANONICAL_REPO:
+        raise RuntimeError("ASTRA_GITHUB_REPO is outside the canonical repository")
+    canonical=f"git@github.com:{CANONICAL_REPO}.git"
+    allowed={canonical, f"https://github.com/{CANONICAL_REPO}.git"}
     if REMOTE not in allowed:
         raise RuntimeError("ASTRA_GITHUB_REMOTE is outside the canonical repository")
 
