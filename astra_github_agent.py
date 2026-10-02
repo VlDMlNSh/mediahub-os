@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """MediaHub Astra GitHub transport worker."""
 from __future__ import annotations
-import hashlib, importlib, json, os, platform, subprocess, sys, time
+import hashlib, importlib, json, os, platform, subprocess, sys, time, threading
 from dataclasses import asdict
 from pathlib import Path
 
