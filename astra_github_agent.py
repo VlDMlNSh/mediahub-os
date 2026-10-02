@@ -154,21 +154,23 @@ def execute(cmd):
         steps=[]
         target_sha=cmd.get("target_sha","")
         if target_sha:
-            ancestry=run(["git","merge-base","--is-ancestor",target_sha,"HEAD"],30)
-            if ancestry.returncode != 0:
-                return {"status":"BLOCKED","phase":"target_reconciliation",
-                        "reason":"target_sha_not_ancestor_of_current_main","target_sha":target_sha,
-                        "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
+            current_head=run(["git","rev-parse","HEAD"],10).stdout.strip()
+            if current_head != target_sha:
+                sync()
+                current_head=run(["git","rev-parse","HEAD"],10).stdout.strip()
+                if current_head != target_sha:
+                    return {"status":"BLOCKED","phase":"target_reconciliation",
+                            "reason":"exact_target_sha_mismatch","target_sha":target_sha,
+                            "current_head":current_head}
         cycles=1 if operation=="autonomous_qualification_queue" else max_cycles
         for cycle in range(1,cycles+1):
             if operation=="autonomous_gold_mission" and cycle>1:
                 sync()
-                ancestry=run(["git","merge-base","--is-ancestor",target_sha,"HEAD"],30) if target_sha else None
-                if ancestry is not None and ancestry.returncode != 0:
+                current_head=run(["git","rev-parse","HEAD"],10).stdout.strip() if target_sha else ""
+                if target_sha and current_head != target_sha:
                     return {"status":"BLOCKED","phase":"target_reconciliation",
-                            "reason":"target_sha_not_ancestor_of_current_main","target_sha":target_sha,
-                            "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip(),
-                            "cycles":steps}
+                            "reason":"exact_target_sha_mismatch","target_sha":target_sha,
+                            "current_head":current_head,"cycles":steps}
             cycle_record={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
             backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,
                                    capture_output=True,timeout=120,check=False)
