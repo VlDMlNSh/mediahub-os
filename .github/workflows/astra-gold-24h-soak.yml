@@ -35,7 +35,7 @@ jobs:
           # in the same change that modifies astra_github_agent.py. The drift gate
           # tests/test_astra_gold_soak_pin.py enforces this pin equals the blob.
           blob_sha="$(git hash-object astra_github_agent.py)"
-          test "$blob_sha" = "54f0d38a560df75652c50943a7313394ad6ef6c9"
+          test "$blob_sha" = "95e82012e7eaed3ea1a68a689197b6ad293150e6"
           echo "runner=$(hostname)"
           echo "agent_blob_sha=$blob_sha"
       - name: Verify existing canonical Astra worker
