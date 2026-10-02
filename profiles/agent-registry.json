@@ -257,28 +257,21 @@
       "execution_client": "claude"
     },
     {
-      "id": "freellmapi",
+      "id": "ecc",
       "enabled": true,
-      "tier": "local_gateway",
+      "tier": "auxiliary_local_support",
       "capabilities": [
-        "reasoning",
         "analysis",
-        "coding",
-        "architecture",
-        "review",
-        "research",
-        "web",
-        "documents",
-        "long_context",
-        "bulk",
-        "repository",
-        "testing",
-        "transform",
-        "classify"
+        "context_support",
+        "diagnostics",
+        "assistant_support"
       ],
-      "activation": "local_gateway_required",
+      "activation": "local_install_required",
       "qualification": "pending",
-      "node_id": "mh-dev-01"
+      "authority": "none",
+      "provider_selection": false,
+      "credential_creation": false,
+      "state_authority": false
     }
   ],
   "selection": "cloud_first_capability_then_local_harness_then_local_gateway_then_local_model",
@@ -317,7 +310,8 @@
       "openrouter": "NOT_PROVEN",
       "unorouter": "NOT_PROVEN",
       "claude": "NOT_PROVEN",
-      "gigachat": "REGISTERED_NOT_QUALIFIED"
+      "gigachat": "REGISTERED_NOT_QUALIFIED",
+      "ecc": "NOT_PROVEN"
     },
     "rule": "registration_or_credential_reference_never_implies_successful_authorization",
     "cloud_agents": [
@@ -350,8 +344,12 @@
       "claude": "cloud provider/gateway identity",
       "omniroute": "transport/gateway, not an agent",
       "fcc": "transport/gateway, not an agent",
-      "ecc": "auxiliary support, no authority",
+      "ecc": "auxiliary support only; no provider selection, credential creation, architecture authority, or state authority",
       "provider_model_registry": "candidate provider/model catalog, not authorization proof"
-    }
+    },
+    "auxiliary_agents": [
+      "ecc",
+      "delx-memory-bun"
+    ]
   }
 }
