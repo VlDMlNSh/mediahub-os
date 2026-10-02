@@ -42,6 +42,18 @@ def main():
         evidence_digest=str(payload.get("evidence_digest","")).lower()
         if not re.fullmatch(r"[0-9a-f]{64}",evidence_digest):
             print(json.dumps({"status":"BLOCKED","reason":"evidence_digest_invalid","surface":key})); return 2
+        string_fields=("command_id","node_id","component_id","executor_id","provider_or_model_id","transport_id","workspace","verification_status")
+        for field in string_fields:
+            if not isinstance(payload.get(field),str) or not payload[field].strip():
+                print(json.dumps({"status":"BLOCKED","reason":"evidence_metadata_invalid","surface":key,"field":field})); return 2
+        if not isinstance(payload.get("round"),int) or payload["round"] < 1:
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_round_invalid","surface":key})); return 2
+        if not isinstance(payload.get("timestamp"),(int,float,str)) or (isinstance(payload.get("timestamp"),str) and not payload["timestamp"].strip()):
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_timestamp_invalid","surface":key})); return 2
+        if not isinstance(payload.get("exit_status"),int):
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_exit_status_invalid","surface":key})); return 2
+        if not isinstance(payload.get("timeout"),bool):
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_timeout_invalid","surface":key})); return 2
         evidence_canonical=dict(payload)
         evidence_canonical.pop("evidence_digest",None)
         evidence_actual=hashlib.sha256(json.dumps(evidence_canonical,sort_keys=True,separators=(",",":")).encode("utf-8")).hexdigest()
