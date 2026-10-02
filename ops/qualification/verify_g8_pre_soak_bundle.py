@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Fail-closed G8 pre-soak bundle verifier."""
+"""Fail-closed G8 verifier with immutable evidence-manifest binding."""
 from __future__ import annotations
-import argparse, hashlib, json, sys
+import argparse, hashlib, json, re, sys
 from pathlib import Path
 
 REQUIRED=("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree","fresh_bundle")
+SURFACES=("g4_115","g5_coordination","g6_recovery","a3_independent")
+SHA40=re.compile(r"^[0-9a-fA-F]{40}$")
+SHA64=re.compile(r"^[0-9a-f]{64}$")
 
 def verify(path: Path) -> dict:
     try: data=json.loads(path.read_text(encoding="utf-8"))
@@ -17,44 +20,37 @@ def verify(path: Path) -> dict:
     if data.get("g5_coordination",{}).get("max_parallel") != 2: return {"status":"BLOCKED","reason":"g5_parallelism_contract_invalid"}
     if data.get("a3_independent",{}).get("independence_attested") is not True: return {"status":"BLOCKED","reason":"a3_independence_missing"}
     if data.get("clean_worktree",{}).get("dirty") is not False: return {"status":"BLOCKED","reason":"worktree_not_clean"}
-    digest = str(data.get("bundle_sha256","")).lower()
-    if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest):
-        return {"status":"BLOCKED","reason":"bundle_integrity_invalid"}
-    canonical = dict(data)
-    canonical.pop("bundle_sha256", None)
-    canonical_bytes = json.dumps(canonical, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    actual = hashlib.sha256(canonical_bytes).hexdigest()
-    if actual != digest:
-        return {"status":"BLOCKED","reason":"bundle_integrity_mismatch"}
-    import re
     source_sha=str(data.get("source_sha",""))
-    if not re.fullmatch(r"[0-9a-fA-F]{40}", source_sha):
-        return {"status":"BLOCKED","reason":"bundle_source_sha_invalid"}
-    if not data.get("source_sha") or not data.get("a3_independent",{}).get("source_sha"):
-        return {"status":"BLOCKED","reason":"bundle_source_sha_missing"}
-    if data["source_sha"] != data["a3_independent"]["source_sha"]:
-        return {"status":"BLOCKED","reason":"bundle_source_sha_mismatch"}
-    if data.get("secret_values") != "SUPPRESSED":
-        return {"status":"BLOCKED","reason":"secret_policy_invalid"}
-    nested_secret_fields=("g4_115","g5_coordination","g6_recovery","a3_independent")
-    for key in nested_secret_fields:
-        nested=data.get(key,{})
-        if nested.get("secret_values") != "SUPPRESSED":
-            return {"status":"BLOCKED","reason":"nested_secret_policy_invalid","surface":key}
-    for key in ("g4_115","g5_coordination","g6_recovery","a3_independent"):
-        nested = data.get(key,{})
-        if "source_sha" not in nested:
-            return {"status":"BLOCKED","reason":"nested_source_sha_missing","surface":key}
-        nested_sha = str(nested["source_sha"])
-        if not re.fullmatch(r"[0-9a-fA-F]{40}", nested_sha) or nested_sha != data["source_sha"]:
-            return {"status":"BLOCKED","reason":"nested_source_sha_mismatch","surface":key}
-    return {"status":"PASS","prerequisites_verified":len(REQUIRED),"g4_observations":115}
+    if not SHA40.fullmatch(source_sha): return {"status":"BLOCKED","reason":"bundle_source_sha_invalid"}
+    if data.get("secret_values")!="SUPPRESSED": return {"status":"BLOCKED","reason":"secret_policy_invalid"}
+    manifest=data.get("evidence_manifest")
+    if not isinstance(manifest,dict): return {"status":"BLOCKED","reason":"evidence_manifest_missing"}
+    for key in SURFACES:
+        ref=manifest.get(key)
+        if not isinstance(ref,dict): return {"status":"BLOCKED","reason":"manifest_surface_missing","surface":key}
+        evidence_path=Path(str(ref.get("path","")))
+        expected=str(ref.get("sha256","")).lower()
+        if not SHA64.fullmatch(expected): return {"status":"BLOCKED","reason":"manifest_digest_invalid","surface":key}
+        if not evidence_path.is_file(): return {"status":"BLOCKED","reason":"manifest_evidence_missing","surface":key}
+        actual=hashlib.sha256(evidence_path.read_bytes()).hexdigest()
+        if actual!=expected: return {"status":"BLOCKED","reason":"manifest_evidence_digest_mismatch","surface":key}
+        try: evidence=json.loads(evidence_path.read_text(encoding="utf-8"))
+        except Exception: return {"status":"BLOCKED","reason":"manifest_evidence_json_invalid","surface":key}
+        if not isinstance(evidence,dict) or evidence.get("status")!="PASS":
+            return {"status":"BLOCKED","reason":"manifest_evidence_not_pass","surface":key}
+        evidence_sha=str(evidence.get("source_sha",evidence.get("target_sha","")))
+        if not SHA40.fullmatch(evidence_sha) or evidence_sha.lower()!=source_sha.lower():
+            return {"status":"BLOCKED","reason":"manifest_evidence_source_sha_mismatch","surface":key}
+        if evidence.get("secret_values")!="SUPPRESSED":
+            return {"status":"BLOCKED","reason":"manifest_evidence_secret_policy","surface":key}
+    digest=str(data.get("bundle_sha256","")).lower()
+    if not SHA64.fullmatch(digest): return {"status":"BLOCKED","reason":"bundle_integrity_invalid"}
+    canonical=dict(data); canonical.pop("bundle_sha256",None)
+    actual=hashlib.sha256(json.dumps(canonical,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+    if actual!=digest: return {"status":"BLOCKED","reason":"bundle_integrity_mismatch"}
+    return {"status":"PASS","prerequisites_verified":len(REQUIRED),"g4_observations":115,"manifest_surfaces":len(SURFACES)}
 
-def main() -> int:
-    p=argparse.ArgumentParser()
-    p.add_argument("bundle",type=Path)
-    args=p.parse_args()
-    result=verify(args.bundle)
-    print(json.dumps(result,indent=2,sort_keys=True))
-    return 0 if result["status"]=="PASS" else 2
+def main():
+    p=argparse.ArgumentParser(); p.add_argument("bundle",type=Path); a=p.parse_args()
+    r=verify(a.bundle); print(json.dumps(r,indent=2,sort_keys=True)); return 0 if r["status"]=="PASS" else 2
 if __name__=="__main__": sys.exit(main())
