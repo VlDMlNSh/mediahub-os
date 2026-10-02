@@ -492,12 +492,36 @@ def main():
                 try:
                     claim_store, claim = _claim_for(cmd)
                     claim_store.acquire(claim)
+                    heartbeat_stop = threading.Event()
+                    heartbeat_error = []
+                    def _heartbeat():
+                        interval = max(10.0, min(CLAIM_LEASE_SECONDS / 3.0, 300.0))
+                        while not heartbeat_stop.wait(interval):
+                            try:
+                                claim_store.heartbeat(claim.task_id, lease_seconds=CLAIM_LEASE_SECONDS)
+                            except Exception as heartbeat_exc:
+                                heartbeat_error.append(repr(heartbeat_exc))
+                                return
+                    heartbeat_thread = threading.Thread(
+                        target=_heartbeat,
+                        name=f"astra-claim-heartbeat-{claim.task_id}",
+                        daemon=True,
+                    )
+                    heartbeat_thread.start()
                     value,rc=execute(cmd),0
+                    heartbeat_stop.set()
+                    heartbeat_thread.join(timeout=5)
+                    if heartbeat_error:
+                        value = {**(value if isinstance(value,dict) else {"result":value}),
+                                 "claim_heartbeat_error": heartbeat_error[-1]}
+                        rc=1
                 except Exception as exc:
                     value,rc={'error':repr(exc)},1
                 finally:
                     if claim_store is not None and claim is not None:
                         try:
+                            if "heartbeat_stop" in locals():
+                                heartbeat_stop.set()
                             result_status = value.get("status") if isinstance(value, dict) else None
                             claim_status = 'VERIFIED' if rc == 0 and result_status not in {"BLOCKED", "REJECTED"} else 'REJECTED'
                             claim_store.release(claim.task_id, claim_status)
