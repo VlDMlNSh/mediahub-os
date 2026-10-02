@@ -45,8 +45,19 @@ def verify(path: Path, telemetry_path: Path) -> dict:
     missing=[x for x in REQUIRED if conditions.get(x) is not True]
     if missing:
         return {"status":"BLOCKED","reason":"g9_required_conditions_not_proven","missing":missing}
-    if not data.get("started_at") or not data.get("ended_at"):
+    started_at=data.get("started_at")
+    ended_at=data.get("ended_at")
+    if not isinstance(started_at,str) or not isinstance(ended_at,str):
         return {"status":"BLOCKED","reason":"g9_interval_metadata_missing"}
+    try:
+        from datetime import datetime
+        start_dt=datetime.fromisoformat(started_at.replace("Z","+00:00"))
+        end_dt=datetime.fromisoformat(ended_at.replace("Z","+00:00"))
+    except ValueError:
+        return {"status":"BLOCKED","reason":"g9_interval_metadata_invalid"}
+    if end_dt <= start_dt or (end_dt-start_dt).total_seconds() < 86400:
+        return {"status":"BLOCKED","reason":"g9_interval_less_than_24_hours"}
+
     digest=str(data.get("evidence_digest","")).lower()
     if not re.fullmatch(r"[0-9a-f]{64}", digest):
         return {"status":"BLOCKED","reason":"g9_evidence_digest_invalid"}
