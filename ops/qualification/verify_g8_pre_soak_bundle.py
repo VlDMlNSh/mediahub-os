@@ -55,6 +55,18 @@ def verify(path: Path) -> dict:
         evidence_digest=str(evidence.get("evidence_digest","")).lower()
         if not SHA64.fullmatch(evidence_digest):
             return {"status":"BLOCKED","reason":"manifest_evidence_digest_invalid","surface":key}
+        string_fields=("command_id","node_id","component_id","executor_id","provider_or_model_id","transport_id","workspace","verification_status")
+        for field in string_fields:
+            if not isinstance(evidence.get(field),str) or not evidence[field].strip():
+                return {"status":"BLOCKED","reason":"manifest_evidence_metadata_invalid","surface":key,"field":field}
+        if not isinstance(evidence.get("round"),int) or evidence["round"] < 1:
+            return {"status":"BLOCKED","reason":"manifest_evidence_round_invalid","surface":key}
+        if not isinstance(evidence.get("timestamp"),(int,float,str)) or (isinstance(evidence.get("timestamp"),str) and not evidence["timestamp"].strip()):
+            return {"status":"BLOCKED","reason":"manifest_evidence_timestamp_invalid","surface":key}
+        if not isinstance(evidence.get("exit_status"),int):
+            return {"status":"BLOCKED","reason":"manifest_evidence_exit_status_invalid","surface":key}
+        if not isinstance(evidence.get("timeout"),bool):
+            return {"status":"BLOCKED","reason":"manifest_evidence_timeout_invalid","surface":key}
         evidence_canonical=dict(evidence)
         evidence_canonical.pop("evidence_digest",None)
         evidence_actual=hashlib.sha256(json.dumps(evidence_canonical,sort_keys=True,separators=(",",":")).encode("utf-8")).hexdigest()
