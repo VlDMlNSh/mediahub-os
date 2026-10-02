@@ -1,0 +1,105 @@
+name: MH-25 Dual Local Executor 23-Wave Qualification
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/mh25-dual-local-23wave.yml
+      - astra_github_agent.py
+      - ops/agent-fabric/providers/dual-local-executors.yaml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mh25-dual-local-23wave
+  cancel-in-progress: false
+jobs:
+  qualify:
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "source_sha=${GITHUB_SHA}"
+          hostname
+          command -v fcc-codex || true
+          command -v fcc-claude || true
+          command -v omniroute || true
+          command -v codex || true
+          command -v claude || true
+          command -v ecc || command -v ecc-cli || true
+          curl -fsS --max-time 5 http://127.0.0.1:8092/v1/models >/tmp/fcc-models.json
+          curl -fsS --max-time 5 http://127.0.0.1:20128/v1/models >/tmp/omni-models.json
+      - name: 23 round analysis and setup probes
+        shell: bash
+        run: |
+          set -u
+          : > mh25-23wave.jsonl
+          for i in $(seq 1 23); do
+            echo "ROUND $i"
+            ts=$(date +%s)
+            fcc_codex_status=BLOCKED
+            fcc_claude_status=BLOCKED
+            omni_codex_status=BLOCKED
+            omni_claude_status=BLOCKED
+            if command -v fcc-codex >/dev/null 2>&1; then
+              timeout 25s fcc-codex exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_FCC_CODEX_OK" </dev/null > /tmp/fcc-codex.out 2>&1 || true
+              grep -Fx MEDIAHUB_FCC_CODEX_OK /tmp/fcc-codex.out >/dev/null 2>&1 && fcc_codex_status=PASS
+            fi
+            if command -v fcc-claude >/dev/null 2>&1; then
+              timeout 25s fcc-claude -p "Return exactly MEDIAHUB_FCC_CLAUDE_OK" --output-format text </dev/null > /tmp/fcc-claude.out 2>&1 || true
+              grep -Fx MEDIAHUB_FCC_CLAUDE_OK /tmp/fcc-claude.out >/dev/null 2>&1 && fcc_claude_status=PASS
+            fi
+            if command -v omniroute >/dev/null 2>&1; then
+              timeout 30s omniroute run codex --model auto -- exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_OMNI_CODEX_OK" </dev/null > /tmp/omni-codex.out 2>&1 || true
+              grep -Fx MEDIAHUB_OMNI_CODEX_OK /tmp/omni-codex.out >/dev/null 2>&1 && omni_codex_status=PASS
+              timeout 30s omniroute run claude --model auto -- -p "Return exactly MEDIAHUB_OMNI_CLAUDE_OK" --output-format text </dev/null > /tmp/omni-claude.out 2>&1 || true
+              grep -Fx MEDIAHUB_OMNI_CLAUDE_OK /tmp/omni-claude.out >/dev/null 2>&1 && omni_claude_status=PASS
+            fi
+            python3 - <<PY
+import json
+print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status"}))
+PY
+            python3 - <<PY >> mh25-23wave.jsonl
+import json
+print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status"}))
+PY
+          done
+      - name: Selection and evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+import json, statistics, os, shutil, pathlib
+rows=[json.loads(x) for x in pathlib.Path("mh25-23wave.jsonl").read_text().splitlines() if x.strip()]
+keys=["fcc_codex","fcc_claude","omni_codex","omni_claude"]
+summary={}
+for k in keys:
+    n=sum(r[k]=="PASS" for r in rows)
+    summary[k]={"pass_count":n,"rounds":len(rows),"pass_rate":n/len(rows)}
+selected=[k for k,v in summary.items() if v["pass_count"]==len(rows)]
+payload={"schema":"mediahub.dual-local-executor-23wave.v1","source_sha":os.environ["GITHUB_SHA"],
+         "node":os.uname().nodename,"summary":summary,"selected_full_pass":selected,
+         "ecc":{"path":shutil.which("ecc") or shutil.which("ecc-cli") or "NOT_FOUND"},
+         "policy":"provider/backend identity remains explicit; no credentials emitted"}
+pathlib.Path("mh25-23wave-qualification.json").write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n")
+print(json.dumps(payload,indent=2,sort_keys=True))
+if not ({"fcc_codex","fcc_claude"} <= set(selected)):
+    raise SystemExit(2)
+PY
+      - name: Upload qualification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mh25-dual-local-23wave-${{ github.sha }}
+          path: |
+            mh25-23wave.jsonl
+            mh25-23wave-qualification.json
+            /tmp/fcc-models.json
+            /tmp/omni-models.json
+          if-no-files-found: warn
