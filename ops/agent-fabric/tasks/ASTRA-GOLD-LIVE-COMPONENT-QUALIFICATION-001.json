@@ -1,0 +1,39 @@
+{
+  "schema": "mediahub.agent-fabric.task.v1",
+  "task_id": "ASTRA-GOLD-LIVE-COMPONENT-QUALIFICATION-001",
+  "status": "READY",
+  "priority": "P0",
+  "mission": "Run the full ASTRA GOLD TEST_MODE qualification campaign over installed/reference executors, transports, providers, local inference and the complete review inventory, using bounded fresh evidence and stopping at TEST_SOAK_ADMITTED before the 24h soak.",
+  "boundary": [
+    "architecture/ASTRA-GOLD-COMPLETE-COMPONENT-SCHEME.md",
+    "architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml",
+    "ops/qualification/**",
+    "ops/agent-fabric/tasks/**",
+    "control/qualification/**"
+  ],
+  "forbidden_surfaces": [
+    "credentials",
+    "secrets",
+    "user data",
+    "destructive git operations",
+    "production launch",
+    "G11 human authorization"
+  ],
+  "dependencies": [
+    "MH-25-23-LANE-MANIFEST-001"
+  ],
+  "campaign_manifest": "control/qualification/ASTRA-GOLD-TEST-MODE-CAMPAIGN.json",
+  "acceptance": [
+    "Inventory is reconciled against the canonical component scheme.",
+    "Historical Ollama context is checked but never promoted to fresh PASS.",
+    "Installed/reference providers are probed through their declared adapters without exposing credentials.",
+    "All review candidates are processed independently and unresolved identity remains NOT_PROVEN.",
+    "Mandatory G4 remains exactly 23 fresh rounds across 5 paths.",
+    "G5 runs with maximum 2 disjoint claims and shared-surface serialization.",
+    "G6 executes all 8 required recovery scenarios.",
+    "G7 is independently verified by A3.",
+    "G8 produces a fresh complete pre-soak evidence bundle.",
+    "Only after G0-G8 are fresh PASS may the campaign emit TEST_SOAK_ADMITTED.",
+    "No production launch is performed."
+  ]
+}
