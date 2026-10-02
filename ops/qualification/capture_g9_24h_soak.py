@@ -81,7 +81,7 @@ def main() -> int:
     unexplained_restart=len(starts)>1 or len(pids)>1
 
     duplicate_claim=any(x["event"] in {
-        "duplicate_controller_lock_failure","claim_collision","claim_exists",
+        "duplicate_controller_lock_failure","duplicate_controller_or_lock_failure","claim_collision","claim_exists",
         "claim_capacity_exceeded","claim_corruption"
     } for x in observations)
     execution_failure=any(x["event"] in {
