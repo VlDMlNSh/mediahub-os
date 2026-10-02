@@ -50,7 +50,7 @@ def main() -> int:
 
     # Transport identity is directly observable on the canonical worker.
     agent_sha = hashlib.sha256(AGENT.read_bytes()).hexdigest()
-    workers = subprocess.run(["pgrep", "-af", "astra_github_agent.py"],
+    workers = subprocess.run(["pgrep", "-af", "[a]stra_github_agent.py"],
                              cwd=ROOT, text=True, capture_output=True, check=False)
     if NODE == "mh-dev-01" and workers.returncode == 0 and agent_sha:
         write("transport-health.json", "PASS", "canonical_worker_identity",
