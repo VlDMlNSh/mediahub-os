@@ -1,0 +1,65 @@
+schema: mediahub.agent-fabric.local-executor-routing.v2
+status: RUNTIME_QUALIFICATION_GATED
+node: mh-dev-01
+controller: mh-dev-02
+
+executors:
+  - id: CODEX_FCC
+    client: codex
+    transport: fcc
+    launcher: fcc-codex
+    authority: executor-only
+  - id: CLAUDE_FCC
+    client: claude
+    transport: fcc
+    launcher: fcc-claude
+    authority: executor-only
+  - id: CODEX_OMNIROUTE
+    client: codex
+    transport: omniroute
+    launcher: omniroute
+    authority: executor-only
+  - id: CLAUDE_OMNIROUTE
+    client: claude
+    transport: omniroute
+    launcher: omniroute
+    authority: executor-only
+
+auxiliary:
+  - id: ECC_LOCAL_ASSISTANT
+    role: local-assistant-support
+    authority: none
+    credential_creation: false
+    provider_selection: false
+    state_authority: false
+
+routing:
+  selection_requires:
+    - executable_identity
+    - provider_identity
+    - exact_source_sha
+    - non_mutating_marker_probe
+    - 23_round_pass_record
+    - isolated_workspace
+    - independent_a3_verification
+  concurrency:
+    max_parallel: 2
+    require_disjoint_claims: true
+    shared_surfaces: serialized
+
+qualification:
+  rounds_minimum: 23
+  stdin: /dev/null
+  timeout_required: true
+  marker_required: true
+  credentials_in_git: false
+  quota_bypass: false
+  historical_evidence_reuse: false
+
+failure:
+  missing_launcher: BLOCKED
+  auth_or_policy_denial: BLOCKED
+  timeout: FAILED
+  nonzero_exit: FAILED
+  malformed_result: REJECTED
+  transport_uncertainty: RECONCILIATION_REQUIRED
