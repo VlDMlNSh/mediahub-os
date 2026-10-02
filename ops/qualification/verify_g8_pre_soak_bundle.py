@@ -3,7 +3,6 @@
 from __future__ import annotations
 import argparse, hashlib, json, re, sys
 from pathlib import Path
-
 REQUIRED=("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree")
 SURFACES=("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree")
 SHA40=re.compile(r"^[0-9a-fA-F]{40}$")
@@ -64,6 +63,22 @@ def verify(path: Path) -> dict:
             if evidence[field].strip().lower() in placeholder_values:
                 return {"status":"BLOCKED","reason":"manifest_evidence_identity_placeholder","surface":key,"field":field}
         if evidence.get("verification_status") != "PASS": return {"status":"BLOCKED","reason":"manifest_evidence_verification_status_not_pass","surface":key}
+        if key == "g4_115":
+            binary_identity=evidence.get("binary_identity")
+            binary_path=evidence.get("binary")
+            if not isinstance(binary_identity,dict) or not isinstance(binary_path,str) or not binary_path.strip():
+                return {"status":"BLOCKED","reason":"g4_binary_identity_missing"}
+            binary_sha=str(binary_identity.get("sha256","")).lower()
+            if not SHA64.fullmatch(binary_sha):
+                return {"status":"BLOCKED","reason":"g4_binary_identity_sha_invalid"}
+            executable=Path(binary_path)
+            if not executable.is_file():
+                return {"status":"BLOCKED","reason":"g4_binary_missing","path":binary_path}
+            actual_binary_sha=hashlib.sha256(executable.read_bytes()).hexdigest()
+            if actual_binary_sha != binary_sha:
+                return {"status":"BLOCKED","reason":"g4_binary_identity_sha_mismatch"}
+            if evidence.get("executor_id") != "binary:"+actual_binary_sha:
+                return {"status":"BLOCKED","reason":"g4_executor_identity_mismatch"}
         if not isinstance(evidence.get("round"),int) or evidence["round"] < 1:
             return {"status":"BLOCKED","reason":"manifest_evidence_round_invalid","surface":key}
         if not isinstance(evidence.get("timestamp"),(int,float,str)) or (isinstance(evidence.get("timestamp"),str) and not evidence["timestamp"].strip()):
