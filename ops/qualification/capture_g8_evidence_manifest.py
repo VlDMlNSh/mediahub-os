@@ -46,6 +46,10 @@ def main():
         for field in string_fields:
             if not isinstance(payload.get(field),str) or not payload[field].strip():
                 print(json.dumps({"status":"BLOCKED","reason":"evidence_metadata_invalid","surface":key,"field":field})); return 2
+        placeholder_values={"unknown","undefined","none","null","n/a","na","tbd","todo","placeholder","unset"}
+        for field in ("node_id","component_id","executor_id","provider_or_model_id","transport_id","workspace"):
+            if payload[field].strip().lower() in placeholder_values:
+                print(json.dumps({"status":"BLOCKED","reason":"evidence_identity_placeholder","surface":key,"field":field})); return 2
         if not isinstance(payload.get("round"),int) or payload["round"] < 1:
             print(json.dumps({"status":"BLOCKED","reason":"evidence_round_invalid","surface":key})); return 2
         if not isinstance(payload.get("timestamp"),(int,float,str)) or (isinstance(payload.get("timestamp"),str) and not payload["timestamp"].strip()):
