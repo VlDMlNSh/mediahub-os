@@ -296,6 +296,32 @@
       "state_authority": false,
       "source": "https://github.com/EDEAI/OpenFlux",
       "identity_note": "Open-source Tauri desktop AI agent candidate; not yet installed or runtime-qualified on canonical MediaHub nodes"
+    },
+    {
+      "id": "openopc",
+      "enabled": true,
+      "tier": "candidate_autonomous_development_system",
+      "capabilities": [
+        "autonomous_development",
+        "task_decomposition",
+        "multi_agent",
+        "coding",
+        "repository",
+        "testing",
+        "workflow_orchestration",
+        "memory",
+        "browser_automation",
+        "desktop_automation"
+      ],
+      "activation": "qualification_required",
+      "qualification": "pending",
+      "authority": "none",
+      "provider_selection": false,
+      "credential_creation": false,
+      "state_authority": false,
+      "source": "https://github.com/HKUDS/OpenOPC",
+      "identity_note": "Open-source AI-native autonomous development system candidate; not yet installed or runtime-qualified on canonical MediaHub nodes",
+      "admission_profile": "ASTRA_GOLD_CANDIDATE_AUTONOMOUS_SYSTEM"
     }
   ],
   "selection": "cloud_first_capability_then_local_harness_then_local_gateway_then_local_model",
@@ -337,7 +363,8 @@
       "gigachat": "REGISTERED_NOT_QUALIFIED",
       "ecc": "NOT_PROVEN",
       "openflux": "NOT_PROVEN",
-      "gemma-4": "NOT_PROVEN"
+      "gemma-4": "NOT_PROVEN",
+      "openopc": "NOT_PROVEN"
     },
     "rule": "registration_or_credential_reference_never_implies_successful_authorization",
     "cloud_agents": [
@@ -373,7 +400,8 @@
       "ecc": "auxiliary support only; no provider selection, credential creation, architecture authority, or state authority",
       "provider_model_registry": "candidate provider/model catalog, not authorization proof",
       "openflux": "candidate desktop agent/execution surface; no A0-A3 authority, provider authority, credential creation, or MediaHub state authority until qualification",
-      "gemma-4": "model family only; not executor, coordinator, provider authority, credential creator, or state authority; evaluate local inference role per concrete variant"
+      "gemma-4": "model family only; not executor, coordinator, provider authority, credential creator, or state authority; evaluate local inference role per concrete variant",
+      "openopc": "candidate autonomous development system/execution surface; no A0-A3 authority, provider authority, credential creation, or MediaHub state authority until qualification"
     },
     "auxiliary_agents": [
       "ecc",
@@ -384,6 +412,9 @@
     ],
     "local_models": [
       "gemma-4"
+    ],
+    "candidate_autonomous_systems": [
+      "openopc"
     ]
   }
 }
