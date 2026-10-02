@@ -1,1 +1,15 @@
-{"command_id":"MH25-DUAL-EXECUTOR-23WAVE-20261002-02","node_id":"mh-dev-01","operation":"dual_local_executor_23wave","target_sha":"b2a78292e4c015fa35e0bce9ca6b7c3f5da3aa9c","workflow_only":false,"owned_paths":["control/commands/mh-dev-01.json"],"title":"MH-25 23-round FCC vs OmniRoute local executor qualification","description":"Run 23 bounded rounds for local Codex and Claude through FCC and OmniRoute, inventory ECC, compare pass rate and latency, and return exact evidence."}
+{
+  "command_id": "MH25-DUAL-EXECUTOR-23WAVE-20261002-03",
+  "node_id": "mh-dev-01",
+  "operation": "dual_local_executor_23wave",
+  "target_sha": "b2a78292e4c015fa35e0bce9ca6b7c3f5da3aa9c",
+  "workflow_only": false,
+  "owned_paths": [
+    "control/qualification/mh-dev-01-dual-local-executors"
+  ],
+  "title": "MH-25 23-round FCC vs OmniRoute local executor qualification",
+  "description": "Run 23 bounded rounds for local Codex and Claude through FCC and OmniRoute, inventory ECC, compare pass rate and latency, and return exact evidence.",
+  "exclusive_actions": [
+    "execute"
+  ]
+}
