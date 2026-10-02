@@ -30,6 +30,9 @@ def verify(path: Path, telemetry_path: Path) -> dict:
     sha=str(data.get("source_sha",""))
     if not re.fullmatch(r"[0-9a-fA-F]{40}", sha):
         return {"status":"BLOCKED","reason":"g9_source_sha_invalid"}
+    telemetry_source_sha=str(data.get("telemetry_source_sha","")).lower()
+    if telemetry_source_sha != sha.lower():
+        return {"status":"BLOCKED","reason":"g9_telemetry_source_sha_mismatch"}
     if data.get("secret_values") != "SUPPRESSED":
         return {"status":"BLOCKED","reason":"secret_policy_invalid"}
     telemetry_sha=str(data.get("telemetry_sha256","")).lower()
