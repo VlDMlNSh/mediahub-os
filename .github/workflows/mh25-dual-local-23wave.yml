@@ -70,7 +70,13 @@ jobs:
               local marker="$7"
               local status=FAIL
               local verification_status=FAIL
-              if [ "$rc" -eq 0 ] && grep -Fx "$marker" "$output" >/dev/null 2>&1; then
+              if [ "$rc" -eq 0 ] && python3 - "$output" "$marker" <<'PY'
+import pathlib, sys
+actual=pathlib.Path(sys.argv[1]).read_text(errors="replace").strip()
+expected=sys.argv[2]
+raise SystemExit(0 if actual == expected else 1)
+PY
+              then
                 status=PASS
                 verification_status=PASS
               elif [ "$rc" -eq 124 ]; then
