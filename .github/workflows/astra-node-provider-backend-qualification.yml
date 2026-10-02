@@ -1,4 +1,5 @@
-name: Astra Node Provider Backend Qualification
+name: Astra Node Provider Backend Qualification (DISABLED — superseded by canonical G0-G11 matrix)
+# Disabled: canonical qualification path owns this scope.
 
 on:
   push:
@@ -7,6 +8,9 @@ on:
       - "ops/qualification/qualify_execution_backends.py"
       - ".github/workflows/astra-node-provider-backend-qualification.yml"
       - "runtime/mediahub_runtime/**"
+  workflow_dispatch:
+
+on:
   workflow_dispatch:
 
 permissions:
@@ -18,6 +22,7 @@ concurrency:
 
 jobs:
   qualify-node:
+    if: ${{ false }}
     runs-on: [self-hosted, mediahub-runner]
     timeout-minutes: 10
     env:
