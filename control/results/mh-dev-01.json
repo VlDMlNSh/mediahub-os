@@ -1,0 +1,50 @@
+{
+  "agent_id": "A0-ASTRA",
+  "chain": [
+    "task",
+    "claim",
+    "worker",
+    "verification",
+    "commit",
+    "evidence"
+  ],
+  "claim": {
+    "agent": "A0-ASTRA",
+    "base_sha": "",
+    "dependencies": [],
+    "exclusive_actions": [
+      "execute"
+    ],
+    "expiry": 1790973288.5333087,
+    "goal": "Astra transport health and claim-release verification",
+    "paths": [
+      "control/results/mh-dev-01.json"
+    ],
+    "started": 1790972388.5333087,
+    "status": "ACTIVE",
+    "task_id": "MH25-ASTRA-TRANSPORT-HEALTH-20261002-02",
+    "updated": 1790972388.5333087
+  },
+  "command_id": "MH25-ASTRA-TRANSPORT-HEALTH-20261002-02",
+  "completed_at": 1790972388,
+  "duration_seconds": 0.008,
+  "execution_head": "20c505e030d14c5287ddc6dac017602ec28d3d29",
+  "node_id": "mh-dev-01",
+  "result": {
+    "agent_path": "/home/mediahub/astra-work/astra_github_agent.py",
+    "agent_source_sha": "e622b3eceb0f2b7d5dd5d834c97dc23e5017e3a4b9ea0d785ad31a5a9b9ccccb",
+    "cwd": "/",
+    "hostname": "mh-dev-01",
+    "node_id": "mh-dev-01",
+    "pid": 1417700,
+    "platform": "Linux-6.8.0-139-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "status": "ready",
+    "transport_version": "self-reexec-v1",
+    "worktree": "/home/mediahub/astra-work"
+  },
+  "returncode": 0,
+  "schema": 1,
+  "target_sha": "0d3e4885d07e23c43c30edbdfca10afdb7372fed",
+  "worker_id": "A0-ASTRA:1417700"
+}
