@@ -241,12 +241,14 @@ def qualify(provider: dict) -> dict:
         safe = {k: v for k, v in result.items() if k != "response_body"}
         safe["model"] = model
         base["models_tested"].append(safe)
-        if result.get("classification") == "PASS":
+        if result.get("classification") == "PASS" and result.get("marker_echoed") is True:
             base["verification_state"] = "QUALIFIED"
             base["region_availability"] = "AVAILABLE"
             base["selected_model"] = model
             base["latency_seconds"] = result["latency_seconds"]
             return base
+        if result.get("classification") == "PASS" and result.get("marker_echoed") is not True:
+            base["reason"] = "qualification_marker_not_echoed"
         if result.get("classification") == "regional_restriction":
             base["region_availability"] = "REGION_UNAVAILABLE"
             base["verification_state"] = "SKIPPED"
