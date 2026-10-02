@@ -16,55 +16,92 @@ Qualification is therefore performed against the **whole system**, not against i
 ## 2. System topology
 
 ```
-                         HUMAN AUTHORITY
-                               |
-                     architecture / release
-                               |
-                         ASTRA GOLD
-                               |
-        +----------------------+----------------------+
-        |                      |                      |
-   A0 ASTRA              Governance Plane       Evidence Plane
- coordination             policies/contracts     immutable-ish records
-        |
-   +----+----------------------+----------------+
-   |                           |                |
- A1 Architect              A2 Builder       A3 Verifier
-   |                           |                |
-   +------------- task-scoped workers ---------+
-                               |
-                     AUTONOMOUS CONTROLLER
-                               |
-             +-----------------+-----------------+
-             |                                   |
-       Command / Claim Plane                Queue / State
-             |                                   |
-      +------+-------------------+---------------+
-      |                          |
- Execution Fabric            GitHub Transport
-      |
- +----+-------------------+------------------+
- |                        |                  |
-Codex                  Claude Code        auxiliary
- |                        |               ECC/support
- +----------- transports / adapters -------+
-              |                 |
-             FCC            OmniRoute
-              |                 |
-        local execution nodes / isolated workspaces
-              |
-       tests / build / runtime
-              |
-       A3 independent verification
-              |
-        integration / reconciliation
-              |
-        canonical GitHub state
-              |
-       continuous controller loop
-              |
-        recovery / heartbeat / soak
+                                  HUMAN AUTHORITY
+                                        │
+                         architecture / security / release
+                                        │
+                                  ┌─────▼─────┐
+                                  │ ASTRA GOLD │
+                                  └─────┬─────┘
+                                        │
+                             ┌──────────▼──────────┐
+                             │ A0 ASTRA CONTROLLER │
+                             │ coordination/state  │
+                             └──────────┬──────────┘
+                                        │
+              ┌─────────────────────────┼─────────────────────────┐
+              │                         │                         │
+        A1 ARCHITECT               A2 BUILDERS               A3 VERIFIER
+        contracts/ADR              bounded changes           independent
+              │                         │                      evidence
+              └──────────────┬──────────┴──────────┬───────────┘
+                             │                     │
+                    DYNAMIC TASK-SCOPED WORKERS    │
+                             │                     │
+                             ▼                     ▼
+                  ┌────────────────────────────────────────┐
+                  │       AUTONOMOUS CONTROL PLANE          │
+                  │ command → queue → claim → lease →      │
+                  │ dispatch → heartbeat → result → replay │
+                  │ recovery → integration → reconciliation │
+                  └───────────────────┬────────────────────┘
+                                      │
+                         ┌────────────▼────────────┐
+                         │     EXECUTION FABRIC    │
+                         └────────────┬────────────┘
+                                      │
+       ┌──────────────────────────────┼──────────────────────────────┐
+       │                              │                              │
+ LOCAL EXECUTORS                CLOUD PROVIDERS                 GATEWAYS
+       │                              │                              │
+ ┌─────┼──────────────┐       ┌───────┼───────────────┐       ┌──────┼──────────┐
+ │     │      │       │       │       │       │       │       │      │          │
+Codex Claude  Cursor  DeepSeek Gemini  Kimi  DeepSeek Perplexity ChatGPT  GigaChat
+CLI   Code    Stagewise Harness  │      │      │        │        │          │
+ │     │       │       │         └──────┴──────┴────────┴────────┴──────────┘
+ │     │       │       │
+ │     └── Claude Code is a LOCAL EXECUTOR ────────────────┐
+ │                                                         │
+ ├── Ollama / Kimi K3 In-C  (local model fabric)          │
+ └── FreeLLMAPI              (local gateway)               │
+                                                           │
+                    ┌──────────────────────────────────────┘
+                    │
+                    ▼
+        ┌──────────────────────────────────────────────────────┐
+        │ CLOUD / ROUTING FABRIC                                │
+        │ OpenRouter · UnoRouter · ZeroRouter · NaraRouter      │
+        │ OrcaRouter · Claude gateway · FCC · OmniRoute          │
+        │ SiliconFlow · Novita · Z.ai · LLM7 · SambaNova        │
+        │ Aion Labs · Cloudflare · Groq · Mistral · HuggingFace │
+        └───────────────────────┬───────────────────────────────┘
+                                │
+                       provider adapters / APIs
+                                │
+                                ▼
+                 isolated workspace + build/test/runtime
+                                │
+                                ▼
+                       A3 independent verification
+                                │
+                                ▼
+                    integration / reconciliation
+                                │
+                                ▼
+                      GitHub canonical evidence
+                                │
+                                ▼
+                     heartbeat / recovery / soak
+                                │
+                                └──────► ASTRA GOLD loop
 ```
+
+**Critical distinction:** Claude appears in two different architectural positions by design:
+- **Claude Code** = local execution client / executor.
+- **Claude** = provider/gateway identity for Anthropic-compatible cloud execution.
+- **FCC** and **OmniRoute** = transport/gateway mechanisms, not agents.
+- **ECC** = auxiliary support, not an executor authority.
+- **OpenRouter/UnoRouter/ZeroRouter/etc.** = routing/provider gateways, not independent A0/A1/A2/A3 authorities.
 
 ## 3. Authority model
 
@@ -112,18 +149,73 @@ Codex                  Claude Code        auxiliary
 - recovery
 - heartbeat
 
-### 4.4 Execution fabric
-Qualified executor identities:
-- Codex
-- Claude Code
+### 4.4 Complete execution and provider fabric
 
-Qualified execution paths:
-- Codex via FCC
-- Claude Code via FCC
-- Codex via OmniRoute
-- Claude Code via OmniRoute
+#### Local execution clients
+- **Codex CLI** — local coding/repository/testing executor.
+- **Claude Code CLI** — local coding/architecture/review executor. This is the Claude executor that has been under qualification.
+- **Cursor** — local development tooling.
+- **DeepSeek Harness** — local harness/subagent execution.
+- **Stagewise** — local frontend/development tooling.
 
-Direct native launchers may be qualified as additional execution paths, but their qualification is separate from transport qualification and cannot be inferred from FCC/OmniRoute evidence.
+#### Local model/gateway layer
+- **Ollama** — local model runtime.
+- **Kimi K3 In-C** — local reasoning/coding model runtime.
+- **FreeLLMAPI** — local gateway/provider adapter.
+
+#### Direct cloud providers / agent identities
+- Gemini
+- Perplexity
+- Kimi
+- DeepSeek
+- ChatGPT / OpenAI
+- GigaChat
+- SiliconFlow
+- Novita
+- Z.ai
+- LLM7
+- SambaNova
+- Aion Labs
+- Cloudflare Workers AI
+- Groq
+- Mistral
+- Hugging Face
+
+#### Cloud routing/gateway providers
+- OpenRouter
+- UnoRouter
+- ZeroRouter
+- NaraRouter
+- OrcaRouter
+- Claude/Anthropic gateway
+
+#### Transport/adapters
+- FCC
+- OmniRoute
+- GitHub transport
+- provider-specific adapters
+
+#### Auxiliary components
+- ECC local assistant
+- Delx Memory MCP / session handoff component
+
+The repository's provider-model registry currently contains 23 candidate provider entries:
+`siliconflow-1`, `siliconflow-2`, `novita-1`, `novita-2`, `zai-1`, `zai-2`, `kimi-1`, `llm7-1`, `sambanova-1`, `aionlabs-1`, `cloudflare-1`, `cloudflare-2`, `nararouter-1`, `orcarouter-1`, `unorouter-1`, `zerouter-1`, `deepseek-1`, `gemini-1`, `groq-1`, `mistral-1`, `mistral-2`, `openrouter-1`, `huggingface-1`.
+
+These are **candidate provider/model entries**, not automatic qualification results.
+
+#### Mandatory executor paths
+The minimum whole-system executor matrix is:
+
+1. Codex + FCC
+2. Claude Code + FCC
+3. Codex + OmniRoute
+4. Claude Code + OmniRoute
+
+The native Claude Code path is now explicitly represented as an additional qualification path:
+5. Claude Code direct/native
+
+Direct Codex/native and other provider-specific paths may be added after independent runtime proof.
 
 ### 4.5 Auxiliary intelligence
 ECC is auxiliary local assistant support. It can assist with analysis where explicitly allowed, but it cannot:
@@ -167,7 +259,15 @@ ECC is auxiliary local assistant support. It can assist with analysis where expl
 - 24h soak
 - failure injection
 
-## 5. Core lifecycle
+## 5. Hybrid admission model
+
+Every provider/executor follows the same fail-closed ladder:
+
+`REGISTERED → CREDENTIAL_PRESENT → AUTH_SUCCESS → MODEL_DISCOVERY_PASS → PROBE_PASS → EXECUTION_PASS → A3_VERIFIED → ASTRA_GOLD_ELIGIBLE`.
+
+Missing or historical evidence never promotes a provider. A gateway response never proves native-provider qualification. Claude Code execution through FCC/OmniRoute proves an executor+transport path, not Anthropic-native API qualification.
+
+## 6. Core lifecycle
 
 Every autonomous mission follows:
 
@@ -187,7 +287,7 @@ DISCOVER
 
 A mission is not complete because an executor reports success. Completion requires fresh observable evidence.
 
-## 6. Unified ASTRA GOLD state machine
+## 7. Unified ASTRA GOLD state machine
 
 ```
 DESIGNED
@@ -210,7 +310,7 @@ Any failed mandatory gate
 
 No state may transition to GOLD_ACTIVE using historical evidence.
 
-## 7. Qualification model
+## 8. Qualification model
 
 Qualification is a system qualification.
 
