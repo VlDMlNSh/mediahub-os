@@ -4,7 +4,7 @@ Promotion-safe: workers create task branches and evidence, but never merge to ma
 """
 from __future__ import annotations
 import concurrent.futures
-import hashlib, json, os, subprocess, time
+import hashlib, json, os, subprocess, threading, time
 from pathlib import Path
 from .agent_fabric import AgentClaim, ClaimStore
 
@@ -90,8 +90,22 @@ def process_task(task: dict) -> dict:
     worktree = worktree_path(str(task["task_id"]))
     record = {"task_id": task["task_id"], "started_at": int(started), "base_sha": claim.base_sha,
               "branch": branch, "status": "BLOCKED"}
+    heartbeat_stop = threading.Event()
+    heartbeat_failed = threading.Event()
+    heartbeat_thread: threading.Thread | None = None
     try:
         store.acquire(claim)
+
+        def renew() -> None:
+            while not heartbeat_stop.wait(300):
+                try:
+                    store.heartbeat(claim.task_id, lease_seconds=900.0)
+                except Exception:
+                    heartbeat_failed.set()
+                    return
+
+        heartbeat_thread = threading.Thread(target=renew, name=f"astra-heartbeat-{claim.task_id}", daemon=True)
+        heartbeat_thread.start()
         worktree.parent.mkdir(parents=True, exist_ok=True)
         if worktree.exists():
             cleanup = run(["git", "worktree", "remove", "--force", str(worktree)], 120)
@@ -99,7 +113,9 @@ def process_task(task: dict) -> dict:
                 raise RuntimeError("worktree_cleanup_failed")
         checkout = run(["git", "worktree", "add", "-b", branch, str(worktree), "origin/main"], 120)
         if checkout.returncode: raise RuntimeError("worktree_create_failed")
+        if heartbeat_failed.is_set(): raise RuntimeError("claim_heartbeat_failed")
         build = run([CODEX, "exec", "--full-auto", "--skip-git-repo-check", builder_prompt(task)], TASK_TIMEOUT, worktree)
+        if heartbeat_failed.is_set(): raise RuntimeError("claim_heartbeat_failed")
         record["builder"] = {
             "returncode": build.returncode,
             "stdout_sha256": hashlib.sha256(build.stdout.encode()).hexdigest(),
@@ -108,12 +124,16 @@ def process_task(task: dict) -> dict:
             "stderr_bytes": len(build.stderr.encode()),
         }
         if build.returncode != 0: raise RuntimeError("builder_failed")
+        if heartbeat_failed.is_set(): raise RuntimeError("claim_heartbeat_failed")
         test = run(["python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"], 900, worktree)
+        if heartbeat_failed.is_set(): raise RuntimeError("claim_heartbeat_failed")
         record["tests"] = {"returncode": test.returncode, "stdout": test.stdout[-8000:], "stderr": test.stderr[-6000:]}
         if test.returncode != 0: raise RuntimeError("tests_failed")
         diff = run(["git", "diff", "--check"], 60, worktree)
         if diff.returncode: raise RuntimeError("diff_check_failed")
+        if heartbeat_failed.is_set(): raise RuntimeError("claim_heartbeat_failed")
         verifier = run([CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)], TASK_TIMEOUT, worktree)
+        if heartbeat_failed.is_set(): raise RuntimeError("claim_heartbeat_failed")
         record["verifier"] = {
             "returncode": verifier.returncode,
             "stdout_sha256": hashlib.sha256(verifier.stdout.encode()).hexdigest(),
@@ -143,6 +163,9 @@ def process_task(task: dict) -> dict:
     except Exception as exc:
         record["error"] = type(exc).__name__ + ":" + str(exc)
     finally:
+        heartbeat_stop.set()
+        if heartbeat_thread is not None:
+            heartbeat_thread.join(timeout=5)
         try: store.release(claim.task_id, "VERIFIED" if record["status"] == "VERIFIED" else "REJECTED")
         except Exception as exc: record["claim_release_error"] = repr(exc)
         try:
