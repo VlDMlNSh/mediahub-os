@@ -93,7 +93,7 @@ def process_task(task: dict) -> dict:
             cleanup = run(["git", "worktree", "remove", "--force", str(worktree)], 120)
             if cleanup.returncode:
                 raise RuntimeError("worktree_cleanup_failed")
-        checkout = run(["git", "worktree", "add", "--force", "-B", branch, str(worktree), "origin/main"], 120)
+        checkout = run(["git", "worktree", "add", "-b", branch, str(worktree), "origin/main"], 120)
         if checkout.returncode: raise RuntimeError("worktree_create_failed")
         build = run([CODEX, "exec", "--full-auto", "--skip-git-repo-check", builder_prompt(task)], TASK_TIMEOUT, worktree)
         record["builder"] = {
