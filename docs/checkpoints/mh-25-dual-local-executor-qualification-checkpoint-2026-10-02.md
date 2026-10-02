@@ -1,7 +1,7 @@
 # MH-25 — Dual Local Executor / GitHub Transport Qualification Checkpoint 2026-10-02
 
 Status: QUALIFICATION IN PROGRESS / FAIL-CLOSED
-Checkpoint commit: 4f2f1f9604dae6d4a4f6914056f348afe2766d04
+Latest checkpoint lineage: 9cea774fa12809af26607c95ed3a6ba91e8e04a5
 Repository: VlDMlNSh/mediahub-os
 
 ## Continuation contract
@@ -181,7 +181,7 @@ Only after D1-D10 PASS:
 
 ## 24/7 controller rule
 
-The intended controller is mh-dev-02. A live process is not equivalent to reboot-persistent 24/7 qualification.
+The intended controller is mh-dev-02. The latest routing contract is `ops/agent-fabric/providers/local-executor-routing-v2.yaml` at commit `9cea774fa12809af26607c95ed3a6ba91e8e04a5`. A live process is not equivalent to reboot-persistent 24/7 qualification.
 
 Required proof:
 - service installed
