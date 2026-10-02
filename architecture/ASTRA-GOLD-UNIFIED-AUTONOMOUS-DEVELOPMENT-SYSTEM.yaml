@@ -160,6 +160,16 @@ execution_contract:
   optional_future_paths:
     - CODEX_DIRECT
     - CLAUDE_DIRECT
+execution:
+  mandatory_paths:
+    - CODEX_FCC
+    - CLAUDE_FCC
+    - CODEX_OMNIROUTE
+    - CLAUDE_OMNIROUTE
+    - CLAUDE_CODE_DIRECT
+  optional_future_paths:
+    - CODEX_DIRECT
+    - CLAUDE_DIRECT
 reconciliation:
   contract_version: 2
   required: true
