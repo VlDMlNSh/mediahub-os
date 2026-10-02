@@ -305,7 +305,7 @@ launch_contract:
   required_inputs: [approved_source_sha, launch_target, fresh_evidence_bundle, A3_verification_record, soak_record, rollback_target]
   prohibited: [executor_self_promotion, provider_self_promotion, model_self_promotion, stale_evidence_promotion, missing_a3_promotion]
 evidence_bundle:
-  required_metadata: [command_id, node_id, component_id, executor_id, provider_or_model_id, source_sha, round, timestamp, exit_status, timeout, workspace, verification_status, evidence_digest]
+  required_metadata: [command_id, node_id, component_id, executor_id, provider_or_model_id, transport_id, source_sha, round, timestamp, exit_status, timeout, workspace, verification_status, evidence_digest]
   secret_policy:
     secret_values: SUPPRESSED
     authorization_tokens: SUPPRESSED
