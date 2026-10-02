@@ -49,6 +49,7 @@ class AstraTaskRequest:
     project_id: str | None = None
     task_id: str | None = None
     approval_state: str = "not_required"
+    approval_token: str | None = None
     context_refs: tuple[str, ...] = ()
     client_platform: str = "unknown"
     client_version: str = "unknown"
