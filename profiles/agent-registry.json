@@ -235,6 +235,50 @@
       "activation": "local_install_required",
       "qualification": "pending",
       "source": "illegal-xd/delx-memory-bun"
+    },
+    {
+      "id": "claude-code",
+      "enabled": true,
+      "tier": "local_tooling",
+      "capabilities": [
+        "repository",
+        "coding",
+        "testing",
+        "planning",
+        "workflows",
+        "tool_use",
+        "sessions",
+        "architecture",
+        "review"
+      ],
+      "activation": "local_install_required",
+      "qualification": "pending",
+      "node_id": "mh-dev-01",
+      "execution_client": "claude"
+    },
+    {
+      "id": "freellmapi",
+      "enabled": true,
+      "tier": "local_gateway",
+      "capabilities": [
+        "reasoning",
+        "analysis",
+        "coding",
+        "architecture",
+        "review",
+        "research",
+        "web",
+        "documents",
+        "long_context",
+        "bulk",
+        "repository",
+        "testing",
+        "transform",
+        "classify"
+      ],
+      "activation": "local_gateway_required",
+      "qualification": "pending",
+      "node_id": "mh-dev-01"
     }
   ],
   "selection": "cloud_first_capability_then_local_harness_then_local_gateway_then_local_model",
@@ -256,11 +300,13 @@
       "gigachat"
     ],
     "local_agents": [
+      "codex",
+      "claude-code",
+      "cursor",
       "ollama",
       "kimi-k3-in-c",
-      "codex",
-      "cursor",
-      "deepseek-harness"
+      "deepseek-harness",
+      "freellmapi"
     ],
     "qualification_states": {
       "gemini": "NOT_PROVEN",
@@ -273,6 +319,39 @@
       "claude": "NOT_PROVEN",
       "gigachat": "REGISTERED_NOT_QUALIFIED"
     },
-    "rule": "registration_or_credential_reference_never_implies_successful_authorization"
+    "rule": "registration_or_credential_reference_never_implies_successful_authorization",
+    "cloud_agents": [
+      "gemini",
+      "perplexity",
+      "kimi",
+      "deepseek",
+      "chatgpt",
+      "openai",
+      "gigachat",
+      "openrouter",
+      "unorouter",
+      "zerouter",
+      "siliconflow",
+      "novita",
+      "zai",
+      "llm7",
+      "sambanova",
+      "aionlabs",
+      "cloudflare",
+      "nararouter",
+      "orcarouter",
+      "groq",
+      "mistral",
+      "huggingface",
+      "claude"
+    ],
+    "architectural_distinction": {
+      "claude_code": "local execution client",
+      "claude": "cloud provider/gateway identity",
+      "omniroute": "transport/gateway, not an agent",
+      "fcc": "transport/gateway, not an agent",
+      "ecc": "auxiliary support, no authority",
+      "provider_model_registry": "candidate provider/model catalog, not authorization proof"
+    }
   }
 }
