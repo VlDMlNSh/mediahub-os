@@ -7,6 +7,7 @@ on:
     paths:
       - "architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.md"
       - "architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml"
+      - "architecture/ASTRA-GOLD-QUALIFICATION-BLUEPRINT.yaml"
       - "astra_github_agent.py"
       - "ops/agent-fabric/**"
       - "ops/qualification/**"
