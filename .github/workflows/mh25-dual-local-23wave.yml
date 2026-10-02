@@ -51,41 +51,77 @@ jobs:
           for i in $(seq 1 23); do
             echo "ROUND $i"
             ts=$(date +%s)
-            fcc_codex_status=BLOCKED
-            fcc_claude_status=BLOCKED
-            omni_codex_status=BLOCKED
-            omni_claude_status=BLOCKED
-            direct_claude_status=BLOCKED
-            if command -v fcc-codex >/dev/null 2>&1; then
-              timeout 25s fcc-codex exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_FCC_CODEX_OK" </dev/null > /tmp/fcc-codex.out 2>&1 || true
-              grep -Fx MEDIAHUB_FCC_CODEX_OK /tmp/fcc-codex.out >/dev/null 2>&1 && fcc_codex_status=PASS
-            fi
-            if command -v fcc-claude >/dev/null 2>&1; then
-              timeout 25s fcc-claude -p "Return exactly MEDIAHUB_FCC_CLAUDE_OK" --output-format text </dev/null > /tmp/fcc-claude.out 2>&1 || true
-              grep -Fx MEDIAHUB_FCC_CLAUDE_OK /tmp/fcc-claude.out >/dev/null 2>&1 && fcc_claude_status=PASS
-            fi
-            if command -v omniroute >/dev/null 2>&1; then
-              timeout 30s omniroute run codex --model auto -- exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_OMNI_CODEX_OK" </dev/null > /tmp/omni-codex.out 2>&1 || true
-              grep -Fx MEDIAHUB_OMNI_CODEX_OK /tmp/omni-codex.out >/dev/null 2>&1 && omni_codex_status=PASS
-              timeout 30s omniroute run claude --model auto -- -p "Return exactly MEDIAHUB_OMNI_CLAUDE_OK" --output-format text </dev/null > /tmp/omni-claude.out 2>&1 || true
-              grep -Fx MEDIAHUB_OMNI_CLAUDE_OK /tmp/omni-claude.out >/dev/null 2>&1 && omni_claude_status=PASS
-            fi
-            if command -v claude >/dev/null 2>&1; then
-              timeout 30s claude -p "Return exactly MEDIAHUB_DIRECT_CLAUDE_OK" --output-format text </dev/null > /tmp/direct-claude.out 2>&1 || true
-              grep -Fx MEDIAHUB_DIRECT_CLAUDE_OK /tmp/direct-claude.out >/dev/null 2>&1 && direct_claude_status=PASS
-            fi
-            python3 - <<PY
-import hashlib, json, os, uuid
-record={"command_id":str(uuid.uuid4()),"round":$i,"timestamp":$ts,"source_sha":os.environ["GITHUB_SHA"],"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status","direct_claude":"$direct_claude_status"}
-record["evidence_digest"]=hashlib.sha256(json.dumps(record,sort_keys=True,separators=(",",":")).encode()).hexdigest()
-print(json.dumps(record))
+            workspace="$GITHUB_WORKSPACE"
+            run_probe() {
+              local timeout_s="$1"
+              local output="$2"
+              shift 2
+              "$@" >"$output" 2>&1
+              local rc=$?
+              printf '%s\n' "$rc"
+            }
+            record_probe() {
+              local executor_id="$1"
+              local provider_model_id="$2"
+              local timeout_s="$3"
+              local output="$4"
+              local rc="$5"
+              local marker="$6"
+              local status=FAIL
+              local verification_status=FAIL
+              if [ "$rc" -eq 0 ] && grep -Fx "$marker" "$output" >/dev/null 2>&1; then
+                status=PASS
+                verification_status=PASS
+              elif [ "$rc" -eq 124 ]; then
+                verification_status=TIMEOUT
+              fi
+              python3 - "$executor_id" "$provider_model_id" "$timeout_s" "$output" "$rc" "$status" "$verification_status" "$marker" "$i" "$ts" "$workspace" >> mh25-23wave.jsonl <<'PY'
+import hashlib, json, os, sys, uuid
+(executor_id, provider_model_id, timeout_s, output, rc, status,
+ verification_status, marker, round_no, timestamp, workspace) = sys.argv[1:]
+try:
+    exit_status=int(rc)
+except ValueError:
+    exit_status=255
+record={
+    "schema":"mediahub.astra-round-evidence.v1",
+    "command_id":str(uuid.uuid4()),
+    "node_id":os.uname().nodename,
+    "component_id":"MH-25",
+    "executor_id":executor_id,
+    "provider_model_id":provider_model_id,
+    "source_sha":os.environ["GITHUB_SHA"],
+    "round":int(round_no),
+    "timestamp":int(timestamp),
+    "exit_status":exit_status,
+    "timeout":int(timeout_s),
+    "workspace":workspace,
+    "verification_status":verification_status,
+    "status":status,
+    "marker":marker,
+    "evidence_digest":""
+}
+record["evidence_digest"]=hashlib.sha256(
+    json.dumps({k:v for k,v in record.items() if k!="evidence_digest"},
+               sort_keys=True,separators=(",",":")).encode()
+).hexdigest()
+print(json.dumps(record,sort_keys=True))
 PY
-            python3 - <<PY >> mh25-23wave.jsonl
-import hashlib, json, os, uuid
-record={"command_id":str(uuid.uuid4()),"round":$i,"timestamp":$ts,"source_sha":os.environ["GITHUB_SHA"],"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status","direct_claude":"$direct_claude_status"}
-record["evidence_digest"]=hashlib.sha256(json.dumps(record,sort_keys=True,separators=(",",":")).encode()).hexdigest()
-print(json.dumps(record))
-PY
+            }
+            fcc_codex_rc=$(timeout 25s fcc-codex exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_FCC_CODEX_OK" </dev/null >/tmp/fcc-codex.out 2>&1); fcc_codex_rc=$?
+            fcc_claude_rc=$(timeout 25s fcc-claude -p "Return exactly MEDIAHUB_FCC_CLAUDE_OK" --output-format text </dev/null >/tmp/fcc-claude.out 2>&1); fcc_claude_rc=$?
+            omni_codex_rc=$(timeout 30s omniroute run codex --model auto -- exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_OMNI_CODEX_OK" </dev/null >/tmp/omni-codex.out 2>&1); omni_codex_rc=$?
+            omni_claude_rc=$(timeout 30s omniroute run claude --model auto -- -p "Return exactly MEDIAHUB_OMNI_CLAUDE_OK" --output-format text </dev/null >/tmp/omni-claude.out 2>&1); omni_claude_rc=$?
+            direct_claude_rc=$(timeout 30s claude -p "Return exactly MEDIAHUB_DIRECT_CLAUDE_OK" --output-format text </dev/null >/tmp/direct-claude.out 2>&1); direct_claude_rc=$?
+            command -v fcc-codex >/dev/null 2>&1 || fcc_codex_rc=127
+            command -v fcc-claude >/dev/null 2>&1 || fcc_claude_rc=127
+            command -v omniroute >/dev/null 2>&1 || { omni_codex_rc=127; omni_claude_rc=127; }
+            command -v claude >/dev/null 2>&1 || direct_claude_rc=127
+            record_probe "CLAUDE_CODE_FCC" "UNRESOLVED_FCC_MODEL" 25 /tmp/fcc-codex.out "$fcc_codex_rc" "MEDIAHUB_FCC_CODEX_OK"
+            record_probe "CLAUDE_FCC" "UNRESOLVED_FCC_MODEL" 25 /tmp/fcc-claude.out "$fcc_claude_rc" "MEDIAHUB_FCC_CLAUDE_OK"
+            record_probe "CODEX_OMNIROUTE" "UNRESOLVED_OMNI_MODEL" 30 /tmp/omni-codex.out "$omni_codex_rc" "MEDIAHUB_OMNI_CODEX_OK"
+            record_probe "CLAUDE_OMNIROUTE" "UNRESOLVED_OMNI_MODEL" 30 /tmp/omni-claude.out "$omni_claude_rc" "MEDIAHUB_OMNI_CLAUDE_OK"
+            record_probe "CLAUDE_CODE_DIRECT" "UNRESOLVED_DIRECT_MODEL" 30 /tmp/direct-claude.out "$direct_claude_rc" "MEDIAHUB_DIRECT_CLAUDE_OK"
           done
       - name: Selection and evidence
         shell: bash
@@ -94,31 +130,45 @@ PY
           python3 - <<'PY'
 import json, os, pathlib, shutil
 rows=[json.loads(x) for x in pathlib.Path("mh25-23wave.jsonl").read_text().splitlines() if x.strip()]
-keys=["fcc_codex","fcc_claude","omni_codex","omni_claude","direct_claude"]
-if len(rows) != 23:
-    raise SystemExit(f"expected exactly 23 rows, got {len(rows)}")
-if [r.get("round") for r in rows] != list(range(1,24)):
-    raise SystemExit("round sequence is not exactly 1..23")
-if len({r.get("command_id") for r in rows}) != 23:
+required=[
+    "CLAUDE_CODE_FCC","CLAUDE_FCC","CODEX_OMNIROUTE",
+    "CLAUDE_OMNIROUTE","CLAUDE_CODE_DIRECT"
+]
+if len(rows) != 115:
+    raise SystemExit(f"expected exactly 115 evidence rows, got {len(rows)}")
+expected={(r,p) for r in range(1,24) for p in required}
+actual={(r.get("round"),r.get("executor_id")) for r in rows}
+if actual != expected:
+    raise SystemExit("evidence matrix is not exactly 23 rounds x 5 mandatory paths")
+if len({r.get("command_id") for r in rows}) != 115:
     raise SystemExit("command_id values are not unique")
 if any(r.get("source_sha") != os.environ["GITHUB_SHA"] for r in rows):
     raise SystemExit("source_sha mismatch in round evidence")
 if any(not r.get("evidence_digest") for r in rows):
     raise SystemExit("missing evidence_digest in round evidence")
+if any(r.get("provider_model_id","").startswith("UNRESOLVED_") for r in rows):
+    raise SystemExit("provider/model identity unresolved; qualification is fail-closed")
 summary={}
-for k in keys:
-    n=sum(r[k]=="PASS" for r in rows)
-    summary[k]={"pass_count":n,"rounds":len(rows),"pass_rate":n/len(rows)}
-selected=[k for k,v in summary.items() if v["pass_count"]==len(rows)]
-payload={"schema":"mediahub.dual-local-executor-23wave.v2","source_sha":os.environ["GITHUB_SHA"],
-         "node":os.uname().nodename,"summary":summary,"selected_full_pass":selected,
-         "required_paths":["CODEX_FCC","CLAUDE_FCC","CODEX_OMNIROUTE","CLAUDE_OMNIROUTE","CLAUDE_CODE_DIRECT"],
-         "required_rounds_per_path":23,"required_total_rounds":115,
-         "ecc":{"path":shutil.which("ecc") or shutil.which("ecc-cli") or "NOT_FOUND"},
-         "policy":"provider/backend identity remains explicit; no credentials emitted"}
+for key in required:
+    subset=[r for r in rows if r["executor_id"]==key]
+    n=sum(r["status"]=="PASS" and r["verification_status"]=="PASS" for r in subset)
+    summary[key]={"pass_count":n,"rounds":23,"pass_rate":n/23}
+selected=[k for k,v in summary.items() if v["pass_count"]==23]
+payload={
+    "schema":"mediahub.dual-local-executor-23wave.v3",
+    "source_sha":os.environ["GITHUB_SHA"],
+    "node":os.uname().nodename,
+    "summary":summary,
+    "selected_full_pass":selected,
+    "required_paths":required,
+    "required_rounds_per_path":23,
+    "required_total_rounds":115,
+    "ecc":{"path":shutil.which("ecc") or shutil.which("ecc-cli") or "NOT_FOUND"},
+    "policy":"explicit executor/provider-model identity required; no credentials emitted"
+}
 pathlib.Path("mh25-23wave-qualification.json").write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n")
 print(json.dumps(payload,indent=2,sort_keys=True))
-if set(selected) != set(keys):
+if set(selected) != set(required):
     raise SystemExit(2)
 PY
       - name: Upload qualification evidence
