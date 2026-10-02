@@ -3,16 +3,10 @@ name: MH-25 first 24h autonomous development queue (DISABLED — G9 requires fre
 # Activation marker: queue task MH25-QUEUE-001
 
 on:
-  push:
-    paths:
-      - .github/workflows/mh25-first-24h-autonomous-queue.yml
-  workflow_dispatch:
-
-on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: mh25-first-24h-autonomous-development
