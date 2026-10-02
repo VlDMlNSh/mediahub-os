@@ -85,6 +85,9 @@ class ClaimStore:
             raise AgentFabricError("invalid_claim_status")
         if claim.expiry <= time.time():
             raise AgentFabricError("claim_expired")
+        active = tuple(c for c in self.list_claims() if c.task_id != claim.task_id and c.expiry > time.time() and c.status in {"ASSIGNED", "ACTIVE", "READY_FOR_VERIFY"})
+        if len(active) >= 2:
+            raise AgentFabricError("claim_capacity_exceeded")
         if self.conflicts(claim.paths, exclude_task_id=claim.task_id):
             raise AgentFabricError("claim_collision")
         path = self._path(claim.task_id)
