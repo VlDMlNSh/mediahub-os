@@ -85,7 +85,7 @@ def main():
         evidence=EVIDENCE/filename
         if not evidence.is_file():
             return block(stage,"fresh_evidence_missing:"+filename,steps)
-        step=run(stage+"_verify",[sys.executable,"ops/qualification/"+verifier,str(evidence)],300)
+        step=run(stage+"_verify",[sys.executable,"ops/qualification/"+verifier,str(evidence),"--source-sha",source],300)
         steps.append(step)
         if step["returncode"]!=0:
             return block(stage,"independent_verifier_failed",steps)
