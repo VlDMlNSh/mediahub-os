@@ -20,6 +20,9 @@ authority:
   executors:
     authority: executor_only
     clients: [codex, claude_code]
+    local_tooling: [codex, claude-code, cursor, deepseek-harness, stagewise]
+    local_gateways: [freellmapi]
+    local_models: [ollama, kimi-k3-in-c]
   transports:
     authority: transport_only
     values: [github, fcc, omniroute]
@@ -55,9 +58,12 @@ layers:
     - restart_recovery
     - result_publication
   hybrid_provider_fabric:
-    direct_cloud: [gemini, perplexity, kimi, deepseek, chatgpt, gigachat]
-    cloud_gateways: [openrouter, unorouter, claude]
-    local: [codex, cursor, ollama, kimi-k3-in-c, deepseek-harness]
+    direct_cloud: [gemini, perplexity, kimi, deepseek, chatgpt, openai, gigachat, siliconflow, novita, zai, llm7, sambanova, aionlabs, cloudflare, groq, mistral, huggingface]
+    cloud_gateways: [openrouter, unorouter, zerouter, nararouter, orcarouter, claude]
+    local_gateways: [freellmapi]
+    local_tooling: [codex, claude-code, cursor, deepseek-harness, stagewise]
+    local_models: [ollama, kimi-k3-in-c]
+    auxiliary: [ecc, delx-memory-bun]
     admission_sequence: [credential_presence, auth_success, model_discovery, non_mutating_probe, task_execution, result_validation, independent_a3]
   execution:
     mandatory_paths:
@@ -65,6 +71,7 @@ layers:
       - CLAUDE_FCC
       - CODEX_OMNIROUTE
       - CLAUDE_OMNIROUTE
+      - CLAUDE_CODE_DIRECT
     optional_future_paths:
       - CODEX_DIRECT
       - CLAUDE_DIRECT
