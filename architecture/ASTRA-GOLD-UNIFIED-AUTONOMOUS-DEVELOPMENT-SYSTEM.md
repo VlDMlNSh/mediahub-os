@@ -327,53 +327,66 @@ No state may transition to GOLD_ACTIVE using historical evidence.
 
 ## 8. Qualification model
 
-Qualification is a system qualification.
+Qualification is a system qualification. The canonical gate ids, names and
+numeric thresholds live in the single machine-readable source
+`architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`; this section summarizes it.
 
-### Gate G0 — identity
+### G0_IDENTITY — Identity
 - canonical node identity
 - runner identity
+- executor identity
+- provider/model identity
 - repository identity
 - exact source SHA
 - clean worktree
 
-### Gate G1 — control plane
+### G1_BOUNDARY — Boundary
+- authority boundary
+- transport boundary
+- state-authority boundary
+- credential boundary
+- isolated workspace
+
+### G2_CONTROL_PLANE — Control Plane
 - Astra coordinator
 - command contract
 - claim lease
-- queue
+- queue progress
 - duplicate suppression
 - result publication
+- heartbeat
 
-### Gate G2 — executor fabric
+### G3_EXECUTION_PATH — Execution Path
 For each Codex/Claude path:
-- executable identity
+- executable/runtime identity
 - provider identity
 - exact source SHA
 - isolated workspace
 - marker probe
-- timeout
+- timeout enforcement
 - malformed-result rejection
 - nonzero exit handling
+- result schema validation
 
-### Gate G3 — 23-wave qualification
-Minimum 23 fresh rounds for every mandatory execution path.
-
-Required paths:
-1. Codex/FCC
-2. Claude Code/FCC
-3. Codex/OmniRoute
-4. Claude Code/OmniRoute
+### G4_23_WAVE_QUALIFICATION — 23-Wave Qualification
+Minimum 23 fresh rounds for every mandatory execution path:
+1. CODEX_FCC
+2. CLAUDE_FCC
+3. CODEX_OMNIROUTE
+4. CLAUDE_OMNIROUTE
+5. CLAUDE_CODE_DIRECT
 
 A missing launcher is BLOCKED, not PASS.
 
-### Gate G4 — concurrency
+### G5_CONCURRENCY — Concurrency
 - maximum two concurrent autonomous claims by default
 - disjoint write boundaries required
 - shared surfaces serialized
 - collision detection
+- duplicate-controller rejection
 - independent evidence
 
-### Gate G5 — recovery
+### G6_RECOVERY — Recovery
 - executor timeout
 - executor failure
 - transport interruption
@@ -381,15 +394,15 @@ A missing launcher is BLOCKED, not PASS.
 - worker restart
 - duplicate controller
 - replay/idempotency
-- result publication after recovery
+- result publication recovery
 
-### Gate G6 — integrated verification
+### G7_INTEGRATED_A3 — Integrated A3
 A3 verifies the complete integrated result independently of A0/A2 assertions.
 
-### Gate G7 — pre-soak
+### G8_PRE_SOAK — Pre-Soak
 All required evidence bundles must be fresh and PASS.
 
-### Gate G8 — 24h GOLD soak
+### G9_24H_SOAK — 24H SOAK
 - canonical controller remains alive
 - queue remains serviceable
 - heartbeat remains fresh
@@ -398,10 +411,14 @@ All required evidence bundles must be fresh and PASS.
 - no unauthorized authority transfer
 - evidence remains publishable
 
-### Gate G9 — GOLD_ACTIVE
-Only after all mandatory gates have fresh evidence.
+### G10_LAUNCH_READY — Launch Ready
+Only after fresh PASS of G0–G9 and a complete launch-input bundle.
 
-## 8. Evidence contract
+### G11_LAUNCH — Human Launch
+HUMAN_ONLY. Requires release SHA, evidence bundle, A3 record, soak record and
+rollback target.
+
+## 9. Evidence contract
 
 Every qualification result must contain:
 - schema version
@@ -425,7 +442,7 @@ Every qualification result must contain:
 
 Historical evidence cannot satisfy a fresh gate.
 
-## 9. Fail-closed rules
+## 10. Fail-closed rules
 
 The system MUST block when:
 - launcher is missing;
@@ -442,7 +459,7 @@ The system MUST block when:
 - claim ownership is ambiguous;
 - duplicate controller ownership exists.
 
-## 10. Controller 24/7 contract
+## 11. Controller 24/7 contract
 
 The autonomous controller is a continuously supervised state machine, not a single shell process.
 
@@ -463,7 +480,7 @@ Required properties:
 
 A scheduled GitHub workflow alone is not sufficient proof of a 24/7 controller. The controller itself must remain alive and produce fresh heartbeat/evidence records throughout the soak.
 
-## 11. Security boundaries
+## 12. Security boundaries
 
 - credentials never committed;
 - credentials never emitted in evidence;
@@ -476,7 +493,7 @@ A scheduled GitHub workflow alone is not sufficient proof of a 24/7 controller. 
 - A3 must remain independently verifiable;
 - destructive/production actions require explicit human authorization.
 
-## 12. Qualification result semantics
+## 13. Qualification result semantics
 
 Only these top-level states are valid:
 
@@ -488,7 +505,7 @@ Only these top-level states are valid:
 
 There is no implicit PASS.
 
-## 13. Canonical implementation boundary
+## 14. Canonical implementation boundary
 
 ASTRA GOLD owns the autonomous development fabric.
 
@@ -506,7 +523,7 @@ MediaHub product domains remain separate:
 
 ASTRA GOLD may develop and verify these domains but must never silently become their domain State Authority.
 
-## 14. Target repository layout
+## 15. Target repository layout
 
 ```
 .github/agent-system/       governance
@@ -524,7 +541,7 @@ evidence/                   fresh qualification evidence
 tests/                      verification
 ```
 
-## 15. Definition of ready
+## 16. Definition of ready
 
 ASTRA GOLD is **qualification-ready** when:
 1. the unified contract is committed;
@@ -539,7 +556,7 @@ ASTRA GOLD is **qualification-ready** when:
 
 ASTRA GOLD is **GOLD_ACTIVE** only after actual execution proves those properties.
 
-## 16. Current truth
+## 17. Current truth
 
 As of 2026-10-02 the architecture is being normalized to this unified ASTRA GOLD definition.
 

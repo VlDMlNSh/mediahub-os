@@ -31,6 +31,7 @@ def main():
 
     print("=== VALIDATION ===")
     run([sys.executable, "tools/validate_contracts.py"])
+    run([sys.executable, "ops/qualification/verify_astra_gold_governance.py"])
 
     print()
     print("=== UNIT TESTS ===")

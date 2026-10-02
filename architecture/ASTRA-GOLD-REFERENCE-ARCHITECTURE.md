@@ -14,6 +14,10 @@ qualification, recovery and launch boundaries.
 The complete component inventory remains in:
 `architecture/ASTRA-GOLD-COMPLETE-COMPONENT-SCHEME.md`
 
+Machine-readable gate ids, numeric thresholds, the invariant registry, the
+credential lifecycle, the human approval record and executor classes live in:
+`architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`
+
 This reference architecture does not grant qualification to any component.
 Runtime qualification requires fresh evidence at the exact source SHA.
 
@@ -108,6 +112,14 @@ Mandatory paths:
 
 Mandatory qualification:
 23 fresh isolated successful rounds per path = 115 rounds.
+
+Cloud executors are an admitted extension of the execution fabric, not a new
+authority plane. A cloud executor path (for example Gemini, DeepSeek or an
+OpenRouter gateway) is subject to the same admission ladder, credential
+boundary, provider-identity preservation and 23 fresh rounds, and carries only
+executor authority. Gateway success never substitutes for native-provider
+qualification. Candidate cloud executor paths are enumerated in
+`architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`.
 
 ### 3.4 Transport plane
 
@@ -267,13 +279,13 @@ Historical evidence cannot satisfy a fresh qualification gate.
 
 Evidence for a completed round is immutable. Corrections create a new linked evidence record; prior evidence is never silently rewritten.
 
-## 10. Reconciliation Contract
+## 8. Reconciliation Contract
 
 A0 reconciles architecture vs implementation, registry vs actual identity, claimed state vs evidence state, tested SHA vs source SHA, provider/model identity vs execution evidence, qualification state vs gate state, candidate inventory vs runtime admission, control-plane state vs worker state, and evidence completeness vs required metadata.
 
 Any contradiction produces RECONCILIATION_REQUIRED → BLOCKED. A component may not resolve a contradiction by changing its own authority or evidence.
 
-## 8. Concurrency contract
+## 9. Concurrency contract
 
 Maximum autonomous claims: 2.
 
@@ -287,7 +299,7 @@ Rules:
 
 Parallelism is an execution optimization, never an authority mechanism.
 
-## 9. Recovery contract
+## 10. Recovery contract
 
 Mandatory scenarios:
 
@@ -305,7 +317,7 @@ Mandatory scenarios:
 Recovery must return the system to a deterministic state or to BLOCKED.
 Silent continuation is prohibited.
 
-## 10. Verification contract
+## 11. Verification contract
 
 A3 independently checks:
 
@@ -322,7 +334,7 @@ A3 independently checks:
 
 A2, executor, provider, model or candidate cannot certify its own qualification.
 
-## 11. Category-specific controls
+## 12. Category-specific controls
 
 ### Local model
 
@@ -384,7 +396,11 @@ Require:
 No runtime admission.
 Exact upstream identity must be resolved first.
 
-## 12. Qualification gates
+## 13. Qualification gates
+
+The canonical gate ids, names and numeric thresholds are defined in
+`architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` and are mirrored by
+`architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml`.
 
 G0 — Identity
 G1 — Boundary
@@ -401,7 +417,7 @@ G11 — Human Launch
 
 Missing, contradictory, stale or failed mandatory evidence produces BLOCKED.
 
-## 13. Pre-soak
+## 14. Pre-soak
 
 Required before 24h soak:
 - all mandatory execution paths;
@@ -412,7 +428,7 @@ Required before 24h soak:
 - architecture reconciliation;
 - no unresolved qualification blocker.
 
-## 14. 24H SOAK
+## 15. 24H SOAK
 
 Required observations:
 - continuous heartbeat;
@@ -425,7 +441,7 @@ Required observations:
 
 24H SOAK is a current-state gate, not a historical certification.
 
-## 15. Launch contract
+## 16. Launch contract
 
 Launch requires:
 - G0-G10 PASS;
@@ -441,7 +457,7 @@ Human launch authorization is required before G11.\n\nG11 is HUMAN_ONLY.
 ASTRA may prepare LAUNCH_READY.
 ASTRA does not self-authorize production launch.
 
-## 16. Absolute invariants
+## 17. Absolute invariants
 
 - No credentials in Git.
 - No secrets in evidence.
@@ -461,7 +477,7 @@ ASTRA does not self-authorize production launch.
 - No silent transition after contradictory evidence.
 - Missing evidence means BLOCKED.
 
-## 17. Reference status semantics
+## 18. Reference status semantics
 
 DESIGNED:
 architecture exists but runtime admission has not started.
@@ -494,7 +510,7 @@ requirements are satisfied.
 BLOCKED:
 a mandatory gate lacks valid evidence or contains a failure/conflict.
 
-## 18. Canonical relationship to existing ASTRA GOLD documents
+## 19. Canonical relationship to existing ASTRA GOLD documents
 
 This document is the reference architecture.
 
