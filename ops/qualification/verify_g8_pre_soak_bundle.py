@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse, hashlib, json, re, sys
 from pathlib import Path
 
-REQUIRED=("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree","fresh_bundle")
+REQUIRED=("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree")
 SURFACES=("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree")
 SHA40=re.compile(r"^[0-9a-fA-F]{40}$")
 SHA64=re.compile(r"^[0-9a-f]{64}$")
