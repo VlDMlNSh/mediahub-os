@@ -57,6 +57,23 @@ def verify(path: Path) -> dict:
     missing_fields=[k for k in RECOVERY if not pub.get(k)]
     if missing_fields:
         return {"status":"BLOCKED","reason":"publication_recovery_fields_missing","missing":missing_fields}
+    if not isinstance(pub["published_result_identity"],dict):
+        return {"status":"BLOCKED","reason":"published_result_identity_not_structured"}
+    if not pub["published_result_identity"]:
+        return {"status":"BLOCKED","reason":"published_result_identity_empty"}
+    if not re.fullmatch(r"[0-9a-fA-F]{40}",str(pub["source_sha"])):
+        return {"status":"BLOCKED","reason":"publication_source_sha_invalid"}
+    if str(pub["source_sha"]).lower() != next(iter(source_shas)):
+        return {"status":"BLOCKED","reason":"publication_source_sha_mismatch"}
+    if not re.fullmatch(r"[0-9a-fA-F]{40}",str(pub["remote_branch_tip"])):
+        return {"status":"BLOCKED","reason":"remote_branch_tip_invalid"}
+    reconciliation=pub["local_processed_state_reconciliation"]
+    if not isinstance(reconciliation,dict) or not reconciliation:
+        return {"status":"BLOCKED","reason":"processed_state_reconciliation_invalid"}
+    if reconciliation.get("status")!="RECONCILED":
+        return {"status":"BLOCKED","reason":"processed_state_not_reconciled"}
+    if not reconciliation.get("processed_state_identity"):
+        return {"status":"BLOCKED","reason":"processed_state_identity_missing"}
     if pub.get("duplicate_execution_detected") is not False:
         return {"status":"BLOCKED","reason":"duplicate_execution_not_suppressed"}
     if pub.get("evidence_rewritten") is not False:
