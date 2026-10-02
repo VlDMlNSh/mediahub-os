@@ -100,6 +100,16 @@ class ClaimStore:
                 raise AgentFabricError("claim_collision")
             path = self._path(claim.task_id)
             payload = json.dumps(asdict(claim), sort_keys=True, separators=(",", ":")) + "\n"
+            if path.exists():
+                try:
+                    existing = json.loads(path.read_text(encoding="utf-8"))
+                except (OSError, json.JSONDecodeError, TypeError) as exc:
+                    raise AgentFabricError("invalid_claim_store") from exc
+                existing_expiry = float(existing.get("expiry", 0))
+                existing_status = existing.get("status")
+                if existing_status in {"ASSIGNED", "ACTIVE", "READY_FOR_VERIFY"} and existing_expiry > time.time():
+                    raise AgentFabricError("claim_exists")
+                path.unlink()
             try:
                 fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
             except FileExistsError as exc:
