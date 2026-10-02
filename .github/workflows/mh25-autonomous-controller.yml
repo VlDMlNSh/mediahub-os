@@ -1,0 +1,67 @@
+name: MH-25 Astra Autonomous Controller
+
+on:
+  push:
+    branches:
+      - astra/dual-local-executors-live-20261002
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: mh25-autonomous-controller
+  cancel-in-progress: false
+
+jobs:
+  controller:
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 7200
+    steps:
+      - name: Checkout exact controller SHA
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Controller preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          python3 -m py_compile ops/agent-fabric/autonomous_controller.py
+          test -x /home/mediahub/.local/bin/mediahub-executors/claude
+          command -v codex
+          command -v ollama
+          ollama list
+
+      - name: Run Astra queue
+        id: queue
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p mh25-controller-evidence
+          python3 ops/agent-fabric/autonomous_controller.py 2>&1 | tee mh25-controller.log
+
+      - name: Publish controller evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mh25-autonomous-controller-${{ github.sha }}
+          path: |
+            mh25-controller.log
+            mh25-controller-evidence/
+          if-no-files-found: warn
+
+      - name: GOLD gate summary
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -f mh25-controller-evidence/controller-state.json; then
+            cat mh25-controller-evidence/controller-state.json
+          else
+            echo 'controller-state.json missing'
+          fi
