@@ -13,6 +13,7 @@ def build(source: dict) -> dict:
     gates=dict(source.get("gates",{}))
     evidence=dict(source.get("gate_evidence",{}))
     failures=[]
+    effective=dict(gates)
     for gate in GATES:
         if gate=="G11_LAUNCH":
             if gates.get(gate)!="HUMAN_AUTHORIZED": failures.append(gate)
@@ -22,10 +23,11 @@ def build(source: dict) -> dict:
             e=evidence.get(gate,{})
             if status=="PASS" and e.get("fresh") is not True: status="BLOCKED"
             if gate=="G7_INTEGRATED_A3" and e.get("independence_attested") is not True: status="BLOCKED"
+        effective[gate]=status
         if status!="PASS": failures.append(gate)
     return {"schema":"mediahub.astra-gold.current-qualification-state.v1",
             "status":"LAUNCH_READY" if not failures else "BLOCKED",
-            "gates":gates,"failed_gates":failures,
+            "gates":gates,"effective_gates":effective,"failed_gates":failures,
             "fresh_evidence_gates":[g for g in FRESH if evidence.get(g,{}).get("fresh") is True],
             "physical_blockers":[g for g in FRESH if evidence.get(g,{}).get("fresh") is not True],
             "source_sha":source.get("source_sha","")}
