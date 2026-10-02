@@ -54,6 +54,10 @@ def evaluate(evidence: dict, schema: dict) -> dict:
             missing_launch.append(key + ":validated_evidence_record_required")
     soak_record=launch.get("soak_record")
     if isinstance(soak_record,dict) and record_ok("soak_record"):
+        if not isinstance(soak_record.get("workflow_run_id"), int) or soak_record.get("workflow_run_id") <= 0:
+            missing_launch.append("soak_record:workflow_run_id_required")
+        if not isinstance(soak_record.get("workflow_run_url"), str) or not soak_record.get("workflow_run_url").startswith("https://github.com/"):
+            missing_launch.append("soak_record:workflow_run_url_required")
         # Validate the launch-carried G9 record itself, without trusting only its
         # status/fresh/source_sha fields. The verifier normally reads a file, so
         # perform the same canonical contract checks inline here.
