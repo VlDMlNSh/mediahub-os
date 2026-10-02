@@ -77,8 +77,8 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
-          pgrep -af "astra_github_agent.py" | tee /tmp/astra-workers.txt
-          test "$(grep -c "astra_github_agent.py" /tmp/astra-workers.txt)" -ge 1
+          pgrep -af "[a]stra_github_agent.py" | tee /tmp/astra-workers.txt
+          test "$(grep -c "[a]stra_github_agent.py" /tmp/astra-workers.txt)" -ge 1
           echo "duplicate_worker_launch=false"
       - name: Run first real test iteration
         shell: bash
@@ -88,7 +88,7 @@ jobs:
           date -u +%FT%TZ > /tmp/astra-gold/started_at
           python3 -m compileall -q runtime tests astra_github_agent.py
           PYTHONPATH=runtime:. python3 -m pytest -q tests/ | tee /tmp/astra-gold/first-real-test.log
-          pgrep -af "astra_github_agent.py" | tee /tmp/astra-gold/worker-after-first-test.txt
+          pgrep -af "[a]stra_github_agent.py" | tee /tmp/astra-gold/worker-after-first-test.txt
           echo "first_real_test=PASS"
       - name: Autonomous 24h verification loop
         shell: bash
@@ -100,7 +100,7 @@ jobs:
             iteration=$((iteration+1))
             ts="$(date -u +%FT%TZ)"
             echo "iteration=$iteration timestamp=$ts"
-            pgrep -af "astra_github_agent.py" | tee -a /tmp/astra-gold/worker.log
+            pgrep -af "[a]stra_github_agent.py" | tee -a /tmp/astra-gold/worker.log
             PYTHONPATH=runtime:. python3 -m pytest -q tests/ | tee "/tmp/astra-gold/test-$iteration.log"
             test "$(pgrep -f "astra_github_agent.py" | wc -l)" -ge 1
             sleep 600
@@ -114,7 +114,7 @@ jobs:
           echo "phase=GOLD_24H_SOAK"
           echo "commit=$(git rev-parse HEAD 2>/dev/null || echo unavailable)"
           echo "host=$(hostname)"
-          echo "worker_present=$(pgrep -f 'astra_github_agent.py' >/dev/null && echo true || echo false)"
+          echo "worker_present=$(pgrep -f '[a]stra_github_agent.py' >/dev/null && echo true || echo false)"
           echo "secret_values=SUPPRESSED"
       - name: Upload soak evidence
         if: always()
