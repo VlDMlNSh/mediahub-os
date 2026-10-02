@@ -25,6 +25,14 @@ class AgentFabricTests(unittest.TestCase):
             with self.assertRaisesRegex(AgentFabricError, "claim_collision"):
                 s.acquire(mk("B", ["src/a.py"]))
 
+    def test_max_two_active_claims(self):
+        with tempfile.TemporaryDirectory() as td, mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=100.0):
+            s = ClaimStore(Path(td))
+            s.acquire(mk("A", ["src/a.py"]))
+            s.acquire(mk("B", ["src/b.py"]))
+            with self.assertRaisesRegex(AgentFabricError, "claim_capacity_exceeded"):
+                s.acquire(mk("C", ["src/c.py"]))
+
     def test_heartbeat(self):
         with tempfile.TemporaryDirectory() as td, mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=100.0):
             s = ClaimStore(Path(td))
