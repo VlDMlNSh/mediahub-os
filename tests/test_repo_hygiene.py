@@ -16,6 +16,7 @@ docs/qualification/ASTRA-GOLD-PROJECT-AUDIT-2026-10-02.md).
 Deliberately dependency-light: only stdlib plus PyYAML (declared in
 requirements-dev.txt).
 """
+import glob
 import json
 import os
 import re
@@ -141,6 +142,33 @@ class RepoHygieneTests(unittest.TestCase):
             for reference in _missing_source_references(text):
                 failures.append(f"{path.name}: auto-run references missing {reference}")
         self.assertEqual(failures, [], "Auto-running workflows with missing sources:\n" + "\n".join(failures))
+
+    def test_auto_running_workflow_path_filters_are_resolvable(self):
+        """A push path filter must match something.
+
+        A filter naming a file that does not exist never fires, so the workflow
+        silently stops guarding the change it was written for. This is the D3
+        class of defect and it is invisible to the source-reference guard above,
+        which only inspects inline ``tests/`` and ``runtime/`` references.
+        """
+        failures = []
+        for path in sorted(WORKFLOW_DIR.glob("*.y*ml")):
+            document = yaml.safe_load(path.read_text(encoding="utf-8"))
+            trigger = _trigger(document)
+            if not isinstance(trigger, dict):
+                continue
+            for event in ("push", "pull_request"):
+                config = trigger.get(event)
+                if not isinstance(config, dict):
+                    continue
+                for pattern in config.get("paths") or []:
+                    pattern = str(pattern).strip()
+                    if any(char in pattern for char in "*?["):
+                        if not glob.glob(pattern, recursive=True):
+                            failures.append(f"{path.name}: {event} path glob matches nothing: {pattern}")
+                    elif not (ROOT / pattern).exists():
+                        failures.append(f"{path.name}: {event} path filter does not exist: {pattern}")
+        self.assertEqual(failures, [], "Unresolvable workflow path filters:\n" + "\n".join(failures))
 
     def test_dormant_workflows_are_registered_and_dispatch_only(self):
         """Every workflow with missing sources must be a registered dormant one.
