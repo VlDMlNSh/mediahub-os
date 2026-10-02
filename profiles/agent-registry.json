@@ -207,7 +207,9 @@
         "sessions"
       ],
       "activation": "local_install_required",
-      "qualification": "pending"
+      "qualification": "pending",
+      "source": "https://github.com/deepseek-ai/deepseek-harness",
+      "identity_verification_required": false
     },
     {
       "id": "stagewise",
@@ -220,7 +222,9 @@
         "testing"
       ],
       "activation": "local_install_required",
-      "qualification": "pending"
+      "qualification": "pending",
+      "source": "https://github.com/stagewise-io/stagewise",
+      "identity_verification_required": false
     },
     {
       "id": "delx-memory-bun",
@@ -334,8 +338,8 @@
       "credential_creation": false,
       "state_authority": false,
       "architecture_authority": false,
-      "identity_verification_required": true,
-      "source": "user_supplied_candidate_identifier"
+      "identity_verification_required": false,
+      "source": "https://github.com/NVlabs/SoL-Pi"
     },
     {
       "id": "colibri",
@@ -362,8 +366,8 @@
       "credential_creation": false,
       "state_authority": false,
       "architecture_authority": false,
-      "identity_verification_required": true,
-      "source": "user_supplied_candidate_identifier"
+      "identity_verification_required": false,
+      "source": "https://github.com/illegal-xd/WebTool-DeepSeek"
     },
     {
       "id": "minicpm-v-4.5-8b-1mk",
@@ -390,8 +394,8 @@
       "credential_creation": false,
       "state_authority": false,
       "architecture_authority": false,
-      "identity_verification_required": true,
-      "source": "user_supplied_candidate_identifier"
+      "identity_verification_required": false,
+      "source": "https://github.com/vava-nessa/free-coding-models"
     },
     {
       "id": "unlazy",
@@ -432,8 +436,8 @@
       "credential_creation": false,
       "state_authority": false,
       "architecture_authority": false,
-      "identity_verification_required": true,
-      "source": "user_supplied_candidate_identifier"
+      "identity_verification_required": false,
+      "source": "https://github.com/miuuyy/codex-chatgpt-web"
     }
   ],
   "selection": "cloud_first_capability_then_local_harness_then_local_gateway_then_local_model",
