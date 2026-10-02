@@ -190,5 +190,63 @@ class RepoHygieneTests(unittest.TestCase):
         self.assertEqual(failures, [], "Dormant workflows that appear implemented:\n" + "\n".join(failures))
 
 
+class TestDiscoveryHygieneTests(unittest.TestCase):
+    """Guards the test suite itself against silent loss of coverage.
+
+    Two defects found while landing the qualification contracts are covered
+    here:
+
+    1. A test directory without ``__init__.py`` is skipped entirely by
+       ``python -m unittest discover -s tests``, which is the command CI runs.
+       ``tests/qualification/`` and ``tests/federation/`` were both invisible
+       to CI that way, so 25 unittest-style tests never executed.
+    2. A test module importing a sibling test module that does not exist
+       fails only when something actually collects that directory. In CI
+       nothing did, so a broken import shipped green.
+    """
+
+    TESTS_DIR = ROOT / "tests"
+
+    def _test_subdirectories(self):
+        for path in sorted(self.TESTS_DIR.iterdir()):
+            if not path.is_dir() or path.name.startswith("."):
+                continue
+            if path.name in SKIP_DIRS:
+                continue
+            yield path
+
+    def test_every_test_subdirectory_is_a_package(self):
+        """A missing __init__.py makes unittest discover skip the whole directory."""
+        missing = [
+            f"tests/{p.name}/__init__.py"
+            for p in self._test_subdirectories()
+            if not (p / "__init__.py").is_file()
+        ]
+        self.assertEqual(
+            missing,
+            [],
+            "Test directories without __init__.py are silently skipped by "
+            "'python -m unittest discover -s tests' in CI:\n" + "\n".join(missing),
+        )
+
+    def test_test_modules_import_only_existing_modules(self):
+        """Guards against a test importing a sibling test module that was removed."""
+        failures = []
+        pattern = re.compile(r"^\s*from\s+(tests[\w.]*)\s+import\s", re.MULTILINE)
+        for path in sorted(self.TESTS_DIR.rglob("test_*.py")):
+            if any(part in SKIP_DIRS for part in path.parts):
+                continue
+            for module in set(pattern.findall(path.read_text(encoding="utf-8"))):
+                rel = Path(*module.split("."))
+                if (self.TESTS_DIR.parent / rel).with_suffix(".py").is_file():
+                    continue
+                if (self.TESTS_DIR.parent / rel / "__init__.py").is_file():
+                    continue
+                failures.append(
+                    f"{path.relative_to(ROOT)}: imports missing module '{module}'"
+                )
+        self.assertEqual(failures, [], "Broken test imports:\n" + "\n".join(failures))
+
+
 if __name__ == "__main__":
     unittest.main()
