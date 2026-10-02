@@ -32,6 +32,13 @@ def verify(path: Path) -> dict:
             return {"status":"BLOCKED","reason":"scenario_source_sha_invalid","scenario":name}
         if not item.get("command_id") or not item.get("node_id"):
             return {"status":"BLOCKED","reason":"scenario_identity_missing","scenario":name}
+        if not item.get("timestamp"):
+            return {"status":"BLOCKED","reason":"scenario_timestamp_missing","scenario":name}
+        digest=str(item.get("evidence_digest","")).lower()
+        if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest):
+            return {"status":"BLOCKED","reason":"scenario_evidence_digest_invalid","scenario":name}
+        if item.get("secret_values") not in (None, "SUPPRESSED"):
+            return {"status":"BLOCKED","reason":"scenario_secret_policy_violation","scenario":name}
         source_shas.add(sha.lower())
     if len(source_shas) != 1:
         return {"status":"BLOCKED","reason":"scenario_source_sha_mismatch"}
