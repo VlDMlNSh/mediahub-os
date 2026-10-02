@@ -51,8 +51,8 @@ jobs:
             wave=$((wave+1))
             echo "wave=$wave started=$(date -u +%FT%TZ)"
             git fetch origin main --depth=50
-            git reset --hard origin/main
-            PYTHONPATH=runtime:. python3 -m mediahub_runtime.autonomous_queue | tee "/tmp/mh25-24h/wave-$wave.log" || true
+            git diff --exit-code origin/main -- . ":!control/commands" ":!control/results"
+            PYTHONPATH=runtime:. python3 -m mediahub_runtime.autonomous_queue | tee "/tmp/mh25-24h/wave-$wave.log"
             test "$(pgrep -f "astra_github_agent.py" | wc -l)" -ge 1
             sleep 600
           done
