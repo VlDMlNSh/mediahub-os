@@ -35,6 +35,12 @@ jobs:
           test "$worker_blob_sha" = "$blob_sha"
           echo "runner=$(hostname)"
           echo "agent_blob_sha=$blob_sha"
+      - name: Build immutable G8 admission manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/astra-gold
+          PYTHONPATH=. python3 ops/qualification/capture_g8_evidence_manifest.py             --evidence-dir evidence/astra-gold             --output evidence/astra-gold/g8-pre-soak.json             --source-sha "$(git rev-parse HEAD)"
       - name: Require fresh G8 admission bundle
         shell: bash
         run: |
