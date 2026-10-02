@@ -1,9 +1,13 @@
-name: Astra queue recovery gate
+name: Astra queue recovery gate (DISABLED — destructive legacy recovery)
+# Disabled: canonical qualification path owns this scope.
 
 on:
   push:
     paths:
       - ".github/workflows/astra-queue-recovery.yml"
+
+on:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -14,6 +18,7 @@ concurrency:
 
 jobs:
   release-blocked-qualification:
+    if: ${{ false }}
     runs-on: [self-hosted, mediahub-runner]
     timeout-minutes: 5
     steps:
