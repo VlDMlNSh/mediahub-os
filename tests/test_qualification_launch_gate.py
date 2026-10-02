@@ -45,7 +45,10 @@ class TestQualificationLaunchGate(unittest.TestCase):
     def test_complete_evidence_reaches_launch_ready_only(self):
         schema = load_schema()
         evidence = {
-            "gates": {gate: "PASS" for gate in schema["gates"] if gate != "G11_LAUNCH"},
+            "gates": {
+                **{gate: "PASS" for gate in schema["gates"] if gate != "G11_LAUNCH"},
+                "G11_LAUNCH": "HUMAN_AUTHORIZED",
+            },
             "launch": {key: "present" for key in schema["launch_contract"]["required_inputs"]},
         }
         result = evaluate(evidence, schema)
