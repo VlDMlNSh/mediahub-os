@@ -40,6 +40,31 @@ class PendingAgentRegistryTests(unittest.TestCase):
             loaded = AgentRegistry(path)
             self.assertEqual(loaded.select("coding").agent_id, "ollama")
 
+    def test_pending_candidate_with_capability_is_not_admitted(self):
+        registry = {
+            "agents": [
+                {
+                    "id": "candidate",
+                    "enabled": True,
+                    "tier": "local",
+                    "capabilities": ["coding"],
+                    "qualification": "pending",
+                    "activation": "qualification_required",
+                },
+                {
+                    "id": "ollama",
+                    "enabled": True,
+                    "tier": "local",
+                    "capabilities": ["coding"],
+                },
+            ]
+        }
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "agent-registry.json"
+            path.write_text(json.dumps(registry), encoding="utf-8")
+            loaded = AgentRegistry(path)
+            self.assertEqual(loaded.select("coding").agent_id, "ollama")
+
 
 if __name__ == "__main__":
     unittest.main()

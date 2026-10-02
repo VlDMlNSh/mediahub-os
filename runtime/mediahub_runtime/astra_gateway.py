@@ -92,6 +92,9 @@ class AgentDescriptor:
     enabled: bool
     tier: str
     capabilities: frozenset[str]
+    qualification: str | None
+    activation: str | None
+    identity_status: str | None
 
 
 class AgentRegistry:
@@ -119,6 +122,9 @@ class AgentRegistry:
                 descriptor = AgentDescriptor(
                     item["id"], bool(item["enabled"]), item["tier"],
                     frozenset(item.get("capabilities", ())),
+                    item.get("qualification"),
+                    item.get("activation"),
+                    item.get("identity_status"),
                 )
             except (KeyError, TypeError) as exc:
                 raise AstraGatewayError("agent_registry_invalid") from exc
@@ -132,7 +138,11 @@ class AgentRegistry:
             raise AstraGatewayError("invalid_capability")
         candidates = [
             agent for agent in self._agents
-            if agent.enabled and required_capability in agent.capabilities
+            if agent.enabled
+            and required_capability in agent.capabilities
+            and agent.qualification != "pending"
+            and agent.activation not in {"review_and_qualification_required", "qualification_required", "local_install_required"}
+            and agent.identity_status != "UNRESOLVED"
         ]
         local = [agent for agent in candidates if agent.tier == "local" and agent.agent_id == "ollama"]
         if local:
