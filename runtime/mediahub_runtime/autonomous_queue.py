@@ -108,7 +108,12 @@ def process_task(task: dict) -> dict:
         heartbeat_thread.start()
         worktree.parent.mkdir(parents=True, exist_ok=True)
         if worktree.exists():
-            cleanup = run(["git", "worktree", "remove", "--force", str(worktree)], 120)
+            existing = run(["git", "status", "--porcelain"], 60, worktree)
+            if existing.returncode:
+                raise RuntimeError("existing_worktree_uninspectable")
+            if existing.stdout.strip():
+                raise RuntimeError("existing_worktree_dirty")
+            cleanup = run(["git", "worktree", "remove", str(worktree)], 120)
             if cleanup.returncode:
                 raise RuntimeError("worktree_cleanup_failed")
         checkout = run(["git", "worktree", "add", "-b", branch, str(worktree), claim.base_sha], 120)
