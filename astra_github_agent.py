@@ -229,6 +229,7 @@ def execute(cmd):
             "claude_code_direct": "MEDIAHUB_CLAUDE_CODE_DIRECT_OK",
         }
         rounds = []
+        evidence_rounds = []
         def probe(argv, marker, timeout=35):
             started=time.monotonic()
             try:
@@ -285,8 +286,37 @@ def execute(cmd):
                     marker_map["claude_code_direct"],35)
             else:
                 rec["executors"]["claude_code_direct"]={"status":"BLOCKED","reason":"binary_missing"}
+            completed_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            path_meta = {
+                "fcc_codex": ("fcc-codex", "FCC"),
+                "fcc_claude": ("fcc-claude", "FCC"),
+                "omni_claude": ("omniroute:claude", "OmniRoute"),
+                "omni_codex": ("omniroute:codex", "OmniRoute"),
+                "claude_code_direct": ("claude", "native-claude"),
+            }
+            for path_key, result in rec["executors"].items():
+                executor_identity, transport_identity = path_meta[path_key]
+                raw_id=f"{rec['head']}|{path_key}|{cycle}".encode()
+                command_id="g4-"+hashlib.sha256(raw_id).hexdigest()[:24]
+                started_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time()-float(result.get("duration_seconds") or 0)))
+                item={
+                    "command_id": command_id, "path": path_key.upper(),
+                    "round": cycle, "source_sha": rec["head"],
+                    "executor_identity": executor_identity,
+                    "provider_or_transport_identity": transport_identity,
+                    "workspace": str(ROOT.resolve()),
+                    "started_at": started_at, "completed_at": completed_at,
+                    "exit_status": int(result.get("returncode", 1)),
+                    "timeout": result.get("status") == "TIMEOUT",
+                    "marker": marker_map[path_key],
+                    "marker_present": result.get("marker_present") is True,
+                    "result_schema": "mediahub.astra-gold.g4-round.v1",
+                    "verification_status": result.get("status") if result.get("status") == "PASS" else "BLOCKED",
+                }
+                item["evidence_digest"]="sha256:"+hashlib.sha256(json.dumps(item,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+                evidence_rounds.append(item)
             rounds.append(rec)
-        summary={}
+        summary={} 
         for key in marker_map:
             vals=[r["executors"].get(key,{}) for r in rounds]
             passed=[v for v in vals if v.get("status")=="PASS"]
@@ -298,7 +328,7 @@ def execute(cmd):
         selected=[k for k,v in ranked if v["pass_count"]==23]
         return {"status":"PASS" if set(selected) == set(marker_map) else "BLOCKED",
                 "phase":"23_round_local_executor_qualification","node_id":NODE_ID,
-                "rounds":rounds,"summary":summary,"selection_order":ranked,"selected_full_pass":selected,
+                "rounds":rounds,"evidence_rounds":evidence_rounds,"summary":summary,"selection_order":ranked,"selected_full_pass":selected,
                 "ecc_policy":"inventory-only; no authority or provider credentials","credentials":"SUPPRESSED"}
 
     if operation == "codex_config_isolation":
