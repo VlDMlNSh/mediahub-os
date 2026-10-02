@@ -26,6 +26,12 @@ def evaluate(evidence: dict, schema: dict) -> dict:
         if gate_id == "G11_LAUNCH":
             continue
         status = statuses.get(gate_id, "MISSING")
+        gate_evidence = evidence.get("gate_evidence", {}).get(gate_id, {})
+        if gate_id in {"G4_23_WAVE_QUALIFICATION","G5_CONCURRENCY","G6_RECOVERY","G7_INTEGRATED_A3","G8_PRE_SOAK"}:
+            if status == "PASS" and (gate_evidence.get("status") != "PASS" or gate_evidence.get("fresh") is not True):
+                status = "BLOCKED"
+            if gate_id == "G7_INTEGRATED_A3" and gate_evidence.get("independence_attested") is not True:
+                status = "BLOCKED"
         results[gate_id] = status
         if status != "PASS":
             failures.append(gate_id)
