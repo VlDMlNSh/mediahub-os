@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse, hashlib, json, re, sys
 from pathlib import Path
 
-SURFACES=("g4_115","g5_coordination","g6_recovery","a3_independent")
+SURFACES=("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree")
 FILES={
  "g4_115":"g4-115.json",
  "g5_coordination":"g5-coordination.json",
@@ -23,6 +23,7 @@ def main():
     if not SHA40.fullmatch(a.source_sha):
         print(json.dumps({"status":"BLOCKED","reason":"source_sha_invalid"})); return 2
     refs={}
+    summary={}
     for key in SURFACES:
         path=a.evidence_dir/FILES[key]
         if not path.is_file():
@@ -41,8 +42,9 @@ def main():
         if payload.get("secret_values")!="SUPPRESSED":
             print(json.dumps({"status":"BLOCKED","reason":"evidence_secret_policy","surface":key})); return 2
         refs[key]={"path":str(path),"sha256":digest,"status":"PASS"}
+        summary[key]={k:v for k,v in payload.items() if k in ("status","observations","paths","max_parallel","independence_attested","dirty","source_sha","target_sha","fresh")}
     payload={"schema":"mediahub.astra-gold.g8-evidence-manifest.v1","fresh":True,
-             "source_sha":a.source_sha,"evidence_manifest":refs,"secret_values":"SUPPRESSED"}
+             "source_sha":a.source_sha,"evidence_manifest":refs,"secret_values":"SUPPRESSED",**summary}
     canonical=json.dumps(payload,sort_keys=True,separators=(",",":")).encode()
     payload["bundle_sha256"]=hashlib.sha256(canonical).hexdigest()
     a.output.parent.mkdir(parents=True,exist_ok=True)
