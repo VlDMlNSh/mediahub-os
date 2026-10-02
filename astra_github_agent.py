@@ -26,7 +26,7 @@ def sync():
         subprocess.run(["git","clone","--depth","1",REMOTE,str(ROOT)],check=True,timeout=120)
     else:
         subprocess.run(["git","-C",str(ROOT),"fetch","--depth","50","origin","main"],check=True,timeout=120)
-        subprocess.run(["git","-C",str(ROOT),"fetch","origin",f"astra-node/{NODE_ID}:refs/remotes/origin/astra-node/{NODE_ID}"],check=False,timeout=120)
+        subprocess.run(["git","-C",str(ROOT),"fetch","origin",f"+astra-node/{NODE_ID}:refs/remotes/origin/astra-node/{NODE_ID}"],check=False,timeout=120)
         subprocess.run(["git","-C",str(ROOT),"reset","--hard","origin/main"],check=True,timeout=120)
 
 def maybe_reexec_updated_agent():
