@@ -233,7 +233,7 @@ def execute(cmd):
                 return {"status":"BLOCKED","phase":"pre_soak_evidence",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
             verifier=run([sys.executable,str(verifier_script),"evidence"],
-                                    cwd=ROOT,text=True,capture_output=True,timeout=300,check=False,env=_safe_env())
+                                    cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
             cycle_record["strict_verifier"]={"returncode":verifier.returncode,
                                               "stdout":verifier.stdout[-12000:],
                                               "stderr":verifier.stderr[-8000:]}
