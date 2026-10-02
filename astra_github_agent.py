@@ -11,7 +11,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","autonomous_gold_mission","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic","provider_model_qualification","local_component_inventory","local_component_qualification","local_ai_capability_qualification","dual_local_executor_23wave"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","autonomous_gold_mission","reconcile_controller_processes","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic","provider_model_qualification","local_component_inventory","local_component_qualification","local_ai_capability_qualification","dual_local_executor_23wave"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 AGENT_ID=os.environ.get('ASTRA_AGENT_ID','A0-ASTRA')
 WORKER_ID=os.environ.get('ASTRA_WORKER_ID',f"{AGENT_ID}:{os.getpid()}")
@@ -190,6 +190,34 @@ def execute(cmd):
                     "elapsed_seconds":round(time.time()-started,3)}
         return {"status":"BLOCKED","phase":"autonomous_retry_window_exhausted",
                 "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+
+    if operation == "reconcile_controller_processes":
+        ps=subprocess.run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
+        current=os.getpid()
+        matches=[]
+        terminated=[]
+        for line in ps.stdout.splitlines():
+            parts=line.strip().split(None,1)
+            if len(parts)!=2: continue
+            try: pid=int(parts[0])
+            except ValueError: continue
+            args=parts[1]
+            if pid!=current and "astra_github_agent.py" in args and f"ASTRA_NODE_ID={NODE_ID}" in args:
+                matches.append({"pid":pid,"args":args[-1000:]})
+                p=subprocess.run(["/bin/kill","-TERM",str(pid)],text=True,capture_output=True,timeout=5,check=False)
+                terminated.append({"pid":pid,"returncode":p.returncode})
+        time.sleep(2)
+        ps2=subprocess.run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
+        remaining=[]
+        for line in ps2.stdout.splitlines():
+            parts=line.strip().split(None,1)
+            if len(parts)==2 and "astra_github_agent.py" in parts[1] and f"ASTRA_NODE_ID={NODE_ID}" in parts[1]:
+                try:
+                    if int(parts[0])!=current: remaining.append(parts[0])
+                except ValueError: pass
+        return {"status":"PASS" if not remaining else "BLOCKED","current_pid":current,
+                "matched_duplicates":matches,"terminated":terminated,"remaining_duplicates":remaining,
+                "node_id":NODE_ID,"credentials":"SUPPRESSED"}
 
     if operation == "dual_local_executor_23wave":
         import shutil, statistics
