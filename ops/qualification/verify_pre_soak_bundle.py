@@ -25,6 +25,7 @@ REQUIRED = (
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("evidence_dir", type=Path)
+    # Evidence may live outside the Git worktree so fresh capture cannot dirty the qualification source tree.
     parser.add_argument("--allow-missing", action="store_true")
     args = parser.parse_args()
 
