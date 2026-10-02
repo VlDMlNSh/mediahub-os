@@ -66,6 +66,35 @@ def published_command_id():
         pass
     return ""
 
+def processed_marker(command_id):
+    digest=hashlib.sha256(str(command_id).encode("utf-8")).hexdigest()
+    return STATE/"processed_commands"/f"{digest}.json"
+
+def is_processed(command_id):
+    path=processed_marker(command_id)
+    if not path.exists():
+        return False
+    try:
+        payload=json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise RuntimeError("processed_command_marker_corrupt") from exc
+    if payload.get("command_id") != str(command_id) or payload.get("status") != "PUBLISHED":
+        raise RuntimeError("processed_command_marker_invalid")
+    return True
+
+def mark_processed(command_id):
+    target=processed_marker(command_id)
+    target.parent.mkdir(parents=True,exist_ok=True)
+    if target.exists():
+        if is_processed(command_id): return
+        raise RuntimeError("processed_command_marker_collision")
+    tmp=target.with_suffix(".tmp")
+    tmp.write_text(json.dumps({"command_id":str(command_id),"status":"PUBLISHED","recorded_at":int(time.time())},sort_keys=True)+"\n",encoding="utf-8")
+    try:
+        tmp.replace(target)
+    except FileExistsError:
+        raise RuntimeError("processed_command_marker_race")
+
 def mark_published(command_id):
     tmp=STATE/"last_command_id.tmp"
     tmp.write_text(str(command_id)+"\n",encoding="utf-8")
@@ -543,9 +572,12 @@ def _main_loop(last_id):
     while True:
         try:
             sync(); maybe_reexec_updated_agent(); cmd=read_command()
-            if cmd and cmd.get("command_id")!=last_id:
+            command_id=str(cmd.get("command_id","")) if cmd else ""
+            if cmd and command_id!=last_id:
+                if is_processed(command_id):
+                    raise RuntimeError("command_replay_after_publication")
                 started=time.time()
-                mark_inflight(cmd.get("command_id",""))
+                mark_inflight(command_id)
                 claim_store=None
                 claim=None
                 try:
@@ -593,9 +625,10 @@ def _main_loop(last_id):
                          'claim':asdict(claim) if claim is not None else None,
                          'chain':['task','claim','worker','verification','commit','evidence'],
                          'duration_seconds':round(time.time()-started,3),'result':value,'completed_at':int(time.time())})
-                mark_published(cmd.get("command_id",""))
-                clear_inflight(cmd.get("command_id",""))
-                last_id=str(cmd.get("command_id"))
+                mark_published(command_id)
+                mark_processed(command_id)
+                clear_inflight(command_id)
+                last_id=command_id
                 if os.environ.get("ASTRA_ONESHOT","0")=="1": return
         except Exception as exc:
             (STATE/"last_error.json").write_text(json.dumps({"error":repr(exc),"time":int(time.time())}))
