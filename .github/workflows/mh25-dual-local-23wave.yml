@@ -76,7 +76,7 @@ jobs:
               elif [ "$rc" -eq 124 ]; then
                 verification_status=TIMEOUT
               fi
-              python3 - "$executor_id" "$provider_model_id" "$timeout_s" "$output" "$rc" "$status" "$verification_status" "$marker" "$i" "$ts" "$workspace" >> mh25-23wave.jsonl <<'PY'
+              python3 - "$executor_id" "$provider_model_id" "$transport_id" "$timeout_s" "$output" "$rc" "$status" "$verification_status" "$marker" "$i" "$ts" "$workspace" >> mh25-23wave.jsonl <<'PY'
 import hashlib, json, os, sys, uuid
 (executor_id, provider_model_id, transport_id, timeout_s, output, rc, status,
  verification_status, marker, round_no, timestamp, workspace) = sys.argv[1:]
@@ -91,6 +91,7 @@ record={
     "component_id":"MH-25",
     "executor_id":executor_id,
     "provider_model_id":provider_model_id,
+    "transport_id":transport_id,
     "source_sha":os.environ["GITHUB_SHA"],
     "round":int(round_no),
     "timestamp":int(timestamp),
