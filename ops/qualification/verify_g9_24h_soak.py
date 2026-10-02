@@ -19,6 +19,10 @@ def verify(path: Path, telemetry_path: Path) -> dict:
         data=json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc:
         return {"status":"BLOCKED","reason":"invalid_g9_evidence_json","detail":repr(exc)}
+    if not isinstance(data.get("workflow_run_id"), int) or data.get("workflow_run_id") <= 0:
+        return {"status":"BLOCKED","reason":"workflow_run_id_invalid"}
+    if not isinstance(data.get("workflow_run_url"), str) or not data.get("workflow_run_url").startswith("https://github.com/"):
+        return {"status":"BLOCKED","reason":"workflow_run_url_invalid"}
     if data.get("fresh") is not True:
         return {"status":"BLOCKED","reason":"fresh_g9_evidence_required"}
     if data.get("duration_hours") != 24:
