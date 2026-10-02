@@ -16,5 +16,7 @@ jobs:
           python-version: "3.12"
       - name: Validate contracts
         run: python3 tools/validate_contracts.py
+      - name: Install Python qualification dependencies
+        run: python3 -m pip install --disable-pip-version-check --no-input PyYAML
       - name: Astra Cloud tests
-        run: python3 -m unittest discover -s tests/runtime_ai -p 'test_astra_cloud.py'
+        run: python3 -m unittest -v tests.test_cloud_admission tests.test_hybrid_agent_auth_probe
