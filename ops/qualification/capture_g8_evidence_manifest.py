@@ -75,6 +75,26 @@ def main():
             print(json.dumps({"status":"BLOCKED","reason":"evidence_source_sha_invalid_or_mismatch","surface":key})); return 2
         if target_sha is not None and (not isinstance(target_sha,str) or not SHA40.fullmatch(target_sha) or target_sha.lower()!=a.source_sha.lower()):
             print(json.dumps({"status":"BLOCKED","reason":"evidence_target_sha_invalid_or_mismatch","surface":key})); return 2
+        # Cross-gate provenance: nested evidence source identities must bind to the same approved SHA.
+        if key=="g5_coordination":
+            nested_sha=payload.get("running_agent_source_sha")
+            if not isinstance(nested_sha,str) or not SHA40.fullmatch(nested_sha) or nested_sha.lower()!=a.source_sha.lower():
+                print(json.dumps({"status":"BLOCKED","reason":"g5_running_agent_source_sha_unbound","surface":key})); return 2
+        elif key=="g6_recovery":
+            scenarios=payload.get("scenarios")
+            if not isinstance(scenarios,dict):
+                print(json.dumps({"status":"BLOCKED","reason":"g6_scenarios_missing","surface":key})); return 2
+            for scenario_name, scenario in scenarios.items():
+                if not isinstance(scenario,dict):
+                    print(json.dumps({"status":"BLOCKED","reason":"g6_scenario_record_invalid","surface":key,"scenario":scenario_name})); return 2
+                nested_sha=scenario.get("source_sha")
+                if not isinstance(nested_sha,str) or not SHA40.fullmatch(nested_sha) or nested_sha.lower()!=a.source_sha.lower():
+                    print(json.dumps({"status":"BLOCKED","reason":"g6_scenario_source_sha_unbound","surface":key,"scenario":scenario_name})); return 2
+        elif key=="a3_independent":
+            for field in ("source_sha","verified_sha"):
+                nested_sha=payload.get(field)
+                if not isinstance(nested_sha,str) or not SHA40.fullmatch(nested_sha) or nested_sha.lower()!=a.source_sha.lower():
+                    print(json.dumps({"status":"BLOCKED","reason":"a3_sha_unbound","surface":key,"field":field})); return 2
         if payload.get("secret_values")!="SUPPRESSED":
             print(json.dumps({"status":"BLOCKED","reason":"evidence_secret_policy","surface":key})); return 2
         refs[key]={"path":str(path),"sha256":digest,"status":"PASS"}
