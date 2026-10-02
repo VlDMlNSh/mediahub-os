@@ -142,6 +142,17 @@ jobs:
         run: |
           set -euo pipefail
           PYTHONPATH=. python3 ops/qualification/verify_g9_24h_soak.py evidence/astra-gold/g9-24h-soak.json --telemetry /var/lib/mediahub-astra/g9_telemetry.jsonl
+      - name: Persist G9 qualification evidence
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          mkdir -p /tmp/astra-gold/g9-evidence
+          cp -f evidence/astra-gold/g9-24h-soak.json /tmp/astra-gold/g9-evidence/g9-24h-soak.json 2>/dev/null || true
+          cp -f /var/lib/mediahub-astra/g9_telemetry.jsonl /tmp/astra-gold/g9-evidence/g9_telemetry.jsonl 2>/dev/null || true
+          test -s /tmp/astra-gold/g9-evidence/g9-24h-soak.json
+          test -s /tmp/astra-gold/g9-evidence/g9_telemetry.jsonl
+
       - name: Sanitized GOLD evidence
         if: always()
         shell: bash
