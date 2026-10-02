@@ -7,10 +7,11 @@ Wants=network-online.target
 Type=simple
 User=mediahub
 Group=mediahub
+EnvironmentFile=-/etc/mediahub-astra/node.env
+EnvironmentFile=-/etc/mediahub-astra/agent.env
 Environment=ASTRA_GITHUB_REPO=VlDMlNSh/mediahub-os
 Environment=ASTRA_WORKTREE=/home/mediahub/astra-work
 Environment=ASTRA_STATE_DIR=/var/lib/mediahub-astra
-Environment=ASTRA_NODE_ID=mh-dev-02
 Environment=ASTRA_GITHUB_REMOTE=git@github.com:VlDMlNSh/mediahub-os.git
 Environment=ASTRA_GITHUB_BRANCH=main
 Environment=ASTRA_RUNTIME_ROOT=/home/mediahub/astra-work/runtime
