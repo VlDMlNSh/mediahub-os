@@ -85,26 +85,39 @@ class ClaimStore:
             raise AgentFabricError("invalid_claim_status")
         if claim.expiry <= time.time():
             raise AgentFabricError("claim_expired")
-        active = tuple(c for c in self.list_claims() if c.task_id != claim.task_id and c.expiry > time.time() and c.status in {"ASSIGNED", "ACTIVE", "READY_FOR_VERIFY"})
-        if len(active) >= 2:
-            raise AgentFabricError("claim_capacity_exceeded")
-        if self.conflicts(claim.paths, exclude_task_id=claim.task_id):
-            raise AgentFabricError("claim_collision")
-        path = self._path(claim.task_id)
-        payload = json.dumps(asdict(claim), sort_keys=True, separators=(",", ":")) + "\n"
+        lock_path = self.root / ".acquire.lock"
         try:
-            fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-        except FileExistsError as exc:
-            raise AgentFabricError("claim_exists") from exc
+            lock_fd = os.open(lock_path, os.O_WRONLY | os.O_CREAT, 0o600)
+            import fcntl
+            fcntl.flock(lock_fd, fcntl.LOCK_EX)
+        except (OSError, ImportError) as exc:
+            raise AgentFabricError("claim_lock_unavailable") from exc
         try:
-            with os.fdopen(fd, "w", encoding="utf-8") as handle:
-                handle.write(payload)
-        except Exception:
+            active = tuple(c for c in self.list_claims() if c.task_id != claim.task_id and c.expiry > time.time() and c.status in {"ASSIGNED", "ACTIVE", "READY_FOR_VERIFY"})
+            if len(active) >= 2:
+                raise AgentFabricError("claim_capacity_exceeded")
+            if self.conflicts(claim.paths, exclude_task_id=claim.task_id):
+                raise AgentFabricError("claim_collision")
+            path = self._path(claim.task_id)
+            payload = json.dumps(asdict(claim), sort_keys=True, separators=(",", ":")) + "\n"
             try:
-                path.unlink()
-            except OSError:
-                pass
-            raise
+                fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+            except FileExistsError as exc:
+                raise AgentFabricError("claim_exists") from exc
+            try:
+                with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                    handle.write(payload)
+            except Exception:
+                try:
+                    path.unlink()
+                except OSError:
+                    pass
+                raise
+        finally:
+            try:
+                fcntl.flock(lock_fd, fcntl.LOCK_UN)
+            finally:
+                os.close(lock_fd)
 
     def heartbeat(self, task_id: str, *, now: float | None = None, lease_seconds: float = 900.0) -> AgentClaim:
         path = self._path(task_id)
