@@ -17,7 +17,7 @@ on:
       - ".github/workflows/astra-gold-unified-qualification.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: astra-gold-unified-qualification
