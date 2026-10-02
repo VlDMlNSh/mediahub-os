@@ -52,6 +52,12 @@ def main() -> int:
             return write_blocked(a.output,"telemetry_observation_invalid",line=line_no)
         if not item.get("event") or not item.get("node_id") or not item.get("worker_id"):
             return write_blocked(a.output,"telemetry_identity_missing",line=line_no)
+        telemetry_sha=str(item.get("source_sha",""))
+        if not SHA40.fullmatch(telemetry_sha):
+            return write_blocked(a.output,"telemetry_source_sha_invalid",line=line_no)
+        if telemetry_sha.lower() != a.source_sha.lower():
+            return write_blocked(a.output,"telemetry_source_sha_mismatch",line=line_no,
+                                 telemetry_source_sha=telemetry_sha.lower())
         observations.append(item)
 
     if not observations:
@@ -113,6 +119,7 @@ def main() -> int:
         "fresh":True,
         "duration_hours":24,
         "source_sha":a.source_sha,
+        "telemetry_source_sha":a.source_sha.lower(),
         "started_at":start_iso,
         "ended_at":end_iso,
         "conditions":conditions,
