@@ -47,6 +47,10 @@ def build(source: dict) -> dict:
                     or evidence_sha != source_sha
                     or e.get("duration_hours") != 24
                     or e.get("secret_values") != "SUPPRESSED"
+                    or str(e.get("telemetry_source_sha","")).lower() != source_sha
+                    or not isinstance(e.get("telemetry_sha256"),str)
+                    or len(e.get("telemetry_sha256","")) != 64
+                    or any(ch not in "0123456789abcdef" for ch in e.get("telemetry_sha256","").lower())
                     or any(conditions.get(k) is not True for k in required_conditions)
                     or len(digest) != 64
                     or any(ch not in "0123456789abcdef" for ch in digest)
