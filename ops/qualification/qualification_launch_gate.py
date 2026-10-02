@@ -72,9 +72,13 @@ def evaluate(evidence: dict, schema: dict) -> dict:
         actual=__import__("hashlib").sha256(
             json.dumps(canonical,sort_keys=True,separators=(",",":")).encode("utf-8")
         ).hexdigest()
+        telemetry_source_sha=str(soak_record.get("telemetry_source_sha","")).lower()
+        telemetry_sha256=str(soak_record.get("telemetry_sha256","")).lower()
         if (
             soak_record.get("duration_hours") != 24
             or soak_record.get("secret_values") != "SUPPRESSED"
+            or telemetry_source_sha != approved_sha.lower()
+            or not re.fullmatch(r"[0-9a-f]{64}",telemetry_sha256)
             or any(conditions.get(k) is not True for k in required_conditions)
             or not re.fullmatch(r"[0-9a-f]{64}",digest)
             or actual != digest
