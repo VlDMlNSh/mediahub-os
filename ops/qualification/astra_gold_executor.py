@@ -5,7 +5,7 @@ import json, os, subprocess, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-EVIDENCE = ROOT / "evidence"
+EVIDENCE = Path(os.environ.get("ASTRA_EVIDENCE_DIR", str(ROOT / "evidence")))
 REQUIRED = ("transport-health.json","runtime-e2e.json","scheduler-e2e.json","fencing.json","recovery.json","backup-restore.json","provider-model.json")
 
 def run(argv, timeout=300):
