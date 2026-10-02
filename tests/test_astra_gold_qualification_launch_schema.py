@@ -192,5 +192,23 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
             p.write_text(json.dumps(base),encoding="utf-8")
             self.assertEqual(verify(p)["status"],"BLOCKED")
 
+    def test_geometric_progress_controller_halves_active_budget(self):
+        from ops.qualification.geometric_progress_controller import plan
+        e={"gates":{"G0_IDENTITY":"BLOCKED"}}
+        self.assertEqual(plan(e,1,8)["active_work_budget_target_hours"],8.0)
+        self.assertEqual(plan(e,2,8)["active_work_budget_target_hours"],4.0)
+        self.assertEqual(plan(e,3,8)["active_work_budget_target_hours"],2.0)
+        self.assertEqual(plan(e,5,8)["active_work_budget_target_hours"],0.5)
+
+    def test_geometric_controller_never_removes_mandatory_24h_soak(self):
+        from ops.qualification.geometric_progress_controller import plan
+        e={"gates":{"G0_IDENTITY":"PASS","G1_BOUNDARY":"PASS","G2_CONTROL_PLANE":"PASS",
+                    "G3_EXECUTION_PATH":"PASS","G4_23_WAVE_QUALIFICATION":"PASS",
+                    "G5_CONCURRENCY":"PASS","G6_RECOVERY":"PASS","G7_INTEGRATED_A3":"PASS",
+                    "G8_PRE_SOAK":"PASS","G9_24H_SOAK":"BLOCKED"}}
+        r=plan(e,6,8)
+        self.assertEqual(r["next_gate"],"G9_24H_SOAK")
+        self.assertEqual(r["mandatory_wall_clock_hours"],24)
+
 if __name__ == "__main__":
     unittest.main()
