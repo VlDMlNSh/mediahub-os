@@ -324,8 +324,10 @@ class CloudFirstOrchestrator:
         local_routes: tuple[ProviderRoute, ...] = DEFAULT_LOCAL_ROUTES,
         credential_env: Mapping[str, str] | None = None,
         executors: Mapping[str, Callable[[str], str]] | None = None,
+        admitted_local_providers: frozenset[str] = frozenset({"ollama"}),
     ):
         self._env = dict(os.environ if credential_env is None else credential_env)
+        self._admitted_local_providers = frozenset(admitted_local_providers)
         self._cloud = self._order_cloud_routes(tuple(cloud_routes))
         self._local = tuple(sorted(local_routes, key=lambda r: r.priority))
         self._executors = dict(executors or {})
@@ -371,6 +373,8 @@ class CloudFirstOrchestrator:
         if allow_local_extension:
             for route in self._local:
                 if capability not in route.capabilities:
+                    continue
+                if not self._admitted(route):
                     continue
                 executor = self._executors.get(route.provider_id)
                 if hasattr(executor, "available") and not executor.available():
@@ -433,7 +437,7 @@ class CloudFirstOrchestrator:
                 continue
             if not self._configured(route):
                 continue
-            if route.tier == "cloud" and not self._admitted(route):
+            if not self._admitted(route):
                 continue
             models = self._models(route)
             credentials = self._credentials(route)
@@ -533,9 +537,13 @@ class CloudFirstOrchestrator:
         )
 
     def _admitted(self, route: ProviderRoute) -> bool:
-        """Fail closed unless current provider/model qualification explicitly passes."""
-        if route.tier != "cloud":
+        """Fail closed unless the route is a built-in baseline or has fresh qualification evidence."""
+        # Ollama is the bounded built-in local baseline used by Astra's direct local executor.
+        # Every other route, including local gateways/harnesses, requires fresh qualification evidence.
+        if route.provider_id in self._admitted_local_providers:
             return True
+        if route.tier != "cloud":
+            return False
         evidence_path = self._env.get(
             "MEDIAHUB_PROVIDER_EVIDENCE_FILE", "evidence/provider-model.json"
         ).strip()

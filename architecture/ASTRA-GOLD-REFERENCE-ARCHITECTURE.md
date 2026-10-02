@@ -267,7 +267,7 @@ Historical evidence cannot satisfy a fresh qualification gate.
 
 Evidence for a completed round is immutable. Corrections create a new linked evidence record; prior evidence is never silently rewritten.
 
-## 10. Reconciliation contract
+## 7.1 Reconciliation Contract
 
 A0 reconciles architecture vs implementation, registry vs actual identity, claimed state vs evidence state, tested SHA vs source SHA, provider/model identity vs execution evidence, qualification state vs gate state, candidate inventory vs runtime admission, control-plane state vs worker state, and evidence completeness vs required metadata.
 
@@ -386,6 +386,8 @@ Exact upstream identity must be resolved first.
 
 ## 12. Qualification gates
 
+G9 — 24H SOAK
+
 G0 — Identity
 G1 — Boundary
 G2 — Control Plane
@@ -494,7 +496,15 @@ requirements are satisfied.
 BLOCKED:
 a mandatory gate lacks valid evidence or contains a failure/conflict.
 
-## 18. Canonical relationship to existing ASTRA GOLD documents
+## 18. Operational transport policy
+
+GitHub Transport is the sole project control, repository, evidence and development channel for MediaHub ASTRA GOLD.
+
+Remote Desktop is prohibited for ordinary development, qualification, authorization checks, installation, repository inspection and evidence collection. It may not be substituted for GitHub Transport. Any physical-runtime operation that is fundamentally impossible through GitHub Transport must be explicitly identified as a runtime exception before use; otherwise the operation is NOT_PROVEN and the workflow continues through GitHub-only analysis.
+
+This policy does not grant Desktop runtime authority and does not permit credential bypass, secret extraction or destructive operations.
+
+## 19. Canonical relationship to existing ASTRA GOLD documents
 
 This document is the reference architecture.
 
@@ -505,3 +515,10 @@ This document is the reference architecture.
 - executor qualification evidence = runtime proof.
 
 No document can override the Human authority rule or the fail-closed invariant.
+
+
+## Extended soak planning
+
+**Scheduling invariant:** the repository may prepare the 72h run configuration, but no GitHub workflow may autonomously start G9/G72 until the Human launch authorization gate is explicitly satisfied.
+
+The first permitted soak remains G9 = 24h. A 72h soak is an extended validation window only after a fresh G9 pass and explicit Human authorization; it does not replace G9 and cannot be auto-promoted to GOLD.

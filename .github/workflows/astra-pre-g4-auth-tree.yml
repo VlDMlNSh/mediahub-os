@@ -1,0 +1,50 @@
+name: ASTRA pre-G4 authentication tree
+
+on:
+  push:
+    branches:
+      - engineering/astra-qualification-baseline-20261002
+    paths:
+      - "ops/qualification/pre_g4_auth_tree.py"
+      - ".github/workflows/astra-pre-g4-auth-tree.yml"
+      - "ops/qualification/session_115_wave.py"
+      - "ops/qualification/qualification_launch_gate.py"
+      - "ops/qualification/current_qualification_state.py"
+      - "tests/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pre-g4:
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Canonical runner identity
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          test -z "$(git status --short)"
+      - name: One-pass authentication tree
+        run: |
+          set -o pipefail
+          python3 ops/qualification/pre_g4_auth_tree.py | tee /tmp/astra-pre-g4.json
+      - name: Preserve sanitized evidence
+        if: always()
+        run: |
+          mkdir -p /tmp/astra-pre-g4-evidence
+          cp /tmp/astra-pre-g4.json /tmp/astra-pre-g4-evidence/summary.json 2>/dev/null || true
+          echo "gold_authority=false" >> /tmp/astra-pre-g4-evidence/policy.txt
+          echo "canonical_g4_requirement=23_rounds_x_5_paths=115" >> /tmp/astra-pre-g4-evidence/policy.txt
+      - name: Upload pre-G4 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-pre-g4-auth-tree-${{ github.run_id }}
+          path: /tmp/astra-pre-g4-evidence/
+          retention-days: 14

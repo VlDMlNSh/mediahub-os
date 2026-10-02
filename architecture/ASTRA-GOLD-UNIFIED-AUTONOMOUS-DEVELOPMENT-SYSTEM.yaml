@@ -107,52 +107,79 @@ layers:
         qualification: NOT_PROVEN
         role: candidate_local_desktop_agent_execution_surface
         source: https://github.com/EDEAI/OpenFlux
-  execution:
-    mandatory_paths:
-      - CODEX_FCC
-      - CLAUDE_FCC
-      - CODEX_OMNIROUTE
-      - CLAUDE_OMNIROUTE
-      - CLAUDE_CODE_DIRECT
-    optional_future_paths:
-      - CODEX_DIRECT
-      - CLAUDE_DIRECT
-  verification:
-    - focused_tests
-    - regression
-    - contracts
-    - architecture_conformance
-    - security
-    - concurrency
-    - failure
-    - recovery
-    - independent_a3
-  evidence:
-    - command_id
-    - executor_identity
-    - provider_identity
-    - source_sha
-    - round
-    - exit_status
-    - timeout
-    - marker
-    - workspace
-    - verification
-  observability:
-    - heartbeat
-    - health
-    - structured_logs
-    - evidence_freshness
-  recovery:
-    - timeout
-    - stale_claim
-    - worker_restart
-    - duplicate_controller
-    - transport_interruption
-    - replay_idempotency
+execution:
+  mandatory_paths:
+    - CODEX_FCC
+    - CLAUDE_FCC
+    - CODEX_OMNIROUTE
+    - CLAUDE_OMNIROUTE
+    - CLAUDE_CODE_DIRECT
+  optional_future_paths:
+    - CODEX_DIRECT
+    - CLAUDE_DIRECT
+verification:
+  - focused_tests
+  - regression
+  - contracts
+  - architecture_conformance
+  - security
+  - concurrency
+  - failure
+  - recovery
+  - independent_a3
+evidence:
+  - command_id
+  - node_id
+  - component_id
+  - executor_id
+  - provider_or_model_id
+  - transport_id
+  - source_sha
+  - round
+  - timestamp
+  - exit_status
+  - timeout
+  - workspace
+  - verification_status
+  - evidence_digest
+observability:
+  - heartbeat
+  - health
+  - structured_logs
+  - evidence_freshness
+recovery:
+  - timeout
+  - stale_claim
+  - worker_restart
+  - duplicate_controller
+  - transport_interruption
+  - replay_idempotency
+
+reconciliation:
+  contract_version: 2
+  required: true
+  canonical_sources:
+    - architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md
+    - architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml
+    - architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml
+  checks:
+    - architecture_vs_implementation
+    - registry_vs_runtime_identity
+    - state_vs_evidence
+    - tested_sha_vs_source_sha
+    - provider_model_identity_vs_evidence
+    - qualification_state_vs_gate_state
+    - candidate_admission_vs_inventory
+    - control_plane_vs_worker_state
+    - evidence_completeness
+  failure_state: RECONCILIATION_REQUIRED
+  admission_rule: any_drift_or_ambiguity_blocks
+
 qualification:
   mode: whole_system
-  rounds_minimum: 23
+  rounds_minimum_per_mandatory_path: 23
+  mandatory_path_count: 5
+  total_rounds_minimum: 115
   concurrency:
     max_parallel: 2
     require_disjoint_claims: true
@@ -176,6 +203,7 @@ qualification:
     - soak_24h
     - gold_active
   gate_contract: [G0_IDENTITY, G1_BOUNDARY, G2_CONTROL_PLANE, G3_EXECUTION_PATH, G4_23_WAVE_QUALIFICATION, G5_CONCURRENCY, G6_RECOVERY, G7_INTEGRATED_A3, G8_PRE_SOAK, G9_24H_SOAK, G10_LAUNCH_READY, G11_LAUNCH]
+
 states:
   - DESIGNED
   - PREFLIGHT

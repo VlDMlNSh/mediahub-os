@@ -1,178 +1,19 @@
-name: Astra autonomous queue supervisor
+name: Astra autonomous queue supervisor (DISABLED — superseded by canonical unified qualification)
+# Disabled: duplicate autonomous controller. Canonical control path is astra-gold-unified-qualification.yml.
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "control/commands/**"
-      - "astra_github_agent.py"
-      - "ops/qualification/**"
-      - ".github/workflows/astra-autonomous-supervisor.yml"
   workflow_dispatch:
-  schedule:
-    - cron: "*/10 * * * *"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: astra-autonomous-supervisor
   cancel-in-progress: false
 
 jobs:
-  supervise:
-    runs-on: [self-hosted, mediahub-runner]
-    timeout-minutes: 60
-    env:
-      ASTRA_NODE_ID: mh-dev-01
-      ASTRA_ONESHOT: "1"
-      ASTRA_AUTONOMOUS_MAX_CYCLES: "5"
-      ASTRA_AUTONOMOUS_RETRY_SECONDS: "30"
-      ASTRA_QUALIFICATION_TIMEOUT: "87000"
-      ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
-      SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
-      SILICONFLOW_API_KEY_1: ${{ secrets.SILICON_KEY_1 }}
-      SILICONFLOW_API_KEY_2: ${{ secrets.SILICON_KEY_2 }}
-      SILICONFLOW_API_KEY_3: ${{ secrets.SILICON_KEY_3 }}
-      NOVITA_API_KEY: ${{ secrets.NOVITA_API_KEY }}
-      NOVITA_API_KEY_1: ${{ secrets.NOVITA_KEY_1 }}
-      NOVITA_API_KEY_2: ${{ secrets.NOVITA_KEY_2 }}
-      ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
-      ZAI_API_KEY_1: ${{ secrets.ZAI_KEY_1 }}
-      ZAI_API_KEY_2: ${{ secrets.ZAI_KEY_2 }}
-      KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
-      MOONSHOT_API_KEY: ${{ secrets.MOONSHOT_API_KEY }}
-      LLM7_API_KEY: ${{ secrets.LLM7_TOKEN }}
-      SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_KEY }}
-      AIONLABS_API_KEY: ${{ secrets.AIONLABS_API_KEY }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_API_TOKEN_1: ${{ secrets.CF_API_TOKEN_1 }}
-      CLOUDFLARE_API_TOKEN_2: ${{ secrets.CF_API_TOKEN_2 }}
-      CLOUDFLARE_ACCOUNT_ID_1: ${{ secrets.CF_ACCOUNT_ID_1 }}
-      CLOUDFLARE_ACCOUNT_ID_2: ${{ secrets.CF_ACCOUNT_ID_2 }}
-      NARAROUTER_API_KEY: ${{ secrets.NARAROUTER_API_KEY }}
-      NARAROUTER_API_KEY_1: ${{ secrets.NARA_KEY_1 }}
-      ORCAROUTER_API_KEY: ${{ secrets.ORCA_KEY }}
-      UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
-      ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
-      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      HF_TOKEN: ${{ secrets.HF_TOKEN }}
-      MISTRAL_API_KEY_1: ${{ secrets.MISTRAL_KEY_1 }}
-      MISTRAL_API_KEY_2: ${{ secrets.MISTRAL_KEY_2 }}
-      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-
+  disabled:
+    if: ${{ false }}
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 50
-
-      - name: Verify canonical node
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(hostname)" = "mh-dev-01"
-          test "$(id -un)" = "mediahub-runner"
-          mkdir -p "$ASTRA_STATE_DIR"
-
-      - name: Inspect canonical worker and avoid duplicate execution
-        id: worker
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import os
-          from pathlib import Path
-          target="/home/mediahub/astra-work/astra_github_agent.py"
-          matches=[]
-          for entry in Path("/proc").iterdir():
-              if not entry.name.isdigit(): continue
-              pid=int(entry.name)
-              if pid == os.getpid(): continue
-              try:
-                  argv=[x.decode(errors="replace") for x in (entry/"cmdline").read_bytes().split(b"\0") if x]
-                  cwd=os.readlink(entry/"cwd")
-              except (FileNotFoundError, PermissionError, ProcessLookupError):
-                  continue
-              if target in argv and cwd=="/home/mediahub/astra-work":
-                  matches.append(pid)
-          print("canonical_worker_matches=",len(matches))
-          with open(os.environ["GITHUB_OUTPUT"],"a") as out:
-              out.write("present="+("true" if matches else "false")+"\n")
-          PY
-
-      - name: Execute queued mission with GitHub-injected provider credentials
-        if: steps.worker.outputs.present != 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          ASTRA_WORKTREE="$GITHUB_WORKSPACE" ASTRA_WORKFLOW_ONLY=1 python3 astra_github_agent.py
-
-      - name: Wait for canonical worker to consume current mission
-        if: steps.worker.outputs.present == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          expected="$(python3 -c 'import json; print(json.load(open("control/commands/mh-dev-01.json"))["command_id"])')"
-          deadline=$(( $(date +%s) + 150 ))
-          while [ "$(date +%s)" -lt "$deadline" ]; do
-            git fetch origin "+astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01" 2>/dev/null || true
-            if git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/astra-result.json 2>/dev/null; then
-              if python3 - "$expected" <<'PY'
-          import json,sys
-          d=json.load(open("/tmp/astra-result.json"))
-          raise SystemExit(0 if d.get("command_id")==sys.argv[1] else 1)
-          PY
-              then exit 0; fi
-            fi
-            sleep 10
-          done
-          echo "BLOCK: canonical worker did not consume current mission within 150s"
-          exit 1
-
-      - name: Verify fresh result publication
-        shell: bash
-        run: |
-          set -euo pipefail
-          git fetch origin "+astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01" || true
-          git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/astra-result.json
-          python3 - <<'PY'
-          import json
-          d=json.load(open("/tmp/astra-result.json"))
-          print(json.dumps({
-              "command_id": d.get("command_id"),
-              "node_id": d.get("node_id"),
-              "returncode": d.get("returncode"),
-              "phase": d.get("result",{}).get("phase"),
-              "status": d.get("result",{}).get("status"),
-              "cycles": len(d.get("result",{}).get("steps",[])),
-              "execution_head": d.get("execution_head"),
-          }, sort_keys=True))
-          assert d.get("node_id") == "mh-dev-01"
-          assert d.get("returncode") == 0
-          result=d.get("result",{})
-          phase=result.get("phase")
-          structured=(result.get("qualification") or result.get("inventory") or {})
-          assert (
-              phase in {
-                  "execution_backend_qualification",
-                  "pre_soak_evidence",
-                  "strict_pre_soak_verification",
-                  "distributed_verification",
-                  "gold_qualification",
-                  "local_component_inventory",
-                  "local_component_qualification",
-                  "local_ai_capability_qualification",
-                  "codex_gateway_diagnostic",
-                  "target_reconciliation",
-                  "autonomous_retry_window_exhausted",
-              }
-              or isinstance(structured,dict) and structured.get("schema") in {
-                  "mediahub.provider-model-qualification.v1",
-                  "mediahub.local-component-qualification.v1",
-                  "mediahub.local-component-inventory.v1",
-                  "mediahub.local-ai-capability-qualification.v1",
-              }
-          )
-          PY
+      - run: echo "Disabled: canonical ASTRA GOLD qualification path owns this scope."

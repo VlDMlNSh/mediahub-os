@@ -45,6 +45,7 @@ class CloudAdmissionTests(unittest.TestCase):
                 "MEDIAHUB_RELEASE_COMMIT": commit,
             },
             executors={"test-cloud": lambda prompt: "qualified-output"},
+            admitted_local_providers=frozenset({"test-local"}),
         )
 
     def _evidence(self, *, commit="abc123", qualification="QUALIFIED", age_hours=0):

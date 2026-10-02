@@ -30,15 +30,44 @@ jobs:
           test "$(id -un)" = "mediahub-runner"
           test -z "$(git status --short)"
           blob_sha="$(git hash-object astra_github_agent.py)"
-          test "$blob_sha" = "769306d93be818161af7ce49ba9b202eed6c5b24"
+          worker_blob_sha="$(git hash-object /home/mediahub/astra-work/astra_github_agent.py 2>/dev/null || true)"
+          test -n "$worker_blob_sha"
+          test "$worker_blob_sha" = "$blob_sha"
           echo "runner=$(hostname)"
           echo "agent_blob_sha=$blob_sha"
+      - name: Build immutable G8 admission manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/astra-gold
+          PYTHONPATH=. python3 ops/qualification/capture_g8_evidence_manifest.py             --evidence-dir evidence/astra-gold             --output evidence/astra-gold/g8-pre-soak.json             --source-sha "$(git rev-parse HEAD)"
+      - name: Require fresh G8 admission bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f evidence/astra-gold/g8-pre-soak.json
+          PYTHONPATH=. python3 ops/qualification/verify_g8_pre_soak_bundle.py evidence/astra-gold/g8-pre-soak.json
+
+      - name: Publish immutable G8 admission bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-gold-g8-admission-${{ github.run_id }}
+          path: |
+            evidence/astra-gold/g8-pre-soak.json
+            evidence/astra-gold/g4-115.json
+            evidence/astra-gold/g5-coordination.json
+            evidence/astra-gold/g6-recovery.json
+            evidence/astra-gold/a3-independent.json
+            evidence/astra-gold/clean-worktree.json
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Verify existing canonical Astra worker
         shell: bash
         run: |
           set -euo pipefail
-          pgrep -af "astra_github_agent.py" | tee /tmp/astra-workers.txt
-          test "$(grep -c "astra_github_agent.py" /tmp/astra-workers.txt)" -ge 1
+          pgrep -af "[a]stra_github_agent.py" | tee /tmp/astra-workers.txt
+          test "$(grep -c "[a]stra_github_agent.py" /tmp/astra-workers.txt)" -ge 1
           echo "canonical_worker_present=true"
       - name: Repository and runtime regression
         shell: bash
@@ -51,7 +80,7 @@ jobs:
         run: |
           echo "phase=GOLD_PREFLIGHT"
           echo "commit=$(git rev-parse HEAD)"
-          echo "worker_present=$(pgrep -f 'astra_github_agent.py' >/dev/null && echo true || echo false)"
+          echo "worker_present=$(pgrep -f '[a]stra_github_agent.py' >/dev/null && echo true || echo false)"
 
   soak:
     name: 24h autonomous runtime soak
@@ -62,14 +91,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
+      - name: Retrieve immutable G8 admission bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: astra-gold-g8-admission-${{ github.run_id }}
+          path: evidence/astra-gold
+      - name: Re-verify G8 admission at soak boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 ops/qualification/verify_g8_pre_soak_bundle.py evidence/astra-gold/g8-pre-soak.json
+
       - name: Bind to the already-running canonical worker
         shell: bash
         run: |
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
-          pgrep -af "astra_github_agent.py" | tee /tmp/astra-workers.txt
-          test "$(grep -c "astra_github_agent.py" /tmp/astra-workers.txt)" -ge 1
+          pgrep -af "[a]stra_github_agent.py" | tee /tmp/astra-workers.txt
+          test "$(grep -c "[a]stra_github_agent.py" /tmp/astra-workers.txt)" -ge 1
           echo "duplicate_worker_launch=false"
       - name: Run first real test iteration
         shell: bash
@@ -79,7 +119,7 @@ jobs:
           date -u +%FT%TZ > /tmp/astra-gold/started_at
           python3 -m compileall -q runtime tests astra_github_agent.py
           PYTHONPATH=runtime:. python3 -m pytest -q tests/ | tee /tmp/astra-gold/first-real-test.log
-          pgrep -af "astra_github_agent.py" | tee /tmp/astra-gold/worker-after-first-test.txt
+          pgrep -af "[a]stra_github_agent.py" | tee /tmp/astra-gold/worker-after-first-test.txt
           echo "first_real_test=PASS"
       - name: Autonomous 24h verification loop
         shell: bash
@@ -91,12 +131,35 @@ jobs:
             iteration=$((iteration+1))
             ts="$(date -u +%FT%TZ)"
             echo "iteration=$iteration timestamp=$ts"
-            pgrep -af "astra_github_agent.py" | tee -a /tmp/astra-gold/worker.log
+            pgrep -af "[a]stra_github_agent.py" | tee -a /tmp/astra-gold/worker.log
             PYTHONPATH=runtime:. python3 -m pytest -q tests/ | tee "/tmp/astra-gold/test-$iteration.log"
             test "$(pgrep -f "astra_github_agent.py" | wc -l)" -ge 1
             sleep 600
           done
           echo "soak_24h=PASS"
+      - name: Build G9 evidence from canonical worker telemetry
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s /var/lib/mediahub-astra/g9_telemetry.jsonl
+          mkdir -p evidence/astra-gold
+          python3 ops/qualification/capture_g9_24h_soak.py             --telemetry /var/lib/mediahub-astra/g9_telemetry.jsonl             --output evidence/astra-gold/g9-24h-soak.json             --source-sha "$(git rev-parse HEAD)"             --workflow-run-id "${GITHUB_RUN_ID}"             --workflow-run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+      - name: Verify G9 evidence contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 ops/qualification/verify_g9_24h_soak.py evidence/astra-gold/g9-24h-soak.json --telemetry /var/lib/mediahub-astra/g9_telemetry.jsonl
+      - name: Persist G9 qualification evidence
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          mkdir -p /tmp/astra-gold/g9-evidence
+          cp -f evidence/astra-gold/g9-24h-soak.json /tmp/astra-gold/g9-evidence/g9-24h-soak.json 2>/dev/null || true
+          cp -f /var/lib/mediahub-astra/g9_telemetry.jsonl /tmp/astra-gold/g9-evidence/g9_telemetry.jsonl 2>/dev/null || true
+          test -s /tmp/astra-gold/g9-evidence/g9-24h-soak.json
+          test -s /tmp/astra-gold/g9-evidence/g9_telemetry.jsonl
+
       - name: Sanitized GOLD evidence
         if: always()
         shell: bash
@@ -105,7 +168,7 @@ jobs:
           echo "phase=GOLD_24H_SOAK"
           echo "commit=$(git rev-parse HEAD 2>/dev/null || echo unavailable)"
           echo "host=$(hostname)"
-          echo "worker_present=$(pgrep -f 'astra_github_agent.py' >/dev/null && echo true || echo false)"
+          echo "worker_present=$(pgrep -f '[a]stra_github_agent.py' >/dev/null && echo true || echo false)"
           echo "secret_values=SUPPRESSED"
       - name: Upload soak evidence
         if: always()

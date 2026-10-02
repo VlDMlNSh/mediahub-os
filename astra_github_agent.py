@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """MediaHub Astra GitHub transport worker."""
 from __future__ import annotations
-import hashlib, importlib, json, os, platform, subprocess, sys, time
+import hashlib, importlib, json, os, platform, re, subprocess, sys, time, threading
 from dataclasses import asdict
 from pathlib import Path
 
@@ -17,17 +17,54 @@ AGENT_ID=os.environ.get('ASTRA_AGENT_ID','A0-ASTRA')
 WORKER_ID=os.environ.get('ASTRA_WORKER_ID',f"{AGENT_ID}:{os.getpid()}")
 CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS','900')),3600.0))
 
+G9_TELEMETRY=STATE/"g9_telemetry.jsonl"
+
+def telemetry_source_sha():
+    """Bind every G9 observation to the exact repository commit being executed."""
+    try:
+        result=subprocess.run(
+            ["git","-C",str(ROOT),"rev-parse","HEAD"],
+            text=True,capture_output=True,timeout=10,check=False,
+        )
+        value=result.stdout.strip()
+        if re.fullmatch(r"[0-9a-fA-F]{40}",value):
+            return value.lower()
+    except (OSError, subprocess.SubprocessError):
+        pass
+    return ""
+
+def g9_event(event, **fields):
+    payload={"timestamp":time.time(),"event":event,"node_id":NODE_ID,
+             "worker_id":WORKER_ID,"source_sha":telemetry_source_sha()}
+    payload.update(fields)
+    try:
+        G9_TELEMETRY.parent.mkdir(parents=True,exist_ok=True)
+        with G9_TELEMETRY.open("a",encoding="utf-8") as handle:
+            handle.write(json.dumps(payload,sort_keys=True,separators=(",",":"))+"\n")
+    except OSError:
+        pass
+
 def run(argv,timeout=120):
     return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False)
 
-def sync():
+def sync(target_sha=""):
     ROOT.parent.mkdir(parents=True,exist_ok=True)
     if not (ROOT/".git").exists():
         subprocess.run(["git","clone","--depth","1",REMOTE,str(ROOT)],check=True,timeout=120)
     else:
+        status = subprocess.run(["git","-C",str(ROOT),"status","--porcelain"],text=True,capture_output=True,check=True,timeout=30)
+        if status.stdout.strip():
+            raise RuntimeError("dirty_worktree_sync_blocked")
         subprocess.run(["git","-C",str(ROOT),"fetch","--depth","50","origin","main"],check=True,timeout=120)
-        subprocess.run(["git","-C",str(ROOT),"fetch","origin",f"astra-node/{NODE_ID}:refs/remotes/origin/astra-node/{NODE_ID}"],check=False,timeout=120)
-        subprocess.run(["git","-C",str(ROOT),"reset","--hard","origin/main"],check=True,timeout=120)
+        subprocess.run(["git","-C",str(ROOT),"fetch","--depth","50","origin","+refs/heads/*:refs/remotes/origin/*"],check=True,timeout=120)
+        if target_sha:
+            check=subprocess.run(["git","-C",str(ROOT),"cat-file","-e",f"{target_sha}^{{commit}}"],capture_output=True,check=False,timeout=30)
+            if check.returncode != 0:
+                raise RuntimeError("target_sha_not_fetched")
+            subprocess.run(["git","-C",str(ROOT),"checkout","--detach",target_sha],check=True,timeout=30)
+        else:
+            subprocess.run(["git","-C",str(ROOT),"checkout","main"],check=True,timeout=30)
+            subprocess.run(["git","-C",str(ROOT),"pull","--ff-only","origin","main"],check=True,timeout=120)
 
 def maybe_reexec_updated_agent():
     target=ROOT/"astra_github_agent.py"
@@ -47,37 +84,131 @@ def read_command():
     return cmd
 
 def published_command_id():
+    """Return only locally finalized publication state.
+
+    Remote publication is deliberately reconciled separately so a crash after
+    remote push cannot suppress recovery merely because the remote result is
+    visible. The remote branch is evidence, not local completion state.
+    """
     state=STATE/"last_command_id"
     try:
         value=state.read_text(encoding="utf-8").strip()
         if value: return value
     except OSError:
         pass
-    ref=f"origin/astra-node/{NODE_ID}"
-    try:
-        raw=run(["git","show",f"{ref}:control/results/{NODE_ID}.json"],30)
-        if raw.returncode==0:
-            return str(json.loads(raw.stdout).get("command_id",""))
-    except Exception:
-        pass
     return ""
+
+def processed_marker(command_id):
+    digest=hashlib.sha256(str(command_id).encode("utf-8")).hexdigest()
+    return STATE/"processed_commands"/f"{digest}.json"
+
+def is_processed(command_id):
+    path=processed_marker(command_id)
+    if not path.exists():
+        return False
+    try:
+        payload=json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise RuntimeError("processed_command_marker_corrupt") from exc
+    if payload.get("command_id") != str(command_id) or payload.get("status") != "PUBLISHED":
+        raise RuntimeError("processed_command_marker_invalid")
+    return True
+
+def mark_processed(command_id):
+    target=processed_marker(command_id)
+    target.parent.mkdir(parents=True,exist_ok=True)
+    if target.exists():
+        if is_processed(command_id): return
+        raise RuntimeError("processed_command_marker_collision")
+    tmp=target.with_suffix(".tmp")
+    tmp.write_text(json.dumps({"command_id":str(command_id),"status":"PUBLISHED","recorded_at":int(time.time())},sort_keys=True)+"\n",encoding="utf-8")
+    try:
+        tmp.replace(target)
+    except FileExistsError:
+        raise RuntimeError("processed_command_marker_race")
 
 def mark_published(command_id):
     tmp=STATE/"last_command_id.tmp"
     tmp.write_text(str(command_id)+"\n",encoding="utf-8")
     tmp.replace(STATE/"last_command_id")
 
+def mark_inflight(command_id):
+    path=STATE/"inflight_command_id"
+    try:
+        current=path.read_text(encoding="utf-8").strip()
+    except OSError:
+        current=""
+    if current and current != str(command_id):
+        raise RuntimeError("different_command_inflight")
+    if current == str(command_id):
+        raise RuntimeError("command_replay_after_crash")
+    tmp=STATE/"inflight_command_id.tmp"
+    tmp.write_text(str(command_id)+"\n",encoding="utf-8")
+    tmp.replace(path)
+
+def reconcile_published_state(command_id, cmd):
+    """Recover a remotely published result without re-executing the command."""
+    branch=f"origin/astra-node/{NODE_ID}"
+    result_path=f"control/results/{NODE_ID}.json"
+    tip=run(["git","rev-parse","--verify",branch],30)
+    if tip.returncode != 0:
+        return False
+    raw=run(["git","show",f"{branch}:{result_path}"],30)
+    if raw.returncode != 0:
+        return False
+    try:
+        result=json.loads(raw.stdout)
+    except Exception:
+        raise RuntimeError("published_result_corrupt")
+    if str(result.get("command_id","")) != str(command_id):
+        return False
+    expected_target=str(cmd.get("target_sha",""))
+    published_target=str(result.get("target_sha",""))
+    if expected_target and published_target != expected_target:
+        raise RuntimeError("published_result_target_mismatch")
+    execution_head=str(result.get("execution_head",""))
+    if execution_head and len(execution_head) != 40:
+        raise RuntimeError("published_result_execution_head_invalid")
+    if execution_head and any(ch not in "0123456789abcdef" for ch in execution_head.lower()):
+        raise RuntimeError("published_result_execution_head_invalid")
+    mark_published(command_id)
+    mark_processed(command_id)
+    clear_inflight(command_id)
+    return True
+
+def clear_inflight(command_id):
+    path=STATE/"inflight_command_id"
+    try:
+        current=path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return
+    if current == str(command_id):
+        path.unlink(missing_ok=True)
+
 def publish(result):
     path=ROOT/"control"/"results"/f"{NODE_ID}.json"
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
-    for args in (["git","config","user.name","Astra Node Agent"],["git","config","user.email","astra-node@localhost"],
-                 ["git","checkout","-B",f"astra-node/{NODE_ID}"],["git","add",str(path.relative_to(ROOT))]):
+    branch=f"astra-node/{NODE_ID}"
+    for args in (["git","config","user.name","Astra Node Agent"],["git","config","user.email","astra-node@localhost"]):
         run(args,30).check_returncode()
+    local=run(["git","rev-parse","--verify",f"refs/heads/{branch}"],30)
+    if local.returncode == 0:
+        run(["git","checkout",branch],30).check_returncode()
+        sync_branch=run(["git","pull","--ff-only","origin",branch],120)
+        if sync_branch.returncode != 0: raise RuntimeError("node_branch_reconciliation_failed")
+    else:
+        remote=run(["git","rev-parse","--verify",f"refs/remotes/origin/{branch}"],30)
+        if remote.returncode == 0:
+            run(["git","checkout","-b",branch,f"origin/{branch}"],30).check_returncode()
+        else:
+            run(["git","checkout","-b",branch,"origin/main"],30).check_returncode()
+    run(["git","add",str(path.relative_to(ROOT))],30).check_returncode()
     commit=run(["git","commit","-m",f"astra: result {NODE_ID}"],30)
     if commit.returncode not in (0,1): raise RuntimeError(commit.stderr)
-    run(["git","push","--force","origin",f"astra-node/{NODE_ID}"],120).check_returncode()
-    run(["git","checkout","-B","main","origin/main"],30).check_returncode()
+    run(["git","push","origin",f"HEAD:refs/heads/{branch}"],120).check_returncode()
+    run(["git","checkout","main"],30).check_returncode()
+    run(["git","pull","--ff-only","origin","main"],120).check_returncode()
 
 def _claim_for(cmd):
     runtime_root=ROOT/'runtime'
@@ -112,26 +243,32 @@ def execute(cmd):
         max_cycles=max(1,int(os.environ.get("ASTRA_AUTONOMOUS_MAX_CYCLES","12")))
         retry_seconds=max(30,int(os.environ.get("ASTRA_AUTONOMOUS_RETRY_SECONDS","300")))
         steps=[]
+        evidence_dir=STATE/"qualification_evidence"
+        evidence_dir.mkdir(parents=True,exist_ok=True)
+        qualification_env=os.environ.copy()
+        qualification_env["ASTRA_EVIDENCE_DIR"]=str(evidence_dir)
         target_sha=cmd.get("target_sha","")
         if target_sha:
-            ancestry=run(["git","merge-base","--is-ancestor",target_sha,"HEAD"],30)
-            if ancestry.returncode != 0:
-                return {"status":"BLOCKED","phase":"target_reconciliation",
-                        "reason":"target_sha_not_ancestor_of_current_main","target_sha":target_sha,
-                        "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
+            current_head=run(["git","rev-parse","HEAD"],10).stdout.strip()
+            if current_head != target_sha:
+                sync(target_sha)
+                current_head=run(["git","rev-parse","HEAD"],10).stdout.strip()
+                if current_head != target_sha:
+                    return {"status":"BLOCKED","phase":"target_reconciliation",
+                            "reason":"exact_target_sha_mismatch","target_sha":target_sha,
+                            "current_head":current_head}
         cycles=1 if operation=="autonomous_qualification_queue" else max_cycles
         for cycle in range(1,cycles+1):
             if operation=="autonomous_gold_mission" and cycle>1:
-                sync()
-                ancestry=run(["git","merge-base","--is-ancestor",target_sha,"HEAD"],30) if target_sha else None
-                if ancestry is not None and ancestry.returncode != 0:
+                sync(target_sha)
+                current_head=run(["git","rev-parse","HEAD"],10).stdout.strip() if target_sha else ""
+                if target_sha and current_head != target_sha:
                     return {"status":"BLOCKED","phase":"target_reconciliation",
-                            "reason":"target_sha_not_ancestor_of_current_main","target_sha":target_sha,
-                            "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip(),
-                            "cycles":steps}
+                            "reason":"exact_target_sha_mismatch","target_sha":target_sha,
+                            "current_head":current_head,"cycles":steps}
             cycle_record={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
             backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,
-                                   capture_output=True,timeout=120,check=False)
+                                   capture_output=True,timeout=120,check=False,env=qualification_env)
             cycle_record["backend"]={"returncode":backend.returncode,
                                      "stdout":backend.stdout[-12000:],"stderr":backend.stderr[-8000:]}
             steps.append(cycle_record)
@@ -142,7 +279,7 @@ def execute(cmd):
                 return {"status":"BLOCKED","phase":"execution_backend_qualification",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
             evidence=subprocess.run([sys.executable,str(evidence_script)],cwd=ROOT,text=True,
-                                    capture_output=True,timeout=900,check=False)
+                                    capture_output=True,timeout=900,check=False,env=qualification_env)
             cycle_record["pre_soak"]={"returncode":evidence.returncode,
                                       "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]}
             if evidence.returncode != 0:
@@ -151,8 +288,8 @@ def execute(cmd):
                     continue
                 return {"status":"BLOCKED","phase":"pre_soak_evidence",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
-            verifier=subprocess.run([sys.executable,str(verifier_script),"evidence"],
-                                    cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
+            verifier=subprocess.run([sys.executable,str(verifier_script),str(evidence_dir)],
+                                    cwd=ROOT,text=True,capture_output=True,timeout=300,check=False,env=qualification_env)
             cycle_record["strict_verifier"]={"returncode":verifier.returncode,
                                               "stdout":verifier.stdout[-12000:],
                                               "stderr":verifier.stderr[-8000:]}
@@ -181,7 +318,7 @@ def execute(cmd):
             qualification=subprocess.run([sys.executable,str(gold)],cwd=ROOT,text=True,
                                          capture_output=True,
                                          timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),
-                                         check=False)
+                                         check=False,env=qualification_env)
             cycle_record["gold"]={"returncode":qualification.returncode,
                                   "stdout":qualification.stdout[-12000:],
                                   "stderr":qualification.stderr[-8000:]}
@@ -192,10 +329,13 @@ def execute(cmd):
                 "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
 
     if operation == "reconcile_controller_processes":
+        # This operation is diagnostic/reconciliation only. It MUST NOT terminate
+        # processes: controller.lock is the authoritative duplicate-controller guard.
         ps=subprocess.run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
+        if ps.returncode != 0:
+            return {"status":"BLOCKED","reason":"process_inventory_failed","returncode":ps.returncode,"credentials":"SUPPRESSED"}
         current=os.getpid()
         matches=[]
-        terminated=[]
         for line in ps.stdout.splitlines():
             parts=line.strip().split(None,1)
             if len(parts)!=2: continue
@@ -204,19 +344,8 @@ def execute(cmd):
             args=parts[1]
             if pid!=current and "astra_github_agent.py" in args and f"ASTRA_NODE_ID={NODE_ID}" in args:
                 matches.append({"pid":pid,"args":args[-1000:]})
-                p=subprocess.run(["/bin/kill","-TERM",str(pid)],text=True,capture_output=True,timeout=5,check=False)
-                terminated.append({"pid":pid,"returncode":p.returncode})
-        time.sleep(2)
-        ps2=subprocess.run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
-        remaining=[]
-        for line in ps2.stdout.splitlines():
-            parts=line.strip().split(None,1)
-            if len(parts)==2 and "astra_github_agent.py" in parts[1] and f"ASTRA_NODE_ID={NODE_ID}" in parts[1]:
-                try:
-                    if int(parts[0])!=current: remaining.append(parts[0])
-                except ValueError: pass
-        return {"status":"PASS" if not remaining else "BLOCKED","current_pid":current,
-                "matched_duplicates":matches,"terminated":terminated,"remaining_duplicates":remaining,
+        return {"status":"PASS" if not matches else "BLOCKED","current_pid":current,
+                "matched_duplicates":matches,"termination_performed":False,
                 "node_id":NODE_ID,"credentials":"SUPPRESSED"}
 
     if operation == "dual_local_executor_23wave":
@@ -226,7 +355,7 @@ def execute(cmd):
             "fcc_claude": "MEDIAHUB_FCC_CLAUDE_OK",
             "omni_claude": "MEDIAHUB_OMNI_CLAUDE_OK",
             "omni_codex": "MEDIAHUB_OMNI_CODEX_OK",
-            "claude_code_direct": "MEDIAHUB_CLAUDE_CODE_DIRECT_OK",
+            "claude_code_direct": "MEDIAHUB_DIRECT_CLAUDE_OK",
         }
         rounds = []
         def probe(argv, marker, timeout=35):
@@ -481,26 +610,87 @@ def execute(cmd):
 
 def main():
     STATE.mkdir(parents=True,exist_ok=True)
-    last_id=published_command_id()
+    controller_lock_path=STATE/"controller.lock"
+    try:
+        controller_lock_fd=os.open(controller_lock_path, os.O_WRONLY | os.O_CREAT, 0o600)
+        import fcntl
+        fcntl.flock(controller_lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except (OSError, ImportError) as exc:
+        g9_event("duplicate_controller_or_lock_failure",error=type(exc).__name__)
+        raise RuntimeError("duplicate_controller_or_lock_unavailable") from exc
+    try:
+        g9_event("controller_started",pid=os.getpid(),agent_source_sha=RUNNING_AGENT_SHA)
+        last_id=published_command_id()
+        _main_loop(last_id)
+    finally:
+        try:
+            fcntl.flock(controller_lock_fd, fcntl.LOCK_UN)
+        finally:
+            os.close(controller_lock_fd)
+
+def _main_loop(last_id):
     while True:
         try:
+            g9_event("heartbeat",pid=os.getpid())
             sync(); maybe_reexec_updated_agent(); cmd=read_command()
-            if cmd and cmd.get("command_id")!=last_id:
+            if cmd and cmd.get("target_sha"):
+                sync(str(cmd["target_sha"]))
+                maybe_reexec_updated_agent()
+                cmd=read_command()
+            command_id=str(cmd.get("command_id","")) if cmd else ""
+            if cmd and command_id!=last_id:
+                if is_processed(command_id):
+                    raise RuntimeError("command_replay_after_publication")
+                if reconcile_published_state(command_id, cmd):
+                    last_id=command_id
+                    if os.environ.get("ASTRA_ONESHOT","0")=="1": return
+                    continue
                 started=time.time()
+                mark_inflight(command_id)
                 claim_store=None
                 claim=None
                 try:
                     claim_store, claim = _claim_for(cmd)
                     claim_store.acquire(claim)
+                    g9_event("claim_acquired",command_id=command_id,task_id=claim.task_id,paths=list(claim.paths))
+                    heartbeat_stop = threading.Event()
+                    heartbeat_error = []
+                    def _heartbeat():
+                        interval = max(10.0, min(CLAIM_LEASE_SECONDS / 3.0, 300.0))
+                        while not heartbeat_stop.wait(interval):
+                            try:
+                                claim_store.heartbeat(claim.task_id, lease_seconds=CLAIM_LEASE_SECONDS)
+                                g9_event("claim_heartbeat",command_id=command_id,task_id=claim.task_id)
+                            except Exception as heartbeat_exc:
+                                heartbeat_error.append(repr(heartbeat_exc))
+                                return
+                    heartbeat_thread = threading.Thread(
+                        target=_heartbeat,
+                        name=f"astra-claim-heartbeat-{claim.task_id}",
+                        daemon=True,
+                    )
+                    heartbeat_thread.start()
+                    g9_event("execution_started",command_id=command_id)
                     value,rc=execute(cmd),0
+                    g9_event("execution_completed",command_id=command_id,returncode=rc)
+                    heartbeat_stop.set()
+                    heartbeat_thread.join(timeout=5)
+                    if heartbeat_error:
+                        value = {**(value if isinstance(value,dict) else {"result":value}),
+                                 "claim_heartbeat_error": heartbeat_error[-1]}
+                        rc=1
                 except Exception as exc:
+                    g9_event("execution_failed",command_id=command_id,error=type(exc).__name__)
                     value,rc={'error':repr(exc)},1
                 finally:
                     if claim_store is not None and claim is not None:
                         try:
+                            if "heartbeat_stop" in locals():
+                                heartbeat_stop.set()
                             result_status = value.get("status") if isinstance(value, dict) else None
                             claim_status = 'VERIFIED' if rc == 0 and result_status not in {"BLOCKED", "REJECTED"} else 'REJECTED'
                             claim_store.release(claim.task_id, claim_status)
+                            g9_event("claim_released",command_id=command_id,task_id=claim.task_id,status=claim_status)
                         except Exception as release_exc:
                             value = {**(value if isinstance(value,dict) else {'result':value}), 'claim_release_error':repr(release_exc)}
                             rc=1
@@ -510,10 +700,13 @@ def main():
                          'claim':asdict(claim) if claim is not None else None,
                          'chain':['task','claim','worker','verification','commit','evidence'],
                          'duration_seconds':round(time.time()-started,3),'result':value,'completed_at':int(time.time())})
-                mark_published(cmd.get("command_id",""))
-                last_id=str(cmd.get("command_id"))
+                mark_published(command_id)
+                mark_processed(command_id)
+                clear_inflight(command_id)
+                last_id=command_id
                 if os.environ.get("ASTRA_ONESHOT","0")=="1": return
         except Exception as exc:
+            g9_event("controller_error",error=type(exc).__name__)
             (STATE/"last_error.json").write_text(json.dumps({"error":repr(exc),"time":int(time.time())}))
             if os.environ.get("ASTRA_ONESHOT","0")=="1": return
         if os.environ.get("ASTRA_ONESHOT","0")=="1": return

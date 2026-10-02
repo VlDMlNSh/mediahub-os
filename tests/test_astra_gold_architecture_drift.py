@@ -1,5 +1,6 @@
 import unittest
 from pathlib import Path
+import re
 import yaml
 
 ROOT = Path(__file__).parents[1]
@@ -53,7 +54,8 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
 
     def test_authority_and_fail_closed_contract_cannot_drift(self):
         q = self.qual["authority"]
-        u = self.unified["authority"]
+        ua = self.unified["authority"]
+        u = self.unified
         self.assertEqual(q["final"], "HUMAN")
         self.assertEqual(q["coordination"], "A0-ASTRA")
         self.assertEqual(q["architecture"], "A1")
@@ -61,12 +63,13 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
         self.assertEqual(q["independent_verification"], "A3")
         self.assertEqual(q["executor_authority"], "EXECUTOR_ONLY")
         self.assertEqual(q["state_authority"], "A0-ASTRA")
-        self.assertEqual(u["human"]["role"], "final_architecture_production_security_authority")
-        self.assertEqual(u["astra"]["role"], "single_coordination_authority")
-        self.assertEqual(u["architect"]["role"], "architecture_contracts")
-        self.assertEqual(u["builder"]["role"], "bounded_implementation")
-        self.assertEqual(u["verifier"]["role"], "independent_verification")
+        self.assertEqual(ua["human"]["role"], "final_architecture_production_security_authority")
+        self.assertEqual(ua["astra"]["role"], "single_coordination_authority")
+        self.assertEqual(ua["architect"]["role"], "architecture_contracts")
+        self.assertEqual(ua["builder"]["role"], "bounded_implementation")
+        self.assertEqual(ua["verifier"]["role"], "independent_verification")
         self.assertTrue(self.qual["principles"]["fail_closed"])
+        self.assertIn("qualification", u)
         self.assertTrue(u["qualification"]["fail_closed"])
         self.assertTrue(u["rules"]["missing_or_contradictory_evidence_blocks"])
 
@@ -78,7 +81,9 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
             EXPECTED_PATHS,
         )
         self.assertEqual(q["G4_23_WAVE_QUALIFICATION"]["minimum_rounds_per_mandatory_path"], 23)
-        self.assertEqual(u := self.unified["qualification"]["rounds_minimum"], 23)
+        self.assertEqual(u := self.unified["qualification"]["rounds_minimum_per_mandatory_path"], 23)
+        self.assertEqual(self.unified["qualification"]["mandatory_path_count"], 5)
+        self.assertEqual(self.unified["qualification"]["total_rounds_minimum"], 115)
         self.assertEqual(
             self.unified["execution"]["mandatory_paths"],
             EXPECTED_PATHS,
@@ -131,6 +136,46 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
         self.assertTrue(u["rules"]["evidence_is_immutable"])
         self.assertTrue(u["qualification"]["fresh_evidence_required"])
         self.assertFalse(u["qualification"]["historical_evidence_reuse"])
+        self.assertEqual(
+            q["promotion"]["states"],
+            [
+                "REGISTERED", "CREDENTIAL_PRESENT", "AUTH_SUCCESS",
+                "MODEL_DISCOVERY_PASS", "PROBE_PASS", "EXECUTION_PASS",
+                "RESULT_VALIDATION_PASS", "A3_VERIFIED", "ASTRA_GOLD_ELIGIBLE",
+                "LAUNCH_READY", "LAUNCHED",
+            ],
+        )
+        self.assertEqual(
+            self.qual["evidence_bundle"]["required_metadata"],
+            [
+                "command_id", "node_id", "component_id", "executor_id",
+                "provider_or_model_id", "transport_id", "source_sha", "round",
+                "timestamp", "exit_status", "timeout", "workspace",
+                "verification_status", "evidence_digest",
+            ],
+        )
+        self.assertEqual(
+            self.unified["evidence"],
+            [
+                "command_id", "node_id", "component_id", "executor_id",
+                "provider_or_model_id", "transport_id", "source_sha", "round",
+                "timestamp", "exit_status", "timeout", "workspace",
+                "verification_status", "evidence_digest",
+            ],
+        )
+
+    def test_autonomous_workflows_are_fail_closed_and_source_bound(self):
+        workflows = ROOT / ".github" / "workflows"
+        unified = (workflows / "astra-gold-unified-qualification.yml").read_text(encoding="utf-8")
+        soak = (workflows / "astra-gold-24h-soak.yml").read_text(encoding="utf-8")
+        queue = (workflows / "mh25-first-24h-autonomous-queue.yml").read_text(encoding="utf-8")
+        self.assertIn("permissions:\n  contents: read", unified)
+        self.assertNotRegex(soak, r'test "\$blob_sha" = "[0-9a-f]{40}"')
+        self.assertNotIn("git reset --hard", queue)
+        self.assertNotIn("|| true", queue)
+        self.assertIn("DISABLED", queue)
+        self.assertIn("canonical qualification path owns this scope", queue)
+        self.assertIn("if: ${{ false }}", queue)
 
     def test_reference_architecture_contains_reconciliation_and_launch_guards(self):
         self.assertIn("Reconciliation Contract", self.ref)

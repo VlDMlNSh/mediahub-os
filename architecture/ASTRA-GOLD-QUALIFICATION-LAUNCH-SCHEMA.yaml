@@ -61,9 +61,13 @@ gates:
     disjoint_claims_required: true
     shared_surfaces_serialized: true
     duplicate_controller_rejected: true
+    coordination_authority_attestation_required: true
+    coordination_authority_must_be_single_and_shared: true
+    local_state_directory_alone_is_not_cluster_evidence: true
     failure: BLOCKED
   G6_RECOVERY:
     required_scenarios: [timeout, executor_failure, transport_interruption, stale_claim, worker_restart, duplicate_controller, replay_idempotency, result_publication_recovery]
+    result_publication_recovery_requires: [published_result_identity, source_sha, remote_branch_tip, local_processed_state_reconciliation]
     pass_rule: every_required_scenario_passes
     failure: BLOCKED
   G7_INTEGRATED_A3:
@@ -76,7 +80,8 @@ gates:
     failure: BLOCKED
   G9_24H_SOAK:
     duration_hours: 24
-    required: [continuous_heartbeat, no_unexplained_controller_restart, no_duplicate_claim_corruption, no_unresolved_execution_failure, evidence_integrity, no_authority_boundary_violation]
+    required: [continuous_heartbeat, no_unexplained_controller_restart, no_duplicate_claim_corruption, no_unresolved_execution_failure, evidence_integrity, no_authority_boundary_violation, workflow_run_identity]
+    workflow_run_identity: [workflow_run_id, workflow_run_url]
     pass_rule: all_required_conditions_hold_for_full_duration
     failure: ROLLBACK_OR_REQUALIFY
   G10_LAUNCH_READY:
@@ -305,11 +310,18 @@ launch_contract:
   required_inputs: [approved_source_sha, launch_target, fresh_evidence_bundle, A3_verification_record, soak_record, rollback_target]
   prohibited: [executor_self_promotion, provider_self_promotion, model_self_promotion, stale_evidence_promotion, missing_a3_promotion]
 evidence_bundle:
-  required_metadata: [command_id, node_id, component_id, executor_id, provider_or_model_id, source_sha, round, timestamp, exit_status, timeout, workspace, verification_status, evidence_digest]
+  required_metadata: [command_id, node_id, component_id, executor_id, provider_or_model_id, transport_id, source_sha, round, timestamp, exit_status, timeout, workspace, verification_status, evidence_digest]
   secret_policy:
     secret_values: SUPPRESSED
     authorization_tokens: SUPPRESSED
     raw_provider_responses: REDACTED
 promotion:
-  states: [REGISTERED, CREDENTIAL_PRESENT, AUTH_SUCCESS, MODEL_DISCOVERY_PASS, PROBE_PASS, EXECUTION_PASS, A3_VERIFIED, ASTRA_GOLD_ELIGIBLE, LAUNCH_READY, LAUNCHED]
+  states: [REGISTERED, CREDENTIAL_PRESENT, AUTH_SUCCESS, MODEL_DISCOVERY_PASS, PROBE_PASS, EXECUTION_PASS, RESULT_VALIDATION_PASS, A3_VERIFIED, ASTRA_GOLD_ELIGIBLE, LAUNCH_READY, LAUNCHED]
   no_implicit_transitions: true
+
+
+extended_soak_72h:
+  enabled: false
+  requires: [G8_PRE_SOAK, G9_24H_PASS, HUMAN_AUTHORIZED]
+  promotional: false
+  failure_action: ROLLBACK_OR_REQUALIFY

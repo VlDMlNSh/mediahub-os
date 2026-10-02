@@ -113,5 +113,159 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
         self.assertTrue(unified["rules"]["gold_active_requires_human_launch"])
         self.assertTrue(unified["rules"]["evidence_is_immutable"])
 
+    def test_session_115_wave_contract_is_exact_and_fail_closed(self):
+        source = Path("ops/qualification/session_115_wave.py").read_text(encoding="utf-8")
+        self.assertIn('"total_observations_minimum":115', source)
+        self.assertIn('"rounds_minimum_per_path":ROUNDS', source)
+        self.assertIn('ROUNDS=23', source)
+        for path in ["CODEX_FCC", "CLAUDE_FCC", "CODEX_OMNIROUTE",
+                     "CLAUDE_OMNIROUTE", "CLAUDE_CODE_DIRECT"]:
+            self.assertIn(f'"{path}"', source)
+        self.assertIn('status="BLOCKED"', source)
+        self.assertIn('"verification_status":"UNVERIFIED"', source)
+
+    def test_g5_verifier_requires_fresh_shared_authority(self):
+        from ops.qualification.verify_g5_coordination_attestation import verify
+        import tempfile, json
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td) / "attestation.json"
+            base = {"node_id":"n1","running_agent_source_sha":"a"*64,
+                    "coordination_authority_id":"A0","coordination_state":"shared",
+                    "coordination_transport":"shared-store","active_claim_count":1,
+                    "reservation_result":"PASS"}
+            p.write_text(json.dumps(base), encoding="utf-8")
+            self.assertEqual(verify(p)["status"], "BLOCKED")
+            base["fresh"] = True
+            p.write_text(json.dumps(base), encoding="utf-8")
+            self.assertEqual(verify(p)["status"], "PASS")
+
+    def test_g6_verifier_is_fresh_and_fail_closed(self):
+        from ops.qualification.verify_g6_recovery_evidence import verify
+        import tempfile, json
+        scenarios = {name: {"status":"PASS"} for name in (
+            "timeout","executor_failure","transport_interruption","stale_claim",
+            "worker_restart","duplicate_controller","replay_idempotency")}
+        scenarios["result_publication_recovery"] = {
+            "status":"PASS","published_result_identity":"r1","source_sha":"a"*40,
+            "remote_branch_tip":"b"*40,"local_processed_state_reconciliation":"PASS",
+            "duplicate_execution_detected":False,"evidence_rewritten":False}
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"g6.json"
+            payload={"fresh":False,"scenarios":scenarios}
+            p.write_text(json.dumps(payload),encoding="utf-8")
+            self.assertEqual(verify(p)["status"],"BLOCKED")
+            payload["fresh"]=True
+            p.write_text(json.dumps(payload),encoding="utf-8")
+            self.assertEqual(verify(p)["status"],"PASS")
+
+    def test_a3_verifier_requires_independence_and_exact_sha(self):
+        from ops.qualification.verify_a3_evidence import verify
+        import tempfile, json
+        checks={name:{"status":"PASS"} for name in (
+            "focused_tests","regression","contracts","architecture_conformance",
+            "security","concurrency","failure","recovery","exact_sha_evidence")}
+        payload={"fresh":True,"verifier_role":"A3","independence_attested":True,
+                 "source_evidence_path":"/external/g4.json","a3_evidence_path":"/external/a3.json",
+                 "source_sha":"a"*40,"verified_sha":"a"*40,"evidence_sha256":"b"*64,**checks}
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"a3.json"
+            p.write_text(json.dumps(payload),encoding="utf-8")
+            self.assertEqual(verify(p)["status"],"PASS")
+            payload["verified_sha"]="c"*40
+            p.write_text(json.dumps(payload),encoding="utf-8")
+            self.assertEqual(verify(p)["status"],"BLOCKED")
+
+    def test_g8_bundle_requires_all_prerequisites_and_115(self):
+        from ops.qualification.verify_g8_pre_soak_bundle import verify
+        import tempfile, json
+        base={k:{"status":"PASS"} for k in ("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree","fresh_bundle")}
+        base["g4_115"].update(observations=115,paths=5)
+        base["g5_coordination"]["max_parallel"]=2
+        base["a3_independent"]["independence_attested"]=True
+        base["clean_worktree"]["dirty"]=False
+        base["fresh"]=True
+        base["bundle_sha256"]="b"*64
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"g8.json"; p.write_text(json.dumps(base),encoding="utf-8")
+            self.assertEqual(verify(p)["status"],"PASS")
+            base["g6_recovery"]["status"]="BLOCKED"
+            p.write_text(json.dumps(base),encoding="utf-8")
+            self.assertEqual(verify(p)["status"],"BLOCKED")
+
+    def test_g8_requires_source_sha_binding(self):
+        from ops.qualification.verify_g8_pre_soak_bundle import verify
+        import tempfile, json
+        base={k:{"status":"PASS"} for k in ("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree","fresh_bundle")}
+        base["g4_115"].update(observations=115,paths=5)
+        base["g5_coordination"]["max_parallel"]=2
+        base["a3_independent"].update(independence_attested=True,source_sha="a"*40)
+        base["clean_worktree"]["dirty"]=False
+        base.update(fresh=True,bundle_sha256="b"*64)
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"g8.json"; p.write_text(json.dumps(base),encoding="utf-8")
+            self.assertEqual(verify(p)["status"], "BLOCKED")
+            self.assertEqual(verify(p)["reason"], "bundle_source_sha_missing")
+
+    def test_g8_rejects_source_sha_mismatch(self):
+        from ops.qualification.verify_g8_pre_soak_bundle import verify
+        import tempfile, json
+        base={k:{"status":"PASS"} for k in ("g4_115","g5_coordination","g6_recovery","a3_independent","clean_worktree","fresh_bundle")}
+        base["g4_115"].update(observations=115,paths=5)
+        base["g5_coordination"]["max_parallel"]=2
+        base["a3_independent"].update(independence_attested=True,source_sha="a"*40)
+        base["clean_worktree"]["dirty"]=False
+        base.update(fresh=True,bundle_sha256="b"*64,source_sha="c"*40)
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"g8.json"; p.write_text(json.dumps(base),encoding="utf-8")
+            self.assertEqual(verify(p)["status"], "BLOCKED")
+            self.assertEqual(verify(p)["reason"], "bundle_source_sha_mismatch")
+
+    def test_current_state_reducer_is_fail_closed(self):
+        from ops.qualification.current_qualification_state import build
+        state=build({"gates":{"G4_23_WAVE_QUALIFICATION":"PASS"},
+                      "gate_evidence":{"G4_23_WAVE_QUALIFICATION":{"fresh":False}}})
+        self.assertEqual(state["status"],"BLOCKED")
+        self.assertIn("G4_23_WAVE_QUALIFICATION",state["failed_gates"])
+        self.assertIn("G5_CONCURRENCY",state["failed_gates"])
+
+    def test_reducer_separates_physical_blockers(self):
+        from ops.qualification.geometric_progress_controller import reduce_state
+        e={"gates":{"G0_IDENTITY":"PASS","G1_BOUNDARY":"PASS","G2_CONTROL_PLANE":"PASS",
+                    "G3_EXECUTION_PATH":"PASS","G4_23_WAVE_QUALIFICATION":"BLOCKED",
+                    "G5_CONCURRENCY":"PASS","G6_RECOVERY":"BLOCKED","G7_INTEGRATED_A3":"PASS",
+                    "G8_PRE_SOAK":"BLOCKED","G9_24H_SOAK":"BLOCKED"}}
+        s=reduce_state(e)
+        self.assertEqual(s["next"]["gate"],"G4_23_WAVE_QUALIFICATION")
+        self.assertEqual(s["next"]["kind"],"PHYSICAL")
+        self.assertEqual(s["physical_blockers"],4)
+
+    def test_launch_gate_consumes_effective_canonical_state(self):
+        from ops.qualification.qualification_launch_gate import evaluate, load_schema
+        evidence={"gates":{"G0_IDENTITY":"PASS","G1_BOUNDARY":"PASS","G2_CONTROL_PLANE":"PASS",
+                           "G3_EXECUTION_PATH":"PASS","G4_23_WAVE_QUALIFICATION":"PASS"},
+                  "gate_evidence":{"G4_23_WAVE_QUALIFICATION":{"status":"PASS","fresh":False}}}
+        result=evaluate(evidence, load_schema())
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(result["next_blocker"], "G4_23_WAVE_QUALIFICATION")
+        self.assertEqual(result["gate_results"]["G4_23_WAVE_QUALIFICATION"], "BLOCKED")
+
+    def test_geometric_progress_controller_halves_active_budget(self):
+        from ops.qualification.geometric_progress_controller import plan
+        e={"gates":{"G0_IDENTITY":"BLOCKED"}}
+        self.assertEqual(plan(e,1,8)["active_work_budget_target_hours"],8.0)
+        self.assertEqual(plan(e,2,8)["active_work_budget_target_hours"],4.0)
+        self.assertEqual(plan(e,3,8)["active_work_budget_target_hours"],2.0)
+        self.assertEqual(plan(e,5,8)["active_work_budget_target_hours"],0.5)
+
+    def test_geometric_controller_never_removes_mandatory_24h_soak(self):
+        from ops.qualification.geometric_progress_controller import plan
+        e={"gates":{"G0_IDENTITY":"PASS","G1_BOUNDARY":"PASS","G2_CONTROL_PLANE":"PASS",
+                    "G3_EXECUTION_PATH":"PASS","G4_23_WAVE_QUALIFICATION":"PASS",
+                    "G5_CONCURRENCY":"PASS","G6_RECOVERY":"PASS","G7_INTEGRATED_A3":"PASS",
+                    "G8_PRE_SOAK":"PASS","G9_24H_SOAK":"BLOCKED"}}
+        r=plan(e,6,8)
+        self.assertEqual(r["next_gate"],"G9_24H_SOAK")
+        self.assertEqual(r["mandatory_wall_clock_hours"],24)
+
 if __name__ == "__main__":
     unittest.main()

@@ -173,6 +173,7 @@ evidence:
     - component_id
     - executor_id
     - provider_or_model_id
+    - transport_id
     - source_sha
     - round
     - timestamp
@@ -191,6 +192,7 @@ promotion:
   MODEL_DISCOVERY_PASS: model_discovered
   PROBE_PASS: non_mutating_probe_passed
   EXECUTION_PASS: bounded_execution_passed
+  RESULT_VALIDATION_PASS: result_validation_passed
   A3_VERIFIED: independent_verification_passed
   ASTRA_GOLD_ELIGIBLE: all_mandatory_gates_passed
   LAUNCH_READY: 24h_soak_passed
