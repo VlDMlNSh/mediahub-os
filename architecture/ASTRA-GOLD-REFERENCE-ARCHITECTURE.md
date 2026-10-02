@@ -267,7 +267,7 @@ Historical evidence cannot satisfy a fresh qualification gate.
 
 Evidence for a completed round is immutable. Corrections create a new linked evidence record; prior evidence is never silently rewritten.
 
-## 10. Reconciliation contract
+## 10. Reconciliation Contract
 
 A0 reconciles architecture vs implementation, registry vs actual identity, claimed state vs evidence state, tested SHA vs source SHA, provider/model identity vs execution evidence, qualification state vs gate state, candidate inventory vs runtime admission, control-plane state vs worker state, and evidence completeness vs required metadata.
 
