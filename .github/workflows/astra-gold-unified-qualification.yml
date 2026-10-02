@@ -12,6 +12,7 @@ on:
       - "ops/qualification/**"
       - "profiles/agent-registry.json"
       - "profiles/providers/**"
+      - "tests/**"
       - ".github/workflows/astra-gold-unified-qualification.yml"
 
 permissions:
