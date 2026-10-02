@@ -82,5 +82,21 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
         self.assertTrue(admission["no_implicit_promotion"])
         self.assertTrue(admission["no_self_qualification"])
 
+
+    def test_category_specific_candidate_controls_exist(self):
+        data = self.load()
+        controls = data["candidate_review_inventory"]["category_specific_controls"]
+        for category in ["local_model", "gateway_or_router", "browser_bridge",
+                         "coding_harness_or_ide", "security_tool", "unresolved_identity"]:
+            self.assertIn(category, controls)
+        self.assertIn("minicpm-v-4.5-8b-1mk", controls["local_model"]["examples"])
+        self.assertIn("freellmapi", controls["gateway_or_router"]["examples"])
+        self.assertIn("free-coding-models", controls["gateway_or_router"]["examples"])
+        self.assertIn("webtool-deepseek", controls["browser_bridge"]["examples"])
+        self.assertIn("codex-chatgpt-web", controls["browser_bridge"]["examples"])
+        self.assertIn("naabu", controls["security_tool"]["examples"])
+        self.assertIn("colibri", controls["unresolved_identity"]["examples"])
+        self.assertIn("unlazy", controls["unresolved_identity"]["examples"])
+
 if __name__ == "__main__":
     unittest.main()
