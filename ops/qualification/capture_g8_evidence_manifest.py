@@ -50,6 +50,8 @@ def main():
         for field in ("node_id","component_id","executor_id","provider_or_model_id","transport_id","workspace"):
             if payload[field].strip().lower() in placeholder_values:
                 print(json.dumps({"status":"BLOCKED","reason":"evidence_identity_placeholder","surface":key,"field":field})); return 2
+        if payload.get("verification_status") != "PASS":
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_verification_status_not_pass","surface":key})); return 2
         if not isinstance(payload.get("round"),int) or payload["round"] < 1:
             print(json.dumps({"status":"BLOCKED","reason":"evidence_round_invalid","surface":key})); return 2
         if not isinstance(payload.get("timestamp"),(int,float,str)) or (isinstance(payload.get("timestamp"),str) and not payload["timestamp"].strip()):
@@ -67,8 +69,8 @@ def main():
             print(json.dumps({"status":"BLOCKED","reason":"evidence_not_fresh","surface":key})); return 2
         source_sha=payload.get("source_sha")
         target_sha=payload.get("target_sha")
-        if source_sha is None and target_sha is None:
-            print(json.dumps({"status":"BLOCKED","reason":"evidence_sha_binding_missing","surface":key})); return 2
+        if source_sha is None:
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_source_sha_binding_missing","surface":key})); return 2
         if source_sha is not None and (not isinstance(source_sha,str) or not SHA40.fullmatch(source_sha) or source_sha.lower()!=a.source_sha.lower()):
             print(json.dumps({"status":"BLOCKED","reason":"evidence_source_sha_invalid_or_mismatch","surface":key})); return 2
         if target_sha is not None and (not isinstance(target_sha,str) or not SHA40.fullmatch(target_sha) or target_sha.lower()!=a.source_sha.lower()):
