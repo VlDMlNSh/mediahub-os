@@ -155,7 +155,7 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
             [
                 "command_id", "node_id", "component_id", "executor_id",
                 "provider_or_model_id", "transport_id", "source_sha", "round",
-                "timestamp", "exit_status", "timeout", "marker", "workspace",
+                "timestamp", "exit_status", "timeout", "workspace",
                 "verification_status", "evidence_digest",
             ],
         )
