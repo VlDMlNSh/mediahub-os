@@ -1,0 +1,215 @@
+schema: mediahub.astra-gold.qualification-blueprint.v1
+status: CANONICAL_EXECUTION_BLUEPRINT
+version: 1.0
+date: 2026-10-02
+system: ASTRA_GOLD
+reference_architecture: architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md
+qualification_contract: architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml
+drift_gate: tests/test_astra_gold_architecture_drift.py
+
+objective:
+  - reconcile architecture, implementation, registry, runtime identity and evidence
+  - qualify every installed component that is admitted to the active fabric
+  - qualify every review candidate only after exact identity resolution
+  - produce fresh A3 evidence
+  - complete a continuous 24h soak before LAUNCH_READY
+  - launch only through the Human authorization gate
+
+hard_invariants:
+  final_authority: HUMAN
+  coordination_authority: A0-ASTRA
+  architecture_authority: A1
+  implementation_authority: A2
+  verification_authority: A3
+  executor_authority: EXECUTOR_ONLY
+  state_authority: A0-ASTRA
+  fail_closed: true
+  fresh_evidence_only: true
+  historical_evidence_reuse: false
+  self_qualification: false
+  self_promotion: false
+  launch_without_a3: false
+  launch_without_recovery: false
+  launch_without_24h_soak: false
+
+installed_component_matrix:
+  executors:
+    - codex
+    - claude-code
+  transports:
+    - github
+    - fcc
+    - omniroute
+  local_tooling:
+    - cursor
+    - deepseek-harness
+    - stagewise
+    - ecc
+  local_gateways:
+    - freellmapi
+  local_models:
+    - ollama
+    - kimi-k3-in-c
+  cloud_or_gateway_fabric:
+    - gemini
+    - perplexity
+    - kimi
+    - deepseek
+    - chatgpt
+    - openai
+    - openrouter
+    - unorouter
+    - claude
+    - gigachat
+
+candidate_matrix:
+  - id: openopc
+    category: autonomous_development_system
+    qualification: NOT_PROVEN
+    identity: resolved
+  - id: openflux
+    category: desktop_agent
+    qualification: NOT_PROVEN
+    identity: resolved
+  - id: gemma-4
+    category: local_model_family
+    qualification: NOT_PROVEN
+    identity: variant_specific
+  - id: minicpm-v-4.5-8b-1mk
+    category: local_model
+    qualification: NOT_PROVEN
+    identity: exact_variant_required
+  - id: sol-pi
+    category: coding_or_agent_candidate
+    qualification: NOT_PROVEN
+    identity: verification_required
+  - id: colibri
+    category: coding_or_agent_candidate
+    qualification: NOT_PROVEN
+    identity: unresolved
+  - id: webtool-deepseek
+    category: browser_or_web_agent
+    qualification: NOT_PROVEN
+    identity: verification_required
+  - id: deepseek-harness
+    category: coding_harness
+    qualification: NOT_PROVEN
+    identity: verification_required
+  - id: stagewise
+    category: coding_agent_or_development_tool
+    qualification: NOT_PROVEN
+    identity: verification_required
+  - id: free-coding-models
+    category: discovery_and_routing
+    qualification: NOT_PROVEN
+    identity: resolved
+  - id: freellmapi
+    category: local_gateway
+    qualification: NOT_PROVEN
+    identity: verification_required
+  - id: unlazy
+    category: developer_tool_or_agent
+    qualification: NOT_PROVEN
+    identity: unresolved
+  - id: naabu
+    category: security_tool
+    qualification: NOT_PROVEN
+    identity: resolved
+  - id: codex-chatgpt-web
+    category: browser_bridge_and_harness
+    qualification: NOT_PROVEN
+    identity: resolved
+
+qualification_waves:
+  wave_0: repository_identity_and_clean_worktree
+  wave_1: architecture_drift_gate
+  wave_2: authority_and_boundary_contracts
+  wave_3: runtime_inventory_and_exact_identity
+  wave_4: transport_and_gateway_health
+  wave_5: provider_authentication_and_model_discovery
+  wave_6: non_mutating_probes
+  wave_7: execution_path_validation
+  wave_8: mandatory_23_round_matrix
+  wave_9: concurrency_and_fencing
+  wave_10: recovery_matrix
+  wave_11: integrated_a3
+  wave_12: pre_soak_reconciliation
+  wave_13: soak_24h
+  wave_14: human_launch_gate
+
+mandatory_executor_matrix:
+  rounds_per_path: 23
+  total_rounds: 115
+  paths:
+    - CODEX_FCC
+    - CLAUDE_FCC
+    - CODEX_OMNIROUTE
+    - CLAUDE_OMNIROUTE
+    - CLAUDE_CODE_DIRECT
+
+candidate_gate:
+  rule: no_runtime_admission_until_exact_identity_is_resolved
+  minimum_fresh_rounds: 23
+  required:
+    - exact_source_identity
+    - exact_release_or_commit
+    - provenance
+    - dependency_integrity
+    - runtime_identity
+    - sandbox_boundary
+    - credential_boundary
+    - non_mutating_probe
+    - bounded_task_probe
+    - result_validation
+    - failure_recovery
+    - replay_idempotency
+    - concurrency_isolation
+    - independent_a3
+
+evidence:
+  required:
+    - command_id
+    - node_id
+    - component_id
+    - executor_id
+    - provider_or_model_id
+    - source_sha
+    - round
+    - timestamp
+    - exit_status
+    - timeout
+    - workspace
+    - verification_status
+    - evidence_digest
+  secrets: forbidden
+  immutable: true
+
+promotion:
+  REGISTERED: identity_only
+  CREDENTIAL_PRESENT: credential_reference_only
+  AUTH_SUCCESS: authenticated
+  MODEL_DISCOVERY_PASS: model_discovered
+  PROBE_PASS: non_mutating_probe_passed
+  EXECUTION_PASS: bounded_execution_passed
+  A3_VERIFIED: independent_verification_passed
+  ASTRA_GOLD_ELIGIBLE: all_mandatory_gates_passed
+  LAUNCH_READY: 24h_soak_passed
+  LAUNCHED: human_authorized
+
+blocked_conditions:
+  - architecture_drift
+  - ambiguous_identity
+  - stale_or_missing_evidence
+  - contradictory_evidence
+  - dirty_worktree
+  - failed_mandatory_round
+  - duplicate_controller
+  - authority_boundary_violation
+  - unrecovered_failure
+  - missing_a3
+  - failed_24h_soak
+
+runtime_truth_rule:
+  status_must_be_derived_from_fresh_runtime_evidence: true
+  documentation_alone_cannot_promote_component: true
+  historical_success_cannot_promote_component: true
