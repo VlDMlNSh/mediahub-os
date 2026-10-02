@@ -2,11 +2,6 @@ name: Astra queue recovery gate (DISABLED — destructive legacy recovery)
 # Disabled: canonical qualification path owns this scope.
 
 on:
-  push:
-    paths:
-      - ".github/workflows/astra-queue-recovery.yml"
-
-on:
   workflow_dispatch:
 
 permissions:
