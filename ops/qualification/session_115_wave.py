@@ -67,7 +67,9 @@ def main():
                         else:
                             result=run(command_for(path,MARKERS[path]),Path(ws),45)
                             marker=MARKERS[path] in result["stdout_tail"]
-                            rec.update(result,binary=binary,binary_sha256=sha256_file(Path(binary)) if Path(binary).is_file() else "",provider_or_transport_id=provider_identity(path,binary),workspace_ephemeral=True,marker=MARKERS[path],marker_present=marker,status="PASS" if result["returncode"]==0 and marker else ("TIMEOUT" if result["returncode"]==124 else "BLOCKED"),verification_status="PASS" if result["returncode"]==0 and marker else "BLOCKED")
+                            rec.update(result,binary=binary,binary_identity=executable_identity(binary),provider_or_transport_id=provider_identity(path,binary),workspace_ephemeral=True,marker=MARKERS[path],marker_present=marker,status="PASS" if result["returncode"]==0 and marker else ("TIMEOUT" if result["returncode"]==124 else "BLOCKED"),verification_status="PASS" if result["returncode"]==0 and marker else "BLOCKED")
+            if not validate_record(rec):
+                rec.update(status="BLOCKED",verification_status="BLOCKED",reason="round_evidence_schema_invalid")
             manifest["observations"].append(rec)
             (OUT/f"{n:02d}-{path}.json").write_text(json.dumps(rec,indent=2,sort_keys=True)+"\n")
             (OUT/"manifest.json").write_text(json.dumps(manifest,indent=2,sort_keys=True)+"\n")
