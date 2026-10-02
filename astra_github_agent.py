@@ -11,7 +11,7 @@ NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
-OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","autonomous_gold_mission","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic","provider_model_qualification","local_component_inventory","local_component_qualification","local_ai_capability_qualification"}
+OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","autonomous_gold_mission","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic","provider_model_qualification","local_component_inventory","local_component_qualification","local_ai_capability_qualification","dual_local_executor_23wave"}
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 AGENT_ID=os.environ.get('ASTRA_AGENT_ID','A0-ASTRA')
 WORKER_ID=os.environ.get('ASTRA_WORKER_ID',f"{AGENT_ID}:{os.getpid()}")
@@ -190,6 +190,80 @@ def execute(cmd):
                     "elapsed_seconds":round(time.time()-started,3)}
         return {"status":"BLOCKED","phase":"autonomous_retry_window_exhausted",
                 "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+
+    if operation == "dual_local_executor_23wave":
+        import shutil, statistics
+        marker_map = {
+            "fcc_codex": "MEDIAHUB_FCC_CODEX_OK",
+            "fcc_claude": "MEDIAHUB_FCC_CLAUDE_OK",
+            "omni_claude": "MEDIAHUB_OMNI_CLAUDE_OK",
+            "omni_codex": "MEDIAHUB_OMNI_CODEX_OK",
+        }
+        rounds = []
+        def probe(argv, marker, timeout=35):
+            started=time.monotonic()
+            try:
+                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,
+                                 timeout=timeout,check=False)
+                out=(p.stdout or "")[-12000:]
+                err=(p.stderr or "")[-12000:]
+                return {"status":"PASS" if p.returncode==0 and marker in out else "BLOCKED",
+                        "returncode":p.returncode,"duration_seconds":round(time.monotonic()-started,3),
+                        "marker_present":marker in out,"stdout_tail":out,"stderr_tail":err}
+            except subprocess.TimeoutExpired as exc:
+                return {"status":"TIMEOUT","returncode":124,"duration_seconds":round(time.monotonic()-started,3),
+                        "marker_present":False,"stdout_tail":str(exc.stdout or "")[-4000:],
+                        "stderr_tail":str(exc.stderr or "")[-4000:]}
+            except Exception as exc:
+                return {"status":"BLOCKED","returncode":1,"duration_seconds":round(time.monotonic()-started,3),
+                        "marker_present":False,"error":type(exc).__name__}
+        for cycle in range(1,24):
+            rec={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip(),"executors":{}}
+            if cycle == 1:
+                rec["inventory"]={}
+                for name, candidates in {
+                    "fcc-codex":["fcc-codex"],"fcc-claude":["fcc-claude"],
+                    "omniroute":["omniroute"],"codex":["codex"],"claude":["claude"],
+                    "ecc":["ecc","ecc-cli"],
+                }.items():
+                    hit=next((shutil.which(x) for x in candidates if shutil.which(x)),None)
+                    rec["inventory"][name]=hit or "NOT_FOUND"
+                rec["fcc_server_probe"]=probe(["/usr/bin/curl","-fsS","--max-time","5","http://127.0.0.1:8092/v1/models"],"data")
+                rec["omniroute_probe"]=probe(["/usr/bin/curl","-fsS","--max-time","5","http://127.0.0.1:20128/v1/models"],"data")
+            rec["executors"]["fcc_codex"] = probe(
+                ["fcc-codex","exec","--skip-git-repo-check","--sandbox","read-only",
+                 f"Return exactly {marker_map["fcc_codex"]}. Do not modify files or use tools."],
+                marker_map["fcc_codex"],30) if shutil.which("fcc-codex") else {"status":"BLOCKED","reason":"binary_missing"}
+            rec["executors"]["fcc_claude"] = probe(
+                ["fcc-claude","-p",f"Return exactly {marker_map["fcc_claude"]}. Do not modify files or use tools.",
+                 "--output-format","text"],marker_map["fcc_claude"],30) if shutil.which("fcc-claude") else {"status":"BLOCKED","reason":"binary_missing"}
+            if shutil.which("omniroute"):
+                rec["executors"]["omni_claude"]=probe(
+                    ["omniroute","run","claude","--model","auto","--","-p",
+                     f"Return exactly {marker_map["omni_claude"]}. Do not modify files or use tools.","--output-format","text"],
+                    marker_map["omni_claude"],35)
+                rec["executors"]["omni_codex"]=probe(
+                    ["omniroute","run","codex","--model","auto","--","exec","--skip-git-repo-check",
+                     "--sandbox","read-only",f"Return exactly {marker_map["omni_codex"]}. Do not modify files or use tools."],
+                    marker_map["omni_codex"],35)
+            else:
+                rec["executors"]["omni_claude"]={"status":"BLOCKED","reason":"binary_missing"}
+                rec["executors"]["omni_codex"]={"status":"BLOCKED","reason":"binary_missing"}
+            rounds.append(rec)
+        summary={}
+        for key in marker_map:
+            vals=[r["executors"].get(key,{}) for r in rounds]
+            passed=[v for v in vals if v.get("status")=="PASS"]
+            durations=[v["duration_seconds"] for v in passed if isinstance(v.get("duration_seconds"),(int,float))]
+            summary[key]={"pass_count":len(passed),"rounds":23,"pass_rate":round(len(passed)/23,3),
+                           "median_latency_seconds":round(statistics.median(durations),3) if durations else None,
+                           "statuses":{s:sum(1 for v in vals if v.get("status")==s) for s in ("PASS","BLOCKED","TIMEOUT")}}
+        ranked=sorted(summary.items(),key=lambda kv:(kv[1]["pass_count"],-(kv[1]["median_latency_seconds"] or 999999)),reverse=True)
+        selected=[k for k,v in ranked if v["pass_count"]==23]
+        return {"status":"PASS" if len(selected)>=2 and {"fcc_codex","fcc_claude"} <= set(selected) else "BLOCKED",
+                "phase":"23_round_local_executor_qualification","node_id":NODE_ID,
+                "rounds":rounds,"summary":summary,"selection_order":ranked,"selected_full_pass":selected,
+                "ecc_policy":"inventory-only; no authority or provider credentials","credentials":"SUPPRESSED"}
 
     if operation == "codex_config_isolation":
         argv=["/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_CONFIG_ISOLATION_OK')"]
