@@ -123,7 +123,7 @@ def process_task(task: dict) -> dict:
         if run(["git", "add", "-A"], 60, worktree).returncode: raise RuntimeError("git_add_failed")
         commit = run(["git", "commit", "-m", f"astra: complete {task['task_id']}"], 120, worktree)
         if commit.returncode: raise RuntimeError("git_commit_failed")
-        push = run(["git", "push", "--force-with-lease", "origin", f"HEAD:refs/heads/{branch}"], 180, worktree)
+        push = run(["git", "push", "origin", f"HEAD:refs/heads/{branch}"], 180, worktree)
         record["push"] = {"returncode": push.returncode, "stdout": push.stdout[-4000:], "stderr": push.stderr[-4000:]}
         if push.returncode: raise RuntimeError("git_push_failed")
         record["head_sha"] = run(["git", "rev-parse", "HEAD"], 30, worktree).stdout.strip()
