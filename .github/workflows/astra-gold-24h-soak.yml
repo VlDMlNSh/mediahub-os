@@ -55,14 +55,6 @@ jobs:
           set -euo pipefail
           python3 -m compileall -q runtime tests astra_github_agent.py
           PYTHONPATH=runtime:. python3 -m pytest -q tests/
-      - name: Verify G9 evidence contract
-        if: always()
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f evidence/astra-gold/g9-24h-soak.json
-          PYTHONPATH=. python3 ops/qualification/verify_g9_24h_soak.py evidence/astra-gold/g9-24h-soak.json
-
       - name: Preflight evidence
         if: always()
         run: |
@@ -114,6 +106,18 @@ jobs:
             sleep 600
           done
           echo "soak_24h=PASS"
+      - name: Build G9 evidence from canonical worker telemetry
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s /var/lib/mediahub-astra/g9_telemetry.jsonl
+          mkdir -p evidence/astra-gold
+          python3 ops/qualification/capture_g9_24h_soak.py             --telemetry /var/lib/mediahub-astra/g9_telemetry.jsonl             --output evidence/astra-gold/g9-24h-soak.json             --source-sha "$(git rev-parse HEAD)"
+      - name: Verify G9 evidence contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 ops/qualification/verify_g9_24h_soak.py evidence/astra-gold/g9-24h-soak.json
       - name: Sanitized GOLD evidence
         if: always()
         shell: bash
