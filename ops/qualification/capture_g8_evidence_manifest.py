@@ -34,9 +34,9 @@ def main():
         except Exception:
             print(json.dumps({"status":"BLOCKED","reason":"evidence_json_invalid","surface":key})); return 2
         if not isinstance(payload,dict) or payload.get("status")!="PASS":
+            print(json.dumps({"status":"BLOCKED","reason":"evidence_not_pass","surface":key})); return 2
         if payload.get("fresh") is not True:
             print(json.dumps({"status":"BLOCKED","reason":"evidence_not_fresh","surface":key})); return 2
-            print(json.dumps({"status":"BLOCKED","reason":"evidence_not_pass","surface":key})); return 2
         source_sha=payload.get("source_sha")
         target_sha=payload.get("target_sha")
         if source_sha is None and target_sha is None:
