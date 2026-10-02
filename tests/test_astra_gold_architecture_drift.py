@@ -54,7 +54,8 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
 
     def test_authority_and_fail_closed_contract_cannot_drift(self):
         q = self.qual["authority"]
-        u = self.unified["authority"]
+        ua = self.unified["authority"]
+        u = self.unified
         self.assertEqual(q["final"], "HUMAN")
         self.assertEqual(q["coordination"], "A0-ASTRA")
         self.assertEqual(q["architecture"], "A1")
@@ -62,11 +63,11 @@ class TestAstraGoldArchitectureDrift(unittest.TestCase):
         self.assertEqual(q["independent_verification"], "A3")
         self.assertEqual(q["executor_authority"], "EXECUTOR_ONLY")
         self.assertEqual(q["state_authority"], "A0-ASTRA")
-        self.assertEqual(u["human"]["role"], "final_architecture_production_security_authority")
-        self.assertEqual(u["astra"]["role"], "single_coordination_authority")
-        self.assertEqual(u["architect"]["role"], "architecture_contracts")
-        self.assertEqual(u["builder"]["role"], "bounded_implementation")
-        self.assertEqual(u["verifier"]["role"], "independent_verification")
+        self.assertEqual(ua["human"]["role"], "final_architecture_production_security_authority")
+        self.assertEqual(ua["astra"]["role"], "single_coordination_authority")
+        self.assertEqual(ua["architect"]["role"], "architecture_contracts")
+        self.assertEqual(ua["builder"]["role"], "bounded_implementation")
+        self.assertEqual(ua["verifier"]["role"], "independent_verification")
         self.assertTrue(self.qual["principles"]["fail_closed"])
         self.assertIn("qualification", u)
         self.assertTrue(u["qualification"]["fail_closed"])
