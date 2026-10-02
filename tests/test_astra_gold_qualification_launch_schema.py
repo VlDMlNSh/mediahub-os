@@ -158,5 +158,22 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
             p.write_text(json.dumps(payload),encoding="utf-8")
             self.assertEqual(verify(p)["status"],"PASS")
 
+    def test_a3_verifier_requires_independence_and_exact_sha(self):
+        from ops.qualification.verify_a3_evidence import verify
+        import tempfile, json
+        checks={name:{"status":"PASS"} for name in (
+            "focused_tests","regression","contracts","architecture_conformance",
+            "security","concurrency","failure","recovery","exact_sha_evidence")}
+        payload={"fresh":True,"verifier_role":"A3","independence_attested":True,
+                 "source_evidence_path":"/external/g4.json","a3_evidence_path":"/external/a3.json",
+                 "source_sha":"a"*40,"verified_sha":"a"*40,"evidence_sha256":"b"*64,**checks}
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"a3.json"
+            p.write_text(json.dumps(payload),encoding="utf-8")
+            self.assertEqual(verify(p)["status"],"PASS")
+            payload["verified_sha"]="c"*40
+            p.write_text(json.dumps(payload),encoding="utf-8")
+            self.assertEqual(verify(p)["status"],"BLOCKED")
+
 if __name__ == "__main__":
     unittest.main()
