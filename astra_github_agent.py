@@ -603,6 +603,10 @@ def _main_loop(last_id):
     while True:
         try:
             sync(); maybe_reexec_updated_agent(); cmd=read_command()
+            if cmd and cmd.get("target_sha"):
+                sync(str(cmd["target_sha"]))
+                maybe_reexec_updated_agent()
+                cmd=read_command()
             command_id=str(cmd.get("command_id","")) if cmd else ""
             if cmd and command_id!=last_id:
                 if is_processed(command_id):
