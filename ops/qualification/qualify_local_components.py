@@ -20,6 +20,7 @@ COMPONENTS = [
     ("free-claude-code", ["free-claude-code"], ["--version"]),
     ("free-coding-models", ["free-coding-models"], ["--version"]),
     ("Claude Code", ["claude"], ["--version"]),
+    ("ECC", ["ecc", "ecc-cli"], ["--version"]),
     ("Codex CLI", ["codex"], ["--version"]),
     ("Node.js", ["node"], ["--version"]),
     ("Bun", ["bun"], ["--version"]),
