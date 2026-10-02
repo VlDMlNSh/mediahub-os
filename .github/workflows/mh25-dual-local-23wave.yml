@@ -75,12 +75,16 @@ jobs:
               grep -Fx MEDIAHUB_DIRECT_CLAUDE_OK /tmp/direct-claude.out >/dev/null 2>&1 && direct_claude_status=PASS
             fi
             python3 - <<PY
-import json
-print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status","direct_claude":"$direct_claude_status"}))
+import hashlib, json, os, uuid
+record={"command_id":str(uuid.uuid4()),"round":$i,"timestamp":$ts,"source_sha":os.environ["GITHUB_SHA"],"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status","direct_claude":"$direct_claude_status"}
+record["evidence_digest"]=hashlib.sha256(json.dumps(record,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+print(json.dumps(record))
 PY
             python3 - <<PY >> mh25-23wave.jsonl
-import json
-print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status","direct_claude":"$direct_claude_status"}))
+import hashlib, json, os, uuid
+record={"command_id":str(uuid.uuid4()),"round":$i,"timestamp":$ts,"source_sha":os.environ["GITHUB_SHA"],"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status","direct_claude":"$direct_claude_status"}
+record["evidence_digest"]=hashlib.sha256(json.dumps(record,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+print(json.dumps(record))
 PY
           done
       - name: Selection and evidence
@@ -91,6 +95,16 @@ PY
 import json, os, pathlib, shutil
 rows=[json.loads(x) for x in pathlib.Path("mh25-23wave.jsonl").read_text().splitlines() if x.strip()]
 keys=["fcc_codex","fcc_claude","omni_codex","omni_claude","direct_claude"]
+if len(rows) != 23:
+    raise SystemExit(f"expected exactly 23 rows, got {len(rows)}")
+if [r.get("round") for r in rows] != list(range(1,24)):
+    raise SystemExit("round sequence is not exactly 1..23")
+if len({r.get("command_id") for r in rows}) != 23:
+    raise SystemExit("command_id values are not unique")
+if any(r.get("source_sha") != os.environ["GITHUB_SHA"] for r in rows):
+    raise SystemExit("source_sha mismatch in round evidence")
+if any(not r.get("evidence_digest") for r in rows):
+    raise SystemExit("missing evidence_digest in round evidence")
 summary={}
 for k in keys:
     n=sum(r[k]=="PASS" for r in rows)
