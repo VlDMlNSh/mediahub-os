@@ -7,7 +7,13 @@ on:
     paths:
       - .github/workflows/mh25-dual-local-23wave.yml
       - astra_github_agent.py
-      - ops/agent-fabric/providers/dual-local-executors.yaml
+      - architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md
+      - architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml
+      - architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml
+      - ops/qualification/qualification_launch_gate.py
+      - ops/qualification/astra_gold_executor.py
+      - tests/test_astra_gold_architecture_drift.py
+      - tests/test_qualification_launch_gate.py
   workflow_dispatch:
 permissions:
   contents: read
@@ -139,7 +145,7 @@ PY
 import json, os, pathlib, shutil
 rows=[json.loads(x) for x in pathlib.Path("mh25-23wave.jsonl").read_text().splitlines() if x.strip()]
 required=[
-    "CLAUDE_CODE_FCC","CLAUDE_FCC","CODEX_OMNIROUTE",
+    "CODEX_FCC","CLAUDE_FCC","CODEX_OMNIROUTE",
     "CLAUDE_OMNIROUTE","CLAUDE_CODE_DIRECT"
 ]
 if len(rows) != 115:
