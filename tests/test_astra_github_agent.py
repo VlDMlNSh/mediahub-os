@@ -37,7 +37,7 @@ class TestAstraGithubAgentReplayFence(unittest.TestCase):
         import json
         original_run = self.mod.run
         self.addCleanup(lambda: setattr(self.mod, "run", original_run))
-        result = {"command_id": "command-A", "target_sha": "abc123", "execution_head": "abc123", "returncode": 0}
+        result = {"command_id": "command-A", "target_sha": "abc123", "execution_head": "0123456789abcdef0123456789abcdef01234567", "returncode": 0}
         class Fake:
             def __init__(self, code, stdout=""):
                 self.returncode = code
