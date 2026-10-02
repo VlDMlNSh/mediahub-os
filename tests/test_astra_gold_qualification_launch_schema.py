@@ -124,5 +124,20 @@ class TestAstraGoldQualificationLaunchSchema(unittest.TestCase):
         self.assertIn('status="BLOCKED"', source)
         self.assertIn('"verification_status":"UNVERIFIED"', source)
 
+    def test_g5_verifier_requires_fresh_shared_authority(self):
+        from ops.qualification.verify_g5_coordination_attestation import verify
+        import tempfile, json
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td) / "attestation.json"
+            base = {"node_id":"n1","running_agent_source_sha":"a"*64,
+                    "coordination_authority_id":"A0","coordination_state":"shared",
+                    "coordination_transport":"shared-store","active_claim_count":1,
+                    "reservation_result":"PASS"}
+            p.write_text(json.dumps(base), encoding="utf-8")
+            self.assertEqual(verify(p)["status"], "BLOCKED")
+            base["fresh"] = True
+            p.write_text(json.dumps(base), encoding="utf-8")
+            self.assertEqual(verify(p)["status"], "PASS")
+
 if __name__ == "__main__":
     unittest.main()
