@@ -1,0 +1,42 @@
+{
+  "schema": "mediahub.astra-gold.g4-115-contract.v1",
+  "status": "CANONICAL_QUALIFICATION_CONTRACT",
+  "gate": "G4_23_WAVE_QUALIFICATION",
+  "source_sha_required": true,
+  "fresh_evidence_only": true,
+  "historical_evidence_reuse": false,
+  "rounds_per_path": 23,
+  "total_rounds": 115,
+  "mandatory_paths": [
+    "CODEX_FCC",
+    "CLAUDE_FCC",
+    "CODEX_OMNIROUTE",
+    "CLAUDE_OMNIROUTE",
+    "CLAUDE_CODE_DIRECT"
+  ],
+  "required_round_fields": [
+    "command_id",
+    "path",
+    "round",
+    "source_sha",
+    "executor_identity",
+    "provider_or_transport_identity",
+    "workspace",
+    "started_at",
+    "completed_at",
+    "exit_status",
+    "timeout",
+    "marker",
+    "marker_present",
+    "result_schema",
+    "verification_status",
+    "evidence_digest"
+  ],
+  "pass_rule": "exactly_115_fresh_rounds; every mandatory path has exactly_23_rounds; every round passes; every round matches the frozen source_sha; no duplicate command_id; no duplicate path+round; every evidence_digest is sha256-prefixed",
+  "failure_state": "BLOCKED",
+  "secret_policy": {
+    "secret_values": "SUPPRESSED",
+    "authorization_tokens": "SUPPRESSED",
+    "raw_provider_responses": "REDACTED"
+  }
+}
