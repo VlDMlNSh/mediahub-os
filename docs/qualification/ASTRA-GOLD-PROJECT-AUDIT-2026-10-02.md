@@ -46,8 +46,15 @@ the G4 115-round matrix, integrated A3, or the 24h soak. No gate is promoted by 
 
 Only `runtime/mediahub_runtime/proposals.py` exists from that family. These workflows are
 **dispatch-only** (they do not auto-run on push/pull_request), so they are dormant, not
-failing. They cannot pass until the corresponding P0-07/P0-08 subsystems exist. Resolution is
-an A1/Human decision: build the subsystems, or remove the dormant workflows.
+failing. They cannot pass until the corresponding P0-07/P0-08 subsystems exist.
+
+**Status: TRACKED (guarded deferral).** The build-or-remove decision belongs to A1/Human, so
+the dormant workflows were kept rather than deleted. The defect is no longer silent:
+`tests/test_repo_hygiene.py` now enforces that (a) no auto-running workflow may reference a
+missing source, (b) every workflow with missing sources is listed in an explicit dormant
+register and is dispatch-only, and (c) a registered dormant workflow still has missing
+sources — so implementing P0-07/P0-08 fails the guard and forces the register to be
+reconciled (wire the workflow or delete it).
 
 ### D2 — Duplicated schema trees have diverged (RESOLVED)
 
@@ -69,11 +76,14 @@ only `schemas/`. Both passed, so this was a **drift risk**, not a live failure.
 the decision, and `test_cross_contract.py` fails closed if a second schema tree reappears.
 The canonical `schemas/` tree validates clean (25 files, 9 metadata-envelope contracts).
 
-### D3 — Non-existent trigger path (harmless)
+### D3 — Non-existent trigger path (RESOLVED)
 
-`mh25-dual-local-23wave.yml` lists `ops/agent-fabric/providers/dual-local-executors.yaml` in
-`on.push.paths`, but that file does not exist. A non-matching path filter is inert; noted for
-cleanup only.
+`mh25-dual-local-23wave.yml` listed `ops/agent-fabric/providers/dual-local-executors.yaml` in
+`on.push.paths`, but that file does not exist, so the filter was inert.
+
+**Resolution:** the dead path was replaced with the existing `ops/agent-fabric/**` glob,
+matching the sibling `mh25-dual-local-executor-23wave.yml`. This removes the non-existent
+path while restoring the intended trigger on agent-fabric provider-config changes.
 
 ### E1 — Offline self-hosted runners (environment)
 
@@ -82,10 +92,16 @@ Every `[self-hosted, mediahub-runner]` workflow (supervisor, unified qualificati
 provider-backend, one-time migration, freellmapi) queues indefinitely. Restoring the runners
 is an operator action and a prerequisite for the live soak.
 
+**Status: ENVIRONMENT (operator action).** Not fixable in the repository — the workflows are
+correctly gated on the live self-hosted runners and do not auto-run on the hosted checks.
+
 ### L1 — Live gates (cannot be satisfied in the sandbox)
 
 Provider credentials, canonical `mh-dev-01` identity, the G4 115-round matrix, integrated A3,
 and the 24h soak. Gates G0–G11 remain BLOCKED; `ASTRA_GOLD_ELIGIBLE` is not asserted.
+
+**Status: LIVE (operator/credential action).** Cannot be satisfied in the sandbox; all gates
+stay fail-closed until fresh evidence is produced on the canonical node at one frozen SHA.
 
 ## 4. Verification after the fixes
 
@@ -93,8 +109,8 @@ and the 24h soak. Gates G0–G11 remain BLOCKED; `ASTRA_GOLD_ELIGIBLE` is not as
 |---|---|
 | `compileall` whole repository | PASS |
 | YAML + JSON parse (incl. `.github/`) | 0 failures |
-| `unittest discover` | PASS (201) |
-| `pytest -q tests/` | PASS (232) |
+| `unittest discover` | PASS (207) |
+| `pytest -q tests/` | PASS (238) |
 | `tools/validate_contracts.py` | PASS (25 schemas, 9 envelope contracts) |
 | soak-pin drift gate | PASS |
 | federation tests + PoC scripts | 16 tests PASS, 5 scripts OK |
@@ -107,4 +123,6 @@ Architecture: READY
 Local repository regression: GREEN
 Local execution fabric / providers / G4 / A3 / 24h soak: NOT_PROVEN
 Transition to 24/7 autonomous hybrid distributed development: READY at the repository level,
-gated on D1 (decision), E1 (runner), and L1 (live waves).
+gated on D1 (A1/Human build-or-remove decision; now tracked and guarded), E1 (runner), and
+L1 (live waves). All repository-fixable defects (F1–F7, D2, D3) are resolved; D1 is tracked
+and guarded; E1 and L1 require live operators/credentials.

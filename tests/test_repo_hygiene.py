@@ -1,21 +1,50 @@
 """Repository-hygiene regression gate.
 
 The whole-project audit found defects that no test caught: a workflow with
-invalid YAML (heredoc bodies at column 0), a malformed recovery YAML, and
-Python that did not compile on the sandbox interpreter. This gate makes those
-classes of defect impossible to merge silently.
+invalid YAML (heredoc bodies at column 0), a malformed recovery YAML, Python
+that did not compile on the sandbox interpreter, and dispatch-only "phantom"
+workflows that reference runtime modules and tests that do not exist in this
+repository (defect D1).
+
+This gate makes those classes of defect impossible to merge silently. The
+phantom-workflow guard is non-destructive: those workflows are planned
+verification procedures for architecture stages that are not implemented yet,
+so they are kept but pinned as explicitly dormant rather than deleted (the
+build-or-remove decision belongs to A1/Human — see
+docs/qualification/ASTRA-GOLD-PROJECT-AUDIT-2026-10-02.md).
 
 Deliberately dependency-light: only stdlib plus PyYAML (declared in
 requirements-dev.txt).
 """
 import json
 import os
+import re
 import unittest
 import yaml
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SKIP_DIRS = {".git", "build", "dist", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
+WORKFLOW_DIR = ROOT / ".github" / "workflows"
+
+# Dispatch-only verification procedures whose dependencies (P0-07/P0-08
+# subsystems and their tests) are not implemented in this repository yet. They
+# cannot run in CI. They are kept pending an A1/Human build-or-remove decision,
+# so this register must be updated deliberately when that changes.
+DORMANT_WORKFLOWS = {
+    "mediahub-p0-07-verification.yml",
+    "mediahub-p0-08-verification.yml",
+    "mediahub-bridge.yml",
+    "mediahub-live-provider-qualification.yml",
+}
+
+AUTO_TRIGGERS = {"push", "pull_request", "pull_request_target"}
+
+# Deterministic source references (not runtime output paths such as
+# control/results/... that are produced on other branches).
+SOURCE_REFERENCE = re.compile(
+    r"(?:tests|runtime/mediahub_runtime)/[A-Za-z0-9_./-]+\.py"
+)
 
 
 def _iter_files(suffixes):
@@ -24,6 +53,34 @@ def _iter_files(suffixes):
         for name in files:
             if name.endswith(suffixes):
                 yield Path(root) / name
+
+
+def _trigger(document):
+    if not isinstance(document, dict):
+        return None
+    # PyYAML resolves the bare ``on:`` key to boolean True.
+    return document.get("on", document.get(True))
+
+
+def _is_auto_running(trigger):
+    if trigger is None:
+        return False
+    if trigger is True:
+        # A bare ``on:`` defaults to push.
+        return True
+    if isinstance(trigger, str):
+        return trigger in AUTO_TRIGGERS
+    if isinstance(trigger, list):
+        return any(_is_auto_running(item) for item in trigger)
+    if isinstance(trigger, dict):
+        return any(key in AUTO_TRIGGERS for key in trigger)
+    return False
+
+
+def _missing_source_references(text):
+    return sorted(
+        {match for match in SOURCE_REFERENCE.findall(text) if not (ROOT / match).exists()}
+    )
 
 
 class RepoHygieneTests(unittest.TestCase):
@@ -57,7 +114,7 @@ class RepoHygieneTests(unittest.TestCase):
 
     def test_every_workflow_is_named_and_has_jobs(self):
         failures = []
-        for path in sorted((ROOT / ".github" / "workflows").glob("*.y*ml")):
+        for path in sorted(WORKFLOW_DIR.glob("*.y*ml")):
             document = yaml.safe_load(path.read_text(encoding="utf-8"))
             if not isinstance(document, dict):
                 failures.append(f"{path.name}: not a mapping")
@@ -67,6 +124,70 @@ class RepoHygieneTests(unittest.TestCase):
             if not document.get("jobs"):
                 failures.append(f"{path.name}: missing jobs")
         self.assertEqual(failures, [], "Invalid workflow definitions:\n" + "\n".join(failures))
+
+    def test_auto_running_workflows_reference_existing_sources(self):
+        """An auto-running workflow must not reference a source file that is absent.
+
+        A missing reference in a push/pull_request workflow is a guaranteed CI
+        failure; a missing reference in a dispatch-only workflow is the tracked
+        D1 deferral handled by the dormant-workflow tests below.
+        """
+        failures = []
+        for path in sorted(WORKFLOW_DIR.glob("*.y*ml")):
+            text = path.read_text(encoding="utf-8")
+            document = yaml.safe_load(text)
+            if not _is_auto_running(_trigger(document)):
+                continue
+            for reference in _missing_source_references(text):
+                failures.append(f"{path.name}: auto-run references missing {reference}")
+        self.assertEqual(failures, [], "Auto-running workflows with missing sources:\n" + "\n".join(failures))
+
+    def test_dormant_workflows_are_registered_and_dispatch_only(self):
+        """Every workflow with missing sources must be a registered dormant one.
+
+        This is what turns D1 from a silent phantom reference into a tracked,
+        guarded deferral: adding a new broken auto- or manual workflow fails here.
+        """
+        failures = []
+        for path in sorted(WORKFLOW_DIR.glob("*.y*ml")):
+            text = path.read_text(encoding="utf-8")
+            if not _missing_source_references(text):
+                continue
+            if path.name not in DORMANT_WORKFLOWS:
+                failures.append(
+                    f"{path.name}: references missing sources but is not in the dormant register"
+                )
+                continue
+            document = yaml.safe_load(text)
+            if _is_auto_running(_trigger(document)):
+                failures.append(
+                    f"{path.name}: registered as dormant but runs automatically"
+                )
+        self.assertEqual(failures, [], "Untracked or auto-running phantom workflows:\n" + "\n".join(failures))
+
+    def test_registered_dormant_workflows_still_exist(self):
+        failures = []
+        for name in sorted(DORMANT_WORKFLOWS):
+            if not (WORKFLOW_DIR / name).is_file():
+                failures.append(f"{name}: registered dormant workflow is missing")
+        self.assertEqual(failures, [], "Registered dormant workflows that no longer exist:\n" + "\n".join(failures))
+
+    def test_dormant_workflows_are_still_actually_blocked(self):
+        """Fails when a dormant stage is implemented, forcing the register to be revisited.
+
+        If P0-07/P0-08 (or the bridge/live-provider tests) are built, their
+        workflow no longer has missing sources and must be reconciled here.
+        """
+        failures = []
+        for name in sorted(DORMANT_WORKFLOWS):
+            path = WORKFLOW_DIR / name
+            if not path.is_file():
+                continue
+            if not _missing_source_references(path.read_text(encoding="utf-8")):
+                failures.append(
+                    f"{name}: no longer blocked; remove it from the dormant register and wire it up"
+                )
+        self.assertEqual(failures, [], "Dormant workflows that appear implemented:\n" + "\n".join(failures))
 
 
 if __name__ == "__main__":
