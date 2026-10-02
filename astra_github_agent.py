@@ -51,18 +51,17 @@ def read_command():
     return cmd
 
 def published_command_id():
+    """Return only locally finalized publication state.
+
+    Remote publication is deliberately reconciled separately so a crash after
+    remote push cannot suppress recovery merely because the remote result is
+    visible. The remote branch is evidence, not local completion state.
+    """
     state=STATE/"last_command_id"
     try:
         value=state.read_text(encoding="utf-8").strip()
         if value: return value
     except OSError:
-        pass
-    ref=f"origin/astra-node/{NODE_ID}"
-    try:
-        raw=run(["git","show",f"{ref}:control/results/{NODE_ID}.json"],30)
-        if raw.returncode==0:
-            return str(json.loads(raw.stdout).get("command_id",""))
-    except Exception:
         pass
     return ""
 
