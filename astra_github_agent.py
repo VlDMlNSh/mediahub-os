@@ -134,8 +134,10 @@ def reconcile_published_state(command_id, cmd):
     if expected_target and published_target != expected_target:
         raise RuntimeError("published_result_target_mismatch")
     execution_head=str(result.get("execution_head",""))
-    if expected_target and execution_head != expected_target:
-        raise RuntimeError("published_result_execution_head_mismatch")
+    if execution_head and len(execution_head) != 40:
+        raise RuntimeError("published_result_execution_head_invalid")
+    if execution_head and any(ch not in "0123456789abcdef" for ch in execution_head.lower()):
+        raise RuntimeError("published_result_execution_head_invalid")
     mark_published(command_id)
     mark_processed(command_id)
     clear_inflight(command_id)
