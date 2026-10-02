@@ -322,6 +322,118 @@
       "source": "https://github.com/HKUDS/OpenOPC",
       "identity_note": "Open-source AI-native autonomous development system candidate; not yet installed or runtime-qualified on canonical MediaHub nodes",
       "admission_profile": "ASTRA_GOLD_CANDIDATE_AUTONOMOUS_SYSTEM"
+    },
+    {
+      "id": "sol-pi",
+      "enabled": true,
+      "tier": "candidate_autonomous_development_system",
+      "activation": "review_and_qualification_required",
+      "qualification": "pending",
+      "authority": "none",
+      "provider_selection": false,
+      "credential_creation": false,
+      "state_authority": false,
+      "architecture_authority": false,
+      "identity_verification_required": true,
+      "source": "user_supplied_candidate_identifier"
+    },
+    {
+      "id": "colibri",
+      "enabled": true,
+      "tier": "candidate_coding_or_agent",
+      "activation": "review_and_qualification_required",
+      "qualification": "pending",
+      "authority": "none",
+      "provider_selection": false,
+      "credential_creation": false,
+      "state_authority": false,
+      "architecture_authority": false,
+      "identity_verification_required": true,
+      "source": "user_supplied_candidate_identifier"
+    },
+    {
+      "id": "webtool-deepseek",
+      "enabled": true,
+      "tier": "candidate_web_tool_or_agent",
+      "activation": "review_and_qualification_required",
+      "qualification": "pending",
+      "authority": "none",
+      "provider_selection": false,
+      "credential_creation": false,
+      "state_authority": false,
+      "architecture_authority": false,
+      "identity_verification_required": true,
+      "source": "user_supplied_candidate_identifier"
+    },
+    {
+      "id": "minicpm-v-4.5-8b-1mk",
+      "enabled": true,
+      "tier": "candidate_local_model",
+      "activation": "review_and_qualification_required",
+      "qualification": "pending",
+      "authority": "none",
+      "provider_selection": false,
+      "credential_creation": false,
+      "state_authority": false,
+      "architecture_authority": false,
+      "identity_verification_required": true,
+      "source": "user_supplied_candidate_identifier"
+    },
+    {
+      "id": "free-coding-models",
+      "enabled": true,
+      "tier": "candidate_model_discovery_router",
+      "activation": "review_and_qualification_required",
+      "qualification": "pending",
+      "authority": "none",
+      "provider_selection": false,
+      "credential_creation": false,
+      "state_authority": false,
+      "architecture_authority": false,
+      "identity_verification_required": true,
+      "source": "user_supplied_candidate_identifier"
+    },
+    {
+      "id": "unlazy",
+      "enabled": true,
+      "tier": "candidate_developer_tool",
+      "activation": "review_and_qualification_required",
+      "qualification": "pending",
+      "authority": "none",
+      "provider_selection": false,
+      "credential_creation": false,
+      "state_authority": false,
+      "architecture_authority": false,
+      "identity_verification_required": true,
+      "source": "user_supplied_candidate_identifier"
+    },
+    {
+      "id": "naabu",
+      "enabled": true,
+      "tier": "candidate_bounded_security_tool",
+      "activation": "review_and_qualification_required",
+      "qualification": "pending",
+      "authority": "none",
+      "provider_selection": false,
+      "credential_creation": false,
+      "state_authority": false,
+      "architecture_authority": false,
+      "identity_verification_required": true,
+      "source": "user_supplied_candidate_identifier"
+    },
+    {
+      "id": "codex-chatgpt-web",
+      "enabled": true,
+      "tier": "candidate_browser_bridge_coding_harness",
+      "activation": "review_and_qualification_required",
+      "qualification": "pending",
+      "authority": "none",
+      "provider_selection": false,
+      "credential_creation": false,
+      "state_authority": false,
+      "architecture_authority": false,
+      "identity_verification_required": true,
+      "source": "user_supplied_candidate_identifier"
     }
   ],
   "selection": "cloud_first_capability_then_local_harness_then_local_gateway_then_local_model",
@@ -364,7 +476,18 @@
       "ecc": "NOT_PROVEN",
       "openflux": "NOT_PROVEN",
       "gemma-4": "NOT_PROVEN",
-      "openopc": "NOT_PROVEN"
+      "openopc": "NOT_PROVEN",
+      "sol-pi": "NOT_PROVEN",
+      "colibri": "NOT_PROVEN",
+      "webtool-deepseek": "NOT_PROVEN",
+      "deepseek-harness": "NOT_PROVEN",
+      "stagewise": "NOT_PROVEN",
+      "minicpm-v-4.5-8b-1mk": "NOT_PROVEN",
+      "free-coding-models": "NOT_PROVEN",
+      "freellmapi": "NOT_PROVEN",
+      "unlazy": "NOT_PROVEN",
+      "naabu": "NOT_PROVEN",
+      "codex-chatgpt-web": "NOT_PROVEN"
     },
     "rule": "registration_or_credential_reference_never_implies_successful_authorization",
     "cloud_agents": [
@@ -415,6 +538,63 @@
     ],
     "candidate_autonomous_systems": [
       "openopc"
+    ],
+    "candidate_review_inventory": [
+      {
+        "id": "sol-pi",
+        "tier": "candidate_autonomous_development_system",
+        "status": "NOT_PROVEN"
+      },
+      {
+        "id": "colibri",
+        "tier": "candidate_coding_or_agent",
+        "status": "NOT_PROVEN"
+      },
+      {
+        "id": "webtool-deepseek",
+        "tier": "candidate_web_tool_or_agent",
+        "status": "NOT_PROVEN"
+      },
+      {
+        "id": "deepseek-harness",
+        "tier": "candidate_coding_harness",
+        "status": "NOT_PROVEN"
+      },
+      {
+        "id": "stagewise",
+        "tier": "candidate_coding_agent_or_tool",
+        "status": "NOT_PROVEN"
+      },
+      {
+        "id": "minicpm-v-4.5-8b-1mk",
+        "tier": "candidate_local_model",
+        "status": "NOT_PROVEN"
+      },
+      {
+        "id": "free-coding-models",
+        "tier": "candidate_model_discovery_router",
+        "status": "NOT_PROVEN"
+      },
+      {
+        "id": "freellmapi",
+        "tier": "candidate_local_model_gateway",
+        "status": "NOT_PROVEN"
+      },
+      {
+        "id": "unlazy",
+        "tier": "candidate_developer_tool",
+        "status": "NOT_PROVEN"
+      },
+      {
+        "id": "naabu",
+        "tier": "candidate_bounded_security_tool",
+        "status": "NOT_PROVEN"
+      },
+      {
+        "id": "codex-chatgpt-web",
+        "tier": "candidate_browser_bridge_coding_harness",
+        "status": "NOT_PROVEN"
+      }
     ]
   }
 }
