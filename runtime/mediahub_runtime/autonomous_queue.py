@@ -35,7 +35,17 @@ def load_tasks() -> list[dict]:
     return sorted(tasks, key=lambda x: (x.get("priority", "Z"), x.get("task_id", "")))
 
 def completed(task_id: str) -> bool:
-    return (STATE / "completed" / f"{task_id}.json").is_file()
+    marker = STATE / "completed" / f"{task_id}.json"
+    if marker.is_file():
+        return True
+    evidence_path = STATE / "evidence" / f"{task_id}.json"
+    if not evidence_path.is_file():
+        return False
+    try:
+        payload = json.loads(evidence_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    return payload.get("status") == "VERIFIED" and bool(payload.get("head_sha"))
 
 def dependencies_satisfied(task: dict) -> bool:
     return all(completed(str(dep)) for dep in task.get("dependencies", ()))
@@ -47,7 +57,31 @@ def boundary_allows(path: str, boundary: tuple[str, ...]) -> bool:
 def evidence(task_id: str, payload: dict) -> None:
     target = STATE / "evidence"
     target.mkdir(parents=True, exist_ok=True)
-    (target / f"{task_id}.json").write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path = target / f"{task_id}.json"
+    encoded = json.dumps(payload, indent=2, sort_keys=True) + "\n"
+    if path.exists():
+        try:
+            existing = path.read_text(encoding="utf-8")
+        except OSError as exc:
+            raise RuntimeError("evidence_unreadable") from exc
+        if existing != encoded:
+            raise RuntimeError("evidence_immutable")
+        return
+    tmp = target / f".{task_id}.json.tmp"
+    try:
+        fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(encoded)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(tmp, path)
+    except FileExistsError:
+        raise RuntimeError("evidence_write_race")
+    finally:
+        try:
+            tmp.unlink()
+        except FileNotFoundError:
+            pass
 
 def claim_for(task: dict) -> AgentClaim:
     now = time.time()
@@ -164,7 +198,6 @@ def process_task(task: dict) -> dict:
         if push.returncode: raise RuntimeError("git_push_failed")
         record["head_sha"] = run(["git", "rev-parse", "HEAD"], 30, worktree).stdout.strip()
         record["status"] = "VERIFIED"
-        (STATE / "completed" / f"{task['task_id']}.json").write_text(json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     except Exception as exc:
         record["error"] = type(exc).__name__ + ":" + str(exc)
     finally:
@@ -187,7 +220,16 @@ def process_task(task: dict) -> dict:
         except Exception:
             record["worktree_cleanup_error"] = "cleanup_exception"
         record["elapsed_seconds"] = round(time.time() - started, 3)
-        evidence(task["task_id"], record)
+        try:
+            evidence(task["task_id"], record)
+            if record["status"] == "VERIFIED":
+                (STATE / "completed" / f"{task['task_id']}.json").write_text(
+                    json.dumps({"task_id": task["task_id"], "head_sha": record.get("head_sha"), "status": "VERIFIED"}, sort_keys=True) + "\n",
+                    encoding="utf-8",
+                )
+        except Exception as exc:
+            record["evidence_error"] = type(exc).__name__ + ":" + str(exc)
+            record["status"] = "BLOCKED"
     return record
 
 def main() -> int:
