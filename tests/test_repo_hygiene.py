@@ -248,5 +248,93 @@ class TestDiscoveryHygieneTests(unittest.TestCase):
         self.assertEqual(failures, [], "Broken test imports:\n" + "\n".join(failures))
 
 
+class TestWorkflowDependencyTests(unittest.TestCase):
+    """Guards workflows against using a tool they never installed.
+
+    ``freellmapi-qualification.yml`` ran ``python3 -m pytest`` with no install
+    step at all. It only stayed green because the self-hosted runner image
+    happened to have pytest preinstalled; the ``Verify adapter tests`` step
+    would fail with ``No module named pytest`` on a clean runner. The same
+    class of bug hides behind ``self-hosted`` runners, which are not
+    reproducible in GitHub-hosted CI.
+    """
+
+    # Tools that must come from a pip install, mapped to the requirement that
+    # provides them. A workflow may install the bare package name instead; only
+    # the tool name has to appear in some install line.
+    TOOL_REQUIREMENTS = {
+        "pytest": ("pytest", "PyYAML"),
+        "yaml": ("PyYAML",),
+    }
+
+    def _install_targets(self, text):
+        """Collect module names provided by every pip install line.
+
+        Handles ``-r requirements-dev.txt`` by reading the requirements file it
+        points at, so an install that delegates to the shared file is not
+        misreported as installing nothing.
+        """
+        provided = set()
+        for line in text.splitlines():
+            if "pip install" not in line:
+                continue
+            tokens = line.split()
+            for index, token in enumerate(tokens):
+                if token in ("-r", "--requirement") and index + 1 < len(tokens):
+                    name = tokens[index + 1]
+                    if name in provided:
+                        continue
+                    req_path = ROOT / name
+                    if req_path.is_file():
+                        provided.add(name.lower())
+                        for req_line in req_path.read_text(encoding="utf-8").splitlines():
+                            req_line = req_line.split("#", 1)[0].strip()
+                            if req_line:
+                                provided.add(
+                                    req_line.split(">=")[0].split("==")[0].split("[")[0].strip().lower()
+                                )
+                    continue
+                if token.startswith("-"):
+                    continue
+                provided.add(token.lower())
+        return provided
+
+    def test_workflow_runs_only_installed_test_tools(self):
+        """Only workflows that can actually run are held to the install rule.
+
+        Registered dormant workflows are excluded: they are pinned as blocked
+        by test_dormant_workflows_are_still_actually_blocked because their
+        sources do not exist, and they are dispatch-only. They are already
+        covered by the D1 guard and must not be given an install step that
+        would make them look runnable.
+        """
+        failures = []
+        for path in sorted(WORKFLOW_DIR.glob("*.yml")):
+            if path.name in DORMANT_WORKFLOWS:
+                continue
+            text = path.read_text(encoding="utf-8")
+            if "python -m pytest" not in text and "python3 -m pytest" not in text:
+                continue
+            if "pip install" not in text:
+                failures.append(f"{path.name}: runs pytest but has no pip install step")
+                continue
+            if "pytest" not in self._install_targets(text):
+                failures.append(f"{path.name}: runs pytest but never installs it")
+        self.assertEqual(failures, [], "Workflows using uninstalled tools:\n" + "\n".join(failures))
+
+    def test_declared_requirements_cover_installed_tool_imports(self):
+        """requirements-dev.txt must provide every non-stdlib module the tests import."""
+        import ast
+
+        declared = set()
+        requirements = ROOT / "requirements-dev.txt"
+        for line in requirements.read_text(encoding="utf-8").splitlines():
+            line = line.split("#", 1)[0].strip()
+            if line:
+                declared.add(line.split(">=")[0].split("==")[0].split("[")[0].strip().lower())
+        self.assertIn("pyyaml", declared, "requirements-dev.txt must declare PyYAML")
+        self.assertIn("pytest", declared, "requirements-dev.txt must declare pytest")
+
+
 if __name__ == "__main__":
     unittest.main()
