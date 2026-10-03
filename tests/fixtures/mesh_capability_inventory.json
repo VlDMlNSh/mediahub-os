@@ -1,0 +1,26 @@
+[
+  {
+    "capability_id": "freellmapi",
+    "provider": "FreeLLMAPI",
+    "executable": "freellmapi",
+    "authority": "NONE",
+    "qualification_state": "DISCOVERED",
+    "availability_key": "freellmapi"
+  },
+  {
+    "capability_id": "openflux",
+    "provider": "OpenFlux",
+    "executable": "openflux",
+    "authority": "NONE",
+    "qualification_state": "DISCOVERED",
+    "availability_key": "openflux"
+  },
+  {
+    "capability_id": "ecc",
+    "provider": "ECC",
+    "executable": "ecc",
+    "authority": "NONE",
+    "qualification_state": "DISCOVERED",
+    "availability_key": "ecc"
+  }
+]
