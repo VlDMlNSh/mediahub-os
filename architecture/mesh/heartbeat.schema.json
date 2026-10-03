@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub.mesh.heartbeat.v1",
+  "title": "MediaHub Mesh Heartbeat",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","node_id","issued_at","sequence","runtime_state","capability_digest","resource_summary"],
+  "properties": {
+    "schema_version":{"const":"mediahub.mesh.heartbeat.v1"},
+    "node_id":{"type":"string","minLength":1},
+    "issued_at":{"type":"string","format":"date-time"},
+    "sequence":{"type":"integer","minimum":0},
+    "runtime_state":{"type":"string","minLength":1},
+    "capability_digest":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"},
+    "resource_summary":{"type":"object"}
+  }
+}
