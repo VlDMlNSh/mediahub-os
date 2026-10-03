@@ -8,6 +8,8 @@ class AdmissionResult:
     admitted: bool
     reason: str = ""
 
+AUXILIARY_CAPABILITIES = {"openflux", "ecc"}
+
 def admit_executor(node: dict[str, Any], capability: dict[str, Any], policy: dict[str, Any]) -> AdmissionResult:
     if node.get("status") != "ACTIVE":
         return AdmissionResult(False, "node is not active")
@@ -16,14 +18,19 @@ def admit_executor(node: dict[str, Any], capability: dict[str, Any], policy: dic
     cv = validate_capability(capability)
     if not cv.valid:
         return AdmissionResult(False, cv.reason)
-    if capability.get("authority") not in {"NONE","EXECUTION"}:
+    authority = capability.get("authority")
+    if authority not in {"NONE", "EXECUTION"}:
         return AdmissionResult(False, "unsupported capability authority")
-    if policy.get("provider_selection") is False and capability.get("capability_id") in {"openflux","ecc"}:
-        return AdmissionResult(False, "auxiliary capability cannot select provider")
-    if policy.get("credential_creation") is False and capability.get("capability_id") in {"openflux","ecc"}:
-        # This flag prevents an auxiliary provider from becoming a credential authority.
+    cap_id = capability.get("capability_id")
+    if cap_id in AUXILIARY_CAPABILITIES:
+        if policy.get("provider_selection") is not False:
+            return AdmissionResult(False, "auxiliary capability cannot select provider")
+        if policy.get("credential_creation") is not False:
+            return AdmissionResult(False, "auxiliary capability requires credential creation disabled")
         if capability.get("creates_credentials"):
             return AdmissionResult(False, "auxiliary capability cannot create credentials")
-    if policy.get("qualification_required", True) and capability.get("qualification_state") not in {"QUALIFIED","PASS"}:
+        if authority != "NONE":
+            return AdmissionResult(False, "auxiliary capability authority must remain NONE")
+    if policy.get("qualification_required", True) and capability.get("qualification_state") not in {"QUALIFIED", "PASS"}:
         return AdmissionResult(False, "qualification required")
     return AdmissionResult(True)
