@@ -96,18 +96,31 @@ def mark_published(command_id):
     tmp.write_text(str(command_id)+"\n",encoding="utf-8")
     tmp.replace(STATE/"last_command_id")
 
+def _prepare_publish_branch():
+    branch=f"astra-node/{NODE_ID}"
+    probe=run(["git","ls-remote","--heads","origin",branch],30)
+    if probe.returncode == 0 and probe.stdout.strip():
+        run(["git","fetch","origin",f"{branch}:refs/remotes/origin/{branch}"],120).check_returncode()
+        run(["git","checkout","-B",branch,f"origin/{branch}"],30).check_returncode()
+    elif probe.returncode == 0:
+        run(["git","checkout","-B",branch,"origin/main"],30).check_returncode()
+    else:
+        raise RuntimeError(probe.stderr or "unable to verify remote result branch")
+
+
 def publish(result):
     path=ROOT/"control"/"results"/f"{NODE_ID}.json"
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
-    for args in (["git","config","user.name","Astra Node Agent"],["git","config","user.email","astra-node@localhost"],
-                 ["git","checkout","-B",f"astra-node/{NODE_ID}"],["git","add",str(path.relative_to(ROOT))]):
+    for args in (["git","config","user.name","Astra Node Agent"],["git","config","user.email","astra-node@localhost"]):
         run(args,30).check_returncode()
+    _prepare_publish_branch()
+    run(["git","add",str(path.relative_to(ROOT))],30).check_returncode()
     commit=run(["git","commit","-m",f"astra: result {NODE_ID}"],30)
     if commit.returncode not in (0,1): raise RuntimeError(commit.stderr)
-    run(["git","push","--force","origin",f"astra-node/{NODE_ID}"],120).check_returncode()
+    # Never rewrite the remote node branch. A concurrent/stale publisher must fail closed.
+    run(["git","push","origin",f"HEAD:astra-node/{NODE_ID}"],120).check_returncode()
     run(["git","checkout","-B","main","origin/main"],30).check_returncode()
-
 def _claim_for(cmd):
     runtime_root=ROOT/'runtime'
     if runtime_root.is_dir() and str(runtime_root) not in sys.path: sys.path.insert(0,str(runtime_root))
