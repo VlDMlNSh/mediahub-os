@@ -233,6 +233,12 @@ It is a bounded distributed Mesh test after all of the following are proven with
 
 Only then may the qualification chain proceed toward D4–D11 and eventually G10. G11 remains human-only.
 
+## Fresh runtime reconciliation (2026-10-04)
+
+Fresh three-node resource/runtime attestations have been recorded in the Mesh decision trail. They establish current resource facts only; they do not establish authenticated heartbeat, ACTIVE admission, executor authority, or Astra Gold qualification. Two node roles remain intentionally unassigned rather than inferred.
+
+This creates a useful downstream-ready state: node inventory/resource preparation can proceed independently, while authenticated control-plane admission remains blocked on #175/#187 and explicit admission semantics.
+
 ## Current session target
 
 The current highest-leverage target is **not another installation wave**.
