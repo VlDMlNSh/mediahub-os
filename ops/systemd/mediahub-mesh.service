@@ -1,0 +1,20 @@
+[Unit]
+Description=MediaHub Mesh Control and Artifact Fabric
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mediahub
+Group=mediahub
+EnvironmentFile=-/etc/mediahub/node-profile.env
+EnvironmentFile=-/etc/mediahub/mediahub-mesh.env
+ExecStart=/usr/bin/python3 -m ops.mesh
+WorkingDirectory=/home/mediahub/astra-work
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target
