@@ -1,3 +1,4 @@
+import multiprocessing
 import tempfile
 import unittest
 from pathlib import Path
@@ -8,6 +9,19 @@ from mediahub_runtime.agent_fabric import AgentClaim, AgentFabricError, ClaimSto
 
 def mk(task_id, paths, now=100.0):
     return AgentClaim("builder", task_id, "test", tuple(paths), (), (), "ACTIVE", now, now, now + 900, "base")
+
+
+def _concurrent_acquire_worker(root, task_id, barrier, results):
+    try:
+        store = ClaimStore(Path(root))
+        barrier.wait(timeout=10)
+        store.acquire(mk(task_id, ["src/shared.py"]))
+    except AgentFabricError as exc:
+        results.put((task_id, "collision", str(exc)))
+    except Exception as exc:
+        results.put((task_id, "error", repr(exc)))
+    else:
+        results.put((task_id, "acquired", ""))
 
 
 class AgentFabricTests(unittest.TestCase):
@@ -50,6 +64,26 @@ class AgentFabricTests(unittest.TestCase):
                 claims = {c.task_id: c for c in s.list_claims()}
             self.assertEqual(claims["A"].status, "EXPIRED")
             self.assertEqual(claims["B"].status, "ACTIVE")
+
+    def test_concurrent_overlapping_acquire_allows_only_one(self):
+        if "fork" not in multiprocessing.get_all_start_methods():
+            self.skipTest("concurrent claim regression requires fork-capable workers")
+        ctx = multiprocessing.get_context("fork")
+        with tempfile.TemporaryDirectory() as td:
+            barrier = ctx.Barrier(2)
+            results = ctx.Queue()
+            workers = [
+                ctx.Process(target=_concurrent_acquire_worker, args=(td, task_id, barrier, results))
+                for task_id in ("A", "B")
+            ]
+            for worker in workers:
+                worker.start()
+            for worker in workers:
+                worker.join(15)
+            self.assertTrue(all(not worker.is_alive() for worker in workers))
+            outcomes = [results.get(timeout=5) for _ in workers]
+            self.assertEqual(sorted(outcome[1] for outcome in outcomes), ["acquired", "collision"])
+            self.assertEqual({outcome[2] for outcome in outcomes if outcome[1] == "collision"}, {"claim_collision"})
 
 
 if __name__ == "__main__":
