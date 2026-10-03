@@ -1,0 +1,48 @@
+name: Mesh P2P Contract Verify
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "ops/mesh/**"
+      - "ops/p2p/**"
+      - "architecture/mesh/**"
+      - "tests/test_mesh_*.py"
+      - "tests/test_p2p_*.py"
+      - ".github/workflows/mesh-p2p-verify.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "ops/mesh/**"
+      - "ops/p2p/**"
+      - "architecture/mesh/**"
+      - "tests/test_mesh_*.py"
+      - "tests/test_p2p_*.py"
+      - ".github/workflows/mesh-p2p-verify.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python dependencies
+        run: python -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
+      - name: Install torrent test dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends transmission-cli
+      - name: Compile mesh and P2P code
+        run: python -m compileall -q ops tests
+      - name: Mesh and P2P contract tests
+        run: python -m unittest -v tests/test_mesh_p2p_contracts.py tests/test_mesh_registry_admission.py tests/test_mesh_artifact_edgecases.py tests/test_p2p_adapters.py tests/test_p2p_recovery.py tests/test_mesh_runtime_contract.py
+      - name: Verification harness
+        run: python -m ops.mesh.verify_mesh
