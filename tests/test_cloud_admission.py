@@ -54,13 +54,13 @@ class CloudAdmissionTests(unittest.TestCase):
             },
         )
 
-    def _evidence(self, *, commit="abc123", qualification="QUALIFIED", age_hours=0):
+    def _evidence(self, *, commit="abc123", qualification="QUALIFIED", age_hours=0, providers=None):
         timestamp = datetime.now(timezone.utc) - timedelta(hours=age_hours)
         return {
             "schema": "mediahub.provider-model.v1",
             "commit": commit,
             "timestamp": timestamp.isoformat().replace("+00:00", "Z"),
-            "providers": {
+            "providers": providers or {
                 "test-cloud": {
                     "catalog_status": "PASS",
                     "inference_status": "PASS",
@@ -222,6 +222,53 @@ class CloudAdmissionTests(unittest.TestCase):
         orchestrator = self._orchestrator(self._evidence(qualification="PARTIAL"))
         with self.assertRaisesRegex(CloudOrchestratorError, "no_provider_available"):
             orchestrator.execute("coding", "bounded prompt", allow_local_extension=False)
+
+    def test_gateway_route_preserves_provider_identity(self):
+        providers = {
+            "openrouter": {
+                "catalog_status": "PASS",
+                "inference_status": "PASS",
+                "qualification_status": "QUALIFIED",
+            }
+        }
+        evidence = self._evidence(providers=providers)
+        temp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
+        json.dump(evidence, temp)
+        temp.close()
+        self.addCleanup(lambda: Path(temp.name).unlink(missing_ok=True))
+
+        route = ProviderRoute(
+            "openrouter",
+            "cloud",
+            frozenset({"coding"}),
+            "OPENROUTER_API_KEY",
+            "MEDIAHUB_OPENROUTER_MODEL",
+            1,
+        )
+        observed = []
+
+        def gateway(prompt):
+            observed.append(prompt)
+            return "gateway-output"
+
+        orchestrator = CloudFirstOrchestrator(
+            cloud_routes=(route,),
+            local_routes=(),
+            credential_env={
+                "OPENROUTER_API_KEY": "present",
+                "MEDIAHUB_OPENROUTER_MODEL": "provider/model-x",
+                "MEDIAHUB_PROVIDER_EVIDENCE_FILE": temp.name,
+                "MEDIAHUB_RELEASE_COMMIT": "abc123",
+            },
+            executors={"openrouter": gateway},
+        )
+
+        decision, output = orchestrator.execute("coding", "bounded prompt", allow_local_extension=False)
+        self.assertEqual(decision.provider_id, "openrouter")
+        self.assertEqual(decision.model, "provider/model-x")
+        self.assertEqual(decision.tier, "cloud")
+        self.assertEqual(output, "gateway-output")
+        self.assertEqual(observed, ["bounded prompt"])
 
 
 if __name__ == "__main__":
