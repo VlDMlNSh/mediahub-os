@@ -66,3 +66,20 @@ def validate_heartbeat(record: dict[str, Any], now: datetime, max_age_seconds: i
     if not isinstance(record["sequence"], int) or record["sequence"] < 0:
         return _result(False, "invalid heartbeat sequence")
     return _result(True)
+
+
+def validate_node_profile(record: dict[str, Any]) -> ValidationResult:
+    required = {"schema_version","node_id","role","resources","capabilities","executors","artifact_transports","inventory_source"}
+    if not isinstance(record, dict) or not required.issubset(record):
+        return _result(False, "missing required node profile fields")
+    if record["schema_version"] != "mediahub.mesh.node-profile.v1":
+        return _result(False, "unsupported node profile schema")
+    if not isinstance(record["node_id"], str) or not record["node_id"]:
+        return _result(False, "invalid node identity")
+    resources = record["resources"]
+    if not isinstance(resources, dict) or resources.get("ram_gib", 0) <= 0:
+        return _result(False, "invalid node resources")
+    source = record["inventory_source"]
+    if not isinstance(source, dict) or source.get("schema_version") != "mediahub.local-component-inventory.v1":
+        return _result(False, "invalid inventory source")
+    return _result(True)
