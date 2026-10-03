@@ -1,7 +1,7 @@
 # MediaHub Mesh / P2P Fabric Design
 
 Date: 2026-10-03
-Status: Design for review
+Status: Approved design
 Scope: MediaHub control mesh, executor admission, and content-addressed artifact distribution on mh-dev-01/mh-dev-02 and future nodes.
 
 ## Goal
