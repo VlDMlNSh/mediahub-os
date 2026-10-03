@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub.mesh.node-profile.v1",
+  "title": "MediaHub Mesh Canonical Node Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","node_id","role","resources","capabilities","executors","artifact_transports","inventory_source"],
+  "properties": {
+    "schema_version": {"const": "mediahub.mesh.node-profile.v1"},
+    "node_id": {"type":"string","minLength":1,"pattern":"^[A-Za-z0-9._-]+$"},
+    "role": {"type":"string","minLength":1},
+    "resources": {
+      "type":"object","additionalProperties":false,
+      "required":["ram_gib"],
+      "properties":{"ram_gib":{"type":"number","exclusiveMinimum":0},"swap_gib":{"type":"number","minimum":0}}
+    },
+    "capabilities":{"type":"array","items":{"type":"string"}},
+    "executors":{"type":"array","items":{"type":"string"}},
+    "artifact_transports":{"type":"array","items":{"type":"string"}},
+    "inventory_source":{
+      "type":"object","additionalProperties":false,
+      "required":["producer","schema_version"],
+      "properties":{
+        "producer":{"type":"string","minLength":1},
+        "schema_version":{"const":"mediahub.local-component-inventory.v1"},
+        "attested_at":{"type":"string","format":"date-time"}
+      }
+    }
+  }
+}
