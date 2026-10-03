@@ -92,7 +92,6 @@ class CloudAdmissionTests(unittest.TestCase):
         self.assertEqual(decision.provider_id, "test-local")
 
     def test_execution_fails_over_to_next_admitted_provider(self):
-        evidence = self._evidence()
         temp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
         json.dump(
             {
@@ -149,6 +148,87 @@ class CloudAdmissionTests(unittest.TestCase):
         self.assertEqual(decision.provider_id, "second-cloud")
         self.assertEqual(output, "second-output")
         self.assertEqual(calls, ["first-cloud", "second-cloud"])
+
+    def test_failover_tries_credentials_and_models_before_next_provider(self):
+        temp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
+        json.dump(
+            {
+                "schema": "mediahub.provider-model.v1",
+                "commit": "abc123",
+                "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+                "providers": {
+                    "slot-cloud": {
+                        "catalog_status": "PASS",
+                        "inference_status": "PASS",
+                        "qualification_status": "QUALIFIED",
+                    },
+                    "next-cloud": {
+                        "catalog_status": "PASS",
+                        "inference_status": "PASS",
+                        "qualification_status": "QUALIFIED",
+                    },
+                },
+            },
+            temp,
+        )
+        temp.close()
+        self.addCleanup(lambda: Path(temp.name).unlink(missing_ok=True))
+
+        routes = (
+            ProviderRoute("slot-cloud", "cloud", frozenset({"coding"}), "SLOT_KEY", "SLOT_MODEL", 1),
+            ProviderRoute("next-cloud", "cloud", frozenset({"coding"}), "NEXT_KEY", "NEXT_MODEL", 2),
+        )
+        calls = []
+
+        def slot_executor(prompt):
+            calls.append((prompt, "slot"))
+            raise CloudOrchestratorError("provider_auth_failed")
+
+        def next_executor(prompt):
+            calls.append((prompt, "next"))
+            return "next-output"
+
+        orchestrator = CloudFirstOrchestrator(
+            cloud_routes=routes,
+            local_routes=(),
+            credential_env={
+                "SLOT_KEY": "primary",
+                "SLOT_KEY_1": "backup",
+                "SLOT_MODEL": "model-a",
+                "SLOT_MODELS": "model-b,model-c",
+                "NEXT_KEY": "next-key",
+                "NEXT_MODEL": "next-model",
+                "MEDIAHUB_PROVIDER_EVIDENCE_FILE": temp.name,
+                "MEDIAHUB_RELEASE_COMMIT": "abc123",
+            },
+            executors={"slot-cloud": slot_executor, "next-cloud": next_executor},
+        )
+
+        decision, output = orchestrator.execute("coding", "bounded prompt", allow_local_extension=False)
+        self.assertEqual(decision.provider_id, "next-cloud")
+        self.assertEqual(output, "next-output")
+        self.assertEqual(
+            calls,
+            [
+                ("bounded prompt", "slot"),
+                ("bounded prompt", "slot"),
+                ("bounded prompt", "slot"),
+                ("bounded prompt", "slot"),
+                ("bounded prompt", "slot"),
+                ("bounded prompt", "slot"),
+            ],
+        )
+
+    def test_no_admitted_cloud_uses_local_only_after_cloud_filter(self):
+        orchestrator = self._orchestrator(self._evidence(qualification="PARTIAL"))
+        decision, output = orchestrator.execute("coding", "bounded prompt")
+        self.assertEqual(decision.provider_id, "test-local")
+        self.assertEqual(output, "cloud_unavailable_local_extension")
+
+    def test_without_local_extension_fail_closed_when_no_admitted_provider(self):
+        orchestrator = self._orchestrator(self._evidence(qualification="PARTIAL"))
+        with self.assertRaisesRegex(CloudOrchestratorError, "no_provider_available"):
+            orchestrator.execute("coding", "bounded prompt", allow_local_extension=False)
 
 
 if __name__ == "__main__":
