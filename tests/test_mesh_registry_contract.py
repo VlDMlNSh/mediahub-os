@@ -71,5 +71,31 @@ class MeshRegistryContractTests(unittest.TestCase):
         self.assertTrue(result.accepted)
 
 
+class AstraPublishBranchContractTests(unittest.TestCase):
+    def test_publish_branch_uses_remote_tip_without_force_push(self):
+        from unittest.mock import patch
+        import astra_github_agent as agent
+
+        class Proc:
+            def __init__(self, returncode=0, stdout="", stderr=""):
+                self.returncode=returncode; self.stdout=stdout; self.stderr=stderr
+            def check_returncode(self):
+                if self.returncode: raise RuntimeError(self.stderr)
+
+        calls=[]
+        def fake_run(argv, timeout=120):
+            calls.append(argv)
+            if argv[:2] == ["git", "ls-remote"]:
+                return Proc(stdout="abc\trefs/heads/astra-node/mh-test-01\n")
+            return Proc()
+
+        with patch.object(agent, "NODE_ID", "mh-test-01"), patch.object(agent, "run", side_effect=fake_run):
+            agent._prepare_publish_branch()
+
+        self.assertIn(["git", "fetch", "origin", "astra-node/mh-test-01:refs/remotes/origin/astra-node/mh-test-01"], calls)
+        self.assertIn(["git", "checkout", "-B", "astra-node/mh-test-01", "origin/astra-node/mh-test-01"], calls)
+        self.assertNotIn("--force", sum(calls, []))
+
+
 if __name__ == "__main__":
     unittest.main()
