@@ -1,5 +1,6 @@
 import multiprocessing
 import tempfile
+import time
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -15,7 +16,8 @@ def _concurrent_acquire_worker(root, task_id, barrier, results):
     try:
         store = ClaimStore(Path(root))
         barrier.wait(timeout=10)
-        store.acquire(mk(task_id, ["src/shared.py"]))
+        now = time.time()
+        store.acquire(mk(task_id, ["src/shared.py"], now=now))
     except AgentFabricError as exc:
         results.put((task_id, "collision", str(exc)))
     except Exception as exc:
