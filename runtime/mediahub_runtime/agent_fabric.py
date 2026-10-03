@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import os
 import time
+import fcntl
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -85,23 +86,29 @@ class ClaimStore:
             raise AgentFabricError("invalid_claim_status")
         if claim.expiry <= time.time():
             raise AgentFabricError("claim_expired")
-        if self.conflicts(claim.paths, exclude_task_id=claim.task_id):
-            raise AgentFabricError("claim_collision")
-        path = self._path(claim.task_id)
-        payload = json.dumps(asdict(claim), sort_keys=True, separators=(",", ":")) + "\n"
-        try:
-            fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-        except FileExistsError as exc:
-            raise AgentFabricError("claim_exists") from exc
-        try:
-            with os.fdopen(fd, "w", encoding="utf-8") as handle:
-                handle.write(payload)
-        except Exception:
+        lock_path = self.root / ".acquire.lock"
+        with lock_path.open("a+", encoding="utf-8") as lock_handle:
+            fcntl.flock(lock_handle.fileno(), fcntl.LOCK_EX)
             try:
-                path.unlink()
-            except OSError:
-                pass
-            raise
+                if self.conflicts(claim.paths, exclude_task_id=claim.task_id):
+                    raise AgentFabricError("claim_collision")
+                path = self._path(claim.task_id)
+                payload = json.dumps(asdict(claim), sort_keys=True, separators=(",", ":")) + "\n"
+                try:
+                    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+                except FileExistsError as exc:
+                    raise AgentFabricError("claim_exists") from exc
+                try:
+                    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                        handle.write(payload)
+                except Exception:
+                    try:
+                        path.unlink()
+                    except OSError:
+                        pass
+                    raise
+            finally:
+                fcntl.flock(lock_handle.fileno(), fcntl.LOCK_UN)
 
     def heartbeat(self, task_id: str, *, now: float | None = None, lease_seconds: float = 900.0) -> AgentClaim:
         path = self._path(task_id)
