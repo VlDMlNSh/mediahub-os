@@ -67,3 +67,5 @@ class MeshContractTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+# Isolated Mesh/P2P CI coverage is executed by .github/workflows/mesh-p2p-verify.yml.
