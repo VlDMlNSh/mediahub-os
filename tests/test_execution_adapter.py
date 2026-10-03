@@ -57,6 +57,16 @@ class ExecutionAdapterTests(unittest.TestCase):
             with self.assertRaisesRegex(ExecutionAdapterError, "invalid_prompt"):
                 adapter.execute("   ")
 
+    def test_timeout_is_mapped_to_bounded_execution_failure(self):
+        adapter = CodexAdapter(backend("codex", VerificationState.VERIFIED), timeout=1)
+        with patch.dict(
+            os.environ,
+            {"MEDIAHUB_CODEX_COMMAND": "python3 -c \"import time; time.sleep(10)\""},
+            clear=False,
+        ):
+            with self.assertRaisesRegex(ExecutionAdapterError, "backend_execution_failed"):
+                adapter.execute("bounded prompt")
+
 
 if __name__ == "__main__":
     unittest.main()
