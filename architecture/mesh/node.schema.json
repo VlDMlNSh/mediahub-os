@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub.mesh.node.v1",
+  "title": "MediaHub Mesh Node",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","node_id","role","status","capabilities","executors","artifact_transports","resources","last_heartbeat"],
+  "properties": {
+    "schema_version": {"const": "mediahub.mesh.node.v1"},
+    "node_id": {"type":"string","minLength":1,"pattern":"^[A-Za-z0-9._-]+$"},
+    "role": {"type":"string","minLength":1},
+    "status": {"enum":["DISCOVERED","ACTIVE","STALE","BLOCKED","QUARANTINED","RETIRED"]},
+    "capabilities": {"type":"array","items":{"type":"string"}},
+    "executors": {"type":"array","items":{"type":"string"}},
+    "artifact_transports": {"type":"array","items":{"type":"string"}},
+    "resources": {
+      "type":"object","additionalProperties":false,
+      "required":["ram_gib","disk_free_gib"],
+      "properties":{
+        "ram_gib":{"type":"number","exclusiveMinimum":0},
+        "disk_free_gib":{"type":"number","minimum":0}
+      }
+    },
+    "last_heartbeat":{"type":"string","format":"date-time"}
+  }
+}
