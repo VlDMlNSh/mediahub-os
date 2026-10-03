@@ -48,7 +48,10 @@ class CloudAdmissionTests(unittest.TestCase):
                 "MEDIAHUB_PROVIDER_EVIDENCE_FILE": temp.name,
                 "MEDIAHUB_RELEASE_COMMIT": commit,
             },
-            executors={"test-cloud": lambda prompt: "qualified-output"},
+            executors={
+                "test-cloud": lambda prompt: "qualified-output",
+                "test-local": lambda prompt: "local-output",
+            },
         )
 
     def _evidence(self, *, commit="abc123", qualification="QUALIFIED", age_hours=0):
@@ -181,11 +184,11 @@ class CloudAdmissionTests(unittest.TestCase):
         calls = []
 
         def slot_executor(prompt):
-            calls.append((prompt, "slot"))
+            calls.append(("slot", prompt))
             raise CloudOrchestratorError("provider_auth_failed")
 
         def next_executor(prompt):
-            calls.append((prompt, "next"))
+            calls.append(("next", prompt))
             return "next-output"
 
         orchestrator = CloudFirstOrchestrator(
@@ -207,23 +210,13 @@ class CloudAdmissionTests(unittest.TestCase):
         decision, output = orchestrator.execute("coding", "bounded prompt", allow_local_extension=False)
         self.assertEqual(decision.provider_id, "next-cloud")
         self.assertEqual(output, "next-output")
-        self.assertEqual(
-            calls,
-            [
-                ("bounded prompt", "slot"),
-                ("bounded prompt", "slot"),
-                ("bounded prompt", "slot"),
-                ("bounded prompt", "slot"),
-                ("bounded prompt", "slot"),
-                ("bounded prompt", "slot"),
-            ],
-        )
+        self.assertEqual(calls, [("slot", "bounded prompt")] * 6 + [("next", "bounded prompt")])
 
     def test_no_admitted_cloud_uses_local_only_after_cloud_filter(self):
         orchestrator = self._orchestrator(self._evidence(qualification="PARTIAL"))
         decision, output = orchestrator.execute("coding", "bounded prompt")
         self.assertEqual(decision.provider_id, "test-local")
-        self.assertEqual(output, "cloud_unavailable_local_extension")
+        self.assertEqual(output, "local-output")
 
     def test_without_local_extension_fail_closed_when_no_admitted_provider(self):
         orchestrator = self._orchestrator(self._evidence(qualification="PARTIAL"))
