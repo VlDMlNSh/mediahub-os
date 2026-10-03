@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub.mesh.artifact.v1",
+  "title": "MediaHub Mesh Artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","artifact_id","sha256","size","type","origin","transport","replicas","verification_state"],
+  "properties": {
+    "schema_version":{"const":"mediahub.mesh.artifact.v1"},
+    "artifact_id":{"type":"string","minLength":1},
+    "sha256":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"},
+    "size":{"type":"integer","minimum":0},
+    "type":{"type":"string","minLength":1},
+    "origin":{"type":"string","minLength":1},
+    "transport":{"type":"array","items":{"type":"string"}},
+    "cid":{"type":"string"},
+    "replicas":{"type":"array","items":{"type":"string"}},
+    "verification_state":{"enum":["DECLARED","TRANSFERRING","VERIFIED","AVAILABLE","STALE","FAILED","RECOVERY_REQUIRED"]}
+  }
+}
