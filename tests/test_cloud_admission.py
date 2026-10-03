@@ -3,6 +3,7 @@ import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from unittest.mock import patch
 
 from runtime.mediahub_runtime.cloud_orchestrator import (
     CloudFirstOrchestrator,
@@ -260,10 +261,13 @@ class CloudAdmissionTests(unittest.TestCase):
                 "MEDIAHUB_PROVIDER_EVIDENCE_FILE": temp.name,
                 "MEDIAHUB_RELEASE_COMMIT": "abc123",
             },
-            executors={"openrouter": gateway},
         )
 
-        decision, output = orchestrator.execute("coding", "bounded prompt", allow_local_extension=False)
+        with patch(
+            "runtime.mediahub_runtime.cloud_orchestrator.OpenAICompatibleExecutor",
+            return_value=gateway,
+        ):
+            decision, output = orchestrator.execute("coding", "bounded prompt", allow_local_extension=False)
         self.assertEqual(decision.provider_id, "openrouter")
         self.assertEqual(decision.model, "provider/model-x")
         self.assertEqual(decision.tier, "cloud")
