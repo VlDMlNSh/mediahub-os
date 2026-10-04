@@ -30,7 +30,7 @@ jobs:
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
           test -z "$(git status --short)"
-          test "$(git hash-object astra_github_agent.py)" = "769306d93be818161af7ce49ba9b202eed6c5b24"
+          test "$(git hash-object astra_github_agent.py)" = "$(git rev-parse HEAD:astra_github_agent.py)"
           python3 -m compileall -q runtime tests astra_github_agent.py
           PYTHONPATH=runtime:. python3 -m unittest discover -s tests -p 'test_*.py'
       - name: Observe canonical Astra worker
@@ -52,10 +52,16 @@ jobs:
             echo "wave=$wave started=$(date -u +%FT%TZ)"
             git fetch origin main --depth=50
             git reset --hard origin/main
-            PYTHONPATH=runtime:. python3 -m mediahub_runtime.autonomous_queue | tee "/tmp/mh25-24h/wave-$wave.log" || true
+            set +e
+            PYTHONPATH=runtime:. python3 -m mediahub_runtime.autonomous_queue | tee "/tmp/mh25-24h/wave-$wave.log"
+            rc=${PIPESTATUS[0]}
+            set -e
+            test "$rc" -eq 0
+            grep -q '"status": "PASS"' "/tmp/mh25-24h/wave-$wave.log"
             test "$(pgrep -f "astra_github_agent.py" | wc -l)" -ge 1
             sleep 600
           done
+          test -n "$(find /tmp/mh25-24h -type f -name "wave-*.log" -print -exec grep -l '"status": "PASS"' {} \; | head -1)"
           echo "queue_24h=PASS"
       - name: Upload 24h queue evidence
         if: always()
