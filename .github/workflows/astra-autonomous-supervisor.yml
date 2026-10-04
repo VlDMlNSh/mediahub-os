@@ -76,7 +76,7 @@ jobs:
           import json, os, time
           from pathlib import Path
           node=os.environ["ASTRA_NODE_ID"]
-          command_id=f"MH-MESH-FRESH-HEALTH-{node}-{os.environ['GITHUB_RUN_ID']}"
+          command_id=f"MH-MESH-FRESH-HEALTH-{node}-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
           p=Path("control/commands")/f"{node}.json"
           p.parent.mkdir(parents=True, exist_ok=True)
           p.write_text(json.dumps({
@@ -133,7 +133,7 @@ jobs:
           import json
           import os
           d=json.load(open("/tmp/astra-result.json"))
-          expected_command_id=f"MH-MESH-FRESH-HEALTH-{os.environ['ASTRA_NODE_ID']}-{os.environ['GITHUB_RUN_ID']}"
+          expected_command_id=f"MH-MESH-FRESH-HEALTH-{os.environ['ASTRA_NODE_ID']}-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
           print(json.dumps({
               "command_id": d.get("command_id"),
               "node_id": d.get("node_id"),
