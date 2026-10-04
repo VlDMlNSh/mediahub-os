@@ -283,9 +283,31 @@ def execute(cmd):
             cycle_record["gold"]={"returncode":qualification.returncode,
                                   "stdout":qualification.stdout[-12000:],
                                   "stderr":qualification.stderr[-8000:]}
-            return {"status":"PASS" if qualification.returncode==0 else "BLOCKED",
-                    "phase":"gold_qualification","steps":steps,
+            if qualification.returncode != 0:
+                return {"status":"BLOCKED","phase":"gold_qualification","steps":steps,
+                        "elapsed_seconds":round(time.time()-started,3)}
+            if operation == "autonomous_gold_mission":
+                queue_env=os.environ.copy()
+                queue_env["ASTRA_QUEUE_STATE_DIR"]=queue_env.get("ASTRA_QUEUE_STATE_DIR",str(ROOT/".astra-state"/"queue"))
+                queue=subprocess.run([sys.executable,"-m","mediahub_runtime.autonomous_queue"],
+                                     cwd=ROOT,text=True,capture_output=True,
+                                     timeout=int(os.environ.get("ASTRA_QUEUE_RUN_TIMEOUT","3600")),
+                                     check=False,env=queue_env)
+                queue_payload={}
+                try:
+                    queue_payload=json.loads(queue.stdout.strip().splitlines()[-1])
+                except Exception:
+                    queue_payload={"status":"BLOCKED","reason":"queue_output_not_json"}
+                cycle_record["autonomous_queue"]={"returncode":queue.returncode,"payload":queue_payload,
+                                                  "stdout":queue.stdout[-16000:],"stderr":queue.stderr[-10000:]}
+                if queue.returncode != 0 or queue_payload.get("status") != "PASS":
+                    return {"status":"BLOCKED","phase":"autonomous_queue","steps":steps,
+                            "elapsed_seconds":round(time.time()-started,3)}
+                return {"status":"PASS","phase":"autonomous_queue","steps":steps,
+                        "queue":queue_payload,"elapsed_seconds":round(time.time()-started,3)}
+            return {"status":"PASS","phase":"gold_qualification","steps":steps,
                     "elapsed_seconds":round(time.time()-started,3)}
+
         return {"status":"BLOCKED","phase":"autonomous_retry_window_exhausted",
                 "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
 
