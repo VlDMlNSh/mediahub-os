@@ -105,6 +105,12 @@ jobs:
           test -f "$command"
           python3 ops/control/sign_command.py "$command"
 
+      - name: Prefetch canonical node result ref
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "+astra-node/${ASTRA_NODE_ID}:refs/remotes/origin/astra-node/${ASTRA_NODE_ID}"
+
       - name: Execute fresh mission in isolated workflow worker
         shell: bash
         env:
