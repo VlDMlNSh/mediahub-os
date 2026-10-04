@@ -94,7 +94,7 @@ class AstraPublishBranchContractTests(unittest.TestCase):
             agent._prepare_publish_branch()
 
         self.assertIn(["git", "fetch", "origin", "astra-node/mh-test-01:refs/remotes/origin/astra-node/mh-test-01"], calls)
-        self.assertIn(["git", "checkout", "-B", "astra-node/mh-test-01", "origin/astra-node/mh-test-01"], calls)
+        self.assertIn(["git", "checkout", "--detach", "origin/astra-node/mh-test-01"], calls)
         self.assertNotIn("--force", sum(calls, []))
 
 
