@@ -24,7 +24,6 @@ jobs:
     runs-on: [self-hosted, mediahub-runner]
     timeout-minutes: 60
     env:
-      ASTRA_NODE_ID: mh-dev-01
       ASTRA_ONESHOT: "1"
       ASTRA_AUTONOMOUS_MAX_CYCLES: "5"
       ASTRA_AUTONOMOUS_RETRY_SECONDS: "30"
@@ -68,13 +67,64 @@ jobs:
         with:
           fetch-depth: 50
 
-      - name: Verify canonical node
+      - name: Resolve canonical node from runner identity
         shell: bash
         run: |
           set -euo pipefail
-          test "$(hostname)" = "mh-dev-01"
-          test "$(id -un)" = "mediahub-runner"
+          host="$(hostname)"
+          user="$(id -un)"
+          case "$host" in
+            mh-dev-01)
+              test "$user" = "mediahub-runner"
+              node_id="mh-dev-01"
+              canonical_worktree="/home/mediahub/astra-work"
+              ;;
+            mh-dev-02)
+              test "$user" = "mediahub"
+              node_id="mh-dev-02"
+              canonical_worktree="/home/mediahub/astra-work"
+              ;;
+            Voktors-Mac-mini.local)
+              test "$user" = "voktor"
+              node_id="Voktors-Mac-mini.local"
+              canonical_worktree="/Users/voktor/astra-work"
+              ;;
+            *)
+              echo "BLOCK: unrecognized runner hostname: $host"
+              exit 1
+              ;;
+          esac
+          {
+            echo "ASTRA_NODE_ID=$node_id"
+            echo "ASTRA_CANONICAL_WORKTREE=$canonical_worktree"
+          } >> "$GITHUB_ENV"
           mkdir -p "$ASTRA_STATE_DIR"
+
+      - name: Materialize fresh node-bound health command
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, time
+          from pathlib import Path
+          node=os.environ["ASTRA_NODE_ID"]
+          command_id=f"MH-MESH-FRESH-HEALTH-{node}-{os.environ['GITHUB_RUN_ID']}"
+          p=Path("control/commands")/f"{node}.json"
+          p.parent.mkdir(parents=True, exist_ok=True)
+          p.write_text(json.dumps({
+              "command_id": command_id,
+              "node_id": node,
+              "operation": "health",
+              "target_sha": os.environ["GITHUB_SHA"],
+              "workflow_only": False,
+              "owned_paths": [f"control/results/{node}.json"],
+              "title": f"Fresh {node} transport and canonical checkout health",
+              "description": "Synchronize the canonical Astra worktree from main, execute one fresh authenticated control command, publish node-bound health evidence, and release the claim.",
+              "exclusive_actions": ["execute"],
+              "issued_at": int(time.time()),
+          }, indent=2)+"
+", encoding="utf-8")
+          print(f"node={node} command_id={command_id}")
 
       - name: Authoritatively sign current control command
         shell: bash
@@ -83,9 +133,9 @@ jobs:
         run: |
           set -euo pipefail
           test -n "${ASTRA_COMMAND_HMAC_KEY}"
-          if [ -f "control/commands/mh-dev-01.json" ]; then
-            python3 ops/control/sign_command.py control/commands/mh-dev-01.json
-          fi
+          command="control/commands/${ASTRA_NODE_ID}.json"
+          test -f "$command"
+          python3 ops/control/sign_command.py "$command"
 
       - name: Inspect canonical worker and avoid duplicate execution
         id: worker
@@ -95,7 +145,7 @@ jobs:
           python3 - <<'PY'
           import os
           from pathlib import Path
-          target="/home/mediahub/astra-work/astra_github_agent.py"
+          target="${ASTRA_CANONICAL_WORKTREE}/astra_github_agent.py"
           matches=[]
           for entry in Path("/proc").iterdir():
               if not entry.name.isdigit(): continue
@@ -106,7 +156,7 @@ jobs:
                   cwd=os.readlink(entry/"cwd")
               except (FileNotFoundError, PermissionError, ProcessLookupError):
                   continue
-              if target in argv and cwd=="/home/mediahub/astra-work":
+              if target in argv and cwd==os.environ["ASTRA_CANONICAL_WORKTREE"]:
                   matches.append(pid)
           print("canonical_worker_matches=",len(matches))
           with open(os.environ["GITHUB_OUTPUT"],"a") as out:
@@ -129,7 +179,7 @@ jobs:
           deadline=$(( $(date +%s) + 150 ))
           while [ "$(date +%s)" -lt "$deadline" ]; do
             git fetch origin "+astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01" 2>/dev/null || true
-            if git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/astra-result.json 2>/dev/null; then
+            if git show "origin/astra-node/${ASTRA_NODE_ID}:control/results/${ASTRA_NODE_ID}.json" > /tmp/astra-result.json 2>/dev/null; then
               if python3 - "$expected" <<'PY'
           import json,sys
           d=json.load(open("/tmp/astra-result.json"))
@@ -160,7 +210,7 @@ jobs:
               "cycles": len(d.get("result",{}).get("steps",[])),
               "execution_head": d.get("execution_head"),
           }, sort_keys=True))
-          assert d.get("node_id") == "mh-dev-01"
+          assert d.get("node_id") == os.environ["ASTRA_NODE_ID"]
           assert d.get("returncode") == 0
           result=d.get("result",{})
           phase=result.get("phase")
