@@ -606,7 +606,8 @@ def main():
                 if os.environ.get("ASTRA_ONESHOT","0")=="1": return
         except Exception as exc:
             (STATE/"last_error.json").write_text(json.dumps({"error":repr(exc),"time":int(time.time())}))
-            if os.environ.get("ASTRA_ONESHOT","0")=="1": return
+            if os.environ.get("ASTRA_ONESHOT","0")=="1":
+                raise
         if os.environ.get("ASTRA_ONESHOT","0")=="1": return
         time.sleep(INTERVAL)
 
