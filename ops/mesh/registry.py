@@ -29,7 +29,7 @@ def register_node(record: dict[str, Any], existing_ids: set[str] | None = None) 
 
 def _sequence_path(node_id: str, state_path: str | None) -> Path:
     root = Path(state_path or os.environ.get("MEDIAHUB_MESH_HEARTBEAT_STATE_DIR", DEFAULT_SEQUENCE_DIR))
-    if not node_id or "/" in node_id or "\" in node_id or node_id in {".", ".."}:
+    if not node_id or "/" in node_id or "\\" in node_id or node_id in {".", ".."}:
         raise ValueError("invalid node identity for heartbeat state")
     return root / f"{node_id}.seq"
 
