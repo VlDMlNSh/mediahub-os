@@ -175,7 +175,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          expected="$(python3 -c 'import json; print(json.load(open("control/commands/mh-dev-01.json"))["command_id"])')"
+          expected="$(python3 -c 'import json; print(json.load(open("control/commands/${ASTRA_NODE_ID}.json"))["command_id"])')"
           deadline=$(( $(date +%s) + 150 ))
           while [ "$(date +%s)" -lt "$deadline" ]; do
             git fetch origin "+astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01" 2>/dev/null || true
@@ -197,7 +197,7 @@ jobs:
         run: |
           set -euo pipefail
           git fetch origin "+astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01" || true
-          git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/astra-result.json
+          git show "origin/astra-node/${ASTRA_NODE_ID}:control/results/${ASTRA_NODE_ID}.json" > /tmp/astra-result.json
           python3 - <<'PY'
           import json
           d=json.load(open("/tmp/astra-result.json"))
