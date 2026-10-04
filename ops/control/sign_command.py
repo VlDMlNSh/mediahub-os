@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib, hmac, json, os, sys, time
 from pathlib import Path
 
+SCHEMA_VERSION = "mediahub.astra.control-command.v1"
 REQUIRED_FIELDS = ("schema_version","command_id","node_id","operation","target_sha","workflow_only","owned_paths","title","description","exclusive_actions","issued_at")
 MAX_AGE_SECONDS = max(60, int(os.environ.get("ASTRA_COMMAND_HMAC_MAX_AGE_SECONDS", "900")))
 
@@ -12,6 +13,7 @@ def canonical_command_body(command: dict) -> bytes:
 
 def validate_command_shape(command: dict) -> None:
     if not isinstance(command, dict): raise ValueError("command must be a JSON object")
+    if command.get("schema_version") != SCHEMA_VERSION: raise ValueError(f"schema_version must be {SCHEMA_VERSION}")
     missing=[k for k in REQUIRED_FIELDS if k not in command]
     if missing: raise ValueError("missing required command fields: "+",".join(missing))
     if not isinstance(command["command_id"], str) or not command["command_id"] or len(command["command_id"])>128: raise ValueError("command_id must be a non-empty string <=128 chars")

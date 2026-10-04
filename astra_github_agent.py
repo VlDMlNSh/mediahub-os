@@ -18,6 +18,7 @@ WORKER_ID=os.environ.get('ASTRA_WORKER_ID',f"{AGENT_ID}:{os.getpid()}")
 CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS','900')),3600.0))
 COMMAND_HMAC_MAX_AGE_SECONDS=max(60,int(os.environ.get("ASTRA_COMMAND_HMAC_MAX_AGE_SECONDS","900")))
 COMMAND_HMAC_KEY=os.environ.get("ASTRA_COMMAND_HMAC_KEY","")
+COMMAND_SCHEMA_VERSION="mediahub.astra.control-command.v1"
 EXECUTED_COMMANDS=STATE/"executed_command_ids"
 
 def run(argv,timeout=120):
@@ -80,6 +81,7 @@ def read_command():
     try: cmd=json.loads(path.read_text())
     except Exception: return None
     if not isinstance(cmd,dict): return None
+    if cmd.get("schema_version") != COMMAND_SCHEMA_VERSION: return None
     if cmd.get("node_id")!=NODE_ID or cmd.get("operation") not in OPERATIONS: return None
     if cmd.get("workflow_only") is True and os.environ.get("ASTRA_WORKFLOW_ONLY") != "1": return None
     if not _command_auth_valid(cmd): return None
