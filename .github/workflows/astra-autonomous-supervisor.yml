@@ -76,6 +76,17 @@ jobs:
           test "$(id -un)" = "mediahub-runner"
           mkdir -p "$ASTRA_STATE_DIR"
 
+      - name: Authoritatively sign current control command
+        shell: bash
+        env:
+          ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "${ASTRA_COMMAND_HMAC_KEY}"
+          if [ -f "control/commands/mh-dev-01.json" ]; then
+            python3 ops/control/sign_command.py control/commands/mh-dev-01.json
+          fi
+
       - name: Inspect canonical worker and avoid duplicate execution
         id: worker
         shell: bash
