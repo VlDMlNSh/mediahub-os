@@ -108,7 +108,7 @@ jobs:
       - name: Execute fresh mission in isolated workflow worker
         shell: bash
         env:
-          ASTRA_WORKTREE: "$GITHUB_WORKSPACE"
+          ASTRA_WORKTREE: "${{ github.workspace }}"
           ASTRA_WORKFLOW_ONLY: "1"
         run: |
           set -euo pipefail
