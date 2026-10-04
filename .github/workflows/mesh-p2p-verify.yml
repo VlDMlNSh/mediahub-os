@@ -8,6 +8,7 @@ on:
       - "ops/p2p/**"
       - "architecture/mesh/**"
       - "tests/test_mesh_*.py"
+      - "tests/mesh/**"
       - "tests/test_p2p_*.py"
       - ".github/workflows/mesh-p2p-verify.yml"
   pull_request:
@@ -17,6 +18,7 @@ on:
       - "ops/p2p/**"
       - "architecture/mesh/**"
       - "tests/test_mesh_*.py"
+      - "tests/mesh/**"
       - "tests/test_p2p_*.py"
       - ".github/workflows/mesh-p2p-verify.yml"
 
@@ -43,6 +45,7 @@ jobs:
       - name: Compile mesh and P2P code
         run: python -m compileall -q ops tests
       - name: Mesh and P2P contract tests
-        run: python -m unittest -v tests/test_mesh_p2p_contracts.py tests/test_mesh_registry_admission.py tests/test_mesh_artifact_edgecases.py tests/test_p2p_adapters.py tests/test_p2p_recovery.py tests/test_mesh_runtime_contract.py
+        run: |
+          python -m unittest -v             tests/test_mesh_p2p_contracts.py             tests/test_mesh_registry_admission.py             tests/test_mesh_artifact_edgecases.py             tests/test_p2p_adapters.py             tests/test_p2p_recovery.py             tests/test_mesh_runtime_contract.py             tests/mesh/test_admission_authority.py             tests/mesh/test_heartbeat_auth.py
       - name: Verification harness
         run: python -m ops.mesh.verify_mesh
