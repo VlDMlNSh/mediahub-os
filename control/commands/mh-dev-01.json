@@ -1,14 +1,14 @@
 {
-  "command_id": "MH25-ASTRA-TRANSPORT-HEALTH-20261003-01",
+  "command_id": "MH-MESH-FRESH-HEALTH-20261004-01",
   "node_id": "mh-dev-01",
   "operation": "health",
-  "target_sha": "5b298e90e5800c6866c5d3ed2c24575ff3315bd4",
+  "target_sha": "2e96e9c5b1ba6ce4e88e46d0af64c74e695408c9",
   "workflow_only": false,
   "owned_paths": [
     "control/results/mh-dev-01.json"
   ],
-  "title": "Astra transport health and claim-release verification",
-  "description": "Verify updated Astra agent source is synchronized from main, consumes a fresh command, publishes node evidence, and releases its claim.",
+  "title": "Fresh mh-dev-01 transport and canonical checkout health",
+  "description": "Synchronize the canonical Astra worktree from main, execute one fresh authenticated control command, publish node-bound health evidence, and release the claim.",
   "exclusive_actions": [
     "execute"
   ]
