@@ -27,15 +27,8 @@ jobs:
       ASTRA_AUTONOMOUS_MAX_CYCLES: "12"
       ASTRA_AUTONOMOUS_RETRY_SECONDS: "300"
       ASTRA_QUALIFICATION_TIMEOUT: "87000"
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
-      KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
-      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-      UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-      GIGACHAT_API_PERS: ${{ secrets.GIGACHAT_API_PERS }}
+      # Provider credentials are node-local and MUST NOT cross the GitHub control/evidence boundary.
+      # Provider qualification fails closed when the required node-local credential is unavailable.
     steps:
       - uses: actions/checkout@v4
         with:
