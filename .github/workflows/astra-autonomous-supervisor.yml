@@ -199,6 +199,7 @@ jobs:
           git show "origin/astra-node/${ASTRA_NODE_ID}:control/results/${ASTRA_NODE_ID}.json" > /tmp/astra-result.json
           python3 - <<'PY'
           import json
+          import os
           d=json.load(open("/tmp/astra-result.json"))
           print(json.dumps({
               "command_id": d.get("command_id"),
