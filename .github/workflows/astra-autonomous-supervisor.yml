@@ -110,6 +110,7 @@ jobs:
         env:
           ASTRA_WORKTREE: "${{ github.workspace }}"
           ASTRA_WORKFLOW_ONLY: "1"
+          ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
         run: |
           set -euo pipefail
           python3 astra_github_agent.py
