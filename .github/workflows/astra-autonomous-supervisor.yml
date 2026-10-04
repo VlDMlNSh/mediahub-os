@@ -178,7 +178,7 @@ jobs:
           expected="$(python3 -c 'import json; print(json.load(open("control/commands/${ASTRA_NODE_ID}.json"))["command_id"])')"
           deadline=$(( $(date +%s) + 150 ))
           while [ "$(date +%s)" -lt "$deadline" ]; do
-            git fetch origin "+astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01" 2>/dev/null || true
+            git fetch origin "+astra-node/${ASTRA_NODE_ID}:refs/remotes/origin/astra-node/${ASTRA_NODE_ID}" 2>/dev/null || true
             if git show "origin/astra-node/${ASTRA_NODE_ID}:control/results/${ASTRA_NODE_ID}.json" > /tmp/astra-result.json 2>/dev/null; then
               if python3 - "$expected" <<'PY'
           import json,sys
@@ -196,7 +196,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git fetch origin "+astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01" || true
+          git fetch origin "+astra-node/${ASTRA_NODE_ID}:refs/remotes/origin/astra-node/${ASTRA_NODE_ID}" || true
           git show "origin/astra-node/${ASTRA_NODE_ID}:control/results/${ASTRA_NODE_ID}.json" > /tmp/astra-result.json
           python3 - <<'PY'
           import json
