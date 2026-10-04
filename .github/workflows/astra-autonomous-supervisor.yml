@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   supervise:
-    runs-on: [self-hosted]
+    runs-on: [self-hosted, astra-control]
     timeout-minutes: 60
     env:
       ASTRA_ONESHOT: "1"
