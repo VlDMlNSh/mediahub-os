@@ -631,6 +631,7 @@ def main():
                             result_status = value.get("status") if isinstance(value, dict) else None
                             claim_status = 'VERIFIED' if rc == 0 and result_status not in {"BLOCKED", "REJECTED"} else 'REJECTED'
                             claim_store.release(claim.task_id, claim_status)
+                            claim = next((c for c in claim_store.list_claims() if c.task_id == claim.task_id), claim)
                         except Exception as release_exc:
                             value = {**(value if isinstance(value,dict) else {'result':value}), 'claim_release_error':repr(release_exc)}
                             rc=1
