@@ -145,6 +145,7 @@ jobs:
               "strict_pre_soak_verification",
               "distributed_verification",
               "gold_qualification",
+              "autonomous_queue",
               "local_component_inventory",
               "local_component_qualification",
               "local_ai_capability_qualification",
