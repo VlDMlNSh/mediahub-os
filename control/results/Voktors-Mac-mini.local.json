@@ -15,37 +15,36 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791151997.844821,
+    "expiry": 1791152164.262153,
     "goal": "Fresh Voktors-Mac-mini.local transport and canonical checkout health",
     "paths": [
       "control/results/Voktors-Mac-mini.local.json"
     ],
-    "started": 1791151097.844821,
+    "started": 1791151264.262153,
     "status": "ACTIVE",
-    "task_id": "MH-MESH-FRESH-HEALTH-Voktors-Mac-mini.local-37238187128-1",
-    "updated": 1791151097.844821
+    "task_id": "MH-MESH-FRESH-HEALTH-Voktors-Mac-mini.local-37238365131-1",
+    "updated": 1791151264.262153
   },
-  "command_id": "MH-MESH-FRESH-HEALTH-Voktors-Mac-mini.local-37238187128-1",
-  "completed_at": 1791151097,
-  "duration_seconds": 0.15,
-  "execution_head": "6d06ecb17ff98fe3e7296483a52673cbfd8a8336",
+  "command_id": "MH-MESH-FRESH-HEALTH-Voktors-Mac-mini.local-37238365131-1",
+  "completed_at": 1791151264,
+  "duration_seconds": 0.07,
+  "execution_head": "e1282d9ad3f5d29f14e184dd030f1f06cad66cf2",
   "node_id": "Voktors-Mac-mini.local",
   "result": {
     "agent_path": "/Users/voktor/actions-runner-astra/_work/mediahub-os/mediahub-os/astra_github_agent.py",
-    "agent_source_sha": "66b889668b09812ee6b28889866a8073f2bf15a61e8e05195227f641727b4b5c",
-    "claim_release_error": "FrozenInstanceError(\"cannot assign to field 'status'\")",
+    "agent_source_sha": "8bdf2a43c63037a9ff2e545a57a5b7ce96e8f0928dd1978e6dc1e58bd982b9b8",
     "cwd": "/Users/voktor/actions-runner-astra/_work/mediahub-os/mediahub-os",
     "hostname": "Voktors-Mini.Dlink",
     "node_id": "Voktors-Mac-mini.local",
-    "pid": 27432,
+    "pid": 31364,
     "platform": "macOS-14.7.4-arm64-arm-64bit-Mach-O",
     "python": "3.14.7",
     "status": "ready",
     "transport_version": "self-reexec-v1",
     "worktree": "/Users/voktor/actions-runner-astra/_work/mediahub-os/mediahub-os"
   },
-  "returncode": 1,
+  "returncode": 0,
   "schema": 1,
-  "target_sha": "6d06ecb17ff98fe3e7296483a52673cbfd8a8336",
-  "worker_id": "A0-ASTRA:27432"
+  "target_sha": "e1282d9ad3f5d29f14e184dd030f1f06cad66cf2",
+  "worker_id": "A0-ASTRA:31364"
 }
