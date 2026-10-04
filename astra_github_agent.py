@@ -159,16 +159,24 @@ def _prepare_publish_branch():
 def publish(result):
     path=ROOT/"control"/"results"/f"{NODE_ID}.json"
     path.parent.mkdir(parents=True,exist_ok=True)
-    path.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
+    payload=json.dumps(result,indent=2,sort_keys=True)+"\n"
+    STATE.mkdir(parents=True,exist_ok=True)
+    staged_result=STATE/f"publish-{NODE_ID}.json"
+    staged_result.write_text(payload,encoding="utf-8")
     for args in (["git","config","user.name","Astra Node Agent"],["git","config","user.email","astra-node@localhost"]):
         run(args,30).check_returncode()
     _prepare_publish_branch()
+    path.write_text(staged_result.read_text(encoding="utf-8"),encoding="utf-8")
     run(["git","add",str(path.relative_to(ROOT))],30).check_returncode()
     commit=run(["git","commit","-m",f"astra: result {NODE_ID}"],30)
     if commit.returncode not in (0,1): raise RuntimeError(commit.stderr)
     # Never rewrite the remote node branch. A concurrent/stale publisher must fail closed.
     git_network(["git","push","origin",f"HEAD:astra-node/{NODE_ID}"],120).check_returncode()
-    run(["git","checkout","-B","main","origin/main"],30).check_returncode()
+    run(["git","checkout","--detach","origin/main"],30).check_returncode()
+    try:
+        staged_result.unlink()
+    except FileNotFoundError:
+        pass
 def _claim_for(cmd):
     runtime_root=ROOT/'runtime'
     if runtime_root.is_dir() and str(runtime_root) not in sys.path: sys.path.insert(0,str(runtime_root))
