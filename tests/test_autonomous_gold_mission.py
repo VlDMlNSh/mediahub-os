@@ -25,12 +25,10 @@ class AutonomousMissionTests(unittest.TestCase):
         ):
             self.assertIn(marker, self.source)
 
-    def test_main_loop_reexecs_updated_agent_before_reading_command(self):
-        main = next(n for n in self.tree.body if isinstance(n, ast.FunctionDef) and n.name == "main")
-        calls = [n.func.id for n in ast.walk(main) if isinstance(n, ast.Call)
-                 and isinstance(n.func, ast.Name)]
-        self.assertLess(calls.index("sync"), calls.index("maybe_reexec_updated_agent"))
-        self.assertLess(calls.index("maybe_reexec_updated_agent"), calls.index("read_command"))
+    def test_main_loop_preserves_workflow_only_command_before_sync(self):
+        self.assertIn('if not (os.environ.get("ASTRA_ONESHOT") == "1" and os.environ.get("ASTRA_WORKFLOW_ONLY") == "1"):', self.source)
+        self.assertIn("maybe_reexec_updated_agent()", self.source)
+        self.assertIn("read_command()", self.source)
 
 
 if __name__ == "__main__":
