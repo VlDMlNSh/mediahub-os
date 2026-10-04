@@ -556,7 +556,9 @@ def main():
     last_id=published_command_id()
     while True:
         try:
-            sync(); maybe_reexec_updated_agent(); cmd=read_command()
+            if not (os.environ.get("ASTRA_ONESHOT") == "1" and os.environ.get("ASTRA_WORKFLOW_ONLY") == "1"):
+                sync()
+            maybe_reexec_updated_agent(); cmd=read_command()
             if cmd and cmd.get("command_id")!=last_id:
                 started=time.time()
                 claim_store=None
