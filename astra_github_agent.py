@@ -23,13 +23,25 @@ EXECUTED_COMMANDS=STATE/"executed_command_ids"
 def run(argv,timeout=120):
     return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False)
 
+def git_network(argv, timeout=120, attempts=4, base_delay=2.0):
+    """Run a Git network operation with bounded exponential retry; fail closed after exhaustion."""
+    last = None
+    for attempt in range(1, attempts + 1):
+        result = run(argv, timeout)
+        if result.returncode == 0:
+            return result
+        last = result
+        if attempt < attempts:
+            time.sleep(min(base_delay * (2 ** (attempt - 1)), 15.0))
+    return last
+
 def sync():
     ROOT.parent.mkdir(parents=True,exist_ok=True)
     if not (ROOT/".git").exists():
         subprocess.run(["git","clone","--depth","1",REMOTE,str(ROOT)],check=True,timeout=120)
     else:
-        subprocess.run(["git","-C",str(ROOT),"fetch","--depth","50","origin","main"],check=True,timeout=120)
-        subprocess.run(["git","-C",str(ROOT),"fetch","origin",f"+astra-node/{NODE_ID}:refs/remotes/origin/astra-node/{NODE_ID}"],check=False,timeout=120)
+        git_network(["git","-C",str(ROOT),"fetch","--depth","50","origin","main"],120).check_returncode()
+        git_network(["git","-C",str(ROOT),"fetch","origin",f"+astra-node/{NODE_ID}:refs/remotes/origin/astra-node/{NODE_ID}"],120)
         subprocess.run(["git","-C",str(ROOT),"reset","--hard","origin/main"],check=True,timeout=120)
 
 def maybe_reexec_updated_agent():
@@ -98,9 +110,9 @@ def mark_published(command_id):
 
 def _prepare_publish_branch():
     branch=f"astra-node/{NODE_ID}"
-    probe=run(["git","ls-remote","--heads","origin",branch],30)
+    probe=git_network(["git","ls-remote","--heads","origin",branch],30)
     if probe.returncode == 0 and probe.stdout.strip():
-        run(["git","fetch","origin",f"{branch}:refs/remotes/origin/{branch}"],120).check_returncode()
+        git_network(["git","fetch","origin",f"{branch}:refs/remotes/origin/{branch}"],120).check_returncode()
         run(["git","checkout","-B",branch,f"origin/{branch}"],30).check_returncode()
     elif probe.returncode == 0:
         run(["git","checkout","-B",branch,"origin/main"],30).check_returncode()
@@ -119,7 +131,7 @@ def publish(result):
     commit=run(["git","commit","-m",f"astra: result {NODE_ID}"],30)
     if commit.returncode not in (0,1): raise RuntimeError(commit.stderr)
     # Never rewrite the remote node branch. A concurrent/stale publisher must fail closed.
-    run(["git","push","origin",f"HEAD:astra-node/{NODE_ID}"],120).check_returncode()
+    git_network(["git","push","origin",f"HEAD:astra-node/{NODE_ID}"],120).check_returncode()
     run(["git","checkout","-B","main","origin/main"],30).check_returncode()
 def _claim_for(cmd):
     runtime_root=ROOT/'runtime'

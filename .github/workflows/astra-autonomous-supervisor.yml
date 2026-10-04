@@ -118,7 +118,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git fetch origin "+astra-node/${ASTRA_NODE_ID}:refs/remotes/origin/astra-node/${ASTRA_NODE_ID}"
+          for attempt in 1 2 3 4; do
+            if git fetch origin "+astra-node/${ASTRA_NODE_ID}:refs/remotes/origin/astra-node/${ASTRA_NODE_ID}"; then
+              break
+            fi
+            if [ "$attempt" -eq 4 ]; then
+              echo "BLOCK: unable to fetch node result branch after bounded retries"
+              exit 1
+            fi
+            sleep "$((2 ** (attempt - 1)))"
+          done
           git show "origin/astra-node/${ASTRA_NODE_ID}:control/results/${ASTRA_NODE_ID}.json" > /tmp/astra-result.json
           python3 - <<'PY'
           import json
