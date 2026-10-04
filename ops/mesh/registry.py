@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import fcntl
 import os
 from dataclasses import dataclass
 from datetime import datetime
@@ -33,6 +34,9 @@ def _sequence_path(node_id: str, state_path: str | None) -> Path:
         raise ValueError("invalid node identity for heartbeat state")
     return root / f"{node_id}.seq"
 
+def _lock_path(sequence_path: Path) -> Path:
+    return sequence_path.with_suffix(".lock")
+
 def _read_sequence(path: Path) -> int | None:
     try:
         return int(path.read_text(encoding="utf-8").strip())
@@ -57,27 +61,38 @@ def record_heartbeat(
     hmac_key: str | None = None,
 ) -> RegistryResult:
     node_id = expected_node_id or ""
-    try:
-        path = _sequence_path(node_id, state_path)
-        last_sequence = _read_sequence(path)
-    except (OSError, ValueError) as exc:
-        return RegistryResult(False, str(exc))
-    vr = validate_heartbeat(
-        record,
-        now,
-        hmac_key=hmac_key,
-        expected_node_id=expected_node_id,
-        last_sequence=last_sequence,
-    )
-    if not vr.valid:
-        return RegistryResult(False, vr.reason)
-    try:
-        _persist_sequence(path, int(record["sequence"]))
-    except OSError as exc:
-        return RegistryResult(False, f"heartbeat sequence persistence failed: {exc}")
     if current_status == "RETIRED":
         return RegistryResult(False, "retired node cannot reactivate")
-    return RegistryResult(True)
+    try:
+        sequence_path = _sequence_path(node_id, state_path)
+        sequence_path.parent.mkdir(parents=True, exist_ok=True)
+        with _lock_path(sequence_path).open("a+", encoding="utf-8") as lock_file:
+            try:
+                fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+            except OSError as exc:
+                return RegistryResult(False, f"heartbeat sequence lock failed: {exc}")
+            try:
+                last_sequence = _read_sequence(sequence_path)
+                vr = validate_heartbeat(
+                    record,
+                    now,
+                    hmac_key=hmac_key,
+                    expected_node_id=expected_node_id,
+                    last_sequence=last_sequence,
+                )
+                if not vr.valid:
+                    return RegistryResult(False, vr.reason)
+                _persist_sequence(sequence_path, int(record["sequence"]))
+                return RegistryResult(True)
+            except OSError as exc:
+                return RegistryResult(False, f"heartbeat sequence persistence failed: {exc}")
+            finally:
+                try:
+                    fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+                except OSError:
+                    pass
+    except (OSError, ValueError) as exc:
+        return RegistryResult(False, str(exc))
 
 def activate_from_heartbeat(current_status: str) -> str:
     return transition_node_state(current_status, "heartbeat")
