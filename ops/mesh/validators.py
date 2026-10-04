@@ -5,6 +5,8 @@ from datetime import datetime, timezone
 import re
 from typing import Any
 
+from .heartbeat_auth import verify_heartbeat
+
 HEX64 = re.compile(r"^[0-9a-fA-F]{64}$")
 
 @dataclass(frozen=True)
@@ -12,10 +14,8 @@ class ValidationResult:
     valid: bool
     reason: str = ""
 
-
 def _result(ok: bool, reason: str = "") -> ValidationResult:
     return ValidationResult(ok, reason)
-
 
 def validate_node(record: dict[str, Any]) -> ValidationResult:
     required = {"schema_version","node_id","role","status","capabilities","executors","artifact_transports","resources","last_heartbeat"}
@@ -30,7 +30,6 @@ def validate_node(record: dict[str, Any]) -> ValidationResult:
         return _result(False, "invalid resource profile")
     return _result(True)
 
-
 def validate_capability(record: dict[str, Any]) -> ValidationResult:
     required = {"schema_version","capability_id","provider","version","executable","identity_sha256","authority","qualification_state"}
     if not isinstance(record, dict) or not required.issubset(record):
@@ -43,30 +42,28 @@ def validate_capability(record: dict[str, Any]) -> ValidationResult:
         return _result(False, "invalid authority")
     return _result(True)
 
-
-def validate_heartbeat(record: dict[str, Any], now: datetime, max_age_seconds: int = 120) -> ValidationResult:
-    required = {"schema_version","node_id","issued_at","sequence","runtime_state","capability_digest","resource_summary"}
+def validate_heartbeat(
+    record: dict[str, Any],
+    now: datetime,
+    max_age_seconds: int = 120,
+    *,
+    hmac_key: str | None = None,
+    expected_node_id: str | None = None,
+    last_sequence: int | None = None,
+) -> ValidationResult:
+    required = {"schema_version","node_id","issued_at","sequence","runtime_state","capability_digest","resource_summary","auth_schema_version","signature"}
     if not isinstance(record, dict) or not required.issubset(record):
         return _result(False, "missing required heartbeat fields")
     if record["schema_version"] != "mediahub.mesh.heartbeat.v1":
         return _result(False, "unsupported heartbeat schema")
     if not HEX64.fullmatch(str(record["capability_digest"])):
         return _result(False, "invalid capability digest")
-    try:
-        issued = datetime.fromisoformat(record["issued_at"].replace("Z", "+00:00"))
-        if issued.tzinfo is None:
-            issued = issued.replace(tzinfo=timezone.utc)
-        age = (now.astimezone(timezone.utc) - issued.astimezone(timezone.utc)).total_seconds()
-    except (TypeError, ValueError):
-        return _result(False, "invalid heartbeat timestamp")
-    if age < -30:
-        return _result(False, "heartbeat timestamp is from the future")
-    if age > max_age_seconds:
-        return _result(False, "heartbeat is stale")
-    if not isinstance(record["sequence"], int) or record["sequence"] < 0:
-        return _result(False, "invalid heartbeat sequence")
+    key = hmac_key if hmac_key is not None else __import__("os").environ.get("ASTRA_COMMAND_HMAC_KEY", "")
+    expected = expected_node_id if expected_node_id is not None else ""
+    valid, reason = verify_heartbeat(record, key, expected, now, max_age_seconds, last_sequence)
+    if not valid:
+        return _result(False, reason)
     return _result(True)
-
 
 def validate_node_profile(record: dict[str, Any]) -> ValidationResult:
     required = {"schema_version","node_id","role","resources","capabilities","executors","artifact_transports","inventory_source"}
