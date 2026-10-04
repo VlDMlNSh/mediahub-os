@@ -5,7 +5,7 @@ MODULE=importlib.util.module_from_spec(SPEC); assert SPEC.loader is not None; SP
 
 class CommandSignerTests(unittest.TestCase):
     def command(self):
-        return {"schema_version":1,"command_id":"cmd-001","node_id":"mh-dev-01","operation":"health","target_sha":"bbc8475c43b2aeabc86906ebf31bb4a7afa2959a","workflow_only":True,"owned_paths":["control/commands/mh-dev-01.json"],"title":"health","description":"bounded health check","exclusive_actions":["execute"],"issued_at":int(time.time())}
+        return {"schema_version":"mediahub.astra.control-command.v1","command_id":"cmd-001","node_id":"mh-dev-01","operation":"health","target_sha":"bbc8475c43b2aeabc86906ebf31bb4a7afa2959a","workflow_only":True,"owned_paths":["control/commands/mh-dev-01.json"],"title":"health","description":"bounded health check","exclusive_actions":["execute"],"issued_at":int(time.time())}
     def test_signature_uses_hmac_sha256(self):
         command=self.command(); signed=MODULE.sign_command(command,"test-secret")
         expected=hmac.new(b"test-secret",MODULE.canonical_command_body(command),hashlib.sha256).hexdigest()
