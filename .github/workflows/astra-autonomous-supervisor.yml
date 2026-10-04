@@ -80,6 +80,7 @@ jobs:
           p=Path("control/commands")/f"{node}.json"
           p.parent.mkdir(parents=True, exist_ok=True)
           p.write_text(json.dumps({
+              "schema_version": "mediahub.astra.control-command.v1",
               "command_id": command_id,
               "node_id": node,
               "operation": "health",
