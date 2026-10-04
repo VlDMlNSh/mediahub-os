@@ -4,7 +4,7 @@
   "title": "MediaHub Mesh Heartbeat",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version","node_id","issued_at","sequence","runtime_state","capability_digest","resource_summary"],
+  "required": ["schema_version","node_id","issued_at","sequence","runtime_state","capability_digest","resource_summary","auth_schema_version","signature"],
   "properties": {
     "schema_version":{"const":"mediahub.mesh.heartbeat.v1"},
     "node_id":{"type":"string","minLength":1},
@@ -12,6 +12,8 @@
     "sequence":{"type":"integer","minimum":0},
     "runtime_state":{"type":"string","minLength":1},
     "capability_digest":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"},
-    "resource_summary":{"type":"object"}
+    "resource_summary":{"type":"object"},
+    "auth_schema_version":{"const":"mediahub.mesh.heartbeat.auth.v1"},
+    "signature":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"}
   }
 }

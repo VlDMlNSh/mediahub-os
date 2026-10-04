@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Any
 from .validators import validate_capability
@@ -19,8 +20,8 @@ def admit_executor(node: dict[str, Any], capability: dict[str, Any], policy: dic
     if not cv.valid:
         return AdmissionResult(False, cv.reason)
     authority = capability.get("authority")
-    if authority not in {"NONE", "EXECUTION"}:
-        return AdmissionResult(False, "unsupported capability authority")
+    if authority != "EXECUTION":
+        return AdmissionResult(False, "executor admission requires EXECUTION authority")
     cap_id = capability.get("capability_id")
     if cap_id in AUXILIARY_CAPABILITIES:
         if policy.get("provider_selection") is not False:
@@ -29,8 +30,7 @@ def admit_executor(node: dict[str, Any], capability: dict[str, Any], policy: dic
             return AdmissionResult(False, "auxiliary capability requires credential creation disabled")
         if capability.get("creates_credentials"):
             return AdmissionResult(False, "auxiliary capability cannot create credentials")
-        if authority != "NONE":
-            return AdmissionResult(False, "auxiliary capability authority must remain NONE")
+        return AdmissionResult(False, "auxiliary capability cannot receive EXECUTION authority")
     if policy.get("qualification_required", True) and capability.get("qualification_state") not in {"QUALIFIED", "PASS"}:
         return AdmissionResult(False, "qualification required")
     return AdmissionResult(True)
