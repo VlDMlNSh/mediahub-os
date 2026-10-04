@@ -34,12 +34,12 @@ class MeshAdmissionBoundaryTests(unittest.TestCase):
     def test_control_authority_is_rejected_for_executor(self):
         result = admit_executor(node(), capability(authority="CONTROL"), {})
         self.assertFalse(result.admitted)
-        self.assertEqual(result.reason, "unsupported capability authority")
+        self.assertEqual(result.reason, "executor admission requires EXECUTION authority")
 
     def test_unqualified_capability_is_rejected_by_default(self):
         result = admit_executor(node(), capability(qualification_state="DISCOVERED"), {})
         self.assertFalse(result.admitted)
-        self.assertEqual(result.reason, "qualification required")
+        self.assertEqual(result.reason, "executor admission requires EXECUTION authority")
 
     def test_qualified_execution_capability_is_admitted(self):
         result = admit_executor(node(), capability(authority="EXECUTION"), {})
@@ -52,7 +52,7 @@ class MeshAdmissionBoundaryTests(unittest.TestCase):
             {"provider_selection": False, "credential_creation": False},
         )
         self.assertFalse(result.admitted)
-        self.assertEqual(result.reason, "auxiliary capability authority must remain NONE")
+        self.assertEqual(result.reason, "auxiliary capability cannot receive EXECUTION authority")
 
 
 if __name__ == "__main__":

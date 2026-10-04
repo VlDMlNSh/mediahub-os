@@ -2,6 +2,7 @@ import unittest
 from datetime import datetime, timezone, timedelta
 
 from ops.mesh.registry import register_node, record_heartbeat
+from ops.mesh.heartbeat_auth import sign_heartbeat
 
 
 def node_record(status="DISCOVERED"):
@@ -67,7 +68,7 @@ class MeshRegistryContractTests(unittest.TestCase):
 
     def test_record_heartbeat_accepts_fresh_record(self):
         now = datetime.now(timezone.utc)
-        result = record_heartbeat(heartbeat(issued_at=now.isoformat()), now)
+        result = record_heartbeat(heartbeat(issued_at=now.isoformat()), now, expected_node_id="mh-test-01", hmac_key="test-key", state_path="/tmp/mediahub-test-seq-fresh")
         self.assertTrue(result.accepted)
 
 
