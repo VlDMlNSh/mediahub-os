@@ -22,8 +22,8 @@ concurrency:
 
 jobs:
   supervise:
-    runs-on: [self-hosted, astra-control]
-    timeout-minutes: 60
+    runs-on: [self-hosted, mediahub-runner]
+    timeout-minutes: 90
     env:
       ASTRA_ONESHOT: "1"
       ASTRA_AUTONOMOUS_MAX_CYCLES: "5"
@@ -42,34 +42,15 @@ jobs:
           set -euo pipefail
           host="$(hostname)"
           user="$(id -un)"
-          case "$host" in
-            mh-dev-01)
-              test "$user" = "mediahub-runner"
-              node_id="mh-dev-01"
-              canonical_worktree="/home/mediahub/astra-work"
-              ;;
-            mh-dev-02)
-              test "$user" = "mediahub"
-              node_id="mh-dev-02"
-              canonical_worktree="/home/mediahub/astra-work"
-              ;;
-            Voktors-Mini.Dlink)
-              test "$user" = "voktor"
-              node_id="Voktors-Mac-mini.local"
-              canonical_worktree="/Users/voktor/astra-work"
-              ;;
-            *)
-              echo "BLOCK: unrecognized runner hostname: $host"
-              exit 1
-              ;;
-          esac
+          test "$host" = "mh-dev-01"
+          test "$user" = "mediahub-runner"
           {
-            echo "ASTRA_NODE_ID=$node_id"
-            echo "ASTRA_CANONICAL_WORKTREE=$canonical_worktree"
+            echo "ASTRA_NODE_ID=mh-dev-01"
+            echo "ASTRA_CANONICAL_WORKTREE=/home/mediahub/astra-work"
           } >> "$GITHUB_ENV"
           mkdir -p "$ASTRA_STATE_DIR"
 
-      - name: Materialize fresh node-bound health command
+      - name: Materialize fresh autonomous qualification command
         shell: bash
         run: |
           set -euo pipefail
@@ -77,19 +58,19 @@ jobs:
           import json, os, time
           from pathlib import Path
           node=os.environ["ASTRA_NODE_ID"]
-          command_id=f"MH-MESH-FRESH-HEALTH-{node}-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          command_id=f"MH-AUTONOMOUS-GOLD-{node}-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
           p=Path("control/commands")/f"{node}.json"
           p.parent.mkdir(parents=True, exist_ok=True)
           p.write_text(json.dumps({
               "schema_version": "mediahub.astra.control-command.v1",
               "command_id": command_id,
               "node_id": node,
-              "operation": "health",
+              "operation": "autonomous_gold_mission",
               "target_sha": os.environ["GITHUB_SHA"],
               "workflow_only": False,
-              "owned_paths": [f"control/results/{node}.json"],
-              "title": f"Fresh {node} transport and canonical checkout health",
-              "description": "Synchronize the canonical Astra worktree from main, execute one fresh authenticated control command, publish node-bound health evidence, and release the claim.",
+              "owned_paths": ["architecture", "ops/agent-fabric", "ops/qualification", "control/qualification"],
+              "title": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
+              "description": "Run the canonical autonomous qualification queue, generate fresh evidence, and advance only through fail-closed A0-A3 qualification gates. Never bypass launch authority.",
               "exclusive_actions": ["execute"],
               "issued_at": int(time.time()),
           }, indent=2)+"\n", encoding="utf-8")
@@ -112,7 +93,7 @@ jobs:
           set -euo pipefail
           git fetch origin "+astra-node/${ASTRA_NODE_ID}:refs/remotes/origin/astra-node/${ASTRA_NODE_ID}"
 
-      - name: Execute fresh mission in isolated workflow worker
+      - name: Execute autonomous qualification wave
         shell: bash
         env:
           ASTRA_WORKTREE: "${{ github.workspace }}"
@@ -141,47 +122,35 @@ jobs:
           import json
           import os
           d=json.load(open("/tmp/astra-result.json"))
-          expected_command_id=f"MH-MESH-FRESH-HEALTH-{os.environ['ASTRA_NODE_ID']}-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          expected_command_id=f"MH-AUTONOMOUS-GOLD-{os.environ['ASTRA_NODE_ID']}-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          result=d.get("result",{})
           print(json.dumps({
               "command_id": d.get("command_id"),
               "node_id": d.get("node_id"),
               "returncode": d.get("returncode"),
-              "phase": d.get("result",{}).get("phase"),
-              "status": d.get("result",{}).get("status"),
-              "cycles": len(d.get("result",{}).get("steps",[])),
+              "phase": result.get("phase"),
+              "status": result.get("status"),
+              "cycles": len(result.get("steps",[])),
               "execution_head": d.get("execution_head"),
           }, sort_keys=True))
           assert d.get("command_id") == expected_command_id
           assert d.get("node_id") == os.environ["ASTRA_NODE_ID"]
           assert d.get("target_sha") == os.environ["GITHUB_SHA"]
           assert d.get("returncode") == 0
-          result=d.get("result",{})
           phase=result.get("phase")
           status=result.get("status")
-          assert phase == "health" or status == "ready"
-          result=d.get("result",{})
-          phase=result.get("phase")
-          structured=(result.get("qualification") or result.get("inventory") or {})
-          assert (
-              phase == "health" or status == "ready"
-              or phase in {
-                  "execution_backend_qualification",
-                  "pre_soak_evidence",
-                  "strict_pre_soak_verification",
-                  "distributed_verification",
-                  "gold_qualification",
-                  "local_component_inventory",
-                  "local_component_qualification",
-                  "local_ai_capability_qualification",
-                  "codex_gateway_diagnostic",
-                  "target_reconciliation",
-                  "autonomous_retry_window_exhausted",
-              }
-              or isinstance(structured,dict) and structured.get("schema") in {
-                  "mediahub.provider-model-qualification.v1",
-                  "mediahub.local-component-qualification.v1",
-                  "mediahub.local-component-inventory.v1",
-                  "mediahub.local-ai-capability-qualification.v1",
-              }
-          )
+          assert phase in {
+              "execution_backend_qualification",
+              "pre_soak_evidence",
+              "strict_pre_soak_verification",
+              "distributed_verification",
+              "gold_qualification",
+              "local_component_inventory",
+              "local_component_qualification",
+              "local_ai_capability_qualification",
+              "codex_gateway_diagnostic",
+              "target_reconciliation",
+              "autonomous_retry_window_exhausted",
+              "health",
+          } or status == "ready"
           PY
