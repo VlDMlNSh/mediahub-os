@@ -1,0 +1,26 @@
+name: Astra runner admission probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/astra-runner-admission-probe.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: self-hosted
+    timeout-minutes: 5
+    steps:
+      - name: Verify canonical runner admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "hostname=$(hostname)"
+          echo "user=$(id -un)"
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          echo "RUNNER_ADMISSION_PASS"
