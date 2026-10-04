@@ -6,7 +6,7 @@ from ops.mesh.heartbeat_auth import sign_heartbeat
 
 
 def node_record(status="DISCOVERED"):
-    return {
+    return sign_heartbeat({
         "schema_version": "mediahub.mesh.node.v1",
         "node_id": "mh-test-01",
         "role": "worker",
@@ -28,7 +28,7 @@ def heartbeat(node_id="mh-test-01", sequence=1, issued_at=None):
         "runtime_state": "READY",
         "capability_digest": "a" * 64,
         "resource_summary": {"ram_gib": 16},
-    }
+    }, "test-key")
 
 
 class MeshRegistryContractTests(unittest.TestCase):
@@ -52,7 +52,7 @@ class MeshRegistryContractTests(unittest.TestCase):
         result = record_heartbeat(
             heartbeat(),
             datetime.now(timezone.utc),
-            current_status="RETIRED",
+            current_status="RETIRED", expected_node_id="mh-test-01", hmac_key="test-key", state_path="/tmp/mediahub-test-seq-retired",
         )
         self.assertFalse(result.accepted)
         self.assertEqual(result.reason, "retired node cannot reactivate")
@@ -61,7 +61,7 @@ class MeshRegistryContractTests(unittest.TestCase):
         now = datetime.now(timezone.utc)
         result = record_heartbeat(
             heartbeat(issued_at=(now - timedelta(seconds=121)).isoformat()),
-            now,
+            now, expected_node_id="mh-test-01", hmac_key="test-key", state_path="/tmp/mediahub-test-seq-stale",
         )
         self.assertFalse(result.accepted)
         self.assertEqual(result.reason, "heartbeat is stale")
