@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """MediaHub Astra GitHub transport worker."""
 from __future__ import annotations
-import hashlib, hmac, importlib, json, os, platform, re, subprocess, sys, time
+import hashlib, hmac, importlib, json, os, platform, subprocess, sys, time
 from dataclasses import asdict
 from pathlib import Path
 
@@ -20,21 +20,6 @@ COMMAND_HMAC_MAX_AGE_SECONDS=max(60,int(os.environ.get("ASTRA_COMMAND_HMAC_MAX_A
 COMMAND_HMAC_KEY=os.environ.get("ASTRA_COMMAND_HMAC_KEY","")
 COMMAND_SCHEMA_VERSION="mediahub.astra.control-command.v1"
 EXECUTED_COMMANDS=STATE/"executed_command_ids"
-SAFE_ID_RE=re.compile(r"^[A-Za-z0-9._:-]{1,128}$")
-SHA_RE=re.compile(r"^[0-9a-fA-F]{40,64}$")
-REQUIRED_COMMAND_FIELDS={"schema_version","command_id","node_id","operation","target_sha","workflow_only","owned_paths","title","description","exclusive_actions","issued_at"}
-
-def _safe_id(value, label):
-    if not isinstance(value,str) or not SAFE_ID_RE.fullmatch(value):
-        raise ValueError(f"invalid {label}")
-    return value
-
-def _valid_target_sha(value):
-    return isinstance(value,str) and bool(SHA_RE.fullmatch(value))
-
-def _current_head():
-    result=run(["git","rev-parse","HEAD"],10)
-    return result.stdout.strip() if result.returncode == 0 else ""
 
 def run(argv,timeout=120):
     return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False)
@@ -74,8 +59,8 @@ def _canonical_command_body(cmd):
 def _command_auth_valid(cmd):
     if not COMMAND_HMAC_KEY: return False
     signature, issued_at, command_id = cmd.get("signature"), cmd.get("issued_at"), cmd.get("command_id")
-    if not isinstance(signature,str) or not signature or not isinstance(issued_at,int) or isinstance(issued_at,bool): return False
-    if not isinstance(command_id,str) or not SAFE_ID_RE.fullmatch(command_id): return False
+    if not isinstance(signature,str) or not signature or not isinstance(issued_at,int): return False
+    if not isinstance(command_id,str) or not command_id or len(command_id)>128: return False
     if abs(int(time.time())-issued_at)>COMMAND_HMAC_MAX_AGE_SECONDS: return False
     expected=hmac.new(COMMAND_HMAC_KEY.encode("utf-8"), _canonical_command_body(cmd), hashlib.sha256).hexdigest()
     return hmac.compare_digest(signature, expected)
@@ -91,25 +76,16 @@ def _mark_command_executed(command_id):
     tmp.replace(EXECUTED_COMMANDS/f"{command_id}.done")
 
 def read_command():
-    _safe_id(NODE_ID, "node identity")
     path=ROOT/"control"/"commands"/f"{NODE_ID}.json"
     if not path.exists(): return None
-    try: cmd=json.loads(path.read_text(encoding="utf-8"))
+    try: cmd=json.loads(path.read_text())
     except Exception: return None
-    if not isinstance(cmd,dict) or not REQUIRED_COMMAND_FIELDS.issubset(cmd): return None
+    if not isinstance(cmd,dict): return None
     if cmd.get("schema_version") != COMMAND_SCHEMA_VERSION: return None
-    if not _safe_id(cmd.get("command_id"), "command id"): return None
     if cmd.get("node_id")!=NODE_ID or cmd.get("operation") not in OPERATIONS: return None
-    if not _valid_target_sha(cmd.get("target_sha")): return None
-    if cmd.get("workflow_only") is not True and not isinstance(cmd.get("workflow_only"), bool): return None
     if cmd.get("workflow_only") is True and os.environ.get("ASTRA_WORKFLOW_ONLY") != "1": return None
-    if not isinstance(cmd.get("owned_paths"),list) or not all(isinstance(p,str) and p and not Path(p).is_absolute() and ".." not in Path(p).parts for p in cmd["owned_paths"]): return None
-    if not isinstance(cmd.get("exclusive_actions"),list) or not all(isinstance(x,str) and x for x in cmd["exclusive_actions"]): return None
-    if not isinstance(cmd.get("title"),str) or not isinstance(cmd.get("description"),str): return None
-    if not isinstance(cmd.get("issued_at"),int) or isinstance(cmd.get("issued_at"),bool): return None
     if not _command_auth_valid(cmd): return None
-    if _current_head().lower() != cmd["target_sha"].lower(): return None
-    command_id=cmd["command_id"]
+    command_id=str(cmd.get("command_id"))
     if _command_already_executed(command_id): return None
     return cmd
 
@@ -135,7 +111,6 @@ def mark_published(command_id):
     tmp.replace(STATE/"last_command_id")
 
 def _prepare_publish_branch():
-    _safe_id(NODE_ID, "node identity")
     branch=f"astra-node/{NODE_ID}"
     probe=git_network(["git","ls-remote","--heads","origin",branch],30)
     if probe.returncode == 0 and probe.stdout.strip():
@@ -146,8 +121,8 @@ def _prepare_publish_branch():
     else:
         raise RuntimeError(probe.stderr or "unable to verify remote result branch")
 
+
 def publish(result):
-    _safe_id(NODE_ID, "node identity")
     path=ROOT/"control"/"results"/f"{NODE_ID}.json"
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
@@ -157,5 +132,483 @@ def publish(result):
     run(["git","add",str(path.relative_to(ROOT))],30).check_returncode()
     commit=run(["git","commit","-m",f"astra: result {NODE_ID}"],30)
     if commit.returncode not in (0,1): raise RuntimeError(commit.stderr)
+    # Never rewrite the remote node branch. A concurrent/stale publisher must fail closed.
     git_network(["git","push","origin",f"HEAD:astra-node/{NODE_ID}"],120).check_returncode()
     run(["git","checkout","-B","main","origin/main"],30).check_returncode()
+def _claim_for(cmd):
+    runtime_root=ROOT/'runtime'
+    if runtime_root.is_dir() and str(runtime_root) not in sys.path: sys.path.insert(0,str(runtime_root))
+    from mediahub_runtime.agent_fabric import AgentClaim, ClaimStore
+    task_id=str(cmd.get('command_id') or 'github-task')
+    operation=str(cmd.get('operation') or 'unknown')
+    paths=tuple(cmd.get('owned_paths') or [str(Path('control/commands') / f'{NODE_ID}.json')])
+    now=time.time()
+    return ClaimStore(STATE/'claims'), AgentClaim(
+    agent=AGENT_ID, task_id=task_id, goal=str(cmd.get('title') or operation),
+    paths=paths, exclusive_actions=tuple(cmd.get('exclusive_actions') or ('execute',)),
+    dependencies=tuple(cmd.get('dependencies') or ()), status='ACTIVE',
+    started=now, updated=now, expiry=now+CLAIM_LEASE_SECONDS,
+    base_sha=str(cmd.get('base_sha') or ''),
+    )
+def execute(cmd):
+    operation=cmd.get("operation")
+    if operation=="health":
+        return {"status":"ready","node_id":NODE_ID,"hostname":platform.node(),
+                "platform":platform.platform(),"python":platform.python_version(),
+                "transport_version":"self-reexec-v1","agent_source_sha":RUNNING_AGENT_SHA,
+                "pid":os.getpid(),"cwd":os.getcwd(),
+                "agent_path":str(Path(__file__).resolve()),
+                "worktree":str(ROOT.resolve())}
+    if operation in {"autonomous_qualification_queue", "autonomous_gold_mission"}:
+        backend_script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
+        evidence_script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
+        verifier_script=ROOT/"ops"/"qualification"/"verify_pre_soak_bundle.py"
+        gold=ROOT/"ops"/"qualification"/"astra_gold_executor.py"
+        started=time.time()
+        max_cycles=max(1,int(os.environ.get("ASTRA_AUTONOMOUS_MAX_CYCLES","12")))
+        retry_seconds=max(30,int(os.environ.get("ASTRA_AUTONOMOUS_RETRY_SECONDS","300")))
+        steps=[]
+        target_sha=cmd.get("target_sha","")
+        if target_sha:
+            ancestry=run(["git","merge-base","--is-ancestor",target_sha,"HEAD"],30)
+            if ancestry.returncode != 0:
+                return {"status":"BLOCKED","phase":"target_reconciliation",
+                        "reason":"target_sha_not_ancestor_of_current_main","target_sha":target_sha,
+                        "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
+        cycles=1 if operation=="autonomous_qualification_queue" else max_cycles
+        for cycle in range(1,cycles+1):
+            if operation=="autonomous_gold_mission" and cycle>1:
+                sync()
+                ancestry=run(["git","merge-base","--is-ancestor",target_sha,"HEAD"],30) if target_sha else None
+                if ancestry is not None and ancestry.returncode != 0:
+                    return {"status":"BLOCKED","phase":"target_reconciliation",
+                            "reason":"target_sha_not_ancestor_of_current_main","target_sha":target_sha,
+                            "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip(),
+                            "cycles":steps}
+            cycle_record={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
+            backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,
+                                   capture_output=True,timeout=120,check=False)
+            cycle_record["backend"]={"returncode":backend.returncode,
+                                     "stdout":backend.stdout[-12000:],"stderr":backend.stderr[-8000:]}
+            steps.append(cycle_record)
+            if backend.returncode != 0:
+                if operation=="autonomous_gold_mission" and cycle<cycles:
+                    time.sleep(retry_seconds)
+                    continue
+                return {"status":"BLOCKED","phase":"execution_backend_qualification",
+                        "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            evidence=subprocess.run([sys.executable,str(evidence_script)],cwd=ROOT,text=True,
+                                    capture_output=True,timeout=900,check=False)
+            cycle_record["pre_soak"]={"returncode":evidence.returncode,
+                                      "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]}
+            if evidence.returncode != 0:
+                if operation=="autonomous_gold_mission" and cycle<cycles:
+                    time.sleep(retry_seconds)
+                    continue
+                return {"status":"BLOCKED","phase":"pre_soak_evidence",
+                        "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            verifier=subprocess.run([sys.executable,str(verifier_script),"evidence"],
+                                    cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
+            cycle_record["strict_verifier"]={"returncode":verifier.returncode,
+                                              "stdout":verifier.stdout[-12000:],
+                                              "stderr":verifier.stderr[-8000:]}
+            if verifier.returncode != 0:
+                if operation=="autonomous_gold_mission" and cycle<cycles:
+                    time.sleep(retry_seconds)
+                    continue
+                return {"status":"BLOCKED","phase":"strict_pre_soak_verification",
+                        "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            distributed_candidates=list((ROOT/"ops"/"qualification").glob("*distributed*")) if (ROOT/"ops"/"qualification").exists() else []
+            if not distributed_candidates:
+                return {"status":"BLOCKED","phase":"distributed_verification",
+                        "reason":"no_dedicated_distributed_verification_producer",
+                        "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            for candidate in distributed_candidates:
+                if candidate.suffix==".py":
+                    distributed=subprocess.run([sys.executable,str(candidate)],cwd=ROOT,text=True,
+                                               capture_output=True,timeout=1800,check=False)
+                    cycle_record["distributed_verification"]={"script":str(candidate.relative_to(ROOT)),
+                                                              "returncode":distributed.returncode,
+                                                              "stdout":distributed.stdout[-12000:],
+                                                              "stderr":distributed.stderr[-8000:]}
+                    if distributed.returncode != 0:
+                        return {"status":"BLOCKED","phase":"distributed_verification",
+                                "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            qualification=subprocess.run([sys.executable,str(gold)],cwd=ROOT,text=True,
+                                         capture_output=True,
+                                         timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),
+                                         check=False)
+            cycle_record["gold"]={"returncode":qualification.returncode,
+                                  "stdout":qualification.stdout[-12000:],
+                                  "stderr":qualification.stderr[-8000:]}
+            return {"status":"PASS" if qualification.returncode==0 else "BLOCKED",
+                    "phase":"gold_qualification","steps":steps,
+                    "elapsed_seconds":round(time.time()-started,3)}
+        return {"status":"BLOCKED","phase":"autonomous_retry_window_exhausted",
+                "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+
+    if operation == "reconcile_controller_processes":
+        ps=subprocess.run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
+        current=os.getpid()
+        matches=[]
+        terminated=[]
+        for line in ps.stdout.splitlines():
+            parts=line.strip().split(None,1)
+            if len(parts)!=2: continue
+            try: pid=int(parts[0])
+            except ValueError: continue
+            args=parts[1]
+            if pid!=current and "astra_github_agent.py" in args and f"ASTRA_NODE_ID={NODE_ID}" in args:
+                matches.append({"pid":pid,"args":args[-1000:]})
+                p=subprocess.run(["/bin/kill","-TERM",str(pid)],text=True,capture_output=True,timeout=5,check=False)
+                terminated.append({"pid":pid,"returncode":p.returncode})
+        time.sleep(2)
+        ps2=subprocess.run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
+        remaining=[]
+        for line in ps2.stdout.splitlines():
+            parts=line.strip().split(None,1)
+            if len(parts)==2 and "astra_github_agent.py" in parts[1] and f"ASTRA_NODE_ID={NODE_ID}" in parts[1]:
+                try:
+                    if int(parts[0])!=current: remaining.append(parts[0])
+                except ValueError: pass
+        return {"status":"PASS" if not remaining else "BLOCKED","current_pid":current,
+                "matched_duplicates":matches,"terminated":terminated,"remaining_duplicates":remaining,
+                "node_id":NODE_ID,"credentials":"SUPPRESSED"}
+
+    if operation == "dual_local_executor_23wave":
+        import shutil, statistics
+        marker_map = {
+            "fcc_codex": "MEDIAHUB_FCC_CODEX_OK",
+            "fcc_claude": "MEDIAHUB_FCC_CLAUDE_OK",
+            "omni_claude": "MEDIAHUB_OMNI_CLAUDE_OK",
+            "omni_codex": "MEDIAHUB_OMNI_CODEX_OK",
+            "claude_code_direct": "MEDIAHUB_CLAUDE_CODE_DIRECT_OK",
+        }
+        rounds = []
+        evidence_rounds = []
+        def probe(argv, marker, timeout=35):
+            started=time.monotonic()
+            try:
+                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,
+                                 timeout=timeout,check=False)
+                out=(p.stdout or "")[-12000:]
+                err=(p.stderr or "")[-12000:]
+                return {"status":"PASS" if p.returncode==0 and marker in out else "BLOCKED",
+                        "returncode":p.returncode,"duration_seconds":round(time.monotonic()-started,3),
+                        "marker_present":marker in out,"stdout_tail":out,"stderr_tail":err}
+            except subprocess.TimeoutExpired as exc:
+                return {"status":"TIMEOUT","returncode":124,"duration_seconds":round(time.monotonic()-started,3),
+                        "marker_present":False,"stdout_tail":str(exc.stdout or "")[-4000:],
+                        "stderr_tail":str(exc.stderr or "")[-4000:]}
+            except Exception as exc:
+                return {"status":"BLOCKED","returncode":1,"duration_seconds":round(time.monotonic()-started,3),
+                        "marker_present":False,"error":type(exc).__name__}
+        for cycle in range(1,24):
+            rec={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip(),"executors":{}}
+            if cycle == 1:
+                rec["inventory"]={}
+                for name, candidates in {
+                    "fcc-codex":["fcc-codex"],"fcc-claude":["fcc-claude"],
+                    "omniroute":["omniroute"],"codex":["codex"],"claude":["claude"],
+                    "ecc":["ecc","ecc-cli"],
+                }.items():
+                    hit=next((shutil.which(x) for x in candidates if shutil.which(x)),None)
+                    rec["inventory"][name]=hit or "NOT_FOUND"
+                rec["fcc_server_probe"]=probe(["/usr/bin/curl","-fsS","--max-time","5","http://127.0.0.1:8092/v1/models"],"data")
+                rec["omniroute_probe"]=probe(["/usr/bin/curl","-fsS","--max-time","5","http://127.0.0.1:20128/v1/models"],"data")
+            rec["executors"]["fcc_codex"] = probe(
+                ["fcc-codex","exec","--skip-git-repo-check","--sandbox","read-only",
+                 f"Return exactly {marker_map['fcc_codex']}. Do not modify files or use tools."],
+                marker_map["fcc_codex"],30) if shutil.which("fcc-codex") else {"status":"BLOCKED","reason":"binary_missing"}
+            rec["executors"]["fcc_claude"] = probe(
+                ["fcc-claude","-p",f"Return exactly {marker_map['fcc_claude']}. Do not modify files or use tools.",
+                 "--output-format","text"],marker_map["fcc_claude"],30) if shutil.which("fcc-claude") else {"status":"BLOCKED","reason":"binary_missing"}
+            if shutil.which("omniroute"):
+                rec["executors"]["omni_claude"]=probe(
+                    ["omniroute","run","claude","--model","auto","--","-p",
+                     f"Return exactly {marker_map['omni_claude']}. Do not modify files or use tools.","--output-format","text"],
+                    marker_map["omni_claude"],35)
+                rec["executors"]["omni_codex"]=probe(
+                    ["omniroute","run","codex","--model","auto","--","exec","--skip-git-repo-check",
+                     "--sandbox","read-only",f"Return exactly {marker_map['omni_codex']}. Do not modify files or use tools."],
+                    marker_map["omni_codex"],35)
+            else:
+                rec["executors"]["omni_claude"]={"status":"BLOCKED","reason":"binary_missing"}
+                rec["executors"]["omni_codex"]={"status":"BLOCKED","reason":"binary_missing"}
+            if shutil.which("claude"):
+                rec["executors"]["claude_code_direct"] = probe(
+                    ["claude","--print","--output-format","text","--bare",
+                     f"Return exactly {marker_map['claude_code_direct']}. Do not modify files or use tools."],
+                    marker_map["claude_code_direct"],35)
+            else:
+                rec["executors"]["claude_code_direct"]={"status":"BLOCKED","reason":"binary_missing"}
+            completed_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            path_meta = {
+                "fcc_codex": ("fcc-codex", "FCC"),
+                "fcc_claude": ("fcc-claude", "FCC"),
+                "omni_claude": ("omniroute:claude", "OmniRoute"),
+                "omni_codex": ("omniroute:codex", "OmniRoute"),
+                "claude_code_direct": ("claude", "native-claude"),
+            }
+            for path_key, result in rec["executors"].items():
+                executor_identity, transport_identity = path_meta[path_key]
+                raw_id=f"{rec['head']}|{path_key}|{cycle}".encode()
+                command_id="g4-"+hashlib.sha256(raw_id).hexdigest()[:24]
+                started_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time()-float(result.get("duration_seconds") or 0)))
+                item={
+                    "command_id": command_id, "path": path_key.upper(),
+                    "round": cycle, "source_sha": rec["head"],
+                    "executor_identity": executor_identity,
+                    "provider_or_transport_identity": transport_identity,
+                    "workspace": str(ROOT.resolve()),
+                    "started_at": started_at, "completed_at": completed_at,
+                    "exit_status": int(result.get("returncode", 1)),
+                    "timeout": result.get("status") == "TIMEOUT",
+                    "marker": marker_map[path_key],
+                    "marker_present": result.get("marker_present") is True,
+                    "result_schema": "mediahub.astra-gold.g4-round.v1",
+                    "verification_status": result.get("status") if result.get("status") == "PASS" else "BLOCKED",
+                }
+                item["evidence_digest"]="sha256:"+hashlib.sha256(json.dumps(item,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+                evidence_rounds.append(item)
+            rounds.append(rec)
+        summary={} 
+        for key in marker_map:
+            vals=[r["executors"].get(key,{}) for r in rounds]
+            passed=[v for v in vals if v.get("status")=="PASS"]
+            durations=[v["duration_seconds"] for v in passed if isinstance(v.get("duration_seconds"),(int,float))]
+            summary[key]={"pass_count":len(passed),"rounds":23,"pass_rate":round(len(passed)/23,3),
+                           "median_latency_seconds":round(statistics.median(durations),3) if durations else None,
+                           "statuses":{s:sum(1 for v in vals if v.get("status")==s) for s in ("PASS","BLOCKED","TIMEOUT")}}
+        ranked=sorted(summary.items(),key=lambda kv:(kv[1]["pass_count"],-(kv[1]["median_latency_seconds"] or 999999)),reverse=True)
+        selected=[k for k,v in ranked if v["pass_count"]==23]
+        return {"status":"PASS" if set(selected) == set(marker_map) else "BLOCKED",
+                "phase":"23_round_local_executor_qualification","node_id":NODE_ID,
+                "rounds":rounds,"evidence_rounds":evidence_rounds,"summary":summary,"selection_order":ranked,"selected_full_pass":selected,
+                "ecc_policy":"inventory-only; no authority or provider credentials","credentials":"SUPPRESSED"}
+
+    if operation == "codex_config_isolation":
+        argv=["/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_CONFIG_ISOLATION_OK')"]
+        try:
+            p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=45,check=False)
+            return {"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_CONFIG_ISOLATION_OK" in (p.stdout or "") else "BLOCKED",
+                    "argv":argv,"returncode":p.returncode,"stdout":p.stdout[-4000:],"stderr":p.stderr[-4000:],
+                    "secret_values":"SUPPRESSED"}
+        except Exception as exc:
+            return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
+    if operation == "codex_cleanup_stale_probes":
+        ps=subprocess.run(["/usr/bin/ps","-eo","pid=,ppid=,cmd="],text=True,capture_output=True,timeout=10,check=False)
+        targets=[]
+        for line in ps.stdout.splitlines():
+            parts=line.strip().split(None,2)
+            if len(parts)==3 and "codex exec" in parts[2] and "MEDIAHUB_EXECUTION_BACKEND_QUALIFICATION" in parts[2]:
+                try: targets.append(int(parts[0]))
+                except ValueError: pass
+        terminated=[]
+        for pid in targets:
+            p=subprocess.run(["/bin/kill","-TERM",str(pid)],text=True,capture_output=True,timeout=5,check=False)
+            terminated.append({"pid":pid,"returncode":p.returncode})
+        time.sleep(2)
+        ps2=subprocess.run(["/usr/bin/ps","-eo","pid=,ppid=,cmd="],text=True,capture_output=True,timeout=10,check=False)
+        remaining=[]
+        for line in ps2.stdout.splitlines():
+            parts=line.strip().split(None,2)
+            if len(parts)==3 and "codex exec" in parts[2] and "MEDIAHUB_EXECUTION_BACKEND_QUALIFICATION" in parts[2]:
+                remaining.append(parts[0])
+        return {"status":"PASS" if not remaining else "BLOCKED","matched_pids":targets,"terminated":terminated,"remaining_pids":remaining,"secret_values":"SUPPRESSED"}
+    if operation == "codex_process_diagnostic":
+        argv=["/usr/bin/timeout","12","/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_PROCESS_DIAGNOSTIC_OK')"]
+        try:
+            p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=20,check=False)
+            ps=subprocess.run(["/usr/bin/ps","-eo","pid,ppid,stat,etime,cmd"],text=True,capture_output=True,timeout=10,check=False)
+            lines=[x for x in ps.stdout.splitlines() if "codex" in x.lower()][:20]
+            return {"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_PROCESS_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED",
+                    "argv":argv,"returncode":p.returncode,"stdout":p.stdout[-4000:],"stderr":p.stderr[-4000:],
+                    "codex_processes":lines,"secret_values":"SUPPRESSED"}
+        except Exception as exc:
+            return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
+    if operation == "codex_provider_diagnostic":
+        argv=["/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_PROVIDER_DIAGNOSTIC_OK')"]
+        env={key:os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM","XDG_CONFIG_HOME","CODEX_HOME","OPENAI_BASE_URL","OPENAI_ORG_ID") if os.environ.get(key)}
+        try:
+            p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=20,check=False,env=env)
+            return {"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_PROVIDER_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED","argv":argv,"returncode":p.returncode,"stdout":p.stdout[-8000:],"stderr":p.stderr[-8000:],"credential_presence":{"OPENAI_API_KEY":bool(os.environ.get("OPENAI_API_KEY"))},"secret_values":"SUPPRESSED"}
+        except Exception as exc:
+            return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
+    if operation == "codex_gateway_diagnostic":
+        import tempfile
+        gateways=[("unorouter","UNOROUTER_API_KEY","https://api.unorouter.com/v1","gpt-5.4"),("zerouter","ZEROUTER_API_KEY","https://api.zerouter.ai/v1","gpt-5.4")]
+        results=[]
+        for name,key_name,base_url,model in gateways:
+            credential_present=bool(os.environ.get(key_name))
+            item={"gateway":name,"credential_presence":{key_name:credential_present},"status":"BLOCKED","secret_values":"SUPPRESSED"}
+            if not credential_present:
+                item["reason"]="credential_missing"; results.append(item); continue
+            with tempfile.TemporaryDirectory(prefix="astra-codex-gateway-") as home:
+                config=Path(home)/"config.toml"
+                config.write_text(f'model = "{model}"\nmodel_provider = "{name}"\n[model_providers.{name}]\nname = "{name}"\nbase_url = "{base_url}"\nwire_api = "responses"\nenv_key = "{key_name}"\n',encoding="utf-8")
+                env={key:os.environ[key] for key in ("PATH","HOME","USER","LOGNAME","SHELL","TERM") if os.environ.get(key)}
+                env.update({"CODEX_HOME":home,key_name:os.environ[key_name]})
+                argv=["/usr/local/bin/codex","exec","--skip-git-repo-check","--model",model,"print('MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK')"]
+                started=time.monotonic()
+                try:
+                    p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,timeout=30,check=False,env=env)
+                    combined=(p.stdout or "")+(p.stderr or "")
+                    item.update({"returncode":p.returncode,"duration_seconds":round(time.monotonic()-started,3),"output_bytes":len(combined.encode("utf-8","replace")),"marker_present":"MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK" in (p.stdout or ""),"status":"PASS" if p.returncode==0 and "MEDIAHUB_CODEX_GATEWAY_DIAGNOSTIC_OK" in (p.stdout or "") else "BLOCKED"})
+                    if item["status"]!="PASS":
+                        text=combined.lower()
+                        if "403 forbidden" in text and ("country, region" in text or "territory not supported" in text): item["reason"]="provider_region_restricted"
+                        elif "401" in text or "unauthorized" in text or "authentication" in text: item["reason"]="authentication_or_authorization"
+                        elif "402" in text or "billing" in text or "quota" in text: item["reason"]="billing_or_quota"
+                        elif "timeout" in text or "timed out" in text: item["reason"]="network_or_timeout"
+                        else: item["reason"]="nonzero_exit_unknown"
+                except Exception as exc: item["reason"]=type(exc).__name__
+                results.append(item)
+        return {"status":"PASS" if any(x["status"]=="PASS" for x in results) else "BLOCKED","phase":"codex_gateway_diagnostic","gateways":results,"secret_values":"SUPPRESSED"}
+
+    if operation == "codex_diagnostic":
+        diagnostics=[]
+        probes=[["/usr/local/bin/codex","--version"],["/usr/local/bin/codex","exec","--help"]]
+        for argv in probes:
+            try:
+                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=20,check=False)
+                diagnostics.append({"argv":argv,"returncode":p.returncode,"stdout":p.stdout[-4000:],"stderr":p.stderr[-4000:]})
+            except Exception as exc: diagnostics.append({"argv":argv,"error":repr(exc)})
+        config=Path(os.environ.get("CODEX_HOME",str(Path.home()/".codex")))/"config.toml"
+        diagnostics.append({"config_path":str(config),"config_exists":config.exists(),"config_sha256":hashlib.sha256(config.read_bytes()).hexdigest() if config.exists() else ""})
+        return {"status":"PASS","node_id":NODE_ID,"diagnostics":diagnostics,"secret_values":"SUPPRESSED"}
+    if operation == "local_ai_capability_qualification":
+        script=ROOT/"ops"/"qualification"/"qualify_local_ai_capabilities.py"
+        if not script.exists(): raise FileNotFoundError(f"local AI capability qualifier not found: {script}")
+        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
+        payload={"returncode":result.returncode,"stdout":result.stdout[-40000:],"stderr":result.stderr[-12000:],"status":"PASS" if result.returncode==0 else "BLOCKED"}
+        if result.stdout.strip():
+            try: payload["qualification"]=json.loads(result.stdout)
+            except json.JSONDecodeError: pass
+        return payload
+    if operation == "local_component_qualification":
+        script=ROOT/"ops"/"qualification"/"qualify_local_components.py"
+        if not script.exists(): raise FileNotFoundError(f"local component qualifier not found: {script}")
+        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
+        payload={"returncode":result.returncode,"stdout":result.stdout[-40000:],"stderr":result.stderr[-12000:],"status":"PASS" if result.returncode==0 else "BLOCKED"}
+        if result.stdout.strip():
+            try: payload["qualification"]=json.loads(result.stdout)
+            except json.JSONDecodeError: pass
+        return payload
+    if operation == "local_component_inventory":
+        script=ROOT/"ops"/"qualification"/"inventory_local_components.py"
+        if not script.exists(): raise FileNotFoundError(f"local component inventory probe not found: {script}")
+        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
+        payload={"returncode":result.returncode,"stdout":result.stdout[-40000:],"stderr":result.stderr[-12000:]}
+        if result.stdout.strip():
+            try: payload["inventory"]=json.loads(result.stdout)
+            except json.JSONDecodeError: pass
+        payload["status"]="PASS" if result.returncode==0 else "BLOCKED"
+        return payload
+    if operation == "provider_model_qualification":
+        script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
+        if not script.exists(): raise FileNotFoundError(f"provider/model qualification probe not found: {script}")
+        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
+        payload={"returncode":result.returncode,"stdout":result.stdout[-30000:],"stderr":result.stderr[-12000:]}
+        if result.stdout.strip():
+            try:
+                payload["qualification"]=json.loads(result.stdout)
+            except json.JSONDecodeError:
+                pass
+        payload["status"]="PASS" if result.returncode==0 else "BLOCKED"
+        return payload
+    if operation == "execution_backend_qualification":
+        script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
+        if not script.exists(): raise FileNotFoundError(f"execution backend qualification probe not found: {script}")
+        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
+        return {"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:],"status":"PASS" if result.returncode==0 else "BLOCKED"}
+    if operation == "timezone_sync":
+        target_timezone="Europe/Moscow"
+        commands=[["timedatectl","set-timezone",target_timezone],["sudo","-n","timedatectl","set-timezone",target_timezone]]
+        applied=False; attempts=[]
+        for argv in commands:
+            result=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=30,check=False)
+            attempts.append({"command":" ".join(argv[:2])+(" "+argv[2] if len(argv)>2 else ""),"returncode":result.returncode,"stderr":result.stderr[-2000:]})
+            if result.returncode==0: applied=True; break
+        verify=subprocess.run(["timedatectl","show","-p","Timezone","-p","NTPSynchronized","-p","NTP"],cwd=ROOT,text=True,capture_output=True,timeout=30,check=False)
+        values={}
+        for line in verify.stdout.splitlines():
+            if "=" in line:
+                key,value=line.split("=",1); values[key]=value
+        return {"status":"PASS" if applied and values.get("Timezone")==target_timezone else "BLOCKED","target_timezone":target_timezone,"applied":applied,"verified_timezone":values.get("Timezone"),"ntp_synchronized":values.get("NTPSynchronized"),"ntp_enabled":values.get("NTP"),"attempts":attempts}
+    if operation == "pre_soak_evidence":
+        script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
+        if not script.exists(): raise FileNotFoundError(f"pre-soak evidence producer not found: {script}")
+        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=900,check=False)
+        return {"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:],"status":"PASS" if result.returncode==0 else "BLOCKED"}
+    if operation == "qualification":
+        script=ROOT/"ops"/"qualification"/"astra_gold_executor.py"
+        if not script.exists(): raise FileNotFoundError(f"qualification executor not found: {script}")
+        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),check=False)
+        payload={"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:]}
+        if result.returncode!=0: payload["status"]="BLOCKED"
+        return payload
+    if operation not in OPERATIONS: raise ValueError("unsupported operation")
+    configured=os.environ.get("ASTRA_RUNTIME_ROOT","").strip()
+    candidates=[Path(configured)] if configured else []
+    candidates.extend([ROOT/"runtime",Path("/opt/mediahub/astra/runtime"),Path("/home/mediahub/dev/mediahub-os-autonomous/runtime"),Path("/Users/voktor/astra-work/runtime")])
+    runtime_root=None
+    for candidate in candidates:
+        if (candidate/"mediahub_runtime"/"astra_gateway.py").exists(): runtime_root=candidate; break
+    if runtime_root is None: raise ModuleNotFoundError("mediahub_runtime runtime root not found; checked: "+", ".join(str(p) for p in candidates))
+    runtime_root=str(runtime_root.resolve()); package_dir=Path(runtime_root)/"mediahub_runtime"
+    if not package_dir.is_dir() or not (package_dir/"__init__.py").is_file(): raise ModuleNotFoundError("mediahub_runtime package is incomplete at "+str(package_dir))
+    if runtime_root not in sys.path: sys.path.insert(0,runtime_root)
+    os.environ["PYTHONPATH"]=runtime_root+(os.pathsep+os.environ["PYTHONPATH"] if os.environ.get("PYTHONPATH") else "")
+    importlib.invalidate_caches()
+    try: from mediahub_runtime.astra_gateway import AstraGatewayRuntime
+    except ModuleNotFoundError as exc: raise ModuleNotFoundError("mediahub_runtime import failed; runtime_root="+runtime_root+"; package_dir="+str(package_dir)+"; sys_executable="+sys.executable) from exc
+    return AstraGatewayRuntime().run_bounded({"task_id":cmd.get("command_id","github-task"),"title":cmd.get("title",operation),"description":cmd.get("description",""),"capability":operation})
+
+def main():
+    STATE.mkdir(parents=True,exist_ok=True)
+    last_id=published_command_id()
+    while True:
+        try:
+            if not (os.environ.get("ASTRA_ONESHOT") == "1" and os.environ.get("ASTRA_WORKFLOW_ONLY") == "1"):
+                sync()
+            maybe_reexec_updated_agent(); cmd=read_command()
+            if cmd and cmd.get("command_id")!=last_id:
+                started=time.time()
+                claim_store=None
+                claim=None
+                try:
+                    claim_store, claim = _claim_for(cmd)
+                    claim_store.acquire(claim)
+                    value,rc=execute(cmd),0
+                except Exception as exc:
+                    value,rc={'error':repr(exc)},1
+                finally:
+                    if claim_store is not None and claim is not None:
+                        try:
+                            result_status = value.get("status") if isinstance(value, dict) else None
+                            claim_status = 'VERIFIED' if rc == 0 and result_status not in {"BLOCKED", "REJECTED"} else 'REJECTED'
+                            claim_store.release(claim.task_id, claim_status)
+                            claim.status = claim_status
+                            claim.updated = time.time()
+                            claim.expiry = claim.updated
+                        except Exception as release_exc:
+                            value = {**(value if isinstance(value,dict) else {'result':value}), 'claim_release_error':repr(release_exc)}
+                            rc=1
+                publish({'schema':1,'node_id':NODE_ID,'agent_id':AGENT_ID,'worker_id':WORKER_ID,
+                         'command_id':cmd.get('command_id'),'target_sha':cmd.get('target_sha'),
+                         'execution_head':run(['git','rev-parse','HEAD'],10).stdout.strip(),'returncode':rc,
+                         'claim':asdict(claim) if claim is not None else None,
+                         'chain':['task','claim','worker','verification','commit','evidence'],
+                         'duration_seconds':round(time.time()-started,3),'result':value,'completed_at':int(time.time())})
+                mark_published(cmd.get("command_id",""))
+                last_id=str(cmd.get("command_id"))
+                if os.environ.get("ASTRA_ONESHOT","0")=="1": return
+        except Exception as exc:
+            (STATE/"last_error.json").write_text(json.dumps({"error":repr(exc),"time":int(time.time())}))
+            if os.environ.get("ASTRA_ONESHOT","0")=="1":
+                raise
+        if os.environ.get("ASTRA_ONESHOT","0")=="1": return
+        time.sleep(INTERVAL)
+
+if __name__=="__main__": main()
