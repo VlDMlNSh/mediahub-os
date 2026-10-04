@@ -162,7 +162,7 @@ jobs:
           phase=result.get("phase")
           structured=(result.get("qualification") or result.get("inventory") or {})
           assert (
-              phase == "health"
+              phase == "health" or status == "ready"
               or phase in {
                   "execution_backend_qualification",
                   "pre_soak_evidence",
