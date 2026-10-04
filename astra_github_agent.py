@@ -139,9 +139,9 @@ def _prepare_publish_branch():
     probe=git_network(["git","ls-remote","--heads","origin",branch],30)
     if probe.returncode == 0 and probe.stdout.strip():
         git_network(["git","fetch","origin",f"{branch}:refs/remotes/origin/{branch}"],120).check_returncode()
-        run(["git","checkout","-B",branch,f"origin/{branch}"],30).check_returncode()
+        run(["git","checkout","--detach",f"origin/{branch}"],30).check_returncode()
     elif probe.returncode == 0:
-        run(["git","checkout","-B",branch,"origin/main"],30).check_returncode()
+        run(["git","checkout","--detach","origin/main"],30).check_returncode()
     else:
         raise RuntimeError(probe.stderr or "unable to verify remote result branch")
 
