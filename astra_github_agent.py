@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """MediaHub Astra GitHub transport worker."""
 from __future__ import annotations
-import hashlib, hmac, importlib, json, os, platform, subprocess, sys, time
+import hashlib, hmac, importlib, json, os, platform, re, subprocess, sys, time
 from dataclasses import asdict
 from pathlib import Path
 
@@ -20,6 +20,19 @@ COMMAND_HMAC_MAX_AGE_SECONDS=max(60,int(os.environ.get("ASTRA_COMMAND_HMAC_MAX_A
 COMMAND_HMAC_KEY=os.environ.get("ASTRA_COMMAND_HMAC_KEY","")
 COMMAND_SCHEMA_VERSION="mediahub.astra.control-command.v1"
 EXECUTED_COMMANDS=STATE/"executed_command_ids"
+SAFE_ID_RE=re.compile(r"^[A-Za-z0-9._:-]{1,128}$")
+SHA_RE=re.compile(r"^[0-9a-fA-F]{40,64}$")
+REQUIRED_COMMAND_FIELDS={"schema_version","command_id","node_id","operation","target_sha","workflow_only","owned_paths","title","description","exclusive_actions","issued_at"}
+
+def _safe_id(value, label):
+    return isinstance(value,str) and bool(SAFE_ID_RE.fullmatch(value))
+
+def _valid_target_sha(value):
+    return isinstance(value,str) and bool(SHA_RE.fullmatch(value))
+
+def _current_head():
+    result=run(["git","rev-parse","HEAD"],10)
+    return result.stdout.strip() if result.returncode == 0 else ""
 
 def run(argv,timeout=120):
     return subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,timeout=timeout,check=False)
@@ -59,8 +72,8 @@ def _canonical_command_body(cmd):
 def _command_auth_valid(cmd):
     if not COMMAND_HMAC_KEY: return False
     signature, issued_at, command_id = cmd.get("signature"), cmd.get("issued_at"), cmd.get("command_id")
-    if not isinstance(signature,str) or not signature or not isinstance(issued_at,int): return False
-    if not isinstance(command_id,str) or not command_id or len(command_id)>128: return False
+    if not isinstance(signature,str) or not signature or not isinstance(issued_at,int) or isinstance(issued_at,bool): return False
+    if not isinstance(command_id,str) or not SAFE_ID_RE.fullmatch(command_id): return False
     if abs(int(time.time())-issued_at)>COMMAND_HMAC_MAX_AGE_SECONDS: return False
     expected=hmac.new(COMMAND_HMAC_KEY.encode("utf-8"), _canonical_command_body(cmd), hashlib.sha256).hexdigest()
     return hmac.compare_digest(signature, expected)
@@ -76,17 +89,26 @@ def _mark_command_executed(command_id):
     tmp.replace(EXECUTED_COMMANDS/f"{command_id}.done")
 
 def read_command():
+    if not _safe_id(NODE_ID, "node identity"):
+        return None
     path=ROOT/"control"/"commands"/f"{NODE_ID}.json"
     if not path.exists(): return None
-    try: cmd=json.loads(path.read_text())
+    try: cmd=json.loads(path.read_text(encoding="utf-8"))
     except Exception: return None
-    if not isinstance(cmd,dict): return None
+    if not isinstance(cmd,dict) or not REQUIRED_COMMAND_FIELDS.issubset(cmd): return None
     if cmd.get("schema_version") != COMMAND_SCHEMA_VERSION: return None
+    if not _safe_id(cmd.get("command_id"), "command id"): return None
     if cmd.get("node_id")!=NODE_ID or cmd.get("operation") not in OPERATIONS: return None
+    if not _valid_target_sha(cmd.get("target_sha")): return None
+    if not isinstance(cmd.get("workflow_only"),bool): return None
     if cmd.get("workflow_only") is True and os.environ.get("ASTRA_WORKFLOW_ONLY") != "1": return None
+    if not isinstance(cmd.get("owned_paths"),list) or not all(isinstance(p,str) and p and not Path(p).is_absolute() and ".." not in Path(p).parts for p in cmd["owned_paths"]): return None
+    if not isinstance(cmd.get("exclusive_actions"),list) or not all(isinstance(x,str) and x for x in cmd["exclusive_actions"]): return None
+    if not isinstance(cmd.get("title"),str) or not isinstance(cmd.get("description"),str): return None
+    if not isinstance(cmd.get("issued_at"),int) or isinstance(cmd.get("issued_at"),bool): return None
     if not _command_auth_valid(cmd): return None
-    command_id=str(cmd.get("command_id"))
-    if _command_already_executed(command_id): return None
+    if _current_head().lower() != cmd["target_sha"].lower(): return None
+    if _command_already_executed(cmd["command_id"]): return None
     return cmd
 
 def published_command_id():
@@ -111,6 +133,8 @@ def mark_published(command_id):
     tmp.replace(STATE/"last_command_id")
 
 def _prepare_publish_branch():
+    if not _safe_id(NODE_ID, "node identity"):
+        raise RuntimeError("invalid node identity")
     branch=f"astra-node/{NODE_ID}"
     probe=git_network(["git","ls-remote","--heads","origin",branch],30)
     if probe.returncode == 0 and probe.stdout.strip():
