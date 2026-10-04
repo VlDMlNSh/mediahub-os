@@ -137,11 +137,21 @@ def _prepare_publish_branch():
         raise RuntimeError("invalid node identity")
     branch=f"astra-node/{NODE_ID}"
     probe=git_network(["git","ls-remote","--heads","origin",branch],30)
+    command_path=f"control/commands/{NODE_ID}.json"
+    cleanup=run(["git","clean","-f","--",command_path],30)
+    if cleanup.returncode != 0:
+        raise RuntimeError(cleanup.stderr or "unable to clean consumed command")
     if probe.returncode == 0 and probe.stdout.strip():
-        git_network(["git","fetch","origin",f"{branch}:refs/remotes/origin/{branch}"],120).check_returncode()
-        run(["git","checkout","--detach",f"origin/{branch}"],30).check_returncode()
+        fetched=git_network(["git","fetch","origin",f"{branch}:refs/remotes/origin/{branch}"],120)
+        if fetched.returncode != 0:
+            raise RuntimeError(fetched.stderr or "unable to fetch node result branch")
+        checkout=run(["git","checkout","--detach",f"origin/{branch}"],30)
+        if checkout.returncode != 0:
+            raise RuntimeError(checkout.stderr or "unable to checkout node result branch")
     elif probe.returncode == 0:
-        run(["git","checkout","--detach","origin/main"],30).check_returncode()
+        checkout=run(["git","checkout","--detach","origin/main"],30)
+        if checkout.returncode != 0:
+            raise RuntimeError(checkout.stderr or "unable to checkout main for new node result branch")
     else:
         raise RuntimeError(probe.stderr or "unable to verify remote result branch")
 
