@@ -52,7 +52,6 @@ jobs:
             rc=${PIPESTATUS[0]}
             set -e
             test "$rc" -eq 0
-            grep -q '"status": "PASS"' "/tmp/mh25-24h/wave-$wave.log"
             if ! grep -Eq '"status": "(PASS|IDLE)"' "/tmp/mh25-24h/wave-$wave.log"; then
               echo "BLOCK: queue wave did not produce PASS or IDLE"
               exit 1
