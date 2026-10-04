@@ -1,6 +1,6 @@
 import hashlib, hmac, json, os, tempfile, time, unittest, importlib.util
 from pathlib import Path
-SPEC=importlib.util.spec_from_file_location("sign_command",Path(__file__).parents[1]/"control"/"sign_command.py")
+SPEC=importlib.util.spec_from_file_location("sign_command",Path(__file__).parents[2]/"ops"/"control"/"sign_command.py")
 MODULE=importlib.util.module_from_spec(SPEC); assert SPEC.loader is not None; SPEC.loader.exec_module(MODULE)
 
 class CommandSignerTests(unittest.TestCase):
