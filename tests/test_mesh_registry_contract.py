@@ -6,7 +6,7 @@ from ops.mesh.heartbeat_auth import sign_heartbeat
 
 
 def node_record(status="DISCOVERED"):
-    return sign_heartbeat({
+    return {
         "schema_version": "mediahub.mesh.node.v1",
         "node_id": "mh-test-01",
         "role": "worker",
@@ -20,7 +20,7 @@ def node_record(status="DISCOVERED"):
 
 
 def heartbeat(node_id="mh-test-01", sequence=1, issued_at=None):
-    return {
+    return sign_heartbeat({
         "schema_version": "mediahub.mesh.heartbeat.v1",
         "node_id": node_id,
         "issued_at": issued_at or datetime.now(timezone.utc).isoformat(),
