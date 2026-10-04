@@ -41,6 +41,30 @@ class TestAstraCommandAuth(unittest.TestCase):
         command["signature"] = hmac.new(a.COMMAND_HMAC_KEY.encode(), body, hashlib.sha256).hexdigest()
         self.assertFalse(a._command_auth_valid(command))
 
+    def test_command_id_path_safety_is_enforced(self):
+        a = self.agent
+        self.assertTrue(a._safe_id("cmd-3", "command id"))
+        self.assertFalse(a._safe_id("../escape", "command id"))
+        self.assertFalse(a._safe_id("cmd/escape", "command id"))
+        self.assertFalse(a._safe_id("", "command id"))
+
+    def test_target_sha_is_strictly_git_sha_shaped(self):
+        a = self.agent
+        self.assertTrue(a._valid_target_sha("a" * 40))
+        self.assertTrue(a._valid_target_sha("a" * 64))
+        self.assertFalse(a._valid_target_sha("a" * 39))
+        self.assertFalse(a._valid_target_sha("../main"))
+        self.assertFalse(a._valid_target_sha(""))
+
+    def test_command_envelope_requires_all_authority_fields(self):
+        a = self.agent
+        expected = {
+            "schema_version", "command_id", "node_id", "operation", "target_sha",
+            "workflow_only", "owned_paths", "title", "description",
+            "exclusive_actions", "issued_at",
+        }
+        self.assertEqual(expected, a.REQUIRED_COMMAND_FIELDS)
+
     def test_executed_command_marker_is_idempotent(self):
         a = self.agent
         with tempfile.TemporaryDirectory() as tmp:
