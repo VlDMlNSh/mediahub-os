@@ -52,7 +52,7 @@ jobs:
               node_id="mh-dev-02"
               canonical_worktree="/home/mediahub/astra-work"
               ;;
-            Voktors-Mac-mini.local)
+            Voktors-Mini.Dlink)
               test "$user" = "voktor"
               node_id="Voktors-Mac-mini.local"
               canonical_worktree="/Users/voktor/astra-work"
@@ -133,8 +133,7 @@ jobs:
       - name: Execute queued mission with GitHub-injected provider credentials
         if: steps.worker.outputs.present != 'true'
         shell: bash
-        run: |
-          set -euo pipefail
+        env:
           SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
           SILICONFLOW_API_KEY_1: ${{ secrets.SILICON_KEY_1 }}
           SILICONFLOW_API_KEY_2: ${{ secrets.SILICON_KEY_2 }}
@@ -167,7 +166,11 @@ jobs:
           MISTRAL_API_KEY_1: ${{ secrets.MISTRAL_KEY_1 }}
           MISTRAL_API_KEY_2: ${{ secrets.MISTRAL_KEY_2 }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          ASTRA_WORKTREE="$GITHUB_WORKSPACE" ASTRA_WORKFLOW_ONLY=1 python3 astra_github_agent.py
+          ASTRA_WORKTREE: "$GITHUB_WORKSPACE"
+          ASTRA_WORKFLOW_ONLY: "1"
+        run: |
+          set -euo pipefail
+          python3 astra_github_agent.py
 
       - name: Wait for canonical worker to consume current mission
         if: steps.worker.outputs.present == 'true'
