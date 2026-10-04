@@ -36,7 +36,6 @@ DORMANT_WORKFLOWS = {
     "mediahub-p0-07-verification.yml",
     "mediahub-p0-08-verification.yml",
     "mediahub-bridge.yml",
-    "mediahub-live-provider-qualification.yml",
 }
 
 AUTO_TRIGGERS = {"push", "pull_request", "pull_request_target"}
