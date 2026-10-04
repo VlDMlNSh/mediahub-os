@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   supervise:
-    runs-on: [self-hosted, mediahub-runner]
+    runs-on: self-hosted
     timeout-minutes: 90
     env:
       ASTRA_ONESHOT: "1"
