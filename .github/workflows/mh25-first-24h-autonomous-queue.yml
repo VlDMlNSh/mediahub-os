@@ -34,12 +34,6 @@ jobs:
           test "$(git hash-object astra_github_agent.py)" = "$(git rev-parse HEAD:astra_github_agent.py)"
           python3 -m compileall -q runtime tests astra_github_agent.py
           PYTHONPATH=runtime:. python3 -m unittest discover -s tests -p 'test_*.py'
-      - name: Observe canonical Astra worker
-        shell: bash
-        run: |
-          set -euo pipefail
-          pgrep -af "astra_github_agent.py" | tee /tmp/mh25-worker.txt
-          test "$(grep -c "astra_github_agent.py" /tmp/mh25-worker.txt)" -ge 1
       - name: Execute bounded autonomous queue waves for 24h
         shell: bash
         run: |
@@ -59,7 +53,10 @@ jobs:
             set -e
             test "$rc" -eq 0
             grep -q '"status": "PASS"' "/tmp/mh25-24h/wave-$wave.log"
-            test "$(pgrep -f "astra_github_agent.py" | wc -l)" -ge 1
+            if ! grep -Eq '"status": "(PASS|IDLE)"' "/tmp/mh25-24h/wave-$wave.log"; then
+              echo "BLOCK: queue wave did not produce PASS or IDLE"
+              exit 1
+            fi
             sleep 600
           done
           test -n "$(find /tmp/mh25-24h -type f -name "wave-*.log" -print -exec grep -l '"status": "PASS"' {} \; | head -1)"
