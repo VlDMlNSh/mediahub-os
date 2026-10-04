@@ -90,7 +90,7 @@ jobs:
               "description": "Synchronize the canonical Astra worktree from main, execute one fresh authenticated control command, publish node-bound health evidence, and release the claim.",
               "exclusive_actions": ["execute"],
               "issued_at": int(time.time()),
-          }, indent=2)+"\\n", encoding="utf-8")
+          }, indent=2)+"\n", encoding="utf-8")
           print(f"node={node} command_id={command_id}")
 
       - name: Authoritatively sign current control command
