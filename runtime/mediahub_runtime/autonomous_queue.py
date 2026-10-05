@@ -205,6 +205,9 @@ def process_task(task: dict) -> dict:
         store.acquire(claim)
         worktree.parent.mkdir(parents=True, exist_ok=True)
         prepare_worktree(worktree)
+        fetch_main = run(["git", "fetch", "--prune", "origin", "main"], 120)
+        if fetch_main.returncode != 0:
+            raise RuntimeError("queue_main_fetch_failed")
         remote_main = run(["git", "rev-parse", "origin/main"], 30)
         if remote_main.returncode != 0 or remote_main.stdout.strip() != claim.base_sha:
             raise RuntimeError("queue_base_sha_drift")
