@@ -70,7 +70,7 @@ jobs:
 
   node-mh-dev-02:
     name: Fresh attestation mh-dev-02
-    runs-on: [self-hosted, linux, x64, mh-dev-02-distributed]
+    runs-on: [self-hosted, linux, x64, mediahub-provider]
     timeout-minutes: 15
     env:
       ASTRA_EXPECTED_NODE_ID: mh-dev-02
