@@ -17,10 +17,11 @@ AUTH_SCHEMA = "mediahub.astra.distributed.auth.v1"
 NODE_SCHEMA = "mediahub.astra.distributed-node-attestation.v1"
 PHASE = "distributed_verification"
 SAFE_NODES = {
-    "mh-dev-01": {"hostnames": {"mh-dev-01"}},
-    "mh-dev-02": {"hostnames": {"mh-dev-02"}},
+    "mh-dev-01": {"hostnames": {"mh-dev-01"}, "user": "mediahub-runner"},
+    "mh-dev-02": {"hostnames": {"mh-dev-02"}, "user": "mediahub"},
     "Voktors-Mac-mini.local": {
-        "hostnames": {"Voktors-Mac-mini.local", "Voktors-Mini.Dlink"}
+        "hostnames": {"Voktors-Mac-mini.local", "Voktors-Mini.Dlink"},
+        "user": "voktor",
     },
 }
 PRODUCER_PREFIX = "node-agent:"
@@ -43,6 +44,81 @@ def validate_identity(node_id: str, hostname: str) -> tuple[bool, str]:
     if hostname not in spec["hostnames"]:
         return False, "hostname_node_binding_mismatch"
     return True, ""
+
+
+def current_head(root: Path) -> str:
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        timeout=15,
+        check=False,
+    )
+    return result.stdout.strip() if result.returncode == 0 else ""
+
+
+def build_attestation(
+    *,
+    command_id: str,
+    node_id: str,
+    target_sha: str,
+    current_node: str,
+    current_user: str,
+    current_head: str,
+    observed_at: int,
+    checks: dict[str, bool],
+    hmac_key: str,
+) -> dict[str, Any]:
+    spec = SAFE_NODES.get(node_id)
+    blocked: list[str] = []
+    if spec is None:
+        blocked.append("unsupported_node_id")
+    else:
+        if current_node not in spec["hostnames"]:
+            blocked.append("node_identity_mismatch")
+        if current_user != spec["user"]:
+            blocked.append("user_identity_mismatch")
+    if not command_id:
+        blocked.append("missing_command_id")
+    if not target_sha or len(target_sha) not in SHA_LEN:
+        blocked.append("invalid_target_sha")
+    if not current_head or len(current_head) not in SHA_LEN:
+        blocked.append("current_head_unavailable")
+    elif target_sha.lower() != current_head.lower():
+        blocked.append("target_sha_mismatch")
+    if not hmac_key:
+        blocked.append("hmac_key_missing")
+    for name, passed in checks.items():
+        if passed is not True:
+            blocked.append(f"check_failed:{name}")
+
+    status = "PASS" if not blocked else "BLOCKED"
+    payload: dict[str, Any] = {
+        "schema": NODE_SCHEMA,
+        "command_id": command_id,
+        "node_id": node_id,
+        "target_sha": target_sha,
+        "producer_identity": f"{PRODUCER_PREFIX}{node_id}",
+        "phase": PHASE,
+        "status": status,
+        "returncode": 0 if status == "PASS" else 2,
+        "completed_at": int(observed_at),
+        "auth_schema_version": AUTH_SCHEMA,
+        "hostname": current_node,
+        "current_user": current_user,
+        "current_head": current_head,
+        "observations": dict(checks),
+        "checks": {name: {"status": "PASS" if passed else "BLOCKED"} for name, passed in checks.items()},
+        "blocked_reasons": sorted(set(blocked)),
+        "secret_values": "SUPPRESSED",
+    }
+    payload["signature"] = (
+        hmac.new(hmac_key.encode("utf-8"), _canonical_body(payload), hashlib.sha256).hexdigest()
+        if hmac_key
+        else ""
+    )
+    return payload
 
 
 def validate_context(
