@@ -142,7 +142,7 @@ def test_existing_dirty_worktree_is_not_force_removed(monkeypatch, tmp_path: Pat
 
 def test_controller_claim_requires_explicit_success_status():
     source = (Path(__file__).resolve().parents[1] / "astra_github_agent.py").read_text(encoding="utf-8")
-    assert 'claim_status = "VERIFIED" if rc == 0 and result_status in {"PASS", "ready"} else "REJECTED"' in source
+    assert 'claim_status = "VERIFIED" if rc == 0 and result_status == "PASS" else "REJECTED"' in source
 
 def test_dependencies_require_same_base_sha(monkeypatch, tmp_path: Path):
     state = tmp_path / "state"
