@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   supervise:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 90
     env:
       ASTRA_ONESHOT: "1"
