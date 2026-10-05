@@ -683,6 +683,7 @@ def main():
                          'claim':asdict(claim) if claim is not None else None,
                          'chain':['task','claim','worker','verification','commit','evidence'],
                          'duration_seconds':round(time.time()-started,3),'result':value,'completed_at':int(time.time())})
+                _mark_command_executed(cmd.get("command_id",""))
                 mark_published(cmd.get("command_id",""))
                 last_id=str(cmd.get("command_id"))
                 if os.environ.get("ASTRA_ONESHOT","0")=="1": return
