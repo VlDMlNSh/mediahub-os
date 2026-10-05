@@ -25,7 +25,12 @@ SAFE_NODES = {
     },
 }
 PRODUCER_PREFIX = "node-agent:"
+KEY_ID_SUFFIX = "-distributed-attestation-v1"
 SHA_LEN = {40, 64}
+
+
+def attestation_key_id(node_id: str) -> str:
+    return f"{node_id}{KEY_ID_SUFFIX}"
 
 
 def _canonical_body(data: dict[str, Any]) -> bytes:
@@ -100,6 +105,7 @@ def build_attestation(
         "node_id": node_id,
         "target_sha": target_sha,
         "producer_identity": f"{PRODUCER_PREFIX}{node_id}",
+        "auth_key_id": attestation_key_id(node_id),
         "phase": PHASE,
         "status": status,
         "returncode": 0 if status == "PASS" else 2,
