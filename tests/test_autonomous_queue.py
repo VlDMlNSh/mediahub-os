@@ -121,3 +121,48 @@ def test_main_does_not_suppress_stale_completion(monkeypatch, tmp_path: Path, ca
 def test_controller_claim_requires_explicit_success_status():
     source = Path(__file__).resolve().parents[1] / "astra_github_agent.py".read_text(encoding="utf-8")
     assert 'claim_status = "VERIFIED" if rc == 0 and result_status in {"PASS", "ready"} else "REJECTED"' in source
+
+def test_dependencies_require_same_base_sha(monkeypatch, tmp_path: Path):
+    state = tmp_path / "state"
+    completed_dir = state / "completed"
+    completed_dir.mkdir(parents=True)
+    (completed_dir / "DEP.json").write_text(
+        json.dumps({"status": "VERIFIED", "base_sha": "oldsha"}),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(autonomous_queue, "STATE", state)
+    task = {"task_id": "TASK", "dependencies": ["DEP"]}
+    assert autonomous_queue.dependencies_satisfied(task, "oldsha")
+    assert not autonomous_queue.dependencies_satisfied(task, "newsha")
+
+
+def test_scope_check_rejects_untracked_files(monkeypatch, tmp_path: Path):
+    worktree = tmp_path / "worktree"
+    worktree.mkdir()
+    class R:
+        returncode = 0
+        stdout = ""
+        stderr = ""
+    monkeypatch.setattr(
+        autonomous_queue,
+        "run",
+        lambda argv, *args, **kwargs: R(),
+    )
+    # The implementation must inspect untracked files through git status; this
+    # sentinel path is intentionally outside the task boundary.
+    original = autonomous_queue.run
+    calls = []
+    def fake_run(argv, *args, **kwargs):
+        calls.append(argv)
+        if argv[:3] == ["git", "diff", "--name-only"]:
+            return R()
+        if argv[:3] == ["git", "status", "--porcelain"]:
+            class S:
+                returncode = 0
+                stdout = "?? forbidden.txt\n"
+                stderr = ""
+            return S()
+        return R()
+    monkeypatch.setattr(autonomous_queue, "run", fake_run)
+    assert autonomous_queue._diff_outside_scope({"boundary": ["tests"]}, worktree, "a"*40) == ["forbidden.txt"]
+
