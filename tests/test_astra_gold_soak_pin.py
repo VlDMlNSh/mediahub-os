@@ -36,7 +36,16 @@ class SoakAgentBindingTests(unittest.TestCase):
         self.assertIn('result.get("phase") == "autonomous_queue"', self.text)
         self.assertIn('result.get("status") == "PASS"', self.text)
         self.assertIn('queue.get("status") == "PASS"', self.text)
-        self.assertIn('d.get("target_sha") == os.environ["GITHUB_SHA"]', self.text)
+        self.assertRegex(
+            self.text,
+            r'(?m)^\s*assert (?:d\.get\("target_sha"\)|target_sha) == os\.environ\["GITHUB_SHA"\]
+
+
+
+if __name__ == "__main__":
+    unittest.main()
+,
+        )
 
 
 
