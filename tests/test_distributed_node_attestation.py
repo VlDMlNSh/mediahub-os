@@ -33,6 +33,18 @@ class DistributedNodeAttestationTests(unittest.TestCase):
         )
         self.assertIn("hostname_node_binding_mismatch", result)
 
+    def test_mac_alias_hostname_is_rejected_for_canonical_node(self):
+        result = producer.validate_context(
+            node_id="Voktors-Mac-mini.local",
+            hostname="Voktors-Mini.Dlink",
+            current_user="voktor",
+            target_sha="a"*40,
+            current_head="a"*40,
+            command_id="CMD-1",
+            hmac_key="test-secret",
+        )
+        self.assertIn("hostname_node_binding_mismatch", result)
+
     def test_target_head_mismatch_blocks(self):
         result = producer.validate_context(
             node_id="mh-dev-01",
