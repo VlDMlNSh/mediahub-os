@@ -81,5 +81,14 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertIn(".astra-state/distributed-attestation/Voktors-Mac-mini.local.json", text)
 
 
+    def test_reusable_workflow_requires_distinct_node_secrets(self):
+        text = WORKFLOW.read_text(encoding="utf-8")
+        for secret in (
+            "ASTRA_NODE_HMAC_KEY_MH_DEV_01",
+            "ASTRA_NODE_HMAC_KEY_MH_DEV_02",
+            "ASTRA_NODE_HMAC_KEY_VOKTORS_MAC",
+        ):
+            self.assertIn(secret, text)
+        self.assertNotIn("ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}", text)
 if __name__ == "__main__":
     unittest.main()
