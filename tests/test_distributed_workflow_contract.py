@@ -16,9 +16,9 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertIn("node-mh-dev-02", jobs)
         self.assertIn("node-voktors-mac", jobs)
         self.assertIn("aggregate", jobs)
-        self.assertIn("mh-dev-01-canonical", str(jobs["node-mh-dev-01"]["runs-on"]))
-        self.assertIn("mh-dev-02-distributed", str(jobs["node-mh-dev-02"]["runs-on"]))
-        self.assertIn("voktors-mac-mini-distributed", str(jobs["node-voktors-mac"]["runs-on"]))
+        self.assertIn("mediahub-control", str(jobs["node-mh-dev-01"]["runs-on"]))
+        self.assertIn("mediahub-provider", str(jobs["node-mh-dev-02"]["runs-on"]))
+        self.assertIn("astra-control", str(jobs["node-voktors-mac"]["runs-on"]))
 
     def test_workflow_call_declares_command_and_target_inputs(self):
         document = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
