@@ -9,6 +9,9 @@ on:
       target_sha:
         required: true
         type: string
+    secrets:
+      ASTRA_COMMAND_HMAC_KEY:
+        required: true
     outputs:
       status:
         description: "Fresh three-node distributed verification status"
@@ -38,6 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.target_sha }}
           fetch-depth: 50
       - name: Canonical node admission
         shell: bash
@@ -72,6 +76,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.target_sha }}
           fetch-depth: 50
       - name: Distributed node admission
         shell: bash
@@ -95,7 +100,7 @@ jobs:
 
   node-voktors-mac:
     name: Fresh attestation Voktors-Mac-mini.local
-    runs-on: [self-hosted, macos, arm64, voktors-mac-mini-distributed]
+    runs-on: [self-hosted, macOS, ARM64, Voktors-Mac-mini-canonical]
     timeout-minutes: 15
     env:
       ASTRA_EXPECTED_NODE_ID: Voktors-Mac-mini.local
@@ -106,6 +111,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.target_sha }}
           fetch-depth: 50
       - name: Distributed node admission
         shell: bash
@@ -149,6 +155,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.target_sha }}
           fetch-depth: 50
       - name: Canonical node admission
         shell: bash
@@ -173,8 +180,7 @@ jobs:
           import json, os
           from pathlib import Path
           result=json.loads(Path(".astra-state/distributed-verification-result.json").read_text())
-          expected=os.environ["ASTRA_COMMAND_ID"]
-          assert result["command_id"] == expected
+          assert result["command_id"] == os.environ["ASTRA_COMMAND_ID"]
           assert result["node_id"] == "mh-dev-01"
           assert result["target_sha"] == os.environ["ASTRA_TARGET_SHA"]
           assert result["phase"] == "distributed_verification"
