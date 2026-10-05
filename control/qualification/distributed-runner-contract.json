@@ -3,7 +3,7 @@
   "nodes": [
     {
       "node_id": "mh-dev-01",
-      "runner_label": "mh-dev-01-canonical",
+      "runner_label": "mediahub-control",
       "hostname_allowlist": ["mh-dev-01"],
       "user": "mediahub-runner",
       "os": "linux",
@@ -12,7 +12,7 @@
     },
     {
       "node_id": "mh-dev-02",
-      "runner_label": "mh-dev-02-distributed",
+      "runner_label": "mediahub-provider",
       "hostname_allowlist": ["mh-dev-02"],
       "user": "mediahub",
       "os": "linux",
@@ -21,7 +21,7 @@
     },
     {
       "node_id": "Voktors-Mac-mini.local",
-      "runner_label": "voktors-mac-mini-distributed",
+      "runner_label": "astra-control",
       "hostname_allowlist": ["Voktors-Mac-mini.local", "Voktors-Mini.Dlink"],
       "user": "voktor",
       "os": "macOS",
