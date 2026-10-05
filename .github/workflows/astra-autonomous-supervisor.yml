@@ -170,6 +170,7 @@ jobs:
           ASTRA_WORKFLOW_ONLY: "1"
           ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state/distributed-verification"
           ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
+          MIMO_API_KEY: ${{ secrets.MIMO_API_KEY }}
         run: |
           set -euo pipefail
           python3 astra_github_agent.py
