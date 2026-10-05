@@ -118,6 +118,28 @@ def test_main_does_not_suppress_stale_completion(monkeypatch, tmp_path: Path, ca
     assert payload["selected_tasks"] == ["A"]
 
 
+
+def test_existing_dirty_worktree_is_not_force_removed(monkeypatch, tmp_path: Path):
+    worktree = tmp_path / "worktree"
+    worktree.mkdir()
+    class Status:
+        returncode = 0
+        stdout = " M user_change.py\\n"
+        stderr = ""
+    calls = []
+    def fake_run(argv, *args, **kwargs):
+        calls.append(argv)
+        return Status()
+    monkeypatch.setattr(autonomous_queue, "run", fake_run)
+    try:
+        autonomous_queue.prepare_worktree(worktree)
+    except RuntimeError as exc:
+        assert str(exc) == "stale_worktree_dirty"
+    else:
+        raise AssertionError("dirty worktree must block")
+    assert all(argv[:4] != ["git", "worktree", "remove", "--force"] for argv in calls)
+
+
 def test_controller_claim_requires_explicit_success_status():
     source = Path(__file__).resolve().parents[1] / "astra_github_agent.py".read_text(encoding="utf-8")
     assert 'claim_status = "VERIFIED" if rc == 0 and result_status in {"PASS", "ready"} else "REJECTED"' in source
