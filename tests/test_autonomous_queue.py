@@ -209,3 +209,27 @@ def test_scope_check_rejects_untracked_files(monkeypatch, tmp_path: Path):
     monkeypatch.setattr(autonomous_queue, "run", fake_run)
     assert autonomous_queue._diff_outside_scope({"boundary": ["tests"]}, worktree, "a"*40) == ["forbidden.txt"]
 
+
+
+def test_task_id_cannot_escape_queue_state(monkeypatch, tmp_path: Path):
+    monkeypatch.setattr(autonomous_queue, "STATE", tmp_path / "state")
+    for bad in ("../escape", "a/b", "", "a b"):
+        try:
+            autonomous_queue.worktree_path(bad)
+        except ValueError as exc:
+            assert str(exc) == "invalid_task_id"
+        else:
+            raise AssertionError("unsafe task id must be rejected")
+
+
+def test_queue_verifies_remote_push_sha():
+    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
+    assert '"git", "ls-remote", "origin", f"refs/heads/{branch}"' in source
+    assert 'raise RuntimeError("git_push_sha_mismatch")' in source
+    assert '"push_verification": {' in source
+
+
+def test_queue_blocks_existing_remote_branch_before_worktree_creation():
+    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
+    assert 'raise RuntimeError("queue_branch_already_exists")' in source
+    assert 'raise RuntimeError("queue_branch_probe_failed")' in source
