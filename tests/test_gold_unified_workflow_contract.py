@@ -29,6 +29,11 @@ class GoldUnifiedWorkflowContractTests(unittest.TestCase):
         self.assertIn("needs.distributed-verification.outputs.status == 'PASS'", self.text)
         self.assertIn("ASTRA_DISTRIBUTED_EVIDENCE_DIR", self.text)
 
+    def test_gold_execution_is_exact_sha_bound_and_clean(self):
+        self.assertIn("ref: ${{ github.sha }}", self.text)
+        self.assertIn('test "$(git rev-parse HEAD)" = "$GITHUB_SHA"', self.text)
+        self.assertIn('test -z "$(git status --short)"', self.text)
+
     def test_gold_workflow_has_fresh_queue_result_gate(self):
         self.assertIn('result.get("phase") == "autonomous_queue"', self.text)
         self.assertIn('result.get("status") == "PASS"', self.text)
