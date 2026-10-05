@@ -1,0 +1,13 @@
+{
+  "schema": "mediahub.astra.canonical-runner.v1",
+  "label": "mh-dev-01-canonical",
+  "node_id": "mh-dev-01",
+  "user": "mediahub-runner",
+  "required_os": "linux",
+  "required_arch": "x64",
+  "runtime_identity_checks": {
+    "hostname": "mh-dev-01",
+    "user": "mediahub-runner"
+  },
+  "note": "The GitHub self-hosted runner must be registered with this unique custom label. Runtime hostname/user checks remain mandatory defense in depth."
+}
