@@ -44,6 +44,7 @@ jobs:
           git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/astra-queue-result.json
           python3 - <<'PY'
           import json, os
+          from pathlib import Path
           d=json.load(open("/tmp/astra-queue-result.json"))
           result=d.get("result", {})
           queue=result.get("queue", {})
