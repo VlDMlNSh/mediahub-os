@@ -10,6 +10,7 @@ on:
       - "ops/qualification/**"
       - "tests/test_mesh_registry_contract.py"
       - ".github/workflows/astra-autonomous-supervisor.yml"
+      - ".github/workflows/astra-distributed-verification.yml"
   workflow_dispatch:
   schedule:
     - cron: "*/10 * * * *"
