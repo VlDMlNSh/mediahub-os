@@ -156,7 +156,7 @@ def test_scope_check_rejects_untracked_files(monkeypatch, tmp_path: Path):
         calls.append(argv)
         if argv[:3] == ["git", "diff", "--name-only"]:
             return R()
-        if argv[:3] == ["git", "status", "--porcelain"]:
+        if argv[:3] == ["git", "status", "--porcelain"] and "--untracked-files=all" in argv:
             class S:
                 returncode = 0
                 stdout = "?? forbidden.txt\n"
