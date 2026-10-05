@@ -38,6 +38,7 @@ jobs:
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_WORKTREE: ${{ github.workspace }}
       ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+      ASTRA_NODE_ATTESTATION_OUTPUT: ${{ github.workspace }}/.astra-state/distributed-attestation/mh-dev-01.json
     steps:
       - uses: actions/checkout@v4
         with:
@@ -73,6 +74,7 @@ jobs:
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_WORKTREE: ${{ github.workspace }}
       ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+      ASTRA_NODE_ATTESTATION_OUTPUT: ${{ github.workspace }}/.astra-state/distributed-attestation/mh-dev-02.json
     steps:
       - uses: actions/checkout@v4
         with:
@@ -108,6 +110,7 @@ jobs:
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_WORKTREE: ${{ github.workspace }}
       ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+      ASTRA_NODE_ATTESTATION_OUTPUT: ${{ github.workspace }}/.astra-state/distributed-attestation/Voktors-Mac-mini.local.json
     steps:
       - uses: actions/checkout@v4
         with:
