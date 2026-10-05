@@ -20,7 +20,7 @@ SAFE_NODES = {
     "mh-dev-01": {"hostnames": {"mh-dev-01"}, "user": "mediahub-runner"},
     "mh-dev-02": {"hostnames": {"mh-dev-02"}, "user": "mediahub"},
     "Voktors-Mac-mini.local": {
-        "hostnames": {"Voktors-Mac-mini.local"},
+        "hostnames": {"Voktors-Mini.Dlink"},
         "user": "voktor",
     },
 }
