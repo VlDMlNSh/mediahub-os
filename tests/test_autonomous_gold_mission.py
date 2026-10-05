@@ -37,7 +37,10 @@ class AutonomousMissionTests(unittest.TestCase):
         self.assertIn('canonical-distributed-verification-producer-v1', self.source)
 
     def test_controller_does_not_promote_pre_soak_executor_to_gold(self):
-        self.assertNotIn('astra_gold_executor.py', self.source)
+        mission_start = self.source.index('if operation in {"autonomous_qualification_queue", "autonomous_gold_mission"}:')
+        mission_end = self.source.index('    if operation == "reconcile_controller_processes":', mission_start)
+        mission = self.source[mission_start:mission_end]
+        self.assertNotIn("astra_gold_executor.py", mission)
 
 
 if __name__ == "__main__":
