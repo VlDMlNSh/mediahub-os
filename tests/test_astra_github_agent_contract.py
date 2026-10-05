@@ -96,5 +96,13 @@ class AstraTransportContractTests(unittest.TestCase):
         self.assertIn('reason":"target_sha_changed_during_retry"', source)
         self.assertNotIn('merge-base", "--is-ancestor", target_sha, "HEAD"', source)
 
+    def test_publish_restores_consumed_command_before_branch_checkout(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        start = source.index("def _prepare_publish_branch():")
+        end = source.index("\ndef publish(", start)
+        block = source[start:end]
+        self.assertIn('git","restore","--source=HEAD","--",command_path', block)
+        self.assertNotIn('git","clean","-f","--",command_path', block.split('if restore.returncode != 0:', 1)[0])
+
 if __name__ == "__main__":
     unittest.main()
