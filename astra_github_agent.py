@@ -143,9 +143,15 @@ def _prepare_publish_branch():
     branch=f"astra-node/{NODE_ID}"
     probe=git_network(["git","ls-remote","--heads","origin",branch],30)
     command_path=f"control/commands/{NODE_ID}.json"
-    cleanup=run(["git","clean","-f","--",command_path],30)
-    if cleanup.returncode != 0:
-        raise RuntimeError(cleanup.stderr or "unable to clean consumed command")
+    # The signed command is a consumed transport artifact. It must not remain as a
+    # dirty worktree change while publish switches to the node result branch.
+    # Restore only this exact command path; never clean unrelated user changes.
+    restore=run(["git","restore","--source=HEAD","--",command_path],30)
+    if restore.returncode != 0:
+        # The command may be untracked on a fresh checkout. Remove only that path.
+        cleanup=run(["git","clean","-f","--",command_path],30)
+        if cleanup.returncode != 0:
+            raise RuntimeError(cleanup.stderr or restore.stderr or "unable to clean consumed command")
     if probe.returncode == 0 and probe.stdout.strip():
         fetched=git_network(["git","fetch","origin",f"{branch}:refs/remotes/origin/{branch}"],120)
         if fetched.returncode != 0:
