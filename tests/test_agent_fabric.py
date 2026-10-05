@@ -55,6 +55,19 @@ class AgentFabricTests(unittest.TestCase):
             s.release("A")
             self.assertEqual(s.list_claims()[0].status, "CLOSED")
 
+
+    def test_expired_same_task_can_reacquire(self):
+        with tempfile.TemporaryDirectory() as td:
+            s = ClaimStore(Path(td))
+            with mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=100.0):
+                s.acquire(mk("A", ["src/a.py"], now=100.0))
+            with mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=1000.0):
+                s.acquire(mk("A", ["src/a.py"], now=1000.0))
+            with mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=1000.0):
+                claims = s.list_claims()
+            self.assertEqual(len(claims), 1)
+            self.assertEqual((claims[0].status, claims[0].base_sha), ("ACTIVE", "base"))
+
     def test_lease_expiry_allows_reacquire(self):
         with tempfile.TemporaryDirectory() as td:
             s = ClaimStore(Path(td))
