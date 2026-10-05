@@ -165,6 +165,19 @@ def _verifier_passed(stdout: str) -> bool:
     return verdicts == ["PASS"]
 
 
+def prepare_worktree(worktree: Path) -> None:
+    if not worktree.exists():
+        return
+    status = run(["git", "status", "--porcelain", "--untracked-files=all"], 60, worktree)
+    if status.returncode != 0:
+        raise RuntimeError("stale_worktree_status_failed")
+    if status.stdout.strip():
+        raise RuntimeError("stale_worktree_dirty")
+    cleanup = run(["git", "worktree", "remove", "--force", str(worktree)], 120)
+    if cleanup.returncode:
+        raise RuntimeError("worktree_cleanup_failed")
+
+
 def process_task(task: dict) -> dict:
     STATE.mkdir(parents=True, exist_ok=True)
     (STATE / "completed").mkdir(parents=True, exist_ok=True)
@@ -184,10 +197,7 @@ def process_task(task: dict) -> dict:
     try:
         store.acquire(claim)
         worktree.parent.mkdir(parents=True, exist_ok=True)
-        if worktree.exists():
-            cleanup = run(["git", "worktree", "remove", "--force", str(worktree)], 120)
-            if cleanup.returncode:
-                raise RuntimeError("worktree_cleanup_failed")
+        prepare_worktree(worktree)
         remote_main = run(["git", "rev-parse", "origin/main"], 30)
         if remote_main.returncode != 0 or remote_main.stdout.strip() != claim.base_sha:
             raise RuntimeError("queue_base_sha_drift")
