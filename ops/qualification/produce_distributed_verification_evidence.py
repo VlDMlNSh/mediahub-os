@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import hmac
 import json
 import os
 import platform
@@ -23,6 +25,7 @@ SCHEMA = "mediahub.astra.distributed-node-attestation.v1"
 OUTPUT_SCHEMA = "mediahub.astra.distributed-verification.v1"
 PHASE = "distributed_verification"
 PRODUCER_IDENTITY = "canonical-distributed-verification-producer-v1"
+AUTH_SCHEMA = "mediahub.astra.distributed.auth.v1"
 SAFE_ID_RE = re.compile(r"^[A-Za-z0-9._:-]{1,128}$")
 SHA_RE = re.compile(r"^[0-9a-fA-F]{40,64}$")
 
@@ -84,6 +87,7 @@ def _validate_attestation(
     target_sha: str,
     now: int,
     max_age_seconds: int,
+    hmac_key: str,
 ) -> list[str]:
     blocked: list[str] = []
     try:
@@ -107,6 +111,25 @@ def _validate_attestation(
         blocked.append(f"{expected_node}_not_PASS")
     if data.get("returncode") != 0:
         blocked.append(f"{expected_node}_returncode_not_zero")
+    if data.get("auth_schema_version") != AUTH_SCHEMA:
+        blocked.append(f"{expected_node}_auth_schema_mismatch")
+    signature = data.get("signature")
+    if not isinstance(signature, str) or not signature:
+        blocked.append(f"{expected_node}_signature_missing")
+    elif not hmac_key:
+        blocked.append(f"{expected_node}_hmac_key_missing")
+    else:
+        body = json.dumps(
+            {k: v for k, v in data.items() if k != "signature"},
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode("utf-8")
+        expected_signature = hmac.new(
+            hmac_key.encode("utf-8"), body, hashlib.sha256
+        ).hexdigest()
+        if not hmac.compare_digest(signature, expected_signature):
+            blocked.append(f"{expected_node}_signature_invalid")
 
     completed_at = data.get("completed_at")
     if not isinstance(completed_at, int) or isinstance(completed_at, bool):
@@ -134,6 +157,7 @@ def aggregate(
     target_sha: str,
     now: int | None = None,
     max_age_seconds: int = 900,
+    hmac_key: str = "",
 ) -> dict[str, Any]:
     now = int(time.time()) if now is None else int(now)
     context = validate_context(
@@ -159,6 +183,7 @@ def aggregate(
                 target_sha=target_sha,
                 now=now,
                 max_age_seconds=max_age_seconds,
+                hmac_key=hmac_key,
             )
         )
 
@@ -226,6 +251,7 @@ def main() -> int:
                 node_id=node_id,
                 target_sha=target_sha,
                 max_age_seconds=max(60, int(os.environ.get("ASTRA_DISTRIBUTED_MAX_AGE_SECONDS", "900"))),
+                hmac_key=os.environ.get("ASTRA_COMMAND_HMAC_KEY", ""),
             )
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(
