@@ -40,12 +40,6 @@ class SoakAgentBindingTests(unittest.TestCase):
         self.assertIn('execution_head") == target_sha', self.text)
 
 
-if __name__ == "__main__":
-    unittest.main()
-,
-        )
-
-
 
 if __name__ == "__main__":
     unittest.main()
