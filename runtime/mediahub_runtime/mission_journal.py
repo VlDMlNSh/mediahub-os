@@ -6,6 +6,7 @@ used to resume the exact command/target-SHA pair after an interrupted process.
 from __future__ import annotations
 
 import json
+import fcntl
 import os
 import time
 from pathlib import Path
@@ -19,6 +20,12 @@ class MissionJournal:
     def __init__(self, path: str | Path):
         self.path = Path(path)
 
+    def _lock(self):
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        handle = self.path.with_suffix(self.path.suffix + ".lock").open("a+", encoding="utf-8")
+        fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        return handle
+
     def load(self) -> dict | None:
         try:
             data = json.loads(self.path.read_text(encoding="utf-8"))
@@ -26,7 +33,7 @@ class MissionJournal:
             return None
         except (OSError, json.JSONDecodeError) as exc:
             raise MissionJournalError("invalid_mission_journal") from exc
-        if not isinstance(data, dict):
+        if not isinstance(data, dict) or data.get("schema") != "mediahub.astra.mission-journal.v1":
             raise MissionJournalError("invalid_mission_journal")
         return data
 
@@ -43,30 +50,37 @@ class MissionJournal:
         return data
 
     def begin(self, *, command_id: str, node_id: str, target_sha: str, agent_sha: str) -> dict:
-        existing = self.load()
-        if existing and existing.get("status") == "RUNNING":
-            if (
-                existing.get("command_id") != command_id
-                or existing.get("node_id") != node_id
-                or existing.get("target_sha") != target_sha
-            ):
-                raise MissionJournalError("different_running_command")
-            existing["resume_count"] = int(existing.get("resume_count", 0)) + 1
-            return self._write(existing)
+        lock = self._lock()
+        try:
+            existing = self.load()
+            if existing and existing.get("status") == "RUNNING":
+                if (
+                    existing.get("command_id") != command_id
+                    or existing.get("node_id") != node_id
+                    or existing.get("target_sha") != target_sha
+                ):
+                    raise MissionJournalError("different_running_command")
+                if existing.get("agent_sha") != agent_sha:
+                    raise MissionJournalError("agent_sha_changed")
+                existing["resume_count"] = int(existing.get("resume_count", 0)) + 1
+                return self._write(existing)
 
-        return self._write({
-            "schema": "mediahub.astra.mission-journal.v1",
-            "status": "RUNNING",
-            "command_id": command_id,
-            "node_id": node_id,
-            "target_sha": target_sha,
-            "agent_sha": agent_sha,
-            "phase": "started",
-            "cycle": 0,
-            "steps": [],
-            "resume_count": 0,
-            "started_at": int(time.time()),
-        })
+            return self._write({
+                "schema": "mediahub.astra.mission-journal.v1",
+                "status": "RUNNING",
+                "command_id": command_id,
+                "node_id": node_id,
+                "target_sha": target_sha,
+                "agent_sha": agent_sha,
+                "phase": "started",
+                "cycle": 0,
+                "steps": [],
+                "resume_count": 0,
+                "started_at": int(time.time()),
+            })
+        finally:
+            fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
+            lock.close()
 
     def checkpoint(self, *, phase: str, cycle: int | None = None, step: dict | None = None, **extra) -> dict:
         data = self.load()
