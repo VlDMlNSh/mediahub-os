@@ -15,7 +15,7 @@ OPERATIONS={"health","research","architecture","review","documents","coding","co
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 AGENT_ID=os.environ.get('ASTRA_AGENT_ID','A0-ASTRA')
 WORKER_ID=os.environ.get('ASTRA_WORKER_ID',f"{AGENT_ID}:{os.getpid()}")
-CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS','900')),3600.0))
+CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS','21600')),21600.0))
 COMMAND_HMAC_MAX_AGE_SECONDS=max(60,int(os.environ.get("ASTRA_COMMAND_HMAC_MAX_AGE_SECONDS","900")))
 COMMAND_HMAC_ENV = {
     "mh-dev-01": "ASTRA_NODE_HMAC_KEY_MH_DEV_01",
@@ -205,6 +205,19 @@ def _claim_for(cmd):
     )
 def execute(cmd):
     operation=cmd.get("operation")
+    journal = None
+    if operation in {"autonomous_qualification_queue", "autonomous_gold_mission"}:
+        runtime_root = ROOT / "runtime"
+        if runtime_root.is_dir() and str(runtime_root) not in sys.path:
+            sys.path.insert(0, str(runtime_root))
+        from mediahub_runtime.mission_journal import MissionJournal
+        journal = MissionJournal(STATE / "mission-journal.json")
+        journal.begin(
+            command_id=str(cmd.get("command_id") or ""),
+            node_id=NODE_ID,
+            target_sha=str(cmd.get("target_sha") or ""),
+            agent_sha=RUNNING_AGENT_SHA,
+        )
     if operation=="health":
         return {"status":"ready","node_id":NODE_ID,"hostname":platform.node(),
                 "platform":platform.platform(),"python":platform.python_version(),
@@ -220,8 +233,11 @@ def execute(cmd):
         started=time.time()
         max_cycles=max(1,int(os.environ.get("ASTRA_AUTONOMOUS_MAX_CYCLES","12")))
         retry_seconds=max(30,int(os.environ.get("ASTRA_AUTONOMOUS_RETRY_SECONDS","300")))
-        steps=[]
+        prior = journal.load() if journal else None
+        steps=list(prior.get("steps", [])) if prior and prior.get("status") == "RUNNING" else []
         target_sha=cmd.get("target_sha","")
+        if journal:
+            journal.checkpoint(phase="target_reconciliation", cycle=0)
         if target_sha:
             current_head = run(["git", "rev-parse", "HEAD"], 10).stdout.strip()
             if current_head.lower() != str(target_sha).lower():
@@ -230,6 +246,8 @@ def execute(cmd):
                         "current_head":current_head}
         cycles=1 if operation=="autonomous_qualification_queue" else max_cycles
         for cycle in range(1,cycles+1):
+            if journal:
+                journal.checkpoint(phase="cycle_started", cycle=cycle)
             if operation=="autonomous_gold_mission" and cycle>1:
                 sync()
                 current_head = run(["git", "rev-parse", "HEAD"], 10).stdout.strip()
@@ -239,32 +257,44 @@ def execute(cmd):
                             "current_head":current_head,
                             "cycles":steps}
             cycle_record={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
+            if journal:
+                journal.checkpoint(phase="execution_backend_qualification", cycle=cycle)
             backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,
                                    capture_output=True,timeout=120,check=False)
             cycle_record["backend"]={"returncode":backend.returncode,
                                      "stdout":backend.stdout[-12000:],"stderr":backend.stderr[-8000:]}
             steps.append(cycle_record)
+            if journal:
+                journal.checkpoint(phase="execution_backend_qualification_complete", cycle=cycle, step={"cycle":cycle,"phase":"backend","returncode":backend.returncode})
             if backend.returncode != 0:
                 if operation=="autonomous_gold_mission" and cycle<cycles:
                     time.sleep(retry_seconds)
                     continue
                 return {"status":"BLOCKED","phase":"execution_backend_qualification",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            if journal:
+                journal.checkpoint(phase="pre_soak_evidence", cycle=cycle)
             evidence=subprocess.run([sys.executable,str(evidence_script)],cwd=ROOT,text=True,
                                     capture_output=True,timeout=900,check=False)
             cycle_record["pre_soak"]={"returncode":evidence.returncode,
                                       "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]}
+            if journal:
+                journal.checkpoint(phase="pre_soak_evidence_complete", cycle=cycle, step={"cycle":cycle,"phase":"pre_soak","returncode":evidence.returncode})
             if evidence.returncode != 0:
                 if operation=="autonomous_gold_mission" and cycle<cycles:
                     time.sleep(retry_seconds)
                     continue
                 return {"status":"BLOCKED","phase":"pre_soak_evidence",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+            if journal:
+                journal.checkpoint(phase="strict_pre_soak_verification", cycle=cycle)
             verifier=subprocess.run([sys.executable,str(verifier_script),"evidence"],
                                     cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
             cycle_record["strict_verifier"]={"returncode":verifier.returncode,
                                               "stdout":verifier.stdout[-12000:],
                                               "stderr":verifier.stderr[-8000:]}
+            if journal:
+                journal.checkpoint(phase="strict_pre_soak_verification_complete", cycle=cycle, step={"cycle":cycle,"phase":"strict_verifier","returncode":verifier.returncode})
             if verifier.returncode != 0:
                 if operation=="autonomous_gold_mission" and cycle<cycles:
                     time.sleep(retry_seconds)
@@ -276,6 +306,8 @@ def execute(cmd):
             dist_env["ASTRA_NODE_ID"]=str(cmd.get("node_id",""))
             dist_env["ASTRA_TARGET_SHA"]=str(target_sha)
             dist_env["ASTRA_WORKTREE"]=str(ROOT)
+            if journal:
+                journal.checkpoint(phase="distributed_verification", cycle=cycle)
             distributed=subprocess.run([sys.executable,str(distributed_script)],cwd=ROOT,text=True,
                                        capture_output=True,timeout=1800,check=False,env=dist_env)
             distributed_payload={}
@@ -289,6 +321,8 @@ def execute(cmd):
                 "stdout":distributed.stdout[-12000:],
                 "stderr":distributed.stderr[-8000:],
             }
+            if journal:
+                journal.checkpoint(phase="distributed_verification_complete", cycle=cycle, step={"cycle":cycle,"phase":"distributed","returncode":distributed.returncode,"status":distributed_payload.get("status")})
             required_nodes=["mh-dev-01","mh-dev-02","Voktors-Mac-mini.local"]
             if distributed.returncode != 0 or distributed_payload.get("status")!="PASS":
                 return {"status":"BLOCKED","phase":"distributed_verification",
@@ -320,6 +354,8 @@ def execute(cmd):
             if operation == "autonomous_gold_mission":
                 queue_env=os.environ.copy()
                 queue_env["ASTRA_QUEUE_STATE_DIR"]=queue_env.get("ASTRA_QUEUE_STATE_DIR",str(ROOT/".astra-state"/"queue"))
+                if journal:
+                    journal.checkpoint(phase="autonomous_queue", cycle=cycle)
                 queue=subprocess.run([sys.executable,"-m","mediahub_runtime.autonomous_queue"],
                                      cwd=ROOT,text=True,capture_output=True,
                                      timeout=int(os.environ.get("ASTRA_QUEUE_RUN_TIMEOUT","3600")),
@@ -331,16 +367,29 @@ def execute(cmd):
                     queue_payload={"status":"BLOCKED","reason":"queue_output_not_json"}
                 cycle_record["autonomous_queue"]={"returncode":queue.returncode,"payload":queue_payload,
                                                   "stdout":queue.stdout[-16000:],"stderr":queue.stderr[-10000:]}
+                if journal:
+                    journal.checkpoint(phase="autonomous_queue_complete", cycle=cycle, step={"cycle":cycle,"phase":"queue","returncode":queue.returncode,"status":queue_payload.get("status")})
                 if queue.returncode != 0 or queue_payload.get("status") != "PASS":
-                    return {"status":"BLOCKED","phase":"autonomous_queue","steps":steps,
-                            "elapsed_seconds":round(time.time()-started,3)}
-                return {"status":"PASS","phase":"autonomous_queue","steps":steps,
+                    result={"status":"BLOCKED","phase":"autonomous_queue","steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+                    if journal:
+                        journal.finish(status="BLOCKED", result=result)
+                    return result
+                result={"status":"PASS","phase":"autonomous_queue","steps":steps,
                         "queue":queue_payload,"elapsed_seconds":round(time.time()-started,3)}
-            return {"status":"PASS","phase":"gold_qualification","steps":steps,
+                if journal:
+                    journal.finish(status="PASS", result=result)
+                return result
+            result={"status":"PASS","phase":"gold_qualification","steps":steps,
                     "elapsed_seconds":round(time.time()-started,3)}
+            if journal:
+                journal.finish(status="PASS", result=result)
+            return result
 
-        return {"status":"BLOCKED","phase":"autonomous_retry_window_exhausted",
+        result={"status":"BLOCKED","phase":"autonomous_retry_window_exhausted",
                 "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+        if journal:
+            journal.finish(status="BLOCKED", result=result)
+        return result
 
     if operation == "reconcile_controller_processes":
         ps=subprocess.run(["/usr/bin/ps","-eo","pid=,args="],text=True,capture_output=True,timeout=10,check=False)
