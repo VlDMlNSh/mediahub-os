@@ -106,7 +106,7 @@ jobs:
 
   node-voktors-mac:
     name: Fresh attestation Voktors-Mac-mini.local
-    runs-on: [self-hosted, macOS, ARM64, voktors-mac-mini-distributed]
+    runs-on: [self-hosted, macOS, ARM64, astra-control]
     timeout-minutes: 15
     env:
       ASTRA_EXPECTED_NODE_ID: Voktors-Mac-mini.local
