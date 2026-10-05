@@ -52,7 +52,7 @@ class DistributedVerificationProducerTests(unittest.TestCase):
             root = Path(td)
             self.write_attestation(root, self.attestation("mh-dev-01"))
             result = producer.aggregate(
-                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, current_head="a"*40, now=1100, max_age_seconds=120, hmac_key="test-secret"
+                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, current_head="a"*40, now=1100, max_age_seconds=120, hmac_keys={"mh-dev-01": "test-secret", "mh-dev-02": "test-secret-2", "Voktors-Mac-mini.local": "test-secret-3"}
             )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("mh-dev-02_missing", result["blocked_reasons"])
@@ -64,7 +64,7 @@ class DistributedVerificationProducerTests(unittest.TestCase):
             for node in producer.REQUIRED_NODES:
                 self.write_attestation(root, self.attestation(node, completed_at=500))
             result = producer.aggregate(
-                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, current_head="a"*40, now=1100, max_age_seconds=120, hmac_key="test-secret"
+                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, current_head="a"*40, now=1100, max_age_seconds=120, hmac_keys={"mh-dev-01": "test-secret", "mh-dev-02": "test-secret-2", "Voktors-Mac-mini.local": "test-secret-3"}
             )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertTrue(any(reason.endswith("_stale") for reason in result["blocked_reasons"]))
@@ -75,7 +75,7 @@ class DistributedVerificationProducerTests(unittest.TestCase):
             for node in producer.REQUIRED_NODES:
                 self.write_attestation(root, self.attestation(node, completed_at=1090))
             result = producer.aggregate(
-                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, current_head="a"*40, now=1100, max_age_seconds=120, hmac_key="test-secret"
+                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, current_head="a"*40, now=1100, max_age_seconds=120, hmac_keys={"mh-dev-01": "test-secret", "mh-dev-02": "test-secret-2", "Voktors-Mac-mini.local": "test-secret-3"}
             )
         self.assertEqual(result["status"], "PASS")
         self.assertEqual(result["checked_nodes"], producer.REQUIRED_NODES)
@@ -87,7 +87,7 @@ class DistributedVerificationProducerTests(unittest.TestCase):
             payload.pop("signature")
             self.write_attestation(root, payload)
             result = producer.aggregate(
-                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, current_head="a"*40, now=1000, max_age_seconds=120, hmac_key="test-secret"
+                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, current_head="a"*40, now=1000, max_age_seconds=120, hmac_keys={"mh-dev-01": "test-secret", "mh-dev-02": "test-secret-2", "Voktors-Mac-mini.local": "test-secret-3"}
             )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("mh-dev-01_signature_missing", result["blocked_reasons"])
@@ -99,7 +99,7 @@ class DistributedVerificationProducerTests(unittest.TestCase):
             payload["observations"]["transport"] = False
             self.write_attestation(root, payload)
             result = producer.aggregate(
-                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, current_head="a"*40, now=1000, max_age_seconds=120, hmac_key="test-secret"
+                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, current_head="a"*40, now=1000, max_age_seconds=120, hmac_keys={"mh-dev-01": "test-secret", "mh-dev-02": "test-secret-2", "Voktors-Mac-mini.local": "test-secret-3"}
             )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("mh-dev-01_signature_invalid", result["blocked_reasons"])
@@ -115,7 +115,7 @@ class DistributedVerificationProducerTests(unittest.TestCase):
                 current_head="b"*40,
                 now=1000,
                 max_age_seconds=120,
-                hmac_key="test-secret",
+                hmac_keys={"mh-dev-01": "test-secret", "mh-dev-02": "test-secret-2", "Voktors-Mac-mini.local": "test-secret-3"},
             )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("target_sha_mismatch", result["blocked_reasons"])
@@ -134,7 +134,7 @@ class DistributedVerificationProducerTests(unittest.TestCase):
                 current_head="a"*40,
                 now=1000,
                 max_age_seconds=120,
-                hmac_key="test-secret",
+                hmac_keys={"mh-dev-01": "test-secret", "mh-dev-02": "test-secret-2", "Voktors-Mac-mini.local": "test-secret-3"},
             )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("mh-dev-01_producer_identity_mismatch", result["blocked_reasons"])
@@ -159,7 +159,7 @@ class DistributedVerificationProducerTests(unittest.TestCase):
                 current_head="a"*40,
                 now=1000,
                 max_age_seconds=120,
-                hmac_key="test-secret",
+                hmac_keys={"mh-dev-01": "test-secret", "mh-dev-02": "test-secret-2", "Voktors-Mac-mini.local": "test-secret-3"},
             )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("mh-dev-01_current_head_mismatch", result["blocked_reasons"])
