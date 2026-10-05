@@ -25,7 +25,7 @@ jobs:
     outputs:
       command_id: ${{ steps.command.outputs.command_id }}
     env:
-      ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+      ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -59,7 +59,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -n "$ASTRA_COMMAND_HMAC_KEY"
+          test -n "$ASTRA_NODE_HMAC_KEY_MH_DEV_01"
           mkdir -p control/commands
           python3 - <<'PY'
           import json, os, time
@@ -116,7 +116,7 @@ jobs:
       ASTRA_WORKFLOW_ONLY: "1"
       ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
       ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state/distributed-verification"
-      ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+      ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
     steps:
       - uses: actions/checkout@v4
         with:
