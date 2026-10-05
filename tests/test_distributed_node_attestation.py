@@ -13,6 +13,7 @@ class DistributedNodeAttestationTests(unittest.TestCase):
         result = producer.validate_context(
             node_id="mh-dev-01",
             hostname="mh-dev-01",
+            current_user="mediahub-runner",
             target_sha="a"*40,
             current_head="a"*40,
             command_id="CMD-1",
@@ -24,6 +25,7 @@ class DistributedNodeAttestationTests(unittest.TestCase):
         result = producer.validate_context(
             node_id="mh-dev-02",
             hostname="mh-dev-01",
+            current_user="mediahub-runner",
             target_sha="a"*40,
             current_head="a"*40,
             command_id="CMD-1",
@@ -35,6 +37,7 @@ class DistributedNodeAttestationTests(unittest.TestCase):
         result = producer.validate_context(
             node_id="mh-dev-01",
             hostname="mh-dev-01",
+            current_user="mediahub-runner",
             target_sha="a"*40,
             current_head="b"*40,
             command_id="CMD-1",
@@ -103,6 +106,19 @@ class DistributedNodeAttestationTests(unittest.TestCase):
             )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertEqual(result["returncode"], 2)
+
+    def test_wrong_user_identity_blocks(self):
+        result = producer.validate_context(
+            node_id="mh-dev-01",
+            hostname="mh-dev-01",
+            current_user="mediahub",
+            target_sha="a"*40,
+            current_head="a"*40,
+            command_id="CMD-1",
+            hmac_key="test-secret",
+        )
+        self.assertIn("user_identity_mismatch", result)
+
 
 
 if __name__ == "__main__":
