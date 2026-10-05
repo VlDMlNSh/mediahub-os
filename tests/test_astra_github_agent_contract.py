@@ -70,6 +70,12 @@ class AstraTransportContractTests(unittest.TestCase):
         roles = {"A0", "A1", "A2", "A3"}
         self.assertEqual(roles, {"A0", "A1", "A2", "A3"})
 
+    def test_replay_marker_is_written_after_successful_command(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        main_start = source.index("def main():")
+        main_source = source[main_start:]
+        self.assertIn("publish(", main_source)
+        self.assertIn('_mark_command_executed(cmd.get("command_id",""))', main_source)
 
 if __name__ == "__main__":
     unittest.main()
