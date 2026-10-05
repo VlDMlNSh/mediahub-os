@@ -9,82 +9,100 @@ from ops.qualification import produce_distributed_node_attestation as producer
 
 
 class DistributedNodeAttestationTests(unittest.TestCase):
-    def test_context_requires_expected_identity_and_target_head(self):
-        with patch.object(producer, "current_head", return_value="a"*40):
-            result = producer.build_attestation(
-                command_id="CMD-1",
+    def test_validate_context_accepts_matching_identity_and_head(self):
+        result = producer.validate_context(
+            node_id="mh-dev-01",
+            hostname="mh-dev-01",
+            target_sha="a"*40,
+            current_head="a"*40,
+            command_id="CMD-1",
+            hmac_key="test-secret",
+        )
+        self.assertEqual(result, [])
+
+    def test_wrong_node_identity_blocks(self):
+        result = producer.validate_context(
+            node_id="mh-dev-02",
+            hostname="mh-dev-01",
+            target_sha="a"*40,
+            current_head="a"*40,
+            command_id="CMD-1",
+            hmac_key="test-secret",
+        )
+        self.assertIn("hostname_node_binding_mismatch", result)
+
+    def test_target_head_mismatch_blocks(self):
+        result = producer.validate_context(
+            node_id="mh-dev-01",
+            hostname="mh-dev-01",
+            target_sha="a"*40,
+            current_head="b"*40,
+            command_id="CMD-1",
+            hmac_key="test-secret",
+        )
+        self.assertIn("target_sha_mismatch", result)
+
+    def test_missing_hmac_key_blocks(self):
+        result = producer.validate_context(
+            node_id="mh-dev-01",
+            hostname="mh-dev-01",
+            target_sha="a"*40,
+            current_head="a"*40,
+            command_id="CMD-1",
+            hmac_key="",
+        )
+        self.assertIn("missing_hmac_key", result)
+
+    def test_collect_attestation_signs_fresh_pass_payload(self):
+        pass_result = {
+            "returncode": 0,
+            "status": "PASS",
+            "duration_seconds": 0.1,
+            "stdout": "",
+            "stderr": "",
+        }
+        with patch.object(producer, "run_check", return_value=pass_result):
+            result = producer.collect_attestation(
+                root=Path("."),
                 node_id="mh-dev-01",
+                hostname="mh-dev-01",
+                command_id="CMD-1",
                 target_sha="a"*40,
-                current_node="mh-dev-01",
-                current_user="mediahub-runner",
-                current_head="a"*40,
-                observed_at=1000,
-                checks={"identity": True, "head": True},
                 hmac_key="test-secret",
+                current_head="a"*40,
             )
         self.assertEqual(result["status"], "PASS")
         self.assertEqual(result["producer_identity"], "node-agent:mh-dev-01")
-        self.assertIn("signature", result)
-
-    def test_wrong_node_identity_blocks(self):
-        result = producer.build_attestation(
-            command_id="CMD-1",
-            node_id="mh-dev-01",
-            target_sha="a"*40,
-            current_node="mh-dev-02",
-            current_user="mediahub",
-            current_head="a"*40,
-            observed_at=1000,
-            checks={"identity": True, "head": True},
-            hmac_key="test-secret",
-        )
-        self.assertEqual(result["status"], "BLOCKED")
-        self.assertIn("node_identity_mismatch", result["blocked_reasons"])
-
-    def test_target_head_mismatch_blocks(self):
-        result = producer.build_attestation(
-            command_id="CMD-1",
-            node_id="mh-dev-01",
-            target_sha="a"*40,
-            current_node="mh-dev-01",
-            current_user="mediahub-runner",
-            current_head="b"*40,
-            observed_at=1000,
-            checks={"identity": True, "head": True},
-            hmac_key="test-secret",
-        )
-        self.assertEqual(result["status"], "BLOCKED")
-        self.assertIn("target_sha_mismatch", result["blocked_reasons"])
-
-    def test_missing_hmac_key_blocks(self):
-        result = producer.build_attestation(
-            command_id="CMD-1",
-            node_id="mh-dev-01",
-            target_sha="a"*40,
-            current_node="mh-dev-01",
-            current_user="mediahub-runner",
-            current_head="a"*40,
-            observed_at=1000,
-            checks={"identity": True, "head": True},
-            hmac_key="",
-        )
-        self.assertEqual(result["status"], "BLOCKED")
-        self.assertIn("hmac_key_missing", result["blocked_reasons"])
+        self.assertTrue(result["signature"])
+        body = json.dumps(
+            {k: v for k, v in result.items() if k != "signature"},
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=False,
+        ).encode()
+        expected = hmac.new(b"test-secret", body, hashlib.sha256).hexdigest()
+        self.assertEqual(result["signature"], expected)
 
     def test_failed_check_cannot_emit_pass(self):
-        result = producer.build_attestation(
-            command_id="CMD-1",
-            node_id="mh-dev-01",
-            target_sha="a"*40,
-            current_node="mh-dev-01",
-            current_user="mediahub-runner",
-            current_head="a"*40,
-            observed_at=1000,
-            checks={"identity": True, "head": False},
-            hmac_key="test-secret",
-        )
+        fail_result = {
+            "returncode": 1,
+            "status": "BLOCKED",
+            "duration_seconds": 0.1,
+            "stdout": "",
+            "stderr": "failed",
+        }
+        with patch.object(producer, "run_check", return_value=fail_result):
+            result = producer.collect_attestation(
+                root=Path("."),
+                node_id="mh-dev-01",
+                hostname="mh-dev-01",
+                command_id="CMD-1",
+                target_sha="a"*40,
+                hmac_key="test-secret",
+                current_head="a"*40,
+            )
         self.assertEqual(result["status"], "BLOCKED")
-        self.assertIn("check_failed:head", result["blocked_reasons"])
+        self.assertEqual(result["returncode"], 2)
 
 
 if __name__ == "__main__":
