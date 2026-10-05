@@ -20,7 +20,7 @@ jobs:
   qualify:
     if: ${{ inputs.confirm_launch == true }}
     name: Whole-system ASTRA GOLD qualification
-    runs-on: [self-hosted, mediahub-runner]
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 1450
     env:
       ASTRA_NODE_ID: mh-dev-01
