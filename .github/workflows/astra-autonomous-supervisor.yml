@@ -166,19 +166,11 @@ jobs:
           assert d.get("returncode") == 0
           phase=result.get("phase")
           status=result.get("status")
-          assert phase in {
-              "execution_backend_qualification",
-              "pre_soak_evidence",
-              "strict_pre_soak_verification",
-              "distributed_verification",
-              "gold_qualification",
-              "autonomous_queue",
-              "local_component_inventory",
-              "local_component_qualification",
-              "local_ai_capability_qualification",
-              "codex_gateway_diagnostic",
-              "target_reconciliation",
-              "autonomous_retry_window_exhausted",
-              "health",
-          } or status == "ready"
+          assert phase == "autonomous_queue"
+          assert status == "PASS"
+          queue=result.get("queue", {})
+          assert isinstance(queue, dict)
+          assert queue.get("status") == "PASS"
+          assert int(queue.get("workers", 0)) >= 1
+          assert all(item.get("status") == "VERIFIED" for item in queue.get("results", []))
           PY
