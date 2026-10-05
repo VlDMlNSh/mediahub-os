@@ -1,4 +1,6 @@
 import json
+import hashlib
+import hmac
 import os
 import unittest
 from pathlib import Path
@@ -9,7 +11,7 @@ from ops.qualification import produce_distributed_verification_evidence as produ
 
 class DistributedVerificationProducerTests(unittest.TestCase):
     def attestation(self, node_id, command_id="CMD-1", target_sha="a"*40, status="PASS", completed_at=1000):
-        return {
+        payload = {
             "schema": "mediahub.astra.distributed-node-attestation.v1",
             "command_id": command_id,
             "node_id": node_id,
@@ -20,7 +22,14 @@ class DistributedVerificationProducerTests(unittest.TestCase):
             "returncode": 0,
             "completed_at": completed_at,
             "observations": {"identity": True, "transport": True},
+            "auth_schema_version": "mediahub.astra.distributed.auth.v1",
         }
+        payload["signature"] = hmac.new(
+            b"test-secret",
+            json.dumps({k: v for k, v in payload.items() if k != "signature"}, sort_keys=True, separators=(",", ":")).encode(),
+            hashlib.sha256,
+        ).hexdigest()
+        return payload
 
     def write_attestation(self, root: Path, payload: dict):
         path = root / f"{payload['node_id']}.json"
@@ -72,3 +81,28 @@ class DistributedVerificationProducerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_unsigned_attestation_is_rejected(self):
+        with TemporaryDirectory() as td:
+            root = Path(td)
+            payload = self.attestation("mh-dev-01")
+            payload.pop("signature")
+            self.write_attestation(root, payload)
+            result = producer.aggregate(
+                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, now=1000, max_age_seconds=120
+            )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("mh-dev-01_signature_missing", result["blocked_reasons"])
+
+    def test_tampered_attestation_signature_is_rejected(self):
+        with TemporaryDirectory() as td:
+            root = Path(td)
+            payload = self.attestation("mh-dev-01")
+            payload["observations"]["transport"] = False
+            self.write_attestation(root, payload)
+            result = producer.aggregate(
+                root, command_id="CMD-1", node_id="mh-dev-01", target_sha="a"*40, now=1000, max_age_seconds=120
+            )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("mh-dev-01_signature_invalid", result["blocked_reasons"])
