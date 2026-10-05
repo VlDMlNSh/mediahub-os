@@ -103,8 +103,11 @@ def _validate_attestation(
         blocked.append(f"{expected_node}_node_id_mismatch")
     if data.get("target_sha") != target_sha:
         blocked.append(f"{expected_node}_target_sha_mismatch")
+    expected_identity = f"node-agent:{expected_node}"
     if not isinstance(data.get("producer_identity"), str) or not data.get("producer_identity"):
         blocked.append(f"{expected_node}_producer_identity_missing")
+    elif data.get("producer_identity") != expected_identity:
+        blocked.append(f"{expected_node}_producer_identity_mismatch")
     if data.get("phase") != PHASE:
         blocked.append(f"{expected_node}_phase_mismatch")
     if data.get("status") != "PASS":
@@ -155,6 +158,7 @@ def aggregate(
     command_id: str,
     node_id: str,
     target_sha: str,
+    current_head: str,
     now: int | None = None,
     max_age_seconds: int = 900,
     hmac_key: str = "",
@@ -164,7 +168,7 @@ def aggregate(
         command_id=command_id,
         node_id=node_id,
         target_sha=target_sha,
-        current_head=target_sha,
+        current_head=current_head,
     )
     blocked = list(context.blocked_reasons)
 
@@ -250,6 +254,7 @@ def main() -> int:
                 command_id=command_id,
                 node_id=node_id,
                 target_sha=target_sha,
+                current_head=head,
                 max_age_seconds=max(60, int(os.environ.get("ASTRA_DISTRIBUTED_MAX_AGE_SECONDS", "900"))),
                 hmac_key=os.environ.get("ASTRA_COMMAND_HMAC_KEY", ""),
             )
