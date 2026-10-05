@@ -155,6 +155,7 @@ jobs:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_WORKTREE: ${{ github.workspace }}
+      ASTRA_DISTRIBUTED_EVIDENCE_DIR: ${{ github.workspace }}/.astra-state/distributed-verification
       ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
       ASTRA_NODE_HMAC_KEY_MH_DEV_02: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
       ASTRA_NODE_HMAC_KEY_VOKTORS_MAC: ${{ secrets.ASTRA_NODE_HMAC_KEY_VOKTORS_MAC }}
