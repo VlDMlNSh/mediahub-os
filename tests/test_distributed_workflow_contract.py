@@ -20,6 +20,11 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertIn("mh-dev-02-canonical", linux)
         self.assertIn("Voktors-Mac-mini-canonical", mac)
 
+    def test_node_jobs_require_expected_runtime_users(self):
+        text = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn('test "$(id -un)" = "mediahub"', text)
+        self.assertIn('test "$(id -un)" = "voktor"', text)
+
     def test_reusable_workflow_is_bound_to_command_and_target_sha(self):
         text = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("workflow_call", text)
