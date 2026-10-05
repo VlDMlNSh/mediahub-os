@@ -120,13 +120,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 50
+          ref: ${{ github.sha }}
+          fetch-depth: 1
       - name: Canonical admission
         shell: bash
         run: |
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --short)"
       - name: Download signed command and fresh distributed evidence
         uses: actions/download-artifact@v4
         with:
