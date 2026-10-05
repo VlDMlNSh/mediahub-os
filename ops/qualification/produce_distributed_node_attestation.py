@@ -122,12 +122,15 @@ def build_attestation(
 
 
 def validate_context(
-    *, node_id: str, hostname: str, target_sha: str, current_head: str, command_id: str, hmac_key: str
+    *, node_id: str, hostname: str, current_user: str, target_sha: str, current_head: str, command_id: str, hmac_key: str
 ) -> list[str]:
     blocked: list[str] = []
     ok, reason = validate_identity(node_id, hostname)
     if not ok:
         blocked.append(reason)
+    spec = SAFE_NODES.get(node_id)
+    if spec is not None and current_user != spec["user"]:
+        blocked.append("user_identity_mismatch")
     if not command_id:
         blocked.append("missing_command_id")
     if not target_sha or len(target_sha) not in SHA_LEN:
@@ -174,6 +177,7 @@ def collect_attestation(
     root: Path,
     node_id: str,
     hostname: str,
+    current_user: str,
     command_id: str,
     target_sha: str,
     hmac_key: str,
@@ -184,6 +188,7 @@ def collect_attestation(
     blocked = validate_context(
         node_id=node_id,
         hostname=hostname,
+        current_user=current_user,
         target_sha=target_sha,
         current_head=current_head,
         command_id=command_id,
@@ -272,6 +277,7 @@ def main() -> int:
     root = Path(os.environ.get("ASTRA_WORKTREE", Path.cwd()))
     node_id = os.environ.get("ASTRA_EXPECTED_NODE_ID", "")
     hostname = platform.node()
+    current_user = os.environ.get("USER") or os.environ.get("LOGNAME") or ""
     command_id = os.environ.get("ASTRA_COMMAND_ID", "")
     target_sha = os.environ.get("ASTRA_TARGET_SHA", "")
     hmac_key = os.environ.get("ASTRA_COMMAND_HMAC_KEY", "")
@@ -296,6 +302,7 @@ def main() -> int:
             root=root,
             node_id=node_id,
             hostname=hostname,
+            current_user=current_user,
             command_id=command_id,
             target_sha=target_sha,
             hmac_key=hmac_key,
@@ -314,6 +321,7 @@ def main() -> int:
             "completed_at": int(time.time()),
             "auth_schema_version": AUTH_SCHEMA,
             "hostname": hostname,
+            "current_user": current_user,
             "current_head": "",
             "observations": {},
             "checks": {},
