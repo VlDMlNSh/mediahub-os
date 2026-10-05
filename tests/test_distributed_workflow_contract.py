@@ -28,6 +28,10 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertIn("ASTRA_COMMAND_HMAC_KEY", text)
         self.assertIn("produce_distributed_node_attestation.py", text)
 
+    def test_supervisor_does_not_cancel_longer_distributed_runs(self):
+        text = SUPERVISOR.read_text(encoding="utf-8")
+        self.assertIn("cancel-in-progress: false", text)
+
     def test_supervisor_waits_for_fresh_distributed_attestations(self):
         text = SUPERVISOR.read_text(encoding="utf-8")
         self.assertIn("astra-distributed-node-attestations.yml", text)
