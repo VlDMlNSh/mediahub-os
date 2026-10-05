@@ -257,6 +257,7 @@ def collect_attestation(
         "node_id": node_id,
         "target_sha": target_sha,
         "producer_identity": f"{PRODUCER_PREFIX}{node_id}",
+        "auth_key_id": attestation_key_id(node_id),
         "phase": PHASE,
         "status": status,
         "returncode": 0 if status == "PASS" else 2,
