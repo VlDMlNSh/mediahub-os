@@ -30,6 +30,15 @@ class AutonomousMissionTests(unittest.TestCase):
         self.assertIn("maybe_reexec_updated_agent()", self.source)
         self.assertIn("read_command()", self.source)
 
+    def test_controller_uses_explicit_distributed_producer_binding(self):
+        self.assertIn('produce_distributed_verification_evidence.py', self.source)
+        self.assertIn('ASTRA_COMMAND_ID', self.source)
+        self.assertIn('ASTRA_TARGET_SHA', self.source)
+        self.assertIn('canonical-distributed-verification-producer-v1', self.source)
+
+    def test_controller_does_not_promote_pre_soak_executor_to_gold(self):
+        self.assertNotIn('astra_gold_executor.py', self.source)
+
 
 if __name__ == "__main__":
     unittest.main()
