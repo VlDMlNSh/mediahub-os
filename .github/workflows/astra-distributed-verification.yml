@@ -58,7 +58,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -n "$ASTRA_COMMAND_HMAC_KEY"
+          test -n "$ASTRA_NODE_ATTESTATION_HMAC_KEY"
           mkdir -p "$ASTRA_WORKTREE/.astra-state/distributed-attestation"
           python3 ops/qualification/produce_distributed_node_attestation.py
       - name: Upload node attestation
@@ -94,7 +94,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -n "$ASTRA_COMMAND_HMAC_KEY"
+          test -n "$ASTRA_NODE_ATTESTATION_HMAC_KEY"
           mkdir -p "$ASTRA_WORKTREE/.astra-state/distributed-attestation"
           python3 ops/qualification/produce_distributed_node_attestation.py
       - name: Upload node attestation
@@ -131,7 +131,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -n "$ASTRA_COMMAND_HMAC_KEY"
+          test -n "$ASTRA_NODE_ATTESTATION_HMAC_KEY"
           mkdir -p "$ASTRA_WORKTREE/.astra-state/distributed-attestation"
           python3 ops/qualification/produce_distributed_node_attestation.py
       - name: Upload node attestation
@@ -155,7 +155,9 @@ jobs:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_WORKTREE: ${{ github.workspace }}
-      ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+      ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
+      ASTRA_NODE_HMAC_KEY_MH_DEV_02: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
+      ASTRA_NODE_HMAC_KEY_VOKTORS_MAC: ${{ secrets.ASTRA_NODE_HMAC_KEY_VOKTORS_MAC }}
     outputs:
       status: ${{ steps.aggregate.outputs.status }}
       evidence_artifact: astra-distributed-evidence-${{ github.run_id }}-${{ github.run_attempt }}
