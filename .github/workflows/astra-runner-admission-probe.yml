@@ -1,4 +1,5 @@
 name: Astra runner admission probe
+# Transport probe retrigger marker: 2026-10-05 canonical Actions admission check.
 
 on:
   push:
