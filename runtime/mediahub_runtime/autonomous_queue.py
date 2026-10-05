@@ -67,8 +67,8 @@ def completed(task_id: str, base_sha: str | None = None) -> bool:
     return payload.get("status") == "VERIFIED" and payload.get("base_sha") == base_sha
 
 
-def dependencies_satisfied(task: dict) -> bool:
-    return all(completed(str(dep)) for dep in task.get("dependencies", ()))
+def dependencies_satisfied(task: dict, base_sha: str | None = None) -> bool:
+    return all(completed(str(dep), base_sha) for dep in task.get("dependencies", ()))
 
 
 def evidence(task_id: str, payload: dict) -> None:
@@ -144,6 +144,18 @@ def _diff_outside_scope(task: dict, worktree: Path, base_sha: str) -> list[str]:
         ):
             bad.append(path)
         elif boundary and not _path_in_scope(path, boundary):
+            bad.append(path)
+    status = run(["git", "status", "--porcelain", "--untracked-files=all"], 60, worktree)
+    if status.returncode != 0:
+        raise RuntimeError("status_listing_failed")
+    for line in status.stdout.splitlines():
+        if not line:
+            continue
+        path = line[3:].strip() if len(line) >= 3 else line.strip()
+        if " -> " in path:
+            path = path.split(" -> ", 1)[1]
+        if path and (forbidden and any(path == root or path.startswith(root.rstrip("/") + "/") for root in forbidden)
+                      or (boundary and not _path_in_scope(path, boundary))):
             bad.append(path)
     return sorted(set(bad))
 
@@ -281,7 +293,7 @@ def main() -> int:
     tasks = [
         t
         for t in load_tasks()
-        if not completed(str(t["task_id"]), base_sha) and dependencies_satisfied(t)
+        if not completed(str(t["task_id"]), base_sha) and dependencies_satisfied(t, base_sha)
     ]
     if not tasks:
         print(json.dumps({"status": "IDLE", "reason": "no_ready_tasks"}, sort_keys=True))
