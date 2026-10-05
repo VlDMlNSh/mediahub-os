@@ -21,7 +21,7 @@ concurrency:
 jobs:
   preflight:
     name: GOLD preflight on canonical node
-    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 30
     outputs:
       target_sha: ${{ steps.queue_gate.outputs.target_sha }}
@@ -109,7 +109,7 @@ jobs:
   soak:
     name: 24h autonomous runtime soak
     needs: preflight
-    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 1450
     steps:
       - uses: actions/checkout@v4
