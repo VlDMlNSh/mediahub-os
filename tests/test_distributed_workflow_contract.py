@@ -66,6 +66,19 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         for node in ("mh-dev-01", "mh-dev-02", "Voktors-Mac-mini.local"):
             self.assertIn(node, text)
 
+    def test_supervisor_does_not_inject_provider_credentials(self):
+        text = SUPERVISOR.read_text(encoding="utf-8")
+        forbidden = (
+            "SILICONFLOW_API_KEY", "NOVITA_API_KEY", "ZAI_API_KEY", "KIMI_API_KEY",
+            "MOONSHOT_API_KEY", "LLM7_API_KEY", "SAMBANOVA_API_KEY", "AIONLABS_API_KEY",
+            "CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "NARAROUTER_API_KEY",
+            "ORCAROUTER_API_KEY", "UNOROUTER_API_KEY", "ZEROUTER_API_KEY",
+            "DEEPSEEK_API_KEY", "GEMINI_API_KEY", "GROQ_API_KEY", "MISTRAL_API_KEY",
+            "OPENROUTER_API_KEY", "HF_TOKEN",
+        )
+        for marker in forbidden:
+            self.assertNotIn(marker, text)
+
     def test_supervisor_uses_single_distributed_gate(self):
         text = SUPERVISOR.read_text(encoding="utf-8")
         self.assertIn("distributed-verification:", text)
