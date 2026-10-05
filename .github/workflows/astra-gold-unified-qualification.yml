@@ -185,6 +185,7 @@ jobs:
           assert d.get("command_id") == expected
           assert d.get("node_id") == "mh-dev-01"
           assert d.get("target_sha") == os.environ["GITHUB_SHA"]
+          assert d.get("execution_head") == d.get("target_sha")
           assert d.get("returncode") == 0
           assert result.get("phase") == "autonomous_queue"
           assert result.get("status") == "PASS"
