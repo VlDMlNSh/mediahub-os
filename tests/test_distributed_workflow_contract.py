@@ -106,5 +106,22 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         ):
             self.assertIn(secret, text)
         self.assertNotIn("ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}", text)
+
+    def test_autonomous_and_gold_workflows_use_read_only_token_permissions(self):
+        for workflow in (
+            ROOT / ".github/workflows/astra-autonomous-supervisor.yml",
+            ROOT / ".github/workflows/astra-gold-unified-qualification.yml",
+        ):
+            text = workflow.read_text(encoding="utf-8")
+            self.assertIn("permissions:", text)
+            self.assertIn("contents: read", text)
+            self.assertNotIn("contents: write", text)
+
+    def test_supervisor_and_unified_gold_bind_execution_head_to_target_sha(self):
+        supervisor = (ROOT / ".github/workflows/astra-autonomous-supervisor.yml").read_text(encoding="utf-8")
+        unified = (ROOT / ".github/workflows/astra-gold-unified-qualification.yml").read_text(encoding="utf-8")
+        self.assertIn('assert d.get("execution_head") == d.get("target_sha")', supervisor)
+        self.assertIn('assert d.get("execution_head") == d.get("target_sha")', unified)
+
 if __name__ == "__main__":
     unittest.main()
