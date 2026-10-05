@@ -17,26 +17,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  qualify:
+  prepare-command:
     if: ${{ inputs.confirm_launch == true }}
-    name: Whole-system ASTRA GOLD qualification
+    name: Prepare signed GOLD command
     runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
-    timeout-minutes: 1450
+    timeout-minutes: 30
+    outputs:
+      command_id: ${{ steps.command.outputs.command_id }}
     env:
-      ASTRA_NODE_ID: mh-dev-01
-      ASTRA_AUTONOMOUS_MAX_CYCLES: "12"
-      ASTRA_AUTONOMOUS_RETRY_SECONDS: "300"
-      ASTRA_QUALIFICATION_TIMEOUT: "87000"
-      # Provider credentials are node-local and MUST NOT cross the GitHub control/evidence boundary.
-      # Provider qualification fails closed when the required node-local credential is unavailable.
+      ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 50
-
-      - name: Install test dependencies
-        run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
-
       - name: Canonical runtime preflight
         shell: bash
         run: |
@@ -46,49 +39,158 @@ jobs:
           test -z "$(git status --short)"
           python3 -m compileall -q runtime tests astra_github_agent.py
           PYTHONPATH=runtime:. python3 -m unittest discover -s tests -p 'test_*.py'
-
       - name: Canonical qualification launch gate schema
         shell: bash
         run: |
           set -euo pipefail
           python3 -m unittest -v tests/test_astra_gold_qualification_launch_schema.py tests/test_qualification_launch_gate.py tests/test_openopc_registry.py
-
       - name: ASTRA GOLD architecture drift gate
         shell: bash
         run: |
           set -euo pipefail
           python3 -m unittest -v tests/test_astra_gold_architecture_drift.py
-
       - name: Qualify hybrid cloud provider authentication
         shell: bash
         run: |
           set -euo pipefail
           python3 ops/qualification/hybrid_agent_auth_probe.py
-
-      - name: Execute unified ASTRA GOLD mission
+      - name: Materialize and sign authoritative GOLD command
+        id: command
         shell: bash
         run: |
           set -euo pipefail
+          test -n "$ASTRA_COMMAND_HMAC_KEY"
+          mkdir -p control/commands
           python3 - <<'PY'
-          import json
-          import os
-          import astra_github_agent
-
-          target_sha=os.environ["GITHUB_SHA"]
-          command={
-              "command_id": f"ASTRA-GOLD-UNIFIED-{os.environ['GITHUB_RUN_ID']}",
-              "node_id": "mh-dev-01",
-              "operation": "autonomous_gold_mission",
-              "target_sha": target_sha,
-              "workflow_only": False,
-              "owned_paths": ["architecture", "ops/agent-fabric", "ops/qualification", "control/qualification"]
-          }
-          result=astra_github_agent.execute(command)
-          print(json.dumps(result, indent=2, sort_keys=True))
-          if result.get("status") != "PASS":
-              raise SystemExit(2)
+          import json, os, time
+          from pathlib import Path
+          node="mh-dev-01"
+          command_id=f"ASTRA-GOLD-UNIFIED-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          p=Path("control/commands")/f"{node}.json"
+          p.write_text(json.dumps({
+              "schema_version":"mediahub.astra.control-command.v1",
+              "command_id":command_id,
+              "node_id":node,
+              "operation":"autonomous_gold_mission",
+              "target_sha":os.environ["GITHUB_SHA"],
+              "workflow_only":True,
+              "owned_paths":["architecture","ops/agent-fabric","ops/qualification","control/qualification"],
+              "title":"Human-admitted unified ASTRA GOLD qualification",
+              "description":"Execute the canonical Astra GOLD mission through signed command authority, fresh distributed verification, autonomous queue promotion gates, and immutable result publication.",
+              "exclusive_actions":["execute"],
+              "issued_at":int(time.time())
+          }, indent=2)+"\n", encoding="utf-8")
+          Path(os.environ["GITHUB_OUTPUT"]).write_text(f"command_id={command_id}\n", encoding="utf-8")
           PY
+          python3 ops/control/sign_command.py control/commands/mh-dev-01.json
+      - name: Publish signed command artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-gold-authoritative-command-${{ github.run_id }}-${{ github.run_attempt }}
+          path: control/commands/mh-dev-01.json
+          if-no-files-found: error
+          retention-days: 1
 
+  distributed-verification:
+    needs: prepare-command
+    if: ${{ inputs.confirm_launch == true }}
+    uses: ./.github/workflows/astra-distributed-verification.yml
+    with:
+      command_id: ${{ needs.prepare-command.outputs.command_id }}
+      target_sha: ${{ github.sha }}
+    secrets: inherit
+
+  qualify:
+    needs:
+      - prepare-command
+      - distributed-verification
+    if: ${{ inputs.confirm_launch == true && needs.distributed-verification.outputs.status == 'PASS' }}
+    name: Execute signed ASTRA GOLD mission
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
+    timeout-minutes: 90
+    env:
+      ASTRA_ONESHOT: "1"
+      ASTRA_WORKFLOW_ONLY: "1"
+      ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
+      ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state/distributed-verification"
+      ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Canonical admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+      - name: Download signed command and fresh distributed evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: astra-gold-authoritative-command-*
+          path: .astra-state/command
+          merge-multiple: true
+      - name: Download distributed evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.distributed-verification.outputs.evidence_artifact }}
+          path: .astra-state/distributed-verification
+      - name: Install test dependencies
+        run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
+      - name: Verify signed command binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp .astra-state/command/mh-dev-01.json control/commands/mh-dev-01.json
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path("control/commands/mh-dev-01.json")
+          d=json.loads(p.read_text(encoding="utf-8"))
+          expected=f"ASTRA-GOLD-UNIFIED-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          assert d["command_id"] == expected
+          assert d["node_id"] == "mh-dev-01"
+          assert d["operation"] == "autonomous_gold_mission"
+          assert d["workflow_only"] is True
+          assert d["target_sha"] == os.environ["GITHUB_SHA"]
+          assert isinstance(d.get("signature"), str) and len(d["signature"]) == 64
+          PY
+      - name: Execute signed Astra controller
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 astra_github_agent.py
+      - name: Verify fresh GOLD mission result
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3 4; do
+            if git fetch origin "+astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01"; then
+              break
+            fi
+            if [ "$attempt" -eq 4 ]; then
+              exit 1
+            fi
+            sleep "$((2 ** (attempt - 1)))"
+          done
+          git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/astra-gold-result.json
+          python3 - <<'PY'
+          import json, os
+          d=json.load(open("/tmp/astra-gold-result.json"))
+          result=d.get("result",{})
+          expected=f"ASTRA-GOLD-UNIFIED-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          assert d.get("command_id") == expected
+          assert d.get("node_id") == "mh-dev-01"
+          assert d.get("target_sha") == os.environ["GITHUB_SHA"]
+          assert d.get("returncode") == 0
+          assert result.get("phase") == "autonomous_queue"
+          assert result.get("status") == "PASS"
+          queue=result.get("queue",{})
+          assert queue.get("status") == "PASS"
+          assert int(queue.get("workers",0)) >= 1
+          assert all(item.get("status") == "VERIFIED" for item in queue.get("results",[]))
+          print("ASTRA_GOLD_MISSION_PASS")
+          PY
       - name: Publish sanitized qualification marker
         if: always()
         shell: bash
