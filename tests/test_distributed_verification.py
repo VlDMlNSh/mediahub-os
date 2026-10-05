@@ -10,13 +10,14 @@ from ops.qualification import produce_distributed_verification_evidence as produ
 
 
 class DistributedVerificationProducerTests(unittest.TestCase):
-    def attestation(self, node_id, command_id="CMD-1", target_sha="a"*40, status="PASS", completed_at=1000):
+    def attestation(self, node_id, command_id="CMD-1", target_sha="a"*40, status="PASS", completed_at=1000, key=b"test-secret"):
         payload = {
             "schema": "mediahub.astra.distributed-node-attestation.v1",
             "command_id": command_id,
             "node_id": node_id,
             "target_sha": target_sha,
             "producer_identity": f"node-agent:{node_id}",
+            "auth_key_id": f"{node_id}-distributed-attestation-v1",
             "phase": "distributed_verification",
             "status": status,
             "returncode": 0,
@@ -26,7 +27,7 @@ class DistributedVerificationProducerTests(unittest.TestCase):
             "auth_schema_version": "mediahub.astra.distributed.auth.v1",
         }
         payload["signature"] = hmac.new(
-            b"test-secret",
+            key,
             json.dumps({k: v for k, v in payload.items() if k != "signature"}, sort_keys=True, separators=(",", ":")).encode(),
             hashlib.sha256,
         ).hexdigest()
@@ -162,6 +163,49 @@ class DistributedVerificationProducerTests(unittest.TestCase):
             )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("mh-dev-01_current_head_mismatch", result["blocked_reasons"])
+
+    def test_wrong_node_key_cannot_validate_attestation(self):
+        with TemporaryDirectory() as td:
+            root = Path(td)
+            payload = self.attestation("mh-dev-01", key=b"other-secret")
+            self.write_attestation(root, payload)
+            result = producer.aggregate(
+                root,
+                command_id="CMD-1",
+                node_id="mh-dev-01",
+                target_sha="a"*40,
+                current_head="a"*40,
+                now=1000,
+                max_age_seconds=120,
+                hmac_keys={"mh-dev-01": "test-secret", "mh-dev-02": "x", "Voktors-Mac-mini.local": "y"},
+            )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("mh-dev-01_signature_invalid", result["blocked_reasons"])
+
+    def test_auth_key_id_mismatch_is_rejected(self):
+        with TemporaryDirectory() as td:
+            root = Path(td)
+            payload = self.attestation("mh-dev-01")
+            payload["auth_key_id"] = "mh-dev-02-distributed-attestation-v1"
+            payload["signature"] = hmac.new(
+                b"test-secret",
+                json.dumps({k: v for k, v in payload.items() if k != "signature"},
+                           sort_keys=True, separators=(",", ":")).encode(),
+                hashlib.sha256,
+            ).hexdigest()
+            self.write_attestation(root, payload)
+            result = producer.aggregate(
+                root,
+                command_id="CMD-1",
+                node_id="mh-dev-01",
+                target_sha="a"*40,
+                current_head="a"*40,
+                now=1000,
+                max_age_seconds=120,
+                hmac_keys={"mh-dev-01": "test-secret", "mh-dev-02": "x", "Voktors-Mac-mini.local": "y"},
+            )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("mh-dev-01_auth_key_id_mismatch", result["blocked_reasons"])
 
 
 
