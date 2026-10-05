@@ -1,0 +1,185 @@
+name: Astra distributed verification
+
+on:
+  workflow_call:
+    outputs:
+      status:
+        description: "Fresh three-node distributed verification status"
+        value: ${{ jobs.aggregate.outputs.status }}
+      evidence_artifact:
+        description: "Artifact containing fresh node attestations"
+        value: ${{ jobs.aggregate.outputs.evidence_artifact }}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: astra-distributed-verification-${{ github.repository }}-${{ github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  node-mh-dev-01:
+    name: Fresh attestation mh-dev-01
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
+    timeout-minutes: 15
+    env:
+      ASTRA_EXPECTED_NODE_ID: mh-dev-01
+      ASTRA_COMMAND_ID: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
+      ASTRA_TARGET_SHA: ${{ github.sha }}
+      ASTRA_WORKTREE: ${{ github.workspace }}
+      ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Canonical node admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+      - name: Produce fresh attestation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$ASTRA_COMMAND_HMAC_KEY"
+          mkdir -p "$ASTRA_WORKTREE/.astra-state/distributed-attestation"
+          python3 ops/qualification/produce_distributed_node_attestation.py
+      - name: Upload node attestation
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-distributed-attestation-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .astra-state/distributed-attestation/mh-dev-01.json
+          if-no-files-found: error
+
+  node-mh-dev-02:
+    name: Fresh attestation mh-dev-02
+    runs-on: [self-hosted, linux, x64, mh-dev-02-distributed]
+    timeout-minutes: 15
+    env:
+      ASTRA_EXPECTED_NODE_ID: mh-dev-02
+      ASTRA_COMMAND_ID: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
+      ASTRA_TARGET_SHA: ${{ github.sha }}
+      ASTRA_WORKTREE: ${{ github.workspace }}
+      ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Distributed node admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-02"
+          test "$(id -un)" = "mediahub"
+      - name: Produce fresh attestation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$ASTRA_COMMAND_HMAC_KEY"
+          mkdir -p "$ASTRA_WORKTREE/.astra-state/distributed-attestation"
+          python3 ops/qualification/produce_distributed_node_attestation.py
+      - name: Upload node attestation
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-distributed-attestation-mh-dev-02-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .astra-state/distributed-attestation/mh-dev-02.json
+          if-no-files-found: error
+
+  node-voktors-mac:
+    name: Fresh attestation Voktors-Mac-mini.local
+    runs-on: [self-hosted, macos, arm64, voktors-mac-mini-distributed]
+    timeout-minutes: 15
+    env:
+      ASTRA_EXPECTED_NODE_ID: Voktors-Mac-mini.local
+      ASTRA_COMMAND_ID: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
+      ASTRA_TARGET_SHA: ${{ github.sha }}
+      ASTRA_WORKTREE: ${{ github.workspace }}
+      ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Distributed node admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          host="$(hostname)"
+          test "$host" = "Voktors-Mac-mini.local" || test "$host" = "Voktors-Mini.Dlink"
+          test "$(id -un)" = "voktor"
+      - name: Produce fresh attestation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$ASTRA_COMMAND_HMAC_KEY"
+          mkdir -p "$ASTRA_WORKTREE/.astra-state/distributed-attestation"
+          python3 ops/qualification/produce_distributed_node_attestation.py
+      - name: Upload node attestation
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-distributed-attestation-voktors-mac-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .astra-state/distributed-attestation/Voktors-Mac-mini.local.json
+          if-no-files-found: error
+
+  aggregate:
+    name: Canonical aggregate and verify
+    needs:
+      - node-mh-dev-01
+      - node-mh-dev-02
+      - node-voktors-mac
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
+    timeout-minutes: 15
+    env:
+      ASTRA_EXPECTED_NODE_ID: mh-dev-01
+      ASTRA_NODE_ID: mh-dev-01
+      ASTRA_COMMAND_ID: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
+      ASTRA_TARGET_SHA: ${{ github.sha }}
+      ASTRA_WORKTREE: ${{ github.workspace }}
+      ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+    outputs:
+      status: ${{ steps.aggregate.outputs.status }}
+      evidence_artifact: astra-distributed-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Canonical node admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+      - name: Download fresh node attestations
+        uses: actions/download-artifact@v4
+        with:
+          pattern: astra-distributed-attestation-*
+          path: .astra-state/distributed-verification
+          merge-multiple: true
+      - name: Aggregate fresh distributed evidence
+        id: aggregate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ASTRA_WORKTREE/.astra-state/distributed-verification"
+          python3 ops/qualification/produce_distributed_verification_evidence.py
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          result=json.loads(Path(".astra-state/distributed-verification-result.json").read_text())
+          expected=f"MH-AUTONOMOUS-GOLD-mh-dev-01-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          assert result["command_id"] == expected
+          assert result["node_id"] == "mh-dev-01"
+          assert result["target_sha"] == os.environ["GITHUB_SHA"]
+          assert result["phase"] == "distributed_verification"
+          assert result["returncode"] == 0
+          assert result["status"] == "PASS"
+          Path(os.environ["GITHUB_OUTPUT"]).write_text("status=PASS\n", encoding="utf-8")
+          PY
+      - name: Upload aggregate evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-distributed-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .astra-state/distributed-verification/*.json
+            .astra-state/distributed-verification-result.json
+          if-no-files-found: error
