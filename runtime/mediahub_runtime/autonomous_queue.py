@@ -37,8 +37,15 @@ def run(
     )
 
 
+def safe_task_id(task_id: str) -> str:
+    value = str(task_id)
+    if not value or not re.fullmatch(r"[A-Za-z0-9._-]+", value):
+        raise ValueError("invalid_task_id")
+    return value
+
+
 def worktree_path(task_id: str) -> Path:
-    return STATE / "worktrees" / task_id
+    return STATE / "worktrees" / safe_task_id(task_id)
 
 
 def load_tasks() -> list[dict]:
@@ -55,7 +62,7 @@ def load_tasks() -> list[dict]:
 
 
 def completed(task_id: str, base_sha: str | None = None) -> bool:
-    path = STATE / "completed" / f"{task_id}.json"
+    path = STATE / "completed" / f"{safe_task_id(task_id)}.json"
     if not path.is_file():
         return False
     if base_sha is None:
@@ -74,7 +81,7 @@ def dependencies_satisfied(task: dict, base_sha: str | None = None) -> bool:
 def evidence(task_id: str, payload: dict) -> None:
     target = STATE / "evidence"
     target.mkdir(parents=True, exist_ok=True)
-    (target / f"{task_id}.json").write_text(
+    (target / f"{safe_task_id(task_id)}.json").write_text(
         json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
 
@@ -184,8 +191,8 @@ def process_task(task: dict) -> dict:
     store = ClaimStore(CLAIMS)
     claim = claim_for(task)
     started = time.time()
-    safe_task_id = re.sub(r"[^A-Za-z0-9._-]+", "-", str(task["task_id"])).strip("-")
-    branch = f"astra/auto/{safe_task_id}-{claim.base_sha[:12]}-{int(started)}"
+    task_key = safe_task_id(str(task["task_id"]))
+    branch = f"astra/auto/{task_key}-{claim.base_sha[:12]}-{int(started)}"
     worktree = worktree_path(str(task["task_id"]))
     record = {
         "task_id": task["task_id"],
@@ -201,6 +208,11 @@ def process_task(task: dict) -> dict:
         remote_main = run(["git", "rev-parse", "origin/main"], 30)
         if remote_main.returncode != 0 or remote_main.stdout.strip() != claim.base_sha:
             raise RuntimeError("queue_base_sha_drift")
+        existing_branch = run(["git", "ls-remote", "--exit-code", "--heads", "origin", f"refs/heads/{branch}"], 60)
+        if existing_branch.returncode == 0:
+            raise RuntimeError("queue_branch_already_exists")
+        if existing_branch.returncode != 2:
+            raise RuntimeError("queue_branch_probe_failed")
         checkout = run(["git", "worktree", "add", "-b", branch, str(worktree), claim.base_sha], 120)
         if checkout.returncode:
             raise RuntimeError("worktree_create_failed")
@@ -271,8 +283,21 @@ def process_task(task: dict) -> dict:
         if push.returncode:
             raise RuntimeError("git_push_failed")
         record["head_sha"] = run(["git", "rev-parse", "HEAD"], 30, worktree).stdout.strip()
+        remote_head = run(
+            ["git", "ls-remote", "origin", f"refs/heads/{branch}"], 60, worktree
+        )
+        if remote_head.returncode != 0:
+            raise RuntimeError("git_push_verification_failed")
+        remote_sha = remote_head.stdout.split()[0] if remote_head.stdout.split() else ""
+        if remote_sha != record["head_sha"]:
+            raise RuntimeError("git_push_sha_mismatch")
+        record["push_verification"] = {
+            "status": "PASS",
+            "remote_sha": remote_sha,
+            "branch": branch,
+        }
         record["status"] = "VERIFIED"
-        (STATE / "completed" / f"{task['task_id']}.json").write_text(
+        (STATE / "completed" / f"{task_key}.json").write_text(
             json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
     except Exception as exc:
