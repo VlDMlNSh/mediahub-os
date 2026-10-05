@@ -14,7 +14,7 @@ on:
     - cron: "*/10 * * * *"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: astra-autonomous-supervisor
