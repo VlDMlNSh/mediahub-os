@@ -2,59 +2,58 @@ import unittest
 from pathlib import Path
 import yaml
 
-
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github/workflows/astra-distributed-node-attestations.yml"
+WORKFLOW = ROOT / ".github/workflows/astra-distributed-verification.yml"
 SUPERVISOR = ROOT / ".github/workflows/astra-autonomous-supervisor.yml"
 
 
 class DistributedWorkflowContractTests(unittest.TestCase):
-    def test_reusable_workflow_exists_and_targets_exact_nodes(self):
+    def test_single_reusable_workflow_targets_all_three_nodes(self):
         document = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         self.assertTrue(document.get("jobs"))
         jobs = document["jobs"]
-        self.assertIn("mh-dev-02", jobs)
-        self.assertIn("mac", jobs)
-        linux = str(jobs["mh-dev-02"]["runs-on"])
-        mac = str(jobs["mac"]["runs-on"])
-        self.assertIn("mh-dev-02-canonical", linux)
-        self.assertIn("Voktors-Mac-mini-canonical", mac)
+        self.assertIn("node-mh-dev-01", jobs)
+        self.assertIn("node-mh-dev-02", jobs)
+        self.assertIn("node-voktors-mac", jobs)
+        self.assertIn("aggregate", jobs)
+        self.assertIn("mh-dev-01-canonical", str(jobs["node-mh-dev-01"]["runs-on"]))
+        self.assertIn("mh-dev-02-distributed", str(jobs["node-mh-dev-02"]["runs-on"]))
+        self.assertIn("voktors-mac-mini-distributed", str(jobs["node-voktors-mac"]["runs-on"]))
 
-    def test_node_jobs_require_expected_runtime_users(self):
+    def test_node_jobs_require_expected_runtime_identity(self):
         text = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn('test "$(hostname)" = "mh-dev-01"', text)
+        self.assertIn('test "$(id -un)" = "mediahub-runner"', text)
+        self.assertIn('test "$(hostname)" = "mh-dev-02"', text)
         self.assertIn('test "$(id -un)" = "mediahub"', text)
         self.assertIn('test "$(id -un)" = "voktor"', text)
 
-    def test_reusable_workflow_is_bound_to_command_and_target_sha(self):
+    def test_workflow_binds_command_sha_and_hmac(self):
         text = WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("workflow_call", text)
-        self.assertIn("command_id", text)
-        self.assertIn("target_sha", text)
-        self.assertIn("ASTRA_COMMAND_HMAC_KEY", text)
-        self.assertIn("produce_distributed_node_attestation.py", text)
+        for marker in ("workflow_call", "ASTRA_COMMAND_ID", "ASTRA_TARGET_SHA",
+                       "ASTRA_COMMAND_HMAC_KEY", "produce_distributed_node_attestation.py"):
+            self.assertIn(marker, text)
 
     def test_distributed_runner_contract_declares_all_three_nodes(self):
         contract = ROOT / "control/qualification/distributed-runner-contract.json"
         self.assertTrue(contract.is_file())
         text = contract.read_text(encoding="utf-8")
-        for label in ("mh-dev-01-canonical", "mh-dev-02-canonical", "Voktors-Mac-mini-canonical"):
+        for label in (
+            "mh-dev-01-canonical",
+            "mh-dev-02-canonical",
+            "Voktors-Mac-mini-canonical",
+        ):
             self.assertIn(label, text)
         for node in ("mh-dev-01", "mh-dev-02", "Voktors-Mac-mini.local"):
             self.assertIn(node, text)
 
-    def test_supervisor_does_not_cancel_longer_distributed_runs(self):
+    def test_supervisor_uses_single_distributed_gate(self):
         text = SUPERVISOR.read_text(encoding="utf-8")
-        self.assertIn("cancel-in-progress: false", text)
-
-    def test_supervisor_waits_for_fresh_distributed_attestations(self):
-        text = SUPERVISOR.read_text(encoding="utf-8")
-        self.assertIn("prepare-command:", text)
-        self.assertIn("Materialize and sign fresh command", text)
-        self.assertIn("astra-distributed-node-attestations.yml", text)
-        self.assertIn("needs: prepare-command", text)
-        self.assertIn("distributed-attestation", text)
+        self.assertIn("distributed-verification:", text)
+        self.assertIn("astra-distributed-verification.yml", text)
+        self.assertIn("needs: distributed-verification", text)
         self.assertIn("download-artifact@v4", text)
-        self.assertIn("distributed-verification", text)
+        self.assertNotIn("astra-distributed-node-attestations.yml", text)
         self.assertNotIn("distributed_candidates", text)
 
 
