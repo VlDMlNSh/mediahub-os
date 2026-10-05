@@ -44,10 +44,10 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertIn('test "$(id -un)" = "mediahub"', text)
         self.assertIn('test "$(id -un)" = "voktor"', text)
 
-    def test_workflow_binds_command_sha_and_hmac(self):
+    def test_workflow_binds_command_sha_and_node_hmac(self):
         text = WORKFLOW.read_text(encoding="utf-8")
         for marker in ("workflow_call", "ASTRA_COMMAND_ID", "ASTRA_TARGET_SHA",
-                       "ASTRA_COMMAND_HMAC_KEY", "produce_distributed_node_attestation.py"):
+                       "ASTRA_NODE_HMAC_KEY_MH_DEV_01",\n                       "ASTRA_NODE_HMAC_KEY_MH_DEV_02",\n                       "ASTRA_NODE_HMAC_KEY_VOKTORS_MAC",\n                       "produce_distributed_node_attestation.py"):
             self.assertIn(marker, text)
 
     def test_distributed_runner_contract_declares_all_three_nodes(self):
