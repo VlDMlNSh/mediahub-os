@@ -1,4 +1,5 @@
 name: Astra autonomous queue supervisor
+# Triggered after controller-hardening merge to execute a fresh fail-closed qualification wave.
 
 on:
   push:
