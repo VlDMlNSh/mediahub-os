@@ -122,6 +122,21 @@ class DistributedNodeAttestationTests(unittest.TestCase):
         )
         self.assertIn("user_identity_mismatch", result)
 
+    def test_attestation_has_node_specific_key_id(self):
+        pass_result = {"returncode": 0, "status": "PASS", "duration_seconds": 0.1, "stdout": "", "stderr": ""}
+        with patch.object(producer, "run_check", return_value=pass_result):
+            result = producer.collect_attestation(
+                root=Path("."),
+                node_id="mh-dev-01",
+                hostname="mh-dev-01",
+                current_user="mediahub-runner",
+                command_id="CMD-1",
+                target_sha="a"*40,
+                hmac_key="node-01-secret",
+                current_head="a"*40,
+            )
+        self.assertEqual(result["auth_key_id"], "mh-dev-01-distributed-attestation-v1")
+
 
 
 if __name__ == "__main__":
