@@ -78,9 +78,9 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-  distributed-attestation:
+  distributed-verification:
     needs: prepare-command
-    uses: ./.github/workflows/astra-distributed-node-attestations.yml
+    uses: ./.github/workflows/astra-distributed-verification.yml
     with:
       command_id: ${{ needs.prepare-command.outputs.command_id }}
       target_sha: ${{ github.sha }}
@@ -88,7 +88,7 @@ jobs:
       ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
 
   supervise:
-    needs: distributed-attestation
+    needs: distributed-verification
     runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 90
     env:
