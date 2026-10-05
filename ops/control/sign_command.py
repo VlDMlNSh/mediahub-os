@@ -42,19 +42,18 @@ def resolve_node_key(node_id: str) -> str:
 
 
 def sign_command(command: dict, key: str) -> dict:
-    if not key: raise ValueError("ASTRA_COMMAND_HMAC_KEY is required")
+    if not key: raise ValueError("node-specific HMAC key is required")
     validate_command_shape(command)
     signed=dict(command)
     signed["signature"]=hmac.new(key.encode("utf-8"),canonical_command_body(signed),hashlib.sha256).hexdigest()
     return signed
 
 def sign_file(path: Path) -> None:
-    key=os.environ.get("ASTRA_COMMAND_HMAC_KEY","")
-    if not key: raise ValueError("ASTRA_COMMAND_HMAC_KEY is required")
     command=json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(command,dict): raise ValueError("command file must contain a JSON object")
     if "issued_at" not in command: command["issued_at"]=int(time.time())
-    key = resolve_node_key(str(command.get("node_id", "")))\n    signed=sign_command(command,key)
+    key = resolve_node_key(str(command.get("node_id", "")))
+    signed=sign_command(command,key)
     tmp=path.with_suffix(path.suffix+".tmp")
     tmp.write_text(json.dumps(signed,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")
     tmp.replace(path)
