@@ -77,5 +77,18 @@ class AstraTransportContractTests(unittest.TestCase):
         self.assertIn("publish(", main_source)
         self.assertIn('_mark_command_executed(cmd.get("command_id",""))', main_source)
 
+    def test_command_auth_uses_node_specific_key(self):
+        self.assertEqual(agent.COMMAND_HMAC_ENV["mh-dev-01"], "ASTRA_NODE_HMAC_KEY_MH_DEV_01")
+        self.assertNotIn("ASTRA_COMMAND_HMAC_KEY", agent.COMMAND_HMAC_ENV.values())
+
+    def test_signer_requires_node_specific_key(self):
+        with patch.dict(sign_command.os.environ, {}, clear=True):
+            with self.assertRaises(ValueError):
+                sign_command.resolve_node_key("mh-dev-01")
+
+    def test_signer_resolves_canonical_node_key(self):
+        with patch.dict(sign_command.os.environ, {"ASTRA_NODE_HMAC_KEY_MH_DEV_01": "node-secret"}, clear=True):
+            self.assertEqual(sign_command.resolve_node_key("mh-dev-01"), "node-secret")
+
 if __name__ == "__main__":
     unittest.main()
