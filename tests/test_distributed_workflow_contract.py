@@ -60,9 +60,9 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertTrue(contract.is_file())
         text = contract.read_text(encoding="utf-8")
         for label in (
-            "mh-dev-01-canonical",
-            "mh-dev-02-distributed",
-            "voktors-mac-mini-distributed",
+            "mediahub-control",
+            "mediahub-provider",
+            "astra-control",
         ):
             self.assertIn(label, text)
         for node in ("mh-dev-01", "mh-dev-02", "Voktors-Mac-mini.local"):
