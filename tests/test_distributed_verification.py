@@ -21,6 +21,7 @@ class DistributedVerificationProducerTests(unittest.TestCase):
             "status": status,
             "returncode": 0,
             "completed_at": completed_at,
+            "current_head": target_sha,
             "observations": {"identity": True, "transport": True},
             "auth_schema_version": "mediahub.astra.distributed.auth.v1",
         }
