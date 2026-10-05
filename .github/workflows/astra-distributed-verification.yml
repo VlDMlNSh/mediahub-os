@@ -2,6 +2,13 @@ name: Astra distributed verification
 
 on:
   workflow_call:
+    inputs:
+      command_id:
+        required: true
+        type: string
+      target_sha:
+        required: true
+        type: string
     outputs:
       status:
         description: "Fresh three-node distributed verification status"
@@ -24,8 +31,8 @@ jobs:
     timeout-minutes: 15
     env:
       ASTRA_EXPECTED_NODE_ID: mh-dev-01
-      ASTRA_COMMAND_ID: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
-      ASTRA_TARGET_SHA: ${{ github.sha }}
+      ASTRA_COMMAND_ID: ${{ inputs.command_id }}
+      ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_WORKTREE: ${{ github.workspace }}
       ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
     steps:
@@ -58,8 +65,8 @@ jobs:
     timeout-minutes: 15
     env:
       ASTRA_EXPECTED_NODE_ID: mh-dev-02
-      ASTRA_COMMAND_ID: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
-      ASTRA_TARGET_SHA: ${{ github.sha }}
+      ASTRA_COMMAND_ID: ${{ inputs.command_id }}
+      ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_WORKTREE: ${{ github.workspace }}
       ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
     steps:
@@ -92,8 +99,8 @@ jobs:
     timeout-minutes: 15
     env:
       ASTRA_EXPECTED_NODE_ID: Voktors-Mac-mini.local
-      ASTRA_COMMAND_ID: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
-      ASTRA_TARGET_SHA: ${{ github.sha }}
+      ASTRA_COMMAND_ID: ${{ inputs.command_id }}
+      ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_WORKTREE: ${{ github.workspace }}
       ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
     steps:
@@ -132,8 +139,8 @@ jobs:
     env:
       ASTRA_EXPECTED_NODE_ID: mh-dev-01
       ASTRA_NODE_ID: mh-dev-01
-      ASTRA_COMMAND_ID: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
-      ASTRA_TARGET_SHA: ${{ github.sha }}
+      ASTRA_COMMAND_ID: ${{ inputs.command_id }}
+      ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_WORKTREE: ${{ github.workspace }}
       ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
     outputs:
@@ -166,10 +173,10 @@ jobs:
           import json, os
           from pathlib import Path
           result=json.loads(Path(".astra-state/distributed-verification-result.json").read_text())
-          expected=f"MH-AUTONOMOUS-GOLD-mh-dev-01-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          expected=os.environ["ASTRA_COMMAND_ID"]
           assert result["command_id"] == expected
           assert result["node_id"] == "mh-dev-01"
-          assert result["target_sha"] == os.environ["GITHUB_SHA"]
+          assert result["target_sha"] == os.environ["ASTRA_TARGET_SHA"]
           assert result["phase"] == "distributed_verification"
           assert result["returncode"] == 0
           assert result["status"] == "PASS"
