@@ -21,7 +21,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  distributed-attestation:
+    uses: ./.github/workflows/astra-distributed-node-attestations.yml
+    with:
+      command_id: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
+      target_sha: ${{ github.sha }}
+    secrets:
+      ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+
   supervise:
+    needs: distributed-attestation
     runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 90
     env:
@@ -75,6 +84,10 @@ jobs:
               "issued_at": int(time.time()),
           }, indent=2)+"\n", encoding="utf-8")
           print(f"node={node} command_id={command_id}")
+          Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8").write(
+              f"ASTRA_COMMAND_ID={command_id}\n"
+              f"ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ['ASTRA_STATE_DIR']}/distributed-verification/{command_id}\n"
+          )
 
       - name: Authoritatively sign current control command
         shell: bash
@@ -86,6 +99,18 @@ jobs:
           command="control/commands/${ASTRA_NODE_ID}.json"
           test -f "$command"
           python3 ops/control/sign_command.py "$command"
+
+      - name: Download fresh distributed attestation from mh-dev-02
+        uses: actions/download-artifact@v4
+        with:
+          name: astra-dist-mh-dev-02
+          path: ${{ github.workspace }}/.astra-state/distributed-verification/MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Download fresh distributed attestation from Voktors-Mac-mini.local
+        uses: actions/download-artifact@v4
+        with:
+          name: astra-dist-voktors-mac
+          path: ${{ github.workspace }}/.astra-state/distributed-verification/MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Prefetch canonical node result ref
         shell: bash
