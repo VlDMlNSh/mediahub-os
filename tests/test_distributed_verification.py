@@ -78,11 +78,6 @@ class DistributedVerificationProducerTests(unittest.TestCase):
         self.assertEqual(result["status"], "PASS")
         self.assertEqual(result["checked_nodes"], producer.REQUIRED_NODES)
 
-
-if __name__ == "__main__":
-    unittest.main()
-
-
     def test_unsigned_attestation_is_rejected(self):
         with TemporaryDirectory() as td:
             root = Path(td)
@@ -106,3 +101,7 @@ if __name__ == "__main__":
             )
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("mh-dev-01_signature_invalid", result["blocked_reasons"])
+
+
+if __name__ == "__main__":
+    unittest.main()
