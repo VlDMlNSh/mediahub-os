@@ -21,10 +21,68 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  prepare-command:
+    name: Prepare and sign authoritative Astra command
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
+    outputs:
+      command_id: ${{ steps.command.outputs.command_id }}
+    timeout-minutes: 15
+    env:
+      ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Resolve canonical node
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+      - name: Materialize and sign fresh command
+        id: command
+        shell: bash
+        env:
+          ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p control/commands
+          python3 - <<'PY'
+          import json, os, time
+          from pathlib import Path
+          node="mh-dev-01"
+          command_id=f"MH-AUTONOMOUS-GOLD-{node}-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          p=Path("control/commands")/f"{node}.json"
+          p.write_text(json.dumps({
+              "schema_version":"mediahub.astra.control-command.v1",
+              "command_id":command_id,
+              "node_id":node,
+              "operation":"autonomous_gold_mission",
+              "target_sha":os.environ["GITHUB_SHA"],
+              "workflow_only":False,
+              "owned_paths":["architecture","ops/agent-fabric","ops/qualification","control/qualification"],
+              "title":"Autonomous ASTRA GOLD qualification wave on mh-dev-01",
+              "description":"Run the canonical autonomous qualification queue, generate fresh evidence, and advance only through fail-closed A0-A3 qualification gates. Never bypass launch authority.",
+              "exclusive_actions":["execute"],
+              "issued_at":int(time.time())
+          },indent=2)+"\n",encoding="utf-8")
+          print(f"command_id={command_id}")
+          Path(os.environ["GITHUB_OUTPUT"]).write_text(f"command_id={command_id}\n",encoding="utf-8")
+          PY
+          python3 ops/control/sign_command.py control/commands/mh-dev-01.json
+      - name: Publish prepared command artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-authoritative-command
+          path: control/commands/mh-dev-01.json
+          if-no-files-found: error
+          retention-days: 1
+
   distributed-attestation:
+    needs: prepare-command
     uses: ./.github/workflows/astra-distributed-node-attestations.yml
     with:
-      command_id: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
+      command_id: ${{ needs.prepare-command.outputs.command_id }}
       target_sha: ${{ github.sha }}
     secrets:
       ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
@@ -59,58 +117,33 @@ jobs:
           } >> "$GITHUB_ENV"
           mkdir -p "$ASTRA_STATE_DIR"
 
-      - name: Materialize fresh autonomous qualification command
+      - name: Download authoritative signed command artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: astra-authoritative-command
+          path: control/commands
+
+      - name: Verify prepared command binding
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json, os, time
+          import json, os
           from pathlib import Path
-          node=os.environ["ASTRA_NODE_ID"]
-          command_id=f"MH-AUTONOMOUS-GOLD-{node}-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
-          p=Path("control/commands")/f"{node}.json"
-          p.parent.mkdir(parents=True, exist_ok=True)
-          p.write_text(json.dumps({
-              "schema_version": "mediahub.astra.control-command.v1",
-              "command_id": command_id,
-              "node_id": node,
-              "operation": "autonomous_gold_mission",
-              "target_sha": os.environ["GITHUB_SHA"],
-              "workflow_only": False,
-              "owned_paths": ["architecture", "ops/agent-fabric", "ops/qualification", "control/qualification"],
-              "title": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
-              "description": "Run the canonical autonomous qualification queue, generate fresh evidence, and advance only through fail-closed A0-A3 qualification gates. Never bypass launch authority.",
-              "exclusive_actions": ["execute"],
-              "issued_at": int(time.time()),
-          }, indent=2)+"\n", encoding="utf-8")
-          print(f"node={node} command_id={command_id}")
+          p=Path("control/commands/mh-dev-01.json")
+          d=json.loads(p.read_text(encoding="utf-8"))
+          expected=f"MH-AUTONOMOUS-GOLD-mh-dev-01-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          assert d["command_id"] == expected
+          assert d["node_id"] == "mh-dev-01"
+          assert d["operation"] == "autonomous_gold_mission"
+          assert d["target_sha"] == os.environ["GITHUB_SHA"]
+          assert isinstance(d.get("signature"), str) and len(d["signature"]) == 64
           Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8").write(
-              f"ASTRA_COMMAND_ID={command_id}\n"
-              f"ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ['ASTRA_STATE_DIR']}/distributed-verification/{command_id}\n"
+              f"ASTRA_NODE_ID=mh-dev-01\n"
+              f"ASTRA_COMMAND_ID={d['command_id']}\n"
+              f"ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ['ASTRA_STATE_DIR']}/distributed-verification/{d['command_id']}\n"
           )
-
-      - name: Authoritatively sign current control command
-        shell: bash
-        env:
-          ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
-        run: |
-          set -euo pipefail
-          test -n "${ASTRA_COMMAND_HMAC_KEY}"
-          command="control/commands/${ASTRA_NODE_ID}.json"
-          test -f "$command"
-          python3 ops/control/sign_command.py "$command"
-
-      - name: Download fresh distributed attestation from mh-dev-02
-        uses: actions/download-artifact@v4
-        with:
-          name: astra-dist-mh-dev-02
-          path: ${{ github.workspace }}/.astra-state/distributed-verification/MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
-
-      - name: Download fresh distributed attestation from Voktors-Mac-mini.local
-        uses: actions/download-artifact@v4
-        with:
-          name: astra-dist-voktors-mac
-          path: ${{ github.workspace }}/.astra-state/distributed-verification/MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
+          PY
 
       - name: Prefetch canonical node result ref
         shell: bash
