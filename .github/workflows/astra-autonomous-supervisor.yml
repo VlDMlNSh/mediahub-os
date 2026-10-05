@@ -216,3 +216,5 @@ jobs:
           assert int(queue.get("workers", 0)) >= 1
           assert all(item.get("status") == "VERIFIED" for item in queue.get("results", []))
           PY
+
+# Fleet-label reconciliation retrigger: registered runner labels aligned 2026-10-05.
