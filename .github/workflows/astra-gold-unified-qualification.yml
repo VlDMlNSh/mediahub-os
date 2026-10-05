@@ -20,7 +20,7 @@ jobs:
   prepare-command:
     if: ${{ inputs.confirm_launch == true }}
     name: Prepare signed GOLD command
-    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 30
     outputs:
       command_id: ${{ steps.command.outputs.command_id }}
@@ -109,7 +109,7 @@ jobs:
       - distributed-verification
     if: ${{ inputs.confirm_launch == true && needs.distributed-verification.outputs.status == 'PASS' }}
     name: Execute signed ASTRA GOLD mission
-    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 90
     env:
       ASTRA_ONESHOT: "1"
