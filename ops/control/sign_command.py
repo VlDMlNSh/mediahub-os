@@ -22,6 +22,25 @@ def validate_command_shape(command: dict) -> None:
     if not isinstance(command["issued_at"], int): raise ValueError("issued_at must be an integer Unix timestamp")
     if abs(int(time.time())-command["issued_at"])>MAX_AGE_SECONDS: raise ValueError("command issued_at is outside the accepted freshness window")
 
+def key_env_name(node_id: str) -> str:
+    mapping = {
+        "mh-dev-01": "ASTRA_NODE_HMAC_KEY_MH_DEV_01",
+        "mh-dev-02": "ASTRA_NODE_HMAC_KEY_MH_DEV_02",
+        "Voktors-Mac-mini.local": "ASTRA_NODE_HMAC_KEY_VOKTORS_MAC",
+    }
+    try:
+        return mapping[node_id]
+    except KeyError as exc:
+        raise ValueError("unsupported command node_id") from exc
+
+
+def resolve_node_key(node_id: str) -> str:
+    key = os.environ.get(key_env_name(node_id), "")
+    if not key:
+        raise ValueError(f"{key_env_name(node_id)} is required")
+    return key
+
+
 def sign_command(command: dict, key: str) -> dict:
     if not key: raise ValueError("ASTRA_COMMAND_HMAC_KEY is required")
     validate_command_shape(command)
@@ -35,7 +54,7 @@ def sign_file(path: Path) -> None:
     command=json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(command,dict): raise ValueError("command file must contain a JSON object")
     if "issued_at" not in command: command["issued_at"]=int(time.time())
-    signed=sign_command(command,key)
+    key = resolve_node_key(str(command.get("node_id", "")))\n    signed=sign_command(command,key)
     tmp=path.with_suffix(path.suffix+".tmp")
     tmp.write_text(json.dumps(signed,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")
     tmp.replace(path)
