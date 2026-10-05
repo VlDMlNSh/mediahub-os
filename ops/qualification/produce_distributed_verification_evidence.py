@@ -103,6 +103,8 @@ def _validate_attestation(
         blocked.append(f"{expected_node}_node_id_mismatch")
     if data.get("target_sha") != target_sha:
         blocked.append(f"{expected_node}_target_sha_mismatch")
+    if data.get("current_head") != target_sha:
+        blocked.append(f"{expected_node}_current_head_mismatch")
     expected_identity = f"node-agent:{expected_node}"
     if not isinstance(data.get("producer_identity"), str) or not data.get("producer_identity"):
         blocked.append(f"{expected_node}_producer_identity_missing")
