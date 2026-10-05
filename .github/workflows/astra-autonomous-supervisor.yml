@@ -219,3 +219,5 @@ jobs:
 
 # Fleet-label reconciliation retrigger: registered runner labels aligned 2026-10-05.
 # Autonomous qualification retrigger: current main after fleet-label reconciliation.
+
+# Autonomous supervisor retrigger marker: 2026-10-05 fresh queue qualification wave.
