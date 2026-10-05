@@ -30,6 +30,15 @@ class SoakAgentBindingTests(unittest.TestCase):
             "a hardcoded agent blob literal reintroduces soak pin drift",
         )
 
+    def test_soak_requires_explicit_queue_pass_admission(self):
+        self.assertIn("queue_command_id:", self.text)
+        self.assertIn("Verify prior autonomous queue PASS admission", self.text)
+        self.assertIn('result.get("phase") == "autonomous_queue"', self.text)
+        self.assertIn('result.get("status") == "PASS"', self.text)
+        self.assertIn('queue.get("status") == "PASS"', self.text)
+        self.assertIn('d.get("target_sha") == os.environ["GITHUB_SHA"]', self.text)
+
+
 
 if __name__ == "__main__":
     unittest.main()
