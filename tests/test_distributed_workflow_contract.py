@@ -22,7 +22,9 @@ class DistributedWorkflowContractTests(unittest.TestCase):
 
     def test_workflow_call_declares_command_and_target_inputs(self):
         document = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
-        call = document["on"]["workflow_call"]
+        on_block = document.get("on", document.get(True))
+        self.assertIsInstance(on_block, dict)
+        call = on_block["workflow_call"]
         self.assertEqual(call["inputs"]["command_id"]["required"], True)
         self.assertEqual(call["inputs"]["command_id"]["type"], "string")
         self.assertEqual(call["inputs"]["target_sha"]["required"], True)
