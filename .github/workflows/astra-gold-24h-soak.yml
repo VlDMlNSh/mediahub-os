@@ -2,6 +2,11 @@ name: Astra GOLD 24h real soak
 
 on:
   workflow_dispatch:
+    inputs:
+      queue_command_id:
+        description: "Fresh autonomous_queue PASS command_id for this exact commit"
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -16,20 +21,55 @@ concurrency:
 jobs:
   preflight:
     name: GOLD preflight on canonical node
-    runs-on: [self-hosted, mediahub-runner]
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 30
+    outputs:
+      target_sha: ${{ steps.queue_gate.outputs.target_sha }}
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.sha }}
           fetch-depth: 1
       - name: Install test dependencies
         run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
+      - name: Verify prior autonomous queue PASS admission
+        id: queue_gate
+        shell: bash
+        env:
+          ASTRA_QUEUE_COMMAND_ID: ${{ inputs.queue_command_id }}
+        run: |
+          set -euo pipefail
+          test -n "$ASTRA_QUEUE_COMMAND_ID"
+          git fetch origin "+astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01"
+          git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/astra-queue-result.json
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          d=json.load(open("/tmp/astra-queue-result.json"))
+          result=d.get("result", {})
+          queue=result.get("queue", {})
+          assert d.get("command_id") == os.environ["ASTRA_QUEUE_COMMAND_ID"]
+          assert d.get("node_id") == "mh-dev-01"
+          target_sha=d.get("target_sha")
+          assert isinstance(target_sha, str) and len(target_sha) == 40
+          assert target_sha == os.environ["GITHUB_SHA"]
+          assert d.get("execution_head") == target_sha
+          assert d.get("returncode") == 0
+          assert result.get("phase") == "autonomous_queue"
+          assert result.get("status") == "PASS"
+          assert queue.get("status") == "PASS"
+          assert int(queue.get("workers", 0)) >= 1
+          assert all(item.get("status") == "VERIFIED" for item in queue.get("results", []))
+          Path(os.environ["GITHUB_OUTPUT"]).write_text(f"target_sha={target_sha}\n", encoding="utf-8")
+          PY
+
       - name: Verify canonical runner identity
         shell: bash
         run: |
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           test -z "$(git status --short)"
           # The canonical agent is continuously updated on main, so a hardcoded
           # blob literal cannot be maintained and only produces guaranteed drift.
@@ -46,7 +86,12 @@ jobs:
         run: |
           set -euo pipefail
           pgrep -af "astra_github_agent.py" | tee /tmp/astra-workers.txt
-          test "$(grep -c "astra_github_agent.py" /tmp/astra-workers.txt)" -ge 1
+          worker_pid="$(pgrep -u "$(id -u)" -f "astra_github_agent.py" | head -n1)"
+          test -n "$worker_pid"
+          test "$(ps -o user= -p "$worker_pid" | xargs)" = "$(id -un)"
+          worker_sha="$(python3 -c 'import hashlib; print(hashlib.sha256(open("astra_github_agent.py","rb").read()).hexdigest())')"
+          echo "worker_pid=$worker_pid" > /tmp/astra-worker-binding.env
+          echo "worker_sha=$worker_sha" >> /tmp/astra-worker-binding.env
           echo "canonical_worker_present=true"
       - name: Repository and runtime regression
         shell: bash
@@ -64,11 +109,12 @@ jobs:
   soak:
     name: 24h autonomous runtime soak
     needs: preflight
-    runs-on: [self-hosted, mediahub-runner]
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 1450
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ needs.preflight.outputs.target_sha }}
           fetch-depth: 1
       - name: Install test dependencies
         run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
@@ -79,7 +125,12 @@ jobs:
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
           pgrep -af "astra_github_agent.py" | tee /tmp/astra-workers.txt
-          test "$(grep -c "astra_github_agent.py" /tmp/astra-workers.txt)" -ge 1
+          worker_pid="$(pgrep -u "$(id -u)" -f "astra_github_agent.py" | head -n1)"
+          test -n "$worker_pid"
+          test "$(ps -o user= -p "$worker_pid" | xargs)" = "$(id -un)"
+          worker_sha="$(python3 -c 'import hashlib; print(hashlib.sha256(open("astra_github_agent.py","rb").read()).hexdigest())')"
+          echo "worker_pid=$worker_pid" > /tmp/astra-worker-binding.env
+          echo "worker_sha=$worker_sha" >> /tmp/astra-worker-binding.env
           echo "duplicate_worker_launch=false"
       - name: Run first real test iteration
         shell: bash
@@ -102,8 +153,15 @@ jobs:
             ts="$(date -u +%FT%TZ)"
             echo "iteration=$iteration timestamp=$ts"
             pgrep -af "astra_github_agent.py" | tee -a /tmp/astra-gold/worker.log
+            test -s /tmp/astra-worker-binding.env
+            . /tmp/astra-worker-binding.env
+            test -d "/proc/$worker_pid"
+            test "$(ps -o user= -p "$worker_pid" | xargs)" = "$(id -un)"
+            test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+            current_worker_sha="$(python3 -c 'import hashlib; print(hashlib.sha256(open("astra_github_agent.py","rb").read()).hexdigest())')"
+            test "$current_worker_sha" = "$worker_sha"
             PYTHONPATH=runtime:. python3 -m pytest -q tests/ | tee "/tmp/astra-gold/test-$iteration.log"
-            test "$(pgrep -f "astra_github_agent.py" | wc -l)" -ge 1
+            test "$(pgrep -u "$(id -u)" -f "astra_github_agent.py" | wc -l)" -ge 1
             sleep 600
           done
           echo "soak_24h=PASS"

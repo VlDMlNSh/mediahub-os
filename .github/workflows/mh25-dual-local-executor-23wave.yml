@@ -21,7 +21,7 @@ concurrency:
 jobs:
   qualify:
     name: 23-wave FCC / OmniRoute / ECC qualification
-    runs-on: [self-hosted, mediahub-runner]
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4

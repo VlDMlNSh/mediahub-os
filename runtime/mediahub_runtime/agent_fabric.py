@@ -97,7 +97,17 @@ class ClaimStore:
                 try:
                     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
                 except FileExistsError as exc:
-                    raise AgentFabricError("claim_exists") from exc
+                    try:
+                        existing = json.loads(path.read_text(encoding="utf-8"))
+                    except (OSError, json.JSONDecodeError, TypeError) as read_exc:
+                        raise AgentFabricError("invalid_claim_store") from read_exc
+                    if existing.get("expiry", 0) > time.time():
+                        raise AgentFabricError("claim_exists") from exc
+                    try:
+                        path.unlink()
+                    except OSError as unlink_exc:
+                        raise AgentFabricError("expired_claim_reclaim_failed") from unlink_exc
+                    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
                 try:
                     with os.fdopen(fd, "w", encoding="utf-8") as handle:
                         handle.write(payload)

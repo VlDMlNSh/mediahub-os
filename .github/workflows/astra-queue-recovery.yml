@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   release-blocked-qualification:
-    runs-on: [self-hosted, mediahub-runner]
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 5
     steps:
       - name: Release only the bounded blocked qualification child

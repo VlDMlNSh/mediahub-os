@@ -24,11 +24,11 @@ class CommandSignerTests(unittest.TestCase):
         command=self.command(); command.pop("issued_at")
         with tempfile.TemporaryDirectory() as directory:
             path=Path(directory)/"command.json"; path.write_text(json.dumps(command),encoding="utf-8")
-            old=os.environ.get("ASTRA_COMMAND_HMAC_KEY"); os.environ["ASTRA_COMMAND_HMAC_KEY"]="test-secret"
+            old=os.environ.get("ASTRA_NODE_HMAC_KEY_MH_DEV_01"); os.environ["ASTRA_NODE_HMAC_KEY_MH_DEV_01"]="test-secret"
             try: MODULE.sign_file(path)
             finally:
-                if old is None: os.environ.pop("ASTRA_COMMAND_HMAC_KEY",None)
-                else: os.environ["ASTRA_COMMAND_HMAC_KEY"]=old
+                if old is None: os.environ.pop("ASTRA_NODE_HMAC_KEY_MH_DEV_01",None)
+                else: os.environ["ASTRA_NODE_HMAC_KEY_MH_DEV_01"]=old
             content=path.read_text(encoding="utf-8"); signed=json.loads(content)
             self.assertIn("issued_at",signed); self.assertIn("signature",signed); self.assertNotIn("test-secret",content)
 

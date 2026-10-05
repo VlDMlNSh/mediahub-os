@@ -1,0 +1,33 @@
+{
+  "schema": "mediahub.astra.distributed-runner.v1",
+  "nodes": [
+    {
+      "node_id": "mh-dev-01",
+      "runner_label": "mh-dev-01-canonical",
+      "hostname_allowlist": ["mh-dev-01"],
+      "user": "mediahub-runner",
+      "os": "linux",
+      "arch": "x64",
+      "authority": "canonical"
+    },
+    {
+      "node_id": "mh-dev-02",
+      "runner_label": "mh-dev-02-distributed",
+      "hostname_allowlist": ["mh-dev-02"],
+      "user": "mediahub",
+      "os": "linux",
+      "arch": "x64",
+      "authority": "non-authoritative"
+    },
+    {
+      "node_id": "Voktors-Mac-mini.local",
+      "runner_label": "voktors-mac-mini-distributed",
+      "hostname_allowlist": ["Voktors-Mac-mini.local", "Voktors-Mini.Dlink"],
+      "user": "voktor",
+      "os": "macOS",
+      "arch": "arm64",
+      "authority": "non-authoritative"
+    }
+  ],
+  "invariant": "Runner admission never grants canonical state authority."
+}

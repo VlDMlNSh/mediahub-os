@@ -14,14 +14,14 @@ class AutonomousMissionTests(unittest.TestCase):
 
     def test_mission_is_stateful_and_gate_ordered(self):
         for marker in (
-            "target_sha_not_ancestor_of_current_main",
+            "target_sha_not_exact_current_head",
             "execution_backend_qualification",
             "pre_soak_evidence",
             "strict_pre_soak_verification",
             "distributed_verification",
-            "gold_qualification",
             "ASTRA_AUTONOMOUS_MAX_CYCLES",
             "ASTRA_AUTONOMOUS_RETRY_SECONDS",
+            "autonomous_queue",
         ):
             self.assertIn(marker, self.source)
 
@@ -29,6 +29,18 @@ class AutonomousMissionTests(unittest.TestCase):
         self.assertIn('if not (os.environ.get("ASTRA_ONESHOT") == "1" and os.environ.get("ASTRA_WORKFLOW_ONLY") == "1"):', self.source)
         self.assertIn("maybe_reexec_updated_agent()", self.source)
         self.assertIn("read_command()", self.source)
+
+    def test_controller_uses_explicit_distributed_producer_binding(self):
+        self.assertIn('produce_distributed_verification_evidence.py', self.source)
+        self.assertIn('ASTRA_COMMAND_ID', self.source)
+        self.assertIn('ASTRA_TARGET_SHA', self.source)
+        self.assertIn('canonical-distributed-verification-producer-v1', self.source)
+
+    def test_controller_does_not_promote_pre_soak_executor_to_gold(self):
+        mission_start = self.source.index('if operation in {"autonomous_qualification_queue", "autonomous_gold_mission"}:')
+        mission_end = self.source.index('            if operation == "autonomous_gold_mission":', mission_start)
+        qualification_gate = self.source[mission_start:mission_end]
+        self.assertNotIn("astra_gold_executor.py", qualification_gate)
 
 
 if __name__ == "__main__":

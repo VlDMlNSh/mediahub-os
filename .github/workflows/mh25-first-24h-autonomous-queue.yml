@@ -18,7 +18,7 @@ concurrency:
 jobs:
   first-24h-queue:
     name: First real 24h queue run
-    runs-on: [self-hosted, mediahub-runner]
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 1450
     steps:
       - uses: actions/checkout@v4

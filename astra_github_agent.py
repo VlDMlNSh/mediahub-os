@@ -17,7 +17,12 @@ AGENT_ID=os.environ.get('ASTRA_AGENT_ID','A0-ASTRA')
 WORKER_ID=os.environ.get('ASTRA_WORKER_ID',f"{AGENT_ID}:{os.getpid()}")
 CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS','900')),3600.0))
 COMMAND_HMAC_MAX_AGE_SECONDS=max(60,int(os.environ.get("ASTRA_COMMAND_HMAC_MAX_AGE_SECONDS","900")))
-COMMAND_HMAC_KEY=os.environ.get("ASTRA_COMMAND_HMAC_KEY","")
+COMMAND_HMAC_ENV = {
+    "mh-dev-01": "ASTRA_NODE_HMAC_KEY_MH_DEV_01",
+    "mh-dev-02": "ASTRA_NODE_HMAC_KEY_MH_DEV_02",
+    "Voktors-Mac-mini.local": "ASTRA_NODE_HMAC_KEY_VOKTORS_MAC",
+}
+COMMAND_HMAC_KEY=os.environ.get(COMMAND_HMAC_ENV.get(NODE_ID, ""), "")
 COMMAND_SCHEMA_VERSION="mediahub.astra.control-command.v1"
 EXECUTED_COMMANDS=STATE/"executed_command_ids"
 SAFE_ID_RE=re.compile(r"^[A-Za-z0-9._:-]{1,128}$")
@@ -138,9 +143,15 @@ def _prepare_publish_branch():
     branch=f"astra-node/{NODE_ID}"
     probe=git_network(["git","ls-remote","--heads","origin",branch],30)
     command_path=f"control/commands/{NODE_ID}.json"
-    cleanup=run(["git","clean","-f","--",command_path],30)
-    if cleanup.returncode != 0:
-        raise RuntimeError(cleanup.stderr or "unable to clean consumed command")
+    # The signed command is a consumed transport artifact. It must not remain as a
+    # dirty worktree change while publish switches to the node result branch.
+    # Restore only this exact command path; never clean unrelated user changes.
+    restore=run(["git","restore","--source=HEAD","--",command_path],30)
+    if restore.returncode != 0:
+        # The command may be untracked on a fresh checkout. Remove only that path.
+        cleanup=run(["git","clean","-f","--",command_path],30)
+        if cleanup.returncode != 0:
+            raise RuntimeError(cleanup.stderr or restore.stderr or "unable to clean consumed command")
     if probe.returncode == 0 and probe.stdout.strip():
         fetched=git_network(["git","fetch","origin",f"{branch}:refs/remotes/origin/{branch}"],120)
         if fetched.returncode != 0:
@@ -205,27 +216,27 @@ def execute(cmd):
         backend_script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
         evidence_script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
         verifier_script=ROOT/"ops"/"qualification"/"verify_pre_soak_bundle.py"
-        gold=ROOT/"ops"/"qualification"/"astra_gold_executor.py"
+        distributed_script=ROOT/"ops"/"qualification"/"produce_distributed_verification_evidence.py"
         started=time.time()
         max_cycles=max(1,int(os.environ.get("ASTRA_AUTONOMOUS_MAX_CYCLES","12")))
         retry_seconds=max(30,int(os.environ.get("ASTRA_AUTONOMOUS_RETRY_SECONDS","300")))
         steps=[]
         target_sha=cmd.get("target_sha","")
         if target_sha:
-            ancestry=run(["git","merge-base","--is-ancestor",target_sha,"HEAD"],30)
-            if ancestry.returncode != 0:
+            current_head = run(["git", "rev-parse", "HEAD"], 10).stdout.strip()
+            if current_head.lower() != str(target_sha).lower():
                 return {"status":"BLOCKED","phase":"target_reconciliation",
-                        "reason":"target_sha_not_ancestor_of_current_main","target_sha":target_sha,
-                        "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
+                        "reason":"target_sha_not_exact_current_head","target_sha":target_sha,
+                        "current_head":current_head}
         cycles=1 if operation=="autonomous_qualification_queue" else max_cycles
         for cycle in range(1,cycles+1):
             if operation=="autonomous_gold_mission" and cycle>1:
                 sync()
-                ancestry=run(["git","merge-base","--is-ancestor",target_sha,"HEAD"],30) if target_sha else None
-                if ancestry is not None and ancestry.returncode != 0:
+                current_head = run(["git", "rev-parse", "HEAD"], 10).stdout.strip()
+                if target_sha and current_head.lower() != str(target_sha).lower():
                     return {"status":"BLOCKED","phase":"target_reconciliation",
-                            "reason":"target_sha_not_ancestor_of_current_main","target_sha":target_sha,
-                            "current_head":run(["git","rev-parse","HEAD"],10).stdout.strip(),
+                            "reason":"target_sha_changed_during_retry","target_sha":target_sha,
+                            "current_head":current_head,
                             "cycles":steps}
             cycle_record={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
             backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,
@@ -260,31 +271,51 @@ def execute(cmd):
                     continue
                 return {"status":"BLOCKED","phase":"strict_pre_soak_verification",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
-            distributed_candidates=list((ROOT/"ops"/"qualification").glob("*distributed*")) if (ROOT/"ops"/"qualification").exists() else []
-            if not distributed_candidates:
+            dist_env=os.environ.copy()
+            dist_env["ASTRA_COMMAND_ID"]=str(cmd.get("command_id",""))
+            dist_env["ASTRA_NODE_ID"]=str(cmd.get("node_id",""))
+            dist_env["ASTRA_TARGET_SHA"]=str(target_sha)
+            dist_env["ASTRA_WORKTREE"]=str(ROOT)
+            distributed=subprocess.run([sys.executable,str(distributed_script)],cwd=ROOT,text=True,
+                                       capture_output=True,timeout=1800,check=False,env=dist_env)
+            distributed_payload={}
+            try:
+                distributed_payload=json.loads(distributed.stdout.strip().splitlines()[-1])
+            except Exception:
+                distributed_payload={"status":"BLOCKED","reason":"distributed_output_not_json"}
+            cycle_record["distributed_verification"]={
+                "returncode":distributed.returncode,
+                "payload":distributed_payload,
+                "stdout":distributed.stdout[-12000:],
+                "stderr":distributed.stderr[-8000:],
+            }
+            required_nodes=["mh-dev-01","mh-dev-02","Voktors-Mac-mini.local"]
+            if distributed.returncode != 0 or distributed_payload.get("status")!="PASS":
                 return {"status":"BLOCKED","phase":"distributed_verification",
-                        "reason":"no_dedicated_distributed_verification_producer",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
-            for candidate in distributed_candidates:
-                if candidate.suffix==".py":
-                    distributed=subprocess.run([sys.executable,str(candidate)],cwd=ROOT,text=True,
-                                               capture_output=True,timeout=1800,check=False)
-                    cycle_record["distributed_verification"]={"script":str(candidate.relative_to(ROOT)),
-                                                              "returncode":distributed.returncode,
-                                                              "stdout":distributed.stdout[-12000:],
-                                                              "stderr":distributed.stderr[-8000:]}
-                    if distributed.returncode != 0:
-                        return {"status":"BLOCKED","phase":"distributed_verification",
-                                "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
-            qualification=subprocess.run([sys.executable,str(gold)],cwd=ROOT,text=True,
-                                         capture_output=True,
-                                         timeout=int(os.environ.get("ASTRA_QUALIFICATION_TIMEOUT","87000")),
-                                         check=False)
-            cycle_record["gold"]={"returncode":qualification.returncode,
-                                  "stdout":qualification.stdout[-12000:],
-                                  "stderr":qualification.stderr[-8000:]}
-            if qualification.returncode != 0:
-                return {"status":"BLOCKED","phase":"gold_qualification","steps":steps,
+            if distributed_payload.get("command_id")!=cmd.get("command_id"):
+                return {"status":"BLOCKED","phase":"distributed_verification",
+                        "reason":"distributed_command_binding_mismatch","steps":steps,
+                        "elapsed_seconds":round(time.time()-started,3)}
+            if distributed_payload.get("node_id")!=cmd.get("node_id"):
+                return {"status":"BLOCKED","phase":"distributed_verification",
+                        "reason":"distributed_node_binding_mismatch","steps":steps,
+                        "elapsed_seconds":round(time.time()-started,3)}
+            if distributed_payload.get("target_sha")!=target_sha:
+                return {"status":"BLOCKED","phase":"distributed_verification",
+                        "reason":"distributed_target_sha_mismatch","steps":steps,
+                        "elapsed_seconds":round(time.time()-started,3)}
+            if distributed_payload.get("phase")!="distributed_verification" or distributed_payload.get("returncode")!=0:
+                return {"status":"BLOCKED","phase":"distributed_verification",
+                        "reason":"distributed_phase_or_returncode_invalid","steps":steps,
+                        "elapsed_seconds":round(time.time()-started,3)}
+            if distributed_payload.get("producer_identity")!="canonical-distributed-verification-producer-v1":
+                return {"status":"BLOCKED","phase":"distributed_verification",
+                        "reason":"distributed_producer_identity_mismatch","steps":steps,
+                        "elapsed_seconds":round(time.time()-started,3)}
+            if distributed_payload.get("checked_nodes")!=required_nodes:
+                return {"status":"BLOCKED","phase":"distributed_verification",
+                        "reason":"distributed_node_set_mismatch","steps":steps,
                         "elapsed_seconds":round(time.time()-started,3)}
             if operation == "autonomous_gold_mission":
                 queue_env=os.environ.copy()
@@ -651,7 +682,7 @@ def main():
                     if claim_store is not None and claim is not None:
                         try:
                             result_status = value.get("status") if isinstance(value, dict) else None
-                            claim_status = 'VERIFIED' if rc == 0 and result_status not in {"BLOCKED", "REJECTED"} else 'REJECTED'
+                            claim_status = "VERIFIED" if rc == 0 and result_status == "PASS" else "REJECTED"
                             claim_store.release(claim.task_id, claim_status)
                             claim = next((c for c in claim_store.list_claims() if c.task_id == claim.task_id), claim)
                         except Exception as release_exc:
@@ -663,6 +694,7 @@ def main():
                          'claim':asdict(claim) if claim is not None else None,
                          'chain':['task','claim','worker','verification','commit','evidence'],
                          'duration_seconds':round(time.time()-started,3),'result':value,'completed_at':int(time.time())})
+                _mark_command_executed(cmd.get("command_id",""))
                 mark_published(cmd.get("command_id",""))
                 last_id=str(cmd.get("command_id"))
                 if os.environ.get("ASTRA_ONESHOT","0")=="1": return

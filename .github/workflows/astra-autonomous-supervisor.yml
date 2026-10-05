@@ -14,15 +14,84 @@ on:
     - cron: "*/10 * * * *"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: astra-autonomous-supervisor
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
+  prepare-command:
+    name: Prepare and sign authoritative Astra command
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
+    outputs:
+      command_id: ${{ steps.command.outputs.command_id }}
+    timeout-minutes: 15
+    env:
+      ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Resolve canonical node
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+      - name: Materialize and sign fresh command
+        id: command
+        shell: bash
+        env:
+          ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
+        run: |
+          set -euo pipefail
+          mkdir -p control/commands
+          python3 - <<'PY'
+          import json, os, time
+          from pathlib import Path
+          node="mh-dev-01"
+          command_id=f"MH-AUTONOMOUS-GOLD-{node}-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          p=Path("control/commands")/f"{node}.json"
+          p.write_text(json.dumps({
+              "schema_version":"mediahub.astra.control-command.v1",
+              "command_id":command_id,
+              "node_id":node,
+              "operation":"autonomous_gold_mission",
+              "target_sha":os.environ["GITHUB_SHA"],
+              "workflow_only":False,
+              "owned_paths":["architecture","ops/agent-fabric","ops/qualification","control/qualification"],
+              "title":"Autonomous ASTRA GOLD qualification wave on mh-dev-01",
+              "description":"Run the canonical autonomous qualification queue, generate fresh evidence, and advance only through fail-closed A0-A3 qualification gates. Never bypass launch authority.",
+              "exclusive_actions":["execute"],
+              "issued_at":int(time.time())
+          },indent=2)+"\n",encoding="utf-8")
+          print(f"command_id={command_id}")
+          Path(os.environ["GITHUB_OUTPUT"]).write_text(f"command_id={command_id}\n",encoding="utf-8")
+          PY
+          python3 ops/control/sign_command.py control/commands/mh-dev-01.json
+      - name: Publish prepared command artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-authoritative-command
+          path: control/commands/mh-dev-01.json
+          if-no-files-found: error
+          retention-days: 1
+
+  distributed-verification:
+    needs: prepare-command
+    uses: ./.github/workflows/astra-distributed-verification.yml
+    with:
+      command_id: ${{ needs.prepare-command.outputs.command_id }}
+      target_sha: ${{ github.sha }}
+    secrets:
+      ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
+      ASTRA_NODE_HMAC_KEY_MH_DEV_02: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
+      ASTRA_NODE_HMAC_KEY_VOKTORS_MAC: ${{ secrets.ASTRA_NODE_HMAC_KEY_VOKTORS_MAC }}
+
   supervise:
-    runs-on: [self-hosted, linux, x64]
+    needs: distributed-verification
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 90
     env:
       ASTRA_ONESHOT: "1"
@@ -50,42 +119,33 @@ jobs:
           } >> "$GITHUB_ENV"
           mkdir -p "$ASTRA_STATE_DIR"
 
-      - name: Materialize fresh autonomous qualification command
+      - name: Download authoritative signed command artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: astra-authoritative-command
+          path: control/commands
+
+      - name: Verify prepared command binding
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json, os, time
+          import json, os
           from pathlib import Path
-          node=os.environ["ASTRA_NODE_ID"]
-          command_id=f"MH-AUTONOMOUS-GOLD-{node}-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
-          p=Path("control/commands")/f"{node}.json"
-          p.parent.mkdir(parents=True, exist_ok=True)
-          p.write_text(json.dumps({
-              "schema_version": "mediahub.astra.control-command.v1",
-              "command_id": command_id,
-              "node_id": node,
-              "operation": "autonomous_gold_mission",
-              "target_sha": os.environ["GITHUB_SHA"],
-              "workflow_only": False,
-              "owned_paths": ["architecture", "ops/agent-fabric", "ops/qualification", "control/qualification"],
-              "title": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
-              "description": "Run the canonical autonomous qualification queue, generate fresh evidence, and advance only through fail-closed A0-A3 qualification gates. Never bypass launch authority.",
-              "exclusive_actions": ["execute"],
-              "issued_at": int(time.time()),
-          }, indent=2)+"\n", encoding="utf-8")
-          print(f"node={node} command_id={command_id}")
-
-      - name: Authoritatively sign current control command
-        shell: bash
-        env:
-          ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
-        run: |
-          set -euo pipefail
-          test -n "${ASTRA_COMMAND_HMAC_KEY}"
-          command="control/commands/${ASTRA_NODE_ID}.json"
-          test -f "$command"
-          python3 ops/control/sign_command.py "$command"
+          p=Path("control/commands/mh-dev-01.json")
+          d=json.loads(p.read_text(encoding="utf-8"))
+          expected=f"MH-AUTONOMOUS-GOLD-mh-dev-01-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          assert d["command_id"] == expected
+          assert d["node_id"] == "mh-dev-01"
+          assert d["operation"] == "autonomous_gold_mission"
+          assert d["target_sha"] == os.environ["GITHUB_SHA"]
+          assert isinstance(d.get("signature"), str) and len(d["signature"]) == 64
+          Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8").write(
+              f"ASTRA_NODE_ID=mh-dev-01\n"
+              f"ASTRA_COMMAND_ID={d['command_id']}\n"
+              f"ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ['ASTRA_STATE_DIR']}/distributed-verification/{d['command_id']}\n"
+          )
+          PY
 
       - name: Prefetch canonical node result ref
         shell: bash
@@ -93,39 +153,19 @@ jobs:
           set -euo pipefail
           git fetch origin "+astra-node/${ASTRA_NODE_ID}:refs/remotes/origin/astra-node/${ASTRA_NODE_ID}"
 
+      - name: Download verified distributed evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.distributed-verification.outputs.evidence_artifact }}
+          path: .astra-state/distributed-verification
+
       - name: Execute autonomous qualification wave
         shell: bash
         env:
           ASTRA_WORKTREE: "${{ github.workspace }}"
           ASTRA_WORKFLOW_ONLY: "1"
-          ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
-          SILICONFLOW_API_KEY_1: ${{ secrets.SILICONFLOW_API_KEY_1 }}
-          SILICONFLOW_API_KEY_2: ${{ secrets.SILICONFLOW_API_KEY_2 }}
-          NOVITA_API_KEY_1: ${{ secrets.NOVITA_API_KEY_1 }}
-          NOVITA_API_KEY_2: ${{ secrets.NOVITA_API_KEY_2 }}
-          ZAI_API_KEY_1: ${{ secrets.ZAI_API_KEY_1 }}
-          ZAI_API_KEY_2: ${{ secrets.ZAI_API_KEY_2 }}
-          KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
-          MOONSHOT_API_KEY: ${{ secrets.MOONSHOT_API_KEY }}
-          LLM7_API_KEY: ${{ secrets.LLM7_API_KEY }}
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-          AIONLABS_API_KEY: ${{ secrets.AIONLABS_API_KEY }}
-          CLOUDFLARE_API_TOKEN_1: ${{ secrets.CLOUDFLARE_API_TOKEN_1 }}
-          CLOUDFLARE_API_TOKEN_2: ${{ secrets.CLOUDFLARE_API_TOKEN_2 }}
-          CLOUDFLARE_ACCOUNT_ID_1: ${{ secrets.CLOUDFLARE_ACCOUNT_ID_1 }}
-          CLOUDFLARE_ACCOUNT_ID_2: ${{ secrets.CLOUDFLARE_ACCOUNT_ID_2 }}
-          NARAROUTER_API_KEY_1: ${{ secrets.NARAROUTER_API_KEY_1 }}
-          NARAROUTER_API_KEY: ${{ secrets.NARAROUTER_API_KEY }}
-          ORCAROUTER_API_KEY: ${{ secrets.ORCAROUTER_API_KEY }}
-          UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
-          ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          MISTRAL_API_KEY_1: ${{ secrets.MISTRAL_API_KEY_1 }}
-          MISTRAL_API_KEY_2: ${{ secrets.MISTRAL_API_KEY_2 }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state/distributed-verification"
+          ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
         run: |
           set -euo pipefail
           python3 astra_github_agent.py
@@ -163,6 +203,7 @@ jobs:
           assert d.get("command_id") == expected_command_id
           assert d.get("node_id") == os.environ["ASTRA_NODE_ID"]
           assert d.get("target_sha") == os.environ["GITHUB_SHA"]
+          assert d.get("execution_head") == d.get("target_sha")
           assert d.get("returncode") == 0
           phase=result.get("phase")
           status=result.get("status")
