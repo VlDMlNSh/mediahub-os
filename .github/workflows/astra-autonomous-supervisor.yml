@@ -225,3 +225,5 @@ jobs:
 
 # Autonomous supervisor retrigger marker: 2026-10-05 fresh queue qualification wave.
 # Autonomous supervisor fresh-G4 admission wave: 2026-10-05T19:06Z
+
+# Target-pinned retry hardening retrigger: 2026-10-05.
