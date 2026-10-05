@@ -54,8 +54,17 @@ def load_tasks() -> list[dict]:
     return sorted(tasks, key=lambda x: (x.get("priority", "Z"), x.get("task_id", "")))
 
 
-def completed(task_id: str) -> bool:
-    return (STATE / "completed" / f"{task_id}.json").is_file()
+def completed(task_id: str, base_sha: str | None = None) -> bool:
+    path = STATE / "completed" / f"{task_id}.json"
+    if not path.is_file():
+        return False
+    if base_sha is None:
+        return True
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return False
+    return payload.get("status") == "VERIFIED" and payload.get("base_sha") == base_sha
 
 
 def dependencies_satisfied(task: dict) -> bool:
@@ -167,7 +176,10 @@ def process_task(task: dict) -> dict:
             cleanup = run(["git", "worktree", "remove", "--force", str(worktree)], 120)
             if cleanup.returncode:
                 raise RuntimeError("worktree_cleanup_failed")
-        checkout = run(["git", "worktree", "add", "-b", branch, str(worktree), "origin/main"], 120)
+        remote_main = run(["git", "rev-parse", "origin/main"], 30)
+        if remote_main.returncode != 0 or remote_main.stdout.strip() != claim.base_sha:
+            raise RuntimeError("queue_base_sha_drift")
+        checkout = run(["git", "worktree", "add", "-b", branch, str(worktree), claim.base_sha], 120)
         if checkout.returncode:
             raise RuntimeError("worktree_create_failed")
         build = run(
@@ -262,10 +274,14 @@ def process_task(task: dict) -> dict:
 
 def main() -> int:
     STATE.mkdir(parents=True, exist_ok=True)
+    base_sha = run(["git", "rev-parse", "HEAD"], 30).stdout.strip()
+    if not base_sha:
+        print(json.dumps({"status": "BLOCKED", "reason": "queue_base_sha_unavailable"}, sort_keys=True))
+        return 2
     tasks = [
         t
         for t in load_tasks()
-        if not completed(str(t["task_id"])) and dependencies_satisfied(t)
+        if not completed(str(t["task_id"]), base_sha) and dependencies_satisfied(t)
     ]
     if not tasks:
         print(json.dumps({"status": "IDLE", "reason": "no_ready_tasks"}, sort_keys=True))
