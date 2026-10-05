@@ -24,7 +24,7 @@ concurrency:
 jobs:
   prepare-command:
     name: Prepare and sign authoritative Astra command
-    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     outputs:
       command_id: ${{ steps.command.outputs.command_id }}
     timeout-minutes: 15
@@ -92,7 +92,7 @@ jobs:
 
   supervise:
     needs: distributed-verification
-    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 90
     env:
       ASTRA_ONESHOT: "1"
