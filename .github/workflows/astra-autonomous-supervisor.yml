@@ -203,6 +203,7 @@ jobs:
           assert d.get("command_id") == expected_command_id
           assert d.get("node_id") == os.environ["ASTRA_NODE_ID"]
           assert d.get("target_sha") == os.environ["GITHUB_SHA"]
+          assert d.get("execution_head") == d.get("target_sha")
           assert d.get("returncode") == 0
           phase=result.get("phase")
           status=result.get("status")
