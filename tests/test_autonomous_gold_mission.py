@@ -19,9 +19,9 @@ class AutonomousMissionTests(unittest.TestCase):
             "pre_soak_evidence",
             "strict_pre_soak_verification",
             "distributed_verification",
-            "gold_qualification",
             "ASTRA_AUTONOMOUS_MAX_CYCLES",
             "ASTRA_AUTONOMOUS_RETRY_SECONDS",
+            "autonomous_queue",
         ):
             self.assertIn(marker, self.source)
 
