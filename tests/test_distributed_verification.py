@@ -11,7 +11,11 @@ from ops.qualification import produce_distributed_verification_evidence as produ
 
 class DistributedVerificationProducerTests(unittest.TestCase):
     def attestation(self, node_id, command_id="CMD-1", target_sha="a"*40, status="PASS", completed_at=1000, key=None):
-        key = key or {\n            "mh-dev-01": b"test-secret",\n            "mh-dev-02": b"test-secret-2",\n            "Voktors-Mac-mini.local": b"test-secret-3",\n        }[node_id]
+        key = key or {
+            "mh-dev-01": b"test-secret",
+            "mh-dev-02": b"test-secret-2",
+            "Voktors-Mac-mini.local": b"test-secret-3",
+        }[node_id]
         payload = {
             "schema": "mediahub.astra.distributed-node-attestation.v1",
             "command_id": command_id,
