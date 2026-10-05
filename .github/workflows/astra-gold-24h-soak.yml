@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.preflight.outputs.target_sha }}
+          ref: ${{ github.sha }}
           fetch-depth: 1
       - name: Install test dependencies
         run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
@@ -52,6 +52,7 @@ jobs:
           assert d.get("node_id") == "mh-dev-01"
           target_sha=d.get("target_sha")
           assert isinstance(target_sha, str) and len(target_sha) == 40
+          assert target_sha == os.environ["GITHUB_SHA"]
           assert d.get("execution_head") == target_sha
           assert d.get("returncode") == 0
           assert result.get("phase") == "autonomous_queue"
@@ -112,6 +113,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ needs.preflight.outputs.target_sha }}
           fetch-depth: 1
       - name: Install test dependencies
         run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
