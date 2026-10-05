@@ -233,3 +233,9 @@ def test_queue_blocks_existing_remote_branch_before_worktree_creation():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert 'raise RuntimeError("queue_branch_already_exists")' in source
     assert 'raise RuntimeError("queue_branch_probe_failed")' in source
+
+
+def test_queue_refreshes_origin_main_before_base_sha_admission():
+    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
+    assert '"git", "fetch", "--prune", "origin", "main"' in source
+    assert 'raise RuntimeError("queue_main_fetch_failed")' in source
