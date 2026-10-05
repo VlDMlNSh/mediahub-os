@@ -40,8 +40,8 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         text = contract.read_text(encoding="utf-8")
         for label in (
             "mh-dev-01-canonical",
-            "mh-dev-02-canonical",
-            "Voktors-Mac-mini-canonical",
+            "mh-dev-02-distributed",
+            "voktors-mac-mini-distributed",
         ):
             self.assertIn(label, text)
         for node in ("mh-dev-01", "mh-dev-02", "Voktors-Mac-mini.local"):
