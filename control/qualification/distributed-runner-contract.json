@@ -12,7 +12,7 @@
     },
     {
       "node_id": "mh-dev-02",
-      "runner_label": "mh-dev-02-canonical",
+      "runner_label": "mh-dev-02-distributed",
       "hostname_allowlist": ["mh-dev-02"],
       "user": "mediahub",
       "os": "linux",
@@ -21,7 +21,7 @@
     },
     {
       "node_id": "Voktors-Mac-mini.local",
-      "runner_label": "Voktors-Mac-mini-canonical",
+      "runner_label": "voktors-mac-mini-distributed",
       "hostname_allowlist": ["Voktors-Mac-mini.local", "Voktors-Mini.Dlink"],
       "user": "voktor",
       "os": "macOS",
