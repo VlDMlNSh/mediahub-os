@@ -15,7 +15,7 @@ permissions:
 jobs:
   p0-07-verification:
     name: P0-07 exact-head verification
-    runs-on: [self-hosted, mediahub-runner]
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 30
     steps:
       - name: Checkout exact P0-07 verification commit
