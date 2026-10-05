@@ -48,7 +48,10 @@ class DistributedWorkflowContractTests(unittest.TestCase):
 
     def test_supervisor_waits_for_fresh_distributed_attestations(self):
         text = SUPERVISOR.read_text(encoding="utf-8")
+        self.assertIn("prepare-command:", text)
+        self.assertIn("Materialize and sign fresh command", text)
         self.assertIn("astra-distributed-node-attestations.yml", text)
+        self.assertIn("needs: prepare-command", text)
         self.assertIn("distributed-attestation", text)
         self.assertIn("download-artifact@v4", text)
         self.assertIn("distributed-verification", text)
