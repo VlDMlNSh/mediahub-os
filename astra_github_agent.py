@@ -17,7 +17,12 @@ AGENT_ID=os.environ.get('ASTRA_AGENT_ID','A0-ASTRA')
 WORKER_ID=os.environ.get('ASTRA_WORKER_ID',f"{AGENT_ID}:{os.getpid()}")
 CLAIM_LEASE_SECONDS=max(60.0,min(float(os.environ.get('ASTRA_CLAIM_LEASE_SECONDS','900')),3600.0))
 COMMAND_HMAC_MAX_AGE_SECONDS=max(60,int(os.environ.get("ASTRA_COMMAND_HMAC_MAX_AGE_SECONDS","900")))
-COMMAND_HMAC_KEY=os.environ.get("ASTRA_COMMAND_HMAC_KEY","")
+COMMAND_HMAC_ENV = {
+    "mh-dev-01": "ASTRA_NODE_HMAC_KEY_MH_DEV_01",
+    "mh-dev-02": "ASTRA_NODE_HMAC_KEY_MH_DEV_02",
+    "Voktors-Mac-mini.local": "ASTRA_NODE_HMAC_KEY_VOKTORS_MAC",
+}
+COMMAND_HMAC_KEY=os.environ.get(COMMAND_HMAC_ENV.get(NODE_ID, ""), "")
 COMMAND_SCHEMA_VERSION="mediahub.astra.control-command.v1"
 EXECUTED_COMMANDS=STATE/"executed_command_ids"
 SAFE_ID_RE=re.compile(r"^[A-Za-z0-9._:-]{1,128}$")
