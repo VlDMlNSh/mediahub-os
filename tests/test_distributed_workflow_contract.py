@@ -43,6 +43,8 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertIn('test "$(hostname)" = "mh-dev-02"', text)
         self.assertIn('test "$(id -un)" = "mediahub"', text)
         self.assertIn('test "$(id -un)" = "voktor"', text)
+        self.assertIn('test "${RUNNER_NAME:-}" = "Voktors-Mini-Astra-Control"', text)
+        self.assertIn('test "$(hostname)" = "Voktors-Mini.Dlink"', text)
 
     def test_workflow_binds_command_sha_and_node_hmac(self):
         text = WORKFLOW.read_text(encoding="utf-8")
