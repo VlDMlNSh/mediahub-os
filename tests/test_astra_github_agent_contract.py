@@ -90,5 +90,11 @@ class AstraTransportContractTests(unittest.TestCase):
         with patch.dict(sign_command.os.environ, {"ASTRA_NODE_HMAC_KEY_MH_DEV_01": "node-secret"}, clear=True):
             self.assertEqual(sign_command.resolve_node_key("mh-dev-01"), "node-secret")
 
+    def test_autonomous_mission_requires_exact_target_head(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        self.assertIn('reason":"target_sha_not_exact_current_head"', source)
+        self.assertIn('reason":"target_sha_changed_during_retry"', source)
+        self.assertNotIn('merge-base", "--is-ancestor", target_sha, "HEAD"', source)
+
 if __name__ == "__main__":
     unittest.main()
