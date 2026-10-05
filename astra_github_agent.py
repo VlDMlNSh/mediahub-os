@@ -671,7 +671,7 @@ def main():
                     if claim_store is not None and claim is not None:
                         try:
                             result_status = value.get("status") if isinstance(value, dict) else None
-                            claim_status = 'VERIFIED' if rc == 0 and result_status not in {"BLOCKED", "REJECTED"} else 'REJECTED'
+                            claim_status = "VERIFIED" if rc == 0 and result_status in {"PASS", "ready"} else "REJECTED"
                             claim_store.release(claim.task_id, claim_status)
                             claim = next((c for c in claim_store.list_claims() if c.task_id == claim.task_id), claim)
                         except Exception as release_exc:
