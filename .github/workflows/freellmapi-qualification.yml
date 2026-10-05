@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   qualify:
-    runs-on: [self-hosted, mediahub-runner]
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 10
     env:
       FREELLMAPI_URL: ${{ vars.MEDIAHUB_FREELLMAPI_URL }}
