@@ -31,7 +31,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(hostname)" = "mh-dev-02"
-          test "$(id -un)" != ""
+          test "$(id -un)" = "mediahub"
       - name: Produce signed attestation
         env:
           ASTRA_EXPECTED_NODE_ID: mh-dev-02
@@ -63,7 +63,7 @@ jobs:
           set -euo pipefail
           host="$(hostname)"
           test "$host" = "Voktors-Mac-mini.local" || test "$host" = "Voktors-Mini.Dlink"
-          test "$(id -un)" != ""
+          test "$(id -un)" = "voktor"
       - name: Produce signed attestation
         env:
           ASTRA_EXPECTED_NODE_ID: Voktors-Mac-mini.local
