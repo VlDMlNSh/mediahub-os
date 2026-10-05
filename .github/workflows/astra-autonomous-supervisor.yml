@@ -118,11 +118,18 @@ jobs:
           set -euo pipefail
           git fetch origin "+astra-node/${ASTRA_NODE_ID}:refs/remotes/origin/astra-node/${ASTRA_NODE_ID}"
 
+      - name: Download verified distributed evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.distributed-verification.outputs.evidence_artifact }}
+          path: .astra-state/distributed-verification
+
       - name: Execute autonomous qualification wave
         shell: bash
         env:
           ASTRA_WORKTREE: "${{ github.workspace }}"
           ASTRA_WORKFLOW_ONLY: "1"
+          ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state/distributed-verification"
           ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
           SILICONFLOW_API_KEY_1: ${{ secrets.SILICONFLOW_API_KEY_1 }}
           SILICONFLOW_API_KEY_2: ${{ secrets.SILICONFLOW_API_KEY_2 }}
