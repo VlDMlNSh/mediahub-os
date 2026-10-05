@@ -14,7 +14,7 @@ class AutonomousMissionTests(unittest.TestCase):
 
     def test_mission_is_stateful_and_gate_ordered(self):
         for marker in (
-            "target_sha_not_ancestor_of_current_main",
+            "target_sha_not_exact_current_head",
             "execution_backend_qualification",
             "pre_soak_evidence",
             "strict_pre_soak_verification",
