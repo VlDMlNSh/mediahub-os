@@ -286,7 +286,7 @@ def main() -> int:
     current_user = os.environ.get("USER") or os.environ.get("LOGNAME") or ""
     command_id = os.environ.get("ASTRA_COMMAND_ID", "")
     target_sha = os.environ.get("ASTRA_TARGET_SHA", "")
-    hmac_key = os.environ.get("ASTRA_COMMAND_HMAC_KEY", "")
+    hmac_key = os.environ.get("ASTRA_NODE_ATTESTATION_HMAC_KEY", "")
     output = Path(
         os.environ.get(
             "ASTRA_NODE_ATTESTATION_OUTPUT",
