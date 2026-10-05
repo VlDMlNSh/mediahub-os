@@ -49,6 +49,7 @@ class DistributedNodeAttestationTests(unittest.TestCase):
         result = producer.validate_context(
             node_id="mh-dev-01",
             hostname="mh-dev-01",
+            current_user="mediahub-runner",
             target_sha="a"*40,
             current_head="a"*40,
             command_id="CMD-1",
