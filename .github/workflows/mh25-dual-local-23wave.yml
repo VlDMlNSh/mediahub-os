@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   qualify:
-    runs-on: [self-hosted, mediahub-runner]
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
