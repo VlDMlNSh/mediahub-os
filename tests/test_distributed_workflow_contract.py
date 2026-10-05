@@ -72,6 +72,14 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertNotIn("astra-distributed-node-attestations.yml", text)
         self.assertNotIn("distributed_candidates", text)
 
+    def test_each_node_job_declares_artifact_output_path(self):
+        text = WORKFLOW.read_text(encoding="utf-8")
+        for node in ("mh-dev-01", "mh-dev-02", "Voktors-Mac-mini.local"):
+            self.assertIn("ASTRA_NODE_ATTESTATION_OUTPUT", text)
+        self.assertIn(".astra-state/distributed-attestation/mh-dev-01.json", text)
+        self.assertIn(".astra-state/distributed-attestation/mh-dev-02.json", text)
+        self.assertIn(".astra-state/distributed-attestation/Voktors-Mac-mini.local.json", text)
+
 
 if __name__ == "__main__":
     unittest.main()
