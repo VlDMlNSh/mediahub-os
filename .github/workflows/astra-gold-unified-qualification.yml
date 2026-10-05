@@ -10,7 +10,7 @@ on:
         default: false
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: astra-gold-unified-qualification
