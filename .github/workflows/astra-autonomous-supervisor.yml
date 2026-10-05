@@ -109,16 +109,6 @@ jobs:
           fetch-depth: 50
           persist-credentials: true
 
-      - name: Verify authenticated Git publication transport
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
-          test "$(git config --local --get http.https://github.com/.extraheader)" = "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
-          git ls-remote --heads origin main >/dev/null
-
       - name: Resolve canonical node from runner identity
         shell: bash
         run: |
