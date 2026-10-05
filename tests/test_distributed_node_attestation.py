@@ -100,6 +100,7 @@ class DistributedNodeAttestationTests(unittest.TestCase):
                 root=Path("."),
                 node_id="mh-dev-01",
                 hostname="mh-dev-01",
+                current_user="mediahub-runner",
                 command_id="CMD-1",
                 target_sha="a"*40,
                 hmac_key="test-secret",
