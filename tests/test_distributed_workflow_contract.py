@@ -20,6 +20,20 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertIn("mh-dev-02-distributed", str(jobs["node-mh-dev-02"]["runs-on"]))
         self.assertIn("voktors-mac-mini-distributed", str(jobs["node-voktors-mac"]["runs-on"]))
 
+    def test_workflow_call_declares_command_and_target_inputs(self):
+        document = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        call = document["on"]["workflow_call"]
+        self.assertEqual(call["inputs"]["command_id"]["required"], True)
+        self.assertEqual(call["inputs"]["command_id"]["type"], "string")
+        self.assertEqual(call["inputs"]["target_sha"]["required"], True)
+        self.assertEqual(call["inputs"]["target_sha"]["type"], "string")
+
+    def test_workflow_uses_caller_bindings_not_its_own_run_id(self):
+        text = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("ASTRA_COMMAND_ID: ${{ inputs.command_id }}", text)
+        self.assertIn("ASTRA_TARGET_SHA: ${{ inputs.target_sha }}", text)
+        self.assertNotIn("MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}", text)
+
     def test_node_jobs_require_expected_runtime_identity(self):
         text = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn('test "$(hostname)" = "mh-dev-01"', text)
