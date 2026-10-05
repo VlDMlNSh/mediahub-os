@@ -77,3 +77,47 @@ def test_a3_verifier_requires_exact_machine_verdict():
     assert autonomous_queue._verifier_passed("ASTRA_VERDICT: PASS\n")
     assert not autonomous_queue._verifier_passed("PASS\n")
     assert not autonomous_queue._verifier_passed("ASTRA_VERDICT: PASS\nASTRA_VERDICT: BLOCKED\n")
+
+
+def test_completed_rejects_stale_base_sha(monkeypatch, tmp_path: Path):
+    state = tmp_path / "state"
+    completed_dir = state / "completed"
+    completed_dir.mkdir(parents=True)
+    (completed_dir / "T.json").write_text(
+        json.dumps({"status": "VERIFIED", "base_sha": "oldsha"}),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(autonomous_queue, "STATE", state)
+    assert autonomous_queue.completed("T", "oldsha")
+    assert not autonomous_queue.completed("T", "newsha")
+
+
+def test_main_does_not_suppress_stale_completion(monkeypatch, tmp_path: Path, capsys):
+    task_dir = tmp_path / "tasks"
+    task_dir.mkdir()
+    state = tmp_path / "state"
+    (task_dir / "a.json").write_text(
+        json.dumps({"task_id": "A", "status": "READY", "priority": "P0"})
+    )
+    completed_dir = state / "completed"
+    completed_dir.mkdir(parents=True)
+    (completed_dir / "A.json").write_text(
+        json.dumps({"status": "VERIFIED", "base_sha": "oldsha"}),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(autonomous_queue, "TASK_DIR", task_dir)
+    monkeypatch.setattr(autonomous_queue, "STATE", state)
+    class R:
+        stdout = "newsha\n"
+    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: R())
+    # No builder should be started here; the stale completion makes the task eligible.
+    result = autonomous_queue.main()
+    payload = json.loads(capsys.readouterr().out)
+    assert result == 2
+    assert payload["status"] == "BLOCKED"
+    assert payload["selected_tasks"] == ["A"]
+
+
+def test_controller_claim_requires_explicit_success_status():
+    source = Path(__file__).resolve().parents[1] / "astra_github_agent.py".read_text(encoding="utf-8")
+    assert 'claim_status = "VERIFIED" if rc == 0 and result_status in {"PASS", "ready"} else "REJECTED"' in source
