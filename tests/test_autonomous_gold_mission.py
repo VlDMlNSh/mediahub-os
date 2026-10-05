@@ -38,9 +38,9 @@ class AutonomousMissionTests(unittest.TestCase):
 
     def test_controller_does_not_promote_pre_soak_executor_to_gold(self):
         mission_start = self.source.index('if operation in {"autonomous_qualification_queue", "autonomous_gold_mission"}:')
-        mission_end = self.source.index('    if operation == "reconcile_controller_processes":', mission_start)
-        mission = self.source[mission_start:mission_end]
-        self.assertNotIn("astra_gold_executor.py", mission)
+        mission_end = self.source.index('            if operation == "autonomous_gold_mission":', mission_start)
+        qualification_gate = self.source[mission_start:mission_end]
+        self.assertNotIn("astra_gold_executor.py", qualification_gate)
 
 
 if __name__ == "__main__":
