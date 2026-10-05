@@ -26,6 +26,7 @@ OUTPUT_SCHEMA = "mediahub.astra.distributed-verification.v1"
 PHASE = "distributed_verification"
 PRODUCER_IDENTITY = "canonical-distributed-verification-producer-v1"
 AUTH_SCHEMA = "mediahub.astra.distributed.auth.v1"
+KEY_ID_SUFFIX = "-distributed-attestation-v1"
 SAFE_ID_RE = re.compile(r"^[A-Za-z0-9._:-]{1,128}$")
 SHA_RE = re.compile(r"^[0-9a-fA-F]{40,64}$")
 
@@ -118,6 +119,9 @@ def _validate_attestation(
         blocked.append(f"{expected_node}_returncode_not_zero")
     if data.get("auth_schema_version") != AUTH_SCHEMA:
         blocked.append(f"{expected_node}_auth_schema_mismatch")
+    expected_key_id = f"{expected_node}{KEY_ID_SUFFIX}"
+    if data.get("auth_key_id") != expected_key_id:
+        blocked.append(f"{expected_node}_auth_key_id_mismatch")
     signature = data.get("signature")
     if not isinstance(signature, str) or not signature:
         blocked.append(f"{expected_node}_signature_missing")
@@ -163,7 +167,7 @@ def aggregate(
     current_head: str,
     now: int | None = None,
     max_age_seconds: int = 900,
-    hmac_key: str = "",
+    hmac_keys: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     now = int(time.time()) if now is None else int(now)
     context = validate_context(
@@ -189,7 +193,7 @@ def aggregate(
                 target_sha=target_sha,
                 now=now,
                 max_age_seconds=max_age_seconds,
-                hmac_key=hmac_key,
+                hmac_key=(hmac_keys or {}).get(expected_node, ""),
             )
         )
 
@@ -258,7 +262,11 @@ def main() -> int:
                 target_sha=target_sha,
                 current_head=head,
                 max_age_seconds=max(60, int(os.environ.get("ASTRA_DISTRIBUTED_MAX_AGE_SECONDS", "900"))),
-                hmac_key=os.environ.get("ASTRA_COMMAND_HMAC_KEY", ""),
+                hmac_keys={
+                    "mh-dev-01": os.environ.get("ASTRA_NODE_HMAC_KEY_MH_DEV_01", ""),
+                    "mh-dev-02": os.environ.get("ASTRA_NODE_HMAC_KEY_MH_DEV_02", ""),
+                    "Voktors-Mac-mini.local": os.environ.get("ASTRA_NODE_HMAC_KEY_VOKTORS_MAC", ""),
+                },
             )
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(
