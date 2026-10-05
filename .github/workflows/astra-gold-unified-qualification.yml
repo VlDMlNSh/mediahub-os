@@ -80,10 +80,8 @@ jobs:
               "description":"Execute the canonical Astra GOLD mission through signed command authority, fresh distributed verification, autonomous queue promotion gates, and immutable result publication.",
               "exclusive_actions":["execute"],
               "issued_at":int(time.time())
-          }, indent=2)+"
-", encoding="utf-8")
-          Path(os.environ["GITHUB_OUTPUT"]).write_text(f"command_id={command_id}
-", encoding="utf-8")
+          }, indent=2)+"\n", encoding="utf-8")
+          Path(os.environ["GITHUB_OUTPUT"]).write_text(f"command_id={command_id}\n", encoding="utf-8")
           PY
           python3 ops/control/sign_command.py control/commands/mh-dev-01.json
       - name: Publish signed command artifact
