@@ -249,7 +249,11 @@ def execute(cmd):
             if journal:
                 journal.checkpoint(phase="cycle_started", cycle=cycle)
             if operation=="autonomous_gold_mission" and cycle>1:
-                sync()
+                # A workflow-only mission is pinned to the signed target SHA for its
+                # entire bounded retry window. Never advance to a moving origin/main
+                # between retries; doing so invalidates the command binding.
+                if os.environ.get("ASTRA_WORKFLOW_ONLY") != "1":
+                    sync()
                 current_head = run(["git", "rev-parse", "HEAD"], 10).stdout.strip()
                 if target_sha and current_head.lower() != str(target_sha).lower():
                     return {"status":"BLOCKED","phase":"target_reconciliation",
