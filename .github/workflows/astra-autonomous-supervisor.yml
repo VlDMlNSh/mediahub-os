@@ -68,11 +68,9 @@ jobs:
               "description":"Run the canonical autonomous qualification queue, generate fresh evidence, and advance only through fail-closed A0-A3 qualification gates. Never bypass launch authority.",
               "exclusive_actions":["execute"],
               "issued_at":int(time.time())
-          },indent=2)+"
-",encoding="utf-8")
+          },indent=2)+"\n",encoding="utf-8")
           print(f"command_id={command_id}")
-          Path(os.environ["GITHUB_OUTPUT"]).write_text(f"command_id={command_id}
-",encoding="utf-8")
+          Path(os.environ["GITHUB_OUTPUT"]).write_text(f"command_id={command_id}\n",encoding="utf-8")
           PY
           python3 ops/control/sign_command.py control/commands/mh-dev-01.json
       - name: Publish prepared command artifact
@@ -111,6 +109,16 @@ jobs:
           fetch-depth: 50
           persist-credentials: true
 
+      - name: Verify authenticated Git publication transport
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          test "$(git config --local --get http.https://github.com/.extraheader)" = "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          git ls-remote --heads origin main >/dev/null
+
       - name: Resolve canonical node from runner identity
         shell: bash
         run: |
@@ -147,12 +155,9 @@ jobs:
           assert d["target_sha"] == os.environ["GITHUB_SHA"]
           assert isinstance(d.get("signature"), str) and len(d["signature"]) == 64
           Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8").write(
-              f"ASTRA_NODE_ID=mh-dev-01
-"
-              f"ASTRA_COMMAND_ID={d['command_id']}
-"
-              f"ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ['ASTRA_STATE_DIR']}/distributed-verification/{d['command_id']}
-"
+              f"ASTRA_NODE_ID=mh-dev-01\n"
+              f"ASTRA_COMMAND_ID={d['command_id']}\n"
+              f"ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ['ASTRA_STATE_DIR']}/distributed-verification/{d['command_id']}\n"
           )
           PY
 
