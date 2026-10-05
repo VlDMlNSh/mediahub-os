@@ -69,6 +69,7 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           test -z "$(git status --short)"
           # The canonical agent is continuously updated on main, so a hardcoded
           # blob literal cannot be maintained and only produces guaranteed drift.
@@ -156,6 +157,7 @@ jobs:
             . /tmp/astra-worker-binding.env
             test -d "/proc/$worker_pid"
             test "$(ps -o user= -p "$worker_pid" | xargs)" = "$(id -un)"
+            test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
             current_worker_sha="$(python3 -c 'import hashlib; print(hashlib.sha256(open("astra_github_agent.py","rb").read()).hexdigest())')"
             test "$current_worker_sha" = "$worker_sha"
             PYTHONPATH=runtime:. python3 -m pytest -q tests/ | tee "/tmp/astra-gold/test-$iteration.log"
