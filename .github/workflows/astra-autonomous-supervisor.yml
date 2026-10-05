@@ -43,7 +43,7 @@ jobs:
         id: command
         shell: bash
         env:
-          ASTRA_COMMAND_HMAC_KEY: ${{ secrets.ASTRA_COMMAND_HMAC_KEY }}
+          ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
         run: |
           set -euo pipefail
           mkdir -p control/commands
