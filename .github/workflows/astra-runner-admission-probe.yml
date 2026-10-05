@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   probe:
-    runs-on: self-hosted
+    runs-on: [self-hosted, linux, x64, mh-dev-01-canonical]
     timeout-minutes: 5
     steps:
       - name: Verify canonical runner admission
