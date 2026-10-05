@@ -143,6 +143,27 @@ def test_scope_check_rejects_untracked_files(monkeypatch, tmp_path: Path):
         returncode = 0
         stdout = ""
         stderr = ""
+    def fake_run(argv, *args, **kwargs):
+        if argv[:3] == ["git", "diff", "--name-only"]:
+            return R()
+        if argv[:3] == ["git", "status", "--porcelain", "--untracked-files=all"]:
+            class S:
+                returncode = 0
+                stdout = "?? forbidden.txt\n"
+                stderr = ""
+            return S()
+        return R()
+    monkeypatch.setattr(autonomous_queue, "run", fake_run)
+    assert autonomous_queue._diff_outside_scope({"boundary": ["tests"]}, worktree, "a"*40) == ["forbidden.txt"]
+
+
+def test_scope_check_rejects_untracked_files(monkeypatch, tmp_path: Path):
+    worktree = tmp_path / "worktree"
+    worktree.mkdir()
+    class R:
+        returncode = 0
+        stdout = ""
+        stderr = ""
     monkeypatch.setattr(
         autonomous_queue,
         "run",
