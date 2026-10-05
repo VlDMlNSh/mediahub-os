@@ -28,6 +28,15 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertIn("ASTRA_COMMAND_HMAC_KEY", text)
         self.assertIn("produce_distributed_node_attestation.py", text)
 
+    def test_distributed_runner_contract_declares_all_three_nodes(self):
+        contract = ROOT / "control/qualification/distributed-runner-contract.json"
+        self.assertTrue(contract.is_file())
+        text = contract.read_text(encoding="utf-8")
+        for label in ("mh-dev-01-canonical", "mh-dev-02-canonical", "Voktors-Mac-mini-canonical"):
+            self.assertIn(label, text)
+        for node in ("mh-dev-01", "mh-dev-02", "Voktors-Mac-mini.local"):
+            self.assertIn(node, text)
+
     def test_supervisor_does_not_cancel_longer_distributed_runs(self):
         text = SUPERVISOR.read_text(encoding="utf-8")
         self.assertIn("cancel-in-progress: false", text)
