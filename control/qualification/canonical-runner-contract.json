@@ -1,6 +1,6 @@
 {
   "schema": "mediahub.astra.canonical-runner.v1",
-  "label": "mh-dev-01-canonical",
+  "label": "mediahub-control",
   "node_id": "mh-dev-01",
   "user": "mediahub-runner",
   "required_os": "linux",
