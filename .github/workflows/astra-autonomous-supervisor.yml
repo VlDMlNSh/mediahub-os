@@ -218,3 +218,4 @@ jobs:
           PY
 
 # Fleet-label reconciliation retrigger: registered runner labels aligned 2026-10-05.
+# Autonomous qualification retrigger: current main after fleet-label reconciliation.
