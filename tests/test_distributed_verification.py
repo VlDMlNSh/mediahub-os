@@ -102,6 +102,41 @@ class DistributedVerificationProducerTests(unittest.TestCase):
         self.assertEqual(result["status"], "BLOCKED")
         self.assertIn("mh-dev-01_signature_invalid", result["blocked_reasons"])
 
+    def test_aggregate_rejects_current_head_mismatch(self):
+        with TemporaryDirectory() as td:
+            root = Path(td)
+            result = producer.aggregate(
+                root,
+                command_id="CMD-1",
+                node_id="mh-dev-01",
+                target_sha="a"*40,
+                current_head="b"*40,
+                now=1000,
+                max_age_seconds=120,
+                hmac_key="test-secret",
+            )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("target_sha_mismatch", result["blocked_reasons"])
+
+    def test_wrong_producer_identity_is_rejected(self):
+        with TemporaryDirectory() as td:
+            root = Path(td)
+            payload = self.attestation("mh-dev-01")
+            payload["producer_identity"] = "node-agent:mh-dev-02"
+            self.write_attestation(root, payload)
+            result = producer.aggregate(
+                root,
+                command_id="CMD-1",
+                node_id="mh-dev-01",
+                target_sha="a"*40,
+                current_head="a"*40,
+                now=1000,
+                max_age_seconds=120,
+                hmac_key="test-secret",
+            )
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertIn("mh-dev-01_producer_identity_mismatch", result["blocked_reasons"])
+
 
 if __name__ == "__main__":
     unittest.main()
