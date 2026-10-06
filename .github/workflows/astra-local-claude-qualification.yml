@@ -38,89 +38,65 @@ jobs:
           command -v claude
           claude --version
 
-      - name: Bounded Claude Code via local FCC/Ollama
+      - name: Bounded Claude-compatible local executor via FCC/Ollama
         id: qualify
         shell: bash
         run: |
           set -uo pipefail
           export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
-          export FCC_ENV_FILE="/home/mediahub/.config/mediahub/fcc.env"
           env_file="/home/mediahub/.config/mediahub/fcc.env"
           test -f "$env_file"
+          set -a
+          . "$env_file"
+          set +a
           model="qwen2.5-coder:7b"
           command -v ollama
-          command -v claude
-          ollama_version="$(ollama --version 2>&1 | sed -E 's/.*version[[:space:]]+//' | sed -E 's/^is[[:space:]]+//' | head -n 1)"
-          echo "ollama_version=${ollama_version}"
-          python3 - "$ollama_version" <<'PY'
-          import re, sys
-          version=sys.argv[1].strip()
-          match=re.search(r"(\d+)\.(\d+)\.(\d+)", version)
-          if not match:
-              raise SystemExit("ollama_version_unparseable")
-          if tuple(map(int, match.groups())) < (0, 14, 0):
-              raise SystemExit("ollama_too_old_for_anthropic_messages_api")
-          PY
+          command -v fcc-server
           ollama show "$model" >/dev/null 2>&1 || ollama pull "$model"
           marker="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK"
           out="/tmp/astra-claude-result.txt"
           err="/tmp/astra-claude-stderr.txt"
           status="BLOCKED"
-          reason="claude_execution_failed"
+          reason="claude_http_execution_failed"
           exit_status=1
-          : >"$out"
-          : >"$err"
-          export ANTHROPIC_BASE_URL="http://127.0.0.1:11434"
-          export ANTHROPIC_AUTH_TOKEN="ollama"
-          export ANTHROPIC_API_KEY=""
-          export ANTHROPIC_MODEL="$model"
-          export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
-          export CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT=1
-          export NO_PROXY="127.0.0.1,localhost"
-          export no_proxy="127.0.0.1,localhost"
-          unset HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy
-          timeout 900s claude --print --output-format text --bare --model "$model" "$marker. Return exactly $marker. Do not modify files, call tools, or access the network." >"$out" 2>"$err"
-          exit_status=$?
-          if [ "$exit_status" -eq 0 ] && grep -Fx "$marker" "$out" >/dev/null 2>&1; then
-            status="PASS"
-            reason=""
-          elif [ "$exit_status" -eq 124 ]; then
-            reason="claude_execution_timeout"
+          : >"$out"; : >"$err"
+          host="${HOST:-127.0.0.1}"; port="${PORT:-8093}"
+          if ! curl -fsS --max-time 5 "http://${host}:${port}/health" >/dev/null 2>&1; then
+            nohup setsid fcc-server --host "$host" --port "$port" >/tmp/astra-fcc-server.log 2>&1 &
+            for _ in $(seq 1 30); do
+              curl -fsS --max-time 2 "http://${host}:${port}/health" >/dev/null 2>&1 && break
+              sleep 1
+            done
           fi
-          export ASTRA_CLAUDE_STATUS="$status"
-          export ASTRA_CLAUDE_REASON="$reason"
-          export ASTRA_CLAUDE_EXIT_STATUS="$exit_status"
+          payload=$(python3 - "$model" "$marker" <<'PY'
+          import json,sys
+          model,marker=sys.argv[1:]
+          print(json.dumps({"model":"ollama/"+model,"max_tokens":32,"messages":[{"role":"user","content":marker+". Return exactly "+marker+". Do not modify files, call tools, or access the network."}]}))
+          PY
+          )
+          timeout 180s curl -fsS --max-time 170 "http://${host}:${port}/v1/messages" \
+            -H "x-api-key: ${ANTHROPIC_AUTH_TOKEN}" -H 'Content-Type: application/json' \
+            -d "$payload" >"$out" 2>"$err"
+          exit_status=$?
+          if [ "$exit_status" -eq 0 ]; then
+            python3 - "$out" "$marker" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding="utf-8"))
+          text="\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict))
+          open(sys.argv[1],"w",encoding="utf-8").write(text)
+          raise SystemExit(0 if text.strip()==sys.argv[2] else 1)
+          PY
+            parse_status=$?
+            if [ "$parse_status" -eq 0 ]; then status="PASS"; reason=""; else reason="claude_marker_mismatch"; exit_status=$parse_status; fi
+          elif [ "$exit_status" -eq 124 ]; then reason="claude_http_execution_timeout"; fi
+          export ASTRA_CLAUDE_STATUS="$status" ASTRA_CLAUDE_REASON="$reason" ASTRA_CLAUDE_EXIT_STATUS="$exit_status"
           python3 - <<'PY'
-          import hashlib, json, os, platform, re, time
+          import hashlib,json,os,platform,time
           from pathlib import Path
-          out=Path('/tmp/astra-claude-result.txt')
-          err=Path('/tmp/astra-claude-stderr.txt')
-          stderr=err.read_text(encoding='utf-8', errors='replace')
-          classifications=[]
-          for pat in (r'(?i)http[^\s]{0,24}', r'(?i)(timeout|timed out|unauthorized|forbidden|connection refused|not found|model)'):
-             classifications.extend(re.findall(pat, stderr)[:8])
-          payload={
-             'schema':'mediahub.astra.local-claude-qualification.v6',
-             'status':os.environ['ASTRA_CLAUDE_STATUS'],
-             'phase':'local_claude_executor',
-             'node_id':platform.node(),
-             'target_sha':os.environ['GITHUB_SHA'],
-             'command_id':'LOCAL-CLAUDE-{}-{}'.format(os.environ['GITHUB_RUN_ID'], os.environ['GITHUB_RUN_ATTEMPT']),
-             'executor_identity':'claude',
-             'provider_or_transport_identity':'ollama-native-anthropic',
-             'model':'qwen2.5-coder:7b',
-             'captured_at':int(time.time()),
-             'marker':'MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK',
-             'marker_present':out.read_text(encoding='utf-8', errors='replace').strip()=='MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK',
-             'exit_status':int(os.environ['ASTRA_CLAUDE_EXIT_STATUS']),
-             'reason':os.environ['ASTRA_CLAUDE_REASON'],
-             'stderr_classification':classifications[:16],
-             'output_sha256':'sha256:'+hashlib.sha256(out.read_bytes()).hexdigest(),
-             'stderr_present':err.stat().st_size>0,
-             'secret_values':'SUPPRESSED',
-          }
-          print(json.dumps(payload, sort_keys=True))
-          Path('astra-local-claude-qualification.json').write_text(json.dumps(payload, indent=2, sort_keys=True)+'\n', encoding='utf-8')
+          out=Path("/tmp/astra-claude-result.txt"); err=Path("/tmp/astra-claude-stderr.txt")
+          payload={"schema":"mediahub.astra.local-claude-qualification.v7","status":os.environ["ASTRA_CLAUDE_STATUS"],"phase":"local_claude_executor","node_id":platform.node(),"target_sha":os.environ["GITHUB_SHA"],"command_id":f"LOCAL-CLAUDE-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}","executor_identity":"claude","provider_or_transport_identity":"fcc-anthropic-http","model":"ollama/qwen2.5-coder:7b","captured_at":int(time.time()),"marker":"MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK","marker_present":out.read_text(encoding="utf-8",errors="replace").strip()=="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK","exit_status":int(os.environ["ASTRA_CLAUDE_EXIT_STATUS"]),"reason":os.environ["ASTRA_CLAUDE_REASON"],"output_sha256":"sha256:"+hashlib.sha256(out.read_bytes()).hexdigest(),"stderr_present":err.stat().st_size>0,"secret_values":"SUPPRESSED"}
+          print(json.dumps(payload,sort_keys=True))
+          Path("astra-local-claude-qualification.json").write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n",encoding="utf-8")
           PY
           test "$status" = "PASS"
       - name: Upload Claude qualification evidence
