@@ -60,6 +60,11 @@ def _local_codex_agentic_probe(model: str) -> bool:
             [
                 CODEX,
                 "exec",
+                "--oss",
+                "--local-provider",
+                "ollama",
+                "--model",
+                model,
                 "--sandbox",
                 "workspace-write",
                 "--skip-git-repo-check",
@@ -567,7 +572,7 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
             "qualification": "fresh_local_or_provider_qualified",
         }
         build = run(
-            [CODEX, "exec", "--sandbox", "workspace-write", "--skip-git-repo-check", builder_prompt(task)],
+            [CODEX, "exec", "--oss", "--local-provider", "ollama", "--model", model, "--sandbox", "workspace-write", "--skip-git-repo-check", builder_prompt(task)],
             TASK_TIMEOUT,
             worktree,
             codex_env,
@@ -632,7 +637,7 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
                 raise RuntimeError("verifier_diff_failed")
             test_text = record["tests"].get("stderr", "") + record["tests"].get("stdout", "")
             verifier = run(
-                [CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task, diff_for_verifier.stdout, test_text)],
+                [CODEX, "exec", "--oss", "--local-provider", "ollama", "--model", model, "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task, diff_for_verifier.stdout, test_text)],
                 TASK_TIMEOUT,
                 worktree,
                 codex_env,
