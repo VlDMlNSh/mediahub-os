@@ -47,7 +47,7 @@ jobs:
           export FCC_ENV_FILE="/home/mediahub/.config/mediahub/fcc.env"
           env_file="/home/mediahub/.config/mediahub/fcc.env"
           test -f "$env_file"
-          model="gpt-oss:20b"
+          model="qwen2.5-coder:7b"
           command -v ollama
           command -v claude
           ollama_version="$(ollama --version 2>&1 | sed -E 's/.*version[[:space:]]+//' | sed -E 's/^is[[:space:]]+//' | head -n 1)"
@@ -75,6 +75,7 @@ jobs:
           export ANTHROPIC_API_KEY=""
           export ANTHROPIC_MODEL="$model"
           export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+          export CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT=1
           export NO_PROXY="127.0.0.1,localhost"
           export no_proxy="127.0.0.1,localhost"
           unset HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy
@@ -106,8 +107,8 @@ jobs:
              'target_sha':os.environ['GITHUB_SHA'],
              'command_id':'LOCAL-CLAUDE-{}-{}'.format(os.environ['GITHUB_RUN_ID'], os.environ['GITHUB_RUN_ATTEMPT']),
              'executor_identity':'claude',
-             'provider_or_transport_identity':'fcc-local-ollama',
-             'model':'ollama/qwen2.5-coder:7b',
+             'provider_or_transport_identity':'ollama-native-anthropic',
+             'model':'qwen2.5-coder:7b',
              'captured_at':int(time.time()),
              'marker':'MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK',
              'marker_present':out.read_text(encoding='utf-8', errors='replace').strip()=='MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK',
