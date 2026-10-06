@@ -18,7 +18,7 @@ jobs:
   codex-local:
     name: Real Codex local executor / mh-dev-02
     runs-on: [self-hosted, linux, x64, mediahub-provider]
-    timeout-minutes: 10
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -44,7 +44,7 @@ jobs:
             ts=$(date +%s)
             out="/tmp/astra-codex-$i.out"
             rm -f "$out"
-            timeout 30s codex exec --oss --local-provider ollama --model qwen2.5-coder:3b \
+            timeout 60s codex exec --oss --local-provider ollama --model qwen2.5-coder:3b --ephemeral --color never \
               --sandbox read-only --skip-git-repo-check \
               "Return exactly MEDIAHUB_LOCAL_CODEX_23WAVE_OK. Do not use network or modify files." </dev/null >"$out" 2>&1
             rc=$?
@@ -67,7 +67,7 @@ jobs:
   claude-local:
     name: Real Claude local executor / mh-dev-02
     runs-on: [self-hosted, linux, x64, mediahub-provider]
-    timeout-minutes: 10
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -115,7 +115,7 @@ jobs:
           PY
           )
             out="/tmp/astra-claude-$i.json"
-            timeout 30s curl -fsS --max-time 25 "http://$host:$port/v1/messages" \
+            timeout 60s curl -fsS --max-time 55 "http://$host:$port/v1/messages" \
               -H "x-api-key: $ANTHROPIC_AUTH_TOKEN" -H 'Content-Type: application/json' \
               -d "$payload" >"$out"
             rc=$?
