@@ -208,6 +208,27 @@ def request_cloudflare_workers_ai(provider: dict, model: str, key: str) -> dict:
     except Exception as exc:
         return {"status_code": None, "latency_seconds": round(time.monotonic()-started,3), "output_bytes": 0, "output_sha256": "", "classification": classify(None, str(exc), exc)}
 
+def _bounded_request(provider: dict, model: str, key: str) -> list[dict]:
+    max_attempts = max(1, min(3, int(os.environ.get("ASTRA_PROVIDER_RETRY_ATTEMPTS", "3"))))
+    retryable = {"timeout", "provider_unavailable", "rate_limit_or_quota", "network"}
+    attempts = []
+    for attempt in range(1, max_attempts + 1):
+        if provider.get("adapter") == "cloudflare_workers_ai":
+            result = request_cloudflare_workers_ai(provider, model, key)
+        elif provider.get("adapter") == "responses_compatible":
+            result = request_responses_compatible(provider, model, key)
+        else:
+            result = request_openai_compatible(provider, model, key)
+        safe = {k: v for k, v in result.items() if k != "response_body"}
+        safe["attempt"] = attempt
+        attempts.append(safe)
+        if result.get("classification") == "PASS" or result.get("classification") not in retryable:
+            break
+        if attempt < max_attempts:
+            time.sleep(min(2 ** (attempt - 1), 4))
+    return attempts
+
+
 def qualify(provider: dict) -> dict:
     env_name, present = credential(provider)
     base = {
@@ -237,22 +258,20 @@ def qualify(provider: dict) -> dict:
             else:
                 base["models_tested"].append({"model": "default", "status": "BLOCKED", "reason": discovered.get("classification", "model_discovery_failed")})
                 continue
-        if provider.get("adapter") == "cloudflare_workers_ai":
-            result = request_cloudflare_workers_ai(provider, model, key)
-        elif provider.get("adapter") == "responses_compatible":
-            result = request_responses_compatible(provider, model, key)
-        else:
-            result = request_openai_compatible(provider, model, key)
-        safe = {k: v for k, v in result.items() if k != "response_body"}
-        safe["model"] = model
-        base["models_tested"].append(safe)
-        if result.get("classification") == "PASS":
+        attempt_records = _bounded_request(provider, model, key)
+        final = attempt_records[-1]
+        for item in attempt_records:
+            item["model"] = model
+            base["models_tested"].append(item)
+        if final.get("classification") == "PASS":
             base["verification_state"] = "QUALIFIED"
             base["region_availability"] = "AVAILABLE"
             base["selected_model"] = model
-            base["latency_seconds"] = result["latency_seconds"]
+            base["latency_seconds"] = final["latency_seconds"]
+            if len(attempt_records) > 1:
+                base["qualification_attempts"] = len(attempt_records)
             return base
-        if result.get("classification") == "regional_restriction":
+        if final.get("classification") == "regional_restriction":
             base["region_availability"] = "REGION_UNAVAILABLE"
             base["verification_state"] = "SKIPPED"
             base["reason"] = "regional_restriction"
