@@ -72,7 +72,7 @@ def task_prompt(task: dict, role: str) -> str:
         f"Forbidden surfaces: {json.dumps(forbidden, sort_keys=True)}\n"
         f"Acceptance: {json.dumps(task.get('acceptance', []), sort_keys=True)}\n"
         f"Target SHA: {os.environ['ASTRA_TARGET_SHA']}\n"
-        "Work only inside the declared boundary. Do not touch production infrastructure, "
+        "Treat every acceptance criterion containing exact identifiers, node names, executor names, or security rules as literal requirements: copy them verbatim and never invent aliases, synonyms, or substitute names. "        "Work only inside the declared boundary. Do not touch production infrastructure, "
         "credentials, user data, or unrelated paths. Do not merge to main."
     )
 
