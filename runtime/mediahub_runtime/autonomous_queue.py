@@ -86,7 +86,7 @@ def evidence(task_id: str, payload: dict) -> None:
     )
 
 
-def claim_for(task: dict) -> AgentClaim:
+def claim_for(task: dict, base_sha: str) -> AgentClaim:
     now = time.time()
     return AgentClaim(
         agent="A2-BUILDER",
@@ -99,7 +99,7 @@ def claim_for(task: dict) -> AgentClaim:
         started=now,
         updated=now,
         expiry=now + 900,
-        base_sha=run(["git", "rev-parse", "HEAD"], 30).stdout.strip(),
+        base_sha=base_sha,
     )
 
 
@@ -205,9 +205,9 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
         store.acquire(claim)
         worktree.parent.mkdir(parents=True, exist_ok=True)
         prepare_worktree(worktree)
-        remote_main = run(["git", "rev-parse", "origin/main"], 30)
-        if remote_main.returncode != 0 or remote_main.stdout.strip() != expected_base_sha:
-            raise RuntimeError("queue_base_sha_drift")
+        local_head = run(["git", "rev-parse", "HEAD"], 30)
+        if local_head.returncode != 0 or local_head.stdout.strip() != expected_base_sha:
+            raise RuntimeError("queue_base_sha_not_current_head")
         if claim.base_sha != expected_base_sha:
             raise RuntimeError("queue_claim_base_sha_mismatch")
         existing_branch = run(["git", "ls-remote", "--exit-code", "--heads", "origin", f"refs/heads/{branch}"], 60)
@@ -323,22 +323,25 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
 
 def main() -> int:
     STATE.mkdir(parents=True, exist_ok=True)
-    base_sha = run(["git", "rev-parse", "HEAD"], 30).stdout.strip()
+    head_sha = run(["git", "rev-parse", "HEAD"], 30).stdout.strip()
+    target_sha = str(os.environ.get("ASTRA_TARGET_SHA", "")).strip()
+    if target_sha:
+        if not re.fullmatch(r"[0-9a-fA-F]{40,64}", target_sha):
+            print(json.dumps({"status": "BLOCKED", "reason": "queue_target_sha_invalid"}, sort_keys=True))
+            return 2
+        if head_sha.lower() != target_sha.lower():
+            print(json.dumps({
+                "status": "BLOCKED",
+                "reason": "queue_target_sha_not_current_head",
+                "head_sha": head_sha,
+                "target_sha": target_sha,
+            }, sort_keys=True))
+            return 2
+        base_sha = target_sha
+    else:
+        base_sha = head_sha
     if not base_sha:
         print(json.dumps({"status": "BLOCKED", "reason": "queue_base_sha_unavailable"}, sort_keys=True))
-        return 2
-    fetch_main = run(["git", "fetch", "--prune", "origin", "main"], 120)
-    if fetch_main.returncode != 0:
-        print(json.dumps({"status":"BLOCKED","reason":"queue_main_fetch_failed"}, sort_keys=True))
-        return 2
-    remote_main = run(["git", "rev-parse", "origin/main"], 30)
-    if remote_main.returncode != 0 or remote_main.stdout.strip() != base_sha:
-        print(json.dumps({
-            "status":"BLOCKED",
-            "reason":"queue_base_sha_drift",
-            "target_sha": base_sha,
-            "remote_sha": remote_main.stdout.strip(),
-        }, sort_keys=True))
         return 2
     tasks = [
         t
