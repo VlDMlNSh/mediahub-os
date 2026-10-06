@@ -23,6 +23,9 @@ on:
       evidence_artifact:
         description: "Artifact containing fresh node attestations"
         value: ${{ jobs.aggregate.outputs.evidence_artifact }}
+      provider_evidence_artifact:
+        description: "Fresh A3 provider qualification evidence from the provider runner"
+        value: astra-provider-qualification-${{ github.run_id }}-${{ github.run_attempt }}
 
 permissions:
   contents: read
@@ -71,7 +74,9 @@ jobs:
   node-mh-dev-02:
     name: Fresh attestation mh-dev-02
     runs-on: [self-hosted, linux, x64, mediahub-provider]
-    timeout-minutes: 15
+    timeout-minutes: 20
+    outputs:
+      a3_status: ${{ steps.a3.outputs.status }}
     env:
       ASTRA_EXPECTED_NODE_ID: mh-dev-02
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
@@ -103,6 +108,46 @@ jobs:
           name: astra-distributed-attestation-mh-dev-02-${{ github.run_id }}-${{ github.run_attempt }}
           path: .astra-state/distributed-attestation/mh-dev-02.json
           if-no-files-found: error
+
+      - name: Execute A3 provider qualification on provider node
+        id: a3
+        shell: bash
+        run: |
+          set -u
+          mkdir -p .astra-state/provider-qualification
+          set +e
+          python3 ops/qualification/qualify_execution_backends.py --target-sha "$ASTRA_TARGET_SHA" > .astra-state/provider-qualification/provider-model.json
+          rc=$?
+          set -e
+          if [ ! -s .astra-state/provider-qualification/provider-model.json ]; then
+            printf '%s\n' '{"schema":"mediahub.provider-model-qualification.v1","status":"BLOCKED","reason":"qualifier_no_output","target_sha":"'"$ASTRA_TARGET_SHA"'","node_id":"'"$ASTRA_EXPECTED_NODE_ID"'","secret_values":"SUPPRESSED"}' > .astra-state/provider-qualification/provider-model.json
+          fi
+          status="$(python3 - .astra-state/provider-qualification/provider-model.json <<'PY'
+          import json, sys
+          try:
+              data=json.load(open(sys.argv[1], encoding="utf-8"))
+          except Exception:
+              print("BLOCKED")
+              raise SystemExit
+          print(data.get("status","BLOCKED"))
+          PY
+          )"
+          if [ "$status" = "PASS" ]; then
+            echo "status=PASS" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=BLOCKED" >> "$GITHUB_OUTPUT"
+          fi
+          echo "returncode=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload A3 provider qualification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-provider-qualification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .astra-state/provider-qualification/provider-model.json
+          if-no-files-found: error
+          retention-days: 7
 
   node-voktors-mac:
     name: Fresh attestation Voktors-Mac-mini.local
