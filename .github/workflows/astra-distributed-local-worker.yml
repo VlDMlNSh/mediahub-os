@@ -103,8 +103,8 @@ jobs:
           test "$(id -un)" = "voktor"
           command -v codex
           command -v claude
-          command -v fcc-claude
           command -v ollama
+          ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'
       - name: Execute bounded local worker
         shell: bash
         run: python3 ops/qualification/run_distributed_local_worker.py
