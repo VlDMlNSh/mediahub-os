@@ -102,6 +102,7 @@ def start_fcc(env_file: Path, model: str) -> tuple[subprocess.Popen[str] | None,
         raise RuntimeError("fcc_model_binding_mismatch")
     env = os.environ.copy()
     env.update(env_updates)
+    env["FCC_ENV_FILE"] = str(env_file)
     host = env_updates.get("HOST", "127.0.0.1")
     port = env_updates.get("PORT", "8093")
     health = f"http://{host}:{port}/health"
