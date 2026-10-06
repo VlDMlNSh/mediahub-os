@@ -343,13 +343,30 @@ def main() -> int:
     if not base_sha:
         print(json.dumps({"status": "BLOCKED", "reason": "queue_base_sha_unavailable"}, sort_keys=True))
         return 2
+    discovered = load_tasks()
+    inventory = []
+    for task in discovered:
+        task_id = str(task["task_id"])
+        done = completed(task_id, base_sha)
+        deps_ok = dependencies_satisfied(task, base_sha)
+        inventory.append({
+            "task_id": task_id,
+            "priority": task.get("priority"),
+            "status": task.get("status"),
+            "completed_for_target": done,
+            "dependencies_satisfied": deps_ok,
+        })
     tasks = [
-        t
-        for t in load_tasks()
+        t for t in discovered
         if not completed(str(t["task_id"]), base_sha) and dependencies_satisfied(t, base_sha)
     ]
     if not tasks:
-        print(json.dumps({"status": "IDLE", "reason": "no_ready_tasks"}, sort_keys=True))
+        print(json.dumps({
+            "status": "IDLE",
+            "reason": "no_ready_tasks",
+            "base_sha": base_sha,
+            "discovered_tasks": inventory,
+        }, sort_keys=True))
         return 0
     selected = tasks[:MAX_WORKERS]
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(selected)) as pool:
