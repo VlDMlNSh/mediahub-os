@@ -31,6 +31,13 @@ NODE_CONFIG = {
         "pool": "fast_local",
         "fcc_env": "/Users/voktor/Library/Application Support/MediaHub/fcc.env",
     },
+    "Voktors-Mac-mini.local": {
+        "user": "voktor",
+        "platform": "macos",
+        "model": "qwen2.5-coder:1.5b",
+        "pool": "fast_local",
+        "fcc_env": "/Users/voktor/Library/Application Support/MediaHub/fcc.env",
+    },
 }
 
 
@@ -276,6 +283,8 @@ def main() -> int:
         raise RuntimeError("target_sha_not_current_head")
     if run(["git", "status", "--porcelain", "--untracked-files=all"], 30).stdout.strip():
         raise RuntimeError("dirty_worker_workspace")
+    if cfg["model"] not in {"qwen2.5-coder:3b", "qwen2.5-coder:1.5b"}:
+        raise RuntimeError("unsupported_local_model")
     if not ollama_has_model(cfg["model"]):
         raise RuntimeError("required_local_model_missing")
 
