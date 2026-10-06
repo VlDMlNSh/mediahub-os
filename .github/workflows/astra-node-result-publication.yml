@@ -1,34 +1,18 @@
 name: Astra node result publication
 
 on:
-  workflow_call:
-    inputs:
-      artifact_name:
-        description: "Sanitized controller result artifact"
-        required: true
-        type: string
-      artifact_file:
-        description: "File name inside the artifact"
-        required: true
-        type: string
-      node_id:
-        description: "Astra node identity"
-        required: true
-        type: string
-      command_id:
-        description: "Expected command identity"
-        required: true
-        type: string
-      target_sha:
-        description: "Expected target source SHA"
-        required: true
-        type: string
+  workflow_run:
+    workflows:
+      - Astra autonomous queue supervisor
+      - ASTRA GOLD unified autonomous development qualification
+    types: [completed]
 
 permissions:
+  actions: read
   contents: write
 
 concurrency:
-  group: astra-node-result-publication-${{ inputs.node_id }}
+  group: astra-node-result-publication-mh-dev-01
   cancel-in-progress: false
 
 jobs:
@@ -42,35 +26,60 @@ jobs:
           fetch-depth: 50
           persist-credentials: true
 
+      - name: Resolve triggering workflow result artifact
+        id: resolve
+        shell: bash
+        run: |
+          set -euo pipefail
+          workflow="${{ github.event.workflow_run.name }}"
+          run_id="${{ github.event.workflow_run.id }}"
+          run_attempt="${{ github.event.workflow_run.run_attempt }}"
+          case "$workflow" in
+            "Astra autonomous queue supervisor")
+              echo "artifact_name=astra-node-result-${run_id}-${run_attempt}" >> "$GITHUB_OUTPUT"
+              echo "command_id=MH-AUTONOMOUS-GOLD-mh-dev-01-${run_id}-${run_attempt}" >> "$GITHUB_OUTPUT"
+              ;;
+            "ASTRA GOLD unified autonomous development qualification")
+              echo "artifact_name=astra-gold-node-result-${run_id}-${run_attempt}" >> "$GITHUB_OUTPUT"
+              echo "command_id=ASTRA-GOLD-UNIFIED-${run_id}-${run_attempt}" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "unsupported triggering workflow"
+              exit 1
+              ;;
+          esac
+          echo "node_id=mh-dev-01" >> "$GITHUB_OUTPUT"
+          echo "target_sha=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_OUTPUT"
+
       - name: Download sanitized controller result
         uses: actions/download-artifact@v4
         with:
-          name: ${{ inputs.artifact_name }}
+          name: ${{ steps.resolve.outputs.artifact_name }}
           path: .astra-result
           merge-multiple: false
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Validate publication payload
         shell: bash
         env:
-          ARTIFACT_FILE: ${{ inputs.artifact_file }}
-          COMMAND_ID: ${{ inputs.command_id }}
-          NODE_ID: ${{ inputs.node_id }}
-          TARGET_SHA: ${{ inputs.target_sha }}
+          COMMAND_ID: ${{ steps.resolve.outputs.command_id }}
+          NODE_ID: ${{ steps.resolve.outputs.node_id }}
+          TARGET_SHA: ${{ steps.resolve.outputs.target_sha }}
         run: |
           set -euo pipefail
-          test -s ".astra-result/${ARTIFACT_FILE}"
+          test -s ".astra-result/controller-result.json"
           python3 - <<'PY'
           import json, os, re
           from pathlib import Path
-          d=json.loads(Path(".astra-result/"+os.environ["ARTIFACT_FILE"]).read_text(encoding="utf-8"))
+          d=json.loads(Path(".astra-result/controller-result.json").read_text(encoding="utf-8"))
           assert d.get("command_id") == os.environ["COMMAND_ID"]
           assert d.get("node_id") == os.environ["NODE_ID"]
           assert d.get("target_sha") == os.environ["TARGET_SHA"]
           assert re.fullmatch(r"[0-9a-f]{40}", str(d.get("target_sha","")))
           assert d.get("execution_head") == d.get("target_sha")
           assert d.get("secret_values") == "SUPPRESSED"
-          result=d.get("result",{})
-          assert result.get("status") in {"PASS","BLOCKED","FAILED"}
+          assert d.get("result",{}).get("status") in {"PASS","BLOCKED","FAILED"}
           print("publication_payload=VALID")
           PY
 
@@ -78,10 +87,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node="${{ inputs.node_id }}"
-          if git ls-remote --exit-code origin "refs/heads/astra-node/$node" >/dev/null 2>&1; then
-            git fetch origin "refs/heads/astra-node/$node:refs/remotes/origin/astra-node/$node"
-            git checkout --detach "origin/astra-node/$node"
+          if git ls-remote --exit-code origin refs/heads/astra-node/mh-dev-01 >/dev/null 2>&1; then
+            git fetch origin refs/heads/astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01
+            git checkout --detach origin/astra-node/mh-dev-01
           else
             git checkout --detach origin/main
           fi
@@ -90,26 +98,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node="${{ inputs.node_id }}"
-          mkdir -p control/results
-          cp ".astra-result/${{ inputs.artifact_file }}" "control/results/$node.json"
-          git add "control/results/$node.json"
+          cp .astra-result/controller-result.json control/results/mh-dev-01.json
+          git add control/results/mh-dev-01.json
           if git diff --cached --quiet; then
             echo "publication=NOOP"
             exit 0
           fi
           git config user.name "Astra Node Result Publisher"
           git config user.email "astra-result-publisher@localhost"
-          git commit -m "astra: publish sanitized result $node"
-          git push origin "HEAD:refs/heads/astra-node/$node"
+          git commit -m "astra: publish sanitized result mh-dev-01"
+          git push origin HEAD:refs/heads/astra-node/mh-dev-01
 
       - name: Verify remote publication
         shell: bash
         run: |
           set -euo pipefail
-          node="${{ inputs.node_id }}"
           local_sha="$(git rev-parse HEAD)"
-          remote_sha="$(git ls-remote origin "refs/heads/astra-node/$node" | awk '{print $1}')"
+          remote_sha="$(git ls-remote origin refs/heads/astra-node/mh-dev-01 | awk '{print $1}')"
           test -n "$remote_sha"
           test "$remote_sha" = "$local_sha"
           echo "publication=VERIFIED"
