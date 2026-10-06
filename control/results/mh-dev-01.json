@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791263768.5869703,
+    "expiry": 1791264107.6449778,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,22 +23,31 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791263766.2627847,
+    "started": 1791264087.4026453,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37417414813-1",
-    "updated": 1791263768.5869703
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37417894163-1",
+    "updated": 1791264107.6449778
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37417414813-1",
-  "completed_at": 1791263768,
-  "duration_seconds": 2.457,
-  "execution_head": "9d3c3de82107fde1a5a7fca4da8aa56013006bbf",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37417894163-1",
+  "completed_at": 1791264107,
+  "duration_seconds": 20.395,
+  "execution_head": "34b1641fee7449408df68bbfec13f3d8a3bcf1db",
   "node_id": "mh-dev-01",
   "result": {
-    "elapsed_seconds": 2.321,
-    "phase": "distributed_verification",
+    "elapsed_seconds": 20.237,
+    "phase": "autonomous_queue",
     "status": "BLOCKED",
     "steps": [
       {
+        "autonomous_queue": {
+          "payload": {
+            "reason": "queue_output_not_json",
+            "status": "BLOCKED"
+          },
+          "returncode": 1,
+          "stderr": "/usr/bin/python3: Error while finding module specification for 'mediahub_runtime.autonomous_queue' (ModuleNotFoundError: No module named 'mediahub_runtime')\n",
+          "stdout": ""
+        },
         "backend": {
           "reason": "",
           "returncode": 0,
@@ -47,15 +56,29 @@
         },
         "cycle": 1,
         "distributed_verification": {
+          "blocked_reasons": [],
           "payload": {
-            "reason": "distributed_output_not_json",
-            "status": "BLOCKED"
+            "blocked_reasons": [],
+            "captured_at": 1791264061,
+            "checked_nodes": [
+              "mh-dev-01",
+              "mh-dev-02",
+              "Voktors-Mac-mini.local"
+            ],
+            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37417894163-1",
+            "node_id": "mh-dev-01",
+            "phase": "distributed_verification",
+            "producer_identity": "canonical-distributed-verification-producer-v1",
+            "returncode": 0,
+            "schema": "mediahub.astra.distributed-verification.v1",
+            "secret_values": "SUPPRESSED",
+            "status": "PASS",
+            "target_sha": "34b1641fee7449408df68bbfec13f3d8a3bcf1db"
           },
-          "returncode": 2,
-          "stderr": "",
-          "stdout": "{\n  \"blocked_reasons\": [\n    \"Voktors-Mac-mini.local_hmac_key_missing\",\n    \"mh-dev-02_hmac_key_missing\"\n  ],\n  \"captured_at\": 1791263768,\n  \"checked_nodes\": [\n    \"mh-dev-01\",\n    \"mh-dev-02\",\n    \"Voktors-Mac-mini.local\"\n  ],\n  \"command_id\": \"MH-AUTONOMOUS-GOLD-mh-dev-01-37417414813-1\",\n  \"node_id\": \"mh-dev-01\",\n  \"phase\": \"distributed_verification\",\n  \"producer_identity\": \"canonical-distributed-verification-producer-v1\",\n  \"returncode\": 2,\n  \"schema\": \"mediahub.astra.distributed-verification.v1\",\n  \"secret_values\": \"SUPPRESSED\",\n  \"status\": \"BLOCKED\",\n  \"target_sha\": \"9d3c3de82107fde1a5a7fca4da8aa56013006bbf\"\n}\n"
+          "returncode": 0,
+          "source": "fresh_downloaded_a2_aggregate"
         },
-        "head": "9d3c3de82107fde1a5a7fca4da8aa56013006bbf",
+        "head": "34b1641fee7449408df68bbfec13f3d8a3bcf1db",
         "pre_soak": {
           "returncode": 0,
           "stderr": "",
@@ -72,6 +95,6 @@
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "9d3c3de82107fde1a5a7fca4da8aa56013006bbf",
-  "worker_id": "A0-ASTRA:2437398"
+  "target_sha": "34b1641fee7449408df68bbfec13f3d8a3bcf1db",
+  "worker_id": "A0-ASTRA:2441472"
 }
