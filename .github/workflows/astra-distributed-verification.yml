@@ -160,6 +160,9 @@ jobs:
       ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
       ASTRA_NODE_HMAC_KEY_MH_DEV_02: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
       ASTRA_NODE_HMAC_KEY_VOKTORS_MAC: ${{ secrets.ASTRA_NODE_HMAC_KEY_VOKTORS_MAC }}
+      # The three attestations run in parallel but each node may spend several minutes on contract checks.
+      # Keep freshness fail-closed while allowing the aggregate stage to consume the same bounded wave.
+      ASTRA_DISTRIBUTED_MAX_AGE_SECONDS: "1200"
     outputs:
       status: ${{ steps.aggregate.outputs.status }}
       evidence_artifact: astra-distributed-evidence-${{ github.run_id }}-${{ github.run_attempt }}
