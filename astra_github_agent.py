@@ -234,7 +234,6 @@ def execute(cmd):
         provider_evidence_path=Path(os.environ.get("ASTRA_PROVIDER_EVIDENCE_PATH",""))
         evidence_script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
         verifier_script=ROOT/"ops"/"qualification"/"verify_pre_soak_bundle.py"
-        distributed_script=ROOT/"ops"/"qualification"/"produce_distributed_verification_evidence.py"
         started=time.time()
         max_cycles=max(1,int(os.environ.get("ASTRA_AUTONOMOUS_MAX_CYCLES","12")))
         retry_seconds=max(30,int(os.environ.get("ASTRA_AUTONOMOUS_RETRY_SECONDS","300")))
@@ -342,55 +341,71 @@ def execute(cmd):
                     continue
                 return {"status":"BLOCKED","phase":"strict_pre_soak_verification",
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
-            dist_env=os.environ.copy()
-            dist_env["ASTRA_COMMAND_ID"]=str(cmd.get("command_id",""))
-            dist_env["ASTRA_NODE_ID"]=str(cmd.get("node_id",""))
-            dist_env["ASTRA_TARGET_SHA"]=str(target_sha)
-            dist_env["ASTRA_WORKTREE"]=str(ROOT)
             if journal:
                 journal.checkpoint(phase="distributed_verification", cycle=cycle)
-            distributed=subprocess.run([sys.executable,str(distributed_script)],cwd=ROOT,text=True,
-                                       capture_output=True,timeout=1800,check=False,env=dist_env)
-            distributed_payload={}
-            try:
-                distributed_payload=json.loads(distributed.stdout.strip().splitlines()[-1])
-            except Exception:
-                distributed_payload={"status":"BLOCKED","reason":"distributed_output_not_json"}
+            distributed_dir = Path(os.environ.get(
+                "ASTRA_DISTRIBUTED_EVIDENCE_DIR",
+                str(ROOT / ".astra-state" / "distributed-verification"),
+            ))
+            aggregate_path = distributed_dir / "distributed-verification-result.json"
+            blocked_reasons = []
+            distributed_payload = {}
+            if not aggregate_path.is_file():
+                blocked_reasons.append("distributed_aggregate_missing")
+            else:
+                try:
+                    distributed_payload = json.loads(
+                        aggregate_path.read_text(encoding="utf-8")
+                    )
+                except Exception:
+                    blocked_reasons.append("distributed_aggregate_invalid_json")
+            required_nodes=["mh-dev-01","mh-dev-02","Voktors-Mac-mini.local"]
+            if distributed_payload:
+                if distributed_payload.get("schema") != "mediahub.astra.distributed-verification.v1":
+                    blocked_reasons.append("distributed_schema_mismatch")
+                if distributed_payload.get("status") != "PASS":
+                    blocked_reasons.append("distributed_status_not_PASS")
+                if distributed_payload.get("phase") != "distributed_verification":
+                    blocked_reasons.append("distributed_phase_invalid")
+                if distributed_payload.get("returncode") != 0:
+                    blocked_reasons.append("distributed_returncode_not_zero")
+                if distributed_payload.get("command_id") != cmd.get("command_id"):
+                    blocked_reasons.append("distributed_command_binding_mismatch")
+                if distributed_payload.get("node_id") != cmd.get("node_id"):
+                    blocked_reasons.append("distributed_node_binding_mismatch")
+                if distributed_payload.get("target_sha") != target_sha:
+                    blocked_reasons.append("distributed_target_sha_mismatch")
+                if distributed_payload.get("producer_identity") != "canonical-distributed-verification-producer-v1":
+                    blocked_reasons.append("distributed_producer_identity_mismatch")
+                if distributed_payload.get("checked_nodes") != required_nodes:
+                    blocked_reasons.append("distributed_node_set_mismatch")
+                captured_at = distributed_payload.get("captured_at")
+                if not isinstance(captured_at, int) or isinstance(captured_at, bool):
+                    blocked_reasons.append("distributed_captured_at_invalid")
+                elif int(time.time()) - captured_at > max(60, int(os.environ.get("ASTRA_DISTRIBUTED_MAX_AGE_SECONDS", "900"))):
+                    blocked_reasons.append("distributed_evidence_stale")
+                if distributed_payload.get("secret_values") != "SUPPRESSED":
+                    blocked_reasons.append("distributed_secret_suppression_invalid")
             cycle_record["distributed_verification"]={
-                "returncode":distributed.returncode,
-                "payload":distributed_payload,
-                "stdout":distributed.stdout[-12000:],
-                "stderr":distributed.stderr[-8000:],
+                "returncode": 0 if not blocked_reasons else 2,
+                "payload": distributed_payload,
+                "source": "fresh_downloaded_a2_aggregate",
+                "blocked_reasons": blocked_reasons,
             }
             if journal:
-                journal.checkpoint(phase="distributed_verification_complete", cycle=cycle, step={"cycle":cycle,"phase":"distributed","returncode":distributed.returncode,"status":distributed_payload.get("status")})
-            required_nodes=["mh-dev-01","mh-dev-02","Voktors-Mac-mini.local"]
-            if distributed.returncode != 0 or distributed_payload.get("status")!="PASS":
+                journal.checkpoint(
+                    phase="distributed_verification_complete",
+                    cycle=cycle,
+                    step={
+                        "cycle":cycle,
+                        "phase":"distributed",
+                        "returncode":0 if not blocked_reasons else 2,
+                        "status":"PASS" if not blocked_reasons else "BLOCKED",
+                    },
+                )
+            if blocked_reasons:
                 return {"status":"BLOCKED","phase":"distributed_verification",
-                        "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
-            if distributed_payload.get("command_id")!=cmd.get("command_id"):
-                return {"status":"BLOCKED","phase":"distributed_verification",
-                        "reason":"distributed_command_binding_mismatch","steps":steps,
-                        "elapsed_seconds":round(time.time()-started,3)}
-            if distributed_payload.get("node_id")!=cmd.get("node_id"):
-                return {"status":"BLOCKED","phase":"distributed_verification",
-                        "reason":"distributed_node_binding_mismatch","steps":steps,
-                        "elapsed_seconds":round(time.time()-started,3)}
-            if distributed_payload.get("target_sha")!=target_sha:
-                return {"status":"BLOCKED","phase":"distributed_verification",
-                        "reason":"distributed_target_sha_mismatch","steps":steps,
-                        "elapsed_seconds":round(time.time()-started,3)}
-            if distributed_payload.get("phase")!="distributed_verification" or distributed_payload.get("returncode")!=0:
-                return {"status":"BLOCKED","phase":"distributed_verification",
-                        "reason":"distributed_phase_or_returncode_invalid","steps":steps,
-                        "elapsed_seconds":round(time.time()-started,3)}
-            if distributed_payload.get("producer_identity")!="canonical-distributed-verification-producer-v1":
-                return {"status":"BLOCKED","phase":"distributed_verification",
-                        "reason":"distributed_producer_identity_mismatch","steps":steps,
-                        "elapsed_seconds":round(time.time()-started,3)}
-            if distributed_payload.get("checked_nodes")!=required_nodes:
-                return {"status":"BLOCKED","phase":"distributed_verification",
-                        "reason":"distributed_node_set_mismatch","steps":steps,
+                        "reason":blocked_reasons[0],"steps":steps,
                         "elapsed_seconds":round(time.time()-started,3)}
             if operation == "autonomous_gold_mission":
                 queue_env=os.environ.copy()
