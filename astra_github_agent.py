@@ -412,6 +412,7 @@ def execute(cmd):
                         "elapsed_seconds":round(time.time()-started,3)}
             if operation == "autonomous_gold_mission":
                 queue_env=os.environ.copy()
+                queue_env["ASTRA_TARGET_SHA"]=target_sha
                 queue_env["ASTRA_QUEUE_STATE_DIR"]=queue_env.get("ASTRA_QUEUE_STATE_DIR",str(ROOT/".astra-state"/"queue"))
                 runtime_path=str(ROOT / "runtime")
                 queue_env["PYTHONPATH"]=runtime_path + (os.pathsep + queue_env["PYTHONPATH"] if queue_env.get("PYTHONPATH") else "")
