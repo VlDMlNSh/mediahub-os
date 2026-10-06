@@ -57,8 +57,6 @@
       ],
       "base_url": "https://api.siliconflow.cn/v1",
       "models": [
-        "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
-        "Qwen/Qwen2.5-7B-Instruct",
         "THUDM/glm-4-9b-chat"
       ],
       "capabilities": [
