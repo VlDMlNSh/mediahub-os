@@ -14,7 +14,9 @@ import shutil
 import subprocess
 import sys
 import time
+import re
 from pathlib import Path
+import argparse
 
 ROOT = Path(__file__).resolve().parents[2]
 EVIDENCE = ROOT / "evidence"
@@ -29,12 +31,22 @@ def run(argv: list[str], timeout: int = 90) -> tuple[int, str, str]:
     return p.returncode, p.stdout[-4000:], p.stderr[-4000:]
 
 
+EXPECTED_TARGET_SHA = ""
+
+
+def current_head() -> str:
+    rc, out, _ = run(["git", "rev-parse", "HEAD"], 10)
+    if rc != 0 or not re.fullmatch(r"[0-9a-f]{40}", out.strip()):
+        raise RuntimeError("cannot determine exact current HEAD")
+    return out.strip()
+
+
 def write(name: str, status: str, check: str, reason: str = "", **extra: object) -> None:
     payload = {
         "schema": "mediahub.pre-soak-evidence.v1",
         "status": status,
         "captured_at": NOW,
-        "target_sha": run(["git", "rev-parse", "HEAD"], 10)[1].strip(),
+        "target_sha": EXPECTED_TARGET_SHA,
         "node_id": NODE,
         "check": check,
         "reason": reason,
@@ -46,6 +58,15 @@ def write(name: str, status: str, check: str, reason: str = "", **extra: object)
 
 
 def main() -> int:
+    global EXPECTED_TARGET_SHA
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--target-sha", required=True)
+    args = parser.parse_args()
+    if not re.fullmatch(r"[0-9a-f]{40}", args.target_sha):
+        raise SystemExit("BLOCK: invalid target SHA")
+    EXPECTED_TARGET_SHA = args.target_sha
+    if current_head() != EXPECTED_TARGET_SHA:
+        raise SystemExit("BLOCK: signed target SHA does not equal current HEAD")
     EVIDENCE.mkdir(parents=True, exist_ok=True)
     blocked = False
 
