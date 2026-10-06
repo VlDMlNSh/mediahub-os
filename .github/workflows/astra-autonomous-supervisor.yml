@@ -127,7 +127,7 @@ jobs:
       ASTRA_PROVIDER_TARGET_SHA: "${{ github.sha }}"
       ASTRA_DEFER_RESULT_PUBLICATION: "1"
       ASTRA_DISTRIBUTED_LOCAL: "1"
-      GH_TOKEN: "${{ github.token }}"
+      GH_TOKEN: ${{ github.token }}
 
     steps:
       - uses: actions/checkout@v4
