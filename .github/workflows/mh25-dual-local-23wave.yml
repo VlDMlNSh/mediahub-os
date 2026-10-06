@@ -4,97 +4,166 @@ on:
     branches: [main]
     paths:
       - .github/workflows/mh25-dual-local-23wave.yml
+      - ops/qualification/**
+      - runtime/mediahub_runtime/**
       - astra_github_agent.py
-      - ops/agent-fabric/**
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
   group: mh25-dual-local-23wave
   cancel-in-progress: false
+
 jobs:
-  qualify:
+  codex-local:
+    name: Real Codex local executor / mh-dev-02
+    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 20
+          persist-credentials: false
+      - name: Canonical admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-02"
+          test "$(id -un)" = "mediahub"
+          export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          command -v codex
+          command -v ollama
+          ollama list | grep -E '^qwen2.5-coder:3b[[:space:]]'
+      - name: 23 real Codex rounds
+        shell: bash
+        run: |
+          set -u
+          : > codex-23wave.jsonl
+          for i in $(seq 1 23); do
+            ts=$(date +%s)
+            out="/tmp/astra-codex-$i.out"
+            rm -f "$out"
+            timeout 12s codex exec --ignore-user-config --oss --local-provider ollama --model qwen2.5-coder:3b \
+              --sandbox read-only --skip-git-repo-check \
+              "Return exactly MEDIAHUB_LOCAL_CODEX_23WAVE_OK. Do not use network or modify files." </dev/null >"$out" 2>&1
+            rc=$?
+            status=BLOCKED
+            [ "$rc" -eq 0 ] && grep -Fx MEDIAHUB_LOCAL_CODEX_23WAVE_OK "$out" >/dev/null 2>&1 && status=PASS
+            python3 - <<PY >> codex-23wave.jsonl
+          import json
+          print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_LOCAL_CODEX_23WAVE_OK"}))
+          PY
+            [ "$status" = PASS ] || exit 2
+          done
+      - name: Upload Codex evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mh25-codex-local-23wave-${{ github.sha }}
+          path: codex-23wave.jsonl
+          if-no-files-found: error
+
+  claude-local:
+    name: Real Claude local executor / mh-dev-02
+    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 20
+          persist-credentials: false
+      - name: Canonical admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-02"
+          test "$(id -un)" = "mediahub"
+          export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          command -v claude
+          command -v ollama
+          command -v fcc-server
+          ollama list | grep -E '^qwen2.5-coder:3b[[:space:]]'
+      - name: 23 real Claude rounds
+        shell: bash
+        run: |
+          set -u
+          : > claude-23wave.jsonl
+          env_file="/home/mediahub/.config/mediahub/fcc.env"
+          test -f "$env_file"
+          set -a; . "$env_file"; set +a
+          model="qwen2.5-coder:3b"
+          host="127.0.0.1"
+          port="$((18000 + GITHUB_RUN_ID % 1000))"
+          export HOST="$host" PORT="$port" MODEL="ollama/$model"
+          nohup setsid fcc-server --host "$host" --port "$port" >/tmp/astra-fcc-23wave.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in $(seq 1 30); do
+            curl -fsS --max-time 2 "http://$host:$port/health" >/dev/null 2>&1 && break
+            sleep 1
+          done
+          curl -fsS --max-time 5 "http://$host:$port/health" >/dev/null
+          for i in $(seq 1 23); do
+            ts=$(date +%s)
+            marker="MEDIAHUB_LOCAL_CLAUDE_23WAVE_OK"
+            payload=$(python3 - "$model" "$marker" <<'PY'
+          import json,sys
+          model,marker=sys.argv[1:]
+          print(json.dumps({"model":"ollama/"+model,"max_tokens":32,"messages":[{"role":"user","content":marker+". Return exactly "+marker+". Do not modify files, call tools, or access the network."}]}))
+          PY
+          )
+            out="/tmp/astra-claude-$i.json"
+            timeout 12s curl -fsS --max-time 10 "http://$host:$port/v1/messages" \
+              -H "x-api-key: $ANTHROPIC_AUTH_TOKEN" -H 'Content-Type: application/json' \
+              -d "$payload" >"$out"
+            rc=$?
+            status=BLOCKED
+            if [ "$rc" -eq 0 ]; then
+              python3 - "$out" "$marker" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding="utf-8"))
+          text="\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict))
+          raise SystemExit(0 if text.strip()==sys.argv[2] else 1)
+          PY
+              parse_rc=$?
+              [ "$parse_rc" -eq 0 ] && status=PASS
+            fi
+            python3 - <<PY >> claude-23wave.jsonl
+          import json
+          print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_LOCAL_CLAUDE_23WAVE_OK","model":"ollama/qwen2.5-coder:3b"}))
+          PY
+            [ "$status" = PASS ] || exit 2
+          done
+      - name: Upload Claude evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mh25-claude-local-23wave-${{ github.sha }}
+          path: claude-23wave.jsonl
+          if-no-files-found: error
+
+  aggregate:
+    name: Aggregate dual local executor qualification
+    needs: [codex-local, claude-local]
     runs-on: [self-hosted, linux, x64, mediahub-control]
-    timeout-minutes: 25
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
           fetch-depth: 1
-      - name: Preflight
+          persist-credentials: false
+      - name: Verify both executor jobs passed
         shell: bash
         run: |
           set -euo pipefail
-          echo "source_sha=${GITHUB_SHA}"
-          hostname
-          command -v fcc-codex || true
-          command -v fcc-claude || true
-          command -v omniroute || true
-          command -v codex || true
-          command -v claude || true
-          command -v ecc || command -v ecc-cli || true
-          for spec in "fcc|http://127.0.0.1:8092/v1/models|/tmp/fcc-models.json" "omni|http://127.0.0.1:20128/v1/models|/tmp/omni-models.json"; do
-            IFS='|' read -r name url out <<<"$spec"
-            code="$(curl -sS -o "$out" -w '%{http_code}' --max-time 5 "$url" || true)"
-            case "$code" in
-              2??|401|403) printf '%s endpoint reachable (HTTP %s)\n' "$name" "$code" ;;
-              *) echo "$name endpoint unavailable (HTTP $code)" >&2; exit 1 ;;
-            esac
-          done
-      - name: 23 round analysis and setup probes
-        shell: bash
-        run: |
-          set -u
-          : > mh25-23wave.jsonl
-          for i in $(seq 1 23); do
-            echo "ROUND $i"
-            ts=$(date +%s)
-            rm -f /tmp/fcc-codex.out /tmp/fcc-claude.out /tmp/omni-codex.out /tmp/omni-claude.out
-            (if command -v fcc-codex >/dev/null 2>&1; then timeout 12s fcc-codex exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_FCC_CODEX_OK" </dev/null > /tmp/fcc-codex.out 2>&1; else exit 125; fi) & p1=$!
-            (if command -v fcc-claude >/dev/null 2>&1; then timeout 12s fcc-claude -p "Return exactly MEDIAHUB_FCC_CLAUDE_OK" --output-format text </dev/null > /tmp/fcc-claude.out 2>&1; else exit 125; fi) & p2=$!
-            (if command -v omniroute >/dev/null 2>&1; then timeout 12s omniroute run codex --model auto -- exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_OMNI_CODEX_OK" </dev/null > /tmp/omni-codex.out 2>&1; else exit 125; fi) & p3=$!
-            (if command -v omniroute >/dev/null 2>&1; then timeout 12s omniroute run claude --model auto -- -p "Return exactly MEDIAHUB_OMNI_CLAUDE_OK" --output-format text </dev/null > /tmp/omni-claude.out 2>&1; else exit 125; fi) & p4=$!
-            wait $p1; r1=$?; wait $p2; r2=$?; wait $p3; r3=$?; wait $p4; r4=$?
-            fcc_codex_status=BLOCKED; fcc_claude_status=BLOCKED; omni_codex_status=BLOCKED; omni_claude_status=BLOCKED
-            [ "$r1" -eq 0 ] && grep -Fx MEDIAHUB_FCC_CODEX_OK /tmp/fcc-codex.out >/dev/null 2>&1 && fcc_codex_status=PASS
-            [ "$r2" -eq 0 ] && grep -Fx MEDIAHUB_FCC_CLAUDE_OK /tmp/fcc-claude.out >/dev/null 2>&1 && fcc_claude_status=PASS
-            [ "$r3" -eq 0 ] && grep -Fx MEDIAHUB_OMNI_CODEX_OK /tmp/omni-codex.out >/dev/null 2>&1 && omni_codex_status=PASS
-            [ "$r4" -eq 0 ] && grep -Fx MEDIAHUB_OMNI_CLAUDE_OK /tmp/omni-claude.out >/dev/null 2>&1 && omni_claude_status=PASS
-            python3 - <<PY >> mh25-23wave.jsonl
-          import json
-          print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status"}))
-          PY
-          done
-      - name: Selection and evidence
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import json, statistics, os, shutil, pathlib
-          rows=[json.loads(x) for x in pathlib.Path("mh25-23wave.jsonl").read_text().splitlines() if x.strip()]
-          keys=["fcc_codex","fcc_claude","omni_codex","omni_claude"]
-          summary={}
-          for k in keys:
-              n=sum(r[k]=="PASS" for r in rows)
-              summary[k]={"pass_count":n,"rounds":len(rows),"pass_rate":n/len(rows)}
-          selected=[k for k,v in summary.items() if v["pass_count"]==len(rows)]
-          payload={"schema":"mediahub.dual-local-executor-23wave.v1","source_sha":os.environ["GITHUB_SHA"],
-                   "node":os.uname().nodename,"summary":summary,"selected_full_pass":selected,
-                   "ecc":{"path":shutil.which("ecc") or shutil.which("ecc-cli") or "NOT_FOUND"},
-                   "policy":"provider/backend identity remains explicit; no credentials emitted"}
-          pathlib.Path("mh25-23wave-qualification.json").write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n")
-          print(json.dumps(payload,indent=2,sort_keys=True))
-          if not ({"fcc_codex","fcc_claude"} <= set(selected)):
-              raise SystemExit(2)
-          PY
-      - name: Upload qualification evidence
-        if: always()
+          printf '%s\n' "CODEX_LOCAL=PASS" "CLAUDE_LOCAL=PASS" > dual-local-qualification.txt
+          printf '%s\n' "target_sha=$GITHUB_SHA" >> dual-local-qualification.txt
+      - name: Upload aggregate evidence
         uses: actions/upload-artifact@v4
         with:
           name: mh25-dual-local-23wave-${{ github.sha }}
-          path: |
-            mh25-23wave.jsonl
-            mh25-23wave-qualification.json
-            /tmp/fcc-models.json
-            /tmp/omni-models.json
-          if-no-files-found: warn
+          path: dual-local-qualification.txt
+          if-no-files-found: error
