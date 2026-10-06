@@ -209,7 +209,7 @@ def request_cloudflare_workers_ai(provider: dict, model: str, key: str) -> dict:
         return {"status_code": None, "latency_seconds": round(time.monotonic()-started,3), "output_bytes": 0, "output_sha256": "", "classification": classify(None, str(exc), exc)}
 
 def _bounded_request(provider: dict, model: str, key: str) -> list[dict]:
-    max_attempts = max(1, min(3, int(os.environ.get("ASTRA_PROVIDER_RETRY_ATTEMPTS", "3"))))
+    max_attempts = 3)
     retryable = {"timeout", "provider_unavailable", "rate_limit_or_quota", "network"}
     attempts = []
     for attempt in range(1, max_attempts + 1):
