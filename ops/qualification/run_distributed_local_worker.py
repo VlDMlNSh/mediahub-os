@@ -151,20 +151,22 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
 
 
 def exec_claude(prompt: str, model: str, timeout: int, env_file: Path) -> tuple[dict, subprocess.Popen[str] | None]:
-    server, env = start_fcc(env_file, model)
-    claude = shutil.which("fcc-claude") or "/home/mediahub/.local/bin/fcc-claude"
-    p = run([claude, "-p", prompt, "--output-format", "text"], timeout, ROOT, env)
-    if server is not None:
-        server.terminate()
-        try:
-            server.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            server.kill()
+    env = os.environ.copy()
+    env["ANTHROPIC_BASE_URL"] = "http://127.0.0.1:11434"
+    env["ANTHROPIC_AUTH_TOKEN"] = "ollama"
+    env["ANTHROPIC_API_KEY"] = ""
+    env["ANTHROPIC_MODEL"] = model
+    env["CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"] = "1"
+    claude = shutil.which("claude") or "/home/mediahub/.local/bin/claude"
+    p = run(
+        [claude, "--print", "--output-format", "text", "--bare", "--model", model, prompt],
+        timeout, ROOT, env,
+    )
     return {
         "returncode": p.returncode,
         "stdout": p.stdout[-16000:],
         "stderr": p.stderr[-8000:],
-    }, server
+    }, None
 
 
 def scope_paths(task: dict, changed: set[str]) -> list[str]:
