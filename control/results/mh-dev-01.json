@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791263502.169195,
+    "expiry": 1791263625.732456,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,18 +23,18 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791263499.8559635,
+    "started": 1791263623.4135838,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37417052295-1",
-    "updated": 1791263502.169195
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37417313138-1",
+    "updated": 1791263625.732456
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37417052295-1",
-  "completed_at": 1791263502,
-  "duration_seconds": 2.46,
-  "execution_head": "36755c84a8cd161ed595813508a38dc0cedad969",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37417313138-1",
+  "completed_at": 1791263625,
+  "duration_seconds": 2.472,
+  "execution_head": "a73c953583efba6b0f79443c5cfb84e2ecf2bbec",
   "node_id": "mh-dev-01",
   "result": {
-    "elapsed_seconds": 2.31,
+    "elapsed_seconds": 2.315,
     "phase": "distributed_verification",
     "status": "BLOCKED",
     "steps": [
@@ -53,9 +53,9 @@
           },
           "returncode": 2,
           "stderr": "",
-          "stdout": "{\n  \"blocked_reasons\": [\n    \"Voktors-Mac-mini.local_missing\",\n    \"mh-dev-01_missing\",\n    \"mh-dev-02_missing\"\n  ],\n  \"captured_at\": 1791263502,\n  \"checked_nodes\": [\n    \"mh-dev-01\",\n    \"mh-dev-02\",\n    \"Voktors-Mac-mini.local\"\n  ],\n  \"command_id\": \"MH-AUTONOMOUS-GOLD-mh-dev-01-37417052295-1\",\n  \"node_id\": \"mh-dev-01\",\n  \"phase\": \"distributed_verification\",\n  \"producer_identity\": \"canonical-distributed-verification-producer-v1\",\n  \"returncode\": 2,\n  \"schema\": \"mediahub.astra.distributed-verification.v1\",\n  \"secret_values\": \"SUPPRESSED\",\n  \"status\": \"BLOCKED\",\n  \"target_sha\": \"36755c84a8cd161ed595813508a38dc0cedad969\"\n}\n"
+          "stdout": "{\n  \"blocked_reasons\": [\n    \"Voktors-Mac-mini.local_hmac_key_missing\",\n    \"mh-dev-02_hmac_key_missing\"\n  ],\n  \"captured_at\": 1791263625,\n  \"checked_nodes\": [\n    \"mh-dev-01\",\n    \"mh-dev-02\",\n    \"Voktors-Mac-mini.local\"\n  ],\n  \"command_id\": \"MH-AUTONOMOUS-GOLD-mh-dev-01-37417313138-1\",\n  \"node_id\": \"mh-dev-01\",\n  \"phase\": \"distributed_verification\",\n  \"producer_identity\": \"canonical-distributed-verification-producer-v1\",\n  \"returncode\": 2,\n  \"schema\": \"mediahub.astra.distributed-verification.v1\",\n  \"secret_values\": \"SUPPRESSED\",\n  \"status\": \"BLOCKED\",\n  \"target_sha\": \"a73c953583efba6b0f79443c5cfb84e2ecf2bbec\"\n}\n"
         },
-        "head": "36755c84a8cd161ed595813508a38dc0cedad969",
+        "head": "a73c953583efba6b0f79443c5cfb84e2ecf2bbec",
         "pre_soak": {
           "returncode": 0,
           "stderr": "",
@@ -72,6 +72,6 @@
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "36755c84a8cd161ed595813508a38dc0cedad969",
-  "worker_id": "A0-ASTRA:2433739"
+  "target_sha": "a73c953583efba6b0f79443c5cfb84e2ecf2bbec",
+  "worker_id": "A0-ASTRA:2435409"
 }
