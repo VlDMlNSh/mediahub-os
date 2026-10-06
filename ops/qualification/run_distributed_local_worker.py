@@ -338,14 +338,15 @@ def main() -> int:
                 "import sys,unittest; "
                 "sys.path.insert(0, 'runtime'); "
                 f"sys.path.insert(0, '{test_path.parent}'); "
-                f"sys.argv=['unittest','discover','-s','{test_path.parent}','-p','{test_path.name}']; "
-                "raise SystemExit(unittest.main(module=None, exit=False).result.wasSuccessful() is False)"
+                f"s=unittest.defaultTestLoader.discover('{test_path.parent}', pattern='{test_path.name}'); "
+                "r=unittest.TextTestRunner(verbosity=2).run(s); "
+                "raise SystemExit(0 if r.wasSuccessful() else 1)"
             )
             test = run(["python3", "-c", test_script], 900, env=test_env)
         elif test_paths:
             test = run(["python3", "-m", "unittest", *test_paths], 900, env=test_env)
         else:
-            test = run(["python3", "-c", "import sys,unittest; sys.path.insert(0,'runtime'); sys.argv=['unittest','discover','-s','tests','-p','test_*.py']; raise SystemExit(unittest.main(module=None, exit=False).result.wasSuccessful() is False)"], 900, env=test_env)
+            test = run(["python3", "-c", "import sys,unittest; sys.path.insert(0,'runtime'); s=unittest.defaultTestLoader.discover('tests', pattern='test_*.py'); r=unittest.TextTestRunner(verbosity=2).run(s); raise SystemExit(0 if r.wasSuccessful() else 1)"], 900, env=test_env)
         record["tests"] = {
             "returncode": test.returncode,
             "stdout": test.stdout[-10000:],
