@@ -278,7 +278,7 @@ def execute(cmd):
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
             if journal:
                 journal.checkpoint(phase="pre_soak_evidence", cycle=cycle)
-            evidence=subprocess.run([sys.executable,str(evidence_script)],cwd=ROOT,text=True,
+            evidence=subprocess.run([sys.executable,str(evidence_script),"--target-sha",str(target_sha)],cwd=ROOT,text=True,
                                     capture_output=True,timeout=900,check=False)
             cycle_record["pre_soak"]={"returncode":evidence.returncode,
                                       "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]}
@@ -292,7 +292,7 @@ def execute(cmd):
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
             if journal:
                 journal.checkpoint(phase="strict_pre_soak_verification", cycle=cycle)
-            verifier=subprocess.run([sys.executable,str(verifier_script),"evidence"],
+            verifier=subprocess.run([sys.executable,str(verifier_script),"evidence","--target-sha",str(target_sha)],
                                     cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
             cycle_record["strict_verifier"]={"returncode":verifier.returncode,
                                               "stdout":verifier.stdout[-12000:],
