@@ -23,9 +23,6 @@ on:
       evidence_artifact:
         description: "Artifact containing fresh node attestations"
         value: ${{ jobs.aggregate.outputs.evidence_artifact }}
-      provider_evidence_artifact:
-        description: "Fresh A3 provider qualification evidence from the provider runner"
-        value: astra-provider-qualification-${{ github.run_id }}-${{ github.run_attempt }}
 
 permissions:
   contents: read
@@ -74,9 +71,7 @@ jobs:
   node-mh-dev-02:
     name: Fresh attestation mh-dev-02
     runs-on: [self-hosted, linux, x64, mediahub-provider]
-    timeout-minutes: 20
-    outputs:
-      a3_status: ${{ steps.a3.outputs.status }}
+    timeout-minutes: 15
     env:
       ASTRA_EXPECTED_NODE_ID: mh-dev-02
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
@@ -84,37 +79,21 @@ jobs:
       ASTRA_WORKTREE: ${{ github.workspace }}
       ASTRA_NODE_ATTESTATION_HMAC_KEY: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
       ASTRA_NODE_ATTESTATION_OUTPUT: ${{ github.workspace }}/.astra-state/distributed-attestation/mh-dev-02.json
-      MIMO_API_KEY: ${{ secrets.MIMO_API_KEY }}
       SILICONFLOW_API_KEY_1: ${{ secrets.SILICONFLOW_API_KEY_1 }}
-      SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
       SILICONFLOW_API_KEY_2: ${{ secrets.SILICONFLOW_API_KEY_2 }}
-      NOVITA_API_KEY_1: ${{ secrets.NOVITA_API_KEY_1 }}
       NOVITA_API_KEY: ${{ secrets.NOVITA_API_KEY }}
-      NOVITA_API_KEY_2: ${{ secrets.NOVITA_API_KEY_2 }}
       ZAI_API_KEY_1: ${{ secrets.ZAI_API_KEY_1 }}
-      ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
       ZAI_API_KEY_2: ${{ secrets.ZAI_API_KEY_2 }}
-      KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
       MOONSHOT_API_KEY: ${{ secrets.MOONSHOT_API_KEY }}
-      LLM7_API_KEY: ${{ secrets.LLM7_API_KEY }}
       SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-      AIONLABS_API_KEY: ${{ secrets.AIONLABS_API_KEY }}
       CLOUDFLARE_API_TOKEN_1: ${{ secrets.CLOUDFLARE_API_TOKEN_1 }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_API_TOKEN_2: ${{ secrets.CLOUDFLARE_API_TOKEN_2 }}
-      NARAROUTER_API_KEY_1: ${{ secrets.NARAROUTER_API_KEY_1 }}
       NARAROUTER_API_KEY: ${{ secrets.NARAROUTER_API_KEY }}
-      ORCAROUTER_API_KEY: ${{ secrets.ORCAROUTER_API_KEY }}
       UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
-      ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
       DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      MISTRAL_API_KEY_1: ${{ secrets.MISTRAL_API_KEY_1 }}
       MISTRAL_API_KEY_2: ${{ secrets.MISTRAL_API_KEY_2 }}
-      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
       HF_TOKEN: ${{ secrets.HF_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID_1: ${{ secrets.CLOUDFLARE_ACCOUNT_ID_1 }}
       CLOUDFLARE_ACCOUNT_ID_2: ${{ secrets.CLOUDFLARE_ACCOUNT_ID_2 }}
     steps:
       - uses: actions/checkout@v4
@@ -140,46 +119,6 @@ jobs:
           name: astra-distributed-attestation-mh-dev-02-${{ github.run_id }}-${{ github.run_attempt }}
           path: .astra-state/distributed-attestation/mh-dev-02.json
           if-no-files-found: error
-
-      - name: Execute A3 provider qualification on provider node
-        id: a3
-        shell: bash
-        run: |
-          set -u
-          mkdir -p .astra-state/provider-qualification
-          set +e
-          python3 ops/qualification/qualify_execution_backends.py --target-sha "$ASTRA_TARGET_SHA" > .astra-state/provider-qualification/provider-model.json
-          rc=$?
-          set -e
-          if [ ! -s .astra-state/provider-qualification/provider-model.json ]; then
-            printf '%s\n' '{"schema":"mediahub.provider-model-qualification.v1","status":"BLOCKED","reason":"qualifier_no_output","target_sha":"'"$ASTRA_TARGET_SHA"'","node_id":"'"$ASTRA_EXPECTED_NODE_ID"'","secret_values":"SUPPRESSED"}' > .astra-state/provider-qualification/provider-model.json
-          fi
-          status="$(python3 - .astra-state/provider-qualification/provider-model.json <<'PY'
-          import json, sys
-          try:
-              data=json.load(open(sys.argv[1], encoding="utf-8"))
-          except Exception:
-              print("BLOCKED")
-              raise SystemExit
-          print(data.get("status","BLOCKED"))
-          PY
-          )"
-          if [ "$status" = "PASS" ]; then
-            echo "status=PASS" >> "$GITHUB_OUTPUT"
-          else
-            echo "status=BLOCKED" >> "$GITHUB_OUTPUT"
-          fi
-          echo "returncode=$rc" >> "$GITHUB_OUTPUT"
-          exit 0
-
-      - name: Upload A3 provider qualification evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: astra-provider-qualification-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .astra-state/provider-qualification/provider-model.json
-          if-no-files-found: error
-          retention-days: 7
 
   node-voktors-mac:
     name: Fresh attestation Voktors-Mac-mini.local
