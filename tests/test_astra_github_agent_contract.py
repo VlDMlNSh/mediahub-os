@@ -120,5 +120,10 @@ class AstraTransportContractTests(unittest.TestCase):
         self.assertIn("distributed-verification-result.json", source)
         self.assertNotIn('subprocess.run([sys.executable,str(distributed_script)]', source)
 
+    def test_autonomous_queue_binds_runtime_pythonpath(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        self.assertIn('queue_env["PYTHONPATH"]=runtime_path', source)
+        self.assertIn('mediahub_runtime.autonomous_queue', source)
+
 if __name__ == "__main__":
     unittest.main()
