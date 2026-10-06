@@ -17,14 +17,13 @@ from pathlib import Path
 
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 
-REQUIRED = (
+CORE_REQUIRED = (
     "transport-health.json",
     "runtime-e2e.json",
     "scheduler-e2e.json",
     "fencing.json",
     "recovery.json",
     "backup-restore.json",
-    "provider-model.json",
 )
 
 
@@ -35,6 +34,8 @@ def main() -> int:
     parser.add_argument("--target-sha", default=None)
     parser.add_argument("--node-id", default=None)
     parser.add_argument("--max-age-seconds", type=int, default=900)
+    parser.add_argument("--allow-local-executor", action="store_true",
+                        help="Accept fresh local-executor.json in place of provider-model.json.")
     args = parser.parse_args()
 
     if args.max_age_seconds < 0:
@@ -55,12 +56,13 @@ def main() -> int:
     expected_node = args.node_id or socket.gethostname()
     now = int(time.time())
 
-    missing = [name for name in REQUIRED if not (args.evidence_dir / name).is_file()]
+    required = CORE_REQUIRED + (("local-executor.json",) if args.allow_local_executor else ("provider-model.json",))
+    missing = [name for name in required if not (args.evidence_dir / name).is_file()]
     if missing and not args.allow_missing:
         raise SystemExit("BLOCK: missing fresh evidence: " + ", ".join(missing))
 
     invalid = []
-    for name in REQUIRED:
+    for name in required:
         path = args.evidence_dir / name
         if not path.is_file():
             continue
