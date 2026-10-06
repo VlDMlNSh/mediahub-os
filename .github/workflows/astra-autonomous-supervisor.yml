@@ -115,7 +115,6 @@ jobs:
   supervise:
     needs:
       - distributed-verification
-      - provider-qualification
     runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 90
     env:
@@ -189,12 +188,6 @@ jobs:
         with:
           name: ${{ needs.distributed-verification.outputs.evidence_artifact }}
           path: .astra-state
-
-      - name: Download provider qualification evidence
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ needs.provider-qualification.outputs.evidence_artifact }}
-          path: .astra-state/provider-qualification
 
       - name: Execute autonomous qualification wave
         shell: bash
