@@ -63,7 +63,7 @@ jobs:
           command -v codex
           command -v claude
           command -v ollama
-          ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'
+          ollama list | grep -E '^qwen2.5-coder:(3b|7b):'
       - name: Execute bounded local worker
         shell: bash
         run: python3 ops/qualification/run_distributed_local_worker.py
