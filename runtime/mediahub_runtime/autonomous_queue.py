@@ -338,7 +338,7 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
             raise RuntimeError(str(exc))
         try:
             build = run(
-                [CODEX, "exec", "--profile", "huggingface", "--sandbox", "workspace-write", "--skip-git-repo-check", builder_prompt(task)],
+                [CODEX, "exec", "--sandbox", "workspace-write", "--skip-git-repo-check", builder_prompt(task)],
                 TASK_TIMEOUT,
                 worktree,
                 codex_env,
@@ -380,7 +380,7 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
             raise RuntimeError(str(exc))
         try:
             verifier = run(
-                [CODEX, "exec", "--profile", "huggingface", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)],
+                [CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)],
                 TASK_TIMEOUT,
                 worktree,
                 codex_env,
