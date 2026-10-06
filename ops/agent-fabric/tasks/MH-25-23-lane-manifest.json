@@ -4,17 +4,9 @@
   "status": "READY",
   "priority": "P0",
   "role": "architect",
-  "mission": "Add deterministic regression coverage for the 23-lane execution manifest, exact Codex builder binding, and UNKNOWN-safe promotion contract.",
-  "boundary": [
-    "tests/test_agent_fabric.py"
-  ],
-  "forbidden_surfaces": [
-    "runtime/",
-    "control/",
-    "production infrastructure",
-    "user data",
-    "credentials"
-  ],
+  "mission": "MUST modify tests/test_agent_fabric.py by adding deterministic regression coverage for the 23-lane execution manifest, exact Codex builder binding, and UNKNOWN-safe promotion contract. Do not finish with no_changes: the task is incomplete unless the declared test file has a new diff relative to target SHA.",
+  "boundary": ["tests/test_agent_fabric.py"],
+  "forbidden_surfaces": ["runtime/","control/","production infrastructure","user data","credentials"],
   "dependencies": [],
   "node_id": "mh-dev-02",
   "executor": "codex",
@@ -26,9 +18,8 @@
     "The test asserts the task's declared executor identity remains exactly codex and node binding remains exactly mh-dev-02.",
     "The test asserts UNKNOWN ownership/lease/worker evidence is not promoted to a claimed state.",
     "All existing Agent Fabric tests pass.",
-    "No production behavior outside the declared boundary is changed."
+    "No production behavior outside the declared boundary is changed.",
+    "The final worker diff MUST include tests/test_agent_fabric.py; no_changes is a BLOCKED outcome."
   ],
-  "test_paths": [
-    "tests/test_agent_fabric.py"
-  ]
+  "test_paths": ["tests/test_agent_fabric.py"]
 }
