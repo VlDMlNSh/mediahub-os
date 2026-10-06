@@ -40,5 +40,12 @@ class GoldUnifiedWorkflowContractTests(unittest.TestCase):
         self.assertIn('queue.get("status") == "PASS"', self.text)
         self.assertIn('item.get("status") == "VERIFIED"', self.text)
 
+    def test_gold_workflow_uses_read_only_control_and_publication_boundary(self):
+        self.assertIn("contents: read", self.text)
+        self.assertNotIn("contents: write", self.text)
+        self.assertIn("ASTRA_DEFER_RESULT_PUBLICATION", self.text)
+        self.assertIn("astra-node-result-publication.yml", self.text)
+        self.assertNotIn("MIMO_API_KEY", self.text)
+
 if __name__ == "__main__":
     unittest.main()
