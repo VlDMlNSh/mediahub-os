@@ -1,0 +1,122 @@
+name: Astra chat control plane
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  control:
+    if: >-
+      github.event.issue.pull_request == null &&
+      startsWith(github.event.comment.body, '/astra ')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Authorize issuer
+        env:
+          ASSOCIATION: \${{ github.event.comment.author_association }}
+        run: |
+          set -euo pipefail
+          case "$ASSOCIATION" in OWNER|MEMBER|COLLABORATOR) ;; *) exit 1 ;; esac
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 50
+
+      - name: Parse command
+        id: command
+        env:
+          BODY: \${{ github.event.comment.body }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os,re,sys
+          b=os.environ["BODY"].strip()
+          m=re.fullmatch(r"/astra (status|run-worker)(?: ([A-Za-z0-9._-]+) ([A-Za-z0-9._-]+) ([A-Za-z0-9._-]+) ([0-9a-f]{40}))?",b)
+          if not m: raise SystemExit("invalid_command")
+          op,task,executor,node,sha=m.groups()
+          if op=="run-worker":
+              if executor not in {"codex","claude"}: raise SystemExit("executor_not_allowed")
+              if node not in {"mh-dev-02","Voktors-Mac-mini.local"}: raise SystemExit("node_not_allowed")
+              if not all((task,executor,node,sha)): raise SystemExit("missing_argument")
+          else: task=executor=node=sha=""
+          with open(os.environ["GITHUB_OUTPUT"],"a") as f:
+              for k,v in {"op":op,"task":task,"executor":executor,"node":node,"sha":sha}.items(): f.write(f"{k}={v}\n")
+          PY
+
+      - name: Status
+        if: \${{ steps.command.outputs.op == 'status' }}
+        run: |
+          echo "Astra chat control plane reachable"
+          echo "main=$(git rev-parse HEAD)"
+          echo "controller=mh-dev-01"
+
+      - name: Validate worker request
+        if: \${{ steps.command.outputs.op == 'run-worker' }}
+        env:
+          TASK_ID: \${{ steps.command.outputs.task }}
+          EXECUTOR: \${{ steps.command.outputs.executor }}
+          NODE_ID: \${{ steps.command.outputs.node }}
+          TARGET_SHA: \${{ steps.command.outputs.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$TARGET_SHA"
+          test -f "ops/agent-fabric/tasks/$TASK_ID.json"
+          python3 - <<'PY'
+          import json,os,pathlib
+          t=json.loads(pathlib.Path("ops/agent-fabric/tasks/"+os.environ["TASK_ID"]+".json").read_text())
+          assert t["task_id"]==os.environ["TASK_ID"]
+          assert t["executor"]==os.environ["EXECUTOR"]
+          assert t["node_id"]==os.environ["NODE_ID"]
+          assert t["status"]=="READY"
+          assert not t.get("allow_no_changes",False)
+          print("task_contract=PASS")
+          PY
+
+      - name: Execute worker on primary node
+        if: \${{ steps.command.outputs.op == 'run-worker' && steps.command.outputs.node == 'mh-dev-02' }}
+        runs-on: [self-hosted, linux, x64, mediahub-provider]
+        env:
+          TASK_ID: \${{ steps.command.outputs.task }}
+          EXECUTOR: \${{ steps.command.outputs.executor }}
+          TARGET_SHA: \${{ steps.command.outputs.sha }}
+          ASTRA_COMMAND_ID: chat-\${{ github.run_id }}-\${{ github.event.comment.id }}
+          ASTRA_TARGET_SHA: \${{ steps.command.outputs.sha }}
+          ASTRA_NODE_ID: mh-dev-02
+          ASTRA_EXECUTOR: \${{ steps.command.outputs.executor }}
+          ASTRA_FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env
+          ASTRA_WORKER_RESULT: astra-distributed-worker-result.json
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-02"
+          test "$(id -un)" = "mediahub"
+          test "$EXECUTOR" = "codex"
+          test -f "ops/agent-fabric/tasks/$TASK_ID.json"
+          export ASTRA_MICRO_TASK_JSON="$(cat "ops/agent-fabric/tasks/$TASK_ID.json")"
+          python3 ops/qualification/run_distributed_local_worker.py
+
+      - name: Publish worker evidence
+        if: always() && steps.command.outputs.op == 'run-worker'
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-chat-control-\${{ github.run_id }}
+          path: astra-distributed-worker-result.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Report
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: \`Astra control request processed. Actions run: https://github.com/\${context.repo.owner}/\${context.repo.repo}/actions/runs/\${context.runId}\`
+            });
