@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791264431.4830496,
+    "expiry": 1791264535.0723364,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,54 +23,30 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791264427.981871,
+    "started": 1791264532.532542,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37418215123-1",
-    "updated": 1791264431.4830496
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37418530183-1",
+    "updated": 1791264535.0723364
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37418215123-1",
-  "completed_at": 1791264431,
-  "duration_seconds": 3.633,
-  "execution_head": "1c33dce921308225463fea0abe56fd641965da9c",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37418530183-1",
+  "completed_at": 1791264535,
+  "duration_seconds": 2.677,
+  "execution_head": "c41e591012e238977e497822fb9502f67ba0ba2b",
   "node_id": "mh-dev-01",
   "result": {
-    "elapsed_seconds": 3.496,
+    "elapsed_seconds": 2.535,
     "phase": "autonomous_queue",
     "status": "BLOCKED",
     "steps": [
       {
         "autonomous_queue": {
           "payload": {
-            "results": [
-              {
-                "base_sha": "1c33dce921308225463fea0abe56fd641965da9c",
-                "branch": "astra/auto/MH25-23-LANE-MANIFEST-001-1c33dce92130-1791264430",
-                "elapsed_seconds": 1.005,
-                "error": "RuntimeError:queue_main_fetch_failed",
-                "started_at": 1791264430,
-                "status": "BLOCKED",
-                "task_id": "MH25-23-LANE-MANIFEST-001"
-              },
-              {
-                "base_sha": "1c33dce921308225463fea0abe56fd641965da9c",
-                "branch": "astra/auto/MH25-QUEUE-002-1c33dce92130-1791264430",
-                "elapsed_seconds": 0.98,
-                "error": "RuntimeError:queue_base_sha_drift",
-                "started_at": 1791264430,
-                "status": "BLOCKED",
-                "task_id": "MH25-QUEUE-002"
-              }
-            ],
-            "selected_tasks": [
-              "MH25-23-LANE-MANIFEST-001",
-              "MH25-QUEUE-002"
-            ],
-            "status": "BLOCKED",
-            "workers": 2
+            "reason": "queue_output_not_json",
+            "status": "BLOCKED"
           },
-          "returncode": 2,
-          "stderr": "",
-          "stdout": "{\"results\": [{\"base_sha\": \"1c33dce921308225463fea0abe56fd641965da9c\", \"branch\": \"astra/auto/MH25-23-LANE-MANIFEST-001-1c33dce92130-1791264430\", \"elapsed_seconds\": 1.005, \"error\": \"RuntimeError:queue_main_fetch_failed\", \"started_at\": 1791264430, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\"}, {\"base_sha\": \"1c33dce921308225463fea0abe56fd641965da9c\", \"branch\": \"astra/auto/MH25-QUEUE-002-1c33dce92130-1791264430\", \"elapsed_seconds\": 0.98, \"error\": \"RuntimeError:queue_base_sha_drift\", \"started_at\": 1791264430, \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
+          "returncode": 1,
+          "stderr": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/runtime/mediahub_runtime/autonomous_queue.py\", line 373, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/runtime/mediahub_runtime/autonomous_queue.py\", line 356, in main\n    results = list(pool.map(lambda task: process_task(task, base_sha), selected))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/concurrent/futures/_base.py\", line 619, in result_iterator\n    yield _result_or_cancel(fs.pop())\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/concurrent/futures/_base.py\", line 317, in _result_or_cancel\n    return fut.result(timeout)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/concurrent/futures/_base.py\", line 449, in result\n    return self.__get_result()\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/concurrent/futures/_base.py\", line 401, in __get_result\n    raise self._exception\n  File \"/usr/lib/python3.12/concurrent/futures/thread.py\", line 58, in run\n    result = self.fn(*self.args, **self.kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/runtime/mediahub_runtime/autonomous_queue.py\", line 356, in <lambda>\n    results = list(pool.map(lambda task: process_task(task, base_sha), selected))\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/runtime/mediahub_runtime/autonomous_queue.py\", line 192, in process_task\n    claim = claim_for(task)\n            ^^^^^^^^^^^^^^^\nTypeError: claim_for() missing 1 required positional argument: 'base_sha'\n",
+          "stdout": ""
         },
         "backend": {
           "reason": "",
@@ -83,13 +59,13 @@
           "blocked_reasons": [],
           "payload": {
             "blocked_reasons": [],
-            "captured_at": 1791264386,
+            "captured_at": 1791264487,
             "checked_nodes": [
               "mh-dev-01",
               "mh-dev-02",
               "Voktors-Mac-mini.local"
             ],
-            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37418215123-1",
+            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37418530183-1",
             "node_id": "mh-dev-01",
             "phase": "distributed_verification",
             "producer_identity": "canonical-distributed-verification-producer-v1",
@@ -97,12 +73,12 @@
             "schema": "mediahub.astra.distributed-verification.v1",
             "secret_values": "SUPPRESSED",
             "status": "PASS",
-            "target_sha": "1c33dce921308225463fea0abe56fd641965da9c"
+            "target_sha": "c41e591012e238977e497822fb9502f67ba0ba2b"
           },
           "returncode": 0,
           "source": "fresh_downloaded_a2_aggregate"
         },
-        "head": "1c33dce921308225463fea0abe56fd641965da9c",
+        "head": "c41e591012e238977e497822fb9502f67ba0ba2b",
         "pre_soak": {
           "returncode": 0,
           "stderr": "",
@@ -119,6 +95,6 @@
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "1c33dce921308225463fea0abe56fd641965da9c",
-  "worker_id": "A0-ASTRA:2445682"
+  "target_sha": "c41e591012e238977e497822fb9502f67ba0ba2b",
+  "worker_id": "A0-ASTRA:2447306"
 }
