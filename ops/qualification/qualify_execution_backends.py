@@ -12,6 +12,9 @@ import hashlib
 import json
 import os
 import platform
+import argparse
+import re
+import subprocess
 import time
 import urllib.error
 import urllib.request
@@ -258,9 +261,55 @@ def qualify(provider: dict) -> dict:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--target-sha", default=None)
+    args = parser.parse_args()
+
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
     providers = registry["providers"]
     started = time.monotonic()
+    try:
+        current_revision = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True,
+            capture_output=True, timeout=10, check=False,
+        ).stdout.strip()
+    except Exception:
+        current_revision = ""
+
+    if args.target_sha:
+        if not re.fullmatch(r"[0-9a-f]{40}", args.target_sha):
+            payload = {
+                "schema": "mediahub.provider-model-qualification.v1",
+                "status": "BLOCKED",
+                "captured_at": int(time.time()),
+                "node_id": platform.node(),
+                "target_sha": args.target_sha,
+                "repo_revision": current_revision,
+                "reason": "invalid_target_sha",
+                "providers": [],
+                "summary": {"qualified_providers": 0, "qualified_models": 0, "provider_families": 0, "families": []},
+                "secret_values": "SUPPRESSED",
+            }
+            payload["evidence_digest"] = digest(json.dumps(payload, sort_keys=True, separators=(",", ":")))
+            print(json.dumps(payload, sort_keys=True))
+            return 2
+        if current_revision != args.target_sha:
+            payload = {
+                "schema": "mediahub.provider-model-qualification.v1",
+                "status": "BLOCKED",
+                "captured_at": int(time.time()),
+                "node_id": platform.node(),
+                "target_sha": args.target_sha,
+                "repo_revision": current_revision,
+                "reason": "target_sha_not_exact_current_head",
+                "providers": [],
+                "summary": {"qualified_providers": 0, "qualified_models": 0, "provider_families": 0, "families": []},
+                "secret_values": "SUPPRESSED",
+            }
+            payload["evidence_digest"] = digest(json.dumps(payload, sort_keys=True, separators=(",", ":")))
+            print(json.dumps(payload, sort_keys=True))
+            return 2
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=min(4, len(providers))) as pool:
         results = list(pool.map(qualify, providers))
 
@@ -271,7 +320,8 @@ def main() -> int:
         "status": "PASS" if qualified else "BLOCKED",
         "captured_at": int(time.time()),
         "node_id": platform.node(),
-        "repo_revision": "",
+        "target_sha": args.target_sha or current_revision,
+        "repo_revision": current_revision,
         "elapsed_seconds": round(time.monotonic() - started, 3),
         "providers": results,
         "summary": {
@@ -282,13 +332,6 @@ def main() -> int:
         },
         "secret_values": "SUPPRESSED",
     }
-    try:
-        payload["repo_revision"] = __import__("subprocess").run(
-            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True,
-            capture_output=True, timeout=10, check=False
-        ).stdout.strip()
-    except Exception:
-        pass
     canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
     payload["evidence_digest"] = digest(canonical)
     print(json.dumps(payload, sort_keys=True))
