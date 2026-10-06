@@ -407,6 +407,9 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
     try:
         store.acquire(claim)
         task_json = json.dumps(task_payload, sort_keys=True, separators=(",", ":"))
+        gh_env = os.environ.copy()
+        if gh_env.get("GITHUB_TOKEN") and not gh_env.get("GH_TOKEN"):
+            gh_env["GH_TOKEN"] = gh_env["GITHUB_TOKEN"]
         dispatch = run([
             "gh", "workflow", "run", ".github/workflows/astra-distributed-local-worker.yml",
             "--ref", "main",
@@ -416,7 +419,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
             "-f", f"node_id={node_id}",
             "-f", f"executor={executor}",
             "-f", f"task_json={task_json}",
-        ], 60)
+        ], 60, env=gh_env)
         if dispatch.returncode != 0:
             record["error"] = "remote_dispatch_failed:" + (dispatch.stderr or dispatch.stdout)[-2000:]
             return record
@@ -428,7 +431,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
             listed = run([
                 "gh", "run", "list", "--workflow", "astra-distributed-local-worker.yml",
                 "--limit", "30", "--json", "databaseId,displayTitle,status,conclusion,createdAt"
-            ], 30)
+            ], 30, env=gh_env)
             if listed.returncode == 0:
                 try:
                     rows = json.loads(listed.stdout or "[]")
@@ -448,7 +451,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
 
         record["worker_run_id"] = run_id
         while time.time() < deadline:
-            view = run(["gh", "run", "view", str(run_id), "--json", "status,conclusion"], 30)
+            view = run(["gh", "run", "view", str(run_id), "--json", "status,conclusion"], 30, env=gh_env)
             if view.returncode == 0:
                 data = json.loads(view.stdout or "{}")
                 status = data.get("status")
@@ -468,7 +471,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
         temp = tempfile.TemporaryDirectory(prefix="astra-remote-worker-")
         download = run([
             "gh", "run", "download", str(run_id), "-n", f"astra-distributed-worker-{run_id}", "-D", temp.name
-        ], 120)
+        ], 120, env=gh_env)
         if download.returncode != 0:
             raise RuntimeError("remote_evidence_download_failed")
         result_file = Path(temp.name) / "astra-distributed-worker-result.json"
