@@ -3,31 +3,28 @@
   "task_id": "MH25-QUEUE-002",
   "status": "READY",
   "priority": "P1",
-  "mission": "Add deterministic unit coverage proving autonomous queue execution uses isolated worktree paths and bounded worker selection.",
+  "mission": "Document the canonical distributed local development topology and promotion rules for the primary and fast executor pools.",
   "boundary": [
-    "tests/test_autonomous_queue.py"
+    "docs/operations/"
   ],
   "forbidden_surfaces": [
     ".github/workflows/",
-    "docs/checkpoints/",
-    "runtime/mediahub_runtime/agent_fabric.py",
-    "runtime/mediahub_runtime/autonomous_queue.py",
-    "astra_github_agent.py",
+    "runtime/",
+    "control/",
     "user data",
     "credentials",
     "production infrastructure"
   ],
   "dependencies": [],
-  "acceptance": [
-    "Tests assert worktree paths are task-scoped and deterministic.",
-    "Tests assert worker selection is bounded by MAX_WORKERS.",
-    "Tests do not execute Codex, git worktrees, network operations, or production infrastructure.",
-    "All existing Agent Fabric and autonomous queue tests pass.",
-    "No production behavior outside the declared boundary is changed."
-  ],
-  "allow_no_changes": false,
   "node_id": "Voktors-Mini.Dlink",
   "executor": "claude",
   "verifier": "codex",
-  "timeout_seconds": 1800
+  "timeout_seconds": 1800,
+  "acceptance": [
+    "Create or update one document under docs/operations/.",
+    "The document names mh-dev-01 as controller/authority, mh-dev-02 as primary local pool, and Voktors-Mini.Dlink as fast pool.",
+    "The document names both Codex and Claude, explains builder/verifier split, exact target-SHA binding, isolated branches, and GitHub evidence transport.",
+    "The document states fail-closed promotion and that no worker writes directly to main.",
+    "No credentials or secrets are included."
+  ]
 }
