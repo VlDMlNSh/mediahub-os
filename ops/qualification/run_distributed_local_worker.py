@@ -152,23 +152,44 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
 
 
 def exec_claude(prompt: str, model: str, timeout: int, env_file: Path) -> tuple[dict, subprocess.Popen[str] | None]:
-    env = os.environ.copy()
-    env["ANTHROPIC_BASE_URL"] = "http://127.0.0.1:11434"
-    env["ANTHROPIC_AUTH_TOKEN"] = "ollama"
-    env["ANTHROPIC_API_KEY"] = ""
-    env["ANTHROPIC_MODEL"] = model
-    env["CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"] = "1"
-    env["CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT"] = "1"
-    claude = shutil.which("claude") or "/home/mediahub/.local/bin/claude"
-    p = run(
-        [claude, "--print", "--output-format", "text", "--bare", "--model", model, prompt],
-        timeout, ROOT, env,
+    env_updates = load_env_file(env_file)
+    if env_updates.get("MODEL") != "ollama/" + model:
+        raise RuntimeError("fcc_model_binding_mismatch")
+    host = env_updates.get("HOST", "127.0.0.1")
+    port = env_updates.get("PORT", "8093")
+    health = f"http://{host}:{port}/health"
+    server = None
+    try:
+        with urllib.request.urlopen(health, timeout=3) as response:
+            if response.status != 200:
+                raise RuntimeError("fcc_health_not_ok")
+    except Exception:
+        server, _ = start_fcc(env_file, model)
+    token = env_updates.get("ANTHROPIC_AUTH_TOKEN", "")
+    if not token:
+        raise RuntimeError("fcc_auth_token_missing")
+    payload = json.dumps({
+        "model": "ollama/" + model,
+        "max_tokens": 2048,
+        "messages": [{"role": "user", "content": prompt}],
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        f"http://{host}:{port}/v1/messages",
+        data=payload,
+        headers={"x-api-key": token, "Content-Type": "application/json", "Accept": "application/json"},
+        method="POST",
     )
-    return {
-        "returncode": p.returncode,
-        "stdout": p.stdout[-16000:],
-        "stderr": p.stderr[-8000:],
-    }, None
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as response:
+            raw = response.read().decode("utf-8", "replace")
+        body = json.loads(raw)
+        text = "\n".join(
+            str(item.get("text", "")) for item in body.get("content", [])
+            if isinstance(item, dict)
+        )
+        return {"returncode": 0, "stdout": text[-16000:], "stderr": ""}, server
+    except Exception as exc:
+        return {"returncode": 1, "stdout": "", "stderr": type(exc).__name__ + ":" + str(exc)}, server
 
 
 def scope_paths(task: dict, changed: set[str]) -> list[str]:
