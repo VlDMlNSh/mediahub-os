@@ -110,5 +110,9 @@ class AstraTransportContractTests(unittest.TestCase):
         self.assertIn('"source": "node_local_provider_evidence"', source)
         self.assertNotIn('subprocess.run([sys.executable,str(backend_script)]', source)
 
+    def test_published_result_carries_secret_suppression_marker(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        self.assertIn('publish_result.setdefault("secret_values","SUPPRESSED")', source)
+
 if __name__ == "__main__":
     unittest.main()
