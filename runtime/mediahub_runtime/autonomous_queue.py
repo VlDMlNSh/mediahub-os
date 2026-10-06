@@ -43,6 +43,14 @@ def qualified_codex_profile() -> tuple[str, str]:
         raise RuntimeError("qualified_executor_evidence_invalid") from exc
     if payload.get("status") != "PASS":
         raise RuntimeError("qualified_executor_evidence_not_pass")
+    expected_sha = os.environ.get("ASTRA_PROVIDER_TARGET_SHA", "").strip()
+    if not expected_sha:
+        raise RuntimeError("qualified_executor_target_sha_missing")
+    if str(payload.get("target_sha", "")).strip() != expected_sha:
+        raise RuntimeError("qualified_executor_target_sha_mismatch")
+    expected_command = os.environ.get("ASTRA_COMMAND_ID", "").strip()
+    if expected_command and str(payload.get("command_id", "")).strip() != expected_command:
+        raise RuntimeError("qualified_executor_command_id_mismatch")
     candidates = []
     for item in payload.get("providers", []):
         if (
