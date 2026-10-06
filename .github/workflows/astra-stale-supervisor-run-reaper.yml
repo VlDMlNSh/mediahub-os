@@ -41,24 +41,17 @@ jobs:
           PY
           current="$(gh api "/repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')"
           test -n "$current"
-          gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?per_page=100" > /tmp/astra-all-runs.json
-          python3 - "${current}" <<'PY' > /tmp/astra-stale-ids
-          import json,sys
-          current=sys.argv[1]
-          allowed=set()
-          for raw in open("/tmp/astra-reaper-paths",encoding="utf-8"):
-              value=raw.strip()
-              if value: allowed.add(value)
-          data=json.load(open("/tmp/astra-all-runs.json",encoding="utf-8"))
-          for run in data.get("workflow_runs",[]):
-              if run.get("path") not in allowed:
-                  continue
-              if run.get("status") not in {"queued","in_progress","pending","waiting"}:
-                  continue
-              if run.get("head_sha")==current:
-                  continue
-              print(run["id"])
-          PY
+          : > /tmp/astra-stale-ids
+          for workflow in "${allowed[@]}"; do
+            gh run list --workflow "${workflow}" --limit 100 --json databaseId,headSha,status \
+              --jq '.[] | select(.status == "queued" or .status == "in_progress" or .status == "pending" or .status == "waiting") | [.databaseId,.headSha] | @tsv' \
+              | while IFS=$'\\t' read -r run_id run_sha; do
+                  [ -z "$run_id" ] && continue
+                  if [ "$run_sha" != "$current" ]; then
+                    echo "$run_id"
+                  fi
+                done
+          done
           sort -u /tmp/astra-stale-ids | while read -r run_id; do
             [ -z "$run_id" ] && continue
             echo "cancelling stale Astra run=$run_id"
