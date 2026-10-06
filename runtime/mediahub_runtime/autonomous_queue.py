@@ -66,7 +66,7 @@ def _local_codex_agentic_probe(model: str) -> bool:
                 (
                     "Create exactly one file at "
                     f"{probe_file} containing exactly "
-                    ""MEDIAHUB_LOCAL_CODEX_AGENTIC_OK". "
+                    "\"MEDIAHUB_LOCAL_CODEX_AGENTIC_OK\". "
                     "Do not call the network and do not modify any other files."
                 ),
             ],
