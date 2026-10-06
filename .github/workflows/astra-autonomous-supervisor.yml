@@ -160,7 +160,7 @@ jobs:
           Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8").write(
               f"ASTRA_NODE_ID=mh-dev-01\n"
               f"ASTRA_COMMAND_ID={d['command_id']}\n"
-              f"ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ['ASTRA_STATE_DIR']}/distributed-verification/{d['command_id']}\n"
+              f"ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ['ASTRA_STATE_DIR']}/distributed-verification\n"
           )
           PY
 
