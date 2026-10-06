@@ -385,15 +385,14 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
                 "tests/test_astra_github_agent_contract.py",
             ]
         if len(selected_tests) == 1:
-            test_name = Path(selected_tests[0]).name
             test = run(
-                ["python3", "-m", "unittest", "discover", "-s", "tests", "-p", test_name],
+                ["python3", "-m", "pytest", "-q", selected_tests[0]],
                 900,
                 worktree,
             )
         else:
             test = run(
-                ["python3", "-m", "unittest", *selected_tests],
+                ["python3", "-m", "pytest", "-q", *selected_tests],
                 900,
                 worktree,
             )
