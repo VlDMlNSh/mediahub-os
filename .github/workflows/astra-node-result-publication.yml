@@ -52,7 +52,24 @@ jobs:
           echo "node_id=mh-dev-01" >> "$GITHUB_OUTPUT"
           echo "target_sha=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_OUTPUT"
 
+      - name: Check sanitized controller result artifact
+        id: artifact
+        shell: bash
+        env:
+          ARTIFACT_NAME: ${{ steps.resolve.outputs.artifact_name }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          count="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}/artifacts" --paginate --jq '[.artifacts[] | select(.name == env.ARTIFACT_NAME and .expired == false)] | length' | tail -n 1)"
+          if [ "$count" -ge 1 ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Download sanitized controller result
+        if: steps.artifact.outputs.found == 'true'
         uses: actions/download-artifact@v4
         with:
           name: ${{ steps.resolve.outputs.artifact_name }}
@@ -60,6 +77,15 @@ jobs:
           merge-multiple: false
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Report missing result artifact
+        if: steps.artifact.outputs.found != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "publication=NOOP"
+          echo "reason=result_artifact_missing"
+          exit 0
 
       - name: Validate publication payload
         shell: bash
