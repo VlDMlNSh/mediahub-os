@@ -44,8 +44,8 @@ def test_main_returns_idle_when_no_ready_tasks(monkeypatch, tmp_path: Path, caps
 def test_claim_uses_task_boundary(monkeypatch):
     class R: stdout = "abc123\n"
     monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: R())
-    claim = autonomous_queue.claim_for({"task_id":"T1","mission":"m","boundary":["docs/a","ops/b"]})
-    assert claim.base_sha == "abc123"
+    claim = autonomous_queue.claim_for({"task_id":"T1","mission":"m","boundary":["docs/a","ops/b"]}, "targetsha")
+    assert claim.base_sha == "targetsha"
     assert claim.paths == ("docs/a","ops/b")
     assert claim.agent == "A2-BUILDER"
 
@@ -235,7 +235,10 @@ def test_queue_blocks_existing_remote_branch_before_worktree_creation():
     assert 'raise RuntimeError("queue_branch_probe_failed")' in source
 
 
-def test_queue_refreshes_origin_main_before_base_sha_admission():
+def test_queue_pins_workers_to_explicit_target_sha():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
-    assert '"git", "fetch", "--prune", "origin", "main"' in source
-    assert 'raise RuntimeError("queue_main_fetch_failed")' in source
+    assert 'ASTRA_TARGET_SHA' in source
+    assert 'queue_target_sha_not_current_head' in source
+    assert 'def claim_for(task: dict, base_sha: str)' in source
+    assert 'raise RuntimeError("queue_base_sha_not_current_head")' in source
+
