@@ -1,0 +1,118 @@
+name: Astra distributed local worker
+
+run-name: Astra distributed worker / ${{ inputs.command_id }} / ${{ inputs.task_id }} / ${{ inputs.node_id }} / ${{ inputs.executor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      command_id:
+        description: "Signed Astra command id"
+        required: true
+        type: string
+      target_sha:
+        description: "Immutable execution target SHA"
+        required: true
+        type: string
+      task_id:
+        description: "Micro-task id"
+        required: true
+        type: string
+      node_id:
+        description: "Exact worker node id"
+        required: true
+        type: string
+      executor:
+        description: "Local executor: codex or claude"
+        required: true
+        type: choice
+        options: [codex, claude]
+      task_json:
+        description: "Full signed task payload"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  mh-dev-02:
+    if: ${{ inputs.node_id == 'mh-dev-02' }}
+    name: Primary local worker on mh-dev-02
+    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    timeout-minutes: 30
+    env:
+      ASTRA_COMMAND_ID: ${{ inputs.command_id }}
+      ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
+      ASTRA_NODE_ID: mh-dev-02
+      ASTRA_EXECUTOR: ${{ inputs.executor }}
+      ASTRA_MICRO_TASK_JSON: ${{ inputs.task_json }}
+      ASTRA_FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env
+      ASTRA_WORKER_RESULT: astra-distributed-worker-result.json
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 50
+          persist-credentials: true
+      - name: Canonical admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-02"
+          test "$(id -un)" = "mediahub"
+          command -v codex
+          command -v claude
+          command -v fcc-claude
+          command -v ollama
+      - name: Execute bounded local worker
+        shell: bash
+        run: python3 ops/qualification/run_distributed_local_worker.py
+      - name: Upload worker evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-distributed-worker-${{ github.run_id }}
+          path: astra-distributed-worker-result.json
+          if-no-files-found: error
+          retention-days: 30
+
+  voktors-mac:
+    if: ${{ inputs.node_id == 'Voktors-Mini.Dlink' }}
+    name: Fast local worker on Voktors-Mini.Dlink
+    runs-on: [self-hosted, macOS, ARM64, astra-control]
+    timeout-minutes: 30
+    env:
+      ASTRA_COMMAND_ID: ${{ inputs.command_id }}
+      ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
+      ASTRA_NODE_ID: Voktors-Mini.Dlink
+      ASTRA_EXECUTOR: ${{ inputs.executor }}
+      ASTRA_MICRO_TASK_JSON: ${{ inputs.task_json }}
+      ASTRA_FCC_ENV_FILE: /Users/voktor/Library/Application Support/MediaHub/fcc.env
+      ASTRA_WORKER_RESULT: astra-distributed-worker-result.json
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 50
+          persist-credentials: true
+      - name: Canonical admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "Voktors-Mini.Dlink"
+          test "$(id -un)" = "voktor"
+          command -v codex
+          command -v claude
+          command -v fcc-claude
+          command -v ollama
+      - name: Execute bounded local worker
+        shell: bash
+        run: python3 ops/qualification/run_distributed_local_worker.py
+      - name: Upload worker evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-distributed-worker-${{ github.run_id }}
+          path: astra-distributed-worker-result.json
+          if-no-files-found: error
+          retention-days: 30

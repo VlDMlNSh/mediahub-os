@@ -1,0 +1,122 @@
+{
+  "schema": "mediahub.astra.distributed-local-development-plan.v1",
+  "version": 1,
+  "authority": "A0-ASTRA-coordination",
+  "controller_node": "mh-dev-01",
+  "primary_pool": {
+    "node_id": "mh-dev-02",
+    "runner_label": "mediahub-provider",
+    "model": "qwen2.5-coder:7b",
+    "purpose": "primary_local_executor_pool"
+  },
+  "fast_pool": {
+    "node_id": "Voktors-Mini.Dlink",
+    "runner_label": "astra-control",
+    "model": "qwen2.5-coder:1.5b",
+    "purpose": "fast_local_worker_pool"
+  },
+  "policy": "Every micro-task has one builder, one independent verifier, one exact target SHA, one bounded boundary, and one immutable branch. Only controller-verified evidence may be promoted.",
+  "steps": [
+    {
+      "task_id": "DLD-01",
+      "node_id": "mh-dev-02",
+      "executor": "codex",
+      "verifier": "claude",
+      "mission": "Add a focused regression test for the autonomous queue's target-pinned completion evidence.",
+      "boundary": [
+        "tests/test_autonomous_queue.py"
+      ],
+      "test_paths": [
+        "tests/test_autonomous_queue.py"
+      ],
+      "forbidden": [
+        "runtime/",
+        "control/",
+        "credentials",
+        "user data",
+        "production infrastructure"
+      ],
+      "acceptance": [
+        "The new test is deterministic and read-only.",
+        "It validates target-SHA-pinned completion evidence.",
+        "All autonomous queue tests pass."
+      ],
+      "timeout_seconds": 900
+    },
+    {
+      "task_id": "DLD-02",
+      "node_id": "mh-dev-02",
+      "executor": "claude",
+      "verifier": "codex",
+      "mission": "Add a focused Agent Fabric lease-expiry regression test.",
+      "boundary": [
+        "tests/test_agent_fabric.py"
+      ],
+      "test_paths": [
+        "tests/test_agent_fabric.py"
+      ],
+      "forbidden": [
+        "runtime/",
+        "control/",
+        "credentials",
+        "user data",
+        "production infrastructure"
+      ],
+      "acceptance": [
+        "The new test exercises expiry/reclaim semantics without external services.",
+        "It is deterministic.",
+        "All Agent Fabric tests pass."
+      ],
+      "timeout_seconds": 900
+    },
+    {
+      "task_id": "DLD-03",
+      "node_id": "Voktors-Mini.Dlink",
+      "executor": "codex",
+      "verifier": "claude",
+      "mission": "Add a compact contract test for the distributed local development plan schema.",
+      "boundary": [
+        "tests/test_distributed_local_worker.py"
+      ],
+      "test_paths": [
+        "tests/test_distributed_local_worker.py"
+      ],
+      "forbidden": [
+        "runtime/",
+        "control/",
+        "credentials",
+        "user data",
+        "production infrastructure"
+      ],
+      "acceptance": [
+        "The test remains local and deterministic.",
+        "It validates primary and fast pool bindings.",
+        "All distributed worker contract tests pass."
+      ],
+      "timeout_seconds": 900
+    },
+    {
+      "task_id": "DLD-04",
+      "node_id": "Voktors-Mini.Dlink",
+      "executor": "claude",
+      "verifier": "codex",
+      "mission": "Document the canonical distributed local development topology and promotion rules.",
+      "boundary": [
+        "docs/operations/"
+      ],
+      "test_paths": [],
+      "forbidden": [
+        "runtime/",
+        "control/",
+        "credentials",
+        "user data",
+        "production infrastructure"
+      ],
+      "acceptance": [
+        "The topology names controller, primary pool, fast pool, builder/verifier split, target-SHA binding, and fail-closed promotion.",
+        "No secrets or credentials are included."
+      ],
+      "timeout_seconds": 900
+    }
+  ]
+}

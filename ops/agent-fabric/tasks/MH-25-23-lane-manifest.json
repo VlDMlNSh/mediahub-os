@@ -34,5 +34,9 @@
     "manifest does not become MediaHub domain or State Authority"
   ],
   "verification": "independent verifier must inspect manifest, collision report and evidence bindings before any lane is promoted to READY/CLAIMED.",
-  "rollback": "revert only the new manifest/reconciliation artifacts; do not mutate R4 or historical qualification evidence."
+  "rollback": "revert only the new manifest/reconciliation artifacts; do not mutate R4 or historical qualification evidence.",
+  "node_id": "mh-dev-02",
+  "executor": "codex",
+  "verifier": "claude",
+  "timeout_seconds": 1800
 }

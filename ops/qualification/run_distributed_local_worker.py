@@ -1,0 +1,377 @@
+#!/usr/bin/env python3
+"""Run one signed Astra micro-task on a designated local executor node."""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import re
+import shutil
+import subprocess
+import tempfile
+import time
+import urllib.request
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+MARKER = "MEDIAHUB_DISTRIBUTED_LOCAL_EXECUTOR_OK"
+VERDICT_MARKER = "ASTRA_VERDICT: PASS"
+NODE_CONFIG = {
+    "mh-dev-02": {
+        "user": "mediahub",
+        "platform": "linux",
+        "model": "qwen2.5-coder:7b",
+        "pool": "primary_local",
+        "fcc_env": "/home/mediahub/.config/mediahub/fcc.env",
+    },
+    "Voktors-Mini.Dlink": {
+        "user": "voktor",
+        "platform": "macos",
+        "model": "qwen2.5-coder:1.5b",
+        "pool": "fast_local",
+        "fcc_env": "",
+    },
+}
+
+
+def run(argv: list[str], timeout: int, cwd: Path = ROOT, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        argv, cwd=cwd, env=env, text=True, capture_output=True,
+        timeout=timeout, check=False,
+    )
+
+
+def safe_id(value: str) -> str:
+    if not re.fullmatch(r"[A-Za-z0-9._-]+", value):
+        raise RuntimeError("invalid_task_id")
+    return value
+
+
+def load_task() -> dict:
+    raw = os.environ.get("ASTRA_MICRO_TASK_JSON", "")
+    try:
+        task = json.loads(raw)
+    except Exception as exc:
+        raise RuntimeError("invalid_task_json") from exc
+    if not isinstance(task, dict):
+        raise RuntimeError("task_not_object")
+    required = {"task_id", "node_id", "executor", "verifier", "mission", "boundary", "acceptance"}
+    missing = sorted(required - set(task))
+    if missing:
+        raise RuntimeError("task_missing_fields:" + ",".join(missing))
+    return task
+
+
+def task_prompt(task: dict, role: str) -> str:
+    forbidden = task.get("forbidden", task.get("forbidden_surfaces", []))
+    return (
+        f"You are {role} in MediaHub Agent Fabric.\n"
+        f"Task ID: {task['task_id']}\n"
+        f"Mission: {task['mission']}\n"
+        f"Boundary: {json.dumps(task.get('boundary', []), sort_keys=True)}\n"
+        f"Forbidden surfaces: {json.dumps(forbidden, sort_keys=True)}\n"
+        f"Acceptance: {json.dumps(task.get('acceptance', []), sort_keys=True)}\n"
+        f"Target SHA: {os.environ['ASTRA_TARGET_SHA']}\n"
+        "Work only inside the declared boundary. Do not touch production infrastructure, "
+        "credentials, user data, or unrelated paths. Do not merge to main."
+    )
+
+
+def load_env_file(path: Path) -> dict[str, str]:
+    if not path.is_file():
+        raise RuntimeError("fcc_env_file_missing")
+    values: dict[str, str] = {}
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        values[key.strip()] = value.strip()
+    return values
+
+
+def ollama_has_model(model: str) -> bool:
+    binary = shutil.which("ollama") or "/usr/local/bin/ollama"
+    p = run([binary, "list"], 20)
+    return p.returncode == 0 and any(line.split() and line.split()[0] == model for line in p.stdout.splitlines())
+
+
+def start_fcc(env_file: Path, model: str) -> tuple[subprocess.Popen[str] | None, dict[str, str]]:
+    env_updates = load_env_file(env_file)
+    if env_updates.get("MODEL") != "ollama/" + model:
+        raise RuntimeError("fcc_model_binding_mismatch")
+    env = os.environ.copy()
+    env.update(env_updates)
+    host = env_updates.get("HOST", "127.0.0.1")
+    port = env_updates.get("PORT", "8093")
+    health = f"http://{host}:{port}/health"
+    try:
+        with urllib.request.urlopen(health, timeout=3) as response:
+            if response.status == 200:
+                return None, env
+    except Exception:
+        pass
+    server = shutil.which("fcc-server") or "/home/mediahub/.local/bin/fcc-server"
+    log = Path(tempfile.mkstemp(prefix="astra-fcc-", suffix=".log")[1])
+    handle = log.open("w", encoding="utf-8")
+    process = subprocess.Popen([server], cwd="/tmp", env=env, stdout=handle, stderr=subprocess.STDOUT, text=True)
+    handle.close()
+    deadline = time.time() + 20
+    while time.time() < deadline:
+        try:
+            with urllib.request.urlopen(health, timeout=2) as response:
+                if response.status == 200:
+                    return process, env
+        except Exception:
+            time.sleep(1)
+    process.terminate()
+    raise RuntimeError("fcc_server_health_timeout")
+
+
+def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
+    codex = shutil.which("codex") or "/usr/local/bin/codex"
+    with tempfile.TemporaryDirectory(prefix="astra-distributed-codex-") as home:
+        config = Path(home) / "config.toml"
+        config.write_text(
+            f'model_provider = "ollama"\nmodel = "{model}"\n'
+            'approval_policy = "never"\nweb_search = "disabled"\n'
+            '[features]\nmulti_agent = false\napps = false\ntool_search = false\nplugins = false\n',
+            encoding="utf-8",
+        )
+        env = os.environ.copy()
+        env["CODEX_HOME"] = home
+        sandbox = "workspace-write" if writable else "read-only"
+        p = run([codex, "exec", "--ignore-user-config", "--sandbox", sandbox,
+                 "--skip-git-repo-check", prompt], timeout, ROOT, env)
+        return {
+            "returncode": p.returncode,
+            "stdout": p.stdout[-16000:],
+            "stderr": p.stderr[-8000:],
+        }
+
+
+def exec_claude(prompt: str, model: str, timeout: int, env_file: Path) -> tuple[dict, subprocess.Popen[str] | None]:
+    server, env = start_fcc(env_file, model)
+    claude = shutil.which("fcc-claude") or "/home/mediahub/.local/bin/fcc-claude"
+    p = run([claude, "-p", prompt, "--output-format", "text"], timeout, ROOT, env)
+    if server is not None:
+        server.terminate()
+        try:
+            server.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            server.kill()
+    return {
+        "returncode": p.returncode,
+        "stdout": p.stdout[-16000:],
+        "stderr": p.stderr[-8000:],
+    }, server
+
+
+def scope_paths(task: dict, changed: set[str]) -> list[str]:
+    boundary = tuple(str(x) for x in task.get("boundary", []))
+    forbidden = tuple(str(x) for x in task.get("forbidden", task.get("forbidden_surfaces", [])))
+    bad = []
+    for path in sorted(changed):
+        normalized = path.lstrip("./")
+        if any(normalized == f or normalized.startswith(f.rstrip("/") + "/") for f in forbidden):
+            bad.append(normalized)
+        elif boundary and not any(
+            normalized == b.rstrip("/") or normalized.startswith(b.rstrip("/") + "/")
+            for b in boundary
+        ):
+            bad.append(normalized)
+    return bad
+
+
+def changed_paths(target_sha: str) -> set[str]:
+    changed: set[str] = set()
+    for argv in [
+        ["git", "diff", "--name-only", target_sha],
+        ["git", "diff", "--name-only", target_sha, "HEAD"],
+        ["git", "diff", "--cached", "--name-only", target_sha],
+    ]:
+        p = run(argv, 30)
+        if p.returncode != 0:
+            raise RuntimeError("diff_listing_failed")
+        changed.update(x.strip() for x in p.stdout.splitlines() if x.strip())
+    p = run(["git", "status", "--porcelain", "--untracked-files=all"], 30)
+    if p.returncode != 0:
+        raise RuntimeError("status_listing_failed")
+    for line in p.stdout.splitlines():
+        if line:
+            value = line[3:].strip() if len(line) >= 3 else line.strip()
+            if " -> " in value:
+                value = value.split(" -> ", 1)[1]
+            if value:
+                changed.add(value)
+    return changed
+
+
+def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> dict:
+    prompt = (
+        "You are an independent A3 Verifier. Review the completed micro-task against every "
+        "acceptance criterion below.\n"
+        f"Task ID: {task['task_id']}\n"
+        f"Acceptance: {json.dumps(task.get('acceptance', []), sort_keys=True)}\n"
+        f"Boundary: {json.dumps(task.get('boundary', []), sort_keys=True)}\n"
+        "--- DIFF ---\n" + diff_text[-30000:] +
+        "\n--- TESTS ---\n" + test_text[-12000:] +
+        "\nReturn exactly one line: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED."
+    )
+    verifier = task["verifier"]
+    if verifier == "codex":
+        return exec_codex(prompt, False, model, 900)
+    if verifier == "claude":
+        env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
+        return exec_claude(prompt, model, 900, env_file)[0]
+    raise RuntimeError("unsupported_verifier")
+
+
+def main() -> int:
+    task = load_task()
+    target_sha = os.environ.get("ASTRA_TARGET_SHA", "")
+    command_id = os.environ.get("ASTRA_COMMAND_ID", "")
+    node_id = os.environ.get("ASTRA_NODE_ID", "")
+    executor = task["executor"]
+    cfg = NODE_CONFIG.get(node_id)
+    if not cfg:
+        raise RuntimeError("unsupported_node")
+    if task["node_id"] != node_id:
+        raise RuntimeError("task_node_binding_mismatch")
+    if executor not in {"codex", "claude"}:
+        raise RuntimeError("unsupported_executor")
+    if not re.fullmatch(r"[0-9a-f]{40}", target_sha or ""):
+        raise RuntimeError("invalid_target_sha")
+    current = run(["git", "rev-parse", "HEAD"], 30).stdout.strip()
+    if current != target_sha:
+        raise RuntimeError("target_sha_not_current_head")
+    if run(["git", "status", "--porcelain", "--untracked-files=all"], 30).stdout.strip():
+        raise RuntimeError("dirty_worker_workspace")
+    if not ollama_has_model(cfg["model"]):
+        raise RuntimeError("required_local_model_missing")
+
+    task_id = safe_id(str(task["task_id"]))
+    branch = f"astra/auto/{task_id}-{target_sha[:12]}-distributed-{int(time.time())}"
+    checkout = run(["git", "switch", "-c", branch], 60)
+    if checkout.returncode != 0:
+        raise RuntimeError("worker_branch_create_failed")
+
+    started = int(time.time())
+    record = {
+        "schema": "mediahub.astra.distributed-local-worker.v1",
+        "status": "BLOCKED",
+        "command_id": command_id,
+        "target_sha": target_sha,
+        "node_id": node_id,
+        "pool": cfg["pool"],
+        "task_id": task_id,
+        "executor_identity": executor,
+        "model": cfg["model"],
+        "verifier_identity": task["verifier"],
+        "branch": branch,
+        "started_at": started,
+    }
+    server = None
+    try:
+        builder_prompt_text = task_prompt(task, "A2 Builder")
+        if executor == "codex":
+            build = exec_codex(builder_prompt_text, True, cfg["model"], int(task.get("timeout_seconds", 1800)))
+        else:
+            build, server = exec_claude(
+                builder_prompt_text,
+                cfg["model"],
+                int(task.get("timeout_seconds", 1800)),
+                Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+            )
+        record["builder"] = build
+        if build["returncode"] != 0:
+            raise RuntimeError("builder_failed")
+
+        changed = changed_paths(target_sha)
+        outside = scope_paths(task, changed)
+        record["scope"] = {"status": "PASS" if not outside else "BLOCKED", "outside_scope": outside}
+        if outside:
+            raise RuntimeError("task_boundary_violation")
+
+        test_paths = [str(x) for x in task.get("test_paths", [])]
+        if test_paths:
+            test = run(["python3", "-m", "pytest", "-q", *test_paths], 900)
+        else:
+            test = run(["python3", "-m", "pytest", "-q", "tests/"], 900)
+        record["tests"] = {
+            "returncode": test.returncode,
+            "stdout": test.stdout[-10000:],
+            "stderr": test.stderr[-6000:],
+        }
+        if test.returncode != 0:
+            raise RuntimeError("tests_failed")
+
+        diff = run(["git", "diff", "--no-ext-diff", target_sha, "HEAD"], 60)
+        if diff.returncode != 0:
+            raise RuntimeError("verifier_diff_failed")
+        verifier = verify_executor(
+            task, diff.stdout, record["tests"]["stdout"] + record["tests"]["stderr"], cfg["model"]
+        )
+        record["verifier"] = verifier
+        if verifier["returncode"] != 0 or VERDICT_MARKER not in verifier["stdout"]:
+            raise RuntimeError("verifier_failed")
+
+        if not run(["git", "status", "--porcelain"], 30).stdout.strip():
+            if not bool(task.get("allow_no_changes", False)):
+                raise RuntimeError("no_changes")
+            record["change_status"] = "NO_CHANGES_REQUIRED"
+            record["head_sha"] = target_sha
+            record["push_verification"] = {"status": "NOT_REQUIRED", "branch": branch}
+        else:
+            if run(["git", "add", "-A"], 30).returncode != 0:
+                raise RuntimeError("git_add_failed")
+            commit = run(["git", "commit", "-m", f"astra distributed: complete {task_id}"], 120)
+            if commit.returncode != 0:
+                raise RuntimeError("git_commit_failed")
+            push = run(["git", "push", "origin", f"HEAD:refs/heads/{branch}"], 180)
+            record["push"] = {"returncode": push.returncode, "stdout": push.stdout[-5000:], "stderr": push.stderr[-5000:]}
+            if push.returncode != 0:
+                raise RuntimeError("git_push_failed")
+            record["head_sha"] = run(["git", "rev-parse", "HEAD"], 30).stdout.strip()
+            remote = run(["git", "ls-remote", "origin", f"refs/heads/{branch}"], 60)
+            if remote.returncode != 0:
+                raise RuntimeError("git_push_verification_failed")
+            remote_sha = remote.stdout.split()[0] if remote.stdout.split() else ""
+            if remote_sha != record["head_sha"]:
+                raise RuntimeError("git_push_sha_mismatch")
+            record["remote_head"] = remote_sha
+            record["push_verification"] = {"status": "PASS", "branch": branch, "remote_sha": remote_sha}
+
+        record["completed_at"] = int(time.time())
+        record["status"] = "PASS"
+    except Exception as exc:
+        record["completed_at"] = int(time.time())
+        record["error"] = type(exc).__name__ + ":" + str(exc)
+    finally:
+        if server is not None:
+            try:
+                server.terminate()
+            except Exception:
+                pass
+
+    canonical = json.dumps(record, sort_keys=True, separators=(",", ":"))
+    record["evidence_digest"] = "sha256:" + hashlib.sha256(canonical.encode()).hexdigest()
+    out = Path(os.environ.get("ASTRA_WORKER_RESULT", "astra-distributed-worker-result.json"))
+    out.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(json.dumps({
+        "status": record["status"],
+        "task_id": task_id,
+        "command_id": command_id,
+        "target_sha": target_sha,
+        "node_id": node_id,
+        "executor": executor,
+        "branch": record["branch"],
+        "head_sha": record.get("head_sha"),
+        "remote_head": record.get("remote_head"),
+        "error": record.get("error"),
+    }, sort_keys=True))
+    return 0 if record["status"] == "PASS" else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
