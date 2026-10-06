@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791265197.2542658,
+    "expiry": 1791265394.8805504,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,76 +23,112 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791265077.1978555,
+    "started": 1791265390.4365296,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37419181700-1",
-    "updated": 1791265197.2542658
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37419769285-1",
+    "updated": 1791265394.8805504
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37419181700-1",
-  "completed_at": 1791265197,
-  "duration_seconds": 120.193,
-  "execution_head": "1e303461455ece2c559e170038f6525b0ba2e2dc",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37419769285-1",
+  "completed_at": 1791265394,
+  "duration_seconds": 4.601,
+  "execution_head": "4068bd0ede20c0fec03c82e41f0187a6bb06f263",
   "node_id": "mh-dev-01",
   "result": {
-    "elapsed_seconds": 120.053,
-    "phase": "execution_backend_qualification",
+    "elapsed_seconds": 4.44,
+    "phase": "autonomous_queue",
     "status": "BLOCKED",
     "steps": [
       {
-        "backend": {
-          "reason": "provider_qualification_blocked",
+        "autonomous_queue": {
+          "payload": {
+            "results": [
+              {
+                "base_sha": "4068bd0ede20c0fec03c82e41f0187a6bb06f263",
+                "branch": "astra/auto/MH25-23-LANE-MANIFEST-001-4068bd0ede20-1791265393",
+                "builder": {
+                  "returncode": 2,
+                  "stderr": "error: unexpected argument '--ask-for-approval' found\n\n  tip: to pass '--ask-for-approval' as a value, use '-- --ask-for-approval'\n\nUsage: codex exec [OPTIONS] [PROMPT]\n       codex exec [OPTIONS] <COMMAND> [ARGS]\n\nFor more information, try '--help'.\n",
+                  "stdout": ""
+                },
+                "elapsed_seconds": 1.09,
+                "error": "RuntimeError:builder_failed",
+                "started_at": 1791265393,
+                "status": "BLOCKED",
+                "task_id": "MH25-23-LANE-MANIFEST-001"
+              },
+              {
+                "base_sha": "4068bd0ede20c0fec03c82e41f0187a6bb06f263",
+                "branch": "astra/auto/MH25-QUEUE-002-4068bd0ede20-1791265393",
+                "builder": {
+                  "returncode": 2,
+                  "stderr": "error: unexpected argument '--ask-for-approval' found\n\n  tip: to pass '--ask-for-approval' as a value, use '-- --ask-for-approval'\n\nUsage: codex exec [OPTIONS] [PROMPT]\n       codex exec [OPTIONS] <COMMAND> [ARGS]\n\nFor more information, try '--help'.\n",
+                  "stdout": ""
+                },
+                "elapsed_seconds": 1.09,
+                "error": "RuntimeError:builder_failed",
+                "started_at": 1791265393,
+                "status": "BLOCKED",
+                "task_id": "MH25-QUEUE-002"
+              }
+            ],
+            "selected_tasks": [
+              "MH25-23-LANE-MANIFEST-001",
+              "MH25-QUEUE-002"
+            ],
+            "status": "BLOCKED",
+            "workers": 2
+          },
           "returncode": 2,
+          "stderr": "",
+          "stdout": "{\"results\": [{\"base_sha\": \"4068bd0ede20c0fec03c82e41f0187a6bb06f263\", \"branch\": \"astra/auto/MH25-23-LANE-MANIFEST-001-4068bd0ede20-1791265393\", \"builder\": {\"returncode\": 2, \"stderr\": \"error: unexpected argument '--ask-for-approval' found\\n\\n  tip: to pass '--ask-for-approval' as a value, use '-- --ask-for-approval'\\n\\nUsage: codex exec [OPTIONS] [PROMPT]\\n       codex exec [OPTIONS] <COMMAND> [ARGS]\\n\\nFor more information, try '--help'.\\n\", \"stdout\": \"\"}, \"elapsed_seconds\": 1.09, \"error\": \"RuntimeError:builder_failed\", \"started_at\": 1791265393, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\"}, {\"base_sha\": \"4068bd0ede20c0fec03c82e41f0187a6bb06f263\", \"branch\": \"astra/auto/MH25-QUEUE-002-4068bd0ede20-1791265393\", \"builder\": {\"returncode\": 2, \"stderr\": \"error: unexpected argument '--ask-for-approval' found\\n\\n  tip: to pass '--ask-for-approval' as a value, use '-- --ask-for-approval'\\n\\nUsage: codex exec [OPTIONS] [PROMPT]\\n       codex exec [OPTIONS] <COMMAND> [ARGS]\\n\\nFor more information, try '--help'.\\n\", \"stdout\": \"\"}, \"elapsed_seconds\": 1.09, \"error\": \"RuntimeError:builder_failed\", \"started_at\": 1791265393, \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
+        },
+        "backend": {
+          "reason": "",
+          "returncode": 0,
           "source": "node_local_provider_evidence",
-          "status": "BLOCKED"
+          "status": "PASS"
         },
         "cycle": 1,
-        "head": "1e303461455ece2c559e170038f6525b0ba2e2dc"
-      },
-      {
-        "backend": {
-          "reason": "provider_qualification_blocked",
-          "returncode": 2,
-          "source": "node_local_provider_evidence",
-          "status": "BLOCKED"
+        "distributed_verification": {
+          "blocked_reasons": [],
+          "payload": {
+            "blocked_reasons": [],
+            "captured_at": 1791265324,
+            "checked_nodes": [
+              "mh-dev-01",
+              "mh-dev-02",
+              "Voktors-Mac-mini.local"
+            ],
+            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37419769285-1",
+            "node_id": "mh-dev-01",
+            "phase": "distributed_verification",
+            "producer_identity": "canonical-distributed-verification-producer-v1",
+            "returncode": 0,
+            "schema": "mediahub.astra.distributed-verification.v1",
+            "secret_values": "SUPPRESSED",
+            "status": "PASS",
+            "target_sha": "4068bd0ede20c0fec03c82e41f0187a6bb06f263"
+          },
+          "returncode": 0,
+          "source": "fresh_downloaded_a2_aggregate"
         },
-        "cycle": 2,
-        "head": "1e303461455ece2c559e170038f6525b0ba2e2dc"
-      },
-      {
-        "backend": {
-          "reason": "provider_qualification_blocked",
-          "returncode": 2,
-          "source": "node_local_provider_evidence",
-          "status": "BLOCKED"
+        "head": "4068bd0ede20c0fec03c82e41f0187a6bb06f263",
+        "pre_soak": {
+          "returncode": 0,
+          "stderr": "",
+          "stdout": ""
         },
-        "cycle": 3,
-        "head": "1e303461455ece2c559e170038f6525b0ba2e2dc"
-      },
-      {
-        "backend": {
-          "reason": "provider_qualification_blocked",
-          "returncode": 2,
-          "source": "node_local_provider_evidence",
-          "status": "BLOCKED"
-        },
-        "cycle": 4,
-        "head": "1e303461455ece2c559e170038f6525b0ba2e2dc"
-      },
-      {
-        "backend": {
-          "reason": "provider_qualification_blocked",
-          "returncode": 2,
-          "source": "node_local_provider_evidence",
-          "status": "BLOCKED"
-        },
-        "cycle": 5,
-        "head": "1e303461455ece2c559e170038f6525b0ba2e2dc"
+        "strict_verifier": {
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "PRE-SOAK PASS: all required evidence files report PASS\n"
+        }
       }
     ]
   },
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "1e303461455ece2c559e170038f6525b0ba2e2dc",
-  "worker_id": "A0-ASTRA:2452880"
+  "target_sha": "4068bd0ede20c0fec03c82e41f0187a6bb06f263",
+  "worker_id": "A0-ASTRA:2455128"
 }
