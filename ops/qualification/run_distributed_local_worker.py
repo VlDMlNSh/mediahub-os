@@ -153,7 +153,7 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
         }
 
 
-def exec_claude(prompt: str, model: str, timeout: int, env_file: Path) -> tuple[dict, subprocess.Popen[str] | None]:
+def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048) -> tuple[dict, subprocess.Popen[str] | None]:
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
         raise RuntimeError("fcc_model_binding_mismatch")
@@ -172,7 +172,8 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path) -> tuple[
         raise RuntimeError("fcc_auth_token_missing")
     payload = json.dumps({
         "model": "ollama/" + model,
-        "max_tokens": 2048,
+        "max_tokens": max_tokens,
+        "temperature": 0,
         "messages": [{"role": "user", "content": prompt}],
     }).encode("utf-8")
     req = urllib.request.Request(
@@ -241,16 +242,17 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
         f"Task ID: {task['task_id']}\n"
         f"Acceptance: {json.dumps(task.get('acceptance', []), sort_keys=True)}\n"
         f"Boundary: {json.dumps(task.get('boundary', []), sort_keys=True)}\n"
-        "--- DIFF ---\n" + diff_text[-30000:] +
-        "\n--- TESTS ---\n" + test_text[-12000:] +
-        "\nReturn exactly one line: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED."
+        "Decide only from the supplied evidence. Output exactly one line and nothing else.\n"
+        "--- DIFF ---\n" + diff_text[-14000:] +
+        "\n--- TESTS ---\n" + test_text[-6000:] +
+        "\nReturn exactly: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED."
     )
     verifier = task["verifier"]
     if verifier == "codex":
         return exec_codex(prompt, False, model, 900)
     if verifier == "claude":
         env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
-        return exec_claude(prompt, model, 900, env_file)[0]
+        return exec_claude(prompt, model, 900, env_file, 128)[0]
     raise RuntimeError("unsupported_verifier")
 
 
