@@ -99,7 +99,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(hostname)" = "Voktors-Mac-mini"
+          host="$(hostname)"
+          test "$host" = "Voktors-Mini.Dlink" || test "$host" = "Voktors-Mac-mini"
           test "$(id -un)" = "voktor"
           command -v codex
           command -v claude
