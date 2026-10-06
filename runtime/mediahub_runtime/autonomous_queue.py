@@ -45,8 +45,11 @@ def local_ollama_profile() -> tuple[str, str] | None:
         models = [m for m in models if m]
         if not models:
             return None
-        model = models[0]
-        body = json.dumps({"model": model, "input": "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK", "max_output_tokens": 8}).encode()
+        preferred = ("qwen2.5-coder:3b", "qwen2.5-coder-3b:latest")
+        model = next((candidate for candidate in preferred if candidate in models), None)
+        if model is None:
+            return None
+        body = json.dumps({"model": model, "input": "Return exactly MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK", "max_output_tokens": 16}).encode()
         probe = urllib.request.Request(base + "/responses", data=body, method="POST", headers={"Authorization": "Bearer ollama", "Content-Type": "application/json", "Accept": "application/json"})
         with urllib.request.urlopen(probe, timeout=timeout) as response:
             result = json.loads(response.read(128 * 1024).decode("utf-8", "replace"))
@@ -57,7 +60,7 @@ def local_ollama_profile() -> tuple[str, str] | None:
                     for part in item.get("content") or []:
                         if isinstance(part, dict) and part.get("text"):
                             output += str(part["text"])
-        return ("ollama", model) if output else None
+        return ("ollama", model) if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" in output else None
     except (OSError, ValueError, urllib.error.URLError, urllib.error.HTTPError):
         return None
 
