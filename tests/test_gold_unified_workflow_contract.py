@@ -44,8 +44,16 @@ class GoldUnifiedWorkflowContractTests(unittest.TestCase):
         self.assertIn("contents: read", self.text)
         self.assertNotIn("contents: write", self.text)
         self.assertIn("ASTRA_DEFER_RESULT_PUBLICATION", self.text)
-        self.assertIn("astra-node-result-publication.yml", self.text)
+        self.assertNotIn("astra-node-result-publication.yml", self.text)
         self.assertNotIn("MIMO_API_KEY", self.text)
+
+    def test_result_publication_uses_separate_workflow_run_boundary(self):
+        publication = ROOT / ".github/workflows/astra-node-result-publication.yml"
+        text = publication.read_text(encoding="utf-8")
+        self.assertIn("workflow_run:", text)
+        self.assertIn("contents: write", text)
+        self.assertIn("actions: read", text)
+        self.assertNotIn("MIMO_API_KEY", text)
 
 if __name__ == "__main__":
     unittest.main()
