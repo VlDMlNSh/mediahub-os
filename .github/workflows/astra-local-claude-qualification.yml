@@ -49,7 +49,7 @@ jobs:
           set -a
           . "$env_file"
           set +a
-          model="qwen2.5-coder:7b"
+          model="qwen2.5-coder:3b"
           command -v ollama
           command -v fcc-server
           ollama show "$model" >/dev/null 2>&1 || ollama pull "$model"
@@ -94,7 +94,7 @@ jobs:
           import hashlib,json,os,platform,time
           from pathlib import Path
           out=Path("/tmp/astra-claude-result.txt"); err=Path("/tmp/astra-claude-stderr.txt")
-          payload={"schema":"mediahub.astra.local-claude-qualification.v7","status":os.environ["ASTRA_CLAUDE_STATUS"],"phase":"local_claude_executor","node_id":platform.node(),"target_sha":os.environ["GITHUB_SHA"],"command_id":f"LOCAL-CLAUDE-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}","executor_identity":"claude","provider_or_transport_identity":"fcc-anthropic-http","model":"ollama/qwen2.5-coder:7b","captured_at":int(time.time()),"marker":"MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK","marker_present":out.read_text(encoding="utf-8",errors="replace").strip()=="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK","exit_status":int(os.environ["ASTRA_CLAUDE_EXIT_STATUS"]),"reason":os.environ["ASTRA_CLAUDE_REASON"],"output_sha256":"sha256:"+hashlib.sha256(out.read_bytes()).hexdigest(),"stderr_present":err.stat().st_size>0,"secret_values":"SUPPRESSED"}
+          payload={"schema":"mediahub.astra.local-claude-qualification.v7","status":os.environ["ASTRA_CLAUDE_STATUS"],"phase":"local_claude_executor","node_id":platform.node(),"target_sha":os.environ["GITHUB_SHA"],"command_id":f"LOCAL-CLAUDE-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}","executor_identity":"claude","provider_or_transport_identity":"fcc-anthropic-http","model":"ollama/qwen2.5-coder:3b","captured_at":int(time.time()),"marker":"MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK","marker_present":out.read_text(encoding="utf-8",errors="replace").strip()=="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK","exit_status":int(os.environ["ASTRA_CLAUDE_EXIT_STATUS"]),"reason":os.environ["ASTRA_CLAUDE_REASON"],"output_sha256":"sha256:"+hashlib.sha256(out.read_bytes()).hexdigest(),"stderr_present":err.stat().st_size>0,"secret_values":"SUPPRESSED"}
           print(json.dumps(payload,sort_keys=True))
           Path("astra-local-claude-qualification.json").write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n",encoding="utf-8")
           PY
