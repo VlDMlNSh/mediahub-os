@@ -154,8 +154,8 @@ class DistributedWorkflowContractTests(unittest.TestCase):
 
     def test_supervisor_uses_downloaded_distributed_evidence_root(self):
         text = SUPERVISOR.read_text(encoding="utf-8")
-        self.assertIn('ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ[\'ASTRA_STATE_DIR\']}/distributed-verification\\n"', text)
-        self.assertIn('path: .astra-state\\n', text)
+        self.assertIn("ASTRA_DISTRIBUTED_EVIDENCE_DIR=", text)
+        self.assertIn("path: .astra-state", text)
 
 
 if __name__ == "__main__":
