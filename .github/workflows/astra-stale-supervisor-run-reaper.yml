@@ -1,4 +1,4 @@
-name: Astra stale supervisor run reaper
+name: Astra stale run reaper
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
     paths:
       - ".github/workflows/astra-stale-supervisor-run-reaper.yml"
       - ".github/workflows/astra-autonomous-supervisor.yml"
+      - ".github/workflows/astra-local-claude-qualification.yml"
+      - ".github/workflows/mh25-dual-local-executor-23wave.yml"
       - "ops/agent-fabric/**"
       - "runtime/mediahub_runtime/autonomous_queue.py"
   workflow_dispatch:
@@ -15,37 +17,52 @@ permissions:
   contents: read
 
 concurrency:
-  group: astra-stale-supervisor-run-reaper
+  group: astra-stale-run-reaper
   cancel-in-progress: false
 
 jobs:
   reap:
-    name: Cancel stale Astra supervisor runs
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Cancel supervisor runs pinned to older source SHAs
+      - name: Cancel Astra runs pinned to older source SHAs
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
-          gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/astra-autonomous-supervisor.yml/runs?per_page=100" > /tmp/astra-runs.json
-          python3 - <<'PY' > /tmp/astra-stale-run-ids
-          import json, os
-          data=json.load(open('/tmp/astra-runs.json', encoding='utf-8'))
-          current=os.environ['GITHUB_SHA']
-          for run in data.get('workflow_runs', []):
-              if run.get('status') not in {'queued','in_progress','pending'}:
-                  continue
-              if run.get('head_sha') == current:
-                  continue
-              print(run['id'])
+          python3 - <<'PY' > /tmp/astra-reaper-workflows
+          import os
+          workflows = [
+              "astra-autonomous-supervisor.yml",
+              "astra-local-claude-qualification.yml",
+              "mh25-dual-local-executor-23wave.yml",
+          ]
+          print("\n".join(workflows))
           PY
-          while read -r run_id; do
+          current="${GITHUB_SHA}"
+          while read -r workflow; do
+            [ -z "$workflow" ] && continue
+            gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow}/runs?per_page=100" > "/tmp/${workflow}.json" || true
+            python3 - "${workflow}" "${current}" <<'PY'
+          import json,sys
+          path,current=sys.argv[1:3]
+          try:
+              data=json.load(open("/tmp/"+path,encoding="utf-8"))
+          except Exception:
+              data={}
+          for run in data.get("workflow_runs",[]):
+              if run.get("status") not in {"queued","in_progress","pending","waiting"}:
+                  continue
+              if run.get("head_sha")==current:
+                  continue
+              print(run["id"])
+          PY
+          done < /tmp/astra-reaper-workflows > /tmp/astra-stale-ids
+          sort -u /tmp/astra-stale-ids | while read -r run_id; do
             [ -z "$run_id" ] && continue
-            echo "cancelling stale supervisor run=$run_id"
+            echo "cancelling stale Astra run=$run_id"
             gh api -X POST "/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/cancel" >/dev/null || true
-          done < /tmp/astra-stale-run-ids
-          echo "current_sha=${GITHUB_SHA}"
+          done
+          echo "current_sha=${current}"
           echo "stale_reaper=PASS"
