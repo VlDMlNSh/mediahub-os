@@ -39,6 +39,7 @@ jobs:
               ".github/workflows/astra-distributed-local-worker.yml",
           ]))
           PY
+          mapfile -t allowed < /tmp/astra-reaper-paths
           current="$(gh api "/repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')"
           test -n "$current"
           : > /tmp/astra-stale-ids
