@@ -125,5 +125,10 @@
     "main_direct_write": false,
     "requires_fresh_target_sha": true,
     "requires_disjoint_claims": true
+  },
+  "execution_fencing": {
+    "stale_run_reaper": "per_workflow_active_runs",
+    "source_of_truth": "live_main_head",
+    "cancel_only_when_head_sha_differs": true
   }
 }
