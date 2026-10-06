@@ -4,7 +4,7 @@
   "status": "READY",
   "priority": "P0",
   "role": "architect",
-  "mission": "Add deterministic regression coverage for the 23-lane execution manifest and its UNKNOWN-safe promotion contract.",
+  "mission": "Add deterministic regression coverage for the 23-lane execution manifest, exact Codex builder binding, and UNKNOWN-safe promotion contract.",
   "boundary": [
     "tests/test_agent_fabric.py"
   ],
@@ -23,6 +23,7 @@
   "acceptance": [
     "Add at least one deterministic test that loads ops/agent-fabric/manifest/mediahub-23-lane-execution-manifest.json.",
     "The test asserts exactly 23 lanes with unique MH-01..MH-23 identifiers.",
+    "The test asserts the task's declared executor identity remains exactly codex and node binding remains exactly mh-dev-02.",
     "The test asserts UNKNOWN ownership/lease/worker evidence is not promoted to a claimed state.",
     "All existing Agent Fabric tests pass.",
     "No production behavior outside the declared boundary is changed."
