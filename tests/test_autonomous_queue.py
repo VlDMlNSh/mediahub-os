@@ -23,7 +23,7 @@ def test_main_suppresses_completed_tasks(monkeypatch, tmp_path: Path, capsys):
     state = tmp_path / "state"
     (task_dir / "a.json").write_text(json.dumps({"task_id":"A","status":"READY","priority":"P0"}))
     (state / "completed").mkdir(parents=True)
-    (state / "completed" / "A.json").write_text("{}")
+    (state / "completed" / "A.json").write_text(\n        json.dumps({"status": "VERIFIED", "base_sha": "deadbeef"}),\n        encoding="utf-8",\n    )
     monkeypatch.setattr(autonomous_queue, "TASK_DIR", task_dir)
     monkeypatch.setattr(autonomous_queue, "STATE", state)
     assert autonomous_queue.main() == 0
@@ -38,7 +38,7 @@ def test_main_returns_idle_when_no_ready_tasks(monkeypatch, tmp_path: Path, caps
     monkeypatch.setattr(autonomous_queue, "STATE", state)
     assert autonomous_queue.main() == 0
     payload = json.loads(capsys.readouterr().out)
-    assert payload == {"reason":"no_ready_tasks","status":"IDLE"}
+    assert payload["status"] == "IDLE"\n    assert payload["reason"] == "no_ready_tasks"\n    assert payload["base_sha"] == autonomous_queue.run(["git", "rev-parse", "HEAD"], 30).stdout.strip()\n    assert payload["discovered_tasks"] == []
 
 
 def test_claim_uses_task_boundary(monkeypatch):
@@ -115,7 +115,7 @@ def test_main_does_not_suppress_stale_completion(monkeypatch, tmp_path: Path, ca
     payload = json.loads(capsys.readouterr().out)
     assert result == 2
     assert payload["status"] == "BLOCKED"
-    assert payload["selected_tasks"] == ["A"]
+    assert payload["selected_tasks"] == ["A"]\n    assert payload["results"][0]["task_id"] == "A"
 
 
 
