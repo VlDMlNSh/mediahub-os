@@ -334,15 +334,18 @@ def main() -> int:
         )
         if len(test_paths) == 1:
             test_path = Path(test_paths[0])
-            test = run(
-                ["python3", "-m", "unittest", "discover", "-s", str(test_path.parent), "-p", test_path.name],
-                900,
-                env=test_env,
+            test_script = (
+                "import sys,unittest; "
+                "sys.path.insert(0, 'runtime'); "
+                f"sys.path.insert(0, '{test_path.parent}'); "
+                f"sys.argv=['unittest','discover','-s','{test_path.parent}','-p','{test_path.name}']; "
+                "raise SystemExit(unittest.main(module=None, exit=False).result.wasSuccessful() is False)"
             )
+            test = run(["python3", "-c", test_script], 900, env=test_env)
         elif test_paths:
             test = run(["python3", "-m", "unittest", *test_paths], 900, env=test_env)
         else:
-            test = run(["python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"], 900, env=test_env)
+            test = run(["python3", "-c", "import sys,unittest; sys.path.insert(0,'runtime'); sys.argv=['unittest','discover','-s','tests','-p','test_*.py']; raise SystemExit(unittest.main(module=None, exit=False).result.wasSuccessful() is False)"], 900, env=test_env)
         record["tests"] = {
             "returncode": test.returncode,
             "stdout": test.stdout[-10000:],
