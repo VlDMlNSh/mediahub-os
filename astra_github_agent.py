@@ -171,6 +171,9 @@ def publish(result):
     path=ROOT/"control"/"results"/f"{NODE_ID}.json"
     path.parent.mkdir(parents=True,exist_ok=True)
     payload=json.dumps(result,indent=2,sort_keys=True)+"\n"
+    if os.environ.get("ASTRA_DEFER_RESULT_PUBLICATION") == "1":
+        path.write_text(payload,encoding="utf-8")
+        return
     STATE.mkdir(parents=True,exist_ok=True)
     staged_result=STATE/f"publish-{NODE_ID}.json"
     staged_result.write_text(payload,encoding="utf-8")
@@ -278,7 +281,7 @@ def execute(cmd):
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
             if journal:
                 journal.checkpoint(phase="pre_soak_evidence", cycle=cycle)
-            evidence=subprocess.run([sys.executable,str(evidence_script),"--target-sha",str(target_sha)],cwd=ROOT,text=True,
+            evidence=subprocess.run([sys.executable,str(evidence_script),"--target-sha",str(target_sha),"--provider-evidence",os.environ.get("ASTRA_PROVIDER_EVIDENCE_PATH","")],cwd=ROOT,text=True,
                                     capture_output=True,timeout=900,check=False)
             cycle_record["pre_soak"]={"returncode":evidence.returncode,
                                       "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]}
