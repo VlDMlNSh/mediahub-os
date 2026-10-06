@@ -7,6 +7,7 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: write
 
 jobs:
   control:
@@ -36,10 +37,11 @@ jobs:
           python3 - <<'PY'
           import os,re
           b=os.environ["GH_COMMENT"].strip()
-          m=re.fullmatch(r"/astra (status|run-worker)(?: ([A-Za-z0-9._-]+) (codex|claude) (mh-dev-02|Voktors-Mac-mini.local) ([0-9a-f]{40}))?",b)
+          m=re.fullmatch(r"/astra (status|run-worker|run-gold)(?: ([A-Za-z0-9._-]+) (codex|claude) (mh-dev-02|Voktors-Mac-mini.local) ([0-9a-f]{40}))?",b)
           if not m: raise SystemExit("invalid_command")
           op,task,executor,node,sha=m.groups()
           if op=="run-worker" and not all((task,executor,node,sha)): raise SystemExit("missing_argument")
+          if op=="run-gold" and any((task,executor,node,sha)): raise SystemExit("run_gold_takes_no_arguments")
           if op=="status": task=executor=node=sha=""
           with open(os.environ["GITHUB_OUTPUT"],"a") as f:
               for k,v in {"op":op,"task":task,"executor":executor,"node":node,"sha":sha}.items(): f.write(f"{k}={v}\n")
@@ -54,6 +56,20 @@ jobs:
           echo "ASTRA_CHAT_CONTROL=PASS"
           echo "MAIN=$(git rev-parse HEAD)"
           echo "NODE=mh-dev-01"
+
+      - name: Launch autonomous Gold supervisor
+        if: ${{ steps.command.outputs.op == 'run-gold' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const ref = context.payload.repository.default_branch;
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'astra-autonomous-supervisor.yml',
+              ref
+            });
+            core.info(`ASTRA_GOLD_SUPERVISOR_DISPATCHED ref=${ref}`);
 
       - name: Validate task and target
         if: ${{ steps.command.outputs.op == 'run-worker' }}
@@ -95,6 +111,8 @@ jobs:
           ASTRA_EXECUTOR: codex
           ASTRA_FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env
           ASTRA_WORKER_RESULT: astra-distributed-worker-result.json
+          NODE_ID: ${{ steps.command.outputs.node }}
+          EXECUTOR: ${{ steps.command.outputs.executor }}
         run: |
           set -euo pipefail
           test "$(hostname)" = "mh-dev-02"
