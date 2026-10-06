@@ -104,10 +104,20 @@ jobs:
       ASTRA_NODE_HMAC_KEY_MH_DEV_02: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
       ASTRA_NODE_HMAC_KEY_VOKTORS_MAC: ${{ secrets.ASTRA_NODE_HMAC_KEY_VOKTORS_MAC }}
 
+  provider-qualification:
+    needs: prepare-command
+    if: ${{ inputs.confirm_launch == true }}
+    uses: ./.github/workflows/astra-provider-qualification.yml
+    with:
+      command_id: ${{ needs.prepare-command.outputs.command_id }}
+      target_sha: ${{ github.sha }}
+    secrets: inherit
+
   qualify:
     needs:
       - prepare-command
       - distributed-verification
+      - provider-qualification
     if: ${{ inputs.confirm_launch == true && needs.distributed-verification.outputs.status == 'PASS' }}
     name: Execute signed ASTRA GOLD mission
     runs-on: [self-hosted, linux, x64, mediahub-control]
@@ -149,7 +159,7 @@ jobs:
       - name: Download provider qualification evidence
         uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.distributed-verification.outputs.provider_evidence_artifact }}
+          name: ${{ needs.provider-qualification.outputs.evidence_artifact }}
           path: .astra-state/provider-qualification
 
       - name: Install test dependencies
