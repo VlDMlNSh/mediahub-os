@@ -47,46 +47,37 @@ jobs:
           export FCC_ENV_FILE="/home/mediahub/.config/mediahub/fcc.env"
           env_file="/home/mediahub/.config/mediahub/fcc.env"
           test -f "$env_file"
-          model="ollama/qwen2.5-coder:7b"
+          model="gpt-oss:20b"
           command -v ollama
-          command -v fcc-claude
-          command -v fcc-server
-          ollama list | grep -E "^qwen2.5-coder:7b[[:space:]]" >/dev/null
+          command -v claude
+          ollama_version="$(ollama --version 2>&1 | sed -E 's/.*version[[:space:]]+//' | sed -E 's/^is[[:space:]]+//' | head -n 1)"
+          echo "ollama_version=${ollama_version}"
+          python3 -c 'import re,sys; v=sys.argv[1].strip(); m=re.search(r"(\d+)\.(\d+)\.(\d+)",v); raise SystemExit("ollama_version_unparseable") if not m else None; raise SystemExit("ollama_too_old_for_anthropic_messages_api") if tuple(map(int,m.groups())) < (0,14,0) else None' "$ollama_version"
+          ollama show "$model" >/dev/null 2>&1 || ollama pull "$model"
           marker="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK"
           out="/tmp/astra-claude-result.txt"
           err="/tmp/astra-claude-stderr.txt"
           status="BLOCKED"
-          reason="fcc_unavailable"
+          reason="claude_execution_failed"
           exit_status=1
           : >"$out"
           : >"$err"
-          server_pid=""
-          if ! curl -fsS --max-time 3 http://127.0.0.1:8093/health >/dev/null 2>&1; then
-            set -a
-            . "$env_file"
-            set +a
-            nohup fcc-server >/tmp/mediahub-fcc-qualification.log 2>&1 &
-            server_pid=$!
-            for _ in $(seq 1 25); do
-              if curl -fsS --max-time 2 http://127.0.0.1:8093/health >/dev/null 2>&1; then break; fi
-              sleep 1
-            done
+          export ANTHROPIC_BASE_URL="http://127.0.0.1:11434"
+          export ANTHROPIC_AUTH_TOKEN="ollama"
+          export ANTHROPIC_API_KEY=""
+          export ANTHROPIC_MODEL="$model"
+          export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+          export NO_PROXY="127.0.0.1,localhost"
+          export no_proxy="127.0.0.1,localhost"
+          unset HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy
+          timeout 900s claude --print --output-format text --bare --model "$model" "$marker. Return exactly $marker. Do not modify files, call tools, or access the network." >"$out" 2>"$err"
+          exit_status=$?
+          if [ "$exit_status" -eq 0 ] && grep -Fx "$marker" "$out" >/dev/null 2>&1; then
+            status="PASS"
+            reason=""
+          elif [ "$exit_status" -eq 124 ]; then
+            reason="claude_execution_timeout"
           fi
-          if curl -fsS --max-time 3 http://127.0.0.1:8093/health >/dev/null 2>&1; then
-            set -a
-            . "$env_file"
-            set +a
-            reason="claude_execution_failed"
-            timeout 120s fcc-claude -p "$marker. Return exactly $marker. Do not modify files, call tools, or access the network." --output-format text >"$out" 2>"$err"
-            exit_status=$?
-            if [ "$exit_status" -eq 0 ] && grep -Fx "$marker" "$out" >/dev/null 2>&1; then
-              status="PASS"
-              reason=""
-            elif [ "$exit_status" -eq 124 ]; then
-              reason="claude_execution_timeout"
-            fi
-          fi
-          if [ -n "$server_pid" ]; then kill "$server_pid" 2>/dev/null || true; fi
           export ASTRA_CLAUDE_STATUS="$status"
           export ASTRA_CLAUDE_REASON="$reason"
           export ASTRA_CLAUDE_EXIT_STATUS="$exit_status"
