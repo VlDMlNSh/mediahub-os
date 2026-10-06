@@ -137,7 +137,17 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertNotIn("contents: write", text)
         self.assertNotIn("MIMO_API_KEY", text)
         self.assertIn("ASTRA_DEFER_RESULT_PUBLICATION", text)
-        self.assertIn("astra-node-result-publication.yml", text)
+        self.assertNotIn("astra-node-result-publication.yml", text)
+
+    def test_result_publication_is_separate_workflow_run_boundary(self):
+        publication = ROOT / ".github/workflows/astra-node-result-publication.yml"
+        text = publication.read_text(encoding="utf-8")
+        self.assertIn("workflow_run:", text)
+        self.assertIn("Astra autonomous queue supervisor", text)
+        self.assertIn("ASTRA GOLD unified autonomous development qualification", text)
+        self.assertIn("contents: write", text)
+        self.assertIn("actions: read", text)
+        self.assertNotIn("MIMO_API_KEY", text)
 
 if __name__ == "__main__":
     unittest.main()
