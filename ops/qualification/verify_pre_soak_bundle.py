@@ -41,6 +41,8 @@ def main() -> int:
         raise SystemExit("--max-age-seconds must be non-negative")
 
     expected_sha = args.target_sha
+    if expected_sha is not None and not SHA_RE.fullmatch(expected_sha):
+        raise SystemExit("BLOCK: invalid supplied target SHA")
     if expected_sha is None:
         try:
             expected_sha = subprocess.check_output(
