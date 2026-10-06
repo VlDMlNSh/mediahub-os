@@ -17,8 +17,8 @@
   ],
   "dependencies": [],
   "node_id": "Voktors-Mini.Dlink",
-  "executor": "claude",
-  "verifier": "codex",
+  "executor": "codex",
+  "verifier": "claude",
   "timeout_seconds": 1800,
   "acceptance": [
     "Create or update one document under docs/operations/.",
