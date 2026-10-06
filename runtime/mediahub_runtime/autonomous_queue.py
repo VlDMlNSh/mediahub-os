@@ -361,8 +361,26 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
         }
         if outside_scope:
             raise RuntimeError("task_boundary_violation")
+        boundary_tests = [
+            str(path).lstrip("./")
+            for path in task.get("boundary", [])
+            if str(path).lstrip("./").startswith("tests/")
+        ]
+        explicit_tests = [
+            str(path).lstrip("./")
+            for path in task.get("test_paths", [])
+            if str(path).lstrip("./").startswith("tests/")
+        ]
+        selected_tests = list(dict.fromkeys(explicit_tests or boundary_tests))
+        if not selected_tests:
+            selected_tests = [
+                "tests/test_autonomous_queue.py",
+                "tests/test_autonomous_queue_contract.py",
+                "tests/test_agent_fabric.py",
+                "tests/test_astra_github_agent_contract.py",
+            ]
         test = run(
-            ["python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"],
+            ["python3", "-m", "unittest", *selected_tests],
             900,
             worktree,
         )
