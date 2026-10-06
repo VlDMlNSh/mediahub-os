@@ -59,9 +59,6 @@ qualification:
   rounds_minimum: 23
   mandatory_executor_paths: [CODEX_FCC, CLAUDE_FCC, CODEX_OMNIROUTE, CLAUDE_OMNIROUTE, CLAUDE_CODE_DIRECT]
   qualification_scope: whole_system
-  excluded_models:
-    - qwen2.5-coder:7b
-    - qwen2.5-coder-7b:latest
   stdin: /dev/null
   timeout_required: true
   marker_required: true
