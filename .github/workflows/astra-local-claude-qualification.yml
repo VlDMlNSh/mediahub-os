@@ -38,7 +38,7 @@ jobs:
           command -v claude
           claude --version
 
-      - name: Bounded native Claude Code via local Ollama Anthropic API
+      - name: Bounded native Claude Code via Ollama
         id: qualify
         shell: bash
         run: |
@@ -48,74 +48,60 @@ jobs:
           command -v claude
           model="qwen2.5-coder:7b"
           ollama list | grep -E "^qwen2.5-coder:7b[[:space:]]" >/dev/null
+          ollama show "$model" >/dev/null
           marker="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK"
           out="${RUNNER_TEMP}/astra-claude-result.txt"
           err="${RUNNER_TEMP}/astra-claude-stderr.txt"
-          api_out="${RUNNER_TEMP}/ollama-anthropic-result.json"
           status="BLOCKED"
-          reason="ollama_anthropic_api_failed"
+          reason="claude_execution_failed"
           exit_status=1
           : >"$out"
           : >"$err"
-          : >"$api_out"
-          python3 - <<PY
-          import json, urllib.request
-          body={"model":"qwen2.5-coder:7b","max_tokens":32,"messages":[{"role":"user","content":"Return exactly ${marker}"}]}
-          req=urllib.request.Request("http://127.0.0.1:11434/v1/messages",data=json.dumps(body).encode(),headers={"Authorization":"Bearer ollama","Content-Type":"application/json","Accept":"application/json"})
-          try:
-              with urllib.request.urlopen(req,timeout=60) as response:
-                  raw=response.read().decode("utf-8","replace")
-                  open("${api_out}","w",encoding="utf-8").write(raw)
-                  print("OLLAMA_ANTHROPIC_STATUS="+str(response.status))
-          except Exception as exc:
-              open("${api_out}","w",encoding="utf-8").write(json.dumps({"error":type(exc).__name__+":"+str(exc)}))
-          PY
-          if grep -F "$marker" "$api_out" >/dev/null 2>&1; then
-            reason="claude_cli_execution_failed"
-            export ANTHROPIC_BASE_URL="http://127.0.0.1:11434"
-            export ANTHROPIC_AUTH_TOKEN="ollama"
-            export ANTHROPIC_API_KEY=""
-            export ANTHROPIC_MODEL="$model"
-            export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
-            timeout 180s claude --print --output-format text --bare --model "$model" \
-              "$marker. Return exactly $marker. Do not modify files, call tools, or access the network." \
-              >"$out" 2>"$err"
-            exit_status=$?
-            if [ "$exit_status" -eq 0 ] && grep -Fx "$marker" "$out" >/dev/null 2>&1; then
-              status="PASS"
-              reason=""
-            fi
-          else
-            reason="ollama_anthropic_api_failed"
+          export ANTHROPIC_BASE_URL="http://127.0.0.1:11434"
+          export ANTHROPIC_AUTH_TOKEN="ollama"
+          export ANTHROPIC_API_KEY=""
+          export ANTHROPIC_MODEL="$model"
+          export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+          timeout 300s claude --print --output-format text --bare --model "$model" \
+            "$marker. Return exactly $marker. Do not modify files, call tools, or access the network." \
+            >"$out" 2>"$err"
+          exit_status=$?
+          if [ "$exit_status" -eq 0 ] && grep -Fx "$marker" "$out" >/dev/null 2>&1; then
+            status="PASS"
+            reason=""
+          elif [ "$exit_status" -eq 124 ]; then
+            reason="claude_execution_timeout"
           fi
           export ASTRA_CLAUDE_STATUS="$status"
           export ASTRA_CLAUDE_REASON="$reason"
           export ASTRA_CLAUDE_EXIT_STATUS="$exit_status"
           python3 - <<'PY'
-          import hashlib, json, os, platform, time
+          import hashlib, json, os, platform, re, time
           from pathlib import Path
           out=Path(os.environ["RUNNER_TEMP"])/"astra-claude-result.txt"
           err=Path(os.environ["RUNNER_TEMP"])/"astra-claude-stderr.txt"
-          api=Path(os.environ["RUNNER_TEMP"])/"ollama-anthropic-result.json"
+          stderr=err.read_text(encoding="utf-8",errors="replace")
+          markers=[]
+          for pat in (r"(?i)http[^\s]{0,20}", r"(?i)(timeout|timed out|unauthorized|forbidden|connection refused|not found)"):
+              markers.extend(re.findall(pat,stderr)[:6])
           payload={
-              "schema":"mediahub.astra.local-claude-qualification.v3",
+              "schema":"mediahub.astra.local-claude-qualification.v4",
               "status":os.environ["ASTRA_CLAUDE_STATUS"],
               "phase":"local_claude_executor",
               "node_id":platform.node(),
               "target_sha":os.environ["GITHUB_SHA"],
-              "command_id":f"LOCAL-CLAUDE-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}",
+              "command_id":f"LOCAL-CLAUDE-{os.environ["GITHUB_RUN_ID"]}-{os.environ["GITHUB_RUN_ATTEMPT"]}",
               "executor_identity":"claude",
-              "provider_or_transport_identity":"ollama-anthropic-compatible-local",
+              "provider_or_transport_identity":"ollama-native-anthropic",
               "model":"qwen2.5-coder:7b",
               "captured_at":int(time.time()),
               "marker":"MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK",
               "marker_present":out.read_text(encoding="utf-8",errors="replace").strip()=="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK",
-              "anthropic_compat_marker_present":"MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK" in api.read_text(encoding="utf-8",errors="replace"),
               "exit_status":int(os.environ["ASTRA_CLAUDE_EXIT_STATUS"]),
               "reason":os.environ["ASTRA_CLAUDE_REASON"],
+              "stderr_classification":markers[:12],
               "output_sha256":"sha256:"+hashlib.sha256(out.read_bytes()).hexdigest(),
               "stderr_present":err.stat().st_size>0,
-              "api_probe_sha256":"sha256:"+hashlib.sha256(api.read_bytes()).hexdigest(),
               "secret_values":"SUPPRESSED",
           }
           print(json.dumps(payload,sort_keys=True))
