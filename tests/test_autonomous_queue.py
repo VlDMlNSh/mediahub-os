@@ -280,7 +280,9 @@ def test_queue_verifies_remote_push_sha():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert '"git", "ls-remote", "origin", f"refs/heads/{branch}"' in source
     assert 'raise RuntimeError("git_push_sha_mismatch")' in source
-    assert '"push_verification": {' in source
+    assert '"push_verification"' in source
+    assert '"remote_sha"' in source
+    assert '"status": "PASS"' in source
 
 
 def test_queue_blocks_existing_remote_branch_before_worktree_creation():
