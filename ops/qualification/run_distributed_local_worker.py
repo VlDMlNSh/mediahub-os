@@ -158,6 +158,7 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path) -> tuple[
     env["ANTHROPIC_API_KEY"] = ""
     env["ANTHROPIC_MODEL"] = model
     env["CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"] = "1"
+    env["CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT"] = "1"
     claude = shutil.which("claude") or "/home/mediahub/.local/bin/claude"
     p = run(
         [claude, "--print", "--output-format", "text", "--bare", "--model", model, prompt],
