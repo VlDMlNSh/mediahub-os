@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791286471.0599327,
+    "expiry": 1791289409.075158,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,90 +23,35 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791285635.9408367,
+    "started": 1791289383.4227076,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37455537629-1",
-    "updated": 1791286471.0599327
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37461317040-1",
+    "updated": 1791289409.075158
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37455537629-1",
-  "completed_at": 1791286471,
-  "duration_seconds": 835.256,
-  "execution_head": "79a3a095112686d17835601d60477ee904e15619",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37461317040-1",
+  "completed_at": 1791289409,
+  "duration_seconds": 25.801,
+  "execution_head": "03a7a2c7275ec2df6d471ee7c115c50ab221f251",
   "node_id": "mh-dev-01",
   "result": {
-    "elapsed_seconds": 835.113,
+    "elapsed_seconds": 25.647,
     "phase": "autonomous_queue",
     "status": "BLOCKED",
     "steps": [
       {
         "autonomous_queue": {
           "payload": {
+            "mode": "github_remote_local_executor",
             "results": [
               {
-                "base_sha": "79a3a095112686d17835601d60477ee904e15619",
-                "branch": "astra/auto/MH25-23-LANE-MANIFEST-001-79a3a0951126-1791285639",
-                "builder": {
-                  "returncode": 0,
-                  "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/astra-codex-qualified-9rwrxxus\"))\nReading additional input from stdin...\nOpenAI Codex v0.151.0\n--------\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-23-LANE-MANIFEST-001\nmodel: qwen2.5-coder:3b\nprovider: ollama\napproval: never\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a110f1-c9a2-7b72-a82e-e9d2536b60cb\n--------\nuser\nYou are A2 Builder in MediaHub Agent Fabric.\nTask ID: MH25-23-LANE-MANIFEST-001\nMission: Reconcile MH-01..MH-23 into one authoritative execution manifest.\nBoundary: [\"ops/agent-fabric/\", \"docs/checkpoints/\", \"ops/qualification/\"]\nForbidden surfaces: [\"qualified R4 object 471f709f5633feab7aeb62dd3ea52effad6d2bc4\", \"MH-05 qualification evidence\", \"production infrastructure\", \"user data\"]\nAcceptance: [\"every MH-01..MH-23 lane has exactly one disposition\", \"ownership/dependency/base/head/lease/worker/verification are explicit or UNKNOWN\", \"unknown evidence is not promoted\", \"no incompatible overlap remains unrecorded\", \"manifest does not become MediaHub domain or State Authority\"]\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\nuser data, credentials, or unrelated files. Work on the current task branch.\nRun relevant tests. Do not merge to main. Report changes and verification.\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\nwarning: Model metadata for `qwen2.5-coder:3b` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\ncodex\n```json\n{\"name\": \"update_plan\", \"arguments\": {\"plan\": [{\"step\": \"Create new authoritative execution manifest\", \"status\": \"pending\"}, {\"step\": \"Reconcile lanes\", \"status\": \"pending\"}, {\"step\": \"Validate manifest\", \"status\": \"pending\"}, {\"step\": \"Update documentation\", \"status\": \"pending\"}, {\"step\": \"Check for inconsistencies\", \"status\": \"pending\"}, {\"step\": \"Generate test cases\", \"status\": \"pending\"}, {\"step\": \"Run tests\", \"status\": \"pending\"}, {\"step\": \"Report changes and verification\", \"status\": \"pending\"}]}}\n```\ntokens used\n134\n",
-                  "stdout": "```json\n{\"name\": \"update_plan\", \"arguments\": {\"plan\": [{\"step\": \"Create new authoritative execution manifest\", \"status\": \"pending\"}, {\"step\": \"Reconcile lanes\", \"status\": \"pending\"}, {\"step\": \"Validate manifest\", \"status\": \"pending\"}, {\"step\": \"Update documentation\", \"status\": \"pending\"}, {\"step\": \"Check for inconsistencies\", \"status\": \"pending\"}, {\"step\": \"Generate test cases\", \"status\": \"pending\"}, {\"step\": \"Run tests\", \"status\": \"pending\"}, {\"step\": \"Report changes and verification\", \"status\": \"pending\"}]}}\n```\n"
-                },
-                "elapsed_seconds": 566.625,
-                "error": "RuntimeError:no_changes",
-                "executor": {
-                  "executor": "ollama",
-                  "model": "qwen2.5-coder:3b",
-                  "qualification": "fresh_local_or_provider_qualified"
-                },
-                "scope": {
-                  "outside_scope": [],
-                  "status": "PASS"
-                },
-                "started_at": 1791285639,
+                "error": "remote_transport_auth_missing",
                 "status": "BLOCKED",
-                "task_id": "MH25-23-LANE-MANIFEST-001",
-                "tests": {
-                  "returncode": 0,
-                  "stderr": "",
-                  "stdout": "..............................................                           [100%]\n46 passed in 1.08s\n"
-                },
-                "verifier": {
-                  "returncode": 0,
-                  "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/astra-codex-qualified-9rwrxxus\"))\nReading additional input from stdin...\nOpenAI Codex v0.151.0\n--------\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-23-LANE-MANIFEST-001\nmodel: qwen2.5-coder:3b\nprovider: ollama\napproval: never\nsandbox: read-only\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a110f3-6e86-7872-a666-3d5b7d58b58f\n--------\nuser\nYou are A3 Verifier, independent from the builder.\nReview task MH25-23-LANE-MANIFEST-001 against acceptance criteria:\n[\"every MH-01..MH-23 lane has exactly one disposition\", \"ownership/dependency/base/head/lease/worker/verification are explicit or UNKNOWN\", \"unknown evidence is not promoted\", \"no incompatible overlap remains unrecorded\", \"manifest does not become MediaHub domain or State Authority\"]\nBoundary: [\"ops/agent-fabric/\", \"docs/checkpoints/\", \"ops/qualification/\"]\nForbidden surfaces: [\"qualified R4 object 471f709f5633feab7aeb62dd3ea52effad6d2bc4\", \"MH-05 qualification evidence\", \"production infrastructure\", \"user data\"]\nThe following evidence was collected by the controller:\n--- GIT DIFF ---\n\n--- TEST OUTPUT ---\n..............................................                           [100%]\n46 passed in 1.08s\n\nDo not call tools, do not modify files, and do not emit JSON or tool-call syntax.\nReturn exactly one line: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED.\nUse PASS only when the supplied diff and tests directly evidence every acceptance criterion.\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\nwarning: Model metadata for `qwen2.5-coder:3b` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\ncodex\nASTRA_VERDICT: PASS\ntokens used\n2\u00a0054\n",
-                  "stdout": "ASTRA_VERDICT: PASS\n"
-                }
+                "task_id": "MH25-23-LANE-MANIFEST-001"
               },
               {
-                "base_sha": "79a3a095112686d17835601d60477ee904e15619",
-                "branch": "astra/auto/MH25-QUEUE-002-79a3a0951126-1791285639",
-                "builder": {
-                  "returncode": 0,
-                  "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/astra-codex-qualified-ba47uu86\"))\nReading additional input from stdin...\nOpenAI Codex v0.151.0\n--------\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-QUEUE-002\nmodel: qwen2.5-coder:3b\nprovider: ollama\napproval: never\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a110f1-d00a-76e1-93d1-82426ffd5c03\n--------\nuser\nYou are A2 Builder in MediaHub Agent Fabric.\nTask ID: MH25-QUEUE-002\nMission: Add deterministic unit coverage proving autonomous queue execution uses isolated worktree paths and bounded worker selection.\nBoundary: [\"tests/test_autonomous_queue.py\"]\nForbidden surfaces: [\".github/workflows/\", \"docs/checkpoints/\", \"runtime/mediahub_runtime/agent_fabric.py\", \"runtime/mediahub_runtime/autonomous_queue.py\", \"astra_github_agent.py\", \"user data\", \"credentials\", \"production infrastructure\"]\nAcceptance: [\"Tests assert worktree paths are task-scoped and deterministic.\", \"Tests assert worker selection is bounded by MAX_WORKERS.\", \"Tests do not execute Codex, git worktrees, network operations, or production infrastructure.\", \"All existing Agent Fabric and autonomous queue tests pass.\", \"No production behavior outside the declared boundary is changed.\"]\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\nuser data, credentials, or unrelated files. Work on the current task branch.\nRun relevant tests. Do not merge to main. Report changes and verification.\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\nwarning: Model metadata for `qwen2.5-coder:3b` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\ncodex\n```json\n{\n  \"name\": \"update_plan\",\n  \"arguments\": {\n    \"plan\": [\n      {\n        \"step\": \"Create a new test file 'tests/test_autonomous_queue_paths.py' for worktree paths\",\n        \"status\": \"pending\"\n      },\n      {\n        \"step\": \"Create a new test file 'tests/test_autonomous_queue_workers.py' for worker selection\",\n        \"status\": \"pending\"\n      },\n      {\n        \"step\": \"Write test cases to assert worktree paths are task-scoped and deterministic\",\n        \"status\": \"pending\"\n      },\n      {\n        \"step\": \"Write test cases to assert worker selection is bounded by MAX_WORKERS\",\n        \"status\": \"pending\"\n      }\n    ]\n  }\n}\n```\ntokens used\n160\n",
-                  "stdout": "```json\n{\n  \"name\": \"update_plan\",\n  \"arguments\": {\n    \"plan\": [\n      {\n        \"step\": \"Create a new test file 'tests/test_autonomous_queue_paths.py' for worktree paths\",\n        \"status\": \"pending\"\n      },\n      {\n        \"step\": \"Create a new test file 'tests/test_autonomous_queue_workers.py' for worker selection\",\n        \"status\": \"pending\"\n      },\n      {\n        \"step\": \"Write test cases to assert worktree paths are task-scoped and deterministic\",\n        \"status\": \"pending\"\n      },\n      {\n        \"step\": \"Write test cases to assert worker selection is bounded by MAX_WORKERS\",\n        \"status\": \"pending\"\n      }\n    ]\n  }\n}\n```\n"
-                },
-                "elapsed_seconds": 831.735,
-                "error": "RuntimeError:no_changes",
-                "executor": {
-                  "executor": "ollama",
-                  "model": "qwen2.5-coder:3b",
-                  "qualification": "fresh_local_or_provider_qualified"
-                },
-                "scope": {
-                  "outside_scope": [],
-                  "status": "PASS"
-                },
-                "started_at": 1791285639,
+                "error": "remote_transport_auth_missing",
                 "status": "BLOCKED",
-                "task_id": "MH25-QUEUE-002",
-                "tests": {
-                  "returncode": 0,
-                  "stderr": "",
-                  "stdout": ".....................                                                    [100%]\n21 passed in 0.61s\n"
-                },
-                "verifier": {
-                  "returncode": 0,
-                  "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/astra-codex-qualified-ba47uu86\"))\nReading additional input from stdin...\nOpenAI Codex v0.151.0\n--------\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-QUEUE-002\nmodel: qwen2.5-coder:3b\nprovider: ollama\napproval: never\nsandbox: read-only\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a110f6-7ff3-7212-a130-85d1c661561b\n--------\nuser\nYou are A3 Verifier, independent from the builder.\nReview task MH25-QUEUE-002 against acceptance criteria:\n[\"Tests assert worktree paths are task-scoped and deterministic.\", \"Tests assert worker selection is bounded by MAX_WORKERS.\", \"Tests do not execute Codex, git worktrees, network operations, or production infrastructure.\", \"All existing Agent Fabric and autonomous queue tests pass.\", \"No production behavior outside the declared boundary is changed.\"]\nBoundary: [\"tests/test_autonomous_queue.py\"]\nForbidden surfaces: [\".github/workflows/\", \"docs/checkpoints/\", \"runtime/mediahub_runtime/agent_fabric.py\", \"runtime/mediahub_runtime/autonomous_queue.py\", \"astra_github_agent.py\", \"user data\", \"credentials\", \"production infrastructure\"]\nThe following evidence was collected by the controller:\n--- GIT DIFF ---\n\n--- TEST OUTPUT ---\n.....................                                                    [100%]\n21 passed in 0.61s\n\nDo not call tools, do not modify files, and do not emit JSON or tool-call syntax.\nReturn exactly one line: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED.\nUse PASS only when the supplied diff and tests directly evidence every acceptance criterion.\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\nwarning: Model metadata for `qwen2.5-coder:3b` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\ncodex\nASTRA_VERDICT: PASS\ntokens used\n2\u00a0054\n",
-                  "stdout": "ASTRA_VERDICT: PASS\n"
-                }
+                "task_id": "MH25-QUEUE-002"
               }
             ],
             "selected_tasks": [
@@ -118,7 +63,7 @@
           },
           "returncode": 2,
           "stderr": "",
-          "stdout": "{\"results\": [{\"base_sha\": \"79a3a095112686d17835601d60477ee904e15619\", \"branch\": \"astra/auto/MH25-23-LANE-MANIFEST-001-79a3a0951126-1791285639\", \"builder\": {\"returncode\": 0, \"stderr\": \"WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \\\"/tmp\\\" (codex_home: AbsolutePathBuf(\\\"/tmp/astra-codex-qualified-9rwrxxus\\\"))\\nReading additional input from stdin...\\nOpenAI Codex v0.151.0\\n--------\\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-23-LANE-MANIFEST-001\\nmodel: qwen2.5-coder:3b\\nprovider: ollama\\napproval: never\\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\\nreasoning effort: none\\nreasoning summaries: none\\nsession id: 01a110f1-c9a2-7b72-a82e-e9d2536b60cb\\n--------\\nuser\\nYou are A2 Builder in MediaHub Agent Fabric.\\nTask ID: MH25-23-LANE-MANIFEST-001\\nMission: Reconcile MH-01..MH-23 into one authoritative execution manifest.\\nBoundary: [\\\"ops/agent-fabric/\\\", \\\"docs/checkpoints/\\\", \\\"ops/qualification/\\\"]\\nForbidden surfaces: [\\\"qualified R4 object 471f709f5633feab7aeb62dd3ea52effad6d2bc4\\\", \\\"MH-05 qualification evidence\\\", \\\"production infrastructure\\\", \\\"user data\\\"]\\nAcceptance: [\\\"every MH-01..MH-23 lane has exactly one disposition\\\", \\\"ownership/dependency/base/head/lease/worker/verification are explicit or UNKNOWN\\\", \\\"unknown evidence is not promoted\\\", \\\"no incompatible overlap remains unrecorded\\\", \\\"manifest does not become MediaHub domain or State Authority\\\"]\\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\\nuser data, credentials, or unrelated files. Work on the current task branch.\\nRun relevant tests. Do not merge to main. Report changes and verification.\\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\\nwarning: Model metadata for `qwen2.5-coder:3b` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\\ncodex\\n```json\\n{\\\"name\\\": \\\"update_plan\\\", \\\"arguments\\\": {\\\"plan\\\": [{\\\"step\\\": \\\"Create new authoritative execution manifest\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Reconcile lanes\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Validate manifest\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Update documentation\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Check for inconsistencies\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Generate test cases\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Run tests\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Report changes and verification\\\", \\\"status\\\": \\\"pending\\\"}]}}\\n```\\ntokens used\\n134\\n\", \"stdout\": \"```json\\n{\\\"name\\\": \\\"update_plan\\\", \\\"arguments\\\": {\\\"plan\\\": [{\\\"step\\\": \\\"Create new authoritative execution manifest\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Reconcile lanes\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Validate manifest\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Update documentation\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Check for inconsistencies\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Generate test cases\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Run tests\\\", \\\"status\\\": \\\"pending\\\"}, {\\\"step\\\": \\\"Report changes and verification\\\", \\\"status\\\": \\\"pending\\\"}]}}\\n```\\n\"}, \"elapsed_seconds\": 566.625, \"error\": \"RuntimeError:no_changes\", \"executor\": {\"executor\": \"ollama\", \"model\": \"qwen2.5-coder:3b\", \"qualification\": \"fresh_local_or_provider_qualified\"}, \"scope\": {\"outside_scope\": [], \"status\": \"PASS\"}, \"started_at\": 1791285639, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\", \"tests\": {\"returncode\": 0, \"stderr\": \"\", \"stdout\": \"..............................................                           [100%]\\n46 passed in 1.08s\\n\"}, \"verifier\": {\"returncode\": 0, \"stderr\": \"WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \\\"/tmp\\\" (codex_home: AbsolutePathBuf(\\\"/tmp/astra-codex-qualified-9rwrxxus\\\"))\\nReading additional input from stdin...\\nOpenAI Codex v0.151.0\\n--------\\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-23-LANE-MANIFEST-001\\nmodel: qwen2.5-coder:3b\\nprovider: ollama\\napproval: never\\nsandbox: read-only\\nreasoning effort: none\\nreasoning summaries: none\\nsession id: 01a110f3-6e86-7872-a666-3d5b7d58b58f\\n--------\\nuser\\nYou are A3 Verifier, independent from the builder.\\nReview task MH25-23-LANE-MANIFEST-001 against acceptance criteria:\\n[\\\"every MH-01..MH-23 lane has exactly one disposition\\\", \\\"ownership/dependency/base/head/lease/worker/verification are explicit or UNKNOWN\\\", \\\"unknown evidence is not promoted\\\", \\\"no incompatible overlap remains unrecorded\\\", \\\"manifest does not become MediaHub domain or State Authority\\\"]\\nBoundary: [\\\"ops/agent-fabric/\\\", \\\"docs/checkpoints/\\\", \\\"ops/qualification/\\\"]\\nForbidden surfaces: [\\\"qualified R4 object 471f709f5633feab7aeb62dd3ea52effad6d2bc4\\\", \\\"MH-05 qualification evidence\\\", \\\"production infrastructure\\\", \\\"user data\\\"]\\nThe following evidence was collected by the controller:\\n--- GIT DIFF ---\\n\\n--- TEST OUTPUT ---\\n..............................................                           [100%]\\n46 passed in 1.08s\\n\\nDo not call tools, do not modify files, and do not emit JSON or tool-call syntax.\\nReturn exactly one line: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED.\\nUse PASS only when the supplied diff and tests directly evidence every acceptance criterion.\\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\\nwarning: Model metadata for `qwen2.5-coder:3b` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\\ncodex\\nASTRA_VERDICT: PASS\\ntokens used\\n2\\u00a0054\\n\", \"stdout\": \"ASTRA_VERDICT: PASS\\n\"}}, {\"base_sha\": \"79a3a095112686d17835601d60477ee904e15619\", \"branch\": \"astra/auto/MH25-QUEUE-002-79a3a0951126-1791285639\", \"builder\": {\"returncode\": 0, \"stderr\": \"WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \\\"/tmp\\\" (codex_home: AbsolutePathBuf(\\\"/tmp/astra-codex-qualified-ba47uu86\\\"))\\nReading additional input from stdin...\\nOpenAI Codex v0.151.0\\n--------\\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-QUEUE-002\\nmodel: qwen2.5-coder:3b\\nprovider: ollama\\napproval: never\\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\\nreasoning effort: none\\nreasoning summaries: none\\nsession id: 01a110f1-d00a-76e1-93d1-82426ffd5c03\\n--------\\nuser\\nYou are A2 Builder in MediaHub Agent Fabric.\\nTask ID: MH25-QUEUE-002\\nMission: Add deterministic unit coverage proving autonomous queue execution uses isolated worktree paths and bounded worker selection.\\nBoundary: [\\\"tests/test_autonomous_queue.py\\\"]\\nForbidden surfaces: [\\\".github/workflows/\\\", \\\"docs/checkpoints/\\\", \\\"runtime/mediahub_runtime/agent_fabric.py\\\", \\\"runtime/mediahub_runtime/autonomous_queue.py\\\", \\\"astra_github_agent.py\\\", \\\"user data\\\", \\\"credentials\\\", \\\"production infrastructure\\\"]\\nAcceptance: [\\\"Tests assert worktree paths are task-scoped and deterministic.\\\", \\\"Tests assert worker selection is bounded by MAX_WORKERS.\\\", \\\"Tests do not execute Codex, git worktrees, network operations, or production infrastructure.\\\", \\\"All existing Agent Fabric and autonomous queue tests pass.\\\", \\\"No production behavior outside the declared boundary is changed.\\\"]\\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\\nuser data, credentials, or unrelated files. Work on the current task branch.\\nRun relevant tests. Do not merge to main. Report changes and verification.\\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\\nwarning: Model metadata for `qwen2.5-coder:3b` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\\ncodex\\n```json\\n{\\n  \\\"name\\\": \\\"update_plan\\\",\\n  \\\"arguments\\\": {\\n    \\\"plan\\\": [\\n      {\\n        \\\"step\\\": \\\"Create a new test file 'tests/test_autonomous_queue_paths.py' for worktree paths\\\",\\n        \\\"status\\\": \\\"pending\\\"\\n      },\\n      {\\n        \\\"step\\\": \\\"Create a new test file 'tests/test_autonomous_queue_workers.py' for worker selection\\\",\\n        \\\"status\\\": \\\"pending\\\"\\n      },\\n      {\\n        \\\"step\\\": \\\"Write test cases to assert worktree paths are task-scoped and deterministic\\\",\\n        \\\"status\\\": \\\"pending\\\"\\n      },\\n      {\\n        \\\"step\\\": \\\"Write test cases to assert worker selection is bounded by MAX_WORKERS\\\",\\n        \\\"status\\\": \\\"pending\\\"\\n      }\\n    ]\\n  }\\n}\\n```\\ntokens used\\n160\\n\", \"stdout\": \"```json\\n{\\n  \\\"name\\\": \\\"update_plan\\\",\\n  \\\"arguments\\\": {\\n    \\\"plan\\\": [\\n      {\\n        \\\"step\\\": \\\"Create a new test file 'tests/test_autonomous_queue_paths.py' for worktree paths\\\",\\n        \\\"status\\\": \\\"pending\\\"\\n      },\\n      {\\n        \\\"step\\\": \\\"Create a new test file 'tests/test_autonomous_queue_workers.py' for worker selection\\\",\\n        \\\"status\\\": \\\"pending\\\"\\n      },\\n      {\\n        \\\"step\\\": \\\"Write test cases to assert worktree paths are task-scoped and deterministic\\\",\\n        \\\"status\\\": \\\"pending\\\"\\n      },\\n      {\\n        \\\"step\\\": \\\"Write test cases to assert worker selection is bounded by MAX_WORKERS\\\",\\n        \\\"status\\\": \\\"pending\\\"\\n      }\\n    ]\\n  }\\n}\\n```\\n\"}, \"elapsed_seconds\": 831.735, \"error\": \"RuntimeError:no_changes\", \"executor\": {\"executor\": \"ollama\", \"model\": \"qwen2.5-coder:3b\", \"qualification\": \"fresh_local_or_provider_qualified\"}, \"scope\": {\"outside_scope\": [], \"status\": \"PASS\"}, \"started_at\": 1791285639, \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\", \"tests\": {\"returncode\": 0, \"stderr\": \"\", \"stdout\": \".....................                                                    [100%]\\n21 passed in 0.61s\\n\"}, \"verifier\": {\"returncode\": 0, \"stderr\": \"WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \\\"/tmp\\\" (codex_home: AbsolutePathBuf(\\\"/tmp/astra-codex-qualified-ba47uu86\\\"))\\nReading additional input from stdin...\\nOpenAI Codex v0.151.0\\n--------\\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-QUEUE-002\\nmodel: qwen2.5-coder:3b\\nprovider: ollama\\napproval: never\\nsandbox: read-only\\nreasoning effort: none\\nreasoning summaries: none\\nsession id: 01a110f6-7ff3-7212-a130-85d1c661561b\\n--------\\nuser\\nYou are A3 Verifier, independent from the builder.\\nReview task MH25-QUEUE-002 against acceptance criteria:\\n[\\\"Tests assert worktree paths are task-scoped and deterministic.\\\", \\\"Tests assert worker selection is bounded by MAX_WORKERS.\\\", \\\"Tests do not execute Codex, git worktrees, network operations, or production infrastructure.\\\", \\\"All existing Agent Fabric and autonomous queue tests pass.\\\", \\\"No production behavior outside the declared boundary is changed.\\\"]\\nBoundary: [\\\"tests/test_autonomous_queue.py\\\"]\\nForbidden surfaces: [\\\".github/workflows/\\\", \\\"docs/checkpoints/\\\", \\\"runtime/mediahub_runtime/agent_fabric.py\\\", \\\"runtime/mediahub_runtime/autonomous_queue.py\\\", \\\"astra_github_agent.py\\\", \\\"user data\\\", \\\"credentials\\\", \\\"production infrastructure\\\"]\\nThe following evidence was collected by the controller:\\n--- GIT DIFF ---\\n\\n--- TEST OUTPUT ---\\n.....................                                                    [100%]\\n21 passed in 0.61s\\n\\nDo not call tools, do not modify files, and do not emit JSON or tool-call syntax.\\nReturn exactly one line: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED.\\nUse PASS only when the supplied diff and tests directly evidence every acceptance criterion.\\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\\nwarning: Model metadata for `qwen2.5-coder:3b` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\\ncodex\\nASTRA_VERDICT: PASS\\ntokens used\\n2\\u00a0054\\n\", \"stdout\": \"ASTRA_VERDICT: PASS\\n\"}}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
+          "stdout": "{\"mode\": \"github_remote_local_executor\", \"results\": [{\"error\": \"remote_transport_auth_missing\", \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\"}, {\"error\": \"remote_transport_auth_missing\", \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
         },
         "backend": {
           "reason": "",
@@ -131,13 +76,13 @@
           "blocked_reasons": [],
           "payload": {
             "blocked_reasons": [],
-            "captured_at": 1791285568,
+            "captured_at": 1791289357,
             "checked_nodes": [
               "mh-dev-01",
               "mh-dev-02",
               "Voktors-Mac-mini.local"
             ],
-            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37455537629-1",
+            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37461317040-1",
             "node_id": "mh-dev-01",
             "phase": "distributed_verification",
             "producer_identity": "canonical-distributed-verification-producer-v1",
@@ -145,12 +90,12 @@
             "schema": "mediahub.astra.distributed-verification.v1",
             "secret_values": "SUPPRESSED",
             "status": "PASS",
-            "target_sha": "79a3a095112686d17835601d60477ee904e15619"
+            "target_sha": "03a7a2c7275ec2df6d471ee7c115c50ab221f251"
           },
           "returncode": 0,
           "source": "fresh_downloaded_a2_aggregate"
         },
-        "head": "79a3a095112686d17835601d60477ee904e15619",
+        "head": "03a7a2c7275ec2df6d471ee7c115c50ab221f251",
         "pre_soak": {
           "returncode": 0,
           "stderr": "",
@@ -167,6 +112,6 @@
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "79a3a095112686d17835601d60477ee904e15619",
-  "worker_id": "A0-ASTRA:2601221"
+  "target_sha": "03a7a2c7275ec2df6d471ee7c115c50ab221f251",
+  "worker_id": "A0-ASTRA:2650351"
 }
