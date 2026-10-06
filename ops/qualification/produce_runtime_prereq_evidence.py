@@ -253,6 +253,9 @@ def build(out_dir: Path, *, node: str | None = None) -> dict:
     canonical = node == CANONICAL_NODE
     out_dir.mkdir(parents=True, exist_ok=True)
     summary: dict[str, dict] = {}
+    target_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    if not target_sha:
+        raise RuntimeError("target_sha_unavailable")
     for name, (check, producer) in CHECKS.items():
         observations = producer()
         passed = all(observations.values()) if observations else False
@@ -267,6 +270,7 @@ def build(out_dir: Path, *, node: str | None = None) -> dict:
             "schema": "mediahub.pre-soak-evidence.v1",
             "status": status,
             "captured_at": int(time.time()),
+            "target_sha": target_sha,
             "node_id": node,
             "canonical_node": canonical,
             "scope": "single_node_deterministic_module_exercise",
