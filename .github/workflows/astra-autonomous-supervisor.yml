@@ -174,7 +174,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ needs.distributed-verification.outputs.evidence_artifact }}
-          path: .astra-state/distributed-verification
+          path: .astra-state
 
       - name: Download provider qualification evidence
         uses: actions/download-artifact@v4
