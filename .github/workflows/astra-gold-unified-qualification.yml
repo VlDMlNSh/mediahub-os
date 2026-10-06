@@ -26,8 +26,6 @@ jobs:
       command_id: ${{ steps.command.outputs.command_id }}
     env:
       ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
-      ASTRA_NODE_HMAC_KEY_MH_DEV_02: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
-      ASTRA_NODE_HMAC_KEY_VOKTORS_MAC: ${{ secrets.ASTRA_NODE_HMAC_KEY_VOKTORS_MAC }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -130,7 +128,7 @@ jobs:
       ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
       ASTRA_PROVIDER_EVIDENCE_PATH: "${{ github.workspace }}/.astra-state/provider-qualification/provider-model.json"
       ASTRA_DEFER_RESULT_PUBLICATION: "1"
-      ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state/distributed-verification"
+      ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state"
       ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
     steps:
       - uses: actions/checkout@v4
