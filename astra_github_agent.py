@@ -347,7 +347,10 @@ def execute(cmd):
                 "ASTRA_DISTRIBUTED_EVIDENCE_DIR",
                 str(ROOT / ".astra-state" / "distributed-verification"),
             ))
-            aggregate_path = distributed_dir / "distributed-verification-result.json"
+            aggregate_path = Path(os.environ.get(
+                "ASTRA_DISTRIBUTED_AGGREGATE_PATH",
+                str(distributed_dir / "distributed-verification-result.json"),
+            ))
             blocked_reasons = []
             distributed_payload = {}
             if not aggregate_path.is_file():
