@@ -170,7 +170,9 @@ def _prepare_publish_branch():
 def publish(result):
     path=ROOT/"control"/"results"/f"{NODE_ID}.json"
     path.parent.mkdir(parents=True,exist_ok=True)
-    payload=json.dumps(result,indent=2,sort_keys=True)+"\n"
+    publish_result=dict(result)
+    publish_result.setdefault("secret_values","SUPPRESSED")
+    payload=json.dumps(publish_result,indent=2,sort_keys=True)+"\n"
     if os.environ.get("ASTRA_DEFER_RESULT_PUBLICATION") == "1":
         path.write_text(payload,encoding="utf-8")
         return
