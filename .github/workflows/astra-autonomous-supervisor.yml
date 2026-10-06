@@ -9,6 +9,8 @@ on:
       - "astra_github_agent.py"
       - "ops/qualification/**"
       - "tests/test_mesh_registry_contract.py"
+      - "tests/test_astra_github_agent_contract.py"
+      - "tests/test_autonomous_gold_mission.py"
       - ".github/workflows/astra-autonomous-supervisor.yml"
       - ".github/workflows/astra-distributed-verification.yml"
       - ".github/workflows/astra-provider-qualification.yml"
