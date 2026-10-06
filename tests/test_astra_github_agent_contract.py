@@ -104,5 +104,11 @@ class AstraTransportContractTests(unittest.TestCase):
         self.assertIn('git","restore","--source=HEAD","--",command_path', block)
         self.assertNotIn('git","clean","-f","--",command_path', block.split('if restore.returncode != 0:', 1)[0])
 
+    def test_controller_consumes_provider_node_evidence_instead_of_local_qualification(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        self.assertIn("ASTRA_PROVIDER_EVIDENCE_PATH", source)
+        self.assertIn('"source": "node_local_provider_evidence"', source)
+        self.assertNotIn('subprocess.run([sys.executable,str(backend_script)]', source)
+
 if __name__ == "__main__":
     unittest.main()
