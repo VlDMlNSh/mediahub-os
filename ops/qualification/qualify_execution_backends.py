@@ -341,6 +341,7 @@ def main() -> int:
         "status": "PASS" if qualified else "BLOCKED",
         "captured_at": int(time.time()),
         "node_id": platform.node(),
+        "command_id": os.environ.get("ASTRA_COMMAND_ID", "").strip(),
         "target_sha": args.target_sha or current_revision,
         "repo_revision": current_revision,
         "elapsed_seconds": round(time.monotonic() - started, 3),
