@@ -52,7 +52,15 @@ jobs:
           command -v claude
           ollama_version="$(ollama --version 2>&1 | sed -E 's/.*version[[:space:]]+//' | sed -E 's/^is[[:space:]]+//' | head -n 1)"
           echo "ollama_version=${ollama_version}"
-          python3 -c 'import re,sys; v=sys.argv[1].strip(); m=re.search(r"(\d+)\.(\d+)\.(\d+)",v); raise SystemExit("ollama_version_unparseable") if not m else None; raise SystemExit("ollama_too_old_for_anthropic_messages_api") if tuple(map(int,m.groups())) < (0,14,0) else None' "$ollama_version"
+          python3 - "$ollama_version" <<'PY'
+          import re, sys
+          version=sys.argv[1].strip()
+          match=re.search(r"(\d+)\.(\d+)\.(\d+)", version)
+          if not match:
+              raise SystemExit("ollama_version_unparseable")
+          if tuple(map(int, match.groups())) < (0, 14, 0):
+              raise SystemExit("ollama_too_old_for_anthropic_messages_api")
+          PY
           ollama show "$model" >/dev/null 2>&1 || ollama pull "$model"
           marker="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK"
           out="/tmp/astra-claude-result.txt"
