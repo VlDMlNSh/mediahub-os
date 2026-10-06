@@ -11,6 +11,8 @@ import re
 import subprocess
 import tempfile
 import time
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 from .agent_fabric import AgentClaim, ClaimStore
@@ -28,6 +30,36 @@ def bounded_worker_count(requested: int) -> int:
 MAX_WORKERS = bounded_worker_count(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "3")))
 CODEX = os.environ.get("ASTRA_CODEX_BIN", "/usr/local/bin/codex")
 TASK_TIMEOUT = max(60, int(os.environ.get("ASTRA_QUEUE_TASK_TIMEOUT", "1800")))
+
+
+def local_ollama_profile() -> tuple[str, str] | None:
+    if os.environ.get("ASTRA_ENABLE_LOCAL_OLLAMA", "1").strip().lower() in {"0", "false", "no"}:
+        return None
+    base = os.environ.get("ASTRA_OLLAMA_BASE_URL", "http://127.0.0.1:11434/v1").rstrip("/")
+    timeout = max(3, min(int(os.environ.get("ASTRA_LOCAL_EXECUTOR_TIMEOUT", "15")), 30))
+    try:
+        req = urllib.request.Request(base + "/models", method="GET", headers={"Authorization": "Bearer ollama"})
+        with urllib.request.urlopen(req, timeout=timeout) as response:
+            payload = json.loads(response.read(128 * 1024).decode("utf-8", "replace"))
+        models = [str(item.get("id") or "").strip() for item in payload.get("data", []) if isinstance(item, dict)]
+        models = [m for m in models if m]
+        if not models:
+            return None
+        model = models[0]
+        body = json.dumps({"model": model, "input": "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK", "max_output_tokens": 8}).encode()
+        probe = urllib.request.Request(base + "/responses", data=body, method="POST", headers={"Authorization": "Bearer ollama", "Content-Type": "application/json", "Accept": "application/json"})
+        with urllib.request.urlopen(probe, timeout=timeout) as response:
+            result = json.loads(response.read(128 * 1024).decode("utf-8", "replace"))
+        output = str(result.get("output_text") or "").strip()
+        if not output:
+            for item in result.get("output") or []:
+                if isinstance(item, dict):
+                    for part in item.get("content") or []:
+                        if isinstance(part, dict) and part.get("text"):
+                            output += str(part["text"])
+        return ("ollama", model) if output else None
+    except (OSError, ValueError, urllib.error.URLError, urllib.error.HTTPError):
+        return None
 
 
 def qualified_codex_profile() -> tuple[str, str]:
@@ -68,11 +100,12 @@ def qualified_codex_profile() -> tuple[str, str]:
 
 
 def codex_env_for_qualified_provider() -> tuple[dict[str, str], tempfile.TemporaryDirectory]:
-    profile, model = qualified_codex_profile()
+    local = local_ollama_profile()
+    profile, model = local or qualified_codex_profile()
     home = tempfile.TemporaryDirectory(prefix="astra-codex-qualified-")
     config = Path(home.name) / "config.toml"
     config.write_text(
-        'model_provider = "huggingface"\n'
+        'model_provider = "{profile}"\n'
         f'model = "{model}"\n'
         'approval_policy = "never"\n'
         'web_search = "disabled"\n'
