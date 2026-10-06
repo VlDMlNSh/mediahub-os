@@ -1,0 +1,110 @@
+name: Astra local Claude executor qualification
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/astra-local-claude-qualification.yml"
+      - "astra_github_agent.py"
+      - "ops/qualification/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: astra-local-claude-qualification
+  cancel-in-progress: false
+
+jobs:
+  qualify:
+    name: Local Claude executor on mh-dev-02
+    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    timeout-minutes: 10
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 20
+          persist-credentials: false
+
+      - name: Canonical node admission and launcher inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-02"
+          test "$(id -un)" = "mediahub"
+          export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          command -v claude
+          claude --version
+
+      - name: Bounded native Claude qualification
+        id: qualify
+        shell: bash
+        run: |
+          set -uo pipefail
+          export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          marker="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK"
+          out="${RUNNER_TEMP}/astra-claude-result.txt"
+          err="${RUNNER_TEMP}/astra-claude-stderr.txt"
+          status="BLOCKED"
+          reason="credential_missing"
+          exit_status=1
+          : >"${out}"
+          : >"${err}"
+          if [ -n "${ANTHROPIC_API_KEY:-}" ]; then
+            reason="execution_failed"
+            timeout 60s claude --print --output-format text --bare \
+              "${marker}. Return exactly ${marker}. Do not modify files, call tools, or access the network." \
+              >"${out}" 2>"${err}"
+            exit_status=$?
+            if [ "${exit_status}" -eq 0 ] && grep -Fx "${marker}" "${out}" >/dev/null 2>&1; then
+              status="PASS"
+              reason=""
+            fi
+          fi
+          export ASTRA_CLAUDE_STATUS="${status}"
+          export ASTRA_CLAUDE_REASON="${reason}"
+          export ASTRA_CLAUDE_EXIT_STATUS="${exit_status}"
+          python3 - <<'PY'
+          import hashlib, json, os, platform, time
+          from pathlib import Path
+          out = Path(os.environ["RUNNER_TEMP"]) / "astra-claude-result.txt"
+          err = Path(os.environ["RUNNER_TEMP"]) / "astra-claude-stderr.txt"
+          payload = {
+              "schema": "mediahub.astra.local-claude-qualification.v1",
+              "status": os.environ["ASTRA_CLAUDE_STATUS"],
+              "phase": "local_claude_executor",
+              "node_id": platform.node(),
+              "target_sha": os.environ["GITHUB_SHA"],
+              "command_id": f"LOCAL-CLAUDE-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}",
+              "executor_identity": "claude",
+              "provider_or_transport_identity": "native-claude",
+              "captured_at": int(time.time()),
+              "marker": "MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK",
+              "marker_present": out.read_text(encoding="utf-8", errors="replace").strip() == "MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK",
+              "exit_status": int(os.environ["ASTRA_CLAUDE_EXIT_STATUS"]),
+              "reason": os.environ["ASTRA_CLAUDE_REASON"],
+              "output_sha256": "sha256:" + hashlib.sha256(out.read_bytes()).hexdigest(),
+              "stderr_present": err.stat().st_size > 0,
+              "secret_values": "SUPPRESSED",
+          }
+          print(json.dumps(payload, sort_keys=True))
+          Path("astra-local-claude-qualification.json").write_text(
+              json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          PY
+          if [ "${status}" != "PASS" ]; then
+            exit 2
+          fi
+
+      - name: Upload Claude qualification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-local-claude-qualification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: astra-local-claude-qualification.json
+          if-no-files-found: error
+          retention-days: 30
