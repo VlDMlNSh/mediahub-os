@@ -2,7 +2,7 @@ schema: mediahub.astra-gold.executor-routing.v3
 system: ASTRA_GOLD
 status: ASTRA_GOLD_QUALIFICATION_GATED
 node: mh-dev-01
-controller: mh-dev-02
+controller: mh-dev-01
 qualification_authority: ASTRA_GOLD
 
 executors:
