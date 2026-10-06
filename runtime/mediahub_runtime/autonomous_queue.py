@@ -102,7 +102,7 @@ def qualified_codex_profile() -> tuple[str, str]:
     return "huggingface", candidates[0]
 
 
-def codex_env_for_qualified_provider() -> tuple[dict[str, str], tempfile.TemporaryDirectory]:
+def codex_env_for_qualified_provider() -> tuple[dict[str, str], tempfile.TemporaryDirectory, str, str]:
     local = local_ollama_profile()
     profile, model = local or qualified_codex_profile()
     home = tempfile.TemporaryDirectory(prefix="astra-codex-qualified-")
@@ -134,7 +134,7 @@ def codex_env_for_qualified_provider() -> tuple[dict[str, str], tempfile.Tempora
     )
     env = os.environ.copy()
     env["CODEX_HOME"] = home.name
-    return env, home
+    return env, home, profile, model
 
 
 def run(
@@ -333,9 +333,14 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
         if checkout.returncode:
             raise RuntimeError("worktree_create_failed")
         try:
-            codex_env, codex_home = codex_env_for_qualified_provider()
+            codex_env, codex_home, executor, model = codex_env_for_qualified_provider()
         except RuntimeError as exc:
             raise RuntimeError(str(exc))
+        record["executor"] = {
+            "executor": executor,
+            "model": model,
+            "qualification": "fresh_local_or_provider_qualified",
+        }
         try:
             build = run(
                 [CODEX, "exec", "--sandbox", "workspace-write", "--skip-git-repo-check", builder_prompt(task)],
@@ -343,8 +348,6 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
                 worktree,
                 codex_env,
             )
-        finally:
-            codex_home.cleanup()
         record["builder"] = {
             "returncode": build.returncode,
             "stdout": build.stdout[-12000:],
@@ -374,10 +377,6 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
         diff = run(["git", "diff", "--check"], 60, worktree)
         if diff.returncode:
             raise RuntimeError("diff_check_failed")
-        try:
-            codex_env, codex_home = codex_env_for_qualified_provider()
-        except RuntimeError as exc:
-            raise RuntimeError(str(exc))
         try:
             verifier = run(
                 [CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)],
