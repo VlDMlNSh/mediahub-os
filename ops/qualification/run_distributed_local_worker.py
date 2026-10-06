@@ -326,6 +326,8 @@ def main() -> int:
 
         test_paths = [str(x) for x in task.get("test_paths", [])]
         test_env = os.environ.copy()
+        test_env["PYTHONPATH"] = str(ROOT / "runtime") + os.pathsep + str(ROOT) + os.pathsep + test_env.get("PYTHONPATH", "")
+        test_env = os.environ.copy()
         existing_pythonpath = test_env.get("PYTHONPATH", "")
         test_env["PYTHONPATH"] = os.pathsep.join(
             p for p in [str(ROOT / "runtime"), str(ROOT), existing_pythonpath] if p
