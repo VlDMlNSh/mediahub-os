@@ -19,6 +19,7 @@ import hashlib
 import json
 import platform
 import sys
+import subprocess
 import tempfile
 import time
 from pathlib import Path
