@@ -407,7 +407,7 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
         if diff.returncode:
             raise RuntimeError("diff_check_failed")
         try:
-            diff_for_verifier = run(["git", "diff", "--no-ext-diff", base_sha, "HEAD"], 60, worktree)
+            diff_for_verifier = run(["git", "diff", "--no-ext-diff", expected_base_sha, "HEAD"], 60, worktree)
             if diff_for_verifier.returncode != 0:
                 raise RuntimeError("verifier_diff_failed")
             test_text = record["tests"].get("stderr", "") + record["tests"].get("stdout", "")
