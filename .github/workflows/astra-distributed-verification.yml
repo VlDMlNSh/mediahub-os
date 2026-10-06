@@ -124,7 +124,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(hostname)" = "Voktors-Mini.Dlink"
+          test "$(hostname)" = "Voktors-Mac-mini"
           test "${RUNNER_NAME:-}" = "Voktors-Mini-Astra-Control"
           test "$(id -un)" = "voktor"
       - name: Produce fresh attestation
