@@ -325,16 +325,22 @@ def main() -> int:
             raise RuntimeError("task_boundary_violation")
 
         test_paths = [str(x) for x in task.get("test_paths", [])]
+        test_env = os.environ.copy()
+        existing_pythonpath = test_env.get("PYTHONPATH", "")
+        test_env["PYTHONPATH"] = os.pathsep.join(
+            p for p in [str(ROOT / "runtime"), str(ROOT), existing_pythonpath] if p
+        )
         if len(test_paths) == 1:
             test_path = Path(test_paths[0])
             test = run(
                 ["python3", "-m", "unittest", "discover", "-s", str(test_path.parent), "-p", test_path.name],
                 900,
+                env=test_env,
             )
         elif test_paths:
-            test = run(["python3", "-m", "unittest", *test_paths], 900)
+            test = run(["python3", "-m", "unittest", *test_paths], 900, env=test_env)
         else:
-            test = run(["python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"], 900)
+            test = run(["python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"], 900, env=test_env)
         record["tests"] = {
             "returncode": test.returncode,
             "stdout": test.stdout[-10000:],
