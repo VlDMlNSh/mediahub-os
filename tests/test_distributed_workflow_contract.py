@@ -152,5 +152,10 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertIn("actions: read", text)
         self.assertNotIn("MIMO_API_KEY", text)
 
+    def test_supervisor_uses_downloaded_distributed_evidence_root(self):
+        text = SUPERVISOR.read_text(encoding="utf-8")
+        self.assertIn('ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ[\'ASTRA_STATE_DIR\']}/distributed-verification\\n"', text)
+        self.assertNotIn('ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ[\'ASTRA_STATE_DIR\']}/distributed-verification/{d[\'command_id\']}', text)
+
 if __name__ == "__main__":
     unittest.main()
