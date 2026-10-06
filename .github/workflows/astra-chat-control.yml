@@ -13,59 +13,59 @@ jobs:
     if: >-
       github.event.issue.pull_request == null &&
       startsWith(github.event.comment.body, '/astra ')
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    timeout-minutes: 30
+    env:
+      GH_COMMENT: ${{ github.event.comment.body }}
+      GH_ASSOCIATION: ${{ github.event.comment.author_association }}
     steps:
       - name: Authorize issuer
-        env:
-          ASSOCIATION: \${{ github.event.comment.author_association }}
         run: |
           set -euo pipefail
-          case "$ASSOCIATION" in OWNER|MEMBER|COLLABORATOR) ;; *) exit 1 ;; esac
+          case "$GH_ASSOCIATION" in OWNER|MEMBER|COLLABORATOR) ;; *) echo "unauthorized"; exit 1 ;; esac
 
       - uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 50
 
-      - name: Parse command
+      - name: Parse bounded command
         id: command
-        env:
-          BODY: \${{ github.event.comment.body }}
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import os,re,sys
-          b=os.environ["BODY"].strip()
-          m=re.fullmatch(r"/astra (status|run-worker)(?: ([A-Za-z0-9._-]+) ([A-Za-z0-9._-]+) ([A-Za-z0-9._-]+) ([0-9a-f]{40}))?",b)
+          import os,re
+          b=os.environ["GH_COMMENT"].strip()
+          m=re.fullmatch(r"/astra (status|run-worker)(?: ([A-Za-z0-9._-]+) (codex|claude) (mh-dev-02|Voktors-Mac-mini.local) ([0-9a-f]{40}))?",b)
           if not m: raise SystemExit("invalid_command")
           op,task,executor,node,sha=m.groups()
-          if op=="run-worker":
-              if executor not in {"codex","claude"}: raise SystemExit("executor_not_allowed")
-              if node not in {"mh-dev-02","Voktors-Mac-mini.local"}: raise SystemExit("node_not_allowed")
-              if not all((task,executor,node,sha)): raise SystemExit("missing_argument")
-          else: task=executor=node=sha=""
+          if op=="run-worker" and not all((task,executor,node,sha)): raise SystemExit("missing_argument")
+          if op=="status": task=executor=node=sha=""
           with open(os.environ["GITHUB_OUTPUT"],"a") as f:
               for k,v in {"op":op,"task":task,"executor":executor,"node":node,"sha":sha}.items(): f.write(f"{k}={v}\n")
           PY
 
       - name: Status
-        if: \${{ steps.command.outputs.op == 'status' }}
+        if: ${{ steps.command.outputs.op == 'status' }}
         run: |
-          echo "Astra chat control plane reachable"
-          echo "main=$(git rev-parse HEAD)"
-          echo "controller=mh-dev-01"
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-02"
+          echo "ASTRA_CHAT_CONTROL=PASS"
+          echo "MAIN=$(git rev-parse HEAD)"
+          echo "NODE=mh-dev-02"
 
-      - name: Validate worker request
-        if: \${{ steps.command.outputs.op == 'run-worker' }}
+      - name: Validate task and target
+        if: ${{ steps.command.outputs.op == 'run-worker' }}
         env:
-          TASK_ID: \${{ steps.command.outputs.task }}
-          EXECUTOR: \${{ steps.command.outputs.executor }}
-          NODE_ID: \${{ steps.command.outputs.node }}
-          TARGET_SHA: \${{ steps.command.outputs.sha }}
+          TASK_ID: ${{ steps.command.outputs.task }}
+          EXECUTOR: ${{ steps.command.outputs.executor }}
+          NODE_ID: ${{ steps.command.outputs.node }}
+          TARGET_SHA: ${{ steps.command.outputs.sha }}
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$TARGET_SHA"
+          test "$NODE_ID" = "mh-dev-02"
+          test "$EXECUTOR" = "codex"
           test -f "ops/agent-fabric/tasks/$TASK_ID.json"
           python3 - <<'PY'
           import json,os,pathlib
@@ -75,36 +75,31 @@ jobs:
           assert t["node_id"]==os.environ["NODE_ID"]
           assert t["status"]=="READY"
           assert not t.get("allow_no_changes",False)
-          print("task_contract=PASS")
+          print("TASK_CONTRACT=PASS")
           PY
 
-      - name: Execute worker on primary node
-        if: \${{ steps.command.outputs.op == 'run-worker' && steps.command.outputs.node == 'mh-dev-02' }}
-        runs-on: [self-hosted, linux, x64, mediahub-provider]
+      - name: Execute bounded worker
+        if: ${{ steps.command.outputs.op == 'run-worker' }}
         env:
-          TASK_ID: \${{ steps.command.outputs.task }}
-          EXECUTOR: \${{ steps.command.outputs.executor }}
-          TARGET_SHA: \${{ steps.command.outputs.sha }}
-          ASTRA_COMMAND_ID: chat-\${{ github.run_id }}-\${{ github.event.comment.id }}
-          ASTRA_TARGET_SHA: \${{ steps.command.outputs.sha }}
+          TASK_ID: ${{ steps.command.outputs.task }}
+          ASTRA_COMMAND_ID: chat-${{ github.run_id }}-${{ github.event.comment.id }}
+          ASTRA_TARGET_SHA: ${{ steps.command.outputs.sha }}
           ASTRA_NODE_ID: mh-dev-02
-          ASTRA_EXECUTOR: \${{ steps.command.outputs.executor }}
+          ASTRA_EXECUTOR: codex
           ASTRA_FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env
           ASTRA_WORKER_RESULT: astra-distributed-worker-result.json
         run: |
           set -euo pipefail
           test "$(hostname)" = "mh-dev-02"
           test "$(id -un)" = "mediahub"
-          test "$EXECUTOR" = "codex"
-          test -f "ops/agent-fabric/tasks/$TASK_ID.json"
           export ASTRA_MICRO_TASK_JSON="$(cat "ops/agent-fabric/tasks/$TASK_ID.json")"
           python3 ops/qualification/run_distributed_local_worker.py
 
-      - name: Publish worker evidence
+      - name: Publish evidence
         if: always() && steps.command.outputs.op == 'run-worker'
         uses: actions/upload-artifact@v4
         with:
-          name: astra-chat-control-\${{ github.run_id }}
+          name: astra-chat-control-${{ github.run_id }}
           path: astra-distributed-worker-result.json
           if-no-files-found: warn
           retention-days: 30
@@ -118,5 +113,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: \`Astra control request processed. Actions run: https://github.com/\${context.repo.owner}/\${context.repo.repo}/actions/runs/\${context.runId}\`
+              body: \`Astra control request processed. Actions run: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\`
             });
