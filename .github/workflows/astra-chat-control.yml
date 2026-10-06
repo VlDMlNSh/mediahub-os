@@ -13,7 +13,7 @@ jobs:
     if: >-
       github.event.issue.pull_request == null &&
       startsWith(github.event.comment.body, '/astra ')
-    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 30
     env:
       GH_COMMENT: ${{ github.event.comment.body }}
@@ -49,10 +49,11 @@ jobs:
         if: ${{ steps.command.outputs.op == 'status' }}
         run: |
           set -euo pipefail
-          test "$(hostname)" = "mh-dev-02"
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
           echo "ASTRA_CHAT_CONTROL=PASS"
           echo "MAIN=$(git rev-parse HEAD)"
-          echo "NODE=mh-dev-02"
+          echo "NODE=mh-dev-01"
 
       - name: Validate task and target
         if: ${{ steps.command.outputs.op == 'run-worker' }}
@@ -64,8 +65,14 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$TARGET_SHA"
-          test "$NODE_ID" = "mh-dev-02"
-          test "$EXECUTOR" = "codex"
+          case "$NODE_ID" in
+            mh-dev-02|Voktors-Mac-mini.local) ;;
+            *) echo "invalid_node"; exit 1 ;;
+          esac
+          case "$EXECUTOR" in
+            codex|claude) ;;
+            *) echo "invalid_executor"; exit 1 ;;
+          esac
           test -f "ops/agent-fabric/tasks/$TASK_ID.json"
           python3 - <<'PY'
           import json,os,pathlib
@@ -92,6 +99,8 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-02"
           test "$(id -un)" = "mediahub"
+          test "$NODE_ID" = "mh-dev-02"
+          test "$EXECUTOR" = "codex"
           export ASTRA_MICRO_TASK_JSON="$(cat "ops/agent-fabric/tasks/$TASK_ID.json")"
           python3 ops/qualification/run_distributed_local_worker.py
 
