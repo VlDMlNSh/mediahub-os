@@ -219,7 +219,7 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
         if checkout.returncode:
             raise RuntimeError("worktree_create_failed")
         build = run(
-            [CODEX, "exec", "--full-auto", "--skip-git-repo-check", builder_prompt(task)],
+            [CODEX, "exec", "--sandbox", "workspace-write", "--ask-for-approval", "never", "--skip-git-repo-check", builder_prompt(task)],
             TASK_TIMEOUT,
             worktree,
         )
