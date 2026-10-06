@@ -36,7 +36,6 @@ jobs:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_WORKTREE: ${{ github.workspace }}
-      ASTRA_NODE_ATTESTATION_HMAC_KEY: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
       MIMO_API_KEY: ${{ secrets.MIMO_API_KEY }}
       SILICONFLOW_API_KEY_1: ${{ secrets.SILICONFLOW_API_KEY_1 }}
       SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
