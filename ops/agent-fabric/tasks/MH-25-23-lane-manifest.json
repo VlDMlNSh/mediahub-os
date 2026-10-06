@@ -27,5 +27,8 @@
     "The test asserts UNKNOWN ownership/lease/worker evidence is not promoted to a claimed state.",
     "All existing Agent Fabric tests pass.",
     "No production behavior outside the declared boundary is changed."
+  ],
+  "test_paths": [
+    "tests/test_agent_fabric.py"
   ]
 }
