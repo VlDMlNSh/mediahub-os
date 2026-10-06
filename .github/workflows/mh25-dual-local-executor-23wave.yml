@@ -1,14 +1,6 @@
 name: MH-25 dual local executor 23-wave qualification
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/mh25-dual-local-executor-23wave.yml
-      - control/qualification/**
-      - ops/agent-fabric/**
-      - ops/qualification/**
-      - astra_github_agent.py
   workflow_dispatch:
 
 permissions:
