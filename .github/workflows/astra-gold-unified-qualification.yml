@@ -10,7 +10,7 @@ on:
         default: false
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: astra-gold-unified-qualification
@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 50
-          persist-credentials: true
+          persist-credentials: false
       - name: Canonical runtime preflight
         shell: bash
         run: |
@@ -116,14 +116,18 @@ jobs:
       ASTRA_ONESHOT: "1"
       ASTRA_WORKFLOW_ONLY: "1"
       ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
+      ASTRA_PROVIDER_EVIDENCE_PATH: "${{ github.workspace }}/.astra-state/provider-qualification/provider-model.json"
+      ASTRA_DEFER_RESULT_PUBLICATION: "1"
       ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state/distributed-verification"
       ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
+      ASTRA_PROVIDER_EVIDENCE_PATH: "${{ github.workspace }}/.astra-state/provider-qualification/provider-model.json"
+      ASTRA_DEFER_RESULT_PUBLICATION: "1"
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
           fetch-depth: 1
-          persist-credentials: true
+          persist-credentials: false
       - name: Canonical admission
         shell: bash
         run: |
@@ -143,6 +147,13 @@ jobs:
         with:
           name: ${{ needs.distributed-verification.outputs.evidence_artifact }}
           path: .astra-state/distributed-verification
+
+      - name: Download provider qualification evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.distributed-verification.outputs.provider_evidence_artifact }}
+          path: .astra-state/provider-qualification
+
       - name: Install test dependencies
         run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
       - name: Verify signed command binding
@@ -168,23 +179,14 @@ jobs:
         run: |
           set -euo pipefail
           python3 astra_github_agent.py
-      - name: Verify fresh GOLD mission result
+      - name: Validate fresh GOLD mission result
         shell: bash
         run: |
           set -euo pipefail
-          for attempt in 1 2 3 4; do
-            if git fetch origin "+astra-node/mh-dev-01:refs/remotes/origin/astra-node/mh-dev-01"; then
-              break
-            fi
-            if [ "$attempt" -eq 4 ]; then
-              exit 1
-            fi
-            sleep "$((2 ** (attempt - 1)))"
-          done
-          git show "origin/astra-node/mh-dev-01:control/results/mh-dev-01.json" > /tmp/astra-gold-result.json
+          test -s control/results/mh-dev-01.json
           python3 - <<'PY'
           import json, os
-          d=json.load(open("/tmp/astra-gold-result.json"))
+          d=json.load(open("control/results/mh-dev-01.json"))
           result=d.get("result",{})
           expected=f"ASTRA-GOLD-UNIFIED-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
           assert d.get("command_id") == expected
@@ -200,6 +202,29 @@ jobs:
           assert all(item.get("status") == "VERIFIED" for item in queue.get("results",[]))
           print("ASTRA_GOLD_MISSION_PASS")
           PY
+
+      - name: Stage sanitized GOLD result
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s control/results/mh-dev-01.json
+          cp control/results/mh-dev-01.json .astra-state/controller-result.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open(".astra-state/controller-result.json"))
+          assert d.get("secret_values") == "SUPPRESSED"
+          PY
+
+      - name: Upload sanitized GOLD result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-gold-node-result-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .astra-state/controller-result.json
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Publish sanitized qualification marker
         if: always()
         shell: bash
@@ -210,3 +235,15 @@ jobs:
           echo "commit=$(git rev-parse HEAD 2>/dev/null || echo unavailable)"
           echo "node=mh-dev-01"
           echo "credentials=SUPPRESSED"
+
+
+  publish-result:
+    if: ${{ always() }}
+    needs: qualify
+    uses: ./.github/workflows/astra-node-result-publication.yml
+    with:
+      artifact_name: astra-gold-node-result-${{ github.run_id }}-${{ github.run_attempt }}
+      artifact_file: controller-result.json
+      node_id: mh-dev-01
+      command_id: ASTRA-GOLD-UNIFIED-${{ github.run_id }}-${{ github.run_attempt }}
+      target_sha: ${{ github.sha }}
