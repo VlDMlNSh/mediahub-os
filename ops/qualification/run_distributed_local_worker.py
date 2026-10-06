@@ -20,7 +20,7 @@ NODE_CONFIG = {
     "mh-dev-02": {
         "user": "mediahub",
         "platform": "linux",
-        "model": "qwen2.5-coder:3b",
+        "model": "qwen2.5-coder:7b",
         "pool": "primary_local",
         "fcc_env": "/home/mediahub/.config/mediahub/fcc.env",
     },
