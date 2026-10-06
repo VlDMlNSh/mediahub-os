@@ -6,6 +6,8 @@ on:
     paths:
       - ".github/workflows/astra-stale-supervisor-run-reaper.yml"
       - ".github/workflows/astra-autonomous-supervisor.yml"
+      - "ops/agent-fabric/**"
+      - "runtime/mediahub_runtime/autonomous_queue.py"
   workflow_dispatch:
 
 permissions:

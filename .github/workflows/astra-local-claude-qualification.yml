@@ -21,8 +21,6 @@ jobs:
     name: Local Claude executor on mh-dev-02
     runs-on: [self-hosted, linux, x64, mediahub-provider]
     timeout-minutes: 10
-    env:
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,66 +38,80 @@ jobs:
           command -v claude
           claude --version
 
-      - name: Bounded native Claude qualification
+      - name: Bounded local Claude via FCC/Ollama
         id: qualify
         shell: bash
         run: |
           set -uo pipefail
           export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          env_file="/home/mediahub/.config/mediahub/fcc.env"
+          test -f "$env_file"
+          set -a
+          . "$env_file"
+          set +a
+          test "$MODEL" = "ollama/qwen2.5-coder:7b"
+          command -v fcc-claude
+          command -v fcc-server
+          command -v ollama
+          ollama list | grep -E "^qwen2.5-coder:7b[[:space:]]" >/dev/null
           marker="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK"
           out="${RUNNER_TEMP}/astra-claude-result.txt"
           err="${RUNNER_TEMP}/astra-claude-stderr.txt"
           status="BLOCKED"
-          reason="credential_missing"
+          reason="fcc_unavailable"
           exit_status=1
-          : >"${out}"
-          : >"${err}"
-          if [ -n "${ANTHROPIC_API_KEY:-}" ]; then
+          : >"$out"
+          : >"$err"
+          server_pid=""
+          if ! curl -fsS --max-time 3 "http://127.0.0.1:${PORT:-8093}/health" >/dev/null 2>&1; then
+            nohup fcc-server >"${RUNNER_TEMP}/fcc-server.log" 2>&1 &
+            server_pid=$!
+            for _ in $(seq 1 20); do
+              if curl -fsS --max-time 2 "http://127.0.0.1:${PORT:-8093}/health" >/dev/null 2>&1; then break; fi
+              sleep 1
+            done
+          fi
+          if curl -fsS --max-time 3 "http://127.0.0.1:${PORT:-8093}/health" >/dev/null 2>&1; then
             reason="execution_failed"
-            timeout 60s claude --print --output-format text --bare \
-              "${marker}. Return exactly ${marker}. Do not modify files, call tools, or access the network." \
-              >"${out}" 2>"${err}"
+            timeout 90s fcc-claude -p "${marker}. Return exactly ${marker}. Do not modify files, call tools, or access the network." --output-format text >"$out" 2>"$err"
             exit_status=$?
-            if [ "${exit_status}" -eq 0 ] && grep -Fx "${marker}" "${out}" >/dev/null 2>&1; then
+            if [ "$exit_status" -eq 0 ] && grep -Fx "$marker" "$out" >/dev/null 2>&1; then
               status="PASS"
               reason=""
             fi
           fi
-          export ASTRA_CLAUDE_STATUS="${status}"
-          export ASTRA_CLAUDE_REASON="${reason}"
-          export ASTRA_CLAUDE_EXIT_STATUS="${exit_status}"
+          if [ -n "$server_pid" ]; then kill "$server_pid" 2>/dev/null || true; fi
+          export ASTRA_CLAUDE_STATUS="$status"
+          export ASTRA_CLAUDE_REASON="$reason"
+          export ASTRA_CLAUDE_EXIT_STATUS="$exit_status"
           python3 - <<'PY'
           import hashlib, json, os, platform, time
           from pathlib import Path
-          out = Path(os.environ["RUNNER_TEMP"]) / "astra-claude-result.txt"
-          err = Path(os.environ["RUNNER_TEMP"]) / "astra-claude-stderr.txt"
-          payload = {
-              "schema": "mediahub.astra.local-claude-qualification.v1",
-              "status": os.environ["ASTRA_CLAUDE_STATUS"],
-              "phase": "local_claude_executor",
-              "node_id": platform.node(),
-              "target_sha": os.environ["GITHUB_SHA"],
-              "command_id": f"LOCAL-CLAUDE-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}",
-              "executor_identity": "claude",
-              "provider_or_transport_identity": "native-claude",
-              "captured_at": int(time.time()),
-              "marker": "MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK",
-              "marker_present": out.read_text(encoding="utf-8", errors="replace").strip() == "MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK",
-              "exit_status": int(os.environ["ASTRA_CLAUDE_EXIT_STATUS"]),
-              "reason": os.environ["ASTRA_CLAUDE_REASON"],
-              "output_sha256": "sha256:" + hashlib.sha256(out.read_bytes()).hexdigest(),
-              "stderr_present": err.stat().st_size > 0,
-              "secret_values": "SUPPRESSED",
+          out=Path(os.environ["RUNNER_TEMP"])/"astra-claude-result.txt"
+          err=Path(os.environ["RUNNER_TEMP"])/"astra-claude-stderr.txt"
+          payload={
+              "schema":"mediahub.astra.local-claude-qualification.v2",
+              "status":os.environ["ASTRA_CLAUDE_STATUS"],
+              "phase":"local_claude_executor",
+              "node_id":platform.node(),
+              "target_sha":os.environ["GITHUB_SHA"],
+              "command_id":f"LOCAL-CLAUDE-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}",
+              "executor_identity":"claude",
+              "provider_or_transport_identity":"fcc-local-ollama",
+              "model":"ollama/qwen2.5-coder:7b",
+              "captured_at":int(time.time()),
+              "marker":"MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK",
+              "marker_present":out.read_text(encoding="utf-8",errors="replace").strip()=="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK",
+              "exit_status":int(os.environ["ASTRA_CLAUDE_EXIT_STATUS"]),
+              "reason":os.environ["ASTRA_CLAUDE_REASON"],
+              "output_sha256":"sha256:"+hashlib.sha256(out.read_bytes()).hexdigest(),
+              "stderr_present":err.stat().st_size>0,
+              "secret_values":"SUPPRESSED",
           }
-          print(json.dumps(payload, sort_keys=True))
-          Path("astra-local-claude-qualification.json").write_text(
-              json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-          )
+          print(json.dumps(payload,sort_keys=True))
+          Path("astra-local-claude-qualification.json").write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n",encoding="utf-8")
           PY
-          if [ "${status}" != "PASS" ]; then
-            exit 2
-          fi
-
+          test "$status" = "PASS"
       - name: Upload Claude qualification evidence
         if: always()
         uses: actions/upload-artifact@v4
