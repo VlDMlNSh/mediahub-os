@@ -44,7 +44,7 @@ jobs:
           test -n "$current"
           : > /tmp/astra-stale-ids
           for workflow in "${allowed[@]}"; do
-            gh run list --workflow "${workflow}" --limit 100 --json databaseId,headSha,status \
+            gh run list --repo "${GITHUB_REPOSITORY}" --workflow "${workflow}" --limit 100 --json databaseId,headSha,status \
               --jq '.[] | select(.status == "queued" or .status == "in_progress" or .status == "pending" or .status == "waiting") | [.databaseId,.headSha] | @tsv' \
               | while IFS=$'\\t' read -r run_id run_sha; do
                   [ -z "$run_id" ] && continue
