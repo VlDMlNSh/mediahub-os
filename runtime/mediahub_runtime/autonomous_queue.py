@@ -185,7 +185,7 @@ def prepare_worktree(worktree: Path) -> None:
         raise RuntimeError("worktree_cleanup_failed")
 
 
-def process_task(task: dict) -> dict:
+def process_task(task: dict, expected_base_sha: str) -> dict:
     STATE.mkdir(parents=True, exist_ok=True)
     (STATE / "completed").mkdir(parents=True, exist_ok=True)
     store = ClaimStore(CLAIMS)
@@ -205,12 +205,11 @@ def process_task(task: dict) -> dict:
         store.acquire(claim)
         worktree.parent.mkdir(parents=True, exist_ok=True)
         prepare_worktree(worktree)
-        fetch_main = run(["git", "fetch", "--prune", "origin", "main"], 120)
-        if fetch_main.returncode != 0:
-            raise RuntimeError("queue_main_fetch_failed")
         remote_main = run(["git", "rev-parse", "origin/main"], 30)
-        if remote_main.returncode != 0 or remote_main.stdout.strip() != claim.base_sha:
+        if remote_main.returncode != 0 or remote_main.stdout.strip() != expected_base_sha:
             raise RuntimeError("queue_base_sha_drift")
+        if claim.base_sha != expected_base_sha:
+            raise RuntimeError("queue_claim_base_sha_mismatch")
         existing_branch = run(["git", "ls-remote", "--exit-code", "--heads", "origin", f"refs/heads/{branch}"], 60)
         if existing_branch.returncode == 0:
             raise RuntimeError("queue_branch_already_exists")
@@ -328,6 +327,19 @@ def main() -> int:
     if not base_sha:
         print(json.dumps({"status": "BLOCKED", "reason": "queue_base_sha_unavailable"}, sort_keys=True))
         return 2
+    fetch_main = run(["git", "fetch", "--prune", "origin", "main"], 120)
+    if fetch_main.returncode != 0:
+        print(json.dumps({"status":"BLOCKED","reason":"queue_main_fetch_failed"}, sort_keys=True))
+        return 2
+    remote_main = run(["git", "rev-parse", "origin/main"], 30)
+    if remote_main.returncode != 0 or remote_main.stdout.strip() != base_sha:
+        print(json.dumps({
+            "status":"BLOCKED",
+            "reason":"queue_base_sha_drift",
+            "target_sha": base_sha,
+            "remote_sha": remote_main.stdout.strip(),
+        }, sort_keys=True))
+        return 2
     tasks = [
         t
         for t in load_tasks()
@@ -338,7 +350,7 @@ def main() -> int:
         return 0
     selected = tasks[:MAX_WORKERS]
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(selected)) as pool:
-        results = list(pool.map(process_task, selected))
+        results = list(pool.map(lambda task: process_task(task, base_sha), selected))
     all_verified = all(r["status"] == "VERIFIED" for r in results)
     print(
         json.dumps(
