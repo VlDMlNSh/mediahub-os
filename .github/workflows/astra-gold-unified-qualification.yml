@@ -120,8 +120,6 @@ jobs:
       ASTRA_DEFER_RESULT_PUBLICATION: "1"
       ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state/distributed-verification"
       ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
-      ASTRA_PROVIDER_EVIDENCE_PATH: "${{ github.workspace }}/.astra-state/provider-qualification/provider-model.json"
-      ASTRA_DEFER_RESULT_PUBLICATION: "1"
     steps:
       - uses: actions/checkout@v4
         with:
