@@ -17,7 +17,42 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  g4-admission:
+    name: Verify fresh G4 115-round evidence
+    if: ${{ inputs.confirm_launch == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Resolve exact G4 run for this source SHA
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          run_id="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/mh25-dual-local-executor-23wave.yml/runs?branch=main&per_page=50" --jq '.workflow_runs[] | select(.head_sha == env.GITHUB_SHA and .status == "completed" and .conclusion == "success") | .id' | head -n 1)"
+          test -n "$run_id"
+          echo "G4_RUN_ID=$run_id" >> "$GITHUB_ENV"
+      - name: Download exact G4 evidence artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p .astra-state/g4
+          gh run download "$G4_RUN_ID" -n "mh25-dual-local-executor-23wave-$G4_RUN_ID" -D .astra-state/g4
+          test -s .astra-state/g4/g4-115.json
+      - name: Independently verify G4 evidence
+        run: |
+          set -euo pipefail
+          python3 ops/qualification/verify_g4_115.py .astra-state/g4/g4-115.json --expected-sha "$GITHUB_SHA"
+
   prepare-command:
+    needs: g4-admission
     if: ${{ inputs.confirm_launch == true }}
     name: Prepare signed GOLD command
     runs-on: [self-hosted, linux, x64, mediahub-control]
@@ -118,7 +153,8 @@ jobs:
       - prepare-command
       - distributed-verification
       - provider-qualification
-    if: ${{ inputs.confirm_launch == true && needs.distributed-verification.outputs.status == 'PASS' }}
+      - g4-admission
+    if: ${{ inputs.confirm_launch == true && needs.distributed-verification.outputs.status == 'PASS' && needs.provider-qualification.outputs.status == 'PASS' && needs.g4-admission.result == 'success' }}
     name: Execute signed ASTRA GOLD mission
     runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 90
