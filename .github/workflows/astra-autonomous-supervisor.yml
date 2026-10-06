@@ -20,6 +20,7 @@ on:
       - ".github/workflows/astra-distributed-verification.yml"
       - ".github/workflows/astra-provider-qualification.yml"
       - ".github/workflows/astra-distributed-local-worker.yml"
+      - ".github/workflows/astra-local-claude-qualification.yml"
   workflow_dispatch:
   schedule:
     - cron: "*/10 * * * *"
