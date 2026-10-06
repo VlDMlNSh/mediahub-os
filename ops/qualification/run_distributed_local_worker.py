@@ -23,13 +23,15 @@ NODE_CONFIG = {
         "model": "qwen2.5-coder:3b",
         "pool": "primary_local",
         "fcc_env": "/home/mediahub/.config/mediahub/fcc.env",
+        "fcc_bin": "/home/mediahub/.local/bin/fcc-server",
     },
     "Voktors-Mini.Dlink": {
         "user": "voktor",
         "platform": "macos",
         "model": "qwen2.5-coder:1.5b",
         "pool": "fast_local",
-        "fcc_env": "",
+        "fcc_env": "/Users/voktor/Library/Application Support/MediaHub/fcc.env",
+        "fcc_bin": "/Users/voktor/.local/bin/fcc-server",
     },
 }
 
@@ -96,7 +98,7 @@ def ollama_has_model(model: str) -> bool:
     return p.returncode == 0 and any(line.split() and line.split()[0] == model for line in p.stdout.splitlines())
 
 
-def start_fcc(env_file: Path, model: str) -> tuple[subprocess.Popen[str] | None, dict[str, str]]:
+def start_fcc(env_file: Path, model: str, server_path: str | None = None) -> tuple[subprocess.Popen[str] | None, dict[str, str]]:
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
         raise RuntimeError("fcc_model_binding_mismatch")
@@ -112,7 +114,7 @@ def start_fcc(env_file: Path, model: str) -> tuple[subprocess.Popen[str] | None,
                 return None, env
     except Exception:
         pass
-    server = shutil.which("fcc-server") or "/home/mediahub/.local/bin/fcc-server"
+    server = shutil.which("fcc-server") or server_path or "/usr/local/bin/fcc-server"
     log = Path(tempfile.mkstemp(prefix="astra-fcc-", suffix=".log")[1])
     handle = log.open("w", encoding="utf-8")
     process = subprocess.Popen([server], cwd="/tmp", env=env, stdout=handle, stderr=subprocess.STDOUT, text=True)
@@ -164,7 +166,7 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path) -> tuple[
             if response.status != 200:
                 raise RuntimeError("fcc_health_not_ok")
     except Exception:
-        server, _ = start_fcc(env_file, model)
+        server, _ = start_fcc(env_file, model, cfg["fcc_bin"])
     token = env_updates.get("ANTHROPIC_AUTH_TOKEN", "")
     if not token:
         raise RuntimeError("fcc_auth_token_missing")
