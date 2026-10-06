@@ -229,7 +229,7 @@ def execute(cmd):
                 "agent_path":str(Path(__file__).resolve()),
                 "worktree":str(ROOT.resolve())}
     if operation in {"autonomous_qualification_queue", "autonomous_gold_mission"}:
-        backend_script=ROOT/"ops"/"qualification"/"qualify_execution_backends.py"
+        provider_evidence_path=Path(os.environ.get("ASTRA_PROVIDER_EVIDENCE_PATH",""))
         evidence_script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
         verifier_script=ROOT/"ops"/"qualification"/"verify_pre_soak_bundle.py"
         distributed_script=ROOT/"ops"/"qualification"/"produce_distributed_verification_evidence.py"
@@ -266,14 +266,46 @@ def execute(cmd):
             cycle_record={"cycle":cycle,"head":run(["git","rev-parse","HEAD"],10).stdout.strip()}
             if journal:
                 journal.checkpoint(phase="execution_backend_qualification", cycle=cycle)
-            backend=subprocess.run([sys.executable,str(backend_script)],cwd=ROOT,text=True,
-                                   capture_output=True,timeout=120,check=False)
-            cycle_record["backend"]={"returncode":backend.returncode,
-                                     "stdout":backend.stdout[-12000:],"stderr":backend.stderr[-8000:]}
+            provider_status = "BLOCKED"
+            provider_payload = {}
+            provider_reason = "provider_evidence_missing"
+            if provider_evidence_path.is_file():
+                try:
+                    provider_payload = json.loads(provider_evidence_path.read_text(encoding="utf-8"))
+                    provider_status = provider_payload.get("status","BLOCKED")
+                    provider_reason = ""
+                    if provider_payload.get("schema") != "mediahub.provider-model-qualification.v1":
+                        provider_status = "BLOCKED"; provider_reason = "provider_schema_invalid"
+                    elif provider_payload.get("target_sha") != target_sha:
+                        provider_status = "BLOCKED"; provider_reason = "provider_target_sha_mismatch"
+                    elif provider_payload.get("repo_revision") != target_sha:
+                        provider_status = "BLOCKED"; provider_reason = "provider_repo_revision_mismatch"
+                    elif provider_payload.get("node_id") != "mh-dev-02":
+                        provider_status = "BLOCKED"; provider_reason = "provider_node_identity_invalid"
+                    elif not isinstance(provider_payload.get("evidence_digest"), str) or not provider_payload.get("evidence_digest").startswith("sha256:"):
+                        provider_status = "BLOCKED"; provider_reason = "provider_evidence_digest_invalid"
+                    elif provider_payload.get("status") != "PASS":
+                        provider_status = "BLOCKED"; provider_reason = "provider_qualification_blocked"
+                    else:
+                        qualified = [
+                            item for item in provider_payload.get("providers", [])
+                            if isinstance(item, dict) and item.get("verification_state") == "QUALIFIED"
+                        ]
+                        if not qualified:
+                            provider_status = "BLOCKED"; provider_reason = "no_qualified_provider"
+                except Exception:
+                    provider_status = "BLOCKED"
+                    provider_reason = "provider_evidence_invalid_json"
+            cycle_record["backend"]={
+                "returncode": 0 if provider_status == "PASS" else 2,
+                "status": provider_status,
+                "reason": provider_reason,
+                "source": "node_local_provider_evidence",
+            }
             steps.append(cycle_record)
             if journal:
-                journal.checkpoint(phase="execution_backend_qualification_complete", cycle=cycle, step={"cycle":cycle,"phase":"backend","returncode":backend.returncode})
-            if backend.returncode != 0:
+                journal.checkpoint(phase="execution_backend_qualification_complete", cycle=cycle, step={"cycle":cycle,"phase":"backend","returncode":0 if provider_status=="PASS" else 2,"status":provider_status})
+            if provider_status != "PASS":
                 if operation=="autonomous_gold_mission" and cycle<cycles:
                     time.sleep(retry_seconds)
                     continue
