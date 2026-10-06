@@ -114,5 +114,11 @@ class AstraTransportContractTests(unittest.TestCase):
         source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
         self.assertIn('publish_result.setdefault("secret_values","SUPPRESSED")', source)
 
+    def test_autonomous_controller_consumes_a2_artifact_without_hmac_fan_in(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        self.assertIn('source": "fresh_downloaded_a2_aggregate"', source)
+        self.assertIn("distributed-verification-result.json", source)
+        self.assertNotIn('subprocess.run([sys.executable,str(distributed_script)]', source)
+
 if __name__ == "__main__":
     unittest.main()
