@@ -39,7 +39,8 @@ jobs:
               ".github/workflows/astra-distributed-local-worker.yml",
           ]))
           PY
-          current="${GITHUB_SHA}"
+          current="$(gh api "/repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')"
+          test -n "$current"
           gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?per_page=100" > /tmp/astra-all-runs.json
           python3 - "${current}" <<'PY' > /tmp/astra-stale-ids
           import json,sys
