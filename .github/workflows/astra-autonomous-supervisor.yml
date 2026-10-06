@@ -16,7 +16,7 @@ on:
     - cron: "*/10 * * * *"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: astra-autonomous-supervisor-v2
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 50
-          persist-credentials: true
+          persist-credentials: false
       - name: Resolve canonical node
         shell: bash
         run: |
@@ -102,12 +102,14 @@ jobs:
       ASTRA_AUTONOMOUS_RETRY_SECONDS: "30"
       ASTRA_QUALIFICATION_TIMEOUT: "87000"
       ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
+      ASTRA_PROVIDER_EVIDENCE_PATH: "${{ github.workspace }}/.astra-state/provider-qualification/provider-model.json"
+      ASTRA_DEFER_RESULT_PUBLICATION: "1"
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 50
-          persist-credentials: true
+          persist-credentials: false
 
       - name: Resolve canonical node from runner identity
         shell: bash
@@ -163,6 +165,12 @@ jobs:
           name: ${{ needs.distributed-verification.outputs.evidence_artifact }}
           path: .astra-state/distributed-verification
 
+      - name: Download provider qualification evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.distributed-verification.outputs.provider_evidence_artifact }}
+          path: .astra-state/provider-qualification
+
       - name: Execute autonomous qualification wave
         shell: bash
         env:
@@ -170,87 +178,55 @@ jobs:
           ASTRA_WORKFLOW_ONLY: "1"
           ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state/distributed-verification"
           ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
-          MIMO_API_KEY: ${{ secrets.MIMO_API_KEY }}
-          SILICONFLOW_API_KEY_1: ${{ secrets.SILICONFLOW_API_KEY_1 }}
-          SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
-          SILICONFLOW_API_KEY_2: ${{ secrets.SILICONFLOW_API_KEY_2 }}
-          NOVITA_API_KEY_1: ${{ secrets.NOVITA_API_KEY_1 }}
-          NOVITA_API_KEY: ${{ secrets.NOVITA_API_KEY }}
-          NOVITA_API_KEY_2: ${{ secrets.NOVITA_API_KEY_2 }}
-          ZAI_API_KEY_1: ${{ secrets.ZAI_API_KEY_1 }}
-          ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
-          ZAI_API_KEY_2: ${{ secrets.ZAI_API_KEY_2 }}
-          KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
-          MOONSHOT_API_KEY: ${{ secrets.MOONSHOT_API_KEY }}
-          LLM7_API_KEY: ${{ secrets.LLM7_API_KEY }}
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-          AIONLABS_API_KEY: ${{ secrets.AIONLABS_API_KEY }}
-          CLOUDFLARE_API_TOKEN_1: ${{ secrets.CLOUDFLARE_API_TOKEN_1 }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_API_TOKEN_2: ${{ secrets.CLOUDFLARE_API_TOKEN_2 }}
-          NARAROUTER_API_KEY_1: ${{ secrets.NARAROUTER_API_KEY_1 }}
-          NARAROUTER_API_KEY: ${{ secrets.NARAROUTER_API_KEY }}
-          ORCAROUTER_API_KEY: ${{ secrets.ORCAROUTER_API_KEY }}
-          UNOROUTER_API_KEY: ${{ secrets.UNOROUTER_API_KEY }}
-          ZEROUTER_API_KEY: ${{ secrets.ZEROUTER_API_KEY }}
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          MISTRAL_API_KEY_1: ${{ secrets.MISTRAL_API_KEY_1 }}
-          MISTRAL_API_KEY_2: ${{ secrets.MISTRAL_API_KEY_2 }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID_1: ${{ secrets.CLOUDFLARE_ACCOUNT_ID_1 }}
-          CLOUDFLARE_ACCOUNT_ID_2: ${{ secrets.CLOUDFLARE_ACCOUNT_ID_2 }}
         run: |
           set -euo pipefail
           python3 astra_github_agent.py
 
-      - name: Verify fresh result publication
+      - name: Validate fresh controller result
         shell: bash
         run: |
           set -euo pipefail
-          for attempt in 1 2 3 4; do
-            if git fetch origin "+astra-node/${ASTRA_NODE_ID}:refs/remotes/origin/astra-node/${ASTRA_NODE_ID}"; then
-              break
-            fi
-            if [ "$attempt" -eq 4 ]; then
-              echo "BLOCK: unable to fetch node result branch after bounded retries"
-              exit 1
-            fi
-            sleep "$((2 ** (attempt - 1)))"
-          done
-          git show "origin/astra-node/${ASTRA_NODE_ID}:control/results/${ASTRA_NODE_ID}.json" > /tmp/astra-result.json
+          test -s control/results/mh-dev-01.json
           python3 - <<'PY'
-          import json
-          import os
-          d=json.load(open("/tmp/astra-result.json"))
-          expected_command_id=f"MH-AUTONOMOUS-GOLD-{os.environ['ASTRA_NODE_ID']}-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          import json, os
+          d=json.load(open("control/results/mh-dev-01.json"))
           result=d.get("result",{})
-          print(json.dumps({
-              "command_id": d.get("command_id"),
-              "node_id": d.get("node_id"),
-              "returncode": d.get("returncode"),
-              "phase": result.get("phase"),
-              "status": result.get("status"),
-              "cycles": len(result.get("steps",[])),
-              "execution_head": d.get("execution_head"),
-          }, sort_keys=True))
-          assert d.get("command_id") == expected_command_id
+          expected=f"MH-AUTONOMOUS-GOLD-mh-dev-01-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          assert d.get("command_id") == expected
           assert d.get("node_id") == os.environ["ASTRA_NODE_ID"]
           assert d.get("target_sha") == os.environ["GITHUB_SHA"]
           assert d.get("execution_head") == d.get("target_sha")
           assert d.get("returncode") == 0
-          phase=result.get("phase")
-          status=result.get("status")
-          assert phase == "autonomous_queue"
-          assert status == "PASS"
-          queue=result.get("queue", {})
-          assert isinstance(queue, dict)
+          assert result.get("phase") == "autonomous_queue"
+          assert result.get("status") == "PASS"
+          queue=result.get("queue",{})
           assert queue.get("status") == "PASS"
-          assert int(queue.get("workers", 0)) >= 1
-          assert all(item.get("status") == "VERIFIED" for item in queue.get("results", []))
+          assert int(queue.get("workers",0)) >= 1
+          assert all(item.get("status") == "VERIFIED" for item in queue.get("results",[]))
+          print("ASTRA_AUTONOMOUS_QUEUE_PASS")
           PY
+
+      - name: Stage sanitized controller result
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s control/results/mh-dev-01.json
+          cp control/results/mh-dev-01.json .astra-state/controller-result.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open(".astra-state/controller-result.json"))
+          assert d.get("secret_values") == "SUPPRESSED"
+          PY
+
+      - name: Upload sanitized controller result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-node-result-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .astra-state/controller-result.json
+          if-no-files-found: error
+          retention-days: 7
 
 # Fleet-label reconciliation retrigger: registered runner labels aligned 2026-10-05.
 # Autonomous qualification retrigger: current main after fleet-label reconciliation.
@@ -260,3 +236,15 @@ jobs:
 
 # Target-pinned retry hardening retrigger: 2026-10-05.
 # Autonomous full-wave retrigger: 2026-10-05T13:xx+03:00
+
+
+  publish-result:
+    if: ${{ always() }}
+    needs: supervise
+    uses: ./.github/workflows/astra-node-result-publication.yml
+    with:
+      artifact_name: astra-node-result-${{ github.run_id }}-${{ github.run_attempt }}
+      artifact_file: controller-result.json
+      node_id: mh-dev-01
+      command_id: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
+      target_sha: ${{ github.sha }}
