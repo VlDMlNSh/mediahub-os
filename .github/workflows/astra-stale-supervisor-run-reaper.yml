@@ -8,6 +8,7 @@ on:
       - ".github/workflows/astra-autonomous-supervisor.yml"
       - ".github/workflows/astra-local-claude-qualification.yml"
       - ".github/workflows/mh25-dual-local-executor-23wave.yml"
+      - ".github/workflows/astra-distributed-local-worker.yml"
       - "ops/agent-fabric/**"
       - "runtime/mediahub_runtime/autonomous_queue.py"
   workflow_dispatch:
@@ -28,44 +29,56 @@ jobs:
       - name: Cancel Astra runs pinned to older source SHAs
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          CURRENT_SHA: ${{ github.sha }}
         shell: bash
         run: |
           set -euo pipefail
-          python3 - <<'PY' > /tmp/astra-reaper-paths
-          print("\n".join([
+          export CURRENT_SHA
+          python3 - <<'PY'
+          import json, os, subprocess, sys
+          repo=os.environ["GH_REPO"]
+          current=os.environ["CURRENT_SHA"]
+          allowed={
               ".github/workflows/astra-autonomous-supervisor.yml",
               ".github/workflows/astra-local-claude-qualification.yml",
               ".github/workflows/mh25-dual-local-executor-23wave.yml",
               ".github/workflows/astra-distributed-local-worker.yml",
-          ]))
+          }
+          if not current:
+              raise SystemExit("current_sha_missing")
+          stale=[]
+          for page in range(1, 21):
+              p=subprocess.run(
+                  ["gh","api",f"/repos/{repo}/actions/runs?per_page=100&page={page}"],
+                  text=True,capture_output=True,check=False,
+              )
+              if p.returncode:
+                  print(p.stderr[-4000:],file=sys.stderr)
+                  raise SystemExit("actions_api_list_failed")
+              payload=json.loads(p.stdout)
+              runs=payload.get("workflow_runs",[])
+              if not runs:
+                  break
+              for run in runs:
+                  if (
+                      run.get("path") in allowed
+                      and run.get("head_sha") != current
+                      and run.get("status") in {"queued","in_progress","pending","waiting"}
+                  ):
+                      stale.append(int(run["id"]))
+              if len(runs)<100:
+                  break
+          for run_id in sorted(set(stale)):
+              print(f"cancelling stale Astra run={run_id}")
+              p=subprocess.run(
+                  ["gh","api","-X","POST",f"/repos/{repo}/actions/runs/{run_id}/cancel"],
+                  text=True,capture_output=True,check=False,
+              )
+              if p.returncode:
+                  print(p.stderr[-4000:],file=sys.stderr)
+                  raise SystemExit(f"cancel_request_failed:{run_id}")
+              print(f"cancel_request=PASS run={run_id}")
+          print(f"current_sha={current}")
+          print("stale_reaper=PASS")
           PY
-          current="$(gh api "/repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')"
-          test -n "$current"
-          : > /tmp/astra-stale-ids
-          page=1
-          while :; do
-            payload="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?per_page=100&page=${page}")"
-            count="$(printf '%s' "$payload" | python3 -c 'import json,sys; print(len(json.load(sys.stdin).get("workflow_runs", [])))')"
-            [ "$count" -gt 0 ] || break
-            printf '%s' "$payload" | python3 -c '
-import json,sys
-allowed=set(open("/tmp/astra-reaper-paths",encoding="utf-8").read().splitlines())
-for run in json.load(sys.stdin).get("workflow_runs", []):
-    if run.get("path") in allowed and run.get("head_sha") != "'"$current"'" and run.get("status") in {"queued","in_progress","pending","waiting"}:
-        print(run["id"])
-'
-            [ "$count" -lt 100 ] && break
-            page=$((page + 1))
-          done
-          sort -u /tmp/astra-stale-ids | while read -r run_id; do
-            [ -z "$run_id" ] && continue
-            echo "cancelling stale Astra run=$run_id"
-            if gh api -X POST "/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/cancel" >/dev/null; then
-              echo "cancel_request=PASS run=$run_id"
-            else
-              echo "cancel_request=BLOCKED run=$run_id"
-              exit 2
-            fi
-          done
-          echo "current_sha=${current}"
-          echo "stale_reaper=PASS"
