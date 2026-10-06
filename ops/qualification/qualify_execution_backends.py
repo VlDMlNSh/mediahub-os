@@ -49,6 +49,8 @@ def classify_detail(status: int | None, text: str) -> str:
 
 def classify(status: int | None, text: str, exc: Exception | None = None) -> str:
     t = text.lower()
+    if status == 402:
+        return "insufficient_balance"
     if status in (401, 403):
         if any(x in t for x in ("country", "region", "territory", "location", "supported")):
             return "regional_restriction"
