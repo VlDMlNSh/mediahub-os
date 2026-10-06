@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791268665.9870746,
+    "expiry": 1791268910.0293171,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,18 +23,18 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791268645.5172725,
+    "started": 1791268906.6913414,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37424588382-1",
-    "updated": 1791268665.9870746
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37425031878-1",
+    "updated": 1791268910.0293171
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37424588382-1",
-  "completed_at": 1791268665,
-  "duration_seconds": 20.605,
-  "execution_head": "2ada8f0510c1a52ed8b3b02ca7874b2e58515258",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37425031878-1",
+  "completed_at": 1791268910,
+  "duration_seconds": 3.48,
+  "execution_head": "7db1245e79d59729c8329d970a7431a642c34ab0",
   "node_id": "mh-dev-01",
   "result": {
-    "elapsed_seconds": 20.465,
+    "elapsed_seconds": 3.333,
     "phase": "autonomous_queue",
     "status": "BLOCKED",
     "steps": [
@@ -43,30 +43,20 @@
           "payload": {
             "results": [
               {
-                "base_sha": "2ada8f0510c1a52ed8b3b02ca7874b2e58515258",
-                "branch": "astra/auto/MH25-23-LANE-MANIFEST-001-2ada8f0510c1-1791268647",
-                "builder": {
-                  "returncode": 1,
-                  "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.151.0\n--------\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-23-LANE-MANIFEST-001\nmodel: gpt-5.6-sol\nprovider: openai\napproval: never\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a10fee-7804-7d90-9e1a-e14d11b6c952\n--------\nuser\nYou are A2 Builder in MediaHub Agent Fabric.\nTask ID: MH25-23-LANE-MANIFEST-001\nMission: Reconcile MH-01..MH-23 into one authoritative execution manifest.\nBoundary: [\"ops/agent-fabric/\", \"docs/checkpoints/\", \"ops/qualification/\"]\nForbidden surfaces: [\"qualified R4 object 471f709f5633feab7aeb62dd3ea52effad6d2bc4\", \"MH-05 qualification evidence\", \"production infrastructure\", \"user data\"]\nAcceptance: [\"every MH-01..MH-23 lane has exactly one disposition\", \"ownership/dependency/base/head/lease/worker/verification are explicit or UNKNOWN\", \"unknown evidence is not promoted\", \"no incompatible overlap remains unrecorded\", \"manifest does not become MediaHub domain or State Authority\"]\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\nuser data, credentials, or unrelated files. Work on the current task branch.\nRun relevant tests. Do not merge to main. Report changes and verification.\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\n2026-10-06T06:37:29.266085Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\n2026-10-06T06:37:29.584185Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\n2026-10-06T06:37:29.983859Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\nERROR: Reconnecting... 2/5\n2026-10-06T06:37:30.733155Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\nERROR: Reconnecting... 3/5\n2026-10-06T06:37:31.805035Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\nERROR: Reconnecting... 4/5\n2026-10-06T06:37:33.678560Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\nERROR: Reconnecting... 5/5\n2026-10-06T06:37:37.323868Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\nwarning: Falling back from WebSockets to HTTPS transport. unexpected status 403 Forbidden: Country, region, or territory not supported, url: wss://api.openai.com/v1/responses, cf-ray: a462a8940c37366b-FRA\nERROR: Reconnecting... 1/5\nERROR: Reconnecting... 2/5\nERROR: Reconnecting... 3/5\nERROR: Reconnecting... 4/5\nERROR: Reconnecting... 5/5\nERROR: unexpected status 403 Forbidden: Country, region, or territory not supported, url: https://api.openai.com/v1/responses, cf-ray: a462a8c58b0edcb2-FRA\nERROR: unexpected status 403 Forbidden: Country, region, or territory not supported, url: https://api.openai.com/v1/responses, cf-ray: a462a8c58b0edcb2-FRA\n",
-                  "stdout": ""
-                },
-                "elapsed_seconds": 17.484,
-                "error": "RuntimeError:builder_failed",
-                "started_at": 1791268647,
+                "base_sha": "7db1245e79d59729c8329d970a7431a642c34ab0",
+                "branch": "astra/auto/MH25-23-LANE-MANIFEST-001-7db1245e79d5-1791268909",
+                "elapsed_seconds": 0.94,
+                "error": "RuntimeError:qualified_huggingface_credential_missing",
+                "started_at": 1791268909,
                 "status": "BLOCKED",
                 "task_id": "MH25-23-LANE-MANIFEST-001"
               },
               {
-                "base_sha": "2ada8f0510c1a52ed8b3b02ca7874b2e58515258",
-                "branch": "astra/auto/MH25-QUEUE-002-2ada8f0510c1-1791268647",
-                "builder": {
-                  "returncode": 1,
-                  "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.151.0\n--------\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-QUEUE-002\nmodel: gpt-5.6-sol\nprovider: openai\napproval: never\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a10fee-783e-74a2-948e-61b01191168b\n--------\nuser\nYou are A2 Builder in MediaHub Agent Fabric.\nTask ID: MH25-QUEUE-002\nMission: Add deterministic unit coverage proving autonomous queue execution uses isolated worktree paths and bounded worker selection.\nBoundary: [\"tests/test_autonomous_queue.py\"]\nForbidden surfaces: [\".github/workflows/\", \"docs/checkpoints/\", \"runtime/mediahub_runtime/agent_fabric.py\", \"runtime/mediahub_runtime/autonomous_queue.py\", \"astra_github_agent.py\", \"user data\", \"credentials\", \"production infrastructure\"]\nAcceptance: [\"Tests assert worktree paths are task-scoped and deterministic.\", \"Tests assert worker selection is bounded by MAX_WORKERS.\", \"Tests do not execute Codex, git worktrees, network operations, or production infrastructure.\", \"All existing Agent Fabric and autonomous queue tests pass.\", \"No production behavior outside the declared boundary is changed.\"]\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\nuser data, credentials, or unrelated files. Work on the current task branch.\nRun relevant tests. Do not merge to main. Report changes and verification.\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\n2026-10-06T06:37:29.445858Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\n2026-10-06T06:37:29.886620Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\n2026-10-06T06:37:30.439562Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\nERROR: Reconnecting... 2/5\n2026-10-06T06:37:31.118016Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\nERROR: Reconnecting... 3/5\n2026-10-06T06:37:32.065901Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\nERROR: Reconnecting... 4/5\n2026-10-06T06:37:34.089537Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\nERROR: Reconnecting... 5/5\n2026-10-06T06:37:37.494907Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\nwarning: Falling back from WebSockets to HTTPS transport. unexpected status 403 Forbidden: Country, region, or territory not supported, url: wss://api.openai.com/v1/responses, cf-ray: a462a8951f35d369-FRA\nERROR: Reconnecting... 1/5\nERROR: Reconnecting... 2/5\nERROR: Reconnecting... 3/5\nERROR: Reconnecting... 4/5\nERROR: Reconnecting... 5/5\nERROR: unexpected status 403 Forbidden: Country, region, or territory not supported, url: https://api.openai.com/v1/responses, cf-ray: a462a8c979b4f10a-DME\nERROR: unexpected status 403 Forbidden: Country, region, or territory not supported, url: https://api.openai.com/v1/responses, cf-ray: a462a8c979b4f10a-DME\n",
-                  "stdout": ""
-                },
-                "elapsed_seconds": 18.06,
-                "error": "RuntimeError:builder_failed",
-                "started_at": 1791268647,
+                "base_sha": "7db1245e79d59729c8329d970a7431a642c34ab0",
+                "branch": "astra/auto/MH25-QUEUE-002-7db1245e79d5-1791268909",
+                "elapsed_seconds": 0.892,
+                "error": "RuntimeError:qualified_huggingface_credential_missing",
+                "started_at": 1791268909,
                 "status": "BLOCKED",
                 "task_id": "MH25-QUEUE-002"
               }
@@ -80,7 +70,7 @@
           },
           "returncode": 2,
           "stderr": "",
-          "stdout": "{\"results\": [{\"base_sha\": \"2ada8f0510c1a52ed8b3b02ca7874b2e58515258\", \"branch\": \"astra/auto/MH25-23-LANE-MANIFEST-001-2ada8f0510c1-1791268647\", \"builder\": {\"returncode\": 1, \"stderr\": \"Reading additional input from stdin...\\nOpenAI Codex v0.151.0\\n--------\\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-23-LANE-MANIFEST-001\\nmodel: gpt-5.6-sol\\nprovider: openai\\napproval: never\\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\\nreasoning effort: none\\nreasoning summaries: none\\nsession id: 01a10fee-7804-7d90-9e1a-e14d11b6c952\\n--------\\nuser\\nYou are A2 Builder in MediaHub Agent Fabric.\\nTask ID: MH25-23-LANE-MANIFEST-001\\nMission: Reconcile MH-01..MH-23 into one authoritative execution manifest.\\nBoundary: [\\\"ops/agent-fabric/\\\", \\\"docs/checkpoints/\\\", \\\"ops/qualification/\\\"]\\nForbidden surfaces: [\\\"qualified R4 object 471f709f5633feab7aeb62dd3ea52effad6d2bc4\\\", \\\"MH-05 qualification evidence\\\", \\\"production infrastructure\\\", \\\"user data\\\"]\\nAcceptance: [\\\"every MH-01..MH-23 lane has exactly one disposition\\\", \\\"ownership/dependency/base/head/lease/worker/verification are explicit or UNKNOWN\\\", \\\"unknown evidence is not promoted\\\", \\\"no incompatible overlap remains unrecorded\\\", \\\"manifest does not become MediaHub domain or State Authority\\\"]\\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\\nuser data, credentials, or unrelated files. Work on the current task branch.\\nRun relevant tests. Do not merge to main. Report changes and verification.\\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\\n2026-10-06T06:37:29.266085Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\n2026-10-06T06:37:29.584185Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\n2026-10-06T06:37:29.983859Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\nERROR: Reconnecting... 2/5\\n2026-10-06T06:37:30.733155Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\nERROR: Reconnecting... 3/5\\n2026-10-06T06:37:31.805035Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\nERROR: Reconnecting... 4/5\\n2026-10-06T06:37:33.678560Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\nERROR: Reconnecting... 5/5\\n2026-10-06T06:37:37.323868Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\nwarning: Falling back from WebSockets to HTTPS transport. unexpected status 403 Forbidden: Country, region, or territory not supported, url: wss://api.openai.com/v1/responses, cf-ray: a462a8940c37366b-FRA\\nERROR: Reconnecting... 1/5\\nERROR: Reconnecting... 2/5\\nERROR: Reconnecting... 3/5\\nERROR: Reconnecting... 4/5\\nERROR: Reconnecting... 5/5\\nERROR: unexpected status 403 Forbidden: Country, region, or territory not supported, url: https://api.openai.com/v1/responses, cf-ray: a462a8c58b0edcb2-FRA\\nERROR: unexpected status 403 Forbidden: Country, region, or territory not supported, url: https://api.openai.com/v1/responses, cf-ray: a462a8c58b0edcb2-FRA\\n\", \"stdout\": \"\"}, \"elapsed_seconds\": 17.484, \"error\": \"RuntimeError:builder_failed\", \"started_at\": 1791268647, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\"}, {\"base_sha\": \"2ada8f0510c1a52ed8b3b02ca7874b2e58515258\", \"branch\": \"astra/auto/MH25-QUEUE-002-2ada8f0510c1-1791268647\", \"builder\": {\"returncode\": 1, \"stderr\": \"Reading additional input from stdin...\\nOpenAI Codex v0.151.0\\n--------\\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-QUEUE-002\\nmodel: gpt-5.6-sol\\nprovider: openai\\napproval: never\\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\\nreasoning effort: none\\nreasoning summaries: none\\nsession id: 01a10fee-783e-74a2-948e-61b01191168b\\n--------\\nuser\\nYou are A2 Builder in MediaHub Agent Fabric.\\nTask ID: MH25-QUEUE-002\\nMission: Add deterministic unit coverage proving autonomous queue execution uses isolated worktree paths and bounded worker selection.\\nBoundary: [\\\"tests/test_autonomous_queue.py\\\"]\\nForbidden surfaces: [\\\".github/workflows/\\\", \\\"docs/checkpoints/\\\", \\\"runtime/mediahub_runtime/agent_fabric.py\\\", \\\"runtime/mediahub_runtime/autonomous_queue.py\\\", \\\"astra_github_agent.py\\\", \\\"user data\\\", \\\"credentials\\\", \\\"production infrastructure\\\"]\\nAcceptance: [\\\"Tests assert worktree paths are task-scoped and deterministic.\\\", \\\"Tests assert worker selection is bounded by MAX_WORKERS.\\\", \\\"Tests do not execute Codex, git worktrees, network operations, or production infrastructure.\\\", \\\"All existing Agent Fabric and autonomous queue tests pass.\\\", \\\"No production behavior outside the declared boundary is changed.\\\"]\\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\\nuser data, credentials, or unrelated files. Work on the current task branch.\\nRun relevant tests. Do not merge to main. Report changes and verification.\\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\\n2026-10-06T06:37:29.445858Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\n2026-10-06T06:37:29.886620Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\n2026-10-06T06:37:30.439562Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\nERROR: Reconnecting... 2/5\\n2026-10-06T06:37:31.118016Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\nERROR: Reconnecting... 3/5\\n2026-10-06T06:37:32.065901Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\nERROR: Reconnecting... 4/5\\n2026-10-06T06:37:34.089537Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\nERROR: Reconnecting... 5/5\\n2026-10-06T06:37:37.494907Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 403 Forbidden, url: wss://api.openai.com/v1/responses\\nwarning: Falling back from WebSockets to HTTPS transport. unexpected status 403 Forbidden: Country, region, or territory not supported, url: wss://api.openai.com/v1/responses, cf-ray: a462a8951f35d369-FRA\\nERROR: Reconnecting... 1/5\\nERROR: Reconnecting... 2/5\\nERROR: Reconnecting... 3/5\\nERROR: Reconnecting... 4/5\\nERROR: Reconnecting... 5/5\\nERROR: unexpected status 403 Forbidden: Country, region, or territory not supported, url: https://api.openai.com/v1/responses, cf-ray: a462a8c979b4f10a-DME\\nERROR: unexpected status 403 Forbidden: Country, region, or territory not supported, url: https://api.openai.com/v1/responses, cf-ray: a462a8c979b4f10a-DME\\n\", \"stdout\": \"\"}, \"elapsed_seconds\": 18.06, \"error\": \"RuntimeError:builder_failed\", \"started_at\": 1791268647, \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
+          "stdout": "{\"results\": [{\"base_sha\": \"7db1245e79d59729c8329d970a7431a642c34ab0\", \"branch\": \"astra/auto/MH25-23-LANE-MANIFEST-001-7db1245e79d5-1791268909\", \"elapsed_seconds\": 0.94, \"error\": \"RuntimeError:qualified_huggingface_credential_missing\", \"started_at\": 1791268909, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\"}, {\"base_sha\": \"7db1245e79d59729c8329d970a7431a642c34ab0\", \"branch\": \"astra/auto/MH25-QUEUE-002-7db1245e79d5-1791268909\", \"elapsed_seconds\": 0.892, \"error\": \"RuntimeError:qualified_huggingface_credential_missing\", \"started_at\": 1791268909, \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
         },
         "backend": {
           "reason": "",
@@ -93,13 +83,13 @@
           "blocked_reasons": [],
           "payload": {
             "blocked_reasons": [],
-            "captured_at": 1791268579,
+            "captured_at": 1791268861,
             "checked_nodes": [
               "mh-dev-01",
               "mh-dev-02",
               "Voktors-Mac-mini.local"
             ],
-            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37424588382-1",
+            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37425031878-1",
             "node_id": "mh-dev-01",
             "phase": "distributed_verification",
             "producer_identity": "canonical-distributed-verification-producer-v1",
@@ -107,12 +97,12 @@
             "schema": "mediahub.astra.distributed-verification.v1",
             "secret_values": "SUPPRESSED",
             "status": "PASS",
-            "target_sha": "2ada8f0510c1a52ed8b3b02ca7874b2e58515258"
+            "target_sha": "7db1245e79d59729c8329d970a7431a642c34ab0"
           },
           "returncode": 0,
           "source": "fresh_downloaded_a2_aggregate"
         },
-        "head": "2ada8f0510c1a52ed8b3b02ca7874b2e58515258",
+        "head": "7db1245e79d59729c8329d970a7431a642c34ab0",
         "pre_soak": {
           "returncode": 0,
           "stderr": "",
@@ -129,6 +119,6 @@
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "2ada8f0510c1a52ed8b3b02ca7874b2e58515258",
-  "worker_id": "A0-ASTRA:2475860"
+  "target_sha": "7db1245e79d59729c8329d970a7431a642c34ab0",
+  "worker_id": "A0-ASTRA:2478703"
 }
