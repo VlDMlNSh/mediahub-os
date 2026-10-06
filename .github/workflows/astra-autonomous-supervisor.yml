@@ -208,6 +208,19 @@ jobs:
           import json, os
           d=json.load(open("control/results/mh-dev-01.json"))
           result=d.get("result",{})
+          print("ASTRA_CONTROLLER_RESULT_SUMMARY=" + json.dumps({
+              "returncode": d.get("returncode"),
+              "result_status": result.get("status"),
+              "phase": result.get("phase"),
+              "queue_status": result.get("queue",{}).get("status"),
+              "workers": result.get("queue",{}).get("workers"),
+              "queue_results": [
+                  {k: item.get(k) for k in ("task_id","status","head_sha","remote_head","error","failure_reason")}
+                  for item in result.get("queue",{}).get("results",[])
+              ],
+              "error": result.get("error"),
+              "blocked_reasons": result.get("blocked_reasons"),
+          }, sort_keys=True))
           expected=f"MH-AUTONOMOUS-GOLD-mh-dev-01-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
           assert d.get("command_id") == expected
           assert d.get("node_id") == os.environ["ASTRA_NODE_ID"]
