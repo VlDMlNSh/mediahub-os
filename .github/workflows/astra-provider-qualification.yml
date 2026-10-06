@@ -92,6 +92,27 @@ jobs:
           rc=$?
           set -e
           test -s .astra-state/provider-qualification/provider-model.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open(".astra-state/provider-qualification/provider-model.json",encoding="utf-8"))
+          safe={
+              "status": d.get("status"),
+              "selected_provider": d.get("selected_provider"),
+              "selected_model": d.get("selected_model"),
+              "qualified_providers": d.get("qualified_providers"),
+              "providers": [
+                  {
+                      "provider": p.get("provider"),
+                      "family": p.get("family"),
+                      "verification_state": p.get("verification_state"),
+                      "classification": p.get("classification"),
+                      "selected_model": p.get("selected_model"),
+                  }
+                  for p in d.get("providers",[])
+              ],
+          }
+          print("ASTRA_A3_PROVIDER_SUMMARY="+json.dumps(safe,sort_keys=True))
+          PY
           status="$(python3 -c 'import json; print(json.load(open(".astra-state/provider-qualification/provider-model.json",encoding="utf-8")).get("status","BLOCKED"))')"
           if [ "$status" = "PASS" ] && [ "$rc" -eq 0 ]; then
             echo "status=PASS" >> "$GITHUB_OUTPUT"
