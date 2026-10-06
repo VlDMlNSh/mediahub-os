@@ -1,59 +1,70 @@
 schema: mediahub.astra-gold.executor-routing.v3
 system: ASTRA_GOLD
 status: ASTRA_GOLD_QUALIFICATION_GATED
+node: mh-dev-01
+controller: mh-dev-01
+qualification_authority: ASTRA_GOLD
 
-controller:
-  node_id: mh-dev-01
-  role: github-transport-controller
-  authority: A0-ASTRA
-  max_parallel_controller_tasks: 1
+executors:
+  - id: CODEX_FCC
+    client: codex
+    transport: fcc
+    launcher: fcc-codex
+    authority: executor-only
+  - id: CLAUDE_FCC
+    client: claude
+    transport: fcc
+    launcher: fcc-claude
+    authority: executor-only
+  - id: CODEX_OMNIROUTE
+    client: codex
+    transport: omniroute
+    launcher: omniroute
+    authority: executor-only
+  - id: CLAUDE_OMNIROUTE
+    client: claude
+    transport: omniroute
+    launcher: omniroute
+    authority: executor-only
+  - id: CLAUDE_CODE_DIRECT
+    client: claude_code
+    transport: native
+    launcher: claude
+    authority: executor-only
 
-execution_pools:
-  - node_id: mh-dev-02
-    role: primary-local-executor-pool
-    providers: [CODEX_LOCAL_FCC, CLAUDE_LOCAL_FCC]
-    model: qwen2.5-coder:3b
-    max_parallel_executors: 2
-    require_disjoint_claims: true
-  - node_id: Voktors-Mac-mini.local
-    role: fast-local-worker-pool
-    providers: [CODEX_LOCAL_FCC, CLAUDE_LOCAL_FCC]
-    model: qwen2.5-coder:1.5b
-    max_parallel_executors: 2
-    require_disjoint_claims: true
+auxiliary:
+  - id: ECC_LOCAL_ASSISTANT
+    role: local-assistant-support
+    authority: none
+    credential_creation: false
+    provider_selection: false
+    state_authority: false
 
 routing:
-  controller_to_executor: github-transport
-  command_path: control/commands/<node>.json
-  result_path: control/results/<node>.json
-  result_branch: astra-node/<node>
   selection_requires:
-    - task_id
-    - claim_id
-    - owner_id
-    - generation
-    - target_sha
-    - provider
-    - workspace
-    - qualified_executor
-    - fresh_evidence
-  shared_surfaces: serialized
-  main_branch_direct_write: false
+    - whole_system_astrogold_admission
+    - executable_identity
+    - provider_identity
+    - exact_source_sha
+    - non_mutating_marker_probe
+    - 23_round_pass_record
+    - isolated_workspace
+    - independent_a3_verification
+  concurrency:
+    max_parallel: 2
+    require_disjoint_claims: true
+    shared_surfaces: serialized
 
 qualification:
-  whole_system: true
   rounds_minimum: 23
-  require_a2_execution_pass: true
-  historical_evidence_reuse: false
-  marker_required: true
-  timeout_required: true
+  mandatory_executor_paths: [CODEX_FCC, CLAUDE_FCC, CODEX_OMNIROUTE, CLAUDE_OMNIROUTE, CLAUDE_CODE_DIRECT]
+  qualification_scope: whole_system
   stdin: /dev/null
-
-security:
-  create_credentials: false
-  expose_credentials: false
+  timeout_required: true
+  marker_required: true
+  credentials_in_git: false
   quota_bypass: false
-  seven_b_model_allowed: false
+  historical_evidence_reuse: false
 
 failure:
   missing_launcher: BLOCKED
@@ -66,3 +77,6 @@ failure:
   nonzero_exit: FAILED
   malformed_result: REJECTED
   transport_uncertainty: RECONCILIATION_REQUIRED
+
+security:
+  seven_b_model_allowed: false
