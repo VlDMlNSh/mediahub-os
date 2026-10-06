@@ -55,5 +55,8 @@ class GoldUnifiedWorkflowContractTests(unittest.TestCase):
         self.assertIn("actions: read", text)
         self.assertNotIn("MIMO_API_KEY", text)
 
+    def test_gold_uses_downloaded_distributed_evidence_root(self):
+        self.assertIn('path: .astra-state', self.text)
+
 if __name__ == "__main__":
     unittest.main()
