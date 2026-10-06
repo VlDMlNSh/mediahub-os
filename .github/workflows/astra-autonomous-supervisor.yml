@@ -11,6 +11,8 @@ on:
       - "tests/test_mesh_registry_contract.py"
       - "tests/test_astra_github_agent_contract.py"
       - "tests/test_autonomous_gold_mission.py"
+      - "runtime/mediahub_runtime/autonomous_queue.py"
+      - "tests/test_autonomous_queue.py"
       - ".github/workflows/astra-autonomous-supervisor.yml"
       - ".github/workflows/astra-distributed-verification.yml"
       - ".github/workflows/astra-provider-qualification.yml"
