@@ -77,14 +77,14 @@ jobs:
           retention-days: 30
 
   voktors-mac:
-    if: ${{ inputs.node_id == 'Voktors-Mini.Dlink' }}
+    if: ${{ inputs.node_id == 'Voktors-Mac-mini.local' }}
     name: Fast local worker on Voktors-Mini.Dlink
     runs-on: [self-hosted, macOS, ARM64, astra-control]
     timeout-minutes: 30
     env:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
-      ASTRA_NODE_ID: Voktors-Mini.Dlink
+      ASTRA_NODE_ID: Voktors-Mac-mini.local
       ASTRA_EXECUTOR: ${{ inputs.executor }}
       ASTRA_MICRO_TASK_JSON: ${{ inputs.task_json }}
       ASTRA_FCC_ENV_FILE: /Users/voktor/Library/Application Support/MediaHub/fcc.env
