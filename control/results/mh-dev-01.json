@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791270337.706204,
+    "expiry": 1791270465.6873193,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,18 +23,18 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791270325.644729,
+    "started": 1791270462.3229468,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37427339867-1",
-    "updated": 1791270337.706204
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37427366196-1",
+    "updated": 1791270465.6873193
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37427339867-1",
-  "completed_at": 1791270337,
-  "duration_seconds": 12.199,
-  "execution_head": "efe66a71329ce5e1c1364f1876277af0efc89476",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37427366196-1",
+  "completed_at": 1791270465,
+  "duration_seconds": 3.499,
+  "execution_head": "8b15f70c0859230c00f8c93bf56ce972c962f9aa",
   "node_id": "mh-dev-01",
   "result": {
-    "elapsed_seconds": 12.056,
+    "elapsed_seconds": 3.36,
     "phase": "autonomous_queue",
     "status": "BLOCKED",
     "steps": [
@@ -43,20 +43,20 @@
           "payload": {
             "results": [
               {
-                "base_sha": "efe66a71329ce5e1c1364f1876277af0efc89476",
-                "branch": "astra/auto/MH25-23-LANE-MANIFEST-001-efe66a71329c-1791270336",
-                "elapsed_seconds": 0.938,
-                "error": "RuntimeError:qualified_executor_target_sha_missing",
-                "started_at": 1791270336,
+                "base_sha": "8b15f70c0859230c00f8c93bf56ce972c962f9aa",
+                "branch": "astra/auto/MH25-23-LANE-MANIFEST-001-8b15f70c0859-1791270464",
+                "elapsed_seconds": 0.928,
+                "error": "RuntimeError:qualified_executor_command_id_mismatch",
+                "started_at": 1791270464,
                 "status": "BLOCKED",
                 "task_id": "MH25-23-LANE-MANIFEST-001"
               },
               {
-                "base_sha": "efe66a71329ce5e1c1364f1876277af0efc89476",
-                "branch": "astra/auto/MH25-QUEUE-002-efe66a71329c-1791270336",
-                "elapsed_seconds": 0.933,
-                "error": "RuntimeError:qualified_executor_target_sha_missing",
-                "started_at": 1791270336,
+                "base_sha": "8b15f70c0859230c00f8c93bf56ce972c962f9aa",
+                "branch": "astra/auto/MH25-QUEUE-002-8b15f70c0859-1791270464",
+                "elapsed_seconds": 0.868,
+                "error": "RuntimeError:qualified_executor_command_id_mismatch",
+                "started_at": 1791270464,
                 "status": "BLOCKED",
                 "task_id": "MH25-QUEUE-002"
               }
@@ -70,7 +70,7 @@
           },
           "returncode": 2,
           "stderr": "",
-          "stdout": "{\"results\": [{\"base_sha\": \"efe66a71329ce5e1c1364f1876277af0efc89476\", \"branch\": \"astra/auto/MH25-23-LANE-MANIFEST-001-efe66a71329c-1791270336\", \"elapsed_seconds\": 0.938, \"error\": \"RuntimeError:qualified_executor_target_sha_missing\", \"started_at\": 1791270336, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\"}, {\"base_sha\": \"efe66a71329ce5e1c1364f1876277af0efc89476\", \"branch\": \"astra/auto/MH25-QUEUE-002-efe66a71329c-1791270336\", \"elapsed_seconds\": 0.933, \"error\": \"RuntimeError:qualified_executor_target_sha_missing\", \"started_at\": 1791270336, \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
+          "stdout": "{\"results\": [{\"base_sha\": \"8b15f70c0859230c00f8c93bf56ce972c962f9aa\", \"branch\": \"astra/auto/MH25-23-LANE-MANIFEST-001-8b15f70c0859-1791270464\", \"elapsed_seconds\": 0.928, \"error\": \"RuntimeError:qualified_executor_command_id_mismatch\", \"started_at\": 1791270464, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\"}, {\"base_sha\": \"8b15f70c0859230c00f8c93bf56ce972c962f9aa\", \"branch\": \"astra/auto/MH25-QUEUE-002-8b15f70c0859-1791270464\", \"elapsed_seconds\": 0.868, \"error\": \"RuntimeError:qualified_executor_command_id_mismatch\", \"started_at\": 1791270464, \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
         },
         "backend": {
           "reason": "",
@@ -83,13 +83,13 @@
           "blocked_reasons": [],
           "payload": {
             "blocked_reasons": [],
-            "captured_at": 1791270299,
+            "captured_at": 1791270396,
             "checked_nodes": [
               "mh-dev-01",
               "mh-dev-02",
               "Voktors-Mac-mini.local"
             ],
-            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37427339867-1",
+            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37427366196-1",
             "node_id": "mh-dev-01",
             "phase": "distributed_verification",
             "producer_identity": "canonical-distributed-verification-producer-v1",
@@ -97,12 +97,12 @@
             "schema": "mediahub.astra.distributed-verification.v1",
             "secret_values": "SUPPRESSED",
             "status": "PASS",
-            "target_sha": "efe66a71329ce5e1c1364f1876277af0efc89476"
+            "target_sha": "8b15f70c0859230c00f8c93bf56ce972c962f9aa"
           },
           "returncode": 0,
           "source": "fresh_downloaded_a2_aggregate"
         },
-        "head": "efe66a71329ce5e1c1364f1876277af0efc89476",
+        "head": "8b15f70c0859230c00f8c93bf56ce972c962f9aa",
         "pre_soak": {
           "returncode": 0,
           "stderr": "",
@@ -119,6 +119,6 @@
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "efe66a71329ce5e1c1364f1876277af0efc89476",
-  "worker_id": "A0-ASTRA:2489661"
+  "target_sha": "8b15f70c0859230c00f8c93bf56ce972c962f9aa",
+  "worker_id": "A0-ASTRA:2491392"
 }
