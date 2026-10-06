@@ -1,16 +1,16 @@
 {
-  "schema": "mediahub.astra.distributed-local-development-plan.v1",
-  "version": 1,
+  "schema": "mediahub.astra.distributed-local-development-plan.v2",
+  "version": 2,
   "authority": "A0-ASTRA-coordination",
   "controller_node": "mh-dev-01",
   "primary_pool": {
     "node_id": "mh-dev-02",
     "runner_label": "mediahub-provider",
-    "model": "qwen2.5-coder:7b",
+    "model": "qwen2.5-coder:3b",
     "purpose": "primary_local_executor_pool"
   },
   "fast_pool": {
-    "node_id": "Voktors-Mini.Dlink",
+    "node_id": "Voktors-Mac-mini.local",
     "runner_label": "astra-control",
     "model": "qwen2.5-coder:1.5b",
     "purpose": "fast_local_worker_pool"
@@ -71,7 +71,7 @@
     },
     {
       "task_id": "DLD-03",
-      "node_id": "Voktors-Mini.Dlink",
+      "node_id": "Voktors-Mac-mini.local",
       "executor": "codex",
       "verifier": "claude",
       "mission": "Add a compact contract test for the distributed local development plan schema.",
@@ -97,7 +97,7 @@
     },
     {
       "task_id": "DLD-04",
-      "node_id": "Voktors-Mini.Dlink",
+      "node_id": "Voktors-Mac-mini.local",
       "executor": "claude",
       "verifier": "codex",
       "mission": "Document the canonical distributed local development topology and promotion rules.",
