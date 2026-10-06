@@ -328,9 +328,13 @@ def execute(cmd):
             if journal:
                 journal.checkpoint(phase="pre_soak_evidence", cycle=cycle)
             if local_executor_qualified:
-                prereq_script = ROOT/"ops"/"qualification"/"produce_runtime_prereq_evidence.py"
-                evidence=subprocess.run([sys.executable,str(prereq_script),"--out",str(ROOT/".astra-state")],cwd=ROOT,text=True,
-                                        capture_output=True,timeout=300,check=False)
+                evidence_script_local = ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
+                evidence=subprocess.run(
+                    [sys.executable,str(evidence_script_local),"--target-sha",str(target_sha),
+                     "--provider-evidence",os.environ.get("ASTRA_PROVIDER_EVIDENCE_PATH",""),
+                     "--local-executor"],
+                    cwd=ROOT,text=True,capture_output=True,timeout=900,check=False
+                )
             else:
                 evidence=subprocess.run([sys.executable,str(evidence_script),"--target-sha",str(target_sha),"--provider-evidence",os.environ.get("ASTRA_PROVIDER_EVIDENCE_PATH","")],cwd=ROOT,text=True,
                                         capture_output=True,timeout=900,check=False)
@@ -346,7 +350,10 @@ def execute(cmd):
                         "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
             if journal:
                 journal.checkpoint(phase="strict_pre_soak_verification", cycle=cycle)
-            verifier=subprocess.run([sys.executable,str(verifier_script),"evidence","--target-sha",str(target_sha)],
+            verifier_args=[sys.executable,str(verifier_script),"evidence","--target-sha",str(target_sha)]
+            if local_executor_qualified:
+                verifier_args.append("--allow-local-executor")
+            verifier=subprocess.run(verifier_args,
                                     cwd=ROOT,text=True,capture_output=True,timeout=300,check=False)
             cycle_record["strict_verifier"]={"returncode":verifier.returncode,
                                               "stdout":verifier.stdout[-12000:],
