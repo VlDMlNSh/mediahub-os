@@ -81,10 +81,16 @@ def codex_env_for_qualified_provider() -> tuple[dict[str, str], tempfile.Tempora
 
 
 def run(
-    argv: list[str], timeout: int = 300, cwd: Path | None = None
+    argv: list[str], timeout: int = 300, cwd: Path | None = None, env: dict[str, str] | None = None
 ) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        argv, cwd=cwd or ROOT, text=True, capture_output=True, timeout=timeout, check=False
+        argv,
+        cwd=cwd or ROOT,
+        text=True,
+        capture_output=True,
+        timeout=timeout,
+        check=False,
+        env=env,
     )
 
 
@@ -278,6 +284,7 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
                 [CODEX, "exec", "--profile", "huggingface", "--sandbox", "workspace-write", "--skip-git-repo-check", builder_prompt(task)],
                 TASK_TIMEOUT,
                 worktree,
+                codex_env,
             )
         finally:
             codex_home.cleanup()
@@ -319,6 +326,7 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
                 [CODEX, "exec", "--profile", "huggingface", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)],
                 TASK_TIMEOUT,
                 worktree,
+                codex_env,
             )
         finally:
             codex_home.cleanup()
