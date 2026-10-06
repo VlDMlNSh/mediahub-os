@@ -237,14 +237,3 @@ jobs:
 # Target-pinned retry hardening retrigger: 2026-10-05.
 # Autonomous full-wave retrigger: 2026-10-05T13:xx+03:00
 
-
-  publish-result:
-    if: ${{ always() }}
-    needs: supervise
-    uses: ./.github/workflows/astra-node-result-publication.yml
-    with:
-      artifact_name: astra-node-result-${{ github.run_id }}-${{ github.run_attempt }}
-      artifact_file: controller-result.json
-      node_id: mh-dev-01
-      command_id: MH-AUTONOMOUS-GOLD-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
-      target_sha: ${{ github.sha }}
