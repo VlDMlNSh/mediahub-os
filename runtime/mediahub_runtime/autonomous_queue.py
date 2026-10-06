@@ -9,6 +9,7 @@ import json
 import os
 import re
 import subprocess
+import tempfile
 import time
 from pathlib import Path
 
@@ -27,6 +28,56 @@ def bounded_worker_count(requested: int) -> int:
 MAX_WORKERS = bounded_worker_count(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "3")))
 CODEX = os.environ.get("ASTRA_CODEX_BIN", "/usr/local/bin/codex")
 TASK_TIMEOUT = max(60, int(os.environ.get("ASTRA_QUEUE_TASK_TIMEOUT", "1800")))
+
+
+def qualified_codex_profile() -> tuple[str, str]:
+    evidence_path = os.environ.get("ASTRA_PROVIDER_EVIDENCE_PATH", "").strip()
+    if not evidence_path:
+        raise RuntimeError("qualified_executor_evidence_missing")
+    path = Path(evidence_path)
+    if not path.is_file():
+        raise RuntimeError("qualified_executor_evidence_missing")
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise RuntimeError("qualified_executor_evidence_invalid") from exc
+    if payload.get("status") != "PASS":
+        raise RuntimeError("qualified_executor_evidence_not_pass")
+    candidates = []
+    for item in payload.get("providers", []):
+        if (
+            item.get("provider") == "Hugging Face"
+            and item.get("verification_state") == "QUALIFIED"
+            and isinstance(item.get("selected_model"), str)
+            and item.get("selected_model").strip()
+        ):
+            candidates.append(item["selected_model"].strip())
+    if not candidates:
+        raise RuntimeError("qualified_huggingface_executor_missing")
+    if not os.environ.get("HF_TOKEN"):
+        raise RuntimeError("qualified_huggingface_credential_missing")
+    return "huggingface", candidates[0]
+
+
+def codex_env_for_qualified_provider() -> tuple[dict[str, str], tempfile.TemporaryDirectory]:
+    profile, model = qualified_codex_profile()
+    home = tempfile.TemporaryDirectory(prefix="astra-codex-qualified-")
+    config = Path(home.name) / "config.toml"
+    config.write_text(
+        'model_provider = "huggingface"\n'
+        f'model = "{model}"\n'
+        'approval_policy = "never"\n'
+        '[model_providers.huggingface]\n'
+        'name = "Hugging Face"\n'
+        'base_url = "https://router.huggingface.co/v1"\n'
+        'env_key = "HF_TOKEN"\n'
+        'wire_api = "responses"\n'
+        'supports_websockets = false\n',
+        encoding="utf-8",
+    )
+    env = os.environ.copy()
+    env["CODEX_HOME"] = home.name
+    return env, home
 
 
 def run(
@@ -218,11 +269,18 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
         checkout = run(["git", "worktree", "add", "-b", branch, str(worktree), claim.base_sha], 120)
         if checkout.returncode:
             raise RuntimeError("worktree_create_failed")
-        build = run(
-            [CODEX, "exec", "--sandbox", "workspace-write", "--skip-git-repo-check", builder_prompt(task)],
-            TASK_TIMEOUT,
-            worktree,
-        )
+        try:
+            codex_env, codex_home = codex_env_for_qualified_provider()
+        except RuntimeError as exc:
+            raise RuntimeError(str(exc))
+        try:
+            build = run(
+                [CODEX, "exec", "--profile", "huggingface", "--sandbox", "workspace-write", "--skip-git-repo-check", builder_prompt(task)],
+                TASK_TIMEOUT,
+                worktree,
+            )
+        finally:
+            codex_home.cleanup()
         record["builder"] = {
             "returncode": build.returncode,
             "stdout": build.stdout[-12000:],
@@ -252,11 +310,18 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
         diff = run(["git", "diff", "--check"], 60, worktree)
         if diff.returncode:
             raise RuntimeError("diff_check_failed")
-        verifier = run(
-            [CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)],
-            TASK_TIMEOUT,
-            worktree,
-        )
+        try:
+            codex_env, codex_home = codex_env_for_qualified_provider()
+        except RuntimeError as exc:
+            raise RuntimeError(str(exc))
+        try:
+            verifier = run(
+                [CODEX, "exec", "--profile", "huggingface", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)],
+                TASK_TIMEOUT,
+                worktree,
+            )
+        finally:
+            codex_home.cleanup()
         record["verifier"] = {
             "returncode": verifier.returncode,
             "stdout": verifier.stdout[-12000:],
