@@ -270,6 +270,7 @@ def execute(cmd):
             provider_status = "BLOCKED"
             provider_payload = {}
             provider_reason = "provider_evidence_missing"
+            local_executor_qualified = False
             if provider_evidence_path.is_file():
                 try:
                     provider_payload = json.loads(provider_evidence_path.read_text(encoding="utf-8"))
@@ -307,15 +308,32 @@ def execute(cmd):
             if journal:
                 journal.checkpoint(phase="execution_backend_qualification_complete", cycle=cycle, step={"cycle":cycle,"phase":"backend","returncode":0 if provider_status=="PASS" else 2,"status":provider_status})
             if provider_status != "PASS":
-                if operation=="autonomous_gold_mission" and cycle<cycles:
-                    time.sleep(retry_seconds)
-                    continue
-                return {"status":"BLOCKED","phase":"execution_backend_qualification",
-                        "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
+                local_script = ROOT/"ops"/"qualification"/"qualify_local_ai_capabilities.py"
+                local_probe = subprocess.run([sys.executable,str(local_script)],cwd=ROOT,text=True,capture_output=True,timeout=120,check=False)
+                local_executor_qualified = local_probe.returncode == 0
+                cycle_record["local_executor"] = {
+                    "returncode": local_probe.returncode,
+                    "status": "PASS" if local_executor_qualified else "BLOCKED",
+                    "stdout": local_probe.stdout[-12000:],
+                    "stderr": local_probe.stderr[-8000:],
+                }
+                if local_executor_qualified:
+                    provider_reason = "provider_unavailable_local_executor_qualified"
+                else:
+                    if operation=="autonomous_gold_mission" and cycle<cycles:
+                        time.sleep(retry_seconds)
+                        continue
+                    return {"status":"BLOCKED","phase":"execution_backend_qualification",
+                            "steps":steps,"elapsed_seconds":round(time.time()-started,3)}
             if journal:
                 journal.checkpoint(phase="pre_soak_evidence", cycle=cycle)
-            evidence=subprocess.run([sys.executable,str(evidence_script),"--target-sha",str(target_sha),"--provider-evidence",os.environ.get("ASTRA_PROVIDER_EVIDENCE_PATH","")],cwd=ROOT,text=True,
-                                    capture_output=True,timeout=900,check=False)
+            if local_executor_qualified:
+                prereq_script = ROOT/"ops"/"qualification"/"produce_runtime_prereq_evidence.py"
+                evidence=subprocess.run([sys.executable,str(prereq_script),"--out",str(ROOT/".astra-state")],cwd=ROOT,text=True,
+                                        capture_output=True,timeout=300,check=False)
+            else:
+                evidence=subprocess.run([sys.executable,str(evidence_script),"--target-sha",str(target_sha),"--provider-evidence",os.environ.get("ASTRA_PROVIDER_EVIDENCE_PATH","")],cwd=ROOT,text=True,
+                                        capture_output=True,timeout=900,check=False)
             cycle_record["pre_soak"]={"returncode":evidence.returncode,
                                       "stdout":evidence.stdout[-12000:],"stderr":evidence.stderr[-8000:]}
             if journal:
