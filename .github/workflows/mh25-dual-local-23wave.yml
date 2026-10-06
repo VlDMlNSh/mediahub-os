@@ -49,28 +49,17 @@ jobs:
           for i in $(seq 1 23); do
             echo "ROUND $i"
             ts=$(date +%s)
-            fcc_codex_status=BLOCKED
-            fcc_claude_status=BLOCKED
-            omni_codex_status=BLOCKED
-            omni_claude_status=BLOCKED
-            if command -v fcc-codex >/dev/null 2>&1; then
-              timeout 25s fcc-codex exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_FCC_CODEX_OK" </dev/null > /tmp/fcc-codex.out 2>&1 || true
-              grep -Fx MEDIAHUB_FCC_CODEX_OK /tmp/fcc-codex.out >/dev/null 2>&1 && fcc_codex_status=PASS
-            fi
-            if command -v fcc-claude >/dev/null 2>&1; then
-              timeout 25s fcc-claude -p "Return exactly MEDIAHUB_FCC_CLAUDE_OK" --output-format text </dev/null > /tmp/fcc-claude.out 2>&1 || true
-              grep -Fx MEDIAHUB_FCC_CLAUDE_OK /tmp/fcc-claude.out >/dev/null 2>&1 && fcc_claude_status=PASS
-            fi
-            if command -v omniroute >/dev/null 2>&1; then
-              timeout 30s omniroute run codex --model auto -- exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_OMNI_CODEX_OK" </dev/null > /tmp/omni-codex.out 2>&1 || true
-              grep -Fx MEDIAHUB_OMNI_CODEX_OK /tmp/omni-codex.out >/dev/null 2>&1 && omni_codex_status=PASS
-              timeout 30s omniroute run claude --model auto -- -p "Return exactly MEDIAHUB_OMNI_CLAUDE_OK" --output-format text </dev/null > /tmp/omni-claude.out 2>&1 || true
-              grep -Fx MEDIAHUB_OMNI_CLAUDE_OK /tmp/omni-claude.out >/dev/null 2>&1 && omni_claude_status=PASS
-            fi
-            python3 - <<PY
-          import json
-          print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status"}))
-          PY
+            rm -f /tmp/fcc-codex.out /tmp/fcc-claude.out /tmp/omni-codex.out /tmp/omni-claude.out
+            (if command -v fcc-codex >/dev/null 2>&1; then timeout 12s fcc-codex exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_FCC_CODEX_OK" </dev/null > /tmp/fcc-codex.out 2>&1; else exit 125; fi) & p1=$!
+            (if command -v fcc-claude >/dev/null 2>&1; then timeout 12s fcc-claude -p "Return exactly MEDIAHUB_FCC_CLAUDE_OK" --output-format text </dev/null > /tmp/fcc-claude.out 2>&1; else exit 125; fi) & p2=$!
+            (if command -v omniroute >/dev/null 2>&1; then timeout 12s omniroute run codex --model auto -- exec --skip-git-repo-check --sandbox read-only "Return exactly MEDIAHUB_OMNI_CODEX_OK" </dev/null > /tmp/omni-codex.out 2>&1; else exit 125; fi) & p3=$!
+            (if command -v omniroute >/dev/null 2>&1; then timeout 12s omniroute run claude --model auto -- -p "Return exactly MEDIAHUB_OMNI_CLAUDE_OK" --output-format text </dev/null > /tmp/omni-claude.out 2>&1; else exit 125; fi) & p4=$!
+            wait $p1; r1=$?; wait $p2; r2=$?; wait $p3; r3=$?; wait $p4; r4=$?
+            fcc_codex_status=BLOCKED; fcc_claude_status=BLOCKED; omni_codex_status=BLOCKED; omni_claude_status=BLOCKED
+            [ "$r1" -eq 0 ] && grep -Fx MEDIAHUB_FCC_CODEX_OK /tmp/fcc-codex.out >/dev/null 2>&1 && fcc_codex_status=PASS
+            [ "$r2" -eq 0 ] && grep -Fx MEDIAHUB_FCC_CLAUDE_OK /tmp/fcc-claude.out >/dev/null 2>&1 && fcc_claude_status=PASS
+            [ "$r3" -eq 0 ] && grep -Fx MEDIAHUB_OMNI_CODEX_OK /tmp/omni-codex.out >/dev/null 2>&1 && omni_codex_status=PASS
+            [ "$r4" -eq 0 ] && grep -Fx MEDIAHUB_OMNI_CLAUDE_OK /tmp/omni-claude.out >/dev/null 2>&1 && omni_claude_status=PASS
             python3 - <<PY >> mh25-23wave.jsonl
           import json
           print(json.dumps({"round":$i,"timestamp":$ts,"fcc_codex":"$fcc_codex_status","fcc_claude":"$fcc_claude_status","omni_codex":"$omni_codex_status","omni_claude":"$omni_claude_status"}))
