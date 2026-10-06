@@ -189,7 +189,7 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
     STATE.mkdir(parents=True, exist_ok=True)
     (STATE / "completed").mkdir(parents=True, exist_ok=True)
     store = ClaimStore(CLAIMS)
-    claim = claim_for(task)
+    claim = claim_for(task, expected_base_sha)
     started = time.time()
     task_key = safe_task_id(str(task["task_id"]))
     branch = f"astra/auto/{task_key}-{claim.base_sha[:12]}-{int(started)}"
