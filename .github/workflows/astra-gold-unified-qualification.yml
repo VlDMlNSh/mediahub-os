@@ -233,15 +233,3 @@ jobs:
           echo "commit=$(git rev-parse HEAD 2>/dev/null || echo unavailable)"
           echo "node=mh-dev-01"
           echo "credentials=SUPPRESSED"
-
-
-  publish-result:
-    if: ${{ always() }}
-    needs: qualify
-    uses: ./.github/workflows/astra-node-result-publication.yml
-    with:
-      artifact_name: astra-gold-node-result-${{ github.run_id }}-${{ github.run_attempt }}
-      artifact_file: controller-result.json
-      node_id: mh-dev-01
-      command_id: ASTRA-GOLD-UNIFIED-${{ github.run_id }}-${{ github.run_attempt }}
-      target_sha: ${{ github.sha }}
