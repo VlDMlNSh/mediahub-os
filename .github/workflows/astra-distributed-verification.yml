@@ -176,7 +176,7 @@ jobs:
       - name: Download fresh node attestations
         uses: actions/download-artifact@v4
         with:
-          pattern: astra-distributed-attestation-*
+          pattern: astra-distributed-attestation-*-${{ github.run_attempt }}
           path: .astra-state/distributed-verification
           merge-multiple: true
       - name: Aggregate fresh distributed evidence
