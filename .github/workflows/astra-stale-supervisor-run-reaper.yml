@@ -1,0 +1,49 @@
+name: Astra stale supervisor run reaper
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/astra-stale-supervisor-run-reaper.yml"
+      - ".github/workflows/astra-autonomous-supervisor.yml"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: astra-stale-supervisor-run-reaper
+  cancel-in-progress: false
+
+jobs:
+  reap:
+    name: Cancel stale Astra supervisor runs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Cancel supervisor runs pinned to older source SHAs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/astra-autonomous-supervisor.yml/runs?per_page=100" > /tmp/astra-runs.json
+          python3 - <<'PY' > /tmp/astra-stale-run-ids
+          import json, os
+          data=json.load(open('/tmp/astra-runs.json', encoding='utf-8'))
+          current=os.environ['GITHUB_SHA']
+          for run in data.get('workflow_runs', []):
+              if run.get('status') not in {'queued','in_progress','pending'}:
+                  continue
+              if run.get('head_sha') == current:
+                  continue
+              print(run['id'])
+          PY
+          while read -r run_id; do
+            [ -z "$run_id" ] && continue
+            echo "cancelling stale supervisor run=$run_id"
+            gh api -X POST "/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/cancel" >/dev/null || true
+          done < /tmp/astra-stale-run-ids
+          echo "current_sha=${GITHUB_SHA}"
+          echo "stale_reaper=PASS"
