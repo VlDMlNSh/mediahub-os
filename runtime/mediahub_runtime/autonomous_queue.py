@@ -72,7 +72,15 @@ def codex_env_for_qualified_provider() -> tuple[dict[str, str], tempfile.Tempora
         'base_url = "https://router.huggingface.co/v1"\n'
         'env_key = "HF_TOKEN"\n'
         'wire_api = "responses"\n'
-        'supports_websockets = false\n',
+        'supports_websockets = false\n'
+        'web_search = "disabled"\n'
+        '[features]\n'
+        'multi_agent = false\n'
+        'multi_agent_v2 = false\n'
+        'apps = false\n'
+        'tool_search = false\n'
+        'connectors = false\n'
+        'plugins = false\n',
         encoding="utf-8",
     )
     env = os.environ.copy()
