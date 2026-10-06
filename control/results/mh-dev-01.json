@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791289409.075158,
+    "expiry": 1791290961.0296204,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,18 +23,18 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791289383.4227076,
+    "started": 1791290939.138401,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37461317040-1",
-    "updated": 1791289409.075158
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37465659816-1",
+    "updated": 1791290961.0296204
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37461317040-1",
-  "completed_at": 1791289409,
-  "duration_seconds": 25.801,
-  "execution_head": "03a7a2c7275ec2df6d471ee7c115c50ab221f251",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37465659816-1",
+  "completed_at": 1791290961,
+  "duration_seconds": 22.044,
+  "execution_head": "e4027b99680ade8abefaa1464da2fcc7cb15bd31",
   "node_id": "mh-dev-01",
   "result": {
-    "elapsed_seconds": 25.647,
+    "elapsed_seconds": 21.886,
     "phase": "autonomous_queue",
     "status": "BLOCKED",
     "steps": [
@@ -76,13 +76,13 @@
           "blocked_reasons": [],
           "payload": {
             "blocked_reasons": [],
-            "captured_at": 1791289357,
+            "captured_at": 1791290912,
             "checked_nodes": [
               "mh-dev-01",
               "mh-dev-02",
               "Voktors-Mac-mini.local"
             ],
-            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37461317040-1",
+            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37465659816-1",
             "node_id": "mh-dev-01",
             "phase": "distributed_verification",
             "producer_identity": "canonical-distributed-verification-producer-v1",
@@ -90,12 +90,12 @@
             "schema": "mediahub.astra.distributed-verification.v1",
             "secret_values": "SUPPRESSED",
             "status": "PASS",
-            "target_sha": "03a7a2c7275ec2df6d471ee7c115c50ab221f251"
+            "target_sha": "e4027b99680ade8abefaa1464da2fcc7cb15bd31"
           },
           "returncode": 0,
           "source": "fresh_downloaded_a2_aggregate"
         },
-        "head": "03a7a2c7275ec2df6d471ee7c115c50ab221f251",
+        "head": "e4027b99680ade8abefaa1464da2fcc7cb15bd31",
         "pre_soak": {
           "returncode": 0,
           "stderr": "",
@@ -112,6 +112,6 @@
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "03a7a2c7275ec2df6d471ee7c115c50ab221f251",
-  "worker_id": "A0-ASTRA:2650351"
+  "target_sha": "e4027b99680ade8abefaa1464da2fcc7cb15bd31",
+  "worker_id": "A0-ASTRA:2660672"
 }
