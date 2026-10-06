@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791316707.2908792,
+    "expiry": 1791321537.4054377,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,18 +23,18 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791315479.709652,
+    "started": 1791320161.0161436,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37520114242-1",
-    "updated": 1791316707.2908792
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37529242994-1",
+    "updated": 1791321537.4054377
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37520114242-1",
-  "completed_at": 1791316707,
-  "duration_seconds": 1227.725,
-  "execution_head": "cf93322025f564e56694cb30e9925bbefa1c8063",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37529242994-1",
+  "completed_at": 1791321537,
+  "duration_seconds": 1376.527,
+  "execution_head": "0de417a073cdd2d210a02fdaa6b2eba6c011c562",
   "node_id": "mh-dev-01",
   "result": {
-    "elapsed_seconds": 1227.575,
+    "elapsed_seconds": 1376.383,
     "phase": "autonomous_queue",
     "status": "BLOCKED",
     "steps": [
@@ -44,22 +44,30 @@
             "mode": "github_remote_local_executor",
             "results": [
               {
-                "base_sha": "cf93322025f564e56694cb30e9925bbefa1c8063",
+                "base_sha": "0de417a073cdd2d210a02fdaa6b2eba6c011c562",
                 "error": "RuntimeError:remote_evidence_status_mismatch",
                 "executor": "codex",
                 "node_id": "mh-dev-02",
-                "started_at": 1791315492,
+                "started_at": 1791320173,
                 "status": "BLOCKED",
                 "task_id": "MH25-23-LANE-MANIFEST-001",
                 "verifier": "claude",
                 "worker_conclusion": "failure",
-                "worker_run_id": 37520463766,
+                "worker_run_id": 37530210025,
                 "worker_run_status": "completed"
               },
               {
-                "error": "unsupported_remote_node",
+                "base_sha": "0de417a073cdd2d210a02fdaa6b2eba6c011c562",
+                "error": "RuntimeError:remote_evidence_status_mismatch",
+                "executor": "codex",
+                "node_id": "Voktors-Mac-mini.local",
+                "started_at": 1791320173,
                 "status": "BLOCKED",
-                "task_id": "MH25-QUEUE-002"
+                "task_id": "MH25-QUEUE-002",
+                "verifier": "claude",
+                "worker_conclusion": "failure",
+                "worker_run_id": 37530209585,
+                "worker_run_status": "completed"
               }
             ],
             "selected_tasks": [
@@ -71,7 +79,7 @@
           },
           "returncode": 2,
           "stderr": "",
-          "stdout": "{\"mode\": \"github_remote_local_executor\", \"results\": [{\"base_sha\": \"cf93322025f564e56694cb30e9925bbefa1c8063\", \"error\": \"RuntimeError:remote_evidence_status_mismatch\", \"executor\": \"codex\", \"node_id\": \"mh-dev-02\", \"started_at\": 1791315492, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\", \"verifier\": \"claude\", \"worker_conclusion\": \"failure\", \"worker_run_id\": 37520463766, \"worker_run_status\": \"completed\"}, {\"error\": \"unsupported_remote_node\", \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
+          "stdout": "{\"mode\": \"github_remote_local_executor\", \"results\": [{\"base_sha\": \"0de417a073cdd2d210a02fdaa6b2eba6c011c562\", \"error\": \"RuntimeError:remote_evidence_status_mismatch\", \"executor\": \"codex\", \"node_id\": \"mh-dev-02\", \"started_at\": 1791320173, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\", \"verifier\": \"claude\", \"worker_conclusion\": \"failure\", \"worker_run_id\": 37530210025, \"worker_run_status\": \"completed\"}, {\"base_sha\": \"0de417a073cdd2d210a02fdaa6b2eba6c011c562\", \"error\": \"RuntimeError:remote_evidence_status_mismatch\", \"executor\": \"codex\", \"node_id\": \"Voktors-Mac-mini.local\", \"started_at\": 1791320173, \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\", \"verifier\": \"claude\", \"worker_conclusion\": \"failure\", \"worker_run_id\": 37530209585, \"worker_run_status\": \"completed\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
         },
         "backend": {
           "reason": "provider_evidence_missing",
@@ -84,13 +92,13 @@
           "blocked_reasons": [],
           "payload": {
             "blocked_reasons": [],
-            "captured_at": 1791315391,
+            "captured_at": 1791320138,
             "checked_nodes": [
               "mh-dev-01",
               "mh-dev-02",
               "Voktors-Mac-mini.local"
             ],
-            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37520114242-1",
+            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37529242994-1",
             "node_id": "mh-dev-01",
             "phase": "distributed_verification",
             "producer_identity": "canonical-distributed-verification-producer-v1",
@@ -98,17 +106,17 @@
             "schema": "mediahub.astra.distributed-verification.v1",
             "secret_values": "SUPPRESSED",
             "status": "PASS",
-            "target_sha": "cf93322025f564e56694cb30e9925bbefa1c8063"
+            "target_sha": "0de417a073cdd2d210a02fdaa6b2eba6c011c562"
           },
           "returncode": 0,
           "source": "fresh_downloaded_a2_aggregate"
         },
-        "head": "cf93322025f564e56694cb30e9925bbefa1c8063",
+        "head": "0de417a073cdd2d210a02fdaa6b2eba6c011c562",
         "local_executor": {
           "returncode": 0,
           "status": "PASS",
           "stderr": "",
-          "stdout": "{\n  \"evidence_digest\": \"sha256:449019c5216842946e988984613e2aada5ba3671444c7765facc6fcafc144a02\",\n  \"node_id\": \"mh-dev-01\",\n  \"qualified_capabilities\": [\n    {\n      \"component\": \"Ollama bounded generation\",\n      \"model\": \"qwen2.5-coder:3b\",\n      \"probe\": {\n        \"body_preview\": \"{\\\"model\\\":\\\"qwen2.5-coder:3b\\\",\\\"created_at\\\":\\\"2026-10-06T19:38:06.661922975Z\\\",\\\"response\\\":\\\"MEDIAHUB_LOCAL_AI_OK\\\",\\\"done\\\":true,\\\"done_reason\\\":\\\"stop\\\",\\\"context\\\":[151644,8948,198,2610,525,1207,16948,11,3465,553,54364,14817,13,1446,525,264,10950,17847,13,151645,198,151644,872,198,5598,6896,60186,39,4493,28399,75322,8375,151645,198,151644,77091,198,80120,39,4493,28399,75322,8375],\\\"total_duration\\\":6823573916,\\\"load_duration\\\":2982163135,\\\"prompt_eval_count\\\":37,\\\"prompt_eval_cached_count\\\":0,\\\"prompt_eval_duration\\\":2744608000,\\\"eval_count\\\":7,\\\"eval_duration\\\":1090311000}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 6.825,\n        \"status\": \"HTTP_PASS\"\n      },\n      \"state\": \"QUALIFIED\"\n    }\n  ],\n  \"records\": [\n    {\n      \"component\": \"Ollama API\",\n      \"probe\": {\n        \"body_preview\": \"{\\\"models\\\":[{\\\"name\\\":\\\"qwen2.5-coder:3b\\\",\\\"model\\\":\\\"qwen2.5-coder:3b\\\",\\\"modified_at\\\":\\\"2026-10-04T23:56:59.095064657Z\\\",\\\"size\\\":1929912626,\\\"digest\\\":\\\"f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225\\\",\\\"details\\\":{\\\"parent_model\\\":\\\"\\\",\\\"format\\\":\\\"gguf\\\",\\\"family\\\":\\\"qwen2\\\",\\\"families\\\":[\\\"qwen2\\\"],\\\"parameter_size\\\":\\\"3.1B\\\",\\\"quantization_level\\\":\\\"Q4_K_M\\\",\\\"context_length\\\":32768,\\\"embedding_length\\\":2048},\\\"capabilities\\\":[\\\"completion\\\",\\\"tools\\\",\\\"insert\\\"]}]}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.042,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Ollama bounded generation\",\n      \"model\": \"qwen2.5-coder:3b\",\n      \"probe\": {\n        \"body_preview\": \"{\\\"model\\\":\\\"qwen2.5-coder:3b\\\",\\\"created_at\\\":\\\"2026-10-06T19:38:06.661922975Z\\\",\\\"response\\\":\\\"MEDIAHUB_LOCAL_AI_OK\\\",\\\"done\\\":true,\\\"done_reason\\\":\\\"stop\\\",\\\"context\\\":[151644,8948,198,2610,525,1207,16948,11,3465,553,54364,14817,13,1446,525,264,10950,17847,13,151645,198,151644,872,198,5598,6896,60186,39,4493,28399,75322,8375,151645,198,151644,77091,198,80120,39,4493,28399,75322,8375],\\\"total_duration\\\":6823573916,\\\"load_duration\\\":2982163135,\\\"prompt_eval_count\\\":37,\\\"prompt_eval_cached_count\\\":0,\\\"prompt_eval_duration\\\":2744608000,\\\"eval_count\\\":7,\\\"eval_duration\\\":1090311000}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 6.825,\n        \"status\": \"HTTP_PASS\"\n      },\n      \"state\": \"QUALIFIED\"\n    },\n    {\n      \"component\": \"Local listening services inventory\",\n      \"listeners\": [\n        \"LISTEN 0      4096         0.0.0.0:22         0.0.0.0:*\",\n        \"LISTEN 0      512        127.0.0.1:37700      0.0.0.0:*\",\n        \"LISTEN 0      512        127.0.0.1:8081       0.0.0.0:*\",\n        \"LISTEN 0      2048       127.0.0.1:8092       0.0.0.0:*\",\n        \"LISTEN 0      511        127.0.0.1:20132      0.0.0.0:*\",\n        \"LISTEN 0      511        127.0.0.1:20128      0.0.0.0:*\",\n        \"LISTEN 0      511        127.0.0.1:20131      0.0.0.0:*\",\n        \"LISTEN 0      4096      127.0.0.54:53         0.0.0.0:*\",\n        \"LISTEN 0      4096       127.0.0.1:11434      0.0.0.0:*\",\n        \"LISTEN 0      512        127.0.0.1:35667      0.0.0.0:*\",\n        \"LISTEN 0      4096   127.0.0.53%lo:53         0.0.0.0:*\",\n        \"LISTEN 0      4096            [::]:22            [::]:*\"\n      ],\n      \"state\": \"PASS\"\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/health\",\n      \"port\": 8081,\n      \"probe\": {\n        \"body_preview\": \"{\\\"status\\\":\\\"ok\\\"}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.001,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/v1/models\",\n      \"port\": 8081,\n      \"probe\": {\n        \"body_preview\": \"{\\\"models\\\":[{\\\"name\\\":\\\"/opt/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf\\\",\\\"model\\\":\\\"/opt/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf\\\",\\\"modified_at\\\":\\\"\\\",\\\"size\\\":\\\"\\\",\\\"digest\\\":\\\"\\\",\\\"type\\\":\\\"model\\\",\\\"description\\\":\\\"\\\",\\\"tags\\\":[\\\"\\\"],\\\"capabilities\\\":[\\\"completion\\\"],\\\"parameters\\\":\\\"\\\",\\\"details\\\":{\\\"parent_model\\\":\\\"\\\",\\\"format\\\":\\\"gguf\\\",\\\"family\\\":\\\"\\\",\\\"families\\\":[\\\"\\\"],\\\"parameter_size\\\":\\\"\\\",\\\"quantization_level\\\":\\\"\\\"}}],\\\"object\\\":\\\"list\\\",\\\"data\\\":[{\\\"id\\\":\\\"/opt/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf\\\",\\\"aliases\\\":[\\\"/opt/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf\\\"],\\\"tags\\\":[],\\\"object\\\":\\\"model\\\",\\\"created\\\":1791315486,\\\"owned_by\\\":\\\"llamacpp\\\",\\\"meta\\\":{\\\"vocab_type\\\":true,\\\"n_vocab\\\":151936,\\\"n_ctx\\\":4096,\\\"n_ctx_train\\\":32768,\\\"n_embd\\\":1536,\\\"n_params\\\":1777088000,\\\"size\\\":1111370240,\\\"ftype\\\":\\\"Q4_K - Medium\\\"}}]}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.001,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/health\",\n      \"port\": 8092,\n      \"probe\": {\n        \"body_preview\": \"{\\\"status\\\":\\\"healthy\\\"}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.002,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/health\",\n      \"port\": 35667,\n      \"probe\": {\n        \"body_preview\": \"{\\\"status\\\":\\\"ok\\\"}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.002,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/v1/models\",\n      \"port\": 35667,\n      \"probe\": {\n        \"body_preview\": \"{\\\"models\\\":[{\\\"name\\\":\\\"/srv/mediahub/models/ollama/blobs/sha256-4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba\\\",\\\"model\\\":\\\"/srv/mediahub/models/ollama/blobs/sha256-4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba\\\",\\\"modified_at\\\":\\\"\\\",\\\"size\\\":\\\"\\\",\\\"digest\\\":\\\"\\\",\\\"type\\\":\\\"model\\\",\\\"description\\\":\\\"\\\",\\\"tags\\\":[\\\"\\\"],\\\"capabilities\\\":[\\\"completion\\\"],\\\"parameters\\\":\\\"\\\",\\\"details\\\":{\\\"parent_model\\\":\\\"\\\",\\\"format\\\":\\\"gguf\\\",\\\"family\\\":\\\"\\\",\\\"families\\\":[\\\"\\\"],\\\"parameter_size\\\":\\\"\\\",\\\"quantization_level\\\":\\\"\\\"}}],\\\"object\\\":\\\"list\\\",\\\"data\\\":[{\\\"id\\\":\\\"/srv/mediahub/models/ollama/blobs/sha256-4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba\\\",\\\"aliases\\\":[\\\"/srv/mediahub/models/ollama/blobs/sha256-4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba\\\"],\\\"tags\\\":[],\\\"object\\\":\\\"model\\\",\\\"created\\\":1791315486,\\\"owned_by\\\":\\\"llamacpp\\\",\\\"meta\\\":{\\\"vocab_type\\\":2,\\\"n_vocab\\\":151936,\\\"n_ctx\\\":4096,\\\"n_ctx_train\\\":32768,\\\"n_embd\\\":2048,\\\"n_params\\\":3085938688,\\\"size\\\":1923946496,\\\"ftype\\\":\\\"Q4_K - Medium\\\"}}]}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.002,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/health\",\n      \"port\": 37700,\n      \"probe\": {\n        \"body_preview\": \"{\\\"status\\\":\\\"ok\\\",\\\"timestamp\\\":1791315486801,\\\"activeSessions\\\":41,\\\"pid\\\":1325992}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.004,\n        \"status\": \"HTTP_PASS\"\n      }\n    }\n  ],\n  \"schema\": \"mediahub.local-ai-capability-qualification.v1\",\n  \"secret_values\": \"SUPPRESSED\",\n  \"status\": \"PASS\"\n}\n"
+          "stdout": "{\n  \"evidence_digest\": \"sha256:08e55cfdd03bfb2e40fc4e8f25c44720e486e69f2f576df809cc164e13954690\",\n  \"node_id\": \"mh-dev-01\",\n  \"qualified_capabilities\": [\n    {\n      \"component\": \"Ollama bounded generation\",\n      \"model\": \"qwen2.5-coder:3b\",\n      \"probe\": {\n        \"body_preview\": \"{\\\"model\\\":\\\"qwen2.5-coder:3b\\\",\\\"created_at\\\":\\\"2026-10-06T20:56:07.564215998Z\\\",\\\"response\\\":\\\"MEDIAHUB_LOCAL_AI_OK\\\",\\\"done\\\":true,\\\"done_reason\\\":\\\"stop\\\",\\\"context\\\":[151644,8948,198,2610,525,1207,16948,11,3465,553,54364,14817,13,1446,525,264,10950,17847,13,151645,198,151644,872,198,5598,6896,60186,39,4493,28399,75322,8375,151645,198,151644,77091,198,80120,39,4493,28399,75322,8375],\\\"total_duration\\\":6417699965,\\\"load_duration\\\":2595283510,\\\"prompt_eval_count\\\":37,\\\"prompt_eval_cached_count\\\":0,\\\"prompt_eval_duration\\\":2748093000,\\\"eval_count\\\":7,\\\"eval_duration\\\":1071578000}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 6.419,\n        \"status\": \"HTTP_PASS\"\n      },\n      \"state\": \"QUALIFIED\"\n    }\n  ],\n  \"records\": [\n    {\n      \"component\": \"Ollama API\",\n      \"probe\": {\n        \"body_preview\": \"{\\\"models\\\":[{\\\"name\\\":\\\"qwen2.5-coder:3b\\\",\\\"model\\\":\\\"qwen2.5-coder:3b\\\",\\\"modified_at\\\":\\\"2026-10-04T23:56:59.095064657Z\\\",\\\"size\\\":1929912626,\\\"digest\\\":\\\"f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225\\\",\\\"details\\\":{\\\"parent_model\\\":\\\"\\\",\\\"format\\\":\\\"gguf\\\",\\\"family\\\":\\\"qwen2\\\",\\\"families\\\":[\\\"qwen2\\\"],\\\"parameter_size\\\":\\\"3.1B\\\",\\\"quantization_level\\\":\\\"Q4_K_M\\\",\\\"context_length\\\":32768,\\\"embedding_length\\\":2048},\\\"capabilities\\\":[\\\"completion\\\",\\\"tools\\\",\\\"insert\\\"]}]}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.043,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Ollama bounded generation\",\n      \"model\": \"qwen2.5-coder:3b\",\n      \"probe\": {\n        \"body_preview\": \"{\\\"model\\\":\\\"qwen2.5-coder:3b\\\",\\\"created_at\\\":\\\"2026-10-06T20:56:07.564215998Z\\\",\\\"response\\\":\\\"MEDIAHUB_LOCAL_AI_OK\\\",\\\"done\\\":true,\\\"done_reason\\\":\\\"stop\\\",\\\"context\\\":[151644,8948,198,2610,525,1207,16948,11,3465,553,54364,14817,13,1446,525,264,10950,17847,13,151645,198,151644,872,198,5598,6896,60186,39,4493,28399,75322,8375,151645,198,151644,77091,198,80120,39,4493,28399,75322,8375],\\\"total_duration\\\":6417699965,\\\"load_duration\\\":2595283510,\\\"prompt_eval_count\\\":37,\\\"prompt_eval_cached_count\\\":0,\\\"prompt_eval_duration\\\":2748093000,\\\"eval_count\\\":7,\\\"eval_duration\\\":1071578000}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 6.419,\n        \"status\": \"HTTP_PASS\"\n      },\n      \"state\": \"QUALIFIED\"\n    },\n    {\n      \"component\": \"Local listening services inventory\",\n      \"listeners\": [\n        \"LISTEN 0      4096         0.0.0.0:22         0.0.0.0:*\",\n        \"LISTEN 0      512        127.0.0.1:37700      0.0.0.0:*\",\n        \"LISTEN 0      512        127.0.0.1:37691      0.0.0.0:*\",\n        \"LISTEN 0      512        127.0.0.1:8081       0.0.0.0:*\",\n        \"LISTEN 0      2048       127.0.0.1:8092       0.0.0.0:*\",\n        \"LISTEN 0      511        127.0.0.1:20132      0.0.0.0:*\",\n        \"LISTEN 0      511        127.0.0.1:20128      0.0.0.0:*\",\n        \"LISTEN 0      511        127.0.0.1:20131      0.0.0.0:*\",\n        \"LISTEN 0      4096      127.0.0.54:53         0.0.0.0:*\",\n        \"LISTEN 0      4096       127.0.0.1:11434      0.0.0.0:*\",\n        \"LISTEN 0      4096   127.0.0.53%lo:53         0.0.0.0:*\",\n        \"LISTEN 0      4096            [::]:22            [::]:*\"\n      ],\n      \"state\": \"PASS\"\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/health\",\n      \"port\": 8081,\n      \"probe\": {\n        \"body_preview\": \"{\\\"status\\\":\\\"ok\\\"}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.001,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/v1/models\",\n      \"port\": 8081,\n      \"probe\": {\n        \"body_preview\": \"{\\\"models\\\":[{\\\"name\\\":\\\"/opt/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf\\\",\\\"model\\\":\\\"/opt/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf\\\",\\\"modified_at\\\":\\\"\\\",\\\"size\\\":\\\"\\\",\\\"digest\\\":\\\"\\\",\\\"type\\\":\\\"model\\\",\\\"description\\\":\\\"\\\",\\\"tags\\\":[\\\"\\\"],\\\"capabilities\\\":[\\\"completion\\\"],\\\"parameters\\\":\\\"\\\",\\\"details\\\":{\\\"parent_model\\\":\\\"\\\",\\\"format\\\":\\\"gguf\\\",\\\"family\\\":\\\"\\\",\\\"families\\\":[\\\"\\\"],\\\"parameter_size\\\":\\\"\\\",\\\"quantization_level\\\":\\\"\\\"}}],\\\"object\\\":\\\"list\\\",\\\"data\\\":[{\\\"id\\\":\\\"/opt/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf\\\",\\\"aliases\\\":[\\\"/opt/mediahub/local-ai/models/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf\\\"],\\\"tags\\\":[],\\\"object\\\":\\\"model\\\",\\\"created\\\":1791320167,\\\"owned_by\\\":\\\"llamacpp\\\",\\\"meta\\\":{\\\"vocab_type\\\":true,\\\"n_vocab\\\":151936,\\\"n_ctx\\\":4096,\\\"n_ctx_train\\\":32768,\\\"n_embd\\\":1536,\\\"n_params\\\":1777088000,\\\"size\\\":1111370240,\\\"ftype\\\":\\\"Q4_K - Medium\\\"}}]}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.001,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/health\",\n      \"port\": 8092,\n      \"probe\": {\n        \"body_preview\": \"{\\\"status\\\":\\\"healthy\\\"}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.002,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/health\",\n      \"port\": 37691,\n      \"probe\": {\n        \"body_preview\": \"{\\\"status\\\":\\\"ok\\\"}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.001,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/v1/models\",\n      \"port\": 37691,\n      \"probe\": {\n        \"body_preview\": \"{\\\"models\\\":[{\\\"name\\\":\\\"/srv/mediahub/models/ollama/blobs/sha256-4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba\\\",\\\"model\\\":\\\"/srv/mediahub/models/ollama/blobs/sha256-4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba\\\",\\\"modified_at\\\":\\\"\\\",\\\"size\\\":\\\"\\\",\\\"digest\\\":\\\"\\\",\\\"type\\\":\\\"model\\\",\\\"description\\\":\\\"\\\",\\\"tags\\\":[\\\"\\\"],\\\"capabilities\\\":[\\\"completion\\\"],\\\"parameters\\\":\\\"\\\",\\\"details\\\":{\\\"parent_model\\\":\\\"\\\",\\\"format\\\":\\\"gguf\\\",\\\"family\\\":\\\"\\\",\\\"families\\\":[\\\"\\\"],\\\"parameter_size\\\":\\\"\\\",\\\"quantization_level\\\":\\\"\\\"}}],\\\"object\\\":\\\"list\\\",\\\"data\\\":[{\\\"id\\\":\\\"/srv/mediahub/models/ollama/blobs/sha256-4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba\\\",\\\"aliases\\\":[\\\"/srv/mediahub/models/ollama/blobs/sha256-4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba\\\"],\\\"tags\\\":[],\\\"object\\\":\\\"model\\\",\\\"created\\\":1791320167,\\\"owned_by\\\":\\\"llamacpp\\\",\\\"meta\\\":{\\\"vocab_type\\\":2,\\\"n_vocab\\\":151936,\\\"n_ctx\\\":4096,\\\"n_ctx_train\\\":32768,\\\"n_embd\\\":2048,\\\"n_params\\\":3085938688,\\\"size\\\":1923946496,\\\"ftype\\\":\\\"Q4_K - Medium\\\"}}]}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.001,\n        \"status\": \"HTTP_PASS\"\n      }\n    },\n    {\n      \"component\": \"Local AI HTTP endpoint\",\n      \"path\": \"/health\",\n      \"port\": 37700,\n      \"probe\": {\n        \"body_preview\": \"{\\\"status\\\":\\\"ok\\\",\\\"timestamp\\\":1791320167696,\\\"activeSessions\\\":41,\\\"pid\\\":1325992}\",\n        \"http_status\": 200,\n        \"latency_seconds\": 0.005,\n        \"status\": \"HTTP_PASS\"\n      }\n    }\n  ],\n  \"schema\": \"mediahub.local-ai-capability-qualification.v1\",\n  \"secret_values\": \"SUPPRESSED\",\n  \"status\": \"PASS\"\n}\n"
         },
         "pre_soak": {
           "returncode": 0,
@@ -126,6 +134,6 @@
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "cf93322025f564e56694cb30e9925bbefa1c8063",
-  "worker_id": "A0-ASTRA:2817709"
+  "target_sha": "0de417a073cdd2d210a02fdaa6b2eba6c011c562",
+  "worker_id": "A0-ASTRA:2841828"
 }
