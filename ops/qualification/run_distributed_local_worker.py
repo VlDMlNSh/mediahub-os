@@ -151,7 +151,7 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
         env = os.environ.copy()
         env["CODEX_HOME"] = home
         sandbox = "workspace-write" if writable else "read-only"
-        p = run([codex, "exec", "--ignore-user-config", "--oss", "--local-provider", "ollama", "--model", model, "--sandbox", sandbox,
+        p = run([codex, "exec", "--oss", "--local-provider", "ollama", "--model", model, "--sandbox", sandbox,
                  "--skip-git-repo-check", prompt], timeout, ROOT, env)
         return {
             "returncode": p.returncode,
