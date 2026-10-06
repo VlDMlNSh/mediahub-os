@@ -62,6 +62,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--target-sha", required=True)
     parser.add_argument("--provider-evidence", type=Path, required=True)
+    parser.add_argument("--local-executor", action="store_true",
+                        help="Qualify the canonical local executor instead of requiring A3 provider PASS.")
     args = parser.parse_args()
     if not re.fullmatch(r"[0-9a-f]{40}", args.target_sha):
         raise SystemExit("BLOCK: invalid target SHA")
@@ -102,6 +104,31 @@ def main() -> int:
                   "bounded live marker was not observed", returncode=rc,
                   marker_present="MEDIAHUB_OLLAMA_LIVE_OK" in out)
 
+    if args.local_executor:
+        local_script = ROOT / "ops" / "qualification" / "qualify_local_ai_capabilities.py"
+        local_run = subprocess.run(
+            [sys.executable, str(local_script)],
+            cwd=ROOT, text=True, capture_output=True, timeout=120, check=False,
+        )
+        local_payload = {}
+        if local_run.stdout.strip():
+            try:
+                local_payload = json.loads(local_run.stdout)
+            except json.JSONDecodeError:
+                local_payload = {}
+        qualified = [
+            item for item in local_payload.get("qualified_capabilities", [])
+            if isinstance(item, dict)
+            and item.get("component") == "Ollama bounded generation"
+            and item.get("state") == "QUALIFIED"
+            and item.get("model") == "qwen2.5-coder:3b"
+            and "MEDIAHUB_LOCAL_AI_OK" in json.dumps(item, sort_keys=True)
+        ]
+        local_status = "PASS" if local_run.returncode == 0 and local_payload.get("status") == "PASS" and qualified else "BLOCKED"
+        if local_status != "PASS":
+            blocked = True
+        write("local-executor.json", local_status, "local_ai_capability_qualification",
+              "bounded Ollama qualification", qualification=local_payload)
     # A3 provider evidence is produced on the provider node and handed over as a
     # fresh, sanitized artifact. The canonical node never receives provider secrets.
     provider_payload = {}
@@ -134,7 +161,7 @@ def main() -> int:
         provider_blocked.append("no_qualified_provider_record")
 
     provider_status = "PASS" if not provider_blocked else "BLOCKED"
-    if provider_status != "PASS":
+    if provider_status != "PASS" and not args.local_executor:
         blocked = True
     write(
         "provider-model.json",
