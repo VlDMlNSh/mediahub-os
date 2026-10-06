@@ -39,24 +39,33 @@ jobs:
               ".github/workflows/astra-distributed-local-worker.yml",
           ]))
           PY
-          mapfile -t allowed < /tmp/astra-reaper-paths
-          current="$(gh api "/repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')"
+          current="\$(gh api "/repos/\${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')"
           test -n "$current"
           : > /tmp/astra-stale-ids
-          for workflow in "${allowed[@]}"; do
-            gh run list --repo "${GITHUB_REPOSITORY}" --workflow "${workflow}" --limit 100 --json databaseId,headSha,status \
-              --jq '.[] | select(.status == "queued" or .status == "in_progress" or .status == "pending" or .status == "waiting") | [.databaseId,.headSha] | @tsv' \
-              | while IFS=$'\\t' read -r run_id run_sha; do
-                  [ -z "$run_id" ] && continue
-                  if [ "$run_sha" != "$current" ]; then
-                    echo "$run_id"
-                  fi
-                done
+          page=1
+          while :; do
+            payload="\$(gh api "/repos/\${GITHUB_REPOSITORY}/actions/runs?per_page=100&page=\${page}")"
+            count="\$(printf '%s' "$payload" | python3 -c 'import json,sys; print(len(json.load(sys.stdin).get("workflow_runs", [])))')"
+            [ "$count" -gt 0 ] || break
+            printf '%s' "$payload" | python3 -c '
+import json,sys
+allowed=set(open("/tmp/astra-reaper-paths",encoding="utf-8").read().splitlines())
+for run in json.load(sys.stdin).get("workflow_runs", []):
+    if run.get("path") in allowed and run.get("head_sha") != "'"\$current"'" and run.get("status") in {"queued","in_progress","pending","waiting"}:
+        print(run["id"])
+'
+            [ "$count" -lt 100 ] && break
+            page=\$((page + 1))
           done
           sort -u /tmp/astra-stale-ids | while read -r run_id; do
             [ -z "$run_id" ] && continue
             echo "cancelling stale Astra run=$run_id"
-            gh api -X POST "/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/cancel" >/dev/null || true
+            if gh api -X POST "/repos/\${GITHUB_REPOSITORY}/actions/runs/\${run_id}/cancel" >/dev/null; then
+              echo "cancel_request=PASS run=$run_id"
+            else
+              echo "cancel_request=BLOCKED run=$run_id"
+              exit 2
+            fi
           done
           echo "current_sha=${current}"
           echo "stale_reaper=PASS"
