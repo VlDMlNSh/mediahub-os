@@ -26,7 +26,7 @@
     "No production behavior outside the declared boundary is changed."
   ],
   "allow_no_changes": false,
-  "node_id": "mh-dev-02",
+  "node_id": "Voktors-Mini.Dlink",
   "executor": "claude",
   "verifier": "codex",
   "timeout_seconds": 1800
