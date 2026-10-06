@@ -48,8 +48,6 @@ jobs:
         shell: bash
         env:
           ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
-          ASTRA_NODE_HMAC_KEY_MH_DEV_02: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
-          ASTRA_NODE_HMAC_KEY_VOKTORS_MAC: ${{ secrets.ASTRA_NODE_HMAC_KEY_VOKTORS_MAC }}
         run: |
           set -euo pipefail
           mkdir -p control/commands
