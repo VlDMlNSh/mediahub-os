@@ -118,5 +118,12 @@
       ],
       "timeout_seconds": 900
     }
-  ]
+  ],
+  "promotion": {
+    "mode": "fail_closed",
+    "controller_verifies_before_promotion": true,
+    "main_direct_write": false,
+    "requires_fresh_target_sha": true,
+    "requires_disjoint_claims": true
+  }
 }
