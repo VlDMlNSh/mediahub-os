@@ -265,6 +265,13 @@ def test_scope_check_rejects_tracked_worktree_changes(monkeypatch, tmp_path: Pat
     ) == ["runtime/mediahub_runtime/autonomous_queue.py"]
 
 
+def test_queue_supports_explicit_no_change_verification():
+    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
+    assert 'task.get("allow_no_changes", False)' in source
+    assert '"NO_CHANGES_REQUIRED"' in source
+    assert '"task_already_satisfied"' in source
+
+
 def test_task_id_cannot_escape_queue_state(monkeypatch, tmp_path: Path):
     monkeypatch.setattr(autonomous_queue, "STATE", tmp_path / "state")
     for bad in ("../escape", "a/b", "", "a b"):

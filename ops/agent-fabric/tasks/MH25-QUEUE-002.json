@@ -24,5 +24,6 @@
     "Tests do not execute Codex, git worktrees, network operations, or production infrastructure.",
     "All existing Agent Fabric and autonomous queue tests pass.",
     "No production behavior outside the declared boundary is changed."
-  ]
+  ],
+  "allow_no_changes": true
 }

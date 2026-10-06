@@ -5,6 +5,7 @@ Promotion-safe: workers create task branches and evidence, but never merge to ma
 from __future__ import annotations
 
 import concurrent.futures
+import functools
 import json
 import os
 import re
@@ -30,6 +31,63 @@ def bounded_worker_count(requested: int) -> int:
 MAX_WORKERS = bounded_worker_count(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "3")))
 CODEX = os.environ.get("ASTRA_CODEX_BIN", "/usr/local/bin/codex")
 TASK_TIMEOUT = max(60, int(os.environ.get("ASTRA_QUEUE_TASK_TIMEOUT", "1800")))
+
+
+@functools.lru_cache(maxsize=4)
+def _local_codex_agentic_probe(model: str) -> bool:
+    """Require the local Codex+Ollama path to perform a bounded real file edit."""
+    try:
+        home = tempfile.TemporaryDirectory(prefix="astra-local-agentic-")
+        config = Path(home.name) / "config.toml"
+        config.write_text(
+            f'model_provider = "ollama"\n'
+            f'model = "{model}"\n'
+            'approval_policy = "never"\n'
+            'web_search = "disabled"\n'
+            '[features]\n'
+            'multi_agent = false\n'
+            'multi_agent_v2 = false\n'
+            'apps = false\n'
+            'tool_search = false\n'
+            'plugins = false\n',
+            encoding="utf-8",
+        )
+        probe_dir = Path(tempfile.mkdtemp(prefix="astra-local-agentic-work-"))
+        probe_file = probe_dir / "probe.txt"
+        env = os.environ.copy()
+        env["CODEX_HOME"] = home.name
+        result = run(
+            [
+                CODEX,
+                "exec",
+                "--sandbox",
+                "workspace-write",
+                "--skip-git-repo-check",
+                (
+                    "Create exactly one file at "
+                    f"{probe_file} containing exactly "
+                    ""MEDIAHUB_LOCAL_CODEX_AGENTIC_OK". "
+                    "Do not call the network and do not modify any other files."
+                ),
+            ],
+            90,
+            probe_dir,
+            env,
+        )
+        ok = (
+            result.returncode == 0
+            and probe_file.is_file()
+            and probe_file.read_text(encoding="utf-8", errors="replace").strip()
+            == "MEDIAHUB_LOCAL_CODEX_AGENTIC_OK"
+        )
+        return ok
+    except (OSError, subprocess.SubprocessError):
+        return False
+    finally:
+        try:
+            home.cleanup()
+        except Exception:
+            pass
 
 
 def local_ollama_profile() -> tuple[str, str] | None:
@@ -60,7 +118,11 @@ def local_ollama_profile() -> tuple[str, str] | None:
                     for part in item.get("content") or []:
                         if isinstance(part, dict) and part.get("text"):
                             output += str(part["text"])
-        return ("ollama", model) if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" in output else None
+        if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" not in output:
+            return None
+        if not _local_codex_agentic_probe(model):
+            return None
+        return ("ollama", model)
     except (OSError, ValueError, urllib.error.URLError, urllib.error.HTTPError):
         return None
 
@@ -438,7 +500,20 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
             raise RuntimeError("verifier_failed")
         status = run(["git", "status", "--porcelain"], 60, worktree)
         if not status.stdout.strip():
-            raise RuntimeError("no_changes")
+            if not bool(task.get("allow_no_changes", False)):
+                raise RuntimeError("no_changes")
+            record["head_sha"] = expected_base_sha
+            record["change_status"] = "NO_CHANGES_REQUIRED"
+            record["push_verification"] = {
+                "status": "NOT_REQUIRED",
+                "reason": "task_already_satisfied",
+                "branch": branch,
+            }
+            record["status"] = "VERIFIED"
+            (STATE / "completed" / f"{task_key}.json").write_text(
+                json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+            )
+            return
         if run(["git", "add", "-A"], 60, worktree).returncode:
             raise RuntimeError("git_add_failed")
         commit = run(
