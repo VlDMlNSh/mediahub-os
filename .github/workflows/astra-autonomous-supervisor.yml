@@ -218,6 +218,14 @@ jobs:
                   {k: item.get(k) for k in ("task_id","status","head_sha","remote_head","error","failure_reason")}
                   for item in result.get("queue",{}).get("results",[])
               ],
+              "last_queue_step": next((
+                  {
+                      "returncode": step.get("autonomous_queue",{}).get("returncode"),
+                      "payload": step.get("autonomous_queue",{}).get("payload"),
+                  }
+                  for step in reversed(result.get("steps",[]))
+                  if "autonomous_queue" in step
+              ), None),
               "error": result.get("error"),
               "blocked_reasons": result.get("blocked_reasons"),
           }, sort_keys=True))
