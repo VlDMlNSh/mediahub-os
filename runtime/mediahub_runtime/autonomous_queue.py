@@ -105,7 +105,7 @@ def codex_env_for_qualified_provider() -> tuple[dict[str, str], tempfile.Tempora
     home = tempfile.TemporaryDirectory(prefix="astra-codex-qualified-")
     config = Path(home.name) / "config.toml"
     config.write_text(
-        'model_provider = "{profile}"\n'
+        f'model_provider = "{profile}"\n'
         f'model = "{model}"\n'
         'approval_policy = "never"\n'
         'web_search = "disabled"\n'
