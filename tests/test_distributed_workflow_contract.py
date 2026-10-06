@@ -125,5 +125,19 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertIn('assert d.get("execution_head") == d.get("target_sha")', supervisor)
         self.assertIn('assert d.get("execution_head") == d.get("target_sha")', unified)
 
+    def test_provider_qualification_is_node_local_and_artifact_bound(self):
+        text = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("qualify_execution_backends.py --target-sha", text)
+        self.assertIn("mediahub-provider", text)
+        self.assertIn("astra-provider-qualification-", text)
+        self.assertIn("provider_evidence_artifact", text)
+
+    def test_supervisor_defers_result_publication_to_write_boundary(self):
+        text = SUPERVISOR.read_text(encoding="utf-8")
+        self.assertNotIn("contents: write", text)
+        self.assertNotIn("MIMO_API_KEY", text)
+        self.assertIn("ASTRA_DEFER_RESULT_PUBLICATION", text)
+        self.assertIn("astra-node-result-publication.yml", text)
+
 if __name__ == "__main__":
     unittest.main()
