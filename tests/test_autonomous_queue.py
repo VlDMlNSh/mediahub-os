@@ -235,6 +235,14 @@ def test_queue_blocks_existing_remote_branch_before_worktree_creation():
     assert 'raise RuntimeError("queue_branch_probe_failed")' in source
 
 
+def test_local_executor_contract_uses_qualified_ollama_marker_and_provider():
+    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
+    assert "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" in source
+    assert '"--profile", "huggingface"' not in source
+    assert 'if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" in output' in source
+    assert 'preferred = ("qwen2.5-coder:3b", "qwen2.5-coder-3b:latest")' in source
+
+
 def test_queue_pins_workers_to_explicit_target_sha():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert 'ASTRA_TARGET_SHA' in source
