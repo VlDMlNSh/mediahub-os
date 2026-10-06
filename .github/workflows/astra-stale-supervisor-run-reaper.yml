@@ -31,34 +31,33 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 - <<'PY' > /tmp/astra-reaper-workflows
-          import os
-          workflows = [
-              "astra-autonomous-supervisor.yml",
-              "astra-local-claude-qualification.yml",
-              "mh25-dual-local-executor-23wave.yml",
-          ]
-          print("\n".join(workflows))
+          python3 - <<'PY' > /tmp/astra-reaper-paths
+          print("\n".join([
+              ".github/workflows/astra-autonomous-supervisor.yml",
+              ".github/workflows/astra-local-claude-qualification.yml",
+              ".github/workflows/mh25-dual-local-executor-23wave.yml",
+              ".github/workflows/astra-distributed-local-worker.yml",
+          ]))
           PY
           current="${GITHUB_SHA}"
-          while read -r workflow; do
-            [ -z "$workflow" ] && continue
-            gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow}/runs?per_page=100" > "/tmp/${workflow}.json" || true
-            python3 - "${workflow}" "${current}" <<'PY'
+          gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?per_page=100" > /tmp/astra-all-runs.json
+          python3 - "${current}" <<'PY' > /tmp/astra-stale-ids
           import json,sys
-          path,current=sys.argv[1:3]
-          try:
-              data=json.load(open("/tmp/"+path,encoding="utf-8"))
-          except Exception:
-              data={}
+          current=sys.argv[1]
+          allowed=set()
+          for raw in open("/tmp/astra-reaper-paths",encoding="utf-8"):
+              value=raw.strip()
+              if value: allowed.add(value)
+          data=json.load(open("/tmp/astra-all-runs.json",encoding="utf-8"))
           for run in data.get("workflow_runs",[]):
+              if run.get("path") not in allowed:
+                  continue
               if run.get("status") not in {"queued","in_progress","pending","waiting"}:
                   continue
               if run.get("head_sha")==current:
                   continue
               print(run["id"])
           PY
-          done < /tmp/astra-reaper-workflows > /tmp/astra-stale-ids
           sort -u /tmp/astra-stale-ids | while read -r run_id; do
             [ -z "$run_id" ] && continue
             echo "cancelling stale Astra run=$run_id"
