@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791264974.3964257,
+    "expiry": 1791265197.2542658,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,15 +23,15 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791264854.3397381,
+    "started": 1791265077.1978555,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37418888138-1",
-    "updated": 1791264974.3964257
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37419181700-1",
+    "updated": 1791265197.2542658
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37418888138-1",
-  "completed_at": 1791264974,
-  "duration_seconds": 120.191,
-  "execution_head": "00459e35c993853d0b972fd7d6a0c84880b3d97b",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37419181700-1",
+  "completed_at": 1791265197,
+  "duration_seconds": 120.193,
+  "execution_head": "1e303461455ece2c559e170038f6525b0ba2e2dc",
   "node_id": "mh-dev-01",
   "result": {
     "elapsed_seconds": 120.053,
@@ -46,7 +46,7 @@
           "status": "BLOCKED"
         },
         "cycle": 1,
-        "head": "00459e35c993853d0b972fd7d6a0c84880b3d97b"
+        "head": "1e303461455ece2c559e170038f6525b0ba2e2dc"
       },
       {
         "backend": {
@@ -56,7 +56,7 @@
           "status": "BLOCKED"
         },
         "cycle": 2,
-        "head": "00459e35c993853d0b972fd7d6a0c84880b3d97b"
+        "head": "1e303461455ece2c559e170038f6525b0ba2e2dc"
       },
       {
         "backend": {
@@ -66,7 +66,7 @@
           "status": "BLOCKED"
         },
         "cycle": 3,
-        "head": "00459e35c993853d0b972fd7d6a0c84880b3d97b"
+        "head": "1e303461455ece2c559e170038f6525b0ba2e2dc"
       },
       {
         "backend": {
@@ -76,7 +76,7 @@
           "status": "BLOCKED"
         },
         "cycle": 4,
-        "head": "00459e35c993853d0b972fd7d6a0c84880b3d97b"
+        "head": "1e303461455ece2c559e170038f6525b0ba2e2dc"
       },
       {
         "backend": {
@@ -86,13 +86,13 @@
           "status": "BLOCKED"
         },
         "cycle": 5,
-        "head": "00459e35c993853d0b972fd7d6a0c84880b3d97b"
+        "head": "1e303461455ece2c559e170038f6525b0ba2e2dc"
       }
     ]
   },
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "00459e35c993853d0b972fd7d6a0c84880b3d97b",
-  "worker_id": "A0-ASTRA:2450922"
+  "target_sha": "1e303461455ece2c559e170038f6525b0ba2e2dc",
+  "worker_id": "A0-ASTRA:2452880"
 }
