@@ -25,6 +25,10 @@
     "The document names mh-dev-01 as controller/authority, mh-dev-02 as primary local pool, and Voktors-Mini.Dlink as fast pool.",
     "The document names both Codex and Claude, explains builder/verifier split, exact target-SHA binding, isolated branches, and GitHub evidence transport.",
     "The document states fail-closed promotion and that no worker writes directly to main.",
-    "No credentials or secrets are included."
+    "No credentials or secrets are included.",
+    "The scoped Agent Fabric regression suite tests/test_agent_fabric.py passes."
+  ],
+  "test_paths": [
+    "tests/test_agent_fabric.py"
   ]
 }
