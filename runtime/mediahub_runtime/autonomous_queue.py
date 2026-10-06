@@ -390,7 +390,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
     node_id = str(task.get("node_id", "")).strip()
     executor = str(task.get("executor", "")).strip()
     verifier = str(task.get("verifier", "")).strip()
-    if node_id not in {"mh-dev-02", "Voktors-Mini.Dlink"}:
+    if node_id not in {"mh-dev-02", "Voktors-Mini.Dlink", "Voktors-Mac-mini.local"}:
         return {"task_id": task_key, "status": "BLOCKED", "error": "unsupported_remote_node"}
     if executor not in {"codex", "claude"} or verifier not in {"codex", "claude"} or executor == verifier:
         return {"task_id": task_key, "status": "BLOCKED", "error": "invalid_executor_split"}

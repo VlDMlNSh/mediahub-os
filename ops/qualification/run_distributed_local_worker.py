@@ -312,16 +312,42 @@ def main() -> int:
     server = None
     try:
         builder_prompt_text = task_prompt(task, "A2 Builder")
-        if executor == "codex":
-            build = exec_codex(builder_prompt_text, True, cfg["model"], int(task.get("timeout_seconds", 1800)))
-        else:
-            build, server = exec_claude(
-                builder_prompt_text,
-                cfg["model"],
-                int(task.get("timeout_seconds", 1800)),
-                Path(os.environ["ASTRA_FCC_ENV_FILE"]),
-            )
+        builder_timeout = int(task.get("timeout_seconds", 1800))
+        builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 3))
+        build = {"returncode": 1, "stdout": "", "stderr": "builder_not_run"}
+        attempt_records = []
+        for attempt in range(1, builder_attempts + 1):
+            attempt_prompt = builder_prompt_text
+            if attempt > 1:
+                attempt_prompt += (
+                    "\n\nRETRY REQUIREMENT: The previous builder attempt completed without a "
+                    "usable diff. You MUST make the smallest concrete change required by the "
+                    "acceptance criteria. For this task, modify the declared boundary directly; "
+                    "do not merely explain what should be changed. Finish only after the file "
+                    "contains the requested regression coverage."
+                )
+            if executor == "codex":
+                build = exec_codex(attempt_prompt, True, cfg["model"], builder_timeout)
+            else:
+                build, server = exec_claude(
+                    attempt_prompt,
+                    cfg["model"],
+                    builder_timeout,
+                    Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+                )
+            attempt_records.append({
+                "attempt": attempt,
+                "returncode": build.get("returncode"),
+                "stdout": build.get("stdout", "")[-4000:],
+                "stderr": build.get("stderr", "")[-3000:],
+            })
+            if build["returncode"] != 0:
+                break
+            changed_probe = changed_paths(target_sha)
+            if changed_probe:
+                break
         record["builder"] = build
+        record["builder_attempts"] = attempt_records
         if build["returncode"] != 0:
             raise RuntimeError(
                 "builder_failed:{}".format(

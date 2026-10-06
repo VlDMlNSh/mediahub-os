@@ -313,3 +313,23 @@ def test_queue_pins_workers_to_explicit_target_sha():
     assert 'def claim_for(task: dict, base_sha: str)' in source
     assert 'raise RuntimeError("queue_base_sha_not_current_head")' in source
 
+
+
+def test_remote_dispatch_accepts_canonical_fast_pool_node():
+    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
+    assert '"Voktors-Mac-mini.local"' in source
+    assert 'node_id not in {"mh-dev-02", "Voktors-Mini.Dlink", "Voktors-Mac-mini.local"}' in source
+
+
+def test_remote_dispatch_rejects_unknown_nodes():
+    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
+    assert 'node_id not in {"mh-dev-02", "Voktors-Mini.Dlink", "Voktors-Mac-mini.local"}' in source
+    assert 'unsupported_remote_node' in source
+
+
+def test_worker_has_bounded_builder_retry_for_no_change_outcome():
+    worker = (Path(__file__).resolve().parents[1] / "ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
+    assert 'builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 3))' in worker
+    assert 'RETRY REQUIREMENT' in worker
+    assert 'changed_probe = changed_paths(target_sha)' in worker
+    assert 'no_changes' in worker
