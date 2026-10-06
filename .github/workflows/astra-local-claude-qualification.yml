@@ -46,6 +46,16 @@ jobs:
           export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
           command -v ollama
           command -v claude
+          ollama_version="$(ollama --version 2>&1 | sed -n 's/.*version //p' | head -n 1)"
+          echo "ollama_version=${ollama_version}"
+          python3 - <<'PY' "$ollama_version"
+import re, sys
+v=sys.argv[1].strip()
+m=re.fullmatch(r"v?(\d+)\.(\d+)\.(\d+)",v)
+if not m: raise SystemExit("ollama_version_unparseable")
+if tuple(map(int,m.groups())) < (0,14,0): raise SystemExit("ollama_too_old_for_anthropic_messages_api")
+PY
+          ollama show "$model" >/dev/null 2>&1 || ollama pull "$model"
           model="qwen2.5-coder:7b"
           ollama list | grep -E "^qwen2.5-coder:7b[[:space:]]" >/dev/null
           ollama show "$model" >/dev/null
