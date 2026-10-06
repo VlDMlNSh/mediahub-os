@@ -348,7 +348,6 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
                 worktree,
                 codex_env,
             )
-        record["builder"] = {
             "returncode": build.returncode,
             "stdout": build.stdout[-12000:],
             "stderr": build.stderr[-8000:],
@@ -386,6 +385,44 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
             )
         finally:
             codex_home.cleanup()
+        record["builder"] = {
+            "returncode": build.returncode,
+            "stdout": build.stdout[-12000:],
+            "stderr": build.stderr[-8000:],
+        }
+        if build.returncode != 0:
+            raise RuntimeError("builder_failed")
+        outside_scope = _diff_outside_scope(task, worktree, claim.base_sha)
+        record["scope"] = {
+            "status": "PASS" if not outside_scope else "BLOCKED",
+            "outside_scope": outside_scope,
+        }
+        if outside_scope:
+            raise RuntimeError("task_boundary_violation")
+        test = run(
+            ["python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"],
+            900,
+            worktree,
+        )
+        record["tests"] = {
+            "returncode": test.returncode,
+            "stdout": test.stdout[-8000:],
+            "stderr": test.stderr[-6000:],
+        }
+        if test.returncode != 0:
+            raise RuntimeError("tests_failed")
+        diff = run(["git", "diff", "--check"], 60, worktree)
+        if diff.returncode:
+            raise RuntimeError("diff_check_failed")
+        try:
+            verifier = run(
+                [CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)],
+                TASK_TIMEOUT,
+                worktree,
+                codex_env,
+            )
+        finally:
+            pass
         record["verifier"] = {
             "returncode": verifier.returncode,
             "stdout": verifier.stdout[-12000:],
