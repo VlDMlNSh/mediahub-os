@@ -33,7 +33,7 @@ concurrency:
   # Serialize only retries of the same immutable target. The stale-run reaper
   # cancels controllers pinned to older source SHAs.
   group: astra-autonomous-supervisor-v2-${{ github.sha }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   prepare-command:
