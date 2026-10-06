@@ -121,6 +121,7 @@ jobs:
       ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
       ASTRA_PROVIDER_EVIDENCE_PATH: "${{ github.workspace }}/.astra-state/provider-qualification/provider-model.json"
       ASTRA_DEFER_RESULT_PUBLICATION: "1"
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
