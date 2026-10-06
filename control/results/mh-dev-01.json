@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791269526.3839169,
+    "expiry": 1791270337.706204,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,18 +23,18 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791269449.0268357,
+    "started": 1791270325.644729,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37425835661-1",
-    "updated": 1791269526.3839169
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37427339867-1",
+    "updated": 1791270337.706204
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37425835661-1",
-  "completed_at": 1791269526,
-  "duration_seconds": 77.505,
-  "execution_head": "5bab20e39af30dc52c208dbb552941f67fb25c00",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37427339867-1",
+  "completed_at": 1791270337,
+  "duration_seconds": 12.199,
+  "execution_head": "efe66a71329ce5e1c1364f1876277af0efc89476",
   "node_id": "mh-dev-01",
   "result": {
-    "elapsed_seconds": 77.351,
+    "elapsed_seconds": 12.056,
     "phase": "autonomous_queue",
     "status": "BLOCKED",
     "steps": [
@@ -43,30 +43,20 @@
           "payload": {
             "results": [
               {
-                "base_sha": "5bab20e39af30dc52c208dbb552941f67fb25c00",
-                "branch": "astra/auto/MH25-23-LANE-MANIFEST-001-5bab20e39af3-1791269451",
-                "builder": {
-                  "returncode": 1,
-                  "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/astra-codex-qualified-junrcpp6\"))\nReading additional input from stdin...\nOpenAI Codex v0.151.0\n--------\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-23-LANE-MANIFEST-001\nmodel: Qwen/Qwen3-Coder-480B-A35B-Instruct:fastest\nprovider: huggingface\napproval: never\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a10ffa-bb46-7e00-b4f7-a4f3ddddc0e7\n--------\nuser\nYou are A2 Builder in MediaHub Agent Fabric.\nTask ID: MH25-23-LANE-MANIFEST-001\nMission: Reconcile MH-01..MH-23 into one authoritative execution manifest.\nBoundary: [\"ops/agent-fabric/\", \"docs/checkpoints/\", \"ops/qualification/\"]\nForbidden surfaces: [\"qualified R4 object 471f709f5633feab7aeb62dd3ea52effad6d2bc4\", \"MH-05 qualification evidence\", \"production infrastructure\", \"user data\"]\nAcceptance: [\"every MH-01..MH-23 lane has exactly one disposition\", \"ownership/dependency/base/head/lease/worker/verification are explicit or UNKNOWN\", \"unknown evidence is not promoted\", \"no incompatible overlap remains unrecorded\", \"manifest does not become MediaHub domain or State Authority\"]\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\nuser data, credentials, or unrelated files. Work on the current task branch.\nRun relevant tests. Do not merge to main. Report changes and verification.\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\nwarning: Model metadata for `Qwen/Qwen3-Coder-480B-A35B-Instruct:fastest` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\ncodex\nI'll work on reconciling MH-01..MH-23 into one authoritative execution manifest. Let me start by exploring the repository structure to understand what we're working with.\n\n\nERROR: Reconnecting... 1/5\nERROR: Reconnecting... 2/5\nERROR: Reconnecting... 3/5\nERROR: Reconnecting... 4/5\nERROR: Reconnecting... 5/5\nERROR: stream disconnected before completion: 402 \"You have depleted your monthly included credits. Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get 20x more included usage.\"\nERROR: stream disconnected before completion: 402 \"You have depleted your monthly included credits. Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get 20x more included usage.\"\ntokens used\n0\n",
-                  "stdout": ""
-                },
-                "elapsed_seconds": 74.927,
-                "error": "RuntimeError:builder_failed",
-                "started_at": 1791269451,
+                "base_sha": "efe66a71329ce5e1c1364f1876277af0efc89476",
+                "branch": "astra/auto/MH25-23-LANE-MANIFEST-001-efe66a71329c-1791270336",
+                "elapsed_seconds": 0.938,
+                "error": "RuntimeError:qualified_executor_target_sha_missing",
+                "started_at": 1791270336,
                 "status": "BLOCKED",
                 "task_id": "MH25-23-LANE-MANIFEST-001"
               },
               {
-                "base_sha": "5bab20e39af30dc52c208dbb552941f67fb25c00",
-                "branch": "astra/auto/MH25-QUEUE-002-5bab20e39af3-1791269451",
-                "builder": {
-                  "returncode": 1,
-                  "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/astra-codex-qualified-yfowi7am\"))\nReading additional input from stdin...\nOpenAI Codex v0.151.0\n--------\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-QUEUE-002\nmodel: Qwen/Qwen3-Coder-480B-A35B-Instruct:fastest\nprovider: huggingface\napproval: never\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\nreasoning effort: none\nreasoning summaries: none\nsession id: 01a10ffa-bb47-7570-9a33-6c3a90883e75\n--------\nuser\nYou are A2 Builder in MediaHub Agent Fabric.\nTask ID: MH25-QUEUE-002\nMission: Add deterministic unit coverage proving autonomous queue execution uses isolated worktree paths and bounded worker selection.\nBoundary: [\"tests/test_autonomous_queue.py\"]\nForbidden surfaces: [\".github/workflows/\", \"docs/checkpoints/\", \"runtime/mediahub_runtime/agent_fabric.py\", \"runtime/mediahub_runtime/autonomous_queue.py\", \"astra_github_agent.py\", \"user data\", \"credentials\", \"production infrastructure\"]\nAcceptance: [\"Tests assert worktree paths are task-scoped and deterministic.\", \"Tests assert worker selection is bounded by MAX_WORKERS.\", \"Tests do not execute Codex, git worktrees, network operations, or production infrastructure.\", \"All existing Agent Fabric and autonomous queue tests pass.\", \"No production behavior outside the declared boundary is changed.\"]\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\nuser data, credentials, or unrelated files. Work on the current task branch.\nRun relevant tests. Do not merge to main. Report changes and verification.\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\nwarning: Model metadata for `Qwen/Qwen3-Coder-480B-A35B-Instruct:fastest` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\ncodex\nI'll implement deterministic unit coverage for the autonomous queue execution. Let me start by exploring the test file to understand the current structure.\n\n\ncodex\nLet me try a different approach to explore the test directory:\n\n\ncodex\nLet me try to check what files are available in the current directory:\n\n\ncodex\nIt seems we're having some issues with the container environment. Let me try to view the file directly since we know the target path:\n\n\ncodex\nLet's try to look at the structure from the filesystem metadata:\n\n\ncodex\nLet's try to look at the base directory to see if we can find the test file that way:\n\n\ncodex\nLet me try a simpler approach and check if I can access the environment in a different way:\n\n\ncodex\nIt seems we're having systematic issues with the container environment. Let me try to proceed with creating the test file directly, since we know the target location from the requirements:\n\n\n  \u2192 Create/update test_autonomous_queue.py with deterministic unit tests for worktree isolation\n  \u2022 Add tests that verify worktree paths are task-scoped and deterministic\n  \u2022 Add tests that verify worker selection is bounded by MAX_WORKERS\n  \u2022 Ensure tests don't execute Codex, git worktrees, or network operations\n  \u2022 Verify all existing tests still pass\nERROR: Reconnecting... 1/5\nERROR: Reconnecting... 2/5\nERROR: Reconnecting... 3/5\nERROR: Reconnecting... 4/5\nERROR: Reconnecting... 5/5\nERROR: stream disconnected before completion: 402 \"You have depleted your monthly included credits. Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get 20x more included usage.\"\nERROR: stream disconnected before completion: 402 \"You have depleted your monthly included credits. Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get 20x more included usage.\"\ntokens used\n0\n",
-                  "stdout": ""
-                },
-                "elapsed_seconds": 45.975,
-                "error": "RuntimeError:builder_failed",
-                "started_at": 1791269451,
+                "base_sha": "efe66a71329ce5e1c1364f1876277af0efc89476",
+                "branch": "astra/auto/MH25-QUEUE-002-efe66a71329c-1791270336",
+                "elapsed_seconds": 0.933,
+                "error": "RuntimeError:qualified_executor_target_sha_missing",
+                "started_at": 1791270336,
                 "status": "BLOCKED",
                 "task_id": "MH25-QUEUE-002"
               }
@@ -80,7 +70,7 @@
           },
           "returncode": 2,
           "stderr": "",
-          "stdout": "{\"results\": [{\"base_sha\": \"5bab20e39af30dc52c208dbb552941f67fb25c00\", \"branch\": \"astra/auto/MH25-23-LANE-MANIFEST-001-5bab20e39af3-1791269451\", \"builder\": {\"returncode\": 1, \"stderr\": \"WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \\\"/tmp\\\" (codex_home: AbsolutePathBuf(\\\"/tmp/astra-codex-qualified-junrcpp6\\\"))\\nReading additional input from stdin...\\nOpenAI Codex v0.151.0\\n--------\\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-23-LANE-MANIFEST-001\\nmodel: Qwen/Qwen3-Coder-480B-A35B-Instruct:fastest\\nprovider: huggingface\\napproval: never\\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\\nreasoning effort: none\\nreasoning summaries: none\\nsession id: 01a10ffa-bb46-7e00-b4f7-a4f3ddddc0e7\\n--------\\nuser\\nYou are A2 Builder in MediaHub Agent Fabric.\\nTask ID: MH25-23-LANE-MANIFEST-001\\nMission: Reconcile MH-01..MH-23 into one authoritative execution manifest.\\nBoundary: [\\\"ops/agent-fabric/\\\", \\\"docs/checkpoints/\\\", \\\"ops/qualification/\\\"]\\nForbidden surfaces: [\\\"qualified R4 object 471f709f5633feab7aeb62dd3ea52effad6d2bc4\\\", \\\"MH-05 qualification evidence\\\", \\\"production infrastructure\\\", \\\"user data\\\"]\\nAcceptance: [\\\"every MH-01..MH-23 lane has exactly one disposition\\\", \\\"ownership/dependency/base/head/lease/worker/verification are explicit or UNKNOWN\\\", \\\"unknown evidence is not promoted\\\", \\\"no incompatible overlap remains unrecorded\\\", \\\"manifest does not become MediaHub domain or State Authority\\\"]\\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\\nuser data, credentials, or unrelated files. Work on the current task branch.\\nRun relevant tests. Do not merge to main. Report changes and verification.\\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\\nwarning: Model metadata for `Qwen/Qwen3-Coder-480B-A35B-Instruct:fastest` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\\ncodex\\nI'll work on reconciling MH-01..MH-23 into one authoritative execution manifest. Let me start by exploring the repository structure to understand what we're working with.\\n\\n\\nERROR: Reconnecting... 1/5\\nERROR: Reconnecting... 2/5\\nERROR: Reconnecting... 3/5\\nERROR: Reconnecting... 4/5\\nERROR: Reconnecting... 5/5\\nERROR: stream disconnected before completion: 402 \\\"You have depleted your monthly included credits. Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get 20x more included usage.\\\"\\nERROR: stream disconnected before completion: 402 \\\"You have depleted your monthly included credits. Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get 20x more included usage.\\\"\\ntokens used\\n0\\n\", \"stdout\": \"\"}, \"elapsed_seconds\": 74.927, \"error\": \"RuntimeError:builder_failed\", \"started_at\": 1791269451, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\"}, {\"base_sha\": \"5bab20e39af30dc52c208dbb552941f67fb25c00\", \"branch\": \"astra/auto/MH25-QUEUE-002-5bab20e39af3-1791269451\", \"builder\": {\"returncode\": 1, \"stderr\": \"WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \\\"/tmp\\\" (codex_home: AbsolutePathBuf(\\\"/tmp/astra-codex-qualified-yfowi7am\\\"))\\nReading additional input from stdin...\\nOpenAI Codex v0.151.0\\n--------\\nworkdir: /home/mediahub/actions-runner/_work/mediahub-os/mediahub-os/.astra-state/queue/worktrees/MH25-QUEUE-002\\nmodel: Qwen/Qwen3-Coder-480B-A35B-Instruct:fastest\\nprovider: huggingface\\napproval: never\\nsandbox: workspace-write [workdir, /tmp, $TMPDIR]\\nreasoning effort: none\\nreasoning summaries: none\\nsession id: 01a10ffa-bb47-7570-9a33-6c3a90883e75\\n--------\\nuser\\nYou are A2 Builder in MediaHub Agent Fabric.\\nTask ID: MH25-QUEUE-002\\nMission: Add deterministic unit coverage proving autonomous queue execution uses isolated worktree paths and bounded worker selection.\\nBoundary: [\\\"tests/test_autonomous_queue.py\\\"]\\nForbidden surfaces: [\\\".github/workflows/\\\", \\\"docs/checkpoints/\\\", \\\"runtime/mediahub_runtime/agent_fabric.py\\\", \\\"runtime/mediahub_runtime/autonomous_queue.py\\\", \\\"astra_github_agent.py\\\", \\\"user data\\\", \\\"credentials\\\", \\\"production infrastructure\\\"]\\nAcceptance: [\\\"Tests assert worktree paths are task-scoped and deterministic.\\\", \\\"Tests assert worker selection is bounded by MAX_WORKERS.\\\", \\\"Tests do not execute Codex, git worktrees, network operations, or production infrastructure.\\\", \\\"All existing Agent Fabric and autonomous queue tests pass.\\\", \\\"No production behavior outside the declared boundary is changed.\\\"]\\nImplement only this task. Do not touch forbidden surfaces, production infrastructure,\\nuser data, credentials, or unrelated files. Work on the current task branch.\\nRun relevant tests. Do not merge to main. Report changes and verification.\\nwarning: Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.\\nwarning: Model metadata for `Qwen/Qwen3-Coder-480B-A35B-Instruct:fastest` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\\ncodex\\nI'll implement deterministic unit coverage for the autonomous queue execution. Let me start by exploring the test file to understand the current structure.\\n\\n\\ncodex\\nLet me try a different approach to explore the test directory:\\n\\n\\ncodex\\nLet me try to check what files are available in the current directory:\\n\\n\\ncodex\\nIt seems we're having some issues with the container environment. Let me try to view the file directly since we know the target path:\\n\\n\\ncodex\\nLet's try to look at the structure from the filesystem metadata:\\n\\n\\ncodex\\nLet's try to look at the base directory to see if we can find the test file that way:\\n\\n\\ncodex\\nLet me try a simpler approach and check if I can access the environment in a different way:\\n\\n\\ncodex\\nIt seems we're having systematic issues with the container environment. Let me try to proceed with creating the test file directly, since we know the target location from the requirements:\\n\\n\\n  \\u2192 Create/update test_autonomous_queue.py with deterministic unit tests for worktree isolation\\n  \\u2022 Add tests that verify worktree paths are task-scoped and deterministic\\n  \\u2022 Add tests that verify worker selection is bounded by MAX_WORKERS\\n  \\u2022 Ensure tests don't execute Codex, git worktrees, or network operations\\n  \\u2022 Verify all existing tests still pass\\nERROR: Reconnecting... 1/5\\nERROR: Reconnecting... 2/5\\nERROR: Reconnecting... 3/5\\nERROR: Reconnecting... 4/5\\nERROR: Reconnecting... 5/5\\nERROR: stream disconnected before completion: 402 \\\"You have depleted your monthly included credits. Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get 20x more included usage.\\\"\\nERROR: stream disconnected before completion: 402 \\\"You have depleted your monthly included credits. Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get 20x more included usage.\\\"\\ntokens used\\n0\\n\", \"stdout\": \"\"}, \"elapsed_seconds\": 45.975, \"error\": \"RuntimeError:builder_failed\", \"started_at\": 1791269451, \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
+          "stdout": "{\"results\": [{\"base_sha\": \"efe66a71329ce5e1c1364f1876277af0efc89476\", \"branch\": \"astra/auto/MH25-23-LANE-MANIFEST-001-efe66a71329c-1791270336\", \"elapsed_seconds\": 0.938, \"error\": \"RuntimeError:qualified_executor_target_sha_missing\", \"started_at\": 1791270336, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\"}, {\"base_sha\": \"efe66a71329ce5e1c1364f1876277af0efc89476\", \"branch\": \"astra/auto/MH25-QUEUE-002-efe66a71329c-1791270336\", \"elapsed_seconds\": 0.933, \"error\": \"RuntimeError:qualified_executor_target_sha_missing\", \"started_at\": 1791270336, \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
         },
         "backend": {
           "reason": "",
@@ -93,13 +83,13 @@
           "blocked_reasons": [],
           "payload": {
             "blocked_reasons": [],
-            "captured_at": 1791269358,
+            "captured_at": 1791270299,
             "checked_nodes": [
               "mh-dev-01",
               "mh-dev-02",
               "Voktors-Mac-mini.local"
             ],
-            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37425835661-1",
+            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37427339867-1",
             "node_id": "mh-dev-01",
             "phase": "distributed_verification",
             "producer_identity": "canonical-distributed-verification-producer-v1",
@@ -107,12 +97,12 @@
             "schema": "mediahub.astra.distributed-verification.v1",
             "secret_values": "SUPPRESSED",
             "status": "PASS",
-            "target_sha": "5bab20e39af30dc52c208dbb552941f67fb25c00"
+            "target_sha": "efe66a71329ce5e1c1364f1876277af0efc89476"
           },
           "returncode": 0,
           "source": "fresh_downloaded_a2_aggregate"
         },
-        "head": "5bab20e39af30dc52c208dbb552941f67fb25c00",
+        "head": "efe66a71329ce5e1c1364f1876277af0efc89476",
         "pre_soak": {
           "returncode": 0,
           "stderr": "",
@@ -129,6 +119,6 @@
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "5bab20e39af30dc52c208dbb552941f67fb25c00",
-  "worker_id": "A0-ASTRA:2484890"
+  "target_sha": "efe66a71329ce5e1c1364f1876277af0efc89476",
+  "worker_id": "A0-ASTRA:2489661"
 }
