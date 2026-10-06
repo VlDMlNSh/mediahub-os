@@ -230,16 +230,21 @@ user data, credentials, or unrelated files. Work on the current task branch.
 Run relevant tests. Do not merge to main. Report changes and verification."""
 
 
-def verifier_prompt(task: dict) -> str:
+def verifier_prompt(task: dict, diff_text: str, test_text: str) -> str:
     forbidden = task.get("forbidden_surfaces", task.get("forbidden", []))
     return f"""You are A3 Verifier, independent from the builder.
 Review task {task["task_id"]} against acceptance criteria:
 {json.dumps(task.get("acceptance", []))}
 Boundary: {json.dumps(task.get("boundary", []))}
 Forbidden surfaces: {json.dumps(forbidden)}
-Inspect the actual git diff and run appropriate tests. Do not modify source files.
-Return exactly one verdict line: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED.
-Use ASTRA_VERDICT: PASS only if acceptance is directly evidenced; otherwise return BLOCKED."""
+The following evidence was collected by the controller:
+--- GIT DIFF ---
+{diff_text[-30000:]}
+--- TEST OUTPUT ---
+{test_text[-12000:]}
+Do not call tools, do not modify files, and do not emit JSON or tool-call syntax.
+Return exactly one line: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED.
+Use PASS only when the supplied diff and tests directly evidence every acceptance criterion."""
 
 
 def _path_in_scope(path: str, boundary: tuple[str, ...]) -> bool:
@@ -379,11 +384,19 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
                 "tests/test_agent_fabric.py",
                 "tests/test_astra_github_agent_contract.py",
             ]
-        test = run(
-            ["python3", "-m", "unittest", *selected_tests],
-            900,
-            worktree,
-        )
+        if len(selected_tests) == 1:
+            test_name = Path(selected_tests[0]).name
+            test = run(
+                ["python3", "-m", "unittest", "discover", "-s", "tests", "-p", test_name],
+                900,
+                worktree,
+            )
+        else:
+            test = run(
+                ["python3", "-m", "unittest", *selected_tests],
+                900,
+                worktree,
+            )
         record["tests"] = {
             "returncode": test.returncode,
             "stdout": test.stdout[-8000:],
@@ -395,8 +408,12 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
         if diff.returncode:
             raise RuntimeError("diff_check_failed")
         try:
-            verifier = run(
-                [CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task)],
+            diff_for_verifier = run(["git", "diff", "--no-ext-diff", base_sha, "HEAD"], 60, worktree)
+        if diff_for_verifier.returncode != 0:
+            raise RuntimeError("verifier_diff_failed")
+        test_text = record["tests"].get("stderr", "") + record["tests"].get("stdout", "")
+        verifier = run(
+                [CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task, diff_for_verifier.stdout, test_text)],
                 TASK_TIMEOUT,
                 worktree,
                 codex_env,
