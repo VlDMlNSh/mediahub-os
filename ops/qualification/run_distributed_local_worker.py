@@ -289,7 +289,11 @@ def main() -> int:
             )
         record["builder"] = build
         if build["returncode"] != 0:
-            raise RuntimeError("builder_failed")
+            raise RuntimeError(
+                "builder_failed:{}".format(
+                    (build.get("stderr") or build.get("stdout") or "no_builder_diagnostics")[-2000:]
+                )
+            )
 
         changed = changed_paths(target_sha)
         outside = scope_paths(task, changed)
