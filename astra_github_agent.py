@@ -742,7 +742,7 @@ def execute(cmd):
     if operation == "pre_soak_evidence":
         script=ROOT/"ops"/"qualification"/"capture_pre_soak_evidence.py"
         if not script.exists(): raise FileNotFoundError(f"pre-soak evidence producer not found: {script}")
-        result=subprocess.run([sys.executable,str(script)],cwd=ROOT,text=True,capture_output=True,timeout=900,check=False)
+        result=subprocess.run([sys.executable,str(script),"--target-sha",str(cmd.get("target_sha","")),"--provider-evidence",os.environ.get("ASTRA_PROVIDER_EVIDENCE_PATH","")],cwd=ROOT,text=True,capture_output=True,timeout=900,check=False)
         return {"returncode":result.returncode,"stdout":result.stdout[-20000:],"stderr":result.stderr[-10000:],"status":"PASS" if result.returncode==0 else "BLOCKED"}
     if operation == "qualification":
         script=ROOT/"ops"/"qualification"/"astra_gold_executor.py"
