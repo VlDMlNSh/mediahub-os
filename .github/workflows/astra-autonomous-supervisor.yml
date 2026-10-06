@@ -160,7 +160,7 @@ jobs:
           Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8").write(
               f"ASTRA_NODE_ID=mh-dev-01\n"
               f"ASTRA_COMMAND_ID={d['command_id']}\n"
-              f"ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ['ASTRA_STATE_DIR']}/distributed-verification\n"
+              f"ASTRA_DISTRIBUTED_EVIDENCE_DIR={os.environ['ASTRA_STATE_DIR']}\n"
           )
           PY
 
@@ -187,7 +187,7 @@ jobs:
         env:
           ASTRA_WORKTREE: "${{ github.workspace }}"
           ASTRA_WORKFLOW_ONLY: "1"
-          ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state/distributed-verification"
+          ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state"
           ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
         run: |
           set -euo pipefail
