@@ -256,21 +256,31 @@ def _path_in_scope(path: str, boundary: tuple[str, ...]) -> bool:
 
 
 def _diff_outside_scope(task: dict, worktree: Path, base_sha: str) -> list[str]:
-    result = run(["git", "diff", "--name-only", base_sha, "HEAD"], 60, worktree)
-    if result.returncode != 0:
-        raise RuntimeError("diff_listing_failed")
+    # Inspect both committed and uncommitted tracked changes. A builder must not
+    # hide a forbidden edit merely by leaving it unstaged.
+    diff_specs = [
+        ["git", "diff", "--name-only", base_sha],
+        ["git", "diff", "--name-only", base_sha, "HEAD"],
+        ["git", "diff", "--cached", "--name-only", base_sha],
+    ]
+    changed: set[str] = set()
+    for argv in diff_specs:
+        result = run(argv, 60, worktree)
+        if result.returncode != 0:
+            raise RuntimeError("diff_listing_failed")
+        changed.update(line.strip() for line in result.stdout.splitlines() if line.strip())
+
     boundary = tuple(str(item) for item in task.get("boundary", []))
     forbidden = tuple(str(item) for item in task.get("forbidden_surfaces", task.get("forbidden", [])))
     bad: list[str] = []
-    for path in (line.strip() for line in result.stdout.splitlines()):
-        if not path:
-            continue
+    for path in sorted(changed):
         if forbidden and any(
             path == root or path.startswith(root.rstrip("/") + "/") for root in forbidden
         ):
             bad.append(path)
         elif boundary and not _path_in_scope(path, boundary):
             bad.append(path)
+
     status = run(["git", "status", "--porcelain", "--untracked-files=all"], 60, worktree)
     if status.returncode != 0:
         raise RuntimeError("status_listing_failed")
@@ -280,12 +290,12 @@ def _diff_outside_scope(task: dict, worktree: Path, base_sha: str) -> list[str]:
         path = line[3:].strip() if len(line) >= 3 else line.strip()
         if " -> " in path:
             path = path.split(" -> ", 1)[1]
-        if path and (forbidden and any(path == root or path.startswith(root.rstrip("/") + "/") for root in forbidden)
-                      or (boundary and not _path_in_scope(path, boundary))):
+        if path and (
+            (forbidden and any(path == root or path.startswith(root.rstrip("/") + "/") for root in forbidden))
+            or (boundary and not _path_in_scope(path, boundary))
+        ):
             bad.append(path)
     return sorted(set(bad))
-
-
 def _verifier_passed(stdout: str) -> bool:
     verdicts = re.findall(r"(?m)^ASTRA_VERDICT:\s*(PASS|BLOCKED)\s*$", stdout)
     return verdicts == ["PASS"]

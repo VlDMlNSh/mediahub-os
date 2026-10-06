@@ -21,26 +21,43 @@ def test_load_tasks_sorts_ready_by_priority_then_task_id(monkeypatch, tmp_path: 
 def test_main_suppresses_completed_tasks(monkeypatch, tmp_path: Path, capsys):
     task_dir = tmp_path / "tasks"; task_dir.mkdir()
     state = tmp_path / "state"
+    target = "a" * 40
     (task_dir / "a.json").write_text(json.dumps({"task_id":"A","status":"READY","priority":"P0"}))
     (state / "completed").mkdir(parents=True)
-    (state / "completed" / "A.json").write_text(\n        json.dumps({"status": "VERIFIED", "base_sha": "deadbeef"}),\n        encoding="utf-8",\n    )
+    (state / "completed" / "A.json").write_text(
+        json.dumps({"status":"VERIFIED","base_sha":target}),
+        encoding="utf-8",
+    )
     monkeypatch.setattr(autonomous_queue, "TASK_DIR", task_dir)
     monkeypatch.setattr(autonomous_queue, "STATE", state)
+    monkeypatch.delenv("ASTRA_TARGET_SHA", raising=False)
+    class R:
+        returncode = 0
+        stdout = target + "\n"
+        stderr = ""
+    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: R())
     assert autonomous_queue.main() == 0
-    assert json.loads(capsys.readouterr().out)["status"] == "IDLE"
-
-
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["status"] == "IDLE"
+    assert payload["reason"] == "no_ready_tasks"
 def test_main_returns_idle_when_no_ready_tasks(monkeypatch, tmp_path: Path, capsys):
     task_dir = tmp_path / "tasks"; task_dir.mkdir()
     state = tmp_path / "state"
     (task_dir / "a.json").write_text(json.dumps({"task_id":"A","status":"WAIT","priority":"P0"}))
     monkeypatch.setattr(autonomous_queue, "TASK_DIR", task_dir)
     monkeypatch.setattr(autonomous_queue, "STATE", state)
+    monkeypatch.delenv("ASTRA_TARGET_SHA", raising=False)
+    class R:
+        returncode = 0
+        stdout = "b" * 40 + "\n"
+        stderr = ""
+    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: R())
     assert autonomous_queue.main() == 0
     payload = json.loads(capsys.readouterr().out)
-    assert payload["status"] == "IDLE"\n    assert payload["reason"] == "no_ready_tasks"\n    assert payload["base_sha"] == autonomous_queue.run(["git", "rev-parse", "HEAD"], 30).stdout.strip()\n    assert payload["discovered_tasks"] == []
-
-
+    assert payload["status"] == "IDLE"
+    assert payload["reason"] == "no_ready_tasks"
+    assert payload["base_sha"] == "b" * 40
+    assert payload["discovered_tasks"] == []
 def test_claim_uses_task_boundary(monkeypatch):
     class R: stdout = "abc123\n"
     monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: R())
@@ -107,18 +124,25 @@ def test_main_does_not_suppress_stale_completion(monkeypatch, tmp_path: Path, ca
     )
     monkeypatch.setattr(autonomous_queue, "TASK_DIR", task_dir)
     monkeypatch.setattr(autonomous_queue, "STATE", state)
+    monkeypatch.delenv("ASTRA_TARGET_SHA", raising=False)
+
     class R:
+        returncode = 0
         stdout = "newsha\n"
+        stderr = ""
+
     monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: R())
-    # No builder should be started here; the stale completion makes the task eligible.
+    monkeypatch.setattr(
+        autonomous_queue,
+        "process_task",
+        lambda task, base_sha: {"task_id": task["task_id"], "status": "BLOCKED", "base_sha": base_sha},
+    )
     result = autonomous_queue.main()
     payload = json.loads(capsys.readouterr().out)
     assert result == 2
     assert payload["status"] == "BLOCKED"
-    assert payload["selected_tasks"] == ["A"]\n    assert payload["results"][0]["task_id"] == "A"
-
-
-
+    assert payload["selected_tasks"] == ["A"]
+    assert payload["results"][0]["task_id"] == "A"
 def test_existing_dirty_worktree_is_not_force_removed(monkeypatch, tmp_path: Path):
     worktree = tmp_path / "worktree"
     worktree.mkdir()
@@ -209,6 +233,36 @@ def test_scope_check_rejects_untracked_files(monkeypatch, tmp_path: Path):
     monkeypatch.setattr(autonomous_queue, "run", fake_run)
     assert autonomous_queue._diff_outside_scope({"boundary": ["tests"]}, worktree, "a"*40) == ["forbidden.txt"]
 
+
+
+def test_scope_check_rejects_tracked_worktree_changes(monkeypatch, tmp_path: Path):
+    worktree = tmp_path / "worktree"
+    worktree.mkdir()
+
+    class R:
+        returncode = 0
+        stdout = ""
+        stderr = ""
+
+    def fake_run(argv, *args, **kwargs):
+        if argv == ["git", "diff", "--name-only", "a" * 40]:
+            return type("Tracked", (), {
+                "returncode": 0,
+                "stdout": "runtime/mediahub_runtime/autonomous_queue.py\n",
+                "stderr": "",
+            })()
+        if argv[:4] == ["git", "diff", "--cached", "--name-only"]:
+            return R()
+        if argv[:3] == ["git", "status", "--porcelain"] and "--untracked-files=all" in argv:
+            return R()
+        return R()
+
+    monkeypatch.setattr(autonomous_queue, "run", fake_run)
+    assert autonomous_queue._diff_outside_scope(
+        {"boundary": ["tests/"], "forbidden_surfaces": ["runtime/"]},
+        worktree,
+        "a" * 40,
+    ) == ["runtime/mediahub_runtime/autonomous_queue.py"]
 
 
 def test_task_id_cannot_escape_queue_state(monkeypatch, tmp_path: Path):
