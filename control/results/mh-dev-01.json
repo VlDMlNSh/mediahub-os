@@ -15,7 +15,7 @@
     "exclusive_actions": [
       "execute"
     ],
-    "expiry": 1791275581.7574482,
+    "expiry": 1791275936.8924997,
     "goal": "Autonomous ASTRA GOLD qualification wave on mh-dev-01",
     "paths": [
       "architecture",
@@ -23,112 +23,76 @@
       "ops/qualification",
       "control/qualification"
     ],
-    "started": 1791275567.688949,
+    "started": 1791275816.8344662,
     "status": "REJECTED",
-    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37436602312-1",
-    "updated": 1791275581.7574482
+    "task_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37437033661-1",
+    "updated": 1791275936.8924997
   },
-  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37436602312-1",
-  "completed_at": 1791275581,
-  "duration_seconds": 14.214,
-  "execution_head": "d5e9292eebf8347178ae69e1ca5a7285543a80b4",
+  "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37437033661-1",
+  "completed_at": 1791275936,
+  "duration_seconds": 120.195,
+  "execution_head": "9e6a13906df4595897da90f2211bc996d8f1d97c",
   "node_id": "mh-dev-01",
   "result": {
-    "elapsed_seconds": 14.063,
-    "phase": "autonomous_queue",
+    "elapsed_seconds": 120.054,
+    "phase": "execution_backend_qualification",
     "status": "BLOCKED",
     "steps": [
       {
-        "autonomous_queue": {
-          "payload": {
-            "results": [
-              {
-                "base_sha": "d5e9292eebf8347178ae69e1ca5a7285543a80b4",
-                "branch": "astra/auto/MH25-23-LANE-MANIFEST-001-d5e9292eebf8-1791275576",
-                "builder": {
-                  "returncode": 1,
-                  "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/astra-codex-qualified-pkkgpwzh\"))\nError: Model provider `{profile}` not found\n",
-                  "stdout": ""
-                },
-                "elapsed_seconds": 3.519,
-                "error": "RuntimeError:builder_failed",
-                "started_at": 1791275576,
-                "status": "BLOCKED",
-                "task_id": "MH25-23-LANE-MANIFEST-001"
-              },
-              {
-                "base_sha": "d5e9292eebf8347178ae69e1ca5a7285543a80b4",
-                "branch": "astra/auto/MH25-QUEUE-002-d5e9292eebf8-1791275576",
-                "builder": {
-                  "returncode": 1,
-                  "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \"/tmp\" (codex_home: AbsolutePathBuf(\"/tmp/astra-codex-qualified-iz3i7zm4\"))\nError: Model provider `{profile}` not found\n",
-                  "stdout": ""
-                },
-                "elapsed_seconds": 4.819,
-                "error": "RuntimeError:builder_failed",
-                "started_at": 1791275576,
-                "status": "BLOCKED",
-                "task_id": "MH25-QUEUE-002"
-              }
-            ],
-            "selected_tasks": [
-              "MH25-23-LANE-MANIFEST-001",
-              "MH25-QUEUE-002"
-            ],
-            "status": "BLOCKED",
-            "workers": 2
-          },
-          "returncode": 2,
-          "stderr": "",
-          "stdout": "{\"results\": [{\"base_sha\": \"d5e9292eebf8347178ae69e1ca5a7285543a80b4\", \"branch\": \"astra/auto/MH25-23-LANE-MANIFEST-001-d5e9292eebf8-1791275576\", \"builder\": {\"returncode\": 1, \"stderr\": \"WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \\\"/tmp\\\" (codex_home: AbsolutePathBuf(\\\"/tmp/astra-codex-qualified-pkkgpwzh\\\"))\\nError: Model provider `{profile}` not found\\n\", \"stdout\": \"\"}, \"elapsed_seconds\": 3.519, \"error\": \"RuntimeError:builder_failed\", \"started_at\": 1791275576, \"status\": \"BLOCKED\", \"task_id\": \"MH25-23-LANE-MANIFEST-001\"}, {\"base_sha\": \"d5e9292eebf8347178ae69e1ca5a7285543a80b4\", \"branch\": \"astra/auto/MH25-QUEUE-002-d5e9292eebf8-1791275576\", \"builder\": {\"returncode\": 1, \"stderr\": \"WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir \\\"/tmp\\\" (codex_home: AbsolutePathBuf(\\\"/tmp/astra-codex-qualified-iz3i7zm4\\\"))\\nError: Model provider `{profile}` not found\\n\", \"stdout\": \"\"}, \"elapsed_seconds\": 4.819, \"error\": \"RuntimeError:builder_failed\", \"started_at\": 1791275576, \"status\": \"BLOCKED\", \"task_id\": \"MH25-QUEUE-002\"}], \"selected_tasks\": [\"MH25-23-LANE-MANIFEST-001\", \"MH25-QUEUE-002\"], \"status\": \"BLOCKED\", \"workers\": 2}\n"
-        },
         "backend": {
-          "reason": "",
-          "returncode": 0,
+          "reason": "provider_qualification_blocked",
+          "returncode": 2,
           "source": "node_local_provider_evidence",
-          "status": "PASS"
+          "status": "BLOCKED"
         },
         "cycle": 1,
-        "distributed_verification": {
-          "blocked_reasons": [],
-          "payload": {
-            "blocked_reasons": [],
-            "captured_at": 1791275541,
-            "checked_nodes": [
-              "mh-dev-01",
-              "mh-dev-02",
-              "Voktors-Mac-mini.local"
-            ],
-            "command_id": "MH-AUTONOMOUS-GOLD-mh-dev-01-37436602312-1",
-            "node_id": "mh-dev-01",
-            "phase": "distributed_verification",
-            "producer_identity": "canonical-distributed-verification-producer-v1",
-            "returncode": 0,
-            "schema": "mediahub.astra.distributed-verification.v1",
-            "secret_values": "SUPPRESSED",
-            "status": "PASS",
-            "target_sha": "d5e9292eebf8347178ae69e1ca5a7285543a80b4"
-          },
-          "returncode": 0,
-          "source": "fresh_downloaded_a2_aggregate"
+        "head": "9e6a13906df4595897da90f2211bc996d8f1d97c"
+      },
+      {
+        "backend": {
+          "reason": "provider_qualification_blocked",
+          "returncode": 2,
+          "source": "node_local_provider_evidence",
+          "status": "BLOCKED"
         },
-        "head": "d5e9292eebf8347178ae69e1ca5a7285543a80b4",
-        "pre_soak": {
-          "returncode": 0,
-          "stderr": "",
-          "stdout": ""
+        "cycle": 2,
+        "head": "9e6a13906df4595897da90f2211bc996d8f1d97c"
+      },
+      {
+        "backend": {
+          "reason": "provider_qualification_blocked",
+          "returncode": 2,
+          "source": "node_local_provider_evidence",
+          "status": "BLOCKED"
         },
-        "strict_verifier": {
-          "returncode": 0,
-          "stderr": "",
-          "stdout": "PRE-SOAK PASS: all required evidence files report PASS\n"
-        }
+        "cycle": 3,
+        "head": "9e6a13906df4595897da90f2211bc996d8f1d97c"
+      },
+      {
+        "backend": {
+          "reason": "provider_qualification_blocked",
+          "returncode": 2,
+          "source": "node_local_provider_evidence",
+          "status": "BLOCKED"
+        },
+        "cycle": 4,
+        "head": "9e6a13906df4595897da90f2211bc996d8f1d97c"
+      },
+      {
+        "backend": {
+          "reason": "provider_qualification_blocked",
+          "returncode": 2,
+          "source": "node_local_provider_evidence",
+          "status": "BLOCKED"
+        },
+        "cycle": 5,
+        "head": "9e6a13906df4595897da90f2211bc996d8f1d97c"
       }
     ]
   },
   "returncode": 0,
   "schema": 1,
   "secret_values": "SUPPRESSED",
-  "target_sha": "d5e9292eebf8347178ae69e1ca5a7285543a80b4",
-  "worker_id": "A0-ASTRA:2520994"
+  "target_sha": "9e6a13906df4595897da90f2211bc996d8f1d97c",
+  "worker_id": "A0-ASTRA:2523130"
 }
