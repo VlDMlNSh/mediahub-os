@@ -341,13 +341,12 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
             "model": model,
             "qualification": "fresh_local_or_provider_qualified",
         }
-        try:
-            build = run(
-                [CODEX, "exec", "--sandbox", "workspace-write", "--skip-git-repo-check", builder_prompt(task)],
-                TASK_TIMEOUT,
-                worktree,
-                codex_env,
-            )
+        build = run(
+            [CODEX, "exec", "--sandbox", "workspace-write", "--skip-git-repo-check", builder_prompt(task)],
+            TASK_TIMEOUT,
+            worktree,
+            codex_env,
+        )
         record["builder"] = {
             "returncode": build.returncode,
             "stdout": build.stdout[-12000:],
