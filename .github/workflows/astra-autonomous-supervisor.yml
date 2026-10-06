@@ -10,6 +10,7 @@ on:
       - "runtime/mediahub_runtime/autonomous_queue.py"
       - "tests/test_autonomous_queue.py"
       - "ops/qualification/**"
+      - "ops/agent-fabric/**"
       - "tests/test_mesh_registry_contract.py"
       - "tests/test_astra_github_agent_contract.py"
       - "tests/test_autonomous_gold_mission.py"
