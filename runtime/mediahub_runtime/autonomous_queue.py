@@ -409,10 +409,10 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
             raise RuntimeError("diff_check_failed")
         try:
             diff_for_verifier = run(["git", "diff", "--no-ext-diff", base_sha, "HEAD"], 60, worktree)
-        if diff_for_verifier.returncode != 0:
-            raise RuntimeError("verifier_diff_failed")
-        test_text = record["tests"].get("stderr", "") + record["tests"].get("stdout", "")
-        verifier = run(
+            if diff_for_verifier.returncode != 0:
+                raise RuntimeError("verifier_diff_failed")
+            test_text = record["tests"].get("stderr", "") + record["tests"].get("stdout", "")
+            verifier = run(
                 [CODEX, "exec", "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task, diff_for_verifier.stdout, test_text)],
                 TASK_TIMEOUT,
                 worktree,
