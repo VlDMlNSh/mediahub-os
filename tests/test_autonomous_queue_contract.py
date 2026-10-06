@@ -25,5 +25,10 @@ class AutonomousQueueContractTests(unittest.TestCase):
         self.assertIn("queue_target_sha_not_current_head", self.source)
         self.assertNotIn('remote_main.stdout.strip() != base_sha', self.source)
 
+    def test_builder_uses_runner_supported_codex_flags(self):
+        self.assertIn('"--sandbox", "workspace-write"', self.source)
+        self.assertNotIn('"--ask-for-approval", "never"', self.source)
+        self.assertNotIn('"--full-auto"', self.source)
+
 if __name__ == "__main__":
     unittest.main()
