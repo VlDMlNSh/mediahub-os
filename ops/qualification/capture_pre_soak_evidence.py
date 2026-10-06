@@ -61,6 +61,7 @@ def main() -> int:
     global EXPECTED_TARGET_SHA
     parser = argparse.ArgumentParser()
     parser.add_argument("--target-sha", required=True)
+    parser.add_argument("--provider-evidence", type=Path, required=True)
     args = parser.parse_args()
     if not re.fullmatch(r"[0-9a-f]{40}", args.target_sha):
         raise SystemExit("BLOCK: invalid target SHA")
@@ -101,21 +102,48 @@ def main() -> int:
                   "bounded live marker was not observed", returncode=rc,
                   marker_present="MEDIAHUB_OLLAMA_LIVE_OK" in out)
 
-    # Provider/model evidence is produced by the live qualification engine.
-    provider_script = ROOT / "ops" / "qualification" / "qualify_execution_backends.py"
-    provider = subprocess.run([str(Path(__import__("sys").executable)), str(provider_script)],
-                              cwd=ROOT, text=True, capture_output=True, timeout=120, check=False)
+    # A3 provider evidence is produced on the provider node and handed over as a
+    # fresh, sanitized artifact. The canonical node never receives provider secrets.
     provider_payload = {}
     try:
-        provider_payload = json.loads(provider.stdout.strip().splitlines()[-1])
+        provider_payload = json.loads(args.provider_evidence.read_text(encoding="utf-8"))
     except Exception:
-        provider_payload = {"status": "BLOCKED", "reason": "invalid_provider_qualification_output"}
-    provider_status = "PASS" if provider.returncode == 0 and provider_payload.get("status") == "PASS" else "BLOCKED"
+        provider_payload = {"status": "BLOCKED", "reason": "invalid_provider_evidence"}
+
+    provider_blocked = []
+    if provider_payload.get("schema") != "mediahub.provider-model-qualification.v1":
+        provider_blocked.append("invalid_schema")
+    if provider_payload.get("status") != "PASS":
+        provider_blocked.append("status_not_PASS")
+    if provider_payload.get("target_sha") != EXPECTED_TARGET_SHA:
+        provider_blocked.append("target_sha_mismatch")
+    if provider_payload.get("repo_revision") != EXPECTED_TARGET_SHA:
+        provider_blocked.append("repo_revision_mismatch")
+    if provider_payload.get("node_id") != "mh-dev-02":
+        provider_blocked.append("provider_node_identity_mismatch")
+    if not isinstance(provider_payload.get("evidence_digest"), str) or not provider_payload.get("evidence_digest").startswith("sha256:"):
+        provider_blocked.append("evidence_digest_invalid")
+    summary = provider_payload.get("summary") if isinstance(provider_payload.get("summary"), dict) else {}
+    if int(summary.get("qualified_providers", 0)) < 1:
+        provider_blocked.append("no_qualified_provider")
+    qualified = [
+        item for item in provider_payload.get("providers", [])
+        if isinstance(item, dict) and item.get("verification_state") == "QUALIFIED"
+    ]
+    if not qualified:
+        provider_blocked.append("no_qualified_provider_record")
+
+    provider_status = "PASS" if not provider_blocked else "BLOCKED"
     if provider_status != "PASS":
         blocked = True
-    write("provider-model.json", provider_status, "cloud_provider_live_qualification",
-          "" if provider_status == "PASS" else "no qualified provider/model was observed",
-          qualification=provider_payload)
+    write(
+        "provider-model.json",
+        provider_status,
+        "node_local_a3_provider_qualification",
+        ";".join(provider_blocked),
+        qualification=provider_payload,
+        provider_node="mh-dev-02",
+    )
 
     # Runtime gates are produced by exercising the real runtime modules. The
     # producer is fail-closed: it reports PASS only on the canonical node and
