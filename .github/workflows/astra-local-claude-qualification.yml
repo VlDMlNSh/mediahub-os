@@ -38,79 +38,90 @@ jobs:
           command -v claude
           claude --version
 
-      - name: Bounded native Claude Code via Ollama
+      - name: Bounded Claude Code via local FCC/Ollama
         id: qualify
         shell: bash
         run: |
           set -uo pipefail
           export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          export FCC_ENV_FILE="/home/mediahub/.config/mediahub/fcc.env"
+          env_file="/home/mediahub/.config/mediahub/fcc.env"
+          test -f "$env_file"
+          model="ollama/qwen2.5-coder:7b"
           command -v ollama
-          command -v claude
-          model="qwen2.5-coder:7b"
-          ollama_version="$(ollama --version 2>&1 | sed -n 's/.*version //p' | head -n 1)"
-          echo "ollama_version=${ollama_version}"
-          python3 -c 'import re,sys; v=sys.argv[1].strip(); m=re.fullmatch(r"v?(\\d+)\\.(\\d+)\\.(\\d+)",v); raise SystemExit("ollama_version_unparseable") if not m else None; raise SystemExit("ollama_too_old_for_anthropic_messages_api") if tuple(map(int,m.groups())) < (0,14,0) else None' "$ollama_version"
-          ollama show "$model" >/dev/null 2>&1 || ollama pull "$model"
+          command -v fcc-claude
+          command -v fcc-server
           ollama list | grep -E "^qwen2.5-coder:7b[[:space:]]" >/dev/null
-          ollama show "$model" >/dev/null
           marker="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK"
-          out="${RUNNER_TEMP}/astra-claude-result.txt"
-          err="${RUNNER_TEMP}/astra-claude-stderr.txt"
+          out="/tmp/astra-claude-result.txt"
+          err="/tmp/astra-claude-stderr.txt"
           status="BLOCKED"
-          reason="claude_execution_failed"
+          reason="fcc_unavailable"
           exit_status=1
           : >"$out"
           : >"$err"
-          export ANTHROPIC_BASE_URL="http://127.0.0.1:11434"
-          export ANTHROPIC_AUTH_TOKEN="ollama"
-          export ANTHROPIC_API_KEY=""
-          export ANTHROPIC_MODEL="$model"
-          export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
-          timeout 300s claude --print --output-format text --bare --model "$model" \
-            "$marker. Return exactly $marker. Do not modify files, call tools, or access the network." \
-            >"$out" 2>"$err"
-          exit_status=$?
-          if [ "$exit_status" -eq 0 ] && grep -Fx "$marker" "$out" >/dev/null 2>&1; then
-            status="PASS"
-            reason=""
-          elif [ "$exit_status" -eq 124 ]; then
-            reason="claude_execution_timeout"
+          server_pid=""
+          if ! curl -fsS --max-time 3 http://127.0.0.1:8093/health >/dev/null 2>&1; then
+            set -a
+            . "$env_file"
+            set +a
+            nohup fcc-server >/tmp/mediahub-fcc-qualification.log 2>&1 &
+            server_pid=$!
+            for _ in $(seq 1 25); do
+              if curl -fsS --max-time 2 http://127.0.0.1:8093/health >/dev/null 2>&1; then break; fi
+              sleep 1
+            done
           fi
+          if curl -fsS --max-time 3 http://127.0.0.1:8093/health >/dev/null 2>&1; then
+            set -a
+            . "$env_file"
+            set +a
+            reason="claude_execution_failed"
+            timeout 120s fcc-claude -p "$marker. Return exactly $marker. Do not modify files, call tools, or access the network." --output-format text >"$out" 2>"$err"
+            exit_status=$?
+            if [ "$exit_status" -eq 0 ] && grep -Fx "$marker" "$out" >/dev/null 2>&1; then
+              status="PASS"
+              reason=""
+            elif [ "$exit_status" -eq 124 ]; then
+              reason="claude_execution_timeout"
+            fi
+          fi
+          if [ -n "$server_pid" ]; then kill "$server_pid" 2>/dev/null || true; fi
           export ASTRA_CLAUDE_STATUS="$status"
           export ASTRA_CLAUDE_REASON="$reason"
           export ASTRA_CLAUDE_EXIT_STATUS="$exit_status"
           python3 - <<'PY'
-          import hashlib, json, os, platform, re, time
-          from pathlib import Path
-          out=Path(os.environ["RUNNER_TEMP"])/"astra-claude-result.txt"
-          err=Path(os.environ["RUNNER_TEMP"])/"astra-claude-stderr.txt"
-          stderr=err.read_text(encoding="utf-8",errors="replace")
-          markers=[]
-          for pat in (r"(?i)http[^\s]{0,20}", r"(?i)(timeout|timed out|unauthorized|forbidden|connection refused|not found)"):
-              markers.extend(re.findall(pat,stderr)[:6])
-          payload={
-              "schema":"mediahub.astra.local-claude-qualification.v4",
-              "status":os.environ["ASTRA_CLAUDE_STATUS"],
-              "phase":"local_claude_executor",
-              "node_id":platform.node(),
-              "target_sha":os.environ["GITHUB_SHA"],
-              "command_id":f"LOCAL-CLAUDE-{os.environ["GITHUB_RUN_ID"]}-{os.environ["GITHUB_RUN_ATTEMPT"]}",
-              "executor_identity":"claude",
-              "provider_or_transport_identity":"ollama-native-anthropic",
-              "model":"qwen2.5-coder:7b",
-              "captured_at":int(time.time()),
-              "marker":"MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK",
-              "marker_present":out.read_text(encoding="utf-8",errors="replace").strip()=="MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK",
-              "exit_status":int(os.environ["ASTRA_CLAUDE_EXIT_STATUS"]),
-              "reason":os.environ["ASTRA_CLAUDE_REASON"],
-              "stderr_classification":markers[:12],
-              "output_sha256":"sha256:"+hashlib.sha256(out.read_bytes()).hexdigest(),
-              "stderr_present":err.stat().st_size>0,
-              "secret_values":"SUPPRESSED",
-          }
-          print(json.dumps(payload,sort_keys=True))
-          Path("astra-local-claude-qualification.json").write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n",encoding="utf-8")
-          PY
+import hashlib, json, os, platform, re, time
+from pathlib import Path
+out=Path('/tmp/astra-claude-result.txt')
+err=Path('/tmp/astra-claude-stderr.txt')
+stderr=err.read_text(encoding='utf-8', errors='replace')
+classifications=[]
+for pat in (r'(?i)http[^\s]{0,24}', r'(?i)(timeout|timed out|unauthorized|forbidden|connection refused|not found|model)'):
+    classifications.extend(re.findall(pat, stderr)[:8])
+payload={
+    'schema':'mediahub.astra.local-claude-qualification.v6',
+    'status':os.environ['ASTRA_CLAUDE_STATUS'],
+    'phase':'local_claude_executor',
+    'node_id':platform.node(),
+    'target_sha':os.environ['GITHUB_SHA'],
+    'command_id':'LOCAL-CLAUDE-{}-{}'.format(os.environ['GITHUB_RUN_ID'], os.environ['GITHUB_RUN_ATTEMPT']),
+    'executor_identity':'claude',
+    'provider_or_transport_identity':'fcc-local-ollama',
+    'model':'ollama/qwen2.5-coder:7b',
+    'captured_at':int(time.time()),
+    'marker':'MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK',
+    'marker_present':out.read_text(encoding='utf-8', errors='replace').strip()=='MEDIAHUB_LOCAL_CLAUDE_EXECUTOR_QUALIFICATION_OK',
+    'exit_status':int(os.environ['ASTRA_CLAUDE_EXIT_STATUS']),
+    'reason':os.environ['ASTRA_CLAUDE_REASON'],
+    'stderr_classification':classifications[:16],
+    'output_sha256':'sha256:'+hashlib.sha256(out.read_bytes()).hexdigest(),
+    'stderr_present':err.stat().st_size>0,
+    'secret_values':'SUPPRESSED',
+}
+print(json.dumps(payload, sort_keys=True))
+Path('astra-local-claude-qualification.json').write_text(json.dumps(payload, indent=2, sort_keys=True)+'\n', encoding='utf-8')
+PY
           test "$status" = "PASS"
       - name: Upload Claude qualification evidence
         if: always()
