@@ -92,8 +92,18 @@ jobs:
       ASTRA_NODE_HMAC_KEY_MH_DEV_02: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
       ASTRA_NODE_HMAC_KEY_VOKTORS_MAC: ${{ secrets.ASTRA_NODE_HMAC_KEY_VOKTORS_MAC }}
 
+  provider-qualification:
+    needs: prepare-command
+    uses: ./.github/workflows/astra-provider-qualification.yml
+    with:
+      command_id: ${{ needs.prepare-command.outputs.command_id }}
+      target_sha: ${{ github.sha }}
+    secrets: inherit
+
   supervise:
-    needs: distributed-verification
+    needs:
+      - distributed-verification
+      - provider-qualification
     runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 90
     env:
@@ -168,7 +178,7 @@ jobs:
       - name: Download provider qualification evidence
         uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.distributed-verification.outputs.provider_evidence_artifact }}
+          name: ${{ needs.provider-qualification.outputs.evidence_artifact }}
           path: .astra-state/provider-qualification
 
       - name: Execute autonomous qualification wave
