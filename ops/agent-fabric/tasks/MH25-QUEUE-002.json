@@ -16,7 +16,7 @@
     "production infrastructure"
   ],
   "dependencies": [],
-  "node_id": "Voktors-Mini.Dlink",
+  "node_id": "Voktors-Mac-mini.local",
   "executor": "codex",
   "verifier": "claude",
   "timeout_seconds": 1800,
