@@ -104,6 +104,10 @@ jobs:
       ASTRA_NODE_HMAC_KEY_MH_DEV_02: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
       ASTRA_NODE_HMAC_KEY_VOKTORS_MAC: ${{ secrets.ASTRA_NODE_HMAC_KEY_VOKTORS_MAC }}
 
+  local-claude-qualification:
+    needs: prepare-command
+    uses: ./.github/workflows/astra-local-claude-qualification.yml
+
   provider-qualification:
     needs: prepare-command
     uses: ./.github/workflows/astra-provider-qualification.yml
@@ -115,6 +119,8 @@ jobs:
   supervise:
     needs:
       - distributed-verification
+      - local-claude-qualification
+      - provider-qualification
     runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 90
     env:
