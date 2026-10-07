@@ -1,3 +1,4 @@
+# Canonical dual-local evidence path: final-message bound, diagnostic stdout retained.
 name: MH-25 Dual Local Executor 23-Wave Qualification
 on:
   push:
