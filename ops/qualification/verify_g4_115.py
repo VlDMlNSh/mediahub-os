@@ -10,6 +10,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 CONTRACT = ROOT / "control" / "qualification" / "g4-115.json"
 
+EXPECTED_IDENTITY = {
+    "CODEX_FCC": ("codex", "fcc"),
+    "CLAUDE_FCC": ("claude", "fcc"),
+    "CODEX_OMNIROUTE": ("codex", "omniroute"),
+    "CLAUDE_OMNIROUTE": ("claude", "omniroute"),
+    "CLAUDE_CODE_DIRECT": ("claude_code", "native"),
+}
+
 
 def digest(value: object) -> str:
     raw = json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
@@ -22,7 +30,8 @@ def verify(evidence: dict, contract: dict, expected_sha: str | None = None) -> d
         blocked.append("invalid_evidence_schema")
     if evidence.get("status") != "PASS":
         blocked.append("evidence_status_not_PASS")
-    if evidence.get("source_sha") != (expected_sha or evidence.get("source_sha")):
+    source_sha = evidence.get("source_sha")
+    if source_sha != (expected_sha or source_sha):
         blocked.append("source_sha_missing_or_mismatch")
 
     paths = contract["mandatory_paths"]
@@ -45,30 +54,52 @@ def verify(evidence: dict, contract: dict, expected_sha: str | None = None) -> d
         if missing:
             blocked.append(f"round_{index}_missing:{','.join(missing)}")
             continue
+
         path = item.get("path")
         round_no = item.get("round")
         if path not in counts:
             blocked.append(f"round_{index}_unknown_path")
         else:
             counts[path] += 1
-        command_id = str(item.get("command_id"))
-        if command_id in seen_commands:
+            expected_executor, expected_transport = EXPECTED_IDENTITY[path]
+            if item.get("executor_identity") != expected_executor:
+                blocked.append(f"round_{index}_executor_identity_mismatch")
+            if item.get("provider_or_transport_identity") != expected_transport:
+                blocked.append(f"round_{index}_transport_identity_mismatch")
+
+        if not isinstance(round_no, int) or not 1 <= round_no <= contract["rounds_per_path"]:
+            blocked.append(f"round_{index}_number_invalid:{round_no}")
+        command_id = item.get("command_id")
+        if not isinstance(command_id, str) or not command_id:
+            blocked.append(f"round_{index}_command_id_invalid")
+        elif command_id in seen_commands:
             blocked.append(f"duplicate_command_id:{command_id}")
-        seen_commands.add(command_id)
-        pair = (str(path), int(round_no) if isinstance(round_no, int) else -1)
+        seen_commands.add(command_id or f"__invalid_{index}")
+
+        pair = (str(path), round_no if isinstance(round_no, int) else -1)
         if pair in seen_pairs:
             blocked.append(f"duplicate_path_round:{path}:{round_no}")
         seen_pairs.add(pair)
-        if item.get("source_sha") != evidence.get("source_sha"):
+
+        if item.get("source_sha") != source_sha:
             blocked.append(f"round_{index}_source_sha_mismatch")
+        if not isinstance(item.get("workspace"), str) or not item["workspace"]:
+            blocked.append(f"round_{index}_workspace_missing")
+        started = item.get("started_at")
+        completed = item.get("completed_at")
+        if not isinstance(started, (int, float)) or not isinstance(completed, (int, float)) or completed < started:
+            blocked.append(f"round_{index}_timestamps_invalid")
         if item.get("exit_status") != 0:
             blocked.append(f"round_{index}_nonzero_exit")
         if item.get("timeout") is not False:
             blocked.append(f"round_{index}_timeout_not_false")
         if item.get("marker_present") is not True:
             blocked.append(f"round_{index}_marker_missing")
+        if item.get("result_schema") != "g4-round-v1":
+            blocked.append(f"round_{index}_result_schema_invalid")
         if item.get("verification_status") != "PASS":
             blocked.append(f"round_{index}_verification_not_PASS")
+
         item_digest = item.get("evidence_digest")
         if not isinstance(item_digest, str) or not item_digest.startswith("sha256:"):
             blocked.append(f"round_{index}_digest_invalid")
