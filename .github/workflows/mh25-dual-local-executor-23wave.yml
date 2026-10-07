@@ -144,6 +144,14 @@ jobs:
           python3 ops/qualification/verify_g4_115.py \
             "${G4_OUTPUT_DIR}/g4-115.json" \
             --expected-sha "${{ github.sha }}"
+      - name: Publish qualification artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mh25-dual-local-executor-23wave-${{ github.run_id }}
+          path: ${{ env.G4_OUTPUT_DIR }}/
+          retention-days: 30
+
       - name: Remove isolated G4 worktree
         if: always()
         shell: bash
@@ -156,11 +164,3 @@ jobs:
           if [ -n "${G4_OUTPUT_DIR:-}" ]; then
             rm -rf "$G4_OUTPUT_DIR"
           fi
-
-      - name: Publish qualification artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: mh25-dual-local-executor-23wave-${{ github.run_id }}
-          path: ${{ env.G4_OUTPUT_DIR }}/
-          retention-days: 30
