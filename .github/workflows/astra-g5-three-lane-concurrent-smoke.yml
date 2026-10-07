@@ -126,7 +126,7 @@ jobs:
           command -v ollama
           command -v fcc-server
           ollama show "$model" >/dev/null
-          nohup setsid fcc-server --host "$host" --port "$port" >/tmp/astra-g5-mac-fcc.log 2>&1 &
+          nohup fcc-server --host "$host" --port "$port" >/tmp/astra-g5-mac-fcc.log 2>&1 &
           for _ in $(seq 1 30); do curl -fsS --max-time 2 "http://$host:$port/health" >/dev/null 2>&1 && break; sleep 1; done
           curl -fsS --max-time 5 "http://$host:$port/health" >/dev/null
           export FCC_G5_PORT="$port"
