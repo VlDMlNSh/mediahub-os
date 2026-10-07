@@ -52,10 +52,17 @@ jobs:
           model = "qwen2.5-coder:3b"
           approval_policy = "never"
           web_search = "disabled"
+          model_context_window = 32768
+          model_max_output_tokens = 1024
+          model_reasoning_summary = "none"
+          model_auto_compact_token_limit = 0
           [model_providers.ollama-local]
           name = "Ollama Local"
           base_url = "http://127.0.0.1:11434/v1"
           wire_api = "responses"
+          stream_idle_timeout_ms = 120000
+          request_max_retries = 1
+          stream_max_retries = 1
           [features]
           multi_agent = false
           multi_agent_v2 = false
