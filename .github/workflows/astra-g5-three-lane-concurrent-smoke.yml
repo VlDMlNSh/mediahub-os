@@ -59,10 +59,13 @@ jobs:
   mac:
     name: Claude 1.5B / Mac
     runs-on: [self-hosted, macOS, ARM64, astra-control]
-    outputs: {status: ${{ steps.probe.outputs.status }}}
+    outputs:
+      status: ${{ steps.probe.outputs.status }}
     steps:
       - uses: actions/checkout@v4
-        with: {ref: ${{ inputs.target_sha }}, fetch-depth: 1}
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
       - id: probe
         shell: bash
         run: |
