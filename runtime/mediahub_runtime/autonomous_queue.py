@@ -23,7 +23,7 @@ TASK_DIR = ROOT / "ops" / "agent-fabric" / "tasks"
 STATE = Path(os.environ.get("ASTRA_QUEUE_STATE_DIR", "/var/lib/mediahub-astra/queue"))
 CLAIMS = STATE / "claims"
 
-# Three permanent executor lanes; Astra Gold still permits at most two active claims.
+# Three permanent executor lanes; Astra Gold still permits up to three active claims.
 PERMANENT_EXECUTOR_POOL = {
     "mh-dev-01": "claude",
     "mh-dev-02": "codex",
@@ -37,7 +37,7 @@ def _codex_home(prefix: str) -> tempfile.TemporaryDirectory:
     return tempfile.TemporaryDirectory(prefix=prefix, dir=str(CODEX_HOME_ROOT))
 
 def bounded_worker_count(requested: int) -> int:
-    return max(1, min(int(requested), 2))
+    return max(1, min(int(requested), 3))
 
 
 MAX_WORKERS = bounded_worker_count(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "3")))
