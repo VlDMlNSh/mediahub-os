@@ -26,6 +26,7 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
+          export PATH="$HOME/.local/bin:$HOME/.local/npm/bin:$PATH"
           env_file="$HOME/.config/mediahub/fcc.env"
           test -f "$env_file"
           set -a; . "$env_file"; set +a
@@ -92,6 +93,7 @@ jobs:
           host_name=$(hostname)
           test "$host_name" = Voktors-Mini.Dlink || test "$host_name" = Voktors-Mac-mini
           test "$(id -un)" = voktor
+          export PATH="$HOME/.local/bin:$HOME/.local/npm/bin:$PATH"
           env_file="$HOME/Library/Application Support/MediaHub/fcc.env"
           test -f "$env_file"
           set -a; . "$env_file"; set +a
