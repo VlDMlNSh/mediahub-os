@@ -520,12 +520,6 @@ def execute(cmd):
             raise RuntimeError("omniroute_model_binding_missing")
         if not omni_model.startswith("llama-cpp//"):
             raise RuntimeError("omniroute_model_binding_invalid")
-        fcc_host = fcc_env.get("HOST", "127.0.0.1")
-        fcc_port = fcc_env.get("PORT", "8093")
-        direct_claude_env = isolated_env.copy()
-        direct_claude_env["ANTHROPIC_BASE_URL"] = f"http://{fcc_host}:{fcc_port}"
-        if fcc_env.get("ANTHROPIC_AUTH_TOKEN"):
-            direct_claude_env["ANTHROPIC_AUTH_TOKEN"] = fcc_env["ANTHROPIC_AUTH_TOKEN"]
         marker_map = {
             "fcc_codex": "MEDIAHUB_FCC_CODEX_OK",
             "fcc_claude": "MEDIAHUB_FCC_CLAUDE_OK",
@@ -550,6 +544,12 @@ def execute(cmd):
         for key in transport_collision_keys:
             isolated_env.pop(key, None)
         isolated_env["OMNIROUTE_CLI_SKIP_REPO_ENV"] = "1"
+        fcc_host = fcc_env.get("HOST", "127.0.0.1")
+        fcc_port = fcc_env.get("PORT", "8093")
+        direct_claude_env = isolated_env.copy()
+        direct_claude_env["ANTHROPIC_BASE_URL"] = f"http://{fcc_host}:{fcc_port}"
+        if fcc_env.get("ANTHROPIC_AUTH_TOKEN"):
+            direct_claude_env["ANTHROPIC_AUTH_TOKEN"] = fcc_env["ANTHROPIC_AUTH_TOKEN"]
         probe_home = tempfile.TemporaryDirectory(prefix="astra-g4-codex-home-")
         probe_config = Path(probe_home.name) / "config.toml"
         probe_config.write_text(
