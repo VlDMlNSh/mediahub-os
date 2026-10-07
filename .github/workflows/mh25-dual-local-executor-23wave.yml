@@ -13,7 +13,7 @@ concurrency:
 jobs:
   qualify:
     name: 23-wave FCC / OmniRoute / ECC qualification
-    runs-on: [self-hosted, linux, x64, mediahub-control]
+    runs-on: [self-hosted, macOS, ARM64, astra-control]
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +23,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(hostname)" = "mh-dev-01"
+          host="$(hostname)"
+          test "$host" = "Voktors-Mini.Dlink" || test "$host" = "Voktors-Mac-mini"
           test -z "$(git status --short)"
           python3 -m compileall -q runtime tests astra_github_agent.py
       - name: Runtime identity and launcher inventory
@@ -45,6 +46,7 @@ jobs:
         env:
           PYTHONPATH: .
           ASTRA_WORKTREE: ${{ github.workspace }}
+          ASTRA_NODE_ID: Voktors-Mac-mini.local
         run: |
           set -euo pipefail
           python3 - <<'PY'
