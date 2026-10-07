@@ -1,3 +1,4 @@
+# Post-hardening qualification retrigger: fail-closed remote evidence + main-head fencing.
 name: Astra autonomous queue supervisor
 # Triggered after controller-hardening merge to execute a fresh fail-closed qualification wave.
 
