@@ -59,7 +59,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
-          test "$(id -un)" = "mediahub-runner"
+          test "$(id -un)" = "mediahub"
           command -v claude
           command -v codex
           command -v ollama
