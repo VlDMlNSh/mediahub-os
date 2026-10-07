@@ -68,7 +68,7 @@ jobs:
           if-no-files-found: error
 
   claude-local:
-    name: Real Claude local executor / mh-dev-02
+    name: Real Claude local executor / Voktors-Mac-mini
     runs-on: [self-hosted, macOS, ARM64, astra-control]
     timeout-minutes: 90
     steps:
@@ -88,7 +88,6 @@ jobs:
           command -v claude
           command -v ollama
           command -v fcc-server
-          ollama list | grep -E '^qwen2.5-coder:3b[[:space:]]'
       - name: 23 real Claude rounds
         shell: bash
         run: |
@@ -138,7 +137,7 @@ jobs:
             fi
             python3 - <<PY >> claude-23wave.jsonl
           import json
-          print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_LOCAL_CLAUDE_23WAVE_OK","model":"ollama/qwen2.5-coder:3b"}))
+          print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_LOCAL_CLAUDE_23WAVE_OK","model":"ollama/qwen2.5-coder:1.5b"}))
           PY
             [ "$status" = PASS ] || exit 2
           done
