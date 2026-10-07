@@ -508,6 +508,9 @@ def execute(cmd):
 
     if operation == "dual_local_executor_23wave":
         import shutil, statistics
+        g4_local_bins = [str(Path.home() / ".local" / "bin"), str(Path.home() / ".local" / "npm" / "bin")]
+        current_path = [p for p in os.environ.get("PATH", "").split(os.pathsep) if p]
+        os.environ["PATH"] = os.pathsep.join(dict.fromkeys(g4_local_bins + current_path))
         expected_g4_sha = str(cmd.get("target_sha") or "").strip().lower()
         actual_g4_sha = run(["git","rev-parse","HEAD"],10).stdout.strip().lower()
         if expected_g4_sha and actual_g4_sha != expected_g4_sha:
