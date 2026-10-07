@@ -518,7 +518,9 @@ def execute(cmd):
         omni_model = os.environ.get("ASTRA_OMNIROUTE_MODEL", "").strip()
         if not omni_model:
             raise RuntimeError("omniroute_model_binding_missing")
-        if not omni_model.startswith("llama-cpp//"):
+        if omni_model.startswith("llama-cpp//"):
+            omni_model = "llama-cpp/" + omni_model[len("llama-cpp//"):]
+        if not omni_model.startswith("llama-cpp/"):
             raise RuntimeError("omniroute_model_binding_invalid")
         marker_map = {
             "fcc_codex": "MEDIAHUB_FCC_CODEX_OK",
@@ -544,11 +546,19 @@ def execute(cmd):
         for key in transport_collision_keys:
             isolated_env.pop(key, None)
         isolated_env["OMNIROUTE_CLI_SKIP_REPO_ENV"] = "1"
+        fcc_env["ENABLE_MODEL_THINKING"] = "false"
+        fcc_env["ENABLE_OPUS_THINKING"] = "false"
+        fcc_env["ENABLE_SONNET_THINKING"] = "false"
+        fcc_env["ENABLE_HAIKU_THINKING"] = "false"
         fcc_env["CLAUDE_CODE_DISABLE_THINKING"] = "1"
         fcc_env["MAX_THINKING_TOKENS"] = "0"
         fcc_host = fcc_env.get("HOST", "127.0.0.1")
         fcc_port = fcc_env.get("PORT", "8093")
         direct_claude_env = isolated_env.copy()
+        direct_claude_env["ENABLE_MODEL_THINKING"] = "false"
+        direct_claude_env["ENABLE_OPUS_THINKING"] = "false"
+        direct_claude_env["ENABLE_SONNET_THINKING"] = "false"
+        direct_claude_env["ENABLE_HAIKU_THINKING"] = "false"
         # Local Qwen2.5-Coder 1.5B rejects Anthropic thinking requests.
         # Force Claude Code compatibility mode for this third-party gateway.
         direct_claude_env["CLAUDE_CODE_DISABLE_THINKING"] = "1"
@@ -571,6 +581,21 @@ def execute(cmd):
         )
         codex_env = isolated_env.copy()
         codex_env["CODEX_HOME"] = probe_home.name
+        codex_env["OMNIROUTE_API_KEY"] = "local"
+        omni_config = (
+            'model = "' + omni_model + '"\n'
+            'model_provider = "omniroute"\n'
+            '[model_providers.omniroute]\n'
+            'name = "OmniRoute"\n'
+            'base_url = "http://127.0.0.1:20128/v1"\n'
+            'env_key = "OMNIROUTE_API_KEY"\n'
+            'wire_api = "responses"\n'
+            'requires_openai_auth = false\n'
+        )
+        probe_config.write_text(
+            probe_config.read_text(encoding="utf-8") + omni_config,
+            encoding="utf-8",
+        )
         def probe(argv, marker, timeout=35, env=None):
             started=time.monotonic()
             try:
@@ -603,7 +628,7 @@ def execute(cmd):
                 rec["omniroute_probe"]=probe(["/usr/bin/curl","-fsS","--max-time","5","http://127.0.0.1:20128/v1/models"],"data")
             rec["executors"]["fcc_codex"] = probe(
                 ["fcc-codex","exec","--skip-git-repo-check","--sandbox","read-only",
-                 "--config","model_reasoning_effort=minimal",
+                 "--config","model_reasoning_effort=none",
                  f"Return exactly {marker_map['fcc_codex']}. Do not modify files or use tools."],
                 marker_map["fcc_codex"],30,env=fcc_env) if shutil.which("fcc-codex") else {"status":"BLOCKED","reason":"binary_missing"}
             rec["executors"]["fcc_claude"] = probe(
@@ -615,8 +640,8 @@ def execute(cmd):
                      f"Return exactly {marker_map['omni_claude']}. Do not modify files or use tools.","--output-format","text"],
                     marker_map["omni_claude"],35,env=isolated_env)
                 rec["executors"]["omni_codex"]=probe(
-                    ["omniroute","run","codex","--model",omni_model,"--","exec","--skip-git-repo-check",
-                     "--sandbox","read-only","--config","model_reasoning_effort=minimal",
+                    ["codex","exec","--skip-git-repo-check","--sandbox","read-only",
+                     "--config","model_reasoning_effort=none",
                      f"Return exactly {marker_map['omni_codex']}. Do not modify files or use tools."],
                     marker_map["omni_codex"],35,env=codex_env)
             else:
