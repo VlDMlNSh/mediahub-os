@@ -34,8 +34,8 @@
     {
       "task_id": "DLD-02",
       "node_id": "mh-dev-02",
-      "executor": "claude",
-      "verifier": "codex",
+      "executor": "codex",
+      "verifier": "claude",
       "mission": "Add a focused Agent Fabric lease-expiry regression test.",
       "boundary": [
         "tests/test_agent_fabric.py"
@@ -60,8 +60,8 @@
     {
       "task_id": "DLD-03",
       "node_id": "Voktors-Mac-mini.local",
-      "executor": "codex",
-      "verifier": "claude",
+      "executor": "claude",
+      "verifier": "codex",
       "mission": "Add a compact contract test for the distributed local development plan schema.",
       "boundary": [
         "tests/test_distributed_local_worker.py"
