@@ -43,19 +43,40 @@ jobs:
           ollama show qwen2.5-coder:3b >/dev/null 2>&1
           timeout 90s ollama run qwen2.5-coder:3b "Return exactly MEDIAHUB_OLLAMA_PREFLIGHT_OK. Do not use tools or network." >/tmp/astra-ollama-preflight.out 2>/tmp/astra-ollama-preflight.err
           grep -Fx MEDIAHUB_OLLAMA_PREFLIGHT_OK /tmp/astra-ollama-preflight.out >/dev/null
+          codex_home="$(mktemp -d "$RUNNER_TEMP/astra-codex-config.XXXXXX")"
+          cat >"$codex_home/config.toml" <<'TOML'
+          model_provider = "ollama"
+          model = "qwen2.5-coder:3b"
+          approval_policy = "never"
+          web_search = "disabled"
+          [features]
+          multi_agent = false
+          multi_agent_v2 = false
+          apps = false
+          tool_search = false
+          plugins = false
+          TOML
+          export CODEX_HOME="$codex_home"
+          cleanup_codex() { rm -rf "$codex_home"; }
+          trap cleanup_codex EXIT
+          preflight="/tmp/astra-codex-preflight.out"
+          timeout 90s codex exec --oss --local-provider ollama --model qwen2.5-coder:3b --ephemeral --color never \
+            --config model_reasoning_effort=none --sandbox read-only --skip-git-repo-check \
+            "Return exactly MEDIAHUB_CODEX_PREFLIGHT_OK. Do not use tools, network, or files." </dev/null >"$preflight" 2>&1
+          grep -Fx MEDIAHUB_CODEX_PREFLIGHT_OK "$preflight" >/dev/null
           for i in $(seq 1 23); do
             ts=$(date +%s)
             out="/tmp/astra-codex-$i.out"
             rm -f "$out"
             timeout 300s codex exec --oss --local-provider ollama --model qwen2.5-coder:3b --ephemeral --color never \
               --config model_reasoning_effort=none --sandbox read-only --skip-git-repo-check \
-              "Return exactly MEDIAHUB_LOCAL_CODEX_23WAVE_OK. Do not use network or modify files." </dev/null >"$out" 2>&1
+              "Return exactly MEDIAHUB_LOCAL_CODEX_23WAVE_OK. Do not use tools, network, or modify files." </dev/null >"$out" 2>&1
             rc=$?
             status=BLOCKED
             [ "$rc" -eq 0 ] && grep -Fx MEDIAHUB_LOCAL_CODEX_23WAVE_OK "$out" >/dev/null 2>&1 && status=PASS
             python3 - <<PY >> codex-23wave.jsonl
           import json
-          print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_LOCAL_CODEX_23WAVE_OK","reason":("" if "$status"=="PASS" else ("timeout" if $rc==124 else "marker_or_exit_failure"))}))
+          print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_LOCAL_CODEX_23WAVE_OK","reason":("" if "$status"=="PASS" else ("timeout" if $rc==124 else ("tool_surface_violation" if $rc==0 else "marker_or_exit_failure"))}))
           PY
             [ "$status" = PASS ] || exit 2
           done
