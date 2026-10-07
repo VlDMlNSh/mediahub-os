@@ -50,8 +50,8 @@ jobs:
           while [ "$(date +%s)" -lt "$end" ]; do
             wave=$((wave+1))
             echo "wave=$wave started=$(date -u +%FT%TZ)"
-            git fetch origin main --depth=50
-            git reset --hard origin/main
+            git fetch origin "$GITHUB_REF_NAME" --depth=50
+            git reset --hard "origin/$GITHUB_REF_NAME"
             set +e
             ASTRA_QUEUE_STATE_DIR="$ASTRA_QUEUE_STATE_DIR" PYTHONPATH=runtime:. python3 -m mediahub_runtime.autonomous_queue | tee "/tmp/mh25-24h/wave-$wave.log"
             rc=${PIPESTATUS[0]}
