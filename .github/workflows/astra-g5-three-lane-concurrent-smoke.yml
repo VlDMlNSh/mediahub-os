@@ -49,6 +49,12 @@ jobs:
           export ASTRA_FCC_TRANSPORT=fcc
           export ASTRA_FCC_MODEL="$MODEL"
           export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+          export ENABLE_MODEL_THINKING=false
+          export ENABLE_OPUS_THINKING=false
+          export ENABLE_SONNET_THINKING=false
+          export ENABLE_HAIKU_THINKING=false
+          export CLAUDE_CODE_DISABLE_THINKING=1
+          export MAX_THINKING_TOKENS=0
           claude -p 'Return exactly G5_MH1_CLAUDE_OK.' --output-format text --max-turns 1 < /dev/null 2>&1 | tee /tmp/g5-mh1.log
           grep -F G5_MH1_CLAUDE_OK /tmp/g5-mh1.log
           echo status=PASS >> "$GITHUB_OUTPUT"
@@ -116,6 +122,12 @@ jobs:
           export ASTRA_FCC_TRANSPORT=fcc
           export ASTRA_FCC_MODEL="$MODEL"
           export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+          export ENABLE_MODEL_THINKING=false
+          export ENABLE_OPUS_THINKING=false
+          export ENABLE_SONNET_THINKING=false
+          export ENABLE_HAIKU_THINKING=false
+          export CLAUDE_CODE_DISABLE_THINKING=1
+          export MAX_THINKING_TOKENS=0
           claude -p 'Return exactly G5_MAC_CLAUDE_OK.' --output-format text --max-turns 1 < /dev/null 2>&1 | tee /tmp/g5-mac.log
           grep -F G5_MAC_CLAUDE_OK /tmp/g5-mac.log
           echo status=PASS >> "$GITHUB_OUTPUT"
