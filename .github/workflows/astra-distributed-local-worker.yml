@@ -35,6 +35,47 @@ permissions:
   contents: write
 
 jobs:
+  mh-dev-01-claude:
+    if: ${{ inputs.node_id == 'mh-dev-01' && inputs.executor == 'claude' }}
+    name: Controller-host local Claude executor on mh-dev-01
+    runs-on: [self-hosted, linux, x64, mediahub-control]
+    timeout-minutes: 30
+    env:
+      ASTRA_COMMAND_ID: ${{ inputs.command_id }}
+      ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
+      ASTRA_NODE_ID: mh-dev-01
+      ASTRA_EXECUTOR: claude
+      ASTRA_MICRO_TASK_JSON: ${{ inputs.task_json }}
+      ASTRA_FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env
+      ASTRA_WORKER_RESULT: astra-distributed-worker-result.json
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 50
+          persist-credentials: true
+      - name: Canonical admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          command -v claude
+          command -v codex
+          command -v ollama
+          ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'
+      - name: Execute bounded local Claude worker
+        shell: bash
+        run: python3 ops/qualification/run_distributed_local_worker.py
+      - name: Upload worker evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-distributed-worker-mh-dev-01-claude-${{ github.run_id }}
+          path: astra-distributed-worker-result.json
+          if-no-files-found: error
+          retention-days: 30
+
   mh-dev-02:
     if: ${{ inputs.node_id == 'mh-dev-02' }}
     name: Primary local worker on mh-dev-02

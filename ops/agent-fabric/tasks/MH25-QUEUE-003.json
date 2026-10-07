@@ -1,0 +1,37 @@
+{
+  "schema": "mediahub.agent-fabric.task.v1",
+  "task_id": "MH25-QUEUE-003",
+  "status": "READY",
+  "priority": "P0",
+  "role": "builder",
+  "mission": "Qualify the third permanent local executor lane: Claude on mh-dev-01 using the node-local qwen2.5-coder:1.5b backend. Prove executor-only operation, exact target-SHA binding, isolated branch execution, and independent Codex verification. Do not alter controller authority, control state, credentials, or production infrastructure.",
+  "boundary": [
+    "docs/operations/"
+  ],
+  "forbidden_surfaces": [
+    ".github/workflows/",
+    "runtime/",
+    "control/",
+    "user data",
+    "credentials",
+    "production infrastructure"
+  ],
+  "dependencies": [],
+  "node_id": "mh-dev-01",
+  "executor": "claude",
+  "verifier": "codex",
+  "timeout_seconds": 1800,
+  "builder_attempts": 2,
+  "allow_no_changes": false,
+  "acceptance": [
+    "Create or update exactly one document at docs/operations/ASTRA-MH-DEV-01-CLAUDE-EXECUTOR.md.",
+    "The document states the exact node identity mh-dev-01, executor identity claude, local model qwen2.5-coder:1.5b, verifier identity codex, and executor-only authority boundary.",
+    "The document states that the worker is target-SHA bound, branch isolated, fail-closed, and never writes directly to main.",
+    "The document contains no credentials or secrets.",
+    "The scoped Agent Fabric regression suite tests/test_agent_fabric.py passes.",
+    "The worker must produce a real Claude execution result and a real independent Codex verdict; synthetic or prefilled evidence is invalid."
+  ],
+  "test_paths": [
+    "tests/test_agent_fabric.py"
+  ]
+}
