@@ -43,7 +43,7 @@ jobs:
           test "$(git rev-parse HEAD)" = "$G5_TARGET_SHA"
           export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
           env_file="/home/mediahub/.config/mediahub/fcc.env"
-          test -r "$env_file"
+          echo "MH1_ENV_FILE_CHECK"; test -r "$env_file"
           set -a; . "$env_file"; set +a
           model="qwen2.5-coder:1.5b"
           host="${HOST:-127.0.0.1}"
