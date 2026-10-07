@@ -55,7 +55,6 @@ class AgentFabricTests(unittest.TestCase):
             s.release("A")
             self.assertEqual(s.list_claims()[0].status, "CLOSED")
 
-
     def test_expired_same_task_can_reacquire(self):
         with tempfile.TemporaryDirectory() as td:
             s = ClaimStore(Path(td))
@@ -107,6 +106,14 @@ class AgentFabricTests(unittest.TestCase):
         self.assertEqual(task["verifier"], "codex")
         self.assertEqual(task["node_id"], "Voktors-Mac-mini.local")
         self.assertNotEqual(task["executor"], task["verifier"])
+
+    def test_claude_executor_uses_real_cli_and_fcc_transport(self):
+        source = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
+        self.assertIn('claude = shutil.which("claude")', source)
+        self.assertIn('ANTHROPIC_BASE_URL', source)
+        self.assertIn('ASTRA_FCC_TRANSPORT", "fcc"', source)
+        self.assertNotIn('urllib.request.Request(', source)
+
 
 if __name__ == "__main__":
     unittest.main()
