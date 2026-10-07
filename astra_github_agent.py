@@ -518,7 +518,9 @@ def execute(cmd):
         omni_model = os.environ.get("ASTRA_OMNIROUTE_MODEL", "").strip()
         if not omni_model:
             raise RuntimeError("omniroute_model_binding_missing")
-        if not omni_model.startswith("llama-cpp//"):
+        if omni_model.startswith("llama-cpp//"):
+            omni_model = "llama-cpp/" + omni_model[len("llama-cpp//"):]
+        if not omni_model.startswith("llama-cpp/"):
             raise RuntimeError("omniroute_model_binding_invalid")
         marker_map = {
             "fcc_codex": "MEDIAHUB_FCC_CODEX_OK",
@@ -544,6 +546,12 @@ def execute(cmd):
         for key in transport_collision_keys:
             isolated_env.pop(key, None)
         isolated_env["OMNIROUTE_CLI_SKIP_REPO_ENV"] = "1"
+        # Free Claude Code exposes thinking as provider-side routing policy.
+        # The local Qwen2.5-Coder 1.5B deployment rejects thinking requests.
+        fcc_env["ENABLE_MODEL_THINKING"] = "false"
+        fcc_env["ENABLE_OPUS_THINKING"] = "false"
+        fcc_env["ENABLE_SONNET_THINKING"] = "false"
+        fcc_env["ENABLE_HAIKU_THINKING"] = "false"
         fcc_env["CLAUDE_CODE_DISABLE_THINKING"] = "1"
         fcc_env["MAX_THINKING_TOKENS"] = "0"
         fcc_host = fcc_env.get("HOST", "127.0.0.1")
@@ -615,8 +623,8 @@ def execute(cmd):
                      f"Return exactly {marker_map['omni_claude']}. Do not modify files or use tools.","--output-format","text"],
                     marker_map["omni_claude"],35,env=isolated_env)
                 rec["executors"]["omni_codex"]=probe(
-                    ["omniroute","run","codex","--model",omni_model,"--","exec","--skip-git-repo-check",
-                     "--sandbox","read-only","--config","model_reasoning_effort=minimal",
+                    ["omniroute","run","codex","--model",omni_model,"--","exec","-c","model_reasoning_effort=none","--skip-git-repo-check",
+                     "--sandbox","read-only",
                      f"Return exactly {marker_map['omni_codex']}. Do not modify files or use tools."],
                     marker_map["omni_codex"],35,env=codex_env)
             else:
