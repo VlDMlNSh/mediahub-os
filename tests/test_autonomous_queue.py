@@ -283,6 +283,14 @@ def test_task_id_cannot_escape_queue_state(monkeypatch, tmp_path: Path):
             raise AssertionError("unsafe task id must be rejected")
 
 
+def test_remote_worker_persistence_path_is_created_before_verified_state():
+    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
+    assert '(STATE / "completed").mkdir(parents=True, exist_ok=True)' in source
+    assert 'record["status"] = "BLOCKED"' in source
+    assert 'remote_evidence_error_present' in source
+    assert 'remote_evidence_claim_release_error' in source
+
+
 def test_queue_verifies_remote_push_sha():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert '"git", "ls-remote", "origin", f"refs/heads/{branch}"' in source
