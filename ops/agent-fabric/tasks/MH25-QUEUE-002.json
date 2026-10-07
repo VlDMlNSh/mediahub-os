@@ -21,7 +21,7 @@
   "verifier": "claude",
   "timeout_seconds": 1800,
   "acceptance": [
-    "Create or update one document under docs/operations/.",
+    "Create or update exactly one document at docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md.",
     "The document names mh-dev-01 as controller/authority, mh-dev-02 as primary local pool, and Voktors-Mini.Dlink as fast pool.",
     "The document names both Codex and Claude, explains builder/verifier split, exact target-SHA binding, isolated branches, and GitHub evidence transport.",
     "The document states fail-closed promotion and that no worker writes directly to main.",
@@ -30,5 +30,7 @@
   ],
   "test_paths": [
     "tests/test_agent_fabric.py"
-  ]
+  ],
+  "deliverable": "docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md",
+  "builder_attempts": 3
 }
