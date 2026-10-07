@@ -3,18 +3,6 @@
   "version": 2,
   "authority": "A0-ASTRA-coordination",
   "controller_node": "mh-dev-01",
-  "primary_pool": {
-    "node_id": "mh-dev-02",
-    "runner_label": "mediahub-provider",
-    "model": "qwen2.5-coder:3b",
-    "purpose": "primary_local_executor_pool"
-  },
-  "fast_pool": {
-    "node_id": "Voktors-Mac-mini.local",
-    "runner_label": "astra-control",
-    "model": "qwen2.5-coder:1.5b",
-    "purpose": "fast_local_worker_pool"
-  },
   "policy": "Every micro-task has one builder, one independent verifier, one exact target SHA, one bounded boundary, and one immutable branch. Only controller-verified evidence may be promoted.",
   "steps": [
     {
@@ -130,5 +118,33 @@
     "stale_run_reaper": "per_workflow_active_runs",
     "source_of_truth": "live_main_head",
     "cancel_only_when_head_sha_differs": true
-  }
+  },
+  "executor_pools": [
+    {
+      "node_id": "mh-dev-01",
+      "role": "controller-local-executor-lane",
+      "runner_label": "mediahub-control",
+      "model": "qwen2.5-coder:1.5b",
+      "executor": "claude",
+      "purpose": "permanent_claude_executor_lane"
+    },
+    {
+      "node_id": "mh-dev-02",
+      "role": "primary-local-executor-pool",
+      "runner_label": "mediahub-provider",
+      "model": "qwen2.5-coder:3b",
+      "executor": "codex",
+      "purpose": "permanent_codex_executor_lane"
+    },
+    {
+      "node_id": "Voktors-Mac-mini.local",
+      "role": "fast-local-executor-pool",
+      "runner_label": "astra-control",
+      "model": "qwen2.5-coder:1.5b",
+      "executor": "claude",
+      "purpose": "permanent_claude_executor_lane"
+    }
+  ],
+  "max_parallel_claims": 2,
+  "permanent_executor_rule": "Exactly three permanent executor lanes exist; at most two autonomous claims may execute concurrently. Controller authority remains separate from executor authority."
 }
