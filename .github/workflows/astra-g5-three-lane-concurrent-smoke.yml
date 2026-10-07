@@ -13,10 +13,13 @@ jobs:
   mh1:
     name: Claude 1.5B / mh-dev-01
     runs-on: [self-hosted, linux, x64, mediahub-control]
-    outputs: {status: ${{ steps.probe.outputs.status }}}
+    outputs:
+      status: ${{ steps.probe.outputs.status }}}
     steps:
       - uses: actions/checkout@v4
-        with: {ref: ${{ inputs.target_sha }}, fetch-depth: 1}
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
       - id: probe
         shell: bash
         run: |
