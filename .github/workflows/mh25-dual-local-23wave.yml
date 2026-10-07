@@ -93,17 +93,17 @@ jobs:
             fi
             ROUND="$i" TS="$ts" STATUS="$status" RC="$rc" python3 - <<'PY' >> codex-23wave.jsonl
 import json, os
-status=os.environ["STATUS"]
-rc=int(os.environ["RC"])
-print(json.dumps({
-    "round": int(os.environ["ROUND"]),
-    "timestamp": int(os.environ["TS"]),
-    "status": status,
-    "returncode": rc,
-    "marker": "MEDIAHUB_LOCAL_CODEX_23WAVE_OK",
-    "reason": "" if status == "PASS" else ("timeout" if rc == 124 else ("execution_failure" if rc != 0 else "marker_mismatch")),
-}))
-PY
+          status=os.environ["STATUS"]
+          rc=int(os.environ["RC"])
+          print(json.dumps({
+              "round": int(os.environ["ROUND"]),
+              "timestamp": int(os.environ["TS"]),
+              "status": status,
+              "returncode": rc,
+              "marker": "MEDIAHUB_LOCAL_CODEX_23WAVE_OK",
+              "reason": "" if status == "PASS" else ("timeout" if rc == 124 else ("execution_failure" if rc != 0 else "marker_mismatch")),
+          }))
+          PY
             cp "$out" "codex-round-$i.stdout.txt" 2>/dev/null || true
             cp "$last" "codex-round-$i.last.txt" 2>/dev/null || true
             [ "$status" = PASS ] || exit 2
