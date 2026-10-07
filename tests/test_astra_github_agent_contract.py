@@ -5,6 +5,9 @@ import astra_github_agent as agent
 from ops.control import sign_command
 
 class AstraTransportContractTests(unittest.TestCase):
+    def test_g4_fcc_environment_is_initialized_before_use(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        self.assertLess(source.index("fcc_env = base_env.copy()"), source.index("fcc_host = fcc_env.get"))
     def test_g4_direct_claude_uses_isolated_fcc_transport(self):
         source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
         self.assertIn("direct_claude_env", source)
