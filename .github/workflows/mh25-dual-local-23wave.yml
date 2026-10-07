@@ -35,7 +35,8 @@ jobs:
           export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
           command -v codex
           command -v ollama
-          ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'
+          ollama show qwen2.5-coder:1.5b >/dev/null 2>&1 || timeout 600s ollama pull qwen2.5-coder:1.5b
+          ollama show qwen2.5-coder:1.5b >/dev/null 2>&1
       - name: 23 real Codex rounds
         shell: bash
         run: |
