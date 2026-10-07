@@ -195,8 +195,10 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     env["ANTHROPIC_BASE_URL"] = f"http://{host}:{port}"
     env["ANTHROPIC_AUTH_TOKEN"] = token
     env["ANTHROPIC_API_KEY"] = token
-    env["ASTRA_FCC_TRANSPORT"] = "fcc"
-    env["ASTRA_FCC_MODEL"] = "ollama/" + model
+    env.update({
+        "ASTRA_FCC_TRANSPORT": "fcc",
+        "ASTRA_FCC_MODEL": "ollama/" + model,
+    })
     env["CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"] = "1"
     p = run(
         [claude, "-p", prompt, "--output-format", "text", "--max-turns", "1"],
