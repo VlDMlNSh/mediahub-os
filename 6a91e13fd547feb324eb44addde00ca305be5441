@@ -151,3 +151,14 @@
   "schema": 1,
   "ts": "2026-10-07T10:14:59Z"
 }
+
+{
+  "action": "TRANSPORT",
+  "clean": false,
+  "detail": "hint: Diverging branches can't be fast-forwarded, you need to either:\nhint: \nhint: \tgit merge --no-ff\nhint: \nhint: or:\nhint: \nhint: \tgit rebase\nhint: \nhint: Disable this message with \"git config advice.diverging false\"\nfatal: Not possible to fast-forward, aborting.\n",
+  "head": "6a91e13fd547feb324eb44addde00ca305be5441",
+  "node": "dev2",
+  "result": "FAILED",
+  "schema": 1,
+  "ts": "2026-10-07T10:15:25Z"
+}
