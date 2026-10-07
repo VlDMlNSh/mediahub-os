@@ -92,7 +92,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
-          test "$(id -un)" = "mediahub-runner"
+          test "$(id -un)" = "mediahub"
           export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
           command -v fcc-claude
           command -v claude
@@ -171,7 +171,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
-          test "$(id -un)" = "mediahub-runner"
+          test "$(id -un)" = "mediahub"
           export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
           command -v omniroute
           command -v claude
