@@ -520,6 +520,12 @@ def execute(cmd):
             raise RuntimeError("omniroute_model_binding_missing")
         if not omni_model.startswith("llama-cpp//"):
             raise RuntimeError("omniroute_model_binding_invalid")
+        fcc_host = fcc_env.get("HOST", "127.0.0.1")
+        fcc_port = fcc_env.get("PORT", "8093")
+        direct_claude_env = isolated_env.copy()
+        direct_claude_env["ANTHROPIC_BASE_URL"] = f"http://{fcc_host}:{fcc_port}"
+        if fcc_env.get("ANTHROPIC_AUTH_TOKEN"):
+            direct_claude_env["ANTHROPIC_AUTH_TOKEN"] = fcc_env["ANTHROPIC_AUTH_TOKEN"]
         marker_map = {
             "fcc_codex": "MEDIAHUB_FCC_CODEX_OK",
             "fcc_claude": "MEDIAHUB_FCC_CLAUDE_OK",
@@ -612,7 +618,7 @@ def execute(cmd):
                 rec["executors"]["claude_code_direct"] = probe(
                     ["claude","--print","--output-format","text",
                      f"Return exactly {marker_map['claude_code_direct']}. Do not modify files or use tools."],
-                    marker_map["claude_code_direct"],35,env=isolated_env)
+                    marker_map["claude_code_direct"],35,env=direct_claude_env)
             else:
                 rec["executors"]["claude_code_direct"]={"status":"BLOCKED","reason":"binary_missing"}
             completed_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
@@ -621,7 +627,7 @@ def execute(cmd):
                 "fcc_claude": ("fcc-claude", "FCC"),
                 "omni_claude": ("omniroute:claude", "OmniRoute"),
                 "omni_codex": ("omniroute:codex", "OmniRoute"),
-                "claude_code_direct": ("claude", "native-claude"),
+                "claude_code_direct": ("claude", "native-claude-cli-over-fcc-http"),
             }
             for path_key, result in rec["executors"].items():
                 executor_identity, transport_identity = path_meta[path_key]
