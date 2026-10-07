@@ -41,12 +41,9 @@ jobs:
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub"
           test "$(git rev-parse HEAD)" = "$G5_TARGET_SHA"
-          export PATH="$HOME/.local/bin:$HOME/.local/npm/bin:$PATH"
-          env_file=""
-          for candidate in "$HOME/.config/mediahub/fcc.env" "/home/mediahub/.config/mediahub/fcc.env"; do
-            if test -r "$candidate"; then env_file="$candidate"; break; fi
-          done
-          test -n "$env_file"
+          export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          env_file="/home/mediahub/.config/mediahub/fcc.env"
+          test -r "$env_file"
           set -a; . "$env_file"; set +a
           model="qwen2.5-coder:1.5b"
           host="${HOST:-127.0.0.1}"
