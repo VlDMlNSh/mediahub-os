@@ -556,6 +556,8 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
             store.release(task_key, "VERIFIED" if record["status"] == "VERIFIED" else "REJECTED")
         except Exception as exc:
             record["claim_release_error"] = repr(exc)
+            record["status"] = "BLOCKED"
+            record["error"] = "ClaimReleaseError:" + repr(exc)
 
 def process_task(task: dict, expected_base_sha: str) -> dict:
     STATE.mkdir(parents=True, exist_ok=True)
@@ -739,11 +741,16 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
             )
         except Exception as exc:
             record["claim_release_error"] = repr(exc)
+            record["status"] = "BLOCKED"
+            record["error"] = "ClaimReleaseError:" + repr(exc)
         try:
             if worktree.exists():
                 run(["git", "worktree", "remove", "--force", str(worktree)], 120)
         except Exception:
             record["worktree_cleanup_error"] = True
+            if record["status"] == "VERIFIED":
+                record["status"] = "BLOCKED"
+                record["error"] = "WorktreeCleanupError:cleanup_failed"
         record["elapsed_seconds"] = round(time.time() - started, 3)
         evidence(task["task_id"], record)
     return record
