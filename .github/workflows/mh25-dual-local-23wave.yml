@@ -126,12 +126,12 @@ jobs:
           model="qwen2.5-coder:1.5b"
           host="127.0.0.1"
           port="$(python3 - <<'PY'
-import socket
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind(("127.0.0.1", 0))
-    print(s.getsockname()[1])
-PY
-)"
+          import socket
+          with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+              s.bind(("127.0.0.1", 0))
+              print(s.getsockname()[1])
+          PY
+          )"
           export HOST="$host" PORT="$port" MODEL="ollama/$model"
           export ENABLE_MODEL_THINKING=false ENABLE_OPUS_THINKING=false ENABLE_SONNET_THINKING=false ENABLE_HAIKU_THINKING=false
           export CLAUDE_CODE_DISABLE_THINKING=1 MAX_THINKING_TOKENS=0
