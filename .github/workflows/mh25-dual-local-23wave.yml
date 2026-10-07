@@ -70,16 +70,19 @@ jobs:
           for i in $(seq 1 23); do
             ts=$(date +%s)
             out="/tmp/astra-codex-$i.out"
-            rm -f "$out"
-            timeout 300s codex exec --oss --local-provider ollama --model qwen2.5-coder:3b --ephemeral --color never \
-              --config model_reasoning_effort=none --sandbox danger-full-access \
+            last="/tmp/astra-codex-$i.last"
+            rm -f "$out" "$last"
+            set +e
+            timeout 120s codex exec --model qwen2.5-coder:3b --ephemeral --color never \
+              --config model_provider=ollama-local --config model_reasoning_effort=none --sandbox danger-full-access \
               --disable browser_use --disable browser_use_external --disable computer_use --disable apps --disable plugins --disable multi_agent --disable multi_agent_v2 \
-              --skip-git-repo-check \
+              --skip-git-repo-check --output-last-message "$last" \
               "Return exactly MEDIAHUB_LOCAL_CODEX_23WAVE_OK." </dev/null >"$out" 2>&1
             rc=$?
+            set -e
             status=BLOCKED
             if [ "$rc" -eq 0 ]; then
-              if grep -Fx MEDIAHUB_LOCAL_CODEX_23WAVE_OK "$out" >/dev/null 2>&1; then
+              if test -s "$last" && grep -Fx MEDIAHUB_LOCAL_CODEX_23WAVE_OK "$last" >/dev/null 2>&1; then
                 status=PASS
               else
                 status=MARKER_MISMATCH
@@ -87,10 +90,21 @@ jobs:
             else
               status=EXECUTION_FAILURE
             fi
-            python3 - <<PY >> codex-23wave.jsonl
-          import json
-          print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_LOCAL_CODEX_23WAVE_OK","reason":("" if "$status"=="PASS" else ("timeout" if $rc==124 else ("tool_surface_violation" if $rc==0 else "marker_or_exit_failure"))}))
-          PY
+            ROUND="$i" TS="$ts" STATUS="$status" RC="$rc" python3 - <<'PY' >> codex-23wave.jsonl
+import json, os
+status=os.environ["STATUS"]
+rc=int(os.environ["RC"])
+print(json.dumps({
+    "round": int(os.environ["ROUND"]),
+    "timestamp": int(os.environ["TS"]),
+    "status": status,
+    "returncode": rc,
+    "marker": "MEDIAHUB_LOCAL_CODEX_23WAVE_OK",
+    "reason": "" if status == "PASS" else ("timeout" if rc == 124 else ("execution_failure" if rc != 0 else "marker_mismatch")),
+}))
+PY
+            cp "$out" "codex-round-$i.stdout.txt" 2>/dev/null || true
+            cp "$last" "codex-round-$i.last.txt" 2>/dev/null || true
             [ "$status" = PASS ] || exit 2
           done
       - name: Upload Codex evidence
