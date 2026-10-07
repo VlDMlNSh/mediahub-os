@@ -38,6 +38,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          export ASTRA_QUEUE_STATE_DIR="$RUNNER_TEMP/mh25-24h-queue-state"
+          rm -rf "$ASTRA_QUEUE_STATE_DIR"
+          mkdir -p "$ASTRA_QUEUE_STATE_DIR"
+          test -w "$ASTRA_QUEUE_STATE_DIR"
           mkdir -p /tmp/mh25-24h
           start="$(date +%s)"
           end=$((start+86400))
@@ -48,7 +52,7 @@ jobs:
             git fetch origin main --depth=50
             git reset --hard origin/main
             set +e
-            PYTHONPATH=runtime:. python3 -m mediahub_runtime.autonomous_queue | tee "/tmp/mh25-24h/wave-$wave.log"
+            ASTRA_QUEUE_STATE_DIR="$ASTRA_QUEUE_STATE_DIR" PYTHONPATH=runtime:. python3 -m mediahub_runtime.autonomous_queue | tee "/tmp/mh25-24h/wave-$wave.log"
             rc=${PIPESTATUS[0]}
             set -e
             test "$rc" -eq 0
