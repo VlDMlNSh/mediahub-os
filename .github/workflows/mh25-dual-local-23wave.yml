@@ -69,7 +69,7 @@ jobs:
 
   claude-local:
     name: Real Claude local executor / mh-dev-02
-    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    runs-on: [self-hosted, macOS, ARM64, astra-control]
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
@@ -81,9 +81,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(hostname)" = "mh-dev-02"
-          test "$(id -un)" = "mediahub"
-          export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          host="$(hostname)"
+          test "$host" = "Voktors-Mini.Dlink" || test "$host" = "Voktors-Mac-mini"
+          test "$(id -un)" = "voktor"
+          export PATH="$HOME/.local/bin:$HOME/.local/npm/bin:$PATH"
           command -v claude
           command -v ollama
           command -v fcc-server
@@ -93,10 +94,10 @@ jobs:
         run: |
           set -u
           : > claude-23wave.jsonl
-          env_file="/home/mediahub/.config/mediahub/fcc.env"
+          env_file="/Users/voktor/Library/Application Support/MediaHub/fcc.env"
           test -f "$env_file"
           set -a; . "$env_file"; set +a
-          model="qwen2.5-coder:3b"
+          model="qwen2.5-coder:1.5b"
           host="127.0.0.1"
           port="$((18000 + GITHUB_RUN_ID % 1000))"
           export HOST="$host" PORT="$port" MODEL="ollama/$model"
