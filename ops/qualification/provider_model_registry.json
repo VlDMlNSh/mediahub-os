@@ -28,6 +28,26 @@
   ],
   "providers": [
     {
+      "id": "ollama-local-1",
+      "provider": "Ollama Local",
+      "family": "ollama-local",
+      "credential_env": [],
+      "base_url": "http://127.0.0.1:11434/v1",
+      "models": [
+        "qwen2.5-coder:3b"
+      ],
+      "capabilities": [
+        "coding",
+        "reasoning",
+        "general"
+      ],
+      "cost_class": "local",
+      "persistence_class": "local",
+      "adapter": "chat_completions_compatible",
+      "auth_mode": "static_bearer",
+      "static_bearer": "ollama"
+    },
+    {
       "id": "mimo-1",
       "provider": "Xiaomi MiMo",
       "family": "mimo",

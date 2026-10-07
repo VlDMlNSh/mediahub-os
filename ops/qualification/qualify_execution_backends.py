@@ -77,6 +77,8 @@ def credential(provider: dict) -> tuple[str | None, bool]:
     for name in provider.get("credential_env", []):
         if os.environ.get(name):
             return name, True
+    if provider.get("auth_mode") == "static_bearer" and provider.get("static_bearer"):
+        return None, True
     return None, False
 
 
@@ -249,7 +251,7 @@ def qualify(provider: dict) -> dict:
         base["reason"] = "credential_absent"
         return base
 
-    key = os.environ[env_name]
+    key = os.environ[env_name] if env_name else str(provider.get("static_bearer", ""))
     for model in provider["models"]:
         if model == "default":
             discovered = discover_default_model(provider, key)
