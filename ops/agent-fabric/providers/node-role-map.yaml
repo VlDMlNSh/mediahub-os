@@ -5,23 +5,32 @@ controller:
   role: github-transport-controller
   max_parallel_controller_tasks: 1
 execution_pools:
+  - node_id: mh-dev-01
+    role: controller-local-executor-lane
+    runner_label: mediahub-control
+    providers:
+      - CLAUDE_LOCAL_FCC
+    model: qwen2.5-coder:1.5b
+    executor: claude
+    max_parallel_executors: 1
+    require_disjoint_claims: true
   - node_id: mh-dev-02
     role: primary-local-executor-pool
     runner_label: mediahub-provider
     providers:
       - CODEX_LOCAL_FCC
-      - CLAUDE_LOCAL_FCC
     model: qwen2.5-coder:3b
-    max_parallel_executors: 2
+    executor: codex
+    max_parallel_executors: 1
     require_disjoint_claims: true
   - node_id: Voktors-Mac-mini.local
-    role: fast-local-worker-pool
+    role: fast-local-executor-pool
     runner_label: astra-control
     providers:
-      - CODEX_LOCAL_FCC
       - CLAUDE_LOCAL_FCC
     model: qwen2.5-coder:1.5b
-    max_parallel_executors: 2
+    executor: claude
+    max_parallel_executors: 1
     require_disjoint_claims: true
 routing:
   controller_to_executor: github-transport
@@ -42,3 +51,7 @@ security:
   expose_credentials: false
   quota_bypass: false
   main_branch_direct_write: false
+concurrency:
+  max_parallel_claims: 2
+  permanent_executor_lanes: 3
+  shared_surfaces_serialized: true
