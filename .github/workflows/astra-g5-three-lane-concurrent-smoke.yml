@@ -1,0 +1,163 @@
+name: Astra G5 three-lane concurrent local executor smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_sha:
+        description: "Exact immutable source SHA"
+        required: true
+        type: string
+      command_id:
+        description: "Unique G5 command id"
+        required: true
+        type: string
+  push:
+    paths:
+      - .github/workflows/astra-g5-three-lane-concurrent-smoke.yml
+
+permissions:
+  contents: read
+
+jobs:
+  mh1:
+    name: Claude 1.5B / mh-dev-01
+    runs-on: [self-hosted, linux, x64, mediahub-control]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_sha || github.sha }}
+          fetch-depth: 1
+      - name: Real Claude FCC marker
+        shell: bash
+        env:
+          G5_TARGET_SHA: ${{ inputs.target_sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          test "$(git rev-parse HEAD)" = "$G5_TARGET_SHA"
+          export PATH="$HOME/.local/bin:$HOME/.local/npm/bin:$PATH"
+          env_file=""
+          for candidate in "$HOME/.config/mediahub/fcc.env" "/home/mediahub/.config/mediahub/fcc.env"; do
+            if test -r "$candidate"; then env_file="$candidate"; break; fi
+          done
+          test -n "$env_file"
+          set -a; . "$env_file"; set +a
+          model="qwen2.5-coder:1.5b"
+          host="${HOST:-127.0.0.1}"
+          port="$((18000 + GITHUB_RUN_ID % 1000))"
+          export HOST="$host" PORT="$port" MODEL="ollama/$model"
+          export ENABLE_MODEL_THINKING=false ENABLE_OPUS_THINKING=false ENABLE_SONNET_THINKING=false ENABLE_HAIKU_THINKING=false
+          export CLAUDE_CODE_DISABLE_THINKING=1 MAX_THINKING_TOKENS=0
+          command -v ollama
+          command -v fcc-server
+          ollama show "$model" >/dev/null
+          nohup setsid fcc-server --host "$host" --port "$port" >/tmp/astra-g5-mh1-fcc.log 2>&1 &
+          for _ in $(seq 1 30); do curl -fsS --max-time 2 "http://$host:$port/health" >/dev/null 2>&1 && break; sleep 1; done
+          curl -fsS --max-time 5 "http://$host:$port/health" >/dev/null
+          export FCC_G5_PORT="$port"
+          python3 - <<'PY'
+          import json, os, urllib.request
+          marker="G5_MH1_CLAUDE_OK"
+          token=os.environ.get("ANTHROPIC_AUTH_TOKEN","")
+          if not token: raise SystemExit("fcc auth token missing")
+          body=json.dumps({"model":"ollama/qwen2.5-coder:1.5b","max_tokens":32,"messages":[{"role":"user","content":"Return exactly "+marker}]}).encode()
+          req=urllib.request.Request("http://127.0.0.1:"+os.environ["FCC_G5_PORT"]+"/v1/messages",data=body,method="POST",headers={"x-api-key":token,"Content-Type":"application/json","Accept":"application/json"})
+          with urllib.request.urlopen(req,timeout=170) as resp: payload=json.loads(resp.read().decode())
+          text="\n".join(str(x.get("text","")) for x in payload.get("content",[]) if isinstance(x,dict))
+          assert marker in text, text[:500]
+          print(marker)
+          PY
+
+  mh2:
+    name: Codex 3B / mh-dev-02
+    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_sha || github.sha }}
+          fetch-depth: 1
+      - name: Real Codex 3B marker
+        env:
+          G5_TARGET_SHA: ${{ inputs.target_sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-02"
+          test "$(id -un)" = "mediahub"
+          test "$(git rev-parse HEAD)" = "$G5_TARGET_SHA"
+          command -v codex
+          command -v ollama
+          ollama show qwen2.5-coder:3b >/dev/null
+          codex exec --oss --local-provider ollama --model qwen2.5-coder:3b --sandbox read-only --skip-git-repo-check 'Return exactly G5_MH2_CODEX_OK.' 2>&1 | tee /tmp/g5-mh2.log
+          grep -F G5_MH2_CODEX_OK /tmp/g5-mh2.log
+
+  mac:
+    name: Claude 1.5B / Mac
+    runs-on: [self-hosted, macOS, ARM64, astra-control]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_sha || github.sha }}
+          fetch-depth: 1
+      - name: Real Claude FCC marker
+        env:
+          G5_TARGET_SHA: ${{ inputs.target_sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          host_name=$(hostname)
+          test "$host_name" = Voktors-Mini.Dlink || test "$host_name" = Voktors-Mac-mini
+          test "$(id -un)" = voktor
+          test "$(git rev-parse HEAD)" = "$G5_TARGET_SHA"
+          export PATH="$HOME/.local/bin:$HOME/.local/npm/bin:$PATH"
+          env_file="$HOME/Library/Application Support/MediaHub/fcc.env"
+          test -r "$env_file"
+          set -a; . "$env_file"; set +a
+          model="qwen2.5-coder:1.5b"
+          host="${HOST:-127.0.0.1}"
+          port="$((18000 + GITHUB_RUN_ID % 1000))"
+          export HOST="$host" PORT="$port" MODEL="ollama/$model"
+          export ENABLE_MODEL_THINKING=false ENABLE_OPUS_THINKING=false ENABLE_SONNET_THINKING=false ENABLE_HAIKU_THINKING=false
+          export CLAUDE_CODE_DISABLE_THINKING=1 MAX_THINKING_TOKENS=0
+          command -v ollama
+          command -v fcc-server
+          ollama show "$model" >/dev/null
+          nohup fcc-server --host "$host" --port "$port" >/tmp/astra-g5-mac-fcc.log 2>&1 &
+          for _ in $(seq 1 30); do curl -fsS --max-time 2 "http://$host:$port/health" >/dev/null 2>&1 && break; sleep 1; done
+          curl -fsS --max-time 5 "http://$host:$port/health" >/dev/null
+          export FCC_G5_PORT="$port"
+          python3 - <<'PY'
+          import json, os, urllib.request
+          marker="G5_MAC_CLAUDE_OK"
+          token=os.environ.get("ANTHROPIC_AUTH_TOKEN","")
+          if not token: raise SystemExit("fcc auth token missing")
+          body=json.dumps({"model":"ollama/qwen2.5-coder:1.5b","max_tokens":32,"messages":[{"role":"user","content":"Return exactly "+marker}]}).encode()
+          req=urllib.request.Request("http://127.0.0.1:"+os.environ["FCC_G5_PORT"]+"/v1/messages",data=body,method="POST",headers={"x-api-key":token,"Content-Type":"application/json","Accept":"application/json"})
+          with urllib.request.urlopen(req,timeout=170) as resp: payload=json.loads(resp.read().decode())
+          text="\n".join(str(x.get("text","")) for x in payload.get("content",[]) if isinstance(x,dict))
+          assert marker in text, text[:500]
+          print(marker)
+          PY
+
+  aggregate:
+    name: G5 three-lane concurrent aggregate
+    needs: [mh1, mh2, mac]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require all three lanes to pass
+        env:
+          MH1: ${{ needs.mh1.result }}
+          MH2: ${{ needs.mh2.result }}
+          MAC: ${{ needs.mac.result }}
+        run: |
+          set -euo pipefail
+          test "$MH1" = success
+          test "$MH2" = success
+          test "$MAC" = success
+          echo ASTRA_G5_THREE_LANE_PASS

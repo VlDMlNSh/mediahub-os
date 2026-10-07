@@ -10,6 +10,8 @@ Group=mediahub
 WorkingDirectory=/opt/mediahub/astra
 Environment=PYTHONPATH=/opt/mediahub/astra/runtime:/opt/mediahub/astra
 Environment=ASTRA_GITHUB_REPO=VlDMlNSh/mediahub-os
+Environment=ASTRA_DISTRIBUTED_LOCAL=1
+Environment=ASTRA_QUEUE_MAX_WORKERS=3
 EnvironmentFile=-/etc/mediahub/astra-github.env
 ExecStart=/usr/bin/python3 /opt/mediahub/astra/astra_github_agent.py
 Restart=always

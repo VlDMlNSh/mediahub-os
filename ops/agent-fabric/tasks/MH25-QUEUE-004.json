@@ -1,0 +1,37 @@
+{
+  "schema": "mediahub.agent-fabric.task.v1",
+  "task_id": "MH25-QUEUE-004",
+  "status": "READY",
+  "priority": "P1",
+  "role": "builder",
+  "mission": "Prove the permanent Codex 3B executor lane on mh-dev-02 through a bounded deterministic contract task. Use exact target-SHA binding, isolated branch execution, and independent Claude verification. Do not alter controller authority, control state, credentials, or production infrastructure.",
+  "boundary": [
+    "docs/operations/ASTRA-MH-DEV-02-CODEX-EXECUTOR.md"
+  ],
+  "forbidden_surfaces": [
+    ".github/workflows/",
+    "runtime/",
+    "control/",
+    "user data",
+    "credentials",
+    "production infrastructure"
+  ],
+  "dependencies": [],
+  "node_id": "mh-dev-02",
+  "executor": "codex",
+  "verifier": "claude",
+  "timeout_seconds": 1800,
+  "builder_attempts": 2,
+  "allow_no_changes": false,
+  "acceptance": [
+    "Create or update exactly one document at docs/operations/ASTRA-MH-DEV-02-CODEX-EXECUTOR.md.",
+    "The document states node identity mh-dev-02, executor identity codex, local model qwen2.5-coder:3b, verifier identity claude, and executor-only authority boundary.",
+    "The document states target-SHA binding, isolated branch execution, fail-closed promotion, and no direct writes to main.",
+    "The document contains no credentials or secrets.",
+    "The scoped Agent Fabric regression suite passes.",
+    "The worker must produce a real Codex execution result and a real independent Claude verdict; synthetic or prefilled evidence is invalid."
+  ],
+  "test_paths": [
+    "tests/test_agent_fabric.py"
+  ]
+}

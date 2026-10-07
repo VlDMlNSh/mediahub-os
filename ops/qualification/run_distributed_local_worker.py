@@ -91,6 +91,22 @@ def task_prompt(task: dict, role: str) -> str:
     )
 
 
+def redact_evidence_text(value: str, env: dict[str, str] | None = None) -> str:
+    """Suppress known credential values before runtime text enters evidence."""
+    text = str(value or "")
+    source = env or os.environ
+    for key in (
+        "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_API_KEY", "OPENAI_API_KEY",
+        "HF_TOKEN", "GH_TOKEN", "GITHUB_TOKEN", "GEMINI_API_KEY",
+        "PERPLEXITY_API_KEY", "DEEPSEEK_API_KEY", "KIMI_API_KEY",
+        "OPENROUTER_API_KEY", "SILICONFLOW_API_KEY",
+    ):
+        secret = str(source.get(key, "") or "").strip()
+        if secret:
+            text = text.replace(secret, "SUPPRESSED")
+    return text
+
+
 def load_env_file(path: Path) -> dict[str, str]:
     if not path.is_file():
         raise RuntimeError("fcc_env_file_missing")
@@ -164,12 +180,13 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
                  "--skip-git-repo-check", prompt], timeout, ROOT, env)
         return {
             "returncode": p.returncode,
-            "stdout": p.stdout[-16000:],
-            "stderr": p.stderr[-8000:],
+            "stdout": redact_evidence_text(p.stdout[-16000:]),
+            "stderr": redact_evidence_text(p.stderr[-8000:]),
         }
 
 
 def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048) -> tuple[dict, subprocess.Popen[str] | None]:
+    """Run the real Claude Code client through the node-local FCC transport."""
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
         raise RuntimeError("fcc_model_binding_mismatch")
@@ -186,30 +203,24 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     token = env_updates.get("ANTHROPIC_AUTH_TOKEN", "")
     if not token:
         raise RuntimeError("fcc_auth_token_missing")
-    payload = json.dumps({
-        "model": "ollama/" + model,
-        "max_tokens": max_tokens,
-        "temperature": 0,
-        "messages": [{"role": "user", "content": prompt}],
-    }).encode("utf-8")
-    req = urllib.request.Request(
-        f"http://{host}:{port}/v1/messages",
-        data=payload,
-        headers={"x-api-key": token, "Content-Type": "application/json", "Accept": "application/json"},
-        method="POST",
+    claude = shutil.which("claude")
+    if not claude:
+        raise RuntimeError("claude_cli_missing")
+    env = os.environ.copy()
+    env.update(env_updates)
+    env["ANTHROPIC_BASE_URL"] = f"http://{host}:{port}"
+    env["ANTHROPIC_AUTH_TOKEN"] = token
+    env["ANTHROPIC_API_KEY"] = token
+    env["ASTRA_FCC_TRANSPORT"] = "fcc"
+    env["ASTRA_FCC_MODEL"] = "ollama/" + model
+    env["CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"] = "1"
+    p = run(
+        [claude, "-p", prompt, "--output-format", "text", "--max-turns", "1"],
+        timeout,
+        ROOT,
+        env,
     )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as response:
-            raw = response.read().decode("utf-8", "replace")
-        body = json.loads(raw)
-        text = "\n".join(
-            str(item.get("text", "")) for item in body.get("content", [])
-            if isinstance(item, dict)
-        )
-        return {"returncode": 0, "stdout": text[-16000:], "stderr": ""}, server
-    except Exception as exc:
-        return {"returncode": 1, "stdout": "", "stderr": type(exc).__name__ + ":" + str(exc)}, server
-
+    return {"returncode": p.returncode, "stdout": redact_evidence_text(p.stdout[-16000:]), "stderr": redact_evidence_text(p.stderr[-8000:])}, server
 
 def scope_paths(task: dict, changed: set[str]) -> list[str]:
     boundary = tuple(str(x) for x in task.get("boundary", []))
@@ -347,8 +358,8 @@ def main() -> int:
             attempt_records.append({
                 "attempt": attempt,
                 "returncode": build.get("returncode"),
-                "stdout": build.get("stdout", "")[-4000:],
-                "stderr": build.get("stderr", "")[-3000:],
+                "stdout": redact_evidence_text(build.get("stdout", "")[-4000:]),
+                "stderr": redact_evidence_text(build.get("stderr", "")[-3000:]),
             })
             if build["returncode"] != 0:
                 break
@@ -395,8 +406,8 @@ def main() -> int:
             test = run(["python3", "-c", "import sys,unittest; sys.path.insert(0,'runtime'); s=unittest.defaultTestLoader.discover('tests', pattern='test_*.py'); r=unittest.TextTestRunner(verbosity=2).run(s); raise SystemExit(0 if r.wasSuccessful() else 1)"], 900, env=test_env)
         record["tests"] = {
             "returncode": test.returncode,
-            "stdout": test.stdout[-10000:],
-            "stderr": test.stderr[-6000:],
+            "stdout": redact_evidence_text(test.stdout[-10000:]),
+            "stderr": redact_evidence_text(test.stderr[-6000:]),
         }
         if test.returncode != 0:
             raise RuntimeError("tests_failed")
@@ -424,7 +435,7 @@ def main() -> int:
             if commit.returncode != 0:
                 raise RuntimeError("git_commit_failed")
             push = run(["git", "push", "origin", f"HEAD:refs/heads/{branch}"], 180)
-            record["push"] = {"returncode": push.returncode, "stdout": push.stdout[-5000:], "stderr": push.stderr[-5000:]}
+            record["push"] = {"returncode": push.returncode, "stdout": redact_evidence_text(push.stdout[-5000:]), "stderr": redact_evidence_text(push.stderr[-5000:])}
             if push.returncode != 0:
                 raise RuntimeError("git_push_failed")
             record["head_sha"] = run(["git", "rev-parse", "HEAD"], 30).stdout.strip()

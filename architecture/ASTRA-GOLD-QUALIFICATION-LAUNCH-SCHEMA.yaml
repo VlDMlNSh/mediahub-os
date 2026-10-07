@@ -57,7 +57,7 @@ gates:
     pass_rule: every_required_round_passes
     failure: BLOCKED
   G5_CONCURRENCY:
-    max_parallel_autonomous_claims: 2
+    max_parallel_autonomous_claims: 3
     disjoint_claims_required: true
     shared_surfaces_serialized: true
     duplicate_controller_rejected: true

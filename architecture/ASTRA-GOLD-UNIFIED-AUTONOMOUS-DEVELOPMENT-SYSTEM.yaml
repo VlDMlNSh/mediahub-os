@@ -193,7 +193,7 @@ qualification:
   mode: whole_system
   rounds_minimum: 23
   concurrency:
-    max_parallel: 2
+    max_parallel: 3
     require_disjoint_claims: true
     shared_surfaces: serialized
   fresh_evidence_required: true
