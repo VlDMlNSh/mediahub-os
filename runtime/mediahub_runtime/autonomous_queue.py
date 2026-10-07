@@ -25,7 +25,7 @@ CLAIMS = STATE / "claims"
 
 
 def bounded_worker_count(requested: int) -> int:
-    return max(1, min(int(requested), 3))
+    return max(1, min(int(requested), 2))
 
 
 MAX_WORKERS = bounded_worker_count(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "3")))
@@ -279,7 +279,7 @@ def claim_for(task: dict, base_sha: str) -> AgentClaim:
         status="ACTIVE",
         started=now,
         updated=now,
-        expiry=now + 900,
+        expiry=now + max(60.0, min(float(os.environ.get("ASTRA_CLAIM_LEASE_SECONDS", "600")), 21600.0)),
         base_sha=base_sha,
     )
 
@@ -466,7 +466,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
                     break
             if time.time() - started > 60:
                 try:
-                    store.heartbeat(task_key, lease_seconds=900)
+                    store.heartbeat(task_key, lease_seconds=max(60, min(int(os.environ.get("ASTRA_CLAIM_LEASE_SECONDS", "600")), 21600)))
                 except Exception:
                     pass
             time.sleep(10)
