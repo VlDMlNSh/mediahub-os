@@ -8,6 +8,17 @@ SUPERVISOR = ROOT / ".github/workflows/astra-autonomous-supervisor.yml"
 
 
 class DistributedWorkflowContractTests(unittest.TestCase):
+    def test_mh25_has_single_canonical_dual_local_workflow(self):
+        workflows = {p.name for p in (ROOT / ".github/workflows").glob("*.y*ml")}
+        self.assertIn("mh25-dual-local-23wave.yml", workflows)
+        self.assertNotIn("mh25-dual-local-executor-23wave.yml", workflows)
+        canonical = (ROOT / ".github/workflows/mh25-dual-local-23wave.yml").read_text(encoding="utf-8")
+        self.assertIn("name: MH-25 Dual Local Executor 23-Wave Qualification", canonical)
+        self.assertIn("codex-local:", canonical)
+        self.assertIn("claude-local:", canonical)
+        self.assertIn("aggregate:", canonical)
+        self.assertIn("verify_dual_local_23wave.py", canonical)
+
     def test_single_reusable_workflow_targets_all_three_nodes(self):
         document = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         self.assertTrue(document.get("jobs"))
