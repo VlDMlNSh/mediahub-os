@@ -24,10 +24,13 @@ jobs:
         run: |
           set -euo pipefail
           g4_root="$RUNNER_TEMP/astra-g4-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          rm -rf "$g4_root"
+          g4_output="$RUNNER_TEMP/astra-g4-output-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          rm -rf "$g4_root" "$g4_output"
           git worktree add --detach "$g4_root" "$GITHUB_SHA"
           test "$(git -C "$g4_root" rev-parse HEAD)" = "$GITHUB_SHA"
+          mkdir -p "$g4_output"
           echo "G4_ROOT=$g4_root" >> "$GITHUB_ENV"
+          echo "G4_OUTPUT_DIR=$g4_output" >> "$GITHUB_ENV"
 
       - name: Canonical preflight
         shell: bash
@@ -103,8 +106,9 @@ jobs:
               "title": "MH-25 23-round FCC vs OmniRoute local executor qualification",
           }
           result = a.execute(command)
-          os.makedirs("/tmp/mh25-dual-qualification", exist_ok=True)
-          with open("/tmp/mh25-dual-qualification/result.json", "w", encoding="utf-8") as f:
+          output_dir = os.environ["G4_OUTPUT_DIR"]
+          os.makedirs(output_dir, exist_ok=True)
+          with open(os.path.join(output_dir, "result.json"), "w", encoding="utf-8") as f:
               json.dump(result, f, indent=2, sort_keys=True)
               f.write("\n")
           print(json.dumps({
@@ -127,8 +131,8 @@ jobs:
         run: |
           set -euo pipefail
           python3 ops/qualification/materialize_g4_evidence.py \
-            /tmp/mh25-dual-qualification/result.json \
-            /tmp/mh25-dual-qualification/g4-115.json \
+            "${G4_OUTPUT_DIR}/result.json" \
+            "${G4_OUTPUT_DIR}/g4-115.json" \
             --expected-sha "${{ github.sha }}"
       - name: Independently verify G4 evidence
         if: always()
@@ -138,7 +142,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 ops/qualification/verify_g4_115.py \
-            /tmp/mh25-dual-qualification/g4-115.json \
+            "${G4_OUTPUT_DIR}/g4-115.json" \
             --expected-sha "${{ github.sha }}"
       - name: Remove isolated G4 worktree
         if: always()
@@ -149,11 +153,14 @@ jobs:
           if [ -n "${G4_ROOT:-}" ] && git worktree list --porcelain | grep -Fq "worktree $G4_ROOT"; then
             git worktree remove --force "$G4_ROOT"
           fi
+          if [ -n "${G4_OUTPUT_DIR:-}" ]; then
+            rm -rf "$G4_OUTPUT_DIR"
+          fi
 
       - name: Publish qualification artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: mh25-dual-local-executor-23wave-${{ github.run_id }}
-          path: /tmp/mh25-dual-qualification/
+          path: ${{ env.G4_OUTPUT_DIR }}/
           retention-days: 30
