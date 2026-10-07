@@ -26,6 +26,20 @@ def _concurrent_acquire_worker(root, task_id, barrier, results):
         results.put((task_id, "acquired", ""))
 
 
+def _concurrent_disjoint_acquire_worker(root, task_id, path, barrier, results):
+    try:
+        store = ClaimStore(Path(root))
+        barrier.wait(timeout=10)
+        now = time.time()
+        store.acquire(mk(task_id, [path], now=now))
+    except AgentFabricError as exc:
+        results.put((task_id, "collision", str(exc)))
+    except Exception as exc:
+        results.put((task_id, "error", repr(exc)))
+    else:
+        results.put((task_id, "acquired", ""))
+
+
 class AgentFabricTests(unittest.TestCase):
     def test_exact_collision(self):
         with tempfile.TemporaryDirectory() as td, mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=100.0):
@@ -98,6 +112,31 @@ class AgentFabricTests(unittest.TestCase):
             outcomes = [results.get(timeout=5) for _ in workers]
             self.assertEqual(sorted(outcome[1] for outcome in outcomes), ["acquired", "collision"])
             self.assertEqual({outcome[2] for outcome in outcomes if outcome[1] == "collision"}, {"claim_collision"})
+
+
+    def test_three_concurrent_disjoint_claims_are_all_admitted(self):
+        if "fork" not in multiprocessing.get_all_start_methods():
+            self.skipTest("concurrent claim regression requires fork-capable workers")
+        ctx = multiprocessing.get_context("fork")
+        with tempfile.TemporaryDirectory() as td:
+            barrier = ctx.Barrier(3)
+            results = ctx.Queue()
+            jobs = [
+                ("A", "docs/operations/A.md"),
+                ("B", "docs/operations/B.md"),
+                ("C", "docs/operations/C.md"),
+            ]
+            workers = [
+                ctx.Process(target=_concurrent_disjoint_acquire_worker, args=(td, task_id, path, barrier, results))
+                for task_id, path in jobs
+            ]
+            for worker in workers:
+                worker.start()
+            for worker in workers:
+                worker.join(15)
+            self.assertTrue(all(not worker.is_alive() for worker in workers))
+            outcomes = [results.get(timeout=5) for _ in workers]
+            self.assertEqual(sorted(outcome[1] for outcome in outcomes), ["acquired", "acquired", "acquired"])
 
     def test_queue_002_uses_real_claude_codex_split(self):
         import json
