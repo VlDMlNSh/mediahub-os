@@ -1,6 +1,13 @@
 name: Astra G4 115-round executor matrix
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_launch:
+        description: "Explicit admission for G4 execution"
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -10,6 +17,23 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  admission:
+    name: G4 admission gate
+    if: ${{ inputs.confirm_launch == true }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require canonical five-path implementation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f control/qualification/g4-115.json
+          grep -q 'CODEX_OMNIROUTE' control/qualification/g4-115.json
+          grep -q 'CLAUDE_OMNIROUTE' control/qualification/g4-115.json
+          test -f ops/qualification/verify_g4_115.py
+          echo "BLOCK: OmniRoute execution contract is not implemented; G4 cannot be claimed."
+          exit 2
+
   codex-fcc:
     name: G4 CODEX_FCC 23 rounds
     runs-on: [self-hosted, linux, x64, mediahub-provider]
