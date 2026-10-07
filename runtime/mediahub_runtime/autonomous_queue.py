@@ -75,6 +75,8 @@ def _local_codex_agentic_probe(model: str) -> bool:
                 "--sandbox",
                 "workspace-write",
                 "--skip-git-repo-check",
+                "--config",
+                "model_reasoning_effort=none",
                 (
                     "Create exactly one file at "
                     f"{probe_file} containing exactly "
