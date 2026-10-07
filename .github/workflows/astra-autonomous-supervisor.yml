@@ -161,6 +161,19 @@ jobs:
         with:
           name: astra-authoritative-command
           path: control/commands
+      - name: Require fresh provider qualification
+        shell: bash
+        env:
+          PROVIDER_STATUS: ${{ needs.provider-qualification.outputs.status }}
+        run: |
+          set -euo pipefail
+          test "$PROVIDER_STATUS" = "PASS"
+
+      - name: Download fresh provider qualification evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.provider-qualification.outputs.evidence_artifact }}
+          path: .astra-state/provider-qualification
 
       - name: Verify prepared command binding
         shell: bash
