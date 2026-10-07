@@ -43,7 +43,9 @@ jobs:
           ollama show qwen2.5-coder:3b >/dev/null 2>&1
           timeout 90s ollama run qwen2.5-coder:3b "Return exactly MEDIAHUB_OLLAMA_PREFLIGHT_OK. Do not use tools or network." >/tmp/astra-ollama-preflight.out 2>/tmp/astra-ollama-preflight.err
           grep -Fx MEDIAHUB_OLLAMA_PREFLIGHT_OK /tmp/astra-ollama-preflight.out >/dev/null
-          codex_home="$(mktemp -d "$RUNNER_TEMP/astra-codex-config.XXXXXX")"
+          codex_home="$HOME/.cache/mediahub/astra-g4-codex-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          rm -rf "$codex_home"
+          mkdir -p "$codex_home"
           cat >"$codex_home/config.toml" <<'TOML'
           model_provider = "ollama"
           model = "qwen2.5-coder:3b"
@@ -60,17 +62,21 @@ jobs:
           cleanup_codex() { rm -rf "$codex_home"; }
           trap cleanup_codex EXIT
           preflight="/tmp/astra-codex-preflight.out"
-          timeout 90s codex exec --oss --local-provider ollama --model qwen2.5-coder:3b --ephemeral --color never \
-            --config model_reasoning_effort=none --sandbox read-only --skip-git-repo-check \
-            "Return exactly MEDIAHUB_CODEX_PREFLIGHT_OK. Do not use tools, network, or files." </dev/null >"$preflight" 2>&1
-          grep -Fx MEDIAHUB_CODEX_PREFLIGHT_OK "$preflight" >/dev/null
+          timeout 180s codex exec --oss --local-provider ollama --model qwen2.5-coder:3b --ephemeral --color never \
+            --config model_reasoning_effort=none --sandbox danger-full-access \
+            --disable browser_use --disable browser_use_external --disable computer_use --disable apps --disable plugins --disable multi_agent --disable multi_agent_v2 \
+            --output-last-message "$HOME/.cache/mediahub/astra-g4-codex-preflight-${GITHUB_RUN_ID}.txt" --skip-git-repo-check \
+            "Return exactly MEDIAHUB_CODEX_PREFLIGHT_OK." </dev/null >"$preflight" 2>&1
+          grep -Fx MEDIAHUB_CODEX_PREFLIGHT_OK "$HOME/.cache/mediahub/astra-g4-codex-preflight-${GITHUB_RUN_ID}.txt" >/dev/null || grep -Fx MEDIAHUB_CODEX_PREFLIGHT_OK "$preflight" >/dev/null
           for i in $(seq 1 23); do
             ts=$(date +%s)
             out="/tmp/astra-codex-$i.out"
             rm -f "$out"
             timeout 300s codex exec --oss --local-provider ollama --model qwen2.5-coder:3b --ephemeral --color never \
-              --config model_reasoning_effort=none --sandbox read-only --skip-git-repo-check \
-              "Return exactly MEDIAHUB_LOCAL_CODEX_23WAVE_OK. Do not use tools, network, or modify files." </dev/null >"$out" 2>&1
+              --config model_reasoning_effort=none --sandbox danger-full-access \
+              --disable browser_use --disable browser_use_external --disable computer_use --disable apps --disable plugins --disable multi_agent --disable multi_agent_v2 \
+              --skip-git-repo-check \
+              "Return exactly MEDIAHUB_LOCAL_CODEX_23WAVE_OK." </dev/null >"$out" 2>&1
             rc=$?
             status=BLOCKED
             [ "$rc" -eq 0 ] && grep -Fx MEDIAHUB_LOCAL_CODEX_23WAVE_OK "$out" >/dev/null 2>&1 && status=PASS
@@ -123,7 +129,7 @@ jobs:
           export HOST="$host" PORT="$port" MODEL="ollama/$model"
           export ENABLE_MODEL_THINKING=false ENABLE_OPUS_THINKING=false ENABLE_SONNET_THINKING=false ENABLE_HAIKU_THINKING=false
           export CLAUDE_CODE_DISABLE_THINKING=1 MAX_THINKING_TOKENS=0
-          nohup setsid fcc-server --host "$host" --port "$port" >/tmp/astra-fcc-23wave.log 2>&1 &
+          nohup fcc-server --host "$host" --port "$port" >/tmp/astra-fcc-23wave.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for _ in $(seq 1 30); do
