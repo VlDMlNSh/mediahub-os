@@ -17,6 +17,13 @@ ROOT = Path(__file__).resolve().parents[2]
 MARKER = "MEDIAHUB_DISTRIBUTED_LOCAL_EXECUTOR_OK"
 VERDICT_MARKER = "ASTRA_VERDICT: PASS"
 NODE_CONFIG = {
+    "mh-dev-01": {
+        "user": "mediahub-runner",
+        "platform": "linux",
+        "model": "qwen2.5-coder:1.5b",
+        "pool": "controller_local",
+        "fcc_env": "/home/mediahub/.config/mediahub/fcc.env",
+    },
     "mh-dev-02": {
         "user": "mediahub",
         "platform": "linux",
