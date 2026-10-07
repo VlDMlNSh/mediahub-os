@@ -32,6 +32,53 @@ def digest(value: object) -> str:
     return "sha256:" + hashlib.sha256(raw).hexdigest()
 
 
+def load_env_file(path: Path) -> dict[str, str]:
+    if not path.is_file():
+        raise RuntimeError("fcc_env_file_missing")
+    values = {}
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        values[key.strip()] = value.strip()
+    return values
+
+
+def claude_fcc_env() -> dict[str, str]:
+    env = os.environ.copy()
+    candidates = []
+    explicit = env.get("ASTRA_FCC_ENV_FILE", "").strip()
+    if explicit:
+        candidates.append(Path(explicit))
+    candidates.extend([
+        Path.home() / ".config" / "mediahub" / "fcc.env",
+        Path.home() / "Library" / "Application Support" / "MediaHub" / "fcc.env",
+    ])
+    for path in candidates:
+        if path.is_file():
+            vals = load_env_file(path)
+            env.update(vals)
+            host = vals.get("HOST", "127.0.0.1")
+            port = vals.get("PORT", "8093")
+            env["ANTHROPIC_BASE_URL"] = f"http://{host}:{port}"
+            token = vals.get("ANTHROPIC_AUTH_TOKEN", "")
+            if token:
+                env["ANTHROPIC_AUTH_TOKEN"] = token
+                env["ANTHROPIC_API_KEY"] = token
+            env["ASTRA_FCC_TRANSPORT"] = "fcc"
+            env["ASTRA_FCC_MODEL"] = vals.get("MODEL", "")
+            env["CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"] = "1"
+            env["ENABLE_MODEL_THINKING"] = "false"
+            env["ENABLE_OPUS_THINKING"] = "false"
+            env["ENABLE_SONNET_THINKING"] = "false"
+            env["ENABLE_HAIKU_THINKING"] = "false"
+            env["CLAUDE_CODE_DISABLE_THINKING"] = "1"
+            env["MAX_THINKING_TOKENS"] = "0"
+            return env
+    raise RuntimeError("fcc_env_file_missing")
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--path", required=True, choices=sorted(IDENTITY))
@@ -77,7 +124,7 @@ def main() -> int:
             capture_output=True,
             timeout=a.timeout,
             check=False,
-            env=os.environ.copy(),
+            env=claude_fcc_env() if a.path == "CLAUDE_FCC" else os.environ.copy(),
         )
         rc = proc.returncode
         stdout = proc.stdout[-20000:]
