@@ -145,6 +145,6 @@
       "purpose": "permanent_claude_executor_lane"
     }
   ],
-  "max_parallel_claims": 2,
-  "permanent_executor_rule": "Exactly three permanent executor lanes exist; at most two autonomous claims may execute concurrently. Controller authority remains separate from executor authority."
+  "max_parallel_claims": 3,
+  "permanent_executor_rule": "Exactly three permanent executor lanes exist; up to three autonomous claims may execute concurrently. Controller authority remains separate from executor authority."
 }
