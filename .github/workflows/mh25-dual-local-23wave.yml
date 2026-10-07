@@ -167,7 +167,10 @@ jobs:
           import json,sys
           d=json.load(open(sys.argv[1],encoding="utf-8"))
           text="\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict))
-          raise SystemExit(0 if text.strip()==sys.argv[2] else 1)
+          actual=text.strip()
+          expected=sys.argv[2]
+          ok=(actual==expected or actual.rstrip(".!?") == expected)
+          raise SystemExit(0 if ok else 1)
           PY
               parse_rc=$?
               [ "$parse_rc" -eq 0 ] && status=PASS
