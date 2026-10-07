@@ -35,6 +35,12 @@ jobs:
           test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
           host="${HOST:-127.0.0.1}"; port="${PORT:-8093}"
           export MODEL="ollama/qwen2.5-coder:1.5b"
+          export ENABLE_MODEL_THINKING=false
+          export ENABLE_OPUS_THINKING=false
+          export ENABLE_SONNET_THINKING=false
+          export ENABLE_HAIKU_THINKING=false
+          export CLAUDE_CODE_DISABLE_THINKING=1
+          export MAX_THINKING_TOKENS=0
           if ! curl -fsS --max-time 3 "http://${host}:${port}/health" >/dev/null 2>&1; then
             nohup fcc-server --host "$host" --port "$port" >/tmp/astra-g5-mh1-fcc.log 2>&1 &
             for _ in $(seq 1 20); do
@@ -108,6 +114,12 @@ jobs:
           test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
           host="${HOST:-127.0.0.1}"; port="${PORT:-8093}"
           export MODEL="ollama/qwen2.5-coder:1.5b"
+          export ENABLE_MODEL_THINKING=false
+          export ENABLE_OPUS_THINKING=false
+          export ENABLE_SONNET_THINKING=false
+          export ENABLE_HAIKU_THINKING=false
+          export CLAUDE_CODE_DISABLE_THINKING=1
+          export MAX_THINKING_TOKENS=0
           if ! curl -fsS --max-time 3 "http://${host}:${port}/health" >/dev/null 2>&1; then
             nohup fcc-server --host "$host" --port "$port" >/tmp/astra-g5-mac-fcc.log 2>&1 &
             for _ in $(seq 1 20); do
