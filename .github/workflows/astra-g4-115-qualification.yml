@@ -35,6 +35,7 @@ jobs:
           exit 2
 
   codex-fcc:
+    needs: admission
     name: G4 CODEX_FCC 23 rounds
     runs-on: [self-hosted, linux, x64, mediahub-provider]
     timeout-minutes: 120
@@ -78,6 +79,7 @@ jobs:
           if-no-files-found: error
 
   claude-fcc:
+    needs: admission
     name: G4 CLAUDE_FCC 23 rounds
     runs-on: [self-hosted, macOS, ARM64, astra-control]
     timeout-minutes: 120
@@ -138,6 +140,7 @@ jobs:
           if-no-files-found: error
 
   omniroute:
+    needs: admission
     name: G4 OmniRoute paths 46 rounds
     runs-on: [self-hosted, linux, x64, mediahub-provider]
     timeout-minutes: 30
@@ -158,6 +161,7 @@ jobs:
           exit 2
 
   claude-direct:
+    needs: admission
     name: G4 CLAUDE_CODE_DIRECT 23 rounds
     runs-on: [self-hosted, macOS, ARM64, astra-control]
     timeout-minutes: 120
@@ -195,7 +199,7 @@ jobs:
 
   aggregate:
     name: G4 independent 115-round verification
-    needs: [codex-fcc, claude-fcc, omniroute, claude-direct]
+    needs: [admission, codex-fcc, claude-fcc, omniroute, claude-direct]
     if: ${{ always() }}
     runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 10
@@ -219,7 +223,7 @@ jobs:
           rows=[]
           for p in root.glob("g4-*.jsonl"):
               rows += [json.loads(x) for x in p.read_text().splitlines() if x.strip()]
-          evidence={"schema":"mediahub.astra-gold.g4-115-evidence.v1","status":"PASS","source_sha":__import__("os").environ["GITHUB_SHA"],"rounds":rows,"evidence_digest":"sha256:aggregate","secret_values":"SUPPRESSED"}
+          evidence={"schema":"mediahub.astra-gold.g4-115-evidence.v1","status":"PASS" if len(rows)==115 else "BLOCKED","source_sha":__import__("os").environ["GITHUB_SHA"],"rounds":rows,"evidence_digest":"sha256:aggregate","secret_values":"SUPPRESSED"}
           Path("g4-115.json").write_text(json.dumps(evidence,indent=2)+"\n")
           PY
           python3 ops/qualification/verify_g4_115.py g4-115.json --expected-sha "$GITHUB_SHA"
