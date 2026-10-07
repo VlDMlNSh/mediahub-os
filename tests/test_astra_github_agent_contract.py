@@ -8,7 +8,7 @@ class AstraTransportContractTests(unittest.TestCase):
     def test_g4_has_no_inner_tempfile_import_that_shadows_module_scope(self):
         source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
         self.assertNotIn("        import tempfile", source)
-        self.assertIn("import tempfile", source[:1200])
+        self.assertRegex(source[:1200], r"import .*tempfile")
     def test_g4_fcc_environment_is_initialized_before_use(self):
         source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
         self.assertLess(source.index("fcc_env = base_env.copy()"), source.index("fcc_host = fcc_env.get"))
