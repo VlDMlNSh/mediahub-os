@@ -80,7 +80,7 @@ jobs:
   aggregate:
     needs: [mh1, mh2, mac]
     if: ${{ always() }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     steps:
       - shell: bash
         env:
