@@ -79,7 +79,15 @@ jobs:
               "Return exactly MEDIAHUB_LOCAL_CODEX_23WAVE_OK." </dev/null >"$out" 2>&1
             rc=$?
             status=BLOCKED
-            [ "$rc" -eq 0 ] && grep -Fx MEDIAHUB_LOCAL_CODEX_23WAVE_OK "$out" >/dev/null 2>&1 && status=PASS
+            if [ "$rc" -eq 0 ]; then
+              if grep -Fx MEDIAHUB_LOCAL_CODEX_23WAVE_OK "$out" >/dev/null 2>&1; then
+                status=PASS
+              else
+                status=MARKER_MISMATCH
+              fi
+            else
+              status=EXECUTION_FAILURE
+            fi
             python3 - <<PY >> codex-23wave.jsonl
           import json
           print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_LOCAL_CODEX_23WAVE_OK","reason":("" if "$status"=="PASS" else ("timeout" if $rc==124 else ("tool_surface_violation" if $rc==0 else "marker_or_exit_failure"))}))
