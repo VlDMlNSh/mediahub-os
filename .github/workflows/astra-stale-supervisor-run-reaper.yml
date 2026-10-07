@@ -96,3 +96,5 @@ jobs:
           PY
 
 # Reaper trigger: clear stale supervisor target after executor qualification hardening.
+
+# Trigger reaper after Codex model qualification change.
