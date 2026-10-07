@@ -76,7 +76,11 @@ jobs:
                   text=True,capture_output=True,check=False,
               )
               if p.returncode:
-                  print(p.stderr[-4000:],file=sys.stderr)
+                  stderr = p.stderr[-4000:]
+                  if "HTTP 409" in stderr or "Cannot cancel a workflow run that is completed" in stderr:
+                      print(f"cancel_request=NOOP run={run_id} reason=already_completed")
+                      continue
+                  print(stderr,file=sys.stderr)
                   raise SystemExit(f"cancel_request_failed:{run_id}")
               print(f"cancel_request=PASS run={run_id}")
           print(f"current_sha={current}")
