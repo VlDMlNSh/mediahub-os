@@ -52,6 +52,6 @@ security:
   quota_bypass: false
   main_branch_direct_write: false
 concurrency:
-  max_parallel_claims: 2
+  max_parallel_claims: 3
   permanent_executor_lanes: 3
   shared_surfaces_serialized: true
