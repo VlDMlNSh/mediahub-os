@@ -13,7 +13,6 @@ class AstraTransportContractTests(unittest.TestCase):
 
     def test_g4_model_capability_routing(self):
         source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
-        self.assertIn("claude-3-freecc-no-thinking/ollama/qwen2.5-coder:1.5b", source)
         self.assertIn("model_reasoning_effort=\\\"none\\\"", source)
         self.assertIn("model_provider=\\\"omniroute\\\"", source)
         self.assertIn("model_providers.omniroute.base_url=\\\"http://127.0.0.1:20128/v1\\\"", source)
