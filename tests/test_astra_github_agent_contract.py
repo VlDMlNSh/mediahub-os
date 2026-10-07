@@ -5,6 +5,11 @@ import astra_github_agent as agent
 from ops.control import sign_command
 
 
+    def test_g4_direct_claude_uses_isolated_fcc_transport(self):
+        self.assertIn("direct_claude_env", self.source)
+        self.assertIn("ANTHROPIC_BASE_URL", self.source)
+        self.assertIn("ANTHROPIC_AUTH_TOKEN", self.source)
+        self.assertIn("native-claude-cli-over-fcc-http", self.source)
 class AstraTransportContractTests(unittest.TestCase):
     def test_signer_requires_exact_schema_version(self):
         command = {
