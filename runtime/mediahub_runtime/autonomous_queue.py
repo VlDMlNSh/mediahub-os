@@ -505,14 +505,19 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
         remote_sha = str(remote.get("remote_head", ""))
         if not re.fullmatch(r"[0-9a-f]{40}", head_sha):
             raise RuntimeError("remote_head_sha_invalid")
-        if remote.get("push_verification", {}).get("status") != "PASS":
-            raise RuntimeError("remote_push_verification_not_PASS")
-        if remote_sha != head_sha:
-            raise RuntimeError("remote_push_sha_mismatch")
-        branch_probe = run(["git", "ls-remote", "origin", f"refs/heads/{branch}"], 60)
-        actual_remote = branch_probe.stdout.split()[0] if branch_probe.returncode == 0 and branch_probe.stdout.split() else ""
-        if actual_remote != head_sha:
-            raise RuntimeError("controller_remote_branch_sha_mismatch")
+        push_status = remote.get("push_verification", {}).get("status")
+        if push_status == "NOT_REQUIRED" and bool(task.get("allow_no_changes", False)):
+            if head_sha != expected_base_sha:
+                raise RuntimeError("remote_nochange_sha_mismatch")
+        else:
+            if push_status != "PASS":
+                raise RuntimeError("remote_push_verification_not_PASS")
+            if remote_sha != head_sha:
+                raise RuntimeError("remote_push_sha_mismatch")
+            branch_probe = run(["git", "ls-remote", "origin", f"refs/heads/{branch}"], 60)
+            actual_remote = branch_probe.stdout.split()[0] if branch_probe.returncode == 0 and branch_probe.stdout.split() else ""
+            if actual_remote != head_sha:
+                raise RuntimeError("controller_remote_branch_sha_mismatch")
         record.update(remote)
         record["status"] = "VERIFIED"
         record["elapsed_seconds"] = round(time.time() - started, 3)
