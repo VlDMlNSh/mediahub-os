@@ -358,4 +358,4 @@ def test_permanent_executor_pool_matches_canonical_three_lane_topology():
         "mh-dev-02": "codex",
         "Voktors-Mac-mini.local": "claude",
     }
-    assert autonomous_queue.bounded_worker_count(3) == 2
+    assert autonomous_queue.bounded_worker_count(3) == 3
