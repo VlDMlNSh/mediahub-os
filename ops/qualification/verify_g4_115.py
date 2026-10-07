@@ -69,8 +69,13 @@ def verify(evidence: dict, contract: dict, expected_sha: str | None = None) -> d
             blocked.append(f"round_{index}_marker_missing")
         if item.get("verification_status") != "PASS":
             blocked.append(f"round_{index}_verification_not_PASS")
-        if not str(item.get("evidence_digest", "")).startswith("sha256:"):
+        item_digest = item.get("evidence_digest")
+        if not isinstance(item_digest, str) or not item_digest.startswith("sha256:"):
             blocked.append(f"round_{index}_digest_invalid")
+        else:
+            unsigned = {k: v for k, v in item.items() if k != "evidence_digest"}
+            if item_digest != digest(unsigned):
+                blocked.append(f"round_{index}_digest_mismatch")
 
     for path, count in counts.items():
         if count != contract["rounds_per_path"]:
@@ -79,6 +84,10 @@ def verify(evidence: dict, contract: dict, expected_sha: str | None = None) -> d
     expected_digest = evidence.get("evidence_digest")
     if not isinstance(expected_digest, str) or not expected_digest.startswith("sha256:"):
         blocked.append("evidence_digest_invalid")
+    else:
+        unsigned_evidence = {k: v for k, v in evidence.items() if k != "evidence_digest"}
+        if expected_digest != digest(unsigned_evidence):
+            blocked.append("evidence_digest_mismatch")
 
     return {
         "schema": "mediahub.astra-gold.g4-115-verification.v1",
