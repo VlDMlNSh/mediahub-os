@@ -98,7 +98,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mh25-codex-local-23wave-${{ github.sha }}
-          path: codex-23wave.jsonl
+          path: |
+            codex-23wave.jsonl
+            codex-round-*.stdout.txt
+            codex-round-*.last.txt
           if-no-files-found: error
 
   claude-local:
