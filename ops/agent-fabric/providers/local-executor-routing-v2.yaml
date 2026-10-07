@@ -51,7 +51,7 @@ routing:
     - isolated_workspace
     - independent_a3_verification
   concurrency:
-    max_parallel: 2
+    max_parallel: 3
     require_disjoint_claims: true
     shared_surfaces: serialized
 
