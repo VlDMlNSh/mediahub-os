@@ -14,8 +14,8 @@ class AstraTransportContractTests(unittest.TestCase):
     def test_g4_model_capability_routing(self):
         source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
         self.assertIn('model_reasoning_effort=none', source)
-        self.assertIn("model_provider=\\\"omniroute\\\"", source)
-        self.assertIn("model_providers.omniroute.base_url=\\\"http://127.0.0.1:20128/v1\\\"", source)
+        self.assertIn('model_provider="omniroute"', source)
+        self.assertIn('model_providers.omniroute.base_url="http://127.0.0.1:20128/v1"', source)
         self.assertIn("model_providers.omniroute.requires_openai_auth=false", source)
         self.assertIn('fcc_env["ENABLE_MODEL_THINKING"] = "false"', source)
     def test_g4_has_no_inner_tempfile_import_that_shadows_module_scope(self):
