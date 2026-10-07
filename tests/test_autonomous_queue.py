@@ -283,6 +283,13 @@ def test_task_id_cannot_escape_queue_state(monkeypatch, tmp_path: Path):
             raise AssertionError("unsafe task id must be rejected")
 
 
+def test_queue_finalization_errors_cannot_remain_verified():
+    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
+    assert 'record["status"] = "BLOCKED"' in source
+    assert '"ClaimReleaseError:" + repr(exc)' in source
+    assert '"WorktreeCleanupError:cleanup_failed"' in source
+
+
 def test_remote_worker_persistence_path_is_created_before_verified_state():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert '(STATE / "completed").mkdir(parents=True, exist_ok=True)' in source
