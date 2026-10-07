@@ -258,3 +258,5 @@ jobs:
           name: mh25-dual-local-23wave-${{ github.sha }}
           path: dual-local-qualification.txt
           if-no-files-found: error
+
+# Canonical 1.5b Codex qualification retrigger after stale-run fencing repair.
