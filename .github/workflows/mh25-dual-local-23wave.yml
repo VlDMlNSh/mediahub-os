@@ -45,17 +45,17 @@ jobs:
           grep -Fx MEDIAHUB_OLLAMA_PREFLIGHT_OK /tmp/astra-ollama-preflight.out >/dev/null
           codex_home="$(mktemp -d "$RUNNER_TEMP/astra-codex-config.XXXXXX")"
           cat >"$codex_home/config.toml" <<'TOML'
-model_provider = "ollama"
-model = "qwen2.5-coder:3b"
-approval_policy = "never"
-web_search = "disabled"
-[features]
-multi_agent = false
-multi_agent_v2 = false
-apps = false
-tool_search = false
-plugins = false
-TOML
+          model_provider = "ollama"
+          model = "qwen2.5-coder:3b"
+          approval_policy = "never"
+          web_search = "disabled"
+          [features]
+          multi_agent = false
+          multi_agent_v2 = false
+          apps = false
+          tool_search = false
+          plugins = false
+          TOML
           export CODEX_HOME="$codex_home"
           cleanup_codex() { rm -rf "$codex_home"; }
           trap cleanup_codex EXIT
