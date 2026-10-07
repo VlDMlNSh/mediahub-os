@@ -114,7 +114,7 @@ jobs:
           export PATH="$HOME/.local/bin:$HOME/.local/npm/bin:$PATH"
           command -v claude
           command -v ollama
-          command -v fcc-server
+          test -x "/Users/voktor/Library/Application Support/pipx/venvs/free-claude-code/bin/fcc-server"
       - name: 23 real Claude rounds
         shell: bash
         run: |
@@ -129,7 +129,7 @@ jobs:
           export HOST="$host" PORT="$port" MODEL="ollama/$model"
           export ENABLE_MODEL_THINKING=false ENABLE_OPUS_THINKING=false ENABLE_SONNET_THINKING=false ENABLE_HAIKU_THINKING=false
           export CLAUDE_CODE_DISABLE_THINKING=1 MAX_THINKING_TOKENS=0
-          nohup fcc-server --host "$host" --port "$port" >/tmp/astra-fcc-23wave.log 2>&1 &
+          nohup "/Users/voktor/Library/Application Support/pipx/venvs/free-claude-code/bin/fcc-server" --host "$host" --port "$port" >/tmp/astra-fcc-23wave.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for _ in $(seq 1 30); do
