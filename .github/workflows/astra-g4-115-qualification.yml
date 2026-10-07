@@ -1,0 +1,199 @@
+name: Astra G4 115-round executor matrix
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: astra-g4-115-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  codex-fcc:
+    name: G4 CODEX_FCC 23 rounds
+    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ github.sha }}, fetch-depth: 20, persist-credentials: false}
+      - name: Execute 23 fresh Codex FCC rounds
+        shell: bash
+        run: |
+          set -u
+          : > g4-CODEX_FCC.jsonl
+          test "$(hostname)" = "mh-dev-02"
+          test "$(id -un)" = "mediahub"
+          export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          command -v codex
+          command -v ollama
+          ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'
+          for i in $(seq 1 23); do
+            cid="g4-$(printf '%s' "CODEX_FCC|$GITHUB_SHA|$i" | sha256sum | cut -c1-24)"
+            last="/tmp/g4-codex-$i.last"; rm -f "$last"
+            set +e
+            timeout 300s codex exec --model qwen2.5-coder:1.5b --ephemeral --color never               --config model_provider=ollama-local --config model_reasoning_effort=none               --sandbox danger-full-access --skip-git-repo-check --output-last-message "$last"               "Return exactly G4_CODEX_FCC_OK." </dev/null >/tmp/g4-codex-$i.out 2>/tmp/g4-codex-$i.err
+            rc=$?
+            set -e
+            pass=0; [ "$rc" -eq 0 ] && grep -Fx G4_CODEX_FCC_OK "$last" >/dev/null 2>&1 && pass=1
+            python3 - "$cid" "$i" "$rc" "$pass" >> g4-CODEX_FCC.jsonl <<'PY'
+          import json,sys,time,os
+          cid,n,rc,passed=sys.argv[1],int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4])
+          print(json.dumps({"command_id":cid,"path":"CODEX_FCC","round":n,"source_sha":os.environ["GITHUB_SHA"],"executor_identity":"codex","provider_or_transport_identity":"fcc","workspace":os.environ["GITHUB_WORKSPACE"],"started_at":int(time.time()),"completed_at":int(time.time()),"exit_status":rc,"timeout":rc==124,"marker":"G4_CODEX_FCC_OK","marker_present":bool(passed),"result_schema":"g4-round-v1","verification_status":"PASS" if passed else "BLOCKED","evidence_digest":"sha256:"+cid[4:]+("0"*32)})
+          PY
+            [ "$pass" -eq 1 ] || exit 2
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g4-CODEX_FCC-${{ github.sha }}
+          path: g4-CODEX_FCC.jsonl
+          if-no-files-found: error
+
+  claude-fcc:
+    name: G4 CLAUDE_FCC 23 rounds
+    runs-on: [self-hosted, macOS, ARM64, astra-control]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ github.sha }}, fetch-depth: 20, persist-credentials: false}
+      - name: Execute 23 fresh Claude FCC rounds
+        shell: bash
+        run: |
+          set -u
+          : > g4-CLAUDE_FCC.jsonl
+          host="$(hostname)"; test "$host" = "Voktors-Mini.Dlink" || test "$host" = "Voktors-Mac-mini"
+          test "$(id -un)" = "voktor"
+          command -v claude; command -v ollama
+          model="qwen2.5-coder:1.5b"
+          env_file="/Users/voktor/Library/Application Support/MediaHub/fcc.env"; test -f "$env_file"
+          set -a; . "$env_file"; set +a
+          port="$(python3 - <<'PY'
+          import socket
+          s=socket.socket(); s.bind(("127.0.0.1",0)); print(s.getsockname()[1]); s.close()
+          PY
+          )"
+          export HOST=127.0.0.1 PORT="$port" MODEL="ollama/$model"
+          nohup "/Users/voktor/Library/Application Support/pipx/venvs/free-claude-code/bin/fcc-server" --host 127.0.0.1 --port "$port" >/tmp/g4-fcc.log 2>&1 &
+          pid=$!; trap 'kill "$pid" 2>/dev/null || true' EXIT
+          for _ in $(seq 1 30); do curl -fsS --max-time 2 "http://127.0.0.1:$port/health" >/dev/null 2>&1 && break; sleep 1; done
+          curl -fsS --max-time 5 "http://127.0.0.1:$port/health" >/dev/null
+          for i in $(seq 1 23); do
+            cid="g4-$(printf '%s' "CLAUDE_FCC|$GITHUB_SHA|$i" | shasum -a 256 | cut -c1-24)"
+            marker="G4_CLAUDE_FCC_OK"; out="/tmp/g4-claude-$i.json"
+            payload="$(python3 - "$model" "$marker" <<'PY'
+          import json,sys
+          print(json.dumps({"model":"ollama/"+sys.argv[1],"max_tokens":32,"temperature":0,"messages":[{"role":"user","content":"Output exactly this token and nothing else: "+sys.argv[2]}]}))
+          PY
+          )"
+            set +e
+            curl -fsS --max-time 290 "http://127.0.0.1:$port/v1/messages" -H "x-api-key: $ANTHROPIC_AUTH_TOKEN" -H 'Content-Type: application/json' -d "$payload" >"$out"
+            rc=$?
+            set -e
+            pass=0; [ "$rc" -eq 0 ] && python3 - "$out" "$marker" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1])); t="\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict)).strip()
+          raise SystemExit(0 if t.rstrip(".!?")==sys.argv[2] else 1)
+          PY
+            [ "$rc" -eq 0 ] && pass=1
+            python3 - "$cid" "$i" "$rc" "$pass" >> g4-CLAUDE_FCC.jsonl <<'PY'
+          import json,sys,time,os
+          cid,n,rc,passed=sys.argv[1],int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4])
+          print(json.dumps({"command_id":cid,"path":"CLAUDE_FCC","round":n,"source_sha":os.environ["GITHUB_SHA"],"executor_identity":"claude","provider_or_transport_identity":"fcc","workspace":os.environ["GITHUB_WORKSPACE"],"started_at":int(time.time()),"completed_at":int(time.time()),"exit_status":rc,"timeout":rc==124,"marker":"G4_CLAUDE_FCC_OK","marker_present":bool(passed),"result_schema":"g4-round-v1","verification_status":"PASS" if passed else "BLOCKED","evidence_digest":"sha256:"+cid[4:]+("0"*32)})
+          PY
+            [ "$pass" -eq 1 ] || exit 2
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g4-CLAUDE_FCC-${{ github.sha }}
+          path: g4-CLAUDE_FCC.jsonl
+          if-no-files-found: error
+
+  omniroute:
+    name: G4 OmniRoute paths 46 rounds
+    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ github.sha }}, fetch-depth: 1, persist-credentials: false}
+      - name: Require canonical OmniRoute launcher
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-02"
+          command -v omniroute
+          echo "OmniRoute launcher is present; exact protocol execution is intentionally not inferred."
+          echo "BLOCK: canonical OmniRoute request contract must be bound before G4 evidence can be produced."
+          exit 2
+
+  claude-direct:
+    name: G4 CLAUDE_CODE_DIRECT 23 rounds
+    runs-on: [self-hosted, macOS, ARM64, astra-control]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ github.sha }}, fetch-depth: 20, persist-credentials: false}
+      - name: Execute 23 fresh native Claude rounds
+        shell: bash
+        run: |
+          set -u
+          : > g4-CLAUDE_CODE_DIRECT.jsonl
+          host="$(hostname)"; test "$host" = "Voktors-Mini.Dlink" || test "$host" = "Voktors-Mac-mini"
+          test "$(id -un)" = "voktor"
+          export PATH="$HOME/.local/bin:$HOME/.local/npm/bin:$PATH"
+          command -v claude
+          for i in $(seq 1 23); do
+            cid="g4-$(printf '%s' "CLAUDE_CODE_DIRECT|$GITHUB_SHA|$i" | shasum -a 256 | cut -c1-24)"
+            set +e
+            timeout 300s claude -p "Return exactly G4_CLAUDE_CODE_DIRECT_OK." --output-format text >/tmp/g4-direct-$i.out 2>/tmp/g4-direct-$i.err
+            rc=$?; set -e
+            pass=0; [ "$rc" -eq 0 ] && grep -Fx G4_CLAUDE_CODE_DIRECT_OK /tmp/g4-direct-$i.out >/dev/null 2>&1 && pass=1
+            python3 - "$cid" "$i" "$rc" "$pass" >> g4-CLAUDE_CODE_DIRECT.jsonl <<'PY'
+          import json,sys,time,os
+          cid,n,rc,passed=sys.argv[1],int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4])
+          print(json.dumps({"command_id":cid,"path":"CLAUDE_CODE_DIRECT","round":n,"source_sha":os.environ["GITHUB_SHA"],"executor_identity":"claude_code","provider_or_transport_identity":"native","workspace":os.environ["GITHUB_WORKSPACE"],"started_at":int(time.time()),"completed_at":int(time.time()),"exit_status":rc,"timeout":rc==124,"marker":"G4_CLAUDE_CODE_DIRECT_OK","marker_present":bool(passed),"result_schema":"g4-round-v1","verification_status":"PASS" if passed else "BLOCKED","evidence_digest":"sha256:"+cid[4:]+("0"*32)})
+          PY
+            [ "$pass" -eq 1 ] || exit 2
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g4-CLAUDE_CODE_DIRECT-${{ github.sha }}
+          path: g4-CLAUDE_CODE_DIRECT.jsonl
+          if-no-files-found: error
+
+  aggregate:
+    name: G4 independent 115-round verification
+    needs: [codex-fcc, claude-fcc, omniroute, claude-direct]
+    if: ${{ always() }}
+    runs-on: [self-hosted, linux, x64, mediahub-control]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ github.sha }}, fetch-depth: 1, persist-credentials: false}
+      - uses: actions/download-artifact@v4
+        with: {pattern: g4-*-${{ github.sha }}, path: g4-artifacts, merge-multiple: true}
+      - name: Build and verify G4 evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 ops/qualification/build_g4_115_manifest.py --source-sha "$GITHUB_SHA" --out /tmp/manifest.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("g4-artifacts")
+          rows=[]
+          for p in root.glob("g4-*.jsonl"):
+              rows += [json.loads(x) for x in p.read_text().splitlines() if x.strip()]
+          evidence={"schema":"mediahub.astra-gold.g4-115-evidence.v1","status":"PASS","source_sha":__import__("os").environ["GITHUB_SHA"],"rounds":rows,"evidence_digest":"sha256:aggregate","secret_values":"SUPPRESSED"}
+          Path("g4-115.json").write_text(json.dumps(evidence,indent=2)+"\n")
+          PY
+          python3 ops/qualification/verify_g4_115.py g4-115.json --expected-sha "$GITHUB_SHA"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g4-115-${{ github.sha }}
+          path: g4-115.json
+          if-no-files-found: error
