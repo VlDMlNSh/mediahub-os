@@ -24,6 +24,8 @@ jobs:
   admission:
     if: ${{ inputs.confirm_qualification == true }}
     runs-on: ubuntu-latest
+    env:
+      ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,7 +36,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "${GITHUB_SHA}" = "${{ inputs.target_sha }}"
+          test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
           test -f control/qualification/g4-115.json
           test -f ops/qualification/verify_g4_115.py
           python3 - <<'PY'
@@ -83,7 +85,7 @@ jobs:
             python3 - "$cid" "$i" "$marker" "$rc" "$start" "$end" "$out" >> g4-CODEX_FCC.jsonl <<'PY'
           import hashlib,json,os,sys
           cid,n,marker,rc,start,end,out=sys.argv[1:]
-          item={"command_id":cid,"path":"CODEX_FCC","round":int(n),"source_sha":os.environ["GITHUB_SHA"],"executor_identity":"codex","provider_or_transport_identity":"fcc","workspace":os.getcwd(),"started_at":int(start),"completed_at":int(end),"exit_status":int(rc),"timeout":int(rc)==124,"marker":marker,"marker_present":marker in open(out,encoding="utf-8",errors="replace").read(),"result_schema":"g4-round-v1","verification_status":"PASS" if int(rc)==0 and marker in open(out,encoding="utf-8",errors="replace").read() else "BLOCKED"}
+          item={"command_id":cid,"path":"CODEX_FCC","round":int(n),"source_sha":os.environ["ASTRA_TARGET_SHA"],"executor_identity":"codex","provider_or_transport_identity":"fcc","workspace":os.getcwd(),"started_at":int(start),"completed_at":int(end),"exit_status":int(rc),"timeout":int(rc)==124,"marker":marker,"marker_present":marker in open(out,encoding="utf-8",errors="replace").read(),"result_schema":"g4-round-v1","verification_status":"PASS" if int(rc)==0 and marker in open(out,encoding="utf-8",errors="replace").read() else "BLOCKED"}
           item["evidence_digest"]="sha256:"+hashlib.sha256(json.dumps(item,sort_keys=True,separators=(",",":")).encode()).hexdigest()
           print(json.dumps(item,sort_keys=True))
           PY
@@ -132,7 +134,7 @@ jobs:
           import hashlib,json,os,sys
           cid,n,marker,rc,start,end,out=sys.argv[1:]
           text=open(out,encoding="utf-8",errors="replace").read()
-          item={"command_id":cid,"path":"CLAUDE_FCC","round":int(n),"source_sha":os.environ["GITHUB_SHA"],"executor_identity":"claude","provider_or_transport_identity":"fcc","workspace":os.getcwd(),"started_at":int(start),"completed_at":int(end),"exit_status":int(rc),"timeout":int(rc)==124,"marker":marker,"marker_present":marker in text,"result_schema":"g4-round-v1","verification_status":"PASS" if int(rc)==0 and marker in text else "BLOCKED"}
+          item={"command_id":cid,"path":"CLAUDE_FCC","round":int(n),"source_sha":os.environ["ASTRA_TARGET_SHA"],"executor_identity":"claude","provider_or_transport_identity":"fcc","workspace":os.getcwd(),"started_at":int(start),"completed_at":int(end),"exit_status":int(rc),"timeout":int(rc)==124,"marker":marker,"marker_present":marker in text,"result_schema":"g4-round-v1","verification_status":"PASS" if int(rc)==0 and marker in text else "BLOCKED"}
           item["evidence_digest"]="sha256:"+hashlib.sha256(json.dumps(item,sort_keys=True,separators=(",",":")).encode()).hexdigest()
           print(json.dumps(item,sort_keys=True))
           PY
