@@ -4,13 +4,14 @@ from unittest.mock import patch
 import astra_github_agent as agent
 from ops.control import sign_command
 
-
-    def test_g4_direct_claude_uses_isolated_fcc_transport(self):
-        self.assertIn("direct_claude_env", self.source)
-        self.assertIn("ANTHROPIC_BASE_URL", self.source)
-        self.assertIn("ANTHROPIC_AUTH_TOKEN", self.source)
-        self.assertIn("native-claude-cli-over-fcc-http", self.source)
 class AstraTransportContractTests(unittest.TestCase):
+    def test_g4_direct_claude_uses_isolated_fcc_transport(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        self.assertIn("direct_claude_env", source)
+        self.assertIn("ANTHROPIC_BASE_URL", source)
+        self.assertIn("ANTHROPIC_AUTH_TOKEN", source)
+        self.assertIn("native-claude-cli-over-fcc-http", source)
+        self.assertNotIn('"--bare"', source)
     def test_signer_requires_exact_schema_version(self):
         command = {
             "schema_version": "wrong",
