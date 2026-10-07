@@ -41,7 +41,7 @@ jobs:
           allowed={
               ".github/workflows/astra-autonomous-supervisor.yml",
               ".github/workflows/astra-local-claude-qualification.yml",
-              ".github/workflows/mh25-dual-local-executor-23wave.yml",
+              ".github/workflows/mh25-dual-local-23wave.yml",
               ".github/workflows/astra-distributed-local-worker.yml",
           }
           if not current:
