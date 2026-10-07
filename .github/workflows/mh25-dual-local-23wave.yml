@@ -12,7 +12,7 @@ permissions:
   contents: read
 concurrency:
   group: mh25-dual-local-23wave
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   codex-local:
@@ -97,6 +97,8 @@ jobs:
           host="127.0.0.1"
           port="$((18000 + GITHUB_RUN_ID % 1000))"
           export HOST="$host" PORT="$port" MODEL="ollama/$model"
+          export ENABLE_MODEL_THINKING=false ENABLE_OPUS_THINKING=false ENABLE_SONNET_THINKING=false ENABLE_HAIKU_THINKING=false
+          export CLAUDE_CODE_DISABLE_THINKING=1 MAX_THINKING_TOKENS=0
           nohup setsid fcc-server --host "$host" --port "$port" >/tmp/astra-fcc-23wave.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
@@ -115,7 +117,7 @@ jobs:
           PY
           )
             out="/tmp/astra-claude-$i.json"
-            timeout 180s curl -fsS --max-time 175 "http://$host:$port/v1/messages" \
+            timeout 300s curl -fsS --max-time 290 "http://$host:$port/v1/messages" \
               -H "x-api-key: $ANTHROPIC_AUTH_TOKEN" -H 'Content-Type: application/json' \
               -d "$payload" >"$out"
             rc=$?
@@ -155,10 +157,24 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 1
           persist-credentials: false
-      - name: Verify both executor jobs passed
+      - name: Download Codex evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: mh25-codex-local-23wave-${{ github.sha }}
+          path: evidence/codex
+      - name: Download Claude evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: mh25-claude-local-23wave-${{ github.sha }}
+          path: evidence/claude
+      - name: Independently verify both executor evidence
         shell: bash
         run: |
           set -euo pipefail
+          python3 ops/qualification/verify_dual_local_23wave.py \
+            --codex evidence/codex/codex-23wave.jsonl \
+            --claude evidence/claude/claude-23wave.jsonl \
+            --expected-sha "$GITHUB_SHA"
           printf '%s\n' "CODEX_LOCAL=PASS" "CLAUDE_LOCAL=PASS" > dual-local-qualification.txt
           printf '%s\n' "target_sha=$GITHUB_SHA" >> dual-local-qualification.txt
       - name: Upload aggregate evidence
