@@ -3,7 +3,7 @@
 import argparse, hashlib, json
 from pathlib import Path
 
-PATHS = ["fcc_codex","fcc_claude","omni_claude","omni_codex","claude_code_direct"]
+PATHS = ["CODEX_FCC","CLAUDE_FCC","CLAUDE_OMNIROUTE","CODEX_OMNIROUTE","CLAUDE_CODE_DIRECT"]
 
 def digest(value):
     raw=json.dumps(value,sort_keys=True,separators=(",",":")).encode()
@@ -21,7 +21,7 @@ def main():
     if raw.get("status")!="PASS": blocked.append("executor_result_not_PASS")
     if len(rounds)!=115: blocked.append(f"round_count={len(rounds)}_expected=115")
     for path in PATHS:
-        count=sum(1 for x in rounds if x.get("path")==path.upper())
+        count=sum(1 for x in rounds if x.get("path")==path)
         if count!=23: blocked.append(f"{path}_round_count={count}_expected=23")
     for i,x in enumerate(rounds,1):
         if x.get("source_sha")!=a.expected_sha: blocked.append(f"round_{i}_source_sha_mismatch")
