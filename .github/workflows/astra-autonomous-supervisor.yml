@@ -299,3 +299,5 @@ jobs:
 
 
 # Distributed local executor parallel-wave trigger: 2026-10-06
+
+# Fresh autonomous supervisor trigger after G4 fail-closed hardening and Codex model qualification review.
