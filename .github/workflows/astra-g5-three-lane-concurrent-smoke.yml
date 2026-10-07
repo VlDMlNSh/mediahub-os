@@ -26,10 +26,29 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
+          env_file="$HOME/.config/mediahub/fcc.env"
+          test -f "$env_file"
+          set -a; . "$env_file"; set +a
           command -v claude
           ollama show qwen2.5-coder:1.5b >/dev/null
           test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
-          claude -p 'Return exactly G5_MH1_CLAUDE_OK.' --output-format text --max-turns 1 2>&1 | tee /tmp/g5-mh1.log
+          host="${HOST:-127.0.0.1}"; port="${PORT:-8093}"
+          export MODEL="ollama/qwen2.5-coder:1.5b"
+          if ! curl -fsS --max-time 3 "http://${host}:${port}/health" >/dev/null 2>&1; then
+            nohup fcc-server --host "$host" --port "$port" >/tmp/astra-g5-mh1-fcc.log 2>&1 &
+            for _ in $(seq 1 20); do
+              curl -fsS --max-time 2 "http://${host}:${port}/health" >/dev/null 2>&1 && break
+              sleep 1
+            done
+          fi
+          curl -fsS --max-time 5 "http://${host}:${port}/health" >/dev/null
+          export ANTHROPIC_BASE_URL="http://${host}:${port}"
+          export ANTHROPIC_AUTH_TOKEN="${ANTHROPIC_AUTH_TOKEN:?fcc auth token missing}"
+          export ANTHROPIC_API_KEY="$ANTHROPIC_AUTH_TOKEN"
+          export ASTRA_FCC_TRANSPORT=fcc
+          export ASTRA_FCC_MODEL="$MODEL"
+          export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+          claude -p 'Return exactly G5_MH1_CLAUDE_OK.' --output-format text --max-turns 1 < /dev/null 2>&1 | tee /tmp/g5-mh1.log
           grep -F G5_MH1_CLAUDE_OK /tmp/g5-mh1.log
           echo status=PASS >> "$GITHUB_OUTPUT"
 
@@ -70,20 +89,39 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          host=$(hostname)
-          test "$host" = Voktors-Mini.Dlink || test "$host" = Voktors-Mac-mini
+          host_name=$(hostname)
+          test "$host_name" = Voktors-Mini.Dlink || test "$host_name" = Voktors-Mac-mini
           test "$(id -un)" = voktor
+          env_file="$HOME/Library/Application Support/MediaHub/fcc.env"
+          test -f "$env_file"
+          set -a; . "$env_file"; set +a
           command -v claude
           ollama show qwen2.5-coder:1.5b >/dev/null
           test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
-          claude -p 'Return exactly G5_MAC_CLAUDE_OK.' --output-format text --max-turns 1 2>&1 | tee /tmp/g5-mac.log
+          host="${HOST:-127.0.0.1}"; port="${PORT:-8093}"
+          export MODEL="ollama/qwen2.5-coder:1.5b"
+          if ! curl -fsS --max-time 3 "http://${host}:${port}/health" >/dev/null 2>&1; then
+            nohup fcc-server --host "$host" --port "$port" >/tmp/astra-g5-mac-fcc.log 2>&1 &
+            for _ in $(seq 1 20); do
+              curl -fsS --max-time 2 "http://${host}:${port}/health" >/dev/null 2>&1 && break
+              sleep 1
+            done
+          fi
+          curl -fsS --max-time 5 "http://${host}:${port}/health" >/dev/null
+          export ANTHROPIC_BASE_URL="http://${host}:${port}"
+          export ANTHROPIC_AUTH_TOKEN="${ANTHROPIC_AUTH_TOKEN:?fcc auth token missing}"
+          export ANTHROPIC_API_KEY="$ANTHROPIC_AUTH_TOKEN"
+          export ASTRA_FCC_TRANSPORT=fcc
+          export ASTRA_FCC_MODEL="$MODEL"
+          export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+          claude -p 'Return exactly G5_MAC_CLAUDE_OK.' --output-format text --max-turns 1 < /dev/null 2>&1 | tee /tmp/g5-mac.log
           grep -F G5_MAC_CLAUDE_OK /tmp/g5-mac.log
           echo status=PASS >> "$GITHUB_OUTPUT"
 
   aggregate:
     needs: [mh1, mh2, mac]
     if: ${{ always() }}
-    runs-on: [self-hosted, linux, x64, mediahub-control]
+    runs-on: ubuntu-latest
     steps:
       - shell: bash
         env:
