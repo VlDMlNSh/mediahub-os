@@ -61,13 +61,8 @@ jobs:
           export CODEX_HOME="$codex_home"
           cleanup_codex() { rm -rf "$codex_home"; }
           trap cleanup_codex EXIT
-          preflight="/tmp/astra-codex-preflight.out"
-          timeout 180s codex exec --oss --local-provider ollama --model qwen2.5-coder:3b --ephemeral --color never \
-            --config model_reasoning_effort=none --sandbox danger-full-access \
-            --disable browser_use --disable browser_use_external --disable computer_use --disable apps --disable plugins --disable multi_agent --disable multi_agent_v2 \
-            --output-last-message "$HOME/.cache/mediahub/astra-g4-codex-preflight-${GITHUB_RUN_ID}.txt" --skip-git-repo-check \
-            "Return exactly MEDIAHUB_CODEX_PREFLIGHT_OK." </dev/null >"$preflight" 2>&1
-          grep -Fx MEDIAHUB_CODEX_PREFLIGHT_OK "$HOME/.cache/mediahub/astra-g4-codex-preflight-${GITHUB_RUN_ID}.txt" >/dev/null || grep -Fx MEDIAHUB_CODEX_PREFLIGHT_OK "$preflight" >/dev/null
+          # The first real wave is the Codex CLI preflight: no duplicate
+          # 180s CLI invocation before evidence-producing waves.
           for i in $(seq 1 23); do
             ts=$(date +%s)
             out="/tmp/astra-codex-$i.out"
