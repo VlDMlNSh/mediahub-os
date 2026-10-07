@@ -23,6 +23,12 @@ TASK_DIR = ROOT / "ops" / "agent-fabric" / "tasks"
 STATE = Path(os.environ.get("ASTRA_QUEUE_STATE_DIR", "/var/lib/mediahub-astra/queue"))
 CLAIMS = STATE / "claims"
 
+# Three permanent executor lanes; Astra Gold still permits at most two active claims.
+PERMANENT_EXECUTOR_POOL = {
+    "mh-dev-01": "claude",
+    "mh-dev-02": "codex",
+    "Voktors-Mac-mini.local": "claude",
+}
 
 CODEX_HOME_ROOT = Path(os.environ.get("ASTRA_CODEX_HOME_ROOT", str(Path.home() / ".cache" / "mediahub" / "astra-codex")))
 
@@ -408,8 +414,16 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
     node_id = str(task.get("node_id", "")).strip()
     executor = str(task.get("executor", "")).strip()
     verifier = str(task.get("verifier", "")).strip()
-    if node_id not in {"mh-dev-02", "Voktors-Mini.Dlink", "Voktors-Mac-mini.local"}:
+    if node_id not in PERMANENT_EXECUTOR_POOL:
         return {"task_id": task_key, "status": "BLOCKED", "error": "unsupported_remote_node"}
+    if executor != PERMANENT_EXECUTOR_POOL[node_id]:
+        return {
+            "task_id": task_key,
+            "status": "BLOCKED",
+            "error": "permanent_executor_binding_mismatch",
+            "expected_executor": PERMANENT_EXECUTOR_POOL[node_id],
+            "executor": executor,
+        }
     if executor not in {"codex", "claude"} or verifier not in {"codex", "claude"} or executor == verifier:
         return {"task_id": task_key, "status": "BLOCKED", "error": "invalid_executor_split"}
     if not os.environ.get("GH_TOKEN") and not os.environ.get("GITHUB_TOKEN"):
@@ -811,6 +825,8 @@ def main() -> int:
         print(json.dumps({
             "status": "PASS" if all_verified else "BLOCKED",
             "workers": len(selected),
+            "executor_pool": PERMANENT_EXECUTOR_POOL,
+            "max_parallel_claims": MAX_WORKERS,
             "mode": "github_remote_local_executor",
             "selected_tasks": [str(t["task_id"]) for t in selected],
             "results": results,
