@@ -39,6 +39,7 @@ jobs:
         run: |
           set -euo pipefail
           export ASTRA_QUEUE_STATE_DIR="$RUNNER_TEMP/mh25-24h-queue-state"
+          export ASTRA_CODEX_SANDBOX_MODE="danger-full-access"
           rm -rf "$ASTRA_QUEUE_STATE_DIR"
           mkdir -p "$ASTRA_QUEUE_STATE_DIR"
           test -w "$ASTRA_QUEUE_STATE_DIR"
