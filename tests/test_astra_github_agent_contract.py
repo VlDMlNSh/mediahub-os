@@ -5,6 +5,12 @@ import astra_github_agent as agent
 from ops.control import sign_command
 
 class AstraTransportContractTests(unittest.TestCase):
+    def test_g4_canonical_path_names_match_verifier_contract(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        self.assertIn('"fcc_codex": ("fcc-codex", "FCC")', source)
+        materializer = agent.Path("ops/qualification/materialize_g4_evidence.py").read_text(encoding="utf-8")
+        self.assertIn('PATHS = ["CODEX_FCC", "CLAUDE_FCC", "CLAUDE_OMNIROUTE", "CODEX_OMNIROUTE", "CLAUDE_CODE_DIRECT"]', materializer)
+
     def test_g4_model_capability_routing(self):
         source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
         self.assertIn("claude-3-freecc-no-thinking/ollama/qwen2.5-coder:1.5b", source)
@@ -12,6 +18,7 @@ class AstraTransportContractTests(unittest.TestCase):
         self.assertIn("model_provider=\\\"omniroute\\\"", source)
         self.assertIn("model_providers.omniroute.base_url=\\\"http://127.0.0.1:20128/v1\\\"", source)
         self.assertIn("model_providers.omniroute.requires_openai_auth=false", source)
+        self.assertIn('fcc_env["ENABLE_MODEL_THINKING"] = "false"', source)
     def test_g4_has_no_inner_tempfile_import_that_shadows_module_scope(self):
         source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
         self.assertNotIn("        import tempfile", source)
