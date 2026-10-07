@@ -1,4 +1,5 @@
 import unittest
+from tempfile import TemporaryDirectory
 from datetime import datetime, timezone, timedelta
 
 from ops.mesh.registry import register_node, record_heartbeat
@@ -49,27 +50,30 @@ class MeshRegistryContractTests(unittest.TestCase):
         self.assertTrue(result.accepted)
 
     def test_record_heartbeat_rejects_retired_node(self):
-        result = record_heartbeat(
-            heartbeat(),
-            datetime.now(timezone.utc),
-            current_status="RETIRED", expected_node_id="mh-test-01", hmac_key="test-key", state_path="/tmp/mediahub-test-seq-retired",
-        )
+        with TemporaryDirectory() as d:
+            result = record_heartbeat(
+                heartbeat(),
+                datetime.now(timezone.utc),
+                current_status="RETIRED", expected_node_id="mh-test-01", hmac_key="test-key", state_path=d,
+            )
         self.assertFalse(result.accepted)
         self.assertEqual(result.reason, "retired node cannot reactivate")
 
     def test_record_heartbeat_rejects_stale_record(self):
         now = datetime.now(timezone.utc)
-        result = record_heartbeat(
-            heartbeat(issued_at=(now - timedelta(seconds=121)).isoformat()),
-            now, expected_node_id="mh-test-01", hmac_key="test-key", state_path="/tmp/mediahub-test-seq-stale",
-        )
+        with TemporaryDirectory() as d:
+            result = record_heartbeat(
+                heartbeat(issued_at=(now - timedelta(seconds=121)).isoformat()),
+                now, expected_node_id="mh-test-01", hmac_key="test-key", state_path=d,
+            )
         self.assertFalse(result.accepted)
         self.assertEqual(result.reason, "heartbeat is stale")
 
     def test_record_heartbeat_accepts_fresh_record(self):
         now = datetime.now(timezone.utc)
-        result = record_heartbeat(heartbeat(issued_at=now.isoformat()), now, expected_node_id="mh-test-01", hmac_key="test-key", state_path="/tmp/mediahub-test-seq-fresh")
-        self.assertTrue(result.accepted)
+        with TemporaryDirectory() as d:
+            result = record_heartbeat(heartbeat(issued_at=now.isoformat()), now, expected_node_id="mh-test-01", hmac_key="test-key", state_path=d)
+            self.assertTrue(result.accepted)
 
 
 class AstraPublishBranchContractTests(unittest.TestCase):
