@@ -609,8 +609,7 @@ def execute(cmd):
                      f"Return exactly {marker_map['omni_claude']}. Do not modify files or use tools.","--output-format","text"],
                     marker_map["omni_claude"],35,env=isolated_env)
                 rec["executors"]["omni_codex"]=probe(
-                    ["omniroute","run","codex","--model",omni_model,"--","exec","--skip-git-repo-check",
-                     "--sandbox","read-only",f"Return exactly {marker_map['omni_codex']}. Do not modify files or use tools."],
+                    ["codex","exec","-c","model_provider=\"omniroute\"","-c",f"model=\"{omni_model}\"","-c","model_providers.omniroute.name=\"OmniRoute\"","-c","model_providers.omniroute.base_url=\"http://127.0.0.1:20128/v1\"","-c","model_providers.omniroute.env_key=\"OMNIROUTE_API_KEY\"","-c","model_providers.omniroute.wire_api=\"responses\"","-c","model_providers.omniroute.requires_openai_auth=false","-c","model_reasoning_effort=\"none\"","--skip-git-repo-check","--sandbox","read-only",f"Return exactly {marker_map['omni_codex']}. Do not modify files or use tools."],
                     marker_map["omni_codex"],35,env=codex_env)
             else:
                 rec["executors"]["omni_claude"]={"status":"BLOCKED","reason":"binary_missing"}
