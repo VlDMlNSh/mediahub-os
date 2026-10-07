@@ -35,21 +35,21 @@ jobs:
           export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
           command -v codex
           command -v ollama
-          ollama list | grep -E '^qwen2.5-coder:3b[[:space:]]'
+          ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'
       - name: 23 real Codex rounds
         shell: bash
         run: |
           set -u
           : > codex-23wave.jsonl
-          ollama show qwen2.5-coder:3b >/dev/null 2>&1
-          timeout 90s ollama run qwen2.5-coder:3b "Return exactly MEDIAHUB_OLLAMA_PREFLIGHT_OK. Do not use tools or network." >/tmp/astra-ollama-preflight.out 2>/tmp/astra-ollama-preflight.err
+          ollama show qwen2.5-coder:1.5b >/dev/null 2>&1
+          timeout 90s ollama run qwen2.5-coder:1.5b "Return exactly MEDIAHUB_OLLAMA_PREFLIGHT_OK. Do not use tools or network." >/tmp/astra-ollama-preflight.out 2>/tmp/astra-ollama-preflight.err
           grep -Fx MEDIAHUB_OLLAMA_PREFLIGHT_OK /tmp/astra-ollama-preflight.out >/dev/null
           codex_home="$HOME/.cache/mediahub/astra-g4-codex-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           rm -rf "$codex_home"
           mkdir -p "$codex_home"
           cat >"$codex_home/config.toml" <<'TOML'
           model_provider = "ollama-local"
-          model = "qwen2.5-coder:3b"
+          model = "qwen2.5-coder:1.5b"
           approval_policy = "never"
           web_search = "disabled"
           model_context_window = 32768
@@ -81,7 +81,7 @@ jobs:
             last="/tmp/astra-codex-$i.last"
             rm -f "$out" "$last"
             set +e
-            timeout 300s codex exec --model qwen2.5-coder:3b --ephemeral --color never \
+            timeout 300s codex exec --model qwen2.5-coder:1.5b --ephemeral --color never \
               --config model_provider=ollama-local --config model_reasoning_effort=none --sandbox danger-full-access \
               --disable browser_use --disable browser_use_external --disable computer_use --disable apps --disable plugins --disable multi_agent --disable multi_agent_v2 \
               --skip-git-repo-check --output-last-message "$last" \
