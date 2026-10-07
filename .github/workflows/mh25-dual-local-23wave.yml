@@ -81,7 +81,7 @@ jobs:
             last="/tmp/astra-codex-$i.last"
             rm -f "$out" "$last"
             set +e
-            timeout 120s codex exec --model qwen2.5-coder:3b --ephemeral --color never \
+            timeout 300s codex exec --model qwen2.5-coder:3b --ephemeral --color never \
               --config model_provider=ollama-local --config model_reasoning_effort=none --sandbox danger-full-access \
               --disable browser_use --disable browser_use_external --disable computer_use --disable apps --disable plugins --disable multi_agent --disable multi_agent_v2 \
               --skip-git-repo-check --output-last-message "$last" \
