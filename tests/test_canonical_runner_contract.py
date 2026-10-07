@@ -23,7 +23,7 @@ class CanonicalRunnerRoutingTests(unittest.TestCase):
             self.assertNotIn("runs-on: [self-hosted, mediahub-runner]", text, workflow.name)
             self.assertNotIn("runs-on: self-hosted", text, workflow.name)
         self.assertGreaterEqual(len(checked), 1)
-    
+
     def test_canonical_contract_exists(self):
         contract = ROOT / "control/qualification/canonical-runner-contract.json"
         self.assertTrue(contract.is_file())
