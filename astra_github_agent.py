@@ -520,6 +520,12 @@ def execute(cmd):
             raise RuntimeError("omniroute_model_binding_missing")
         if not omni_model.startswith("llama-cpp//"):
             raise RuntimeError("omniroute_model_binding_invalid")
+        fcc_host = fcc_env.get("HOST", "127.0.0.1")
+        fcc_port = fcc_env.get("PORT", "8093")
+        direct_claude_env = isolated_env.copy()
+        direct_claude_env["ANTHROPIC_BASE_URL"] = f"http://{fcc_host}:{fcc_port}"
+        if fcc_env.get("ANTHROPIC_AUTH_TOKEN"):
+            direct_claude_env["ANTHROPIC_AUTH_TOKEN"] = fcc_env["ANTHROPIC_AUTH_TOKEN"]
         marker_map = {
             "fcc_codex": "MEDIAHUB_FCC_CODEX_OK",
             "fcc_claude": "MEDIAHUB_FCC_CLAUDE_OK",
@@ -529,7 +535,21 @@ def execute(cmd):
         }
         rounds = []
         evidence_rounds = []
-        probe_env = os.environ.copy()
+        base_env = os.environ.copy()
+        fcc_env = base_env.copy()
+        fcc_file = os.environ.get("ASTRA_FCC_ENV_FILE", "").strip()
+        if fcc_file and Path(fcc_file).is_file():
+            for raw in Path(fcc_file).read_text(encoding="utf-8").splitlines():
+                line = raw.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                key, value = line.split("=", 1)
+                fcc_env[key.strip()] = value.strip()
+        transport_collision_keys = {"HOST", "PORT", "MODEL", "OLLAMA_BASE_URL", "PROXY_AUTH_ENABLED", "ANTHROPIC_AUTH_TOKEN", "FCC_ENV_FILE"}
+        isolated_env = base_env.copy()
+        for key in transport_collision_keys:
+            isolated_env.pop(key, None)
+        isolated_env["OMNIROUTE_CLI_SKIP_REPO_ENV"] = "1"
         probe_home = tempfile.TemporaryDirectory(prefix="astra-g4-codex-home-")
         probe_config = Path(probe_home.name) / "config.toml"
         probe_config.write_text(
@@ -543,11 +563,12 @@ def execute(cmd):
             'plugins = false\n',
             encoding="utf-8",
         )
-        probe_env["CODEX_HOME"] = probe_home.name
-        def probe(argv, marker, timeout=35):
+        codex_env = isolated_env.copy()
+        codex_env["CODEX_HOME"] = probe_home.name
+        def probe(argv, marker, timeout=35, env=None):
             started=time.monotonic()
             try:
-                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,env=probe_env,
+                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,env=(env or isolated_env),
                                  timeout=timeout,check=False)
                 out=(p.stdout or "")[-12000:]
                 err=(p.stderr or "")[-12000:]
@@ -577,27 +598,27 @@ def execute(cmd):
             rec["executors"]["fcc_codex"] = probe(
                 ["fcc-codex","exec","--skip-git-repo-check","--sandbox","read-only",
                  f"Return exactly {marker_map['fcc_codex']}. Do not modify files or use tools."],
-                marker_map["fcc_codex"],30) if shutil.which("fcc-codex") else {"status":"BLOCKED","reason":"binary_missing"}
+                marker_map["fcc_codex"],30,env=fcc_env) if shutil.which("fcc-codex") else {"status":"BLOCKED","reason":"binary_missing"}
             rec["executors"]["fcc_claude"] = probe(
                 ["fcc-claude","-p",f"Return exactly {marker_map['fcc_claude']}. Do not modify files or use tools.",
-                 "--output-format","text"],marker_map["fcc_claude"],30) if shutil.which("fcc-claude") else {"status":"BLOCKED","reason":"binary_missing"}
+                 "--output-format","text"],marker_map["fcc_claude"],30,env=fcc_env) if shutil.which("fcc-claude") else {"status":"BLOCKED","reason":"binary_missing"}
             if shutil.which("omniroute"):
                 rec["executors"]["omni_claude"]=probe(
                     ["omniroute","run","claude","--model",omni_model,"--","-p",
                      f"Return exactly {marker_map['omni_claude']}. Do not modify files or use tools.","--output-format","text"],
-                    marker_map["omni_claude"],35)
+                    marker_map["omni_claude"],35,env=isolated_env)
                 rec["executors"]["omni_codex"]=probe(
                     ["omniroute","run","codex","--model",omni_model,"--","exec","--skip-git-repo-check",
                      "--sandbox","read-only",f"Return exactly {marker_map['omni_codex']}. Do not modify files or use tools."],
-                    marker_map["omni_codex"],35)
+                    marker_map["omni_codex"],35,env=codex_env)
             else:
                 rec["executors"]["omni_claude"]={"status":"BLOCKED","reason":"binary_missing"}
                 rec["executors"]["omni_codex"]={"status":"BLOCKED","reason":"binary_missing"}
             if shutil.which("claude"):
                 rec["executors"]["claude_code_direct"] = probe(
-                    ["claude","--print","--output-format","text","--bare",
+                    ["claude","--print","--output-format","text",
                      f"Return exactly {marker_map['claude_code_direct']}. Do not modify files or use tools."],
-                    marker_map["claude_code_direct"],35)
+                    marker_map["claude_code_direct"],35,env=direct_claude_env)
             else:
                 rec["executors"]["claude_code_direct"]={"status":"BLOCKED","reason":"binary_missing"}
             completed_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
@@ -606,7 +627,7 @@ def execute(cmd):
                 "fcc_claude": ("fcc-claude", "FCC"),
                 "omni_claude": ("omniroute:claude", "OmniRoute"),
                 "omni_codex": ("omniroute:codex", "OmniRoute"),
-                "claude_code_direct": ("claude", "native-claude"),
+                "claude_code_direct": ("claude", "native-claude-cli-over-fcc-http"),
             }
             for path_key, result in rec["executors"].items():
                 executor_identity, transport_identity = path_meta[path_key]
