@@ -651,7 +651,7 @@ def execute(cmd):
                 item["evidence_digest"]="sha256:"+hashlib.sha256(json.dumps(item,sort_keys=True,separators=(",",":")).encode()).hexdigest()
                 evidence_rounds.append(item)
             rounds.append(rec)
-        summary={} 
+        summary={}
         for key in marker_map:
             vals=[r["executors"].get(key,{}) for r in rounds]
             passed=[v for v in vals if v.get("status")=="PASS"]
