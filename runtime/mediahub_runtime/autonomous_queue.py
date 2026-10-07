@@ -175,6 +175,13 @@ def qualified_codex_profile() -> tuple[str, str]:
     return "huggingface", candidates[0]
 
 
+def codex_sandbox_mode() -> str:
+    mode = os.environ.get("ASTRA_CODEX_SANDBOX_MODE", "workspace-write").strip()
+    if mode not in {"workspace-write", "danger-full-access"}:
+        raise RuntimeError("invalid_codex_sandbox_mode")
+    return mode
+
+
 def codex_env_for_qualified_provider() -> tuple[dict[str, str], tempfile.TemporaryDirectory, str, str]:
     local = local_ollama_profile()
     profile, model = local or qualified_codex_profile()
