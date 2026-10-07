@@ -249,7 +249,7 @@ def qualify(provider: dict) -> dict:
         base["reason"] = "credential_absent"
         return base
 
-    key = os.environ[env_name]
+    key = os.environ[env_name] if env_name else str(provider.get("static_bearer", ""))
     for model in provider["models"]:
         if model == "default":
             discovered = discover_default_model(provider, key)
