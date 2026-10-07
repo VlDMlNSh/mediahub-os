@@ -7,7 +7,6 @@ on:
       - ".github/workflows/astra-stale-supervisor-run-reaper.yml"
       - ".github/workflows/astra-autonomous-supervisor.yml"
       - ".github/workflows/astra-local-claude-qualification.yml"
-      - ".github/workflows/mh25-dual-local-executor-23wave.yml"
       - ".github/workflows/astra-distributed-local-worker.yml"
       - "ops/agent-fabric/**"
       - "runtime/mediahub_runtime/autonomous_queue.py"
@@ -30,7 +29,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          CURRENT_SHA: ${{ github.sha }}
+          CURRENT_SHA: ""
         shell: bash
         run: |
           set -euo pipefail
@@ -38,13 +37,22 @@ jobs:
           python3 - <<'PY'
           import json, os, subprocess, sys
           repo=os.environ["GH_REPO"]
-          current=os.environ["CURRENT_SHA"]
+          current=os.environ["CURRENT_SHA"].strip()
           allowed={
               ".github/workflows/astra-autonomous-supervisor.yml",
               ".github/workflows/astra-local-claude-qualification.yml",
               ".github/workflows/mh25-dual-local-executor-23wave.yml",
               ".github/workflows/astra-distributed-local-worker.yml",
           }
+          if not current:
+              resolved=subprocess.run(
+                  ["gh","api",f"/repos/{repo}/git/ref/heads/main","--jq",".object.sha"],
+                  text=True,capture_output=True,check=False,
+              )
+              if resolved.returncode:
+                  print(resolved.stderr[-4000:],file=sys.stderr)
+                  raise SystemExit("main_head_resolution_failed")
+              current=resolved.stdout.strip()
           if not current:
               raise SystemExit("current_sha_missing")
           stale=[]
