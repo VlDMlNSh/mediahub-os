@@ -98,3 +98,5 @@ jobs:
 # Reaper trigger: clear stale supervisor target after executor qualification hardening.
 
 # Trigger reaper after Codex model qualification change.
+
+# Latest-head reconciliation trigger after G4 contract repair.
