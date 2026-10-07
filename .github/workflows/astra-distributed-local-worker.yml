@@ -48,6 +48,7 @@ jobs:
       ASTRA_MICRO_TASK_JSON: ${{ inputs.task_json }}
       ASTRA_FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env
       ASTRA_WORKER_RESULT: astra-distributed-worker-result.json
+      ASTRA_CODEX_SANDBOX_MODE: danger-full-access
     steps:
       - uses: actions/checkout@v4
         with:
