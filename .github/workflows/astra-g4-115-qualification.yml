@@ -1,7 +1,6 @@
 name: Astra G4 115-round executor matrix
 
-on:
-  workflow_dispatch:
+on: [workflow_dispatch]
 
 permissions:
   contents: read
