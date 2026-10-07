@@ -399,6 +399,8 @@ def prepare_worktree(worktree: Path) -> None:
 
 def process_task_remote(task: dict, expected_base_sha: str) -> dict:
     """Dispatch one queue task to its explicitly assigned local-executor node via GitHub."""
+    STATE.mkdir(parents=True, exist_ok=True)
+    (STATE / "completed").mkdir(parents=True, exist_ok=True)
     store = ClaimStore(CLAIMS)
     claim = claim_for(task, expected_base_sha)
     started = time.time()
@@ -535,6 +537,10 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
             if actual_remote != head_sha:
                 raise RuntimeError("controller_remote_branch_sha_mismatch")
         record.update(remote)
+        if record.get("error"):
+            raise RuntimeError("remote_evidence_error_present")
+        if record.get("claim_release_error"):
+            raise RuntimeError("remote_evidence_claim_release_error")
         record["status"] = "VERIFIED"
         record["elapsed_seconds"] = round(time.time() - started, 3)
         (STATE / "completed" / f"{task_key}.json").write_text(
@@ -542,6 +548,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
         )
         return record
     except Exception as exc:
+        record["status"] = "BLOCKED"
         record["error"] = type(exc).__name__ + ":" + str(exc)
         return record
     finally:
