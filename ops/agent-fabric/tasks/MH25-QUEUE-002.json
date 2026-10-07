@@ -1,25 +1,4 @@
 {
-  "schema": "mediahub.agent-fabric.task.v1",
-  "task_id": "MH25-QUEUE-002",
-  "status": "READY",
-  "priority": "P1",
-  "mission": "Document the canonical distributed local development topology and promotion rules for the primary and fast executor pools.",
-  "boundary": [
-    "docs/operations/"
-  ],
-  "forbidden_surfaces": [
-    ".github/workflows/",
-    "runtime/",
-    "control/",
-    "user data",
-    "credentials",
-    "production infrastructure"
-  ],
-  "dependencies": [],
-  "node_id": "Voktors-Mac-mini.local",
-  "executor": "codex",
-  "verifier": "claude",
-  "timeout_seconds": 1800,
   "acceptance": [
     "Create or update exactly one document at docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md.",
     "The document names mh-dev-01 as controller/authority, mh-dev-02 as primary local pool, and Voktors-Mini.Dlink as fast pool.",
@@ -28,9 +7,31 @@
     "No credentials or secrets are included.",
     "The scoped Agent Fabric regression suite tests/test_agent_fabric.py passes."
   ],
+  "allow_no_changes": true,
+  "boundary": [
+    "docs/operations/"
+  ],
+  "builder_attempts": 3,
+  "deliverable": "docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md",
+  "dependencies": [],
+  "executor": "codex",
+  "forbidden_surfaces": [
+    ".github/workflows/",
+    "runtime/",
+    "control/",
+    "user data",
+    "credentials",
+    "production infrastructure"
+  ],
+  "mission": "Document the canonical distributed local development topology and promotion rules for the primary and fast executor pools.",
+  "node_id": "Voktors-Mac-mini.local",
+  "priority": "P1",
+  "schema": "mediahub.agent-fabric.task.v1",
+  "status": "READY",
+  "task_id": "MH25-QUEUE-002",
   "test_paths": [
     "tests/test_agent_fabric.py"
   ],
-  "deliverable": "docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md",
-  "builder_attempts": 3
+  "timeout_seconds": 1800,
+  "verifier": "claude"
 }
