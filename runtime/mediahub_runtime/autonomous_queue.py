@@ -24,6 +24,12 @@ STATE = Path(os.environ.get("ASTRA_QUEUE_STATE_DIR", "/var/lib/mediahub-astra/qu
 CLAIMS = STATE / "claims"
 
 
+CODEX_HOME_ROOT = Path(os.environ.get("ASTRA_CODEX_HOME_ROOT", str(Path.home() / ".cache" / "mediahub" / "astra-codex")))
+
+def _codex_home(prefix: str) -> tempfile.TemporaryDirectory:
+    Path(CODEX_HOME_ROOT).mkdir(parents=True, exist_ok=True)
+    return tempfile.TemporaryDirectory(prefix=prefix, dir=str(CODEX_HOME_ROOT))
+
 def bounded_worker_count(requested: int) -> int:
     return max(1, min(int(requested), 2))
 
@@ -37,7 +43,7 @@ TASK_TIMEOUT = max(60, int(os.environ.get("ASTRA_QUEUE_TASK_TIMEOUT", "1800")))
 def _local_codex_agentic_probe(model: str) -> bool:
     """Require the local Codex+Ollama path to perform a bounded real file edit."""
     try:
-        home = tempfile.TemporaryDirectory(prefix="astra-local-agentic-")
+        home = _codex_home("agentic-")
         config = Path(home.name) / "config.toml"
         config.write_text(
             f'model_provider = "ollama"\n'
@@ -172,7 +178,7 @@ def qualified_codex_profile() -> tuple[str, str]:
 def codex_env_for_qualified_provider() -> tuple[dict[str, str], tempfile.TemporaryDirectory, str, str]:
     local = local_ollama_profile()
     profile, model = local or qualified_codex_profile()
-    home = tempfile.TemporaryDirectory(prefix="astra-codex-qualified-")
+    home = _codex_home("qualified-")
     config = Path(home.name) / "config.toml"
     config.write_text(
         f'model_provider = "{profile}"\n'
