@@ -62,6 +62,7 @@ def _local_codex_agentic_probe(model: str) -> bool:
         probe_file = probe_dir / "probe.txt"
         env = os.environ.copy()
         env["CODEX_HOME"] = home.name
+        probe_timeout = max(90, min(int(os.environ.get("ASTRA_LOCAL_AGENTIC_PROBE_TIMEOUT", "300")), 600))
         result = run(
             [
                 CODEX,
@@ -81,7 +82,7 @@ def _local_codex_agentic_probe(model: str) -> bool:
                     "Do not call the network and do not modify any other files."
                 ),
             ],
-            90,
+            probe_timeout,
             probe_dir,
             env,
         )
