@@ -517,10 +517,25 @@ def execute(cmd):
         }
         rounds = []
         evidence_rounds = []
+        probe_env = os.environ.copy()
+        probe_home = tempfile.TemporaryDirectory(prefix="astra-g4-codex-home-")
+        probe_config = Path(probe_home.name) / "config.toml"
+        probe_config.write_text(
+            'approval_policy = "never"\n'
+            'web_search = "disabled"\n'
+            '[features]\n'
+            'multi_agent = false\n'
+            'multi_agent_v2 = false\n'
+            'apps = false\n'
+            'tool_search = false\n'
+            'plugins = false\n',
+            encoding="utf-8",
+        )
+        probe_env["CODEX_HOME"] = probe_home.name
         def probe(argv, marker, timeout=35):
             started=time.monotonic()
             try:
-                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,
+                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,env=probe_env,
                                  timeout=timeout,check=False)
                 out=(p.stdout or "")[-12000:]
                 err=(p.stderr or "")[-12000:]
@@ -613,10 +628,12 @@ def execute(cmd):
                            "statuses":{s:sum(1 for v in vals if v.get("status")==s) for s in ("PASS","BLOCKED","TIMEOUT")}}
         ranked=sorted(summary.items(),key=lambda kv:(kv[1]["pass_count"],-(kv[1]["median_latency_seconds"] or 999999)),reverse=True)
         selected=[k for k,v in ranked if v["pass_count"]==23]
-        return {"status":"PASS" if set(selected) == set(marker_map) else "BLOCKED",
+        result = {"status":"PASS" if set(selected) == set(marker_map) else "BLOCKED",
                 "phase":"23_round_local_executor_qualification","node_id":NODE_ID,
                 "rounds":rounds,"evidence_rounds":evidence_rounds,"summary":summary,"selection_order":ranked,"selected_full_pass":selected,
                 "ecc_policy":"inventory-only; no authority or provider credentials","credentials":"SUPPRESSED"}
+        probe_home.cleanup()
+        return result
 
     if operation == "codex_config_isolation":
         argv=["/usr/local/bin/codex","exec","--ignore-user-config","--skip-git-repo-check","print('MEDIAHUB_CODEX_CONFIG_ISOLATION_OK')"]
