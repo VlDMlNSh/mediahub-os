@@ -508,6 +508,10 @@ def execute(cmd):
 
     if operation == "dual_local_executor_23wave":
         import shutil, statistics
+        expected_g4_sha = str(cmd.get("target_sha") or "").strip().lower()
+        actual_g4_sha = run(["git","rev-parse","HEAD"],10).stdout.strip().lower()
+        if expected_g4_sha and actual_g4_sha != expected_g4_sha:
+            raise RuntimeError("g4_target_sha_not_current_head")
         omni_model = os.environ.get("ASTRA_OMNIROUTE_MODEL", "").strip()
         if not omni_model:
             raise RuntimeError("omniroute_model_binding_missing")
