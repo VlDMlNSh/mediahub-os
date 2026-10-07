@@ -47,10 +47,14 @@ jobs:
           rm -rf "$codex_home"
           mkdir -p "$codex_home"
           cat >"$codex_home/config.toml" <<'TOML'
-          model_provider = "ollama"
+          model_provider = "ollama-local"
           model = "qwen2.5-coder:3b"
           approval_policy = "never"
           web_search = "disabled"
+          [model_providers.ollama-local]
+          name = "Ollama Local"
+          base_url = "http://127.0.0.1:11434/v1"
+          wire_api = "responses"
           [features]
           multi_agent = false
           multi_agent_v2 = false
