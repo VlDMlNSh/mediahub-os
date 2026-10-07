@@ -565,6 +565,7 @@ def execute(cmd):
         )
         codex_env = isolated_env.copy()
         codex_env["CODEX_HOME"] = probe_home.name
+        codex_env["OMNIROUTE_API_KEY"] = "local"
         def probe(argv, marker, timeout=35, env=None):
             started=time.monotonic()
             try:
@@ -596,27 +597,26 @@ def execute(cmd):
                 rec["fcc_server_probe"]=probe(["/usr/bin/curl","-fsS","--max-time","5","http://127.0.0.1:8092/v1/models"],"data")
                 rec["omniroute_probe"]=probe(["/usr/bin/curl","-fsS","--max-time","5","http://127.0.0.1:20128/v1/models"],"data")
             rec["executors"]["fcc_codex"] = probe(
-                ["fcc-codex","exec","--skip-git-repo-check","--sandbox","read-only",
+                ["fcc-codex","exec","-c","model_reasoning_effort=\"none\"","--skip-git-repo-check","--sandbox","read-only",
                  f"Return exactly {marker_map['fcc_codex']}. Do not modify files or use tools."],
                 marker_map["fcc_codex"],30,env=fcc_env) if shutil.which("fcc-codex") else {"status":"BLOCKED","reason":"binary_missing"}
             rec["executors"]["fcc_claude"] = probe(
-                ["fcc-claude","-p",f"Return exactly {marker_map['fcc_claude']}. Do not modify files or use tools.",
+                ["fcc-claude","--model","claude-3-freecc-no-thinking/ollama/qwen2.5-coder:1.5b","-p",f"Return exactly {marker_map['fcc_claude']}. Do not modify files or use tools.",
                  "--output-format","text"],marker_map["fcc_claude"],30,env=fcc_env) if shutil.which("fcc-claude") else {"status":"BLOCKED","reason":"binary_missing"}
             if shutil.which("omniroute"):
                 rec["executors"]["omni_claude"]=probe(
-                    ["omniroute","run","claude","--model",omni_model,"--","-p",
+                    ["omniroute","run","claude","--model","claude-3-freecc-no-thinking/ollama/qwen2.5-coder:1.5b","--","-p",
                      f"Return exactly {marker_map['omni_claude']}. Do not modify files or use tools.","--output-format","text"],
                     marker_map["omni_claude"],35,env=isolated_env)
                 rec["executors"]["omni_codex"]=probe(
-                    ["omniroute","run","codex","--model",omni_model,"--","exec","--skip-git-repo-check",
-                     "--sandbox","read-only",f"Return exactly {marker_map['omni_codex']}. Do not modify files or use tools."],
+                    ["codex","exec","-c","model_provider=\"omniroute\"","-c",f"model=\"{omni_model}\"","-c","model_providers.omniroute.name=\"OmniRoute\"","-c","model_providers.omniroute.base_url=\"http://127.0.0.1:20128/v1\"","-c","model_providers.omniroute.env_key=\"OMNIROUTE_API_KEY\"","-c","model_providers.omniroute.wire_api=\"responses\"","-c","model_providers.omniroute.requires_openai_auth=false","-c","model_reasoning_effort=\"none\"","--skip-git-repo-check","--sandbox","read-only",f"Return exactly {marker_map['omni_codex']}. Do not modify files or use tools."],
                     marker_map["omni_codex"],35,env=codex_env)
             else:
                 rec["executors"]["omni_claude"]={"status":"BLOCKED","reason":"binary_missing"}
                 rec["executors"]["omni_codex"]={"status":"BLOCKED","reason":"binary_missing"}
             if shutil.which("claude"):
                 rec["executors"]["claude_code_direct"] = probe(
-                    ["claude","--print","--output-format","text",
+                    ["claude","--model","claude-3-freecc-no-thinking/ollama/qwen2.5-coder:1.5b","--print","--output-format","text",
                      f"Return exactly {marker_map['claude_code_direct']}. Do not modify files or use tools."],
                     marker_map["claude_code_direct"],35,env=direct_claude_env)
             else:
