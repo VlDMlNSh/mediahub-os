@@ -147,7 +147,7 @@ jobs:
           PY
           )
             out="/tmp/astra-claude-$i.json"
-            timeout 300s curl -fsS --max-time 290 "http://$host:$port/v1/messages" \
+            curl -fsS --max-time 290 "http://$host:$port/v1/messages" \
               -H "x-api-key: $ANTHROPIC_AUTH_TOKEN" -H 'Content-Type: application/json' \
               -d "$payload" >"$out"
             rc=$?
