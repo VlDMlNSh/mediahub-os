@@ -2,6 +2,9 @@ name: Astra G5 three-lane concurrent local executor smoke
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/astra-g5-three-lane-concurrent-smoke.yml
     inputs:
       target_sha: {description: 'Exact immutable source SHA', required: true, type: string}
       command_id: {description: 'Unique G5 smoke command id', required: true, type: string}
