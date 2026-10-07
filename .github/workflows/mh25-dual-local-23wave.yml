@@ -92,7 +92,7 @@ jobs:
               status=EXECUTION_FAILURE
             fi
             ROUND="$i" TS="$ts" STATUS="$status" RC="$rc" python3 - <<'PY' >> codex-23wave.jsonl
-import json, os
+          import json, os
           status=os.environ["STATUS"]
           rc=int(os.environ["RC"])
           print(json.dumps({
