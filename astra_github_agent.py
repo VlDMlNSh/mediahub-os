@@ -529,7 +529,21 @@ def execute(cmd):
         }
         rounds = []
         evidence_rounds = []
-        probe_env = os.environ.copy()
+        base_env = os.environ.copy()
+        fcc_env = base_env.copy()
+        fcc_file = os.environ.get("ASTRA_FCC_ENV_FILE", "").strip()
+        if fcc_file and Path(fcc_file).is_file():
+            for raw in Path(fcc_file).read_text(encoding="utf-8").splitlines():
+                line = raw.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                key, value = line.split("=", 1)
+                fcc_env[key.strip()] = value.strip()
+        transport_collision_keys = {"HOST", "PORT", "MODEL", "OLLAMA_BASE_URL", "PROXY_AUTH_ENABLED", "ANTHROPIC_AUTH_TOKEN", "FCC_ENV_FILE"}
+        isolated_env = base_env.copy()
+        for key in transport_collision_keys:
+            isolated_env.pop(key, None)
+        isolated_env["OMNIROUTE_CLI_SKIP_REPO_ENV"] = "1"
         probe_home = tempfile.TemporaryDirectory(prefix="astra-g4-codex-home-")
         probe_config = Path(probe_home.name) / "config.toml"
         probe_config.write_text(
@@ -543,11 +557,12 @@ def execute(cmd):
             'plugins = false\n',
             encoding="utf-8",
         )
-        probe_env["CODEX_HOME"] = probe_home.name
-        def probe(argv, marker, timeout=35):
+        codex_env = isolated_env.copy()
+        codex_env["CODEX_HOME"] = probe_home.name
+        def probe(argv, marker, timeout=35, env=None):
             started=time.monotonic()
             try:
-                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,env=probe_env,
+                p=subprocess.run(argv,cwd=ROOT,text=True,capture_output=True,stdin=subprocess.DEVNULL,env=(env or isolated_env),
                                  timeout=timeout,check=False)
                 out=(p.stdout or "")[-12000:]
                 err=(p.stderr or "")[-12000:]
