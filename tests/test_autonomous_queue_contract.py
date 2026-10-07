@@ -25,6 +25,14 @@ class AutonomousQueueContractTests(unittest.TestCase):
         self.assertIn("queue_target_sha_not_current_head", self.source)
         self.assertNotIn('remote_main.stdout.strip() != base_sha', self.source)
 
+    def test_parallel_claim_cap_matches_g5(self):
+        self.assertIn("return max(1, min(int(requested), 2))", self.source)
+        self.assertNotIn("return max(1, min(int(requested), 3))", self.source)
+
+    def test_claim_lease_default_matches_governance(self):
+        self.assertIn("ASTRA_CLAIM_LEASE_SECONDS", self.source)
+        self.assertIn('"600"', self.source)
+
     def test_builder_uses_runner_supported_codex_flags(self):
         self.assertIn('"--sandbox", "workspace-write"', self.source)
         self.assertNotIn('"--ask-for-approval", "never"', self.source)
