@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 10
     env:
       PYTHONPATH: runtime
