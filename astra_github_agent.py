@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """MediaHub Astra GitHub transport worker."""
 from __future__ import annotations
-import hashlib, hmac, importlib, json, os, platform, re, subprocess, sys, time
+import hashlib, hmac, importlib, json, os, platform, re, subprocess, sys, time, tempfile
 from dataclasses import asdict
 from pathlib import Path
 
@@ -717,7 +717,6 @@ def execute(cmd):
         except Exception as exc:
             return {"status":"BLOCKED","error":repr(exc),"secret_values":"SUPPRESSED"}
     if operation == "codex_gateway_diagnostic":
-        import tempfile
         gateways=[("unorouter","UNOROUTER_API_KEY","https://api.unorouter.com/v1","gpt-5.4"),("zerouter","ZEROUTER_API_KEY","https://api.zerouter.ai/v1","gpt-5.4")]
         results=[]
         for name,key_name,base_url,model in gateways:
