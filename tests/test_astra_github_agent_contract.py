@@ -5,6 +5,10 @@ import astra_github_agent as agent
 from ops.control import sign_command
 
 class AstraTransportContractTests(unittest.TestCase):
+    def test_g4_has_no_inner_tempfile_import_that_shadows_module_scope(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        self.assertNotIn("        import tempfile", source)
+        self.assertIn("import tempfile", source.split("\n", 20)[0:20][0] if False else source[:1200])
     def test_g4_fcc_environment_is_initialized_before_use(self):
         source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
         self.assertLess(source.index("fcc_env = base_env.copy()"), source.index("fcc_host = fcc_env.get"))
