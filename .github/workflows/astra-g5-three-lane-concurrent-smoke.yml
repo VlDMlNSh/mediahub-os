@@ -23,6 +23,9 @@ jobs:
     name: Claude 1.5B / mh-dev-01
     runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 20
+    outputs:
+      started: ${{ steps.probe.outputs.started }}
+      completed: ${{ steps.probe.outputs.completed }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,6 +37,7 @@ jobs:
           G5_TARGET_SHA: ${{ inputs.target_sha || github.sha }}
         run: |
           set -euo pipefail
+          echo "started=$(date +%s)" >> "$GITHUB_OUTPUT"
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
           test "$(git rev-parse HEAD)" = "$G5_TARGET_SHA"
@@ -69,11 +73,15 @@ jobs:
           assert marker in text, text[:500]
           print(marker)
           PY
+          echo "completed=$(date +%s)" >> "$GITHUB_OUTPUT"
 
   mh2:
     name: Codex 3B / mh-dev-02
     runs-on: [self-hosted, linux, x64, mediahub-provider]
     timeout-minutes: 20
+    outputs:
+      started: ${{ steps.probe.outputs.started }}
+      completed: ${{ steps.probe.outputs.completed }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -85,6 +93,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          echo "started=$(date +%s)" >> "$GITHUB_OUTPUT"
           test "$(hostname)" = "mh-dev-02"
           test "$(id -un)" = "mediahub"
           test "$(git rev-parse HEAD)" = "$G5_TARGET_SHA"
@@ -93,11 +102,15 @@ jobs:
           ollama show qwen2.5-coder:3b >/dev/null
           codex exec --oss --local-provider ollama --model qwen2.5-coder:3b --sandbox read-only --skip-git-repo-check 'Return exactly G5_MH2_CODEX_OK.' 2>&1 | tee /tmp/g5-mh2.log
           grep -F G5_MH2_CODEX_OK /tmp/g5-mh2.log
+          echo "completed=$(date +%s)" >> "$GITHUB_OUTPUT"
 
   mac:
     name: Claude 1.5B / Mac
     runs-on: [self-hosted, macOS, ARM64, astra-control]
     timeout-minutes: 20
+    outputs:
+      started: ${{ steps.probe.outputs.started }}
+      completed: ${{ steps.probe.outputs.completed }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -109,6 +122,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          echo "started=$(date +%s)" >> "$GITHUB_OUTPUT"
           host_name=$(hostname)
           test "$host_name" = Voktors-Mini.Dlink || test "$host_name" = Voktors-Mac-mini
           test "$(id -un)" = voktor
@@ -142,6 +156,7 @@ jobs:
           assert marker in text, text[:500]
           print(marker)
           PY
+          echo "completed=$(date +%s)" >> "$GITHUB_OUTPUT"
 
   aggregate:
     name: G5 three-lane concurrent aggregate
@@ -150,14 +165,30 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Require all three lanes to pass
+      - name: Require three PASS lanes and real overlap
         env:
-          MH1: ${{ needs.mh1.result }}
-          MH2: ${{ needs.mh2.result }}
-          MAC: ${{ needs.mac.result }}
+          MH1_RESULT: ${{ needs.mh1.result }}
+          MH2_RESULT: ${{ needs.mh2.result }}
+          MAC_RESULT: ${{ needs.mac.result }}
+          MH1_STARTED: ${{ needs.mh1.outputs.started }}
+          MH1_COMPLETED: ${{ needs.mh1.outputs.completed }}
+          MH2_STARTED: ${{ needs.mh2.outputs.started }}
+          MH2_COMPLETED: ${{ needs.mh2.outputs.completed }}
+          MAC_STARTED: ${{ needs.mac.outputs.started }}
+          MAC_COMPLETED: ${{ needs.mac.outputs.completed }}
         run: |
           set -euo pipefail
-          test "$MH1" = success
-          test "$MH2" = success
-          test "$MAC" = success
-          echo ASTRA_G5_THREE_LANE_PASS
+          test "$MH1_RESULT" = success
+          test "$MH2_RESULT" = success
+          test "$MAC_RESULT" = success
+          python3 - <<'PY'
+          import os
+          rows=[
+              ("mh1",int(os.environ["MH1_STARTED"]),int(os.environ["MH1_COMPLETED"])),
+              ("mh2",int(os.environ["MH2_STARTED"]),int(os.environ["MH2_COMPLETED"])),
+              ("mac",int(os.environ["MAC_STARTED"]),int(os.environ["MAC_COMPLETED"])),
+          ]
+          overlap=min(end for _,_,end in rows)-max(start for _,start,_ in rows)
+          assert overlap > 0, rows
+          print("ASTRA_G5_THREE_LANE_PASS", rows, "overlap_seconds=", overlap)
+          PY
