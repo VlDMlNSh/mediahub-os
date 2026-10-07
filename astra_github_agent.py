@@ -508,6 +508,11 @@ def execute(cmd):
 
     if operation == "dual_local_executor_23wave":
         import shutil, statistics
+        omni_model = os.environ.get("ASTRA_OMNIROUTE_MODEL", "").strip()
+        if not omni_model:
+            raise RuntimeError("omniroute_model_binding_missing")
+        if not omni_model.startswith("llama-cpp//"):
+            raise RuntimeError("omniroute_model_binding_invalid")
         marker_map = {
             "fcc_codex": "MEDIAHUB_FCC_CODEX_OK",
             "fcc_claude": "MEDIAHUB_FCC_CLAUDE_OK",
@@ -571,11 +576,11 @@ def execute(cmd):
                  "--output-format","text"],marker_map["fcc_claude"],30) if shutil.which("fcc-claude") else {"status":"BLOCKED","reason":"binary_missing"}
             if shutil.which("omniroute"):
                 rec["executors"]["omni_claude"]=probe(
-                    ["omniroute","run","claude","--model","auto","--","-p",
+                    ["omniroute","run","claude","--model",omni_model,"--","-p",
                      f"Return exactly {marker_map['omni_claude']}. Do not modify files or use tools.","--output-format","text"],
                     marker_map["omni_claude"],35)
                 rec["executors"]["omni_codex"]=probe(
-                    ["omniroute","run","codex","--model","auto","--","exec","--skip-git-repo-check",
+                    ["omniroute","run","codex","--model",omni_model,"--","exec","--skip-git-repo-check",
                      "--sandbox","read-only",f"Return exactly {marker_map['omni_codex']}. Do not modify files or use tools."],
                     marker_map["omni_codex"],35)
             else:
