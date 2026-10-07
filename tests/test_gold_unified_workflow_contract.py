@@ -23,6 +23,11 @@ class GoldUnifiedWorkflowContractTests(unittest.TestCase):
         self.assertIn('ASTRA_WORKFLOW_ONLY: "1"', self.text)
         self.assertNotIn("astra_github_agent.execute(", self.text)
 
+    def test_gold_workflow_binds_to_canonical_g4_115_workflow(self):
+        self.assertIn("astra-g4-115-qualification.yml", self.text)
+        self.assertNotIn("mh25-dual-local-executor-23wave.yml", self.text)
+        self.assertIn("g4-115-$GITHUB_SHA", self.text)
+
     def test_gold_workflow_requires_distributed_verification(self):
         self.assertIn("uses: ./.github/workflows/astra-distributed-verification.yml", self.text)
         self.assertIn("needs:", self.text)
