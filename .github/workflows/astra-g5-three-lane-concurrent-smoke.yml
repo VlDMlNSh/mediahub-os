@@ -1,0 +1,87 @@
+name: Astra G5 three-lane concurrent local executor smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_sha: {description: 'Exact immutable source SHA', required: true, type: string}
+      command_id: {description: 'Unique G5 smoke command id', required: true, type: string}
+
+permissions:
+  contents: read
+
+jobs:
+  mh1:
+    name: Claude 1.5B / mh-dev-01
+    runs-on: [self-hosted, linux, x64, mediahub-control]
+    outputs: {status: ${{ steps.probe.outputs.status }}}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ inputs.target_sha }}, fetch-depth: 1}
+      - id: probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          command -v claude
+          ollama show qwen2.5-coder:1.5b >/dev/null
+          test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
+          claude -p 'Return exactly G5_MH1_CLAUDE_OK.' --output-format text --max-turns 1 2>&1 | tee /tmp/g5-mh1.log
+          grep -F G5_MH1_CLAUDE_OK /tmp/g5-mh1.log
+          echo status=PASS >> "$GITHUB_OUTPUT"
+
+  mh2:
+    name: Codex 3B / mh-dev-02
+    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    outputs: {status: ${{ steps.probe.outputs.status }}}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ inputs.target_sha }}, fetch-depth: 1}
+      - id: probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-02"
+          test "$(id -un)" = "mediahub"
+          command -v codex
+          ollama show qwen2.5-coder:3b >/dev/null
+          test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
+          codex exec --oss --local-provider ollama --model qwen2.5-coder:3b --sandbox read-only --skip-git-repo-check 'Return exactly G5_MH2_CODEX_OK.' 2>&1 | tee /tmp/g5-mh2.log
+          grep -F G5_MH2_CODEX_OK /tmp/g5-mh2.log
+          echo status=PASS >> "$GITHUB_OUTPUT"
+
+  mac:
+    name: Claude 1.5B / Mac
+    runs-on: [self-hosted, macOS, ARM64, astra-control]
+    outputs: {status: ${{ steps.probe.outputs.status }}}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ inputs.target_sha }}, fetch-depth: 1}
+      - id: probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          host=$(hostname)
+          test "$host" = Voktors-Mini.Dlink || test "$host" = Voktors-Mac-mini
+          test "$(id -un)" = voktor
+          command -v claude
+          ollama show qwen2.5-coder:1.5b >/dev/null
+          test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
+          claude -p 'Return exactly G5_MAC_CLAUDE_OK.' --output-format text --max-turns 1 2>&1 | tee /tmp/g5-mac.log
+          grep -F G5_MAC_CLAUDE_OK /tmp/g5-mac.log
+          echo status=PASS >> "$GITHUB_OUTPUT"
+
+  aggregate:
+    needs: [mh1, mh2, mac]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        env:
+          A: ${{ needs.mh1.outputs.status }}
+          B: ${{ needs.mh2.outputs.status }}
+          C: ${{ needs.mac.outputs.status }}
+        run: |
+          set -euo pipefail
+          test "$A" = PASS && test "$B" = PASS && test "$C" = PASS
+          echo ASTRA_G5_THREE_LANE_PASS
