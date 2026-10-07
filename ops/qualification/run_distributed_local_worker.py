@@ -150,7 +150,9 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
         )
         env = os.environ.copy()
         env["CODEX_HOME"] = home
-        sandbox = "workspace-write" if writable else "read-only"
+        sandbox = os.environ.get("ASTRA_CODEX_SANDBOX_MODE", "").strip() if writable else "read-only"
+        if writable and sandbox not in {"workspace-write", "danger-full-access"}:
+            sandbox = "workspace-write"
         p = run([codex, "exec", "--oss", "--local-provider", "ollama", "--model", model, "--sandbox", sandbox,
                  "--skip-git-repo-check", prompt], timeout, ROOT, env)
         return {
