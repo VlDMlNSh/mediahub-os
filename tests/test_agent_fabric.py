@@ -100,6 +100,13 @@ class AgentFabricTests(unittest.TestCase):
             self.assertEqual(sorted(outcome[1] for outcome in outcomes), ["acquired", "collision"])
             self.assertEqual({outcome[2] for outcome in outcomes if outcome[1] == "collision"}, {"claim_collision"})
 
+    def test_queue_002_uses_real_claude_codex_split(self):
+        import json
+        task = json.loads(Path("ops/agent-fabric/tasks/MH25-QUEUE-002.json").read_text(encoding="utf-8"))
+        self.assertEqual(task["executor"], "claude")
+        self.assertEqual(task["verifier"], "codex")
+        self.assertEqual(task["node_id"], "Voktors-Mac-mini.local")
+        self.assertNotEqual(task["executor"], task["verifier"])
 
 if __name__ == "__main__":
     unittest.main()
