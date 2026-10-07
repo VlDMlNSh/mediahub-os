@@ -287,7 +287,7 @@ Any contradiction produces RECONCILIATION_REQUIRED → BLOCKED. A component may 
 
 ## 9. Concurrency contract
 
-Maximum autonomous claims: 2.
+Maximum autonomous claims: 3.
 
 Rules:
 - claims must be disjoint;
