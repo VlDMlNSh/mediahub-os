@@ -20,23 +20,21 @@ class AutonomousQueueContractTests(unittest.TestCase):
 
     def test_workers_remain_bound_to_fixed_target_sha(self):
         self.assertIn("expected_base_sha: str", self.source)
-        self.assertIn('claim.base_sha != expected_base_sha', self.source)
-        self.assertIn("queue_claim_base_sha_mismatch", self.source)
+        self.assertIn("claim_for(task, expected_base_sha)", self.source)
         self.assertIn("queue_target_sha_not_current_head", self.source)
         self.assertNotIn('remote_main.stdout.strip() != base_sha', self.source)
 
     def test_parallel_claim_cap_matches_g5(self):
-        self.assertIn("return max(1, min(int(requested), 3))", self.source)
+        self.assertIn("return max(1, min(int(requested), len(PERMANENT_EXECUTOR_POOL)))", self.source)
         self.assertNotIn("return max(1, min(int(requested), 2))", self.source)
 
     def test_claim_lease_default_matches_governance(self):
         self.assertIn("ASTRA_CLAIM_LEASE_SECONDS", self.source)
         self.assertIn('"600"', self.source)
 
-    def test_builder_uses_runner_supported_codex_flags(self):
-        self.assertIn('"--sandbox", "workspace-write"', self.source)
-        self.assertNotIn('"--ask-for-approval", "never"', self.source)
-        self.assertNotIn('"--full-auto"', self.source)
+    def test_canonical_queue_has_no_local_codex_builder_path(self):
+        self.assertNotIn("codex", self.source.lower())
+        self.assertNotIn("local_ollama", self.source.lower())
 
 if __name__ == "__main__":
     unittest.main()

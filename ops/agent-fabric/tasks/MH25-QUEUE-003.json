@@ -35,5 +35,24 @@
   "test_paths": [
     "tests/test_agent_fabric.py"
   ],
-  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-MH-DEV-01-CLAUDE-EXECUTOR.md. Use shell/editor directly; do not ask for more context. State exact node mh-dev-01, executor Claude, model qwen2.5-coder:1.5b, verifier Claude, executor-only authority, target-SHA binding, isolated branch, fail-closed promotion, no direct main writes, and no secrets. Keep it concise."
+  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-MH-DEV-01-CLAUDE-EXECUTOR.md. Use shell/editor directly; do not ask for more context. State exact node mh-dev-01, executor Claude, model qwen2.5-coder:1.5b, verifier Claude, executor-only authority, target-SHA binding, isolated branch, fail-closed promotion, no direct main writes, and no secrets. Keep it concise.",
+  "required_capabilities": [
+    "implementation",
+    "testing",
+    "security"
+  ],
+  "preferred_roles": [
+    "build",
+    "tdd-guide",
+    "security-reviewer"
+  ],
+  "verification": [
+    "tests/test_agent_fabric.py",
+    "security_review",
+    "diff_scope"
+  ],
+  "qualification": {
+    "evidence_required": true,
+    "commit_binding": true
+  }
 }

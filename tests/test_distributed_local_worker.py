@@ -39,7 +39,7 @@ def test_canonical_three_executor_tasks_are_ready_and_disjoint():
         json.loads(Path(f"ops/agent-fabric/tasks/{task_id}.json").read_text(encoding="utf-8"))
         for task_id in task_ids
     ]
-    assert [t["executor"] for t in tasks] == ["claude", "claude", "codex"]
+    assert [t["executor"] for t in tasks] == ["claude", "claude", "claude"]
     assert [t["node_id"] for t in tasks] == [
         "Voktors-Mac-mini.local", "mh-dev-01", "mh-dev-02"
     ]
@@ -48,12 +48,12 @@ def test_canonical_three_executor_tasks_are_ready_and_disjoint():
     assert all(len(t["boundary"]) == 1 and t["boundary"][0].startswith("docs/operations/") for t in tasks)
 
 
-def test_worker_workflow_enforces_executor_identity_and_bounded_codex_sandbox():
+def test_worker_workflow_enforces_claude_only_executor_identity():
     workflow = Path('.github/workflows/astra-distributed-local-worker.yml').read_text(encoding='utf-8')
     assert 'test "${ASTRA_EXECUTOR}" = "claude"' in workflow
-    assert 'test "${ASTRA_EXECUTOR}" = "codex"' in workflow
-    assert 'ASTRA_CODEX_SANDBOX_MODE: workspace-write' in workflow
-    assert 'ASTRA_CODEX_SANDBOX_MODE: danger-full-access' not in workflow
+    assert 'test "${ASTRA_EXECUTOR}" = "codex"' not in workflow
+    assert 'ASTRA_CODEX_SANDBOX_MODE' not in workflow
+    assert 'options: [claude]' in workflow
 
 
 def test_claude_worker_disables_reasoning_for_non_thinking_local_models():
