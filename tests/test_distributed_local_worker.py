@@ -61,3 +61,9 @@ def test_claude_worker_disables_reasoning_for_non_thinking_local_models():
     assert 'env["REASONING_POLICY"] = "off"' in worker
     assert 'env["CLAUDE_CODE_DISABLE_THINKING"] = "1"' in worker
     assert 'env["MAX_THINKING_TOKENS"] = "0"' in worker
+
+
+def test_claude_worker_uses_isolated_config_directory():
+    worker = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
+    assert 'env["CLAUDE_CONFIG_DIR"] = isolated_config' in worker
+    assert 'tempfile.mkdtemp(prefix="astra-claude-config-")' in worker
