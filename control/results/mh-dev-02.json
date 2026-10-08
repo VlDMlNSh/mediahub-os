@@ -1,0 +1,15 @@
+{
+  "command_id": "MH25-TRANSPORT-HEALTH-20261002-01",
+  "completed_at": 1791485670,
+  "duration_seconds": 0.003,
+  "node_id": "mh-dev-02",
+  "result": {
+    "hostname": "mh-dev-02",
+    "node_id": "mh-dev-02",
+    "platform": "Linux-6.8.0-142-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "status": "ready"
+  },
+  "returncode": 0,
+  "schema": 1
+}
