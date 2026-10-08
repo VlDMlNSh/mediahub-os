@@ -29,5 +29,20 @@ def test_scope_paths_rejects_forbidden_and_outside():
 def test_node_config_has_primary_and_fast_pools():
     assert worker.NODE_CONFIG["mh-dev-02"]["pool"] == "primary_local"
     assert worker.NODE_CONFIG["mh-dev-02"]["model"] == "qwen2.5-coder:3b"
-    assert worker.NODE_CONFIG["Voktors-Mini.Dlink"]["pool"] == "fast_local"
-    assert worker.NODE_CONFIG["Voktors-Mini.Dlink"]["model"] == "qwen2.5-coder:1.5b"
+    assert worker.NODE_CONFIG["Voktors-Mac-mini.local"]["pool"] == "fast_local"
+    assert worker.NODE_CONFIG["Voktors-Mac-mini.local"]["model"] == "qwen2.5-coder:1.5b"
+
+
+def test_canonical_three_executor_tasks_are_ready_and_disjoint():
+    task_ids = ["MH25-QUEUE-002", "MH25-QUEUE-003", "MH25-QUEUE-004"]
+    tasks = [
+        json.loads(Path(f"ops/agent-fabric/tasks/{task_id}.json").read_text(encoding="utf-8"))
+        for task_id in task_ids
+    ]
+    assert [t["executor"] for t in tasks] == ["claude", "claude", "codex"]
+    assert [t["node_id"] for t in tasks] == [
+        "Voktors-Mac-mini.local", "mh-dev-01", "mh-dev-02"
+    ]
+    assert all(t["status"] == "READY" for t in tasks)
+    assert len({tuple(t["boundary"]) for t in tasks}) == 1
+    assert all(t["boundary"] == ["docs/operations/"] for t in tasks)
