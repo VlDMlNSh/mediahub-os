@@ -379,7 +379,7 @@ Minimum 23 fresh rounds for every mandatory execution path:
 A missing launcher is BLOCKED, not PASS.
 
 ### G5_CONCURRENCY — Concurrency
-- maximum two concurrent autonomous claims by default
+- maximum three concurrent autonomous claims by default (G-5), one per permanent executor lane
 - disjoint write boundaries required
 - shared surfaces serialized
 - collision detection
