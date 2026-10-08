@@ -26,3 +26,7 @@ The selected workflow guidance lives under `.claude/skills/` in the repository. 
 ## Expected effect
 
 Executors should produce smaller, better-scoped changes, run relevant tests earlier, perform security and scope review before verification, and provide stronger evidence to the independent verifier. This integration does not imply Astra Gold PASS; fresh runtime evidence, independent verification, aggregate qualification, and soak remain mandatory.
+
+## Verification note
+
+The executable worker gates remain authoritative; local skill guidance cannot override a blocked security, scope, target-SHA, test, or verifier condition.
