@@ -53,8 +53,8 @@ jobs:
           model = "qwen2.5-coder:1.5b"
           approval_policy = "never"
           web_search = "disabled"
-          model_context_window = 2082
-          model_max_output_tokens = 32
+          model_context_window = 1536
+          model_max_output_tokens = 8
           model_reasoning_summary = "none"
           model_auto_compact_token_limit = 0
           [model_providers.ollama-local]
