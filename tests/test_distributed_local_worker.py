@@ -46,3 +46,11 @@ def test_canonical_three_executor_tasks_are_ready_and_disjoint():
     assert all(t["status"] == "READY" for t in tasks)
     assert len({tuple(t["boundary"]) for t in tasks}) == 3
     assert all(len(t["boundary"]) == 1 and t["boundary"][0].startswith("docs/operations/") for t in tasks)
+
+
+def test_worker_workflow_enforces_executor_identity_and_bounded_codex_sandbox():
+    workflow = Path('.github/workflows/astra-distributed-local-worker.yml').read_text(encoding='utf-8')
+    assert 'test "${ASTRA_EXECUTOR}" = "claude"' in workflow
+    assert 'test "${ASTRA_EXECUTOR}" = "codex"' in workflow
+    assert 'ASTRA_CODEX_SANDBOX_MODE: workspace-write' in workflow
+    assert 'ASTRA_CODEX_SANDBOX_MODE: danger-full-access' not in workflow
