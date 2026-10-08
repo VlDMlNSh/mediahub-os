@@ -486,6 +486,15 @@ def main() -> int:
                                 if isinstance(structured_payload.get("structured_output"), dict)
                                 else ""
                             ).strip()
+                            if not structured_markdown and isinstance(structured_payload.get("result"), str):
+                                inner = structured_payload["result"]
+                                artifact_match = re.search(
+                                    r"__ASTRA_ARTIFACT_BEGIN__\\n(.*?)\\n__ASTRA_ARTIFACT_END__",
+                                    inner,
+                                    re.DOTALL,
+                                )
+                                if artifact_match:
+                                    structured_markdown = artifact_match.group(1).strip()
                         except (json.JSONDecodeError, AttributeError, TypeError):
                             structured_markdown = None
                     if structured_markdown and boundaries:
