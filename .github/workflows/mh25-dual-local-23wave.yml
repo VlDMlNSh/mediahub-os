@@ -32,7 +32,7 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub"
-          export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          export PATH="/home/mediahub/.nvm/versions/node/v22.23.2/bin:/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
           command -v codex
           command -v ollama
           ollama show qwen2.5-coder:1.5b >/dev/null 2>&1 || timeout 600s ollama pull qwen2.5-coder:1.5b
