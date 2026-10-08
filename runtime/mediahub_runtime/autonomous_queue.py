@@ -441,8 +441,14 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
             "expected_executor": PERMANENT_EXECUTOR_POOL[node_id],
             "executor": executor,
         }
-    if executor not in {"codex", "claude"} or verifier not in {"codex", "claude"}:
-        return {"task_id": task_key, "status": "BLOCKED", "error": "invalid_executor_split"}
+    if executor != "claude" or verifier != "claude":
+        return {
+            "task_id": task_key,
+            "status": "BLOCKED",
+            "error": "permanent_pool_requires_claude",
+            "executor": executor,
+            "verifier": verifier,
+        }
     if executor == verifier and not bool(task.get("independent_verifier_process", False)):
         return {"task_id": task_key, "status": "BLOCKED", "error": "verifier_must_be_independent_process"}
     if not os.environ.get("GH_TOKEN") and not os.environ.get("GITHUB_TOKEN"):
@@ -844,7 +850,10 @@ def main() -> int:
             "discovered_tasks": inventory,
         }, sort_keys=True))
         return 2
-    if os.environ.get("ASTRA_DISTRIBUTED_LOCAL", "0").strip().lower() in {"1", "true", "yes"}:
+    # Permanent Astra lanes are remote Claude executors. Local Codex execution is legacy
+    # and must never be selected implicitly by the canonical queue.
+    distributed_mode = os.environ.get("ASTRA_DISTRIBUTED_LOCAL", "1").strip().lower()
+    if distributed_mode in {"1", "true", "yes"}:
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(selected)) as pool:
             results = list(pool.map(lambda task: process_task_remote(task, base_sha), selected))
         all_verified = all(r["status"] == "VERIFIED" for r in results)
