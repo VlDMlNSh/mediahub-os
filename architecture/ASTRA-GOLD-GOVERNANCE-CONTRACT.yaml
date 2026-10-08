@@ -37,7 +37,7 @@ runtime_thresholds:
   evidence_freshness_window_seconds: 86400
   result_publication_timeout_seconds: 120
   retry_backoff_seconds: 30
-  max_parallel_autonomous_claims: 2
+  max_parallel_autonomous_claims: 3
   soak_duration_hours: 24
   minimum_rounds_per_mandatory_path: 23
   rule: >-
