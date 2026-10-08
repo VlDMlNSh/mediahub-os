@@ -84,7 +84,7 @@ def task_prompt(task: dict, role: str) -> str:
         f"Mission: {task['mission']}\n"
         f"Boundary: {json.dumps(task.get('boundary', []), sort_keys=True)}\n"
         f"Forbidden surfaces: {json.dumps(forbidden, sort_keys=True)}\n"
-        f"Acceptance: {json.dumps(task.get('acceptance', []), sort_keys=True)}\n"
+        f"Acceptance: {json.dumps(task.get('acceptance', []), sort_keys=True)}\n"        f"Builder instructions: {task.get('builder_instructions', 'Use shell/editor directly to complete the declared boundary.')}\n"
         f"Target SHA: {os.environ['ASTRA_TARGET_SHA']}\n"
         "Treat every acceptance criterion containing exact identifiers, node names, executor names, or security rules as literal requirements: copy them verbatim and never invent aliases, synonyms, or substitute names. "        "Work only inside the declared boundary. Do not touch production infrastructure, "
         "credentials, user data, or unrelated paths. Do not merge to main."
@@ -268,16 +268,16 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
         f"Acceptance: {json.dumps(task.get('acceptance', []), sort_keys=True)}\n"
         f"Boundary: {json.dumps(task.get('boundary', []), sort_keys=True)}\n"
         "Decide only from the supplied evidence. Output exactly one line and nothing else.\n"
-        "--- DIFF ---\n" + diff_text[-14000:] +
-        "\n--- TESTS ---\n" + test_text[-6000:] +
+        "--- DIFF ---\n" + diff_text[-6000:] +
+        "\n--- TESTS ---\n" + test_text[-2500:] +
         "\nReturn exactly: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED."
     )
     verifier = task["verifier"]
     if verifier == "codex":
-        return exec_codex(prompt, False, model, 900)
+        return exec_codex(prompt, False, model, 240)
     if verifier == "claude":
         env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
-        return exec_claude(prompt, model, 900, env_file, 128)[0]
+        return exec_claude(prompt, model, 240, env_file, 128)[0]
     raise RuntimeError("unsupported_verifier")
 
 
