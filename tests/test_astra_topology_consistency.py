@@ -36,6 +36,16 @@ class AstraTopologyConsistencyTests(unittest.TestCase):
             self.assertNotIn("Codex as the independent A3 Verifier", text)
             self.assertNotIn("CODEX-EXECUTOR", text)
 
+    def test_canonical_schemas_do_not_present_codex_as_production_executor(self):
+        queue = (ROOT / "runtime/mediahub_runtime/autonomous_queue.py").read_text()
+        unified = (ROOT / "architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.md").read_text()
+        task = (ROOT / "ops/agent-fabric/tasks/MH25-QUEUE-002.json").read_text()
+        self.assertNotIn("codex", queue.lower())
+        self.assertNotIn("Codex + FCC", unified)
+        self.assertNotIn("Codex + OmniRoute", unified)
+        self.assertNotIn("Codex CLI", unified)
+        self.assertNotIn("Claude, Codex", task)
+
     def test_capability_matrix_preserves_single_authority(self):
         text = (ROOT / "docs/operations/ASTRA-EXECUTOR-CAPABILITY-MATRIX.md").read_text()
         self.assertIn("capability library", text)
