@@ -137,7 +137,7 @@ Any documentation, task contract, workflow or evidence that contradicts this map
 3. A1 Architect owns architecture proposals, contracts and decision records within assigned scope.
 4. A2 Builder performs bounded implementation.
 5. A3 Verifier independently verifies integrated results.
-6. Executor clients (Codex, Claude Code) have executor authority only.
+6. Claude Code is the permanent production executor client; other execution surfaces remain separately qualified candidates only.
 7. FCC and OmniRoute are transport/routing mechanisms, not architecture or state authorities.
 8. ECC is auxiliary support only; it has no provider-selection, credential-creation or state authority.
 9. GitHub is the transport/evidence substrate, not MediaHub domain State Authority.
@@ -179,7 +179,6 @@ Any documentation, task contract, workflow or evidence that contradicts this map
 ### 4.4 Complete execution and provider fabric
 
 #### Local execution clients
-- **Codex CLI** — local coding/repository/testing executor.
 - **Claude Code CLI** — local coding/architecture/review executor. This is the Claude executor that has been under qualification.
 - **Cursor** — local development tooling.
 - **DeepSeek Harness** — local harness/subagent execution.
@@ -232,19 +231,15 @@ The repository's provider-model registry currently contains 23 candidate provide
 These are **candidate provider/model entries**, not automatic qualification results.
 
 #### Qualification catalog (not the permanent production pool)
-The broader execution catalog may contain legacy/candidate paths for separate qualification. These entries do not change the permanent three-Claude production queue.
+The permanent production qualification surface is the three-Claude executor topology. Historical Codex transport paths are not part of the current Astra Gold production qualification and must not be used as evidence for the permanent pool.
 
-The minimum catalog is:
+Current executor qualification paths:
 
-1. Codex + FCC
-2. Claude Code + FCC
-3. Codex + OmniRoute
-4. Claude Code + OmniRoute
+1. Claude Code + FCC
+2. Claude Code + OmniRoute
+3. Claude Code direct/native
 
-The native Claude Code path is now explicitly represented as an additional qualification path:
-5. Claude Code direct/native
-
-Direct Codex/native and other provider-specific paths may be added after independent runtime proof.
+These paths still require fresh evidence and independent A3 verification; transport success does not imply provider-native qualification.
 
 ### 4.5 Auxiliary intelligence
 ECC is an explicit ASTRA GOLD auxiliary support component. It participates in the distributed scheme only as an advisory/diagnostic/context-support lane. It is not an A0/A1/A2/A3 role, not a provider, not a transport authority, and not a state authority.
@@ -373,7 +368,7 @@ numeric thresholds live in the single machine-readable source
 - heartbeat
 
 ### G3_EXECUTION_PATH — Execution Path
-For each Codex/Claude path:
+For each current Claude Code path:
 - executable/runtime identity
 - provider identity
 - exact source SHA
@@ -386,11 +381,9 @@ For each Codex/Claude path:
 
 ### G4_23_WAVE_QUALIFICATION — 23-Wave Qualification
 Minimum 23 fresh rounds for every mandatory execution path:
-1. CODEX_FCC
-2. CLAUDE_FCC
-3. CODEX_OMNIROUTE
-4. CLAUDE_OMNIROUTE
-5. CLAUDE_CODE_DIRECT
+1. CLAUDE_FCC
+2. CLAUDE_OMNIROUTE
+3. CLAUDE_CODE_DIRECT
 
 A missing launcher is BLOCKED, not PASS.
 

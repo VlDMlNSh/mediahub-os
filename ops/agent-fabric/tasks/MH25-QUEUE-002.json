@@ -37,7 +37,7 @@
   "timeout_seconds": 1800,
   "verifier": "claude",
   "independent_verifier_process": true,
-  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md. Use shell/editor directly; do not ask for more context. Include exact identities mh-dev-01, mh-dev-02, Voktors-Mac-mini.local, Claude, Codex, exact target-SHA binding, isolated branches, GitHub evidence transport, fail-closed promotion, and no direct main writes. Keep it concise and contain no secrets. Add a concise G5 section stating exactly three simultaneous disjoint claims, one per permanent executor lane.",
+  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md. Use shell/editor directly; do not ask for more context. Include exact identities mh-dev-01, mh-dev-02, Voktors-Mac-mini.local, Claude, exact target-SHA binding, isolated branches, GitHub evidence transport, fail-closed promotion, no direct main writes, and no secrets. Add a concise G5 section stating exactly three simultaneous disjoint claims, one per permanent Claude executor lane.",
   "required_capabilities": [
     "architecture",
     "documentation",
