@@ -19,7 +19,10 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
-        with: {ref: ${{ github.sha }}, fetch-depth: 1, persist-credentials: false}
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
       - name: Admission
         run: |
           set -euo pipefail
@@ -75,7 +78,10 @@ PY
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
-        with: {ref: ${{ github.sha }}, fetch-depth: 1, persist-credentials: false}
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
       - name: Admission
         run: |
           set -euo pipefail
@@ -124,7 +130,10 @@ PY
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
-        with: {ref: ${{ github.sha }}, fetch-depth: 1, persist-credentials: false}
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
       - name: Admission
         run: |
           set -euo pipefail
@@ -177,7 +186,10 @@ PY
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with: {ref: ${{ github.sha }}, fetch-depth: 1, persist-credentials: false}
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
       - uses: actions/download-artifact@v4
         with: {name: astra-claude-mh1-23wave-${{ github.sha }}, path: evidence/mh1}
       - uses: actions/download-artifact@v4
