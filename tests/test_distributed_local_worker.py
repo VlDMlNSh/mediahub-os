@@ -73,3 +73,8 @@ def test_23wave_codex_qualification_is_not_unbounded():
     workflow = Path(".github/workflows/mh25-dual-local-23wave.yml").read_text(encoding="utf-8")
     assert "--sandbox workspace-write" in workflow
     assert "--sandbox danger-full-access" not in workflow
+
+
+def test_codex_worker_disables_reasoning_for_local_models():
+    worker = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
+    assert 'model_reasoning_effort = "none"' in worker
