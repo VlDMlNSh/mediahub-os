@@ -61,7 +61,7 @@ PY
             then status=PASS; fi
             python3 - <<PY >> claude-mh1-23wave.jsonl
 import json
-print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_CLAUDE_MH1_23WAVE_OK","model":"ollama/qwen2.5-coder:1.5b"}))
+print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_CLAUDE_MH1_23WAVE_OK","model":"ollama/qwen2.5-coder:1.5b","target_sha":"$GITHUB_SHA"}))
 PY
             [ "$status" = PASS ] || exit 2
           done
@@ -161,7 +161,7 @@ PY
             then status=PASS; fi
             python3 - <<PY >> claude-mh2-23wave.jsonl
 import json
-print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_CLAUDE_MH2_23WAVE_OK","model":"ollama/qwen2.5-coder:3b"}))
+print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_CLAUDE_MH2_23WAVE_OK","model":"ollama/qwen2.5-coder:3b","target_sha":"$GITHUB_SHA"}))
 PY
             [ "$status" = PASS ] || exit 2
           done
