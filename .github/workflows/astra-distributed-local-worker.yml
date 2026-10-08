@@ -79,7 +79,7 @@ jobs:
 
   mh-dev-02:
     if: ${{ inputs.node_id == 'mh-dev-02' }}
-    name: Primary local worker on mh-dev-02
+    name: Local Claude executor on mh-dev-02
     runs-on: [self-hosted, linux, x64, mediahub-provider]
     timeout-minutes: 30
     env:
@@ -103,19 +103,19 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-02"
           test "$(id -un)" = "mediahub"
-          test "${ASTRA_EXECUTOR}" = "codex"
+          test "${ASTRA_EXECUTOR}" = "claude"
           command -v codex
           command -v claude
           command -v ollama
           ollama list | grep -E '^qwen2.5-coder:3b[[:space:]]|^qwen2.5-coder-3b:latest[[:space:]]'
-      - name: Execute bounded local worker
+      - name: Execute bounded local Claude worker
         shell: bash
         run: python3 ops/qualification/run_distributed_local_worker.py
       - name: Upload worker evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: astra-distributed-worker-${{ github.run_id }}
+          name: astra-distributed-worker-mh-dev-02-claude-${{ github.run_id }}
           path: astra-distributed-worker-result.json
           if-no-files-found: error
           retention-days: 30
