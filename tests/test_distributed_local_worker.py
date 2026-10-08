@@ -88,6 +88,6 @@ def test_distributed_selection_allows_one_claim_per_executor_lane():
         {"task_id": "claude-mac", "priority": "P1", "node_id": "Voktors-Mac-mini.local", "executor": "claude"},
     ]
     selected = __import__("mediahub_runtime.autonomous_queue", fromlist=["select_distributed_tasks"]).select_distributed_tasks(tasks, 3)
-    assert [t["task_id"] for t in selected] == ["codex-a", "claude-mh1"]
+    assert [t["task_id"] for t in selected] == ["codex-a", "claude-mh1", "claude-mac"]
     assert len({t["node_id"] for t in selected}) == len(selected)
     assert len({t["executor"] for t in selected}) == len(selected)
