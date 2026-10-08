@@ -51,7 +51,7 @@ NODE_CONFIG = {
 def run(argv: list[str], timeout: int, cwd: Path = ROOT, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         argv, cwd=cwd, env=env, text=True, capture_output=True,
-        timeout=timeout, check=False,
+        stdin=subprocess.DEVNULL, timeout=timeout, check=False,
     )
 
 
