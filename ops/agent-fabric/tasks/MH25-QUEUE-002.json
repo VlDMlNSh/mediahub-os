@@ -9,7 +9,7 @@
   ],
   "allow_no_changes": true,
   "boundary": [
-    "docs/operations/"
+    "docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md"
   ],
   "builder_attempts": 3,
   "deliverable": "docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md",
