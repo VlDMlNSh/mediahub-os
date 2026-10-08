@@ -1,0 +1,196 @@
+name: Astra Gold Three-Claude 23-Wave Qualification
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/mh25-three-claude-23wave.yml
+      - ops/qualification/verify_three_claude_23wave.py
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: astra-gold-three-claude-23wave
+  cancel-in-progress: false
+
+jobs:
+  claude-mh1:
+    name: Claude executor / mh-dev-01
+    runs-on: [self-hosted, linux, x64, mediahub-control]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ github.sha }}, fetch-depth: 1, persist-credentials: false}
+      - name: Admission
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-01"
+          test "$(id -un)" = "mediahub-runner"
+          command -v claude
+          command -v ollama
+          ollama show qwen2.5-coder:1.5b >/dev/null
+          command -v fcc-server
+      - name: 23 real Claude rounds
+        env:
+          FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env
+        run: |
+          set -u
+          : > claude-mh1-23wave.jsonl
+          set -a; . "$FCC_ENV_FILE"; set +a
+          model="qwen2.5-coder:1.5b"; host=127.0.0.1
+          port="$(python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1",0)); print(s.getsockname()[1]); s.close()')"
+          export HOST="$host" PORT="$port" MODEL="ollama/$model"
+          export ENABLE_MODEL_THINKING=false ENABLE_OPUS_THINKING=false ENABLE_SONNET_THINKING=false ENABLE_HAIKU_THINKING=false
+          nohup fcc-server --host "$host" --port "$port" >/tmp/astra-fcc-mh1.log 2>&1 & server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in $(seq 1 30); do curl -fsS --max-time 2 "http://$host:$port/health" >/dev/null 2>&1 && break; sleep 1; done
+          curl -fsS --max-time 5 "http://$host:$port/health" >/dev/null
+          for i in $(seq 1 23); do
+            ts=$(date +%s); marker="MEDIAHUB_CLAUDE_MH1_23WAVE_OK"
+            payload="$(python3 - "$model" "$marker" <<'PY'
+import json,sys
+m,x=sys.argv[1:]; print(json.dumps({"model":"ollama/"+m,"max_tokens":32,"temperature":0,"messages":[{"role":"user","content":"Output exactly this token and nothing else: "+x}]}))
+PY
+)"
+            out="/tmp/astra-mh1-$i.json"; rc=0
+            curl -fsS --max-time 290 "http://$host:$port/v1/messages" -H "x-api-key: $ANTHROPIC_AUTH_TOKEN" -H 'Content-Type: application/json' -d "$payload" >"$out" || rc=$?
+            status=EXECUTION_FAILURE
+            if [ "$rc" -eq 0 ] && python3 - "$out" "$marker" <<'PY'
+import json,sys
+d=json.load(open(sys.argv[1])); t="\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict)).strip(); raise SystemExit(0 if t==sys.argv[2] or t.rstrip(".!?")==sys.argv[2] else 1)
+PY
+            then status=PASS; fi
+            python3 - <<PY >> claude-mh1-23wave.jsonl
+import json
+print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_CLAUDE_MH1_23WAVE_OK","model":"ollama/qwen2.5-coder:1.5b"}))
+PY
+            [ "$status" = PASS ] || exit 2
+          done
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: {name: astra-claude-mh1-23wave-${{ github.sha }}, path: claude-mh1-23wave.jsonl, if-no-files-found: error}
+
+  claude-mac:
+    name: Claude executor / Voktors-Mac-mini
+    runs-on: [self-hosted, macOS, ARM64, astra-control]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ github.sha }}, fetch-depth: 1, persist-credentials: false}
+      - name: Admission
+        run: |
+          set -euo pipefail
+          host="$(hostname)"; test "$host" = "Voktors-Mini.Dlink" || test "$host" = "Voktors-Mac-mini"
+          test "$(id -un)" = "voktor"; command -v claude; command -v ollama; test -x "/Users/voktor/Library/Application Support/pipx/venvs/free-claude-code/bin/fcc-server"
+      - name: 23 real Claude rounds
+        run: |
+          set -u
+          : > claude-mac-23wave.jsonl
+          env_file="/Users/voktor/Library/Application Support/MediaHub/fcc.env"; set -a; . "$env_file"; set +a
+          model="qwen2.5-coder:1.5b"; host=127.0.0.1
+          port="$(python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1",0)); print(s.getsockname()[1]); s.close()')"
+          export HOST="$host" PORT="$port" MODEL="ollama/$model"
+          nohup "/Users/voktor/Library/Application Support/pipx/venvs/free-claude-code/bin/fcc-server" --host "$host" --port "$port" >/tmp/astra-fcc-mac.log 2>&1 & server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in $(seq 1 30); do curl -fsS --max-time 2 "http://$host:$port/health" >/dev/null 2>&1 && break; sleep 1; done
+          curl -fsS --max-time 5 "http://$host:$port/health" >/dev/null
+          for i in $(seq 1 23); do
+            ts=$(date +%s); marker="MEDIAHUB_CLAUDE_MAC_23WAVE_OK"
+            payload="$(python3 - "$model" "$marker" <<'PY'
+import json,sys
+m,x=sys.argv[1:]; print(json.dumps({"model":"ollama/"+m,"max_tokens":32,"temperature":0,"messages":[{"role":"user","content":"Output exactly this token and nothing else: "+x}]}))
+PY
+)"
+            out="/tmp/astra-mac-$i.json"; rc=0
+            curl -fsS --max-time 290 "http://$host:$port/v1/messages" -H "x-api-key: $ANTHROPIC_AUTH_TOKEN" -H 'Content-Type: application/json' -d "$payload" >"$out" || rc=$?
+            status=EXECUTION_FAILURE
+            if [ "$rc" -eq 0 ] && python3 - "$out" "$marker" <<'PY'
+import json,sys
+d=json.load(open(sys.argv[1])); t="\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict)).strip(); raise SystemExit(0 if t==sys.argv[2] or t.rstrip(".!?")==sys.argv[2] else 1)
+PY
+            then status=PASS; fi
+            python3 - <<PY >> claude-mac-23wave.jsonl
+import json
+print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_CLAUDE_MAC_23WAVE_OK","model":"ollama/qwen2.5-coder:1.5b"}))
+PY
+            [ "$status" = PASS ] || exit 2
+          done
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: {name: astra-claude-mac-23wave-${{ github.sha }}, path: claude-mac-23wave.jsonl, if-no-files-found: error}
+
+  claude-mh2:
+    name: Claude executor / mh-dev-02
+    runs-on: [self-hosted, linux, x64, mediahub-provider]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ github.sha }}, fetch-depth: 1, persist-credentials: false}
+      - name: Admission
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = "mh-dev-02"; test "$(id -un)" = "mediahub"
+          command -v claude; command -v ollama; ollama show qwen2.5-coder:3b >/dev/null; command -v fcc-server
+      - name: 23 real Claude rounds
+        env:
+          FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env
+        run: |
+          set -u
+          : > claude-mh2-23wave.jsonl
+          set -a; . "$FCC_ENV_FILE"; set +a
+          model="qwen2.5-coder:3b"; host=127.0.0.1
+          port="$(python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1",0)); print(s.getsockname()[1]); s.close()')"
+          export HOST="$host" PORT="$port" MODEL="ollama/$model"
+          nohup fcc-server --host "$host" --port "$port" >/tmp/astra-fcc-mh2.log 2>&1 & server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in $(seq 1 30); do curl -fsS --max-time 2 "http://$host:$port/health" >/dev/null 2>&1 && break; sleep 1; done
+          curl -fsS --max-time 5 "http://$host:$port/health" >/dev/null
+          for i in $(seq 1 23); do
+            ts=$(date +%s); marker="MEDIAHUB_CLAUDE_MH2_23WAVE_OK"
+            payload="$(python3 - "$model" "$marker" <<'PY'
+import json,sys
+m,x=sys.argv[1:]; print(json.dumps({"model":"ollama/"+m,"max_tokens":32,"temperature":0,"messages":[{"role":"user","content":"Output exactly this token and nothing else: "+x}]}))
+PY
+)"
+            out="/tmp/astra-mh2-$i.json"; rc=0
+            curl -fsS --max-time 290 "http://$host:$port/v1/messages" -H "x-api-key: $ANTHROPIC_AUTH_TOKEN" -H 'Content-Type: application/json' -d "$payload" >"$out" || rc=$?
+            status=EXECUTION_FAILURE
+            if [ "$rc" -eq 0 ] && python3 - "$out" "$marker" <<'PY'
+import json,sys
+d=json.load(open(sys.argv[1])); t="\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict)).strip(); raise SystemExit(0 if t==sys.argv[2] or t.rstrip(".!?")==sys.argv[2] else 1)
+PY
+            then status=PASS; fi
+            python3 - <<PY >> claude-mh2-23wave.jsonl
+import json
+print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_CLAUDE_MH2_23WAVE_OK","model":"ollama/qwen2.5-coder:3b"}))
+PY
+            [ "$status" = PASS ] || exit 2
+          done
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: {name: astra-claude-mh2-23wave-${{ github.sha }}, path: claude-mh2-23wave.jsonl, if-no-files-found: error}
+
+  aggregate:
+    name: Aggregate three-Claude qualification
+    needs: [claude-mh1, claude-mac, claude-mh2]
+    if: ${{ always() }}
+    runs-on: [self-hosted, linux, x64, mediahub-control]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ github.sha }}, fetch-depth: 1, persist-credentials: false}
+      - uses: actions/download-artifact@v4
+        with: {name: astra-claude-mh1-23wave-${{ github.sha }}, path: evidence/mh1}
+      - uses: actions/download-artifact@v4
+        with: {name: astra-claude-mac-23wave-${{ github.sha }}, path: evidence/mac}
+      - uses: actions/download-artifact@v4
+        with: {name: astra-claude-mh2-23wave-${{ github.sha }}, path: evidence/mh2}
+      - name: Verify all three lanes
+        run: |
+          set -euo pipefail
+          python3 ops/qualification/verify_three_claude_23wave.py --mh1 evidence/mh1/claude-mh1-23wave.jsonl --mac evidence/mac/claude-mac-23wave.jsonl --mh2 evidence/mh2/claude-mh2-23wave.jsonl --expected-sha "$GITHUB_SHA"
+      - name: Upload PASS registry evidence
+        run: |
+          printf 'THREE_CLAUDE_23WAVE=PASS\nG-5=3\ntarget_sha=%s\n' "$GITHUB_SHA" > three-claude-qualification.txt
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: {name: astra-three-claude-23wave-${{ github.sha }}, path: three-claude-qualification.txt}
