@@ -264,6 +264,26 @@ def load_tasks() -> list[dict]:
     return sorted(tasks, key=lambda x: (x.get("priority", "Z"), x.get("task_id", "")))
 
 
+def select_distributed_tasks(tasks: list[dict], max_workers: int = MAX_WORKERS) -> list[dict]:
+    """Select at most one active claim per permanent executor lane/node."""
+    selected: list[dict] = []
+    used_nodes: set[str] = set()
+    used_executors: set[str] = set()
+    for task in tasks:
+        node_id = str(task.get("node_id", "")).strip()
+        executor = str(task.get("executor", "")).strip()
+        if node_id in used_nodes or executor in used_executors:
+            continue
+        if node_id not in PERMANENT_EXECUTOR_POOL or PERMANENT_EXECUTOR_POOL[node_id] != executor:
+            continue
+        selected.append(task)
+        used_nodes.add(node_id)
+        used_executors.add(executor)
+        if len(selected) >= bounded_worker_count(max_workers):
+            break
+    return selected
+
+
 def completed(task_id: str, base_sha: str | None = None) -> bool:
     path = STATE / "completed" / f"{safe_task_id(task_id)}.json"
     if not path.is_file():
@@ -817,7 +837,7 @@ def main() -> int:
             "discovered_tasks": inventory,
         }, sort_keys=True))
         return 0
-    selected = tasks[:MAX_WORKERS]
+    selected = select_distributed_tasks(tasks, MAX_WORKERS)
     if os.environ.get("ASTRA_DISTRIBUTED_LOCAL", "0").strip().lower() in {"1", "true", "yes"}:
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(selected)) as pool:
             results = list(pool.map(lambda task: process_task_remote(task, base_sha), selected))

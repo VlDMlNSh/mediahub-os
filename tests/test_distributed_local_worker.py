@@ -78,3 +78,16 @@ def test_23wave_codex_qualification_is_not_unbounded():
 def test_codex_worker_disables_reasoning_for_local_models():
     worker = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
     assert 'model_reasoning_effort = "none"' in worker
+
+
+def test_distributed_selection_allows_one_claim_per_executor_lane():
+    tasks = [
+        {"task_id": "codex-a", "priority": "P0", "node_id": "mh-dev-02", "executor": "codex"},
+        {"task_id": "codex-b", "priority": "P0", "node_id": "mh-dev-02", "executor": "codex"},
+        {"task_id": "claude-mh1", "priority": "P0", "node_id": "mh-dev-01", "executor": "claude"},
+        {"task_id": "claude-mac", "priority": "P1", "node_id": "Voktors-Mac-mini.local", "executor": "claude"},
+    ]
+    selected = __import__("mediahub_runtime.autonomous_queue", fromlist=["select_distributed_tasks"]).select_distributed_tasks(tasks, 3)
+    assert [t["task_id"] for t in selected] == ["codex-a", "claude-mh1"]
+    assert len({t["node_id"] for t in selected}) == len(selected)
+    assert len({t["executor"] for t in selected}) == len(selected)
