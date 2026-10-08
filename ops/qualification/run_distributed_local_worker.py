@@ -170,7 +170,7 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
         }
 
 
-def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048) -> tuple[dict, subprocess.Popen[str] | None]:
+def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048, max_turns: int = 4) -> tuple[dict, subprocess.Popen[str] | None]:
     """Run the real Claude Code client through the node-local FCC transport."""
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
@@ -211,7 +211,7 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     env["CLAUDE_CONFIG_DIR"] = isolated_config
     try:
         p = run(
-            [claude, "-p", prompt, "--output-format", "text", "--max-turns", "1"],
+            [claude, "-p", prompt, "--output-format", "text", "--max-turns", str(max_turns)],
             timeout,
             ROOT,
             env,
@@ -277,7 +277,7 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
         return exec_codex(prompt, False, model, 240)
     if verifier == "claude":
         env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
-        return exec_claude(prompt, model, 240, env_file, 128)[0]
+        return exec_claude(prompt, model, 240, env_file, 128, max_turns=2)[0]
     raise RuntimeError("unsupported_verifier")
 
 
@@ -352,6 +352,7 @@ def main() -> int:
                     cfg["model"],
                     builder_timeout,
                     Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+                    max_turns=6,
                 )
             attempt_records.append({
                 "attempt": attempt,
