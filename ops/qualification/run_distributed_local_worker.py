@@ -170,6 +170,7 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
 
 
 def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048) -> tuple[dict, subprocess.Popen[str] | None]:
+    """Run the real Claude Code client through the node-local FCC transport."""
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
         raise RuntimeError("fcc_model_binding_mismatch")
@@ -186,30 +187,24 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     token = env_updates.get("ANTHROPIC_AUTH_TOKEN", "")
     if not token:
         raise RuntimeError("fcc_auth_token_missing")
-    payload = json.dumps({
-        "model": "ollama/" + model,
-        "max_tokens": max_tokens,
-        "temperature": 0,
-        "messages": [{"role": "user", "content": prompt}],
-    }).encode("utf-8")
-    req = urllib.request.Request(
-        f"http://{host}:{port}/v1/messages",
-        data=payload,
-        headers={"x-api-key": token, "Content-Type": "application/json", "Accept": "application/json"},
-        method="POST",
+    claude = shutil.which("claude")
+    if not claude:
+        raise RuntimeError("claude_cli_missing")
+    env = os.environ.copy()
+    env.update(env_updates)
+    env["ANTHROPIC_BASE_URL"] = f"http://{host}:{port}"
+    env["ANTHROPIC_AUTH_TOKEN"] = token
+    env["ANTHROPIC_API_KEY"] = token
+    env["ASTRA_FCC_TRANSPORT"] = "fcc"
+    env["ASTRA_FCC_MODEL"] = "ollama/" + model
+    env["CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"] = "1"
+    p = run(
+        [claude, "-p", prompt, "--output-format", "text", "--max-turns", "1"],
+        timeout,
+        ROOT,
+        env,
     )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as response:
-            raw = response.read().decode("utf-8", "replace")
-        body = json.loads(raw)
-        text = "\n".join(
-            str(item.get("text", "")) for item in body.get("content", [])
-            if isinstance(item, dict)
-        )
-        return {"returncode": 0, "stdout": text[-16000:], "stderr": ""}, server
-    except Exception as exc:
-        return {"returncode": 1, "stdout": "", "stderr": type(exc).__name__ + ":" + str(exc)}, server
-
+    return {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}, server
 
 def scope_paths(task: dict, changed: set[str]) -> list[str]:
     boundary = tuple(str(x) for x in task.get("boundary", []))

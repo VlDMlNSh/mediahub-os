@@ -78,8 +78,8 @@ def test_worktree_path_is_task_scoped_and_deterministic(monkeypatch, tmp_path: P
     assert first.name == "TASK-1"
 
 
-def test_max_workers_is_bounded_by_three():
-    assert autonomous_queue.bounded_worker_count(99) == 3
+def test_max_workers_is_bounded_by_two_concurrent_claims():
+    assert autonomous_queue.bounded_worker_count(99) == 2
     assert autonomous_queue.bounded_worker_count(0) == 1
 
 
@@ -333,12 +333,14 @@ def test_queue_pins_workers_to_explicit_target_sha():
 def test_remote_dispatch_accepts_canonical_fast_pool_node():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert '"Voktors-Mac-mini.local"' in source
-    assert 'node_id not in {"mh-dev-02", "Voktors-Mini.Dlink", "Voktors-Mac-mini.local"}' in source
+    assert 'PERMANENT_EXECUTOR_POOL' in source
+    assert 'node_id not in PERMANENT_EXECUTOR_POOL' in source
 
 
 def test_remote_dispatch_rejects_unknown_nodes():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
-    assert 'node_id not in {"mh-dev-02", "Voktors-Mini.Dlink", "Voktors-Mac-mini.local"}' in source
+    assert 'node_id not in PERMANENT_EXECUTOR_POOL' in source
+    assert 'permanent_executor_binding_mismatch' in source
     assert 'unsupported_remote_node' in source
 
 
@@ -348,3 +350,12 @@ def test_worker_has_bounded_builder_retry_for_no_change_outcome():
     assert 'RETRY REQUIREMENT' in worker
     assert 'changed_probe = changed_paths(target_sha)' in worker
     assert 'no_changes' in worker
+
+
+def test_permanent_executor_pool_matches_canonical_three_lane_topology():
+    assert autonomous_queue.PERMANENT_EXECUTOR_POOL == {
+        "mh-dev-01": "claude",
+        "mh-dev-02": "codex",
+        "Voktors-Mac-mini.local": "claude",
+    }
+    assert autonomous_queue.bounded_worker_count(3) == 2
