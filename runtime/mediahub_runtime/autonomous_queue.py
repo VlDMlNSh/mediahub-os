@@ -26,7 +26,7 @@ CLAIMS = STATE / "claims"
 # Three permanent executor lanes; Astra Gold permits up to three active claims.
 PERMANENT_EXECUTOR_POOL = {
     "mh-dev-01": "claude",
-    "mh-dev-02": "codex",
+    "mh-dev-02": "claude",
     "Voktors-Mac-mini.local": "claude",
 }
 
