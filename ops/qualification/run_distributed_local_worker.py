@@ -392,7 +392,7 @@ def main() -> int:
                     })
                     output = artifact.get("stdout", "")
                     match = re.search(
-                        r"ASTRA_ARTIFACT_BEGIN\\s*\\n(.*?)\\nASTRA_ARTIFACT_END",
+                        r"ASTRA_ARTIFACT_BEGIN\s*\n(.*?)\nASTRA_ARTIFACT_END",
                         output,
                         re.DOTALL,
                     )
