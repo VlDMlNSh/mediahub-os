@@ -368,13 +368,22 @@ def main() -> int:
             if executor == "claude" and attempt == builder_attempts:
                 boundaries = [str(x) for x in task.get("boundary", [])]
                 if len(boundaries) == 1 and boundaries[0].endswith(".md"):
+                    document_facts = [
+                        str(item) for item in task.get("acceptance", [])
+                        if "document" in str(item).lower() or "states" in str(item).lower()
+                    ]
                     artifact_prompt = (
-                        attempt_prompt
-                        + "\n\nTOOL-FREE BUILDER FALLBACK: this local backend may not expose editor tools. "
-                        "You must still complete the task by generating the exact contents of the single Markdown "
-                        "boundary file. Do not explain, propose code, or output tool calls. "
-                        "Return only the final Markdown document between the literal markers "
-                        "ASTRA_ARTIFACT_BEGIN and ASTRA_ARTIFACT_END."
+                        "Generate one concise Markdown operations document. Do not discuss Python, charts, "
+                        "regression examples, or hypothetical code. Do not emit tool calls. "
+                        "Return only the document between ASTRA_ARTIFACT_BEGIN and ASTRA_ARTIFACT_END. "
+                        f"Boundary: {boundaries[0]}. "
+                        f"Required node: {node_id}. Executor: {executor}. Verifier: {task['verifier']}. "
+                        f"Local model: {cfg['model']}. "
+                        "The document must explicitly state the required facts below, using the exact identifiers "
+                        "and security terms: "
+                        + json.dumps(document_facts, sort_keys=True)
+                        + ". Also state target-SHA binding, isolated branch execution, GitHub evidence transport, "
+                        "fail-closed promotion, and no direct writes to main. No credentials or secrets."
                     )
                     artifact, server = exec_claude(
                         artifact_prompt,
@@ -397,14 +406,33 @@ def main() -> int:
                         re.DOTALL,
                     )
                     if artifact.get("returncode") == 0 and match:
-                        artifact_path = ROOT / boundaries[0]
-                        artifact_path.parent.mkdir(parents=True, exist_ok=True)
-                        artifact_path.write_text(match.group(1).strip() + "\n", encoding="utf-8")
-                        changed_probe = changed_paths(target_sha)
-                        if changed_probe:
-                            build = artifact
-                            build["materialized_artifact"] = boundaries[0]
-                            break
+                        artifact_text = match.group(1).strip()
+                        required_tokens = [
+                            node_id,
+                            executor,
+                            task["verifier"],
+                            cfg["model"],
+                            "target-SHA",
+                            "fail-closed",
+                            "main",
+                        ]
+                        if not all(token.lower() in artifact_text.lower() for token in required_tokens):
+                            attempt_records.append({
+                                "attempt": attempt,
+                                "mode": "artifact_validation",
+                                "returncode": 1,
+                                "stderr": "artifact_missing_required_contract_terms",
+                                "stdout": artifact_text[-4000:],
+                            })
+                        else:
+                            artifact_path = ROOT / boundaries[0]
+                            artifact_path.parent.mkdir(parents=True, exist_ok=True)
+                            artifact_path.write_text(artifact_text + "\n", encoding="utf-8")
+                            changed_probe = changed_paths(target_sha)
+                            if changed_probe:
+                                build = artifact
+                                build["materialized_artifact"] = boundaries[0]
+                                break
         record["builder"] = build
         record["builder_attempts"] = attempt_records
         if build["returncode"] != 0:
