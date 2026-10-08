@@ -420,6 +420,32 @@ def prepare_worktree(worktree: Path) -> None:
         raise RuntimeError("worktree_cleanup_failed")
 
 
+def github_auth_env() -> dict[str, str] | None:
+    """Use the node's authenticated gh CLI session when no token env is exported."""
+    env = os.environ.copy()
+    if env.get("GH_TOKEN") or env.get("GITHUB_TOKEN"):
+        if env.get("GITHUB_TOKEN") and not env.get("GH_TOKEN"):
+            env["GH_TOKEN"] = env["GITHUB_TOKEN"]
+        return env
+    try:
+        token = subprocess.run(
+            ["gh", "auth", "token"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            stdin=subprocess.DEVNULL,
+            timeout=15,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    value = token.stdout.strip()
+    if token.returncode != 0 or not value:
+        return None
+    env["GH_TOKEN"] = value
+    return env
+
+
 def process_task_remote(task: dict, expected_base_sha: str) -> dict:
     """Dispatch one queue task to its explicitly assigned local-executor node via GitHub."""
     STATE.mkdir(parents=True, exist_ok=True)
@@ -451,7 +477,8 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
         }
     if executor == verifier and not bool(task.get("independent_verifier_process", False)):
         return {"task_id": task_key, "status": "BLOCKED", "error": "verifier_must_be_independent_process"}
-    if not os.environ.get("GH_TOKEN") and not os.environ.get("GITHUB_TOKEN"):
+    gh_env = github_auth_env()
+    if gh_env is None:
         return {"task_id": task_key, "status": "BLOCKED", "error": "remote_transport_auth_missing"}
     record = {
         "task_id": task_key,
@@ -469,9 +496,6 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
     try:
         store.acquire(claim)
         task_json = json.dumps(task_payload, sort_keys=True, separators=(",", ":"))
-        gh_env = os.environ.copy()
-        if gh_env.get("GITHUB_TOKEN") and not gh_env.get("GH_TOKEN"):
-            gh_env["GH_TOKEN"] = gh_env["GITHUB_TOKEN"]
         dispatch = run([
             "gh", "workflow", "run", ".github/workflows/astra-distributed-local-worker.yml",
             "--ref", "main",
