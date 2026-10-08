@@ -78,8 +78,8 @@ def test_worktree_path_is_task_scoped_and_deterministic(monkeypatch, tmp_path: P
     assert first.name == "TASK-1"
 
 
-def test_max_workers_is_bounded_by_two_concurrent_claims():
-    assert autonomous_queue.bounded_worker_count(99) == 2
+def test_max_workers_is_bounded_by_three_concurrent_claims():
+    assert autonomous_queue.bounded_worker_count(99) == 3
     assert autonomous_queue.bounded_worker_count(0) == 1
 
 
@@ -247,8 +247,7 @@ def test_scope_check_rejects_tracked_worktree_changes(monkeypatch, tmp_path: Pat
     def fake_run(argv, *args, **kwargs):
         if argv == ["git", "diff", "--name-only", "a" * 40]:
             return type("Tracked", (), {
-                "returncode": 0,
-                "stdout": "runtime/mediahub_runtime/autonomous_queue.py\n",
+                "returncode": 0,                "stdout": "runtime/mediahub_runtime/autonomous_queue.py\n",
                 "stderr": "",
             })()
         if argv[:4] == ["git", "diff", "--cached", "--name-only"]:
@@ -317,7 +316,8 @@ def test_local_executor_contract_uses_qualified_ollama_marker_and_provider():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" in source
     assert '"--profile", "huggingface"' not in source
-    assert 'if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" in output' in source
+    assert 'if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" not in output' not in source
+    assert 'if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" not in output' in source
     assert 'preferred = ("qwen2.5-coder:3b", "qwen2.5-coder-3b:latest")' in source
 
 
@@ -358,4 +358,4 @@ def test_permanent_executor_pool_matches_canonical_three_lane_topology():
         "mh-dev-02": "codex",
         "Voktors-Mac-mini.local": "claude",
     }
-    assert autonomous_queue.bounded_worker_count(3) == 2
+    assert autonomous_queue.bounded_worker_count(3) == 3
