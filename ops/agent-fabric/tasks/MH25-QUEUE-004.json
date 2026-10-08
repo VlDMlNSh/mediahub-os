@@ -20,6 +20,7 @@
   "node_id": "mh-dev-02",
   "executor": "claude",
   "verifier": "claude",
+  "independent_verifier_process": true,
   "timeout_seconds": 1800,
   "builder_attempts": 2,
   "allow_no_changes": false,
