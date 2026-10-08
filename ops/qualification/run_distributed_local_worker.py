@@ -487,6 +487,8 @@ def main() -> int:
         diff = run(["git", "diff", "--no-ext-diff", target_sha, "HEAD"], 60)
         if diff.returncode != 0:
             raise RuntimeError("verifier_diff_failed")
+        if not bool(task.get("allow_no_changes", False)) and not diff.stdout.strip():
+            raise RuntimeError("no_changes_before_verifier")
         verifier = verify_executor(
             task, diff.stdout, record["tests"]["stdout"] + record["tests"]["stderr"], cfg["model"]
         )

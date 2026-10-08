@@ -6,7 +6,8 @@
     "The document states fail-closed promotion and that no worker writes directly to main.",
     "No credentials or secrets are included.",
     "The scoped Agent Fabric regression suite tests/test_agent_fabric.py passes.",
-    "The worker must produce a real Claude execution result and a real independent Codex verdict; synthetic or prefilled evidence is invalid."
+    "The worker must produce a real Claude execution result and a real independent Codex verdict; synthetic or prefilled evidence is invalid.",
+    "The document explicitly states G5 allows three simultaneous disjoint claims, one per permanent executor lane."
   ],
   "allow_no_changes": false,
   "boundary": [
@@ -35,5 +36,5 @@
   ],
   "timeout_seconds": 1800,
   "verifier": "codex",
-  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md. Use shell/editor directly; do not ask for more context. Include exact identities mh-dev-01, mh-dev-02, Voktors-Mac-mini.local, Claude, Codex, exact target-SHA binding, isolated branches, GitHub evidence transport, fail-closed promotion, and no direct main writes. Keep it concise and contain no secrets."
+  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md. Use shell/editor directly; do not ask for more context. Include exact identities mh-dev-01, mh-dev-02, Voktors-Mac-mini.local, Claude, Codex, exact target-SHA binding, isolated branches, GitHub evidence transport, fail-closed promotion, and no direct main writes. Keep it concise and contain no secrets. Add a concise G5 section stating exactly three simultaneous disjoint claims, one per permanent executor lane."
 }
