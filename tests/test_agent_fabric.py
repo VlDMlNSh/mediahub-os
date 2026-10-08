@@ -111,7 +111,7 @@ class AgentFabricTests(unittest.TestCase):
         source = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
         self.assertIn('claude = shutil.which("claude")', source)
         self.assertIn('ANTHROPIC_BASE_URL', source)
-        self.assertIn('ASTRA_FCC_TRANSPORT", "fcc"', source)
+        self.assertIn('env["ASTRA_FCC_TRANSPORT"] = "fcc"', source)
         self.assertNotIn('urllib.request.Request(', source)
 
 
