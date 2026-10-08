@@ -170,7 +170,7 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
         }
 
 
-def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048, max_turns: int = 4) -> tuple[dict, subprocess.Popen[str] | None]:
+def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048, max_turns: int = 4, structured_schema: dict | None = None, tools_mode: str = "Read,Edit,Bash") -> tuple[dict, subprocess.Popen[str] | None]:
     """Run the real Claude Code client through the node-local FCC transport."""
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
@@ -210,17 +210,21 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     isolated_config = tempfile.mkdtemp(prefix="astra-claude-config-")
     env["CLAUDE_CONFIG_DIR"] = isolated_config
     try:
-        p = run(
-            [
-                claude, "-p", prompt, "--output-format", "text", "--max-turns", str(max_turns),
+        command = [claude, "-p", prompt, "--max-turns", str(max_turns)]
+        if structured_schema is not None:
+            command.extend([
+                "--output-format", "json",
+                "--json-schema", json.dumps(structured_schema, separators=(",", ":")),
+                "--tools", tools_mode,
+            ])
+        else:
+            command.extend([
+                "--output-format", "text",
                 "--permission-mode", "acceptEdits",
-                "--tools", "Read,Edit,Bash",
+                "--tools", tools_mode,
                 "--allowedTools", "Read", "Edit", "Bash(git *)", "Bash(python *)",
-            ],
-            timeout,
-            ROOT,
-            env,
-        )
+            ])
+        p = run(command, timeout, ROOT, env)
     finally:
         shutil.rmtree(isolated_config, ignore_errors=True)
     return {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}, server
@@ -448,12 +452,22 @@ def main() -> int:
                         + ". Also state target-SHA binding, isolated branch execution, GitHub evidence transport, "
                         "fail-closed promotion, and no direct writes to main. No credentials or secrets."
                     )
+                    artifact_schema = {
+                        "type": "object",
+                        "properties": {"markdown": {"type": "string"}},
+                        "required": ["markdown"],
+                        "additionalProperties": False,
+                    }
                     artifact, server = exec_claude(
-                        artifact_prompt,
+                        artifact_prompt
+                        + "\nReturn a single JSON object matching the schema; put the complete Markdown document in the markdown field. "
+                        + "Do not call tools and do not include any other fields.",
                         cfg["model"],
                         builder_timeout,
                         Path(os.environ["ASTRA_FCC_ENV_FILE"]),
                         max_turns=3,
+                        structured_schema=artifact_schema,
+                        tools_mode="",
                     )
                     attempt_records.append({
                         "attempt": attempt,
@@ -463,6 +477,36 @@ def main() -> int:
                         "stderr": artifact.get("stderr", "")[-3000:],
                     })
                     output = artifact.get("stdout", "")
+                    structured_markdown = None
+                    if artifact.get("returncode") == 0:
+                        try:
+                            structured_payload = json.loads(output)
+                            structured_markdown = str(
+                                structured_payload.get("structured_output", {}).get("markdown", "")
+                                if isinstance(structured_payload.get("structured_output"), dict)
+                                else ""
+                            ).strip()
+                        except (json.JSONDecodeError, AttributeError, TypeError):
+                            structured_markdown = None
+                    if structured_markdown and boundaries:
+                        required_tokens = [
+                            node_id,
+                            executor,
+                            task["verifier"],
+                            cfg["model"],
+                            "target-SHA",
+                            "fail-closed",
+                            "main",
+                        ]
+                        if all(token.lower() in structured_markdown.lower() for token in required_tokens):
+                            artifact_path = ROOT / boundaries[0]
+                            artifact_path.parent.mkdir(parents=True, exist_ok=True)
+                            artifact_path.write_text(structured_markdown + "\n", encoding="utf-8")
+                            changed_probe = changed_paths(target_sha)
+                            if changed_probe:
+                                build = artifact
+                                build["materialized_structured_artifact"] = boundaries[0]
+                                break
                     materialized_tool = None
                     if artifact.get("returncode") == 0 and boundaries:
                         materialized_tool = _materialize_bounded_claude_tool_output(output, boundaries[0])
