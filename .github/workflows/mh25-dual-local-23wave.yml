@@ -83,7 +83,7 @@ jobs:
             rm -f "$out" "$last"
             set +e
             timeout 300s codex exec --model qwen2.5-coder:1.5b --ephemeral --color never \
-              --config model_provider=ollama-local --config model_reasoning_effort=none --sandbox danger-full-access \
+              --config model_provider=ollama-local --config model_reasoning_effort=none --sandbox workspace-write \
               --disable browser_use --disable browser_use_external --disable computer_use --disable apps --disable plugins --disable multi_agent --disable multi_agent_v2 \
               --skip-git-repo-check --output-last-message "$last" \
               "Return exactly MEDIAHUB_LOCAL_CODEX_23WAVE_OK." </dev/null >"$out" 2>&1
