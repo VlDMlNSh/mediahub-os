@@ -22,10 +22,10 @@ on:
         required: true
         type: string
       executor:
-        description: "Local executor: codex or claude"
+        description: "Permanent Astra executor (Claude only)"
         required: true
         type: choice
-        options: [codex, claude]
+        options: [claude]
       task_json:
         description: "Full signed task payload"
         required: true
@@ -78,7 +78,7 @@ jobs:
           retention-days: 30
 
   mh-dev-02:
-    if: ${{ inputs.node_id == 'mh-dev-02' }}
+    if: ${{ inputs.node_id == 'mh-dev-02' && inputs.executor == 'claude' }}
     name: Local Claude executor on mh-dev-02
     runs-on: [self-hosted, linux, x64, mediahub-provider]
     timeout-minutes: 30
@@ -86,7 +86,7 @@ jobs:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_NODE_ID: mh-dev-02
-      ASTRA_EXECUTOR: ${{ inputs.executor }}
+      ASTRA_EXECUTOR: claude
       ASTRA_MICRO_TASK_JSON: ${{ inputs.task_json }}
       ASTRA_FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env
       ASTRA_WORKER_RESULT: astra-distributed-worker-result.json
@@ -121,7 +121,7 @@ jobs:
           retention-days: 30
 
   voktors-mac:
-    if: ${{ inputs.node_id == 'Voktors-Mac-mini.local' }}
+    if: ${{ inputs.node_id == 'Voktors-Mac-mini.local' && inputs.executor == 'claude' }}
     name: Fast local worker on Voktors-Mini.Dlink
     runs-on: [self-hosted, macOS, ARM64, astra-control]
     timeout-minutes: 30
