@@ -1,6 +1,6 @@
 schema: mediahub.astra-gold.authorized-schemes.v1
 status: FAIL_CLOSED
-last_reconciled_main_sha: dbe221773756d88457feed6f128860006be24c46
+last_reconciled_main_sha: f57412974e038d9ae020b95551b482a7d135ff88
 last_reconciled_at: 2026-10-08T04:50:00Z
 authority: A0-ASTRA-coordination
 source_of_truth:
