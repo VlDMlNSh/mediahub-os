@@ -18,10 +18,11 @@ class AstraCanonicalQueuePolicyTests(unittest.TestCase):
     def test_bounded_worker_count_caps_at_three(self):
         self.assertEqual(autonomous_queue.bounded_worker_count(99), 3)
 
-    def test_source_defaults_to_remote_distributed_transport(self):
+    def test_source_is_canonical_remote_claude_transport(self):
         source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
-        self.assertIn('os.environ.get("ASTRA_DISTRIBUTED_LOCAL", "1")', source)
+        self.assertIn("github_remote_claude_only", source)
         self.assertIn("permanent_pool_requires_claude", source)
+        self.assertNotIn("ASTRA_DISTRIBUTED_LOCAL", source)
 
 
 if __name__ == "__main__":

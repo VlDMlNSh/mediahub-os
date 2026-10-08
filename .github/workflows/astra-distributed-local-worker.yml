@@ -22,10 +22,10 @@ on:
         required: true
         type: string
       executor:
-        description: "Local executor: codex or claude"
+        description: "Permanent Astra executor (Claude only)"
         required: true
         type: choice
-        options: [codex, claude]
+        options: [claude]
       task_json:
         description: "Full signed task payload"
         required: true
@@ -62,7 +62,6 @@ jobs:
           test "$(id -un)" = "mediahub-runner"
           test "${ASTRA_EXECUTOR}" = "claude"
           command -v claude
-          command -v codex
           command -v ollama
           ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'
       - name: Execute bounded local Claude worker
@@ -78,7 +77,7 @@ jobs:
           retention-days: 30
 
   mh-dev-02:
-    if: ${{ inputs.node_id == 'mh-dev-02' }}
+    if: ${{ inputs.node_id == 'mh-dev-02' && inputs.executor == 'claude' }}
     name: Local Claude executor on mh-dev-02
     runs-on: [self-hosted, linux, x64, mediahub-provider]
     timeout-minutes: 30
@@ -86,11 +85,10 @@ jobs:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
       ASTRA_NODE_ID: mh-dev-02
-      ASTRA_EXECUTOR: ${{ inputs.executor }}
+      ASTRA_EXECUTOR: claude
       ASTRA_MICRO_TASK_JSON: ${{ inputs.task_json }}
       ASTRA_FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env
       ASTRA_WORKER_RESULT: astra-distributed-worker-result.json
-      ASTRA_CODEX_SANDBOX_MODE: workspace-write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -104,7 +102,6 @@ jobs:
           test "$(hostname)" = "mh-dev-02"
           test "$(id -un)" = "mediahub"
           test "${ASTRA_EXECUTOR}" = "claude"
-          command -v codex
           command -v claude
           command -v ollama
           ollama list | grep -E '^qwen2.5-coder:3b[[:space:]]|^qwen2.5-coder-3b:latest[[:space:]]'
@@ -121,7 +118,7 @@ jobs:
           retention-days: 30
 
   voktors-mac:
-    if: ${{ inputs.node_id == 'Voktors-Mac-mini.local' }}
+    if: ${{ inputs.node_id == 'Voktors-Mac-mini.local' && inputs.executor == 'claude' }}
     name: Fast local worker on Voktors-Mini.Dlink
     runs-on: [self-hosted, macOS, ARM64, astra-control]
     timeout-minutes: 30
@@ -147,7 +144,6 @@ jobs:
           test "$host" = "Voktors-Mini.Dlink" || test "$host" = "Voktors-Mac-mini"
           test "$(id -un)" = "voktor"
           test "${ASTRA_EXECUTOR}" = "claude"
-          command -v codex
           command -v claude
           command -v ollama
           ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'

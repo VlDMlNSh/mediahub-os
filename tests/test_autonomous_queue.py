@@ -264,11 +264,11 @@ def test_scope_check_rejects_tracked_worktree_changes(monkeypatch, tmp_path: Pat
     ) == ["runtime/mediahub_runtime/autonomous_queue.py"]
 
 
-def test_queue_supports_explicit_no_change_verification():
+def test_remote_queue_supports_explicit_no_change_verification():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert 'task.get("allow_no_changes", False)' in source
-    assert '"NO_CHANGES_REQUIRED"' in source
-    assert '"task_already_satisfied"' in source
+    assert '"NOT_REQUIRED"' in source
+    assert 'remote_nochange_sha_mismatch' in source
 
 
 def test_task_id_cannot_escape_queue_state(monkeypatch, tmp_path: Path):
@@ -282,11 +282,11 @@ def test_task_id_cannot_escape_queue_state(monkeypatch, tmp_path: Path):
             raise AssertionError("unsafe task id must be rejected")
 
 
-def test_queue_finalization_errors_cannot_remain_verified():
+def test_remote_finalization_errors_cannot_remain_verified():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert 'record["status"] = "BLOCKED"' in source
     assert '"ClaimReleaseError:" + repr(exc)' in source
-    assert '"WorktreeCleanupError:cleanup_failed"' in source
+    assert '"remote_evidence_claim_release_error"' in source
 
 
 def test_remote_worker_persistence_path_is_created_before_verified_state():
@@ -299,25 +299,24 @@ def test_remote_worker_persistence_path_is_created_before_verified_state():
 
 def test_queue_verifies_remote_push_sha():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
-    assert '"git", "ls-remote", "origin", f"refs/heads/{branch}"' in source
-    assert 'raise RuntimeError("git_push_sha_mismatch")' in source
+    assert 'git", "ls-remote", "origin", f"refs/heads/{branch}"' in source
+    assert 'remote_push_sha_mismatch' in source
     assert '"push_verification"' in source
-    assert '"remote_sha"' in source
+    assert 'remote_sha' in source
     assert '"status": "PASS"' in source
 
 
-def test_queue_blocks_existing_remote_branch_before_worktree_creation():
+def test_remote_queue_requires_remote_branch_sha_consistency():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
-    assert 'raise RuntimeError("queue_branch_already_exists")' in source
-    assert 'raise RuntimeError("queue_branch_probe_failed")' in source
+    assert 'controller_remote_branch_sha_mismatch' in source
+    assert 'git", "ls-remote", "origin"' in source
 
 
-def test_local_executor_contract_uses_qualified_ollama_marker_and_provider():
-    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
-    assert "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" in source
-    assert '"--profile", "huggingface"' not in source
-    assert 'if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" not in output:' in source
-    assert 'preferred = ("qwen2.5-coder:3b", "qwen2.5-coder-3b:latest")' in source
+def test_canonical_queue_contains_no_legacy_codex_execution_path():
+    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8").lower()
+    assert "codex" not in source
+    assert "local_ollama" not in source
+    assert "hugging face" not in source
 
 
 def test_queue_pins_workers_to_explicit_target_sha():
@@ -325,7 +324,8 @@ def test_queue_pins_workers_to_explicit_target_sha():
     assert 'ASTRA_TARGET_SHA' in source
     assert 'queue_target_sha_not_current_head' in source
     assert 'def claim_for(task: dict, base_sha: str)' in source
-    assert 'raise RuntimeError("queue_base_sha_not_current_head")' in source
+    assert 'base_sha' in source
+    assert 'target_sha_not_current_head' in source
 
 
 
@@ -354,7 +354,7 @@ def test_worker_has_bounded_builder_retry_for_no_change_outcome():
 def test_permanent_executor_pool_matches_canonical_three_lane_topology():
     assert autonomous_queue.PERMANENT_EXECUTOR_POOL == {
         "mh-dev-01": "claude",
-        "mh-dev-02": "codex",
+        "mh-dev-02": "claude",
         "Voktors-Mac-mini.local": "claude",
     }
     assert autonomous_queue.bounded_worker_count(3) == 3

@@ -103,15 +103,16 @@ Responsibilities:
 
 ### 3.3 Execution plane
 
-Mandatory paths:
-- Codex + FCC;
-- Claude Code + FCC;
-- Codex + OmniRoute;
-- Claude Code + OmniRoute;
-- Claude Code direct/native.
+Permanent Astra Gold production lanes:
+- mh-dev-01 -> Claude;
+- mh-dev-02 -> Claude;
+- Voktors-Mac-mini.local -> Claude.
 
-Mandatory qualification:
-23 fresh isolated successful rounds per path = 115 rounds.
+G-5 permits exactly three active autonomous claims, one per permanent lane.
+
+Broader executor/transport combinations may remain in historical or separate qualification catalogs, but they are not permanent production lanes and do not alter the three-Claude queue.
+
+Any contradiction between this mapping and a task, workflow, claim or evidence record is RECONCILIATION_REQUIRED -> BLOCKED.
 
 Cloud executors are an admitted extension of the execution fabric, not a new
 authority plane. A cloud executor path (for example Gemini, DeepSeek or an
@@ -287,7 +288,7 @@ Any contradiction produces RECONCILIATION_REQUIRED → BLOCKED. A component may 
 
 ## 9. Concurrency contract
 
-Maximum autonomous claims: 2.
+Maximum autonomous claims: 3. One active claim per permanent executor lane.
 
 Rules:
 - claims must be disjoint;

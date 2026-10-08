@@ -5,15 +5,12 @@ Promotion-safe: workers create task branches and evidence, but never merge to ma
 from __future__ import annotations
 
 import concurrent.futures
-import functools
 import json
 import os
 import re
 import subprocess
 import tempfile
 import time
-import urllib.error
-import urllib.request
 from pathlib import Path
 
 from .agent_fabric import AgentClaim, ClaimStore
@@ -30,201 +27,12 @@ PERMANENT_EXECUTOR_POOL = {
     "Voktors-Mac-mini.local": "claude",
 }
 
-CODEX_HOME_ROOT = Path(os.environ.get("ASTRA_CODEX_HOME_ROOT", str(Path.home() / ".cache" / "mediahub" / "astra-codex")))
-
-def _codex_home(prefix: str) -> tempfile.TemporaryDirectory:
-    Path(CODEX_HOME_ROOT).mkdir(parents=True, exist_ok=True)
-    return tempfile.TemporaryDirectory(prefix=prefix, dir=str(CODEX_HOME_ROOT))
 
 def bounded_worker_count(requested: int) -> int:
-    return max(1, min(int(requested), 3))
+    return max(1, min(int(requested), len(PERMANENT_EXECUTOR_POOL)))
 
 
 MAX_WORKERS = bounded_worker_count(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "3")))
-CODEX = os.environ.get("ASTRA_CODEX_BIN", "/usr/local/bin/codex")
-TASK_TIMEOUT = max(60, int(os.environ.get("ASTRA_QUEUE_TASK_TIMEOUT", "1800")))
-
-
-@functools.lru_cache(maxsize=4)
-def _local_codex_agentic_probe(model: str) -> bool:
-    """Require the local Codex+Ollama path to perform a bounded real file edit."""
-    try:
-        home = _codex_home("agentic-")
-        config = Path(home.name) / "config.toml"
-        config.write_text(
-            f'model_provider = "ollama"\n'
-            f'model = "{model}"\n'
-            'approval_policy = "never"\n'
-            'web_search = "disabled"\n'
-            '[features]\n'
-            'multi_agent = false\n'
-            'multi_agent_v2 = false\n'
-            'apps = false\n'
-            'tool_search = false\n'
-            'plugins = false\n',
-            encoding="utf-8",
-        )
-        probe_dir = Path(tempfile.mkdtemp(prefix="astra-local-agentic-work-"))
-        probe_file = probe_dir / "probe.txt"
-        env = os.environ.copy()
-        env["CODEX_HOME"] = home.name
-        probe_timeout = max(90, min(int(os.environ.get("ASTRA_LOCAL_AGENTIC_PROBE_TIMEOUT", "300")), 600))
-        result = run(
-            [
-                CODEX,
-                "exec",
-                "--oss",
-                "--local-provider",
-                "ollama",
-                "--model",
-                model,
-                "--sandbox",
-                "workspace-write",
-                "--skip-git-repo-check",
-                "--config",
-                "model_reasoning_effort=none",
-                (
-                    "Create exactly one file at "
-                    f"{probe_file} containing exactly "
-                    "\"MEDIAHUB_LOCAL_CODEX_AGENTIC_OK\". "
-                    "Do not call the network and do not modify any other files."
-                ),
-            ],
-            probe_timeout,
-            probe_dir,
-            env,
-        )
-        ok = (
-            result.returncode == 0
-            and probe_file.is_file()
-            and probe_file.read_text(encoding="utf-8", errors="replace").strip()
-            == "MEDIAHUB_LOCAL_CODEX_AGENTIC_OK"
-        )
-        return ok
-    except (OSError, subprocess.SubprocessError):
-        return False
-    finally:
-        try:
-            home.cleanup()
-        except Exception:
-            pass
-
-
-def local_ollama_profile() -> tuple[str, str] | None:
-    if os.environ.get("ASTRA_ENABLE_LOCAL_OLLAMA", "1").strip().lower() in {"0", "false", "no"}:
-        return None
-    base = os.environ.get("ASTRA_OLLAMA_BASE_URL", "http://127.0.0.1:11434/v1").rstrip("/")
-    timeout = max(3, min(int(os.environ.get("ASTRA_LOCAL_EXECUTOR_TIMEOUT", "15")), 30))
-    try:
-        req = urllib.request.Request(base + "/models", method="GET", headers={"Authorization": "Bearer ollama"})
-        with urllib.request.urlopen(req, timeout=timeout) as response:
-            payload = json.loads(response.read(128 * 1024).decode("utf-8", "replace"))
-        models = [str(item.get("id") or "").strip() for item in payload.get("data", []) if isinstance(item, dict)]
-        models = [m for m in models if m]
-        if not models:
-            return None
-        preferred = ("qwen2.5-coder:3b", "qwen2.5-coder-3b:latest")
-        model = next((candidate for candidate in preferred if candidate in models), None)
-        if model is None:
-            return None
-        body = json.dumps({"model": model, "input": "Return exactly MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK", "max_output_tokens": 16}).encode()
-        probe = urllib.request.Request(base + "/responses", data=body, method="POST", headers={"Authorization": "Bearer ollama", "Content-Type": "application/json", "Accept": "application/json"})
-        with urllib.request.urlopen(probe, timeout=timeout) as response:
-            result = json.loads(response.read(128 * 1024).decode("utf-8", "replace"))
-        output = str(result.get("output_text") or "").strip()
-        if not output:
-            for item in result.get("output") or []:
-                if isinstance(item, dict):
-                    for part in item.get("content") or []:
-                        if isinstance(part, dict) and part.get("text"):
-                            output += str(part["text"])
-        if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" not in output:
-            return None
-        if not _local_codex_agentic_probe(model):
-            return None
-        return ("ollama", model)
-    except (OSError, ValueError, urllib.error.URLError, urllib.error.HTTPError):
-        return None
-
-
-def qualified_codex_profile() -> tuple[str, str]:
-    evidence_path = os.environ.get("ASTRA_PROVIDER_EVIDENCE_PATH", "").strip()
-    if not evidence_path:
-        raise RuntimeError("qualified_executor_evidence_missing")
-    path = Path(evidence_path)
-    if not path.is_file():
-        raise RuntimeError("qualified_executor_evidence_missing")
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except Exception as exc:
-        raise RuntimeError("qualified_executor_evidence_invalid") from exc
-    if payload.get("status") != "PASS":
-        raise RuntimeError("qualified_executor_evidence_not_pass")
-    expected_sha = os.environ.get("ASTRA_PROVIDER_TARGET_SHA", "").strip()
-    if not expected_sha:
-        raise RuntimeError("qualified_executor_target_sha_missing")
-    if str(payload.get("target_sha", "")).strip() != expected_sha:
-        raise RuntimeError("qualified_executor_target_sha_mismatch")
-    expected_command = os.environ.get("ASTRA_COMMAND_ID", "").strip()
-    if expected_command and str(payload.get("command_id", "")).strip() != expected_command:
-        raise RuntimeError("qualified_executor_command_id_mismatch")
-    candidates = []
-    for item in payload.get("providers", []):
-        if (
-            item.get("provider") == "Hugging Face"
-            and item.get("verification_state") == "QUALIFIED"
-            and isinstance(item.get("selected_model"), str)
-            and item.get("selected_model").strip()
-        ):
-            candidates.append(item["selected_model"].strip())
-    if not candidates:
-        raise RuntimeError("qualified_huggingface_executor_missing")
-    if not os.environ.get("HF_TOKEN"):
-        raise RuntimeError("qualified_huggingface_credential_missing")
-    return "huggingface", candidates[0]
-
-
-def codex_sandbox_mode() -> str:
-    mode = os.environ.get("ASTRA_CODEX_SANDBOX_MODE", "workspace-write").strip()
-    if mode not in {"workspace-write", "danger-full-access"}:
-        raise RuntimeError("invalid_codex_sandbox_mode")
-    return mode
-
-
-def codex_env_for_qualified_provider() -> tuple[dict[str, str], tempfile.TemporaryDirectory, str, str]:
-    local = local_ollama_profile()
-    profile, model = local or qualified_codex_profile()
-    home = _codex_home("qualified-")
-    config = Path(home.name) / "config.toml"
-    config.write_text(
-        f'model_provider = "{profile}"\n'
-        f'model = "{model}"\n'
-        'approval_policy = "never"\n'
-        'web_search = "disabled"\n'
-        '[features]\n'
-        'multi_agent = false\n'
-        'multi_agent_v2 = false\n'
-        'apps = false\n'
-        'tool_search = false\n'
-        'plugins = false\n'
-        '[model_providers.huggingface]\n'
-        'name = "Hugging Face"\n'
-        'base_url = "https://router.huggingface.co/v1"\n'
-        'env_key = "HF_TOKEN"\n'
-        'wire_api = "responses"\n'
-        'supports_websockets = false\n'
-        'multi_agent = false\n'
-        'multi_agent_v2 = false\n'
-        'apps = false\n'
-        'tool_search = false\n'
-        'connectors = false\n'
-        'plugins = false\n',
-        encoding="utf-8",
-    )
-    env = os.environ.copy()
-    env["CODEX_HOME"] = home.name
-    return env, home, profile, model
-
 
 def run(
     argv: list[str], timeout: int = 300, cwd: Path | None = None, env: dict[str, str] | None = None
@@ -623,199 +431,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
             record["error"] = "ClaimReleaseError:" + repr(exc)
 
 def process_task(task: dict, expected_base_sha: str) -> dict:
-    STATE.mkdir(parents=True, exist_ok=True)
-    (STATE / "completed").mkdir(parents=True, exist_ok=True)
-    store = ClaimStore(CLAIMS)
-    claim = claim_for(task, expected_base_sha)
-    started = time.time()
-    task_key = safe_task_id(str(task["task_id"]))
-    branch = f"astra/auto/{task_key}-{claim.base_sha[:12]}-{int(started)}"
-    worktree = worktree_path(str(task["task_id"]))
-    record = {
-        "task_id": task["task_id"],
-        "started_at": int(started),
-        "base_sha": claim.base_sha,
-        "branch": branch,
-        "status": "BLOCKED",
-    }
-    try:
-        store.acquire(claim)
-        worktree.parent.mkdir(parents=True, exist_ok=True)
-        prepare_worktree(worktree)
-        local_head = run(["git", "rev-parse", "HEAD"], 30)
-        if local_head.returncode != 0 or local_head.stdout.strip() != expected_base_sha:
-            raise RuntimeError("queue_base_sha_not_current_head")
-        if claim.base_sha != expected_base_sha:
-            raise RuntimeError("queue_claim_base_sha_mismatch")
-        existing_branch = run(["git", "ls-remote", "--exit-code", "--heads", "origin", f"refs/heads/{branch}"], 60)
-        if existing_branch.returncode == 0:
-            raise RuntimeError("queue_branch_already_exists")
-        if existing_branch.returncode != 2:
-            raise RuntimeError("queue_branch_probe_failed")
-        checkout = run(["git", "worktree", "add", "-b", branch, str(worktree), claim.base_sha], 120)
-        if checkout.returncode:
-            raise RuntimeError("worktree_create_failed")
-        try:
-            codex_env, codex_home, executor, model = codex_env_for_qualified_provider()
-        except RuntimeError as exc:
-            raise RuntimeError(str(exc))
-        record["executor"] = {
-            "executor": executor,
-            "model": model,
-            "qualification": "fresh_local_or_provider_qualified",
-        }
-        build = run(
-            [CODEX, "exec", "--oss", "--local-provider", "ollama", "--model", model, "--sandbox", "workspace-write", "--skip-git-repo-check", builder_prompt(task)],
-            TASK_TIMEOUT,
-            worktree,
-            codex_env,
-        )
-        record["builder"] = {
-            "returncode": build.returncode,
-            "stdout": build.stdout[-12000:],
-            "stderr": build.stderr[-8000:],
-        }
-        if build.returncode != 0:
-            raise RuntimeError("builder_failed")
-        outside_scope = _diff_outside_scope(task, worktree, claim.base_sha)
-        record["scope"] = {
-            "status": "PASS" if not outside_scope else "BLOCKED",
-            "outside_scope": outside_scope,
-        }
-        if outside_scope:
-            raise RuntimeError("task_boundary_violation")
-        boundary_tests = [
-            str(path).lstrip("./")
-            for path in task.get("boundary", [])
-            if str(path).lstrip("./").startswith("tests/")
-        ]
-        explicit_tests = [
-            str(path).lstrip("./")
-            for path in task.get("test_paths", [])
-            if str(path).lstrip("./").startswith("tests/")
-        ]
-        selected_tests = list(dict.fromkeys(explicit_tests or boundary_tests))
-        if not selected_tests:
-            selected_tests = [
-                "tests/test_autonomous_queue.py",
-                "tests/test_autonomous_queue_contract.py",
-                "tests/test_agent_fabric.py",
-                "tests/test_astra_github_agent_contract.py",
-            ]
-        if len(selected_tests) == 1:
-            test = run(
-                ["python3", "-m", "pytest", "-q", selected_tests[0]],
-                900,
-                worktree,
-            )
-        else:
-            test = run(
-                ["python3", "-m", "pytest", "-q", *selected_tests],
-                900,
-                worktree,
-            )
-        record["tests"] = {
-            "returncode": test.returncode,
-            "stdout": test.stdout[-8000:],
-            "stderr": test.stderr[-6000:],
-        }
-        if test.returncode != 0:
-            raise RuntimeError("tests_failed")
-        diff = run(["git", "diff", "--check"], 60, worktree)
-        if diff.returncode:
-            raise RuntimeError("diff_check_failed")
-        try:
-            diff_for_verifier = run(["git", "diff", "--no-ext-diff", expected_base_sha, "HEAD"], 60, worktree)
-            if diff_for_verifier.returncode != 0:
-                raise RuntimeError("verifier_diff_failed")
-            test_text = record["tests"].get("stderr", "") + record["tests"].get("stdout", "")
-            verifier = run(
-                [CODEX, "exec", "--oss", "--local-provider", "ollama", "--model", model, "--sandbox", "read-only", "--skip-git-repo-check", verifier_prompt(task, diff_for_verifier.stdout, test_text)],
-                TASK_TIMEOUT,
-                worktree,
-                codex_env,
-            )
-        finally:
-            codex_home.cleanup()
-        record["verifier"] = {
-            "returncode": verifier.returncode,
-            "stdout": verifier.stdout[-12000:],
-            "stderr": verifier.stderr[-8000:],
-        }
-        if verifier.returncode != 0 or not _verifier_passed(verifier.stdout):
-            raise RuntimeError("verifier_failed")
-        status = run(["git", "status", "--porcelain"], 60, worktree)
-        if not status.stdout.strip():
-            if not bool(task.get("allow_no_changes", False)):
-                raise RuntimeError("no_changes")
-            record["head_sha"] = expected_base_sha
-            record["change_status"] = "NO_CHANGES_REQUIRED"
-            record["push_verification"] = {
-                "status": "NOT_REQUIRED",
-                "reason": "task_already_satisfied",
-                "branch": branch,
-            }
-            record["status"] = "VERIFIED"
-            (STATE / "completed" / f"{task_key}.json").write_text(
-                json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-            )
-            return
-        if run(["git", "add", "-A"], 60, worktree).returncode:
-            raise RuntimeError("git_add_failed")
-        commit = run(
-            ["git", "commit", "-m", f"astra: complete {task['task_id']}"], 120, worktree
-        )
-        if commit.returncode:
-            raise RuntimeError("git_commit_failed")
-        push = run(
-            ["git", "push", "origin", f"HEAD:refs/heads/{branch}"], 180, worktree
-        )
-        record["push"] = {
-            "returncode": push.returncode,
-            "stdout": push.stdout[-4000:],
-            "stderr": push.stderr[-4000:],
-        }
-        if push.returncode:
-            raise RuntimeError("git_push_failed")
-        record["head_sha"] = run(["git", "rev-parse", "HEAD"], 30, worktree).stdout.strip()
-        remote_head = run(            ["git", "ls-remote", "origin", f"refs/heads/{branch}"], 60, worktree
-        )
-        if remote_head.returncode != 0:
-            raise RuntimeError("git_push_verification_failed")
-        remote_sha = remote_head.stdout.split()[0] if remote_head.stdout.split() else ""
-        if remote_sha != record["head_sha"]:
-            raise RuntimeError("git_push_sha_mismatch")
-        record["push_verification"] = {
-            "status": "PASS",
-            "remote_sha": remote_sha,
-            "branch": branch,
-        }
-        record["status"] = "VERIFIED"
-        (STATE / "completed" / f"{task_key}.json").write_text(
-            json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-        )
-    except Exception as exc:
-        record["error"] = type(exc).__name__ + ":" + str(exc)
-    finally:
-        try:
-            store.release(
-                claim.task_id, "VERIFIED" if record["status"] == "VERIFIED" else "REJECTED"
-            )
-        except Exception as exc:
-            record["claim_release_error"] = repr(exc)
-            record["status"] = "BLOCKED"
-            record["error"] = "ClaimReleaseError:" + repr(exc)
-        try:
-            if worktree.exists():
-                run(["git", "worktree", "remove", "--force", str(worktree)], 120)
-        except Exception:
-            record["worktree_cleanup_error"] = True
-            if record["status"] == "VERIFIED":
-                record["status"] = "BLOCKED"
-                record["error"] = "WorktreeCleanupError:cleanup_failed"
-        record["elapsed_seconds"] = round(time.time() - started, 3)
-        evidence(task["task_id"], record)
-    return record
+    raise RuntimeError("legacy_local_executor_disabled")
 
 
 def main() -> int:
@@ -874,39 +490,21 @@ def main() -> int:
             "discovered_tasks": inventory,
         }, sort_keys=True))
         return 2
-    # Permanent Astra lanes are remote Claude executors. Local Codex execution is legacy
-    # and must never be selected implicitly by the canonical queue.
-    distributed_mode = os.environ.get("ASTRA_DISTRIBUTED_LOCAL", "1").strip().lower()
-    if distributed_mode in {"1", "true", "yes"}:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=len(selected)) as pool:
-            results = list(pool.map(lambda task: process_task_remote(task, base_sha), selected))
-        all_verified = all(r["status"] == "VERIFIED" for r in results)
-        print(json.dumps({
-            "status": "PASS" if all_verified else "BLOCKED",
-            "workers": len(selected),
-            "executor_pool": PERMANENT_EXECUTOR_POOL,
-            "max_parallel_claims": MAX_WORKERS,
-            "mode": "github_remote_local_executor",
-            "selected_tasks": [str(t["task_id"]) for t in selected],
-            "results": results,
-        }, sort_keys=True))
-        return 0 if all_verified else 2
+    # Canonical Astra Gold execution is always distributed GitHub transport with
+    # permanent Claude lanes. There is deliberately no local executor fallback.
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(selected)) as pool:
-        results = list(pool.map(lambda task: process_task(task, base_sha), selected))
+        results = list(pool.map(lambda task: process_task_remote(task, base_sha), selected))
     all_verified = all(r["status"] == "VERIFIED" for r in results)
-    print(
-        json.dumps(
-            {
-                "status": "PASS" if all_verified else "BLOCKED",
-                "workers": len(selected),
-                "selected_tasks": [str(t["task_id"]) for t in selected],
-                "results": results,
-            },
-            sort_keys=True,
-        )
-    )
+    print(json.dumps({
+        "status": "PASS" if all_verified else "BLOCKED",
+        "workers": len(selected),
+        "executor_pool": PERMANENT_EXECUTOR_POOL,
+        "max_parallel_claims": MAX_WORKERS,
+        "mode": "github_remote_claude_only",
+        "selected_tasks": [str(t["task_id"]) for t in selected],
+        "results": results,
+    }, sort_keys=True))
     return 0 if all_verified else 2
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

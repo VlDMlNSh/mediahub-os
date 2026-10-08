@@ -116,6 +116,20 @@ CLI   Code    Stagewise Harness  │      │      │        │        │    
 - **ECC** = auxiliary support, not an executor authority.
 - **OpenRouter/UnoRouter/ZeroRouter/etc.** = routing/provider gateways, not independent A0/A1/A2/A3 authorities.
 
+## 2.2 Current permanent production executor topology
+
+The canonical Astra Gold production queue has exactly three permanent executor lanes:
+
+- mh-dev-01 -> Claude
+- mh-dev-02 -> Claude
+- Voktors-Mac-mini.local -> Claude
+
+G-5 is exactly 3 active autonomous claims, with at most one active claim per permanent lane.
+
+Codex, OpenCode, Ollama and other execution surfaces may exist elsewhere in the repository as historical, candidate or separately qualified capabilities, but they are **not permanent Astra Gold queue executors** and must not appear as active members of this production pool.
+
+Any documentation, task contract, workflow or evidence that contradicts this mapping requires RECONCILIATION_REQUIRED and cannot qualify the scheme.
+
 ## 3. Authority model
 
 1. Human remains final authority for global architecture, production deployment, destructive changes, security-sensitive decisions and permanent governance changes.
@@ -217,8 +231,10 @@ The repository's provider-model registry currently contains 23 candidate provide
 
 These are **candidate provider/model entries**, not automatic qualification results.
 
-#### Mandatory executor paths
-The minimum whole-system executor matrix is:
+#### Qualification catalog (not the permanent production pool)
+The broader execution catalog may contain legacy/candidate paths for separate qualification. These entries do not change the permanent three-Claude production queue.
+
+The minimum catalog is:
 
 1. Codex + FCC
 2. Claude Code + FCC
@@ -379,7 +395,7 @@ Minimum 23 fresh rounds for every mandatory execution path:
 A missing launcher is BLOCKED, not PASS.
 
 ### G5_CONCURRENCY — Concurrency
-- maximum two concurrent autonomous claims by default
+- maximum three concurrent autonomous claims by default (G-5), one per permanent executor lane
 - disjoint write boundaries required
 - shared surfaces serialized
 - collision detection
