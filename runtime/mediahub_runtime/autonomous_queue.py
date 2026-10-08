@@ -247,8 +247,7 @@ def safe_task_id(task_id: str) -> str:
     return value
 
 
-def worktree_path(task_id: str) -> Path:
-    return STATE / "worktrees" / safe_task_id(task_id)
+def worktree_path(task_id: str) -> Path:    return STATE / "worktrees" / safe_task_id(task_id)
 
 
 def load_tasks() -> list[dict]:
@@ -497,8 +496,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
                     if all(bit in str(row.get("displayTitle", "")) for bit in run_title_bits)
                 ]
                 if matches:
-                    matches.sort(key=lambda row: row.get("createdAt", ""), reverse=True)
-                    run_id = int(matches[0]["databaseId"])
+                    matches.sort(key=lambda row: row.get("createdAt", ""), reverse=True)                    run_id = int(matches[0]["databaseId"])
                     break
             time.sleep(5)
         if not run_id:
@@ -747,8 +745,7 @@ def process_task(task: dict, expected_base_sha: str) -> dict:
         if push.returncode:
             raise RuntimeError("git_push_failed")
         record["head_sha"] = run(["git", "rev-parse", "HEAD"], 30, worktree).stdout.strip()
-        remote_head = run(
-            ["git", "ls-remote", "origin", f"refs/heads/{branch}"], 60, worktree
+        remote_head = run(            ["git", "ls-remote", "origin", f"refs/heads/{branch}"], 60, worktree
         )
         if remote_head.returncode != 0:
             raise RuntimeError("git_push_verification_failed")
@@ -836,6 +833,14 @@ def main() -> int:
         }, sort_keys=True))
         return 0
     selected = select_distributed_tasks(tasks, MAX_WORKERS)
+    if not selected:
+        print(json.dumps({
+            "status": "BLOCKED",
+            "reason": "no_eligible_distributed_tasks",
+            "base_sha": base_sha,
+            "discovered_tasks": inventory,
+        }, sort_keys=True))
+        return 2
     if os.environ.get("ASTRA_DISTRIBUTED_LOCAL", "0").strip().lower() in {"1", "true", "yes"}:
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(selected)) as pool:
             results = list(pool.map(lambda task: process_task_remote(task, base_sha), selected))
