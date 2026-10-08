@@ -198,6 +198,14 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     env["ASTRA_FCC_TRANSPORT"] = "fcc"
     env["ASTRA_FCC_MODEL"] = "ollama/" + model
     env["CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"] = "1"
+    # qwen2.5-coder local lanes are non-thinking backends; keep Claude Code and FCC aligned.
+    env["REASONING_POLICY"] = "off"
+    env["ENABLE_MODEL_THINKING"] = "false"
+    env["ENABLE_OPUS_THINKING"] = "false"
+    env["ENABLE_SONNET_THINKING"] = "false"
+    env["ENABLE_HAIKU_THINKING"] = "false"
+    env["CLAUDE_CODE_DISABLE_THINKING"] = "1"
+    env["MAX_THINKING_TOKENS"] = "0"
     p = run(
         [claude, "-p", prompt, "--output-format", "text", "--max-turns", "1"],
         timeout,
