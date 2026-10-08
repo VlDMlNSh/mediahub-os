@@ -67,3 +67,9 @@ def test_claude_worker_uses_isolated_config_directory():
     worker = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
     assert 'env["CLAUDE_CONFIG_DIR"] = isolated_config' in worker
     assert 'tempfile.mkdtemp(prefix="astra-claude-config-")' in worker
+
+
+def test_23wave_codex_qualification_is_not_unbounded():
+    workflow = Path(".github/workflows/mh25-dual-local-23wave.yml").read_text(encoding="utf-8")
+    assert "--sandbox workspace-write" in workflow
+    assert "--sandbox danger-full-access" not in workflow
