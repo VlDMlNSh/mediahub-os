@@ -241,6 +241,64 @@ def scope_paths(task: dict, changed: set[str]) -> list[str]:
     return bad
 
 
+def _materialize_bounded_claude_tool_output(output: str, boundary: str) -> str | None:
+    """Materialize only an exact-boundary Write/Edit emitted by the real Claude client."""
+    candidates: list[dict] = []
+    for block in re.findall(r"(?s)```json\s*(\{.*?\})\s*```", output):
+        try:
+            value = json.loads(block)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(value, dict):
+            candidates.append(value)
+    for line in output.splitlines():
+        line = line.strip()
+        if line.startswith("{") and line.endswith("}"):
+            try:
+                value = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(value, dict):
+                candidates.append(value)
+
+    boundary_path = (ROOT / boundary).resolve()
+    for candidate in candidates:
+        name = str(candidate.get("name") or "").strip().lower()
+        args = candidate.get("arguments")
+        if not isinstance(args, dict) or name not in {"write", "edit"}:
+            continue
+        raw_path = str(args.get("file_path") or args.get("path") or "").strip()
+        if not raw_path:
+            continue
+        target = Path(raw_path)
+        if not target.is_absolute():
+            target = ROOT / target
+        try:
+            target = target.resolve()
+        except OSError:
+            continue
+        if target != boundary_path:
+            continue
+        if name == "write":
+            content = args.get("content")
+            if not isinstance(content, str):
+                continue
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content, encoding="utf-8")
+            return boundary
+        old = args.get("old_string")
+        new = args.get("new_string")
+        if not isinstance(old, str) or not isinstance(new, str) or not target.is_file():
+            continue
+        current = target.read_text(encoding="utf-8")
+        if old not in current:
+            continue
+        replace_all = bool(args.get("replace_all", False))
+        target.write_text(current.replace(old, new) if replace_all else current.replace(old, new, 1), encoding="utf-8")
+        return boundary
+    return None
+
+
 def changed_paths(target_sha: str) -> set[str]:
     changed: set[str] = set()
     for argv in [
@@ -405,6 +463,15 @@ def main() -> int:
                         "stderr": artifact.get("stderr", "")[-3000:],
                     })
                     output = artifact.get("stdout", "")
+                    materialized_tool = None
+                    if artifact.get("returncode") == 0 and boundaries:
+                        materialized_tool = _materialize_bounded_claude_tool_output(output, boundaries[0])
+                        if materialized_tool:
+                            changed_probe = changed_paths(target_sha)
+                            if changed_probe:
+                                build = artifact
+                                build["materialized_tool_output"] = materialized_tool
+                                break
                     match = re.search(
                         r"ASTRA_ARTIFACT_BEGIN\s*\n(.*?)\nASTRA_ARTIFACT_END",
                         output,
