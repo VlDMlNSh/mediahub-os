@@ -5,8 +5,17 @@
   "priority": "P0",
   "role": "builder",
   "mission": "Qualify the Codex permanent local executor lane on mh-dev-02 using qwen2.5-coder:3b. Prove executor-only operation, exact target-SHA binding, isolated branch execution, and independent Claude verification. Do not alter controller authority, control state, credentials, or production infrastructure.",
-  "boundary": ["docs/operations/"],
-  "forbidden_surfaces": [".github/workflows/", "runtime/", "control/", "user data", "credentials", "production infrastructure"],
+  "boundary": [
+    "docs/operations/ASTRA-MH-DEV-02-CODEX-EXECUTOR.md"
+  ],
+  "forbidden_surfaces": [
+    ".github/workflows/",
+    "runtime/",
+    "control/",
+    "user data",
+    "credentials",
+    "production infrastructure"
+  ],
   "dependencies": [],
   "node_id": "mh-dev-02",
   "executor": "codex",
@@ -22,5 +31,7 @@
     "The scoped Agent Fabric regression suite tests/test_agent_fabric.py passes.",
     "The worker must produce a real Codex execution result and a real independent Claude verdict; synthetic or prefilled evidence is invalid."
   ],
-  "test_paths": ["tests/test_agent_fabric.py"]
+  "test_paths": [
+    "tests/test_agent_fabric.py"
+  ]
 }
