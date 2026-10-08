@@ -43,7 +43,7 @@ jobs:
           set -u
           : > codex-23wave.jsonl
           ollama show qwen2.5-coder:1.5b >/dev/null 2>&1
-          timeout 90s ollama run qwen2.5-coder:1.5b "Return exactly MEDIAHUB_OLLAMA_PREFLIGHT_OK. Do not use tools or network." >/tmp/astra-ollama-preflight.out 2>/tmp/astra-ollama-preflight.err
+          timeout 300s ollama run qwen2.5-coder:1.5b "Return exactly MEDIAHUB_OLLAMA_PREFLIGHT_OK. Do not use tools or network." >/tmp/astra-ollama-preflight.out 2>/tmp/astra-ollama-preflight.err
           grep -Fx MEDIAHUB_OLLAMA_PREFLIGHT_OK /tmp/astra-ollama-preflight.out >/dev/null
           codex_home="$HOME/.cache/mediahub/astra-g4-codex-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           rm -rf "$codex_home"
