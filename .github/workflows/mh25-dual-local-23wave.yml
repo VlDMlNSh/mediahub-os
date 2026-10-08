@@ -61,7 +61,7 @@ jobs:
           name = "Ollama Local"
           base_url = "http://127.0.0.1:11434/v1"
           wire_api = "responses"
-          stream_idle_timeout_ms = 120000
+          stream_idle_timeout_ms = 300000
           request_max_retries = 1
           stream_max_retries = 1
           [features]
@@ -80,7 +80,7 @@ jobs:
             last="/tmp/astra-codex-$i.last"
             rm -f "$out" "$last"
             set +e
-            timeout 120s codex exec --model qwen2.5-coder:1.5b --ephemeral --color never \
+            timeout 360s codex exec --model qwen2.5-coder:1.5b --ephemeral --color never \
               --config model_provider=ollama-local --config model_reasoning_effort=none --sandbox read-only \
               --disable browser_use --disable browser_use_external --disable computer_use --disable apps --disable plugins --disable multi_agent --disable multi_agent_v2 \
               --skip-git-repo-check --output-last-message "$last" \
