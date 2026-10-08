@@ -214,6 +214,7 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
             [
                 claude, "-p", prompt, "--output-format", "text", "--max-turns", str(max_turns),
                 "--permission-mode", "acceptEdits",
+                "--tools", "Read,Edit,Bash",
                 "--allowedTools", "Read", "Edit", "Bash(git *)", "Bash(python *)",
             ],
             timeout,
