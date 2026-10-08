@@ -31,11 +31,20 @@ jobs:
         run: |
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
-          test "$(id -un)" = "mediahub"
-          export PATH="/home/mediahub/.nvm/versions/node/v22.23.2/bin:/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          test "$(id -un)" = "mediahub-runner"
+          export PATH="/usr/local/bin:/usr/bin:$PATH"
+          codex_dir="$RUNNER_TEMP/codex-cli"
+          if test ! -x "$codex_dir/codex"; then
+            mkdir -p "$codex_dir"
+            curl -fsSL "https://github.com/openai/codex/releases/download/rust-v0.160.1/codex-x86_64-unknown-linux-musl.tar.gz" | tar -xz -C "$codex_dir"
+            mv "$codex_dir/codex-x86_64-unknown-linux-musl" "$codex_dir/codex"
+            chmod +x "$codex_dir/codex"
+          fi
+          export PATH="$codex_dir:$PATH"
           command -v codex
           command -v ollama
-          ollama show qwen2.5-coder:1.5b >/dev/null 2>&1 || timeout 600s ollama pull qwen2.5-coder:1.5b
+          codex --version
+          ollama --version
           ollama show qwen2.5-coder:1.5b >/dev/null 2>&1
       - name: 23 real Codex rounds
         shell: bash
