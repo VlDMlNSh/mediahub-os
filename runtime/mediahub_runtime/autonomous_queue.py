@@ -268,17 +268,15 @@ def select_distributed_tasks(tasks: list[dict], max_workers: int = MAX_WORKERS) 
     """Select at most one active claim per permanent executor lane/node."""
     selected: list[dict] = []
     used_nodes: set[str] = set()
-    used_executors: set[str] = set()
     for task in tasks:
         node_id = str(task.get("node_id", "")).strip()
         executor = str(task.get("executor", "")).strip()
-        if node_id in used_nodes or executor in used_executors:
+        if node_id in used_nodes:
             continue
         if node_id not in PERMANENT_EXECUTOR_POOL or PERMANENT_EXECUTOR_POOL[node_id] != executor:
             continue
         selected.append(task)
         used_nodes.add(node_id)
-        used_executors.add(executor)
         if len(selected) >= bounded_worker_count(max_workers):
             break
     return selected
