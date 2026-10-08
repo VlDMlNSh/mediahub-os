@@ -60,6 +60,7 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
+          test "${ASTRA_EXECUTOR}" = "claude"
           command -v claude
           command -v codex
           command -v ollama
@@ -89,7 +90,7 @@ jobs:
       ASTRA_MICRO_TASK_JSON: ${{ inputs.task_json }}
       ASTRA_FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env
       ASTRA_WORKER_RESULT: astra-distributed-worker-result.json
-      ASTRA_CODEX_SANDBOX_MODE: danger-full-access
+      ASTRA_CODEX_SANDBOX_MODE: workspace-write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -102,6 +103,7 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-02"
           test "$(id -un)" = "mediahub"
+          test "${ASTRA_EXECUTOR}" = "codex"
           command -v codex
           command -v claude
           command -v ollama
@@ -144,6 +146,7 @@ jobs:
           host="$(hostname)"
           test "$host" = "Voktors-Mini.Dlink" || test "$host" = "Voktors-Mac-mini"
           test "$(id -un)" = "voktor"
+          test "${ASTRA_EXECUTOR}" = "claude"
           command -v codex
           command -v claude
           command -v ollama
