@@ -496,7 +496,8 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
                     if all(bit in str(row.get("displayTitle", "")) for bit in run_title_bits)
                 ]
                 if matches:
-                    matches.sort(key=lambda row: row.get("createdAt", ""), reverse=True)                    run_id = int(matches[0]["databaseId"])
+                    matches.sort(key=lambda row: row.get("createdAt", ""), reverse=True)
+                    run_id = int(matches[0]["databaseId"])
                     break
             time.sleep(5)
         if not run_id:
