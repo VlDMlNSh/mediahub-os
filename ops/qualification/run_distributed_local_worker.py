@@ -206,12 +206,17 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     env["ENABLE_HAIKU_THINKING"] = "false"
     env["CLAUDE_CODE_DISABLE_THINKING"] = "1"
     env["MAX_THINKING_TOKENS"] = "0"
-    p = run(
-        [claude, "-p", prompt, "--output-format", "text", "--max-turns", "1"],
-        timeout,
-        ROOT,
-        env,
-    )
+    isolated_config = tempfile.mkdtemp(prefix="astra-claude-config-")
+    env["CLAUDE_CONFIG_DIR"] = isolated_config
+    try:
+        p = run(
+            [claude, "-p", prompt, "--output-format", "text", "--max-turns", "1"],
+            timeout,
+            ROOT,
+            env,
+        )
+    finally:
+        shutil.rmtree(isolated_config, ignore_errors=True)
     return {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}, server
 
 def scope_paths(task: dict, changed: set[str]) -> list[str]:
