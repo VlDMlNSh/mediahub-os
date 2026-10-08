@@ -70,7 +70,10 @@ PY
           done
       - if: always()
         uses: actions/upload-artifact@v4
-        with: {name: astra-claude-mh1-23wave-${{ github.sha }}, path: claude-mh1-23wave.jsonl, if-no-files-found: error}
+        with:
+          name: astra-claude-mh1-23wave-${{ github.sha }}
+          path: claude-mh1-23wave.jsonl
+          if-no-files-found: error
 
   claude-mac:
     name: Claude executor / Voktors-Mac-mini
@@ -122,7 +125,10 @@ PY
           done
       - if: always()
         uses: actions/upload-artifact@v4
-        with: {name: astra-claude-mac-23wave-${{ github.sha }}, path: claude-mac-23wave.jsonl, if-no-files-found: error}
+        with:
+          name: astra-claude-mac-23wave-${{ github.sha }}
+          path: claude-mac-23wave.jsonl
+          if-no-files-found: error
 
   claude-mh2:
     name: Claude executor / mh-dev-02
@@ -176,7 +182,10 @@ PY
           done
       - if: always()
         uses: actions/upload-artifact@v4
-        with: {name: astra-claude-mh2-23wave-${{ github.sha }}, path: claude-mh2-23wave.jsonl, if-no-files-found: error}
+        with:
+          name: astra-claude-mh2-23wave-${{ github.sha }}
+          path: claude-mh2-23wave.jsonl
+          if-no-files-found: error
 
   aggregate:
     name: Aggregate three-Claude qualification
@@ -191,11 +200,17 @@ PY
           fetch-depth: 1
           persist-credentials: false
       - uses: actions/download-artifact@v4
-        with: {name: astra-claude-mh1-23wave-${{ github.sha }}, path: evidence/mh1}
+        with:
+          name: astra-claude-mh1-23wave-${{ github.sha }}
+          path: evidence/mh1
       - uses: actions/download-artifact@v4
-        with: {name: astra-claude-mac-23wave-${{ github.sha }}, path: evidence/mac}
+        with:
+          name: astra-claude-mac-23wave-${{ github.sha }}
+          path: evidence/mac
       - uses: actions/download-artifact@v4
-        with: {name: astra-claude-mh2-23wave-${{ github.sha }}, path: evidence/mh2}
+        with:
+          name: astra-claude-mh2-23wave-${{ github.sha }}
+          path: evidence/mh2
       - name: Verify all three lanes
         run: |
           set -euo pipefail
@@ -205,4 +220,6 @@ PY
           printf 'THREE_CLAUDE_23WAVE=PASS\nG-5=3\ntarget_sha=%s\n' "$GITHUB_SHA" > three-claude-qualification.txt
       - if: always()
         uses: actions/upload-artifact@v4
-        with: {name: astra-three-claude-23wave-${{ github.sha }}, path: three-claude-qualification.txt}
+        with:
+          name: astra-three-claude-23wave-${{ github.sha }}
+          path: three-claude-qualification.txt
