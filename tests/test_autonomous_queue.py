@@ -141,8 +141,8 @@ def test_main_does_not_suppress_stale_completion(monkeypatch, tmp_path: Path, ca
     payload = json.loads(capsys.readouterr().out)
     assert result == 2
     assert payload["status"] == "BLOCKED"
-    assert payload["selected_tasks"] == ["A"]
-    assert payload["results"][0]["task_id"] == "A"
+    assert payload["reason"] == "no_eligible_distributed_tasks"
+    assert payload["base_sha"] == "newsha"
 def test_existing_dirty_worktree_is_not_force_removed(monkeypatch, tmp_path: Path):
     worktree = tmp_path / "worktree"
     worktree.mkdir()
@@ -316,8 +316,7 @@ def test_local_executor_contract_uses_qualified_ollama_marker_and_provider():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" in source
     assert '"--profile", "huggingface"' not in source
-    assert 'if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" not in output' not in source
-    assert 'if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" not in output' in source
+    assert 'if "MEDIAHUB_LOCAL_EXECUTOR_QUALIFICATION_OK" not in output:' in source
     assert 'preferred = ("qwen2.5-coder:3b", "qwen2.5-coder-3b:latest")' in source
 
 
