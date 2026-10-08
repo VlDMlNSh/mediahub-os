@@ -2,7 +2,7 @@
   "acceptance": [
     "Create or update exactly one document at docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md.",
     "The document names mh-dev-01 as controller/authority, mh-dev-02 as primary local pool, and Voktors-Mac-mini.local as fast pool.",
-    "The document names both Codex and Claude, explains builder/verifier split, exact target-SHA binding, isolated branches, and GitHub evidence transport.",
+    "The document names Claude as the executor and independent Claude verifier, and explains exact target-SHA binding, isolated branches, and GitHub evidence transport.",
     "The document states fail-closed promotion and that no worker writes directly to main.",
     "No credentials or secrets are included.",
     "The scoped Agent Fabric regression suite tests/test_agent_fabric.py passes.",
@@ -25,7 +25,7 @@
     "credentials",
     "production infrastructure"
   ],
-  "mission": "Execute this bounded documentation task with Claude as the A2 Builder and Codex as the independent A3 Verifier; prove the real two-executor split through fresh evidence.",
+  "mission": "Execute this bounded documentation task with Claude as the A2 Builder and an independent Claude process as the A3 Verifier; prove the real three-Claude topology and G5 split through fresh evidence.",
   "node_id": "Voktors-Mac-mini.local",
   "priority": "P1",
   "schema": "mediahub.agent-fabric.task.v1",
@@ -37,5 +37,5 @@
   "timeout_seconds": 1800,
   "verifier": "claude",
   "independent_verifier_process": true,
-  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md. Use shell/editor directly; do not ask for more context. Include exact identities mh-dev-01, mh-dev-02, Voktors-Mac-mini.local, Claude, Codex, exact target-SHA binding, isolated branches, GitHub evidence transport, fail-closed promotion, and no direct main writes. Keep it concise and contain no secrets. Add a concise G5 section stating exactly three simultaneous disjoint claims, one per permanent executor lane."
+  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md. Use shell/editor directly; do not ask for more context. Include exact identities mh-dev-01, mh-dev-02, Voktors-Mac-mini.local, Claude, exact target-SHA binding, isolated branches, GitHub evidence transport, fail-closed promotion, and no direct main writes. Keep it concise and contain no secrets. Add a concise G5 section stating exactly three simultaneous disjoint claims, one per permanent executor lane."
 }
