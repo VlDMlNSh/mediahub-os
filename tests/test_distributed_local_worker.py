@@ -44,5 +44,5 @@ def test_canonical_three_executor_tasks_are_ready_and_disjoint():
         "Voktors-Mac-mini.local", "mh-dev-01", "mh-dev-02"
     ]
     assert all(t["status"] == "READY" for t in tasks)
-    assert len({tuple(t["boundary"]) for t in tasks}) == 1
-    assert all(t["boundary"] == ["docs/operations/"] for t in tasks)
+    assert len({tuple(t["boundary"]) for t in tasks}) == 3
+    assert all(len(t["boundary"]) == 1 and t["boundary"][0].startswith("docs/operations/") for t in tasks)
