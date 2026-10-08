@@ -151,6 +151,7 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
         config = Path(home) / "config.toml"
         config.write_text(
             f'model_provider = "ollama"\nmodel = "{model}"\n'
+            'model_reasoning_effort = "none"\n'
             'approval_policy = "never"\nweb_search = "disabled"\n'
             '[features]\nmulti_agent = false\napps = false\ntool_search = false\nplugins = false\n',
             encoding="utf-8",
