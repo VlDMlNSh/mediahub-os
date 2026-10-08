@@ -54,3 +54,10 @@ def test_worker_workflow_enforces_executor_identity_and_bounded_codex_sandbox():
     assert 'test "${ASTRA_EXECUTOR}" = "codex"' in workflow
     assert 'ASTRA_CODEX_SANDBOX_MODE: workspace-write' in workflow
     assert 'ASTRA_CODEX_SANDBOX_MODE: danger-full-access' not in workflow
+
+
+def test_claude_worker_disables_reasoning_for_non_thinking_local_models():
+    worker = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
+    assert 'env["REASONING_POLICY"] = "off"' in worker
+    assert 'env["CLAUDE_CODE_DISABLE_THINKING"] = "1"' in worker
+    assert 'env["MAX_THINKING_TOKENS"] = "0"' in worker
