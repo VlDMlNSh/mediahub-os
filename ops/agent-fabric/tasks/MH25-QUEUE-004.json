@@ -4,7 +4,7 @@
   "status": "READY",
   "priority": "P0",
   "role": "builder",
-  "mission": "Qualify the Codex permanent local executor lane on mh-dev-02 using qwen2.5-coder:3b. Prove executor-only operation, exact target-SHA binding, isolated branch execution, and independent Claude verification. Do not alter controller authority, control state, credentials, or production infrastructure.",
+  "mission": "Qualify the third Claude permanent local executor lane on mh-dev-02 using qwen2.5-coder:3b. Prove executor-only operation, exact target-SHA binding, isolated branch execution, and independent Claude verification. Do not alter controller authority, control state, credentials, or production infrastructure.",
   "boundary": [
     "docs/operations/ASTRA-MH-DEV-02-CODEX-EXECUTOR.md"
   ],
@@ -18,21 +18,22 @@
   ],
   "dependencies": [],
   "node_id": "mh-dev-02",
-  "executor": "codex",
+  "executor": "claude",
   "verifier": "claude",
+  "independent_verifier_process": true,
   "timeout_seconds": 1800,
   "builder_attempts": 2,
   "allow_no_changes": false,
   "acceptance": [
-    "Create or update exactly one document at docs/operations/ASTRA-MH-DEV-02-CODEX-EXECUTOR.md.",
-    "The document states exact node identity mh-dev-02, executor identity codex, local model qwen2.5-coder:3b, verifier identity claude, and executor-only authority boundary.",
+    "Create or update exactly one document at docs/operations/ASTRA-MH-DEV-02-CLAUDE-EXECUTOR.md.",
+    "The document states exact node identity mh-dev-02, executor identity claude, local model qwen2.5-coder:3b, verifier identity claude, and executor-only authority boundary.",
     "The document states target-SHA binding, isolated branch execution, fail-closed promotion, and no direct writes to main.",
     "The document contains no credentials or secrets.",
     "The scoped Agent Fabric regression suite tests/test_agent_fabric.py passes.",
-    "The worker must produce a real Codex execution result and a real independent Claude verdict; synthetic or prefilled evidence is invalid."
+    "The worker must produce a real Claude execution result and a real independent Claude verdict; synthetic or prefilled evidence is invalid."
   ],
   "test_paths": [
     "tests/test_agent_fabric.py"
   ],
-  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-MH-DEV-02-CODEX-EXECUTOR.md. Use shell/editor directly; do not ask for more context. State exact node mh-dev-02, executor Codex, model qwen2.5-coder:3b, verifier Claude, executor-only authority, target-SHA binding, isolated branch, fail-closed promotion, no direct main writes, and no secrets. Keep it concise."
+  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-MH-DEV-02-CLAUDE-EXECUTOR.md. Use shell/editor directly; do not ask for more context. State exact node mh-dev-02, executor Claude, model qwen2.5-coder:3b, verifier Claude, executor-only authority, target-SHA binding, isolated branch, fail-closed promotion, no direct main writes, and no secrets. Keep it concise."
 }

@@ -26,7 +26,7 @@ CLAIMS = STATE / "claims"
 # Three permanent executor lanes; Astra Gold permits up to three active claims.
 PERMANENT_EXECUTOR_POOL = {
     "mh-dev-01": "claude",
-    "mh-dev-02": "codex",
+    "mh-dev-02": "claude",
     "Voktors-Mac-mini.local": "claude",
 }
 
@@ -441,8 +441,10 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
             "expected_executor": PERMANENT_EXECUTOR_POOL[node_id],
             "executor": executor,
         }
-    if executor not in {"codex", "claude"} or verifier not in {"codex", "claude"} or executor == verifier:
+    if executor not in {"codex", "claude"} or verifier not in {"codex", "claude"}:
         return {"task_id": task_key, "status": "BLOCKED", "error": "invalid_executor_split"}
+    if executor == verifier and not bool(task.get("independent_verifier_process", False)):
+        return {"task_id": task_key, "status": "BLOCKED", "error": "verifier_must_be_independent_process"}
     if not os.environ.get("GH_TOKEN") and not os.environ.get("GITHUB_TOKEN"):
         return {"task_id": task_key, "status": "BLOCKED", "error": "remote_transport_auth_missing"}
     record = {
