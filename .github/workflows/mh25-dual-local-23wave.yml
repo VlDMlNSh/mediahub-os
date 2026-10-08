@@ -53,8 +53,8 @@ jobs:
           model = "qwen2.5-coder:1.5b"
           approval_policy = "never"
           web_search = "disabled"
-          model_context_window = 32768
-          model_max_output_tokens = 1024
+          model_context_window = 4096
+          model_max_output_tokens = 256
           model_reasoning_summary = "none"
           model_auto_compact_token_limit = 0
           [model_providers.ollama-local]
@@ -74,16 +74,14 @@ jobs:
           export CODEX_HOME="$codex_home"
           cleanup_codex() { rm -rf "$codex_home"; }
           trap cleanup_codex EXIT
-          # The first real wave is the Codex CLI preflight: no duplicate
-          # 180s CLI invocation before evidence-producing waves.
           for i in $(seq 1 23); do
             ts=$(date +%s)
             out="/tmp/astra-codex-$i.out"
             last="/tmp/astra-codex-$i.last"
             rm -f "$out" "$last"
             set +e
-            timeout 300s codex exec --model qwen2.5-coder:1.5b --ephemeral --color never \
-              --config model_provider=ollama-local --config model_reasoning_effort=none --sandbox workspace-write \
+            timeout 120s codex exec --model qwen2.5-coder:1.5b --ephemeral --color never \
+              --config model_provider=ollama-local --config model_reasoning_effort=none --sandbox read-only \
               --disable browser_use --disable browser_use_external --disable computer_use --disable apps --disable plugins --disable multi_agent --disable multi_agent_v2 \
               --skip-git-repo-check --output-last-message "$last" \
               "Return exactly MEDIAHUB_LOCAL_CODEX_23WAVE_OK." </dev/null >"$out" 2>&1
@@ -103,14 +101,7 @@ jobs:
           import json, os
           status=os.environ["STATUS"]
           rc=int(os.environ["RC"])
-          print(json.dumps({
-              "round": int(os.environ["ROUND"]),
-              "timestamp": int(os.environ["TS"]),
-              "status": status,
-              "returncode": rc,
-              "marker": "MEDIAHUB_LOCAL_CODEX_23WAVE_OK",
-              "reason": "" if status == "PASS" else ("timeout" if rc == 124 else ("execution_failure" if rc != 0 else "marker_mismatch")),
-          }))
+          print(json.dumps({"round":int(os.environ["ROUND"]),"timestamp":int(os.environ["TS"]),"status":status,"returncode":rc,"marker":"MEDIAHUB_LOCAL_CODEX_23WAVE_OK","reason":"" if status=="PASS" else ("timeout" if rc==124 else ("execution_failure" if rc!=0 else "marker_mismatch"))}))
           PY
             cp "$out" "codex-round-$i.stdout.txt" 2>/dev/null || true
             cp "$last" "codex-round-$i.last.txt" 2>/dev/null || true
