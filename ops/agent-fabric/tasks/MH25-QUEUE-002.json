@@ -1,13 +1,14 @@
 {
   "acceptance": [
     "Create or update exactly one document at docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md.",
-    "The document names mh-dev-01 as controller/authority, mh-dev-02 as primary local pool, and Voktors-Mini.Dlink as fast pool.",
+    "The document names mh-dev-01 as controller/authority, mh-dev-02 as primary local pool, and Voktors-Mac-mini.local as fast pool.",
     "The document names both Codex and Claude, explains builder/verifier split, exact target-SHA binding, isolated branches, and GitHub evidence transport.",
     "The document states fail-closed promotion and that no worker writes directly to main.",
     "No credentials or secrets are included.",
-    "The scoped Agent Fabric regression suite tests/test_agent_fabric.py passes."
+    "The scoped Agent Fabric regression suite tests/test_agent_fabric.py passes.",
+    "The worker must produce a real Claude execution result and a real independent Codex verdict; synthetic or prefilled evidence is invalid."
   ],
-  "allow_no_changes": true,
+  "allow_no_changes": false,
   "boundary": [
     "docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md"
   ],
@@ -33,5 +34,6 @@
     "tests/test_agent_fabric.py"
   ],
   "timeout_seconds": 1800,
-  "verifier": "codex"
+  "verifier": "codex",
+  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-DISTRIBUTED-LOCAL-DEVELOPMENT-TOPOLOGY.md. Use shell/editor directly; do not ask for more context. Include exact identities mh-dev-01, mh-dev-02, Voktors-Mac-mini.local, Claude, Codex, exact target-SHA binding, isolated branches, GitHub evidence transport, fail-closed promotion, and no direct main writes. Keep it concise and contain no secrets."
 }
