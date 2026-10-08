@@ -146,5 +146,30 @@
     }
   ],
   "max_parallel_claims": 2,
-  "permanent_executor_rule": "Exactly three permanent executor lanes exist; at most two autonomous claims may execute concurrently. Controller authority remains separate from executor authority."
+  "permanent_executor_rule": "Exactly three permanent executor lanes exist; at most two autonomous claims may execute concurrently. Controller authority remains separate from executor authority.",
+  "executor_lanes": [
+    {
+      "node_id": "mh-dev-01",
+      "executor": "claude",
+      "model": "qwen2.5-coder:1.5b",
+      "role": "controller-local-executor-lane"
+    },
+    {
+      "node_id": "mh-dev-02",
+      "executor": "codex",
+      "model": "qwen2.5-coder:3b",
+      "role": "primary-local-executor-pool"
+    },
+    {
+      "node_id": "Voktors-Mac-mini.local",
+      "executor": "claude",
+      "model": "qwen2.5-coder:1.5b",
+      "role": "fast-local-executor-pool"
+    }
+  ],
+  "concurrency": {
+    "max_parallel_claims": 3,
+    "require_disjoint_claims": true,
+    "shared_surfaces_serialized": true
+  }
 }
