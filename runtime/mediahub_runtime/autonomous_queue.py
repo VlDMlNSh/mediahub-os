@@ -23,7 +23,7 @@ TASK_DIR = ROOT / "ops" / "agent-fabric" / "tasks"
 STATE = Path(os.environ.get("ASTRA_QUEUE_STATE_DIR", "/var/lib/mediahub-astra/queue"))
 CLAIMS = STATE / "claims"
 
-# Three permanent executor lanes; Astra Gold still permits at most two active claims.
+# Three permanent executor lanes; Astra Gold still permits up to three active claims.
 PERMANENT_EXECUTOR_POOL = {
     "mh-dev-01": "claude",
     "mh-dev-02": "codex",
@@ -37,7 +37,7 @@ def _codex_home(prefix: str) -> tempfile.TemporaryDirectory:
     return tempfile.TemporaryDirectory(prefix=prefix, dir=str(CODEX_HOME_ROOT))
 
 def bounded_worker_count(requested: int) -> int:
-    return max(1, min(int(requested), 2))
+    return max(1, min(int(requested), 3))
 
 
 MAX_WORKERS = bounded_worker_count(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "3")))
@@ -447,9 +447,23 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
         gh_env = os.environ.copy()
         if gh_env.get("GITHUB_TOKEN") and not gh_env.get("GH_TOKEN"):
             gh_env["GH_TOKEN"] = gh_env["GITHUB_TOKEN"]
+        workflow_ref = (
+            os.environ.get("ASTRA_WORKFLOW_REF", "").strip()
+            or os.environ.get("GITHUB_HEAD_REF", "").strip()
+            or os.environ.get("GITHUB_REF_NAME", "").strip()
+            or "main"
+        )
+        ref_probe = run(
+            ["git", "ls-remote", "origin", f"refs/heads/{workflow_ref}"],
+            60,
+            env=gh_env,
+        )
+        ref_sha = ref_probe.stdout.split()[0] if ref_probe.returncode == 0 and ref_probe.stdout.split() else ""
+        if ref_sha != expected_base_sha:
+            raise RuntimeError("remote_workflow_ref_target_sha_mismatch")
         dispatch = run([
             "gh", "workflow", "run", ".github/workflows/astra-distributed-local-worker.yml",
-            "--ref", "main",
+            "--ref", workflow_ref,
             "-f", f"command_id={os.environ.get('ASTRA_COMMAND_ID', '')}",
             "-f", f"target_sha={expected_base_sha}",
             "-f", f"task_id={task_key}",

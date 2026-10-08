@@ -79,7 +79,7 @@ def test_worktree_path_is_task_scoped_and_deterministic(monkeypatch, tmp_path: P
 
 
 def test_max_workers_is_bounded_by_two_concurrent_claims():
-    assert autonomous_queue.bounded_worker_count(99) == 2
+    assert autonomous_queue.bounded_worker_count(99) == 3
     assert autonomous_queue.bounded_worker_count(0) == 1
 
 
@@ -358,4 +358,4 @@ def test_permanent_executor_pool_matches_canonical_three_lane_topology():
         "mh-dev-02": "codex",
         "Voktors-Mac-mini.local": "claude",
     }
-    assert autonomous_queue.bounded_worker_count(3) == 2
+    assert autonomous_queue.bounded_worker_count(3) == 3

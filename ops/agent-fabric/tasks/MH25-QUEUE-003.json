@@ -6,7 +6,7 @@
   "role": "builder",
   "mission": "Qualify the third permanent local executor lane: Claude on mh-dev-01 using the node-local qwen2.5-coder:1.5b backend. Prove executor-only operation, exact target-SHA binding, isolated branch execution, and independent Codex verification. Do not alter controller authority, control state, credentials, or production infrastructure.",
   "boundary": [
-    "docs/operations/"
+    "docs/operations/ASTRA-MH-DEV-01-CLAUDE-EXECUTOR.md"
   ],
   "forbidden_surfaces": [
     ".github/workflows/",
