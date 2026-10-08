@@ -365,6 +365,46 @@ def main() -> int:
             changed_probe = changed_paths(target_sha)
             if changed_probe:
                 break
+            if executor == "claude" and attempt == builder_attempts:
+                boundaries = [str(x) for x in task.get("boundary", [])]
+                if len(boundaries) == 1 and boundaries[0].endswith(".md"):
+                    artifact_prompt = (
+                        attempt_prompt
+                        + "\n\nTOOL-FREE BUILDER FALLBACK: this local backend may not expose editor tools. "
+                        "You must still complete the task by generating the exact contents of the single Markdown "
+                        "boundary file. Do not explain, propose code, or output tool calls. "
+                        "Return only the final Markdown document between the literal markers "
+                        "ASTRA_ARTIFACT_BEGIN and ASTRA_ARTIFACT_END."
+                    )
+                    artifact, server = exec_claude(
+                        artifact_prompt,
+                        cfg["model"],
+                        builder_timeout,
+                        Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+                        max_turns=3,
+                    )
+                    attempt_records.append({
+                        "attempt": attempt,
+                        "mode": "artifact_fallback",
+                        "returncode": artifact.get("returncode"),
+                        "stdout": artifact.get("stdout", "")[-4000:],
+                        "stderr": artifact.get("stderr", "")[-3000:],
+                    })
+                    output = artifact.get("stdout", "")
+                    match = re.search(
+                        r"ASTRA_ARTIFACT_BEGIN\\s*\\n(.*?)\\nASTRA_ARTIFACT_END",
+                        output,
+                        re.DOTALL,
+                    )
+                    if artifact.get("returncode") == 0 and match:
+                        artifact_path = ROOT / boundaries[0]
+                        artifact_path.parent.mkdir(parents=True, exist_ok=True)
+                        artifact_path.write_text(match.group(1).strip() + "\n", encoding="utf-8")
+                        changed_probe = changed_paths(target_sha)
+                        if changed_probe:
+                            build = artifact
+                            build["materialized_artifact"] = boundaries[0]
+                            break
         record["builder"] = build
         record["builder_attempts"] = attempt_records
         if build["returncode"] != 0:
