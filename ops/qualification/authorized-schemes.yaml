@@ -1,0 +1,26 @@
+schema: mediahub.astra-gold.authorized-schemes.v1
+status: FAIL_CLOSED
+authority: A0-ASTRA-coordination
+source_of_truth:
+  qualification_contract: architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml
+  governance_contract: architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml
+rules:
+  fresh_evidence_only: true
+  exact_sha_required: true
+  independent_a3_required: true
+  human_launch_authorization_required: true
+  no_historical_promotion: true
+  missing_evidence_is_blocked: true
+authorized_pass:
+  # Intentionally empty until a fresh exact-SHA qualification bundle proves PASS.
+  # Configuration or historical evidence never populates this list.
+  []
+pending:
+  - id: ASTRA-GOLD-3-LANE-LOCAL-FABRIC
+    topology:
+      - {node_id: mh-dev-01, executor: claude, model: qwen2.5-coder:1.5b}
+      - {node_id: mh-dev-02, executor: codex, model: qwen2.5-coder:3b}
+      - {node_id: Voktors-Mac-mini.local, executor: claude, model: qwen2.5-coder:1.5b}
+    max_parallel_claims: 3
+    status: BLOCKED
+    blocker: fresh_authenticated_three_node_runtime_evidence_missing
