@@ -348,6 +348,36 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
     raise RuntimeError("unsupported_verifier")
 
 
+def security_gate(changed: set[str], task: dict) -> list[str]:
+    """Bounded pre-verifier security gate inspired by ECC security-review patterns."""
+    forbidden = tuple(str(x) for x in task.get("forbidden", task.get("forbidden_surfaces", [])))
+    findings: list[str] = []
+    secret_patterns = [
+        re.compile(r"(?i)(api[_-]?key|access[_-]?token|secret|private[_-]?key|bearer)\\s*[:=]\\s*['\\\"][^'\\\"]{12,}"),
+        re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
+    ]
+    for path in sorted(changed):
+        normalized = path.lstrip("./")
+        if any(normalized == root or normalized.startswith(root.rstrip("/") + "/") for root in forbidden):
+            findings.append("forbidden_surface:" + normalized)
+            continue
+        target = ROOT / normalized
+        if not target.is_file() or target.stat().st_size > 2 * 1024 * 1024:
+            continue
+        try:
+            text = target.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            findings.append("unreadable_changed_file:" + normalized)
+            continue
+        for pattern in secret_patterns:
+            if pattern.search(text):
+                findings.append("possible_secret:" + normalized)
+                break
+        if normalized in {".env", ".env.local", ".env.production"} or normalized.endswith(".pem"):
+            findings.append("sensitive_file:" + normalized)
+    return sorted(set(findings))
+
+
 def main() -> int:
     task = load_task()
     target_sha = os.environ.get("ASTRA_TARGET_SHA", "")
@@ -568,6 +598,10 @@ def main() -> int:
             )
 
         changed = changed_paths(target_sha)
+        security_findings = security_gate(changed, task)
+        record["security_gate"] = {"status": "PASS" if not security_findings else "BLOCKED", "findings": security_findings}
+        if security_findings:
+            raise RuntimeError("security_gate_blocked")
         outside = scope_paths(task, changed)
         record["scope"] = {"status": "PASS" if not outside else "BLOCKED", "outside_scope": outside}
         if outside:
