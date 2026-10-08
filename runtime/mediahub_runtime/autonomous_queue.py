@@ -23,7 +23,7 @@ TASK_DIR = ROOT / "ops" / "agent-fabric" / "tasks"
 STATE = Path(os.environ.get("ASTRA_QUEUE_STATE_DIR", "/var/lib/mediahub-astra/queue"))
 CLAIMS = STATE / "claims"
 
-# Three permanent executor lanes; Astra Gold still permits at most two active claims.
+# Three permanent executor lanes; Astra Gold permits up to three active claims.
 PERMANENT_EXECUTOR_POOL = {
     "mh-dev-01": "claude",
     "mh-dev-02": "codex",
