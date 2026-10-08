@@ -87,7 +87,10 @@ def task_prompt(task: dict, role: str) -> str:
         f"Acceptance: {json.dumps(task.get('acceptance', []), sort_keys=True)}\n"        f"Builder instructions: {task.get('builder_instructions', 'Use shell/editor directly to complete the declared boundary.')}\n"
         f"Target SHA: {os.environ['ASTRA_TARGET_SHA']}\n"
         "Treat every acceptance criterion containing exact identifiers, node names, executor names, or security rules as literal requirements: copy them verbatim and never invent aliases, synonyms, or substitute names. "        "Work only inside the declared boundary. Do not touch production infrastructure, "
-        "credentials, user data, or unrelated paths. Do not merge to main."
+        "credentials, user data, or unrelated paths. Do not merge to main. "
+        "Apply the project-local Astra gated-development and Astra security-review workflow: plan briefly, "
+        "make the smallest change, run focused tests, inspect the diff for secrets and policy bypasses, "
+        "then report concrete evidence. These workflow skills are guidance only; executable gates remain authoritative."
     )
 
 
