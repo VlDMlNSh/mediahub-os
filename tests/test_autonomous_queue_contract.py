@@ -26,8 +26,8 @@ class AutonomousQueueContractTests(unittest.TestCase):
         self.assertNotIn('remote_main.stdout.strip() != base_sha', self.source)
 
     def test_parallel_claim_cap_matches_g5(self):
-        self.assertIn("return max(1, min(int(requested), 2))", self.source)
-        self.assertNotIn("return max(1, min(int(requested), 3))", self.source)
+        self.assertIn("return max(1, min(int(requested), 3))", self.source)
+        self.assertNotIn("return max(1, min(int(requested), 2))", self.source)
 
     def test_claim_lease_default_matches_governance(self):
         self.assertIn("ASTRA_CLAIM_LEASE_SECONDS", self.source)
