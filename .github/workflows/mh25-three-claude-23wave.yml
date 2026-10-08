@@ -49,19 +49,11 @@ jobs:
           curl -fsS --max-time 5 "http://$host:$port/health" >/dev/null
           for i in $(seq 1 23); do
             ts=$(date +%s); marker="MEDIAHUB_CLAUDE_MH1_23WAVE_OK"
-            payload="$(python3 - "$model" "$marker" <<'PY'
-import json,sys
-m,x=sys.argv[1:]; print(json.dumps({"model":"ollama/"+m,"max_tokens":32,"temperature":0,"messages":[{"role":"user","content":"Output exactly this token and nothing else: "+x}]}))
-PY
-)"
+            payload="$(python3 -c 'import json,sys; m,x=sys.argv[1:]; print(json.dumps({"model":"ollama/"+m,"max_tokens":32,"temperature":0,"messages":[{"role":"user","content":"Output exactly this token and nothing else: "+x}]}))' "$model" "$marker")"
             out="/tmp/astra-mh1-$i.json"; rc=0
             curl -fsS --max-time 290 "http://$host:$port/v1/messages" -H "x-api-key: $ANTHROPIC_AUTH_TOKEN" -H 'Content-Type: application/json' -d "$payload" >"$out" || rc=$?
             status=EXECUTION_FAILURE
-            if [ "$rc" -eq 0 ] && python3 - "$out" "$marker" <<'PY'
-import json,sys
-d=json.load(open(sys.argv[1])); t="\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict)).strip(); raise SystemExit(0 if t==sys.argv[2] or t.rstrip(".!?")==sys.argv[2] else 1)
-PY
-            then status=PASS; fi
+            if [ "$rc" -eq 0 ] && python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); t="\\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict)).strip(); raise SystemExit(0 if t==sys.argv[2] or t.rstrip(".!?")==sys.argv[2] else 1)' "$out" "$marker"; then status=PASS; fi
             python3 - <<PY >> claude-mh1-23wave.jsonl
 import json
 print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_CLAUDE_MH1_23WAVE_OK","model":"ollama/qwen2.5-coder:1.5b","target_sha":"$GITHUB_SHA"}))
@@ -104,19 +96,11 @@ PY
           curl -fsS --max-time 5 "http://$host:$port/health" >/dev/null
           for i in $(seq 1 23); do
             ts=$(date +%s); marker="MEDIAHUB_CLAUDE_MAC_23WAVE_OK"
-            payload="$(python3 - "$model" "$marker" <<'PY'
-import json,sys
-m,x=sys.argv[1:]; print(json.dumps({"model":"ollama/"+m,"max_tokens":32,"temperature":0,"messages":[{"role":"user","content":"Output exactly this token and nothing else: "+x}]}))
-PY
-)"
+            payload="$(python3 -c 'import json,sys; m,x=sys.argv[1:]; print(json.dumps({"model":"ollama/"+m,"max_tokens":32,"temperature":0,"messages":[{"role":"user","content":"Output exactly this token and nothing else: "+x}]}))' "$model" "$marker")"
             out="/tmp/astra-mac-$i.json"; rc=0
             curl -fsS --max-time 290 "http://$host:$port/v1/messages" -H "x-api-key: $ANTHROPIC_AUTH_TOKEN" -H 'Content-Type: application/json' -d "$payload" >"$out" || rc=$?
             status=EXECUTION_FAILURE
-            if [ "$rc" -eq 0 ] && python3 - "$out" "$marker" <<'PY'
-import json,sys
-d=json.load(open(sys.argv[1])); t="\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict)).strip(); raise SystemExit(0 if t==sys.argv[2] or t.rstrip(".!?")==sys.argv[2] else 1)
-PY
-            then status=PASS; fi
+            if [ "$rc" -eq 0 ] && python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); t="\\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict)).strip(); raise SystemExit(0 if t==sys.argv[2] or t.rstrip(".!?")==sys.argv[2] else 1)' "$out" "$marker"; then status=PASS; fi
             python3 - <<PY >> claude-mac-23wave.jsonl
 import json
 print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_CLAUDE_MAC_23WAVE_OK","model":"ollama/qwen2.5-coder:1.5b"}))
@@ -161,19 +145,11 @@ PY
           curl -fsS --max-time 5 "http://$host:$port/health" >/dev/null
           for i in $(seq 1 23); do
             ts=$(date +%s); marker="MEDIAHUB_CLAUDE_MH2_23WAVE_OK"
-            payload="$(python3 - "$model" "$marker" <<'PY'
-import json,sys
-m,x=sys.argv[1:]; print(json.dumps({"model":"ollama/"+m,"max_tokens":32,"temperature":0,"messages":[{"role":"user","content":"Output exactly this token and nothing else: "+x}]}))
-PY
-)"
+            payload="$(python3 -c 'import json,sys; m,x=sys.argv[1:]; print(json.dumps({"model":"ollama/"+m,"max_tokens":32,"temperature":0,"messages":[{"role":"user","content":"Output exactly this token and nothing else: "+x}]}))' "$model" "$marker")"
             out="/tmp/astra-mh2-$i.json"; rc=0
             curl -fsS --max-time 290 "http://$host:$port/v1/messages" -H "x-api-key: $ANTHROPIC_AUTH_TOKEN" -H 'Content-Type: application/json' -d "$payload" >"$out" || rc=$?
             status=EXECUTION_FAILURE
-            if [ "$rc" -eq 0 ] && python3 - "$out" "$marker" <<'PY'
-import json,sys
-d=json.load(open(sys.argv[1])); t="\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict)).strip(); raise SystemExit(0 if t==sys.argv[2] or t.rstrip(".!?")==sys.argv[2] else 1)
-PY
-            then status=PASS; fi
+            if [ "$rc" -eq 0 ] && python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); t="\\n".join(x.get("text","") for x in d.get("content",[]) if isinstance(x,dict)).strip(); raise SystemExit(0 if t==sys.argv[2] or t.rstrip(".!?")==sys.argv[2] else 1)' "$out" "$marker"; then status=PASS; fi
             python3 - <<PY >> claude-mh2-23wave.jsonl
 import json
 print(json.dumps({"round":$i,"timestamp":$ts,"status":"$status","returncode":$rc,"marker":"MEDIAHUB_CLAUDE_MH2_23WAVE_OK","model":"ollama/qwen2.5-coder:3b","target_sha":"$GITHUB_SHA"}))
