@@ -31,7 +31,7 @@ def _codex_home(prefix: str) -> tempfile.TemporaryDirectory:
     return tempfile.TemporaryDirectory(prefix=prefix, dir=str(CODEX_HOME_ROOT))
 
 def bounded_worker_count(requested: int) -> int:
-    return max(1, min(int(requested), 2))
+    return max(1, min(int(requested), 3))
 
 
 MAX_WORKERS = bounded_worker_count(int(os.environ.get("ASTRA_QUEUE_MAX_WORKERS", "3")))
