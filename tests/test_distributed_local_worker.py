@@ -106,6 +106,26 @@ def test_canonical_three_executor_tasks_are_ready_and_disjoint():
     assert all(len(t["boundary"]) == 1 and t["boundary"][0].startswith("docs/operations/") for t in tasks)
 
 
+def test_only_permanent_claude_tasks_remain_ready():
+    task_files = sorted(Path("ops/agent-fabric/tasks").glob("*.json"))
+    ready = [
+        json.loads(path.read_text(encoding="utf-8"))
+        for path in task_files
+        if json.loads(path.read_text(encoding="utf-8")).get("status") == "READY"
+    ]
+    permanent = {
+        "mh-dev-01": "claude",
+        "mh-dev-02": "claude",
+        "Voktors-Mac-mini.local": "claude",
+    }
+    assert all(permanent.get(task.get("node_id")) == task.get("executor") for task in ready)
+    legacy = json.loads(
+        Path("ops/agent-fabric/tasks/MH-25-23-lane-manifest.json").read_text(encoding="utf-8")
+    )
+    assert legacy["status"] == "BLOCKED"
+    assert legacy["permanent_queue_eligible"] is False
+
+
 def test_worker_workflow_enforces_claude_only_executor_identity():
     workflow = Path('.github/workflows/astra-distributed-local-worker.yml').read_text(encoding='utf-8')
     assert 'test "${ASTRA_EXECUTOR}" = "claude"' in workflow
