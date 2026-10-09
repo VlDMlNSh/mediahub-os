@@ -45,6 +45,11 @@ class ExecutionBindingTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "permanent_verifier_policy_violation"):
             worker.validate_execution_binding(task, "mh-dev-01", "claude")
 
+    def test_worker_has_no_codex_execution_path(self):
+        source = WORKER_PATH.read_text(encoding="utf-8")
+        self.assertNotIn("def exec_codex(", source)
+        self.assertNotIn('if verifier == "codex"', source)
+
 
 class SecretDetectionTests(unittest.TestCase):
     def test_detects_common_secret_assignments(self):
