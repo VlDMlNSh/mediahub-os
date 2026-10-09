@@ -351,14 +351,35 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
     raise RuntimeError("unsupported_verifier")
 
 
+def contains_secret(text: str) -> bool:
+    """Detect common assignment-style secrets and PEM private-key headers."""
+    patterns = (
+        re.compile(r'''(?i)(api[_-]?key|access[_-]?token|secret|private[_-]?key|bearer)\s*[:=]\s*['"][^'"]{12,}'''),
+        re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
+    )
+    return any(pattern.search(text) for pattern in patterns)
+
+
+def validate_execution_binding(task: dict, node_id: str, configured_executor: str) -> dict:
+    """Reject task/environment mismatches before branch creation or model invocation."""
+    cfg = NODE_CONFIG.get(node_id)
+    if not cfg:
+        raise RuntimeError("unsupported_node")
+    if task.get("node_id") != node_id:
+        raise RuntimeError("task_node_binding_mismatch")
+    if configured_executor != "claude":
+        raise RuntimeError("permanent_executor_policy_violation")
+    if task.get("executor") != configured_executor:
+        raise RuntimeError("task_executor_binding_mismatch")
+    if task.get("verifier") != "claude":
+        raise RuntimeError("permanent_verifier_policy_violation")
+    return cfg
+
+
 def security_gate(changed: set[str], task: dict) -> list[str]:
     """Bounded pre-verifier security gate inspired by ECC security-review patterns."""
     forbidden = tuple(str(x) for x in task.get("forbidden", task.get("forbidden_surfaces", [])))
     findings: list[str] = []
-    secret_patterns = [
-        re.compile(r"(?i)(api[_-]?key|access[_-]?token|secret|private[_-]?key|bearer)\\s*[:=]\\s*['\\\"][^'\\\"]{12,}"),
-        re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
-    ]
     for path in sorted(changed):
         normalized = path.lstrip("./")
         if any(normalized == root or normalized.startswith(root.rstrip("/") + "/") for root in forbidden):
@@ -372,10 +393,8 @@ def security_gate(changed: set[str], task: dict) -> list[str]:
         except OSError:
             findings.append("unreadable_changed_file:" + normalized)
             continue
-        for pattern in secret_patterns:
-            if pattern.search(text):
-                findings.append("possible_secret:" + normalized)
-                break
+        if contains_secret(text):
+            findings.append("possible_secret:" + normalized)
         if normalized in {".env", ".env.local", ".env.production"} or normalized.endswith(".pem"):
             findings.append("sensitive_file:" + normalized)
     return sorted(set(findings))
@@ -386,14 +405,8 @@ def main() -> int:
     target_sha = os.environ.get("ASTRA_TARGET_SHA", "")
     command_id = os.environ.get("ASTRA_COMMAND_ID", "")
     node_id = os.environ.get("ASTRA_NODE_ID", "")
-    executor = task["executor"]
-    cfg = NODE_CONFIG.get(node_id)
-    if not cfg:
-        raise RuntimeError("unsupported_node")
-    if task["node_id"] != node_id:
-        raise RuntimeError("task_node_binding_mismatch")
-    if executor not in {"codex", "claude"}:
-        raise RuntimeError("unsupported_executor")
+    executor = os.environ.get("ASTRA_EXECUTOR", "")
+    cfg = validate_execution_binding(task, node_id, executor)
     if not re.fullmatch(r"[0-9a-f]{40}", target_sha or ""):
         raise RuntimeError("invalid_target_sha")
     current = run(["git", "rev-parse", "HEAD"], 30).stdout.strip()
@@ -444,16 +457,13 @@ def main() -> int:
                     "do not merely explain what should be changed. Finish only after the file "
                     "contains the requested regression coverage."
                 )
-            if executor == "codex":
-                build = exec_codex(attempt_prompt, True, cfg["model"], builder_timeout)
-            else:
-                build, server = exec_claude(
-                    attempt_prompt,
-                    cfg["model"],
-                    builder_timeout,
-                    Path(os.environ["ASTRA_FCC_ENV_FILE"]),
-                    max_turns=6,
-                )
+            build, server = exec_claude(
+                attempt_prompt,
+                cfg["model"],
+                builder_timeout,
+                Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+                max_turns=6,
+            )
             attempt_records.append({
                 "attempt": attempt,
                 "returncode": build.get("returncode"),
