@@ -16,6 +16,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 MARKER = "MEDIAHUB_DISTRIBUTED_LOCAL_EXECUTOR_OK"
 VERDICT_MARKER = "ASTRA_VERDICT: PASS"
+
+
+def verifier_passed(stdout: str) -> bool:
+    """Accept only the exact machine verdict, not a substring or mixed output."""
+    return stdout.strip() == VERDICT_MARKER
 NODE_CONFIG = {
     "mh-dev-01": {
         "user": "mediahub-runner",
@@ -633,7 +638,7 @@ def main() -> int:
             task, diff.stdout, record["tests"]["stdout"] + record["tests"]["stderr"], cfg["model"]
         )
         record["verifier"] = verifier
-        if verifier["returncode"] != 0 or VERDICT_MARKER not in verifier["stdout"]:
+        if verifier["returncode"] != 0 or not verifier_passed(verifier["stdout"]):
             raise RuntimeError("verifier_failed")
 
         if not run(["git", "status", "--porcelain"], 30).stdout.strip():
