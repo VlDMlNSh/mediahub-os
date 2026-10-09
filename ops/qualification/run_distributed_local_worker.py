@@ -60,6 +60,12 @@ def run(argv: list[str], timeout: int, cwd: Path = ROOT, env: dict[str, str] | N
     )
 
 
+def remaining_budget(deadline: float, *, now: float | None = None) -> int:
+    """Return whole seconds left in a monotonic total budget, never a negative value."""
+    current = time.monotonic() if now is None else now
+    return max(0, int(deadline - current))
+
+
 def safe_id(value: str) -> str:
     if not re.fullmatch(r"[A-Za-z0-9._-]+", value):
         raise RuntimeError("invalid_task_id")
@@ -192,6 +198,7 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     env["MAX_THINKING_TOKENS"] = "0"
     isolated_config = tempfile.mkdtemp(prefix="astra-claude-config-")
     env["CLAUDE_CONFIG_DIR"] = isolated_config
+    result: dict
     try:
         command = [claude, "-p", prompt, "--max-turns", str(max_turns)]
         if structured_schema is not None:
@@ -207,10 +214,24 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
                 "--tools", tools_mode,
                 "--allowedTools", "Read", "Edit", "Bash(git *)", "Bash(python *)",
             ])
-        p = run(command, timeout, ROOT, env)
+        try:
+            p = run(command, timeout, ROOT, env)
+            result = {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}
+        except subprocess.TimeoutExpired as exc:
+            stdout = exc.stdout or ""
+            stderr = exc.stderr or ""
+            if isinstance(stdout, bytes):
+                stdout = stdout.decode("utf-8", errors="replace")
+            if isinstance(stderr, bytes):
+                stderr = stderr.decode("utf-8", errors="replace")
+            result = {
+                "returncode": 124,
+                "stdout": str(stdout)[-16000:],
+                "stderr": ("claude_execution_timeout:" + str(stderr))[-8000:],
+            }
     finally:
         shutil.rmtree(isolated_config, ignore_errors=True)
-    return {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}, server
+    return result, server
 
 def scope_paths(task: dict, changed: set[str]) -> list[str]:
     boundary = tuple(str(x) for x in task.get("boundary", []))
@@ -326,7 +347,13 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
     if verifier != "claude":
         raise RuntimeError("permanent_verifier_policy_violation")
     env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
-    return exec_claude(prompt, model, 240, env_file, 128, max_turns=2)[0]
+    result, verifier_server = exec_claude(prompt, model, 240, env_file, 128, max_turns=2)
+    if verifier_server is not None:
+        try:
+            verifier_server.terminate()
+        except Exception:
+            pass
+    return result
 
 
 def contains_secret(text: str) -> bool:
@@ -421,11 +448,17 @@ def main() -> int:
     server = None
     try:
         builder_prompt_text = task_prompt(task, "A2 Builder")
-        builder_timeout = int(task.get("timeout_seconds", 1800))
+        builder_budget_seconds = max(1, min(int(task.get("timeout_seconds", 1800)), 7200))
+        builder_deadline = time.monotonic() + builder_budget_seconds
         builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 3))
         build = {"returncode": 1, "stdout": "", "stderr": "builder_not_run"}
         attempt_records = []
         for attempt in range(1, builder_attempts + 1):
+            attempt_timeout = remaining_budget(builder_deadline)
+            if attempt_timeout <= 0:
+                build = {"returncode": 124, "stdout": "", "stderr": "builder_total_timeout_budget_exhausted"}
+                attempt_records.append({"attempt": attempt, "returncode": 124, "stderr": "builder_total_timeout_budget_exhausted"})
+                break
             attempt_prompt = builder_prompt_text
             if attempt > 1:
                 attempt_prompt += (
@@ -435,13 +468,15 @@ def main() -> int:
                     "do not merely explain what should be changed. Finish only after the file "
                     "contains the requested regression coverage."
                 )
-            build, server = exec_claude(
+            build, builder_server = exec_claude(
                 attempt_prompt,
                 cfg["model"],
-                builder_timeout,
+                attempt_timeout,
                 Path(os.environ["ASTRA_FCC_ENV_FILE"]),
                 max_turns=6,
             )
+            if builder_server is not None:
+                server = builder_server
             attempt_records.append({
                 "attempt": attempt,
                 "returncode": build.get("returncode"),
@@ -479,17 +514,30 @@ def main() -> int:
                         "required": ["markdown"],
                         "additionalProperties": False,
                     }
-                    artifact, server = exec_claude(
+                    artifact_timeout = remaining_budget(builder_deadline)
+                    if artifact_timeout <= 0:
+                        artifact = {"returncode": 124, "stdout": "", "stderr": "builder_total_timeout_budget_exhausted"}
+                        attempt_records.append({
+                            "attempt": attempt,
+                            "mode": "artifact_fallback",
+                            "returncode": 124,
+                            "stderr": "builder_total_timeout_budget_exhausted",
+                        })
+                        build = artifact
+                        break
+                    artifact, artifact_server = exec_claude(
                         artifact_prompt
                         + "\nReturn a single JSON object matching the schema; put the complete Markdown document in the markdown field. "
                         + "Do not call tools and do not include any other fields.",
                         cfg["model"],
-                        builder_timeout,
+                        artifact_timeout,
                         Path(os.environ["ASTRA_FCC_ENV_FILE"]),
                         max_turns=3,
                         structured_schema=artifact_schema,
                         tools_mode="",
                     )
+                    if artifact_server is not None:
+                        server = artifact_server
                     attempt_records.append({
                         "attempt": attempt,
                         "mode": "artifact_fallback",
