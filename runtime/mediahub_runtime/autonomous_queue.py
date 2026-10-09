@@ -28,6 +28,18 @@ PERMANENT_EXECUTOR_POOL = {
 }
 
 
+def worker_artifact_name(run_id: int | str, node_id: str) -> str:
+    """Return the exact artifact name emitted by the worker workflow for a node."""
+    run = str(run_id)
+    if not run.isdigit():
+        raise ValueError("invalid_worker_run_id")
+    if node_id in {"mh-dev-01", "mh-dev-02"}:
+        return f"astra-distributed-worker-{node_id}-claude-{run}"
+    if node_id in {"Voktors-Mac-mini.local", "Voktors-Mini.Dlink"}:
+        return f"astra-distributed-worker-{run}"
+    raise ValueError("unsupported_worker_node")
+
+
 def bounded_worker_count(requested: int) -> int:
     return max(1, min(int(requested), len(PERMANENT_EXECUTOR_POOL)))
 
@@ -364,7 +376,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
 
         temp = tempfile.TemporaryDirectory(prefix="astra-remote-worker-")
         download = run([
-            "gh", "run", "download", str(run_id), "-n", f"astra-distributed-worker-{run_id}", "-D", temp.name
+            "gh", "run", "download", str(run_id), "-n", worker_artifact_name(run_id, node_id), "-D", temp.name
         ], 120, env=gh_env)
         if download.returncode != 0:
             raise RuntimeError("remote_evidence_download_failed")
