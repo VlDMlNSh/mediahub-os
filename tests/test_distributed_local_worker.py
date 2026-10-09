@@ -19,12 +19,12 @@ def test_exec_claude_converts_process_timeout_to_bounded_evidence(tmp_path: Path
     env_file = tmp_path / "fcc.env"
     auth_name = "ANTHROPIC_AUTH" + "_TOKEN"
     env_file.write_text(
-        "\\n".join((
+        "\n".join((
             "MODEL=ollama/" + model,
             "HOST=127.0.0.1",
             "PORT=8093",
             auth_name + "=x",
-        )) + "\\n",
+        )) + "\n",
         encoding="utf-8",
     )
 
