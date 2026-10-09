@@ -288,6 +288,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
     (STATE / "completed").mkdir(parents=True, exist_ok=True)
     store = ClaimStore(CLAIMS)
     claim = claim_for(task, expected_base_sha)
+    claim_acquired = False
     started = time.time()
     task_key = safe_task_id(str(task["task_id"]))
     node_id = str(task.get("node_id", "")).strip()
@@ -330,7 +331,8 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
     task_payload["executor"] = executor
     task_payload["verifier"] = verifier
     try:
-        store.acquire(claim)
+        claim = store.acquire(claim)
+        claim_acquired = True
         task_json = json.dumps(task_payload, sort_keys=True, separators=(",", ":"))
         dispatch = run([
             "gh", "workflow", "run", ".github/workflows/astra-distributed-local-worker.yml",
@@ -383,7 +385,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
                     break
             if time.time() - started > 60:
                 try:
-                    store.heartbeat(task_key, lease_seconds=max(60, min(int(os.environ.get("ASTRA_CLAIM_LEASE_SECONDS", "600")), 21600)))
+                    store.heartbeat(task_key, claim.lease_id, lease_seconds=max(60, min(int(os.environ.get("ASTRA_CLAIM_LEASE_SECONDS", "600")), 21600)))
                 except Exception:
                     pass
             time.sleep(10)
@@ -451,12 +453,17 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
         record["error"] = type(exc).__name__ + ":" + str(exc)
         return record
     finally:
-        try:
-            store.release(task_key, "VERIFIED" if record["status"] == "VERIFIED" else "REJECTED")
-        except Exception as exc:
-            record["claim_release_error"] = repr(exc)
-            record["status"] = "BLOCKED"
-            record["error"] = "ClaimReleaseError:" + repr(exc)
+        if claim_acquired:
+            try:
+                store.release(
+                    task_key,
+                    "VERIFIED" if record["status"] == "VERIFIED" else "REJECTED",
+                    lease_id=claim.lease_id,
+                )
+            except Exception as exc:
+                record["claim_release_error"] = repr(exc)
+                record["status"] = "BLOCKED"
+                record["error"] = "ClaimReleaseError:" + repr(exc)
 
 def process_task(task: dict, expected_base_sha: str) -> dict:
     raise RuntimeError("legacy_local_executor_disabled")
