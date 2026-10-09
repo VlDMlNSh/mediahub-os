@@ -182,7 +182,7 @@ def start_fcc(env_file: Path, model: str, server_path: str | None = None) -> tup
     raise RuntimeError("fcc_server_health_timeout")
 
 
-def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048, max_turns: int = 4, structured_schema: dict | None = None, tools_mode: str = "Read,Edit,Bash") -> tuple[dict, subprocess.Popen[str] | None]:
+def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048, max_turns: int = 4, structured_schema: dict | None = None, tools_mode: str = "Read,Edit") -> tuple[dict, subprocess.Popen[str] | None]:
     """Run the real Claude Code client through the node-local FCC transport."""
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
@@ -224,6 +224,7 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     result: dict
     try:
         command = [claude, "-p", prompt, "--max-turns", str(max_turns)]
+        selected_tools = [name.strip() for name in tools_mode.split(",") if name.strip()]
         if structured_schema is not None:
             command.extend([
                 "--output-format", "json",
@@ -235,8 +236,9 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
                 "--output-format", "text",
                 "--permission-mode", "acceptEdits",
                 "--tools", tools_mode,
-                "--allowedTools", "Read", "Edit", "Bash(git *)", "Bash(python *)",
             ])
+        if selected_tools:
+            command.extend(["--allowedTools", *selected_tools])
         try:
             p = run(command, timeout, ROOT, env)
             result = {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}
@@ -370,7 +372,7 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
     if verifier != "claude":
         raise RuntimeError("permanent_verifier_policy_violation")
     env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
-    result, verifier_server = exec_claude(prompt, model, 240, env_file, 128, max_turns=2)
+    result, verifier_server = exec_claude(prompt, model, 240, env_file, 128, max_turns=2, tools_mode="Read")
     terminate_process(verifier_server)
     return result
 
