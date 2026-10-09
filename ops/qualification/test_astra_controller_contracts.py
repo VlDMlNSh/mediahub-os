@@ -22,6 +22,13 @@ class ExecutionBindingTests(unittest.TestCase):
     def task(self):
         return {"node_id": "mh-dev-01", "executor": "claude", "verifier": "claude"}
 
+    def test_verifier_accepts_only_exact_machine_verdict(self):
+        self.assertTrue(worker.verifier_passed("ASTRA_VERDICT: PASS\\n"))
+        self.assertFalse(worker.verifier_passed("ASTRA_VERDICT: PASS and more text"))
+        self.assertFalse(worker.verifier_passed("review done\\nASTRA_VERDICT: PASS"))
+        self.assertFalse(worker.verifier_passed("ASTRA_VERDICT: PASS\\nASTRA_VERDICT: PASS"))
+        self.assertFalse(worker.verifier_passed("ASTRA_VERDICT: BLOCKED"))
+
     def test_accepts_canonical_claude_lane(self):
         self.assertEqual(worker.validate_execution_binding(self.task(), "mh-dev-01", "claude")["platform"], "linux")
 
