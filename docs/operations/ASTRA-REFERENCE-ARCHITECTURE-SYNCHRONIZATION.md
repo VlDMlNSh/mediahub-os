@@ -37,6 +37,8 @@ The upstream repositories and documents provide design evidence; their existence
 | Atomic claim store with lease generation/fencing | Existing implementation | Concurrency test + live recovery/fencing test |
 | Same-node duplicate task prevention | Lane-sentinel claim and regression tests added on PR branch | Passing CI and two concurrently invoked controller attempts |
 | Exact verifier verdict | Exact-output helper and regression test added on PR branch | Passing CI and fresh independent verifier artifacts |
+| Agent tool least privilege | Builder limited to Read/Edit; independent verifier limited to Read; Bash/Python shell tools removed on PR branch | Passing CI and a runner policy test. This reduces execution capability but is not a host filesystem sandbox. |
+| Durable queue-state directory admission | Supervisor now pins queue state to the persistent canonical state directory and probes claim-store write permission | Authorized runner identity must be repaired; the probe must pass on mh-dev-01 |
 | Recovering an existing GitHub worker run before redispatch | Implemented on PR branch; **not CI/runtime qualified** | Crash/restart integration test with the same command/task key |
 | Durable redacted transition journal | Append-only fsynced journal implemented on PR branch; **journal replay is not implemented or qualified** | Corrupt/truncated journal, crash recovery and replay tests |
 | Enforced host sandbox | **Not proven** | Host-level filesystem/process/network test for all three runner identities |
