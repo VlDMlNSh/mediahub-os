@@ -35,6 +35,20 @@ class AstraReferenceArchitectureSyncTests(unittest.TestCase):
         self.assertIn("cancel-in-progress: false", workflow)
         self.assertNotIn("astra-autonomous-supervisor-v2-${{ github.sha }}", workflow)
 
+    def test_supervisor_requires_persistent_writable_claim_store(self):
+        workflow = (ROOT / ".github/workflows/astra-autonomous-supervisor.yml").read_text(encoding="utf-8")
+        self.assertIn('ASTRA_QUEUE_STATE_DIR: "/var/lib/mediahub-astra/queue"', workflow)
+        self.assertIn('test -d "$ASTRA_QUEUE_STATE_DIR/claims"', workflow)
+        self.assertIn('probe="$ASTRA_QUEUE_STATE_DIR/claims/.astra-write-probe-', workflow)
+        self.assertIn('trap \'rm -f "$probe"\' EXIT', workflow)
+
+    def test_agent_tools_do_not_expose_general_shell_or_python(self):
+        worker = (ROOT / "ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
+        self.assertIn('tools_mode: str = "Read,Edit"', worker)
+        self.assertIn('max_turns=2, tools_mode="Read"', worker)
+        self.assertNotIn('"Bash(python *)"', worker)
+        self.assertNotIn('"Bash(git *)"', worker)
+
 
 if __name__ == "__main__":
     unittest.main()
