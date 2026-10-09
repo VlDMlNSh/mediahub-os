@@ -67,7 +67,8 @@ def safe_task_id(task_id: str) -> str:
     return value
 
 
-def worktree_path(task_id: str) -> Path:    return STATE / "worktrees" / safe_task_id(task_id)
+def worktree_path(task_id: str) -> Path:
+    return STATE / "worktrees" / safe_task_id(task_id)
 
 
 def load_tasks() -> list[dict]:
@@ -127,12 +128,27 @@ def evidence(task_id: str, payload: dict) -> None:
 
 
 def claim_for(task: dict, base_sha: str) -> AgentClaim:
+    """Claim both the task's edit boundary and its single permanent executor lane.
+
+    Lane sentinels are coordination paths, not repository files. Because ClaimStore
+    atomically rejects overlapping active paths, separate queue processes cannot
+    dispatch two different tasks to the same physical Claude executor at once.
+    This enforces the global G-5 limit even when controller invocations overlap.
+    """
+    node_id = str(task.get("node_id", "")).strip()
+    executor = str(task.get("executor", "")).strip()
+    expected = PERMANENT_EXECUTOR_POOL.get(node_id)
+    if expected is None or executor != expected:
+        raise ValueError("invalid_executor_lane_binding")
+    boundary = tuple(str(path) for path in task.get("boundary", []) if str(path).strip())
+    lane_path = f"__astra_executor_lanes__/{node_id}"
+    paths = tuple(dict.fromkeys((*boundary, lane_path)))
     now = time.time()
     return AgentClaim(
         agent="A2-BUILDER",
         task_id=str(task["task_id"]),
         goal=str(task.get("mission", task["task_id"])),
-        paths=tuple(task.get("boundary", [])),
+        paths=paths,
         exclusive_actions=("implement", "commit"),
         dependencies=tuple(task.get("dependencies", [])),
         status="ACTIVE",
