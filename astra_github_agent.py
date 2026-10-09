@@ -890,26 +890,34 @@ def main():
                 started=time.time()
                 claim_store=None
                 claim=None
+                claim_acquired=False
                 try:
                     claim_store, claim = _claim_for(cmd)
-                    claim_store.acquire(claim)
+                    claim = claim_store.acquire(claim)
+                    claim_acquired=True
                     value,rc=execute(cmd),0
                 except Exception as exc:
                     value,rc={'error':repr(exc)},1
+                    if not claim_acquired:
+                        claim=None
                 finally:
-                    if claim_store is not None and claim is not None:
+                    if claim_store is not None and claim is not None and claim_acquired:
                         try:
                             result_status = value.get("status") if isinstance(value, dict) else None
                             claim_status = "VERIFIED" if rc == 0 and result_status == "PASS" else "REJECTED"
-                            claim_store.release(claim.task_id, claim_status)
+                            claim_store.release(claim.task_id, claim_status, lease_id=claim.lease_id)
                             claim = next((c for c in claim_store.list_claims() if c.task_id == claim.task_id), claim)
                         except Exception as release_exc:
                             value = {**(value if isinstance(value,dict) else {'result':value}), 'claim_release_error':repr(release_exc)}
                             rc=1
+                claim_payload = asdict(claim) if claim is not None else None
+                if claim_payload is not None:
+                    # The lease fence is runtime coordination state, not public evidence.
+                    claim_payload.pop("lease_id", None)
                 publish({'schema':1,'node_id':NODE_ID,'agent_id':AGENT_ID,'worker_id':WORKER_ID,
                          'command_id':cmd.get('command_id'),'target_sha':cmd.get('target_sha'),
                          'execution_head':run(['git','rev-parse','HEAD'],10).stdout.strip(),'returncode':rc,
-                         'claim':asdict(claim) if claim is not None else None,
+                         'claim':claim_payload,
                          'chain':['task','claim','worker','verification','commit','evidence'],
                          'duration_seconds':round(time.time()-started,3),'result':value,'completed_at':int(time.time())})
                 _mark_command_executed(cmd.get("command_id",""))
