@@ -1,9 +1,67 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from pathlib import Path
+from unittest import mock
 
 from ops.qualification import run_distributed_local_worker as worker
+
+
+def test_remaining_budget_is_nonnegative_and_uses_one_monotonic_deadline():
+    assert worker.remaining_budget(100.0, now=90.0) == 10
+    assert worker.remaining_budget(100.0, now=100.0) == 0
+    assert worker.remaining_budget(100.0, now=120.0) == 0
+
+
+def test_exec_claude_converts_process_timeout_to_bounded_evidence(tmp_path: Path):
+    model = "qwen2.5-coder:3b"
+    env_file = tmp_path / "fcc.env"
+    auth_name = "ANTHROPIC_AUTH" + "_TOKEN"
+    env_file.write_text(
+        "\\n".join((
+            "MODEL=ollama/" + model,
+            "HOST=127.0.0.1",
+            "PORT=8093",
+            auth_name + "=x",
+        )) + "\\n",
+        encoding="utf-8",
+    )
+
+    class HealthResponse:
+        status = 200
+        def __enter__(self):
+            return self
+        def __exit__(self, *_args):
+            return False
+
+    with (
+        mock.patch.object(worker.urllib.request, "urlopen", return_value=HealthResponse()),
+        mock.patch.object(worker.shutil, "which", return_value="/usr/bin/claude"),
+        mock.patch.object(
+            worker,
+            "run",
+            side_effect=subprocess.TimeoutExpired(
+                cmd=["claude"], timeout=1, output="partial-output", stderr="model-timeout"
+            ),
+        ),
+    ):
+        result, server = worker.exec_claude(
+            "small bounded test prompt", model, 1, env_file, max_turns=1
+        )
+
+    assert result["returncode"] == 124
+    assert result["stdout"] == "partial-output"
+    assert "claude_execution_timeout" in result["stderr"]
+    assert "model-timeout" in result["stderr"]
+    assert server is None
+
+
+def test_builder_attempts_share_one_total_deadline():
+    source = Path(worker.__file__).read_text(encoding="utf-8")
+    assert "builder_deadline = time.monotonic() + builder_budget_seconds" in source
+    assert "attempt_timeout = remaining_budget(builder_deadline)" in source
+    assert "artifact_timeout = remaining_budget(builder_deadline)" in source
 
 
 def test_safe_id_rejects_path_escape():
