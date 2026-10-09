@@ -31,9 +31,10 @@ permissions:
   actions: write
 
 concurrency:
-  # Serialize retries of the same immutable target without cancelling an active controller.
-  # The dedicated stale-run reaper is the only cancellation authority for obsolete source SHAs.
-  group: astra-autonomous-supervisor-v2-${{ github.sha }}
+  # One canonical queue/controller invocation across commits and event types.
+  # Never cancel an active controller; a single pending run will reconcile to the newest target.
+  # Without a repository-wide key, different SHAs could execute overlapping controller runs.
+  group: astra-autonomous-supervisor-v3-${{ github.repository }}
   cancel-in-progress: false
 
 jobs:
