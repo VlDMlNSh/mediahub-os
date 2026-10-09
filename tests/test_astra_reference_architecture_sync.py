@@ -27,7 +27,7 @@ class AstraReferenceArchitectureSyncTests(unittest.TestCase):
         registry = (ROOT / "docs/operations/ASTRA-AUTHORIZED-EXECUTION-SCHEMES.md").read_text(encoding="utf-8")
         self.assertIn("NONE CERTIFIED", registry)
         self.assertNotIn("AUTHORIZED / QUALIFICATION PENDING", registry)
-        self.assertIn("A candidate topology", registry)
+        self.assertIn("a candidate topology", registry)
 
     def test_supervisor_serializes_controller_runs_across_target_shas(self):
         workflow = (ROOT / ".github/workflows/astra-autonomous-supervisor.yml").read_text(encoding="utf-8")
