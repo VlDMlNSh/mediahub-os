@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 from mediahub_runtime import autonomous_queue
+from mediahub_runtime.agent_fabric import AgentFabricError, ClaimStore
 
 def test_load_tasks_prefers_ready(monkeypatch, tmp_path: Path):
     task_dir = tmp_path / "tasks"; task_dir.mkdir()
@@ -58,13 +59,50 @@ def test_main_returns_idle_when_no_ready_tasks(monkeypatch, tmp_path: Path, caps
     assert payload["reason"] == "no_ready_tasks"
     assert payload["base_sha"] == "b" * 40
     assert payload["discovered_tasks"] == []
-def test_claim_uses_task_boundary(monkeypatch):
-    class R: stdout = "abc123\n"
-    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: R())
-    claim = autonomous_queue.claim_for({"task_id":"T1","mission":"m","boundary":["docs/a","ops/b"]}, "targetsha")
+def test_claim_uses_task_boundary_and_permanent_lane(monkeypatch):
+    claim = autonomous_queue.claim_for({
+        "task_id": "T1", "mission": "m", "boundary": ["docs/a", "ops/b"],
+        "node_id": "mh-dev-01", "executor": "claude",
+    }, "targetsha")
     assert claim.base_sha == "targetsha"
-    assert claim.paths == ("docs/a","ops/b")
+    assert claim.paths == ("docs/a", "ops/b", "__astra_executor_lanes__/mh-dev-01")
     assert claim.agent == "A2-BUILDER"
+
+
+def test_concurrent_claims_cannot_use_the_same_executor_lane(monkeypatch, tmp_path: Path):
+    store = ClaimStore(tmp_path / "claims")
+    first = autonomous_queue.claim_for({
+        "task_id": "T1", "mission": "first", "boundary": ["docs/one.md"],
+        "node_id": "mh-dev-01", "executor": "claude",
+    }, "targetsha")
+    same_lane = autonomous_queue.claim_for({
+        "task_id": "T2", "mission": "second", "boundary": ["docs/two.md"],
+        "node_id": "mh-dev-01", "executor": "claude",
+    }, "targetsha")
+    other_lane = autonomous_queue.claim_for({
+        "task_id": "T3", "mission": "third", "boundary": ["docs/three.md"],
+        "node_id": "mh-dev-02", "executor": "claude",
+    }, "targetsha")
+    store.acquire(first)
+    try:
+        store.acquire(same_lane)
+    except AgentFabricError as exc:
+        assert str(exc) == "claim_collision"
+    else:
+        raise AssertionError("a second task must not claim the same permanent executor lane")
+    store.acquire(other_lane)
+
+
+def test_claim_rejects_executor_lane_substitution():
+    try:
+        autonomous_queue.claim_for({
+            "task_id": "T1", "mission": "m", "boundary": ["docs/a"],
+            "node_id": "mh-dev-02", "executor": "codex",
+        }, "targetsha")
+    except ValueError as exc:
+        assert str(exc) == "invalid_executor_lane_binding"
+    else:
+        raise AssertionError("non-canonical executor binding must be rejected")
 
 
 def test_worktree_path_is_task_scoped_and_deterministic(monkeypatch, tmp_path: Path):
