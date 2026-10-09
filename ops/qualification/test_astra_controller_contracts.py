@@ -53,7 +53,7 @@ class SecretDetectionTests(unittest.TestCase):
             'API_KEY = "0123456789abcdef"',
             "access_token='abcdefghijklmnop'",
             'secret="abcdefghijklmnop"',
-            "Authorization: Bearer 'abcdefghijklmnop'",
+            "bearer='abcdefghijklmnop'",
         )
         for sample in samples:
             with self.subTest(sample=sample):
