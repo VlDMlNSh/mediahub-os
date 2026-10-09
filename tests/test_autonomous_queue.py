@@ -323,7 +323,8 @@ def test_task_id_cannot_escape_queue_state(monkeypatch, tmp_path: Path):
 def test_remote_finalization_errors_cannot_remain_verified():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert 'record["status"] = "BLOCKED"' in source
-    assert '"ClaimReleaseError:" + repr(exc)' in source
+    assert '_invalidate_completion(task_key, "claim_release_failed")' in source
+    assert 'record["error"] = "claim_release_failed"' in source
     assert '"remote_evidence_claim_release_error"' in source
 
 
