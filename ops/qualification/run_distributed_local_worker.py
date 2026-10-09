@@ -148,31 +148,6 @@ def start_fcc(env_file: Path, model: str, server_path: str | None = None) -> tup
     raise RuntimeError("fcc_server_health_timeout")
 
 
-def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
-    codex = shutil.which("codex") or "/usr/local/bin/codex"
-    with tempfile.TemporaryDirectory(prefix="astra-distributed-codex-") as home:
-        config = Path(home) / "config.toml"
-        config.write_text(
-            f'model_provider = "ollama"\nmodel = "{model}"\n'
-            'model_reasoning_effort = "none"\n'
-            'approval_policy = "never"\nweb_search = "disabled"\n'
-            '[features]\nmulti_agent = false\napps = false\ntool_search = false\nplugins = false\n',
-            encoding="utf-8",
-        )
-        env = os.environ.copy()
-        env["CODEX_HOME"] = home
-        sandbox = os.environ.get("ASTRA_CODEX_SANDBOX_MODE", "").strip() if writable else "read-only"
-        if writable and sandbox not in {"workspace-write", "danger-full-access"}:
-            sandbox = "workspace-write"
-        p = run([codex, "exec", "--oss", "--local-provider", "ollama", "--model", model, "--sandbox", sandbox,
-                 "--skip-git-repo-check", prompt], timeout, ROOT, env)
-        return {
-            "returncode": p.returncode,
-            "stdout": p.stdout[-16000:],
-            "stderr": p.stderr[-8000:],
-        }
-
-
 def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048, max_turns: int = 4, structured_schema: dict | None = None, tools_mode: str = "Read,Edit,Bash") -> tuple[dict, subprocess.Popen[str] | None]:
     """Run the real Claude Code client through the node-local FCC transport."""
     env_updates = load_env_file(env_file)
@@ -343,12 +318,10 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
         "\nReturn exactly: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED."
     )
     verifier = task["verifier"]
-    if verifier == "codex":
-        return exec_codex(prompt, False, model, 240)
-    if verifier == "claude":
-        env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
-        return exec_claude(prompt, model, 240, env_file, 128, max_turns=2)[0]
-    raise RuntimeError("unsupported_verifier")
+    if verifier != "claude":
+        raise RuntimeError("permanent_verifier_policy_violation")
+    env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
+    return exec_claude(prompt, model, 240, env_file, 128, max_turns=2)[0]
 
 
 def contains_secret(text: str) -> bool:
