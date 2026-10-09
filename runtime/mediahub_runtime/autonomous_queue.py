@@ -207,11 +207,11 @@ def matching_worker_runs(gh_env: dict[str, str], run_title_bits: list[str]) -> l
         "--limit", "50", "--json", "databaseId,displayTitle,status,conclusion,createdAt"
     ], 30, env=gh_env)
     if listed.returncode != 0:
-        return []
+        raise RuntimeError("worker_run_reconciliation_failed")
     try:
         rows = json.loads(listed.stdout or "[]")
-    except (TypeError, json.JSONDecodeError):
-        return []
+    except (TypeError, json.JSONDecodeError) as exc:
+        raise RuntimeError("worker_run_list_invalid_json") from exc
     matches = [
         row for row in rows
         if all(bit in str(row.get("displayTitle", "")) for bit in run_title_bits)
@@ -468,7 +468,12 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
                 raise RuntimeError("remote_dispatch_failed")
             journal_event("WORKER_DISPATCHED", task_payload, expected_base_sha, "ACTIVE")
             while time.time() < deadline:
-                matches = matching_worker_runs(gh_env, run_title_bits)
+                try:
+                    matches = matching_worker_runs(gh_env, run_title_bits)
+                except RuntimeError:
+                    # Listing uncertainty is not proof that no remote run exists.
+                    time.sleep(5)
+                    continue
                 if matches:
                     run_id = int(matches[0]["databaseId"])
                     break
@@ -647,8 +652,19 @@ def main() -> int:
         return 2
     # Canonical Astra Gold execution is always distributed GitHub transport with
     # permanent Claude lanes. There is deliberately no local executor fallback.
+    def process_fail_closed(task: dict) -> dict:
+        try:
+            return process_task_remote(task, base_sha)
+        except Exception as exc:
+            # One broken claim store/task must not suppress the aggregate JSON result.
+            return {
+                "task_id": str(task.get("task_id", "invalid")),
+                "status": "BLOCKED",
+                "error": "uncaught_worker_exception:" + type(exc).__name__,
+            }
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(selected)) as pool:
-        results = list(pool.map(lambda task: process_task_remote(task, base_sha), selected))
+        results = list(pool.map(process_fail_closed, selected))
     all_verified = all(r["status"] == "VERIFIED" for r in results)
     print(json.dumps({
         "status": "PASS" if all_verified else "BLOCKED",
