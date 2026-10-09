@@ -60,6 +60,29 @@ def run(argv: list[str], timeout: int, cwd: Path = ROOT, env: dict[str, str] | N
     )
 
 
+def terminate_process(process: subprocess.Popen[str] | None) -> None:
+    """Stop a child owned by this worker and reap it without hanging forever."""
+    if process is None or process.poll() is not None:
+        return
+    try:
+        process.terminate()
+    except ProcessLookupError:
+        return
+    try:
+        process.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        try:
+            process.kill()
+        except ProcessLookupError:
+            return
+        try:
+            process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            pass
+
+
+
+
 def remaining_budget(deadline: float, *, now: float | None = None) -> int:
     """Return whole seconds left in a monotonic total budget, never a negative value."""
     current = time.monotonic() if now is None else now
@@ -155,7 +178,7 @@ def start_fcc(env_file: Path, model: str, server_path: str | None = None) -> tup
                     return process, env
         except Exception:
             time.sleep(1)
-    process.terminate()
+    terminate_process(process)
     raise RuntimeError("fcc_server_health_timeout")
 
 
@@ -164,6 +187,12 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
         raise RuntimeError("fcc_model_binding_mismatch")
+    token = env_updates.get("ANTHROPIC_AUTH_TOKEN", "")
+    if not token:
+        raise RuntimeError("fcc_auth_token_missing")
+    claude = shutil.which("claude")
+    if not claude:
+        raise RuntimeError("claude_cli_missing")
     host = env_updates.get("HOST", "127.0.0.1")
     port = env_updates.get("PORT", "8093")
     health = f"http://{host}:{port}/health"
@@ -174,12 +203,6 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
                 raise RuntimeError("fcc_health_not_ok")
     except Exception:
         server, _ = start_fcc(env_file, model)
-    token = env_updates.get("ANTHROPIC_AUTH_TOKEN", "")
-    if not token:
-        raise RuntimeError("fcc_auth_token_missing")
-    claude = shutil.which("claude")
-    if not claude:
-        raise RuntimeError("claude_cli_missing")
     env = os.environ.copy()
     env.update(env_updates)
     env["ANTHROPIC_BASE_URL"] = f"http://{host}:{port}"
@@ -348,11 +371,7 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
         raise RuntimeError("permanent_verifier_policy_violation")
     env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
     result, verifier_server = exec_claude(prompt, model, 240, env_file, 128, max_turns=2)
-    if verifier_server is not None:
-        try:
-            verifier_server.terminate()
-        except Exception:
-            pass
+    terminate_process(verifier_server)
     return result
 
 
@@ -721,11 +740,7 @@ def main() -> int:
         record["completed_at"] = int(time.time())
         record["error"] = type(exc).__name__ + ":" + str(exc)
     finally:
-        if server is not None:
-            try:
-                server.terminate()
-            except Exception:
-                pass
+        terminate_process(server)
 
     canonical = json.dumps(record, sort_keys=True, separators=(",", ":"))
     record["evidence_digest"] = "sha256:" + hashlib.sha256(canonical.encode()).hexdigest()
