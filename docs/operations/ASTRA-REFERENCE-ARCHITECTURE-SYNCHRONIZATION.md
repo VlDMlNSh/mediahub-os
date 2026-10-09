@@ -37,8 +37,8 @@ The upstream repositories and documents provide design evidence; their existence
 | Atomic claim store with lease generation/fencing | Existing implementation | Concurrency test + live recovery/fencing test |
 | Same-node duplicate task prevention | Lane-sentinel claim and regression tests added on PR branch | Passing CI and two concurrently invoked controller attempts |
 | Exact verifier verdict | Exact-output helper and regression test added on PR branch | Passing CI and fresh independent verifier artifacts |
-| Recovering an existing GitHub worker run before redispatch | **Not yet implemented / not qualified** | Crash/restart integration test with the same command/task key |
-| Durable redacted transition journal and replay | **Not yet implemented / not qualified** | Corrupt/truncated journal, crash recovery and replay tests |
+| Recovering an existing GitHub worker run before redispatch | Implemented on PR branch; **not CI/runtime qualified** | Crash/restart integration test with the same command/task key |
+| Durable redacted transition journal | Append-only fsynced journal implemented on PR branch; **journal replay is not implemented or qualified** | Corrupt/truncated journal, crash recovery and replay tests |
 | Enforced host sandbox | **Not proven** | Host-level filesystem/process/network test for all three runner identities |
 | Stable always-on controller lifecycle | **NOT PASS** | The installed `mediahub-astra.service` has previously been inspected as a minimal resident health loop, not the queue controller |
 | Three-node execution + GOLD soak | **NOT PASS** | All three nodes produce current evidence, aggregate gate PASS, then a real 24-hour soak |
