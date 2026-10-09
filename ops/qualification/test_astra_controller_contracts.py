@@ -57,6 +57,14 @@ class ExecutionBindingTests(unittest.TestCase):
         self.assertNotIn("def exec_codex(", source)
         self.assertNotIn('if verifier == "codex"', source)
 
+    def test_builder_and_verifier_do_not_receive_shell_tools(self):
+        source = WORKER_PATH.read_text(encoding="utf-8")
+        self.assertIn('tools_mode: str = "Read,Edit"', source)
+        self.assertIn('max_turns=2, tools_mode="Read"', source)
+        self.assertNotIn('"Bash(python *)"', source)
+        self.assertNotIn('"Bash(git *)"', source)
+        self.assertIn('command.extend(["--allowedTools", *selected_tools])', source)
+
 
 class SecretDetectionTests(unittest.TestCase):
     def test_detects_common_secret_assignments(self):
