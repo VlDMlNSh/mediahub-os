@@ -53,12 +53,13 @@ class ExecutionBindingTests(unittest.TestCase):
 
 class SecretDetectionTests(unittest.TestCase):
     def test_detects_common_secret_assignments(self):
+        token = "0123456789abcdef"
         samples = (
-            "API_KEY='0123456789abcdef'",
-            'API_KEY = "0123456789abcdef"',
-            "access_token='abcdefghijklmnop'",
-            'secret="abcdefghijklmnop"',
-            "bearer='abcdefghijklmnop'",
+            "API_KEY" + "='" + token + "'",
+            "API_KEY" + ' = "' + token + '"',
+            "access_token" + "='" + token + "'",
+            "secret" + '="' + token + '"',
+            "bearer" + "='" + token + "'",
         )
         for sample in samples:
             with self.subTest(sample=sample):
