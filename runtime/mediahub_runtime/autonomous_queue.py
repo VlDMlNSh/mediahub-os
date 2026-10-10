@@ -28,6 +28,16 @@ PERMANENT_EXECUTOR_POOL = {
 }
 
 
+def worker_artifact_names(node_id: str, run_id: int) -> list[str]:
+    """Return current and legacy artifact names for a specific worker lane."""
+    names = {
+        "mh-dev-01": [f"astra-distributed-worker-mh-dev-01-claude-{run_id}", f"astra-distributed-worker-{run_id}"],
+        "mh-dev-02": [f"astra-distributed-worker-mh-dev-02-claude-{run_id}", f"astra-distributed-worker-{run_id}"],
+        "Voktors-Mac-mini.local": [f"astra-distributed-worker-{run_id}"],
+    }
+    return names.get(node_id, [f"astra-distributed-worker-{run_id}"])
+
+
 def bounded_worker_count(requested: int) -> int:
     return max(1, min(int(requested), len(PERMANENT_EXECUTOR_POOL)))
 
@@ -363,10 +373,15 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
             raise RuntimeError("remote_worker_timeout")
 
         temp = tempfile.TemporaryDirectory(prefix="astra-remote-worker-")
-        download = run([
-            "gh", "run", "download", str(run_id), "-n", f"astra-distributed-worker-{run_id}", "-D", temp.name
-        ], 120, env=gh_env)
-        if download.returncode != 0:
+        download = None
+        for artifact_name in worker_artifact_names(node_id, run_id):
+            candidate = run([
+                "gh", "run", "download", str(run_id), "-n", artifact_name, "-D", temp.name
+            ], 120, env=gh_env)
+            if candidate.returncode == 0:
+                download = candidate
+                break
+        if download is None:
             raise RuntimeError("remote_evidence_download_failed")
         result_file = Path(temp.name) / "astra-distributed-worker-result.json"
         if not result_file.is_file():

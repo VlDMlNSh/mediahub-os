@@ -59,7 +59,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(hostname)" = "mh-dev-01"
-          test "$(id -un)" = "mediahub-runner"
+          test "$(id -un)" = "mediahub"
           test "${ASTRA_EXECUTOR}" = "claude"
           command -v claude
           command -v ollama
@@ -146,7 +146,7 @@ jobs:
           test "${ASTRA_EXECUTOR}" = "claude"
           command -v claude
           command -v ollama
-          ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'
+          ollama list | grep -E '^qwen2.5-coder:3b[[:space:]]'
       - name: Execute bounded local worker
         shell: bash
         run: python3 ops/qualification/run_distributed_local_worker.py

@@ -1,4 +1,5 @@
 import multiprocessing
+import sys
 import tempfile
 import time
 import unittest
@@ -6,6 +7,9 @@ from pathlib import Path
 from unittest import mock
 
 from mediahub_runtime.agent_fabric import AgentClaim, AgentFabricError, ClaimStore
+from mediahub_runtime import autonomous_queue
+sys.path.insert(0, "ops/qualification")
+import run_distributed_local_worker as local_worker
 
 
 def mk(task_id, paths, now=100.0):
@@ -106,6 +110,26 @@ class AgentFabricTests(unittest.TestCase):
         self.assertEqual(task["verifier"], "claude")
         self.assertEqual(task["node_id"], "Voktors-Mac-mini.local")
         self.assertTrue(task["independent_verifier_process"])
+
+    def test_remote_worker_artifact_names_match_lane_workflows(self):
+        self.assertEqual(autonomous_queue.worker_artifact_names("mh-dev-01", 123), ["astra-distributed-worker-mh-dev-01-claude-123", "astra-distributed-worker-123"])
+        self.assertEqual(autonomous_queue.worker_artifact_names("mh-dev-02", 456), ["astra-distributed-worker-mh-dev-02-claude-456", "astra-distributed-worker-456"])
+        self.assertEqual(autonomous_queue.worker_artifact_names("Voktors-Mac-mini.local", 789), ["astra-distributed-worker-789"])
+
+    def test_node_runtime_identity_and_mac_fcc_model_bindings_match_workers(self):
+        self.assertEqual(local_worker.NODE_CONFIG["mh-dev-01"]["user"], "mediahub")
+        self.assertEqual(local_worker.NODE_CONFIG["Voktors-Mac-mini.local"]["model"], "qwen2.5-coder:3b")
+        self.assertEqual(local_worker.NODE_CONFIG["Voktors-Mini.Dlink"]["model"], "qwen2.5-coder:3b")
+
+    def test_bounded_markdown_fallback_materializes_only_valid_boundary(self):
+        required = ["Voktors-Mac-mini.local", "claude", "qwen2.5-coder:3b", "target-SHA", "fail-closed", "main"]
+        output = "```plaintext\n# Executor Lane\nVoktors-Mac-mini.local claude qwen2.5-coder:3b target-SHA fail-closed main\n```"
+        with tempfile.TemporaryDirectory() as td, mock.patch.object(local_worker, "ROOT", Path(td)):
+            result = local_worker._materialize_bounded_markdown_output(output, "docs/ops/lane.md", required)
+            self.assertEqual(result, "docs/ops/lane.md")
+            self.assertIn("qwen2.5-coder:3b", (Path(td) / "docs/ops/lane.md").read_text(encoding="utf-8"))
+            self.assertIsNone(local_worker._materialize_bounded_markdown_output(output, "../escape.md", required))
+            self.assertIsNone(local_worker._materialize_bounded_markdown_output("```text\nnot the required document\n```", "docs/ops/no.md", required))
 
     def test_claude_executor_uses_real_cli_and_fcc_transport(self):
         source = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")

@@ -18,7 +18,7 @@ MARKER = "MEDIAHUB_DISTRIBUTED_LOCAL_EXECUTOR_OK"
 VERDICT_MARKER = "ASTRA_VERDICT: PASS"
 NODE_CONFIG = {
     "mh-dev-01": {
-        "user": "mediahub-runner",
+        "user": "mediahub",
         "platform": "linux",
         "model": "qwen2.5-coder:1.5b",
         "pool": "controller_local",
@@ -34,14 +34,14 @@ NODE_CONFIG = {
     "Voktors-Mini.Dlink": {
         "user": "voktor",
         "platform": "macos",
-        "model": "qwen2.5-coder:1.5b",
+        "model": "qwen2.5-coder:3b",
         "pool": "fast_local",
         "fcc_env": "/Users/voktor/Library/Application Support/MediaHub/fcc.env",
     },
     "Voktors-Mac-mini.local": {
         "user": "voktor",
         "platform": "macos",
-        "model": "qwen2.5-coder:1.5b",
+        "model": "qwen2.5-coder:3b",
         "pool": "fast_local",
         "fcc_env": "/Users/voktor/Library/Application Support/MediaHub/fcc.env",
     },
@@ -306,6 +306,31 @@ def _materialize_bounded_claude_tool_output(output: str, boundary: str) -> str |
     return None
 
 
+def _materialize_bounded_markdown_output(output: str, boundary: str, required_tokens: list[str]) -> str | None:
+    """Materialize real model-produced Markdown only at its declared in-repository .md boundary.
+
+    Some client responses contain a fenced document rather than a Write/Edit tool call. This
+    transport fallback is intentionally limited to one declared Markdown path; scope/security
+    checks, tests, and an independent verifier still gate publication.
+    """
+    if not boundary.endswith(".md") or Path(boundary).is_absolute():
+        return None
+    target = (ROOT / boundary).resolve()
+    try:
+        target.relative_to(ROOT.resolve())
+    except ValueError:
+        return None
+    blocks = re.findall(r"(?s)```(?:markdown|md|plaintext|text)?[ \t]*\n(.*?)\n```", output, re.IGNORECASE)
+    for block in sorted(blocks, key=len, reverse=True):
+        content = block.strip()
+        if not content or not all(token.lower() in content.lower() for token in required_tokens):
+            continue
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(content + "\n", encoding="utf-8")
+        return boundary
+    return None
+
+
 def changed_paths(target_sha: str) -> set[str]:
     changed: set[str] = set()
     for argv in [
@@ -465,6 +490,18 @@ def main() -> int:
             changed_probe = changed_paths(target_sha)
             if changed_probe:
                 break
+            if executor == "claude":
+                boundaries = [str(x) for x in task.get("boundary", [])]
+                if len(boundaries) == 1:
+                    required_tokens = [node_id, executor, task["verifier"], cfg["model"], "target-SHA", "fail-closed", "main"]
+                    materialized_builder = _materialize_bounded_markdown_output(
+                        build.get("stdout", ""), boundaries[0], required_tokens
+                    )
+                    if materialized_builder:
+                        changed_probe = changed_paths(target_sha)
+                        if changed_probe:
+                            build["materialized_builder_artifact"] = materialized_builder
+                            break
             if executor == "claude" and attempt == builder_attempts:
                 boundaries = [str(x) for x in task.get("boundary", [])]
                 if len(boundaries) == 1 and boundaries[0].endswith(".md"):
