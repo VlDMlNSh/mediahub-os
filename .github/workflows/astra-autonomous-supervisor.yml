@@ -127,7 +127,7 @@ jobs:
       - local-claude-qualification
       - provider-qualification
     runs-on: ubuntu-latest
-    timeout-minutes: 80
+    timeout-minutes: 180
     permissions:
       contents: read
       actions: write
@@ -137,6 +137,9 @@ jobs:
       ASTRA_QUEUE_STATE_DIR: ${{ github.workspace }}/.astra-state/queue
       ASTRA_QUEUE_MAX_WORKERS: "3"
       ASTRA_REMOTE_WORKER_WAIT_SECONDS: "4200"
+      ASTRA_SINGLE_CONTROLLER_RUN: "1"
+      ASTRA_CONTROLLER_CONCURRENCY_WAIT_SECONDS: "5400"
+      ASTRA_CONTROLLER_CONCURRENCY_POLL_SECONDS: "30"
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4

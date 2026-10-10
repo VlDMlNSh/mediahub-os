@@ -57,6 +57,81 @@ def safe_task_id(task_id: str) -> str:
     return value
 
 
+def active_controller_preflight() -> dict | None:
+    """Block a new queue if another supervisor run is queued or active.
+
+    Workflow-level concurrency groups are ref-scoped. A branch qualification can
+    therefore overlap a main-branch run; this check gives the queue a repository-wide
+    single-controller guard before it dispatches any child workers.
+    """
+    if os.environ.get("ASTRA_SINGLE_CONTROLLER_RUN") != "1":
+        return None
+    gh_env = github_auth_env()
+    if gh_env is None:
+        return {"status": "BLOCKED", "reason": "controller_concurrency_auth_missing"}
+    try:
+        listed = run([
+            "gh", "run", "list", "--workflow", "astra-autonomous-supervisor.yml",
+            "--limit", "100", "--json", "databaseId,status,conclusion,createdAt,headSha",
+        ], 30, env=gh_env)
+    except Exception as exc:
+        return {"status": "BLOCKED", "reason": "controller_concurrency_query_failed",
+                "error_type": type(exc).__name__}
+    if listed.returncode != 0:
+        return {"status": "BLOCKED", "reason": "controller_concurrency_query_failed"}
+    try:
+        rows = json.loads(listed.stdout or "[]")
+    except (TypeError, json.JSONDecodeError):
+        return {"status": "BLOCKED", "reason": "controller_concurrency_query_invalid"}
+    if not isinstance(rows, list):
+        return {"status": "BLOCKED", "reason": "controller_concurrency_query_invalid"}
+    current_run_id = str(os.environ.get("GITHUB_RUN_ID", "")).strip()
+    active_states = {"queued", "in_progress", "waiting", "requested", "pending"}
+    blockers = []
+    for row in rows:
+        if not isinstance(row, dict) or str(row.get("databaseId", "")) == current_run_id:
+            continue
+        if str(row.get("status", "")).lower() not in active_states:
+            continue
+        try:
+            blockers.append(int(row["databaseId"]))
+        except (TypeError, ValueError, KeyError):
+            return {"status": "BLOCKED", "reason": "controller_concurrency_identity_invalid"}
+    if blockers:
+        return {
+            "status": "BLOCKED",
+            "reason": "another_supervisor_run_active",
+            "blocking_run_ids": sorted(set(blockers)),
+        }
+    return None
+
+
+def wait_for_controller_slot() -> dict | None:
+    """Wait on the hosted dispatcher until other supervisor runs become terminal.
+
+    Only the specific concurrency blocker is retryable. Authentication/API/schema
+    errors fail closed immediately; no worker may be dispatched on uncertain state.
+    """
+    if os.environ.get("ASTRA_SINGLE_CONTROLLER_RUN") != "1":
+        return None
+    try:
+        max_wait = max(0, min(int(os.environ.get("ASTRA_CONTROLLER_CONCURRENCY_WAIT_SECONDS", "0")), 21600))
+        poll_seconds = max(5, min(int(os.environ.get("ASTRA_CONTROLLER_CONCURRENCY_POLL_SECONDS", "30")), 300))
+    except (TypeError, ValueError):
+        return {"status": "BLOCKED", "reason": "controller_concurrency_config_invalid"}
+    deadline = time.monotonic() + max_wait
+    while True:
+        result = active_controller_preflight()
+        if result is None:
+            return None
+        if result.get("reason") != "another_supervisor_run_active":
+            return result
+        remaining = deadline - time.monotonic()
+        if max_wait <= 0 or remaining <= 0:
+            return {**result, "reason": "controller_concurrency_wait_timeout"}
+        time.sleep(min(float(poll_seconds), remaining))
+
+
 def queue_state_preflight() -> dict | None:
     """Fail closed before dispatch if durable state/claims cannot be persisted."""
     for component, path in (("state", STATE), ("claims", CLAIMS)):
@@ -832,6 +907,10 @@ def main() -> int:
             "reason": "queue_state_preflight_failed",
             **state_failure,
         }, sort_keys=True))
+        return 2
+    controller_failure = wait_for_controller_slot()
+    if controller_failure is not None:
+        print(json.dumps(controller_failure, sort_keys=True))
         return 2
     STATE.mkdir(parents=True, exist_ok=True)
     head_sha = run(["git", "rev-parse", "HEAD"], 30).stdout.strip()

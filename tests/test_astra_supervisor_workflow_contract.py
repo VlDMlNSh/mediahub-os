@@ -32,6 +32,10 @@ class AstraSupervisorWorkflowContractTests(unittest.TestCase):
         self.assertIn("- autonomous-queue", supervisor)
         self.assertIn("- distributed-verification-postqueue", supervisor)
         self.assertIn("ASTRA_PRECOMPUTED_QUEUE_RESULT_PATH:", supervisor)
+        queue_job = self.text[self.text.index("  autonomous-queue:"):self.text.index("  distributed-verification-postqueue:")]
+        self.assertIn('ASTRA_SINGLE_CONTROLLER_RUN: "1"', queue_job)
+        self.assertIn('ASTRA_CONTROLLER_CONCURRENCY_WAIT_SECONDS: "5400"', queue_job)
+        self.assertIn("timeout-minutes: 180", queue_job)
 
     def test_distributed_evidence_artifacts_are_phase_scoped(self):
         verification = (ROOT / ".github" / "workflows" / "astra-distributed-verification.yml").read_text(encoding="utf-8")

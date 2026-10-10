@@ -866,3 +866,85 @@ def test_worker_workflow_ref_rejects_unsafe_refs(monkeypatch):
             assert str(exc) == "invalid_worker_workflow_ref"
         else:
             raise AssertionError(f"unsafe workflow ref accepted: {value!r}")
+
+
+def test_active_controller_preflight_ignores_current_run_only(monkeypatch):
+    class Result:
+        returncode = 0
+        stdout = json.dumps([{"databaseId": 123, "status": "in_progress", "headSha": "a" * 40}])
+        stderr = ""
+    monkeypatch.setenv("ASTRA_SINGLE_CONTROLLER_RUN", "1")
+    monkeypatch.setenv("GITHUB_RUN_ID", "123")
+    monkeypatch.setattr(autonomous_queue, "github_auth_env", lambda: {"GH_TOKEN": "test"})
+    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: Result())
+    assert autonomous_queue.active_controller_preflight() is None
+
+
+def test_active_controller_preflight_blocks_other_active_run(monkeypatch):
+    class Result:
+        returncode = 0
+        stdout = json.dumps([
+            {"databaseId": 123, "status": "in_progress"},
+            {"databaseId": 456, "status": "queued"},
+            {"databaseId": 789, "status": "completed"},
+        ])
+        stderr = ""
+    monkeypatch.setenv("ASTRA_SINGLE_CONTROLLER_RUN", "1")
+    monkeypatch.setenv("GITHUB_RUN_ID", "123")
+    monkeypatch.setattr(autonomous_queue, "github_auth_env", lambda: {"GH_TOKEN": "test"})
+    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: Result())
+    result = autonomous_queue.active_controller_preflight()
+    assert result == {"status": "BLOCKED", "reason": "another_supervisor_run_active", "blocking_run_ids": [456]}
+
+
+def test_active_controller_preflight_fails_closed_on_transport_or_invalid_payload(monkeypatch):
+    class Failure:
+        returncode = 1
+        stdout = ""
+        stderr = "transport unavailable"
+    monkeypatch.setenv("ASTRA_SINGLE_CONTROLLER_RUN", "1")
+    monkeypatch.setenv("GITHUB_RUN_ID", "123")
+    monkeypatch.setattr(autonomous_queue, "github_auth_env", lambda: {"GH_TOKEN": "test"})
+    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: Failure())
+    assert autonomous_queue.active_controller_preflight()["reason"] == "controller_concurrency_query_failed"
+    class Invalid:
+        returncode = 0
+        stdout = "not-json"
+        stderr = ""
+    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: Invalid())
+    assert autonomous_queue.active_controller_preflight()["reason"] == "controller_concurrency_query_invalid"
+
+
+def test_wait_for_controller_slot_retries_only_active_run_blocker(monkeypatch):
+    answers = iter([
+        {"status": "BLOCKED", "reason": "another_supervisor_run_active", "blocking_run_ids": [456]},
+        None,
+    ])
+    sleeps = []
+    monkeypatch.setenv("ASTRA_SINGLE_CONTROLLER_RUN", "1")
+    monkeypatch.setenv("ASTRA_CONTROLLER_CONCURRENCY_WAIT_SECONDS", "120")
+    monkeypatch.setenv("ASTRA_CONTROLLER_CONCURRENCY_POLL_SECONDS", "30")
+    monkeypatch.setattr(autonomous_queue, "active_controller_preflight", lambda: next(answers))
+    monkeypatch.setattr(autonomous_queue.time, "sleep", lambda seconds: sleeps.append(seconds))
+    assert autonomous_queue.wait_for_controller_slot() is None
+    assert sleeps == [30.0]
+
+
+def test_wait_for_controller_slot_fails_closed_on_api_error(monkeypatch):
+    monkeypatch.setenv("ASTRA_SINGLE_CONTROLLER_RUN", "1")
+    monkeypatch.setenv("ASTRA_CONTROLLER_CONCURRENCY_WAIT_SECONDS", "120")
+    monkeypatch.setattr(autonomous_queue, "active_controller_preflight", lambda: {
+        "status": "BLOCKED", "reason": "controller_concurrency_query_failed"
+    })
+    monkeypatch.setattr(autonomous_queue.time, "sleep", lambda *_: (_ for _ in ()).throw(
+        AssertionError("must not retry when active run discovery failed")))
+    assert autonomous_queue.wait_for_controller_slot()["reason"] == "controller_concurrency_query_failed"
+
+
+def test_wait_for_controller_slot_times_out_with_active_run_identity(monkeypatch):
+    monkeypatch.setenv("ASTRA_SINGLE_CONTROLLER_RUN", "1")
+    monkeypatch.setenv("ASTRA_CONTROLLER_CONCURRENCY_WAIT_SECONDS", "0")
+    monkeypatch.setattr(autonomous_queue, "active_controller_preflight", lambda: {
+        "status": "BLOCKED", "reason": "another_supervisor_run_active", "blocking_run_ids": [456]
+    })
+    assert autonomous_queue.wait_for_controller_slot()["reason"] == "controller_concurrency_wait_timeout"
