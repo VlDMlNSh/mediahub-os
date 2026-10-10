@@ -122,6 +122,9 @@ def test_claude_output_budget_is_applied_and_document_fallback_avoids_json_schem
     assert "artifact_schema = {" not in source
     assert "max_tokens=1024," in source
     assert "WRITE THE DOCUMENT NOW." in source
+    assert 'builder_timeout = min(max(60, int(task.get("timeout_seconds", 1800))), 480)' in source
+    assert 'builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 2))' in source
+    assert 'max_turns=3,' in source
     assert "Do not explain the task, make a plan, ask questions" in source
     assert "extract_marked_artifact(output)" in source
 

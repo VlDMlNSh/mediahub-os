@@ -527,8 +527,8 @@ def main() -> int:
     server = None
     try:
         builder_prompt_text = task_prompt(task, "A2 Builder")
-        builder_timeout = int(task.get("timeout_seconds", 1800))
-        builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 3))
+        builder_timeout = min(max(60, int(task.get("timeout_seconds", 1800))), 480)
+        builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 2))
         build = {"returncode": 1, "stdout": "", "stderr": "builder_not_run"}
         attempt_records = []
         for attempt in range(1, builder_attempts + 1):
@@ -549,7 +549,7 @@ def main() -> int:
                     cfg["model"],
                     builder_timeout,
                     Path(os.environ["ASTRA_FCC_ENV_FILE"]),
-                    max_turns=6,
+                    max_turns=3,
                 )
             attempt_records.append({
                 "attempt": attempt,
