@@ -118,6 +118,7 @@ class AgentFabricTests(unittest.TestCase):
 
     def test_node_runtime_identity_and_mac_fcc_model_bindings_match_workers(self):
         self.assertEqual(local_worker.NODE_CONFIG["mh-dev-01"]["user"], "mediahub-runner")
+        self.assertEqual(local_worker.NODE_CONFIG["mh-dev-01"]["model"], "qwen2.5-coder:3b")
         self.assertEqual(local_worker.NODE_CONFIG["Voktors-Mac-mini.local"]["model"], "qwen2.5-coder:3b")
         self.assertEqual(local_worker.NODE_CONFIG["Voktors-Mini.Dlink"]["model"], "qwen2.5-coder:3b")
 
