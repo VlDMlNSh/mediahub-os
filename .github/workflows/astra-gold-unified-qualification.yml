@@ -20,7 +20,7 @@ jobs:
   g4-admission:
     name: Verify fresh G4 115-round evidence
     if: ${{ inputs.confirm_launch == true }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 15
     permissions:
       actions: read
