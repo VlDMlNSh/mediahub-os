@@ -95,6 +95,35 @@ def test_document_fallback_prompt_forbids_unsupported_operational_details():
     assert "do not invent IP addresses, ports, hostnames, URLs" in source
     assert "Do not include YAML/configuration examples or token fields" in source
 
+
+def test_marked_document_fallback_extracts_only_the_exact_envelope():
+    output = (
+        "model preamble that must not be materialized\n"
+        "ASTRA_ARTIFACT_BEGIN\n"
+        "# mh-dev-02 executor\n"
+        "target-SHA binding and fail-closed promotion; no direct writes to main.\n"
+        "ASTRA_ARTIFACT_END\n"
+        "model trailing text that must not be materialized\n"
+    )
+    assert worker.extract_marked_artifact(output) == (
+        "# mh-dev-02 executor\n"
+        "target-SHA binding and fail-closed promotion; no direct writes to main."
+    )
+
+
+def test_marked_document_fallback_rejects_missing_or_empty_envelopes():
+    assert worker.extract_marked_artifact("plain text without markers") is None
+    assert worker.extract_marked_artifact("ASTRA_ARTIFACT_BEGIN\n\nASTRA_ARTIFACT_END") is None
+
+
+def test_claude_output_budget_is_applied_and_document_fallback_avoids_json_schema():
+    source = Path(worker.__file__).read_text(encoding="utf-8")
+    assert 'env["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] = str(max(1, min(int(max_tokens), 4096)))' in source
+    assert "artifact_schema = {" not in source
+    assert "max_tokens=384," in source
+    assert "extract_marked_artifact(output)" in source
+
+
 def test_verifier_requires_one_exact_pass_verdict():
     assert worker.verifier_passed("ASTRA_VERDICT: PASS" + chr(10))
     assert not worker.verifier_passed("The prior run said ASTRA_VERDICT: PASS" + chr(10))

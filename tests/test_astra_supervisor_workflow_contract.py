@@ -62,13 +62,37 @@ class AstraSupervisorWorkflowContractTests(unittest.TestCase):
         job_start = worker.index("  mh-dev-01-claude:")
         job_end = worker.index("  mh-dev-02:", job_start)
         job = worker[job_start:job_end]
+        node_pos = job.index("Set up Node.js for Claude Code installation")
         install_pos = job.index("Install pinned Claude Code CLI for the runner account")
         admission_pos = job.index("- name: Canonical admission")
+        self.assertLess(node_pos, install_pos)
         self.assertLess(install_pos, admission_pos)
+        self.assertIn("uses: actions/setup-node@v7", job)
+        self.assertIn('node-version: "24"', job)
+        self.assertIn("package-manager-cache: false", job)
         self.assertIn('CLAUDE_CODE_VERSION: "2.1.296"', job)
         self.assertIn('echo "$install_dir" >> "$GITHUB_PATH"', job)
+        self.assertIn('npm install --global --prefix "$install_prefix"', job)
+        self.assertIn('"@anthropic-ai/claude-code@$CLAUDE_CODE_VERSION"', job)
         self.assertIn('test -x "$install_dir/claude"', job)
         self.assertIn('"$install_dir/claude" --version | grep -F "$CLAUDE_CODE_VERSION"', job)
+        self.assertNotIn("claude.ai/install.sh", job)
+
+
+
+    def test_mh_dev_01_worker_fails_fast_when_fcc_file_is_unreadable_without_reading_it(self):
+        worker = (ROOT / ".github" / "workflows" / "astra-distributed-local-worker.yml").read_text(encoding="utf-8")
+        job_start = worker.index("  mh-dev-01-claude:")
+        job_end = worker.index("  mh-dev-02:", job_start)
+        job = worker[job_start:job_end]
+        access_pos = job.index("Verify runner-scoped FCC credential access")
+        install_pos = job.index("Install pinned Claude Code CLI for the runner account")
+        self.assertLess(access_pos, install_pos)
+        self.assertIn('[[ ! -f "$ASTRA_FCC_ENV_FILE" || ! -r "$ASTRA_FCC_ENV_FILE" ]]', job)
+        self.assertIn('"fcc_env_file_readable": readable', job)
+        self.assertIn('"fcc_env_file_readable": bool(os.environ.get("ASTRA_FCC_ENV_FILE"))', job)
+        self.assertNotIn('cat "$ASTRA_FCC_ENV_FILE"', job)
+        self.assertNotIn('read_text(encoding="utf-8")', job)
 
 
 

@@ -54,22 +54,70 @@ jobs:
           ref: ${{ inputs.target_sha }}
           fetch-depth: 50
           persist-credentials: true
+      - name: Verify runner-scoped FCC credential access
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -f "$ASTRA_FCC_ENV_FILE" || ! -r "$ASTRA_FCC_ENV_FILE" ]]; then
+            python3 - <<'PY_DIAGNOSTICS'
+          import getpass
+          import json
+          import os
+          import socket
+          from pathlib import Path
+          task = {}
+          try:
+              task = json.loads(os.environ.get("ASTRA_MICRO_TASK_JSON", "{}"))
+          except (TypeError, json.JSONDecodeError):
+              task = {}
+          path = os.environ.get("ASTRA_FCC_ENV_FILE", "")
+          readable = bool(path) and Path(path).is_file() and os.access(path, os.R_OK)
+          record = {
+              "schema_version": 1,
+              "status": "BLOCKED",
+              "phase": "runner_credential_preflight",
+              "reason": "fcc_env_file_unreadable_by_runner",
+              "command_id": os.environ.get("ASTRA_COMMAND_ID", ""),
+              "target_sha": os.environ.get("ASTRA_TARGET_SHA", ""),
+              "node_id": os.environ.get("ASTRA_NODE_ID", ""),
+              "executor": os.environ.get("ASTRA_EXECUTOR", ""),
+              "task_id": task.get("task_id", ""),
+              "diagnostics": {
+                  "runner_identity": getpass.getuser(),
+                  "hostname": socket.gethostname(),
+                  "fcc_env_file_configured": bool(path),
+                  "fcc_env_file_readable": readable,
+              },
+          }
+          Path(os.environ["ASTRA_WORKER_RESULT"]).write_text(
+              json.dumps(record, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          PY_DIAGNOSTICS
+            echo "::error::FCC credential file is not readable by this runner identity; provision a managed runner-scoped credential. Do not widen filesystem permissions."
+            exit 1
+          fi
+      - name: Set up Node.js for Claude Code installation
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
       - name: Install pinned Claude Code CLI for the runner account
         shell: bash
         env:
           CLAUDE_CODE_VERSION: "2.1.296"
         run: |
           set -euo pipefail
-          install_dir="$HOME/.local/bin"
+          install_prefix="$HOME/.local"
+          install_dir="$install_prefix/bin"
           mkdir -p "$install_dir"
           installed=0
           for attempt in 1 2 3; do
             if command -v timeout >/dev/null 2>&1; then
-              if timeout --foreground --kill-after=10 120 bash -c 'set -o pipefail; curl -fsSL https://claude.ai/install.sh | bash -s -- "$CLAUDE_CODE_VERSION"'; then
+              if timeout --foreground --kill-after=10 240 npm install --global --prefix "$install_prefix" --no-audit --no-fund --include=optional --foreground-scripts "@anthropic-ai/claude-code@$CLAUDE_CODE_VERSION"; then
                 installed=1
                 break
               fi
-            elif bash -c 'set -o pipefail; curl -fsSL https://claude.ai/install.sh | bash -s -- "$CLAUDE_CODE_VERSION"'; then
+            elif npm install --global --prefix "$install_prefix" --no-audit --no-fund --include=optional --foreground-scripts "@anthropic-ai/claude-code@$CLAUDE_CODE_VERSION"; then
               installed=1
               break
             fi
@@ -121,6 +169,8 @@ jobs:
                   "ollama_path_found": bool(ollama),
                   "ollama_list_exit_code": ollama_rc,
                   "ollama_model_names": model_names,
+                  "fcc_env_file_configured": bool(os.environ.get("ASTRA_FCC_ENV_FILE")),
+                  "fcc_env_file_readable": bool(os.environ.get("ASTRA_FCC_ENV_FILE")) and Path(os.environ["ASTRA_FCC_ENV_FILE"]).is_file() and os.access(os.environ["ASTRA_FCC_ENV_FILE"], os.R_OK),
               },
               "status": "BLOCKED",
               "phase": "canonical_admission",

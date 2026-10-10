@@ -196,6 +196,8 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
         raise RuntimeError("claude_cli_missing")
     env = os.environ.copy()
     env.update(env_updates)
+    # Apply the caller's output budget; previously max_tokens was a dead parameter.
+    env["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] = str(max(1, min(int(max_tokens), 4096)))
     env["ANTHROPIC_BASE_URL"] = f"http://{host}:{port}"
     env["ANTHROPIC_AUTH_TOKEN"] = token
     env["ANTHROPIC_API_KEY"] = token
@@ -246,6 +248,19 @@ def scope_paths(task: dict, changed: set[str]) -> list[str]:
         ):
             bad.append(normalized)
     return bad
+
+
+def extract_marked_artifact(output: str) -> str | None:
+    """Extract a non-empty Markdown artifact enclosed by exact worker markers."""
+    match = re.search(
+        r"ASTRA_ARTIFACT_BEGIN\s*\n(.*?)\nASTRA_ARTIFACT_END",
+        output,
+        re.DOTALL,
+    )
+    if not match:
+        return None
+    artifact = match.group(1).strip()
+    return artifact or None
 
 
 def _materialize_bounded_claude_tool_output(output: str, boundary: str) -> str | None:
@@ -573,21 +588,19 @@ def main() -> int:
                         "even with redacted or placeholder values. If a detail is not explicitly in the required "
                         "facts or supplied evidence, omit it. Prefer concise prose over illustrative configuration."
                     )
-                    artifact_schema = {
-                        "type": "object",
-                        "properties": {"markdown": {"type": "string"}},
-                        "required": ["markdown"],
-                        "additionalProperties": False,
-                    }
+                    # The FCC/Ollama backend did not honor Claude Code JSON-schema
+                    # output mode in a real run; after ~17 minutes it returned only
+                    # {"args-json-object":"{}"} instead of the requested document.
+                    # Request a bounded plain-text envelope and parse that envelope below.
                     artifact, server = exec_claude(
                         artifact_prompt
-                        + "\nReturn a single JSON object matching the schema; put the complete Markdown document in the markdown field. "
-                        + "Do not call tools and do not include any other fields.",
+                        + "\nReturn exactly this envelope, with no JSON or commentary: "
+                        + "\nASTRA_ARTIFACT_BEGIN\n[complete Markdown document]\nASTRA_ARTIFACT_END",
                         cfg["model"],
                         builder_timeout,
                         Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+                        max_tokens=384,
                         max_turns=3,
-                        structured_schema=artifact_schema,
                         tools_mode="",
                     )
                     attempt_records.append({
@@ -646,13 +659,8 @@ def main() -> int:
                                 build = artifact
                                 build["materialized_tool_output"] = materialized_tool
                                 break
-                    match = re.search(
-                        r"ASTRA_ARTIFACT_BEGIN\s*\n(.*?)\nASTRA_ARTIFACT_END",
-                        output,
-                        re.DOTALL,
-                    )
-                    if artifact.get("returncode") == 0 and match:
-                        artifact_text = match.group(1).strip()
+                    artifact_text = extract_marked_artifact(output)
+                    if artifact.get("returncode") == 0 and artifact_text:
                         required_tokens = [
                             node_id,
                             executor,
