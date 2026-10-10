@@ -599,7 +599,7 @@ def main() -> int:
                         cfg["model"],
                         builder_timeout,
                         Path(os.environ["ASTRA_FCC_ENV_FILE"]),
-                        max_tokens=512,
+                        max_tokens=1024,
                         max_turns=2,
                         tools_mode="",
                     )

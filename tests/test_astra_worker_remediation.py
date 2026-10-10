@@ -120,7 +120,7 @@ def test_claude_output_budget_is_applied_and_document_fallback_avoids_json_schem
     source = Path(worker.__file__).read_text(encoding="utf-8")
     assert 'env["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] = str(max(1, min(int(max_tokens), 4096)))' in source
     assert "artifact_schema = {" not in source
-    assert "max_tokens=512," in source
+    assert "max_tokens=1024," in source
     assert "WRITE THE DOCUMENT NOW." in source
     assert "Do not explain the task, make a plan, ask questions" in source
     assert "extract_marked_artifact(output)" in source
