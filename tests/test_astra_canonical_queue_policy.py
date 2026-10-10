@@ -20,7 +20,7 @@ class AstraCanonicalQueuePolicyTests(unittest.TestCase):
 
     def test_source_is_canonical_remote_claude_transport(self):
         source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
-        self.assertIn("github_remote_claude_only", source)
+        self.assertIn("github_remote_claude_with_controller_worktree", source)
         self.assertIn("permanent_pool_requires_claude", source)
         self.assertNotIn("ASTRA_DISTRIBUTED_LOCAL", source)
 

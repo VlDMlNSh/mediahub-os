@@ -8,7 +8,9 @@ import concurrent.futures
 import json
 import os
 import re
+import shutil
 import subprocess
+import sys
 import tempfile
 import time
 from pathlib import Path
@@ -264,8 +266,72 @@ def github_auth_env() -> dict[str, str] | None:
     return env
 
 
+def should_run_controller_worker_inline(node_id: str) -> bool:
+    """Avoid a self-deadlock when the controller dispatches work to its own sole runner."""
+    return (
+        node_id == os.environ.get("ASTRA_NODE_ID", "")
+        and os.environ.get("ASTRA_WORKFLOW_ONLY") == "1"
+    )
+
+
+def run_controller_worker_inline(task_json: str, expected_base_sha: str, node_id: str, task_timeout: int, gh_env: dict[str, str]) -> tuple[dict, dict]:
+    """Run the controller-host Claude lane in a separate Git worktree on the same physical node.
+
+    The main controller checkout stays pinned to the signed target SHA. The worker still runs the
+    real local Claude/FCC executor and independent verifier, pushes only its isolated task branch,
+    and returns the same signed-SHA-bound result schema used by remote worker jobs.
+    """
+    temp_root = Path(tempfile.mkdtemp(prefix="astra-controller-worker-"))
+    worktree = temp_root / "worktree"
+    result_path = temp_root / "astra-distributed-worker-result.json"
+    worker_record: dict = {"worker_execution_mode": "controller_local_worktree"}
+    try:
+        add = run(["git", "worktree", "add", "--detach", str(worktree), expected_base_sha], 120)
+        if add.returncode != 0:
+            raise RuntimeError("controller_worker_worktree_add_failed")
+        worker_env = gh_env.copy()
+        worker_env.update({
+            "ASTRA_MICRO_TASK_JSON": task_json,
+            "ASTRA_COMMAND_ID": os.environ.get("ASTRA_COMMAND_ID", ""),
+            "ASTRA_TARGET_SHA": expected_base_sha,
+            "ASTRA_NODE_ID": node_id,
+            "ASTRA_EXECUTOR": "claude",
+            "ASTRA_FCC_ENV_FILE": os.environ.get(
+                "ASTRA_CONTROLLER_FCC_ENV_FILE", "/home/mediahub/.config/mediahub/fcc.env"
+            ),
+            "ASTRA_WORKER_RESULT": str(result_path),
+        })
+        proc = subprocess.run(
+            [sys.executable, str(worktree / "ops/qualification/run_distributed_local_worker.py")],
+            cwd=worktree,
+            env=worker_env,
+            text=True,
+            capture_output=True,
+            stdin=subprocess.DEVNULL,
+            timeout=max(300, min(int(task_timeout) + 300, 2700)),
+            check=False,
+        )
+        worker_record.update({
+            "worker_process_returncode": proc.returncode,
+            "worker_stdout": proc.stdout[-5000:],
+            "worker_stderr": proc.stderr[-3000:],
+        })
+        if not result_path.is_file():
+            raise RuntimeError("controller_worker_result_missing")
+        remote = json.loads(result_path.read_text(encoding="utf-8"))
+        if proc.returncode != 0 and remote.get("status") == "PASS":
+            raise RuntimeError("controller_worker_exit_status_mismatch")
+        return remote, worker_record
+    finally:
+        if worktree.exists():
+            cleanup = run(["git", "worktree", "remove", "--force", str(worktree)], 120)
+            if cleanup.returncode != 0:
+                run(["git", "worktree", "prune"], 60)
+        shutil.rmtree(temp_root, ignore_errors=True)
+
+
 def process_task_remote(task: dict, expected_base_sha: str) -> dict:
-    """Dispatch one queue task to its explicitly assigned local-executor node via GitHub."""
+    """Run a task on its assigned Claude lane, avoiding self-dispatch on the controller node."""
     STATE.mkdir(parents=True, exist_ok=True)
     (STATE / "completed").mkdir(parents=True, exist_ok=True)
     store = ClaimStore(CLAIMS)
@@ -314,83 +380,91 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
     try:
         store.acquire(claim)
         task_json = json.dumps(task_payload, sort_keys=True, separators=(",", ":"))
-        dispatch = run([
-            "gh", "workflow", "run", ".github/workflows/astra-distributed-local-worker.yml",
-            "--ref", "main",
-            "-f", f"command_id={os.environ.get('ASTRA_COMMAND_ID', '')}",
-            "-f", f"target_sha={expected_base_sha}",
-            "-f", f"task_id={task_key}",
-            "-f", f"node_id={node_id}",
-            "-f", f"executor={executor}",
-            "-f", f"task_json={task_json}",
-        ], 60, env=gh_env)
-        if dispatch.returncode != 0:
-            record["error"] = "remote_dispatch_failed:" + (dispatch.stderr or dispatch.stdout)[-2000:]
-            return record
+        if should_run_controller_worker_inline(node_id):
+            remote, local_worker_record = run_controller_worker_inline(
+                task_json, expected_base_sha, node_id, int(task.get("timeout_seconds", 1800)), gh_env
+            )
+            record.update(local_worker_record)
+            if remote.get("status") != "PASS":
+                raise RuntimeError("controller_local_worker_blocked:" + str(remote.get("error", "unspecified")))
+        else:
+            dispatch = run([
+                "gh", "workflow", "run", ".github/workflows/astra-distributed-local-worker.yml",
+                "--ref", "main",
+                "-f", f"command_id={os.environ.get('ASTRA_COMMAND_ID', '')}",
+                "-f", f"target_sha={expected_base_sha}",
+                "-f", f"task_id={task_key}",
+                "-f", f"node_id={node_id}",
+                "-f", f"executor={executor}",
+                "-f", f"task_json={task_json}",
+            ], 60, env=gh_env)
+            if dispatch.returncode != 0:
+                record["error"] = "remote_dispatch_failed:" + (dispatch.stderr or dispatch.stdout)[-2000:]
+                return record
 
-        run_id = None
-        deadline = time.time() + max(300, int(os.environ.get("ASTRA_REMOTE_WORKER_WAIT_SECONDS", "2400")))
-        run_title_bits = [os.environ.get("ASTRA_COMMAND_ID", ""), task_key, node_id, executor]
-        while time.time() < deadline:
-            listed = run([
-                "gh", "run", "list", "--workflow", "astra-distributed-local-worker.yml",
-                "--limit", "30", "--json", "databaseId,displayTitle,status,conclusion,createdAt"
-            ], 30, env=gh_env)
-            if listed.returncode == 0:
-                try:
-                    rows = json.loads(listed.stdout or "[]")
-                except Exception:
-                    rows = []
-                matches = [
-                    row for row in rows
-                    if all(bit in str(row.get("displayTitle", "")) for bit in run_title_bits)
-                ]
-                if matches:
-                    matches.sort(key=lambda row: row.get("createdAt", ""), reverse=True)
-                    run_id = int(matches[0]["databaseId"])
+            run_id = None
+            deadline = time.time() + max(300, int(os.environ.get("ASTRA_REMOTE_WORKER_WAIT_SECONDS", "2400")))
+            run_title_bits = [os.environ.get("ASTRA_COMMAND_ID", ""), task_key, node_id, executor]
+            while time.time() < deadline:
+                listed = run([
+                    "gh", "run", "list", "--workflow", "astra-distributed-local-worker.yml",
+                    "--limit", "30", "--json", "databaseId,displayTitle,status,conclusion,createdAt"
+                ], 30, env=gh_env)
+                if listed.returncode == 0:
+                    try:
+                        rows = json.loads(listed.stdout or "[]")
+                    except Exception:
+                        rows = []
+                    matches = [
+                        row for row in rows
+                        if all(bit in str(row.get("displayTitle", "")) for bit in run_title_bits)
+                    ]
+                    if matches:
+                        matches.sort(key=lambda row: row.get("createdAt", ""), reverse=True)
+                        run_id = int(matches[0]["databaseId"])
+                        break
+                time.sleep(5)
+            if not run_id:
+                raise RuntimeError("remote_run_not_found")
+
+            record["worker_run_id"] = run_id
+            while time.time() < deadline:
+                view = run(["gh", "run", "view", str(run_id), "--json", "status,conclusion"], 30, env=gh_env)
+                if view.returncode == 0:
+                    data = json.loads(view.stdout or "{}")
+                    status = data.get("status")
+                    if status == "completed":
+                        record["worker_run_status"] = status
+                        record["worker_conclusion"] = data.get("conclusion")
+                        break
+                if time.time() - started > 60:
+                    try:
+                        store.heartbeat(task_key, lease_seconds=max(60, min(int(os.environ.get("ASTRA_CLAIM_LEASE_SECONDS", "600")), 21600)))
+                    except Exception:
+                        pass
+                time.sleep(10)
+            if record.get("worker_run_status") != "completed":
+                raise RuntimeError("remote_worker_timeout")
+
+            temp = tempfile.TemporaryDirectory(prefix="astra-remote-worker-")
+            download = None
+            for artifact_name in worker_artifact_names(node_id, run_id):
+                candidate = run([
+                    "gh", "run", "download", str(run_id), "-n", artifact_name, "-D", temp.name
+                ], 120, env=gh_env)
+                if candidate.returncode == 0:
+                    download = candidate
                     break
-            time.sleep(5)
-        if not run_id:
-            raise RuntimeError("remote_run_not_found")
-
-        record["worker_run_id"] = run_id
-        while time.time() < deadline:
-            view = run(["gh", "run", "view", str(run_id), "--json", "status,conclusion"], 30, env=gh_env)
-            if view.returncode == 0:
-                data = json.loads(view.stdout or "{}")
-                status = data.get("status")
-                if status == "completed":
-                    record["worker_run_status"] = status
-                    record["worker_conclusion"] = data.get("conclusion")
-                    break
-            if time.time() - started > 60:
-                try:
-                    store.heartbeat(task_key, lease_seconds=max(60, min(int(os.environ.get("ASTRA_CLAIM_LEASE_SECONDS", "600")), 21600)))
-                except Exception:
-                    pass
-            time.sleep(10)
-        if record.get("worker_run_status") != "completed":
-            raise RuntimeError("remote_worker_timeout")
-
-        temp = tempfile.TemporaryDirectory(prefix="astra-remote-worker-")
-        download = None
-        for artifact_name in worker_artifact_names(node_id, run_id):
-            candidate = run([
-                "gh", "run", "download", str(run_id), "-n", artifact_name, "-D", temp.name
-            ], 120, env=gh_env)
-            if candidate.returncode == 0:
-                download = candidate
-                break
-        if download is None:
-            raise RuntimeError("remote_evidence_download_failed")
-        result_file = Path(temp.name) / "astra-distributed-worker-result.json"
-        if not result_file.is_file():
-            candidates = list(Path(temp.name).rglob("astra-distributed-worker-result.json"))
-            if candidates:
-                result_file = candidates[0]
-        if not result_file.is_file():
-            raise RuntimeError("remote_evidence_missing")
-        remote = json.loads(result_file.read_text(encoding="utf-8"))
+            if download is None:
+                raise RuntimeError("remote_evidence_download_failed")
+            result_file = Path(temp.name) / "astra-distributed-worker-result.json"
+            if not result_file.is_file():
+                candidates = list(Path(temp.name).rglob("astra-distributed-worker-result.json"))
+                if candidates:
+                    result_file = candidates[0]
+            if not result_file.is_file():
+                raise RuntimeError("remote_evidence_missing")
+            remote = json.loads(result_file.read_text(encoding="utf-8"))
         required = {
             "schema": "mediahub.astra.distributed-local-worker.v1",
             "status": "PASS",
@@ -505,8 +579,8 @@ def main() -> int:
             "discovered_tasks": inventory,
         }, sort_keys=True))
         return 2
-    # Canonical Astra Gold execution is always distributed GitHub transport with
-    # permanent Claude lanes. There is deliberately no local executor fallback.
+    # Remote lanes use GitHub workflow transport; the controller's own lane uses an isolated
+    # local worktree because dispatching it back to the only occupied controller runner deadlocks.
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(selected)) as pool:
         results = list(pool.map(lambda task: process_task_remote(task, base_sha), selected))
     all_verified = all(r["status"] == "VERIFIED" for r in results)
@@ -515,7 +589,7 @@ def main() -> int:
         "workers": len(selected),
         "executor_pool": PERMANENT_EXECUTOR_POOL,
         "max_parallel_claims": MAX_WORKERS,
-        "mode": "github_remote_claude_only",
+        "mode": "github_remote_claude_with_controller_worktree",
         "selected_tasks": [str(t["task_id"]) for t in selected],
         "results": results,
     }, sort_keys=True))

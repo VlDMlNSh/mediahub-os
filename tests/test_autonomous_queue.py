@@ -358,3 +358,11 @@ def test_permanent_executor_pool_matches_canonical_three_lane_topology():
         "Voktors-Mac-mini.local": "claude",
     }
     assert autonomous_queue.bounded_worker_count(3) == 3
+
+def test_controller_lane_uses_inline_worktree_only_in_workflow_mode(monkeypatch):
+    monkeypatch.setenv("ASTRA_NODE_ID", "mh-dev-01")
+    monkeypatch.setenv("ASTRA_WORKFLOW_ONLY", "1")
+    assert autonomous_queue.should_run_controller_worker_inline("mh-dev-01")
+    assert not autonomous_queue.should_run_controller_worker_inline("mh-dev-02")
+    monkeypatch.setenv("ASTRA_WORKFLOW_ONLY", "0")
+    assert not autonomous_queue.should_run_controller_worker_inline("mh-dev-01")

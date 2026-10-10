@@ -123,9 +123,7 @@ jobs:
       - distributed-verification
       - local-claude-qualification
       - provider-qualification
-    # Orchestration must not occupy mh-dev-01 while the queue dispatches its own worker lane.
-    # Authority still comes from the command signed on mh-dev-01; this job has no contents:write.
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 90
     env:
       ASTRA_ONESHOT: "1"
@@ -145,13 +143,17 @@ jobs:
           fetch-depth: 50
           persist-credentials: true
 
-      - name: Bind orchestrator identity to the signed command
+      - name: Resolve canonical node from runner identity
         shell: bash
         run: |
           set -euo pipefail
+          host="$(hostname)"
+          user="$(id -un)"
+          test "$host" = "mh-dev-01"
+          test "$user" = "mediahub-runner"
           {
             echo "ASTRA_NODE_ID=mh-dev-01"
-            echo "ASTRA_CANONICAL_WORKTREE=$GITHUB_WORKSPACE"
+            echo "ASTRA_CANONICAL_WORKTREE=/home/mediahub/astra-work"
           } >> "$GITHUB_ENV"
           mkdir -p "$ASTRA_STATE_DIR"
 
