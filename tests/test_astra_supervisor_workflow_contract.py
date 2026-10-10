@@ -19,13 +19,14 @@ class AstraSupervisorWorkflowContractTests(unittest.TestCase):
         self.assertIn('step.get("autonomous_queue",{}).get("payload")', self.validator)
         self.assertIn('isinstance(step.get("autonomous_queue",{}).get("payload"),dict)', self.validator)
 
-    def test_worker_queue_runs_on_separate_runner_before_controller_finalization(self):
+    def test_queue_controller_excludes_its_own_worker_lane_before_finalization(self):
         queue_start = self.text.index("  autonomous-queue:")
         queue_end = self.text.index("  distributed-verification-postqueue:", queue_start)
         queue_job = self.text[queue_start:queue_end]
-        self.assertIn("runs-on: [self-hosted, macOS, ARM64, astra-control]", queue_job)
-        self.assertIn('ASTRA_CONTROLLER_NODE_ID: "Voktors-Mac-mini.local"', queue_job)
-        self.assertIn("exclude its own executor lane", queue_job)
+        self.assertIn("runs-on: [self-hosted, linux, x64, mediahub-control]", queue_job)
+        self.assertIn('ASTRA_CONTROLLER_NODE_ID: "mh-dev-01"', queue_job)
+        self.assertIn('ASTRA_SINGLE_CONTROLLER_RUN: "0"', queue_job)
+        self.assertIn("queue excludes mh-dev-01", queue_job)
         self.assertIn("mediahub_runtime.autonomous_queue", queue_job)
         self.assertIn("validate_autonomous_queue_summary.py", queue_job)
         self.assertIn("astra-autonomous-queue-result-${{ github.run_id }}-${{ github.run_attempt }}", queue_job)
@@ -35,8 +36,8 @@ class AstraSupervisorWorkflowContractTests(unittest.TestCase):
         self.assertIn("- distributed-verification-postqueue", supervisor)
         self.assertIn("ASTRA_PRECOMPUTED_QUEUE_RESULT_PATH:", supervisor)
         queue_job = self.text[self.text.index("  autonomous-queue:"):self.text.index("  distributed-verification-postqueue:")]
-        self.assertIn('ASTRA_SINGLE_CONTROLLER_RUN: "1"', queue_job)
-        self.assertIn('ASTRA_CONTROLLER_CONCURRENCY_WAIT_SECONDS: "5400"', queue_job)
+        self.assertIn('ASTRA_SINGLE_CONTROLLER_RUN: "0"', queue_job)
+        self.assertNotIn("ASTRA_CONTROLLER_CONCURRENCY_WAIT_SECONDS", queue_job)
         self.assertIn("timeout-minutes: 180", queue_job)
 
     def test_distributed_evidence_artifacts_are_phase_scoped(self):

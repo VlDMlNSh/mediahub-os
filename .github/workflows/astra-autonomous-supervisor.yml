@@ -120,15 +120,15 @@ jobs:
     secrets: inherit
 
   autonomous-queue:
-    name: Autonomous queue controller on a non-worker runner
+    name: Autonomous queue controller on the authority runner (self lane excluded)
     needs:
       - prepare-command
       - distributed-verification
       - local-claude-qualification
       - provider-qualification
-    # The account currently has no schedulable GitHub-hosted runner. Use the
-    # dedicated Astra control runner on the Mac and exclude its own executor lane.
-    runs-on: [self-hosted, macOS, ARM64, astra-control]
+    # GitHub-hosted ubuntu-latest was not assigned a runner. Use the single-slot
+    # authority runner; the queue excludes mh-dev-01 so child work runs elsewhere.
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 180
     permissions:
       contents: read
@@ -139,10 +139,11 @@ jobs:
       ASTRA_QUEUE_STATE_DIR: ${{ github.workspace }}/.astra-state/queue
       ASTRA_QUEUE_MAX_WORKERS: "3"
       ASTRA_REMOTE_WORKER_WAIT_SECONDS: "4200"
-      ASTRA_SINGLE_CONTROLLER_RUN: "1"
-      ASTRA_CONTROLLER_CONCURRENCY_WAIT_SECONDS: "5400"
-      ASTRA_CONTROLLER_CONCURRENCY_POLL_SECONDS: "30"
-      ASTRA_CONTROLLER_NODE_ID: "Voktors-Mac-mini.local"
+      # Controller jobs share this unique single-slot runner, so a second
+      # controller cannot dispatch concurrently. Cross-run waiting here would
+      # deadlock against pre/post-queue jobs that also need this runner.
+      ASTRA_SINGLE_CONTROLLER_RUN: "0"
+      ASTRA_CONTROLLER_NODE_ID: "mh-dev-01"
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4

@@ -965,3 +965,25 @@ def test_select_distributed_tasks_returns_empty_when_only_controller_lane_is_rea
     assert autonomous_queue.select_distributed_tasks(
         tasks, 3, excluded_nodes={"Voktors-Mac-mini.local"}
     ) == []
+
+
+def test_main_rejects_unknown_controller_node_before_dispatch(monkeypatch, tmp_path: Path, capsys):
+    task_dir = tmp_path / "tasks"
+    task_dir.mkdir()
+    (task_dir / "ready.json").write_text(json.dumps({
+        "task_id": "ready", "status": "READY", "priority": "P0",
+        "node_id": "mh-dev-02", "executor": "claude",
+    }), encoding="utf-8")
+    state = tmp_path / "state"
+    monkeypatch.setattr(autonomous_queue, "TASK_DIR", task_dir)
+    monkeypatch.setattr(autonomous_queue, "STATE", state)
+    monkeypatch.setattr(autonomous_queue, "queue_state_preflight", lambda: None)
+    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: type("R", (), {
+        "returncode": 0, "stdout": "a" * 40 + "\n", "stderr": ""
+    })())
+    monkeypatch.setenv("ASTRA_CONTROLLER_NODE_ID", "unknown-node")
+    monkeypatch.setenv("ASTRA_SINGLE_CONTROLLER_RUN", "0")
+    monkeypatch.delenv("ASTRA_TARGET_SHA", raising=False)
+    assert autonomous_queue.main() == 2
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["reason"] == "controller_node_identity_invalid"
