@@ -238,19 +238,18 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
 
 
 def document_required_terms(task: dict, node_id: str, executor: str, model: str) -> list[str]:
-    """Return literal contract terms for a model-authored Markdown deliverable."""
-    return [
+    """Return task contract phrases plus execution identity facts for the generated document."""
+    contract = task.get("artifact_contract", {})
+    contract_terms = contract.get("required_terms", []) if isinstance(contract, dict) else []
+    terms = [str(term).strip() for term in contract_terms if str(term).strip()]
+    terms.extend([
         f"node identity {node_id}",
         f"executor identity {executor}",
         f"local model {model}",
-        f"verifier identity {task['verifier']}",
+        "Verifier Identity",
         "executor-only authority boundary",
-        "target-SHA bound",
-        "branch isolated",
-        "fail-closed",
-        "never writes directly to main",
-        "no credentials or secrets",
-    ]
+    ])
+    return list(dict.fromkeys(terms))
 
 
 def document_generation_prompt(task: dict, target_sha: str, required_terms: list[str]) -> str:
@@ -281,6 +280,14 @@ def validate_generated_document(output: str, target_sha: str, required_terms: li
         return None
     folded = candidate.casefold()
     if not all(term.casefold() in folded for term in required_terms):
+        return None
+    contradictions = (
+        "not directly linked to any specific sha",
+        "not linked to a specific target sha",
+        "target sha is not specified",
+        "cannot be bound to the target sha",
+    )
+    if any(term in folded for term in contradictions):
         return None
     return candidate
 

@@ -132,14 +132,16 @@ def test_claude_document_generation_is_bounded_and_does_not_use_prefilled_templa
 
 
 def test_generated_document_requires_target_sha_and_contract_terms():
-    task = {"verifier": "claude"}
+    task = {"verifier": "claude", "artifact_contract": {"required_terms": ["G-5 = 3", "GitHub evidence transport"]}}
     terms = worker.document_required_terms(task, "mh-dev-01", "claude", "qwen2.5-coder:3b")
     sha = "a" * 40
-    body = "# Contract\n" + "\n".join(terms) + "\nTarget SHA: " + sha
+    body = "# Contract\n" + "\n".join(terms) + "\nG-5 = 3\nGitHub evidence transport\nTarget SHA: " + sha
     output = "ASTRA_ARTIFACT_BEGIN\n" + body + "\nASTRA_ARTIFACT_END"
     assert worker.validate_generated_document(output, sha, terms) == body
     assert worker.validate_generated_document(output, "b" * 40, terms) is None
     assert worker.validate_generated_document(output.replace("executor-only authority boundary", "authority"), sha, terms) is None
+    contradictory = output.replace("Target SHA: ", "Not directly linked to any specific SHA. Target SHA: ")
+    assert worker.validate_generated_document(contradictory, sha, terms) is None
 
 
 def test_verifier_requires_one_exact_pass_verdict():
