@@ -593,6 +593,11 @@ def main() -> int:
                         "Do not add URLs, configuration examples, credentials, placeholders, or unsupported runtime claims.\n"
                         "ASTRA_ARTIFACT_BEGIN\n"
                         "# Astra Operations Contract\n"
+                        "## Execution metadata\n"
+                        f"- Node: {node_id}\n"
+                        f"- Executor: {executor}\n"
+                        f"- Verifier: {task['verifier']}\n"
+                        f"- Model: {cfg['model']}\n"
                         "## Required contract terms\n"
                         + required_bullets
                         + f"\n## Target SHA\n{target_sha}\n"
