@@ -54,6 +54,34 @@ jobs:
           ref: ${{ inputs.target_sha }}
           fetch-depth: 50
           persist-credentials: true
+      - name: Install pinned Claude Code CLI for the runner account
+        shell: bash
+        env:
+          CLAUDE_CODE_VERSION: "2.1.296"
+        run: |
+          set -euo pipefail
+          install_dir="$HOME/.local/bin"
+          mkdir -p "$install_dir"
+          installed=0
+          for attempt in 1 2 3; do
+            if command -v timeout >/dev/null 2>&1; then
+              if timeout --foreground --kill-after=10 120 bash -c 'set -o pipefail; curl -fsSL https://claude.ai/install.sh | bash -s -- "$CLAUDE_CODE_VERSION"'; then
+                installed=1
+                break
+              fi
+            elif bash -c 'set -o pipefail; curl -fsSL https://claude.ai/install.sh | bash -s -- "$CLAUDE_CODE_VERSION"'; then
+              installed=1
+              break
+            fi
+            if [[ "$attempt" -lt 3 ]]; then
+              sleep 5
+            fi
+          done
+          test "$installed" = "1"
+          echo "$install_dir" >> "$GITHUB_PATH"
+          test -x "$install_dir/claude"
+          "$install_dir/claude" --version | grep -F "$CLAUDE_CODE_VERSION"
+
       - name: Canonical admission
         shell: bash
         run: |

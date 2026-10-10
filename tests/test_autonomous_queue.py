@@ -987,3 +987,95 @@ def test_main_rejects_unknown_controller_node_before_dispatch(monkeypatch, tmp_p
     assert autonomous_queue.main() == 2
     payload = json.loads(capsys.readouterr().out)
     assert payload["reason"] == "controller_node_identity_invalid"
+
+
+def test_main_never_passes_when_eligible_ready_tasks_are_omitted(monkeypatch, tmp_path: Path, capsys):
+    task_dir = tmp_path / "tasks"
+    task_dir.mkdir()
+    tasks = [
+        {"task_id": "controller-lane", "status": "READY", "priority": "P0",
+         "node_id": "mh-dev-01", "executor": "claude"},
+        {"task_id": "remote-lane", "status": "READY", "priority": "P1",
+         "node_id": "mh-dev-02", "executor": "claude"},
+    ]
+    for task in tasks:
+        (task_dir / f"{task['task_id']}.json").write_text(json.dumps(task), encoding="utf-8")
+
+    monkeypatch.setattr(autonomous_queue, "TASK_DIR", task_dir)
+    monkeypatch.setattr(autonomous_queue, "STATE", tmp_path / "state")
+    monkeypatch.setattr(autonomous_queue, "queue_state_preflight", lambda: None)
+    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: type("R", (), {
+        "returncode": 0, "stdout": "a" * 40 + "\n", "stderr": ""
+    })())
+    monkeypatch.setattr(autonomous_queue, "process_task_remote", lambda task, sha: {
+        "task_id": task["task_id"], "status": "VERIFIED"
+    })
+    monkeypatch.setenv("ASTRA_CONTROLLER_NODE_ID", "mh-dev-01")
+    monkeypatch.setenv("ASTRA_SINGLE_CONTROLLER_RUN", "0")
+    monkeypatch.delenv("ASTRA_TARGET_SHA", raising=False)
+
+    assert autonomous_queue.main() == 2
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["status"] == "BLOCKED"
+    assert payload["reason"] == "eligible_ready_tasks_unprocessed"
+    assert payload["selected_tasks"] == ["remote-lane"]
+    assert payload["pending_tasks"] == ["controller-lane"]
+
+
+
+def test_main_blocks_ready_task_with_noncanonical_executor(monkeypatch, tmp_path: Path, capsys):
+    task_dir = tmp_path / "tasks"
+    task_dir.mkdir()
+    tasks = [
+        {"task_id": "codex-lane", "status": "READY", "priority": "P0",
+         "node_id": "mh-dev-02", "executor": "codex"},
+        {"task_id": "claude-lane", "status": "READY", "priority": "P1",
+         "node_id": "mh-dev-01", "executor": "claude"},
+    ]
+    for task in tasks:
+        (task_dir / f"{task['task_id']}.json").write_text(json.dumps(task), encoding="utf-8")
+
+    monkeypatch.setattr(autonomous_queue, "TASK_DIR", task_dir)
+    monkeypatch.setattr(autonomous_queue, "STATE", tmp_path / "state")
+    monkeypatch.setattr(autonomous_queue, "queue_state_preflight", lambda: None)
+    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: type("R", (), {
+        "returncode": 0, "stdout": "a" * 40 + "\n", "stderr": ""
+    })())
+    monkeypatch.setattr(autonomous_queue, "process_task_remote", lambda task, sha: {
+        "task_id": task["task_id"], "status": "VERIFIED"
+    })
+    monkeypatch.delenv("ASTRA_CONTROLLER_NODE_ID", raising=False)
+    monkeypatch.setenv("ASTRA_SINGLE_CONTROLLER_RUN", "0")
+    monkeypatch.delenv("ASTRA_TARGET_SHA", raising=False)
+
+    assert autonomous_queue.main() == 2
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["status"] == "BLOCKED"
+    assert payload["reason"] == "unroutable_ready_tasks"
+    assert payload["pending_tasks"] == ["codex-lane"]
+    assert payload["unroutable_tasks"] == ["codex-lane"]
+
+
+def test_main_blocks_ready_tasks_with_unsatisfied_dependencies(monkeypatch, tmp_path: Path, capsys):
+    task_dir = tmp_path / "tasks"
+    task_dir.mkdir()
+    (task_dir / "dependent.json").write_text(json.dumps({
+        "task_id": "dependent", "status": "READY", "priority": "P0",
+        "node_id": "mh-dev-02", "executor": "claude", "dependencies": ["missing-dependency"],
+    }), encoding="utf-8")
+    monkeypatch.setattr(autonomous_queue, "TASK_DIR", task_dir)
+    monkeypatch.setattr(autonomous_queue, "STATE", tmp_path / "state")
+    monkeypatch.setattr(autonomous_queue, "queue_state_preflight", lambda: None)
+    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: type("R", (), {
+        "returncode": 0, "stdout": "a" * 40 + "\n", "stderr": ""
+    })())
+    monkeypatch.setenv("ASTRA_CONTROLLER_NODE_ID", "mh-dev-01")
+    monkeypatch.setenv("ASTRA_SINGLE_CONTROLLER_RUN", "0")
+    monkeypatch.delenv("ASTRA_TARGET_SHA", raising=False)
+
+    assert autonomous_queue.main() == 2
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["status"] == "BLOCKED"
+    assert payload["reason"] == "ready_tasks_blocked_by_dependencies"
+    assert payload["pending_tasks"] == ["dependent"]
+    assert payload["dependency_blocked_tasks"] == ["dependent"]

@@ -1,7 +1,7 @@
 {
   "schema": "mediahub.agent-fabric.task.v1",
   "task_id": "MH25-23-LANE-MANIFEST-001",
-  "status": "READY",
+  "status": "CLOSED",
   "priority": "P0",
   "role": "architect",
   "mission": "MUST modify tests/test_agent_fabric.py by adding deterministic regression coverage for the 23-lane execution manifest, exact Codex builder binding, and UNKNOWN-safe promotion contract. Do not finish with no_changes: the task is incomplete unless the declared test file has a new diff relative to target SHA.",
@@ -32,5 +32,6 @@
   "test_paths": [
     "tests/test_agent_fabric.py"
   ],
-  "allow_no_changes": true
+  "allow_no_changes": true,
+  "closure_reason": "Retired from the permanent autonomous queue: current production executor policy is Claude-only and the task explicitly requires executor=codex on mh-dev-02. Preserved for audit; do not silently rebind this task to Claude because its acceptance criteria require exact Codex identity."
 }

@@ -57,5 +57,20 @@ class AstraSupervisorWorkflowContractTests(unittest.TestCase):
         self.assertIn('assert d.get("execution_head") == d.get("target_sha")', self.validator)
 
 
+    def test_mh_dev_01_worker_installs_pinned_claude_cli_for_runner_account(self):
+        worker = (ROOT / ".github" / "workflows" / "astra-distributed-local-worker.yml").read_text(encoding="utf-8")
+        job_start = worker.index("  mh-dev-01-claude:")
+        job_end = worker.index("  mh-dev-02:", job_start)
+        job = worker[job_start:job_end]
+        install_pos = job.index("Install pinned Claude Code CLI for the runner account")
+        admission_pos = job.index("- name: Canonical admission")
+        self.assertLess(install_pos, admission_pos)
+        self.assertIn('CLAUDE_CODE_VERSION: "2.1.296"', job)
+        self.assertIn('echo "$install_dir" >> "$GITHUB_PATH"', job)
+        self.assertIn('test -x "$install_dir/claude"', job)
+        self.assertIn('"$install_dir/claude" --version | grep -F "$CLAUDE_CODE_VERSION"', job)
+
+
+
 if __name__ == "__main__":
     unittest.main()

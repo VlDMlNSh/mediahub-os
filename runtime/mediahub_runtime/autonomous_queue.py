@@ -952,11 +952,30 @@ def main() -> int:
             "completed_for_target": done,
             "dependencies_satisfied": deps_ok,
         })
+    unfinished_ready_ids = {
+        str(row["task_id"]) for row in inventory if not row["completed_for_target"]
+    }
+    dependency_blocked_tasks = sorted(
+        str(task["task_id"])
+        for task in discovered
+        if str(task["task_id"]) in unfinished_ready_ids
+        and not dependencies_satisfied(task, base_sha)
+    )
     tasks = [
         t for t in discovered
-        if not completed(str(t["task_id"]), base_sha) and dependencies_satisfied(t, base_sha)
+        if str(t["task_id"]) in unfinished_ready_ids and dependencies_satisfied(t, base_sha)
     ]
     if not tasks:
+        if dependency_blocked_tasks:
+            print(json.dumps({
+                "status": "BLOCKED",
+                "reason": "ready_tasks_blocked_by_dependencies",
+                "base_sha": base_sha,
+                "pending_tasks": sorted(unfinished_ready_ids),
+                "dependency_blocked_tasks": dependency_blocked_tasks,
+                "discovered_tasks": inventory,
+            }, sort_keys=True))
+            return 2
         print(json.dumps({
             "status": "IDLE",
             "reason": "no_ready_tasks",
@@ -979,10 +998,20 @@ def main() -> int:
         excluded_nodes={controller_node} if controller_node else None,
     )
     if not selected:
+        unroutable_tasks = sorted(
+            str(task["task_id"])
+            for task in tasks
+            if str(task.get("node_id", "")).strip() not in PERMANENT_EXECUTOR_POOL
+            or str(task.get("executor", "")).strip()
+            != PERMANENT_EXECUTOR_POOL.get(str(task.get("node_id", "")).strip())
+        )
         print(json.dumps({
             "status": "BLOCKED",
             "reason": "no_eligible_distributed_tasks",
             "base_sha": base_sha,
+            "pending_tasks": sorted(unfinished_ready_ids),
+            "unroutable_tasks": unroutable_tasks,
+            "dependency_blocked_tasks": dependency_blocked_tasks,
             "discovered_tasks": inventory,
         }, sort_keys=True))
         return 2
@@ -990,9 +1019,36 @@ def main() -> int:
     # permanent Claude lanes. There is deliberately no local executor fallback.
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(selected)) as pool:
         results = list(pool.map(lambda task: process_task_remote(task, base_sha), selected))
-    all_verified = all(r["status"] == "VERIFIED" for r in results)
+    selected_ids = {str(task["task_id"]) for task in selected}
+    # The result describes the whole READY queue, not just the routable slice.
+    # An incompatible executor or controller-owned lane must be explicit; silently
+    # dropping it could produce a false PASS for a partial qualification.
+    pending_tasks = sorted(unfinished_ready_ids - selected_ids)
+    unroutable_tasks = sorted(
+        str(task["task_id"])
+        for task in discovered
+        if str(task["task_id"]) in unfinished_ready_ids
+        and (
+            str(task.get("node_id", "")).strip() not in PERMANENT_EXECUTOR_POOL
+            or str(task.get("executor", "")).strip()
+            != PERMANENT_EXECUTOR_POOL.get(str(task.get("node_id", "")).strip())
+        )
+    )
+    workers_verified = all(r["status"] == "VERIFIED" for r in results)
+    all_verified = workers_verified and not pending_tasks
+    if all_verified:
+        reason = None
+    elif unroutable_tasks:
+        reason = "unroutable_ready_tasks"
+    elif dependency_blocked_tasks:
+        reason = "ready_tasks_blocked_by_dependencies"
+    elif pending_tasks:
+        reason = "eligible_ready_tasks_unprocessed"
+    else:
+        reason = "worker_not_verified"
     print(json.dumps({
         "status": "PASS" if all_verified else "BLOCKED",
+        "reason": reason,
         "command_id": os.environ.get("ASTRA_COMMAND_ID", ""),
         "base_sha": base_sha,
         "workers": len(selected),
@@ -1000,6 +1056,9 @@ def main() -> int:
         "max_parallel_claims": MAX_WORKERS,
         "mode": "github_remote_claude_only",
         "selected_tasks": [str(t["task_id"]) for t in selected],
+        "pending_tasks": pending_tasks,
+        "unroutable_tasks": unroutable_tasks,
+        "dependency_blocked_tasks": dependency_blocked_tasks,
         "results": results,
     }, sort_keys=True))
     return 0 if all_verified else 2
