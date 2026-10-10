@@ -64,16 +64,18 @@ jobs:
         shell: bash
         run: |
           set -u
-          : > g4-CODEX_FCC.jsonl
+          OUT_DIR="${RUNNER_TEMP}/g4-results"
+          mkdir -p "$OUT_DIR"
+          : > "$OUT_DIR/g4-CODEX_FCC.jsonl"
           for i in $(seq 1 23); do
-            python3 ops/qualification/run_g4_round.py --path CODEX_FCC --round "$i" --source-sha "$GITHUB_SHA" --out "round-$i.jsonl"
-            cat "round-$i.jsonl" >> g4-CODEX_FCC.jsonl
+            python3 ops/qualification/run_g4_round.py --path CODEX_FCC --round "$i" --source-sha "$GITHUB_SHA" --out "$OUT_DIR/round-$i.jsonl"
+            cat "$OUT_DIR/round-$i.jsonl" >> "$OUT_DIR/g4-CODEX_FCC.jsonl"
           done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: g4-CODEX_FCC-${{ github.sha }}
-          path: g4-CODEX_FCC.jsonl
+          path: ${{ runner.temp }}/g4-results/g4-CODEX_FCC.jsonl
           if-no-files-found: error
 
   claude-fcc:
@@ -104,16 +106,18 @@ jobs:
         shell: bash
         run: |
           set -u
-          : > g4-CLAUDE_FCC.jsonl
+          OUT_DIR="${RUNNER_TEMP}/g4-results"
+          mkdir -p "$OUT_DIR"
+          : > "$OUT_DIR/g4-CLAUDE_FCC.jsonl"
           for i in $(seq 1 23); do
-            python3 ops/qualification/run_g4_round.py --path CLAUDE_FCC --round "$i" --source-sha "$GITHUB_SHA" --out "round-$i.jsonl"
-            cat "round-$i.jsonl" >> g4-CLAUDE_FCC.jsonl
+            python3 ops/qualification/run_g4_round.py --path CLAUDE_FCC --round "$i" --source-sha "$GITHUB_SHA" --out "$OUT_DIR/round-$i.jsonl"
+            cat "$OUT_DIR/round-$i.jsonl" >> "$OUT_DIR/g4-CLAUDE_FCC.jsonl"
           done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: g4-CLAUDE_FCC-${{ github.sha }}
-          path: g4-CLAUDE_FCC.jsonl
+          path: ${{ runner.temp }}/g4-results/g4-CLAUDE_FCC.jsonl
           if-no-files-found: error
 
   codex-omniroute:
@@ -143,16 +147,18 @@ jobs:
         shell: bash
         run: |
           set -u
-          : > g4-CODEX_OMNIROUTE.jsonl
+          OUT_DIR="${RUNNER_TEMP}/g4-results"
+          mkdir -p "$OUT_DIR"
+          : > "$OUT_DIR/g4-CODEX_OMNIROUTE.jsonl"
           for i in $(seq 1 23); do
-            python3 ops/qualification/run_g4_round.py --path CODEX_OMNIROUTE --round "$i" --source-sha "$GITHUB_SHA" --out "round-$i.jsonl"
-            cat "round-$i.jsonl" >> g4-CODEX_OMNIROUTE.jsonl
+            python3 ops/qualification/run_g4_round.py --path CODEX_OMNIROUTE --round "$i" --source-sha "$GITHUB_SHA" --out "$OUT_DIR/round-$i.jsonl"
+            cat "$OUT_DIR/round-$i.jsonl" >> "$OUT_DIR/g4-CODEX_OMNIROUTE.jsonl"
           done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: g4-CODEX_OMNIROUTE-${{ github.sha }}
-          path: g4-CODEX_OMNIROUTE.jsonl
+          path: ${{ runner.temp }}/g4-results/g4-CODEX_OMNIROUTE.jsonl
           if-no-files-found: error
 
   claude-omniroute:
@@ -183,16 +189,18 @@ jobs:
         shell: bash
         run: |
           set -u
-          : > g4-CLAUDE_OMNIROUTE.jsonl
+          OUT_DIR="${RUNNER_TEMP}/g4-results"
+          mkdir -p "$OUT_DIR"
+          : > "$OUT_DIR/g4-CLAUDE_OMNIROUTE.jsonl"
           for i in $(seq 1 23); do
-            python3 ops/qualification/run_g4_round.py --path CLAUDE_OMNIROUTE --round "$i" --source-sha "$GITHUB_SHA" --out "round-$i.jsonl"
-            cat "round-$i.jsonl" >> g4-CLAUDE_OMNIROUTE.jsonl
+            python3 ops/qualification/run_g4_round.py --path CLAUDE_OMNIROUTE --round "$i" --source-sha "$GITHUB_SHA" --out "$OUT_DIR/round-$i.jsonl"
+            cat "$OUT_DIR/round-$i.jsonl" >> "$OUT_DIR/g4-CLAUDE_OMNIROUTE.jsonl"
           done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: g4-CLAUDE_OMNIROUTE-${{ github.sha }}
-          path: g4-CLAUDE_OMNIROUTE.jsonl
+          path: ${{ runner.temp }}/g4-results/g4-CLAUDE_OMNIROUTE.jsonl
           if-no-files-found: error
 
   claude-direct:
@@ -223,16 +231,18 @@ jobs:
         shell: bash
         run: |
           set -u
-          : > g4-CLAUDE_CODE_DIRECT.jsonl
+          OUT_DIR="${RUNNER_TEMP}/g4-results"
+          mkdir -p "$OUT_DIR"
+          : > "$OUT_DIR/g4-CLAUDE_CODE_DIRECT.jsonl"
           for i in $(seq 1 23); do
-            python3 ops/qualification/run_g4_round.py --path CLAUDE_CODE_DIRECT --round "$i" --source-sha "$GITHUB_SHA" --out "round-$i.jsonl"
-            cat "round-$i.jsonl" >> g4-CLAUDE_CODE_DIRECT.jsonl
+            python3 ops/qualification/run_g4_round.py --path CLAUDE_CODE_DIRECT --round "$i" --source-sha "$GITHUB_SHA" --out "$OUT_DIR/round-$i.jsonl"
+            cat "$OUT_DIR/round-$i.jsonl" >> "$OUT_DIR/g4-CLAUDE_CODE_DIRECT.jsonl"
           done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: g4-CLAUDE_CODE_DIRECT-${{ github.sha }}
-          path: g4-CLAUDE_CODE_DIRECT.jsonl
+          path: ${{ runner.temp }}/g4-results/g4-CLAUDE_CODE_DIRECT.jsonl
           if-no-files-found: error
 
   aggregate:
