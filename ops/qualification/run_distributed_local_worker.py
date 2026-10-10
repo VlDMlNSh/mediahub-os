@@ -265,6 +265,37 @@ def extract_marked_artifact(output: str) -> str | None:
     return artifact or None
 
 
+def extract_validated_artifact(
+    output: str,
+    target_sha: str,
+    required_terms: list[str],
+    forbidden_terms: list[str] | None = None,
+    forbidden_patterns: list[str] | None = None,
+) -> str | None:
+    """Accept a marked artifact or a raw Markdown response only after strict contract validation."""
+    marked = extract_marked_artifact(output)
+    candidate = marked if marked is not None else output.strip()
+    if not candidate or target_sha not in candidate:
+        return None
+    if marked is None and ("ASTRA_ARTIFACT_BEGIN" in candidate or "ASTRA_ARTIFACT_END" in candidate):
+        return None
+    if not all(str(term).lower() in candidate.lower() for term in required_terms):
+        return None
+    if any(str(term).lower() in candidate.lower() for term in (forbidden_terms or [])):
+        return None
+    if re.search(r"https?://", candidate, re.IGNORECASE):
+        return None
+    for pattern in forbidden_patterns or []:
+        if re.search(pattern, candidate):
+            return None
+    lines = candidate.splitlines()
+    if not lines:
+        return None
+    if not lines[0].lstrip().startswith("#"):
+        lines[0] = "# " + lines[0].strip()
+    return "\n".join(lines).strip()
+
+
 def _materialize_bounded_claude_tool_output(output: str, boundary: str) -> str | None:
     """Materialize only an exact-boundary Write/Edit emitted by the real Claude client."""
     candidates: list[dict] = []
@@ -679,7 +710,15 @@ def main() -> int:
                                 build = artifact
                                 build["materialized_tool_output"] = materialized_tool
                                 break
-                    artifact_text = extract_marked_artifact(output)
+                    contract = task.get("artifact_contract", {})
+                    expected_terms = contract.get("required_terms", document_facts) if isinstance(contract, dict) else document_facts
+                    artifact_text = extract_validated_artifact(
+                        output,
+                        target_sha,
+                        [str(item) for item in expected_terms],
+                        [str(item) for item in contract.get("forbidden_terms", [])] if isinstance(contract, dict) else [],
+                        [str(item) for item in contract.get("forbidden_patterns", [])] if isinstance(contract, dict) else [],
+                    )
                     if artifact.get("returncode") == 0 and artifact_text:
                         required_tokens = [
                             node_id,

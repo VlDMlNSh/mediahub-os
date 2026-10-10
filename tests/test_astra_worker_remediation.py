@@ -189,3 +189,29 @@ def test_queue_002_document_satisfies_its_literal_artifact_contract():
     assert all(term.casefold() not in document for term in contract["forbidden_terms"])
     target_sha = "3e3c4daa62095d3049c8dcf121a614250ec5ebfc"
     assert target_sha in document
+
+
+def test_raw_markdown_fallback_requires_sha_and_all_contract_terms():
+    target_sha = "a" * 40
+    terms = ["mh-dev-01 as controller/authority", "fail-closed promotion"]
+    raw = (
+        "Astra Operations Contract\n"
+        "mh-dev-01 as controller/authority\n"
+        "fail-closed promotion\n"
+        f"Target SHA: {target_sha}\n"
+    )
+    artifact = worker.extract_validated_artifact(raw, target_sha, terms)
+    assert artifact is not None
+    assert artifact.startswith("# Astra Operations Contract")
+    assert target_sha in artifact
+    assert worker.extract_validated_artifact(raw.replace(target_sha, "b" * 40), target_sha, terms) is None
+    assert worker.extract_validated_artifact(raw, target_sha, terms + ["missing phrase"]) is None
+
+
+def test_raw_markdown_fallback_rejects_forbidden_terms_urls_and_bad_markers():
+    target_sha = "c" * 40
+    terms = ["required topology term"]
+    raw = f"Topology\nrequired topology term\nTarget SHA: {target_sha}"
+    assert worker.extract_validated_artifact(raw, target_sha, terms, ["Topology"]) is None
+    assert worker.extract_validated_artifact(raw + "\nhttps://example.invalid", target_sha, terms) is None
+    assert worker.extract_validated_artifact("ASTRA_ARTIFACT_BEGIN\n" + raw, target_sha, terms) is None
