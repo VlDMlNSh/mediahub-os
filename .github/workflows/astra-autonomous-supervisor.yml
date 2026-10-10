@@ -126,7 +126,9 @@ jobs:
       - distributed-verification
       - local-claude-qualification
       - provider-qualification
-    runs-on: ubuntu-latest
+    # The account currently has no schedulable GitHub-hosted runner. Use the
+    # dedicated Astra control runner on the Mac and exclude its own executor lane.
+    runs-on: [self-hosted, macOS, ARM64, astra-control]
     timeout-minutes: 180
     permissions:
       contents: read
@@ -140,6 +142,7 @@ jobs:
       ASTRA_SINGLE_CONTROLLER_RUN: "1"
       ASTRA_CONTROLLER_CONCURRENCY_WAIT_SECONDS: "5400"
       ASTRA_CONTROLLER_CONCURRENCY_POLL_SECONDS: "30"
+      ASTRA_CONTROLLER_NODE_ID: "Voktors-Mac-mini.local"
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4

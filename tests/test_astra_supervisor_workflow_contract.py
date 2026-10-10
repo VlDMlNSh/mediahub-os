@@ -23,7 +23,9 @@ class AstraSupervisorWorkflowContractTests(unittest.TestCase):
         queue_start = self.text.index("  autonomous-queue:")
         queue_end = self.text.index("  distributed-verification-postqueue:", queue_start)
         queue_job = self.text[queue_start:queue_end]
-        self.assertIn("runs-on: ubuntu-latest", queue_job)
+        self.assertIn("runs-on: [self-hosted, macOS, ARM64, astra-control]", queue_job)
+        self.assertIn('ASTRA_CONTROLLER_NODE_ID: "Voktors-Mac-mini.local"', queue_job)
+        self.assertIn("exclude its own executor lane", queue_job)
         self.assertIn("mediahub_runtime.autonomous_queue", queue_job)
         self.assertIn("validate_autonomous_queue_summary.py", queue_job)
         self.assertIn("astra-autonomous-queue-result-${{ github.run_id }}-${{ github.run_attempt }}", queue_job)

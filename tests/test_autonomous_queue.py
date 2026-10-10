@@ -948,3 +948,20 @@ def test_wait_for_controller_slot_times_out_with_active_run_identity(monkeypatch
         "status": "BLOCKED", "reason": "another_supervisor_run_active", "blocking_run_ids": [456]
     })
     assert autonomous_queue.wait_for_controller_slot()["reason"] == "controller_concurrency_wait_timeout"
+
+
+def test_select_distributed_tasks_excludes_controller_host_lane():
+    tasks = [
+        {"task_id": "mac", "node_id": "Voktors-Mac-mini.local", "executor": "claude", "priority": "P0"},
+        {"task_id": "one", "node_id": "mh-dev-01", "executor": "claude", "priority": "P0"},
+        {"task_id": "two", "node_id": "mh-dev-02", "executor": "claude", "priority": "P0"},
+    ]
+    selected = autonomous_queue.select_distributed_tasks(tasks, 3, excluded_nodes={"Voktors-Mac-mini.local"})
+    assert [item["task_id"] for item in selected] == ["one", "two"]
+
+
+def test_select_distributed_tasks_returns_empty_when_only_controller_lane_is_ready():
+    tasks = [{"task_id": "mac", "node_id": "Voktors-Mac-mini.local", "executor": "claude"}]
+    assert autonomous_queue.select_distributed_tasks(
+        tasks, 3, excluded_nodes={"Voktors-Mac-mini.local"}
+    ) == []

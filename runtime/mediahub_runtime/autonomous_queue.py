@@ -358,14 +358,20 @@ def load_tasks() -> list[dict]:
     return sorted(tasks, key=lambda x: (x.get("priority", "Z"), x.get("task_id", "")))
 
 
-def select_distributed_tasks(tasks: list[dict], max_workers: int = MAX_WORKERS) -> list[dict]:
-    """Select at most one active claim per permanent executor lane/node."""
+def select_distributed_tasks(
+    tasks: list[dict],
+    max_workers: int = MAX_WORKERS,
+    *,
+    excluded_nodes: set[str] | None = None,
+) -> list[dict]:
+    """Select one task per lane, excluding nodes occupied by the controller itself."""
     selected: list[dict] = []
     used_nodes: set[str] = set()
+    excluded = set(excluded_nodes or ())
     for task in tasks:
         node_id = str(task.get("node_id", "")).strip()
         executor = str(task.get("executor", "")).strip()
-        if node_id in used_nodes:
+        if node_id in excluded or node_id in used_nodes:
             continue
         if node_id not in PERMANENT_EXECUTOR_POOL or PERMANENT_EXECUTOR_POOL[node_id] != executor:
             continue
@@ -958,7 +964,20 @@ def main() -> int:
             "discovered_tasks": inventory,
         }, sort_keys=True))
         return 0
-    selected = select_distributed_tasks(tasks, MAX_WORKERS)
+    controller_node = str(os.environ.get("ASTRA_CONTROLLER_NODE_ID", "")).strip()
+    if controller_node and controller_node not in PERMANENT_EXECUTOR_POOL:
+        print(json.dumps({
+            "status": "BLOCKED",
+            "reason": "controller_node_identity_invalid",
+            "controller_node_id": controller_node,
+            "base_sha": base_sha,
+        }, sort_keys=True))
+        return 2
+    selected = select_distributed_tasks(
+        tasks,
+        MAX_WORKERS,
+        excluded_nodes={controller_node} if controller_node else None,
+    )
     if not selected:
         print(json.dumps({
             "status": "BLOCKED",
