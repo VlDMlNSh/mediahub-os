@@ -20,7 +20,7 @@ NODE_CONFIG = {
     "mh-dev-01": {
         "user": "mediahub-runner",
         "platform": "linux",
-        "model": "qwen2.5-coder:1.5b",
+        "model": "qwen2.5-coder:3b",
         "pool": "controller_local",
         "fcc_env": "/home/mediahub/.config/mediahub/fcc.env",
     },
@@ -565,28 +565,28 @@ def main() -> int:
             if executor == "claude" and attempt == builder_attempts:
                 boundaries = [str(x) for x in task.get("boundary", [])]
                 if len(boundaries) == 1 and boundaries[0].endswith(".md"):
-                    document_facts = [
-                        str(item) for item in task.get("acceptance", [])
-                        if "document" in str(item).lower() or "states" in str(item).lower()
-                    ]
+                    contract = task.get("artifact_contract", {})
+                    document_facts = contract.get("required_terms", []) if isinstance(contract, dict) else []
+                    if not document_facts:
+                        document_facts = [
+                            str(item) for item in task.get("acceptance", [])
+                            if "document" in str(item).lower() or "states" in str(item).lower()
+                        ]
                     artifact_prompt = (
-                        "Generate one concise Markdown operations document. Do not discuss Python, charts, "
-                        "regression examples, or hypothetical code. Do not emit tool calls. "
-                        "Return only the document between ASTRA_ARTIFACT_BEGIN and ASTRA_ARTIFACT_END. "
-                        f"Boundary: {boundaries[0]}. "
-                        f"Required node: {node_id}. Executor: {executor}. Verifier: {task['verifier']}. "
-                        f"Local model: {cfg['model']}. "
-                        f"Exact target SHA to include verbatim in the document: {target_sha}. "
-                        "The document must explicitly state the required facts below, using the exact identifiers "
-                        "and security terms: "
-                        + json.dumps(document_facts, sort_keys=True)
-                        + ". Also state target-SHA binding, isolated branch execution, GitHub evidence transport, "
-                        "fail-closed promotion, and no direct writes to main. No credentials or secrets. "
-                        "Evidence discipline is mandatory: do not invent IP addresses, ports, hostnames, URLs, "
-                        "resource sizes, branch names, configuration keys, configuration values, cloud deployment "
-                        "details, or runtime claims. Do not include YAML/configuration examples or token fields, "
-                        "even with redacted or placeholder values. If a detail is not explicitly in the required "
-                        "facts or supplied evidence, omit it. Prefer concise prose over illustrative configuration."
+                        "WRITE THE DOCUMENT NOW. Do not explain the task, make a plan, ask questions, "
+                        "or describe steps. Output only the complete Markdown document inside the exact "
+                        "ASTRA_ARTIFACT_BEGIN and ASTRA_ARTIFACT_END markers.\n"
+                        f"File: {boundaries[0]}\n"
+                        f"Node: {node_id}; executor: {executor}; verifier: {task['verifier']}; model: {cfg['model']}.\n"
+                        f"Exact target SHA (include verbatim): {target_sha}\n"
+                        "Include every following phrase exactly as written: "
+                        + json.dumps(document_facts, ensure_ascii=False)
+                        + ". Also include the phrases 'target-SHA binding', 'isolated branches', "
+                        "'fail-closed promotion', and 'no worker writes directly to main' where applicable. "
+                        "State only facts supplied in this prompt. Do not invent runtime evidence, addresses, "
+                        "ports, URLs, configuration, or deployment details. Do not include credentials, "
+                        "secrets, placeholders, or YAML. Keep the document under 250 words.\n"
+                        "Required output shape:\nASTRA_ARTIFACT_BEGIN\n# Document title\n...\nASTRA_ARTIFACT_END"
                     )
                     # The FCC/Ollama backend did not honor Claude Code JSON-schema
                     # output mode in a real run; after ~17 minutes it returned only
@@ -599,8 +599,8 @@ def main() -> int:
                         cfg["model"],
                         builder_timeout,
                         Path(os.environ["ASTRA_FCC_ENV_FILE"]),
-                        max_tokens=384,
-                        max_turns=3,
+                        max_tokens=512,
+                        max_turns=2,
                         tools_mode="",
                     )
                     attempt_records.append({

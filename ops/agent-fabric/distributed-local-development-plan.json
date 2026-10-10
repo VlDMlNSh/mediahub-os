@@ -124,7 +124,7 @@
       "node_id": "mh-dev-01",
       "role": "controller-local-executor-lane",
       "runner_label": "mediahub-control",
-      "model": "qwen2.5-coder:1.5b",
+      "model": "qwen2.5-coder:3b",
       "executor": "claude",
       "purpose": "permanent_claude_executor_lane"
     },
@@ -151,7 +151,7 @@
     {
       "node_id": "mh-dev-01",
       "executor": "claude",
-      "model": "qwen2.5-coder:1.5b",
+      "model": "qwen2.5-coder:3b",
       "role": "controller-local-executor-lane"
     },
     {

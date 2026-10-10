@@ -74,6 +74,8 @@ class AstraSupervisorWorkflowContractTests(unittest.TestCase):
         self.assertIn('echo "$install_dir" >> "$GITHUB_PATH"', job)
         self.assertIn('npm install --global --prefix "$install_prefix"', job)
         self.assertIn('"@anthropic-ai/claude-code@$CLAUDE_CODE_VERSION"', job)
+        self.assertIn("ASTRA_FCC_ENV_FILE: /home/mediahub/.config/mediahub/fcc.env", job)
+        self.assertIn("qwen2.5-coder:3b", job)
         self.assertIn('test -x "$install_dir/claude"', job)
         self.assertIn('"$install_dir/claude" --version | grep -F "$CLAUDE_CODE_VERSION"', job)
         self.assertNotIn("claude.ai/install.sh", job)

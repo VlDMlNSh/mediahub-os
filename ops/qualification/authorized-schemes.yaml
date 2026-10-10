@@ -20,7 +20,7 @@ authorized_pass:
 pending:
   - id: ASTRA-GOLD-3-LANE-LOCAL-FABRIC
     topology:
-      - {node_id: mh-dev-01, executor: claude, model: qwen2.5-coder:1.5b}
+      - {node_id: mh-dev-01, executor: claude, model: qwen2.5-coder:3b}
       - {node_id: mh-dev-02, executor: codex, model: qwen2.5-coder:3b}
       - {node_id: Voktors-Mac-mini.local, executor: claude, model: qwen2.5-coder:1.5b}
     max_parallel_claims: 3

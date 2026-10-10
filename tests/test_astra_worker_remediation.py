@@ -92,8 +92,8 @@ def test_artifact_contract_rejects_invented_configuration_and_placeholders(tmp_p
 
 def test_document_fallback_prompt_forbids_unsupported_operational_details():
     source = Path(worker.__file__).read_text(encoding="utf-8")
-    assert "do not invent IP addresses, ports, hostnames, URLs" in source
-    assert "Do not include YAML/configuration examples or token fields" in source
+    assert "Do not invent runtime evidence, addresses" in source
+    assert "Do not include credentials" in source
 
 
 def test_marked_document_fallback_extracts_only_the_exact_envelope():
@@ -120,7 +120,9 @@ def test_claude_output_budget_is_applied_and_document_fallback_avoids_json_schem
     source = Path(worker.__file__).read_text(encoding="utf-8")
     assert 'env["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] = str(max(1, min(int(max_tokens), 4096)))' in source
     assert "artifact_schema = {" not in source
-    assert "max_tokens=384," in source
+    assert "max_tokens=512," in source
+    assert "WRITE THE DOCUMENT NOW." in source
+    assert "Do not explain the task, make a plan, ask questions" in source
     assert "extract_marked_artifact(output)" in source
 
 
@@ -150,7 +152,7 @@ def test_canonical_queue_task_disallows_no_change_pass_and_requires_sha_contract
 
 def test_document_fallback_prompt_is_pinned_to_target_sha():
     source = Path(worker.__file__).read_text(encoding="utf-8")
-    assert 'Exact target SHA to include verbatim in the document: {target_sha}.' in source
+    assert 'Exact target SHA (include verbatim): {target_sha}' in source
     assert 'artifact_contract_target_sha_missing' in source
 
 
