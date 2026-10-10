@@ -54,6 +54,8 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-02"
           test "$(id -un)" = "mediahub"
+          echo "/home/mediahub/.local/bin" >> "$GITHUB_PATH"
+          echo "/home/mediahub/.local/npm/bin" >> "$GITHUB_PATH"
           command -v fcc-codex
           command -v codex
           command -v ollama
@@ -96,6 +98,8 @@ jobs:
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
           export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          echo "/home/mediahub/.local/bin" >> "$GITHUB_PATH"
+          echo "/home/mediahub/.local/npm/bin" >> "$GITHUB_PATH"
           command -v fcc-claude
           command -v claude
           command -v ollama
@@ -137,6 +141,8 @@ jobs:
           set -euo pipefail
           test "$(hostname)" = "mh-dev-02"
           test "$(id -un)" = "mediahub"
+          echo "/home/mediahub/.local/bin" >> "$GITHUB_PATH"
+          echo "/home/mediahub/.local/npm/bin" >> "$GITHUB_PATH"
           command -v omniroute
           command -v codex
           command -v ollama
@@ -179,6 +185,8 @@ jobs:
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
           export PATH="/home/mediahub/.local/bin:/home/mediahub/.local/npm/bin:$PATH"
+          echo "/home/mediahub/.local/bin" >> "$GITHUB_PATH"
+          echo "/home/mediahub/.local/npm/bin" >> "$GITHUB_PATH"
           command -v omniroute
           command -v claude
           command -v ollama
@@ -222,6 +230,8 @@ jobs:
           test "$host" = "Voktors-Mini.Dlink" || test "$host" = "Voktors-Mac-mini"
           test "$(id -un)" = "voktor"
           export PATH="$HOME/.local/bin:$HOME/.local/npm/bin:$PATH"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "$HOME/.local/npm/bin" >> "$GITHUB_PATH"
           command -v claude
           command -v ollama
           ollama show qwen2.5-coder:1.5b >/dev/null
