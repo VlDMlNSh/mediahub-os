@@ -30,7 +30,7 @@ def test_node_config_has_primary_and_fast_pools():
     assert worker.NODE_CONFIG["mh-dev-02"]["pool"] == "primary_local"
     assert worker.NODE_CONFIG["mh-dev-02"]["model"] == "qwen2.5-coder:3b"
     assert worker.NODE_CONFIG["Voktors-Mac-mini.local"]["pool"] == "fast_local"
-    assert worker.NODE_CONFIG["Voktors-Mac-mini.local"]["model"] == "qwen2.5-coder:1.5b"
+    assert worker.NODE_CONFIG["Voktors-Mac-mini.local"]["model"] == "qwen2.5-coder:3b"
     assert worker.NODE_CONFIG["mh-dev-01"]["model"] == "qwen2.5-coder:3b"
     assert worker.NODE_CONFIG["mh-dev-01"]["fcc_env"] == "/home/mediahub/.config/mediahub/fcc.env"
 

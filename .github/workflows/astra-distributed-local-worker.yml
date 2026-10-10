@@ -380,7 +380,10 @@ jobs:
           test "${ASTRA_EXECUTOR}" = "claude"
           command -v claude
           command -v ollama
-          ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'
+          if ! ollama list | grep -E '^qwen2.5-coder:3b[[:space:]]' >/dev/null; then
+            ollama pull qwen2.5-coder:3b
+          fi
+          ollama list | grep -E '^qwen2.5-coder:3b[[:space:]]'
       - name: Execute bounded local worker
         shell: bash
         run: python3 ops/qualification/run_distributed_local_worker.py

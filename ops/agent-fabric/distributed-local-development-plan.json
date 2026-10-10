@@ -140,7 +140,7 @@
       "node_id": "Voktors-Mac-mini.local",
       "role": "fast-local-executor-pool",
       "runner_label": "astra-control",
-      "model": "qwen2.5-coder:1.5b",
+      "model": "qwen2.5-coder:3b",
       "executor": "claude",
       "purpose": "permanent_claude_executor_lane"
     }
@@ -163,7 +163,7 @@
     {
       "node_id": "Voktors-Mac-mini.local",
       "executor": "claude",
-      "model": "qwen2.5-coder:1.5b",
+      "model": "qwen2.5-coder:3b",
       "role": "fast-local-executor-pool"
     }
   ],

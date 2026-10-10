@@ -34,14 +34,14 @@ NODE_CONFIG = {
     "Voktors-Mini.Dlink": {
         "user": "voktor",
         "platform": "macos",
-        "model": "qwen2.5-coder:1.5b",
+        "model": "qwen2.5-coder:3b",
         "pool": "fast_local",
         "fcc_env": "/Users/voktor/Library/Application Support/MediaHub/fcc.env",
     },
     "Voktors-Mac-mini.local": {
         "user": "voktor",
         "platform": "macos",
-        "model": "qwen2.5-coder:1.5b",
+        "model": "qwen2.5-coder:3b",
         "pool": "fast_local",
         "fcc_env": "/Users/voktor/Library/Application Support/MediaHub/fcc.env",
     },

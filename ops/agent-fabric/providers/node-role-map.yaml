@@ -28,7 +28,7 @@ execution_pools:
     runner_label: astra-control
     providers:
       - CLAUDE_LOCAL_FCC
-    model: qwen2.5-coder:1.5b
+    model: qwen2.5-coder:3b
     executor: claude
     max_parallel_executors: 1
     require_disjoint_claims: true
