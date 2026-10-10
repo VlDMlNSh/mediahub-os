@@ -476,7 +476,7 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
         return exec_codex(prompt, False, model, 240)
     if verifier == "claude":
         env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
-        return exec_claude(prompt, model, 240, env_file, 128, max_turns=2)[0]
+        return exec_claude(prompt, model, 720, env_file, 128, max_turns=2)[0]
     raise RuntimeError("unsupported_verifier")
 
 
@@ -560,7 +560,7 @@ def main() -> int:
     server = None
     try:
         builder_prompt_text = task_prompt(task, "A2 Builder")
-        builder_timeout = min(max(60, int(task.get("timeout_seconds", 1800))), 480)
+        builder_timeout = min(max(60, int(task.get("timeout_seconds", 1800))), 1200)
         builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 2))
         build = {"returncode": 1, "stdout": "", "stderr": "builder_not_run"}
         attempt_records = []
