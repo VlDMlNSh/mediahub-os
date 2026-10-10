@@ -408,7 +408,8 @@ def test_remote_dispatch_rejects_unknown_nodes():
 
 def test_worker_has_bounded_builder_retry_for_no_change_outcome():
     worker = (Path(__file__).resolve().parents[1] / "ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
-    assert 'builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 2))' in worker
+    assert 'builder_attempts = 1 if document_only_task else max(1, min(int(task.get("builder_attempts", 2)), 2))' in worker
+    assert 'document_only_task = executor == "claude"' in worker
     assert 'RETRY REQUIREMENT' in worker
     assert 'changed_probe = changed_paths(target_sha)' in worker
     assert 'no_changes' in worker

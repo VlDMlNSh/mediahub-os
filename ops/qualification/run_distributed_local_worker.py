@@ -236,6 +236,54 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
         shutil.rmtree(isolated_config, ignore_errors=True)
     return {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}, server
 
+
+def document_required_terms(task: dict, node_id: str, executor: str, model: str) -> list[str]:
+    """Return literal contract terms for a model-authored Markdown deliverable."""
+    return [
+        f"node identity {node_id}",
+        f"executor identity {executor}",
+        f"local model {model}",
+        f"verifier identity {task['verifier']}",
+        "executor-only authority boundary",
+        "target-SHA bound",
+        "branch isolated",
+        "fail-closed",
+        "never writes directly to main",
+        "no credentials or secrets",
+    ]
+
+
+def document_generation_prompt(task: dict, target_sha: str, required_terms: list[str]) -> str:
+    """Ask the executor to author the deliverable, rather than echo a prefilled document."""
+    requirements = "\n".join(f"- {term}" for term in required_terms)
+    acceptance = "\n".join(f"- {item}" for item in task.get("acceptance", []))
+    return (
+        "Author one concise, original Markdown operations contract for this task. "
+        "This is a real executor task: compose the document yourself from the requirements; "
+        "do not merely repeat this prompt or copy a prewritten template. Do not claim tests "
+        "or runtime checks passed unless the worker's later evidence proves them. Do not include "
+        "credentials, secrets, invented endpoints, or unsupported operational claims.\n"
+        f"Task: {task['task_id']}\n"
+        f"Mission: {task['mission']}\n"
+        f"Boundary: {', '.join(str(x) for x in task.get('boundary', []))}\n"
+        f"Acceptance criteria:\n{acceptance}\n"
+        f"Required literal phrases (include each verbatim):\n{requirements}\n"
+        f"Target SHA (include exactly): {target_sha}\n"
+        "Return only the finished document enclosed by ASTRA_ARTIFACT_BEGIN and "
+        "ASTRA_ARTIFACT_END on separate lines. Keep it concise and factual."
+    )
+
+
+def validate_generated_document(output: str, target_sha: str, required_terms: list[str]) -> str | None:
+    """Accept only model-authored document text bound to this SHA and exact contract terms."""
+    candidate = extract_marked_artifact(output) or output.strip()
+    if not candidate or target_sha not in candidate:
+        return None
+    folded = candidate.casefold()
+    if not all(term.casefold() in folded for term in required_terms):
+        return None
+    return candidate
+
 def scope_paths(task: dict, changed: set[str]) -> list[str]:
     boundary = tuple(str(x) for x in task.get("boundary", []))
     forbidden = tuple(str(x) for x in task.get("forbidden", task.get("forbidden_surfaces", [])))
@@ -561,7 +609,9 @@ def main() -> int:
     try:
         builder_prompt_text = task_prompt(task, "A2 Builder")
         builder_timeout = min(max(60, int(task.get("timeout_seconds", 1800))), 1200)
-        builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 2))
+        boundaries = [str(x) for x in task.get("boundary", [])]
+        document_only_task = executor == "claude" and len(boundaries) == 1 and boundaries[0].endswith(".md")
+        builder_attempts = 1 if document_only_task else max(1, min(int(task.get("builder_attempts", 2)), 2))
         build = {"returncode": 1, "stdout": "", "stderr": "builder_not_run"}
         attempt_records = []
         for attempt in range(1, builder_attempts + 1):
@@ -574,7 +624,35 @@ def main() -> int:
                     "do not merely explain what should be changed. Finish only after the file "
                     "contains the requested regression coverage."
                 )
-            if executor == "codex":
+            if document_only_task:
+                required_terms = document_required_terms(task, node_id, executor, cfg["model"])
+                artifact_prompt = document_generation_prompt(task, target_sha, required_terms)
+                build, server = exec_claude(
+                    artifact_prompt,
+                    cfg["model"],
+                    min(builder_timeout, 600),
+                    Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+                    max_tokens=384,
+                    max_turns=1,
+                    tools_mode="",
+                    system_prompt=(
+                        "Author an original concise Markdown operations contract from the requirements. "
+                        "Do not use tools, copy a prefilled template, claim verification results, or include secrets. "
+                        "Return only the requested ASTRA_ARTIFACT_BEGIN/END envelope."
+                    ),
+                )
+                artifact_text = validate_generated_document(build.get("stdout", ""), target_sha, required_terms)
+                if build.get("returncode") == 0 and artifact_text:
+                    artifact_path = ROOT / boundaries[0]
+                    artifact_path.parent.mkdir(parents=True, exist_ok=True)
+                    artifact_path.write_text(artifact_text + "\n", encoding="utf-8")
+                    if boundaries[0] in changed_paths(target_sha):
+                        build["materialized_artifact"] = boundaries[0]
+                    else:
+                        build = {"returncode": 1, "stdout": build.get("stdout", ""), "stderr": "document_materialization_failed"}
+                elif build.get("returncode") == 0:
+                    build = {"returncode": 1, "stdout": build.get("stdout", ""), "stderr": "document_output_contract_failed"}
+            elif executor == "codex":
                 build = exec_codex(attempt_prompt, True, cfg["model"], builder_timeout)
             else:
                 build, server = exec_claude(
@@ -595,157 +673,6 @@ def main() -> int:
             changed_probe = changed_paths(target_sha)
             if changed_probe:
                 break
-            if executor == "claude" and attempt == builder_attempts:
-                boundaries = [str(x) for x in task.get("boundary", [])]
-                if len(boundaries) == 1 and boundaries[0].endswith(".md"):
-                    contract = task.get("artifact_contract", {})
-                    document_facts = contract.get("required_terms", []) if isinstance(contract, dict) else []
-                    if not document_facts:
-                        document_facts = [
-                            str(item) for item in task.get("acceptance", [])
-                            if "document" in str(item).lower() or "states" in str(item).lower()
-                        ]
-                    document_facts = [str(item).strip() for item in document_facts if str(item).strip()]
-                    mandatory_terms = [
-                        f"{node_id} as the executor node",
-                        f"executor identity {executor}",
-                        f"verifier identity {task['verifier']}",
-                        "target-SHA binding",
-                        "isolated branches",
-                        "fail-closed promotion",
-                        "no worker writes directly to main",
-                        "no credentials or secrets",
-                    ]
-                    for term in mandatory_terms:
-                        if not any(term.lower() in item.lower() for item in document_facts):
-                            document_facts.append(term)
-                    required_bullets = "\n".join(f"- {item}" for item in document_facts)
-                    artifact_prompt = (
-                        "WRITE THE DOCUMENT NOW. Reproduce the following Markdown template exactly. "
-                        "Do not add, remove, paraphrase, or reorder text. Do not wrap it in a code fence. "
-                        "Do not add URLs, configuration examples, credentials, placeholders, or unsupported runtime claims.\n"
-                        "ASTRA_ARTIFACT_BEGIN\n"
-                        "# Astra Operations Contract\n"
-                        "## Execution metadata\n"
-                        f"- Node: {node_id}\n"
-                        f"- Executor: {executor}\n"
-                        f"- Verifier: {task['verifier']}\n"
-                        f"- Model: {cfg['model']}\n"
-                        "## Required contract terms\n"
-                        + required_bullets
-                        + f"\n## Target SHA\n{target_sha}\n"
-                        "ASTRA_ARTIFACT_END"
-                    )
-                    # The FCC/Ollama backend did not honor Claude Code JSON-schema
-                    # output mode in a real run; after ~17 minutes it returned only
-                    # {"args-json-object":"{}"} instead of the requested document.
-                    # Request a bounded plain-text envelope and parse that envelope below.
-                    artifact, server = exec_claude(
-                        artifact_prompt,
-                        cfg["model"],
-                        builder_timeout,
-                        Path(os.environ["ASTRA_FCC_ENV_FILE"]),
-                        max_tokens=1024,
-                        max_turns=1,
-                        tools_mode="",
-                        system_prompt=(
-                            "You are a strict literal document-template renderer. Reproduce the user's "
-                            "supplied Markdown template exactly. Do not paraphrase, explain, omit lines, "
-                            "add text, use a code fence, or continue after the final marker."
-                        ),
-                    )
-                    attempt_records.append({
-                        "attempt": attempt,
-                        "mode": "artifact_fallback",
-                        "returncode": artifact.get("returncode"),
-                        "stdout": artifact.get("stdout", "")[-4000:],
-                        "stderr": artifact.get("stderr", "")[-3000:],
-                    })
-                    output = artifact.get("stdout", "")
-                    structured_markdown = None
-                    if artifact.get("returncode") == 0:
-                        try:
-                            structured_payload = json.loads(output)
-                            structured_markdown = str(
-                                structured_payload.get("structured_output", {}).get("markdown", "")
-                                if isinstance(structured_payload.get("structured_output"), dict)
-                                else ""
-                            ).strip()
-                            if not structured_markdown and isinstance(structured_payload.get("result"), str):
-                                inner = structured_payload["result"]
-                                artifact_match = re.search(
-                                    r"__ASTRA_ARTIFACT_BEGIN__\s*(.*?)\s*__ASTRA_ARTIFACT_END__",
-                                    inner,
-                                    re.DOTALL,
-                                )
-                                if artifact_match:
-                                    structured_markdown = artifact_match.group(1).strip()
-                        except (json.JSONDecodeError, AttributeError, TypeError):
-                            structured_markdown = None
-                    if structured_markdown and boundaries:
-                        required_tokens = [
-                            node_id,
-                            executor,
-                            task["verifier"],
-                            cfg["model"],
-                            "target-SHA",
-                            "fail-closed",
-                            "main",
-                        ]
-                        if all(token.lower() in structured_markdown.lower() for token in required_tokens):
-                            artifact_path = ROOT / boundaries[0]
-                            artifact_path.parent.mkdir(parents=True, exist_ok=True)
-                            artifact_path.write_text(structured_markdown + "\n", encoding="utf-8")
-                            changed_probe = changed_paths(target_sha)
-                            if changed_probe:
-                                build = artifact
-                                build["materialized_structured_artifact"] = boundaries[0]
-                                break
-                    materialized_tool = None
-                    if artifact.get("returncode") == 0 and boundaries:
-                        materialized_tool = _materialize_bounded_claude_tool_output(output, boundaries[0])
-                        if materialized_tool:
-                            changed_probe = changed_paths(target_sha)
-                            if changed_probe:
-                                build = artifact
-                                build["materialized_tool_output"] = materialized_tool
-                                break
-                    contract = task.get("artifact_contract", {})
-                    expected_terms = contract.get("required_terms", document_facts) if isinstance(contract, dict) else document_facts
-                    artifact_text = extract_validated_artifact(
-                        output,
-                        target_sha,
-                        [str(item) for item in expected_terms],
-                        [str(item) for item in contract.get("forbidden_terms", [])] if isinstance(contract, dict) else [],
-                        [str(item) for item in contract.get("forbidden_patterns", [])] if isinstance(contract, dict) else [],
-                    )
-                    if artifact.get("returncode") == 0 and artifact_text:
-                        required_tokens = [
-                            node_id,
-                            executor,
-                            task["verifier"],
-                            cfg["model"],
-                            "target-SHA",
-                            "fail-closed",
-                            "main",
-                        ]
-                        if not all(token.lower() in artifact_text.lower() for token in required_tokens):
-                            attempt_records.append({
-                                "attempt": attempt,
-                                "mode": "artifact_validation",
-                                "returncode": 1,
-                                "stderr": "artifact_missing_required_contract_terms",
-                                "stdout": artifact_text[-4000:],
-                            })
-                        else:
-                            artifact_path = ROOT / boundaries[0]
-                            artifact_path.parent.mkdir(parents=True, exist_ok=True)
-                            artifact_path.write_text(artifact_text + "\n", encoding="utf-8")
-                            changed_probe = changed_paths(target_sha)
-                            if changed_probe:
-                                build = artifact
-                                build["materialized_artifact"] = boundaries[0]
-                                break
         record["builder"] = build
         record["builder_attempts"] = attempt_records
         if build["returncode"] != 0:

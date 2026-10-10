@@ -90,10 +90,14 @@ def test_artifact_contract_rejects_invented_configuration_and_placeholders(tmp_p
         ), bad_line
 
 
-def test_document_fallback_prompt_forbids_unsupported_operational_details():
-    source = Path(worker.__file__).read_text(encoding="utf-8")
-    assert "unsupported runtime claims" in source
-    assert "Do not add URLs, configuration examples, credentials, placeholders" in source
+def test_document_generation_prompt_forbids_unsupported_operational_details():
+    task = {"task_id": "TASK-1", "verifier": "claude", "mission": "Document the executor.",
+            "boundary": ["docs/contract.md"], "acceptance": []}
+    terms = worker.document_required_terms(task, "mh-dev-01", "claude", "qwen2.5-coder:3b")
+    prompt = worker.document_generation_prompt(task, "a" * 40, terms)
+    assert "unsupported operational claims" in prompt
+    assert "credentials, secrets" in prompt
+    assert "a" * 40 in prompt
 
 
 def test_marked_document_fallback_extracts_only_the_exact_envelope():
@@ -116,24 +120,26 @@ def test_marked_document_fallback_rejects_missing_or_empty_envelopes():
     assert worker.extract_marked_artifact("ASTRA_ARTIFACT_BEGIN\n\nASTRA_ARTIFACT_END") is None
 
 
-def test_claude_output_budget_is_applied_and_document_fallback_avoids_json_schema():
+def test_claude_document_generation_is_bounded_and_does_not_use_prefilled_template():
     source = Path(worker.__file__).read_text(encoding="utf-8")
-    assert 'env["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] = str(max(1, min(int(max_tokens), 4096)))' in source
-    assert "artifact_schema = {" not in source
-    assert "max_tokens=1024," in source
-    assert "WRITE THE DOCUMENT NOW." in source
-    assert 'builder_timeout = min(max(60, int(task.get("timeout_seconds", 1800))), 1200)' in source
-    assert 'builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 2))' in source
-    assert 'max_turns=3,' in source
-    assert "Reproduce the following Markdown template exactly" in source
-    assert "[complete Markdown document]" not in source
-    assert "system_prompt: str | None = None" in source
-    assert 'command.extend(["--system-prompt", system_prompt, "--no-session-persistence"])' in source
-    assert "strict literal document-template renderer" in source
-    assert "f\"- Model: {cfg['model']}\\n\"" in source
-    assert "f\"- Verifier: {task['verifier']}\\n\"" in source
-    assert "extract_marked_artifact(output)" in source
-    assert "exec_claude(prompt, model, 720, env_file, 128, max_turns=2)" in source
+    assert "document_only_task" in source
+    assert "max_tokens=384," in source
+    assert "max_turns=1," in source
+    assert "min(builder_timeout, 600)" in source
+    assert "document_output_contract_failed" in source
+    assert "Reproduce the following Markdown template exactly" not in source
+    assert "strict literal document-template renderer" not in source
+
+
+def test_generated_document_requires_target_sha_and_contract_terms():
+    task = {"verifier": "claude"}
+    terms = worker.document_required_terms(task, "mh-dev-01", "claude", "qwen2.5-coder:3b")
+    sha = "a" * 40
+    body = "# Contract\n" + "\n".join(terms) + "\nTarget SHA: " + sha
+    output = "ASTRA_ARTIFACT_BEGIN\n" + body + "\nASTRA_ARTIFACT_END"
+    assert worker.validate_generated_document(output, sha, terms) == body
+    assert worker.validate_generated_document(output, "b" * 40, terms) is None
+    assert worker.validate_generated_document(output.replace("executor-only authority boundary", "authority"), sha, terms) is None
 
 
 def test_verifier_requires_one_exact_pass_verdict():
@@ -160,10 +166,12 @@ def test_canonical_queue_task_disallows_no_change_pass_and_requires_sha_contract
     assert task["artifact_contract"]["path"] == task["deliverable"]
 
 
-def test_document_fallback_prompt_is_pinned_to_target_sha():
-    source = Path(worker.__file__).read_text(encoding="utf-8")
-    assert 'f"\\n## Target SHA\\n{target_sha}\\n"' in source
-    assert 'artifact_contract_target_sha_missing' in source
+def test_document_generation_prompt_binds_exact_target_sha():
+    task = {"task_id": "TASK-1", "verifier": "claude", "mission": "Document the executor.",
+            "boundary": ["docs/contract.md"], "acceptance": []}
+    terms = worker.document_required_terms(task, "mh-dev-01", "claude", "qwen2.5-coder:3b")
+    prompt = worker.document_generation_prompt(task, "a" * 40, terms)
+    assert "Target SHA (include exactly): " + "a" * 40 in prompt
 
 
 
