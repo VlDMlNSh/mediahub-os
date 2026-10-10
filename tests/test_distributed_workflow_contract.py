@@ -132,6 +132,14 @@ class DistributedWorkflowContractTests(unittest.TestCase):
             self.assertIn("contents: read", text)
             self.assertNotIn("contents: write", text)
 
+    def test_supervisor_orchestrator_does_not_occupy_controller_worker_lane(self):
+        workflow = yaml.safe_load(Path(".github/workflows/astra-autonomous-supervisor.yml").read_text(encoding="utf-8"))
+        supervise = workflow["jobs"]["supervise"]
+        self.assertEqual(supervise["runs-on"], "ubuntu-latest")
+        identity_step = next(step for step in supervise["steps"] if step.get("name") == "Bind orchestrator identity to the signed command")
+        self.assertIn("ASTRA_NODE_ID=mh-dev-01", identity_step["run"])
+        self.assertNotIn('test "$host" = "mh-dev-01"', identity_step["run"])
+
     def test_supervisor_and_unified_gold_bind_execution_head_to_target_sha(self):
         supervisor = (ROOT / ".github/workflows/astra-autonomous-supervisor.yml").read_text(encoding="utf-8")
         unified = (ROOT / ".github/workflows/astra-gold-unified-qualification.yml").read_text(encoding="utf-8")
