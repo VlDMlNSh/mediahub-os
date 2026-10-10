@@ -246,28 +246,47 @@ def document_required_terms(task: dict, node_id: str, executor: str, model: str)
         f"node identity {node_id}",
         f"executor identity {executor}",
         f"local model {model}",
-        "Verifier Identity",
+        f"verifier identity {task['verifier']}",
         "executor-only authority boundary",
+        "no credentials or secrets",
     ])
+    acceptance_text = " ".join(str(item) for item in task.get("acceptance", []))
+    acceptance_phrases = (
+        "target-SHA bound",
+        "branch isolated",
+        "fail-closed",
+        "never writes directly to main",
+        "target-SHA binding",
+        "isolated branches",
+        "fail-closed promotion",
+        "no worker writes directly to main",
+        "GitHub evidence transport",
+        "G-5 = 3",
+        "permanent production executor matrix",
+    )
+    terms.extend(phrase for phrase in acceptance_phrases if phrase.casefold() in acceptance_text.casefold())
     return list(dict.fromkeys(terms))
 
 
 def document_generation_prompt(task: dict, target_sha: str, required_terms: list[str]) -> str:
     """Use a compact prompt so the local model can author the bounded contract within its output budget."""
     requirements = "\n".join(f"- {term}" for term in required_terms)
+    acceptance = "\n".join(f"- {item}" for item in task.get("acceptance", []))
     boundary = ", ".join(str(x) for x in task.get("boundary", []))
     return (
         f"Write one concise, original Markdown operations contract for task {task['task_id']}.\n"
+        f"Mission: {task.get('mission', 'Document the verified executor contract.')}.\n"
         f"Deliverable: {boundary}.\n"
         "Use only these execution facts: the A2 Builder and independent A3 Verifier are Claude Code processes; "
         "the worker is bound to the exact target SHA, works on an isolated branch, returns evidence through GitHub, "
         "fails closed on any missing gate, and never writes directly to main. Do not make unsupported operational claims or claim tests passed without evidence. "
         "Do not include credentials, secrets, URLs, placeholders, or invented runtime facts.\n"
+        f"Acceptance criteria (satisfy each one):\n{acceptance}\n"
         "Include every required phrase below verbatim, with no paraphrases or omissions:\n"
         f"{requirements}\n"
         f"Exact target SHA (include verbatim): {target_sha}\n"
-        "Output only this envelope, with the complete document between the markers on separate lines:\n"
-        "ASTRA_ARTIFACT_BEGIN\n[complete original Markdown document]\nASTRA_ARTIFACT_END"
+        "Return plain text only: the complete, actual Markdown document must appear between a line containing ASTRA_ARTIFACT_BEGIN and a line containing ASTRA_ARTIFACT_END. "
+        "Do not print a sample envelope, square-bracketed placeholders, or instructions as document content."
     )
 
 

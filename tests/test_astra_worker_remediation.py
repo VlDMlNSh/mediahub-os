@@ -98,6 +98,9 @@ def test_document_generation_prompt_forbids_unsupported_operational_details():
     assert "unsupported operational claims" in prompt
     assert "credentials, secrets" in prompt
     assert "a" * 40 in prompt
+    assert "[complete original Markdown document]" not in prompt
+    assert "square-bracketed placeholders" in prompt
+    assert "Acceptance criteria (satisfy each one):" in prompt
 
 
 def test_marked_document_fallback_extracts_only_the_exact_envelope():
@@ -129,6 +132,21 @@ def test_claude_document_generation_is_bounded_and_does_not_use_prefilled_templa
     assert "document_output_contract_failed" in source
     assert "Reproduce the following Markdown template exactly" not in source
     assert "strict literal document-template renderer" not in source
+
+
+def test_document_required_terms_include_task_acceptance_language():
+    task = {
+        "verifier": "claude",
+        "acceptance": [
+            "The document is target-SHA bound, branch isolated, fail-closed, and never writes directly to main.",
+        ],
+    }
+    terms = worker.document_required_terms(task, "mh-dev-01", "claude", "qwen2.5-coder:3b")
+    assert "target-SHA bound" in terms
+    assert "branch isolated" in terms
+    assert "fail-closed" in terms
+    assert "never writes directly to main" in terms
+    assert "verifier identity claude" in terms
 
 
 def test_generated_document_requires_target_sha_and_contract_terms():
