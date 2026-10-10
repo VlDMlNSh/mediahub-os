@@ -18,7 +18,7 @@ MARKER = "MEDIAHUB_DISTRIBUTED_LOCAL_EXECUTOR_OK"
 VERDICT_MARKER = "ASTRA_VERDICT: PASS"
 NODE_CONFIG = {
     "mh-dev-01": {
-        "user": "mediahub",
+        "user": "mediahub-runner",
         "platform": "linux",
         "model": "qwen2.5-coder:1.5b",
         "pool": "controller_local",
