@@ -173,7 +173,7 @@ def test_document_generation_prompt_binds_exact_target_sha():
             "boundary": ["docs/contract.md"], "acceptance": []}
     terms = worker.document_required_terms(task, "mh-dev-01", "claude", "qwen2.5-coder:3b")
     prompt = worker.document_generation_prompt(task, "a" * 40, terms)
-    assert "Target SHA (include exactly): " + "a" * 40 in prompt
+    assert "Exact target SHA (include verbatim): " + "a" * 40 in prompt
 
 
 
