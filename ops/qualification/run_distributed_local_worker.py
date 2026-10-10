@@ -632,7 +632,7 @@ def main() -> int:
                     cfg["model"],
                     min(builder_timeout, 600),
                     Path(os.environ["ASTRA_FCC_ENV_FILE"]),
-                    max_tokens=384,
+                    max_tokens=1024,
                     max_turns=1,
                     tools_mode="",
                     system_prompt=(

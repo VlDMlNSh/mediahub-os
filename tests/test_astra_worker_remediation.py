@@ -123,7 +123,7 @@ def test_marked_document_fallback_rejects_missing_or_empty_envelopes():
 def test_claude_document_generation_is_bounded_and_does_not_use_prefilled_template():
     source = Path(worker.__file__).read_text(encoding="utf-8")
     assert "document_only_task" in source
-    assert "max_tokens=384," in source
+    assert "max_tokens=1024," in source
     assert "max_turns=1," in source
     assert "min(builder_timeout, 600)" in source
     assert "document_output_contract_failed" in source
