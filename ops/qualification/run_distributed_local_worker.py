@@ -603,9 +603,7 @@ def main() -> int:
                     # {"args-json-object":"{}"} instead of the requested document.
                     # Request a bounded plain-text envelope and parse that envelope below.
                     artifact, server = exec_claude(
-                        artifact_prompt
-                        + "\nReturn exactly this envelope, with no JSON or commentary: "
-                        + "\nASTRA_ARTIFACT_BEGIN\n[complete Markdown document]\nASTRA_ARTIFACT_END",
+                        artifact_prompt,
                         cfg["model"],
                         builder_timeout,
                         Path(os.environ["ASTRA_FCC_ENV_FILE"]),

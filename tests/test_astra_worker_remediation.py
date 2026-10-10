@@ -126,6 +126,7 @@ def test_claude_output_budget_is_applied_and_document_fallback_avoids_json_schem
     assert 'builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 2))' in source
     assert 'max_turns=3,' in source
     assert "Reproduce the following Markdown template exactly" in source
+    assert "[complete Markdown document]" not in source
     assert "extract_marked_artifact(output)" in source
 
 
