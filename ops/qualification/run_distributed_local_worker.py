@@ -173,7 +173,7 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
         }
 
 
-def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048, max_turns: int = 4, structured_schema: dict | None = None, tools_mode: str = "Read,Edit,Bash") -> tuple[dict, subprocess.Popen[str] | None]:
+def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048, max_turns: int = 4, structured_schema: dict | None = None, tools_mode: str = "Read,Edit,Bash", system_prompt: str | None = None) -> tuple[dict, subprocess.Popen[str] | None]:
     """Run the real Claude Code client through the node-local FCC transport."""
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
@@ -216,6 +216,8 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     env["CLAUDE_CONFIG_DIR"] = isolated_config
     try:
         command = [claude, "-p", prompt, "--max-turns", str(max_turns)]
+        if system_prompt:
+            command.extend(["--system-prompt", system_prompt, "--no-session-persistence"])
         if structured_schema is not None:
             command.extend([
                 "--output-format", "json",
@@ -613,8 +615,13 @@ def main() -> int:
                         builder_timeout,
                         Path(os.environ["ASTRA_FCC_ENV_FILE"]),
                         max_tokens=1024,
-                        max_turns=2,
+                        max_turns=1,
                         tools_mode="",
+                        system_prompt=(
+                            "You are a strict literal document-template renderer. Reproduce the user's "
+                            "supplied Markdown template exactly. Do not paraphrase, explain, omit lines, "
+                            "add text, use a code fence, or continue after the final marker."
+                        ),
                     )
                     attempt_records.append({
                         "attempt": attempt,

@@ -127,6 +127,9 @@ def test_claude_output_budget_is_applied_and_document_fallback_avoids_json_schem
     assert 'max_turns=3,' in source
     assert "Reproduce the following Markdown template exactly" in source
     assert "[complete Markdown document]" not in source
+    assert "system_prompt: str | None = None" in source
+    assert 'command.extend(["--system-prompt", system_prompt, "--no-session-persistence"])' in source
+    assert "strict literal document-template renderer" in source
     assert "f\"- Model: {cfg['model']}\\n\"" in source
     assert "f\"- Verifier: {task['verifier']}\\n\"" in source
     assert "extract_marked_artifact(output)" in source
