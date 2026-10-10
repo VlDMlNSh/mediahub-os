@@ -92,8 +92,8 @@ def test_artifact_contract_rejects_invented_configuration_and_placeholders(tmp_p
 
 def test_document_fallback_prompt_forbids_unsupported_operational_details():
     source = Path(worker.__file__).read_text(encoding="utf-8")
-    assert "Do not invent runtime evidence, addresses" in source
-    assert "Do not include credentials" in source
+    assert "unsupported runtime claims" in source
+    assert "Do not add URLs, configuration examples, credentials, placeholders" in source
 
 
 def test_marked_document_fallback_extracts_only_the_exact_envelope():
@@ -125,7 +125,7 @@ def test_claude_output_budget_is_applied_and_document_fallback_avoids_json_schem
     assert 'builder_timeout = min(max(60, int(task.get("timeout_seconds", 1800))), 480)' in source
     assert 'builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 2))' in source
     assert 'max_turns=3,' in source
-    assert "Do not explain the task, make a plan, ask questions" in source
+    assert "Reproduce the following Markdown template exactly" in source
     assert "extract_marked_artifact(output)" in source
 
 
@@ -155,7 +155,7 @@ def test_canonical_queue_task_disallows_no_change_pass_and_requires_sha_contract
 
 def test_document_fallback_prompt_is_pinned_to_target_sha():
     source = Path(worker.__file__).read_text(encoding="utf-8")
-    assert 'Exact target SHA (include verbatim): {target_sha}' in source
+    assert 'f"\\n## Target SHA\\n{target_sha}\\n"' in source
     assert 'artifact_contract_target_sha_missing' in source
 
 

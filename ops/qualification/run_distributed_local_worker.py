@@ -572,21 +572,31 @@ def main() -> int:
                             str(item) for item in task.get("acceptance", [])
                             if "document" in str(item).lower() or "states" in str(item).lower()
                         ]
+                    document_facts = [str(item).strip() for item in document_facts if str(item).strip()]
+                    mandatory_terms = [
+                        f"{node_id} as the executor node",
+                        f"executor identity {executor}",
+                        f"verifier identity {task['verifier']}",
+                        "target-SHA binding",
+                        "isolated branches",
+                        "fail-closed promotion",
+                        "no worker writes directly to main",
+                        "no credentials or secrets",
+                    ]
+                    for term in mandatory_terms:
+                        if not any(term.lower() in item.lower() for item in document_facts):
+                            document_facts.append(term)
+                    required_bullets = "\n".join(f"- {item}" for item in document_facts)
                     artifact_prompt = (
-                        "WRITE THE DOCUMENT NOW. Do not explain the task, make a plan, ask questions, "
-                        "or describe steps. Output only the complete Markdown document inside the exact "
-                        "ASTRA_ARTIFACT_BEGIN and ASTRA_ARTIFACT_END markers.\n"
-                        f"File: {boundaries[0]}\n"
-                        f"Node: {node_id}; executor: {executor}; verifier: {task['verifier']}; model: {cfg['model']}.\n"
-                        f"Exact target SHA (include verbatim): {target_sha}\n"
-                        "Include every following phrase exactly as written: "
-                        + json.dumps(document_facts, ensure_ascii=False)
-                        + ". Also include the phrases 'target-SHA binding', 'isolated branches', "
-                        "'fail-closed promotion', and 'no worker writes directly to main' where applicable. "
-                        "State only facts supplied in this prompt. Do not invent runtime evidence, addresses, "
-                        "ports, URLs, configuration, or deployment details. Do not include credentials, "
-                        "secrets, placeholders, or YAML. Keep the document under 250 words.\n"
-                        "Required output shape:\nASTRA_ARTIFACT_BEGIN\n# Document title\n...\nASTRA_ARTIFACT_END"
+                        "WRITE THE DOCUMENT NOW. Reproduce the following Markdown template exactly. "
+                        "Do not add, remove, paraphrase, or reorder text. Do not wrap it in a code fence. "
+                        "Do not add URLs, configuration examples, credentials, placeholders, or unsupported runtime claims.\n"
+                        "ASTRA_ARTIFACT_BEGIN\n"
+                        "# Astra Operations Contract\n"
+                        "## Required contract terms\n"
+                        + required_bullets
+                        + f"\n## Target SHA\n{target_sha}\n"
+                        "ASTRA_ARTIFACT_END"
                     )
                     # The FCC/Ollama backend did not honor Claude Code JSON-schema
                     # output mode in a real run; after ~17 minutes it returned only
