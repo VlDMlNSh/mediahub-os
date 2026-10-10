@@ -14,6 +14,13 @@ class G4GoldRunnerAdmissionContractTests(unittest.TestCase):
         doc = yaml.safe_load((ROOT / '.github/workflows/astra-gold-unified-qualification.yml').read_text())
         self.assertEqual(doc['jobs']['g4-admission']['runs-on'], ['self-hosted', 'linux', 'x64', 'mediahub-control'])
 
+    def test_g4_round_outputs_stay_outside_git_workspace_until_all_rounds_finish(self):
+        text = (ROOT / '.github/workflows/astra-g4-115-qualification.yml').read_text()
+        self.assertEqual(text.count('round_dir="$RUNNER_TEMP/astra-g4-'), 5)
+        self.assertEqual(text.count('--out "$round_dir/round-$i.jsonl"'), 5)
+        self.assertEqual(text.count('G4 round blocked: path='), 5)
+        self.assertNotIn('--out "round-$i.jsonl"', text)
+
     def test_gold_finds_g4_evidence_by_exact_sha_across_dispatch_refs(self):
         text = (ROOT / '.github/workflows/astra-gold-unified-qualification.yml').read_text()
         self.assertIn('actions/workflows/astra-g4-115-qualification.yml/runs?per_page=100', text)

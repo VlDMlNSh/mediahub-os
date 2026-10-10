@@ -64,10 +64,19 @@ jobs:
         shell: bash
         run: |
           set -u
-          : > g4-CODEX_FCC.jsonl
+          round_dir="$RUNNER_TEMP/astra-g4-CODEX_FCC"
+          mkdir -p "$round_dir"
           for i in $(seq 1 23); do
-            python3 ops/qualification/run_g4_round.py --path CODEX_FCC --round "$i" --source-sha "$GITHUB_SHA" --out "round-$i.jsonl"
-            cat "round-$i.jsonl" >> g4-CODEX_FCC.jsonl
+            if python3 ops/qualification/run_g4_round.py --path CODEX_FCC --round "$i" --source-sha "$GITHUB_SHA" --out "$round_dir/round-$i.jsonl"; then
+              :
+            else
+              rc=$?
+              echo "G4 round blocked: path=CODEX_FCC round=$i exit=$rc"
+            fi
+          done
+          : > g4-CODEX_FCC.jsonl
+          for round_file in "$round_dir"/round-*.jsonl; do
+            if test -s "$round_file"; then cat "$round_file" >> g4-CODEX_FCC.jsonl; fi
           done
       - uses: actions/upload-artifact@v4
         if: always()
@@ -104,10 +113,19 @@ jobs:
         shell: bash
         run: |
           set -u
-          : > g4-CLAUDE_FCC.jsonl
+          round_dir="$RUNNER_TEMP/astra-g4-CLAUDE_FCC"
+          mkdir -p "$round_dir"
           for i in $(seq 1 23); do
-            python3 ops/qualification/run_g4_round.py --path CLAUDE_FCC --round "$i" --source-sha "$GITHUB_SHA" --out "round-$i.jsonl"
-            cat "round-$i.jsonl" >> g4-CLAUDE_FCC.jsonl
+            if python3 ops/qualification/run_g4_round.py --path CLAUDE_FCC --round "$i" --source-sha "$GITHUB_SHA" --out "$round_dir/round-$i.jsonl"; then
+              :
+            else
+              rc=$?
+              echo "G4 round blocked: path=CLAUDE_FCC round=$i exit=$rc"
+            fi
+          done
+          : > g4-CLAUDE_FCC.jsonl
+          for round_file in "$round_dir"/round-*.jsonl; do
+            if test -s "$round_file"; then cat "$round_file" >> g4-CLAUDE_FCC.jsonl; fi
           done
       - uses: actions/upload-artifact@v4
         if: always()
@@ -143,10 +161,19 @@ jobs:
         shell: bash
         run: |
           set -u
-          : > g4-CODEX_OMNIROUTE.jsonl
+          round_dir="$RUNNER_TEMP/astra-g4-CODEX_OMNIROUTE"
+          mkdir -p "$round_dir"
           for i in $(seq 1 23); do
-            python3 ops/qualification/run_g4_round.py --path CODEX_OMNIROUTE --round "$i" --source-sha "$GITHUB_SHA" --out "round-$i.jsonl"
-            cat "round-$i.jsonl" >> g4-CODEX_OMNIROUTE.jsonl
+            if python3 ops/qualification/run_g4_round.py --path CODEX_OMNIROUTE --round "$i" --source-sha "$GITHUB_SHA" --out "$round_dir/round-$i.jsonl"; then
+              :
+            else
+              rc=$?
+              echo "G4 round blocked: path=CODEX_OMNIROUTE round=$i exit=$rc"
+            fi
+          done
+          : > g4-CODEX_OMNIROUTE.jsonl
+          for round_file in "$round_dir"/round-*.jsonl; do
+            if test -s "$round_file"; then cat "$round_file" >> g4-CODEX_OMNIROUTE.jsonl; fi
           done
       - uses: actions/upload-artifact@v4
         if: always()
@@ -183,10 +210,19 @@ jobs:
         shell: bash
         run: |
           set -u
-          : > g4-CLAUDE_OMNIROUTE.jsonl
+          round_dir="$RUNNER_TEMP/astra-g4-CLAUDE_OMNIROUTE"
+          mkdir -p "$round_dir"
           for i in $(seq 1 23); do
-            python3 ops/qualification/run_g4_round.py --path CLAUDE_OMNIROUTE --round "$i" --source-sha "$GITHUB_SHA" --out "round-$i.jsonl"
-            cat "round-$i.jsonl" >> g4-CLAUDE_OMNIROUTE.jsonl
+            if python3 ops/qualification/run_g4_round.py --path CLAUDE_OMNIROUTE --round "$i" --source-sha "$GITHUB_SHA" --out "$round_dir/round-$i.jsonl"; then
+              :
+            else
+              rc=$?
+              echo "G4 round blocked: path=CLAUDE_OMNIROUTE round=$i exit=$rc"
+            fi
+          done
+          : > g4-CLAUDE_OMNIROUTE.jsonl
+          for round_file in "$round_dir"/round-*.jsonl; do
+            if test -s "$round_file"; then cat "$round_file" >> g4-CLAUDE_OMNIROUTE.jsonl; fi
           done
       - uses: actions/upload-artifact@v4
         if: always()
@@ -223,10 +259,19 @@ jobs:
         shell: bash
         run: |
           set -u
-          : > g4-CLAUDE_CODE_DIRECT.jsonl
+          round_dir="$RUNNER_TEMP/astra-g4-CLAUDE_CODE_DIRECT"
+          mkdir -p "$round_dir"
           for i in $(seq 1 23); do
-            python3 ops/qualification/run_g4_round.py --path CLAUDE_CODE_DIRECT --round "$i" --source-sha "$GITHUB_SHA" --out "round-$i.jsonl"
-            cat "round-$i.jsonl" >> g4-CLAUDE_CODE_DIRECT.jsonl
+            if python3 ops/qualification/run_g4_round.py --path CLAUDE_CODE_DIRECT --round "$i" --source-sha "$GITHUB_SHA" --out "$round_dir/round-$i.jsonl"; then
+              :
+            else
+              rc=$?
+              echo "G4 round blocked: path=CLAUDE_CODE_DIRECT round=$i exit=$rc"
+            fi
+          done
+          : > g4-CLAUDE_CODE_DIRECT.jsonl
+          for round_file in "$round_dir"/round-*.jsonl; do
+            if test -s "$round_file"; then cat "$round_file" >> g4-CLAUDE_CODE_DIRECT.jsonl; fi
           done
       - uses: actions/upload-artifact@v4
         if: always()
