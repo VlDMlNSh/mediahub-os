@@ -88,6 +88,13 @@ def main() -> int:
         stdout = (exc.stdout or "")[-20000:] if isinstance(exc.stdout, str) else ""
         stderr = (exc.stderr or "")[-12000:] if isinstance(exc.stderr, str) else ""
         timed_out = True
+    except OSError as exc:
+        # A missing executor binary is a qualification result, not a crashed
+        # producer: emit signed-shape BLOCKED evidence so aggregation can explain it.
+        rc = 127
+        stdout = ""
+        stderr = f"{type(exc).__name__}: {exc}"[-12000:]
+        timed_out = False
 
     completed = time.time()
     combined = stdout + "\n" + stderr
