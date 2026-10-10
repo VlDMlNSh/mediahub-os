@@ -39,7 +39,7 @@ jobs:
     if: ${{ inputs.node_id == 'mh-dev-01' && inputs.executor == 'claude' }}
     name: Controller-host local Claude executor on mh-dev-01
     runs-on: [self-hosted, linux, x64, mediahub-control]
-    timeout-minutes: 30
+    timeout-minutes: 60
     env:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
@@ -58,6 +58,58 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          admission_failure() {
+            rc=$?
+            trap - EXIT
+            if [[ "$rc" -eq 0 ]]; then
+              return 0
+            fi
+            ASTRA_ADMISSION_EXIT_CODE="$rc" python3 - <<'PY'
+          import getpass
+          import json
+          import os
+          import shutil
+          import socket
+          import subprocess
+          from pathlib import Path
+          claude = shutil.which("claude")
+          ollama = shutil.which("ollama")
+          model_names = []
+          ollama_rc = None
+          if ollama:
+              try:
+                  probe = subprocess.run([ollama, "list"], capture_output=True, text=True, timeout=5, check=False)
+                  model_names = [line.split()[0] for line in probe.stdout.splitlines()[1:] if line.split()]
+                  ollama_rc = probe.returncode
+              except (OSError, subprocess.TimeoutExpired):
+                  ollama_rc = None
+          record = {
+              "schema_version": 1,
+              "runtime_diagnostics": {
+                  "runner_user": getpass.getuser(),
+                  "hostname": socket.gethostname(),
+                  "home_set": bool(os.environ.get("HOME")),
+                  "claude_path_found": bool(claude),
+                  "ollama_path_found": bool(ollama),
+                  "ollama_list_exit_code": ollama_rc,
+                  "ollama_model_names": model_names,
+              },
+              "status": "BLOCKED",
+              "phase": "canonical_admission",
+              "reason": "admission_check_failed",
+              "command_id": os.environ.get("ASTRA_COMMAND_ID", ""),
+              "target_sha": os.environ.get("ASTRA_TARGET_SHA", ""),
+              "node_id": os.environ.get("ASTRA_NODE_ID", ""),
+              "executor": os.environ.get("ASTRA_EXECUTOR", ""),
+              "exit_code": int(os.environ.get("ASTRA_ADMISSION_EXIT_CODE", "1")),
+          }
+          Path(os.environ["ASTRA_WORKER_RESULT"]).write_text(
+              json.dumps(record, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          PY
+            exit "$rc"
+          }
+          trap admission_failure EXIT
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
           test "${ASTRA_EXECUTOR}" = "claude"
@@ -71,7 +123,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: astra-distributed-worker-mh-dev-01-claude-${{ github.run_id }}
+          name: astra-distributed-worker-${{ github.run_id }}
           path: astra-distributed-worker-result.json
           if-no-files-found: error
           retention-days: 30
@@ -80,7 +132,7 @@ jobs:
     if: ${{ inputs.node_id == 'mh-dev-02' && inputs.executor == 'claude' }}
     name: Local Claude executor on mh-dev-02
     runs-on: [self-hosted, linux, x64, mediahub-provider]
-    timeout-minutes: 30
+    timeout-minutes: 60
     env:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
@@ -99,6 +151,58 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          admission_failure() {
+            rc=$?
+            trap - EXIT
+            if [[ "$rc" -eq 0 ]]; then
+              return 0
+            fi
+            ASTRA_ADMISSION_EXIT_CODE="$rc" python3 - <<'PY'
+          import getpass
+          import json
+          import os
+          import shutil
+          import socket
+          import subprocess
+          from pathlib import Path
+          claude = shutil.which("claude")
+          ollama = shutil.which("ollama")
+          model_names = []
+          ollama_rc = None
+          if ollama:
+              try:
+                  probe = subprocess.run([ollama, "list"], capture_output=True, text=True, timeout=5, check=False)
+                  model_names = [line.split()[0] for line in probe.stdout.splitlines()[1:] if line.split()]
+                  ollama_rc = probe.returncode
+              except (OSError, subprocess.TimeoutExpired):
+                  ollama_rc = None
+          record = {
+              "schema_version": 1,
+              "runtime_diagnostics": {
+                  "runner_user": getpass.getuser(),
+                  "hostname": socket.gethostname(),
+                  "home_set": bool(os.environ.get("HOME")),
+                  "claude_path_found": bool(claude),
+                  "ollama_path_found": bool(ollama),
+                  "ollama_list_exit_code": ollama_rc,
+                  "ollama_model_names": model_names,
+              },
+              "status": "BLOCKED",
+              "phase": "canonical_admission",
+              "reason": "admission_check_failed",
+              "command_id": os.environ.get("ASTRA_COMMAND_ID", ""),
+              "target_sha": os.environ.get("ASTRA_TARGET_SHA", ""),
+              "node_id": os.environ.get("ASTRA_NODE_ID", ""),
+              "executor": os.environ.get("ASTRA_EXECUTOR", ""),
+              "exit_code": int(os.environ.get("ASTRA_ADMISSION_EXIT_CODE", "1")),
+          }
+          Path(os.environ["ASTRA_WORKER_RESULT"]).write_text(
+              json.dumps(record, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          PY
+            exit "$rc"
+          }
+          trap admission_failure EXIT
           test "$(hostname)" = "mh-dev-02"
           test "$(id -un)" = "mediahub"
           test "${ASTRA_EXECUTOR}" = "claude"
@@ -112,7 +216,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: astra-distributed-worker-mh-dev-02-claude-${{ github.run_id }}
+          name: astra-distributed-worker-${{ github.run_id }}
           path: astra-distributed-worker-result.json
           if-no-files-found: error
           retention-days: 30
@@ -121,7 +225,7 @@ jobs:
     if: ${{ inputs.node_id == 'Voktors-Mac-mini.local' && inputs.executor == 'claude' }}
     name: Fast local worker on Voktors-Mini.Dlink
     runs-on: [self-hosted, macOS, ARM64, astra-control]
-    timeout-minutes: 30
+    timeout-minutes: 60
     env:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
@@ -140,8 +244,60 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          admission_failure() {
+            rc=$?
+            trap - EXIT
+            if [[ "$rc" -eq 0 ]]; then
+              return 0
+            fi
+            ASTRA_ADMISSION_EXIT_CODE="$rc" python3 - <<'PY'
+          import getpass
+          import json
+          import os
+          import shutil
+          import socket
+          import subprocess
+          from pathlib import Path
+          claude = shutil.which("claude")
+          ollama = shutil.which("ollama")
+          model_names = []
+          ollama_rc = None
+          if ollama:
+              try:
+                  probe = subprocess.run([ollama, "list"], capture_output=True, text=True, timeout=5, check=False)
+                  model_names = [line.split()[0] for line in probe.stdout.splitlines()[1:] if line.split()]
+                  ollama_rc = probe.returncode
+              except (OSError, subprocess.TimeoutExpired):
+                  ollama_rc = None
+          record = {
+              "schema_version": 1,
+              "runtime_diagnostics": {
+                  "runner_user": getpass.getuser(),
+                  "hostname": socket.gethostname(),
+                  "home_set": bool(os.environ.get("HOME")),
+                  "claude_path_found": bool(claude),
+                  "ollama_path_found": bool(ollama),
+                  "ollama_list_exit_code": ollama_rc,
+                  "ollama_model_names": model_names,
+              },
+              "status": "BLOCKED",
+              "phase": "canonical_admission",
+              "reason": "admission_check_failed",
+              "command_id": os.environ.get("ASTRA_COMMAND_ID", ""),
+              "target_sha": os.environ.get("ASTRA_TARGET_SHA", ""),
+              "node_id": os.environ.get("ASTRA_NODE_ID", ""),
+              "executor": os.environ.get("ASTRA_EXECUTOR", ""),
+              "exit_code": int(os.environ.get("ASTRA_ADMISSION_EXIT_CODE", "1")),
+          }
+          Path(os.environ["ASTRA_WORKER_RESULT"]).write_text(
+              json.dumps(record, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          PY
+            exit "$rc"
+          }
+          trap admission_failure EXIT
           host="$(hostname)"
-          test "$host" = "Voktors-Mini.Dlink" || test "$host" = "Voktors-Mac-mini"
+          [[ "$host" == "Voktors-Mini.Dlink" || "$host" == "Voktors-Mac-mini" ]]
           test "$(id -un)" = "voktor"
           test "${ASTRA_EXECUTOR}" = "claude"
           command -v claude

@@ -20,7 +20,7 @@ jobs:
   admission:
     name: G4 admission gate
     if: ${{ inputs.confirm_launch == true }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     steps:
       - uses: actions/checkout@v4
       - name: Validate canonical five-path contract

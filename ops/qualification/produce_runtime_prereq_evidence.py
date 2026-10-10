@@ -69,7 +69,7 @@ def check_scheduler() -> dict:
             obs["priority_then_id_order"] = ids == ["C", "A"]
             obs["ready_tasks_selected"] = set(ids) == {"A", "C"}
             obs["dependency_unsatisfied_gated"] = not q.dependencies_satisfied({"dependencies": ["DEP"]})
-            (state / "completed" / "DEP.json").write_text("{}")
+            (state / "completed" / "DEP.json").write_text(json.dumps({"status": "VERIFIED"}))
             obs["dependency_satisfied_after_completion"] = q.dependencies_satisfied({"dependencies": ["DEP"]})
             obs["completed_task_suppressed"] = q.completed("DEP")
             obs["selection_deterministic"] = [t["task_id"] for t in q.load_tasks()] == [t["task_id"] for t in q.load_tasks()]

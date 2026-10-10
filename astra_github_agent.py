@@ -6,7 +6,7 @@ from dataclasses import asdict
 from pathlib import Path
 
 REPO=os.environ.get("ASTRA_GITHUB_REPO","VlDMlNSh/mediahub-os")
-REMOTE=os.environ.get("ASTRA_GITHUB_REMOTE",f"git@github.com:{REPO}.git")
+REMOTE=os.environ.get("ASTRA_GITHUB_REMOTE",f"https://github.com/{REPO}.git")
 NODE_ID=os.environ.get("ASTRA_NODE_ID",platform.node())
 INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
@@ -208,6 +208,96 @@ def _claim_for(cmd):
     started=now, updated=now, expiry=now+CLAIM_LEASE_SECONDS,
     base_sha=str(cmd.get('base_sha') or ''),
     )
+def validate_precomputed_queue_payload(payload, expected_command_id, target_sha):
+    """Validate a queue summary artifact before promoting it into controller evidence."""
+    if not isinstance(payload, dict):
+        raise ValueError("payload_invalid")
+    if payload.get("schema") != "mediahub.astra.autonomous-queue-summary.v1":
+        raise ValueError("schema_mismatch")
+    if payload.get("status") != "PASS":
+        raise ValueError("status_not_PASS")
+    if payload.get("command_id") != expected_command_id:
+        raise ValueError("command_binding")
+    if payload.get("base_sha") != target_sha:
+        raise ValueError("target_sha")
+    if type(payload.get("queue_returncode")) is not int or payload.get("queue_returncode") != 0:
+        raise ValueError("queue_returncode")
+    if payload.get("mode") != "github_remote_claude_only":
+        raise ValueError("execution_mode")
+    expected_pool = {
+        "mh-dev-01": "claude",
+        "mh-dev-02": "claude",
+        "Voktors-Mac-mini.local": "claude",
+    }
+    if payload.get("executor_pool") != expected_pool:
+        raise ValueError("executor_pool")
+    workers = payload.get("workers")
+    results = payload.get("results")
+    selected = payload.get("selected_tasks")
+    if type(workers) is not int or workers < 1 or workers > len(expected_pool):
+        raise ValueError("worker_count")
+    if not isinstance(results, list) or not results or workers != len(results):
+        raise ValueError("result_count")
+    if not isinstance(selected, list) or len(selected) != len(set(selected)):
+        raise ValueError("selected_tasks")
+    result_ids = []
+    for item in results:
+        if not isinstance(item, dict):
+            raise ValueError("result_invalid")
+        task_id = item.get("task_id")
+        if not isinstance(task_id, str) or not task_id:
+            raise ValueError("task_id_invalid")
+        result_ids.append(task_id)
+        if item.get("status") != "VERIFIED":
+            raise ValueError("result_status")
+        if item.get("command_id") != expected_command_id:
+            raise ValueError("result_command_binding")
+        if item.get("base_sha") != target_sha or item.get("target_sha") != target_sha:
+            raise ValueError("result_target_sha")
+        node_id = item.get("node_id")
+        if node_id not in expected_pool or item.get("executor") != expected_pool[node_id]:
+            raise ValueError("result_executor_binding")
+        if item.get("verifier_identity") != item.get("executor"):
+            raise ValueError("result_verifier_binding")
+        if not isinstance(item.get("worker_run_id"), str) or not item["worker_run_id"].isdigit():
+            raise ValueError("worker_run_id")
+        if item.get("worker_run_status") != "completed":
+            raise ValueError("worker_run_status")
+        if item.get("worker_conclusion") != "success":
+            raise ValueError("worker_conclusion")
+        digest = item.get("evidence_digest")
+        if not isinstance(digest, str) or not re.fullmatch(r"sha256:[0-9a-f]{64}", digest):
+            raise ValueError("evidence_digest")
+        verifier = item.get("independent_verifier")
+        if not isinstance(verifier, dict) or verifier.get("status") != "PASS" or verifier.get("returncode") != 0:
+            raise ValueError("independent_verifier")
+        branch = item.get("branch")
+        head_sha = item.get("head_sha")
+        if not isinstance(branch, str) or not branch:
+            raise ValueError("branch_invalid")
+        if not isinstance(head_sha, str) or not re.fullmatch(r"[0-9a-f]{40}", head_sha):
+            raise ValueError("head_sha_invalid")
+        push = item.get("push_verification")
+        if not isinstance(push, dict):
+            raise ValueError("push_verification_invalid")
+        if push.get("status") == "PASS":
+            if push.get("branch") != branch:
+                raise ValueError("push_branch_mismatch")
+            if item.get("remote_head") != head_sha or push.get("remote_sha") != head_sha:
+                raise ValueError("remote_head_mismatch")
+        elif push.get("status") == "NOT_REQUIRED":
+            if item.get("change_status") != "NO_CHANGES_REQUIRED" or head_sha != target_sha:
+                raise ValueError("nochange_binding")
+        else:
+            raise ValueError("push_verification_not_PASS")
+    if result_ids != selected:
+        raise ValueError("selected_result_binding")
+    max_claims = payload.get("max_parallel_claims")
+    if type(max_claims) is not int or max_claims < workers or max_claims > len(expected_pool):
+        raise ValueError("max_parallel_claims")
+    return payload
+
+
 def execute(cmd):
     operation=cmd.get("operation")
     journal = None
@@ -436,27 +526,45 @@ def execute(cmd):
                         "reason":blocked_reasons[0],"steps":steps,
                         "elapsed_seconds":round(time.time()-started,3)}
             if operation == "autonomous_gold_mission":
-                queue_env=os.environ.copy()
-                queue_env["ASTRA_TARGET_SHA"]=target_sha
-                queue_env["ASTRA_QUEUE_STATE_DIR"]=queue_env.get("ASTRA_QUEUE_STATE_DIR",str(ROOT/".astra-state"/"queue"))
-                runtime_path=str(ROOT / "runtime")
-                queue_env["PYTHONPATH"]=runtime_path + (os.pathsep + queue_env["PYTHONPATH"] if queue_env.get("PYTHONPATH") else "")
                 if journal:
                     journal.checkpoint(phase="autonomous_queue", cycle=cycle)
-                queue=subprocess.run([sys.executable,"-m","mediahub_runtime.autonomous_queue"],
-                                     cwd=ROOT,text=True,capture_output=True,
-                                     timeout=int(os.environ.get("ASTRA_QUEUE_RUN_TIMEOUT","3600")),
-                                     check=False,env=queue_env)
-                queue_payload={}
-                try:
-                    queue_payload=json.loads(queue.stdout.strip().splitlines()[-1])
-                except Exception:
-                    queue_payload={"status":"BLOCKED","reason":"queue_output_not_json"}
-                cycle_record["autonomous_queue"]={"returncode":queue.returncode,"payload":queue_payload,
-                                                  "stdout":queue.stdout[-16000:],"stderr":queue.stderr[-10000:]}
+                precomputed_path = os.environ.get("ASTRA_PRECOMPUTED_QUEUE_RESULT_PATH", "").strip()
+                queue_payload = {}
+                queue_returncode = 2
+                queue_stdout = ""
+                queue_stderr = ""
+                if precomputed_path:
+                    try:
+                        queue_payload = json.loads(Path(precomputed_path).read_text(encoding="utf-8"))
+                        validate_precomputed_queue_payload(queue_payload, str(cmd.get("command_id", "")), target_sha)
+                        queue_returncode = 0
+                        queue_stdout = "precomputed_queue_artifact_validated"
+                    except Exception as exc:
+                        queue_payload = {"status": "BLOCKED", "reason": "precomputed_queue_validation_failed",
+                                         "error_type": type(exc).__name__, "error_code": str(exc)[:120]}
+                        queue_stderr = "precomputed_queue_validation_failed"
+                else:
+                    queue_env=os.environ.copy()
+                    queue_env["ASTRA_TARGET_SHA"]=target_sha
+                    queue_env["ASTRA_QUEUE_STATE_DIR"]=queue_env.get("ASTRA_QUEUE_STATE_DIR",str(ROOT/".astra-state"/"queue"))
+                    runtime_path=str(ROOT / "runtime")
+                    queue_env["PYTHONPATH"]=runtime_path + (os.pathsep + queue_env["PYTHONPATH"] if queue_env.get("PYTHONPATH") else "")
+                    queue=subprocess.run([sys.executable,"-m","mediahub_runtime.autonomous_queue"],
+                                         cwd=ROOT,text=True,capture_output=True,
+                                         timeout=int(os.environ.get("ASTRA_QUEUE_RUN_TIMEOUT","3600")),
+                                         check=False,env=queue_env)
+                    queue_returncode = queue.returncode
+                    queue_stdout = queue.stdout[-16000:]
+                    queue_stderr = queue.stderr[-10000:]
+                    try:
+                        queue_payload=json.loads(queue.stdout.strip().splitlines()[-1])
+                    except Exception:
+                        queue_payload={"status":"BLOCKED","reason":"queue_output_not_json"}
+                cycle_record["autonomous_queue"]={"returncode":queue_returncode,"payload":queue_payload,
+                                                  "stdout":queue_stdout,"stderr":queue_stderr}
                 if journal:
-                    journal.checkpoint(phase="autonomous_queue_complete", cycle=cycle, step={"cycle":cycle,"phase":"queue","returncode":queue.returncode,"status":queue_payload.get("status")})
-                if queue.returncode != 0 or queue_payload.get("status") != "PASS":
+                    journal.checkpoint(phase="autonomous_queue_complete", cycle=cycle, step={"cycle":cycle,"phase":"queue","returncode":queue_returncode,"status":queue_payload.get("status")})
+                if queue_returncode != 0 or queue_payload.get("status") != "PASS":
                     result={"status":"BLOCKED","phase":"autonomous_queue","steps":steps,"elapsed_seconds":round(time.time()-started,3)}
                     if journal:
                         journal.finish(status="BLOCKED", result=result)

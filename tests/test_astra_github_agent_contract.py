@@ -5,6 +5,11 @@ import astra_github_agent as agent
 from ops.control import sign_command
 
 class AstraTransportContractTests(unittest.TestCase):
+    def test_default_repository_transport_uses_https_not_unprovisioned_ssh_key(self):
+        source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
+        self.assertIn('REMOTE=os.environ.get("ASTRA_GITHUB_REMOTE",f"https://github.com/{REPO}.git")', source)
+        self.assertNotIn('REMOTE=os.environ.get("ASTRA_GITHUB_REMOTE",f"git@github.com:{REPO}.git")', source)
+
     def test_g4_model_capability_routing(self):
         source = agent.Path("astra_github_agent.py").read_text(encoding="utf-8")
         self.assertIn("model_reasoning_effort=none", source)
@@ -149,3 +154,56 @@ class AstraTransportContractTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PrecomputedQueuePayloadTests(unittest.TestCase):
+    def payload(self):
+        sha = "a" * 40
+        return {
+            "schema": "mediahub.astra.autonomous-queue-summary.v1",
+            "status": "PASS",
+            "queue_returncode": 0,
+            "command_id": "CMD-1",
+            "base_sha": sha,
+            "mode": "github_remote_claude_only",
+            "workers": 1,
+            "max_parallel_claims": 3,
+            "executor_pool": {"mh-dev-01": "claude", "mh-dev-02": "claude", "Voktors-Mac-mini.local": "claude"},
+            "selected_tasks": ["T1"],
+            "results": [{
+                "task_id": "T1", "command_id": "CMD-1", "base_sha": sha, "target_sha": sha,
+                "node_id": "mh-dev-01", "executor": "claude", "verifier_identity": "claude",
+                "status": "VERIFIED", "worker_run_id": "123", "worker_run_status": "completed",
+                "worker_conclusion": "success", "branch": "astra-T1", "head_sha": sha,
+                "remote_head": sha, "push_verification": {"status": "PASS", "branch": "astra-T1", "remote_sha": sha},
+                "evidence_digest": "sha256:" + "b" * 64,
+                "independent_verifier": {"status": "PASS", "returncode": 0},
+            }],
+        }
+
+    def test_precomputed_queue_payload_is_bound_to_command_sha_and_verified_results(self):
+        payload = self.payload()
+        self.assertEqual(agent.validate_precomputed_queue_payload(payload, "CMD-1", "a" * 40), payload)
+
+    def test_precomputed_queue_payload_rejects_wrong_command_or_sha(self):
+        payload = self.payload()
+        with self.assertRaisesRegex(ValueError, "command_binding"):
+            agent.validate_precomputed_queue_payload(payload, "CMD-2", "a" * 40)
+        with self.assertRaisesRegex(ValueError, "target_sha"):
+            agent.validate_precomputed_queue_payload(payload, "CMD-1", "c" * 40)
+
+    def test_precomputed_queue_payload_rejects_nonzero_dispatcher_exit(self):
+        payload = self.payload()
+        payload["queue_returncode"] = 2
+        with self.assertRaisesRegex(ValueError, "queue_returncode"):
+            agent.validate_precomputed_queue_payload(payload, "CMD-1", "a" * 40)
+
+    def test_precomputed_queue_payload_rejects_nonverified_and_worker_failures(self):
+        payload = self.payload()
+        payload["results"][0]["status"] = "BLOCKED"
+        with self.assertRaisesRegex(ValueError, "result_status"):
+            agent.validate_precomputed_queue_payload(payload, "CMD-1", "a" * 40)
+        payload = self.payload()
+        payload["results"][0]["worker_conclusion"] = "failure"
+        with self.assertRaisesRegex(ValueError, "worker_conclusion"):
+            agent.validate_precomputed_queue_payload(payload, "CMD-1", "a" * 40)

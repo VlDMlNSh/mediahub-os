@@ -330,6 +330,87 @@ def changed_paths(target_sha: str) -> set[str]:
     return changed
 
 
+def verifier_passed(stdout: str) -> bool:
+    """Accept only one exact machine-readable PASS verdict and no contradictory verdicts."""
+    verdicts = re.findall(r"(?m)^ASTRA_VERDICT:\s*(PASS|BLOCKED)\s*$", stdout)
+    return verdicts == ["PASS"]
+
+
+def verifier_diff(target_sha: str) -> str:
+    """Return a verifier diff against target SHA, including new untracked files."""
+    untracked = run(["git", "ls-files", "--others", "--exclude-standard", "-z"], 60, cwd=ROOT)
+    if untracked.returncode != 0:
+        raise RuntimeError("verifier_diff_prepare_failed")
+    paths = [path for path in untracked.stdout.split("\0") if path]
+    if paths:
+        intent = run(["git", "add", "-N", "--", *paths], 60, cwd=ROOT)
+        if intent.returncode != 0:
+            raise RuntimeError("verifier_diff_prepare_failed")
+    diff = run(["git", "diff", "--no-ext-diff", target_sha, "--"], 60, cwd=ROOT)
+    if diff.returncode != 0:
+        raise RuntimeError("verifier_diff_failed")
+    return diff.stdout
+
+
+def artifact_contract_findings(task: dict, target_sha: str, changed: set[str]) -> list[str]:
+    """Deterministically enforce a task-declared deliverable contract."""
+    contract = task.get("artifact_contract")
+    if contract is None:
+        return []
+    if not isinstance(contract, dict):
+        return ["artifact_contract_invalid"]
+    path = str(contract.get("path", ""))
+    boundary = tuple(str(item) for item in task.get("boundary", []))
+    if not path or not boundary or not any(
+        path == item.rstrip("/") or path.startswith(item.rstrip("/") + "/")
+        for item in boundary
+    ):
+        return ["artifact_contract_path_outside_boundary"]
+    findings: list[str] = []
+    if path not in changed:
+        findings.append("artifact_contract_requires_changed_file")
+    target = ROOT / path
+    if not target.is_file():
+        return sorted(set(findings + ["artifact_contract_file_missing"]))
+    if target.stat().st_size > 2 * 1024 * 1024:
+        return sorted(set(findings + ["artifact_contract_file_too_large"]))
+    try:
+        content = target.read_text(encoding="utf-8")
+    except OSError:
+        return sorted(set(findings + ["artifact_contract_file_unreadable"]))
+    folded = content.casefold()
+    required = contract.get("required_terms", [])
+    forbidden = contract.get("forbidden_terms", [])
+    if not isinstance(required, list) or not all(isinstance(item, str) and item for item in required):
+        findings.append("artifact_contract_required_terms_invalid")
+    else:
+        for term in required:
+            if term.casefold() not in folded:
+                findings.append("artifact_contract_missing_term:" + term)
+    if not isinstance(forbidden, list) or not all(isinstance(item, str) and item for item in forbidden):
+        findings.append("artifact_contract_forbidden_terms_invalid")
+    else:
+        for term in forbidden:
+            if term.casefold() in folded:
+                findings.append("artifact_contract_forbidden_term:" + term)
+    forbidden_patterns = contract.get("forbidden_patterns", [])
+    if not isinstance(forbidden_patterns, list) or not all(isinstance(item, str) and item for item in forbidden_patterns):
+        findings.append("artifact_contract_forbidden_patterns_invalid")
+    else:
+        for pattern in forbidden_patterns:
+            try:
+                matched = re.search(pattern, content) is not None
+            except re.error:
+                findings.append("artifact_contract_forbidden_pattern_invalid")
+                continue
+            if matched:
+                findings.append("artifact_contract_forbidden_pattern:" + pattern)
+    if contract.get("target_sha_required") is True:
+        if not re.fullmatch(r"[0-9a-f]{40}", target_sha or "") or target_sha not in content:
+            findings.append("artifact_contract_target_sha_missing")
+    return sorted(set(findings))
+
+
 def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> dict:
     prompt = (
         "You are an independent A3 Verifier. Review the completed micro-task against every "
@@ -356,7 +437,8 @@ def security_gate(changed: set[str], task: dict) -> list[str]:
     forbidden = tuple(str(x) for x in task.get("forbidden", task.get("forbidden_surfaces", [])))
     findings: list[str] = []
     secret_patterns = [
-        re.compile(r"(?i)(api[_-]?key|access[_-]?token|secret|private[_-]?key|bearer)\\s*[:=]\\s*['\\\"][^'\\\"]{12,}"),
+        re.compile(r"""(?i)\b(api[_-]?key|access[_-]?token|secret|private[_-]?key)\b\s*[:=]\s*['"][^'"]{12,}['"]"""),
+        re.compile(r"(?i)\bbearer\s+[A-Za-z0-9._~+/=-]{20,}"),
         re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     ]
     for path in sorted(changed):
@@ -479,11 +561,17 @@ def main() -> int:
                         f"Boundary: {boundaries[0]}. "
                         f"Required node: {node_id}. Executor: {executor}. Verifier: {task['verifier']}. "
                         f"Local model: {cfg['model']}. "
+                        f"Exact target SHA to include verbatim in the document: {target_sha}. "
                         "The document must explicitly state the required facts below, using the exact identifiers "
                         "and security terms: "
                         + json.dumps(document_facts, sort_keys=True)
                         + ". Also state target-SHA binding, isolated branch execution, GitHub evidence transport, "
-                        "fail-closed promotion, and no direct writes to main. No credentials or secrets."
+                        "fail-closed promotion, and no direct writes to main. No credentials or secrets. "
+                        "Evidence discipline is mandatory: do not invent IP addresses, ports, hostnames, URLs, "
+                        "resource sizes, branch names, configuration keys, configuration values, cloud deployment "
+                        "details, or runtime claims. Do not include YAML/configuration examples or token fields, "
+                        "even with redacted or placeholder values. If a detail is not explicitly in the required "
+                        "facts or supplied evidence, omit it. Prefer concise prose over illustrative configuration."
                     )
                     artifact_schema = {
                         "type": "object",
@@ -522,7 +610,7 @@ def main() -> int:
                             if not structured_markdown and isinstance(structured_payload.get("result"), str):
                                 inner = structured_payload["result"]
                                 artifact_match = re.search(
-                                    r"__ASTRA_ARTIFACT_BEGIN__\\n(.*?)\\n__ASTRA_ARTIFACT_END__",
+                                    r"__ASTRA_ARTIFACT_BEGIN__\s*(.*?)\s*__ASTRA_ARTIFACT_END__",
                                     inner,
                                     re.DOTALL,
                                 )
@@ -609,6 +697,14 @@ def main() -> int:
         record["scope"] = {"status": "PASS" if not outside else "BLOCKED", "outside_scope": outside}
         if outside:
             raise RuntimeError("task_boundary_violation")
+        artifact_findings = artifact_contract_findings(task, target_sha, changed)
+        record["artifact_contract"] = {
+            "status": "PASS" if not artifact_findings else "BLOCKED",
+            "path": task.get("artifact_contract", {}).get("path") if isinstance(task.get("artifact_contract"), dict) else None,
+            "findings": artifact_findings,
+        }
+        if artifact_findings:
+            raise RuntimeError("artifact_contract_blocked")
 
         test_paths = [str(x) for x in task.get("test_paths", [])]
         test_env = os.environ.copy()
@@ -641,16 +737,39 @@ def main() -> int:
         if test.returncode != 0:
             raise RuntimeError("tests_failed")
 
-        diff = run(["git", "diff", "--no-ext-diff", target_sha, "HEAD"], 60)
-        if diff.returncode != 0:
-            raise RuntimeError("verifier_diff_failed")
-        if not bool(task.get("allow_no_changes", False)) and not diff.stdout.strip():
+        # Test execution is itself untrusted: re-evaluate scope and security after tests.
+        changed_after_tests = changed_paths(target_sha)
+        post_test_findings = security_gate(changed_after_tests, task)
+        record["post_test_security_gate"] = {
+            "status": "PASS" if not post_test_findings else "BLOCKED",
+            "findings": post_test_findings,
+        }
+        if post_test_findings:
+            raise RuntimeError("post_test_security_gate_blocked")
+        post_test_outside = scope_paths(task, changed_after_tests)
+        record["post_test_scope"] = {
+            "status": "PASS" if not post_test_outside else "BLOCKED",
+            "outside_scope": post_test_outside,
+        }
+        if post_test_outside:
+            raise RuntimeError("post_test_task_boundary_violation")
+        post_test_artifact_findings = artifact_contract_findings(task, target_sha, changed_after_tests)
+        record["post_test_artifact_contract"] = {
+            "status": "PASS" if not post_test_artifact_findings else "BLOCKED",
+            "path": task.get("artifact_contract", {}).get("path") if isinstance(task.get("artifact_contract"), dict) else None,
+            "findings": post_test_artifact_findings,
+        }
+        if post_test_artifact_findings:
+            raise RuntimeError("post_test_artifact_contract_blocked")
+
+        diff_text = verifier_diff(target_sha)
+        if not bool(task.get("allow_no_changes", False)) and not diff_text.strip():
             raise RuntimeError("no_changes_before_verifier")
         verifier = verify_executor(
-            task, diff.stdout, record["tests"]["stdout"] + record["tests"]["stderr"], cfg["model"]
+            task, diff_text, record["tests"]["stdout"] + record["tests"]["stderr"], cfg["model"]
         )
         record["verifier"] = verifier
-        if verifier["returncode"] != 0 or VERDICT_MARKER not in verifier["stdout"]:
+        if verifier["returncode"] != 0 or not verifier_passed(verifier["stdout"]):
             raise RuntimeError("verifier_failed")
 
         if not run(["git", "status", "--porcelain"], 30).stdout.strip():

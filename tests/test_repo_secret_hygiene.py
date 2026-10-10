@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -39,7 +40,7 @@ import yaml
 from mediahub_runtime.astra_security import scan_secret
 
 ROOT = Path(__file__).resolve().parents[1]
-SKIP_DIRS = {".git", "build", "dist", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
+SKIP_DIRS = {".git", ".ecc", "build", "dist", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
 
 # Files that legitimately contain secret-shaped *detection patterns* or
 # deliberate synthetic fixtures rather than real credentials. Each entry is
@@ -86,10 +87,19 @@ SUPPRESSION_MARKERS = ("SUPPRESSED", "REDACTED")
 
 
 def _tracked_files():
-    for path in sorted(ROOT.rglob("*")):
-        if not path.is_file():
-            continue
-        rel = path.relative_to(ROOT)
+    """Scan versioned and non-ignored working files, excluding local ignored clones."""
+    try:
+        result = subprocess.run(
+            ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        candidates = (Path(value) for value in result.stdout.split("\0") if value)
+    except (OSError, subprocess.CalledProcessError):
+        candidates = (path.relative_to(ROOT) for path in ROOT.rglob("*") if path.is_file())
+    for rel in sorted(candidates):
         if any(part in SKIP_DIRS for part in rel.parts):
             continue
         if rel.suffix in TEXT_SUFFIXES or rel.name.startswith("."):
