@@ -20,7 +20,7 @@ jobs:
   g4-admission:
     name: Verify fresh G4 115-round evidence
     if: ${{ inputs.confirm_launch == true }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 15
     permissions:
       actions: read
@@ -35,7 +35,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          run_id="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/astra-g4-115-qualification.yml/runs?branch=main&per_page=50" --jq '.workflow_runs[] | select(.head_sha == env.GITHUB_SHA and .status == "completed" and .conclusion == "success") | .id' | head -n 1)"
+          run_id="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/astra-g4-115-qualification.yml/runs?per_page=100" --jq '.workflow_runs[] | select(.head_sha == env.GITHUB_SHA and .status == "completed" and .conclusion == "success") | .id' | head -n 1)"
           test -n "$run_id"
           echo "G4_RUN_ID=$run_id" >> "$GITHUB_ENV"
       - name: Download exact G4 evidence artifact
