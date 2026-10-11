@@ -41,8 +41,10 @@ def test_canonical_three_executor_tasks_are_ready_and_disjoint():
     ]
     assert [t["executor"] for t in tasks] == ["claude", "claude", "claude"]
     assert [t["node_id"] for t in tasks] == [
-        "Voktors-Mac-mini.local", "mh-dev-01", "mh-dev-02"
+        "mh-dev-02", "mh-dev-01", "Voktors-Mac-mini.local"
     ]
+    assert tasks[0]["deterministic_checks"]["required_patterns"]
+    assert tasks[2]["deliverable"] == "docs/operations/ASTRA-VOKTORS-MAC-CLAUDE-EXECUTOR.md"
     assert all(t["status"] == "READY" for t in tasks)
     assert len({tuple(t["boundary"]) for t in tasks}) == 3
     assert all(len(t["boundary"]) == 1 and t["boundary"][0].startswith("docs/operations/") for t in tasks)

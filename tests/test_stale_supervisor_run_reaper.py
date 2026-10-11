@@ -15,3 +15,8 @@ def test_reaper_resolves_authoritative_main_head_not_event_sha():
 def test_reaper_has_no_deleted_legacy_workflow_dependency():
     source = REAPER.read_text(encoding="utf-8")
     assert 'mh25-dual-local-executor-23wave.yml' not in source
+
+
+def test_reaper_does_not_cancel_feature_branch_qualification_runs():
+    source = REAPER.read_text(encoding="utf-8")
+    assert 'run.get("head_branch") == "main"' in source

@@ -108,7 +108,7 @@ class AgentFabricTests(unittest.TestCase):
         task = json.loads(Path("ops/agent-fabric/tasks/MH25-QUEUE-002.json").read_text(encoding="utf-8"))
         self.assertEqual(task["executor"], "claude")
         self.assertEqual(task["verifier"], "claude")
-        self.assertEqual(task["node_id"], "Voktors-Mac-mini.local")
+        self.assertEqual(task["node_id"], "mh-dev-02")
         self.assertTrue(task["independent_verifier_process"])
 
     def test_remote_worker_artifact_names_match_lane_workflows(self):

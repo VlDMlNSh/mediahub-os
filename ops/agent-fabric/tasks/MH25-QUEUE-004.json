@@ -4,9 +4,9 @@
   "status": "READY",
   "priority": "P0",
   "role": "builder",
-  "mission": "Qualify the third Claude permanent local executor lane on mh-dev-02 using qwen2.5-coder:3b. Prove executor-only operation, exact target-SHA binding, isolated branch execution, and independent Claude verification. Do not alter controller authority, control state, credentials, or production infrastructure.",
+  "mission": "Qualify the fast permanent local executor lane on Voktors-Mac-mini.local using the node-local qwen2.5-coder:1.5b backend. Prove executor-only operation, exact target-SHA binding, isolated branch execution, and independent verification. Do not alter controller authority, control state, credentials, or production infrastructure.",
   "boundary": [
-    "docs/operations/ASTRA-MH-DEV-02-CLAUDE-EXECUTOR.md"
+    "docs/operations/ASTRA-VOKTORS-MAC-CLAUDE-EXECUTOR.md"
   ],
   "forbidden_surfaces": [
     ".github/workflows/",
@@ -17,7 +17,7 @@
     "production infrastructure"
   ],
   "dependencies": [],
-  "node_id": "mh-dev-02",
+  "node_id": "Voktors-Mac-mini.local",
   "executor": "claude",
   "verifier": "claude",
   "independent_verifier_process": true,
@@ -25,26 +25,25 @@
   "builder_attempts": 2,
   "allow_no_changes": false,
   "acceptance": [
-    "Create or update exactly one document at docs/operations/ASTRA-MH-DEV-02-CLAUDE-EXECUTOR.md.",
-    "The document states exact node identity mh-dev-02, executor identity claude, local model qwen2.5-coder:3b, verifier identity claude, and executor-only authority boundary.",
+    "Create or update exactly one document at docs/operations/ASTRA-VOKTORS-MAC-CLAUDE-EXECUTOR.md.",
+    "The document states exact node identity Voktors-Mac-mini.local, executor identity claude, local model qwen2.5-coder:1.5b, verifier identity claude, and executor-only authority boundary.",
     "The document states target-SHA binding, isolated branch execution, fail-closed promotion, and no direct writes to main.",
     "The document contains no credentials or secrets.",
     "The scoped Agent Fabric regression suite tests/test_agent_fabric.py passes.",
-    "The worker must produce a real Claude execution result and a real independent Claude verdict; synthetic or prefilled evidence is invalid."
+    "The worker must produce a real execution result and a real independent verifier verdict; synthetic or prefilled evidence is invalid."
   ],
   "test_paths": [
     "tests/test_agent_fabric.py"
   ],
-  "builder_instructions": "Replace the entire document with a concise factual contract and include these exact facts: Node identity: mh-dev-02. Executor identity: claude. Local model: qwen2.5-coder:3b. Verifier identity: claude, running as an independent verifier process. Authority boundary: executor-only; no controller authority or production infrastructure changes. The worker is bound to the exact target-SHA and uses an isolated branch. Promotion is fail-closed. The worker never writes directly to main. No credentials or secrets are included. Do not claim tests or infrastructure actions that were not performed.",
-  "deliverable": "docs/operations/ASTRA-MH-DEV-02-CLAUDE-EXECUTOR.md",
+  "builder_instructions": "Replace the entire document with a concise factual contract and include these exact facts: Node identity: Voktors-Mac-mini.local. Executor identity: claude. Local model: qwen2.5-coder:1.5b. Verifier identity: claude, running as an independent verifier process. Authority boundary: executor-only; no controller authority or production infrastructure changes. The worker is bound to the exact target-SHA and uses an isolated branch. Promotion is fail-closed. The worker never writes directly to main. No credentials or secrets are included. Do not claim tests or infrastructure actions that were not performed.",
+  "deliverable": "docs/operations/ASTRA-VOKTORS-MAC-CLAUDE-EXECUTOR.md",
   "required_capabilities": [
-    "implementation",
+    "documentation",
     "testing",
     "security"
   ],
   "preferred_roles": [
-    "build",
-    "tdd-guide",
+    "doc-updater",
     "security-reviewer"
   ],
   "verification": [
@@ -58,9 +57,9 @@
   },
   "deterministic_checks": {
     "required_text": [
-      "mh-dev-02",
+      "Voktors-Mac-mini.local",
       "claude",
-      "qwen2.5-coder:3b",
+      "qwen2.5-coder:1.5b",
       "verifier",
       "executor-only",
       "target-SHA",
@@ -70,7 +69,7 @@
       "no credentials or secrets"
     ],
     "required_patterns": [
-      "(?i)(mh-dev-02.{0,120}qwen2[.]5-coder:3b|qwen2[.]5-coder:3b.{0,120}mh-dev-02)",
+      "(?i)(Voktors-Mac-mini[.]local.{0,120}qwen2[.]5-coder:1[.]5b|qwen2[.]5-coder:1[.]5b.{0,120}Voktors-Mac-mini[.]local)",
       "(?i)independent.{0,40}verifier",
       "(?i)never writes directly to main|no direct writes to main"
     ],

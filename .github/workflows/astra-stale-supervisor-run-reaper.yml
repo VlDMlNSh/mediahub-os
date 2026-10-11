@@ -71,6 +71,7 @@ jobs:
               for run in runs:
                   if (
                       run.get("path") in allowed
+                      and run.get("head_branch") == "main"
                       and run.get("head_sha") != current
                       and run.get("status") in {"queued","in_progress","pending","waiting"}
                   ):

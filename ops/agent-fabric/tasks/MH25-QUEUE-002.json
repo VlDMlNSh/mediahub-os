@@ -26,8 +26,8 @@
     "credentials",
     "production infrastructure"
   ],
-  "mission": "Execute this bounded documentation task with Claude as the A2 Builder and Claude as the independent A3 Verifier; prove the real three-Claude topology through fresh evidence.",
-  "node_id": "Voktors-Mac-mini.local",
+  "mission": "Qualify the canonical distributed local development topology using the stronger mh-dev-02 qwen2.5-coder:3b backend. Document the three permanent Claude Code client lanes, builder/verifier split, exact target-SHA binding, isolated branches, GitHub evidence transport, and fail-closed promotion. Do not alter controller authority, credentials, or production infrastructure.",
+  "node_id": "mh-dev-02",
   "priority": "P1",
   "schema": "mediahub.agent-fabric.task.v1",
   "status": "READY",
