@@ -35,7 +35,7 @@
   "test_paths": [
     "tests/test_agent_fabric.py"
   ],
-  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-MH-DEV-02-CLAUDE-EXECUTOR.md. Use shell/editor directly; do not ask for more context. State exact node mh-dev-02, executor Claude, model qwen2.5-coder:3b, verifier Claude, executor-only authority, target-SHA binding, isolated branch, fail-closed promotion, no direct main writes, and no secrets. Keep it concise.",
+  "builder_instructions": "Replace the entire document with a concise factual contract and include these exact facts: Node identity: mh-dev-02. Executor identity: claude. Local model: qwen2.5-coder:3b. Verifier identity: claude, running as an independent verifier process. Authority boundary: executor-only; no controller authority or production infrastructure changes. The worker is bound to the exact target-SHA and uses an isolated branch. Promotion is fail-closed. The worker never writes directly to main. No credentials or secrets are included. Do not claim tests or infrastructure actions that were not performed.",
   "deliverable": "docs/operations/ASTRA-MH-DEV-02-CLAUDE-EXECUTOR.md",
   "required_capabilities": [
     "implementation",

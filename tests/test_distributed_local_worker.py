@@ -172,3 +172,15 @@ No credentials or secrets are included.
             result = worker.deterministic_acceptance(task)
     assert result["status"] == "PASS", result["failures"]
     assert result["checks_run"] >= 15
+
+
+def test_builder_prompt_exposes_deterministic_acceptance_contract():
+    task = json.loads(Path("ops/agent-fabric/tasks/MH25-QUEUE-002.json").read_text(encoding="utf-8"))
+    import os
+    from unittest import mock
+    with mock.patch.dict(os.environ, {"ASTRA_TARGET_SHA": "a" * 40}):
+        prompt = worker.task_prompt(task, "A2 Builder")
+    assert "Deterministic acceptance checks" in prompt
+    assert "mh-dev-01: Controller/Authority" in prompt
+    assert "mh-dev-02: Primary Local Pool" in prompt
+    assert "G5=3" in prompt

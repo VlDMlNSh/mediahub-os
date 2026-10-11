@@ -84,7 +84,9 @@ def task_prompt(task: dict, role: str) -> str:
         f"Mission: {task['mission']}\n"
         f"Boundary: {json.dumps(task.get('boundary', []), sort_keys=True)}\n"
         f"Forbidden surfaces: {json.dumps(forbidden, sort_keys=True)}\n"
-        f"Acceptance: {json.dumps(task.get('acceptance', []), sort_keys=True)}\n"        f"Builder instructions: {task.get('builder_instructions', 'Use shell/editor directly to complete the declared boundary.')}\n"
+        f"Acceptance: {json.dumps(task.get('acceptance', []), sort_keys=True)}\n"
+        f"Deterministic acceptance checks: {json.dumps(task.get('deterministic_checks', {}), sort_keys=True)}\n"
+        f"Builder instructions: {task.get('builder_instructions', 'Use shell/editor directly to complete the declared boundary.')}\n"
         f"Target SHA: {os.environ['ASTRA_TARGET_SHA']}\n"
         "Treat every acceptance criterion containing exact identifiers, node names, executor names, or security rules as literal requirements: copy them verbatim and never invent aliases, synonyms, or substitute names. "        "Work only inside the declared boundary. Do not touch production infrastructure, "
         "credentials, user data, or unrelated paths. Do not merge to main. "
@@ -674,6 +676,7 @@ def main() -> int:
                         "The document must explicitly state the required facts below, using the exact identifiers "
                         "and security terms: "
                         + json.dumps(document_facts, sort_keys=True)
+                        + ". Canonical task-specific instructions: " + str(task.get("builder_instructions", ""))
                         + ". Also state target-SHA binding, isolated branch execution, GitHub evidence transport, "
                         "fail-closed promotion, and no direct writes to main. No credentials or secrets."
                     )
