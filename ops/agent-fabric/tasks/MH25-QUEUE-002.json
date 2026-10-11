@@ -82,5 +82,20 @@
       "(?i)codex.{0,80}permanent executor",
       "(?im)^(?![^\\n]*\\b(?:never|no|none)\\b)[^\\n]*\\bworker writes directly to main\\b"
     ]
-  }
+  },
+  "builder_mode": "plain_markdown",
+  "plain_artifact_timeout_seconds": 300,
+  "document_lines": [
+    "mh-dev-01: Controller/Authority",
+    "mh-dev-02: Primary Local Pool",
+    "Voktors-Mac-mini.local: Fast Pool",
+    "Claude uses an A2 Builder and an independent A3 Verifier.",
+    "Exact target-SHA binding is required; workers use isolated branches.",
+    "GitHub evidence transport is required; promotion is fail-closed.",
+    "No direct writes to main.",
+    "G5=3: three simultaneous disjoint claims, one per permanent executor lane.",
+    "The production executor matrix contains exactly three Claude lanes.",
+    "Legacy and candidate execution surfaces are not permanent queue executors.",
+    "No credentials or secrets are included."
+  ]
 }

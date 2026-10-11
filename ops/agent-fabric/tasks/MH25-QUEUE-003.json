@@ -69,7 +69,7 @@
       "no credentials or secrets"
     ],
     "required_patterns": [
-      "(?i)(mh-dev-01.{0,120}qwen2[.]5-coder:1[.]5b|qwen2[.]5-coder:1[.]5b.{0,120}mh-dev-01)",
+      "(?i)Local model: qwen2[.]5-coder:1[.]5b",
       "(?i)independent.{0,40}verifier",
       "(?i)never writes directly to main|no direct writes to main"
     ],
@@ -77,5 +77,18 @@
       "(?i)codex.{0,80}permanent executor",
       "(?im)^(?![^\\n]*\\b(?:never|no|none)\\b)[^\\n]*\\bworker writes directly to main\\b"
     ]
-  }
+  },
+  "builder_mode": "plain_markdown",
+  "plain_artifact_timeout_seconds": 300,
+  "document_lines": [
+    "Node identity: mh-dev-01",
+    "Executor identity: claude",
+    "Local model: qwen2.5-coder:1.5b",
+    "Verifier identity: claude, running as an independent verifier process.",
+    "Authority boundary: executor-only; no controller authority or production infrastructure changes.",
+    "The worker is bound to the exact target-SHA and uses an isolated branch.",
+    "Promotion is fail-closed.",
+    "The worker never writes directly to main.",
+    "No credentials or secrets are included."
+  ]
 }

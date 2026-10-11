@@ -150,21 +150,9 @@ def test_security_gate_detects_secret_assignment_patterns():
     assert any("possible_secret" in finding for finding in findings)
 
 
-def test_deterministic_acceptance_accepts_canonical_topology_contract():
+def test_deterministic_acceptance_accepts_exact_canonical_topology_document():
     task = json.loads(Path("ops/agent-fabric/tasks/MH25-QUEUE-002.json").read_text(encoding="utf-8"))
-    document = """# Permanent Claude executor topology
-- mh-dev-01: Controller/Authority
-- mh-dev-02: Primary Local Pool
-- Voktors-Mac-mini.local: Fast Pool
-
-Claude uses an A2 Builder and independent A3 Verifier. Exact target-SHA binding is enforced.
-Each worker uses isolated branches. GitHub evidence transport is required.
-Promotion is fail-closed. There are no direct writes to main.
-G5=3: three simultaneous disjoint claims, one per permanent executor lane.
-The production executor matrix contains exactly three Claude lanes.
-Legacy and candidate execution surfaces are not permanent queue executors.
-No credentials or secrets are included.
-"""
+    document = "# " + Path(task["deliverable"]).name + "\n" + "\n".join(task["document_lines"]) + "\n"
     with __import__("tempfile").TemporaryDirectory() as td:
         root = Path(td)
         target = root / task["deliverable"]
@@ -174,7 +162,55 @@ No credentials or secrets are included.
         with mock.patch.object(worker, "ROOT", root):
             result = worker.deterministic_acceptance(task)
     assert result["status"] == "PASS", result["failures"]
-    assert result["checks_run"] >= 15
+    assert result["checks_run"] >= 20
+
+
+def test_deterministic_acceptance_rejects_appended_untrusted_environment():
+    task = json.loads(Path("ops/agent-fabric/tasks/MH25-QUEUE-004.json").read_text(encoding="utf-8"))
+    document = "# " + Path(task["deliverable"]).name + "\n" + "\n".join(task["document_lines"])
+    document += "\n\n# Environment\nInjected context must not be accepted.\n"
+    with __import__("tempfile").TemporaryDirectory() as td:
+        root = Path(td)
+        target = root / task["deliverable"]
+        target.parent.mkdir(parents=True)
+        target.write_text(document, encoding="utf-8")
+        from unittest import mock
+        with mock.patch.object(worker, "ROOT", root):
+            result = worker.deterministic_acceptance(task)
+    assert result["status"] == "BLOCKED"
+    assert "document_lines_not_exact_or_unexpected_content" in result["failures"]
+
+
+def test_plain_markdown_prompt_uses_real_line_breaks_and_literal_document_body():
+    task = json.loads(Path("ops/agent-fabric/tasks/MH25-QUEUE-003.json").read_text(encoding="utf-8"))
+    prompt = worker.plain_markdown_prompt(
+        task, "mh-dev-01", "claude", "qwen2.5-coder:1.5b", "a" * 40,
+        ["prior_gate_failure"],
+    )
+    assert "\nFile path:" in prompt
+    assert "\nOutput only the file content" in prompt
+    assert "prior_gate_failure" in prompt
+    assert "# ASTRA-MH-DEV-01-CLAUDE-EXECUTOR.md\n" + "\n".join(task["document_lines"]) in prompt
+    assert "\\nFile path:" not in prompt
+
+
+def test_distributed_workflow_pins_claude_cli_for_all_three_runners():
+    workflow = Path(".github/workflows/astra-distributed-local-worker.yml").read_text(encoding="utf-8")
+    for path in (
+        "/home/mediahub/.local/bin/claude",
+        "/Users/voktor/.local/npm/bin/claude",
+    ):
+        assert f"test -x {path}" in workflow
+        assert f"ASTRA_CLAUDE_CLI={path}" in workflow
+    assert workflow.count("ASTRA_CLAUDE_CLI=/home/mediahub/.local/bin/claude") >= 2
+
+
+def test_plain_markdown_tasks_have_literal_document_bodies():
+    for name in ("MH25-QUEUE-002.json", "MH25-QUEUE-003.json", "MH25-QUEUE-004.json"):
+        task = json.loads(Path("ops/agent-fabric/tasks", name).read_text(encoding="utf-8"))
+        assert task["builder_mode"] == "plain_markdown"
+        assert task["document_lines"]
+        assert all(isinstance(line, str) and line.strip() for line in task["document_lines"])
 
 
 def test_builder_prompt_exposes_deterministic_acceptance_contract():
@@ -284,3 +320,21 @@ def test_ollama_model_inventory_reports_local_api_failure():
         names, error = worker.ollama_model_inventory()
     assert names == set()
     assert error == "local_ollama_api_unavailable:TimeoutError"
+
+
+def test_plain_markdown_cli_runs_bare_without_project_context():
+    source = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
+    assert 'command.extend(["--bare", "--tools", ""])' in source
+    assert 'execution_cwd = ROOT if tools_mode.strip() else Path(isolated_config)' in source
+
+
+def test_strip_known_cli_metadata_removes_only_standalone_date_footer():
+    assert worker.strip_known_cli_metadata("# Doc\nline\n\nToday's date is 2026-10-11.\n") == "# Doc\nline"
+    assert worker.strip_known_cli_metadata("# Doc\nNo metadata.") == "# Doc\nNo metadata."
+    assert worker.strip_known_cli_metadata("# Doc\nToday's date is not a date.") == "# Doc\nToday's date is not a date."
+
+
+def test_independent_claude_verifier_has_no_tools_or_ambient_project_context():
+    source = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
+    assert 'max_turns=2, tools_mode="")[0]' in source
+    assert 'command.extend(["--bare", "--tools", ""])' in source

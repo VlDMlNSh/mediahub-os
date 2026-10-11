@@ -262,13 +262,21 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
                 "--tools", tools_mode,
             ])
         else:
-            command.extend([
-                "--output-format", "text",
-                "--permission-mode", "acceptEdits",
-                "--tools", tools_mode,
-                "--allowedTools", "Read", "Edit", "Bash(git *)", "Bash(python *)",
-            ])
-        p = run(command, timeout, ROOT, env)
+            command.extend(["--output-format", "text"])
+            if tools_mode.strip():
+                command.extend([
+                    "--permission-mode", "acceptEdits",
+                    "--tools", tools_mode,
+                    "--allowedTools", "Read", "Edit", "Bash(git *)", "Bash(python *)",
+                ])
+            else:
+                # Plain artifact generation must not inherit project CLAUDE.md/hooks or
+                # tool-routing context; this prevents environment instructions becoming output.
+                command.extend(["--bare", "--tools", ""])
+        # No-tool artifact generation must not inherit repository CLAUDE.md/project context:
+        # local coding models have echoed injected environment instructions into deliverables.
+        execution_cwd = ROOT if tools_mode.strip() else Path(isolated_config)
+        p = run(command, timeout, execution_cwd, env)
     finally:
         shutil.rmtree(isolated_config, ignore_errors=True)
     return {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}, server
@@ -528,14 +536,72 @@ def deterministic_acceptance(task: dict) -> dict:
             continue
         if matched:
             failures.append("forbidden_pattern_present:" + pattern)
+    document_lines = task.get("document_lines")
+    if isinstance(document_lines, list) and document_lines:
+        expected_lines = ["# " + Path(deliverable).name] + [str(line).strip() for line in document_lines]
+        actual_lines = [line.strip() for line in content.splitlines() if line.strip()]
+        if actual_lines != expected_lines:
+            failures.append("document_lines_not_exact_or_unexpected_content")
+
     return {
         "status": "PASS" if not failures else "BLOCKED",
         "deliverable": deliverable,
         "checks_run": len(checks.get("required_text", []))
             + len(checks.get("required_patterns", []))
-            + len(checks.get("forbidden_patterns", [])),
+            + len(checks.get("forbidden_patterns", []))
+            + (1 if isinstance(document_lines, list) and document_lines else 0),
         "failures": failures,
     }
+
+
+def plain_markdown_prompt(
+    task: dict,
+    node_id: str,
+    executor: str,
+    model: str,
+    target_sha: str,
+    previous_failures: list[str] | None = None,
+) -> str:
+    """Build a compact prompt for bounded Markdown-only worker tasks."""
+    boundary = str(task.get("deliverable") or task.get("boundary", [""])[0])
+    filename = Path(boundary).name
+    document_lines = task.get("document_lines")
+    if not isinstance(document_lines, list) or not document_lines:
+        raise RuntimeError("plain_markdown_document_lines_missing")
+    required_body = "\n".join(str(line) for line in document_lines)
+    repair = ""
+    if previous_failures:
+        repair = (
+            "\nThe previous draft failed deterministic validation. Fix only these failures: "
+            + json.dumps(previous_failures, sort_keys=True)
+            + ". The required output below remains the entire document."
+        )
+    # Put all instructions before the canonical body so small local models are less likely
+    # to copy instruction text into the deliverable.
+    return (
+        "You are the A2 Builder. Generate one Markdown file.\n"
+        "Output only the file content, with no tool calls, status reports, examples, descriptions, or commentary.\n"
+        "Copy the required heading and every body line verbatim, in order. Do not add headings to body lines.\n"
+        f"File path: {boundary}; node: {node_id}; executor: {executor}; model: {model}; "
+        f"independent verifier: {task.get('verifier')}; target SHA: {target_sha}.\n"
+        + repair
+        + "\nThe entire document is exactly the text that follows. Do not output anything else.\n\n"
+        f"# {filename}\n{required_body}"
+    )
+
+def strip_known_cli_metadata(output: str) -> str:
+    """Normalize one outer Markdown fence and remove only a standalone CLI date footer."""
+    lines = (output or "").strip().splitlines()
+    fence = chr(96) * 3
+    if (
+        len(lines) >= 3
+        and re.fullmatch(r"\s*" + re.escape(fence) + r"(?:markdown|md)?\s*", lines[0], re.IGNORECASE)
+        and lines[-1].strip() == fence
+    ):
+        lines = lines[1:-1]
+    if lines and re.fullmatch(r"Today's date is \d{4}-\d{2}-\d{2}\.", lines[-1].strip(), re.IGNORECASE):
+        lines.pop()
+    return "\n".join(lines).strip()
 
 
 def parse_verifier_verdict(output: str) -> str | None:
@@ -566,7 +632,9 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
         return exec_codex(prompt, False, model, 240)
     if verifier == "claude":
         env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
-        return exec_claude(prompt, model, 240, env_file, 128, max_turns=2)[0]
+        # The verifier must judge only the supplied evidence; disable all tools and
+        # project-context auto-discovery so it cannot alter files or act on ambient instructions.
+        return exec_claude(prompt, model, 240, env_file, 128, max_turns=2, tools_mode="")[0]
     raise RuntimeError("unsupported_verifier")
 
 
@@ -653,6 +721,92 @@ def main() -> int:
         builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 3))
         build = {"returncode": 1, "stdout": "", "stderr": "builder_not_run"}
         attempt_records = []
+
+        if task.get("builder_mode") == "plain_markdown":
+            boundaries = [str(value) for value in task.get("boundary", [])]
+            if (
+                executor != "claude"
+                or len(boundaries) != 1
+                or not boundaries[0].endswith(".md")
+                or not isinstance(task.get("deterministic_checks"), dict)
+            ):
+                raise RuntimeError("plain_markdown_mode_requires_bounded_deterministic_markdown_task")
+
+            boundary = boundaries[0]
+            plain_attempts = max(1, min(builder_attempts, 2))
+            plain_timeout = min(
+                builder_timeout,
+                max(30, int(task.get("plain_artifact_timeout_seconds", 300))),
+            )
+            previous_failures: list[str] = []
+            for plain_attempt in range(1, plain_attempts + 1):
+                prompt = plain_markdown_prompt(
+                    task, node_id, executor, cfg["model"], target_sha, previous_failures
+                )
+                plain_result, server = exec_claude(
+                    prompt,
+                    cfg["model"],
+                    plain_timeout,
+                    Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+                    max_turns=1,
+                    tools_mode="",
+                )
+                attempt_records.append({
+                    "attempt": plain_attempt,
+                    "mode": "plain_markdown_builder",
+                    "returncode": plain_result.get("returncode"),
+                    "stdout": plain_result.get("stdout", "")[-4000:],
+                    "stderr": plain_result.get("stderr", "")[-3000:],
+                })
+
+                if plain_result.get("returncode") != 0:
+                    previous_failures = [
+                        "plain_markdown_executor_returncode:"
+                        + str(plain_result.get("returncode"))
+                    ]
+                    build = {
+                        **plain_result,
+                        "returncode": 1,
+                        "stderr": "plain_markdown_executor_failed",
+                    }
+                    continue
+
+                required_tokens = [node_id, executor, task["verifier"], "fail-closed", "main"]
+                normalized_output = strip_known_cli_metadata(plain_result.get("stdout", ""))
+                materialized = _materialize_bounded_markdown_output(
+                    normalized_output, boundary, required_tokens
+                )
+                if not materialized:
+                    previous_failures = [
+                        "plain_markdown_output_not_materialized:requires_heading_and_contract_tokens"
+                    ]
+                    build = {
+                        **plain_result,
+                        "returncode": 1,
+                        "stderr": previous_failures[0],
+                    }
+                    continue
+
+                gate = deterministic_acceptance(task)
+                plain_result["deterministic_acceptance"] = gate
+                if gate.get("status") != "PASS":
+                    previous_failures = list(gate.get("failures", []))
+                    build = {
+                        **plain_result,
+                        "returncode": 1,
+                        "stderr": "deterministic_acceptance_blocked:"
+                            + ",".join(previous_failures),
+                    }
+                    continue
+
+                build = plain_result
+                build["materialized_plain_text_artifact"] = materialized
+                break
+
+            # This bounded path replaces the interactive multi-tool builder loop.
+            # A failed artifact reaches the same fail-closed builder gate below.
+            builder_attempts = 0
+
         for attempt in range(1, builder_attempts + 1):
             attempt_prompt = builder_prompt_text
             if attempt > 1:
@@ -880,7 +1034,8 @@ def main() -> int:
         # the same strict acceptance, scope, security, tests, and independent-verifier gates
         # still decide whether it can be published.
         if (
-            executor == "claude"
+            task.get("builder_mode") != "plain_markdown"
+            and executor == "claude"
             and isinstance(task.get("deterministic_checks"), dict)
             and len(task.get("boundary", [])) == 1
             and str(task.get("boundary", [""])[0]).endswith(".md")

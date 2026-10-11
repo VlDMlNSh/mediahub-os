@@ -61,7 +61,8 @@ jobs:
           test "$(hostname)" = "mh-dev-01"
           test "$(id -un)" = "mediahub-runner"
           test "${ASTRA_EXECUTOR}" = "claude"
-          command -v claude
+          test -x /home/mediahub/.local/bin/claude
+          echo 'ASTRA_CLAUDE_CLI=/home/mediahub/.local/bin/claude' >> "$GITHUB_ENV"
           PYTHONPATH=. python3 - <<'PY'
           import json
           from ops.qualification.run_distributed_local_worker import ollama_model_inventory
@@ -114,7 +115,8 @@ jobs:
           test "$(hostname)" = "mh-dev-02"
           test "$(id -un)" = "mediahub"
           test "${ASTRA_EXECUTOR}" = "claude"
-          command -v claude
+          test -x /home/mediahub/.local/bin/claude
+          echo 'ASTRA_CLAUDE_CLI=/home/mediahub/.local/bin/claude' >> "$GITHUB_ENV"
           PYTHONPATH=. python3 - <<'PY'
           import json
           from ops.qualification.run_distributed_local_worker import ollama_model_inventory
@@ -168,7 +170,8 @@ jobs:
           test "$host" = "Voktors-Mini.Dlink" || test "$host" = "Voktors-Mac-mini"
           test "$(id -un)" = "voktor"
           test "${ASTRA_EXECUTOR}" = "claude"
-          command -v claude
+          test -x /Users/voktor/.local/npm/bin/claude
+          echo 'ASTRA_CLAUDE_CLI=/Users/voktor/.local/npm/bin/claude' >> "$GITHUB_ENV"
           PYTHONPATH=. python3 - <<'PY'
           import json
           from ops.qualification.run_distributed_local_worker import ollama_model_inventory
