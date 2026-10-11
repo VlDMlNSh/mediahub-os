@@ -142,6 +142,9 @@ class AgentFabricTests(unittest.TestCase):
         self.assertIn('ANTHROPIC_BASE_URL', source)
         self.assertIn('env["ASTRA_FCC_TRANSPORT"] = "fcc"', source)
         self.assertNotIn('urllib.request.Request(', source)
+        self.assertIn('def diff_for_verifier(target_sha: str, changed: set[str]) -> str:', source)
+        self.assertIn('run(["git", "diff", "--no-ext-diff", target_sha], 60)', source)
+        self.assertIn('includes_untracked_files', source)
 
 
 if __name__ == "__main__":

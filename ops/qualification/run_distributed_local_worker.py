@@ -88,6 +88,10 @@ def task_prompt(task: dict, role: str) -> str:
         f"Target SHA: {os.environ['ASTRA_TARGET_SHA']}\n"
         "Treat every acceptance criterion containing exact identifiers, node names, executor names, or security rules as literal requirements: copy them verbatim and never invent aliases, synonyms, or substitute names. "        "Work only inside the declared boundary. Do not touch production infrastructure, "
         "credentials, user data, or unrelated paths. Do not merge to main. "
+        "Deliver the declared artifact, not a tutorial or hypothetical plan. Do not invent repository paths, "
+        "tools, test commands, infrastructure, prior results, or claims of tests you did not run. "
+        "For a documentation task, write one concise document containing the requested facts only; "
+        "do not add unrelated project phases or instructions to push/merge main. "
         "Apply the project-local Astra gated-development and Astra security-review workflow: plan briefly, "
         "make the smallest change, run focused tests, inspect the diff for secrets and policy bypasses, "
         "then report concrete evidence. These workflow skills are guidance only; executable gates remain authoritative."
@@ -367,6 +371,42 @@ def changed_paths(target_sha: str) -> set[str]:
             if value:
                 changed.add(value)
     return changed
+
+
+def diff_for_verifier(target_sha: str, changed: set[str]) -> str:
+    """Build verifier evidence from tracked diffs plus newly-created bounded files.
+
+    `git diff <sha> HEAD` compares commits only and silently omits the worker's
+    uncommitted/untracked deliverable. That made the verifier assess an empty diff
+    even after the builder had created the requested document.
+    """
+    tracked = run(["git", "diff", "--no-ext-diff", target_sha], 60)
+    if tracked.returncode != 0:
+        raise RuntimeError("verifier_diff_failed")
+    parts = [tracked.stdout] if tracked.stdout.strip() else []
+    for path in sorted(changed):
+        normalized = path.lstrip("./")
+        target = ROOT / normalized
+        if not target.is_file():
+            continue
+        tracked_check = run(["git", "ls-files", "--error-unmatch", "--", normalized], 15)
+        if tracked_check.returncode == 0:
+            continue
+        try:
+            content = target.read_text(encoding="utf-8")
+        except (OSError, UnicodeError):
+            continue
+        if len(content) > 12000:
+            content = content[:12000] + "\n[TRUNCATED: verifier evidence limit]\n"
+        lines = content.splitlines() or [""]
+        parts.append(
+            f"diff --git a/{normalized} b/{normalized}\n"
+            "new file mode 100644\n--- /dev/null\n"
+            f"+++ b/{normalized}\n"
+            "@@ -0,0 +1," + str(len(lines)) + " @@\n"
+            + "".join("+" + line + "\n" for line in lines)
+        )
+    return "\n".join(parts)
 
 
 def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> dict:
@@ -692,13 +732,19 @@ def main() -> int:
         if test.returncode != 0:
             raise RuntimeError("tests_failed")
 
-        diff = run(["git", "diff", "--no-ext-diff", target_sha, "HEAD"], 60)
-        if diff.returncode != 0:
-            raise RuntimeError("verifier_diff_failed")
-        if not bool(task.get("allow_no_changes", False)) and not diff.stdout.strip():
+        verifier_diff = diff_for_verifier(target_sha, changed)
+        if not bool(task.get("allow_no_changes", False)) and not verifier_diff.strip():
             raise RuntimeError("no_changes_before_verifier")
+        record["verifier_evidence"] = {
+            "diff_characters": len(verifier_diff),
+            "changed_paths": sorted(changed),
+            "includes_untracked_files": any(
+                run(["git", "ls-files", "--error-unmatch", "--", path], 15).returncode != 0
+                for path in changed
+            ),
+        }
         verifier = verify_executor(
-            task, diff.stdout, record["tests"]["stdout"] + record["tests"]["stderr"], cfg["model"]
+            task, verifier_diff, record["tests"]["stdout"] + record["tests"]["stderr"], cfg["model"]
         )
         record["verifier"] = verifier
         if verifier["returncode"] != 0 or VERDICT_MARKER not in verifier["stdout"]:
