@@ -55,5 +55,33 @@
   "qualification": {
     "evidence_required": true,
     "commit_binding": true
+  },
+  "deterministic_checks": {
+    "required_text": [
+      "Claude",
+      "A2 Builder",
+      "A3 Verifier",
+      "target-SHA",
+      "isolated branches",
+      "GitHub evidence transport",
+      "fail-closed",
+      "no direct writes to main",
+      "three simultaneous disjoint claims",
+      "exactly three Claude lanes",
+      "no credentials or secrets"
+    ],
+    "required_patterns": [
+      "(?im)^.*mh-dev-01.*controller/authority.*$",
+      "(?im)^.*mh-dev-02.*primary local pool.*$",
+      "(?im)^.*Voktors-Mac-mini[.]local.*fast pool.*$",
+      "(?i)G[ ]*[- ]?5[ ]*=[ ]*3",
+      "(?i)exactly three.{0,100}Claude lanes",
+      "(?i)legacy.{0,100}candidate.{0,40}(not|never).{0,40}permanent"
+    ],
+    "forbidden_patterns": [
+      "(?im)^.*mh-dev-01.*primary local pool.*$",
+      "(?im)^.*mh-dev-02.*fast pool.*$",
+      "(?i)(codex|non-Claude).{0,80}permanent (production )?executor"
+    ]
   }
 }

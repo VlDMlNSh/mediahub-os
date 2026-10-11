@@ -415,6 +415,68 @@ def diff_for_verifier(target_sha: str, changed: set[str]) -> str:
     return "\n".join(parts)
 
 
+def deterministic_acceptance(task: dict) -> dict:
+    """Validate objective deliverable requirements without delegating truth to an LLM."""
+    checks = task.get("deterministic_checks")
+    if not isinstance(checks, dict):
+        return {"status": "NOT_CONFIGURED", "failures": ["deterministic_checks_missing"]}
+
+    boundaries = [str(x) for x in task.get("boundary", [])]
+    deliverable = str(task.get("deliverable") or (boundaries[0] if len(boundaries) == 1 else ""))
+    if not deliverable or deliverable not in boundaries:
+        return {"status": "BLOCKED", "failures": ["deliverable_not_inside_declared_boundary"]}
+    target = ROOT / deliverable
+    if not target.is_file():
+        return {"status": "BLOCKED", "failures": ["deliverable_missing:" + deliverable]}
+    try:
+        content = target.read_text(encoding="utf-8")
+    except (OSError, UnicodeError):
+        return {"status": "BLOCKED", "failures": ["deliverable_unreadable:" + deliverable]}
+
+    failures: list[str] = []
+    lowered = content.casefold()
+    for token in checks.get("required_text", []):
+        token = str(token)
+        if token.casefold() not in lowered:
+            failures.append("missing_required_text:" + token)
+    for pattern in checks.get("required_patterns", []):
+        pattern = str(pattern)
+        try:
+            matched = re.search(pattern, content, re.IGNORECASE | re.MULTILINE) is not None
+        except re.error:
+            failures.append("invalid_required_pattern:" + pattern)
+            continue
+        if not matched:
+            failures.append("missing_required_pattern:" + pattern)
+    for pattern in checks.get("forbidden_patterns", []):
+        pattern = str(pattern)
+        try:
+            matched = re.search(pattern, content, re.IGNORECASE | re.MULTILINE) is not None
+        except re.error:
+            failures.append("invalid_forbidden_pattern:" + pattern)
+            continue
+        if matched:
+            failures.append("forbidden_pattern_present:" + pattern)
+    return {
+        "status": "PASS" if not failures else "BLOCKED",
+        "deliverable": deliverable,
+        "checks_run": len(checks.get("required_text", []))
+            + len(checks.get("required_patterns", []))
+            + len(checks.get("forbidden_patterns", [])),
+        "failures": failures,
+    }
+
+
+def parse_verifier_verdict(output: str) -> str | None:
+    """Accept only a standalone verdict line, never a PASS substring in prose."""
+    match = re.fullmatch(
+        r"\s*(?:\*\*)?ASTRA_VERDICT:\s*(PASS|BLOCKED)(?:\*\*)?\s*",
+        output or "",
+        flags=re.IGNORECASE,
+    )
+    return match.group(1).upper() if match else None
+
+
 def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> dict:
     prompt = (
         "You are an independent A3 Verifier. Review the completed micro-task against every "
@@ -441,7 +503,7 @@ def security_gate(changed: set[str], task: dict) -> list[str]:
     forbidden = tuple(str(x) for x in task.get("forbidden", task.get("forbidden_surfaces", [])))
     findings: list[str] = []
     secret_patterns = [
-        re.compile(r"(?i)(api[_-]?key|access[_-]?token|secret|private[_-]?key|bearer)\\s*[:=]\\s*['\\\"][^'\\\"]{12,}"),
+        re.compile(r"(?i)(?:api[_-]?key|access[_-]?token|secret|private[_-]?key|bearer)\s*[:=]\s*['\"][^'\"]{12,}"),
         re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     ]
     for path in sorted(changed):
@@ -549,6 +611,23 @@ def main() -> int:
                 break
             changed_probe = changed_paths(target_sha)
             if changed_probe:
+                gate = deterministic_acceptance(task)
+                if gate["status"] == "PASS":
+                    break
+                attempt_records.append({
+                    "attempt": attempt,
+                    "mode": "deterministic_acceptance_retry",
+                    "returncode": 1,
+                    "stderr": json.dumps(gate.get("failures", []), sort_keys=True),
+                })
+                builder_prompt_text += (
+                    "\n\nAUTOMATED ACCEPTANCE GATE BLOCKED the previous artifact. "
+                    "Revise the declared deliverable to satisfy every deterministic requirement. "
+                    "Do not claim success unless the file content itself satisfies these checks. "
+                    "Exact failures: " + json.dumps(gate.get("failures", []), sort_keys=True)
+                )
+                if attempt < builder_attempts:
+                    continue
                 break
             if executor == "claude":
                 boundaries = [str(x) for x in task.get("boundary", [])]
@@ -562,8 +641,22 @@ def main() -> int:
                     if materialized_builder:
                         changed_probe = changed_paths(target_sha)
                         if changed_probe:
-                            build["materialized_builder_artifact"] = materialized_builder
-                            break
+                            gate = deterministic_acceptance(task)
+                            if gate["status"] == "PASS":
+                                build["materialized_builder_artifact"] = materialized_builder
+                                break
+                            attempt_records.append({
+                                "attempt": attempt, "mode": "deterministic_acceptance_retry",
+                                "returncode": 1,
+                                "stderr": json.dumps(gate.get("failures", []), sort_keys=True),
+                            })
+                            builder_prompt_text += (
+                                "\n\nAUTOMATED ACCEPTANCE GATE BLOCKED the artifact. "
+                                "Correct these exact failures: "
+                                + json.dumps(gate.get("failures", []), sort_keys=True)
+                            )
+                            if attempt < builder_attempts:
+                                continue
             if executor == "claude" and attempt == builder_attempts:
                 boundaries = [str(x) for x in task.get("boundary", [])]
                 if len(boundaries) == 1 and boundaries[0].endswith(".md"):
@@ -637,18 +730,46 @@ def main() -> int:
                             artifact_path.write_text(structured_markdown + "\n", encoding="utf-8")
                             changed_probe = changed_paths(target_sha)
                             if changed_probe:
-                                build = artifact
-                                build["materialized_structured_artifact"] = boundaries[0]
-                                break
+                                gate = deterministic_acceptance(task)
+                                if gate["status"] == "PASS":
+                                    build = artifact
+                                    build["materialized_structured_artifact"] = boundaries[0]
+                                    break
+                                attempt_records.append({
+                                    "attempt": attempt, "mode": "deterministic_acceptance_retry",
+                                    "returncode": 1,
+                                    "stderr": json.dumps(gate.get("failures", []), sort_keys=True),
+                                })
+                                builder_prompt_text += (
+                                    "\n\nAUTOMATED ACCEPTANCE GATE BLOCKED the structured artifact. "
+                                    "Correct these exact failures: "
+                                    + json.dumps(gate.get("failures", []), sort_keys=True)
+                                )
+                                if attempt < builder_attempts:
+                                    continue
                     materialized_tool = None
                     if artifact.get("returncode") == 0 and boundaries:
                         materialized_tool = _materialize_bounded_claude_tool_output(output, boundaries[0])
                         if materialized_tool:
                             changed_probe = changed_paths(target_sha)
                             if changed_probe:
-                                build = artifact
-                                build["materialized_tool_output"] = materialized_tool
-                                break
+                                gate = deterministic_acceptance(task)
+                                if gate["status"] == "PASS":
+                                    build = artifact
+                                    build["materialized_tool_output"] = materialized_tool
+                                    break
+                                attempt_records.append({
+                                    "attempt": attempt, "mode": "deterministic_acceptance_retry",
+                                    "returncode": 1,
+                                    "stderr": json.dumps(gate.get("failures", []), sort_keys=True),
+                                })
+                                builder_prompt_text += (
+                                    "\n\nAUTOMATED ACCEPTANCE GATE BLOCKED the tool artifact. "
+                                    "Correct these exact failures: "
+                                    + json.dumps(gate.get("failures", []), sort_keys=True)
+                                )
+                                if attempt < builder_attempts:
+                                    continue
                     match = re.search(
                         r"ASTRA_ARTIFACT_BEGIN\s*\n(.*?)\nASTRA_ARTIFACT_END",
                         output,
@@ -671,9 +792,23 @@ def main() -> int:
                             artifact_path.write_text(artifact_text + "\n", encoding="utf-8")
                             changed_probe = changed_paths(target_sha)
                             if changed_probe:
-                                build = artifact
-                                build["materialized_artifact"] = boundaries[0]
-                                break
+                                gate = deterministic_acceptance(task)
+                                if gate["status"] == "PASS":
+                                    build = artifact
+                                    build["materialized_artifact"] = boundaries[0]
+                                    break
+                                attempt_records.append({
+                                    "attempt": attempt, "mode": "deterministic_acceptance_retry",
+                                    "returncode": 1,
+                                    "stderr": json.dumps(gate.get("failures", []), sort_keys=True),
+                                })
+                                builder_prompt_text += (
+                                    "\n\nAUTOMATED ACCEPTANCE GATE BLOCKED the fenced artifact. "
+                                    "Correct these exact failures: "
+                                    + json.dumps(gate.get("failures", []), sort_keys=True)
+                                )
+                                if attempt < builder_attempts:
+                                    continue
         record["builder"] = build
         record["builder_attempts"] = attempt_records
         if build["returncode"] != 0:
@@ -684,6 +819,14 @@ def main() -> int:
             )
 
         changed = changed_paths(target_sha)
+        deterministic_result = deterministic_acceptance(task)
+        record["deterministic_acceptance"] = deterministic_result
+        if deterministic_result["status"] != "PASS":
+            raise RuntimeError(
+                "deterministic_acceptance_blocked:"
+                + ",".join(deterministic_result.get("failures", []))
+            )
+
         security_findings = security_gate(changed, task)
         record["security_gate"] = {"status": "PASS" if not security_findings else "BLOCKED", "findings": security_findings}
         if security_findings:
@@ -739,8 +882,10 @@ def main() -> int:
             task, verifier_diff, record["tests"]["stdout"] + record["tests"]["stderr"], cfg["model"]
         )
         record["verifier"] = verifier
-        if verifier["returncode"] != 0 or VERDICT_MARKER not in verifier["stdout"]:
-            raise RuntimeError("verifier_failed")
+        parsed_verdict = parse_verifier_verdict(verifier.get("stdout", ""))
+        record["verifier"]["parsed_verdict"] = parsed_verdict
+        if verifier["returncode"] != 0 or parsed_verdict != "PASS":
+            raise RuntimeError("verifier_failed_or_noncanonical_verdict")
 
         if not run(["git", "status", "--porcelain"], 30).stdout.strip():
             if not bool(task.get("allow_no_changes", False)):

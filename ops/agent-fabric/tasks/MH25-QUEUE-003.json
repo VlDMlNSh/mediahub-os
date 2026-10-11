@@ -54,5 +54,28 @@
   "qualification": {
     "evidence_required": true,
     "commit_binding": true
+  },
+  "deterministic_checks": {
+    "required_text": [
+      "mh-dev-01",
+      "claude",
+      "qwen2.5-coder:1.5b",
+      "verifier",
+      "executor-only",
+      "target-SHA",
+      "branch",
+      "fail-closed",
+      "main",
+      "no credentials or secrets"
+    ],
+    "required_patterns": [
+      "(?i)(mh-dev-01.{0,120}qwen2[.]5-coder:1[.]5b|qwen2[.]5-coder:1[.]5b.{0,120}mh-dev-01)",
+      "(?i)independent.{0,40}verifier",
+      "(?i)never writes directly to main|no direct writes to main"
+    ],
+    "forbidden_patterns": [
+      "(?i)codex.{0,80}permanent executor",
+      "(?i)writes directly to main"
+    ]
   }
 }
