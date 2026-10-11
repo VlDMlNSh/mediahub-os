@@ -169,6 +169,13 @@ class DistributedWorkflowContractTests(unittest.TestCase):
         self.assertIn("ASTRA_DISTRIBUTED_EVIDENCE_DIR=", text)
         self.assertIn("path: .astra-state", text)
 
+    def test_worker_admission_uses_local_ollama_http_inventory(self):
+        text = Path(".github/workflows/astra-distributed-local-worker.yml").read_text(encoding="utf-8")
+        self.assertIn("ollama_model_inventory", text)
+        self.assertIn("ASTRA_LOCAL_MODEL_ADMISSION=", text)
+        self.assertNotIn("ollama list | grep", text)
+
 
 if __name__ == "__main__":
     unittest.main()
+

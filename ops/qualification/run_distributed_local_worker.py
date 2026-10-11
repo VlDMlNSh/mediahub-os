@@ -113,10 +113,31 @@ def load_env_file(path: Path) -> dict[str, str]:
     return values
 
 
+def ollama_model_inventory() -> tuple[set[str], str | None]:
+    """Read local Ollama's HTTP API without depending on the runner user's CLI profile."""
+    endpoint = "http://127.0.0.1:11434/api/tags"
+    try:
+        with urllib.request.urlopen(endpoint, timeout=10) as response:
+            if response.status != 200:
+                return set(), "local_ollama_api_http_status"
+            payload = json.loads(response.read().decode("utf-8"))
+    except Exception as exc:
+        return set(), "local_ollama_api_unavailable:" + type(exc).__name__
+
+    entries = payload.get("models") if isinstance(payload, dict) else None
+    if not isinstance(entries, list):
+        return set(), "local_ollama_api_invalid_payload"
+    names = {
+        str(item.get("name") or item.get("model") or "").strip()
+        for item in entries if isinstance(item, dict)
+    }
+    names.discard("")
+    return names, None
+
+
 def ollama_has_model(model: str) -> bool:
-    binary = shutil.which("ollama") or "/usr/local/bin/ollama"
-    p = run([binary, "list"], 20)
-    return p.returncode == 0 and any(line.split() and line.split()[0] == model for line in p.stdout.splitlines())
+    names, error = ollama_model_inventory()
+    return error is None and model in names
 
 
 def start_fcc(env_file: Path, model: str, server_path: str | None = None) -> tuple[subprocess.Popen[str] | None, dict[str, str]]:

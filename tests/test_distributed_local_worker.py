@@ -252,3 +252,35 @@ def test_plain_markdown_fallback_acceptance_contract_is_explicit():
     assert "level-one Markdown heading" in source
     assert "_materialize_bounded_markdown_output(" in source
     assert 'plain_artifact_timeout_seconds", 600' in source
+
+
+def test_ollama_model_inventory_reads_http_api_and_checks_exact_tags():
+    class Response:
+        status = 200
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            return False
+        def read(self):
+            return json.dumps({
+                "models": [
+                    {"name": "qwen2.5-coder:1.5b"},
+                    {"model": "qwen2.5-coder:3b"},
+                    {"name": "qwen2.5-coder:7b"},
+                ]
+            }).encode()
+
+    from unittest import mock
+    with mock.patch.object(worker.urllib.request, "urlopen", return_value=Response()) as opened:
+        names, error = worker.ollama_model_inventory()
+    assert error is None
+    assert names == {"qwen2.5-coder:1.5b", "qwen2.5-coder:3b", "qwen2.5-coder:7b"}
+    opened.assert_called_once_with("http://127.0.0.1:11434/api/tags", timeout=10)
+
+
+def test_ollama_model_inventory_reports_local_api_failure():
+    from unittest import mock
+    with mock.patch.object(worker.urllib.request, "urlopen", side_effect=TimeoutError()):
+        names, error = worker.ollama_model_inventory()
+    assert names == set()
+    assert error == "local_ollama_api_unavailable:TimeoutError"

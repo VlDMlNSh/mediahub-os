@@ -62,8 +62,20 @@ jobs:
           test "$(id -un)" = "mediahub-runner"
           test "${ASTRA_EXECUTOR}" = "claude"
           command -v claude
-          command -v ollama
-          ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'
+          PYTHONPATH=. python3 - <<'PY'
+          import json
+          from ops.qualification.run_distributed_local_worker import ollama_model_inventory
+          expected = "qwen2.5-coder:1.5b"
+          names, error = ollama_model_inventory()
+          print("ASTRA_LOCAL_MODEL_ADMISSION=" + json.dumps({
+              "status": "BLOCKED" if error or expected not in names else "PASS",
+              "expected_model": expected,
+              "local_model_names": sorted(names),
+              "error_code": error,
+          }, sort_keys=True))
+          if error or expected not in names:
+              raise SystemExit(2)
+          PY
       - name: Execute bounded local Claude worker
         shell: bash
         run: python3 ops/qualification/run_distributed_local_worker.py
@@ -103,8 +115,20 @@ jobs:
           test "$(id -un)" = "mediahub"
           test "${ASTRA_EXECUTOR}" = "claude"
           command -v claude
-          command -v ollama
-          ollama list | grep -E '^qwen2.5-coder:3b[[:space:]]|^qwen2.5-coder-3b:latest[[:space:]]'
+          PYTHONPATH=. python3 - <<'PY'
+          import json
+          from ops.qualification.run_distributed_local_worker import ollama_model_inventory
+          expected = "qwen2.5-coder:3b"
+          names, error = ollama_model_inventory()
+          print("ASTRA_LOCAL_MODEL_ADMISSION=" + json.dumps({
+              "status": "BLOCKED" if error or expected not in names else "PASS",
+              "expected_model": expected,
+              "local_model_names": sorted(names),
+              "error_code": error,
+          }, sort_keys=True))
+          if error or expected not in names:
+              raise SystemExit(2)
+          PY
       - name: Execute bounded local Claude worker
         shell: bash
         run: python3 ops/qualification/run_distributed_local_worker.py
@@ -145,8 +169,20 @@ jobs:
           test "$(id -un)" = "voktor"
           test "${ASTRA_EXECUTOR}" = "claude"
           command -v claude
-          command -v ollama
-          ollama list | grep -E '^qwen2.5-coder:1.5b[[:space:]]'
+          PYTHONPATH=. python3 - <<'PY'
+          import json
+          from ops.qualification.run_distributed_local_worker import ollama_model_inventory
+          expected = "qwen2.5-coder:1.5b"
+          names, error = ollama_model_inventory()
+          print("ASTRA_LOCAL_MODEL_ADMISSION=" + json.dumps({
+              "status": "BLOCKED" if error or expected not in names else "PASS",
+              "expected_model": expected,
+              "local_model_names": sorted(names),
+              "error_code": error,
+          }, sort_keys=True))
+          if error or expected not in names:
+              raise SystemExit(2)
+          PY
       - name: Execute bounded local worker
         shell: bash
         run: python3 ops/qualification/run_distributed_local_worker.py
