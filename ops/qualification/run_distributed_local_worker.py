@@ -339,6 +339,12 @@ def _materialize_bounded_markdown_output(output: str, boundary: str, required_to
     except ValueError:
         return None
     blocks = re.findall(r"(?s)```(?:markdown|md|plaintext|text)?[ \t]*\n(.*?)\n```", output, re.IGNORECASE)
+    # Small local models often return a complete Markdown document without fences.
+    # Accept only heading-led document-shaped output and keep the same token/scope gates;
+    # conversational prose and arbitrary code blocks are not materialized.
+    stripped_output = output.strip()
+    if not blocks and re.match(r"(?m)^#{1,6}\s+", stripped_output):
+        blocks = [stripped_output]
     for block in sorted(blocks, key=len, reverse=True):
         content = block.strip()
         if not content or not all(token.lower() in content.lower() for token in required_tokens):

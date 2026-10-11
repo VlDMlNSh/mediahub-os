@@ -132,6 +132,9 @@ class AgentFabricTests(unittest.TestCase):
             self.assertIn("qwen2.5-coder:3b", (Path(td) / "docs/ops/lane.md").read_text(encoding="utf-8"))
             self.assertIsNone(local_worker._materialize_bounded_markdown_output(output, "../escape.md", required))
             self.assertIsNone(local_worker._materialize_bounded_markdown_output("```text\nnot the required document\n```", "docs/ops/no.md", required))
+            unfenced = "# Lane contract\nVoktors-Mac-mini.local claude qwen2.5-coder:3b target-SHA fail-closed main"
+            self.assertEqual(local_worker._materialize_bounded_markdown_output(unfenced, "docs/ops/unfenced.md", required), "docs/ops/unfenced.md")
+            self.assertIsNone(local_worker._materialize_bounded_markdown_output("Here is the document: " + unfenced, "docs/ops/prose.md", required))
 
     def test_claude_executor_uses_real_cli_and_fcc_transport(self):
         source = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
