@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from ops.qualification import run_distributed_local_worker as worker
@@ -186,3 +187,11 @@ def test_builder_prompt_exposes_deterministic_acceptance_contract():
     assert "mh-dev-01: Controller/Authority" in prompt
     assert "mh-dev-02: Primary Local Pool" in prompt
     assert "G5=3" in prompt
+
+
+def test_forbidden_main_write_pattern_respects_negation():
+    task = json.loads(Path("ops/agent-fabric/tasks/MH25-QUEUE-004.json").read_text(encoding="utf-8"))
+    patterns = task["deterministic_checks"]["forbidden_patterns"]
+    write_pattern = next(pattern for pattern in patterns if "writes directly to main" in pattern)
+    assert re.search(write_pattern, "The worker never writes directly to main.") is None
+    assert re.search(write_pattern, "The worker writes directly to main.") is not None

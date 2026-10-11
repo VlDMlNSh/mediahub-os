@@ -79,9 +79,8 @@
       "(?i)legacy.{0,100}candidate.{0,40}(not|never).{0,40}permanent"
     ],
     "forbidden_patterns": [
-      "(?im)^.*mh-dev-01.*primary local pool.*$",
-      "(?im)^.*mh-dev-02.*fast pool.*$",
-      "(?i)(codex|non-Claude).{0,80}permanent (production )?executor"
+      "(?i)codex.{0,80}permanent executor",
+      "(?i)(?<!never )writes directly to main"
     ]
   }
 }

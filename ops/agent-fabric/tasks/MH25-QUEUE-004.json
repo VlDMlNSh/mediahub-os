@@ -75,7 +75,7 @@
     ],
     "forbidden_patterns": [
       "(?i)codex.{0,80}permanent executor",
-      "(?i)writes directly to main"
+      "(?i)(?<!never )writes directly to main"
     ]
   }
 }
