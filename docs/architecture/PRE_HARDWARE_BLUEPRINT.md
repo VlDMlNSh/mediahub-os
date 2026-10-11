@@ -4,6 +4,8 @@
 **Target implementation window:** after the Mac Pro workstation is acquired.  
 **Working branch:** `architecture/pre-hardware-blueprint`
 
+> **Authority and reconciliation note:** This is a supplemental pre-hardware implementation plan, not a replacement for the canonical Astra Gold architecture. The canonical authority model, production-lane mapping, governance YAML, frozen runnable foundation, and existing component decisions take precedence. Any conflict must be reconciled through an explicit architecture decision before implementation. The Mac Pro desktop is a developer-app capability; pairing a Mac Pro does not alter production-lane admission or qualification.
+
 ## 1. Purpose and operating rule
 
 Design the system now so hardware acquisition is an implementation step, not an architecture-discovery phase. Keep the current Astra Gold qualification work isolated: this blueprint must not block, reset, or falsely mark any existing qualification queue as complete.
