@@ -382,7 +382,7 @@ def test_exec_claude_no_tools_keeps_fcc_compatible_system_prompt_and_isolated_cw
              mock.patch.object(worker, "run", side_effect=fake_run):
             result, server = worker.exec_claude(
                 "Write the exact document.", "qwen2.5-coder:1.5b", 20,
-                env_file, max_turns=1, tools_mode="",
+                env_file, max_tokens=256, max_turns=1, tools_mode="",
             )
 
     assert server is None
@@ -392,6 +392,8 @@ def test_exec_claude_no_tools_keeps_fcc_compatible_system_prompt_and_isolated_cw
     assert captured["argv"][tools_index + 1] == ""
     assert captured["cwd"] == captured["env"]["CLAUDE_CONFIG_DIR"]
     assert captured["cwd"] != str(worker.ROOT)
+    assert captured["env"]["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] == "256"
+    assert captured["env"]["API_TIMEOUT_MS"] == "15000"
 
 
 def test_executor_failure_classifier_exposes_adapter_failure_as_stable_code():
@@ -432,3 +434,45 @@ def test_worker_diagnostic_summary_preserves_safe_failure_code_without_raw_outpu
     assert summary["builder_attempts"][0]["failure_code"] == "fcc_requires_nonempty_system_prompt"
     assert "API Error" not in rendered
     assert "adapter diagnostic" not in rendered
+
+
+def test_exec_claude_converts_subprocess_timeout_to_bounded_failure_code():
+    import os
+    import subprocess
+    import tempfile
+    from unittest import mock
+
+    with tempfile.TemporaryDirectory(prefix="astra-cli-timeout-test-") as td:
+        root = Path(td)
+        cli = root / "claude"
+        cli.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+        cli.chmod(0o755)
+        env_file = root / "fcc.env"
+        env_file.write_text("MODEL=ollama/qwen2.5-coder:1.5b\n", encoding="utf-8")
+
+        class Health:
+            status = 200
+            def __enter__(self):
+                return self
+            def __exit__(self, *args):
+                return False
+
+        with mock.patch.dict(os.environ, {"ASTRA_CLAUDE_CLI": str(cli)}), \
+             mock.patch.object(worker, "load_env_file", return_value={
+                 "MODEL": "ollama/qwen2.5-coder:1.5b",
+                 "HOST": "127.0.0.1",
+                 "PORT": "18093",
+                 "ANTHROPIC_AUTH_TOKEN": "test-token-not-a-real-secret",
+             }), \
+             mock.patch.object(worker.urllib.request, "urlopen", return_value=Health()), \
+             mock.patch.object(worker, "run", side_effect=subprocess.TimeoutExpired(["claude"], 20)):
+            result, server = worker.exec_claude(
+                "short diagnostic prompt", "qwen2.5-coder:1.5b", 20,
+                env_file, max_tokens=256, max_turns=1, tools_mode="",
+            )
+
+    assert server is None
+    assert result["returncode"] == 124
+    assert result["failure_code"] == "executor_timeout"
+    assert result["stderr"] == "claude_cli_request_timeout"
+    assert "short diagnostic prompt" not in json.dumps(result)

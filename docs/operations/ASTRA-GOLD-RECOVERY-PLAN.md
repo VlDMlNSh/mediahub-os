@@ -10,6 +10,10 @@ Run 38149541196 used source SHA aa2ea4281343c084d7f50f49a376be6d8a7d31b9. The Ma
 
 The failure was not proof of a bad task artifact or a verifier rejection. The --bare option removed the system message required by the node-local FCC OpenAI-compatible adapter. The no-tool artifact path already uses a temporary working directory and temporary CLAUDE_CONFIG_DIR, so --bare is unnecessary to isolate repository instructions.
 
+A follow-up canary on mh-dev-01, run 38167008390 at source SHA d09e3e6b4d4d697097be99ea47097251a9bde3a4, confirmed that removing --bare avoids the earlier HTTP 400, but the local qwen2.5-coder:1.5b generation did not finish within 300 seconds. The attempt ended BLOCKED before an artifact or verifier verdict existed. The wrapper accepted a max_tokens argument but previously did not apply it to Claude Code; therefore, generation was not bounded by that intended setting. The next repair applies CLAUDE_CODE_MAX_OUTPUT_TOKENS, bounds each API request below the subprocess timeout, and records timeouts as a small safe failure code rather than serializing the command and full prompt.
+
+The recovery policy remains fail-closed: this timeout is a failed canary, not a partial pass. Do not dispatch the other lanes or integrated supervisor until the new bounded canary succeeds with artifact, test, verifier, and remote-SHA evidence.
+
 ## Rollout stages and hard gates
 
 ### Stage 0 — Freeze and preflight

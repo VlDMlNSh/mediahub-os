@@ -271,6 +271,13 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     env["ENABLE_HAIKU_THINKING"] = "false"
     env["CLAUDE_CODE_DISABLE_THINKING"] = "1"
     env["MAX_THINKING_TOKENS"] = "0"
+    # Actually apply the max_tokens argument: previously it was accepted by this
+    # wrapper but never reached Claude Code, allowing small local models to decode
+    # for minutes without a useful result. Cap one API request below the enclosing
+    # process timeout so failure is bounded and the worker can emit evidence.
+    effective_max_tokens = max(32, min(int(max_tokens), 4096))
+    env["CLAUDE_CODE_MAX_OUTPUT_TOKENS"] = str(effective_max_tokens)
+    env["API_TIMEOUT_MS"] = str(max(15000, min(int(timeout) * 1000 - 15000, 225000)))
     isolated_config = tempfile.mkdtemp(prefix="astra-claude-config-")
     env["CLAUDE_CONFIG_DIR"] = isolated_config
     try:
@@ -299,6 +306,15 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
         # No-tool generation runs in an isolated cwd/config directory to avoid project context.
         execution_cwd = ROOT if tools_mode.strip() else Path(isolated_config)
         p = run(command, timeout, execution_cwd, env)
+    except subprocess.TimeoutExpired:
+        # Do not serialize the exception: subprocess.TimeoutExpired includes the
+        # entire command and prompt, creating noisy/unbounded diagnostics.
+        return {
+            "returncode": 124,
+            "stdout": "",
+            "stderr": "claude_cli_request_timeout",
+            "failure_code": "executor_timeout",
+        }, server
     finally:
         shutil.rmtree(isolated_config, ignore_errors=True)
     result = {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}
@@ -774,6 +790,7 @@ def main() -> int:
                     cfg["model"],
                     plain_timeout,
                     Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+                    max_tokens=int(task.get("plain_artifact_max_tokens", 256)),
                     max_turns=1,
                     tools_mode="",
                 )
@@ -1101,6 +1118,7 @@ def main() -> int:
                 cfg["model"],
                 min(builder_timeout, int(task.get("plain_artifact_timeout_seconds", 600))),
                 Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+                max_tokens=int(task.get("plain_artifact_max_tokens", 256)),
                 max_turns=2,
                 tools_mode="",
             )

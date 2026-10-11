@@ -79,7 +79,7 @@
     ]
   },
   "builder_mode": "plain_markdown",
-  "plain_artifact_timeout_seconds": 300,
+  "plain_artifact_timeout_seconds": 240,
   "document_lines": [
     "Node identity: Voktors-Mac-mini.local",
     "Executor identity: claude",
@@ -90,5 +90,6 @@
     "Promotion is fail-closed.",
     "The worker never writes directly to main.",
     "No credentials or secrets are included."
-  ]
+  ],
+  "plain_artifact_max_tokens": 256
 }
