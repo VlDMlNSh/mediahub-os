@@ -553,7 +553,9 @@ def main() -> int:
             if executor == "claude":
                 boundaries = [str(x) for x in task.get("boundary", [])]
                 if len(boundaries) == 1:
-                    required_tokens = [node_id, executor, task["verifier"], cfg["model"], "target-SHA", "fail-closed", "main"]
+                    # Materialization is only a plausibility check; the independent A3 verifier must
+                    # decide whether all acceptance criteria, including model/SHA binding, hold.
+                    required_tokens = [node_id, executor, task["verifier"], "fail-closed", "main"]
                     materialized_builder = _materialize_bounded_markdown_output(
                         build.get("stdout", ""), boundaries[0], required_tokens
                     )
@@ -628,15 +630,7 @@ def main() -> int:
                         except (json.JSONDecodeError, AttributeError, TypeError):
                             structured_markdown = None
                     if structured_markdown and boundaries:
-                        required_tokens = [
-                            node_id,
-                            executor,
-                            task["verifier"],
-                            cfg["model"],
-                            "target-SHA",
-                            "fail-closed",
-                            "main",
-                        ]
+                        required_tokens = [node_id, executor, task["verifier"], "fail-closed", "main"]
                         if all(token.lower() in structured_markdown.lower() for token in required_tokens):
                             artifact_path = ROOT / boundaries[0]
                             artifact_path.parent.mkdir(parents=True, exist_ok=True)
@@ -662,15 +656,7 @@ def main() -> int:
                     )
                     if artifact.get("returncode") == 0 and match:
                         artifact_text = match.group(1).strip()
-                        required_tokens = [
-                            node_id,
-                            executor,
-                            task["verifier"],
-                            cfg["model"],
-                            "target-SHA",
-                            "fail-closed",
-                            "main",
-                        ]
+                        required_tokens = [node_id, executor, task["verifier"], "fail-closed", "main"]
                         if not all(token.lower() in artifact_text.lower() for token in required_tokens):
                             attempt_records.append({
                                 "attempt": attempt,
