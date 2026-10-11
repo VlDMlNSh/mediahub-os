@@ -200,6 +200,26 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
         }
 
 
+def classify_executor_failure(stdout: str, stderr: str, returncode: int) -> str:
+    """Return a safe stable failure code without echoing model output or credentials."""
+    if returncode == 0:
+        return ""
+    text = (str(stdout or "") + "\n" + str(stderr or "")).casefold()
+    if "openai chat conversion requires an inline anthropic system message to contain text" in text:
+        return "fcc_requires_nonempty_system_prompt"
+    if "401" in text or "unauthorized" in text or "authentication_error" in text:
+        return "fcc_authentication_failed"
+    if "model not found" in text or "pull model" in text:
+        return "local_model_not_available"
+    if "connection refused" in text or "urlopen error" in text:
+        return "local_model_endpoint_unreachable"
+    if "timed out" in text or "timeout" in text:
+        return "executor_timeout"
+    if "429" in text or "rate limit" in text:
+        return "provider_rate_limited"
+    return "executor_nonzero_exit"
+
+
 def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048, max_turns: int = 4, structured_schema: dict | None = None, tools_mode: str = "Read,Edit,Bash") -> tuple[dict, subprocess.Popen[str] | None]:
     """Run the real Claude Code client through the node-local FCC transport."""
     env_updates = load_env_file(env_file)
@@ -270,16 +290,22 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
                     "--allowedTools", "Read", "Edit", "Bash(git *)", "Bash(python *)",
                 ])
             else:
-                # Plain artifact generation must not inherit project CLAUDE.md/hooks or
-                # tool-routing context; this prevents environment instructions becoming output.
-                command.extend(["--bare", "--tools", ""])
-        # No-tool artifact generation must not inherit repository CLAUDE.md/project context:
-        # local coding models have echoed injected environment instructions into deliverables.
+                # Do not use Claude Code's --bare mode here. The node-local FCC adapter
+                # converts Anthropic requests to OpenAI chat and requires a non-empty inline
+                # Anthropic system message; --bare removes that message and produces HTTP 400.
+                # The temporary cwd and CLAUDE_CONFIG_DIR isolate repo instructions and hooks
+                # without breaking the adapter's required system-message contract.
+                command.extend(["--tools", ""])
+        # No-tool generation runs in an isolated cwd/config directory to avoid project context.
         execution_cwd = ROOT if tools_mode.strip() else Path(isolated_config)
         p = run(command, timeout, execution_cwd, env)
     finally:
         shutil.rmtree(isolated_config, ignore_errors=True)
-    return {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}, server
+    result = {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}
+    failure_code = classify_executor_failure(p.stdout, p.stderr, p.returncode)
+    if failure_code:
+        result["failure_code"] = failure_code
+    return result, server
 
 def scope_paths(task: dict, changed: set[str]) -> list[str]:
     boundary = tuple(str(x) for x in task.get("boundary", []))
@@ -755,6 +781,7 @@ def main() -> int:
                     "attempt": plain_attempt,
                     "mode": "plain_markdown_builder",
                     "returncode": plain_result.get("returncode"),
+                    "failure_code": plain_result.get("failure_code", ""),
                     "stdout": plain_result.get("stdout", "")[-4000:],
                     "stderr": plain_result.get("stderr", "")[-3000:],
                 })
@@ -764,10 +791,15 @@ def main() -> int:
                         "plain_markdown_executor_returncode:"
                         + str(plain_result.get("returncode"))
                     ]
+                    failure_code = plain_result.get("failure_code") or classify_executor_failure(
+                        plain_result.get("stdout", ""), plain_result.get("stderr", ""),
+                        int(plain_result.get("returncode", 1)),
+                    )
                     build = {
                         **plain_result,
                         "returncode": 1,
-                        "stderr": "plain_markdown_executor_failed",
+                        "failure_code": failure_code,
+                        "stderr": "plain_markdown_executor_failed:" + failure_code,
                     }
                     continue
 
@@ -830,6 +862,7 @@ def main() -> int:
             attempt_records.append({
                 "attempt": attempt,
                 "returncode": build.get("returncode"),
+                "failure_code": build.get("failure_code", ""),
                 "stdout": build.get("stdout", "")[-4000:],
                 "stderr": build.get("stderr", "")[-3000:],
             })
@@ -1203,6 +1236,8 @@ def main() -> int:
         record["status"] = "PASS"
     except Exception as exc:
         record["completed_at"] = int(time.time())
+        if isinstance(locals().get("build"), dict) and locals()["build"].get("failure_code"):
+            record["failure_code"] = locals()["build"]["failure_code"]
         record["error"] = type(exc).__name__ + ":" + str(exc)
     finally:
         if server is not None:

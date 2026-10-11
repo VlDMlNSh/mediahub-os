@@ -287,6 +287,7 @@ def worker_diagnostic_summary(remote: dict) -> dict:
         "model": remote.get("model"),
         "builder": {
             "returncode": builder.get("returncode"),
+            "failure_code": builder.get("failure_code", remote.get("failure_code", "")),
             "materialized_paths": sorted(
                 str(value) for key, value in builder.items()
                 if key.startswith("materialized_") and value
@@ -299,6 +300,7 @@ def worker_diagnostic_summary(remote: dict) -> dict:
                 "attempt": item.get("attempt"),
                 "mode": item.get("mode", "builder"),
                 "returncode": item.get("returncode"),
+                "failure_code": item.get("failure_code", ""),
                 "stdout_chars": len(str(item.get("stdout") or "")),
                 "stderr_chars": len(str(item.get("stderr") or "")),
             }

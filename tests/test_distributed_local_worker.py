@@ -322,10 +322,12 @@ def test_ollama_model_inventory_reports_local_api_failure():
     assert error == "local_ollama_api_unavailable:TimeoutError"
 
 
-def test_plain_markdown_cli_runs_bare_without_project_context():
+def test_plain_markdown_cli_preserves_fcc_system_prompt_in_isolated_context():
     source = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
-    assert 'command.extend(["--bare", "--tools", ""])' in source
+    assert 'command.extend(["--tools", ""])' in source
+    assert 'command.extend(["--bare"' not in source
     assert 'execution_cwd = ROOT if tools_mode.strip() else Path(isolated_config)' in source
+    assert "requires a non-empty inline" in source
 
 
 def test_strip_known_cli_metadata_removes_only_standalone_date_footer():
@@ -337,4 +339,96 @@ def test_strip_known_cli_metadata_removes_only_standalone_date_footer():
 def test_independent_claude_verifier_has_no_tools_or_ambient_project_context():
     source = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
     assert 'max_turns=2, tools_mode="")[0]' in source
-    assert 'command.extend(["--bare", "--tools", ""])' in source
+    assert 'command.extend(["--tools", ""])' in source
+    assert 'command.extend(["--bare"' not in source
+
+
+def test_exec_claude_no_tools_keeps_fcc_compatible_system_prompt_and_isolated_cwd():
+    import os
+    import subprocess
+    import tempfile
+    from unittest import mock
+
+    with tempfile.TemporaryDirectory(prefix="astra-cli-test-") as td:
+        root = Path(td)
+        cli = root / "claude"
+        cli.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+        cli.chmod(0o755)
+        env_file = root / "fcc.env"
+        env_file.write_text("MODEL=ollama/qwen2.5-coder:1.5b\n", encoding="utf-8")
+
+        class Health:
+            status = 200
+            def __enter__(self):
+                return self
+            def __exit__(self, *args):
+                return False
+
+        captured = {}
+        def fake_run(argv, timeout, cwd=None, env=None):
+            captured["argv"] = list(argv)
+            captured["cwd"] = str(cwd)
+            captured["env"] = dict(env or {})
+            return subprocess.CompletedProcess(argv, 0, stdout="# isolated doc\n", stderr="")
+
+        with mock.patch.dict(os.environ, {"ASTRA_CLAUDE_CLI": str(cli)}), \
+             mock.patch.object(worker, "load_env_file", return_value={
+                 "MODEL": "ollama/qwen2.5-coder:1.5b",
+                 "HOST": "127.0.0.1",
+                 "PORT": "18093",
+                 "ANTHROPIC_AUTH_TOKEN": "test-token-not-a-real-secret",
+             }), \
+             mock.patch.object(worker.urllib.request, "urlopen", return_value=Health()), \
+             mock.patch.object(worker, "run", side_effect=fake_run):
+            result, server = worker.exec_claude(
+                "Write the exact document.", "qwen2.5-coder:1.5b", 20,
+                env_file, max_turns=1, tools_mode="",
+            )
+
+    assert server is None
+    assert result["returncode"] == 0
+    assert "--bare" not in captured["argv"]
+    tools_index = captured["argv"].index("--tools")
+    assert captured["argv"][tools_index + 1] == ""
+    assert captured["cwd"] == captured["env"]["CLAUDE_CONFIG_DIR"]
+    assert captured["cwd"] != str(worker.ROOT)
+
+
+def test_executor_failure_classifier_exposes_adapter_failure_as_stable_code():
+    assert worker.classify_executor_failure(
+        "API Error: 400 OpenAI chat conversion requires an inline Anthropic system message to contain text.",
+        "", 1,
+    ) == "fcc_requires_nonempty_system_prompt"
+    assert worker.classify_executor_failure("", "Unauthorized 401", 1) == "fcc_authentication_failed"
+    assert worker.classify_executor_failure("", "", 0) == ""
+
+
+def test_worker_diagnostic_summary_preserves_safe_failure_code_without_raw_output():
+    from mediahub_runtime.autonomous_queue import worker_diagnostic_summary
+
+    summary = worker_diagnostic_summary({
+        "status": "BLOCKED",
+        "node_id": "mh-dev-02",
+        "task_id": "MH25-QUEUE-002",
+        "error": "RuntimeError:builder_failed:plain_markdown_executor_failed",
+        "failure_code": "fcc_requires_nonempty_system_prompt",
+        "builder": {
+            "returncode": 1,
+            "failure_code": "fcc_requires_nonempty_system_prompt",
+            "stdout": "API Error: 400 OpenAI chat conversion requires an inline Anthropic system message to contain text.",
+            "stderr": "adapter diagnostic",
+        },
+        "builder_attempts": [{
+            "attempt": 1,
+            "mode": "plain_markdown_builder",
+            "returncode": 1,
+            "failure_code": "fcc_requires_nonempty_system_prompt",
+            "stdout": "API Error details that must not be copied to controller evidence.",
+            "stderr": "adapter diagnostic",
+        }],
+    })
+    rendered = json.dumps(summary, sort_keys=True)
+    assert summary["builder"]["failure_code"] == "fcc_requires_nonempty_system_prompt"
+    assert summary["builder_attempts"][0]["failure_code"] == "fcc_requires_nonempty_system_prompt"
+    assert "API Error" not in rendered
+    assert "adapter diagnostic" not in rendered
