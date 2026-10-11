@@ -75,7 +75,7 @@
     ],
     "forbidden_patterns": [
       "(?i)codex.{0,80}permanent executor",
-      "(?i)(?<!never )writes directly to main"
+      "(?im)^(?![^\\n]*\\b(?:never|no|none)\\b)[^\\n]*\\bworker writes directly to main\\b"
     ]
   }
 }

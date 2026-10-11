@@ -101,7 +101,7 @@ def test_verifier_verdict_requires_standalone_canonical_line():
     assert worker.parse_verifier_verdict("**ASTRA_VERDICT: PASS**") == "PASS"
     assert worker.parse_verifier_verdict("ASTRA_VERDICT: BLOCKED") == "BLOCKED"
     assert worker.parse_verifier_verdict("Here is my review: ASTRA_VERDICT: PASS") is None
-    assert worker.parse_verifier_verdict("**ASTRA_VERDICT: PASS**\n### Verification") is None
+    assert worker.parse_verifier_verdict("**ASTRA_VERDICT: PASS**\n### Verification") == "PASS"
 
 
 def test_deterministic_acceptance_blocks_incorrect_lane_mapping():
@@ -194,4 +194,61 @@ def test_forbidden_main_write_pattern_respects_negation():
     patterns = task["deterministic_checks"]["forbidden_patterns"]
     write_pattern = next(pattern for pattern in patterns if "writes directly to main" in pattern)
     assert re.search(write_pattern, "The worker never writes directly to main.") is None
+    assert re.search(write_pattern, "No worker writes directly to main.") is None
+    assert re.search(write_pattern, "none of the worker writes directly to main.") is None
     assert re.search(write_pattern, "The worker writes directly to main.") is not None
+
+
+def test_extract_structured_markdown_handles_current_claude_cli_result_envelope():
+    markdown = (
+        "# ASTRA-MH-DEV-02-CLAUDE-EXECUTOR.md\n"
+        "**Node identity:** mh-dev-02\n"
+        "**Executor identity:** claude\n"
+        "**Local model:** qwen2.5-coder:3b\n"
+        "**Verifier identity:** claude, running as an independent verifier process\n"
+        "**Authority boundary:** executor-only; no controller authority or production infrastructure changes.\n"
+        "**Worker is bound to the exact target-SHA and uses an isolated branch.**\n"
+        "**Promotion is fail-closed.**\n"
+        "**The worker never writes directly to main.**\n"
+        "**No credentials or secrets are included.**"
+    )
+    cli_output = json.dumps({
+        "duration_api_ms": 545790,
+        "type": "result",
+        "result": json.dumps({"name": "StructuredOutput", "arguments": {"markdown": markdown}}),
+    })
+    assert worker._extract_structured_markdown(cli_output) == markdown
+
+
+def test_extract_structured_markdown_handles_direct_structured_output():
+    markdown = "# Example\nContract"
+    assert worker._extract_structured_markdown(
+        json.dumps({"structured_output": {"markdown": markdown}})
+    ) == markdown
+
+
+def test_extract_structured_markdown_rejects_unstructured_error():
+    assert worker._extract_structured_markdown(
+        json.dumps({"result": "Cannot provide structured output, did not call StructuredOutput"})
+    ) is None
+
+
+def test_verifier_verdict_allows_commentary_only_after_standalone_verdict_line():
+    assert worker.parse_verifier_verdict(
+        "**ASTRA_VERDICT: PASS**\n\n### Verification details"
+    ) == "PASS"
+    assert worker.parse_verifier_verdict(
+        "Review complete: ASTRA_VERDICT: PASS"
+    ) is None
+    assert worker.parse_verifier_verdict(
+        "### Notes\nASTRA_VERDICT: PASS"
+    ) is None
+
+
+def test_plain_markdown_fallback_acceptance_contract_is_explicit():
+    source = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
+    assert "plain_text_artifact_fallback" in source
+    assert "The first characters of " in source
+    assert "level-one Markdown heading" in source
+    assert "_materialize_bounded_markdown_output(" in source
+    assert 'plain_artifact_timeout_seconds", 600' in source

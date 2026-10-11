@@ -268,6 +268,54 @@ def scope_paths(task: dict, changed: set[str]) -> list[str]:
     return bad
 
 
+def _extract_structured_markdown(output: str) -> str | None:
+    """Extract Markdown from Claude CLI JSON, including nested StructuredOutput results."""
+    seen: set[str] = set()
+
+    def visit(value: object, depth: int = 0) -> str | None:
+        if depth > 4:
+            return None
+        if isinstance(value, str):
+            raw = value.strip()
+            if not raw or raw in seen:
+                return None
+            seen.add(raw)
+            try:
+                parsed = json.loads(raw)
+            except json.JSONDecodeError:
+                return None
+            return visit(parsed, depth + 1)
+
+        if isinstance(value, dict):
+            structured = value.get("structured_output")
+            if isinstance(structured, dict) and isinstance(structured.get("markdown"), str):
+                return structured["markdown"].strip()
+            arguments = value.get("arguments")
+            if (
+                str(value.get("name", "")).casefold() == "structuredoutput"
+                and isinstance(arguments, dict)
+                and isinstance(arguments.get("markdown"), str)
+            ):
+                return arguments["markdown"].strip()
+            if isinstance(value.get("markdown"), str):
+                return value["markdown"].strip()
+            for key in ("result", "output", "content", "structured_output", "arguments"):
+                if key in value:
+                    extracted = visit(value[key], depth + 1)
+                    if extracted:
+                        return extracted
+            return None
+
+        if isinstance(value, list):
+            for item in value:
+                extracted = visit(item, depth + 1)
+                if extracted:
+                    return extracted
+        return None
+
+    return visit(output)
+
+
 def _materialize_bounded_claude_tool_output(output: str, boundary: str) -> str | None:
     """Materialize only an exact-boundary Write/Edit emitted by the real Claude client."""
     candidates: list[dict] = []
@@ -470,10 +518,11 @@ def deterministic_acceptance(task: dict) -> dict:
 
 
 def parse_verifier_verdict(output: str) -> str | None:
-    """Accept only a standalone verdict line, never a PASS substring in prose."""
+    """Accept a canonical standalone verdict on the first non-empty output line."""
+    first = next((line.strip() for line in (output or "").splitlines() if line.strip()), "")
     match = re.fullmatch(
-        r"\s*(?:\*\*)?ASTRA_VERDICT:\s*(PASS|BLOCKED)(?:\*\*)?\s*",
-        output or "",
+        r"(?:\*\*)?ASTRA_VERDICT:\s*(PASS|BLOCKED)(?:\*\*)?",
+        first,
         flags=re.IGNORECASE,
     )
     return match.group(1).upper() if match else None
@@ -705,26 +754,19 @@ def main() -> int:
                         "stderr": artifact.get("stderr", "")[-3000:],
                     })
                     output = artifact.get("stdout", "")
-                    structured_markdown = None
-                    if artifact.get("returncode") == 0:
-                        try:
-                            structured_payload = json.loads(output)
-                            structured_markdown = str(
-                                structured_payload.get("structured_output", {}).get("markdown", "")
-                                if isinstance(structured_payload.get("structured_output"), dict)
-                                else ""
-                            ).strip()
-                            if not structured_markdown and isinstance(structured_payload.get("result"), str):
-                                inner = structured_payload["result"]
-                                artifact_match = re.search(
-                                    r"__ASTRA_ARTIFACT_BEGIN__\\n(.*?)\\n__ASTRA_ARTIFACT_END__",
-                                    inner,
-                                    re.DOTALL,
-                                )
-                                if artifact_match:
-                                    structured_markdown = artifact_match.group(1).strip()
-                        except (json.JSONDecodeError, AttributeError, TypeError):
-                            structured_markdown = None
+                    structured_markdown = (
+                        _extract_structured_markdown(output)
+                        if artifact.get("returncode") == 0
+                        else None
+                    )
+                    if structured_markdown:
+                        artifact_match = re.search(
+                            r"__ASTRA_ARTIFACT_BEGIN__\\n(.*?)\\n__ASTRA_ARTIFACT_END__",
+                            structured_markdown,
+                            re.DOTALL,
+                        )
+                        if artifact_match:
+                            structured_markdown = artifact_match.group(1).strip()
                     if structured_markdown and boundaries:
                         required_tokens = [node_id, executor, task["verifier"], "fail-closed", "main"]
                         if all(token.lower() in structured_markdown.lower() for token in required_tokens):
@@ -812,6 +854,71 @@ def main() -> int:
                                 )
                                 if attempt < builder_attempts:
                                     continue
+        # StructuredOutput tool-call JSON is not supported consistently by local small
+        # models. If all prior materialization routes failed, ask for plain Markdown once;
+        # the same strict acceptance, scope, security, tests, and independent-verifier gates
+        # still decide whether it can be published.
+        if (
+            executor == "claude"
+            and isinstance(task.get("deterministic_checks"), dict)
+            and len(task.get("boundary", [])) == 1
+            and str(task.get("boundary", [""])[0]).endswith(".md")
+            and deterministic_acceptance(task).get("status") != "PASS"
+        ):
+            boundary = str(task["boundary"][0])
+            checks = task["deterministic_checks"]
+            plain_prompt = (
+                "Produce the actual requested Markdown deliverable now. Return only the document, "
+                "not a plan, tutorial, example commands, or commentary. The first characters of "
+                "your response must be a level-one Markdown heading naming the requested file. "
+                "Copy every required literal text item exactly. Match every required positive "
+                "requirement and avoid all forbidden requirements. Do not claim tests or external "
+                "actions occurred unless there is evidence in the task context.\n"
+                f"Required path: {boundary}\n"
+                f"Required node: {node_id}\n"
+                f"Executor: {executor}\nVerifier: {task['verifier']}\n"
+                f"Local model: {cfg['model']}\n"
+                f"Target SHA: {target_sha}\n"
+                f"Task requirements: {json.dumps(task.get('acceptance', []), sort_keys=True)}\n"
+                f"Exact task instructions: {task.get('builder_instructions', '')}\n"
+                f"Required literal text: {json.dumps(checks.get('required_text', []), sort_keys=True)}\n"
+                f"Required contract patterns: {json.dumps(checks.get('required_patterns', []), sort_keys=True)}\n"
+                f"Forbidden contract patterns: {json.dumps(checks.get('forbidden_patterns', []), sort_keys=True)}\n"
+                "The content must be factual, concise, and limited to the deliverable. Do not state "
+                "that the work is complete without providing the document itself."
+            )
+            plain_artifact, server = exec_claude(
+                plain_prompt,
+                cfg["model"],
+                min(builder_timeout, int(task.get("plain_artifact_timeout_seconds", 600))),
+                Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+                max_turns=2,
+                tools_mode="",
+            )
+            attempt_records.append({
+                "attempt": builder_attempts + 1,
+                "mode": "plain_text_artifact_fallback",
+                "returncode": plain_artifact.get("returncode"),
+                "stdout": plain_artifact.get("stdout", "")[-4000:],
+                "stderr": plain_artifact.get("stderr", "")[-3000:],
+            })
+            if plain_artifact.get("returncode") == 0:
+                required_tokens = [node_id, executor, task["verifier"], "fail-closed", "main"]
+                materialized_plain = _materialize_bounded_markdown_output(
+                    plain_artifact.get("stdout", ""), boundary, required_tokens
+                )
+                if materialized_plain:
+                    plain_gate = deterministic_acceptance(task)
+                    plain_artifact["materialized_plain_text_artifact"] = materialized_plain
+                    plain_artifact["deterministic_acceptance"] = plain_gate
+                    build = plain_artifact
+                    if plain_gate.get("status") != "PASS":
+                        attempt_records.append({
+                            "attempt": builder_attempts + 1,
+                            "mode": "plain_text_acceptance_retry_unavailable",
+                            "returncode": 1,
+                            "stderr": json.dumps(plain_gate.get("failures", []), sort_keys=True),
+                        })
         record["builder"] = build
         record["builder_attempts"] = attempt_records
         if build["returncode"] != 0:

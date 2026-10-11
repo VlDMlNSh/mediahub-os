@@ -266,6 +266,69 @@ def github_auth_env() -> dict[str, str] | None:
     return env
 
 
+def worker_diagnostic_summary(remote: dict) -> dict:
+    """Keep enough machine-readable failure detail to triage a worker without copying raw output."""
+    builder = remote.get("builder") if isinstance(remote.get("builder"), dict) else {}
+    attempts = remote.get("builder_attempts") if isinstance(remote.get("builder_attempts"), list) else []
+    tests = remote.get("tests") if isinstance(remote.get("tests"), dict) else {}
+    verifier = remote.get("verifier") if isinstance(remote.get("verifier"), dict) else {}
+    acceptance = remote.get("deterministic_acceptance") if isinstance(remote.get("deterministic_acceptance"), dict) else {}
+    security = remote.get("security_gate") if isinstance(remote.get("security_gate"), dict) else {}
+    scope = remote.get("scope") if isinstance(remote.get("scope"), dict) else {}
+    evidence = remote.get("verifier_evidence") if isinstance(remote.get("verifier_evidence"), dict) else {}
+    raw_error = str(remote.get("error") or "")
+    error_parts = raw_error.split(":", 2)
+    return {
+        "status": remote.get("status"),
+        "error_class": error_parts[0] if error_parts else "",
+        "error_reason": error_parts[1] if len(error_parts) > 1 else "",
+        "node_id": remote.get("node_id"),
+        "task_id": remote.get("task_id"),
+        "model": remote.get("model"),
+        "builder": {
+            "returncode": builder.get("returncode"),
+            "materialized_paths": sorted(
+                str(value) for key, value in builder.items()
+                if key.startswith("materialized_") and value
+            ),
+            "stdout_chars": len(str(builder.get("stdout") or "")),
+            "stderr_chars": len(str(builder.get("stderr") or "")),
+        },
+        "builder_attempts": [
+            {
+                "attempt": item.get("attempt"),
+                "mode": item.get("mode", "builder"),
+                "returncode": item.get("returncode"),
+                "stdout_chars": len(str(item.get("stdout") or "")),
+                "stderr_chars": len(str(item.get("stderr") or "")),
+            }
+            for item in attempts if isinstance(item, dict)
+        ],
+        "deterministic_acceptance": {
+            "status": acceptance.get("status"),
+            "checks_run": acceptance.get("checks_run"),
+            "failures": list(acceptance.get("failures", []))[:40],
+        },
+        "security_gate": {
+            "status": security.get("status"),
+            "findings": list(security.get("findings", []))[:40],
+        },
+        "scope": {
+            "status": scope.get("status"),
+            "outside_scope": list(scope.get("outside_scope", []))[:40],
+        },
+        "tests_returncode": tests.get("returncode"),
+        "verifier": {
+            "returncode": verifier.get("returncode"),
+            "parsed_verdict": verifier.get("parsed_verdict"),
+        },
+        "verifier_evidence": {
+            "changed_paths": list(evidence.get("changed_paths", []))[:40],
+            "diff_characters": evidence.get("diff_characters"),
+        },
+    }
+
+
 def should_run_controller_worker_inline(node_id: str) -> bool:
     """Avoid a self-deadlock when the controller dispatches work to its own sole runner."""
     return (
@@ -385,8 +448,10 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
                 task_json, expected_base_sha, node_id, int(task.get("timeout_seconds", 1800)), gh_env
             )
             record.update(local_worker_record)
+            record["worker_diagnostics"] = worker_diagnostic_summary(remote)
             if remote.get("status") != "PASS":
-                raise RuntimeError("controller_local_worker_blocked:" + str(remote.get("error", "unspecified")))
+                reason = worker_diagnostic_summary(remote).get("error_reason") or "worker_status_not_PASS"
+                raise RuntimeError("controller_local_worker_blocked:" + str(reason))
         else:
             dispatch = run([
                 "gh", "workflow", "run", ".github/workflows/astra-distributed-local-worker.yml",
@@ -403,7 +468,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
                 return record
 
             run_id = None
-            deadline = time.time() + max(300, int(os.environ.get("ASTRA_REMOTE_WORKER_WAIT_SECONDS", "2400")))
+            deadline = time.time() + max(300, int(os.environ.get("ASTRA_REMOTE_WORKER_WAIT_SECONDS", "3000")))
             run_title_bits = [os.environ.get("ASTRA_COMMAND_ID", ""), task_key, node_id, executor]
             while time.time() < deadline:
                 listed = run([
@@ -478,6 +543,10 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
             if not result_file.is_file():
                 raise RuntimeError("remote_evidence_missing")
             remote = json.loads(result_file.read_text(encoding="utf-8"))
+        record["worker_diagnostics"] = worker_diagnostic_summary(remote)
+        if remote.get("status") != "PASS":
+            reason = worker_diagnostic_summary(remote).get("error_reason") or "worker_status_not_PASS"
+            raise RuntimeError("remote_worker_blocked:" + str(reason))
         required = {
             "schema": "mediahub.astra.distributed-local-worker.v1",
             "status": "PASS",
