@@ -390,7 +390,7 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
         else:
             dispatch = run([
                 "gh", "workflow", "run", ".github/workflows/astra-distributed-local-worker.yml",
-                "--ref", "main",
+                "--ref", os.environ.get("ASTRA_WORKER_WORKFLOW_REF", os.environ.get("GITHUB_REF_NAME", "main")),
                 "-f", f"command_id={os.environ.get('ASTRA_COMMAND_ID', '')}",
                 "-f", f"target_sha={expected_base_sha}",
                 "-f", f"task_id={task_key}",
@@ -456,7 +456,20 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
                     download = candidate
                     break
             if download is None:
-                raise RuntimeError("remote_evidence_download_failed")
+                # Artifact naming has changed across historical worker workflow versions.
+                # Try downloading all artifacts from this exact run before failing closed.
+                candidate = run([
+                    "gh", "run", "download", str(run_id), "-D", temp.name
+                ], 120, env=gh_env)
+                if candidate.returncode == 0:
+                    download = candidate
+            if download is None:
+                conclusion = str(record.get("worker_conclusion", "unknown"))
+                record["artifact_download_diagnostics"] = {
+                    "attempted_names": worker_artifact_names(node_id, run_id),
+                    "worker_conclusion": conclusion,
+                }
+                raise RuntimeError("remote_evidence_download_failed:worker_conclusion=" + conclusion)
             result_file = Path(temp.name) / "astra-distributed-worker-result.json"
             if not result_file.is_file():
                 candidates = list(Path(temp.name).rglob("astra-distributed-worker-result.json"))

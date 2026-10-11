@@ -135,7 +135,10 @@ class AgentFabricTests(unittest.TestCase):
 
     def test_claude_executor_uses_real_cli_and_fcc_transport(self):
         source = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
-        self.assertIn('claude = shutil.which("claude")', source)
+        self.assertIn('shutil.which("claude") or ""', source)
+        self.assertIn('ASTRA_CLAUDE_CLI', source)
+        self.assertIn('/home/mediahub-runner/.local/bin/claude', source)
+        self.assertIn('/Users/voktor/.local/npm/bin/claude', source)
         self.assertIn('ANTHROPIC_BASE_URL', source)
         self.assertIn('env["ASTRA_FCC_TRANSPORT"] = "fcc"', source)
         self.assertNotIn('urllib.request.Request(', source)

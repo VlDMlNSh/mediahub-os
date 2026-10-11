@@ -90,6 +90,13 @@ def test_queue_source_does_not_force_push():
     assert '"git", "push", "--force-with-lease"' not in source
 
 
+def test_remote_worker_dispatch_uses_current_workflow_ref():
+    source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
+    assert 'ASTRA_WORKER_WORKFLOW_REF' in source
+    assert 'os.environ.get("GITHUB_REF_NAME", "main")' in source
+    assert '"--ref", "main"' not in source
+
+
 def test_a3_verifier_requires_exact_machine_verdict():
     assert autonomous_queue._verifier_passed("ASTRA_VERDICT: PASS\n")
     assert not autonomous_queue._verifier_passed("PASS\n")

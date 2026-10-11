@@ -191,9 +191,23 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     token = env_updates.get("ANTHROPIC_AUTH_TOKEN", "")
     if not token:
         raise RuntimeError("fcc_auth_token_missing")
-    claude = shutil.which("claude")
+    # GitHub self-hosted services may run with a reduced PATH that omits the
+    # interactive user's npm/local bin directory. Resolve the real executable
+    # deterministically without depending on a login shell.
+    claude_candidates = [
+        os.environ.get("ASTRA_CLAUDE_CLI", "").strip(),
+        shutil.which("claude") or "",
+        str(Path.home() / ".local" / "bin" / "claude"),
+        str(Path.home() / ".local" / "npm" / "bin" / "claude"),
+        "/home/mediahub/.local/bin/claude",
+        "/home/mediahub-runner/.local/bin/claude",
+        "/Users/voktor/.local/npm/bin/claude",
+        "/Users/voktor/.local/bin/claude",
+    ]
+    claude = next((candidate for candidate in claude_candidates
+                   if candidate and Path(candidate).is_file() and os.access(candidate, os.X_OK)), None)
     if not claude:
-        raise RuntimeError("claude_cli_missing")
+        raise RuntimeError("claude_cli_missing:checked_configured_and_standard_paths")
     env = os.environ.copy()
     env.update(env_updates)
     env["ANTHROPIC_BASE_URL"] = f"http://{host}:{port}"
