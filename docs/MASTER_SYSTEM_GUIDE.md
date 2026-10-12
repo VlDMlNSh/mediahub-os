@@ -1,15 +1,160 @@
-# MediaHub OS / ASTRA GOLD / Jarvis — единый мастер-гайд
+# MediaHub OS — единый мастер-гайд распределённой мультиагентной системы
 
-**Версия:** 1.0 · **Аудит:** 12 октября 2026 года  
-**Статус:** интегрированная документация по целевой архитектуре и доступным доказательствам. ASTRA GOLD runtime **не квалифицирован**.
+**Версия:** 1.1 · **Аудит и пересмотр архитектуры:** 12 октября 2026 года  
+**Статус:** мастер-архитектура системы целиком; набор выбранных open-source компонентов требует поэтапной qualification. Текущая реализация Astra Gold и межузловой runtime **не квалифицированы**.
 
 > Правило достоверности: «Проверено» означает, что сведения подтверждены чтением исходников/состояния подключённых узлов; «Цель» — согласованная целевая архитектура; «Кандидат» — внешний компонент, не внедрённый до admission и свежих тестов. Документ или health endpoint не доказывает сквозную работоспособность.
 
+## Архитектура системы целиком: два раздельных контура
+
+Главное решение: проектируется **вся мультиагентная система MediaHub OS**, а не расширение текущей Astra. Astra Gold — подсистема автономной инженерной разработки и квалификации. Jarvis — один из пользовательских фасадов. Ни Astra, ни Jarvis не должны сами становиться универсальной властью над продуктом, клиентскими данными и правами.
+
+| Контур | Железо | Функция | Граница |
+|---|---|---|---|
+| **MediaHub Product / Edge Runtime** | Первый продуктовый прототип — существующий Mac mini M2 8 GB на объекте заказчика | Пользовательские функции MediaHub, UI, Jarvis/voice, локальные действия, устройства и медиа-интеграции | После передачи заказчику не является development server. Не содержит developer credentials и не входит в постоянную очередь dev workers |
+| **Multi-Agent Development Plane** | Покупаемый Mac Pro — dev host №1; Mac mini 2011/Linux/целевые 16 GB — dev host №2 | Исследование GitHub, планирование, архитектура, изолированные implementation workers, тестирование, security review, сборки, документация, evidence и release preparation | Ветки, sandbox и секреты dev-контура изолированы от клиентской среды. Начальный физический лимит — два development hosts |
+| **Будущий GPU/Video Compute Pool** | Отдельный видеосервер с мощным GPU | Большие модели, vision, batch inference, видеоаналитика/transcoding | Дополнительный worker pool, не обязательный для первой версии; не владеет product state и не является центральным контроллером |
+| **Текущая test lab** | mh-dev-01, mh-dev-02 и M2 в текущем лабораторном контексте | Совместимость, PoC, регрессии и сбор evidence до покупки целевых серверов | Временная конфигурация, не production topology. mh-dev-01 сейчас заполнен на 100%; M2 должен быть выведен из dev pool после передачи клиенту |
+| **Общие контракты** | Versioned schemas, API, component registry, model/tool adapters | Стабильные интерфейсы, task/result schemas, capabilities, identity и evidence metadata | Код и протоколы могут быть общими; credentials, customer data и authority не общие |
+
+### Целевая логическая схема
+
+    PRODUCT / CUSTOMER SITE
+    MediaHub UI / iOS / Jarvis voice + HUD
+                  |
+          authenticated API
+                  |
+    MediaHub Product Core
+      - authentication and authorization
+      - Product Domain State Authority
+      - policy and capability enforcement
+      - local deterministic/degraded operation
+      - product workflows and integrations
+                  |
+       approved workflow/tool requests
+                  |
+    Agent Runtime + model/tool adapters
+      - dynamic planner and specialist workers
+      - local inference when allowed and capable
+      - approved cloud routes under explicit policy
+      - MCP tools behind permission broker
+      - output validation, audit and human approvals
+
+    ENGINEERING SITE
+    task intake -> repo scout -> architecture/plan
+                      |
+               component admission
+                      |
+         isolated workers: Mac Pro + Linux Mac mini
+                      |
+           test / security / independent review
+                      |
+          exact-SHA evidence -> human release gate
+
+    FUTURE GPU / VIDEO POOL
+    scoped workload -> isolated compute worker -> validated artifacts
+
+### Обязательное разделение полномочий
+
+В текущих ASTRA-документах A0-ASTRA описан одновременно как координатор инженерной разработки и как MediaHub State Authority. Это конфликт целевой архитектуры: пользовательский продукт и инженерный контроллер должны иметь разные state/credential/authorization boundaries. Мастер-гайд фиксирует целевое решение, но сам по себе не мигрирует код и канонические контракты.
+
+- **MediaHub Product State Authority** — единственная authority для canonical domain mutations продукта. Все изменения проходят authentication, policy/capability checks и command/consumer contract.
+- **A0-ASTRA Development Coordinator** — только инженерные задачи, workspaces, leases, evidence reconciliation и квалификация кода.
+- **Workflow engine** — lifecycle, timer/retry/resume и worker dispatch; workflow history не является product-domain truth.
+- **Agent/model/executor/provider/tool/transport** — не получают State Authority по факту регистрации или успешного вызова.
+- **Человек** — окончательное решение по архитектуре, безопасности, хранению данных и production launch.
+
+Нужно оформить ADR и согласованно обновить governance contract, schemas, tests, queue/workflow manifests и component registry. Текущий MH-03 помечает физическую persistence как неразрешённую. Поэтому нельзя молча ввести PostgreSQL/pgvector как canonical product store или объявить внутреннюю БД workflow engine источником product state. Сначала отдельно утвердить политику хранения product data, engineering task metadata, agent memory и evidence.
+
+### Роли — это capabilities, а не 26 постоянных ботов
+
+Каталог ролей может быть широким, но процессы запускаются динамически под конкретную задачу. Количество логических ролей не равно количеству постоянно работающих агентов и не задаёт concurrency.
+
+| Роль | Работа | Ограничение |
+|---|---|---|
+| Intake / Dispatcher | Task ID, scope, priority, deadline, privacy/risk tier, idempotency key | Не расширяет запрос сам |
+| Planner / Coordinator | Декомпозиция, зависимости, acceptance criteria, ownership файлов | Не исполняет скрытые side effects |
+| Repository Scout | GitHub search, official docs, releases, licenses, CI, tests, issues, advisories | Не принимает README или stars за доказательство надёжности |
+| System / Domain Architect | Контракты, ADR, state/authority and data boundaries | Архитектурное предложение требует review |
+| Component Integrator | Переиспользование зрелых блоков и тонкие adapters | Не переписывает существующую библиотеку без причины |
+| Specialist Implementer | API, UI/iOS, tools/MCP, models, voice, media, infra | Только bounded scope, sandbox и минимум прав |
+| QA / Evaluation | Unit/contract/integration/e2e, performance, model/tool evaluations | Не сертифицирует собственную реализацию как независимый A3 |
+| Security / Supply Chain | Threat model, permissions, secrets, dependency/SBOM/provenance, prompt-injection/tool abuse | Не меняет и не подменяет evidence |
+| Independent Reviewer | Независимый diff/test/security review на exact SHA | Не совпадает с исполнителем того же изменения |
+| Memory / Knowledge Curator | Verified facts, sources, version/time, privacy/retention, deduplication | Не является product State Authority и не хранит secrets |
+| Integration / Release Engineer | Reconciliation, reproducible artifact, SBOM/signature/scan, rollback | Protected writes/release только по human gate |
+| Documentation / UX | Master guide, onboarding, interface contracts, user errors, accessibility | Не выдаёт target design за подтверждённый runtime |
+
+Роль не закрепляется за одной моделью: executor выбирается из admitted capability registry. Skills — библиотека процедур, не полномочия и не отдельные постоянно запущенные агенты.
+
+## Repository-first политика: сначала найденное, потом написанное
+
+Перед каждой значимой разработкой обязательна проверка: существует ли зрелый SDK, repo, reference implementation, schema или tool, который закрывает задачу. Требование относится и к пользовательскому продукту, и к developer plane. Не начинать самостоятельную реализацию лишь потому, что так проще расширить текущую Astra.
+
+### Admission-процесс
+
+1. Описать capability contract, API/input-output schemas, acceptance tests, data/privacy constraints и integration boundary.
+2. Провести GitHub search и поиск официальной документации; обычно собрать минимум три кандидата, если рынок содержит альтернативы. Если кандидатов меньше — зафиксировать поисковые запросы и причину.
+3. Проверить не только README: upstream owner, exact release/commit, license и embedded licenses, release cadence, CI/tests, open issues/advisories, lockfiles, supported OS/architecture, dependencies, auth/data flow, offline behavior, resource profile и failure/recovery model.
+4. Применить hard gates: подтверждённая upstream identity, совместимая лицензия, приемлемая security posture, управляемые зависимости, изоляция и timeout/cancel для side effects, совместимость с целевым железом.
+5. Pin source commit/release, packages/checksums, configuration, SBOM, license obligations, review date, owner, rollback и test evidence.
+6. Выполнить изолированный PoC без клиентских данных и production secrets; сохранить команды, точную версию/SHA, результаты и замер ресурсов.
+7. Если годится — интегрировать узкий adapter или часть компонента; не импортировать лишние подсистемы и не форкать весь проект без необходимости.
+8. Если готового подходящего блока нет — показать кандидатов и причины отказа, только после этого создавать минимальный replacement с contract tests.
+9. На major update, критическом advisory или смене целевого железа повторять admission.
+
+### Оценка кандидата из 100 баллов
+
+- соответствие capability/контракту — 25;
+- зрелость, release cadence, поддержка maintainers — 20;
+- тесты, CI, воспроизводимость, recovery — 15;
+- security, provenance, dependency hygiene — 15;
+- совместимость macOS/Apple Silicon и Linux x86_64/старого CPU — 10;
+- license and commercial redistribution — 10;
+- runtime footprint, latency, resource observability — 5.
+
+80–100 — допуск к PoC/admission; 65–79 — ограниченный эксперимент; ниже 65 — обычно reject. Score не отменяет hard gates. Stars/install counts — вторичный сигнал, не доказательство production stability.
+
+### GitHub shortlist по функциям (кандидаты, не auto-install)
+
+| Функция | Репозитории | Решение |
+|---|---|---|
+| Stateful agent graph | [LangGraph](https://github.com/langchain-ai/langgraph) | Ведущий Python-first PoC: MIT, stateful graph, checkpoints, human-in-the-loop. Допустить после теста provider compatibility and persistence adapter |
+| Альтернатива agent framework | [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) | MIT, Python/.NET, graph workflows и checkpointing. Рассматривать при фактической потребности в .NET/Microsoft integration; не использовать параллельно с LangGraph для одной и той же оркестрации |
+| Durable cross-node workflow | [Temporal](https://github.com/temporalio/temporal) | Ведущий PoC для retries, timers, resume и worker task queues. Это lifecycle workflow, не LLM reasoning graph и не Product State Authority |
+| Messaging/pub-sub | [NATS Server/JetStream](https://github.com/nats-io/nats-server) | Отложить, пока нет доказанной потребности в fan-out/pub-sub/replay сверх durable workflow queues |
+| Tools protocol | [MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk) | MIT, стандартизирует tools/resources/prompts. Permission broker и authorization policy всё равно отдельные |
+| Browser | [Playwright](https://github.com/microsoft/playwright) + [Playwright MCP](https://github.com/microsoft/playwright-mcp) | PoC для e2e/browser tools; изолированный browser profile/domain allowlist. Playwright MCP сам по себе не security boundary |
+| Multi-provider gateway | [LiteLLM](https://github.com/BerriAI/litellm) | Сравнить с существующими provider schemas и native adapters; зафиксировать версию/лицензию/footprint. Выбрать максимум один shared gateway |
+| Local inference | [Ollama](https://github.com/ollama/ollama) | Уже используется в test lab; не считать общим production runtime без exact model identity/capability tests |
+| Alternative inference | [llama.cpp](https://github.com/ggml-org/llama.cpp) | MIT, Apple Silicon/x86/multiple backends; вводить только если benchmark выявил конкретный gap |
+| Coding executors | [OpenHands](https://github.com/All-Hands-AI/OpenHands), [SWE-agent](https://github.com/SWE-agent/SWE-agent), [Aider](https://github.com/Aider-AI/aider) | Только кандидатные execution surfaces; сравнить sandbox, license, tests, task success and resource use. Не являются system-wide orchestrators |
+| Memory layer | [Mem0](https://github.com/mem0ai/mem0) | Optional PoC после privacy/persistence ADR; memory не является canonical domain state |
+| Vector retrieval | [PostgreSQL](https://github.com/postgres/postgres) + [pgvector](https://github.com/pgvector/pgvector) | Target-gated: persistence needs explicit architecture approval under current MH-03 constraint |
+| Offline STT | [whisper.cpp](https://github.com/ggml-org/whisper.cpp), [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) | MIT/Apache-2.0 candidates; compare accuracy, latency, RAM and offline quality on M2 and target CPU |
+| TTS | [Piper upstream](https://github.com/OHF-Voice/piper1-gpl) | Not default: GPL-3.0-or-later and upstream alpha status require licensing and packaging review |
+| Media processing | [FFmpeg](https://github.com/FFmpeg/FFmpeg) | Reuse existing toolbox; pin build/features and review codecs/licenses actually distributed |
+| Observability | [OpenTelemetry](https://opentelemetry.io/docs/), Prometheus, Grafana if needed | Keep standard telemetry stack; traces/metrics never mutate state or authorize |
+| Supply chain/secrets | [SOPS](https://github.com/getsops/sops) + [age](https://github.com/FiloSottile/age), [Syft](https://github.com/anchore/syft), [Cosign](https://github.com/sigstore/cosign), [Trivy](https://github.com/aquasecurity/trivy) | Keep selected foundation with explicit policy and CI gates |
+
+Microsoft marks [AutoGen](https://github.com/microsoft/autogen) as maintenance-mode and recommends new users start with Microsoft Agent Framework. Thus AutoGen should not be picked for a new core just because older tutorial material is popular.
+
+### Рекомендуемая схема оркестрации
+
+- MediaHub API + policy + Product State Authority отвечает за разрешённые продуктовые mutations.
+- **Один** durable workflow engine (Temporal — ведущий PoC) может отвечать за длительные cross-node tasks, retries/timers/resume/worker dispatch.
+- **Один** graph framework (LangGraph — ведущий Python-first PoC) может отвечать за сложный reasoning/agent delegation внутри bounded workflow activity. Простой шаг должен остаться обычной typed function.
+- Model gateway — один выбранный adapter за существующими provider/inference contracts. LiteLLM сравнить с native adapters; FreeLLMAPI не допущен, пока не определены конкретный upstream repository, commit, license and routing behavior.
+- MCP предоставляет интерфейс tools, но не принимает authorization decisions.
+- OpenTelemetry/Prometheus показывают traces, model/tool timings, errors and resource metrics.
+
+Это preferred architecture PoC, а не утверждение, что Temporal/LangGraph/LiteLLM уже установлены. До переписывания текущего queue нужно сравнить existing implementation и кандидатов по одинаковому acceptance suite. Если существующий компонент проходит reliability/security/maintenance gates — повторно использовать; если нет — менять только конкретно провалившийся слой.
+
 ## 1. Назначение и итог аудита
 
-MediaHub OS — платформа и доменная система. ASTRA — контроллер автономной разработки и квалификации. Jarvis — пользовательский интерфейс, голос и запуск разрешённых задач. Эти уровни связаны, но не взаимозаменяемы.
+MediaHub OS — вся продуктовая и системная платформа. Мультиагентная система — универсальный слой планирования, исполнения, проверки и координации разных типов задач. Jarvis — один из пользовательских фасадов (голос, диалог, память, HUD), а ASTRA — подсистема автономной разработки/квалификации кода. Ни Jarvis, ни ASTRA не должны подменять доменную State Authority продукта.
 
-Цель — система с голосовым/текстовым входом, памятью, контроллером заданий, инструментами, локальными и разрешёнными облачными моделями, распределённым исполнением, проверяемыми результатами, безопасностью и восстановлением.
+Цель — целостная распределённая мультиагентная система: единый защищённый API, workflow/task control plane, динамические роли и worker capabilities, реестр компонентов и моделей, локальные/облачные model adapters, память с источниками и политикой хранения, MCP/инструменты за permission broker, продуктовые интеграции, voice/UI, observability, аудит, отказоустойчивость и управляемое развёртывание на разных аппаратных профилях.
 
 **Фактическое состояние на 12.10.2026:** подключены два Linux-узла и Mac mini M2. Mac Pro, MacBook и GPU host не появились среди активных Desktop Commander устройств; их характеристики/доступность неизвестны. Корневой диск mh-dev-01 заполнен на 100% (0 свободных блоков, inode usage 57%); read-only scan нашёл около 2.8 GiB в /var/log и 2.5 GiB systemd journal, но очистка не выполнялась, чтобы не потерять доказательства. На mh-dev-02 жив API Ollama, но heartbeat контроллера последний раз менялся 7 октября. Существующие transport/provider evidence датированы концом сентября и содержат BLOCKED/NOT_PASS. На Mac mini прошла валидация 25 контрактных файлов/9 envelope contracts и пять тестов топологии; другие выбранные unittest-модули не импортировались из-за отсутствующего PyYAML, pytest не установлен. Полная qualification не подтверждена.
 
@@ -42,11 +187,12 @@ MediaHub OS — платформа и доменная система. ASTRA —
 | Компонент | Роль | Ограничения |
 |---|---|---|
 | Человек | Финальная архитектурная, безопасностная и production authority | Только человек разрешает запуск G11 |
-| A0-ASTRA | Единственная координация и State Authority MediaHub; queue, claims, leases, reconciliation | Не подменяется провайдером, транспортом или моделью |
+| A0-ASTRA (developer plane) | Координация инженерных задач, queue/claims/leases, evidence reconciliation и qualification | Не является State Authority клиентского MediaHub продукта и не подменяет product-domain authority |
 | A1 | Архитектура и контракты | Не исполняет роль независимого A3 |
 | A2 | Ограниченная реализация | Не сертифицирует собственную работу |
 | A3 | Независимая проверка на exact SHA | Должен быть независим от исполнителя |
-| Jarvis | Голосовой/UI фасад, сбор задачи, отображение состояния | Не является второй State Authority |
+| MediaHub Product State Authority | Единственная authority для canonical domain mutations продукта | Принимает команды только после authentication, policy, capability и consumer-contract validation; persistence требует отдельного ADR |
+| Jarvis | Один пользовательский фасад: голос, HUD, память/контекст и сбор задачи | Не является orchestration authority, permission broker или State Authority |
 | FCC / OmniRoute | Транспорт/интеграция исполнителей | Не владеют состоянием MediaHub |
 | FreeLLMAPI / provider gateways | Маршрутизация к моделям после admission | Не гарантируют бесплатную ёмкость и не получают полномочий |
 | Alamo / Ollama | Инференс локальных моделей | Не принимают решения о разрешениях |
@@ -57,15 +203,16 @@ MediaHub OS — платформа и доменная система. ASTRA —
 
 ## 3. Целевая топология
 
-Пользователь и клиенты MediaHub iOS/MacBook обращаются через аутентифицированный API к предполагаемому центральному Mac Pro. Целевые компоненты там: API Jarvis, A0 queue/state/evidence, policy router, локальный endpoint Alamo, memory service и observability. Приватные аутентифицированные связи ведут к трём Claude execution lanes, принадлежащему оператору GPU pool A и изолированному user pool B. Европейский VPS — только key registration/management; не proxy для обычного model/data traffic.
+Топология делится на зоны. (1) Development plane: покупаемый Mac Pro и Mac mini 2011/Linux — два dev hosts; на Mac Pro после commissioning можно разместить central engineering API/workflow runtime. (2) Product/edge plane: существующий M2 работает у заказчика как первый отдельный продуктовый прототип и по умолчанию не зависит от developer control plane. (3) Future compute plane: GPU/video server как capability worker. Product API, domain State Authority и developer ASTRA API имеют отдельные identities, credentials и data boundaries. Европейский VPS — только key registration/management; не proxy для обычного model/data traffic.
 
-Это целевая схема, не утверждение о текущем деплое. Фактически доступны только mh-dev-01, mh-dev-02 и Voktors-Mini.Dlink. Mac Pro, MacBook и GPU host нужно отдельно инвентаризировать, если они существуют и должны участвовать.
+Это целевая схема, не утверждение о текущем деплое. Фактически доступны только mh-dev-01, mh-dev-02 и Voktors-Mini.Dlink. Mac Pro и отдельный Mac mini 2011/Linux ещё предстоит купить/ввести в целевую эксплуатацию. M2 после ввода продукта на объекте выводится из dev worker pool. GPU host — позднее расширение.
 
 ### Плоскости системы
 
-- **Authority plane:** человек, A0, A1, A2, A3 и формально разделённые права.
-- **Control plane:** приём задания, декомпозиция, зависимости, очередь, claims/leases, heartbeat, fencing, duplicate suppression, отмена, replay и reconciliation.
-- **Execution plane:** Claude Code, Codex и другие допущенные executors в изолированных рабочих областях.
+- **Product authority plane:** user/device/service identity → authentication → policy/capability → MediaHub Product State Authority.
+- **Engineering authority plane:** человек, A0-ASTRA, A1/A2/A3; права действуют только в dev/qualification scope.
+- **Workflow/control plane:** приём задания, декомпозиция, зависимости, durable lifecycle, queue/claims/leases, heartbeat, fencing, duplicate suppression, отмена, replay и reconciliation. Один durable scheduler выбирается после PoC; не поддерживать две competing queues как равноправных источника правды.
+- **Execution plane:** product agent workers и отдельные developer executors (Claude Code, Codex и другие допущенные инструменты) в изолированных рабочих областях и credential scopes.
 - **Model/provider plane:** Alamo/Ollama и разрешённые облачные модели через адаптеры.
 - **Transport plane:** GitHub Transport, FCC, OmniRoute и частная сеть; transport не авторитетен для состояния MediaHub.
 - **Evidence plane:** неизменяемые результаты с source SHA, provider/executor identity, round, exit status, timestamp, timeout, workspace и digest.
@@ -87,17 +234,17 @@ MediaHub OS — платформа и доменная система. ASTRA —
 
 На mh-dev-02 Ollama list показал qwen2.5-coder:1.5b (986 MB), qwen2.5-coder:3b (1.9 GB), qwen2.5-coder:7b (4.7 GB) и alias claude-sonnet-4-6:latest (4.7 GB), причём две последние метки имели один ID. На Mac mini M2-прототипе найдены qwen2.5-coder:1.5b, qwen2.5-coder:3b и qwen3:4b. Не считать модельные метки доказательством идентичности; сохранять manifest/digest и исключить сомнительный alias из автоматического выбора до read-only проверки. Не удалять модели автоматически.
 
-Для GPU-host нужны подтверждённые GPU/VRAM, RAM, SSD, driver/runtime, checkpoint, quantization, context length, concurrency, latency/throughput и thermal budget. Между компьютерами RAM/VRAM не складываются автоматически. Большую модель размещать на одном подходящем хосте либо использовать проверенный multi-GPU runtime.
+Для GPU-host нужны подтверждённые GPU/VRAM, RAM, SSD, driver/runtime, checkpoint, quantization, context length, concurrency, latency/throughput и thermal budget. Между компьютерами RAM/VRAM не складываются автоматически. Большую модель размещать на одном подходящем хосте либо использовать проверенный multi-GPU runtime. Mac mini 2011 с целевыми 16 GB RAM — executor/compatibility Linux host, не крупный LLM/GPU сервер.
 
 ## 5. Распределение задач
 
 | Узел | Базовая роль | Не назначать без qualification |
 |---|---|---|
-| Mac Pro (планируемый) | Целевой MediaHub API/control plane, Jarvis orchestration, A0 queue/state/evidence, model router, Alamo после hardware/runtime checks; development host №1 в отдельной рабочей области | Нагрузка и число процессов/claims только после покупки, профилирования и изоляционных тестов; не выдавать права developer executor автоматически всем system services |
+| Mac Pro (планируемый) | Development host №1; central engineering API/workflow runtime, repo research, build/test/evidence. Может предоставлять dev-model services после commissioning, но не является обязательной онлайн-зависимостью customer M2 prototype | Нагрузка и число процессов/claims только после покупки, профилирования и изоляционных тестов; не выдавать права developer executor автоматически всем system services |
 | mh-dev-01 | Claude lane для bounded coding/test jobs после освобождения диска | Любая запись при нуле свободного места, очистка dirty worktrees |
 | mh-dev-02 | Claude lane, health probes, Ollama/API tests | Большой inference, cloud fallback в LOCAL_ONLY, квалификация по одному каталогу |
 | Mac mini 2011 / Linux / 16 GB (план) | Development host №2: Linux executor, compatibility tests, bounded background jobs | Не использовать как GPU inference host; 16 GB и Linux drivers проверяются на реальном экземпляре |
-| Mac mini M2 | Первый MediaHub product prototype, staging/demo, UX, end-to-end acceptance tests | Не входит в постоянную очередь Astra developer servers после commissioning целевой пары |
+| Mac mini M2 | Первый MediaHub product prototype на объекте заказчика: product/edge runtime, UX и acceptance feedback | После передачи заказчику не входит в постоянную очередь dev servers; клиентские данные/credentials не смешиваются с dev state |
 | Будущий GPU/video server | Отдельный GPU worker pool для крупных моделей и медиаобработки | Не включать в обязательный путь базовых команд до развёртывания; секреты контроллера и direct canonical-state writes запрещены |
 | MacBook / other client | UI/approval surface при необходимости | Не считать developer lane или server без отдельного решения |
 | VPS | Управление регистрацией/отзывом ключей | Model proxy, traffic relay, quota bypass |
@@ -120,7 +267,7 @@ MediaHub OS — платформа и доменная система. ASTRA —
 - Безопасность: default-deny; tool allowlist; permission broker; sandbox; human approval для отправки сообщений, deploy, заказов и других необратимых действий.
 - Статусы по evidence: SUCCEEDED, FAILED, BLOCKED, CANCELLED, NEEDS_APPROVAL.
 
-Поток: Browser/Native UI → authenticated Jarvis API → task service → A0 queue/policy → permission broker → executor/model adapter → result validator → evidence store → UI. Секреты остаются server-side; модель не управляет своими разрешениями и не получает бессрочные credentials.
+Поток продукта: Browser/Native UI → authenticated MediaHub API → product policy/domain command path → workflow engine for long-running jobs → agent/tool/model adapters → result validator → approved product command → Product State Authority → audit/evidence/UI. Engineering flow отдельный: issue/task → A0 coordinator → isolated worker → test/review/security → evidence и human release gate. Секреты server-side; модель не управляет своими разрешениями и не получает бессрочные credentials.
 
 ## 7. Модельный контур
 
@@ -169,11 +316,11 @@ Missing/stale/conflicting evidence означает BLOCKED. Модель/исп
 
 ## 9. Проверки и пробелы
 
-**Проверено:** GitHub reference architecture, governance contract, qualification schema, unified system YAML, component scheme/registry/decisions и security boundaries прочитаны. На Mac mini contract validator: PASS, 25 contract files, 9 envelope contracts. Пять topology tests прошли: concurrency=3, три Claude lanes, Codex не является permanent lane, capability/single-authority checks. На mh-dev-02 Ollama localhost version endpoint вернул HTTP 200.
+**Проверено:** GitHub reference architecture, governance contract, qualification schema, unified system YAML, component scheme/registry/decisions и security boundaries прочитаны. На Mac mini contract validator: PASS, 25 contract files, 9 envelope contracts. Пять topology tests прошли для старой тестовой конфигурации: concurrency=3, три Claude lanes и отсутствие Codex в permanent lanes. Это не подтверждает целевую конфигурацию Mac Pro + Linux Mac mini с M2 как отдельным product prototype; tests нужно обновить после фиксации architecture ADRs. На mh-dev-02 Ollama localhost version endpoint вернул HTTP 200.
 
 **Не пройдено/не запускалось:** pytest отсутствует; PyYAML отсутствует в выбранном Python 3.14 на Mac mini, поэтому governance/repo hygiene/secret hygiene модуль не импортировался. Часть test dependencies отсутствует и на mh-dev-02. Не выполнены сквозной Claude Code→FCC→FreeLLMAPI/Alamo, local-only egress denial, tool-calling, все 23 раунда на mandatory paths, recovery suite, fresh independent A3 и текущий 24H soak. Полный security audit всех runtime/API не заявляется.
 
-Evidence transport/provider от 27.09.2026 показывает BLOCKED/NOT_PASS; qualification JSON от 27.09.2026 содержит BLOCKED_PRE_SOAK. Heartbeat mh-dev-02 старше 24-hour evidence freshness window. Итог ASTRA GOLD runtime: **BLOCKED / NOT GOLD_ACTIVE**.
+Evidence transport/provider от 27.09.2026 показывает BLOCKED/NOT_PASS; qualification JSON от 27.09.2026 содержит BLOCKED_PRE_SOAK. Heartbeat mh-dev-02 старше 24-hour evidence freshness window. Итог текущего engineering controller: **BLOCKED / NOT QUALIFIED**; целевая продуктовая multi-agent architecture описана, но candidate components ещё не прошли PoC/admission.
 
 ## 10. Реестр исправлений
 
@@ -257,4 +404,4 @@ curl --fail --silent --show-error --max-time 2 http://127.0.0.1:11434/api/versio
 
 DESIGNED — описание существует, runtime не доказан. PREFLIGHT — проверяется идентичность и окружение. ADMITTED — компонент прошёл admission. QUALIFICATION — выполняются свежие испытания. VERIFICATION — независимая проверка A3. SOAK — текущие 24 часа. LAUNCH_READY — G0–G10 пройдены, но требуется human G11. GOLD_ACTIVE/LAUNCHED — только после человеческого запуска exact SHA. BLOCKED — evidence отсутствуют, устарели, конфликтуют или не проходят gate.
 
-**Приоритет:** сначала стабилизировать mh-dev-01, восстановить актуальную heartbeat-доказательность, разрешить конфликт ID модели и pin-нуть FreeLLMAPI. Потом — сквозной model-routing, Jarvis UI/voice/tool broker и полная квалификация. На 12.10.2026 система **BLOCKED / NOT GOLD_ACTIVE**.
+**Приоритет:** (1) безопасно решить disk-full на временном mh-dev-01 и сохранить dirty worktrees/evidence; (2) закрепить целевые dev hosts и отдельный product M2; (3) оформить authority/persistence/worker-topology ADRs; (4) выполнить GitHub-first component admission и PoC для workflow/agent/router/voice alternatives; (5) интегрировать product tool broker и модельные adapters; (6) добавить GPU/video pool только после workload benchmark; (7) проводить qualification по exact SHA. На 12.10.2026 ни product multi-agent runtime целиком, ни engineering controller не следует объявлять qualified.
