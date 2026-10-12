@@ -259,3 +259,14 @@
 - `AI-HUMAN-CLONE-01` and Batch 08 `CDAI4-02 / B1-17-05` remain intact as historical/high-level cross-links.
 - MH-12 acceptance remains governance-review required; MH-21 remains NOT ACCEPTED / NOT FROZEN / NOT PRODUCTION READY; MH-18 remains NOT ACCEPTED / NOT FROZEN. These gate states are not modified by this draft.
 - This document has not been independently reviewed. All mapping/acceptance decisions remain provisional. B1, B2, the working traceability matrix, the canonical backlog and `main` are unchanged.
+
+## 20.62a — Duplicate-path reconciliation notice (2026-10-12)
+
+**Status:** NON-AUTHORITATIVE PARALLEL DRAFT — RETAINED FOR PROVENANCE; DO NOT USE AS THE ACTIVE BATCH 10 CROSSWALK.
+
+A fresh read-back during project-map recovery discovered that the active working Batch 10 crosswalk already exists at `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-10-AI-HUMAN-CLONE-DRAFT.md`, blob SHA `44b9369fea0be06e4e64f2052fd49f6d493f6603`, with its own Review 01 (`36148379d7d1e39252bd918ad17772036cf0d972`) and semantic Review 02 (`612162b164b7d2585fa9646871839274cec5a343`). Those records contain 19 provisional labels, preserve the existing B1 §17 / Batch 08 identity lineage, and are the active crosswalk record set indexed by the current working Passport and Contract.
+
+This differently named `BATCH-10-DRAFT.md` was created in the current continuation before that pre-existing artifact path was discovered. Its 15-row AHC-01…AHC-15 label set duplicates only part of the same §19 scope and uses a different temporary label scheme. It is preserved rather than deleted, but **must not** be counted, merged into, used to revise, or cited as the current Batch 10 mapping distribution. Do not mint child IDs from this file. Continue to use the established `BATCH-10-AI-HUMAN-CLONE-DRAFT.md` and its Reviews 01/02.
+
+This correction is a provenance/disambiguation notice only; it does not alter the canonical working Batch 10 draft, any owner decision, Baseline 1.0/2.0, the matrix or the canonical backlog. The map is the navigation authority and must record this duplicate explicitly.
+
