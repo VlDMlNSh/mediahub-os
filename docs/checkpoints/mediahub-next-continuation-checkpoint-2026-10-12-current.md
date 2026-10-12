@@ -152,3 +152,17 @@ Resume with `/next`.
 - No tests, qualification, model/provider calls, credentials, installation, host inspection, infrastructure change, deployment, migration or merge performed.
 
 **Next safe action:** resolve the manifest and P0-07 source paths using the map's branch-specific references, then extend the requirement crosswalk with explicit evidence links and open-owner decisions. Re-read the live map/checkpoint/matrix/contract and current `main HEAD` at the start of the next `/next`.
+
+
+### Latest verified continuation — component admission + P0-07 crosswalk (2026-10-12)
+
+- Re-read live bootstrap, map, checkpoint, unified matrix, parent contract, Baseline 2.0, MH-10 and MH-21 primary sources; queried live `main` commit and recursive tree (`truncated=false`, 798 entries).
+- Resolved canonical component manifest exact path `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` on `main`, blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`. Status: `CANONICAL DEVELOPMENT INPUT`; selection closed, implementation open, production admission qualification-gated.
+- Retrieved P0-07 primary source by immutable blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`. The mapped path returned 404 via Contents API; content is verified by blob, but current path existence on `main` remains unresolved.
+- Added COMPONENT-ADMIT-01/02 and P007-READ-01, P007-VALIDATE-01, P007-POLICY-01 to unified matrix. Matrix update commit `8e0d042735a6b3f54881f88838c190b9e5a43f10`, blob `d1016561f7b45952e911f61b9f701c8f6b4ab3e1`.
+- Updated map section 20.102. Map update commit `4d80b1698d9a78a8f3d0ba6511d4307e036fc5ee`, blob `e15311bff0be3d538ada34fe46b9fa8e1fb9c828`.
+- Confirmed constraints: P0-07 read/evaluation is observation-only; bounded deterministic validation; no alternate persistence or State Authority; mutation publication remains blocked by unresolved P0-07 → P0-05 authorization gap. Component selection never equals production qualification.
+- `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 unchanged and canonical; Baseline 1.0 historical provenance.
+- No tests, qualification, provider/model calls, credentials, installation, host inspection, infrastructure changes, deployment, migration or merge occurred. Unified matrix remains proposed, not accepted/frozen/implemented/qualified.
+
+**Next safe action:** continue source-bound crosswalk for MH-14 persistence authority, MH-15 OS/appliance and MH-16 installer/recovery/update lifecycle. For each, verify the mapped primary source and SHA before recording requirements; do not infer implementation authorization.
