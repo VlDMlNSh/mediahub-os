@@ -42,7 +42,7 @@ MediaHub OS — единая local-first платформа для локаль�
 | ASTRA launch/qualification schema, annotated working copy | `docs/mediahub-chat-tree-map-20261012` | `0b86b07dfa916d4485ce1f8f54d19de136d98491` | Qualification/lifecycle schema; clarified ASTRA internal state scope |
 | ASTRA execution blueprint, annotated working copy | `docs/mediahub-chat-tree-map-20261012` | `9f199ba8e872d5ae188fcdac9635a53f16973534` | Roles and execution gates; clarified ASTRA internal state scope |
 | Generated ASTRA current truth | `main` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | Current reported result: `NOT_PROVEN / BLOCKED` |
-| Jarvis blueprint gap reconciliation (legacy file name includes ASTRO) | `docs/mediahub-chat-tree-map-20261012` | `406e33a480d195915f7ab8963836066988ee2fd0` | Latest owner-provided Jarvis scope, five hardware roles, component candidates, open gates and 13 documentary review cycles |
+| Jarvis blueprint gap reconciliation (legacy file name includes ASTRO) | `docs/mediahub-chat-tree-map-20261012` | `8495c9436b967bd77afae57ccb1e42959ab86a56` | Latest owner-provided Jarvis scope, 20 scoped findings including AG-20 asset allocation, component candidates and 13 documentary review cycles |
 
 ## 3. Authority, command and state model
 
@@ -133,7 +133,7 @@ Capability drift triggers requalification or a policy downgrade. Marketing speci
 ### 5.3 Hardware roles
 
 - **Mac mini node:** prototype, low-resource or service role only when the exact profile is supported and measured; no inherent permanent coordinator/master role. The 2011 development node and customer-site M2 prototype are distinct trust/profile entries.
-- **Mac Pro / GPU expansion:** a potential high-throughput build/compute target admitted per workload, privacy classification, capacity and qualification evidence. GPU presence does not imply pooled VRAM, compatible runtime or workload admission.
+- **Mac Pro / GPU expansion:** a potential high-throughput build/compute target admitted per workload, privacy classification, capacity and qualification evidence. The purchased developer Mac Pro and any future production Mac Pro are not assumed to be the same physical asset; resolve P-20 before production admission. GPU presence does not imply pooled VRAM, compatible runtime or workload admission.
 - **Developer/test servers:** retain TEST/STAGING status until an explicit per-node reclassification; no production inference from a hostname, installed process or prior run.
 - **Future GPU/video node:** optional accelerator pool behind workload admission; the platform must retain useful core operation when this node is absent.
 - **Mac/iOS/iPadOS and specialist profiles:** feature availability follows qualified OS and hardware capabilities; shared UX does not mean identical capability.
@@ -215,15 +215,17 @@ ASTRA Gold current truth in the inspected main source reports `NOT_PROVEN / BLOC
 | P-10 | Current ASTRA GOLD / live queue state | NOT PROVEN / BLOCKED | Fresh exact-SHA node, executor, transport, runtime, scheduler, fencing, recovery, A3 and soak evidence required |
 | P-11 | Full domain stage acceptance for MH-01…MH-25 is not uniform | OPEN / SOURCE-BY-SOURCE | Chat tree map is inventory/navigation, not proof of full stage closure |
 | P-12 | Whole-repository semantic completeness | NOT CLAIMED | Tree inventory contains 826 entries; this session audited the baseline, key contracts, manifests, traceability and qualification sources, not every line of every Markdown file |
-| P-13 | Jarvis umbrella vs Astra subsystem was not explicit in the original v3 synthesis | WORKING SCOPE ADDED; NOT CANONICAL | Jarvis gap reconciliation SHA 406e33a480d195915f7ab8963836066988ee2fd0; implementation/runtime evidence absent |
+| P-13 | Jarvis umbrella vs Astra subsystem was not explicit in the original v3 synthesis | WORKING SCOPE ADDED; NOT CANONICAL | Jarvis gap reconciliation SHA 8495c9436b967bd77afae57ccb1e42959ab86a56; implementation/runtime evidence absent |
 | P-14 | Owner-reported hardware roles require exact inventory | OPEN / NOT QUALIFIED | Mac Pro model, mini 2011 identifier/OS, customer M2 site profile and future GPU server specs are not independently verified |
 | P-15 | Jarvis must not duplicate task lifecycle/state across orchestration and Astra/framework candidates | OPEN DESIGN DECISION | Select one owner for queue/claim/lease/retry/evidence; use adapters around other execution frameworks |
 | P-16 | Master-context packet for MH-01…MH-23 is not implemented as an auditable release mechanism | DESIGN REQUIREMENT | Global context + domain packets must carry source refs/SHA, current decisions, dependencies and change deltas |
 | P-17 | Reusable-repository scorecard and pinned release bundle are not yet implementation artifacts | DESIGN REQUIREMENT / OPEN | Exact pins, license/SBOM/security, compatibility, preflight, rollback and post-install evidence required |
 | P-18 | Public multi-agent repositories are candidate sources only | NOT SELECTED / NOT QUALIFIED | New review document lists Temporal, LangGraph, Microsoft Agent Framework, Pydantic AI, OpenHands and AutoGen status; no component installed or qualified |
-| P-19 | Target OS/build/boot/install/update/recovery profiles are not pinned for the named Apple hardware roles | OPEN / PLATFORM PROFILE REQUIRED | B2 §9, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; gap reconciliation §15, latest blob SHA `406e33a480d195915f7ab8963836066988ee2fd0` |
+| P-19 | Target OS/build/boot/install/update/recovery profiles are not pinned for the named Apple hardware roles | OPEN / PLATFORM PROFILE REQUIRED | B2 §9, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; gap reconciliation §15, latest blob SHA `8495c9436b967bd77afae57ccb1e42959ab86a56` |
+| P-20 | Purchased Mac Pro is described as the primary developer workstation while a future production Mac Pro is also named; physical-asset identity/transfer is unresolved | OPEN / ASSET ALLOCATION REQUIRED | Gap reconciliation §17 / AG-20, latest blob SHA `8495c9436b967bd77afae57ccb1e42959ab86a56`; owner blueprint |
 
 ## 11. Acceptance checklist for a future Passport v3 release
+- [ ] Resolve AG-20/P-20: distinguish the developer Mac Pro from the future production Mac Pro, or approve and evidence an explicit role transition with a replacement developer workstation and credential/data boundary.
 
 The owner/governance acceptance package must verify at least:
 - [ ] No semantic contradiction with accepted B2.
@@ -258,3 +260,5 @@ The owner/governance acceptance package must verify at least:
 | 2026-10-12 | Applied the latest owner terminology: Jarvis supersedes the earlier draft label Astro. Updated the gap-report SHA to its latest read-back; retained the legacy filename for cross-reference provenance. |
 | 2026-10-12 | Added a per-node OS/boot/install/update/recovery profile gate from B2 §9 and refreshed the gap-reconciliation blob SHA; no baseline or runtime changed. |
 | 2026-10-12 | Added a read-only GitHub API metadata snapshot for seven orchestration/agent candidates to gap-report §16; recorded current commit/license/activity observations without treating stars or activity as qualification. Updated all gap-report references to blob SHA `406e33a480d195915f7ab8963836066988ee2fd0`; no candidate selected and no runtime or baseline changed. |
+
+- 2026-10-12 — added P-20 after cross-reading the owner blueprint and the working hardware matrix: developer and future production Mac Pro asset identity/role transfer remains unresolved. Updated current AG-20 gap-report pointers to SHA `8495c9436b967bd77afae57ccb1e42959ab86a56`; no host or baseline changed.
