@@ -546,3 +546,21 @@ Status: documentary only; proposed, not accepted/frozen. No implementation or qu
 - MH-22 production/qualification architecture (`17bb2a9fdc34a0ee7c324e78c412616b5e377bb4`) and evidence register (`188a85e3a31cb545fd781e6db237d655d721ec1c`) do not grant production qualification; exact-target release, rollback and restore evidence remain required.
 - Live GitHub compare `main...architecture/mh-23-long-term-evolution` on 2026-10-12 returned DIVERGED: current main `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, branch 66 commits ahead / 1,640 behind, merge base `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`. MH-23 evidence register (`a9330b0373c4b329990d056553c0d7ac556d3bfc`) is pinned to historical main lineage; this is not current-head qualification evidence or integration authorization.
 - No stable IDs added, no gates closed. No tests, qualification, workflow dispatch, physical restore, migration, host/runtime inspection, deployment or branch integration occurred.
+
+
+## 25. MH-23 branch lineage freshness recheck (2026-10-12)
+
+Status: LIVE METADATA RECHECKED / DOCUMENTARY ONLY. This section refreshes branch comparison evidence and does not authorize branch integration.
+
+| Claim | Current observation | Interpretation |
+|---|---|---|
+| Current `main` HEAD | `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` | Confirmed by recent commit listing and compare base. |
+| Compare `main...architecture/mh-23-long-term-evolution` | `DIVERGED`; 66 ahead / 1,640 behind; merge base `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18` | Fresh compare on 2026-10-12 reproduces prior divergence. The branch is not canonical `main` evidence. |
+| MH-23 evidence register lineage | Branch document `a9330b0373c4b329990d056553c0d7ac556d3bfc` states historical main `6eb2ef9…` | Evidence tied to the merge base is not current-head verification for `1d45bbcc…` without revision-bound evidence. |
+| MH-23 decision on persistence | Decision log `90a2b8ef5727ac39023147d5b2d3c1540b5f5bbd` says physical persistence NOT AUTHORIZED | No persistence implementation, migration or restore is authorized by this branch. |
+| MH-16/MH-22 current-main gates | MH-16 `f3ad2401f00a4062b39eed640e0c5c5f70064312`; MH-22 evidence `188a85e3a31cb545fd781e6db237d655d721ec1c` | Implementation and production qualification evidence remain UNKNOWN/NOT GRANTED for the scoped lifecycle gates. |
+
+### Result
+
+- Existing conclusion remains unchanged: MH-23 is NOT ACCEPTED / NOT FROZEN; MH-14 physical persistence is NOT AUTHORIZED; MH-16 implementation is NOT AUTHORIZED; MH-22 production acceptance is NOT GRANTED; P0-07 remains BLOCKED.
+- No requirement IDs added, no statuses promoted, no gap closed. Compare metadata was read only; no merge, rebase, cherry-pick, workflow dispatch, test, qualification, migration, restore or runtime inspection was performed.
