@@ -1798,3 +1798,42 @@ A read-back of §20.55 found five unexpanded JavaScript template placeholders in
 **Verification:** map update was read back from GitHub; no unexpanded interpolation template remains in the map. The active §20.55 pointer values match the current fetched blob SHAs for the corresponding artifacts. No architecture rule, baseline, crosswalk status, runtime, host, infrastructure, release or qualification state changed. No tests, installation, qualification, deployment or merge to `main` was performed.
 
 **Next safe step:** independent semantic review of the working Jarvis passport/contract and the open atom-level crosswalks remains separate from this mechanical pointer correction; no canonical promotion is implied.
+
+## 20.57 Post-cycle Jarvis semantic consistency review 02
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `TARGETED DOCUMENTARY CONSISTENCY PASS / GLOBAL SEMANTIC ACCEPTANCE OPEN`
+
+**Review artifact:** `docs/checkpoints/MEDIAHUB-JARVIS-SEMANTIC-REVIEW-02.md`  
+**Read-back blob SHA:** `86b244bf5576ec1821eb5ca3781186d87a8df77b`  
+**Read-back:** 84 lines; SR-01…SR-05 present; current source-manifest refs match the read-back set.
+
+### Current working source pointers after the post-cycle correction
+
+| Artifact | Ref | Current read-back blob SHA | Status |
+|---|---|---|---|
+| System Passport v3 | `docs/mediahub-chat-tree-map-20261012` | `43e9cd0c4e272cbe490ef6b0d308aca5b1fcda7e` | Working draft; P-01 reflects Batch 01–08 structural union; P-12 distinguishes historical inventory snapshots |
+| Verifiable Architecture Contract 01 | `docs/mediahub-chat-tree-map-20261012` | `201a06eaa1764573634917e1210e8f54f262c539` | 28 ARC requirements / 21 verification checks; V-02 and open obligation 1 aligned with 153-label union; semantic acceptance OPEN |
+| Jarvis Global Master Prompt 01 | `docs/mediahub-chat-tree-map-20261012` | `86b19fc54ccd64241299fa165cf4fbd130fe6860` | Active Passport/Contract pointers refreshed and read back |
+| Jarvis blueprint gap reconciliation (legacy path retains ASTRO) | `docs/mediahub-chat-tree-map-20261012` | `39720b11e5e6777b86ffd71e0fec1214982e0d95` | 21 scoped findings; not a new baseline |
+| 13-cycle architecture audit | `docs/mediahub-chat-tree-map-20261012` | `ec59b09306aaafd7fa86a67fd28c759d17d2b5b6` | 13 source/contract documentary cycles recorded; not runtime qualification |
+| Batch 01–08 atom-level union review | `docs/mediahub-chat-tree-map-20261012` | `e9ccafef5a3cca75f41e84bf3c4397dcc2285fd4` | 153/153 source/control labels structurally reconciled; semantic acceptance OPEN |
+| MH-24 traceability matrix working copy | `docs/mediahub-chat-tree-map-20261012` | `73377891072bac3c739c44055ceeb0874154f64c` | Matrix status reconciled to accepted B2; implementation/qualification OPEN |
+| B1 Functional Baseline 1.0 | `main` | `9df4892ed0734050ac79732603d15bb414717310` | Immutable historical literal source; unchanged |
+| B2 Functional Baseline 2.0 | `main` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Accepted canonical current functional reference; unchanged |
+| ASTRA generated current truth | `main` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | G0–G11 BLOCKED; overall NOT_PROVEN / BLOCKED |
+
+### Confirmed corrections
+
+1. Passport v3 P-01 now distinguishes the 48-parent status summary from the Batch 01–08 atom-level structural union: `23 MAPPED / 119 NOT_REVIEWED / 11 NO_DIRECT_COUNTERPART / 0 CONFLICT` across B1 §§3–6, 12, 15–17. No semantic acceptance or canonical-backlog promotion is inferred.
+2. Contract V-02 no longer says `parent-level only`; its verification status and open obligation 1 now reflect the existing 153-label union, while retaining semantic review, remaining-section coverage, SH4 lineage, UI4-04 HOLD and owner/governance gates.
+3. Passport P-12 and Contract 01’s coverage note distinguish the earlier 826-entry / 445-Markdown snapshot at commit `58305d5a9a5b1593f15d2dfb0ff79838c1bddaec` from the later pre-update 846-entry snapshot at `572dfade59961e2e58c9bcaac16d09d996b997b6` (465 Markdown, 193 Python, 47 YAML and 54 JSON; not truncated). Neither is represented as a current-head line-by-line semantic audit.
+4. Contract 01’s active Passport pointer and Jarvis Master Prompt 01’s active Passport/Contract pointers now match the latest read-back blobs. Historical dated pointer entries remain intact.
+5. ASTRA current truth was re-read: every listed gate G0–G11 is `BLOCKED`; overall state is `NOT_PROVEN / BLOCKED`. Its machine-readable authority fields remain explicitly scoped to ASTRA’s internal workflow state by comments/policy. No runtime test was run, so implementation enforcement remains unverified.
+
+### Boundaries and next safe step
+
+The two recorded sets of 13 cycles (Jarvis blueprint review and baseline/contract review) remain unchanged. This is a post-cycle consistency follow-up, not another counted cycle and not a runtime test or qualification. `UI4-04` remains `HOLD / CROSS-LINK-ONLY`; no final child IDs or canonical-backlog promotion occurred. B1/B2 and `main` are unchanged. No installation, tests, qualification, soak, host/infrastructure action, deployment or merge was performed.
+
+**Next safe step:** continue source-anchored semantic review of the remaining B1 sections and unresolved owner dispositions; retain explicit blockers and do not promote Passport v3 / Contract 01 to a global canonical baseline without independent review and separate owner/governance acceptance.
