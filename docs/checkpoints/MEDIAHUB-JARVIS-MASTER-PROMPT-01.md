@@ -142,8 +142,8 @@ Return:
 - B1: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`, `main`, SHA `9df4892ed0734050ac79732603d15bb414717310`.
 - B2: `docs/checkpoints/mediahub-functional-baseline-2.0.md`, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 - MH-24 report: `docs/checkpoints/mediahub-mh24-reconciliation-report.md`, `main`, SHA `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`.
-- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `327089a0780e85a053c3d56c185c22d2e76857ae`.
-- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `8566e3a3817b82d17711349cab9fa962df57e28c` (28 architecture requirements, 21 verification checks in the latest read-back).
+- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `a746a3e5945ad646883fd17cfdd2245b599b032d`.
+- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `f81f765dd80d0f164552a127728757684b612422` (28 architecture requirements, 21 verification checks in the latest read-back).
 - Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`. The path name is retained for provenance even though the current working label is Jarvis.
 - Current finding inventory: 21 scoped AG findings including AG-21 / P-21 / ARC-028 / V-21; the B1-15-13→B2 §19 defect is a historical cross-reference error, corrected only in the current working crosswalk (B2 §§16/18). Audit 01 is preserved unchanged.
 - Batch 06 Local AI crosswalk: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-06-DRAFT.md`, this branch, SHA `9df96aca53d1004c33d45f038501dc6b7f52c0c9`; structural review SHA `1edc976dd663ae16a1b61876a2dbbde9411be095`. Audit 01’s B2 §19 pointer for B1-15-13 is a confirmed source-reference defect; the working crosswalk points to B2 §§16/18 and preserves Audit 01 history.
