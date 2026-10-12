@@ -1698,3 +1698,51 @@ The active P-13 pointer was corrected. Dependent current references were refresh
 Verification: all four current artifact SHAs were fetched after the writes. The active Passport P-13 line, contract non-history references and the master prompt's active pointer lines no longer contain the obsolete current-pointer value. Historical change records remain intact. This was a targeted documentary source-pointer correction; it does not change an architecture requirement, create a new baseline, close semantic mapping, or affect product/runtime state.
 
 Constraints preserved: no canonical backlog or traceability matrix changed; no tests, qualification, installation, deployment, infrastructure/host operation or merge to main occurred.
+
+
+## 20.53 Jarvis bundle independent documentary review
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `ACTIVE-POINTER / SOURCE-SCOPE REVIEW PASS — SEMANTIC ACCEPTANCE OPEN`
+
+**Artifact:** `docs/checkpoints/MEDIAHUB-JARVIS-BUNDLE-INDEPENDENT-REVIEW-01.md`  
+**Create commit:** `43e2dad5fd0d24ae959ba1f095a030c548b7af04`  
+**Read-back blob SHA:** `022f1bd881906d4ab837b2f46c091c43546fce14`  
+**Read-back:** 90 lines; content matched the created review artifact.
+
+### Current read-back manifest used by the review
+
+| Artifact | Ref | Blob SHA | Status / scope |
+|---|---|---|---|
+| Jarvis blueprint gap reconciliation | working branch | `39720b11e5e6777b86ffd71e0fec1214982e0d95` | 21 scoped findings; working document, not new baseline |
+| System Passport v3 | working branch | `b504a2e2065bf864578dccd79830c2a58b9099bf` | Working draft; not globally accepted |
+| Verifiable Architecture Contract 01 | working branch | `8ccfaecca11a12a630f7c004540cef7dc83354c2` | 28 architecture requirements, 21 verification checks; working draft |
+| Jarvis Global Master Prompt 01 | working branch | `5d9313e33240215fcd9e81f5a8261ede0e51e57a` | Working prompt draft; domain packet generation remains unimplemented |
+| 13-cycle architecture audit | working branch | `ec59b09306aaafd7fa86a67fd28c759d17d2b5b6` | Documentary source/contract review, not runtime tests |
+| MH-24 traceability matrix | working branch | `73377891072bac3c739c44055ceeb0874154f64c` | B2 accepted status reconciled; implementation/qualification open |
+| B1 Functional Baseline 1.0 | `main` | `9df4892ed0734050ac79732603d15bb414717310` | Historical literal source, unchanged |
+| B2 Functional Baseline 2.0 | `main` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Accepted canonical current functional reference, unchanged |
+| ASTRA generated current truth | `main` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | G0–G11 BLOCKED; overall NOT_PROVEN / BLOCKED |
+| ASTRA 24-hour runbook | `main` | `efb1c8af47578cbe14f8e788676d71ba4c665966` | Live three-node transport not qualified in inspected evidence |
+| State / HA integration contract | `main` | `aa68e876d06980ced3e6b6b3995ea6a117446423` | PROPOSED FUTURE EXTENSION, not current runtime authority |
+| MH-03 master prompt | `main` | `e99035f596e236645bf8f2235fc4d375716ce476` | Single-node/in-memory State Authority; no HA and no physical persistence authorized |
+| Canonical component manifest 2.0 | `main` | `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` | Development component selection; not production qualification |
+| Batch 04 parent crosswalk | working branch | `f9e66b7adde7afeaf6a7fb6ef1a867dee07c1b34` | 48 historical parent IDs; child-level semantic mapping remains open |
+
+### Verified review results
+
+- Active SHA pointers among Gap Reconciliation, Passport v3, Contract 01 and Master Prompt agree at the read-back above. Older SHAs inside dated change-history entries are retained as historical provenance, not treated as active pointers.
+- Gap report §9 contains 13 Jarvis-specific documentary cycles; the separate architecture audit contains 13 baseline/contract cycles. Neither ledger represents runtime testing or qualification. AG-20/21 follow-up findings do not retroactively inflate either ledger.
+- B1 remains immutable historical provenance and B2 remains the accepted current functional reference. Neither baseline changed.
+- The working traceability matrix’s former `RECONCILIATION CANDIDATE` label is corrected; implementation and qualification remain open.
+- The B1-15-13 historical pointer to B2 §19 remains preserved in Audit 01; the current Batch 06 crosswalk directs review to B2 §§16/18. This is a confirmed derived cross-reference defect, not an established semantic conflict between B1 and B2.
+- Jarvis/Astra engineering state remains separated from MediaHub Product State Authority; HA Core authority is limited to Smart Home. The current MH-03 runtime foundation remains separate from proposed HA/persistence designs.
+- Owner-reported hardware allocation, exact per-node OS/boot/install/update/recovery profiles, one authoritative task-lifecycle owner, final component selection, domain packet generation, reproducible release packaging and residual B1↔B2 semantic mapping remain OPEN.
+- `UI4-04` remains `HOLD / CROSS-LINK-ONLY`; the parent-level Batch 04 crosswalk remains a documentary draft.
+
+**Decision:** current pointer and stated-scope consistency PASS for the checked sources; repository-wide semantic completeness OPEN; Passport v3 and Contract 01 NOT ACCEPTED as a new global canonical baseline; ASTRA Gold remains NOT PROVEN / BLOCKED in the inspected source snapshot.
+
+**Boundary:** no tests, qualification, 24-hour soak, installation, deployment, host/infrastructure operation, production change or merge to `main` was performed. B1, B2 and the `main` branch remain unchanged by this review.
+
+**Next safe step:** continue a bounded independent semantic review of outstanding atom-level crosswalks and owner/governance decisions. Do not promote the Passport/Contract, infer ASTRA readiness, or change canonical sources without separate acceptance and evidence.
