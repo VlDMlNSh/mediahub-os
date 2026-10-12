@@ -2571,3 +2571,40 @@ The prior 20.75 next-step wording “MH-04 State Authority inventory” is impre
 7. MH-08 remains PARTIALLY_CLOSED because the dedicated canonical architecture/closure provenance is not reconciled into the current map. Do not recreate or copy historical artifacts without path/history/blob comparison and authorization.
 
 **Next safe action:** proceed to MH-09 UI / Presentation using the mapped branch `architecture/mh-09-presentation-ui`. Preserve MH-08 as PARTIALLY_CLOSED and Issue #124 as OPEN/PENDING; do not rerun qualification, alter the queue, merge historical PRs or claim production readiness without explicit authorization and fresh evidence.
+
+## 20.81 MH-09 Presentation / UI — branch corpus reconciled; acceptance and implementation remain unverified
+
+**Date:** 2026-10-12  
+**Status:** Architecture corpus PROPOSED / REQUIRES VERIFICATION; acceptance NOT ACCEPTED; implementation authorization NOT GRANTED; freeze NOT GRANTED; exact branch-head CI NOT VERIFIED.
+
+### Primary source and revision evidence
+
+| Source | Ref / SHA | Confirmed fact |
+|---|---|---|
+| MH-09 architecture branch | `architecture/mh-09-presentation-ui`; HEAD/tree `2294d914585f80192e4c28fa3b8139a79b95dda8`; 137 tree entries | Dedicated architecture corpus exists on branch; branch existence is not acceptance or implementation authorization. |
+| Master record | `docs/architecture/MH-09-master-record.md`; blob `c56f7378c59dd91004c0fa18339694c044620b96` | PROPOSED / REQUIRES VERIFICATION; implementation authorization, governance acceptance and freeze NOT GRANTED. Explicitly states UI is a consumer/presentation layer, not authority. |
+| Acceptance criteria | `docs/architecture/MH-09-acceptance-criteria.md`; blob `09dd9a3bab69ea039152a3aeaaac830b8961ab8b` | NOT ACCEPTED. Requires boundary, read-model, command/proposal, session/navigation, offline/freshness, failure UX, AI/plugin/admin/diagnostic/emergency/notification, accessibility/localization, privacy/security, persistence, platform, test/threat and governance evidence. |
+| Evidence register | `docs/architecture/MH-09-evidence-register.md`; blob `f9c0891b483fce1b2334f4b923999a400ae470c2` | Documentation artifact implemented; MH-09 NOT ACCEPTED. No direct UI implementation verification exists in the register. |
+| Decision log | `docs/architecture/MH-09-decision-log.md`; blob `21aa86bd8926ead78e0f29db274a58d277d5fdeb` | D-09-01…D-09-06 all PROPOSED; technology/framework remains unselected pending evidence-backed ADR. |
+| Contradiction register | `docs/architecture/MH-09-contradiction-register.md`; blob `04b7e94cca8d60f90a8c64c745ca63b589eae63d` | Open issues: P0-07→P0-05 authorization publication blocked; current UI implementation UNKNOWN; P0-03/P0-04/P0-05 frozen artifacts on current main require verification; hardware relevance UNKNOWN. |
+| Dependency map | `docs/architecture/MH-09-dependency-map.md`; blob `9e1a62f99d8578b64ab77741e410a845f76e1d62` | Presentation depends on explicit contracts, not authority internals. P0-07 mutation publication remains blocked; P0-08 acceptance not asserted. |
+| UI boundary | `docs/architecture/MH-09-ui-boundary.md`; blob `09dd6c0c31d983a44e0532b6bf2fca886abab18d` | Allows bounded authorized reads, drafts, explicit commands/proposals, results/errors and presentation cache/session; forbids direct State Authority, raw transactions, direct persistence/database/device mutation, arbitrary shell/subprocess, unrestricted filesystem/network, plugin execution authority and capability escalation. |
+| Persistence boundary | `docs/architecture/MH-09-persistence-boundary.md`; blob `f722a7ac7cb3acec2efade27844b0cd5ac68e7f7` | PROPOSED / REQUIRES VERIFICATION; no persistence authority in MH-09. Cache is non-canonical and must expose freshness; persistence integration requires separate accepted architecture/governance. |
+| Authorization interaction | `docs/architecture/MH-09-authorization-interaction.md`; blob `da40205323b6a41ff0596fde0c38ff222488dbda` | Authentication and authorization are distinct. UI visibility, routing, deep links, cached credentials and presentation state cannot authorize; denial fails closed. |
+| Unknowns / threat model / testing model | blobs `3e96815276e2b58308ef46240c0d8297724ca28c`, `3b1932ec2a2b93d64aac1b948a0cbc7b986b5bad`, `771d9c0f8fc9402385b1b68b2a56d06ce3adcee4` | UI technology/module topology, end-to-end integration, notifications, AI/plugin rendering and P0-07 publication are unknown or deferred. Threats include UI privilege escalation, hidden/deep-link bypass, stale-data mutation, false success, AI auto-execution and sensitive-data disclosure. Testing layers are proposed; no UI test evidence is claimed. |
+| Current branch-head CI | HEAD `2294d914585f80192e4c28fa3b8139a79b95dda8` | Combined status has zero statuses; check-runs and workflow-runs query returned none. This is NOT VERIFIED, not PASS and not evidence of an active run. |
+| Current main inventory | HEAD/tree `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` | Recursive path inventory found only the P0-07 verification workflow among P0-03/P0-04/P0-05/P0-07 path patterns; dedicated P0-03/P0-04/P0-05 documents were not found in the checked main tree. This is bounded inventory, not proof of global absence. MH-09 documents remain branch-specific. |
+| Cross-domain dependency refs | MH-07 HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`; P0-06 implementation branch HEAD `cc8559da6ae4df749782a29ee4203d35ef6818fc` | MH-07 publication remains blocked; P0-06 has historical frozen implementation evidence but this does not authorize UI implementation or establish MH-09 runtime qualification. |
+
+### Confirmed invariants
+
+1. Presentation is a consumer, never an authority: `UI ≠ State Authority ≠ Policy Authority ≠ Authorization Authority ≠ Runtime Authority ≠ Persistence Authority ≠ Security Authority ≠ AI Authority`.
+2. All mutation paths must pass through explicit operation contracts, authorization/policy and the approved Consumer Boundary to the canonical State Authority or a controlled subsystem.
+3. UI visibility, disabled controls, navigation, deep links, cached credentials, AI recommendations, notification actions and plugin rendering are never authorization.
+4. Read models must be bounded, immutable/value-semantic, authorization-filtered and privacy-aware. Freshness and outcomes must distinguish current/stale/cached/unavailable/estimated/predicted/recommended and pending/accepted/committed/failed/rejected/cancelled/unknown.
+5. Optimistic UI is not commit evidence. UI must not invent hidden merge/rebase/LWW/infinite retry or treat unknown outcomes as success.
+6. UI owns no canonical persistence. Presentation cache/session/drafts remain non-canonical; direct database/device mutation, raw transactions and authority-bearing internals are forbidden.
+7. P0-07→P0-05 publication remains blocked; MH-09 must not modify P0-03…P0-06 to bypass the blocker.
+8. No framework, canonical UI module topology, runtime implementation, acceptance/freeze or production qualification is inferred from documentation alone.
+
+**Next safe action:** continue the map's documented restoration path for MH-10 AI using its mapped branch and primary-source paths. Keep MH-09 PROPOSED / NOT ACCEPTED and implementation unauthorized until evidence and explicit governance acceptance exist. No tests, qualification, workflow runs, code changes, deployment, infrastructure changes or merge were performed in this pass.
