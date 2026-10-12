@@ -989,3 +989,23 @@ Review обнаружил шесть конкретных исправлений
 Proposal 02 сохраняет 48 исторических Batch 04 ID и статус OPEN / NOT APPROVED. Дочерние suffixes остаются предварительными. Baseline 1.0/2.0, traceability matrix и исходный Batch 04 не изменялись; canonical backlog не обновлялся; governance status не менялся. Тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
 
 **Следующий безопасный шаг:** выполнить структурную и семантическую сверку proposal 02 с независимым review 01, включая все 48 исторических ID и child-level anchors; затем оставить открытые owner/governance вопросы отдельным списком. Не назначать окончательные IDs и не менять canonical backlog без одобрения.
+
+
+
+## 20.22 Independent validation of Batch 04 normalization proposal 02
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-NORMALIZATION-VALIDATION-02.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `cf8cb14985184d27c18f94a9d79a71c2809591af`  
+**Read-back blob SHA:** `e21137d8ac230a9ff28f616adcb840e234e5c965`  
+**Статус:** `INDEPENDENT DOCUMENTARY VALIDATION / OPEN — PROPOSAL 02 NOT APPROVED`.
+
+Повторно прочитаны текущая карта (до записи SHA `652e4f789bc244f7788f4df74500010a9bf73d30`), bootstrap-инструкция, Proposal 02 (SHA `7e737c8add9e3453062e9fc459790e7010e55689`), Review 01 (`373530821ae8dcbcf84e953f42e047e99f7810a8`), исторический Batch 04 (`26163e6f60b44e997560212bf7de9900210b7ed3`), Audit 01/02 (`d0938f14ed4110545118f075175dee3be412097b`, `8b1f02eb07e153be825e39ec7a0289b0105d6156`) и literal Baseline 1.0 из `main` (`9df4892ed0734050ac79732603d15bb414717310`).
+
+Структурная сверка подтвердила совпадение наборов: **48/48 исторических parent IDs** присутствуют в Proposal 02; пропусков или новых исторических ID в таблице disposition не обнаружено. Расхождение исходного backlog («47» в заключительной строке при 48 уникальных ID) сохранено как историческая ошибка, не исправлялось. 153 ID Audit 01 — отдельный реестр, не эквивалентный 48 историческим ID.
+
+R01–R04 и R06 из Review 01 подтверждены как исправленные в тексте Proposal 02. R05 — частично исправлен: добавлена child-level таблица, но она ещё не является полным атомарным каноническим реестром для каждого дочернего элемента. Открыты вопросы о единственном нормативном владельце повторно используемых literal atoms (B1 lines 68–69, 136, 204, 291), разложении цепочки HA4-03, compound clauses AUTO4/CDAI4, cross-links Local AI, а также owner/governance approval и B1/B2 reconciliation.
+
+**Результат:** структурное покрытие ID PASS; детальность child-level traceability PARTIAL; семантическая полнота NOT ESTABLISHED; approval/canonical backlog eligibility NOT APPROVED. Baseline 1.0/2.0, matrix и исторический backlog не изменялись; canonical child IDs не закреплялись; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
+
+**Следующий безопасный шаг:** составить отдельный owner/governance decision register по остаточным anchor gaps, literal-versus-derived classification и одному normative owner на shared source atom. Не обновлять canonical backlog и не закреплять стабильные child IDs до явного решения владельца.
