@@ -2190,3 +2190,35 @@ The SHA values `d4b742ea5e55ae23472cb285bf39bc29cbbb359c` and `dd9479cb225613806
 **No changes to Passport, Contract, B1, B2, matrix, AT backlog, canonical backlog or `main` were made by this inventory step.** No installation, tests, qualification, deployment or infrastructure action occurred.
 
 **Next safe action:** create the minimal Batch 15 documentary draft for B1 §24 only after preserving the above scope and provisional-ID constraints; then independently review it and integrate only confirmed facts into Passport/Contract and this map.
+
+## 20.69 Live Batch 15 reconciliation and synthesis-pointer refresh
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** LIVE TREE READ-BACK CONFIRMS BATCH 15 EXISTS / PASSES BOUNDED DOCUMENTARY REVIEW / AT-17 OPEN
+
+### Current artifacts verified from the working ref
+
+| Artifact | Path | Current blob SHA | Confirmed scope/status |
+|---|---|---|---|
+| System Passport v3 | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` | `9a9260d543e474b7fc55f686c59b79a24c215296` | P-29 already integrates Batch 15; paid-tier entitlement and AT-17 remain open |
+| Verifiable Architecture Contract 01 | `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` | `56998a7226a3f25cf957bd836caf3aae0100976d` | ARC-036 / V-29 already integrate Batch 15; acceptance remains open |
+| Batch 15 Document System draft | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-15-DOCUMENT-SYSTEM-DRAFT.md` | `3f20f36806cd91bc76ca5749fa4b06b8be651d7b` | B1 §24; 12 provisional labels, no final child IDs |
+| Batch 15 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-15-DOCUMENT-SYSTEM-REVIEW-01.md` | `50d5ac25a4c32eb21dd8c7ac71205ae2051c8ef1` | 12/12 rows contain the approved 12 fields; bounded structural/source-anchor/status consistency PASS |
+
+### Review outcome and open gates
+
+- Batch 15's reviewed distribution is **9 MAPPED / 2 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT**. MAPPED rows establish only bounded textual correspondence for general document functions and the generic OSS qualification gate.
+- `DOC-24-01`'s `NO_DIRECT_COUNTERPART` is scoped to the named professional/paid tier and entitlement semantics in the B2 clauses reviewed; it is not a global absence claim.
+- `DOC-24-10` (“structured information”) and `DOC-24-12` (PaddleOCR-specific adoption) remain `NOT_REVIEWED`. PaddleOCR remains an example subject to security/license/provenance qualification, not a selected, installed or qualified component.
+- AT-17 remains **OPEN—OWNER DECISION**. Paid-tier/edition-feature matrix, lock/unlock, expiry/revocation, offline, restore/reinstall/device-transfer behavior and the structured-information schema remain unresolved. MH-19 remains NOT ACCEPTED / NOT FROZEN; cited runtime/persistence evidence remains UNKNOWN.
+- Product Owner Decision Record 01 D-05 approves the 12-field record schema and mapping vocabulary only. It does not approve paid entitlement semantics, pricing, structured-information schema or PaddleOCR adoption.
+- Passport v3 and Contract 01 already contain P-29 / ARC-036 / V-29. No redundant edits to either synthesis document are warranted in this pass.
+
+### Correction to §20.68's scoped inventory snapshot
+
+§20.68 accurately records that its earlier tree/search snapshot did not locate Batch 15 at that time. A fresh recursive tree read at the current working ref now includes both Batch 15 files above, and their live content and SHA were fetched. Preserve §20.68 as historical evidence; this entry supersedes only its “NO BATCH 15 FOUND IN CURRENT REF” state for the present read-back. The earlier code-search queries returned no hits despite the files now being present in the tree, so search-index absence must not override direct path/tree evidence.
+
+**No changes** were made to B1, B2, Semantic Audit Batch 04, AT backlog, traceability matrix, canonical backlog or `main`. No tests, qualification, installation, deployment, infrastructure action or merge was performed.
+
+**Next safe action:** independently inspect the Batch 15 draft/review against the approved 12-field schema and verify any remaining pointer/wording defects before deciding whether another review pass is warranted. Do not promote AT-17 or mint final child IDs without explicit owner decision, lineage/collision evidence and the required governance/review gates.
