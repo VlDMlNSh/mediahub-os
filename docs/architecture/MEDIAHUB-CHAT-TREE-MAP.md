@@ -2499,3 +2499,40 @@ The prior 20.75 next-step wording “MH-04 State Authority inventory” is impre
 8. **No tests or qualification run in this inventory.** This was a documentary/GitHub provenance read. No branch/code/workflow was changed; no installation, deployment, infrastructure action or merge occurred.
 
 **Next safe action:** proceed to MH-07 Configuration / Policy using the map's branch/document navigation. Preserve the P0-07 governance/API gap as a hard dependency; do not promote MH-06 overall to FROZEN or claim current implementation CI/production qualification based on historical acceptance.
+
+## 20.79 MH-07 Configuration / Policy — bounded implementation observed; mutation publication blocked
+
+**Date:** 2026-10-12  
+**Status:** MH-07 candidate architecture NOT FROZEN / acceptance criteria NOT ACCEPTED; P0-07 mutation publication BLOCKED by unresolved P0-07→P0-05 authorization/API governance gap; current branch-head CI evidence NOT VERIFIED in this read.
+
+### Primary sources and provenance
+
+| Source | Ref / SHA | Confirmed fact |
+|---|---|---|
+| MH-07 branch | `architecture/mh-7-configuration-policy`; HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`; tree `1d4fd58c1710d65e2c194da6f807de7e6a2752b1` | Candidate corpus includes architecture docs, P0-07 runtime modules and targeted test files. HEAD commit message: `fix(p0-07): avoid overbroad secret marker matching`. |
+| MH-07 architecture | `docs/architecture/MH-07-configuration-policy.md`; blob `6bbf9073ca4d47265bd2119a2c9bcadf4fe1f6af` | CANDIDATE ARCHITECTURE — NOT FROZEN. Device-local v1; configuration describes desired behavior; policy describes admissibility; authorization is distinct; runtime state describes effective/observed state. |
+| MH-07 acceptance criteria | `docs/architecture/MH-07-acceptance-criteria.md`; blob `1f3160b9d07ac6e74c1b70be0bbf7eb1cd9bcf53` | CANDIDATE / NOT ACCEPTED. Requires explicit governance resolution of P0-07→P0-05 authorization, test/scan evidence, runtime semantics, repository synchronization and explicit acceptance/freeze. |
+| MH-07 evidence register | `docs/architecture/MH-07-evidence-register.md`; blob `08e3acf538a3a6e2e4fe38078f01ddc730d3e64a` | CANDIDATE / REQUIRES VERIFICATION. Code existence is recorded as OBSERVED; P0-07 tests have no fresh execution evidence in the reviewed register. |
+| MH-07 decision log | `docs/architecture/MH-07-decision-log.md`; blob `3bddb8a37953d38f8c331d35fa6f089157d5104f` | Decisions remain CANDIDATE. D-06 mutation bridge is BLOCKED / REQUIRES GOVERNANCE DECISION. |
+| MH-07 contradiction register | `docs/architecture/MH-07-contradiction-register.md`; blob `ba8e7831f1641578538a7b3fb4797addbe7a477b` | C-03 authorization composition BLOCKED; defaults need domain review; Published vs Applied and partial application/rollback remain UNKNOWN; persistence/restart recovery deferred. |
+| MH-07 authorization boundary / unknowns | Blobs `8cc91eb1c82e7db143f512cfc67d17791fee95d7`, `0a3691db01a33d562e43bfb6bb865b734995a8e6` | Publication remains blocked. Authoritative source, exact authorization composition, revision/generation relationship, policy mode authority, runtime application, rollback, audit/privacy, critical-operation enforcement and current CI evidence remain unresolved. |
+| P0-07 authorization reconciliation | `docs/architecture/P0-07-authorization-reconciliation.md`; blob `04381ce6e223b8632ec15d17e475b56fe1ab8772` | P0-07 domain capability and policy ALLOW are additional gates, not substitutes for P0-05/P0-04 authorization. P0-04 remains sole canonical mutation authority; P0-05 remains mandatory ingress. |
+| P0-07 mutation authority reconciliation | `docs/architecture/P0-07-mutation-authority-reconciliation.md`; blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063` | Explicit conjunctive gates, no capability translation/self-grant, no second generation/version/transaction authority; publication only through P0-04 atomic commit via P0-05. |
+| P0-07→P0-05 adapter contract | `docs/architecture/P0-07-p0-05-mutation-adapter-contract.md`; blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88` | IMPLEMENTATION BLOCKED — GOVERNANCE/API GAP. Three resolution classes remain: existing independently authorized context; explicit governance-approved authorization bridge; or revised P0-05 contract. None may be assumed by implementation. |
+| P0-07 read/validate boundary | `docs/architecture/P0-07-read-validate-boundary.md`; blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f` | Read/validate/evaluate are observation-only; no second canonical store, persistence, cache, checkpoint or recovery source. |
+| Runtime source modules | `configuration_policy.py` blob `96ef9de2b6fac870b604d3dd9bea78f5accde67a`; `configuration_policy_authorization.py` blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`; `configuration_policy_operations.py` blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`; `policy_evaluator.py` blob `fcd3a951c8a6e5d92a749c5f3d4ea609506c6f16` | Read-only inspection confirms bounded/transient value models, exact 14-capability allow-list, an operation boundary that explicitly does not publish, and deterministic deny-by-default policy evaluation. This is source inspection, not runtime verification. |
+| Targeted test sources | `test_configuration_policy.py` blob `23c505230effb056fd50e896682b6bf235d48eec`; `test_configuration_policy_authorization.py` blob `0301ed37d077223038adeefadb3b451826ba725c`; `test_configuration_policy_operations.py` blob `21a22ec03aaee8afd208f2c557dad2b48eef58f9`; `test_policy_evaluator.py` blob `c3e3551fc8e8e306c8d7c4e3a03074a289a327aa` | Test files are present, but no tests were run in this pass. |
+| Branch-head CI evidence | HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db` | GitHub status API returned pending with zero statuses; check-runs and workflow-runs queries returned none. This is NOT VERIFIED, not PASS and not evidence that a run is executing. |
+
+### Confirmed invariants and limits
+
+1. **Separation of meanings:** configuration = desired behavior; policy = admissibility; authorization = principal permission; runtime state = effective/observed state.
+2. **Canonical mutation authority:** P0-04 remains sole canonical mutation authority; P0-05 is the mandatory consumer/integration ingress. P0-07 must not directly invoke P0-04.
+3. **Conjunctive authorization:** P0-07 capability grant AND P0-07 policy ALLOW AND independently accepted P0-05/P0-04 authorization are required. No lower-layer capability translation or self-grant is allowed.
+4. **Fail-closed behavior:** malformed/ambiguous/stale operations, policy errors, explicit DENY, conflicts and no-match do not apply. Policy is declarative, bounded and non-executable; wildcard, inheritance, priority, implicit merge and LWW are not authorized in v1.
+5. **Transient/device-local v1:** no physical persistence, authoritative durable source, alternate store, checkpoint or recovery source is authorized.
+6. **Lifecycle distinctions:** Validated is not Authorized; Authorized is not Published; Published is not Applied. Runtime application evidence and partial-apply/rollback semantics are still missing.
+7. **No governance choice made:** existing-context model, approved bridge and revised P0-05 contract remain alternatives for the product owner/governance to decide. No one may select one by inference.
+8. **No tests/qualification/workflow execution performed.** This was read-only source/document/status inspection. No code, branch, queue, infrastructure or workflow was changed; no merge occurred.
+
+**Next safe action:** proceed to MH-08 using the map navigation. Preserve P0-07→P0-05 publication as BLOCKED until an explicit governance/API decision exists. Do not mark MH-07 ACCEPTED/FROZEN or claim current CI/production qualification from source presence or historical records.
