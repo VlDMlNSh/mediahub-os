@@ -2358,3 +2358,41 @@ There is no fresh revision-bound qualification evidence in the inspected status/
 5. **No mutation:** no MH-02 source, branch, queue, issue or PR was changed; no tests/qualification/install/deployment/infrastructure action or merge was performed.
 
 **Next safe action:** preserve both branch histories and request explicit product/governance direction on the canonical MH-02 artifact set and source-of-truth layering before changing statuses or consolidating documents. Do not infer MH-02 ACCEPTED/FROZEN from the existence of either branch; current map status remains the historical MH-25 status RECONCILED pending the required governance/provenance resolution and independent evidence.
+
+## 20.75 MH-03 runtime candidate — qualification workflow failure and governance blockers
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** CANDIDATE PROPOSED / LATEST OBSERVED WORKFLOW FAILED / GOVERNANCE AND EVIDENCE GATES OPEN
+
+### Primary sources and provenance
+
+| Source | Ref / SHA | Confirmed fact |
+|---|---|---|
+| Candidate branch | `architecture/mh3-runtime-foundation-20260930`; HEAD `a674d53ec4cceb030a61edf854676778063f3a75`; tree `4cf1e3a82504ac553b196160c519e9d688d1cf09` | Latest observed candidate commit is “MH-3: correct runtime package path in qualification” |
+| Runtime foundation | `architecture/MH-03-runtime-foundation.md`; blob `325cf6b47e7db926b8e45d9517e3a2f1d8e7ffa2` | Status PROPOSED; one State Authority, single-node/no-HA, no physical persistence authorized; runtime coordinates lifecycle but does not mutate canonical state |
+| Acceptance criteria | `architecture/MH-03-acceptance-criteria.md`; blob `e96adaac2eb52e2f8058cc889485ec982bf606e5` | Explicitly PROPOSED / NOT ACCEPTED; parent compatibility, authority, lifecycle, failure, security, history and contradiction gates required |
+| Contradiction register | `architecture/MH-03-contradiction-register.md`; blob `943937e0b57642813bdbe988746dcfb19eb01d4c` | C03-04 supervisor authority remains OPEN FOR REVIEW |
+| Decision log | `architecture/MH-03-decision-log.md`; blob `4432cdbbb29f3c46d8e095d41c6e2759a3f26797` | All MH-3 decisions remain PROPOSED until acceptance gate passes |
+| Evidence register | `architecture/MH-03-evidence-register.md`; blob `07dd464fe23ba91943053f658c8d804ec67b5fb6` | Inherited P0 contracts are listed; no technology-specific runtime is canonicalized |
+| Qualification blueprint/gaps | `docs/ops/MH-3-qualification-blueprint-and-gaps-2026-09-30.md`; blob `d3427bb8c6c3bc93d34f8243e885e45e8c2b77e2` | MH-3 OPEN; six gap groups include governance, independent acceptance, supervisor authority, cross-lane evidence and fresh executable qualification |
+| Requalification result | `docs/ops/MH-3-autonomous-requalification-result-2026-09-30.md`; blob `82bb187514e76617a165ad340968fe8559846743` | Verdict INCONCLUSIVE; evidence does not justify PASS |
+| Governance/evidence closure result | `docs/ops/MH-3-autonomous-governance-evidence-closure-result-2026-09-30.md`; blob `b3b5db9dcac98c53ee22aff9adbc58f898a66a83` | Verdict INCONCLUSIVE; human governance and fresh candidate-specific executable evidence remain blockers |
+
+### Live workflow evidence
+
+- GitHub Actions run [36774576771](https://github.com/VlDMlNSh/mediahub-os/actions/runs/36774576771) belongs to the exact current candidate HEAD `a674d53ec4cceb030a61edf854676778063f3a75`.
+- Run status: `completed / failure`, created `2026-09-30T20:43:08Z`.
+- Job `mh03-runtime-qualification`: setup, checkout, Python setup, dependency install, candidate identity check and MH-03 contract/authority tests completed successfully; **control-plane regression suite failed**. MH-05 cross-lane tests and evidence emission/upload were skipped.
+- The check run confirms conclusion `failure`; this is not a PASS and cannot qualify MH-03.
+- The previous requalification and governance closure records report four unresolved human decisions: (1) whether single-node/no-HA constrains authority only or runtime topology too; (2) whether non-authoritative cluster execution fabric is accepted; (3) whether Dynamic Primary Development Node is a Developer/Compute Fabric role only; (4) the exact MH-03/MH-21 distributed/cloud boundary.
+- No qualification rerun was triggered. Existing workflow evidence was inspected only.
+
+### Disposition
+
+1. MH-03 stays PROPOSED / NOT ACCEPTED / OPEN; no ACCEPTED/FROZEN promotion is justified.
+2. Runtime architecture invariants are documented, but candidate-specific qualification currently has a recorded failure at the control-plane regression step.
+3. C03-04 supervisor authority, cross-lane acceptance, the four human governance decisions, and independent candidate-specific evidence remain open.
+4. No source branch, workflow, queue, or runtime was changed; no new tests or qualification were run; no install, deployment, infrastructure action or merge occurred.
+
+**Next safe action:** proceed with the bounded MH-04 State Authority inventory using the current map's dependency navigation. Preserve MH-03's failed workflow as historical evidence; do not rerun qualification or modify candidate/workflow files without explicit authorization and prior governance closure.
