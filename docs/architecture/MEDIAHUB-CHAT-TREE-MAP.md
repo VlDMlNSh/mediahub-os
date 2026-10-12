@@ -816,3 +816,20 @@ Baseline 2.0 заявляет, что согласован с пользоват
 **Ограничения:** это документальная сверка; implementation/runtime, актуальная независимая qualification и production authorization не установлены. Baselines и matrix не менялись; тесты/qualification, установка, deployment, инфраструктурные и production действия, merge в `main` не выполнялись.
 
 **Следующие безопасные шаги:** (1) governance disposition для статуса matrix; (2) atomic requirement-level traceability backlog для 68 секций; (3) восстановление проверяемой R4 commit provenance; (4) уточнение branch-specific acceptance refs по карте/деревьям репозитория; (5) проверка текущих implementation/evidence и независимой qualification по доменам до любых readiness claims.
+
+
+### 20.11 Создан backlog атомарной трассировки требований MH-24 — Batch 01
+
+**Артефакт:** `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `aa348597953a619e9293a87ee488eee89275043d`  
+**Read-back blob SHA:** `ec2580f714e8f620bcf85ff7de2ae9242439e5e8`  
+**Статус:** `OPEN BACKLOG / DOCUMENTARY PLANNING ONLY`.
+
+Сверены B1 SHA `9df4892ed0734050ac79732603d15bb414717310`, B2 SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, MH-24 matrix SHA `8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6` и Batch 01–07 semantic audit sources с их SHA. Созданы **39 атомарных work items AT-01…AT-39** для точных требований/кандидатных семантических пробелов и доказательных ворот, плюс **5 глобальных items GOV-01/PROV-01/REF-01/BASE-01/QUAL-01**.
+
+Приоритетные области: vendor/protocol scope, Virtual Ubiquiti Server, порядок voice providers, Mobile Access Layer, Trusted Sources Intelligence Engine, AI Human Clone safeguards, mobile Core/entitlements, AirPlay 4K, media/document/Twin/engineering scopes, Smart Home export/MPV Server, update UX, recovery, cloud egress, local-only, cluster qualification, observability, storage/search, OSS adoption and independent release qualification. Для каждого item указаны текущая семантическая диспозиция, доменные зависимости, требуемый closure artifact/acceptance criterion и открытый статус.
+
+Backlog явно сохраняет B1/B2 раздельными, запрещает считать literal omission глобальным отсутствием, фиксирует расхождение matrix header `RECONCILIATION CANDIDATE` и принятых B2/MH-24 документов, а также unresolved R4 commit provenance. Это **не полная атомизация всех 68 секций**: §§1–2 и 47–68, а также неотмеченные кандидатные требования требуют следующих проходов.
+
+**Ограничения:** baseline и matrix не изменялись; governance statuses не менялись; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись. Никакой item не объявлен implemented или qualified.
