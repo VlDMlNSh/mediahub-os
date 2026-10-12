@@ -3532,3 +3532,17 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Every-turn guarantee:** if a turn does not change the map, still link it and say it was re-read but unchanged. Never claim a change before successful GitHub read-back. Do not paste the entire large map into chat; the linked GitHub document is the canonical current view.
 - **Latest checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`, update commit `f1e288933736dca4037974fa0d7e8e1547b09faf`, blob SHA `c8141d6695de2a1c43ee4bc07c28c803de12d4cb` (verified from update response; perform read-back before relying on it).
 - **Scope:** reporting/documentation requirement only. It does not authorize tests, qualification, installation, model/provider calls, credential use, host/runtime inspection, infrastructure changes, deployment, migration, or merge.
+
+
+## 20.101 MH-10 / MH-21 revision-bound crosswalk — Claude + local Ollama direction (2026-10-12)
+
+- **Unified matrix:** `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`; update commit `f8ffc2980a2428c5e001fb98d9682bd442dbca20`; blob SHA `5e657edaca9f9123d2f5eb6bb6ebb7c7ea9affb6` (must be re-read before relying on these identifiers in a later session).
+- **Primary source MH-10:** `docs/architecture/MH-10-acceptance-criteria.md` on `main`, blob `7c0746defea6635494208e04bf940579b254a25f`; all 20 acceptance criteria read. Core invariants include no AI direct mutation, policy/authorization before mutation, mandatory Consumer Boundary, no self-granting tools, controlled egress, model provenance, safe failure, red-team evidence and explicit governance freeze.
+- **Primary source MH-21:** `docs/architecture/MH-21-hybrid-cloud-distributed-ai.md` on `main`, blob `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c`; full short source read. Hybrid/cloud is external compute, never external authority; arbitrary egress/provider fallback forbidden; placement is policy-driven; local safe operation must survive cloud failure.
+- **Baseline authority:** Baseline 2.0 on `main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, re-read and unchanged; accepted canonical immutable functional reference. Baseline 1.0 remains historical provenance.
+- **Current `main HEAD` observed:** `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` from the recent repository commit listing. `main` was not modified by this pass.
+- **Crosswalk result:** JARVIS-AI-01…03 and HYBRID-AI-01…03 added to matrix as source-bound requirements. MH-10 and MH-21 remain not accepted/not frozen; no runtime or qualification evidence was generated.
+- **Owner decisions still open:** exact Claude access surface; Claude-as-operator + local Ollama tool versus per-task policy router; approved data-egress classes and redaction/retention/audit rules; model/tool trust and qualification.
+- **Retrieval limitation:** the manifest and P0-07 candidate paths tried during this pass returned 404 through the GitHub contents API. The map has existing pointers to their blob IDs, but current file contents were not verified in this pass. Treat them as unresolved retrieval/navigation work, not as absent files.
+- **Safety/authorization:** no tests, qualification, provider/model calls, credentials, installation, host inspection, infrastructure changes, deployment, migration or merge.
+- **Next safe action:** resolve canonical component manifest and P0-07 through the map's precise source/branch navigation; then continue requirement-by-requirement crosswalk, preserving unresolved status and not changing Baseline 2.0.
