@@ -420,3 +420,13 @@ Resume with `/next`.
 - P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; D1–D7 remain open absent separate decision evidence and required reviews.
 - Map and matrix now link to the owner decision register. Re-fetch all three updated artifacts and verify blob SHA/content before relying on this checkpoint.
 - No code changes, tests, qualification, installations, infrastructure changes, deployment, migration, merge or main update performed.
+
+
+## Latest continuation — P0-05 governance lineage / P0-07 context gap (2026-10-12)
+
+- Exact acceptance commit `97a01977f521ba8304a455b5d7504896235ddea7`, tree `f926cd6c162f104c8c122cd17dae76dc28f32b19`, contains P0-05 contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` and approval packet blob `1253944ffeefcb59502d9f7deb13d38baed1d6e1`. The packet explicitly approves the P0-05 State Authority Integration Boundary and Consumer Contract for controlled implementation. This is positive evidence the exact blob was in the approved package; the contract's DRAFT header remains contradictory and must not be silently edited. This supersedes the earlier “no acceptance evidence” statement.
+- P0-07 operation boundary `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` returns a domain decision and does not call P0-05; P0-07 authorization blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3` uses domain capabilities. P0-05 context blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` is principal + capability and is used for P0-04 lifecycle authorization. No inspected adapter carries a separate independently P0-04-authorized context alongside the P0-07 decision.
+- P0-05 baseline acceptance is supported by the exact tree/packet; header reconciliation remains open. P0-07 extension is not approved; publication remains BLOCKED — GOVERNANCE/API GAP. Candidate v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; D1–D5 and D7 remain open, while D6 has positive tree evidence but a contradictory header still needs reconciliation.
+- Updated map blob `bcfa127868207e6f62ba35ac670ec8f4c7f1eb62`, matrix blob `87f02d9e447801b2a094fdf28682e16d3de5a4e4`, owner register blob `b0e56eb18b903946812763baddcefe300f7dbf9f`; re-read these artifacts and verify SHAs before relying on them.
+- No protected contract or runtime code changed; no tests, runtime execution, host inspection, qualification, credentials, installation, infrastructure change, deployment, migration, merge or branch integration.
+- Next: inspect P0-07 audit/privacy requirements against MH-06/MH-12/MH-13, then prepare a decision packet for D1–D5/D7 without choosing API design on the owner's behalf. Keep mutation publication blocked.
