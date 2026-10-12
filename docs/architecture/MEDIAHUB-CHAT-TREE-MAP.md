@@ -1277,3 +1277,38 @@ External public repo desk review recorded as candidates / not selected: Temporal
 7. **No operational promotion:** no tests, qualification, soak, installation, deployment, live-host operation, infrastructure change, or merge into `main` was performed by this read-back/update.
 
 **Current disposition:** Jarvis gap reconciliation, Passport v3 and Contract 01 are the latest working documentary direction, not yet a fully accepted global contract. Independent review, explicit owner acceptance/change control, implementation, hardware profiles, component selection and runtime qualification remain separate gates.
+
+## 20.36 GitHub candidate snapshot and refreshed working pointers
+
+**Session date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Purpose:** record the read-only GitHub candidate-metadata snapshot and refreshed post-edit references. This checkpoint supersedes the *current-pointer* values in §20.35; prior sections remain historical activity records.
+
+### Latest read-back manifest
+
+| Artifact | Latest update commit | Verified blob SHA | Status / verification |
+|---|---|---|---|
+| Jarvis blueprint gap reconciliation (legacy path with “ASTRO”) | `c0fdea609b2257cf94cb2a15380a881c13504502` | `406e33a480d195915f7ab8963836066988ee2fd0` | Contains §16 GitHub API snapshot for 7 public candidates; 19 scoped gap findings; 13 Jarvis-specific documentary review cycles |
+| System Passport v3 | `1980ad36f52a716384077ec7b1211b3529acaa53` | `b25931bf6b88936c110dff6a3217d5edea2fed35` | All current gap-report pointers updated; P-19 remains OPEN |
+| Verifiable Architecture Contract 01 | `d03bd2669f130a41c99633736638460cc953cc43` | `e3bd763284a7871cf6ded5e387e5ca5bbc3d7c4a` | Current Passport/gap-report pointers updated; ARC-026 / V-19 remain OPEN |
+| Thirteen-cycle architecture audit | `4d2f1de37c3ca1e11b99d2a1b173318268c9b4b1` (creation record) | `ec59b09306aaafd7fa86a67fd28c759d17d2b5b6` | Historical ledger of 13 source/contract cycles; later follow-up findings do not retroactively enlarge that recorded cycle count |
+| MH-24 traceability matrix (working branch) | recorded in prior §20.35 | `73377891072bac3c739c44055ceeb0874154f64c` | RECONCILED — B2 accepted; implementation / qualification remain open |
+| B2 on `main` | unchanged | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Accepted canonical functional baseline |
+| B1 on `main` | unchanged | `9df4892ed0734050ac79732603d15bb414717310` | Preserved historical literal baseline |
+| ASTRA current truth on `main` | unchanged | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | NOT_PROVEN / BLOCKED |
+| ASTRA 24-hour runbook on `main` | unchanged | `efb1c8af47578cbe14f8e788676d71ba4c665966` | Live three-node transport not qualified in inspected evidence |
+
+### GitHub repository observation snapshot
+
+On 2026-10-12, read-only GitHub API metadata and latest-commit endpoints were checked for Temporal, LangGraph, Microsoft Agent Framework, Pydantic AI, OpenHands, OpenHands Software Agent SDK, and AutoGen. The gap report §16 records each repo’s API license metadata, stars/forks as non-decisive context, pushed-at timestamp, and latest observed commit SHA/date. AutoGen's observed repository-level license metadata is CC-BY-4.0 and its README states maintenance mode. The other six remain candidates, not selected dependencies. The latest-commit observation is not a proposed dependency pin; exact version, license/SBOM, security, platform, resource, isolation, recovery and rollback qualification remain required.
+
+### Final source-pointer validation
+
+- Passport v3 references the latest gap-report blob `406e33a480d195915f7ab8963836066988ee2fd0`.
+- Contract 01 references the latest Passport v3 blob `b25931bf6b88936c110dff6a3217d5edea2fed35` and gap-report blob `406e33a480d195915f7ab8963836066988ee2fd0`.
+- Contract 01 retains one older gap SHA only inside a historical change-history entry, where it records the value used at that time; all active/current source-pointer fields use the refreshed SHA.
+- Jarvis is the latest umbrella concept; ASTRA remains a bounded engineering subsystem; MediaHub product-state authority remains separate.
+- The 13 cycles are documentary analysis/correction/read-back cycles, not runtime tests or production qualification.
+- B1, B2 and `main` were not modified; no tests, installation, qualification, soak, deployment, infrastructure or live-host action was executed.
+
+**Current disposition:** the gap report, Passport v3 and Contract 01 are internally source-linked at the latest read-back SHAs above. They remain working drafts; acceptance, component selection, per-node OS/runtime profiles, implementation and runtime qualification are separate unresolved gates.
