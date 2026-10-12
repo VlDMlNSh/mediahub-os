@@ -6,7 +6,7 @@
 - **Use:** operative review/checklist for documentation and architecture work on this branch, subject to the source precedence and gates below.
 - **Not a grant of authority:** does not replace Baseline 2.0, alter Baseline 1.0, approve pending domain contracts, authorize implementation/deployment, or imply qualification/production acceptance.
 - **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `040437cbbb9440c30cb7f6dd4f3e451251e1dff6`.
-- **Current working inventory:** 30 ARC requirements / 23 verification checks; full architecture acceptance remains OPEN.
+- **Current working inventory:** 31 ARC requirements / 24 verification checks; full architecture acceptance remains OPEN.
 - **Rule of evidence:** claim → source path → ref → blob SHA → exact scope/status → acceptance/evidence required → independent read-back.
 
 - **Current terminology:** the latest owner-provided umbrella name is **Jarvis**; an earlier same-day draft used “Astro”. Jarvis supersedes that draft label. The existing gap-report filename retains `ASTRO` for reference lineage; this does not rename ASTRA or assert deployed functionality.
@@ -432,3 +432,4 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 - 2026-10-12 — added ARC-030 / V-23 after Batch07 Review02. B1-16-01 is a bounded documentary mapping only; workload semantics and named-gateway contract remain open. Refreshed active Passport references to current blob `8ec8ed05e3a4f303fb8a93a63c2d77c7defd3fd6`; the immediately preceding active pointer `c844b42f5b98a29ff3d883857fdaf4b0b6873768` remains historical provenance for the prior Passport revision. B1/B2/main, matrix and canonical backlog remain unchanged.
 
 - 2026-10-12 — added ARC-031 / V-24 for the B1 §19 AI Human Clone supplemental crosswalk. Batch 10 Review 01 verified structural/source-anchor consistency (19 provisional labels; 5/13/1/0); clone-specific owner/semantic contract acceptance remains OPEN. Updated active Passport pointers to `040437cbbb9440c30cb7f6dd4f3e451251e1dff6`; B1/B2/main/matrix/canonical backlog unchanged.
+- 2026-10-12 — corrected the working inventory after re-reading the current Batch 10 additions: ARC-031 / V-24 are already present, so the count is 31 ARC requirements / 24 verification checks, not 30/23. This is a counter/index correction only; Batch 10 semantic and owner acceptance remain OPEN. Current Passport pointer `040437cbbb9440c30cb7f6dd4f3e451251e1dff6`; the live project map must index the current Passport/Contract/Batch10 state. B1/B2/main/matrix and canonical backlog remain unchanged.
