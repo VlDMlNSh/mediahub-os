@@ -351,3 +351,32 @@ MH-24 и MH-25 подтверждены контрольными докумен�
 3. Крупная ветка `architecture/mh3-runtime-foundation-20260930` содержит множество cross-domain artifacts и 1,044 уникальных commits в compare. Её необходимо рассматривать как архивный/комбинированный срез, пока не доказано иное.
 4. Следующий технический шаг — зафиксировать HEAD SHA веток и для каждого branch-only файла выполнить read-only fetch, получить blob SHA, сравнить семантику и определить target path в canonical map.
 5. В `main` не выполнялись записи. Ветка карты обновляется отдельно; этот документ не выполняет merge архитектурных пакетов и не объявляет их принятыми.
+
+
+## 13. Проверка содержимого acceptance/evidence: статусы не равны наличию файлов (2026-10-12)
+
+Выполнено прямое чтение acceptance criteria и evidence registers в профильных ветках. Проверены SHA файлов и явные статусные формулировки. Результат показывает, что наличие пары Master/Reverse Master Prompt не означает архитектурное принятие.
+
+| Домен | Acceptance/evidence artifact | Зафиксированный статус в файле | Вывод |
+|---|---|---|---|
+| MH-04 | `docs/architecture/mh-04/MH-04-acceptance-criteria.md` — blob `a75f5c1849ad67cc380a0ba3552bf7f2c5ec82b6` | `PROPOSED / REVIEW COMPLETE` | Не ACCEPTED и не FROZEN; файл явно требует отдельного governance approval и отдельного freeze decision. |
+| MH-04 | `docs/architecture/mh-04/MH-04-evidence-register.md` — blob `dcf91d19cc494155e3c006a95f1ba35665d90e94` | Регистр содержит унаследованные P0-03…P0-06 как ACCEPTED/FROZEN | Статус унаследованных P0-контрактов не переносится автоматически на весь MH-04. |
+| MH-05 | `docs/architecture/MH-05-acceptance-criteria.md` — blob `db18ab4416516240af394a6a9f57831f95edb802` | `NOT ACCEPTED — REQUIRES VERIFICATION` | Требуются доказательства, включая проверку единственности authority path. |
+| MH-05 | `docs/architecture/MH-05-dependency-map.md` — blob `7ad2d3fe528a88326401eb1310cc08ab75d5b842`; `MH-05-evidence-register.md` — blob `0f8a3a3d8d16d1953ffa452484061a42a2312132` | `PROPOSED — GOVERNANCE REVIEW REQUIRED` | Схема зависимостей и evidence register остаются предложенными артефактами. |
+| MH-07 | `docs/architecture/MH-07-acceptance-criteria.md` — blob `1f3160b9d07ac6e74c1b70be0bbf7eb1cd9bcf53` | `CANDIDATE / NOT ACCEPTED` | Нельзя считать MH-07 принятым или замороженным. Сам Reverse Prompt запрещает обход P0-03…P0-06. |
+| MH-09 | `docs/architecture/MH-09-acceptance-criteria.md` — blob `09dd9a3bab69ea039152a3aeaaac830b8961ab8b` | `NOT ACCEPTED` | Проверка должна подтвердить, что UI — потребитель, не authority, и что persistence не переносится в MH-09. |
+| MH-11 | `docs/architecture/MH-11-acceptance-criteria.md` — blob `342989e3954aee5eefd3ffdd707c9dde0aa403e6` | `PROPOSED — NOT ACCEPTED / NOT FROZEN` | Наблюдаемость и telemetry не могут считаться State Authority; тесты не дают автоматического статуса ACCEPTED/FROZEN/QUALIFIED. |
+| MH-18 | `docs/architecture/MH-18-acceptance-criteria.md` — blob `1ce114d92ce401609d536138982a4c89408064dc` | `NOT ACCEPTED / NOT FROZEN` | Media/content architecture и её indexing остаются предложенными. Индекс определён как производный, перестраиваемый и неавторитетный. |
+| MH-18 | `docs/architecture/MH-18-dependency-map.md` — blob `4be9091f6e4eb7db37069e6f55ab07790e4df233`; `MH-18-evidence-register.md` — blob `931e2fe80f2675469e4701f4e59ae483de850dd6` | `PROPOSED / NOT ACCEPTED`; `PROPOSED / AUDIT BASELINE` | Нельзя переводить в accepted по факту наличия документов. |
+| MH-19 | `docs/architecture/mh-19/MH-19-acceptance-criteria.md` — blob `9bc038123f01beb9c66e71d5f27cbc82ad3e4501` | `NOT ACCEPTED / NOT FROZEN` | Knowledge Graph/Digital Twin — семантический/проекционный слой, не State Authority и не Policy Engine. |
+| MH-19 | `docs/architecture/mh-19/MH-19-evidence-register.md` — blob `854fe2c0fc604d80b4e1af7d384ec1fb943fe6df` | `OBSERVED / PROPOSED REGISTER` | Наличие VERIFIED отдельных оснований не означает принятие домена целиком. |
+| MH-23 | `docs/architecture/MH-23-acceptance-criteria.md` — blob `9ae5ba64882a3f98e5df0a9a907da0c0ced5d5a1` | `NOT ACCEPTED / NOT FROZEN` | Совместимость, миграции, rollback и coexistence требуют доказательств и governance acceptance. |
+| MH-23 | `docs/architecture/MH-23-evidence-register.md` — blob `a9330b0373c4b329990d056553c0d7ac556d3bfc` | P0-07 / PR-кандидаты частично VERIFIED; точный P0-03 frozen artifact на main требует проверки | VERIFIED PR/кандидат не означает merged, accepted или canonical. |
+
+### 13.1 Практические архитектурные выводы
+
+1. **Не назначать канонический статус по названию файла, ветке или наличию reverse prompt.** Статус подтверждается отдельным governance record и evidence.
+2. В MH-04/MH-05/MH-07/MH-09/MH-11/MH-18/MH-19/MH-23 есть прямые текстовые признаки незавершённой приёмки. До разрешения статуса они остаются кандидатами/предложениями, а не frozen архитектурой.
+3. P0-03…P0-06 следует рассматривать как наследуемые ограничения там, где это указано в документах. MH-домен не может отменить или обходить их локальным решением.
+4. Следующий шаг — сверить каждый заявленный ACCEPTED/FROZEN статус с независимым governance commit/ADR и конкретным canonical artifact на `main`, а не только с branch-local register.
+5. Никакие установки, тесты на реальном оборудовании, квалификация Astra Gold или изменения `main` в этом проходе не выполнялись.
