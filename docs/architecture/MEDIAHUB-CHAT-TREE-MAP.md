@@ -1086,3 +1086,16 @@ R01–R04 и R06 из Review 01 подтверждены как исправле
 **Что НЕ разрешено этим решением:** оно не утверждает целиком Proposal 02 и не закрывает все 14 GOV-MH24 строк. Shared-atom ownership/cross-links, HA Core vs platform State Authority scope, literal-vs-derived AI controls, shared cloud gate, другие domain-owner evidence и handling исторического «47»/48 требуют дальнейшей документальной работы по decision register. Предложения в triage для других строк остаются рекомендациями, не owner approvals.
 
 **Следующий безопасный шаг:** обновить working governance register, затем проверить collision risk по ID, сформировать полный source-anchored crosswalk с 12 полями и четырьмя mapping statuses и провести независимый documentary review. До выполнения этих условий не обновлять canonical backlog/matrix и не менять Baseline 1.0/2.0. Тесты/qualification, installation, deployment, infrastructure/production changes и merge в `main` не выполнялись.
+
+
+## 20.27 Governance register updated with owner decisions
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-OWNER-GOVERNANCE-DECISION-REGISTER-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Update commit:** `e9f2c60012b20b2506b1bbdb2dc2c723f93b8927`  
+**Read-back blob SHA:** `42bf34bfbea63b56344f41cd9199729f0e021356`  
+**Статус:** register preserved with a dated §6 addendum; five owner-choice areas recorded, remaining rows stay open.
+
+В реестр добавлен §6, который ссылается на Product Owner Decision Record 01 и сохраняет первоначальные вопросы/safe defaults как историческую запись. Обновлён current disposition: GOV-MH24-01/04/11/12/13 имеют записанные решения в указанных границах; GOV-MH24-02/03/05/06/07/08/09/10/14 не закрыты этим addendum. Read-back подтвердил SHA `42bf34bfbea63b56344f41cd9199729f0e021356` и наличие таблицы решений.
+
+**Следующий шаг:** collision-check child-ID namespace и Audit 01 IDs; затем подготовить source-anchored crosswalk с 12 полями и индивидуальными B1/B2 mapping statuses; независимая документальная проверка до изменения canonical backlog/matrix. Baselines, canonical backlog и traceability matrix не менялись; final child IDs не присваивались; тесты/qualification, установка, deployment, инфраструктура/production и merge в `main` не выполнялись.
