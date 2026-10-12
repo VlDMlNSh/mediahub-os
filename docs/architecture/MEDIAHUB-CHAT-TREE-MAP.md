@@ -3919,3 +3919,31 @@ No tests, code changes, runtime execution, qualification, installation, deployme
 **Disposition:** D1/D2 remain evidence-gathering/C; D3 remains dependent on trust/freshness/revocation/replay evidence; D4 canonical-read path remains NOT EVIDENCED; D5 requires joint MH-06/MH-12/MH-13 review; D6 requires explicit governance confirmation; D7 remains open. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
 
 **Matrix:** Section 39, current blob SHA `994f080f6e0a11359bded2c11ca50d4abe606de7`. No tests, code changes, runtime execution, qualification, installation, deployment, migration, infrastructure change, merge or rebase.
+
+## 20.122 P0-07 read semantics × canonical State Authority contract (2026-10-13)
+
+**Status:** SOURCE-BOUND / PARTIAL / NO NEW AUTHORITY. Detailed traceability is in matrix Section 40.
+
+**Primary sources read:**
+- P0-03 State Authority contract v1.0, `architecture/p0-03-state-authority-contract`, blob `2f35ed1b77c7979c9de50371c8a0f7a82f5d1e75`.
+- P0-05 Consumer Contract v1.0, `architecture/p0-05-state-authority-integration-boundary`, blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`; Integration Boundary v1.0, blob `2ffda7b37baa789ca3bd248094662ef0e1907501`.
+- P0-07 Read/Validate Boundary v1.0, immutable blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`.
+- P0-07 → P0-05 Mutation Adapter Contract v1.0, immutable blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88`; Mutation Authority Reconciliation v1.0, blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`.
+- MH-23 evolution/compatibility contract, `architecture/mh-23-long-term-evolution`, blob `2896d6851226a31fc971e05766d253c034d22246`.
+
+**Finding:** P0-03/P0-05 define canonical immutable `read` and the only publication path through the State Authority transaction lifecycle. P0-07's read/validate boundary explicitly permits inspection of a supplied immutable domain object only; it forbids treating that object as canonical persisted state without an authoritative source and forbids a second store/cache/checkpoint/recovery authority. No inspected source wires P0-07 read to P0-05 canonical `read`; canonical-read path remains **NOT EVIDENCED**.
+
+**D4 operation mapping:**
+- `read`: observation-only; canonical source/path not evidenced.
+- `validate`: deterministic, bounded domain validation is allowed but does not grant authority.
+- `propose`: inert data only; no commit, revision selection or mutation authority.
+- `update/replace/reset/delete`: no accepted end-to-end adapter; remain blocked.
+- P0-07 domain operations must not be conflated with P0-04 transaction lifecycle `begin/commit/abort`.
+
+The adapter contract lists three governance directions (existing independently P0-04-authorized context; approved authorization bridge; revised P0-05 contract) but selects none. Existing-context option is not demonstrated end-to-end in the inspected P0-07 tree. No API, issuer, adapter or versioning scheme is selected here.
+
+**MH-23:** breaking changes require explicit versioning, compatibility analysis, migration/rollback constraints, evidence and governance approval. MH-23 remains not accepted/frozen; SemVer is not established as canonical. D7 remains open.
+
+**Disposition:** D1/D2 remain open; D3 depends on trust/freshness/revocation/replay evidence; D4 canonical-read mapping remains NOT EVIDENCED; D5 joint MH-06/MH-12/MH-13 review pending; D6 explicit governance confirmation pending; D7 open. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
+
+**Matrix:** Section 40, blob SHA `d8776e3377921be53241abc93e72545ccfa900e4`. No tests, runtime, code changes, protected-contract edits, qualification, migration, deployment, infrastructure changes, merge or rebase.
