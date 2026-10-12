@@ -1525,3 +1525,31 @@ Two independent updates had introduced duplicate §20.39 headings, and subsequen
 **Constraints:** B1, B2, `main`, the historical backlog, parent-level crosswalk and runtime/infrastructure were not changed. No stable child IDs were minted. No tests, qualification, installation, deployment, live-host operation or merge occurred.
 
 **Next safe step:** continue with the next uncovered source section in a separate batch; do not promote any atom-level draft into the canonical backlog before full collision review, independent semantic review and the applicable owner/governance gates.
+
+
+## 20.47 Batch 06 Local AI crosswalk and AG-21 source-pointer correction
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `STRUCTURAL / SOURCE-ANCHOR / STATUS-CONSISTENCY PASS — SEMANTIC ACCEPTANCE OPEN`
+
+| Artifact | Path | Latest read-back blob SHA | Status |
+|---|---|---|---|
+| Atom-Level Crosswalk Batch 06 — B1 §15 Local AI | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-06-DRAFT.md` | `9df96aca53d1004c33d45f038501dc6b7f52c0c9` | 18 rows: 16 literal-source traceability rows + 2 derived controls; documentary draft |
+| Batch 06 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-06-REVIEW-01.md` | `1edc976dd663ae16a1b61876a2dbbde9411be095` | 18/18 IDs, 12-field schema, source anchors and status consistency verified; semantic acceptance OPEN |
+| Jarvis blueprint gap reconciliation | `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md` | `fee9977fee0a5efa79ec48c652544d2c4a0d665f` | AG-21 added; 13 documentary cycles remain unchanged |
+| System Passport v3 | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` | `39824ec51927e76c9dcf26d55fff3f0b823b370f` | P-21 added; current gap-report pointers refreshed |
+| Verifiable Architecture Contract 01 | `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` | `b4022fca7e66b8246f8bf623fcc91890ccbab43b` | ARC-028 / V-21 added; 28 architecture requirements and 21 verification checks; draft |
+| Jarvis Master Prompt 01 | `docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md` | `704d5e3309b1d888e94068a4edf61347932cada2` | Current Gap / Passport / Contract refs refreshed; draft |
+
+**Primary source SHAs:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main` `9df4892ed0734050ac79732603d15bb414717310`; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md@main` `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Audit 01 `docs/checkpoints/MH24-B1-SECTIONS-03-06-12-15-17-CLAUSE-COVERAGE-AUDIT-01.md` `d0938f14ed4110545118f075175dee3be412097b`; Normalization Proposal 02 `7e737c8add9e3453062e9fc459790e7010e55689`.
+
+**Confirmed source-pointer defect:** Audit 01 row `B1-15-13` (“Assist with documents”, B1 §15 line 246) cites B2 §19. Direct read-back of pinned B2 confirms §16 is “Documents and Knowledge”, §18 is “AI architecture” and §19 is “Update / Recovery / Migration”. The current working crosswalk therefore cites B2 §§16/18. This is a traceability defect in the historical audit pointer, not an established B1↔B2 semantic conflict. Audit 01, B1, B2 and `main` remain unchanged.
+
+**Verified Batch 06 result:** 18/18 IDs match Audit 01 §15; 18/18 rows contain all 12 approved fields; status distribution is `2 MAPPED / 16 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT`. `MAPPED` means documentary coverage only. Two D-coded controls remain unapproved. No stable child IDs were minted; acceptance criteria, domain ownership, semantic mapping, implementation and qualification remain OPEN.
+
+**Cycle accounting:** AG-21 / P-21 / ARC-028 / V-21 is a follow-up after the previously recorded 13 scoped documentary cycles. It neither changes that cycle count nor represents a runtime test or qualification.
+
+**Constraints preserved:** no baseline, canonical backlog, main matrix, runtime, infrastructure, host, credentials or hardware was changed or operated. No tests, qualification, installation, deployment or merge to `main` occurred. The system passport, integrated contract and master prompt remain working drafts; no new global canonical contract is accepted by this map update.
+
+**Next safe step:** continue the next distinct B1 source batch (B1 §16 Local Cluster AI) under the same source-anchor / review protocol. Keep the B1 §6 `SH4-07` versus `SH4-06.c` lineage issue open; do not promote draft crosswalks into the canonical backlog before independent semantic review and all applicable owner/governance gates.
