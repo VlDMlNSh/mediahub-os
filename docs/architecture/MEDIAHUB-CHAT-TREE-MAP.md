@@ -1591,6 +1591,6 @@ That correction changed the Passport blob, so Contract 01's four current Passpor
 
 ### Structural inventory snapshot
 
-The recursive tree fetched at pre-update branch HEAD 572dfade59961e2e58c9bcaac16d09d996b997b6 returned 846 entries, 465 Markdown, 193 Python, 0 YAML and 54 JSON files; truncated=false. This is a structural snapshot only, not line-by-line semantic review of every file or every branch.
+The recursive tree fetched at pre-update branch HEAD 572dfade59961e2e58c9bcaac16d09d996b997b6 returned 846 entries, 465 Markdown, 193 Python, 47 YAML and 54 JSON files; truncated=false. This is a structural snapshot only, not line-by-line semantic review of every file or every branch.
 
 Next safe step: continue with a separate atom-level crosswalk draft for B1 §16 Local Cluster AI, using the literal Audit 01 register, pinned B1/B2 refs and independent source-anchor review. Keep derived controls separate and do not promote any draft to the canonical backlog before semantic review and owner/governance acceptance.
