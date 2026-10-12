@@ -3281,3 +3281,23 @@ An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 40
 - **Current main HEAD observed:** `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; re-check live HEAD when resuming.
 - **Next safe action:** on `/next`, re-read bootstrap/map and continue the read-only MH-23 dependency audit using map-selected MH-14 Persistence and MH-15 OS/Appliance sources. Re-check MH-23 branch divergence and related MH-16/MH-22 dependencies; do not merge, cherry-pick or modify implementation.
 - This checkpoint supplements the primary sources and prior MH-23 checkpoint; it does not replace either or authorize tests, qualification, deployment, infrastructure changes or a merge into `main`.
+
+
+## 20.98 MH-14 / MH-16 / MH-22 persistence-recovery qualification crosswalk (2026-10-12)
+
+- Audit basis: current `main` HEAD observed as `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch `docs/mediahub-chat-tree-map-20261012`.
+- `docs/architecture/MH-14/MH-14-persistence-architecture.md` — blob SHA `5e14084033f417722a1b04b5d5d47649dcfcda48`; status `ARCHITECTURE WORK IN PROGRESS`, physical persistence implementation `NOT AUTHORIZED`.
+- `docs/architecture/MH-14/MH-14-acceptance-criteria.md` — blob SHA `364bb2a949e11f191b71a35af482f18de4ef2827`; status `NOT YET ACCEPTED / FROZEN`; requires atomicity/crash evidence, authorization-mediated restore, successful real restore, RPO/RTO decision, corruption recovery, security/privacy, migration and hardware/OS evidence.
+- `docs/architecture/MH-14/MH-14-decision-log.md` — blob SHA `a2f49b9f4e09e3d2becdc2e72807319674a30239`; physical technology and exact RPO/RTO remain open; backup is not HA; recovery capability remains unverified until restore and runtime validation.
+- `docs/architecture/MH-14/MH-14-development-interface.md` — blob SHA `4aa82b8fe92f8c04260acaab3093cfe1667cf157`; implementation evidence does not silently mutate architecture.
+- `docs/architecture/MH-14/MH-14-unknowns.md` — blob SHA `722eaa1388ff3e9f6677a2571ae3c61e5611a70a`; physical storage, WAL/journal, durability, RPO/RTO, backup policy, encryption/key management, migration and power-loss behavior remain open.
+- `docs/architecture/MH-16-installer-recovery-update-architecture.md` — blob SHA `f3ad2401f00a4062b39eed640e0c5c5f70064312`; declares `PROPOSED / GOVERNANCE ACCEPTANCE PENDING / NOT FROZEN / IMPLEMENTATION NOT AUTHORIZED`.
+- `docs/architecture/MH-16-completion-record.md` — blob SHA `e4ea4e3a37540cc104243c236e2e5c1c32ea35d6`; declares `ARCHITECTURAL PASS COMPLETE / GOVERNANCE ACCEPTANCE PENDING / IMPLEMENTATION BLOCKED`.
+- `docs/architecture/MH-16-master-prompt.md` — blob SHA `62924d4686aa3f55fce442a3c4bab66c82ae19e5`; directs that no implementation or production-ready claim occurs without authorization and revision-bound evidence.
+- **Governance/status discrepancy:** the MH-16 architecture source labels itself PROPOSED while its completion record says architectural pass complete. These can describe different lifecycle dimensions, but no explicit acceptance/freeze decision was found in this pass. Preserve both claims; treat MH-16 as governance-pending, not accepted/frozen.
+- `docs/architecture/MH-22-acceptance-criteria.md` — blob SHA `40d401c0a4ba80550f8101d4e9b1de8f0c77849e`; requires release identity/provenance, security/privacy, target qualification, executed install/update/rollback/recovery, validated backup restore, operational readiness and explicit production approval.
+- `docs/architecture/MH-22.2-qualification-matrix.md` — blob SHA `474f4048d9fd50c72943bd06df5043124bed3f4e`; build, current-HEAD tests, release identity, hardware, install/update/rollback/recovery, restore/DR, performance, privacy and governance remain UNKNOWN/PARTIAL/NOT GRANTED; unresolved critical blocker means NO-GO.
+- Confirmed end-to-end contract: restore request must pass identity, authorization, validation, integrity and compatibility checks; data remains candidate state until State Authority-mediated restore and runtime/health validation succeed. Backup creation alone does not prove recoverability.
+- Canonical authority path remains `Input → Boundary → Authorization → State Authority → Canonical State → Observation → Evidence`. Persistence and lifecycle mechanisms must not create a second mutation authority. P0-07 governance/API gap remains unresolved.
+- No implementation, tests, qualification, installation, restore, migration, deployment, infrastructure change or merge was performed. This entry records document-level findings only.
+- Next safe action: inspect MH-15 OS/appliance dependencies against the MH-14/MH-16 assumptions, then reconcile any confirmed conflicts in the map. Keep Baseline 1.0 and Baseline 2.0 separate absent explicit reconciliation decision.
