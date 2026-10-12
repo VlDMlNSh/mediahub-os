@@ -107,7 +107,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 **Acceptance:** CPU/GPU/NPU and VRAM, RAM, storage I/O, network, thermal/power, reliability, OS/runtime support, isolation, privacy and available capacity are captured; capability drift downgrades or blocks admission until requalified.
 
 **Primary source:** B2 §§8–11, SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; docs/checkpoints/2026-09-29-compute-fabric-qualification-matrix.md, main, SHA 5ce43482e7bedb6d2e2a627485ecbc73b743d8e9.
-**Status:** architecture rule accepted; Mac mini/Mac Pro/GPU expansion are planned target profiles, not qualified nodes.
+**Status:** architecture rule accepted; Mac mini/Mac Pro/later GPU expansion are planned target profiles, not confirmed installed nodes. No role is assigned before an inventory-bound capability profile and measured CPU/GPU/VRAM, RAM, storage, network, thermal/power, runtime compatibility, isolation and reliability evidence exist.
 
 ### ARC-010 — network planes do not collapse into a flat network
 **Rule:** User control/API, Media/Data, Smart Home/device, developer mesh, HIGH_SPEED developer interconnect, optional storage and bounded egress/qualification paths have explicit policy scopes.
