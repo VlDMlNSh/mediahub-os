@@ -3615,3 +3615,5 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Status reconciliation:** the master reconciliation checkpoint's “not yet owner-accepted” line is historical; MH-24 reconciliation report (2026-10-01) and current Baseline 2.0 document record owner acceptance/canonical status. That acceptance does not imply implementation, production qualification, or acceptance of the unified deployment contract.
 - **No execution:** no tests, runtime/host inspection, network probes, provider calls, credentials, installation, infrastructure changes, deployment, migration or merge occurred. `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 unchanged.
 - **Next safe action:** checkpoint this pass, update the map with the checkpoint SHA, then read back matrix/map/checkpoint and verify live SHAs.
+
+- **Latest continuation checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `5f03db8997b786b76ac42aa9a3a9b0b7752aba14`, blob SHA `63f0108d329c8d1cd0393baca5c36a6a3ec3aec9` (read-back verification pending).
