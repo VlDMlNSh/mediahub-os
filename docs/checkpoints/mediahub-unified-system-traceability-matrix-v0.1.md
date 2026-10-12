@@ -639,3 +639,45 @@ The MH-13 master prompt and architecture file say RECONSTRUCTED / PROPOSED or ac
 3. Acceptance needs revision-bound evidence for deletion/purge propagation, backup/restore handling, authorization, audit privacy and provider terms where applicable.
 4. MH-13 remains reconstructed and not frozen; MH-14 remains architecture work in progress and physical persistence NOT AUTHORIZED; MH-21 provider retention remains PROPOSED; MH-22 production acceptance NOT GRANTED.
 5. No stable requirement IDs added; no status elevated; no gates closed. No tests, deletion, restore, migration, provider contact, host/runtime inspection, workflow dispatch, deployment, infrastructure change or branch integration occurred.
+
+
+## 28. MH-13 governance status semantics and MH-14 deletion/restore acceptance evidence (2026-10-12)
+
+Status: DOCUMENTARY RECONCILIATION / NO OWNER DECISION IMPLIED. This section distinguishes separate status dimensions; it does not edit MH-13's primary architecture artifact or grant implementation authority.
+
+### Status dimensions — reconcile without overwriting source history
+
+| Dimension | Authoritative evidence | Correct reading |
+|---|---|---|
+| Historical original recovery | MH-13 governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`; registers `8c66fb49bbe011d8ef5dd78287c72efdad77a8fe` | NOT RECOVERED. Reconstruction must never be represented as historical original. |
+| Governance authorization / acceptance of reconstruction | MH-13 governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`, PR #25 merge `f8761a7eecc480c8106856f72fbeadb7229a258d` | ACCEPTED RECONSTRUCTION, explicitly scoped to the reconstructed artifact; independent post-merge decision dated 2026-09-04. |
+| Reconstruction fidelity | Governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa` | PARTIAL / REQUIRES VERIFICATION. |
+| Primary artifact's local header / acceptance gate | Architecture `e732ff9cacbc9c1189bd83306cdff30906326cf0`; registers `8c66fb49bbe011d8ef5dd78287c72efdad77a8fe` | RECONSTRUCTED / PROPOSED; acceptance NOT YET VERIFIED; the registers' criteria say NOT ACCEPTED until independent verification confirms the listed items. This wording is stale or scoped differently relative to the explicit governance-state record; do not silently rewrite it. |
+| Freeze | Governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa` | NO. |
+| Production implementation / CI / qualification / release / deployment | Governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa` | NOT AUTHORIZED / NOT VERIFIED / not granted, as applicable. |
+
+**Reconciliation conclusion:** do not flatten this into one Boolean “accepted” status. The explicit governance-state record accepts the reconstruction as a governance artifact; it does not prove historical fidelity, satisfy every listed independent-verification criterion, freeze the architecture, or authorize implementation. Keep the local-header discrepancy visible until an authorized maintainer reconciles the primary artifact and registers. No primary MH-13 file is changed in this pass.
+
+### MH-14 deletion/restore acceptance evidence checklist
+
+Derived from MH-14 acceptance criteria `364bb2a949e11f191b71a35af482f18de4ef2827`, MH-13 reconstruction registers `8c66fb49bbe011d8ef5dd78287c72efdad77a8fe`, MH-13 governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`, MH-21 data retention `8dfe3b619be593c3ec57948e350671895827ae8b`, and MH-22 evidence register `188a85e3a31cb545fd781e6db237d655d721ec1c`. These are acceptance criteria to be satisfied later, not claims that tests occurred.
+
+1. **Policy authority:** identify approved owner/governance source for data classes, purpose, retention, deletion, residency, legal holds and provider-specific obligations. Exact values remain TBD/UNKNOWN until approved.
+2. **Copy inventory:** map a logical record and its lifecycle across primary persistence, WAL/journals, snapshots, backups, replicas, caches, indexes/vectors, derived copies and external processors where applicable.
+3. **Deletion request contract:** define authentication/authorization, request identity, scope, idempotency, partial-failure reporting, audit metadata minimization and terminal states. Exact semantics require owner approval.
+4. **Propagation evidence:** show every in-scope durable/derived copy is deleted, rendered inaccessible, or retained under an explicitly authorized exception; record evidence without exposing protected payload.
+5. **Backup semantics:** define backup expiration, deletion propagation, legal hold handling and the distinction between logical deletion and physical purge. No guarantee is inferred from primary-store deletion alone.
+6. **Restore interaction:** define how deletion records/restrictions and legal holds are applied before restored data is exposed or promoted by State Authority; demonstrate that restore cannot silently reintroduce prohibited data.
+7. **State Authority boundary:** restore remains authorize → verify → stage → State Authority-mediated validation/promotion → Health Gate. Persistence/privacy controls do not create a parallel mutation path.
+8. **Failure and retry:** provide revision-bound evidence for interrupted deletion, retries, partial availability, stale snapshots, journal replay and restore failure; ensure unresolved cases remain visible rather than reporting false completion.
+9. **External providers:** capture current contractual evidence for location, retention, deletion, training use, responsibility, user rights, audit and incident handling before treating provider claims as canonical.
+10. **Independent acceptance:** link each criterion to an approved requirement ID, source revision, evidence artifact, verifier, result and governance decision. No current test or qualification result is asserted by this documentary pass.
+
+### Status and limits
+
+- MH-13 reconstruction: governance-accepted as reconstruction; historical original NOT RECOVERED; fidelity PARTIAL / REQUIRES VERIFICATION; freeze NO; production implementation NOT AUTHORIZED.
+- MH-14 acceptance: NOT YET ACCEPTED / FROZEN; physical persistence NOT AUTHORIZED.
+- MH-21 provider retention: PROPOSED / provider evidence required.
+- MH-22 recovery/restore E-MH22-013: UNKNOWN / REQUIRES VERIFICATION; production acceptance E-MH22-015: NOT GRANTED.
+- No stable IDs added; no primary domain artifact changed; no owner decision made; no gate closed.
+- No tests, deletion, restore, migration, provider contact, host/runtime inspection, qualification, workflow dispatch, deployment, infrastructure change or branch integration occurred.
