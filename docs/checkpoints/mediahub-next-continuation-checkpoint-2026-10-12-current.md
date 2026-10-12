@@ -551,3 +551,32 @@ Resume with `/next`.
 - Map Section 20.125 added, blob SHA `72756848a520e830cc81870cb9a41bf7cda49e50`, commit `faba8df04a043689c5f91615c165bf6623d0ab6d`.
 - No tests, deletion, restore, provider contact, runtime/host inspection, qualification runner, workflow dispatch/rerun, migration, installation, infrastructure change, deployment, merge or rebase. No stable IDs added and no gate promoted.
 - **Next safe step:** obtain explicit governance direction on MH-13 status wording and retention/deletion/restore semantics; independently continue read-only crosswalks. Project-wide production qualification remains NO-GO / NOT PROVEN.
+
+
+### Latest continuation — qualification evidence wave 02 / gate namespaces / baseline authority (2026-10-13)
+
+**Result:** documentary evidence reconciliation only. Project-wide production qualification remains **NO-GO / NOT PROVEN**. No domain, release or qualification gate was promoted.
+
+**Live revisions re-read before this checkpoint update**
+- `main HEAD`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, still ACCEPTED / CANONICAL / IMMUTABLE.
+- Documentation branch HEAD before checkpoint update: `c76a9ba6e2a9dca3d3f5c5a286e1af4ebaa83868`; compare `diverged`, 486 ahead / 2 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase.
+- Map blob after read-back: `81c3dbfda5141a78c19f2b315198919ff579c580`, Section 20.126 appended.
+- Unified matrix blob: `65ea4783ad59394ced9cc0932f8f2dcfe16d9dda`, Section 43 added.
+- Unified architecture/deployment contract blob: `1057776ca9192b307a4e6de72db5d12cdbcc1a39`, draft-local gate identifiers changed to `MH-UDC-G0`…`MH-UDC-G9`.
+- Bootstrap instruction blob: `4ced4a9249591d218e8949f498c862fc21274b16`; Baseline 2.0 is now explicitly identified as current canonical functional reference, Baseline 1.0 as historical provenance.
+- Wave 02 evidence report blob: `d8739993ab48e277ca5dc0e0456e8c5d045a1348`.
+
+**Confirmed discrepancy and limited correction**
+- The matrix and parent contract had conflicting meanings for unqualified G0–G9 and overlapped numerically with canonical ASTRA G0–G11 and MH-22 lifecycle G1–G9. Matrix-local IDs are now `MH-UTM-G0`…`MH-UTM-G9`; contract-local IDs are `MH-UDC-G0`…`MH-UDC-G9`. These labels are draft-only and do not modify or promote ASTRA/MH-22 gate IDs.
+- The previous bootstrap text incorrectly presented Baseline 1.0 as the current passport and said neither baseline automatically superseded the other. It is aligned to the accepted B2 source and the current owner instruction. Baseline 1.0 and 2.0 source files were not modified.
+- The map's upper-level tree was corrected to mark B1 as historical provenance and B2 as current accepted canonical functional reference.
+
+**Fresh current-head qualification metadata**
+- GitHub status endpoint for `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`: `pending`, zero status records; not PASS.
+- Astra Verify run `38226754511`: completed/failure on the exact main SHA; the authorized job-step summary endpoint returned no steps, so root cause is not established. No logs were read.
+- Astra autonomous queue supervisor `38273320112`: still queued on the same main SHA.
+- ASTRA current truth blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED / overall NOT_PROVEN. MH-22 G1–G9 remains independently gated. No gate promoted.
+
+**Remaining blockers:** current-candidate source/build/dependency/digest/signature/SBOM identity; fresh successful verification and independent A3 evidence; P0-07 canonical-read and mutation/publication bridge plus caller/context provenance; P0-05 header/governance confirmation; MH-13 retention/deletion/restore semantics; MH-14 persistence authorization and recovery evidence; exact MH-15 target; MH-16 lifecycle evidence; MH-21 provider/egress acceptance; MH-23 compatibility/migration; component admission; explicit release/deployment/production acceptance.
+
+**Scope boundary:** no tests, qualification runner, workflow dispatch/re-run/cancel, logs/runtime/host inspection, credentials, model/provider calls, installations, deletion/restore/migration, infrastructure changes, deployment, merge or rebase. Parent contract and matrix remain PROPOSED / NOT ACCEPTED / NOT FROZEN. Audit report does not claim full line-by-line semantic reconciliation of every file or branch.
