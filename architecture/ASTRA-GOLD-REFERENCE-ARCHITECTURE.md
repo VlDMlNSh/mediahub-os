@@ -25,7 +25,7 @@ Runtime qualification requires fresh evidence at the exact source SHA.
 
 Human is the final authority for architecture, production, security and launch.
 
-A0-ASTRA is the single MediaHub coordination and state authority.
+A0-ASTRA is the single ASTRA GOLD engineering coordination authority and owns ASTRA-internal queue/claim/gate state only. It is not MediaHub Product State Authority; MediaHub Product State Authority remains the sole canonical authority for MediaHub platform state.
 
 A1 owns architecture and contracts.
 A2 performs bounded implementation.
