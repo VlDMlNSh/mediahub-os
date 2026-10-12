@@ -150,18 +150,20 @@ Phases are a proposed dependency sequence, not a claim that earlier gates have b
 
 ## 7. Cross-domain gates
 
-| Gate | Decision question | Mandatory evidence | Failure disposition |
+**Draft-local identifier namespace:** The matrix gates below use `MH-UTM-G0`…`MH-UTM-G9` (Unified Traceability Matrix). They are separate from the proposed contract's `MH-UDC-G0`…`MH-UDC-G9`, canonical ASTRA G0–G11, and MH-22 lifecycle gates G1–G9. Numeric suffixes are not interchangeable and gate state must not propagate between schemes.
+
+| Draft-local gate ID | Decision question | Mandatory evidence | Failure disposition |
 |---|---|---|---|
-| G0 Scope | Is the target scope and owner explicit? | Charter, non-goals, accountable owner | BLOCKED |
-| G1 Authority | Is there exactly one canonical product-state authority and a permitted mutation chain? | P0-03…P0-07 contracts, sequence/data-flow review | BLOCKED on ambiguity |
-| G2 Security/privacy | Are identities, capabilities, data classes and egress bounded? | Threat model, privacy/retention, negative-path evidence plan | BLOCKED on unknown bypass |
-| G3 Source/build | Can artifacts be traced to source, dependencies and signer? | Commit, build provenance, SBOM, signature, vulnerability disposition | BLOCKED on unverifiable artifact |
-| G4 Target profile | Is exact hardware/firmware/OS/network/storage known? | Per-node inventory, supported lifecycle, compatibility | BLOCKED while unknown |
-| G5 Install/recovery | Are install, update, rollback and restore bounded and recoverable? | State machine, failure semantics, recovery/restore evidence | BLOCKED on unknown recovery |
-| G6 AI/provider | Are model identity, data handling, tools, routing and fallback controlled? | Model manifest, provider terms, sandbox, egress and audit evidence | BLOCKED on silent fallback/bypass |
-| G7 Operations | Can faults be detected, contained, diagnosed and escalated? | SLI/SLO, alerting, runbooks, owner/escalation, incident records | BLOCKED on operational gaps |
-| G8 Qualification | Is exact release/target evidence sufficient? | Test/verification/soak/capacity/security/restore evidence tied to exact identities | NO-GO if missing |
-| G9 Release | Has authorized owner accepted this exact release? | Signed release identity, explicit approval, rollback/operations readiness | No promotion without approval |
+| MH-UTM-G0 Scope | Is the target scope and owner explicit? | Charter, non-goals, accountable owner | BLOCKED |
+| MH-UTM-G1 Authority | Is there exactly one canonical product-state authority and a permitted mutation chain? | P0-03…P0-07 contracts, sequence/data-flow review | BLOCKED on ambiguity |
+| MH-UTM-G2 Security/privacy | Are identities, capabilities, data classes and egress bounded? | Threat model, privacy/retention, negative-path evidence plan | BLOCKED on unknown bypass |
+| MH-UTM-G3 Source/build | Can artifacts be traced to source, dependencies and signer? | Commit, build provenance, SBOM, signature, vulnerability disposition | BLOCKED on unverifiable artifact |
+| MH-UTM-G4 Target profile | Is exact hardware/firmware/OS/network/storage known? | Per-node inventory, supported lifecycle, compatibility | BLOCKED while unknown |
+| MH-UTM-G5 Install/recovery | Are install, update, rollback and restore bounded and recoverable? | State machine, failure semantics, recovery/restore evidence | BLOCKED on unknown recovery |
+| MH-UTM-G6 AI/provider | Are model identity, data handling, tools, routing and fallback controlled? | Model manifest, provider terms, sandbox, egress and audit evidence | BLOCKED on silent fallback/bypass |
+| MH-UTM-G7 Operations | Can faults be detected, contained, diagnosed and escalated? | SLI/SLO, alerting, runbooks, owner/escalation, incident records | BLOCKED on operational gaps |
+| MH-UTM-G8 Qualification | Is exact release/target evidence sufficient? | Test/verification/soak/capacity/security/restore evidence tied to exact identities | NO-GO if missing |
+| MH-UTM-G9 Release | Has authorized owner accepted this exact release? | Signed release identity, explicit approval, rollback/operations readiness | No promotion without approval |
 
 ## 8. Mandatory artifact set for a verifiable architecture
 
@@ -959,3 +961,28 @@ P0-07 capability inventory is not a transaction API. The P0-07 boundary construc
 **Required owner/governance decisions before qualification can use these areas:** define or explicitly defer the applicable retention/deletion, durable-copy, legal-hold, consent, residency and restore-time semantics; identify the accountable decision owners; bind external-provider claims to current contracts; and separately authorize any physical persistence implementation and executable restore/deletion tests. This crosswalk makes no product/legal choice.
 
 **Scope:** read-only inspection of Git-backed documents. No tests, deletion, restore, migration, provider contact, runtime/host inspection, qualification runner, workflow dispatch/rerun, implementation, infrastructure change, deployment, merge or rebase. No stable IDs added and no gate promoted.
+
+
+## Section 43 — Project-wide qualification evidence wave 02 and cross-framework gate reconciliation (2026-10-13)
+
+**Status:** DOCUMENTARY AUDIT / SOURCE-BOUND / NO-GO. This section records a delta pass; it does not accept/freeze the matrix or unified contract and does not promote any qualification gate.
+
+**Wave 02 report:** [Project-wide qualification evidence audit, wave 02](mediahub-project-wide-qualification-evidence-audit-wave-02-2026-10-13.md), blob SHA `d8739993ab48e277ca5dc0e0456e8c5d045a1348`.
+
+**Sources re-read:**
+- Baseline 2.0 on `main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`: ACCEPTED / CANONICAL / IMMUTABLE; supersedes B1 as current functional reference.
+- ASTRA generated current truth on `main`, blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED; overall NOT_PROVEN / BLOCKED.
+- ASTRA qualification/launch schema on `main`, blob `aef6229477ed8ec45e45170f98ea87f7ba75ca29`: canonical gate framework G0–G11; launch authority remains HUMAN.
+- Unified contract, `docs/mediahub-chat-tree-map-20261012`, blob `1057776ca9192b307a4e6de72db5d12cdbcc1a39` before its next update: draft-local gate IDs now `MH-UDC-G0`…`MH-UDC-G9`.
+- Working bootstrap, `docs/mediahub-chat-tree-map-20261012`, blob `4ced4a9249591d218e8949f498c862fc21274b16`: corrected to the current B2-canonical/B1-historical hierarchy.
+- Live refs at this review: main `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch `48a898ac13df19ca570be465bcc473fc70e2d41f`; compare `diverged`, 484 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+
+**Gate-identifier conflict found and corrected in the draft bridge:** The matrix and parent contract had reused bare G0–G9 while assigning different meanings to G0–G7; these also visually collided with ASTRA G0–G11 and MH-22 G1–G9. The matrix-local rows are now named `MH-UTM-G0`…`MH-UTM-G9`; the proposed contract uses `MH-UDC-G0`…`MH-UDC-G9`. These prefixes are documentary, draft-local disambiguators, not newly accepted normative gates. Upstream ASTRA/MH-22 identifiers and gate rules are unchanged. Equal suffixes do not establish dependency, equivalence, or a PASS.
+
+**Fresh qualification metadata:** main remains `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. GitHub combined status metadata was `pending` with zero records, not PASS. Astra Verify run `38226754511` failed against the exact current main SHA; the job-step summary returned no steps, so the cause is not established. Astra autonomous queue supervisor `38273320112` remains queued on the same SHA. ASTRA G0–G11 remain BLOCKED; MH-22 G1–G9 are not promotable without their own candidate-bound evidence.
+
+**Baseline hierarchy correction:** The bootstrap previously called Baseline 1.0 the current passport and stated that neither baseline automatically supersedes the other. That wording conflicted with accepted Baseline 2.0 and the current owner instruction. The bootstrap now identifies B2 as the current canonical functional reference and B1 as historical provenance. Neither baseline was edited. The map's top-level tree still needs its stale B1 wording aligned in the next map update.
+
+**Qualification blockers remain:** exact candidate/build/dependency/digest/signature/SBOM identity; current-head successful verification; independent A3 evidence; P0-07 canonical-read and mutation/publication bridge; trusted identity/context issuer/lifecycle; P0-05 header/governance confirmation; MH-13 privacy/retention/deletion and restore semantics; MH-14 physical persistence authorization and recovery evidence; exact MH-15 hardware/OS target; MH-16 lifecycle execution evidence; MH-21 egress/provider acceptance; MH-23 compatibility/migration acceptance; target-gated components; explicit release/deployment/production acceptance.
+
+**Scope:** read-only GitHub source/metadata review plus edits to proposed documentation and working bootstrap. No tests or qualification runner, workflow dispatch/rerun, logs/runtime/host inspection, credentials/provider/model calls, installation, migration/restore/deletion, infrastructure change, deployment, merge or rebase. The matrix and contract remain PROPOSED / NOT ACCEPTED / NOT FROZEN.
