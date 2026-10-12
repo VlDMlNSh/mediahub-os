@@ -534,3 +534,15 @@ Status: DOCUMENTARY CROSSWALK / PROPOSED / NOT ACCEPTED / NOT FROZEN. MH-23 rema
 4. The migration smoke workflow is manual-only, targets a self-hosted runner and pins an older P0-06 commit. It was not dispatched. Workflow existence is not qualification evidence.
 5. MH-14 physical persistence remains NOT AUTHORIZED; MH-16 remains PROPOSED / GOVERNANCE ACCEPTANCE PENDING / NOT FROZEN / IMPLEMENTATION NOT AUTHORIZED; MH-22 remains WORKING / NOT ACCEPTED / NOT FROZEN; P0-07 remains BLOCKED pending current evidence and governance.
 6. No stable requirement IDs were added in this crosswalk; no gate was passed or closed. No tests, qualification, workflow dispatch, host/runtime inspection, migration, restore, deployment, merge or cherry-pick occurred.
+
+
+## 24. MH-14 persistence acceptance and MH-23 lineage check (2026-10-12)
+
+Status: documentary only; proposed, not accepted/frozen. No implementation or qualification authorization.
+
+- MH-14 persistence architecture (`5e14084033f417722a1b04b5d5d47649dcfcda48`) states that physical persistence implementation is NOT AUTHORIZED and State Authority remains the sole canonical mutation authority.
+- MH-14 acceptance criteria (`364bb2a949e11f191b71a35af482f18de4ef2827`) require atomicity evidence, restore authorization and State Authority mediation, at least one successful restore with runtime/state validation, and separate governance authorization. Those gates are not demonstrated by the documents reviewed here.
+- MH-14 decision log (`a2f49b9f4e09e3d2becdc2e72807319674a30239`) leaves physical persistence technology and exact RPO/RTO open. MH-14 unknowns (`722eaa1388ff3e9f6677a2571ae3c61e5611a70a`) keep storage/atomicity and restore policy as unresolved evidence items.
+- MH-22 production/qualification architecture (`17bb2a9fdc34a0ee7c324e78c412616b5e377bb4`) and evidence register (`188a85e3a31cb545fd781e6db237d655d721ec1c`) do not grant production qualification; exact-target release, rollback and restore evidence remain required.
+- Live GitHub compare `main...architecture/mh-23-long-term-evolution` on 2026-10-12 returned DIVERGED: current main `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, branch 66 commits ahead / 1,640 behind, merge base `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`. MH-23 evidence register (`a9330b0373c4b329990d056553c0d7ac556d3bfc`) is pinned to historical main lineage; this is not current-head qualification evidence or integration authorization.
+- No stable IDs added, no gates closed. No tests, qualification, workflow dispatch, physical restore, migration, host/runtime inspection, deployment or branch integration occurred.
