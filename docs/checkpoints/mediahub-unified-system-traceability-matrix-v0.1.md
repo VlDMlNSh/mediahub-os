@@ -821,3 +821,40 @@ Decision provenance: [Owner Decision Register](mediahub-owner-decisions-2026-10-
 **Invariant / blocker:** P0-07 domain authorization is not P0-04 transaction authorization. No direct P0-07 mutation, bypass of P0-05, alternate State Authority, capability translation/self-grant, or second transaction/version authority is permitted. P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. Candidate P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
 
 **Evidence boundary:** this section records the owner-selected path only. It does not claim that the investigations, reviews, governance confirmation, implementation, verification, qualification, or production authorization have occurred. No tests, code changes, runtime execution, qualification, deployment, migration, infrastructure change or merge were performed.
+
+
+## Section 37 — P0-07 trust/context provenance and candidate operation-to-authority mapping (2026-10-13)
+
+**Status:** SOURCE-BOUND ARCHITECTURE CROSSWALK / PARTIAL / GOVERNANCE OPEN. This pass reads immutable source blobs listed below. It does not inspect runtime callers or prove that no external caller exists.
+
+### A. D1/D2 — trusted caller and authorization-context provenance
+
+| Claim / requirement | Primary evidence | Verified finding | Gap / gate |
+|---|---|---|---|
+| P0-07 is an authorization/validation boundary, not a mutation authority | P0-07 operation-boundary blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` | Request carries resource type, operation, resource, a P0-07 `AuthorizationContext`, and optional typed payload. Boundary validates payload, checks P0-07 grant, evaluates policy and returns an inert decision. It does not publish state, persist data, resolve credentials, access network or execute external work. | Does not identify how caller identity/context is authenticated or issued; does not prove end-to-end caller provenance. |
+| P0-07 grants are exact and default-deny | P0-07 authorization blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3` | Allow-list contains 14 exact domain capabilities across configuration/policy and operations read/validate/propose/update/replace/reset/delete. Grants bind principal, capability and operation; capability suffix must match operation. | The local grant model does not establish who is entitled to populate grants, or the trusted provenance/lifecycle of the principal. |
+| P0-04 transaction authorization is independent | P0-05/P0-04 context blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; adapter contract blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88`; reconciliation blob `04381ce6e223b8632ec15d17e475b56fe1ab8772` | Inspected P0-04 context has only principal + capability fields. Adapter contract states P0-05 begin/commit/abort use P0-04 transaction authorization; P0-07 capability must not be translated into those privileges. Reconciliation requires conjunctive P0-07 authorization, P0-07 policy ALLOW, and independently accepted P0-04/P0-05 authorization. | No inspected adapter carries a separately evidenced, independently P0-04-authorized context alongside the P0-07 decision. This is bounded to inspected sources, not proof that no external caller exists. |
+| Security semantics are operation-specific and fail-closed | MH-12 Authorization blob `c48641861691714017aa5b1f99fe8eee8ea0e76a`; contradiction register blob `4b3c101317330e47236937b17344299df53deee9` | MH-12 requires identity-bound, context-aware, auditable, fail-closed authorization. C-01 requires governance/verification for security vs transaction authorization; C-02 keeps P0-07/P0-04 bridge blocked. | D1 remains at evidence-gathering stage until trusted caller path and context issuer/authority/lifecycle are evidenced. D2 remains C; no source or lifecycle may be invented. |
+
+**D1/D2 conclusion:** the inspected evidence establishes separation of domain and transaction authorization, but does **not** establish a trusted caller-to-context issuance path or a compliant independently authorized P0-04 context available at the P0-07 caller boundary. Therefore do not advance to API composition yet. Continue D1’s C stage; D2 remains C. No API choice follows from this pass.
+
+### B. D4 — candidate operation-to-authority map
+
+P0-07 capability inventory is not a transaction API. The P0-07 boundary constructs `<resource_type>.<operation>` for policy evaluation and returns a decision; it does not itself read canonical state or execute mutation. P0-05 contract defines read/begin/commit/abort/snapshot/restore semantics; P0-04 remains sole canonical mutation authority. The adapter contract expressly blocks mutation pending approved authorization/API composition.
+
+| P0-07 domain operation | Evidence-supported meaning in inspected boundary | P0-04/P0-05 mapping | Current disposition |
+|---|---|---|---|
+| `configuration.read`, `policy.read` | Exact capability can be checked and policy-evaluated; boundary itself does not fetch canonical data. | No actual canonical-read implementation is established by this boundary blob. If later implemented as a canonical read, use P0-05 read semantics; do not infer a data path here. | Candidate read-only scope; implementation/path evidence required before admission. |
+| `configuration.validate`, `policy.validate` | Typed payload validation plus domain authorization/policy evaluation; rejection is inert. | No P0-04 transaction required for pure in-memory validation; must not publish state. | Potentially admissible as bounded non-mutating subset after acceptance evidence; not declared implemented/qualified by this pass. |
+| `configuration.propose`, `policy.propose` | Domain capability exists; proposal can be inert data. | No automatic P0-04 operation. A proposal must be explicitly converted to an authorized request outside the proposal itself. | Candidate inert subset; no execution/publication authority. |
+| `configuration.update/replace/reset/delete`, `policy.update/replace/reset/delete` | Domain-level operation names only; P0-07 checks grant and policy but does not publish. | Not synonyms for P0-04 `begin/commit/abort`. Any future mutation must pass P0-05 and independently authorized P0-04 transaction lifecycle; no capability translation or direct P0-04 call from P0-07. | **BLOCKED** until an accepted governance/API bridge defines context provenance and exact operation binding. |
+| Any denied, malformed, stale, unsupported or ambiguously authorized operation | P0-07 returns denial for malformed request, invalid payload, denied capability or denied policy. | Must fail closed before canonical publication; stale transaction/version handling belongs to the approved P0-04/P0-05 contract. | Deny by default; no fallback path. |
+
+### C. Decision state and next evidence
+
+- **D1:** C stage remains active. The owner’s C→A path is conditional on evidence of the trusted caller path; that prerequisite is not established by inspected source.
+- **D2:** C; context issuer/source, trust boundary, lifecycle, freshness/revocation and operation binding remain unknown.
+- **D4:** C-stage mapping produced; no operation is promoted to an accepted API subset. Pure validation and inert proposal are lower-risk candidates for a later minimal subset; read requires an evidenced data path; all mutation operations remain blocked.
+- **D3:** remains dependent on trust/freshness/replay analysis; no decision envelope or cryptographic scheme proposed.
+- **Invariant:** P0-07 ALLOW is not P0-04 transaction authorization. No direct P0-07 mutation, P0-05 bypass, capability translation/self-grant, alternate State Authority, or second transaction/version authority.
+- **No tests or execution were performed.** This is source inspection and traceability only; it does not establish implementation, verification, qualification, or production authorization.
