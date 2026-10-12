@@ -2976,3 +2976,46 @@ An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 40
 - On branch `arch/mh-17-device-protocol`, tree is 121 entries and the full MH-17 package exists, but the two master prompt files are absent at the exact root paths. The master/reverse prompts were separately confirmed on `main`; branch/main synchronization is not assumed.
 - The exact `docs/architecture/MH-17-persistence-boundary.md` path returned 404 in this branch. This does not establish global absence; the cross-domain boundary is supported by MH-14/MH-15 and MH-17 architecture text.
 - **Next safe action:** MH-18 Media / Content Integration, following map navigation and current primary sources. Keep device protocol integration, media transport, media catalog state, DRM/licensing and command authority separate; no real-device/media adapter implementation is authorized by this audit.
+
+## 20.90 MH-18 Media / Content Integration — current branch-source audit
+
+**Date:** 2026-10-12. **Main HEAD previously inspected:** `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. **Specialized branch:** `mh-18-media-content-architecture-handoff-v2`, HEAD `434de0407cef1e08680cfcde394f662a0307fc5a`, tree `d41f2fcbaedaf1f6dd70cfb4857974593a48cbdb`. Direct GitHub compare against `mh-18-media-content-architecture` returned `IDENTICAL`, 0 ahead / 0 behind / 0 changed files; aliases should be retained as historical refs, not treated as different versions. Read-only audit; only this map entry was changed. **Status:** `PROPOSED / NOT ACCEPTED / NOT FROZEN`; no production media implementation authorization.
+
+### Primary sources and current evidence
+
+| Source | Blob SHA | Confirmed facts |
+|---|---|---|
+| `docs/architecture/MH-18-media-content-architecture.md` | `6fd226c08c9d915f73c3adf160858cf1137d8c05` | Proposed architecture; content, asset, file/object, storage locator, external ID, digest and version are distinct. |
+| `docs/architecture/MH-18-acceptance-criteria.md` | `1ce114d92ce401609d536138982a4c89408064dc` | NOT ACCEPTED / NOT FROZEN; requires evidence and governance acceptance across content, security, privacy, performance, compatibility and traceability. |
+| `docs/architecture/MH-18-evidence-register.md` | `931e2fe80f2675469e4701f4e59ae483de850dd6` | PROPOSED / AUDIT BASELINE; findings are scoped to the 2026-09-04 audit and explicitly do not prove global absence. |
+| `docs/architecture/MH-18-indexing.md` | `b9405fb9f658552cd209361ba0020d9ad87116c2` | Index is derived, rebuildable and non-authoritative. |
+| `docs/architecture/MH-18-decision-log.md` | `297985802f5aca5352aab04df08008664f0a7597` | Technology-neutrality and separate governance for ingestion/export/deletion/storage migration/provider/DRM/camera remain required. |
+| `docs/architecture/MH-18-contradiction-register.md` | `d85f9c1aff131345cacb23c07c998007af8b4705` | No confirmed contradiction in reviewed artifacts; storage authority risk and deletion-vs-retention/backup policy dependency remain open. |
+| `docs/architecture/MH-18-unknowns.md` | `6557682764d7eb0b5d10693ab257978a93260ac7` | iOS media implementation, codecs, playback/output, streaming auth, sandbox, camera/live media, metadata conflict, AI data handling, rights/DRM, backup/recovery, migration, performance and legal requirements remain UNKNOWN. |
+| `docs/architecture/MH-18-migration.md` | `896e252b6a19e7be1b0d30657f8916119a9baff4` | Metadata/schema/storage identity/path migration is separate from transcoding; canonical references change only through authorized mutation. |
+| `docs/architecture/MH-18-privacy.md` | `5c4da4ddd79c6c137e07ab55d4b4e462a9ccfed9` | Minimize media data, limit purpose/access/retention, redact logs, explicitly authorize external transfer; retention holds override convenience. |
+| `docs/architecture/MH-18-content-security.md` | `9b2c0dd6657b2d03782f622bbd226d97853b30f8` | Malicious media, parser/codec exploit, path traversal, archive bombs, hostile subtitles/artwork and exfiltration are in threat scope; bounded isolated parsing is required. |
+| `docs/architecture/MH-18-chat-sync.md` | `246d058fecd6f75430e62142b3ba505c4ea6808c` | Repository is durable record; next architectural handoff is MH-19. |
+
+### Reconciled invariants
+
+1. Content is a domain, not State Authority. Ingestion path is Source → Ingestion → Validation → Normalization → Content Model → authorized mutation through P0-05/State Authority → catalog/metadata/storage/index/playback.
+2. Content, Asset, Object/File, Storage Locator, provider-scoped External ID, Digest/Fingerprint and Version are distinct. Filename, path, URL or digest alone is not canonical identity.
+3. Imported media and metadata are untrusted by default. Parsing, extraction, transcoding and subtitle/artwork processing require bounded resources, isolation, timeouts, cancellation and quotas.
+4. Index, search, thumbnails, previews, waveforms, transcodes and cache are derived/rebuildable, never canonical truth; corrupt/stale indexes are invalidated/rebuilt from canonical read models.
+5. AI analysis creates candidate metadata, not authorized mutation. Provider/DRM rights metadata is descriptive and cannot grant entitlement or bypass external DRM.
+6. Metadata facts preserve source/provenance, timestamp/version and confidence where applicable; conflicts are explicit, not hidden by arbitrary source priority.
+7. Storage bytes, derivatives, cache and catalog metadata remain separate. Deletion distinguishes catalog removal, byte deletion, cache/derivative purge, external-copy revocation, secure deletion and retention hold.
+8. Deletion, retention, backup and restore are a cross-domain policy dependency: the system must not claim complete deletion while copies/holds remain unresolved; backup existence does not prove recoverability.
+9. Migration and transcoding are separate workflows. Migration validates destination integrity and updates canonical references only through authorized mutation.
+10. Playback/session state is separate from global runtime state. Remote/LAN streaming needs authentication, authorization, quotas and observability; local operation should degrade gracefully without cloud.
+11. MH-17 owns device/protocol integration. Camera, microphone and live streams need explicit privacy/security authorization. MH-13 privacy constraints apply to faces, voices, locations, conversations, documents and behavioral data.
+12. FFmpeg/GStreamer/VLC, storage/search backends, DRM providers and media protocols remain candidates until requirements, licensing, platform compatibility, resource/security analysis, evidence and ADR exist.
+13. The inspected 2026-09-04 evidence register is historical. It does not establish current runtime absence or presence. No tests or runtime scan were performed in this pass.
+14. No media ingestion/export/deletion/migration, codec installation, provider/DRM integration, camera/live capture, test, qualification or infrastructure change was performed.
+
+### Governance status and next handoff
+
+- Acceptance criteria explicitly require evidence-backed review, resolution or governance disposition of contradictions, owners for unknowns, security/privacy review and recorded Governance Acceptance before any ACCEPTED/FROZEN/PASS claim.
+- The architecture describes broad coverage but does not authorize production integration.
+- **Next safe action:** MH-19 Knowledge Graph / Digital Twin Architecture. Preserve the invariant Knowledge/Graph/Twin ≠ canonical State Authority; derived graph/index data must have provenance and rebuild semantics, and any state mutation must use the same authorized Consumer Boundary → State Authority path. Keep B1 and B2 separate until explicit reconciliation.
