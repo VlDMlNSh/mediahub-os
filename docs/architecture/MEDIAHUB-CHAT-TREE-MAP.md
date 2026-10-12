@@ -1399,3 +1399,23 @@ The owner blueprint assigns the purchased Mac Pro to the developer environment a
 **Current verified pointers:** gap report `8495c9436b967bd77afae57ccb1e42959ab86a56`; Passport v3 `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d`; Contract 01 `b68314ef8e4f68cd35b11dc83839eae4bec4b7b4`; Jarvis Master Prompt 01 `c3017843de5a95c1bd18cf839d54ecb125861970`.
 
 **Next safe step:** obtain the asset-allocation decision and node inventory; do not promote the future production profile until ARC-027/V-20 acceptance evidence exists.
+
+
+## 20.39 Batch 04 atom-level crosswalk — B1 §4 Home Assistant Core and Review 01
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `DOCUMENTARY DRAFT / STRUCTURAL AND SOURCE-ANCHOR REVIEW PASS / SEMANTIC OWNER ACCEPTANCE OPEN`
+
+| Artifact | Path | Blob SHA | Status |
+|---|---|---|---|
+| Atom-Level Crosswalk Batch 02 — B1 §4 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-02-DRAFT.md` | `c066038d22c55ab403d320a07d3c23b47a8e771f` | 19 atom rows, 12 approved fields each; draft, no final child IDs |
+| Batch 02 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-02-REVIEW-01.md` | `7fac97fd17b7b32b5f0711f9196b2b96bfd4fe59` | Structural, source-anchor and Audit 01 status-consistency review PASS; semantic owner acceptance OPEN |
+
+**Checked sources:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` on `main`, SHA `9df4892ed0734050ac79732603d15bb414717310`, §4 lines 85, 87, 90, 92, 94, 97–98; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md` on `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Audit 01 SHA `d0938f14ed4110545118f075175dee3be412097b`; Proposal 02 SHA `7e737c8add9e3453062e9fc459790e7010e55689`; owner-decision record SHA `9117098e22c26708d48ca8ba5954669faa209d68`.
+
+**Verified result:** 19/19 atom IDs match the Audit 01 §4 register; 19/19 rows have 12 fields. Statuses follow the approved vocabulary and Audit 01 relation: **2 MAPPED, 17 NOT_REVIEWED, 0 CONFLICT, 0 NO_DIRECT_COUNTERPART**. Mixed/partial mapping remains NOT_REVIEWED. MAPPED is documentary explicit coverage only, not implementation, test, qualification or production evidence. The draft preserves the distinction between HA Core’s Smart Home operational/device-state scope and MediaHub State Authority’s platform-state scope.
+
+**Constraints preserved:** no final child IDs; no canonical backlog promotion; no B1/B2/main changes; UI4-04 remains HOLD / CROSS-LINK-ONLY; no tests, qualification, installation, deployment, infrastructure/live-host action or merge.
+
+**Next safe step:** prepare and independently review a separate atom-level batch for B1 §5 UI requirements; preserve literal-vs-derived distinctions and keep UI4-04 on HOLD until unique residual evidence exists.
