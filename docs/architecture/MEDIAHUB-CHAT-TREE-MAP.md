@@ -1908,3 +1908,23 @@ The prompt is a reusable start instruction for a new chat. It directs the next s
 
 **Next safe step:** start the next session by fetching the current map and the latest D-06, Batch 09 draft and Review 02 sources; continue bounded semantic review only after confirming their current SHAs. Do not promote the crosswalk without separate authorization and independent review.
 
+## 20.61 Batch 09 bounded TSI semantic review 03
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** BOUNDED SOURCE-ANCHORED SEMANTIC CONSISTENCY PASS — FULL TSI ACCEPTANCE OPEN
+
+**Artifact:** `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-03.md`  
+**Read-back blob SHA:** `184a99ef85143c2ad3048dca5c8d85b17f8651a3`  
+**Create commit:** `02f5ef52e7d290171fff34b9bf8d9b0f6ca23765`
+
+**Pinned sources read back:** Bootstrap instruction SHA `f86014d81a2db1b5246b4fc2600812340f1c7d22`; Product Owner Decision Record 01 SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd` (D-06); Batch 09 draft SHA `5e1b73c73c951638b549a30d569df2d1c7de8b31`; Review 01 SHA `e7dc78bc90290a783aebeb487f98e2ad49d7d59e` (historical); Review 02 SHA `d808f602756b6135019a7655c0c12291527e9de3`; B1 `main` SHA `9df4892ed0734050ac79732603d15bb414717310`, §18 lines 297–309; B2 `main` SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §16 lines 358–366 and §18 lines 380–394; MH-19 acceptance SHA `9bc038123f01beb9c66e71d5f27cbc82ad3e4501`; MH-19 evidence register SHA `854fe2c0fc604d80b4e1af7d384ec1fb943fe6df`.
+
+**Confirmed findings:** B2 documents broad search/knowledge, provenance, evidence and source verification primitives, but the reviewed clauses do not define the complete named TSI subsystem, trust taxonomy, source-discovery/retrieval/comparison/change-detection workflows, evidence-admission rules, verified-knowledge lifecycle or complete four-category information-state taxonomy. The current conservative distribution remains **3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT**. The three MAPPED labels are documentary correspondence only; no implementation or qualification is inferred. No explicit contradiction was established in this bounded comparison.
+
+**Owner decision preserved:** D-06 keeps TSI-07 as primary provenance and TSI-12 as a historical sub-aspect with its B1 §18 line 301 anchor and explicit cross-reference. TSI-12 is not counted as an independent sibling obligation. Review 01 remains intact as historical evidence; Review 02 remains the owner-disposition/structural follow-up.
+
+**Boundaries:** all TSI labels remain provisional; no final child IDs or collision-check inventory were created; no canonical backlog, B1, B2 or traceability matrix was changed. MH-19 remains NOT ACCEPTED / NOT FROZEN; production graph, vector/RAG runtime and persistence remain UNKNOWN in its evidence register. No tests, qualification, installation, deployment, host/infrastructure action or merge to `main` occurred.
+
+**Next safe step:** obtain the outstanding owner/governance disposition for TSI subsystem ownership and contract boundaries, then review against any accepted TSI/MH-10/MH-19 contract. Do not promote mapping statuses or assign final IDs before the required lineage/collision checks.
+
