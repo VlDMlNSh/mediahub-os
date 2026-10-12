@@ -1675,3 +1675,26 @@ Next safe step: continue with a separate atom-level crosswalk draft for B1 §16 
 All new crosswalks remain documentary drafts, not canonical backlogs. No final child IDs were minted. Canonical backlog, MH24 matrix, Baselines 1.0/2.0 and `main` are unchanged. No installation, tests, qualification, cloud request, live-host operation, infrastructure change, deployment or merge occurred.
 
 **Next safe step:** independently review remaining Batch 04 clause batches and any residual lineage/owner-disposition issues before proposing a canonical-backlog update. Do not infer completeness of every repository file or every branch from these bounded source batches.
+
+## 20.52 Active P-13 gap-report pointer correction and dependency-chain read-back
+
+**Date:** 2026-10-12  
+**Ref:** docs/mediahub-chat-tree-map-20261012  
+**Status:** DOCUMENTARY POINTER CORRECTION / READ-BACK VERIFIED
+
+An active-pointer scan found that Passport v3 row P-13 still cited obsolete Gap Reconciliation SHA 8495c9436b967bd77afae57ccb1e42959ab86a56, while the current Gap Reconciliation blob is 39720b11e5e6777b86ffd71e0fec1214982e0d95. This was an active source pointer, not a historical entry.
+
+The active P-13 pointer was corrected. Dependent current references were refreshed sequentially and read back from GitHub:
+
+| Artifact | Current read-back SHA | Verified state |
+|---|---|---|
+| Gap Reconciliation | 39720b11e5e6777b86ffd71e0fec1214982e0d95 | 21 scoped findings; no runtime qualification implied |
+| System Passport v3 | b504a2e2065bf864578dccd79830c2a58b9099bf | P-13 current row points to Gap SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; older SHA retained only in dated history |
+| Verifiable Architecture Contract 01 | 8ccfaecca11a12a630f7c004540cef7dc83354c2 | Four active Passport references point to b504a2e2065bf864578dccd79830c2a58b9099bf; dated history preserves prior values |
+| Jarvis Master Prompt 01 | 5d9313e33240215fcd9e81f5a8261ede0e51e57a | Active Passport reference points to b504a2e2065bf864578dccd79830c2a58b9099bf; active Contract reference points to 8ccfaecca11a12a630f7c004540cef7dc83354c2; current Gap pointer remains 39720b11e5e6777b86ffd71e0fec1214982e0d95 |
+| Baseline 1.0 (main) | 9df4892ed0734050ac79732603d15bb414717310 | Unchanged |
+| Baseline 2.0 (main) | 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f | Unchanged |
+
+Verification: all four current artifact SHAs were fetched after the writes. The active Passport P-13 line, contract non-history references and the master prompt's active pointer lines no longer contain the obsolete current-pointer value. Historical change records remain intact. This was a targeted documentary source-pointer correction; it does not change an architecture requirement, create a new baseline, close semantic mapping, or affect product/runtime state.
+
+Constraints preserved: no canonical backlog or traceability matrix changed; no tests, qualification, installation, deployment, infrastructure/host operation or merge to main occurred.
