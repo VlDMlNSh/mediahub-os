@@ -1958,3 +1958,44 @@ The prompt is a reusable start instruction for a new chat. It directs the next s
 
 **Next safe step:** continue the full map restoration from the live map and primary-source navigation; verify each MH domain's canonical path/ref, decisions, dependencies, master/reverse handoff and evidence. In parallel, keep TSI ownership/scope open pending explicit disposition. After this integration checkpoint, the next bounded semantic source batch is B1 §16 Local Cluster AI; no status promotion is implied.
 
+## 20.63 Mobile source batches 11–12 and integrated working-synthesis pointer reconciliation
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** WORKING POINTER RECONCILIATION PASS / FULL MAP AND GLOBAL SEMANTIC ACCEPTANCE OPEN
+
+### Current working synthesis pointers — read back before this map update
+
+| Artifact | Path | Current read-back blob SHA | Scope/status |
+|---|---|---|---|
+| System Passport v3 | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` | `3cabf4d68d19423ac4bf21b09f3483783155cf20` | Integrated working draft; P-25/P-26 remain OPEN; not an accepted new baseline |
+| Verifiable Architecture Contract 01 | `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` | `2396488e4538ce4ea7448a666c55a39739f07587` | Working draft; 33 ARC requirements / 26 verification checks; not a globally accepted system contract |
+| Jarvis Master Prompt 01 | `docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md` | `5d3f772f3eeb26812c732d73a61b23e90ae27bc1` | Working routing/context prompt; active pointers refreshed through Batch 12 Review 02 |
+| Continuation Master Prompt 01 | `docs/checkpoints/MEDIAHUB-CHAT-CONTINUATION-MASTER-PROMPT-01.md` | `76319e0dc2326b64a249596714cd761bcc4eb93d` | Working continuation instruction; current Passport/Contract/Jarvis/Batch 11–12 pointers refreshed |
+
+### Batch 09–12 verified state
+
+| Batch | Source / artifact | Current read-back refs | Result / open boundary |
+|---|---|---|---|
+| 07 | B1 §16 Local Cluster AI; draft `d6323442e3059dda091d0ad8b2a33fa91cad6ea0`; Review 02 `0af17bf0db6f8b1c93d01aae3e8a8b5d8a0d9064` | Working branch | 11 provisional labels; 1 MAPPED / 9 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT; complete workload/gateway contract and owner acceptance OPEN |
+| 09 | B1 §18 Trusted Sources Intelligence Engine; draft `5e1b73c73c951638b549a30d569df2d1c7de8b31`; Review 03 `184a99ef85143c2ad3048dca5c8d85b17f8651a3` | Working branch | 17 provisional labels; 3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT; full TSI semantic/owner/contract acceptance OPEN |
+| 10 | B1 §19 AI Human Clone; draft `44b9369fea0be06e4e64f2052fd49f6d493f6603`; Reviews 01/02 `36148379d7d1e39252bd918ad17772036cf0d972` / `612162b164b7d2585fa9646871839274cec5a343` | Working branch | 19 provisional labels; 5 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT; preserve lineage to existing B1-17-05 / CDAI4-02; AHC-19-01 remains cross-link-only; owner/contract acceptance OPEN |
+| 11 | B1 §20 Mobile Access; draft `0c102e5071ed5a33cbc02b00872da78eebd5bf9c`; Reviews 01/02 `2a11ae52c4401a51fc562df5c9ddbe07cb83b2ef` / `c143d1b349bcf2ba3a76ffdad03b1d4258a1ebe9` | Working branch | 9 provisional labels; 4 MAPPED / 5 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT. MA-20-05 is bounded documentary shared-contract/non-authority correspondence only. Exact two-app scope vs Developer Mobile, one-time purchase model, complete capability matrix and Remote Access API remain OPEN |
+| 12 | B1 §21 Mobile Access Invariants; draft `dcbc0a0e8a8186e926315ea318eff902e491f0e7`; Reviews 01/02 `ece804af67ea66d0b0121b1e91c42451aa8143d8` / `f8d50509014f8c72476ab845476dcc40569c3357` | Working branch | 6 provisional labels; 4 MAPPED / 2 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT. Review 02 corrects only MAI-21-04 change-history provenance; the concrete direct-device-bypass route and Remote Mobile → MediaHub API → authority/subsystem chain remain OPEN |
+
+### Contract and continuation consistency
+
+- Contract ARC-031/V-24 covers Batch 10 / B1 §19; ARC-032/V-25 covers Batch 11 / B1 §20; ARC-033/V-26 covers Batch 12 / B1 §21. The verification matrix contains 33 ARC requirements / 26 checks. All three mobile-related gates remain scoped and OPEN; no implementation or qualification is inferred.
+- Contract ARC-033's source-manifest Markdown punctuation/backtick delimiters were corrected; exact source paths and SHAs, statuses and semantics did not change.
+- Batch 11 Review 02 changes only MA-20-05 to bounded documentary `MAPPED`, yielding 4/5/0/0. Batch 12 Review 02 changes only the MAI-21-04 Change history value; its 4/2/0/0 distribution is unchanged.
+- Continuation routing is corrected: B1 §§16–21 are now represented by Batches 07–12 in this chain. The next sequential section is B1 §22, but Batch 13 is not authorized by this pointer alone: fetch the live map, pin B1/B2 anchors and check for an existing §22 batch before creation.
+- Preserve historical Reviews 01, the owner decisions, provisional labels and the separate D-05/D-06 decision scope. No final child IDs or project-wide collision-check inventory were created.
+
+### Boundaries and next safe action
+
+B1 `main` SHA `9df4892ed0734050ac79732603d15bb414717310`, B2 `main` SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, the working matrix SHA `73377891072bac3c739c44055ceeb0874154f64c`, canonical backlog and `main` remain unchanged. No tests, qualification, installation, deployment, live-host/infrastructure operation or merge was performed.
+
+This checkpoint reconciles the working pointer chain through B1 §21; it **does not** finish restoration of the full MH-01…MH-25 map, does not constitute a current all-branch inventory or an all-68-section semantic audit, and does not accept Passport v3 / Contract 01 as a new canonical baseline. Full owner/semantic acceptance remains OPEN for the cited crosswalks.
+
+**Next safe step:** proceed with evidence-led MH-01…MH-25 map restoration and the next sequential B1 §22 source inventory only after a fresh live-map and branch/path check. Do not create Batch 13 or promote any crosswalk by inference.
+
