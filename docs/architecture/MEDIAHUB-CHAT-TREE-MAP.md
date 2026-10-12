@@ -3067,3 +3067,48 @@ An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 40
 12. Acceptance criteria remain NOT ACCEPTED / NOT FROZEN; no tests or runtime scan were run in this audit.
 
 **Next safe action:** MH-20 Automation / Energy / Self-Healing Architecture. Preserve the separation between observation, prediction, recommendation, proposal, policy evaluation, authorization, command, commit, application and confirmation. MH-20 cannot derive authorization from a graph relation or AI prediction. Keep Baseline 1.0 and Baseline 2.0 separate unless an explicit reconciliation decision exists.
+
+## 20.92 MH-20 Automation / Energy / Self-Healing — current governance and evidence audit
+
+**Date:** 2026-10-12. **Main HEAD:** `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, tree has 798 entries. Canonical MH-20 architecture is on `main`; no separate MH-20 implementation evidence was established in the reviewed governance register. **Status:** `ARCHITECTURE WORK AUTHORIZED / NOT YET ACCEPTED / NOT FROZEN`; production automation, energy control and self-healing are not established as implemented/qualified. Read-only audit; only this map entry was changed.
+
+### Primary sources and blob SHA
+
+| Source | Blob SHA | Confirmed facts |
+|---|---|---|
+| `docs/architecture/MH-20-INDEX.md` | `1f8b0978d11d625737604ec93c4e8c179baf1c18` | Canonical source index; 12 architecture passes; next domain is MH-21 Hybrid Cloud / Distributed AI. |
+| `docs/architecture/MH-20-CHAT-MASTER-PROMPT.md` | `0f185752a288ef494d3217d501c4cb64a2cff46f` | Architecture-only workspace; protects P0-03…P0-07 and preserves current P0-07 governance/API gap. |
+| `docs/architecture/MH-20-REVERSE-MASTER-PROMPT.md` | `04b3137a19b3f25f69fa5172965b4999948cb266` | Requires exact branch/commit, paths, actual tests/CI, mutation-path evidence, retry/scheduler/safety/energy/security evidence; prohibits unsupported PASS claims. |
+| `docs/architecture/MH-20-automation-energy-self-healing-architecture.md` | `4a0b09976e80dac03ce9ab89fd767de3bd783100` | `ARCHITECTURE WORK AUTHORIZED / NOT YET ACCEPTED / NOT FROZEN`; automation is orchestration, not authority. |
+| `docs/architecture/MH-20-architecture-status.md` | `473e3e199482c46988f3e6cffef2722a888eb637` | Consolidated MH-20.1–12 assessment; architecture decisions are accepted constraints but `NOT IMPLEMENTED`; implementation state UNKNOWN. |
+| `docs/architecture/MH-20-acceptance-criteria.md` | `5f88b8a044c74d0c15313f0744f9227e5960ac87` | Acceptance requires end-to-end authority, rule/time/idempotency, safety/energy/self-healing, integrations, security/privacy/observability, offline/failure and test/traceability evidence. |
+| `docs/architecture/MH-20-evidence-register.md` | `d6c92cd5ae0ee0d4dbc3409af0f856f5c60bec9f` | E-20-005 MH-20 implementation UNKNOWN; E-20-006 P0-03…P0-07 implementation state not established in that register. |
+| `docs/architecture/MH-20-decision-log.md` | `e88c70c75beb61b581aa517217ba716222eeefbc` | D-20-001…006 accepted as architectural constraints, not implementation approval. |
+| `docs/architecture/MH-20-contradiction-register.md` | `3ed84580ced244c0449a5ea90b515bf3b967e74c` | C-20-001 current P0-07 implementation evidence gap OPEN; C-20-002 possible chat/GitHub source-of-record divergence OPEN. |
+| `docs/architecture/MH-20-unknowns.md` | `a9e0f9fabc7f698ad58e8098e19f4a3ecff06a82` | Scheduler, time/reboot/DST, idempotency, devices, energy provenance, actuator limits, remediation, plugin enforcement, persistence, recovery, resource limits and CI evidence remain UNKNOWN. |
+| `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` | `9df4892ed0734050ac79732603d15bb414717310` | Historical B1 passport, 68 sections; retain immutable historical provenance and do not silently merge with B2. |
+| `docs/checkpoints/mediahub-functional-baseline-2.0.md` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | B2 is ACCEPTED canonical immutable functional reference; acceptance does not imply implementation, verification, qualification or production. |
+| `architecture/FUNCTIONAL-BASELINE-1.0-ARCHITECTURE-RECONCILIATION.md` | `61eb206d8e40da601bb8b4c989f1127e47f68577` | Proposed reconciliation preserves single-node/no-HA, in-memory State Authority and offline-first foundation; target extensions remain future-gated. |
+| `architecture/FUNCTIONAL-BASELINE-1.0-OSS-COMPONENT-BASELINE.md` | `2095c62d92077bb742c09b87e35e776f4dbc8231` | OSS adoption is accepted target/implementation-gated; third-party components remain isolated primitives/adapters, never MediaHub authorities. |
+
+### Reconciled invariants
+
+1. Automation, Scheduler, Rule Engine, Energy Engine, Self-Healing Engine, AI, plugins, Knowledge Graph, devices, UI and persistence are not State Authority.
+2. Every canonical mutation must follow `Policy → Authorization → Consumer Boundary → State Authority`; the unresolved P0-07 authorization/publication/API gap remains a hard blocker. Do not invent a bridge or weaken P0-03…P0-06.
+3. Trigger != authorization; condition is bounded and side-effect-free; proposal != command; scheduled plan != permission.
+4. Time contracts must distinguish wall clock and monotonic clock and specify DST, clock correction, reboot, crash and power-loss behavior. Duplicate triggers need explicit idempotency/deduplication semantics.
+5. Retries, debounce, hysteresis, rate limits, timeout, cancellation, conflict priority and cooldown require explicit contracts; timeout is not success and Sent is not Applied or Verified.
+6. Safety hierarchy: hard safety → manual emergency → explicit administrator policy → local automation → optimization → recommendation. Manual emergency does not bypass security; critical/destructive action needs explicit gate.
+7. Energy measurement, forecasts and optimization do not grant control authority. Validate measurements/provenance and physical constraints before control.
+8. Self-healing is bounded remediation, not a second authority: evidence and diagnosis, pre-defined scope, authorization, rollback/failure semantics, circuit breaker/loop detection, observability and post-action verification are mandatory. Destructive remediation remains operator/explicit-gate territory.
+9. SINGLE NODE / NO HA and offline-first critical control remain canonical. Cloud/remote AI is external and untrusted by default; loss of cloud must not disable local critical control.
+10. OSS candidates (Home Assistant, Node-RED, openHAB, Temporal, schedulers, brokers, databases, telemetry stacks and others) do not become approved runtime dependencies without gap analysis, license/provenance/security review, adapter boundary, benchmarks, negative/degraded/recovery/rollback tests and independent qualification.
+11. Functional Baseline 2.0 is the accepted current functional reference; Baseline 1.0 remains immutable historical provenance. No implicit merge or retroactive reinterpretation.
+12. Architecture status/decision records do not prove runtime implementation. No tests, qualification, installation, infrastructure changes or production execution were performed in this audit.
+
+### Governance and next stage
+
+- MH-20 architecture work is authorized, but the domain is not accepted/frozen.
+- Production automation, energy control, scheduler and self-healing runtime remain UNKNOWN / NOT ESTABLISHED by reviewed evidence.
+- P0-07 remains a blocker for canonical policy publication/mutation; no authorization bridge was created.
+- **Next safe architecture stage:** MH-21 Hybrid Cloud / Distributed AI. Preserve cloud as external/untrusted and non-authoritative, prohibit cloud-to-device bypass, and keep remote results as data/proposals until the ordinary policy/authorization/Consumer Boundary/State Authority path permits an operation.
