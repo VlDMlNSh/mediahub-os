@@ -986,3 +986,15 @@ P0-07 capability inventory is not a transaction API. The P0-07 boundary construc
 **Qualification blockers remain:** exact candidate/build/dependency/digest/signature/SBOM identity; current-head successful verification; independent A3 evidence; P0-07 canonical-read and mutation/publication bridge; trusted identity/context issuer/lifecycle; P0-05 header/governance confirmation; MH-13 privacy/retention/deletion and restore semantics; MH-14 physical persistence authorization and recovery evidence; exact MH-15 hardware/OS target; MH-16 lifecycle execution evidence; MH-21 egress/provider acceptance; MH-23 compatibility/migration acceptance; target-gated components; explicit release/deployment/production acceptance.
 
 **Scope:** read-only GitHub source/metadata review plus edits to proposed documentation and working bootstrap. No tests or qualification runner, workflow dispatch/rerun, logs/runtime/host inspection, credentials/provider/model calls, installation, migration/restore/deletion, infrastructure change, deployment, merge or rebase. The matrix and contract remain PROPOSED / NOT ACCEPTED / NOT FROZEN.
+
+
+## 44. Live qualification metadata recheck (2026-10-13)
+
+**Status:** documentary metadata only; this section does not alter any qualification verdict.
+
+- Live `main HEAD`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Live docs branch compare: DIVERGED, 490 ahead / 2 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Prior wave-02 snapshot recorded 483 ahead / 2 behind; the live compare supersedes that count only. No branch integration performed.
+- Astra Verify run `38226754511`: completed/failure on current main SHA; job summary confirms failure but provides no step summaries, so the cause remains UNKNOWN. Queue supervisor run `38273320112`: queued. Combined commit status returns zero status records, not PASS.
+- ASTRA G0–G11 remain BLOCKED; MH-22 G1–G9 remain non-promotable. Overall production qualification remains **NO-GO / NOT PROVEN**.
+- P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 candidate remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN, and its header/status discrepancy requires explicit governance confirmation. No authority, acceptance or release decision is inferred.
+- No tests, qualification runner, workflow dispatch/rerun/cancel, logs, runtime/host inspection, credentials, provider/model calls, installation, infrastructure change, migration, deployment, merge or rebase occurred.
