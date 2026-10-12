@@ -1166,21 +1166,21 @@ Read-back review подтвердил: 48 строк, 48 уникальных и
 
 - **Path:** `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`
 - **Create commit:** `baa96c19813dacfa5e016d97ff96d5a9e65d8003`
-- **Read-back blob SHA:** `4eb96fa7a049c084870f29a57903848cb5fb92bf`
+- **Read-back blob SHA:** `33ccb08dd098562f6ae9172044e205fc4810e336`
 - **Status:** `INTEGRATED WORKING DRAFT / NOT YET ACCEPTED AS A NEW BASELINE`.
 - **Coverage:** source hierarchy, authority boundaries, functional domain overview, hardware profile plan, network/data planes, component lifecycle, security/privacy invariants, qualification truth, open risks and acceptance checklist.
-- **Key restraint:** Mac mini, Mac Pro and later GPU nodes are future target profiles, not confirmed installed or qualified hardware. Passport does not replace B2 or edit B1.
+- **Key restraint (superseded detail clarified in §20.33):** the original draft used generic future target classes; the later owner blueprint reports a purchased developer Mac Pro, developer Mac mini 2011, a customer-site Mac mini M2 prototype, current test-only servers and a future optional GPU/video server. Those roles are owner-reported, not independently inventoried or qualified. Passport does not replace B2 or edit B1.
 
 ### 20.32.2 Verifiable Architecture Contract 01
 
 - **Path:** `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`
 - **Create commit:** `da054d320b808cbd7069e700d15a75175e9d7c8c`
-- **Latest documented update commit:** `8c34da9c8dff0ef8bece6dbb35bc58c6c8ccf4f2`
-- **Latest read-back blob SHA:** `69bfdcc76a2eb082cf6941d6ac8afbd0fa9ba2a5`
+- **Latest documented update commit:** `654375a115ab4ab76b505b89bd0640a30996b37a`
+- **Latest read-back blob SHA:** `15c272e31a4276dccc6d7e0b15d1dc1ac836b49a`
 - **Status:** `WORKING INTEGRATION CONTRACT / DRAFT — NOT A NEW CANONICAL BASELINE`.
-- **Verified structure:** 16 ARC requirements, verification matrix, scope/precedence rules, public interface contract fields, state/event rules, privacy boundary, stop rules and explicit open decisions.
+- **Verified structure:** 25 ARC requirements (ARC-001…ARC-025), 18 verification checks (V-01…V-18), scope/precedence rules, public interface/task-envelope fields, state/event rules, privacy boundary, stop rules and explicit open decisions.
 - **Clarifications incorporated:** explicitly accepted decision precedence; exact twelve-field normalization schema; preserved UI4-04 HOLD; 48 verified historical parents vs the older “47” description; ASTRA internal workflow state is not Product State Authority; HA/persistence target is not active runtime authority; hardware/component selections are not evidence of installation/qualification; current ASTRA state is NOT_PROVEN/BLOCKED; network plane separation is normative; repository-wide semantic completeness is not claimed.
-- **Latest iteration:** the contract was updated/read back through thirteen recorded documentation analysis/correction/re-analysis cycles. This is not thirteen runtime test or qualification executions.
+- **Latest iteration:** the original contract audit records 13 source/contract correction cycles; the Astro blueprint gap reconciliation separately records 13 blueprint-specific documentary review cycles. Neither set represents runtime test or qualification executions.
 
 ### 20.32.3 Thirteen-Cycle Architecture Audit
 
