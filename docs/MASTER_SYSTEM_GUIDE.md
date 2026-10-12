@@ -13,6 +13,20 @@ MediaHub OS — платформа и доменная система. ASTRA —
 
 **Фактическое состояние на 12.10.2026:** подключены два Linux-узла и Mac mini M2. Mac Pro, MacBook и GPU host не появились среди активных Desktop Commander устройств; их характеристики/доступность неизвестны. Корневой диск mh-dev-01 заполнен на 100% (0 свободных блоков, inode usage 57%); read-only scan нашёл около 2.8 GiB в /var/log и 2.5 GiB systemd journal, но очистка не выполнялась, чтобы не потерять доказательства. На mh-dev-02 жив API Ollama, но heartbeat контроллера последний раз менялся 7 октября. Существующие transport/provider evidence датированы концом сентября и содержат BLOCKED/NOT_PASS. На Mac mini прошла валидация 25 контрактных файлов/9 envelope contracts и пять тестов топологии; другие выбранные unittest-модули не импортировались из-за отсутствующего PyYAML, pytest не установлен. Полная qualification не подтверждена.
 
+### Целевая аппаратная конфигурация — решение пользователя от 12.10.2026
+
+Это архитектура **под будущее железо**, а не утверждение о наличии всех устройств сегодня. Рабочая система планируется к развёртыванию ближе к концу октября 2026 года, после покупки и фактической инвентаризации целевого компьютера.
+
+| Целевой узел | Роль в итоговой схеме | Этап и ограничения |
+|---|---|---|
+| **Покупаемый Mac Pro** | Основной целевой сервер MediaHub и один из двух серверов разработки ASTRA; центральная control/API-поверхность, координация Jarvis, состояние задач, маршрутизация и evidence после квалификации компонентов | До покупки неизвестны точная модель/поколение, CPU, RAM, GPU, SSD, ОС и сеть. Выбор моделей и worker capacity окончательно фиксировать только после проверки конфигурации. Не считать Alamo или контроллер развёрнутыми заранее |
+| **Mac mini 2011, Linux, целевые 16 GB RAM** | Второй сервер разработки / Linux executor, тестовая совместимость и ограниченные фоновые задачи | 16 GB — целевая конфигурация пользователя. Apple официально указывает заводские комплектации до 8 GB, но OWC сообщала о верифицированной установке 16 GB (2×8 GB); фактический объём и стабильность нужно проверить на конкретном экземпляре до ввода в эксплуатацию. Первый запуск Linux выполнять по Ethernet, проверить firmware/network/SSD, стабильность памяти и автоматическое восстановление после перезагрузки |
+| **Mac mini M2 Виктора, 8 GB** | Первый работающий прототип продукта MediaHub; среда функциональной проверки, staging/demo и проверки UX | Не включать в постоянный парк серверов разработки и не считать постоянной Astra Gold executor lane после перехода к целевому железу. На этапе разработки разрешены временные тесты, но продуктовый прототип должен быть отделён от очереди и полномочий дев-серверов |
+| **Будущий видеосервер с мощным GPU** | Дополнительный compute/inference pool для крупных моделей, обработки видео/изображений и иных GPU-задач | Будущее расширение, не prerequisite для базового старта. Его GPU/VRAM/RAM/storage/driver/network/API/модель нужно квалифицировать отдельно. По умолчанию это compute worker, не сервер разработки и не State Authority |
+| MacBook / другие UI-клиенты | Клиентская поверхность при необходимости | Не являются обязательными центральными серверными узлами |
+
+**Разделение фаз:** (1) текущие машины — test lab; (2) Mac mini M2 — первый прототип MediaHub; (3) после закупки — основной целевой узел Mac Pro + отдельный Linux Mac mini 2011 для разработки; (4) позднее — GPU/video server. Текущая реализация Astra queue пока содержит старое сопоставление трёх тестовых lane, включая M2. Перед целевым запуском оно должно быть перепривязано к конечным узлам и подтверждено тестами. Начальная плановая ёмкость — два физических development hosts; concurrency нельзя оставлять равным трём только потому, что тестовый контроллер так сконфигурирован. Третья одновременная задача допускается лишь после отдельного обоснования изолированных логических worker lanes и capacity-тестов Mac Pro или явно квалифицированного дополнительного executor.
+
 ### Ключевые выводы
 
 1. Сильная сторона — формализованные роли A0/A1/A2/A3, fail-closed gate, обязательные evidence и человеческий запуск.
@@ -64,14 +78,14 @@ MediaHub OS — платформа и доменная система. ASTRA —
 |---|---|---|
 | mh-dev-01 | Ubuntu x86_64; Intel Core i7-2635QM 2.00 GHz, 8 CPU, около 7.7 GiB RAM; root disk 109 GiB | **P0:** root filesystem 100%, 0 free. Не писать, не устанавливать и не очищать без плана сохранения данных |
 | mh-dev-02 | Ubuntu x86_64; показан тот же класс CPU/8 CPU, около 15 GiB RAM; disk 61 GiB, 14 GiB свободно; Python 3.12.3, Node 22.23.3, Ollama 0.34.4 | Лёгкое исполнение, координация и пробы локального API; не доказанный GPU worker |
-| Voktors-Mini.Dlink | Mac mini M2, Mac14,3, ARM64, 8 GB RAM; Data volume 228 GiB, около 60 GiB свободно; Python 3.14.8, Node 22.23.3, Ollama | Лёгкая третья lane/локальные пробы. Модели есть, qualification не подтверждена |
-| Mac Pro | Целевая роль — central API/router/Alamo | Не найден среди подключённых устройств; характеристики и health неизвестны |
-| MacBook | Цель — Claude Desktop/Codex Desktop client | Не найден среди подключённых устройств |
-| Owned GPU host | Цель — Pool A GPU compute | GPU/VRAM/RAM/runtime/network неизвестны |
-| User pool | Участнические узлы, только opt-in jobs | Недоверенные по умолчанию; доступ к секретам и authority запрещён |
+| Voktors-Mini.Dlink | Mac mini M2, Mac14,3, ARM64, 8 GB RAM; Data volume 228 GiB, около 60 GiB свободно; Python 3.14.8, Node 22.23.3, Ollama | Первый прототип MediaHub; на этапе разработки также используется для тестов. Не оставлять постоянной dev/Astra lane после перехода на целевое оборудование |
+| Mac Pro (планируемый к покупке) | Основной целевой MediaHub server и development host №1; после закупки будет центральной API/control-поверхностью | Пока отсутствует в текущем test lab. Модель/конфигурация/health не известны; проверить при покупке и до выбора модели/нагрузки |
+| Mac mini 2011 / Linux / 16 GB (планируемый development host №2) | Linux executor для разработки и совместимости | Целевой объём RAM дан пользователем; проверить фактическое обнаружение 16 GB на конкретном экземпляре. Apple заявляла штатную конфигурацию до 8 GB, сторонний OWC тестировал 16 GB для Mid-2011. Сначала Ethernet и базовая Linux/firmware qualification |
+| MacBook / UI clients | Клиентская поверхность при необходимости | Не является обязательным сервером целевой топологии |
+| Будущий GPU/video server | Дополнительный compute pool для крупных моделей, vision/video processing | Будущее расширение; не нужен для первого запуска базовой архитектуры. Не давать ему State Authority |
 | VPS | Изолированный key registration workflow | Не использовать как inference proxy или для обхода правил провайдеров |
 
-На mh-dev-02 Ollama list показал qwen2.5-coder:1.5b (986 MB), qwen2.5-coder:3b (1.9 GB), qwen2.5-coder:7b (4.7 GB) и alias claude-sonnet-4-6:latest (4.7 GB), причём две последние метки имели один ID. На Mac mini найдены qwen2.5-coder:1.5b, qwen2.5-coder:3b и qwen3:4b. Не считать модельные метки доказательством идентичности; сохранять manifest/digest и исключить сомнительный alias из автоматического выбора до read-only проверки. Не удалять модели автоматически.
+На mh-dev-02 Ollama list показал qwen2.5-coder:1.5b (986 MB), qwen2.5-coder:3b (1.9 GB), qwen2.5-coder:7b (4.7 GB) и alias claude-sonnet-4-6:latest (4.7 GB), причём две последние метки имели один ID. На Mac mini M2-прототипе найдены qwen2.5-coder:1.5b, qwen2.5-coder:3b и qwen3:4b. Не считать модельные метки доказательством идентичности; сохранять manifest/digest и исключить сомнительный alias из автоматического выбора до read-only проверки. Не удалять модели автоматически.
 
 Для GPU-host нужны подтверждённые GPU/VRAM, RAM, SSD, driver/runtime, checkpoint, quantization, context length, concurrency, latency/throughput и thermal budget. Между компьютерами RAM/VRAM не складываются автоматически. Большую модель размещать на одном подходящем хосте либо использовать проверенный multi-GPU runtime.
 
@@ -79,13 +93,13 @@ MediaHub OS — платформа и доменная система. ASTRA —
 
 | Узел | Базовая роль | Не назначать без qualification |
 |---|---|---|
-| Mac Pro (цель) | Jarvis API, A0 queue/state/evidence, router, Alamo после hardware/runtime check | Большой inference без benchmark, открытые admin ports |
+| Mac Pro (планируемый) | Целевой MediaHub API/control plane, Jarvis orchestration, A0 queue/state/evidence, model router, Alamo после hardware/runtime checks; development host №1 в отдельной рабочей области | Нагрузка и число процессов/claims только после покупки, профилирования и изоляционных тестов; не выдавать права developer executor автоматически всем system services |
 | mh-dev-01 | Claude lane для bounded coding/test jobs после освобождения диска | Любая запись при нуле свободного места, очистка dirty worktrees |
 | mh-dev-02 | Claude lane, health probes, Ollama/API tests | Большой inference, cloud fallback в LOCAL_ONLY, квалификация по одному каталогу |
-| Mac mini M2 | Третья Claude lane, диагностика, малые локальные модели | Большие модели с превышением RAM, независимая сертификация своих изменений |
-| MacBook | Пользовательская поверхность Claude Desktop/Codex Desktop | Постоянный сервер/тяжёлый inference по умолчанию |
-| Pool A GPU | Доверенный worker крупных моделей, vision/embeddings по scoped API | Секреты контроллера или direct access к canonical state |
-| Pool B | Non-sensitive opted-in bounded jobs | Секреты, личные данные, приватный контекст, controller rights |
+| Mac mini 2011 / Linux / 16 GB (план) | Development host №2: Linux executor, compatibility tests, bounded background jobs | Не использовать как GPU inference host; 16 GB и Linux drivers проверяются на реальном экземпляре |
+| Mac mini M2 | Первый MediaHub product prototype, staging/demo, UX, end-to-end acceptance tests | Не входит в постоянную очередь Astra developer servers после commissioning целевой пары |
+| Будущий GPU/video server | Отдельный GPU worker pool для крупных моделей и медиаобработки | Не включать в обязательный путь базовых команд до развёртывания; секреты контроллера и direct canonical-state writes запрещены |
+| MacBook / other client | UI/approval surface при необходимости | Не считать developer lane или server без отдельного решения |
 | VPS | Управление регистрацией/отзывом ключей | Model proxy, traffic relay, quota bypass |
 
 Планировщик учитывает privacy tier, capability fit, ресурсы, deadline, latency/cost/quota, isolation и lease. Результат фиксирует фактические provider/model IDs и причину выбора. Скрытая смена провайдера запрещена.
@@ -132,7 +146,7 @@ MediaHub OS — платформа и доменная система. ASTRA —
 
 ## 8. Очередь Astra Gold и qualification
 
-Постоянные production lanes в canonical reference: Claude на mh-dev-01, mh-dev-02 и Mac mini. Максимум три одновременных claims — по одному на lane. Claims не пересекаются; общие mutable surfaces сериализуются; duplicate controller отклоняется; stale lease требует fencing/recovery; replay идемпотентен.
+В текущем тестовом коде `runtime/mediahub_runtime/autonomous_queue.py` жёстко прописаны три lane: `mh-dev-01`, `mh-dev-02` и `Voktors-Mac-mini.local`, а максимальная параллельность равна трём. Это **текущая тестовая конфигурация**, а не конечная аппаратная схема. По целевому плану два development hosts — покупаемый Mac Pro и Mac mini 2011/Linux; Mac mini M2 является прототипом продукта, а не постоянным dev worker. До развёртывания нужно изменить pool registry, G5 concurrency contract, topology tests, task node IDs и workflow routing на конечные логические ID. Начальная целевая параллельность — не более двух физических hosts; повышать её можно только после отдельного доказательства нескольких независимых sandbox lanes и ресурсного профиля Mac Pro. Будущий GPU/video server относится к AI/медиа compute pool и не становится dev lane автоматически. Claims должны не пересекаться; shared mutable surfaces сериализуются; duplicate controller отклоняется; stale lease требует fencing/recovery; replay идемпотентен.
 
 Пять qualification paths — CODEX_FCC, CLAUDE_FCC, CODEX_OMNIROUTE, CLAUDE_OMNIROUTE и CLAUDE_CODE_DIRECT — это испытательные сочетания executor/transport, не замена трём permanent lanes. Каждый mandatory path должен пройти 23 свежих изолированных успешных раунда.
 
@@ -143,7 +157,7 @@ Evidence: command ID, node, component, executor, provider/model, transport if ap
 - G2 Control Plane — queue, leases, duplicate suppression, result publication, heartbeat.
 - G3 Execution Path — runtime/version, timeout, exit status, schema and marker.
 - G4 23-wave — все mandatory rounds свежие, успешные, изолированные.
-- G5 Concurrency — три непересекающихся claims и duplicate-controller rejection.
+- G5 Concurrency — на тестовой конфигурации действует старый лимит 3; перед целевым запуском контракт и тесты должны быть переведены на 2 физические development lanes (или на отдельно доказанную модель нескольких изолированных worker lanes), с duplicate-controller rejection.
 - G6 Recovery — timeout, executor/transport failure, stale claim, restart, replay, publication recovery.
 - G7 Integrated A3 — independent code/contracts/regression/security/concurrency/recovery verification.
 - G8 Pre-soak — all paths/recovery/A3 PASS, clean worktree, fresh evidence.
@@ -170,10 +184,10 @@ Evidence transport/provider от 27.09.2026 показывает BLOCKED/NOT_PAS
 | P1 | Один Ollama ID у двух model labels | Сохранить manifest/digest/provenance; quarantine alias до подтверждения |
 | P1 | FreeLLMAPI upstream unknown | Exact repo/commit, license/auth/terms, secure bind и adapter tests |
 | P1 | Нет Alamo endpoint/e2e FCC route | Identity/schema/auth/health, bounded task, actual provider/model evidence, negative egress test |
-| P1 | Mac Pro/MacBook/GPU host не подключены | Проверить фактические hardware, network и runtime, если узлы должны существовать |
+| P1 | Целевые Mac Pro и Mac mini 2011 ещё не введены; текущий queue всё ещё назначает третью lane на M2 | До целевого развёртывания привязать роли к закупленным узлам, проверить Linux/RAM/network и обновить registry/schema/G5/tests/tasks; M2 оставить prototype-only |
 | P1 | Jarvis reference defaults to Anthropic cloud | Adapter, local-only hard boundary, MCP allowlist, broker и negative tests |
 | P1 | Тестовые зависимости неполны | Pinned isolated venv/lockfile и повтор contract/unit/security suites |
-| P2 | Component scheme говорит max 2 claims вместо 3 | Согласовать prose с canonical gate contract и тестами |
+| P2 | Документы и тестовый код описывают три постоянные dev lanes, включая M2, а целевая конфигурация — два development hosts и отдельный M2 prototype | До commissioning сделать controlled migration и reconciliation; не выдавать тестовые hosts за целевые |
 | P2 | Корневой README почти пустой | Сослаться на master guide, safe setup/tests/security |
 
 Не выполнялись очистка диска, удаление моделей, restart controller и перезапись dirty worktrees: это может уничтожить данные.
@@ -186,7 +200,7 @@ Evidence transport/provider от 27.09.2026 показывает BLOCKED/NOT_PAS
 
 **Фаза C — Jarvis:** закрепить MIT upstream commit, review SBOM/dependencies/license/security; authenticated API; explicit MCP allowlist; permission broker, sandbox, approvals для необратимых действий; voice/privacy, task ID, cancel/reconnect; versioned memory с sources, retention и deletion.
 
-**Фаза D — qualification:** exact SHA/worktree, 23 rounds на mandatory paths, concurrency 3, recovery tests, A3, reconciliation, fresh pre-soak, полные 24H и human G11 approval с rollback.
+**Фаза D — qualification:** после закупки оборудования зафиксировать exact hardware/runtime/SHA, 23 rounds на mandatory paths, target lane registry, initial concurrency ≤2 (или утверждённые и измеренные extra logical lanes), recovery tests, независимый A3, reconciliation, свежий pre-soak, полные 24H и human G11 approval с rollback.
 
 ## 12. Статусы компонентов
 
@@ -235,6 +249,9 @@ curl --fail --silent --show-error --max-time 2 http://127.0.0.1:11434/api/versio
 11. Ollama API: https://github.com/ollama/ollama/blob/main/docs/api/introduction.mdx · https://github.com/ollama/ollama/blob/main/docs/api/openai-compatibility.mdx
 12. OpenTelemetry: https://opentelemetry.io/docs/
 13. MCP authorization: https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/specification/2025-11-25/basic/authorization.mdx
+14. Apple, Mac mini Mid-2011 memory specifications (official factory options): https://support.apple.com/en-us/103344
+15. Apple, Mac mini Mid-2011 technical specifications (factory memory options up to 8 GB): https://support.apple.com/en-sa/112007
+16. OWC, independent testing of 16 GB (2×8 GB) upgrade on Mid-2011 Mac mini: https://www.owc.com/news/owc-announces-industrys-first-16gb-ram-upgrade-for-latest-apple-mac-mini-models
 
 ## 15. Итоговый статус
 
