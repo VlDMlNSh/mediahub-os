@@ -3019,3 +3019,51 @@ An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 40
 - Acceptance criteria explicitly require evidence-backed review, resolution or governance disposition of contradictions, owners for unknowns, security/privacy review and recorded Governance Acceptance before any ACCEPTED/FROZEN/PASS claim.
 - The architecture describes broad coverage but does not authorize production integration.
 - **Next safe action:** MH-19 Knowledge Graph / Digital Twin Architecture. Preserve the invariant Knowledge/Graph/Twin ≠ canonical State Authority; derived graph/index data must have provenance and rebuild semantics, and any state mutation must use the same authorized Consumer Boundary → State Authority path. Keep B1 and B2 separate until explicit reconciliation.
+
+## 20.91 MH-19 Knowledge Graph / Digital Twin — branch-specific architecture and evidence audit
+
+**Date:** 2026-10-12. **Specialized branch:** `architecture/mh-19-knowledge-graph-digital-twin`, HEAD `9411a02f65e9d676456de821a79f0b564ad97828`, tree has 228 entries. This package is branch-specific; do not infer it is synchronized/accepted on `main`. Read-only audit; only this map entry was changed. **Status:** `PROPOSED / NOT ACCEPTED / NOT FROZEN`; implementation, production runtime and qualification are not established.
+
+### Primary sources and blob SHA
+
+| Source | Blob SHA | Confirmed facts |
+|---|---|---|
+| `docs/architecture/mh-19/README.md` | `b4605bc2ba49da2d4b3523ea08e719ed78bab478` | Git-backed architecture artifact index; implementation belongs in development branches/chats; next architecture stage is MH-19.2 entity/relationship/provenance contract. |
+| `MH-19-master-prompt.md` | `f11c9eaa177f8a38550527dfe23d0f728ddf670b` | Knowledge Graph/Digital Twin are semantic/read/projection layers, never State Authority, Policy Engine, Authorization Engine or Device Control Authority. |
+| `MH-19-reverse-master-prompt.md` | `70289b420e20b1ec23558573d8473bdc5b1bfed5` | Development feedback must identify commit/PR, tests actually run, architecture impact, unknowns, security/privacy impact and explicit evidence status. |
+| `MH-19-knowledge-graph-digital-twin-architecture.md` | `1fd37f482d48bd929cc9c9dfaae09ea22e2d3b3c` | PROPOSED / NOT ACCEPTED / NOT FROZEN; no graph DB, vector DB, private-data ingestion, cloud sync, autonomous inference, ontology migration or graph-driven device control authorized by MH-19 alone. |
+| `MH-19-acceptance-criteria.md` | `9bc038123f01beb9c66e71d5f27cbc82ad3e4501` | NOT ACCEPTED / NOT FROZEN; broad acceptance requires evidence across model, provenance, conflict, temporal semantics, Twin, RAG/vector/memory, persistence, security/privacy, performance and traceability. |
+| `MH-19-dependency-map.md` | `c6701a721a579b9811d344660ef4115109ee8218` | Proposed dependency chain spans MH-01…MH-18 and downstream MH-20; MH-19 does not absorb upstream authority. |
+| `MH-19-evidence-register.md` | `854fe2c0fc604d80b4e1af7d384ec1fb943fe6df` | Device, Relationship, Event and AI inference/embed contracts are recorded VERIFIED; production KG, graph DB, vector/RAG runtime, Digital Twin runtime, graph persistence/rebuild and graph-specific security/privacy/performance remain UNKNOWN. |
+| `MH-19-decision-log.md` | `c0861abe2116621a40aa69e1c648473d3728743a` | D-001…D-007 CANDIDATE; graph is semantic/read-only, Twin is representation, relationship never implies authorization, derived data non-canonical, technology deferred; automation authority belongs to MH-20. |
+| `MH-19-contradiction-register.md` | `330d30f4c8a5990add5768f1f4760906e8fc1e6d` | C-001 `CONTROLS` predicate can be confused with authorization; C-002 structural vocabulary is not a complete ontology; C-003 Event is not Knowledge Truth. |
+| `MH-19-unknowns.md` | `681436ad924890fc0ec1bef0d21767b4ee2b9109` | KG runtime, graph DB, observation/provenance, conflict resolution, Twin, projections, persistence/rebuild, ontology migration, vector DB/RAG, AI memory, query API/UI, privacy traversal, security/performance tests and cloud sync remain UNKNOWN. |
+| `MH-19-entity-model.md` | `0ecd8ea3acba65888cb1d4e085d3054960391104` | Candidate entity classes are proposed; none final before ADR/evidence review. |
+| `MH-19-provenance.md` | `6fe83d99a136d7d6d181f71a43e9532166fd6fc5` | Provenance distinguishes source type/identity, retrieval or observation time, processing chain and scope. |
+| `MH-19-evidence-model.md` | `234130d409e98c03bc458ce4a95cd575b712b585` | Evidence states distinguish VERIFIED, OBSERVED, USER_ASSERTED, DEVICE_REPORTED, PROVIDER_REPORTED, DERIVED, INFERRED, PREDICTED and UNKNOWN. |
+| `MH-19-conflict-model.md` | `f9adb3692d948f56d21964555bb92033da1ef9ce` | Conflicting assertions remain visible; no implicit latest/source/confidence/priority-wins policy. |
+| `MH-19-temporal-knowledge.md` | `02aa4cd9a379da908f8c047b3b91cd16607c1e38` | Observation, ingestion, processing, validity, creation and update times are distinct. |
+| `MH-19-digital-twin.md` | `915908efdcff8008ba29f5a75721af96190cf493` | Twin is a representation, not the physical object or command authority. |
+| `MH-19-device-twin.md` | `6c77b9777538fb21e87aa0390ddc86a84ad386fd` | Device Twin projects MH-17 identity, observations, relationships and temporal knowledge; no second canonical Device authority. |
+| `MH-19-rag.md` | `4e0b95495d87972760bc01543b428381cf21e8dd` | RAG implementation UNKNOWN; retrieved context is untrusted and cannot become instruction/policy/authorization/command automatically. |
+| `MH-19-persistence-boundary.md` | `d84b14fc2bfcf607ff6d1b193378d1ace81c76ed` | Persistence stores projections; State Authority owns canonical mutation. |
+| `MH-19-rebuild.md` | `196ad02744c60535e841737138fee29a42cd8ad5` | Canonical sources must support rebuilding derived graph data while preserving provenance, schema/ontology versions and validity semantics. |
+| `MH-19-security.md` | `687ebe6002c03efea930cda2b5a9bbf056adf0c7` | Graph threats include spoofing, poisoned knowledge, prompt injection, unauthorized traversal and exfiltration; graph cannot issue capabilities/commands/credentials/authorization. |
+| `MH-19-privacy.md` | `0d7b14d23fb358139e01fede594a0c72bedcd0a3` | Graph inference may expose presence, residence, media behavior and security topology; minimization, purpose limitation, access controls, retention and audit apply. |
+
+### Reconciled invariants and open issues
+
+1. Canonical flow: authorized Consumer Boundary / Policy / Authorization → State Authority → canonical state → knowledge projection. Knowledge graph and Twin consume/represent state; they do not own it.
+2. Physical-control flow must remain: Observation → Representation → Analyze → Propose → Policy → Authorization → Consumer Boundary → State Authority → Device Adapter → Device → Observation.
+3. Relationship semantics never imply permission. The candidate predicate `CONTROLS` describes domain semantics only; it cannot serve as authorization.
+4. Event != Knowledge Truth. Projection needs explicit semantics for source, evidence level, time, validity, provenance and conflict.
+5. Provenance/evidence/temporal/conflict are first-class: device/provider reported data is not independently verified; AI inference is not fact; predicted state remains distinct from observed or committed state.
+6. Conflicting assertions remain explicit until a governed resolution; no automatic latest-wins or confidence-wins.
+7. Graph, vectors, RAG, cache, Twin and AI memory are derived/non-canonical; rebuild must preserve provenance and ontology/schema versions.
+8. Retrieved RAG context is untrusted data; prompt injection and hostile provider metadata cannot change policy or authority.
+9. Graph traversal and derived inference can disclose sensitive relationships even where individual stored fields appear innocuous; privacy filtering must apply to derived results too.
+10. MH-19 explicitly leaves graph-driven automation authorization to MH-20. AI/plugins/cloud/UI cannot use the graph as a privileged command path.
+11. Technology selection remains open. No graph/vector database, RAG runtime, cloud sync, ontology migration or production graph implementation is established by these documents.
+12. Acceptance criteria remain NOT ACCEPTED / NOT FROZEN; no tests or runtime scan were run in this audit.
+
+**Next safe action:** MH-20 Automation / Energy / Self-Healing Architecture. Preserve the separation between observation, prediction, recommendation, proposal, policy evaluation, authorization, command, commit, application and confirmation. MH-20 cannot derive authorization from a graph relation or AI prediction. Keep Baseline 1.0 and Baseline 2.0 separate unless an explicit reconciliation decision exists.
