@@ -14,7 +14,7 @@ The latest owner-provided blueprint establishes a new system-level framing: **As
 2. **Astra subsystem** — a candidate execution/queue/evidence component within Astro. Its current architecture and useful contracts may be reused selectively, but current runtime truth is NOT_PROVEN / BLOCKED; it is not assumed to be a qualified foundation.
 3. **MediaHub product plane** — MediaHub OS/Core, MediaHub State Authority and domain systems. Astro/Astra workers cannot acquire product-state mutation authority. Home Assistant Core remains authority only in the Smart Home domain.
 
-The existing Passport v3 and Verifiable Architecture Contract 01 are already useful documentary syntheses, but predate this new owner input. They do not yet explicitly model Astro as the umbrella, the four distinct hardware roles, reusable deployment bundles, the master-context distribution mechanism for MH-01…MH-23, or a repo-evaluation gate tailored to the proposed Astro components. These gaps should be recorded in a branch-only supplement rather than by silently replacing Baseline 2.0.
+At the start of this reconciliation, Passport v3 and Verifiable Architecture Contract 01 predated the new owner input and lacked explicit Astro umbrella scope, complete hardware-role separation, reusable deployment-package requirements, MH-01…MH-23 context packet requirements and an Astro-focused repository scorecard. During this pass those omissions were added to the working branch copies: Passport v3 latest read-back SHA 33ccb08dd098562f6ae9172044e205fc4810e336; Contract 01 latest read-back SHA 15c272e31a4276dccc6d7e0b15d1dc1ac836b49a. Both remain drafts, not canonical baselines. The remaining gates concern measured hardware facts, framework/lifecycle ownership, component qualification, implementation, independent review and owner acceptance. No baseline was silently replaced.
 
 ## 2. Authority and source precedence
 
@@ -226,7 +226,7 @@ These are source leads checked for capability and lifecycle signals, not a subst
 
 ## 13. Next controlled gates
 
-1. Incorporate this scope into the working Passport v3 and Verifiable Architecture Contract without promoting either to canonical status.
+1. Preserve the updated Passport v3 and Contract 01 as branch-only drafts; their Astro/hardware changes have been read back and indexed in the map.
 2. Build the source/branch inventory and exact node-profile inventory; distinguish user-reported equipment intent from independently measured facts.
 3. Define Astro public interfaces and choose one owner for task lifecycle, claims, evidence and qualification promotion.
 4. Run read-only component evaluation and scorecard first; any PoC tests, installation or qualification require a separate authorized step.
