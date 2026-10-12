@@ -4003,3 +4003,17 @@ The adapter contract lists three governance directions (existing independently P
 - Current-head CI metadata reviewed from GitHub API only: Astra Verify run `38226754511` = FAILURE at main HEAD; the job-step summary returned no steps and no cause is inferred. Queue supervisor `38273320112` remains QUEUED. Combined status metadata returned `pending` with zero status records. MH-22 G1–G9 and ASTRA G0–G11 are not promoted.
 - Additional blockers remain: P0-07 canonical-read/mutation bridge and caller/context provenance; P0-05 header/governance confirmation; MH-13 retention/deletion and restore semantics; MH-14 physical persistence not authorized; MH-15 target/hardware not qualified; MH-16 lifecycle evidence; MH-21 provider/egress acceptance; MH-23 compatibility/migration; exact candidate identity, independent verification and release/production acceptance.
 - No tests, qualification runner, workflow dispatch/rerun, logs/runtime/host inspection, credentials, model/provider calls, installation, migration, restore/deletion, infrastructure change, deployment or integration were performed. Matrix and contract remain PROPOSED / NOT ACCEPTED / NOT FROZEN.
+
+
+## 20.127 Live branch/qualification metadata recheck (2026-10-13)
+
+**Status:** read-only GitHub metadata refresh; no gate promoted.
+
+- Re-read bootstrap (blob `4ced4a9249591d218e8949f498c862fc21274b16`), map (pre-update blob `d1e1d3782786e2ff71cf7224bc72562881ebc582`), continuation checkpoint (blob `a4649649a0f5b8532724daf435b29b5b2672cd22`), owner decision register (blob `62831d23c5e6bbddc707ec5b197cffba57d6139a`), qualification wave 02 report (blob `d8739993ab48e277ca5dc0e0456e8c5d045a1348`) and matrix (pre-update blob `ec04a9c48aa057c009e90ccc2c09ce0392f3a7e3`).
+- `main` remains `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Live compare now reports documentation branch DIVERGED, **490 ahead / 2 behind**, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. This supersedes prior snapshots of 483/485 ahead; no merge/rebase is authorized or performed.
+- Current-head Astra Verify run `38226754511`: `completed/failure`; its job summary is `verify`, `completed/failure`, and the summary endpoint returns no step summaries. Failure cause remains **UNKNOWN**; no logs or runtime/host data inspected. Queue supervisor `38273320112` remains `queued`. Combined status returns zero records, not PASS.
+- Qualification wave 02 report remains the detailed delta record; project-wide verdict remains **NO-GO / NOT PROVEN**, ASTRA G0–G11 BLOCKED, and MH-22 G1–G9 not promotable. P0-07→P0-05 authorization/publication bridge remains blocked; P0-05 candidate/header reconciliation still requires explicit governance confirmation. No gate or domain status changed.
+- No tests, workflow dispatch/rerun/cancel, credentials, provider/model calls, runtime/host inspection, installation, infrastructure changes, migration, deployment, merge or rebase.
+- Crosswalk: Unified Traceability Matrix Section 44 (see matrix blob SHA recorded after update).
+
+**Next safe action:** continue read-only primary-source traceability for P0-07 caller/context provenance and the P0-04 transaction authorization boundary. Do not infer the failed job cause from the job conclusion alone and do not edit the protected P0-05 header without explicit governance confirmation.
