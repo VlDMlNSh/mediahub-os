@@ -3875,3 +3875,26 @@ Key current consequence: for P0-05 status, verify whether acceptance evidence co
 **Next evidence gate:** locate authoritative caller/context issuer and lifecycle source; trace principal identity → grant issuance → freshness/revocation → exact domain operation → independently authorized P0-05/P0-04 transaction. Continue D4 by verifying the data path and candidate non-mutating operations against primary contracts. Do not propose API shape before this evidence is resolved.
 
 No tests, code changes, runtime execution, qualification, deployment, migration, infrastructure change or merge were performed. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains non-normative and not accepted/frozen.
+
+## 20.120 P0-07 context issuer, canonical-read semantics and versioning evidence (2026-10-13)
+
+**Status:** SOURCE-BOUND / PARTIAL / GOVERNANCE OPEN. This pass deepened the Section 20.119 review using immutable source blobs; it does not choose an API bridge or authorize implementation.
+
+**Additional primary sources inspected:**
+- P0-04/P0-05 `AuthorizationContext` implementation blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`.
+- P0-07 authorization blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3` and operation boundary blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`.
+- P0-07 read/validate boundary blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`.
+- P0-07 adapter contract `22b8e1897e124578e66c8d619b3e8eaf41f69a88`, authorization reconciliation `04381ce6e223b8632ec15d17e475b56fe1ab8772`, mutation authority reconciliation `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`.
+- P0-05 v1.0 consumer contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`.
+- MH-23 decision log blob `90a2b8ef5727ac39023147d5b2d3c1540b5f5bbd` and compatibility/migration contract blob `2896d6851226a31fc971e05766d253c034d22246`.
+
+**Findings:**
+1. The inspected authorization context contains only `principal` and `capability`. The frozen dataclass does not itself establish issuer, authenticated source, issue/expiry time, revocation, audience, replay protection or exact-request binding. P0-07 grants are an explicit local `(principal, capability, operation)` allow-list, but the inspected sources do not establish who provisions grants or the trusted caller path. This is bounded to the inspected sources and does not prove that no external wrapper exists.
+2. P0-07 `read` remains observation-only. Its read/validate contract permits inspecting an explicitly supplied immutable domain object but explicitly avoids claiming that object is canonical persisted state until an authoritative source is defined. P0-05 v1.0 defines a separate canonical immutable `read`; no inspected source connects the two paths. Therefore the actual canonical-read path remains **NOT EVIDENCED**.
+3. P0-07 authorization + P0-07 policy ALLOW + independently accepted P0-04/P0-05 transaction authorization remain conjunctive. The adapter/reconciliation sources prohibit direct P0-04 invocation, capability translation/self-grant, a second transaction/version authority, and hidden retry/rebase/LWW. Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**.
+4. D7 versioning review: P0-05 v1.0 requires controlled architecture/security review, fresh execution evidence and governance acceptance for contract changes. MH-23 requires explicit version, compatibility analysis, migration/rollback constraints and governance approval for breaking changes; its SemVer decision is explicitly **CANDIDATE**, not canonical. D7 remains open; no versioning scheme or P0-05 v1.1 scope is promoted.
+5. Live compare re-confirmed documentation branch `docs/mediahub-chat-tree-map-20261012` is DIVERGED from `main`: 460 commits ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. `main` HEAD remains `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Compare output attributes the two main-only changes to `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`; no merge/rebase was performed.
+
+**Decision status:** D1/D2 remain at evidence-gathering/C; D4 canonical-read path remains unproven; D7 remains open. D3 still depends on trust/freshness/replay evidence, D5 on MH-06/MH-12/MH-13 review, and D6 on explicit governance confirmation before header/status correction. Matrix details: [Unified System Traceability Matrix, Section 38](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob SHA `88ab075ff7c7e0537f6d8b740269d9b519211f0d`.
+
+No tests, code changes, runtime execution, qualification, installation, deployment, migration, infrastructure change, merge or rebase were performed. P0-05 v1.1 remains non-normative/not accepted/not frozen.
