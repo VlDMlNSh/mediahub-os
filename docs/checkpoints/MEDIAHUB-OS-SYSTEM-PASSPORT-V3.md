@@ -46,6 +46,8 @@ MediaHub OS — единая local-first платформа для локаль�
 | Product Owner Decision Record 01 — D-06 | `docs/mediahub-chat-tree-map-20261012` | `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd` | TSI-12 remains a historical sub-aspect of TSI-07; does not accept the full TSI contract |
 | Batch 09 TSI crosswalk draft | `docs/mediahub-chat-tree-map-20261012` | `5e1b73c73c951638b549a30d569df2d1c7de8b31` | 17 provisional traceability labels; 3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT |
 | Batch 09 TSI Review 03 | `docs/mediahub-chat-tree-map-20261012` | `184a99ef85143c2ad3048dca5c8d85b17f8651a3` | Bounded source-anchored semantic consistency review; full TSI acceptance remains OPEN |
+| Batch 07 Local Cluster AI crosswalk | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-07-DRAFT.md` | `d6323442e3059dda091d0ad8b2a33fa91cad6ea0` | B1 §16; 11 provisional rows; 1 MAPPED / 9 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT |
+| Batch 07 semantic Review 02 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-07-REVIEW-02.md` | `0af17bf0db6f8b1c93d01aae3e8a8b5d8a0d9064` | One bounded documentary mapping correction; full Local Cluster AI semantic acceptance remains OPEN |
 
 ## 3. Authority, command and state model
 
@@ -228,6 +230,7 @@ ASTRA Gold current truth in the inspected main source reports `NOT_PROVEN / BLOC
 | P-20 | Purchased Mac Pro is described as the primary developer workstation while a future production Mac Pro is also named; physical-asset identity/transfer is unresolved | OPEN / ASSET ALLOCATION REQUIRED | Gap reconciliation §17 / AG-20, latest blob SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`; owner blueprint |
 | P-21 | B1 §15 document-assistance atom `B1-15-13` is incorrectly pointed to B2 §19 in historical Audit 01 | OPEN / DERIVED POINTER CORRECTION RECORDED | Gap reconciliation §18 / AG-21, blob SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`; B2 §§16/18 are the correct review target; historical Audit 01 remains unchanged |
 | P-22 | B1 §18 names a first-class Trusted Sources Intelligence Engine, while reviewed B2 §§16/18 provide related knowledge/provenance/evidence controls but not a complete named-subsystem lifecycle contract | OPEN / OWNER-GOVERNANCE SCOPE AND CONTRACT REQUIRED | Batch 09 draft SHA `5e1b73c73c951638b549a30d569df2d1c7de8b31`; Review 03 SHA `184a99ef85143c2ad3048dca5c8d85b17f8651a3`; D-06 SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; row 18 of the working matrix remains a section-level summary. Preserve TSI-12 → TSI-07; no accepted full TSI contract, final child IDs or canonical promotion |
+| P-23 | Batch 07 B1 §16 mapping originally conflated full contract completeness with text-level correspondence for trusted-cluster distributed compute | PARTIAL DOCUMENTARY MAPPING CORRECTION / SEMANTIC ACCEPTANCE OPEN | Batch 07 draft SHA `d6323442e3059dda091d0ad8b2a33fa91cad6ea0`; Review 02 SHA `0af17bf0db6f8b1c93d01aae3e8a8b5d8a0d9064`; B2 §10 lines 235–249 + §18 lines 382–392 support B1-16-01 / CLAI4-01 as documentary `MAPPED`. Distribution 1/9/1/0; workload contracts, named gateway, domain ownership and qualification remain OPEN.
 
 ## 11. Acceptance checklist for a future Passport v3 release
 - [ ] Resolve AG-20/P-20: distinguish the developer Mac Pro from the future production Mac Pro, or approve and evidence an explicit role transition with a replacement developer workstation and credential/data boundary.
@@ -281,3 +284,5 @@ The owner/governance acceptance package must verify at least:
 - 2026-10-12 — corrected active P-13 source pointer to current Gap Reconciliation SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`; preserved the former SHA only in older dated history. No architecture rule or baseline changed.
 
 - 2026-10-12 — added P-22 for the open B1 §18 Trusted Sources Intelligence Engine scope/contract disposition, linking D-06 and Batch 09 Review 03. The 17 traceability labels and 3/13/1/0 mapping distribution remain provisional; B1, B2, matrix and canonical backlog are unchanged.
+
+- 2026-10-12 — added P-23 after Batch 07 semantic Review 02. B1-16-01 / CLAI4-01 is recorded as bounded documentary `MAPPED` using B2 §10 and §18; workload-level Local Cluster AI semantics, gateway disposition, owner approval and qualification remain open. Updated the active Batch 07 draft pointer to `d6323442e3059dda091d0ad8b2a33fa91cad6ea0`; Review01 remains historical and Review02 is separate.
