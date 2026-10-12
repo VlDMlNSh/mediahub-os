@@ -1312,3 +1312,40 @@ On 2026-10-12, read-only GitHub API metadata and latest-commit endpoints were ch
 - B1, B2 and `main` were not modified; no tests, installation, qualification, soak, deployment, infrastructure or live-host action was executed.
 
 **Current disposition:** the gap report, Passport v3 and Contract 01 are internally source-linked at the latest read-back SHAs above. They remain working drafts; acceptance, component selection, per-node OS/runtime profiles, implementation and runtime qualification are separate unresolved gates.
+
+
+## 20.37 Jarvis master prompt and post-edit cross-reference verification
+
+**Session date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Map blob SHA before this entry:** `eeccbee5aa1c447808129b9ed355191566280542`
+
+### Latest verified working artifacts
+
+| Artifact | Path | Latest verified blob SHA | Status |
+|---|---|---|---|
+| Jarvis blueprint gap reconciliation (legacy path retains ASTRO) | `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md` | `406e33a480d195915f7ab8963836066988ee2fd0` | Working gap report; 19 scoped findings, including AG-19 per-node OS/install/recovery profile; 13 blueprint-specific documentary cycles plus follow-up source checks; not a new accepted baseline |
+| System Passport v3 | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` | `b25931bf6b88936c110dff6a3217d5edea2fed35` | Working integrated draft; P-19 OPEN |
+| Verifiable Architecture Contract 01 | `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` | `e3bd763284a7871cf6ded5e387e5ca5bbc3d7c4a` | Working contract draft; ARC-001…ARC-026 and V-01…V-19; not globally canonical |
+| Jarvis Global Master Prompt 01 | `docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md` | `769960b63482296e6400a71331d292f2e8be7197` | Working context-routing prompt for MH-01…MH-23; draft, not a new baseline |
+| Thirteen-cycle architecture audit | `docs/checkpoints/MEDIAHUB-OS-13-CYCLE-ARCHITECTURE-AUDIT-01.md` | `ec59b09306aaafd7fa86a67fd28c759d17d2b5b6` | Historical ledger of 13 source/contract documentary cycles, not runtime qualification |
+| MH-24 traceability matrix (working branch) | `docs/checkpoints/mediahub-mh24-traceability-matrix.md` | `73377891072bac3c739c44055ceeb0874154f64c` | Reconciled to accepted B2; implementation/qualification still open |
+| Functional Baseline 2.0 (`main`) | `docs/checkpoints/mediahub-functional-baseline-2.0.md` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Accepted canonical functional reference |
+| Functional Baseline 1.0 (`main`) | `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` | `9df4892ed0734050ac79732603d15bb414717310` | Preserved historical literal source; unchanged |
+| ASTRA generated current truth (`main`) | `docs/qualification/CURRENT-TRUTH.generated.md` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | `NOT_PROVEN / BLOCKED` in inspected snapshot |
+| ASTRA 24-hour runbook (`main`) | `docs/qualification/ASTRA-GOLD-24H-RUNBOOK.md` | `efb1c8af47578cbe14f8e788676d71ba4c665966` | Live three-node transport is not qualified in the inspected source |
+
+### Cross-reference verification
+
+A fresh GitHub read-back verified:
+- Passport v3 points to the current gap-report blob `406e33a480d195915f7ab8963836066988ee2fd0`.
+- Contract 01 points to the current gap-report blob `406e33a480d195915f7ab8963836066988ee2fd0` and Passport v3 blob `b25931bf6b88936c110dff6a3217d5edea2fed35`.
+- Jarvis Master Prompt 01 points to gap report `406e33a480d195915f7ab8963836066988ee2fd0`, Passport v3 `b25931bf6b88936c110dff6a3217d5edea2fed35`, and Contract 01 `e3bd763284a7871cf6ded5e387e5ca5bbc3d7c4a`.
+- The gap report contains AG-19, Passport v3 contains P-19, and Contract 01 contains ARC-026 / V-19.
+- B1 and B2 blobs still match the expected immutable/current refs above. ASTRA current truth remains `NOT_PROVEN / BLOCKED`; the runbook still reports the live three-node transport as unqualified.
+
+### Scope and limitations
+
+The recursive GitHub tree at commit `c53d463da39118bd5f88b784913f41d2d48be2aa` returned 833 entries, including 452 Markdown files, with `truncated=false`. This is a structural inventory snapshot; it does not mean every line in all files or all branches was semantically audited. Thirteen source/contract correction cycles are recorded in the dedicated audit; subsequent source follow-ups are recorded separately, not retroactively counted as runtime tests. The GitHub component-metadata snapshot is documentary and read-only; candidates remain unselected/unqualified.
+
+**No operational promotion:** B1, B2 and `main` remain unchanged. No tests, qualification, soak, installation, deployment, infrastructure change, live-host operation or merge to `main` was performed. The master prompt, Passport v3 and Contract 01 remain working drafts pending independent review and explicit owner/governance acceptance.
