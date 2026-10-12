@@ -51,7 +51,7 @@ In this document, MUST means a condition for conformance to this working contrac
 **Status:** authority split accepted; proposed future HA/persistence architecture is not active runtime authority.
 
 ### ARC-003 — ASTRA's authority is engineering-only
-**Rule:** A0-ASTRA coordinates engineering work and owns ASTRA's queue/claim/lease/evidence/gate state only. It is not MediaHub Product State Authority. Human authorization remains final for launch/release actions requiring it.
+**Rule:** A0-ASTRA coordinates engineering work and owns ASTRA's queue/claim/lease/evidence/gate state only. It is not MediaHub Product State Authority. No product object or domain mutation may treat A0 queue state as the canonical value of that product object. Human authorization remains final for launch/release actions requiring it.
 
 **Acceptance:** ASTRA role contracts distinguish engineering workflow state from product state; no task, worker, executor, provider or verifier can self-promote or create product authority.
 
