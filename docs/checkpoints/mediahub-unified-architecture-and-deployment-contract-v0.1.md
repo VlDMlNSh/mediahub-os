@@ -18,6 +18,12 @@ The repository already contains an accepted functional baseline, project map, do
 
 The map/checkpoint are the durable cross-chat navigation mechanism; they cannot automatically rewrite every separate ChatGPT conversation. Each architecture chat must read the live map and primary sources, work within its domain, and return decisions/evidence to GitHub. The map records navigation and status, not a substitute for primary contracts.
 
+
+
+## 1.1 Unified traceability matrix
+
+The companion cross-domain matrix is `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`, blob `7a5d63632adaff50be7abd2f0eaef6c8f883c68e` on `docs/mediahub-chat-tree-map-20261012`. It provides the MH-01…MH-25 responsibility matrix, Claude/local Ollama decision matrix, component admission crosswalk, hardware-independent deployment phases P00–P20, gates G0–G9, and required evidence schema. The matrix is a companion inventory/reconciliation draft, not a replacement for primary domain contracts, Baseline 2.0 or the canonical component manifest. Its status is NOT ACCEPTED / NOT FROZEN and it grants no implementation or deployment authority.
+
 ## 2. Precedence and evidence labels
 
 Resolve source conflicts explicitly in this order:
