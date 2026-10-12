@@ -1437,3 +1437,21 @@ A fresh cross-reference scan of the current Jarvis artifacts found stale *active
 **Scope:** source-reference metadata only. No architecture rules, acceptance gates, Baseline 1.0/2.0, canonical `main`, traceability matrix, ASTRA runtime, qualification status or hardware inventory was changed. No tests, installation, deployment, infrastructure or live-host operation was performed.
 
 **Next safe step:** independent review of the Jarvis working documents and resolution of P-19 / P-20 and other open owner/governance gates before any canonical promotion.
+
+
+## 20.40 Batch 04 atom-level crosswalk — B1 §5 MediaHub UI and Review 01
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `DOCUMENTARY DRAFT / STRUCTURAL AND SOURCE-ANCHOR REVIEW PASS / SEMANTIC OWNER ACCEPTANCE OPEN`
+
+| Artifact | Path | Blob SHA | Status |
+|---|---|---|---|
+| Atom-Level Crosswalk Batch 03 — B1 §5 UI | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-03-DRAFT.md` | `5345fb2a2407f1d4d674102be2a77d733cca7d7d` | 10 rows, 12 fields/row; working draft, no final child IDs |
+| Batch 03 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-03-REVIEW-01.md` | `be74d7b302fbcbacd45c0a1c5de6782d7d69d5c0` | Structural/source-anchor/status review PASS; semantic acceptance OPEN |
+
+**Sources:** B1 SHA `9df4892ed0734050ac79732603d15bb414717310`, §5 lines 104, 107–114 and 116; B2 SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Audit 01 SHA `d0938f14ed4110545118f075175dee3be412097b`; Proposal 02 SHA `7e737c8add9e3453062e9fc459790e7010e55689`; Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`.
+
+**Verified result:** 10/10 rows match Audit 01; 10/10 have the approved 12 fields; mapping distribution **0 MAPPED, 4 NOT_REVIEWED, 6 NO_DIRECT_COUNTERPART, 0 CONFLICT**. `NO_DIRECT_COUNTERPART` is limited to visual requirements Audit 01 marked `NOT-LOCATED` in the reviewed B2 clauses and does not prove global absence. **UI4-04 remains HOLD / CROSS-LINK-ONLY**: literal B1 line 114 is linked to UI4-02.f under Proposal 02; no unique additional requirement or child ID was created.
+
+**Next safe step:** continue with B1 §6 Smart Home as a separate atom-level batch. Do not promote this batch into the canonical backlog before complete collision review and owner/governance acceptance.
