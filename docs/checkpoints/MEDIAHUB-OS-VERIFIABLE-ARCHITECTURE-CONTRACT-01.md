@@ -5,7 +5,8 @@
 - **Status:** WORKING INTEGRATION CONTRACT / DRAFT — NOT A NEW CANONICAL BASELINE
 - **Use:** operative review/checklist for documentation and architecture work on this branch, subject to the source precedence and gates below.
 - **Not a grant of authority:** does not replace Baseline 2.0, alter Baseline 1.0, approve pending domain contracts, authorize implementation/deployment, or imply qualification/production acceptance.
-- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `43e9cd0c4e272cbe490ef6b0d308aca5b1fcda7e`.
+- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `c844b42f5b98a29ff3d883857fdaf4b0b6873768`.
+- **Current working inventory:** 29 ARC requirements / 22 verification checks; full architecture acceptance remains OPEN.
 - **Rule of evidence:** claim → source path → ref → blob SHA → exact scope/status → acceptance/evidence required → independent read-back.
 
 - **Current terminology:** the latest owner-provided umbrella name is **Jarvis**; an earlier same-day draft used “Astro”. Jarvis supersedes that draft label. The existing gap-report filename retains `ASTRO` for reference lineage; this does not rename ASTRA or assert deployed functionality.
@@ -236,9 +237,9 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** the owner-confirmed inventory and deployment manifest resolve same asset versus separate asset; the role/trust domain is unambiguous; any transition has approval, replacement capacity, credential/data separation, restore/rollback and post-deploy evidence bound to the release SHA. Until then the affected production profile is BLOCKED / ASSET ALLOCATION REQUIRED.
 
-**Sources:** owner-provided Jarvis blueprint (2026-10-12); gap reconciliation §17 / AG-20, current blob SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; Passport v3 / P-20, current blob SHA 43e9cd0c4e272cbe490ef6b0d308aca5b1fcda7e.
+**Sources:** owner-provided Jarvis blueprint (2026-10-12); gap reconciliation §17 / AG-20, current blob SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; Passport v3 / P-20, current blob SHA c844b42f5b98a29ff3d883857fdaf4b0b6873768.
 
-**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `43e9cd0c4e272cbe490ef6b0d308aca5b1fcda7e`; Jarvis gap reconciliation current SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`.
+**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `c844b42f5b98a29ff3d883857fdaf4b0b6873768`; Jarvis gap reconciliation current SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`.
 
 
 ### ARC-028 — B1↔B2 section pointers are semantically validated and historical audits remain immutable
@@ -249,9 +250,19 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Current finding:** Audit 01 row B1-15-13 links “Assist with documents” (B1 §15 line 246) to B2 §19. Pinned B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f defines §16 as Documents and Knowledge, §18 as AI architecture and §19 as Update / Recovery / Migration. Batch 06 working crosswalk SHA 9df96aca53d1004c33d45f038501dc6b7f52c0c9 correctly uses §§16/18 and preserves the historical Audit 01 mismatch. Review SHA 1edc976dd663ae16a1b61876a2dbbde9411be095 confirms the source headings. The mismatch is recorded as AG-21 / P-21; no B1/B2 semantic conflict is claimed.
 
-**Sources:** B1 specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main, SHA 9df4892ed0734050ac79732603d15bb414717310; B2 docs/checkpoints/mediahub-functional-baseline-2.0.md@main, SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; historical Audit 01 SHA d0938f14ed4110545118f075175dee3be412097b; current Gap Reconciliation SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; current Passport v3 SHA 43e9cd0c4e272cbe490ef6b0d308aca5b1fcda7e.
+**Sources:** B1 specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main, SHA 9df4892ed0734050ac79732603d15bb414717310; B2 docs/checkpoints/mediahub-functional-baseline-2.0.md@main, SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; historical Audit 01 SHA d0938f14ed4110545118f075175dee3be412097b; current Gap Reconciliation SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; current Passport v3 SHA c844b42f5b98a29ff3d883857fdaf4b0b6873768.
 
 **Status:** pointer correction structurally verified in a working crosswalk; semantic acceptance and broader Audit 01 cleanup remain OPEN.
+
+### ARC-029 — Trusted Sources scope and evidence semantics remain explicitly gated
+
+**Source basis:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, SHA `9df4892ed0734050ac79732603d15bb414717310`, §18 lines 297–309; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §16 lines 358–366 and §18 lines 380–394; Product Owner Decision Record 01 D-06 SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; Batch 09 crosswalk SHA `5e1b73c73c951638b549a30d569df2d1c7de8b31`; Review 03 SHA `184a99ef85143c2ad3048dca5c8d85b17f8651a3`.
+
+**Rule:** Keep the named Trusted Sources Intelligence Engine and its lifecycle contract in an explicitly open disposition until the owner/governance scope decision and accepted contract exist. B2's general search, provenance, evidence and source-verification clauses do not by themselves prove that the full named subsystem, source lifecycle or four-category information taxonomy is accepted. Do not infer global repository absence from `NO_DIRECT_COUNTERPART`, or implementation/qualification from `MAPPED`. Preserve the distinction between verified evidence, external source, inferred information and AI-generated information; AI-generated information must not automatically become verified evidence. Knowledge stores and AI remain non-authoritative. D-06 remains controlling for the working traceability relationship: TSI-07 is primary provenance and TSI-12 remains a historical sub-aspect, not an independent sibling obligation.
+
+**Acceptance:** record an explicit owner/governance decision to preserve, revise or defer the named TSI subsystem; if preserved, approve its owner, interfaces, allowed source scope, trust classification, retrieval/verification/provenance/comparison/change-detection/evidence workflows, information-state taxonomy, verified-knowledge lifecycle, failure/unknown handling and acceptance evidence. Independently review source anchors and each mapping. Do not mint final child IDs until lineage and collision checks are evidenced; do not promote the draft to the canonical backlog by this rule alone.
+
+**Status:** OPEN — the bounded Review 03 finds the current documentary mapping internally consistent, but full semantic acceptance, owner/scope disposition, accepted contract, implementation and qualification remain open.
 
 ## 3. Cross-domain system contract
 
@@ -318,6 +329,7 @@ Every component contract admitted to implementation MUST declare:
 | V-19 | Every target node has an explicit and compatible OS/boot/install/update/recovery profile | B2 §9 + per-node hardware manifest + supported-platform and rollback evidence | OPEN — profile decision and qualification not provided |
 | V-20 | Developer and production Mac Pro asset allocation is explicit | Owner-confirmed inventory + release/deployment manifest or approved role-transfer record; trust/credential, replacement, recovery and rollback evidence | OPEN — source text does not identify same vs separate physical unit |
 | V-21 | Crosswalk B1↔B2 section pointers are correct and historical traceability is preserved | Pinned B1/B2 SHAs, exact section headings and content, corrected working crosswalk, Audit 01 provenance, independent read-back | Structural/source-pointer review PASS for B1-15-13; semantic acceptance and broader Audit 01 cleanup OPEN |
+| V-22 | TSI subsystem scope, source lifecycle, information categories and no-automatic-verification rule are correctly dispositioned | Pinned B1 §18 lines 297–309; B2 §§16/18; D-06; Batch 09 draft and Review 03; explicit owner/governance decision and accepted TSI contract | Bounded documentary consistency PASS; 17 provisional labels; 3 `MAPPED` / 13 `NOT_REVIEWED` / 1 `NO_DIRECT_COUNTERPART` / 0 `CONFLICT`; full semantic and owner/contract acceptance OPEN; no final IDs or canonical promotion |
 
 ## 5. Definition of contract conformance
 
@@ -361,6 +373,7 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 16. Pin per-node OS/build/boot/install/update/recovery profiles under ARC-026; the named Apple hardware does not settle the OS choice.
 17. Resolve AG-20/P-20 and ARC-027/V-20: explicitly distinguish the developer Mac Pro from the future production Mac Pro, or approve and evidence a safe role transition.
 18. Resolve AG-21/P-21 and ARC-028/V-21 through a source-pointer closure register; preserve historical Audit 01, correct current derivative pointers, and do not promote semantic mapping without owner review.
+19. Resolve P-22 / ARC-029 / V-22: record the owner's disposition for the named Trusted Sources Intelligence Engine and approve its scope/owner/contract only if retained. Keep all Batch 09 mappings documentary/open, preserve D-06, and verify any future TSI implementation/qualification separately.
 
 ## 8. Change history
 
@@ -370,7 +383,7 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 - 2026-10-12 — repository tests/qualification/deployment were not run; main was not changed and no merge was performed.
 - 2026-10-12 — incorporated the owner-provided Jarvis umbrella direction, single-task-lifecycle rule, hardware trust/profile split, reproducible deployment requirements, public-repository scorecard and MH-01…MH-23 context-packet contract; companion gap report blob SHA b65ddaa2c91b18265cffd7be55fdefc7a0877db5.
 
-**Review coverage limitation:** an initial API tree snapshot at commit `58305d5a9a5b1593f15d2dfb0ff79838c1bddaec` contained 826 entries / 445 Markdown files. A later pre-update branch snapshot at commit `572dfade59961e2e58c9bcaac16d09d996b997b6` contained 846 entries (465 Markdown, 193 Python, 47 YAML and 54 JSON; `truncated=false`). These counts are dated inventory snapshots, not a current-head inventory. The reviewed set includes the governing baselines, key state/security/HA contracts, component-selection artifacts, selected traceability batches, and ASTRA qualification sources. The Batch 01–08 union review verified the structural completeness of 153/153 labels for B1 §§3–6, 12, 15–17; semantic acceptance remains OPEN. This was not a line-by-line semantic review of every file or branch, so whole-repository semantic completeness is not claimed.
+**Review coverage limitation:** an initial API tree snapshot at commit `58305d5a9a5b1593f15d2dfb0ff79838c1bddaec` contained 826 entries / 445 Markdown files. A later pre-update branch snapshot at commit `572dfade59961e2e58c9bcaac16d09d996b997b6` contained 846 entries (465 Markdown, 193 Python, 47 YAML and 54 JSON; `truncated=false`). These counts are dated inventory snapshots, not a current-head inventory. The reviewed set includes the governing baselines, key state/security/HA contracts, component-selection artifacts, selected traceability batches, and ASTRA qualification sources. The Batch 01–08 union review verified the structural completeness of 153/153 labels for B1 §§3–6, 12, 15–17; semantic acceptance remains OPEN. The bounded Batch 09 Review 03 covers B1 §18 lines 297–309 (17 provisional labels; 3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT); full TSI acceptance remains OPEN. Neither scope is an all-68-section semantic review. This was not a line-by-line semantic review of every file or branch, so whole-repository semantic completeness is not claimed.
 
 **Final status:** a source-backed, verifiable working contract for branch review. It is not yet a globally accepted system contract and does not imply that all project documents, runtime functionality or qualifications have been fully verified.
 
@@ -389,3 +402,5 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 - 2026-10-12 — refreshed active Gap Reconciliation references to SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95` after reconciling its current finding count to 21, and Passport v3 references to SHA `327089a0780e85a053c3d56c185c22d2e76857ae`. Older source-pointer values in dated history are retained. No B1/B2/main/runtime changes.
 
 - 2026-10-12 — refreshed active Passport v3 refs to current read-back SHA `b504a2e2065bf864578dccd79830c2a58b9099bf` after the P-13 source-pointer correction; historical pointer values are retained in dated entries.
+
+- 2026-10-12 — integrated the bounded TSI semantic result (Batch 09 Review 03 SHA `184a99ef85143c2ad3048dca5c8d85b17f8651a3`) as ARC-029 / V-22, refreshed active Passport pointers, and kept the full TSI contract and semantic acceptance OPEN. B1/B2, matrix, canonical backlog and `main` remain unchanged; no runtime test or qualification was run.
