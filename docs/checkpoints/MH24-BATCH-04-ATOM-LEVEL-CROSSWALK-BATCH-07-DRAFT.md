@@ -209,7 +209,7 @@
 2. Verify the 11 identifiers exactly match Audit 01 §16: B1-16-01…10 and B1-16-D01.
 3. Verify every record has all 12 approved fields in the approved order.
 4. Verify source anchors against B1 line 255, lines 258–265 and line 267; do not modify B1.
-5. Re-read B2 §§8–11, §18 and §24, including exact section headings; verify the gateway result is scoped to the reviewed clauses and not a global repository absence claim.
+5. Re-read B2 §§8–11, §18 and §25, including exact section headings; verify the gateway result is scoped to the reviewed clauses and not a global repository absence claim.
 6. Confirm distribution `0 MAPPED / 10 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT`.
 7. Keep B1-16-D01 labelled derived, not literal.
 8. Preserve historical CLAI4 parents and Audit 01 IDs; do not mint final child IDs.
