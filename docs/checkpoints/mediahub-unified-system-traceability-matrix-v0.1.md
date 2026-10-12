@@ -776,3 +776,10 @@ Owner decision: attempt option A (reuse an already independently P0-04-authorize
 - Option C is the next governance review path only. The new v1.1 candidate is non-normative and does not replace the DRAFT contract or alter the accepted implementation.
 - P0-07 publication remains **BLOCKED — GOVERNANCE/API GAP**.
 - No stable historical IDs were changed; new trace IDs are scoped to this matrix section and must be collision-checked against the global ID registry before any canonicalization. No tests/workflows/qualification/code changes were performed.
+
+
+## Owner decision traceability update — 2026-10-12
+
+The owner-selected working/governance directions for the 24-question architecture questionnaire are recorded in `docs/checkpoints/mediahub-owner-decisions-2026-10-12.md` on `docs/mediahub-chat-tree-map-20261012`. This is a decision-traceability record, not a change to the matrix's current status (**PROPOSED / NOT ACCEPTED / NOT FROZEN**) and not a replacement for primary domain contracts.
+
+P0-05/P0-07 remain blocked at the normative/API boundary: establish whether the acceptance record covers the exact P0-05 contract blob; inspect for a compliant existing P0-07→P0-05 path before proposing a governed extension; keep P0-05 v1.1 candidate non-normative and its D1–D7 open until individually resolved and reviewed. No implementation, tests, qualification or production authorization follows from the owner questionnaire answers alone.
