@@ -103,6 +103,7 @@ Use the current owner-reported role plan only as design intent until fresh hardw
 - Mac mini M2 at customer site — customer-isolated prototype; not a developer-cluster node and not a recipient of developer secrets/data by default;
 - current developer servers — test/staging only until separately reclassified; check host health, disk, identity and authorization before any operation;
 - future GPU/video server — optional expansion; not required for core correctness and not qualified by its hardware class.
+- B2 §9 says clean Mac mini/Mini PC installations use Linux as the baseline implementation direction; Apple-platform integrations are the adaptation where the base OS cannot be replaced. Hardware names alone do not settle the OS choice. Pin an approved OS/build, boot/install/update/recovery and rollback profile per node before creating a release bundle.
 
 The deployment objective is to roll out a previously built, verified, pinned package rather than assemble the system ad hoc on the target. A future release bundle must include source/build SHA, dependency locks and checksums, profile manifest, SBOM/license/provenance, secret references (not secret values), preflight, health/readiness criteria, backup/restore, rollback and post-deployment evidence bound to the release SHA.
 
@@ -140,10 +141,12 @@ Return:
 - B1: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`, `main`, SHA `9df4892ed0734050ac79732603d15bb414717310`.
 - B2: `docs/checkpoints/mediahub-functional-baseline-2.0.md`, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 - MH-24 report: `docs/checkpoints/mediahub-mh24-reconciliation-report.md`, `main`, SHA `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`.
-- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `5c04cad58dfb56590de5bfcb7e782328ac6e1277`.
+- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `66ff77cc1fe503aead977ed1eb16a22ce8e87762`.
 - Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch; fetch its current SHA from the map before use.
-- Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `cf6e9a55825fe28ce3e9e2424dfb792a58e6254d`. The path name is retained for provenance even though the current working label is Jarvis.
+- Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `09f2e2094626fc18883a6ad9481da2739df64e80`. The path name is retained for provenance even though the current working label is Jarvis.
 - ASTRA current truth: `docs/qualification/CURRENT-TRUTH.generated.md`, `main`, SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: `NOT_PROVEN / BLOCKED`; all listed gates are blocked in that generated snapshot.
 - ASTRA live runbook: `docs/qualification/ASTRA-GOLD-24H-RUNBOOK.md`, `main`, SHA `efb1c8af47578cbe14f8e788676d71ba4c665966`: live three-node transport is not qualified in that source.
 
 **Final instruction:** retrieve before asserting. Preserve authority and history. Make small, reversible, source-anchored changes. Read the results back from GitHub. Leave unresolved decisions visible.
+
+- 2026-10-12 follow-up: adds the per-node OS/boot/install/update/recovery profile gate from B2 §9 and updates the Passport, contract and gap-report source pointers to the latest read-backs.
