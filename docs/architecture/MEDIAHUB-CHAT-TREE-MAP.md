@@ -1775,8 +1775,8 @@ Constraints preserved: no canonical backlog or traceability matrix changed; no t
 **Artifact:** docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md
 **Current read-back blob SHA:** 7b163aa5f222029d27b5d32d0450f8a9c08c21ba
 
-An active traceability summary was added to the master prompt for the Batch 01–08 atom-level crosswalk union review (SHA ${actual.union}). The prompt now records the verified 153/153 Audit 01 label union, approved 12-field schema, status distribution 23 MAPPED / 119 NOT_REVIEWED / 11 NO_DIRECT_COUNTERPART / 0 CONFLICT, and the continued OPEN state of semantic acceptance and canonical-backlog promotion.
+An active traceability summary was added to the master prompt for the Batch 01–08 atom-level crosswalk union review (SHA e9ccafef5a3cca75f41e84bf3c4397dcc2285fd4). The prompt now records the verified 153/153 Audit 01 label union, approved 12-field schema, status distribution 23 MAPPED / 119 NOT_REVIEWED / 11 NO_DIRECT_COUNTERPART / 0 CONFLICT, and the continued OPEN state of semantic acceptance and canonical-backlog promotion.
 
-**Current source set read back:** Gap Reconciliation SHA ${actual.gap}; Passport v3 SHA ${actual.passport}; Verifiable Architecture Contract 01 SHA ${actual.contract}; Batch 01–08 union review SHA ${actual.union}. Active Passport/Contract/Gap pointers match those current sources.
+**Current source set read back:** Gap Reconciliation SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; Passport v3 SHA b504a2e2065bf864578dccd79830c2a58b9099bf; Verifiable Architecture Contract 01 SHA 8ccfaecca11a12a630f7c004540cef7dc83354c2; Batch 01–08 union review SHA e9ccafef5a3cca75f41e84bf3c4397dcc2285fd4. Active Passport/Contract/Gap pointers match those current sources.
 
 **Boundary:** this changes context routing only. It does not accept Passport v3 or Contract 01 as a new canonical baseline, change B1/B2, promote the crosswalk, execute tests/qualification, install software, operate infrastructure, deploy or merge to main.
