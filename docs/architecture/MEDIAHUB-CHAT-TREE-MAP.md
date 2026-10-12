@@ -2693,3 +2693,44 @@ The prior 20.75 next-step wording “MH-04 State Authority inventory” is impre
 9. MH-11 stage closure remains PARTIALLY_CLOSED per the existing map/checkpoint; this pass does not accept/freeze the domain.
 
 **Next safe action:** proceed to MH-12 Security / Trust using the current map's primary-source route. Reconcile MH-11's open security, audit, privacy and observer-isolation questions with MH-12; keep MH-11 PROPOSED / NOT ACCEPTED and do not run tests/qualification or alter runtime/infrastructure without explicit authorization.
+
+## 20.84 MH-12 Security / Trust — primary-source reconciliation; governance acceptance open
+
+**Date:** 2026-10-12  
+**Status:** `ARCHITECTURE COMPLETE / GOVERNANCE REVIEW REQUIRED`; implementation authorization NOT GRANTED; production qualification NOT GRANTED; freeze NOT GRANTED. This was a read-only source review except for this map entry.
+
+### Primary sources and confirmed refs
+
+| Source | Ref / SHA | Confirmed fact |
+|---|---|---|
+| Current inspected main | `main`; HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` | Bounded current-main source inspection anchor. Do not treat historical source notes as current revision evidence. |
+| MH-12 master prompt | `docs/architecture/MH-12-CHAT-MASTER-PROMPT.md`; blob `dea79d709fea274cc5fd08cca4f0d6aec2ad6d93` | This is an architecture authority workspace, not implementation. Requires Evidence → Canonical State → Decision → Architecture → Implementation Boundary → Verification → Governance Acceptance → Freeze. |
+| Reverse master prompt | `docs/architecture/MH-12-REVERSE-MASTER-PROMPT.md`; blob `2e24285fc9509c9f13bbf65c0f3033c85b0f8748` | Development must stop if required decisions remain UNKNOWN/PROPOSED; unauthorized, malformed, expired, revoked, replayed, wrongly scoped, ambiguous or forged inputs must not reach canonical mutation. |
+| Security architecture | `docs/architecture/MH-12-security-architecture.md`; blob `cf4ebfd5bf471ca676f075c51d3a24906504e490` | Status ARCHITECTURE COMPLETE / GOVERNANCE REVIEW REQUIRED; security governs identity, trust, capability, authorization, policy, boundaries, secrets and containment but not canonical state mutation. |
+| Acceptance criteria | `docs/architecture/MH-12-acceptance-criteria.md`; blob `40f37f1600c4730e622480d57bd492fa67f9ca4b` | Acceptance requires evidence across security domains and traceability to MH-01…MH-11 plus P0-03…P0-07 compatibility; implementation not authorized, production not qualified and freeze not granted. |
+| Evidence register | `docs/architecture/MH-12-evidence-register.md`; blob `a16485de20fd4a98525573a12c0b085cb012f665` | Concrete technology, deployment and hardware claims remain REQUIRES VERIFICATION unless separately evidenced. |
+| Decision log | `docs/architecture/MH-12-decision-log.md`; blob `8b40f00467b459011ffa5d1f8a9e3fc0a2832ee5` | DL-01…DL-06 preserve security enforcement vs observability, sole State Authority, distinct identity/authentication/trust/capability/authorization/policy and non-authority of AI/plugins/cloud. |
+| Contradiction register | `docs/architecture/MH-12-contradiction-register.md`; blob `4b3c101317330e47236937b17344299df53deee9` | C-01 security authorization vs P0-05 transaction authorization REQUIRES VERIFICATION; C-02 P0-07 vs P0-04 transaction authorization BLOCKED by API/authorization bridge; recovery, update and diagnostics require separate gates. |
+| Dependency map | `docs/architecture/MH-12-dependency-map.md`; blob `968e179d4bb334043ed0261bbb210f5b15dfaa84` | Upstream MH-01…MH-11; downstream MH-13 privacy/data governance. Protected P0-03…P0-06; P0-07 has known authorization publication gap. |
+| Threat model | `docs/architecture/MH-12-threat-model.md`; blob `b4d673787d76cb8e39b4e4ce183270657355131c` | Threat domains include compromised services/plugins/AI/devices, stolen sessions, replay, confused deputy, escalation, secret theft, malicious update/dependency/model/RAG, cloud/network compromise, log tampering, recovery abuse, rollback, DoS and exfiltration. Missing evidence means REQUIRES VERIFICATION. |
+| Security invariants | `docs/architecture/MH-12-security-invariants.md`; blob `0609be9c3420070434014dad4529e4ccd46b0996` | SI-01…SI-30 are proposed/ready for governance review, not equivalent to accepted/frozen controls. |
+| Trust model | `docs/architecture/MH-12-trust-model.md`; blob `8a5d756e97ce75e1f53015ac5c34015108030f97` | Trust is explicit, contextual and revocable; locality, VPN, cloud, signature, installation, discovery or authentication do not imply unrestricted trust. |
+| Plugin security | `docs/architecture/MH-12-plugin-security.md`; blob `f4f560b6d0c8a210389207cf14c74c1ec16044f8` | Plugin is an extension, not authority; signature is provenance/integrity evidence, not runtime trust; installation is not admission. |
+| Unknowns | `docs/architecture/MH-12-unknowns.md`; blob `97f08824fb858dd4506876729ae37d610140c3e8` | Authentication stack, authorization implementation, capability representation, PKI, certificate lifecycle, secret storage, hardware roots, network topology, recovery/update roots, cloud identity, threat likelihood and deployment constraints remain unknown. |
+| MH-06 health/readiness contract | `docs/architecture/MH-06-health-readiness.md`; blob `895f0bb2dec39c989d2dca345afeefde4cb70626` | Semantic contract is GOVERNANCE ACCEPTED, but implementation authorization NO. Health is observation-only; readiness is operation-scoped; UNKNOWN never becomes READY automatically. |
+| Bounded negative lookup | Requested `docs/architecture/MH-12-security-model.md`, `docs/architecture/MH-13-privacy-reference.md`, `docs/architecture/MH-07-configuration-policy.md` returned 404 on main | These exact paths were not found on the inspected main ref. This is not proof of global absence and does not authorize copying or changing documents. |
+
+### Reconciled invariants
+
+1. **State Authority remains the sole canonical mutation authority.** Security can deny, constrain, quarantine and enforce authorization; it cannot become a second state authority.
+2. Identity ≠ credential ≠ session ≠ capability ≠ authorization. Authentication answers who is presenting a context; it does not authorize an operation.
+3. Trust is explicit, contextual, revocable and operation-scoped. Localhost, LAN, VPN, administrator status, package signature, device discovery, AI origin or cloud presence do not grant authorization.
+4. Capabilities must be principal-, issuer-, operation-, target-, scope-, constraint-, provenance-, lifetime- and revocation-bound. They cannot self-grant or silently expand.
+5. Human privilege is not automatically inherited by a service. Delegation must be explicit, bounded, auditable and revocable.
+6. AI, plugins, cloud services, diagnostics, observability, update and recovery are separate untrusted or bounded principals; none may bypass the Consumer Boundary or silently elevate privilege.
+7. Malformed, expired, revoked, replayed, forged, wrongly scoped or ambiguous security inputs fail closed and must not reach canonical mutation.
+8. **P0-07→P0-05/P0-04 authorization/publication gap remains BLOCKED.** Do not resolve it by editing protected P0-03…P0-06 baselines or inventing an implicit bridge.
+9. The C-01 relationship between MH-12 security authorization and P0-05 transaction authorization remains REQUIRES VERIFICATION; the distinction must be explicitly reconciled, not assumed to be interchangeable.
+10. MH-12's architecture-complete label does not mean governance acceptance, implementation authorization, production qualification or freeze. No test, qualification, code, infrastructure, or deployment action occurred in this pass.
+
+**Next safe action:** continue with MH-13 Privacy / Data Governance via current map navigation and primary sources. Reconcile telemetry, AI/RAG, cloud egress, secrets and retention with MH-12; keep MH-12 at GOVERNANCE REVIEW REQUIRED until explicit approval and required evidence exist.
