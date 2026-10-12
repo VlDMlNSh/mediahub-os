@@ -833,3 +833,20 @@ Baseline 2.0 заявляет, что согласован с пользоват
 Backlog явно сохраняет B1/B2 раздельными, запрещает считать literal omission глобальным отсутствием, фиксирует расхождение matrix header `RECONCILIATION CANDIDATE` и принятых B2/MH-24 документов, а также unresolved R4 commit provenance. Это **не полная атомизация всех 68 секций**: §§1–2 и 47–68, а также неотмеченные кандидатные требования требуют следующих проходов.
 
 **Ограничения:** baseline и matrix не изменялись; governance statuses не менялись; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись. Никакой item не объявлен implemented или qualified.
+
+
+### 20.12 Создан backlog атомарной трассировки MH-24 — Batch 02
+
+**Артефакт:** `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-02.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `faeaed0ef44c0bcae7444afcb42c80c1b7758cd0`  
+**Read-back blob SHA:** `b79651d3768326fd526170d7f602b1cd97e13b6a`  
+**Статус:** `OPEN BACKLOG / DOCUMENTARY PLANNING ONLY`.
+
+Охват: Baseline 1.0 §§1–2 и §§47–56. После чтения первичных B1/B2, MH-24 matrix/reconciliation и релевантных MH-10/MH-12/MH-20/MH-22 prompts зарегистрированы **18 атомарных items AT2-01…AT2-18** и **5 сквозных вопросов X2-01…X2-05**.
+
+Основные темы: точный перечень доменов и слоёв; запрет изменения R4 и provenance; advisory-only статус автономных AI/dev agents; воспроизводимость изменений; разграничение developer/mobile surfaces; граница корпоративного Cloud Development Environment и пользовательских данных; точная системная/AI цепочка; local iPad Core против Remote Mobile; Smart Home authority chain; состав Cloud Development AI, Trusted Sources Intelligence Engine и AI Human Clone; UX-disclosure; enforcement архитектурных запретов. Для каждого пункта зафиксированы B1/B2 соответствия или пробелы, зависимости, требуемые closure artifacts и открытый статус.
+
+Проверка точных путей выявила 404 для `docs/architecture/MH-03-master-prompt.md`, `MH-21-master-prompt.md`, `MH-09-acceptance-criteria.md` и `MH-11-acceptance-criteria.md` на `main`; карта указывает альтернативные пути/ветки для части пакетов. Это не считается доказательством глобального отсутствия. Baseline 1.0, Baseline 2.0 и matrix не изменялись; governance status не менялся; тесты/qualification, installation, deployment, infrastructure/production actions и merge в `main` не выполнялись.
+
+Следующий проход: атомарно разобрать §§57–68 по точным формулировкам B1 и соответствующим B2/MH-22/MH-23 источникам.
