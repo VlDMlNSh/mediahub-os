@@ -76,12 +76,24 @@ This checkpoint authorizes read-only architecture/evidence review and narrowly s
 - Component choices retain manifest gates. No component was installed/activated; no tests/workflows/qualification, migration/restore, runtime/host inspection, infrastructure change, deployment, production promotion or merge occurred.
 - Clarification: project map and GitHub domain records are a cross-chat source of truth, but they do not automatically rewrite every separate ChatGPT chat. Domain chats must individually consume current sources and return evidence/decisions.
 
+## Latest verified continuation — Claude-centered Jarvis + local Ollama direction (2026-10-12)
+
+- Owner direction: Jarvis should use Claude-centered reasoning/engineering workflows together with local Ollama inference capability.
+- Technical correction: Claude models are not served by Ollama. Architecture must represent an approved external Claude interface and a distinct local Ollama adapter/model runtime. A specific Claude tool's compatibility with an Ollama endpoint must be independently verified.
+- Unified contract updated at `docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md`; commit `b1fa900d8732f39d49242fccf8976d0e1a522aa1`; read-back blob SHA `dfc3af0341e797a94d65147b8dbff96bcf8c4743`.
+- Map section `20.98` added and verified. Map commit `91aaba0ff7066b6fb48af982c3f0fbcd26ae1be4`; read-back blob SHA `4064154ac5814eaf07d4cab2725df46409cf62b0`.
+- Status remains `OWNER DIRECTION RECORDED / DESIGN PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED / NOT ACCEPTED AS GLOBAL BASELINE`. No component install, provider/API call, credentials, tests, qualification, runtime change or infrastructure change occurred.
+- Architecture proposal: distinct Claude and Ollama adapters behind Jarvis routing/orchestration; local-first when capable; no silent local-to-cloud/provider fallback; task/data classification and egress policy; bounded tool/worktree permissions; model outputs treated as untrusted data; no change to MediaHub State Authority.
+- Open choices: exact Claude access mode; Claude-as-operator plus Ollama-as-local tool versus policy-based per-task router; exact host/OS/Ollama/model artifacts; licensing/provenance/performance; fallback/privacy/retention; tool sandbox/audit; MH-10/MH-21 reconciliation and MH-22 qualification.
+- Baseline 2.0 remains canonical and unchanged. MH-10 remains proposed/not accepted/not frozen; MH-21 remains not accepted/not frozen; P0-07 and MH-22 gates unchanged.
+
 ## Exact next action for /next
 
 1. Re-read bootstrap, map and checkpoint from `docs/mediahub-chat-tree-map-20261012`; verify live blob SHAs and current `main HEAD`.
-2. Perform a revision-bound crosswalk of the new draft against primary sources for MH-15, MH-16, MH-21, the canonical component manifest and the MH-24 68-section traceability matrix. Keep proposal/decision/implementation/evidence statuses separate.
-3. Record exact paths, refs, blob SHAs, dependencies, conflicts, freshness, unknowns and owner decisions needed. Do not alter Baseline 2.0 or treat the draft as accepted.
-4. No installation, tests/qualification, self-hosted workflow dispatch, runtime/host inspection, persistence activation, migration/restore, infrastructure changes, deployment, production promotion or merge/cherry-pick without separate explicit authorization.
-5. Update map/checkpoint only for confirmed material facts and verify both by GitHub read-back.
+2. Conduct read-only, source-bound compatibility review for the two viable shapes: (A) Claude as external engineering operator with Ollama as separate local inference/tool endpoint; (B) a Jarvis policy router selecting Claude or Ollama per task. Compare supported interfaces, data-egress semantics, credentials, tool access, cancellation, audit, and failure behavior. Use official primary sources and the repository's MH-10/MH-21 contracts.
+3. Recommend one shape but preserve it as PROPOSED until explicit owner/governance acceptance; do not assume Claude itself runs inside Ollama.
+4. Define an exact hardware/software/model inventory only from confirmed target data. Mac mini 2011 remains optional legacy/compatibility profile, not assumed suitable for modern local models.
+5. No installation, API/provider invocation, credential use, tests/qualification, runtime/host inspection or change, network/cloud changes, deployment or merge without separate explicit authorization.
+6. Record confirmed facts and source URLs/SHAs in the map/checkpoint and verify GitHub read-back.
 
 Resume phrase: `/next`. Always begin by re-reading the live bootstrap and map.
