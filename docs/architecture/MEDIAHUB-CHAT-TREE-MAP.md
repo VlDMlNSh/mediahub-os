@@ -922,7 +922,7 @@ Batch 04 закрывает структурный пробел в anchor covera
 **Артефакт:** `docs/checkpoints/MH24-B1-SECTIONS-03-06-12-15-17-CLAUSE-COVERAGE-AUDIT-01.md`  
 **Ref:** `docs/mediahub-chat-tree-map-20261012`  
 **Create commit:** `2864fa53088c157895489344650c20d7519a01d7`  
-**Read-back blob SHA:** `2accb2de7311dfc2b6a10573df2d3d8b88535342`  
+**Read-back blob SHA:** `d0938f14ed4110545118f075175dee3be412097b`  
 **Статус:** `DOCUMENTARY AUDIT / OPEN — NO BASELINE OR GOVERNANCE CHANGE`.
 
 Выполнено построчное разложение буквального B1 из `main` SHA `9df4892ed0734050ac79732603d15bb414717310` на **153 уникальных clause/control ID** для восьми разделов. Отдельно размечены буквальные source atoms и derived controls, в том числе discovery≠trust, точный порядок compatibility/offering, обязательность user confirmation, audit result, AI uncertainty/provenance, node qualification, provider fallback и cloud-failure continuity. Все 153 строки подтверждены повторным чтением файла; это структурный register, а не формальное доказательство полноты и не закрытие требований.
