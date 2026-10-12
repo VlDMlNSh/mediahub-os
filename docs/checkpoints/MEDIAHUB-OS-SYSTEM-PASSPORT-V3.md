@@ -42,7 +42,7 @@ MediaHub OS — единая local-first платформа для локаль�
 | ASTRA launch/qualification schema, annotated working copy | `docs/mediahub-chat-tree-map-20261012` | `0b86b07dfa916d4485ce1f8f54d19de136d98491` | Qualification/lifecycle schema; clarified ASTRA internal state scope |
 | ASTRA execution blueprint, annotated working copy | `docs/mediahub-chat-tree-map-20261012` | `9f199ba8e872d5ae188fcdac9635a53f16973534` | Roles and execution gates; clarified ASTRA internal state scope |
 | Generated ASTRA current truth | `main` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | Current reported result: `NOT_PROVEN / BLOCKED` |
-| Jarvis blueprint gap reconciliation (legacy file name includes ASTRO) | `docs/mediahub-chat-tree-map-20261012` | `8495c9436b967bd77afae57ccb1e42959ab86a56` | Latest owner-provided Jarvis scope, 20 scoped findings including AG-20 asset allocation, component candidates and 13 documentary review cycles |
+| Jarvis blueprint gap reconciliation (legacy file name includes ASTRO) | `docs/mediahub-chat-tree-map-20261012` | `fee9977fee0a5efa79ec48c652544d2c4a0d665f` | Latest owner-provided Jarvis scope, 20 scoped findings including AG-20 asset allocation, component candidates and 13 documentary review cycles |
 
 ## 3. Authority, command and state model
 
@@ -222,10 +222,12 @@ ASTRA Gold current truth in the inspected main source reports `NOT_PROVEN / BLOC
 | P-17 | Reusable-repository scorecard and pinned release bundle are not yet implementation artifacts | DESIGN REQUIREMENT / OPEN | Exact pins, license/SBOM/security, compatibility, preflight, rollback and post-install evidence required |
 | P-18 | Public multi-agent repositories are candidate sources only | NOT SELECTED / NOT QUALIFIED | New review document lists Temporal, LangGraph, Microsoft Agent Framework, Pydantic AI, OpenHands and AutoGen status; no component installed or qualified |
 | P-19 | Target OS/build/boot/install/update/recovery profiles are not pinned for the named Apple hardware roles | OPEN / PLATFORM PROFILE REQUIRED | B2 §9, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; gap reconciliation §15, latest blob SHA `8495c9436b967bd77afae57ccb1e42959ab86a56` |
-| P-20 | Purchased Mac Pro is described as the primary developer workstation while a future production Mac Pro is also named; physical-asset identity/transfer is unresolved | OPEN / ASSET ALLOCATION REQUIRED | Gap reconciliation §17 / AG-20, latest blob SHA `8495c9436b967bd77afae57ccb1e42959ab86a56`; owner blueprint |
+| P-20 | Purchased Mac Pro is described as the primary developer workstation while a future production Mac Pro is also named; physical-asset identity/transfer is unresolved | OPEN / ASSET ALLOCATION REQUIRED | Gap reconciliation §17 / AG-20, latest blob SHA `fee9977fee0a5efa79ec48c652544d2c4a0d665f`; owner blueprint |
+| P-21 | B1 §15 document-assistance atom `B1-15-13` is incorrectly pointed to B2 §19 in historical Audit 01 | OPEN / DERIVED POINTER CORRECTION RECORDED | Gap reconciliation §18 / AG-21, blob SHA `fee9977fee0a5efa79ec48c652544d2c4a0d665f`; B2 §§16/18 are the correct review target; historical Audit 01 remains unchanged |
 
 ## 11. Acceptance checklist for a future Passport v3 release
 - [ ] Resolve AG-20/P-20: distinguish the developer Mac Pro from the future production Mac Pro, or approve and evidence an explicit role transition with a replacement developer workstation and credential/data boundary.
+- [ ] Validate all derived B1↔B2 section pointers against the pinned source headings; record corrections in current working crosswalks while preserving historical Audit 01 provenance.
 
 The owner/governance acceptance package must verify at least:
 - [ ] No semantic contradiction with accepted B2.
@@ -262,3 +264,6 @@ The owner/governance acceptance package must verify at least:
 | 2026-10-12 | Added a read-only GitHub API metadata snapshot for seven orchestration/agent candidates to gap-report §16; recorded current commit/license/activity observations without treating stars or activity as qualification. Updated all gap-report references to blob SHA `406e33a480d195915f7ab8963836066988ee2fd0`; no candidate selected and no runtime or baseline changed. |
 
 - 2026-10-12 — added P-20 after cross-reading the owner blueprint and the working hardware matrix: developer and future production Mac Pro asset identity/role transfer remains unresolved. Updated current AG-20 gap-report pointers to SHA `8495c9436b967bd77afae57ccb1e42959ab86a56`; no host or baseline changed.
+
+
+- 2026-10-12 — added P-21 for the confirmed B1-15-13/B2 §19 cross-reference defect; updated active AG-20/P-20 report pointers to current Gap Reconciliation SHA `fee9977fee0a5efa79ec48c652544d2c4a0d665f`. Audit 01 and both baselines remain immutable; this follow-up is not an added qualification or a 14th cycle.
