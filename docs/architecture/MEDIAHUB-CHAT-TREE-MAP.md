@@ -3548,3 +3548,15 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Next safe action:** resolve canonical component manifest and P0-07 through the map's precise source/branch navigation; then continue requirement-by-requirement crosswalk, preserving unresolved status and not changing Baseline 2.0.
 
 - **Latest continuation checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `d5b6d6a20902da5dd9463c18e03ecbafaf11229c`; blob SHA `dbd023c0b5b067112b5eca5e6e9afbd3a609e65e` (read-back required on next resume).
+
+
+## 20.102 Component admission + P0-07 — source path resolved by immutable blob (2026-10-12)
+
+- **Unified matrix update:** `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`, commit `8e0d042735a6b3f54881f88838c190b9e5a43f10`, blob `d1016561f7b45952e911f61b9f701c8f6b4ab3e1` (read-back required before relying on it in a later session). Added COMPONENT-ADMIT-01/02 and P007-READ-01, P007-VALIDATE-01, P007-POLICY-01.
+- **Canonical component manifest exact path:** `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` on `main`; blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`, content read and matches the map's existing blob pointer. Status `CANONICAL DEVELOPMENT INPUT`; component selection is closed, implementation remains open, production admission is qualification-gated.
+- **P0-07 source:** exact blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f` retrieved and read. Its mapped path `docs/architecture/P0-07-read-validate-boundary.md` did not resolve through Contents API; therefore content is verified by immutable blob SHA, but current path existence on `main` is not established.
+- **Confirmed constraints:** P0-07 reads and policy evaluation are observation-only; deterministic bounded validation rejects malformed/oversized/secret-bearing/executable-policy inputs and unauthorized scope expansion; no alternate persistence/cache/checkpoint/recovery/State Authority; `ConfigurationPolicyOperationBoundary` does not publish state while the P0-07 → P0-05 mutation authorization gap remains unresolved.
+- **Component gate:** target/future-gated components require immutable provenance, security and adapter review, functional/negative/failure/degraded-mode evidence, recovery/rollback where applicable, benchmarks, independent qualification and a replacement plan. Manifest presence does not imply production readiness.
+- **Current `main HEAD`:** `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, retrieved from the GitHub commits endpoint in this pass. Baseline 2.0 remains accepted/canonical/immutable; Baseline 1.0 remains historical provenance.
+- **No execution or deployment:** no tests, qualification, provider/model calls, credentials, installation, host inspection, infrastructure changes, deployment, migration or merge.
+- **Next safe action:** continue crosswalk over MH-14/MH-15/MH-16 lifecycle/persistence constraints and map each to exact source revisions, responsible authority, and required evidence. Keep all unresolved items explicitly open.
