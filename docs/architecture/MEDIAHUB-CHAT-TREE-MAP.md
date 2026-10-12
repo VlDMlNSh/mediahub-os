@@ -3995,7 +3995,7 @@ The adapter contract lists three governance directions (existing independently P
 **Status:** documentary evidence/contract reconciliation only. Project-wide production qualification remains **NO-GO / NOT PROVEN**. No qualification gate, domain, release or production stage is promoted.
 
 - Full report: [Project-wide qualification evidence audit, wave 02](../checkpoints/mediahub-project-wide-qualification-evidence-audit-wave-02-2026-10-13.md), blob `d8739993ab48e277ca5dc0e0456e8c5d045a1348`.
-- Unified traceability matrix Section 43: blob `65ea4783ad59394ced9cc0932f8f2dcfe16d9dda`; draft-local gate identifiers are `MH-UTM-G0`…`MH-UTM-G9`.
+- Unified traceability matrix Section 43: latest blob `ec04a9c48aa057c009e90ccc2c09ce0392f3a7e3`; draft-local gate identifiers are `MH-UTM-G0`…`MH-UTM-G9`.
 - Unified architecture/deployment contract: blob `1057776ca9192b307a4e6de72db5d12cdbcc1a39`; its proposed gate matrix uses distinct draft-local identifiers `MH-UDC-G0`…`MH-UDC-G9`.
 - Working bootstrap instruction: blob `4ced4a9249591d218e8949f498c862fc21274b16`; stale statement that B1 remains the current passport was corrected to make B2 the current canonical functional reference and B1 historical provenance. Neither baseline was edited.
 - Baseline 2.0 on `main`: blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, ACCEPTED / CANONICAL / IMMUTABLE. ASTRA generated current truth: blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`, G0–G11 BLOCKED / overall NOT_PROVEN. ASTRA launch schema: blob `aef6229477ed8ec45e45170f98ea87f7ba75ca29`. Main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
