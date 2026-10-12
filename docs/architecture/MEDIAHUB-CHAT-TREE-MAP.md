@@ -971,3 +971,21 @@ Review обнаружил шесть конкретных исправлений
 Отдельно записаны девять групп потенциальных перекрытий между parent/child atoms, которые должны быть разрешены cross-linking и owner/governance review до закрепления canonical child IDs. Это независимый документальный review, не одобрение proposal и не доказательство полной семантической exhaustiveness. Baseline 1.0/2.0, matrix и Batch 04 не изменялись; canonical backlog и IDs не создавались; статусы не повышались; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
 
 **Следующий безопасный шаг:** подготовить версию proposal 02 с исправленными source spans, child-level traceability и явной disposition для overlap items; оставить все IDs предварительными до явного owner/governance approval.
+
+
+## 20.21 Batch 04 normalization proposal 02 — review corrections incorporated
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-NORMALIZATION-PROPOSAL-02.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `be78b041520a1e41153d9e5da48f2585840d5c7a`  
+**Latest correction commit:** `2baac6195363be57a9a78f10f3b946c2a53a173f`  
+**Read-back blob SHA:** `7e737c8add9e3453062e9fc459790e7010e55689`  
+**Статус:** `PROPOSAL 02 / OPEN — NOT APPROVED; DOCUMENTARY PLANNING ONLY`.
+
+Подготовлена новая версия предложения после independent review 01. Внесены точные исправления: UI4-02 включает B1 line 107 и каждому визуальному атому соответствует собственная строка; SH4-03 ограничен line 126, а line 136 отнесён к vendor-neutral compatibility; SA4-03 ограничен прямыми source lines 68–69; UI4-04 переведён в HOLD до определения уникального остаточного требования; для составных записей добавлена таблица child-level anchors и явные overlap dispositions. Исправлена provenance-классификация старого map SHA как исторического; на момент подготовки proposal 02 карта имела SHA `92df5cdaf6b4ec5bc5a470156788a024d5b193c6`.
+
+При уточнении Local AI capability list выявлены шесть отдельных literal atoms в B1 lines 242–247; proposal 02 отражает шесть line-level labels LAI4-05.a–f и использует LAI4-06 только как cross-link для предотвращения дублирования. Это уточнение traceability, а не создание канонических ID.
+
+Proposal 02 сохраняет 48 исторических Batch 04 ID и статус OPEN / NOT APPROVED. Дочерние suffixes остаются предварительными. Baseline 1.0/2.0, traceability matrix и исходный Batch 04 не изменялись; canonical backlog не обновлялся; governance status не менялся. Тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
+
+**Следующий безопасный шаг:** выполнить структурную и семантическую сверку proposal 02 с независимым review 01, включая все 48 исторических ID и child-level anchors; затем оставить открытые owner/governance вопросы отдельным списком. Не назначать окончательные IDs и не менять canonical backlog без одобрения.
