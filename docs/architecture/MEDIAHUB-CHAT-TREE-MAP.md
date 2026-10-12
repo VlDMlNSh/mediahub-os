@@ -2919,3 +2919,60 @@ An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 40
 - `UNKNOWN_STATE` must never be interpreted as success.
 
 **Next safe action:** continue to MH-17 Devices / Protocols / Integration Boundary using current map navigation and primary sources. Reconcile device enrollment, adapter commands, update/recovery effects and privacy/telemetry with MH-12 security, MH-13 privacy, MH-15 host boundary, MH-16 lifecycle and the sole State Authority path. No device/infrastructure implementation is authorized by this audit.
+
+## 20.89 MH-17 Device / Protocol / Integration Boundary — branch-specific architecture audit
+
+**Date:** 2026-10-12. **Current main HEAD:** `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. **MH-17 architecture branch:** `arch/mh-17-device-protocol`, HEAD/tree `b22f9c578cef3943e6d3cb22632f3494038a96dd`, 121 tree entries. The package is branch-specific; do not treat it as synchronized/accepted on main. Read-only documentary audit; only this map entry was changed. **Status:** `PROPOSED / NOT ACCEPTED / NOT FROZEN`; no production device integration authorization.
+
+### Primary source provenance
+
+| Source | Ref | Blob SHA | Confirmed fact |
+|---|---|---|---|
+| `docs/architecture/MH-17-master-prompt.md` | `main` | `a750ee5b292043a1f1b18ec317a4b5b2c44aad24` | 12 core invariants; devices/adapters never State Authority; production integration not authorized by prompt. |
+| `docs/architecture/MH-17-reverse-master-prompt.md` | `main` | `13cb56ec5a96aa7d420aa7755cf420e5cc8fe2c2` | Development findings must carry path, commit, test, environment and evidence classification; report does not change architecture/acceptance/freeze. |
+| `docs/architecture/MH-17-device-protocol-integration-architecture.md` | `arch/mh-17-device-protocol` | `29e20ca2becfcc3a1b179c9db4e7f3c8e579f1f4` | PROPOSED / NOT ACCEPTED / NOT FROZEN; authority, observation, lifecycle and candidate protocol boundaries. |
+| `docs/architecture/MH-17-acceptance-criteria.md` | same branch | `fb8361775b41e72ca05b6e82d6d71fc38dc2def4` | NOT ACCEPTED / NOT FROZEN; acceptance requires security, evidence, ADR, implementation verification, governance authorization, acceptance and freeze. |
+| `docs/architecture/MH-17-evidence-register.md` | same branch | `20a56a55978bc7dd9c6951c838d7eb5f9c98c5c4` | Audit baseline dated 2026-09-04; domain schemas exist; real adapters, discovery/enrollment, device security and simulator marked NOT FOUND / UNKNOWN in that audit. |
+| `docs/architecture/MH-17-decision-log.md` | same branch | `cdd9642ed2a641570a8cea629614a3d511928ed7` | D-001 sole State Authority carried forward; D-002…D-010 remain CANDIDATE; no production integration authorization. |
+| `docs/architecture/MH-17-contradiction-register.md` | same branch | `447e097467d319d53f713c235f72104995c37595` | Open contradictions include lifecycle/schema mismatch, identity schema type mismatch, broad nested objects, duplicated test method, and P0-06 scope excluding networking/external execution. |
+| `docs/architecture/MH-17-unknowns.md` | same branch | `7b6cc93c02d9fd680d2a01594242000fb06cde62` | Real adapters, enrollment, credential provisioning/revocation, command/telemetry contracts, protocol ADR, topology, firmware, hardware security and iOS transport constraints remain UNKNOWN / REQUIRES VERIFICATION. |
+| `docs/architecture/MH-17-command-lifecycle.md` | same branch | `4e221fee1db917625652eb51638fc773b0bed6ca` | Candidate command lifecycle preserves Requested, Authorized, Accepted, Dispatched, Sent, Acknowledged, Applied, Confirmed, plus Failed/Timed Out/Cancelled/Unknown. |
+| `docs/architecture/MH-17-device-enrollment.md` | same branch | `74b12fd2c9d7b6eea2054b0cb8673149ef37ce06` | Enrollment is a trust transition, not discovery; method and credential lifecycle remain unimplemented/unverified. |
+| `docs/architecture/MH-17-device-trust.md` | same branch | `8edd21cdc9394d792bc00644f08cbf20bc3dc990` | Trust is separate from health/availability; lifecycle requires versioned contract evolution. |
+| `docs/architecture/MH-17-protocol-adapter.md` | same branch | `c744f95ba28ae73df3c4458a7c242929e82174c0` | Adapter translates bounded typed protocol operations; it cannot issue authorization, invent commands, mutate canonical state or access arbitrary network destinations. |
+| `docs/architecture/MH-17-safety.md` | same branch | `f1ceedfd20bf6e9beb9e049ede21212f420cdc5f` | Hard safety/manual emergency/policy/automation/optimization/recommendation precedence; critical commands need explicit gates; ambiguous physical outcome remains UNKNOWN. |
+| `docs/architecture/MH-17-telemetry.md` | same branch | `92499957005ec486f39c9f681117b440f2a17c16` | Telemetry requires provenance, timestamps, freshness, sequence/unit/schema where applicable; telemetry does not authorize or prove command application. |
+| `schemas/domain/device.schema.json` | same branch | `96d2dd5c2e201800e5afbb3b9dfa92b1fe0a28a5` | Normalized device schema separates state, desired_state, health, availability, trust, lifecycle and bindings. |
+| `schemas/domain/identity.schema.json` | same branch | `2caf58faf58eff2de82984a28109eb1aae87675d` | Standalone `protocol_ids`/`hardware_ids` are objects; nested Device identity defines arrays: confirmed schema inconsistency. |
+| `schemas/domain/capability.schema.json` | same branch | `fe80659b570ac58829f10410feb5c700388f87c0` | Capability contract exists, including command/event declarations and safety/discovery fields; broad nested constraints still need stronger bounded schemas. |
+| `schemas/domain/trust.schema.json` | same branch | `6cf5d60a1c038f25a85328c8d5cd3040405812d0` | Trust status is TRUSTED/PENDING/UNTRUSTED/BLOCKED, separate from health/availability. |
+| `schemas/domain/binding.schema.json` | same branch | `74940b96ed007d9533990a87d38b71b4944d7daf` | Protocol, adapter and endpoint binding schema exists; this is not proof of a real adapter. |
+| `schemas/domain/event.schema.json` | same branch | `e754241ddc547e50670402b2255d4c19a3df7c40` | Event model includes source, timestamp, correlation/causation and payload; broad payload/metadata objects remain a contract-hardening concern. |
+| `docs/architecture/MH-12-recovery-security.md` | `main` | `fdfb2ae6ecb7cc1ed1daecb18ad12aaf2a1c6149` | Recovery requires distinct identity/authorization, trusted artifacts, audit and post-recovery verification. |
+| `docs/architecture/MH-13-privacy-data-governance.md` | `main` | `e732ff9cacbc9c1189bd83306cdff30906326cf0` | Sensitive telemetry must be minimized and access-controlled; MH-13 reconstruction/acceptance status conflict remains documented at entry 20.85. |
+| `docs/architecture/MH-15-os-appliance-architecture.md` | `main` | `f817925c69ce4484713f952e47aacad283af8eeb` | Host execution does not confer canonical authority; platform capabilities need evidence. |
+| `docs/architecture/MH-16-installer-recovery-update-architecture.md` | `main` | `f3ad2401f00a4062b39eed640e0c5c5f70064312` | Firmware/update is a separate lifecycle/security plane; implementation remains unauthorized. |
+| `docs/architecture/MH-05-consumer-integration-boundary.md` | `main` | NOT FOUND at this exact path | Broader MH-05 architecture is branch-specific; do not infer acceptance from P0-05 historical acceptance. |
+
+### Reconciled MH-17 invariants
+
+1. **Authority path:** Intent → Policy → Authorization → Consumer Boundary → State Authority → Adapter → Device. Observation returns through Adapter → Integration Boundary → Normalization → runtime/event consumers. No device→DB, AI→device, plugin→device unrestricted, cloud→device direct or State Authority bypass.
+2. **State distinctions:** reported, observed, desired, policy-allowed, commanded, committed, applied, confirmed and predicted remain separate. Protocol ACK is not canonical state.
+3. **Discovery != identity != enrollment != trust != authorization.** Reachability, address, TLS/VPN or group membership do not grant command permission.
+4. **Capability != authorization.** Capability describes possible operations; every command still requires principal, target, scope, policy, authorization and safety checks.
+5. **Command outcome is evidence:** Sent != Acknowledged != Applied != Confirmed. Timeout or acknowledgement cannot invent physical success/failure; ambiguous outcome stays UNKNOWN.
+6. **Idempotency/retry:** non-idempotent commands with ambiguous outcomes require explicit recovery policy before retry; no blind retries.
+7. **Safety:** hard safety and explicit emergency controls outrank automation, optimization and recommendation; AI confidence is not authorization.
+8. **Adapters are bounded:** typed/versioned inputs/outputs, validation, normalization, bounded retries/timeouts/resource use; no policy authority, arbitrary network, unrestricted persistence or command invention.
+9. **Telemetry/privacy:** freshness, provenance, sequence and units are explicit; occupancy, presence, location, camera/microphone and behavior data are privacy-sensitive under MH-13.
+10. **Protocol selection:** HTTP(S), REST, WebSocket, MQTT, TCP/UDP, mDNS/DNS-SD, BLE, USB, serial, Zigbee, Z-Wave, Matter, HomeKit, ONVIF and vendor APIs remain candidates, not accepted implementation stack.
+11. **Compatibility blockers:** lifecycle schema cannot yet represent full quarantine/revocation/authorization semantics; standalone identity schema disagrees with nested Device schema; broad nested `object` fields weaken validation; command/telemetry contracts and protocol ADR absent in inspected baseline.
+12. **Governance boundary:** P0-06 explicitly excludes networking/external execution; MH-17 requires its own approved scope and cannot infer permission from P0-06 or P0-05.
+13. Evidence register is dated 2026-09-04; historical claims must be rechecked on a current exact commit before qualification. No tests were run in this pass.
+14. No adapter/device implementation, pairing, network scan, device command, test, qualification, infrastructure change or merge was performed.
+
+### Bounded lookup and next step
+
+- On branch `arch/mh-17-device-protocol`, tree is 121 entries and the full MH-17 package exists, but the two master prompt files are absent at the exact root paths. The master/reverse prompts were separately confirmed on `main`; branch/main synchronization is not assumed.
+- The exact `docs/architecture/MH-17-persistence-boundary.md` path returned 404 in this branch. This does not establish global absence; the cross-domain boundary is supported by MH-14/MH-15 and MH-17 architecture text.
+- **Next safe action:** MH-18 Media / Content Integration, following map navigation and current primary sources. Keep device protocol integration, media transport, media catalog state, DRM/licensing and command authority separate; no real-device/media adapter implementation is authorized by this audit.
