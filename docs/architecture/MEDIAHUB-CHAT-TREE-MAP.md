@@ -1064,3 +1064,25 @@ R01–R04 и R06 из Review 01 подтверждены как исправле
 Явного ответа требуют GOV-MH24-01/04/07/10/11/12/13: accountable approver; уникальность UI4-04; literal-vs-derived automation controls; модель единого cloud gate; stable child-ID scheme; B1/B2 mapping statuses; минимальная evidence schema. В triage перечислены пять кратких вопросов пользователю. До ответа Proposal 02 остаётся NOT APPROVED, canonical backlog/matrix и обе Baselines не изменяются.
 
 **Следующий шаг:** получить ответы на вопросы A–E в triage и затем подготовить обновлённый decision artifact; не считать молчание одобрением и не выполнять merge в `main`.
+
+
+## 20.26 Batch 04 product-owner decision record 01 — five decisions recorded
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-PRODUCT-OWNER-DECISION-RECORD-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `29a280bb8134c99df04103d3e9b9d17a264bd916`  
+**Read-back blob SHA:** `9117098e22c26708d48ca8ba5954669faa209d68`  
+**Статус:** `OWNER DECISIONS RECORDED — PARTIAL GOVERNANCE RESOLUTION; NOT A CANONICAL BACKLOG APPROVAL`.
+
+Владелец продукта явно ответил на A–E в разговоре 2026-10-12. Создан отдельный decision artifact и выполнен read-back из GitHub; содержимое подтвердило пять решений:
+- **D-01 / GOV-MH24-01:** пользователь подтвердил полномочия accountable product owner для продуктовых решений по нормализации.
+- **D-02 / GOV-MH24-04:** UI4-04 остаётся HOLD/cross-link-only до доказательства уникального неповторяющегося остаточного требования; не назначать ему literal span/stable child ID без evidence.
+- **D-03 / GOV-MH24-11:** одобрен формат lineage child ID `MH24-B04-SA4-02-a`; исторические IDs сохраняются. Финальные IDs остаются provisional до документированного collision check, включая отдельный Audit 01 register.
+- **D-04 / GOV-MH24-12:** одобрены статусы `MAPPED / CONFLICT / NO_DIRECT_COUNTERPART / NOT_REVIEWED`. B2 — текущая функциональная ссылка, B1 — literal historical source редакции 1.0; индивидуальные mapping statuses должны доказываться, эквивалентность автоматически не выводится.
+- **D-05 / GOV-MH24-13:** утверждена схема из 12 обязательных полей: Requirement ID, Owner, Source atom/classification, B2 mapping status, Canonical contract path/ref, Acceptance criteria, Required evidence, Lifecycle status, Reviewer/approval reference, Dependencies, Verification method, Change history.
+
+**Интерпретация triage:** `MH24-BATCH-04-DECISION-TRIAGE-01.md` остаётся историческим источником вопросов, но его формулировка «явного ответа требуют GOV-MH24-01/04/11/12/13» теперь устарела для этих пяти owner choices. Сам triage не переписывался; этот decision record является последующим evidence.
+
+**Что НЕ разрешено этим решением:** оно не утверждает целиком Proposal 02 и не закрывает все 14 GOV-MH24 строк. Shared-atom ownership/cross-links, HA Core vs platform State Authority scope, literal-vs-derived AI controls, shared cloud gate, другие domain-owner evidence и handling исторического «47»/48 требуют дальнейшей документальной работы по decision register. Предложения в triage для других строк остаются рекомендациями, не owner approvals.
+
+**Следующий безопасный шаг:** обновить working governance register, затем проверить collision risk по ID, сформировать полный source-anchored crosswalk с 12 полями и четырьмя mapping statuses и провести независимый documentary review. До выполнения этих условий не обновлять canonical backlog/matrix и не менять Baseline 1.0/2.0. Тесты/qualification, installation, deployment, infrastructure/production changes и merge в `main` не выполнялись.
