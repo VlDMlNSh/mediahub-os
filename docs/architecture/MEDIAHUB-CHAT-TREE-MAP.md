@@ -3681,3 +3681,14 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - Continuation checkpoint was updated after read-back; latest checkpoint commit `eecb15e20af0e073e29ccc38784fe031ca3ba751`, returned blob SHA `ad977ca8733f7abafbb7d2b6c90b951272b3b04f`. Re-read checkpoint before treating this SHA as final.
 - Map section 20.110 was read back with blob SHA `19a8e57febe0d6cd1b4c4c5407e95eefb6ab736f` (commit `d48947308f9da2077d7cea39718a113b914164bb`).
 - Current main HEAD remains `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; no changes were made to main.
+
+
+## 20.111 MH-15 host boundary / MH-12 authorization / MH-21 executor crosswalk (2026-10-12)
+
+- **Scope:** source-bound documentary review of host/appliance constraints against security and remote executor admission. No implementation or technology selection.
+- **Primary MH-15 sources on `main`:** OS/appliance architecture `f817925c69ce4484713f952e47aacad283af8eeb`; acceptance criteria `082642e67dc66cb359a5566773c143854cafaa00`; evidence register `424a55b4b692d5b253423bccea2316717c6ca0d4`; unknowns `d305c0984e2cfee801b3c8ceafdb3e2cf8ad987d`; contradiction register `2214e9d5e281db1af40d35c74ef60af8dac03ff4`; decision log `edd0f7b561d9ec3915a24a8f6eac6cff86af7dac`; dependency map `4787a8ecb773028116a14d94bfe7748129821f11`; technology evaluation `e0e0903e72046f2a336aefbf093b12de02057ced`.
+- **Matrix section 22:** maps existing `MH24-GAP-IDENTITY-01`, `MH24-GAP-ISOLATION-01`, `MH24-GAP-STATE-FENCING-01`, `MH24-GAP-RESOURCE-01`, `MH24-GAP-NETWORK-QUAL-01`, `MH24-GAP-ACCEPTANCE-01` to MH-15 requirements and closure evidence. Matrix commit `9d95f8615082120e657084b5196d967757154c17`; blob SHA `0ce7d23bd1cf5700381b87340f09707e68f52dac` (verify read-back).
+- **Checkpoint:** latest MH-15 crosswalk recorded in `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; commit `55af7f553db7fefa2ed196031141fe2234d2782f`; blob SHA `db553d08abe16709e495a6b72e8e9540b4611508` (verify read-back).
+- **Finding:** host resources provide execution but do not define MediaHub authority. Process separation alone is not complete isolation; systemd/containers/MAC/seccomp/namespaces/cgroups remain candidates. Host admin, shell, filesystem, network and process liveness do not bypass MH-12 authorization or State Authority. Hardware and runtime properties remain UNKNOWN/REQUIRES VERIFICATION.
+- **Status:** MH-15 remains WIP / NOT ACCEPTED / NOT FROZEN / implementation NOT AUTHORIZED; remote execution remains NOT AUTHORIZED; all mapped gap IDs remain OPEN. No tests, host/runtime/network inspection, qualification, installation, deployment or merge occurred.
+- **Next safe action:** verify matrix/checkpoint/map read-back SHA and links, then continue the map-directed documentary lifecycle/persistence crosswalk without claiming MH-14 implementation or acceptance.
