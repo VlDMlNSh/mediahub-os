@@ -57,14 +57,17 @@ Current relevant artifacts on `docs/mediahub-chat-tree-map-20261012` (verify eve
 - Batch 09 Review 01 (historical pre-D-06 review): `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-01.md` — verify current SHA; preserve as historical evidence.
 - Batch 09 Review 02 (bounded owner-disposition follow-up): `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-02.md` — SHA `d808f602756b6135019a7655c0c12291527e9de3`.
 - Batch 09 Review 03 (bounded semantic consistency review): `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-03.md` — SHA `184a99ef85143c2ad3048dca5c8d85b17f8651a3`; full TSI semantic acceptance remains OPEN.
-- Working System Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` — current blob SHA `c844b42f5b98a29ff3d883857fdaf4b0b6873768`.
-- Working Verifiable Architecture Contract 01: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` — current blob SHA `da2bdedeb8ad56698ce6398f4f303ef6946a5f0c`; 29 ARC requirements / 22 verification checks, not canonically accepted.
-- Jarvis Global Master Prompt 01: `docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md` — current blob SHA `ce1110dd5c2c5825abd47051c50b5982ba765c1e`.
+- Working System Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` — current blob SHA `8ec8ed05e3a4f303fb8a93a63c2d77c7defd3fd6`.
+- Working Verifiable Architecture Contract 01: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` — current blob SHA `4a5510a4246ddfed60dd94be9502203a62da48d0`; 30 ARC requirements / 23 verification checks, not canonically accepted.
+- Jarvis Global Master Prompt 01: `docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md` — current blob SHA `7865342dc5b3af0a01cf6f92ee765460d80a23c1`.
+- Batch 07 Local Cluster AI draft: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-07-DRAFT.md` — current blob SHA `d6323442e3059dda091d0ad8b2a33fa91cad6ea0`.
+- Batch 07 Review 02: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-07-REVIEW-02.md` — current blob SHA `0af17bf0db6f8b1c93d01aae3e8a8b5d8a0d9064`.
+- Current map pointer before this prompt refresh: `573e152b769b0c03b9f1e9d20c8b205168577930`; always re-fetch the live map at the next session start.
 - Batch 01–08 union review: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-UNION-REVIEW-01.md` — recorded SHA `e9ccafef5a3cca75f41e84bf3c4397dcc2285fd4`; re-fetch before relying on it.
 - B1: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, verified SHA `9df4892ed0734050ac79732603d15bb414717310`.
 - B2: `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, verified SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 
-**Verified current status:** Batch 09 retains 17 provisional TSI labels and the approved 12-field schema. The current mapping distribution remains 3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT. D-06 resolves only the label relationship: TSI-12 is a historical sub-aspect of TSI-07, not an independent sibling obligation. Reviews 01 and 02 remain preserved; Review 03 passes the bounded source-anchored consistency check. Full TSI semantic and owner/contract acceptance remain OPEN. No final child ID was minted, and no B1/B2, canonical backlog or traceability matrix change was authorized by D-06 or Review 03.
+**Verified current status:** Batch 09 retains 17 provisional TSI labels and the approved 12-field schema; distribution remains 3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT, with full TSI acceptance OPEN. D-06 keeps TSI-12 as a historical sub-aspect of TSI-07. Batch 07 retains 11 provisional records; after Review 02, its working distribution is 1 MAPPED / 9 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT. The sole MAPPED row (B1-16-01 / CLAI4-01) denotes bounded documentary capability correspondence only, not full Local Cluster AI contract acceptance. Review 01 remains historical; Review 02 is the new semantic follow-up. Full domain acceptance, implementation and qualification remain OPEN. No final child ID was minted, and no B1/B2, canonical backlog or traceability matrix change was authorized by these reviews.
 
 ### 5. Explicit owner decision to preserve
 
@@ -109,3 +112,5 @@ The previous next-work block directed the session to perform the first source-an
 
 
 - 2026-10-12 — corrected the next source-batch pointer after a live read-back confirmed Batch 07 already covers B1 §16; the next sequential uncovered section is B1 §19 AI Human Clone, subject to source-anchor and branch inventory checks. This is a routing correction only; no requirement or mapping status changed.
+
+- 2026-10-12 — refreshed active Passport, Contract, Jarvis prompt and Batch07 pointers after Review02: Passport `8ec8ed05e3a4f303fb8a93a63c2d77c7defd3fd6`; Contract `4a5510a4246ddfed60dd94be9502203a62da48d0`; Jarvis prompt `7865342dc5b3af0a01cf6f92ee765460d80a23c1`; Batch07 draft `d6323442e3059dda091d0ad8b2a33fa91cad6ea0`; Review02 `0af17bf0db6f8b1c93d01aae3e8a8b5d8a0d9064`. The next bounded source section remains B1 §19 AI Human Clone; complete MH map restoration remains in parallel.
