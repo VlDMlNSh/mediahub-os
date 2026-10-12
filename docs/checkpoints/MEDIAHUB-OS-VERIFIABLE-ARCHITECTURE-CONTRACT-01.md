@@ -112,7 +112,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 ### ARC-010 — network planes do not collapse into a flat network
 **Rule:** User control/API, Media/Data, Smart Home/device, developer mesh, HIGH_SPEED developer interconnect, optional storage and bounded egress/qualification paths have explicit policy scopes.
 
-**Acceptance:** ordinary user/media traffic does not traverse the developer HIGH_SPEED plane by default; CPRG remains API-registration-only, not a generic VPN/egress authority; no contributor receives general user-storage access.
+**Acceptance:** ordinary user/media traffic MUST NOT traverse the developer HIGH_SPEED plane by default; CPRG remains API-registration-only, not a generic VPN/egress authority; Media/Data, user control, developer mesh, high-speed compute/storage and qualification management retain separate admission/policy scopes; no contributor receives general user-storage access.
 
 **Primary source:** B2 §§5, 11–12, SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; docs/checkpoints/2026-09-30-mediahub-hierarchical-cluster-architecture.md, main, SHA f49e2e38f131189147e6f9461ba82685e7924a52; network system passport extension SHA 43877c776889c58ae25a18d3ad60d2bb3a028578.
 **Status:** architectural separation established; vendor/hardware interoperability and performance qualification open.
