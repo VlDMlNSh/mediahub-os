@@ -166,3 +166,15 @@ Resume with `/next`.
 - No tests, qualification, provider/model calls, credentials, installation, host inspection, infrastructure changes, deployment, migration or merge occurred. Unified matrix remains proposed, not accepted/frozen/implemented/qualified.
 
 **Next safe action:** continue source-bound crosswalk for MH-14 persistence authority, MH-15 OS/appliance and MH-16 installer/recovery/update lifecycle. For each, verify the mapped primary source and SHA before recording requirements; do not infer implementation authorization.
+
+
+### Latest verified continuation — MH-14 / MH-15 / MH-16 crosswalk (2026-10-12)
+
+- Re-read bootstrap, map, checkpoint, unified matrix, parent architecture/deployment contract, Baseline 2.0 and canonical component manifest; queried current `main HEAD` and recursive repository tree (`truncated=false`, 798 entries).
+- Read current `main` primary sources: MH-14 acceptance criteria (`364bb2a949e11f191b71a35af482f18de4ef2827`), decision log (`a2f49b9f4e09e3d2becdc2e72807319674a30239`), persistence architecture (`5e14084033f417722a1b04b5d5d47649dcfcda48`), unknown register (`722eaa1388ff3e9f6677a2571ae3c61e5611a70a`); MH-15 acceptance criteria (`082642e67dc66cb359a5566773c143854cafaa00`), OS/appliance architecture (`f817925c69ce4484713f952e47aacad283af8eeb`), evidence register (`424a55b4b692d5b253423bccea2316717c6ca0d4`); MH-16 lifecycle architecture (`f3ad2401f00a4062b39eed640e0c5c5f70064312`) and completion record (`e4ea4e3a37540cc104243c236e2e5c1c32ea35d6`).
+- Added MH14-PERSIST-01…03, MH15-OS-01, MH15-LEGACY-01, MH16-LIFECYCLE-01, MH16-ARTIFACT-01 and MH16-RECOVERY-01 to unified matrix. Matrix update commit `c8aa6b9bedfdeda63ee5af14108cc97717cf9f99`, blob `be1bb313d74d2f9cdaf0acb2a90ee7ad60d23a0c`.
+- Updated map section 20.103. Map update commit `944516f47751e626a639243faeafd6ceafb36cdb`, blob `3217d909015a306a256b84b5edea9717fc63ca81`.
+- Confirmed: physical persistence implementation remains NOT AUTHORIZED; RPO/RTO TBD; SINGLE NODE / NO HA; Mac mini Server 2011 is an unverified candidate; MH-15 acceptance/freeze not authorized; MH-16 governance acceptance pending and implementation not authorized; lifecycle operations cannot directly mutate canonical state; P0-07 → P0-05 mutation-publication gap remains open.
+- `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 remains canonical and unchanged. No tests, restore, hardware inspection, qualification, provider/model calls, credentials, installation, infrastructure change, deployment, migration or merge occurred.
+
+**Next safe action:** read back the updated matrix and map to confirm live blob SHAs, then continue the map-guided crosswalk into adjacent dependency domains and keep source facts distinct from acceptance evidence.
