@@ -5,7 +5,7 @@
 - **Status:** **DOCUMENTARY DRAFT / OPEN — NOT APPROVED; NOT A CANONICAL BACKLOG**
 - **Scope:** all 11 Audit 01 §16 labels: ten literal-source traceability rows (B1-16-01…10) and one D-coded derived control (B1-16-D01).
 - **B1 source:** `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` @ `main`, blob SHA `9df4892ed0734050ac79732603d15bb414717310`, §16 lines 255, 258–265 and 267.
-- **B2 reference:** `docs/checkpoints/mediahub-functional-baseline-2.0.md` @ `main`, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §§8–11, 17–18, and §24 where cited.
+- **B2 reference:** `docs/checkpoints/mediahub-functional-baseline-2.0.md` @ `main`, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §§8–11, 17–18, and §25 where relevant.
 - **Audit source:** `docs/checkpoints/MH24-B1-SECTIONS-03-06-12-15-17-CLAUSE-COVERAGE-AUDIT-01.md` @ `docs/mediahub-chat-tree-map-20261012`, blob SHA `d0938f14ed4110545118f075175dee3be412097b`.
 - **Normalization proposal:** `docs/checkpoints/MH24-BATCH-04-NORMALIZATION-PROPOSAL-02.md` @ `docs/mediahub-chat-tree-map-20261012`, blob SHA `7e737c8add9e3453062e9fc459790e7010e55689`.
 - **Field schema:** Requirement ID; Owner; Source atom/classification; B2 mapping status; Canonical contract path/ref; Acceptance criteria; Required evidence; Lifecycle status; Reviewer/approval reference; Dependencies; Verification method; Change history.
