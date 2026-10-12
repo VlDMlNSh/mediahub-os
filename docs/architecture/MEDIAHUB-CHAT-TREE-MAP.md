@@ -2824,3 +2824,51 @@ The prior 20.75 next-step wording “MH-04 State Authority inventory” is impre
 Initially queried several MH-14 paths at repository root; they returned 404 because the package is under `docs/architecture/MH-14/`. The canonical package and its sources were then located and read there. This is a path correction, not evidence that the package is absent.
 
 **Next safe action:** proceed to MH-15 OS / Appliance / Platform Lifecycle using map navigation and its primary sources. Preserve the boundary between persistence, OS lifecycle, update/recovery, State Authority and privacy. No physical persistence or platform implementation without explicit authorization.
+
+## 20.87 MH-15 OS / Appliance / Platform Lifecycle — architecture source audit
+
+**Date:** 2026-10-12. **Inspected ref:** `main`, HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Documentary/read-only audit; only this map entry was changed. **Status:** architecture WIP; NOT ACCEPTED / NOT FROZEN; implementation authorization NONE.
+
+### Primary-source provenance
+
+| Source | Blob SHA | Confirmed facts |
+|---|---|---|
+| `docs/architecture/MH-15-INDEX.md` | `d7b4673beb0fcf2407e016773507d5cf2710401d` | Lists canonical artifacts and explicitly says baseline synchronized/audited but NOT ACCEPTED / NOT FROZEN / implementation NOT AUTHORIZED until evidence and gates are satisfied. |
+| `docs/architecture/MH-15-ARCHITECTURE-CHAT-CHARTER.md` | `e172582462e79ef749623e89d296eac3d7ce222c` | Scope covers host hardware/firmware/kernel/OS, services, filesystem/devices/network, hardening, lifecycle and qualification. Architecture only; no install/storage/firmware/kernel/firewall deployment authorization. |
+| `docs/architecture/MH-15-CHAT-MASTER-PROMPT.md` | `2ee7dde1b625305c2b04f2c8e5269bd8aff459cd` | “The host provides execution; MediaHub defines authority.” Host infrastructure does not become State Authority; arbitrary shell from AI/plugin/untrusted paths forbidden; MH-15 WIP, not frozen. |
+| `docs/architecture/MH-15-REVERSE-MASTER-PROMPT.md` | `3d3629406e00f1ab64284cfdc0daa1da21e07c8d` | Requires evidence-based implementation return report and explicit unknown/follow-up status; observations do not grant domain authority. |
+| `docs/architecture/MH-15-os-appliance-architecture.md` | `f817925c69ce4484713f952e47aacad283af8eeb` | Header: architecture WIP, acceptance/freeze not authorized, implementation authorization NONE. Mac mini Server 2011 is a candidate only; exact hardware/OS/filesystem/thermal/power facts UNKNOWN pending evidence. |
+| `docs/architecture/MH-15-acceptance-criteria.md` | `082642e67dc66cb359a5566773c143854cafaa00` | NOT ACCEPTED. Requires evidence for host boundary, hardware, boot lifecycle, least privilege, storage/network, hardening, supply chain, update/recovery, resources, power/thermal/time, observability, failure domains, privileged operations, production separation and traceability. Acceptance itself does not authorize implementation. |
+| `docs/architecture/MH-15-evidence-register.md` | `424a55b4b692d5b253423bccea2316717c6ca0d4` | Repository VERIFIED; host boundary PROPOSED; hardware/firmware/OS/kernel/systemd/filesystem/network/sandbox/secrets/update/recovery mostly UNKNOWN; production qualification NOT ESTABLISHED. |
+| `docs/architecture/MH-15-decision-log.md` | `edd0f7b561d9ec3915a24a8f6eac6cff86af7dac` | Host authority separation and lifecycle separation recorded; Mac mini Server 2011 candidate remains PROPOSED / REQUIRES VERIFICATION; privileged execution restricted. |
+| `docs/architecture/MH-15-contradiction-register.md` | `2214e9d5e281db1af40d35c74ef60af8dac03ff4` | No accepted contradiction established in current scope; cross-domain conflicts must be surfaced, not silently resolved. |
+| `docs/architecture/MH-15-dependency-map.md` | `4787a8ecb773028116a14d94bfe7748129821f11` | Depends on MH-01…MH-14 and P0-03…P0-07; MH-16 is downstream; no evidence currently authorizes host implementation. |
+| `docs/architecture/MH-15-unknowns.md` | `d305c0984e2cfee801b3c8ceafdb3e2cf8ad987d` | Hardware model/CPU/RAM/GPU/storage/NIC, firmware, security hardware, thermal/power, OS/kernel, filesystem, supervisor, containers, sandbox, firewall, update/recovery and production qualification remain UNKNOWN / REQUIRES VERIFICATION. |
+| `docs/architecture/MH-15-technology-evaluation.md` | `e0e0903e72046f2a336aefbf093b12de02057ced` | Evaluation only; Mac mini Server 2011, Linux, systemd, containers, AppArmor/SELinux, seccomp, namespaces/cgroups, firewall and signed artifacts/SBOM are candidates/directions, not an accepted stack or install authorization. |
+| `docs/architecture/MH-15-architecture-audit.md` | `cb277fe49138426b1650f4253ed957ef69c5d472` | Audit result: coherent architecture at conceptual level, but FAIL FOR ACCEPTANCE due to missing host/hardware/OS/runtime evidence; hardware/appliance NOT QUALIFIED. |
+| `docs/architecture/MH-16-installer-recovery-update-architecture.md` | `f3ad2401f00a4062b39eed640e0c5c5f70064312` | MH-16 is PROPOSED / governance acceptance pending / not frozen / implementation not authorized; installer/update/recovery are lifecycle mechanisms, not State Authority. |
+| `docs/architecture/MH-12-recovery-security.md` | `fdfb2ae6ecb7cc1ed1daecb18ad12aaf2a1c6149` | Recovery is a separate security boundary with explicit identity/authorization, trusted artifacts, audit and post-recovery verification. |
+| `docs/architecture/MH-14/MH-14-persistence-architecture.md` | `5e14084033f417722a1b04b5d5d47649dcfcda48` | Persistence is subordinate to State Authority; physical persistence not authorized; P0-07 gap remains blocked. |
+| Baseline 2.0 | `docs/checkpoints/mediahub-functional-baseline-2.0.md`; blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Accepted immutable functional reference; acceptance does not imply implementation, qualification or production authorization. |
+| Historical Baseline 1.0 | `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`; blob `9df4892ed0734050ac79732603d15bb414717310` | Retained as historical provenance; not implicitly merged with B2. |
+
+### Reconciled MH-15 invariants
+
+1. **Host != authority:** CPU, hardware, firmware, kernel, OS, systemd, containers, filesystem, administrator, shell and observability are infrastructure mechanisms, not canonical State Authority.
+2. **Lifecycle states are distinct:** host boot != MediaHub initialization != service readiness. Process alive, disk mounted, network UP or container running does not imply MediaHub READY.
+3. **Least privilege:** service identity, capabilities, filesystem/network/device/IPC/secrets access, resource limits and lifecycle must be explicit. Root is exceptional; arbitrary shell from AI/plugin/untrusted input is forbidden.
+4. **Isolation is evidenced, not assumed:** process/container separation alone does not prove complete security isolation; exact sandbox/MAC/capability setup remains unverified.
+5. **Hardware qualification is evidence-first:** Mac mini Server 2011 remains a candidate. Exact hardware and safe qualification evidence are absent from this architecture record; no destructive storage/firmware/bootloader/partition operation is authorized.
+6. **Network reachability != trust:** interfaces, firewall and management/network planes need explicit controls and evidence.
+7. **Update/recovery boundary:** MH-16 owns installer/update/recovery lifecycle contracts; these mechanisms cannot bypass State Authority or host security authorization.
+8. **Persistence boundary:** filesystem and storage are not canonical authority; persistence remains subordinate to State Authority; P0-07 is not repaired by MH-15.
+9. **Resource/failure containment:** optional workloads, self-healing and host recovery must not compromise core authority; resource limits and failure-domain evidence are required.
+10. **Technology candidates remain candidates:** Linux distribution, systemd, containers, MAC, seccomp, namespaces/cgroups and firewall stack are not ACCEPTED/FROZEN.
+11. **No acceptance by prose:** MH-15 remains NOT ACCEPTED / NOT FROZEN and production qualification NOT ESTABLISHED. Architecture -> ADR -> Governance Authorization -> Implementation -> Verification -> Evidence -> Acceptance.
+12. No host inspection, installation, tests, qualification, firmware/kernel/firewall/storage change, infrastructure deployment or implementation occurred during this pass.
+
+### Bounded path lookup
+
+An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 404 due to a filename mismatch. The index identified the exact path `MH-15-REVERSE-MASTER-PROMPT.md`, which was then successfully fetched and read. This was a lookup correction, not evidence of missing reverse contract.
+
+**Next safe action:** continue to MH-16 Installer / Recovery / Update Architecture using its primary sources, and reconcile installer/update/recovery with MH-12 security, MH-13 privacy, MH-14 persistence, host lifecycle and State Authority. Keep all implementation and production authorization gates closed unless explicit governance and evidence satisfy them.
