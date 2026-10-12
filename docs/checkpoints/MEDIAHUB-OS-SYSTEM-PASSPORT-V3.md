@@ -43,6 +43,9 @@ MediaHub OS — единая local-first платформа для локаль�
 | ASTRA execution blueprint, annotated working copy | `docs/mediahub-chat-tree-map-20261012` | `9f199ba8e872d5ae188fcdac9635a53f16973534` | Roles and execution gates; clarified ASTRA internal state scope |
 | Generated ASTRA current truth | `main` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | Current reported result: `NOT_PROVEN / BLOCKED` |
 | Jarvis blueprint gap reconciliation (legacy file name includes ASTRO) | `docs/mediahub-chat-tree-map-20261012` | `39720b11e5e6777b86ffd71e0fec1214982e0d95` | Latest owner-provided Jarvis scope, 21 scoped findings including AG-20 and AG-21 asset allocation, component candidates and 13 documentary review cycles |
+| Product Owner Decision Record 01 — D-06 | `docs/mediahub-chat-tree-map-20261012` | `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd` | TSI-12 remains a historical sub-aspect of TSI-07; does not accept the full TSI contract |
+| Batch 09 TSI crosswalk draft | `docs/mediahub-chat-tree-map-20261012` | `5e1b73c73c951638b549a30d569df2d1c7de8b31` | 17 provisional traceability labels; 3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT |
+| Batch 09 TSI Review 03 | `docs/mediahub-chat-tree-map-20261012` | `184a99ef85143c2ad3048dca5c8d85b17f8651a3` | Bounded source-anchored semantic consistency review; full TSI acceptance remains OPEN |
 
 ## 3. Authority, command and state model
 
@@ -224,6 +227,7 @@ ASTRA Gold current truth in the inspected main source reports `NOT_PROVEN / BLOC
 | P-19 | Target OS/build/boot/install/update/recovery profiles are not pinned for the named Apple hardware roles | OPEN / PLATFORM PROFILE REQUIRED | B2 §9, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; gap reconciliation §15, current blob SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95` (read back 2026-10-12) |
 | P-20 | Purchased Mac Pro is described as the primary developer workstation while a future production Mac Pro is also named; physical-asset identity/transfer is unresolved | OPEN / ASSET ALLOCATION REQUIRED | Gap reconciliation §17 / AG-20, latest blob SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`; owner blueprint |
 | P-21 | B1 §15 document-assistance atom `B1-15-13` is incorrectly pointed to B2 §19 in historical Audit 01 | OPEN / DERIVED POINTER CORRECTION RECORDED | Gap reconciliation §18 / AG-21, blob SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`; B2 §§16/18 are the correct review target; historical Audit 01 remains unchanged |
+| P-22 | B1 §18 names a first-class Trusted Sources Intelligence Engine, while reviewed B2 §§16/18 provide related knowledge/provenance/evidence controls but not a complete named-subsystem lifecycle contract | OPEN / OWNER-GOVERNANCE SCOPE AND CONTRACT REQUIRED | Batch 09 draft SHA `5e1b73c73c951638b549a30d569df2d1c7de8b31`; Review 03 SHA `184a99ef85143c2ad3048dca5c8d85b17f8651a3`; D-06 SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; row 18 of the working matrix remains a section-level summary. Preserve TSI-12 → TSI-07; no accepted full TSI contract, final child IDs or canonical promotion |
 
 ## 11. Acceptance checklist for a future Passport v3 release
 - [ ] Resolve AG-20/P-20: distinguish the developer Mac Pro from the future production Mac Pro, or approve and evidence an explicit role transition with a replacement developer workstation and credential/data boundary.
@@ -239,6 +243,8 @@ The owner/governance acceptance package must verify at least:
 - [ ] Hardware targets are explicitly separated from measured/qualified profiles.
 - [ ] Candidate/selected/target-gated/future-gated/installed/verified/qualified statuses are not conflated.
 - [ ] UI4-04 remains HOLD until evidence.
+- [ ] Resolve P-22 / ARC-029 / V-22: obtain an explicit owner/governance disposition for TSI subsystem identity, owner and contract scope; if retained, define source lifecycle, trust taxonomy, information categories, provenance/evidence semantics and verification criteria. Preserve D-06; do not infer acceptance from topical similarity or documentary MAPPED status.
+- [ ] Batch 09 remains provisional until TSI semantic acceptance and all applicable owner/governance gates are independently evidenced.
 - [ ] Astra Gold claims are consistent with fresh generated current truth and exact-SHA evidence.
 - [ ] Independent architecture review and owner approval are recorded.
 - [ ] Any baseline supersession is a separate explicit decision; B1/B2 are not edited by this draft.
@@ -273,3 +279,5 @@ The owner/governance acceptance package must verify at least:
 
 - 2026-10-12 — reconciled the active finding count from 20 to 21 after AG-21 was added; refreshed active gap-report links in the source inventory and P-19/P-20/P-21 rows to current Gap Reconciliation SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`. Dated historical pointer records remain intact; B1/B2 and runtime are unchanged.
 - 2026-10-12 — corrected active P-13 source pointer to current Gap Reconciliation SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`; preserved the former SHA only in older dated history. No architecture rule or baseline changed.
+
+- 2026-10-12 — added P-22 for the open B1 §18 Trusted Sources Intelligence Engine scope/contract disposition, linking D-06 and Batch 09 Review 03. The 17 traceability labels and 3/13/1/0 mapping distribution remain provisional; B1, B2, matrix and canonical backlog are unchanged.
