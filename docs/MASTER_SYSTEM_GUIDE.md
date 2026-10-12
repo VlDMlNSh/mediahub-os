@@ -688,3 +688,113 @@ J. Reverse Master Prompt payload for the central reconciliation process:
 **Wave 7 — optional expansion:** GPU/video worker and user-contributed pool only after real workload justifies them, and after separate trust/resource/recovery qualification.
 
 Ни одна wave не переходит автоматически в следующую. Неуспех или отсутствие evidence возвращает задачу в BLOCKED → DIAGNOSE → REPAIR → PREFLIGHT.
+
+---
+## 20. Принятый blueprint от владельца проекта — нормализованная спецификация
+
+Этот раздел фиксирует требования владельца проекта, а не выдаёт их за уже реализованные функции.
+
+### 20.1 Стратегия сборки
+
+1. **Repository-first:** прежде чем разрабатывать capability, провести поиск готовых решений в GitHub, официальных документах и референсных реализациях. Для существенной capability сравнивать минимум три подходящих кандидата, когда они существуют.
+2. **Не строить повторно стабильные блоки:** предпочтительны повторное использование upstream, адаптер, узкий fork с объяснением необходимости или композиция готовых компонентов. Собственная реализация допустима, только если подходящие решения не найдены или не удовлетворяют требованиям.
+3. **Astra — не архитектурный монолит:** Astra Gold — имя инженерного/мультиагентного контура координации разработки и квалификации. Целевая система MediaHub собирается из проверенных компонентов; существующие Astra-модули проходят ту же проверку, что и внешние проекты.
+4. **Не принимать README как доказательство стабильности:** проверять точный repository URL, release/commit, лицензию, maintenance/release cadence, CI, тесты, advisories, зависимости, платформы, потребление ресурсов, threat model, recovery и интеграционные границы.
+5. **Проверяемая сборка:** каждый выбранный компонент получает pinned version/SHA, bill of materials, конфигурацию, contract tests, health checks, rollback procedure и evidence. Deployment на latest без фиксации версии не является воспроизводимым.
+6. **Общий контекст без выдумывания истории:** существующие чаты MH-01…MH-23 сохраняют свою специализацию. Неизвестные роли восстанавливаются из первичных материалов, а не назначаются по номеру чата.
+
+### 20.2 Целевая топология и этапность
+
+| Роль | Целевая машина | Постоянная ответственность | Что не следует предполагать |
+|---|---|---|---|
+| Development host 1 | Mac Pro, который будет куплен | Главный инженерный узел, orchestration/control plane для разработки после квалификации, интеграция, тесты и сборка deployment bundle | Точная модель/память/OS пока не подтверждены; нельзя заранее обещать конкретную локальную модель или скорость |
+| Development host 2 | Mac mini 2011, Linux, целевые 16 GB RAM | Совместимость с Linux, ограниченные executor jobs, проверки упаковки и восстановления | Поддержка 16 GB и стабильность конкретного экземпляра должны быть проверены; не использовать для тяжёлого инференса по умолчанию |
+| Product prototype | Mac mini M2 Виктора, 8 GB | Первый работающий прототип MediaHub на объекте заказчика | Не включать в постоянный developer worker pool и не использовать customer environment как неявный тестовый ресурс |
+| Future compute extension | Мощный GPU/video server | Опциональные GPU/vision/video batch jobs, отдельные compute workers | Не требуется для первого запуска; не является State Authority и не создаёт автоматически общую VRAM |
+| External/user-contributed nodes | Только с явным opt-in | Ограниченный вычислительный worker при наличии обоснованной задачи | Недоверенные по умолчанию; доступ можно отозвать; никакой автоматической передачи customer data или секретов |
+
+Покупка оборудования не считается завершением развёртывания. До commissioning необходимо снять hardware/software inventory, создать reproducible deployment bundle, проверить backup/restore, health/readiness, network identity, secrets provisioning, rollback, resource limits и smoke/contract tests. Production release разрешается только после независимой квалификации и явного human approval.
+
+### 20.3 Логическая архитектура: отдельные ответственности
+
+- **MediaHub Edge/Product Runtime:** локальные пользовательские интерфейсы и сервисы конкретного объекта, ограниченный набор разрешённых инструментов, пользовательская конфигурация и продуктовые данные.
+- **Jarvis interaction layer:** текст/голос, intent parsing, session context, status/progress, user confirmation и доступ к allowlisted tools. Не является unrestricted shell или доменным авторитетом.
+- **Agent graph/planner:** декомпозиция задачи, план, выбор инструментов и проверка результата. Не владеет долговременной очередью, правами доступа или canonical product state.
+- **Durable workflow/job queue:** task lifecycle, leases, retries, idempotency keys, timeout, cancellation, recovery/resume, bounded concurrency и dead-letter handling. Должен иметь один определённый владелец.
+- **Model/provider gateway:** адаптация провайдеров, идентичность модели, политика маршрутизации, budgets/rate limits и явные fallback rules. Gateway не выдаёт разрешения инструментам.
+- **Tool/MCP permission broker:** проверка schema, capabilities, tenant/user scope, rate limits, timeout, approval и sanitation результатов перед передачей модели.
+- **Product State Authority:** единственная каноническая точка разрешённых доменных изменений продукта. Отделена от A0-ASTRA, агентских предложений, журналов и observability.
+- **Persistence and recovery:** долговременное хранение только в рамках утверждённых контрактов; backup/restore, migration, RPO/RTO, journal/WAL и восстановление не дают хранилищу самостоятельной доменной власти.
+- **Memory/retrieval:** отделяет краткосрочный контекст, пользовательские предпочтения, документы/knowledge base и долговременную память; provenance, tenant boundary, retention/deletion и privacy policy обязательны.
+- **Observability/evidence:** структурированные логи, metrics, traces, health, qualification artifacts. Наблюдения не являются полномочием менять продуктовые данные.
+- **A0-ASTRA engineering control plane:** распределяет инженерные задачи, назначает lanes, управляет qualification runs, собирает evidence и сводит отчёты. Не является MediaHub Product State Authority.
+- **Independent verifier (A3):** проверяет результат независимо от исполнителя. Агент, выполнивший работу, не может сам выдать независимый PASS.
+- **Human governance:** утверждает изменения архитектурных контрактов, доступ к чувствительным данным, production release и необратимые действия.
+
+### 20.4 Контракт выполнения задачи
+
+Нормативный жизненный цикл:
+
+RECEIVED → CLASSIFIED → PLANNED → AUTHORIZED → CLAIMED → EXECUTING → VERIFYING → SUCCEEDED | FAILED | BLOCKED | CANCELLED
+
+Обязательные поля задания: task_id, requester/tenant, created_at, task_type, risk_class, policy_mode, input_refs, required_capabilities, assigned_worker, lease_id, attempt, idempotency_key, deadline, cancel_token, expected_output_schema, evidence_refs, status, status_reason, source_revision.
+
+Обязательные правила:
+- PLANNED не означает AUTHORIZED; план агента не даёт полномочий.
+- CLAIMED требует актуальный lease и fencing token; два worker не должны одновременно подтверждать одну эксклюзивную операцию.
+- EXECUTING должен иметь timeout, cancellation path, bounded output и resource limits.
+- Повтор задачи использует idempotency/deduplication; сетевой retry не должен молча повторять необратимую операцию.
+- VERIFYING сравнивает результат с output schema, контрактом и фактическим состоянием. «Запрос отправлен» не равен «операция применена» или «результат подтверждён».
+- Неоднозначное состояние после timeout/restart переводится в BLOCKED/NEEDS_RECONCILIATION, а не автоматически повторяется.
+- SUCCEEDED допустим только при сохранённом evidence, привязанном к exact source SHA, worker/provider identity и актуальному времени проверки.
+- LOCAL_ONLY fail-closed: при недоступности утверждённого локального endpoint облачный fallback запрещён.
+
+### 20.5 Матрица capability → компонент → статус → риск
+
+Статус «кандидат» означает только наличие подходящего проекта для оценки, а не утверждённое внедрение.
+
+| Capability | Кандидат / источник для repo-first сравнения | Статус | Ключевой риск и критерий выбора |
+|---|---|---|---|
+| Voice UI + tool-using personal assistant | PersonalJarvis: https://github.com/stevensaint/jarvis ; isair/jarvis: https://github.com/isair/jarvis | CANDIDATES ONLY | Различные лицензии, интеграционные assumptions и permissions; оценить изоляцию worktree, локальные STT/TTS, MCP, privacy и реальный ресурсный профиль |
+| Agent graph and stateful planning | LangGraph: https://github.com/langchain-ai/langgraph | CANDIDATE ONLY | Не подменять им durable workflow, Product State Authority или policy broker; измерить checkpoint/resource behavior |
+| Durable workflow, retries and recovery | Temporal: https://github.com/temporalio/temporal | CANDIDATE ONLY | Возможная операционная сложность для двух узлов; сравнить с существующей очередью Astra и требуемым RPO/RTO |
+| Model API adapter/gateway | LiteLLM: https://github.com/BerriAI/litellm | CANDIDATE ONLY | Не допускать дублирующего gateway, скрытых retry/fallback и потери model provenance |
+| Tool integration protocol | MCP: https://github.com/modelcontextprotocol/modelcontextprotocol | PROTOCOL CANDIDATE; DOES NOT GRANT AUTHORITY | MCP — protocol/interface, не гарантия безопасности tool server; required broker, schema validation, approval and least privilege |
+| Local inference endpoint | Ollama: https://github.com/ollama/ollama ; llama.cpp: https://github.com/ggml-org/llama.cpp | CANDIDATES / SOME CURRENT-LAB USAGE OBSERVED | Проверять actual model digest/provenance, RAM/compute fit, API compatibility and offline behavior |
+| Tracing/metrics | OpenTelemetry: https://github.com/open-telemetry/opentelemetry-specification | STANDARDS CANDIDATE | Sensitive prompts/tool outputs must not leak into traces; observability has no mutation authority |
+| Speech recognition/synthesis | whisper.cpp: https://github.com/ggml-org/whisper.cpp ; sherpa-onnx: https://github.com/k2-fsa/sherpa-onnx | CANDIDATES ONLY | CPU/RAM/latency, language support, model license and offline operation must be benchmarked on target hardware |
+| Secrets and OS integration | Native OS credential store + narrow adapters (specific implementation TBD) | NO SELECTION | Never place keys in prompts, Git, logs or unencrypted task payloads |
+| Product State Authority/persistence | Existing MediaHub contracts plus MH-03/MH-06/MH-14 governance reconciliation | ARCHITECTURE CONTRADICTION OPEN | Must be resolved explicitly before granting product write capability or qualifying durable workflows |
+
+The candidate list is intentionally non-final. Selection requires checking exact current release, commit, license, tests, advisories, dependency footprint and PoC on representative hardware. Do not combine multiple candidates that perform the same primary responsibility unless a measured requirement justifies it.
+
+### 20.6 Минимальный набор доказательств перед признанием компонента стабильным
+
+1. Exact upstream URL, release/tag and immutable commit SHA.
+2. License and transitive dependency/license review.
+3. Supported OS/architecture and pinned dependency lock.
+4. CI/test evidence on the pinned version; open security issues/advisories triaged.
+5. Isolated smoke test and contract tests against MediaHub interfaces.
+6. Resource benchmark on representative target hardware.
+7. Permission, network egress, secrets, tenant/privacy and prompt-injection review.
+8. Timeout, cancellation, restart, duplicate delivery, idempotency and recovery tests.
+9. Offline/LOCAL_ONLY negative test where applicable.
+10. Rollback/uninstall and backup/restore plan.
+11. Independent A3 review with evidence bound to exact SHA.
+12. Explicit architecture decision marking the component SELECTED, REJECTED or DEFERRED.
+
+### 20.7 Чек-лист готовности к концу октября 2026 года
+
+- [ ] P0 disk-space blocker resolved safely; dirty/untracked work preserved.
+- [ ] Canonical source repo, branch, commit and tree established for every controller/worktree.
+- [ ] Product State Authority versus A0-ASTRA coordination contradiction resolved by explicit ADR.
+- [ ] Actual provider/model identity verified; invalid aliases excluded from routing.
+- [ ] FCC + FreeLLMAPI + Alamo route qualified, or replaced by a documented alternative; LOCAL_ONLY fails closed.
+- [ ] Initial physical developer topology contains only the commissioned Mac Pro and Linux Mac mini; M2 is excluded from permanent dev lanes.
+- [ ] Reproducible deployment manifest, pinned component versions, secrets provisioning and rollback package prepared.
+- [ ] Required contract, integration, security, recovery and negative-egress tests genuinely executed with logs.
+- [ ] Mandatory qualification rounds, independent A3, recovery matrix and full 24-hour soak passed on the defined topology.
+- [ ] Human launch gate approved; no inferred/automatic production launch.
+- [ ] GPU/video server remains an optional, separately qualified extension.
+
+**Итоговая граница:** архитектурный blueprint и кандидатная карта помогают собрать систему, но не подтверждают, что перечисленные компоненты уже интегрированы. Пока evidence/gates не закрыты, статус остаётся BLOCKED / NOT QUALIFIED.
