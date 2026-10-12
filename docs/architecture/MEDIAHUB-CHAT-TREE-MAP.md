@@ -761,3 +761,20 @@ Baseline 2.0 заявляет, что согласован с пользоват
 **Ограничения:** MH-18/MH-19/MH-17/MH-23 документы branch-specific и не считаются принятыми на `main`. MH-14 acceptance criteria по проверенному точному пути на `main` не найден; глобальное отсутствие не утверждается. Нет утверждений о runtime/production readiness.
 
 **Следующий шаг:** Batch 05 — Passport §§31–38. Baselines не менялись; тесты/qualification, infrastructure actions и merge в `main` не выполнялись.
+
+
+### 20.8 Выполнен пятый requirement-level audit batch
+
+**Артефакт:** `docs/checkpoints/MH24-SEMANTIC-AUDIT-BATCH-05.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `8299b888cd28aa9aa59531b936265abd6eb1a533`  
+**Read-back blob SHA:** `78dcaf174bf818298e1def50c3ef678df014b651`  
+**Статус:** `DOCUMENTARY AUDIT — PARTIAL`.
+
+Покрыты Passport 1.0 §§31–38 с IDs PAID-FEATURES-01, UPDATE-SYSTEM-01, BACKUP-RECOVERY-01, SECURITY-BASELINE-01, CLOUD-SECURITY-01, LOCAL-FIRST-01, CLUSTER-01, NEW-DEVICE-ONBOARDING-01. Сверены Baseline 1.0/2.0, matrix rows 31–38, MH-12 security gates, MH-13 privacy references, MH-15/16 lifecycle boundaries, MH-20 automation governance, MH-22 qualification interface и canonical component manifest 2.0.
+
+Подтверждено по текстам: B2 описывает staged update lifecycle и RAUC как target, запрещает вторую production OTA authority без нового решения; recovery не становится State Authority; layered security, cloud egress/privacy boundaries, local-first intent, cluster separation and device capability/trust/confirmation sequence представлены. Ключевые gates остаются открытыми: MH-12 явно требует governance review и говорит implementation not authorized / production not qualified / freeze not granted; B2 carries recovery qualification, cluster/federation POCs and product-edition qualification forward. Paid entitlement enforcement, deployed OTA/recovery, cloud bypass-negative evidence, local-only capability qualification, cluster/GPU/storage/scheduler behavior and end-to-end device onboarding не подтверждены.
+
+**Ограничения:** MH-11 exact index path on `main` returned 404; карта указывает branch-specific package, и глобальное отсутствие не утверждается. Документальные статусы/POCs не считаются runtime evidence. Baselines не менялись; tests/qualification, infrastructure actions and merge to `main` не выполнялись.
+
+**Следующий шаг:** Batch 06 — Passport §§39–46.
