@@ -1616,7 +1616,7 @@ Next safe step: continue with a separate atom-level crosswalk draft for B1 §16 
 **Next safe step:** move to B1 §17 Cloud Development AI in Batch 08. Keep the named-gateway contract/disposition open; do not treat a generic B2 gateway mention as accepted semantic mapping.
 
 
-## 20.50 Current source pointers after AG-21 inventory correction and Batch 07 read-back
+## 20.50 Previous pointer snapshot after AG-21 inventory correction and Batch 07 read-back (superseded by §20.51)
 
 **Date:** 2026-10-12  
 **Ref:** `docs/mediahub-chat-tree-map-20261012`  
@@ -1640,3 +1640,38 @@ Next safe step: continue with a separate atom-level crosswalk draft for B1 §16 
 **Constraints:** B1 `9df4892ed0734050ac79732603d15bb414717310`, B2 `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, Audit 01 `d0938f14ed4110545118f075175dee3be412097b` and `main` remain unchanged. No canonical backlog, matrix, runtime, infrastructure, host or hardware was altered or operated. No tests, qualification, installation, deployment or merge was performed.
 
 **Next safe step:** continue B1 §17 Cloud Development AI in Batch 08 under the same bounded, source-anchored process; keep all atom-level mapping and semantic approval open until independently verified.
+
+
+## 20.51 Batch 08 Cloud Development AI crosswalk and current working pointer verification
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `STRUCTURAL / SOURCE-ANCHOR / STATUS-CONSISTENCY PASS — SEMANTIC ACCEPTANCE OPEN`
+
+| Artifact | Latest read-back blob SHA | Result / status |
+|---|---|---|
+| Gap reconciliation (AG-01…AG-21) | `39720b11e5e6777b86ffd71e0fec1214982e0d95` | 21 scoped findings; the existing 13 scoped documentary cycles are unchanged |
+| System Passport v3 | `327089a0780e85a053c3d56c185c22d2e76857ae` | Working draft; P-19/P-20/P-21 active references use current gap report |
+| Verifiable Architecture Contract 01 | `8566e3a3817b82d17711349cab9fa962df57e28c` | Working draft; 28 architecture requirements / 21 verification checks; current Passport/Gap references confirmed |
+| Jarvis Master Prompt 01 | `25c9dbd3a8391934eea9d81a339a48c9fa0c179b` | Current working Passport/Contract/Gap refs point to the current read-back blobs |
+| Batch 06 Local AI crosswalk | `9df96aca53d1004c33d45f038501dc6b7f52c0c9` | B1 §15: 18 rows, 12 fields; `2 MAPPED / 16 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT` |
+| Batch 06 Review 01 | `1edc976dd663ae16a1b61876a2dbbde9411be095` | Structural/source/status review pass; B1-15-13 source-pointer correction confirmed; semantic acceptance open |
+| Batch 07 Local Cluster AI crosswalk | `9d9663107a0ffba4316ab47bc8974e537a901f46` | B1 §16: 11 rows, 12 fields; `0 MAPPED / 10 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT` |
+| Batch 07 Review 01 | `4c665414776414efdc0855c395c290466b035423` | 11/11 IDs/fields/anchors/statuses verified; semantic acceptance open |
+| Batch 08 Cloud Development AI crosswalk | `a978d6846b747f397b266dc0befa05fc22cdd7ab` | B1 §17: 27 rows, 12 fields; `10 MAPPED / 15 NOT_REVIEWED / 2 NO_DIRECT_COUNTERPART / 0 CONFLICT` |
+| Batch 08 Review 01 | `2c088f1837b8e5c6d257bc1b33ae3be0dedd938b` | 27/27 IDs/fields/anchors/statuses verified; semantic acceptance open |
+| B1 Baseline 1.0 (`main`) | `9df4892ed0734050ac79732603d15bb414717310` | Immutable literal source unchanged |
+| B2 Baseline 2.0 (`main`) | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Accepted canonical current functional reference unchanged |
+
+## Source-pointer and semantic findings retained
+
+1. **AG-21 / P-21 / ARC-028 / V-21:** B1-15-13 at B1 §15 line 246 was linked by historical Audit 01 to B2 §19. Pinned B2 confirms §16 “Documents and Knowledge”, §18 “AI architecture”, §19 “Update / Recovery / Migration”. The working Batch 06 crosswalk correctly points to B2 §§16/18. Audit 01 remains immutable historical evidence; this is a pointer defect, not an established B1/B2 semantic conflict.
+2. **CLAI4-03 / B1-16-10:** exact named “MediaHub AI Gateway” is not directly defined in the reviewed B2 clauses. B2 §18 policy-governed model routing and §25 generic API Gateway/Security-Egress Gateway are related context, not accepted semantic equivalence. Status remains scoped `NO_DIRECT_COUNTERPART` in Batch 07.
+3. **CDAI4-02 / B1-17-04 and B1-17-05:** the exact named subsystems “Trusted Sources Intelligence Engine” and “AI Human Clone” are not found in pinned B2. Batch 08 records `NO_DIRECT_COUNTERPART` for each in reviewed B2 text; retain/revise/defer owner disposition is OPEN.
+4. **Finding count and history:** Gap report now records 21 scoped AG findings including AG-21. AG-21 is a post-cycle follow-up and does not increment the previously recorded 13 documentary cycles or imply runtime tests/qualification.
+
+## Boundaries and next action
+
+All new crosswalks remain documentary drafts, not canonical backlogs. No final child IDs were minted. Canonical backlog, MH24 matrix, Baselines 1.0/2.0 and `main` are unchanged. No installation, tests, qualification, cloud request, live-host operation, infrastructure change, deployment or merge occurred.
+
+**Next safe step:** independently review remaining Batch 04 clause batches and any residual lineage/owner-disposition issues before proposing a canonical-backlog update. Do not infer completeness of every repository file or every branch from these bounded source batches.
