@@ -5,7 +5,7 @@
 - **Status:** WORKING INTEGRATION CONTRACT / DRAFT — NOT A NEW CANONICAL BASELINE
 - **Use:** operative review/checklist for documentation and architecture work on this branch, subject to the source precedence and gates below.
 - **Not a grant of authority:** does not replace Baseline 2.0, alter Baseline 1.0, approve pending domain contracts, authorize implementation/deployment, or imply qualification/production acceptance.
-- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `b25931bf6b88936c110dff6a3217d5edea2fed35`.
+- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d`.
 - **Rule of evidence:** claim → source path → ref → blob SHA → exact scope/status → acceptance/evidence required → independent read-back.
 
 - **Current terminology:** the latest owner-provided umbrella name is **Jarvis**; an earlier same-day draft used “Astro”. Jarvis supersedes that draft label. The existing gap-report filename retains `ASTRO` for reference lineage; this does not rename ASTRA or assert deployed functionality.
@@ -166,7 +166,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** architecture diagrams, prompts and contracts explicitly distinguish Jarvis (umbrella), Astra (bounded engineering subsystem), MediaHub State Authority (product/platform state), and Home Assistant Core (Smart Home-domain authority). An ambiguity blocks the dependent task.
 
-**Sources:** owner blueprint / branch gap reconciliation blob SHA 406e33a480d195915f7ab8963836066988ee2fd0; B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; ASTRA launch schema SHA 0b86b07dfa916d4485ce1f8f54d19de136d98491.
+**Sources:** owner blueprint / branch gap reconciliation current blob SHA 8495c9436b967bd77afae57ccb1e42959ab86a56; B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; ASTRA launch schema SHA 0b86b07dfa916d4485ce1f8f54d19de136d98491.
 
 ### ARC-018 — one owner for engineering task lifecycle
 
@@ -238,7 +238,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Sources:** owner-provided Jarvis blueprint (2026-10-12); gap reconciliation §17 / AG-20, current blob SHA 8495c9436b967bd77afae57ccb1e42959ab86a56; Passport v3 / P-20, current blob SHA 9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d.
 
-**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `b25931bf6b88936c110dff6a3217d5edea2fed35`; Jarvis gap reconciliation current SHA `406e33a480d195915f7ab8963836066988ee2fd0`.
+**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d`; Jarvis gap reconciliation current SHA `8495c9436b967bd77afae57ccb1e42959ab86a56`.
 
 
 ## 3. Cross-domain system contract
