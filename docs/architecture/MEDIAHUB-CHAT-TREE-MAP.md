@@ -718,3 +718,15 @@ Baseline 2.0 заявляет, что согласован с пользоват
 Покрыты Passport 1.0 §§3–9 с отдельными requirement IDs: SA-01, SA-02, HA-01, UI-01 (deferred), SH-01, VENDOR-01, KINCONY-01, WIRED-01. Для каждого записаны Baseline 2.0 clauses, MH dependencies, acceptance/evidence state и conclusion. Проверено буквальное отсутствие в тексте Baseline 2.0 целевых названий производителей и протоколов из §§7–9; это классифицировано как candidate semantic omission, не как доказательство отсутствия эквивалентного требования во всём репозитории. HA contract path/ref остаётся unresolved. MH-04/MH-05/MH-17 acceptance gates остаются открытыми согласно первичным branch-only документам.
 
 **Следующий шаг:** Batch 02 — §§10–14 (wireless/network, Ubiquiti controller, automation, voice order, AI/cloud boundary). Затем продолжить §15–68. Не менять baseline без явного governance решения; не заявлять реализацию/квалификацию по архитектурным документам.
+
+
+### 20.5 Выполнен второй requirement-level audit batch
+
+**Артефакт:** `docs/checkpoints/MH24-SEMANTIC-AUDIT-BATCH-02.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `55654fe276686bf8d3ad7b109b96ea30bd0228af`  
+**Статус:** `DOCUMENTARY AUDIT — PARTIAL`.
+
+Покрыты Passport 1.0 §§10–14 с IDs NET-WIFI-01, UBIQUITI-VSERVER-01, AUTO-01, VOICE-ORDER-01, AI-CHAIN-01. Прочитаны Baseline 1.0/2.0, существующая матрица, MH-10/MH-20/MH-21 master prompts, а также MH-20/MH-21 acceptance/evidence. Подтверждено: B2 сохраняет общий outcome seamless wireless coverage и qualified network model; authority boundary для automation/AI/cloud согласуется с требованиями 1.0. Потенциальные текстовые пробелы: конкретный Virtual Ubiquiti Server, заданный порядок голосовых экосистем и точное определение Mobile Access Layer в цепочке AI. Это candidate semantic gaps, а не доказательство глобального отсутствия требований в репозитории. MH-21 acceptance остаётся NOT SATISFIED; production cloud и отсутствие cloud→device bypass не подтверждены.
+
+**Следующий шаг:** Batch 03 — Passport §§15–22 (AI sub-systems, Trusted Sources Intelligence Engine, AI Human Clone, mobile roles/entitlements, media/AirPlay, documents/Digital Twin/storage). Не менять Baseline без явного governance решения; не утверждать реализацию/квалификацию на основании документов.
