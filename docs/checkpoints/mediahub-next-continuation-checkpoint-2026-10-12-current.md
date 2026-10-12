@@ -215,3 +215,13 @@ Resume with `/next`.
 - No tests, runtime/host inspection, network probes, provider/model calls, credentials, installation, infrastructure changes, deployment, migration or merge occurred.
 
 **Next safe action:** add this checkpoint's final blob SHA to the map, then read back matrix/map/checkpoint and verify cross-links.
+
+
+## Latest continuation — MH-21 external-compute authority crosswalk (2026-10-12)
+
+- Re-read bootstrap, current map, this checkpoint, matrix, parent deployment contract, Baseline 2.0 and component manifest before acting. Bootstrap SHA `f86014d81a2db1b5246b4fc2600812340f1c7d22`; map SHA before this pass `ee5cff48cbc0cc5a6640b44b1d497087f524c8b1`; checkpoint SHA before this pass `63f0108d329c8d1cd0393baca5c36a6a3ec3aec9`; parent contract SHA `e9e65df37e74e5373bd07b810bf9a33e22418a3c`; Baseline 2.0 SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; component manifest SHA `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`.
+- Read primary MH-21 sources from `main`: index `07261e5116ee699176630d25e8e01adc4be7885b`; hybrid cloud/distributed AI `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c`; cloud boundary `e99d29d93033a7147f3e53fbf895ee3e15ba7221`; external compute contract `b2127d6085cdbfcd98d2f819fa3ea5d12ffee68f`; acceptance criteria `582f898fe4be332b6a7fef3e8cca2e27c7328ac2`; evidence register `6bc646902395f690554604b39b16464de796c724`; decision log `03c9341b31780a263117f0400a6352d776acf1b1`.
+- Added matrix section 18 with four stable IDs: `MH21-CLOUD-AUTHORITY-01`, `MH21-WORKLOAD-CONTRACT-01`, `MH21-ACCEPTANCE-EVIDENCE-01`, `MH21-ADAPTER-EGRESS-01`. Matrix update commit: `0b32d126c75c253023d68ac346ff16334fc5969f`; new blob SHA: `20d766a5b6c6aa64788a488ef9b50929853914c7`.
+- Confirmed: external compute is not authority; direct Cloud→State Authority and Cloud→Device paths are forbidden; external workload completion grants no mutation permission. MH-21 acceptance remains NOT SATISFIED / NOT ACCEPTED / NOT FROZEN / NOT PRODUCTION READY. Full production cloud runtime and absence of cloud→device bypass remain UNKNOWN in the evidence register. Provider adapters and default-deny egress remain PROPOSED.
+- No runtime source inspection, tests, qualification, provider/model calls, credential use, installation, infrastructure change, deployment, migration or merge occurred. No gap was closed and no technology was selected.
+- Next safe action: read back matrix, checkpoint and map from GitHub; verify their live blob SHAs and cross-links.
