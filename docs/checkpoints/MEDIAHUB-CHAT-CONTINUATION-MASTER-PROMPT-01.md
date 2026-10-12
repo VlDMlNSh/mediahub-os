@@ -47,19 +47,20 @@ Before each consequential action:
 
 ### 4. Current continuation checkpoint — 2026-10-12
 
-The latest map checkpoint before this prompt was read at blob SHA `80cf38d11e01611435a980d226ea2f98832f62f5`, with Batch 09 TSI work recorded in §20.58. Re-fetch the map first; this SHA is a historical starting pointer, not a promise that it remains the current SHA.
+The map was re-read immediately before this prompt refresh at blob SHA `d707367a37e0418be91a5d3d82bdd77941775db2`. It records the TSI-12 → TSI-07 owner disposition and the bounded structural review in §20.59, plus this continuation prompt in §20.60. This SHA is a checkpoint pointer, not a substitute for fetching the live map; the map will change again when this prompt refresh is recorded. **At the start of the next chat, fetch the current map first.**
 
-Relevant paths on `docs/mediahub-chat-tree-map-20261012`:
-- Map: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md`.
-- Bootstrap rules: `docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md`.
-- Product-owner decisions: `docs/checkpoints/MH24-BATCH-04-PRODUCT-OWNER-DECISION-RECORD-01.md`.
-- Batch 09 TSI crosswalk: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-DRAFT.md`.
-- Batch 09 prior independent review: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-01.md`.
-- Batch 01–08 union review: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-UNION-REVIEW-01.md`.
-- B1: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, expected blob SHA `9df4892ed0734050ac79732603d15bb414717310`.
-- B2: `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, expected blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
+Current relevant artifacts on `docs/mediahub-chat-tree-map-20261012` (verify every SHA again before use):
+- Map: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md` — SHA at this refresh: `d707367a37e0418be91a5d3d82bdd77941775db2`.
+- Bootstrap rules: `docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md` — current SHA `f86014d81a2db1b5246b4fc2600812340f1c7d22`.
+- Product-owner decisions: `docs/checkpoints/MH24-BATCH-04-PRODUCT-OWNER-DECISION-RECORD-01.md` — SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`, including D-06.
+- Batch 09 TSI crosswalk: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-DRAFT.md` — SHA `5e1b73c73c951638b549a30d569df2d1c7de8b31`.
+- Batch 09 Review 01 (historical pre-D-06 review): `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-01.md` — verify current SHA; preserve as historical evidence.
+- Batch 09 Review 02 (bounded owner-disposition follow-up): `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-02.md` — SHA `d808f602756b6135019a7655c0c12291527e9de3`.
+- Batch 01–08 union review: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-UNION-REVIEW-01.md` — recorded SHA `e9ccafef5a3cca75f41e84bf3c4397dcc2285fd4`; re-fetch before relying on it.
+- B1: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, verified SHA `9df4892ed0734050ac79732603d15bb414717310`.
+- B2: `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, verified SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 
-The B1 §18 Batch 09 draft contains 17 provisional traceability labels, TSI-01…TSI-17, using the owner-approved 12-field schema. It remains a documentary draft; mapping status does not prove implementation or qualification. The previous Review 01 was bounded structural/source-anchor review, not semantic acceptance.
+**Verified current status:** Batch 09 retains 17 provisional TSI labels and the approved 12-field schema. Its mapping distribution is 3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT. D-06 resolves only the label relationship: TSI-12 is a historical sub-aspect of TSI-07, not an independent sibling obligation. Review 02 passes the bounded owner-disposition/structural checks; full TSI semantic acceptance remains OPEN. No final child ID was minted, and no B1/B2, canonical backlog or traceability matrix change is authorized by that decision.
 
 ### 5. Explicit owner decision to preserve
 
@@ -78,11 +79,11 @@ Required treatment:
 
 ### 6. Recommended next work
 
-1. Re-read the current map and bootstrap instruction, then fetch the latest decision record, Batch 09 draft and prior review.
-2. Verify that D-06 records the TSI-12 → TSI-07 sub-aspect relationship and that the crosswalk preserves TSI-12 as a historical label, with no duplicate normative count.
-3. Create a **separate Review 02** against the exact latest Batch 09 draft SHA. Check all 17 rows, all 12 fields, status distribution, exact source anchors, explicit D-06 reference and the retained historical cross-link. Keep semantic acceptance open except for the specific owner-resolved relationship.
-4. If the review confirms the result, update the map with the decision, latest draft SHA and review SHA; then read the map back.
-5. Continue the next source-anchored semantic review only after the above checkpoint is verified. Do not promote the crosswalk to the canonical backlog or alter B1/B2/matrix without separate authorization and independent review.
+1. Start from a fresh read of the live map and bootstrap instruction, then verify the current Decision Record, Batch 09 draft, Review 01 and Review 02 SHAs. Do not repeat the already-completed Review 02 unless its inputs have changed.
+2. Preserve D-06 exactly: `TSI-07` is the primary provenance aspect; `TSI-12` remains a historical traceability marker with an explicit `SUBASPECT_OF: TSI-07` / cross-reference and its B1 §18 line 301 anchor. Do not double-count it as an independent normative obligation or mint a final ID.
+3. Continue a bounded, source-anchored semantic review of the remaining open TSI rows. Read the exact B1 §18 source text and relevant B2 §§16/18 clauses, map each claim individually, distinguish literal source text from derived controls, record unresolved evidence as OPEN, and do not infer that documentary MAPPED status proves implementation or qualification.
+4. If a new review artifact is warranted, create a separately named follow-up review (never overwrite Review 01/02), cite exact input SHAs and review scope, and keep overall TSI semantic acceptance OPEN until independently supported.
+5. Read back every changed artifact from GitHub, then update the current map with the verified path/ref/SHA/status and read the map back. Do not promote the crosswalk into the canonical backlog, change B1/B2/matrix, install software, run tests/qualification, operate infrastructure, deploy or merge to `main` without separate explicit authorization.
 
 ### 7. Required response format
 
