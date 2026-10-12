@@ -17,7 +17,7 @@
 - These rows are traceability subdivisions of the source text, not additional source sentences.
 - Audit 01’s D01 is a derived acceptance/control requirement; it is not verbatim B1 wording and is not counted as a literal atom.
 - Use the owner-approved status vocabulary: `MAPPED`, `CONFLICT`, `NO_DIRECT_COUNTERPART`, `NOT_REVIEWED`.
-- `NO_DIRECT_COUNTERPART` for B1-16-10 is scoped to the reviewed B2 text: B2 §18 has policy-governed AI routing and §24 mentions generic API/Security-Egress gateway topology, but the named MediaHub AI Gateway and its precise semantics are not directly defined. This does not mean the named component is rejected, absent from every domain document, implemented, or production-qualified.
+- `NO_DIRECT_COUNTERPART` for B1-16-10 is scoped to the reviewed B2 text: B2 §18 has policy-governed AI routing and §25 mentions generic API/Security-Egress gateway topology, but the named MediaHub AI Gateway and its precise semantics are not directly defined. This does not mean the named component is rejected, absent from every domain document, implemented, or production-qualified.
 - Partial/derived relations remain `NOT_REVIEWED`; a related section is not proof of semantic equivalence.
 - No B1↔B2 `CONFLICT` is asserted without a contradictory normative source passage. No final child IDs are minted.
 
@@ -178,13 +178,13 @@
 - **Requirement ID:** `PROVISIONAL/CLAI4-03/B1-16-10` (traceability label only; not a final stable child ID).
 - **Owner:** TBD; Local Cluster AI / compute-fabric domain owner is not independently confirmed as an accepted canonical owner in the reviewed sources.
 - **Source atom / classification:** B1 §16 line 267 — LITERAL: Access to Local Cluster AI is regulated by the named MediaHub AI Gateway.
-- **B2 mapping status:** `NO_DIRECT_COUNTERPART`; Audit 01 relation: Exact named component not located in reviewed B2 clauses; B2 §18 establishes policy-governed model routing and §24 mentions API Gateway/Security-Egress Gateway topology, but no clause establishes semantic equivalence to the named MediaHub AI Gateway.. The owner/governance decision must explicitly retain, rename, map or defer the named component; if retained, define its boundary relative to model routing, API egress, identity, policy and workload admission.
+- **B2 mapping status:** `NO_DIRECT_COUNTERPART`; Audit 01 relation: Exact named component not located in reviewed B2 clauses; B2 §18 establishes policy-governed model routing and §25 mentions API Gateway/Security-Egress Gateway topology, but no clause establishes semantic equivalence to the named MediaHub AI Gateway. The owner/governance decision must explicitly retain, rename, map or defer the named component; if retained, define its boundary relative to model routing, API egress, identity, policy and workload admission.
 - **Canonical contract path/ref:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main` SHA `9df4892ed0734050ac79732603d15bb414717310`; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md@main` SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`. No accepted detailed Local Cluster AI workload/gateway contract is asserted; B2-related generic compute/AI sections are not treated as direct coverage for unspecified workload semantics.
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: Decision record and versioned gateway/API contract; threat model; data/egress boundary; deny-bypass evidence before implementation/qualification.
 - **Required evidence:** MH-04; MH-10; MH-12; MH-21; MH-22
 - **Lifecycle status:** DRAFT / NOT APPROVED; implementation, verification and qualification OPEN.
 - **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
-- **Dependencies:** Re-search the pinned B2 text for exact component names and compare §18 and §24; treat related generic gateway wording as a candidate relationship, not direct coverage..
+- **Dependencies:** Re-search the pinned B2 text for exact component names and compare §18 and §25; treat related generic gateway wording as a candidate relationship, not direct coverage.
 - **Verification method:** Audit 01 B1-16-10 / CLAI4-03 preserved. NO_DIRECT_COUNTERPART is scoped to the reviewed B2 clauses; the named gateway is not declared rejected or implemented.
 - **Change history:** undefined
 
@@ -193,7 +193,7 @@
 - **Requirement ID:** `PROVISIONAL/CLAI4-04 / CLAI4-05/B1-16-D01` (traceability label only; not a final stable child ID).
 - **Owner:** TBD; Local Cluster AI / compute-fabric domain owner is not independently confirmed as an accepted canonical owner in the reviewed sources.
 - **Source atom / classification:** B1 §16 line 255 — DERIVED CONTROL: Nodes are independently qualified and workload routing uses capability, resource and failure-state evidence.
-- **B2 mapping status:** `NOT_REVIEWED`; Audit 01 relation: Derived from B2 §§8–11 and qualification/safety principles; not individually enumerated as a literal B1 §16 requirement.. This derived control is not verbatim Baseline 1.0 wording. It requires independent owner approval before it becomes canonical acceptance criteria.
+- **B2 mapping status:** `NOT_REVIEWED`; Audit 01 relation: Derived from B2 §§8–11 and qualification/safety principles; not individually enumerated as a literal B1 §16 requirement. This derived control is not verbatim Baseline 1.0 wording. It requires independent owner approval before it becomes canonical acceptance criteria.
 - **Canonical contract path/ref:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main` SHA `9df4892ed0734050ac79732603d15bb414717310`; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md@main` SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`. No accepted detailed Local Cluster AI workload/gateway contract is asserted; B2-related generic compute/AI sections are not treated as direct coverage for unspecified workload semantics.
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: If adopted, every execution node has a time-valid capability/qualification profile and workload placement must enforce resource/failure/policy admission; stale profile or unqualified node fails closed.
 - **Required evidence:** Owner-approved derived contract, inventory-bound capability evidence, stale-profile denial, failure routing and node-revocation evidence.
