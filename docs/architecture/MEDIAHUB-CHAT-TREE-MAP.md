@@ -1421,7 +1421,7 @@ The owner blueprint assigns the purchased Mac Pro to the developer environment a
 **Next safe step:** prepare and independently review a separate atom-level batch for B1 §5 UI requirements; preserve literal-vs-derived distinctions and keep UI4-04 on HOLD until unique residual evidence exists.
 
 
-## 20.40 Jarvis contract active source-pointer correction
+## 20.41 Jarvis contract active source-pointer correction
 
 **Date:** 2026-10-12  
 **Ref:** `docs/mediahub-chat-tree-map-20261012`  
@@ -1455,3 +1455,20 @@ A fresh cross-reference scan of the current Jarvis artifacts found stale *active
 **Verified result:** 10/10 rows match Audit 01; 10/10 have the approved 12 fields; mapping distribution **0 MAPPED, 4 NOT_REVIEWED, 6 NO_DIRECT_COUNTERPART, 0 CONFLICT**. `NO_DIRECT_COUNTERPART` is limited to visual requirements Audit 01 marked `NOT-LOCATED` in the reviewed B2 clauses and does not prove global absence. **UI4-04 remains HOLD / CROSS-LINK-ONLY**: literal B1 line 114 is linked to UI4-02.f under Proposal 02; no unique additional requirement or child ID was created.
 
 **Next safe step:** continue with B1 §6 Smart Home as a separate atom-level batch. Do not promote this batch into the canonical backlog before complete collision review and owner/governance acceptance.
+
+## 20.42 Jarvis master-prompt contract pointer refresh
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `DOCUMENTARY POINTER CORRECTION / READ-BACK VERIFIED`
+
+Following the contract source-pointer correction, the active contract reference in the Jarvis master prompt was stale. Updated the current pointer and preserved the dated historical change record:
+
+- Artifact: `docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md`
+- Update commit: `04e580553a7f63f6da5bff248e3bb61dfcc6b1d0`
+- Read-back blob SHA: `e3bd3ef9a47078ffbeae1820fb7cef5790ff8384`
+- Active Contract 01 pointer now matches read-back blob SHA `4e04287721ff0bde9ca2ddce91dde3bfaccceaf6`.
+- No active pointer remains to the prior Contract 01 blob; the old SHA remains only in the dated history record.
+
+No functional or governance decision changed. B1, B2, the canonical `main` branch, ASTRA current truth, hardware allocation and qualification remain unchanged. No tests, installation, qualification, deployment, infrastructure or live-host operation was performed.
+
