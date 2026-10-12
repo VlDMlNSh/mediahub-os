@@ -705,3 +705,16 @@ Baseline 2.0 заявляет, что согласован с пользоват
 
 Не обновлять Baseline 2.0, не запускать тесты/qualification, не менять инфраструктуру и не делать merge в main без отдельного разрешения. После отдельного аудита — записать подтверждённые findings в эту ветку карты и сделать read-back.
 
+
+
+### 20.4 Выполнен первый requirement-level audit batch
+
+**Артефакт:** `docs/checkpoints/MH24-SEMANTIC-AUDIT-BATCH-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Blob SHA:** `2eaab9c3060da8a44e1c28ba683f427b3e2e8f3d`  
+**Create commit:** `e7257de5f4384b61562aa5eb3140d6359e03fb4b`  
+**Статус:** `DOCUMENTARY AUDIT — PARTIAL`.
+
+Покрыты Passport 1.0 §§3–9 с отдельными requirement IDs: SA-01, SA-02, HA-01, UI-01 (deferred), SH-01, VENDOR-01, KINCONY-01, WIRED-01. Для каждого записаны Baseline 2.0 clauses, MH dependencies, acceptance/evidence state и conclusion. Проверено буквальное отсутствие в тексте Baseline 2.0 целевых названий производителей и протоколов из §§7–9; это классифицировано как candidate semantic omission, не как доказательство отсутствия эквивалентного требования во всём репозитории. HA contract path/ref остаётся unresolved. MH-04/MH-05/MH-17 acceptance gates остаются открытыми согласно первичным branch-only документам.
+
+**Следующий шаг:** Batch 02 — §§10–14 (wireless/network, Ubiquiti controller, automation, voice order, AI/cloud boundary). Затем продолжить §15–68. Не менять baseline без явного governance решения; не заявлять реализацию/квалификацию по архитектурным документам.
