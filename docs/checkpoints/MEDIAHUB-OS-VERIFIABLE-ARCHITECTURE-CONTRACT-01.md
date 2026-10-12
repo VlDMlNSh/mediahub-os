@@ -137,7 +137,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** evidence binds node, executor, provider/model/transport, repository, exact SHA, clean worktree, command and timestamps; the required gate bundle is independently checked and missing evidence blocks progression. A 24-hour soak counts only when all prerequisite gates and current-SHA conditions pass.
 **Primary source:** architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml, main, SHA 1d3ac25e7817f365807ad85d0d7c9007bd48bebf; ASTRA launch schema working branch SHA 0b86b07dfa916d4485ce1f8f54d19de136d98491; generated docs/qualification/CURRENT-TRUTH.generated.md, main, SHA 48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731.
-**Observed result:** NOT_PROVEN / BLOCKED in the inspected generated truth. No active GOLD or successful current 24h soak is claimed.
+**Observed result:** CURRENT-TRUTH.generated.md on main (blob SHA 48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731) reports NOT_PROVEN / BLOCKED with no gate having fresh PASS evidence. The Astra 24H runbook (main, blob SHA efb1c8af47578cbe14f8e788676d71ba4c665966) separately says live three-node transport is not qualified and identifies a legacy worker health-schema mismatch. A historical soak/run cannot override these current blockers; no active GOLD or successful current 24h soak is claimed.
 
 ### ARC-014 — traceability is atom-level, source-anchored and non-inflated
 **Rule:** Every normalized requirement atom is uniquely traceable to exact source lines, a status, an owning source/authority and an evidence plan. Child IDs are not minted until a full collision check.
