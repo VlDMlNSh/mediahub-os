@@ -3575,3 +3575,5 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **No hidden closure:** MH-14/MH-15/MH-16 requirements are source-bound only. No tests, actual restore, hardware inspection/qualification, security review, provider/model calls, installation, infrastructure change, deployment, migration or merge occurred. P0-07 → P0-05 mutation-publication gap remains unresolved.
 - **Baseline and main:** Baseline 2.0 blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` unchanged; current `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
 - **Next safe action:** verify the latest matrix/map/checkpoint blobs from GitHub and extend source-bound crosswalk into the next dependency domain indicated by the map, without treating architecture documents as implementation evidence.
+
+- **Latest continuation checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `b495f87a592445ab0e8cd67368c5a24cfe4d6c87`, blob SHA `e72336bc7e9aea95acc559285c7011b9e504bcca` (read-back verified below).
