@@ -62,3 +62,13 @@ The domain documents do not close acceptance:
 **Result:** bounded field/identifier/source-anchor/status consistency checks PASS. **Full semantic acceptance remains OPEN.** Owner/governance decisions, clone-specific consent/rights/scope, provenance, audit, revocation, real/synthetic labeling, interfaces, implementation and qualification remain unaccepted/unverified.
 
 This review verifies the document against the cited textual sources; it is not an independent external approval, runtime inspection, privacy/legal sign-off or qualification. No tests, qualification, installation, deployment, host/infrastructure action or merge to `main` was performed. B1, B2, the traceability matrix and canonical backlog remain unchanged.
+
+## 6. Provenance reconciliation — non-authoritative duplicate review
+
+**Date:** 2026-10-12  
+**Status:** RETAINED HISTORICALLY / DO NOT USE AS THE ACTIVE BATCH 10 REVIEW.
+
+The active Batch 10 AI Human Clone crosswalk already exists at `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-10-AI-HUMAN-CLONE-DRAFT.md`, SHA `44b9369fea0be06e4e64f2052fd49f6d493f6603`, with Review 01 SHA `36148379d7d1e39252bd918ad17772036cf0d972` and semantic Review 02 SHA `612162b164b7d2585fa9646871839274cec5a343`. These are the working source/review chain used by the Passport v3 and Verifiable Contract.
+
+This file checks the separate parallel draft `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-10-DRAFT.md`, SHA `af5d179698c1709b04c6c540bf379df07aa169ed`, which has been explicitly marked non-authoritative in its own read-back. Therefore this review is not the active Batch 10 Review 01 and must not affect the canonical working mapping distribution or acceptance state. It is retained as provenance of a duplicate path encountered during continuation; use the established named Batch 10 draft and Reviews 01/02 for current decisions.
+
