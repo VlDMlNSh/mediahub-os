@@ -10,7 +10,7 @@ authority:
   implementation: A2
   independent_verification: A3
   executor_authority: EXECUTOR_ONLY
-  state_authority: A0-ASTRA
+  state_authority: A0-ASTRA # ASTRA internal queue/claim/gate state only; NOT MediaHub Product State Authority.
 principles:
   fresh_evidence_required: true
   historical_evidence_reuse: false
