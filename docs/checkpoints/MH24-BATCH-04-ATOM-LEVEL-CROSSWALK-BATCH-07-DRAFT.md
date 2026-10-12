@@ -9,7 +9,7 @@
 - **Audit source:** `docs/checkpoints/MH24-B1-SECTIONS-03-06-12-15-17-CLAUSE-COVERAGE-AUDIT-01.md` @ `docs/mediahub-chat-tree-map-20261012`, blob SHA `d0938f14ed4110545118f075175dee3be412097b`.
 - **Normalization proposal:** `docs/checkpoints/MH24-BATCH-04-NORMALIZATION-PROPOSAL-02.md` @ `docs/mediahub-chat-tree-map-20261012`, blob SHA `7e737c8add9e3453062e9fc459790e7010e55689`.
 - **Field schema:** Requirement ID; Owner; Source atom/classification; B2 mapping status; Canonical contract path/ref; Acceptance criteria; Required evidence; Lifecycle status; Reviewer/approval reference; Dependencies; Verification method; Change history.
-- **Owner decision:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; schema/status vocabulary only.
+- **Owner decision:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; schema/status vocabulary only.
 
 ## 1. Source-anchor interpretation and overlap rules
 
@@ -29,8 +29,8 @@
 | Draft rows | 11 |
 | Literal-source traceability rows | 10 |
 | Derived-control rows | 1 |
-| MAPPED | 0 |
-| NOT_REVIEWED | 10 |
+| MAPPED | 1 |
+| NOT_REVIEWED | 9 |
 | NO_DIRECT_COUNTERPART | 1 |
 | CONFLICT | 0 |
 | Final child IDs minted | 0 |
@@ -43,12 +43,12 @@
 - **Requirement ID:** `PROVISIONAL/CLAI4-01/B1-16-01` (traceability label only; not a final stable child ID).
 - **Owner:** TBD; Local Cluster AI / compute-fabric domain owner is not independently confirmed as an accepted canonical owner in the reviewed sources.
 - **Source atom / classification:** B1 §16 line 255 — LITERAL: Distributed computation inside a trusted MediaHub Cluster.
-- **B2 mapping status:** `NOT_REVIEWED`; Audit 01 relation: PARTIAL, B2 §§9–11. B2 describes qualified multi-node clusters and compute/AI roles, but detailed Local Cluster AI trust/admission semantics are not a complete one-to-one accepted contract.
-- **Canonical contract path/ref:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main` SHA `9df4892ed0734050ac79732603d15bb414717310`; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md@main` SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`. No accepted detailed Local Cluster AI workload/gateway contract is asserted; B2-related generic compute/AI sections are not treated as direct coverage for unspecified workload semantics.
+- **B2 mapping status:** `MAPPED` — documentary correspondence for the bounded capability only. B2 §10 explicitly permits qualified multi-node MediaHub clusters to provide compute and AI and requires capability qualification/trust/admission; B2 §18 names Local Cluster AI as an AI tier. This matches the bounded capability in B1 line 255. Full workload-specific trust/admission semantics, an accepted Local Cluster AI contract, implementation and qualification remain OPEN.
+- **Canonical contract path/ref:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main` SHA `9df4892ed0734050ac79732603d15bb414717310`; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md@main` SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §§10 lines 235–253 and 18 lines 380–392. No accepted complete Local Cluster AI workload/trust/gateway contract is asserted; `MAPPED` is not contract acceptance or implementation proof.
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: Specify cluster trust membership, data scope, workload boundary and revocation semantics for this Local Cluster AI capability.
 - **Required evidence:** Accepted cluster/trust contract, admission and revocation evidence, workload/data-flow boundary.
 - **Lifecycle status:** DRAFT / NOT APPROVED; implementation, verification and qualification OPEN.
-- **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
+- **Reviewer / approval reference:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
 - **Dependencies:** MH-10; MH-12; MH-21; MH-22.
 - **Verification method:** Compare B1 line 255 with B2 §§9–11 and the accepted cluster/security contracts.
 - **Change history:** Audit 01 B1-16-01 / CLAI4-01 preserved; no stable child ID minted.
@@ -63,7 +63,7 @@
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: Define qualifying model/runtime, memory/VRAM, latency, throughput, precision and failure limits per admitted hardware profile.
 - **Required evidence:** Pinned model/runtime, workload profile, measured resource/performance data and qualification record.
 - **Lifecycle status:** DRAFT / NOT APPROVED; implementation, verification and qualification OPEN.
-- **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
+- **Reviewer / approval reference:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
 - **Dependencies:** MH-06; MH-10; MH-15; MH-21; MH-22.
 - **Verification method:** Compare B1 line 258 with B2 §§8–11/18 and pinned candidate support evidence.
 - **Change history:** Audit 01 B1-16-02 / CLAI4-02 preserved; hardware capability names alone do not qualify this workload.
@@ -78,7 +78,7 @@
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: Define job idempotency, bounded input/output, cancellation, retries, partial completion and checkpoint semantics.
 - **Required evidence:** Versioned batch WorkloadSpec/Result schema, deterministic retry/replay cases and resource-limit evidence.
 - **Lifecycle status:** DRAFT / NOT APPROVED; implementation, verification and qualification OPEN.
-- **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
+- **Reviewer / approval reference:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
 - **Dependencies:** MH-06; MH-21; MH-22.
 - **Verification method:** Compare B1 line 259 with B2 §§8–11 and future accepted compute job contract.
 - **Change history:** Audit 01 B1-16-03 / CLAI4-02 preserved.
@@ -93,7 +93,7 @@
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: Define supported inputs, model classes, acceleration/profile constraints, prohibited data flows and output confidence/provenance.
 - **Required evidence:** Vision workload profile, data classification, model pinning, benchmark and privacy/egress-denial evidence.
 - **Lifecycle status:** DRAFT / NOT APPROVED; implementation, verification and qualification OPEN.
-- **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
+- **Reviewer / approval reference:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
 - **Dependencies:** MH-10; MH-12; MH-13; MH-18; MH-21.
 - **Verification method:** Compare B1 line 260 with B2 §§8–11/18 and media/data privacy contracts.
 - **Change history:** Audit 01 B1-16-04 / CLAI4-02 preserved.
@@ -108,7 +108,7 @@
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: Define supported media operations and required codec/accelerator/resource/rights profile; deny unsupported or unlicensed operations.
 - **Required evidence:** Codec/format matrix, per-profile benchmark, rights/DRM review and failure/recovery evidence.
 - **Lifecycle status:** DRAFT / NOT APPROVED; implementation, verification and qualification OPEN.
-- **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
+- **Reviewer / approval reference:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
 - **Dependencies:** MH-18; MH-10; MH-12; MH-21.
 - **Verification method:** Compare B1 line 261 with B2 §§8–11/15/17 and the applicable media contract.
 - **Change history:** Audit 01 B1-16-05 / CLAI4-02 preserved; do not infer a GPU or video server is available.
@@ -123,7 +123,7 @@
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: Define allowed generation classes, model/provider identity, resource budgets, data/rights restrictions and policy enforcement.
 - **Required evidence:** Approved workload catalogue, pinned model, safety/rights rules, resource/failure probes and output provenance.
 - **Lifecycle status:** DRAFT / NOT APPROVED; implementation, verification and qualification OPEN.
-- **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
+- **Reviewer / approval reference:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
 - **Dependencies:** MH-10; MH-12; MH-21; MH-22.
 - **Verification method:** Compare B1 line 262 with B2 §§8–11/18 and any accepted generation policy.
 - **Change history:** Audit 01 B1-16-06 / CLAI4-02 preserved.
@@ -138,7 +138,7 @@
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: Define accepted computation classes, input schema, numeric/units conventions, validation oracle and when a human professional review is required.
 - **Required evidence:** Versioned calculation contract, reference cases/oracles, unit tests at later implementation stage and domain review evidence.
 - **Lifecycle status:** DRAFT / NOT APPROVED; implementation, verification and qualification OPEN.
-- **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
+- **Reviewer / approval reference:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
 - **Dependencies:** MH-17; MH-19; MH-20; MH-22.
 - **Verification method:** Compare B1 line 263 with B2 §§8–11/17 and relevant engineering contracts.
 - **Change history:** Audit 01 B1-16-07 / CLAI4-02 preserved.
@@ -153,7 +153,7 @@
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: Map each Digital Twin workload to data classification, tool/runtime prerequisites, resources, licensed capabilities and output provenance.
 - **Required evidence:** Workload list, dependency/license manifest, data access policy and capability/qualification record.
 - **Lifecycle status:** DRAFT / NOT APPROVED; implementation, verification and qualification OPEN.
-- **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
+- **Reviewer / approval reference:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
 - **Dependencies:** MH-19; MH-20; MH-21; MH-22.
 - **Verification method:** Compare B1 line 264 with B2 §§8–11/17 and the accepted Digital Twin/engineering contract when available.
 - **Change history:** Audit 01 B1-16-08 / CLAI4-02 preserved.
@@ -168,7 +168,7 @@
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: Define task identity, ownership, leases/fencing, duplicate execution, cancellation, retries, evidence, and behavior on node partition/rejoin.
 - **Required evidence:** Versioned WorkloadSpec/ExecutionEvidence, fault/duplicate/replay evidence and single-lifecycle-owner decision.
 - **Lifecycle status:** DRAFT / NOT APPROVED; implementation, verification and qualification OPEN.
-- **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
+- **Reviewer / approval reference:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
 - **Dependencies:** MH-06; MH-21; MH-22; Jarvis/Astra task-lifecycle decision.
 - **Verification method:** Compare B1 line 265 with B2 §§8–11 and the selected, approved task-lifecycle contract; avoid adding a second scheduler.
 - **Change history:** Audit 01 B1-16-09 / CLAI4-02 preserved; no scheduler implementation selected by this draft.
@@ -183,7 +183,7 @@
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: Decision record and versioned gateway/API contract; threat model; data/egress boundary; deny-bypass evidence before implementation/qualification.
 - **Required evidence:** MH-04; MH-10; MH-12; MH-21; MH-22
 - **Lifecycle status:** DRAFT / NOT APPROVED; implementation, verification and qualification OPEN.
-- **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
+- **Reviewer / approval reference:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
 - **Dependencies:** Re-search the pinned B2 text for exact component names and compare §18 and §25; treat related generic gateway wording as a candidate relationship, not direct coverage.
 - **Verification method:** Audit 01 B1-16-10 / CLAI4-03 preserved. NO_DIRECT_COUNTERPART is scoped to the reviewed B2 clauses; the named gateway is not declared rejected or implemented.
 - **Change history:** undefined
@@ -198,7 +198,7 @@
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: If adopted, every execution node has a time-valid capability/qualification profile and workload placement must enforce resource/failure/policy admission; stale profile or unqualified node fails closed.
 - **Required evidence:** Owner-approved derived contract, inventory-bound capability evidence, stale-profile denial, failure routing and node-revocation evidence.
 - **Lifecycle status:** DERIVED / OPEN / NOT APPROVED.
-- **Reviewer / approval reference:** Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
+- **Reviewer / approval reference:** Product Owner Decision Record SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; it approves the 12-field schema and mapping vocabulary only, not atom mappings or acceptance criteria.
 - **Dependencies:** MH-04; MH-06; MH-12; MH-21; MH-22.
 - **Verification method:** Review derivation against B1 §16 lines 255–267 and B2 §§8–11; keep derived/nonliteral classification explicit.
 - **Change history:** Audit 01 B1-16-D01 / CLAI4-04/05 preserved; not counted as a literal B1 atom.
@@ -209,15 +209,18 @@
 2. Verify the 11 identifiers exactly match Audit 01 §16: B1-16-01…10 and B1-16-D01.
 3. Verify every record has all 12 approved fields in the approved order.
 4. Verify source anchors against B1 line 255, lines 258–265 and line 267; do not modify B1.
-5. Re-read B2 §§8–11, §18 and §25, including exact section headings; verify the gateway result is scoped to the reviewed clauses and not a global repository absence claim.
-6. Confirm distribution `0 MAPPED / 10 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT`.
-7. Keep B1-16-D01 labelled derived, not literal.
+5. Re-read B2 §§8–11, §17–18, §22 and §25, including exact section headings; verify the gateway result is scoped to the reviewed clauses and not a global repository absence claim.
+6. Confirm distribution `1 MAPPED / 9 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT`; the single MAPPED result is documentary only.
+7. Keep B1-16-D01 labelled derived, not literal; keep the B1-16-01 `MAPPED` status bounded to documentary capability correspondence, not full contract acceptance.
 8. Preserve historical CLAI4 parents and Audit 01 IDs; do not mint final child IDs.
 9. Keep implementation/verification/qualification/release/deployment/production acceptance separate.
 10. Do not update canonical backlog, main matrix, B1/B2 or `main` from this draft.
+11. Preserve Batch07 Review01 at SHA `4c665414776414efdc0855c395c290466b035423`; link the separate Review02 at SHA `0af17bf0db6f8b1c93d01aae3e8a8b5d8a0d9064`. Full semantic acceptance remains OPEN.
 
 ## 5. Non-actions and disposition
 
 This is a source-anchored documentary draft, not an approved canonical backlog. No code was run; no tests, qualification, installation, deployment, host operation, infrastructure change or merge to `main` was performed.
 
 **Disposition: OPEN / NOT APPROVED / REVIEW REQUIRED.**
+
+- 2026-10-12 — after independent Batch07 Review02, the B1-16-01 documentary mapping was corrected from NOT_REVIEWED to MAPPED based on B2 §10 lines 235–249 and §18 lines 382–392. This does not accept the complete Local Cluster AI contract or its runtime. Active Product Owner Decision Record pointers now use D-06-inclusive blob SHA `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`; the prior pre-D-06 SHA `9117098e22c26708d48ca8ba5954669faa209d68` is preserved here as historical pointer provenance. Current distribution: 1 MAPPED / 9 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT. Review01 remains unchanged.
