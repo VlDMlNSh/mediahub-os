@@ -142,8 +142,8 @@ Return:
 - B1: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`, `main`, SHA `9df4892ed0734050ac79732603d15bb414717310`.
 - B2: `docs/checkpoints/mediahub-functional-baseline-2.0.md`, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 - MH-24 report: `docs/checkpoints/mediahub-mh24-reconciliation-report.md`, `main`, SHA `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`.
-- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `39824ec51927e76c9dcf26d55fff3f0b823b370f`.
-- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `b4022fca7e66b8246f8bf623fcc91890ccbab43b` (28 architecture requirements, 21 verification checks in the latest read-back).
+- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `5125a721210c4c1a058fecf534a6a6773a17d569`.
+- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `612be9431d2bbb2cfa01871c5f94519052287634` (28 architecture requirements, 21 verification checks in the latest read-back).
 - Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `fee9977fee0a5efa79ec48c652544d2c4a0d665f`. The path name is retained for provenance even though the current working label is Jarvis.
 - Batch 06 Local AI crosswalk: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-06-DRAFT.md`, this branch, SHA `9df96aca53d1004c33d45f038501dc6b7f52c0c9`; structural review SHA `1edc976dd663ae16a1b61876a2dbbde9411be095`. Audit 01’s B2 §19 pointer for B1-15-13 is a confirmed source-reference defect; the working crosswalk points to B2 §§16/18 and preserves Audit 01 history.
 - ASTRA current truth: `docs/qualification/CURRENT-TRUTH.generated.md`, `main`, SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: `NOT_PROVEN / BLOCKED`; all listed gates are blocked in that generated snapshot.
@@ -156,3 +156,6 @@ Return:
 - 2026-10-12 — refreshed active pointers after the AG-20 / P-20 / ARC-027 / V-20 asset-allocation follow-up: Gap Report `8495c9436b967bd77afae57ccb1e42959ab86a56`, Passport v3 `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d`, Contract 01 `b68314ef8e4f68cd35b11dc83839eae4bec4b7b4`. The Mac Pro role conflict is OPEN and must not be resolved by assumption.
 
 - 2026-10-12 — refreshed active working pointers after AG-21 / P-21 / ARC-028 / V-21: Gap Reconciliation `fee9977fee0a5efa79ec48c652544d2c4a0d665f`, Passport v3 `39824ec51927e76c9dcf26d55fff3f0b823b370f`, Contract 01 `b4022fca7e66b8246f8bf623fcc91890ccbab43b`. The B1-15-13/B2 section-number mismatch is a traceability defect only; Audit 01 remains historical and unchanged.
+
+
+- 2026-10-12 — refreshed active Passport v3 and Contract 01 pointers after the P-19 stale-pointer correction. Current Passport v3: `5125a721210c4c1a058fecf534a6a6773a17d569`; current Contract 01: `612be9431d2bbb2cfa01871c5f94519052287634`; current Gap Reconciliation remains `fee9977fee0a5efa79ec48c652544d2c4a0d665f`. Earlier pointer values remain only in the dated history.
