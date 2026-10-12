@@ -2462,3 +2462,40 @@ The prior 20.75 next-step wording “MH-04 State Authority inventory” is impre
 6. **No implementation or qualification performed in this turn.** We only inspected GitHub refs, trees, documents, code/test blobs and exact-SHA status APIs. No tests were run, no workflow triggered, no installation/deployment/infrastructure action or merge occurred.
 
 **Next safe action:** continue with MH-06 in the map's dependency order. Preserve the MH-05/P0-05 status distinction and unresolved P0-03/P0-07 provenance; do not promote MH-05 to ACCEPTED/FROZEN or infer production qualification from the P0-05 record.
+
+## 20.78 MH-06 Core Runtime Services — accepted P0-06 baseline vs broader architecture
+
+**Date:** 2026-10-12  
+**Status:** MH-06 overall PROPOSED / NOT FROZEN; Health/Readiness semantic contract GOVERNANCE ACCEPTED; P0-06 implementation historically ACCEPTED / FROZEN at an exact commit; current reproducible CI for that exact frozen implementation NOT VERIFIED; production qualification NOT GRANTED.
+
+### Primary sources and provenance
+
+| Source | Ref / SHA | Confirmed fact |
+|---|---|---|
+| Main baseline | `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` | MH-06 architecture corpus is present on the default branch. |
+| MH-06 index | `docs/architecture/MH-06-INDEX.md`; blob `922faed70b808790798c51eecaddd58f3ec52fa6` | Explicitly says Health/Readiness semantic contract accepted, but MH-06 overall not frozen. |
+| MH-06 acceptance criteria | `docs/architecture/MH-06-acceptance-criteria.md`; blob `9bcb12e2b9fa8f08098f61d85b897ad25e198c27` | Acceptance is limited to Health/Readiness semantics; implementation authorization, implementation verification, deployment and production qualification remain separate gates. |
+| MH-06 core runtime model | `docs/architecture/MH-06-core-runtime-services.md`; blob `d118299a8828e65409fda4a0e6eaf926df40823b` | PROPOSED / REQUIRES VERIFICATION; broader conceptual runtime services are not frozen. |
+| MH-06 evidence register | `docs/architecture/MH-06-evidence-register.md`; blob `01bed69faf0f2d1788ecd76cf327da0053cd7c5b` | Reconciled / Requires Verification; runtime topology, host/hardware, full MH-01…MH-05 semantic reconciliation, negative tests for conceptual services, and implementation-specific resource/IPC/recovery parameters remain open. |
+| MH-06 decision log | `docs/architecture/MH-06-decision-log.md`; blob `1cd2b9374f1ace69dafc60a24953dd5c6e74e6fe` | Overall decisions remain PROPOSED; single-node/no-HA baseline remains; topology/technology decisions need evidence and ADR; P0-07 gap must not be bypassed. |
+| MH-06 contradiction register | `docs/architecture/MH-06-contradiction-register.md`; blob `78e48183eb2ee3cbae952ecc755b56c654eb5eb5` | Lifecycle terminology and Health/Readiness mapping resolved; exact frozen-implementation evidence continuity and P0-07 governance/API gap remain OPEN; concrete dependency/runtime policy remains UNKNOWN. |
+| Health/Readiness ADR | `docs/architecture/MH-06-ADR-001-health-readiness-semantic-contract.md`; blob `7dda05379bd70007dc18acd62ed14fc83f0c9226`; acceptance commit `1d6e9cd6ad320fff752c6ec6e1aa8a94525ef5be` | OPTION B accepted for architecture semantics only; explicitly no implementation authorization. |
+| MH-06 unknowns | `docs/architecture/MH-06-unknowns.md`; blob `989fec122e072b6ae1278a6a1c26c178203e8426` | Process topology, boot/init, IPC, scheduler, numeric resource limits, restart/backoff, host integration, isolation, timing, recovery/quarantine parameters, dependencies and iOS runtime integration remain open. |
+| P0-06 accepted implementation record | Branch `implementation/p0-06-core-runtime-services`; HEAD `cc8559da6ae4df749782a29ee4203d35ef6818fc`; tree `adb7c49683330f5850bf7fff1e4444f701a645d1`; acceptance blob `beb3c22b11f04f9abf5b1b91a35826590a99c854` | Records P0-06 implementation ACCEPTED / FROZEN at verification commit `d9b5c9db128d8ec75dae6fbd03b5d54950bdddf5`, targeted 12/12 and full regression 148/148 PASS, capability and persistence scans PASS; production qualification NOT GRANTED. |
+| P0-06 governance and contracts | Same implementation branch: governance blob `11529b96567385fb475ccc873084df83eed2d839`; boundary blob `2f5f2d01cca82ce117fe39f499348bdfec3ff8fc`; service contract blob `70a3392451dcc3e6d795e6a8193c01f3f340ce5f`; lifecycle blob `3df6b74782af3b85930b2f4410ec1c4f00af6296` | Governance v1.1 accepts P0-06 boundary, service contract v1.1 and lifecycle contract v1.0. Lifecycle canonical state remains in P0-04 via P0-05; local LifecycleStateMachine is a deterministic validator, not an authority. |
+| P0-06 security gate | Same implementation branch: entry gate blob `3f41110dcfd9d8f7ce688be7dac84cb6ec220345`; threat model blob `b0dfff59a4a7fbc933a70adb746383b32a90f8a7`; traceability blob `2c4eeac28e0255bfd5c6213eda8500ec8a148daa` | Accepted scope excludes direct mutation, secondary state, self-grant, rebasing/LWW, autonomous AI mutation, subprocess/shell, network, filesystem mutation, persistence, durable checkpoints, appliance/boot integration and unsafe deserialization. |
+| Exact frozen implementation live status | Commit `d9b5c9db128d8ec75dae6fbd03b5d54950bdddf5` | GitHub status API returned pending with zero statuses; check-runs and workflow-runs query for this exact SHA returned none. Historical acceptance evidence remains recorded, but current reproducible CI for that exact frozen commit is NOT VERIFIED. |
+| Latest branch-head guard workflow | Commit `cc8559da6ae4df749782a29ee4203d35ef6818fc` | One boundary-guard workflow `35990985008` completed success on 2026-09-24, but it is a different commit and cannot replace exact frozen-implementation evidence. |
+
+### Confirmed semantics
+
+1. **Authority chain:** Core Runtime Services coordinate operations; P0-05 remains the mandatory consumer/integration/authorization boundary; P0-04 remains the sole canonical mutation authority.
+2. **Lifecycle is canonical state:** only the seven accepted P0-06 lifecycle values are allowed: PROVISIONING, INITIALIZING, SELF_TEST, READY, DEGRADED, SAFE_MODE, RECOVERY. Lifecycle publication uses an authorized P0-05 transaction into P0-04. Local lifecycle validator state is not canonical.
+3. **Health is observation-only:** allowed health results are UNKNOWN, HEALTHY, DEGRADED, FAILED, QUARANTINED.
+4. **Readiness is operation-scoped:** `Readiness(operation, observations) → verdict`; verdicts UNKNOWN, NOT_READY, READY, DEGRADED, QUARANTINED. UNKNOWN never defaults to READY; readiness does not grant trust, capability or authorization. **P0-06 lifecycle READY is not Readiness READY.**
+5. **Precedence and failure:** quarantine, generation/integrity incompatibility, State Authority unavailability, lifecycle incompatibility and critical dependency failure/unknown prevent READY. Unknown dependency classification fails closed. Optional degradation is allowed only when the specific operation contract permits it.
+6. **No hidden authority:** Health/Readiness cannot mutate canonical state, self-grant authorization, create persistence authority, or bypass supervisor/security boundaries.
+7. **P0-07 is still an external blocker:** MH-06 cannot invent a policy mutation publication path or bypass the unresolved governance/API gap.
+8. **No tests or qualification run in this inventory.** This was a documentary/GitHub provenance read. No branch/code/workflow was changed; no installation, deployment, infrastructure action or merge occurred.
+
+**Next safe action:** proceed to MH-07 Configuration / Policy using the map's branch/document navigation. Preserve the P0-07 governance/API gap as a hard dependency; do not promote MH-06 overall to FROZEN or claim current implementation CI/production qualification based on historical acceptance.
