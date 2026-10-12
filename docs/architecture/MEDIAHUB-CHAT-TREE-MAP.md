@@ -1594,3 +1594,23 @@ That correction changed the Passport blob, so Contract 01's four current Passpor
 The recursive tree fetched at pre-update branch HEAD 572dfade59961e2e58c9bcaac16d09d996b997b6 returned 846 entries, 465 Markdown, 193 Python, 47 YAML and 54 JSON files; truncated=false. This is a structural snapshot only, not line-by-line semantic review of every file or every branch.
 
 Next safe step: continue with a separate atom-level crosswalk draft for B1 §16 Local Cluster AI, using the literal Audit 01 register, pinned B1/B2 refs and independent source-anchor review. Keep derived controls separate and do not promote any draft to the canonical backlog before semantic review and owner/governance acceptance.
+
+
+## 20.48 Batch 07 Local Cluster AI atom-level crosswalk and review
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `STRUCTURAL / SOURCE-ANCHOR / STATUS-CONSISTENCY PASS — SEMANTIC ACCEPTANCE OPEN`
+
+| Artifact | Path | Latest read-back blob SHA | Status |
+|---|---|---|---|
+| Atom-Level Crosswalk Batch 07 — B1 §16 Local Cluster AI | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-07-DRAFT.md` | `9d9663107a0ffba4316ab47bc8974e537a901f46` | 11 rows: 10 literal-source traceability rows + 1 derived control; documentary draft |
+| Batch 07 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-07-REVIEW-01.md` | `4c665414776414efdc0855c395c290466b035423` | 11/11 IDs, 12-field schema, source anchors and status consistency verified; semantic acceptance OPEN |
+
+**Sources:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, SHA `9df4892ed0734050ac79732603d15bb414717310`, §16 lines 255, 258–265 and 267; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §§8–11, 17–18 and §25 as relevant; Audit 01 SHA `d0938f14ed4110545118f075175dee3be412097b`; Proposal 02 SHA `7e737c8add9e3453062e9fc459790e7010e55689`.
+
+**Verified result:** 11/11 draft IDs match Audit 01 §16; 11/11 records have the approved 12 fields. Distribution: `0 MAPPED / 10 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT`. `MAPPED` is not assigned absent explicit documentary equivalence. The `NO_DIRECT_COUNTERPART` disposition for B1-16-10 is limited to the reviewed B2 text: B2 §18 describes policy-governed model routing and §25 lists generic API Gateway/Security-Egress Gateway topology, but neither establishes equivalence to the specifically named MediaHub AI Gateway. This does not assert global repository absence or reject the concept. The D-coded node capability/qualification routing control remains derived and unapproved.
+
+**Constraints:** B1/B2 and `main` are unchanged; no final child IDs were minted; canonical backlog and traceability matrix are unchanged. No tests, qualification, installation, deployment, host/infrastructure operation or merge was performed.
+
+**Next safe step:** move to B1 §17 Cloud Development AI in Batch 08. Keep the named-gateway contract/disposition open; do not treat a generic B2 gateway mention as accepted semantic mapping.
