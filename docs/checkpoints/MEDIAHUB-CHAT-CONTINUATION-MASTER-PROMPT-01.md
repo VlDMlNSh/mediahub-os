@@ -45,7 +45,7 @@ Before each consequential action:
 - Do not install software, run tests/qualification/soak, alter infrastructure or live hosts, deploy, modify production, or merge into `main` without separate explicit authorization. No authorization is granted by this prompt.
 - Do not overwrite unrelated/local work. Preserve old source and review artifacts.
 
-### 4. Current continuation checkpoint — 2026-10-12
+### 4. Prior continuation checkpoint — 2026-10-12 (historical pointer snapshot)
 
 The map was re-read immediately before this prompt refresh at blob SHA `d707367a37e0418be91a5d3d82bdd77941775db2`. It records the TSI-12 → TSI-07 owner disposition and the bounded structural review in §20.59, plus this continuation prompt in §20.60. This SHA is a checkpoint pointer, not a substitute for fetching the live map; the map will change again when this prompt refresh is recorded. **At the start of the next chat, fetch the current map first.**
 
@@ -56,11 +56,15 @@ Current relevant artifacts on `docs/mediahub-chat-tree-map-20261012` (verify eve
 - Batch 09 TSI crosswalk: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-DRAFT.md` — SHA `5e1b73c73c951638b549a30d569df2d1c7de8b31`.
 - Batch 09 Review 01 (historical pre-D-06 review): `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-01.md` — verify current SHA; preserve as historical evidence.
 - Batch 09 Review 02 (bounded owner-disposition follow-up): `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-02.md` — SHA `d808f602756b6135019a7655c0c12291527e9de3`.
+- Batch 09 Review 03 (bounded semantic consistency review): `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-03.md` — SHA `184a99ef85143c2ad3048dca5c8d85b17f8651a3`; full TSI semantic acceptance remains OPEN.
+- Working System Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` — current blob SHA `c844b42f5b98a29ff3d883857fdaf4b0b6873768`.
+- Working Verifiable Architecture Contract 01: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` — current blob SHA `da2bdedeb8ad56698ce6398f4f303ef6946a5f0c`; 29 ARC requirements / 22 verification checks, not canonically accepted.
+- Jarvis Global Master Prompt 01: `docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md` — current blob SHA `ce1110dd5c2c5825abd47051c50b5982ba765c1e`.
 - Batch 01–08 union review: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-UNION-REVIEW-01.md` — recorded SHA `e9ccafef5a3cca75f41e84bf3c4397dcc2285fd4`; re-fetch before relying on it.
 - B1: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, verified SHA `9df4892ed0734050ac79732603d15bb414717310`.
 - B2: `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, verified SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 
-**Verified current status:** Batch 09 retains 17 provisional TSI labels and the approved 12-field schema. Its mapping distribution is 3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT. D-06 resolves only the label relationship: TSI-12 is a historical sub-aspect of TSI-07, not an independent sibling obligation. Review 02 passes the bounded owner-disposition/structural checks; full TSI semantic acceptance remains OPEN. No final child ID was minted, and no B1/B2, canonical backlog or traceability matrix change is authorized by that decision.
+**Verified current status:** Batch 09 retains 17 provisional TSI labels and the approved 12-field schema. The current mapping distribution remains 3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT. D-06 resolves only the label relationship: TSI-12 is a historical sub-aspect of TSI-07, not an independent sibling obligation. Reviews 01 and 02 remain preserved; Review 03 passes the bounded source-anchored consistency check. Full TSI semantic and owner/contract acceptance remain OPEN. No final child ID was minted, and no B1/B2, canonical backlog or traceability matrix change was authorized by D-06 or Review 03.
 
 ### 5. Explicit owner decision to preserve
 
@@ -79,11 +83,13 @@ Required treatment:
 
 ### 6. Recommended next work
 
-1. Start from a fresh read of the live map and bootstrap instruction, then verify the current Decision Record, Batch 09 draft, Review 01 and Review 02 SHAs. Do not repeat the already-completed Review 02 unless its inputs have changed.
-2. Preserve D-06 exactly: `TSI-07` is the primary provenance aspect; `TSI-12` remains a historical traceability marker with an explicit `SUBASPECT_OF: TSI-07` / cross-reference and its B1 §18 line 301 anchor. Do not double-count it as an independent normative obligation or mint a final ID.
-3. Continue a bounded, source-anchored semantic review of the remaining open TSI rows. Read the exact B1 §18 source text and relevant B2 §§16/18 clauses, map each claim individually, distinguish literal source text from derived controls, record unresolved evidence as OPEN, and do not infer that documentary MAPPED status proves implementation or qualification.
-4. If a new review artifact is warranted, create a separately named follow-up review (never overwrite Review 01/02), cite exact input SHAs and review scope, and keep overall TSI semantic acceptance OPEN until independently supported.
-5. Read back every changed artifact from GitHub, then update the current map with the verified path/ref/SHA/status and read the map back. Do not promote the crosswalk into the canonical backlog, change B1/B2/matrix, install software, run tests/qualification, operate infrastructure, deploy or merge to `main` without separate explicit authorization.
+1. Start with a fresh read of the live map and bootstrap instruction; the map SHA quoted above is historical, not an active pointer.
+2. Read back the current Passport v3, Verifiable Architecture Contract 01, Jarvis master prompt, gap reconciliation, D-06, Batch 09 draft and Reviews 01–03. Trust only the SHAs recorded in the live map and current artifacts.
+3. Continue restoring the full MH-01…MH-25 project map source-by-source: verify each domain's canonical paths, branch/ref/commit, master/reverse handoff, owner decisions, dependencies, acceptance/evidence registers and unresolved conflicts. Do not infer closure from a chat, branch name or document existence.
+4. Keep Passport v3 and Contract 01 synchronized as integrated WORKING DRAFTS. Review 03 is complete; do not repeat it unless an input changed. Do not promote either document to a globally accepted baseline without independent review and explicit owner/governance acceptance.
+5. Resolve the still-open owner/governance disposition for the named TSI subsystem and its contract boundary. Preserve D-06 exactly; do not mint final child IDs or promote Batch 09.
+6. After the map/pasport/contract pointer synchronization is independently checked, continue with the next bounded B1 source batch (B1 §16 Local Cluster AI) using pinned B1/B2 anchors and the approved 12-field schema. Keep the remaining semantic statuses OPEN until supported.
+7. Read back every changed artifact and update the live map with its exact SHA/status. No installs, tests, qualification, infrastructure/host changes, deployments or merge to `main` without separate explicit authorization.
 
 ### 7. Required response format
 
@@ -96,3 +102,7 @@ For each work unit, report:
 - **Next safe action:** smallest permitted next step.
 
 Start now by fetching the current map from GitHub. Do not assume this prompt or an earlier summary replaces the current repository state or the complete prior conversation history.
+
+### 8. Refresh history — 2026-10-12
+
+The previous next-work block directed the session to perform the first source-anchored TSI semantic follow-up. That bounded work is now recorded in Batch 09 Review 03, SHA `184a99ef85143c2ad3048dca5c8d85b17f8651a3`; the instruction above supersedes that completed next step while preserving D-06, Review 01 and Review 02. Current Passport/Contract/Jarvis prompt pointers are listed in §4 above. The live map must still be fetched at the start of the next session; no fixed map SHA in this prompt replaces that requirement.
