@@ -253,4 +253,6 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 - 2026-10-12 — matrix status corrected in branch; ASTRA internal state semantics clarified without changing authority field values.
 - 2026-10-12 — pending 13-cycle audit/read-back.
 
+**Review coverage limitation:** an API tree snapshot at commit 58305d5a9a5b1593f15d2dfb0ff79838c1bddaec contained 826 entries, including 445 Markdown files. This session used that inventory and semantically inspected the governing baselines, key state/security/HA contracts, traceability corpus, component-selection artifacts and ASTRA qualification sources; it did not read every line of every repository document. Whole-repository semantic completeness is therefore not claimed.
+
 **Final status:** a source-backed, verifiable working contract for branch review. It is not yet a globally accepted system contract and does not imply that all project documents, runtime functionality or qualifications have been fully verified.
