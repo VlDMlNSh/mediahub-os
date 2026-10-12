@@ -105,15 +105,15 @@
 - **Requirement ID:** `PROVISIONAL/IM-22-06`.
 - **Owner:** TBD.
 - **Source atom / classification:** B1 §22 line 379 — LITERAL constraint: codec must be considered.
-- **B2 mapping status:** `NOT_REVIEWED`; B2 §15 mentions codecs/transcoding under platform capability and rights, but the checked text does not define AirPlay sender/receiver codec requirements.
-- **Canonical contract path/ref:** No accepted AirPlay codec matrix verified; B2 §15 @ `main` SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
+- **B2 mapping status:** `MAPPED` — documentary correspondence for the generic media-codec constraint only. B2 §15 explicitly lists codecs/transcoding subject to platform capability and rights. This does not establish AirPlay-specific codec negotiation, sender/receiver compatibility, transcoding behavior, interoperability or qualification.
+- **Canonical contract path/ref:** B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, §15, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`. No accepted AirPlay codec matrix verified.
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: enumerate supported codec/container/encoding combinations, transcoding constraints, unsupported-format handling and rights boundaries.
 - **Required evidence:** Codec interoperability matrix, licensed/allowed component inventory and format-specific verification evidence.
-- **Lifecycle status:** DRAFT / NOT APPROVED; component compatibility and qualification OPEN.
-- **Reviewer / approval reference:** MH-18 acceptance SHA `1ce114d92ce401609d536138982a4c89408064dc`, NOT ACCEPTED / NOT FROZEN.
+- **Lifecycle status:** DRAFT / NOT APPROVED; generic documentary media-codec correspondence mapped; AirPlay-specific compatibility and qualification OPEN.
+- **Reviewer / approval reference:** Batch13 semantic Review02 SHA `36f171bf4ef6e9bec388cacc5ddc4ff8989d168e`; MH-18 acceptance SHA `1ce114d92ce401609d536138982a4c89408064dc`, NOT ACCEPTED / NOT FROZEN.
 - **Dependencies:** MH-18; MH-17; OSS/license/supply-chain gates; target platform profiles.
-- **Verification method:** Compare B1 codec constraint with B2 §15; do not treat general transcoding support as a qualified AirPlay path.
-- **Change history:** Codec requirements remain provisional and protocol-scoped.
+- **Verification method:** Compare B1 line 379 with B2 §15; distinguish the generic media-codec constraint from a qualified AirPlay-specific path.
+- **Change history:** 2026-10-12 — following Review02, moved only this generic media-codec constraint to documentary `MAPPED`; protocol-specific behavior remains OPEN.
 
 ### IM-22-07 — Latency
 
@@ -160,12 +160,23 @@
 - **Verification method:** Compare B1 bandwidth constraint with B2 capability/network model and require measured protocol-specific thresholds.
 - **Change history:** B2's inclusion of bandwidth as a generic capability does not by itself satisfy a per-session AirPlay contract.
 
-## Initial mapping disposition
+## Initial mapping disposition (preserved pre-Review02 snapshot)
 
 - Rows: 9 provisional traceability labels.
-- Distribution: **0 MAPPED / 8 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT**.
+- Distribution before the semantic follow-up: **0 MAPPED / 8 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT**.
 - These rows are provisional subdivisions linked to the existing `IPHONE-AIRPLAY-4K-01` audit item and matrix row 22. They are not independently accepted requirements.
 - No stable/final child IDs are minted. No collision-check inventory is claimed.
 - MH-18 remains NOT ACCEPTED / NOT FROZEN. The cited MH-18 evidence register is historical/proposed and does not prove current media implementation.
-- This document is not independently reviewed. Semantic/owner acceptance, protocol support, runtime behavior and qualification remain OPEN.
+- This pre-review snapshot is preserved as history; semantic/owner acceptance, protocol support, runtime behavior and qualification remain OPEN.
 - B1, B2, the working traceability matrix, canonical backlog and `main` remain unchanged.
+
+## Current working mapping disposition after Review 02 (2026-10-12)
+
+- Rows: 9 provisional traceability labels.
+- Current distribution: **1 MAPPED / 7 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT**.
+- Only `IM-22-06 — Codec compatibility` is changed to `MAPPED`, and only for the generic media-codec constraint named in B2 §15. AirPlay-specific codec profiles/interoperability remain OPEN.
+- `IM-22-01` remains `NO_DIRECT_COUNTERPART` for the named AirPlay transfer path in the reviewed B2 clauses; IM-22-02…05 and IM-22-07…09 remain `NOT_REVIEWED`.
+- This is a documentary status correction only. It does not close backlog item `AT-15`, accept the AirPlay feature, prove implementation/qualification, mint final IDs or authorize canonical promotion.
+- Semantic follow-up: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-13-IPHONE-MEDIA-REVIEW-02.md` @ this ref, SHA `36f171bf4ef6e9bec388cacc5ddc4ff8989d168e`.
+
+- 2026-10-12 — Review02 correction: `IM-22-06` changes from `NOT_REVIEWED` to bounded documentary `MAPPED` against B2 §15's generic codec/transcoding constraint. The original 0/8/1/0 summary is retained as a pre-review snapshot; the current distribution is 1/7/1/0. `IPHONE-AIRPLAY-4K-01`, AT-15, matrix row 22 and all other historical sources remain intact. Full AirPlay, owner, implementation and qualification acceptance remain OPEN.
