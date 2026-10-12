@@ -131,3 +131,10 @@ The matrix is a synthesis draft, not an accepted global contract. It is not an e
 6. No software installation, API/provider/model invocation, credential use, tests/qualification, host/runtime inspection, hardware purchase, infrastructure changes, deployment, migration, or merge without separate explicit authorization.
 
 Resume with `/next`.
+
+### Persistent user instruction — publish current project map in every reply (2026-10-12)
+- User explicitly asks whether the current project map is being created and requests that it be sent after every assistant message; if not, do so.
+- Operating rule: after every project-related assistant response, include a direct GitHub link to the current `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md` on branch `docs/mediahub-chat-tree-map-20261012`. Do not paste the entire 400k+ map into chat; provide the authoritative clickable map and a concise status summary.
+- At each `/next`, first re-read bootstrap, map, this checkpoint, matrix, parent contract and current `main HEAD`. After each material finding or change, update the map/checkpoint as appropriate, re-fetch the updated files to verify their blob SHAs, then include the map link in that same reply.
+- If no map update was made in a particular turn, still provide the current map link and state explicitly that it was read but not changed. Never claim a map update without a verified GitHub read-back.
+- This is a conversation/reporting requirement; it does not authorize tests, qualification, installation, model/provider calls, host inspection, infrastructure changes, deployment, migration or merge.
