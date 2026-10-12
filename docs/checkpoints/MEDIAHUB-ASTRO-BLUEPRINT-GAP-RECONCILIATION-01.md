@@ -251,7 +251,7 @@ The accepted B2 document (`docs/checkpoints/mediahub-functional-baseline-2.0.md`
 
 **Required gate:** record the OS/runtime/boot/install/update/recovery profile separately for each hardware target and verify compatibility, support status, security updates, drivers and rollback before producing a release bundle. No OS, firmware, runtime or deployment was changed in this follow-up.
 
-**Final disposition:** the owner’s Jarvis concept is captured as a structured working architecture and gap register, now with 20 scoped findings. AG-20 is a post-cycle follow-up; it does not change the recorded 13-cycle documentary review ledger. The report is not yet a fully accepted system contract, does not imply implementation, and does not authorize live-system changes.
+**Final disposition:** the owner’s Jarvis concept is captured as a structured working architecture and gap register, now with 21 scoped findings (AG-01…AG-21; AG-21 is a post-cycle follow-up). AG-20 is a post-cycle follow-up; it does not change the recorded 13-cycle documentary review ledger. The report is not yet a fully accepted system contract, does not imply implementation, and does not authorize live-system changes.
 
 
 **External evidence refresh (2026-10-12):** release/activity signals above are snapshots for shortlist quality only. They do not select a component, establish compatibility with the target Mac profiles, prove security suitability or authorize a PoC. The working decision remains one lifecycle owner, one agent-runtime choice as needed, and an isolated coding worker only if requirements justify it. Exact candidate commits/tags, licenses, dependency/security posture, supported-platform matrix and bounded verification evidence remain required.
