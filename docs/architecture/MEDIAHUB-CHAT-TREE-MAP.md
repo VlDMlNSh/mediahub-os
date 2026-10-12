@@ -1553,3 +1553,44 @@ Two independent updates had introduced duplicate §20.39 headings, and subsequen
 **Constraints preserved:** no baseline, canonical backlog, main matrix, runtime, infrastructure, host, credentials or hardware was changed or operated. No tests, qualification, installation, deployment or merge to `main` occurred. The system passport, integrated contract and master prompt remain working drafts; no new global canonical contract is accepted by this map update.
 
 **Next safe step:** continue the next distinct B1 source batch (B1 §16 Local Cluster AI) under the same source-anchor / review protocol. Keep the B1 §6 `SH4-07` versus `SH4-06.c` lineage issue open; do not promote draft crosswalks into the canonical backlog before independent semantic review and all applicable owner/governance gates.
+
+## 20.48 Current-pointer reconciliation after AG-21 / P-21 / ARC-028 / V-21
+
+Date: 2026-10-12
+Ref: docs/mediahub-chat-tree-map-20261012
+Working branch HEAD observed before this map update: 572dfade59961e2e58c9bcaac16d09d996b997b6
+Status: DOCUMENTARY POINTER CORRECTION / READ-BACK VERIFIED; SEMANTIC MAPPING OPEN
+
+### Latest read-back manifest
+
+| Artifact | Current blob SHA | Result |
+|---|---|---|
+| Jarvis blueprint gap reconciliation (legacy path retains ASTRO) | fee9977fee0a5efa79ec48c652544d2c4a0d665f | AG-21 recorded; 20 scoped findings; 13 documentary cycles preserved |
+| System Passport v3 | 5125a721210c4c1a058fecf534a6a6773a17d569 | P-19 corrected to current gap SHA; P-20 / P-21 remain open |
+| Verifiable Architecture Contract 01 | 612be9431d2bbb2cfa01871c5f94519052287634 | Four active Passport pointers refreshed; ARC-028 / V-21 retained |
+| Jarvis Global Master Prompt 01 | 7540d097e041f528b7a2eb67bd0d492e4b829cfe | Active Passport / Contract / Gap pointers refreshed |
+| 13-cycle architecture audit | ec59b09306aaafd7fa86a67fd28c759d17d2b5b6 | Historical 13-cycle documentary ledger; not runtime qualification |
+| Batch 06 Local AI crosswalk | 9df96aca53d1004c33d45f038501dc6b7f52c0c9 | 18 rows, approved 12-field schema; semantic acceptance open |
+| Batch 06 Review 01 | 1edc976dd663ae16a1b61876a2dbbde9411be095 | Structural/source-pointer/status review pass; semantic acceptance open |
+| B1 (main) | 9df4892ed0734050ac79732603d15bb414717310 | Unchanged historical literal source |
+| B2 (main) | 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f | Unchanged accepted current functional reference |
+| ASTRA generated current truth (main) | 48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731 | NOT_PROVEN / BLOCKED in the inspected source snapshot |
+
+### Confirmed pointer defect and correction
+
+Passport v3 P-19 had retained the pre-AG-21 gap SHA 8495c9436b967bd77afae57ccb1e42959ab86a56 while describing it as the latest SHA. The active P-19 pointer was corrected to the current Gap Reconciliation SHA fee9977fee0a5efa79ec48c652544d2c4a0d665f. Passport v3 was read back as SHA 5125a721210c4c1a058fecf534a6a6773a17d569.
+
+That correction changed the Passport blob, so Contract 01's four current Passport references were refreshed from 39824ec51927e76c9dcf26d55fff3f0b823b370f to 5125a721210c4c1a058fecf534a6a6773a17d569; the resulting Contract blob is 612be9431d2bbb2cfa01871c5f94519052287634. Master Prompt 01's active Passport and Contract pointers were then updated to those exact current blobs; its resulting blob is 7540d097e041f528b7a2eb67bd0d492e4b829cfe. Dated historical change records remain intact.
+
+### Source and lifecycle findings preserved
+
+- B1 §15 line 246 says “assist with documents”; historical Audit 01 row B1-15-13 pointed to B2 §19. Pinned B2 labels §16 “Documents and Knowledge”, §18 “AI architecture” and §19 “Update / Recovery / Migration”; the correct working review pointer is B2 §§16/18.
+- Audit 01, B1, B2, canonical backlog and main remain unchanged. Batch 06 retains the correction in a current working crosswalk; its semantic mapping is still open.
+- AG-21 / P-21 / ARC-028 / V-21 remains a post-cycle follow-up and does not change the recorded 13 documentary review cycles.
+- ASTRA's inspected current truth remains blocked. No tests, qualification, soak, installation, deployment, live-host action, infrastructure change or merge to main occurred.
+
+### Structural inventory snapshot
+
+The recursive tree fetched at pre-update branch HEAD 572dfade59961e2e58c9bcaac16d09d996b997b6 returned 846 entries, 465 Markdown, 193 Python, 0 YAML and 54 JSON files; truncated=false. This is a structural snapshot only, not line-by-line semantic review of every file or every branch.
+
+Next safe step: continue with a separate atom-level crosswalk draft for B1 §16 Local Cluster AI, using the literal Audit 01 register, pinned B1/B2 refs and independent source-anchor review. Keep derived controls separate and do not promote any draft to the canonical backlog before semantic review and owner/governance acceptance.
