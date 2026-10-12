@@ -1837,3 +1837,27 @@ A read-back of §20.55 found five unexpanded JavaScript template placeholders in
 The two recorded sets of 13 cycles (Jarvis blueprint review and baseline/contract review) remain unchanged. This is a post-cycle consistency follow-up, not another counted cycle and not a runtime test or qualification. `UI4-04` remains `HOLD / CROSS-LINK-ONLY`; no final child IDs or canonical-backlog promotion occurred. B1/B2 and `main` are unchanged. No installation, tests, qualification, soak, host/infrastructure action, deployment or merge was performed.
 
 **Next safe step:** continue source-anchored semantic review of the remaining B1 sections and unresolved owner dispositions; retain explicit blockers and do not promote Passport v3 / Contract 01 to a global canonical baseline without independent review and separate owner/governance acceptance.
+
+
+## 20.58 Batch 09 atom-level crosswalk — B1 §18 Trusted Sources Intelligence Engine
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** STRUCTURAL / SOURCE-ANCHOR / FIELD-COMPLETENESS REVIEW PASS — SEMANTIC ACCEPTANCE OPEN
+
+| Artifact | Path | Read-back blob SHA | Verified state |
+|---|---|---|---|
+| Batch 09 Draft — B1 §18 Trusted Sources Intelligence Engine | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-DRAFT.md` | `c1baf3a25cf67f96ccd0a21bba5c082987ce80d9` | 17 provisional traceability rows; 12 approved fields per row; documentary draft only |
+| Batch 09 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-01.md` | `e7dc78bc90290a783aebeb487f98e2ad49d7d59e` | 17/17 rows and fields checked; exact B1 anchors and status labels consistent; overlap open |
+
+**Pinned source refs checked:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main` SHA `9df4892ed0734050ac79732603d15bb414717310`, §18 lines 297–309; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md@main` SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §§16/18; Semantic Audit Batch 03 SHA `fcd006e99d812dac5071b34c531f2783f4f54e88`; Batch 08 crosswalk SHA `a978d6846b747f397b266dc0befa05fc22cdd7ab` and Review 01 SHA `2c088f1837b8e5c6d257bc1b33ae3be0dedd938b`; Product Owner Decision Record 01 SHA `9117098e22c26708d48ca8ba5954669faa209d68`.
+
+**Verified source anchors:** B1 line 299 names Trusted Sources Intelligence Engine as a first-class Cloud Development AI subsystem; line 301 lists source lifecycle functions including discovery, search, trust classification, retrieval, verification, provenance, comparison, change detection and evidence/verified-knowledge handling; lines 303–307 identify four information categories; line 309 forbids automatically treating AI-generated information as verified evidence. Draft anchors match the pinned B1 literal text.
+
+**Verified structural result:** rows TSI-01…TSI-17 = 17/17; each row has exactly the 12 owner-approved fields, with no missing or empty field values. Mapping distribution for this B1 §18 draft: **3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT**. MAPPED denotes documentary text correspondence only, not implementation or qualification. NO_DIRECT_COUNTERPART is scoped to the exact named first-class TSI subsystem in the reviewed B2 clauses, not global repository absence.
+
+**Open semantic / governance items:** TSI-07 (provenance) and TSI-12 (tracking information origin) may overlap and require explicit owner disposition; final child IDs must not be assigned before lineage and collision review. The high-level `TRUSTED-SOURCES-01` item and the preserved Batch 08 parent cross-link `CDAI4-02 / B1-17-04` remain intact. MH-19 acceptance remains NOT ACCEPTED / NOT FROZEN in the cited branch-specific source, and its evidence register records production Knowledge Graph, vector/RAG runtime and persistence as UNKNOWN. The working matrix's row 18 remains a section-level summary, not a full accepted TSI contract.
+
+**Boundaries:** no final child IDs were minted; no canonical backlog, B1, B2 or traceability matrix was modified; no tests, qualification, installation, deployment, host/infrastructure action or merge to `main` occurred. This is not a repository-wide all-branch search and is not semantic acceptance of TSI.
+
+**Next safe step:** resolve the TSI-07 / TSI-12 lineage overlap and obtain the applicable owner/governance disposition; keep all mapping and lifecycle gates open until independent semantic review and collision review are completed.
