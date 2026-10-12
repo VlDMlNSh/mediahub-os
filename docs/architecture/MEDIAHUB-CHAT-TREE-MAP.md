@@ -1419,3 +1419,21 @@ The owner blueprint assigns the purchased Mac Pro to the developer environment a
 **Constraints preserved:** no final child IDs; no canonical backlog promotion; no B1/B2/main changes; UI4-04 remains HOLD / CROSS-LINK-ONLY; no tests, qualification, installation, deployment, infrastructure/live-host action or merge.
 
 **Next safe step:** prepare and independently review a separate atom-level batch for B1 §5 UI requirements; preserve literal-vs-derived distinctions and keep UI4-04 on HOLD until unique residual evidence exists.
+
+
+## 20.40 Jarvis contract active source-pointer correction
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `DOCUMENTARY POINTER CORRECTION / READ-BACK VERIFIED`
+
+A fresh cross-reference scan of the current Jarvis artifacts found stale *active* source pointers in the integrated contract: the companion Passport v3 pointer and the sources for ARC-017 / ARC-026 still named earlier read-back blobs. These were updated without changing requirements or any baseline:
+
+- `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` — update commit `099df877256baaf914082680bb14f31522b59c67`; read-back blob SHA `4e04287721ff0bde9ca2ddce91dde3bfaccceaf6`.
+- Current Passport v3 pointer: `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d`.
+- Current Jarvis gap reconciliation pointer: `8495c9436b967bd77afae57ccb1e42959ab86a56`.
+- Current contract read-back confirmed exact SHA equality with the update result. Each active stale-pointer occurrence was corrected once; one occurrence of each former SHA remains only in the dated change-history record, preserving historical provenance.
+
+**Scope:** source-reference metadata only. No architecture rules, acceptance gates, Baseline 1.0/2.0, canonical `main`, traceability matrix, ASTRA runtime, qualification status or hardware inventory was changed. No tests, installation, deployment, infrastructure or live-host operation was performed.
+
+**Next safe step:** independent review of the Jarvis working documents and resolution of P-19 / P-20 and other open owner/governance gates before any canonical promotion.
