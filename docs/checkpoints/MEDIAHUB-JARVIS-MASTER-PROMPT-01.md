@@ -143,7 +143,7 @@ Return:
 - B2: `docs/checkpoints/mediahub-functional-baseline-2.0.md`, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 - MH-24 report: `docs/checkpoints/mediahub-mh24-reconciliation-report.md`, `main`, SHA `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`.
 - Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d`.
-- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `b68314ef8e4f68cd35b11dc83839eae4bec4b7b4` (27 architecture requirements, 20 verification checks in the latest read-back).
+- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `4e04287721ff0bde9ca2ddce91dde3bfaccceaf6` (27 architecture requirements, 20 verification checks in the latest read-back).
 - Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `8495c9436b967bd77afae57ccb1e42959ab86a56`. The path name is retained for provenance even though the current working label is Jarvis.
 - ASTRA current truth: `docs/qualification/CURRENT-TRUTH.generated.md`, `main`, SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: `NOT_PROVEN / BLOCKED`; all listed gates are blocked in that generated snapshot.
 - ASTRA live runbook: `docs/qualification/ASTRA-GOLD-24H-RUNBOOK.md`, `main`, SHA `efb1c8af47578cbe14f8e788676d71ba4c665966`: live three-node transport is not qualified in that source.
