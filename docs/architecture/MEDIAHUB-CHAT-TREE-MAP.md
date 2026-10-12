@@ -3504,3 +3504,21 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - Existing MH-10 remains `PROPOSED / NOT ACCEPTED / NOT FROZEN`; MH-21 remains `NOT ACCEPTED / NOT FROZEN`; P0-07 and MH-22 gates are unchanged. This owner direction does not modify Baseline 2.0.
 
 **Next safe action:** source-bound compatibility review of Claude access modes versus local Ollama model serving, then select the exact architecture shape (Claude operator + local Ollama tool, or per-task policy router). Preserve external egress controls and do not install or invoke providers until separately authorized.
+
+
+## 20.99 Unified system traceability matrix v0.1 — cross-domain synthesis (2026-10-12)
+
+- **Artifact:** `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`
+- **Creation commit:** `95b9df57713325cdc65c707ffc1f52c901d3f2af`
+- **Verified read-back blob SHA:** `7a5d63632adaff50be7abd2f0eaef6c8f883c68e`
+- **Parent unified contract:** `docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md`; latest update commit `b8fc5743e185b637d51650a26d45ec19b027cdcf`; read-back blob SHA `e9e65df37e74e5373bd07b810bf9a33e22418a3c`.
+- **Status:** `PROPOSED / INVENTORY AND RECONCILIATION DRAFT / NOT ACCEPTED / NOT FROZEN`. The matrix is not an accepted new baseline and does not replace primary sources.
+- **Coverage:** cross-domain responsibility matrix MH-01…MH-25 plus Jarvis, ASTRA Gold and MediaHub product plane; Claude vs local Ollama decision matrix; component-admission crosswalk; hardware-independent preparation/deployment phases P00–P20; cross-domain gates G0–G9; evidence schema and open owner decisions.
+- **Source-bound inputs re-read:** bootstrap `f86014d81a2db1b5246b4fc2600812340f1c7d22`; current map before this entry `4064154ac5814eaf07d4cab2725df46409cf62b0`; checkpoint `415839c7087d805fb5097a58c74186900e57c349`; unified contract before update `dfc3af0341e797a94d65147b8dbff96bcf8c4743`; System Passport v3 `9a9260d543e474b7fc55f686c59b79a24c215296`; Verifiable Architecture Contract 01 `56998a7226a3f25cf957bd836caf3aae0100976d`; Jarvis gap report `39720b11e5e6777b86ffd71e0fec1214982e0d95`; Baseline 2.0 on main `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; canonical component manifest on main `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`; MH-15 `f817925c69ce4484713f952e47aacad283af8eeb`; MH-16 `f3ad2401f00a4062b39eed640e0c5c5f70064312`; MH-21 `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c`; MH-22 `17bb2a9fdc34a0ee7c324e78c412616b5e377bb4); MH-24 matrix `73377891072bac3c739c44055ceeb0874154f64c`.
+- **Main HEAD observed:** `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- **Important preserved dispositions:** Baseline 2.0 remains accepted functional authority; Baseline 1.0 remains historical provenance; MH-14 physical persistence NOT AUTHORIZED; MH-15 NOT ACCEPTED/NOT FROZEN and implementation authorization NONE; MH-16 implementation not authorized; MH-10/MH-21 scope coordination open; P0-07 remains a blocker; MH-22 production qualification NO-GO; ASTRA current truth NOT_PROVEN/BLOCKED; no hardware profile or model runtime assumed.
+- **Owner direction:** Jarvis will be Claude-centered with a distinct local Ollama inference path. Claude is not served inside Ollama. Exact Claude interface and whether routing is operator-plus-tool or per-task policy router remain unresolved.
+- **Scope limit:** this is a synthesized responsibility/dependency inventory, not exhaustive line-by-line semantic acceptance of every branch/domain document. Domain owners and independent review must validate each row and conflict before the matrix can be accepted.
+- **Operations performed:** documentary read-only source review plus GitHub documentation commits and read-back. No tests, qualification, model/provider calls, installation, hardware purchase, host inspection, infrastructure change, deployment, migration, or merge.
+
+**Next safe action:** continue the revision-bound crosswalk against the MH-24 68-section traceability matrix and source-specific MH-10/MH-21/manifest/OS/lifecycle requirements. Resolve conflicts into explicit owner-decision rows; keep the matrix proposed until owner/governance acceptance.
