@@ -91,7 +91,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 **Acceptance:** any change to topology, persistence authority, HA/quorum, replication or consistency behavior has an explicit governance decision, dependency analysis, compatibility review, acceptance and freeze; until then the future extension is kept outside current implementation contract.
 
 **Primary source:** architecture/MH-03-master-prompt.md, main, SHA e99035f596e236645bf8f2235fc4d375716ce476; architecture/STATE-HA-INTEGRATION-CONTRACT.md, SHA aa68e876d06980ced3e6b6b3995ea6a117446423.
-**Status:** current foundation preserved; HA target remains proposed.
+**Status:** current foundation preserved: MH-03 remains single-node and in-memory, with no physical persistence or HA authorized in the current foundation; the HA target remains proposed and cannot become an implementation dependency without an explicit governance change.
 
 ### ARC-008 — local-first and privacy/domain separation
 **Rule:** Local capability survives cloud loss within its qualified profile. User data is not a default developer-cloud mirror or qualification fixture. External computation is a bounded request, not an authority grant.
