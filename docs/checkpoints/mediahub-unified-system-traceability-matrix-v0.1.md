@@ -760,3 +760,19 @@ Owner decision: attempt option A (reuse an already independently P0-04-authorize
 - C: **NEXT GOVERNANCE REVIEW PATH / PROPOSAL ONLY / NOT ACCEPTED / NOT FROZEN**.
 - P0-07 mutation publication remains **BLOCKED — GOVERNANCE/API GAP**.
 - No stable historical IDs were renamed or reused. No tests, workflows, qualification, runtime/host inspection, code changes, protected contract edits, deployment, persistence, or branch integration were performed.
+
+## 33. P0-05 v1.1 candidate contract clauses and governance decisions (2026-10-12)
+
+| Trace ID | Source | Requirement / decision | Required evidence / owner disposition | Status |
+|---|---|---|---|---|
+| P005-V11-STATUS-01 | Accepted implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a`, tree `82da63f03da20049954fe69257342cbf66b58395`; contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`; governance record blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242` | Exact-tree contract says DRAFT while acceptance record says ACCEPTED/FROZEN for the reviewed implementation. This does not prove the contract text itself was accepted. | Owner/governance must decide whether acceptance included the contract text or only the implementation; bind decision to exact path/blob/commit. | OPEN — STATUS DISCREPANCY |
+| P005-V11-AUTH-01 | P0-07 adapter contract blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88`; P0-07 authorization reconciliation blob `04381ce6e223b8632ec15d17e475b56fe1ab8772` | P0-07 domain authorization/policy ALLOW cannot replace independent P0-04 authorization; P0-05 remains sole consumer boundary and P0-04 sole mutation authority. | Review candidate clauses on inert decision evidence, independent context, binding of principal/operation/resource/payload/transaction, freshness/replay and fail-closed behavior. | CANDIDATE ONLY |
+| P005-V11-CHOICE-01 | Candidate document `docs/checkpoints/p0-05-consumer-contract-v1.1-candidate-for-governance-review-2026-10-12.md`, created by commit `5a1e6b55423e53abf452808ed990fcd39dc651a1` | Candidate provides reviewable clause language but deliberately does not prescribe an API signature or choose how the independently authorized P0-04 context is supplied. | Owner/security/governance decisions D1–D7; exact accepted revision and freeze; revision-bound threat-to-test traceability; separate implementation authorization. | NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN |
+| P005-V11-GATE-01 | Same candidate; Baseline 2.0 remains canonical functional reference | Candidate status cannot authorize implementation, persistence, tests, deployment or production qualification. | Separate exact-SHA implementation authorization and separately authorized qualification evidence. | NOT AUTHORIZED |
+
+### Disposition
+
+- Option A remains unavailable as an implemented end-to-end path in the inspected P0-07 tree.
+- Option C is the next governance review path only. The new v1.1 candidate is non-normative and does not replace the DRAFT contract or alter the accepted implementation.
+- P0-07 publication remains **BLOCKED — GOVERNANCE/API GAP**.
+- No stable historical IDs were changed; new trace IDs are scoped to this matrix section and must be collision-checked against the global ID registry before any canonicalization. No tests/workflows/qualification/code changes were performed.
