@@ -2396,3 +2396,37 @@ There is no fresh revision-bound qualification evidence in the inspected status/
 4. No source branch, workflow, queue, or runtime was changed; no new tests or qualification were run; no install, deployment, infrastructure action or merge occurred.
 
 **Next safe action:** proceed with the bounded MH-04 State Authority inventory using the current map's dependency navigation. Preserve MH-03's failed workflow as historical evidence; do not rerun qualification or modify candidate/workflow files without explicit authorization and prior governance closure.
+
+## 20.76 MH-04 security and inherited State Authority inventory
+
+**Date:** 2026-10-12  
+**Status:** MH-04 PROPOSED / REVIEW COMPLETE; P0-03 contract and P0-04 in-memory acceptance are separate inherited scopes; no production qualification established.
+
+### Source routing correction
+
+The prior 20.75 next-step wording “MH-04 State Authority inventory” is imprecise. The map routes **MH-04 to Security**; State Authority is the inherited authority path protected by MH-04 and is separately documented by P0-03/P0-04. This entry treats them as linked but distinct domains.
+
+### Primary refs and verified provenance
+
+| Domain / source | Branch, HEAD/tree or blob SHA | Verified status / boundary |
+|---|---|---|
+| P0-03 State Authority Contract | `architecture/p0-03-state-authority-contract`; HEAD `9ae82f9e45bcb9c330ab283b13a482fbeea6b546`; tree `b843f5772af970197ee0e25a91e21a9ad7168e9e`; contract blob `2f35ed1b77c7979c9de50371c8a0f7a82f5d1e75` | Source document status is `Contract Draft / Controlled Implementation Gate`; a separate P0-04 authorization record states that P0-03 v1.0 was explicitly accepted. Contract operations are persistence-neutral; canonical mutation is confined to the State Authority boundary. |
+| P0-04 implementation gate | `architecture/p0-04-in-memory-state-authority`; HEAD `0a76eae809fb5e8cf22871d234546c354fa719f4`; tree `7b00629fab6785a643e31ff04a659ec5c328a98a`; gate blob `14a2edf46016cbdcf841ea172e228e1305a424d2` | Gate document says preparation only / implementation authorization pending P0-03 acceptance; the same branch's authorization record contradicts that stale header and explicitly marks implementation `AUTHORIZED` with P0-03 ACCEPT. Treat as a document-status inconsistency, not as a reason to revoke the later explicit authorization. |
+| P0-04 authorization record | Same P0-04 branch; blob `418587662f301812fa29d687569f98cd03b82169` | Authorizes deterministic in-memory implementation and its tests only. Persistence, network, subprocess, production topology, cloud persistence and direct AI/external mutation remain prohibited. Authorization is not acceptance. |
+| P0-04 acceptance record | `architecture/p0-05-state-authority-conformance`; HEAD `0ba9ee40eae03c49ba5a0ca4ded511a415418169`; tree `314c1db8b36e5921b2211562684213fd6939f545`; record blob `1b3ddc320547a02709a93b7b08d127bc895e0d31` | Explicitly `ACCEPTED / FROZEN` within bounded in-memory scope; cites accepted implementation HEAD `7bda2c703c639103f309c03d9ba702a47df4a85e`, targeted 16/16 and full regression 126/126. Does not qualify or authorize persistence or production topology. |
+| P0-04 security exit review | Same P0-05 conformance branch; blob `4105e11545a6fa21854f41cf1473267312446989` | `READY FOR GOVERNANCE DISPOSITION`; says fresh execution evidence must match exact final reviewed commit. The reviewed record cites an earlier hardened implementation commit `1279024fc7c20a2eb291c1f5bc5dbf807e2350b`; this alone is not evidence of a fresh run at every later governance/documentation commit. |
+| MH-04 acceptance criteria | `architecture/mh-04-security-trust-authorization`; HEAD `a4fc8bd83011c8f684ecd75f9223567e2abc6277`; tree `9f2daa8e89851f55edbb79ef5d97e740842195f4`; criteria blob `a75f5c1849ad67cc380a0ba3552bf7f2c5ec82b6` | `PROPOSED / REVIEW COMPLETE`. Governance approval is required for ACCEPTED; a separate explicit freeze decision is required for FROZEN. Production qualification is not established. |
+| MH-04 evidence register | Same MH-04 branch; blob `dcf91d19cc494155e3c006a95f1ba35665d90e94` | P0-03/P0-04/P0-05/P0-06 listed as inherited ACCEPTED/FROZEN; P0-07 implementation in progress; hardware topology requires verification; plugin sandbox requires verification; final cloud/AI architecture remains candidate; production security qualification NOT ESTABLISHED. |
+| MH-04 decision log | Same MH-04 branch; blob `706b056faa66c4231dc674326f1442fe50b7267d` | MH4-D01…D12 remain PROPOSED, including scoped trust, default-bounded capabilities, AI T4/cloud T5 non-authority, no fallback authority, and the sole canonical mutation path. |
+| MH-04 contradiction register / foundation / trust model | Blobs `56ad70d30f1ac2358b753d7579d9c7d49c210556`, `f6f93318076d2bbf82e65fe2852adefab720ff87`, `3e1d0ebffcd9e84f10e8e65dc3baf4bbb235ac01` | Review reports no identified contradiction in the reviewed scope; this is documentary review, not governance acceptance or production evidence. Security is a control layer, never a mutation authority. Trust tier, reachability, identity, authentication and authorization remain distinct. |
+
+### Confirmed architecture and unresolved distinctions
+
+1. **One canonical mutation authority:** MH-04 security may allow, deny or quarantine; it cannot mutate canonical product state or create a shadow/fallback authority. Authorized work re-enters Consumer Contract → State Authority.
+2. **P0 acceptance does not promote MH-04:** inherited P0-03/P0-04 acceptance applies only to their bounded contracts/implementation. It does not make the full MH-04 proposal ACCEPTED/FROZEN.
+3. **P0-04 evidence has an exact-commit caveat:** the acceptance record records the accepted implementation HEAD and test counts, while the security exit review explicitly says exact-final-commit execution evidence is required. The reviewed branch tip is a later governance commit; no fresh execution was performed in this inventory.
+4. **MH-04 residual gates remain open:** P0-07 implementation; topology; production security qualification; plugin sandbox; final cloud/AI architecture. The MH-04 decision log remains PROPOSED.
+5. **No main synchronization inferred:** direct paths checked on `main` returned 404 for P0-03 contract and MH-04 acceptance criteria; map/branch-specific packages are the available sources. This does not prove global absence and does not authorize copying or merging.
+6. **No runtime verification performed:** this was a GitHub document/tree/provenance read only. No tests, qualification, installation, deployment, infrastructure mutation or merge was performed.
+
+**Next safe action:** continue with the next domain in the map's dependency order, MH-05 Consumer / Integration Boundary. Before any implementation or status promotion, preserve the separate P0-03/P0-04 acceptance scope, require exact-commit evidence where specified, and obtain explicit governance approval for MH-04 ACCEPTED/FROZEN. Do not treat a completed review as acceptance.
