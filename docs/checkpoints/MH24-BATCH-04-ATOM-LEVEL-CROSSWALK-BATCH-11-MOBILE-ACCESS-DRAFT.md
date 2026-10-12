@@ -85,15 +85,15 @@
 - **Requirement ID:** `PROVISIONAL/MA-20-05` (temporary traceability label only; not a final child ID).
 - **Owner:** TBD; no single accepted Mobile Access Layer domain owner is established in the inspected sources.
 - **Source atom / classification:** B1 §20.1 line 351 — LITERAL: architecture must retain the shared MediaHub contract model and must not create authority bypasses.
-- **B2 mapping status:** NOT_REVIEWED
-- **Canonical contract path/ref:** B2 §§3–4 and §18 @ main SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` define one canonical authority and state that no mobile application is an authority; specific Core-to-domain command/API contract mapping still needs source-by-source confirmation.
+- **B2 mapping status:** `MAPPED` — bounded documentary correspondence only. B2 §22 explicitly states that domains communicate through versioned contracts, and B2 §2.3 line 72 states that no mobile application is an authority. Together these clauses support the abstract B1 constraint to preserve the shared MediaHub contract model and avoid authority bypasses.
+- **Canonical contract path/ref:** B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md@main` SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §2.3 lines 65–72 and §22 lines 438–455. No concrete Core-to-domain command/API path is accepted by this mapping.
 - **Acceptance criteria:** PROPOSED / NOT APPROVED: all state-changing requests from Core re-enter the accepted domain/State Authority command path; local state and Smart Home state remain within their approved authorities.
 - **Required evidence:** State/command path map for each local domain; authority-boundary negative-path acceptance criteria; privacy/security evidence at authorized implementation stage.
-- **Lifecycle status:** DRAFT / NOT APPROVED; contract-level correspondence partial, command-path implementation and verification OPEN.
-- **Reviewer / approval reference:** B2 authority invariants apply; no mobile-specific command-path acceptance artifact verified in this bounded pass.
+- **Lifecycle status:** DRAFT / NOT APPROVED; documentary architecture constraint mapped; concrete command-path implementation, verification and qualification OPEN.
+- **Reviewer / approval reference:** Batch 11 Review 02 SHA `c143d1b349bcf2ba3a76ffdad03b1d4258a1ebe9` (bounded status review); D-04 approves mapping vocabulary only; no mobile-specific command-path acceptance artifact verified.
 - **Dependencies:** MH-03; MH-04; MH-05; MH-09; MH-12; MH-13; MH-15.
-- **Verification method:** Compare B1 line 351 with B2 §§3–4/18; distinguish architecture-level no-authority rule from proof of a concrete implementation path.
-- **Change history:** Literal requirement retained; do not assert bypass prevention in runtime.
+- **Verification method:** Compare B1 line 351 with B2 §2.3 line 72 and §22 lines 438–455; keep abstract documentary constraint separate from proof of a concrete implementation path.
+- **Change history:** 2026-10-12 — after bounded semantic Review 02, reclassified only the abstract shared-contract/no-mobile-authority constraint as `MAPPED`. This does not assert runtime bypass prevention or a concrete accepted command path.
 
 ### MA-20-06 — Separate Remote Access application role
 
@@ -159,8 +159,10 @@
 ## Batch summary
 
 - **Provisional records:** 9 (`PROVISIONAL/MA-20-01`…`PROVISIONAL/MA-20-09`).
-- **Mapping distribution:** 3 MAPPED / 6 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT.
-- Bounded `MAPPED` coverage: local Core role/full-minimal not-remote distinction; Remote Access role; explicit Remote-vs-Local-Core distinction.
+- **Mapping distribution:** 4 MAPPED / 5 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT.
+- Bounded `MAPPED` coverage: local Core role/full-minimal-not-remote distinction; abstract shared versioned-contract/non-authority constraint; separate Remote Access role; explicit Remote-vs-Local-Core distinction.
 - Open: the literal scope of "exactly two applications" versus separate Developer Mobile; local capability-by-platform matrix; one-time payment/entitlement semantics; shared command/authority contracts; complete remote feature set; specific Remote Access API contract.
 - B1 §20 is supplemental to matrix rows 20–21; this draft does not replace either row or close all Mobile Access invariants in B1 §21.
 - No B1, B2, working matrix, canonical backlog, `main`, runtime, infrastructure or host was modified or operated. No tests, qualification, installation, deployment or merge occurred.
+
+- 2026-10-12 — after Batch 11 Review 02 (pre-correction draft SHA `4e4293f8b9a6b7b449514678596ec9765187aa46`), changed only MA-20-05 from `NOT_REVIEWED` to bounded documentary `MAPPED` using B2 §2.3 line 72 and §22 lines 438–455. Distribution is now 4 MAPPED / 5 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT across nine provisional rows. Full Mobile Access owner/contract/implementation/qualification acceptance remains OPEN; Review01 is preserved. No B1/B2, matrix, canonical backlog or main change.
