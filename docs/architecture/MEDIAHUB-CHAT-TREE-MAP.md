@@ -1481,11 +1481,11 @@ No functional or governance decision changed. B1, B2, the canonical `main` branc
 
 Two independent updates had introduced duplicate §20.39 headings, and subsequent additions left the §20.39–§20.42 sequence out of order. Normalized only the section headings in this range to unique, document-order identifiers: Jarvis hardware finding §20.39; B1 §4 crosswalk §20.40; Jarvis contract pointer correction §20.41; B1 §5 crosswalk §20.42; master-prompt pointer correction §20.43. No substantive checkpoint text, evidence SHA, architecture rule or acceptance status was changed.
 
-**Verification:** the post-write map was fetched again from GitHub; every heading in §§20.39–20.44 is present exactly once and in sequence.  
+**Follow-up normalization:** a later §20.41 heading was appended below §20.44 by a subsequent update, reintroducing a duplicate identifier. That later B1 §6 entry is now renumbered §20.45 below; substantive checkpoint text and evidence references are unchanged. After this update, headings §20.39–§20.46 are checked for unique, sequential numbering.
 
 
 
-## 20.41 Batch 04 atom-level crosswalk — B1 §6 Smart Home and Review 01
+## 20.45 Batch 04 atom-level crosswalk — B1 §6 Smart Home and Review 01
 
 **Date:** 2026-10-12  
 **Ref:** `docs/mediahub-chat-tree-map-20261012`  
@@ -1505,3 +1505,23 @@ Two independent updates had introduced duplicate §20.39 headings, and subsequen
 **Constraints preserved:** B1/B2/main and canonical backlog unchanged; no final child IDs; no tests, qualification, installation, deployment, live-host operation or merge. UI4-04 remains HOLD / CROSS-LINK-ONLY.
 
 **Next safe step:** proceed to B1 §12 Smart Home Automation as a distinct atom-level batch; continue to keep literal vs derived requirements separate, and track the SH4-07 lineage discrepancy as open.
+
+
+## 20.46 Batch 04 atom-level crosswalk — B1 §12 Smart Home Automation and Review 01
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `DOCUMENTARY DRAFT / STRUCTURAL, SOURCE-ANCHOR AND STATUS-CONSISTENCY REVIEW PASS / SEMANTIC ACCEPTANCE OPEN`
+
+| Artifact | Path | Blob SHA | Status |
+|---|---|---|---|
+| Atom-Level Crosswalk Batch 05 — B1 §12 Automation | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-05-DRAFT.md` | `615cbfadbd2b1af7837c91f293cbcefbd55ef580` | 20 rows; 12 fields/row; draft, no final child IDs |
+| Batch 05 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-05-REVIEW-01.md` | `89acbe53c482fc5958b43bfc6d82831c0f4425c9` | 20/20 ID, source-anchor, schema and status-consistency checks PASS; semantic acceptance OPEN |
+
+**Sources:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` @ `main`, SHA `9df4892ed0734050ac79732603d15bb414717310`, §12 lines 204 and 206; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md` @ `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Audit 01 SHA `d0938f14ed4110545118f075175dee3be412097b`; Proposal 02 SHA `7e737c8add9e3453062e9fc459790e7010e55689`; parent crosswalk SHA `f9e66b7adde7afeaf6a7fb6ef1a867dee07c1b34`; owner-decision record SHA `9117098e22c26708d48ca8ba5954669faa209d68`.
+
+**Verified result:** 20/20 draft IDs match Audit 01 §12 and every row has the approved 12 fields. Distribution: `1 MAPPED / 17 NOT_REVIEWED / 2 NO_DIRECT_COUNTERPART / 0 CONFLICT`. `MAPPED` means explicit documentary coverage only. The two no-direct-counterpart assignments are limited to the reviewed B2 clauses, not the entire repository. `AUTO4-02` remains a historical cross-link to `AUTO4-01.j/.k`, not a duplicate normative category. `B1-12-D01` remains a derived, unapproved control, not literal Baseline 1.0 text.
+
+**Constraints:** B1, B2, `main`, the historical backlog, parent-level crosswalk and runtime/infrastructure were not changed. No stable child IDs were minted. No tests, qualification, installation, deployment, live-host operation or merge occurred.
+
+**Next safe step:** continue with the next uncovered source section in a separate batch; do not promote any atom-level draft into the canonical backlog before full collision review, independent semantic review and the applicable owner/governance gates.
