@@ -3424,3 +3424,48 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 5. No tests, workflow dispatch, host/runtime inspection, migration, persistence implementation, installation, infrastructure change, merge or cherry-pick occurred.
 
 **Next safe action:** static traceability review of MH-23 migration/rollback requirements against MH-16 lifecycle/recovery and MH-22 qualification artifacts on current main, recording which claims have current revision-bound evidence. Do not run the self-hosted workflow or perform migration/restore operations without separate explicit authorization.
+
+
+### 20.96.2 MH-23 migration / recovery / production-gate traceability (2026-10-12)
+
+**Mode:** repository-document and Git-tree inspection only. No tests, workflow dispatch, runtime/host inspection, migration, restore or qualification executed.
+
+#### Current-main primary evidence
+
+- `main HEAD` observed during this pass: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; recursive tree has 798 entries and is not truncated.
+- `docs/architecture/MH-16-completion-record.md`, blob SHA `e4ea4e3a37540cc104243c236e2e5c1c32ea35d6`: **ARCHITECTURAL PASS COMPLETE / GOVERNANCE ACCEPTANCE PENDING / IMPLEMENTATION BLOCKED**. The record explicitly says dedicated production implementation was not established by its searches and classifies implementation as UNKNOWN, not absent or verified.
+- `docs/architecture/MH-16-installer-recovery-update-architecture.md`, SHA `f3ad2401f00a4062b39eed640e0c5c5f70064312`: **PROPOSED / GOVERNANCE ACCEPTANCE PENDING / NOT FROZEN / IMPLEMENTATION NOT AUTHORIZED**. Migration must be explicit/versioned, use approved State Authority/Persistence contracts, have failure/recovery semantics and Health Gate. Concrete atomicity technology and platform boot/security mechanisms remain unselected pending ADR/evidence.
+- `docs/architecture/MH-16-master-prompt.md`, SHA `62924d4686aa3f55fce442a3c4bab66c82ae19e5`: reiterates implementation gate and forbids lifecycle, migration, recovery, persistence, AI/plugin/UI components from becoming or bypassing State Authority.
+- `docs/architecture/MH-22-production-qualification-operations.md`, SHA `17bb2a9fdc34a0ee7c324e78c412616b5e377bb4`: **ARCHITECTURE WORK AUTHORIZED / NOT YET ACCEPTED / NOT FROZEN**, current production **NOT PRODUCTION QUALIFIED**, readiness **NO-GO**. Qualification must cover installation/update/rollback/recovery, observability, security/privacy, hardware, backup/restore, operations and governance.
+- `docs/architecture/MH-22-production-gates.md`, SHA `8cbac21dfd5933ae629c35949d597f99a2236440`: gates G1…G9 are separate; no implicit promotion between implementation, testing, verification, qualification, release, deployment, observation and production acceptance.
+- `docs/architecture/MH-22.1-current-production-qualification-audit.md`, SHA `3cbcccb1af7af42c967cd0639183988fbe580296`: historical audit dated 2026-09-04, explicitly says current-HEAD qualification/release identity/hardware/lifecycle/restore/DR/production acceptance were not established at that time. Historical observations are not current-HEAD proof.
+- `docs/architecture/MH-22.2-qualification-matrix.md`, SHA `474f4048d9fd50c72943bd06df5043124bed3f4e`: source/current-head evidence PARTIAL; build/tests/release identity/hardware/install/update/rollback/recovery/restore/DR/observability/performance/privacy largely UNKNOWN; production governance NOT GRANTED.
+- `docs/architecture/MH-22.3-production-readiness-review.md`, SHA `a598dae5b04cd1b307a3dfab1211c662c2ab1f9f`: dated 2026-09-04, decision NO-GO due incomplete evidence; historical, not a fresh execution result.
+- `docs/architecture/MH-22-acceptance-criteria.md`, SHA `40d401c0a4ba80550f8101d4e9b1de8f0c77849e`, requires unique candidate identity, provenance, security/privacy evidence, qualification across software/OS/runtime/hardware/integrations, exercised installation/update/rollback/recovery, validated restore, operational ownership and explicit governance acceptance.
+- `docs/architecture/MH-22-unknowns.md`, SHA `4b5d38732785be1fee7833b44381f74aec1653bc`, leaves current-head qualification, release identity, artifact/SBOM, hardware, recovery/restore/DR, observability and production acceptance as critical unknowns.
+- `.github/workflows/mediahub-p0-07-verification.yml`, SHA `7fb80f402b4792b6a77cf8a4aad83d1ee5209789`: manual-only exact-SHA workflow using a self-hosted runner; includes targeted tests, capability/persistence scans and full regression. Workflow existence is not an execution result; it was not dispatched.
+
+#### Path and evidence limits
+
+- Guessed paths `docs/architecture/MH-16-INDEX.md`, `MH-16-acceptance-criteria.md`, `MH-16-evidence-register.md`, `MH-16-recovery-contract.md`, `MH-22-INDEX.md`, `MH-22-production-qualification.md` and `P0-07-acceptance-criteria.md` returned 404 at the queried paths/ref. Recursive tree inspection confirms the relevant current-main MH-16/MH-22 documents are instead named as listed above; a path 404 is not evidence that the domain itself is absent.
+- MH-23 branch qualification/gate matrix files are branch-specific and not present at the same paths on current main; their branch records must not be treated as canonical main evidence without governance integration.
+- A metadata endpoint query for recent workflow runs was rejected by the read-only fetch endpoint. Therefore this pass makes no claim about the latest run status of P0-07; workflow run state remains UNKNOWN in this pass.
+
+#### Traceability verdict
+
+| MH-23 migration/rollback claim | Current evidence | Verdict |
+|---|---|---|
+| Preserve one canonical State Authority | MH-16 completion + architecture contracts | ARCHITECTURALLY DEFINED; implementation enforcement UNKNOWN |
+| Migration explicit, versioned, validated | MH-16 architecture | ARCHITECTURALLY DEFINED; current-target execution UNKNOWN |
+| Recovery must validate before resuming | MH-16 completion and recovery state machine | ARCHITECTURALLY DEFINED; actual restore/recovery qualification UNKNOWN |
+| Health Gate after migration/rollback/recovery | MH-16 architecture | REQUIRED; implementation/evidence UNKNOWN |
+| Current-main release candidate qualified | MH-22 registers/matrix | NOT ESTABLISHED |
+| Current-target P0-07 verification | Manual exact-SHA workflow definition only | NOT ESTABLISHED by this pass |
+| Production acceptance | MH-22 production model/gates | NOT GRANTED / NO-GO |
+
+#### Disposition / next step
+
+- MH-16 remains governance-pending and implementation-blocked; MH-22 remains not accepted/not frozen and production NO-GO.
+- P0-07 remains blocked according to the current MH-23 qualification matrix previously inspected on its specialized branch; no fresh P0-07 execution was verified in this pass.
+- No tests, qualification, workflow dispatch, migration, restore, runtime/host inspection, installation, infrastructure change, merge or cherry-pick occurred.
+- Next safe step: reconcile MH-23's branch-specific gate matrix with current-main MH-16/MH-22 evidence by a revision-bound crosswalk, then request governance decisions for the missing gates. Do not infer acceptance from architecture completion, source presence or workflow definitions.
