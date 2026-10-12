@@ -718,3 +718,12 @@ Status: SOURCE-BOUND DOCUMENTARY CROSSWALK. No protected P0 baseline is changed;
 - MH-12 C-01: REQUIRES VERIFICATION / GOVERNANCE RESOLUTION; C-02: BLOCKED.
 - P0-03…P0-06 protected; no source contract edited. MH-14 physical persistence NOT AUTHORIZED.
 - No stable IDs added; no gate closed. No tests, code execution, qualification, workflow dispatch, migration, restore, deployment, infrastructure changes or branch operations occurred.
+
+
+## 30. P0-05 accepted implementation lineage × contract-path mismatch (2026-10-12)
+
+- Governance acceptance record blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242` on `implementation/p0-05-consumer-boundary` records ACCEPTED / FROZEN at implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a`; persistence and production qualification are excluded.
+- Commit metadata for `303a766257b90c4356dcffc8967a5574e8e22e7a` identifies `fix(security): bound consumer payload copy before authority` and changed file `runtime/mediahub_runtime/consumer_boundary.py`. Implementation-entry commit `72044cb03ca66c062a9a81e0edd60732ebb795ec` changes `docs/architecture/P0-05-implementation-entry-gate.md`.
+- Contract path `docs/architecture/P0-05-state-authority-consumer-contract.md` returned 404 on both `implementation/p0-05-consumer-boundary` and `architecture/p0-05-state-authority-integration-boundary`. Therefore DRAFT blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` has no verified path/ref attribution from this check. MH-05 contradiction register blob `7bdedb32c0d11e6c232bdd58256913bf6078e330` separately records C-001 as a draft-vs-governance-baseline synchronization issue.
+- Disposition: P0-05 implementation acceptance is historically recorded; exact normative contract blob in the accepted tree is REQUIRES VERIFICATION. Fresh exact-SHA CI/execution is NOT VERIFIED; broader MH-05 architecture remains unaccepted; production qualification is NOT GRANTED. P0-07 publication remains BLOCKED by its separate governance/API gap.
+- Next evidence: locate the DRAFT blob's actual path/ref; inspect the tree at `303a766257b90c4356dcffc8967a5574e8e22e7a`; bind exact normative contract blob and governance evidence to that immutable tree. No IDs added, protected P0 contract changed, tests/workflows/qualification/persistence/deployment or branch integration performed.
