@@ -795,3 +795,24 @@ Baseline 2.0 заявляет, что согласован с пользоват
 **Ограничения:** exact MH-03/MH-04/MH-07/MH-08 acceptance paths on `main` returned 404; map points to branch-specific packages, so global absence is not claimed. MH-11 index path likewise not found on `main`; no domain-wide absence inference. Baselines unchanged; no OSS install, tests/qualification, infrastructure changes or merge to `main`.
 
 **Следующий шаг:** Batch 07 — final passport audit and whole-matrix closure review.
+
+
+### 20.10 Выполнена финальная документальная сверка MH-24 (Batch 07)
+
+**Артефакт:** `docs/checkpoints/MH24-SEMANTIC-AUDIT-BATCH-07-FINAL-REVIEW.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `c29b993025006ae67e52abe731ba075e87adce4b`  
+**Read-back blob SHA:** `bb27cf46a91b793ac3c7e4fc6d246582c57050ea`  
+**Статус:** `FINAL DOCUMENTARY REVIEW COMPLETE; TRACEABILITY/QUALIFICATION CLOSURE NOT ESTABLISHED`.
+
+Повторно сверены Baseline 1.0 (SHA `9df4892ed0734050ac79732603d15bb414717310`), Baseline 2.0 (SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`), MH-24 matrix (SHA `8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6`), reconciliation report (SHA `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`), component manifest 2.0 и все шесть semantic audit batches.
+
+**Подтверждено:** паспорт содержит 68 нумерованных разделов; матрица содержит 68 строк 1–68 без пропусков/дубликатов — это 68/68 section-level coverage, но не atomic requirement-level closure. В qualification-evidence столбце матрицы буквально 42 значения `—`, 14 `partial` и 12 других непустых меток; эти значения сами по себе не доказывают валидность или актуальность qualification evidence.
+
+**Выявлено для governance disposition:** заголовок matrix говорит `RECONCILIATION CANDIDATE`, тогда как Baseline 2.0 и reconciliation report объявляют B2 accepted/canonical и MH-24 closed. В рамках аудита этот статус не менялся. Кандидатные семантические пробелы из Batch 01–06 требуют атомарной трассировки и решения; нельзя делать вывод о глобальном отсутствии по 404 на одном ref.
+
+**R4:** свежий fetch commit `471f709f5633feab7aeb62dd3ea52effad6d2bc584` вернул GitHub API 422 `No commit found for SHA`. Указанный tree SHA `2279612908135418b2b5448d598274ea6741deaa` не заменяет проверяемый commit object. Статус сохранён: `COMMIT UNRESOLVED / HISTORICAL PROVENANCE ONLY`.
+
+**Ограничения:** это документальная сверка; implementation/runtime, актуальная независимая qualification и production authorization не установлены. Baselines и matrix не менялись; тесты/qualification, установка, deployment, инфраструктурные и production действия, merge в `main` не выполнялись.
+
+**Следующие безопасные шаги:** (1) governance disposition для статуса matrix; (2) atomic requirement-level traceability backlog для 68 секций; (3) восстановление проверяемой R4 commit provenance; (4) уточнение branch-specific acceptance refs по карте/деревьям репозитория; (5) проверка текущих implementation/evidence и независимой qualification по доменам до любых readiness claims.
