@@ -3604,3 +3604,14 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Next safe action:** checkpoint the pass, then fetch matrix/map/checkpoint again and verify exact blob SHAs and cross-links before continuing.
 
 - **Latest continuation checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `08f2eea88032e6dee65cd445aebaf324ecfb5bf2`, blob SHA `4c39ade66a3218981013b56e184522717a28d83e` (read-back verification pending).
+
+
+## 20.106 MH-24 architecture-gap register crosswalk (2026-10-12)
+
+- **Unified matrix:** `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`; update commit `11f8fb9fb420536742661d06a0154bae963e2f00`, blob SHA `310daad873940b4a50c083801b3c3a6b6dfb141b` (read-back pending).
+- **Primary sources:** architecture gaps/pushback register `docs/checkpoints/2026-09-30-mediahub-architecture-gaps-and-pushback.md` blob `13c3a158ed9c925eaefcd6fe106577bc425f765b`; master reconciliation `docs/checkpoints/mediahub-master-architecture-reconciliation.md` blob `f3a66e292302984be95ae8085f17e03cd538baae`; MH-24 68-section matrix blob `8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6`; MH-24 reconciliation report blob `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`; Baseline 2.0 blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
+- **Crosswalk IDs:** MH24-GAP-IDENTITY-01, MH24-GAP-ATTEST-01, MH24-GAP-ISOLATION-01, MH24-GAP-STATE-FENCING-01, MH24-GAP-DATA-CLASS-01, MH24-GAP-JOB-SEMANTICS-01, MH24-GAP-TRANSPORT-BOUNDARY-01, MH24-GAP-NETWORK-QUAL-01, MH24-GAP-RESOURCE-01, MH24-GAP-ACCEPTANCE-01.
+- **Confirmed:** trusted distributed compute still needs explicit identity/revocation, attestation, worker isolation, State Authority persistence/fencing, data-class/egress, lease/job semantics, component boundaries, and network/hardware qualification evidence. None of these gaps was closed by this pass.
+- **Status reconciliation:** the master reconciliation checkpoint's “not yet owner-accepted” line is historical; MH-24 reconciliation report (2026-10-01) and current Baseline 2.0 document record owner acceptance/canonical status. That acceptance does not imply implementation, production qualification, or acceptance of the unified deployment contract.
+- **No execution:** no tests, runtime/host inspection, network probes, provider calls, credentials, installation, infrastructure changes, deployment, migration or merge occurred. `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 unchanged.
+- **Next safe action:** checkpoint this pass, update the map with the checkpoint SHA, then read back matrix/map/checkpoint and verify live SHAs.
