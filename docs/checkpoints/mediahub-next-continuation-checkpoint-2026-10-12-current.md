@@ -178,3 +178,15 @@ Resume with `/next`.
 - `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 remains canonical and unchanged. No tests, restore, hardware inspection, qualification, provider/model calls, credentials, installation, infrastructure change, deployment, migration or merge occurred.
 
 **Next safe action:** read back the updated matrix and map to confirm live blob SHAs, then continue the map-guided crosswalk into adjacent dependency domains and keep source facts distinct from acceptance evidence.
+
+
+### Latest verified continuation — MH-12 / MH-13 / MH-21 / MH-22 crosswalk (2026-10-12)
+
+- Re-read bootstrap, current map, checkpoint, matrix, parent contract, Baseline 2.0 and canonical component manifest; queried current `main HEAD` and recursive tree (`truncated=false`, 798 entries).
+- Read primary sources from `main`: MH-12 acceptance criteria `40f37f1600c4730e622480d57bd492fa67f9ca4b`, security architecture `cf4ebfd5bf471ca676f075c51d3a24906504e490`, authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a`, security invariants `0609be9c3420070434014dad4529e4ccd46b0996`, evidence register `a16485de20fd4a98525573a12c0b085cb012f665`, contradiction register `4b3c101317330e47236937b17344299df53deee9`; MH-13 privacy architecture `e732ff9cacbc9c1189bd83306cdff30906326cf0`, governance acceptance `6ecdc89440664563f36263bb8da80d1ad24f19a7`, governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`; MH-21 privacy invariants `4475da53dc87ad1c2ad1c9f112a55211cbfa49eb` and security invariants `035e5e8fa7bae98e93727c346cd66d72c864426f`; MH-22 evidence register `188a85e3a31cb545fd781e6db237d655d721ec1c`.
+- Added MH12-SEC-01/02, MH12-GAP-01, MH12-EVIDENCE-01, MH13-PRIV-01, MH13-ACCEPT-01, MH21-EGRESS-01 and MH22-QUAL-01 to the unified matrix. Matrix update commit `23fc8e7e78efc1898f5dbbf45cb396b87ba5cd1e`, blob `3755af4359ab7b9523b09e190da36b27b0b77de3`.
+- Updated map section 20.104. Map update commit `d05ba1a1afc2e7c72e446e785740c3fff32e4444`, blob `1e001d3b5f08125b65d8a30ad21f17907dd6e1cd`.
+- Confirmed: security is not State Authority; P0-05/P0-07 authorization bridge remains unresolved; MH-13 governance acceptance applies only to the authorized reconstruction, with historical original not recovered and implementation not authorized; MH-21 external egress/fallback enforcement is unverified; MH-22 production qualification and operational acceptance are not granted.
+- `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 remains canonical and unchanged. No tests/security probes/qualification/provider calls/credentials/host inspection/installation/infrastructure changes/deployment/migration/merge occurred.
+
+**Next safe action:** read back updated matrix and map, then this checkpoint, verifying exact live blob SHAs before continuing.
