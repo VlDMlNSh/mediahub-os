@@ -305,3 +305,13 @@ Resume with `/next`.
 - MH-14 physical persistence remains NOT AUTHORIZED; acceptance NOT YET ACCEPTED/FROZEN; atomicity and restore evidence are not demonstrated; RPO/RTO remain TBD. MH-22 production qualification NOT GRANTED / NO-GO pending current revision-bound evidence. MH-23 branch artifacts remain separate from main.
 - No tests, qualification, workflow dispatch, physical restore, migration, host/runtime inspection, deployment, or branch integration occurred.
 - Next: link this crosswalk in the map, then read back matrix/checkpoint/map and verify blob SHAs and links. Continue bounded documentary reconciliation only.
+
+
+## Latest continuation — MH-23 lineage freshness recheck (2026-10-12)
+
+- Re-read live bootstrap `f86014d81a2db1b5246b4fc2600812340f1c7d22`, map `c8036c1aaa9108b8a71684952829605b08c9f93c`, checkpoint `c9e3b1a53e00252e39315f68ed37e5ad835b5e3d`, matrix `345888a0568318c1ad9c9a5fc15af0b43f051489`, unified contract `e9e65df37e74e5373bd07b810bf9a33e22418a3c`, Baseline 2.0 `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, Component Manifest 2.0 `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`.
+- Current `main HEAD`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Fresh GitHub compare `main...architecture/mh-23-long-term-evolution`: `DIVERGED`, 66 ahead / 1,640 behind, merge base `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`.
+- Re-read MH-23 branch decision log `90a2b8ef5727ac39023147d5b2d3c1540b5f5bbd`, evidence register `a9330b0373c4b329990d056553c0d7ac556d3bfc), architecture `2896d6851226a31fc971e05766d253c034d22246`; current-main MH-16 architecture `f3ad2401f00a4062b39eed640e0c5c5f70064312` and MH-22 evidence `188a85e3a31cb545fd781e6db237d655d721ec1c`.
+- Matrix section 25 records that historical evidence pinned to `6eb2ef9…` is not current-head qualification evidence for `1d45bbcc…` without a revision-bound run/evaluation. Matrix commit `2271ce48de4ab8e39477296352a8b62e87f50f8e`, blob `1e001ae85749109c9497be50528c01d5147ea9ac` (verify read-back).
+- No architecture status changed; no IDs added and no gap closed. No branch operation, workflow dispatch, test, qualification, migration, restore, host/runtime inspection, deployment or infrastructure change.
+- Next: add map/checkpoint cross-links to matrix section 25, then read back all three artifacts and verify SHAs. Continue with map-guided documentary audit; do not infer MH-14 persistence acceptance from branch records.
