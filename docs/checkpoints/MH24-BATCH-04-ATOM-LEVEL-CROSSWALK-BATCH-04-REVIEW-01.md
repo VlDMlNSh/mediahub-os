@@ -50,6 +50,42 @@
 | Final child IDs minted | 0 |
 | Runtime tests/qualification | Not performed |
 
+## 3A. Atom-by-atom status and lineage check
+
+| Audit atom | Audit source atom | Audit historical link | Draft traceability link | Audit B2 relation | Draft mapping status | Check |
+|---|---|---|---|---|---|---|
+| B1-06-01 | Smart Home support must scale. | SH4-01 | SH4-01 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-02 | Use an extensible adapter/integration layer. | SH4-01 | SH4-01 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-03 | Support lighting. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-04 | Support climate. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-05 | Support security systems. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-06 | Support cameras. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-07 | Support intercoms. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-08 | Support sensors. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-09 | Support actuators. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-10 | Support electrical power systems. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-11 | Support network equipment. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-12 | Support controllers. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-13 | Support hubs. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-14 | Support wired systems. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-15 | Support wireless systems. | SH4-02 | SH4-02 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-16 | Equipment discovery is automatic. | SH4-03 | SH4-03 | PARTIAL, B2 §§8/14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-17 | Determine device identity. | SH4-04 | SH4-04 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-18 | Determine manufacturer. | SH4-04 | SH4-04 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-19 | Determine model. | SH4-04 | SH4-04 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-20 | Determine connection method. | SH4-04 | SH4-04 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-21 | Check compatibility. | SH4-05 | SH4-05 | PARTIAL, B2 §§8/14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-22 | Offer installation of the required integration. | SH4-06 | SH4-06 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-23 | Create required configuration. | SH4-06 | SH4-06 | PARTIAL, B2 §§14/19 | NOT_REVIEWED | PASS; PASS |
+| B1-06-24 | Expose the device through unified MediaHub UI. | SH4-07 | SH4-07 (Audit 01); SH4-06.c (Proposal 02 correction) | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; OPEN — parent/source-link mismatch documented |
+| B1-06-25 | Maximize compatibility. | SH4-01, SH4-07 | SH4-01 / SH4-07 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; OPEN — cross-link review |
+| B1-06-26 | Do not restrict architecture to one manufacturer. | SH4-01 | SH4-01 / SH4-07 | PARTIAL, B2 §14 | NOT_REVIEWED | PASS; PASS |
+| B1-06-D01 | Discovery must not itself imply trust/enrollment. | SH4-03 | SH4-03 | Derived control; B2 §§4/6/14 and MH-17 related | NOT_REVIEWED | PASS; PASS |
+| B1-06-D02 | Compatibility must be checked before offering integration. | SH4-05 | SH4-05 | Derived ordering interpretation | NOT_REVIEWED | PASS; PASS |
+| B1-06-D03 | Explicit user confirmation is required for every consequential install/configuration change. | SH4-06 | SH4-06 | Derived control | NOT_REVIEWED | PASS; PASS |
+
+**Result:** 29/29 Audit IDs are present in the draft and all 29 have `NOT_REVIEWED` mapping status. The known `B1-06-24` link difference is explicitly recorded for follow-up.
+
 ## 4. Traceability discrepancy detected
 
 **B1-06-24 / SH4-07 vs Proposal 02 SH4-06.c**
