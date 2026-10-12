@@ -778,3 +778,20 @@ Baseline 2.0 заявляет, что согласован с пользоват
 **Ограничения:** MH-11 exact index path on `main` returned 404; карта указывает branch-specific package, и глобальное отсутствие не утверждается. Документальные статусы/POCs не считаются runtime evidence. Baselines не менялись; tests/qualification, infrastructure actions and merge to `main` не выполнялись.
 
 **Следующий шаг:** Batch 06 — Passport §§39–46.
+
+
+### 20.9 Выполнен шестой requirement-level audit batch
+
+**Артефакт:** `docs/checkpoints/MH24-SEMANTIC-AUDIT-BATCH-06.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `01ff85f36d20b3611cded3826887c80c81dd1141`  
+**Read-back blob SHA:** `32a636b5d2680ffab4c8289dbcec32cd8f55458a`  
+**Статус:** `DOCUMENTARY AUDIT — PARTIAL`.
+
+Покрыты Passport 1.0 §§39–46: observability, data/storage, knowledge/search, AI escalation, OSS foundation/adoption, architectural prohibitions, production/qualification gates. Сверены Baseline 1.0/2.0, matrix rows 39–46, MH-06 health/readiness semantics, MH-10 AI authority boundary, MH-20 governance, MH-22 qualification interface, MH-23 branch-specific gate/evidence and component manifest 2.0.
+
+Подтверждено по текстам: health/readiness не должны выдавать authority; PostgreSQL + pgvector + S3-compatible storage — функциональная baseline, Qdrant условен benchmark evidence; knowledge требует provenance/source verification; AI routing подчинён policy/workload classification; OSS component selection не равна production qualification; архитектурные запреты и independent qualification gates явно представлены. MH-06 health/readiness semantic contract accepted, но MH-06 overall not frozen. Матрица отмечает cloud admission/orchestration tests partial. Historical GOLD #176 (~14h runner shutdown) не является 24h GOLD pass; GOLD #177 не canonical explicit-admission run. R4 commit SHA остаётся unresolved. Runtime stack, enforcement of no-bypass invariants and current independent qualification pass не доказаны.
+
+**Ограничения:** exact MH-03/MH-04/MH-07/MH-08 acceptance paths on `main` returned 404; map points to branch-specific packages, so global absence is not claimed. MH-11 index path likewise not found on `main`; no domain-wide absence inference. Baselines unchanged; no OSS install, tests/qualification, infrastructure changes or merge to `main`.
+
+**Следующий шаг:** Batch 07 — final passport audit and whole-matrix closure review.
