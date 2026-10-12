@@ -580,3 +580,17 @@ Resume with `/next`.
 **Remaining blockers:** current-candidate source/build/dependency/digest/signature/SBOM identity; fresh successful verification and independent A3 evidence; P0-07 canonical-read and mutation/publication bridge plus caller/context provenance; P0-05 header/governance confirmation; MH-13 retention/deletion/restore semantics; MH-14 persistence authorization and recovery evidence; exact MH-15 target; MH-16 lifecycle evidence; MH-21 provider/egress acceptance; MH-23 compatibility/migration; component admission; explicit release/deployment/production acceptance.
 
 **Scope boundary:** no tests, qualification runner, workflow dispatch/re-run/cancel, logs/runtime/host inspection, credentials, model/provider calls, installations, deletion/restore/migration, infrastructure changes, deployment, merge or rebase. Parent contract and matrix remain PROPOSED / NOT ACCEPTED / NOT FROZEN. Audit report does not claim full line-by-line semantic reconciliation of every file or branch.
+
+
+### Continuation refresh — final cross-link read-back for wave 02 (2026-10-13)
+
+This addendum supersedes only the prior subsection's mutable-branch blob snapshots; it does not rewrite the historical evidence or change any acceptance status.
+
+- Live `main HEAD`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` remains ACCEPTED / CANONICAL / IMMUTABLE; ASTRA current truth `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` remains G0–G11 BLOCKED.
+- Documentation branch HEAD before this checkpoint update: `9a44e01679c180c83b3471691ed437cf8d35e49f`; compare `diverged`, 489 ahead / 2 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase.
+- Final map read-back before this checkpoint update: blob `d1e1d3782786e2ff71cf7224bc72562881ebc582`; Section 20.126's matrix pointer now matches the final matrix blob.
+- Final unified matrix read-back: blob `ec04a9c48aa057c009e90ccc2c09ce0392f3a7e3`; Section 43 gate-identifier clarification and Wave 02 crosswalk are present.
+- Unified architecture/deployment contract blob `1057776ca9192b307a4e6de72db5d12cdbcc1a39`; working bootstrap instruction blob `4ced4a9249591d218e8949f498c862fc21274b16`; Wave 02 audit report blob `d8739993ab48e277ca5dc0e0456e8c5d045a1348`. Each was re-read directly from GitHub in this pass.
+- Branch-local gate labels remain draft-only: matrix `MH-UTM-G0`…`MH-UTM-G9`; contract `MH-UDC-G0`…`MH-UDC-G9`. They do not rename ASTRA G0–G11 or MH-22 G1–G9.
+- Verdict unchanged: **PROJECT-WIDE PRODUCTION QUALIFICATION = NO-GO / NOT PROVEN**. Current-head verification failed; available job summary did not establish cause; queue supervisor remained queued; zero commit status records are not PASS.
+- No executable qualification, tests, workflow dispatch/rerun, runtime/host/log investigation, credentials, provider/model calls, installation, migration, deletion/restore, infrastructure change, deployment, merge or rebase occurred.
