@@ -668,3 +668,40 @@ Baseline 2.0 заявляет, что согласован с пользоват
 В документ включены короткий bootstrap-промпт для нового чата, архитектурные инварианты, безопасные границы действий и требования к точности отчётов. Инструкция явно предупреждает, что карта — внешняя проектная память, а не автоматическая загрузка полного репозитория в контекст модели.
 
 Проверка после создания: документ повторно прочитан из GitHub; blob SHA `f86014d81a2db1b5246b4fc2600812340f1c7d22`, 7,664 символа; проверены наличие pre-action protocol и короткого bootstrap-промпта. Этот SHA относится к инструкции, не к карте.
+
+
+---
+
+## 20. АУДИТ СУЩЕСТВУЮЩЕЙ МАТРИЦЫ MH-24 И ПРОВЕРКА BASELINE 1.0 ↔ 2.0 — 2026-10-12
+
+**Статус:** `SECTION-LEVEL COVERAGE CONFIRMED; SEMANTIC RECONCILIATION OPEN`. Этот аудит не меняет Baseline 1.0/2.0 и не утверждает, что все 68 разделов семантически эквивалентны.
+
+### 20.1 Первичные источники, повторно прочитанные из GitHub
+
+| Артефакт | Ref | Blob SHA | Подтверждённый статус/назначение |
+|---|---|---|---|
+| `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` | `main` | `9df4892ed0734050ac79732603d15bb414717310` | Паспорт редакции 1.0, 68 разделов; статус реализации RELEASE LOCKED / production не разрешён |
+| `docs/checkpoints/mediahub-functional-baseline-2.0.md` | `main` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Внутри объявлен ACCEPTED / CANONICAL / IMMUTABLE; прямо говорит, что supersedes 1.0 как текущую функциональную ссылку |
+| `docs/checkpoints/mediahub-mh24-traceability-matrix.md` | `main` | `8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6` | Матрица RECONCILIATION CANDIDATE, дата 2026-09-30; обнаружено ровно 68 нумерованных строк — по одной на каждый раздел паспорта |
+| `docs/checkpoints/mediahub-mh24-reconciliation-report.md` | `main` | `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc` | Заявляет MH-24 CLOSED / Baseline 2.0 accepted, 68 разделов represented/reconciled; отдельно запрещает выводить implementation/qualification из документации |
+| `docs/checkpoints/mediahub-mh25-stage-reconciliation.md` | `main` | `6efbd86287357698370c17df909ea7303d616264` | Исторический pre-acceptance снимок от 2026-09-30; на тот момент Baseline 2.0 был candidate, а MH-24 — PARTIALLY_CLOSED |
+| `docs/checkpoints/mediahub-master-architecture-reconciliation.md` | `main` | `f3a66e292302984be95ae8085f17e03cd538baae` | Содержит историческое R4 provenance-утверждение и прямо указывает, что commit SHA не удалось разрешить |
+
+### 20.2 Что проверено и что это означает
+
+1. **Матрица уже существует.** Не создавать вторую параллельную матрицу только потому, что прежний раздел 18 карты описывал следующий шаг как создание матрицы. Существующий `mediahub-mh24-traceability-matrix.md` содержит 68 section-level строк, но это не эквивалентно доказательству полноты на уровне каждого отдельного требования.
+2. **Статусы MH-25 и MH-24 относятся к разным моментам времени.** MH-25 checkpoint — исторический pre-acceptance снимок 2026-09-30; MH-24 report и Baseline 2.0 отражают более позднее заявление о принятии. Не переписывать старую историю. Текущий статус функциональной ссылки по тексту Baseline 2.0 — 2.0; статус принятия фиксируется как заявление в документе и отчёте, а не как доказательство downstream implementation/qualification.
+3. **Существует governance-конфликт с более ранней формулировкой карты/указанием владельца.** Baseline 2.0 прямо заявляет, что supersedes 1.0 как текущий функциональный reference. При этом владелец отдельно просил считать 1.0 актуальным паспортом редакции 1.0. Эти формулировки совместимы только если различать «актуальный документ редакции 1.0» и «текущий функциональный reference платформы». Нельзя утверждать, что 1.0 supersedes 2.0; если владелец намеревался назначить 1.0 текущим нормативным baseline всей системы, требуется явное governance-решение/изменение Baseline 2.0. До такого решения: 1.0 — исторический исходный паспорт и редакция 1.0; 2.0 — документ, который сам объявляет себя текущим принятым reference.
+4. **Требуется семантическая проверка специальных требований, а не совпадение тематик.** При буквальной проверке текста Baseline 2.0 точные формулировки/детали паспорта 1.0 не удалось подтвердить как явно сохранённые: порядок голосовых экосистем Google Assistant → Яндекс Алиса → Apple Siri; AI Human Clone с полным набором consent/rights/voice/appearance/revocation safeguards; Trusted Sources Intelligence Engine как first-class подсистема; единовременная оплата MediaHub Core iPad; AirPlay 4K; Virtual Ubiquiti Server; отдельный точный перечень целевых производителей и OSS-приоритетов. Это **candidate gaps requiring semantic review**, а не окончательный вывод об отсутствии эквивалентных требований в других первичных документах.
+5. **В существующей матрице есть строки, которые требуют перепроверки evidence, прежде чем их использовать как текущие факты:**
+   - §47: «immutable R4» и «commit/read-back evidence» нельзя трактовать как верифицированный commit R4: master reconciliation сохраняет SHA `471f709f5633feab7aeb62dd3ea52effad6d2bc584`, но прямо сообщает, что API не смог его разрешить. Статус — `COMMIT UNRESOLVED / HISTORICAL PROVENANCE ONLY`.
+   - §48: «Astra operational evidence» не подтверждает, что автономный контроллер или qualification queue запущены сейчас. Для текущего статуса нужны свежие execution logs, queue state и связанные evidence; их этим документальным аудитом не проверяли.
+   - §46: «many historical evidence records» не означает прохождение полного набора текущих independent qualification gates.
+6. **Предел подтверждения:** сейчас подтверждены наличие и 68 строк матрицы, наличие тематических разделов Baseline 2.0 и перечисленные текстовые/провенансные расхождения. Не подтверждены полная трассировка каждого требования к контракту/API, актуальному MH owner, dependency, acceptance criterion и свежему evidence; также не подтверждено прохождение runtime tests, qualification или production gate.
+
+### 20.3 Безопасный следующий шаг
+
+Выполнять семантический audit существующей матрицы `docs/checkpoints/mediahub-mh24-traceability-matrix.md` построчно: для каждого из 68 разделов разложить составные требования на отдельные IDs и добавить поля `exact requirement → Passport 1.0 § → Baseline 2.0 clause (exact text/location) → MH owner → contract/API → dependency → acceptance criterion → evidence ref/SHA/date → status → conflict/decision owner`. Сначала обработать высокорисковые области: State Authority, Home Assistant authority, AI/cloud/privacy, mobile roles/entitlements, media/AirPlay, storage, OTA/recovery, qualification/release и R4 provenance.
+
+Не обновлять Baseline 2.0, не запускать тесты/qualification, не менять инфраструктуру и не делать merge в main без отдельного разрешения. После отдельного аудита — записать подтверждённые findings в эту ветку карты и сделать read-back.
+
