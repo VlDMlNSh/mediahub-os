@@ -5,7 +5,7 @@
 - **Status:** WORKING INTEGRATION CONTRACT / DRAFT — NOT A NEW CANONICAL BASELINE
 - **Use:** operative review/checklist for documentation and architecture work on this branch, subject to the source precedence and gates below.
 - **Not a grant of authority:** does not replace Baseline 2.0, alter Baseline 1.0, approve pending domain contracts, authorize implementation/deployment, or imply qualification/production acceptance.
-- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d`.
+- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `39824ec51927e76c9dcf26d55fff3f0b823b370f`.
 - **Rule of evidence:** claim → source path → ref → blob SHA → exact scope/status → acceptance/evidence required → independent read-back.
 
 - **Current terminology:** the latest owner-provided umbrella name is **Jarvis**; an earlier same-day draft used “Astro”. Jarvis supersedes that draft label. The existing gap-report filename retains `ASTRO` for reference lineage; this does not rename ASTRA or assert deployed functionality.
@@ -166,7 +166,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** architecture diagrams, prompts and contracts explicitly distinguish Jarvis (umbrella), Astra (bounded engineering subsystem), MediaHub State Authority (product/platform state), and Home Assistant Core (Smart Home-domain authority). An ambiguity blocks the dependent task.
 
-**Sources:** owner blueprint / branch gap reconciliation current blob SHA 8495c9436b967bd77afae57ccb1e42959ab86a56; B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; ASTRA launch schema SHA 0b86b07dfa916d4485ce1f8f54d19de136d98491.
+**Sources:** owner blueprint / branch gap reconciliation current blob SHA fee9977fee0a5efa79ec48c652544d2c4a0d665f; B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; ASTRA launch schema SHA 0b86b07dfa916d4485ce1f8f54d19de136d98491.
 
 ### ARC-018 — one owner for engineering task lifecycle
 
@@ -236,10 +236,22 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** the owner-confirmed inventory and deployment manifest resolve same asset versus separate asset; the role/trust domain is unambiguous; any transition has approval, replacement capacity, credential/data separation, restore/rollback and post-deploy evidence bound to the release SHA. Until then the affected production profile is BLOCKED / ASSET ALLOCATION REQUIRED.
 
-**Sources:** owner-provided Jarvis blueprint (2026-10-12); gap reconciliation §17 / AG-20, current blob SHA 8495c9436b967bd77afae57ccb1e42959ab86a56; Passport v3 / P-20, current blob SHA 9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d.
+**Sources:** owner-provided Jarvis blueprint (2026-10-12); gap reconciliation §17 / AG-20, current blob SHA fee9977fee0a5efa79ec48c652544d2c4a0d665f; Passport v3 / P-20, current blob SHA 39824ec51927e76c9dcf26d55fff3f0b823b370f.
 
-**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d`; Jarvis gap reconciliation current SHA `8495c9436b967bd77afae57ccb1e42959ab86a56`.
+**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `39824ec51927e76c9dcf26d55fff3f0b823b370f`; Jarvis gap reconciliation current SHA `fee9977fee0a5efa79ec48c652544d2c4a0d665f`.
 
+
+### ARC-028 — B1↔B2 section pointers are semantically validated and historical audits remain immutable
+
+**Rule:** Every crosswalk or architecture mapping must cite a real, nonblank source anchor and confirm that the referenced B2 section is semantically relevant to the requirement. A source-pointer defect is a traceability defect until a contradictory normative statement is independently established. Correct the current working crosswalk and record the correction with exact source refs/SHAs; preserve historical audit artefacts as history instead of silently rewriting them. A pointer correction alone does not justify promoting mapping, acceptance, implementation or qualification status.
+
+**Acceptance:** the source SHA, exact B1 atom/line, B2 section heading and relevant content are read back; historical/derived and current/corrected refs are clearly distinguished; an independent structural review verifies pointer correctness; semantic owner acceptance remains a separate gate.
+
+**Current finding:** Audit 01 row B1-15-13 links “Assist with documents” (B1 §15 line 246) to B2 §19. Pinned B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f defines §16 as Documents and Knowledge, §18 as AI architecture and §19 as Update / Recovery / Migration. Batch 06 working crosswalk SHA 9df96aca53d1004c33d45f038501dc6b7f52c0c9 correctly uses §§16/18 and preserves the historical Audit 01 mismatch. Review SHA 1edc976dd663ae16a1b61876a2dbbde9411be095 confirms the source headings. The mismatch is recorded as AG-21 / P-21; no B1/B2 semantic conflict is claimed.
+
+**Sources:** B1 specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main, SHA 9df4892ed0734050ac79732603d15bb414717310; B2 docs/checkpoints/mediahub-functional-baseline-2.0.md@main, SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; historical Audit 01 SHA d0938f14ed4110545118f075175dee3be412097b; current Gap Reconciliation SHA fee9977fee0a5efa79ec48c652544d2c4a0d665f; current Passport v3 SHA 39824ec51927e76c9dcf26d55fff3f0b823b370f.
+
+**Status:** pointer correction structurally verified in a working crosswalk; semantic acceptance and broader Audit 01 cleanup remain OPEN.
 
 ## 3. Cross-domain system contract
 
@@ -305,6 +317,7 @@ Every component contract admitted to implementation MUST declare:
 | V-18 | Audit coverage is accurately represented | exact tree/source set, per-file review state and open findings | Bounded review only; whole-repository semantic completion not claimed |
 | V-19 | Every target node has an explicit and compatible OS/boot/install/update/recovery profile | B2 §9 + per-node hardware manifest + supported-platform and rollback evidence | OPEN — profile decision and qualification not provided |
 | V-20 | Developer and production Mac Pro asset allocation is explicit | Owner-confirmed inventory + release/deployment manifest or approved role-transfer record; trust/credential, replacement, recovery and rollback evidence | OPEN — source text does not identify same vs separate physical unit |
+| V-21 | Crosswalk B1↔B2 section pointers are correct and historical traceability is preserved | Pinned B1/B2 SHAs, exact section headings and content, corrected working crosswalk, Audit 01 provenance, independent read-back | Structural/source-pointer review PASS for B1-15-13; semantic acceptance and broader Audit 01 cleanup OPEN |
 
 ## 5. Definition of contract conformance
 
@@ -347,6 +360,7 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 15. Reconcile the owner’s late-October planning window with real gate evidence; do not transform the calendar intent into a release commitment.
 16. Pin per-node OS/build/boot/install/update/recovery profiles under ARC-026; the named Apple hardware does not settle the OS choice.
 17. Resolve AG-20/P-20 and ARC-027/V-20: explicitly distinguish the developer Mac Pro from the future production Mac Pro, or approve and evidence a safe role transition.
+18. Resolve AG-21/P-21 and ARC-028/V-21 through a source-pointer closure register; preserve historical Audit 01, correct current derivative pointers, and do not promote semantic mapping without owner review.
 
 ## 8. Change history
 
@@ -366,3 +380,5 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 - 2026-10-12 — refreshed current source pointers after the read-only GitHub metadata snapshot in the Jarvis gap report (§16): Passport v3 `b25931bf6b88936c110dff6a3217d5edea2fed35`; gap report `406e33a480d195915f7ab8963836066988ee2fd0`. Earlier change-history entries retain the SHA used at their time; no baseline or runtime changed.
 
 - 2026-10-12 — added ARC-027 / V-20 for the unresolved physical-asset identity and role allocation between the developer Mac Pro and the future production Mac Pro. This is a documentary follow-up after the recorded 13 cycles; release admission remains blocked until evidence resolves same-vs-separate asset.
+
+- 2026-10-12 — added ARC-028 / V-21 for a confirmed B1-15-13 → B2 §19 cross-reference error in historical Audit 01; the current working crosswalk points to B2 §§16/18 while preserving audit history. Updated active Gap Reconciliation and Passport v3 source pointers to current read-back SHAs. This post-cycle correction does not amend the 13-cycle ledger and is not a runtime test or qualification.
