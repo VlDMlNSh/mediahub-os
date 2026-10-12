@@ -869,3 +869,20 @@ Backlog явно сохраняет B1/B2 раздельными, запреща
 **Ограничения:** Baseline 1.0, Baseline 2.0 и matrix не изменялись; governance status не менялся; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
 
 Следующий безопасный шаг: проверить объединённые Batch 01–03 на полноту относительно всех literal B1 clauses и 68 строк матрицы, выявить дубликаты и пропуски и выпустить gap report без автоматического закрытия items.
+
+
+### 20.14 Cross-batch atomic traceability gap report 01
+
+**Артефакт:** `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-GAP-REPORT-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `d354249ef398ca45bc7e89a78cedfa77b02aea7d`  
+**Read-back blob SHA:** `1f500d468dd7e9a9b9ca477a06344dd850410374`  
+**Статус:** `OPEN / DOCUMENTARY AUDIT — NOT A BASELINE CHANGE`.
+
+Проверены B1 (SHA `9df4892ed0734050ac79732603d15bb414717310`), B2 (`1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`), MH-24 matrix (`8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6`), reconciliation report (`d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`) и Batch 01–03.
+
+Структурный аудит подтвердил: в B1 найдены все 68 нумерованных разделов; matrix содержит 68 строк с номерами 1–68; в трёх backlog содержатся 77 атомарных записей и 16 сквозных вопросов. Однако **первичные section anchors есть только для 60 из 68 разделов**. Не имеют отдельного атомарного anchor §§3–6, 12, 15–17 (State Authority, HA Core, UI, Smart Home, Smart Home Automation, Local AI, Local Cluster AI, Cloud Development AI). Это подтверждённый пробел именно в структуре текущего backlog; он не означает отсутствия соответствующих концепций в B2.
+
+В отчёте перечислены семантические перекрытия для нормализации: voice order, mobile roles, Trusted Sources, AI Human Clone, update lifecycle, local-first, qualification/release и Smart Home authority. Указаны сохраняемые governance/provenance конфликты, включая matrix status `RECONCILIATION CANDIDATE` против статуса B2/reconciliation report и unresolved R4 commit object.
+
+**Следующий шаг:** создать атомарные записи для восьми не покрытых anchor-разделов, затем провести literal clause-level аудит всех 68 разделов. Нынешний результат не называется полным атомарным покрытием. Baseline 1.0, Baseline 2.0 и matrix не изменялись; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
