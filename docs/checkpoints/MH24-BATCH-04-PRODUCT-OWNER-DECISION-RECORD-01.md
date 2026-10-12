@@ -84,3 +84,19 @@ The evidence-based recommendations recorded in Decision Triage 01 are not conver
 6. Do not edit either baseline or merge into `main` without separate authorization.
 
 **Current outcome:** Five owner choices recorded. Proposal 02 remains a proposal pending the remaining atom-level dispositions, collision-check evidence, complete crosswalk, and independent review. No baseline, canonical backlog, traceability matrix, implementation, test, qualification, deployment, infrastructure, or production state is changed by this record.
+
+### D-06 — TSI-12 is a sub-aspect of TSI-07; preserve historical traceability
+
+**Decision source:** explicit product-owner instruction in the MediaHub OS project conversation, 2026-10-12.
+
+**Decision:** Treat `TSI-12 — Track information origin` as a **sub-aspect of `TSI-07 — Provenance`**, not as an independent sibling obligation. Preserve `TSI-12` as a separate historical traceability label and explicit cross-reference to `TSI-07`. Do not delete, rename, recycle or silently collapse the historical label.
+
+**Required treatment in working artifacts:**
+- `TSI-07` remains the parent/primary provenance aspect.
+- `TSI-12` remains discoverable as a historical traceability marker with a relationship such as `SUBASPECT_OF: TSI-07` / `CROSS-REFERENCE: TSI-07`.
+- The source anchor remains B1 §18 line 301; the owner decision changes the relationship/disposition, not the literal source.
+- Do not count TSI-12 as a separate independent normative requirement solely because its historical label remains.
+- Keep the 12-field schema, provisional IDs and documentary-only mapping limits. No final `MH24-B04-...` child ID is minted by this decision.
+- Preserve B1, B2, the canonical backlog and traceability matrix unchanged; any later canonical promotion requires its own authorized, independently reviewed change.
+
+**Scope:** resolves the specific TSI-07 / TSI-12 overlap disposition only. It does not approve the full TSI subsystem contract, implementation, qualification, any other mapping, or canonical-backlog promotion.
