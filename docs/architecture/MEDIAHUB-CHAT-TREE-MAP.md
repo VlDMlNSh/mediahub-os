@@ -850,3 +850,22 @@ Backlog явно сохраняет B1/B2 раздельными, запреща
 Проверка точных путей выявила 404 для `docs/architecture/MH-03-master-prompt.md`, `MH-21-master-prompt.md`, `MH-09-acceptance-criteria.md` и `MH-11-acceptance-criteria.md` на `main`; карта указывает альтернативные пути/ветки для части пакетов. Это не считается доказательством глобального отсутствия. Baseline 1.0, Baseline 2.0 и matrix не изменялись; governance status не менялся; тесты/qualification, installation, deployment, infrastructure/production actions и merge в `main` не выполнялись.
 
 Следующий проход: атомарно разобрать §§57–68 по точным формулировкам B1 и соответствующим B2/MH-22/MH-23 источникам.
+
+
+### 20.13 Создан backlog атомарной трассировки MH-24 — Batch 03
+
+**Артефакт:** `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-03.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `aac5b8380956e4ff91c5db15d9dcdb16aea45b04`  
+**Read-back blob SHA:** `ce03bacd70224880c945c23773b4ef30c89684f4`  
+**Статус:** `OPEN BACKLOG / DOCUMENTARY PLANNING ONLY`.
+
+Охват: Baseline 1.0 §§57–68 и итоговые статусные утверждения паспорта. После сверки точных B1-клауз, Baseline 2.0, строк 57–68 матрицы MH-24 и релевантных MH-10/MH-12/MH-20/MH-22 источников созданы **20 атомарных items AT3-01…AT3-20** и **6 cross-cutting issues X3-01…X3-06**.
+
+Основные темы: authority Home Assistant Core и запрет конкурирующего Smart Home UI/authority; разделение двух мобильных ролей; границы корпоративного Cloud Development AI и его подсистем; фиксированный порядок голосовых вариантов; пользовательское подтверждение и последовательность обновления; офлайн-возможности по capability profile; полный перечень функциональных доменов; contract→adapter→validation→integration→qualification; независимая квалификация; release lock и отдельная production authorization; provenance цепочки MH-05/T5/F-03.
+
+Повторное чтение подтвердило blob SHA и наличие 20 атомарных items и 6 сквозных вопросов. Все пункты остаются открытыми до получения точного mapping, владельческого решения, канонического контракта и соответствующих implementation/test/independent qualification evidence. Matrix header conflict сохраняется открытым.
+
+**Ограничения:** Baseline 1.0, Baseline 2.0 и matrix не изменялись; governance status не менялся; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
+
+Следующий безопасный шаг: проверить объединённые Batch 01–03 на полноту относительно всех literal B1 clauses и 68 строк матрицы, выявить дубликаты и пропуски и выпустить gap report без автоматического закрытия items.
