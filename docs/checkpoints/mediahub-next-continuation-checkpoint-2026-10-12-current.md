@@ -411,3 +411,12 @@ Resume with `/next`.
 - Map fetched from GitHub after update: blob `f4a22fa4fce3d5c63aad0e826980855f3b5ad4af`; candidate and matrix links present.
 - This checkpoint's preceding blob was `7ddb4e92f74178e9e24cf01e905fa0e61ed5e9e3`; bootstrap `f86014d81a2db1b5246b4fc2600812340f1c7d22`; unified contract `e9e65df37e74e5373bd07b810bf9a33e22418a3c`; Baseline 2.0 `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Component Manifest 2.0 `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`; main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
 - Read-back confirms proposal/candidate documents did not modify the P0-05 contract blob or implementation. No tests/workflows/qualification or implementation actions were performed.
+
+
+## Owner questionnaire answers recorded — 2026-10-12
+
+- The owner explicitly answered all 24 architecture/governance questionnaire items. Full selection-by-selection record: `docs/checkpoints/mediahub-owner-decisions-2026-10-12.md` on `docs/mediahub-chat-tree-map-20261012`.
+- The record captures conditional paths, not presumed technical resolutions. In particular, P0-05 acceptance-vs-DRAFT remains unresolved until exact contract-text acceptance is proven or a controlled governance revision is accepted; P0-07 mutation/publication remains BLOCKED until a compliant end-to-end path and normative authorization contract are evidenced.
+- P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; D1–D7 remain open absent separate decision evidence and required reviews.
+- Map and matrix now link to the owner decision register. Re-fetch all three updated artifacts and verify blob SHA/content before relying on this checkpoint.
+- No code changes, tests, qualification, installations, infrastructure changes, deployment, migration, merge or main update performed.
