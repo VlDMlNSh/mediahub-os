@@ -403,3 +403,11 @@ Resume with `/next`.
 - Updated matrix section 33: commit `bae04918b4e9ea6447518e4a622de6ce1776c827`, new blob `dc62fbeb2f53222ced21a5d43a5e31a39b60e99e`. New trace IDs are local to the matrix section and require collision check before canonicalization; historical IDs untouched.
 - No P0-04/P0-05 protected contract or implementation was edited. No tests, workflows, qualification, runtime/host inspection, credentials, persistence, deployment, infrastructure change or branch integration.
 - Next: update map with candidate/matrix/checkpoint references; read back all changed artifacts and verify exact SHAs/cross-links. Then request owner/governance disposition on (1) whether the P0-05 acceptance record accepted the DRAFT contract text or only the implementation, and (2) candidate decisions D1–D7 before any normative contract revision.
+
+## Final read-back verification — P0-05 v1.1 candidate pass (2026-10-12)
+
+- Candidate contract fetched from GitHub: blob `79e2b4865c47b5394ade266cd3cd7cfbe3097717`; status remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN.
+- Traceability matrix fetched from GitHub: blob `dc62fbeb2f53222ced21a5d43a5e31a39b60e99e`; section 33 present.
+- Map fetched from GitHub after update: blob `f4a22fa4fce3d5c63aad0e826980855f3b5ad4af`; candidate and matrix links present.
+- This checkpoint's preceding blob was `7ddb4e92f74178e9e24cf01e905fa0e61ed5e9e3`; bootstrap `f86014d81a2db1b5246b4fc2600812340f1c7d22`; unified contract `e9e65df37e74e5373bd07b810bf9a33e22418a3c`; Baseline 2.0 `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Component Manifest 2.0 `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`; main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Read-back confirms proposal/candidate documents did not modify the P0-05 contract blob or implementation. No tests/workflows/qualification or implementation actions were performed.
