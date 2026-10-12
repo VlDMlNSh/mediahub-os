@@ -3898,3 +3898,24 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 **Decision status:** D1/D2 remain at evidence-gathering/C; D4 canonical-read path remains unproven; D7 remains open. D3 still depends on trust/freshness/replay evidence, D5 on MH-06/MH-12/MH-13 review, and D6 on explicit governance confirmation before header/status correction. Matrix details: [Unified System Traceability Matrix, Section 38](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob SHA `88ab075ff7c7e0537f6d8b740269d9b519211f0d`.
 
 No tests, code changes, runtime execution, qualification, installation, deployment, migration, infrastructure change, merge or rebase were performed. P0-05 v1.1 remains non-normative/not accepted/not frozen.
+
+
+## 20.121 P0-04 caller identity provenance × MH-04 trust-model crosswalk (2026-10-13)
+
+**Status:** SOURCE-BOUND / PARTIAL / GOVERNANCE OPEN. Matrix Section 39 records the source-bound traceability.
+
+**P0-04/P0-05 implementation sources inspected on `implementation/p0-05-consumer-boundary`:**
+- Authorization code `runtime/mediahub_runtime/authorization.py`, blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`: frozen `AuthorizationContext(principal, capability)`; explicit `AuthorizationPolicy` grant set checks `(principal, capability, operation)` and denies by default.
+- Consumer boundary blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596`; state authority interface blob `a2115b81f52a63feb357e484bd982a6a32641d81`.
+- P0-04 acceptance record blob `1b3ddc320547a02709a93b7b08d127bc895e0d31` and governance packet blob `ac822dea94336fd14bdfdb7d7baae2af9d40ff79`: accepted/frozen scope is deterministic in-memory authority at exact implementation commit `7bda2c703c639103f309c03d9ba702a47df4a85e`; persistence and production/appliance integration excluded.
+- Existing test sources `tests/runtime/test_in_memory_state.py` blob `2293b45948aa9573025019532789646adfc78ac5` and `tests/runtime/test_consumer_boundary.py` blob `27d062a688ddc2dea5d082b615e1f9cc3779c4e7` construct contexts and grants inline as fixtures; this is not evidence of a production issuer. Tests were read, not executed.
+
+**Cross-domain MH-04 sources inspected on `architecture/mh-04-security-trust-authorization`:**
+- Identity model `dccded8f572bed42e8f40e4240e91e5621f24a37`; authentication `834dd3f4036ba1668e4b8af132393e25c70c85eb`; authorization `327b7c0c7504612ff05a6654a710058dcecaf438`; credential boundary `7b5db076bb5a948def0fc4d72dd58740828660c5`; trust model `3e1d0ebffcd9e84f10e8e65dc3baf4bbb235ac01`; identity boundary schema `4ec7db4a891bef9db4692bfc6cb1aa281a723035`.
+- MH-04 describes the conceptual principal lifecycle and fail-closed identity/authentication/authorization separation. Its acceptance criteria still state `PROPOSED / REVIEW COMPLETE`; explicit governance acceptance and freeze are required, concrete credential/identity technology remains a candidate, and production qualification is not established.
+
+**Finding:** the inspected P0-04/P0-05 implementation and MH-04 proposal sources do not establish a trusted issuer/provisioner, authenticated principal resolver, grant lifecycle, expiry/revocation, audience or exact-request binding that creates P0-04 `AuthorizationContext`. This is bounded to inspected sources and does not prove absence of an external wrapper. MH-04 is a candidate requirements source, not accepted/frozen implementation evidence. Reuse existing crosswalk IDs `MH24-GAP-IDENTITY-01` and `MH24-GAP-ATTEST-01`; no duplicate IDs added.
+
+**Disposition:** D1/D2 remain evidence-gathering/C; D3 remains dependent on trust/freshness/revocation/replay evidence; D4 canonical-read path remains NOT EVIDENCED; D5 requires joint MH-06/MH-12/MH-13 review; D6 requires explicit governance confirmation; D7 remains open. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
+
+**Matrix:** Section 39, current blob SHA `994f080f6e0a11359bded2c11ca50d4abe606de7`. No tests, code changes, runtime execution, qualification, installation, deployment, migration, infrastructure change, merge or rebase.
