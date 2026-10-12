@@ -78,7 +78,7 @@
 - **Reviewer / approval reference:** B2 §22; no explicit mobile contract catalogue verified.
 - **Dependencies:** Compare B1 line 367 with B2 §22 and inspect any specific mobile-facing contract before claiming coverage.
 - **Verification method:** MAPPED only for the general versioned-contract principle, not for a complete mobile API.
-- **Change history:** undefined
+- **Change history:** 2026-10-12 — provisional atomization of B1 §21 line 367; B2 §22 supports only the generic versioned-contract principle; mobile-specific contracts remain OPEN; no final ID minted.
 
 ### MAI-21-05 — Authentication, authorization, trust, privacy, audit and revocation
 
@@ -116,3 +116,5 @@
 - The four MAPPED rows correspond to the generic non-authority rule, single State Authority rule, versioned-contract principle, and generic authentication/authorization/trust/privacy/audit/revocation controls. These are documentary correspondences only.
 - The two NOT_REVIEWED rows retain the mobile-specific physical-device bypass route and exact Remote Mobile → MediaHub API → Core/State Authority/subsystem chain as open contract semantics.
 - No B1, B2, matrix, canonical backlog, `main`, runtime, infrastructure or host was modified or operated. No tests, qualification, installation, deployment or merge occurred.
+
+- 2026-10-12 — after Batch 12 Review 02 (`f8d50509014f8c72476ab845476dcc40569c3357`), replaced the uninformative MAI-21-04 `Change history: undefined` value with source-linked history. No mapping status or row count changed; distribution remains 4 MAPPED / 2 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT. Full Mobile Access invariant acceptance remains OPEN.
