@@ -3716,3 +3716,14 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - Continuation checkpoint update: commit `55ed2737ad49542a0c036cf78d329e6e972be4e3`; blob `c9e3b1a53e00252e39315f68ed37e5ad835b5e3d`.
 - Status: MH-14 physical persistence NOT AUTHORIZED; MH-14 acceptance NOT YET ACCEPTED/FROZEN; atomicity/restore evidence not demonstrated; RPO/RTO TBD; MH-22 production qualification NOT GRANTED / NO-GO. State Authority remains sole canonical mutation authority. No stable IDs added, no gates closed.
 - Next safe action: verify matrix/checkpoint/map read-back SHA and links. No tests, restore, migration, workflow dispatch, host/runtime inspection, deployment or branch integration without separate authorization.
+
+
+## 20.114 MH-23 lineage freshness recheck (2026-10-12)
+
+- Fresh GitHub compare `main...architecture/mh-23-long-term-evolution` confirms `DIVERGED`: 66 commits ahead / 1,640 behind; merge base `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`; current `main HEAD` `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- MH-23 evidence register `a9330b0373c4b329990d056553c0d7ac556d3bfc` is branch-specific and references historical main `6eb2ef9…`; that lineage does not establish current-head qualification on `1d45bbcc…`.
+- Re-read MH-23 decision log `90a2b8ef5727ac39023147d5b2d3c1540b5f5bbd`, architecture `2896d6851226a31fc971e05766d253c034d22246`, current-main MH-16 architecture `f3ad2401f00a4062b39eed640e0c5c5f70064312`, and MH-22 evidence register `188a85e3a31cb545fd781e6db237d655d721ec1c`.
+- Matrix section 25: `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`; commit `2271ce48de4ab8e39477296352a8b62e87f50f8e`; blob `1e001ae85749109c9497be50528c01d5147ea9ac` (verify read-back).
+- Continuation checkpoint: `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; commit `a7a2deaac7f62f2d97416f364837b4acceb9a91d`; blob `187a851927e7fcf8c44c7b9892273e2212454294` (verify read-back).
+- Status unchanged: MH-23 NOT ACCEPTED / NOT FROZEN; MH-14 physical persistence NOT AUTHORIZED; MH-16 implementation NOT AUTHORIZED; MH-22 production qualification NOT GRANTED; P0-07 BLOCKED. No gap closed and no branch operation authorized.
+- Next safe action: verify matrix/checkpoint/map read-back SHA and cross-links; then follow the latest map route. No workflow dispatch, tests, qualification, migration, restore or merge without separate explicit authorization.
