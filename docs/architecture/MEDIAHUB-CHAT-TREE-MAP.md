@@ -319,3 +319,35 @@ MH-24 и MH-25 подтверждены контрольными докумен�
 ### 11.4 Статус реестра
 
 Это первый реестр с проверенными main paths и blob SHA, а не завершённая canonicalization. Master prompt existence, branch-only package, governance acceptance, freeze, implementation, tests and production qualification остаются разными фактами. На момент этой проверки main не изменялся.
+
+
+## 12. Branch-only канонические пути: уточнение по compare API (2026-10-12)
+
+Эта секция фиксирует **пути файлов, реально возвращённые GitHub Compare** для конкретной ветки. Это сильнее предположения по имени, но ещё не эквивалентно проверке каждого файла и его статуса. Compare показывает разницу относительно merge-base/выбранной базы; он не доказывает, что файл отсутствует в `main` под другим путём.
+
+| Домен | Ветка | Подтверждённые точные пути из compare | Статус |
+|---|---|---|---|
+| MH-02 | `architecture/mh-02-reference` | `architecture/mh-02/MH-02-MH01-MH23-map.md`; `architecture/mh-02/MH-02-acceptance-criteria.md`; `architecture/mh-02/MH-02-evidence-register.md`; `architecture/mh-02/MH-02-traceability-matrix.md` | Branch-only candidate; 17 файлов в diff |
+| MH-04 | `architecture/mh-04-security-trust-authorization` | `docs/architecture/mh-04/MH-04-master-prompt.md`; `docs/architecture/mh-04/MH-04-reverse-master-prompt.md`; `docs/architecture/mh-04/MH-04-acceptance-criteria.md`; `docs/architecture/mh-04/MH-04-evidence-register.md` | Branch-only candidate; 26 файлов в diff |
+| MH-05 | `architecture/mh-05-consumer-integration-boundary` | `docs/architecture/MH-05-acceptance-criteria.md`; `docs/architecture/MH-05-dependency-map.md`; `docs/architecture/MH-05-evidence-register.md` | 54 файла в diff; основной boundary doc найден ранее в этой ветке |
+| MH-07 | `architecture/mh-7-configuration-policy` | `docs/architecture/MH-07-master-prompt.md`; `docs/architecture/MH-07-reverse-master-prompt.md`; `docs/architecture/MH-07-acceptance-criteria.md`; `docs/architecture/MH-07-dependency-map.md`; `docs/architecture/MH-07-evidence-register.md` | 87 файлов в diff; учитывать разные варианты имени MH-7/MH-07 |
+| MH-09 | `architecture/mh-09-presentation-ui` | `docs/architecture/MH-09-master-prompt.md`; `docs/architecture/MH-09-reverse-master-prompt.md`; `docs/architecture/MH-09-acceptance-criteria.md`; `docs/architecture/MH-09-dependency-map.md`; `docs/architecture/MH-09-evidence-register.md` | 43 файла в diff |
+| MH-11 | `architecture/mh-11-diagnostics-observability` | `docs/architecture/MH-11-CHAT-MASTER-PROMPT.md`; `docs/architecture/MH-11-INDEX.md`; `docs/architecture/MH-11-REVERSE-MASTER-PROMPT.md`; `docs/architecture/MH-11-acceptance-criteria.md`; `docs/architecture/MH-11-evidence-register.md` | 27 файлов в diff |
+| MH-18 | `mh-18-media-content-architecture-handoff-v2` | `docs/architecture/MH-18-acceptance-criteria.md`; `docs/architecture/MH-18-dependency-map.md`; `docs/architecture/MH-18-evidence-register.md`; `docs/architecture/MH-18-indexing.md`; `docs/architecture/MH-18-migration.md` | 60 файлов в diff; основные MH-18 ветки идентичны между собой |
+| MH-19 | `architecture/mh-19-knowledge-graph-digital-twin` | `docs/architecture/mh-19/MH-19-master-prompt.md`; `docs/architecture/mh-19/MH-19-reverse-master-prompt.md`; `docs/architecture/mh-19/MH-19-acceptance-criteria.md`; `docs/architecture/mh-19/MH-19-dependency-map.md`; `docs/architecture/mh-19/MH-19-evidence-register.md` | 57 файлов в diff |
+| MH-23 | `architecture/mh-23-long-term-evolution` | `docs/architecture/MH-23-CHAT-MASTER-PROMPT.md`; `docs/architecture/MH-23-REVERSE-MASTER-PROMPT.md`; `docs/architecture/MH-23-acceptance-criteria.md`; `docs/architecture/MH-23-evidence-register.md`; `docs/architecture/MH-23-final-architecture-index.md`; `docs/architecture/MEDIAHUB-MASTER-ARCHITECTURE-INDEX.md` | 66 файлов в diff |
+| MH-01…MH-23 / control-plane | `architecture/mh3-runtime-foundation-20260930` | Compare вернул материалы `architecture/MH-01-*`, `architecture/MH-04-state-authority-*`, `architecture/MH-05-consumer-boundary-*`, `docs/ops/MH-3-*-closure-*` и многие autonomous-evidence artifacts | 1,044 commits ahead / 1,365 behind; compare response ограничен 300 файлами. Это широкий исторический срез, не чистая ветка MH-03; merge/cherry-pick запрещён до отдельного forensic review. |
+| MH-01 | `architecture/mh01-chat-qualification-20260930-v2` | Compare с `main` показывает 3 уникальных commits и 3 файла, но не вернул их имена в фильтрованной выборке | Требуется прямое чтение tree/commit paths; не делать вывод об отсутствии charter. |
+| MH-01/MH-02 | `architecture/mh01-chat-qualification-20260930` | `architecture/MH-02-boundary-architecture-v1.0.md`; `architecture/MH-02-boundary-interface-contract.md`; `architecture/MH-02-contradiction-register.md` | 11 commits ahead; ветка с MH-01 в имени включает MH-02 artifacts. |
+| MH-17 | `arch/mh-17-device-protocol` | Compare вернул `docs/architecture/MH-17-acceptance-criteria.md`, `docs/architecture/MH-17-evidence-register.md`; ранее найдено 27 профильных файлов | Сверить полные пути мастер-промптов в ветке и их соответствие main. |
+| Redistribution / handoff | `architecture/mh-05-redistribution-reconciliation` | `recovery/MASTER-PROMPT-NEW-CHAT-MH01-23-REDISTRIBUTION-FINAL-2026-09-05.md`; `recovery/MH01-23-REDISTRIBUTION-ARCHITECTURE-CHAT-HANDOFF-MASTER-PROMPT-2026-09-05.md`; `recovery/architecture-traceability.yaml`; `recovery/master-prompt-mh01-23-redistribution-2026-09-05.md` | 73 файла в diff; это handoff/recovery provenance, не автоматически каноническая архитектура |
+| MH-08 | `architecture/mh-8-plugin-extension` | Compare: 0 ahead, 1,638 behind, 0 файлов diff | Ref полностью позади main относительно сравнения; проверять документы в main/истории, не считать ветку активным source of truth |
+| MH-13 | `reconstruction/mh-13-privacy-data-governance` | Compare: 0 ahead, 1,385 behind, 0 файлов diff | Реконструкция не добавляет уникального diff относительно выбранного base; это не доказывает историческую подлинность оригинала |
+
+### 12.1 Что это говорит о синхронизации
+
+1. Специализированные ветки MH-04/MH-05/MH-07/MH-09/MH-11/MH-17/MH-18/MH-19/MH-23 содержат документы, которые нельзя потерять при проектировании итогового дерева.
+2. Их ветки значительно отстают от `main` и расходятся с ним; это **не безопасные кандидаты на прямой merge**. Нужен выборочный документный reconciliation с сохранением provenance, а не merge всей ветки.
+3. Крупная ветка `architecture/mh3-runtime-foundation-20260930` содержит множество cross-domain artifacts и 1,044 уникальных commits в compare. Её необходимо рассматривать как архивный/комбинированный срез, пока не доказано иное.
+4. Следующий технический шаг — зафиксировать HEAD SHA веток и для каждого branch-only файла выполнить read-only fetch, получить blob SHA, сравнить семантику и определить target path в canonical map.
+5. В `main` не выполнялись записи. Ветка карты обновляется отдельно; этот документ не выполняет merge архитектурных пакетов и не объявляет их принятыми.
