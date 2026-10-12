@@ -2872,3 +2872,50 @@ Initially queried several MH-14 paths at repository root; they returned 404 beca
 An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 404 due to a filename mismatch. The index identified the exact path `MH-15-REVERSE-MASTER-PROMPT.md`, which was then successfully fetched and read. This was a lookup correction, not evidence of missing reverse contract.
 
 **Next safe action:** continue to MH-16 Installer / Recovery / Update Architecture using its primary sources, and reconcile installer/update/recovery with MH-12 security, MH-13 privacy, MH-14 persistence, host lifecycle and State Authority. Keep all implementation and production authorization gates closed unless explicit governance and evidence satisfy them.
+
+## 20.88 MH-16 Installer / Recovery / Update Architecture — source and gate audit
+
+**Date:** 2026-10-12. **Inspected ref:** `main`, HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Read-only documentary audit; only this map entry was changed. **Status:** `ARCHITECTURAL PASS COMPLETE / GOVERNANCE ACCEPTANCE PENDING / IMPLEMENTATION BLOCKED`; not accepted/frozen; production qualification and implementation authorization not granted.
+
+### Primary sources
+
+| Source | Blob SHA | Confirmed facts |
+|---|---|---|
+| `docs/architecture/MH-16-installer-recovery-update-architecture.md` | `f3ad2401f00a4062b39eed640e0c5c5f70064312` | Full proposed architecture across installer/provisioning/enrollment, boot trust, artifact verification, four update planes, transactions, rollback/security floor, migration, health gates, recovery, backup/restore, reset/wipe and disaster response. Header: PROPOSED / GOVERNANCE ACCEPTANCE PENDING / NOT FROZEN / IMPLEMENTATION NOT AUTHORIZED. |
+| `docs/architecture/MH-16-master-prompt.md` | `62924d4686aa3f55fce442a3c4bab66c82ae19e5` | Architecture-to-development handoff; lists 17 invariants and requires commit/test/security/platform/recovery evidence for implementation slices. Current state explicitly not accepted/frozen/authorized. |
+| `docs/architecture/MH-16-completion-record.md` | `e4ea4e3a37540cc104243c236e2e5c1c32ea35d6` | Conceptual passes MH-16.1…MH-16.23 marked complete; repository implementation evidence remains UNKNOWN, not absent and not verified; acceptance and implementation blocked. |
+| `docs/architecture/MH-12-recovery-security.md` | `fdfb2ae6ecb7cc1ed1daecb18ad12aaf2a1c6149` | Recovery is a separate security boundary requiring recovery identity/authorization, trusted artifacts, restore authorization, audit and post-recovery verification. |
+| `docs/architecture/MH-14/MH-14-persistence-architecture.md` | `5e14084033f417722a1b04b5d5d47649dcfcda48` | Persistence remains subordinate to State Authority; physical persistence not authorized; P0-07 remains BLOCKED. |
+| `docs/architecture/MH-13-privacy-data-governance.md` | `e732ff9cacbc9c1189bd83306cdff30906326cf0` | Reconstructed/proposed privacy domain; deletion/retention semantics and durable-copy obligations require governance and persistence coordination. |
+| `docs/architecture/MH-15-os-appliance-architecture.md` | `f817925c69ce4484713f952e47aacad283af8eeb` | Host execution environment and MediaHub authority are separate; concrete platform capabilities need evidence. |
+| Baseline 2.0 | `docs/checkpoints/mediahub-functional-baseline-2.0.md`; blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Accepted immutable functional reference; acceptance is not implementation/qualification/production authorization. |
+| Historical Baseline 1.0 | `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`; blob `9df4892ed0734050ac79732603d15bb414717310` | Historical provenance retained; not implicitly merged with B2. |
+
+### Reconciled MH-16 invariants
+
+1. **Lifecycle mechanism != State Authority:** Installer, Update Coordinator, Migration Engine, Recovery Manager, Backup/Restore and Factory Reset are lifecycle mechanisms only. They may request approved State Authority operations; they cannot directly mutate canonical state.
+2. **Identity and authorization precede action:** each operation binds initiator, identity, authorization, scope, target, preconditions, expected result, failure semantics, audit/evidence and recovery behavior.
+3. **Existing data is protected:** detect/classify existing installations before destructive action; silent data destruction is forbidden.
+4. **Artifact verification is multi-stage:** identity/format/digest/signature/signer trust/provenance/compatibility/security policy/rollback policy/deployment authorization. Signature alone does not establish trust or authorize deployment.
+5. **Four update planes stay distinct:** host, application, data migration and security updates have separate compatibility and rollback semantics.
+6. **Unknown state is never success:** update state `UNKNOWN_STATE` must block success claims and enter explicit fail-closed/recovery/escalation handling.
+7. **Rollback respects security floor:** not all operations are reversible; downgrade below minimum security version is prohibited.
+8. **Migration is explicit/versioned:** preconditions, authorization, source/target versions, validation, failure and recovery semantics are required; no direct canonical-state manipulation.
+9. **Health Gate != process liveness:** boot/OS/runtime/State Authority/persistence/security/policy/configuration/critical services/storage/network/integrity require operation-appropriate checks after install, update, migration, rollback, recovery and restore.
+10. **Recovery is a separate trust domain:** distinct recovery identity and authorization; offline recovery is supported conceptually without requiring Internet/cloud, but artifacts still need integrity/provenance/compatibility/security-floor checks.
+11. **Backup != HA and != canonical state:** backup existence does not prove recoverability; actual restore and validation evidence are required.
+12. **Destructive reset/wipe is scoped:** explicit identity, authorization, scope, preconditions, confirmation policy, audit, failure/recovery semantics; secure-wipe claims require storage/platform evidence.
+13. **AI/plugins/UI are requesters or bounded principals:** they cannot self-authorize updates, modify trust roots, disable health gates, lower security floor, access signing keys or bypass lifecycle boundaries.
+14. **Technology choices remain open:** Secure Boot/TPM/EFI/UEFI/measured boot, bootloader, A/B updates, transactional filesystem, SBOM format/tool, hardware-backed keys and wipe capabilities require ADR plus platform evidence.
+15. **No implementation inference:** source searches did not establish dedicated production implementation for installer/provisioning, artifact verification/signing/provenance/SBOM, update coordinator, migration engine or recovery manager. Status is UNKNOWN, not proof of absence.
+16. **P0-07 is not repaired here:** MH-16 cannot invent an authorization/publication bridge or change frozen P0-03…P0-06.
+17. No tests, install/update/recovery/restore/wipe exercises, hardware qualification, provider configuration or infrastructure changes were performed in this pass.
+
+### Bounded source lookup and open governance gates
+
+- Queried several standalone MH-16 files (acceptance/evidence/decision/unknowns) and they returned 404 on inspected `main`; repository tree only surfaced the architecture, master prompt and completion record for MH-16. This does not establish global absence of those registers.
+- Completion record says conceptual passes 1–23 are complete; that is not acceptance, implementation completion or qualification.
+- Gates remain: ADR, security review, hardware capability verification, trust/artifact evidence, State Authority/Persistence integration verification, failure/power-loss/migration/recovery testing, governance acceptance, freeze, then explicit implementation authorization.
+- `UNKNOWN_STATE` must never be interpreted as success.
+
+**Next safe action:** continue to MH-17 Devices / Protocols / Integration Boundary using current map navigation and primary sources. Reconcile device enrollment, adapter commands, update/recovery effects and privacy/telemetry with MH-12 security, MH-13 privacy, MH-15 host boundary, MH-16 lifecycle and the sole State Authority path. No device/infrastructure implementation is authorized by this audit.
