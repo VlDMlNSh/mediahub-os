@@ -1401,7 +1401,7 @@ The owner blueprint assigns the purchased Mac Pro to the developer environment a
 **Next safe step:** obtain the asset-allocation decision and node inventory; do not promote the future production profile until ARC-027/V-20 acceptance evidence exists.
 
 
-## 20.39 Batch 04 atom-level crosswalk — B1 §4 Home Assistant Core and Review 01
+## 20.40 Batch 04 atom-level crosswalk — B1 §4 Home Assistant Core and Review 01
 
 **Date:** 2026-10-12  
 **Ref:** `docs/mediahub-chat-tree-map-20261012`  
@@ -1421,7 +1421,7 @@ The owner blueprint assigns the purchased Mac Pro to the developer environment a
 **Next safe step:** prepare and independently review a separate atom-level batch for B1 §5 UI requirements; preserve literal-vs-derived distinctions and keep UI4-04 on HOLD until unique residual evidence exists.
 
 
-## 20.41 Jarvis contract active source-pointer correction
+## 20.42 Jarvis contract active source-pointer correction
 
 **Date:** 2026-10-12  
 **Ref:** `docs/mediahub-chat-tree-map-20261012`  
@@ -1439,7 +1439,7 @@ A fresh cross-reference scan of the current Jarvis artifacts found stale *active
 **Next safe step:** independent review of the Jarvis working documents and resolution of P-19 / P-20 and other open owner/governance gates before any canonical promotion.
 
 
-## 20.40 Batch 04 atom-level crosswalk — B1 §5 MediaHub UI and Review 01
+## 20.41 Batch 04 atom-level crosswalk — B1 §5 MediaHub UI and Review 01
 
 **Date:** 2026-10-12  
 **Ref:** `docs/mediahub-chat-tree-map-20261012`  
@@ -1456,7 +1456,7 @@ A fresh cross-reference scan of the current Jarvis artifacts found stale *active
 
 **Next safe step:** continue with B1 §6 Smart Home as a separate atom-level batch. Do not promote this batch into the canonical backlog before complete collision review and owner/governance acceptance.
 
-## 20.42 Jarvis master-prompt contract pointer refresh
+## 20.43 Jarvis master-prompt contract pointer refresh
 
 **Date:** 2026-10-12  
 **Ref:** `docs/mediahub-chat-tree-map-20261012`  
@@ -1471,4 +1471,15 @@ Following the contract source-pointer correction, the active contract reference 
 - No active pointer remains to the prior Contract 01 blob; the old SHA remains only in the dated history record.
 
 No functional or governance decision changed. B1, B2, the canonical `main` branch, ASTRA current truth, hardware allocation and qualification remain unchanged. No tests, installation, qualification, deployment, infrastructure or live-host operation was performed.
+
+
+## 20.44 Chat-tree-map section-number normalization
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `STRUCTURAL DOCUMENTATION CORRECTION / READ-BACK VERIFIED`
+
+Two independent updates had introduced duplicate §20.39 headings, and subsequent additions left the §20.39–§20.42 sequence out of order. Normalized only the section headings in this range to unique, document-order identifiers: Jarvis hardware finding §20.39; B1 §4 crosswalk §20.40; B1 §5 crosswalk §20.41; Jarvis contract pointer correction §20.42; master-prompt pointer correction §20.43. No substantive checkpoint text, evidence SHA, architecture rule or acceptance status was changed.
+
+**Verification:** the post-write map was fetched again from GitHub; every heading in §§20.39–20.44 is present exactly once and in sequence.  
 
