@@ -2608,3 +2608,45 @@ The prior 20.75 next-step wording “MH-04 State Authority inventory” is impre
 8. No framework, canonical UI module topology, runtime implementation, acceptance/freeze or production qualification is inferred from documentation alone.
 
 **Next safe action:** continue the map's documented restoration path for MH-10 AI using its mapped branch and primary-source paths. Keep MH-09 PROPOSED / NOT ACCEPTED and implementation unauthorized until evidence and explicit governance acceptance exist. No tests, qualification, workflow runs, code changes, deployment, infrastructure changes or merge were performed in this pass.
+
+## 20.82 MH-10 AI / Intelligence — primary-source pass; acceptance remains open
+
+**Date:** 2026-10-12  
+**Status:** PROPOSED / ARCHITECTURE DRAFT; NOT ACCEPTED / NOT FROZEN / NOT PRODUCTION-AUTHORIZED. This pass was documentary and read-only for source/runtime files; only the project map was updated.
+
+### Repository and primary-source provenance
+
+| Source | Ref / SHA | Confirmed fact |
+|---|---|---|
+| Current repository main | `main` HEAD/tree `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` | Current main revision used for bounded path/source inspection. Do not confuse this with older heads recorded in historical synchronization documents. |
+| MH-10 index | `docs/architecture/MH-10-INDEX.md`; blob `63cbdc4d23b3b39ba428b5268e0393924d0b090d` | PROPOSED / ARCHITECTURE DRAFT; defines AI scope and canonical mutation/read flows; P0-07 publication remains blocked. |
+| MH-10 master prompt | `docs/architecture/MH-10-CHAT-MASTER-PROMPT.md`; blob `6ea847ddbf1604878303572b21b506102b23c930` | Architecture-only role; no implementation/provider/model installation; unresolved conflict requires STOP and governance decision. |
+| MH-10 reverse master prompt | `docs/architecture/MH-10-REVERSE-MASTER-PROMPT.md`; blob `a744d70c6a6a51dc508f23d1ebf1215616d3492d` | Development handoff must return only architecture-authorized facts and verify MH-8, MH-9, MH-11, MH-14 and MH-21 dependencies. |
+| AI intelligence architecture | `docs/architecture/MH-10-ai-intelligence-architecture.md`; blob `aab4f20aa85e1e6984b324e9068fecd8e1de46c8` | PROPOSED / ARCHITECTURE DRAFT; describes L0 deterministic through L6 bounded autonomous optimization, agents, knowledge, local/cloud, safety and lifecycle. This is a conceptual architecture, not a production implementation claim. |
+| AI authority boundary | `docs/architecture/MH-10-ai-authority-boundary.md`; blob `8ceeb14ea74dd4fd81b576d78fa1d8662ba616ef` | AI may analyze/classify/predict/recommend and create inert proposals; it must not mutate canonical state, self-authorize, grant capabilities, bypass Consumer Boundary or execute critical operations solely from model output. |
+| Acceptance criteria | `docs/architecture/MH-10-acceptance-criteria.md`; blob `7c0746defea6635494208e04bf940579b254a25f` | Requires 20 categories of evidence including authority boundary, policy/auth gates, data egress, critical-operation safety, model provenance, bounded resources, privacy, red-team testing, cross-chat reconciliation and explicit governance freeze. |
+| Evidence register | `docs/architecture/MH-10-evidence-register.md`; blob `1b4e73c5631101780ef1ec4b618a2c8ad0437e77` | Existing AI schemas/contracts/tests are OBSERVED implementation artifacts only; they do not establish MH-10 acceptance, qualification or freeze. Register's old main-head note `0652823c414378053463ed9aa6bc832bb5bfff0f` is historical and not current main HEAD. |
+| Decision log | `docs/architecture/MH-10-decision-log.md`; blob `f273b97a54d1220b110c59c46a1caf1b817c2022` | D-001…D-003 remain PROPOSED; D-004 MH-10/MH-21 scope coordination OPEN; D-005 records no freeze. |
+| Contradiction register | `docs/architecture/MH-10-contradiction-register.md`; blob `681acf57e25133bc4a43a8089bb78811c6756141` | Open governance issue for MH-10 vs MH-21 ownership; P0-07 production mutation publication blocked; AI memory and canonical persistence must remain distinct. |
+| Dependency map | `docs/architecture/MH-10-dependency-map.md`; blob `ae3232ce8a560498c07d9fa31e211bf86c63fa1d` | Dependencies include MH-02…MH-09, MH-11, MH-14, MH-20, MH-21 and MH-22; AI cannot supersede P0-03…P0-07. |
+| Unknowns | `docs/architecture/MH-10-unknowns.md`; blob `ce16ac53511c432edb5b5c4c1f5ce5f1b98f7e6e` | Hardware/GPU/Neural Engine, production benchmarks, provider terms, routing/policy ownership, AI Gateway topology, RAG poisoning/provenance, memory retention, agent sandbox, cloud egress and end-to-end mutation evidence remain UNKNOWN / REQUIRES VERIFICATION. |
+| Sync record | `docs/architecture/MH-10-sync-record.md`; blob `2b160b8089424469a05ad5e842e863e9b3e1f810` | Historical synchronization record dated 2026-09-04 references commit `20efdbd176481ee94b967c0b5d22724024ad1306`; its recorded head is not a substitute for current ref inspection. |
+| Accepted functional reference B2 | `docs/checkpoints/mediahub-functional-baseline-2.0.md`; blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Status ACCEPTED — CANONICAL IMMUTABLE REFERENCE POINT. Its acceptance explicitly does not imply implementation, verification, qualification or production. |
+| Historical functional passport B1 | `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`; blob `9df4892ed0734050ac79732603d15bb414717310` | Preserved as Baseline 1.0 provenance. B1/B2 are not silently merged or treated as automatically superseding one another. |
+| MH-21 master prompt | `docs/architecture/MH-21-CHAT-MASTER-PROMPT.md`; blob `61d552db4d1a1abefa2cef9f44eebcf634d11111` | MH-21 owns hybrid/distributed AI architecture; external compute is not authority, remote results are data, and arbitrary egress/fallback are forbidden. |
+| MH-21 acceptance / evidence / contradiction | blobs `582f898fe4be332b6a7fef3e8cca2e27c7328ac2`, `6bc646902395f690554604b39b16464de796c724`, `1fa8f5932e2b238f99e0b3203b8d8ece817062bd` | MH-21 acceptance NOT SATISFIED; production cloud runtime and absence of cloud→device bypass remain UNKNOWN. MH-10/MH-21 scope and cross-reference ownership need governance reconciliation. |
+| AI inference schema | `schemas/ai/ai-inference-request.schema.json`; blob `e59c72b4a2a62b2372da57c6699ab12ebe25122f` | Version 1.0.0 schema exists with request identity, provider/model fields and bounded operation enum; presence does not establish security or runtime correctness. |
+| AI inference test source | `tests/ai/test_ai_inference.py`; blob `e54eec7fed2a14a714bd0f39c49b1ce495f7c999` | Test source exists and references canonical schemas under `schemas/ai`; tests were NOT run in this pass. |
+
+### Confirmed invariants
+
+1. **AI is intelligence, not authority.** Model confidence, agent/tool reachability, RAG context, provider classification or orchestration status cannot grant trust, capability, authorization or canonical mutation rights.
+2. Canonical mutation chain remains `AI → Recommendation/Proposal → Policy Evaluation → Authorization → Command → Consumer Boundary → State Authority → Canonical State`. Until the P0-07 governance/API gap is resolved, this chain is not authorized as a production mutation path.
+3. L0 deterministic control and critical safety/manual controls must remain functional without AI, cloud or external providers.
+4. Remote/local models, providers, tools, agents, RAG outputs and GPU/compute placement are not authority. External compute results remain untrusted data until locally validated and policy-authorized.
+5. AI memory, generated knowledge and retrieval context cannot become canonical runtime state automatically; persistence remains governed separately.
+6. MH-10 owns AI intelligence/authority semantics; MH-21 owns hybrid/distributed compute architecture. Their overlap is an OPEN governance coordination item, not resolved by duplication or assumption.
+7. Provider/runtime schemas and test files exist, but this pass did not execute tests, verify runtime, qualify models/providers, or establish production safety.
+8. MH-10 acceptance/freeze remains ungranted. The current map entry records documentation facts only and does not alter domain governance status.
+
+**Next safe action:** proceed to MH-11 Diagnostics / Observability using the map's documented path and current primary sources. Preserve MH-10 as PROPOSED / NOT ACCEPTED, keep MH-10↔MH-21 scope ownership open, and do not run tests/qualification or change runtime/provider configuration without explicit authorization.
