@@ -53,12 +53,23 @@ This checkpoint authorizes read-only architecture/evidence review and narrowly s
 - MH-23 migration smoke workflow `06f306f91158a8c2175319cf6dd5e507e043384b` is manual-only and asserts fixed SHA `6191a6f56892d4aeb1444d04420a3665b989b896`, while the checked-out target branch currently points to `cc8559da6ae4df749782a29ee4203d35ef6818fc`. Workflow was not dispatched; it is not current-target qualification evidence.
 - MH-23 remains ARCHITECTURE WORK AUTHORIZED / NOT ACCEPTED / NOT FROZEN. P0-07 remains blocked. No tests, workflow dispatch, migration, restore, host/runtime inspection, installation, infrastructure change, merge or cherry-pick was performed.
 
+## Latest verified continuation — MH-23 migration / recovery traceability (2026-10-12)
+
+- Map section `20.96.2` added and read back from GitHub. Map blob SHA `fcea2e6dd422eda50574b51ff1406b7de3030771`; commit `d095c1e8cbdc15ee66ba7abe855624d2e85ef210`.
+- Live `main HEAD` re-observed as `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- MH-16 completion record SHA `e4ea4e3a37540cc104243c236e2e5c1c32ea35d6`: architectural pass complete, governance acceptance pending, implementation blocked; implementation status explicitly UNKNOWN.
+- MH-16 lifecycle/update/recovery architecture SHA `f3ad2401f00a4062b39eed640e0c5c5f70064312`: proposed, not frozen, implementation not authorized; migration must be explicit/versioned, use approved State Authority/Persistence contracts, validate and pass Health Gate.
+- MH-22 production operations SHA `17bb2a9fdc34a0ee7c324e78c412616b5e377bb4`: not accepted/not frozen; production NOT QUALIFIED and NO-GO pending evidence. Production gates SHA `8cbac21dfd5933ae629c35949d597f99a2236440` separates implementation, testing, verification, qualification, release, deployment, observation and acceptance.
+- MH-22 qualification matrix SHA `474f4048d9fd50c72943bd06df5043124bed3f4e`: current qualification/release identity/hardware/install/update/rollback/recovery/restore/DR/observability/privacy remain largely UNKNOWN; production governance NOT GRANTED.
+- P0-07 workflow definition SHA `7fb80f402b4792b6a77cf8a4aad83d1ee5209789` is manual-only and targets a self-hosted runner. Workflow was not dispatched; run status not verified in this pass.
+- No tests, qualification, workflow dispatch, migration, restore, runtime/host inspection, installation, infrastructure change, merge or cherry-pick occurred.
+
 ## Exact next action for /next
 
-1. Re-read bootstrap, map and this checkpoint from `docs/mediahub-chat-tree-map-20261012`; verify live blob SHAs and current `main HEAD`.
-2. Follow map section `20.96.1` and perform a read-only traceability review of MH-23 migration/rollback requirements against current-main MH-16 lifecycle/recovery and MH-22 qualification artifacts.
-3. Inspect only repository documents and existing CI metadata. For every claim, record exact path, ref, blob SHA, target commit, evidence freshness, status and missing gate.
-4. Do not dispatch the self-hosted migration workflow, run tests/qualification, perform migration/restore, inspect host/runtime, install software, change infrastructure, or merge/cherry-pick without separate explicit authorization.
-5. If new material facts are confirmed, update only the map/checkpoint with current SHA preconditions and verify both by GitHub read-back.
+1. Re-read bootstrap, map and checkpoint from `docs/mediahub-chat-tree-map-20261012`; verify live blob SHAs and current `main HEAD`.
+2. Continue a revision-bound crosswalk of MH-23 branch-specific qualification/gate requirements to current-main MH-16/MH-22 and P0-03…P0-07 primary evidence. Keep branch-specific claims distinct from canonical-main claims.
+3. For each gate, record exact path/ref/blob SHA/target commit, evidence type, freshness, current status and missing acceptance decision. Do not treat workflow definitions or historical audits as execution evidence.
+4. Do not dispatch self-hosted workflows, run tests/qualification, perform migration/restore, inspect hosts/runtime, install software, change infrastructure, or merge/cherry-pick without separate explicit authorization.
+5. Update map/checkpoint only when a material fact is confirmed; use current SHA preconditions and verify both files by GitHub read-back.
 
 Resume phrase: `/next`. Always begin by re-reading the live bootstrap and map.
