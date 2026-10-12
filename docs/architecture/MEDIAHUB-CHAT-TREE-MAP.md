@@ -1483,3 +1483,25 @@ Two independent updates had introduced duplicate §20.39 headings, and subsequen
 
 **Verification:** the post-write map was fetched again from GitHub; every heading in §§20.39–20.44 is present exactly once and in sequence.  
 
+
+
+## 20.41 Batch 04 atom-level crosswalk — B1 §6 Smart Home and Review 01
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `DOCUMENTARY DRAFT / STRUCTURAL AND SOURCE-ANCHOR REVIEW PASS / TRACEABILITY LINEAGE ISSUE OPEN`
+
+| Artifact | Path | Blob SHA | Status |
+|---|---|---|---|
+| Atom-Level Crosswalk Batch 04 — B1 §6 Smart Home | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-04-DRAFT.md` | `bbc77c484313f261d473bbbc7dd5ea8eeb65e577` | 29 rows, 12 fields/row; 26 literal-source traceability atoms plus 3 D-coded derived controls; draft only |
+| Batch 04 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-04-REVIEW-01.md` | `f096a71d67d1e03d8c282859240365f055a55c88` | 29/29 IDs/status rows checked; source-anchor review PASS; parent/source-link issue OPEN |
+
+**Sources checked:** B1 SHA `9df4892ed0734050ac79732603d15bb414717310`, §6 lines 122, 124, 126–134 and 136; B2 SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §14 and cited sections; Audit 01 SHA `d0938f14ed4110545118f075175dee3be412097b`; Proposal 02 SHA `7e737c8add9e3453062e9fc459790e7010e55689`; Product Owner Decision Record SHA `9117098e22c26708d48ca8ba5954669faa209d68`.
+
+**Verified result:** 29/29 source/control labels match Audit 01 §6 and 29/29 rows have the approved 12 fields. Mapping status distribution: `0 MAPPED / 29 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT`. Derived controls D01–D03 remain labelled derived and unapproved. `NOT_REVIEWED` reflects partial/derived mapping, not a claim of failure or semantic contradiction.
+
+**Traceability issue requiring separate resolution:** Audit 01 links B1 line 134 (device exposure through unified MediaHub UI) to historical parent `SH4-07`. Later Proposal 02 §6.1/§6.2 assigns line 134 to `SH4-06.c` and line 136 to the shared vendor-neutral obligation `SH4-01.b / SH4-07.a`. Both historical and latest proposed links are preserved in the draft/review. This is an ID/lineage mismatch, not an established B1↔B2 semantic conflict. Do not silently rewrite Audit 01 or mint final child IDs.
+
+**Constraints preserved:** B1/B2/main and canonical backlog unchanged; no final child IDs; no tests, qualification, installation, deployment, live-host operation or merge. UI4-04 remains HOLD / CROSS-LINK-ONLY.
+
+**Next safe step:** proceed to B1 §12 Smart Home Automation as a distinct atom-level batch; continue to keep literal vs derived requirements separate, and track the SH4-07 lineage discrepancy as open.
