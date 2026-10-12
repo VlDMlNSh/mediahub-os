@@ -88,7 +88,7 @@ Required treatment:
 3. Continue restoring the full MH-01…MH-25 project map source-by-source: verify each domain's canonical paths, branch/ref/commit, master/reverse handoff, owner decisions, dependencies, acceptance/evidence registers and unresolved conflicts. Do not infer closure from a chat, branch name or document existence.
 4. Keep Passport v3 and Contract 01 synchronized as integrated WORKING DRAFTS. Review 03 is complete; do not repeat it unless an input changed. Do not promote either document to a globally accepted baseline without independent review and explicit owner/governance acceptance.
 5. Resolve the still-open owner/governance disposition for the named TSI subsystem and its contract boundary. Preserve D-06 exactly; do not mint final child IDs or promote Batch 09.
-6. After the map/pasport/contract pointer synchronization is independently checked, continue with the next bounded B1 source batch (B1 §16 Local Cluster AI) using pinned B1/B2 anchors and the approved 12-field schema. Keep the remaining semantic statuses OPEN until supported.
+6. Source-batch sequence correction (verified 2026-10-12): Batch 07 already covers B1 §16 Local Cluster AI (draft SHA `9d9663107a0ffba4316ab47bc8974e537a901f46`, Review 01 SHA `4c665414776414efdc0855c395c290466b035423`); Batch 08 covers B1 §17 Cloud Development AI; Batch 09 covers B1 §18 Trusted Sources Intelligence Engine. Do not recreate Batch 07. The next sequential uncovered source section is B1 §19 AI Human Clone. Create a separately named provisional Batch 10 under the approved 12-field schema, pin B1/B2 refs and relevant privacy/identity/security/media clauses, preserve the matrix row 19 and keep semantic/owner acceptance OPEN. Keep the remaining statuses OPEN until supported.
 7. Read back every changed artifact and update the live map with its exact SHA/status. No installs, tests, qualification, infrastructure/host changes, deployments or merge to `main` without separate explicit authorization.
 
 ### 7. Required response format
@@ -106,3 +106,6 @@ Start now by fetching the current map from GitHub. Do not assume this prompt or 
 ### 8. Refresh history — 2026-10-12
 
 The previous next-work block directed the session to perform the first source-anchored TSI semantic follow-up. That bounded work is now recorded in Batch 09 Review 03, SHA `184a99ef85143c2ad3048dca5c8d85b17f8651a3`; the instruction above supersedes that completed next step while preserving D-06, Review 01 and Review 02. Current Passport/Contract/Jarvis prompt pointers are listed in §4 above. The live map must still be fetched at the start of the next session; no fixed map SHA in this prompt replaces that requirement.
+
+
+- 2026-10-12 — corrected the next source-batch pointer after a live read-back confirmed Batch 07 already covers B1 §16; the next sequential uncovered section is B1 §19 AI Human Clone, subject to source-anchor and branch inventory checks. This is a routing correction only; no requirement or mapping status changed.
