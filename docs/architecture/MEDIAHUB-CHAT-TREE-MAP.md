@@ -1765,3 +1765,18 @@ Constraints preserved: no canonical backlog or traceability matrix changed; no t
 **Remaining gates:** B1-06-24 SH4-07 vs SH4-06.c lineage mismatch remains OPEN; UI4-04 stays HOLD / CROSS-LINK-ONLY; B1-15-13 historical Audit 01 pointer to B2 §19 remains immutable and is corrected only in the working Batch 06 crosswalk to B2 §§16/18; named gateway/subsystem dispositions in Batches 07–08 remain scoped NO_DIRECT_COUNTERPART / owner decision OPEN. No stable child IDs were minted and no canonical backlog promotion was performed.
 
 **Boundaries:** this is not an all-68-section semantic audit or a line-by-line review of every file and branch. B1, B2, Audit 01, historical backlog, main matrix and main remain unchanged. No tests, qualification, installation, deployment, host/infrastructure action or merge occurred.
+
+## 20.55 Active Jarvis master-prompt traceability pointer
+
+**Date:** 2026-10-12  
+**Ref:** docs/mediahub-chat-tree-map-20261012  
+**Status:** ACTIVE POINTER / READ-BACK VERIFIED
+
+**Artifact:** docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md
+**Current read-back blob SHA:** 7b163aa5f222029d27b5d32d0450f8a9c08c21ba
+
+An active traceability summary was added to the master prompt for the Batch 01–08 atom-level crosswalk union review (SHA ${actual.union}). The prompt now records the verified 153/153 Audit 01 label union, approved 12-field schema, status distribution 23 MAPPED / 119 NOT_REVIEWED / 11 NO_DIRECT_COUNTERPART / 0 CONFLICT, and the continued OPEN state of semantic acceptance and canonical-backlog promotion.
+
+**Current source set read back:** Gap Reconciliation SHA ${actual.gap}; Passport v3 SHA ${actual.passport}; Verifiable Architecture Contract 01 SHA ${actual.contract}; Batch 01–08 union review SHA ${actual.union}. Active Passport/Contract/Gap pointers match those current sources.
+
+**Boundary:** this changes context routing only. It does not accept Passport v3 or Contract 01 as a new canonical baseline, change B1/B2, promote the crosswalk, execute tests/qualification, install software, operate infrastructure, deploy or merge to main.
