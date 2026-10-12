@@ -1212,9 +1212,11 @@ Continue with source-anchored atom-level mapping and owner/governance dispositio
 
 ## 20.33 Astro blueprint gap reconciliation — owner scope incorporated into working drafts
 
-**New artifact:** docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md  
-**Create commit:** 14570b180be0f551eb5fd5d6e95f6ae0b0cc0aeb  
-**Read-back blob SHA:** 74f87eeaf96c5cf87d6fc24421df5baeefebcaed  
+**Artifact:** docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md  
+**Initial create commit:** 14570b180be0f551eb5fd5d6e95f6ae0b0cc0aeb  
+**Initial draft blob SHA:** 74f87eeaf96c5cf87d6fc24421df5baeefebcaed  
+**Latest update commit:** 0767dd4985f601fbfb29b748ea56642c768d6d0b  
+**Latest read-back blob SHA:** b3da08564ae5f5877dcbc696f9a561874b1d134c  
 **Status:** OWNER-SUPPLIED BLUEPRINT ANALYSIS / WORKING DOCUMENT — NOT A NEW ACCEPTED BASELINE.
 
 Проведена documentary reconciliation нового owner blueprint от 2026-10-12 с B1/B2, MH-03 runtime foundation, HA/State contract, component manifest, ASTRA current truth/runbook, сети и hardware passport. Основное решение для рабочего drafts: Astro — umbrella multi-agent engineering architecture; Astra/Astra Gold — ограниченный subsystem-кандидат; neither Astro nor Astra receives MediaHub Product State Authority. Сохранены HA Core как authority только Smart Home domain и текущий MH-03 single-node/in-memory authority baseline.
