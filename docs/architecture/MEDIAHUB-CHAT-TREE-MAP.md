@@ -1746,3 +1746,22 @@ Constraints preserved: no canonical backlog or traceability matrix changed; no t
 **Boundary:** no tests, qualification, 24-hour soak, installation, deployment, host/infrastructure operation, production change or merge to `main` was performed. B1, B2 and the `main` branch remain unchanged by this review.
 
 **Next safe step:** continue a bounded independent semantic review of outstanding atom-level crosswalks and owner/governance decisions. Do not promote the Passport/Contract, infer ASTRA readiness, or change canonical sources without separate acceptance and evidence.
+
+## 20.53 Batch 01–08 atom-level crosswalk union review
+
+**Date:** 2026-10-12  
+**Ref:** docs/mediahub-chat-tree-map-20261012  
+**Status:** STRUCTURAL UNION / FIELD COMPLETENESS / POINTER CONSISTENCY PASS — SEMANTIC ACCEPTANCE OPEN
+
+**Artifact:** docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-UNION-REVIEW-01.md
+**Read-back blob SHA:** e9ccafef5a3cca75f41e84bf3c4397dcc2285fd4
+
+**Pinned sources:** B1 main SHA 9df4892ed0734050ac79732603d15bb414717310; B2 main SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; Audit 01 SHA d0938f14ed4110545118f075175dee3be412097b.
+
+**Verified union:** eight current atom-level drafts (B1 §§3–6, 12, 15–17) contain 153 unique row labels. The set matches the 153 Audit 01 traceability labels exactly: zero duplicates, zero extra labels and zero omissions. All 153 rows contain each of the 12 owner-approved field labels exactly once and no empty required values were found. All eight corresponding Review 01 docs were read back; each matched the indexed SHA, pointed to the current draft SHA and retained semantic acceptance as OPEN.
+
+**Mapping distribution:** 23 MAPPED / 119 NOT_REVIEWED / 11 NO_DIRECT_COUNTERPART / 0 CONFLICT. MAPPED is documentary coverage only. These are 153 traceability labels, including derived controls and traceability subdivisions of compound sentences; they are not 153 independently accepted literal requirements.
+
+**Remaining gates:** B1-06-24 SH4-07 vs SH4-06.c lineage mismatch remains OPEN; UI4-04 stays HOLD / CROSS-LINK-ONLY; B1-15-13 historical Audit 01 pointer to B2 §19 remains immutable and is corrected only in the working Batch 06 crosswalk to B2 §§16/18; named gateway/subsystem dispositions in Batches 07–08 remain scoped NO_DIRECT_COUNTERPART / owner decision OPEN. No stable child IDs were minted and no canonical backlog promotion was performed.
+
+**Boundaries:** this is not an all-68-section semantic audit or a line-by-line review of every file and branch. B1, B2, Audit 01, historical backlog, main matrix and main remain unchanged. No tests, qualification, installation, deployment, host/infrastructure action or merge occurred.
