@@ -3577,3 +3577,16 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Next safe action:** verify the latest matrix/map/checkpoint blobs from GitHub and extend source-bound crosswalk into the next dependency domain indicated by the map, without treating architecture documents as implementation evidence.
 
 - **Latest continuation checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `b495f87a592445ab0e8cd67368c5a24cfe4d6c87`, blob SHA `e72336bc7e9aea95acc559285c7011b9e504bcca` (read-back verified below).
+
+
+## 20.104 MH-12 security / MH-13 privacy / MH-21 egress / MH-22 qualification crosswalk (2026-10-12)
+
+- **Unified matrix:** `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`; update commit `23fc8e7e78efc1898f5dbbf45cb396b87ba5cd1e`, blob SHA `3755af4359ab7b9523b09e190da36b27b0b77de3` (read-back required).
+- **MH-12 sources read on `main`:** acceptance criteria `40f37f1600c4730e622480d57bd492fa67f9ca4b`; security architecture `cf4ebfd5bf471ca676f075c51d3a24906504e490`; authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a`; security invariants `0609be9c3420070434014dad4529e4ccd46b0996`; evidence register `a16485de20fd4a98525573a12c0b085cb012f665`; contradiction register `4b3c101317330e47236937b17344299df53deee9`.
+- **MH-13 sources read on `main`:** privacy/data governance `e732ff9cacbc9c1189bd83306cdff30906326cf0`; governance acceptance `6ecdc89440664563f36263bb8da80d1ad24f19a7`; governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`.
+- **MH-21 sources read on `main`:** privacy invariants `4475da53dc87ad1c2ad1c9f112a55211cbfa49eb`; security invariants `035e5e8fa7bae98e93727c346cd66d72c864426f`.
+- **MH-22 source read on `main`:** evidence register `188a85e3a31cb545fd781e6db237d655d721ec1c`.
+- **Crosswalk IDs added:** MH12-SEC-01/02, MH12-GAP-01, MH12-EVIDENCE-01, MH13-PRIV-01, MH13-ACCEPT-01, MH21-EGRESS-01, MH22-QUAL-01.
+- **Confirmed:** security controls do not become State Authority; P0-05/P0-07 authorization bridge remains unresolved; MH-13 acceptance is scoped to authorized reconstruction only (historical original not recovered; not frozen; implementation not authorized); MH-21 egress/fallback enforcement is unverified; MH-22 requires current-head-specific evidence and operational acceptance is not granted.
+- **No execution:** no tests, security probes, qualification, model/provider calls, credentials, host inspection, installation, infrastructure changes, deployment, migration or merge occurred. Main HEAD observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 remains canonical and unchanged.
+- **Next safe action:** update continuation checkpoint, then read back checkpoint, matrix and map from GitHub and verify exact live blob SHAs. Continue cross-domain work only after confirming these writes.
