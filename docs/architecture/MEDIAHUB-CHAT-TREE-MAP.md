@@ -3560,3 +3560,5 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Current `main HEAD`:** `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, retrieved from the GitHub commits endpoint in this pass. Baseline 2.0 remains accepted/canonical/immutable; Baseline 1.0 remains historical provenance.
 - **No execution or deployment:** no tests, qualification, provider/model calls, credentials, installation, host inspection, infrastructure changes, deployment, migration or merge.
 - **Next safe action:** continue crosswalk over MH-14/MH-15/MH-16 lifecycle/persistence constraints and map each to exact source revisions, responsible authority, and required evidence. Keep all unresolved items explicitly open.
+
+- **Latest continuation checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `4d05783c78b114a64a1fec44eac50892338df724`, blob SHA `6dcf5dfff7afbc8578ac48f80d40a0fb46bda7b1` (read-back required on next resume).
