@@ -190,3 +190,15 @@ Resume with `/next`.
 - `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 remains canonical and unchanged. No tests/security probes/qualification/provider calls/credentials/host inspection/installation/infrastructure changes/deployment/migration/merge occurred.
 
 **Next safe action:** read back updated matrix and map, then this checkpoint, verifying exact live blob SHAs before continuing.
+
+
+### Latest verified continuation — observability, AI authority, device integration and automation (2026-10-12)
+
+- Re-read bootstrap, map, checkpoint, unified matrix, parent contract, Baseline 2.0 and canonical component manifest. Current `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; recursive tree was complete (`truncated=false`, 798 entries).
+- Read primary sources: MH-06 observability `a4c949d1ba21354d74f91cbb71864da3bbc13d36`; MH-10 AI authority boundary `8ceeb14ea74dd4fd81b576d78fa1d8662ba616ef`, contradiction register `681acf57e25133bc4a43a8089bb78811c6756141`, dependency map `ae3232ce8a560498c07d9fa31e211bf86c63fa1d`; MH-17 observability `9a14b7531969b7511a7052d5d1bda2295ff071e8`, offline-first `a1993d6c7b28dae63525ff202a30c055986c6170`, backpressure `9cc04e13088045302b86a5396605f504e9bc50de`, privacy `523f6aa94b2f3260d01a666548a6fcd7196ae706`, resource governance `7d4cdaaef9afd4c2a1d9e8cff2e1b7fe8f2567fd`; MH-20 architecture status `473e3e199482c46988f3e6cffef2722a888eb637`, acceptance criteria `5f88b8a044c74d0c15313f0744f9227e5960ac87`, contradiction register `3ed84580ced244c0449a5ea90b515bf3b967e74c`; MH-21 observability `a78b656f43d3deda4b7316be5d0120dca828966b`; MH-22.1 current production audit `3cbcccb1af7af42c967cd0639183988fbe580296`.
+- Added MH06-OBS-01, MH10-AUTH-01, MH10-CONFLICT-01, MH17-OBS-01, MH17-DEVICE-01, MH20-AUTO-01, MH20-CONFLICT-01 and MH22-AUDIT-01 to matrix. Matrix update commit `d98d6e1db48154022423233ecada3fb236982a93`, blob `67016d93c34d7db705942436c7344eb0c13243c4`.
+- Updated map section 20.105. Map update commit `bb0cd5e7f036a8d930774b117d4ce91f12a82868`, blob `e8c69f103013cf74d89c83b84bf276351bb36e2e`.
+- Confirmed: observability is non-authoritative; AI/automation share one mutation chain; MH-10/MH-21 ownership conflict remains open; MH-17 remains proposed/candidate; MH-20 accepted architecture decisions are not implemented and the domain is not accepted/frozen; MH-22 current production audit remains NOT QUALIFIED / NO-GO.
+- No tests, runtime inspection, security probes, provider/model calls, credentials, installation, infrastructure changes, deployment, migration or merge occurred. Baseline 2.0 remains canonical and unchanged.
+
+**Next safe action:** read back matrix and map, append this continuation checkpoint, update map with its latest SHA, then verify all three live files from GitHub before reporting.
