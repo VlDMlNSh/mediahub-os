@@ -5,7 +5,7 @@
 - **Status:** WORKING INTEGRATION CONTRACT / DRAFT — NOT A NEW CANONICAL BASELINE
 - **Use:** operative review/checklist for documentation and architecture work on this branch, subject to the source precedence and gates below.
 - **Not a grant of authority:** does not replace Baseline 2.0, alter Baseline 1.0, approve pending domain contracts, authorize implementation/deployment, or imply qualification/production acceptance.
-- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `5c04cad58dfb56590de5bfcb7e782328ac6e1277`.
+- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `66ff77cc1fe503aead977ed1eb16a22ce8e87762`.
 - **Rule of evidence:** claim → source path → ref → blob SHA → exact scope/status → acceptance/evidence required → independent read-back.
 
 - **Current terminology:** the latest owner-provided umbrella name is **Jarvis**; an earlier same-day draft used “Astro”. Jarvis supersedes that draft label. The existing gap-report filename retains `ASTRO` for reference lineage; this does not rename ASTRA or assert deployed functionality.
@@ -166,7 +166,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** architecture diagrams, prompts and contracts explicitly distinguish Jarvis (umbrella), Astra (bounded engineering subsystem), MediaHub State Authority (product/platform state), and Home Assistant Core (Smart Home-domain authority). An ambiguity blocks the dependent task.
 
-**Sources:** owner blueprint / branch gap reconciliation blob SHA cf6e9a55825fe28ce3e9e2424dfb792a58e6254d; B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; ASTRA launch schema SHA 0b86b07dfa916d4485ce1f8f54d19de136d98491.
+**Sources:** owner blueprint / branch gap reconciliation blob SHA 09f2e2094626fc18883a6ad9481da2739df64e80; B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; ASTRA launch schema SHA 0b86b07dfa916d4485ce1f8f54d19de136d98491.
 
 ### ARC-018 — one owner for engineering task lifecycle
 
@@ -221,6 +221,15 @@ Events, telemetry, logs and observations do not provide mutation rights.
 **Rule:** Distinguish tree inventory, successfully fetched files, structurally classified files, semantically reviewed files, resolved conflicts and unreviewed files. An inventory of repository entries is not a semantic audit of every file. Do not claim “all defects fixed” without a source-by-source closure ledger.
 
 **Acceptance:** every audit report states refs/tree snapshot, exact inspected set, exclusions, unresolved findings and review status; completion claims match that ledger.
+
+### ARC-026 — every deployment profile pins its operating-system contract
+
+**Rule:** A hardware name or role does not define its target operating system, boot mode, install method or lifecycle. B2 §9 states that clean Mac mini/Mini PC installations use Linux as the baseline implementation direction, while Apple platforms remain integrated adaptations where the base OS cannot be replaced. Each named target must therefore have an explicit, approved OS/build, architecture, boot/install/update/recovery and rollback profile; do not infer macOS/Linux from “Mac Pro” or “Mac mini”.
+
+**Acceptance:** the release manifest identifies the exact node/profile OS and runtime constraints; model/architecture compatibility, support and security-update status, drivers, boot/install path, update/recovery image and rollback are source-backed and qualified for that profile. An unpinned profile blocks release packaging/admission.
+
+**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `66ff77cc1fe503aead977ed1eb16a22ce8e87762`; Jarvis gap reconciliation current SHA `09f2e2094626fc18883a6ad9481da2739df64e80`.
+
 
 ## 3. Cross-domain system contract
 
@@ -284,6 +293,7 @@ Every component contract admitted to implementation MUST declare:
 | V-16 | Reused public components are reviewed and pinned | repository scorecards, exact versions, license/security/provenance and bounded PoC evidence | Public desk review completed for shortlist only; no candidate qualified |
 | V-17 | MH-01…MH-23 context packets remain traceable to primary sources | global/domain packet inventory with current refs/SHA and read-back status | Design requirement; packet mechanism not implemented |
 | V-18 | Audit coverage is accurately represented | exact tree/source set, per-file review state and open findings | Bounded review only; whole-repository semantic completion not claimed |
+| V-19 | Every target node has an explicit and compatible OS/boot/install/update/recovery profile | B2 §9 + per-node hardware manifest + supported-platform and rollback evidence | OPEN — profile decision and qualification not provided |
 
 ## 5. Definition of contract conformance
 
@@ -324,6 +334,7 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 13. Evaluate pinned component candidates using ARC-023 before any install or PoC; retain the no-install/no-qualification gate until separate authorization.
 14. Define the immutable, reproducible deployment bundle, per-profile preflight, health, backup/restore and rollback acceptance evidence.
 15. Reconcile the owner’s late-October planning window with real gate evidence; do not transform the calendar intent into a release commitment.
+16. Pin per-node OS/build/boot/install/update/recovery profiles under ARC-026; the named Apple hardware does not settle the OS choice.
 
 ## 8. Change history
 
@@ -331,10 +342,12 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 - 2026-10-12 — matrix status corrected in branch; ASTRA internal state semantics clarified without changing authority field values.
 - 2026-10-12 — 13-cycle source/contract review performed with separate read-back checks; audit ledger is recorded in MEDIAHUB-OS-13-CYCLE-ARCHITECTURE-AUDIT-01.md after its creation and verification.
 - 2026-10-12 — repository tests/qualification/deployment were not run; main was not changed and no merge was performed.
-- 2026-10-12 — incorporated the owner-provided Jarvis umbrella direction, single-task-lifecycle rule, hardware trust/profile split, reproducible deployment requirements, public-repository scorecard and MH-01…MH-23 context-packet contract; companion gap report blob SHA cf6e9a55825fe28ce3e9e2424dfb792a58e6254d.
+- 2026-10-12 — incorporated the owner-provided Jarvis umbrella direction, single-task-lifecycle rule, hardware trust/profile split, reproducible deployment requirements, public-repository scorecard and MH-01…MH-23 context-packet contract; companion gap report blob SHA 09f2e2094626fc18883a6ad9481da2739df64e80.
 
 **Review coverage limitation:** an API tree snapshot at commit 58305d5a9a5b1593f15d2dfb0ff79838c1bddaec contained 826 entries, including 445 Markdown files. This session used that inventory and semantically inspected the governing baselines, key state/security/HA contracts, traceability corpus, component-selection artifacts and ASTRA qualification sources; it did not read every line of every repository document. Whole-repository semantic completeness is therefore not claimed.
 
 **Final status:** a source-backed, verifiable working contract for branch review. It is not yet a globally accepted system contract and does not imply that all project documents, runtime functionality or qualifications have been fully verified.
 
 - 2026-10-12 — Normalized the current owner-provided umbrella name to Jarvis (superseding the prior working label Astro), refreshed the gap-report blob reference and pinned the latest read-back passport blob. The legacy gap-report path remains unchanged for provenance.
+
+- 2026-10-12 — Added ARC-026 / V-19 for target OS and install/recovery profile pinning based on B2 §9; updated the current Passport v3 and gap-report blob references. This is an additional source finding after the recorded 13 cycles, not a runtime test or qualification.
