@@ -24,7 +24,7 @@
 When two sources appear contradictory:
 1. identify whether they discuss the same domain, lifecycle stage, deployment profile, version and normative force;
 2. compare source refs/SHAs and decision provenance;
-3. prefer later accepted decisions only within their explicit scope;
+3. prefer the latest explicitly accepted decision only within its recorded authority, date, domain, dependency and rollout scope; newer unaccepted drafts never outrank an older accepted contract;
 4. if the conflict cannot be resolved from accepted sources, record OPEN_CONFLICT, block the dependent claim/action and seek an owner/governance decision;
 5. preserve historical source text and add a supersession/linkage note rather than rewriting history.
 
