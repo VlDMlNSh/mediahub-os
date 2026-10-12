@@ -22,7 +22,7 @@ hard_invariants:
   implementation_authority: A2
   verification_authority: A3
   executor_authority: EXECUTOR_ONLY
-  state_authority: A0-ASTRA
+  state_authority: A0-ASTRA # ASTRA internal queue/claim/gate state only; NOT MediaHub Product State Authority.
   fail_closed: true
   fresh_evidence_only: true
   historical_evidence_reuse: false
