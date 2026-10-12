@@ -63,3 +63,20 @@ This register is a decision-traceability artifact, not evidence of implementatio
 ## Evidence addendum — P0-05 status question #1 / candidate D6 (2026-10-12)
 
 A source-bound governance lineage check found positive evidence that the exact contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` was included in the accepted P0-05 tree: acceptance commit `97a01977f521ba8304a455b5d7504896235ddea7`, tree `f926cd6c162f104c8c122cd17dae76dc28f32b19`. That tree also contains governance decision packet blob `1253944ffeefcb59502d9f7deb13d38baed1d6e1`, which explicitly approves the P0-05 State Authority Integration Boundary and Consumer Contract for controlled implementation. This supersedes the earlier evidence-gap statement: contract acceptance is supported by the approved tree/packet. The contract's own DRAFT header remains contradictory; it is not silently edited. This evidence covers the P0-05 baseline contract only, not the P0-07 extension or candidate D1–D5/D7. P0-07 remains blocked pending a separate accepted mutation/authorization interface.
+
+
+## 4. Owner disposition — P0-05 v1.1 candidate D1–D7 (2026-10-12)
+
+The owner explicitly selected the following recommended investigation/disposition paths. These are **owner-recorded directions for evidence review and governance**, not acceptance/freeze of the candidate contract, not approval of a particular API signature, and not implementation authorization.
+
+| Decision | Owner-selected path | Required interpretation / gate |
+|---|---|---|
+| D1 — Authorization composition | **C → A** | First establish the trusted caller path and trust boundaries from source evidence; only then consider independent authorization composition. No assumption that an existing compliant path exists. |
+| D2 — P0-04 context source/lifecycle | **C** | Investigate source, authority, lifecycle, and trust boundary. Do not invent or instantiate a context source without evidence. |
+| D3 — Exact-operation decision binding | **C → A** | Complete trust-boundary and replay/freshness analysis first; then evaluate structured, immutable, auditable operation-bound evidence. Cryptographic protection is threat-model-dependent, not presumed. |
+| D4 — P0-07 operation set | **C → B** | Map each candidate operation to canonical state/resources and authority first; then consider only a minimal supported subset. Unsupported mappings remain blocked. |
+| D5 — Audit/privacy | **C → B** | Complete joint MH-06/MH-12/MH-13 review before proposing an audit schema, access model, redaction, retention, or deletion semantics. |
+| D6 — P0-05 acceptance/header reconciliation | **B → A after confirmation** | Existing evidence supports that the exact P0-05 contract blob appears in the accepted governance tree, but its DRAFT header conflicts. Record the evidence and obtain explicit governance confirmation before any controlled header/status correction. Until then, do not silently edit the protected contract or assert the discrepancy resolved. |
+| D7 — Contract versioning scope | **C → B** | Inspect versioning/change-control rules first; propose P0-05 v1.1 only if within scope, otherwise route a separately governed contract. |
+
+**Continuing hard gates:** P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. These directions do not authorize code changes, implementation, tests, qualification, deployment, migration, infrastructure changes, or merge. The owner’s D6 selection is explicitly conditional on governance confirmation; no such confirmation is recorded by this entry.
