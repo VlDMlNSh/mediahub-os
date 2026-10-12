@@ -26,8 +26,8 @@ MediaHub OS / MediaHub iOS
 ├── MH-20…MH-23  Architecture audit, hybrid cloud, operational qualification, migration
 ├── MH-24         Visual interface/navigation + reconciliation
 ├── MH-25         Stage reconciliation / control inventory
-├── Functional Baseline 1.0 — актуальный паспорт редакции 1.0 по прямому указанию владельца; сохранён как отдельная версия
-├── Functional Baseline 2.0 — отдельный документ со статусом ACCEPTED/CANONICAL/IMMUTABLE; семантическая сверка с 1.0 ещё открыта
+├── Functional Baseline 1.0 — сохранённый исторический источник/provenance; не текущий канонический функциональный эталон
+├── Functional Baseline 2.0 — текущий принятый канонический функциональный эталон; изменения только через явный change control
 ├── Canonical Component Manifest 2.0 — выбор компонентов для development; не production qualification
 └── Astra Gold — распределённый контур автономной инженерной разработки и квалификации
 ```
@@ -3988,3 +3988,18 @@ The adapter contract lists three governance directions (existing independently P
 **Disposition:** MH-13 not frozen; MH-14 acceptance NOT YET ACCEPTED/FROZEN and physical persistence NOT AUTHORIZED; MH-21 retention PROPOSED; MH-22 production qualification NO-GO / NOT PROVEN. No stable IDs added. No tests, deletion, restore, provider contact, migration, qualification, runtime/host inspection, infrastructure change, deployment, merge or rebase.
 
 **Next safe action:** route explicit status/retention/restore semantics to MH-13/MH-14/MH-21 governance owners. Continue independent documentary crosswalks only; do not execute deletion/restore or select retention values/provider terms without approved contracts and separate authorization.
+
+
+## 20.126 Project-wide qualification evidence wave 02 — gate namespace and baseline hierarchy reconciliation (2026-10-13)
+
+**Status:** documentary evidence/contract reconciliation only. Project-wide production qualification remains **NO-GO / NOT PROVEN**. No qualification gate, domain, release or production stage is promoted.
+
+- Full report: [Project-wide qualification evidence audit, wave 02](../checkpoints/mediahub-project-wide-qualification-evidence-audit-wave-02-2026-10-13.md), blob `d8739993ab48e277ca5dc0e0456e8c5d045a1348`.
+- Unified traceability matrix Section 43: blob `65ea4783ad59394ced9cc0932f8f2dcfe16d9dda`; draft-local gate identifiers are `MH-UTM-G0`…`MH-UTM-G9`.
+- Unified architecture/deployment contract: blob `1057776ca9192b307a4e6de72db5d12cdbcc1a39`; its proposed gate matrix uses distinct draft-local identifiers `MH-UDC-G0`…`MH-UDC-G9`.
+- Working bootstrap instruction: blob `4ced4a9249591d218e8949f498c862fc21274b16`; stale statement that B1 remains the current passport was corrected to make B2 the current canonical functional reference and B1 historical provenance. Neither baseline was edited.
+- Baseline 2.0 on `main`: blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, ACCEPTED / CANONICAL / IMMUTABLE. ASTRA generated current truth: blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`, G0–G11 BLOCKED / overall NOT_PROVEN. ASTRA launch schema: blob `aef6229477ed8ec45e45170f98ea87f7ba75ca29`. Main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Live documentation branch before map update: `2cd40d26504041fe3a6cecb70c75972fe7b91aec`; compare `diverged`, 485 ahead / 2 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. This branch remains separate from main; no merge/rebase.
+- Current-head CI metadata reviewed from GitHub API only: Astra Verify run `38226754511` = FAILURE at main HEAD; the job-step summary returned no steps and no cause is inferred. Queue supervisor `38273320112` remains QUEUED. Combined status metadata returned `pending` with zero status records. MH-22 G1–G9 and ASTRA G0–G11 are not promoted.
+- Additional blockers remain: P0-07 canonical-read/mutation bridge and caller/context provenance; P0-05 header/governance confirmation; MH-13 retention/deletion and restore semantics; MH-14 physical persistence not authorized; MH-15 target/hardware not qualified; MH-16 lifecycle evidence; MH-21 provider/egress acceptance; MH-23 compatibility/migration; exact candidate identity, independent verification and release/production acceptance.
+- No tests, qualification runner, workflow dispatch/rerun, logs/runtime/host inspection, credentials, model/provider calls, installation, migration, restore/deletion, infrastructure change, deployment or integration were performed. Matrix and contract remain PROPOSED / NOT ACCEPTED / NOT FROZEN.
