@@ -3562,3 +3562,16 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Next safe action:** continue crosswalk over MH-14/MH-15/MH-16 lifecycle/persistence constraints and map each to exact source revisions, responsible authority, and required evidence. Keep all unresolved items explicitly open.
 
 - **Latest continuation checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `4d05783c78b114a64a1fec44eac50892338df724`, blob SHA `6dcf5dfff7afbc8578ac48f80d40a0fb46bda7b1` (read-back required on next resume).
+
+
+## 20.103 MH-14 / MH-15 / MH-16 source-bound requirements crosswalk (2026-10-12)
+
+- **Unified traceability matrix:** `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`; update commit `c8aa6b9bedfdeda63ee5af14108cc97717cf9f99`, blob SHA `be1bb313d74d2f9cdaf0acb2a90ee7ad60d23a0c` (read-back verified later in this pass).
+- **MH-14 sources read on `main`:** acceptance criteria `364bb2a949e11f191b71a35af482f18de4ef2827`; decision log `a2f49b9f4e09e3d2becdc2e72807319674a30239`; persistence architecture `5e14084033f417722a1b04b5d5d47649dcfcda48`; unknowns `722eaa1388ff3e9f6677a2571ae3c61e5611a70a`.
+- **MH-15 sources read on `main`:** acceptance criteria `082642e67dc66cb359a5566773c143854cafaa00`; OS/appliance architecture `f817925c69ce4484713f952e47aacad283af8eeb`; evidence register `424a55b4b692d5b253423bccea2316717c6ca0d4`.
+- **MH-16 sources read on `main`:** installer/recovery/update architecture `f3ad2401f00a4062b39eed640e0c5c5f70064312`; completion record `e4ea4e3a37540cc104243c236e2e5c1c32ea35d6`.
+- **Crosswalk IDs added:** MH14-PERSIST-01…03; MH15-OS-01, MH15-LEGACY-01; MH16-LIFECYCLE-01, MH16-ARTIFACT-01, MH16-RECOVERY-01.
+- **Confirmed invariants:** persistence is subordinate to State Authority; physical persistence implementation remains NOT AUTHORIZED; RPO/RTO TBD; reliability baseline SINGLE NODE / NO HA; Mac mini Server 2011 remains an unverified candidate; MH-15 acceptance/freeze not authorized; MH-16 governance acceptance pending and implementation not authorized; lifecycle/recovery cannot directly mutate canonical state or bypass State Authority.
+- **No hidden closure:** MH-14/MH-15/MH-16 requirements are source-bound only. No tests, actual restore, hardware inspection/qualification, security review, provider/model calls, installation, infrastructure change, deployment, migration or merge occurred. P0-07 → P0-05 mutation-publication gap remains unresolved.
+- **Baseline and main:** Baseline 2.0 blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` unchanged; current `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- **Next safe action:** verify the latest matrix/map/checkpoint blobs from GitHub and extend source-bound crosswalk into the next dependency domain indicated by the map, without treating architecture documents as implementation evidence.
