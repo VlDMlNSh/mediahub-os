@@ -193,20 +193,20 @@
 - **Verification method:** Compare B1 line 301 with B2 §16; verify an accepted admission/update/retraction contract before moving from NOT_REVIEWED.
 - **Change history:** Subdivision of `TRUSTED-SOURCES-01`; no final child ID minted.
 
-### TSI-12 — Track information origin
+### TSI-12 — Track information origin (historical sub-aspect of TSI-07)
 
-- **Requirement ID:** `PROVISIONAL/TSI-12`.
-- **Owner:** TBD.
-- **Source atom / classification:** B1 §18 line 301 — LITERAL capability fragment: tracking origin/provenance of information.
-- **B2 mapping status:** `NOT_REVIEWED`; overlaps with TSI-07 provenance. The independent meaning (lineage across transformations, retrieval and generated summaries) must be clarified before duplicate obligations are created.
-- **Canonical contract path/ref:** B2 §16 @ main SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; no accepted transformation-lineage contract verified.
-- **Acceptance criteria:** PROPOSED / NOT APPROVED: owner resolves whether this is a distinct transformation-lineage obligation or a refinement of TSI-07; define lineage boundaries if distinct.
-- **Required evidence:** Owner disposition; lineage schema and examples spanning source → retrieved passage → synthesis/output.
-- **Lifecycle status:** DRAFT / NOT APPROVED; duplicate/overlap disposition OPEN.
-- **Reviewer / approval reference:** Product Owner Decision Record 01 (schema/vocabulary only); Semantic Audit Batch 03 SHA `fcd006e99d812dac5071b34c531f2783f4f54e88`.
-- **Dependencies:** MH-10; MH-19; MH-20; MH-21.
-- **Verification method:** Review TSI-07/TSI-12 alongside B1 line 301 and B2 §16; do not mint a final child ID before overlap resolution.
-- **Change history:** Explicitly records a potential overlap; no silent deduplication and no final child ID minted.
+- **Requirement ID:** `PROVISIONAL/TSI-12` (preserved historical traceability label; not a final child ID).
+- **Owner:** Product-owner relationship disposition recorded in Decision Record 01 D-06; detailed TSI contract owner remains TBD.
+- **Source atom / classification:** B1 §18 line 301 — LITERAL capability fragment: tracking origin/provenance of information. Retained as a historical source-traceability label; interpreted as a sub-aspect of TSI-07, not a separate sibling obligation.
+- **B2 mapping status:** `NOT_REVIEWED`; the owner resolved the relationship between TSI-12 and TSI-07, but did not accept an independent B2 mapping or implementation claim for this sub-aspect. Evaluate it within the TSI-07 provenance mapping and do not double-count it.
+- **Canonical contract path/ref:** B2 §16 @ main SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; no accepted TSI-specific provenance/lineage contract verified.
+- **Acceptance criteria:** PROPOSED / NOT APPROVED: include origin tracking within the TSI-07 provenance aspect; preserve the TSI-12 label and cross-reference for historical traceability; do not create a duplicate independent obligation unless a later explicit owner decision changes this disposition.
+- **Required evidence:** Accepted provenance schema/contract that includes source origin and, where applicable, lineage across source → retrieved passage → synthesis/output; cross-reference from TSI-12 to TSI-07; independent review before canonical promotion.
+- **Lifecycle status:** DRAFT / NOT APPROVED; overlap relationship RESOLVED BY OWNER as `SUBASPECT_OF: TSI-07`; contract design, implementation, verification and qualification remain OPEN.
+- **Reviewer / approval reference:** Product Owner Decision Record 01 D-06 (explicit owner disposition, recorded 2026-10-12); prior Batch 09 Review 01 remains historical evidence of the previously open question.
+- **Dependencies:** TSI-07; MH-10; MH-19; MH-20; MH-21.
+- **Verification method:** Verify the D-06 decision record and explicit cross-reference; inspect the eventual accepted TSI-07 provenance contract for origin tracking. Count TSI-12 as a historical sub-aspect, not a separate normative obligation.
+- **Change history:** Owner disposition added 2026-10-12: `SUBASPECT_OF: TSI-07`; preserved `PROVISIONAL/TSI-12` and its B1 line 301 anchor as a historical traceability label. No final child ID minted; no B1/B2 or canonical backlog change.
 
 ### TSI-13 — Distinguish verified evidence
 
