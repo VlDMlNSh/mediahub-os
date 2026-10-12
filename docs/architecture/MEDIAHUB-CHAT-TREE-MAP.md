@@ -3271,3 +3271,13 @@ An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 40
 - Checkpoint commit: `d2a35d97f3499e74d94f4477ba3a7507996ecd94`
 - Checkpoint includes exact source SHAs, verified MH-23 status, branch divergence, global invariants and the next read-only audit steps.
 - Next safe action: on the next `/next`, re-read bootstrap/map and continue the MH-23 dependency audit using map-selected MH-14 persistence and MH-15 OS/appliance sources; verify current branch/main refs again. Do not assume the next domain until the current map is read.
+
+## 20.97 Continuation checkpoint — current exact state (2026-10-12)
+
+- **Checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`
+- **Checkpoint commit:** `9e4fbfa248de4ef3510ac48559bc35bf17cb32cc`
+- **Checkpoint blob SHA:** `32f25c1faa4381a58b5d16c3e6dbde0f5e4d0123`
+- **Verified before map update:** checkpoint fetched from `docs/mediahub-chat-tree-map-20261012`; includes current MH-20 audit, global authority invariants, branch-divergence caution and exact next-step sequence.
+- **Current main HEAD observed:** `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; re-check live HEAD when resuming.
+- **Next safe action:** on `/next`, re-read bootstrap/map and continue the read-only MH-23 dependency audit using map-selected MH-14 Persistence and MH-15 OS/Appliance sources. Re-check MH-23 branch divergence and related MH-16/MH-22 dependencies; do not merge, cherry-pick or modify implementation.
+- This checkpoint supplements the primary sources and prior MH-23 checkpoint; it does not replace either or authorize tests, qualification, deployment, infrastructure changes or a merge into `main`.
