@@ -913,3 +913,25 @@ P0-07 capability inventory is not a transaction API. The P0-07 boundary construc
 **Decision and status:** D1 existing-context path not demonstrated; D2 caller/context provenance open; D3 exact-operation binding depends on trust/freshness/revocation/replay analysis; D4 canonical-read mapping open; D5 joint MH-06/MH-12/MH-13 review pending; D6 requires explicit governance confirmation; D7 remains open because MH-23 is not frozen and its SemVer direction is candidate-only. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
 
 **Scope limits:** immutable blob sources were read; no tests or runtime were executed. No code, protected contract, infrastructure, branch integration, migration, qualification, deployment or release status was changed.
+
+## Section 41 — Project-wide qualification evidence/readiness wave (2026-10-13)
+
+**Status:** DOCUMENTARY EVIDENCE AUDIT ONLY / PROJECT-WIDE PRODUCTION QUALIFICATION **NO-GO / NOT PROVEN**. This entry does not promote any domain, contract, release or system status.
+
+**Full report:** [MediaHub project-wide qualification evidence audit — 2026-10-13](mediahub-project-wide-qualification-evidence-audit-2026-10-13.md), blob SHA `b7b92805fa28f28b2983e6cbef392bfe84f31943`.
+
+**Qualification control sources read on current main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`:**
+- MH-22 production gates `8cbac21dfd5933ae629c35949d597f99a2236440`; acceptance criteria `40d401c0a4ba80550f8101d4e9b1de8f0c77849e`; evidence register `188a85e3a31cb545fd781e6db237d655d721ec1c`; qualification matrix `474f4048d9fd50c72943bd06df5043124bed3f4e`.
+- ASTRA generated current truth `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 all BLOCKED, overall NOT_PROVEN / BLOCKED, no fresh PASS evidence.
+- Canonical Component Manifest 2.0 `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`: selection CLOSED, implementation OPEN, production admission QUALIFICATION-GATED.
+- MH-25 historical inventory `6efbd86287357698370c17df909ea7303d616264`; MH-3 qualification result `a9959b21ec137dd379f8e69f9099c999771cfc01` remains INCONCLUSIVE and is tied to a historical candidate; MH-15 audit `cb277fe49138426b1650f4253ed957ef69c5d472` says FAIL FOR ACCEPTANCE / hardware-appliance NOT QUALIFIED; MH-21 acceptance criteria `582f898fe4be332b6a7fef3e8cca2e27c7328ac2` say NOT SATISFIED.
+
+**Live CI/read metadata:** combined status for current main HEAD returned zero status records (not PASS); Astra Verify run `38226754511` for that exact SHA completed FAILURE; Astra autonomous queue supervisor `38273320112` remains QUEUED in the inspected API response. Historical worker results at `f0f406feb9f9816b009f4e6e756813541e53b9bc` do not qualify current main. No workflow was dispatched or re-run.
+
+**Gate disposition:** MH-22 G1–G9 cannot be promoted: current implementation/test/verification lineage is incomplete; exact candidate digest/signature/SBOM is UNKNOWN; hardware and lifecycle qualification are UNKNOWN; matrix PASS, release decision, deployment evidence, production observation and production acceptance are absent. ASTRA G0–G11 remain BLOCKED. Unknown remains UNKNOWN and any unresolved critical gate forces NO-GO.
+
+**Domain disposition:** this wave assessed MH-01…MH-25 using the map, MH-25 inventory and domain acceptance/evidence sources. “RECONCILED” is not “QUALIFIED”; Baseline 2.0 acceptance is not runtime qualification; stage inventory is not stage closure. The report records per-domain qualifications and open evidence gates. Key blockers remain: identity/context provenance and P0-07→P0-05 bridge; MH-13 privacy acceptance/retention semantics; MH-14 physical persistence not authorized; MH-15 exact host/hardware not qualified; MH-16 install/update/rollback/recovery evidence missing; MH-21 acceptance not satisfied; MH-23 compatibility/migration acceptance and execution evidence missing; MH-24 Baseline 2.0 acceptance does not imply implementation qualification; MH-25 reconciliation remains in progress.
+
+**Branch/source integrity:** documentation branch is DIVERGED from main, 469 commits ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase. Keep Baseline 1.0 and Baseline 2.0 separate.
+
+**Scope:** no tests, qualification runner, workflow dispatch/rerun, model/provider calls, credentials, runtime/host inspection, installation, infrastructure changes, migration, deployment or branch integration occurred. This is an evidence/readiness result, not executable qualification and it does not close any existing gap or introduce new IDs.
