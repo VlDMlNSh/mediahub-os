@@ -1367,3 +1367,35 @@ The recursive GitHub tree at commit `c53d463da39118bd5f88b784913f41d2d48be2aa` r
 **Boundaries preserved:** owner approval applies to the schema and status vocabulary, not to this atom-level mapping as a whole. Stable child IDs are not minted; collision review across the full current repository/branch inventory remains a gate. UI4-04 remains `HOLD / CROSS-LINK-ONLY`. No tests, qualification, installation, deployment, infrastructure/live-host operation, baseline change, main-branch edit or merge was performed.
 
 **Next safe step:** continue with a separately scoped atom-level batch for B1 §4, review its source anchors and mapping statuses independently, then refresh the map. Do not promote the draft to the canonical backlog until all applicable atoms are reviewed and owner/governance gates are closed.
+
+
+## 20.39 Post-cycle Jarvis hardware finding — AG-20 / P-20 / ARC-027 / V-20
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `DOCUMENTARY FOLLOW-UP READ-BACK PASS / ASSET DECISION OPEN`
+
+### Newly detected blueprint ambiguity
+
+The owner blueprint assigns the purchased Mac Pro to the developer environment as the primary workstation and separately describes a future production target based on Mac Pro + Mac mini. The source does not say whether these refer to the same physical Mac Pro or separate assets. This distinction affects trust boundary, developer continuity, release inventory and deployment eligibility; it must not be guessed.
+
+### Working artifacts changed and independently read back
+
+| Artifact | Update commit | Verified blob SHA | Recorded correction |
+|---|---|---|---|
+| Jarvis gap reconciliation, historical path retained | `6e72c8ffaf98db0096ba1abfd36dfde7b89cb9c4` | `8495c9436b967bd77afae57ccb1e42959ab86a56` | Added AG-20 and §17; current summary now states 20 scoped findings. The original 13 review cycles remain unchanged; AG-20 is a post-cycle follow-up. |
+| System Passport v3 | `4adfd3789b23654e94da5c6b7b69d512b52658a9` | `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d` | Added P-20, a hardware-profile clarification and a release-acceptance checklist item; current gap-report pointer refreshed. |
+| Verifiable Architecture Contract 01 | `bfbd8865a51520a18f0cf3b62f35fed07ba18b2c` | `b68314ef8e4f68cd35b11dc83839eae4bec4b7b4` | Added ARC-027 and V-20; asset allocation, approved role transfer, credentials/data separation and release evidence remain OPEN. |
+| Jarvis Global Master Prompt 01 | `868aabadb1cccfcc6f5a88fab1fbd0e3e4cddcac` | `c3017843de5a95c1bd18cf839d54ecb125861970` | Refreshed active pointers to current gap/passport/contract SHAs and added an explicit instruction not to assume the production Mac Pro is or is not the developer unit. |
+
+### Gates and preserved boundaries
+
+- Resolve by owner-confirmed inventory whether developer and production Mac Pro roles are separate assets or a single asset at different times. If one asset is transferred, require an approved role-transition record, replacement developer-workstation plan, credential revocation/rotation, data-boundary cleanup, clean release profile, recovery/rollback and exact-SHA post-deployment evidence.
+- Passport v3 remains a working draft; Contract 01 remains a working contract draft, not a new globally accepted baseline.
+- Functional Baseline 2.0 remains the accepted current functional reference; Baseline 1.0 remains historical literal provenance. Neither was changed. The crosswalk, UI4-04 HOLD, and canonical main branch were not changed by this follow-up.
+- ASTRA generated current truth remains `NOT_PROVEN / BLOCKED` in the inspected main snapshot; the source runbook continues to state that live three-node transport is not qualified.
+- The 13 cycles are documentary analysis/correction/read-back, not runtime tests. AG-20 is not counted as another cycle. No tests, qualification, soak, installation, deployment, infrastructure/live-host action or merge to `main` was performed.
+
+**Current verified pointers:** gap report `8495c9436b967bd77afae57ccb1e42959ab86a56`; Passport v3 `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d`; Contract 01 `b68314ef8e4f68cd35b11dc83839eae4bec4b7b4`; Jarvis Master Prompt 01 `c3017843de5a95c1bd18cf839d54ecb125861970`.
+
+**Next safe step:** obtain the asset-allocation decision and node inventory; do not promote the future production profile until ARC-027/V-20 acceptance evidence exists.
