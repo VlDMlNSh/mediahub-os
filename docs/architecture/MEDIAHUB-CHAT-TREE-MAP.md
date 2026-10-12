@@ -1245,3 +1245,35 @@ External public repo desk review recorded as candidates / not selected: Temporal
 В двух source/change-history ссылках Contract 01 заменён первоначальный blob SHA gap report `74f87eeaf96c5cf87d6fc24421df5baeefebcaed` на последнюю повторно прочитанную версию `b3da08564ae5f5877dcbc696f9a561874b1d134c`. Read-back подтвердил ноль старых ссылок и ровно две ссылки на текущий blob report. Ни одно нормативное правило, Baseline 1.0/2.0, machine-readable authority value, qualification gate или runtime не менялся.
 
 **Проверка:** Contract 01 fetched from `docs/mediahub-chat-tree-map-20261012`; exact content SHA `65b4d999c871d0e17bc4ab949a42a9e4424cf93e`. `main` не менялся; тесты, установка, qualification, deployment и live-host actions не выполнялись.
+
+## 20.35 Latest Jarvis blueprint read-back — supersedes earlier current pointers
+
+**Session date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Purpose:** reconcile the map with the latest read-backs of the Jarvis gap report, System Passport v3, Verifiable Architecture Contract 01, and the 13-cycle audit.
+
+### Current artifact pointers (fresh read-back)
+
+| Artifact | Path | Latest blob SHA | Current status |
+|---|---|---|---|
+| Jarvis blueprint gap reconciliation (legacy filename retains “ASTRO”) | `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md` | `09f2e2094626fc18883a6ad9481da2739df64e80` | 19 scoped findings; owner-supplied working draft, not an accepted baseline |
+| System Passport v3 | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` | `66ff77cc1fe503aead977ed1eb16a22ce8e87762` | Integrated working draft; P-19 records unresolved per-node OS/build/boot/install/update/recovery profile |
+| Verifiable Architecture Contract 01 | `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` | `f294b90147a0bdbd992d025493aa2941ea8a4485` | Working contract; ARC-001…ARC-026 and V-01…V-19; not a new canonical baseline |
+| 13-cycle architecture audit | `docs/checkpoints/MEDIAHUB-OS-13-CYCLE-ARCHITECTURE-AUDIT-01.md` | `ec59b09306aaafd7fa86a67fd28c759d17d2b5b6` | Documentary source/contract audit; not runtime tests or qualification |
+| MH-24 traceability matrix (working branch) | `docs/checkpoints/mediahub-mh24-traceability-matrix.md` | `73377891072bac3c739c44055ceeb0874154f64c` | Reconciled status; implementation/qualification remain open |
+| B2 functional baseline | `docs/checkpoints/mediahub-functional-baseline-2.0.md` on `main` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Accepted canonical functional reference |
+| B1 functional baseline | `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` on `main` | `9df4892ed0734050ac79732603d15bb414717310` | Preserved historical literal source; not modified |
+| ASTRA generated current truth | `docs/qualification/CURRENT-TRUTH.generated.md` on `main` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | `NOT_PROVEN / BLOCKED` |
+| ASTRA 24-hour runbook | `docs/qualification/ASTRA-GOLD-24H-RUNBOOK.md` on `main` | `efb1c8af47578cbe14f8e788676d71ba4c665966` | Live three-node transport remains unqualified in the inspected evidence |
+
+### Corrections and interpretation
+
+1. **Nomenclature:** the latest owner-supplied concept is **Jarvis** (umbrella multi-agent engineering architecture). **ASTRA** remains a bounded engineering execution/queue/evidence subsystem candidate. **MediaHub** remains the product/domain plane. The legacy gap-report filename is retained for provenance and is not the canonical naming of the new umbrella.
+2. **Latest scope:** the gap report contains 19 scoped findings, five distinct owner-reported hardware roles, a repository/component review scorecard, a source-bound task envelope, and 13 blueprint-specific documentary review cycles. The latest follow-up adds the unresolved node-specific OS/build/boot/install/update/recovery profile gate.
+3. **Contract/passport:** Passport v3 records P-19; Contract 01 records ARC-026 and V-19. Neither is accepted as a new global baseline. These references supersede the earlier *current-pointer* values in §§20.32–20.34; the prior entries remain historical activity records.
+4. **Coverage limit:** the audited tree snapshot `58305d5a9a5b1593f15d2dfb0ff79838c1bddaec` contains 826 entries / 445 Markdown files. The work was a bounded semantic review of selected primary sources, not line-by-line semantic analysis of every repository file or all branches.
+5. **External candidate review:** current public-source spot checks on 2026-10-12 confirmed the candidate roles for Temporal, LangGraph, Microsoft Agent Framework, Pydantic AI and OpenHands, and the AutoGen repository’s maintenance-mode direction. They remain candidates/reference leads only; no framework was installed, benchmarked, selected as canonical or production-qualified. Repository/source URLs and limitations are in §12 of the gap report.
+6. **Preserved invariants:** B2 remains accepted; B1 remains historical and untouched; Product State Authority remains the only canonical authority for MediaHub product state; Home Assistant Core owns only Smart Home state; ASTRA/A0 workflow state is not Product State Authority; proposed HA/persistence targets do not replace MH-03’s single-node/in-memory foundation by implication; UI4-04 remains `HOLD / CROSS-LINK-ONLY`; Batch 04 remains a parent-level draft with 48 historical parent IDs and 41 `NOT_REVIEWED`.
+7. **No operational promotion:** no tests, qualification, soak, installation, deployment, live-host operation, infrastructure change, or merge into `main` was performed by this read-back/update.
+
+**Current disposition:** Jarvis gap reconciliation, Passport v3 and Contract 01 are the latest working documentary direction, not yet a fully accepted global contract. Independent review, explicit owner acceptance/change control, implementation, hardware profiles, component selection and runtime qualification remain separate gates.
