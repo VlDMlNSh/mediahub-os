@@ -928,3 +928,16 @@ Batch 04 закрывает структурный пробел в anchor covera
 Выполнено построчное разложение буквального B1 из `main` SHA `9df4892ed0734050ac79732603d15bb414717310` на **153 уникальных clause/control ID** для восьми разделов. Отдельно размечены буквальные source atoms и derived controls, в том числе discovery≠trust, точный порядок compatibility/offering, обязательность user confirmation, audit result, AI uncertainty/provenance, node qualification, provider fallback и cloud-failure continuity. Все 153 строки подтверждены повторным чтением файла; это структурный register, а не формальное доказательство полноты и не закрытие требований.
 
 Важные ограничения: все записи остаются OPEN; наличие Batch 04 anchor не означает atomicity, B2 acceptance, implementation или qualification. Exact visual language, energy/security automation categories, named MediaHub AI Gateway, Trusted Sources Intelligence Engine и AI Human Clone не найдены как точные именованные требования в просмотренных B2 clauses; owner/governance disposition остаётся открытым. Конфликт статуса MH-24 matrix не разрешён. Следующий шаг — независимая проверка экстракции 153 строк по буквальному B1, затем отдельное документальное предложение по нормализации Batch 04 (48, не 47; split compound records; маркировка derived controls).
+
+
+## 20.18 Independent validation of B1 clause-coverage Audit 01
+
+**Артефакт:** `docs/checkpoints/MH24-B1-SECTIONS-03-06-12-15-17-CLAUSE-COVERAGE-AUDIT-02.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `1cd7d02299591a43566aef078665e4c2efba0e75`  
+**Read-back blob SHA:** `8b1f02eb07e153be825e39ec7a0289b0105d6156`  
+**Статус:** `STRUCTURAL COUNT VERIFIED; SEMANTIC EXHAUSTIVENESS PARTIALLY VERIFIED / OPEN`.
+
+Повторно прочитаны literal B1 в `main` (SHA `9df4892ed0734050ac79732603d15bb414717310`), Audit 01 (SHA `d0938f14ed4110545118f075175dee3be412097b`) и Batch 04 (SHA `26163e6f60b44e997560212bf7de9900210b7ed3`). Подтверждены позиции восьми заголовков B1 и 153 уникальных ID Audit 01: §3 — 19, §4 — 19, §5 — 10, §6 — 29, §12 — 20, §15 — 18, §16 — 11, §17 — 27. Из них 143 строки не имеют D-кода, 10 явно помечены как derived controls.
+
+Проведена структурная сверка основных списков и смысловых групп с исходными строками B1. **Формальная полнота/взаимно-однозначное соответствие не доказаны**: один исходный список может раскладываться на несколько атомов, а одна запись может суммировать несколько грамматических элементов. Все статусы остаются OPEN; Baseline 1.0/2.0, matrix и Batch 04 не изменялись. Следующий безопасный шаг — подготовить отдельное предложение нормализации 48 исторических записей Batch 04 с явными source spans и split составных записей, без повышения статусов и без merge в `main`.
