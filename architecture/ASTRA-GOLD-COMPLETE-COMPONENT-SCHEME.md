@@ -145,7 +145,7 @@ All are REVIEW/QUALIFICATION candidates unless independently qualified.
 4. Claude Code + OmniRoute
 5. Claude Code direct/native
 
-23 fresh successful isolated rounds per path = 115 mandatory rounds.
+23 fresh successful isolated rounds per path = 115 mandatory rounds. These five combinations are qualification-test paths and do not replace the three permanent Claude production scheduler lanes.
 
 Per round:
 fresh command ID, exact source SHA, executor identity, provider/transport identity, isolated workspace, exit status, timeout, marker and schema-valid result.
@@ -156,7 +156,7 @@ Required:
 command contract, claim/lease, queue progress, duplicate suppression, heartbeat, result publication, stale-claim handling, worker restart, duplicate-controller rejection and replay idempotency.
 
 Concurrency:
-maximum 2 autonomous claims; claims disjoint; shared surfaces serialized.
+maximum 3 autonomous claims, matching the canonical governance contract, qualification schema, reference architecture and topology tests; claims disjoint; shared surfaces serialized.
 
 ## 15. Recovery
 
