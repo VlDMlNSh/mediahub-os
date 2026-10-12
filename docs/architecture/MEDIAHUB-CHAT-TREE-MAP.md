@@ -1099,3 +1099,18 @@ R01–R04 и R06 из Review 01 подтверждены как исправле
 В реестр добавлен §6, который ссылается на Product Owner Decision Record 01 и сохраняет первоначальные вопросы/safe defaults как историческую запись. Обновлён current disposition: GOV-MH24-01/04/11/12/13 имеют записанные решения в указанных границах; GOV-MH24-02/03/05/06/07/08/09/10/14 не закрыты этим addendum. Read-back подтвердил SHA `42bf34bfbea63b56344f41cd9199729f0e021356` и наличие таблицы решений.
 
 **Следующий шаг:** collision-check child-ID namespace и Audit 01 IDs; затем подготовить source-anchored crosswalk с 12 полями и индивидуальными B1/B2 mapping statuses; независимая документальная проверка до изменения canonical backlog/matrix. Baselines, canonical backlog и traceability matrix не менялись; final child IDs не присваивались; тесты/qualification, установка, deployment, инфраструктура/production и merge в `main` не выполнялись.
+
+
+## 20.28 Child-ID namespace collision check 01
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-CHILD-ID-COLLISION-CHECK-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `8dcd83862ce2ac51c758a88655b8ba9f4cec0e1c`  
+**Read-back blob SHA:** `d94be92abe9e5cc2da1540d65611bb1a5ed9644b`  
+**Статус:** `DOCUMENTARY COLLISION CHECK — PREFIX CLEAR IN REVIEWED INVENTORIES; FINAL CHILD IDs NOT MINTED`.
+
+Проверены Audit 01 (`d0938f14ed4110545118f075175dee3be412097b`), historical backlog (`26163e6f60b44e997560212bf7de9900210b7ed3`) и Proposal 02 (`7e737c8add9e3453062e9fc459790e7010e55689`). Из Audit 01 извлечены 153 уникальных table IDs, из таблиц backlog — 56 идентификаторов разных уровней; в обоих наборах не найдено ни одного ID с префиксом `MH24-B04-`. Образец `MH24-B04-SA4-02-a` не совпал с извлечёнными Audit 01/backlog IDs. 56 — число извлечённых table identifiers, а не число уникальных исторических parent IDs.
+
+**Ограничение:** это проверка пространства имён в трёх указанных артефактах, а не глобальная гарантия по всем веткам/репозиторию. Финальные child IDs не создавались: полную схему нужно повторно проверить на точные совпадения после сборки crosswalk. 48 исторических Batch 04 IDs остаются неизменными; 153 Audit 01 IDs не трактуются как 153 независимых literal requirements.
+
+**Следующий безопасный шаг:** сформировать source-anchored crosswalk с 12 утверждёнными полями и индивидуальными B1/B2 statuses, оставить UI4-04 в HOLD, закрыть применимые остаточные GOV-MH24 вопросы и провести независимый documentary review до обновления canonical backlog/matrix. Baselines, backlog и matrix не менялись; тесты/qualification, установка, deployment, инфраструктура/production и merge в `main` не выполнялись.
