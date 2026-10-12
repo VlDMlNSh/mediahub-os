@@ -935,3 +935,27 @@ P0-07 capability inventory is not a transaction API. The P0-07 boundary construc
 **Branch/source integrity:** documentation branch is DIVERGED from main, 469 commits ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase. Keep Baseline 1.0 and Baseline 2.0 separate.
 
 **Scope:** no tests, qualification runner, workflow dispatch/rerun, model/provider calls, credentials, runtime/host inspection, installation, infrastructure changes, migration, deployment or branch integration occurred. This is an evidence/readiness result, not executable qualification and it does not close any existing gap or introduce new IDs.
+
+## Section 42 — MH-13 durable-copy retention/deletion × MH-14 restore × MH-21 external retention crosswalk (2026-10-13)
+
+**Status:** DOCUMENTARY SOURCE CROSSWALK ONLY. No privacy, persistence, provider, implementation or qualification gate is closed.
+
+**Exact primary sources re-read:**
+- MH-13 Privacy / Data Governance, `main`, blob `e732ff9cacbc9c1189bd83306cdff30906326cf0`: RECONSTRUCTED / PROPOSED; header says acceptance NOT YET VERIFIED, Frozen NO, production implementation NOT AUTHORIZED. Retention periods and deletion/backup semantics remain UNKNOWN / REQUIRES VERIFICATION.
+- MH-13 Reconstruction Registers, `main`, blob `8c66fb49bbe011d8ef5dd78287c72efdad77a8fe`: exact taxonomy, classification, consent/data-subject model, residency, retention/deletion and backup semantics, provider guarantees, telemetry privacy, provenance and jurisdictional mapping remain unknown.
+- MH-13 Governance State, `main`, blob `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`, and reverse prompt blob `d590b6541870d3f77fbb1e48159b78d5d2f1f203`: governance accepts the artifact as a reconstruction only; historical original not recovered, fidelity partial/requires verification, not frozen, production implementation not authorized, CI/build qualification not verified.
+- MH-14 Acceptance Criteria, `main`, blob `364bb2a949e11f191b71a35af482f18de4ef2827`: not accepted/frozen; explicitly requires retention/deletion to satisfy MH-13 including durable copies, plus atomicity, crash/power-loss, authorized State Authority-mediated restore, verified backup, at least one real restore, corruption recovery, migration compatibility, security/privacy tests, hardware/OS evidence and separate implementation authorization.
+- MH-14 Persistence Architecture, `main`, blob `5e14084033f417722a1b04b5d5d47649dcfcda48`: architecture work in progress; physical persistence not authorized; WAL/journal, snapshots, backups, caches and derived copies must be considered where applicable; RPO/RTO remain TBD; no persistence technology selected.
+- MH-21 Data Retention, `main`, blob `8dfe3b619be593c3ec57948e350671895827ae8b`: PROPOSED; external transfers require records of data, purpose, destination, retention, deletion mechanism, provider responsibility, rights, audit and incident handling; provider deletion/training claims require current contractual evidence.
+- MH-21 Privacy Invariants, `main`, blob `4475da53dc87ad1c2ad1c9f112a55211cbfa49eb`: PROPOSED; classification precedes egress, purpose explicit, minimization/redaction, eligible destination/provider/region, defined retention and privacy-safe audit.
+
+**Cross-domain findings:**
+1. The accepted MH-13 governance state and the architecture/reconstruction-register headers are not semantically identical. This is not a contradiction about production authority: both sources explicitly deny freeze and production implementation authorization. Preserve the status-wording reconciliation as OPEN; do not rewrite protected source headers.
+2. Deletion cannot be qualified by a single logical-record delete claim. The architecture requires an explicit, evidence-backed disposition for WAL/journals, snapshots, backups, replicas, caches and derived copies where applicable. The sources do not establish specific retention durations, purge guarantees, legal-hold semantics, consent rules, residency, or restore-time reapplication of deletion/tombstones.
+3. Backup/restore remains within privacy obligations. A successful restore alone would not prove deletion compliance; acceptance needs a governed rule and evidence for what happens to deleted/expired/held data when restoring older snapshots/backups. This is a missing acceptance definition, not permission to invent behavior.
+4. External provider retention is independently unqualified until current contractual evidence is bound to the actual destination/provider/region and data category. No provider was contacted and no contract was inferred.
+5. MH-14 physical persistence remains NOT AUTHORIZED, MH-14 acceptance NOT YET ACCEPTED/FROZEN, MH-21 retention PROPOSED, MH-13 not frozen, and MH-22 production qualification remains NO-GO / NOT PROVEN.
+
+**Required owner/governance decisions before qualification can use these areas:** define or explicitly defer the applicable retention/deletion, durable-copy, legal-hold, consent, residency and restore-time semantics; identify the accountable decision owners; bind external-provider claims to current contracts; and separately authorize any physical persistence implementation and executable restore/deletion tests. This crosswalk makes no product/legal choice.
+
+**Scope:** read-only inspection of Git-backed documents. No tests, deletion, restore, migration, provider contact, runtime/host inspection, qualification runner, workflow dispatch/rerun, implementation, infrastructure change, deployment, merge or rebase. No stable IDs added and no gate promoted.
