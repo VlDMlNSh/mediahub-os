@@ -44,12 +44,21 @@ This checkpoint authorizes read-only architecture/evidence review and narrowly s
 - MH-23 specialized branch: architecture/mh-23-long-term-evolution; prior comparison recorded DIVERGED, 66 commits ahead and 1,640 behind main, merge base 6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18. These values are historical evidence and must be rechecked live.
 - MH-23 remains ARCHITECTURE WORK AUTHORIZED / NOT YET ACCEPTED / NOT FROZEN; its branch-specific package is not canonical on main merely because it exists.
 
+## Latest verified continuation — MH-23 dependency audit (2026-10-12)
+
+- Map section `20.96.1` records the read-only MH-23/MH-14/MH-15 dependency audit. Map blob SHA after read-back: `cb88ed175c1f3db658b48bb42d0f4a863ca808ca`; documentation branch commit: `ac8221b2e480c43df23f40aae9712c254fbe11b4`.
+- Live `main HEAD`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; live MH-23 branch HEAD: `f1cceb036275acc60c8806fbc98e5c08b1f8bbb3`; live compare remains DIVERGED, 66 ahead / 1,640 behind, merge base `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`.
+- MH-14 primary sources confirm physical persistence implementation NOT AUTHORIZED; State Authority remains canonical, recovery must submit a validated candidate, and reliability baseline is SINGLE NODE / NO HA. Acceptance gates remain open.
+- MH-15 primary sources confirm NOT ACCEPTED / NOT FROZEN and implementation authorization NONE; hardware/OS/network/security/recovery and qualification evidence remain largely UNKNOWN.
+- MH-23 migration smoke workflow `06f306f91158a8c2175319cf6dd5e507e043384b` is manual-only and asserts fixed SHA `6191a6f56892d4aeb1444d04420a3665b989b896`, while the checked-out target branch currently points to `cc8559da6ae4df749782a29ee4203d35ef6818fc`. Workflow was not dispatched; it is not current-target qualification evidence.
+- MH-23 remains ARCHITECTURE WORK AUTHORIZED / NOT ACCEPTED / NOT FROZEN. P0-07 remains blocked. No tests, workflow dispatch, migration, restore, host/runtime inspection, installation, infrastructure change, merge or cherry-pick was performed.
+
 ## Exact next action for /next
 
-1. Re-read bootstrap and map; check their live SHAs and the current main HEAD.
-2. Follow map section 20.96 / the prior MH-23 checkpoint rather than assuming the next domain from chat history.
-3. Continue the read-only MH-23 dependency audit using map-selected MH-14 Persistence and MH-15 OS/Appliance/Platform Lifecycle primary sources. Re-fetch the MH-23 branch master prompt, acceptance criteria, evidence register, dependency map, contradiction register and unknowns; verify exact SHAs and branch refs.
-4. Re-check main vs architecture/mh-23-long-term-evolution divergence and inspect relevant MH-14/MH-15/MH-16/MH-22 dependency claims. Resolve naming/scope only from primary governance sources; do not rename files, merge or cherry-pick.
-5. If a material confirmed fact is added, update only the map/checkpoint using current SHA preconditions, then re-fetch and verify both. Otherwise report the audit evidence and next safe step without claiming changes.
+1. Re-read bootstrap, map and this checkpoint from `docs/mediahub-chat-tree-map-20261012`; verify live blob SHAs and current `main HEAD`.
+2. Follow map section `20.96.1` and perform a read-only traceability review of MH-23 migration/rollback requirements against current-main MH-16 lifecycle/recovery and MH-22 qualification artifacts.
+3. Inspect only repository documents and existing CI metadata. For every claim, record exact path, ref, blob SHA, target commit, evidence freshness, status and missing gate.
+4. Do not dispatch the self-hosted migration workflow, run tests/qualification, perform migration/restore, inspect host/runtime, install software, change infrastructure, or merge/cherry-pick without separate explicit authorization.
+5. If new material facts are confirmed, update only the map/checkpoint with current SHA preconditions and verify both by GitHub read-back.
 
-Resume phrase: /next. The first action must always be to re-read the live bootstrap and map.
+Resume phrase: `/next`. Always begin by re-reading the live bootstrap and map.
