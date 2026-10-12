@@ -903,3 +903,28 @@ Batch 04 закрывает структурный пробел в anchor covera
 Для новых записей прочитаны Baseline 1.0/2.0, matrix, MH-10/MH-21/MH-17 на main и branch-specific MH-03/MH-04/MH-05/MH-09 источники. В карте сохранены точные refs/SHA и статусные оговорки: MH-04 остаётся PROPOSED / REVIEW COMPLETE; MH-05 — PROPOSED / GOVERNANCE REVIEW REQUIRED, implementation NOT AUTHORIZED; MH-09 acceptance NOT ACCEPTED. Наличие branch-specific документов не считается их принятием или синхронизацией в main.
 
 **Следующий шаг:** выполнить независимую проверку 48 записей, затем буквальный clause-level coverage audit восьми разделов и только после этого консолидировать Batch 01–04. Baselines и matrix не изменялись; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
+
+
+## 20.16 Independent review of Batch 04 atomic traceability backlog
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-INDEPENDENT-REVIEW-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `0b967ad9a040aa3f92c1f0562f0608fcc9d30e45`  
+**Read-back blob SHA:** `b31f2f3f1a2e4c594aeed38dc79a83974d2c44fa`  
+**Статус:** `INDEPENDENT REVIEW COMPLETE FOR 48 DECLARED IDS / CLAUSE-LEVEL COVERAGE PARTIAL / OPEN`.
+
+Повторное чтение подтвердило 48/48 уникальных ID Batch 04 для B1 §§3–6, 12, 15–17. В исходном Batch 04 есть подтверждённая ошибка подсчёта: заключительная строка говорит о 47 записях. Выявлены составные записи и смешение буквальных требований B1 с производными acceptance/security controls. B2 mapping остаётся частичным или NOT LOCATED для ряда конкретных деталей; это не решение об исключении требований и не доказательство реализации.
+
+Критические split/refine кандидаты: SA4-05, HA4-02, SH4-02/06, AUTO4-01/03, LAI4-05, CLAI4-02, CDAI4-02/07. Baselines, матрица и исходный backlog не изменялись; статусы не повышались; тесты/qualification, deployment, инфраструктурные действия и merge в `main` не выполнялись.
+
+## 20.17 Literal clause-coverage audit: B1 §§3–6, 12, 15–17
+
+**Артефакт:** `docs/checkpoints/MH24-B1-SECTIONS-03-06-12-15-17-CLAUSE-COVERAGE-AUDIT-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `2864fa53088c157895489344650c20d7519a01d7`  
+**Read-back blob SHA:** `2accb2de7311dfc2b6a10573df2d3d8b88535342`  
+**Статус:** `DOCUMENTARY AUDIT / OPEN — NO BASELINE OR GOVERNANCE CHANGE`.
+
+Выполнено построчное разложение буквального B1 из `main` SHA `9df4892ed0734050ac79732603d15bb414717310` на **153 уникальных clause/control ID** для восьми разделов. Отдельно размечены буквальные source atoms и derived controls, в том числе discovery≠trust, точный порядок compatibility/offering, обязательность user confirmation, audit result, AI uncertainty/provenance, node qualification, provider fallback и cloud-failure continuity. Все 153 строки подтверждены повторным чтением файла; это структурный register, а не формальное доказательство полноты и не закрытие требований.
+
+Важные ограничения: все записи остаются OPEN; наличие Batch 04 anchor не означает atomicity, B2 acceptance, implementation или qualification. Exact visual language, energy/security automation categories, named MediaHub AI Gateway, Trusted Sources Intelligence Engine и AI Human Clone не найдены как точные именованные требования в просмотренных B2 clauses; owner/governance disposition остаётся открытым. Конфликт статуса MH-24 matrix не разрешён. Следующий шаг — независимая проверка экстракции 153 строк по буквальному B1, затем отдельное документальное предложение по нормализации Batch 04 (48, не 47; split compound records; маркировка derived controls).
