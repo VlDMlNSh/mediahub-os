@@ -3592,3 +3592,13 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Next safe action:** update continuation checkpoint, then read back checkpoint, matrix and map from GitHub and verify exact live blob SHAs. Continue cross-domain work only after confirming these writes.
 
 - **Latest continuation checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `26cabb5337d18c3df2d438666951aa3a2e3cb4be`, blob SHA `034b6397a2731b83effe9d6b8f674ad9054562e8` (read-back verification pending).
+
+
+## 20.105 MH-06 / MH-10 / MH-17 / MH-20 / MH-22 cross-domain source crosswalk (2026-10-12)
+
+- **Unified matrix:** `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`; update commit `d98d6e1db48154022423233ecada3fb236982a93`, blob SHA `67016d93c34d7db705942436c7344eb0c13243c4` (read-back pending).
+- **Sources read from `main`:** MH-06 observability `a4c949d1ba21354d74f91cbb71864da3bbc13d36`; MH-10 AI authority `8ceeb14ea74dd4fd81b576d78fa1d8662ba616ef`, contradictions `681acf57e25133bc4a43a8089bb78811c6756141`, dependency map `ae3232ce8a560498c07d9fa31e211bf86c63fa1d`; MH-17 observability `9a14b7531969b7511a7052d5d1bda2295ff071e8`, offline-first `a1993d6c7b28dae63525ff202a30c055986c6170`, backpressure `9cc04e13088045302b86a5396605f504e9bc50de`, privacy `523f6aa94b2f3260d01a666548a6fcd7196ae706`, resource governance `7d4cdaaef9afd4c2a1d9e8cff2e1b7fe8f2567fd`; MH-20 status `473e3e199482c46988f3e6cffef2722a888eb637`, criteria `5f88b8a044c74d0c15313f0744f9227e5960ac87`, contradictions `3ed84580ced244c0449a5ea90b515bf3b967e74c`; MH-21 observability `a78b656f43d3deda4b7316be5d0120dca828966b`; MH-22.1 current production audit `3cbcccb1af7af42c967cd0639183988fbe580296`.
+- **Crosswalk IDs:** MH06-OBS-01, MH10-AUTH-01, MH10-CONFLICT-01, MH17-OBS-01, MH17-DEVICE-01, MH20-AUTO-01, MH20-CONFLICT-01, MH22-AUDIT-01.
+- **Confirmed:** observability is non-authoritative; AI and automation must share the Policy → Authorization → Consumer Boundary → State Authority mutation chain; MH-10/MH-21 ownership contradiction remains open; device queues/offline behavior/resource use require bounded contracts; MH-20 architecture decisions are accepted but not implemented; MH-22 current production audit remains NOT QUALIFIED / NO-GO with blockers MH22-B01…B06.
+- **No execution:** no tests, runtime inspection, security probes, provider/model calls, credentials, installation, infrastructure change, deployment, migration or merge occurred. Main HEAD observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 unchanged.
+- **Next safe action:** checkpoint the pass, then fetch matrix/map/checkpoint again and verify exact blob SHAs and cross-links before continuing.
