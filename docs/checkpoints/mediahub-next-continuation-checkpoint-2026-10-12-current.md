@@ -376,7 +376,7 @@ Resume with `/next`.
 - P0-05 accepted implementation `consumer_boundary.py` blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596`; acceptance record blob `ce027f31203d1b34ddf25e78b3cbbe232d80a74a`.
 - Finding: A is **NOT DEMONSTRATED** by the inspected source-bound path: P0-07 request carries one P0-07-scoped `AuthorizationContext`, and the operation boundary does not publish. This is not proof that no caller path exists elsewhere. No tests/runtime inspection performed.
 - Proposal-only fallback C created at `docs/checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md`, blob `c948ec2b777f96224048f1c762567532f0b15628`; create commit `8fd59c46ae872ab6ceda9184fa28dab83795679b`. NOT ACCEPTED / NOT FROZEN; implementation not authorized.
-- Matrix section 31 update commit `894400bfca13bd991ff47365118710b4eeca034a`, new blob `46036a7a2de6141a29ce25a03f1b3dd998617a40` (read-back required).
+- Matrix section 31 update commit `894400bfca13bd991ff47365118710b4eeca034a`, new blob `46036a7a2de6141a29ce25a03f1b3dd998617a40`; read-back confirmed that blob SHA and section 31 content.
 - P0-07 publication remains BLOCKED — GOVERNANCE/API GAP. If an existing-context path is proven, use A; if disproven, obtain governance disposition on C before any normative change.
 - No code/protected contract changed; no tests, qualification, credentials, runtime/host inspection, persistence, deployment, infrastructure change or branch integration.
-- Next: read back matrix/proposal, verify exact accepted P0-05 tree and P0-07 branch tree for a caller-supplied separate P0-04 context, then update map and verify all SHAs.
+- Read-back completed for bootstrap, map, checkpoint, matrix, unified contract, Baseline 2.0, Component Manifest 2.0, and proposal; map/checkpoint/matrix/proposal SHAs were rechecked. Next: inspect exact accepted P0-05 tree and P0-07 branch tree for a caller-supplied separate P0-04 context.
