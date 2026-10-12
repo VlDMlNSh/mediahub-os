@@ -3777,3 +3777,13 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Invariants:** P0-04 sole canonical mutation authority; P0-05 sole consumer boundary; P0-07 policy/capability gates cannot replace P0-04 authorization; no direct P0-04 call, capability translation/self-grant, second transaction/version authority or implicit bridge.
 - **Status:** P0-07 mutation publication BLOCKED; MH-12 C-01 REQUIRES VERIFICATION; C-02 BLOCKED. P0-03…P0-06 protected; no source contract edited. MH-14 physical persistence NOT AUTHORIZED; MH-22 production acceptance NOT GRANTED.
 - **Next safe action:** verify matrix/checkpoint/map read-back SHA and cross-links; then trace exact P0-03…P0-06 source refs and governance acceptance lineage to reconcile P0-05 provenance. No tests, code, qualification, workflow dispatch, migration, restore, deployment, infrastructure or branch integration.
+
+
+## 20.119 P0-05 accepted implementation lineage × contract-path mismatch (2026-10-12)
+
+- **Matrix:** section 30 records the live lineage findings and open verification gap.
+- **Acceptance:** governance record blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242` on `implementation/p0-05-consumer-boundary` records ACCEPTED / FROZEN at implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a`; persistence and production qualification excluded.
+- **Implementation lineage:** commit metadata for `303a766257b90c4356dcffc8967a5574e8e22e7a` identifies `runtime/mediahub_runtime/consumer_boundary.py`; entry-gate commit `72044cb03ca66c062a9a81e0edd60732ebb795ec` changes `docs/architecture/P0-05-implementation-entry-gate.md`.
+- **Path discrepancy:** `docs/architecture/P0-05-state-authority-consumer-contract.md` returned 404 on both `implementation/p0-05-consumer-boundary` and `architecture/p0-05-state-authority-integration-boundary`. DRAFT blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` therefore has no verified path/ref attribution in these branches. MH-05 contradiction register blob `7bdedb32c0d11e6c232bdd58256913bf6078e330` records C-001 requiring synchronization review.
+- **Status:** implementation acceptance historically recorded; exact normative contract blob for accepted tree REQUIRES VERIFICATION; fresh exact-SHA CI NOT VERIFIED; broader MH-05 architecture unaccepted; production qualification NOT GRANTED. P0-07 publication remains blocked by separate governance/API gap.
+- **Next safe action:** locate the DRAFT blob's actual path/ref, inspect the exact tree at `303a766257b90c4356dcffc8967a5574e8e22e7a`, and bind the contract revision to governance/evidence. No protected contract changed, no IDs added, no tests/workflows/qualification or branch integration.
