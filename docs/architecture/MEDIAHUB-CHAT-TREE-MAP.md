@@ -1154,3 +1154,58 @@ Mapping statuses намеренно консервативны: **4 MAPPED**, **
 Read-back review подтвердил: 48 строк, 48 уникальных исторических parent IDs, ровно 12 полей на строку, пустых ячеек нет; распределение parent-level mapping statuses — 4 `MAPPED`, 3 `NO_DIRECT_COUNTERPART`, 41 `NOT_REVIEWED`, 0 `CONFLICT`; `UI4-04` остаётся `HOLD / CROSS-LINK-ONLY`. Проверены SHA B1/B2 и исправление двух exact source anchors.
 
 **Ограничение:** review является структурной проверкой с ограниченной source-line spot-check, а не независимой семантической квалификацией всех атомов. Parent-level statuses не заменяют child-level mapping; доменные владельцы, canonical contracts, критерии приёмки, реальные evidence refs и оставшиеся GOV-MH24 decisions открыты. Canonical backlog, matrix и обе Baselines не изменялись; тесты/qualification, installation, deployment, infrastructure/production и merge в `main` не выполнялись.
+
+
+## 20.32 Integrated system passport v3, verifiable architecture contract 01, and 13-cycle audit
+
+**Session date:** 2026-10-12  
+**Working branch:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** integrated documentary draft; owner/governance acceptance is still required. No main merge or runtime qualification is implied.
+
+### 20.32.1 System Passport v3
+
+- **Path:** `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`
+- **Create commit:** `baa96c19813dacfa5e016d97ff96d5a9e65d8003`
+- **Read-back blob SHA:** `4eb96fa7a049c084870f29a57903848cb5fb92bf`
+- **Status:** `INTEGRATED WORKING DRAFT / NOT YET ACCEPTED AS A NEW BASELINE`.
+- **Coverage:** source hierarchy, authority boundaries, functional domain overview, hardware profile plan, network/data planes, component lifecycle, security/privacy invariants, qualification truth, open risks and acceptance checklist.
+- **Key restraint:** Mac mini, Mac Pro and later GPU nodes are future target profiles, not confirmed installed or qualified hardware. Passport does not replace B2 or edit B1.
+
+### 20.32.2 Verifiable Architecture Contract 01
+
+- **Path:** `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`
+- **Create commit:** `da054d320b808cbd7069e700d15a75175e9d7c8c`
+- **Latest documented update commit:** `8c34da9c8dff0ef8bece6dbb35bc58c6c8ccf4f2`
+- **Latest read-back blob SHA:** `69bfdcc76a2eb082cf6941d6ac8afbd0fa9ba2a5`
+- **Status:** `WORKING INTEGRATION CONTRACT / DRAFT — NOT A NEW CANONICAL BASELINE`.
+- **Verified structure:** 16 ARC requirements, verification matrix, scope/precedence rules, public interface contract fields, state/event rules, privacy boundary, stop rules and explicit open decisions.
+- **Clarifications incorporated:** explicitly accepted decision precedence; exact twelve-field normalization schema; preserved UI4-04 HOLD; 48 verified historical parents vs the older “47” description; ASTRA internal workflow state is not Product State Authority; HA/persistence target is not active runtime authority; hardware/component selections are not evidence of installation/qualification; current ASTRA state is NOT_PROVEN/BLOCKED; network plane separation is normative; repository-wide semantic completeness is not claimed.
+- **Latest iteration:** the contract was updated/read back through thirteen recorded documentation analysis/correction/re-analysis cycles. This is not thirteen runtime test or qualification executions.
+
+### 20.32.3 Thirteen-Cycle Architecture Audit
+
+- **Path:** `docs/checkpoints/MEDIAHUB-OS-13-CYCLE-ARCHITECTURE-AUDIT-01.md`
+- **Create commit:** `4d2f1de37c3ca1e11b99d2a1b173318268c9b4b1`
+- **Read-back blob SHA:** `ec59b09306aaafd7fa86a67fd28c759d17d2b5b6`
+- **Verification:** read-back confirms 13 numbered cycle rows and six report sections.
+- **Bounded coverage statement:** repository tree snapshot commit `58305d5a9a5b1593f15d2dfb0ff79838c1bddaec` had 826 entries, including 445 Markdown files. The semantic pass focused on baselines, key domain/security/runtime contracts, traceability and ASTRA qualification sources; every line of every repo document was not semantically reviewed.
+
+### 20.32.4 Companion corrections read back
+
+| Artifact | Ref | Latest read-back blob SHA | Disposition |
+|---|---|---|---|
+| MH-24 traceability matrix | `docs/mediahub-chat-tree-map-20261012` | `73377891072bac3c739c44055ceeb0874154f64c` | Stale `RECONCILIATION CANDIDATE` label corrected; implementation/qualification remains open |
+| ASTRA launch schema | `docs/mediahub-chat-tree-map-20261012` | `0b86b07dfa916d4485ce1f8f54d19de136d98491` | Comment scopes A0 state to ASTRA workflow/control state; machine value unchanged |
+| ASTRA qualification blueprint | `docs/mediahub-chat-tree-map-20261012` | `9f199ba8e872d5ae188fcdac9635a53f16973534` | Same semantic scope clarification; role values unchanged |
+| ASTRA executor capability matrix | `docs/mediahub-chat-tree-map-20261012` | `9ad83781a8da53d1a8f540ede54eba95281f01c0` | Ambiguous “coordination/state” wording replaced with “ASTRA workflow/control state” |
+
+### 20.32.5 Canonical and qualification state retained
+
+- B2 remains the accepted current functional baseline on `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; B1 remains untouched historical provenance, SHA `9df4892ed0734050ac79732603d15bb414717310`.
+- MH-24 reconciliation report still records acceptance/closure of B2, SHA `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`.
+- Current generated ASTRA truth on `main` remains `NOT_PROVEN / BLOCKED`, SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`. Live three-node transport remains unqualified per runbook SHA `efb1c8af47578cbe14f8e788676d71ba4c665966`.
+- Batch 04 crosswalk remains a parent-level documentary draft: 48 parents; 4 `MAPPED`, 3 `NO_DIRECT_COUNTERPART`, 41 `NOT_REVIEWED`, 0 `CONFLICT`; atom-level semantic mapping and canonical backlog promotion remain open. UI4-04 remains `HOLD / CROSS-LINK-ONLY`.
+
+### 20.32.6 Safe-next-step and action boundary
+
+Continue with source-anchored atom-level mapping and owner/governance dispositions; update the crosswalk only after exact anchors and semantic matches are verified; obtain independent review and explicit owner acceptance before replacing draft status. Do not edit B1/B2, run tests/qualification, install software, touch live infrastructure, deploy or merge to `main` without the corresponding authorization. In this session, no tests/qualification/deployment were run and `main` was not modified.
