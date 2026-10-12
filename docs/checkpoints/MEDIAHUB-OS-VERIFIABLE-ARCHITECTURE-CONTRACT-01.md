@@ -228,6 +228,16 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** the release manifest identifies the exact node/profile OS and runtime constraints; model/architecture compatibility, support and security-update status, drivers, boot/install path, update/recovery image and rollback are source-backed and qualified for that profile. An unpinned profile blocks release packaging/admission.
 
+### ARC-027 — physical asset identity and active role allocation is explicit
+
+**Source conflict:** the owner blueprint assigns the purchased Mac Pro to the developer environment as the primary workstation and also describes a future production target based on Mac Pro + Mac mini. The current source does not establish whether the production Mac Pro is a separate physical asset or the same unit at a later point in time.
+
+**Rule:** each physical node has a unique project inventory/profile identity (do not publish serial numbers in general project documents), exact model/configuration, trust domain, data/credential scope and active deployment role. Do not assign the same physical Mac Pro concurrently as both the primary developer workstation and a production/customer node by inference. If they are separate units, maintain separate profile records. If they are the same unit at different times, require an explicit owner-approved role transition, a replacement developer-workstation plan, developer credential revocation/rotation and data-boundary cleanup, an approved clean deployment profile, recovery/rollback path and exact release-manifest evidence before production admission.
+
+**Acceptance:** the owner-confirmed inventory and deployment manifest resolve same asset versus separate asset; the role/trust domain is unambiguous; any transition has approval, replacement capacity, credential/data separation, restore/rollback and post-deploy evidence bound to the release SHA. Until then the affected production profile is BLOCKED / ASSET ALLOCATION REQUIRED.
+
+**Sources:** owner-provided Jarvis blueprint (2026-10-12); gap reconciliation §17 / AG-20, current blob SHA 8495c9436b967bd77afae57ccb1e42959ab86a56; Passport v3 / P-20, current blob SHA 9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d.
+
 **Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `b25931bf6b88936c110dff6a3217d5edea2fed35`; Jarvis gap reconciliation current SHA `406e33a480d195915f7ab8963836066988ee2fd0`.
 
 
@@ -294,6 +304,7 @@ Every component contract admitted to implementation MUST declare:
 | V-17 | MH-01…MH-23 context packets remain traceable to primary sources | global/domain packet inventory with current refs/SHA and read-back status | Design requirement; packet mechanism not implemented |
 | V-18 | Audit coverage is accurately represented | exact tree/source set, per-file review state and open findings | Bounded review only; whole-repository semantic completion not claimed |
 | V-19 | Every target node has an explicit and compatible OS/boot/install/update/recovery profile | B2 §9 + per-node hardware manifest + supported-platform and rollback evidence | OPEN — profile decision and qualification not provided |
+| V-20 | Developer and production Mac Pro asset allocation is explicit | Owner-confirmed inventory + release/deployment manifest or approved role-transfer record; trust/credential, replacement, recovery and rollback evidence | OPEN — source text does not identify same vs separate physical unit |
 
 ## 5. Definition of contract conformance
 
@@ -335,6 +346,7 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 14. Define the immutable, reproducible deployment bundle, per-profile preflight, health, backup/restore and rollback acceptance evidence.
 15. Reconcile the owner’s late-October planning window with real gate evidence; do not transform the calendar intent into a release commitment.
 16. Pin per-node OS/build/boot/install/update/recovery profiles under ARC-026; the named Apple hardware does not settle the OS choice.
+17. Resolve AG-20/P-20 and ARC-027/V-20: explicitly distinguish the developer Mac Pro from the future production Mac Pro, or approve and evidence a safe role transition.
 
 ## 8. Change history
 
@@ -352,3 +364,5 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 
 - 2026-10-12 — Added ARC-026 / V-19 for target OS and install/recovery profile pinning based on B2 §9; updated the current Passport v3 and gap-report blob references. This is an additional source finding after the recorded 13 cycles, not a runtime test or qualification.
 - 2026-10-12 — refreshed current source pointers after the read-only GitHub metadata snapshot in the Jarvis gap report (§16): Passport v3 `b25931bf6b88936c110dff6a3217d5edea2fed35`; gap report `406e33a480d195915f7ab8963836066988ee2fd0`. Earlier change-history entries retain the SHA used at their time; no baseline or runtime changed.
+
+- 2026-10-12 — added ARC-027 / V-20 for the unresolved physical-asset identity and role allocation between the developer Mac Pro and the future production Mac Pro. This is a documentary follow-up after the recorded 13 cycles; release admission remains blocked until evidence resolves same-vs-separate asset.
