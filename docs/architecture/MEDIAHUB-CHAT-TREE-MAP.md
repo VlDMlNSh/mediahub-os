@@ -1233,3 +1233,15 @@ External public repo desk review recorded as candidates / not selected: Temporal
 
 **Important non-actions:** B1 and B2 are unchanged; corrected matrix and new work stay in the document branch; main was not changed or merged. No tests, ASTRA qualification, 24-hour soak, installation, deployment, production/infrastructure actions, or live host operations were run. Current ASTRA truth remains NOT_PROVEN / BLOCKED in the inspected source. Whole-repository line-by-line semantic completeness is not claimed.
 
+
+
+## 20.34 Verifiable architecture contract source-reference correction
+
+**Артефакт:** `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`  
+**Update commit:** 1abc5acc0626a1d4cfabf8b726b66cb162f33853  
+**Read-back blob SHA:** 65b4d999c871d0e17bc4ab949a42a9e4424cf93e  
+**Статус:** working draft; provenance-only correction.
+
+В двух source/change-history ссылках Contract 01 заменён первоначальный blob SHA gap report `74f87eeaf96c5cf87d6fc24421df5baeefebcaed` на последнюю повторно прочитанную версию `b3da08564ae5f5877dcbc696f9a561874b1d134c`. Read-back подтвердил ноль старых ссылок и ровно две ссылки на текущий blob report. Ни одно нормативное правило, Baseline 1.0/2.0, machine-readable authority value, qualification gate или runtime не менялся.
+
+**Проверка:** Contract 01 fetched from `docs/mediahub-chat-tree-map-20261012`; exact content SHA `65b4d999c871d0e17bc4ab949a42a9e4424cf93e`. `main` не менялся; тесты, установка, qualification, deployment и live-host actions не выполнялись.
