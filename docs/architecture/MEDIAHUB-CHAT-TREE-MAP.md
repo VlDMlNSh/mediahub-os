@@ -3815,3 +3815,10 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Traceability matrix:** [Unified System Traceability Matrix v0.1](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), section 33, updated blob `dc62fbeb2f53222ced21a5d43a5e31a39b60e99e`.
 - **Continuation checkpoint:** [Current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), updated blob `e766399656e55d41680af0ab33956c053fcc9c1a` (final read-back verified).
 - **Next safe step:** read back changed artifacts and verify SHAs/cross-links, then obtain explicit owner/governance disposition on whether the existing acceptance record covered the DRAFT contract text and decisions D1–D7. P0-07 mutation publication remains BLOCKED — GOVERNANCE/API GAP.
+
+
+## 16. Owner decision register — 2026-10-12
+
+The owner has answered the 24-question architecture/governance questionnaire. The full traceable record is `docs/checkpoints/mediahub-owner-decisions-2026-10-12.md` (documentation branch `docs/mediahub-chat-tree-map-20261012`). These selections establish working rules and conditional resolution paths; they do not resolve the technical P0-05 D1–D7 questions, accept/freeze P0-05 v1.1, authorize implementation or unblock P0-07.
+
+Key current consequence: for P0-05 status, verify whether acceptance evidence covers the exact normative contract text before changing its status; if it does not, route a controlled governance revision. For P0-07, inspect the existing path first and propose a governed extension only if no compliant path is evidenced. Keep dependent mutation/publication blocked until the exact contract and authorization chain are accepted. See the decision register for all 24 selections and limits.
