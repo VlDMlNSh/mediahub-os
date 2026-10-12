@@ -5,7 +5,7 @@
 - **Status:** WORKING INTEGRATION CONTRACT / DRAFT — NOT A NEW CANONICAL BASELINE
 - **Use:** operative review/checklist for documentation and architecture work on this branch, subject to the source precedence and gates below.
 - **Not a grant of authority:** does not replace Baseline 2.0, alter Baseline 1.0, approve pending domain contracts, authorize implementation/deployment, or imply qualification/production acceptance.
-- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `da0bd106c5477738c4187cb45c268538e6cf7963`.
+- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `b25931bf6b88936c110dff6a3217d5edea2fed35`.
 - **Rule of evidence:** claim → source path → ref → blob SHA → exact scope/status → acceptance/evidence required → independent read-back.
 
 - **Current terminology:** the latest owner-provided umbrella name is **Jarvis**; an earlier same-day draft used “Astro”. Jarvis supersedes that draft label. The existing gap-report filename retains `ASTRO` for reference lineage; this does not rename ASTRA or assert deployed functionality.
@@ -166,7 +166,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** architecture diagrams, prompts and contracts explicitly distinguish Jarvis (umbrella), Astra (bounded engineering subsystem), MediaHub State Authority (product/platform state), and Home Assistant Core (Smart Home-domain authority). An ambiguity blocks the dependent task.
 
-**Sources:** owner blueprint / branch gap reconciliation blob SHA b65ddaa2c91b18265cffd7be55fdefc7a0877db5; B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; ASTRA launch schema SHA 0b86b07dfa916d4485ce1f8f54d19de136d98491.
+**Sources:** owner blueprint / branch gap reconciliation blob SHA 406e33a480d195915f7ab8963836066988ee2fd0; B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; ASTRA launch schema SHA 0b86b07dfa916d4485ce1f8f54d19de136d98491.
 
 ### ARC-018 — one owner for engineering task lifecycle
 
@@ -228,7 +228,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** the release manifest identifies the exact node/profile OS and runtime constraints; model/architecture compatibility, support and security-update status, drivers, boot/install path, update/recovery image and rollback are source-backed and qualified for that profile. An unpinned profile blocks release packaging/admission.
 
-**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `da0bd106c5477738c4187cb45c268538e6cf7963`; Jarvis gap reconciliation current SHA `b65ddaa2c91b18265cffd7be55fdefc7a0877db5`.
+**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `b25931bf6b88936c110dff6a3217d5edea2fed35`; Jarvis gap reconciliation current SHA `406e33a480d195915f7ab8963836066988ee2fd0`.
 
 
 ## 3. Cross-domain system contract
@@ -351,3 +351,4 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 - 2026-10-12 — Normalized the current owner-provided umbrella name to Jarvis (superseding the prior working label Astro), refreshed the gap-report blob reference and pinned the latest read-back passport blob. The legacy gap-report path remains unchanged for provenance.
 
 - 2026-10-12 — Added ARC-026 / V-19 for target OS and install/recovery profile pinning based on B2 §9; updated the current Passport v3 and gap-report blob references. This is an additional source finding after the recorded 13 cycles, not a runtime test or qualification.
+- 2026-10-12 — refreshed current source pointers after the read-only GitHub metadata snapshot in the Jarvis gap report (§16): Passport v3 `b25931bf6b88936c110dff6a3217d5edea2fed35`; gap report `406e33a480d195915f7ab8963836066988ee2fd0`. Earlier change-history entries retain the SHA used at their time; no baseline or runtime changed.
