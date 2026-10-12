@@ -745,3 +745,18 @@ Owner decision: attempt option A (reuse an already independently P0-04-authorize
 - Conditional option C: proposal recorded only; the accepted/frozen P0-05 contract and implementation remain unchanged until controlled governance acceptance.
 - P0-07 mutation publication remains **BLOCKED — GOVERNANCE/API GAP**.
 - No new historical IDs were assigned; no existing IDs were renamed. No tests, workflows, qualification, runtime/host inspection, persistence, deployment, or branch integration performed.
+
+## 32. P0-07 tree audit — option A disposition and conditional option C review path (2026-10-12)
+
+| Trace ID | Exact source/tree evidence | Verified finding | Status / required next evidence |
+|---|---|---|---|
+| P007-AUTHCTX-03 | Accepted P0-05 implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a`; exact commit tree `82da63f03da20049954fe69257342cbf66b58395`; contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` at `docs/architecture/P0-05-consumer-contract.md` | Exact tree includes P0-05 contract but it explicitly says `DRAFT — GOVERNANCE REVIEW REQUIRED`. The separate governance acceptance record blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242` records ACCEPTED/FROZEN for the implementation commit. | Source-status discrepancy CONFIRMED. Do not treat DRAFT contract text as accepted normative contract without controlled governance resolution. |
+| P007-AUTHCTX-04 | P0-07 reconciled tree `751659fbfe546a5cabd5d8c3f3110af05c2ef582`; operations blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`; authorization blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`; adapter contract blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88` | P0-07 operation boundary only validates/authorizes/evaluates and returns a decision. It does not call P0-05, and the inspected tree contains no implemented P0-07 mutation adapter. The adapter contract explicitly says the existing-context hand-off is not present and blocks mutation publication. | Option A NOT AVAILABLE AS AN IMPLEMENTED END-TO-END PATH IN THE INSPECTED TREE. Scope is limited to the inspected tree; no claim about unrepresented external callers. |
+| P007-P005-C-02 | Updated proposal `docs/checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md`, blob `1f99b8d13066ea21233affbd4057ad50fcd4d256`; owner instruction in chat on 2026-10-12 selects A first, then C if A fails | Conditional transition to C review path is activated because the inspected P0-07 tree has no implemented A caller/adapter. | NEXT GOVERNANCE REVIEW PATH only. No normative contract accepted/frozen; no implementation authorized. Governance must resolve DRAFT-vs-acceptance-record discrepancy and approve exact candidate revision. |
+
+### Updated disposition
+
+- A: **NOT AVAILABLE AS AN IMPLEMENTED END-TO-END PATH IN THE INSPECTED P0-07 TREE**.
+- C: **NEXT GOVERNANCE REVIEW PATH / PROPOSAL ONLY / NOT ACCEPTED / NOT FROZEN**.
+- P0-07 mutation publication remains **BLOCKED — GOVERNANCE/API GAP**.
+- No stable historical IDs were renamed or reused. No tests, workflows, qualification, runtime/host inspection, code changes, protected contract edits, deployment, persistence, or branch integration were performed.
