@@ -288,3 +288,18 @@ The accepted B2 document (`docs/checkpoints/mediahub-functional-baseline-2.0.md`
 **Safe contract:** maintain separate inventory/profile records for the developer workstation and the production target. If they are different physical machines, the asset records must prove that distinction. If they are the same machine at different times, require an explicit role-transfer decision, a replacement developer-workstation plan, removal of developer/customer credential crossover, a clean deployment profile, and an approved recovery/rollback path before promotion. No serial numbers, hostnames or model names alone prove qualification.
 
 **Evidence required to close:** owner-confirmed asset allocation; exact model/year/CPU/architecture/RAM/storage/OS for each profile; designated trust domain and allowed data/secrets; approved role transition if applicable; release manifest and post-deployment evidence bound to the exact package SHA/profile. No host was inspected or changed as part of this documentary finding. The recorded 13 cycles remain the earlier scoped review ledger; AG-20 is a subsequent follow-up, not an added runtime test or retroactively counted cycle.
+
+
+## 18. Follow-up finding: B1 §15 document-assistance mapping points to the wrong B2 section
+
+**Finding AG-21 — OPEN / TRACEABILITY CORRECTION REQUIRED.** A direct read-back of the immutable B2 source at `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, confirms that §16 is “Documents and Knowledge”, §18 is “AI architecture”, and §19 is “Update / Recovery / Migration”. Audit 01, `docs/checkpoints/MH24-B1-SECTIONS-03-06-12-15-17-CLAUSE-COVERAGE-AUDIT-01.md`, blob SHA `d0938f14ed4110545118f075175dee3be412097b`, currently maps B1 atom `B1-15-13` (“Assist with documents”, B1 §15 line 246) to B2 §19. That section reference is incorrect for document assistance. The correct review target is B2 §§16/18.
+
+**Classification:** confirmed cross-reference / traceability defect in a derived audit pointer; **not** evidence of a semantic contradiction between B1 and B2. B1 remains the immutable literal source for its edition; B2 remains the accepted current functional reference. Do not rewrite the historical Audit 01 artifact or infer implementation from this correction.
+
+**Controlled correction:** the working atom-level crosswalk `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-06-DRAFT.md`, blob SHA `9df96aca53d1004c33d45f038501dc6b7f52c0c9`, uses B2 §§16/18 and explicitly records the historical Audit 01 mismatch. Its review `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-06-REVIEW-01.md`, blob SHA `1edc976dd663ae16a1b61876a2dbbde9411be095`, confirms the B2 heading names and the correction. Both are documentary drafts; semantic acceptance remains OPEN.
+
+**Required disposition:** preserve Audit 01 as history; correct current derivative references when those derivative artifacts are next approved/maintained; include this mismatch in source-pointer validation so a future crosswalk does not propagate it. Do not promote the associated requirement mapping or acceptance criteria based solely on a corrected section number.
+
+**Cycle accounting:** AG-21 is a post-cycle source-reference follow-up. It does not increase or rewrite the recorded 13 blueprint-specific documentary cycles and is not a runtime test, qualification, or production evidence.
+
+**Boundaries:** no B1/B2, main-branch matrix, canonical backlog, runtime, infrastructure or hardware was changed or operated. No test, qualification, installation, deployment, host action or merge occurred.
