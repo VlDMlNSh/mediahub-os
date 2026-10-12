@@ -2279,3 +2279,31 @@ No edits to the draft, Review 01, B1, B2, owner decision record, semantic audit,
 - No branch was merged or modified. No qualification, tests, installation, deployment or infrastructure operation was run.
 
 **Next safe action:** verify the current live state of qualification queue reference `issue-114` and whether its pinned target commit/tree still matches the V2 branch before considering any further qualification action. Do not enqueue a duplicate request or rerun qualification while a pending run may exist. Keep MH-01 PARTIALLY_CLOSED until a fresh, revision-bound qualification result and explicit governance closure are evidenced.
+
+## 20.72 MH-01 queue-reference correction — canonical issue #139
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** CANONICAL CHAT QUEUE IDENTIFIED / QUALIFICATION NOT EXECUTED / REQUEST JSON REFERENCE INCONSISTENT
+
+### Live queue and handoff evidence
+
+| Source | Live evidence | Result |
+|---|---|---|
+| General Astra GOLD issue #114 | `GET /repos/VlDMlNSh/mediahub-os/issues/114`; state OPEN; updated `2026-09-30T20:29:37Z` | Latest comment explicitly says MH-1 has its dedicated queue item in issue #139 and must not be selected from general queue #114 |
+| Dedicated MH-1 queue issue #139 | `GET /repos/VlDMlNSh/mediahub-os/issues/139`; state OPEN; updated `2026-09-30T20:29:44Z` | `READY_FOR_AUTONOMOUS_QUALIFICATION`; qualification `QUEUED / NOT YET EXECUTED`; canonical handoff PR #138; production not authorized |
+| Canonical handoff PR #138 | `GET /repos/VlDMlNSh/mediahub-os/pulls/138`; OPEN, draft=true, not merged; base `main` at `9fe8eae54aeb4d033ba45e1e2a676fd1c81cefa6`; head `e9d921de64e545c579d60ab70e69954b33a89049` | Correct dedicated MH-1 handoff; no merge or qualification action taken |
+| PR #138 commit sequence | `bf20e2cd7f1f2b9aac7c8fc501dfeb0017162db1` → `816787335cad4b84c1cb8f08a2acb5f54b245a9a` → `e9d921de64e545c579d60ab70e69954b33a89049` | Pinned qualification target is the second commit, before the queue-request commit |
+| Qualification target commit | `816787335cad4b84c1cb8f08a2acb5f54b245a9a`; tree `d711ff94a57a0e10f23ef2dda440d66119ac6aa1` | Exact target exists and matches issue #139 / PR #138; tree response was complete, 602 entries, not truncated |
+| Request JSON | V2 `qualification/mh01-chat-qualification-2026-09-30.json`; blob SHA `25a14bc31552c594b718901d48856a690f11f579` | Correctly pins target SHA/tree, but its `queue_reference` still says `issue-114`, now contradicted by the explicit supersession comments and dedicated issue #139 |
+
+### Reconciliation / safe disposition
+
+- Correct the routing interpretation: **MH-01 chat qualification belongs to issue #139 and handoff PR #138, not general Astra GOLD queue #114.**
+- Preserve issue #114's history. Its latest comment supersedes it only as the MH-1 queue location; it remains the general Astra GOLD queue for its own scope.
+- The target commit/tree binding itself is internally consistent across issue #139, PR #138 and the actual GitHub commit/tree. The current PR head is later because it adds the queue-request JSON; do not silently substitute the PR head as qualification target.
+- The request JSON's `queue_reference=issue-114` is a live documentary inconsistency. Do not edit the request or start/requeue qualification without following the project's governance/authorization path; no duplicate run should be created.
+- Issue #139 remains OPEN and says NOT YET EXECUTED. No fresh qualification result or closure artifact was found in the checks performed here. MH-01 remains PARTIALLY_CLOSED.
+- No issue, PR, branch, queue, runtime or infrastructure was changed. No qualification/tests/installation/deployment were run; no merge was performed.
+
+**Next safe action:** inspect the existing qualification evidence/closure artifacts and issue #139 activity for a later fresh result. If no result exists, record the request-reference mismatch as an explicit governance/evidence gap and obtain authorization before changing the queue JSON or triggering any execution.
