@@ -1999,3 +1999,48 @@ This checkpoint reconciles the working pointer chain through B1 §21; it **does 
 
 **Next safe step:** proceed with evidence-led MH-01…MH-25 map restoration and the next sequential B1 §22 source inventory only after a fresh live-map and branch/path check. Do not create Batch 13 or promote any crosswalk by inference.
 
+## 20.64 Batch 10 duplicate-path reconciliation and latest continuation disposition
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** DUPLICATE PATH EXPLICITLY DISAMBIGUATED / MAP POINTERS READ-BACK VERIFIED — FULL MH MAP OPEN
+
+### Active Batch 10 working record
+
+| Artifact | Path | Verified blob SHA | Status |
+|---|---|---|---|
+| Batch 10 AI Human Clone draft | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-10-AI-HUMAN-CLONE-DRAFT.md` | `44b9369fea0be06e4e64f2052fd49f6d493f6603` | Established 19-label provisional crosswalk for B1 §19; retains lineage to B1 §17 / `CDAI4-02 / B1-17-05` |
+| Batch 10 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-10-AI-HUMAN-CLONE-REVIEW-01.md` | `36148379d7d1e39252bd918ad17772036cf0d972` | Bounded structural/source-anchor/status consistency PASS |
+| Batch 10 Review 02 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-10-AI-HUMAN-CLONE-REVIEW-02.md` | `612162b164b7d2585fa9646871839274cec5a343` | Bounded semantic consistency PASS; full semantic/owner acceptance OPEN |
+
+**Active Batch 10 distribution:** 19 provisional labels; **5 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT**. The labels remain provisional, and the clone-specific subsystem contract, owner acceptance, implementation and qualification are not established.
+
+### Parallel path retained as non-authoritative provenance
+
+During continuation, an alternative path was created before the established Batch 10 filename was discovered:
+
+| Non-authoritative artifact | Current blob SHA | Latest commit | Disposition |
+|---|---|---|---|
+| `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-10-DRAFT.md` | `af5d179698c1709b04c6c540bf379df07aa169ed` | `43a58f96f0bcd0848dac47ac0fa06fb35a4ff7d9` | Appended an explicit non-authoritative duplicate notice; preserves its 15 provisional AHC-01…AHC-15 labels as provenance only |
+| `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-10-REVIEW-01.md` | `a9b00ac890f15813e604a405de2438d7b2c70fd8` | `a279cc4fc4c78ee150eea92c0f9d7b6ebfc8ce84` | Appended a non-authoritative duplicate-review notice; not the active Batch 10 Review 01 |
+
+Do **not** merge, count, promote, or use those parallel labels/statuses as the active Batch 10 crosswalk. The established working set is the differently named `BATCH-10-AI-HUMAN-CLONE-DRAFT.md` and Reviews 01/02 above. Neither established artifact was overwritten or deleted. This disambiguation does not authorize stable child IDs or canonical-backlog promotion.
+
+### Refreshed synthesis/continuation pointers
+
+| Artifact | Path | Read-back blob SHA | Status |
+|---|---|---|---|
+| System Passport v3 | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` | `3cabf4d68d19423ac4bf21b09f3483783155cf20` | Working draft; P-24 tracks Batch 10 and P-25/P-26 track B1 §§20–21; not a new accepted baseline |
+| Verifiable Architecture Contract 01 | `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` | `2396488e4538ce4ea7448a666c55a39739f07587` | Working draft; 33 ARC / 26 checks; global acceptance OPEN |
+| Jarvis Master Prompt 01 | `docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md` | `5d3f772f3eeb26812c732d73a61b23e90ae27bc1` | Current working context/source pointers through Batch 12 Review 02 |
+| Chat Continuation Master Prompt 01 | `docs/checkpoints/MEDIAHUB-CHAT-CONTINUATION-MASTER-PROMPT-01.md` | `64678c01b353453537912a13e6b058678b5c68db` | Records the duplicate-path correction and current Batch 10 working set |
+
+### Confirmed sequence and limits
+
+- Batches 07–12 now cover B1 §§16–21, subject to their recorded per-row OPEN semantics/gates. Batch 07 §16: 11 labels / 1-9-1-0; Batch 08 §17: 27 labels / 10-15-2-0; Batch 09 §18: 17 labels / 3-13-1-0; Batch 10 §19: 19 labels / 5-13-1-0; Batch 11 §20: 9 labels / 4-5-0-0; Batch 12 §21: 6 labels / 4-2-0-0. Status order is MAPPED / NOT_REVIEWED / NO_DIRECT_COUNTERPART / CONFLICT.
+- The next sequential uncovered source section is B1 §22 (iPhone Media / AirPlay 4K). Existing semantic Audit Batch 03 already records a high-level `IPHONE-AIRPLAY-4K-01` finding, so any supplemental crosswalk must preserve it and check for an existing §22 working crosswalk before creation.
+- The working map previously advertised B1 §16 as the next section in the historical §20.62 record; that pointer is superseded by the later §20.63/§20.64 read-back chain. Preserve historical wording but use the latest map state for routing.
+- B1 `main` SHA `9df4892ed0734050ac79732603d15bb414717310`, B2 `main` SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, matrix `73377891072bac3c739c44055ceeb0874154f64c`, canonical backlog and `main` remain unchanged. No tests, qualification, installation, deployment, live-host/infrastructure action or merge occurred.
+
+**Next safe step:** continue evidence-led MH-01…MH-25 map restoration and inspect B1 §22 paths/anchors and candidate crosswalk names before creating anything. Passport v3 / Contract 01 remain integrated working drafts; no global semantic completeness or production readiness is claimed.
+
