@@ -953,3 +953,21 @@ Batch 04 закрывает структурный пробел в anchor covera
 Создано предложение нормализации всех 48 исторических ID Batch 04 с сохранением provenance. Для каждой записи указаны B1 source spans и предлагаемое действие: retain, split, reframe, cross-link либо reclassify derived control. Приоритетные составные записи SA4-05, HA4-02, SH4-02/06, AUTO4-01/03, LAI4-05, CLAI4-02 и CDAI4-02/07 разложены на предварительные дочерние атомы. Derived controls отделены от буквального B1 текста.
 
 Повторное чтение proposal подтвердило 48 строк исторических ID и статус OPEN / NOT APPROVED. Это предложение, а не canonical backlog: child-ID suffixes предварительны, пересечения требуют owner/governance review, а 153 ID Audit 01 не объявлены 153 независимыми literal requirements. Batch 04, Baseline 1.0/2.0 и matrix не изменялись. Следующий шаг — review с владельцами; нормализованный backlog создавать только после явного одобрения, сохранив исходный Batch 04 неизменным.
+
+
+
+## 20.20 Independent review of Batch 04 normalization proposal 01
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-NORMALIZATION-REVIEW-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `6545e33ba8ef7a8803d290eac47fe348b3add86b`  
+**Read-back blob SHA:** `373530821ae8dcbcf84e953f42e047e99f7810a8`  
+**Статус:** `INDEPENDENT DOCUMENTARY REVIEW / OPEN — PROPOSAL NOT APPROVED`.
+
+Повторно прочитаны карта (до изменения SHA `d774550f820c7c70b31870427e3b013358f6432b`), bootstrap-инструкция, proposal 01, исходный Batch 04, Audit 01/02 и literal Baseline 1.0 из `main` SHA `9df4892ed0734050ac79732603d15bb414717310`. Подтверждено сохранение 48 исторических ID; Baseline 1.0 содержит проверяемые source lines в восьми разделах, а все proposed records остаются OPEN.
+
+Review обнаружил шесть конкретных исправлений/уточнений: (R01) UI4-02 пропускает B1 line 107, хотя child atom описывает minimal UI; (R02) SH4-03 ошибочно включает line 136, относящуюся к vendor-neutral compatibility, а не discovery; (R03) SA4-03 использует слишком широкий span 65–75 вместо прямых lines 68–69 с cross-links; (R04) UI4-04 ссылается на слишком широкий диапазон 104–116 и требует определения неповторяющегося остаточного обязательства либо D-классификации; (R05) для HA4-01, LAI4-01/03, CDAI4-01/04 нужны точные child-level spans; (R06) SHA карты, записанный в proposal как текущий, уже устарел на момент review и должен трактоваться как историческая версия источника.
+
+Отдельно записаны девять групп потенциальных перекрытий между parent/child atoms, которые должны быть разрешены cross-linking и owner/governance review до закрепления canonical child IDs. Это независимый документальный review, не одобрение proposal и не доказательство полной семантической exhaustiveness. Baseline 1.0/2.0, matrix и Batch 04 не изменялись; canonical backlog и IDs не создавались; статусы не повышались; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
+
+**Следующий безопасный шаг:** подготовить версию proposal 02 с исправленными source spans, child-level traceability и явной disposition для overlap items; оставить все IDs предварительными до явного owner/governance approval.
