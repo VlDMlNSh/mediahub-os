@@ -10,7 +10,7 @@
 
 MediaHub OS — единая local-first платформа для локального пользовательского контура MediaHub OS/Core и MediaHub iOS/iPadOS, а также отдельно изолированного корпоративного контура инженерной разработки. Платформа объединяет управление доменным состоянием, Smart Home, медиа, документы и знания, Digital Twin/Engineering, сеть, локальный и кластерный AI, мобильные интерфейсы, recovery/update и управляемый developer compute fabric.
 
-**Astro (owner-provided target framing, 2026-10-12):** Astro is the umbrella multi-agent engineering architecture for source discovery, project memory, dependency-aware task planning, bounded execution, independent verification and reproducible release preparation. ASTRA/Astra Gold is one candidate execution/queue/evidence subsystem within that umbrella, not the architectural foundation for the whole system. Astro and Astra remain engineering-plane entities; neither gains MediaHub product-state authority. “Astro” is a working architecture label recorded in this branch, not evidence of a deployed runtime or a renamed repository.
+**Jarvis (latest owner-provided target framing, 2026-10-12):** Jarvis is the umbrella multi-agent engineering architecture for source discovery, project memory, dependency-aware task planning, bounded execution, independent verification and reproducible release preparation. ASTRA/Astra Gold is one candidate execution/queue/evidence subsystem within that umbrella, not the architectural foundation for the whole system. Jarvis and Astra remain engineering-plane entities; neither gains MediaHub product-state authority. “Jarvis” is a working architecture label recorded in this branch, not evidence of a deployed runtime or a renamed repository.
 
 **Текущая функциональная точка отсчёта:** Functional Baseline 2.0, принятый и обозначенный как canonical immutable reference. Baseline 1.0 сохраняется как неизменяемый исторический literal source своей редакции. Принятие baseline не доказывает реализацию, верификацию, qualification или production readiness.
 
@@ -42,7 +42,7 @@ MediaHub OS — единая local-first платформа для локаль�
 | ASTRA launch/qualification schema, annotated working copy | `docs/mediahub-chat-tree-map-20261012` | `0b86b07dfa916d4485ce1f8f54d19de136d98491` | Qualification/lifecycle schema; clarified ASTRA internal state scope |
 | ASTRA execution blueprint, annotated working copy | `docs/mediahub-chat-tree-map-20261012` | `9f199ba8e872d5ae188fcdac9635a53f16973534` | Roles and execution gates; clarified ASTRA internal state scope |
 | Generated ASTRA current truth | `main` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | Current reported result: `NOT_PROVEN / BLOCKED` |
-| Astro blueprint gap reconciliation | `docs/mediahub-chat-tree-map-20261012` | `74f87eeaf96c5cf87d6fc24421df5baeefebcaed` | Owner-provided Astro scope, five hardware roles, component candidates, open gates and 13 documentary review cycles |
+| Jarvis blueprint gap reconciliation (legacy file name includes ASTRO) | `docs/mediahub-chat-tree-map-20261012` | `cf6e9a55825fe28ce3e9e2424dfb792a58e6254d` | Latest owner-provided Jarvis scope, five hardware roles, component candidates, open gates and 13 documentary review cycles |
 
 ## 3. Authority, command and state model
 
@@ -213,9 +213,9 @@ ASTRA Gold current truth in the inspected main source reports `NOT_PROVEN / BLOC
 | P-10 | Current ASTRA GOLD / live queue state | NOT PROVEN / BLOCKED | Fresh exact-SHA node, executor, transport, runtime, scheduler, fencing, recovery, A3 and soak evidence required |
 | P-11 | Full domain stage acceptance for MH-01…MH-25 is not uniform | OPEN / SOURCE-BY-SOURCE | Chat tree map is inventory/navigation, not proof of full stage closure |
 | P-12 | Whole-repository semantic completeness | NOT CLAIMED | Tree inventory contains 826 entries; this session audited the baseline, key contracts, manifests, traceability and qualification sources, not every line of every Markdown file |
-| P-13 | Astro umbrella vs Astra subsystem was not explicit in the original v3 synthesis | WORKING SCOPE ADDED; NOT CANONICAL | Astro gap reconciliation SHA 74f87eeaf96c5cf87d6fc24421df5baeefebcaed; implementation/runtime evidence absent |
+| P-13 | Jarvis umbrella vs Astra subsystem was not explicit in the original v3 synthesis | WORKING SCOPE ADDED; NOT CANONICAL | Jarvis gap reconciliation SHA cf6e9a55825fe28ce3e9e2424dfb792a58e6254d; implementation/runtime evidence absent |
 | P-14 | Owner-reported hardware roles require exact inventory | OPEN / NOT QUALIFIED | Mac Pro model, mini 2011 identifier/OS, customer M2 site profile and future GPU server specs are not independently verified |
-| P-15 | Astro must not duplicate task lifecycle/state across orchestration and Astra/framework candidates | OPEN DESIGN DECISION | Select one owner for queue/claim/lease/retry/evidence; use adapters around other execution frameworks |
+| P-15 | Jarvis must not duplicate task lifecycle/state across orchestration and Astra/framework candidates | OPEN DESIGN DECISION | Select one owner for queue/claim/lease/retry/evidence; use adapters around other execution frameworks |
 | P-16 | Master-context packet for MH-01…MH-23 is not implemented as an auditable release mechanism | DESIGN REQUIREMENT | Global context + domain packets must carry source refs/SHA, current decisions, dependencies and change deltas |
 | P-17 | Reusable-repository scorecard and pinned release bundle are not yet implementation artifacts | DESIGN REQUIREMENT / OPEN | Exact pins, license/SBOM/security, compatibility, preflight, rollback and post-install evidence required |
 | P-18 | Public multi-agent repositories are candidate sources only | NOT SELECTED / NOT QUALIFIED | New review document lists Temporal, LangGraph, Microsoft Agent Framework, Pydantic AI, OpenHands and AutoGen status; no component installed or qualified |
@@ -235,12 +235,12 @@ The owner/governance acceptance package must verify at least:
 - [ ] Astra Gold claims are consistent with fresh generated current truth and exact-SHA evidence.
 - [ ] Independent architecture review and owner approval are recorded.
 - [ ] Any baseline supersession is a separate explicit decision; B1/B2 are not edited by this draft.
-- [ ] Astro is explicitly defined as an engineering umbrella; Astra remains a bounded subsystem and neither crosses the MediaHub product authority boundary.
+- [ ] Jarvis is explicitly defined as an engineering umbrella; Astra remains a bounded subsystem and neither crosses the MediaHub product authority boundary.
 - [ ] Mac Pro, developer mini 2011, client-site mini M2, test servers and future GPU/video node are distinct inventory/profile/trust records.
-- [ ] An Astro task envelope has source/base SHA, domain, dependencies, allowed capabilities, isolated workspace, acceptance criteria, independent verifier and evidence digest.
+- [ ] An Jarvis task envelope has source/base SHA, domain, dependencies, allowed capabilities, isolated workspace, acceptance criteria, independent verifier and evidence digest.
 - [ ] One and only one selected subsystem owns task lifecycle/claims/leases/retries; agent frameworks cannot create a competing queue or state authority.
 - [ ] The reusable-component scorecard and pinned, reproducible deployment/rollback bundle have independent review and measured profile evidence.
-- [ ] A global Astro context packet and all MH-01…MH-23 domain packets point to primary docs instead of copying or silently overwriting them.
+- [ ] A global Jarvis context packet and all MH-01…MH-23 domain packets point to primary docs instead of copying or silently overwriting them.
 
 ## 12. Change history
 
@@ -248,6 +248,8 @@ The owner/governance acceptance package must verify at least:
 |---|---|
 | 2026-10-12 | Initial integrated working draft created from current B2, B1 provenance, MH-24 report/matrix, component manifest and architecture/qualification contracts. |
 | 2026-10-12 | Records corrected working-matrix status and ASTRA internal-control-state clarification without changing B1, B2, machine contract values or main. |
-| 2026-10-12 | Added owner-provided Astro umbrella framing, separated Astra subsystem scope, detailed owner-reported hardware roles, and linked the Astro blueprint gap report; remains a working draft. |
+| 2026-10-12 | Added owner-provided Jarvis umbrella framing, separated Astra subsystem scope, detailed owner-reported hardware roles, and linked the Jarvis blueprint gap report; remains a working draft. |
 
 **Final status:** integrated working passport, not a new accepted baseline; implementation, tests, qualification, deployment and production acceptance are not established by this document.
+
+| 2026-10-12 | Applied the latest owner terminology: Jarvis supersedes the earlier draft label Astro. Updated the gap-report SHA to its latest read-back; retained the legacy filename for cross-reference provenance. |
