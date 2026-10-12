@@ -3488,3 +3488,19 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 **Cross-chat answer:** the repository already has a project map and domain documents, but architecture is not yet one accepted, revision-bound deployment contract and is not automatically synchronized into every separate chat. The draft makes the relationship explicit; domain chats still must validate their own contracts and report findings. “Jarvis” is treated as the user-facing name for ASTRA/MediaHub, not a new authority.
 
 **Next safe action:** perform a revision-bound source crosswalk for the draft's domain allocation, starting with MH-15/MH-16/MH-21 and component manifest, then inspect the MH-24 traceability matrix. Record conflicts/unknowns, but do not change Baseline 2.0 or activate gated components without explicit owner/governance decisions.
+
+
+### 20.98 Owner direction: Claude-centered Jarvis + local Ollama inference (2026-10-12)
+
+- Unified contract updated: `docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md`.
+- Update commit: `b1fa900d8732f39d49242fccf8976d0e1a522aa1`.
+- Blob SHA verified by GitHub read-back: `dfc3af0341e797a94d65147b8dbff96bcf8c4743`.
+- Status: `OWNER DIRECTION RECORDED / DESIGN PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED / NOT ACCEPTED AS GLOBAL BASELINE`.
+- Owner direction: build Jarvis around Claude-centered reasoning/engineering workflows and local Ollama inference capability.
+- Important technical clarification: Claude models are not served by Ollama. The implementable interpretation is two distinct adapters behind a controlled Jarvis routing/orchestration boundary: an approved external Claude interface and a local Ollama endpoint serving a pinned compatible local model. A specific Claude tool's ability to use an Ollama endpoint must be separately verified; do not assume it.
+- Proposed controls: local-first where capable; no silent local→cloud or provider fallback; task/data classification before egress; explicit provider/model identity; bounded tools/worktrees; independent validation; model outputs remain untrusted data; Jarvis/ASTRA engineering state stays separate from MediaHub Product State Authority.
+- Required before activation: exact Claude access mode; exact local host/OS/Ollama/model artifacts; license/provenance and hardware benchmarks; routing/fallback contract; privacy/retention and egress controls; tool sandbox and audit; MH-10/MH-21 scope resolution; MH-22 qualification.
+- No install, provider call, credential use, test, qualification, runtime or infrastructure change was performed.
+- Existing MH-10 remains `PROPOSED / NOT ACCEPTED / NOT FROZEN`; MH-21 remains `NOT ACCEPTED / NOT FROZEN`; P0-07 and MH-22 gates are unchanged. This owner direction does not modify Baseline 2.0.
+
+**Next safe action:** source-bound compatibility review of Claude access modes versus local Ollama model serving, then select the exact architecture shape (Claude operator + local Ollama tool, or per-task policy router). Preserve external egress controls and do not install or invoke providers until separately authorized.
