@@ -1349,3 +1349,21 @@ A fresh GitHub read-back verified:
 The recursive GitHub tree at commit `c53d463da39118bd5f88b784913f41d2d48be2aa` returned 833 entries, including 452 Markdown files, with `truncated=false`. This is a structural inventory snapshot; it does not mean every line in all files or all branches was semantically audited. Thirteen source/contract correction cycles are recorded in the dedicated audit; subsequent source follow-ups are recorded separately, not retroactively counted as runtime tests. The GitHub component-metadata snapshot is documentary and read-only; candidates remain unselected/unqualified.
 
 **No operational promotion:** B1, B2 and `main` remain unchanged. No tests, qualification, soak, installation, deployment, infrastructure change, live-host operation or merge to `main` was performed. The master prompt, Passport v3 and Contract 01 remain working drafts pending independent review and explicit owner/governance acceptance.
+
+
+## 20.38 Batch 04 atom-level crosswalk — B1 §3 first batch and review 01
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `DOCUMENTARY DRAFT / STRUCTURAL AND SOURCE-ANCHOR REVIEW PASS / SEMANTIC ACCEPTANCE OPEN`
+
+| Artifact | Path | Blob SHA | Status |
+|---|---|---|---|
+| Atom-Level Crosswalk Batch 01 (B1 §3 State Authority) | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-01-DRAFT.md` | `24d5a0f9687d322a5f0c4071b149794d6290d698` | Draft only; 19 B1 §3 source-atom rows, 12 approved fields each; no final child IDs minted |
+| Batch 01 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-01-REVIEW-01.md` | `bef2b50c461eb1c9c5fa38af1931f19f3dadf19b` | Structural and source-anchor review PASS; semantic owner acceptance OPEN |
+
+**Source anchors and status breakdown:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` on `main`, SHA `9df4892ed0734050ac79732603d15bb414717310`, §3 lines 63–79; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md` on `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Audit 01 SHA `d0938f14ed4110545118f075175dee3be412097b`. All 19 Batch-01 atom labels match Audit 01’s §3 rows, all rows contain 12 fields, and statuses match the explicit/partial distinction in Audit 01: **8 MAPPED, 11 NOT_REVIEWED, 0 CONFLICT, 0 NO_DIRECT_COUNTERPART**. `MAPPED` means documentary explicit coverage only. The 11 partial cases remain `NOT_REVIEWED` because the owner-approved mapping vocabulary has no `PARTIAL` value. B1 line 77 is one compound sentence; actor-specific rows are traceability subdivisions, not extra literal source sentences.
+
+**Boundaries preserved:** owner approval applies to the schema and status vocabulary, not to this atom-level mapping as a whole. Stable child IDs are not minted; collision review across the full current repository/branch inventory remains a gate. UI4-04 remains `HOLD / CROSS-LINK-ONLY`. No tests, qualification, installation, deployment, infrastructure/live-host operation, baseline change, main-branch edit or merge was performed.
+
+**Next safe step:** continue with a separately scoped atom-level batch for B1 §4, review its source anchors and mapping statuses independently, then refresh the map. Do not promote the draft to the canonical backlog until all applicable atoms are reviewed and owner/governance gates are closed.
