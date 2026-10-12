@@ -3387,3 +3387,40 @@ This addendum records a live read-back of MH-21's key primary documents on `main
 - No tests, provider calls, credential inspection, workflow dispatch, qualification, installation, deployment, infrastructure change or merge was performed.
 
 **Next safe action:** perform a bounded static review of the orchestrator's admission/egress decision path against MH-21 contracts and P0-03…P0-07, then map each claim to an existing test or missing evidence. Do not fix or change runtime code until the specific defect, authorization and governance dependencies are established.
+
+
+### 20.96.1 MH-23 live dependency audit: MH-14 / MH-15 (2026-10-12)
+
+**Mode:** read-only GitHub source review. No host/runtime inspection, tests, workflows, migration, installation, or implementation changes.
+
+#### Live refs and lineage
+- Live `main` HEAD: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Live `architecture/mh-23-long-term-evolution` HEAD: `f1cceb036275acc60c8806fbc98e5c08b1f8bbb3`.
+- Live compare: `DIVERGED`; 66 commits ahead, 1,640 behind; merge base `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`. Branch tree: 160 entries, not truncated. MH-23 remains branch-specific, not canonical on main. No merge/cherry-pick/rebase attempted.
+- Re-read branch sources: MH-23 master prompt `61657c5d17098dc20643ba663c0e14804ee294c9`; reverse prompt `ec659f09a8fbe01148bebe8be6023327d8429020`; acceptance criteria `9ae5ba64882a3f98e5df0a9a907da0c0ced5d5a1`; evidence register `a9330b0373c4b329990d056553c0d7ac556d3bfc`; contradiction register `854d1eb6dc6cca532d6f34eaefe596a07cce3879`; unknowns `87f68820b2cad38e314d483ebb8387ee62007af9`; compatibility matrix `1aef81598b4c57028e28feedf804c52582c34438`; current-state audit `cb2a9a1092d7a5ce1bc1f8b9082dd0df06ab79e3`; architecture `2896d6851226a31fc971e05766d253c034d22246`. Guessed MH-23 dependency-map/index paths returned 404 on this branch; do not infer equivalent content is absent elsewhere.
+
+#### MH-14 Persistence dependency
+Primary sources on `main`: master prompt SHA `16f907df88c471df00666d71e6b2d613a0f60918`; architecture SHA `5e14084033f417722a1b04b5d5d47649dcfcda48`; acceptance SHA `364bb2a949e11f191b71a35af482f18de4ef2827`; all-passes SHA `a3503d5ad6a6026676c95ea13a6c14d12f4dc498`; decision log SHA `a2f49b9f4e09e3d2becdc2e72807319674a30239`.
+- MH-14 is ARCHITECTURE WORK IN PROGRESS; physical persistence implementation **NOT AUTHORIZED**. Persistence stores representations; State Authority alone determines canonical state. Recovery validates integrity/schema/compatibility then submits candidate state to State Authority.
+- No concrete database, filesystem strategy, WAL/journal or cloud backend is selected. Durability, atomicity, power-loss behavior, restore capability, RPO/RTO, key lifecycle and privacy deletion semantics remain gates. Reliability baseline: SINGLE NODE / NO HA; backup is not HA and recovery remains unverified until restore plus state/runtime validation.
+- Acceptance gates remain unsatisfied. MH-23 must not turn migration design into persistence implementation authorization.
+
+#### MH-15 OS / Appliance dependency
+Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`; acceptance SHA `082642e67dc66cb359a5566773c143854cafaa00`; evidence SHA `424a55b4b692d5b253423bccea2316717c6ca0d4`; dependency map SHA `4787a8ecb773028116a14d94bfe7748129821f11`; unknowns SHA `d305c0984e2cfee801b3c8ceafdb3e2cf8ad987d`; architecture SHA `f817925c69ce4484713f952e47aacad283af8eeb`; reverse prompt SHA `3d3629406e00f1ab64284cfdc0daa1da21e07c8d`; contradiction register SHA `2214e9d5e281db1af40d35c74ef60af8dac03ff4`; decision log SHA `edd0f7b561d9ec3915a24a8f6eac6cff86af7dac`.
+- MH-15 is NOT ACCEPTED / NOT FROZEN; implementation authorization NONE. Mac mini Server 2011 is only a candidate. Exact hardware, firmware/EFI, OS/kernel, storage, network/firewall, sandbox, secrets, update/recovery, thermal/power and production qualification remain UNKNOWN.
+- Host/kernel/OS/filesystem/shell/container/admin are bounded infrastructure, not State Authority. Arbitrary privileged shell from AI/plugin/untrusted paths is forbidden. MH-15 dependencies include MH-14, MH-12, MH-13, MH-16 and P0-03…P0-07; evidence is insufficient to authorize host implementation.
+
+#### Migration workflow and qualification evidence
+- MH-23 branch workflow `.github/workflows/mediahub-runner-migration-smoke.yml`, SHA `06f306f91158a8c2175319cf6dd5e507e043384b`, is manual-only (`workflow_dispatch`) and targets a self-hosted runner. It checks out `implementation/p0-06-core-runtime-services` and asserts fixed commit `6191a6f56892d4aeb1444d04420a3665b989b896`.
+- Live head of that target branch is `cc8559da6ae4df749782a29ee4203d35ef6818fc`; it does not match the workflow's fixed SHA. This is a pinned historical smoke definition, not current-target qualification. Workflow was not dispatched.
+- MH-23 qualification matrix SHA `c2d6394eb4d5392d71e25da146e26a7e2f608d78` marks authority/security/runtime/API/schema/recovery/operations/governance as REQUIRES VERIFICATION, PROPOSED or UNKNOWN; persistence is NOT AUTHORIZED; P0-07 is BLOCKED. Governance gate matrix SHA `7e860d45aea21853ad4a288d982938c4fd860aef` explicitly separates architecture, implementation, verification, qualification, release, migration and production.
+- MH-23 current-state audit records observations from 2026-09-04 and historical main HEAD `6eb2ef9…`; these are not current main evidence without revalidation.
+
+#### Disposition
+1. Migration must preserve State Authority identity, authorization, provenance, security/privacy, schema semantics and recovery; persisted data cannot be promoted directly to canonical state.
+2. MH-14 physical persistence and MH-15 host/appliance implementation are not authorized. No migration, restore, host modification or deployment is authorized by these documents.
+3. P0-07 remains blocked; no second State Authority, implicit privilege escalation or cloud/AI authority is permitted.
+4. MH-23 remains **ARCHITECTURE WORK AUTHORIZED / NOT ACCEPTED / NOT FROZEN**. Main and Baseline 2.0 were not modified; Baseline 1.0 remains separate historical provenance.
+5. No tests, workflow dispatch, host/runtime inspection, migration, persistence implementation, installation, infrastructure change, merge or cherry-pick occurred.
+
+**Next safe action:** static traceability review of MH-23 migration/rollback requirements against MH-16 lifecycle/recovery and MH-22 qualification artifacts on current main, recording which claims have current revision-bound evidence. Do not run the self-hosted workflow or perform migration/restore operations without separate explicit authorization.
