@@ -538,3 +538,16 @@ Resume with `/next`.
 - Map refreshed at Section 20.124; new map blob SHA `0402c4d47e75472ff856fc3f49669bcb602e58db`, commit `80fd3a0479f8c5328a5b673cdfa080d2a22deeb5`.
 - Verdict unchanged: project-wide production qualification `NO-GO / NOT PROVEN`; no gate promoted. No tests, qualification runner, workflow dispatch/rerun, runtime/host inspection, credentials, model/provider calls, installation, infrastructure changes, migration, deployment, merge or rebase.
 - **Next safe step:** inspect only authorized, non-sensitive summary metadata for the failed current-head verification if available; do not read runtime/host logs or rerun workflows. Resolve candidate identity, source/build evidence and architecture/governance blockers before any separately authorized executable qualification.
+
+### Latest continuation — MH-13/MH-14/MH-21 retention/deletion/restore crosswalk (2026-10-13)
+
+- Re-read bootstrap, map, checkpoint, matrix, full project qualification audit, owner decision register, Baseline 2.0 and map-directed MH-13/MH-14/MH-21 primary sources from live GitHub refs.
+- `main HEAD` remains `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; Baseline 2.0 blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`. Baseline 1.0 remains separate; no reconciliation decision inferred.
+- MH-13 architecture blob `e732ff9cacbc9c1189bd83306cdff30906326cf0` and registers `8c66fb49bbe011d8ef5dd78287c72efdad77a8fe` remain RECONSTRUCTED/PROPOSED with retention/deletion unknowns. Governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa` accepts reconstruction only; not frozen, production implementation not authorized, CI/build qualification not verified. Header/status wording conflict remains open.
+- MH-14 acceptance criteria blob `364bb2a949e11f191b71a35af482f18de4ef2827` require MH-13-compliant retention/deletion across durable copies, authorization-mediated restore, verified backup, a successful real restore and further integrity/security/privacy/hardware evidence. Physical persistence remains NOT AUTHORIZED and acceptance NOT YET ACCEPTED/FROZEN.
+- MH-21 retention blob `8dfe3b619be593c3ec57948e350671895827ae8b` remains PROPOSED; provider deletion/training claims require current contractual evidence bound to actual destination/provider/region and data category.
+- Cross-domain gap: sources do not define exact retention durations, durable-copy purge guarantees, legal-hold/consent/residency rules, or restore-time handling of deleted/expired/held data and tombstones. These require owner/governance decisions; no values or legal/provider claims were inferred.
+- Matrix Section 42 added, blob SHA `6f3f90e7fe5373976e7dd19004533990ce9a6d11`, commit `9b6b4259a66d70cc34f0c344d2eb61f80e87922a`.
+- Map Section 20.125 added, blob SHA `72756848a520e830cc81870cb9a41bf7cda49e50`, commit `faba8df04a043689c5f91615c165bf6623d0ab6d`.
+- No tests, deletion, restore, provider contact, runtime/host inspection, qualification runner, workflow dispatch/rerun, migration, installation, infrastructure change, deployment, merge or rebase. No stable IDs added and no gate promoted.
+- **Next safe step:** obtain explicit governance direction on MH-13 status wording and retention/deletion/restore semantics; independently continue read-only crosswalks. Project-wide production qualification remains NO-GO / NOT PROVEN.
