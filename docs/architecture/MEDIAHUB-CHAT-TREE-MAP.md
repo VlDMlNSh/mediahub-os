@@ -3112,3 +3112,57 @@ An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 40
 - Production automation, energy control, scheduler and self-healing runtime remain UNKNOWN / NOT ESTABLISHED by reviewed evidence.
 - P0-07 remains a blocker for canonical policy publication/mutation; no authorization bridge was created.
 - **Next safe architecture stage:** MH-21 Hybrid Cloud / Distributed AI. Preserve cloud as external/untrusted and non-authoritative, prohibit cloud-to-device bypass, and keep remote results as data/proposals until the ordinary policy/authorization/Consumer Boundary/State Authority path permits an operation.
+
+## 20.93 MH-21 Hybrid Cloud / Distributed AI — architecture and evidence audit
+
+**Date:** 2026-10-12. **Reviewed ref:** `main`, HEAD previously confirmed as `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` (same main ref as MH-20 pass). **Status:** `NOT ACCEPTED / NOT FROZEN / NOT PRODUCTION READY`; MH-21 acceptance criteria explicitly `NOT SATISFIED`. Read-only domain audit; only this map entry was added. No runtime, provider, credential, network or infrastructure configuration was changed.
+
+### Primary source index and exact blob SHAs
+
+| Source | Blob SHA | Confirmed facts |
+|---|---|---|
+| `docs/architecture/MH-21-INDEX.md` | `07261e5116ee699176630d25e8e01adc4be7885b` | Canonical MH-21 document index; read alongside master/reverse prompts and domain artifacts. |
+| `docs/architecture/MH-21-CHAT-MASTER-PROMPT.md` | `61d552db4d1a1abefa2cef9f44eebcf634d11111` | MH-21 is an architecture guardian, not a development workspace; protects P0-03…P0-07 boundaries. |
+| `docs/architecture/MH-21-REVERSE-MASTER-PROMPT.md` | `4e5be879a191740e09416731810d21be0ce181bd` | Requires exact runtime/provider/network/data-flow/security/failure/SBOM evidence; no unsupported acceptance or production claims. |
+| `docs/architecture/MH-21-hybrid-cloud-distributed-ai.md` | `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c` | Canonical hybrid cloud/distributed AI architecture source. |
+| `docs/architecture/MH-21-cloud-boundary.md` | `e99d29d93033a7147f3e53fbf895ee3e15ba7221` | Cloud → State Authority and cloud → device direct paths forbidden. |
+| `docs/architecture/MH-21-external-compute-contract.md` | `b2127d6085cdbfcd98d2f819fa3ea5d12ffee68f` | External workload is bounded computation, not authority; COMPLETED is not permission to mutate. |
+| `docs/architecture/MH-21-acceptance-criteria.md` | `582f898fe4be332b6a7fef3e8cca2e27c7328ac2` | Acceptance NOT SATISFIED; requires security, privacy, routing, failure, egress, audit, supply-chain and qualification evidence. |
+| `docs/architecture/MH-21-evidence-register.md` | `6bc646902395f690554604b39b16464de796c724` | AI/provider contract surfaces are evidenced, but full production cloud runtime is UNKNOWN; cloud→device bypass absence UNKNOWN. |
+| `docs/architecture/MH-21-decision-log.md` | `03c9341b31780a263117f0400a6352d776acf1b1` | External compute non-authority and no distributed canonical state accepted as MH-21 principles; provider adapter and default-deny egress remain PROPOSED. |
+| `docs/architecture/MH-21-contradiction-register.md` | `1fa8f5932e2b238f99e0b3203b8d8ece817062bd` | AI output is unconstrained data requiring controls; runtime absence/bypass cannot be inferred from code search alone. |
+| `docs/architecture/MH-21-unknowns.md` | `a753ea0eebfabf6d3888985bed36fcc186c3624f` | Provider terms, retention/training, regions, network/VPN, workers, routing, egress enforcement, credentials, cost/latency and bypass paths remain unknown until evidenced. |
+| `docs/architecture/MH-21-data-egress.md` | `242b3090d41f52866889b8c8cf587ff4c95eadb3` | Proposed deny-by-default egress pipeline with classification, purpose, destination, privacy/security policy, authorization and bounded transfer. |
+| `docs/architecture/MH-21-privacy-invariants.md` | `4475da53dc87ad1c2ad1c9f112a55211cbfa49eb` | Classification before egress, explicit purpose, minimization, eligible destination/provider/region, retention and audit redaction. |
+| `docs/architecture/MH-21-data-retention.md` | `8dfe3b619be593c3ec57948e350671895827ae8b` | External provider deletion/training/retention guarantees require current contractual evidence. |
+| `docs/architecture/MH-21-dependency-map.md` | `fe6834f863c7b3f7c59bf91ca131a8b0c7b9026f` | Dependencies span MH-01…MH-20; MH-22 consumes qualification/operations artifacts. |
+| `docs/architecture/MH-10-decision-log.md` | `f273b97a54d1220b110c59c46a1caf1b817c2022` | MH-10/MH-21 scope coordination remains OPEN. |
+| `docs/architecture/MH-10-contradiction-register.md` | `681acf57e25133bc4a43a8089bb78811c6756141` | Ownership between AI intelligence semantics (MH-10) and broad hybrid/distributed AI architecture (MH-21) requires explicit governance reconciliation. |
+| `docs/architecture/MH-12-security-invariants.md` | `0609be9c3420070434014dad4529e4ccd46b0996` | Security invariants prohibit AI/cloud/plugin self-authorization, second State Authority and trust-by-reachability. |
+| `docs/architecture/MH-13-privacy-data-governance.md` | `e732ff9cacbc9c1189bd83306cdff30906326cf0` | MH-21 external processing privacy is governed by MH-13. |
+| `docs/checkpoints/mediahub-functional-baseline-2.0.md` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | B2 is accepted canonical immutable functional reference; acceptance does not imply implementation or qualification. |
+| `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` | `9df4892ed0734050ac79732603d15bb414717310` | B1 is the version-1.0 system passport and preserves historical provenance; do not silently reconcile with B2. |
+
+### Confirmed architecture invariants
+
+1. External compute may calculate; MediaHub retains authority. Local/remote models, providers, agents, RAG, embeddings, tools and GPUs are not authority.
+2. Distributed compute does not create distributed canonical state. State Authority remains singular and local canonical mutation must preserve P0-03/P0-04/P0-05/P0-06 contracts; P0-07 remains an unresolved governance/API blocker.
+3. Only the controlled external-compute bridge is permitted: classify data → purpose/destination → privacy/security policy → authorization → redaction/minimization → bounded transfer → adapter → remote computation → untrusted DATA result → local validation/provenance/policy/authorization → Consumer Boundary → State Authority.
+4. Direct `Cloud → State Authority` and `Cloud → Device` paths are forbidden. Provider endpoint configuration is not permission. AI output, retrieved documents, plugin configuration and external events cannot choose arbitrary egress destinations.
+5. External workload contract distinguishes REQUESTED, CLASSIFIED, POLICY_EVALUATED, AUTHORIZED, PLACED, DISPATCHED, RUNNING and terminal outcomes. COMPLETED means computation completed, not that its output is trusted or authorized.
+6. Data classification must precede egress. Purpose, minimization/redaction, destination/provider/region eligibility, retention, audit and provider responsibility require explicit rules. Secrets are prohibited from ordinary transfer absent a separate narrowly scoped contract.
+7. Cloud loss cannot disable critical local operation. Fallback is not arbitrary: destination/provider/model changes need policy, eligibility and qualification. Failure/degradation, cancellation, timeout, cost and resource bounds must be explicit.
+8. Provider/model identity, model qualification, RAG/tool isolation, remote agent limits, VPN/network boundary, credentials, incident response, update/recovery and software supply-chain provenance require evidence before production claims.
+9. Technology references including Docker/Compose/Kubernetes, WireGuard/Tailscale, Ollama/vLLM/llama.cpp, NIM, providers, RAG engines and agent runtimes remain candidates pending ADR and qualification.
+10. MH-10/MH-21 ownership is an OPEN governance issue. MH-10 owns AI intelligence/authority semantics; MH-21 covers hybrid/distributed compute. Do not silently duplicate, transfer or supersede ownership.
+11. Functional Baseline 2.0 remains its own accepted reference; Baseline 1.0 remains preserved historical provenance. No implicit merge.
+12. The audit did not execute tests, qualification, provider calls, credential inspection, network scans, deployments or infrastructure changes. Document existence is not runtime proof.
+
+### Governance disposition and next stage
+
+- MH-21: `NOT ACCEPTED / NOT FROZEN / NOT PRODUCTION READY`.
+- Production cloud runtime: `UNKNOWN`.
+- Absence of cloud→device bypass: `UNKNOWN / REQUIRES VERIFICATION`; architectural prohibition exists, but full runtime proof does not.
+- Egress enforcement, actual provider configuration, data residency/retention, supply-chain evidence, cost/latency budgets and chaos results remain unverified.
+- MH-10 ↔ MH-21 scope ownership requires explicit governance resolution.
+- **Next safe domain from the project map: MH-22 — Qualification / Verification / Operations gates.** Keep Architecture, Implementation, Verification, Qualification, Release and Production acceptance separate. Do not claim PASS without exact revision-bound evidence.
