@@ -5,7 +5,7 @@
 - **Status:** WORKING INTEGRATION CONTRACT / DRAFT — NOT A NEW CANONICAL BASELINE
 - **Use:** operative review/checklist for documentation and architecture work on this branch, subject to the source precedence and gates below.
 - **Not a grant of authority:** does not replace Baseline 2.0, alter Baseline 1.0, approve pending domain contracts, authorize implementation/deployment, or imply qualification/production acceptance.
-- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `b504a2e2065bf864578dccd79830c2a58b9099bf`.
+- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `43e9cd0c4e272cbe490ef6b0d308aca5b1fcda7e`.
 - **Rule of evidence:** claim → source path → ref → blob SHA → exact scope/status → acceptance/evidence required → independent read-back.
 
 - **Current terminology:** the latest owner-provided umbrella name is **Jarvis**; an earlier same-day draft used “Astro”. Jarvis supersedes that draft label. The existing gap-report filename retains `ASTRO` for reference lineage; this does not rename ASTRA or assert deployed functionality.
@@ -236,9 +236,9 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** the owner-confirmed inventory and deployment manifest resolve same asset versus separate asset; the role/trust domain is unambiguous; any transition has approval, replacement capacity, credential/data separation, restore/rollback and post-deploy evidence bound to the release SHA. Until then the affected production profile is BLOCKED / ASSET ALLOCATION REQUIRED.
 
-**Sources:** owner-provided Jarvis blueprint (2026-10-12); gap reconciliation §17 / AG-20, current blob SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; Passport v3 / P-20, current blob SHA b504a2e2065bf864578dccd79830c2a58b9099bf.
+**Sources:** owner-provided Jarvis blueprint (2026-10-12); gap reconciliation §17 / AG-20, current blob SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; Passport v3 / P-20, current blob SHA 43e9cd0c4e272cbe490ef6b0d308aca5b1fcda7e.
 
-**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `b504a2e2065bf864578dccd79830c2a58b9099bf`; Jarvis gap reconciliation current SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`.
+**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `43e9cd0c4e272cbe490ef6b0d308aca5b1fcda7e`; Jarvis gap reconciliation current SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`.
 
 
 ### ARC-028 — B1↔B2 section pointers are semantically validated and historical audits remain immutable
@@ -249,7 +249,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Current finding:** Audit 01 row B1-15-13 links “Assist with documents” (B1 §15 line 246) to B2 §19. Pinned B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f defines §16 as Documents and Knowledge, §18 as AI architecture and §19 as Update / Recovery / Migration. Batch 06 working crosswalk SHA 9df96aca53d1004c33d45f038501dc6b7f52c0c9 correctly uses §§16/18 and preserves the historical Audit 01 mismatch. Review SHA 1edc976dd663ae16a1b61876a2dbbde9411be095 confirms the source headings. The mismatch is recorded as AG-21 / P-21; no B1/B2 semantic conflict is claimed.
 
-**Sources:** B1 specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main, SHA 9df4892ed0734050ac79732603d15bb414717310; B2 docs/checkpoints/mediahub-functional-baseline-2.0.md@main, SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; historical Audit 01 SHA d0938f14ed4110545118f075175dee3be412097b; current Gap Reconciliation SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; current Passport v3 SHA b504a2e2065bf864578dccd79830c2a58b9099bf.
+**Sources:** B1 specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main, SHA 9df4892ed0734050ac79732603d15bb414717310; B2 docs/checkpoints/mediahub-functional-baseline-2.0.md@main, SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; historical Audit 01 SHA d0938f14ed4110545118f075175dee3be412097b; current Gap Reconciliation SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; current Passport v3 SHA 43e9cd0c4e272cbe490ef6b0d308aca5b1fcda7e.
 
 **Status:** pointer correction structurally verified in a working crosswalk; semantic acceptance and broader Audit 01 cleanup remain OPEN.
 
@@ -298,7 +298,7 @@ Every component contract admitted to implementation MUST declare:
 | Check ID | Verifiable claim | Source/evidence required | Present status |
 |---|---|---|---|
 | V-01 | B2 accepted and current functional baseline pointer agrees | B2 SHA + MH-24 report + matrix | Documentary correction done on working branch: blob SHA 73377891072bac3c739c44055ceeb0874154f64c (commit 2a1bc39bed1f0afe631c3587446af15837a5e980); main matrix remains unchanged |
-| V-02 | B1 source atoms individually reconciled | Atom-level crosswalk with nonblank line anchors and exact B2 mapping | OPEN; parent-level only |
+| V-02 | B1↔B2 atom-level coverage and semantic acceptance are correctly recorded | Audit 01 plus Batch 01–08 union review; exact source anchors; owner decisions and accepted mapping evidence | STRUCTURAL UNION PASS: 153/153 labels across B1 §§3–6, 12, 15–17; 23 `MAPPED` / 119 `NOT_REVIEWED` / 11 `NO_DIRECT_COUNTERPART` / 0 `CONFLICT`. Semantic acceptance OPEN; not an all-68-section audit or canonical-backlog approval. |
 | V-03 | Product/Smart Home authority boundaries are unambiguous | B2 + MH-03 + accepted HA integration contract and integration evidence | Functional split established; HA future extension still proposed |
 | V-04 | ASTRA is not mistaken for Product State Authority | Scope annotation, executor matrix and architecture drift tests/readback | Wording clarified on branch; tests not run |
 | V-05 | Target hardware profiles are admissible | Fresh component inventory, capability metrics, privacy/isolation/network profile and qualification | NOT PROVIDED / OPEN |
@@ -343,7 +343,7 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 
 ## 7. Open decisions and blocked obligations
 
-1. Complete Batch 04 atom-level mapping and independent semantic review. Keep UI4-04 HOLD; do not assign final child IDs yet.
+1. Complete independent semantic review and owner dispositions for atom-level Batches 01–08 (153 labels across B1 §§3–6, 12, 15–17), and continue uncovered B1 sections. Resolve the SH4 lineage issue and preserve UI4-04 HOLD. Final child IDs and canonical-backlog promotion remain gated by full collision review, source-anchor verification, semantic acceptance and explicit owner/governance approval.
 2. Resolve remaining GOV-MH24 owner decisions, including shared-atom ownership, detailed HA/Core scope, automation literal-versus-derived distinctions, cloud gate, evidence details and any remaining domain sign-offs.
 3. Resolve matrix/baseline traceability completely without editing immutable B1/B2.
 4. Decide explicitly if/when the proposed State/HA persistence extension may replace or amend the current MH-03 foundation. No implied promotion.
@@ -370,7 +370,7 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 - 2026-10-12 — repository tests/qualification/deployment were not run; main was not changed and no merge was performed.
 - 2026-10-12 — incorporated the owner-provided Jarvis umbrella direction, single-task-lifecycle rule, hardware trust/profile split, reproducible deployment requirements, public-repository scorecard and MH-01…MH-23 context-packet contract; companion gap report blob SHA b65ddaa2c91b18265cffd7be55fdefc7a0877db5.
 
-**Review coverage limitation:** an API tree snapshot at commit 58305d5a9a5b1593f15d2dfb0ff79838c1bddaec contained 826 entries, including 445 Markdown files. This session used that inventory and semantically inspected the governing baselines, key state/security/HA contracts, traceability corpus, component-selection artifacts and ASTRA qualification sources; it did not read every line of every repository document. Whole-repository semantic completeness is therefore not claimed.
+**Review coverage limitation:** an initial API tree snapshot at commit `58305d5a9a5b1593f15d2dfb0ff79838c1bddaec` contained 826 entries / 445 Markdown files. A later pre-update branch snapshot at commit `572dfade59961e2e58c9bcaac16d09d996b997b6` contained 846 entries (465 Markdown, 193 Python, 47 YAML and 54 JSON; `truncated=false`). These counts are dated inventory snapshots, not a current-head inventory. The reviewed set includes the governing baselines, key state/security/HA contracts, component-selection artifacts, selected traceability batches, and ASTRA qualification sources. The Batch 01–08 union review verified the structural completeness of 153/153 labels for B1 §§3–6, 12, 15–17; semantic acceptance remains OPEN. This was not a line-by-line semantic review of every file or branch, so whole-repository semantic completeness is not claimed.
 
 **Final status:** a source-backed, verifiable working contract for branch review. It is not yet a globally accepted system contract and does not imply that all project documents, runtime functionality or qualifications have been fully verified.
 
