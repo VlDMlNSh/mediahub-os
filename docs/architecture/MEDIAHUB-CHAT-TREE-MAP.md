@@ -3546,3 +3546,5 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Retrieval limitation:** the manifest and P0-07 candidate paths tried during this pass returned 404 through the GitHub contents API. The map has existing pointers to their blob IDs, but current file contents were not verified in this pass. Treat them as unresolved retrieval/navigation work, not as absent files.
 - **Safety/authorization:** no tests, qualification, provider/model calls, credentials, installation, host inspection, infrastructure changes, deployment, migration or merge.
 - **Next safe action:** resolve canonical component manifest and P0-07 through the map's precise source/branch navigation; then continue requirement-by-requirement crosswalk, preserving unresolved status and not changing Baseline 2.0.
+
+- **Latest continuation checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `d5b6d6a20902da5dd9463c18e03ecbafaf11229c`; blob SHA `dbd023c0b5b067112b5eca5e6e9afbd3a609e65e` (read-back required on next resume).
