@@ -1861,3 +1861,45 @@ The two recorded sets of 13 cycles (Jarvis blueprint review and baseline/contrac
 **Boundaries:** no final child IDs were minted; no canonical backlog, B1, B2 or traceability matrix was modified; no tests, qualification, installation, deployment, host/infrastructure action or merge to `main` occurred. This is not a repository-wide all-branch search and is not semantic acceptance of TSI.
 
 **Next safe step:** resolve the TSI-07 / TSI-12 lineage overlap and obtain the applicable owner/governance disposition; keep all mapping and lifecycle gates open until independent semantic review and collision review are completed.
+
+
+## 20.59 Product-owner disposition — TSI-12 is a historical sub-aspect of TSI-07
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** OWNER DECISION RECORDED / DRAFT UPDATED / BOUNDED REVIEW PASS — FULL TSI SEMANTIC ACCEPTANCE OPEN
+
+| Artifact | Path | Read-back blob SHA | Result |
+|---|---|---|---|
+| Product Owner Decision Record 01 | `docs/checkpoints/MH24-BATCH-04-PRODUCT-OWNER-DECISION-RECORD-01.md` | `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd` | D-06 recorded; scope limited to TSI-07/TSI-12 relationship |
+| Batch 09 TSI crosswalk draft | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-DRAFT.md` | `5e1b73c73c951638b549a30d569df2d1c7de8b31` | TSI-12 preserved as historical traceability label, explicitly `SUBASPECT_OF: TSI-07` |
+| Batch 09 Review 02 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-02.md` | `d808f602756b6135019a7655c0c12291527e9de3` | 17 provisional records and 12 fields structurally rechecked; owner relationship and history preservation PASS; semantic acceptance remains OPEN |
+
+**Owner decision:** TSI-12 (“Track information origin”) is a sub-aspect of TSI-07 (“Provenance”), not a separate sibling obligation. Preserve the TSI-12 historical label and B1 §18 line 301 source anchor; retain an explicit cross-reference to TSI-07; do not delete, rename, recycle or double-count the historical label. The relationship decision does not alter B1 wording, independently approve a B2 mapping, accept the TSI contract, mint a final child ID or authorize canonical-backlog promotion.
+
+**Verified structural result:** 17/17 provisional TSI labels retained; each record has the 12 owner-approved field labels exactly once; no missing/duplicate field labels found by the bounded parser. Mapping distribution remains 3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT. The relationship resolution does not itself change mapping statuses. Previous Review 01 remains intact as historical evidence of the prior open state.
+
+**Boundaries:** B1, B2, canonical backlog and traceability matrix remain unchanged. No tests, qualification, installation, deployment, host/infrastructure action or merge into `main` occurred.
+
+## 20.60 Chat continuation master prompt — preserve available history and provenance
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** CREATED / GITHUB READ-BACK VERIFIED
+
+**Artifact:** `docs/checkpoints/MEDIAHUB-CHAT-CONTINUATION-MASTER-PROMPT-01.md`  
+**Read-back blob SHA:** `fd1e8218329c43dae3b5f2cee5fe1818a5f4342c`  
+**Create commit:** `50073953411b1674da198d2c5923d4fa301d85c5`
+
+The prompt is a reusable start instruction for a new chat. It directs the next session to:
+- retain and consult the prior ChatGPT conversation history available in the project, shared-project conversations and development checkpoints;
+- distinguish owner decisions from recommendations, hypotheses, proposals and accepted evidence;
+- preserve chronology, historical IDs, source anchors, commits, SHAs and review records;
+- start from the current map and bootstrap instruction before each action;
+- fetch primary sources, verify SHA/status/dependencies, perform bounded changes, read them back, and update the map;
+- continue from the TSI-12 → TSI-07 owner disposition without promoting drafts or changing B1/B2/canonical backlog/matrix.
+
+**History limitation stated explicitly:** the repository is not claimed to contain the verbatim transcript of every ChatGPT conversation. The next session must use prior conversation history when available and must not invent missing content. The prompt itself is a continuity instruction, not proof that every historical message has been exported or archived.
+
+**Next safe step:** start the next session by fetching the current map and the latest D-06, Batch 09 draft and Review 02 sources; continue bounded semantic review only after confirming their current SHAs. Do not promote the crosswalk without separate authorization and independent review.
+
