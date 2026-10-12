@@ -202,7 +202,7 @@ Every component contract admitted to implementation MUST declare:
 
 | Check ID | Verifiable claim | Source/evidence required | Present status |
 |---|---|---|---|
-| V-01 | B2 accepted and current functional baseline pointer agrees | B2 SHA + MH-24 report + matrix | Documentary correction done on working branch; main matrix remains unchanged |
+| V-01 | B2 accepted and current functional baseline pointer agrees | B2 SHA + MH-24 report + matrix | Documentary correction done on working branch: blob SHA 73377891072bac3c739c44055ceeb0874154f64c (commit 2a1bc39bed1f0afe631c3587446af15837a5e980); main matrix remains unchanged |
 | V-02 | B1 source atoms individually reconciled | Atom-level crosswalk with nonblank line anchors and exact B2 mapping | OPEN; parent-level only |
 | V-03 | Product/Smart Home authority boundaries are unambiguous | B2 + MH-03 + accepted HA integration contract and integration evidence | Functional split established; HA future extension still proposed |
 | V-04 | ASTRA is not mistaken for Product State Authority | Scope annotation, executor matrix and architecture drift tests/readback | Wording clarified on branch; tests not run |
