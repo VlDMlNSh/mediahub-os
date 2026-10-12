@@ -1928,3 +1928,33 @@ The prompt is a reusable start instruction for a new chat. It directs the next s
 
 **Next safe step:** obtain the outstanding owner/governance disposition for TSI subsystem ownership and contract boundaries, then review against any accepted TSI/MH-10/MH-19 contract. Do not promote mapping statuses or assign final IDs before the required lineage/collision checks.
 
+## 20.62 Passport v3 / Verifiable Contract integration — Batch 09 TSI gap recorded
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** WORKING-DRAFT INTEGRATION / POINTERS READ-BACK VERIFIED — GLOBAL ACCEPTANCE OPEN
+
+| Artifact | Path | Verified blob SHA | Confirmed outcome |
+|---|---|---|---|
+| Batch 09 Review 03 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-09-REVIEW-03.md` | `184a99ef85143c2ad3048dca5c8d85b17f8651a3` | Bounded B1 §18 ↔ B2 §§16/18 consistency review |
+| System Passport v3 | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` | `c844b42f5b98a29ff3d883857fdaf4b0b6873768` | P-22 added; prior P-01…P-21 and historical notes preserved |
+| Verifiable Architecture Contract 01 | `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` | `da2bdedeb8ad56698ce6398f4f303ef6946a5f0c` | ARC-029 / V-22 added; active Passport references refreshed; 29 ARC / 22 checks |
+| Jarvis Global Master Prompt 01 | `docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md` | `ce1110dd5c2c5825abd47051c50b5982ba765c1e` | Active Passport/Contract pointers and TSI evidence pointer refreshed |
+| Chat Continuation Master Prompt 01 | `docs/checkpoints/MEDIAHUB-CHAT-CONTINUATION-MASTER-PROMPT-01.md` | `b2aeb67d9a31eff0746043a4130fd61152f04198` | Review 03 marked complete; next work routes to full map restoration and then B1 §16 review |
+| Jarvis gap reconciliation (unchanged) | `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md` | `39720b11e5e6777b86ffd71e0fec1214982e0d95` | AG-01…AG-21 remain scoped to Jarvis blueprint; no unrelated TSI finding added |
+
+**Commit-metadata limitation:** the current read-back calls verified the blob SHAs above, but the individual Contents-API commit SHAs for the four document updates were not captured in the returned tool output. Do not infer commit SHAs from blob SHAs. This map's own update commit SHA is recorded by the update/read-back operation.
+
+### Confirmed synchronized facts
+
+- Passport P-22 records the B1 §18 named TSI subsystem contract/ownership gap and points to the current Batch 09 draft, Review 03 and D-06.
+- Contract ARC-029 establishes an explicit working-contract gate; V-22 records the source-backed review state without claiming subsystem acceptance, implementation or qualification.
+- Jarvis master prompt and continuation prompt point to the read-back Passport/Contract revisions. The continuation prompt no longer recommends repeating Review 03 and routes work to source-by-source MH-01…MH-25 map restoration, then a bounded B1 §16 review.
+- Current Batch 09 distribution stays **3 MAPPED / 13 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT**; all 17 labels are provisional. D-06 preserves TSI-12 as a historical sub-aspect of TSI-07. Full TSI semantic/owner/contract acceptance is OPEN.
+- B1 (`main`, SHA `9df4892ed0734050ac79732603d15bb414717310`), B2 (`main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`), the working traceability matrix (`73377891072bac3c739c44055ceeb0874154f64c`), canonical backlog and `main` were not changed.
+- No final child IDs or collision-check inventory were created. No tests, qualification, installation, deployment, live-host/infrastructure action or merge to `main` occurred.
+
+**Coverage boundary:** this integration closes a current pointer/context gap and makes the TSI acceptance blocker explicit in working synthesis documents. It does not finish the full MH-01…MH-25 repository map, create a current all-branch inventory, semantically review all 68 B1 sections, accept Passport v3 / Contract 01 as canonical, or establish implementation/production readiness.
+
+**Next safe step:** continue the full map restoration from the live map and primary-source navigation; verify each MH domain's canonical path/ref, decisions, dependencies, master/reverse handoff and evidence. In parallel, keep TSI ownership/scope open pending explicit disposition. After this integration checkpoint, the next bounded semantic source batch is B1 §16 Local Cluster AI; no status promotion is implied.
+
