@@ -1596,7 +1596,7 @@ The recursive tree fetched at pre-update branch HEAD 572dfade59961e2e58c9bcaac16
 Next safe step: continue with a separate atom-level crosswalk draft for B1 §16 Local Cluster AI, using the literal Audit 01 register, pinned B1/B2 refs and independent source-anchor review. Keep derived controls separate and do not promote any draft to the canonical backlog before semantic review and owner/governance acceptance.
 
 
-## 20.48 Batch 07 Local Cluster AI atom-level crosswalk and review
+## 20.49 Batch 07 Local Cluster AI atom-level crosswalk and review
 
 **Date:** 2026-10-12  
 **Ref:** `docs/mediahub-chat-tree-map-20261012`  
@@ -1614,3 +1614,29 @@ Next safe step: continue with a separate atom-level crosswalk draft for B1 §16 
 **Constraints:** B1/B2 and `main` are unchanged; no final child IDs were minted; canonical backlog and traceability matrix are unchanged. No tests, qualification, installation, deployment, host/infrastructure operation or merge was performed.
 
 **Next safe step:** move to B1 §17 Cloud Development AI in Batch 08. Keep the named-gateway contract/disposition open; do not treat a generic B2 gateway mention as accepted semantic mapping.
+
+
+## 20.50 Current source pointers after AG-21 inventory correction and Batch 07 read-back
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** `CURRENT POINTER SNAPSHOT / DOCUMENTARY ONLY`
+
+| Artifact | Current read-back blob SHA | Current result/status |
+|---|---|---|
+| Gap reconciliation (legacy ASTRO filename; active umbrella name Jarvis) | `39720b11e5e6777b86ffd71e0fec1214982e0d95` | AG-01…AG-21 = 21 scoped findings; 13 documentary cycles remain the earlier bounded ledger; no runtime qualification |
+| System Passport v3 | `327089a0780e85a053c3d56c185c22d2e76857ae` | Working draft; P-19/P-20/P-21 active gap pointers use the current gap report SHA; 21 findings reflected |
+| Verifiable Architecture Contract 01 | `8566e3a3817b82d17711349cab9fa962df57e28c` | Working draft; 28 ARC requirements / 21 verification checks; active Passport/Gap references refreshed |
+| Jarvis Master Prompt 01 | `25c9dbd3a8391934eea9d81a339a48c9fa0c179b` | Working prompt; current Passport/Contract/Gap references refreshed; 21-finding note present |
+| Batch 06 Local AI crosswalk | `9df96aca53d1004c33d45f038501dc6b7f52c0c9` | Structural/source-pointer review pass; semantic acceptance OPEN |
+| Batch 06 review | `1edc976dd663ae16a1b61876a2dbbde9411be095` | Historical Audit 01 pointer defect B1-15-13 → B2 §19 confirmed; current draft uses B2 §§16/18 |
+| Batch 07 Local Cluster AI crosswalk | `9d9663107a0ffba4316ab47bc8974e537a901f46` | 11 rows, 12 fields; `0 MAPPED / 10 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT` |
+| Batch 07 Review 01 | `4c665414776414efdc0855c395c290466b035423` | 11/11 IDs and schemas/anchors/statuses verified; semantic acceptance OPEN |
+
+**Count correction:** Gap report and Passport were read back after correcting the active report count from 20 to 21 following AG-21. Historical change records retain older counts/pointers as dated evidence; current source inventories use the latest refs above. Contract and master active pointer refs were then refreshed and read back.
+
+**Section numbering correction:** The earlier map entry `20.48 Current-pointer reconciliation after AG-21 / P-21 / ARC-028 / V-21` is retained as a dated checkpoint. Batch 07 is now §20.49 so every §20.x heading is unique. The current pointers in this section supersede older pointer snapshots; no history is deleted.
+
+**Constraints:** B1 `9df4892ed0734050ac79732603d15bb414717310`, B2 `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, Audit 01 `d0938f14ed4110545118f075175dee3be412097b` and `main` remain unchanged. No canonical backlog, matrix, runtime, infrastructure, host or hardware was altered or operated. No tests, qualification, installation, deployment or merge was performed.
+
+**Next safe step:** continue B1 §17 Cloud Development AI in Batch 08 under the same bounded, source-anchored process; keep all atom-level mapping and semantic approval open until independently verified.
