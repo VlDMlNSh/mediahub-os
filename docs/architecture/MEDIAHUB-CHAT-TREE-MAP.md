@@ -2222,3 +2222,33 @@ The SHA values `d4b742ea5e55ae23472cb285bf39bc29cbbb359c` and `dd9479cb225613806
 **No changes** were made to B1, B2, Semantic Audit Batch 04, AT backlog, traceability matrix, canonical backlog or `main`. No tests, qualification, installation, deployment, infrastructure action or merge was performed.
 
 **Next safe action:** independently inspect the Batch 15 draft/review against the approved 12-field schema and verify any remaining pointer/wording defects before deciding whether another review pass is warranted. Do not promote AT-17 or mint final child IDs without explicit owner decision, lineage/collision evidence and the required governance/review gates.
+
+## 20.70 Independent Batch 15 schema and source-anchor recheck
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** INDEPENDENT DOCUMENTARY RECHECK COMPLETE / NO STRUCTURAL OR PINNED-ANCHOR DEFECT FOUND / SEMANTIC ACCEPTANCE OPEN
+
+### Live artifacts and source anchors re-read
+
+| Artifact | Blob SHA | Recheck |
+|---|---|---|
+| Batch 15 draft | `3f20f36806cd91bc76ca5749fa4b06b8be651d7b` | Parsed 12 provisional DOC-24 records; each contains all 12 D-05 schema fields |
+| Batch 15 Review 01 | `50d5ac25a4c32eb21dd8c7ac71205ae2051c8ef1` | Reported row counts agree with independent record/status count |
+| B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` @ `main` | `9df4892ed0734050ac79732603d15bb414717310` | §24 lines 391–397 re-read; named paid/pro tier at line 393, function list at line 395, conditional OSS/PaddleOCR qualification at line 397 |
+| B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md` @ `main` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | §16 lines 358–366 re-read; line 360 supports the bounded general document-function mappings |
+
+### Independent consistency result
+
+- Record count: **12**; IDs unique across `DOC-24-01`…`DOC-24-12`.
+- Required schema: **12/12 records contain all 12 fields** (144 field slots).
+- Independently counted status distribution: **9 MAPPED / 2 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART**; matches Review 01. No `CONFLICT` row is present.
+- Pinned B1 anchors and B2 §16 text support the stated bounded category-level mappings. The draft does not treat general B2 document functions as proof of a paid entitlement model or runtime.
+- D-05's approved 12-field schema is applied without minting final child IDs. Unknown owners and unapproved acceptance criteria remain explicitly open/proposed.
+- No specific PaddleOCR adoption, structured-information schema, implementation, qualification or product-commercial decision is inferred.
+
+**Disposition:** no correction to the draft or Review 01 is justified by this bounded recheck. This is not a second independent reviewer sign-off and does not replace product-owner semantic acceptance. AT-17 remains **OPEN—OWNER DECISION**; DOC-24-10 and DOC-24-12 remain `NOT_REVIEWED`; the paid-tier entitlement matrix and lifecycle enforcement remain unresolved.
+
+No edits to the draft, Review 01, B1, B2, owner decision record, semantic audit, AT backlog, traceability matrix, Passport v3 or Contract 01 were made. No tests, qualification, installation, deployment, infrastructure action or merge was performed.
+
+**Next safe action:** continue restoring the MH-01…MH-25 map via its documented navigation, one bounded domain at a time. Do not attempt to close AT-17 without explicit owner decisions and required evidence.
