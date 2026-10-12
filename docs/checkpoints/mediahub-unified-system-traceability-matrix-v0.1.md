@@ -398,3 +398,22 @@ Status: **GAP REGISTER CROSSWALK / PROPOSED / NOT IMPLEMENTATION EVIDENCE**. Thi
 - MH-24 reconciliation report `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`.
 - Functional Baseline 2.0 `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 - Unified architecture/deployment contract `e9e65df37e74e5373bd07b810bf9a33e22418a3c` remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
+
+
+## 18. MH-21 external-compute authority and acceptance crosswalk (2026-10-12)
+
+Status: **DOCUMENTARY CROSSWALK / PROPOSED / NOT ACCEPTED / NOT FROZEN**. This section records the current primary-source contract and evidence boundary. It does not authorize implementation or qualify production behavior.
+
+| Stable requirement ID | Primary source and blob SHA | Confirmed contract / gap | Evidence required | Current state |
+|---|---|---|---|---|
+| MH21-CLOUD-AUTHORITY-01 | `docs/architecture/MH-21-hybrid-cloud-distributed-ai.md`, `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c`; `MH-21-cloud-boundary.md`, `e99d29d93033a7147f3e53fbf895ee3e15ba7221` | External compute is not authority; Cloud→State Authority and Cloud→Device direct paths are forbidden. | Complete boundary enforcement evidence, including negative bypass evidence and end-to-end mutation-chain proof. | PRINCIPLE ACCEPTED IN MH-21 / RUNTIME ENFORCEMENT UNKNOWN |
+| MH21-WORKLOAD-CONTRACT-01 | `docs/architecture/MH-21-external-compute-contract.md`, `b2127d6085cdbfcd98d2f819fa3ea5d12ffee68f` | Proposed ExternalWorkload includes identity, purpose, destination, provider/model identity, data/capability scope, timeout/resource/cost budgets, privacy/security, retention, provenance, audit, cancellation and failure semantics. Completion is not mutation permission. | Owner-approved schema/state machine; idempotency, lease/attempt semantics, expiry, cancellation and crash-recovery evidence. | PROPOSED / NOT ACCEPTED |
+| MH21-ACCEPTANCE-EVIDENCE-01 | `docs/architecture/MH-21-acceptance-criteria.md`, `582f898fe4be332b6a7fef3e8cca2e27c7328ac2`; `MH-21-evidence-register.md`, `6bc646902395f690554604b39b16464de796c724` | MH-21 acceptance is NOT SATISFIED; full production cloud runtime is UNKNOWN and absence of cloud→device bypass is UNKNOWN / requires verification. | Security/privacy/routing/failure/supply-chain evidence; functional, security, privacy, reliability, cost and safety qualification; complete traceability and contradiction/unknown closure. | NOT ACCEPTED / NOT FROZEN / NOT PRODUCTION READY |
+| MH21-ADAPTER-EGRESS-01 | `docs/architecture/MH-21-decision-log.md`, `03c9341b31780a263117f0400a6352d776acf1b1` | Provider adapters and default-deny egress remain PROPOSED; technology choices remain candidates. | Accepted ADRs, provider-boundary enforcement, egress-deny and fallback-negative evidence, privacy and cost controls. | PROPOSED / OPEN |
+
+### Interpretation constraints
+1. Connectivity, provider existence, a schema, or code presence does not establish trust, authorization, correct enforcement, or production readiness.
+2. A completed remote workload is untrusted DATA until local validation, provenance, policy and authorization succeed; it cannot directly mutate canonical state or critical devices.
+3. Do not infer absence of bypass from the absence of a documented bypass; the evidence register explicitly leaves this UNKNOWN.
+4. This pass read architecture documents only. It did not inspect runtime implementation, invoke providers, run tests, or change infrastructure.
+5. Baseline 2.0 remains the accepted canonical functional reference; this does not accept or freeze the unified deployment-contract draft.
