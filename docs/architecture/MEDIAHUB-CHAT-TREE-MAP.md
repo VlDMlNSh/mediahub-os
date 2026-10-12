@@ -3617,3 +3617,23 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Next safe action:** checkpoint this pass, update the map with the checkpoint SHA, then read back matrix/map/checkpoint and verify live SHAs.
 
 - **Latest continuation checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `5f03db8997b786b76ac42aa9a3a9b0b7752aba14`, blob SHA `63f0108d329c8d1cd0393baca5c36a6a3ec3aec9` (read-back verification pending).
+
+
+### 20.107 MH-21 external-compute authority and acceptance crosswalk (2026-10-12)
+
+**Primary sources read on `main`:**
+- `docs/architecture/MH-21-INDEX.md` — `07261e5116ee699176630d25e8e01adc4be7885b`.
+- `docs/architecture/MH-21-hybrid-cloud-distributed-ai.md` — `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c`.
+- `docs/architecture/MH-21-cloud-boundary.md` — `e99d29d93033a7147f3e53fbf895ee3e15ba7221`.
+- `docs/architecture/MH-21-external-compute-contract.md` — `b2127d6085cdbfcd98d2f819fa3ea5d12ffee68f`.
+- `docs/architecture/MH-21-acceptance-criteria.md` — `582f898fe4be332b6a7fef3e8cca2e27c7328ac2`.
+- `docs/architecture/MH-21-evidence-register.md` — `6bc646902395f690554604b39b16464de796c724`.
+- `docs/architecture/MH-21-decision-log.md` — `03c9341b31780a263117f0400a6352d776acf1b1`.
+
+**Crosswalk:** matrix section 18, four stable IDs `MH21-CLOUD-AUTHORITY-01`, `MH21-WORKLOAD-CONTRACT-01`, `MH21-ACCEPTANCE-EVIDENCE-01`, `MH21-ADAPTER-EGRESS-01`. Matrix update commit `0b32d126c75c253023d68ac346ff16334fc5969f`, blob SHA `20d766a5b6c6aa64788a488ef9b50929853914c7`.
+
+**Confirmed:** external compute is not authority; Cloud→State Authority and Cloud→Device direct paths are forbidden; workload completion does not grant mutation permission. MH-21 remains NOT ACCEPTED / NOT FROZEN / NOT PRODUCTION READY. Full production cloud runtime and absence of cloud→device bypass remain UNKNOWN. Provider adapters and default-deny egress remain PROPOSED. No gap closed, no implementation or qualification authorized.
+
+**Checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `e966e7d11d84535e63c0ec01f85a1cd4d8897a38`, blob SHA `3a6ede1b3114031a83ad3ca6eb5a7838c30a6418`.
+
+**Execution boundary:** documentary reads/writes only; no runtime inspection, tests, provider calls, credentials, installation, infrastructure change, deployment, migration or merge.
