@@ -16,7 +16,7 @@ Astra adopts the useful *capabilities*, not a second controller.
 
 | Capability | Astra owner | Runtime form |
 |---|---|---|
-| Global coordination/state | A0 Astra | autonomous queue + claim/evidence state |
+| ASTRA workflow/control state | A0 Astra | autonomous queue + claim/lease/evidence/gate transitions only; never MediaHub Product State Authority |
 | Architecture/contracts | A1 | task-scoped architect profile |
 | Implementation | A2 | permanent Claude lanes |
 | Independent verification | A3 | separate verifier process |
@@ -103,3 +103,7 @@ Any attempt to infer PASS from historical state is BLOCKED.
 If architecture documentation, task contracts, runtime claims, workflow configuration,
 or evidence disagree about executor identity, G-5, target SHA, or verifier independence,
 the result is **RECONCILIATION_REQUIRED**, not PASS.
+
+## Scope clarification — 2026-10-12
+
+In this matrix, “state” means ASTRA's own engineering workflow/control state: task claims, leases, queue progress, evidence records and qualification-gate transitions. It does **not** mean MediaHub canonical product state. Product mutations remain exclusively owned by MediaHub State Authority; Home Assistant Core remains the authority only within the Smart Home domain; A0-ASTRA is engineering coordination authority and does not gain product-state mutation authority by maintaining its own queue state.
