@@ -1888,9 +1888,14 @@ The two recorded sets of 13 cycles (Jarvis blueprint review and baseline/contrac
 **Status:** CREATED / GITHUB READ-BACK VERIFIED
 
 **Artifact:** `docs/checkpoints/MEDIAHUB-CHAT-CONTINUATION-MASTER-PROMPT-01.md`  
-**Read-back blob SHA:** `fd1e8218329c43dae3b5f2cee5fe1818a5f4342c`  
+**Latest read-back blob SHA:** `5c6278835da0e964bd9134f36d04cd987ef1003a`  
+**Initial blob SHA:** `fd1e8218329c43dae3b5f2cee5fe1818a5f4342c`  
+**Initial create commit:** `50073953411b1674da198d2c5923d4fa301d85c5`  
+**Prompt refresh commit:** `0459ecb519ca53f96f8db28abdb793e97d45f1d9`  
 **Create commit:** `50073953411b1674da198d2c5923d4fa301d85c5`
 
+
+**Refresh verification (2026-10-12):** the prompt’s checkpoint pointers and next-step guidance were refreshed after D-06 and Batch 09 Review 02 were fetched and verified. The current text records Review 02 as completed, preserves the TSI-12 → TSI-07 disposition, keeps full TSI semantic acceptance OPEN, and directs the next chat to perform a fresh map read rather than repeating completed work. It explicitly distinguishes available ChatGPT/project history from a verbatim transcript archive; no claim is made that every prior message has been exported to GitHub.
 The prompt is a reusable start instruction for a new chat. It directs the next session to:
 - retain and consult the prior ChatGPT conversation history available in the project, shared-project conversations and development checkpoints;
 - distinguish owner decisions from recommendations, hypotheses, proposals and accepted evidence;
