@@ -138,3 +138,17 @@ Resume with `/next`.
 - At each `/next`, first re-read bootstrap, map, this checkpoint, matrix, parent contract and current `main HEAD`. After each material finding or change, update the map/checkpoint as appropriate, re-fetch the updated files to verify their blob SHAs, then include the map link in that same reply.
 - If no map update was made in a particular turn, still provide the current map link and state explicitly that it was read but not changed. Never claim a map update without a verified GitHub read-back.
 - This is a conversation/reporting requirement; it does not authorize tests, qualification, installation, model/provider calls, host inspection, infrastructure changes, deployment, migration or merge.
+
+
+### Latest verified continuation — MH-10 / MH-21 source crosswalk (2026-10-12)
+
+- Re-read live bootstrap, architecture map, this checkpoint, unified matrix, parent contract, Baseline 2.0, MH-10 acceptance criteria and MH-21 hybrid/cloud architecture.
+- Added revision-bound source rows JARVIS-AI-01…03 and HYBRID-AI-01…03 to `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`; update commit `f8ffc2980a2428c5e001fb98d9682bd442dbca20`, blob `5e657edaca9f9123d2f5eb6bb6ebb7c7ea9affb6`.
+- Updated map section 20.101; update commit `5127d18daffa6d19daa6619501ea88c48d5667e2`, blob `125f17ba05ae2e64ffe62ddc214593dffd1932b0`.
+- Verified source SHAs: Baseline 2.0 `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` on `main`; MH-10 acceptance criteria `7c0746defea6635494208e04bf940579b254a25f`; MH-21 `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c`.
+- Current `main HEAD` observed from recent commit listing: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. No changes to `main`.
+- Important limitation: manifest and P0-07 candidate paths attempted in this pass returned 404 through the GitHub contents API; their current contents remain unverified and require exact source-path/branch resolution. No conclusion of absence.
+- Claude access surface, routing topology, egress classes and model/tool qualification remain OPEN. MH-10/MH-21 and the unified matrix remain unaccepted/unfrozen. Baseline 2.0 unchanged.
+- No tests, qualification, model/provider calls, credentials, installation, host inspection, infrastructure change, deployment, migration or merge performed.
+
+**Next safe action:** resolve the manifest and P0-07 source paths using the map's branch-specific references, then extend the requirement crosswalk with explicit evidence links and open-owner decisions. Re-read the live map/checkpoint/matrix/contract and current `main HEAD` at the start of the next `/next`.
