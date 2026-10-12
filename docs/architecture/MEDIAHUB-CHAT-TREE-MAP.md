@@ -602,3 +602,58 @@ Baseline 2.0 заявляет, что согласован с пользоват
 - Создана только автоматизация read-only аудита; её первый запуск не подтверждён.
 - Этот раздел добавлен в ветку карты, не в `main`.
 - Установка, hardware-тесты, qualification, release и production не выполнялись.
+
+
+---
+
+## 18. ПЕРВАЯ МАТРИЦА ТРАССИРУЕМОСТИ ПАСПОРТА 1.0 → BASELINE 2.0 — 2026-10-12
+
+**Статус:** `PRELIMINARY CROSSWALK — NOT SEMANTICALLY ACCEPTED`. Это навигационный указатель для следующего аудита, а не доказательство полного соответствия. Номера справа — разделы Baseline 2.0; соответствие требует проверки текста и не означает, что каждое требование явно сохранено.
+
+| Паспорт 1.0 | Тематические требования | Первичные разделы Baseline 2.0 для проверки | Открытая проверка |
+|---|---|---|---|
+| 1–2 | Назначение и общая модель уровней | 1, 2, 9 | Проверить, что все домены 1.0 отражены без потери границ. |
+| 3 | MediaHub State Authority | 3, 4, 22, 23 | Сопоставить единственность authority, fail-closed, audit/provenance и lifecycle. |
+| 4, 6–12, 28–29, 38, 52, 57 | Home Assistant, Smart Home, адаптеры, обнаружение, экспорт и automation | 14, 22 | Проверить authority domain, обходные пути, device onboarding и внешние экосистемы. |
+| 5, 24, 55 | Unified UI, документы, UX | 2.3, 16 | Проверить macOS-like UX, единый интерфейс и функциональную границу документов. |
+| 7–11 | Производители, Kincony/KCS, wired/wireless, Virtual Ubiquiti Server | 12, 14, 22 | Не выводить квалифицированную поддержку производителя только из упоминания. |
+| 13, 60 | Приоритет голосовых систем | 14, 22 | Явно проверить сохранение порядка Google Assistant → Яндекс Алиса → Apple Siri; не предполагать, что он есть в 2.0. |
+| 14–19, 42, 50, 53–54, 56, 59 | AI chain, Local/Cluster/Cloud AI, Trusted Sources, AI Human Clone, escalation | 10, 11, 18, 23 | Проверить data classification, gateway, consent/provenance, cloud egress и advisory-only invariant. |
+| 20–21, 30, 49, 51, 58 | Mobile Access Layer, Core iPad edition, remote app, developer ecosystem | 2.2, 2.3, 5, 8, 9 | Проверить требование ровно двух mobile applications, локальность Core и раздельность developer domain. |
+| 22–23 | iPhone AirPlay, media system | 15 | Проверить 4K/AirPlay, endpoints, multiroom и ограничения media authority. |
+| 25–26 | Digital Twin и Engineering | 17 | Проверить, что Digital Twin — часть OS Full, а professional capabilities регулируются entitlement. |
+| 27, 37 | Network, cluster, distributed compute | 10, 11, 12 | Проверить границы local cluster и corporate cloud cluster, node identity и network model. |
+| 30–31 | Product editions и платные capabilities | 2, 8, 17 | Проверить edition/capability matrix, entitlement и коммерческие границы. |
+| 32–33, 61 | Update, backup, recovery, migration, rollback | 19 | Проверить user confirmation, integrity/provenance, rollback и запрет конкурирующих OTA authorities. |
+| 34–36 | Security, cloud boundary, local-first | 3, 6, 7, 18, 19 | Проверить fail-closed, egress/residency, least privilege и local-only degraded mode. |
+| 39 | Observability / diagnostics | 9, 20 | Проверить наличие явных требований к telemetry, logs, traces, health и audit; если отсутствуют — gap. |
+| 40–41 | Storage, knowledge, search, provenance | 7, 13, 16, 23 | Проверить единый persistence model, pgvector/Qdrant rationale и отсутствие knowledge authority. |
+| 43–44 | OSS foundation/adoption policy | 21 | Проверить лицензии, security, provenance, benchmarks и component adoption gates. |
+| 45 | Архитектурные запреты | 3, 4, 6, 13, 18–20, 22 | Сопоставить каждый запрет с конкретным contract/acceptance test. |
+| 46, 65–66, 68 | Qualification, release, production gates, control chain | 20, 23, 24, 25 | Проверить, что все gates разделены и release/production не объявлены разрешёнными заранее. |
+| 47–48 | Git provenance и autonomous development | 11, 20, 23 | Независимо подтвердить R4 commit/tree; отделить AI proposal authority от release/qualification authority. |
+| 49 | Developer ecosystem | 2.2, 5, 11 | Проверить developer privacy boundary и controlled Cloud Development Environment. |
+| 50–59, 62–64, 67 | Сводные цепочки, принципы и финальная архитектура | 1–4, 9–19, 22–23, 26 | Проверить сквозные инварианты и наличие явных формулировок в нормативном baseline. |
+
+### 18.1 Что важно проверить в Baseline 2.0 отдельно
+
+По оглавлению Baseline 2.0 явно выделены authority model, product boundaries, cluster, network, storage, Smart Home, Media, Documents/Knowledge, Digital Twin/Engineering, AI, Update/Recovery/Migration, Qualification, OSS/Supply Chain, API/Event и Traceability/Provenance. Однако одних заголовков недостаточно, чтобы подтвердить, что все конкретные требования паспорта 1.0 перенесены.
+
+Отдельные требования паспорта 1.0, которые нельзя автоматически считать закрытыми по совпадению тем:
+- голосовой порядок трёх экосистем;
+- AI Human Clone и consent/revocation;
+- Trusted Sources Intelligence Engine как first-class подсистема;
+- ровно два мобильных приложения и локальный Core для iPad;
+- единоразовая оплата MediaHub Core iPad;
+- AirPlay 4K;
+- Virtual Ubiquiti Server;
+- точный OSS priority/reference перечень;
+- пользовательское подтверждение OTA и RAUC как целевой механизм;
+- конкретный immutable R4 commit SHA.
+
+### 18.2 Результат следующего обязательного прохода
+
+Для каждого из 68 разделов требуется расширить crosswalk до строки уровня требования:
+`Requirement ID / Passport § → exact source + SHA → Baseline 2.0 section → MH owner → contract/API → dependency → acceptance criterion → evidence → status → conflict/decision owner`.
+
+До получения такой матрицы статус соответствия: `NOT FULLY RECONCILED`. Наличие этого предварительного указателя не закрывает MH-24/MH-25 и не разрешает реализацию или production.
