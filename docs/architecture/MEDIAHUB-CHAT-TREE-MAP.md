@@ -1009,3 +1009,21 @@ R01–R04 и R06 из Review 01 подтверждены как исправле
 **Результат:** структурное покрытие ID PASS; детальность child-level traceability PARTIAL; семантическая полнота NOT ESTABLISHED; approval/canonical backlog eligibility NOT APPROVED. Baseline 1.0/2.0, matrix и исторический backlog не изменялись; canonical child IDs не закреплялись; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
 
 **Следующий безопасный шаг:** составить отдельный owner/governance decision register по остаточным anchor gaps, literal-versus-derived classification и одному normative owner на shared source atom. Не обновлять canonical backlog и не закреплять стабильные child IDs до явного решения владельца.
+
+
+
+## 20.23 Owner/governance decision register for Batch 04 normalization
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-OWNER-GOVERNANCE-DECISION-REGISTER-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `06686f6f7a66e300bdddfb7eccc0c2c2059b3ff7`  
+**Read-back blob SHA:** `a1bd98aa461859bf173725703723ec8dff73cce5`  
+**Статус:** `OPEN — NO OWNER DECISIONS RECORDED; NOT AN APPROVAL RECORD`.
+
+Создан отдельный реестр из 14 вопросов owner/governance, основанный на Proposal 02 (SHA `7e737c8add9e3453062e9fc459790e7010e55689`), Validation 02 (`e21137d8ac230a9ff28f616adcb840e234e5c965`), Review 01 (`373530821ae8dcbcf84e953f42e047e99f7810a8`), исходном Batch 04 (`26163e6f60b44e997560212bf7de9900210b7ed3`) и Baseline 1.0 в `main` (`9df4892ed0734050ac79732603d15bb414717310`).
+
+Реестр охватывает назначение accountable owner, shared atoms SA4, границы полномочий HA Core/MediaHub State Authority, HOLD UI4-04, пересечения SH4/AUTO4/Local AI/Cluster AI/Cloud AI, схему стабильных child IDs, B1/B2 reconciliation, обязательные contract/acceptance/evidence fields и историческое расхождение «47» против 48 уникальных IDs. Для каждого вопроса указан безопасный default до решения и тип необходимого approving evidence; никакие решения от имени владельца не выдуманы.
+
+Повторное чтение реестра подтвердило SHA `a1bd98aa461859bf173725703723ec8dff73cce5`, наличие 14 GOV-MH24 decision rows и статус `OPEN — NO OWNER DECISIONS RECORDED`. Карта перед записью имела SHA `46d7755b17375b379d1e947ec7bd95748bae038a`.
+
+**Следующий безопасный шаг:** передать конкретные GOV-MH24 вопросы владельцам доменов/архитектуры для явного решения. Пока решения и approval evidence не внесены, Proposal 02 остаётся NOT APPROVED, канонический backlog и stable child IDs не создаются, Baseline 1.0/2.0 не меняются.
