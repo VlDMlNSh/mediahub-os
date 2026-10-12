@@ -150,6 +150,23 @@ Microsoft marks [AutoGen](https://github.com/microsoft/autogen) as maintenance-m
 
 Это preferred architecture PoC, а не утверждение, что Temporal/LangGraph/LiteLLM уже установлены. До переписывания текущего queue нужно сравнить existing implementation и кандидатов по одинаковому acceptance suite. Если существующий компонент проходит reliability/security/maintenance gates — повторно использовать; если нет — менять только конкретно провалившийся слой.
 
+### Навыки разработки и контроля качества, установленные в test lab
+
+12 октября 2026 года на mh-dev-02 через Skills CLI проверен и расширен набор skills в /home/mediahub/.agents/skills. CLI связывает skills с Claude Code и Codex. Это инженерные инструкции для dev plane; их нельзя автоматически устанавливать на клиентский M2 prototype или предоставлять продуктовым агентам без отдельной проверки. Upstream skills требуют проверки содержания, полномочий и происхождения, потому что инструкции могут запускать инструменты с правами текущего агента.
+
+| Направление | Установленные skills | Источник |
+|---|---|---|
+| Architecture / codebase design | improve-codebase-architecture, codebase-design | https://github.com/mattpocock/skills |
+| TDD | tdd, test-driven-development | https://github.com/mattpocock/skills; https://github.com/obra/superpowers |
+| Code review / fix verification | differential-review, post-patch-validation, sharp-edges, receiving-code-review, requesting-code-review, verification-before-completion | https://github.com/trailofbits/skills; https://github.com/obra/superpowers |
+| Security / supply chain | audit-context-building, agentic-actions-auditor, supply-chain-risk-auditor, entry-point-analyzer, secure-workflow-guide, security-audit | https://github.com/trailofbits/skills; https://github.com/cloudflare/security-audit-skill |
+| Multi-agent execution hygiene | writing-plans, using-git-worktrees, dispatching-parallel-agents, subagent-driven-development, executing-plans, systematic-debugging, diagnosing-superpowers, finishing-a-development-branch | https://github.com/obra/superpowers |
+| Browser / incoming video evidence | agent-browser, analyze-video, instagram-research | https://github.com/vercel-labs/agent-browser; https://github.com/woven-video/skills; https://github.com/crawlora-org/crawlora-skills |
+
+Проверка установок подтвердила каталоги новых skills: improve-codebase-architecture, codebase-design, tdd, audit-context-building, differential-review, agentic-actions-auditor, supply-chain-risk-auditor, entry-point-analyzer, post-patch-validation, sharp-edges и secure-workflow-guide. Часть базовых skills была установлена ранее.
+
+**Ограничение:** нынешний skill lock сохраняет upstream repository URLs, но не даёт immutable commit pin для каждого источника. Перед promotion с test lab на целевые Mac Pro/Linux Mini нужно сохранить ревизию/хеши, проверить тексты skill-инструкций, закрепить approved allowlist и повторить установку на двух dev hosts. Не устанавливать engineering/security skills в клиентский runtime по умолчанию.
+
 ## 1. Назначение и итог аудита
 
 MediaHub OS — вся продуктовая и системная платформа. Мультиагентная система — универсальный слой планирования, исполнения, проверки и координации разных типов задач. Jarvis — один из пользовательских фасадов (голос, диалог, память, HUD), а ASTRA — подсистема автономной разработки/квалификации кода. Ни Jarvis, ни ASTRA не должны подменять доменную State Authority продукта.
@@ -164,7 +181,7 @@ MediaHub OS — вся продуктовая и системная платфо
 
 | Целевой узел | Роль в итоговой схеме | Этап и ограничения |
 |---|---|---|
-| **Покупаемый Mac Pro** | Основной целевой сервер MediaHub и один из двух серверов разработки ASTRA; центральная control/API-поверхность, координация Jarvis, состояние задач, маршрутизация и evidence после квалификации компонентов | До покупки неизвестны точная модель/поколение, CPU, RAM, GPU, SSD, ОС и сеть. Выбор моделей и worker capacity окончательно фиксировать только после проверки конфигурации. Не считать Alamo или контроллер развёрнутыми заранее |
+| **Покупаемый Mac Pro** | Development host №1 и основной узел engineering plane для repo research, workflow control, сборок, проверок и evidence. Отдельные product/central services можно размещать на нём только по утверждённой deployment topology | До покупки неизвестны точная модель/поколение, CPU, RAM, GPU, SSD, ОС и сеть. Mac mini M2 у заказчика по умолчанию не зависит от Mac Pro для базовой работы. Не считать Alamo, control plane или workflow engine развёрнутыми заранее |
 | **Mac mini 2011, Linux, целевые 16 GB RAM** | Второй сервер разработки / Linux executor, тестовая совместимость и ограниченные фоновые задачи | 16 GB — целевая конфигурация пользователя. Apple официально указывает заводские комплектации до 8 GB, но OWC сообщала о верифицированной установке 16 GB (2×8 GB); фактический объём и стабильность нужно проверить на конкретном экземпляре до ввода в эксплуатацию. Первый запуск Linux выполнять по Ethernet, проверить firmware/network/SSD, стабильность памяти и автоматическое восстановление после перезагрузки |
 | **Mac mini M2 Виктора, 8 GB** | Первый работающий прототип продукта MediaHub; среда функциональной проверки, staging/demo и проверки UX | Не включать в постоянный парк серверов разработки и не считать постоянной Astra Gold executor lane после перехода к целевому железу. На этапе разработки разрешены временные тесты, но продуктовый прототип должен быть отделён от очереди и полномочий дев-серверов |
 | **Будущий видеосервер с мощным GPU** | Дополнительный compute/inference pool для крупных моделей, обработки видео/изображений и иных GPU-задач | Будущее расширение, не prerequisite для базового старта. Его GPU/VRAM/RAM/storage/driver/network/API/модель нужно квалифицировать отдельно. По умолчанию это compute worker, не сервер разработки и не State Authority |
@@ -177,9 +194,9 @@ MediaHub OS — вся продуктовая и системная платфо
 1. Сильная сторона — формализованные роли A0/A1/A2/A3, fail-closed gate, обязательные evidence и человеческий запуск.
 2. Первоочередной блокер — заполненный диск mh-dev-01. Не запускать там сборки, установку пакетов или широкие тесты и не удалять файлы до read-only анализа и сохранения dirty worktrees.
 3. Evidence устарели и не доказывают состояние сегодня.
-4. Один компонентный документ говорит о двух параллельных claims, а канонические контракты, reference architecture и тесты — о трёх. Документацию следует согласовать.
+4. Текущие runtime contracts/tests по-прежнему предполагают три старые dev lanes, включая M2; целевая система имеет два development hosts (Mac Pro и Linux Mac mini), а M2 становится отдельным product prototype. Нужно изменить worker registry, lane/concurrency contracts, tests and task routing перед целевым запуском.
 5. Read-only ollama show на mh-dev-02 подтвердил, что qwen2.5-coder:7b и claude-sonnet-4-6:latest указывают на один blob sha256:60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463 с архитектурой qwen2, 7.6B и Q4_K_M. Следовательно, метка claude-sonnet-4-6:latest здесь alias той же Qwen2 модели, а не отдельной Claude Sonnet. Alias следует исключить из автоматической маршрутизации до отдельного исправления registry; модель не удалять.
-6. FreeLLMAPI не имеет подтверждённого точного upstream/commit. В сети есть несколько одноимённых проектов; не подключать найденный случайный репозиторий.
+6. FreeLLMAPI не имеет подтверждённого точного upstream/commit. В сети есть несколько одноимённых проектов; не подключать найденный случайный репозиторий. LiteLLM и native adapters добавлены как альтернативы для PoC, но production gateway пока не выбран.
 7. Jarvis из видео — полезный референс голосового HUD, но его базовая реализация использует Claude Code/Agent SDK и облачную Anthropic модель. Это не готовый Alamo/FCC/local-only маршрут.
 
 ## 2. Авторитет и границы ответственности
