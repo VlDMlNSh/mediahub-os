@@ -57,3 +57,9 @@ These owner selections establish the workflow for resolving the issue, not its t
 - Main HEAD recorded in the current checkpoint: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Documentation-branch facts must not be represented as already present in `main`.
 
 This register is a decision-traceability artifact, not evidence of implementation or acceptance.
+
+
+
+## Evidence addendum — P0-05 status question #1 / candidate D6 (2026-10-12)
+
+A source-bound governance lineage check found positive evidence that the exact contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` was included in the accepted P0-05 tree: acceptance commit `97a01977f521ba8304a455b5d7504896235ddea7`, tree `f926cd6c162f104c8c122cd17dae76dc28f32b19`. That tree also contains governance decision packet blob `1253944ffeefcb59502d9f7deb13d38baed1d6e1`, which explicitly approves the P0-05 State Authority Integration Boundary and Consumer Contract for controlled implementation. This supersedes the earlier evidence-gap statement: contract acceptance is supported by the approved tree/packet. The contract's own DRAFT header remains contradictory; it is not silently edited. This evidence covers the P0-05 baseline contract only, not the P0-07 extension or candidate D1–D5/D7. P0-07 remains blocked pending a separate accepted mutation/authorization interface.
