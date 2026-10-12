@@ -594,3 +594,14 @@ This addendum supersedes only the prior subsection's mutable-branch blob snapsho
 - Branch-local gate labels remain draft-only: matrix `MH-UTM-G0`…`MH-UTM-G9`; contract `MH-UDC-G0`…`MH-UDC-G9`. They do not rename ASTRA G0–G11 or MH-22 G1–G9.
 - Verdict unchanged: **PROJECT-WIDE PRODUCTION QUALIFICATION = NO-GO / NOT PROVEN**. Current-head verification failed; available job summary did not establish cause; queue supervisor remained queued; zero commit status records are not PASS.
 - No executable qualification, tests, workflow dispatch/rerun, runtime/host/log investigation, credentials, provider/model calls, installation, migration, deletion/restore, infrastructure change, deployment, merge or rebase occurred.
+
+
+## Latest verified continuation — live qualification metadata refresh (2026-10-13)
+
+- Re-read the current bootstrap, map, this checkpoint, owner decision register, matrix and qualification wave-02 report from GitHub before acting.
+- Pre-update blob SHAs: bootstrap `4ced4a9249591d218e8949f498c862fc21274b16`; map `d1e1d3782786e2ff71cf7224bc72562881ebc582`; checkpoint `a4649649a0f5b8532724daf435b29b5b2672cd22`; owner register `62831d23c5e6bbddc707ec5b197cffba57d6139a`; matrix `ec04a9c48aa057c009e90ccc2c09ce0392f3a7e3`; wave-02 report `d8739993ab48e277ca5dc0e0456e8c5d045a1348`.
+- Live `main HEAD` remains `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Live docs-branch comparison: DIVERGED, 490 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Historical counts in earlier checkpoints/reports are snapshots, not current values. No merge/rebase.
+- Astra Verify run `38226754511` is completed/failure on current main SHA; the job summary is failed but no step summaries are returned, so failure cause remains UNKNOWN. Astra autonomous queue supervisor `38273320112` remains queued. Combined status returns zero records; this is not PASS.
+- Overall project qualification remains NO-GO / NOT PROVEN; ASTRA G0–G11 BLOCKED; MH-22 G1–G9 not promotable. P0-07 canonical mutation/publication remains BLOCKED — GOVERNANCE/API GAP. P0-05 candidate/header status still requires explicit governance confirmation.
+- This pass only refreshed documentary metadata. No tests, qualification runner, workflow dispatch/rerun/cancel, logs, credentials, provider/model calls, runtime/host inspection, installation, infrastructure changes, migration, deployment, merge or rebase.
+- **Next bounded step:** follow the map’s P0-07/P0-05 routes and perform a source-bound read-only audit of caller/context provenance and the distinct P0-04 transaction authorization boundary. Do not infer the CI failure cause from summary metadata; do not edit the protected P0-05 header absent explicit governance confirmation.
