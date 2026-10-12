@@ -3166,3 +3166,49 @@ An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 40
 - Egress enforcement, actual provider configuration, data residency/retention, supply-chain evidence, cost/latency budgets and chaos results remain unverified.
 - MH-10 ↔ MH-21 scope ownership requires explicit governance resolution.
 - **Next safe domain from the project map: MH-22 — Qualification / Verification / Operations gates.** Keep Architecture, Implementation, Verification, Qualification, Release and Production acceptance separate. Do not claim PASS without exact revision-bound evidence.
+
+## 20.94 MH-22 Production / Qualification / Operations — current evidence audit
+
+**Date:** 2026-10-12. **Reviewed canonical ref:** `main`, HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. GitHub combined status endpoint returned zero status records for this SHA; that is not a test run and does not prove tests failed or passed. **Disposition:** `ARCHITECTURE WORK AUTHORIZED / NOT YET ACCEPTED / NOT FROZEN`; production state `NOT PRODUCTION QUALIFIED`; readiness `NO-GO pending sufficient evidence`. This is an evidence-completeness verdict, not a claim that the system is insecure or defective. Read-only audit; no tests/workflows/qualification/deployment were started.
+
+### Primary sources and exact blob SHAs
+
+| Source | Blob SHA | Confirmed facts |
+|---|---|---|
+| `docs/architecture/MH-22-master-prompt-interface.md` | `9278e49d453bf1a6a68d40f99b842fcf52ad216d` | Architecture record is governance storage; implementation belongs in a separate development stream; GitHub is durable external record. |
+| `docs/architecture/MH-22-production-qualification-operations.md` | `17bb2a9fdc34a0ee7c324e78c412616b5e377bb4` | Defines lifecycle, release identity, scope and NO-GO; historical evidence cannot be promoted to current HEAD. |
+| `docs/architecture/MH-22-acceptance-criteria.md` | `40d401c0a4ba80550f8101d4e9b1de8f0c77849e` | Requires exact release identity, provenance, security/privacy, software/hardware/integration qualification, install/update/rollback/recovery, restore/DR, operations and explicit governance acceptance. |
+| `docs/architecture/MH-22-evidence-register.md` | `188a85e3a31cb545fd781e6db237d655d721ec1c` | P0 workflows and scanners exist, but current-HEAD production qualification, release identity, digest/signature/SBOM, hardware, recovery and acceptance remain UNKNOWN/NOT GRANTED. |
+| `docs/architecture/MH-22-decision-log.md` | `dd4d772283e1264e539955e4293f2a8207da8eac` | Evidence-defined production status, SINGLE NODE / NO HA and NO-GO are accepted decisions. |
+| `docs/architecture/MH-22-contradiction-register.md` | `02a7a9a5f8c2a7f814daad3f674d19a62161b7d2` | Guardrails prohibit equating historical verification with current-HEAD evidence, test success with qualification, deployment with acceptance, backup with HA, or rollback with data rollback. |
+| `docs/architecture/MH-22-unknowns.md` | `4b5d38732785be1fee7833b44381f74aec1653bc` | Current-HEAD qualification, immutable release identity, provenance, hardware, lifecycle execution, restore/DR, SLI/SLO and production approval remain unknown. |
+| `docs/architecture/MH-22-production-gates.md` | `8cbac21dfd5933ae629c35949d597f99a2236440` | Defines G1–G9; no implicit transitions; FAILED or UNKNOWN stops promotion. |
+| `docs/architecture/MH-22-production-model.md` | `81f841d6dcf9f6b0a850eb4af5f806d5fb1c8f9b` | Production is a governed evidence-backed state, not a branch/build/test/deployment state. |
+| `docs/architecture/MH-22-pass-summary.md` | `e466acfd5412e25e8565571ce24f1dd17cad5a94` | Dated 2026-09-04; architecture baseline complete, production qualification NO-GO; historical summary, not fresh current-HEAD qualification. |
+| `docs/architecture/MH-22.1-current-production-qualification-audit.md` | `3cbcccb1af7af42c967cd0639183988fbe580296` | Dated 2026-09-04; current-HEAD evidence gap, release identity, hardware and lifecycle evidence gaps recorded. |
+| `docs/architecture/MH-22.2-qualification-matrix.md` | `474f4048d9fd50c72943bd06df5043124bed3f4e` | Build, tests, release identity, hardware, install/update/rollback/recovery, restore/DR, SLI/SLO and governance remain UNKNOWN/PARTIAL/NOT GRANTED. |
+| `docs/architecture/MH-22-dependency-map.md` | `a12e6142acb95a878c25d5007526d38101a1b5cd` | MH-22 consumes upstream architecture contracts; MH-23 consumes qualification, lifecycle, supportability and EOL evidence. |
+| `docs/qualification/CURRENT-TRUTH.generated.md` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | Astra Gold G0–G11 are BLOCKED; overall NOT_PROVEN/BLOCKED, no fresh PASS; G11 human-only. This is generated governance truth, not proof of generic MediaHub runtime status. |
+| `docs/ops/MH-3-autonomous-qualification-result-2026-09-30.md` | `a9959b21ec137dd379f8e69f9099c999771cfc01` | MH-3 candidate qualification verdict INCONCLUSIVE; older branch/SHA, not current-main production qualification. |
+| `docs/checkpoints/mediahub-functional-baseline-2.0.md` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Baseline 2.0 is ACCEPTED/CANONICAL/IMMUTABLE; architecture does not imply implementation or qualification. |
+| `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` | `9df4892ed0734050ac79732603d15bb414717310` | B1 remains its distinct historical edition/provenance; do not implicitly merge with B2. |
+
+### Qualification invariants and findings
+
+1. Preserve the ordered lifecycle: `IDEA → DESIGN → IMPLEMENTED → TESTED → VERIFIED → QUALIFICATION CANDIDATE → QUALIFIED → RELEASED → DEPLOYED → OBSERVED → PRODUCTION ACCEPTED`. Each transition needs its own evidence and governance decision.
+2. Release identity must bind product/version/build/commit/artifact digest/release channel/build environment/dependencies/signature/SBOM where applicable and qualification record.
+3. Tests, passing CI, existing workflows, artifact existence, deployment or observation do not independently establish production qualification.
+4. Current main HEAD is known, but a current-HEAD full qualification record was not established by reviewed artifacts. The combined status API returned no status records; no tests were executed in this audit.
+5. Hardware (including the documented Mac mini Server 2011 candidate), sustained load, install/update/rollback/recovery, restore integrity/function, DR, production observability/SLI/SLO, capacity, runbooks, ownership and escalation remain without adequate qualification evidence in the reviewed matrix.
+6. Reliability baseline remains SINGLE NODE / NO HA. Backup, multiple processes, containers, workers or cloud services do not imply HA.
+7. Monitoring, incident response, automation, AI, cloud and deployment systems do not acquire State Authority.
+8. Unknown is not PASS. The production NO-GO reflects incomplete evidence, not a generalized finding of insecurity or defect.
+9. Astra Gold current generated truth separately reports all G0–G11 BLOCKED / NOT_PROVEN; MH-3 historical qualification is INCONCLUSIVE. These do not substitute for an exact-release MH-22 qualification record.
+10. Baseline 2.0 stays the accepted functional reference; Baseline 1.0 stays preserved historical provenance. No implicit merge.
+
+### Governance disposition and next stage
+
+- MH-22 architecture package is established, but `NOT YET ACCEPTED / NOT FROZEN`.
+- Production qualification: `NO-GO`; no production acceptance is granted.
+- No tests, qualification, deployments, installs, provider/network scans, or infrastructure changes were performed in this audit.
+- **Next safe domain from the map:** MH-23 Migration / Long-Term Evolution. It consumes MH-22 evidence and lifecycle/supportability/EOL constraints. Its branch-specific status must be verified before treating any artifact as canonical on `main`.
