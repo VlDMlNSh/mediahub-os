@@ -215,3 +215,54 @@ MH-24 и MH-25 подтверждены контрольными докумен�
 - Четыре MH-18 ветки (`mh-18-media-content-architecture`, `...-handoff`, `...-handoff-v2`, `...-sync`) сравниваются как **IDENTICAL**: 0 ahead / 0 behind / 0 файлов различий. Это означает, что их текущие refs указывают на одинаковое состояние по compare API; не требуется выбирать «v2» как более новую версию только по имени. В карте можно считать их aliases одного содержимого на момент проверки, сохранив все имена веток как исторические ссылки.
 - Ветки `architecture/mh01-chat-qualification-20260930` и `architecture/mh01-chat-qualification-20260930-v2` **DIVERGED**: при сравнении первая имеет 11 уникальных commits, вторая 16 уникальных commits относительно первой. В v2 присутствуют MH-01 charter/blueprint и контрольные документы MH-24/MH-25/Baseline 2.0; однако среди diff также есть MH-02 документы в первой ветке. Следовательно, эти ветки нельзя трактовать как две линейные версии одного чистого MH-01 пакета; v2 включает более широкий контрольный срез.
 - Эти выводы основаны на прямом сравнении refs через GitHub. Перед любым переносом всё равно проверить SHA и состояние target branch на момент изменения.
+
+
+## 10. Следующий проход: Baseline 2.0 против MH-20/MH-23 (2026-10-12)
+
+### 10.1 Проверка текущего main
+
+Проверены точные пути в `main` и blob SHA:
+
+- `docs/checkpoints/mediahub-functional-baseline-2.0.md` — найден, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, статус в документе **ACCEPTED — CANONICAL IMMUTABLE REFERENCE POINT**.
+- `docs/checkpoints/mediahub-mh24-traceability-matrix.md` — найден, blob SHA `8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6`; матрица сама помечена **RECONCILIATION CANDIDATE**, поэтому не называть её отдельно принятой/замороженной без дополнительного подтверждения.
+- `docs/architecture/MH-20-CHAT-MASTER-PROMPT.md` — найден, blob SHA `0f185752a288ef494d3217d501c4cb64a2cff46f`.
+- `docs/architecture/MH-20-REVERSE-MASTER-PROMPT.md` — найден, blob SHA `04b3137a19b3f25f69fa5172965b4999948cb266`.
+- `docs/architecture/MH-17-master-prompt.md` — найден, blob SHA `a750ee5b292043a1f1b18ec317a4b5b2c44aad24`.
+
+Точные ожидаемые пути `docs/architecture/MH-20-master-prompt.md`, `MH-20-architecture-audit.md`, `MH-23-CHAT-MASTER-PROMPT.md`, `MH-23-REVERSE-MASTER-PROMPT.md`, `MEDIAHUB-MASTER-ARCHITECTURE-INDEX.md` и `MH-01-ARCHITECTURE-CHAT-CHARTER.md` в `main` не найдены. Это результат проверки точных путей, а не заявление об отсутствии соответствующих документов во всех ветках/истории.
+
+### 10.2 Каноническое назначение MH-20 — важная коррекция
+
+Текущий `MH-20-CHAT-MASTER-PROMPT.md` описывает MH-20 как **automation governance**: Automation / Energy / Self-Healing, evidence, canonical state, decisions, contracts, invariants, traceability, verification, acceptance/freeze. Он прямо фиксирует:
+- Automation is orchestration, not authority.
+- Любая мутация следует цепочке Policy → Authorization → Consumer Boundary → State Authority.
+- Scheduler, Rule Engine, Energy Engine, Self-Healing Engine и AI не являются authority.
+- Рабочий цикл: Evidence → Canonical State → Decision → Architecture → Implementation → Verification → Governance Acceptance → Freeze.
+
+Это согласуется с исторической картой MH-01…MH-23, где MH-20 — Automation / Energy / Self-Healing. Поэтому предыдущую формулировку «MH-20 = Architecture Audit» нужно считать **неподтверждённой/конфликтующей меткой**, а не каноническим назначением. Не переименовывать файлы автоматически; в индексе использовать назначение Automation / Energy / Self-Healing, а «Architecture Audit» оставить как неразрешённый алиас/ошибочную метку до выяснения её происхождения.
+
+Матрица Baseline 2.0 дополнительно ссылает на MH-20 для State Authority (в связке MH-3/MH-14/MH-20), OSS foundation/adoption, architectural prohibitions, Git/provenance и autonomous development. Это означает, что MH-20 — не только runtime automation design: его governance scope распространяется на безопасное принятие OSS, архитектурные запреты и доказуемость разработки.
+
+### 10.3 MH-23: подтверждённая роль и пробел канонического пути
+
+Ветка `architecture/mh-23-long-term-evolution` содержит отдельные `MH-23-CHAT-MASTER-PROMPT.md` и `MH-23-REVERSE-MASTER-PROMPT.md`, плюс compatibility/migration/decision/evidence/contradiction registers и master architecture index. Однако эти точные prompt paths не найдены на `main` в `docs/architecture/`.
+
+Текущий Functional Baseline 2.0 относит Migration к отдельному control plane, не к authority, и требует сохранять State Authority identity, contracts, provenance, security и data integrity при migration. Traceability matrix использует MH-23 вместе с MH-16 для backup/recovery и MH-21 для cloud/developer fabric, а также связывает MH-20/MH-23 с OSS foundation, Git/provenance, autonomous development, release lock и development chain.
+
+**Рабочее назначение MH-23:** Evolution / Compatibility / Migration (историческая архитектурная ветка); миграция должна сохранять идентичность канонического состояния, provenance и security. **Канонический путь prompts в main пока не подтверждён.** Не копировать их из ветки в main автоматически.
+
+### 10.4 Что эта проверка изменила в понимании дерева
+
+- Functional Baseline 2.0 — текущая каноническая функциональная точка отсчёта; исторические MH-1…MH-23 — provenance, а не автоматически действующие отдельные frozen specifications.
+- Traceability matrix — полезная карта соответствия 68 разделов, но в заголовке имеет статус reconciliation candidate. Её содержимое нельзя путать с доказательством квалификации.
+- MH-20 в текущем main имеет точные master/reverse prompts; домен — governance автоматизации/OSS/provenance, не «Architecture Audit».
+- MH-23 имеет подробный пакет в специализированной ветке, но его точные prompts/index не подтверждены на main.
+- Несколько точных путей из отдельных веток отсутствуют на main. До любого переноса следует проверить полный путь, blob SHA, ancestry и возможный эквивалент с другим именем.
+
+### 10.5 Следующий проход
+
+1. Извлечь из `MH-02-MH01-MH23-map.md` полный граф зависимостей и сопоставить его с 68 строками traceability matrix.
+2. Для каждого MH-домена установить текущий `main` path и SHA либо отметить `BRANCH-ONLY` с точной веткой/commit.
+3. Сопоставить список «master prompt / reverse prompt / decision / evidence / acceptance / freeze» и отметить реальные пробелы.
+4. Отдельно разобрать происхождение метки «Architecture Audit» и проверить, не относится ли она к MH-25/MH-24 reconciliation или иному audit package.
+5. В итоговой карте указать дату проверки refs, чтобы будущая сессия начиналась с проверенного снимка, а не с повторения старых предположений.
