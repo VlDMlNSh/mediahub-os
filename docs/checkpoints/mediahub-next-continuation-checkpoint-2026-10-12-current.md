@@ -202,3 +202,16 @@ Resume with `/next`.
 - No tests, runtime inspection, security probes, provider/model calls, credentials, installation, infrastructure changes, deployment, migration or merge occurred. Baseline 2.0 remains canonical and unchanged.
 
 **Next safe action:** read back matrix and map, append this continuation checkpoint, update map with its latest SHA, then verify all three live files from GitHub before reporting.
+
+
+### Latest continuation — MH-24 architecture-gap crosswalk (2026-10-12)
+
+- Re-read bootstrap, map, checkpoint, matrix, parent contract, Baseline 2.0 and component manifest. `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; recursive tree complete (798 entries; not truncated).
+- Primary sources read: architecture gaps/pushback register `13c3a158ed9c925eaefcd6fe106577bc425f765b`; master reconciliation `f3a66e292302984be95ae8085f17e03cd538baae`; MH-24 traceability matrix `8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6`; MH-24 reconciliation report `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`; Baseline 2.0 `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
+- Added 10 matrix IDs: `MH24-GAP-IDENTITY-01`, `MH24-GAP-ATTEST-01`, `MH24-GAP-ISOLATION-01`, `MH24-GAP-STATE-FENCING-01`, `MH24-GAP-DATA-CLASS-01`, `MH24-GAP-JOB-SEMANTICS-01`, `MH24-GAP-TRANSPORT-BOUNDARY-01`, `MH24-GAP-NETWORK-QUAL-01`, `MH24-GAP-RESOURCE-01`, `MH24-GAP-ACCEPTANCE-01`. Matrix commit `11f8fb9fb420536742661d06a0154bae963e2f00`, blob `310daad873940b4a50c083801b3c3a6b6dfb141b`.
+- Map section 20.106 added at commit `f80de2bde997843f5d97f8ce7e03830abe692b3b`, blob `875e1fd963c7cb120f78f085f2ab5eb238877519`.
+- Status reconciliation: the old master checkpoint's “not yet owner-accepted” line is historical; the 2026-10-01 MH-24 reconciliation report and current Baseline 2.0 record accepted/canonical status. This does not accept the deployment-contract draft or prove implementation/qualification.
+- P0 gaps remain open: identity/revocation, capability attestation, worker isolation, State Authority persistence/fencing, data classification/result confidentiality, job/lease semantics, external component boundaries, and network/hardware qualification. No gaps closed.
+- No tests, runtime/host inspection, network probes, provider/model calls, credentials, installation, infrastructure changes, deployment, migration or merge occurred.
+
+**Next safe action:** add this checkpoint's final blob SHA to the map, then read back matrix/map/checkpoint and verify cross-links.
