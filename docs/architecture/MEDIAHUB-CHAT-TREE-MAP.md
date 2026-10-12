@@ -2650,3 +2650,46 @@ The prior 20.75 next-step wording “MH-04 State Authority inventory” is impre
 8. MH-10 acceptance/freeze remains ungranted. The current map entry records documentation facts only and does not alter domain governance status.
 
 **Next safe action:** proceed to MH-11 Diagnostics / Observability using the map's documented path and current primary sources. Preserve MH-10 as PROPOSED / NOT ACCEPTED, keep MH-10↔MH-21 scope ownership open, and do not run tests/qualification or change runtime/provider configuration without explicit authorization.
+
+## 20.83 MH-11 Diagnostics / Observability — branch primary sources reconciled; acceptance remains open
+
+**Date:** 2026-10-12  
+**Status:** Architecture package PROPOSED / PARTIALLY EVIDENCED; acceptance NOT ACCEPTED / NOT FROZEN; implementation/runtime instrumentation NOT VERIFIED; production qualification NOT ESTABLISHED. This pass was read-only for domain/runtime artifacts; only this map was changed.
+
+### Primary source and revision evidence
+
+| Source | Ref / SHA | Confirmed fact |
+|---|---|---|
+| Dedicated MH-11 branch | `architecture/mh-11-diagnostics-observability`; HEAD/tree `3fef9e3e6cb364b95bd5e18e5cf827388bfef784`; 173 tree entries | Branch-specific architecture corpus exists. It is not proof of merge, acceptance, implementation or qualification. |
+| MH-11 index | `docs/architecture/MH-11-INDEX.md`; blob `9add73e45393fb47c8ea83eb2f2cbcb22751bebb` | Package status PROPOSED; defines authority records and broad diagnostic domains. |
+| Acceptance criteria | `docs/architecture/MH-11-acceptance-criteria.md`; blob `342989e3954aee5eefd3ffdd707c9dde0aa403e6` | Explicitly PROPOSED — NOT ACCEPTED / NOT FROZEN; requires evidence across 25 categories including privacy, forensics, resilience, testing and traceability. |
+| Evidence register | `docs/architecture/MH-11-evidence-register.md`; blob `bd5f47fd7c94d7fbac28f9991ba07bd25c8bb312` | PROPOSED / PARTIALLY EVIDENCED; several P0-03…P0-07 claims rely on supplied continuity inputs and call for repository/runtime re-check. MH-11 branch existence is OBSERVED; production qualification not claimed. |
+| Decision log | `docs/architecture/MH-11-decision-log.md`; blob `338ade82960bd8a4030575f35f077d788dfe8bc9` | D-11-001…D-11-005 remain PROPOSED: observability non-authority, semantic-channel separation, governed diagnostic mutation, local-first resilience and technology neutrality. |
+| Contradiction register | `docs/architecture/MH-11-contradiction-register.md`; blob `fcb3a7a18558ca6e45387b33701c37c4929ef7de` | Ten risks remain REQUIRES VERIFICATION, including hidden State Authority mutation, diagnostic persistence, lifecycle/health conflation, audit/event conflation, AI evidence authority, plugin overreach, cloud trust, debug bypass, P0-07 mutation exposure and self-healing mutation. |
+| Dependency map | `docs/architecture/MH-11-dependency-map.md`; blob `6e28b5d48a944b78880bd50ebb9aac2a65afd8b9` | MH-11 depends on MH-02…MH-10 and P0-03…P0-07; conflict with frozen P0-03…P0-06 is a STOP condition. |
+| Main architecture | `docs/architecture/MH-11-diagnostics-observability-architecture.md`; blob `c87097370ca28f5278d66ae9459a30517c0f7680` | PROPOSED target architecture separates observation, accountability, diagnostics, correlation, protection and collection planes; implementation requires separate contracts/ADR/security/privacy/resource review and authorization. |
+| Observability boundary | `docs/architecture/MH-11-observability-boundary.md`; blob `659f0b7457b369c003ffe77ec67a7a5cdf9b2d16` | Bounded observation/collection/storage/viewer path; adapters must not directly mutate canonical state; diagnostic clients require authorized boundary. |
+| Health/readiness | `docs/architecture/MH-11-health-readiness.md`; blob `734a1cc2403d0104c7f34caa1ef7851145f65daa` | PROPOSED; MH-11 observes semantics owned by MH-06. Liveness, readiness, health and availability remain distinct; observation cannot perform lifecycle mutation. |
+| Log/metric/trace/event/audit semantics | `docs/architecture/MH-11-logs-metrics-traces-events-audit.md`; blob `0da1d66311d8768ba0cf8d9db5d7d5d7b6b995fa` | These are distinct record types; none is canonical state or mutation authority. |
+| Data governance / redaction | `docs/architecture/MH-11-data-governance.md`; blob `7c7e9db23d64a8ab4514092a8619ef1315c10ba7`; redaction blob `fa23ee2cd989cb596c23139998586269b1583897` | Classification, retention and legal semantics still require governance/privacy evidence. Secrets, credentials, tokens and unrestricted private payloads are prohibited from ordinary telemetry. |
+| Failure and resilience | `docs/architecture/MH-11-failure-and-resilience-model.md`; blob `a7c00f84fdf1a0e58471778806fb65a0ffd0d1e3` | Telemetry failures/overload must be contained; bounded queues, prioritization, sampling and deterministic drop semantics are proposed. |
+| Security invariants | `docs/architecture/MH-11-security-invariants.md`; blob `8deb863d16b482d7d45df53501ddceff2cb17679` | Monitoring cannot silently mutate state, bypass authorization or replace security enforcement; forensic mode/export/self-healing require explicit authorization/governed path. |
+| Unknown register | `docs/architecture/MH-11-unknowns.md`; blob `fcfb9a040fa652a6b64792c10b5aad49d0c91c19` | Exact stack, schemas, retention, storage, resource budgets, cloud topology, privacy taxonomy, actual instrumentation, diagnostic APIs, health implementation, UI, trace propagation and incident infrastructure remain UNKNOWN. |
+| MH-06 health/readiness | `docs/architecture/MH-06-health-readiness.md`; blob `4bdd7835f2a646ceaa391e0b885d21384e38df80` | Health is bounded, immutable/value-semantic and observation-only; it cannot grant capability or add lifecycle states without evidence. |
+| MH-06 observability | `docs/architecture/MH-06-observability.md`; blob `a4c949d1ba21354d74f91cbb71864da3bbc13d36` | Observation surfaces include metrics/logs/traces/health/audit context; diagnostic data must be bounded/sanitized; new paths require privacy/security review. |
+| MH-03 runtime observability | `docs/architecture/mh-03/MH-03-runtime-observability.md`; blob `f7fba8708bc57eb8baa2d8ecc866fb58d18c9d6b` | Observer plane is non-mutating; operational response re-enters authorized request → policy → authorization → P0-05 → State Authority. |
+| P0-06 governance acceptance | `docs/architecture/P0-06-governance-acceptance.md`; blob `add5bfa5a5d898f74622d925b125f14cd3d1452c` | P0-06 governance authorizes bounded implementation scope, not production qualification; health/diagnostics remain observation-oriented, persistence/external execution excluded. |
+
+### Confirmed invariants and unresolved points
+
+1. Observability is an observer, not State, Policy, Authorization, Runtime, Recovery or Security Authority.
+2. Logs, metrics, traces, events, audit records, telemetry samples, notifications, commands and evidence must remain semantically distinct. Observed state is not canonical state.
+3. Any diagnostic action that changes state must use the ordinary authorization → Consumer Boundary → State Authority path; debug/forensic mode, monitoring and self-healing cannot bypass it.
+4. Health/readiness are owned by MH-06; MH-11 may observe them but must not create a competing lifecycle state machine or conflate liveness, readiness, health and availability.
+5. Observability must fail contained: collection failure, cloud outage or telemetry overload cannot disable core runtime or starve critical runtime resources.
+6. Secrets, credentials, tokens and unrestricted private payloads must not enter ordinary telemetry. Classification taxonomy, retention periods and legal obligations remain open pending governance/privacy evidence.
+7. Technology choices (including OpenTelemetry, Prometheus, Grafana, Loki and Redis) remain candidates until ADR, evidence and compatibility/security/resource review.
+8. No tests or qualification were run; no runtime instrumentation or source implementation was changed. Documented proposed test layers are not test results.
+9. MH-11 stage closure remains PARTIALLY_CLOSED per the existing map/checkpoint; this pass does not accept/freeze the domain.
+
+**Next safe action:** proceed to MH-12 Security / Trust using the current map's primary-source route. Reconcile MH-11's open security, audit, privacy and observer-isolation questions with MH-12; keep MH-11 PROPOSED / NOT ACCEPTED and do not run tests/qualification or alter runtime/infrastructure without explicit authorization.
