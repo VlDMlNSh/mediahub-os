@@ -272,3 +272,4 @@ The owner/governance acceptance package must verify at least:
 
 
 - 2026-10-12 — reconciled the active finding count from 20 to 21 after AG-21 was added; refreshed active gap-report links in the source inventory and P-19/P-20/P-21 rows to current Gap Reconciliation SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`. Dated historical pointer records remain intact; B1/B2 and runtime are unchanged.
+- 2026-10-12 — corrected active P-13 source pointer to current Gap Reconciliation SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`; preserved the former SHA only in older dated history. No architecture rule or baseline changed.
