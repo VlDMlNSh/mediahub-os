@@ -65,8 +65,8 @@ Source line numbers below refer to the exact B1 `main` blob SHA listed above.
 | LAI4-02 | §15 lines 235–236 | SPLIT | LAI4-02.a local inference; LAI4-02.b natural-language control/interaction |
 | LAI4-03 | §15 lines 237–238, 247 | RETAIN / SPLIT IF NEEDED | Analysis and user assistance are distinct capabilities; preserve exact capability labels and avoid implying authority |
 | LAI4-04 | §15 lines 239–241, 244 | SPLIT | LAI4-04.a automation creation; .b equipment-setup assistance; .c instruction creation; .d Smart Home support |
-| LAI4-05 | §15 lines 242–247 | SPLIT | LAI4-05.a search; .b local data processing; .c media-system management; .d document assistance; .e local intelligent processing. Provenance/privacy/confidence controls stay D-coded unless mapped to explicit B1 text elsewhere |
-| LAI4-06 | §15 lines 244–246 | RETAIN / CROSS-LINK | Cross-domain capability references to Smart Home, media and documents; map each to domain-owned contract without creating a second authority |
+| LAI4-05 | §15 lines 242–247 | SPLIT | LAI4-05.a search (242); .b local data processing (243); .c Smart Home support (244); .d media-system management (245); .e document assistance (246); .f local intelligent processing (247). Provenance/privacy/confidence controls stay D-coded unless mapped to explicit B1 text elsewhere |
+| LAI4-06 | §15 lines 244–246 | RETAIN / CROSS-LINK | Cross-domain references to Smart Home, media and documents only; link to LAI4-05.c–e and domain-owned contracts without creating a second normative copy or authority |
 | LAI4-07 | §15 line 249 | RETAIN | Advisory/proposal-producing model; AI is not State Authority |
 | CLAI4-01 | §16 lines 255–256 | RETAIN | Distributed computation within trusted MediaHub Cluster |
 | CLAI4-02 | §16 lines 257–265 | SPLIT | CLAI4-02.a heavy inference; .b batch processing; .c computer vision; .d media processing; .e AI generation; .f engineering calculations; .g Digital Twin workloads; .h distributed tasks |
