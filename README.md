@@ -1,26 +1,26 @@
-# MediaHub OS
+# MediaHub OS — распределённая мультиагентная платформа
 
-Единая платформа MediaHub OS, автономный контур разработки ASTRA GOLD и пользовательский фасад Jarvis.
+MediaHub OS проектируется как цельная продуктовая и инженерная система с двумя отдельными контурами: **MediaHub Product / Edge Runtime** и **Multi-Agent Development Plane**. ASTRA — инженерная подсистема разработки и квалификации; Jarvis — один из пользовательских фасадов.
 
-**Целевое железо:** покупаемый в конце октября Mac Pro — основной целевой сервер MediaHub и development host №1; Mac mini 2011 с Linux и целевыми 16 GB RAM — development host №2; Mac mini M2 — первый прототип продукта MediaHub, не постоянный developer server; мощный GPU/video server — будущее расширение. Имеющиеся узлы — test lab, а не окончательная конфигурация.
+**Целевая аппаратная схема:** покупаемый Mac Pro — development host №1 и будущий инженерный workflow/control узел после commissioning; Mac mini 2011 с Linux и целевыми 16 GB RAM — development host №2; существующий Mac mini M2 8 GB — первый рабочий прототип MediaHub на объекте заказчика, не постоянный сервер разработки; мощный GPU/video server — будущее расширение. Текущие узлы являются test lab, а не конечной топологией. Фактический deployment не считать готовым до закупки и qualification оборудования.
 
-## Основная документация
+## Основной документ
 
-- [MASTER SYSTEM GUIDE](docs/MASTER_SYSTEM_GUIDE.md) — целевая архитектура, подтверждённая аппаратная инвентаризация, распределение задач, модельная маршрутизация, Jarvis, инструменты, безопасность, статус квалификации и план исправлений.
+- [MASTER SYSTEM GUIDE](docs/MASTER_SYSTEM_GUIDE.md) — архитектура мультиагентной системы целиком, роли/capabilities, hardware topology, repository-first policy, GitHub component shortlist, installed skills, модели/инструменты, память, безопасность, аудит и план развёртывания.
 - [ASTRA GOLD reference architecture](architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md)
 - [Governance contract](architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml)
 - [Qualification / launch schema](architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml)
 - [Security / trust / authorization contract](architecture/SECURITY-TRUST-AUTHORIZATION-CONTRACT.md)
 
+## Правила разработки
+
+1. Перед созданием компонента сначала исследовать зрелые GitHub repositories, SDKs, standards and official docs; применять component-admission gate, exact version/SHA and isolated PoC.
+2. Использовать готовые стабильные блоки и тонкие адаптеры вместо переписывания существующих систем.
+3. Отделять product State Authority от developer/Astra coordinator, model providers, transports and workflow engine.
+4. Секреты, личные данные, prompts и конфиденциальные task payloads не размещаются в публичном репозитории.
+5. Недостающие, устаревшие или противоречивые доказательства означают BLOCKED.
+6. Production launch требует exact SHA, independent A3, current 24-hour soak, rollback plan и human approval.
+
 ## Текущий статус
 
-Аудит от 12 октября 2026 года: runtime **BLOCKED / NOT GOLD_ACTIVE**. Физическое развёртывание целевой схемы планируется после покупки Mac Pro в конце месяца; точная комплектация должна быть зафиксирована после приобретения. В актуальных evidence есть блокеры: disk-full на mh-dev-01, устаревший heartbeat на mh-dev-02, конфликт идентификаторов двух Ollama model labels и неподтверждённый сквозной путь FCC → FreeLLMAPI / Alamo.
-
-Не выполнять очистку, сброс грязных worktrees, удаление моделей или широкие тестовые волны до сохранения evidence и безопасного устранения P0. Документированная целевая архитектура не означает, что runtime квалифицирован.
-
-## Правила изменения
-
-- Канонические governance/qualification contracts имеют приоритет над противоречащими им описательными документами.
-- Секреты, приватные prompts и чувствительные payloads не размещаются в репозитории.
-- Пропущенное, устаревшее или противоречивое доказательство ведёт к BLOCKED.
-- G11 / production launch остаётся HUMAN_ONLY и требует точного SHA, независимого A3, текущего 24-часового soak и плана отката.
+Аудит от 12 октября 2026 года: multi-agent target architecture описана, но component selection remains at candidate/PoC stage. Engineering controller runtime remains **BLOCKED / NOT QUALIFIED**. Обнаружены P0/P1 проблемы: disk-full на mh-dev-01; устаревший heartbeat на mh-dev-02; alias модели claude-sonnet-4-6:latest указывает на Qwen2 weights, а не на отдельный Claude Sonnet; route FCC → FreeLLMAPI / Alamo не прошёл e2e qualification; authority model product/developer требует ADR. Не чистить disk, не удалять модели и не сбрасывать dirty worktrees до сохранения evidence.
