@@ -42,7 +42,7 @@ MediaHub OS — единая local-first платформа для локаль�
 | ASTRA launch/qualification schema, annotated working copy | `docs/mediahub-chat-tree-map-20261012` | `0b86b07dfa916d4485ce1f8f54d19de136d98491` | Qualification/lifecycle schema; clarified ASTRA internal state scope |
 | ASTRA execution blueprint, annotated working copy | `docs/mediahub-chat-tree-map-20261012` | `9f199ba8e872d5ae188fcdac9635a53f16973534` | Roles and execution gates; clarified ASTRA internal state scope |
 | Generated ASTRA current truth | `main` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | Current reported result: `NOT_PROVEN / BLOCKED` |
-| Jarvis blueprint gap reconciliation (legacy file name includes ASTRO) | `docs/mediahub-chat-tree-map-20261012` | `09f2e2094626fc18883a6ad9481da2739df64e80` | Latest owner-provided Jarvis scope, five hardware roles, component candidates, open gates and 13 documentary review cycles |
+| Jarvis blueprint gap reconciliation (legacy file name includes ASTRO) | `docs/mediahub-chat-tree-map-20261012` | `b65ddaa2c91b18265cffd7be55fdefc7a0877db5` | Latest owner-provided Jarvis scope, five hardware roles, component candidates, open gates and 13 documentary review cycles |
 
 ## 3. Authority, command and state model
 
@@ -215,13 +215,13 @@ ASTRA Gold current truth in the inspected main source reports `NOT_PROVEN / BLOC
 | P-10 | Current ASTRA GOLD / live queue state | NOT PROVEN / BLOCKED | Fresh exact-SHA node, executor, transport, runtime, scheduler, fencing, recovery, A3 and soak evidence required |
 | P-11 | Full domain stage acceptance for MH-01…MH-25 is not uniform | OPEN / SOURCE-BY-SOURCE | Chat tree map is inventory/navigation, not proof of full stage closure |
 | P-12 | Whole-repository semantic completeness | NOT CLAIMED | Tree inventory contains 826 entries; this session audited the baseline, key contracts, manifests, traceability and qualification sources, not every line of every Markdown file |
-| P-13 | Jarvis umbrella vs Astra subsystem was not explicit in the original v3 synthesis | WORKING SCOPE ADDED; NOT CANONICAL | Jarvis gap reconciliation SHA 09f2e2094626fc18883a6ad9481da2739df64e80; implementation/runtime evidence absent |
+| P-13 | Jarvis umbrella vs Astra subsystem was not explicit in the original v3 synthesis | WORKING SCOPE ADDED; NOT CANONICAL | Jarvis gap reconciliation SHA b65ddaa2c91b18265cffd7be55fdefc7a0877db5; implementation/runtime evidence absent |
 | P-14 | Owner-reported hardware roles require exact inventory | OPEN / NOT QUALIFIED | Mac Pro model, mini 2011 identifier/OS, customer M2 site profile and future GPU server specs are not independently verified |
 | P-15 | Jarvis must not duplicate task lifecycle/state across orchestration and Astra/framework candidates | OPEN DESIGN DECISION | Select one owner for queue/claim/lease/retry/evidence; use adapters around other execution frameworks |
 | P-16 | Master-context packet for MH-01…MH-23 is not implemented as an auditable release mechanism | DESIGN REQUIREMENT | Global context + domain packets must carry source refs/SHA, current decisions, dependencies and change deltas |
 | P-17 | Reusable-repository scorecard and pinned release bundle are not yet implementation artifacts | DESIGN REQUIREMENT / OPEN | Exact pins, license/SBOM/security, compatibility, preflight, rollback and post-install evidence required |
 | P-18 | Public multi-agent repositories are candidate sources only | NOT SELECTED / NOT QUALIFIED | New review document lists Temporal, LangGraph, Microsoft Agent Framework, Pydantic AI, OpenHands and AutoGen status; no component installed or qualified |
-| P-19 | Target OS/build/boot/install/update/recovery profiles are not pinned for the named Apple hardware roles | OPEN / PLATFORM PROFILE REQUIRED | B2 §9, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; gap reconciliation §15, latest blob SHA `09f2e2094626fc18883a6ad9481da2739df64e80` |
+| P-19 | Target OS/build/boot/install/update/recovery profiles are not pinned for the named Apple hardware roles | OPEN / PLATFORM PROFILE REQUIRED | B2 §9, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; gap reconciliation §15, latest blob SHA `b65ddaa2c91b18265cffd7be55fdefc7a0877db5` |
 
 ## 11. Acceptance checklist for a future Passport v3 release
 
