@@ -88,6 +88,43 @@ Admission sequence: evidenced capability gap → exact source/upstream → licen
 
 No component becomes active merely because it appears here. Do not install/deploy while its gate or authorization is open.
 
+## 4.1 Owner direction — Claude-centered Jarvis with local Ollama inference (2026-10-12)
+
+**Owner-stated target direction:** Jarvis is to use Claude-centered reasoning/engineering workflows while retaining a local Ollama inference capability. Record this as an owner direction for architecture reconciliation, not as evidence that the integration already exists or is qualified.
+
+**Technical distinction:** Claude models are not models served by Ollama. Ollama serves compatible locally hosted models; Claude is a separate model/service family accessed through an approved Anthropic interface or other explicitly supported integration. Therefore, “Claude running locally on Ollama” is not the literal deployment model. The implementable interpretation is a controlled hybrid architecture with distinct Claude and Ollama adapters behind a Jarvis model-routing/orchestration boundary. Whether a specific Claude tool can be configured to call an Ollama endpoint is a separate compatibility question and must not be assumed.
+
+### Proposed model topology
+
+1. **Jarvis orchestration/control plane:** owns task intent, work envelope, routing policy, identity, budgets, deadlines, cancellation and evidence collection. It is not MediaHub Product State Authority.
+2. **Claude adapter:** separate external provider path for approved reasoning/coding tasks. External calls are opt-in per task and must pass data classification, purpose, minimization/redaction, destination/provider policy, credentials and retention review. No secrets or personal MediaHub data may be sent by default.
+3. **Ollama adapter:** local inference endpoint for an explicitly pinned local model artifact. Model name alone is insufficient: record exact model tag/digest, source/license, quantization, context limits, runtime version, hardware profile, memory/latency benchmarks and safety/permission profile.
+4. **Model router:** selects only among admitted model profiles under task policy. It may not silently fall back from Ollama to Claude or from Claude to another provider. Every fallback is a new provider/destination decision and must be authorized and recorded.
+5. **Tool gateway:** all filesystem, GitHub, shell, browser, deployment and other tools remain separate, capability-scoped adapters. Neither Claude nor a local model receives arbitrary shell, production credentials or unbounded write access by default.
+6. **Result validation:** outputs from both local and external models are untrusted data until validated against the task contract, source provenance, policy and independent verification requirements. Model output cannot authorize its own actions or qualify itself.
+7. **MediaHub boundary:** Jarvis engineering memory, task queues and model context are distinct from canonical MediaHub product state. No model, Ollama store, vector index, agent graph or external provider becomes a second State Authority.
+
+### Initial routing policy proposal
+
+- Prefer local Ollama for tasks that can be completed by an admitted local model without external data egress, subject to measured quality and hardware capacity.
+- Use Claude only for task classes explicitly approved for external processing and only after the request has been classified and minimized.
+- If local inference is unavailable, over budget or below an evidence-based quality threshold, return a bounded failure or request authorized escalation. Do not automatically send the same prompt to a cloud provider.
+- Keep deterministic L0 controls and critical local behavior independent of both Claude and Ollama.
+- Route coding tasks through bounded task envelopes, isolated worktrees, explicit file allowlists, diff review and independent verification; the model itself is not the merge or release authority.
+- Record per invocation: task ID, provider/model/runtime identity, model artifact/version, policy decision, data classification, destination, tool capabilities, budget/deadline, prompt/context provenance where permissible, output digest, validation outcome and cost/latency metrics. Do not log secrets or raw sensitive prompts by default.
+
+### Required decisions/evidence before activation
+
+- Exact Claude access mode (Claude Code, approved API integration or other named interface), supported authentication and permitted data classes.
+- Whether the target is Claude as the engineering operator with Ollama as a separate local inference tool, or a router that chooses Claude/Ollama per task. These are distinct designs.
+- Exact Ollama host hardware/OS/runtime and per-model compatibility, license, provenance, memory/context and latency results.
+- Model-routing contract, failure/fallback semantics, local-only mode, egress-denial evidence and provider retention/privacy terms.
+- Tool authorization, sandbox/worktree boundaries, approval gates, audit schema and independent verification.
+- Explicit MH-10/MH-21 ownership reconciliation and current MH-22 qualification evidence.
+- Owner/governance approval before any model runtime, provider credential, API integration or production route is activated.
+
+**Status:** OWNER DIRECTION RECORDED / DESIGN PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED / NOT ACCEPTED AS GLOBAL BASELINE. No installation, provider call, credential use, test, qualification or runtime change was performed.
+
 ## 5. Deployment profiles
 
 ### L — Local user MediaHub
