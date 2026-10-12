@@ -42,7 +42,7 @@ MediaHub OS — единая local-first платформа для локаль�
 | ASTRA launch/qualification schema, annotated working copy | `docs/mediahub-chat-tree-map-20261012` | `0b86b07dfa916d4485ce1f8f54d19de136d98491` | Qualification/lifecycle schema; clarified ASTRA internal state scope |
 | ASTRA execution blueprint, annotated working copy | `docs/mediahub-chat-tree-map-20261012` | `9f199ba8e872d5ae188fcdac9635a53f16973534` | Roles and execution gates; clarified ASTRA internal state scope |
 | Generated ASTRA current truth | `main` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | Current reported result: `NOT_PROVEN / BLOCKED` |
-| Jarvis blueprint gap reconciliation (legacy file name includes ASTRO) | `docs/mediahub-chat-tree-map-20261012` | `cf6e9a55825fe28ce3e9e2424dfb792a58e6254d` | Latest owner-provided Jarvis scope, five hardware roles, component candidates, open gates and 13 documentary review cycles |
+| Jarvis blueprint gap reconciliation (legacy file name includes ASTRO) | `docs/mediahub-chat-tree-map-20261012` | `09f2e2094626fc18883a6ad9481da2739df64e80` | Latest owner-provided Jarvis scope, five hardware roles, component candidates, open gates and 13 documentary review cycles |
 
 ## 3. Authority, command and state model
 
@@ -88,14 +88,14 @@ The product is one functional architecture deployed across hardware-qualified pr
 | Smart Home and devices | Home Assistant Core owns Smart Home operations; adapters are qualification-gated |
 | UI and navigation | Unified MediaHub UI; UI4-04 remains `HOLD / CROSS-LINK-ONLY` until unique residual requirement evidence exists |
 | Media and camera/NVR | Separate media/data plane; device/media services remain target-gated until each capability is qualified |
-| Documents and knowledge | PostgreSQL + pgvector + MediaHub contracts are the baseline; OCR/graph/search integrations are derived and subordinate |
+| Documents and knowledge | B2 defines PostgreSQL + pgvector + S3-compatible storage as the functional target baseline; Component Manifest marks the concrete implementations TARGET-GATED, so installation/qualification is not implied; OCR/graph/search integrations are derived |
 | Digital Twin / Engineering | Domain-owned metadata and provenance; large artifacts use object contract; candidate tools are target-gated |
 | Local / cluster AI | AI proposes or computes under policy; no direct physical/product authority |
 | Cloud development | Separate corporate domain, no default raw-user-data mirror or canonical product authority |
 | Mobile | MediaHub Core on iOS/iPadOS is a local profile; Remote Access is a separate role; Developer Mobile is separate from user-data domain |
 | Identity/security/privacy | Identity, trust, authorization, policy, least privilege, segmentation, egress and audit precede mutation/egress |
 | Persistence and knowledge | Storage/indexes/caches are not authority unless the approved domain contract explicitly assigns authority; no silent authority transfer |
-| Update / backup / recovery / migration | Lifecycle/recovery authorities remain distinct from State Authority; RAUC target, no competing unapproved OTA authority |
+| Update / backup / recovery / migration | Lifecycle/recovery authorities remain distinct from State Authority; RAUC is a target only where the selected OS/profile supports it and qualification passes; no competing unapproved OTA authority |
 | Observability | Metrics/logs/traces are non-mutating; minimise payloads and exclude secrets |
 | Developer Compute Fabric | Corporate engineering domain; qualified contributed compute is not user-data access and not a flat shared cloud |
 | Astra Gold | Independent engineering qualification/control plane with exact-SHA-bound evidence and explicit human launch gate |
@@ -115,6 +115,8 @@ The target architecture must support a Mac Pro-class developer/build profile, Ma
 | Mac mini M2 at the customer site | First working MediaHub prototype at the client location | Separate customer trust domain; not retained in the developer-server pool, no inherited developer secrets/data or automatic worker registration |
 | Current developer servers | Test/qualification stand only | Not the target production environment; operate only after fresh host/identity/disk/health preflight and separate authorization |
 | Future GPU/video server | Optional later expansion for admitted media/video/GPU workloads | Not required for core correctness; requires workload-specific driver, codec, isolation, thermal, memory and recovery evidence |
+
+**OS/boot/install profile gap:** B2 §9 states that clean Mac mini/Mini PC installations use Linux as the baseline implementation direction, while Apple platforms remain integrated adaptations where the base OS cannot be replaced. The Mac Pro, developer Mac mini 2011 and customer-site Mac mini M2 role labels do not pin each target's OS/build, boot mode, installer, update path or recovery image. These must be approved and qualified per node; do not infer an OS from the hardware name.
 
 The owner-reported deployment intent is “toward the end of October 2026”. This is a planning window, not a guaranteed release date or production authorization. The current component and runtime evidence does not demonstrate readiness for this window.
 
@@ -213,12 +215,13 @@ ASTRA Gold current truth in the inspected main source reports `NOT_PROVEN / BLOC
 | P-10 | Current ASTRA GOLD / live queue state | NOT PROVEN / BLOCKED | Fresh exact-SHA node, executor, transport, runtime, scheduler, fencing, recovery, A3 and soak evidence required |
 | P-11 | Full domain stage acceptance for MH-01…MH-25 is not uniform | OPEN / SOURCE-BY-SOURCE | Chat tree map is inventory/navigation, not proof of full stage closure |
 | P-12 | Whole-repository semantic completeness | NOT CLAIMED | Tree inventory contains 826 entries; this session audited the baseline, key contracts, manifests, traceability and qualification sources, not every line of every Markdown file |
-| P-13 | Jarvis umbrella vs Astra subsystem was not explicit in the original v3 synthesis | WORKING SCOPE ADDED; NOT CANONICAL | Jarvis gap reconciliation SHA cf6e9a55825fe28ce3e9e2424dfb792a58e6254d; implementation/runtime evidence absent |
+| P-13 | Jarvis umbrella vs Astra subsystem was not explicit in the original v3 synthesis | WORKING SCOPE ADDED; NOT CANONICAL | Jarvis gap reconciliation SHA 09f2e2094626fc18883a6ad9481da2739df64e80; implementation/runtime evidence absent |
 | P-14 | Owner-reported hardware roles require exact inventory | OPEN / NOT QUALIFIED | Mac Pro model, mini 2011 identifier/OS, customer M2 site profile and future GPU server specs are not independently verified |
 | P-15 | Jarvis must not duplicate task lifecycle/state across orchestration and Astra/framework candidates | OPEN DESIGN DECISION | Select one owner for queue/claim/lease/retry/evidence; use adapters around other execution frameworks |
 | P-16 | Master-context packet for MH-01…MH-23 is not implemented as an auditable release mechanism | DESIGN REQUIREMENT | Global context + domain packets must carry source refs/SHA, current decisions, dependencies and change deltas |
 | P-17 | Reusable-repository scorecard and pinned release bundle are not yet implementation artifacts | DESIGN REQUIREMENT / OPEN | Exact pins, license/SBOM/security, compatibility, preflight, rollback and post-install evidence required |
 | P-18 | Public multi-agent repositories are candidate sources only | NOT SELECTED / NOT QUALIFIED | New review document lists Temporal, LangGraph, Microsoft Agent Framework, Pydantic AI, OpenHands and AutoGen status; no component installed or qualified |
+| P-19 | Target OS/build/boot/install/update/recovery profiles are not pinned for the named Apple hardware roles | OPEN / PLATFORM PROFILE REQUIRED | B2 §9, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; gap reconciliation §15, latest blob SHA `09f2e2094626fc18883a6ad9481da2739df64e80` |
 
 ## 11. Acceptance checklist for a future Passport v3 release
 
@@ -253,3 +256,4 @@ The owner/governance acceptance package must verify at least:
 **Final status:** integrated working passport, not a new accepted baseline; implementation, tests, qualification, deployment and production acceptance are not established by this document.
 
 | 2026-10-12 | Applied the latest owner terminology: Jarvis supersedes the earlier draft label Astro. Updated the gap-report SHA to its latest read-back; retained the legacy filename for cross-reference provenance. |
+| 2026-10-12 | Added a per-node OS/boot/install/update/recovery profile gate from B2 §9 and refreshed the gap-reconciliation blob SHA; no baseline or runtime changed. |
