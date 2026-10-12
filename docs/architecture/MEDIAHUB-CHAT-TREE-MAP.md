@@ -1027,3 +1027,21 @@ R01–R04 и R06 из Review 01 подтверждены как исправле
 Повторное чтение реестра подтвердило SHA `a1bd98aa461859bf173725703723ec8dff73cce5`, наличие 14 GOV-MH24 decision rows и статус `OPEN — NO OWNER DECISIONS RECORDED`. Карта перед записью имела SHA `46d7755b17375b379d1e947ec7bd95748bae038a`.
 
 **Следующий безопасный шаг:** передать конкретные GOV-MH24 вопросы владельцам доменов/архитектуры для явного решения. Пока решения и approval evidence не внесены, Proposal 02 остаётся NOT APPROVED, канонический backlog и stable child IDs не создаются, Baseline 1.0/2.0 не меняются.
+
+
+
+## 20.24 Independent review of Batch 04 owner/governance decision register
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-OWNER-GOVERNANCE-REGISTER-REVIEW-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `cd3b3233f58a779d6a5281496a312562e7c06895`  
+**Read-back blob SHA:** `ae9ff159117a08fceb9ea26e5cadd0dcafeb2105`  
+**Статус:** `INDEPENDENT DOCUMENTARY REVIEW / OPEN — REGISTER IS NOT AN APPROVAL RECORD`.
+
+Проверены все 14 GOV-MH24 строк реестра (SHA `a1bd98aa461859bf173725703723ec8dff73cce5`) по Proposal 02 (`7e737c8add9e3453062e9fc459790e7010e55689`), Validation 02 (`e21137d8ac230a9ff28f616adcb840e234e5c965`), Review 01 (`373530821ae8dcbcf84e953f42e047e99f7810a8`), историческому Batch 04 (`26163e6f60b44e997560212bf7de9900210b7ed3`), Audit 01/02 (`d0938f14ed4110545118f075175dee3be412097b`, `8b1f02eb07e153be825e39ec7a0289b0105d6156`) и указанному snapshot Baseline 1.0 в `main` (`9df4892ed0734050ac79732603d15bb414717310`). Каждая строка прослеживается до зафиксированного вопроса/перекрытия; внутренние safe defaults согласованы с документами-источниками. «PASS» означает корректную трассируемость вопроса, не его разрешение.
+
+Отмечены ограничения: ни одного решения владельца или approval evidence не предоставлено; identity/authority accountable owner не определены; Baseline 1.0 SHA подтверждён по цепочке upstream-документов, но в рамках review не был независимо заново разрешён текущий HEAD `main`; B1/B2 reconciliation, contract/acceptance/evidence fields и shared-atom ownership остаются открытыми. Нельзя обновлять canonical backlog или закреплять child IDs.
+
+**Результат:** coverage register rows 14/14 — PASS; internal consistency of defaults — PASS; owner decisions — NONE; governance approval — NOT APPROVED; canonical backlog eligibility — NO. Baselines, matrix, historical backlog, implementation and qualification unchanged; no tests, installation, deployment, infrastructure/production action, or merge to `main`.
+
+**Следующий безопасный шаг:** получить решения GOV-MH24-01…14 от уполномоченных владельцев и сохранить их отдельным decision artifact с точными refs/evidence. До этого Proposal 02 и child suffixes остаются provisional.
