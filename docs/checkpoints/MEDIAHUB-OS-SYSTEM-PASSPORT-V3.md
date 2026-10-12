@@ -237,7 +237,7 @@ The owner/governance acceptance package must verify at least:
 - [ ] Any baseline supersession is a separate explicit decision; B1/B2 are not edited by this draft.
 - [ ] Jarvis is explicitly defined as an engineering umbrella; Astra remains a bounded subsystem and neither crosses the MediaHub product authority boundary.
 - [ ] Mac Pro, developer mini 2011, client-site mini M2, test servers and future GPU/video node are distinct inventory/profile/trust records.
-- [ ] An Jarvis task envelope has source/base SHA, domain, dependencies, allowed capabilities, isolated workspace, acceptance criteria, independent verifier and evidence digest.
+- [ ] A Jarvis task envelope has source/base SHA, domain, dependencies, allowed capabilities, isolated workspace, acceptance criteria, independent verifier and evidence digest.
 - [ ] One and only one selected subsystem owns task lifecycle/claims/leases/retries; agent frameworks cannot create a competing queue or state authority.
 - [ ] The reusable-component scorecard and pinned, reproducible deployment/rollback bundle have independent review and measured profile evidence.
 - [ ] A global Jarvis context packet and all MH-01…MH-23 domain packets point to primary docs instead of copying or silently overwriting them.
