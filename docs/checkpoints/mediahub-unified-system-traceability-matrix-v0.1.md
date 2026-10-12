@@ -973,7 +973,7 @@ P0-07 capability inventory is not a transaction API. The P0-07 boundary construc
 - Baseline 2.0 on `main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`: ACCEPTED / CANONICAL / IMMUTABLE; supersedes B1 as current functional reference.
 - ASTRA generated current truth on `main`, blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED; overall NOT_PROVEN / BLOCKED.
 - ASTRA qualification/launch schema on `main`, blob `aef6229477ed8ec45e45170f98ea87f7ba75ca29`: canonical gate framework G0–G11; launch authority remains HUMAN.
-- Unified contract, `docs/mediahub-chat-tree-map-20261012`, blob `1057776ca9192b307a4e6de72db5d12cdbcc1a39` before its next update: draft-local gate IDs now `MH-UDC-G0`…`MH-UDC-G9`.
+- Unified contract, `docs/mediahub-chat-tree-map-20261012`, blob `1057776ca9192b307a4e6de72db5d12cdbcc1a39`: draft-local gate IDs now `MH-UDC-G0`…`MH-UDC-G9`.
 - Working bootstrap, `docs/mediahub-chat-tree-map-20261012`, blob `4ced4a9249591d218e8949f498c862fc21274b16`: corrected to the current B2-canonical/B1-historical hierarchy.
 - Live refs at this review: main `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch `48a898ac13df19ca570be465bcc473fc70e2d41f`; compare `diverged`, 484 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 
@@ -981,7 +981,7 @@ P0-07 capability inventory is not a transaction API. The P0-07 boundary construc
 
 **Fresh qualification metadata:** main remains `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. GitHub combined status metadata was `pending` with zero records, not PASS. Astra Verify run `38226754511` failed against the exact current main SHA; the job-step summary returned no steps, so the cause is not established. Astra autonomous queue supervisor `38273320112` remains queued on the same SHA. ASTRA G0–G11 remain BLOCKED; MH-22 G1–G9 are not promotable without their own candidate-bound evidence.
 
-**Baseline hierarchy correction:** The bootstrap previously called Baseline 1.0 the current passport and stated that neither baseline automatically supersedes the other. That wording conflicted with accepted Baseline 2.0 and the current owner instruction. The bootstrap now identifies B2 as the current canonical functional reference and B1 as historical provenance. Neither baseline was edited. The map's top-level tree still needs its stale B1 wording aligned in the next map update.
+**Baseline hierarchy correction:** The bootstrap previously called Baseline 1.0 the current passport and stated that neither baseline automatically supersedes the other. That wording conflicted with accepted Baseline 2.0 and the current owner instruction. The bootstrap now identifies B2 as the current canonical functional reference and B1 as historical provenance. Neither baseline was edited. The map's top-level tree has been aligned in Section 20.126 to mark B1 as historical provenance and B2 as the current canonical functional reference.
 
 **Qualification blockers remain:** exact candidate/build/dependency/digest/signature/SBOM identity; current-head successful verification; independent A3 evidence; P0-07 canonical-read and mutation/publication bridge; trusted identity/context issuer/lifecycle; P0-05 header/governance confirmation; MH-13 privacy/retention/deletion and restore semantics; MH-14 physical persistence authorization and recovery evidence; exact MH-15 hardware/OS target; MH-16 lifecycle execution evidence; MH-21 egress/provider acceptance; MH-23 compatibility/migration acceptance; target-gated components; explicit release/deployment/production acceptance.
 
