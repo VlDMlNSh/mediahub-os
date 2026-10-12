@@ -998,3 +998,37 @@ P0-07 capability inventory is not a transaction API. The P0-07 boundary construc
 - ASTRA G0–G11 remain BLOCKED; MH-22 G1–G9 remain non-promotable. Overall production qualification remains **NO-GO / NOT PROVEN**.
 - P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 candidate remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN, and its header/status discrepancy requires explicit governance confirmation. No authority, acceptance or release decision is inferred.
 - No tests, qualification runner, workflow dispatch/rerun/cancel, logs, runtime/host inspection, credentials, provider/model calls, installation, infrastructure change, migration, deployment, merge or rebase occurred.
+
+
+## Section 45 — Live-main P0-04/P0-05 source identity × trusted context provenance (2026-10-13)
+
+**Status:** DOCUMENTARY TRACEABILITY ONLY. No code, tests, acceptance or qualification status changed.
+
+### Revision-bound source inventory
+
+- Live `main HEAD`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; recursive tree SHA `cbb1862fcb4aa22ba24fea4ff12b580ffb305593` (798 entries; tree response was not truncated).
+- Live `implementation/p0-05-consumer-boundary` HEAD: `c872899a969fb9b947d638f507cd8794e9f86cab`; tree SHA `60fc11c3cbeee5bf8eef4dc5570ecc94eec31046`.
+- Live compare `main...implementation/p0-05-consumer-boundary`: **DIVERGED, 56 ahead / 1,668 behind**, merge base `1364d027f6722cfccab088735ecd1b5d04781b0b`. Branch-only artifacts and acceptance records are not automatically current-main evidence.
+- Documentation branch before this entry: HEAD `0b5d5d0ba244a6f2ea5460d715b82f50d377205d`; compare against `main`: **DIVERGED, 493 ahead / 2 behind**, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration was performed.
+
+### Accepted-scope evidence versus current-main source identity
+
+- On `implementation/p0-05-consumer-boundary`, P0-05 Governance Acceptance Record blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242` records ACCEPTED/FROZEN for implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a`, and reports 10/10 targeted P0-05 tests and 136/136 full-suite tests against that exact commit. These are claims in the stored record; this pass did not run or independently reproduce them.
+- At that accepted commit, blobs are: `authorization.py` `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; `consumer_boundary.py` `23b95f1b37cb35e311b61e3babcca4bd1aea9596`; `in_memory_state.py` `9da0a0b8206265e1e36baf50e747593f9f1f97df`; `state.py` `a2115b81f52a63feb357e484bd982a6a32641d81`.
+- At current `main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, corresponding blobs are: `authorization.py` `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; `consumer_boundary.py` `98bf2da9cea85da2c82145b4baef417c20b9ae73`; `in_memory_state.py` `0fbc71369d19e09944ba67a60ccb9df802f30a4b`; `state.py` `a2115b81f52a63feb357e484bd982a6a32641d81`.
+- Therefore, `consumer_boundary.py` and `in_memory_state.py` on current `main` are not byte-identical to the exact P0-05 accepted implementation blobs cited above. The inspected P0-05 contract and governance-acceptance paths (`docs/architecture/P0-05-consumer-contract.md`, `docs/architecture/P0-05-governance-acceptance.md`) return 404 on `main`; those exact records are present on the separate implementation branch. This bounded evidence does not prove that no alternative acceptance record exists elsewhere, but it does **not** establish acceptance of the current-main blobs.
+
+### Trusted caller/context path
+
+- Current-main `runtime/mediahub_runtime/authorization.py`, blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`, defines frozen `AuthorizationContext(principal, capability)`. `AuthorizationPolicy` checks membership of the tuple `(principal, capability, operation)` in its supplied grant set; this module does not bind the context to an authenticated issuer, issue/expiry time, audience, revocation source or exact request.
+- Current-main `consumer_boundary.py`, blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`, accepts an `AuthorizationContext` in `request()` after a type check and passes it to State Authority operations. This check confirms the object shape, not who issued it.
+- Current-main `lifecycle_service.py`, blob `0b9d3d888e988615f1ad8cd50b1bef22f2be011b`, receives context from its caller, checks that the capability equals `runtime.lifecycle.transition`, and forwards the same context through the consumer boundary. `coordination_service.py`, blob `a4b81f2cfb21980af952aff26fb6e31d33b79bf7`, routes an existing `LifecycleRequest`; it does not issue an authorization context. Package `__init__.py`, blob `4ff499f8e489e60e344283ee01e4dad5e72a2646`, exports `AuthorizationContext` as a public runtime type.
+- The accepted-branch test sources construct contexts and grants directly inside fixtures: `tests/runtime/test_consumer_boundary.py`, blob `27d062a688ddc2dea5d082b615e1f9cc3779c4e7`; `tests/runtime/test_in_memory_state.py`, blob `2293b45948aa9573025019532789646adfc78ac5`. Those fixtures verify boundary behavior; they do not evidence a production issuer. The main tree contains no `tests/runtime/*` paths at this HEAD. This statement is limited to that exact path prefix and does not claim that tests do not exist anywhere else.
+- Reviewed P0-07/P0-05 contracts continue to require independent domain and transaction authorization, default-deny behavior, no capability translation/self-grant, and publication only through P0-04. No inspected caller-to-context issuance path closes that requirement.
+
+### Disposition
+
+1. Trusted caller-to-`AuthorizationContext` issuance/provisioning and lifecycle remain **NOT EVIDENCED** in the reviewed current-main runtime surface.
+2. Exact P0-05 acceptance evidence from commit `303a766257b90c4356dcffc8967a5574e8e22e7a` must not be propagated to current-main blobs `98bf2da9cea85da2c82145b4baef417c20b9ae73` and `0fbc71369d19e09944ba67a60ccb9df802f30a4b` without revision-bound review and an explicit acceptance disposition.
+3. P0-07 canonical-read and mutation/publication bridge remains **NOT EVIDENCED / BLOCKED — GOVERNANCE/API GAP**. No issuer, identity protocol, API, contract version or product behavior is selected here.
+4. This is a source read only: no tests, runtime/host inspection, qualification, code edits, workflow dispatch, infrastructure change, deployment, merge or rebase occurred.
