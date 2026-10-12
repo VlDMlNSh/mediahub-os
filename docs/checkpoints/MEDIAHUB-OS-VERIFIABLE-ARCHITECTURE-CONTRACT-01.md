@@ -130,7 +130,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** each production dependency has identity, version/ref, license/provenance, security assessment, compatible runtime profile, integration/negative-path/recovery evidence and independent approval appropriate to the gate.
 **Primary source:** Component Manifest 2.0 §§8, 12, SHA 45988bf9da202c9597d0ca2de50e92e5c2e6ed55; B2 §§20–21.
-**Status:** mandatory rule. Component implementation/production qualification must be verified individually.
+**Status:** mandatory rule. A selection manifest records an architecture/development decision only: it does not prove a component is installed, running, version-matched, secure, benchmarked or production-qualified. Component implementation/production qualification must be verified individually.
 
 ### ARC-013 — qualification truth is exact-SHA and evidence based
 **Rule:** Current gate state is governed by the canonical machine contract plus fresh, attributable evidence. Historical evidence does not qualify a changed source SHA or changed deployment. Self-qualification/self-promotion is prohibited.
