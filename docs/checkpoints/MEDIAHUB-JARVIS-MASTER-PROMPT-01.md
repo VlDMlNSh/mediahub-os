@@ -142,9 +142,10 @@ Return:
 - B1: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`, `main`, SHA `9df4892ed0734050ac79732603d15bb414717310`.
 - B2: `docs/checkpoints/mediahub-functional-baseline-2.0.md`, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 - MH-24 report: `docs/checkpoints/mediahub-mh24-reconciliation-report.md`, `main`, SHA `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`.
-- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `5125a721210c4c1a058fecf534a6a6773a17d569`.
-- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `612be9431d2bbb2cfa01871c5f94519052287634` (28 architecture requirements, 21 verification checks in the latest read-back).
-- Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `fee9977fee0a5efa79ec48c652544d2c4a0d665f`. The path name is retained for provenance even though the current working label is Jarvis.
+- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `327089a0780e85a053c3d56c185c22d2e76857ae`.
+- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `8566e3a3817b82d17711349cab9fa962df57e28c` (28 architecture requirements, 21 verification checks in the latest read-back).
+- Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`. The path name is retained for provenance even though the current working label is Jarvis.
+- Current finding inventory: 21 scoped AG findings including AG-21 / P-21 / ARC-028 / V-21; the B1-15-13→B2 §19 defect is a historical cross-reference error, corrected only in the current working crosswalk (B2 §§16/18). Audit 01 is preserved unchanged.
 - Batch 06 Local AI crosswalk: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-06-DRAFT.md`, this branch, SHA `9df96aca53d1004c33d45f038501dc6b7f52c0c9`; structural review SHA `1edc976dd663ae16a1b61876a2dbbde9411be095`. Audit 01’s B2 §19 pointer for B1-15-13 is a confirmed source-reference defect; the working crosswalk points to B2 §§16/18 and preserves Audit 01 history.
 - ASTRA current truth: `docs/qualification/CURRENT-TRUTH.generated.md`, `main`, SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: `NOT_PROVEN / BLOCKED`; all listed gates are blocked in that generated snapshot.
 - ASTRA live runbook: `docs/qualification/ASTRA-GOLD-24H-RUNBOOK.md`, `main`, SHA `efb1c8af47578cbe14f8e788676d71ba4c665966`: live three-node transport is not qualified in that source.
@@ -159,3 +160,6 @@ Return:
 
 
 - 2026-10-12 — refreshed active Passport v3 and Contract 01 pointers after the P-19 stale-pointer correction. Current Passport v3: `5125a721210c4c1a058fecf534a6a6773a17d569`; current Contract 01: `612be9431d2bbb2cfa01871c5f94519052287634`; current Gap Reconciliation remains `fee9977fee0a5efa79ec48c652544d2c4a0d665f`. Earlier pointer values remain only in the dated history.
+
+
+- 2026-10-12 — refreshed active Jarvis context pointers after reconciling the Gap Report to 21 scoped findings: Gap Reconciliation `39720b11e5e6777b86ffd71e0fec1214982e0d95`, Passport v3 `327089a0780e85a053c3d56c185c22d2e76857ae`, Contract 01 `8566e3a3817b82d17711349cab9fa962df57e28c`. Older active-pointer snapshots remain in dated history as provenance. No baseline, runtime or main branch changed.
