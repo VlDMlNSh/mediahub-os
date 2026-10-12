@@ -3844,3 +3844,14 @@ Key current consequence: for P0-05 status, verify whether acceptance evidence co
 **Decision disposition:** D1 recommended C→A only if evidence supports a trusted caller path; D2 C until authority/lifecycle is evidenced; D3 C→A after trust/replay analysis; D4 C→B after operation-to-canonical-state mapping; D5 C→B after MH-06/MH-12/MH-13 review; D7 C→B unless current versioning rules prove a P0-05 v1.1 change is in-scope. These are recommendations, not owner decisions. D6 exact-contract inclusion in the accepted P0-05 tree is evidenced, while the DRAFT header conflict still requires controlled reconciliation.
 
 **Current gate:** P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP. Candidate and this packet remain non-normative. No tests, implementation, runtime execution, qualification or production authorization occurred.
+
+
+## 20.118 Owner disposition for P0-05 v1.1 candidate D1–D7 (2026-10-12)
+
+**Owner-recorded choices:** D1 **C→A**; D2 **C**; D3 **C→A**; D4 **C→B**; D5 **C→B**; D6 **B→A after confirmation**; D7 **C→B**. Detailed scope, conditions and limitations are recorded in [Owner Decision Register](../checkpoints/mediahub-owner-decisions-2026-10-12.md), blob SHA `62831d23c5e6bbddc707ec5b197cffba57d6139a`, and [Unified Traceability Matrix, Section 36](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob SHA `30dd68e26f6741a29cd9986b94a253cb61d8ec22`.
+
+**Interpretation:** these are owner-authorized investigation/governance paths, not acceptance/freeze of P0-05 v1.1, not approval of a particular API signature, and not implementation authorization. D6 is explicitly conditional: obtain governance confirmation before any controlled header/status correction. The existing P0-05 acceptance-tree evidence and contradictory DRAFT header remain visible until then.
+
+**Next bounded pass:** start with D1/D2 trust-source and authorization-context provenance; trace source → identity/authority → lifecycle/freshness/revocation → operation binding → P0-05/P0-04 boundary. In parallel only where independent, build the D4 operation-to-canonical-state mapping. Keep D3 binding design dependent on trust/replay findings; keep D5 audit/privacy schema dependent on MH-06/MH-12/MH-13 review; keep D7 versioning scope open pending primary rules.
+
+**Hard blocker unchanged:** P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. No tests, implementation, runtime execution, qualification, deployment, migration, infrastructure change or merge was performed.
