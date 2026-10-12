@@ -295,3 +295,13 @@ Resume with `/next`.
 - Prior map audit records MH-23 branch HEAD `f1cceb036275acc60c8806fbc98e5c08b1f8bbb3` and prior comparison DIVERGED (66 ahead / 1,640 behind, merge base `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`). This is historical until live compare is rechecked; no branch operation was attempted.
 - No workflow dispatch, tests, qualification, host/runtime inspection, migration, restore, deployment, merge, rebase or cherry-pick. MH-14 persistence remains NOT AUTHORIZED; MH-16 implementation remains NOT AUTHORIZED; P0-07 remains BLOCKED; MH-22 production remains NO-GO.
 - Next: update map with matrix/checkpoint links, then read back all three artifacts and verify SHA/cross-links. Continue source-bound reconciliation only; no migration or workflow action.
+
+
+## Latest continuation — MH-14 persistence gates / refreshed MH-23 lineage (2026-10-12)
+
+- Re-read MH-14 current-main sources: persistence architecture `5e14084033f417722a1b04b5d5d47649dcfcda48`; acceptance criteria `364bb2a949e11f191b71a35af482f18de4ef2827`; decision log `a2f49b9f4e09e3d2becdc2e72807319674a30239`; unknowns `722eaa1388ff3e9f6677a2571ae3c61e5611a70a`. MH-22 operations architecture `17bb2a9fdc34a0ee7c324e78c412616b5e377bb4`; evidence register `188a85e3a31cb545fd781e6db237d655d721ec1c`.
+- Live compare `main...architecture/mh-23-long-term-evolution`: DIVERGED, 66 ahead / 1,640 behind, merge base `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`; current main `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. This is a live observation on 2026-10-12, not merge authorization.
+- Matrix section 24 was added to `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`; commit `2bf2f674b2aeeeb09ea603c400a9226c67a14068`; blob `345888a0568318c1ad9c9a5fc15af0b43f051489` (verify read-back).
+- MH-14 physical persistence remains NOT AUTHORIZED; acceptance NOT YET ACCEPTED/FROZEN; atomicity and restore evidence are not demonstrated; RPO/RTO remain TBD. MH-22 production qualification NOT GRANTED / NO-GO pending current revision-bound evidence. MH-23 branch artifacts remain separate from main.
+- No tests, qualification, workflow dispatch, physical restore, migration, host/runtime inspection, deployment, or branch integration occurred.
+- Next: link this crosswalk in the map, then read back matrix/checkpoint/map and verify blob SHAs and links. Continue bounded documentary reconciliation only.
