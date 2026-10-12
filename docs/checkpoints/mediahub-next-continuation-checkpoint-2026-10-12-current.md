@@ -97,3 +97,37 @@ This checkpoint authorizes read-only architecture/evidence review and narrowly s
 6. Record confirmed facts and source URLs/SHAs in the map/checkpoint and verify GitHub read-back.
 
 Resume phrase: `/next`. Always begin by re-reading the live bootstrap and map.
+
+
+## Latest verified continuation — unified system matrix v0.1 (2026-10-12)
+
+This entry supersedes the prior “Exact next action for /next” sequence where it conflicts with the sequence below. Earlier facts remain historical unless explicitly superseded.
+
+### Latest verified artifacts
+- Unified system traceability matrix: `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`; creation commit `95b9df57713325cdc65c707ffc1f52c901d3f2af`; read-back blob SHA `7a5d63632adaff50be7abd2f0eaef6c8f883c68e`.
+- Unified architecture/deployment contract: `docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md`; latest update commit `b8fc5743e185b637d51650a26d45ec19b027cdcf`; read-back blob SHA `e9e65df37e74e5373bd07b810bf9a33e22418a3c`.
+- Map section 20.99: latest map update commit `26f112823ee4c157ed7cb02402889fe01ee6ef94`; read-back blob SHA `6c4f5bff8b2e14176bfb8f42ba7d6d896471ec99`.
+- Bootstrap blob SHA read this pass: `f86014d81a2db1b5246b4fc2600812340f1c7d22`.
+- Main HEAD observed this pass: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Baseline 2.0 remains `ACCEPTED / CANONICAL / IMMUTABLE` functional authority; Baseline 1.0 remains historical provenance. No baseline was modified.
+
+### What the matrix contains
+- Cross-domain responsibility/status matrix for MH-01…MH-25, Jarvis, ASTRA Gold and MediaHub product plane.
+- Claude vs local Ollama design/decision matrix.
+- Component admission crosswalk referencing the canonical component manifest.
+- Hardware-independent architecture/deployment preparation phases P00–P20.
+- Cross-domain acceptance gates G0–G9 and required evidence fields.
+- Explicit unresolved decisions, blocked domains and non-authorizations.
+
+### Current limits
+The matrix is a synthesis draft, not an accepted global contract. It is not an exhaustive line-by-line semantic reconciliation of every source or branch. Domain owners, primary-source crosswalk, independent review and explicit owner acceptance are still required. No tests, qualification, model/provider calls, installation, hardware purchase, host inspection, infrastructure changes, deployment, migration or merge were performed.
+
+### Exact next action for /next
+1. Re-read live bootstrap, map, this checkpoint, matrix and parent contract; verify all current blob SHAs and current `main HEAD`.
+2. Use the map to locate MH-24's 68-section traceability matrix and source-specific MH-10, MH-21, MH-14, MH-15, MH-16 and canonical component-manifest requirements.
+3. Build a revision-bound requirement crosswalk: source clause → stable requirement ID → responsible domain → dependencies/invariants → component/profile → acceptance evidence → current state → conflict/owner decision. Do not claim exhaustive coverage unless each source/section has been enumerated and verified.
+4. Specifically resolve the Claude/Ollama shape choice (Claude operator + separate Ollama tool vs policy router), MH-10/MH-21 ownership, P0-07, and hardware-independent vs target-dependent decisions. Keep unresolved matters as OPEN decisions rather than guessing.
+5. Update matrix and map only with confirmed findings; re-read all edited GitHub files. Keep Baseline 2.0 unchanged and Baseline 1.0 separate.
+6. No software installation, API/provider/model invocation, credential use, tests/qualification, host/runtime inspection, hardware purchase, infrastructure changes, deployment, migration, or merge without separate explicit authorization.
+
+Resume with `/next`.
