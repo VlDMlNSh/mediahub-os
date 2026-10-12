@@ -800,3 +800,24 @@ P0-05/P0-07 remain blocked at the normative/API boundary: establish whether the 
 Artifact: `docs/checkpoints/p0-07-audit-privacy-governance-crosswalk-2026-10-12.md` — **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. Source-bound evidence: MH-06 observability (`a4c949d1ba21354d74f91cbb71864da3bbc13d36`) is PROPOSED and requires privacy/security review for new diagnostic paths; MH-12 authorization (`c48641861691714017aa5b1f99fe8eee8ea0e76a`) requires operation-specific, identity-bound, auditable, fail-closed authorization; MH-12 contradiction register (`4b3c101317330e47236937b17344299df53deee9`) explicitly keeps C-01 unresolved and C-02 blocked; MH-13 privacy (`e732ff9cacbc9c1189bd83306cdff30906326cf0`) constrains purpose, minimization, redaction, audit metadata and lifecycle retention/deletion, while governance state (`7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`) is accepted reconstruction only, not frozen or production-authorized.
 
 Decision proposals only: D1 C→A if a trusted caller path is evidenced; D2 C until context authority/lifecycle is mapped; D3 C→A after trust/replay analysis; D4 C→B after operation-to-canonical-state mapping; D5 C→B after privacy/security review; D7 C→B unless versioning rules prove the change belongs inside P0-05 v1.1. No options are accepted by this section. D6 exact contract blob is evidenced in the accepted P0-05 governance tree; the contradictory DRAFT header remains a controlled status issue. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**.
+
+
+## Section 36 — Owner disposition for P0-05 v1.1 candidate D1–D7 (2026-10-12)
+
+**Status:** OWNER-RECORDED INVESTIGATION/GOVERNANCE DIRECTIONS; **NOT** candidate acceptance, contract freeze, API approval, implementation authorization, or P0-07 unblock.
+
+Decision provenance: [Owner Decision Register](mediahub-owner-decisions-2026-10-12.md), updated on documentation branch; owner-recorded register blob SHA after update: `62831d23c5e6bbddc707ec5b197cffba57d6139a`.
+
+| Decision | Owner-selected path | Traceability / next evidence gate | Current status |
+|---|---|---|---|
+| P0-07 authorization composition (D1) | **C → A** | Establish trusted caller path, identity, trust boundaries and existing compliant end-to-end path; only then evaluate independent authorization composition. | Investigation open; no API decision |
+| P0-04 authorization context source/lifecycle (D2) | **C** | Identify source, issuer/authority, lifecycle, binding and revocation/freshness semantics from primary evidence. | Unknowns open; no context source assumed |
+| Exact-operation decision binding (D3) | **C → A** | Trust-boundary, freshness, replay and cross-operation substitution analysis before proposing structured immutable auditable binding; cryptographic mechanism only if threat model requires. | Investigation open; no binding contract accepted |
+| P0-07 operation set (D4) | **C → B** | Enumerate operation → resource/canonical-state transition → owning authority → required P0-04 transaction authorization → failure semantics. Admit only a minimal fully supported subset. | Operation mapping open; unsupported operations blocked |
+| Audit/privacy (D5) | **C → B** | Joint MH-06/MH-12/MH-13 review; establish purpose, minimization, redaction, access, retention/deletion and metadata sensitivity before audit schema proposal. | Review open; no schema/retention values approved |
+| P0-05 accepted-text/header discrepancy (D6) | **B → A after confirmation** | Governance must explicitly confirm the exact accepted contract blob/scope and authorize controlled status/header reconciliation. Existing acceptance-tree evidence is not itself confirmation to edit the protected header. | Conditional; discrepancy remains unresolved |
+| Contract versioning scope (D7) | **C → B** | Read current versioning/change-control rules; decide whether candidate changes belong in P0-05 v1.1 or require a separately governed contract. | Investigation open; candidate non-normative |
+
+**Invariant / blocker:** P0-07 domain authorization is not P0-04 transaction authorization. No direct P0-07 mutation, bypass of P0-05, alternate State Authority, capability translation/self-grant, or second transaction/version authority is permitted. P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. Candidate P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
+
+**Evidence boundary:** this section records the owner-selected path only. It does not claim that the investigations, reviews, governance confirmation, implementation, verification, qualification, or production authorization have occurred. No tests, code changes, runtime execution, qualification, deployment, migration, infrastructure change or merge were performed.
