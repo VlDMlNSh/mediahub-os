@@ -3973,3 +3973,18 @@ The adapter contract lists three governance directions (existing independently P
 - Canonical ASTRA qualification launch schema remains `G0–G11` gated, requires fresh evidence, independent A3 verification, recovery and 24-hour soak, and reserves launch to human authorization. No workflow was dispatched or re-run.
 - Project-wide verdict remains `NO-GO / NOT PROVEN`. The existing audit report and matrix Section 41 remain the detailed domain-by-domain source; this section records only fresh metadata and source-ref reconciliation.
 - No tests, qualification runner, workflow dispatch/rerun, credentials, model/provider calls, runtime/host inspection, installation, infrastructure changes, migration, deployment, merge or rebase.
+
+## 20.125 MH-13 durable-copy retention/deletion × MH-14 restore × MH-21 provider retention (2026-10-13)
+
+**Status:** source-bound documentary crosswalk only; no acceptance, implementation or qualification gate is closed.
+
+- MH-13 architecture `docs/architecture/MH-13-privacy-data-governance.md`, `main`, blob `e732ff9cacbc9c1189bd83306cdff30906326cf0`; reconstruction registers blob `8c66fb49bbe011d8ef5dd78287c72efdad77a8fe`; governance state blob `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`; reverse prompt blob `d590b6541870d3f77fbb1e48159b78d5d2f1f203`.
+- MH-14 acceptance criteria `docs/architecture/MH-14/MH-14-acceptance-criteria.md`, `main`, blob `364bb2a949e11f191b71a35af482f18de4ef2827`; persistence architecture blob `5e14084033f417722a1b04b5d5d47649dcfcda48`.
+- MH-21 external retention `docs/architecture/MH-21-data-retention.md`, `main`, blob `8dfe3b619be593c3ec57948e350671895827ae8b`; privacy invariants blob `4475da53dc87ad1c2ad1c9f112a55211cbfa49eb`.
+- Cross-domain matrix: [Unified System Traceability Matrix, Section 42](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), new blob SHA `6f3f90e7fe5373976e7dd19004533990ce9a6d11`.
+
+**Findings:** MH-13's governance state accepts only the reconstruction, not freeze or production implementation. Header/status wording remains inconsistent and open. Exact retention periods, durable-copy deletion, legal holds, consent, residency and restore-time handling of tombstones/deleted records remain unknown. MH-14 explicitly requires MH-13-compliant retention/deletion across durable copies, authorized State Authority-mediated restore and successful recovery evidence; physical persistence remains NOT AUTHORIZED. MH-21 provider retention remains PROPOSED and requires current provider/contract/destination-bound evidence. No values, provider guarantees or legal decisions were inferred.
+
+**Disposition:** MH-13 not frozen; MH-14 acceptance NOT YET ACCEPTED/FROZEN and physical persistence NOT AUTHORIZED; MH-21 retention PROPOSED; MH-22 production qualification NO-GO / NOT PROVEN. No stable IDs added. No tests, deletion, restore, provider contact, migration, qualification, runtime/host inspection, infrastructure change, deployment, merge or rebase.
+
+**Next safe action:** route explicit status/retention/restore semantics to MH-13/MH-14/MH-21 governance owners. Continue independent documentary crosswalks only; do not execute deletion/restore or select retention values/provider terms without approved contracts and separate authorization.
