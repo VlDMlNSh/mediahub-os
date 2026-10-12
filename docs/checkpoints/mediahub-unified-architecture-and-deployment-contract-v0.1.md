@@ -22,7 +22,7 @@ The map/checkpoint are the durable cross-chat navigation mechanism; they cannot 
 
 ## 1.1 Unified traceability matrix
 
-The companion cross-domain matrix is `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`, on the live `docs/mediahub-chat-tree-map-20261012` ref; resolve and record the current blob SHA from GitHub at review time rather than pinning a mutable branch file here (latest verified SHA is recorded in the project map/checkpoint). It provides the MH-01…MH-25 responsibility matrix, Claude/local Ollama decision matrix, component admission crosswalk, hardware-independent deployment phases P00–P20, gates G0–G9, and required evidence schema. The matrix is a companion inventory/reconciliation draft, not a replacement for primary domain contracts, Baseline 2.0 or the canonical component manifest. Its status is NOT ACCEPTED / NOT FROZEN and it grants no implementation or deployment authority.
+The companion cross-domain matrix is `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`, on the live `docs/mediahub-chat-tree-map-20261012` ref; resolve and record the current blob SHA from GitHub at review time rather than pinning a mutable branch file here (latest verified SHA is recorded in the project map/checkpoint). It provides the MH-01…MH-25 responsibility matrix, Claude/local Ollama decision matrix, component admission crosswalk, hardware-independent deployment phases P00–P20, matrix-local gates MH-UTM-G0…MH-UTM-G9, and required evidence schema. Those matrix-local identifiers are distinct from this contract's MH-UDC-G0…MH-UDC-G9, MH-22 lifecycle gates G1–G9, and ASTRA qualification gates G0–G11; numeric suffixes are not interchangeable. The matrix is a companion inventory/reconciliation draft, not a replacement for primary domain contracts, Baseline 2.0 or the canonical component manifest. Its status is NOT ACCEPTED / NOT FROZEN and it grants no implementation or deployment authority.
 
 ## 2. Precedence and evidence labels
 
@@ -235,18 +235,20 @@ Record deployment_id/profile; owner/operator; source commit and document revisio
 
 ## 8. Cross-domain gate matrix
 
-| Gate | Domains | Minimum exit evidence | Current disposition |
+**Draft-local identifier namespace:** `MH-UDC-G0`…`MH-UDC-G9` identify only this contract's proposed cross-domain readiness gates. They do not replace or imply equivalence with MH-22 lifecycle gates G1–G9 or ASTRA launch/qualification gates G0–G11. This mapping is naming disambiguation only; acceptance criteria and statuses remain unchanged.
+
+| Draft-local gate ID | Domains | Minimum exit evidence | Current disposition |
 |---|---|---|---|
-| G0 Functional authority | Baseline 2.0, MH-24 | Requirement-to-contract mapping | Baseline accepted; this contract is draft |
-| G1 Hardware/OS | MH-15 | Exact hardware/OS compatibility | Open; not authorized |
-| G2 Identity/security/privacy | MH-12, MH-13, MH-21 | Threat boundary, identity, egress, secret evidence | Open; unknowns remain |
-| G3 Runtime/State Authority | MH-03, P0-03…P0-07 | Current revision-bound enforcement evidence | P0-07 blocker remains; no fresh run verified here |
-| G4 Persistence | MH-14 | Approved ADR, durability and restore evidence | Implementation not authorized |
-| G5 Lifecycle/update/recovery | MH-16 | Install/update/migration/rollback/restore/Health Gate evidence | Governance acceptance pending; implementation blocked |
-| G6 Components | Component manifest | Per-component admission package | Target/Future gates remain |
-| G7 Cloud/developer fabric | MH-21, Cloud Development Fabric | Identity, admission, privacy, network, worker and recovery evidence | MH-21 not accepted/frozen |
-| G8 Qualification | MH-22 | Exact candidate/target qualification matrix PASS | Not qualified / NO-GO |
-| G9 Release/production | MH-22, owner decision | Explicit release/production authorization | Not granted |
+| MH-UDC-G0 Functional authority | Baseline 2.0, MH-24 | Requirement-to-contract mapping | Baseline accepted; this contract is draft |
+| MH-UDC-G1 Hardware/OS | MH-15 | Exact hardware/OS compatibility | Open; not authorized |
+| MH-UDC-G2 Identity/security/privacy | MH-12, MH-13, MH-21 | Threat boundary, identity, egress, secret evidence | Open; unknowns remain |
+| MH-UDC-G3 Runtime/State Authority | MH-03, P0-03…P0-07 | Current revision-bound enforcement evidence | P0-07 blocker remains; no fresh run verified here |
+| MH-UDC-G4 Persistence | MH-14 | Approved ADR, durability and restore evidence | Implementation not authorized |
+| MH-UDC-G5 Lifecycle/update/recovery | MH-16 | Install/update/migration/rollback/restore/Health Gate evidence | Governance acceptance pending; implementation blocked |
+| MH-UDC-G6 Components | Component manifest | Per-component admission package | Target/Future gates remain |
+| MH-UDC-G7 Cloud/developer fabric | MH-21, Cloud Development Fabric | Identity, admission, privacy, network, worker and recovery evidence | MH-21 not accepted/frozen |
+| MH-UDC-G8 Qualification | MH-22 | Exact candidate/target qualification matrix PASS | Not qualified / NO-GO |
+| MH-UDC-G9 Release/production | MH-22, owner decision | Explicit release/production authorization | Not granted |
 
 ## 9. Proposed cross-chat work allocation
 
