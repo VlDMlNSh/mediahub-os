@@ -430,3 +430,13 @@ Resume with `/next`.
 - Updated map blob `bcfa127868207e6f62ba35ac670ec8f4c7f1eb62`, matrix blob `87f02d9e447801b2a094fdf28682e16d3de5a4e4`, owner register blob `b0e56eb18b903946812763baddcefe300f7dbf9f`; re-read these artifacts and verify SHAs before relying on them.
 - No protected contract or runtime code changed; no tests, runtime execution, host inspection, qualification, credentials, installation, infrastructure change, deployment, migration, merge or branch integration.
 - Next: inspect P0-07 audit/privacy requirements against MH-06/MH-12/MH-13, then prepare a decision packet for D1–D5/D7 without choosing API design on the owner's behalf. Keep mutation publication blocked.
+
+
+## Latest continuation — P0-07 audit/privacy decision packet (2026-10-12)
+
+- Reviewed the current map, bootstrap, checkpoint, matrix, Baseline 2.0, owner decision register and P0-05 v1.1 candidate before this pass.
+- Re-read primary sources: MH-06 Observability `a4c949d1ba21354d74f91cbb71864da3bbc13d36` (PROPOSED); MH-12 Authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a`; MH-12 Contradiction Register `4b3c101317330e47236937b17344299df53deee9` (C-01 requires verification, C-02 bridge blocked); MH-13 Privacy `e732ff9cacbc9c1189bd83306cdff30906326cf0`; MH-13 Governance State `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa` (accepted reconstruction only, not frozen, production implementation not authorized); MH-13 Reconstruction Registers `8c66fb49bbe011d8ef5dd78287c72efdad77a8fe`.
+- Created `docs/checkpoints/p0-07-audit-privacy-governance-crosswalk-2026-10-12.md` (blob `3b2ff1d5b66e99284e93ec2a6969bddcd77241b`) as NON-NORMATIVE decision packet with options and recommendations for D1–D5/D7. It does not decide API design for the owner. It distinguishes audit from observability, requires minimization/redaction, leaves exact schema/retention/identity and cryptographic representation unresolved, and keeps implementation/qualification gates closed.
+- D6 update: exact P0-05 contract blob inclusion in the accepted governance tree is positively evidenced; the contradictory DRAFT header remains a controlled status reconciliation. This does not approve the P0-07 extension.
+- Map and matrix now link the packet. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP. No tests, runtime, implementation, qualification, infrastructure changes, deployment, migration, merge or main update.
+- Updated map blob SHA `cb9ec4191fff828b68a97cf19beaa944909ef384`; matrix blob SHA `d6e97bb9d922a0509146b3715132b6cfa8d93479`. Re-read checkpoint, map, matrix and packet after update to verify exact SHAs/content.
