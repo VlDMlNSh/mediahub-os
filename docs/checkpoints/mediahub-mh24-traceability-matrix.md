@@ -1,8 +1,10 @@
 # MediaHub MH-24 — Traceability Matrix
 
-**Status:** RECONCILIATION CANDIDATE  
+**Status:** RECONCILED — FUNCTIONAL BASELINE 2.0 ACCEPTED; IMPLEMENTATION / QUALIFICATION OPEN  
 **Baseline:** Functional Baseline 2.0  
-**Date:** 2026-09-30
+**Date:** 2026-10-12
+
+Status reconciliation (2026-10-12): the former `RECONCILIATION CANDIDATE` label was a pre-acceptance status. The MH-24 reconciliation report (main, blob SHA `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`) records `CLOSED — FUNCTIONAL BASELINE 2.0 ACCEPTED / CANONICAL`, and Baseline 2.0 (main, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`) declares itself accepted and immutable. This updates only the matrix reconciliation status; missing implementation or qualification evidence remains missing, and no runtime/production status is inferred.
 
 Legend:
 - **Architecture:** defined/reconciled in the baseline or named checkpoint.
@@ -12,10 +14,10 @@ Legend:
 
 | # | Passport section | Architecture decision / contract | MH source | Canonical document | Implementation artifact | Qualification evidence |
 |---:|---|---|---|---|---|---|
-| 1 | Назначение | One local-first MediaHub product | MH-1/MH-2 + user passport | master reconciliation | core contracts/runtime | — |
-| 2 | Архитектурная модель | One architecture + qualified profiles | MH-2 | master reconciliation | contracts/schemas | — |
-| 3 | State Authority | One logical distributed authority; no critical LWW | MH-3/MH-14/MH-20 | master reconciliation | state/domain schemas | — |
-| 4 | Home Assistant Core | HA operational authority for Smart Home | MH-5/MH-17 | STATE-HA integration contract | integration contracts | — |
+| 1 | Назначение | One local-first MediaHub product | MH-1/MH-2 + user passport | Functional Baseline 2.0 §§1–2; master reconciliation retained as provenance | core contracts/runtime | — |
+| 2 | Архитектурная модель | One architecture + qualified profiles | MH-2 | Functional Baseline 2.0 §§1, 9–10; master reconciliation retained as provenance | contracts/schemas | — |
+| 3 | State Authority | One logical distributed authority; no critical LWW | MH-3/MH-14/MH-20 | Functional Baseline 2.0 §§3–4, 10, 13; MH-03 contracts in their explicit scope | state/domain schemas | — |
+| 4 | Home Assistant Core | HA operational authority for Smart Home | MH-5/MH-17 | Functional Baseline 2.0 §§3, 14; `architecture/STATE-HA-INTEGRATION-CONTRACT.md` is a proposed future extension, not current runtime authority | integration contracts | — |
 | 5 | UI | Unified MediaHub UI | MH-9 | Functional Baseline 1.0 | — | — |
 | 6 | Smart Home | Adapter/integration domain under HA authority | MH-5/MH-17 | Functional Baseline 2.0 | device schemas/tests | — |
 | 7 | Manufacturers | Qualification-gated vendor adapters | MH-5/MH-17 | Functional Baseline 2.0 | component registry | — |
@@ -57,9 +59,9 @@ Legend:
 | 43 | OSS Foundation | Gap→license→security→provenance→adapter→benchmark | MH-20/MH-23 | implementation blueprint | component registry | — |
 | 44 | OSS Adoption Rule | Governance invariant | MH-20 | Functional Baseline 2.0 | architecture governance | — |
 | 45 | Architectural prohibitions | No competing authorities/bypasses | MH-20 | Functional Baseline 2.0 | contract/static tests | — |
-| 46 | Qualification | Independent, evidence-first, production gate | MH-22 | qualification architecture | Astra/federation workflows | many historical evidence records |
+| 46 | Qualification | Independent, evidence-first, production gate | MH-22 | qualification architecture | Astra/federation workflows | Historical evidence only; `CURRENT-TRUTH.generated.md` reports `NOT_PROVEN / BLOCKED` (blob SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`); no current production qualification implied |
 | 47 | Git/provenance | Commit-bound, immutable R4 | MH-20/MH-23 | Functional Baseline 2.0 | GitHub repository | commit/read-back evidence |
-| 48 | Autonomous development | AI advisory, traceable, governed | MH-20/MH-23 | Functional Baseline 2.0 | Astra workflows/tests | Astra operational evidence |
+| 48 | Autonomous development | AI advisory, traceable, governed | MH-20/MH-23 | Functional Baseline 2.0 | Astra workflows/tests | Historical Astra records only; current generated truth remains `NOT_PROVEN / BLOCKED` until fresh mandatory evidence passes at one exact SHA |
 | 49 | Developer ecosystem | Separate developer OS/apps/cloud | MH-21/MH-23 | cloud development fabric | CI/provider workflows | partial |
 | 50 | Overall chain | Physical→OS→State→domains→AI→cloud | MH-2/MH-10/MH-21 | Functional Baseline 2.0 | contracts | — |
 | 51 | Mobile chain | Local Core vs Remote API chain | MH-9/MH-15 | Functional Baseline 2.0 | API contracts | — |
