@@ -1209,3 +1209,25 @@ Read-back review подтвердил: 48 строк, 48 уникальных и
 ### 20.32.6 Safe-next-step and action boundary
 
 Continue with source-anchored atom-level mapping and owner/governance dispositions; update the crosswalk only after exact anchors and semantic matches are verified; obtain independent review and explicit owner acceptance before replacing draft status. Do not edit B1/B2, run tests/qualification, install software, touch live infrastructure, deploy or merge to `main` without the corresponding authorization. In this session, no tests/qualification/deployment were run and `main` was not modified.
+
+## 20.33 Astro blueprint gap reconciliation — owner scope incorporated into working drafts
+
+**New artifact:** docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md  
+**Create commit:** 14570b180be0f551eb5fd5d6e95f6ae0b0cc0aeb  
+**Read-back blob SHA:** 74f87eeaf96c5cf87d6fc24421df5baeefebcaed  
+**Status:** OWNER-SUPPLIED BLUEPRINT ANALYSIS / WORKING DOCUMENT — NOT A NEW ACCEPTED BASELINE.
+
+Проведена documentary reconciliation нового owner blueprint от 2026-10-12 с B1/B2, MH-03 runtime foundation, HA/State contract, component manifest, ASTRA current truth/runbook, сети и hardware passport. Основное решение для рабочего drafts: Astro — umbrella multi-agent engineering architecture; Astra/Astra Gold — ограниченный subsystem-кандидат; neither Astro nor Astra receives MediaHub Product State Authority. Сохранены HA Core как authority только Smart Home domain и текущий MH-03 single-node/in-memory authority baseline.
+
+Gap report covers **18 scoped findings**: Astro/Astra identity; current ASTRA blocked status; product-vs-engineering state; distinct Mac Pro, developer Mac mini 2011, customer-site Mac mini M2, test-server and future GPU/video roles; inventory/support uncertainty; client/developer trust-boundary; repeatable release package; repository maturity scorecard; one owner for task lifecycle; task-scoped capability roles; MH-01…MH-23 context packets; audit coverage honesty; component candidate selection; target schedule vs acceptance. It includes a target plane model, minimal task envelope, hardware admission matrix, candidate/repository matrix and **13 new blueprint-specific documentary review cycles**. These are not runtime tests or qualification executions.
+
+External public repo desk review recorded as candidates / not selected: Temporal, LangGraph, Microsoft Agent Framework, Pydantic AI and OpenHands; AutoGen is recorded as maintenance-mode and not recommended for new adoption absent explicit exception. None was installed, benchmarked or qualified. External evidence refs and review date are captured in the gap document.
+
+**Updated Passport v3:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md; update commit 9200df4c0959dc6925e6da30c768e2b55cc50dda; read-back blob SHA 33ccb08dd098562f6ae9172044e205fc4810e336. Added Astro umbrella/Astra boundary, owner-reported hardware-role table, P-13…P-18 reconciliation risks, acceptance gates and gap-report provenance. Status remains INTEGRATED WORKING DRAFT / NOT YET ACCEPTED AS A NEW BASELINE.
+
+**Updated verifiable contract 01:** docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md; update commit 654375a115ab4ab76b505b89bd0640a30996b37a; read-back blob SHA 15c272e31a4276dccc6d7e0b15d1dc1ac836b49a. Added ARC-017…ARC-025 for Astro identity, single task-lifecycle owner, source-bound task envelope, capability-scoped roles, hardware/trust profiles, pinned deployment bundle, evidence-gated reuse, MH context distribution and measurable audit coverage; added V-11…V-18 acceptance checks. Status remains WORKING INTEGRATION CONTRACT / DRAFT — NOT A NEW CANONICAL BASELINE.
+
+**External evidence and boundaries:** Microsoft announced Agent Framework 1.0 as production-ready on 2026-04-03; LangGraph documents stateful agent workflows and human-in-the-loop; Temporal documents durable execution/recovery; Pydantic AI documents several multi-agent patterns and cautions against unnecessary graphs; AutoGen repository reports maintenance mode and directs new projects to Microsoft Agent Framework. These findings support shortlist evaluation only, not selection or installation. See the gap report’s source list.
+
+**Important non-actions:** B1 and B2 are unchanged; corrected matrix and new work stay in the document branch; main was not changed or merged. No tests, ASTRA qualification, 24-hour soak, installation, deployment, production/infrastructure actions, or live host operations were run. Current ASTRA truth remains NOT_PROVEN / BLOCKED in the inspected source. Whole-repository line-by-line semantic completeness is not claimed.
+
