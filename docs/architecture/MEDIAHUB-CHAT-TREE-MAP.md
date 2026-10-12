@@ -3212,3 +3212,14 @@ An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 40
 - Production qualification: `NO-GO`; no production acceptance is granted.
 - No tests, qualification, deployments, installs, provider/network scans, or infrastructure changes were performed in this audit.
 - **Next safe domain from the map:** MH-23 Migration / Long-Term Evolution. It consumes MH-22 evidence and lifecycle/supportability/EOL constraints. Its branch-specific status must be verified before treating any artifact as canonical on `main`.
+
+## 20.95 Continuation checkpoint — resume with `/next` (2026-10-12)
+
+- **Checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12.md`
+- **Checkpoint blob SHA:** `c47844000d7af6f74d0f23731dd7ad03dfbd239e`
+- **Checkpoint commit:** `481455027af536e9f4127d9c9c34cfc4d957b194`
+- **Verified read-back:** checkpoint re-fetched from `docs/mediahub-chat-tree-map-20261012`; continuation instruction, main HEAD, Baseline references and P0-07 blocker checked.
+- **Project ref:** `main` HEAD observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` during checkpoint creation. Re-check live HEAD when resuming; never assume it is unchanged.
+- **Current completed map audits:** MH-21 in section 20.93; MH-22 in section 20.94. Their acceptance/qualification limitations and source SHAs are recorded in those entries.
+- **Next task:** read-only MH-23 Migration / Long-Term Evolution audit. Verify branch `architecture/mh-23-long-term-evolution` against `main`, resolve the older MH-25 “Migration” label vs branch naming from primary documents, and inspect MH-16/MH-22 dependencies. No implementation changes, tests, qualification, infrastructure changes, or merge are authorized by this checkpoint.
+- **Resume instruction:** in a new chat, say `/next`. First re-read bootstrap and map, then open this checkpoint and execute the exact next-task sequence in it. This checkpoint supplements the map; it does not replace primary sources or authorize merging Baseline 1.0 and 2.0.
