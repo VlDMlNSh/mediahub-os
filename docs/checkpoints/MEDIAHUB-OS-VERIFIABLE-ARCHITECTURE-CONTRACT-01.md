@@ -158,6 +158,68 @@ Events, telemetry, logs and observations do not provide mutation rights.
 **Acceptance:** stage owner, required evidence, independent reviewer, target SHA/profile, rollback and acceptance decision are recorded. Any missing/contradictory evidence blocks promotion.
 **Primary source:** B1 §§46, 48–49, 65–68, SHA 9df4892ed0734050ac79732603d15bb414717310; B2 §§0,20,24; generated ASTRA truth SHA 48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731.
 
+### ARC-017 — Astro is the umbrella engineering architecture; Astra is a bounded subsystem
+
+**Rule:** In the owner-provided target framing dated 2026-10-12, Astro is the umbrella for project context, source discovery, requirement decomposition, dependency planning, task-scoped execution, verification and release preparation. Astra/Astra Gold may supply queue/claim/worker/evidence capabilities as one subsystem. Neither Astro nor Astra may become MediaHub Product State Authority. This is a working-contract addition, not a claim of a deployed Astro runtime or a repository rename.
+
+**Acceptance:** architecture diagrams, prompts and contracts explicitly distinguish Astro (umbrella), Astra (bounded engineering subsystem), MediaHub State Authority (product/platform state), and Home Assistant Core (Smart Home-domain authority). An ambiguity blocks the dependent task.
+
+**Sources:** owner blueprint / branch gap reconciliation blob SHA 74f87eeaf96c5cf87d6fc24421df5baeefebcaed; B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; ASTRA launch schema SHA 0b86b07dfa916d4485ce1f8f54d19de136d98491.
+
+### ARC-018 — one owner for engineering task lifecycle
+
+**Rule:** Astro must not accidentally introduce a second independent queue, claim store, lease/fencing domain, retry engine or qualification-promotion store. Before implementation, select one lifecycle owner: an admitted Astra subsystem, a separately evaluated durable workflow service, or another explicitly selected implementation. Other candidates integrate through versioned adapters.
+
+**Acceptance:** one task ID lineage and one authoritative engineering-task state transition path exist; retries are idempotent; exclusive tasks use fencing; all state changes are traceable. No product-state authority is inferred from this workflow state.
+
+**Status:** design requirement; scheduler/framework choice OPEN.
+
+### ARC-019 — source- and SHA-bound task envelope
+
+**Rule:** Every dispatched Astro task MUST include task/parent ID, MH domain, requirement IDs, approved base ref/SHA, source refs and trust, dependencies, worker capability profile, workspace boundary, allowed tools/files/network/egress, timeout/lease/retry/idempotency rules, acceptance criteria, independent verifier, changed-path manifest, evidence digest, exit status and permitted next lifecycle state. Credential values and unrestricted personal payloads MUST NOT be included.
+
+**Acceptance:** malformed/incomplete envelope is rejected; workspace/output and evidence refer to the same approved task/base; duplicate or stale result cannot silently advance state.
+
+### ARC-020 — agent roles are capability profiles, not a fixed bot count
+
+**Rule:** Collector, analyst, architect, builder, normalizer, documentation author, reviewer and specialist profiles are task-scoped capabilities. A library of 26 ECC/specialist roles, if adopted, is not a requirement for 26 always-running processes. Models and agents cannot self-assign authority or certify their own changes.
+
+**Acceptance:** profile admission uses task fit, identity, permissions, resource budget and verification requirements; independent A3 review uses a distinct verifier role/identity and cannot be bypassed by role labels.
+
+### ARC-021 — hardware roles and trust domains are explicit
+
+**Rule:** Purchased Mac Pro, developer Mac mini 2011 (16 GB), customer-site Mac mini M2, current test servers and any future GPU/video server are separate inventory/profile records. The customer-site prototype MUST NOT silently join the developer compute pool or inherit developer credentials/data. Host names and model names do not qualify capabilities.
+
+**Acceptance:** each admitted node has exact inventory, OS/security-support and dependency compatibility, capacity/thermal/network/isolation evidence, workload profile, node identity, recovery and privacy/egress policy. The 2011 node is not a mandatory dependency unless its required compatibility is demonstrated.
+
+**Status:** owner-reported hardware intent recorded; device inventory and qualification OPEN.
+
+### ARC-022 — deployment is a pinned, reproducible release, not a rebuild on target
+
+**Rule:** A release candidate must be packaged before the target hardware is provisioned. Its manifest pins source/build SHA, supported CPU/OS range, dependency lock, checksums, license notices/SBOM/provenance, profile configuration, secret references, preflight, migration, health/readiness, backup/restore, rollback and post-deploy evidence. Containerization is not mandatory without compatibility evidence.
+
+**Acceptance:** clean-profile preflight and install are repeatable on an admitted target; failed health or migration yields bounded rollback; final evidence names the exact package SHA and node profile.
+
+**Status:** design requirement; package and install qualification not provided.
+
+### ARC-023 — third-party reuse is evidence-gated
+
+**Rule:** Before selecting a public repository/module, capture canonical identity, exact pin, license, maintenance/release history, security policy/advisories, dependency/SBOM provenance, platform/resource fit, offline/local behavior, egress and permission model, recovery/idempotency behavior, test evidence, integration cost and removal/rollback path. Stars, documentation claims or discovery alone are insufficient.
+
+**Acceptance:** every candidate receives REJECT, REFERENCE ONLY, CANDIDATE, POC QUALIFIED, SELECTED FOR DEVELOPMENT or PRODUCTION QUALIFIED status with evidence and explicit decision authority. Candidate research does not permit installation or production admission.
+
+### ARC-024 — MH context distribution must preserve primary-source lineage
+
+**Rule:** Use one global Astro context packet plus domain-specific packets for MH-01…MH-23. Packets carry primary paths, refs/blob SHAs, accepted and superseded decisions, dependencies, invariants, change deltas and open conflicts; they link to primary documents rather than duplicating them as a second source of truth. MH-24/MH-25 remain reconciliation/control stages.
+
+**Acceptance:** any packet can be traced to current primary files and has a generated/reviewed-at timestamp/ref; stale/missing inputs block its “current” designation; source changes are read back before dependent packets are refreshed.
+
+### ARC-025 — repository coverage claims are measurable and bounded
+
+**Rule:** Distinguish tree inventory, successfully fetched files, structurally classified files, semantically reviewed files, resolved conflicts and unreviewed files. An inventory of repository entries is not a semantic audit of every file. Do not claim “all defects fixed” without a source-by-source closure ledger.
+
+**Acceptance:** every audit report states refs/tree snapshot, exact inspected set, exclusions, unresolved findings and review status; completion claims match that ledger.
+
 ## 3. Cross-domain system contract
 
 ### 3.1 Public interfaces
@@ -212,6 +274,14 @@ Every component contract admitted to implementation MUST declare:
 | V-08 | Local-first and privacy boundary is enforced | data-flow inventory, egress-negative tests, sanitized evidence, audit | Architectural requirement; implementation evidence not included here |
 | V-09 | Recovery preserves single authority and provenance | restore/replay/fencing/rollback drills | OPEN |
 | V-10 | System passport is fully accepted | independent review, owner approval and explicit baseline/change-control action | DRAFT / NOT ACCEPTED |
+| V-11 | Astro and Astra roles do not cross the product-state boundary | owner blueprint + B2 + ARC-017 + architecture drift/readback evidence | Scope documented in branch; implementation conformance OPEN |
+| V-12 | One owner controls task lifecycle and task state | selected scheduler/queue contract + collision/lease/retry/fencing/replay evidence | OPEN; Astra versus external scheduler/framework not selected |
+| V-13 | Every agent task is source-, permission- and SHA-bound | valid/invalid envelope probes and evidence-manifest verification | Contract specified; tests not run |
+| V-14 | Hardware profiles and customer/developer trust domains are separated | exact node inventory, security/network/egress profile, capability benchmarks and recovery evidence | Owner-reported roles documented; measured admission OPEN |
+| V-15 | Target deployment is reproducible and rollbackable | pinned release bundle, SBOM/licenses, clean-profile preflight/install, health and rollback evidence | Design requirement; artifact not provided |
+| V-16 | Reused public components are reviewed and pinned | repository scorecards, exact versions, license/security/provenance and bounded PoC evidence | Public desk review completed for shortlist only; no candidate qualified |
+| V-17 | MH-01…MH-23 context packets remain traceable to primary sources | global/domain packet inventory with current refs/SHA and read-back status | Design requirement; packet mechanism not implemented |
+| V-18 | Audit coverage is accurately represented | exact tree/source set, per-file review state and open findings | Bounded review only; whole-repository semantic completion not claimed |
 
 ## 5. Definition of contract conformance
 
@@ -246,6 +316,12 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 7. Obtain fresh live ASTRA evidence; the current inspected truth remains NOT_PROVEN / BLOCKED.
 8. Complete per-domain canonical path, master/reverse handoff, acceptance evidence and dependency map for MH-01…MH-25.
 9. Obtain independent architecture review and owner acceptance before calling this the project-wide canonical contract or creating a new accepted system baseline.
+10. Define the Astro public interface and choose the single owner for task lifecycle, claims, leases, retry, evidence and promotion; explicitly compare Astra against other durable execution candidates.
+11. Record exact hardware identity for the Mac Pro, developer Mac mini 2011 and client-site Mac mini M2; qualify a future GPU/video server only when acquired.
+12. Define and review the global Astro context packet and the MH-01…MH-23 domain-packet generation/update procedure.
+13. Evaluate pinned component candidates using ARC-023 before any install or PoC; retain the no-install/no-qualification gate until separate authorization.
+14. Define the immutable, reproducible deployment bundle, per-profile preflight, health, backup/restore and rollback acceptance evidence.
+15. Reconcile the owner’s late-October planning window with real gate evidence; do not transform the calendar intent into a release commitment.
 
 ## 8. Change history
 
@@ -253,6 +329,7 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 - 2026-10-12 — matrix status corrected in branch; ASTRA internal state semantics clarified without changing authority field values.
 - 2026-10-12 — 13-cycle source/contract review performed with separate read-back checks; audit ledger is recorded in MEDIAHUB-OS-13-CYCLE-ARCHITECTURE-AUDIT-01.md after its creation and verification.
 - 2026-10-12 — repository tests/qualification/deployment were not run; main was not changed and no merge was performed.
+- 2026-10-12 — incorporated the owner-provided Astro umbrella direction, single-task-lifecycle rule, hardware trust/profile split, reproducible deployment requirements, public-repository scorecard and MH-01…MH-23 context-packet contract; companion gap report blob SHA 74f87eeaf96c5cf87d6fc24421df5baeefebcaed.
 
 **Review coverage limitation:** an API tree snapshot at commit 58305d5a9a5b1593f15d2dfb0ff79838c1bddaec contained 826 entries, including 445 Markdown files. This session used that inventory and semantically inspected the governing baselines, key state/security/HA contracts, traceability corpus, component-selection artifacts and ASTRA qualification sources; it did not read every line of every repository document. Whole-repository semantic completeness is therefore not claimed.
 
