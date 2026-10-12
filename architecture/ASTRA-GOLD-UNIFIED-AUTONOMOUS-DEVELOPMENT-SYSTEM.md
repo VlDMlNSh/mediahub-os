@@ -39,7 +39,8 @@ Placement: candidate_desktop_agents -> executor admission gate -> isolated works
                                         │
                              ┌──────────▼──────────┐
                              │ A0 ASTRA CONTROLLER │
-                             │ coordination/state  │
+                             │ coordination / Astra │
+                             │ internal queue state  │
                              └──────────┬──────────┘
                                         │
               ┌─────────────────────────┼─────────────────────────┐
