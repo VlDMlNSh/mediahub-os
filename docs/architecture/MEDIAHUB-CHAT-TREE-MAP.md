@@ -1045,3 +1045,22 @@ R01–R04 и R06 из Review 01 подтверждены как исправле
 **Результат:** coverage register rows 14/14 — PASS; internal consistency of defaults — PASS; owner decisions — NONE; governance approval — NOT APPROVED; canonical backlog eligibility — NO. Baselines, matrix, historical backlog, implementation and qualification unchanged; no tests, installation, deployment, infrastructure/production action, or merge to `main`.
 
 **Следующий безопасный шаг:** получить решения GOV-MH24-01…14 от уполномоченных владельцев и сохранить их отдельным decision artifact с точными refs/evidence. До этого Proposal 02 и child suffixes остаются provisional.
+
+
+
+## 20.25 Batch 04 decision triage 01 — latest-evidence precedence and owner questions
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-DECISION-TRIAGE-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `e0cb2b62f2e9ec227d3a949e25b82fa9bf06a7c0`  
+**Статус:** `WORKING TRIAGE / OPEN — NOT AN APPROVAL RECORD`.
+
+Сопоставлены последние документы: Proposal 02 (`7e737c8add9e3453062e9fc459790e7010e55689`), owner register (`a1bd98aa461859bf173725703723ec8dff73cce5`), independent review (`ae9ff159117a08fceb9ea26e5cadd0dcafeb2105`), Baseline 2.0 в `main` (`1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`), traceability matrix (`8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6`), MH-24 reconciliation report (`d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`) и Baseline 1.0 (`9df4892ed0734050ac79732603d15bb414717310`).
+
+Зафиксировано правило: latest accepted canonical decision определяет текущий функциональный смысл; более ранние документы сохраняются как provenance. Baseline 2.0 — текущая функциональная ссылка, Baseline 1.0 — неизменяемый literal источник редакции 1.0. При этом bootstrap-инструкция требует явного crosswalk и не разрешает молча объявлять атомы B1 согласованными с B2. Обнаружено, что Baseline 2.0 и reconciliation report обозначают принятие/закрытие MH-24, а traceability matrix всё ещё маркирована RECONCILIATION CANDIDATE; это отдельное расхождение статуса матрицы, не доказательство отмены принятия B2.
+
+Для GOV-MH24-02/03/05/06/08/09/14 сформулированы рекомендуемые dispositions, выводимые из последней версии Proposal 02 и принятых authority boundaries: один normative atom с cross-links для общих источников; отдельные scope HA Core/State Authority; отсутствие дублирования SH4/AUTO4; шесть LAI anchors; D-классификация дополнительных cluster controls; сохранение исторического «47» при использовании проверенного количества 48 в новых документах. Это рекомендации к следующему crosswalk, не approval Proposal 02.
+
+Явного ответа требуют GOV-MH24-01/04/07/10/11/12/13: accountable approver; уникальность UI4-04; literal-vs-derived automation controls; модель единого cloud gate; stable child-ID scheme; B1/B2 mapping statuses; минимальная evidence schema. В triage перечислены пять кратких вопросов пользователю. До ответа Proposal 02 остаётся NOT APPROVED, canonical backlog/matrix и обе Baselines не изменяются.
+
+**Следующий шаг:** получить ответы на вопросы A–E в triage и затем подготовить обновлённый decision artifact; не считать молчание одобрением и не выполнять merge в `main`.
