@@ -3223,3 +3223,51 @@ An initial attempt used `MH-15-CHAT-REVERSE-MASTER-PROMPT.md`, which returned 40
 - **Current completed map audits:** MH-21 in section 20.93; MH-22 in section 20.94. Their acceptance/qualification limitations and source SHAs are recorded in those entries.
 - **Next task:** read-only MH-23 Migration / Long-Term Evolution audit. Verify branch `architecture/mh-23-long-term-evolution` against `main`, resolve the older MH-25 “Migration” label vs branch naming from primary documents, and inspect MH-16/MH-22 dependencies. No implementation changes, tests, qualification, infrastructure changes, or merge are authorized by this checkpoint.
 - **Resume instruction:** in a new chat, say `/next`. First re-read bootstrap and map, then open this checkpoint and execute the exact next-task sequence in it. This checkpoint supplements the map; it does not replace primary sources or authorize merging Baseline 1.0 and 2.0.
+
+## 20.96 MH-23 Long-Term Evolution / Compatibility / Migration — branch audit and continuation checkpoint
+
+**Date:** 2026-10-12. **Main HEAD observed:** `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. **Specialized branch:** `architecture/mh-23-long-term-evolution`. GitHub compare `main...architecture/mh-23-long-term-evolution` reports `DIVERGED`: 66 commits ahead, 1,640 behind, merge base `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`; branch tree contains 160 entries. This is an evidence finding, not merge/cherry-pick authorization. **Status:** `ARCHITECTURE WORK AUTHORIZED / NOT YET ACCEPTED / NOT FROZEN`. MH-23 artifacts are branch-specific and must not be presumed canonical/accepted on `main`.
+
+### Verified MH-23 primary sources and blob SHA
+
+| Source (ref: `architecture/mh-23-long-term-evolution`) | Blob SHA | Confirmed facts |
+|---|---|---|
+| `docs/architecture/MH-23-CHAT-MASTER-PROMPT.md` | `61657c5d17098dc20643ba663c0e14804ee294c9` | Architecture guardian for long-term evolution/compatibility/migration; no implementation authorization. |
+| `docs/architecture/MH-23-REVERSE-MASTER-PROMPT.md` | `ec659f09a8fbe01148bebe8be6023327d8429020` | Requires target commit, contract/authority impact, test/evidence, compatibility, migration/rollback and governance request. |
+| `docs/architecture/MH-23-acceptance-criteria.md` | `9ae5ba64882a3f98e5df0a9a907da0c0ced5d5a1` | `NOT ACCEPTED / NOT FROZEN`; requires compatibility, migration, rollback, coexistence, authority, security/privacy, lifecycle and evidence gates. |
+| `docs/architecture/MH-23-evidence-register.md` | `a9330b0373c4b329990d056553c0d7ac556d3bfc` | Evidence is pinned to historical main HEAD `6eb2ef9…`; P0-07 PR #17 is draft candidate, P0-08 PRs #19–22 candidates, P0-03 exact frozen artifact requires verification. |
+| `docs/architecture/MH-23-final-architecture-index.md` | `4b053b96e31214352b4f5cf5bc333449fec9b1a7` | Describes MH-23 as final architecture-series layer; this branch statement does not override current map/other stage records by itself. |
+| `docs/architecture/MH-23-current-state-audit.md` | `cb2a9a1092d7a5ce1bc1f8b9082dd0df06ab79e3` | Audit dated 2026-09-04; repository findings are historical and require current lineage checks. |
+| `docs/architecture/MH-23-contradiction-register.md` | `854d1eb6dc6cca532d6f34eaefe596a07cce3879` | P0-03 artifact lineage, stale migration workflow target, P0-07 acceptance and multiple P0-08 candidates are unresolved/guarded. |
+| `docs/architecture/MH-23-decision-log.md` | `90a2b8ef5727ac39023147d5b2d3c1540b5f5bbd` | Evolution without authority drift accepted as principle; SemVer candidate only; physical persistence not authorized; P0-07 not accepted/frozen. |
+| `docs/architecture/MH-23-unknowns.md` | `87f68820b2cad38e314d483ebb8387ee62007af9` | Hardware/OS/firmware, persistence, release/CI, deployment, provider, plugin/device/media/AI, restore and lineage remain unknown. |
+| `docs/architecture/MH-23-master-dependency-map.md` | `2c6e286b56363ee16f121bd432fe65c26ee0ead7` | MH-23 depends on upstream architecture, security/privacy, State Authority, lifecycle and production qualification evidence. |
+| `docs/architecture/MH-23-long-term-evolution-compatibility-migration.md` | `2896d6851226a31fc971e05766d253c034d22246` | Migration lifecycle and multidimensional compatibility; explicitly does not authorize persistence deployment, destructive migration, OS/firmware/hardware changes, cloud rollout or production rollout. |
+
+### Current main dependencies checked
+
+| Source (ref: `main`) | Blob SHA | Confirmed facts |
+|---|---|---|
+| `docs/architecture/MH-16-installer-recovery-update-architecture.md` | `f3ad2401f00a4062b39eed640e0c5c5f70064312` | `PROPOSED / GOVERNANCE ACCEPTANCE PENDING / NOT FROZEN / IMPLEMENTATION NOT AUTHORIZED`; lifecycle/migration/recovery cannot become State Authority. |
+| `docs/architecture/MH-22-production-qualification-operations.md` | `17bb2a9fdc34a0ee7c324e78c412616b5e377bb4` | Production qualification is not granted by architecture document; SINGLE NODE / NO HA and sole State Authority remain constraints. |
+| `docs/architecture/MH-22-acceptance-criteria.md` | `40d401c0a4ba80550f8101d4e9b1de8f0c77849e` | Requires release identity, security/privacy, software/OS/runtime/hardware/integration qualification, install/update/rollback/recovery, restore/DR, operations and explicit approval. |
+| `docs/checkpoints/mediahub-mh25-stage-reconciliation.md` | `6efbd86287357698370c17df909ea7303d616264` | Historical snapshot dated 2026-09-30 with older main/Baseline SHAs; do not treat as current status without reconciliation. |
+
+### Confirmed invariants and unresolved issues
+
+1. Canonical mutation path remains `Input → Boundary → Authorization → State Authority → Canonical State → Observation → Evidence`. P0-03 is the only canonical mutation authority.
+2. Preserve P0-03…P0-06 invariants and P0-07 governance/API gap. MH-23 does not authorize physical persistence, destructive migration, OS/firmware/hardware changes, cloud rollout or production rollout.
+3. Migration success path: `Prepare → Protect → Verify → Migrate → Validate → Health Gate → Observe → Promote`; failure path: `Detect → Contain → Preserve Evidence → Recover/Rollback → Verify`.
+4. Compatibility is multidimensional: API compatibility does not imply behavioral, security, privacy or authority compatibility.
+5. Acceptance requires evidence for compatibility, migration, rollback, coexistence, State Authority, authorization, security/privacy, schema/state/persistence contracts, device/protocol, AI/cloud boundaries, installer/update/recovery, operations and governance.
+6. The MH-23 evidence register is pinned to historical main HEAD `6eb2ef9…`, not current observed main HEAD `1d45bbcc…`; evidence freshness/lineage must be re-established before reuse.
+7. Historical MH-25 stage label “Migration” overlaps MH-23’s “Long-Term Evolution / Compatibility / Migration” scope. This is a naming/scope discrepancy to resolve from primary governance documents; do not rename files or merge branches automatically.
+8. Branch divergence is substantial. Do not merge/cherry-pick or assume the branch's “final architecture series” label overrides map navigation.
+9. No tests, qualification, migration execution, deployment, installation, infrastructure change or merge was performed.
+
+### Continuation checkpoint
+
+- Checkpoint file: `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-mh23.md`
+- Checkpoint commit: `d2a35d97f3499e74d94f4477ba3a7507996ecd94`
+- Checkpoint includes exact source SHAs, verified MH-23 status, branch divergence, global invariants and the next read-only audit steps.
+- Next safe action: on the next `/next`, re-read bootstrap/map and continue the MH-23 dependency audit using map-selected MH-14 persistence and MH-15 OS/appliance sources; verify current branch/main refs again. Do not assume the next domain until the current map is read.
