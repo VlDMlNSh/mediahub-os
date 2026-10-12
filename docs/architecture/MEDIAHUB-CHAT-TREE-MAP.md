@@ -1114,3 +1114,21 @@ R01–R04 и R06 из Review 01 подтверждены как исправле
 **Ограничение:** это проверка пространства имён в трёх указанных артефактах, а не глобальная гарантия по всем веткам/репозиторию. Финальные child IDs не создавались: полную схему нужно повторно проверить на точные совпадения после сборки crosswalk. 48 исторических Batch 04 IDs остаются неизменными; 153 Audit 01 IDs не трактуются как 153 независимых literal requirements.
 
 **Следующий безопасный шаг:** сформировать source-anchored crosswalk с 12 утверждёнными полями и индивидуальными B1/B2 statuses, оставить UI4-04 в HOLD, закрыть применимые остаточные GOV-MH24 вопросы и провести независимый documentary review до обновления canonical backlog/matrix. Baselines, backlog и matrix не менялись; тесты/qualification, установка, deployment, инфраструктура/production и merge в `main` не выполнялись.
+
+
+
+## 20.29 Batch 04 source-anchored crosswalk draft 01 — 48 parents / 12-field schema
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-SOURCE-ANCHORED-CROSSWALK-DRAFT-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `6ecc782c9eec61ec2c68a04bbdefd24d9cee6f41`  
+**Read-back blob SHA:** `69740f4b45233f095f43122a1485f0acc1e9ad65`  
+**Статус:** `DOCUMENTARY DRAFT / OPEN — NOT APPROVED; NOT A CANONICAL BACKLOG`.
+
+Подготовлен parent-level crosswalk для всех **48/48 исторических ID** Batch 04. Включены все 12 полей, одобренных владельцем: Requirement ID, Owner, Source atom/classification, B2 mapping status, Canonical contract path/ref, Acceptance criteria, Required evidence, Lifecycle status, Reviewer/approval reference, Dependencies, Verification method, Change history. Табличная проверка read-back подтвердила 48 строк, все 48 исторических IDs и полный заголовок из 12 полей.
+
+Mapping statuses намеренно консервативны: **4 MAPPED**, **3 NO_DIRECT_COUNTERPART**, **41 NOT_REVIEWED**, **0 CONFLICT**. MAPPED здесь означает только документальное явное покрытие, не реализацию/квалификацию. CONFLICT не присваивался без доказанного противоречия. Parent-level статусы не заменяют последующее atom-level mapping; смешанные/частичные/derived записи остаются NOT_REVIEWED. Поля owner, canonical contract, acceptance/evidence и independent approval оставлены TBD/OPEN там, где источники не дают подтверждения. UI4-04 сохраняет HOLD/cross-link-only.
+
+Источники и SHA включены в сам crosswalk: historical backlog `26163e6f60b44e997560212bf7de9900210b7ed3`, Proposal 02 `7e737c8add9e3453062e9fc459790e7010e55689`, Audit 01 `d0938f14ed4110545118f075175dee3be412097b`, Validation 02 `e21137d8ac230a9ff28f616adcb840e234e5c965`, Review 01 `373530821ae8dcbcf84e953f42e047e99f7810a8`, Product Owner Decision Record `9117098e22c26708d48ca8ba5954669faa209d68`, collision check `d94be92abe9e5cc2da1540d65611bb1a5ed9644b`, B1 `9df4892ed0734050ac79732603d15bb414717310` (main), B2 `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` (main), matrix `8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6` (main), reconciliation report `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc` (main).
+
+**Следующие gates:** независимая построчная проверка crosswalk; atom-level B1/B2 mapping; unresolved GOV-MH24 dispositions; exact full-ID inventory check before final child ID assignment. Canonical backlog/matrix и обе Baselines не менялись. Не выполнялись тесты, qualification, установка, deployment, инфраструктурные/production действия или merge в `main`.
