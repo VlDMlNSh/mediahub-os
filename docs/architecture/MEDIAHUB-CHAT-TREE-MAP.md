@@ -2328,3 +2328,33 @@ No edits to the draft, Review 01, B1, B2, owner decision record, semantic audit,
 There is no fresh revision-bound qualification evidence in the inspected status/check-run/review/issue surfaces. Do not interpret the absence of checks as PASS or as proof a run is executing. MH-01 stays PARTIALLY_CLOSED. The request JSON mismatch is unresolved; no request/queue/issue/PR was changed and no qualification was triggered.
 
 **Next safe action:** move to the next bounded domain, MH-02 Boundaries, using its mapped branches `architecture/mh02-boundaries-20260930` and `architecture/mh-02-reference`. Compare their durable primary artifacts and provenance; preserve the MH-01 queue-reference discrepancy as open rather than making an unapproved queue change.
+
+## 20.74 MH-02 branch comparison — architecture content reconciled, governance provenance unresolved
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** TWO DISTINCT MH-02 ARTIFACT SETS FOUND / NO OWNER SELECTION OR QUALIFICATION CLAIM
+
+### Branch and source inventory
+
+| Source | Ref / SHA | Status and material facts |
+|---|---|---|
+| Boundary architecture branch | `architecture/mh02-boundaries-20260930` at `d866a895abe69442fdc1a41de13c5b01bcb90a0a`; tree SHA same; 594 entries, complete | `architecture/MH-02-boundary-architecture-v1.0.md` blob `b372d9b2db85240c35ff11a6a3900a16322132d2`: ETALON CANDIDATE / RECONCILED / QUALIFICATION PENDING |
+| Boundary interface contract | same branch; `architecture/MH-02-boundary-interface-contract.md`; blob `799623366c59d9317df547c810cde5b5e1d9ef40` | Identity/provenance, authorization, policy, contract version, audit, fail-closed and non-transfer of authority |
+| Contradiction register | same branch; `architecture/MH-02-contradiction-register.md`; blob `c8609b84dd5aea3405b2463c1a64a524f03ba6ad` | Records compute-contribution rejection, R4 SHA correction, checkpoint provenance and HA Core vs MediaHub authority separation |
+| MH-02 checkpoint | same branch; `docs/checkpoints/2026-09-30-mh02-boundary-architecture.md`; blob `f986e7883eec93fe222291670efdf1a653c02536` | Claims logical boundary target reconciled/frozen, but independent qualification pending; target commit `c96269725b3e4e07af646c4d86ddde9bdb4d84c3`; Q-MH2-01 remains open |
+| MH-02 blueprint / gaps | same branch; blueprint blob `ad47142a9544eee8949fd8b14452219e47c99cc1`; gap register blob `0e9d2dbe883ab4a2f51c96fd1de4791e14b71dd8` | Qualification input only; explicitly says not production permission. Q-MH2-01: HA Core unavailable while safety-critical device remains reachable; general HA bypass remains forbidden. Other gaps include State Authority topology/fencing/recovery, data-classification enforcement, executable boundary tests, deployment mapping, failure evidence, adapter admission, mobile isolation and observability non-authority |
+| Reference architecture branch | `architecture/mh-02-reference` at `a9c15d886714b890b020b728ad288dbbb754d526`; tree SHA same; 113 entries, complete | Separate compact MH-02 corpus under `architecture/mh-02/`; reference architecture blob `a93769e29f4d4be510f556e2e168b321df79c995` explicitly says PROPOSED / RECONCILIATION IN PROGRESS |
+| Reference branch governance | `architecture/mh-02/MH-02-CHAT-GOVERNANCE.md`; blob `6020835935de92fb9e9c254770bcc114fde1e5a7` | Says architecture chats are canonical custodians, while GitHub is a synchronized archival/versioned mirror and must not silently override chat decisions |
+| Reference acceptance / evidence | acceptance blob `e40aa3938c6033916238ffe4f08f01f0781299ab`; evidence register blob `181c43a3f7f362790c5be334cdb5b3f4f9b78f0f`; decision log blob `7c6eff2fbfd331214feb5cb83b8a454e1bd28b6d` | Acceptance says PROPOSED until MH-01 compatibility, authority, trust, data-flow, security, failure-domain, dependency, historical and contradiction gates pass. P0-03/04/05/06 are listed ACCEPTED/FROZEN; P0-07 implementation in progress; several MH-02 plane/AI/cloud/local-first/hardware decisions remain PROPOSED |
+| Reference authority / trust / data flow | authority blob `b54118d945e04dd766fbdc97ccd9e689ec31ae9e`; trust blob `f3bd5f8d906c68ddd581f2640cd68c6b4b7b06b5`; data-flow blob `b041183422d7708456c6783f103281a6e32a27b0` | Consistent on one canonical State Authority, AI as proposal, persistence as storage, observability as observer, explicit trust, and no implicit mutation from events/telemetry |
+
+### Reconciliation findings
+
+1. **Substantial architecture convergence:** both sets preserve one canonical State Authority; HA Core has a scoped Smart Home role; UI/AI/cloud/persistence/observability are not alternate authorities; network reachability is not trust; external systems require explicit interfaces; ambiguity fails closed; local-first is a target principle.
+2. **Status is not interchangeable:** the 2026-09-30 branch calls its target ETALON CANDIDATE / RECONCILED and says the logical-boundary model is frozen for qualification, while the reference branch labels its architecture PROPOSED / RECONCILIATION IN PROGRESS and its acceptance criteria keep MH-02 PROPOSED. Neither corpus supplies fresh independent qualification PASS in this review.
+3. **Governance/source-of-truth conflict:** the reference branch says architecture-chat decisions are canonical and GitHub is a mirror; the active project bootstrap instruction says GitHub is the durable source of truth for project evidence. These statements may describe different authority layers, but no explicit reconciliation was found in the inspected MH-02 artifacts. Do not choose one interpretation silently.
+4. **Residual product decision is material:** Q-MH2-01 remains OPEN on the boundary branch. The qualification blueprint requires explicit owner decision and downstream MH-4/MH-12/MH-22 qualification before any narrow safety path can be considered. General HA bypass remains forbidden.
+5. **No mutation:** no MH-02 source, branch, queue, issue or PR was changed; no tests/qualification/install/deployment/infrastructure action or merge was performed.
+
+**Next safe action:** preserve both branch histories and request explicit product/governance direction on the canonical MH-02 artifact set and source-of-truth layering before changing statuses or consolidating documents. Do not infer MH-02 ACCEPTED/FROZEN from the existence of either branch; current map status remains the historical MH-25 status RECONCILED pending the required governance/provenance resolution and independent evidence.
