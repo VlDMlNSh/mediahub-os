@@ -221,7 +221,7 @@ ASTRA Gold current truth in the inspected main source reports `NOT_PROVEN / BLOC
 | P-16 | Master-context packet for MH-01…MH-23 is not implemented as an auditable release mechanism | DESIGN REQUIREMENT | Global context + domain packets must carry source refs/SHA, current decisions, dependencies and change deltas |
 | P-17 | Reusable-repository scorecard and pinned release bundle are not yet implementation artifacts | DESIGN REQUIREMENT / OPEN | Exact pins, license/SBOM/security, compatibility, preflight, rollback and post-install evidence required |
 | P-18 | Public multi-agent repositories are candidate sources only | NOT SELECTED / NOT QUALIFIED | New review document lists Temporal, LangGraph, Microsoft Agent Framework, Pydantic AI, OpenHands and AutoGen status; no component installed or qualified |
-| P-19 | Target OS/build/boot/install/update/recovery profiles are not pinned for the named Apple hardware roles | OPEN / PLATFORM PROFILE REQUIRED | B2 §9, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; gap reconciliation §15, latest blob SHA `8495c9436b967bd77afae57ccb1e42959ab86a56` |
+| P-19 | Target OS/build/boot/install/update/recovery profiles are not pinned for the named Apple hardware roles | OPEN / PLATFORM PROFILE REQUIRED | B2 §9, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; gap reconciliation §15, current blob SHA `fee9977fee0a5efa79ec48c652544d2c4a0d665f` (read back 2026-10-12) |
 | P-20 | Purchased Mac Pro is described as the primary developer workstation while a future production Mac Pro is also named; physical-asset identity/transfer is unresolved | OPEN / ASSET ALLOCATION REQUIRED | Gap reconciliation §17 / AG-20, latest blob SHA `fee9977fee0a5efa79ec48c652544d2c4a0d665f`; owner blueprint |
 | P-21 | B1 §15 document-assistance atom `B1-15-13` is incorrectly pointed to B2 §19 in historical Audit 01 | OPEN / DERIVED POINTER CORRECTION RECORDED | Gap reconciliation §18 / AG-21, blob SHA `fee9977fee0a5efa79ec48c652544d2c4a0d665f`; B2 §§16/18 are the correct review target; historical Audit 01 remains unchanged |
 
@@ -267,3 +267,5 @@ The owner/governance acceptance package must verify at least:
 
 
 - 2026-10-12 — added P-21 for the confirmed B1-15-13/B2 §19 cross-reference defect; updated active AG-20/P-20 report pointers to current Gap Reconciliation SHA `fee9977fee0a5efa79ec48c652544d2c4a0d665f`. Audit 01 and both baselines remain immutable; this follow-up is not an added qualification or a 14th cycle.
+
+- 2026-10-12 — corrected the active P-19 pointer: gap reconciliation §15 now uses current read-back SHA `fee9977fee0a5efa79ec48c652544d2c4a0d665f`, not the superseded pre-AG-21 SHA. Historical change records and B1/B2 are unchanged; this is pointer maintenance only.
