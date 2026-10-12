@@ -730,3 +730,17 @@ Baseline 2.0 заявляет, что согласован с пользоват
 Покрыты Passport 1.0 §§10–14 с IDs NET-WIFI-01, UBIQUITI-VSERVER-01, AUTO-01, VOICE-ORDER-01, AI-CHAIN-01. Прочитаны Baseline 1.0/2.0, существующая матрица, MH-10/MH-20/MH-21 master prompts, а также MH-20/MH-21 acceptance/evidence. Подтверждено: B2 сохраняет общий outcome seamless wireless coverage и qualified network model; authority boundary для automation/AI/cloud согласуется с требованиями 1.0. Потенциальные текстовые пробелы: конкретный Virtual Ubiquiti Server, заданный порядок голосовых экосистем и точное определение Mobile Access Layer в цепочке AI. Это candidate semantic gaps, а не доказательство глобального отсутствия требований в репозитории. MH-21 acceptance остаётся NOT SATISFIED; production cloud и отсутствие cloud→device bypass не подтверждены.
 
 **Следующий шаг:** Batch 03 — Passport §§15–22 (AI sub-systems, Trusted Sources Intelligence Engine, AI Human Clone, mobile roles/entitlements, media/AirPlay, documents/Digital Twin/storage). Не менять Baseline без явного governance решения; не утверждать реализацию/квалификацию на основании документов.
+
+
+### 20.6 Выполнен третий requirement-level audit batch
+
+**Артефакт:** `docs/checkpoints/MH24-SEMANTIC-AUDIT-BATCH-03.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `39b706f96baa777199a184054f591940dd91d2de`  
+**Статус:** `DOCUMENTARY AUDIT — PARTIAL`.
+
+Покрыты Passport 1.0 §§15–22 с IDs LOCAL-AI-01, CLUSTER-AI-01, CLOUD-DEV-AI-01, TRUSTED-SOURCES-01, AI-HUMAN-CLONE-01, MOBILE-ROLES-01, MOBILE-INVARIANTS-01, IPHONE-AIRPLAY-4K-01. Сверены Baseline 1.0/2.0, section-level traceability matrix и первичные MH-10, MH-09, MH-12, MH-18, MH-19, MH-21 документы на refs, перечисленных в audit. Выводы: основные AI/cloud non-authority и mobile boundary принципы согласуются с B2; Trusted Sources Intelligence Engine, AI Human Clone safeguards, точный local iPad Core/one-time entitlement scope и AirPlay 4K требуют явного semantic disposition. MH-09/MH-12/MH-18/MH-19/MH-21 acceptance остаётся открытым/непринятым согласно просмотренным gate-документам; production/runtime claims не делались.
+
+**Ограничение:** для MH-18/MH-19/MH-09 использованы branch-specific документы по карте; их наличие не означает, что они приняты или перенесены в `main`. MH-13 exact acceptance/evidence path в этой проверке не установлен. Это documentary audit, не runtime scan.
+
+**Следующий шаг:** Batch 04 — Passport §§23–30. Baseline не менялся; тесты/qualification, инфраструктура и merge в `main` не выполнялись.
