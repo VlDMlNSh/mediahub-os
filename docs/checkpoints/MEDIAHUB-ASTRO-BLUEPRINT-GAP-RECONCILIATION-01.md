@@ -236,6 +236,10 @@ These are source leads checked for capability and lifecycle signals, not a subst
 6. Pin each node’s OS/boot/install/update/recovery profile against B2 §9 before packaging; do not infer it from the Apple hardware name.
 7. Obtain independent architecture review and an explicit owner acceptance/change-control record before calling Passport v3 or the Jarvis contract accepted or canonical.
 
+## 14. Nomenclature change history
+
+The current owner wording “Jarvis” supersedes the earlier working label “Astro” from the same date. The report filename is intentionally unchanged to preserve existing map/cross-reference lineage. The distinction between Jarvis (umbrella engineering architecture), ASTRA (bounded engineering subsystem), and MediaHub (product/domain plane) is unchanged. This update is documentary only; no runtime, installation, qualification, deployment, baseline or production state changed.
+
 ## 15. Follow-up source finding: hardware role does not specify operating-system profile
 
 The accepted B2 document (`docs/checkpoints/mediahub-functional-baseline-2.0.md`, `main`, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §9) says clean Mac mini/Mini PC installations use Linux as the baseline implementation direction, while Apple platforms remain integrated platform adaptations where the base OS cannot be replaced. The owner’s role labels (Mac Pro, developer Mac mini 2011 and customer-site Mac mini M2) do not by themselves specify which OS/build, boot mode, installation path, update mechanism or recovery image is intended for each target. This is an unresolved profile decision, not evidence of a contradiction or permission to change the baseline.
@@ -243,7 +247,3 @@ The accepted B2 document (`docs/checkpoints/mediahub-functional-baseline-2.0.md`
 **Required gate:** record the OS/runtime/boot/install/update/recovery profile separately for each hardware target and verify compatibility, support status, security updates, drivers and rollback before producing a release bundle. No OS, firmware, runtime or deployment was changed in this follow-up.
 
 **Final disposition:** the owner’s Jarvis concept is captured as a structured working architecture and gap register, now with 19 scoped findings. It is not yet a fully accepted system contract, does not imply implementation, and does not authorize live-system changes.
-
-## 14. Nomenclature change history
-
-The current owner wording “Jarvis” supersedes the earlier working label “Astro” from the same date. The report filename is intentionally unchanged to preserve existing map/cross-reference lineage. The distinction between Jarvis (umbrella engineering architecture), ASTRA (bounded engineering subsystem), and MediaHub (product/domain plane) is unchanged. This update is documentary only; no runtime, installation, qualification, deployment, baseline or production state changed.
