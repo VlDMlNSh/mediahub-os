@@ -2083,3 +2083,37 @@ B1, B2, matrix, canonical backlog and `main` remain unchanged. No final child ID
 
 The full MH-01…MH-25 map remains **IN PROGRESS**: branch ancestry, domain-specific acceptance/evidence, and several historic status conflicts still need source-by-source reconciliation. Next safe action is a bounded §23 source/path inventory and then continued MH-01…MH-25 map restoration, with no Batch 14 creation until the live inventory proves it is not already present.
 
+## 20.66.00 Batch 13 iPhone Media / AirPlay — Review 02 and integrated Passport/Contract pointers
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** BOUNDED SEMANTIC FOLLOW-UP READ-BACK VERIFIED — AT-15 / AIRPLAY ACCEPTANCE OPEN
+
+| Artifact | Path | Ref | Blob SHA | Status |
+|---|---|---|---|---|
+| Baseline 1.0 | `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` | `main` | `9df4892ed0734050ac79732603d15bb414717310` | Literal B1 §22 lines 375–379; unchanged |
+| Baseline 2.0 | `docs/checkpoints/mediahub-functional-baseline-2.0.md` | `main` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | B2 §§8/12/15/20 reviewed; unchanged |
+| Prior section-level finding | `docs/checkpoints/MH24-SEMANTIC-AUDIT-BATCH-03.md` | `docs/mediahub-chat-tree-map-20261012` | `fcd006e99d812dac5071b34c531f2783f4f54e88` | Existing `IPHONE-AIRPLAY-4K-01` preserved |
+| Atomic backlog | `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-01.md` | `docs/mediahub-chat-tree-map-20261012` | `ec2580f714e8f620bcf85ff7de2ae9242439e5e8` | AT-15 remains OPEN—OWNER DECISION |
+| Batch 13 draft — current | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-13-IPHONE-MEDIA-DRAFT.md` | `docs/mediahub-chat-tree-map-20261012` | `2f05bcf0b67200e44aaec7ba4e3a3164238270bf` | 9 provisional labels; current 1/7/1/0 |
+| Batch 13 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-13-IPHONE-MEDIA-REVIEW-01.md` | `docs/mediahub-chat-tree-map-20261012` | `abf9c5f669b59434c3a9bb52068b8f226efa129c` | Historical bounded structural/source-anchor review |
+| Batch 13 Review 02 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-13-IPHONE-MEDIA-REVIEW-02.md` | `docs/mediahub-chat-tree-map-20261012` | `36f171bf4ef6e9bec388cacc5ddc4ff8989d168e` | One bounded generic codec mapping correction; AirPlay acceptance remains OPEN |
+| System Passport v3 | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` | `docs/mediahub-chat-tree-map-20261012` | `d4b742ea5e55ae23472cb285bf39bc29cbbb359c` | P-27 linked to Review 02; still working draft |
+| Verifiable Architecture Contract 01 | `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` | `docs/mediahub-chat-tree-map-20261012` | `dd9479cb22561380657f738fabe2a348c51ad512` | ARC-034/V-27 updated; inventory 34 ARC / 27 checks; still working draft |
+| Jarvis Master Prompt 01 | `docs/checkpoints/MEDIAHUB-JARVIS-MASTER-PROMPT-01.md` | `docs/mediahub-chat-tree-map-20261012` | `de35d9f50877899b24581025bba53fe53824ea46` | Active Passport/Contract/Batch13 pointers refreshed |
+| Chat Continuation Master Prompt 01 | `docs/checkpoints/MEDIAHUB-CHAT-CONTINUATION-MASTER-PROMPT-01.md` | `docs/mediahub-chat-tree-map-20261012` | `ecc1c477e3c94285737ec20cebbc30650c146fa3` | Review 02 marked complete; next sequential source is B1 §23 after inventory |
+
+### Source-backed outcome
+
+- B1 §22 line 377 names iPhone-to-MediaHub audio/video streaming via AirPlay, including 4K; line 379 lists compatibility, network conditions, authorization, codec, latency, resolution and available bandwidth constraints.
+- B2 §15 line 350 explicitly names media codecs/transcoding subject to platform capability and rights. Review 02 supports only `IM-22-06` as generic media-codec documentary `MAPPED`; this does not establish AirPlay-specific codecs, sender/receiver negotiation, interoperability or runtime support.
+- Current distribution is **1 MAPPED / 7 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT** over nine provisional labels. Review 01's original 0/8/1/0 remains preserved as the pre-semantic-review snapshot.
+- `IPHONE-AIRPLAY-4K-01`, AT-15 and matrix row 22 are preserved. AT-15 remains OPEN—OWNER DECISION. MH-17 and MH-18 acceptance states remain NOT ACCEPTED / NOT FROZEN in their cited branch-specific documents; no present AirPlay runtime/qualification is claimed.
+- Passport P-27 and Contract ARC-034/V-27 now reference the current draft and Review 02. The contract inventory remains **34 ARC requirements / 27 verification checks**; neither Passport nor Contract is accepted as a new global canonical baseline.
+
+### Boundaries and next safe step
+
+B1, B2, historical audits, matrix row 22, atomic backlog, canonical backlog and `main` were not changed. No final child IDs or collision inventory were created. No tests, qualification, installation, deployment, host/infrastructure action or merge to `main` occurred.
+
+**Next safe step:** resume whole-project map restoration from this live map and inventory B1 §23 plus all existing branch/path/batch records before deciding whether any supplemental crosswalk is needed. Do not assume the next batch number or absence of a pre-existing artifact.
+
