@@ -2252,3 +2252,30 @@ The SHA values `d4b742ea5e55ae23472cb285bf39bc29cbbb359c` and `dd9479cb225613806
 No edits to the draft, Review 01, B1, B2, owner decision record, semantic audit, AT backlog, traceability matrix, Passport v3 or Contract 01 were made. No tests, qualification, installation, deployment, infrastructure action or merge was performed.
 
 **Next safe action:** continue restoring the MH-01…MH-25 map via its documented navigation, one bounded domain at a time. Do not attempt to close AT-17 without explicit owner decisions and required evidence.
+
+## 20.71 MH-01 charter branch comparison — bounded inventory
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** V2 CONTAINS DURABLE CHARTER + QUEUED QUALIFICATION REQUEST / NO QUALIFICATION PASS ESTABLISHED
+
+### Sources read
+
+| Source | Ref / path | Blob or tree SHA | Finding |
+|---|---|---|---|
+| MH-25 historical stage inventory | `main:docs/checkpoints/mediahub-mh25-stage-reconciliation.md` | `6efbd86287357698370c17df909ea7303d616264` | Historical snapshot says MH-01 lacked a dedicated charter artifact; stage remained PARTIALLY_CLOSED |
+| Earlier qualification branch tree | `architecture/mh01-chat-qualification-20260930` | `aef75b6c28143ff1a3d3fd647ad7574381aeb17a` | Tree search did not list an MH-01 charter or MH-01 qualification blueprint |
+| V2 qualification branch tree | `architecture/mh01-chat-qualification-20260930-v2` | `e9d921de64e545c579d60ab70e69954b33a89049` | Contains `docs/architecture/MH-01-ARCHITECTURE-CHAT-CHARTER.md`, qualification blueprint and qualification request JSON |
+| MH-01 charter | V2: `docs/architecture/MH-01-ARCHITECTURE-CHAT-CHARTER.md` | `6c8a130071f67a44739c3cedeb8032d379c79024` | Status is CANDIDATE FOR AUTONOMOUS QUALIFICATION; documents scope, prohibited work, authority boundaries, invariants, handoff and open decisions |
+| Qualification blueprint | V2: `docs/architecture/MH-01-chat-qualification-blueprint-2026-09-30.md` | `2530f0901a8c1b80e2e77297bbe24a7d2dfda763` | Defines evidence-gated chat qualification, not product/runtime qualification |
+| Qualification request | V2: `qualification/mh01-chat-qualification-2026-09-30.json` | `25a14bc31552c594b718901d48856a690f11f579` | Status `QUEUED_FOR_AUTONOMOUS_QUALIFICATION`; target commit `816787335cad4b84c1cb8f08a2acb5f54b245a9a`, target tree `d711ff94a57a0e10f23ef2dda440d66119ac6aa1`, queue reference `issue-114`; explicitly no production or merge authorization |
+
+### Reconciliation
+
+- The earlier MH-25 entry remains valid as a historical inventory snapshot. The current map must not continue to imply that no MH-01 charter exists anywhere: a dedicated charter and qualification blueprint are present on the V2 branch.
+- The V2 charter is **branch-only and candidate**, not evidence that MH-01 is accepted, frozen, qualified, merged to `main`, or that the target revision still matches current branch state.
+- The request JSON proves only that a qualification target was recorded as queued at its pinned target revision. This pass did not inspect queue issue state, execute qualification, or establish fresh PASS evidence.
+- The charter's authority boundaries align textually with the project invariants: MediaHub State Authority remains canonical; Home Assistant Core is authority only within Smart Home; AI/cloud/persistence/knowledge are not authority; ambiguous operations fail closed. This is documentary consistency, not implementation proof.
+- No branch was merged or modified. No qualification, tests, installation, deployment or infrastructure operation was run.
+
+**Next safe action:** verify the current live state of qualification queue reference `issue-114` and whether its pinned target commit/tree still matches the V2 branch before considering any further qualification action. Do not enqueue a duplicate request or rerun qualification while a pending run may exist. Keep MH-01 PARTIALLY_CLOSED until a fresh, revision-bound qualification result and explicit governance closure are evidenced.
