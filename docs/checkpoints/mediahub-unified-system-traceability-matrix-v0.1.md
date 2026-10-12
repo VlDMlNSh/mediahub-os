@@ -681,3 +681,40 @@ Derived from MH-14 acceptance criteria `364bb2a949e11f191b71a35af482f18de4ef2827
 - MH-22 recovery/restore E-MH22-013: UNKNOWN / REQUIRES VERIFICATION; production acceptance E-MH22-015: NOT GRANTED.
 - No stable IDs added; no primary domain artifact changed; no owner decision made; no gate closed.
 - No tests, deletion, restore, migration, provider contact, host/runtime inspection, qualification, workflow dispatch, deployment, infrastructure change or branch integration occurred.
+
+
+## 29. P0-07 mutation publication gap × frozen P0-03…P0-06 contract provenance (2026-10-12)
+
+Status: SOURCE-BOUND DOCUMENTARY CROSSWALK. No protected P0 baseline is changed; no implementation path is authorized by this entry.
+
+### Exact source evidence reviewed
+- P0-07 Read / Validate Boundary v1.0, immutable blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`: read/validate/policy evaluation are observation-only; no second canonical store or mutation path; frozen P0-03…P0-06 remain unchanged.
+- P0-07 Authorization Reconciliation v1.0, blob `04381ce6e223b8632ec15d17e475b56fe1ab8772`: P0-07 domain authorization does not substitute for P0-04 transaction authorization; P0-05 is the consumer boundary; P0-04 is sole canonical mutation authority; no P0-04/P0-05 change is authorized.
+- P0-07 Mutation Authority Reconciliation v1.0, blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`: all applicable gates are conjunctive; publication only through P0-04 atomic commit via P0-05; no capability translation, self-grant, or second transaction/version authority.
+- P0-07 → P0-05 Mutation Adapter Contract v1.0, blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88`: explicitly IMPLEMENTATION BLOCKED — GOVERNANCE/API GAP. No approved bridge from P0-07 domain capability to independently required P0-04 transaction authorization is defined. The source lists alternatives but selects none.
+- MH-12 contradiction register, blob `4b3c101317330e47236937b17344299df53deee9`: C-01 (security authorization vs P0-05 transaction authorization) REQUIRES VERIFICATION; C-02 (P0-07 capability vs P0-04 transaction authorization) BLOCKED.
+- P0-05 State Authority Consumer Contract v1.0, blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`: header says DRAFT — GOVERNANCE REVIEW REQUIRED, while the map separately records accepted/frozen P0-05 evidence from another branch. Preserve this provenance discrepancy; do not infer which revision governs without exact ref and owner decision.
+- MH-12 Security Architecture blob `cf4ebfd5bf471ca676f075c51d3a24906504e490` requires explicit, operation-specific, fail-closed authorization; security does not own canonical mutation. MH-12 acceptance criteria blob `40f37f1600c4730e622480d57bd492fa67f9ca4b` says governance review remains required.
+
+### Contract crosswalk
+| Boundary | Confirmed responsibility | Blocking condition / required evidence |
+|---|---|---|
+| P0-03 | Canonical State Authority contract; protected frozen dependency | Source lineage and current enforcement evidence must be revision-bound before implementation claims. No alteration here. |
+| P0-04 | Sole canonical mutation authority; independently authorizes transaction lifecycle and atomic publication | P0-07 domain permission cannot substitute for P0-04 transaction authorization. No inferred context or minted capability. |
+| P0-05 | Mandatory Consumer/Integration Boundary | Status provenance discrepancy remains open: mapped accepted/frozen record versus retrieved DRAFT contract blob. Resolve with exact branch/commit and governance record. |
+| P0-06 | Core runtime services; no extra mutation or persistence authority | Accepted scope does not imply current production qualification. |
+| P0-07 | Configuration/policy validation and domain-operation authorization | Mutation adapter remains BLOCKED pending explicit governance/API decision. No implicit bridge, capability translation or direct P0-04 invocation. |
+
+### Evidence requirements before any P0-07 mutation implementation
+1. Resolve MH-12 C-01: define how security authorization and P0-05 transaction authorization compose without weakening either.
+2. Resolve C-02/P0-07 adapter gap through explicit owner/governance decision. Existing-context, approved bridge and revised P0-05 are alternatives only; none is selected.
+3. Resolve P0-05 status provenance against exact immutable branch/commit and governance record.
+4. Trace accepted P0-03/P0-04/P0-05/P0-06 revisions to implementation revision and independent evidence. Historical test summaries are not current-head qualification.
+5. Define future negative-path evidence for missing/expired/revoked/wrong-scope authorization, policy DENY, stale generation, replay, abort and unauthorized direct calls. No tests were run here.
+6. Require explicit governance authorization before changing frozen contracts or adding a bridge.
+
+### Status and limits
+- P0-07 mutation publication: BLOCKED — GOVERNANCE/API GAP.
+- MH-12 C-01: REQUIRES VERIFICATION / GOVERNANCE RESOLUTION; C-02: BLOCKED.
+- P0-03…P0-06 protected; no source contract edited. MH-14 physical persistence NOT AUTHORIZED.
+- No stable IDs added; no gate closed. No tests, code execution, qualification, workflow dispatch, migration, restore, deployment, infrastructure changes or branch operations occurred.
