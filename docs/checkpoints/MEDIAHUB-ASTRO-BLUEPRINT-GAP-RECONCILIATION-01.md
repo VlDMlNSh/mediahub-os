@@ -60,6 +60,7 @@ The new blueprint is the current owner-provided design direction for the working
 | AG-16 | The “end of month” target can be interpreted as a release guarantee | Owner reports deployment expected toward the end of October 2026 | Treat it as a planning window, not a release/production date; exit depends on all gates and approved hardware, not calendar pressure | Schedule/acceptance date remains unapproved |
 | AG-17 | The current architecture does not define a stable Jarvis-to-domain interface | MH-01…MH-25 domain map; B2 and component manifest | Each Jarvis module must declare capabilities, input/output schema, source refs, owner, dependencies, timeout/retry/idempotency, security boundary and acceptance tests | Contract fields proposed |
 | AG-18 | External multi-agent frameworks could create competing graph, scheduler, memory and state layers | Candidate frameworks each offer different workflow abstractions | Separate durable execution from agent reasoning; select one owner for task lifecycle; agent framework remains an adapter/worker runtime, not policy or product authority | Candidate comparison required; no selection yet |
+| AG-19 | Apple hardware names do not determine the actual target OS, boot/install path or update-recovery model | B2 §9, line 227: clean Mac mini/Mini PC installs use Linux as baseline direction; Apple platforms are integrated adaptations where the base OS cannot be replaced | Pin an explicit OS/build, boot mode, supported runtime, update and recovery profile for each node before release packaging; do not infer macOS/Linux from the hardware name | OPEN — PLATFORM PROFILE REQUIRED |
 
 ## 4. Target architecture proposed by the owner blueprint
 
@@ -232,9 +233,16 @@ These are source leads checked for capability and lifecycle signals, not a subst
 3. Define Jarvis public interfaces and choose one owner for task lifecycle, claims, evidence and qualification promotion.
 4. Run read-only component evaluation and scorecard first; any PoC tests, installation or qualification require a separate authorized step.
 5. Generate the MH-01…MH-23 domain context packets only from reviewed primary sources; retain each source ref/SHA and open conflict.
-6. Obtain independent architecture review and an explicit owner acceptance/change-control record before calling Passport v3 or the Jarvis contract accepted or canonical.
+6. Pin each node’s OS/boot/install/update/recovery profile against B2 §9 before packaging; do not infer it from the Apple hardware name.
+7. Obtain independent architecture review and an explicit owner acceptance/change-control record before calling Passport v3 or the Jarvis contract accepted or canonical.
 
-**Final disposition:** the owner’s Jarvis concept is captured as a structured working architecture and gap register. It is not yet a fully accepted system contract, does not imply implementation, and does not authorize live-system changes.
+## 15. Follow-up source finding: hardware role does not specify operating-system profile
+
+The accepted B2 document (`docs/checkpoints/mediahub-functional-baseline-2.0.md`, `main`, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §9) says clean Mac mini/Mini PC installations use Linux as the baseline implementation direction, while Apple platforms remain integrated platform adaptations where the base OS cannot be replaced. The owner’s role labels (Mac Pro, developer Mac mini 2011 and customer-site Mac mini M2) do not by themselves specify which OS/build, boot mode, installation path, update mechanism or recovery image is intended for each target. This is an unresolved profile decision, not evidence of a contradiction or permission to change the baseline.
+
+**Required gate:** record the OS/runtime/boot/install/update/recovery profile separately for each hardware target and verify compatibility, support status, security updates, drivers and rollback before producing a release bundle. No OS, firmware, runtime or deployment was changed in this follow-up.
+
+**Final disposition:** the owner’s Jarvis concept is captured as a structured working architecture and gap register, now with 19 scoped findings. It is not yet a fully accepted system contract, does not imply implementation, and does not authorize live-system changes.
 
 ## 14. Nomenclature change history
 
