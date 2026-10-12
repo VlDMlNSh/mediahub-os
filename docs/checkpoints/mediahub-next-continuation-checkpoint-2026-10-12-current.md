@@ -367,3 +367,16 @@ Resume with `/next`.
 - Status dimensions remain separate: P0-05 implementation acceptance historically recorded; exact contract blob tied to accepted tree REQUIRES VERIFICATION; current exact-SHA execution/CI NOT VERIFIED; MH-05 broader architecture unaccepted; production qualification NOT GRANTED. P0-07 mutation publication remains BLOCKED pending explicit governance/API resolution.
 - Matrix section 30 records this crosswalk. No P0 contract edited; no tests, workflow dispatch, qualification, credentials, runtime/host inspection, persistence, migration, restore, deployment, infrastructure or branch integration.
 - Next: locate the DRAFT blob's actual path/ref, inspect exact tree at `303a766257b90c4356dcffc8967a5574e8e22e7a`, and bind normative contract revision plus evidence to that immutable tree.
+
+## Latest continuation — P0-07 context decision (2026-10-12)
+
+- Owner decision: attempt A (reuse existing independently P0-04-authorized context) first; conditional fallback C (controlled P0-05 contract revision). No silent frozen-contract change authorized.
+- Refreshed `main HEAD`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- P0-07 sources read on `integration/p0-07-runtime-reconciled`: operation boundary blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`, authorization blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`, reconciliation blobs `04381ce6e223b8632ec15d17e475b56fe1ab8772` and `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`, adapter contract blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88`.
+- P0-05 accepted implementation `consumer_boundary.py` blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596`; acceptance record blob `ce027f31203d1b34ddf25e78b3cbbe232d80a74a`.
+- Finding: A is **NOT DEMONSTRATED** by the inspected source-bound path: P0-07 request carries one P0-07-scoped `AuthorizationContext`, and the operation boundary does not publish. This is not proof that no caller path exists elsewhere. No tests/runtime inspection performed.
+- Proposal-only fallback C created at `docs/checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md`, blob `c948ec2b777f96224048f1c762567532f0b15628`; create commit `8fd59c46ae872ab6ceda9184fa28dab83795679b`. NOT ACCEPTED / NOT FROZEN; implementation not authorized.
+- Matrix section 31 update commit `894400bfca13bd991ff47365118710b4eeca034a`, new blob `46036a7a2de6141a29ce25a03f1b3dd998617a40` (read-back required).
+- P0-07 publication remains BLOCKED — GOVERNANCE/API GAP. If an existing-context path is proven, use A; if disproven, obtain governance disposition on C before any normative change.
+- No code/protected contract changed; no tests, qualification, credentials, runtime/host inspection, persistence, deployment, infrastructure change or branch integration.
+- Next: read back matrix/proposal, verify exact accepted P0-05 tree and P0-07 branch tree for a caller-supplied separate P0-04 context, then update map and verify all SHAs.
