@@ -141,9 +141,9 @@ Return:
 - B1: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`, `main`, SHA `9df4892ed0734050ac79732603d15bb414717310`.
 - B2: `docs/checkpoints/mediahub-functional-baseline-2.0.md`, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 - MH-24 report: `docs/checkpoints/mediahub-mh24-reconciliation-report.md`, `main`, SHA `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`.
-- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `66ff77cc1fe503aead977ed1eb16a22ce8e87762`.
-- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `f294b90147a0bdbd992d025493aa2941ea8a4485` (26 architecture requirements, 19 verification checks in the latest read-back).
-- Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `09f2e2094626fc18883a6ad9481da2739df64e80`. The path name is retained for provenance even though the current working label is Jarvis.
+- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `da0bd106c5477738c4187cb45c268538e6cf7963`.
+- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `07156fd7bcf66ce7d0b26080711d1cd64d2cc268` (26 architecture requirements, 19 verification checks in the latest read-back).
+- Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `b65ddaa2c91b18265cffd7be55fdefc7a0877db5`. The path name is retained for provenance even though the current working label is Jarvis.
 - ASTRA current truth: `docs/qualification/CURRENT-TRUTH.generated.md`, `main`, SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: `NOT_PROVEN / BLOCKED`; all listed gates are blocked in that generated snapshot.
 - ASTRA live runbook: `docs/qualification/ASTRA-GOLD-24H-RUNBOOK.md`, `main`, SHA `efb1c8af47578cbe14f8e788676d71ba4c665966`: live three-node transport is not qualified in that source.
 
