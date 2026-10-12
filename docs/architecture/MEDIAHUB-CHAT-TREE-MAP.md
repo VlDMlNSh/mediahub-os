@@ -3704,3 +3704,15 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Finding:** MH-16 architectural lifecycle requirements are not implementation/qualification proof. MH-22 current-main evidence still marks current-head production qualification, release identity, digest/signature/SBOM, hardware qualification, installation/update/rollback, recovery/restore and disaster recovery as UNKNOWN/REQUIRES VERIFICATION; production acceptance is NOT GRANTED. MH-23 matrices are branch-specific and pinned evidence is historical.
 - **Status:** MH-23 NOT ACCEPTED / NOT FROZEN; MH-16 implementation NOT AUTHORIZED; MH-14 physical persistence NOT AUTHORIZED; P0-07 BLOCKED; MH-22 NOT ACCEPTED / NOT FROZEN / production NO-GO. No stable IDs added and no gate closed.
 - **Next safe action:** verify matrix/checkpoint/map read-back SHAs and links. Re-check branch compare only if needed for a specific lineage question; no merge/rebase/cherry-pick, workflow dispatch, migration, restore, test or qualification without separate explicit authorization.
+
+
+## 20.113 MH-14 persistence acceptance / live MH-23 lineage refresh (2026-10-12)
+
+- Scope: documentary crosswalk only; no implementation or qualification.
+- MH-14 current-main sources: persistence architecture `5e14084033f417722a1b04b5d5d47649dcfcda48`; acceptance criteria `364bb2a949e11f191b71a35af482f18de4ef2827`; decision log `a2f49b9f4e09e3d2becdc2e72807319674a30239`; unknowns `722eaa1388ff3e9f6677a2571ae3c61e5611a70a`.
+- MH-22 current-main sources: operations architecture `17bb2a9fdc34a0ee7c324e78c412616b5e377bb4`; evidence register `188a85e3a31cb545fd781e6db237d655d721ec1c`.
+- Live compare `main...architecture/mh-23-long-term-evolution`: DIVERGED, 66 commits ahead / 1,640 behind, merge base `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`; current main `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. No branch operation authorized.
+- Matrix section 24: commit `2bf2f674b2aeeeb09ea603c400a9226c67a14068`; blob `345888a0568318c1ad9c9a5fc15af0b43f051489`.
+- Continuation checkpoint update: commit `55ed2737ad49542a0c036cf78d329e6e972be4e3`; blob `c9e3b1a53e00252e39315f68ed37e5ad835b5e3d`.
+- Status: MH-14 physical persistence NOT AUTHORIZED; MH-14 acceptance NOT YET ACCEPTED/FROZEN; atomicity/restore evidence not demonstrated; RPO/RTO TBD; MH-22 production qualification NOT GRANTED / NO-GO. State Authority remains sole canonical mutation authority. No stable IDs added, no gates closed.
+- Next safe action: verify matrix/checkpoint/map read-back SHA and links. No tests, restore, migration, workflow dispatch, host/runtime inspection, deployment or branch integration without separate authorization.
