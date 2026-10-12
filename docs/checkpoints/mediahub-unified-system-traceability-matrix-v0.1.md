@@ -590,3 +590,52 @@ Status: DOCUMENTARY CROSSWALK / PROPOSED / NOT ACCEPTED / NOT FROZEN. No physica
 4. The map's MH-13 route identifies a reconstructed, not frozen privacy/data-governance package. This pass did not retrieve its detailed retention/deletion primary document; this is a traceability gap, not proof of non-compliance.
 5. No new stable requirement IDs added; no gate closed; no physical technology selected; no RPO/RTO values invented.
 6. No tests, qualification, restore, migration, host/runtime inspection, workflow dispatch, deployment, infrastructure change or branch integration occurred.
+
+
+## 27. MH-13 privacy/data lifecycle × MH-14 durable copies — source and status reconciliation (2026-10-12)
+
+Status: DOCUMENTARY CROSSWALK / OPEN. No retention schedule, deletion guarantee, implementation authorization or compliance conclusion is created by this pass.
+
+### Source provenance and authority
+
+| Source | Ref / blob SHA | Verified status and consequence |
+|---|---|---|
+| MH-13 master prompt | `main` / `de00bea7f972fca30295c0855b0d324f845c0bc4` | Historical original NOT RECOVERED; reconstructed artifact remains PROPOSED unless governance state is reconciled; frozen NO; production implementation NOT AUTHORIZED. |
+| MH-13 reverse master prompt | `main` / `d590b6541870d3f77fbb1e48159b78d5d2f1f203` | Calls current state ACCEPTED RECONSTRUCTION, explicitly not historical original; frozen NO; production implementation NOT AUTHORIZED. |
+| MH-13 privacy/data-governance architecture | `main` / `e732ff9cacbc9c1189bd83306cdff30906326cf0` | Header says RECONSTRUCTED / PROPOSED, acceptance NOT YET VERIFIED, frozen NO. Retention periods and deletion/backup semantics UNKNOWN / REQUIRES VERIFICATION. |
+| MH-13 reconstruction registers | `main` / `8c66fb49bbe011d8ef5dd78287c72efdad77a8fe` | Registers unknowns U-13-01…U-13-13; specifically U-13-09 exact retention/deletion and backup semantics UNKNOWN / REQUIRES VERIFICATION; package says NOT ACCEPTED until independent verification. |
+| MH-13 governance state | `main` / `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa` | Records independent post-merge governance acceptance of the result as an authorized reconstruction, not frozen and not production/qualification authorization. |
+| MH-21 privacy invariants | `main` / `4475da53dc87ad1c2ad1c9f112a55211cbfa49eb` | PROPOSED; classification before egress, explicit purpose, minimization, eligible destination/provider/region, defined retention and protected audit metadata. |
+| MH-21 data retention | `main` / `8dfe3b619be593c3ec57948e350671895827ae8b` | PROPOSED; provider deletion/training claims require current contractual evidence. |
+| MH-14 persistence architecture | `main` / `5e14084033f417722a1b04b5d5d47649dcfcda48` | ARCHITECTURE WORK IN PROGRESS; physical persistence NOT AUTHORIZED; deletion must account for WAL, snapshots, backups, caches and derived copies where applicable. |
+| MH-14 acceptance criteria | `main` / `364bb2a949e11f191b71a35af482f18de4ef2827` | NOT YET ACCEPTED / FROZEN; retention/deletion must satisfy MH-13 including durable copies. |
+| Functional Baseline 2.0 | `main` / `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | ACCEPTED / CANONICAL / IMMUTABLE; retention is not globally indefinite by default; backup/migration/deletion follow governing data-class policy. |
+
+### Exact lineage finding
+
+Live compare `main...reconstruction/mh-13-privacy-data-governance` returned `behind`, 0 commits ahead / 1,387 behind, merge base `fa9ba5f5d20f722f9a991804a8de2c4e35d47218`, base/main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, and no changed files in the compare result. The map-referenced MH-13 reconstruction artifacts are present on `main`; the named reconstruction branch is not an independent current source of changes. This confirms neither recovery of the historical original nor frozen status.
+
+### Contract crosswalk
+
+| Lifecycle object | Required rule from current sources | Evidence / unresolved condition |
+|---|---|---|
+| Primary persisted records | Purpose-bound, classified, access-controlled, retention bounded; canonical state remains State Authority-owned. | No approved retention periods, consent/data-subject model or implementation evidence in the reviewed source set. |
+| WAL / journals / incomplete transactions | Deletion and retention semantics must include journal copies; incomplete commits must not be accepted as canonical. | Exact deletion timing, compaction/rotation behavior and crash-consistency evidence UNKNOWN. |
+| Snapshots / archives / backups | Privacy obligations persist across backup/restore; backup is not authority or verified recovery by existence alone. | Backup deletion semantics, expiration, legal holds, restore-time reapplication of deletion, and proof of deletion are UNKNOWN. |
+| Replicas / remote copies | No unapproved destination or implicit provider trust; classification and purpose precede egress. | Replication is not approved by this crosswalk; location, ownership, provider terms and deletion guarantees require separate evidence/decision. |
+| Caches / indexes / vectors / derived data | Derived data is not automatically less sensitive and cannot become a shadow State Authority. | Dependency graph, invalidation/purge propagation and completion evidence are not supplied by the current MH-13 package. |
+| Restore after deletion | Restored data must be validated and State Authority-mediated; privacy restrictions continue to apply after restore. | No accepted policy says whether/how deletion tombstones, expiry, holds or suppression metadata are replayed before restored state becomes visible. Do not infer a mechanism. |
+| External providers | Record data, purpose, destination, retention, deletion mechanism, provider responsibility, user rights, audit and incident handling. | MH-21 data-retention artifact is PROPOSED; current contractual evidence for any provider was not reviewed and no provider is authorized by this pass. |
+| Observability / audit | Auditability without disclosing protected payloads; minimize sensitive telemetry and control access. | Exact taxonomy, retention and telemetry contracts remain open; no runtime instrumentation was inspected. |
+
+### Status contradiction retained, not normalized
+
+The MH-13 master prompt and architecture file say RECONSTRUCTED / PROPOSED or acceptance NOT YET VERIFIED, while the reverse prompt and governance-state artifact say ACCEPTED RECONSTRUCTION. The governance-state source clarifies acceptance is scoped to the reconstruction only and explicitly excludes FROZEN, production implementation, CI PASS, qualification, release and deployment authorization. Preserve this status-wording conflict as OPEN until the authoritative status vocabulary and artifact headers are reconciled by governance. Do not call MH-13 frozen or production-approved.
+
+### Closure conditions and limits
+
+1. An owner/governance-approved data-classification, purpose, retention, deletion, legal-hold and residency contract is still required; no numeric retention periods or legal interpretations are invented.
+2. Cross-domain deletion behavior must explicitly cover primary store, WAL/journals, snapshots, backups, replicas, caches, indexes/vectors and derived copies, including restore-time behavior.
+3. Acceptance needs revision-bound evidence for deletion/purge propagation, backup/restore handling, authorization, audit privacy and provider terms where applicable.
+4. MH-13 remains reconstructed and not frozen; MH-14 remains architecture work in progress and physical persistence NOT AUTHORIZED; MH-21 provider retention remains PROPOSED; MH-22 production acceptance NOT GRANTED.
+5. No stable requirement IDs added; no status elevated; no gates closed. No tests, deletion, restore, migration, provider contact, host/runtime inspection, workflow dispatch, deployment, infrastructure change or branch integration occurred.
