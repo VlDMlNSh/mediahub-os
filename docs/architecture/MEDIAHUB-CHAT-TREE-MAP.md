@@ -3522,3 +3522,13 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Operations performed:** documentary read-only source review plus GitHub documentation commits and read-back. No tests, qualification, model/provider calls, installation, hardware purchase, host inspection, infrastructure change, deployment, migration, or merge.
 
 **Next safe action:** continue the revision-bound crosswalk against the MH-24 68-section traceability matrix and source-specific MH-10/MH-21/manifest/OS/lifecycle requirements. Resolve conflicts into explicit owner-decision rows; keep the matrix proposed until owner/governance acceptance.
+
+
+## 20.100 User instruction — current map link in every project reply (2026-10-12)
+
+- **Owner request:** keep the project map current and send its link after every assistant message.
+- **Required reporting behavior:** every project-related response must include the direct link to this map on branch `docs/mediahub-chat-tree-map-20261012`: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- **Freshness protocol:** at each `/next`, re-read bootstrap, this map, the current continuation checkpoint, unified traceability matrix, parent architecture/deployment contract, and live `main HEAD`; follow this map to primary sources. After any material finding/change, update this map and/or checkpoint where warranted, then read them back from GitHub and record verified blob SHAs.
+- **Every-turn guarantee:** if a turn does not change the map, still link it and say it was re-read but unchanged. Never claim a change before successful GitHub read-back. Do not paste the entire large map into chat; the linked GitHub document is the canonical current view.
+- **Latest checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`, update commit `f1e288933736dca4037974fa0d7e8e1547b09faf`, blob SHA `c8141d6695de2a1c43ee4bc07c28c803de12d4cb` (verified from update response; perform read-back before relying on it).
+- **Scope:** reporting/documentation requirement only. It does not authorize tests, qualification, installation, model/provider calls, credential use, host/runtime inspection, infrastructure changes, deployment, migration, or merge.
