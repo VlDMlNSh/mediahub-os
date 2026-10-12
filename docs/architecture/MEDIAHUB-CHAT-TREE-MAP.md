@@ -2117,3 +2117,34 @@ B1, B2, historical audits, matrix row 22, atomic backlog, canonical backlog and 
 
 **Next safe step:** resume whole-project map restoration from this live map and inventory B1 §23 plus all existing branch/path/batch records before deciding whether any supplemental crosswalk is needed. Do not assume the next batch number or absence of a pre-existing artifact.
 
+
+
+## 20.67 Batch 14 Media System — existing crosswalk discovered and routing corrected
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** EXISTING §23 CROSSWALK AND REVIEW VERIFIED / AT-16 OPEN / SYNTHESIS POINTERS NOT YET REFRESHED
+
+### Read-back verified artifacts
+
+| Artifact | Path | Blob SHA | Verified status |
+|---|---|---|---|
+| Baseline 1.0 | `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` | `9df4892ed0734050ac79732603d15bb414717310` | `main`, §23 lines 383–389; unchanged |
+| Baseline 2.0 | `docs/checkpoints/mediahub-functional-baseline-2.0.md` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | `main`, §15 line 350 lists media categories and capability/rights constraint; unchanged |
+| Historical semantic audit | `docs/checkpoints/MH24-SEMANTIC-AUDIT-BATCH-04.md` | `e7f35460e3bf32cc3fce8b4584848907d07a7943` | Existing section-level `MEDIA-SYSTEM-01` finding preserved |
+| Traceability matrix | `docs/checkpoints/mediahub-mh24-traceability-matrix.md` | `73377891072bac3c739c44055ceeb0874154f64c` | Row 23 remains section-level; implementation/qualification gaps remain |
+| Batch 14 Media System draft | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-14-MEDIA-SYSTEM-DRAFT.md` | `d05218ff37d217016135beb8bc7a559686ec5933` | 14 provisional labels; 13 MAPPED / 1 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT |
+| Batch 14 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-14-MEDIA-SYSTEM-REVIEW-01.md` | `5774a1fc87605296ba4adb6e2ef5014ffeb7d09f` | Bounded structural/source-anchor/status consistency PASS; semantic owner acceptance OPEN |
+| Atomic traceability backlog | `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-01.md` | `ec2580f714e8f620bcf85ff7de2ae9242439e5e8` | AT-16 remains OPEN—CONTRACT |
+
+### Confirmed disposition and correction
+
+- Batch 14 already exists in the working branch; it was not created in this pass. Earlier §20.66 routing that called for inventorying §23 before deciding whether a crosswalk existed is now superseded by this live read-back record; preserve the historical wording rather than rewriting it.
+- B1 §23 lines 383–389 covers audio, video, TV, streaming, playback, multiroom, local/network media, HDMI, 4K, phone endpoints, gaming, external ecosystem projection, and the rule that the media subsystem is not an alternative State Authority.
+- Batch 14 has 14 provisional traceability labels, not 14 approved independent obligations. Its bounded review reports 13 category/boundary-level documentary mappings and one NOT_REVIEWED row (external ecosystem projection). This does not establish device compatibility, accepted adapters, implementation, qualification, or production acceptance.
+- The draft flags a historical pointer defect in Semantic Audit Batch 04: that audit cites B2 §16 for Media, whereas the pinned B2 identifies Media at §15 and Documents and Knowledge at §16. The historical audit remains unchanged; use B2 §15 for current media mapping and track the citation mismatch as a traceability defect, not a demonstrated normative conflict.
+- MH-18 remains NOT ACCEPTED / NOT FROZEN in the cited branch-specific acceptance document. AT-16 remains OPEN—CONTRACT. No final child IDs or collision inventory were minted.
+- B1, B2, the traceability matrix, the atomic/canonical backlog, and `main` were not modified. No tests, qualification, installation, deployment, infrastructure action, or merge was performed.
+- Passport v3 and Contract 01 still require a later bounded pointer-reconciliation pass to incorporate Batch 14; their current read-back SHAs at this inventory were Passport `d4b742ea5e55ae23472cb285bf39bc29cbbb359c` and Contract `dd9479cb22561380657f738fabe2a348c51ad512`. This map update does not imply those synthesis artifacts have been updated.
+
+**Next safe action:** reconcile Batch 14 into Passport v3 and Contract 01 only after checking their relevant sections and dependencies; then read back both files and refresh the map pointers. After that, inventory B1 §24 and candidate paths before considering the next crosswalk. Continue MH-01…MH-25 restoration independently; this entry does not complete the full map.
