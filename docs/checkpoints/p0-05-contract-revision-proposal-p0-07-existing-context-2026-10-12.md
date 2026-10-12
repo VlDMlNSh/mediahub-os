@@ -58,3 +58,22 @@ This is a question for controlled contract design, not an approved interface spe
 ## 6. Next safe step
 
 Resolve the accepted P0-05 artifact/path and prove or disprove the existence of a caller-supplied, independently P0-04-authorized context using repository source and commit/tree evidence. If A is proven, do not revise P0-05. If it is disproven, obtain explicit governance disposition on this proposal before any normative contract or implementation change.
+
+## 7. Follow-up tree audit and conditional transition to option C (2026-10-12)
+
+The exact tree for accepted implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a` was fetched through the Git Trees API:
+- commit tree SHA: `82da63f03da20049954fe69257342cbf66b58395`;
+- `docs/architecture/P0-05-consumer-contract.md` exists in that exact tree at blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`;
+- that exact contract explicitly says **DRAFT — GOVERNANCE REVIEW REQUIRED**;
+- the tree contains `runtime/mediahub_runtime/consumer_boundary.py` at blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596`, but no P0-07 runtime module (P0-07 did not yet exist in that accepted P0-05 tree);
+- the P0-07 reconciled tree `751659fbfe546a5cabd5d8c3f3110af05c2ef582` contains the P0-07 operation boundary at blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` and authorization module at blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`; neither calls `ConsumerBoundary` or P0-05, and the tree has no implemented P0-07 mutation adapter. The operation boundary returns a decision only.
+- P0-07's adapter contract blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88` explicitly records that no approved existing-context hand-off is present and keeps mutation publication blocked.
+
+The governance acceptance record `docs/architecture/P0-05-governance-acceptance.md`, blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242`, records acceptance/freeze of the implementation at commit `303a766257b90c4356dcffc8967a5574e8e22e7a`, while the normative consumer contract present in that exact commit tree remains labelled DRAFT. This is a material source-status discrepancy; it does not justify silently treating the DRAFT contract as accepted normative text.
+
+### Updated disposition
+
+- Option A is **NOT AVAILABLE AS AN IMPLEMENTED END-TO-END PATH IN THE INSPECTED P0-07 TREE**. The source tree proves there is no implemented P0-07 → P0-05 caller/adapter there. This conclusion is bounded to the inspected tree and does not assert no other out-of-tree caller exists.
+- Following the owner's conditional direction, option C is now the **NEXT GOVERNANCE REVIEW PATH**. This is authorization to prepare and submit the controlled revision proposal, not acceptance of new normative wording, not a freeze, and not implementation authorization.
+- No accepted/frozen contract or code has been changed. Before a normative revision can be adopted, governance must resolve the DRAFT-vs-acceptance-record discrepancy, review the candidate contract, and record explicit acceptance/freeze against an exact blob and commit.
+- Mutation publication remains **BLOCKED — GOVERNANCE/API GAP**.
