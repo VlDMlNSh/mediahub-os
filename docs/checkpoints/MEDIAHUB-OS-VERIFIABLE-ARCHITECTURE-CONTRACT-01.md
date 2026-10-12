@@ -5,7 +5,7 @@
 - **Status:** WORKING INTEGRATION CONTRACT / DRAFT — NOT A NEW CANONICAL BASELINE
 - **Use:** operative review/checklist for documentation and architecture work on this branch, subject to the source precedence and gates below.
 - **Not a grant of authority:** does not replace Baseline 2.0, alter Baseline 1.0, approve pending domain contracts, authorize implementation/deployment, or imply qualification/production acceptance.
-- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `327089a0780e85a053c3d56c185c22d2e76857ae`.
+- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `a746a3e5945ad646883fd17cfdd2245b599b032d`.
 - **Rule of evidence:** claim → source path → ref → blob SHA → exact scope/status → acceptance/evidence required → independent read-back.
 
 - **Current terminology:** the latest owner-provided umbrella name is **Jarvis**; an earlier same-day draft used “Astro”. Jarvis supersedes that draft label. The existing gap-report filename retains `ASTRO` for reference lineage; this does not rename ASTRA or assert deployed functionality.
@@ -236,9 +236,9 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** the owner-confirmed inventory and deployment manifest resolve same asset versus separate asset; the role/trust domain is unambiguous; any transition has approval, replacement capacity, credential/data separation, restore/rollback and post-deploy evidence bound to the release SHA. Until then the affected production profile is BLOCKED / ASSET ALLOCATION REQUIRED.
 
-**Sources:** owner-provided Jarvis blueprint (2026-10-12); gap reconciliation §17 / AG-20, current blob SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; Passport v3 / P-20, current blob SHA 327089a0780e85a053c3d56c185c22d2e76857ae.
+**Sources:** owner-provided Jarvis blueprint (2026-10-12); gap reconciliation §17 / AG-20, current blob SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; Passport v3 / P-20, current blob SHA a746a3e5945ad646883fd17cfdd2245b599b032d.
 
-**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `327089a0780e85a053c3d56c185c22d2e76857ae`; Jarvis gap reconciliation current SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`.
+**Sources:** B2 §9, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Passport v3 current working SHA `a746a3e5945ad646883fd17cfdd2245b599b032d`; Jarvis gap reconciliation current SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`.
 
 
 ### ARC-028 — B1↔B2 section pointers are semantically validated and historical audits remain immutable
@@ -249,7 +249,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Current finding:** Audit 01 row B1-15-13 links “Assist with documents” (B1 §15 line 246) to B2 §19. Pinned B2 SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f defines §16 as Documents and Knowledge, §18 as AI architecture and §19 as Update / Recovery / Migration. Batch 06 working crosswalk SHA 9df96aca53d1004c33d45f038501dc6b7f52c0c9 correctly uses §§16/18 and preserves the historical Audit 01 mismatch. Review SHA 1edc976dd663ae16a1b61876a2dbbde9411be095 confirms the source headings. The mismatch is recorded as AG-21 / P-21; no B1/B2 semantic conflict is claimed.
 
-**Sources:** B1 specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main, SHA 9df4892ed0734050ac79732603d15bb414717310; B2 docs/checkpoints/mediahub-functional-baseline-2.0.md@main, SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; historical Audit 01 SHA d0938f14ed4110545118f075175dee3be412097b; current Gap Reconciliation SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; current Passport v3 SHA 327089a0780e85a053c3d56c185c22d2e76857ae.
+**Sources:** B1 specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main, SHA 9df4892ed0734050ac79732603d15bb414717310; B2 docs/checkpoints/mediahub-functional-baseline-2.0.md@main, SHA 1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f; historical Audit 01 SHA d0938f14ed4110545118f075175dee3be412097b; current Gap Reconciliation SHA 39720b11e5e6777b86ffd71e0fec1214982e0d95; current Passport v3 SHA a746a3e5945ad646883fd17cfdd2245b599b032d.
 
 **Status:** pointer correction structurally verified in a working crosswalk; semantic acceptance and broader Audit 01 cleanup remain OPEN.
 
