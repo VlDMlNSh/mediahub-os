@@ -144,7 +144,7 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Acceptance:** preserve historical parent IDs; use only approved mapping statuses; distinguish literal, derived, split, cross-link-only and unresolved atoms; every row carries these 12 approved fields in order: Requirement ID; Owner; Source atom/classification; B2 mapping status; Canonical contract path/ref; Acceptance criteria; Required evidence; Lifecycle status; Reviewer/approval reference; Dependencies; Verification method; Change history; B1 source line anchors are real nonblank lines and B2 mapping claims point to actual clauses.
 **Primary source:** Batch 04 owner decision record SHA 9117098e22c26708d48ca8ba5954669faa209d68; crosswalk draft SHA f9e66b7adde7afeaf6a7fb6ef1a867dee07c1b34; structural review SHA ea64aadc42244fe93a89735e7c0d8bce16b662d2.
-**Observed result:** 48 historic parent IDs; 4 MAPPED, 3 NO_DIRECT_COUNTERPART, 41 NOT_REVIEWED, 0 CONFLICT at parent level. This is not atom-level semantic approval. UI4-04 remains HOLD / CROSS-LINK-ONLY.
+**Observed result:** 48 historic parent IDs; 4 MAPPED, 3 NO_DIRECT_COUNTERPART, 41 NOT_REVIEWED, 0 CONFLICT at parent level. This is not atom-level semantic approval. UI4-04 remains HOLD / CROSS-LINK-ONLY. No requirement atom or final child ID is created for UI4-04 until a cited literal source establishes unique residual behavior beyond the already mapped UI contract.
 
 ### ARC-015 — immutable baseline and history protection
 **Rule:** Do not alter B1 or accepted B2 in order to reconcile derived matrices or draft architecture. Correct branch-level derived artifacts and record provenance. Do not merge main unless separately authorized.
