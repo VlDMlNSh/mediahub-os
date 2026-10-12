@@ -2536,3 +2536,38 @@ The prior 20.75 next-step wording “MH-04 State Authority inventory” is impre
 8. **No tests/qualification/workflow execution performed.** This was read-only source/document/status inspection. No code, branch, queue, infrastructure or workflow was changed; no merge occurred.
 
 **Next safe action:** proceed to MH-08 using the map navigation. Preserve P0-07→P0-05 publication as BLOCKED until an explicit governance/API decision exists. Do not mark MH-07 ACCEPTED/FROZEN or claim current CI/production qualification from source presence or historical records.
+
+## 20.80 MH-08 Plugin / Extension — historical P0-08 verification reconciled; architecture qualification remains pending
+
+**Date:** 2026-10-12  
+**Status:** MH-08 architecture provenance PARTIALLY_CLOSED / qualification queue OPEN and PENDING / production-release NOT AUTHORIZED. Historical P0-08 implementation and verification are not current architecture qualification or acceptance evidence.
+
+### Current source and provenance findings
+
+| Source | Ref / SHA | Confirmed fact |
+|---|---|---|
+| MH-08 queue / qualification blueprint | GitHub Issue #124, updated 2026-09-30 | `READY_FOR_AUTONOMOUS_QUALIFICATION`; architecture `RECONCILED`; qualification `PENDING`; production/release `NOT AUTHORIZED`. It requires exact target/provenance, reconciliation with MH-01…MH-23, plugin taxonomy/manifest/capability/trust/sandbox/resource/egress/IPC/persistence/update/AI/UI/Smart Home/media/cloud/observability/SDK boundaries, negative verification and independent evidence disposition. The issue explicitly says historical P0-08 artifacts are historical evidence only and must not be treated as current qualification. |
+| Historical MH-08 branch | `architecture/mh-8-plugin-extension`; HEAD `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`; tree `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18` | Branch is an ancestor of current `main`, not a current branch-only MH-08 architecture corpus. Compare with `main` showed 0 commits ahead, 1,640 behind in the reverse comparison (1,638 behind in the earlier recorded compare); no MH-08-specific unique files were found in the branch tree. Preserve it as historical lineage; do not treat it as the current architecture source. |
+| Current `main` tree | HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; tree inventory read | No dedicated `docs/architecture/MH-08*` or `MH-8*` architecture package found in current tree. This is a bounded path inventory, not a claim that no historical MH-08 artifacts exist anywhere. |
+| MH-25 stage reconciliation | `docs/checkpoints/mediahub-mh25-stage-reconciliation.md`; blob `6efbd86287357698370c17df909ea7303d616264` | Records MH-8 as PARTIALLY_CLOSED and says no dedicated MH-8 artifact located in current tree; plugin security/interaction references exist under MH-12/MH-21; dedicated closure provenance absent. |
+| Related MH-12 security reference | `docs/architecture/MH-12-plugin-security.md` on `main`; blob `f4f560b6d0c8a210389207cf14c74c1ec16044f8` | Plugin is an extension, not authority; no self-authorization, wildcard capability, direct State Authority mutation, Consumer Boundary bypass or unrestricted filesystem/network/subprocess. Signature is provenance/integrity evidence, not trust; installation is not runtime admission. |
+| Related MH-21 interaction reference | `docs/architecture/MH-21-plugin-interaction.md` on `main`; blob `83770baa4ba616c493346216ace2d12f01f39b49` | Status PROPOSED; depends on MH-08/MH-05. Remote compute only through approved contracts; no arbitrary HTTP destinations, unrestricted cloud credentials/AI APIs, shell or direct cloud-to-device path. Plugin output cannot bypass policy, authorization or State Authority. |
+| Historical P0-08 verification workflow | `.github/workflows/mediahub-p0-08-verification.yml` on `main`; blob `d06965d986c1bec173f3c94e4d3370a2ee038012` | Workflow defines exact-head checkout, frozen-layer integrity, targeted plugin tests, forbidden-capability and authority scans, and full regression. This is a historical workflow artifact; it does not by itself establish current qualification. |
+| PR #19 — P0-08 runtime integration | Closed, not merged; recorded head `42c6974f12e191577213be9622a369620c5c4ab6`; verification target `9829fd6c4cc104172167b88c8f95dd63b12ac9f2`; historical run `33802650449` | PR body records targeted tests/scans/full regression as passed on historical target, while explicitly leaving P0-08 NOT ACCEPTED / NOT FROZEN pending post-integration verification and governance. PR is not merged. |
+| Historical workflow run #33802650449 | Run completed `success` on 2026-09-03; job `100805586830` | Historical run success recorded. The run's workflow `head_sha` is `6eb2ef9efc3ebe6cb89594a0d7180ed7a4c4cb18`; do not confuse workflow definition SHA with the separately supplied verification target SHA. No tests were run during this inventory. |
+| PR #22 — P0-07/P0-08 reconciliation | Closed, not merged; head `b54f5c389513998dfb6e6e362b62ff5d07430995`; historical run `33807711779` | PR comment records historical technical verification and explicitly says PR remains DRAFT, no independent GitHub review, merge not authorized, and P0-07→P0-05 mutation bridge remains BLOCKED. |
+| Historical workflow run #33807711779 | Run completed `success` on 2026-09-03; job `100822037026` | Historical reconciliation verification only. PR #22 was closed unmerged on 2026-09-06. The run does not establish current MH-08 architecture acceptance or fresh qualification. |
+| Other P0-08 PRs | PR #20 and PR #21 both closed, not merged | Historical integration/workflow changes; do not infer current architecture closure from their existence. |
+| Current qualification issue | Issue #124 remains OPEN; updated 2026-09-30 | Explicitly still PENDING and production/release NOT AUTHORIZED. No comments or newer qualification disposition were present in the inspected issue result. |
+
+### Confirmed invariants
+
+1. Plugin / Extension expands capability surface, never authority surface.
+2. Plugin ≠ Authority; capability ≠ authority; manifest ≠ authorization; signature ≠ trust; installation ≠ admission; qualification ≠ permanent trust.
+3. State mutation must remain behind the approved Consumer Boundary and sole P0-04 State Authority. Direct State Authority access, Smart Home bypass, UI internal-authority access and AI privileged bypass are denied.
+4. Unrestricted network, secrets and filesystem access default to DENY. Undeclared capabilities/dependencies/data export and implicit plugin-to-plugin trust are denied. Native privilege requires separate qualification; development privilege is not production privilege.
+5. Grants must be revocable; plugin failures must be independently containable; critical uncertainty fails closed.
+6. Historical P0-08 workflow successes are real historical evidence but are not fresh revision-bound MH-08 architecture qualification, acceptance/freeze, merge, release or production authorization.
+7. MH-08 remains PARTIALLY_CLOSED because the dedicated canonical architecture/closure provenance is not reconciled into the current map. Do not recreate or copy historical artifacts without path/history/blob comparison and authorization.
+
+**Next safe action:** proceed to MH-09 UI / Presentation using the mapped branch `architecture/mh-09-presentation-ui`. Preserve MH-08 as PARTIALLY_CLOSED and Issue #124 as OPEN/PENDING; do not rerun qualification, alter the queue, merge historical PRs or claim production readiness without explicit authorization and fresh evidence.
