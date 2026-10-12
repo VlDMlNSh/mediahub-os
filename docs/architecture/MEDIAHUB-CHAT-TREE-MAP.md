@@ -744,3 +744,20 @@ Baseline 2.0 заявляет, что согласован с пользоват
 **Ограничение:** для MH-18/MH-19/MH-09 использованы branch-specific документы по карте; их наличие не означает, что они приняты или перенесены в `main`. MH-13 exact acceptance/evidence path в этой проверке не установлен. Это documentary audit, не runtime scan.
 
 **Следующий шаг:** Batch 04 — Passport §§23–30. Baseline не менялся; тесты/qualification, инфраструктура и merge в `main` не выполнялись.
+
+
+### 20.7 Выполнен четвёртый requirement-level audit batch
+
+**Артефакт:** `docs/checkpoints/MH24-SEMANTIC-AUDIT-BATCH-04.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `e07463446fa88505874dd5483ef5bd2a42b409aa`  
+**Read-back blob SHA:** `e7f35460e3bf32cc3fce8b4584848907d07a7943`  
+**Статус:** `DOCUMENTARY AUDIT — PARTIAL`.
+
+Покрыты Passport 1.0 §§23–30 с IDs MEDIA-SYSTEM-01, DOCUMENT-SYSTEM-01, DIGITAL-TWIN-01, ENGINEERING-SYSTEM-01, NETWORK-ARCH-01, EQUIPMENT-DISCOVERY-01, SMART-HOME-EXPORT-01, PRODUCT-EDITIONS-01. Сверены Baseline 1.0/2.0, matrix rows 23–30, MH-15/MH-16/MH-17/MH-18/MH-19/MH-23 gate/evidence documents и network passport extension.
+
+Подтверждено по текстам: media/document/Twin/engineering domains и их non-authority boundaries представлены; B2 описывает discovery/qualification lifecycle, network plane separation, seamless wireless outcome, Documents OCR/search/provenance/workflows, Twin как часть Full editions и OSS adoption gates. Network passport extension явно задаёт wired RJ45 upstream и interoperability goals Ubiquiti/Keenetic, но не является доказательством рабочей инфраструктуры. Candidate gaps: конкретный список media integrations; paid Document System entitlement; фактическое присутствие Twin runtime и enforcement professional locks; vendor/controller/roaming qualification; user-confirmed device onboarding; exact Smart Home export targets/MPV Server; полный product-edition catalogue и one-time per-device mobile payment. MH-15/MH-17/MH-18/MH-19/MH-23 gates остаются открытыми/непринятыми в просмотренных refs.
+
+**Ограничения:** MH-18/MH-19/MH-17/MH-23 документы branch-specific и не считаются принятыми на `main`. MH-14 acceptance criteria по проверенному точному пути на `main` не найден; глобальное отсутствие не утверждается. Нет утверждений о runtime/production readiness.
+
+**Следующий шаг:** Batch 05 — Passport §§31–38. Baselines не менялись; тесты/qualification, infrastructure actions и merge в `main` не выполнялись.
