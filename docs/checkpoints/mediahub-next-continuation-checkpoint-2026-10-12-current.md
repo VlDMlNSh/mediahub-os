@@ -64,12 +64,24 @@ This checkpoint authorizes read-only architecture/evidence review and narrowly s
 - P0-07 workflow definition SHA `7fb80f402b4792b6a77cf8a4aad83d1ee5209789` is manual-only and targets a self-hosted runner. Workflow was not dispatched; run status not verified in this pass.
 - No tests, qualification, workflow dispatch, migration, restore, runtime/host inspection, installation, infrastructure change, merge or cherry-pick occurred.
 
+## Latest verified continuation — unified architecture/deployment contract draft (2026-10-12)
+
+- Draft created at `docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md`.
+- Draft commit: `dc1421580623d30a105b9ae70f576fc9a2740411`; blob SHA verified by read-back: `c5763bde0947c84a45ae80e16fab721fc27cd4d5`.
+- Status: `PROPOSED / CROSS-DOMAIN RECONCILIATION DRAFT / NOT ACCEPTED / NOT FROZEN`.
+- Map section `20.97` added and verified by read-back. Map blob SHA: `d1efb441e33a140f7a61f49c0496583501e6ee55`; map commit: `83daab1938efa0fe61f8d40dd816c9676db12821`.
+- Functional Baseline 2.0 remains the accepted current functional reference, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Baseline 1.0 remains historical provenance, blob `9df4892ed0734050ac79732603d15bb414717310`. No implicit reconciliation.
+- Draft covers authority invariants; local user, local developer, local compute-fabric and cloud-development profiles; component admission/statuses; 14 installation/deployment phases; deployment manifest; G0-G9 cross-domain gates; proposed cross-chat responsibility map; unresolved decisions and explicit non-authorizations.
+- Existing domain statuses are preserved: MH-14 persistence implementation not authorized; MH-15 acceptance/implementation not authorized; MH-16 governance pending/implementation blocked; MH-21 not accepted/not frozen; MH-22 production NOT QUALIFIED/NO-GO; P0-07 requires fresh evidence.
+- Component choices retain manifest gates. No component was installed/activated; no tests/workflows/qualification, migration/restore, runtime/host inspection, infrastructure change, deployment, production promotion or merge occurred.
+- Clarification: project map and GitHub domain records are a cross-chat source of truth, but they do not automatically rewrite every separate ChatGPT chat. Domain chats must individually consume current sources and return evidence/decisions.
+
 ## Exact next action for /next
 
 1. Re-read bootstrap, map and checkpoint from `docs/mediahub-chat-tree-map-20261012`; verify live blob SHAs and current `main HEAD`.
-2. Continue a revision-bound crosswalk of MH-23 branch-specific qualification/gate requirements to current-main MH-16/MH-22 and P0-03…P0-07 primary evidence. Keep branch-specific claims distinct from canonical-main claims.
-3. For each gate, record exact path/ref/blob SHA/target commit, evidence type, freshness, current status and missing acceptance decision. Do not treat workflow definitions or historical audits as execution evidence.
-4. Do not dispatch self-hosted workflows, run tests/qualification, perform migration/restore, inspect hosts/runtime, install software, change infrastructure, or merge/cherry-pick without separate explicit authorization.
-5. Update map/checkpoint only when a material fact is confirmed; use current SHA preconditions and verify both files by GitHub read-back.
+2. Perform a revision-bound crosswalk of the new draft against primary sources for MH-15, MH-16, MH-21, the canonical component manifest and the MH-24 68-section traceability matrix. Keep proposal/decision/implementation/evidence statuses separate.
+3. Record exact paths, refs, blob SHAs, dependencies, conflicts, freshness, unknowns and owner decisions needed. Do not alter Baseline 2.0 or treat the draft as accepted.
+4. No installation, tests/qualification, self-hosted workflow dispatch, runtime/host inspection, persistence activation, migration/restore, infrastructure changes, deployment, production promotion or merge/cherry-pick without separate explicit authorization.
+5. Update map/checkpoint only for confirmed material facts and verify both by GitHub read-back.
 
 Resume phrase: `/next`. Always begin by re-reading the live bootstrap and map.
