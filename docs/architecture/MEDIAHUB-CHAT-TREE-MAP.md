@@ -2430,3 +2430,35 @@ The prior 20.75 next-step wording “MH-04 State Authority inventory” is impre
 6. **No runtime verification performed:** this was a GitHub document/tree/provenance read only. No tests, qualification, installation, deployment, infrastructure mutation or merge was performed.
 
 **Next safe action:** continue with the next domain in the map's dependency order, MH-05 Consumer / Integration Boundary. Before any implementation or status promotion, preserve the separate P0-03/P0-04 acceptance scope, require exact-commit evidence where specified, and obtain explicit governance approval for MH-04 ACCEPTED/FROZEN. Do not treat a completed review as acceptance.
+
+## 20.77 MH-05 Consumer / Integration Boundary — architecture proposal vs accepted P0-05
+
+**Date:** 2026-10-12  
+**Status:** MH-05 architecture remains PROPOSED / REQUIRES VERIFICATION; inherited P0-05 has a separate ACCEPTED / FROZEN governance record; production qualification remains NOT GRANTED.
+
+### Primary sources and provenance
+
+| Source | Ref / SHA | Confirmed fact |
+|---|---|---|
+| MH-05 architecture branch | `architecture/mh-05-consumer-integration-boundary`; HEAD `14e1826e055ff540531e5244a72ccf1ba22d3bf8`; tree `49830a71c3d55af3091598743bcd13caef36a9d9` | Full candidate architecture corpus (138 tree entries). Master record explicitly says PROPOSED / REQUIRES VERIFICATION and implementation NOT AUTHORIZED. |
+| MH-05 master record | Same branch; blob `b02915f74a67ea861d977aa3b51ac1bba6fb4eff` | Architecture/reference record only; GitHub is long-term source of truth. Requires reconciliation across MH-01..MH-04 and P0-03..P0-07 before acceptance. |
+| MH-05 acceptance criteria | Same branch; blob `db18ab4416516240af394a6a9f57831f95edb802` | NOT ACCEPTED / REQUIRES VERIFICATION; critical compatibility, authority, trust, capability, proposal/event/read separation, failure, privacy, persistence, evidence and governance gates are unchecked. |
+| MH-05 evidence register | Same branch; blob `0f8a3a3d8d16d1953ffa452484061a42a2312132` | PROPOSED / GOVERNANCE REVIEW REQUIRED. Explicitly distinguishes verified historical governance commits from observed repository content; not proof that the whole MH-05 proposal is accepted. |
+| MH-05 decision log | Same branch; blob `e68254e72ba802dd73c5c28512c05b6f240695f2` | D-001…D-006 remain PROPOSED for MH-05 confirmation, including sole P0-04 mutation authority, mandatory P0-05 mediation, inert proposals, transport not trust, no persistence and no global exactly-once claim. |
+| MH-05 contradiction register | Same branch; blob `7bdedb32c0d11e6c232bdd58256913bf6078e330` | C-001: P0-03 contract copy's draft status conflicts with governance baseline; C-002: P0-07 implementation/governance gap remains; C-003: future consumer categories are conceptual, not qualified implementations. |
+| MH-05 consumer contract / unknowns | Same branch; blobs `0041e0d263833b4874e4b5f72113b4e0da3419a4`, `0fb23d8cd599fb3467a1f37d0d5c0ade8c8cfb37` | Consumer envelope remains PROPOSED. Exact schemas, capability inventory, identity/credential lifecycle, P0-07 policy precedence, bounds, delivery/replay, event ordering, export, enrollment, plugin lifecycle, critical-action approval and persistence/privacy remain open. |
+| P0-05 governance acceptance | MH-05 branch; blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242` | Separately records P0-05 ACCEPTED / FROZEN at implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a`; cites targeted 10/10, full regression 136/136, prohibited-capability and persistence scans PASS. Scope excludes persistence and production qualification. |
+| P0-05 implementation/contract branch | `architecture/p0-05-state-authority-integration-boundary`; HEAD `72044cb03ca66c062a9a81e0edd60732ebb795ec`; tree `ff520176d7c7e67b42cc1b7063ea0714467a0f8b` | Governance packet SHA `1253944ffeefcb59502d9f7deb13d38baed1d6e1` says implementation authorized within scope; persistence and production qualification remain excluded. Consumer contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` still labels itself DRAFT / GOVERNANCE REVIEW REQUIRED, a status-provenance mismatch to preserve and reconcile. |
+| P0-05 accepted implementation files | MH-05 architecture branch; runtime blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596`; tests blob `27d062a688ddc2dea5d082b615e1f9cc3779c4e7` | Code/tests exist in candidate corpus. Their presence is not a fresh test execution and does not promote the MH-05 architecture proposal. |
+| Exact implementation commit live status | Commit `303a766257b90c4356dcffc8967a5574e8e22e7a` | Status API returned `pending`, zero status records; check-runs and workflow runs for this exact SHA returned none. This does not disprove the historically documented execution evidence, but no fresh/live exact-SHA check evidence was found in this bounded query. |
+
+### Architecture findings
+
+1. **Keep MH-05 and P0-05 separate.** MH-05 is the broader architecture/reference domain; P0-05 is the accepted/frozen consumer integration boundary at a specific implementation scope. P0-05 acceptance does not automatically accept MH-05's broader proposal, unknowns, or decisions.
+2. **Canonical path remains singular:** External input → integration boundary → consumer contract → identity/capability → authorization/policy → P0-05 → P0-04 State Authority → event → observers. Consumer, plugin, AI, cloud, runtime and telemetry cannot create direct or fallback mutation authority.
+3. **Proposal is inert data.** A proposal must be explicitly converted into an authorized operation outside the proposal itself; no implicit execution, self-grant or mutation path.
+4. **Delivery semantics are bounded.** No global exactly-once claim; idempotency/replay/delivery guarantees require per-operation contract decisions.
+5. **P0-07 remains a hard dependency boundary.** MH-05 must not infer accepted policy semantics or close its mutation-authorization/API gap by assumption.
+6. **No implementation or qualification performed in this turn.** We only inspected GitHub refs, trees, documents, code/test blobs and exact-SHA status APIs. No tests were run, no workflow triggered, no installation/deployment/infrastructure action or merge occurred.
+
+**Next safe action:** continue with MH-06 in the map's dependency order. Preserve the MH-05/P0-05 status distinction and unresolved P0-03/P0-07 provenance; do not promote MH-05 to ACCEPTED/FROZEN or infer production qualification from the P0-05 record.
