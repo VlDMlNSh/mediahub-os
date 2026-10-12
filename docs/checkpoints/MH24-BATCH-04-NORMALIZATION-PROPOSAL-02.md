@@ -146,7 +146,7 @@ This section narrows the proposal where revision 01 used parent-level or overlap
 | LAI4-02.a–b | 235–236 | Literal local inference and natural-language interaction |
 | LAI4-03.a–b | 237–238 | Literal analysis and user assistance |
 | LAI4-04.a–d | 239–241, 244 | Literal capabilities; use exact individual lines, with line 244 also cross-linked to domain support |
-| LAI4-05.a–e | 242–247 | Literal capability list; map each atom to its own line: search 242; local data work 243; Smart Home 244; media 245; documents 246; local intelligent processing 247. Because six lines are listed, revise child labels/count to six atoms rather than five |
+| LAI4-05.a–f | 242–247 | Literal capability list; map each atom to its own line: search 242; local data work 243; Smart Home 244; media 245; documents 246; local intelligent processing 247. LAI4-06 cross-links Smart Home/media/documents without duplicating the normative atoms |
 | LAI4-06.a | 244–246 | Cross-domain support cross-links only; not a second normative copy of Smart Home/media/documents |
 | LAI4-07.a | 249 | Literal advisory/proposal-producing model and no State Authority |
 | CLAI4-01.a | 255 | Literal distributed computation within trusted cluster |
