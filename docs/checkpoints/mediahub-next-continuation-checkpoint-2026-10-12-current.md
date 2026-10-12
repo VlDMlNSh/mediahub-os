@@ -440,3 +440,16 @@ Resume with `/next`.
 - D6 update: exact P0-05 contract blob inclusion in the accepted governance tree is positively evidenced; the contradictory DRAFT header remains a controlled status reconciliation. This does not approve the P0-07 extension.
 - Map and matrix now link the packet. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP. No tests, runtime, implementation, qualification, infrastructure changes, deployment, migration, merge or main update.
 - Updated map blob SHA `cb9ec4191fff828b68a97cf19beaa944909ef384`; matrix blob SHA `d6e97bb9d922a0509146b3715132b6cfa8d93479`. Re-read checkpoint, map, matrix and packet after update to verify exact SHAs/content.
+
+
+### Latest verified continuation — owner disposition for P0-05 v1.1 candidate D1–D7 (2026-10-12)
+
+- Owner explicitly selected: D1 **C→A**; D2 **C**; D3 **C→A**; D4 **C→B**; D5 **C→B**; D6 **B→A after confirmation**; D7 **C→B**.
+- Recorded in owner register, commit `a14888d72dcb77dacb4c2da0c5bcb50ffc334789`, verified blob SHA `62831d23c5e6bbddc707ec5b197cffba57d6139a`.
+- Added matrix Section 36, commit `f850f51baef616456c6e4d99c00e763dcb439b5c`, verified blob SHA `30dd68e26f6741a29cd9986b94a253cb61d8ec22`.
+- Added map Section 20.118, commit `a9fa9a8ca97262c548483e0070ac78a9487bf9f1`, verified blob SHA `5f3e920c1955e3e2f8f6efa6ec4267ff6cb1e46b`.
+- These are owner-recorded investigation/governance paths only. They do not accept/freeze P0-05 v1.1, approve an API signature, authorize implementation, or unblock P0-07. D6 requires explicit governance confirmation before any controlled header/status correction.
+- Next pass: investigate D1/D2 trust source, caller identity, context authority/lifecycle/freshness/revocation and P0-04/P0-05 boundary from primary sources; independently begin D4 operation-to-canonical-state mapping. D3 depends on trust/replay findings; D5 on joint MH-06/MH-12/MH-13 review; D7 on current versioning/change-control rules.
+- Current `main HEAD` rechecked: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; no change to main. Documentation branch only.
+- P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. No code, tests, runtime, qualification, deployment, migration, infrastructure change or merge was performed.
+- Re-read the updated owner register, matrix, map and this checkpoint from GitHub to verify current content/blob SHAs after the writes.
