@@ -1132,3 +1132,25 @@ Mapping statuses намеренно консервативны: **4 MAPPED**, **
 Источники и SHA включены в сам crosswalk: historical backlog `26163e6f60b44e997560212bf7de9900210b7ed3`, Proposal 02 `7e737c8add9e3453062e9fc459790e7010e55689`, Audit 01 `d0938f14ed4110545118f075175dee3be412097b`, Validation 02 `e21137d8ac230a9ff28f616adcb840e234e5c965`, Review 01 `373530821ae8dcbcf84e953f42e047e99f7810a8`, Product Owner Decision Record `9117098e22c26708d48ca8ba5954669faa209d68`, collision check `d94be92abe9e5cc2da1540d65611bb1a5ed9644b`, B1 `9df4892ed0734050ac79732603d15bb414717310` (main), B2 `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` (main), matrix `8bdd364493ebbe2ef6f87400f80bc7eca8fb95c6` (main), reconciliation report `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc` (main).
 
 **Следующие gates:** независимая построчная проверка crosswalk; atom-level B1/B2 mapping; unresolved GOV-MH24 dispositions; exact full-ID inventory check before final child ID assignment. Canonical backlog/matrix и обе Baselines не менялись. Не выполнялись тесты, qualification, установка, deployment, инфраструктурные/production действия или merge в `main`.
+
+
+## 20.30 Crosswalk draft 01 exact B1 anchor correction
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-SOURCE-ANCHORED-CROSSWALK-DRAFT-01.md`  
+**Update commit:** `d18707275bfdf6bfb41b8a824f38d81a96aebd79`  
+**Read-back blob SHA:** `f9e66b7adde7afeaf6a7fb6ef1a867dee07c1b34`  
+**Статус:** `DOCUMENTARY DRAFT / OPEN`.
+
+При прямой сверке с B1 `main` SHA `9df4892ed0734050ac79732603d15bb414717310` установлено, что строки 256 и 274 — пустые. Точные буквальные якоря для двух записей — §16 line 255 (`CLAI4-01`) и §17 line 273 (`CDAI4-01`). Поля source/classification в crosswalk уточнены, исходные документы не переписывались. Это точечная коррекция двух якорей, а не доказательство полной семантической полноты 48 записей.
+
+## 20.31 Crosswalk draft 01 — structural review 01
+
+**Артефакт:** `docs/checkpoints/MH24-BATCH-04-SOURCE-ANCHORED-CROSSWALK-REVIEW-01.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `33c8a7015e4ea3b0e45211538bda6b5fbd43bdde`  
+**Read-back blob SHA:** `ea64aadc42244fe93a89735e7c0d8bce16b662d2`  
+**Статус:** `STRUCTURAL REVIEW PASS / SEMANTIC MAPPING OPEN — CROSSWALK NOT APPROVED`.
+
+Read-back review подтвердил: 48 строк, 48 уникальных исторических parent IDs, ровно 12 полей на строку, пустых ячеек нет; распределение parent-level mapping statuses — 4 `MAPPED`, 3 `NO_DIRECT_COUNTERPART`, 41 `NOT_REVIEWED`, 0 `CONFLICT`; `UI4-04` остаётся `HOLD / CROSS-LINK-ONLY`. Проверены SHA B1/B2 и исправление двух exact source anchors.
+
+**Ограничение:** review является структурной проверкой с ограниченной source-line spot-check, а не независимой семантической квалификацией всех атомов. Parent-level statuses не заменяют child-level mapping; доменные владельцы, canonical contracts, критерии приёмки, реальные evidence refs и оставшиеся GOV-MH24 decisions открыты. Canonical backlog, matrix и обе Baselines не изменялись; тесты/qualification, installation, deployment, infrastructure/production и merge в `main` не выполнялись.
