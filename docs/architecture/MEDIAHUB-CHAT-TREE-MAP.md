@@ -3469,3 +3469,22 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - P0-07 remains blocked according to the current MH-23 qualification matrix previously inspected on its specialized branch; no fresh P0-07 execution was verified in this pass.
 - No tests, qualification, workflow dispatch, migration, restore, runtime/host inspection, installation, infrastructure change, merge or cherry-pick occurred.
 - Next safe step: reconcile MH-23's branch-specific gate matrix with current-main MH-16/MH-22 evidence by a revision-bound crosswalk, then request governance decisions for the missing gates. Do not infer acceptance from architecture completion, source presence or workflow definitions.
+
+
+### 20.97 Unified architecture and deployment contract draft (2026-10-12)
+
+**New document:** `docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md`
+- Initial commit: `dc1421580623d30a105b9ae70f576fc9a2740411`
+- Blob SHA after GitHub read-back: `c5763bde0947c84a45ae80e16fab721fc27cd4d5`
+- Status: `PROPOSED / CROSS-DOMAIN RECONCILIATION DRAFT / NOT ACCEPTED / NOT FROZEN`.
+- Scope: local user MediaHub, local developer environment, local developer compute fabric, Cloud Development Fabric, component admission, installation phases, qualification gates and cross-chat responsibility map.
+- It explicitly identifies Baseline 2.0 SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` as current functional authority and Baseline 1.0 SHA `9df4892ed0734050ac79732603d15bb414717310` as historical provenance; no implicit reconciliation.
+- It preserves domain status: MH-14 persistence implementation not authorized; MH-15 implementation/acceptance not authorized; MH-16 governance pending/implementation blocked; MH-21 not accepted/not frozen; MH-22 production not qualified/NO-GO; P0-07 remains a blocker pending fresh evidence.
+- Component table follows the canonical manifest and keeps TARGET-GATED/FUTURE-GATED/reference candidates gated. It does not activate PostgreSQL, pgvector, Home Assistant, restic, RAUC, Ray, containerd/OCI, Netmaker/WireGuard, NATS, etcd, Temporal, Harbor or Kubernetes.
+- It gives a 14-phase deployment plan from scope/inventory through host qualification, trust/bootstrap, build/supply chain, runtime, gated persistence/recovery, services/integrations, AI, networking/cloud, developer fabric, update/restore, qualification and operations.
+- It contains deployment manifest requirements, G0-G9 cross-domain gate matrix, proposed chat/domain ownership map, open decisions and explicit non-authorizations.
+- The document does not supersede domain primary sources and does not authorize installation, tests, workflow dispatch, infrastructure changes, migration/restore, deployment, production promotion or merge.
+
+**Cross-chat answer:** the repository already has a project map and domain documents, but architecture is not yet one accepted, revision-bound deployment contract and is not automatically synchronized into every separate chat. The draft makes the relationship explicit; domain chats still must validate their own contracts and report findings. “Jarvis” is treated as the user-facing name for ASTRA/MediaHub, not a new authority.
+
+**Next safe action:** perform a revision-bound source crosswalk for the draft's domain allocation, starting with MH-15/MH-16/MH-21 and component manifest, then inspect the MH-24 traceability matrix. Record conflicts/unknowns, but do not change Baseline 2.0 or activate gated components without explicit owner/governance decisions.
