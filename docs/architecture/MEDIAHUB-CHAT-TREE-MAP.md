@@ -2148,3 +2148,45 @@ B1, B2, historical audits, matrix row 22, atomic backlog, canonical backlog and 
 - Passport v3 and Contract 01 still require a later bounded pointer-reconciliation pass to incorporate Batch 14; their current read-back SHAs at this inventory were Passport `d4b742ea5e55ae23472cb285bf39bc29cbbb359c` and Contract `dd9479cb22561380657f738fabe2a348c51ad512`. This map update does not imply those synthesis artifacts have been updated.
 
 **Next safe action:** reconcile Batch 14 into Passport v3 and Contract 01 only after checking their relevant sections and dependencies; then read back both files and refresh the map pointers. After that, inventory B1 §24 and candidate paths before considering the next crosswalk. Continue MH-01…MH-25 restoration independently; this entry does not complete the full map.
+
+
+## 20.68 Live pointer reconciliation and B1 §24 Document System inventory
+
+**Date:** 2026-10-12  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Status:** LIVE READ-BACK CORRECTS STALE §20.67 POINTERS / B1 §24 SOURCE INVENTORY COMPLETE / NO BATCH 15 FOUND IN CURRENT REF
+
+### Current synthesis pointers verified from live files
+
+| Artifact | Path | Current blob SHA | Verified finding |
+|---|---|---|---|
+| System Passport v3 | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` | `7a875e16243fa0bf5324c0a998661ea6cbafe60e` | P-28 / AT-16 already records Batch 14 and its open conditions |
+| Verifiable Architecture Contract 01 | `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` | `9924a6ec1eb77f651bb2f58a2f7432378953c8e7` | ARC-035 / V-28 already records Batch 14 and AT-16 |
+| Batch 14 draft | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-14-MEDIA-SYSTEM-DRAFT.md` | `d05218ff37d217016135beb8bc7a559686ec5933` | 14 provisional labels; 13 MAPPED / 1 NOT_REVIEWED |
+| Batch 14 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-14-MEDIA-SYSTEM-REVIEW-01.md` | `5774a1fc87605296ba4adb6e2ef5014ffeb7d09f` | Bounded structural/source-anchor/status review PASS; owner acceptance OPEN |
+
+The SHA values `d4b742ea5e55ae23472cb285bf39bc29cbbb359c` and `dd9479cb22561380657f738fabe2a348c51ad512` recorded in §20.67 were stale by the time of this live read. Preserve that historical snapshot, but use the current SHAs above for future edits. Passport and Contract already contain the Batch 14 updates; no redundant edit to either file is warranted in this pass.
+
+### B1 §24 source and dependency inventory
+
+| Source | Ref | Blob SHA | Relevant anchor/status |
+|---|---|---|---|
+| Baseline 1.0 | `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` | `9df4892ed0734050ac79732603d15bb414717310` | §24, lines 391–397 |
+| Baseline 2.0 | `docs/checkpoints/mediahub-functional-baseline-2.0.md` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | §16 Documents and Knowledge; OCR/classification/metadata/search/provenance/knowledge extraction/workflows are represented at a general functional level |
+| Semantic Audit Batch 04 | `docs/checkpoints/MH24-SEMANTIC-AUDIT-BATCH-04.md` | `e7f35460e3bf32cc3fce8b4584848907d07a7943` | Existing high-level `DOCUMENT-SYSTEM-01` finding preserved |
+| Atomic traceability backlog | `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-01.md` | `ec2580f714e8f620bcf85ff7de2ae9242439e5e8` | AT-17 remains OPEN—OWNER DECISION |
+| Traceability matrix | `docs/checkpoints/mediahub-mh24-traceability-matrix.md` | `73377891072bac3c739c44055ceeb0874154f64c` | Row 24 is a section-level summary; no implementation/qualification evidence is implied |
+| Product Owner Decision Record 01 | `docs/checkpoints/MH24-BATCH-04-PRODUCT-OWNER-DECISION-RECORD-01.md` | `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd` | D-05 approves the 12-field record schema and mapping vocabulary only; it does not approve Document System semantics, PaddleOCR, pricing or entitlement |
+
+### §24 findings and limitations
+
+- B1 §24 defines a professional/paid Document System and lists documents, OCR, classification, search, metadata, provenance, knowledge extraction, document workflows and structured information.
+- PaddleOCR is an example candidate explicitly conditioned on security, licensing and provenance qualification. Its mention in B1 is not approval to install, adopt or qualify it.
+- B2 §16 generally represents OCR, classification, metadata, search, provenance, extraction and workflows. That category-level correspondence does not decide the paid entitlement model, feature-to-edition matrix, lock/unlock enforcement, offline behavior, expiry/revocation or reinstall/device-transfer cases.
+- Semantic Audit Batch 04 identifies these distinctions as open; AT-17 specifically remains OPEN—OWNER DECISION. MH-19 acceptance and runtime evidence remain unaccepted/unknown in the audited sources.
+- A recursive tree snapshot at commit `37f8e7afa92717adce349b0fe9b76e2305dbdc0a` and repository code searches for `DOCUMENT SYSTEM BATCH 15`, `BATCH-15-DOCUMENT-SYSTEM`, `Document System §24`, and `DOCUMENT-SYSTEM-01` did not locate an existing Batch 15 crosswalk in the searched working-ref tree/index. This is scoped evidence, not proof that no similar artifact exists on any branch or under any arbitrary name.
+- No Batch 15 artifact was created in this inventory step. Before creation, the next bounded action is to transcribe B1 §24 atoms into provisional labels under the existing 12-field schema, cite B2 §16 precisely, keep PaddleOCR and paid-entitlement decisions open, and run a separate structural/source-anchor review. Do not assign final child IDs or promote AT-17.
+
+**No changes to Passport, Contract, B1, B2, matrix, AT backlog, canonical backlog or `main` were made by this inventory step.** No installation, tests, qualification, deployment or infrastructure action occurred.
+
+**Next safe action:** create the minimal Batch 15 documentary draft for B1 §24 only after preserving the above scope and provisional-ID constraints; then independently review it and integrate only confirmed facts into Passport/Contract and this map.
