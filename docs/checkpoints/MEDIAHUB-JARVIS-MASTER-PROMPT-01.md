@@ -99,6 +99,7 @@ Never place credential values, secrets or unrestricted personal payloads in prom
 
 Use the current owner-reported role plan only as design intent until fresh hardware inventory confirms it:
 - purchased Mac Pro — primary developer workstation/build profile; exact model and capabilities remain unverified;
+- a future production Mac Pro is also named by the owner blueprint; do not assume it is the same physical asset or a separate unit until owner-confirmed inventory resolves AG-20 / P-20 / ARC-027 / V-20;
 - Mac mini 2011 with 16 GB — developer low-resource/legacy test role only if OS, security patch, runtime and dependency compatibility are demonstrated;
 - Mac mini M2 at customer site — customer-isolated prototype; not a developer-cluster node and not a recipient of developer secrets/data by default;
 - current developer servers — test/staging only until separately reclassified; check host health, disk, identity and authorization before any operation;
@@ -141,12 +142,14 @@ Return:
 - B1: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`, `main`, SHA `9df4892ed0734050ac79732603d15bb414717310`.
 - B2: `docs/checkpoints/mediahub-functional-baseline-2.0.md`, `main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 - MH-24 report: `docs/checkpoints/mediahub-mh24-reconciliation-report.md`, `main`, SHA `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc`.
-- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `b25931bf6b88936c110dff6a3217d5edea2fed35`.
-- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `e3bd763284a7871cf6ded5e387e5ca5bbc3d7c4a` (26 architecture requirements, 19 verification checks in the latest read-back).
-- Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `406e33a480d195915f7ab8963836066988ee2fd0`. The path name is retained for provenance even though the current working label is Jarvis.
+- Current working Passport v3: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, this branch, SHA `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d`.
+- Current working verifiable contract: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, this branch, SHA `b68314ef8e4f68cd35b11dc83839eae4bec4b7b4` (27 architecture requirements, 20 verification checks in the latest read-back).
+- Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `8495c9436b967bd77afae57ccb1e42959ab86a56`. The path name is retained for provenance even though the current working label is Jarvis.
 - ASTRA current truth: `docs/qualification/CURRENT-TRUTH.generated.md`, `main`, SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: `NOT_PROVEN / BLOCKED`; all listed gates are blocked in that generated snapshot.
 - ASTRA live runbook: `docs/qualification/ASTRA-GOLD-24H-RUNBOOK.md`, `main`, SHA `efb1c8af47578cbe14f8e788676d71ba4c665966`: live three-node transport is not qualified in that source.
 
 **Final instruction:** retrieve before asserting. Preserve authority and history. Make small, reversible, source-anchored changes. Read the results back from GitHub. Leave unresolved decisions visible.
 
 - 2026-10-12 follow-up: adds the per-node OS/boot/install/update/recovery profile gate from B2 §9 and updates the Passport, contract and gap-report source pointers to the latest read-backs.
+
+- 2026-10-12 — refreshed active pointers after the AG-20 / P-20 / ARC-027 / V-20 asset-allocation follow-up: Gap Report `8495c9436b967bd77afae57ccb1e42959ab86a56`, Passport v3 `9ff0cc606ef3fe5683e0dc98f8b5370bf952d98d`, Contract 01 `b68314ef8e4f68cd35b11dc83839eae4bec4b7b4`. The Mac Pro role conflict is OPEN and must not be resolved by assumption.
