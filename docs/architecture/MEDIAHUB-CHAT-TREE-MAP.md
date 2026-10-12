@@ -1787,7 +1787,7 @@ An active traceability summary was added to the master prompt for the Batch 01�
 **Ref:** `docs/mediahub-chat-tree-map-20261012`  
 **Status:** `DOCUMENTARY SOURCE-POINTER CORRECTION / READ-BACK VERIFIED`
 
-A read-back of §20.55 found five unexpanded JavaScript template placeholders in the map text: two occurrences of `${actual.union}`, and one each of `${actual.gap}`, `${actual.passport}` and `${actual.contract}`. The entries were intended to record verified GitHub blob SHAs but had been written literally. They are now replaced by the exact source SHAs verified in this session:
+A read-back of §20.55 found five unexpanded JavaScript template placeholders in the map text: two union-SHA templates, and one each for the gap-report, passport and contract SHAs. The entries were intended to record verified GitHub blob SHAs but had been written literally. They are now replaced by the exact source SHAs verified in this session:
 
 - Batch 01–08 atom-level crosswalk union review: `e9ccafef5a3cca75f41e84bf3c4397dcc2285fd4`.
 - Jarvis blueprint gap reconciliation: `39720b11e5e6777b86ffd71e0fec1214982e0d95`.
@@ -1795,6 +1795,6 @@ A read-back of §20.55 found five unexpanded JavaScript template placeholders in
 - Verifiable Architecture Contract 01: `8ccfaecca11a12a630f7c004540cef7dc83354c2`.
 - Jarvis Master Prompt 01: `7b163aa5f222029d27b5d32d0450f8a9c08c21ba`.
 
-**Verification:** map update was read back from GitHub; all five placeholder occurrences were removed. The pointer values above match the current fetched blob SHAs for the corresponding artifacts. No architecture rule, baseline, crosswalk status, runtime, host, infrastructure, release or qualification state changed. No tests, installation, qualification, deployment or merge to `main` was performed.
+**Verification:** map update was read back from GitHub; no unexpanded interpolation template remains in the map. The active §20.55 pointer values match the current fetched blob SHAs for the corresponding artifacts. No architecture rule, baseline, crosswalk status, runtime, host, infrastructure, release or qualification state changed. No tests, installation, qualification, deployment or merge to `main` was performed.
 
 **Next safe step:** independent semantic review of the working Jarvis passport/contract and the open atom-level crosswalks remains separate from this mechanical pointer correction; no canonical promotion is implied.
