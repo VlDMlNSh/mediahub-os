@@ -147,6 +147,7 @@ Return:
 - Jarvis blueprint gap reconciliation: `docs/checkpoints/MEDIAHUB-ASTRO-BLUEPRINT-GAP-RECONCILIATION-01.md`, this branch, SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`. The path name is retained for provenance even though the current working label is Jarvis.
 - Current finding inventory: 21 scoped AG findings including AG-21 / P-21 / ARC-028 / V-21; the B1-15-13→B2 §19 defect is a historical cross-reference error, corrected only in the current working crosswalk (B2 §§16/18). Audit 01 is preserved unchanged.
 - Batch 06 Local AI crosswalk: `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-06-DRAFT.md`, this branch, SHA `9df96aca53d1004c33d45f038501dc6b7f52c0c9`; structural review SHA `1edc976dd663ae16a1b61876a2dbbde9411be095`. Audit 01’s B2 §19 pointer for B1-15-13 is a confirmed source-reference defect; the working crosswalk points to B2 §§16/18 and preserves Audit 01 history.
+- Batch 01–08 atom-level crosswalk union review: docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-UNION-REVIEW-01.md, this branch, SHA e9ccafef5a3cca75f41e84bf3c4397dcc2285fd4. Verified 153/153 unique Audit 01 traceability labels and the approved 12-field schema; mapping totals 23 MAPPED / 119 NOT_REVIEWED / 11 NO_DIRECT_COUNTERPART / 0 CONFLICT. Semantic owner acceptance and canonical-backlog promotion remain OPEN.
 - ASTRA current truth: `docs/qualification/CURRENT-TRUTH.generated.md`, `main`, SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: `NOT_PROVEN / BLOCKED`; all listed gates are blocked in that generated snapshot.
 - ASTRA live runbook: `docs/qualification/ASTRA-GOLD-24H-RUNBOOK.md`, `main`, SHA `efb1c8af47578cbe14f8e788676d71ba4c665966`: live three-node transport is not qualified in that source.
 
@@ -164,3 +165,4 @@ Return:
 
 - 2026-10-12 — refreshed active Jarvis context pointers after reconciling the Gap Report to 21 scoped findings: Gap Reconciliation `39720b11e5e6777b86ffd71e0fec1214982e0d95`, Passport v3 `327089a0780e85a053c3d56c185c22d2e76857ae`, Contract 01 `8566e3a3817b82d17711349cab9fa962df57e28c`. Older active-pointer snapshots remain in dated history as provenance. No baseline, runtime or main branch changed.
 - 2026-10-12 — refreshed active Passport v3 and Contract 01 refs after the P-13 source-pointer correction; historical pointer snapshots remain preserved above.
+- 2026-10-12 — added the Batch 01–08 union review as the active traceability summary (union-review SHA e9ccafef5a3cca75f41e84bf3c4397dcc2285fd4); semantic acceptance remains open and no canonical backlog was promoted.
