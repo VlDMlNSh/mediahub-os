@@ -266,3 +266,56 @@ MH-24 и MH-25 подтверждены контрольными докумен�
 3. Сопоставить список «master prompt / reverse prompt / decision / evidence / acceptance / freeze» и отметить реальные пробелы.
 4. Отдельно разобрать происхождение метки «Architecture Audit» и проверить, не относится ли она к MH-25/MH-24 reconciliation или иному audit package.
 5. В итоговой карте указать дату проверки refs, чтобы будущая сессия начиналась с проверенного снимка, а не с повторения старых предположений.
+
+
+## 11. Проверка точных путей в main — реестр prompt-файлов (2026-10-12)
+
+### 11.1 Подтверждённые файлы в main
+
+Ниже указаны точные пути и blob SHA, полученные прямым чтением GitHub `main`. SHA фиксирует проверенную версию файла, а не квалификационный статус домена.
+
+| Домен | Файл в main | Blob SHA | Примечание |
+|---|---|---|---|
+| MH-03 | `architecture/MH-03-master-prompt.md` | `e99035f596e236645bf8f2235fc4d375716ce476` | Файл находится вне `docs/architecture/`; поиск только в docs давал бы ложное отсутствие. |
+| MH-06 | `docs/architecture/MH-06-CHAT-MASTER-PROMPT.md` | `6940d601e968b196d8c46366bfd83ee0bdef79e4` | Найден также `docs/architecture/MH-06-REVERSE-MASTER-PROMPT.md`, SHA `5d7a9e4eb2d9d92177eb7fa71b770aee352c185d`. |
+| MH-10 | `docs/architecture/MH-10-CHAT-MASTER-PROMPT.md` | `6ea847ddbf1604878303572b21b506102b23c930` | Master prompt найден. Наличие отдельного reverse prompt этой проверкой не установлено. |
+| MH-12 | `docs/architecture/MH-12-CHAT-MASTER-PROMPT.md` | `dea79d709fea274cc5fd08cca4f0d6aec2ad6d93` | Master prompt найден. |
+| MH-13 | `docs/architecture/MH-13-master-prompt.md` | `de00bea7f972fca30295c0855b0d324f845c0bc4` | Найден reverse prompt `docs/architecture/MH-13-reverse-master-prompt.md`, SHA `d590b6541870d3f77fbb1e48159b78d5d2f1f203`. |
+| MH-15 | `docs/architecture/MH-15-CHAT-MASTER-PROMPT.md` | `2ee7dde1b625305c2b04f2c8e5269bd8aff459cd` | Master prompt найден. |
+| MH-16 | `docs/architecture/MH-16-master-prompt.md` | `62924d4686aa3f55fce442a3c4bab66c82ae19e5` | Сам заголовок указывает на combined Master Prompt / Reverse Master Prompt; отдельный reverse-файл не требуется считать обязательным без проверки содержимого/контракта. |
+| MH-17 | `docs/architecture/MH-17-master-prompt.md` | `a750ee5b292043a1f1b18ec317a4b5b2c44aad24` | Найден reverse prompt `docs/architecture/MH-17-reverse-master-prompt.md`, SHA `13cb56ec5a96aa7d420aa7755cf420e5cc8fe2c2`. |
+| MH-20 | `docs/architecture/MH-20-CHAT-MASTER-PROMPT.md` | `0f185752a288ef494d3217d501c4cb64a2cff46f` | Найден reverse prompt `docs/architecture/MH-20-REVERSE-MASTER-PROMPT.md`, SHA `04b3137a19b3f25f69fa5172965b4999948cb266`. |
+| MH-21 | `docs/architecture/MH-21-CHAT-MASTER-PROMPT.md` | `61d552db4d1a1abefa2cef9f44eebcf634d11111` | Master prompt найден. |
+| MH-22 | `docs/architecture/MH-22-master-prompt-interface.md` | `9278e49d453bf1a6a68d40f99b842fcf52ad216d` | Единый интерфейс Master Prompt / Reverse Master Prompt. |
+
+### 11.2 Контрольные документы в main
+
+| Путь | Blob SHA | Статус/роль |
+|---|---|---|
+| `docs/checkpoints/mediahub-mh25-stage-reconciliation.md` | `6efbd86287357698370c17df909ea7303d616264` | Исторический inventory MH-01…MH-24; не заменяет проверку актуального состояния доменов. |
+| `docs/checkpoints/mediahub-mh24-reconciliation-report.md` | `d07d162ebaa57643a7bdd84d6fb13a1102b87bfc` | Отчёт MH-24. |
+| `docs/checkpoints/mediahub-functional-baseline-2.0.md` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Канонический Functional Baseline 2.0. |
+| `docs/checkpoints/mediahub-master-architecture-reconciliation.md` | `f3a66e292302984be95ae8085f17e03cd538baae` | Историческая сверка мастер-архитектуры. |
+
+### 11.3 Проверенные пути, не найденные в main
+
+Следующие **точные пути** дали NOT_FOUND в `main`; это не означает, что домен или документ отсутствует во всём репозитории.
+
+- MH-01: `docs/architecture/MH-01-ARCHITECTURE-CHAT-CHARTER.md`, `docs/architecture/MH-01-chat-qualification-blueprint-2026-09-30.md` — ранее найдены в специализированной ветке MH-01 v2, но не по этим путям в main.
+- MH-02: `architecture/mh-02/MH-02-MH01-MH23-map.md` — найден в `architecture/mh-02-reference`, не найден по тому же пути в main.
+- MH-04: проверенные пути `docs/architecture/MH-04-master-prompt.md`, `MH-04-CHAT-MASTER-PROMPT.md`, `MH-04-REVERSE-MASTER-PROMPT.md` не найдены. Полный MH-04 пакет ранее найден в `architecture/mh-04-security-trust-authorization`; точные пути следует извлекать из tree/diff этой ветки, а не предполагать.
+- MH-05: `docs/architecture/MH-05-consumer-integration-boundary.md` и `MH-05-CHAT-MASTER-PROMPT.md` не найдены по этим путям в main. Документ consumer integration boundary найден в специализированной ветке.
+- MH-07: `docs/architecture/MH-07-master-prompt.md` не найден; подтверждён вариант `docs/architecture/MH-7-master-prompt.md` в ветке MH-07.
+- MH-08: `docs/architecture/MH-08-CHAT-MASTER-PROMPT.md` не найден по точному пути; требуется искать альтернативное написание MH-8 и другие каталоги.
+- MH-09: варианты `docs/architecture/MH-09-master-prompt.md` и `MH-09-reverse-master-prompt.md` не найдены по этим путям в main; оба файла найдены в ветке `architecture/mh-09-presentation-ui`.
+- MH-11: `docs/architecture/MH-11-INDEX.md`, `MH-11-CHAT-MASTER-PROMPT.md`, `MH-11-REVERSE-MASTER-PROMPT.md` не найдены по этим путям в main; они найдены в ветке `architecture/mh-11-diagnostics-observability`.
+- MH-14: `docs/architecture/MH-14-CHAT-MASTER-PROMPT.md` не найден по точному пути.
+- MH-18: `docs/architecture/MH-18-media-content-architecture.md` не найдено в main; найдено в MH-18 специализированной ветке и помечено PROPOSED / NOT ACCEPTED / NOT FROZEN.
+- MH-19: `docs/architecture/MH-19-CHAT-MASTER-PROMPT.md` не найдено по точному пути в main; пакет найден в специализированной ветке MH-19.
+- MH-23: `docs/architecture/MH-23-CHAT-MASTER-PROMPT.md` и `MH-23-REVERSE-MASTER-PROMPT.md` не найдены по точным путям в main; найдены в `architecture/mh-23-long-term-evolution`.
+
+Для MH-02/MH-04/MH-05/MH-07/MH-08/MH-09/MH-11/MH-14/MH-18/MH-19/MH-23 необходим следующий шаг: получить полный список путей конкретной ветки, затем сравнить blob SHA и историю с main. Нельзя автоматически копировать документы только потому, что ожидаемый путь отсутствует.
+
+### 11.4 Статус реестра
+
+Это первый реестр с проверенными main paths и blob SHA, а не завершённая canonicalization. Master prompt existence, branch-only package, governance acceptance, freeze, implementation, tests and production qualification остаются разными фактами. На момент этой проверки main не изменялся.
