@@ -207,3 +207,37 @@ This matrix may become an accepted cross-domain contract only after:
 - Observed `main` HEAD: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
 - This is a documentary cross-domain synthesis only. No tests, qualification, provider calls, model/runtime invocation, installation, purchase, infrastructure change, host inspection, deployment, migration, or merge were performed.
 - Status remains **NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED / NOT QUALIFIED**.
+
+
+## 12. Revision-bound source crosswalk — MH-10 and MH-21 (2026-10-12)
+
+Status: **PARTIAL / SOURCE-BOUND / OWNER ACCEPTANCE OPEN**. This pass re-read the exact primary source files on `main`; this section does not claim exhaustive domain coverage or acceptance.
+
+| Stable requirement ID | Primary source and revision | Requirement / invariant | Dependency / responsible domain | Acceptance evidence required | Current state / unresolved issue |
+|---|---|---|---|---|---|
+| JARVIS-AI-01 | `docs/architecture/MH-10-acceptance-criteria.md` @ `main`, blob `7c0746defea6635494208e04bf940579b254a25f`, criteria 1–7 | AI output is data, not command or canonical state; policy + authorization precede mutation; Consumer Boundary mandatory; tools cannot self-grant; confidence and retrieved content do not grant authority | MH-10; State Authority; Policy; Authorization; Consumer Boundary; security boundary | Trace every mutation path and show enforced deny cases, authority separation, prompt/tool-injection tests, and governance approval | `NOT ACCEPTED / NOT FROZEN`; no test or runtime evidence collected in this documentary pass |
+| JARVIS-AI-02 | Same MH-10 source, criteria 8–15 | Local/cloud models are untrusted until qualified; egress classified, bounded, authorized and observable; critical operations cannot rely solely on AI; safe deterministic/manual degradation; model provenance/rollback; resource/privacy/audit controls | MH-10; MH-6; MH-13; MH-21; model supply chain and observability | Model inventory/provenance, resource budgets, data-flow/egress evidence, offline/failure scenarios, privacy/retention controls, rollback record | Open; Claude access mode, Ollama placement/router, model qualification and data classes are not yet decided/evidenced |
+| JARVIS-AI-03 | Same MH-10 source, criteria 16–20 | Security/red-team coverage, cross-chat contradiction disposition, closure of production-critical unknowns, traceability to MH-1…MH-10 and P0-03…P0-07, explicit governance freeze commit | MH-10 governance; security; MH-24 traceability; P0 boundaries | Reviewed test plan/results, contradiction register, closed requirement links, signed/explicit acceptance and freeze commit | Open; this pass did not run tests, qualify components, or accept/freeze MH-10 |
+| HYBRID-AI-01 | `docs/architecture/MH-21-hybrid-cloud-distributed-ai.md` @ `main`, blob `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c`, “Canonical principle” and “Method” | Hybrid cloud is external compute, not authority; local/remote AI, agents, RAG, providers, GPUs and tools are compute; output stays data until local validation and controlled authority chain | MH-21; MH-10; State Authority; Policy → Authorization → Consumer Boundary | Architecture/data-flow review and negative evidence that no external component can mutate canonical state directly | `ARCHITECTURE WORK AUTHORIZED / NOT ACCEPTED / NOT FROZEN`; no implementation inference |
+| HYBRID-AI-02 | Same MH-21 source, “Mandatory boundaries” | Identity/authentication/authorization/capability/trust/authority are distinct; egress is classified/minimized/authorized; arbitrary egress/provider fallback forbidden; cloud failure preserves safe local operation | MH-21; identity/trust; privacy/security; local-first runtime | Egress policy matrix, provider allowlist, deny-by-default tests, audited routing/failure behavior and offline acceptance evidence | Open; explicit no-silent-fallback invariant retained; provider/data-egress enforcement not verified |
+| HYBRID-AI-03 | Same MH-21 source, “Placement” and “Acceptance” | Placement is policy-driven across LOCAL, REMOTE_TRUSTED, REMOTE_UNTRUSTED, PROVIDER_API, OFFLINE, BLOCKED; no accepted/frozen/production-ready claim without complete evidence | MH-21; MH-10; MH-22 qualification | Workload placement table, data classification, policy decisions, observability/failure/security test evidence, governance acceptance | Open; user direction establishes Claude-centered Jarvis plus local Ollama as a desired direction, not a frozen topology |
+
+### Cross-domain decisions preserved as OPEN
+
+1. **Claude access surface:** not selected (e.g. approved provider API versus an explicitly approved Claude-operated engineering interface). Do not infer credentials, invoke a provider, or send project data externally.
+2. **Routing topology:** not selected between Claude-as-operator with a separately invoked local Ollama tool and a per-task policy router. Claude is not an Ollama-hosted model.
+3. **Data egress classes:** define which task/data classes may reach a remote provider, required minimization/redaction, retention and audit; default remains no external egress without explicit policy authorization.
+4. **Model/tool trust:** Claude/Ollama outputs remain untrusted data; neither model may grant itself tools, permissions, or authority.
+5. **Acceptance boundary:** MH-10/MH-21 remain unaccepted/unfrozen; no qualification or production readiness is claimed.
+
+### Source availability limitation
+
+The map points to canonical component-manifest blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` on `main`, but the candidate path attempted in this pass did not resolve through the repository contents API. The P0-07 path recorded by the map likewise returned 404 on the selected ref. Their mapped blob/path must be resolved via the map's branch/source navigation before any conclusions about their current contents; this is a retrieval limitation, not evidence that the documents are absent from the repository. These sources are **not** marked reviewed in this crosswalk.
+
+### Work performed and limits
+
+- Re-read bootstrap, map, checkpoint, matrix, parent contract, Baseline 2.0, MH-10 acceptance criteria and MH-21 hybrid/cloud architecture.
+- Baseline 2.0 remains `ACCEPTED / CANONICAL / IMMUTABLE`; Baseline 1.0 remains historical provenance.
+- `main HEAD` observed from the repository's recent commit listing: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; this pass did not change `main`.
+- No tests, qualification, provider/model calls, credentials, installation, host inspection, infrastructure change, deployment, migration or merge occurred.
+- Matrix remains **PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED / NOT QUALIFIED**.
