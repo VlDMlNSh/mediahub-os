@@ -2774,3 +2774,53 @@ The prior 20.75 next-step wording “MH-04 State Authority inventory” is impre
 12. No tests, qualification, source implementation, provider configuration or infrastructure changes occurred in this pass.
 
 **Next safe action:** proceed to MH-14 Persistence / Durable Lifecycle via the current map and branch-specific primary sources. Reconcile retention/deletion, backup/restore, residency and data lifecycle with MH-13 without making MH-13 the persistence authority. Keep production implementation NOT AUTHORIZED and frozen status NO until explicit governance and evidence gates are satisfied.
+
+## 20.86 MH-14 Persistence / Durable Lifecycle — architecture source audit
+
+**Date:** 2026-10-12  
+**Inspected ref:** `main`, HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.  
+**Status:** `ARCHITECTURE WORK IN PROGRESS`; physical persistence implementation **NOT AUTHORIZED**. Read-only documentary audit; only this project map was updated.
+
+### Primary sources and refs
+
+| Source | Blob SHA | Confirmed fact |
+|---|---|---|
+| `docs/architecture/MH-14/README.md` | `6d33890fc85d87547bcaa25cf94a57dab0a8a54e` | Names canonical architecture baseline; storage technology TBD; WAL/journal TBD; RPO/RTO TBD; backup and recovery unverified; hardware/storage facts require verification. |
+| `docs/architecture/MH-14/MH-14-master-prompt.md` | `16f907df88c471df00666d71e6b2d613a0f60918` | Persistence is a storage mechanism, not canonical authority; restore must be authorized, validated and mediated by State Authority; backup is not HA; no physical implementation authorization until separate gate. |
+| `docs/architecture/MH-14/MH-14-reverse-master-prompt.md` | `9a0aa4958e9d1d7f753021c3cea9dd2998cd8268` | Development findings must return with evidence, tests, observed behavior, privacy/security/recovery impact and requested decisions; report alone does not change architecture. |
+| `docs/architecture/MH-14/MH-14-persistence-architecture.md` | `5e14084033f417722a1b04b5d5d47649dcfcda48` | Architecture work in progress; contract is implementation-neutral; persisted data is a candidate, not canonical state; durability semantics and physical guarantees require evidence. |
+| `docs/architecture/MH-14/MH-14-acceptance-criteria.md` | `364bb2a949e11f191b71a35af482f18de4ef2827` | NOT YET ACCEPTED / FROZEN. Gates include consistency, atomicity, crash/power-loss, restore, backup, RPO/RTO, corruption, encryption, privacy retention/deletion, migration, isolation, offline behavior, hardware evidence and separate implementation authorization. |
+| `docs/architecture/MH-14/MH-14-decision-log.md` | `a2f49b9f4e09e3d2becdc2e72807319674a30239` | D001 State Authority sole mutation authority ACCEPTED; D002 physical technology OPEN; D003 candidate-state recovery ACCEPTED; D004 backup != HA ACCEPTED; D005 restore verification required ACCEPTED; D006 RPO/RTO OPEN/TBD; D009 P0-07 gap not repaired here; D010 no silent durability claim. |
+| `docs/architecture/MH-14/MH-14-unknowns.md` | `722eaa1388ff3e9f6677a2571ae3c61e5611a70a` | Technology, filesystem, WAL, durability, RPO/RTO, backup destination/frequency, restore cadence, storage topology, encryption/key management, migration, corruption recovery, power-loss behavior, UPS, HA, cloud persistence and archival remain open/unknown. |
+| `docs/architecture/MH-14/MH-14-all-passes.md` | `a3503d5ad6a6026676c95ea13a6c14d12f4dc498` | Prior architecture passes describe boundaries and requirements, not proof of physical durability or verified recovery; Recovery Capability explicitly UNVERIFIED. |
+| `docs/architecture/MH-14/MH-14-development-interface.md` | `4aa82b8fe92f8c04260acaab3093cfe1667cf157` | Architecture and implementation tracks are separate; code/test success or convenience does not itself change architecture or authorize a technology. |
+| `docs/architecture/MH-06-persistence-boundary.md` | `16d1d65de433aee0ec91f48dd74b34f787687947` | MH-06 must not create hidden canonical persistence; runtime cache is bounded and non-authoritative. |
+| `docs/architecture/MH-06-recovery-model.md` | `e1e59c0f2646d082374111343be3bd5327f9d07d` | Recovery actions have distinct risk/authorization classes; recovery does not become a second mutation authority. |
+| `docs/architecture/MH-17-persistence-boundary.md` | `95887b588396c58bb75c53c5d8f66ebe5b460b1d` | Device/adapters cannot write canonical persistence directly; historical records remain distinct from current canonical state. |
+| `docs/architecture/MH-12-recovery-security.md` | `fdfb2ae6ecb7cc1ed1daecb18ad12aaf2a1c6149` | Recovery requires separate identity/authorization, trusted artifacts, restore authorization, audit and post-recovery verification. |
+| `docs/architecture/MH-13-privacy-data-governance.md` | `e732ff9cacbc9c1189bd83306cdff30906326cf0` | MH-13 is not persistence authority; retention/deletion and durable copies must respect privacy constraints. MH-13 source status conflict is recorded in entry 20.85. |
+| `docs/architecture/MH-21-data-retention.md` | `8dfe3b619be593c3ec57948e350671895827ae8b` | External retention/deletion/provider guarantees require current contractual evidence. |
+| `docs/architecture/MH-21-data-egress.md` | `242b3090d41f52866889b8c8cf587ff4c95eadb3` | External transfer is proposed as classified, purpose-bound, policy-authorized and bounded; not a cloud-persistence authorization. |
+| Accepted Baseline 2.0 | `docs/checkpoints/mediahub-functional-baseline-2.0.md`; blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Accepted immutable functional reference; acceptance is not implementation, verification, qualification or production authorization. |
+| Historical Baseline 1.0 | `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`; blob `9df4892ed0734050ac79732603d15bb414717310` | Preserved as historical provenance; not silently merged with B2. |
+
+### Reconciled persistence invariants
+
+1. **Sole authority:** State Authority alone owns canonical mutation. Persistence stores/retrieves state representations and cannot authorize mutation or declare stored data canonical.
+2. **Candidate-state recovery:** Physical data must pass integrity, schema and compatibility validation, then be presented to State Authority for authorized restore; recovery code cannot directly promote state.
+3. **Explicit durability semantics:** volatile, buffered, flushed, committed, durable and recoverable are distinct. A successful API return does not prove durable persistence.
+4. **No stale overwrite / partial commit:** version, generation, transaction, schema, format, provenance and integrity metadata must be sufficient to detect stale or incomplete state.
+5. **Backup != HA:** current architecture records single-node/no-HA; replication, clustering and HA require separate governance.
+6. **Restore is privileged:** identity, authorization, integrity/compatibility checks, State Authority mediation and post-restore verification are required.
+7. **Privacy follows durable copies:** retention/deletion requirements apply to backup, snapshot, archive and restored data; MH-13 defines privacy constraints, not persistence ownership.
+8. **Security/key lifecycle:** encryption, key management, trusted artifacts and recovery privilege require MH-12 decisions/evidence.
+9. **No silent technology choice:** database, filesystem, WAL/journal, object store, cloud backend, hardware assumptions, RPO/RTO, backup schedule and retention must not be inferred from convenience.
+10. **P0-07 remains blocked:** MH-14 must not invent a mutation-publication bridge or alter frozen P0-03…P0-06.
+11. **Acceptance vs implementation:** MH-14 acceptance/freeze gates are not satisfied by architecture prose; physical persistence is separately unauthorized, and recovery capability remains unverified.
+12. No tests, restore/backup exercise, physical inspection, implementation, technology selection, infrastructure or deployment action occurred in this pass.
+
+### Bounded negative lookup
+
+Initially queried several MH-14 paths at repository root; they returned 404 because the package is under `docs/architecture/MH-14/`. The canonical package and its sources were then located and read there. This is a path correction, not evidence that the package is absent.
+
+**Next safe action:** proceed to MH-15 OS / Appliance / Platform Lifecycle using map navigation and its primary sources. Preserve the boundary between persistence, OS lifecycle, update/recovery, State Authority and privacy. No physical persistence or platform implementation without explicit authorization.
