@@ -3855,3 +3855,23 @@ Key current consequence: for P0-05 status, verify whether acceptance evidence co
 **Next bounded pass:** start with D1/D2 trust-source and authorization-context provenance; trace source → identity/authority → lifecycle/freshness/revocation → operation binding → P0-05/P0-04 boundary. In parallel only where independent, build the D4 operation-to-canonical-state mapping. Keep D3 binding design dependent on trust/replay findings; keep D5 audit/privacy schema dependent on MH-06/MH-12/MH-13 review; keep D7 versioning scope open pending primary rules.
 
 **Hard blocker unchanged:** P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. No tests, implementation, runtime execution, qualification, deployment, migration, infrastructure change or merge was performed.
+
+
+## 20.119 P0-07 trusted caller/context provenance and operation authority map (2026-10-13)
+
+**Status:** SOURCE-BOUND / PARTIAL / GOVERNANCE OPEN. Detailed traceability is recorded in [Unified Traceability Matrix, Section 37](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob SHA `e6252150b049eb0e1aae098cdabb727df919e773`.
+
+**Primary immutable source revisions read:**
+- P0-07 operation boundary `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`: bounded validation, capability check and policy evaluation returning an inert decision; no persistence/publication/network/external work.
+- P0-07 authorization `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`: exact principal/capability/operation allow-list; no evidence here of who issues/trusts the principal or manages grant lifecycle.
+- P0-04/P0-05 authorization context `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`: principal + capability only in the inspected context definition.
+- P0-07→P0-05 adapter contract `22b8e1897e124578e66c8d619b3e8eaf41f69a88` and reconciliation `04381ce6e223b8632ec15d17e475b56fe1ab8772`: mutation bridge blocked; P0-07 authority is conjunctive with independent P0-04/P0-05 authorization, never a substitute.
+- MH-12 Authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a` and contradiction register `4b3c101317330e47236937b17344299df53deee9`: explicit identity-bound/fail-closed authorization; C-01 unresolved, C-02 blocked.
+
+**Finding:** inspected sources do not establish a trusted caller-to-context issuance path or prove that an independently P0-04-authorized context is available alongside the P0-07 decision. This is limited to inspected sources and does not prove no external caller exists. Consequently D1 remains in its evidence-gathering C stage; D2 remains C.
+
+**D4 operation map:** P0-07 domain operations (`read/validate/propose/update/replace/reset/delete`) are not P0-04 transaction operations (`begin/commit/abort`). The inspected boundary returns a decision and does not itself fetch canonical data or publish state. Validation and inert proposals are candidate non-mutating scope only, not declared accepted/implemented. Read needs an evidenced data path. All update/replace/reset/delete publication remains **BLOCKED** pending an accepted governance/API bridge. No operation subset is promoted to accepted API.
+
+**Next evidence gate:** locate authoritative caller/context issuer and lifecycle source; trace principal identity → grant issuance → freshness/revocation → exact domain operation → independently authorized P0-05/P0-04 transaction. Continue D4 by verifying the data path and candidate non-mutating operations against primary contracts. Do not propose API shape before this evidence is resolved.
+
+No tests, code changes, runtime execution, qualification, deployment, migration, infrastructure change or merge were performed. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains non-normative and not accepted/frozen.
