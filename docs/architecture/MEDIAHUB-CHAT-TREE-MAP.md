@@ -3637,3 +3637,14 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 **Checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `e966e7d11d84535e63c0ec01f85a1cd4d8897a38`, blob SHA `3a6ede1b3114031a83ad3ca6eb5a7838c30a6418`.
 
 **Execution boundary:** documentary reads/writes only; no runtime inspection, tests, provider calls, credentials, installation, infrastructure change, deployment, migration or merge.
+
+
+### 20.108 MH-21 trust, remote execution, privacy and egress crosswalk (2026-10-12)
+
+- **Unified matrix:** `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`; update commit `482e3afcbd4038bee96d02dce07180d12c362950`, blob SHA `c70d542dd88e53f7355725a5000bed904f369333` (read-back verification pending).
+- **Continuation checkpoint:** `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md`; update commit `30431f1c00d99812a487b01046e1076ed7180fe2`, blob SHA `88a899d1f08d95fc26cd39e0d318c27db4d87c11` (read-back verification pending).
+- **Primary sources on `main`:** MH-21 trust model `c061a9964a201d23ad958d0af6b874494edfcea7`; distributed workloads `26de93789e6fc3a354a341c2e22a0f9737e74491`; data classification `555ba650ab758349e1dec2b904f3e047e86f075c`; data egress `242b3090d41f52866889b8c8cf587ff4c95eadb3`; remote execution `be07e761dd394b9ed0b61fc4176d632e769637ed`; security invariants `035e5e8fa7bae98e93727c346cd66d72c864426f`; privacy invariants `4475da53dc87ad1c2ad1c9f112a55211cbfa49eb`; unknowns `a753ea0eebfabf6d3888985bed36fcc186c3624f`; contradiction register `1fa8f5932e2b238f99e0b3203b8d8ece817062bd`; architecture gaps register `13c3a158ed9c925eaefcd6fe106577bc425f765b`.
+- **Crosswalk IDs:** `MH21-TRUST-DOMAIN-01`, `MH21-RESULT-AUTHORITY-01`, `MH21-DATA-CLASS-EGRESS-01`, `MH21-REMOTE-EXEC-ISOLATION-01`, `MH21-UNKNOWN-ENFORCEMENT-01`.
+- **Confirmed:** trust is distinct from identity/authentication/authorization/network reachability; remote workers return bounded results and cannot create canonical state; data classification precedes egress; remote execution remains NOT AUTHORIZED; worker isolation and the shared data taxonomy are unresolved; provider/region/retention/topology/routing/enforcement remain unknown without evidence.
+- **Governance:** no isolation technology, wire protocol, persistence store or provider selected; no gap closed. Matrix remains PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED / NOT QUALIFIED. Baseline 2.0 remains canonical accepted functional reference; this does not authorize implementation or production qualification.
+- **Execution boundary:** documentary reads/writes only; no tests, runtime/host inspection, network probes, provider/model calls, credentials, installation, infrastructure change, deployment, migration or merge.
