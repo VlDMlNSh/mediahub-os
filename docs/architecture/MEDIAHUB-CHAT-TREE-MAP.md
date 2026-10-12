@@ -2734,3 +2734,43 @@ The prior 20.75 next-step wording “MH-04 State Authority inventory” is impre
 10. MH-12's architecture-complete label does not mean governance acceptance, implementation authorization, production qualification or freeze. No test, qualification, code, infrastructure, or deployment action occurred in this pass.
 
 **Next safe action:** continue with MH-13 Privacy / Data Governance via current map navigation and primary sources. Reconcile telemetry, AI/RAG, cloud egress, secrets and retention with MH-12; keep MH-12 at GOVERNANCE REVIEW REQUIRED until explicit approval and required evidence exist.
+
+## 20.85 MH-13 Privacy / Data Governance — reconstruction source audit
+
+**Date:** 2026-10-12  
+**Status:** Governance-authorized reconstruction; **ACCEPTED RECONSTRUCTION** per reverse master prompt; not historically recovered, not frozen, production implementation NOT AUTHORIZED. This pass was documentary/read-only for domain sources; only the project map was changed.
+
+### Primary-source provenance
+
+| Source | Ref / SHA | Confirmed fact |
+|---|---|---|
+| Inspected `main` | HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` | Current ref used for canonical reconstructed artifact and cross-domain source inspection. |
+| MH-13 master prompt | `docs/architecture/MH-13-master-prompt.md`; blob `de00bea7f972fca30295c0855b0d324f845c0bc4` | Historical original NOT RECOVERED; reconstruction AUTHORIZED; reconstructed artifact remains RECONSTRUCTED / PROPOSED unless governance state is explicitly updated. |
+| MH-13 reverse master prompt | `docs/architecture/MH-13-reverse-master-prompt.md`; blob `d590b6541870d3f77fbb1e48159b78d5d2f1f203` | Explicitly calls the current state ACCEPTED RECONSTRUCTION, Frozen NO, production implementation NOT AUTHORIZED; acceptance does not make it a historical original. |
+| Reconstructed privacy/data-governance architecture | `docs/architecture/MH-13-privacy-data-governance.md`; blob `e732ff9cacbc9c1189bd83306cdff30906326cf0` | Header says RECONSTRUCTED / PROPOSED, acceptance NOT YET VERIFIED, frozen NO, implementation not authorized; historical fidelity PARTIAL / REQUIRES VERIFICATION. This status wording conflicts with reverse prompt's ACCEPTED RECONSTRUCTION and needs governance/status reconciliation, not silent normalization. |
+| Reconstruction registers | `docs/architecture/MH-13-reconstruction-registers.md`; blob `8c66fb49bbe011d8ef5dd78287c72efdad77a8fe` | Registers downstream evidence, unknowns, contradictions, decisions, dependencies and acceptance gates; confirms no original artifact/commit was recovered. |
+| MH-21 privacy | `docs/architecture/MH-21-privacy.md`; blob `55c79ba252812a400feb73893e5fc4c56d0e6f6f` | PROPOSED; governed by MH-13; external AI/cloud processing must be minimized, classified, authorized, observable and bounded. |
+| MH-21 privacy invariants | `docs/architecture/MH-21-privacy-invariants.md`; blob `4475da53dc87ad1c2ad1c9f112a55211cbfa49eb` | Classification precedes egress; purpose explicit; minimization/redaction; destination/provider/region eligibility; retention definition; no sensitive remote routing merely because a model can process it. |
+| MH-21 data egress | `docs/architecture/MH-21-data-egress.md`; blob `242b3090d41f52866889b8c8cf587ff4c95eadb3` | Proposed deny-by-default flow: Data → Classification → Purpose → Destination → Privacy Policy → Security Policy → Authorization → Redaction/Minimization → Bounded Transfer → External Compute. |
+| MH-21 data retention | `docs/architecture/MH-21-data-retention.md`; blob `8dfe3b619be593c3ec57948e350671895827ae8b` | Provider retention/deletion claims need current contractual evidence; record data, purpose, destination, retention, deletion, provider responsibility, rights, audit and incident handling. |
+| MH-12 security architecture | `docs/architecture/MH-12-security-architecture.md`; blob `cf4ebfd5bf471ca676f075c51d3a24906504e490` | Security owns identity/trust/capability/authorization/policy controls but not canonical state mutation; privacy cannot bypass this authority boundary. |
+| Accepted Baseline 2.0 | `docs/checkpoints/mediahub-functional-baseline-2.0.md`; blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Accepted canonical immutable functional reference; explicitly distinguishes requirement/architecture/implementation/evidence/verification/qualification/production authorization. |
+| Historical Baseline 1.0 | `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md`; blob `9df4892ed0734050ac79732603d15bb414717310` | Preserved as historical passport/provenance; not silently merged with B2. |
+| Bounded negative lookup | Requested MH-13 standalone `acceptance-criteria.md`, `evidence-register.md`, `decision-log.md`, `contradiction-register.md`, `dependency-map.md`, `unknowns.md`, plus `docs/architecture/MH-11-data-governance.md`, returned 404 on inspected main | Those exact paths were not found on this ref; relevant reconstructed registers are consolidated in `MH-13-reconstruction-registers.md`. This does not prove global absence. |
+
+### Reconciled privacy invariants
+
+1. **Purpose limitation:** collection, processing, transfer and retention must be bound to a defined, authorized purpose.
+2. **Data minimization:** only data necessary for the authorized purpose should be collected, processed, retained or transferred.
+3. **Classification before egress:** unknown classification never authorizes external transfer; arbitrary destinations are denied by default.
+4. **Explicit transfer eligibility:** destination, provider and region must be eligible; transfer must be authorized, bounded and observable.
+5. **Redaction and derived data:** protected data must be redacted from unauthorized telemetry, diagnostics, audit and external channels; derived data and metadata are not automatically non-sensitive.
+6. **Retention/deletion:** lifecycle semantics must be coordinated with MH-14 Persistence; backups/restores do not remove privacy obligations. Provider claims require current evidence.
+7. **AI/cloud non-authority:** AI, RAG, plugins and cloud providers cannot choose arbitrary destinations or weaken MH-13 restrictions.
+8. **Audit minimization:** audit evidence should prove accountability without unnecessarily exposing protected payload.
+9. **No shadow authority:** MH-13 does not own canonical state, persistence, media, AI or cloud; changes still pass the existing Boundary → Authorization → State Authority path.
+10. **Provenance/status conflict:** reverse master prompt says ACCEPTED RECONSTRUCTION while the architecture file header says ACCEPTANCE NOT YET VERIFIED. Preserve both exact source statements and route this discrepancy to governance; do not edit either source without authorization.
+11. Exact historical classification taxonomy, consent/data-subject model, residency, retention periods, deletion/backup semantics, provider guarantees and provenance model remain UNKNOWN / REQUIRES VERIFICATION.
+12. No tests, qualification, source implementation, provider configuration or infrastructure changes occurred in this pass.
+
+**Next safe action:** proceed to MH-14 Persistence / Durable Lifecycle via the current map and branch-specific primary sources. Reconcile retention/deletion, backup/restore, residency and data lifecycle with MH-13 without making MH-13 the persistence authority. Keep production implementation NOT AUTHORIZED and frozen status NO until explicit governance and evidence gates are satisfied.
