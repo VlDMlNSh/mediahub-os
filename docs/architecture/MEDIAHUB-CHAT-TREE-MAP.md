@@ -3333,3 +3333,57 @@ This addendum records a live read-back of MH-21's key primary documents on `main
 5. No provider calls, credential inspection, network scans, runtime inspection, tests, qualification, installation, deployment, infrastructure changes or merge were performed. This is a document-status audit, not evidence of runtime absence or safety.
 
 **Next safe action:** continue with MH-21 provider/data-egress implementation-evidence inventory using repository files and CI metadata only, if the map provides a bounded path. Keep runtime enforcement, actual provider contracts, credential/network topology, and cloud→device/cloud→State Authority bypass as UNKNOWN until direct, revision-bound evidence exists.
+
+
+### 20.93.2 MH-21 provider / egress implementation-evidence inventory (2026-10-12)
+
+**Scope:** read-only inspection of repository source, schemas, test definitions, CI workflow definitions, latest visible Actions metadata, and existing evidence artifacts. No tests or workflows were run/triggered; no providers or credentials were accessed.
+
+#### Revision and artifact inventory
+
+- Main HEAD observed: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; recursive Git tree reports 798 entries, `truncated=false`.
+- Runtime source exists:
+  - `runtime/mediahub_runtime/cloud_orchestrator.py`, blob SHA `24c28197df7baca49abd81956752a7a5092506d9`: cloud provider executors, route candidates, provider/model/credential selection, and an admission check against a qualification evidence file are implemented in code. This is **IMPLEMENTED / NOT VERIFIED** by this audit, not proof of production operation.
+  - `runtime/mediahub_runtime/local_providers.py`, blob SHA `8361b7d6782adaa9dcd4e47b5d9e9940d41bb1a3`: FreeLLMAPI adapter reads a key from a local file/environment configuration, bounds timeout, and normalizes request/response errors.
+  - `ops/federation/privacy_data_boundary_poc.py`, blob SHA `d8df71c07c3f81a80ef29ac06966c639e97f6411`: deterministic non-production PoC explicitly declares no network I/O, credential access or production execution.
+- Contract schemas exist:
+  - `schemas/ai/ai-provider-adapter.schema.json`, SHA `e0dab7002222451579e649a7d1d29985393d9a42`.
+  - `schemas/ai/ai-provider-registry.schema.json`, SHA `9537a64bc948b1bea3e2a640670f48e107760a50`.
+- Test definitions exist:
+  - `tests/test_cloud_admission.py`, SHA `c8b99f63b4e8ea696430dea75892341cd74fe658`: tests fresh qualified evidence admission and fail-closed behavior for partial, stale and commit-mismatched evidence.
+  - `tests/ai/test_ai_provider_adapter.py`, SHA `bbffbff01460453943742eaa254d401403a5c7da`: validates adapter schema contract fields/states.
+  - `tests/ai/test_cloud_orchestrator_failover.py`, SHA `c66b63b158c545ae627c596791381b83ef902c59`: defines mocked failover/provider selection cases.
+  - `tests/federation/test_privacy_data_boundary_poc.py`, SHA `72054b9dfd9e215e115f28ce6eba1914341c4036`: asserts PoC scenarios and denied raw-personal-data behavior.
+  These files demonstrate test coverage intent only; no tests were executed in this pass.
+- Relevant workflow definitions:
+  - `.github/workflows/astra-cloud.yml`, SHA `3cad60423311cead1ce6d1cf8eb224cb7a296844`: PR validation path includes contract validation and cloud admission/failover tests.
+  - `.github/workflows/astra-provider-qualification.yml`, SHA `d3160088fbef4fce152ed7335f0acaa3bb440378`: defines a self-hosted provider-node qualification workflow using a target SHA and provider credentials from GitHub Secrets. Definition is not evidence that it ran successfully on current HEAD.
+  - `.github/workflows/freellmapi-qualification.yml`, SHA `708ddeffc4664fd03f5ca6475a117348cf3666dc`: defines a self-hosted live qualification path, including local gateway model discovery and inference. This workflow is capable of provider/network interaction when executed; it was not triggered in this audit.
+- Architecture controls remain proposed:
+  - `docs/architecture/MH-21-egress-control.md`, SHA `aae23e11a70b1a7094d05709f8669040f60c1dcd`.
+  - `docs/architecture/MH-21-cloud-credentials.md`, SHA `7f420277f843f93c938e6a3b98637888ce89be2d`.
+  - `docs/architecture/MH-21-provider-adapter.md`, SHA `d8b61d65435b13202530946687f8c074617f8c67`.
+  - `docs/architecture/MH-21-provider-contract.md`, SHA `d2bf7e29eee9ff2e07f4e25bf58229df11ff3cda`.
+  - `docs/architecture/MH-21-provider-quarantine.md`, SHA `31f776c49c4c1e50251b9582bee32e8a3528119e`.
+  - `docs/architecture/MH-21-provider-trust.md`, SHA `ad7226a2e7eeeaf412f94e08440db72ac4fe13cf`.
+  - `docs/architecture/MH-21-cloud-failure.md`, SHA `a4ab313eae326469438880ac46b09a651c06b66f`.
+
+#### Material evidence gaps and contradictions
+
+1. `evidence/provider-model.json`, blob SHA `3112dc235c5f2e8aefcc2d9ee68ae331a6079944`, records provider qualification evidence for commit `7bdd382e5cceb1b380f4985ce9b36c351161407f`, timestamp `2026-09-27T22:41:28Z`. It is historical and does not match the observed current main HEAD. The record itself reports partial/blocked/failed/pending outcomes for several providers. It must not be represented as fresh qualification of current HEAD.
+2. `ops/qualification/provider_model_registry.json`, SHA `62328126fd2cd8879a73bb6812adcacd3e2abe84`, is a provider/model registry configuration, not qualification evidence. Provider names, endpoints or candidate models in this registry do not prove credentials, live availability, contract terms, data residency, retention or approved use.
+3. Actions metadata for current main HEAD showed run `38226754511` (Astra Verify, push on `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`) completed with `failure` at `2026-10-12T08:57:16Z`. Run `38221916921` (Astra Cloud Runtime Validation, PR head `5b328d42062f8f6ff117e90de81397ef5acefe75`) also completed with `failure`. These statuses are recorded as CI metadata only; detailed job logs were unavailable via the read-only endpoint in this pass, so failure causes are **UNKNOWN**. Neither run is a passing qualification record for current production.
+4. The current main Actions listing showed supervisor run `38273320112` queued on main HEAD. It is not MH-21 provider qualification evidence and was not modified.
+5. Source and tests establish that provider admission logic and privacy PoC code exist; they do not establish that egress is enforced across all network paths, that cloud→device/cloud→State Authority bypasses are absent, or that privacy controls govern every production entry point.
+6. Provider data handling, contractual retention/training terms, processing region, active credentials and actual network topology remain UNKNOWN. Credentials were not read or tested; no provider endpoint was contacted.
+
+#### Disposition
+
+- Provider adapters, orchestration, schemas, test definitions and live-qualification workflow definitions are present in the repository: **IMPLEMENTED / NOT VERIFIED** or **DEFINED / NOT EXECUTED**, depending on artifact type.
+- Current-HEAD provider/model qualification: **NOT ESTABLISHED** by the inspected evidence.
+- Production egress enforcement and absence of bypass: **UNKNOWN / REQUIRES VERIFICATION**.
+- MH-21 remains **NOT ACCEPTED / NOT FROZEN / NOT PRODUCTION READY**; its acceptance criteria remain NOT SATISFIED.
+- P0-07 remains a blocker to production canonical mutation publication. MH-10/MH-21 ownership remains open. Baseline 1.0 and Baseline 2.0 remain separate.
+- No tests, provider calls, credential inspection, workflow dispatch, qualification, installation, deployment, infrastructure change or merge was performed.
+
+**Next safe action:** perform a bounded static review of the orchestrator's admission/egress decision path against MH-21 contracts and P0-03…P0-07, then map each claim to an existing test or missing evidence. Do not fix or change runtime code until the specific defect, authorization and governance dependencies are established.
