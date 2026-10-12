@@ -7,7 +7,7 @@ System: MediaHub OS / MediaHub iOS
 ## 1. Authority hierarchy
 
 Human = final architecture, production, security and launch authority.
-A0-ASTRA = single coordination and MediaHub State Authority.
+A0-ASTRA = single ASTRA GOLD engineering coordination authority; it owns ASTRA-internal queue, claim and gate state only, and is not MediaHub Product State Authority.
 A1 = architecture/contracts.
 A2 = bounded implementation.
 A3 = independent verification.
@@ -25,7 +25,7 @@ Failure: BLOCKED → DIAGNOSE → REPAIR → PREFLIGHT.
 | Component | Class | Authority | Status / role |
 |---|---|---|---|
 | Human | final authority | final | architecture/security/production/launch |
-| A0-ASTRA | coordinator | A0 | decomposition, claims, scheduling, integration, reconciliation, state |
+| A0-ASTRA | coordinator | A0 | decomposition, claims, scheduling, integration, reconciliation, ASTRA-internal queue/claim/gate state |
 | A1 | architect | A1 | contracts and architecture |
 | A2 | builder | A2 | bounded implementation |
 | A3 | verifier | A3 | independent verification |
