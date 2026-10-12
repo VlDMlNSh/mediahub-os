@@ -886,3 +886,20 @@ Backlog явно сохраняет B1/B2 раздельными, запреща
 В отчёте перечислены семантические перекрытия для нормализации: voice order, mobile roles, Trusted Sources, AI Human Clone, update lifecycle, local-first, qualification/release и Smart Home authority. Указаны сохраняемые governance/provenance конфликты, включая matrix status `RECONCILIATION CANDIDATE` против статуса B2/reconciliation report и unresolved R4 commit object.
 
 **Следующий шаг:** создать атомарные записи для восьми не покрытых anchor-разделов, затем провести literal clause-level аудит всех 68 разделов. Нынешний результат не называется полным атомарным покрытием. Baseline 1.0, Baseline 2.0 и matrix не изменялись; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
+
+
+### 20.15 Atomic traceability backlog Batch 04 — uncovered sections
+
+**Артефакт:** `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-04.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Create commit:** `090df07f19ba69282ba0435d8124c5c20bbd397b`  
+**Read-back blob SHA:** `26163e6f60b44e997560212bf7de9900210b7ed3`  
+**Статус:** `OPEN BACKLOG / DOCUMENTARY PLANNING ONLY`.
+
+Batch 04 закрывает структурный пробел в anchor coverage GAP REPORT 01, добавляя записи для B1 §§3–6, 12, 15–17: State Authority, Home Assistant Core, UI, Smart Home, Smart Home Automation, Local AI, Local Cluster AI и Cloud Development AI.
+
+Повторное чтение подтвердило **48 атомарных записей**: SA4-01…07 (7), HA4-01…06 (6), UI4-01…04 (4), SH4-01…07 (7), AUTO4-01…05 (5), LAI4-01…07 (7), CLAI4-01…05 (5), CDAI4-01…07 (7), а также **8 сквозных вопросов X4-01…X4-08**. Итого по Batch 01–04 — 125 атомарных записей на уровне backlog; это не число закрытых требований и не доказательство полной clause-level coverage.
+
+Для новых записей прочитаны Baseline 1.0/2.0, matrix, MH-10/MH-21/MH-17 на main и branch-specific MH-03/MH-04/MH-05/MH-09 источники. В карте сохранены точные refs/SHA и статусные оговорки: MH-04 остаётся PROPOSED / REVIEW COMPLETE; MH-05 — PROPOSED / GOVERNANCE REVIEW REQUIRED, implementation NOT AUTHORIZED; MH-09 acceptance NOT ACCEPTED. Наличие branch-specific документов не считается их принятием или синхронизацией в main.
+
+**Следующий шаг:** выполнить независимую проверку 48 записей, затем буквальный clause-level coverage audit восьми разделов и только после этого консолидировать Batch 01–04. Baselines и matrix не изменялись; тесты/qualification, установка, deployment, инфраструктурные/production действия и merge в `main` не выполнялись.
