@@ -636,3 +636,55 @@ J. Reverse Master Prompt payload for the central reconciliation process:
 6. после разрешения этих P0/P1-блокеров запускать только ограниченную qualification wave с exact-SHA evidence, recovery, independent A3 и полным 24-часовым soak.
 
 **Итог на 12.10.2026: проект имеет широкую архитектурную базу и реальный код, но единая multi-agent система ещё не доказана как сквозной квалифицированный runtime. Astra Gold = BLOCKED / NOT QUALIFIED; Product runtime также не объявляется production-qualified.**
+
+
+## 19. GAPS / BLUEPRINT — упорядоченная карта закрытия разрывов
+
+Это рабочий план зависимостей, а не утверждение, что этапы уже выполнены. Задачи запускаются последовательно там, где верхний этап является предусловием нижнего.
+
+| Этап | Разрыв / риск | Владелец / связанный контур | Обязательное доказательство закрытия | Текущее состояние |
+|---|---|---|---|---|
+| B0 | Мало/нет свободного места на mh-dev-01; runtime возвращает ENOSPC; рабочие деревья dirty | MH-15/MH-22; Issue #298 | Read-only inventory завершён; dirty/untracked/evidence сохранены; согласован точечный backup/cleanup plan; root free space восстановлено; fresh host/FS checks | BLOCKED — никакой массовой очистки не выполнять автоматически |
+| B1 | Два локальных checkout + отдельные автономные состояния с отличающимися source head/tree; процесс и файл heartbeat сами по себе не доказывают согласованность | ASTRA control plane / MH-22; Issue #298 | Для каждого checkout зафиксированы repo URL, branch/HEAD/tree, dirty status; для каждого контроллера PID/start time/owner; уникальный lease; свежий heartbeat и queue state привязаны к одному exact SHA | BLOCKED — состояние разошлось/не до конца reconciled |
+| B2 | Свежесть runtime evidence, точная identity controller/worker/transport/provider неизвестна | ASTRA G2/G3/G6 | Подписанные/схема-валидные evidence с command ID, node, exact SHA, executor/provider/transport IDs, exit status, timeout, result schema, digest и timestamp в freshness window | BLOCKED |
+| B3 | Два Ollama labels имеют одинаковый model ID, один label назван Claude Sonnet, хотя provenance указывает на Qwen2 | MH-10/MH-21; Issue #298 | Exact manifest, digest/provenance, runtime identity и capabilities подтверждены; registry corrected under reviewed change; invalid alias quarantined and negative routing test passed | BLOCKED — alias не использовать автоматически, модель не удалять |
+| B4 | FreeLLMAPI upstream identity, exact version/license/auth/API contract и FCC→FreeLLMAPI→Alamo E2E route не qualified | MH-10/MH-21; Issue #296 | Точный upstream repo/commit; license/terms/auth review; private bind/ACL; segment probes; actual model/provider identity; bounded task; cancellation/timeouts/retry policy; LOCAL_ONLY negative egress test | BLOCKED — gateway choice not final |
+| B5 | А0-ASTRA в старых docs объединяет coordination authority и product State Authority; physical persistence и owner boundary ещё требуют governance | MH-03/MH-06/MH-10/MH-14/MH-21 | Explicit ADR разделяет Product State Authority, developer coordination, workflow history, memory/evidence and persistence; owner chats accept; schemas/contracts/tests reconciled without a silent second authority path | OPEN ARCHITECTURE CONTRADICTION |
+| B6 | Test harness кодом требует три постоянных Claude lanes, включая M2; target fleet — два developer hosts, а M2 принадлежит product prototype | ASTRA queue / MH-15/MH-22; Issue #299 | Exact target node inventory, remapped registry/task IDs/workflow dispatch; G5/schema/tests agree on initial physical concurrency ≤2; M2 excluded from permanent dev pool; failover/collision tests pass | NOT IMPLEMENTED / TARGET HARDWARE NOT COMMISSIONED |
+| B7 | Выбор готового orchestration/agent/tool/model-router stack пока не подтверждён целевым PoC | Engineering architecture / MH-10/MH-21/MH-22 | Capability contracts; at least 3 alternatives where available; repo identity/license/CI/tests/updates/dependencies/security/resource test; pinned commit; feature-gap and rollback report; ADR records one selected path or documented NO SELECTION | CANDIDATE REVIEW REQUIRED |
+| B8 | Jarvis reference materials don't prove a production-ready MediaHub assistant and may default to cloud Claude APIs | Product prototype / MH-08/MH-09/MH-10/MH-12/MH-13/MH-17/MH-20/MH-21 | Pinned upstream or documented original implementation; authenticated API; UI/voice contract; MCP/tool permission broker; user confirmation for sensitive operations; cancellation/reconnect; privacy+retention rules; LOCAL_ONLY and tool negative tests | DESIGN / NOT QUALIFIED |
+| B9 | CI checks for latest master-guide PR did not get a runner and ran zero steps | Repo/CI control plane; Issue #298 workflow work | Runner dispatch is observable, job has runner identity, required steps exist and genuinely run; test report tied to commit SHA | NOT EXECUTED / UNVERIFIED |
+| B10 | Qualification hasn't shown 115 fresh passing rounds, full recovery, integrated A3 and current 24h soak on target topology | ASTRA GOLD qualification | Five mandatory paths × 23 fresh rounds; concurrency/claim fencing; recovery matrix; independent A3; clean exact-SHA evidence bundle; complete 24-hour soak; human G11 input | BLOCKED / NOT GOLD_ACTIVE |
+| B11 | Future GPU/video server and any user-contributed compute could introduce new trust/resource boundaries | MH-21 / future compute pool | Separate opt-in/identity, sandbox, quota, network/egress policy, model/artifact provenance, benchmark, cancellation, recovery, audit and revocation; no State Authority | FUTURE-GATED; not a launch dependency |
+
+### Рекомендованная архитектурная сегментация
+
+Не принимать новый стек как «один большой multi-agent framework». Для целевой MediaHub OS сравнивать компоненты по отдельным контрактам:
+
+1. **Agent graph / reasoning orchestration.** LangGraph подходит для PoC графа состояния агента, динамической декомпозиции и human-in-the-loop, но нуждается в проверке checkpoint store, adapters, resource footprint и лицензии закреплённой версии. Это не автоматически durable infrastructure workflow engine. Official repo: https://github.com/langchain-ai/langgraph
+2. **Durable workflow / retries / resume.** Temporal нужно сравнить с существующей очередью Astra: оно сохраняет workflow history, организует task queues и replay/resume после сбоя worker. Это не Product State Authority и не автоматически замена agent graph. Не внедрять Temporal, пока не измерены сложность самостоятельного queue, стоимость service operation, recovery requirements и footprint на двух узлах. Official docs: https://docs.temporal.io/tasks
+3. **Model gateway / adapter.** LiteLLM — один из кандидатов для единого API/маршрутизации разных providers, budgets и rate limits. Нужен PoC против native adapters и текущего FCC/FreeLLMAPI; не запускать несколько пересекающихся gateways. Повторные попытки должны иметь единого владельца на уровне общей policy, иначе вложенные retry/fallback loops могут усилить число запросов. Official docs: https://docs.litellm.ai/docs/ · https://docs.litellm.ai/docs/proxy/provider_budget_routing
+4. **Tools/MCP/browser.** MCP стандартизирует обнаружение/вызов tools, но protocol не заменяет permission broker. Перед передачей результата модели нужно валидировать входную схему, полномочия, rate limits, timeout, output sanitation и confirmation sensitive operations. Official tools spec: https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/specification/2026-07-28/server/tools.mdx
+5. **Observability.** OpenTelemetry GenAI conventions можно использовать для trace/span context, agent operation names, latency/errors/tokens, сохраняя policy: observability — read-only evidence, а не решение о разрешениях или state mutation. Official references: https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-agent-spans.md · https://opentelemetry.io/docs/specs/semconv/general/
+
+Эти рекомендации являются направлением сравнительного PoC, не утверждением, что все перечисленные проекты выбраны. Первое внедрение должно минимизировать число независимых координационных механизмов: одна canonical state authority, одна очередь/workflow owner для жизненного цикла задачи, один ясный слой agent graph, один approved model-routing abstraction и один tool permission broker.
+
+### Порядок фактической работы
+
+**Wave 0 — preserve:** P0 disk, сохранение local working trees, evidence и runtime state; никакой широкого параллелизма.
+
+**Wave 1 — reconcile:** определить canonical repo/source SHA, controller identities, heartbeat, queue/claims и provider/model identity; закрыть BLOCKED contradiction records.
+
+**Wave 2 — freeze target contracts:** принять authority and persistence ADRs; закрепить target logical node IDs, initial concurrency ≤2, M2 separation and commissioning checklist.
+
+**Wave 3 — component selection:** оформить сравнение ready OSS blocks по capability; провести pinned isolated PoC, resource tests and security tests; записать decision. Не смешивать разработку архитектуры со слепой установкой dependencies.
+
+**Wave 4 — bounded integration:** соединить только утверждённые adapters; сначала health/identity/non-mutating probes, затем isolated bounded tasks; для LOCAL_ONLY доказать отсутствие cloud egress/fallback.
+
+**Wave 5 — qualification:** повторить focused/contract/regression/security tests; все 115 mandatory rounds; concurrency, restart, interruption, replay/idempotency and publication recovery; independent A3.
+
+**Wave 6 — target commissioning and soak:** после покупки зафиксировать Mac Pro/Linux Mac mini exact hardware/software identities; M2 остаётся независимым product prototype; fresh pre-soak evidence; полный 24h soak; human G11 only after all gates.
+
+**Wave 7 — optional expansion:** GPU/video worker and user-contributed pool only after real workload justifies them, and after separate trust/resource/recovery qualification.
+
+Ни одна wave не переходит автоматически в следующую. Неуспех или отсутствие evidence возвращает задачу в BLOCKED → DIAGNOSE → REPAIR → PREFLIGHT.
