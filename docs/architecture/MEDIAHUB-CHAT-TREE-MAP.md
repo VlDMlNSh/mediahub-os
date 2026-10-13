@@ -4648,3 +4648,13 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - D3 immutable P0-07 decision/resource/payload/revision binding is NOT EVIDENCED. D4 governed operation-to-canonical-resource/key/state-shape mapping is NOT EVIDENCED. Local P0-04 stale-version checks do not prove upstream P0-07 decision binding.
 - D7 remains PARTIAL. D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - Documentary-only; no API/schema/issuer/cryptographic design selected and no tests, qualification, implementation, deployment, migration or branch integration.
+
+
+## 20.179 MH-14 / MH-16 / MH-22 persistence-lifecycle-qualification crosswalk (2026-10-13)
+
+- Trace: [canonical-read trace](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), addendum “MH-14 / MH-16 / MH-22 persistence-lifecycle-qualification crosswalk”.
+- Main source blobs: MH-14 architecture `5e14084033f417722a1b04b5d5d47649dcfcda48`, acceptance `364bb2a949e11f191b71a35af482f18de4ef2827`, decision log `a2f49b9f4e09e3d2becdc2e72807319674a30239`; MH-16 architecture `f3ad2401f00a4062b39eed640e0c5c5f70064312`, completion `e4ea4e3a37540cc104243c236e2e5c1c32ea35d6`; MH-22 acceptance `40d401c0a4ba80550f8101d4e9b1de8f0c77849e`, evidence register `188a85e3a31cb545fd781e6db237d655d721ec1c`.
+- MH-14 persistence remains subordinate to State Authority; physical implementation NOT AUTHORIZED; acceptance NOT YET ACCEPTED/FROZEN; actual atomicity/crash/power-loss/restore and durable-copy deletion evidence remain gates; RPO/RTO TBD.
+- MH-16 remains PROPOSED / GOVERNANCE ACCEPTANCE PENDING / NOT FROZEN / IMPLEMENTATION NOT AUTHORIZED.
+- MH-22 current-head release/qualification, artifact identity and supply-chain evidence, hardware, lifecycle and restore/DR evidence remain UNKNOWN / REQUIRES VERIFICATION; production acceptance NOT GRANTED.
+- No accepted owner/end-to-end proof for generation/schema/revision binding across State Authority, persistence, migration/restore and exact release qualification was established. P0-07 remains BLOCKED; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; D7 PARTIAL. Documentary-only; no gates closed.
