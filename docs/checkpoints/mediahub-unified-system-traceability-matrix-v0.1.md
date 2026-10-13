@@ -1074,3 +1074,31 @@ P0-07 capability inventory is not a transaction API. The P0-07 boundary construc
 - P0-07 canonical read remains **NOT EVIDENCED**; mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
 - Next bounded source task: trace the concrete P0-05 `read` implementation and its immutable return contract against the P0-07 read caller, and establish whether a same-revision object is passed through a documented caller path. Do not edit protected headers or invent an adapter/API. Keep the owner decision on the exact P0-05 acceptance target open.
 - Scope: GitHub source/document review only. No tests, qualification, runtime/host inspection, credentials, provider/model calls, workflow dispatch, code changes, infrastructure changes, deployment, merge or rebase.
+
+
+## Section 47 — Concrete canonical-read path and P0-07 caller join (2026-10-13)
+
+**Status:** SOURCE-BOUND IMPLEMENTATION TRACE; no test, acceptance or qualification status changed.
+
+### Current-main implementation evidence
+
+- Current `main HEAD`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; recursive tree SHA `cbb1862fcb4aa22ba24fea4ff12b580ffb305593`, 798 entries, not truncated.
+- `runtime/mediahub_runtime/consumer_boundary.py`, blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`, defines `ConsumerBoundary.read(key=None)` as a direct delegation to `self._authority.read(key)` (lines 68–69 in this blob). It does not create a cache, checkpoint, or separate read authority in this method.
+- `runtime/mediahub_runtime/state.py`, blob `a2115b81f52a63feb357e484bd982a6a32641d81`, declares the `StateAuthority.read(key)` interface; its module documentation says persistence is intentionally out of scope.
+- `runtime/mediahub_runtime/in_memory_state.py`, blob `0fbc71369d19e09944ba67a60ccb9df802f30a4b`, implements `InMemoryStateAuthority.read` under a lock. With no key, it returns a frozen `CanonicalState` containing the authority-owned frozen payload, generation, state version and integrity flag. With a key, it returns the selected value only if the payload is a mapping proxy and the key is a string. This is evidence for an in-memory authoritative read in this implementation; it is not evidence of durable persistence or production deployment.
+- The code-level read chain therefore is **ConsumerBoundary.read → injected StateAuthority.read → InMemoryStateAuthority.read**, when that implementation is the object injected. The `ConsumerBoundary` constructor accepts an authority object; the reviewed source set does not establish a unique production composition root or prove that P0-07's read caller invokes this exact instance.
+- Current-main tree contains `runtime/mediahub_runtime/consumer_boundary.py`, `state.py`, and `in_memory_state.py`, but the tree scan found no `tests/runtime/*` paths. This is a path-scoped observation, not a claim that no tests exist elsewhere.
+- The P0-05 v1.0 contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` requires a consistent immutable canonical revision and no mutable alias. The source has a matching in-memory `CanonicalState` boundary; however the contract file itself carries a DRAFT / GOVERNANCE REVIEW REQUIRED header. A separate governance decision packet blob `1253944ffeefcb59502d9f7deb13d38baed1d6e1` and acceptance record blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242` exist in accepted governance tree commit `97a01977f521ba8304a455b5d7504896235ddea7`; their status must not be conflated with acceptance of different current-main code blobs. This pass did not edit or normalize the protected header.
+
+### P0-07 caller join
+
+- The inspected current-main runtime tree does not contain a path explicitly named P0-07; the available architecture document is `docs/architecture/MH-17-device-configuration.md`, blob `2857055d8ab039fb645ebded411b3c63a6e06a42`. The tree scan does not identify a direct call from an MH-17/P0-07 domain `read` operation to `ConsumerBoundary.read`.
+- Thus the concrete P0-05 read implementation is now source-mapped, but the **P0-07 → P0-05 caller/composition join remains NOT EVIDENCED**. It is not yet proven that P0-07 receives the same immutable canonical revision from this path.
+- This does not justify a new adapter, cache, persistence layer, API signature, or contract-version choice.
+
+### Disposition
+
+1. Refine the previous statement: a concrete current-main **P0-05 consumer-to-State-Authority in-memory read path is evidenced** by source; the end-to-end P0-07 caller join is not.
+2. P0-07 canonical-read acceptance remains **NOT EVIDENCED** until its domain caller is identified and the exact injected authority/read revision is source-bound.
+3. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project-wide qualification remains **NO-GO / NOT PROVEN**.
+4. Next bounded source task: trace MH-17/P0-07 operation definitions and their call sites to a concrete runtime composition root; identify whether the consumer boundary and the P0-07 caller share the same authority instance and revision. Do not run tests or workflows, inspect runtime/host, or alter code/contracts.
