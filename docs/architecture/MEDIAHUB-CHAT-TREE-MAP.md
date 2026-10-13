@@ -4630,3 +4630,12 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - Existing proposal now includes a blank reviewer worksheet in §13: [P0-07 D2 trusted-context authority/lifecycle proposal](../checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md).
 - The worksheet structures reviewer identity/independence, exact source refs and blob SHAs, evidence-backed dispositions for R-01…R-06, cross-cutting findings, overall recommendation, and separate gate/owner acceptance status.
 - It is explicitly a template only. It is not an independent review, owner acceptance, implementation authorization, or qualification evidence. Status remains D2 `NOT EVIDENCED`; D1 `NOT DEMONSTRATED`; D3/D4 `NOT EVIDENCED`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`.
+
+ 
+## 20.177 Main-branch MH-12/MH-13 crosswalk for P0-07 D2 (2026-10-13)
+
+- Source-anchored crosswalk recorded in [canonical-read trace](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), based on current `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- MH-12 acceptance criteria, authentication, trust, authorization and audit docs reinforce that authentication is not authorization, trust is operation/target/scope/context-specific, authorization must be identity-bound and fail-closed at the approved Consumer Boundary/State Authority contract, and audit is not State Authority.
+- MH-13 governance record accepts a reconstructed/proposed artifact only; historical fidelity remains partial, freeze is NO, production implementation is not authorized, and CI/build qualification is not verified. Baseline 2.0 remains the canonical functional reference and explicitly separates architecture from implementation/qualification/production.
+- This crosswalk informs P0-07 review items R-01, R-03, R-04 and R-05; it is not an independent reviewer disposition and does not prove the P0-07→P0-05 bridge satisfies the contracts. No gate or status changed.
+
