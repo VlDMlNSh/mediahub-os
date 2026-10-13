@@ -225,3 +225,10 @@ No tests, qualification, code changes, credentials, provider/model calls, host/r
 - **Gate separation:** independent security/architecture review for P0-07 D2 remains NOT EVIDENCED; owner/governance disposition for P0-05 normative status and D1/D2 contract remains OPEN. DEC-DEV-02 remains OPEN_CONFLICT, with no implication that one gate supersedes the other. Existing project boundary that ASTRA engineering workflow state is not MediaHub Product State Authority remains intact.
 - Next: keep the D2 review artifact request separate from the DEC-DEV-02 lifecycle ownership question. Resolve each through its own evidence and explicit governance decision; no implementation/API/issuer choice follows from this crosswalk.
 - Documentary cross-reference only; no tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+
+
+## Follow-up — reviewer worksheet added without promoting review status (2026-10-13)
+
+- Extended existing proposal `docs/checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md`, current blob `5e0ce7ba9f6ab4aa31f939189d49c6635c2457f1`, with §13, a blank R-01…R-06 independent-review worksheet.
+- Worksheet captures reviewer identity/independence, exact proposal/source refs and blob SHAs, evidence-backed per-item dispositions, cross-cutting findings, overall recommendation, and separate owner/gate status. Explicit guardrails say the worksheet is not itself a review, acceptance, implementation authorization or qualification.
+- No reviewer was invented and no disposition was entered. D2 remains `NOT EVIDENCED`; D1 `NOT DEMONSTRATED`; D3/D4 `NOT EVIDENCED`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
