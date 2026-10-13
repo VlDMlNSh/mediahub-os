@@ -294,3 +294,28 @@ No API/schema/issuer/cryptographic design selected. No tests, qualification, imp
 - MH-22: WORKING / NOT ACCEPTED / NOT FROZEN; production qualification NO-GO / NOT PROVEN.
 - P0-07 remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; D7 remains PARTIAL. No gates promoted.
 - No tests, qualification, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+
+
+## Follow-up — MH-22 current-head qualification gate and CI metadata crosswalk (2026-10-13)
+
+**Scope:** read-only document, workflow-definition and GitHub metadata review. No workflow was dispatched, and no tests or qualification were run.
+
+### Current-main source anchors
+- docs/architecture/MH-22.2-qualification-matrix.md — blob 474f4048d9fd50c72943bd06df5043124bed3f4e: current-HEAD tests UNKNOWN; build UNKNOWN; release identity UNKNOWN; hardware/install/update/rollback/recovery/restore/DR/privacy evidence UNKNOWN; governance NOT GRANTED. A row can pass only with evidence tied to the exact release candidate and target.
+- docs/architecture/MH-22-evidence-register.md — blob 188a85e3a31cb545fd781e6db237d655d721ec1c: P0-07 and P0-08 workflows are IMPLEMENTED / NOT CURRENT-HEAD VERIFIED; current-head qualification and release evidence UNKNOWN; production acceptance NOT GRANTED.
+- docs/architecture/MH-22-production-gates.md — blob 8cbac21dfd5933ae629c35949d597f99a2236440: G1–G9 require distinct evidence; failed or unknown gates stop promotion.
+- docs/architecture/MH-22.1-current-production-qualification-audit.md — blob 3cbcccb1af7af42c967cd0639183988fbe580296; docs/architecture/MH-22.3-production-readiness-review.md — blob a598dae5b04cd1b307a3dfab1211c662c2ab1f9f: both retain NOT QUALIFIED / NO-GO and require exact-revision evidence, release identity, hardware and lifecycle/restore evidence.
+- docs/qualification/CURRENT-TRUTH.generated.md — blob 48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731: Astra Gold G0–G11 all BLOCKED; overall NOT_PROVEN / BLOCKED. This is Astra Gold governance state, not a substitute for MediaHub production qualification.
+- .github/workflows/mediahub-p0-07-verification.yml — blob 7fb80f402b4792b6a77cf8a4aad83d1ee5209789; .github/workflows/mediahub-p0-08-verification.yml — blob d06965d986c1bec173f3c94e4d3370a2ee038012: workflow_dispatch only, require an exact supplied verification SHA, target self-hosted runner labels, run targeted and full regression tests plus static scans. Their definitions establish intended checks, not execution or PASS for main HEAD.
+
+### Current-main metadata at HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8
+- Commit statuses endpoint returned an empty list.
+- Check-runs endpoint returned 11 records, but not a clean qualification result: the generic verify check concluded FAILURE on 2026-10-12; “Prepare and sign authoritative Astra command” was QUEUED at the read time and a previous instance was CANCELLED; multiple publish/supervisor/provider-related checks were SKIPPED. These records are not evidence that the P0-07/P0-08 verification workflows passed.
+- Recent workflow-runs metadata included Astra autonomous queue supervisor runs in PENDING/QUEUED states and earlier CANCELLED runs. This pass did not inspect host/runtime, cancel or dispatch any workflow, or infer actual execution from queue metadata.
+- The current-main tree has 798 entries and is not truncated; exact tree SHA cbb1862fcb4aa22ba24fea4ff12b580ffb305593.
+
+### Disposition
+- MH-22 gates remain NOT PROMOTED; qualification remains NO-GO / NOT PROVEN and production acceptance NOT GRANTED.
+- P0-07/P0-08 workflow existence is implementation evidence only; current-head execution evidence for those workflows was not established by this metadata review.
+- No source supports changing the current gate states. No tests, qualification, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+- Next: reconcile the active P0-07 governance/API blocker and independent-review/owner decision dependencies from the existing proposal and owner packet; do not treat CI metadata or workflow definitions as substitutes for that gate.
