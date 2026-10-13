@@ -4336,3 +4336,14 @@ The current checkpoint was also fetched and its new addendum was confirmed; the 
 | Current continuation checkpoint | `2087de790151907273755bdf2988a233b9641a64` |
 
 The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The main head and branch divergence are recorded in the current continuation checkpoint. This map section indexes the bounded documentary result only; it does not promote any contract or qualification status.
+
+
+## 20.152 P0-04 issuer/context provenance search — bounded result (2026-10-13)
+
+- **Continuation record:** [Current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), latest addendum “source-only P0-04 issuer/context provenance search”; read-back blob SHA after update: `f9f9660296efe240faef4fc844ef8b45628655c7` (commit `34b625c901b6855471722a5d2f2325fbfbd2e73b`).
+- **Sources re-read:** Bootstrap, this map, Master Development Roadmap, P0-07 audit/privacy/governance crosswalk (`94260e87aa8649cceb12b85f5cbaff3fbc65deaf`), canonical-read trace (`a15869f8e4f5ad00fe4bfeb54da48002434b414a`), P0-05 existing-context revision proposal (`6d494c7311e61ec3d82e561f66af10f6dffa69b9`) and owner decision packet (`f941d67c3d0b37b8abb1a96da02f51a494f9f2bf`).
+- **Live refs:** docs branch `docs/mediahub-chat-tree-map-20261012` and `main` exist. Comparison before this pass: DIVERGED, 610 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main HEAD` `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. No merge/rebase.
+- **Finding:** code-search queries did not return indexed matches for issuer/provisioner, principal resolver or context lifecycle. Search-index absence is not proof of repository-wide absence. Existing source evidence still does not establish an authoritative issuer/provisioner, authenticated principal resolver, grant lifecycle, expiry/revocation, audience or exact-request binding. The current-main ConsumerBoundary → injected StateAuthority read chain is documented, but P0-07 caller/composition linkage and same-revision proof remain NOT EVIDENCED.
+- **Disposition:** D1 existing-context reuse NOT DEMONSTRATED; D2 OPEN; canonical-read/caller join NOT EVIDENCED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 normative header/status question OPEN; project-wide qualification NO-GO / NOT PROVEN. No stable IDs minted; no status promoted.
+- **Next:** inspect exact commit/tree evidence for the accepted P0-05 implementation tree and current-main composition roots/call sites. Record only the precise scope actually inspected; do not infer absence from search results or select a governance option for the owner.
+- **Safety:** documentation-only. No tests, qualification, runtime/host inspection, credentials, provider/model calls, installation, infrastructure changes, deployment, migration, merge or rebase.
