@@ -1302,3 +1302,25 @@ No owner disposition has been inferred from the response template. Owner investi
 **Acceptance/evidence chain:** owner-approved data classification/purpose/retention/consent/residency and legal-hold policy → inventory of canonical, WAL/journal, snapshots, replicas, backups, caches and derived/external copies → authorized deletion and propagation semantics → restore-time deletion/hold enforcement before State Authority promotion → failure/retry and audit evidence → independent verification on an explicitly authorized target → governance acceptance. This is an evidence checklist, not a chosen policy or executable plan.
 
 **Limits:** no tests, deletion, restore, provider contact, implementation, qualification, runtime/host inspection, infrastructure change, deployment, migration, merge or rebase. No stable IDs added and no compliance claim made.
+
+
+## 55. MH-24 Batch 16 — B1 §25 Digital Twin atom-level traceability (2026-10-13)
+
+**Pass type:** bounded documentary crosswalk and independent documentary review. No product/entitlement decision, final child ID, implementation authorization or qualification result is inferred.
+
+| Artifact / source | Ref | Blob SHA | Evidence status |
+|---|---|---|---|
+| B1 historical source | `main:specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` | `9df4892ed0734050ac79732603d15bb414717310` | §25 lines 401–407 pinned |
+| B2 canonical source | `main:docs/checkpoints/mediahub-functional-baseline-2.0.md` | `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | §17 lines 368–378 pinned |
+| Preserved parent item | `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-01.md` | `ec2580f714e8f620bcf85ff7de2ae9242439e5e8` | AT-18 remains OPEN—CONTRACT |
+| Batch 16 draft | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-16-DIGITAL-TWIN-DRAFT.md` | `5329556d673749043c6d00ffc6bb6a7566558f59` | Four provisional rows; 3 MAPPED / 1 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT |
+| Batch 16 Review 01 | `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-16-DIGITAL-TWIN-REVIEW-01.md` | `5fe9c64bd0a177559e2d3a64672985e56cce1333` | Bounded structural/source-anchor review PASS; semantic/owner acceptance OPEN |
+| Passport v3 | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` | `467aedfc655db966597f564f4bf3074185aca6e9` | P-30 added as a working-draft traceability entry |
+| Verifiable Architecture Contract 01 | `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` | `c248956417cc61d66c968a4c58a56e799f653354` | ARC-037 / V-30 added; inventory 37 ARC / 30 checks; still draft |
+| Continuation prompt | `docs/checkpoints/MEDIAHUB-CHAT-CONTINUATION-MASTER-PROMPT-01.md` | `2f55704a02c4bc2477482e79cc80ef80a2e55a58` | Next route advanced to B1 §26 after Batch 16 |
+
+**Findings:** B2 §17 explicitly states Digital Twin is part of Full editions and not a separate OS, professional capabilities are entitlement-controlled, and lists overlapping capability families. It does not establish the exact B1-named Mac mini/Mini PC target-profile guarantee or the full entitlement lifecycle. The B1 domain list has bounded overlap but does not prove accepted schemas or workflows. MAPPED means textual correspondence only.
+
+**Required AT-18 evidence:** owner-approved edition/profile matrix; authoritative entitlement contract including grant/deny/expiry/revocation/offline/restore/reinstall/device-transfer; accepted Digital Twin artifact/schema/workflow inventory with provenance and authorization; separately authorized runtime and negative-path qualification evidence.
+
+**Disposition:** AT-18 OPEN—CONTRACT. No final child IDs minted; no canonical backlog or baseline changed. No tests, installation, qualification, runtime/host inspection, infrastructure change, deployment, migration, merge or rebase.
