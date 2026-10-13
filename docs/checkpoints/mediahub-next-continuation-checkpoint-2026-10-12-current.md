@@ -1263,3 +1263,11 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - The authorization context remains only principal/capability and is supplied by its caller. The mobile envelope expressly has no authentication/secrets. No compliant trusted issuer/lifecycle or existing D1 composition was demonstrated in the inspected modules. MH-12 sources specify requirements but do not prove implementation; MH-13 is accepted reconstruction, not frozen, with production implementation unauthorized and qualification unverified.
 - D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; P0-07→P0-05 bridge NOT EVIDENCED; mutation/publication BLOCKED; qualification NO-GO / NOT PROVEN. This is not a claim of repository-wide absence.
 - Next: continue governed proposal/review and owner/governance decision only; reuse existing D2 proposal, do not choose an issuer/API/schema or implement. Documentary source review only; no tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+
+
+### Separation of DEC-DEV-02 from P0-07 security gates — /next (2026-10-13)
+
+- Re-read owner decision packet and placement/decision register. DEC-DEV-02 is the Jarvis/ASTRA engineering lifecycle ownership conflict and remains OPEN_CONFLICT; it is not a disposition for P0-07 D2 review items R-01…R-06 and cannot close D1/D2/D4 or MH-12/MH-13 gates.
+- The packet's A0/internal workflow-state recommendation remains non-binding until accepted. P0-07 D2 independent review remains NOT EVIDENCED; P0-05 normative-status and D1/D2 governance remain OPEN; DEC-DEV-02 remains separately OPEN_CONFLICT.
+- Source cross-reference is recorded in the canonical-read trace and map §20.175. No decision, contract, stable ID or implementation status changed. Documentary-only; no tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next: obtain independent P0-07 D2 review and route DEC-DEV-02 through its separate owner/governance decision path; do not treat either as evidence for the other.
