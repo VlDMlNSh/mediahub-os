@@ -359,3 +359,16 @@ The source-anchored placement matrix is maintained at `docs/checkpoints/MEDIAHUB
 Existing decision IDs DEC-DEV-01…DEC-DEV-08 are preserved in the owner-decision packet. The unified traceability matrix Section 57 links the cross-domain conclusions to live source refs and blob SHAs. No owner decision was made and no implementation, qualification, deployment or production acceptance is claimed.
 
 Contour B product implementation remains gated until Contour A is deployed and independently accepted with evidence.
+
+
+## 14. Source-triaged developer-fabric decisions (2026-10-13)
+
+**Status:** working passport addendum; not canonical. Baseline 2.0 remains the accepted functional reference.
+
+- **Answered by accepted target source:** Alamo is the local inference endpoint label. Its runtime, protocol, model and exact endpoint remain deployment facts to discover. ONNX Runtime and llama.cpp are target-gated manifest candidates; the proposed Ollama direction is not accepted selection evidence.
+- **Open P0 lifecycle decision:** no accepted source reviewed in this pass assigns one authoritative Jarvis/ASTRA lifecycle owner for queue, claim, lease, retry, cancellation, evidence promotion and recovery. Continue exact contract reconciliation before asking the owner.
+- **Evidence-gated hardware choices:** future production Mac Pro identity, Mac mini Server 2011 workload and future GPU-server profile remain open/deferred until the relevant asset/hardware/OS/workload evidence exists.
+- **Established security invariants:** mesh/VPN/reachability is not trust or authorization; authentication, identity, capability and authorization are distinct. Developer Mobile still needs an operation-scoped identity/API/revocation/audit contract.
+- **Established provider invariant:** no silent local-to-cloud/provider fallback. MH-21 remains NOT ACCEPTED / NOT FROZEN / NOT PRODUCTION READY; provider/data-class/egress/retention policies and evidence remain open.
+- **Established contour gate:** Contour B must not begin until Contour A is deployed and independently accepted with evidence. DEC-DEV-08 is retained as a gate/evidence tracker, not an option to bypass.
+- Detailed source anchors and decision dispositions are in Section 58 of the unified traceability matrix and Section 6 of the owner decision packet. These are working documentary artifacts, not proof of implementation, qualification or production acceptance.
