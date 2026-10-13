@@ -1348,3 +1348,33 @@ No owner disposition has been inferred from the response template. Owner investi
 | ENG26-05 | OSS component admission gate | NOT_REVIEWED | B1 sequence includes license/security review, provenance, benchmark, adapter integration and qualification; full sequence is not established by B2 §17. |
 
 **Bounded result:** 2 MAPPED / 3 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT. MAPPED means textual correspondence only. No global no-conflict claim is made. No final child IDs minted; AT-18 remains OPEN—CONTRACT. No B1/B2/canonical backlog edits, implementation, tests, qualification or production authorization.
+
+
+## Section 57 — Developer-fabric placement crosswalk (2026-10-13)
+
+**Status:** documentary-only; this working matrix remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
+
+### Verified source anchors
+
+| Source | Ref | Blob SHA | Finding |
+|---|---|---|---|
+| `architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md` | `main` | `e549692f207fbc91d9b9b9b92b8e665404f07290` | Accepted target topology; Alamo is the local endpoint label; runtime/model/protocol remain unknown. |
+| `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` | `main` | `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` | Component selection closed; implementation open; target-gated candidates require admission evidence. |
+| `docs/architecture/MH-15-os-appliance-architecture.md` | `main` | `f817925c69ce4484713f952e47aacad283af8eeb` | Acceptance/freeze and implementation authorization absent. |
+| `docs/architecture/MH-16-installer-recovery-update-architecture.md` | `main` | `f3ad2401f00a4062b39eed640e0c5c5f70064312` | Install/update/recovery do not become State Authority; implementation not authorized. |
+| `docs/architecture/MH-12-security-architecture.md` | `main` | `cf4ebfd5bf471ca676f075c51d3a24906504e490` | Identity, trust, capability, authorization and policy remain distinct. |
+| `docs/architecture/MH-21-hybrid-cloud-distributed-ai.md` | `main` | `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c` | External compute is not authority; MH-21 is not accepted/frozen. |
+| `docs/architecture/MH-21-acceptance-criteria.md` | `main` | `582f898fe4be332b6a7fef3e8cca2e27c7328ac2` | Provider, egress, privacy, isolation and qualification evidence remain required. |
+| `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md` | `docs/mediahub-chat-tree-map-20261012` | `39e9ec183988c9caee5eb7ab0128bf4c71ffaa39` | Placement matrix exists; DEC-DEV-01…08 remain open. |
+| `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md` | `docs/mediahub-chat-tree-map-20261012` | Refresh SHA on next live read | Consolidates DEC-DEV-01…08 without presuming owner decisions. |
+
+### Cross-domain conclusions
+
+- Contour A and Contour B remain separate trust, data, credential and lifecycle domains. Contour B is gated by Contour A deployment and independent acceptance.
+- Product State Authority is not Jarvis, ASTRA, a model router/provider, persistence, network or observability.
+- Alamo endpoint, proposed Ollama direction and target-gated ONNX Runtime/llama.cpp are not silently normalized into one implementation choice; DEC-DEV-01 remains open.
+- Jarvis/ASTRA lifecycle ownership remains unresolved under DEC-DEV-02.
+- Mesh reachability is not application authorization; DEC-DEV-06 remains open.
+- External provider routes remain data-class, authorization, egress, retention and audit gated; local-only mode must fail closed.
+- Legacy Mac mini and future GPU server placements remain conditional on hardware/OS/workload evidence.
+- No owner decision, implementation, test, qualification, deployment or acceptance is inferred by this crosswalk.
