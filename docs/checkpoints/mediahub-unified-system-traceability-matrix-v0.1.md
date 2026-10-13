@@ -1411,3 +1411,27 @@ No owner disposition has been inferred from the response template. Owner investi
 ### Handoff
 
 The next primary-source pass is DEC-DEV-02 lifecycle reconciliation. Do not ask the owner to restate accepted invariants or decide before evidence prerequisites. Keep P0-07 → P0-05 as a parallel P0 governance/API gap under its own existing decision trail. No implementation or qualification status is inferred.
+
+
+## Section 59 — Jarvis / ASTRA lifecycle authority contradiction (2026-10-13)
+
+**Status:** OPEN_CONFLICT; documentary reconciliation only; no normative source edited.
+
+| Source | Ref / blob SHA | Clause-level statement | Effect |
+|---|---|---|---|
+| ASTRA GOLD Unified Autonomous Development System | `main` / `e2067dc41b52983fc4e0b2549fb6af3c099cbc60` | Status says CANONICAL / QUALIFICATION-READY DESIGN. §§2–3 and 6–7 describe A0 ASTRA as the coordination/state controller and the engineering queue/claim/lease/dispatch/result/recovery lifecycle. | Supports A0 as the designed owner of ASTRA-internal engineering workflow state; does not prove current implementation or qualification. |
+| ASTRA GOLD Complete Component Scheme | `main` / `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1` | Status says CANONICAL ARCHITECTURAL RECONCILIATION / QUALIFICATION INVENTORY. §1 says “A0-ASTRA = single coordination and MediaHub State Authority.” | Direct conflict with the product-state authority invariant; cannot be silently interpreted as ASTRA owning MediaHub Product State Authority. |
+| ASTRA GOLD Governance Contract | `main` / `1d3ac25e7817f365807ad85d0d7c9007bd48bebf` | Status `CANONICAL_GOVERNANCE_SOURCE`; missing evidence blocks gates; human approval required for launch. | Governs ASTRA qualification/launch gates; does not independently resolve Jarvis/A0 composition. |
+| Verifiable Architecture Contract 01 | `docs/mediahub-chat-tree-map-20261012` / `c248956417cc61d66c968a4c58a56e799f653354` | ARC-003 restricts A0 to ASTRA queue/claim/lease/evidence/gate state; ARC-017 places Jarvis as umbrella and ASTRA as bounded subsystem; ARC-018 requires one lifecycle owner before implementation. | Current integrated working contract says the cross-system lifecycle owner and adapter/delegation boundary remain open. |
+| Jarvis bundle independent review | `docs/mediahub-chat-tree-map-20261012` / `022f1bd881906d4ab837b2f46c091c43546fce14` | §3 item 9 and residual R-04 say one lifecycle owner remains open. | Independent documentary review does not accept a cross-system owner. |
+| ASTRA Current Truth | `main` / `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | Overall NOT_PROVEN / BLOCKED; G0–G11 are BLOCKED. | Design labels cannot be treated as implemented/qualified lifecycle behavior. |
+
+### Reconciliation result
+
+- **Established target:** A0 ASTRA is designed to own ASTRA-internal queue/claim/lease/evidence/gate state.
+- **Non-negotiable boundary:** ASTRA engineering workflow state is not MediaHub Product State Authority.
+- **Unresolved:** whether the existing A0 lifecycle is the admitted single engineering-task owner beneath Jarvis, and what typed adapter/delegation contract prevents a second queue/lease/retry/evidence-promotion source of truth.
+- **Conflict requiring governance-controlled source correction:** the Complete Component Scheme's “MediaHub State Authority” phrase must not be silently rewritten by this pass. Its intended scope needs an explicit governed reconciliation against ARC-003 and the accepted product authority invariant.
+- **Qualification:** ASTRA Current Truth remains NOT_PROVEN / BLOCKED; no runtime or qualification claim is inferred.
+
+Next independent documentary track: continue the existing P0-07 → P0-05 trust/context/authorization bridge using its canonical-read trace and owner-recorded D1/D2/D4 directions. Keep DEC-DEV-02 open; do not alter primary ASTRA contracts or start a second lifecycle implementation.
