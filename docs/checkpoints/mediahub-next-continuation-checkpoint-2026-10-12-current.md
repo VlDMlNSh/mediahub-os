@@ -722,4 +722,17 @@ Each listed file was fetched again after its write and its new section/link mark
 
 ### Read-back provenance
 
-The new packet/traceability/passport/map/roadmap/checkpoint/supporting-plan sections must be re-fetched and marker-checked after the final writes. The next table below records the read-back SHAs after those checks.
+The packet/traceability/passport/map/roadmap/checkpoint/supporting-plan sections were re-fetched from the live documentation ref after writing. All expected section markers were present. Read-back blob SHAs:
+
+| Artifact | Blob SHA |
+|---|---|
+| Bootstrap instruction | `49b4760b4adf4f1565fac0aa4697da000f1cf37b` |
+| Master Development Roadmap 1.0 | `a65de988736b21abfe95d72c1a3cc4947c832c71` |
+| Node/service placement matrix | `59107fd6d7b8a73d671098adcf2824c310642907` |
+| Owner decision packet 01 | `f941d67c3d0b37b8abb1a96da02f51a494f9f2bf` |
+| Unified traceability matrix v0.1 | `f2b7ef1811a25b5abad2e00d177c3edd8ca7fa23` |
+| Working Passport v3 | `37d38c67992ceca67f9eae0c62a4a0efb22c86a9` |
+| Chat Tree Map | `10e5ee7166f5b4276d7ebbd5b1c8eb3992b4adf0` |
+| Supporting developer-fabric plan | `fb9fd947666376a674f6dcc8bfaf989fc3333351` |
+
+The checkpoint itself is re-read after this update; its resulting SHA is reported in the assistant's completion summary rather than embedded in its own content.
