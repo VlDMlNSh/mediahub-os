@@ -1186,7 +1186,7 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 ### P0-07 D2 trusted-context authority/lifecycle proposal (2026-10-13)
 
 - **Owner disposition:** option B selected — prepare a governed trusted-context authority/lifecycle proposal for separate review. This is proposal authorization only, not architecture acceptance or implementation authorization.
-- **Proposal artifact:** [P0-07 D2 Trusted Context Authority and Lifecycle Proposal](P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md); create commit `84fde686a9385ba5cb0908a55c5355200088fddc`. Read-back verification of the new artifact is required before treating its current blob SHA as verified.
+- **Proposal artifact:** [P0-07 D2 Trusted Context Authority and Lifecycle Proposal](P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md); initial create commit `84fde686a9385ba5cb0908a55c5355200088fddc`; subsequently refined and read-back verified in the later checkpoint entry below (current blob SHA `8156f540917f14f11d3170df7b2ade67de40c0ec`).
 - **Scope:** conceptual responsibility model; minimum context semantics; candidate lifecycle; threat/negative cases; options A/B/C; governance, security review, acceptance/freeze, implementation and qualification gates. No technology/API/schema selected.
 - **Status:** D1 `NOT DEMONSTRATED`; D2 `NOT EVIDENCED — PROPOSAL PREPARED FOR REVIEW`; D3 `NOT EVIDENCED / DEPENDENT ON D1/D2`; D6 `OPEN / GOVERNANCE CONFIRMATION REQUIRED`.
 - **Gates unchanged:** P0-07 mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
