@@ -4668,3 +4668,12 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - For main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8, commit statuses were empty and 11 check-runs included a generic verify FAILURE, a queued Astra command-signing job, a previously cancelled instance, and skipped jobs. This does not establish P0-07/P0-08 PASS. No workflows were dispatched.
 - Disposition unchanged: MH-22 qualification NO-GO / NOT PROVEN; production acceptance NOT GRANTED; Astra Gold G0–G11 BLOCKED / NOT_PROVEN. Unknown remains unknown; workflow existence is not qualification evidence.
 - Read-only metadata/document review. No tests, qualification, dispatch, runtime/host inspection, deployment, migration or branch integration.
+
+
+## 20.181 Separate P0-07 D2 gate from DEC-DEV-02 (2026-10-13)
+
+- Trace: [canonical-read trace](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), addendum “separate P0-07 D2 governance gate from DEC-DEV-02”.
+- Owner decision packet blob f0cd4088a8e84afc2499bf1ac7c206e66bff38df and placement/decision register blob 59107fd6d7b8a73d671098adcf2824c310642907 show DEC-DEV-02 is Jarvis/ASTRA engineering lifecycle ownership / State Authority wording reconciliation.
+- P0-07 D2 proposal blob 5e0ce7ba9f6ab4aa31f939189d49c6635c2457f1 is a distinct trusted-context issuer/lifecycle governance gate; prior owner option B authorized proposal preparation only. Similar numbering does not connect the decisions.
+- P0-07 independent MH-12/MH-13 and architecture review remains NOT EVIDENCED; owner/governance acceptance and implementation authorization remain pending/not granted. D1 NOT DEMONSTRATED; D3 NOT EVIDENCED; D6 OPEN; P0-07 BLOCKED; P0-05 v1.1 NOT ACCEPTED/NOT FROZEN; qualification NO-GO/NOT PROVEN.
+- Next: obtain independent review of P0-07 D2 R-01…R-06, then separately record owner/governance disposition. Do not reopen DEC-DEV-02 unless its own evidence/dependency requires it.
