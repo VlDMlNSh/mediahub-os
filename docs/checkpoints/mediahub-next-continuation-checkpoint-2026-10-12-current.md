@@ -605,3 +605,17 @@ This addendum supersedes only the prior subsection's mutable-branch blob snapsho
 - Overall project qualification remains NO-GO / NOT PROVEN; ASTRA G0–G11 BLOCKED; MH-22 G1–G9 not promotable. P0-07 canonical mutation/publication remains BLOCKED — GOVERNANCE/API GAP. P0-05 candidate/header status still requires explicit governance confirmation.
 - This pass only refreshed documentary metadata. No tests, qualification runner, workflow dispatch/rerun/cancel, logs, credentials, provider/model calls, runtime/host inspection, installation, infrastructure changes, migration, deployment, merge or rebase.
 - **Next bounded step:** follow the map’s P0-07/P0-05 routes and perform a source-bound read-only audit of caller/context provenance and the distinct P0-04 transaction authorization boundary. Do not infer the CI failure cause from summary metadata; do not edit the protected P0-05 header absent explicit governance confirmation.
+
+
+---
+
+## Continuation addendum — unified developer-fabric plan (2026-10-13)
+
+- Re-read the live bootstrap, map, this checkpoint, Baseline 2.0, Distributed AI Infrastructure, Canonical Component Manifest 2.0, MH-15/MH-16, unified deployment contract, unified traceability matrix, Jarvis gap report, Passport v3 and Verifiable Architecture Contract 01 before preparing the bounded planning artifact.
+- Created `docs/checkpoints/MEDIAHUB-DEVELOPER-FABRIC-UNIFIED-PLAN-2026-10-13.md`, read-back blob SHA `f43f2c4acc196af33ec43af0d0085de085e62939`. It separates Contour A (developer fabric) from Contour B (MediaHub product), records known hardware roles and unknowns, identifies architecture conflicts and defines A0–A6 then B0 sequencing.
+- Confirmed owner target: Mac Pro 2013/macOS; Mac mini Server 2011/clean Linux/16 GB; future remote owned GPU/video server. Existing source also names MacBook clients, a customer-site Mac mini M2 prototype, current test servers, user-contributed compute Pool B and a registration-only VPS; keep these as separate roles/trust domains.
+- Key unresolved architecture decisions: Alamo vs Ollama vs ONNX Runtime/llama.cpp composition; single lifecycle owner across Jarvis/ASTRA queues/leases/evidence; exact per-node hardware/OS profiles; whether a future production Mac Pro is the same physical asset as the developer Mac Pro; mobile identity/revocation and provider/egress contracts.
+- Live main HEAD observed: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Before this pass's writes, documentation branch compared as DIVERGED, 536 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase.
+- Status unchanged: unified deployment contract/matrix and Passport v3/Contract 01 remain working drafts, not accepted canonical baselines; MH-15 acceptance/freeze and implementation are not authorized; MH-16 remains proposed/not frozen/implementation not authorized; ASTRA G0–G11 and MH-22 G1–G9 remain blocked/not promotable in the inspected evidence; project-wide qualification remains NO-GO / NOT PROVEN; P0-07/P0-05 governance/API gap remains open.
+- No installation, tests, qualification, model/provider calls, credentials, runtime/host inspection, infrastructure changes, migration, deployment, merge or rebase were performed.
+- **Next bounded action:** source-anchor the node/service placement matrix and conflict/decision register against exact primary clauses; do not change the unified matrix or promote any draft to canonical until authorized review. Follow the plan checkpoint and the current live map, not this addendum alone.
