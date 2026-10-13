@@ -134,3 +134,46 @@ The governance-approved tree at commit `97a01977f521ba8304a455b5d7504896235ddea7
 - [P0-05 Consumer Contract](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/P0-05-consumer-contract.md)
 - [P0-05 v1.1 candidate](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/p0-05-consumer-contract-v1.1-candidate-for-governance-review-2026-10-12.md)
 - [P0-07 adapter contract](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/P0-07-adapter-contract.md)
+
+
+## 13. D4 — P0-07 operation-to-canonical-state mapping (source-bound review, 2026-10-13)
+
+**Status: PROVISIONAL MAPPING / NOT ACCEPTED / NOT IMPLEMENTATION AUTHORIZATION.** This section resolves what the inspected source currently says, not what the future contract should accept.
+
+### Source evidence
+
+- P0-07 branch: `architecture/mh-7-configuration-policy`, HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`; source lineage is branch-specific and is not proven reachable from current `main` (`1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`).
+- `runtime/mediahub_runtime/configuration_policy_operations.py`, blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`: request contains `resource_type`, `operation`, `resource`, P0-07 `AuthorizationContext`, and optional typed payload. `decide()` validates, authorizes, evaluates policy and returns a decision; it does not call P0-05 or publish.
+- `runtime/mediahub_runtime/configuration_policy_authorization.py`, blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`: exact capability inventory is 7 operations for each of `configuration` and `policy`: `read`, `validate`, `propose`, `update`, `replace`, `reset`, `delete`.
+- `docs/architecture/P0-07-read-validate-boundary.md`, blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`: read is observation-only; until an authoritative source is defined, only an explicitly supplied immutable domain object may be inspected, and it is not thereby canonical persisted state.
+- `docs/architecture/P0-07-mutation-authority-reconciliation.md`, blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`: the only contemplated v1 publication unit is one complete configuration or policy document; cross-document atomicity and capability translation are prohibited.
+- `docs/architecture/P0-07-p0-05-mutation-adapter-contract.md`, blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88`: mutation remains blocked pending an approved independent P0-04 authorization hand-off.
+- Current-main `runtime/mediahub_runtime/consumer_boundary.py`, blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`: P0-05 `begin` forwards the supplied context to P0-04; commit/abort remain mediated by P0-05 and P0-04. This does not prove a P0-07 caller or a compatible trusted P0-04 context exists.
+- P0-03 State Authority contract on `architecture/p0-03-state-authority-contract`, blob `2f35ed1b77c7979c9de50371c8a0f7a82f5d1e75`: canonical state is a complete immutable revision with generation and state-version metadata; transaction publication is atomic and stale transactions fail closed.
+
+### Operation mapping inventory
+
+| P0-07 operation | Domain-level meaning evidenced by source | Candidate canonical-state mapping | D4 disposition |
+|---|---|---|---|
+| `configuration.read` | Observation-only | No authoritative configuration source/key or canonical revision binding is defined | **UNMAPPED / READ SOURCE OPEN** |
+| `configuration.validate` | Deterministic validation | No canonical mutation; validates supplied bounded configuration | **NO STATE WRITE** |
+| `configuration.propose` | Inert proposal | Proposal is not canonical state and must not publish | **NO STATE WRITE** |
+| `configuration.update` | Authorized domain operation with configuration payload | Candidate unit could be one complete configuration document; identity/resource and update-vs-replace semantics are not bound to a canonical key | **CONDITIONAL / INCOMPLETE** |
+| `configuration.replace` | Authorized domain operation with configuration payload | Same candidate full-document unit; semantic distinction from update and target identity remain undefined | **CONDITIONAL / INCOMPLETE** |
+| `configuration.reset` | Capability name only; reset target/default source is not established | No accepted canonical default/template or reset payload contract | **UNMAPPED** |
+| `configuration.delete` | Capability name only; delete semantics are not established | No accepted deletion/tombstone/absence representation or invariants | **UNMAPPED** |
+| `policy.read` | Observation-only | No authoritative policy source/key or canonical revision binding is defined | **UNMAPPED / READ SOURCE OPEN** |
+| `policy.validate` | Deterministic validation | No canonical mutation; validates supplied bounded policy | **NO STATE WRITE** |
+| `policy.propose` | Inert proposal | Proposal is not canonical state and must not publish | **NO STATE WRITE** |
+| `policy.update` | Authorized domain operation with policy payload | Candidate unit could be one complete policy document; identity/resource and update-vs-replace semantics are not bound to a canonical key | **CONDITIONAL / INCOMPLETE** |
+| `policy.replace` | Authorized domain operation with policy payload | Same candidate full-document unit; semantic distinction from update and target identity remain undefined | **CONDITIONAL / INCOMPLETE** |
+| `policy.reset` | Capability name only; reset target/default source is not established | No accepted canonical default/template or reset payload contract | **UNMAPPED** |
+| `policy.delete` | Capability name only; delete semantics are not established | No accepted deletion/tombstone/absence representation or invariants | **UNMAPPED** |
+
+### D4 result and limits
+
+- The source supports **14 named domain operations**, but does not establish an accepted set of canonical mutations. `validate` and `propose` are non-mutating; `read` lacks a canonical source; `update/replace` are only candidate full-document units; `reset/delete` have no defined canonical-state semantics.
+- No source-bound mapping establishes `resource` → canonical State Authority key, exact canonical revision/generation binding, P0-07 decision-to-payload binding, or an unchanged independently P0-04-authorized context from a trusted caller.
+- The P0-07 branch lineage and current-main P0-05 source are distinct refs. No end-to-end composition root or call edge is evidenced by this review.
+- Do not mint stable operation IDs or promote candidate mappings into normative contract clauses. Owner/security/governance disposition remains required; P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
+- No implementation, tests, qualification, branch integration, deployment or status promotion occurred.
