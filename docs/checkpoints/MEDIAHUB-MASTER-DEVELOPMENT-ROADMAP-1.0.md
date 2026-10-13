@@ -245,7 +245,7 @@ P0-01 through P0-05 are documentary/source-reconciliation work. P0-06 and P0-07 
 | DEC-DEV-05 | Which model/provider routes may receive which data classes? | Local-only fail-closed target exists; provider details need pinned compatibility and policy evidence | Data-egress and provider policy approval |
 | DEC-DEV-06 | What authorization/revocation contract governs Developer Mobile? | Private mesh/P2P is a connectivity path, not sufficient authorization | Identity/API scopes/revocation policy |
 | DEC-DEV-07 | What exact hardware/OS profile will the future GPU server use? | Future node is a target capacity extension; specifications absent | Profile constraints first; hardware selection when appropriate |
-| DEC-DEV-08 | What evidence and authority formally unlock Contour B? | This roadmap proposes Phase 09 acceptance as gate; not yet a new canonical governance rule | Owner acceptance of gate package and link to governing record |
+| DEC-DEV-08 | What evidence and authority formally unlock Contour B? | Binding project instruction and Phase 10 already require Contour A deployment plus independent acceptance; the gate is not discretionary | Gate established; track exact-SHA evidence bundle, independent result and explicit acceptance record. Do not ask whether to start early. |
 
 No decision is silently made by this table. If an answer cannot be found in accepted primary sources, ask the owner at the point it blocks progress.
 
@@ -284,20 +284,19 @@ For each substantive pass, update the map and continuation checkpoint when there
 - Hardware compatibility, runtime state and actual deployment are not asserted by this document.
 - No tests, qualification, model/provider invocation, credential use, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick was performed.
 
-## 9. Next bounded action — advance beyond existing placement inventory
+## 9. Next bounded action — resolve lifecycle ownership from primary contracts
 
-The source-anchored placement matrix already exists at `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`. Do not recreate it. The owner-decision packet now exists at `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md`.
+The placement matrix and owner decision packet exist. A source-anchored triage is now recorded in `MEDIAHUB-OWNER-DECISION-PACKET-01.md` §6. It establishes that the Alamo endpoint label, fail-closed/no-silent-fallback rule, network-vs-authorization boundary, and Contour A → Contour B gate are already answered by accepted sources or binding project instructions; those must not be re-asked as open decisions.
 
-Next pass must move the evidence frontier forward:
+Next pass:
 
-1. Re-fetch the matrix, owner-decision packet, exact primary contracts and relevant unified traceability/passport sections from live refs; refresh blob SHA and source-status claims.
-2. Cross-check each DEC-DEV-01…08 against exact primary clauses and determine which questions are genuinely unresolved versus answerable from already accepted sources. Preserve historical IDs.
-3. Update the unified traceability matrix and working Passport only for source-confirmed mappings/statuses; do not promote either working draft to canonical.
-4. Produce a compact, dependency-ordered owner questionnaire containing only irreducible decisions, with options, consequences and a recommendation. Do not ask the owner to decide facts already established by accepted contracts.
-5. Continue independent documentary closure around the P0-07 → P0-05 governance/API gap and other roadmap P0 items only after confirming their exact dependency order; do not allow the developer-fabric packet to silently reorder product-contour gates.
+1. Re-fetch ASTRA/Jarvis primary contracts, current refs and SHA, including the unified autonomous development system, complete component scheme, executor capability matrix, and current independent/semantic reviews.
+2. Reconcile DEC-DEV-02 against exact lifecycle responsibilities: queue, claim, lease, retry, cancellation, evidence promotion, failure recovery and authority boundaries. Distinguish target architecture, implementation evidence, verification and qualification. Do not infer a single owner from umbrella/subsystem naming.
+3. Update the existing decision packet, placement matrix, unified traceability matrix and working Passport only where source evidence supports a more precise boundary. Keep DEC-DEV-02 open if no accepted contract assigns the lifecycle owner.
+4. Continue the roadmap's P0-07 → P0-05 authorization/context bridge work as an independent P0 track, following the latest canonical-read trace and owner-recorded D1/D2/D4 investigation directions. Do not edit protected P0-05 normative text or change P0-07 status absent governance acceptance.
+5. Ask the owner only for irreducible decisions after the source reconciliation; DEC-DEV-03/04/07 remain evidence-gated/deferred, DEC-DEV-05/06 retain their established security invariants, and DEC-DEV-08 is a gate/evidence tracker rather than a discretionary decision.
 
 No tests, qualification, provider/model calls, credentials, host/runtime inspection, infrastructure changes or deployment are authorized by this documentary pass.
-
 ## 10. Операционный контракт продолжения и актуальности ссылок (revision 2026-10-13)
 
 Этот раздел уточняет исполнение единого плана и не меняет принятые доменные контракты, Baseline 2.0 или owner decisions.
