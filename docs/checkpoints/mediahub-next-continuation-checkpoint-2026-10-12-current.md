@@ -1458,3 +1458,13 @@ Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
 - Bounded PR/issue searches and complete docs-branch tree inspection did not surface a separate independent-review record. This is not proof of repo-wide or off-platform absence. Existing proposal §13 remains the intake point; no duplicate worksheet created.
 - D2 remains `NOT EVIDENCED`: no qualified reviewer identity/independence, R-01…R-06 dispositions, overall recommendation or sign-off in inspected evidence. Owner/governance acceptance remains separate. Next: obtain a real qualified independent review against the exact proposal and source SHAs, then record its actual dispositions in §13. Do not self-fill the worksheet or promote statuses.
 - Documentary-only. No tests, qualification, runtime/production actions, infrastructure changes or branch integration.
+
+
+## Latest /next result — P0-07 D4 live-main source revalidation (2026-10-13)
+
+- Live refs: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch DIVERGED, ahead 748 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Re-read D4 Sections 58/63 in the unified matrix and re-fetched live `main` authorization, ConsumerBoundary, in-memory State Authority and generation sources. Exact SHAs and source-backed limitations are recorded in matrix Section 68.
+- Matrix Section 68 commit `1e11ae9bc935b10c1c8a35773156d8d9332ae6be`, blob `43e495aae6b4dc55a0d2e07fa4723d364898a5c1`; trace update commit `8065d6969a733077ab34c3394a3a3d056693cef2`, blob `0220b81c65ab61d375a3c0a807ab33d6a666d501`. Both files were read back and blob SHAs verified.
+- Findings: local tuple authorization and state-version freshness are evidenced. ConsumerBoundary `read(key)` has no operation/context argument. No accepted P0-07 → P0-05 call edge, trusted issuer/lifecycle, resource-to-canonical-key map, or end-to-end same-revision binding is established by these sources. Reset/delete/default semantics remain unresolved.
+- Statuses unchanged: D4 candidate only; D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3 NOT EVIDENCED; D6 OPEN; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; qualification NO-GO / NOT PROVEN.
+- Documentary-only; no tests, qualification, runtime/production actions or branch integration. Next: use existing governance decisions for unresolved operation/resource semantics; obtain actual qualified independent D2 review rather than self-completing its worksheet.
