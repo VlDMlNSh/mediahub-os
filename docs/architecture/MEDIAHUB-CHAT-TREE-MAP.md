@@ -4080,3 +4080,15 @@ The adapter contract lists three governance directions (existing independently P
 - Matrix cross-reference: Section 50, blob `0fb4ee682455104301eb3cb3bb9dab7b890f7708`.
 - Status: intended flow **DOCUMENTED AS TARGET**; implementation call edge **NOT EVIDENCED**; authorization bridge **GOVERNANCE/API DECISION REQUIRED**; mutation/publication **BLOCKED**; current-main integration **NOT EVIDENCED**; project qualification **NO-GO / NOT PROVEN**.
 - Next: locate a later owner/governance decision superseding the gap. If none exists, request owner direction before code changes. No tests, workflow runs, code changes, deployment, merge, rebase, or cherry-pick.
+
+
+## 20.133 P0-07 governance decision search and existing proposal (2026-10-13)
+
+- Owner register `docs/checkpoints/mediahub-owner-decisions-2026-10-12.md`, blob `62831d23c5e6bbddc707ec5b197cffba57d6139a`, records D1 C→A (prove trusted caller path before considering independent authorization composition) and D2 investigation of P0-04 context authority/lifecycle. These directions are research/governance instructions, not normative acceptance or implementation authorization.
+- Existing proposal `docs/checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md`, blob `1f99b8d13066ea21233affbd4057ad50fcd4d256`, remains PROPOSAL / GOVERNANCE REVIEW REQUIRED / NOT ACCEPTED / NOT FROZEN. It records no source-bound caller passing an independently P0-04-authorized context unchanged to P0-05 and asks governance to consider a typed hand-off; no normative API signature is accepted.
+- Crosswalk `docs/checkpoints/p0-07-audit-privacy-governance-crosswalk-2026-10-12.md`, blob `3b2ff1d5b66e99284e93ec2a6969bddcd77241b4`, is non-normative and explicitly provides no implementation authorization. It leaves D1/D2 and the security/privacy gates open.
+- A bounded search of the current documentation-branch tree (888 entries, not truncated) found no later accepted P0-07→P0-05 hand-off contract or superseding owner decision. P0-06 governance acceptance is scoped to P0-06 and requires a new decision for P0-04/P0-05 semantic changes; it does not authorize the P0-07 bridge.
+- P0-05 exact baseline contract still has a DRAFT-header vs accepted-governance-package discrepancy, requiring controlled reconciliation. Do not silently edit the accepted artifact.
+- Status: existing-context path **NOT DEMONSTRATED**; proposal **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; D2 context authority/lifecycle **OPEN**; P0-07 mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification **NO-GO / NOT PROVEN**.
+- Next: present the existing proposal and source-bounded findings for explicit owner/governance disposition; require exact normative contract acceptance/freeze and separate implementation authorization before code changes. No tests, implementation, deployment, merge, rebase, or cherry-pick.
+- Matrix cross-reference: Section 51, blob `ce5f2624f75928241ea9abaeb4ae4a4b64270ec6`.
