@@ -1676,3 +1676,18 @@ Only DEC-DEV-02 is ripe for an immediate owner/governance choice. The exact ques
 DEC-DEV-01 remains deferred until documentary compatibility narrows options; DEC-DEV-03/04/07 remain evidence-gated; DEC-DEV-05/06 require a later operation/data-route inventory; DEC-DEV-08 is a binding gate and must not be asked as an optional choice.
 
 **Disposition unchanged:** no installation, host/runtime inspection, tests, qualification, provider/model calls, credential use, infrastructure changes or deployment. No primary ASTRA source was edited.
+
+## Section 65 — D1/D2 trusted-context source traceability (2026-10-13)
+
+| Requirement | Live source evidence | Verified meaning | Disposition |
+|---|---|---|---|
+| P0-04 authorization context | `main` `runtime/mediahub_runtime/authorization.py`, blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` | `principal` + `capability`; explicit tuple allow-list; default deny. No issuer/authentication/lifecycle in this module. | Context consumer semantics exist; trusted source NOT EVIDENCED. |
+| P0-05 context handoff | `main` ConsumerBoundary blob `98bf2da9cea85da2c82145b4baef417c20b9ae73` | Caller-supplied context passed to P0-04 State Authority at transaction begin; no caller authentication/issuer is established here. | P0-07 → P0-05 end-to-end caller path NOT DEMONSTRATED. |
+| Mobile/developer context envelope | `main` `astra_developer_context.py`, blob `d1806e5e91e16cb27d34d9331b9a25e25d606a46` | Bounded transport-neutral parsing; explicitly no authentication/secrets. | Untrusted input validation only; not P0-04 context authority. |
+| ASTRA prompt context | `main` `astra_context.py`, blob `9a30c0a3299e6b3a47bc03f55f4d26d2d9f14ad9` | Bounded durable prompt assembly marked advisory/untrusted and non-authoritative. | Must not be used as identity/authorization source. |
+| MH-06 execution context | `main` blob `35647b282352f56d57f1bd476bff1503571c5650` | Requires bounded non-forgeable context and re-establishment after restart. | Architecture requirement; no accepted issuer implementation identified. |
+| MH-12 identity/authentication/authorization | `main` blobs `27eef9e23db02d6280b94a8e68bff9f73b0de88d`, `a29c6a3cff0ee175a0c868214ffa2b455010002f`, `c48641861691714017aa5b1f99fe8eee8ea0e76a` | Lifecycle, issuance, binding, expiry, revocation, replay-resistance and fail-closed requirements. Technology remains non-canonical. | Requirement evidence only; concrete authority/lifecycle NOT EVIDENCED. |
+
+**D1:** existing compliant authorization/context composition NOT DEMONSTRATED in inspected source. **D2:** trusted context issuer/provisioner and freshness/revocation authority NOT EVIDENCED. These are bounded evidence findings, not universal claims about components outside the inspected repository/tree.
+
+**Governed design questions:** issuer/authority ownership; principal and request binding; separation of P0-07 and P0-04 decisions; expiry/revocation/replay; trust boundary/provenance; exact resource/payload/state-revision binding; audit/privacy; fail-closed errors. No implementation technology, schema or API signature selected. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN.
