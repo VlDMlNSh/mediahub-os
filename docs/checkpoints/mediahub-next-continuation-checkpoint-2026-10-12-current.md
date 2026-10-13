@@ -1280,3 +1280,14 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - Current status remains D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - Documentary-only. No tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next: obtain a genuinely independent reviewer’s completed, source-anchored R-01…R-06 dispositions; separately obtain owner/governance decisions where required.
+
+ 
+### Main-branch MH-12/MH-13 source crosswalk — /next (2026-10-13)
+
+- Read current `main` at HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` and source-anchored MH-12/MH-13 crosswalk in the canonical-read trace. Sources and blob SHAs are listed there.
+- Key constraints: authentication does not grant authorization; trust is explicit, contextual and revocable; authorization is identity-bound, operation-specific and fail-closed at the approved Consumer Boundary/State Authority contract; audit is not State Authority. MH-13's governance acceptance applies to a reconstructed/proposed artifact only and does not imply freeze, production authorization or qualification.
+- This clarifies R-01/R-03/R-04/R-05 reviewer scope but is not an independent review and does not establish implementation compliance. No protected contract, stable ID, or gate status changed.
+- Current gates remain D1 NOT DEMONSTRATED; D2/D3/D4 NOT EVIDENCED; D6 OPEN; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Documentary-only; no tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next: independent reviewer completes R-01…R-06 against these exact sources and the existing proposal; owner/governance decisions remain a separate gate.
+
