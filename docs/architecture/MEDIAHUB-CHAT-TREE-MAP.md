@@ -4047,3 +4047,23 @@ The adapter contract lists three governance directions (existing independently P
 - Matrix cross-reference: [Unified System Traceability Matrix, Section 48](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob `9d9d056cd311df0cd570a60d1fcda75d243c7540`.
 - Disposition unchanged: P0-07 canonical-read **NOT EVIDENCED**; mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project-wide qualification **NO-GO / NOT PROVEN**.
 - Next bounded step: identify the exact branch/commit containing the P0-07 operation-boundary blobs and inspect its callers/tree, then compare to current main without merging. No tests, runtime/host inspection, code changes, deployment, merge or rebase.
+
+
+## 20.131 P0-07 implementation branch located (2026-10-13)
+
+**Status:** source lineage located; no integration or acceptance status changed.
+
+- The P0-07 implementation blobs are present in branch `architecture/mh-7-configuration-policy`, HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`, tree count 171, not truncated.
+- Source paths:
+  - `runtime/mediahub_runtime/configuration_policy.py`, blob `96ef9de2b6fac870b604d3dd9bea78f5accde67a`
+  - `runtime/mediahub_runtime/configuration_policy_authorization.py`, blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`
+  - `runtime/mediahub_runtime/configuration_policy_operations.py`, blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`
+  - `docs/architecture/P0-07-read-validate-boundary.md`, blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`
+  - `docs/architecture/P0-07-p0-05-mutation-adapter-contract.md`, blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88`
+  - `docs/architecture/P0-07-mutation-authority-reconciliation.md`, blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`
+- The operation boundary performs request validation, P0-07 authorization and policy evaluation, then returns a decision; it does not publish state or call `ConsumerBoundary.read`. The authorization allow-list does not identify the canonical read source or establish trusted issuer provenance. The configuration module is a bounded domain model/validator, not a persistence adapter.
+- This locates the source lineage but does not establish that the branch's implementation is reachable from current `main`. Compare reports DIVERGED: 143 ahead / 1,668 behind; merge base `1364d027f6722cfccab088735ecd1b5d04781b0b`. No merge or cherry-pick was performed.
+- Branch test files exist, but no tests were run and no execution/qualification evidence is claimed.
+- Matrix cross-reference: [Unified System Traceability Matrix, Section 49](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob `3d5f45b3878b8beda2cfa4ce33e6212b07ce3ba3`.
+- Disposition: P0-07 source lineage **LOCATED**; P0-07→P0-05 canonical-read call edge **NOT EVIDENCED**; current-main reachability **NOT EVIDENCED**; mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification **NO-GO / NOT PROVEN**.
+- Next bounded step: inspect documented integration/composition entry points and the exact branch history for an existing approved bridge; compare source changes to current main without merging. No tests, workflows, code changes, deployment, merge or rebase.
