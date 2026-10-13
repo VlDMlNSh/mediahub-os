@@ -1419,3 +1419,13 @@ Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
 - Status unchanged: D7 PARTIAL / NOT ACCEPTED / NOT FROZEN; SemVer NOT CANONICAL; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; P0-07 BLOCKED — GOVERNANCE/API GAP; qualification NO-GO / NOT PROVEN. P0-07 D2 independent review remains a separate open gate.
 - Documentary-only; no tests, qualification, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next: request explicit owner/governance disposition against the existing P0-05 v1.1 D7 question and record accountable owner/evidence path for generation/schema/revision change control.
+
+
+## Latest /next result — P0-07 D7 versioning/change-control rule re-read (2026-10-13)
+
+- Live compare: main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch DIVERGED, ahead 734 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Re-read existing D7 crosswalk (`8f6f616e7717e67c95626c54678c282411618c1c`), MH-23 decision log (`90a2b8ef5727ac39023147d5b2d3c1540b5f5bbd`) and MH-23 compatibility/migration contract (`2896d6851226a31fc971e05766d253c034d22246`). Rules require explicit version, compatibility analysis, migration/rollback constraints, testing, evidence and governance approval for breaking changes; SemVer is CANDIDATE, not canonical. They do not assign an accepted owner for generation/schema/revision change control or establish end-to-end P0-07 → P0-05 → P0-04 revision binding.
+- Updated existing [owner decision register](mediahub-owner-decisions-2026-10-12.md) with one bounded D7 question and three unaccepted options. No new decision ID or design authority was created. D7 remains OPEN; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN. P0-07 D2 independent review remains a separate open gate.
+- Evidence detail: [canonical-read trace](mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), section “P0-07 D7 primary versioning/change-control rules”.
+- No tests, qualification, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next: obtain owner/governance disposition on the single bounded D7 question; meanwhile continue independent source tracing without promoting a proposed option to an accepted decision.
