@@ -232,3 +232,26 @@ No tests, qualification, code changes, credentials, provider/model calls, host/r
 - Extended existing proposal `docs/checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md`, current blob `5e0ce7ba9f6ab4aa31f939189d49c6635c2457f1`, with §13, a blank R-01…R-06 independent-review worksheet.
 - Worksheet captures reviewer identity/independence, exact proposal/source refs and blob SHAs, evidence-backed per-item dispositions, cross-cutting findings, overall recommendation, and separate owner/gate status. Explicit guardrails say the worksheet is not itself a review, acceptance, implementation authorization or qualification.
 - No reviewer was invented and no disposition was entered. D2 remains `NOT EVIDENCED`; D1 `NOT DEMONSTRATED`; D3/D4 `NOT EVIDENCED`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
+
+ 
+## Follow-up — main-branch MH-12/MH-13 canonical crosswalk for P0-07 D2 (2026-10-13)
+
+**Scope:** read-only comparison against the current `main` source at HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; no branch integration or protected-contract edit.
+
+- `docs/architecture/MH-12-acceptance-criteria.md`, blob `40f37f1600c4730e622480d57bd492fa67f9ca4b`: MH-12 acceptance requires evidence spanning identity, authentication, authorization, capability, trust, APIs, audit, failure domains and traceability to P0-03…P0-07. Until then the document says governance review is required, implementation is not authorized, production is not qualified and freeze is not granted.
+- `docs/architecture/MH-12-authentication.md`, blob `a29c6a3cff0ee175a0c868214ffa2b455010002f`: authentication identifies a principal but does not grant authorization; lifecycle must define issuance, binding, expiry, refresh, revocation, replay resistance, failed-auth handling, rate limits/quarantine and recovery; invalid, expired, unverifiable or replayed context fails closed.
+- `docs/architecture/MH-12-trust-model.md`, blob `8a5d756e97ce75e1f53015ac5c34015108030f97`: trust is explicit/contextual/revocable and must be evaluated for the exact operation, target, scope and context; trust never replaces authorization.
+- `docs/architecture/MH-12-authorization.md`, blob `c48641861691714017aa5b1f99fe8eee8ea0e76a`: authorization is explicit, operation-specific, identity-bound, context-aware, policy-aware, auditable and fail-closed; it must terminate at the approved Consumer Boundary and State Authority mutation contract and cannot create alternate mutation authority.
+- `docs/architecture/MH-12-audit.md`, blob `ab6e1c652790fd9088ac26b595050774611da2fc`: security audit is distinct from ordinary logging and requires integrity protection, access control, privacy-aware retention, bounded storage and controlled export; audit is not State Authority.
+- `docs/architecture/MH-13-governance-acceptance-record.md`, blob `6ecdc89440664563f36263bb8da80d1ad24f19a7`: MH-13's accepted status is specifically for an authorized reconstructed/proposed artifact; historical original not recovered, fidelity partial/requires verification, frozen NO, production implementation not authorized, CI/build qualification not verified, release/deployment not authorized.
+- `docs/checkpoints/mediahub-functional-baseline-2.0.md`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`: accepted canonical immutable functional reference; explicitly separates architecture, implementation, evidence, verification, qualification and production authorization.
+
+**P0-07 D2 review implications (crosswalk only, not reviewer dispositions):**
+1. R-01 must preserve the full MH-12 security sequence and must not collapse authentication, trust, P0-07 policy decision and P0-04 transaction authorization into one assertion.
+2. R-03's lifecycle semantics are normative requirements in MH-12; this crosswalk does not choose the technology or fill open behavior/ownership details.
+3. R-04 must account for MH-12 audit integrity/access/privacy/retention controls; audit must not become a mutation authority.
+4. R-05 must preserve MH-13's reconstructed/proposed and non-frozen/non-production-authorized status despite its governance acceptance record.
+5. These sources do not themselves evidence that the current P0-07→P0-05 bridge satisfies the requirements. D1 remains NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; D6 OPEN; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+
+This is a bounded source crosswalk, not an independent review, implementation verification, qualification, or owner/governance acceptance.
+
