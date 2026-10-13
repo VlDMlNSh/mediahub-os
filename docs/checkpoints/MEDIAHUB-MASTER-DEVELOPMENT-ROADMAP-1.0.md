@@ -339,3 +339,15 @@ This update preserves the existing sequence; it does not change any architecture
 - D4 operation-to-canonical-state mapping already exists in Unified Traceability Matrix Sections 46/58 and related map entries. Do not recreate it; use it as existing evidence.
 - **Current gate:** D1 existing compliant caller path `NOT DEMONSTRATED`; D2 trusted context issuer/lifecycle `NOT EVIDENCED`; D6 P0-05 normative-text status `OPEN / GOVERNANCE CONFIRMATION REQUIRED`. P0-07 mutation/publication remains `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 remains `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification remains `NO-GO / NOT PROVEN`.
 - **Next:** request owner/governance disposition on D2 after the bounded source search: (A) identify a pre-existing approved authority and provide its source evidence; (B) authorize preparation of a governed authority/lifecycle proposal for separate review; or (C) defer and keep the bridge blocked. Recommendation: B only if the owner confirms no existing authority can be evidenced; otherwise A. Keep D6 separate and do not alter the contract header without explicit governance confirmation. No tests, implementation, runtime/host inspection, credentials, provider/model calls, deployment, migration, merge or rebase were performed.
+
+## 11. Execution update — P0-07 D2 trusted-context proposal (2026-10-13)
+
+This records proposal preparation only; it does not alter the approved sequence or authorize implementation.
+
+- Owner selected option B for D2: prepare a separate governed trusted-context authority/lifecycle proposal for review.
+- Proposal: `docs/checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md`; status `ARCHITECTURE PROPOSAL / GOVERNANCE REVIEW REQUIRED / NOT ACCEPTED / NOT FROZEN`.
+- The proposal records bounded evidence anchors for P0-04/P0-05 and MH-04, responsibility boundaries, required context semantics, candidate lifecycle, threat/negative cases, alternatives, and acceptance gates. It deliberately selects no identity technology, issuer service, token format, schema, API signature, or deployment topology.
+- D2 remains `NOT EVIDENCED` pending accepted source evidence or governance acceptance of a future design. D1 remains `NOT DEMONSTRATED`; D3 remains dependent on D1/D2; D6 remains separate and `OPEN / GOVERNANCE CONFIRMATION REQUIRED`.
+- Gates unchanged: P0-07 mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
+- Documentary-only. No implementation, tests, qualification, credentials, provider/model calls, host/runtime inspection, infrastructure change, deployment, migration, merge, or rebase.
+- Next: obtain security/architecture review and explicit owner/governance disposition on the proposal. Do not implement or alter the protected P0-05 contract/header without separate authorization.
