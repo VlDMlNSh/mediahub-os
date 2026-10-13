@@ -351,3 +351,15 @@ This records proposal preparation only; it does not alter the approved sequence 
 - Gates unchanged: P0-07 mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
 - Documentary-only. No implementation, tests, qualification, credentials, provider/model calls, host/runtime inspection, infrastructure change, deployment, migration, merge, or rebase.
 - Next: obtain security/architecture review and explicit owner/governance disposition on the proposal. Do not implement or alter the protected P0-05 contract/header without separate authorization.
+
+
+## 12. Execution update — P0-07 D2 proposal refined for review (2026-10-13)
+
+- The owner reaffirmed option B: apply the proposal-preparation path, not implementation.
+- Refined `docs/checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md` with a review-ready candidate responsibility chain, lifecycle transition preconditions/evidence/fail-closed conditions, ten proposed invariants, architecture alternatives, and explicit review exit criteria.
+- Candidate recommendation is B1: one accountable logical authority/lifecycle contract with explicit issuer/attester and verifier responsibilities; no requirement for a separate process/service is imposed. This is a recommendation for review, not an owner architecture decision.
+- No identity provider, cryptographic format, token, schema, API signature, storage, deployment topology, issuer service, or owner was selected. No new stable IDs were allocated.
+- Source boundaries remain unchanged: P0-07 policy ALLOW is not P0-04 transaction authorization; P0-04 remains the sole canonical mutation authority; P0-05 contract/header and D6 remain untouched and open.
+- D1 NOT DEMONSTRATED; D2 NOT EVIDENCED / candidate design prepared; D3 NOT EVIDENCED / dependent on D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED. P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Documentary-only. No implementation, tests, qualification, credentials, provider/model calls, host/runtime inspection, infrastructure change, deployment, migration, merge, or rebase.
+- Next: obtain independent MH-12/MH-13 and architecture review, record objections and exact-source dispositions, then seek explicit owner/governance acceptance or revision. No gate is closed by this pass.
