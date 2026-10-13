@@ -323,3 +323,23 @@ Use the existing owner disposition sheet to resolve whether the exact P0-05 cont
 - P0-07 ALLOW does not grant P0-04 transaction authority. No second authority/version, persistence, hidden retry/rebase/LWW or cross-document atomicity.
 
 D4 is source-mapped at operation-family level only. This is not proof of an implemented call edge or accepted mutation adapter. D1/D2 remain unresolved; D6 remains open.
+
+
+## 19. D1/D2 source-bound context audit (2026-10-13)
+
+See the detailed, indexed evidence and design-only questions in [P0-05 contract revision proposal §10](p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md#10-d1d2-source-bound-context-audit-and-minimum-design-questions-2026-10-13).
+
+Live `main` source anchors:
+- P0-04 authorization `authorization.py`: `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`.
+- P0-05 ConsumerBoundary: `98bf2da9cea85da2c82145b4baef417c20b9ae73`.
+- ASTRA developer envelope: `d1806e5e91e16cb27d34d9331b9a25e25d606a46`; explicitly transport-neutral and unauthenticated.
+- ASTRA prompt context: `9a30c0a3299e6b3a47bc03f55f4d26d2d9f14ad9`; advisory/untrusted, not an authority.
+- MH-06: `35647b282352f56d57f1bd476bff1503571c5650`; MH-12 identity/authentication/authorization: `27eef9e23db02d6280b94a8e68bff9f73b0de88d` / `a29c6a3cff0ee175a0c868214ffa2b455010002f` / `c48641861691714017aa5b1f99fe8eee8ea0e76a`.
+
+**D1:** an authenticated P0-07 caller path that supplies a separately authorized P0-04 context unchanged into P0-05 is NOT DEMONSTRATED in inspected `main` source. This is bounded to inspected source, not a universal out-of-tree absence claim.
+
+**D2:** concrete accepted issuer/provisioner and expiry/revocation/freshness authority are NOT EVIDENCED. MH-06/MH-12 state requirements but do not prove an implementation. Transport envelope and ASTRA prompt context are not substitutes.
+
+**Design-only review questions:** authority/issuer ownership; authenticated principal-to-request/context binding; independent P0-07 and P0-04 decisions; expiry/revocation/replay source and fail-closed behavior; trust boundary and provenance; exact operation/resource/payload/revision binding; audit/privacy; deterministic negative-path semantics. No technology, schema, service, or API signature selected.
+
+**Disposition:** no implementation authorization. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
