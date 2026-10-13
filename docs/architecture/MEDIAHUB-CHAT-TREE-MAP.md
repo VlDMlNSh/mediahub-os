@@ -4033,3 +4033,17 @@ The adapter contract lists three governance directions (existing independently P
 - Checkpoint addendum: [Canonical-read trace checkpoint, 2026-10-13](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), blob `47bc0fc229088a4fd064aaf75eabcd5e60050c64`.
 - Disposition: P0-07 canonical-read acceptance **NOT EVIDENCED**; mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project-wide qualification **NO-GO / NOT PROVEN**.
 - Next safe step: trace MH-17/P0-07 operation definitions to concrete runtime call sites/composition. No tests, workflows, runtime/host inspection, code changes, deployment, merge or rebase occurred.
+
+
+## 20.130 P0-07 operation-source reachability reconciliation (2026-10-13)
+
+**Status:** bounded source/reachability reconciliation only.
+
+- Current `main HEAD` remains `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, tree `cbb1862fcb4aa22ba24fea4ff12b580ffb305593` (798 entries, not truncated).
+- The current-main recursive tree contains `runtime/mediahub_runtime/consumer_boundary.py` and State Authority modules but no paths matching `configuration_policy`, `p0-07`, `operation_boundary`, or `read_validate` (apart from a P0-07 verification workflow). Therefore the immutable P0-07 source blobs referenced by earlier architecture notes are not demonstrated to be reachable from current main in this pass.
+- P0-07 operation boundary blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` is a request validation/authorization/policy decision boundary. Its inspected `decide` method does not call P0-05 `ConsumerBoundary.read` and does not publish state. Read/Validate Boundary v1.0 blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f` permits observation of an explicitly supplied immutable domain object only and forbids treating it as canonical persisted state without an authoritative source.
+- P0-07 authorization blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3` identifies domain operation grants but not a canonical read source. Mutation adapter blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88` and reconciliation blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063` require independent P0-04/P0-05 transaction authorization and prohibit capability translation or a second authority.
+- The Section 47 P0-05 in-memory read chain is evidenced, but P0-07-to-P0-05 call path/revision identity remains **NOT EVIDENCED** both because no call edge appears in the inspected P0-07 boundary blob and because current-main tree reachability for those P0-07 blobs is not established. This does not prove the code is absent from all branches/history.
+- Matrix cross-reference: [Unified System Traceability Matrix, Section 48](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob `9d9d056cd311df0cd570a60d1fcda75d243c7540`.
+- Disposition unchanged: P0-07 canonical-read **NOT EVIDENCED**; mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project-wide qualification **NO-GO / NOT PROVEN**.
+- Next bounded step: identify the exact branch/commit containing the P0-07 operation-boundary blobs and inspect its callers/tree, then compare to current main without merging. No tests, runtime/host inspection, code changes, deployment, merge or rebase.
