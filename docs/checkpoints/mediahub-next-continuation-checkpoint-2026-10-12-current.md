@@ -1345,3 +1345,14 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - R-04 can cite MH-13 privacy minimization, purpose limitation, retention and audit principles; R-05 must preserve accepted-reconstruction-only status; R-06 operation-specific behavior when required audit evidence is unavailable remains unresolved. P0-07 §13 reviewer worksheet remains blank.
 - Updated trace, map and checkpoint with exact paths/SHAs and review-scope distinction. No gate changed; no implementation, tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
 - Next bounded step: prepare/use a precise independent-review handoff for P0-07 D2 R-01…R-06 that references these exact MH-13 anchors without claiming MH-13 acceptance substitutes for P0-07 review.
+
+
+## Latest /next result — reviewer-artifact discovery boundary (2026-10-13)
+
+- Live branch compare refreshed: docs branch vs main DIVERGED, ahead 718 / behind 2; main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8; merge base f0f406feb9f9816b009f4e6e756813541e53b9bc.
+- Queried the complete, non-truncated recursive tree for main at that HEAD using filename patterns for P0-07 review/disposition/acceptance, D2 security review, and independent review. No matching filenames were returned.
+- This only limits discovery by filename in the main tree; it is not proof of non-performance and does not cover other branches, alternate filenames, PR review metadata or external records.
+- The P0-07 D2 proposal §13 worksheet remains the existing intake point and was blank in the live documentation branch copy (blob 5e0ce7ba9f6ab4aa31f939189d49c6635c2457f1). No duplicate artifact created.
+- Status unchanged: P0-07 D2 NOT EVIDENCED / proposal NOT ACCEPTED / NOT FROZEN; D1 NOT DEMONSTRATED; D3 NOT EVIDENCED; D6 OPEN; mutation/publication BLOCKED; qualification NO-GO / NOT PROVEN.
+- No tests, qualification, implementation, dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+- Next: obtain actual independent R-01…R-06 dispositions in the existing worksheet; then separately record owner/governance decision. Continue only independent documentary work while this external gate remains unavailable.
