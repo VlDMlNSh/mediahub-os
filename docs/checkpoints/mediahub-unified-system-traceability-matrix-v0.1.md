@@ -1324,3 +1324,27 @@ No owner disposition has been inferred from the response template. Owner investi
 **Required AT-18 evidence:** owner-approved edition/profile matrix; authoritative entitlement contract including grant/deny/expiry/revocation/offline/restore/reinstall/device-transfer; accepted Digital Twin artifact/schema/workflow inventory with provenance and authorization; separately authorized runtime and negative-path qualification evidence.
 
 **Disposition:** AT-18 OPEN—CONTRACT. No final child IDs minted; no canonical backlog or baseline changed. No tests, installation, qualification, runtime/host inspection, infrastructure change, deployment, migration, merge or rebase.
+
+
+## 56. MH-24 Batch 17 — Engineering System / AT-19 atomic crosswalk (2026-10-13)
+
+**Status:** documentary draft plus bounded review; owner/domain acceptance OPEN. Not a canonical backlog update and not an implementation/qualification claim.
+
+- **Historical source:** `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, blob `9df4892ed0734050ac79732603d15bb414717310`, §26 lines 411–416. B1 remains historical provenance.
+- **Canonical source:** `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §17 lines 368–378. B2 remains the canonical functional reference.
+- **Parent:** Atomic Traceability Backlog 01, `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-01.md`, blob `ec2580f714e8f620bcf85ff7de2ae9242439e5e8`; AT-19 remains **OPEN—CONTRACT**.
+- **Owner schema/status source:** Product Owner Decision Record 01, blob `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`.
+- **Draft:** `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-17-ENGINEERING-SYSTEM-DRAFT.md`, blob `11ab80db83d761c142e037944c03f4821c342127`.
+- **Review 01:** `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-17-ENGINEERING-SYSTEM-REVIEW-01.md`; created in the current pass and read-back verification required.
+
+**Provisional rows (not stable child IDs):**
+
+| Provisional label | Requirement atom | B2 status | Boundary / open evidence |
+|---|---|---|---|
+| ENG26-01 | Engineering calculations | MAPPED | B2 names calculations; calculation classes, units, precision, validation and failure semantics open. |
+| ENG26-02 | Buildings, engineering networks, spatial data | NOT_REVIEWED | B2 names engineering systems/spatial model, but exact building/network model semantics need map-directed review. |
+| ENG26-03 | BIM workflows, Digital Twin, simulation | MAPPED | B2 names BIM, 2D/3D and simulation; complete workflow/interchange/fidelity semantics open. |
+| ENG26-04 | Technical documentation, inspection, analysis | NOT_REVIEWED | As-built data/diagrams/packages overlap only; inspection/analysis lifecycle not established in the reviewed clause. |
+| ENG26-05 | OSS component admission gate | NOT_REVIEWED | B1 sequence includes license/security review, provenance, benchmark, adapter integration and qualification; full sequence is not established by B2 §17. |
+
+**Bounded result:** 2 MAPPED / 3 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT. MAPPED means textual correspondence only. No global no-conflict claim is made. No final child IDs minted; AT-18 remains OPEN—CONTRACT. No B1/B2/canonical backlog edits, implementation, tests, qualification or production authorization.
