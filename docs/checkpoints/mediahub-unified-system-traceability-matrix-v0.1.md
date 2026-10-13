@@ -1435,3 +1435,19 @@ The next primary-source pass is DEC-DEV-02 lifecycle reconciliation. Do not ask 
 - **Qualification:** ASTRA Current Truth remains NOT_PROVEN / BLOCKED; no runtime or qualification claim is inferred.
 
 Next independent documentary track: continue the existing P0-07 → P0-05 trust/context/authorization bridge using its canonical-read trace and owner-recorded D1/D2/D4 directions. Keep DEC-DEV-02 open; do not alter primary ASTRA contracts or start a second lifecycle implementation.
+
+
+## 58. P0-07 D4 — operation-to-canonical-state mapping (2026-10-13)
+
+**Status:** source-bound documentary mapping; proposed only, not accepted/frozen. Source refs: P0-07 operation boundary `architecture/mh-7-configuration-policy` blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`; capability inventory blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`; read boundary blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`; mutation reconciliation blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063); adapter contract blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88). P0-07 branch HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`; current `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+
+| Operation family | Source-supported interpretation | Candidate canonical-state result | Gate |
+|---|---|---|---|
+| configuration/policy.read | Observation only; authoritative source not defined | No canonical read target/revision binding evidenced | OPEN |
+| configuration/policy.validate | Deterministic validation of supplied typed object | No state mutation | MAPPED AS NON-WRITE |
+| configuration/policy.propose | Inert proposal only | Not canonical state; no publication | MAPPED AS NON-WRITE |
+| configuration/policy.update and .replace | Mutation-shaped operations with typed payload | At most a candidate one-complete-document publication unit; target key and update/replace distinction unresolved | INCOMPLETE / NOT ACCEPTED |
+| configuration/policy.reset | Operation label exists; reset/default source not specified | Canonical default/reset semantics absent | UNMAPPED |
+| configuration/policy.delete | Operation label exists; deletion semantics not specified | No tombstone/absence contract or invariant | UNMAPPED |
+
+The source lists 14 operations (seven per resource type), but this is not acceptance of 14 P0-05 mutations. No exact resource-to-canonical-key mapping, immutable revision binding, caller trust provenance, P0-04 context lifecycle, or approved P0-07→P0-05 call edge is evidenced. Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. No code/tests/qualification/status changes.
