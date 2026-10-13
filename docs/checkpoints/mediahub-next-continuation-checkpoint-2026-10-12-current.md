@@ -957,3 +957,34 @@ The proposal, matrix, passport and map all contain the expected new sections. Th
 - No normative source or owner decision was changed. No tests, host/runtime inspection, inventory, credentials, installation, infrastructure change, deployment, migration, merge or rebase.
 
 **Next:** proceed with DEC-DEV-04 only to the extent allowed by its exact hardware/OS evidence prerequisites; do not assign the 2011 Mac mini a critical workload based on owner-reported RAM/model alone. Continue P0-07 → P0-05 trust/context work independently; the canonical-read and mutation/publication gaps remain open.
+
+
+### DEC-DEV-04 — Mac mini Server 2011 evidence-gate reconciliation (2026-10-13)
+
+**Selection rationale:** The latest checkpoint directs DEC-DEV-04 only within its evidence prerequisites, without assigning critical workloads. This pass uses primary-document review only; it does not inspect the host or claim hardware evidence.
+
+**Live primary source anchors**
+- MH-15 architecture, `main`, blob `f817925c69ce4484713f952e47aacad283af8eeb`: status ARCHITECTURE WORK IN PROGRESS; acceptance/freeze NOT AUTHORIZED; implementation authorization NONE. §4 says exact model, CPU, RAM, GPU, storage, NIC, firmware/EFI, sensors, thermal/power behavior, storage health and Linux compatibility remain UNKNOWN until evidence; qualification order is discovery → read-only inspection → evidence capture → compatibility analysis → security review → qualification decision. Destructive operations require separate authorization.
+- MH-15 acceptance criteria, `main`, blob `082642e67dc66cb359a5566773c143854cafaa00`: status NOT ACCEPTED; requires evidence for exact hardware baseline, safe qualification, OS lifecycle, legacy constraints, resources/exhaustion, thermal/power, security/hardware testing, development/production separation, recovery and traceability. Failure to establish evidence yields REQUIRES VERIFICATION. Acceptance itself does not authorize implementation.
+- Owner decision packet 01, documentation branch, blob `f941d67c3d0b37b8abb1a96da02f51a494f9f2bf`, DEC-DEV-04: A) optional documentation/low-risk worker after compatibility evidence; B) exclude from critical path; C) retire if unsupported. Recommendation: keep optional and outside critical dependencies until exact hardware, OS support, security lifecycle and workload evidence exist.
+- Placement register 01, documentation branch, blob `59107fd6d7b8a73d671098adcf2824c310642907`, NSP-NODE-02 / NSP-TR-02 / DEC-DEV-04: owner-reported 16 GB and clean Linux are not exact inventory or compatibility proof; capability remains UNKNOWN; no critical service placement.
+- Master Roadmap, documentation branch, blob `a65de988736b21abfe95d72c1a3cc4947c832c71`, Phase 02 / DEC-DEV-04: hardware/OS compatibility evidence and approved workload profile are prerequisites.
+
+**Evidence checklist derived from primary clauses**
+1. Exact machine identity and read-only inventory: model identifier, CPU, RAM configuration, GPU, storage devices/health, NIC, firmware/EFI and relevant sensors.
+2. OS compatibility and support lifecycle: exact Linux distribution/release, kernel and architecture; vendor/community security support horizon; firmware/device driver support and unresolved vulnerabilities.
+3. Workload/resource profile: named workload, CPU/RAM/storage/network envelope, startup/runtime dependencies, capacity benchmark and exhaustion behavior.
+4. Thermal/power/failure behavior: sustained-load thermals, throttling, power stability and failure/restart/recovery observations.
+5. Security/isolation: supported hardening baseline, privilege/process/service boundaries, ingress/egress requirements, secrets handling and development-only trust scope.
+6. Recovery and service-specific acceptance: backup/restore or rebuild path appropriate to the workload; measurable acceptance criteria and reproducible evidence; confirmation that the workload is optional and not a critical dependency.
+7. Only after the above evidence exists: review options A/B/C and record an owner decision. Do not infer workload admission from model year or reported RAM alone.
+
+**Finding / disposition**
+- The required evidence is documentary-defined, but the actual hardware/OS inventory, support status, benchmark, thermal/power behavior, security lifecycle and recovery evidence are NOT PRESENT in the reviewed records.
+- No host/runtime inspection was performed because it is prohibited without separate authorization. This pass cannot close those evidence gaps or qualify the machine.
+- DEC-DEV-04 remains **EVIDENCE-GATED / OWNER CHOICE DEFERRED**. Current safe disposition remains optional low-resource/legacy candidate, no critical workload, no implementation or installation authorization.
+- This reconciles the primary acceptance criteria with the existing placement register; it does not create a new owner decision or duplicate the inventory.
+
+**Next:** continue the Master Roadmap §9 P0-07 → P0-05 trusted context/canonical-read work independently, unless a newly accepted source closes it. For DEC-DEV-04, wait for authorized read-only inventory/evidence collection before any workload decision. Do not ask the owner prematurely and do not inspect the host without authorization.
+
+**Safety boundary:** primary-document inspection and checkpoint/map updates only; no host/runtime inspection, tests, qualification, credentials, installation, infrastructure changes, deployment, migration, merge or rebase.
