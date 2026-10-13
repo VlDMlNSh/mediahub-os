@@ -1449,3 +1449,12 @@ Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
 - Full source-anchored comparison: [P0-07 D7 crosswalk](P0-07-D7-CANONICAL-STATE-VERSION-CHANGE-CONTROL-CROSSWALK-2026-10-13.md); read trace updated. Statuses unchanged: D7 PARTIAL / NOT ACCEPTED / NOT FROZEN; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN. P0-07 D2 independent review remains a separate open gate.
 - No tests, qualification, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
 - Next: use the existing D7 owner interface for explicit governance disposition and require an accountable owner/evidence path for cross-domain change control; meanwhile continue independent documentary work on the separately open D2 review gate.
+
+
+## Latest /next result — P0-07 D2 independent-review discovery (2026-10-13)
+
+- Live compare: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch DIVERGED, ahead 746 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Current D2 proposal blob re-read: `39400abce88da7ea54be7d9d7505f215eba43408`. Its §13 remains a blank template; §§13.1–13.2 route exact sources but do not constitute independent review.
+- Bounded PR/issue searches and complete docs-branch tree inspection did not surface a separate independent-review record. This is not proof of repo-wide or off-platform absence. Existing proposal §13 remains the intake point; no duplicate worksheet created.
+- D2 remains `NOT EVIDENCED`: no qualified reviewer identity/independence, R-01…R-06 dispositions, overall recommendation or sign-off in inspected evidence. Owner/governance acceptance remains separate. Next: obtain a real qualified independent review against the exact proposal and source SHAs, then record its actual dispositions in §13. Do not self-fill the worksheet or promote statuses.
+- Documentary-only. No tests, qualification, runtime/production actions, infrastructure changes or branch integration.
