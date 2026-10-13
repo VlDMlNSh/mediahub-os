@@ -4314,3 +4314,25 @@ The current checkpoint was also fetched and its new addendum was confirmed; the 
 - Main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch was DIVERGED, 596 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. MH-04 branch remains DIVERGED, 7 ahead / 1,639 behind main; MH-04 status PROPOSED / REVIEW COMPLETE.
 - Disposition: D1 reuse NOT DEMONSTRATED; D2 OPEN; P0-07→P0-05 call edge NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - No implementation, tests, qualification, deployment or branch integration. Next: owner/governance resolution of contract status and source-only issuer search.
+
+
+## 20.151 P0-05 D6 acceptance-scope decision analysis (2026-10-13)
+
+- **Decision artifact:** [P0-05/P0-07 existing-context revision proposal](../checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md), §9. Current blob SHA `6d494c7311e61ec3d82e561f66af10f6dffa69b9`; commit `7a22d913ef2d9b53eb5be0076ee4b95c280a551c`. Options A/B/C and consequences are documented; owner/governance disposition remains pending.
+- **Unified matrix:** Section 63, current blob SHA `815ce2ecd8c75e51338043cfe0f25edfe1143229`, commit `f85d686975ccc460a18a25fd3a4de4fddefcc9cf`.
+- **Working Passport:** §16, current blob SHA `a8fa42d1c74dcf47394364ab5a354f32e901b312`, commit `800ebffde3eac5526f0d92006866080b4becf72d`.
+- **Current continuation checkpoint:** latest addendum recorded; expected blob SHA `2087de790151907273755bdf2988a233b9641a64`, commit `69f3322527eeebe9ca07e2e73c5015352e48b40a` (read-back to follow).
+- **Primary source comparison:** P0-05 contract in accepted implementation tree `82da63f03da20049954fe69257342cbf66b58395), blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`, still DRAFT; acceptance record in governance tree `97a01977f521ba8304a455b5d7504896235ddea7), blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242`, accepts the reviewed implementation state `303a766257b90c4356dcffc8967a5574e8e22e7a), without an unambiguous separate statement that the contract text itself was accepted/frozen.
+- **Recommendation:** C — defer pending explicit owner/governance interpretation; B is only a conservative interim planning assumption, not a decision. No owner choice is inferred.
+- **Status unchanged:** D6 OPEN / GOVERNANCE AMBIGUITY; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification NO-GO / NOT PROVEN. No protected source or implementation was changed; no tests or qualification were performed.
+
+### Post-write provenance ledger — D6 decision-support pass (2026-10-13)
+
+| Artifact | Read-back blob SHA |
+|---|---|
+| Existing-context proposal §9 | `6d494c7311e61ec3d82e561f66af10f6dffa69b9` |
+| Unified traceability matrix §63 | `815ce2ecd8c75e51338043cfe0f25edfe1143229` |
+| Working Passport §16 | `a8fa42d1c74dcf47394364ab5a354f32e901b312` |
+| Current continuation checkpoint | `2087de790151907273755bdf2988a233b9641a64` |
+
+The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The main head and branch divergence are recorded in the current continuation checkpoint. This map section indexes the bounded documentary result only; it does not promote any contract or qualification status.
