@@ -252,3 +252,32 @@ No source contract, status header, implementation or governance record was chang
 ### Next bounded step
 
 Compare the exact P0-05 governance acceptance artifact against the exact normative contract text/commit and inspect whether any accepted source defines an issuer/lifecycle for P0-04 authorization context. If none is evidenced, preserve the negative finding and use the existing owner disposition sheet; do not design an issuer or bridge by inference.
+
+
+## 16. P0-05 acceptance provenance and trusted-context issuer search (2026-10-13)
+
+### Exact accepted artifact comparison
+
+- Governance acceptance record at commit `97a01977f521ba8304a455b5d7504896235ddea7`, blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242`, says **ACCEPTED / FROZEN** for the reviewed P0-05 implementation at commit `303a766257b90c4356dcffc8967a5574e8e22e7a`; it names the decision target as the State Authority Integration Boundary & Consumer Contract.
+- At that exact governance tree, `docs/architecture/P0-05-consumer-contract.md`, blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`, still has the header `DRAFT — GOVERNANCE REVIEW REQUIRED`. The governance packet blob `1253944ffeefcb59502d9f7deb13d38baed1d6e1` says the contract/boundary was approved for controlled implementation, while the acceptance record explicitly accepts the implementation state.
+- Therefore, evidence confirms the exact contract blob was present in the accepted package and was the named contract target, but the package does not unambiguously state that the text itself is normative/frozen independently of the implementation. The status discrepancy remains a **governance interpretation issue**. Do not silently edit the protected header or infer a contract-only acceptance.
+- Live branch `implementation/p0-05-consumer-boundary` currently points to `c872899a969fb9b947d638f507cd8794e9f86cab`, two commits ahead of the accepted implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a`. The accepted commit and its tree remain directly addressable; current branch tip is not substituted for the accepted SHA.
+
+### Context issuer/lifecycle search
+
+- Accepted P0-05 `runtime/mediahub_runtime/authorization.py` blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` defines frozen `AuthorizationContext(principal, capability)` and an exact tuple allow-list. It has no issuer, issue time, expiry, audience, request/resource/payload binding, replay identity or revocation handle.
+- Accepted P0-05 `runtime/mediahub_runtime/consumer_boundary.py` blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596` forwards the supplied context into the authority path; it does not authenticate the caller or establish the context issuer.
+- Accepted commit test fixture `tests/runtime/test_consumer_boundary.py`, blob `27d062a688ddc2dea5d082b615e1f9cc3779c4e7`, constructs `AuthorizationContext("runtime", "state")` inline in a helper. This is test-fixture construction, not production issuer evidence; tests were not run.
+- Current `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` contains the same two-field authorization module and current ConsumerBoundary, but the inspected runtime tree does not identify a dedicated P0-04 context issuer/provisioner or an accepted composition root joining MH-04 authentication to P0-04 authorization.
+- MH-04 identity/authentication/credential/trust artifacts on `architecture/mh-04-security-trust-authorization` remain `PROPOSED / REVIEW COMPLETE`; acceptance criteria explicitly say review completion is not governance acceptance. MH-12 authentication/identity documents define desired expiry/revocation/replay lifecycle, but these are requirements, not evidence of an implemented issuer.
+
+### Disposition
+
+- D1 existing-context reuse remains **NOT DEMONSTRATED**; owner direction remains C → A only if a trusted source is evidenced.
+- D2 context issuer/lifecycle remains **OPEN**. No API shape, token format, cryptographic mechanism or issuer is selected.
+- P0-07 → P0-05 call edge remains **NOT EVIDENCED**; mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; global qualification remains **NO-GO / NOT PROVEN**.
+- No primary contract/header was changed. No tests, implementation, qualification, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
+
+### Next bounded step
+
+Use the existing owner disposition sheet to resolve whether the exact P0-05 contract text was accepted/frozen, and continue only source-bound tracing of any concrete P0-04 context issuer/provisioner. If no such accepted source exists, keep D1/D2 open; do not invent a bridge or issuer.
