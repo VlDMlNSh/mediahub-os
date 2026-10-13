@@ -1201,3 +1201,30 @@ Inspect the architecture branch's documented integration/composition entry point
 ### Next bounded step
 
 Do not implement the bridge. Identify the precise owner/governance decision record and determine whether a later approved contract supersedes the recorded gap; if no such decision exists, ask the owner to authorize the contract direction before code work. No tests, code changes, workflow runs, deployment, merge, rebase, or cherry-pick.
+
+
+## Section 51 — Governance decision search: existing-context path and proposal remain unresolved (2026-10-13)
+
+**Scope:** owner register, P0-05 revision proposal, P0-07 audit/privacy crosswalk, P0-06 governance records, and current documentation-branch tree inspected. No implementation or tests.
+
+### Owner direction and existing candidate proposal
+
+- Owner register blob `62831d23c5e6bbddc707ec5b197cffba57d6139a` records D1 as C→A: map the trusted caller/trust boundaries first, then consider independent authorization composition; D2 requires investigation of the source and lifecycle of P0-04 context. It explicitly says these directions are not acceptance/freeze of P0-05 v1.1 and do not authorize implementation.
+- Existing proposal `docs/checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md`, blob `1f99b8d13066ea21233affbd4057ad50fcd4d256`, is **PROPOSAL / GOVERNANCE REVIEW REQUIRED / NOT ACCEPTED / NOT FROZEN**. It records that the existing-context option was not demonstrated: the inspected P0-07 request carries a P0-07-scoped AuthorizationContext; P0-05 forwards its supplied context to P0-04 for begin and uses the transaction's P0-04 context for commit/abort; no source-bound caller path was found carrying an independently P0-04-authorized context unchanged. The proposal asks governance whether P0-05 may expose an explicit typed hand-off, but does not specify an accepted signature or authorize implementation.
+- The proposal's evidence addendum states that the accepted P0-05 baseline tree has no P0-07 runtime module, and the inspected P0-07 tree has no implemented mutation adapter. It further records the P0-05 contract header/status discrepancy: accepted governance package evidence exists, while the exact contract header still says DRAFT. This discrepancy requires controlled reconciliation, not silent editing.
+- Crosswalk `docs/checkpoints/p0-07-audit-privacy-governance-crosswalk-2026-10-12.md`, blob `3b2ff1d5b66e99284e93ec2a6969bddcd77241b4`, remains **NON-NORMATIVE / FOR OWNER + GOVERNANCE REVIEW / NO IMPLEMENTATION AUTHORIZATION**. It recommends C first then A only if trusted existing-context delivery is evidenced; otherwise return to owner with a concrete governed proposal. D2 context source/lifecycle remains a separate gate.
+- The current docs-branch tree (888 entries, not truncated) was inspected for relevant decision/governance records. No later accepted P0-07→P0-05 hand-off contract or owner decision superseding the proposal was established in this bounded search. P0-06 governance acceptance is scoped to P0-06 and explicitly requires a new decision for P0-04/P0-05 semantic changes; it is not P0-07 bridge authorization.
+
+### Disposition
+
+- Owner direction D1/D2: **RESEARCH PATH CONFIRMED; SUBSTANTIVE API DECISION OPEN**.
+- Existing-context reuse (option A): **NOT DEMONSTRATED IN INSPECTED SOURCE**.
+- P0-05 revision proposal (conditional option C path): **EXISTS, NON-NORMATIVE, NOT ACCEPTED/FROZEN**.
+- P0-05 DRAFT-header vs accepted-package discrepancy: **CONTROLLED GOVERNANCE RECONCILIATION REQUIRED**.
+- P0-07 authorization bridge and mutation/publication: **BLOCKED — GOVERNANCE/API GAP**.
+- P0-05 v1.1: **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
+- Project-wide qualification: **NO-GO / NOT PROVEN**.
+
+### Next bounded step
+
+Do not write an adapter or change the frozen baseline. Present the owner with the already-existing proposal and the bounded evidence that the existing-context path is not demonstrated. Request an explicit governance disposition on the candidate hand-off contract, including D2 context authority/lifecycle and the P0-05 normative-status discrepancy. Implementation remains prohibited until exact normative text is accepted/frozen and a separate implementation authorization is recorded.
