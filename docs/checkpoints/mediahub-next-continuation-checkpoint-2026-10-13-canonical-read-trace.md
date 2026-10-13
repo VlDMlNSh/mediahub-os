@@ -255,3 +255,14 @@ No tests, qualification, code changes, credentials, provider/model calls, host/r
 
 This is a bounded source crosswalk, not an independent review, implementation verification, qualification, or owner/governance acceptance.
 
+
+
+## Follow-up — P0-07 D3/D4 operation and revision binding crosswalk (2026-10-13)
+
+Read-only source crosswalk against main. Source blobs: authorization.py `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; consumer_boundary.py `98bf2da9cea85da2c82145b4baef417c20b9ae73`; in_memory_state.py `0fbc71369d19e09944ba67a60ccb9df802f30a4b`; state.py `a2115b81f52a63feb357e484bd982a6a32641d81`; MH-12 acceptance criteria `40f37f1600c4730e622480d57bd492fa67f9ca4b`; D7 crosswalk `8f6f616e7717e67c95626c54678c282411618c1c`.
+
+The current authorization context contains principal and capability, while policy checks an explicit principal/capability/operation grant and defaults to deny. ConsumerBoundary accepts an operation, context and payload, wraps transactions in opaque handles, and delegates commits to the injected State Authority. In-memory transactions capture generation and state version and reject stale commits. These are local authorization/transaction controls; they do not prove that upstream P0-07 decision evidence is immutably bound to the exact principal, operation, canonical resource/key, payload constraints and the same revision end-to-end.
+
+D3 immutable P0-07 decision/resource/payload/revision binding: NOT EVIDENCED. D4 governed operation-to-canonical-resource/key/state-shape mapping: NOT EVIDENCED. D7 remains PARTIAL: local version/generation mechanics are evidenced, accepted end-to-end binding and change-control ownership are not. D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+
+No API/schema/issuer/cryptographic design selected. No tests, qualification, implementation, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick. Next independent documentary step: inspect MH-14 persistence, MH-16 lifecycle/migration and MH-22 qualification primary artifacts without treating them as closing P0-07 governance gates.
