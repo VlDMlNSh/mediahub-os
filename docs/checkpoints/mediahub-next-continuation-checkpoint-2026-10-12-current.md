@@ -1508,3 +1508,14 @@ Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
 - Gate status unchanged: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; MH-22 qualification NO-GO / NOT PROVEN.
 - Documentary-only. No tests, qualification, runtime execution, credentials, provider/model calls, implementation, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick. Each updated document was read back and its returned blob SHA verified.
 - Next bounded step: inspect repository source for any separate application/API transport before broadening the source finding. Qualified independent P0-07 D2 review and owner/governance disposition remain separate blockers.
+
+
+## Latest /next result — file-backed ingress versus application/API boundary (2026-10-14)
+
+- Live current-main HEAD: 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8; recursive tree: 721 files, truncated=false. Docs branch compare: DIVERGED, ahead 765 / behind 2; merge base f0f406feb9f9816b009f4e6e756813541e53b9bc. No integration.
+- Static source read found local JSON-file Task Contract ingress in runtime/mediahub_runtime/task_ingress.py (blob 59e1254aa61cc8f55f53bd1e179631e81c441393). It validates task metadata and passes context_refs/client metadata to the gateway, but the contract has no principal/trusted authorization-context field. astra_service.py (blob 6aa2d09fc8737ccc0ba7f05bd13a15a0ebde7129) is intentionally inert absent an application/API boundary; coordination_service.py is in-process. No HTTP/ASGI/WSGI/websocket/application API entry point was found in the complete current-main filename inventory. GitHub transport is for engineering task delivery, not proof of a product API or trusted-context issuer.
+- Refined finding: local file ingress EXISTS; application/network API and trusted principal/context injection remain NOT EVIDENCED in inspected current-main paths. This is not proof of absence in external services, other branches or differently named integrations. No runtime execution or tests.
+- Updated canonical-read trace and project map §20.189. Commit/blob identities are to be verified by read-back below.
+- Statuses unchanged: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; MH-22 qualification NO-GO / NOT PROVEN.
+- Documentary-only: no tests, qualification, runtime execution, credentials, provider/model calls, installation, infrastructure changes, deployment, migration or branch integration.
+- Next: obtain an actual qualified independent review of P0-07 D2 R-01…R-06 and separately obtain owner/governance disposition. Do not treat internal source tracing or MH-13’s scoped acceptance as D2 acceptance.
