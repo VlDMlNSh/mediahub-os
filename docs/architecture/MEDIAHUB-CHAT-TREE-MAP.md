@@ -4702,3 +4702,11 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - MH-13 live anchors: privacy `e732ff9cacbc9c1189bd83306cdff30906326cf0`; acceptance record `6ecdc89440664563f36263bb8da80d1ad24f19a7`; governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`; architecture reference `1b71d9ea4d4e0924f2814edee0a982f593d71847`. Acceptance is scoped to the reconstructed-proposed artifact only.
 - Proposal §13 remains a blank reviewer worksheet. The handoff is not an independent review and closes no gate. The guessed MH-12 control-point path is not treated as a valid citation.
 - Status remains D2 `NOT EVIDENCED`; D1 `NOT DEMONSTRATED`; D3/D4 `NOT EVIDENCED`; D6 `OPEN / GOVERNANCE CONFIRMATION REQUIRED`; P0-07 mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
+
+
+### 20.183 P0-07 D2 — MH-12 source-anchor verification (2026-10-13)
+
+- The earlier §20.182 discovery boundary is superseded only as to whether exact MH-12 source paths were located. The complete live `main` tree at `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` is not truncated; exact anchors were fetched: identity `27eef9e23db02d6280b94a8e68bff9f73b0de88d`, authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a`, security boundaries `38a4505eef87f696748924baedd40cfa2ad07a41`, audit `ab6e1c652790fd9088ac26b595050774611da2fc`, acceptance criteria `40f37f1600c4730e622480d57bd492fa67f9ca4b`, unknowns `97f08824fb858dd4506876729ae37d610140c3e8`.
+- Existing P0-07 D2 proposal §13.2 now maps these anchors to reviewer items and states limitations. Commit `c1e9dd68e9645a2ee7413dfd70b830d66bfbadd7`; proposal blob `39400abce88da7ea54be7d9d7505f215eba43408`.
+- This improves source routing only. It is not an independent review, accepted issuer/lifecycle design, implementation authorization or gate closure. D2 remains NOT EVIDENCED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; qualification NO-GO / NOT PROVEN.
+- Resume point: obtain a qualified independent review of the exact proposal and its referenced sources; owner/governance disposition remains separate.
