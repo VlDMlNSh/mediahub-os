@@ -4092,3 +4092,14 @@ The adapter contract lists three governance directions (existing independently P
 - Status: existing-context path **NOT DEMONSTRATED**; proposal **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; D2 context authority/lifecycle **OPEN**; P0-07 mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification **NO-GO / NOT PROVEN**.
 - Next: present the existing proposal and source-bounded findings for explicit owner/governance disposition; require exact normative contract acceptance/freeze and separate implementation authorization before code changes. No tests, implementation, deployment, merge, rebase, or cherry-pick.
 - Matrix cross-reference: Section 51, blob `ce5f2624f75928241ea9abaeb4ae4a4b64270ec6`.
+
+
+## 20.134 P0-05 v1.1 owner decisions mapped to acceptance gates (2026-10-13)
+
+- Owner register blob `62831d23c5e6bbddc707ec5b197cffba57d6139a` defines historical decision IDs D1–D7 and their owner-selected investigation paths. Candidate clauses in `docs/checkpoints/p0-05-consumer-contract-v1.1-candidate-for-governance-review-2026-10-12.md`, blob `79e2b4865c47b5394ade266cd3cd7cfbe3097717`, are proposals, not normative decisions.
+- Matrix Section 52 maps each preserved ID to its acceptance evidence: D1 caller/trust boundary and authorization composition; D2 P0-04 context authority/lifecycle; D3 exact-operation/payload binding and replay/freshness; D4 operation-to-canonical-state mapping; D5 joint MH-06/MH-12/MH-13 audit/privacy review; D6 controlled P0-05 accepted-package vs DRAFT-header reconciliation; D7 versioning/change-control scope.
+- All D1–D7 remain open as normative contract decisions. Owner-selected research directions do not authorize implementation. MH-12 C-01 remains REQUIRES VERIFICATION / GOVERNANCE RESOLUTION; C-02 remains BLOCKED BY APPROVED API/AUTHORIZATION BRIDGE GAP.
+- Acceptance gates before implementation: explicit owner/governance disposition; security review of independent authorization and exact binding; controlled P0-05 status reconciliation; exact normative text accepted/frozen against commit/blob; traceability to negative-path verification evidence; separate implementation authorization. Qualification and production authorization remain separate.
+- Status remains P0-07 mutation/publication **BLOCKED — GOVERNANCE/API GAP**, P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**, project qualification **NO-GO / NOT PROVEN**.
+- No implementation, tests, qualification, deployment, merge, rebase or cherry-pick.
+- Matrix cross-reference: Section 52, blob `06e9e0f4e0ca2f2b66338e29fd5c19da5c49c83c`.
