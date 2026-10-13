@@ -1598,3 +1598,28 @@ MH-04 provides the conceptual principal/authentication/credential/revocation/fai
 5. The next sequence remains the roadmap's crosswalk-validation of DEC-DEV-04 after its hardware/OS evidence prerequisites, while DEC-DEV-03 stays deferred. Continue the independent P0-07 → P0-05 authority bridge on its separate roadmap track.
 
 No tests, host/runtime inspection, credentials, installation, infrastructure change, deployment, migration, merge or rebase was performed.
+
+
+## Section 62 — P0-04 context issuer / MH-04 governance evidence trace (2026-10-13)
+
+**Source identity**
+- Current `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; recursive tree complete, 798 entries.
+- MH-04 branch `architecture/mh-04-security-trust-authorization`, HEAD `a4fc8bd83011c8f684ecd75f9223567e2abc6277`; tree complete, 141 entries; diverged from main 7 ahead / 1,639 behind, merge base `d093429156a8d6451ff54d956e0454a1ff6ae1d0`.
+- P0-07 branch `architecture/mh-7-configuration-policy`, HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`; tree complete, 171 entries; diverged from main 143 ahead / 1,668 behind, merge base `1364d027f6722cfccab088735ecd1b5d04781b0b`.
+
+**Traceability rows**
+| Element | Source evidence | Verified result | Status |
+|---|---|---|---|
+| Principal/authentication lifecycle | MH-04 identity `dccded8f572bed42e8f40e4240e91e5621f24a37`; authentication `834dd3f4036ba1668e4b8af132393e25c70c85eb`; authorization `327b7c0c7504612ff05a6654a710058dcecaf438); credential boundary `7b5db076bb5a948def0fc4d72dd58740828660c5`; trust model `3e1d0ebffcd9e84f10e8e65dc3baf4bbb235ac01` | Conceptual lifecycle and fail-closed constraints defined; no concrete accepted/deployed issuer, provisioner, expiry/revocation source, audience/request binding or replay control identified | PROPOSED / REVIEW COMPLETE; ACCEPTED/FROZEN not evidenced |
+| P0-04 context object | Accepted implementation authorization blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` | Only `principal` and `capability`; exact tuple policy denies by default; object fields alone do not prove trusted origin or lifecycle | ISSUER NOT EVIDENCED |
+| Consumer boundary → authority | Main ConsumerBoundary `98bf2da9cea85da2c82145b4baef417c20b9ae73`; state interface `a2115b81f52a63feb357e484bd982a6a32641d81`; in-memory authority `0fbc71369d19e09944ba67a60ccb9df802f30a4b` | Read delegates through injected StateAuthority; no accepted composition root connecting MH-04 authentication and P0-07 operation boundary to the same authority/revision was found in the inspected main tree | CALL EDGE / SAME REVISION NOT EVIDENCED |
+| P0-07 operation boundary | `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`; adapter contract `22b8e1897e124578e66c8d619b3e8eaf41f69a88` | Returns domain authorization/policy decision; no ConsumerBoundary read/call edge or publication; independent P0-04 authorization remains mandatory | MUTATION/PUBLICATION BLOCKED |
+| MH-04 governance | Acceptance criteria `a75f5c1849ad67cc380a0ba3552bf7f2c5ec82b6` | Review complete does not equal acceptance; MH-04 status remains PROPOSED / REVIEW COMPLETE | GOVERNANCE ACCEPTANCE OPEN |
+| P0-05 contract status | Accepted tree `97a01977f521ba8304a455b5d7504896235ddea7`; contract `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`; acceptance `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242`; packet `1253944ffeefcb59502d9f7deb13d38baed1d6e1` | Implementation ACCEPTED/FROZEN is evidenced; contract header remains DRAFT and separate normative-text acceptance is not unambiguously stated | D6 GOVERNANCE CONFIRMATION REQUIRED |
+
+**Gate and action**
+- D1 existing-context reuse: NOT DEMONSTRATED; D2 context issuer/lifecycle: NOT EVIDENCED; D6 contract-status reconciliation: OPEN.
+- P0-07 → P0-05 canonical-read/call edge and same-instance/same-revision proof: NOT EVIDENCED.
+- P0-07 mutation/publication: BLOCKED — GOVERNANCE/API GAP. P0-05 v1.1: NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN. Project qualification remains NO-GO / NOT PROVEN.
+- Finding is bounded to cited complete trees/refs; it does not assert universal absence from all history. No tests, workflows, implementation or qualification were performed.
+- Next: route existing D1/D2/D6 questions through owner/governance unless an accepted source closes them. Do not invent an issuer, bridge or owner decision.
