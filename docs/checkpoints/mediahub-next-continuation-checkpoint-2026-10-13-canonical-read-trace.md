@@ -388,3 +388,13 @@ R-05 should be framed precisely: preserve MH-13's limited status as an accepted 
 - No independent review was performed. P0-07 D2 remains `NOT EVIDENCED`; D1 `NOT DEMONSTRATED`; D3/D4 `NOT EVIDENCED`; D6 `OPEN / GOVERNANCE CONFIRMATION REQUIRED`; mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
 - Scope: documentary GitHub reads and documentation only. No tests, qualification, workflows, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
 - Next: a qualified independent reviewer must fill §13 against refreshed exact source SHAs; afterward, route owner/governance decisions separately.
+
+
+## Follow-up — exact MH-12 anchors for P0-07 D2 reviewer routing (2026-10-13)
+
+- Revalidated live refs: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch DIVERGED, ahead 725 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Complete recursive tree for main was not truncated. Freshly fetched exact MH-12 blobs: identity `27eef9e23db02d6280b94a8e68bff9f73b0de88d`; authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a`; security boundaries `38a4505eef87f696748924baedd40cfa2ad07a41`; audit `ab6e1c652790fd9088ac26b595050774611da2fc`; acceptance criteria `40f37f1600c4730e622480d57bd492fa67f9ca4b`; unknowns `97f08824fb858dd4506876729ae37d610140c3e8`.
+- Added proposal §13.2 with exact paths, SHAs, review-item routing and limitations. Update commit `c1e9dd68e9645a2ee7413dfd70b830d66bfbadd7`; proposal blob `39400abce88da7ea54be7d9d7505f215eba43408`.
+- MH-12 sources support general identity/authorization/boundary/audit principles but do not establish an approved trusted issuer or accepted end-to-end P0-07 lifecycle. MH-12 itself remains governance-review-required; implementation authorization, production qualification and freeze are not granted.
+- No independent review was performed and no gate changed. No tests, qualification, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+- Next: qualified independent review of the exact proposal/source refs, followed by separate owner/governance disposition.
