@@ -372,3 +372,15 @@ Contour B product implementation remains gated until Contour A is deployed and i
 - **Established provider invariant:** no silent local-to-cloud/provider fallback. MH-21 remains NOT ACCEPTED / NOT FROZEN / NOT PRODUCTION READY; provider/data-class/egress/retention policies and evidence remain open.
 - **Established contour gate:** Contour B must not begin until Contour A is deployed and independently accepted with evidence. DEC-DEV-08 is retained as a gate/evidence tracker, not an option to bypass.
 - Detailed source anchors and decision dispositions are in Section 58 of the unified traceability matrix and Section 6 of the owner decision packet. These are working documentary artifacts, not proof of implementation, qualification or production acceptance.
+
+
+## 15. Jarvis / ASTRA lifecycle authority conflict (2026-10-13)
+
+**Status:** OPEN_CONFLICT / NOT QUALIFIED. This is a documentary reconciliation, not an acceptance or change to primary ASTRA sources.
+
+- ASTRA GOLD's canonical design sources describe A0 as the controller for ASTRA's engineering queue, claims, leases, scheduling, evidence and recovery. This supports A0 as the intended ASTRA-internal workflow-state owner.
+- The Complete Component Scheme also uses the phrase “MediaHub State Authority” for A0-ASTRA. That wording conflicts with the product-state authority boundary and must not be silently treated as valid product-state ownership.
+- The working Verifiable Architecture Contract ARC-003 restricts A0 to ASTRA engineering workflow state; ARC-017 frames Jarvis as the umbrella and ASTRA as a bounded subsystem; ARC-018 requires one lifecycle owner before implementation. The independent Jarvis review leaves that cross-system owner OPEN.
+- Current ASTRA truth remains NOT_PROVEN / BLOCKED with all G0–G11 blocked. Canonical design wording is not implementation, verification, qualification or acceptance evidence.
+- Required reconciliation: clarify the scope of the conflicting “MediaHub State Authority” phrase through governance; determine whether A0 is the selected single engineering-task lifecycle owner under Jarvis; specify a typed adapter/delegation boundary and prevent competing queue/lease/retry/evidence-promotion stores.
+- Do not change the ASTRA primary sources or choose a second lifecycle owner without the required governance decision. The next independent track is the existing P0-07 → P0-05 trust/context/authorization bridge.
