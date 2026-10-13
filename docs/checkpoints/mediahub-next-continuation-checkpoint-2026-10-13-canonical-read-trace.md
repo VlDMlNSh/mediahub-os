@@ -90,3 +90,13 @@ Trace `docs/architecture/MH-17-device-configuration.md` and the P0-07 operation 
 - Matrix Section 52 blob `06e9e0f4e0ca2f2b66338e29fd5c19da5c49c83c`, commit `9d89391b754e3a6058e0ac98aafb2dc8a76a98e7`. Map Section 20.134 blob `0556b0bb255c2a8c9bd3d2a4fc425e783fa1b6f3`, commit `04f8201c3b5e473c35866fec274bf99251954040`.
 - Status remains: D1–D7 OPEN as normative contract decisions; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - Next: prepare a concise owner-facing decision request using the existing proposal, preserving historical IDs and requiring explicit resolution of D1–D7, exact normative blob/commit, and separate implementation authorization. No implementation, tests, qualification, deployment, merge, rebase or cherry-pick.
+
+
+## Follow-up — owner disposition capture sheet (2026-10-13)
+
+- Added Section 8 to the existing P0-05/P0-07 proposal as a blank owner/governance disposition sheet, rather than creating a duplicate proposal. It preserves D1–D7 and requests explicit dispositions, source refs, review records, exact normative acceptance/freeze, and separate implementation authorization. The sheet records all decisions as PENDING; it does not claim or infer approval.
+- Proposal commit `d09d062af8fb3b1a71bc855e6005c05b5cca69e5`, blob `9086f3b06b9f323469e5c769ed0f7081d50d3bf8`.
+- Added Matrix Section 53, commit `4b2cb29953d34762ec9769259435ab91be939dba`, blob `e9dbee8071ba6dc4c8d6d839e4031ce11257909d`.
+- Added Map Section 20.135, commit `0608a1b33445c866416ce3021d86605a66f839ff`, blob `14093438089a01c1503e85cfcf45906c28b341a8`.
+- Current disposition unchanged: P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; qualification NO-GO / NOT PROVEN. No implementation, tests, qualification, deployment, merge, rebase or cherry-pick.
+- Next: request and record the authorized owner's actual D1–D7/governance dispositions against the existing proposal. If no owner decision is available, continue source-bound traceability work without promoting statuses or inventing decisions.
