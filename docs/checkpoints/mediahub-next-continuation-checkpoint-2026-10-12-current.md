@@ -1439,3 +1439,13 @@ Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
 - D7 remains PARTIAL / NOT ACCEPTED / NOT FROZEN; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN. Source comparison recorded in P0-07-D7-CANONICAL-STATE-VERSION-CHANGE-CONTROL-CROSSWALK-2026-10-13.md and mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md.
 - No tests, qualification, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
 - Next: compare the existing D7 candidate scope directly against MH-14/MH-16/MH-22 change-control gates and report one source-backed disposition for the already-open owner question; do not create a duplicate packet or infer the owner decision.
+
+
+## Latest /next result — D7 compared with MH-14/MH-16/MH-22 (2026-10-13)
+
+- Main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch DIVERGED, ahead 743 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Source-backed result: MH-14 requires version/provenance metadata and compatibility validation, but explicitly does not resolve P0-07; MH-16 requires separate version domains and explicit/versioned migration, but remains proposed/not frozen/not authorized; MH-22 requires exact release identity and qualification evidence, while release identity, current-head qualification and restore/DR evidence remain unknown.
+- The sources do not assign an accepted cross-domain generation/schema/revision change-control owner and do not resolve whether P0-07 domain-operation changes belong in P0-05 v1.1 or a separately governed contract. Existing D7 candidate remains the owner interface; no duplicate question created and no decision inferred.
+- Full source-anchored comparison: [P0-07 D7 crosswalk](P0-07-D7-CANONICAL-STATE-VERSION-CHANGE-CONTROL-CROSSWALK-2026-10-13.md); read trace updated. Statuses unchanged: D7 PARTIAL / NOT ACCEPTED / NOT FROZEN; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN. P0-07 D2 independent review remains a separate open gate.
+- No tests, qualification, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+- Next: use the existing D7 owner interface for explicit governance disposition and require an accountable owner/evidence path for cross-domain change control; meanwhile continue independent documentary work on the separately open D2 review gate.
