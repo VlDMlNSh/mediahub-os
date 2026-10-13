@@ -1263,3 +1263,25 @@ Do not write an adapter or change the frozen baseline. Present the owner with th
 - Project qualification: **NO-GO / NOT PROVEN**.
 
 No implementation, test, qualification, deployment, merge, rebase, or cherry-pick was performed or authorized by this crosswalk.
+
+
+## Section 53 — Owner decision capture and normative promotion gates (2026-10-13)
+
+**Existing decision vehicle:** `docs/checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md`, now containing Section 8 “Owner/governance disposition sheet”, blob `9086f3b06b9f323469e5c769ed0f7081d50d3bf8`, commit `d09d062af8fb3b1a71bc855e6005c05b5cca69e5`. This is a blank response template, not a decision record.
+
+### Decision capture state
+
+| Item | Capture status | Promotion condition |
+|---|---|---|
+| D1 — Authorization composition | PENDING | Authorized owner selects a disposition; security/governance review and evidence refs are recorded. |
+| D2 — P0-04 context source/lifecycle | PENDING | Authority, lifecycle, principal binding, trust boundary and source evidence are named. |
+| D3 — Exact operation/payload binding | PENDING | Exact binding and freshness/replay semantics are approved against a threat model. |
+| D4 — P0-07 operation set | PENDING | Explicit operation/resource/canonical-state/authority/invariant mapping is accepted. |
+| D5 — Audit/privacy | PENDING | Joint MH-06/MH-12/MH-13 review records exact approved rules. |
+| D6 — P0-05 status discrepancy | PENDING | Governance resolves what was accepted and cites exact contract blob, implementation commit/tree and acceptance-record blob. |
+| D7 — Contract scope/versioning | PENDING | Change-control authority accepts exact contract path/version and supersession semantics. |
+| Normative acceptance/freeze | PENDING | Exact normative artifact receives explicit acceptance/freeze record tied to commit/blob. |
+| Implementation authorization | PENDING | Separate explicit authorization defines scope and commit boundary. |
+| Qualification authorization | NOT GRANTED | Separate qualification authorization and evidence are required. |
+
+No owner disposition has been inferred from the response template. Owner investigation directions remain non-normative. P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; qualification remains NO-GO / NOT PROVEN.
