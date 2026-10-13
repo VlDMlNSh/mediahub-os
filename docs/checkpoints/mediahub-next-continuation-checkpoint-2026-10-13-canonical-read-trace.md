@@ -494,3 +494,11 @@ R-05 should be framed precisely: preserve MH-13's limited status as an accepted 
 - Added matrix Section 68 as a source-anchored revalidation, not a new normative contract. Matrix commit `1e11ae9bc935b10c1c8a35773156d8d9332ae6be`, blob `43e495aae6b4dc55a0d2e07fa4723d364898a5c1`; read-back SHA verified.
 - Statuses unchanged: D4 documentary candidate only; D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3 NOT EVIDENCED; D6 OPEN; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; qualification NO-GO / NOT PROVEN.
 - No tests, qualification, runtime/host inspection, provider/model calls, credentials, implementation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+
+
+## Follow-up — P0-07 canonical-read join (2026-10-13)
+
+- Source trace: current-main `ConsumerBoundary.read(key=None)` (blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`) directly delegates to P0-04 authority; `InMemoryStateAuthority.read(None)` (blob `0fbc71369d19e09944ba67a60ccb9df802f30a4b`) returns a `CanonicalState` with generation and state_version, while keyed reads return only the value.
+- The complete recursive `main` tree contains no P0-07 read/caller/adapter source path. The source set therefore does not evidence a P0-07 → P0-05 read call edge, same-instance/same-revision pass-through, or read authorization composition. This is bounded to the inspected tree.
+- Detailed evidence/disposition: [P0-07 audit/privacy/governance crosswalk §20](p0-07-audit-privacy-governance-crosswalk-2026-10-12.md). No API or adapter invented; protected contract/header unchanged.
+- Statuses unchanged: canonical read NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN. Documentary-only; no tests or runtime/production actions.
