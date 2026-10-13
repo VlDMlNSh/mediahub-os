@@ -4596,3 +4596,13 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - No architectural or governance status changed: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED / candidate prepared; D3 dependent on D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - Next: an authorized independent reviewer must provide a traceable review artifact with reviewer identity/role, source/version scope, dispositions for R-01…R-06, objections/evidence, and unresolved items. Owner/governance acceptance remains a separate gate. Continue no implementation or qualification until applicable gates are explicitly resolved.
 - This was documentary search only. No tests, qualification, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+
+
+## 20.173 Exact-tree P0-07/P0-05 composition reachability check (2026-10-13)
+
+- Continuation trace: [P0-07/P0-05 canonical-read trace](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), addendum “exact-tree P0-07/P0-05 composition reachability check”.
+- Compared accepted P0-05 implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a` (tree `82da63f03da20049954fe69257342cbf66b58395`, 114 entries) with current `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` (recursive tree 798 entries). No branch integration occurred.
+- P0-05 still accepts a supplied two-field principal/capability context and delegates through ConsumerBoundary to injected StateAuthority. The package export is not evidence of a trusted composition root or issuer. The P0-07 operation/auth modules exist on separate branch `architecture/mh-7-configuration-policy`, but are not in the inspected current-main tree; their operation boundary returns a decision and does not publish or call ConsumerBoundary in the inspected source.
+- Code-search results were incomplete (`incomplete_results=true`); treat them as non-conclusive. Exact-tree evidence does not demonstrate a current-main P0-07→P0-05 call edge, trusted issuer, or same-revision binding.
+- D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D4 canonical resource/key mapping and same-revision join NOT EVIDENCED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN. No implementation, test, qualification, or protected contract change.
+- Next: owner/governance reconciliation of P0-05 normative status and the minimum D1/D2 issuer/context contract questions. No adapter, issuer, or API is selected by this finding.
