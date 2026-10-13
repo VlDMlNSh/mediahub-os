@@ -4444,3 +4444,14 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Status:** D6 `OPEN / GOVERNANCE AMBIGUITY`; D1 existing-context composition `NOT DEMONSTRATED`; D2 trusted context issuer/lifecycle `NOT EVIDENCED`; P0-07 → P0-05 call edge and same-authority/same-revision proof `NOT EVIDENCED`. P0-07 mutation/publication remains `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 remains `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification remains `NO-GO / NOT PROVEN`.
 - **Next:** request explicit owner/governance disposition for D6 (A exact normative text accepted / B implementation only accepted / C defer/request evidence; recommendation C until confirmation) and the unresolved D1/D2 trusted-context source/lifecycle. Continue independent documentary work only; no protected contract edits or implementation bridge.
 - **Safety boundary:** documentary pass only; no tests, qualification, credentials, runtime/host inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+
+
+## 20.159 Owner-accepted continuation direction (2026-10-13)
+
+- **Owner accepted recommendation:** D6 = **C — defer/request further evidence**. Keep the P0-05 exact normative-text acceptance/header discrepancy open until explicit governance confirmation. Do not modify the protected contract/header.
+- **D1:** continue evidence search for existing compliant authorization/context composition. If found, record exact source, trust boundary and authority. If not, prepare a governed design proposal only, with separate implementation authorization required.
+- **D2:** continue evidence search for trusted P0-04 context source/lifecycle. If absent, prepare a governed design proposal only; do not invent an issuer, provisioner, API bridge, identity technology or schema.
+- Proposal evidence requirements: source provenance, authority, principal binding, lifecycle, freshness/revocation and trust boundary.
+- **Hard gates unchanged:** P0-07 mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification **NO-GO / NOT PROVEN**.
+- **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “Owner-accepted continuation direction”.
+- Documentary-only continuation; no implementation, tests, qualification, deployment, migration, infrastructure change, merge or rebase.
