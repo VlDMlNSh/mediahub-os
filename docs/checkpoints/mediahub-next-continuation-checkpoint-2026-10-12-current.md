@@ -656,3 +656,15 @@ This addendum supersedes only the prior subsection's mutable-branch blob snapsho
 - Master Development Roadmap 1.0 blob SHA verified: `f651450495bed8c9c4cb06efd18db97794f3f9e1`.
 - Map blob SHA after adding the read-back record: `bc1987a527e1ce90c54c67a42dffcacb676819c5`.
 - The four required files were fetched again from GitHub after their writes; new control markers and content were confirmed. The canonical URLs still point to the current file paths on `docs/mediahub-chat-tree-map-20261012`; no branch/path drift was found. The docs branch HEAD is the commit created by the last successful write unless a concurrent update occurs; re-check the live ref on the next `/next`.
+
+
+---
+
+## Continuation addendum — canonical project instruction direct link (2026-10-13)
+
+- Owner identified a missing navigation link from short ChatGPT Project Instructions to the full canonical GitHub instruction.
+- Updated Bootstrap file `docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md` to include its own direct URL and the current map/checkpoint/roadmap entry points.
+- Bootstrap post-write read-back blob SHA: `4a24bdff534c275e4564798920cbccbc26727f2d`; Master Roadmap blob SHA observed during this pass: `f651450495bed8c9c4cb06efd18db97794f3f9e1`.
+- The map is being updated to index the canonical instruction URL. This checkpoint must be re-read after the update and its final SHA verified.
+- Required next user-side settings action: replace/update ChatGPT Project Instructions so it links directly to the full GitHub Bootstrap. Assistant cannot claim ChatGPT project settings were changed automatically.
+- This pass is documentation-only; no tests, qualification, runtime/host inspection, credentials, deployment, infrastructure changes, merge or rebase.
