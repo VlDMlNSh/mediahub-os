@@ -266,3 +266,31 @@ The current authorization context contains principal and capability, while polic
 D3 immutable P0-07 decision/resource/payload/revision binding: NOT EVIDENCED. D4 governed operation-to-canonical-resource/key/state-shape mapping: NOT EVIDENCED. D7 remains PARTIAL: local version/generation mechanics are evidenced, accepted end-to-end binding and change-control ownership are not. D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 
 No API/schema/issuer/cryptographic design selected. No tests, qualification, implementation, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick. Next independent documentary step: inspect MH-14 persistence, MH-16 lifecycle/migration and MH-22 qualification primary artifacts without treating them as closing P0-07 governance gates.
+
+
+## Follow-up — MH-14 / MH-16 / MH-22 persistence-lifecycle-qualification crosswalk (2026-10-13)
+
+**Scope:** source-document crosswalk only; no implementation, test execution or qualification.
+
+**Current-main primary sources and blob SHAs**
+- MH-14 persistence architecture: `docs/architecture/MH-14/MH-14-persistence-architecture.md`, `5e14084033f417722a1b04b5d5d47649dcfcda48`.
+- MH-14 acceptance criteria: `docs/architecture/MH-14/MH-14-acceptance-criteria.md`, `364bb2a949e11f191b71a35af482f18de4ef2827`.
+- MH-14 decision log: `docs/architecture/MH-14/MH-14-decision-log.md`, `a2f49b9f4e09e3d2becdc2e72807319674a30239`.
+- MH-16 lifecycle architecture: `docs/architecture/MH-16-installer-recovery-update-architecture.md`, `f3ad2401f00a4062b39eed640e0c5c5f70064312`.
+- MH-16 completion record: `docs/architecture/MH-16-completion-record.md`, `e4ea4e3a37540cc104243c236e2e5c1c32ea35d6`.
+- MH-22 acceptance criteria: `docs/architecture/MH-22-acceptance-criteria.md`, `40d401c0a4ba80550f8101d4e9b1de8f0c77849e`.
+- MH-22 evidence register: `docs/architecture/MH-22-evidence-register.md`, `188a85e3a31cb545fd781e6db237d655d721ec1c`.
+- Functional Baseline 2.0: `docs/checkpoints/mediahub-functional-baseline-2.0.md`, `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
+
+**Findings**
+1. MH-14 explicitly makes persistence subordinate to State Authority. Persisted/recovered data is only a candidate until validation and State Authority mediation; physical persistence remains NOT AUTHORIZED, acceptance NOT YET ACCEPTED/FROZEN. Atomicity, crash/power-loss, stale-write rejection, backup/restore, privacy-aware deletion across durable copies, hardware assumptions and actual restore evidence are acceptance gates. RPO/RTO remain TBD.
+2. MH-16 architecture and completion record describe lifecycle boundaries and failure semantics, but status remains PROPOSED / GOVERNANCE ACCEPTANCE PENDING / NOT FROZEN / IMPLEMENTATION NOT AUTHORIZED. The completion record explicitly does not claim production implementation, accepted architecture or qualified recovery.
+3. MH-22 acceptance requires uniquely identified current release candidate, traceable provenance, complete security/privacy evidence, exercised install/update/rollback/recovery, actual validated restore, operational ownership and explicit production governance approval. Its evidence register marks current-head production qualification, release identity, artifact digest/signature/SBOM, hardware qualification, installation/update/rollback, recovery/restore and DR evidence UNKNOWN / REQUIRES VERIFICATION; production acceptance NOT GRANTED.
+4. These three domains do not close the P0-07 → P0-05 mutation/publication gap and do not demonstrate end-to-end generation/schema/revision binding across State Authority, persistence, migration/restore and release qualification. Do not infer an accepted single owner for generation/schema change control.
+
+**Disposition**
+- MH-14: ARCHITECTURE WORK IN PROGRESS; acceptance NOT YET ACCEPTED/FROZEN; physical persistence NOT AUTHORIZED.
+- MH-16: PROPOSED; governance acceptance pending; implementation NOT AUTHORIZED.
+- MH-22: WORKING / NOT ACCEPTED / NOT FROZEN; production qualification NO-GO / NOT PROVEN.
+- P0-07 remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; D7 remains PARTIAL. No gates promoted.
+- No tests, qualification, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
