@@ -4486,3 +4486,12 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - The ASTRA developer context envelope is explicitly unauthenticated/transport-neutral; ASTRA prompt context is advisory and untrusted. Neither is a trusted P0-04 context source.
 - Minimum design questions are recorded in proposal §10; no identity technology, schema, issuer service, or API signature selected.
 - Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification remains **NO-GO / NOT PROVEN**.
+
+
+## 20.163 P0-07 D5 audit/privacy source crosswalk (2026-10-13)
+
+- Evidence details: [Unified System Traceability Matrix §66](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md) and [P0-07 audit/privacy crosswalk §19](../checkpoints/p0-07-audit-privacy-governance-crosswalk-2026-10-12.md).
+- MH-13 establishes privacy constraints: minimization, explicit retention/deletion governance, protected-data exclusion from unauthorized audit/telemetry, and auditable evidence without unnecessary payload disclosure.
+- P0-07 operation/authorization and P0-05 ConsumerBoundary sources do not evidence an accepted durable audit event contract, sink, retention authority or reader-authorization path. Sanitized error codes are not an audit trail.
+- MH-21 privacy/retention documents remain PROPOSED and provider-evidence-required.
+- **Disposition:** D5 remains open; no audit schema, storage, API or technology selected. Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; no implementation or qualification claimed.
