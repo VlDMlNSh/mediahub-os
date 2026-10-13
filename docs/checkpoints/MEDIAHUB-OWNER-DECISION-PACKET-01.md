@@ -25,7 +25,7 @@
 | `docs/architecture/MH-21-provider-contract.md` | `main` | `d2bf7e29eee9ff2e07f4e25bf58229df11ff3cda` | Provider contract source exists; this pass does not assert provider admission or compatibility. |
 | `docs/architecture/MH-21-external-compute-contract.md` | `main` | `b2127d6085cdbfcd98d2f819fa3ea5d12ffee68f` | External compute is bounded and subordinate; admission and evidence remain required. |
 | `docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md` | `docs/mediahub-chat-tree-map-20261012` | `1057776ca9192b307a4e6de72db5d12cdbcc1a39` | Proposed draft records a local Ollama direction; not accepted/frozen and not evidence of deployment. |
-| `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md` | `docs/mediahub-chat-tree-map-20261012` | `87a43ae5c497b0da2d8000be8498bc78b791b76b` | Existing source-anchored placement baseline and DEC-DEV-01…08 conflict register; do not repeat it as a new artifact. |
+| `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md` | `docs/mediahub-chat-tree-map-20261012` | `39e9ec183988c9caee5eb7ab0128bf4c71ffaa39` | Existing source-anchored placement baseline and DEC-DEV-01…08 conflict register; do not repeat it as a new artifact. |
 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md` | `docs/mediahub-chat-tree-map-20261012` | `9af75da0b1383a51bb95cb3cd5dd62bf22b571f7` | Large working cross-domain traceability draft; not accepted/frozen. |
 | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` | `docs/mediahub-chat-tree-map-20261012` | `467aedfc655db966597f564f4bf3074185aca6e9` | Working integrated passport; not canonical replacement for Baseline 2.0. |
 
