@@ -4173,3 +4173,23 @@ The adapter contract lists three governance directions (existing independently P
 - **Ограничения прохода:** только документальный анализ и GitHub read-back; без установки, тестов, квалификации, provider/model calls, credentials, runtime/host inspection, infrastructure changes, deployment, migration, merge или rebase.
 - **Следующий шаг:** source-anchored node/service placement matrix + conflict/decision register по первичным источникам; не изменять matrix/Baselines и не продвигать draft без разрешённого review/owner decision.
 
+
+
+---
+
+## 20.140 Master Development Roadmap 1.0 — единый план последовательности работ (2026-10-13)
+
+**Статус:** OWNER-DIRECTED MASTER PLAN / WORKING CONTROL DOCUMENT. Единственный рабочий план последовательности; не заменяет принятые архитектурные контракты и не выдаёт разрешение на установку, тесты, квалификацию или deployment.
+
+- **Master roadmap:** [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), ref `docs/mediahub-chat-tree-map-20261012`, blob SHA `1f38b533d56e3065173ea0af7b09357d6d8b3e5e`, creation commit `5506cb6d2a4a97287c5e55e64cf194921483f747`.
+- **Continuation checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), read-back blob SHA `5e5be49df32a1d72095bde1533e0447df7d9c708`, update commit `d8c408ac18193be311fe88f9a1057b2dae4e7edf`.
+- **Supporting plan:** [MEDIAHUB-DEVELOPER-FABRIC-UNIFIED-PLAN-2026-10-13.md](../checkpoints/MEDIAHUB-DEVELOPER-FABRIC-UNIFIED-PLAN-2026-10-13.md), read-back blob SHA `c0f55645916968a5a369b1582510012ec28c4251`; explicitly marked as supporting context with sequencing superseded by the master roadmap.
+- **Scope boundary:** Contour A — cloud/developer servers, Mac Pro 2013/macOS, Mac mini Server 2011/Linux/16 GB, future remote owned GPU/video server, Jarvis, ASTRA, model/provider/tool routing, developer mobile, installation/update/recovery and qualification. Contour B — MediaHub OS product development, starts only after Contour A has separately evidenced deployment and owner acceptance.
+- **Plan contents:** source precedence and statuses; node/trust-domain plan; phases 00–10 with gates; P0 backlog; owner decision register; component admission; installation/recovery design; deployment and qualification gates; change control and explicit non-claims.
+- **Current target hardware:** Mac Pro 2013/macOS as central developer node; Mac mini Server 2011/clean Linux/16 GB as a low-resource worker only after compatibility evidence; future remote owned GPU/video server as optional extension. Exact configurations remain unknown.
+- **Primary open decisions:** Alamo vs Ollama/ONNX Runtime/llama.cpp composition; single Jarvis/ASTRA lifecycle owner; whether future production Mac Pro is same or separate asset; Mac mini hardware/OS compatibility; provider/data-egress policy; Developer Mobile identity/revocation; exact future GPU profile; evidence package that formally unlocks Contour B.
+- **Status restrictions:** unified matrix/contract remain proposed/not accepted/not frozen; MH-15 acceptance/freeze and implementation authorization absent; MH-16 proposed/not frozen/not authorized; ASTRA G0–G11 and MH-22 G1–G9 blocked/not promotable in inspected evidence; global qualification `NO-GO / NOT PROVEN`; P0-07/P0-05 governance/API gap open.
+- **Git refs:** `main HEAD` observed before this pass's writes `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; current docs branch compare status `diverged`, ahead `542`, behind `2`, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase.
+- **Read-back:** roadmap, supporting plan and checkpoint were re-read from GitHub after writes; SHA and required markers verified. This map entry is being added now and must itself be read back after update.
+- **Next step:** create a source-anchored node/service placement matrix and decision/conflict register from the primary clauses named in the roadmap. Follow the master roadmap as the sole sequencing plan; do not infer compatibility or authorization.
+
