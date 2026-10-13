@@ -4495,3 +4495,13 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - P0-07 operation/authorization and P0-05 ConsumerBoundary sources do not evidence an accepted durable audit event contract, sink, retention authority or reader-authorization path. Sanitized error codes are not an audit trail.
 - MH-21 privacy/retention documents remain PROPOSED and provider-evidence-required.
 - **Disposition:** D5 remains open; no audit schema, storage, API or technology selected. Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; no implementation or qualification claimed.
+
+
+## 20.141 P0-07 D7 — canonical state-version and change-control crosswalk (2026-10-13)
+
+- **Artifact:** [P0-07 D7 canonical state-version crosswalk](../checkpoints/P0-07-D7-CANONICAL-STATE-VERSION-CHANGE-CONTROL-CROSSWALK-2026-10-13.md).
+- **Status:** READ-ONLY SOURCE CROSSWALK / PARTIAL / NOT ACCEPTED / NOT FROZEN.
+- **Evidence:** `main` source files `runtime/mediahub_runtime/in_memory_state.py`, `generation.py`, `authorization.py`, `consumer_boundary.py` and `state.py`, with live SHAs recorded in the artifact.
+- **Finding:** state-version freshness, generation compatibility and restore version advancement are evidenced in the inspected in-memory implementation. Accepted ownership of generation/schema change control and complete trusted P0-07 → P0-05 → P0-04 revision binding remain NOT EVIDENCED in this bounded pass. Persistence/qualification are not proven.
+- **Gate:** P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN.
+- **Continuation:** re-read map-selected MH-14 persistence, MH-16 lifecycle/migration and MH-22 qualification primary sources to identify the accepted generation/change-control owner and evidence path. Do not implement or infer acceptance.
