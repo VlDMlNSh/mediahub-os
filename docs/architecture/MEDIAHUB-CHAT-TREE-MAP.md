@@ -4476,3 +4476,13 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **DEC-DEV-05/06:** invariants established; provider/data-class routing and Developer Mobile API/identity contracts remain open after their respective inventories.
 - **DEC-DEV-08:** binding Contour A → Contour B gate; deployment, independent qualification and explicit acceptance evidence outstanding.
 - No primary ASTRA source changed; no implementation, tests, qualification, host/runtime inspection, provider/model invocation or deployment performed.
+
+
+## 20.162 D1/D2 trusted-context source audit (2026-10-13)
+
+- Detailed source-bound audit and design-only questions: [P0-05 contract revision proposal §10](../checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md#10-d1d2-source-bound-context-audit-and-minimum-design-questions-2026-10-13).
+- **D1:** an authenticated P0-07 caller path carrying a separately authorized P0-04 context unchanged through P0-05 is **NOT DEMONSTRATED** in inspected `main` source.
+- **D2:** concrete trusted context issuer/provisioner and expiry/revocation/freshness authority are **NOT EVIDENCED**. MH-06/MH-12 are requirements, not implementation proof.
+- The ASTRA developer context envelope is explicitly unauthenticated/transport-neutral; ASTRA prompt context is advisory and untrusted. Neither is a trusted P0-04 context source.
+- Minimum design questions are recorded in proposal §10; no identity technology, schema, issuer service, or API signature selected.
+- Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification remains **NO-GO / NOT PROVEN**.
