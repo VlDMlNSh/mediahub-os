@@ -904,3 +904,30 @@ The proposal, matrix, passport and map all contain the expected new sections. Th
 **Disposition:** documentary mapping complete for the inspected source scope; all missing target/state/revision/evidence joins remain explicit gaps. D1/D2 trust-source questions remain open; D3 exact binding/replay remains NOT EVIDENCED. Safe continuation: compare this crosswalk against the owner/governance records and current roadmap acceptance criteria; ask for a decision only if a specific mapping or schema authority cannot be established from existing approved records.
 
 **Safety boundary:** read-only source/document inspection and checkpoint/map writes only. No runtime execution, tests, qualification, code implementation, credentials, model/provider calls, installation, infrastructure changes, deployment, migration, merge or rebase.
+
+
+### DEC-DEV-02 clause-level lifecycle authority reconciliation (2026-10-13)
+
+**Roadmap alignment:** this pass follows the current roadmap's developer-fabric crosswalk-validation sequence and the unified matrix Section 59 handoff. It does not repeat the P0-07 operation mapping or treat it as closed.
+
+**Live source refs / blobs**
+- `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; recursive tree complete (798 entries).
+- ASTRA GOLD Unified Autonomous Development System: `architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.md`, blob `e2067dc41b52983fc4e0b2549fb6af3c099cbc60`.
+- ASTRA GOLD Unified Autonomous Development System YAML: `architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml`, blob `adc852009c3a79d0e64265a3af8a4910a1388057`.
+- ASTRA GOLD Complete Component Scheme: `architecture/ASTRA-GOLD-COMPLETE-COMPONENT-SCHEME.md`, blob `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1`.
+- ASTRA GOLD Governance Contract: `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`, blob `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`.
+- ASTRA Current Truth: `docs/qualification/CURRENT-TRUTH.generated.md`, blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`.
+- Integrated working contract ARC-003/017/018: `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md`, blob `c248956417cc61d66c968a4c58a56e799f653354`.
+- Jarvis bundle independent review: `docs/checkpoints/MEDIAHUB-JARVIS-BUNDLE-INDEPENDENT-REVIEW-01.md`, blob `022f1bd881906d4ab837b2f46c091c43546fce14`.
+- Owner decision packet 01 blob `f941d67c3d0b37b8abb1a96da02f51a494f9f2bf`; placement/decision register 01 blob `59107fd6d7b8a73d671098adcf2824c310642907`.
+
+**Finding:** ASTRA design sources place queue/claim/lease/heartbeat/recovery/result publication in A0's intended engineering control plane. However, Component Scheme §1 says “A0-ASTRA = single coordination and MediaHub State Authority”, conflicting with integrated contract ARC-003, which limits A0 to ASTRA engineering workflow state and excludes MediaHub Product State Authority. ARC-017 frames Jarvis as umbrella and ASTRA as bounded subsystem; ARC-018 requires one lifecycle owner before implementation. Independent review R-04 remains OPEN. No reviewed source defines an accepted cross-system typed lifecycle adapter/delegation contract or closes Jarvis-vs-ASTRA ownership. Current Truth remains NOT_PROVEN / BLOCKED; G0–G11 all BLOCKED.
+
+**DEC-DEV-02 disposition:** OPEN_CONFLICT. Existing options retained: A Jarvis owner/ASTRA adapter; B ASTRA lifecycle explicitly delegated by Jarvis; C strictly disjoint lifecycle domains. Recommendation is not to select A/B/C from design labels alone. First obtain governed clarification of the “MediaHub State Authority” phrase and then accept one typed lifecycle contract before implementation. Minimal owner question and consequences are recorded in unified traceability matrix Section 61. Do not alter ASTRA primary sources or imply implementation/qualification.
+
+**Updated artifacts**
+- Unified traceability matrix Section 61: commit `0b7fd32ce3ffd044a328a4185765efde27688e03`, blob `fec41118a104514b90923967212fc775bb2bf880`.
+- Working system passport Section 17: commit `4da441d20c45ad73b3f68088d2efe686bf1d8f9e`, blob `cd5377e2e4dc251baf4357087ff92c9060c5ab66`.
+- Project map receives the navigation/status/source pointer in its next sequential write.
+
+**Next:** keep DEC-DEV-02 OPEN_CONFLICT pending owner/governance disposition; continue only independent source reconciliation that does not assume an ownership option. No tests, runtime inspection, qualification, implementation, installation, provider/model calls, deployment, migration, merge or rebase occurred.
