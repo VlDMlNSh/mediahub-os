@@ -268,3 +268,68 @@ A review cannot be marked complete merely because this document exists. Reviewer
 - **R-06 — Required audit unavailable.** MH-13 requires auditability but the inspected sources do not decide whether an operation must stop if required audit evidence cannot be emitted. Owner/security/privacy reviewers must decide per operation risk; no behavior is selected here.
 
 **Desk-review disposition:** no source-backed reason to relax existing P0 authority boundaries was found in this bounded pass. This is not proof of completeness and is not the requested independent review. The proposal is ready for an independent reviewer to assess R-01…R-06. D1 remains NOT DEMONSTRATED; D2 NOT EVIDENCED / CANDIDATE DESIGN PREPARED; D3 NOT EVIDENCED / DEPENDENT ON D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN. No stable IDs or technology decisions were added; no implementation was authorized.
+
+
+## 13. Independent reviewer response worksheet (template only, 2026-10-13)
+
+**Status: BLANK TEMPLATE — NOT A REVIEW, NOT ACCEPTANCE, NOT IMPLEMENTATION AUTHORIZATION.** Use this section to capture a real independent review; do not mark it complete without a qualified reviewer and traceable evidence.
+
+### Reviewer and independence
+- Reviewer name/stable identifier and role/domain competence:
+- Review date and proposal ref/blob SHA reviewed:
+- Relationship to author/owner and conflicts of interest:
+- Independence declaration:
+- Exact source paths, refs, blob SHAs and sections reviewed:
+
+### Required disposition vocabulary
+For each R-item choose `ACCEPT`, `ACCEPT WITH CONDITIONS`, `REJECT`, or `UNRESOLVED`. Each disposition needs source anchors, rationale, severity where applicable, and required follow-up. Reviewer recommendations are not owner/governance decisions.
+
+### R-01 — Canonical security-flow mapping
+- Disposition and source-anchored reasoning:
+- Map Identity → Authentication → Trust → Capability → Authorization → Policy → Command/Proposal → Consumer Boundary → State Authority → Event → Audit/Observability:
+- Confirm P0-07 policy ALLOW is neither identity-bound authorization nor P0-04 transaction authorization:
+- Findings / required changes:
+
+### R-02 — Principal and delegation scope
+- Disposition and source-anchored reasoning:
+- Principal classes explicitly in/out of scope; delegation boundary; unsupported unspecified classes:
+- Findings / required changes:
+
+### R-03 — Lifecycle failure semantics
+- Disposition and source-anchored reasoning:
+- Issuance, binding, expiry, refresh, revocation, replay resistance, failed-auth handling, rate limits/quarantine and recovery:
+- Revocation consistency/availability, trust-root rotation ownership, validation-unavailable behavior:
+- Findings / required changes:
+
+### R-04 — Privacy and audit controls
+- Disposition and source-anchored reasoning:
+- Data minimization, access control, retention, audit integrity and privacy review:
+- Findings / required changes:
+
+### R-05 — MH-13 governance/status boundary
+- Disposition and source-anchored reasoning:
+- Confirm reconstruction/proposal status is not mistaken for frozen, accepted or production-ready implementation:
+- Findings / required changes:
+
+### R-06 — Required audit unavailable
+- Disposition and source-anchored reasoning:
+- Operation-risk-specific behavior when required audit evidence cannot be emitted:
+- Separate reviewer recommendation from owner/security/privacy decision:
+- Findings / required changes:
+
+### Cross-cutting review and recommendation
+- P0-04 remains canonical mutation authority: findings:
+- Any conflation of P0-07 ALLOW with identity/authentication or P0-04 authorization:
+- Any unsupported selection of issuer/API/schema/cryptographic mechanism/deployment topology:
+- Missing evidence, contradictions, threats, assumptions and severity:
+- Overall recommendation: `READY FOR OWNER/GOVERNANCE REVIEW` / `REVISE AND RE-REVIEW` / `NOT READY` / `UNRESOLVED`:
+- Conditions and rationale:
+
+### Gate status and sign-off
+- Independent review actually completed: YES / NO:
+- R-01…R-06 all have evidence-backed dispositions: YES / NO:
+- Owner/governance acceptance separately obtained: YES / NO / NOT IN SCOPE:
+- D1 remains `NOT DEMONSTRATED`, D2 `NOT EVIDENCED`, D3/D4 `NOT EVIDENCED`, P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN` unless separate, traceable evidence and governed decisions justify a change:
+- Reviewer sign-off, durable review record URL/path, follow-up owner, unresolved items:
+
+**Guardrail:** This blank worksheet closes no gate. The existing internal desk review is not an independent review. Completing the worksheet records a review only when a real independent reviewer supplies the evidence and dispositions. It grants no implementation or qualification authorization.
