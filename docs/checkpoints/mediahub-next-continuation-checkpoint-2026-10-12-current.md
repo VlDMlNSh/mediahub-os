@@ -1063,3 +1063,30 @@ The owner accepted the recommended conservative path:
 - P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification remains **NO-GO / NOT PROVEN**.
 
 This accepted direction supersedes any inference that D6 may be closed by silently correcting the DRAFT header. Continue independent documentary work; implementation, qualification and protected-contract changes remain gated.
+
+
+### P0-07 D4 operation-to-canonical-state source crosswalk (2026-10-13)
+
+**Live source refs and exact artifacts**
+- `main` HEAD: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- P0-07 branch `architecture/mh-7-configuration-policy` HEAD: `83ccb0d4993761ffcd43146d982ff9781116c7db`; complete tree 171 entries, diverged from main (+143 / −1,668; merge base `1364d027f6722cfccab088735ecd1b5d04781b0b`).
+- Operation boundary `runtime/mediahub_runtime/configuration_policy_operations.py`, blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`: validates payload, checks P0-07 authorization, evaluates policy, returns a decision; it does not publish state.
+- P0-07 exact authorization `runtime/mediahub_runtime/configuration_policy_authorization.py`, blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`; P0-07 read/validate constraint `docs/architecture/P0-07-read-validate-boundary.md`, blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`; mutation reconciliation `docs/architecture/P0-07-mutation-authority-reconciliation.md`, blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`; P0-07/P0-05 adapter contract `docs/architecture/P0-07-p0-05-mutation-adapter-contract.md`, blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88`.
+- P0-05 current-main ConsumerBoundary blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`; P0-04 authorization blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; StateAuthority interface blob `a2115b81f52a63feb357e484bd982a6a32641d81`; in-memory authority blob `0fbc71369d19e09944ba67a60ccb9df802f30a4b`.
+
+**D4 operation mapping — documentary disposition**
+| P0-07 operation family | Source-evidenced current effect | Canonical-state mapping / disposition |
+|---|---|---|
+| `configuration.read`, `policy.read` | Operation boundary can authorize/validate a request and evaluate policy; read/validate contract allows observation of explicitly supplied immutable domain objects only until an authoritative configuration/policy source is defined. | No canonical persisted resource/key mapping is evidenced. Read-only; must not invent a second store or imply canonical state. |
+| `configuration.validate`, `policy.validate` | Bounded deterministic validation; no publication. | No state transition. Accept/reject evidence only; no canonical mutation. |
+| `configuration.propose`, `policy.propose` | Inert proposal is within the stated safe work; no executable action or publication. | Proposal identifier/metadata must not be inserted into canonical state absent separate authorization. No commit mapping evidenced. |
+| `configuration.update`, `configuration.replace`, `configuration.reset`, `configuration.delete` | Domain-operation names and capabilities exist, but the current operation boundary only returns an authorization/policy decision. | Mutation intent is defined; canonical target/key/payload mapping and accepted P0-04 context handoff are not evidenced. **BLOCKED** pending governance/API gate. |
+| `policy.update`, `policy.replace`, `policy.reset`, `policy.delete` | Same: exact domain authorization and policy decision only; no publication. | No canonical policy resource mapping or accepted atomic publication edge evidenced. **BLOCKED** pending governance/API gate. |
+
+**Cross-boundary invariants**
+1. P0-07 domain capabilities and P0-04 transaction operations are distinct namespaces. Do not translate `configuration.update`/other P0-07 capabilities into P0-04 `begin/commit/abort` authority.
+2. Any future authorized mutation must pass through P0-05 and P0-04; P0-04 must independently authorize its transaction lifecycle and enforce generation/state-version freshness and integrity. No second State Authority/version/transaction, persistence layer, LWW, hidden retry/rebase/merge, or cross-document atomicity.
+3. The current P0-07 operation boundary has no P0-05 call/publication edge. A desired flow in reconciliation documents is a constraint/target, not proof of implemented wiring.
+4. D4 is now source-mapped at operation-family level, but exact resource-to-canonical-key mapping, same-authority/same-revision composition, and the D1/D2 trusted-context path remain **NOT EVIDENCED**. This pass does not close the mutation gate.
+
+**Next:** continue read-only tracing for any accepted source that binds a P0-07 resource identity to canonical P0-04 state. If absent, record the minimum design questions for owner/governance; do not implement the adapter or choose an API signature.
