@@ -4133,6 +4133,7 @@ The adapter contract lists three governance directions (existing independently P
 - **AT backlog:** `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-01.md`, blob `ec2580f714e8f620bcf85ff7de2ae9242439e5e8`; AT-18 remains OPEN—CONTRACT.
 - **Batch 16 draft:** `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-16-DIGITAL-TWIN-DRAFT.md`, blob `5329556d673749043c6d00ffc6bb6a7566558f59`.
 - **Batch 16 Review 01:** `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-16-DIGITAL-TWIN-REVIEW-01.md`, blob `5fe9c64bd0a177559e2d3a64672985e56cce1333`.
+- **Unified traceability matrix:** Section 55, `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`, blob `a1feb55b91f8e27d5203a4e45ecbed4011c25edd`.
 - **Synthesis pointers:** Passport P-30 blob `467aedfc655db966597f564f4bf3074185aca6e9`; Contract ARC-037/V-30 blob `c248956417cc61d66c968a4c58a56e799f653354`; continuation prompt blob `2f55704a02c4bc2477482e79cc80ef80a2e55a58`.
 - **Bounded result:** four provisional rows, 3 MAPPED / 1 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT. Generic Full-edition/entitlement/capability correspondence only. Exact Mac mini/Mini PC profile scope, entitlement lifecycle and complete artifact/workflow semantics remain OPEN.
 - **Required evidence:** owner-approved target profile/edition matrix; entitlement state and lifecycle contract; accepted artifact/schema/workflow inventory; provenance/authorization requirements; separate runtime and negative-path qualification.
