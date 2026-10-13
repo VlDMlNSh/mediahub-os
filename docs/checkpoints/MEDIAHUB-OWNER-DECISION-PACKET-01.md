@@ -118,3 +118,20 @@ The source review narrows the conflict; it does not close it:
 **Bounded conclusion:** the ASTRA design describes A0 as owner of ASTRA's internal engineering queue/control lifecycle, but the repository also contains a direct product-authority wording conflict and the Jarvis integration contract says lifecycle-owner selection remains open. The safe invariant is that ASTRA may own its engineering workflow state only; it cannot be MediaHub Product State Authority. Whether the existing A0 lifecycle is the admitted single engineering-task owner under Jarvis, and what adapter/delegation boundary Jarvis uses, remains an explicit governance/architecture reconciliation.
 
 **Do not** edit the ASTRA primary documents, rename A0, select a second queue, or claim runtime readiness during this pass. Keep ASTRA Current Truth `NOT_PROVEN / BLOCKED`. The next independent documentary track is the existing P0-07 → P0-05 context/authorization bridge, using the canonical-read trace and existing D1/D2/D4 directions; return to the lifecycle decision with an exact clause-level conflict sheet if it blocks a later implementation authorization.
+
+
+### 6.5 Minimal owner question — DEC-DEV-02 (2026-10-13)
+
+**Only immediate owner/governance question from the DEC-DEV crosswalk validation.** The other existing IDs are either partially answered, constrained by an established invariant, or deferred until evidence prerequisites are available. No ID is created, deleted or renumbered.
+
+> For existing DEC-DEV-02, which engineering lifecycle model do you approve?
+>
+> - **A — Jarvis owns the cross-system task lifecycle; ASTRA is a bounded execution/qualification adapter.**
+> - **B — ASTRA owns a bounded engineering lifecycle explicitly delegated by Jarvis, with a typed delegation/adapter contract.**
+> - **C — Jarvis and ASTRA retain strictly disjoint lifecycle domains, with no duplicate queue/claim/lease/retry/evidence-promotion authority.**
+>
+> Separately, confirm the scope of the Complete Component Scheme's phrase “MediaHub State Authority” for A0-ASTRA. The non-negotiable product boundary is that ASTRA engineering workflow state is **not** MediaHub Product State Authority. If the phrase was intended to grant A0 product-state authority, provide the explicit governed scope; do not infer it.
+
+**Recommendation (not an owner decision):** retain A0 as owner of ASTRA-internal workflow state only; select the single cross-system lifecycle owner only after the phrase conflict is resolved and a typed lifecycle/delegation contract is reviewed. No implementation begins until the decision and contract are accepted through the applicable governance process.
+
+**Deferred—not asked now:** DEC-DEV-01 runtime composition until documentary compatibility narrows options; DEC-DEV-03 until a concrete asset/role-transition plan; DEC-DEV-04 until exact hardware/OS/security/workload evidence; DEC-DEV-05 until route/data-class inventory yields irreducible provider policy choices; DEC-DEV-06 until Developer Mobile operation/API inventory exists; DEC-DEV-07 until a quantified workload envelope exists. DEC-DEV-08 remains a binding Contour A → Contour B gate, not an optional owner decision.
