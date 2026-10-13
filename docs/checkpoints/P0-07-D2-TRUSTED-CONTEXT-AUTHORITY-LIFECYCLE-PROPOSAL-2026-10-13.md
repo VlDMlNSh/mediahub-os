@@ -160,3 +160,93 @@ Before this proposal can become an accepted contract:
 - Security review: **PENDING**.
 - Architecture/governance acceptance and freeze: **PENDING**.
 - Implementation authorization: **NOT GRANTED**.
+
+
+## 12. Review-ready candidate architecture and decision worksheet (2026-10-13)
+
+This section makes the proposal concrete enough for security/architecture review. It remains a candidate, non-normative design; it does not choose a technology or establish acceptance.
+
+### 12.1 Recommended logical pattern for review
+
+**Recommendation for governance review: one explicitly accountable trusted-context authority, with separately specified issuer/attester and verifier responsibilities, and independent transaction authorization at P0-04.** “One authority” means one accountable trust policy and lifecycle owner; it does not require one process, service, key, or deployment. Whether issuer and verifier are implemented separately remains a later decision.
+
+The candidate trust chain is:
+
+1. An approved authentication mechanism establishes a principal and produces verifiable provenance. Authentication alone grants no capability.
+2. A governed issuer/attester evaluates whether that principal may receive the exact bounded capability for a defined audience, operation/scope and validity interval. The issuer must not infer permission from caller-provided fields.
+3. P0-07 evaluates the requested operation under its policy and produces an operation-scoped decision. This decision is not itself a transaction grant and cannot mint, broaden, or replace the trusted context.
+4. P0-05 validates the context's provenance and applicable use constraints at the consumer boundary. Unverifiable inputs are rejected closed.
+5. P0-04 independently enforces the transaction and canonical-state constraints it owns. It must not rely solely on a P0-07 ALLOW result or on the fact that P0-05 forwarded a value.
+6. Audit records capture the minimum security-relevant decision evidence. MH-13 privacy constraints govern data minimization, access and retention.
+
+No step may bypass P0-05 or grant another component canonical mutation authority. If this chain cannot be proven end-to-end, mutation/publication remains blocked.
+
+### 12.2 Proposed context lifecycle rules
+
+The candidate lifecycle in §6 should be reviewed against these transition rules:
+
+| Transition | Preconditions | Required evidence | Deny/stop condition |
+|---|---|---|---|
+| Unauthenticated → Authenticated | Approved authentication path succeeds | Principal provenance, authentication result and trust-boundary identity | Missing, ambiguous or untrusted provenance |
+| Authenticated → Issued | Issuer is approved and policy permits the exact capability/scope | Issuer identity, principal, capability/scope, audience and validity constraints | Caller self-assertion, issuer not authorized to grant, or policy ambiguity |
+| Issued → Validated for use | Consumer validates provenance and all required freshness/lifecycle checks | Validation result tied to the context instance and consumer boundary | Expiry, revocation, audience mismatch, invalid signature/integrity if applicable, unknown status or unavailable mandatory validation |
+| Validated → Operation-bound | Context matches the exact operation and its resource/payload/revision constraints | Stable operation/transaction correlation and binding evidence | Any mismatch, reuse outside allowed scope, or stale canonical revision |
+| Operation-bound → Committed | P0-04's own transaction preconditions and authorization pass | P0-04 transaction outcome and canonical revision evidence | Policy ALLOW without transaction authorization, concurrent revision conflict, or failed precondition |
+| Any non-terminal state → Invalid/Expired/Revoked | Expiry, revocation, identity/credential change, trust-root rotation, or invalidation event | Invalidation cause and applicable timestamp/version | State cannot be determined where a positive check is required |
+| Restart/recovery → Revalidated | Trust roots and lifecycle state are re-established from an approved source | Fresh validation evidence; no blind restoration of cached trust | Restored cache cannot prove freshness/revocation/current identity |
+
+These are semantic gates, not a mandated serialized state machine. Governance must explicitly decide whether operation-bound contexts are single-use or reusable within a bounded session; until then, cross-operation reuse must not be presumed safe.
+
+### 12.3 Required contract invariants
+
+The review should either accept or explicitly revise each proposed invariant:
+
+- **I-01 Provenance:** a consumer can verify who issued/attested the context and the authenticated principal to which it applies.
+- **I-02 Least privilege:** capability and scope are explicit; no caller-controlled escalation or implicit capability translation.
+- **I-03 Audience confinement:** context is valid only for its approved consumer/domain and use.
+- **I-04 Time and lifecycle:** expiry/freshness/revocation semantics are explicit and enforceable; unknown mandatory status fails closed.
+- **I-05 Operation binding:** principal, capability, audience, operation, resource, payload constraints and relevant canonical revision cannot be silently mixed across requests.
+- **I-06 Two distinct decisions:** P0-07 policy permission and P0-04 transaction authorization remain distinct; one does not imply the other.
+- **I-07 Single mutation authority:** only P0-04 commits canonical product state; the context authority issues/attests trust evidence but does not mutate state.
+- **I-08 Recovery safety:** restart, restore, key rotation and identity change require revalidation when validity cannot otherwise be established.
+- **I-09 Minimal audit:** decision provenance and outcomes are auditable without logging credentials or unnecessary sensitive payload.
+- **I-10 Fail-closed ambiguity:** malformed, forged, stale, revoked, replayed, mis-scoped, unverifiable or conflicting inputs cannot authorize canonical mutation.
+
+These are proposed review invariants, not accepted/frozen requirements. No new stable requirement IDs are allocated in this draft.
+
+### 12.4 Architecture alternatives to resolve
+
+| Candidate | Description | Advantages | Principal unresolved risk | Recommendation |
+|---|---|---|---|---|
+| A. Reuse an evidenced existing authority | Identify a currently accepted issuer/verifier and prove it satisfies §§5, 7 and 12.3 | Avoids duplicating authority | No such end-to-end path is evidenced by the bounded sources currently recorded | Reconsider only if exact accepted source evidence is produced |
+| B1. One logical authority contract, explicit issuer and verifier responsibilities | Govern one accountable lifecycle and trust policy; implementation may be co-located or separated later | Clear ownership without prematurely requiring a service boundary | Needs owner/security decisions for ownership, revocation and trust roots | **Preferred candidate for review** |
+| B2. Separate issuer and verifier authorities | Distinct accountable components with explicit trust relationship and lifecycle protocol | Separation can reduce single-component privilege | More key/trust distribution, rotation, revocation and failure modes to govern | Retain as alternative if threat analysis demonstrates a need |
+| C. Defer design | Keep D2 open and P0-07 blocked | Avoids premature decision | No progress toward closing the authority/lifecycle gap | Safe fallback if governance declines B1/B2 |
+
+B1 is a review recommendation only. It does not name the accountable project owner, select a technology, or authorize implementation.
+
+### 12.5 Minimum review packet and exit criteria
+
+A review cannot be marked complete merely because this document exists. Reviewers should return a disposition for each item:
+
+1. Confirm or reject the logical responsibility pattern and identify accountable owner(s).
+2. Cite the accepted authentication and identity sources, with exact ref/commit/blob.
+3. Define the authority's trust root, authorization to issue, rotation and revocation ownership—or mark the decision explicitly unresolved.
+4. Decide required context semantics and operation-binding boundary, including the role of P0-04's canonical revision.
+5. Decide the revocation availability/consistency policy and fail-closed behavior.
+6. Decide single-use versus bounded reuse and the anti-replay evidence required.
+7. Review restart/recovery and trust-root rotation.
+8. Complete joint MH-12 security and MH-13 privacy/audit review, including minimal logging, access and retention.
+9. Record each objection, disposition, evidence and responsible approver.
+10. Keep D6 as a separate P0-05 normative-text decision.
+11. Accept/freeze only against an exact reviewed document blob and commit; implementation authorization remains a separate decision.
+12. Define revision-bound verification/qualification evidence only after implementation is separately authorized.
+
+### 12.6 Review result and status after this pass
+
+- Deliverable status: **PROPOSAL REFINED FOR REVIEW / NOT ACCEPTED / NOT FROZEN**.
+- Candidate recommendation: **B1 — one accountable logical authority contract with explicit issuer/verifier responsibilities**, subject to review and owner/governance decision.
+- D1: **NOT DEMONSTRATED**. D2: **NOT EVIDENCED; candidate design prepared**. D3: **NOT EVIDENCED / DEPENDENT ON D1/D2**. D6: **OPEN / GOVERNANCE CONFIRMATION REQUIRED**.
+- P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification remains **NO-GO / NOT PROVEN**.
+- No new stable IDs; no source contract edited; no implementation, tests, qualification, credentials, provider/model calls, host/runtime inspection, infrastructure change, deployment, migration, merge or rebase performed.
+- Next bounded step: submit the refined proposal for independent MH-12/MH-13 and architecture review; record review comments and the explicit owner/governance disposition. Do not infer acceptance from this refinement.
