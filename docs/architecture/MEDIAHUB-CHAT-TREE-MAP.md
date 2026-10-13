@@ -4658,3 +4658,13 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - MH-16 remains PROPOSED / GOVERNANCE ACCEPTANCE PENDING / NOT FROZEN / IMPLEMENTATION NOT AUTHORIZED.
 - MH-22 current-head release/qualification, artifact identity and supply-chain evidence, hardware, lifecycle and restore/DR evidence remain UNKNOWN / REQUIRES VERIFICATION; production acceptance NOT GRANTED.
 - No accepted owner/end-to-end proof for generation/schema/revision binding across State Authority, persistence, migration/restore and exact release qualification was established. P0-07 remains BLOCKED; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; D7 PARTIAL. Documentary-only; no gates closed.
+
+
+## 20.180 MH-22 current-head qualification gate and CI metadata crosswalk (2026-10-13)
+
+- Evidence trace: [canonical-read trace](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), addendum “MH-22 current-head qualification gate and CI metadata crosswalk”.
+- Current-main source blobs: qualification matrix 474f4048d9fd50c72943bd06df5043124bed3f4e; evidence register 188a85e3a31cb545fd781e6db237d655d721ec1c; gates 8cbac21dfd5933ae629c35949d597f99a2236440; current production audit 3cbcccb1af7af42c967cd0639183988fbe580296; readiness review a598dae5b04cd1b307a3dfab1211c662c2ab1f9f; generated Astra truth 48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731.
+- P0-07 verification workflow blob 7fb80f402b4792b6a77cf8a4aad83d1ee5209789 and P0-08 workflow blob d06965d986c1bec173f3c94e4d3370a2ee038012 are workflow definitions only (manual dispatch, exact SHA input, self-hosted runner, targeted/full tests and static scans).
+- For main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8, commit statuses were empty and 11 check-runs included a generic verify FAILURE, a queued Astra command-signing job, a previously cancelled instance, and skipped jobs. This does not establish P0-07/P0-08 PASS. No workflows were dispatched.
+- Disposition unchanged: MH-22 qualification NO-GO / NOT PROVEN; production acceptance NOT GRANTED; Astra Gold G0–G11 BLOCKED / NOT_PROVEN. Unknown remains unknown; workflow existence is not qualification evidence.
+- Read-only metadata/document review. No tests, qualification, dispatch, runtime/host inspection, deployment, migration or branch integration.
