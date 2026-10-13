@@ -1472,3 +1472,19 @@ The source lists 14 operations (seven per resource type), but this is not accept
 - MH-04 conceptual rules are directionally aligned with MH-12 but are not proof of accepted/deployed issuer lifecycle.
 - D1 remains C→A only if trusted caller composition is evidenced; D2 remains C. No API shape or security mechanism is selected.
 - P0-07 canonical-read call edge remains NOT EVIDENCED; mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification remains **NO-GO / NOT PROVEN**.
+
+
+## Section 61 — P0-05 acceptance target vs contract status and context issuer evidence (2026-10-13)
+
+| Claim | Exact source/ref/blob | Finding | Disposition |
+|---|---|---|---|
+| P0-05 governance acceptance | Governance tree commit `97a01977f521ba8304a455b5d7504896235ddea7`; acceptance record `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242`; packet `1253944ffeefcb59502d9f7deb13d38baed1d6e1` | Record accepts/freeze the implementation state at `303a766257b90c4356dcffc8967a5574e8e22e7a` and names the Consumer Contract/Integration Boundary as target. Packet authorizes controlled implementation. | Implementation acceptance evidenced; exact normative contract-text disposition still ambiguous because header remains DRAFT |
+| P0-05 contract text | Same governance tree, `docs/architecture/P0-05-consumer-contract.md`, blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` | Exact blob was present in the governance package but says `DRAFT — GOVERNANCE REVIEW REQUIRED`. | Do not silently rewrite header; owner/governance clarification required |
+| Context data model | Accepted commit `303a766257b90c4356dcffc8967a5574e8e22e7a`, `runtime/mediahub_runtime/authorization.py`, blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` | Frozen context has only `principal` and `capability`; exact tuple grant allow-list defaults to deny. | No issuer/freshness/audience/revocation/request-binding proof |
+| Consumer boundary | Accepted commit, `runtime/mediahub_runtime/consumer_boundary.py`, blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596` | Forwards caller-supplied context to State Authority; does not establish caller authentication or context provenance. | Trusted caller/issuer NOT EVIDENCED |
+| Test fixture | Accepted commit, `tests/runtime/test_consumer_boundary.py`, blob `27d062a688ddc2dea5d082b615e1f9cc3779c4e7` | Helper constructs `AuthorizationContext("runtime", "state")` inline. | Fixture is not a production issuer; tests not run |
+| MH-04/MH-12 lifecycle | MH-04 branch `architecture/mh-04-security-trust-authorization`, tip `a4fc8bd83011c8f684ecd75f9223567e2abc6277`; main MH-12 authentication `a29c6a3cff0ee175a0c868214ffa2b455010002f`, identity `27eef9e23db02d6280b94a8e68bff9f73b0de88d` | Conceptual rules require explicit principal lifecycle, expiry, revocation, replay resistance and fail-closed handling; MH-04 remains PROPOSED / REVIEW COMPLETE. | Requirements exist; accepted/deployed issuer implementation NOT EVIDENCED |
+
+### Bounded conclusion
+
+The P0-05 governance package provides strong evidence for acceptance of the implementation at the exact recorded SHA, but the combination of implementation-focused wording and the still-DRAFT normative contract header does not unambiguously settle contract-text status. Separately, neither the accepted two-field context nor the ConsumerBoundary proves an issuer or lifecycle. D1 remains conditional C → A; D2 remains OPEN; the P0-07 → P0-05 bridge remains blocked. No tests were run and no implementation or contract changes were made.
