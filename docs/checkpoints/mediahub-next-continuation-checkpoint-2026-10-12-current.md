@@ -796,3 +796,17 @@ The checkpoint itself is re-read after this update; its resulting SHA is reporte
 - Map navigation/status was not changed; no map edit was needed in this pass.
 
 **Next safe action:** obtain an explicit governance disposition for whether the recorded P0-05 acceptance applies to the normative contract text or only the implementation revision, without editing the protected contract. In parallel, continue source-only search for a concrete trusted issuer and context lifecycle/canonical-read call edge. Do not implement the bridge or select a security mechanism.
+
+
+## Latest verified continuation — P0-05 D6 acceptance-scope decision support (2026-10-13)
+
+- Live ref check: documentation branch `docs/mediahub-chat-tree-map-20261012` exists. Compare with `main`: DIVERGED, 604 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Compare response did not expose documentation branch HEAD SHA.
+- Re-read Bootstrap `49b4760b4adf4f1565fac0aa4697da000f1cf37b`, map `d502df0ef2668280e34b121504f849d3a7920bdd`, Roadmap `a65de988736b21abfe95d72c1a3cc4947c832c71`, owner packet `f941d67c3d0b37b8abb1a96da02f51a494f9f2bf), placement register `59107fd6d7b8a73d671098adcf2824c310642907), existing-context proposal `9086f3b06b9f323469e5c769ed0f7081d50d3bf8`, and P0-07 audit/privacy crosswalk `94260e87aa8649cceb12b85f5cbaff3fbc65deaf`.
+- Exact D6 primary evidence re-read from governance tree `97a01977f521ba8304a455b5d7504896235ddea7`: contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b) remains DRAFT; acceptance record blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242) accepts/freeze the reviewed implementation state `303a766257b90c4356dcffc8967a5574e8e22e7a`; governance packet blob `1253944ffeefcb59502d9f7deb13d38baed1d6e1) separates authorization, acceptance and production qualification. No unambiguous normative-text acceptance statement was found in these records.
+- Added proposal §9 with options A (text accepted/header stale), B (implementation only accepted) and C (defer), consequences and recommendation C on current evidence. Proposal blob SHA after write: `6d494c7311e61ec3d82e561f66af10f6dffa69b9`; commit `7a22d913ef2d9b53eb5be0076ee4b95c280a551c`.
+- Added unified traceability matrix Section 63: blob SHA `815ce2ecd8c75e51338043cfe0f25edfe1143229`; commit `f85d686975ccc460a18a25fd3a4de4fddefcc9cf`.
+- Added working Passport §16: blob SHA `a8fa42d1c74dcf47394364ab5a354f32e901b312`; commit `800ebffde3eac5526f0d92006866080b4becf72d`.
+- No owner/governance decision was invented. D6 remains OPEN / GOVERNANCE AMBIGUITY; P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN.
+- No protected contract/header, acceptance record or implementation changed. No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
+
+**Next safe action:** obtain the authorized owner/governance response using proposal §8–9. Record A/B/C only when explicitly selected with supporting evidence. In parallel, continue source-only tracing for a concrete trusted context issuer; do not implement the bridge or promote any status while D1/D2 remain open.
