@@ -4246,3 +4246,14 @@ The following changed artifacts were re-fetched directly from the live documenta
 | Supporting developer-fabric plan | `docs/mediahub-chat-tree-map-20261012` | `6cf5a925c39ed7d20b4fc8a3298c0f0ccc2e60f5` |
 
 Current checkpoint was also re-fetched and the new pass record was confirmed; its final read-back SHA is recorded in that checkpoint after the map SHA is finalized. All marker checks passed for the new sections and cross-links. The documentation ref remains `docs/mediahub-chat-tree-map-20261012`; live compare at this point reports DIVERGED, 564 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`, with `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. No merge/rebase was performed.
+
+
+## 20.145 DEC-DEV source triage and Jarvis/ASTRA lifecycle conflict (2026-10-13)
+
+- **Decision packet §6:** `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md`. DEC-DEV-01 Alamo endpoint label is answered by accepted Distributed AI Infrastructure; runtime composition remains open. DEC-DEV-05/06 security invariants and DEC-DEV-08 contour gate are already established; only route/API details or gate evidence remain open.
+- **Placement matrix §9:** `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`. Existing historical IDs preserved; hardware/asset decisions remain evidence-gated/deferred.
+- **Unified matrix §59:** `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`. Source-anchored conflict between ASTRA canonical design (A0 owns ASTRA queue/claim/lease/evidence state) and the Component Scheme phrase “MediaHub State Authority”; Jarvis ARC-018 and independent review still leave cross-system lifecycle owner open.
+- **Passport §15:** `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`. Captures the same conflict and the non-claim that runtime is qualified.
+- **Live primary anchors:** ASTRA unified system `main` SHA `e2067dc41b52983fc4e0b2549fb6af3c099cbc60`; ASTRA complete component scheme `main` SHA `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1`; ASTRA governance contract `main` SHA `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`; current truth `main` SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`; Verifiable Architecture Contract ARC-003/017/018 `docs/mediahub-chat-tree-map-20261012` SHA `c248956417cc61d66c968a4c58a56e799f653354`; Jarvis independent review SHA `022f1bd881906d4ab837b2f46c091c43546fce14`.
+- **Status:** DEC-DEV-02 remains OPEN_CONFLICT. ASTRA Current Truth remains NOT_PROVEN / BLOCKED, G0–G11 blocked. No primary ASTRA source was changed.
+- **Next roadmap handoff:** continue P0-07 → P0-05 trust/context/authorization bridge using the canonical-read trace and existing owner-recorded D1/D2/D4 investigation directions. Keep P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP until explicit governance acceptance and separate implementation authorization.
