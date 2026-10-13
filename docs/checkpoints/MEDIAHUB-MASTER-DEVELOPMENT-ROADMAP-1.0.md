@@ -284,17 +284,17 @@ For each substantive pass, update the map and continuation checkpoint when there
 - Hardware compatibility, runtime state and actual deployment are not asserted by this document.
 - No tests, qualification, model/provider invocation, credential use, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick was performed.
 
-## 9. Next bounded action — resolve lifecycle ownership from primary contracts
+## 9. Next bounded action — continue P0-07 → P0-05 governance/API bridge
 
-The placement matrix and owner decision packet exist. A source-anchored triage is now recorded in `MEDIAHUB-OWNER-DECISION-PACKET-01.md` §6. It establishes that the Alamo endpoint label, fail-closed/no-silent-fallback rule, network-vs-authorization boundary, and Contour A → Contour B gate are already answered by accepted sources or binding project instructions; those must not be re-asked as open decisions.
+The developer-fabric placement inventory and DEC-DEV source triage are complete as documentary artifacts. DEC-DEV-02 source reconciliation found a concrete OPEN_CONFLICT: ASTRA design assigns A0 the ASTRA-internal engineering queue/claim/lease/evidence lifecycle, while Jarvis ARC-018 requires one cross-system lifecycle owner and the ASTRA Component Scheme uses the conflicting phrase “MediaHub State Authority” for A0. The exact conflict is indexed in the owner packet §6.4, placement matrix §9, unified traceability matrix §59 and Passport §15. Do not edit the primary ASTRA source or infer runtime qualification.
 
-Next pass:
+The next bounded P0 pass is the existing P0-07 → P0-05 trust/context/authorization bridge:
 
-1. Re-fetch ASTRA/Jarvis primary contracts, current refs and SHA, including the unified autonomous development system, complete component scheme, executor capability matrix, and current independent/semantic reviews.
-2. Reconcile DEC-DEV-02 against exact lifecycle responsibilities: queue, claim, lease, retry, cancellation, evidence promotion, failure recovery and authority boundaries. Distinguish target architecture, implementation evidence, verification and qualification. Do not infer a single owner from umbrella/subsystem naming.
-3. Update the existing decision packet, placement matrix, unified traceability matrix and working Passport only where source evidence supports a more precise boundary. Keep DEC-DEV-02 open if no accepted contract assigns the lifecycle owner.
-4. Continue the roadmap's P0-07 → P0-05 authorization/context bridge work as an independent P0 track, following the latest canonical-read trace and owner-recorded D1/D2/D4 investigation directions. Do not edit protected P0-05 normative text or change P0-07 status absent governance acceptance.
-5. Ask the owner only for irreducible decisions after the source reconciliation; DEC-DEV-03/04/07 remain evidence-gated/deferred, DEC-DEV-05/06 retain their established security invariants, and DEC-DEV-08 is a gate/evidence tracker rather than a discretionary decision.
+1. Re-fetch the canonical-read trace, P0-07 audit/privacy crosswalk, P0-05 v1.1 candidate, existing P0-05/P0-07 revision proposal, owner decision register and exact P0-04/P0-05/P0-07/MH-12 primary source refs/SHA.
+2. Continue the owner-recorded investigation sequence: D1/D2 trust source, caller identity, P0-04 context authority/lifecycle/freshness/revocation; independently build the D4 operation-to-canonical-state mapping. D3 binding/freshness/replay depends on those findings; D5 audit/privacy depends on joint MH-06/MH-12/MH-13 review; D7 versioning depends on change-control evidence.
+3. Preserve the bounded negative finding: no accepted P0-07 → P0-05 canonical-read/mutation call edge is currently evidenced in the inspected source lineage; mutation/publication remains BLOCKED — GOVERNANCE/API GAP. Recheck live refs before repeating this claim.
+4. Do not edit the protected P0-05 normative contract/header, accept/freeze P0-05 v1.1, implement an API bridge, or change P0-07 status without explicit governance disposition and separate implementation authorization.
+5. Continue independent documentary work and ask only irreducible owner/governance questions. DEC-DEV-08 is a binding gate/evidence tracker; it is not an option to start Contour B early.
 
 No tests, qualification, provider/model calls, credentials, host/runtime inspection, infrastructure changes or deployment are authorized by this documentary pass.
 ## 10. Операционный контракт продолжения и актуальности ссылок (revision 2026-10-13)
