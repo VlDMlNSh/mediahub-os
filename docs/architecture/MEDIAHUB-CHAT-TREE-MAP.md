@@ -4124,3 +4124,17 @@ The adapter contract lists three governance directions (existing independently P
 - **Matrix cross-reference:** Section 54 in `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`.
 - **Disposition:** MH-13 reconstruction accepted only within its stated scope; status wording reconciliation OPEN; MH-14 physical persistence NOT AUTHORIZED; MH-21 retention PROPOSED; MH-22 production qualification NO-GO / NOT PROVEN. No stable IDs added; no gates closed.
 - **Limits:** documentary source review only. No tests, deletion, restore, provider contact, implementation, qualification, runtime/host inspection, infrastructure change, deployment, migration, merge or rebase.
+
+
+## 20.137 MH-24 Batch 16 — Digital Twin / AT-18 (2026-10-13)
+
+- **Pinned B1:** `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, blob `9df4892ed0734050ac79732603d15bb414717310`, §25 lines 401–407.
+- **Pinned B2:** `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §17 lines 368–378.
+- **AT backlog:** `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-01.md`, blob `ec2580f714e8f620bcf85ff7de2ae9242439e5e8`; AT-18 remains OPEN—CONTRACT.
+- **Batch 16 draft:** `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-16-DIGITAL-TWIN-DRAFT.md`, blob `5329556d673749043c6d00ffc6bb6a7566558f59`.
+- **Batch 16 Review 01:** `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-16-DIGITAL-TWIN-REVIEW-01.md`, blob `5fe9c64bd0a177559e2d3a64672985e56cce1333`.
+- **Synthesis pointers:** Passport P-30 blob `467aedfc655db966597f564f4bf3074185aca6e9`; Contract ARC-037/V-30 blob `c248956417cc61d66c968a4c58a56e799f653354`; continuation prompt blob `2f55704a02c4bc2477482e79cc80ef80a2e55a58`.
+- **Bounded result:** four provisional rows, 3 MAPPED / 1 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT. Generic Full-edition/entitlement/capability correspondence only. Exact Mac mini/Mini PC profile scope, entitlement lifecycle and complete artifact/workflow semantics remain OPEN.
+- **Required evidence:** owner-approved target profile/edition matrix; entitlement state and lifecycle contract; accepted artifact/schema/workflow inventory; provenance/authorization requirements; separate runtime and negative-path qualification.
+- **Disposition:** no final child IDs; no baseline/canonical backlog update; no implementation or qualification implied.
+- **Next sequential source:** B1 §26 Engineering System / AT-19, after live-map and source/path inventory check. Keep AT-18 open and preserve historical identifiers.
