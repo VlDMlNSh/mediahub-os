@@ -746,3 +746,19 @@ The checkpoint itself is re-read after this update; its resulting SHA is reporte
 - Status unchanged: mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification NO-GO / NOT PROVEN.
 - No tests, qualification, implementation, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next bounded step: investigate D1/D2 trusted caller identity and P0-04 authorization-context issuer, lifecycle, freshness and revocation using exact source refs. No bridge implementation without explicit governance disposition and separate implementation authorization.
+
+
+## Continuation addendum — P0-07 D1/D2 trusted caller and context lifecycle (2026-10-13)
+
+### Live refs and source evidence
+
+- Revalidated Bootstrap, map, current checkpoint, Master Development Roadmap §9, canonical-read trace, owner decision register, P0-05/P0-07 proposal and crosswalk.
+- Live compare: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch `docs/mediahub-chat-tree-map-20261012` DIVERGED, 587 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase.
+- P0-04/P0-05 authorization source `runtime/mediahub_runtime/authorization.py` on `implementation/p0-05-consumer-boundary`, blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`: context contains only principal and capability; grant check is exact tuple membership/default deny. Consumer boundary blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596` forwards context but does not establish its issuer.
+- P0-07 authorization/operation blobs `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3` / `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` on `architecture/mh-7-configuration-policy`: local allow-list and decision-only boundary; no credential resolution, P0-05 call or publication.
+- MH-04 identity/authentication/authorization/credential/trust blobs were fetched and content-checked on `architecture/mh-04-security-trust-authorization`: `dccded8f572bed42e8f40e4240e91e5621f24a37`, `834dd3f4036ba1668e4b8af132393e25c70c85eb`, `327b7c0c7504612ff05a6654a710058dcecaf438`, `7b5db076bb5a948def0fc4d72dd58740828660c5`, `3e1d0ebffcd9e84f10e8e65dc3baf4bbb235ac01`. These express conceptual lifecycle, fail-closed expired/revoked credential handling and reachability-not-trust, not an accepted/deployed issuer. MH-12 C-01/C-02 blobs `c48641861691714017aa5b1f99fe8eee8ea0e76a` / `4b3c101317330e47236937b17344299df53deee9` preserve governance resolution and bridge blockers.
+- D1/D2 finding: issuer/authenticated principal resolver, grant provisioner/revocation propagation, expiry/freshness, audience, replay and exact-request binding are not evidenced by inspected implementation sources. Inline fixture construction is not production issuer evidence. No tests were run.
+- Some guessed MH-04 paths returned 404; this is not treated as a broken link or rename. Exact paths need branch-tree evidence; no canonical URLs were changed.
+- Updated crosswalk §14, unified matrix §60, canonical-read trace and map §20.148. D1/D2 remain OPEN; no API shape, issuer or cryptographic mechanism selected. Existing P0-07 → P0-05 call edge remains NOT EVIDENCED; mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification remains NO-GO / NOT PROVEN.
+- No implementation, tests, qualification, credential use, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next bounded action: pin exact MH-04 source paths and acceptance/status artifacts from branch-tree evidence; continue source-bound issuer/grant lifecycle tracing. If no concrete issuer/caller is evidenced, retain the negative finding and use the existing owner/governance disposition sheet without inventing an authority.
