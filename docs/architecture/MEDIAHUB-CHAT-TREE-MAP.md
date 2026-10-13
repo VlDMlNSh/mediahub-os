@@ -4465,3 +4465,14 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Mutation families:** configuration and policy update/replace/reset/delete are domain intents only. No accepted resource-to-canonical-state mapping or P0-07 → P0-05 call/publication edge is evidenced. Mutations remain blocked.
 - **Authority invariants:** P0-07 domain capability must not be translated into P0-04 `begin/commit/abort`; P0-05 remains sole consumer boundary and P0-04 sole canonical mutation authority. No second store/version/transaction, hidden retry/rebase/LWW, or cross-document atomicity.
 - **Disposition:** D4 operation families are now source-mapped at documentary level; exact canonical resource mapping and D1/D2 trusted-context composition remain **NOT EVIDENCED**. No implementation or qualification was performed.
+
+
+## 20.161 DEC-DEV-01…08 live-source crosswalk validation (2026-10-13)
+
+- **Roadmap handoff satisfied at documentary level:** DEC-DEV-01…08 were rechecked against live primary refs and exact blob SHAs; see [Unified System Traceability Matrix, Section 64](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md) and [Passport v3, Section 19](../checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md).
+- **DEC-DEV-01:** Alamo endpoint label answered; runtime composition remains target-gated.
+- **DEC-DEV-02:** only immediate owner/governance choice; Jarvis/ASTRA lifecycle owner and conflicting “MediaHub State Authority” phrase remain OPEN_CONFLICT. See [Owner Decision Packet §6.5](../checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md).
+- **DEC-DEV-03/04/07:** deferred until asset, hardware/OS/security or workload-envelope evidence prerequisites.
+- **DEC-DEV-05/06:** invariants established; provider/data-class routing and Developer Mobile API/identity contracts remain open after their respective inventories.
+- **DEC-DEV-08:** binding Contour A → Contour B gate; deployment, independent qualification and explicit acceptance evidence outstanding.
+- No primary ASTRA source changed; no implementation, tests, qualification, host/runtime inspection, provider/model invocation or deployment performed.
