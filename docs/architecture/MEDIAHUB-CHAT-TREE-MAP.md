@@ -4274,3 +4274,14 @@ Changed artifacts below were fetched from the live documentation ref after writi
 | Supporting developer-fabric plan | `fb9fd947666376a674f6dcc8bfaf989fc3333351` |
 
 The current checkpoint was also fetched and its new addendum was confirmed; the final SHA of the checkpoint after its provenance table update is recorded by the next read-back. This pass did not edit primary ASTRA or P0-05 contract files.
+
+
+## 20.147 P0-07 D4 operation-to-canonical-state mapping (2026-10-13)
+
+- Added source-bound D4 inventory to the existing P0-07 audit/privacy crosswalk §13 and unified traceability matrix §58; no new stable IDs were minted.
+- Live source refs: P0-07 branch `architecture/mh-7-configuration-policy`, HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`; operation boundary blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`; authorization inventory `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`; read boundary `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`; mutation reconciliation `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`; adapter contract `22b8e1897e124578e66c8d619b3e8eaf41f69a88`.
+- Mapping outcome: 14 named operations exist in source, but only validate/propose are clearly non-writing; read has no canonical source; update/replace remain conditional whole-document candidates; reset/delete remain unmapped because canonical semantics are unspecified.
+- Current-main P0-05 ConsumerBoundary blob `98bf2da9cea85da2c82145b4baef417c20b9ae73` remains the only inspected mutation/transaction boundary; P0-03 contract blob `2f35ed1b77c7979c9de50371c8a0f7a82f5d1e75` requires immutable complete revisions, atomic commit and fail-closed stale-generation handling.
+- Negative finding remains bounded: no trusted caller composition root, unchanged independently P0-04-authorized context, canonical read target, or P0-07→P0-05 call edge is evidenced. P0-07 branch source is not proven reachable from current `main`.
+- Status unchanged: D4 mapping **PROVISIONAL / INCOMPLETE**; mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification **NO-GO / NOT PROVEN**.
+- Next: continue D1/D2 source-bound investigation of trusted caller identity and P0-04 authorization-context issuer/lifecycle/freshness/revocation, using exact branch refs and without implementing a bridge or guessing a context source.
