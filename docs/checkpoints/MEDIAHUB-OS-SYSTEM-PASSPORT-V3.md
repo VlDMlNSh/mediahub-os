@@ -409,3 +409,16 @@ Contour B product implementation remains gated until Contour A is deployed and i
 - Decision-ready options A/B/C and recommendation are recorded in proposal §9, `docs/checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md`, current blob `6d494c7311e61ec3d82e561f66af10f6dffa69b9`; detailed evidence is in unified traceability matrix §63, current blob `815ce2ecd8c75e51338043cfe0f25edfe1143229`.
 - Recommendation is C (defer) on current evidence; B is only a conservative provisional planning assumption if needed, not a decision. Owner/governance disposition remains PENDING.
 - Consequence unchanged: D6 OPEN / GOVERNANCE AMBIGUITY; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification NO-GO / NOT PROVEN. No protected contract/header, acceptance record, code or implementation was changed; no tests/qualification were performed.
+
+
+## 17. DEC-DEV-02 lifecycle authority source reconciliation (2026-10-13)
+
+**Status:** working passport addendum; OPEN_CONFLICT / NOT ACCEPTED / NOT FROZEN. Baseline 2.0 remains the canonical functional reference.
+
+- ASTRA GOLD primary design sources place queue, claim, lease, heartbeat, restart recovery and result publication in the A0 engineering control plane. This establishes intended ASTRA-internal workflow responsibilities only.
+- The Complete Component Scheme's phrase “A0-ASTRA = single coordination and MediaHub State Authority” conflicts with the integrated architecture contract ARC-003, which limits A0 to ASTRA engineering workflow state and explicitly excludes MediaHub Product State Authority. Neither source has been silently edited or promoted.
+- Jarvis is the umbrella engineering/orchestration concept and ASTRA a bounded subsystem candidate; ARC-018 requires one lifecycle owner and a typed adapter/delegation boundary before implementation. The exact cross-system owner remains open.
+- ASTRA Current Truth remains NOT_PROVEN / BLOCKED with G0–G11 blocked. Design labels are not implementation or qualification evidence.
+- DEC-DEV-02 options A/B/C and their consequences are documented in owner decision packet 01. Recommendation: do not choose from design labels alone; obtain a governed clarification of the “MediaHub State Authority” wording and then accept one typed lifecycle contract before implementation. No owner decision is inferred.
+- Detailed source/ref/blob crosswalk and the minimal owner question: [Unified System Traceability Matrix v0.1, Section 61](mediahub-unified-system-traceability-matrix-v0.1.md), current blob `fec41118a104514b90923967212fc775bb2bf880`.
+- Disposition unchanged: DEC-DEV-02 OPEN_CONFLICT; ASTRA Current Truth NOT_PROVEN / BLOCKED; Contour A → Contour B remains a binding gate. No implementation, qualification, deployment or acceptance is claimed.
