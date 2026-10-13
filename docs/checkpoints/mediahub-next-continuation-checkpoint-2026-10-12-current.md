@@ -1204,3 +1204,15 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - Statuses unchanged: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED / CANDIDATE DESIGN PREPARED; D3 NOT EVIDENCED / DEPENDENT ON D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - Documentary-only; no tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, infrastructure change, deployment, migration, merge, or rebase.
 - Next: independent MH-12/MH-13 and architecture review; record objections and source-backed dispositions; then request explicit owner/governance decision. This proposal refinement does not close any gate.
+
+
+### P0-07 D2 — source-anchored MH-12/MH-13 desk review (2026-10-13)
+
+- Review type: bounded internal source-consistency review only; not an independent review, domain-owner acceptance, or freeze.
+- Proposal §12.7 was added and read back at blob SHA `2ff3c26e4feb070d95915403d2fad0d91ce6b4d4`.
+- Live primary sources on `main`: MH-12 identity `27eef9e23db02d6280b94a8e68bff9f73b0de88d`; authentication `a29c6a3cff0ee175a0c868214ffa2b455010002f`; authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a`; MH-12 control point `dea79d709fea274cc5fd08cca4f0d6aec2ad6d93`; MH-13 privacy/data governance `e732ff9cacbc9c1189bd83306cdff30906326cf0`; MH-13 governance acceptance record `6ecdc89440664563f36263bb8da80d1ad24f19a7`; MH-13 reverse prompt `d590b6541870d3f77fbb1e48159b78d5d2f1f203`.
+- Review items R-01…R-06: map proposal to MH-12 canonical security flow; define principal/delegation scope; decide revocation/trust-root/validation-failure semantics; specify minimal audit evidence/access/retention; preserve MH-13 reconstructed/proposed/unfrozen status; decide behavior when required audit evidence is unavailable.
+- Disposition: no source-backed reason to relax P0 authority boundaries was found in this bounded review; this is not proof of completeness and is not the requested independent review. No new stable IDs or technology decisions.
+- Gates unchanged: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED / CANDIDATE DESIGN PREPARED; D3 NOT EVIDENCED / DEPENDENT ON D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- No implementation, tests, qualification, credentials, provider/model calls, host/runtime inspection, infrastructure changes, deployment, migration, merge or rebase.
+- Next: obtain actual independent MH-12/MH-13 and architecture review; record exact-source dispositions and explicit owner/governance acceptance or revision. Keep D6 separate.
