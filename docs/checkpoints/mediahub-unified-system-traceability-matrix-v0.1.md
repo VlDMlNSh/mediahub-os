@@ -1169,3 +1169,35 @@ Identify the exact branch/commit containing the P0-07 operation-boundary blobs, 
 ### Next bounded step
 
 Inspect the architecture branch's documented integration/composition entry points and exact branch commit history for an existing approved bridge, then compare file-level changes against current main. Do not cherry-pick, merge, or invent a new adapter. No tests or workflows were run.
+
+
+## Section 50 — P0-07 composition contract vs implementation call graph (2026-10-13)
+
+**Scope:** static source/document inspection only. No tests, workflow, runtime, or host actions.
+
+### Intended architecture, explicitly documented
+
+- `docs/architecture/MH-07-runtime-interaction.md`, blob `991617d19542f662c561aa8fd8870b16d3f7fadf`, describes the intended path as configuration candidate → validation → policy → authorization → P0-05 → P0-04 transaction → atomic commit → runtime application → observed state.
+- `docs/architecture/MH-07-dependency-map.md`, blob `1e4e0c7932a1100af3feb8b94ff51382cc9761cf`, states P0-07 composes above P0-05/P0-04 and explicitly labels the P0-07→P0-05 authorization composition gap a governance blocker.
+- `docs/architecture/P0-07-mutation-authority-reconciliation.md`, blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`, requires independent domain authorization and P0-04 transaction authorization, forbids direct State Authority calls/capability translation/second transaction authority, and says a missing bridge is a governance/API change, not something P0-07 may invent.
+- `docs/architecture/P0-07-p0-05-mutation-adapter-contract.md`, blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88`, explicitly says the existing P0-05 begin/commit/abort authorization uses P0-04 context and that no approved mapping from P0-07 domain capability to P0-04 transaction capability exists. Publication remains unauthorized until a governance/API contract is accepted.
+
+### Implementation call-graph evidence
+
+- P0-07 operation boundary source blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` implements request validation, P0-07 authorization/policy decision, and return of a decision; no call to `ConsumerBoundary.read` or mutation surface was found in the inspected boundary.
+- P0-05 `ConsumerBoundary` blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596` exposes `read` delegating to injected authority and transaction methods whose authorization is handled against P0-04. These are separate interfaces in the inspected source; no composition/caller connecting the P0-07 boundary to them was evidenced.
+- Package `__init__.py` blob `5b7244092003d45390fa81dc7f592c593568c77d` exports both boundary types. Exporting both types is not itself composition or a call edge.
+- Relevant source history on `architecture/mh-7-configuration-policy`: operation boundary introduced by commit `9e1be215e75be5e6263decf457b3e72b4e937dbf` (2026-09-03); adapter governance gap recorded by commit `65d22a105435aebd03594cc40f70a4314ece6ca4` (2026-09-03). This history supports that the governance gap was explicitly documented; it does not show an approved bridge was later added.
+
+### Disposition
+
+- Intended P0-07→P0-05→P0-04 architecture: **DOCUMENTED AS TARGET**.
+- Implemented P0-07→P0-05 call/composition edge: **NOT EVIDENCED**.
+- Approved authorization/capability bridge: **NOT FOUND IN INSPECTED SOURCE; GOVERNANCE/API DECISION REQUIRED**.
+- P0-07 mutation/publication: **BLOCKED — GOVERNANCE/API GAP**.
+- Current-main integration/reachability: **NOT EVIDENCED**; no merge or cherry-pick.
+- Project-wide qualification: **NO-GO / NOT PROVEN**.
+
+### Next bounded step
+
+Do not implement the bridge. Identify the precise owner/governance decision record and determine whether a later approved contract supersedes the recorded gap; if no such decision exists, ask the owner to authorize the contract direction before code work. No tests, code changes, workflow runs, deployment, merge, rebase, or cherry-pick.
