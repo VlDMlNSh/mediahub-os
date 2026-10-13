@@ -1511,3 +1511,26 @@ The P0-05 governance package provides strong evidence for acceptance of the impl
 MH-04 provides the conceptual principal/authentication/credential/revocation/fail-closed lifecycle required to shape the bridge, but its live branch package remains PROPOSED / REVIEW COMPLETE and explicitly leaves concrete security technology unresolved. MH-12 aligns with the required trust path but is not itself evidence of an accepted/deployed issuer. P0-05's two-field context and forwarding boundary do not prove context provenance or lifecycle. Therefore D1 remains conditional on trusted-caller composition evidence; D2 remains open; D6 remains governance-ambiguous. P0-07 → P0-05 canonical-read/mutation call edges remain NOT EVIDENCED, mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**, P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**, and overall qualification remains **NO-GO / NOT PROVEN**. No tests, provider calls, implementation changes, or qualification were performed.
 
 **Next bounded action:** resolve D6's exact governance-text disposition through an owner/governance record; independently continue source-only tracing for an actual trusted issuer/context lifecycle and the canonical-read call edge. Do not select a security mechanism or alter protected normative text.
+
+
+## Section 63 — D6 decision-ready reconciliation of P0-05 acceptance scope (2026-10-13)
+
+**Status:** source-bound governance decision support; no owner decision inferred. Matrix remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
+
+| Evidence | Exact source ref / SHA | What it proves | What it does not prove |
+|---|---|---|---|
+| Accepted implementation | Commit `303a766257b90c4356dcffc8967a5574e8e22e7a`; tree `82da63f03da20049954fe69257342cbf66b58395` | Exact reviewed implementation revision exists and is the target of the P0-05 acceptance record. | Acceptance of any later implementation or production qualification. |
+| Normative contract in accepted tree | `docs/architecture/P0-05-consumer-contract.md`, blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` | Exact contract text was present in the implementation tree and its header says `DRAFT — GOVERNANCE REVIEW REQUIRED`. | Whether governance separately accepted/froze this text as normative. |
+| Acceptance record | `docs/architecture/P0-05-governance-acceptance.md`, governance tree `97a01977f521ba8304a455b5d7504896235ddea7`, blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242` | Records P0-05 `ACCEPTED / FROZEN` at the reviewed implementation state and explicitly excludes persistence/production qualification. | An unambiguous contract-text-only acceptance statement tied to the contract blob. |
+| Governance authorization packet | `docs/architecture/P0-05-governance-decision-packet.md`, same tree, blob `1253944ffeefcb59502d9f7deb13d38baed1d6e1` | Authorizes implementation within a defined scope and distinguishes implementation authorization, acceptance, security exit and production qualification. | Automatic adoption of the later non-normative v1.1 candidate. |
+| Candidate / decision sheet | `docs/checkpoints/p0-05-consumer-contract-v1.1-candidate-for-governance-review-2026-10-12.md`, blob `79e2b4865c47b5394ade266cd3cd7cfbe3097717`; existing-context proposal §8–9, current blob recorded after read-back | D6 is an explicit owner/governance question with A/B/C options and a blank decision record. | A completed decision. |
+
+### D6 disposition matrix
+
+- **A — contract text accepted, header stale:** permitted only if authorized governance confirms the exact contract blob was accepted as normative. Any correction must be separately controlled; do not rewrite the immutable acceptance record.
+- **B — implementation only accepted:** keep implementation acceptance; route the normative contract through explicit controlled acceptance/freeze before adopting a revision.
+- **C — defer:** retain the discrepancy and all existing blockers until dated owner/governance clarification is recorded.
+
+**Recommendation:** C on current evidence. B is the conservative provisional assumption if an interim planning assumption is required, but is not itself a governance decision. The acceptance record scopes its disposition to the reviewed implementation; it does not explicitly resolve the contract header. No owner response was present in the inspected sources.
+
+**Unchanged status:** D6 OPEN / GOVERNANCE AMBIGUITY; P0-07 mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification **NO-GO / NOT PROVEN**. No contract, code or acceptance record was changed; no tests or qualification were run.
