@@ -4639,3 +4639,12 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - MH-13 governance record accepts a reconstructed/proposed artifact only; historical fidelity remains partial, freeze is NO, production implementation is not authorized, and CI/build qualification is not verified. Baseline 2.0 remains the canonical functional reference and explicitly separates architecture from implementation/qualification/production.
 - This crosswalk informs P0-07 review items R-01, R-03, R-04 and R-05; it is not an independent reviewer disposition and does not prove the P0-07→P0-05 bridge satisfies the contracts. No gate or status changed.
 
+
+
+## 20.178 P0-07 D3/D4 operation and revision binding crosswalk (2026-10-13)
+
+- Evidence trace: [canonical-read trace](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), addendum “P0-07 D3/D4 operation and revision binding crosswalk”.
+- Current-main anchors: authorization `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; ConsumerBoundary `98bf2da9cea85da2c82145b4baef417c20b9ae73`; in-memory state/version `0fbc71369d19e09944ba67a60ccb9df802f30a4b`; State Authority interface `a2115b81f52a63feb357e484bd982a6a32641d81`; MH-12 acceptance criteria `40f37f1600c4730e622480d57bd492fa67f9ca4b`; D7 crosswalk `8f6f616e7717e67c95626c54678c282411618c1c`.
+- D3 immutable P0-07 decision/resource/payload/revision binding is NOT EVIDENCED. D4 governed operation-to-canonical-resource/key/state-shape mapping is NOT EVIDENCED. Local P0-04 stale-version checks do not prove upstream P0-07 decision binding.
+- D7 remains PARTIAL. D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Documentary-only; no API/schema/issuer/cryptographic design selected and no tests, qualification, implementation, deployment, migration or branch integration.
