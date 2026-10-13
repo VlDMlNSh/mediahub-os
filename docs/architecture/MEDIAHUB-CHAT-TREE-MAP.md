@@ -4397,3 +4397,16 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Owner question:** see matrix Section 61 for the minimal exact question and option consequences. No new decision ID was created; no owner decision is inferred.
 - **Boundary:** no ASTRA primary source changed, no second queue designed, no tests/qualification/runtime inspection/provider calls/implementation/deployment performed. Contour A → Contour B remains a binding gate.
 - **Next:** preserve OPEN_CONFLICT pending owner/governance disposition and continue only independent crosswalk work that does not assume an A/B/C choice.
+
+
+## 20.157 DEC-DEV-03 developer / future production Mac Pro asset identity (2026-10-13)
+
+- **Roadmap route:** Master Development Roadmap 1.0, §10.4, crosswalk-validation DEC-DEV-01…08. This pass follows the completed DEC-DEV-02 source reconciliation.
+- **Accepted primary source:** `architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md`, `main`, blob `e549692f207fbc91d9b9b9b92b8e665404f07290`, §1. It establishes Mac Pro as a central infrastructure role, subject to hardware/runtime validation; it does not identify the future production physical asset.
+- **Working passport:** Passport v3 §5.1, prior blob `cd5377e2e4dc251baf4357087ff92c9060c5ab66`, records the purchased unit as developer workstation, says exact inventory is missing, and explicitly does not assume that future production is the same asset. Updated Passport Section 18 blob: `060b46335105127f939ff333e42e8b8e4f545fd0`, commit `70e521a374f52b6c7b3f92f576bb1e786f59a02f`.
+- **Crosswalk:** [Unified System Traceability Matrix v0.1, Section 62](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob `72d7ebbee566823fd1b0e0000fbac8ef5ac85ded`, commit `4e11b94e312523db8a3ae23100c0c783b1d4f49d`. [Node/service placement matrix NSP-TR-05](../checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md), blob `59107fd6d7b8a73d671098adcf2824c310642907`, preserves the same-asset/separate-asset gate.
+- **Owner decision:** Roadmap DEC-DEV-03 and owner packet 01 retain option A (controlled role transition of same asset) or B (separate production asset). Owner packet §6.2 explicitly defers this question until concrete asset evidence/plan makes it blocking. No option selected.
+- **Disposition:** DEC-DEV-03 remains **DEFERRED / NOT ANSWERED / NOT ACCEPTED**. Keep distinct logical asset identities and trust/data/credential/install/recovery scopes until explicit owner choice and applicable MH-15 evidence. This source pass is not hardware inventory, compatibility verification, qualification or production authorization.
+- **Checkpoint:** current continuation checkpoint commit `bdd8d5929a2b057a7fafe5bdd78a918e61cf2255`, blob `1550c151d5ff35e3339166662587e8eab5876c7b`.
+- **Next:** DEC-DEV-04 only within evidence prerequisites for exact Mac mini hardware/OS/support/workload; no critical workload assignment from the 2011 model or owner-reported 16 GB alone. Continue the P0-07 → P0-05 trust/context track independently.
+- **Safety:** documentary source reconciliation only; no tests, host/runtime inspection, inventory, credentials, installation, infrastructure change, deployment, migration, merge or rebase.
