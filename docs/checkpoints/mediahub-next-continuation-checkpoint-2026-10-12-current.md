@@ -1519,3 +1519,9 @@ Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
 - Statuses unchanged: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; MH-22 qualification NO-GO / NOT PROVEN.
 - Documentary-only: no tests, qualification, runtime execution, credentials, provider/model calls, installation, infrastructure changes, deployment, migration or branch integration.
 - Next: obtain an actual qualified independent review of P0-07 D2 R-01…R-06 and separately obtain owner/governance disposition. Do not treat internal source tracing or MH-13’s scoped acceptance as D2 acceptance.
+
+### Read-back identities for this pass
+
+- Trace: commit de7c033c7f9bf16130c8e33df95963e806eea208; blob 36b57094f5d8477045f2c3d821b825bbb211fb47.
+- Map: commit b3cc54c8774a26141984813549589fc088e82de6; blob 64b4c0111d70d4818b2b567802c698bf746ca724.
+- Checkpoint entry commit before this identity addendum: 633de8143134e27b0d86212c223f4ba9b20782b3; blob b0d7fbbf70701a01eb1523ae0cf8243739487f6f. All three files were fetched again after write; the expected new markers and returned blob SHAs matched.
