@@ -1090,3 +1090,18 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 4. D4 is now source-mapped at operation-family level, but exact resource-to-canonical-key mapping, same-authority/same-revision composition, and the D1/D2 trusted-context path remain **NOT EVIDENCED**. This pass does not close the mutation gate.
 
 **Next:** continue read-only tracing for any accepted source that binds a P0-07 resource identity to canonical P0-04 state. If absent, record the minimum design questions for owner/governance; do not implement the adapter or choose an API signature.
+
+
+### DEC-DEV-01…08 live-source crosswalk validation (2026-10-13)
+
+- Refreshed live primary refs for Distributed AI Infrastructure, Canonical Component Manifest 2.0, MH-15 architecture/acceptance/unknowns, MH-21 architecture/acceptance, MH-12 security architecture/invariants, ASTRA canonical design/component scheme/governance, the integrated Jarvis/ASTRA architecture contract, Bootstrap and Master Roadmap.
+- Crosswalk disposition for all historical IDs is recorded in unified matrix Section 64 and Passport Section 19; exact primary blob SHAs are recorded in the matrix.
+- DEC-DEV-01: Alamo endpoint role is already established; runtime/adapter/model/protocol composition remains target-gated.
+- DEC-DEV-02: only immediate owner/governance question; ASTRA engineering lifecycle vs product State Authority wording conflict remains OPEN_CONFLICT. Current Truth remains NOT_PROVEN / BLOCKED.
+- DEC-DEV-03 and DEC-DEV-04: deferred until concrete asset plan / hardware-OS-security-workload evidence.
+- DEC-DEV-05: fail-closed/no-silent-fallback invariant established; provider/data-class policy remains open.
+- DEC-DEV-06: mesh reachability is not authorization; mobile operation/API/revocation/audit contract remains open.
+- DEC-DEV-07: workload envelope before hardware choice.
+- DEC-DEV-08: Contour A deployment and independent acceptance gate is binding; evidence remains outstanding.
+- Owner packet Section 6.5 now holds the minimal decision prompt and recommendation. No primary ASTRA source was changed, and no tests, qualification, implementation, provider/model calls, host/runtime inspection or deployment were performed.
+- **Next:** continue the independent P0-07 → P0-05 D1/D2 trust/context source investigation from current live refs, or answer the DEC-DEV-02 owner question when ready. Keep the mutation/publication gate closed.
