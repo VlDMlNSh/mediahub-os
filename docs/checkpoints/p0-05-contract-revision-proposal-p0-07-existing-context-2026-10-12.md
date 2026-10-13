@@ -77,3 +77,30 @@ The governance acceptance record `docs/architecture/P0-05-governance-acceptance.
 - Following the owner's conditional direction, option C is now the **NEXT GOVERNANCE REVIEW PATH**. This is authorization to prepare and submit the controlled revision proposal, not acceptance of new normative wording, not a freeze, and not implementation authorization.
 - No accepted/frozen contract or code has been changed. Before a normative revision can be adopted, governance must resolve the DRAFT-vs-acceptance-record discrepancy, review the candidate contract, and record explicit acceptance/freeze against an exact blob and commit.
 - Mutation publication remains **BLOCKED — GOVERNANCE/API GAP**.
+
+
+## 8. Owner/governance disposition sheet (2026-10-13; blank pending decision)
+
+**Purpose:** make the existing proposal actionable without duplicating it or implying approval. This section is a response template only. Blank fields mean no decision is recorded.
+
+| ID | Decision requested | Permitted recorded disposition | Required record |
+|---|---|---|---|
+| D1 | Authorization composition | ACCEPT OPTION; REJECT; REQUEST REVISION; DEFER | Exact choice and rationale; security/governance reviewer |
+| D2 | P0-04 context authority and lifecycle | IDENTIFY TRUSTED CALLER; PROPOSE GOVERNED AUTHORITY; REQUEST EVIDENCE; DEFER | Named authority/owner, lifecycle, principal binding, trust boundary and source evidence |
+| D3 | Operation/payload decision binding | ACCEPT SPECIFIC BINDING RULE; REQUEST REVISION; DEFER | Exact binding fields/semantics, freshness/replay rule, threat-model basis |
+| D4 | Initial P0-07 operation set | ACCEPT EXPLICIT ENUMERATED SET; REQUEST MAPPING; DEFER | Each operation → resource/canonical state shape → authority → invariants |
+| D5 | Audit/privacy | ACCEPT AFTER JOINT REVIEW; REQUEST REVISION; DEFER | MH-06/MH-12/MH-13 reviewers and exact approved provenance/access/redaction/retention rules |
+| D6 | P0-05 acceptance/header discrepancy | CONTRACT TEXT ACCEPTED; IMPLEMENTATION ONLY ACCEPTED; REQUEST EVIDENCE; DEFER | Governance interpretation tied to exact contract blob, implementation commit/tree, and acceptance-record blob; controlled correction separately authorized if needed |
+| D7 | Contract change-control scope | P0-05 v1.1; SEPARATE INTEGRATION CONTRACT; REQUEST CHANGE-CONTROL REVIEW; DEFER | Exact path/version, supersession semantics and change-control authority |
+
+### Cross-cutting owner disposition
+
+- Product-owner decision / dated record: **PENDING**
+- Security review / reviewer / evidence ref: **PENDING**
+- Governance review / reviewer / evidence ref: **PENDING**
+- Exact normative artifact path + blob SHA + commit SHA to accept/freeze: **PENDING**
+- Explicit acceptance/freeze record: **PENDING**
+- Separate implementation authorization + scope/commit boundary: **PENDING**
+- Qualification authorization: **NOT REQUESTED BY THIS SHEET**
+
+Do not treat an unfilled row, an investigation direction (including C→A or C→B), or an informal acknowledgement as an accepted contract decision. Any selected disposition must be recorded by the authorized owner/reviewer and then reconciled into the owner decision register, matrix, map and checkpoint with exact source refs. Until then the proposal remains **NOT ACCEPTED / NOT FROZEN**, and P0-07 mutation publication remains **BLOCKED — GOVERNANCE/API GAP**.
