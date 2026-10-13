@@ -633,3 +633,18 @@ This addendum supersedes only the prior subsection's mutable-branch blob snapsho
 - Architecture/qualification status unchanged: unified contract/matrix remain proposed and not frozen; MH-15 acceptance/freeze and implementation authorization absent; MH-16 proposed/not frozen and implementation not authorized; ASTRA G0–G11 and MH-22 G1–G9 blocked/not promotable in inspected evidence; global qualification `NO-GO / NOT PROVEN`; P0-07/P0-05 governance/API gap open.
 - No install, test, qualification, provider/model invocation, credential use, host/runtime inspection, infrastructure change, deployment, migration, merge, rebase or cherry-pick was performed.
 - **Next bounded action:** source-anchor the node/service placement matrix and conflict/decision register from primary clauses. Follow the master roadmap and current map; do not execute deployment or promote drafts without applicable authority.
+
+
+---
+
+## Continuation addendum — live-ref/link-drift control and execution discipline (2026-10-13)
+
+- Owner direction recorded: every `/next` must validate actual GitHub refs/HEAD/blob SHAs and content; configured URLs are pointers, not proof of current state.
+- Live read before this pass: branch `docs/mediahub-chat-tree-map-20261012` exists; key paths Bootstrap, Map, current checkpoint, Master Roadmap and supporting plan were fetched directly from that ref. The current roadmap is the sole working plan of sequence.
+- Live comparison at start of pass: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch comparison status `diverged`, 543 commits ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. The compare endpoint did not expose the documentation branch HEAD SHA directly; do not invent it. No merge/rebase.
+- Pre-change blob SHA: Bootstrap `4ced4a9249591d218e8949f498c862fc21274b16`; Map `ac91b60ce47eb8b11afaad076403a5ca68603a5b`; this checkpoint `5e5be49df32a1d72095bde1533e0447df7d9c708`; Master Roadmap `1f38b533d56e3065173ea0af7b09357d6d8b3e5e`; supporting plan `c0f55645916968a5a369b1582510012ec28c4251`.
+- The configured branch/path URLs are currently reachable at the inspected ref. No branch rename or path move was detected in this bounded check; therefore no Project Instructions replacement task is triggered in this pass. Recheck on every future `/next`.
+- Rule now recorded in Bootstrap, roadmap, map and this checkpoint: ordinary blob-SHA changes do not by themselves require URL replacement; branch/path/canonical-checkpoint drift does. If drift is detected, update project documents where authorized, verify read-back, and include a ready-to-copy task to replace ChatGPT Project Instructions with corrected full URLs in the same final response.
+- Execution discipline: each `/next` selects the next incomplete deliverable from the Master Roadmap, checks later commits/checkpoints for duplicate work, completes one bounded permitted pass, reads back the changed files, and records the outcome in GitHub. Update map when navigation/source/status changes; update matrix/passport only when confirmed traceability changes.
+- Current next deliverable remains source-anchored node/service placement matrix + decision/conflict register. Do not resolve owner decisions or claim qualification/implementation from documents alone.
+- Restrictions unchanged: documentary GitHub work only in this pass; no install, tests, qualification, model/provider calls, credentials, host/runtime inspection, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
