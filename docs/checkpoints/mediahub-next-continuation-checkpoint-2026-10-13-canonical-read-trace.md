@@ -135,3 +135,15 @@ Trace `docs/architecture/MH-17-device-configuration.md` and the P0-07 operation 
 - Added Matrix Section 56 and Map Section 20.138 to record the source-bound crosswalk; preserve AT-19 as OPEN—CONTRACT and AT-18 as OPEN—CONTRACT. B1, B2 and canonical backlog were not changed.
 - No tests, qualification, installation, runtime/host inspection, infrastructure change, deployment, migration, merge or rebase.
 - Next: follow the current map to the next sequential source after Batch 17; preserve all historical IDs, verify source paths and SHA before selecting the next bounded pass, and do not infer engineering product scope or accept a workflow without owner evidence.
+
+
+## Follow-up — P0-07 D4 operation-to-canonical-state mapping (2026-10-13)
+
+- Re-read live Bootstrap, map, current checkpoint, Master Roadmap §9, P0-07 crosswalk/candidate/proposal, owner decision register and primary source refs before work selection.
+- P0-07 source lineage is branch `architecture/mh-7-configuration-policy`, HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`. Exact read-back source blobs: operation boundary `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`; authorization inventory `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`; read boundary `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`; mutation reconciliation `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`; adapter contract `22b8e1897e124578e66c8d619b3e8eaf41f69a88`.
+- D4 mapping records 14 source-listed operations: read has no authoritative canonical source; validate and propose do not write canonical state; update/replace can only be treated as incomplete candidates for a single complete document; reset/delete lack canonical semantics. Exact resource→canonical-key mapping, immutable revision/generation binding, and caller/context binding are not evidenced.
+- Read current-main P0-05 `runtime/mediahub_runtime/consumer_boundary.py`, blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`, and P0-03 contract on `architecture/p0-03-state-authority-contract`, blob `2f35ed1b77c7979c9de50371c8a0f7a82f5d1e75`. They preserve P0-05 mediation, independent P0-04 lifecycle authorization, immutable full revisions, atomic commit and stale-generation fail-closed behavior; they do not prove P0-07 integration.
+- Added P0-07 crosswalk §13 and Matrix §58; Map §20.147 indexes the result. No stable IDs minted; no primary contract modified.
+- Gate unchanged: P0-07→P0-05 call edge NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- No tests, workflow dispatch, implementation, qualification, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next bounded pass: D1/D2 trusted caller identity and P0-04 context issuer/lifecycle/freshness/revocation trace. No bridge implementation without explicit governance disposition and separate implementation authorization.
