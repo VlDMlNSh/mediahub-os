@@ -177,3 +177,42 @@ The governance-approved tree at commit `97a01977f521ba8304a455b5d7504896235ddea7
 - The P0-07 branch lineage and current-main P0-05 source are distinct refs. No end-to-end composition root or call edge is evidenced by this review.
 - Do not mint stable operation IDs or promote candidate mappings into normative contract clauses. Owner/security/governance disposition remains required; P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
 - No implementation, tests, qualification, branch integration, deployment or status promotion occurred.
+
+
+## 14. D1/D2 — trusted caller and P0-04 context lifecycle trace (2026-10-13)
+
+**Status: SOURCE-BOUND / PARTIAL / GOVERNANCE OPEN.** This is an evidence trace, not a new authorization design or implementation permission.
+
+### Live source anchors
+
+| Source | Ref | Blob SHA | What it establishes / does not establish |
+|---|---|---|---|
+| P0-04/P0-05 authorization seam, `runtime/mediahub_runtime/authorization.py` | `implementation/p0-05-consumer-boundary` | `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` | Frozen `AuthorizationContext` contains only `principal` and `capability`; `AuthorizationPolicy` checks exact `(principal, capability, operation)` membership in an explicit grant set and denies otherwise. It does not establish who authenticated/issued the context or how grants are provisioned/revoked. |
+| P0-05 consumer boundary, `runtime/mediahub_runtime/consumer_boundary.py` | `implementation/p0-05-consumer-boundary` | `23b95f1b37cb35e311b61e3babcca4bd1aea9596` | Consumer operations forward the supplied context to the State Authority through the existing boundary; this does not establish a trusted external issuer or a P0-07 caller composition. |
+| P0-07 authorization, `runtime/mediahub_runtime/configuration_policy_authorization.py` | `architecture/mh-7-configuration-policy` | `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3` | Immutable local allow-list validates principal/capability/operation tuples and defaults to denial; grant provisioning and issuer provenance are not evidenced. |
+| P0-07 operation boundary, `runtime/mediahub_runtime/configuration_policy_operations.py` | `architecture/mh-7-configuration-policy` | `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` | Request carries resource type, operation, resource, P0-07 context and optional typed payload; decision validates/authorizes/evaluates policy only. No credential resolution, P0-05 call or publication occurs in this boundary. |
+| MH-04 Identity Model | `architecture/mh-04-security-trust-authorization` | `dccded8f572bed42e8f40e4240e91e5621f24a37` | Defines principal types and conceptual identity lifecycle, including expired/revoked/denied states; it is not evidence of a deployed issuer or accepted runtime lifecycle. |
+| MH-04 Authentication | `architecture/mh-04-security-trust-authorization` | `834dd3f4036ba1668e4b8af132393e25c70c85eb` | Separates authentication from authorization; invalid/expired/revoked credentials and ambiguous proof fail closed. Concrete framework remains candidate technology. |
+| MH-04 Authorization | `architecture/mh-04-security-trust-authorization` | `327b7c0c7504612ff05a6654a710058dcecaf438` | Requires identity/context/policy-aware decisions and forbids an alternate mutation authority; does not identify a concrete issuer implementation. |
+| MH-04 Credential Boundaries | `architecture/mh-04-security-trust-authorization` | `7b5db076bb5a948def0fc4d72dd58740828660c5` | Describes credential source → verifier → principal → authorization flow and requires revocation to invalidate dependent authorization; conceptual requirement, not runtime evidence. |
+| MH-04 Trust Model | `architecture/mh-04-security-trust-authorization` | `3e1d0ebffcd9e84f10e8e65dc3baf4bbb235ac01` | Explicitly separates reachability, identity, authentication and authorization; VPN/locality/network access cannot elevate trust. |
+| MH-12 Authorization | `main` | `c48641861691714017aa5b1f99fe8eee8ea0e76a` | Requires explicit, operation-specific, identity-bound, context-aware, auditable, fail-closed authorization through the approved Consumer Boundary/State Authority path. |
+| MH-12 Contradiction Register | `main` | `4b3c101317330e47236937b17344299df53deee9` | C-01 requires governance resolution; C-02 explicitly blocks P0-07 capability authorization vs P0-04 transaction authorization pending an approved bridge. |
+
+### D1/D2 findings
+
+1. **Context shape is not provenance.** The inspected `AuthorizationContext(principal, capability)` carries neither issuer/authentication evidence nor issue/expiry time, audience, revocation handle, nonce/replay state or exact-request binding. Its frozen shape prevents field mutation; it does not prove the principal string was authenticated or that the context is current.
+2. **A grant set is not a grant lifecycle.** The policies enforce exact tuple membership and default deny. The inspected sources do not identify the trusted grant provisioner, grant-change audit trail, revocation propagation or an authoritative principal resolver. Test fixtures that construct contexts/grants inline are not production-issuer evidence; tests were not run.
+3. **MH-04 supplies requirements, not an accepted issuer.** Its conceptual principal lifecycle and credential/revocation rules are directionally consistent with MH-12, but the reviewed MH-04 architecture/acceptance state remains proposed/review-complete rather than accepted/frozen. No concrete authentication technology or runtime issuer is selected by this trace.
+4. **No independent P0-04 context hand-off is demonstrated.** P0-07 and P0-05 consume the same minimal context type but use it for different authorization domains. Shared type identity is not proof of independent P0-04 authorization, trusted caller identity, or a call edge from P0-07 to P0-05.
+5. **D1 remains C→A only after evidence. D2 remains C.** The evidence does not support selecting existing-context reuse (A), an authority component, a new token, cryptographic binding or an API signature. Any of those choices remains a governed owner/security decision.
+
+### Disposition
+
+- Trusted caller / issuer / grant provisioner: **NOT EVIDENCED** in inspected sources.
+- Context freshness, expiry, audience and revocation lifecycle: **NOT EVIDENCED** in the P0-04 context implementation; MH-04 requirements remain proposal-level.
+- P0-07 → P0-05 canonical-read call edge and unchanged independently P0-04-authorized context: **NOT EVIDENCED**.
+- D1/D2: **OPEN — INVESTIGATION/GOVERNANCE**; no normative choice made.
+- P0-07 mutation/publication: **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
+- No source paths are declared moved or broken based on failed guessed-path lookups; the MH-04 artifacts were verified by blob SHA on their branch, while their repository paths remain to be pinned from branch-tree evidence.
+- No implementation, tests, qualification, deployment or status promotion occurred.
