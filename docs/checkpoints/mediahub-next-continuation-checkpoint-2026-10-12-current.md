@@ -1365,3 +1365,14 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - Proposal §13 remains blank for a real independent reviewer. No review, acceptance, implementation authorization or qualification is claimed.
 - Status unchanged: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - Next: a qualified independent reviewer completes §13 against refreshed exact blobs; owner/governance disposition remains separate.
+
+
+Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
+
+- Live refs refreshed: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch `docs/mediahub-chat-tree-map-20261012`; compare status DIVERGED, ahead 725 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Re-read bootstrap `49b4760b4adf4f1565fac0aa4697da000f1cf37b`, roadmap `6f0912ccb9af219eb0d58049351f667617575c33`, current map and checkpoint. The P0-07 D2 proposal was live-read at blob `ff78a8bf46474c9b8a162df54de343cd5cd94223` before update.
+- Read the complete recursive main tree (not truncated) and freshly fetched exact MH-12 sources: identity `27eef9e23db02d6280b94a8e68bff9f73b0de88d`; authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a`; security boundaries `38a4505eef87f696748924baedd40cfa2ad07a41`; audit `ab6e1c652790fd9088ac26b595050774611da2fc`; acceptance criteria `40f37f1600c4730e622480d57bd492fa67f9ca4b`; unknowns `97f08824fb858dd4506876729ae37d610140c3e8`.
+- Added §13.2 to the existing P0-07 D2 proposal to supersede the earlier narrow discovery note and map R-01…R-06 to exact source paths/SHAs and limitations. Proposal update commit `c1e9dd68e9645a2ee7413dfd70b830d66bfbadd7`, resulting blob `39400abce88da7ea54be7d9d7505f215eba43408`.
+- This is reviewer-routing/documentary evidence only. No independent review was performed; §13 remains for an actual qualified reviewer. No gate changed: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- No tests, qualification, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+- Next: qualified independent review against the exact proposal and source refs, then separately record owner/governance disposition.
