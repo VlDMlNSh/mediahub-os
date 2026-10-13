@@ -343,3 +343,26 @@ No API/schema/issuer/cryptographic design selected. No tests, qualification, imp
 - P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - Next bounded action remains obtaining an actual independent MH-12/MH-13 and architecture review of P0-07 D2 R-01…R-06, then separately recording owner/governance disposition against the exact reviewed blob/commit. Until an independent reviewer or new source evidence is available, continue source reconciliation without relabeling the desk review as independent.
 - No implementation, tests, qualification, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+
+
+## Follow-up — exact MH-13 governance status and P0-07 reviewer-scope distinction (2026-10-13)
+
+**Bounded live-main source crosswalk.** Current main HEAD: 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8; recursive tree is complete (not truncated).
+
+### Exact source anchors (main)
+- docs/architecture/MH-13-privacy-data-governance.md, blob e732ff9cacbc9c1189bd83306cdff30906326cf0: status RECONSTRUCTED / PROPOSED; acceptance NOT YET VERIFIED in the artifact header; frozen NO; production implementation NOT AUTHORIZED. Historical original NOT RECOVERED; historical fidelity PARTIAL / REQUIRES VERIFICATION. §§2.3–2.9 require minimization, purpose limitation, explicit retention where applicable, restrictions on protected data in telemetry/diagnostics/audit/external transfer, and privacy-auditable evidence without unnecessary payload disclosure. Exact historical classification/retention/provider terms remain unknown.
+- docs/architecture/MH-13-governance-acceptance-record.md, blob 6ecdc89440664563f36263bb8da80d1ad24f19a7: independent post-merge governance acceptance on 2026-09-04 by vdobrom888-hue, PR #25 / merge commit f8761a7eecc480c8106856f72fbeadb7229a258d. It accepts only the authorized reconstruction/reconstructed-proposed artifact; explicitly does not grant frozen status, production implementation, CI/build qualification, release or deployment authorization.
+- docs/architecture/MH-13-governance-state.md, blob 7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa: corroborates ACCEPTED RECONSTRUCTION, NOT FROZEN, production implementation NOT AUTHORIZED and CI/build qualification NOT VERIFIED.
+- docs/architecture/MH-13-architecture-reference.md, blob 1b71d9ea4d4e0924f2814edee0a982f593d71847: canonical pointer to the MH-13 source set and states that no production implementation authorization is implied and no P0-03…P0-08 contract is replaced or modified.
+
+### Reconciled finding
+The MH-13 governance acceptance record is evidence of an independent review/acceptance of the MH-13 reconstruction itself, but it is not an independent review of the separate P0-07 D2 trusted-context proposal. The two scopes must not be conflated. The P0-07 proposal's §13 worksheet remains blank, and its R-01…R-06 dispositions are not supplied by the MH-13 acceptance record.
+
+R-05 should be framed precisely: preserve MH-13's limited status as an accepted reconstruction while not treating it as frozen, historically complete, production-authorized, or as acceptance of the P0-07 D2 proposal. R-04 can cite MH-13's explicit minimization, purpose, retention and audit principles, while operation-specific audit-failure behavior remains unresolved under R-06.
+
+### Gate disposition / next step
+- P0-07 D2 remains NOT EVIDENCED / proposal NOT ACCEPTED / NOT FROZEN; this crosswalk is not the required independent review.
+- D1 NOT DEMONSTRATED; D3 NOT EVIDENCED / DEPENDENT ON D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED.
+- P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Next bounded action: use these exact MH-13 anchors in the review handoff and preserve R-01…R-06 as the independent P0-07 review scope. A qualified reviewer must independently assess the P0-07 proposal itself, not simply cite MH-13's prior acceptance.
+- No tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
