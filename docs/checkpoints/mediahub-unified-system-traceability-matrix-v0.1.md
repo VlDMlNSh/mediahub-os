@@ -1752,3 +1752,26 @@ DEC-DEV-01 remains deferred until documentary compatibility narrows options; DEC
 **Gates unchanged:** P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification remains **NO-GO / NOT PROVEN**. No implementation, tests, provider/model calls, credentials, host/runtime inspection, deployment or merge were performed.
 
 **Next:** D1/D2 issuer/context authority and D6 P0-05 normative-text status require explicit owner/governance disposition unless new accepted primary evidence is found. Continue independent documentary source work; do not invent an issuer, replay mechanism, API signature or mutation bridge.
+
+
+## Section 68 — P0-07 D4 live-main implementation-source revalidation (2026-10-13)
+
+**Status:** documentary revalidation of the existing operation-to-authority mapping; not acceptance, implementation qualification, or a new contract.
+
+### Exact live source anchors
+
+| Source on `main` | Blob SHA | Directly observed behavior | D4 implication |
+|---|---|---|---|
+| `runtime/mediahub_runtime/authorization.py` | `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` | `AuthorizationContext` has only `principal` and `capability`; `AuthorizationPolicy` matches the exact (principal, capability, operation) tuple and denies absent grants. | P0-04 transaction authorization exists locally; this type does not prove authenticated issuer, expiry, audience, revocation, replay resistance or binding to a P0-07 request/resource/revision. |
+| `runtime/mediahub_runtime/consumer_boundary.py` | `98bf2da9cea85da2c82145b4baef417c20b9ae73` | `begin/commit/abort/snapshot/restore` delegate through the injected State Authority; opaque transaction handles and bounded payload copying are present. `read(key)` delegates directly to `authority.read(key)` without an operation/context argument. | Consumer mediation and mutation delegation are evidenced in this module, but no P0-07 composition/call edge is shown. An accepted P0-07 read-authorization path is not evidenced by this interface. |
+| `runtime/mediahub_runtime/in_memory_state.py` | `0fbc71369d19e09944ba67a60ccb9df802f30a4b` | Commit checks transaction identity/status, authorization, generation ID, binary/schema compatibility, and exact current state-version freshness before incrementing canonical version. Restore checks authority-owned checkpoint, integrity, generation compatibility and self-test, then advances current version. | Local canonical-state mutation/version invariants are source-evidenced; they do not prove P0-07 decision/payload/context binding to the same revision end-to-end or persistence/recovery qualification. |
+| `runtime/mediahub_runtime/generation.py` | `4e4fe0e40d67c18c918881d79dc2cc9933988b2c` | Compatibility compares generation ID, binary version, schema version and state version across binary/schema/state generation objects. | Local compatibility tuple is explicit; accepted cross-domain version-change ownership and release-evidence binding remain unestablished. |
+
+### Revalidation disposition
+
+- Existing Section 63's D4 mapping remains directionally consistent with the freshly read `main` implementation sources: validation/proposal are non-publication boundaries in the P0-07 source lineage; the canonical State Authority locally enforces transaction authorization and revision freshness; no accepted P0-07 → P0-05 composition edge or exact resource-to-canonical-key mapping is evidenced by these anchors.
+- The P0-05 `read(key)` interface is a specific open boundary: it exposes observation without an operation/context argument. This is evidence about the inspected interface only, not a claim that no other authorized read path exists elsewhere.
+- Mutation-shaped P0-07 update/replace/reset/delete semantics remain incomplete/unmapped as recorded in Section 58; this revalidation does not invent default, deletion, tombstone or resource-key semantics.
+- D4 remains a documentary candidate mapping, NOT ACCEPTED / NOT FROZEN. D1 existing compliant caller path remains NOT DEMONSTRATED; D2 trusted issuer/lifecycle remains NOT EVIDENCED; D3 end-to-end request/context/resource/revision binding remains NOT EVIDENCED; D6 remains OPEN / GOVERNANCE CONFIRMATION REQUIRED. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; qualification remains NO-GO / NOT PROVEN.
+- No tests, qualification, runtime/host inspection, provider/model calls, credentials, implementation, infrastructure change, deployment, migration, merge, rebase or cherry-pick were performed.
+- Next: retain the existing D4 mapping and route unresolved operation/resource semantics through existing owner/governance decisions; do not create duplicate decision IDs. D2 still requires a real qualified independent reviewer; this pass is not that review.
