@@ -1161,3 +1161,13 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 **Minimum owner/governance question if no accepted record is found in the next source pass:** who owns generation/schema change control and its end-to-end revision binding across (a) State Authority generation/version semantics, (b) persistence schema and durable representation, (c) MH-16 migration/restore compatibility, and (d) MH-22 release/qualification identity? Recommendation: nominate one accountable governance owner and require each domain to retain its own execution authority; do not make persistence, lifecycle, or qualification a second State Authority.
 
 **Next:** continue the roadmap-ordered source trace for MH-14/MH-16/MH-22 generation/change-control references and their linked primary contracts; if no accepted assignment exists, present this bounded owner question without implementing a bridge.
+
+
+### P0-07 D3 request/context/resource/revision binding crosswalk (2026-10-13)
+
+- Unified traceability matrix Section 67: commit `07bfefe42d413994dee90c7d709f65497ce00fb0`; blob `0fa61006e5f8216f4858f323d7cd8e41053c3c6f`; read-back verified.
+- Working Passport v3 Section 20: commit `743811e6ae7518b2ae2e8eca28cb8529a420c97a`; blob `1ba539cf8eea43e2cfd8fb11b03ba868718c2c6b`; read-back verified.
+- Live source anchors: MH-06 `35647b282352f56d57f1bd476bff1503571c5650`; MH-12 identity/authentication/authorization `27eef9e23db02d6280b94a8e68bff9f73b0de88d` / `a29c6a3cff0ee175a0c868214ffa2b455010002f` / `c48641861691714017aa5b1f99fe8eee8ea0e76a`; P0-04 `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; P0-05 `98bf2da9cea85da2c82145b4baef417c20b9ae73`; P0-07 `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` / `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`.
+- Finding: local P0-04 version/generation checks are source-evidenced, but no accepted source binds authenticated caller, exact P0-07 operation/resource/payload, trusted P0-04 context and the same canonical revision end-to-end through P0-05. MH-12 freshness/revocation/replay requirements are not runtime proof; P0-07 read authorization composition is not evidenced in the inspected interface.
+- Disposition: D3 NOT EVIDENCED / DEPENDENT ON D1/D2. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN. Documentary-only; no implementation/tests/qualification/provider calls/credentials/host inspection/deployment/migration/merge.
+- Next: present the irreducible D1/D2 trusted-context and D6 normative-text governance question while continuing independent source review; do not invent an issuer, API or mutation bridge.
