@@ -80,3 +80,13 @@ Trace `docs/architecture/MH-17-device-configuration.md` and the P0-07 operation 
 - Matrix Section 51 blob `ce5f2624f75928241ea9abaeb4ae4a4b64270ec6`, commit `788bbfa7cc6265d5dffef931b429eb182d664a8f`. Map Section 20.133 blob `b5693c5d24eaa80c973c6d002793f55c1269dd00`, commit `74a81a6adcd8f2764cb978c017f23ee1457bf619`.
 - Status: existing-context path NOT DEMONSTRATED; proposal NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; D2 context authority/lifecycle OPEN; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - Next: present existing proposal and bounded evidence to owner for explicit governance disposition. Require exact normative contract acceptance/freeze and separate implementation authorization before code changes. No tests, implementation, deployment, merge, rebase, or cherry-pick.
+
+
+## Follow-up — P0-05 v1.1 D1–D7 acceptance gate crosswalk (2026-10-13)
+
+- Re-read owner decision register blob `62831d23c5e6bbddc707ec5b197cffba57d6139a`, P0-05 v1.1 candidate blob `79e2b4865c47b5394ade266cd3cd7cfbe3097717`, P0-07 governance crosswalk blob `3b2ff1d5b66e99284e93ec2a6969bddcd77241b4`, and MH-12 contradiction register blob `4b3c101317330e47236937b17344299df53deee9`.
+- Added Matrix Section 52 to map preserved owner decision IDs D1–D7 to their required evidence/acceptance gates. D1 trust/caller composition; D2 P0-04 context authority/lifecycle; D3 exact operation/payload binding and freshness/replay; D4 operation-to-canonical-state mapping; D5 joint MH-06/MH-12/MH-13 audit/privacy review; D6 controlled acceptance-vs-DRAFT-header reconciliation; D7 versioning/change-control scope.
+- Confirmed the candidate contract remains non-normative; the owner’s recorded directions are investigation paths, not accepted API decisions. MH-12 C-01 remains REQUIRES VERIFICATION / GOVERNANCE RESOLUTION; C-02 remains BLOCKED by the API/authorization bridge gap.
+- Matrix Section 52 blob `06e9e0f4e0ca2f2b66338e29fd5c19da5c49c83c`, commit `9d89391b754e3a6058e0ac98aafb2dc8a76a98e7`. Map Section 20.134 blob `0556b0bb255c2a8c9bd3d2a4fc425e783fa1b6f3`, commit `04f8201c3b5e473c35866fec274bf99251954040`.
+- Status remains: D1–D7 OPEN as normative contract decisions; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Next: prepare a concise owner-facing decision request using the existing proposal, preserving historical IDs and requiring explicit resolution of D1–D7, exact normative blob/commit, and separate implementation authorization. No implementation, tests, qualification, deployment, merge, rebase or cherry-pick.
