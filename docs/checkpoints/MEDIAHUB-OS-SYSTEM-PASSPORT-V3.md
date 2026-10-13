@@ -422,3 +422,16 @@ Contour B product implementation remains gated until Contour A is deployed and i
 - DEC-DEV-02 options A/B/C and their consequences are documented in owner decision packet 01. Recommendation: do not choose from design labels alone; obtain a governed clarification of the “MediaHub State Authority” wording and then accept one typed lifecycle contract before implementation. No owner decision is inferred.
 - Detailed source/ref/blob crosswalk and the minimal owner question: [Unified System Traceability Matrix v0.1, Section 61](mediahub-unified-system-traceability-matrix-v0.1.md), current blob `fec41118a104514b90923967212fc775bb2bf880`.
 - Disposition unchanged: DEC-DEV-02 OPEN_CONFLICT; ASTRA Current Truth NOT_PROVEN / BLOCKED; Contour A → Contour B remains a binding gate. No implementation, qualification, deployment or acceptance is claimed.
+
+
+## 18. DEC-DEV-03 — developer vs future production Mac Pro identity (2026-10-13)
+
+**Status: DEFERRED / NOT ANSWERED / NOT ACCEPTED.**
+
+- Accepted Distributed AI Infrastructure target architecture on `main`, blob `e549692f207fbc91d9b9b9b92b8e665404f07290`, §1 assigns a central infrastructure role to a Mac Pro, subject to hardware/runtime validation. It does not identify a unique physical production asset.
+- This passport's §5.1 records the purchased Mac Pro as the primary developer workstation and explicitly says the purchased unit and a future production Mac Pro are not assumed to be the same physical asset. Exact model/year/chip/GPU/RAM/storage/OS remain unprovided; this is owner-reported target intent, not independent inventory or qualification.
+- Roadmap DEC-DEV-03 and owner decision packet 01 retain two choices: (A) controlled role transition of the same asset, or (B) a separate production asset. The owner packet §6.2 says this decision is deferred until asset/hardware evidence or a concrete asset plan makes it necessary.
+- Until then, keep separate logical asset identities, trust/data/credential scopes and install/recovery assumptions for developer and future production roles. No role transition, production placement or credential/data transfer is implied.
+- Revisit prerequisites: concrete intended asset allocation; exact inventory and supported OS/security lifecycle; workload and production boundary; data/credential/install/recovery separation; and applicable MH-15 acceptance evidence. The source pass does not supply these facts.
+- Source-anchored traceability: [Unified System Traceability Matrix v0.1, Section 62](mediahub-unified-system-traceability-matrix-v0.1.md); [Node/service placement matrix NSP-TR-05](MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md).
+- No owner choice inferred; no tests, host/runtime inspection, inventory, installation, infrastructure changes, deployment or qualification performed.
