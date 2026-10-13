@@ -4202,3 +4202,12 @@ The adapter contract lists three governance directions (existing independently P
 - **SHA vs URL:** новый blob SHA после обычного изменения не требует замены URL. Переименование/удаление ветки, перемещение файла, сломанная ссылка или переход к новой канонической контрольной точке требуют обновления ссылок и явного задания на замену ChatGPT Project Instructions в том же ответе.
 - **После прохода:** фиксировать результат и проверку в GitHub; обновлять карту и current checkpoint, а матрицу/паспорт — только если меняется подтверждённая трассировка. Повторно читать изменённые файлы и проверять SHA.
 - **Ограничение:** карта остаётся индексом; наличие roadmap или документа не доказывает реализацию/приёмку. Contour B не начинается до независимой приёмки Contour A.
+
+
+### Post-write read-back record (2026-10-13)
+
+- Bootstrap current blob SHA: `daa58e2bdf36e599fb5e3a16094a15bdf71dc628`.
+- Master Roadmap 1.0 current blob SHA: `f651450495bed8c9c4cb06efd18db97794f3f9e1`.
+- Current map blob SHA before this record update: `7473e5e2d8b3d1d035c5cebddc66f5204bdf60c8`.
+- Current checkpoint blob SHA before this record update: `7d4055f70f766fa31e7a790d09cad96ac34295e3`.
+- Verified directly from GitHub: each updated file contains its new live-ref/link-drift rule; all four paths remain reachable on `docs/mediahub-chat-tree-map-20261012`. These SHA values are snapshots and must be refreshed during the next `/next`.
