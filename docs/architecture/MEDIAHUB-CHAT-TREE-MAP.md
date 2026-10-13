@@ -4455,3 +4455,13 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Hard gates unchanged:** P0-07 mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification **NO-GO / NOT PROVEN**.
 - **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “Owner-accepted continuation direction”.
 - Documentary-only continuation; no implementation, tests, qualification, deployment, migration, infrastructure change, merge or rebase.
+
+
+## 20.160 P0-07 D4 operation-to-canonical-state source crosswalk (2026-10-13)
+
+- **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “P0-07 D4 operation-to-canonical-state source crosswalk”; source refs and blob SHAs recorded there.
+- **P0-07 operation boundary:** `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` performs bounded validation, P0-07 authorization and policy evaluation, returning a decision; it does not publish state. Exact P0-07 authorization source: `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`.
+- **Read/validate/propose:** read is observation-only against an explicitly supplied immutable domain object while no authoritative configuration/policy source is defined; validation is deterministic and non-mutating; proposals are inert. No canonical resource/key mapping is evidenced.
+- **Mutation families:** configuration and policy update/replace/reset/delete are domain intents only. No accepted resource-to-canonical-state mapping or P0-07 → P0-05 call/publication edge is evidenced. Mutations remain blocked.
+- **Authority invariants:** P0-07 domain capability must not be translated into P0-04 `begin/commit/abort`; P0-05 remains sole consumer boundary and P0-04 sole canonical mutation authority. No second store/version/transaction, hidden retry/rebase/LWW, or cross-document atomicity.
+- **Disposition:** D4 operation families are now source-mapped at documentary level; exact canonical resource mapping and D1/D2 trusted-context composition remain **NOT EVIDENCED**. No implementation or qualification was performed.
