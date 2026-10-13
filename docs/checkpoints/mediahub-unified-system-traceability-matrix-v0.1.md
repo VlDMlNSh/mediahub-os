@@ -1102,3 +1102,32 @@ P0-07 capability inventory is not a transaction API. The P0-07 boundary construc
 2. P0-07 canonical-read acceptance remains **NOT EVIDENCED** until its domain caller is identified and the exact injected authority/read revision is source-bound.
 3. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project-wide qualification remains **NO-GO / NOT PROVEN**.
 4. Next bounded source task: trace MH-17/P0-07 operation definitions and their call sites to a concrete runtime composition root; identify whether the consumer boundary and the P0-07 caller share the same authority instance and revision. Do not run tests or workflows, inspect runtime/host, or alter code/contracts.
+
+
+## Section 48 — P0-07 source reachability and read caller trace (2026-10-13)
+
+**Status:** bounded source/reachability reconciliation; no API or acceptance status changed.
+
+### Current-main tree evidence
+
+- Current `main HEAD`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; recursive tree SHA `cbb1862fcb4aa22ba24fea4ff12b580ffb305593`, 798 entries, not truncated.
+- The recursive tree contains `runtime/mediahub_runtime/consumer_boundary.py` (blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`) and State Authority files, but does **not** contain paths matching `configuration_policy`, `p0-07`, `operation_boundary`, or `read_validate` beyond the workflow and ConsumerBoundary path. The P0-07 operation source blobs cited below are retrievable by immutable blob SHA, but are not shown as paths in this current-main tree. Their branch/commit reachability to current main is therefore not established by this pass.
+- `docs/architecture/MH-17-device-configuration.md`, blob `2857055d8ab039fb645ebded411b3c63a6e06a42`, states configuration is distinct from device identity/runtime state and requires authorization, validation, audit and explicit apply semantics. It defines no implementation call site or read adapter.
+
+### P0-07 operation boundary evidence (immutable blobs; tree reachability not established)
+
+- Operation boundary blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`: `ConfigurationPolicyOperationBoundary` validates request shape/payload, checks P0-07 authorization and policy, and returns an operation decision. The module header says it does not publish state; its `decide` path does not call P0-05 `ConsumerBoundary.read`.
+- Read/Validate Boundary v1.0 blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`: P0-07 read is observation-only; it may inspect an explicitly supplied immutable domain object, but must not imply that object is canonical persisted state until an authoritative source is defined. It prohibits a second store/cache/checkpoint/recovery authority.
+- P0-07 authorization blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`: local allow-list for domain operations, including configuration/policy read and validate; it does not itself identify the canonical read source.
+- Mutation adapter contract blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88` and mutation-authority reconciliation blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063` require separate P0-07 domain authorization and independently authorized P0-04/P0-05 transaction authority. They do not authorize capability translation, a second authority, or direct P0-07 State Authority access.
+
+### Revised finding
+
+- The P0-05 consumer-to-State-Authority in-memory read chain is evidenced on current main (Section 47).
+- The inspected P0-07 operation-boundary blob is decision-only and contains no P0-05 read call. The current-main tree does not contain the P0-07 implementation paths represented by those immutable blobs. Therefore the **P0-07 → P0-05 canonical-read caller/composition join remains NOT EVIDENCED**, for two distinct reasons: no call edge in the inspected P0-07 boundary source, and no current-main tree reachability proof for that source revision.
+- Do not infer that the P0-07 code is absent from every branch or historical commit. Do not invent an adapter or assume the supplied immutable domain object is canonical.
+- P0-07 canonical-read acceptance: **NOT EVIDENCED**. Mutation/publication: **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1: **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. Project-wide qualification: **NO-GO / NOT PROVEN**.
+
+### Next bounded step
+
+Identify the exact branch/commit containing the P0-07 operation-boundary blobs, then compare that tree and its callers to current main without merging. If no source-bound caller invokes the P0-05 read boundary, keep the gate open and route the gap for owner/governance decision. No tests, workflows, runtime/host inspection, code changes, deployment, merge or rebase.
