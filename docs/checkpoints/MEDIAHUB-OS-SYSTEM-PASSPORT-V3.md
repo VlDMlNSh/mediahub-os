@@ -435,3 +435,22 @@ Contour B product implementation remains gated until Contour A is deployed and i
 - Revisit prerequisites: concrete intended asset allocation; exact inventory and supported OS/security lifecycle; workload and production boundary; data/credential/install/recovery separation; and applicable MH-15 acceptance evidence. The source pass does not supply these facts.
 - Source-anchored traceability: [Unified System Traceability Matrix v0.1, Section 62](mediahub-unified-system-traceability-matrix-v0.1.md); [Node/service placement matrix NSP-TR-05](MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md).
 - No owner choice inferred; no tests, host/runtime inspection, inventory, installation, infrastructure changes, deployment or qualification performed.
+
+
+## 19. DEC-DEV-01…08 live-source crosswalk validation (2026-10-13)
+
+**Status:** working Passport traceability addendum only; not canonical, not an acceptance record. Functional authority remains Baseline 2.0.
+
+- **Live source anchors:** Distributed AI Infrastructure `main` blob `e549692f207fbc91d9b9b9b92b8e665404f07290`; Canonical Component Manifest 2.0 `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`; MH-15 architecture/acceptance/unknowns `f817925c69ce4484713f952e47aacad283af8eeb` / `082642e67dc66cb359a5566773c143854cafaa00` / `d305c0984e2cfee801b3c8ceafdb3e2cf8ad987d`; MH-21 architecture/acceptance `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c` / `582f898fe4be332b6a7fef3e8cca2e27c7328ac2`; MH-12 security architecture/invariants `cf4ebfd5bf471ca676f075c51d3a24906504e490` / `0609be9c3420070434014dad4529e4ccd46b0996`. Integrated Jarvis/ASTRA working contract: docs ref blob `c248956417cc61d66c968a4c58a56e799f653354`.
+- **DEC-DEV-01:** Alamo is the accepted target endpoint label; runtime/protocol/model/adapter composition is not selected. ONNX Runtime and llama.cpp remain target-gated candidates; proposed Ollama direction is not deployment evidence.
+- **DEC-DEV-02:** OPEN_CONFLICT. A0 is designed for ASTRA-internal queue/claim/lease/evidence/gate state only; a component-scheme phrase “MediaHub State Authority” conflicts with product authority boundaries. ARC-018 requires one lifecycle owner before implementation. ASTRA Current Truth remains `NOT_PROVEN / BLOCKED`.
+- **DEC-DEV-03:** future production Mac Pro identity remains separate from developer asset until an explicit decision and concrete asset evidence exist.
+- **DEC-DEV-04:** Mac mini Server 2011 remains legacy/low-resource candidate; hardware, OS lifecycle, security, thermal, workload and recovery evidence is absent; no critical workload assignment.
+- **DEC-DEV-05:** no silent fallback from local-only to cloud is permitted. MH-21 provider/data-class/egress/retention policy and qualification evidence remain open.
+- **DEC-DEV-06:** mesh/VPN is reachability, not authorization. Developer Mobile needs a per-device identity, operation-scoped API, revocation/lost-device and audit contract.
+- **DEC-DEV-07:** future GPU server remains optional and unselected; define workload/privacy/capacity/performance/isolation/recovery profile before hardware selection.
+- **DEC-DEV-08:** Contour A deployment plus independent acceptance and explicit evidence are binding prerequisites for Contour B. The gate is not optional; evidence remains outstanding.
+
+**Minimal owner question:** DEC-DEV-02 only is ripe now: select A (Jarvis lifecycle owner / ASTRA adapter), B (ASTRA bounded lifecycle delegated by Jarvis), or C (strictly disjoint lifecycle domains), and clarify the conflicting “MediaHub State Authority” wording. Preserve the invariant that ASTRA cannot own MediaHub Product State Authority. Other decisions remain deferred until their evidence prerequisites are met. See unified matrix §64 and owner packet §6.5.
+
+No implementation, testing, qualification, installation, host/runtime inspection or deployment is claimed.
