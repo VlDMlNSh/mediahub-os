@@ -366,3 +366,13 @@ R-05 should be framed precisely: preserve MH-13's limited status as an accepted 
 - P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - Next bounded action: use these exact MH-13 anchors in the review handoff and preserve R-01…R-06 as the independent P0-07 review scope. A qualified reviewer must independently assess the P0-07 proposal itself, not simply cite MH-13's prior acceptance.
 - No tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+
+
+## Follow-up — independent-review artifact discovery boundary (2026-10-13)
+
+- Revalidated the documentation branch against main: docs branch is DIVERGED, ahead 718 / behind 2; main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8; merge base f0f406feb9f9816b009f4e6e756813541e53b9bc.
+- Inspected the complete recursive Git tree for main at that exact HEAD (tree response not truncated) for filenames matching P0-07 review/disposition/acceptance, D2 security review, and independent review. No matching path was returned by this filename-pattern query.
+- This is a limited filename discovery result only. It does not prove no review exists in another branch, under a different filename, in PR review metadata, or outside the repository. Do not upgrade NOT EVIDENCED to NOT PERFORMED.
+- The current proposal worksheet in P0-07 D2 proposal §13 remains the known durable intake point; it is blank in the live documentation-branch copy at blob 5e0ce7ba9f6ab4aa31f939189d49c6635c2457f1.
+- No further duplicate worksheet or parallel review document was created. Next useful step requires an actual qualified independent reviewer to populate evidence-backed R-01…R-06 dispositions against exact source versions; owner/governance acceptance remains separate.
+- No tests, qualification, implementation, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
