@@ -1525,3 +1525,21 @@ Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
 - Trace: commit de7c033c7f9bf16130c8e33df95963e806eea208; blob 36b57094f5d8477045f2c3d821b825bbb211fb47.
 - Map: commit b3cc54c8774a26141984813549589fc088e82de6; blob 64b4c0111d70d4818b2b567802c698bf746ca724.
 - Checkpoint entry commit before this identity addendum: 633de8143134e27b0d86212c223f4ba9b20782b3; blob b0d7fbbf70701a01eb1523ae0cf8243739487f6f. All three files were fetched again after write; the expected new markers and returned blob SHAs matched.
+
+
+## Latest /next result — D5 audit/provenance runtime boundary (2026-10-14)
+
+- Live refs before this pass: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch HEAD `9807f6af02817a19be52f142bea411104b852fe5`; compare DIVERGED, ahead 769 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Re-read the complete current-main tree (798 entries / 721 files, not truncated) and exact sources: diagnostics helper `8d5da6b778cc2f2bf338dd7577a74724494def9a`; generic domain event schema `e754241ddc547e50670402b2255d4c19a3df7c40`; MH-12 Audit `ab6e1c652790fd9088ac26b595050774611da2fc`; MH-06 Observability `a4c949d1ba21354d74f91cbb71864da3bbc13d36`; MH-13 Privacy `e732ff9cacbc9c1189bd83306cdff30906326cf0`.
+- Finding: `diagnostics.py` constructs in-memory events and redacts a fixed set of top-level field names; it has no persistence/sink or retention/access/integrity policy. The general event schema has generic payload/metadata but is not a P0-07 security-audit contract. MH-12 Audit specifies distinct security-audit content and controls, while MH-06 is PROPOSED and MH-13 is reconstructed/proposed, not frozen.
+- D5 remains NOT EVIDENCED for an accepted P0-07 audit/provenance contract, durable sink, reader-authorization path, retention/deletion owner, integrity/sequence mechanism and operation-specific behavior when required audit is unavailable. No schema, sink, retention period or outage behavior was selected. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; MH-22 qualification NO-GO / NOT PROVEN.
+- Updated and read back the D5 crosswalk, canonical-read trace and map; returned blob SHAs matched and the new marker was present. The checkpoint itself is updated last. No tests, qualification, runtime execution, workflow dispatch, credentials, provider/model calls, implementation, installation, infrastructure changes, deployment, migration or branch integration.
+
+### Read-back identities for this pass
+
+- D5 crosswalk: commit `e69731ad553d24ef528ff3eeb278dd4779d2ebda`; blob `ce371d0dba1d5591eaca3a9f1c4e3ce351557a97`.
+- Canonical-read trace: commit `e6f369377bd3df9c6abc559fbfa611efd1fa1df9`; blob `9a30445b6d47b737bce4e1ea806d7d79f5adf398`.
+- Project map: commit `0b5bdb9e1e4ca32bc974208e5f23313ab779335c`; blob `5e846020368609e94608e4f5584db93f6385f3ee`.
+- Checkpoint prior blob before this addendum: `d935e09a947f73412312c5bcfc580cc865c8b874`.
+
+Next: request the separate owner/security/privacy disposition for D5's audit event categories, minimum provenance, authorized readers, retention/deletion owner, integrity controls and required-audit-unavailable behavior. Do not invent those decisions or treat this source trace as acceptance. Qualified independent P0-07 D2 review and owner/governance disposition remain separate blockers.
