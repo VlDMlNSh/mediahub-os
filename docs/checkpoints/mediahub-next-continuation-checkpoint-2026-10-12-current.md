@@ -1468,3 +1468,12 @@ Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
 - Findings: local tuple authorization and state-version freshness are evidenced. ConsumerBoundary `read(key)` has no operation/context argument. No accepted P0-07 → P0-05 call edge, trusted issuer/lifecycle, resource-to-canonical-key map, or end-to-end same-revision binding is established by these sources. Reset/delete/default semantics remain unresolved.
 - Statuses unchanged: D4 candidate only; D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3 NOT EVIDENCED; D6 OPEN; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; qualification NO-GO / NOT PROVEN.
 - Documentary-only; no tests, qualification, runtime/production actions or branch integration. Next: use existing governance decisions for unresolved operation/resource semantics; obtain actual qualified independent D2 review rather than self-completing its worksheet.
+
+
+## Latest /next result — P0-07 canonical-read source trace (2026-10-13)
+
+- Live refs: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch DIVERGED, ahead 748 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Source-traced `ConsumerBoundary.read(key=None)` on main (blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`) and `InMemoryStateAuthority.read(key=None)` (blob `0fbc71369d19e09944ba67a60ccb9df802f30a4b`). The facade delegates directly; full-state read returns a revision-bearing `CanonicalState`, while keyed read returns only the value.
+- The complete current-main tree has no P0-07 read/caller/adapter source path. No evidence proves a P0-07 caller reaches P0-05 read or preserves the same instance/revision; read authorization composition is also not evidenced. Detailed source trace is recorded in [P0-07 audit/privacy/governance crosswalk §20](p0-07-audit-privacy-governance-crosswalk-2026-10-12.md).
+- Disposition unchanged: P0-07 canonical read NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Documentary-only. No tests, qualification, runtime execution, provider/model calls, credentials, deployment, infrastructure changes, or branch integration.
