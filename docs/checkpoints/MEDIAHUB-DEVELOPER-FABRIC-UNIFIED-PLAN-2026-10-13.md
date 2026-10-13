@@ -154,3 +154,12 @@ This supporting plan remains a historical hardware/contour planning note. Sequen
 The node/service placement artifact already exists at `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`; the owner-decision packet now exists at `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md`. Do not duplicate the placement inventory.
 
 Next documentary pass: validate DEC-DEV-01…08 against exact primary clauses and live refs/SHA; update only confirmed mappings in the working unified traceability matrix and Passport; then prepare a minimal owner questionnaire with options, consequences and recommendations. Preserve all open owner decisions and Contour A → Contour B gate. Do not run tests/qualification or perform installation, provider/model calls, host/runtime inspection, credential use, deployment or infrastructure changes without separate authorization.
+
+
+## Continuation addendum — decision triage and lifecycle conflict (2026-10-13)
+
+The node/service placement matrix and owner-decision packet have been cross-checked against primary architecture and security sources. DEC-DEV-01's Alamo endpoint label is already answered; DEC-DEV-05/06 invariants and DEC-DEV-08 Contour A → Contour B gate are established and should not be re-asked. Hardware/asset choices remain evidence-gated.
+
+DEC-DEV-02 reconciliation identified an explicit source conflict: ASTRA GOLD canonical design assigns A0 ASTRA its own queue/claim/lease/evidence lifecycle, but the Complete Component Scheme also calls A0 “MediaHub State Authority”; this conflicts with the product authority boundary. Jarvis ARC-018 and independent review leave the cross-system lifecycle owner open. ASTRA Current Truth remains NOT_PROVEN / BLOCKED. Details are in owner packet §6.4, unified matrix §59 and Passport §15.
+
+The Master Development Roadmap remains the only sequence authority. Next: continue the existing P0-07 → P0-05 trust/context/authorization bridge from the canonical-read trace and owner-recorded D1/D2/D4 directions. No primary ASTRA/P0-05 source was edited, no decision inferred, and no implementation/testing/qualification/deployment performed.
