@@ -771,3 +771,14 @@ The checkpoint itself is re-read after this update; its resulting SHA is reporte
 - D1 existing-context reuse remains NOT DEMONSTRATED (C → A only if evidence proves the trusted source); D2 remains open. P0-07→P0-05 call edge NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; global qualification NO-GO / NOT PROVEN.
 - No implementation, tests, qualification, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next: compare the exact P0-05 governance acceptance record with the exact contract text/commit and look for a revision-bound accepted context issuer/lifecycle. Do not invent one or modify protected P0-05 status.
+
+
+## Latest verified continuation — P0-05 acceptance and context issuer trace (2026-10-13)
+
+- Live refs: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch compare DIVERGED, 596 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. MH-04 branch `architecture/mh-04-security-trust-authorization` tip `a4fc8bd83011c8f684ecd75f9223567e2abc6277`, DIVERGED 7 ahead / 1,639 behind main.
+- P0-05 acceptance record at governance tree commit `97a01977f521ba8304a455b5d7504896235ddea7` explicitly accepts/freezes implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a`; the exact contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` is in that tree but retains a DRAFT header. Do not edit the protected header or infer contract-only normative acceptance.
+- Accepted context remains a frozen pair `principal + capability`, with exact tuple grants and default deny; ConsumerBoundary forwards it but does not establish the issuer. Inline test fixture construction is not production issuer evidence. No tests were run.
+- MH-04 remains PROPOSED / REVIEW COMPLETE; current inspected sources do not establish an accepted/deployed P0-04 context issuer/provisioner, freshness/audience/request/replay binding, or revocation lifecycle.
+- Status unchanged: D1 existing-context reuse NOT DEMONSTRATED; D2 OPEN; P0-07→P0-05 call edge NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; global qualification NO-GO / NOT PROVEN.
+- No implementation, tests, qualification, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next: owner/governance disposition on exact P0-05 contract-text status; continue source-only search for a concrete accepted context issuer/provisioner. Do not invent an issuer or bridge.
