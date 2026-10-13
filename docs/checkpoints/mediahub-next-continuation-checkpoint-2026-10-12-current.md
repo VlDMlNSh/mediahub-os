@@ -810,3 +810,18 @@ The checkpoint itself is re-read after this update; its resulting SHA is reporte
 - No protected contract/header, acceptance record or implementation changed. No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
 
 **Next safe action:** obtain the authorized owner/governance response using proposal §8–9. Record A/B/C only when explicitly selected with supporting evidence. In parallel, continue source-only tracing for a concrete trusted context issuer; do not implement the bridge or promote any status while D1/D2 remain open.
+
+
+### Post-write read-back verification — D6 decision-support pass
+
+The following artifacts were re-fetched from the live documentation branch after their writes; marker/content checks passed:
+
+| Artifact | Verified blob SHA |
+|---|---|
+| P0-05/P0-07 existing-context proposal §9 | `6d494c7311e61ec3d82e561f66af10f6dffa69b9` |
+| Unified traceability matrix §63 | `815ce2ecd8c75e51338043cfe0f25edfe1143229` |
+| Working Passport §16 | `a8fa42d1c74dcf47394364ab5a354f32e901b312` |
+| Project map §20.151 | `96fb385e198d5c1a6fd7bd098c8c3eabc08fd259` |
+| This checkpoint before this read-back note | `2087de790151907273755bdf2988a233b9641a64` |
+
+The proposal, matrix, passport and map all contain the expected new sections. The map was re-fetched after its write; its SHA above is the verified read-back value. This final ledger is a new checkpoint-only update and does not change the map's navigation or source references. No owner decision was made and no status was promoted.
