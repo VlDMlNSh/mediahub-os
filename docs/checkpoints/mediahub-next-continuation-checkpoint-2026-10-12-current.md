@@ -1429,3 +1429,13 @@ Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
 - Evidence detail: [canonical-read trace](mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), section “P0-07 D7 primary versioning/change-control rules”.
 - No tests, qualification, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next: obtain owner/governance disposition on the single bounded D7 question; meanwhile continue independent source tracing without promoting a proposed option to an accepted decision.
+
+
+## Latest /next result — D7 owner-question deduplication (2026-10-13)
+
+- Live compare: main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8; docs branch DIVERGED, ahead 734 / behind 2; merge base f0f406feb9f9816b009f4e6e756813541e53b9bc. No integration.
+- Found the existing D7 owner question in P0-05 Consumer Contract v1.1 candidate: whether to govern this as P0-05 v1.1 or as a separately named domain-operation contract. Existing owner direction D7 C → B says inspect scope first. No duplicate question/decision ID created.
+- Schema metadata defines schema_id, semantic-version-shaped schema_version, owner, field lists and constraints, but not authorized change/freeze ownership, compatibility/migration approval, immutable revision binding or cross-domain evidence ownership. P0-06 has a scoped change-control rule requiring a new governance decision for changes to P0-04/P0-05 semantics and specified boundaries; it does not settle P0-07 D7.
+- D7 remains PARTIAL / NOT ACCEPTED / NOT FROZEN; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN. Source comparison recorded in P0-07-D7-CANONICAL-STATE-VERSION-CHANGE-CONTROL-CROSSWALK-2026-10-13.md and mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md.
+- No tests, qualification, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+- Next: compare the existing D7 candidate scope directly against MH-14/MH-16/MH-22 change-control gates and report one source-backed disposition for the already-open owner question; do not create a duplicate packet or infer the owner decision.
