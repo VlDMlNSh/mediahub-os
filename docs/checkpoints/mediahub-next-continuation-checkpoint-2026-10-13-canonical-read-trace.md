@@ -502,3 +502,22 @@ R-05 should be framed precisely: preserve MH-13's limited status as an accepted 
 - The complete recursive `main` tree contains no P0-07 read/caller/adapter source path. The source set therefore does not evidence a P0-07 → P0-05 read call edge, same-instance/same-revision pass-through, or read authorization composition. This is bounded to the inspected tree.
 - Detailed evidence/disposition: [P0-07 audit/privacy/governance crosswalk §20](p0-07-audit-privacy-governance-crosswalk-2026-10-12.md). No API or adapter invented; protected contract/header unchanged.
 - Statuses unchanged: canonical read NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN. Documentary-only; no tests or runtime/production actions.
+
+
+## P0-05 D6 — exact acceptance provenance and current PR boundary (2026-10-13)
+
+**Purpose:** re-check the existing owner direction for D6 (inspect exact acceptance evidence first; if the exact normative contract text is not proven accepted, route a controlled governance resolution). This is documentary source tracing only.
+
+### Live evidence re-fetched
+- Historical implementation commit: `303a766257b90c4356dcffc8967a5574e8e22e7a`, title `fix(security): bound consumer payload copy before authority`. Its commit diff changes only `runtime/mediahub_runtime/consumer_boundary.py`; it does not modify the P0-05 contract or acceptance record.
+- Exact implementation commit tree: `82da63f03da20049954fe69257342cbf66b58395`. It contains `docs/architecture/P0-05-consumer-contract.md` blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` with header `DRAFT — GOVERNANCE REVIEW REQUIRED`, and `docs/architecture/P0-05-governance-acceptance.md` blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242` whose target names both the boundary/consumer contract and controlled implementation but whose disposition says P0-05 is accepted at the reviewed **implementation state**.
+- Acceptance record claims execution evidence on exact implementation commit: targeted tests 10/10, full regression 136/136, capability/persistence scans PASS, exact HEAD and clean/synchronized tree. This trace records those as claims in the historical acceptance artifact; no tests were run in this pass.
+- GitHub associates commit `303a766…` with PR #44, which is still **OPEN / DRAFT / NOT MERGED**, base `recovery/full-functional-spec`, head `implementation/p0-05-consumer-boundary`. PR description says it is an earlier implementation candidate opened for forensic/reconciliation review, must not be merged as-is before dependency/API compatibility, current-SHA verification and independent security review, and that qualification is OPEN / production NO-GO. A later PR comment states the stream is **SUPERSEDED for MH-05 architecture qualification** and directs qualification to Issue #122 / exact target SHA `29601c2618566ff4a18e47384bebc5c37ff24c85`.
+- PR #44 changed 32 files, including adding both the DRAFT contract and the acceptance record; the contract blob in its base implementation tree matches the DRAFT blob above. The PR has no submitted review records in the inspected reviews endpoint.
+
+### D6 disposition
+- Evidence supports that an acceptance record exists and describes the P0-05 implementation as accepted/frozen at a historical commit. It does **not unambiguously establish that the exact normative contract text itself was separately accepted/frozen**: the contract header remains DRAFT; the acceptance record's scope wording is mixed; the associated implementation PR remains draft/unmerged and is explicitly superseded for current MH-05 qualification.
+- Do not erase or reinterpret the historical acceptance record. Do not treat it as current qualification or production authorization. D6 remains **OPEN / GOVERNANCE CONFIRMATION REQUIRED** under the existing owner direction; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. No protected contract/header was edited and no new decision ID was created.
+- Next bounded action: route the exact evidence set above through the existing owner/governance decision interface to choose whether the normative contract was accepted or needs controlled revision. Keep that decision separate from the superseded implementation stream and current qualification target.
+
+No tests, qualification, workflow dispatch, implementation, credentials, provider/model calls, host/runtime inspection, infrastructure change, deployment, migration, merge, rebase or cherry-pick were performed.
