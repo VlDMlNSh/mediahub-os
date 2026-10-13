@@ -1291,3 +1291,14 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - Documentary-only; no tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next: independent reviewer completes R-01…R-06 against these exact sources and the existing proposal; owner/governance decisions remain a separate gate.
 
+
+
+## Latest /next result — P0-07 D3/D4 operation and revision binding crosswalk (2026-10-13)
+
+- Live compare: documentation branch is DIVERGED from main, 703 ahead / 2 behind; main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase/cherry-pick.
+- Re-read bootstrap, map, current checkpoint, roadmap and D2 proposal. Bootstrap blob `49b4760b4adf4f1565fac0aa4697da000f1cf37b`; roadmap `6f0912ccb9af219eb0d58049351f667617575c33`; D2 proposal `5e0ce7ba9f6ab4aa31f939189d49c6635c2457f1`.
+- Crosswalk source blobs on main: authorization `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; ConsumerBoundary `98bf2da9cea85da2c82145b4baef417c20b9ae73`; in-memory state/version `0fbc71369d19e09944ba67a60ccb9df802f30a4b`; State Authority interface `a2115b81f52a63feb357e484bd982a6a32641d81`; MH-12 acceptance criteria `40f37f1600c4730e622480d57bd492fa67f9ca4b`; D7 crosswalk `8f6f616e7717e67c95626c54678c282411618c1c`.
+- Result: D3 immutable end-to-end P0-07 decision/resource/payload/revision binding NOT EVIDENCED; D4 governed operation-to-canonical-resource/key/state-shape mapping NOT EVIDENCED; D7 PARTIAL. Local stale-version checks do not prove upstream P0-07 decision binding.
+- Gate statuses unchanged: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Trace and map were updated as documentation only. No tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next bounded step: documentary crosswalk to MH-14 persistence, MH-16 lifecycle/migration and MH-22 qualification primary artifacts, without treating them as closing P0-07 governance gates.
