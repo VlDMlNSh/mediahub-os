@@ -215,3 +215,13 @@ Trace `docs/architecture/MH-17-device-configuration.md` and the P0-07 operation 
 **Bounded conclusion:** no compliant existing D1 caller/context composition or D2 trusted P0-04 context issuer/lifecycle was demonstrated in the inspected current-main modules. Existing authorization primitives and mobile/task context envelopes are distinct and must not be conflated. D1 remains `NOT DEMONSTRATED`; D2 remains `NOT EVIDENCED`. The next allowed step is governed design/review using the existing D2 proposal; do not select an issuer, API, schema, identity technology, or implementation shape here. Independent review and explicit owner acceptance remain separate gates.
 
 No tests, qualification, code changes, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+
+
+## Follow-up — separation of owner lifecycle decision from P0-07 security gate (2026-10-13)
+
+- Re-read owner decision packet blob `f0cd4088a8e84afc2499bf1ac7c206e66bff38df` and placement/decision register blob `59107fd6d7b8a73d671098adcf2824c310642907` from `docs/mediahub-chat-tree-map-20261012`.
+- Existing `DEC-DEV-02` is the Jarvis/ASTRA cross-system engineering lifecycle ownership conflict; the packet explicitly says it is an owner decision and separately directs continued P0-07→P0-05 context/authorization bridge documentary work. It is not a disposition of P0-07 D2 review items R-01…R-06 and must not be counted as closing D1/D2/D4 or MH-12/MH-13 security gates.
+- The packet recommendation (A0 retains ASTRA-internal workflow state; cross-system lifecycle ownership waits for reconciliation and a typed contract) remains a recommendation, not an accepted owner decision. No DEC-DEV identifier or status changed.
+- **Gate separation:** independent security/architecture review for P0-07 D2 remains NOT EVIDENCED; owner/governance disposition for P0-05 normative status and D1/D2 contract remains OPEN. DEC-DEV-02 remains OPEN_CONFLICT, with no implication that one gate supersedes the other. Existing project boundary that ASTRA engineering workflow state is not MediaHub Product State Authority remains intact.
+- Next: keep the D2 review artifact request separate from the DEC-DEV-02 lifecycle ownership question. Resolve each through its own evidence and explicit governance decision; no implementation/API/issuer choice follows from this crosswalk.
+- Documentary cross-reference only; no tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
