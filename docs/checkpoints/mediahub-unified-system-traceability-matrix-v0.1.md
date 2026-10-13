@@ -1623,3 +1623,16 @@ No tests, host/runtime inspection, credentials, installation, infrastructure cha
 - P0-07 mutation/publication: BLOCKED — GOVERNANCE/API GAP. P0-05 v1.1: NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN. Project qualification remains NO-GO / NOT PROVEN.
 - Finding is bounded to cited complete trees/refs; it does not assert universal absence from all history. No tests, workflows, implementation or qualification were performed.
 - Next: route existing D1/D2/D6 questions through owner/governance unless an accepted source closes them. Do not invent an issuer, bridge or owner decision.
+
+
+## Section 63 — P0-07 D4 operation-to-canonical-state mapping (2026-10-13)
+
+| Requirement / operation family | Source evidence | Verified contract meaning | Status / evidence gap |
+|---|---|---|---|
+| P0-07 read | `P0-07-read-validate-boundary.md` blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`; operation boundary `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` | Observation only; supplied immutable domain object only until an authoritative configuration/policy source is defined. | No canonical resource/key mapping; NOT EVIDENCED. |
+| P0-07 validate | Same read/validate boundary; `configuration_policy_operations.py` | Deterministic bounded validation and policy decision; no state publication. | No state transition. |
+| P0-07 propose | Mutation reconciliation blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063` | Inert proposal; no executable action or publication. | No commit mapping. |
+| Configuration/policy update, replace, reset, delete | Authorization reconciliation blob `04381ce6e223b8632ec15d17e475b56fe1ab8772`; adapter contract blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88` | P0-07 domain authorization/policy ALLOW is necessary but not sufficient; P0-04 transaction authorization remains independent and P0-05 is the only consumer boundary. | Resource-to-canonical-key mapping and call/publication edge NOT EVIDENCED; mutation BLOCKED. |
+| Canonical authority / revision | P0-05 ConsumerBoundary `98bf2da9cea85da2c82145b4baef417c20b9ae73`; P0-04 authorization `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; StateAuthority `a2115b81f52a63feb357e484bd982a6a32641d81`; in-memory implementation `0fbc71369d19e09944ba67a60ccb9df802f30a4b` | P0-04 enforces transaction authorization, generation and canonical state-version freshness; P0-05 forwards through the injected authority. | No accepted composition root tying P0-07, P0-05, MH-04 and the same authority/revision is evidenced. |
+
+**Disposition:** D4 source crosswalk completed at operation-family level only. It does not establish implementation, acceptance, qualification, release, or deployment. D1 existing-context reuse remains NOT DEMONSTRATED; D2 issuer/lifecycle remains NOT EVIDENCED; D6 remains OPEN / GOVERNANCE CONFIRMATION REQUIRED. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP.
