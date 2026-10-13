@@ -1105,3 +1105,15 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - DEC-DEV-08: Contour A deployment and independent acceptance gate is binding; evidence remains outstanding.
 - Owner packet Section 6.5 now holds the minimal decision prompt and recommendation. No primary ASTRA source was changed, and no tests, qualification, implementation, provider/model calls, host/runtime inspection or deployment were performed.
 - **Next:** continue the independent P0-07 → P0-05 D1/D2 trust/context source investigation from current live refs, or answer the DEC-DEV-02 owner question when ready. Keep the mutation/publication gate closed.
+
+
+### D1/D2 trusted-context source audit and design-only handoff (2026-10-13)
+
+- Live `main` HEAD at audit: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Detailed source/ref/blob inventory and minimum design questions: [P0-05 contract revision proposal §10](p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md#10-d1d2-source-bound-context-audit-and-minimum-design-questions-2026-10-13); crosswalk §19; unified matrix §65.
+- D1 existing compliant caller/context composition: **NOT DEMONSTRATED** in inspected source. P0-04 consumes a `principal/capability` context and P0-05 forwards it to State Authority, but no authenticated P0-07 caller path into P0-05 was evidenced.
+- D2 trusted P0-04 context source/lifecycle: **NOT EVIDENCED**. MH-06/MH-12 define requirements; no accepted concrete issuer/provisioner or expiry/revocation/freshness authority was identified in inspected `main` tree.
+- The ASTRA developer envelope is transport-neutral and unauthenticated; ASTRA prompt context is advisory/untrusted. Neither may be treated as P0-04 authority.
+- The existing proposal was extended with design-only questions for authority/issuer, principal binding, dual authorization, freshness/revocation/replay, trust boundary/provenance, payload/revision binding, audit/privacy and fail-closed behavior. No technology/schema/API selected.
+- **Gate unchanged:** P0-07 mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification **NO-GO / NOT PROVEN**.
+- No implementation, tests, qualification, credential use, provider/model invocation, host/runtime inspection or deployment performed.
