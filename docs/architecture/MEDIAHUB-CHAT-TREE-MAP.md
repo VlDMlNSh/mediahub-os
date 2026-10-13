@@ -4754,3 +4754,11 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - astra_service.py blob 6aa2d09fc8737ccc0ba7f05bd13a15a0ebde7129 constructs the gateway and remains inert until an application/API boundary submits Task Contracts. coordination_service.py is an in-process coordinator, not a network transport. Complete current-main tree filename inspection (721 files, not truncated) found no HTTP/ASGI/WSGI/websocket/application API entry point. GitHub task transport is a separate engineering-delivery path.
 - Scoped conclusion: local file ingress exists; an application/network API boundary and trusted principal/context injection remain NOT EVIDENCED in the inspected current-main tree. No repository-wide/external absence claim. No runtime execution/tests and no gate closure.
 - P0-07 statuses unchanged: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; mutation/publication BLOCKED — GOVERNANCE/API GAP; qualification NO-GO / NOT PROVEN.
+
+
+## 20.190 Current-main D5 audit/provenance runtime boundary (2026-10-14)
+
+- Source trace: [canonical-read trace, D5 audit/provenance runtime boundary](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md).
+- Current-main `diagnostics.py` blob `8d5da6b778cc2f2bf338dd7577a74724494def9a` builds an in-memory diagnostic event and applies fixed-key top-level redaction; it does not provide persistence, reader authorization, retention or audit integrity. Generic `event.schema.json` blob `e754241ddc547e50670402b2255d4c19a3df7c40` is not a P0-07 audit contract.
+- MH-12 Audit blob `ab6e1c652790fd9088ac26b595050774611da2fc` requires distinct security audit plus integrity, access control, privacy-aware retention, bounded storage and controlled export. MH-06 remains PROPOSED; MH-13 remains reconstructed/proposed and not frozen.
+- D5 remains NOT EVIDENCED for an accepted P0-07 audit/provenance contract, durable sink, authorized-reader path, retention/deletion owner, integrity controls and operation-specific audit-unavailable behavior. No audit schema or sink was invented; P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP. No tests or runtime execution.
