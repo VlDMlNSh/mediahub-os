@@ -104,3 +104,36 @@ The governance acceptance record `docs/architecture/P0-05-governance-acceptance.
 - Qualification authorization: **NOT REQUESTED BY THIS SHEET**
 
 Do not treat an unfilled row, an investigation direction (including C→A or C→B), or an informal acknowledgement as an accepted contract decision. Any selected disposition must be recorded by the authorized owner/reviewer and then reconciled into the owner decision register, matrix, map and checkpoint with exact source refs. Until then the proposal remains **NOT ACCEPTED / NOT FROZEN**, and P0-07 mutation publication remains **BLOCKED — GOVERNANCE/API GAP**.
+
+
+## 9. D6 decision analysis — exact scope of P0-05 governance acceptance (2026-10-13)
+
+**Status:** owner/governance decision support only. This section records no decision and changes no protected contract, acceptance record, implementation or status.
+
+### Evidence compared
+
+1. Exact accepted implementation commit: `303a766257b90c4356dcffc8967a5574e8e22e7a`; exact tree: `82da63f03da20049954fe69257342cbf66b58395`.
+2. Normative contract in that tree: `docs/architecture/P0-05-consumer-contract.md`, blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`, header `DRAFT — GOVERNANCE REVIEW REQUIRED`.
+3. Governance acceptance record: `docs/architecture/P0-05-governance-acceptance.md`, blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242`, says `ACCEPTED / FROZEN` and explicitly scopes the accepted state to the reviewed implementation commit. Its decision target names the Integration Boundary & Consumer Contract and controlled implementation, but its disposition does not separately identify the contract blob as an accepted/frozen normative artifact.
+4. Governance decision packet: `docs/architecture/P0-05-governance-decision-packet.md`, blob `1253944ffeefcb59502d9f7deb13d38baed1d6e1`, records authorization to implement within the defined scope; it distinguishes implementation authorization, implementation acceptance, security exit and production qualification.
+5. The current v1.1 candidate remains non-normative and explicitly instructs that the discrepancy must be decided before adoption. No later accepted D6 disposition was found in the inspected documentation-branch tree.
+
+### Options, consequences and recommendation
+
+| Option | Required finding | Consequence | Risk |
+|---|---|---|---|
+| **A — contract text was accepted; header is stale** | Authorized governance confirms the exact contract blob `bba8dd3e...` was part of the normative acceptance, not merely present in the implementation package. | A separately authorized, controlled status/header correction may be prepared against an exact reviewed revision; acceptance record remains immutable. | Incorrect if the acceptance was implementation-only; could silently promote draft wording. |
+| **B — implementation only was accepted** | Authorized governance confirms acceptance applies to commit `303a766...` and does not separately accept the contract text. | Keep the existing implementation acceptance intact; route the normative text through controlled review, explicit acceptance/freeze and exact blob/commit recording before any v1.1 adoption. | Requires an additional governance cycle; avoids conflating implementation evidence with normative-text acceptance. |
+| **C — defer pending more evidence** | Governance cannot determine A or B from the present record. | Preserve the discrepancy and all current blocked statuses; request a dated clarification or source record. | Keeps the bridge blocked until resolved. |
+
+**Recommendation:** choose **C for the current evidence state**. The available records establish implementation acceptance and show the contract's DRAFT header, but do not unambiguously state whether the exact contract text was separately accepted as normative/frozen. If the owner requires a provisional working assumption while gathering evidence, use B as the conservative non-promotional assumption—not as a governance decision. Do not edit the header, acceptance record or candidate status without the authorized disposition.
+
+### Required decision record
+
+- Product-owner disposition (A/B/C) and date: **PENDING**
+- Governance reviewer and exact supporting evidence: **PENDING**
+- Exact normative artifact path + blob SHA + commit SHA, if A or later controlled acceptance: **PENDING**
+- Authorized correction/review scope, if any: **PENDING**
+- Separate implementation authorization and qualification remain distinct gates.
+
+Until a valid decision is recorded, D6 remains **OPEN / GOVERNANCE AMBIGUITY**; P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification remains **NO-GO / NOT PROVEN**.
