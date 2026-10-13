@@ -1636,3 +1636,43 @@ No tests, host/runtime inspection, credentials, installation, infrastructure cha
 | Canonical authority / revision | P0-05 ConsumerBoundary `98bf2da9cea85da2c82145b4baef417c20b9ae73`; P0-04 authorization `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; StateAuthority `a2115b81f52a63feb357e484bd982a6a32641d81`; in-memory implementation `0fbc71369d19e09944ba67a60ccb9df802f30a4b` | P0-04 enforces transaction authorization, generation and canonical state-version freshness; P0-05 forwards through the injected authority. | No accepted composition root tying P0-07, P0-05, MH-04 and the same authority/revision is evidenced. |
 
 **Disposition:** D4 source crosswalk completed at operation-family level only. It does not establish implementation, acceptance, qualification, release, or deployment. D1 existing-context reuse remains NOT DEMONSTRATED; D2 issuer/lifecycle remains NOT EVIDENCED; D6 remains OPEN / GOVERNANCE CONFIRMATION REQUIRED. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP.
+
+
+## Section 64 — DEC-DEV-01…08 live-source crosswalk validation (2026-10-13)
+
+**Status:** documentary validation against live GitHub refs; this matrix remains PROPOSED / NOT ACCEPTED / NOT FROZEN. No owner choice, implementation, qualification or deployment is inferred.
+
+### Live primary-source anchors re-read
+
+| Source | Ref | Blob SHA | Clause-level finding |
+|---|---|---|---|
+| Distributed AI Infrastructure | `main`, `architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md` | `e549692f207fbc91d9b9b9b92b8e665404f07290` | §§1–2 identify Alamo as local inference endpoint, require local-only fail-closed/no silent cloud fallback, separate Pool A owned compute from Pool B untrusted contributor compute, and state mobile mesh is connectivity—not privilege. Runtime/model/protocol remain deployment facts. |
+| Canonical Component Manifest 2.0 | `main`, `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` | `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` | §4 lists ONNX Runtime and llama.cpp as target-gated candidates; §8 requires evidence-backed qualification before production admission. It does not select either as Alamo's runtime. |
+| MH-15 appliance architecture / acceptance / unknowns | `main` | `f817925c69ce4484713f952e47aacad283af8eeb` / `082642e67dc66cb359a5566773c143854cafaa00` / `d305c0984e2cfee801b3c8ceafdb3e2cf8ad987d` | Exact legacy hardware/OS/security/resource facts remain unknown; acceptance/freeze and implementation authorization are absent. No workload admission by model year or reported RAM. |
+| MH-21 distributed-AI architecture / acceptance | `main` | `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c` / `582f898fe4be332b6a7fef3e8cca2e27c7328ac2` | External compute/provider routes require explicit data classification, trust, egress, retention, routing, failure and qualification evidence. MH-21 acceptance remains unmet. |
+| MH-12 security architecture / invariants | `main` | `cf4ebfd5bf471ca676f075c51d3a24906504e490` / `0609be9c3420070434014dad4529e4ccd46b0996` | §7 and identity/capability rules distinguish reachability, identity, authentication and authorization; privileges must be scoped, auditable and fail-closed. Invariants are proposed/governance-level, not runtime evidence. |
+| ASTRA canonical design / component scheme / governance | `main` | `e2067dc41b52983fc4e0b2549fb6af3c099cbc60` / `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1` / `1d3ac25e7817f365807ad85d0d7c9007bd48bebf` | ASTRA design describes A0 as ASTRA engineering queue/claim/lease/evidence controller, but the component scheme's “MediaHub State Authority” phrase conflicts with product authority boundaries. |
+| Integrated architecture contract | `docs/mediahub-chat-tree-map-20261012` | `c248956417cc61d66c968a4c58a56e799f653354` | ARC-003 restricts A0 to ASTRA-internal workflow state; ARC-017 makes Jarvis the umbrella and ASTRA bounded; ARC-018 requires one lifecycle owner before implementation. |
+| ASTRA current truth | `main` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | `NOT_PROVEN / BLOCKED`; G0–G11 blocked. Design status is not implementation or qualification. |
+| Bootstrap / Master Roadmap | docs branch | Bootstrap `49b4760b4adf4f1565fac0aa4697da000f1cf37b`; Roadmap `a65de988736b21abfe95d72c1a3cc4947c832c71` | Contour A deployment and independent acceptance are prerequisites for Contour B; not a discretionary question. |
+
+### Decision-by-decision validation
+
+| ID | Validated disposition | Evidence / next dependency |
+|---|---|---|
+| DEC-DEV-01 | Endpoint sub-question answered; runtime composition remains OPEN / TARGET-GATED. | Infra §1; Manifest §4; proposed Unified Contract §4.1 (blob `1057776ca9192b307a4e6de72db5d12cdbcc1a39`). Do not ask whether Alamo is an endpoint again; decide composition only after source/compatibility review. |
+| DEC-DEV-02 | OPEN_CONFLICT; the only immediate owner/governance question in this crosswalk. | ASTRA source conflict plus ARC-003/017/018. Need a governed choice A/B/C for lifecycle ownership and an explicit clarification that A0's authority is ASTRA engineering workflow only, not MediaHub Product State Authority. Current Truth remains blocked. |
+| DEC-DEV-03 | OPEN / DEFERRED. | No accepted evidence identifies whether the future production Mac Pro is the same physical asset. Keep logical identities separate; revisit when a concrete asset/role-transition plan exists. |
+| DEC-DEV-04 | EVIDENCE-GATED / DEFERRED. | MH-15 profile, hardware/OS support, security lifecycle, capacity, thermal and recovery evidence precede workload choice. No host inspection was performed. |
+| DEC-DEV-05 | Fail-closed/no-silent-fallback invariant established; routing policy OPEN. | Infra §§1, 4, 6–8 and MH-21. Ask later only about irreducible provider/data-class choices after route inventory; do not ask whether silent fallback is allowed. |
+| DEC-DEV-06 | Reachability is not authorization; mobile API/identity contract OPEN. | Infra §6; MH-12 §§7, 13–14. Device identity, scopes, revocation and audit require an operation inventory before owner choice. |
+| DEC-DEV-07 | Workload/profile-first recommendation; hardware choice DEFERRED. | Infra §§2, 5–8 and Manifest §8. Quantify workload, privacy, capacity, performance, isolation and recovery before selecting hardware. |
+| DEC-DEV-08 | Binding Contour A → Contour B gate; not an owner-choice question. | Bootstrap + Roadmap Phase 10. Deployment, independent qualification and explicit acceptance evidence remain outstanding. |
+
+### Minimal owner questionnaire
+
+Only DEC-DEV-02 is ripe for an immediate owner/governance choice. The exact question is retained in owner packet §6.5: choose A (Jarvis lifecycle owner, ASTRA adapter), B (ASTRA owns a bounded lifecycle explicitly delegated by Jarvis), or C (strictly disjoint lifecycle domains); separately clarify whether the Component Scheme phrase “MediaHub State Authority” was intended to grant A0 any MediaHub product-state authority. Recommendation: preserve A0 as ASTRA-engineering-only and do not begin implementation until the typed lifecycle/delegation contract and source conflict are governed. This recommendation is not an owner decision.
+
+DEC-DEV-01 remains deferred until documentary compatibility narrows options; DEC-DEV-03/04/07 remain evidence-gated; DEC-DEV-05/06 require a later operation/data-route inventory; DEC-DEV-08 is a binding gate and must not be asked as an optional choice.
+
+**Disposition unchanged:** no installation, host/runtime inspection, tests, qualification, provider/model calls, credential use, infrastructure changes or deployment. No primary ASTRA source was edited.
