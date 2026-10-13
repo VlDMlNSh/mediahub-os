@@ -4615,3 +4615,11 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - MH-12 identity/authentication/authorization/trust documents define lifecycle, binding, revocation and boundary requirements, but are requirements rather than implementation evidence. MH-13 governance state remains accepted reconstruction, not frozen; production implementation unauthorized and CI/build qualification not verified.
 - **Disposition:** no compliant existing D1 context composition or D2 trusted issuer/lifecycle demonstrated in the inspected current-main modules. D1 `NOT DEMONSTRATED`; D2 `NOT EVIDENCED`; P0-07 → P0-05 bridge remains `NOT EVIDENCED`; mutation/publication remains `BLOCKED — GOVERNANCE/API GAP`; qualification remains `NO-GO / NOT PROVEN`. This is bounded to inspected files/ref and does not assert repository-wide absence.
 - **Next:** continue only through governed proposal/review and owner/governance decisions. Reuse the existing D2 proposal; do not invent or select an issuer/API/schema or implement a bridge. No tests, qualification, implementation or protected-contract edits.
+
+
+## 20.175 Separation of DEC-DEV-02 from P0-07 security gates (2026-10-13)
+
+- Canonical-read trace addendum: [owner lifecycle decision vs P0-07 security gate](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md).
+- `DEC-DEV-02` concerns Jarvis/ASTRA cross-system engineering lifecycle ownership and remains `OPEN_CONFLICT`. It is not a review disposition for P0-07 D2 items R-01…R-06 and does not close D1/D2/D4 or MH-12/MH-13 security gates.
+- Owner packet's A0/internal-state recommendation remains a recommendation, not an accepted decision. Keep the product-state boundary intact; do not silently edit ASTRA primary sources or infer runtime readiness.
+- Independent P0-07 D2 review remains NOT EVIDENCED; P0-05 normative-status and D1/D2 contract governance remains OPEN; DEC-DEV-02 remains separately OPEN_CONFLICT. Each needs its own evidence and explicit disposition.
