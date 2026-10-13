@@ -376,3 +376,15 @@ R-05 should be framed precisely: preserve MH-13's limited status as an accepted 
 - The current proposal worksheet in P0-07 D2 proposal §13 remains the known durable intake point; it is blank in the live documentation-branch copy at blob 5e0ce7ba9f6ab4aa31f939189d49c6635c2457f1.
 - No further duplicate worksheet or parallel review document was created. Next useful step requires an actual qualified independent reviewer to populate evidence-backed R-01…R-06 dispositions against exact source versions; owner/governance acceptance remains separate.
 - No tests, qualification, implementation, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+
+
+## Follow-up pass — P0-07 D2 independent-review handoff anchors (2026-10-13)
+
+- Refreshed live refs before the pass: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch `docs/mediahub-chat-tree-map-20261012`; compare status `DIVERGED`, docs branch ahead 721 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Re-read bootstrap blob `49b4760b4adf4f1565fac0aa4697da000f1cf37b`, map blob `7fee4e9b1a0a20d3c799a919ef53a47701094051`, current checkpoint blob `958515017889fdb9f4f501bf36acb9df6a6417c4`, roadmap blob `6f0912ccb9af219eb0d58049351f667617575c33`, and existing P0-07 D2 proposal blob `5e0ce7ba9f6ab4aa31f939189d49c6635c2457f1`.
+- Added a reviewer handoff to the existing proposal §13.1, not a duplicate review artifact. It maps R-01…R-06 to current-main MH-12/MH-13 source anchors, states what each source can and cannot establish, and retains the blank §13 as the place for a real reviewer’s dispositions.
+- Re-fetched four MH-13 current-main sources. Confirmed blobs: privacy `e732ff9cacbc9c1189bd83306cdff30906326cf0`; acceptance record `6ecdc89440664563f36263bb8da80d1ad24f19a7`; governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`; architecture reference `1b71d9ea4d4e0924f2814edee0a982f593d71847`. The acceptance record SHA in the prior proposal section matches the live fetch.
+- The live main tree filename check did not find a matching MH-12 control-point path for the earlier shorthand; the handoff forbids citing a guessed filename and requires an exact verified source or an unresolved disposition.
+- No independent review was performed. P0-07 D2 remains `NOT EVIDENCED`; D1 `NOT DEMONSTRATED`; D3/D4 `NOT EVIDENCED`; D6 `OPEN / GOVERNANCE CONFIRMATION REQUIRED`; mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
+- Scope: documentary GitHub reads and documentation only. No tests, qualification, workflows, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+- Next: a qualified independent reviewer must fill §13 against refreshed exact source SHAs; afterward, route owner/governance decisions separately.
