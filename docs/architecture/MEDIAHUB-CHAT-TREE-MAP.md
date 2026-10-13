@@ -4257,3 +4257,20 @@ Current checkpoint was also re-fetched and the new pass record was confirmed; it
 - **Live primary anchors:** ASTRA unified system `main` SHA `e2067dc41b52983fc4e0b2549fb6af3c099cbc60`; ASTRA complete component scheme `main` SHA `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1`; ASTRA governance contract `main` SHA `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`; current truth `main` SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`; Verifiable Architecture Contract ARC-003/017/018 `docs/mediahub-chat-tree-map-20261012` SHA `c248956417cc61d66c968a4c58a56e799f653354`; Jarvis independent review SHA `022f1bd881906d4ab837b2f46c091c43546fce14`.
 - **Status:** DEC-DEV-02 remains OPEN_CONFLICT. ASTRA Current Truth remains NOT_PROVEN / BLOCKED, G0–G11 blocked. No primary ASTRA source was changed.
 - **Next roadmap handoff:** continue P0-07 → P0-05 trust/context/authorization bridge using the canonical-read trace and existing owner-recorded D1/D2/D4 investigation directions. Keep P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP until explicit governance acceptance and separate implementation authorization.
+
+
+## 20.146 Post-write provenance ledger — DEC-DEV triage and ASTRA/Jarvis conflict (2026-10-13)
+
+Changed artifacts below were fetched from the live documentation ref after writing and their expected markers were checked. SHA values are read-time blob identities, not permanent aliases.
+
+| Artifact | Blob SHA at read-back |
+|---|---|
+| Bootstrap instruction | `49b4760b4adf4f1565fac0aa4697da000f1cf37b` |
+| Master Development Roadmap 1.0 | `a65de988736b21abfe95d72c1a3cc4947c832c71` |
+| Node/service placement matrix | `59107fd6d7b8a73d671098adcf2824c310642907` |
+| Owner decision packet 01 | `f941d67c3d0b37b8abb1a96da02f51a494f9f2bf` |
+| Unified traceability matrix v0.1 | `f2b7ef1811a25b5abad2e00d177c3edd8ca7fa23` |
+| Working Passport v3 | `37d38c67992ceca67f9eae0c62a4a0efb22c86a9` |
+| Supporting developer-fabric plan | `fb9fd947666376a674f6dcc8bfaf989fc3333351` |
+
+The current checkpoint was also fetched and its new addendum was confirmed; the final SHA of the checkpoint after its provenance table update is recorded by the next read-back. This pass did not edit primary ASTRA or P0-05 contract files.
