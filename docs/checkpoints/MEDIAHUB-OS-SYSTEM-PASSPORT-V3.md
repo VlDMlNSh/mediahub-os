@@ -454,3 +454,14 @@ Contour B product implementation remains gated until Contour A is deployed and i
 **Minimal owner question:** DEC-DEV-02 only is ripe now: select A (Jarvis lifecycle owner / ASTRA adapter), B (ASTRA bounded lifecycle delegated by Jarvis), or C (strictly disjoint lifecycle domains), and clarify the conflicting “MediaHub State Authority” wording. Preserve the invariant that ASTRA cannot own MediaHub Product State Authority. Other decisions remain deferred until their evidence prerequisites are met. See unified matrix §64 and owner packet §6.5.
 
 No implementation, testing, qualification, installation, host/runtime inspection or deployment is claimed.
+
+## 20. P0-07 D3 — request/context/resource/revision binding (2026-10-13)
+
+**Status:** READ-ONLY SOURCE CROSSWALK / NOT EVIDENCED END-TO-END / NOT ACCEPTED.
+
+- Detailed source crosswalk: [Unified System Traceability Matrix v0.1, Section 67](mediahub-unified-system-traceability-matrix-v0.1.md), blob `0fa61006e5f8216f4858f323d7cd8e41053c3c6f`.
+- MH-06 execution context `main` blob `35647b282352f56d57f1bd476bff1503571c5650`; MH-12 identity/authentication/authorization blobs `27eef9e23db02d6280b94a8e68bff9f73b0de88d` / `a29c6a3cff0ee175a0c868214ffa2b455010002f` / `c48641861691714017aa5b1f99fe8eee8ea0e76a`.
+- P0-04 AuthorizationContext/policy `main` blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; P0-05 ConsumerBoundary `main` blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`; P0-07 operation and capability boundaries on `architecture/mh-7-configuration-policy` blobs `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` / `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`.
+- **Finding:** P0-04's local commit path checks current-version freshness and generation compatibility, and P0-07 has bounded typed requests and explicit capability grants. The inspected sources do not demonstrate an authenticated caller binding, trusted context issuance/revocation/replay lifecycle, authorized read composition, or an end-to-end binding of the P0-07 decision/resource/payload to the same P0-04 canonical revision through P0-05.
+- **Disposition:** D3 remains NOT EVIDENCED / DEPENDENT ON D1/D2. Do not translate P0-07 ALLOW into P0-04 transaction authority. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN.
+- No implementation, tests, runtime qualification, provider/model calls, credentials, host inspection, deployment or merge performed.
