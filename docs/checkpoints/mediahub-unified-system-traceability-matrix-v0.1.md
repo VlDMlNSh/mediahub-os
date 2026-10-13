@@ -1378,3 +1378,36 @@ No owner disposition has been inferred from the response template. Owner investi
 - External provider routes remain data-class, authorization, egress, retention and audit gated; local-only mode must fail closed.
 - Legacy Mac mini and future GPU server placements remain conditional on hardware/OS/workload evidence.
 - No owner decision, implementation, test, qualification, deployment or acceptance is inferred by this crosswalk.
+
+
+## Section 58 — DEC-DEV source triage and question minimization (2026-10-13)
+
+**Status:** source crosswalk; this working matrix remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
+
+### Source anchors revalidated
+
+| Source | Ref | Blob SHA | Exact source-backed boundary |
+|---|---|---|---|
+| Distributed AI Infrastructure | `main` | `e549692f207fbc91d9b9b9b92b8e665404f07290` | Header: accepted target architecture, not runtime-qualified. §1 item 5 calls Alamo a local inference endpoint and leaves runtime/protocol/model/endpoint as deployment facts to discover. |
+| Canonical Component Manifest 2.0 | `main` | `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` | §4 lists ONNX Runtime and llama.cpp as target-gated AI candidates; this does not select either as Alamo runtime. |
+| MH-15 architecture / criteria | `main` | `f817925c69ce4484713f952e47aacad283af8eeb` / `082642e67dc66cb359a5566773c143854cafaa00` | MH-15 acceptance/freeze and implementation authorization absent; hardware/OS evidence is a gate. |
+| MH-12 Security Architecture / Invariants | `main` | `cf4ebfd5bf471ca676f075c51d3a24906504e490` / `0609be9c3420070434014dad4529e4ccd46b0996` | §7 states network/LAN/VPN reachability does not establish unrestricted trust; invariants distinguish authentication, identity, authorization and State Authority. The invariant document itself is PROPOSED → READY FOR GOVERNANCE REVIEW. |
+| MH-21 architecture / acceptance criteria | `main` | `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c` / `582f898fe4be332b6a7fef3e8cca2e27c7328ac2` | MH-21 is not accepted/frozen/production-ready; external compute remains subordinate to State Authority, placement is policy-driven and egress/provider/security evidence is required. |
+| Binding project Bootstrap and Roadmap Phase 10 | `docs/mediahub-chat-tree-map-20261012` | Bootstrap SHA to refresh live; Roadmap SHA `67dbdc60140479afd3e993273814ab6c21c5cc4d` | Contour B must not begin before Contour A deployment and independent acceptance are evidenced. This is not an open option to bypass. |
+
+### Decision triage
+
+| ID | Source-supported disposition | Remaining gap |
+|---|---|---|
+| DEC-DEV-01 | Alamo endpoint label answered by accepted target architecture. | Runtime/adapter/model/protocol composition and compatibility evidence remain open. |
+| DEC-DEV-02 | No single accepted lifecycle owner is established by the sources reviewed. | Reconcile exact Jarvis/ASTRA lifecycle contracts for queue, claim, lease, retry, cancellation, evidence promotion and recovery. |
+| DEC-DEV-03 | Not answerable from current sources. | Same-asset vs separate production Mac Pro decision; deferred until it blocks a concrete asset plan. |
+| DEC-DEV-04 | MH-15 gate prevents workload assignment by assumption. | Exact hardware/OS/support/security/resource evidence, then workload choice. |
+| DEC-DEV-05 | Fail-closed/no-silent-fallback invariant established; MH-21 remains unaccepted. | Approved provider/data-class/egress/retention policy and route-specific evidence. |
+| DEC-DEV-06 | Mesh/VPN reachability is not trust or authorization. | Developer Mobile identity, operation scope, revocation and audit contract. |
+| DEC-DEV-07 | Workload-envelope-first is the recommended evidence order; hardware remains unselected. | Quantified workload/privacy/performance/capacity/isolation/recovery envelope. |
+| DEC-DEV-08 | Contour A → Contour B gate established by binding project instruction and Roadmap Phase 10. | Gate evidence bundle, independent qualification and explicit acceptance remain outstanding; the gate itself is not a discretionary decision. |
+
+### Handoff
+
+The next primary-source pass is DEC-DEV-02 lifecycle reconciliation. Do not ask the owner to restate accepted invariants or decide before evidence prerequisites. Keep P0-07 → P0-05 as a parallel P0 governance/API gap under its own existing decision trail. No implementation or qualification status is inferred.
