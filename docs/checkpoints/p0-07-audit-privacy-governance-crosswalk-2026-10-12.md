@@ -343,3 +343,14 @@ Live `main` source anchors:
 **Design-only review questions:** authority/issuer ownership; authenticated principal-to-request/context binding; independent P0-07 and P0-04 decisions; expiry/revocation/replay source and fail-closed behavior; trust boundary and provenance; exact operation/resource/payload/revision binding; audit/privacy; deterministic negative-path semantics. No technology, schema, service, or API signature selected.
 
 **Disposition:** no implementation authorization. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
+
+
+## 19. D5 audit/provenance and privacy evidence crosswalk (2026-10-13)
+
+- P0-07 operation boundary blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` and P0-07 authorization blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3` establish bounded domain decisions, not a durable audit path.
+- P0-05 ConsumerBoundary blob `98bf2da9cea85da2c82145b4baef417c20b9ae73` bounds payload copying and sanitizes errors, but no durable audit sink/retention/reader-authorization contract is evidenced in that module.
+- P0-04 AuthorizationContext blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` carries principal/capability but does not establish issuer or provenance.
+- MH-13 privacy governance blob `e732ff9cacbc9c1189bd83306cdff30906326cf0` requires data minimization, defined retention/deletion, protected-payload exclusion from unauthorized audit/telemetry, and auditable evidence without unnecessary disclosure. MH-13 acceptance record blob `6ecdc89440664563f36263bb8da80d1ad24f19a7` does not grant persistence or mutation authority.
+- MH-21 privacy invariants `4475da53dc87ad1c2ad1c9f112a55211cbfa49eb` and retention `8dfe3b619be593c3ec57948e350671895827ae8b` remain PROPOSED and require provider-specific evidence.
+- **D5 finding:** privacy constraints are evidenced at governance level; an accepted P0-07 audit/provenance event contract, sink, retention owner and reader-authorization path are NOT EVIDENCED in inspected sources. Do not log raw credentials/context or protected payload by default. Do not infer a durable path from sanitized errors or correlation metadata.
+- Next design-only questions: event categories, minimal correlation/provenance, authorized readers, retention/deletion authority via MH-14, redaction, and fail-closed behavior if required audit is unavailable. No schema or implementation technology selected.
