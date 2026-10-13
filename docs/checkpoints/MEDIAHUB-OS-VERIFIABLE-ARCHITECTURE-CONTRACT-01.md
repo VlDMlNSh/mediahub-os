@@ -5,7 +5,7 @@
 - **Status:** WORKING INTEGRATION CONTRACT / DRAFT — NOT A NEW CANONICAL BASELINE
 - **Use:** operative review/checklist for documentation and architecture work on this branch, subject to the source precedence and gates below.
 - **Not a grant of authority:** does not replace Baseline 2.0, alter Baseline 1.0, approve pending domain contracts, authorize implementation/deployment, or imply qualification/production acceptance.
-- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `9a9260d543e474b7fc55f686c59b79a24c215296`.
+- **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `467aedfc655db966597f564f4bf3074185aca6e9`.
 - **Current working inventory:** 37 ARC requirements / 30 verification checks; full architecture acceptance remains OPEN.
 - **Rule of evidence:** claim → source path → ref → blob SHA → exact scope/status → acceptance/evidence required → independent read-back.
 
@@ -538,7 +538,7 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 
 - 2026-10-12 — added ARC-035 / V-28 for B1 §23 Media System and AT-16 after Batch 14 Review 01. Fourteen provisional labels are 13 MAPPED / 1 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT; mappings are category-level text correspondence only. External ecosystem projection and per-profile integration/rights/performance/qualification gates remain OPEN. Refreshed the active Passport pointer to `7a875e16243fa0bf5324c0a998661ea6cbafe60e`. Historical Semantic Audit Batch 04 B2 §16 pointer defect preserved; B1/B2/matrix/canonical backlog/main unchanged.
 
-- 2026-10-12 — added ARC-036 / V-29 for B1 §24 Document System and AT-17 after Batch 15 Review 01. Twelve provisional labels are 9 MAPPED / 2 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT; mapped rows represent general document functions and the generic OSS qualification gate only. Paid entitlement, structured-information semantics and PaddleOCR-specific adoption remain OPEN. Refreshed the active Passport pointer to `9a9260d543e474b7fc55f686c59b79a24c215296`. B1/B2, matrix, AT backlog, canonical backlog and main unchanged.
+- 2026-10-12 — added ARC-036 / V-29 for B1 §24 Document System and AT-17 after Batch 15 Review 01. Twelve provisional labels are 9 MAPPED / 2 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT; mapped rows represent general document functions and the generic OSS qualification gate only. Paid entitlement, structured-information semantics and PaddleOCR-specific adoption remain OPEN. Refreshed the active Passport pointer to `467aedfc655db966597f564f4bf3074185aca6e9`. B1/B2, matrix, AT backlog, canonical backlog and main unchanged.
 
 
 - 2026-10-13 — added ARC-037 / V-30 for B1 §25 Digital Twin / AT-18 after Batch 16 bounded review. Four provisional labels, 3/1/0/0. Full-edition correspondence is generic; exact Mac mini/Mini PC profile guarantee, entitlement lifecycle, complete artifact/workflow semantics and owner acceptance remain OPEN. Companion Passport P-30 linked; B1/B2, atomic/canonical backlog, matrix and main unchanged.
