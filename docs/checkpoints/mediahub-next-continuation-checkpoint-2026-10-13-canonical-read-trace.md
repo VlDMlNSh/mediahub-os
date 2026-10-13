@@ -46,3 +46,15 @@ Trace `docs/architecture/MH-17-device-configuration.md` and the P0-07 operation 
 - Map updated: Section 20.130, blob `7774fcd7ea9c868eb8e3b01227be208210208ab9`, commit `94466f8059e5ccad4f5dd5bcf1bc714a5040e1e3`.
 - Gates remain unchanged: canonical read NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification NO-GO / NOT PROVEN.
 - Next step: locate exact branch/commit/tree for the immutable P0-07 source blobs and inspect callers in that tree; compare to current main without merging. No tests, workflow runs, runtime/host inspection, code changes, deployment, merge or rebase.
+
+
+## Follow-up pass — P0-07 source lineage located (2026-10-13)
+
+- Located the immutable P0-07 source blobs on `architecture/mh-7-configuration-policy`, HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`; recursive tree is complete (171 entries).
+- Exact paths/blobs: `configuration_policy.py` `96ef9de2b6fac870b604d3dd9bea78f5accde67a`; `configuration_policy_authorization.py` `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`; `configuration_policy_operations.py` `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`; `P0-07-read-validate-boundary.md` `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`; `P0-07-p0-05-mutation-adapter-contract.md` `22b8e1897e124578e66c8d619b3e8eaf41f69a88`; `P0-07-mutation-authority-reconciliation.md` `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`.
+- `ConfigurationPolicyOperationBoundary.decide()` validates the request, checks P0-07 authorization/policy and returns a decision. The inspected module does not publish state, call `ConsumerBoundary.read`, or inject State Authority. Domain authorization does not identify a canonical read source or prove issuer provenance.
+- Compare `main` vs `architecture/mh-7-configuration-policy`: DIVERGED, 143 ahead / 1,668 behind, merge base `1364d027f6722cfccab088735ecd1b5d04781b0b`. No merge/cherry-pick. Test files exist on the branch but were not run.
+- Matrix Section 49 blob `3d5f45b3878b8beda2cfa4ce33e6212b07ce3ba3`, commit `44791455755a62b55d2e65225bd9c25e91ced96f`.
+- Map Section 20.131 blob `2ae143368117484b57ac6dec46c20f27b013fe06`, commit `fd668d905a66c83585be8f4ce85fbd204e1a4b4f`.
+- Status remains: source lineage LOCATED; P0-07→P0-05 read call edge NOT EVIDENCED; current-main reachability NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification NO-GO / NOT PROVEN.
+- Next: inspect documented integration/composition entry points and branch history for an existing approved bridge, then compare with current main without merging. No tests, workflows, code changes, deployment, merge or rebase.
