@@ -123,3 +123,15 @@ Trace `docs/architecture/MH-17-device-configuration.md` and the P0-07 operation 
 - Added Matrix Section 55 (blob `a1feb55b91f8e27d5203a4e45ecbed4011c25edd`) and Map Section 20.137 (current blob `3445f8c1f54bb0a14f0ac5f874bf2fa924f7744f`). Baseline 1.0 and Baseline 2.0 remain unchanged; atomic/canonical backlog unchanged. AT-18 remains OPEN—CONTRACT; no implementation or qualification gate closed.
 - No tests, installation, qualification, runtime/host inspection, infrastructure change, deployment, migration, merge or rebase.
 - Next: inspect B1 §26 Engineering System / AT-19 after fresh map and candidate-path inventory. Do not reuse provisional Batch 16 labels as stable child IDs or infer product/entitlement decisions.
+
+
+## Follow-up — MH-24 Batch 17 Engineering System / AT-19 (2026-10-13)
+
+- Re-read bootstrap, live map, latest continuation checkpoint, traceability matrix and owner decision record before following the map's next sequential route. Documentation branch `docs/mediahub-chat-tree-map-20261012` remains DIVERGED from `main`; at start of pass, `main` HEAD was `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, docs branch was 531 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Read B1 §26 on `main`, blob `9df4892ed0734050ac79732603d15bb414717310`, and canonical B2 §17 on `main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`. Read AT-19 backlog blob `ec2580f714e8f620bcf85ff7de2ae9242439e5e8` and owner-approved schema/status record blob `eb6fcbad3c8324ebbdf01f71305cb3d7d4b4c0bd`.
+- Created Batch 17 draft `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-17-ENGINEERING-SYSTEM-DRAFT.md`, initial commit `5e44bb9245bcbdfd8f62831347f36abdbf4bd656`, read-back blob `11ab80db83d761c142e037944c03f4821c342127`. Five provisional rows preserve the approved 12-field schema; no stable child IDs were minted.
+- Created Review 01 `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-17-ENGINEERING-SYSTEM-REVIEW-01.md`, commit `4421e8912b940f50e4f47825ba8bb3b103c4b04e`; final blob SHA and content read-back must be verified after updating map/matrix/checkpoint.
+- Bounded mapping: 2 MAPPED / 3 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT. MAPPED is only textual correspondence. Exact building/network/spatial models, technical documentation/inspection/analysis workflows and full OSS admission sequence remain open.
+- Added Matrix Section 56 and Map Section 20.138 to record the source-bound crosswalk; preserve AT-19 as OPEN—CONTRACT and AT-18 as OPEN—CONTRACT. B1, B2 and canonical backlog were not changed.
+- No tests, qualification, installation, runtime/host inspection, infrastructure change, deployment, migration, merge or rebase.
+- Next: follow the current map to the next sequential source after Batch 17; preserve all historical IDs, verify source paths and SHA before selecting the next bounded pass, and do not infer engineering product scope or accept a workflow without owner evidence.
