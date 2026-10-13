@@ -1050,3 +1050,16 @@ The proposal, matrix, passport and map all contain the expected new sections. Th
 3. Continue independent documentary crosswalks only where they do not depend on these unresolved decisions. Do not modify the protected P0-05 contract/header, accept/freeze v1.1, implement an API bridge, or change P0-07 status without explicit governance disposition and separate implementation authorization.
 
 **Safety boundary:** read-only GitHub/source review plus checkpoint/map documentation only. No tests/workflows, model/provider calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+
+
+### Owner-accepted continuation direction (2026-10-13)
+
+The owner accepted the recommended conservative path:
+
+- **D6 = C (defer/request further evidence).** Keep the exact P0-05 normative-text acceptance/header discrepancy open. Acceptance of an implementation/tree does not, by itself, prove separate normative acceptance of the exact contract text. No protected contract/header edit until explicit governance confirmation.
+- **D1:** continue source-bound search for existing compliant caller/context composition; if evidenced, record the exact source, trust boundary and authority. If not evidenced, prepare a governed design proposal only, subject to owner review and separate implementation authorization.
+- **D2:** continue evidence search for a trusted P0-04 context source and lifecycle. If none is evidenced, prepare a governed design proposal only. Do not invent an issuer, provisioner, API bridge, identity technology or schema.
+- Any design proposal must address source provenance, authority, principal binding, lifecycle, freshness/revocation and trust boundary. It does not authorize implementation.
+- P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification remains **NO-GO / NOT PROVEN**.
+
+This accepted direction supersedes any inference that D6 may be closed by silently correcting the DRAFT header. Continue independent documentary work; implementation, qualification and protected-contract changes remain gated.
