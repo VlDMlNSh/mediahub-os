@@ -250,3 +250,21 @@ A review cannot be marked complete merely because this document exists. Reviewer
 - P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification remains **NO-GO / NOT PROVEN**.
 - No new stable IDs; no source contract edited; no implementation, tests, qualification, credentials, provider/model calls, host/runtime inspection, infrastructure change, deployment, migration, merge or rebase performed.
 - Next bounded step: submit the refined proposal for independent MH-12/MH-13 and architecture review; record review comments and the explicit owner/governance disposition. Do not infer acceptance from this refinement.
+
+
+### 12.7 Source-anchored MH-12 / MH-13 desk review (2026-10-13)
+
+**Review type:** bounded internal source-consistency review only. This is not an independent review, domain-owner acceptance, or freeze.
+
+**Live source anchors on `main`:** MH-12 identity `27eef9e23db02d6280b94a8e68bff9f73b0de88d`; authentication `a29c6a3cff0ee175a0c868214ffa2b455010002f`; authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a`; MH-12 control point `dea79d709fea274cc5fd08cca4f0d6aec2ad6d93`; MH-13 privacy/data governance `e732ff9cacbc9c1189bd83306cdff30906326cf0`; MH-13 governance acceptance record `6ecdc89440664563f36263bb8da80d1ad24f19a7`; MH-13 reverse prompt `d590b6541870d3f77fbb1e48159b78d5d2f1f203`.
+
+**Review items requiring explicit disposition before acceptance:**
+
+- **R-01 — Canonical security-flow mapping.** MH-12's flow is Identity → Authentication → Trust → Capability → Authorization → Policy → Command/Proposal → Consumer Boundary → State Authority → Event → Audit/Observability. Map the proposed P0-07 decision and P0-04 transaction decision to this sequence without treating P0-07 ALLOW as either identity-bound authorization or P0-04 authorization.
+- **R-02 — Principal/delegation scope.** MH-12 defines human, service, device, plugin, AI/model, workload, recovery, update/signing and audit principal classes. Reviewers must state which are in scope and what delegation is permitted; unspecified classes remain unsupported.
+- **R-03 — Lifecycle failure semantics.** MH-12 requires issuance, binding, expiry, refresh, revocation, replay resistance, failed-auth handling, rate limits/quarantine and recovery. Revocation consistency/availability, trust-root rotation ownership and behavior during validation unavailability remain undecided.
+- **R-04 — Privacy and audit minimization.** MH-13 §§2.3–2.9 require purpose limitation, minimization, retention/deletion governance, redaction of protected data from unauthorized channels and auditable evidence without unnecessary payload disclosure. Define minimal decision evidence, access and retention; do not log credentials, raw authorization material or unnecessary protected payload by default.
+- **R-05 — MH-13 status boundary.** Its governance record accepts an authorized reconstruction, not a frozen architecture or production implementation. Preserve unknown taxonomy, retention and provider semantics; do not treat MH-13 as proof that D2 is accepted.
+- **R-06 — Required audit unavailable.** MH-13 requires auditability but the inspected sources do not decide whether an operation must stop if required audit evidence cannot be emitted. Owner/security/privacy reviewers must decide per operation risk; no behavior is selected here.
+
+**Desk-review disposition:** no source-backed reason to relax existing P0 authority boundaries was found in this bounded pass. This is not proof of completeness and is not the requested independent review. The proposal is ready for an independent reviewer to assess R-01…R-06. D1 remains NOT DEMONSTRATED; D2 NOT EVIDENCED / CANDIDATE DESIGN PREPARED; D3 NOT EVIDENCED / DEPENDENT ON D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN. No stable IDs or technology decisions were added; no implementation was authorized.
