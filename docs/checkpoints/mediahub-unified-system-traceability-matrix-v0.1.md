@@ -1131,3 +1131,41 @@ P0-07 capability inventory is not a transaction API. The P0-07 boundary construc
 ### Next bounded step
 
 Identify the exact branch/commit containing the P0-07 operation-boundary blobs, then compare that tree and its callers to current main without merging. If no source-bound caller invokes the P0-05 read boundary, keep the gate open and route the gap for owner/governance decision. No tests, workflows, runtime/host inspection, code changes, deployment, merge or rebase.
+
+
+## Section 49 — P0-07 source lineage located; caller gap persists (2026-10-13)
+
+**Status:** source lineage established on a dedicated architecture branch; no merge, acceptance, test, or qualification status changed.
+
+### Source lineage and reachability
+
+- The P0-07 implementation source blobs are present on branch `architecture/mh-7-configuration-policy`, HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`, The tree is complete (171 entries, not truncated).
+- Confirmed paths/blobs in that tree:
+  - `runtime/mediahub_runtime/configuration_policy.py` — `96ef9de2b6fac870b604d3dd9bea78f5accde67a`
+  - `runtime/mediahub_runtime/configuration_policy_authorization.py` — `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`
+  - `runtime/mediahub_runtime/configuration_policy_operations.py` — `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`
+  - `docs/architecture/P0-07-read-validate-boundary.md` — `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`
+  - `docs/architecture/P0-07-p0-05-mutation-adapter-contract.md` — `22b8e1897e124578e66c8d619b3e8eaf41f69a88`
+  - `docs/architecture/P0-07-mutation-authority-reconciliation.md` — `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`
+- This corrects the earlier uncertainty about where the blobs live: their path/branch association is now source-bound. It does not establish reachability from current main. The architecture branch is DIVERGED from main, 143 ahead / 1,668 behind, merge base `1364d027f6722cfccab088735ecd1b5d04781b0b`. No merge was performed.
+
+### Concrete P0-07 operation behavior
+
+- `ConfigurationPolicyOperationBoundary.decide(request)` validates request type, performs P0-07 authorization and policy evaluation, and returns a decision. `authorize(request)` raises when denied. The module explicitly says it does not publish state. The inspected source has no call to `ConsumerBoundary.read`, no State Authority injection, and no canonical-state read.
+- `ConfigurationPolicyAuthorization` defines a bounded allow-list for domain operations, including configuration/policy read and validate. It checks the tuple `(principal, capability, operation)`; this does not establish issuer provenance or identify the canonical read source.
+- `configuration_policy.py` defines bounded immutable configuration/policy values and validation functions. It is a domain model/validation module, not a state persistence or canonical-read adapter.
+- Tests exist on that branch, including `tests/runtime/test_configuration_policy_operations.py` blob `21a22ec03aaee8afd208f2c557dad2b48eef58f9` and `tests/runtime/test_p0_07_security_invariants.py` blob `2a8c8cff21c426bb2c1ca81de317ba791a8d3566`. They were not run and provide no new execution/qualification evidence.
+
+### Revised disposition
+
+- P0-07 source lineage: **LOCATED on architecture/mh-7-configuration-policy**.
+- P0-07 operation boundary → P0-05 read call edge: **NOT EVIDENCED in the inspected source**.
+- Current-main reachability of this P0-07 implementation: **NOT EVIDENCED**; branch divergence is material and not reconciled.
+- P0-07 canonical-read acceptance: **NOT EVIDENCED**.
+- Mutation/publication: **BLOCKED — GOVERNANCE/API GAP**.
+- P0-05 v1.1: **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
+- Project-wide qualification: **NO-GO / NOT PROVEN**.
+
+### Next bounded step
+
+Inspect the architecture branch's documented integration/composition entry points and exact branch commit history for an existing approved bridge, then compare file-level changes against current main. Do not cherry-pick, merge, or invent a new adapter. No tests or workflows were run.
