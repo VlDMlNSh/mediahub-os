@@ -333,3 +333,32 @@ For each R-item choose `ACCEPT`, `ACCEPT WITH CONDITIONS`, `REJECT`, or `UNRESOL
 - Reviewer sign-off, durable review record URL/path, follow-up owner, unresolved items:
 
 **Guardrail:** This blank worksheet closes no gate. The existing internal desk review is not an independent review. Completing the worksheet records a review only when a real independent reviewer supplies the evidence and dispositions. It grants no implementation or qualification authorization.
+
+
+### 13.1 Independent-review handoff — exact source anchors (2026-10-13)
+
+This subsection is a reviewer handoff aid, not a completed review. The reviewer must independently inspect the proposal and cited source content, record actual dispositions in §13, and identify any additional sources required. The proposal reviewed is this exact blob at handoff preparation: `5e0ce7ba9f6ab4aa31f939189d49c6635c2457f1` on `docs/mediahub-chat-tree-map-20261012`; refresh it before review and record the actual blob/commit reviewed.
+
+**Current `main` source anchors re-fetched for this handoff** (`main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`):
+
+| Review relevance | Primary source | Blob SHA | Required use / limit |
+|---|---|---|---|
+| Identity and principal classes | `docs/architecture/MH-12-identity.md` | `27eef9e23db02d6280b94a8e68bff9f73b0de88d` | Review principal identity/provenance; do not infer issuer authorization from identity alone. |
+| Authentication | `docs/architecture/MH-12-authentication.md` | `a29c6a3cff0ee175a0c868214ffa2b455010002f` | Verify approved authentication path and evidence; authentication alone grants no capability. |
+| Authorization | `docs/architecture/MH-12-authorization.md` | `c48641861691714017aa5b1f99fe8eee8ea0e76a` | Keep authorization distinct from policy decision and P0-04 transaction authorization. |
+| Privacy/data governance | `docs/architecture/MH-13-privacy-data-governance.md` | `e732ff9cacbc9c1189bd83306cdff30906326cf0` | Reconstructed/proposed; apply minimization, purpose, access, retention and audit principles without claiming historical completeness. |
+| MH-13 acceptance record | `docs/architecture/MH-13-governance-acceptance-record.md` | `6ecdc89440664563f36263bb8da80d1ad24f19a7` | Acceptance is limited to the authorized reconstruction; not a P0-07 review, freeze or production authorization. |
+| MH-13 governance state | `docs/architecture/MH-13-governance-state.md` | `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa` | Confirms not frozen, historical fidelity partial/requires verification, production implementation not authorized, CI/build qualification not verified. |
+| MH-13 architecture pointer | `docs/architecture/MH-13-architecture-reference.md` | `1b71d9ea4d4e0924f2814edee0a982f593d71847` | Navigation/status corroboration only; not a replacement for primary privacy contract. |
+
+**Source-discovery boundary:** the current `main` recursive tree filename check did not find an MH-12 control-point path matching the previously cited shorthand. Do not cite a guessed filename. If the review depends on a separate control-point artifact, locate and fetch its exact path/blob before relying on it; otherwise record the dependency as unresolved. The MH-13 acceptance-record SHA in §12.7 matches the live fetch above.
+
+**R-item review routing:**
+- **R-01:** use MH-12 identity/authentication/authorization anchors and any separately verified security-flow source; distinguish authentication, trusted context, P0-07 policy ALLOW, and P0-04 transaction authorization.
+- **R-02:** use identity and authorization anchors; explicitly list principal classes/delegation in and out of scope.
+- **R-03:** use authentication/authorization plus relevant recovery, capability and security-boundary sources; unresolved revocation consistency, trust-root rotation, validation outage and replay policy must stay unresolved unless evidence/decision exists.
+- **R-04:** use MH-13 privacy source; specify purpose, minimization, audit contents, access and retention without sensitive-payload assumptions.
+- **R-05:** use all four MH-13 anchors; acceptance of the reconstruction is not historical recovery, freeze, P0-07 acceptance or implementation authorization.
+- **R-06:** use MH-13 audit requirements but record operation-specific “audit unavailable” behavior as unresolved unless an authorized decision exists.
+
+**Handoff guardrails:** this table does not constitute reviewer analysis or a disposition. The qualified reviewer must record identity, competence, independence/conflicts, exact proposal and source refs/SHAs, evidence-backed R-01…R-06 dispositions, cross-cutting findings, overall recommendation and unresolved issues in §13. Owner/governance acceptance remains separate. No gate status or implementation authorization changes by adding this handoff.
