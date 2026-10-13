@@ -398,3 +398,14 @@ R-05 should be framed precisely: preserve MH-13's limited status as an accepted 
 - MH-12 sources support general identity/authorization/boundary/audit principles but do not establish an approved trusted issuer or accepted end-to-end P0-07 lifecycle. MH-12 itself remains governance-review-required; implementation authorization, production qualification and freeze are not granted.
 - No independent review was performed and no gate changed. No tests, qualification, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
 - Next: qualified independent review of the exact proposal/source refs, followed by separate owner/governance disposition.
+
+
+## Follow-up — P0-07 D2 pull-request review discovery (2026-10-13)
+
+- Revalidated live comparison: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch `docs/mediahub-chat-tree-map-20261012` is `DIVERGED`, ahead 730 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Added a read-only discovery avenue beyond filename search: GitHub PR search in `VlDMlNSh/mediahub-os` for `P0-07 D2` and `trusted context authority lifecycle` returned no matching PRs. A broader `independent review` query returned existing unrelated PRs, including MH-13 reconstruction PR #25 and MH-22 qualification PR #135, but no result identified as review of the P0-07 D2 proposal.
+- Scope limitation: this is search-result evidence, not proof that no review exists. Search indexing, alternate titles, PR review metadata, another branch, or external records may contain evidence not surfaced by these queries. Preserve D2 as `NOT EVIDENCED`, not `NOT PERFORMED`.
+- The proposal's existing §13 worksheet remains the correct intake point; no duplicate review artifact was created. A qualified independent reviewer must record identity/competence/independence, exact proposal/source refs, R-01…R-06 dispositions, overall recommendation and unresolved issues. Owner/governance acceptance remains separate.
+- No status or gate changed: D1 `NOT DEMONSTRATED`; D2 `NOT EVIDENCED`; D3/D4 `NOT EVIDENCED`; D6 `OPEN / GOVERNANCE CONFIRMATION REQUIRED`; P0-07 mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
+- Documentary/read-only only. No tests, qualification, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+- Next: route the existing proposal to a qualified independent reviewer; meanwhile continue only a non-duplicative documentary dependency that does not pretend to satisfy that gate.
