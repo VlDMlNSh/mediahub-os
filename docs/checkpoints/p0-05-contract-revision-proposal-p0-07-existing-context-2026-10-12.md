@@ -137,3 +137,48 @@ Do not treat an unfilled row, an investigation direction (including C→A or C�
 - Separate implementation authorization and qualification remain distinct gates.
 
 Until a valid decision is recorded, D6 remains **OPEN / GOVERNANCE AMBIGUITY**; P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification remains **NO-GO / NOT PROVEN**.
+
+
+## 10. D1/D2 source-bound context audit and minimum design questions (2026-10-13)
+
+**Status:** design/governance support only; this addendum is not an accepted contract, interface, security design or implementation authorization. The audit is limited to live `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` and the documented P0-07 integration tree. No tests or runtime actions were performed.
+
+### 10.1 Exact source findings
+
+| Source | Live `main` blob | Evidence and limit |
+|---|---|---|
+| `runtime/mediahub_runtime/authorization.py` | `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` | P0-04 `AuthorizationContext` contains `principal` and `capability`; `AuthorizationPolicy` grants only an explicit tuple of principal/capability/operation and otherwise denies. It validates context type, but this module alone does not establish who authenticated or issued the context. |
+| `runtime/mediahub_runtime/consumer_boundary.py` | `98bf2da9cea85da2c82145b4baef417c20b9ae73` | P0-05 receives an `AuthorizationContext` and forwards it to injected State Authority for transaction begin; commit/abort use the transaction. This is the consumer/transaction seam, not an issuer or identity lifecycle. |
+| `runtime/mediahub_runtime/astra_developer_context.py` | `d1806e5e91e16cb27d34d9331b9a25e25d606a46` | Parses a bounded mobile-facing context envelope; module explicitly says transport-neutral and contains no authentication or secrets. It is not a trusted P0-04 context source. |
+| `runtime/mediahub_runtime/astra_context.py` | `9a30c0a3299e6b3a47bc03f55f4d26d2d9f14ad9` | Assembles bounded durable prompt context and marks memory as untrusted/advisory; explicitly not an authority. It cannot be reused as authorization context. |
+| MH-06 Execution Context | `35647b282352f56d57f1bd476bff1503571c5650` | Requires explicit identity/service identity/capability/authorization/correlation/deadline/cancellation/resource/security metadata; context is descriptive/control metadata, not canonical state, and must be non-forgeable as required and re-established after restart. It does not name a concrete issuer or accepted provisioning implementation. |
+| MH-12 Identity | `27eef9e23db02d6280b94a8e68bff9f73b0de88d` | Defines principal classes and lifecycle requirements (enrollment, activation, suspension/revocation, rotation/expiration, recovery); this is an architectural requirement, not proof of a deployed lifecycle service. |
+| MH-12 Authentication | `a29c6a3cff0ee175a0c868214ffa2b455010002f` | Requires issuance, binding, expiry, refresh, revocation, replay resistance, failure handling and recovery; exact technology is explicitly non-canonical pending evidence/ADR. Invalid/expired/unverifiable/replayed context must fail closed. |
+| MH-12 Authorization | `c48641861691714017aa5b1f99fe8eee8ea0e76a` | Requires explicit operation-specific, identity/context/policy-bound, auditable, fail-closed authorization terminating at the approved Consumer Boundary/State Authority. |
+| Security/Trust/Authorization Contract | `8d831c2a8fa333977dd86524099568bae2a8db0e` | Describes target trust chain from boot/runtime trust context through authenticated principal, capability/policy evaluation and State Authority; target chain does not prove the concrete P0-07 caller wiring exists. |
+
+### 10.2 Evidence-bounded conclusion
+
+- **D1 — existing compliant composition:** NOT DEMONSTRATED in the inspected current `main` source tree. P0-04 authorization and P0-05 transaction forwarding exist; a caller path that authenticates a principal, binds the request to an independently authorized P0-04 context, and passes that context unchanged from P0-07 to P0-05 is not evidenced. This is bounded to inspected source; it is not a universal claim about out-of-tree components.
+- **D2 — trusted P0-04 context source/lifecycle:** NOT EVIDENCED. The runtime modules found either validate an untrusted transport envelope, assemble advisory prompt context, or consume a caller-supplied context. MH-06/MH-12 specify lifecycle properties but do not identify an accepted concrete issuer/provisioner or revocation/freshness authority.
+- Therefore the current repository does **not** justify reusing `DeveloperContextRequest`, ASTRA prompt memory, caller-supplied `principal/capability` fields, network/mesh membership, or P0-07 ALLOW as a trusted P0-04 context.
+- D1's “reuse existing context” branch remains preferred only if further source-bound evidence appears. Based on this bounded audit, the conditional governed-design path is ready for owner/security review; it is not permission to implement.
+
+### 10.3 Minimum design questions — no technology or API selected
+
+A governed design review must answer, with explicit source and authority evidence:
+
+1. **Issuer/authority:** which already-approved logical authority may authenticate/issue or establish P0-04 context? Who owns its lifecycle and key/credential trust root? If none exists, who may propose one for separate approval?
+2. **Principal binding:** how is the authenticated principal bound to the exact P0-07 caller, request, operation, resource and P0-04 context without trusting caller-asserted identity?
+3. **Capability separation:** how are P0-07 domain decision and P0-04 transaction authorization independently obtained and validated, with no capability translation or self-grant?
+4. **Freshness/revocation/replay:** which accepted authority is source of truth for expiry, revocation, rotation, epoch/generation and replay resistance; what happens on stale or unavailable status? Default is fail-closed.
+5. **Trust boundary/provenance:** where is untrusted transport input converted into authenticated context; what evidence binds that conversion to a specific source, revision and security boundary?
+6. **Transaction/payload binding:** how is the domain decision bound to the exact canonical resource and bounded payload, and to the same P0-04 authority/state revision, without exposing raw transaction authority?
+7. **Audit/privacy:** what minimal correlation/provenance is retained, who may read it, and how are credentials/secrets and sensitive payloads excluded or redacted?
+8. **Failure semantics:** define deterministic fail-closed behavior for missing, invalid, expired, revoked, replayed, mismatched, or unverifiable context and for unavailable trust/revocation authority.
+
+**Out of scope until separate governance and implementation authorization:** selecting cryptographic technology, token format, issuer/provisioner service, schema, API signature, persistence, adapter implementation, tests, qualification or deployment.
+
+### 10.4 Current gate
+
+D1 = existing composition NOT DEMONSTRATED; D2 = trusted issuer/lifecycle NOT EVIDENCED. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. This audit changes no protected contract, owner decision, implementation or acceptance status.
