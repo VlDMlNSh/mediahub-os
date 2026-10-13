@@ -1117,3 +1117,14 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - The existing proposal was extended with design-only questions for authority/issuer, principal binding, dual authorization, freshness/revocation/replay, trust boundary/provenance, payload/revision binding, audit/privacy and fail-closed behavior. No technology/schema/API selected.
 - **Gate unchanged:** P0-07 mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification **NO-GO / NOT PROVEN**.
 - No implementation, tests, qualification, credential use, provider/model invocation, host/runtime inspection or deployment performed.
+
+
+### P0-07 D5 audit/privacy source crosswalk (2026-10-13)
+
+- Re-read live primary sources on `main` and P0-07 branch `architecture/mh-7-configuration-policy`; current branch HEAD was `83ccb0d4993761ffcd43146d982ff9781116c7db`; main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Detailed evidence and SHA ledger: [Unified System Traceability Matrix §66](mediahub-unified-system-traceability-matrix-v0.1.md); crosswalk §19.
+- D5 privacy invariants are source-evidenced in MH-13: minimization, defined retention/deletion, protected-data exclusion from unauthorized audit/telemetry, and auditable evidence without unnecessary payload disclosure. MH-21 external-transfer invariants and retention remain PROPOSED/provider-evidence-required.
+- No accepted P0-07 audit/provenance event contract, durable audit sink, retention authority or reader-authorization path was evidenced in the inspected P0-07 operation/P0-05 ConsumerBoundary sources. P0-05 sanitizes error codes and bounds payload copies, but this is not an audit system.
+- **Disposition:** D5 remains open for governed design and further source evidence. No schema, event store, provider or API was selected. No implementation/tests/qualification/provider calls/credentials/host inspection/deployment performed.
+- Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification remains **NO-GO / NOT PROVEN**.
+- **Next:** continue D7 canonical state-version/change-control source crosswalk independently, or resolve owner question DEC-DEV-02; do not implement audit or mutation adapters.
