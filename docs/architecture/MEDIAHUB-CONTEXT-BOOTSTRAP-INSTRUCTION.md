@@ -66,3 +66,15 @@
 6. Если проверить refs или содержание не удалось, пометь контрольную точку как НЕ ПРОВЕРЕНА; не объявляй ссылки актуальными и не продолжай к действиям с последствиями.
 
 `/next` — это рабочий цикл: live GitHub state → следующий незакрытый шаг единого Master Development Roadmap → ограниченный разрешённый проход → read-back и проверка доказательств → запись результата в GitHub, карту и checkpoint → точный отчёт и, при drift ссылок, готовое задание на замену Project Instructions.
+
+
+## 0. Каноническая инструкция проекта и ссылка на неё
+
+**Полная каноническая инструкция проекта размещена в GitHub и должна перечитываться перед каждым `/next`:**
+
+- Прямая ссылка на эту инструкцию: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md
+- Актуальная карта проекта: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Актуальный continuation checkpoint: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md
+- Единый мастер-план разработки: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md
+
+Эти URL — текущие указатели, а не доказательство актуальности refs. На каждом `/next` сначала проверь фактическую ветку и HEAD, доступность всех файлов, пути и blob SHA. Если ветка или путь изменились, найди действующие ссылки, обнови затронутые проектные документы в пределах разрешённых прав и выдай пользователю готовое задание на замену инструкции ChatGPT Project Instructions. Не считай, что пользовательские настройки ChatGPT обновлены автоматически.
