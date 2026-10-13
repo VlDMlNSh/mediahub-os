@@ -69,3 +69,14 @@ Trace `docs/architecture/MH-17-device-configuration.md` and the P0-07 operation 
 - Matrix Section 50 blob `0fb4ee682455104301eb3cb3bb9dab7b890f7708`, commit `2d55348b57a5bb87639da7f781020e37a2be8c6d`. Map Section 20.132 blob `0f337644abce65ef8ed46632abed4abfddf8a438`, commit `dd0af3fbe5a526c6ddd3c87fea6279388e7ab167`.
 - Status: intended flow DOCUMENTED; implemented call edge NOT EVIDENCED; governance/API decision REQUIRED; mutation/publication BLOCKED; current-main integration NOT EVIDENCED; project qualification NO-GO / NOT PROVEN.
 - Next: search owner/governance records for a later accepted decision; if absent, request owner direction before code changes. No tests, workflow runs, code changes, deployment, merge, rebase, or cherry-pick.
+
+
+## Follow-up — owner/governance decision search (2026-10-13)
+
+- Re-read owner register blob `62831d23c5e6bbddc707ec5b197cffba57d6139a`: D1 is C→A (prove trusted caller path first), D2 is investigate P0-04 context authority/lifecycle. These are research directions, not acceptance or implementation authorization.
+- Inspected existing proposal `docs/checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md`, blob `1f99b8d13066ea21233affbd4057ad50fcd4d256`. Status is PROPOSAL / GOVERNANCE REVIEW REQUIRED / NOT ACCEPTED / NOT FROZEN. It records no source-bound caller passing independently P0-04-authorized context unchanged into P0-05 and asks governance whether a typed hand-off should be designed; no signature is normative.
+- Inspected P0-07 audit/privacy crosswalk blob `3b2ff1d5b66e99284e93ec2a6969bddcd77241b4`, also non-normative and without implementation authorization. A bounded scan of the current docs-branch tree (888 entries, not truncated) did not establish a later accepted bridge contract or superseding owner decision. P0-06 governance acceptance is not authorization for P0-07 and requires a new decision for P0-04/P0-05 semantic changes.
+- The accepted P0-05 baseline contract has a DRAFT-header vs accepted-governance-package discrepancy requiring controlled governance reconciliation; do not edit silently.
+- Matrix Section 51 blob `ce5f2624f75928241ea9abaeb4ae4a4b64270ec6`, commit `788bbfa7cc6265d5dffef931b429eb182d664a8f`. Map Section 20.133 blob `b5693c5d24eaa80c973c6d002793f55c1269dd00`, commit `74a81a6adcd8f2764cb978c017f23ee1457bf619`.
+- Status: existing-context path NOT DEMONSTRATED; proposal NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; D2 context authority/lifecycle OPEN; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Next: present existing proposal and bounded evidence to owner for explicit governance disposition. Require exact normative contract acceptance/freeze and separate implementation authorization before code changes. No tests, implementation, deployment, merge, rebase, or cherry-pick.
