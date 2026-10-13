@@ -4745,3 +4745,12 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - Status unchanged: P0-07 D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; MH-22 qualification NO-GO / NOT PROVEN.
 - Detail: [canonical-read trace](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), section “Current-main Astra gateway entry-point and call-chain trace”.
 - Next: determine from repository source whether a separate application/API transport exists before broadening the source finding. Qualified independent P0-07 D2 review and owner/governance disposition remain separate external blockers. Documentary-only; no tests, qualification, runtime execution or branch integration.
+
+
+## 20.189 Current-main file ingress versus application/API transport (2026-10-14)
+
+- Evidence trace: canonical-read trace, section “Current-main application/API transport boundary trace”.
+- Current-main runtime/mediahub_runtime/task_ingress.py blob 59e1254aa61cc8f55f53bd1e179631e81c441393 implements local JSON-file Task Contract ingress and forwards requests to the gateway. It validates schema/owner/request/session/command/approval fields but does not carry principal or trusted authorization context; those checks do not prove authentication, issuer provenance, audience/expiry, revocation or replay protection.
+- astra_service.py blob 6aa2d09fc8737ccc0ba7f05bd13a15a0ebde7129 constructs the gateway and remains inert until an application/API boundary submits Task Contracts. coordination_service.py is an in-process coordinator, not a network transport. Complete current-main tree filename inspection (721 files, not truncated) found no HTTP/ASGI/WSGI/websocket/application API entry point. GitHub task transport is a separate engineering-delivery path.
+- Scoped conclusion: local file ingress exists; an application/network API boundary and trusted principal/context injection remain NOT EVIDENCED in the inspected current-main tree. No repository-wide/external absence claim. No runtime execution/tests and no gate closure.
+- P0-07 statuses unchanged: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; mutation/publication BLOCKED — GOVERNANCE/API GAP; qualification NO-GO / NOT PROVEN.
