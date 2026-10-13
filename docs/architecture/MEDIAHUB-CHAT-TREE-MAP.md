@@ -4677,3 +4677,12 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - P0-07 D2 proposal blob 5e0ce7ba9f6ab4aa31f939189d49c6635c2457f1 is a distinct trusted-context issuer/lifecycle governance gate; prior owner option B authorized proposal preparation only. Similar numbering does not connect the decisions.
 - P0-07 independent MH-12/MH-13 and architecture review remains NOT EVIDENCED; owner/governance acceptance and implementation authorization remain pending/not granted. D1 NOT DEMONSTRATED; D3 NOT EVIDENCED; D6 OPEN; P0-07 BLOCKED; P0-05 v1.1 NOT ACCEPTED/NOT FROZEN; qualification NO-GO/NOT PROVEN.
 - Next: obtain independent review of P0-07 D2 R-01…R-06, then separately record owner/governance disposition. Do not reopen DEC-DEV-02 unless its own evidence/dependency requires it.
+
+
+## 20.182 MH-13 accepted-reconstruction scope versus P0-07 D2 independent review (2026-10-13)
+
+- Current-main exact anchors are indexed in the canonical-read trace: MH-13 privacy architecture blob e732ff9cacbc9c1189bd83306cdff30906326cf0; governance acceptance record blob 6ecdc89440664563f36263bb8b8214b3d55d3fa; governance state blob 7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa; architecture reference blob 1b71d9ea4d4e0924f2814edee0a982f593d71847.
+- MH-13 has an independently accepted governance reconstruction (PR #25, merge commit f8761a7eecc480c8106856f72fbeadb7229a258d); acceptance is scoped to the reconstructed-proposed artifact. It does not freeze MH-13, authorize production implementation/release/deployment, or accept P0-07 D2.
+- R-04 can anchor privacy minimization/purpose/retention/audit principles to MH-13. R-05 must preserve its accepted-reconstruction-only status. R-06 operation-specific behavior when required audit evidence is unavailable remains unresolved. The P0-07 proposal's §13 independent-review worksheet remains blank.
+- P0-07 D2 stays NOT EVIDENCED / proposal NOT ACCEPTED / NOT FROZEN; D1 NOT DEMONSTRATED; D3 NOT EVIDENCED; D6 OPEN; mutation/publication BLOCKED; qualification NO-GO / NOT PROVEN.
+- Next: use these exact anchors in the independent P0-07 D2 review handoff; do not substitute MH-13's existing acceptance for a review of the P0-07 proposal.
