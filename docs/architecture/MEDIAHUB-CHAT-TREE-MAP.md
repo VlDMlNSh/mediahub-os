@@ -4717,3 +4717,12 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - Current `main` `ConsumerBoundary.read(key=None)` delegates directly to P0-04 authority (blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`); full-state read returns revision-bearing `CanonicalState`, keyed read returns only a value (state blob `0fbc71369d19e09944ba67a60ccb9df802f30a4b`).
 - Complete current-main tree inspection found no P0-07 read/caller/adapter source path. P0-07 → P0-05 call edge, same-instance/same-revision pass-through, and read authorization composition remain NOT EVIDENCED.
 - Detailed record: [P0-07 audit/privacy/governance crosswalk §20](../checkpoints/p0-07-audit-privacy-governance-crosswalk-2026-10-12.md); latest trace/checkpoint updated. No API invented and no gate closed.
+
+
+## 20.186 P0-05 D6 — exact acceptance provenance and current PR boundary (2026-10-13)
+
+- Evidence trace: [canonical-read trace, P0-05 D6 section](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md).
+- Historical implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a` changes only `runtime/mediahub_runtime/consumer_boundary.py`; its tree `82da63f03da20049954fe69257342cbf66b58395` contains contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` still headed `DRAFT — GOVERNANCE REVIEW REQUIRED` and acceptance-record blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242`. The record names both contract and implementation in its target but states acceptance at the reviewed implementation state.
+- The commit is associated with PR #44, currently OPEN / DRAFT / NOT MERGED. Its description requires forensic reconciliation, current-SHA verification and independent security review before merge; it says qualification is OPEN / production NO-GO. A later comment marks this stream SUPERSEDED for MH-05 architecture qualification and directs the current queue to Issue #122 / target SHA `29601c2618566ff4a18e47384bebc5c37ff24c85`.
+- Disposition: historical implementation acceptance record exists, but exact normative-text acceptance remains ambiguous; do not treat PR #44 as current qualification evidence or infer that the DRAFT header is stale. D6 stays OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-05 v1.1 stays NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN. No source contract edited and no status promoted.
+- Next: route the existing D6 question and exact evidence set to owner/governance; distinguish historical implementation acceptance, normative contract acceptance, and current qualification target.
