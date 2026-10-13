@@ -931,3 +931,29 @@ The proposal, matrix, passport and map all contain the expected new sections. Th
 - Project map receives the navigation/status/source pointer in its next sequential write.
 
 **Next:** keep DEC-DEV-02 OPEN_CONFLICT pending owner/governance disposition; continue only independent source reconciliation that does not assume an ownership option. No tests, runtime inspection, qualification, implementation, installation, provider/model calls, deployment, migration, merge or rebase occurred.
+
+
+### DEC-DEV-03 — developer vs future production Mac Pro asset identity (2026-10-13)
+
+**Roadmap step:** crosswalk-validation of existing DEC-DEV-01…08, after the DEC-DEV-02 clause-level lifecycle pass. This pass reconciles DEC-DEV-03 from accepted source clauses; it does not ask the owner prematurely or choose the asset option.
+
+**Live source refs / blobs**
+- `main` HEAD observed: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; recursive tree complete, 798 entries.
+- Accepted target architecture `architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md`, `main`, blob `e549692f207fbc91d9b9b9b92b8e665404f07290`, §1: Mac Pro is the central infrastructure target role, subject to hardware/runtime validation; it does not identify the future production physical asset.
+- Working Passport v3, documentation branch, blob before this addendum `cd5377e2e4dc251baf4357087ff92c9060c5ab66`, §5.1: purchased Mac Pro is the primary developer workstation; exact hardware/OS inventory is not supplied; future production Mac Pro is explicitly not assumed to be the same physical asset.
+- Node/service placement matrix blob `59107fd6d7b8a73d671098adcf2824c310642907`, NSP-NODE-01 / NSP-TR-05: target role is accepted, capabilities/compatibility remain unknown, and same-asset vs separate-asset decision is required before role transition/production admission.
+- Owner decision packet blob `f941d67c3d0b37b8abb1a96da02f51a494f9f2bf`, DEC-DEV-03 and §6.2: options are A controlled role transition of same asset or B separate production asset; defer until a concrete asset plan or evidence makes the choice blocking.
+- Master roadmap blob `a65de988736b21abfe95d72c1a3cc4947c832c71`, DEC-DEV-03: same question and explicit owner decision required; do not infer a production role transition.
+
+**Finding / disposition**
+- Current accepted source establishes a Mac Pro *role*, not unique physical asset identity. The same-asset vs separate-asset question is not answerable from current evidence.
+- Keep distinct logical asset IDs and separate trust/data/credential/install/recovery scopes until an explicit owner choice. No role transition, production placement or credential/data transfer is implied.
+- Revisit when concrete asset allocation is planned and exact inventory, OS/security lifecycle, intended workload, production boundary and applicable MH-15 acceptance evidence are available. The owner packet says not to interrupt current work with a premature question.
+- **DEC-DEV-03 remains DEFERRED / NOT ANSWERED / NOT ACCEPTED.** This is not a new decision and does not close the historical ID.
+
+**Updated artifacts**
+- Unified traceability matrix Section 62: commit `4e11b94e312523db8a3ae23100c0c783b1d4f49d`, blob `72d7ebbee566823fd1b0e0000fbac8ef5ac85ded`.
+- Passport v3 Section 18: commit `70e521a374f52b6c7b3f92f576bb1e786f59a02f`, blob `060b46335105127f939ff333e42e8b8e4f545fd0`.
+- No normative source or owner decision was changed. No tests, host/runtime inspection, inventory, credentials, installation, infrastructure change, deployment, migration, merge or rebase.
+
+**Next:** proceed with DEC-DEV-04 only to the extent allowed by its exact hardware/OS evidence prerequisites; do not assign the 2011 Mac mini a critical workload based on owner-reported RAM/model alone. Continue P0-07 → P0-05 trust/context work independently; the canonical-read and mutation/publication gaps remain open.
