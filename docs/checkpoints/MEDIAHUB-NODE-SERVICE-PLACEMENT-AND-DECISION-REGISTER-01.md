@@ -133,3 +133,19 @@ Existing identifiers DEC-DEV-01…DEC-DEV-08 are preserved from Master Developme
 ## 8. Next roadmap handoff
 
 The source-anchored placement baseline is prepared as a documentary deliverable. The owner-decision packet has been created at `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md` and consolidates DEC-DEV-01…08 without closing them. Next pass: validate each decision against exact primary clauses/live refs/SHA, update only confirmed traceability in the unified matrix and working Passport, and prepare a minimal owner questionnaire containing only irreducible choices. Do not repeat this inventory; move forward to unresolved evidence/decisions. Do not perform installation, tests, qualification, provider/model invocation or deployment without separate authorization.
+
+
+## 9. Decision triage crosswalk — accepted facts vs open choices (2026-10-13)
+
+See owner packet §6 for the full source-anchored disposition. This matrix's decision register is refined as follows without changing historical IDs:
+
+- **DEC-DEV-01:** the accepted Distributed AI Infrastructure already establishes Alamo as a local inference endpoint. The unresolved decision is runtime/adapter/model/protocol composition, not whether Alamo is an endpoint.
+- **DEC-DEV-02:** remains open. No accepted source reviewed here assigns one authoritative owner for the complete queue/claim/lease/retry/cancel/evidence-promotion lifecycle across Jarvis and ASTRA. Next evidence task is exact reconciliation of ASTRA/Jarvis primary lifecycle contracts.
+- **DEC-DEV-03:** remains open but deferred until production asset identity/role transition is a real dependency; preserve separate identities meanwhile.
+- **DEC-DEV-04:** evidence-gated; MH-15 is not accepted/frozen and implementation is unauthorized. Do not assign a critical workload before exact hardware/OS/security/resource evidence.
+- **DEC-DEV-05:** the fail-closed/no-silent-fallback invariant is established. Provider/data-class routing details remain open under MH-21, which is not accepted/frozen/production-ready.
+- **DEC-DEV-06:** reachability/VPN/mesh is not trust or authorization; this invariant is established. Mobile identity, operation scopes, revocation and audit contract remain open.
+- **DEC-DEV-07:** defer hardware choice until an evidenced workload/capacity/privacy/performance/isolation/recovery envelope exists.
+- **DEC-DEV-08:** Contour A → Contour B is a binding gate from project instructions and Roadmap Phase 10, not a discretionary owner choice. Track the required deployment, independent qualification and explicit acceptance evidence; do not ask whether to bypass the gate.
+
+No status above implies implementation or qualification. No identifier is removed or reused.
