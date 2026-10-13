@@ -619,3 +619,17 @@ This addendum supersedes only the prior subsection's mutable-branch blob snapsho
 - Status unchanged: unified deployment contract/matrix and Passport v3/Contract 01 remain working drafts, not accepted canonical baselines; MH-15 acceptance/freeze and implementation are not authorized; MH-16 remains proposed/not frozen/implementation not authorized; ASTRA G0–G11 and MH-22 G1–G9 remain blocked/not promotable in the inspected evidence; project-wide qualification remains NO-GO / NOT PROVEN; P0-07/P0-05 governance/API gap remains open.
 - No installation, tests, qualification, model/provider calls, credentials, runtime/host inspection, infrastructure changes, migration, deployment, merge or rebase were performed.
 - **Next bounded action:** source-anchor the node/service placement matrix and conflict/decision register against exact primary clauses; do not change the unified matrix or promote any draft to canonical until authorized review. Follow the plan checkpoint and the current live map, not this addendum alone.
+
+
+---
+
+## Continuation addendum — master development roadmap 1.0 (2026-10-13)
+
+- Owner explicitly requested one comprehensive development plan recorded in GitHub and to follow it. Created `docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md` on `docs/mediahub-chat-tree-map-20261012`; creation commit `5506cb6d2a4a97287c5e55e64cf194921483f747`; read-back blob SHA `1f38b533d56e3065173ea0af7b09357d6d8b3e5e`.
+- The master roadmap establishes Contour A (developer fabric) before Contour B (MediaHub OS product), defines source precedence/status vocabulary, records hardware/trust domains, lays out Phase 00–10, immediate P0 backlog, decision register, acceptance gates, restrictions and change control. It is a sequencing/work-control plan, not a new architecture baseline or installation authorization.
+- Updated supporting note `docs/checkpoints/MEDIAHUB-DEVELOPER-FABRIC-UNIFIED-PLAN-2026-10-13.md` to state that its sequencing is superseded by the master roadmap; read-back blob SHA `c0f55645916968a5a369b1582510012ec28c4251`.
+- The master roadmap was read back and its content/length/phase markers checked. Supporting plan was read back and the supersession notice was verified. The project map must now link to the master roadmap as the plan of record.
+- Live `main HEAD` last checked before these writes: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch was diverged from main, ahead 539 / behind 2 at the most recent compare. No merge/rebase.
+- Architecture/qualification status unchanged: unified contract/matrix remain proposed and not frozen; MH-15 acceptance/freeze and implementation authorization absent; MH-16 proposed/not frozen and implementation not authorized; ASTRA G0–G11 and MH-22 G1–G9 blocked/not promotable in inspected evidence; global qualification `NO-GO / NOT PROVEN`; P0-07/P0-05 governance/API gap open.
+- No install, test, qualification, provider/model invocation, credential use, host/runtime inspection, infrastructure change, deployment, migration, merge, rebase or cherry-pick was performed.
+- **Next bounded action:** source-anchor the node/service placement matrix and conflict/decision register from primary clauses. Follow the master roadmap and current map; do not execute deployment or promote drafts without applicable authority.
