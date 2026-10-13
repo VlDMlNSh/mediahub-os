@@ -1534,3 +1534,44 @@ MH-04 provides the conceptual principal/authentication/credential/revocation/fai
 **Recommendation:** C on current evidence. B is the conservative provisional assumption if an interim planning assumption is required, but is not itself a governance decision. The acceptance record scopes its disposition to the reviewed implementation; it does not explicitly resolve the contract header. No owner response was present in the inspected sources.
 
 **Unchanged status:** D6 OPEN / GOVERNANCE AMBIGUITY; P0-07 mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification **NO-GO / NOT PROVEN**. No contract, code or acceptance record was changed; no tests or qualification were run.
+
+
+## Section 61 — DEC-DEV-02 clause-level lifecycle authority reconciliation (2026-10-13)
+
+**Status:** documentary crosswalk validation; OPEN_CONFLICT; no owner decision, primary-source correction, implementation or qualification implied. This section follows Roadmap §10.4 and the Section 59 handoff.
+
+### Live primary-source read-back
+
+| Source | Ref | Live blob SHA | Exact clause / observed statement | Evidence boundary |
+|---|---|---|---|---|
+| ASTRA GOLD — Unified Autonomous Development System | `main` | `e2067dc41b52983fc4e0b2549fb6af3c099cbc60` | Status `CANONICAL / QUALIFICATION-READY DESIGN`; §§2–3 and control-plane diagram describe A0 ASTRA coordination/state control and engineering command → queue → claim → lease → dispatch → result → replay/recovery. | Establishes intended ASTRA-internal design, not implementation or cross-Jarvis ownership acceptance. |
+| ASTRA GOLD — Unified Autonomous Development System YAML | `main` | `adc852009c3a79d0e64265a3af8a4910a1388057` | `authority.astra.id: A0-ASTRA`, role `single_coordination_authority`; controller includes command ingestion, queue, claim leases, heartbeat, liveness, duplicate suppression, restart recovery and result publication. | Machine-readable intended ASTRA role; does not name a Jarvis delegation contract or close cross-system lifecycle ownership. |
+| ASTRA GOLD — Complete Component Scheme | `main` | `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1` | §1 states `A0-ASTRA = single coordination and MediaHub State Authority`. | **Normative wording conflict:** cannot be treated as product-state authority without contradicting accepted product authority boundary. Do not silently edit or reinterpret the source. |
+| ASTRA GOLD Governance Contract | `main` | `1d3ac25e7817f365807ad85d0d7c9007bd48bebf` | `CANONICAL_GOVERNANCE_SOURCE`; gate registry, evidence requirements, credential lifecycle and human-only G11 approval; launch approval binds to exact SHA and fresh evidence. | Controls ASTRA qualification/launch governance; no clause found that selects Jarvis vs A0 as the single cross-system engineering-task lifecycle owner. |
+| ASTRA Current Truth | `main` | `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` | Overall `NOT_PROVEN / BLOCKED`; all G0–G11 BLOCKED; no gate has fresh PASS evidence; G11 is HUMAN_ONLY. | Design status is not runtime qualification or implementation proof. |
+| Verifiable Architecture Contract 01 | `docs/mediahub-chat-tree-map-20261012` | `c248956417cc61d66c968a4c58a56e799f653354` | ARC-003 limits A0 to ASTRA queue/claim/lease/evidence/gate state, not MediaHub Product State Authority. ARC-017 frames Jarvis as umbrella and ASTRA as bounded subsystem. ARC-018 requires one lifecycle owner before implementation and versioned adapters for other candidates. | Working integrated contract, draft not new canonical baseline; gives the current intended boundary but does not itself resolve the owner choice. |
+| Jarvis bundle independent review 01 | `docs/mediahub-chat-tree-map-20261012` | `022f1bd881906d4ab837b2f46c091c43546fce14` | §3 item 9 / R-04 leaves lifecycle owner and orchestration/runtime composition OPEN. | Independent documentary review confirms unresolved status; not an owner acceptance. |
+| Owner decision packet 01 | `docs/mediahub-chat-tree-map-20261012` | `f941d67c3d0b37b8abb1a96da02f51a494f9f2bf` | DEC-DEV-02 options A/B/C are preserved; packet is PROPOSED / NOT ACCEPTED / NOT FROZEN. | Decision support only; no recorded owner disposition. |
+| Placement/decision register 01 | `docs/mediahub-chat-tree-map-20261012` | `59107fd6d7b8a73d671098adcf2824c310642907` | DEC-DEV-02 requires an owner decision and typed lifecycle contract for queue, claim, lease, retry, cancel, evidence promotion, ownership and recovery. | Remains OPEN_CONFLICT; no unified owner is inferred. |
+
+### Clause-level reconciliation
+
+1. **Engineering workflow state is distinct from product state.** The current Jarvis working contract and independent review support ASTRA as a bounded engineering subsystem; neither permits A0 to become MediaHub Product State Authority by naming or association.
+2. **ASTRA-internal control design exists on paper.** The Markdown and YAML primary sources consistently place queue/claim/lease/heartbeat/recovery/result-publication responsibilities in the A0 control plane. This establishes intended ASTRA-internal responsibility only.
+3. **Cross-system delegation is not closed.** No reviewed accepted source specifies the typed Jarvis↔ASTRA lifecycle adapter, single authoritative task-state transition path, fencing/lease ownership, retry/cancel semantics, evidence-promotion authority or recovery handoff for the combined system.
+4. **There is a source wording conflict, not proof that ASTRA owns product state.** The phrase “MediaHub State Authority” in Complete Component Scheme §1 conflicts with ARC-003 and the product-state authority invariant. Keep both sources unchanged pending controlled owner/governance disposition.
+5. **Qualification is a separate dimension.** Current Truth is NOT_PROVEN / BLOCKED with all G0–G11 blocked. The design labels do not support claims of current runtime behavior or qualification.
+
+### DEC-DEV-02 decision surface (existing ID only)
+
+| Option | Lifecycle ownership model | Consequence / required evidence |
+|---|---|---|
+| A | Jarvis owns cross-system task lifecycle; ASTRA is an execution/qualification adapter. | Requires versioned delegation API, task/lease/fencing semantics, idempotent retry/cancel, evidence-promotion protocol and recovery ownership. Keeps one top-level owner but requires a complete adapter boundary. |
+| B | Jarvis delegates one bounded engineering lifecycle to ASTRA; ASTRA is authoritative only within that explicitly delegated scope. | Requires explicit delegation scope, ownership/fencing contract, lifecycle transition contract, revocation/recovery behavior and assurance that Jarvis does not maintain a competing authoritative queue/lease/promotion store. |
+| C | Separate, explicitly disjoint lifecycle domains. | Acceptable only if domains and task ownership are mechanically distinguishable and cannot overlap; otherwise risks split-brain queues, leases and evidence promotion. |
+
+**Recommendation (not a decision):** do not select A/B/C from design labels alone. First obtain a governed clarification that “MediaHub State Authority” in the Component Scheme means ASTRA-internal engineering workflow state only—or another explicitly bounded scope—and reconcile that wording against ARC-003 without changing product-state authority. Then select one lifecycle model and require its typed contract before implementation. Preserve Contour A → Contour B gate.
+
+**Minimal owner question:** “For existing DEC-DEV-02, which lifecycle model do you approve—A (Jarvis owns lifecycle, ASTRA adapter), B (ASTRA owns a lifecycle explicitly delegated by Jarvis), or C (strictly disjoint lifecycle domains)? Separately, confirm that the Component Scheme’s ‘MediaHub State Authority’ wording does not grant A0 MediaHub Product State Authority; if it was intended otherwise, provide the explicit approved scope. No implementation begins until the corresponding typed lifecycle contract and source reconciliation are accepted.”
+
+**Next bounded step:** maintain DEC-DEV-02 as OPEN_CONFLICT pending owner/governance input; continue independent source crosswalk work only where it does not assume A/B/C. Do not edit ASTRA primary sources, rename A0, create a second queue, execute qualification, or claim current truth has improved.
