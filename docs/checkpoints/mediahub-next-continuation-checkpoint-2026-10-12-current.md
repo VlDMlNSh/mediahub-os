@@ -1247,3 +1247,11 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - No independent reviewer disposition for R-01…R-06 was evidenced in this pass. The gate remains OPEN / NOT EVIDENCED; the internal desk review must not be represented as independent review.
 - Project map section 20.172 records the search scope and disposition. No contract, decision, stable ID or status changed. No tests, qualification, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next: obtain a traceable independent review artifact covering R-01…R-06, then separately request explicit owner/governance disposition. Until then, preserve D1/D2/D3/D6 and P0-07/P0-05 gates; proceed only with independent documentary work.
+
+
+### Exact-tree P0-07/P0-05 composition reachability check — /next (2026-10-13)
+
+- Inspected accepted P0-05 implementation commit/tree and current-main recursive tree, plus the P0-07 branch operation/auth modules. The current-main tree does not contain the P0-07 modules; their separate branch operation boundary returns an authorization/policy decision and no P0-07→P0-05 call/publication edge was demonstrated.
+- Accepted/current P0-05 AuthorizationContext remains principal/capability only; ConsumerBoundary receives supplied context and delegates to injected StateAuthority. Package exports do not prove issuer provenance or trusted composition. Code search returned zero items but was incomplete, so no repository-wide absence claim is made.
+- Full source/ref/blob ledger is in the canonical-read trace addendum; map section 20.173 indexes the result. D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D4 canonical mapping/revision join NOT EVIDENCED; mutation/publication BLOCKED; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Next: resolve P0-05 normative-status contradiction and minimum D1/D2 issuer/context contract questions through owner/governance. No adapter/API/issuer selected. Documentary-only; no tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
