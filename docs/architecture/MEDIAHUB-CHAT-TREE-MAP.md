@@ -4710,3 +4710,10 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - Existing P0-07 D2 proposal §13.2 now maps these anchors to reviewer items and states limitations. Commit `c1e9dd68e9645a2ee7413dfd70b830d66bfbadd7`; proposal blob `39400abce88da7ea54be7d9d7505f215eba43408`.
 - This improves source routing only. It is not an independent review, accepted issuer/lifecycle design, implementation authorization or gate closure. D2 remains NOT EVIDENCED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; qualification NO-GO / NOT PROVEN.
 - Resume point: obtain a qualified independent review of the exact proposal and its referenced sources; owner/governance disposition remains separate.
+
+
+## 20.185 P0-07 canonical-read join source trace (2026-10-13)
+
+- Current `main` `ConsumerBoundary.read(key=None)` delegates directly to P0-04 authority (blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`); full-state read returns revision-bearing `CanonicalState`, keyed read returns only a value (state blob `0fbc71369d19e09944ba67a60ccb9df802f30a4b`).
+- Complete current-main tree inspection found no P0-07 read/caller/adapter source path. P0-07 → P0-05 call edge, same-instance/same-revision pass-through, and read authorization composition remain NOT EVIDENCED.
+- Detailed record: [P0-07 audit/privacy/governance crosswalk §20](../checkpoints/p0-07-audit-privacy-governance-crosswalk-2026-10-12.md); latest trace/checkpoint updated. No API invented and no gate closed.
