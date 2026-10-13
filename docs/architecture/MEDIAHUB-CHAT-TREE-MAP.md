@@ -4544,3 +4544,14 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Disposition:** D2 `NOT EVIDENCED — PROPOSAL PREPARED FOR REVIEW`; D1 `NOT DEMONSTRATED`; D3 remains dependent on D1/D2; D6 remains separate and open.
 - **Gates unchanged:** P0-07 mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`. Documentary-only; no implementation, tests, qualification or deployment.
 - **Next:** review the proposal and request an explicit owner/security/governance disposition; do not edit the protected P0-05 normative header or start implementation by inference.
+
+
+## 20.168 P0-07 D2 trusted-context proposal refinement for independent review (2026-10-13)
+
+- **Artifact:** [P0-07 D2 Trusted Context Authority and Lifecycle Proposal](../checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md).
+- **Refinement:** candidate trust chain, lifecycle transition preconditions/evidence/fail-closed conditions, ten proposed invariants, architecture alternatives (A/B1/B2/C), and review exit criteria added for independent review.
+- **Candidate recommendation:** B1 — one accountable logical authority/lifecycle contract with explicit issuer/attester and verifier responsibilities; no separate service/process or technology is mandated. This remains a review recommendation, not an accepted architecture decision.
+- **Boundaries:** authentication alone grants no capability; P0-07 policy ALLOW is not P0-04 transaction authorization; P0-05 validates context; P0-04 remains sole canonical mutation authority; MH-13 governs audit/privacy constraints. D6 remains separate.
+- **Status:** proposal refined / NOT ACCEPTED / NOT FROZEN. D1 NOT DEMONSTRATED; D2 NOT EVIDENCED / candidate design prepared; D3 dependent on D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED. P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- **No implementation/tests/qualification or other restricted activity performed. No stable IDs allocated; no protected normative contract changed.**
+- **Next:** independent MH-12/MH-13 and architecture review; record objections and source-backed dispositions; then request explicit owner/governance acceptance or revision.
