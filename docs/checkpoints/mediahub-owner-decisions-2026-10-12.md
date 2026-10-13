@@ -80,3 +80,18 @@ The owner explicitly selected the following recommended investigation/dispositio
 | D7 — Contract versioning scope | **C → B** | Inspect versioning/change-control rules first; propose P0-05 v1.1 only if within scope, otherwise route a separately governed contract. |
 
 **Continuing hard gates:** P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. These directions do not authorize code changes, implementation, tests, qualification, deployment, migration, infrastructure changes, or merge. The owner’s D6 selection is explicitly conditional on governance confirmation; no such confirmation is recorded by this entry.
+
+
+## Evidence addendum — owner confirmation after P0-05 lineage re-check (2026-10-13)
+
+The owner accepted the assistant's recommended conservative disposition after reviewing the documented governance ambiguity. This addendum records the selected path; it does not manufacture missing historical evidence or authorize implementation.
+
+| Topic | Accepted direction | Guardrail |
+|---|---|---|
+| D6 — exact normative-text acceptance/header mismatch | **C — defer and request/retain further evidence** | Do not treat the accepted implementation/tree as conclusive proof that the exact contract text was separately accepted as normative. Do not edit the protected P0-05 contract/header until explicit governance confirmation. |
+| D1 — existing authorization/context composition | **A if an existing compliant path is evidenced; otherwise prepare a governed design proposal only after the existing-source investigation fails** | First inspect accepted source lineage and identify caller, trust boundary and authority. Any proposal remains design-only and needs its own explicit implementation authorization. |
+| D2 — trusted P0-04 context source/lifecycle | **Continue evidence search first; if no source is evidenced, propose a governed design for owner review** | Do not invent or instantiate an issuer, provisioner, API bridge, identity technology or context schema. Document authority, lifecycle, principal binding, freshness/revocation and provenance as evidence requirements. |
+
+This is the current accepted continuation direction and supersedes any inference that D6 may be closed by silently correcting the DRAFT header. It should be read together with the earlier owner-selected investigation paths: D1 C→A, D2 C, D3 C→A, D4 C→B, D5 C→B, D6 B→A only after confirmation, D7 C→B. The current D6 decision is to remain at the evidence/defer gate until that confirmation is actually obtained.
+
+**Still blocked / not authorized:** P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification remains **NO-GO / NOT PROVEN**. This addendum authorizes documentary investigation and a possible design proposal only, not code changes, testing, qualification, deployment, migration, infrastructure changes or merge.
