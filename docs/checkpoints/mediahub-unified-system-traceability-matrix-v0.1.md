@@ -1575,3 +1575,26 @@ MH-04 provides the conceptual principal/authentication/credential/revocation/fai
 **Minimal owner question:** “For existing DEC-DEV-02, which lifecycle model do you approve—A (Jarvis owns lifecycle, ASTRA adapter), B (ASTRA owns a lifecycle explicitly delegated by Jarvis), or C (strictly disjoint lifecycle domains)? Separately, confirm that the Component Scheme’s ‘MediaHub State Authority’ wording does not grant A0 MediaHub Product State Authority; if it was intended otherwise, provide the explicit approved scope. No implementation begins until the corresponding typed lifecycle contract and source reconciliation are accepted.”
 
 **Next bounded step:** maintain DEC-DEV-02 as OPEN_CONFLICT pending owner/governance input; continue independent source crosswalk work only where it does not assume A/B/C. Do not edit ASTRA primary sources, rename A0, create a second queue, execute qualification, or claim current truth has improved.
+
+
+## Section 62 — DEC-DEV-03 developer vs future production Mac Pro asset identity (2026-10-13)
+
+**Disposition: DEFERRED / NOT ANSWERED / NOT ACCEPTED.** This source pass confirms the separation rule and evidence prerequisites; it cannot determine whether the future production Mac Pro will be the same physical unit.
+
+| Claim / question | Exact source, ref and blob | Source-backed finding | Disposition |
+|---|---|---|---|
+| Accepted target topology | `architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md`, `main`, blob `e549692f207fbc91d9b9b9b92b8e665404f07290`, §1 | Mac Pro is the central infrastructure target hosting the local inference endpoint and engineering/control services, subject to hardware/runtime validation. The source does not identify a future production unit or equate it to the purchased developer unit. | Target role confirmed; physical asset identity unresolved. |
+| Current developer Mac Pro | `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, documentation branch, blob `cd5377e2e4dc251baf4357087ff92c9060c5ab66`, §5.1 | Purchased Mac Pro is described as the primary developer workstation; exact model/year/chip/GPU/RAM/storage/OS are not provided. This is owner-reported intent, not independent inventory or qualification. | Preserve developer role; no hardware capability or production suitability inferred. |
+| Future production Mac Pro | Same Passport §5.1 and hardware/placement sections; `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`, blob `59107fd6d7b8a73d671098adcf2824c310642907`, NSP-TR-05 | Passport explicitly says the purchased developer unit and any future production Mac Pro are not assumed to be the same asset; resolve P-20 before production admission. Placement matrix requires explicit same-asset/separate-asset decision. | Maintain distinct logical asset identities until owner decision; no role transition or production placement implied. |
+| Historical owner decision | `docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md`, blob `a65de988736b21abfe95d72c1a3cc4947c832c71`, DEC-DEV-03; owner packet blob `f941d67c3d0b37b8abb1a96da02f51a494f9f2bf`, §5/§6.2 | Options remain A: controlled role transition of the same asset; B: separate production asset. The owner packet explicitly defers this question until asset evidence or a concrete production asset plan makes it blocking. | Do not interrupt current documentary work to ask prematurely. DEC-DEV-03 remains open/deferred. |
+| Required evidence before revisit | Passport §5.1; placement matrix NSP-NODE-01 / NSP-TR-05; Master Roadmap Phase 02/04/06 and DEC-DEV-03 | Exact asset identifier and inventory, supported OS/security lifecycle, intended workload, production boundary, data/credential/install/recovery separation, and applicable MH-15 acceptance evidence are not currently available in the reviewed sources. | Reopen when a concrete asset allocation/role-transition plan is being formed; ask owner only for the irreducible same-vs-separate choice once consequences and evidence prerequisites are explicit. |
+
+### Traceability conclusion
+
+1. The accepted topology defines a **role**, not a unique physical asset identity.
+2. Current source does not answer same physical Mac Pro vs separate production Mac Pro. No owner choice is inferred.
+3. Until the decision is made, use distinct logical identifiers and trust/credential/data scopes for developer and future production roles. Do not transfer credentials, install state, data, or recovery assumptions implicitly.
+4. This is a documentary crosswalk, not an inventory, hardware compatibility check, MH-15 acceptance, deployment, or production authorization.
+5. The next sequence remains the roadmap's crosswalk-validation of DEC-DEV-04 after its hardware/OS evidence prerequisites, while DEC-DEV-03 stays deferred. Continue the independent P0-07 → P0-05 authority bridge on its separate roadmap track.
+
+No tests, host/runtime inspection, credentials, installation, infrastructure change, deployment, migration, merge or rebase was performed.
