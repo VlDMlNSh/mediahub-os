@@ -4103,3 +4103,12 @@ The adapter contract lists three governance directions (existing independently P
 - Status remains P0-07 mutation/publication **BLOCKED — GOVERNANCE/API GAP**, P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**, project qualification **NO-GO / NOT PROVEN**.
 - No implementation, tests, qualification, deployment, merge, rebase or cherry-pick.
 - Matrix cross-reference: Section 52, blob `06e9e0f4e0ca2f2b66338e29fd5c19da5c49c83c`.
+
+
+## 20.135 Owner decision capture sheet for P0-05/P0-07 (2026-10-13)
+
+- The existing proposal was extended with Section 8, a blank owner/governance disposition sheet. It is a capture template, not an approval or new architecture decision.
+- Proposal: `docs/checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md`, commit `d09d062af8fb3b1a71bc855e6005c05b5cca69e5`, blob `9086f3b06b9f323469e5c769ed0f7081d50d3bf8`.
+- Matrix Section 53 records pending decision capture for D1–D7 and the separate normative acceptance/freeze, implementation authorization, and qualification gates. Matrix blob `e9dbee8071ba6dc4c8d6d839e4031ce11257909d`.
+- Required next event is an authorized owner/governance response on the existing proposal. No response or approval is inferred; no blank item is considered accepted.
+- Status remains P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**, P0-07 mutation/publication **BLOCKED — GOVERNANCE/API GAP**, qualification **NO-GO / NOT PROVEN**.
