@@ -140,7 +140,7 @@ The source-anchored placement baseline is prepared as a documentary deliverable.
 See owner packet §6 for the full source-anchored disposition. This matrix's decision register is refined as follows without changing historical IDs:
 
 - **DEC-DEV-01:** the accepted Distributed AI Infrastructure already establishes Alamo as a local inference endpoint. The unresolved decision is runtime/adapter/model/protocol composition, not whether Alamo is an endpoint.
-- **DEC-DEV-02:** remains open. No accepted source reviewed here assigns one authoritative owner for the complete queue/claim/lease/retry/cancel/evidence-promotion lifecycle across Jarvis and ASTRA. Next evidence task is exact reconciliation of ASTRA/Jarvis primary lifecycle contracts.
+- **DEC-DEV-02:** remains OPEN_CONFLICT. ASTRA canonical design assigns A0 ownership of ASTRA-internal queue/claim/lease/evidence state, while the working Jarvis ARC-018 requires one cross-system lifecycle owner and the independent review leaves it open. ASTRA Complete Component Scheme also incorrectly/ambiguously labels A0 as “MediaHub State Authority”, conflicting with ARC-003 and product authority boundaries. See owner packet §6.4 and unified matrix §59; do not silently edit the primary source.
 - **DEC-DEV-03:** remains open but deferred until production asset identity/role transition is a real dependency; preserve separate identities meanwhile.
 - **DEC-DEV-04:** evidence-gated; MH-15 is not accepted/frozen and implementation is unauthorized. Do not assign a critical workload before exact hardware/OS/security/resource evidence.
 - **DEC-DEV-05:** the fail-closed/no-silent-fallback invariant is established. Provider/data-class routing details remain open under MH-21, which is not accepted/frozen/production-ready.
