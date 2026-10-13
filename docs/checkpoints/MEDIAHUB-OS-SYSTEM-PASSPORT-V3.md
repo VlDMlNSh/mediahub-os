@@ -384,3 +384,15 @@ Contour B product implementation remains gated until Contour A is deployed and i
 - Current ASTRA truth remains NOT_PROVEN / BLOCKED with all G0–G11 blocked. Canonical design wording is not implementation, verification, qualification or acceptance evidence.
 - Required reconciliation: clarify the scope of the conflicting “MediaHub State Authority” phrase through governance; determine whether A0 is the selected single engineering-task lifecycle owner under Jarvis; specify a typed adapter/delegation boundary and prevent competing queue/lease/retry/evidence-promotion stores.
 - Do not change the ASTRA primary sources or choose a second lifecycle owner without the required governance decision. The next independent track is the existing P0-07 → P0-05 trust/context/authorization bridge.
+
+
+## 15. MH-04 / MH-12 trusted-context lifecycle crosswalk (2026-10-13)
+
+**Status:** working passport addendum; not canonical and not an acceptance record. Baseline 2.0 remains the accepted functional reference.
+
+- MH-04 identity model (`architecture/mh-04-security-trust-authorization`, blob `dccded8f572bed42e8f40e4240e91e5621f24a37`) defines principal lifecycle states; authentication (`834dd3f4036ba1668e4b8af132393e25c70c85eb`), authorization (`327b7c0c7504612ff05a6654a710058dcecaf438`), credential boundary (`7b5db076bb5a948def0fc4d72dd58740828660c5`) and failure semantics (`441d110036bd7fa5a26b8c3d9f58d63a37f7915f`) establish conceptual deny/revocation requirements. The MH-04 package remains PROPOSED / REVIEW COMPLETE; no concrete issuer or security framework is accepted by those documents.
+- MH-12 main sources remain architecture/governance-level: security architecture blob `cf4ebfd5bf471ca676f075c51d3a24906504e490`, authorization blob `c48641861691714017aa5b1f99fe8eee8ea0e76a`, invariants blob `0609be9c3420070434014dad4529e4ccd46b0996`. They align with the canonical authority path but do not prove an accepted/deployed issuer.
+- P0-05 implementation at `303a766257b90c4356dcffc8967a5574e8e22e7a` still represents `AuthorizationContext` with only principal and capability (blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`); the Consumer Boundary forwards the supplied context (blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596`) without proving issuer provenance, expiry/freshness, audience, revocation, replay or request binding.
+- P0-05 contract text at governance tree `97a01977f521ba8304a455b5d7504896235ddea7`, blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`, still says DRAFT / GOVERNANCE REVIEW REQUIRED despite implementation-state acceptance evidence. D6 requires explicit governance clarification; do not edit the protected header or infer normative-text acceptance.
+- Disposition: DEC-DEV-02 remains OPEN_CONFLICT; P0-07→P0-05 bridge remains blocked; trusted issuer and context lifecycle remain NOT EVIDENCED; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN. No tests, implementation, provider calls or qualification were performed.
+- Detailed clause-level trace: `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`, Section 62.
