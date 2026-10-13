@@ -58,3 +58,14 @@ Trace `docs/architecture/MH-17-device-configuration.md` and the P0-07 operation 
 - Map Section 20.131 blob `2ae143368117484b57ac6dec46c20f27b013fe06`, commit `fd668d905a66c83585be8f4ce85fbd204e1a4b4f`.
 - Status remains: source lineage LOCATED; P0-07→P0-05 read call edge NOT EVIDENCED; current-main reachability NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification NO-GO / NOT PROVEN.
 - Next: inspect documented integration/composition entry points and branch history for an existing approved bridge, then compare with current main without merging. No tests, workflows, code changes, deployment, merge or rebase.
+
+
+## Follow-up — P0-07 composition review (2026-10-13)
+
+- Reviewed MH-07 runtime interaction blob `991617d19542f662c561aa8fd8870b16d3f7fadf`, dependency map `1e4e0c7932a1100af3feb8b94ff51382cc9761cf`, P0-07 mutation reconciliation `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`, and adapter contract `22b8e1897e124578e66c8d619b3e8eaf41f69a88`.
+- The intended path through P0-05 is documented as a target. The same documents explicitly state that the composition gap is a governance blocker and that no approved capability bridge exists in the inspected contract.
+- Operation boundary blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` does not call P0-05. ConsumerBoundary blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596` exposes separate read/transaction methods. Package exports do not prove composition.
+- Source history: operation boundary commit `9e1be215e75be5e6263decf457b3e72b4e937dbf`; governance-gap record commit `65d22a105435aebd03594cc40f70a4314ece6ca4`.
+- Matrix Section 50 blob `0fb4ee682455104301eb3cb3bb9dab7b890f7708`, commit `2d55348b57a5bb87639da7f781020e37a2be8c6d`. Map Section 20.132 blob `0f337644abce65ef8ed46632abed4abfddf8a438`, commit `dd0af3fbe5a526c6ddd3c87fea6279388e7ab167`.
+- Status: intended flow DOCUMENTED; implemented call edge NOT EVIDENCED; governance/API decision REQUIRED; mutation/publication BLOCKED; current-main integration NOT EVIDENCED; project qualification NO-GO / NOT PROVEN.
+- Next: search owner/governance records for a later accepted decision; if absent, request owner direction before code changes. No tests, workflow runs, code changes, deployment, merge, rebase, or cherry-pick.
