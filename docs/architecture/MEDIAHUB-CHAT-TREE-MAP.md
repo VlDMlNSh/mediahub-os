@@ -4410,3 +4410,14 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Checkpoint:** current continuation checkpoint commit `bdd8d5929a2b057a7fafe5bdd78a918e61cf2255`, blob `1550c151d5ff35e3339166662587e8eab5876c7b`.
 - **Next:** DEC-DEV-04 only within evidence prerequisites for exact Mac mini hardware/OS/support/workload; no critical workload assignment from the 2011 model or owner-reported 16 GB alone. Continue the P0-07 → P0-05 trust/context track independently.
 - **Safety:** documentary source reconciliation only; no tests, host/runtime inspection, inventory, credentials, installation, infrastructure change, deployment, migration, merge or rebase.
+
+
+## 20.156 DEC-DEV-04 — Mac mini Server 2011 evidence gate (2026-10-13)
+
+- **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “DEC-DEV-04 — Mac mini Server 2011 evidence-gate reconciliation”; commit `ceecad3c75ffb1ff0e7d1e1a064fc329fea8db0a`, blob `f3fbf18e35949cd2ac31f6dcbfa3802c8f94d86c`.
+- **Primary sources re-read:** MH-15 architecture on `main`, blob `f817925c69ce4484713f952e47aacad283af8eeb` (WORK IN PROGRESS; acceptance/freeze NOT AUTHORIZED; implementation authorization NONE); MH-15 acceptance criteria on `main`, blob `082642e67dc66cb359a5566773c143854cafaa00` (NOT ACCEPTED).
+- **Existing decision/placement records:** owner decision packet 01 blob `f941d67c3d0b37b8abb1a96da02f51a494f9f2bf`; placement register 01 blob `59107fd6d7b8a73d671098adcf2824c310642907`; master roadmap blob `a65de988736b21abfe95d72c1a3cc4947c832c71`.
+- **Confirmed prerequisite classes:** exact hardware identity/inventory; supported OS/kernel and security lifecycle; workload-specific resource/capacity evidence; thermal/power and failure behavior; security/isolation baseline; workload-appropriate recovery evidence; measurable acceptance criteria and reproducible evidence.
+- **Finding:** those criteria are defined, but actual machine inventory, OS support, benchmark, thermal/power, security-lifecycle and recovery evidence are not present in the reviewed records. Owner-reported 16 GB and clean Linux do not prove compatibility. No host inspection was performed.
+- **Disposition:** DEC-DEV-04 remains **EVIDENCE-GATED / OWNER CHOICE DEFERRED**. Keep Mac mini as an optional low-resource/legacy candidate and outside critical dependencies; no installation, workload admission, implementation or qualification is authorized.
+- **Next:** continue P0-07 → P0-05 trusted context/canonical-read work per Roadmap §9 independently; revisit DEC-DEV-04 only after separately authorized read-only evidence collection. No host/runtime inspection, tests, qualification, credentials, deployment, migration, merge or rebase.
