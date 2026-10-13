@@ -4139,3 +4139,17 @@ The adapter contract lists three governance directions (existing independently P
 - **Required evidence:** owner-approved target profile/edition matrix; entitlement state and lifecycle contract; accepted artifact/schema/workflow inventory; provenance/authorization requirements; separate runtime and negative-path qualification.
 - **Disposition:** no final child IDs; no baseline/canonical backlog update; no implementation or qualification implied.
 - **Next sequential source:** B1 §26 Engineering System / AT-19, after live-map and source/path inventory check. Keep AT-18 open and preserve historical identifiers.
+
+
+## 20.138 MH-24 Batch 17 Engineering System / AT-19 crosswalk (2026-10-13)
+
+- **Historical B1 source:** `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, blob `9df4892ed0734050ac79732603d15bb414717310`, §26 lines 411–416.
+- **Canonical B2 source:** `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §17 lines 368–378.
+- **Preserved parent:** AT-19 in `docs/checkpoints/MH24-ATOMIC-TRACEABILITY-BACKLOG-01.md`, blob `ec2580f714e8f620bcf85ff7de2ae9242439e5e8`, remains OPEN—CONTRACT.
+- **Draft:** `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-17-ENGINEERING-SYSTEM-DRAFT.md`, blob `11ab80db83d761c142e037944c03f4821c342127`.
+- **Review:** `docs/checkpoints/MH24-BATCH-04-ATOM-LEVEL-CROSSWALK-BATCH-17-ENGINEERING-SYSTEM-REVIEW-01.md`, commit `4421e8912b940f50e4f47825ba8bb3b103c4b04e`; blob to be verified on read-back.
+- **Matrix:** Section 56 in `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`.
+
+**Bounded result:** five provisional rows: Engineering calculations (MAPPED); buildings/engineering networks/spatial data (NOT_REVIEWED); BIM/Digital Twin/simulation (MAPPED); technical documentation/inspection/analysis (NOT_REVIEWED); OSS admission/qualification sequence (NOT_REVIEWED). Distribution 2 / 3 / 0 / 0 across MAPPED / NOT_REVIEWED / NO_DIRECT_COUNTERPART / CONFLICT. This is textual crosswalk only, not owner acceptance.
+
+**Open gates:** exact Engineering workflow and artifact scope; building/network/spatial schemas; inspection and analysis lifecycle; full OSS license/security/provenance/benchmark/adapter/qualification sequence; owner/domain review. AT-18 remains OPEN—CONTRACT. No stable child IDs minted and no canonical backlog/baseline changed. No tests, implementation, qualification, deployment, migration, merge or rebase.
