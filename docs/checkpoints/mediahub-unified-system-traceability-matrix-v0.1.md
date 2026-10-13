@@ -1691,3 +1691,30 @@ DEC-DEV-01 remains deferred until documentary compatibility narrows options; DEC
 **D1:** existing compliant authorization/context composition NOT DEMONSTRATED in inspected source. **D2:** trusted context issuer/provisioner and freshness/revocation authority NOT EVIDENCED. These are bounded evidence findings, not universal claims about components outside the inspected repository/tree.
 
 **Governed design questions:** issuer/authority ownership; principal and request binding; separation of P0-07 and P0-04 decisions; expiry/revocation/replay; trust boundary/provenance; exact resource/payload/state-revision binding; audit/privacy; fail-closed errors. No implementation technology, schema or API signature selected. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN.
+
+
+## Section 66 — P0-07 D5 audit/privacy evidence crosswalk (2026-10-13)
+
+**Scope:** read-only source crosswalk for audit/provenance and privacy boundaries at the proposed P0-07 → P0-05 edge. This section is documentary only; no audit implementation, tests or qualification were performed.
+
+### Primary source evidence
+
+| Source | Ref / blob SHA | Evidence and limit |
+|---|---|---|
+| P0-07 operation boundary | `architecture/mh-7-configuration-policy`, `runtime/mediahub_runtime/configuration_policy_operations.py`, `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` | Validates and authorizes bounded configuration/policy operations and returns decisions; no canonical publication or audit sink is evidenced in this operation module. |
+| P0-07 authorization | same branch, `runtime/mediahub_runtime/configuration_policy_authorization.py`, `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3` | Explicit operation/capability allow-list; establishes a domain decision, not trusted identity, P0-04 authority, or privacy/audit persistence. |
+| P0-05 ConsumerBoundary | `main`, `runtime/mediahub_runtime/consumer_boundary.py`, `98bf2da9cea85da2c82145b4baef417c20b9ae73` | Sanitizes public error codes and bounds/copies payloads; source contains no durable audit/event sink or retention/access-control contract. |
+| P0-04 AuthorizationContext | `main`, `runtime/mediahub_runtime/authorization.py`, `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` | Carries `principal` and `capability`; allow-list authorization is explicit and default-deny. The type does not itself establish issuer, authentication, provenance or lifecycle. |
+| MH-13 privacy/data governance | `main`, `docs/architecture/MH-13-privacy-data-governance.md`, `e732ff9cacbc9c1189bd83306cdff30906326cf0` | §§2.3–2.9 require minimization, defined retention/deletion, protected-data exclusion from unauthorized telemetry/diagnostics/audit, explicit transfer controls and auditable evidence without unnecessary payload disclosure. Unknown taxonomy/retention semantics remain open. |
+| MH-13 governance acceptance record | `main`, `docs/architecture/MH-13-governance-acceptance-record.md`, `6ecdc89440664563f36263bb8da80d1ad24f19a7` | Records independent governance acceptance of the reconstructed governance artifact, but explicitly grants no State Authority, persistence, media, AI, cloud or provider authority. |
+| MH-21 privacy invariants / retention | `main`, `docs/architecture/MH-21-privacy-invariants.md`, `4475da53dc87ad1c2ad1c9f112a55211cbfa49eb`; `docs/architecture/MH-21-data-retention.md`, `8dfe3b619be593c3ec57948e350671895827ae8b` | Both remain PROPOSED; external-transfer records require what/why/where/retention/deletion/responsibility/user rights/audit/incident handling, backed by current provider evidence. |
+
+### D5 crosswalk disposition
+
+1. **Evidence type:** audit is distinct from ordinary logs/telemetry. MH-13 requires auditable evidence for privacy-relevant operations, but the inspected P0-07/P0-05 runtime sources do not establish an accepted audit sink, schema, retention authority or reader authorization.
+2. **Minimum safe design questions (not a schema proposal):** which governed subsystem owns audit evidence; which event categories are mandatory; which correlation/provenance fields are necessary; who can read them; how retention/deletion is governed with MH-14; how secrets and protected payload are excluded/redacted; and how audit unavailability affects sensitive operations.
+3. **No over-collection:** do not log raw authorization context, credentials, full protected payload or sensitive media/device metadata by default. A correlation identifier alone does not prove principal authentication or authorization.
+4. **No authority expansion:** MH-13 governs privacy but is not a mutation/persistence authority; P0-07 ALLOW does not authorize P0-04 transactions; P0-05 remains the consumer boundary and P0-04 the canonical mutation authority.
+5. **External transfer:** provider/region/retention/deletion/training terms cannot be inferred from capability or runtime availability. MH-21 remains proposed and requires provider-specific evidence.
+
+**Finding:** D5's invariant-level privacy constraints are source-evidenced; an accepted P0-07 audit/provenance event contract and operational evidence path are **NOT EVIDENCED**. This does not establish absence outside the inspected source set. D5 remains open for governed design and later evidence. Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification remains **NO-GO / NOT PROVEN**.
