@@ -305,3 +305,21 @@ Use the existing owner disposition sheet to resolve whether the exact P0-05 cont
 - Mutation/publication: BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN.
 - This finding is bounded to the cited refs and complete inspected trees; it is not a universal claim about every branch/history.
 - Next action: route existing D1/D2/D6 questions through owner/governance if no accepted source closes them. No API, issuer, cryptographic technology or owner decision is selected here. No tests or qualification were run.
+
+
+## 18. D4 operation-to-canonical-state crosswalk (2026-10-13)
+
+### Source facts
+- P0-07 operation boundary `runtime/mediahub_runtime/configuration_policy_operations.py`, blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`, returns authorization/policy decisions and has no state-publication call.
+- Exact P0-07 capability/operation allow-list: `configuration_policy_authorization.py`, blob `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`.
+- Read/validate boundary blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f` limits reads to observation of explicitly supplied immutable domain objects until a canonical configuration/policy source is defined; validation and evaluation do not mutate state.
+- Mutation reconciliation blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063` and adapter contract blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88` preserve P0-05/P0-04 authority and forbid capability translation.
+
+### Mapping result
+- `read`: observation-only; canonical resource/key mapping NOT EVIDENCED.
+- `validate`: deterministic bounded decision only; no state transition.
+- `propose`: inert proposal; no publication.
+- `configuration.update/replace/reset/delete` and `policy.update/replace/reset/delete`: domain intents only; canonical mapping and P0-05 publication edge NOT EVIDENCED, therefore BLOCKED.
+- P0-07 ALLOW does not grant P0-04 transaction authority. No second authority/version, persistence, hidden retry/rebase/LWW or cross-document atomicity.
+
+D4 is source-mapped at operation-family level only. This is not proof of an implemented call edge or accepted mutation adapter. D1/D2 remain unresolved; D6 remains open.
