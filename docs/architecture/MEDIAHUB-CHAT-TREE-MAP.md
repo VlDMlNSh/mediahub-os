@@ -4017,3 +4017,19 @@ The adapter contract lists three governance directions (existing independently P
 - Crosswalk: Unified Traceability Matrix Section 44 (see matrix blob SHA recorded after update).
 
 **Next safe action:** continue read-only primary-source traceability for P0-07 caller/context provenance and the P0-04 transaction authorization boundary. Do not infer the failed job cause from the job conclusion alone and do not edit the protected P0-05 header without explicit governance confirmation.
+
+
+## 20.129 Canonical-read source trace and P0-07 caller join (2026-10-13)
+
+**Status:** source-bound documentation only; no acceptance or qualification gate changed.
+
+- Current `main HEAD`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; recursive tree `cbb1862fcb4aa22ba24fea4ff12b580ffb305593` (798 entries, not truncated).
+- `runtime/mediahub_runtime/consumer_boundary.py`, blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`, implements `ConsumerBoundary.read(key=None)` as direct delegation to `self._authority.read(key)`.
+- `runtime/mediahub_runtime/state.py`, blob `a2115b81f52a63feb357e484bd982a6a32641d81`, defines the StateAuthority read interface and states that persistence is out of scope.
+- `runtime/mediahub_runtime/in_memory_state.py`, blob `0fbc71369d19e09944ba67a60ccb9df802f30a4b`, performs an unkeyed read under lock and returns a frozen `CanonicalState` with payload, generation, state version and integrity flag; keyed reads return a value from the frozen mapping. This establishes an in-memory read path only.
+- Source chain: `ConsumerBoundary.read → injected StateAuthority.read → InMemoryStateAuthority.read`, when that implementation is injected. The main-tree scan did not identify an explicit P0-07/MH-17 domain read caller invoking this boundary or a unique production composition root. Same-revision P0-07-to-P0-05 read is therefore **NOT EVIDENCED**.
+- P0-05 contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` requires consistent immutable canonical reads but has a DRAFT / GOVERNANCE REVIEW REQUIRED header. Governance packet `1253944ffeefcb59502d9f7deb13d38baed1d6e1` and acceptance record `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242` exist in accepted governance tree commit `97a01977f521ba8304a455b5d7504896235ddea7`. Do not transfer acceptance across differing current-main source blobs or edit protected headers without explicit confirmation.
+- Matrix cross-reference: [Unified System Traceability Matrix, Section 47](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob `f7f70b603c2877eecf3364bdb56bda2fc2e0833e`.
+- Checkpoint addendum: [Canonical-read trace checkpoint, 2026-10-13](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), blob `47bc0fc229088a4fd064aaf75eabcd5e60050c64`.
+- Disposition: P0-07 canonical-read acceptance **NOT EVIDENCED**; mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project-wide qualification **NO-GO / NOT PROVEN**.
+- Next safe step: trace MH-17/P0-07 operation definitions to concrete runtime call sites/composition. No tests, workflows, runtime/host inspection, code changes, deployment, merge or rebase occurred.
