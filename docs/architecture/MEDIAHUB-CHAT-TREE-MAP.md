@@ -4211,3 +4211,10 @@ The adapter contract lists three governance directions (existing independently P
 - Current map blob SHA before this record update: `7473e5e2d8b3d1d035c5cebddc66f5204bdf60c8`.
 - Current checkpoint blob SHA before this record update: `7d4055f70f766fa31e7a790d09cad96ac34295e3`.
 - Verified directly from GitHub: each updated file contains its new live-ref/link-drift rule; all four paths remain reachable on `docs/mediahub-chat-tree-map-20261012`. These SHA values are snapshots and must be refreshed during the next `/next`.
+
+
+## 20.142 Canonical project instruction direct link
+
+- **Каноническая полная инструкция проекта (GitHub Bootstrap):** https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md
+- **Правило:** короткие ChatGPT Project Instructions должны прямо ссылаться на эту полную инструкцию. Перед каждым `/next` нужно проверить refs/HEAD/пути/blob SHA; сохранённые ссылки не гарантируют актуальность.
+- Bootstrap blob SHA после добавления self-link: `4a24bdff534c275e4564798920cbccbc26727f2d`. Сверять заново при следующем проходе.
