@@ -1451,3 +1451,24 @@ Next independent documentary track: continue the existing P0-07 → P0-05 trust/
 | configuration/policy.delete | Operation label exists; deletion semantics not specified | No tombstone/absence contract or invariant | UNMAPPED |
 
 The source lists 14 operations (seven per resource type), but this is not acceptance of 14 P0-05 mutations. No exact resource-to-canonical-key mapping, immutable revision binding, caller trust provenance, P0-04 context lifecycle, or approved P0-07→P0-05 call edge is evidenced. Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. No code/tests/qualification/status changes.
+
+
+## Section 60 — P0-07 D1/D2 trusted caller and authorization-context lifecycle (2026-10-13)
+
+**Status:** source-bound partial trace; working matrix remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
+
+| Claim | Source/ref/blob | Finding | Disposition |
+|---|---|---|---|
+| P0-04/P0-05 context shape | `runtime/mediahub_runtime/authorization.py`, `implementation/p0-05-consumer-boundary`, `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` | `AuthorizationContext` contains only principal and capability. Exact tuple grants are checked fail-closed, but issuer, authenticated source, expiry, audience, revocation and replay/request binding are not represented by this object. | Context provenance/lifecycle NOT EVIDENCED |
+| P0-05 mediation | `runtime/mediahub_runtime/consumer_boundary.py`, same ref, `23b95f1b37cb35e311b61e3babcca4bd1aea9596` | Consumer boundary forwards the supplied context to State Authority; it does not establish who created/trusted the context. | Boundary exists; trusted issuer NOT EVIDENCED |
+| P0-07 authorization/operation | `architecture/mh-7-configuration-policy`, blobs `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3` and `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` | Local immutable allow-list checks principal/capability/operation; operation boundary returns a decision and does not call P0-05 or publish state. | No trusted caller composition / call edge evidenced |
+| MH-04 identity/authentication/authorization/credential/trust sources | `architecture/mh-04-security-trust-authorization`, blobs `dccded8f572bed42e8f40e4240e91e5621f24a37`, `834dd3f4036ba1668e4b8af132393e25c70c85eb`, `327b7c0c7504612ff05a6654a710058dcecaf438`, `7b5db076bb5a948def0fc4d72dd58740828660c5`, `3e1d0ebffcd9e84f10e8e65dc3baf4bbb235ac01` | Conceptual principal lifecycle, separation of authentication and authorization, revocation requirements, and reachability-not-trust invariant are explicit. Concrete issuer/runtime lifecycle remains unselected and proposal-level. | Requirements found; implementation/acceptance NOT EVIDENCED |
+| MH-12 authorization / contradiction register | `main`, blobs `c48641861691714017aa5b1f99fe8eee8ea0e76a`, `4b3c101317330e47236937b17344299df53deee9` | Operation-specific, identity-bound, context-aware, fail-closed authorization is required; C-01 requires governance resolution and C-02 blocks the P0-07/P0-04 bridge. | Governance/API blocker remains |
+
+### Bounded conclusion
+
+- A frozen two-field context and a fail-closed grant tuple do not prove authentication, issuer provenance, expiry/freshness, audience, revocation or exact-operation binding.
+- Inline test-fixture construction is not evidence of a production issuer; tests were not executed.
+- MH-04 conceptual rules are directionally aligned with MH-12 but are not proof of accepted/deployed issuer lifecycle.
+- D1 remains C→A only if trusted caller composition is evidenced; D2 remains C. No API shape or security mechanism is selected.
+- P0-07 canonical-read call edge remains NOT EVIDENCED; mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification remains **NO-GO / NOT PROVEN**.
