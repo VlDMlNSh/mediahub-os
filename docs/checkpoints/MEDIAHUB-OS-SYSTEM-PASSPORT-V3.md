@@ -396,3 +396,16 @@ Contour B product implementation remains gated until Contour A is deployed and i
 - P0-05 contract text at governance tree `97a01977f521ba8304a455b5d7504896235ddea7`, blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`, still says DRAFT / GOVERNANCE REVIEW REQUIRED despite implementation-state acceptance evidence. D6 requires explicit governance clarification; do not edit the protected header or infer normative-text acceptance.
 - Disposition: DEC-DEV-02 remains OPEN_CONFLICT; P0-07→P0-05 bridge remains blocked; trusted issuer and context lifecycle remain NOT EVIDENCED; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN. No tests, implementation, provider calls or qualification were performed.
 - Detailed clause-level trace: `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`, Section 62.
+
+
+## 16. P0-05 D6 acceptance-scope governance discrepancy (2026-10-13)
+
+**Status:** decision support only; no owner disposition recorded. Baseline 2.0 remains the canonical functional reference.
+
+- Accepted implementation target: commit `303a766257b90c4356dcffc8967a5574e8e22e7a`, tree `82da63f03da20049954fe69257342cbf66b58395`.
+- Contract present in that exact tree: `docs/architecture/P0-05-consumer-contract.md`, blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`, still marked `DRAFT — GOVERNANCE REVIEW REQUIRED`.
+- Acceptance record: governance tree `97a01977f521ba8304a455b5d7504896235ddea7`, blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242`, says P0-05 is ACCEPTED / FROZEN at the reviewed implementation state. It does not separately state that the exact contract text is accepted/frozen as normative.
+- Governance packet blob `1253944ffeefcb59502d9f7deb13d38baed1d6e1` separates implementation authorization, implementation acceptance, security exit and production qualification. P0-05 v1.1 remains a non-normative proposal.
+- Decision-ready options A/B/C and recommendation are recorded in proposal §9, `docs/checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md`, current blob `6d494c7311e61ec3d82e561f66af10f6dffa69b9`; detailed evidence is in unified traceability matrix §63, current blob `815ce2ecd8c75e51338043cfe0f25edfe1143229`.
+- Recommendation is C (defer) on current evidence; B is only a conservative provisional planning assumption if needed, not a decision. Owner/governance disposition remains PENDING.
+- Consequence unchanged: D6 OPEN / GOVERNANCE AMBIGUITY; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification NO-GO / NOT PROVEN. No protected contract/header, acceptance record, code or implementation was changed; no tests/qualification were performed.
