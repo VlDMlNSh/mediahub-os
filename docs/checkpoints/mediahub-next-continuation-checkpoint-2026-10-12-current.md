@@ -1017,3 +1017,36 @@ The proposal, matrix, passport and map all contain the expected new sections. Th
 **Next:** continue independent documentary reconciliation of exact accepted governance records and source lineage; if no existing issuer/composition evidence appears, route the already-recorded D1/D2/D6 questions through the owner/governance process. No API, issuer, identity technology, or owner decision is selected here.
 
 **Safety boundary:** GitHub source/tree/document reads and documentation writes only. No tests/workflows, code implementation, credentials, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+
+
+### P0-05 governance lineage re-check and irreducible owner gate (2026-10-13)
+
+**Live ref verification**
+- `main` HEAD re-read: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Documentation ref `docs/mediahub-chat-tree-map-20261012` exists and points to commit `0f9a8eb08ada6e322d473c4a297e992b50c1c250` at the start of this pass.
+- Live compare remains `DIVERGED`: documentation ref is 632 commits ahead and 2 behind `main`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase performed.
+- Re-read Bootstrap blob `49b4760b4adf4f1565fac0aa4697da000f1cf37b`, map blob `f28624728c8fcf7d77996927b104a41881ba477c`, checkpoint blob `b7cadb3066f9d512b0bcfd4f0abd65eaa9d0f0e4`, and roadmap blob `a65de988736b21abfe95d72c1a3cc4947c832c71`.
+
+**Governance lineage checked**
+- Accepted P0-05 tree at commit `97a01977f521ba8304a455b5d7504896235ddea7` is complete (115 entries). It contains:
+  - consumer contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`;
+  - governance acceptance record blob `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242`;
+  - governance decision packet blob `1253944ffeefcb59502d9f7deb13d38baed1d6e1`.
+- The acceptance record says `ACCEPTED / FROZEN` for the reviewed P0-05 implementation state at commit `303a766257b90c4356dcffc8967a5574e8e22e7a`. The governance decision packet says `APPROVED — IMPLEMENTATION AUTHORIZED` and explicitly separates implementation authorization from implementation acceptance, security exit, and production qualification.
+- The exact consumer contract present in that accepted tree still says `DRAFT — GOVERNANCE REVIEW REQUIRED`. Neither record separately names the exact contract blob as accepted/frozen normative text. The governance packet's inclusion of the contract is not enough to resolve that ambiguity.
+- The live owner decision register blob `62831d23c5e6bbddc707ec5b197cffba57d6139a` and revision proposal blob `6d494c7311e61ec3d82e561f66af10f6dffa69b9` both explicitly retain D6 as unresolved pending authorized confirmation; the proposal records no later accepted D6 disposition in the inspected documentation tree.
+- The live proposal remains `PROPOSAL / GOVERNANCE REVIEW REQUIRED / NOT ACCEPTED / NOT FROZEN`. It does not authorize contract edits or implementation.
+
+**Bounded disposition**
+- D6 (exact normative-text acceptance vs implementation-only acceptance): `OPEN / GOVERNANCE AMBIGUITY`; cannot be closed from existing records without inferring intent.
+- D1 existing-context composition: `NOT DEMONSTRATED`.
+- D2 trusted P0-04 context issuer/lifecycle: `NOT EVIDENCED`; no issuer/provisioner module or accepted composition path was found in the already-inspected complete current-main and MH-04 trees.
+- P0-07 → P0-05 canonical-read/mutation call edge and same-authority/same-revision proof: `NOT EVIDENCED`; P0-07 mutation/publication remains `BLOCKED — GOVERNANCE/API GAP`.
+- P0-05 v1.1 remains `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; project qualification remains `NO-GO / NOT PROVEN`.
+
+**Owner/governance gate now irreducible**
+1. D6: confirm one of (A) the exact contract blob was accepted as normative and the DRAFT header is stale; (B) only the implementation was accepted and the contract text needs controlled normative review; or (C) defer/request further evidence. Recommendation: C until explicit authorized confirmation; B is the conservative non-promotional working assumption only, not a recorded decision.
+2. D1/D2: identify an existing trusted caller/context source and its authority, lifecycle, principal binding, freshness/revocation and source evidence; otherwise explicitly authorize a governed design proposal. No issuer, API bridge, identity technology or field schema is selected by this pass.
+3. Continue independent documentary crosswalks only where they do not depend on these unresolved decisions. Do not modify the protected P0-05 contract/header, accept/freeze v1.1, implement an API bridge, or change P0-07 status without explicit governance disposition and separate implementation authorization.
+
+**Safety boundary:** read-only GitHub/source review plus checkpoint/map documentation only. No tests/workflows, model/provider calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
