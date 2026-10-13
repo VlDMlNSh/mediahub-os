@@ -1128,3 +1128,14 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - **Disposition:** D5 remains open for governed design and further source evidence. No schema, event store, provider or API was selected. No implementation/tests/qualification/provider calls/credentials/host inspection/deployment performed.
 - Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; qualification remains **NO-GO / NOT PROVEN**.
 - **Next:** continue D7 canonical state-version/change-control source crosswalk independently, or resolve owner question DEC-DEV-02; do not implement audit or mutation adapters.
+
+
+### P0-07 D7 canonical state-version crosswalk (2026-10-13)
+
+- Artifact: [P0-07 D7 canonical state-version crosswalk](P0-07-D7-CANONICAL-STATE-VERSION-CHANGE-CONTROL-CROSSWALK-2026-10-13.md)
+- Artifact blob SHA at read-back: `8f6f616e7717e67c95626c54678c282411618c1c`; create commit: `f5861679447ddf4bb7d2faa5585aa833cffa4f74`.
+- Live source crosswalk on `main`: `in_memory_state.py` `0fbc71369d19e09944ba67a60ccb9df802f30a4b`; `generation.py` `4e4fe0e40d67c18c918881d79dc2cc9933988b2c`; `authorization.py` `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; `consumer_boundary.py` `98bf2da9cea85da2c82145b4baef417c20b9ae73`; `state.py` `a2115b81f52a63feb357e484bd982a6a32641d81`.
+- Finding: in-memory state-version freshness, generation compatibility and restore version advancement are source-evidenced. Accepted owner for generation/schema change control and complete trusted P0-07 → P0-05 → P0-04 revision binding remain NOT EVIDENCED in this bounded pass. Persistence is explicitly out of scope for the inspected authority implementation.
+- Gates unchanged: P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- No runtime actions, tests, qualification, deployment or merge performed.
+- **Next:** follow map-selected MH-14 persistence, MH-16 lifecycle/migration and MH-22 qualification primary sources; determine whether an accepted generation/change-control owner and evidence path are specified. If not, frame a minimal owner/governance question.
