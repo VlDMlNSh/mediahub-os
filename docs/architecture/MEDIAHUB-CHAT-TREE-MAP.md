@@ -4218,3 +4218,14 @@ The adapter contract lists three governance directions (existing independently P
 - **Каноническая полная инструкция проекта (GitHub Bootstrap):** https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md
 - **Правило:** короткие ChatGPT Project Instructions должны прямо ссылаться на эту полную инструкцию. Перед каждым `/next` нужно проверить refs/HEAD/пути/blob SHA; сохранённые ссылки не гарантируют актуальность.
 - Bootstrap blob SHA после добавления self-link: `4a24bdff534c275e4564798920cbccbc26727f2d`. Сверять заново при следующем проходе.
+
+
+## 20.143 Developer-fabric placement crosswalk and owner-decision packet (2026-10-13)
+
+- **Primary placement artifact:** [MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md](../checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md). It is already present; do not recreate the inventory. Current blob SHA after handoff update: `39e9ec183988c9caee5eb7ab0128bf4c71ffaa39`.
+- **Owner decision interface:** [MEDIAHUB-OWNER-DECISION-PACKET-01.md](../checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md). It consolidates existing DEC-DEV-01…08 and keeps each OPEN; no owner decision is presumed.
+- **Cross-domain traceability:** `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`, Section 57. This is still a working proposed draft.
+- **Working integrated passport:** `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, Section 13. Not a replacement for accepted Baseline 2.0.
+- **Live primary sources reviewed:** Distributed AI Infrastructure/main `e549692f207fbc91d9b9b9b92b8e665404f07290`; Component Manifest 2.0/main `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`; MH-15/main `f817925c69ce4484713f952e47aacad283af8eeb`; MH-16 architecture/main `f3ad2401f00a4062b39eed640e0c5c5f70064312`; MH-12 security/main `cf4ebfd5bf471ca676f075c51d3a24906504e490`; MH-21/main `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c`; MH-21 criteria/main `582f898fe4be332b6a7fef3e8cca2e27c7328ac2`.
+- **Confirmed boundaries:** Contour A and B remain separate; Alamo/Ollama/ONNX Runtime/llama.cpp composition is unresolved; Jarvis/ASTRA lifecycle owner is unresolved; MH-15/MH-16/MH-21 acceptance gates remain open; no deployment/qualification is implied.
+- **Next step:** cross-check DEC-DEV-01…08 against exact primary clauses, refresh live SHA, update only confirmed traceability and prepare the minimum owner questionnaire. Continue independent documentary work; do not repeat the placement inventory.
