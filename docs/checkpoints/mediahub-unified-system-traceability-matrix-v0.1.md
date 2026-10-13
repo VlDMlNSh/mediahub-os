@@ -1228,3 +1228,38 @@ Do not implement the bridge. Identify the precise owner/governance decision reco
 ### Next bounded step
 
 Do not write an adapter or change the frozen baseline. Present the owner with the already-existing proposal and the bounded evidence that the existing-context path is not demonstrated. Request an explicit governance disposition on the candidate hand-off contract, including D2 context authority/lifecycle and the P0-05 normative-status discrepancy. Implementation remains prohibited until exact normative text is accepted/frozen and a separate implementation authorization is recorded.
+
+
+## Section 52 — P0-05 v1.1 D1–D7 decision-to-acceptance gate crosswalk (2026-10-13)
+
+**Primary sources:** owner decision register blob `62831d23c5e6bbddc707ec5b197cffba57d6139a`; P0-05 v1.1 candidate blob `79e2b4865c47b5394ade266cd3cd7cfbe3097717`; P0-07 audit/privacy crosswalk blob `3b2ff1d5b66e99284e93ec2a6969bddcd77241b4`; MH-12 contradiction register blob `4b3c101317330e47236937b17344299df53deee9`.
+
+| Historical ID | Owner-recorded direction | Evidence / acceptance gate | Current disposition |
+|---|---|---|---|
+| D1 — Authorization composition | C→A | Establish caller identity/trust boundary and demonstrate an independently P0-04-authorized context path before considering composition. If not evidenced, return with a governed alternative; do not invent an API. | Existing-context path NOT DEMONSTRATED; composition decision OPEN. |
+| D2 — P0-04 context source/lifecycle | C | Identify issuing authority, lifecycle, principal binding, scope, expiry/revocation and validation path from primary source evidence. | OPEN; no authority component or context hand-off may be invented. |
+| D3 — Exact-operation decision binding | C→A | Define evidence binding principal, operation, resource and candidate payload; assess freshness/replay and failure behavior. Cryptographic mechanisms remain threat-model-dependent. | OPEN; candidate clauses are not normative. |
+| D4 — P0-07 operation set | C→B | Map each candidate operation to canonical resource/state shape, authority and invariants; only individually supported operations can be considered. | OPEN; no mutation operation is newly authorized. |
+| D5 — Audit/privacy | C→B | Joint MH-06/MH-12/MH-13 review of purpose, minimized provenance, redaction, access, retention/deletion, integrity and failure behavior. | OPEN; no new audit schema or retention policy is approved. |
+| D6 — P0-05 acceptance/header reconciliation | B→A after confirmation | Governance must explicitly resolve whether the accepted package includes the exact DRAFT-labelled normative contract text; record exact commit/tree/blob and authorize a controlled status correction if appropriate. | OPEN; no silent header edit. |
+| D7 — Contract versioning scope | C→B | Inspect change-control rules; decide whether the hand-off belongs in P0-05 v1.1 or a separately governed integration contract. | OPEN; no version/path selected. |
+
+### Cross-cutting acceptance gates
+
+1. Owner decisions D1–D7 must be recorded or explicitly delegated to named governance owners.
+2. Security review must validate independent authorization, principal/context binding, operation/resource/payload binding, replay/staleness handling and fail-closed behavior.
+3. The P0-05 DRAFT-header/status discrepancy must be resolved through governance.
+4. Exact normative text must be versioned, explicitly accepted and frozen against exact commit/blob refs.
+5. Requirement → threat → contract clause → negative-path verification → evidence traceability must be updated. This does not authorize executing tests.
+6. Separate implementation authorization is required; qualification and production authorization remain separate gates.
+
+### Current gate result
+
+- D1–D7: **OPEN / NOT ACCEPTED AS NORMATIVE CONTRACT DECISIONS** (owner-recorded research directions are not acceptance).
+- MH-12 C-01: **REQUIRES VERIFICATION / GOVERNANCE RESOLUTION**.
+- MH-12 C-02: **BLOCKED BY APPROVED API/AUTHORIZATION BRIDGE GAP**.
+- P0-07 mutation/publication: **BLOCKED — GOVERNANCE/API GAP**.
+- P0-05 v1.1: **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
+- Project qualification: **NO-GO / NOT PROVEN**.
+
+No implementation, test, qualification, deployment, merge, rebase, or cherry-pick was performed or authorized by this crosswalk.
