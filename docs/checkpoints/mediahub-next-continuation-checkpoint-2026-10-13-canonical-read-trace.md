@@ -112,3 +112,14 @@ Trace `docs/architecture/MH-17-device-configuration.md` and the P0-07 operation 
 - Current status: MH-13 freeze NO / production implementation NOT AUTHORIZED; MH-14 acceptance NOT YET ACCEPTED/FROZEN and physical persistence NOT AUTHORIZED; MH-21 retention PROPOSED; MH-22 production qualification NO-GO / NOT PROVEN. P0-07/P0-05 blockers and D1–D7 owner decisions remain unchanged.
 - No tests, deletion, restore, provider contact, implementation, qualification, runtime/host inspection, infrastructure change, deployment, migration, merge or rebase.
 - Next: continue a source-bound, map-directed pass on the next open domain/evidence gap, while preserving the unresolved MH-13 governance wording discrepancy for the responsible owner. Do not choose retention values, assert compliance, or authorize physical persistence without explicit governance.
+
+
+## Follow-up — MH-24 Batch 16 Digital Twin crosswalk (2026-10-13)
+
+- Re-read the bootstrap, current map, checkpoint, unified matrix and owner decision register before selecting the next sequential source. The route from the current continuation prompt identifies B1 §25 Digital Twin / AT-18; live source anchors were pinned to B1 `main` blob `9df4892ed0734050ac79732603d15bb414717310`, §25 lines 401–407, and canonical B2 `main` blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §17 lines 368–378.
+- Checked preserved AT-18 in atomic backlog blob `ec2580f714e8f620bcf85ff7de2ae9242439e5e8`. Created Batch 16 draft blob `5329556d673749043c6d00ffc6bb6a7566558f59` and Review 01 blob `5fe9c64bd0a177559e2d3a64672985e56cce1333`. Four provisional labels: 3 MAPPED / 1 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT. No final child IDs were minted.
+- B2 §17 maps the abstract Full-edition/not-separate-OS rule, generic entitlement control and overlapping capability families. Exact B1-named Mac mini/Mini PC target-profile scope is NOT_REVIEWED; entitlement lifecycle, full schemas/workflows, owner acceptance, runtime and qualification remain OPEN.
+- Refreshed synthesis pointers: Passport P-30 blob `467aedfc655db966597f564f4bf3074185aca6e9`; Contract ARC-037/V-30 blob `c248956417cc61d66c968a4c58a56e799f653354`; continuation prompt blob `2f55704a02c4bc2477482e79cc80ef80a2e55a58`.
+- Added Matrix Section 55 and Map Section 20.137. Baseline 1.0 and Baseline 2.0 remain unchanged; atomic/canonical backlog unchanged. AT-18 remains OPEN—CONTRACT; no implementation or qualification gate closed.
+- No tests, installation, qualification, runtime/host inspection, infrastructure change, deployment, migration, merge or rebase.
+- Next: inspect B1 §26 Engineering System / AT-19 after fresh map and candidate-path inventory. Do not reuse provisional Batch 16 labels as stable child IDs or infer product/entitlement decisions.
