@@ -216,3 +216,39 @@ The governance-approved tree at commit `97a01977f521ba8304a455b5d7504896235ddea7
 - P0-07 mutation/publication: **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
 - No source paths are declared moved or broken based on failed guessed-path lookups; the MH-04 artifacts were verified by blob SHA on their branch, while their repository paths remain to be pinned from branch-tree evidence.
 - No implementation, tests, qualification, deployment or status promotion occurred.
+
+## 15. MH-04 source-lineage and status pinning — D1/D2 follow-up (2026-10-13)
+
+This addendum resolves the prior path uncertainty through the live compare result for `architecture/mh-04-security-trust-authorization`, not by treating guessed paths as evidence.
+
+### Exact ref and paths
+
+- MH-04 branch HEAD fetched by ref: `a4fc8bd83011c8f684ecd75f9223567e2abc6277` (latest commit message: add MH-04 review record). Live compare against `main`: `DIVERGED`, 7 commits ahead / 1,639 behind, merge base `d093429156a8d6451ff54d956e0454a1ff6ae1d0`. This branch is not current-main lineage and was not merged/rebased.
+- Exact branch paths and read-back blob SHAs:
+  - `docs/architecture/mh-04/MH-04-acceptance-criteria.md` — `a75f5c1849ad67cc380a0ba3552bf7f2c5ec82b6`.
+  - `docs/architecture/mh-04/MH-04-identity-model.md` — `dccded8f572bed42e8f40e4240e91e5621f24a37`.
+  - `docs/architecture/mh-04/MH-04-authentication.md` — `834dd3f4036ba1668e4b8af132393e25c70c85eb`.
+  - `docs/architecture/mh-04/MH-04-authorization.md` — `327b7c0c7504612ff05a6654a710058dcecaf438`.
+  - `docs/architecture/mh-04/MH-04-credential-boundaries.md` — `7b5db076bb5a948def0fc4d72dd58740828660c5`.
+  - `docs/architecture/mh-04/MH-04-trust-model.md` — `3e1d0ebffcd9e84f10e8e65dc3baf4bbb235ac01`.
+  - `docs/architecture/mh-04/MH-04-decision-log.md` — `706b056faa66c4231dc674326f1442fe50b7267d`.
+  - `docs/architecture/mh-04/MH-04-contradiction-register.md` — `56ad70d30f1ac2358b753d7579d9c7d49c210556`.
+  - `docs/architecture/mh-04/MH-04-evidence-register.md` — `dcf91d19cc494155e3c006a95f1ba35665d90e94`.
+  - `docs/architecture/mh-04/MH-04-all-passes-review.md` — `390af78f81cc42ae6608fa8abcabd6d0f3e3c51e`.
+  - `docs/architecture/mh-04/MH-04-security-foundation.md` — `f6f93318076d2bbf82e65fe2852adefab720ff87`.
+  - `docs/architecture/mh-04/MH-04-review-record.md` — `177fe4a3b3006c0cacfaccdcbdc6170e837c3bab`.
+  - `docs/architecture/mh-04/MH-04-reverse-master-prompt.md` — `6040e4762489ca4ec4cd8955e84bfe2df1e3e51d`.
+
+### Findings and limits
+
+- MH-04 acceptance criteria and review records say `PROPOSED / REVIEW COMPLETE`; explicit governance approval is required for `ACCEPTED` and a separate decision for `FROZEN`. Production security qualification remains absent.
+- The branch defines principal classes/lifecycle and separates identity, credentials, authentication, capabilities, authorization and policy. It requires invalid/expired/revoked/ambiguous contexts to fail closed and prohibits trust by VPN/network reachability.
+- These documents describe a conceptual security lifecycle; they do not identify a concrete accepted/deployed issuer, token/context freshness mechanism, audience/request binding, replay defense, or live revocation source. The P0-04/P0-05 `AuthorizationContext` still contains only `principal` and `capability` in the inspected implementation branch; forwarding it does not prove who issued it.
+- The MH-04 branch's evidence register labels inherited P0-03/P0-04/P0-05 contracts ACCEPTED/FROZEN, but because this branch is highly divergent that wording is not sufficient to resolve the exact normative contract/status question against current `main` or the P0-05 acceptance record. No authority/status is inferred from branch-local prose.
+- D1 remains `C → A only if a trusted caller/context issuer is proven`; D2 remains open. Existing-context reuse is NOT DEMONSTRATED. P0-07→P0-05 canonical-read/mutation call edge remains NOT EVIDENCED; mutation/publication remains `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN.
+
+No source contract, status header, implementation or governance record was changed in this pass. No tests, qualification, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
+
+### Next bounded step
+
+Compare the exact P0-05 governance acceptance artifact against the exact normative contract text/commit and inspect whether any accepted source defines an issuer/lifecycle for P0-04 authorization context. If none is evidenced, preserve the negative finding and use the existing owner disposition sheet; do not design an issuer or bridge by inference.
