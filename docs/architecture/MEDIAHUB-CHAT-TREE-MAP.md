@@ -4694,3 +4694,11 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - Scope caveat: this does not prove review was not performed; artifacts could be in another branch, named differently, stored in PR review metadata, or external. Keep P0-07 D2 `NOT EVIDENCED`, not `NOT PERFORMED`.
 - The existing proposal §13 remains the durable review worksheet; do not create a duplicate. A qualified reviewer must record evidence-backed R-01…R-06 dispositions against exact source refs, with owner/governance acceptance tracked separately.
 - Evidence trace: [canonical-read trace](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), “independent-review artifact discovery boundary”.
+
+
+## 20.184 P0-07 D2 independent-review handoff anchored to live MH-12/MH-13 sources (2026-10-13)
+
+- Existing proposal §13.1 now maps R-01…R-06 to exact source paths and blob SHAs freshly read from current `main`; see [P0-07 D2 proposal](../checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md) and the [canonical-read trace](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md).
+- MH-13 live anchors: privacy `e732ff9cacbc9c1189bd83306cdff30906326cf0`; acceptance record `6ecdc89440664563f36263bb8da80d1ad24f19a7`; governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`; architecture reference `1b71d9ea4d4e0924f2814edee0a982f593d71847`. Acceptance is scoped to the reconstructed-proposed artifact only.
+- Proposal §13 remains a blank reviewer worksheet. The handoff is not an independent review and closes no gate. The guessed MH-12 control-point path is not treated as a valid citation.
+- Status remains D2 `NOT EVIDENCED`; D1 `NOT DEMONSTRATED`; D3/D4 `NOT EVIDENCED`; D6 `OPEN / GOVERNANCE CONFIRMATION REQUIRED`; P0-07 mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
