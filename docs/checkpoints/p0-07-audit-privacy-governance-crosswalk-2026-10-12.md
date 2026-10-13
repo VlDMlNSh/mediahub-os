@@ -281,3 +281,27 @@ Compare the exact P0-05 governance acceptance artifact against the exact normati
 ### Next bounded step
 
 Use the existing owner disposition sheet to resolve whether the exact P0-05 contract text was accepted/frozen, and continue only source-bound tracing of any concrete P0-04 context issuer/provisioner. If no such accepted source exists, keep D1/D2 open; do not invent a bridge or issuer.
+
+
+## 17. P0-04 context issuer reachability and MH-04 governance gate (2026-10-13)
+
+**Exact source scope**
+- Current `main`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, complete recursive tree, 798 entries.
+- `architecture/mh-04-security-trust-authorization`: HEAD `a4fc8bd83011c8f684ecd75f9223567e2abc6277`, complete tree, 141 entries; diverged from main (7 ahead / 1,639 behind, merge base `d093429156a8d6451ff54d956e0454a1ff6ae1d0`).
+- `architecture/mh-7-configuration-policy`: HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`, complete tree, 171 entries; diverged from main (143 ahead / 1,668 behind, merge base `1364d027f6722cfccab088735ecd1b5d04781b0b`).
+
+**Issuer and composition evidence**
+- MH-04 identity/authentication/authorization/credential-boundary/trust documents (blobs `dccded8f572bed42e8f40e4240e91e5621f24a37`, `834dd3f4036ba1668e4b8af132393e25c70c85eb`, `327b7c0c7504612ff05a6654a710058dcecaf438`, `7b5db076bb5a948def0fc4d72dd58740828660c5`, `3e1d0ebffcd9e84f10e8e65dc3baf4bbb235ac01`) describe principal lifecycle, credential verification and fail-closed authorization. They do not identify a concrete accepted issuer/provisioner, expiry/revocation source, audience/request binding or replay control.
+- The MH-04 tree contains no runtime issuer/provisioner module; its acceptance criteria blob `a75f5c1849ad67cc380a0ba3552bf7f2c5ec82b6` says status remains `PROPOSED / REVIEW COMPLETE`; ACCEPTED and FROZEN require separate explicit governance decisions.
+- Current-main tree contains ConsumerBoundary, StateAuthority interface and in-memory authority implementation but no dedicated P0-04 context issuer/provisioner or accepted composition root joining MH-04 authentication to that boundary. The accepted P0-05 implementation context remains a two-field `principal/capability` object with an exact tuple allow-list; the boundary forwards supplied context and does not establish issuer provenance.
+- P0-05 integration boundary blob `2ffda7b37baa789ca3bd248094662ef0e1907501` and P0-07 adapter blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88` require independent P0-04 transaction authorization and prohibit capability translation or bypass. MH-07 runtime interaction and dependency docs are CANDIDATE and specify intended architecture only.
+- The accepted P0-05 governance tree `97a01977f521ba8304a455b5d7504896235ddea7` contains the exact contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`, acceptance record `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242` and packet `1253944ffeefcb59502d9f7deb13d38baed1d6e1`. The implementation acceptance is evidenced; the contract's own DRAFT header remains contradictory, and separate normative-text acceptance is not unambiguously established. Do not silently correct the header.
+
+**Disposition**
+- D1 existing-context reuse: NOT DEMONSTRATED.
+- D2 trusted context issuer/lifecycle: NOT EVIDENCED.
+- P0-07 → P0-05 canonical-read/call edge and same-instance/same-revision proof: NOT EVIDENCED.
+- P0-05 normative contract status: OPEN / GOVERNANCE CONFIRMATION REQUIRED.
+- Mutation/publication: BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN.
+- This finding is bounded to the cited refs and complete inspected trees; it is not a universal claim about every branch/history.
+- Next action: route existing D1/D2/D6 questions through owner/governance if no accepted source closes them. No API, issuer, cryptographic technology or owner decision is selected here. No tests or qualification were run.
