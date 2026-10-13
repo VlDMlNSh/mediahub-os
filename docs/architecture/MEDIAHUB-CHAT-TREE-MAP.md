@@ -4229,3 +4229,20 @@ The adapter contract lists three governance directions (existing independently P
 - **Live primary sources reviewed:** Distributed AI Infrastructure/main `e549692f207fbc91d9b9b9b92b8e665404f07290`; Component Manifest 2.0/main `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`; MH-15/main `f817925c69ce4484713f952e47aacad283af8eeb`; MH-16 architecture/main `f3ad2401f00a4062b39eed640e0c5c5f70064312`; MH-12 security/main `cf4ebfd5bf471ca676f075c51d3a24906504e490`; MH-21/main `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c`; MH-21 criteria/main `582f898fe4be332b6a7fef3e8cca2e27c7328ac2`.
 - **Confirmed boundaries:** Contour A and B remain separate; Alamo/Ollama/ONNX Runtime/llama.cpp composition is unresolved; Jarvis/ASTRA lifecycle owner is unresolved; MH-15/MH-16/MH-21 acceptance gates remain open; no deployment/qualification is implied.
 - **Next step:** cross-check DEC-DEV-01…08 against exact primary clauses, refresh live SHA, update only confirmed traceability and prepare the minimum owner questionnaire. Continue independent documentary work; do not repeat the placement inventory.
+
+
+## 20.144 Post-write provenance ledger — developer-fabric pass (2026-10-13)
+
+The following changed artifacts were re-fetched directly from the live documentation ref after writing. SHA is the current blob SHA at this read-back point; it is not a permanent URL identity.
+
+| Artifact | Ref | Read-back blob SHA |
+|---|---|---|
+| Full Bootstrap instruction | `docs/mediahub-chat-tree-map-20261012` | `49b4760b4adf4f1565fac0aa4697da000f1cf37b` |
+| Master Development Roadmap 1.0 | `docs/mediahub-chat-tree-map-20261012` | `481635a973a7d17781dd3b160da639fddb2e0cc6` |
+| Node/service placement matrix | `docs/mediahub-chat-tree-map-20261012` | `39e9ec183988c9caee5eb7ab0128bf4c71ffaa39` |
+| Owner decision packet 01 | `docs/mediahub-chat-tree-map-20261012` | `d5c568f5dfb66fa48522611f88542ccbc251cd23` |
+| Unified traceability matrix v0.1 | `docs/mediahub-chat-tree-map-20261012` | `aa42d23cb9c76968b8cb90f9ad568e3c71eb5560` |
+| Working Passport v3 | `docs/mediahub-chat-tree-map-20261012` | `d7cbee51b8079b1b753ce1b4473a8b33fb3ced54` |
+| Supporting developer-fabric plan | `docs/mediahub-chat-tree-map-20261012` | `6cf5a925c39ed7d20b4fc8a3298c0f0ccc2e60f5` |
+
+Current checkpoint was also re-fetched and the new pass record was confirmed; its final read-back SHA is recorded in that checkpoint after the map SHA is finalized. All marker checks passed for the new sections and cross-links. The documentation ref remains `docs/mediahub-chat-tree-map-20261012`; live compare at this point reports DIVERGED, 564 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`, with `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. No merge/rebase was performed.
