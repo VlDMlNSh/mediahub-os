@@ -782,3 +782,17 @@ The checkpoint itself is re-read after this update; its resulting SHA is reporte
 - Status unchanged: D1 existing-context reuse NOT DEMONSTRATED; D2 OPEN; P0-07→P0-05 call edge NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; global qualification NO-GO / NOT PROVEN.
 - No implementation, tests, qualification, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next: owner/governance disposition on exact P0-05 contract-text status; continue source-only search for a concrete accepted context issuer/provisioner. Do not invent an issuer or bridge.
+
+
+## Latest verified continuation — MH-04 trusted-context lifecycle crosswalk (2026-10-13)
+
+- Live pre-write refs rechecked: documentation branch `docs/mediahub-chat-tree-map-20261012` exists; compare with `main` is DIVERGED, 601 commits ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; current `main HEAD` observed `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Compare response did not expose documentation branch HEAD SHA; do not infer it.
+- Re-read Bootstrap blob `49b4760b4adf4f1565fac0aa4697da000f1cf37b`, Map blob `d502df0ef2668280e34b121504f849d3a7920bdd`, this checkpoint pre-write blob `0d585a120a2a2101aa58f3387984eac6e795a1b1`, and Roadmap blob `a65de988736b21abfe95d72c1a3cc4947c832c71`.
+- Reconciled MH-04 identity/authentication/authorization/credential/failure sources on branch `architecture/mh-04-security-trust-authorization` (tip `a4fc8bd83011c8f684ecd75f9223567e2abc6277`) with MH-12 main security sources and the exact accepted P0-05 implementation tree `303a766257b90c4356dcffc8967a5574e8e22e7a`.
+- Added traceability Section 62 to `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md`: new blob SHA `486d384e2ed8dfb2d322c13108906554f6939236`, commit `aae52015899057fb1c85928e6c3be037241d5030`.
+- Added working Passport §15: new blob SHA `7d07acc26522d8dd94b3541996304bd63c06ec89`, commit `f900db306730a17798124358c49876b3e488b9a8`.
+- Confirmed bounded result: MH-04 conceptual principal lifecycle, revocation and fail-closed requirements exist but its package is PROPOSED / REVIEW COMPLETE and leaves concrete issuer/framework unselected. MH-12 aligns with the required authority path but does not prove an accepted/deployed issuer. P0-05 `AuthorizationContext` remains principal+capability only; Consumer Boundary forwards supplied context without establishing issuer provenance. D1 trusted caller remains NOT EVIDENCED; D2 freshness/audience/revocation/replay/request binding remains NOT EVIDENCED; D6 normative-text disposition remains governance-ambiguous. P0-07→P0-05 bridge remains blocked; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred. No protected normative contract was edited.
+- Map navigation/status was not changed; no map edit was needed in this pass.
+
+**Next safe action:** obtain an explicit governance disposition for whether the recorded P0-05 acceptance applies to the normative contract text or only the implementation revision, without editing the protected contract. In parallel, continue source-only search for a concrete trusted issuer and context lifecycle/canonical-read call edge. Do not implement the bridge or select a security mechanism.
