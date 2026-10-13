@@ -648,3 +648,11 @@ This addendum supersedes only the prior subsection's mutable-branch blob snapsho
 - Execution discipline: each `/next` selects the next incomplete deliverable from the Master Roadmap, checks later commits/checkpoints for duplicate work, completes one bounded permitted pass, reads back the changed files, and records the outcome in GitHub. Update map when navigation/source/status changes; update matrix/passport only when confirmed traceability changes.
 - Current next deliverable remains source-anchored node/service placement matrix + decision/conflict register. Do not resolve owner decisions or claim qualification/implementation from documents alone.
 - Restrictions unchanged: documentary GitHub work only in this pass; no install, tests, qualification, model/provider calls, credentials, host/runtime inspection, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+
+
+### Final read-back after live-ref control update (2026-10-13)
+
+- Bootstrap blob SHA verified: `daa58e2bdf36e599fb5e3a16094a15bdf71dc628`.
+- Master Development Roadmap 1.0 blob SHA verified: `f651450495bed8c9c4cb06efd18db97794f3f9e1`.
+- Map blob SHA after adding the read-back record: `bc1987a527e1ce90c54c67a42dffcacb676819c5`.
+- The four required files were fetched again from GitHub after their writes; new control markers and content were confirmed. The canonical URLs still point to the current file paths on `docs/mediahub-chat-tree-map-20261012`; no branch/path drift was found. The docs branch HEAD is the commit created by the last successful write unless a concurrent update occurs; re-check the live ref on the next `/next`.
