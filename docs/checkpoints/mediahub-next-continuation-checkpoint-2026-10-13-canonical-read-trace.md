@@ -319,3 +319,27 @@ No API/schema/issuer/cryptographic design selected. No tests, qualification, imp
 - P0-07/P0-08 workflow existence is implementation evidence only; current-head execution evidence for those workflows was not established by this metadata review.
 - No source supports changing the current gate states. No tests, qualification, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
 - Next: reconcile the active P0-07 governance/API blocker and independent-review/owner decision dependencies from the existing proposal and owner packet; do not treat CI metadata or workflow definitions as substitutes for that gate.
+
+
+## Follow-up — separate P0-07 D2 governance gate from DEC-DEV-02 (2026-10-13)
+
+**Purpose:** reconcile the active P0-07 trusted-context proposal against the current owner-decision packet, preventing two unrelated “D2/DEC-DEV-02” tracks from being conflated.
+
+### Live documentation sources
+- Owner decision packet docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md, blob f0cd4088a8e84afc2499bf1ac7c206e66bff38df: scope explicitly Contour A and existing DEC-DEV-01…08. Its DEC-DEV-02 is Jarvis/ASTRA cross-system engineering lifecycle ownership and a conflict over the phrase “MediaHub State Authority” in the ASTRA component scheme.
+- Node/service placement and decision register docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md, blob 59107fd6d7b8a73d671098adcf2824c310642907: §6.5 presents the DEC-DEV-02 owner question; it is not the P0-07 trusted-context D2 gate.
+- P0-07 D2 trusted-context authority/lifecycle proposal, blob 5e0ce7ba9f6ab4aa31f939189d49c6635c2457f1: owner previously selected option B for proposal preparation only; independent security/architecture review, owner/governance acceptance, freeze and implementation authorization remain pending/not granted.
+- Master roadmap, blob 6f0912ccb9af219eb0d58049351f667617575c33: sequence authority; keep the P0-07 → P0-05 bridge and existing decision packet tracks separate.
+
+### Reconciliation
+1. P0-07 D2 = trusted-context issuer/lifecycle evidence and governance gate. The option-B decision authorized drafting a proposal only.
+2. DEC-DEV-02 = Jarvis/ASTRA engineering-task lifecycle ownership and the ASTRA/product-State-Authority wording conflict. Its A/B/C owner question remains separately open.
+3. Similar numbering does not establish shared scope, dependency, or acceptance. Neither decision closes the other.
+4. The owner decision packet directs continued independent documentary work and says not to ask already answered or evidence-deferred questions prematurely. Therefore this pass does not reopen DEC-DEV-02 and does not treat it as a prerequisite for the next P0-07 review step.
+
+### Status and next action
+- P0-07 D2 proposal: PROPOSED / NOT ACCEPTED / NOT FROZEN; independent review not evidenced; implementation authorization not granted.
+- P0-07 D1 NOT DEMONSTRATED; D3 NOT EVIDENCED / DEPENDENT ON D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED.
+- P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Next bounded action remains obtaining an actual independent MH-12/MH-13 and architecture review of P0-07 D2 R-01…R-06, then separately recording owner/governance disposition against the exact reviewed blob/commit. Until an independent reviewer or new source evidence is available, continue source reconciliation without relabeling the desk review as independent.
+- No implementation, tests, qualification, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
