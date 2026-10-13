@@ -1032,3 +1032,45 @@ P0-07 capability inventory is not a transaction API. The P0-07 boundary construc
 2. Exact P0-05 acceptance evidence from commit `303a766257b90c4356dcffc8967a5574e8e22e7a` must not be propagated to current-main blobs `98bf2da9cea85da2c82145b4baef417c20b9ae73` and `0fbc71369d19e09944ba67a60ccb9df802f30a4b` without revision-bound review and an explicit acceptance disposition.
 3. P0-07 canonical-read and mutation/publication bridge remains **NOT EVIDENCED / BLOCKED — GOVERNANCE/API GAP**. No issuer, identity protocol, API, contract version or product behavior is selected here.
 4. This is a source read only: no tests, runtime/host inspection, qualification, code edits, workflow dispatch, infrastructure change, deployment, merge or rebase occurred.
+
+
+## Section 46 — P0-07 operation-to-canonical-state trace (2026-10-13)
+
+**Status:** SOURCE-BOUND MAPPING / GOVERNANCE OPEN. This section distinguishes the domain operations from P0-04 transaction operations. It does not approve an API, promote any operation to implemented/accepted status, or change a gate.
+
+### Primary contract evidence
+
+- P0-03 State Authority Contract v1.0, immutable blob `2f35ed1b77c7979c9de50371c8a0f7a82f5d1e75`: State Authority operations are `read`, `begin`, `commit`, `abort`, `snapshot`, `restore`; canonical state is immutable at the read boundary; transaction handles bind authorization context, observed generation and state version, isolated candidate, and lifecycle.
+- P0-05 Consumer Contract v1.0, immutable blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`: canonical `read` returns one consistent immutable revision; `begin` requires an explicit authorization context; `commit` is the sole publication path; `abort` invalidates candidate state; `snapshot` and `restore` are authority-controlled and operation-specifically authorized.
+- P0-05 Integration Boundary v1.0, immutable blob `2ffda7b37baa789ca3bd248094662ef0e1907501`: the normative flow is operation request → authorization decision → State Authority transaction → isolated candidate mutation → validation/generation/integrity checks → commit. Rejected conditions fail closed.
+- P0-07 Read/Validate Boundary v1.0, immutable blob `ceb4e40ea3c41e0b4ec1d3e70eccc4616c77001f`: P0-07 reads are observation-only and may inspect an explicitly supplied immutable object; they must not imply canonical persisted state without an authoritative source. The boundary does not publish state or act as a persistence/cache/checkpoint/recovery authority.
+- P0-07 Mutation Adapter Contract v1.0, immutable blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88`, and Mutation Authority Reconciliation v1.0, immutable blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`: P0-07 domain grants and policy ALLOW are conjunctive with independently accepted P0-04/P0-05 transaction authorization. No capability translation, self-grant, direct State Authority invocation, second version/transaction authority, or hidden retry/rebase/LWW is permitted.
+
+### Operation mapping
+
+| P0-07 domain operation | Evidence-backed scope from current contract set | Canonical-state relationship | Disposition |
+|---|---|---|---|
+| `read` | Observation of an explicitly supplied immutable domain object | No proven connection to P0-05 canonical `read`; no canonical-state claim permitted without an authoritative source | **NOT EVIDENCED** as canonical read |
+| `validate` | Deterministic, bounded, observation-only validation of a supplied configuration/policy object | No mutation or publication | Candidate non-mutating scope only; not a new acceptance claim |
+| `propose` | Proposal/intent remains inert data unless transformed into a separately authorized operation request | No direct canonical mutation or authority selection | No mutation authority |
+| `update` | Domain operation requires explicit P0-07 authorization/policy and independent P0-04/P0-05 transaction authorization | Would require isolated candidate and P0-04 atomic commit | **BLOCKED** pending accepted bridge |
+| `replace` | Same authority composition and canonical mapping requirement as update | Replacement target/resources and canonical payload mapping are not established by the inspected P0-07 contracts | **BLOCKED**; mapping not evidenced |
+| `reset` | Same authority composition; operation-specific semantics and affected canonical resources must be defined | No evidence permits a P0-07 reset to bypass State Authority or generation/version rules | **BLOCKED**; semantics/mapping not evidenced |
+| `delete` | Same authority composition; resource identity, deletion semantics and data-lifecycle consequences require governed mapping | No evidence authorizes direct deletion or bypass of P0-04 publication; MH-13 retention/deletion constraints remain open | **BLOCKED**; mapping not evidenced |
+| P0-04 `begin` / `commit` / `abort` | State Authority transaction lifecycle, not P0-07 domain capabilities | Independently authorized by P0-04/P0-05; candidate isolation and atomic publication remain authoritative | Must not be inferred from a P0-07 grant |
+
+### Unresolved contract joins
+
+1. **Canonical read join:** no source-bound call path currently proves that P0-07 `read` reaches P0-05 `read` and returns the same authoritative immutable revision. A supplied domain object is not evidence of canonical storage.
+2. **Context provenance join:** the current-main context shape and caller flow do not prove a trusted issuer/resolver, grant lifecycle, expiry/revocation, audience or exact-operation binding. See Section 45.
+3. **Mutation join:** no accepted end-to-end interface proves how a P0-07-authorized domain operation is paired with independent P0-04 transaction authorization without capability translation or self-grant.
+4. **Deletion/privacy join:** `delete` cannot be accepted from operation naming alone; data-retention, deletion, restore and audit consequences require the applicable MH-06/MH-12/MH-13 contracts and governance.
+5. **Version/acceptance join:** exact P0-05 acceptance remains revision-bound. This mapping does not transfer acceptance from implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a` to differing current-main blobs.
+
+### Disposition and next evidence gate
+
+- D4 operation mapping is now more explicit at the documentary level, but **D4 is not closed**: the canonical-read join and resource-to-canonical-state mapping are still not evidenced.
+- P0-07 `validate` and inert `propose` are not promoted to accepted API/implementation scope by this mapping.
+- P0-07 canonical read remains **NOT EVIDENCED**; mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
+- Next bounded source task: trace the concrete P0-05 `read` implementation and its immutable return contract against the P0-07 read caller, and establish whether a same-revision object is passed through a documented caller path. Do not edit protected headers or invent an adapter/API. Keep the owner decision on the exact P0-05 acceptance target open.
+- Scope: GitHub source/document review only. No tests, qualification, runtime/host inspection, credentials, provider/model calls, workflow dispatch, code changes, infrastructure changes, deployment, merge or rebase.
