@@ -1139,3 +1139,25 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - Gates unchanged: P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - No runtime actions, tests, qualification, deployment or merge performed.
 - **Next:** follow map-selected MH-14 persistence, MH-16 lifecycle/migration and MH-22 qualification primary sources; determine whether an accepted generation/change-control owner and evidence path are specified. If not, frame a minimal owner/governance question.
+
+
+### D7 generation/change-control dependency audit — MH-14 / MH-16 / MH-22 (2026-10-13)
+
+**Scope/status:** read-only source crosswalk. This records architecture/governance evidence only; it does not close D7, authorize implementation, or qualify persistence/recovery/production.
+
+**Live primary sources on `main`:**
+- `docs/architecture/MH-14/MH-14-persistence-architecture.md` — blob `5e14084033f417722a1b04b5d5d47649dcfcda48`. MH-14 is ARCHITECTURE WORK IN PROGRESS; physical persistence implementation NOT AUTHORIZED. Persistence must remain subordinate to State Authority; exact durability/technology require verification/ADR; current reliability baseline SINGLE NODE / NO HA.
+- `docs/architecture/MH-16-installer-recovery-update-architecture.md` — blob `f3ad2401f00a4062b39eed640e0c5c5f70064312`. Proposed / governance acceptance pending / not frozen / implementation not authorized. Lifecycle authorities may request approved State Authority operations but cannot mutate canonical state or define an alternate authority.
+- `docs/architecture/MH-16-completion-record.md` — blob `e4ea4e3a37540cc104243c236e2e5c1c32ea35d6`. Conceptual architecture passes are complete; repository implementation evidence remains UNKNOWN and acceptance/implementation are blocked.
+- `docs/architecture/MH-22-production-qualification-operations.md` — blob `17bb2a9fdc34a0ee7c324e78c412616b5e377bb4`. Architecture work authorized / not accepted / not frozen; production NOT QUALIFIED; NO-GO pending evidence.
+- `docs/architecture/MH-22-acceptance-criteria.md` — blob `40d401c0a4ba80550f8101d4e9b1de8f0c77849e`. Requires exact release identity, provenance, security/privacy, install/update/rollback/recovery, validated restore, capacity/degradation, operational ownership and explicit production approval.
+- `docs/architecture/MH-22-evidence-register.md` — blob `188a85e3a31cb545fd781e6db237d655d721ec1c`. Current-HEAD production qualification, release identity, hardware, recovery/restore and production acceptance remain UNKNOWN / NOT GRANTED.
+- `docs/architecture/MH-22-decision-log.md` — blob `dd4d772283e1264e539955e4293f2a8207da8eac`. Evidence-defined production status, no automatic qualification from historical evidence, SINGLE NODE / NO HA and NO-GO are accepted decisions.
+
+**Cross-domain finding:** these sources establish lifecycle and authority boundaries, but none assigns an accepted owner for generation/schema change-control across State Authority, persistence, migration/recovery and release qualification. No evidence here closes the missing revision-bound binding from generation/schema change through migration compatibility, restore/version advancement, and exact release qualification. This is **NOT EVIDENCED**, not proof that no such record exists elsewhere.
+
+**Disposition:** D7 remains PARTIAL / NOT ACCEPTED / NOT FROZEN. Do not choose a technology or owner by inference. Preserve P0-07 mutation/publication as BLOCKED — GOVERNANCE/API GAP; preserve P0-05 v1.1 as NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN. No tests, workflows, host/runtime inspection, provider/model calls, credentials, implementation, migration, restore, deployment or merge were performed.
+
+**Minimum owner/governance question if no accepted record is found in the next source pass:** who owns generation/schema change control and its end-to-end revision binding across (a) State Authority generation/version semantics, (b) persistence schema and durable representation, (c) MH-16 migration/restore compatibility, and (d) MH-22 release/qualification identity? Recommendation: nominate one accountable governance owner and require each domain to retain its own execution authority; do not make persistence, lifecycle, or qualification a second State Authority.
+
+**Next:** continue the roadmap-ordered source trace for MH-14/MH-16/MH-22 generation/change-control references and their linked primary contracts; if no accepted assignment exists, present this bounded owner question without implementing a bridge.
