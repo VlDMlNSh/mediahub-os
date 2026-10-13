@@ -354,3 +354,21 @@ Live `main` source anchors:
 - MH-21 privacy invariants `4475da53dc87ad1c2ad1c9f112a55211cbfa49eb` and retention `8dfe3b619be593c3ec57948e350671895827ae8b` remain PROPOSED and require provider-specific evidence.
 - **D5 finding:** privacy constraints are evidenced at governance level; an accepted P0-07 audit/provenance event contract, sink, retention owner and reader-authorization path are NOT EVIDENCED in inspected sources. Do not log raw credentials/context or protected payload by default. Do not infer a durable path from sanitized errors or correlation metadata.
 - Next design-only questions: event categories, minimal correlation/provenance, authorized readers, retention/deletion authority via MH-14, redaction, and fail-closed behavior if required audit is unavailable. No schema or implementation technology selected.
+
+
+## 20. P0-07 canonical-read join — live-main source trace (2026-10-13)
+
+### Exact source anchors
+- Current `main` HEAD: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; complete recursive tree query was not truncated.
+- `runtime/mediahub_runtime/consumer_boundary.py`, blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`: `ConsumerBoundary.read(key=None)` returns `self._authority.read(key)` directly. It does not accept an `OperationRequest` or authorization context for read.
+- `runtime/mediahub_runtime/in_memory_state.py`, blob `0fbc71369d19e09944ba67a60ccb9df802f30a4b`: `InMemoryStateAuthority.read(None)` returns `CanonicalState(payload, generation, state_version, integrity_valid)` under its lock; a keyed read returns `payload[key]` and does not return the generation/version alongside that individual value. This supports a local authority read behavior only; it does not prove a caller's same-revision binding.
+- Accepted implementation branch `implementation/p0-05-consumer-boundary`, `runtime/mediahub_runtime/consumer_boundary.py`, blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596`: the accepted-version facade has the same direct `read(key=None) -> authority.read(key)` delegation and no request/context argument.
+- Complete current `main` recursive tree contains no P0-07 read/caller/adapter source path; the inspected main runtime tree has only the P0-05 consumer boundary and P0-04 state authority modules relevant to this join. This is a bounded tree/source finding, not proof about every historical or external branch.
+
+### Disposition
+- **P0-05 local read behavior:** source-evidenced as a direct delegation to P0-04; full-state read returns a revision-bearing `CanonicalState`, keyed read returns only a value.
+- **P0-07 → P0-05 caller edge:** NOT EVIDENCED in inspected current-main tree.
+- **Same-instance/same-revision pass-through from a P0-07 caller:** NOT EVIDENCED. The full-state return type alone does not prove that P0-07 obtains, preserves, or acts on that exact revision.
+- **Read authorization composition:** NOT EVIDENCED for the read method; the method signature itself accepts no request/context. Do not infer that existence of `read` satisfies P0-07 authorization requirements.
+- No API/adapter was invented, no protected contract/header edited, and no status was promoted. P0-07 canonical read remains NOT EVIDENCED; mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN.
+- Next: retain the gap for explicit owner/governance disposition or newly supplied accepted source evidence. No tests, qualification, runtime execution, credentials, provider/model calls, deployment, infrastructure changes, or branch integration were performed.
