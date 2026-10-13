@@ -145,3 +145,12 @@ The source gap register also records a future product deployment ambiguity: whet
 - No hardware capability or compatibility is asserted from model name/RAM alone.
 - No deployment, migration, merge, rebase, cherry-pick or infrastructure change occurred.
 - This checkpoint is a working plan, not a new accepted baseline and not deployment authorization.
+
+
+## Continuation addendum — plan-of-record handoff refresh (2026-10-13)
+
+This supporting plan remains a historical hardware/contour planning note. Sequencing is controlled only by `MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md`.
+
+The node/service placement artifact already exists at `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`; the owner-decision packet now exists at `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md`. Do not duplicate the placement inventory.
+
+Next documentary pass: validate DEC-DEV-01…08 against exact primary clauses and live refs/SHA; update only confirmed mappings in the working unified traceability matrix and Passport; then prepare a minimal owner questionnaire with options, consequences and recommendations. Preserve all open owner decisions and Contour A → Contour B gate. Do not run tests/qualification or perform installation, provider/model calls, host/runtime inspection, credential use, deployment or infrastructure changes without separate authorization.
