@@ -1271,3 +1271,12 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - The packet's A0/internal workflow-state recommendation remains non-binding until accepted. P0-07 D2 independent review remains NOT EVIDENCED; P0-05 normative-status and D1/D2 governance remain OPEN; DEC-DEV-02 remains separately OPEN_CONFLICT.
 - Source cross-reference is recorded in the canonical-read trace and map §20.175. No decision, contract, stable ID or implementation status changed. Documentary-only; no tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next: obtain independent P0-07 D2 review and route DEC-DEV-02 through its separate owner/governance decision path; do not treat either as evidence for the other.
+
+
+### P0-07 D2 independent-review worksheet — /next (2026-10-13)
+
+- Added a blank R-01…R-06 reviewer disposition worksheet to §13 of the existing P0-07 D2 proposal (no duplicate artifact). It requires reviewer identity/independence, proposal/source blob SHAs, evidence-backed dispositions, cross-cutting findings, overall recommendation and separate owner/gate status.
+- Re-read the proposal after write and confirmed §13 is present. This is a template only; no independent review was performed or implied, and no gate/status was promoted.
+- Current status remains D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3/D4 NOT EVIDENCED; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Documentary-only. No tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next: obtain a genuinely independent reviewer’s completed, source-anchored R-01…R-06 dispositions; separately obtain owner/governance decisions where required.
