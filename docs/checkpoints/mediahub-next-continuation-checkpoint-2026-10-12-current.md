@@ -736,3 +736,13 @@ The packet/traceability/passport/map/roadmap/checkpoint/supporting-plan sections
 | Supporting developer-fabric plan | `fb9fd947666376a674f6dcc8bfaf989fc3333351` |
 
 The checkpoint itself is re-read after this update; its resulting SHA is reported in the assistant's completion summary rather than embedded in its own content.
+
+
+## Continuation addendum — P0-07 D4 operation-to-canonical-state mapping (2026-10-13)
+
+- Revalidated the live Bootstrap, map, current checkpoint, Master Roadmap §9, canonical-read trace, P0-07 crosswalk, P0-05 v1.1 candidate, existing revision proposal, owner decision register, and exact branch-specific P0-07/P0-03/current-main P0-05 source refs.
+- Completed a source-bound D4 inventory in the existing crosswalk §13 and traceability matrix §58; indexed it in map §20.147. No new stable IDs were minted and no protected primary contract was edited.
+- P0-07 operation source lists 14 operations across configuration/policy: read has no authoritative canonical source; validate/propose are non-writing; update/replace remain incomplete candidates for one complete document; reset/delete have no accepted canonical semantics. No resource-to-canonical-key mapping or P0-07→P0-05 call edge is evidenced.
+- Status unchanged: mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification NO-GO / NOT PROVEN.
+- No tests, qualification, implementation, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next bounded step: investigate D1/D2 trusted caller identity and P0-04 authorization-context issuer, lifecycle, freshness and revocation using exact source refs. No bridge implementation without explicit governance disposition and separate implementation authorization.
