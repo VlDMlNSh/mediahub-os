@@ -4686,3 +4686,11 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - R-04 can anchor privacy minimization/purpose/retention/audit principles to MH-13. R-05 must preserve its accepted-reconstruction-only status. R-06 operation-specific behavior when required audit evidence is unavailable remains unresolved. The P0-07 proposal's §13 independent-review worksheet remains blank.
 - P0-07 D2 stays NOT EVIDENCED / proposal NOT ACCEPTED / NOT FROZEN; D1 NOT DEMONSTRATED; D3 NOT EVIDENCED; D6 OPEN; mutation/publication BLOCKED; qualification NO-GO / NOT PROVEN.
 - Next: use these exact anchors in the independent P0-07 D2 review handoff; do not substitute MH-13's existing acceptance for a review of the P0-07 proposal.
+
+
+## 20.183 Independent-review artifact discovery boundary (2026-10-13)
+
+- At main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, a complete non-truncated recursive tree filename-pattern query found no paths matching P0-07 review/disposition/acceptance, D2 security review, or independent review.
+- Scope caveat: this does not prove review was not performed; artifacts could be in another branch, named differently, stored in PR review metadata, or external. Keep P0-07 D2 `NOT EVIDENCED`, not `NOT PERFORMED`.
+- The existing proposal §13 remains the durable review worksheet; do not create a duplicate. A qualified reviewer must record evidence-backed R-01…R-06 dispositions against exact source refs, with owner/governance acceptance tracked separately.
+- Evidence trace: [canonical-read trace](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), “independent-review artifact discovery boundary”.
