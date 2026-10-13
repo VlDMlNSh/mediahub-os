@@ -6,7 +6,7 @@
 - **Use:** operative review/checklist for documentation and architecture work on this branch, subject to the source precedence and gates below.
 - **Not a grant of authority:** does not replace Baseline 2.0, alter Baseline 1.0, approve pending domain contracts, authorize implementation/deployment, or imply qualification/production acceptance.
 - **Companion passport:** docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md, current working blob SHA `9a9260d543e474b7fc55f686c59b79a24c215296`.
-- **Current working inventory:** 36 ARC requirements / 29 verification checks; full architecture acceptance remains OPEN.
+- **Current working inventory:** 37 ARC requirements / 30 verification checks; full architecture acceptance remains OPEN.
 - **Rule of evidence:** claim → source path → ref → blob SHA → exact scope/status → acceptance/evidence required → independent read-back.
 
 - **Current terminology:** the latest owner-provided umbrella name is **Jarvis**; an earlier same-day draft used “Astro”. Jarvis supersedes that draft label. The existing gap-report filename retains `ASTRO` for reference lineage; this does not rename ASTRA or assert deployed functionality.
@@ -347,6 +347,16 @@ Events, telemetry, logs and observations do not provide mutation rights.
 
 **Status:** OPEN — AT-17 / owner decision / entitlement contract / structured-information schema / component adoption / implementation / qualification remain OPEN. B1, B2, matrix row 24, AT-17, canonical backlog and `main` are unchanged.
 
+### ARC-037 — Digital Twin edition presence and entitlement are not runtime acceptance
+
+**Source basis:** B1 `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, SHA `9df4892ed0734050ac79732603d15bb414717310`, §25 lines 401–407; B2 `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, §17 lines 368–378; AT-18 in atomic backlog SHA `ec2580f714e8f620bcf85ff7de2ae9242439e5e8`; Batch 16 draft SHA `5329556d673749043c6d00ffc6bb6a7566558f59`, Review 01 SHA `5fe9c64bd0a177559e2d3a64672985e56cce1333`.
+
+**Rule:** Keep the historical B1 distinctions visible: Digital Twin is part of Full, not a separate OS; B1 specifically names Full for Mac mini and Mini PC; professional capabilities may be LOCKED / UNLICENSED pending paid entitlement; and the named domain scope includes buildings, rooms, equipment, engineering systems, spatial data, 3D, BIM, simulation, monitoring and engineering workflows. B2 §17 provides bounded generic correspondence for Full-edition presence, entitlement control and several capability families, but does not by itself establish the exact named target-profile guarantee or a complete entitlement lifecycle.
+
+**Acceptance gates:** (1) owner-approved edition/target-profile matrix; (2) authoritative entitlement state and protected-operation contract, including grant/deny/expiry/revocation/offline/restore/reinstall/device-transfer semantics; (3) accepted artifact/schema and workflow inventory with provenance and authorization; (4) separately authorized runtime and negative-path qualification evidence. No hardware profile, price, licensing policy, schema or implementation is selected by this ARC.
+
+**Disposition:** AT-18 remains OPEN—CONTRACT. Batch 16 has four provisional labels (3 MAPPED / 1 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT); mapping means bounded textual correspondence only. No final child IDs, canonical-backlog promotion, implementation or qualification is authorized.
+
 ## 3. Cross-domain system contract
 
 ### 3.1 Public interfaces
@@ -422,6 +432,7 @@ Every component contract admitted to implementation MUST declare:
 | V-28 | B1 §23 Media System category coverage and authority boundary are traceable without implying universal integration support | Pinned B1 §23 lines 383–389; B2 §§3–4/15; matrix row 23; Semantic Audit Batch 04; AT-16; Batch 14 draft and Review 01 | 14 provisional labels; 13 `MAPPED` / 1 `NOT_REVIEWED` / 0 `NO_DIRECT_COUNTERPART` / 0 `CONFLICT`; bounded structural/source-anchor/status consistency PASS; external ecosystem projection and per-profile integrations/rights/performance/qualification OPEN; historical Audit Batch 04 B2 §16 pointer discrepancy preserved as history |
 
 | V-29 | B1 §24 Document System functions, paid-tier boundary and OSS qualification condition are separately traceable | Pinned B1 §24 lines 391–397; B2 §16/21/25; Semantic Audit Batch 04; AT-17; Batch 15 draft and Review 01; MH-19 acceptance/evidence | 12 provisional labels; 9 `MAPPED` / 2 `NOT_REVIEWED` / 1 `NO_DIRECT_COUNTERPART` / 0 `CONFLICT`; bounded structural/source/status consistency PASS; paid entitlement/feature matrix, structured-information semantics and PaddleOCR adoption remain OPEN; MH-19 implementation/qualification evidence remains incomplete/UNKNOWN |
+| V-30 | B1 §25 Digital Twin Full-edition presence, named hardware-profile scope, professional entitlement and domain capabilities are traced without inferring runtime acceptance | B1 §25 lines 401–407; B2 §17 lines 368–378; AT-18; Batch 16 draft SHA `5329556d673749043c6d00ffc6bb6a7566558f59`; Review 01 SHA `5fe9c64bd0a177559e2d3a64672985e56cce1333` | Four provisional labels; 3 `MAPPED` / 1 `NOT_REVIEWED` / 0 `NO_DIRECT_COUNTERPART` / 0 `CONFLICT`; bounded structure/source-anchor review PASS; exact Mac mini/Mini PC profile scope, entitlement lifecycle, complete artifact/workflow semantics, owner acceptance and qualification remain OPEN |
 
 ## 5. Definition of contract conformance
 
@@ -473,6 +484,7 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 24. Resolve P-27 / ARC-034 / V-27: obtain an explicit owner disposition and accepted iPhone Media/AirPlay contract covering supported device/OS profiles, 4K/codec behavior, rights/authorization, network/bandwidth admission, latency/resolution negotiation, degradation/failure behavior and qualification evidence. Review02 adds only bounded generic codec correspondence; do not treat this as acceptance of the AirPlay codec matrix. Preserve `IPHONE-AIRPLAY-4K-01` and matrix row 22; keep Batch 13 provisional and do not promote the matrix/backlog or mint final child IDs.
 25. Resolve P-28 / ARC-035 / V-28: define and disposition the exact B1 §23 Media System source/integration inventory; close AT-16 with a bounded owner-approved Media contract and per-profile evidence. Keep `MEDIA-SYSTEM-01` and matrix row 23 intact; retain the historical Audit Batch 04 B2 §16 pointer as provenance but use the correct current B2 §15 Media clause. External ecosystem projection remains `NOT_REVIEWED`; remaining `MAPPED` rows are category-level text correspondence and do not prove integration or qualification.
 26. Resolve P-29 / ARC-036 / V-29: obtain an owner-approved Document System edition-feature matrix and paid-entitlement contract, with lock/unlock, denial, expiry/revocation, offline, restore/reinstall and device-transfer behavior. Define “structured information” with an accepted schema and explicitly decide whether PaddleOCR or another OCR component is adopted; preserve AT-17 as OPEN until those decisions/evidence exist. Do not infer paid policy or runtime enforcement from B2 §16 general document functions.
+27. Resolve P-30 / ARC-037 / V-30: close AT-18 with owner-approved Full-edition and target-profile scope; define entitlement grant/denial/expiry/revocation/offline/restore/reinstall/device-transfer behavior; accept the Digital Twin artifact/schema/workflow inventory and provenance/authorization requirements. Keep Batch 16 provisional, do not mint final child IDs or promote the canonical backlog, and require separately authorized runtime/negative-path qualification before claiming implementation conformance.
 
 ## 8. Change history
 
@@ -527,3 +539,6 @@ Set the dependent claim/action to BLOCKED (do not silently repair by assumption)
 - 2026-10-12 — added ARC-035 / V-28 for B1 §23 Media System and AT-16 after Batch 14 Review 01. Fourteen provisional labels are 13 MAPPED / 1 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT; mappings are category-level text correspondence only. External ecosystem projection and per-profile integration/rights/performance/qualification gates remain OPEN. Refreshed the active Passport pointer to `7a875e16243fa0bf5324c0a998661ea6cbafe60e`. Historical Semantic Audit Batch 04 B2 §16 pointer defect preserved; B1/B2/matrix/canonical backlog/main unchanged.
 
 - 2026-10-12 — added ARC-036 / V-29 for B1 §24 Document System and AT-17 after Batch 15 Review 01. Twelve provisional labels are 9 MAPPED / 2 NOT_REVIEWED / 1 NO_DIRECT_COUNTERPART / 0 CONFLICT; mapped rows represent general document functions and the generic OSS qualification gate only. Paid entitlement, structured-information semantics and PaddleOCR-specific adoption remain OPEN. Refreshed the active Passport pointer to `9a9260d543e474b7fc55f686c59b79a24c215296`. B1/B2, matrix, AT backlog, canonical backlog and main unchanged.
+
+
+- 2026-10-13 — added ARC-037 / V-30 for B1 §25 Digital Twin / AT-18 after Batch 16 bounded review. Four provisional labels, 3/1/0/0. Full-edition correspondence is generic; exact Mac mini/Mini PC profile guarantee, entitlement lifecycle, complete artifact/workflow semantics and owner acceptance remain OPEN. Companion Passport P-30 linked; B1/B2, atomic/canonical backlog, matrix and main unchanged.
