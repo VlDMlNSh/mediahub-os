@@ -762,3 +762,12 @@ The checkpoint itself is re-read after this update; its resulting SHA is reporte
 - Updated crosswalk §14, unified matrix §60, canonical-read trace and map §20.148. D1/D2 remain OPEN; no API shape, issuer or cryptographic mechanism selected. Existing P0-07 → P0-05 call edge remains NOT EVIDENCED; mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification remains NO-GO / NOT PROVEN.
 - No implementation, tests, qualification, credential use, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next bounded action: pin exact MH-04 source paths and acceptance/status artifacts from branch-tree evidence; continue source-bound issuer/grant lifecycle tracing. If no concrete issuer/caller is evidenced, retain the negative finding and use the existing owner/governance disposition sheet without inventing an authority.
+
+## Latest verified continuation — P0-07 / MH-04 issuer and context lifecycle (2026-10-13)
+
+- Re-read live Bootstrap, map, current checkpoint, Master Development Roadmap, canonical-read trace, P0-07 crosswalk, P0-05 v1.1 candidate, revision proposal and owner decision register.
+- Pinned exact MH-04 source paths via the live branch comparison; full path/blob ledger is in crosswalk §15 and map §20.149. MH-04 branch tip: `a4fc8bd83011c8f684ecd75f9223567e2abc6277`; compare with `main`: DIVERGED, 7 ahead / 1,639 behind, merge base `d093429156a8d6451ff54d956e0454a1ff6ae1d0`.
+- MH-04 acceptance/review artifacts remain PROPOSED / REVIEW COMPLETE, not accepted/frozen; production security qualification is absent. They establish security principles but not an accepted/deployed context issuer or concrete freshness, audience, request/replay binding and revocation mechanism.
+- D1 existing-context reuse remains NOT DEMONSTRATED (C → A only if evidence proves the trusted source); D2 remains open. P0-07→P0-05 call edge NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; global qualification NO-GO / NOT PROVEN.
+- No implementation, tests, qualification, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next: compare the exact P0-05 governance acceptance record with the exact contract text/commit and look for a revision-bound accepted context issuer/lifecycle. Do not invent one or modify protected P0-05 status.
