@@ -988,3 +988,32 @@ The proposal, matrix, passport and map all contain the expected new sections. Th
 **Next:** continue the Master Roadmap §9 P0-07 → P0-05 trusted context/canonical-read work independently, unless a newly accepted source closes it. For DEC-DEV-04, wait for authorized read-only inventory/evidence collection before any workload decision. Do not ask the owner prematurely and do not inspect the host without authorization.
 
 **Safety boundary:** primary-document inspection and checkpoint/map updates only; no host/runtime inspection, tests, qualification, credentials, installation, infrastructure changes, deployment, migration, merge or rebase.
+
+
+### P0-04 context issuer reachability and MH-04 governance gate (2026-10-13)
+
+**Live refs and exact tree evidence**
+- Current `main`: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; complete recursive tree SHA `cbb1862fcb4aa22ba24fea4ff12b580ffb305593`, 798 entries.
+- P0-07 source: `architecture/mh-7-configuration-policy` HEAD `83ccb0d4993761ffcd43146d982ff9781116c7db`; complete tree, 171 entries. It is diverged from main (143 ahead / 1,668 behind; merge base `1364d027f6722cfccab088735ecd1b5d04781b0b`).
+- MH-04 source: `architecture/mh-04-security-trust-authorization` HEAD `a4fc8bd83011c8f684ecd75f9223567e2abc6277`; complete tree, 141 entries; diverged from main (7 ahead / 1,639 behind; merge base `d093429156a8d6451ff54d956e0454a1ff6ae1d0`).
+- Accepted P0-05 governance tree: commit `97a01977f521ba8304a455b5d7504896235ddea7`; complete tree, 115 entries. Contains P0-05 contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`, acceptance record `a0d28b4cfd9bed27e8a80968f6beac6cfdd97242`, and governance packet `1253944ffeefcb59502d9f7deb13d38baed1d6e1`.
+
+**Source-anchored findings**
+1. The complete current-main runtime tree contains `authorization.py` (`4d8df5d3c1c26f7f133a8093cd270635b085f4d5` in the accepted implementation lineage), `consumer_boundary.py` (`98bf2da9cea85da2c82145b4baef417c20b9ae73` on main), `state.py` (`a2115b81f52a63feb357e484bd982a6a32641d81`) and `in_memory_state.py` (`0fbc71369d19e09944ba67a60ccb9df802f30a4b`). No dedicated P0-04 context issuer/provisioner or accepted composition root joining authentication to the State Authority path was identified in that tree. This is bounded to the inspected tree/ref.
+2. The complete MH-04 tree contains identity/authentication/authorization/credential-boundary/trust-model documents, but no runtime issuer/provisioner module. Exact source blobs: identity `dccded8f572bed42e8f40e4240e91e5621f24a37`; authentication `834dd3f4036ba1668e4b8af132393e25c70c85eb`; authorization `327b7c0c7504612ff05a6654a710058dcecaf438`; credential boundaries `7b5db076bb5a948def0fc4d72dd58740828660c5`; trust model `3e1d0ebffcd9e84f10e8e65dc3baf4bbb235ac01`. They define conceptual lifecycle and fail-closed rules, not a concrete accepted issuer, issue/expiry/revocation source, audience binding or replay control.
+3. MH-04 acceptance criteria blob `a75f5c1849ad67cc380a0ba3552bf7f2c5ec82b6` explicitly says review completion does not equal governance acceptance; status remains `PROPOSED / REVIEW COMPLETE`; ACCEPTED and FROZEN require separate explicit decisions.
+4. Accepted P0-05 implementation lineage proves that the exact consumer-contract blob was present in the accepted tree and that implementation commit `303a766257b90c4356dcffc8967a5574e8e22e7a` was recorded ACCEPTED/FROZEN. However, the contract's own DRAFT header remains contradictory, and the record does not unambiguously establish separate normative-text acceptance. Do not edit the protected header or infer a governance disposition.
+5. P0-05 state integration boundary blob `2ffda7b37baa789ca3bd248094662ef0e1907501` and P0-07 adapter blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88` require independently authorized P0-04 transaction context and forbid capability translation, second authority, or bypass. MH-07 dependency/runtime-interaction docs are CANDIDATE and describe intended flow, not implementation evidence.
+
+**Disposition**
+- Existing-context reuse: **NOT DEMONSTRATED**.
+- Trusted P0-04 context issuer/provisioner and lifecycle: **NOT EVIDENCED**.
+- P0-07 → P0-05 canonical-read/call edge and same-instance/same-revision proof: **NOT EVIDENCED**.
+- P0-05 normative contract status reconciliation: **OPEN / GOVERNANCE CONFIRMATION REQUIRED**.
+- P0-07 mutation/publication: **BLOCKED — GOVERNANCE/API GAP**.
+- P0-05 v1.1: **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**.
+- Project qualification: **NO-GO / NOT PROVEN**.
+
+**Next:** continue independent documentary reconciliation of exact accepted governance records and source lineage; if no existing issuer/composition evidence appears, route the already-recorded D1/D2/D6 questions through the owner/governance process. No API, issuer, identity technology, or owner decision is selected here.
+
+**Safety boundary:** GitHub source/tree/document reads and documentation writes only. No tests/workflows, code implementation, credentials, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
