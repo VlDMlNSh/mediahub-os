@@ -704,3 +704,22 @@ This addendum supersedes only the prior subsection's mutable-branch blob snapsho
 | Chat Tree Map | `docs/mediahub-chat-tree-map-20261012` | `232c4dbb5882f48349550602f76f3582e0db8e74` |
 
 Each listed file was fetched again after its write and its new section/link markers were checked. The checkpoint itself is being updated with this table; its final blob SHA must be taken from the subsequent read-back rather than predicted.
+
+
+## Continuation addendum — DEC-DEV triage and ASTRA/Jarvis lifecycle conflict (2026-10-13)
+
+### Live source refresh and results
+
+- Re-read the current Bootstrap, map, checkpoint, Master Development Roadmap, placement matrix, owner packet, unified traceability matrix and Passport from the live documentation ref before acting.
+- Re-read primary sources from live `main`: Distributed AI Infrastructure, Canonical Component Manifest 2.0, MH-15 architecture/criteria, MH-12 security architecture/invariants, MH-21 architecture/criteria, ASTRA GOLD Unified Autonomous Development System, ASTRA GOLD Complete Component Scheme, ASTRA GOLD Governance Contract and generated ASTRA Current Truth.
+- The placement matrix was already present. No duplicate was created.
+- Owner packet §6 now separates answered invariants from unresolved decisions. DEC-DEV-01 endpoint label is answered (Alamo is a local inference endpoint); runtime composition remains open. DEC-DEV-05 fail-closed/no-silent-fallback and DEC-DEV-06 mesh/reachability-not-authorization are established invariants; provider/data-class routing and mobile API/identity details remain open. DEC-DEV-08 Contour A → Contour B is a binding gate, not a discretionary decision; its evidence/acceptance bundle remains outstanding. DEC-DEV-03/04/07 are deferred until asset/hardware/workload evidence.
+- DEC-DEV-02 reconciliation found a concrete OPEN_CONFLICT. ASTRA GOLD Unified System `main` blob `e2067dc41b52983fc4e0b2549fb6af3c099cbc60` and Complete Component Scheme `main` blob `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1` assign A0 ASTRA its internal queue/claim/lease/evidence lifecycle; the latter also calls A0 “MediaHub State Authority”. That wording conflicts with the product-state boundary. Working Verifiable Architecture Contract ARC-003/017/018 blob `c248956417cc61d66c968a4c58a56e799f653354` limits A0 to engineering workflow state, frames Jarvis as umbrella/ASTRA as bounded subsystem and says the single lifecycle owner remains to be selected. Jarvis independent review blob `022f1bd881906d4ab837b2f46c091c43546fce14` keeps the cross-system lifecycle owner OPEN.
+- ASTRA Current Truth `main` blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` remains `NOT_PROVEN / BLOCKED`, with G0–G11 blocked. Canonical design wording is not implementation or qualification evidence.
+- Updated owner packet §6/§6.4, placement matrix §9, unified traceability matrix §§58–59, Passport §§14–15, map §20.145, Master Roadmap §9 and supporting developer-fabric plan handoff. No primary ASTRA or protected P0-05 source was edited.
+- Next bounded action per Master Roadmap: continue the existing P0-07 → P0-05 trust/context/authorization bridge using the canonical-read trace and owner-recorded D1/D2/D4 directions. Keep canonical-read unproven and mutation/publication BLOCKED until source evidence and governance acceptance support a status change.
+- No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick were performed.
+
+### Read-back provenance
+
+The new packet/traceability/passport/map/roadmap/checkpoint/supporting-plan sections must be re-fetched and marker-checked after the final writes. The next table below records the read-back SHAs after those checks.
