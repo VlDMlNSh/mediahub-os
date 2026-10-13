@@ -1228,3 +1228,14 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - **Current gates unchanged:** D1 NOT DEMONSTRATED; D2 NOT EVIDENCED / candidate design prepared; D3 dependent on D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - **Live branch compare:** docs branch DIVERGED from `main`, 678 ahead / 2 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main HEAD` `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. No merge/rebase/cherry-pick.
 - **Next:** request actual independent MH-12/MH-13 security/architecture review and record reviewer comments/dispositions; then obtain explicit owner/governance decision. No implementation, tests, qualification, credentials, provider/model calls, host/runtime inspection, infrastructure change, deployment or migration performed.
+
+
+### Live ref-state refresh — /next (2026-10-13)
+
+- Re-read Bootstrap, map, this checkpoint, Master Development Roadmap, and the P0-07 D2 trusted-context proposal from the live documentation branch.
+- Live compare observed during this pass: documentation branch `docs/mediahub-chat-tree-map-20261012` is DIVERGED from `main`, 683 commits ahead / 2 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. This supersedes older compare counts recorded in prior entries; no merge, rebase or cherry-pick was performed.
+- Updated the project map with section 20.171 so its latest ref-state ledger no longer repeats the stale 678-ahead count. Historical compare counts remain historical snapshots, not current state.
+- D1 remains NOT DEMONSTRATED; D2 NOT EVIDENCED / candidate proposal prepared; D3 NOT EVIDENCED / dependent on D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN.
+- The requested independent MH-12/MH-13 and architecture review remains outstanding. The recorded desk review is internal source-consistency review only. No independent reviewer dispositions or new owner/governance decision were evidenced in the inspected current documents.
+- No protected contract, code, stable ID, or status was changed. No tests, qualification, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next: obtain independent review dispositions for proposal R-01…R-06; until then, preserve all gates and continue only independent documentary tasks.
