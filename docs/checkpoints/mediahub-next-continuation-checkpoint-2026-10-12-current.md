@@ -1192,3 +1192,15 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - **Gates unchanged:** P0-07 mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
 - **Not performed:** implementation, tests, qualification, credentials, provider/model calls, host/runtime inspection, infrastructure changes, deployment, migration, merge or rebase.
 - **Next:** independently review proposal against MH-04/MH-12/MH-13 and obtain explicit owner/governance disposition. Do not resolve D6 by inference.
+
+
+### P0-07 D2 proposal refinement — review-ready candidate (2026-10-13)
+
+- Owner reaffirmed option B: continue proposal preparation only; no implementation authorization.
+- Refined proposal artifact: `docs/checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md`; current pre-update blob SHA was `2a6ea9b1738d1f45fee1d661bb6611f6014296a8`. The new blob SHA must be established by post-write read-back.
+- Added a candidate trust chain across authentication → trusted context issuance/attestation → P0-07 policy → P0-05 validation → independent P0-04 transaction authorization, lifecycle transition gates, ten proposed invariants, architecture alternatives, and review exit criteria.
+- Review recommendation B1: one accountable logical authority/lifecycle contract with explicit issuer/attester and verifier responsibilities; this does not require a separate service/process and is not an owner architecture decision.
+- No technology/API/schema/topology chosen; no stable IDs added; no source contract or P0-05 header changed.
+- Statuses unchanged: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED / CANDIDATE DESIGN PREPARED; D3 NOT EVIDENCED / DEPENDENT ON D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Documentary-only; no tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, infrastructure change, deployment, migration, merge, or rebase.
+- Next: independent MH-12/MH-13 and architecture review; record objections and source-backed dispositions; then request explicit owner/governance decision. This proposal refinement does not close any gate.
