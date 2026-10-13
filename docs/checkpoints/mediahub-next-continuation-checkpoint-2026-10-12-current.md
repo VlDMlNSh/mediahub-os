@@ -690,6 +690,17 @@ This addendum supersedes only the prior subsection's mutable-branch blob snapsho
 6. Added map entry §20.143 for the matrix, packet, crosswalk and next action.
 7. All changes are documentary only. No install, test, qualification, provider/model invocation, credential use, host/runtime inspection, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
 
-### Read-back still required before finalizing this checkpoint
+### Final read-back table — verified from live GitHub (2026-10-13)
 
-After writing this addendum, re-fetch Bootstrap, map, checkpoint, roadmap, placement matrix, owner packet, unified matrix, Passport and supporting plan from the live documentation ref; verify each changed marker and current blob SHA. Then append the final read-back table with the returned SHAs. Do not copy pre-write SHA values as current values.
+| Artifact | Ref | Blob SHA after read-back |
+|---|---|---|
+| Full Bootstrap instruction | `docs/mediahub-chat-tree-map-20261012` | `49b4760b4adf4f1565fac0aa4697da000f1cf37b` |
+| Master Development Roadmap 1.0 | `docs/mediahub-chat-tree-map-20261012` | `481635a973a7d17781dd3b160da639fddb2e0cc6` |
+| Node/service placement matrix | `docs/mediahub-chat-tree-map-20261012` | `39e9ec183988c9caee5eb7ab0128bf4c71ffaa39` |
+| Owner decision packet 01 | `docs/mediahub-chat-tree-map-20261012` | `d5c568f5dfb66fa48522611f88542ccbc251cd23` |
+| Unified traceability matrix v0.1 | `docs/mediahub-chat-tree-map-20261012` | `aa42d23cb9c76968b8cb90f9ad568e3c71eb5560` |
+| Working Passport v3 | `docs/mediahub-chat-tree-map-20261012` | `d7cbee51b8079b1b753ce1b4473a8b33fb3ced54` |
+| Supporting developer-fabric plan | `docs/mediahub-chat-tree-map-20261012` | `6cf5a925c39ed7d20b4fc8a3298c0f0ccc2e60f5` |
+| Chat Tree Map | `docs/mediahub-chat-tree-map-20261012` | `232c4dbb5882f48349550602f76f3582e0db8e74` |
+
+Each listed file was fetched again after its write and its new section/link markers were checked. The checkpoint itself is being updated with this table; its final blob SHA must be taken from the subsequent read-back rather than predicted.
