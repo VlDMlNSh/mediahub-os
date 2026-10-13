@@ -3,6 +3,8 @@
 Ref: `docs/mediahub-chat-tree-map-20261012`
 Статус: WORKING PLANNING CHECKPOINT / DOCUMENTARY ONLY / NOT A NEW CANONICAL BASELINE
 
+> **Plan-of-record notice (2026-10-13):** This document is retained as the original hardware-and-contour planning note. Its sequencing is superseded by [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), which is the single working plan of record for subsequent sequencing. This supporting note does not create a parallel execution plan. Architecture authority, phase gates and restrictions in the master roadmap apply.
+
 ## 1. Цель и границы
 
 По прямому уточнению владельца от 2026-10-13 работу разделяем на два последовательных контура:
