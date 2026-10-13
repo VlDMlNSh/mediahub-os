@@ -668,3 +668,28 @@ This addendum supersedes only the prior subsection's mutable-branch blob snapsho
 - The map is being updated to index the canonical instruction URL. This checkpoint must be re-read after the update and its final SHA verified.
 - Required next user-side settings action: replace/update ChatGPT Project Instructions so it links directly to the full GitHub Bootstrap. Assistant cannot claim ChatGPT project settings were changed automatically.
 - This pass is documentation-only; no tests, qualification, runtime/host inspection, credentials, deployment, infrastructure changes, merge or rebase.
+
+
+## Continuation addendum — large coherent developer-fabric documentary pass (2026-10-13)
+
+### Live GitHub state at pass start
+
+- Repository: `VlDMlNSh/mediahub-os`.
+- Documentation ref: `docs/mediahub-chat-tree-map-20261012`; live branch search confirmed it exists.
+- `main` HEAD: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Compare `main...`documentation ref: `DIVERGED`, 553 commits ahead / 2 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase performed.
+- Required entry files were readable on the documentation ref before editing. Current refs/SHAs must be refreshed on the next `/next`.
+
+### Work performed
+
+1. Added the large-coherent-pass protocol to Bootstrap: do not recreate completed deliverables; batch dependent documentary updates; do independent work while keeping owner decisions separate; do not bypass authorization gates.
+2. Confirmed the source-anchored node/service placement matrix already existed. Updated its handoff to point to the new owner decision packet rather than repeat the inventory.
+3. Created `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md` to consolidate existing DEC-DEV-01…08 with options, consequences, recommendations and required evidence. No decision was made on the owner's behalf.
+4. Updated Master Development Roadmap §9 and §10.4 so the next pass advances to exact-clause crosswalk validation and a minimal owner questionnaire rather than rebuilding the placement matrix.
+5. Added Section 57 to the working unified traceability matrix and Section 13 to the working Passport with source-linked developer-fabric boundaries and explicit non-claims.
+6. Added map entry §20.143 for the matrix, packet, crosswalk and next action.
+7. All changes are documentary only. No install, test, qualification, provider/model invocation, credential use, host/runtime inspection, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
+
+### Read-back still required before finalizing this checkpoint
+
+After writing this addendum, re-fetch Bootstrap, map, checkpoint, roadmap, placement matrix, owner packet, unified matrix, Passport and supporting plan from the live documentation ref; verify each changed marker and current blob SHA. Then append the final read-back table with the returned SHAs. Do not copy pre-write SHA values as current values.
