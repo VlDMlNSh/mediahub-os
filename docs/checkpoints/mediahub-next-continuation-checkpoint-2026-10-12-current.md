@@ -1408,3 +1408,14 @@ Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
 - Evidence detail: [canonical-read trace](mediahub-next-continuation-checkpoint-2026-10-13-canonical-read-trace.md), section “D7 generation/change-control primary-contract re-read”.
 - No tests, qualification, workflow dispatch, credentials, provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
 - Next: present a minimal owner/governance question assigning accountability and evidence ownership for generation/schema/revision change control; do not infer or select the owner. Continue independent documentary work while P0-07 D2 review remains open.
+
+
+## Latest /next — D7 versioning scope (2026-10-13)
+
+- Live compare: main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch DIVERGED, ahead 734 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Re-read source blobs: MH-23 architecture `2896d6851226a31fc971e05766d253c034d22246`; MH-23 decision log `90a2b8ef5727ac39023147d5b2d3c1540b5f5bbd`; P0-05 v1.0 `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b`; P0-05 v1.1 candidate `79e2b4865c47b5394ade266cd3cd7cfbe3097717`; D7 state-version crosswalk `8f6f616e7717e67c95626c54678c282411618c1c`.
+- MH-23 requires explicit version, compatibility analysis, migration/rollback constraints, testing, evidence and governance approval for breaking changes. MH-23 is not accepted/frozen; SemVer is CANDIDATE, not canonical. P0-05 v1.0 requires controlled architecture/security review, fresh execution evidence and governance acceptance; its exact contract header remains DRAFT. The existing v1.1 candidate already asks whether it should become P0-05 v1.1 or a separately governed domain-operation contract.
+- Conclusion: existing rules do not prove P0-05 v1.1 falls within an accepted canonical versioning scheme, and do not assign an accepted owner for cross-cutting generation/schema/revision change control. Reuse the existing candidate D7 question; create no duplicate decision ID and choose no route without owner/governance disposition.
+- Status unchanged: D7 PARTIAL / NOT ACCEPTED / NOT FROZEN; SemVer NOT CANONICAL; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; P0-07 BLOCKED — GOVERNANCE/API GAP; qualification NO-GO / NOT PROVEN. P0-07 D2 independent review remains a separate open gate.
+- Documentary-only; no tests, qualification, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next: request explicit owner/governance disposition against the existing P0-05 v1.1 D7 question and record accountable owner/evidence path for generation/schema/revision change control.
