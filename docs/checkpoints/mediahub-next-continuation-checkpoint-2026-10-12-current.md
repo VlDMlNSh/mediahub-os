@@ -1302,3 +1302,13 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - Gate statuses unchanged: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - Trace and map were updated as documentation only. No tests, qualification, implementation, credentials, provider/model calls, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next bounded step: documentary crosswalk to MH-14 persistence, MH-16 lifecycle/migration and MH-22 qualification primary artifacts, without treating them as closing P0-07 governance gates.
+
+
+## Latest /next result — MH-14 / MH-16 / MH-22 crosswalk (2026-10-13)
+
+- Live GitHub compare refreshed: documentation branch `docs/mediahub-chat-tree-map-20261012` vs `main` is DIVERGED, 706 ahead / 2 behind; `main HEAD` `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration performed.
+- Re-read live map, checkpoint, roadmap and bootstrap. Roadmap blob `6f0912ccb9af219eb0d58049351f667617575c33`; bootstrap blob `49b4760b4adf4f1565fac0aa4697da000f1cf37b`; map before this pass `1e9ab85e74705db8d6904552f98e7a4490cccec3`; checkpoint before this pass `19ad209377bd10cb5f8d95b5c405677e383039af`.
+- Main source blobs: MH-14 architecture `5e14084033f417722a1b04b5d5d47649dcfcda48`, acceptance `364bb2a949e11f191b71a35af482f18de4ef2827`, decision log `a2f49b9f4e09e3d2becdc2e72807319674a30239`; MH-16 architecture `f3ad2401f00a4062b39eed640e0c5c5f70064312`, completion `e4ea4e3a37540cc104243c236e2e5c1c32ea35d6`; MH-22 acceptance `40d401c0a4ba80550f8101d4e9b1de8f0c77849e`, evidence register `188a85e3a31cb545fd781e6db237d655d721ec1c`.
+- Result: MH-14 physical persistence NOT AUTHORIZED and acceptance NOT YET ACCEPTED/FROZEN; MH-16 governance acceptance pending and implementation NOT AUTHORIZED; MH-22 current-head qualification and key lifecycle/release/restore evidence UNKNOWN / REQUIRES VERIFICATION, production acceptance NOT GRANTED. These sources do not close P0-07 or prove end-to-end revision binding.
+- Gate statuses unchanged: P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; D7 PARTIAL; project qualification NO-GO / NOT PROVEN.
+- Next: continue a bounded source crosswalk on the current-head MH-22 gate matrix and associated qualification/CI evidence records, only as metadata/document review. Do not execute workflows/tests or claim qualification.
