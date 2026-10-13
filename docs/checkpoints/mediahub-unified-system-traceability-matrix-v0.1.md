@@ -1393,7 +1393,7 @@ No owner disposition has been inferred from the response template. Owner investi
 | MH-15 architecture / criteria | `main` | `f817925c69ce4484713f952e47aacad283af8eeb` / `082642e67dc66cb359a5566773c143854cafaa00` | MH-15 acceptance/freeze and implementation authorization absent; hardware/OS evidence is a gate. |
 | MH-12 Security Architecture / Invariants | `main` | `cf4ebfd5bf471ca676f075c51d3a24906504e490` / `0609be9c3420070434014dad4529e4ccd46b0996` | §7 states network/LAN/VPN reachability does not establish unrestricted trust; invariants distinguish authentication, identity, authorization and State Authority. The invariant document itself is PROPOSED → READY FOR GOVERNANCE REVIEW. |
 | MH-21 architecture / acceptance criteria | `main` | `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c` / `582f898fe4be332b6a7fef3e8cca2e27c7328ac2` | MH-21 is not accepted/frozen/production-ready; external compute remains subordinate to State Authority, placement is policy-driven and egress/provider/security evidence is required. |
-| Binding project Bootstrap and Roadmap Phase 10 | `docs/mediahub-chat-tree-map-20261012` | Bootstrap SHA to refresh live; Roadmap SHA `67dbdc60140479afd3e993273814ab6c21c5cc4d` | Contour B must not begin before Contour A deployment and independent acceptance are evidenced. This is not an open option to bypass. |
+| Binding project Bootstrap and Roadmap Phase 10 | Bootstrap blob `49b4760b4adf4f1565fac0aa4697da000f1cf37b`; Roadmap blob `a65de988736b21abfe95d72c1a3cc4947c832c71` on `docs/mediahub-chat-tree-map-20261012` | Contour B must not begin before Contour A deployment and independent acceptance are evidenced. This is not an open option to bypass. |
 
 ### Decision triage
 
