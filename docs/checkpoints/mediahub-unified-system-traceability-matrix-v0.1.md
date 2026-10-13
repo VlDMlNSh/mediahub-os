@@ -1366,7 +1366,7 @@ No owner disposition has been inferred from the response template. Owner investi
 | `docs/architecture/MH-21-hybrid-cloud-distributed-ai.md` | `main` | `a76f6b35ec31d6b8fff2b0a3e8a1fd22bdbec71c` | External compute is not authority; MH-21 is not accepted/frozen. |
 | `docs/architecture/MH-21-acceptance-criteria.md` | `main` | `582f898fe4be332b6a7fef3e8cca2e27c7328ac2` | Provider, egress, privacy, isolation and qualification evidence remain required. |
 | `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md` | `docs/mediahub-chat-tree-map-20261012` | `39e9ec183988c9caee5eb7ab0128bf4c71ffaa39` | Placement matrix exists; DEC-DEV-01…08 remain open. |
-| `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md` | `docs/mediahub-chat-tree-map-20261012` | Refresh SHA on next live read | Consolidates DEC-DEV-01…08 without presuming owner decisions. |
+| `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md` | `docs/mediahub-chat-tree-map-20261012` | `d5c568f5dfb66fa48522611f88542ccbc251cd23` | Consolidates DEC-DEV-01…08 without presuming owner decisions. |
 
 ### Cross-domain conclusions
 
