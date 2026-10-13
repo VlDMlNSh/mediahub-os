@@ -4567,7 +4567,7 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Gate unchanged:** D1 NOT DEMONSTRATED; D2 NOT EVIDENCED / candidate prepared; D3 dependent on D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - **Continuation:** obtain actual independent MH-12/MH-13 and architecture review, then record exact-source dispositions and explicit owner/governance decision.
 
-## 20.169 P0-07 D2 source-anchor revalidation after MH-12/MH-13 desk review (2026-10-13)
+## 20.170 P0-07 D2 source-anchor revalidation after MH-12/MH-13 desk review (2026-10-13)
 
 - **Proposal:** [P0-07 D2 Trusted Context Authority and Lifecycle Proposal](../checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md); live blob SHA at this pass: `2ff3c26e4feb070d95915403d2fad0d91ce6b4d4`. Section 12.7 records a bounded internal desk review, explicitly not an independent review or acceptance.
 - **Re-read on `main`:** MH-12 identity `27eef9e23db02d6280b94a8e68bff9f73b0de88d`; authentication `a29c6a3cff0ee175a0c868214ffa2b455010002f`; authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a`; security architecture `cf4ebfd5bf471ca676f075c51d3a24906504e490`; security invariants `0609be9c3420070434014dad4529e4ccd46b0996`; MH-13 privacy/data governance `e732ff9cacbc9c1189bd83306cdff30906326cf0`; MH-13 governance acceptance `6ecdc89440664563f36263bb8da80d1ad24f19a7`; MH-13 governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`.
