@@ -4505,3 +4505,13 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Finding:** state-version freshness, generation compatibility and restore version advancement are evidenced in the inspected in-memory implementation. Accepted ownership of generation/schema change control and complete trusted P0-07 → P0-05 → P0-04 revision binding remain NOT EVIDENCED in this bounded pass. Persistence/qualification are not proven.
 - **Gate:** P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN.
 - **Continuation:** re-read map-selected MH-14 persistence, MH-16 lifecycle/migration and MH-22 qualification primary sources to identify the accepted generation/change-control owner and evidence path. Do not implement or infer acceptance.
+
+
+## 20.164 D7 generation/change-control dependency audit — MH-14 / MH-16 / MH-22 (2026-10-13)
+
+- **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “D7 generation/change-control dependency audit — MH-14 / MH-16 / MH-22”.
+- **Checkpoint write:** commit `f973d50b0b2da00734ec5e51d04df60fac971aea`; new checkpoint blob `df2980b866712d2f3bfc589903aad309029f8d0b`.
+- **Live primary sources on `main`:** MH-14 persistence `5e14084033f417722a1b04b5d5d47649dcfcda48`; MH-16 lifecycle architecture `f3ad2401f00a4062b39eed640e0c5c5f70064312` and completion record `e4ea4e3a37540cc104243c236e2e5c1c32ea35d6`; MH-22 operations `17bb2a9fdc34a0ee7c324e78c412616b5e377bb4`, acceptance criteria `40d401c0a4ba80550f8101d4e9b1de8f0c77849e`, evidence register `188a85e3a31cb545fd781e6db237d655d721ec1c`, decision log `dd4d772283e1264e539955e4293f2a8207da8eac`.
+- **Finding:** these contracts establish that persistence, lifecycle/recovery and qualification are subordinate distinct responsibilities, but the inspected evidence does not assign one accepted owner for generation/schema change-control or demonstrate end-to-end revision binding across State Authority, durable persistence, migration/restore and exact release qualification.
+- **Disposition:** D7 remains PARTIAL / NOT ACCEPTED / NOT FROZEN; finding is NOT EVIDENCED, not proof of absence. P0-07 remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; production remains NO-GO / NOT QUALIFIED. No implementation or runtime qualification was performed.
+- **Next:** continue read-only source tracing for an accepted generation/schema change-control assignment. If none exists, present a minimal owner/governance question; do not invent a technology, owner, or mutation bridge.
