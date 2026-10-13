@@ -1182,3 +1182,13 @@ This accepted direction supersedes any inference that D6 may be closed by silent
 - D4 operation mapping is already recorded in matrix Sections 46/58 and was not duplicated.
 - **Statuses unchanged:** D1 existing compliant caller path NOT DEMONSTRATED; D2 trusted issuer/lifecycle NOT EVIDENCED; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED; P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - **Next owner gate:** choose D2 disposition: (A) identify an existing approved authority with exact source evidence; (B) authorize a governed authority/lifecycle proposal for separate review; or (C) defer and retain the block. Recommendation: A if evidence exists, otherwise B; no implementation is authorized. D6 remains separate. No tests, implementation, runtime/host inspection, credentials, provider/model calls, deployment, migration, merge or rebase performed.
+
+### P0-07 D2 trusted-context authority/lifecycle proposal (2026-10-13)
+
+- **Owner disposition:** option B selected — prepare a governed trusted-context authority/lifecycle proposal for separate review. This is proposal authorization only, not architecture acceptance or implementation authorization.
+- **Proposal artifact:** [P0-07 D2 Trusted Context Authority and Lifecycle Proposal](P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md); create commit `84fde686a9385ba5cb0908a55c5355200088fddc`. Read-back verification of the new artifact is required before treating its current blob SHA as verified.
+- **Scope:** conceptual responsibility model; minimum context semantics; candidate lifecycle; threat/negative cases; options A/B/C; governance, security review, acceptance/freeze, implementation and qualification gates. No technology/API/schema selected.
+- **Status:** D1 `NOT DEMONSTRATED`; D2 `NOT EVIDENCED — PROPOSAL PREPARED FOR REVIEW`; D3 `NOT EVIDENCED / DEPENDENT ON D1/D2`; D6 `OPEN / GOVERNANCE CONFIRMATION REQUIRED`.
+- **Gates unchanged:** P0-07 mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
+- **Not performed:** implementation, tests, qualification, credentials, provider/model calls, host/runtime inspection, infrastructure changes, deployment, migration, merge or rebase.
+- **Next:** independently review proposal against MH-04/MH-12/MH-13 and obtain explicit owner/governance disposition. Do not resolve D6 by inference.
