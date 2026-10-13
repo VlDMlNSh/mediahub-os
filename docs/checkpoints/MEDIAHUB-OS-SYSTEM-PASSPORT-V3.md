@@ -335,3 +335,27 @@ The owner/governance acceptance package must verify at least:
 
 
 - 2026-10-13 — added P-30 for B1 §25 Digital Twin / AT-18. Batch 16 draft and Review 01 blobs `5329556d673749043c6d00ffc6bb6a7566558f59` / `5fe9c64bd0a177559e2d3a64672985e56cce1333`; four provisional labels, 3 MAPPED / 1 NOT_REVIEWED / 0 NO_DIRECT_COUNTERPART / 0 CONFLICT. Exact Mac mini/Mini PC profile scope, entitlement lifecycle, complete artifact/workflow semantics and owner acceptance remain OPEN. B1/B2, atomic/canonical backlog, traceability matrix and main unchanged; no final child IDs minted.
+
+
+## 13. Developer-fabric placement and unresolved owner decisions (2026-10-13)
+
+**Status:** working passport addendum; this document remains non-canonical. Functional authority remains Baseline 2.0.
+
+The source-anchored placement matrix is maintained at `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`; the decision interface is `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md`. These artifacts summarize Contour A only and do not claim deployment or acceptance.
+
+### Confirmed target boundaries
+
+- The accepted developer-fabric target places Jarvis/control services, model/API routing, task coordination, monitoring, registry and the Alamo local inference endpoint on the central Mac Pro, subject to hardware/runtime validation.
+- Mac mini Server 2011 is a legacy/low-resource candidate with compatibility, OS lifecycle, workload and thermal facts still unknown. It is not a mandatory critical dependency.
+- The future owned GPU/video server is optional later capacity; hardware and service profile are not selected.
+- Developer Mobile is a client, not an authority. Mesh/P2P reachability does not grant application, shell or administrative permissions.
+- The customer-site Mac mini M2 prototype, developer nodes, test hosts, registration-only VPS and user-contributed compute remain separate trust domains and must not inherit one another's credentials, data or authority.
+- Alamo is the accepted target endpoint name; the relationship to proposed Ollama and target-gated ONNX Runtime/llama.cpp remains unresolved. No runtime is inferred as installed or selected by this addendum.
+- Jarvis/ASTRA engineering lifecycle ownership remains unresolved. Neither gains MediaHub Product State Authority.
+- MH-15 remains work in progress with acceptance/freeze and implementation authorization absent; MH-16 remains proposed/not frozen/not authorized; MH-21 remains not accepted/frozen.
+
+### Traceability and gate state
+
+Existing decision IDs DEC-DEV-01…DEC-DEV-08 are preserved in the owner-decision packet. The unified traceability matrix Section 57 links the cross-domain conclusions to live source refs and blob SHAs. No owner decision was made and no implementation, qualification, deployment or production acceptance is claimed.
+
+Contour B product implementation remains gated until Contour A is deployed and independently accepted with evidence.
