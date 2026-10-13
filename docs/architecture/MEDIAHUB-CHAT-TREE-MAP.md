@@ -4193,3 +4193,12 @@ The adapter contract lists three governance directions (existing independently P
 - **Read-back:** roadmap, supporting plan and checkpoint were re-read from GitHub after writes; SHA and required markers verified. This map entry is being added now and must itself be read back after update.
 - **Next step:** create a source-anchored node/service placement matrix and decision/conflict register from the primary clauses named in the roadmap. Follow the master roadmap as the sole sequencing plan; do not infer compatibility or authorization.
 
+
+
+## 20.141 Live refs / link-drift rule and current plan-of-record (2026-10-13)
+
+- **Единый план последовательности:** [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md). Следующий шаг выбирается из него, после live-проверки GitHub и текущего checkpoint; supporting plan не является параллельным планом.
+- **Правило каждого /next:** заново проверить фактические refs, HEAD, branch divergence/merge base, доступность ключевых документов и их blob SHA. Перечитать Bootstrap, эту карту, current checkpoint, Master Roadmap и затронутые первичные источники. Не считать URL или SHA, записанные в документах, гарантией актуальности.
+- **SHA vs URL:** новый blob SHA после обычного изменения не требует замены URL. Переименование/удаление ветки, перемещение файла, сломанная ссылка или переход к новой канонической контрольной точке требуют обновления ссылок и явного задания на замену ChatGPT Project Instructions в том же ответе.
+- **После прохода:** фиксировать результат и проверку в GitHub; обновлять карту и current checkpoint, а матрицу/паспорт — только если меняется подтверждённая трассировка. Повторно читать изменённые файлы и проверять SHA.
+- **Ограничение:** карта остаётся индексом; наличие roadmap или документа не доказывает реализацию/приёмку. Contour B не начинается до независимой приёмки Contour A.
