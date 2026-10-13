@@ -362,3 +362,19 @@ This subsection is a reviewer handoff aid, not a completed review. The reviewer 
 - **R-06:** use MH-13 audit requirements but record operation-specific “audit unavailable” behavior as unresolved unless an authorized decision exists.
 
 **Handoff guardrails:** this table does not constitute reviewer analysis or a disposition. The qualified reviewer must record identity, competence, independence/conflicts, exact proposal and source refs/SHAs, evidence-backed R-01…R-06 dispositions, cross-cutting findings, overall recommendation and unresolved issues in §13. Owner/governance acceptance remains separate. No gate status or implementation authorization changes by adding this handoff.
+
+
+## 13.2 — Live-main MH-12 source anchors verified (2026-10-13)
+
+This addendum supersedes only the source-discovery boundary in §13.1 that said no exact MH-12 control-point source had been located. A read-only query of the complete recursive tree at current main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` found the following exact MH-12 source paths and blob SHAs:
+
+| Review use | Exact source path on `main` | Blob SHA | What it supports / limitation |
+|---|---|---|---|
+| R-01, R-02 | `docs/architecture/MH-12-identity.md` | `27eef9e23db02d6280b94a8e68bff9f73b0de88d` | Canonical principal classes; identity lifecycle is distinct from authorization; unverifiable identity is not trusted. Does not define an accepted P0-07 issuer. |
+| R-01, R-02, R-03 | `docs/architecture/MH-12-authorization.md` | `c48641861691714017aa5b1f99fe8eee8ea0e76a` | Operation-specific, identity-bound, context-aware, policy-aware, auditable, fail-closed authorization; forbids implicit grants/self-grant and alternate mutation authority. Does not evidence the proposed end-to-end context lifecycle as implemented or accepted. |
+| R-01, R-03 | `docs/architecture/MH-12-security-boundaries.md` | `38a4505eef87f696748924baedd40cfa2ad07a41` | Boundary-crossing trust requirements and deny/quarantine/safe-degradation framing; does not settle each operation's audit-outage behavior. |
+| R-03, R-04, R-06 | `docs/architecture/MH-12-audit.md` | `ab6e1c652790fd9088ac26b595050774611da2fc` | Security audit fields, integrity, access control, privacy-aware retention, bounded storage and controlled export. Does not select the required operation-specific response when audit is unavailable. |
+| Review-status guardrail | `docs/architecture/MH-12-acceptance-criteria.md` | `40f37f1600c4730e622480d57bd492fa67f9ca4b` | MH-12 remains governance-review-required; implementation authorization, production qualification and freeze are not granted. This is a status guardrail, not a P0-07 D2 review. |
+| R-03 unresolved assumptions | `docs/architecture/MH-12-unknowns.md` | `97f08824fb858dd4506876729ae37d610140c3e8` | Identity/authentication/capability/PKI/recovery and deployment unknowns remain REQUIRES VERIFICATION; no assumptions may fill them. |
+
+The paths and SHAs above were freshly fetched from `main` during this pass. These source anchors improve reviewer routing only. They do not establish a qualified independent review, close R-01…R-06, approve a trusted issuer, select token/API/cryptographic design, grant implementation authority, or change any P0-07/P0-05/MH-22 gate. The §13 reviewer disposition worksheet remains for an actual independent reviewer.
