@@ -4067,3 +4067,16 @@ The adapter contract lists three governance directions (existing independently P
 - Matrix cross-reference: [Unified System Traceability Matrix, Section 49](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob `3d5f45b3878b8beda2cfa4ce33e6212b07ce3ba3`.
 - Disposition: P0-07 source lineage **LOCATED**; P0-07→P0-05 canonical-read call edge **NOT EVIDENCED**; current-main reachability **NOT EVIDENCED**; mutation/publication **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**; project qualification **NO-GO / NOT PROVEN**.
 - Next bounded step: inspect documented integration/composition entry points and the exact branch history for an existing approved bridge; compare source changes to current main without merging. No tests, workflows, code changes, deployment, merge or rebase.
+
+
+## 20.132 P0-07 target composition vs actual call graph (2026-10-13)
+
+- `docs/architecture/MH-07-runtime-interaction.md`, blob `991617d19542f662c561aa8fd8870b16d3f7fadf`, documents the intended flow: candidate → validation → policy → authorization → P0-05 → P0-04 transaction → atomic commit → runtime application → observed state. Treat this as a target flow, not proof of an implemented call path.
+- `docs/architecture/MH-07-dependency-map.md`, blob `1e4e0c7932a1100af3feb8b94ff51382cc9761cf`, explicitly records the P0-07→P0-05 authorization composition gap as a governance blocker.
+- `docs/architecture/P0-07-mutation-authority-reconciliation.md`, blob `15b100f7c5351ea6ba0b5d0c8d2deca861d82063`, forbids direct State Authority calls, capability translation, and a second transaction/version authority; a missing bridge must be governed as an API change.
+- `docs/architecture/P0-07-p0-05-mutation-adapter-contract.md`, blob `22b8e1897e124578e66c8d619b3e8eaf41f69a88`, says P0-05 transaction operations authorize against P0-04 context and no approved mapping from P0-07 domain capability to P0-04 transaction capability exists in the inspected contract.
+- P0-07 operation boundary blob `1e3578f1503d0de452b92c1a549c77e4ecddf7bb` does not call P0-05; P0-05 ConsumerBoundary blob `23b95f1b37cb35e311b61e3babcca4bd1aea9596` exposes separate read/transaction surfaces. Package exports of both types (`__init__.py` blob `5b7244092003d45390fa81dc7f592c593568c77d`) do not establish composition.
+- Source history: operation boundary introduced by `9e1be215e75be5e6263decf457b3e72b4e937dbf`; governance gap recorded by `65d22a105435aebd03594cc40f70a4314ece6ca4`. No later approved bridge was established by this bounded review.
+- Matrix cross-reference: Section 50, blob `0fb4ee682455104301eb3cb3bb9dab7b890f7708`.
+- Status: intended flow **DOCUMENTED AS TARGET**; implementation call edge **NOT EVIDENCED**; authorization bridge **GOVERNANCE/API DECISION REQUIRED**; mutation/publication **BLOCKED**; current-main integration **NOT EVIDENCED**; project qualification **NO-GO / NOT PROVEN**.
+- Next: locate a later owner/governance decision superseding the gap. If none exists, request owner direction before code changes. No tests, workflow runs, code changes, deployment, merge, rebase, or cherry-pick.
