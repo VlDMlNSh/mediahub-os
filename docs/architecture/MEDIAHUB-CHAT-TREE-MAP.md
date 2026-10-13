@@ -4623,3 +4623,10 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - `DEC-DEV-02` concerns Jarvis/ASTRA cross-system engineering lifecycle ownership and remains `OPEN_CONFLICT`. It is not a review disposition for P0-07 D2 items R-01…R-06 and does not close D1/D2/D4 or MH-12/MH-13 security gates.
 - Owner packet's A0/internal-state recommendation remains a recommendation, not an accepted decision. Keep the product-state boundary intact; do not silently edit ASTRA primary sources or infer runtime readiness.
 - Independent P0-07 D2 review remains NOT EVIDENCED; P0-05 normative-status and D1/D2 contract governance remains OPEN; DEC-DEV-02 remains separately OPEN_CONFLICT. Each needs its own evidence and explicit disposition.
+
+
+## 20.176 P0-07 D2 independent-review worksheet (2026-10-13)
+
+- Existing proposal now includes a blank reviewer worksheet in §13: [P0-07 D2 trusted-context authority/lifecycle proposal](../checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md).
+- The worksheet structures reviewer identity/independence, exact source refs and blob SHAs, evidence-backed dispositions for R-01…R-06, cross-cutting findings, overall recommendation, and separate gate/owner acceptance status.
+- It is explicitly a template only. It is not an independent review, owner acceptance, implementation authorization, or qualification evidence. Status remains D2 `NOT EVIDENCED`; D1 `NOT DEMONSTRATED`; D3/D4 `NOT EVIDENCED`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`.
