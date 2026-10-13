@@ -284,15 +284,19 @@ For each substantive pass, update the map and continuation checkpoint when there
 - Hardware compatibility, runtime state and actual deployment are not asserted by this document.
 - No tests, qualification, model/provider invocation, credential use, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick was performed.
 
-## 9. Next bounded action
+## 9. Next bounded action — advance beyond existing placement inventory
 
-Follow the current map and checkpoint. The next pass is strictly documentary:
+The source-anchored placement matrix already exists at `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`. Do not recreate it. The owner-decision packet now exists at `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md`.
 
-1. Extract source-anchored service-placement rows from `MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md`, the component manifest, MH-15/MH-16 and relevant network/security contracts.
-2. For each row capture exact clause, path/ref/blob SHA, status, host target, dependency, unknowns, acceptance criterion and evidence type.
-3. Create/update a dedicated placement-and-decision artifact only after confirming the path does not already exist and checking historical IDs.
-4. Update map and checkpoint, read back every changed file, then report verified SHAs and remaining blockers.
+Next pass must move the evidence frontier forward:
 
+1. Re-fetch the matrix, owner-decision packet, exact primary contracts and relevant unified traceability/passport sections from live refs; refresh blob SHA and source-status claims.
+2. Cross-check each DEC-DEV-01…08 against exact primary clauses and determine which questions are genuinely unresolved versus answerable from already accepted sources. Preserve historical IDs.
+3. Update the unified traceability matrix and working Passport only for source-confirmed mappings/statuses; do not promote either working draft to canonical.
+4. Produce a compact, dependency-ordered owner questionnaire containing only irreducible decisions, with options, consequences and a recommendation. Do not ask the owner to decide facts already established by accepted contracts.
+5. Continue independent documentary closure around the P0-07 → P0-05 governance/API gap and other roadmap P0 items only after confirming their exact dependency order; do not allow the developer-fabric packet to silently reorder product-contour gates.
+
+No tests, qualification, provider/model calls, credentials, host/runtime inspection, infrastructure changes or deployment are authorized by this documentary pass.
 
 ## 10. Операционный контракт продолжения и актуальности ссылок (revision 2026-10-13)
 
@@ -322,4 +326,4 @@ Follow the current map and checkpoint. The next pass is strictly documentary:
 
 ### 10.4 Текущий следующий проход
 
-Следующий незакрытый deliverable остаётся source-anchored node/service placement matrix плюс decision/conflict register. Он должен ссылаться на первичные пункты Distributed AI Infrastructure, Canonical Component Manifest 2.0, MH-15/MH-16 и применимые security/network contracts; различать accepted target, selected, target-gated, proposed, unknown и not authorized. Не выбирать за владельца между Alamo/Ollama/ONNX Runtime/llama.cpp и не назначать единого Jarvis/ASTRA lifecycle owner без решения владельца.
+Placement matrix создан и проиндексирован: `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`. Консолидированный пакет решений создан: `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md`. Следующий шаг — crosswalk-validation, а не повторная инвентаризация: перепроверить DEC-DEV-01…08 по exact primary clauses/live refs/SHA; обновить только подтверждённую трассировку в unified matrix и working Passport; подготовить минимальный owner questionnaire с вариантами, последствиями и рекомендацией. Не выбирать вместо владельца Alamo/Ollama/ONNX Runtime/llama.cpp, не назначать единого Jarvis/ASTRA lifecycle owner и не снимать Contour A → Contour B gate.
