@@ -5268,3 +5268,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - **Primary records:** owner decision register D-03 (docs/checkpoints/mediahub-owner-decision-register-2026-10-14.md); unified architecture/deployment contract §4.1.1 (docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md); master roadmap §65 (docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
 - **Status boundary:** OWNER-ACCEPTED ARCHITECTURE DIRECTION / IMPLEMENTATION NOT EVIDENCED / NOT QUALIFIED. This decision does not authorize provider calls, credentials, tests/qualification, host/runtime inspection, infrastructure changes, deployment, merge or production changes.
 - **Next:** reconcile Jarvis/ASTRA primary contracts and GitHub adapter permissions against D-03; record concrete conflicts without weakening Product State Authority or existing approval gates.
+
+ 
+## 20.255 Jarvis / ASTRA D-03 reconciliation
+
+- Source-only report: [MEDIAHUB-JARVIS-ASTRA-D03-RECONCILIATION-01-2026-10-14.md](../checkpoints/MEDIAHUB-JARVIS-ASTRA-D03-RECONCILIATION-01-2026-10-14.md).
+- Key finding: Jarvis system-level orchestration can coexist with A0-ASTRA only if Jarvis submits bounded missions and A0 remains the single writer/authority for ASTRA-internal queue, claim, lease and gate state.
+- Key unresolved topology tension: D-03's Jarvis-wide per-task Claude/Ollama routing must not silently replace the existing ASTRA GOLD permanent Claude-only production lanes. Ollama remains outside that permanent pool unless a separate admission/qualification path authorizes promotion.
+- GitHub direct integration means capability-scoped, audited operations only; it does not grant merge/release/deployment or canonical product-state authority.
+- Status: documentary reconciliation only; no normative ASTRA contract changed, no implementation or qualification claimed.
+- Next: draft a narrow Jarvis/GitHub adapter contract and compare requested capabilities to actual repository integration permissions.
