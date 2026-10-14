@@ -169,3 +169,22 @@ Reply with the existing ID and option letter. The recommendation is not adopted 
 - No tests, qualification, host/runtime inspection, credentials, model/provider calls, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick were performed as part of this plan.
 - No main-branch normative file was changed.
 - **Current overall status remains: architecture globally NOT ACCEPTED / qualification NOT_PROVEN / BLOCKED.**
+
+## 8. Wave 07 addendum — test-contract alignment (2026-10-14)
+
+This pass read back the current docs-branch topology/drift tests and paired ASTRA model. It was static inspection only; no test runner was invoked.
+
+### Additional confirmed finding
+
+| ID | Priority | Finding | Evidence | Required disposition | State |
+|---|---|---|---|---|---|
+| MH-ARCH-015 | P0 | **A drift test hard-codes the disputed A0 state-authority claim.** `tests/test_astra_gold_architecture_drift.py` asserts `qualification.authority.state_authority == "A0-ASTRA"` and `unified.authority.astra.role == "single_coordination_authority"` (test blob `d6a0e6a6d81dc6e15e343cd80ee950431b1e3b14`). Those assertions encode the same disputed interpretation identified in MH-ARCH-001 rather than checking a settled, owner-approved boundary. A green result from this test could not establish that the lifecycle/product-state authority conflict is resolved. | Paired model YAML blob `193f81eb3cf463ebc38c6b2c3fca8c19e502f176`; component-scheme conflict and owner packet refs listed in MH-ARCH-001. | After owner disposition of DEC-DEV-02, update the contract and test assertions together. Before that decision, do not change the normative value by inference; make the unresolved authority boundary explicit and keep the associated acceptance gate blocked. | CONFIRMED TEST-CONTRACT RISK / OWNER-BLOCKED |
+
+### Additional consistency observations
+
+- The topology test on the docs branch now checks the schema/governance/model numeric mirror for concurrency and asserts that selected prose no longer repeats the number (test blob `1362ff8723a63e3594a3559c97dc9e3091d0c674`). This is source-code inspection only; the test was not run, so no pass claim is made.
+- The paired Markdown architecture remains version 1.0 (`architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.md`, blob `610a611f42d19a55ab7a172e00068c40c5ce5da5`) while its paired YAML model is version 1.1 (blob `193f81eb3cf463ebc38c6b2c3fca8c19e502f176`). This may be intentional semantic-versioning/format lineage, but the source set does not establish that relationship clearly enough; it remains within MH-ARCH-004 and requires explicit lineage metadata or a documented compatibility rule.
+- The YAML top-level status `QUALIFICATION_READY_HYBRID_FABRIC` is now accompanied by a comment distinguishing design/model readiness from live qualification. This improves wording but does not reconcile status enums or change `CURRENT-TRUTH.generated.md`, which remains `NOT_PROVEN / BLOCKED`.
+- The source test explicitly asserts version 1.1 for YAML and the source links for reference/schema. That validates the YAML model's own expected version, not the relationship between the paired Markdown and YAML documents.
+- No normative contract was changed in this addendum. The remediation plan remains `WORKING / NOT ACCEPTED / NOT FROZEN`; no test, qualification, runtime inspection or branch integration was performed.
+
