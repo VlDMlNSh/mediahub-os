@@ -1777,3 +1777,26 @@ No normative contract, Baseline, implementation, or `main` source was changed. N
 
 ### Next bounded step
 Compare one additional unreviewed MH-03 root/nested pair and its declared dependencies. Preserve both copies until owner/governance chooses root canonical, nested canonical, or governed synchronized views. Continue to keep P0-07 independent D2 review and other owner decisions open.
+
+## Latest /next result — MH-03 evidence-register provenance conflict review (2026-10-14)
+
+### Result
+- Added MH-ARCH-026 to the single [Unified Architecture Remediation Plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), §9.17.
+- Confirmed material drift between root and nested MH-03 evidence registers: root is PROPOSED and records inherited evidence as FROZEN / INHERITED; nested assigns E03-01 ACCEPTED / IMPLEMENTATION AUTHORIZED and E03-02…E03-04 ACCEPTED / FROZEN. The same identifiers therefore carry materially different status/provenance.
+- Compared paired decision logs, recovery boundaries and runtime models. Decision logs differ on MH3-D10/D11; recovery/runtime-model pairs show asymmetric coverage. No further direct contradiction was asserted where evidence supports only coverage drift.
+- No canonical MH-03 tree was selected. No source document was edited, deleted, synchronized or promoted.
+
+### Live source identities
+- Root evidence register: `architecture/MH-03-evidence-register.md`, blob `07dd464fe23ba91943053f658c8d804ec67b5fb6`.
+- Nested evidence register: `docs/architecture/mh-03/MH-03-evidence-register.md`, blob `865a1bda46984cd8b3384aaea99ec9f9c86746d4`.
+- Root decision log: `architecture/MH-03-decision-log.md`, blob `e202a60c48726a78b0e5b7d1c191f62cfd2caaa1`.
+- Nested decision log: `docs/architecture/mh-03/MH-03-decision-log.md`, blob `4089e4573a083adcde921acd8ac0bd09c98d6a2f`.
+- Unified plan was updated in commit `777a7a89fc7a25a291730346f939bc5e86f6bf7e`, resulting plan blob `141a95198128539c7ccce5e75e2e709091301b8e`.
+
+### Verification boundary
+- Documentary read/compare only. No tests/qualification, CI, runtime/host inspection, credentials/provider/model calls, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- ASTRA current truth remains G0–G11 BLOCKED / NOT_PROVEN. Contour B remains gated.
+
+### Next bounded step
+- Continue pair-by-pair MH-03 review with `MH-03-degraded-mode.md` or `MH-03-error-handling.md`, capturing exact SHAs and distinguishing direct contradiction from asymmetry.
+- Keep the unified remediation plan as the sole cross-cutting finding register. Do not create parallel issue lists; update map, checkpoint and roadmap as navigation/status views.
