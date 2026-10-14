@@ -548,7 +548,7 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 **Next bounded action:** continue pairwise source/provenance review of an unreviewed MH-03 root/nested pair; use the unified remediation plan as the sole finding register and preserve both trees pending owner/governance disposition.
 
 
-## 31. Execution update — MH-03 mirror comparison and repository duplicate inventory (2026-10-14)
+## 32. Execution update — MH-03 mirror comparison and repository duplicate inventory (2026-10-14)
 
 - Compared six root/nested MH-03 pairs (runtime model, recovery boundary, event model, runtime dependencies, shutdown sequence, startup sequence). Added MH-ARCH-031…036 (P2, coverage/status asymmetries) to the unified remediation plan: `docs/checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md`, blob `cf43f825cbf57f25e1c8f8291ebeaa6fd41c1e36`.
 - Static tree at docs branch snapshot `8871054b96395498c99daeb9db15430e4980cc53`: 827 blobs, 24 repeated-basename groups, one group of ten identical empty package initializers, no case-insensitive path collisions. This is a candidate inventory, not an authorization to delete duplicates.
