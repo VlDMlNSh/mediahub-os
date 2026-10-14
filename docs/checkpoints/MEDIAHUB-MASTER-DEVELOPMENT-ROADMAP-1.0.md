@@ -640,3 +640,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Next: obtain owner/governance decision on trusted context issuer/binding and independent D2 reviewer. Preserve DEC-DEV-02 and DEC-DEV-05 as open dependencies; no implementation before design and implementation authorization.
 
 - Crosswalk clarification: MH-ARCH-047 revalidates the existing P0-07 D2 trusted-context authority/lifecycle proposal (docs-branch blob `39400abce88da7ea54be7d9d7505f215eba43408`); it is not a distinct new defect. The existing owner direction authorizes proposal preparation for governance review only, not implementation.
+
+## 44. Execution update — autonomous controller candidate/manifest crosswalk (2026-10-14)
+
+- Re-read the authoritative Canonical Component Manifest 2.0 on main, blob 45988bf9da202c9597d0ca2de50e92e5c2e6ed55, and updated the bounded candidate review docs/checkpoints/mediahub-autonomous-controller-ecosystem-review-2026-10-14.md to blob 725f428c1db4bea5f9e0d53b70ebe9031f01d7db.
+- Crosswalk outcomes: Temporal remains future-gated per Manifest §5; llama.cpp and ONNX Runtime remain target-gated per §4; OpenTelemetry Collector and Prometheus remain selected per §2; Ollama is present in code but not listed among the manifest's AI candidates and therefore is not canonically admitted by code presence alone. Other agent frameworks/gateways remain unadmitted absent a documented capability gap and owner decision.
+- Recommendation: evaluate at most one bounded coding-worker integration (OpenHands Software Agent SDK) after owner-approved scope; MCP is a tool protocol only, not authorization. Do not stack LangGraph, CrewAI, Microsoft Agent Framework/AutoGen, Temporal, LiteLLM, OPA, OpenShell, A2A or a second memory/controller system by popularity alone.
+- Fixed map navigation collision: the later repeated 20.227 controller-review heading is now 20.229; 20.227 remains the original MH-ARCH-046 entry. The updated report is indexed from the project map. No component, stable ID, product contract or manifest entry was changed.
+- No software installation, source copy, code integration, tests, qualification, provider/model invocation, credentials, runtime/host inspection, infrastructure changes, deployment or branch integration occurred. External scan remains targeted, not exhaustive GitHub-wide coverage.
+
+**Next bounded action:** source-level release/licence/security/platform review for the single preferred worker candidate and MCP interface against the existing Contour A contracts, then report a candidate recommendation for owner review. Do not write product implementation or admit any dependency until the design and separate implementation gates are satisfied.
