@@ -4811,11 +4811,18 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 ## 20.202 Unified architecture remediation plan (2026-10-14)
 
-- Single prioritized register: [MEDIAHUB Unified Architecture Remediation Plan](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob `b43b67a356f4380d4561c9c013155f0f1b657162`.
+- Single prioritized register: [MEDIAHUB Unified Architecture Remediation Plan](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob `22694fd6dbfcdd1c08bddab046cd5f306cd0bb87`.
 - Consolidates current static findings MH-ARCH-001…014, severity, source SHAs, remediation actions, blockers and ADMIN-01…05 options. It distinguishes confirmed static conflicts, divergent document families, governance decisions, unverified runtime risks and documentation-branch-only repairs.
 - Audit boundary: complete 798-entry main tree path inventory (tree SHA `cbb1862fcb4aa22ba24fea4ff12b580ffb305593`, not truncated) plus targeted source review; not a semantic review of every file and not runtime qualification.
 - Highest-priority blockers: DEC-DEV-02 Jarvis/ASTRA lifecycle authority; main concurrency wording 2 vs canonical 3; P0-07 D1/D2/D3/D5/D6/D7 trust/change-control gaps and missing independent D2 review; Contour A → B acceptance gate.
 - Confirmed duplication risk: 18 MH-03 case-insensitive basename pairs exist across `architecture/` and `docs/architecture/mh-03/`; four sampled pairs have divergent content. All 37 basename collisions need classification, not blanket deletion.
 - Current qualification remains `NOT_PROVEN / BLOCKED`; no tests, qualification, runtime inspection, credentials/provider calls, main edits, branch integration or deployment were performed.
 - Next: obtain owner/governance dispositions and a qualified independent D2 reviewer; then perform narrowly scoped, explicitly authorized source reconciliation. Preserve Baseline 2.0 and existing owner directions.
+
+### Wave 07 addendum — ASTRA test-contract alignment (2026-10-14)
+
+- Updated the [unified remediation plan](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), now blob `22694fd6dbfcdd1c08bddab046cd5f306cd0bb87`.
+- New finding MH-ARCH-015: `tests/test_astra_gold_architecture_drift.py` hard-codes the disputed `state_authority: A0-ASTRA` / `single_coordination_authority` claims. Test blob `d6a0e6a6d81dc6e15e343cd80ee950431b1e3b14`. This is a contract/test risk, not proof of runtime behavior; only owner disposition of DEC-DEV-02 can authorize the corresponding normative change.
+- Confirmed paired Markdown/YAML model versions are 1.0/1.1; lineage remains ambiguous, tracked under MH-ARCH-004. Topology test changes on docs branch were inspected but not run.
+- No tests, qualification, runtime inspection, normative-contract edits or branch integration performed. Current Truth remains NOT_PROVEN / BLOCKED.
 
