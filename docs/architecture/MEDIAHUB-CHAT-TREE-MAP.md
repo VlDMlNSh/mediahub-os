@@ -4949,3 +4949,10 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Tree inventory at docs HEAD `8871054b96395498c99daeb9db15430e4980cc53`: 827 blobs, 24 repeated-basename groups, one group of ten identical empty `__init__.py` files, no case-insensitive path collisions. Candidate duplicates are classified in the plan; no files were deleted.
 - Branches remain diverged: docs ahead 874 / behind 2 from main; no branch integration. Qualification remains NOT_PROVEN / BLOCKED; no tests or runtime qualification were run.
 - Next: continue reviewing remaining root/nested pairs, then classify non-MH-03 same-name schema/state/plist paths by references and ownership. Use the unified remediation plan as the sole finding register.
+
+## 20.215 Navigation-ID collision repairs — map and roadmap (2026-10-14)
+
+- Post-write scan detected the new health-model entry duplicated map heading ID `20.213` used by the prior evidence-register entry. Rekeyed the health-model entry to `20.214`; current map blob after repair `31b285f02b9490bf1d57ebaaae442c559932cb46`.
+- Repaired duplicate roadmap numeric headings without deleting content: P0-07 D1/D2 addendum `## 8` → `### 10.5`; evidence-register review `## 28` → `## 29`; plan-navigation repair `## 29` → `## 30`; health-model review `## 30` → `## 31`. Current roadmap blob `a84e04b2ecebb5b66c2ca7b3843bcdd08113672b`.
+- The unified remediation plan records MH-ARCH-030 and navigation repair details (blob `eb48186bdc1039a55ba56145ee122564bc8faedd`). No normative source or acceptance status changed.
+- Final read-back and full numeric-heading scan are required before considering the navigation repair verified.
