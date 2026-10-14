@@ -2,7 +2,7 @@ schema: mediahub.astra-gold.autonomous-development.v1
 reference_architecture: architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md
 qualification_contract: architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml
 contract_alignment: CANONICAL_SEMANTIC_ALIGNMENT
-status: QUALIFICATION_READY_HYBRID_FABRIC
+status: QUALIFICATION_READY_HYBRID_FABRIC # Design/model readiness only; live runtime qualification is governed by docs/qualification/CURRENT-TRUTH.generated.md and is not implied by this label.
 version: 1.1
 name: ASTRA_GOLD
 definition: "Unified distributed autonomous hybrid development system for MediaHub"
@@ -193,7 +193,7 @@ qualification:
   mode: whole_system
   rounds_minimum: 23
   concurrency:
-    max_parallel: 3
+    max_parallel: 3 # Mirrored machine-readable value; must match G5_CONCURRENCY.max_parallel_autonomous_claims in the canonical launch schema.
     require_disjoint_claims: true
     shared_surfaces: serialized
   fresh_evidence_required: true
