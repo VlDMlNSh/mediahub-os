@@ -5009,3 +5009,11 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Disposition and limits: preserve both until owner/governance chooses canonical source or synchronized-view policy. Static document review only; no tests, CI, runtime/host inspection, deployment, qualification or acceptance.
 - Unified finding: [MH-ARCH-043, remediation plan §9.30](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
 - Next: continue with one not-yet-detailed MH-03 mirror family and check existing remediation entries before adding any finding; retain all canonicalization/status gates.
+
+
+## 20.224 MH-ARCH-044 — MH-03 service-boundary mirror review (2026-10-14)
+
+- Unified finding: [MH-ARCH-044, remediation plan §9.31](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Root `architecture/MH-03-service-boundaries.md` blob `02672aa1c377d04a3a7e0a7cff5b767a89ee0fcb` and nested `docs/architecture/mh-03/MH-03-service-boundaries.md` blob `cb9e5800d20ab3ee463bc30446419c95d556a87c` preserve the same non-authoritative runtime boundary but differ in explicitness. Nested text names P0-05/P0-04 access, no self-granted capabilities, P0-07-scoped configuration and policy-approved recovery; root text provides a responsibility/authority table and says logical boundaries do not imply separate processes/containers/technologies.
+- Both remain PROPOSED. This is asymmetric coverage, not a proven runtime defect. Preserve both pending owner/governance choice of canonical source or synchronized-view policy.
+- Read-only document pass; no tests, CI, runtime/host inspection, implementation, deployment, qualification or branch integration.
