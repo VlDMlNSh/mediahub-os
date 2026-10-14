@@ -853,3 +853,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Evidence is recorded in owner decision register D-03 and unified architecture/deployment contract §4.1.1. This is accepted architectural direction only: implementation, GitHub integration, provider connectivity, qualification and operational readiness remain unverified.
 - No provider/model call, credentials, tests/qualification, installation, host/runtime inspection, infrastructure change, deployment, merge or branch integration occurred.
 - Next: reconcile existing Jarvis/ASTRA primary contracts and GitHub tool permissions with D-03, identify concrete conflicts, then update only draft-level design artifacts where consistent. Keep existing authority and authorization gates intact.
+
+ 
+## 66. Jarvis / ASTRA D-03 source-only reconciliation (2026-10-14)
+
+- Compared the owner-accepted D-03 direction against ASTRA GOLD reference architecture, unified autonomous development system, executor capability matrix, Jarvis master prompt and the working unified architecture contract.
+- Findings recorded in [Jarvis/ASTRA D-03 reconciliation report](MEDIAHUB-JARVIS-ASTRA-D03-RECONCILIATION-01-2026-10-14.md): (R-01) Jarvis system-wide orchestration vs A0's ASTRA-internal authority is reconcilable only with a strict mission interface/single-writer rule; (R-02) Jarvis-wide Claude/Ollama routing is a real scope tension with the current permanent Claude-only ASTRA lanes; (R-03) direct GitHub integration must remain capability-scoped and cannot bypass canonical-main/review/A3/human gates; (R-04) product-state authority invariant remains unchanged; (R-05) routing/fallback policy needs a deterministic auditable contract.
+- No normative ASTRA architecture or permanent lane was changed. No global contract was accepted. No implementation, tests, qualification, provider calls, credential use, host/runtime inspection, infrastructure changes, merge or deployment occurred.
+- Next: draft a narrow Jarvis control-plane/GitHub adapter contract defining mission submission to A0, least-privilege repository scopes, route-decision evidence and explicit prohibitions. Compare against actual integration permissions before implementation.
