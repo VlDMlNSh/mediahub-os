@@ -5148,3 +5148,10 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Component Admission Crosswalk §7.7 records official PyPI evidence for the two remaining direct dependencies: fakeredis 2.34.1 license metadata is BSD-3-Clause and PyPI shows Trusted Publishing attestation; agent-client-protocol 0.12.1 hashes are recorded but PyPI says Trusted Publishing was not used and artifact-specific license/provenance remains open.
 - Official ACP upstream repository metadata identifies Apache-2.0 and its Security page reports no detected security policy/no published advisories at review time. This is not a vulnerability finding or artifact-level license attestation.
 - Crosswalk current blob after read-back: `65c255b04ec809ef8dcb052d46ace3589a0acaec`. OpenHands remains research pin only / not admitted / not ready for runtime evaluation. No artifact downloaded, tests/scans or runtime actions performed.
+
+
+## 20.240 — DEC-DEV-02 exact-clause revalidation
+
+- Source refresh and exact clauses recorded in [DEC-DEV-01…08 Crosswalk Validation Wave 01 §8](../checkpoints/MEDIAHUB-DEC-DEV-01-08-CROSSWALK-VALIDATION-WAVE-01-2026-10-14.md), current blob `5673248d0290f0f1a9883280d7ea830f933b0407`.
+- Current conflict: ASTRA Complete Component Scheme on `main` labels A0 “MediaHub State Authority” (blob `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1`, §1 line 10); Verifiable Architecture Contract ARC-003/017/018 and the Jarvis independent review preserve product authority boundaries and leave cross-system engineering lifecycle ownership open.
+- DEC-DEV-02 remains OPEN_CONFLICT. Owner packet §7.2 is the existing A/B/C choice; §7.3 is the separate D2 reviewer appointment. No source contract edited and no decision inferred. Current truth remains NOT_PROVEN / BLOCKED.
