@@ -1816,3 +1816,13 @@ Compare one additional unreviewed MH-03 root/nested pair and its declared depend
 - Added MH-ARCH-030 (P2) to the unified remediation plan: blob `76049a6f19a2a26cceca933b696829cdd83cd607`, commit `8871054b96395498c99daeb9db15430e4980cc53`. No MH-03 source modified or promoted.
 - No tests, qualification, runtime/host inspection, credentials/provider calls, installation, infrastructure changes, deployment, migration or branch integration. Current qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Next: compare another unreviewed MH-03 root/nested pair, then read back all modified documentation and verify current SHAs.
+
+
+## Continuation checkpoint — MH-03 mirror comparison and repository duplicate inventory (2026-10-14)
+
+- Read current GitHub refs before work: main `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch snapshot `8871054b96395498c99daeb9db15430e4980cc53`; compare `diverged`, ahead 874 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration performed.
+- Reviewed six root/nested MH-03 pairs: runtime model, recovery boundary, event model, runtime dependencies, shutdown sequence, startup sequence. Recorded six coverage/status-asymmetry findings MH-ARCH-031…036 (P2) in the sole unified remediation plan, blob SHA `cf43f825cbf57f25e1c8f8291ebeaa6fd41c1e36`.
+- Static tree snapshot: 827 blobs; 24 repeated-basename groups; one identical-blob group of ten empty `__init__.py` files; no case-insensitive path collisions. Same-name files are candidates for classification, not presumed safe deletions. No files were deleted or renamed.
+- Fixed duplicate project-map heading ID: former second `20.214` was re-keyed to `20.215`; new section is `20.216`. Map blob SHA after update: `5c97ffe3caac7100150a0d70216fa4099222b22f`.
+- No tests, qualification, host/runtime inspection, credentials/provider calls, installation, implementation, infrastructure change, deployment, migration, merge, rebase or cherry-pick. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Next bounded step: review remaining unreviewed MH-03 root/nested pairs, then classify `capability.schema.json`, `state.py` and launchd plist pairs through references, import/consumer usage, ownership and generated/manual status. Preserve sources pending owner disposition.
