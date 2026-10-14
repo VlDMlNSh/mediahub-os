@@ -117,3 +117,18 @@ A. YAML is the exhaustive machine-readable projection of the text manifest, with
 B. YAML is a narrower runtime/deployment-admission subset, with an explicit scope declaration, source-of-truth relationship, and traceability rules for omitted entries/status translation.
 
 Recommendation: B is less disruptive if YAML is intended only for runtime/deployment admission, but this remains a proposal, not an accepted decision. Until decided, neither file is automatically rewritten; no status is promoted, no component is admitted, and no test/CI/qualification run is implied. Next safe documentary step is to prepare a concise owner decision record and map the exact parity/status semantics; do not implement the YAML schema change before approval.
+
+
+## 7.2 OpenHands SDK source-pin preflight (2026-10-14)
+
+**Disposition: NOT READY for a package-level paper-evaluation; candidate remains NOT ADMITTED.** This pass verified upstream repository identity and current release metadata, but did not establish the exact SDK distribution/version or its complete dependency licence boundary.
+
+- The official repository formerly addressed as `All-Hands-AI/OpenHands` redirects to `OpenHands/OpenHands`. Official repository page: https://github.com/OpenHands/OpenHands.
+- GitHub's latest release endpoint currently identifies monorepo tag `v1.27.1`, targeting commit `f07aebdf5cdd71f4a05ebcf30f8bef5e4e3b70b9`, published 2026-10-12. The release metadata reports `immutable: false`; therefore this tag alone is not an immutable supply-chain pin.
+- The repository-root `LICENSE` is MIT. This establishes the root repository's displayed license only; it does **not** establish the license of every SDK subdirectory, optional package, transitive dependency, container image or separately distributed artifact.
+- The official Model Context Protocol Python SDK repository is `modelcontextprotocol/python-sdk`; the latest-release endpoint returned `v2.3.0` (published 2026-10-02), and its root LICENSE is MIT. This is protocol SDK metadata, not evidence that MCP provides authorization or that this exact version is compatible with MediaHub.
+- Upstream metadata and licence pages were inspected read-only. No package was installed, imported, executed or copied; no tests, sandbox experiment, security assessment or compatibility evaluation was performed.
+
+**Required before advancing:** identify the exact OpenHands SDK package name and official package/repository path; pin a release and immutable commit or artifact digest; inspect package-specific license/notices and transitive dependency metadata; establish supported OS/CPU and sandbox model; map every tool/network/filesystem capability to Contour A's task-scoped authorization, human approval, egress, audit, cancellation and artifact-only return contracts. The worker must not own queue/lease lifecycle, canonical product state, policy, merge/release or qualification promotion. MCP must remain an interface protocol behind MediaHub-owned authorization.
+
+**Recommendation:** do not choose the OpenHands monorepo tag as an SDK pin. Continue as research only until exact SDK identity and the owner-approved capability gap are established. No component manifest or owner decision is changed by this note.
