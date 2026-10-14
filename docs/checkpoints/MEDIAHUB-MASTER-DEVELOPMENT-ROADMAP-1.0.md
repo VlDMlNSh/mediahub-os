@@ -912,3 +912,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Open source/contract blockers: FreeLLMAPI classification, router identity, model provenance, capability issuer lifecycle, exact hardware inventory, historical PASS artifact linkage. No implementation, tests, provider calls, credentials, deployment, merge or qualification.
 - Next bounded step: inspect repository source history/workflow artifacts for historical PASS evidence and resolve provider identity/classification from non-secret source/config references; do not invoke providers or modify host infrastructure.
 
+
+## 71. Execution update — provider identity and egress contract crosswalk, Wave 05 (2026-10-14)
+
+- Added [Provider Identity and Egress Contract Crosswalk, Wave 05](MEDIAHUB-PROVIDER-IDENTITY-AND-EGRESS-CONTRACT-CROSSWALK-WAVE-05-2026-10-14.md) based on live branch source reads of the distributed AI architecture, provider fabric, agent registry, Jarvis adapter draft and evidence schema.
+- Confirmed open semantic mismatch: FreeLLMAPI is described as a cloud provider path in architecture text but marked local_gateway / PENDING in registries. Local-gateway-plus-cloud-upstream is only a hypothesis until pinned source/deployment evidence confirms it.
+- Kept OmniRoute, UnoRouter, FreeLLMAPI, FCC, Ollama, Alamo and Claude Code as distinct logical identities. Defined per-hop locality/egress and immutable per-task route evidence requirements; local-only remains fail-closed.
+- Documented options A/B/C and recommended verification before owner/governance decision. No source registry correction, credentials, provider calls, tests, qualification or deployment.
+- Next: inspect non-secret source/config history for exact gateway/provider identity and reconcile owner-reported partial PASS records to immutable gate/run/target-SHA/artifact/verifier evidence.
+
