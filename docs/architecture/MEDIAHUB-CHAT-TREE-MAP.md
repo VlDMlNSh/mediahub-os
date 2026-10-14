@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.206)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.207)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -4867,3 +4867,20 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Still open: DEC-DEV-02 Jarvis/ASTRA lifecycle conflict; P0-07 D2 trusted-context authority and qualified independent review; P0-05 D6 normative-scope discrepancy; MH-03 root/nested canonical-source choice; Baseline 1.0 cross-branch drift; proposed traceability/placement artifacts; qualification and Contour A → B acceptance gate.
 - No normative Baseline/domain source changed. No tests, qualification, host/runtime inspection, credentials/provider/model calls, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
 - **Next:** continue source-anchored crosswalk/provenance work. Do not declare a unified accepted normative contract until atom-level traceability and all required owner/governance/independent-review gates are closed.
+
+
+## 20.207 MH-03 runtime-foundation pair — scope/provenance classification (2026-10-14)
+
+**Unified finding:** [MH-ARCH-022 in the remediation plan §9.12](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+
+| Source | Ref | Blob SHA | Verified status |
+|---|---|---|---|
+| `architecture/MH-03-index.md` | `docs/mediahub-chat-tree-map-20261012` | `b2d2eeb1b89117d10605c231e79378eebc437c5f` | PROPOSED; root artifact list is not canonical acceptance |
+| `architecture/MH-03-runtime-foundation.md` | same | `325cf6b47e7db926b8e45d9517e3a2f1d8e7ffa2` | PROPOSED |
+| `docs/architecture/mh-03/MH-03-runtime-foundation.md` | same | `2457451017daa0f91e9e978e44c91e1e49d0d7a3` | PROPOSED |
+
+- Shared invariants are aligned: sole canonical State Authority, in-memory state, mandatory P0-05 boundary, single-node/no-HA, no unauthorized physical persistence, command/event distinction and no fallback mutation authority.
+- Coverage differs: root copy explicitly includes the offline-first deterministic chain, complete command/event mutation path and enumerated acceptance prerequisites; nested copy adds shutdown ordering and technology-choice candidate wording.
+- Classification: **ASYMMETRIC COVERAGE CONFIRMED; DIRECT SEMANTIC CONTRADICTION NOT ESTABLISHED IN THIS PASS.**
+- No MH-03 source was edited and no canonical tree was selected. The root index is PROPOSED and cannot alone settle authority. Full inbound-reference inventory remains incomplete.
+- Next: inspect another root/nested pair and continue recording path/ref/SHA/provenance. Do not synchronize or delete either copy before explicit owner/governance disposition.
