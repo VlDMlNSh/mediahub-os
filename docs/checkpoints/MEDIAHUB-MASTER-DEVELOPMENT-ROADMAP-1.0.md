@@ -658,3 +658,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Recorded MH-ARCH-048 in unified remediation plan §9.36 and map §20.229. Both documents align on fail-closed handling and bounded recovery. Root more directly specifies State Authority failure/no fallback, service-crash supervision and telemetry authority boundaries; nested more directly specifies sanitized/privacy-preserving errors and prevention of partial lifecycle transitions/canonical-state corruption.
 - Preserved both source documents and their statuses. No runtime defect or accepted canonical source is inferred. No tests/CI, runtime/host inspection, implementation, installation, deployment, qualification or branch integration occurred.
 - Next: continue only with a remaining, not-yet-covered MH-03 mirror or source-reference trace after checking the remediation register; preserve governance authority over canonicalization.
+
+
+## 45. Execution update — component manifest/YAML scope clarification (2026-10-14)
+
+- Re-read canonical text manifest 2.0 on `main` (blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`), machine-readable `oss/manifests/components.yaml` (blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`) and reconciliation narrative (blob `dd69a8c1c002bbde45944ebdc3d16096d2c9cf07`).
+- Added scope clarification to Component Admission Crosswalk Wave 01 §7.1 and project map §20.231. YAML does not explicitly say whether it is exhaustive or a narrower runtime/deployment subset; visible omissions and status-vocabulary differences are real, but a defect is not proven because intended scope is unspecified.
+- Recommendation B (YAML as explicitly scoped subset) is provisional only. Owner/governance must choose between exhaustive projection with parity rules and narrower subset with source/status traceability. No source manifest/YAML was changed, no component admitted, and no test/CI/qualification run.
+- Next: prepare a concise owner decision record describing both options, implications and required mapping rules; continue OpenHands SDK source review only after lifecycle-owner and trusted-context prerequisites remain clearly recorded. No implementation or installation without separate authorization.
