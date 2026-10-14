@@ -2452,3 +2452,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Branch remains diverged from main; no integration. No tests/qualification, model/provider calls, credential use, installations, cleanup, deployment or infrastructure changes.
 - Next: reconcile historical PASS artifacts to exact gate/run/target-SHA/artifact; draft Jarvis Control Plane/GitHub Adapter contract and machine-readable inventory schema; keep hardware provisioning and system qualification separately authorized.
 
+
+## Latest /next result — Jarvis Control Plane/GitHub Adapter draft (2026-10-14)
+
+- Created [Jarvis Control Plane and GitHub Adapter Contract, Draft 01](MEDIAHUB-JARVIS-CONTROL-PLANE-GITHUB-ADAPTER-CONTRACT-DRAFT-01-2026-10-14.md) and [component evidence record schema](../../schemas/mediahub-component-evidence-record.schema.json).
+- Draft defines Jarvis → bounded A0-ASTRA mission submission, single-writer ownership of ASTRA queue state, exclusive Product State Authority for canonical product state, path/branch/operation-scoped GitHub capabilities, per-task provider/egress record, local-only fail-closed, workspace lease rules and revision-bound evidence/lifecycle gates.
+- Partial PASS: only owner-reported, evidence-link-pending status is attributable so far; exact gate IDs, target SHA, run IDs, immutable artifacts and independent verification remain missing. ASTRA end-to-end autonomous queue remains NOT ACHIEVED.
+- Portable targets remain proposals: Mac mini 2011 i7/16 GB clean Linux as constrained control/edge candidate; Mac Pro 2013 as engineering/CI candidate pending exact OS/GPU/CPU/RAM/storage compatibility; remote high-VRAM GPU server as optional isolated provider with explicit approval.
+- Open blockers: FreeLLMAPI local_gateway/cloud-provider semantics; OmniRoute/UnoRouter/OpenRouter identity; Ollama tag provenance and Alamo mapping; capability issuer/identity lifecycle; exact hardware details; historical partial-PASS evidence linkage.
+- No tests/qualification, model/provider invocation, credentials, installation, host configuration changes, deployment, merge or release. The contract/schema remain drafts, not accepted or implemented.
+- Next: source-only search existing repository history and artifacts for attributable historical PASS evidence, then reconcile provider identity/classification from pinned non-secret source/config. Keep all runtime/qualification claims evidence-gated.
+
