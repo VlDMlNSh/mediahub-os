@@ -410,10 +410,17 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 
 ## 18. Execution update — unified architecture remediation plan (2026-10-14)
 
-- Consolidated the current cross-cutting audit findings into [MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob `b43b67a356f4380d4561c9c013155f0f1b657162`.
+- Consolidated the current cross-cutting audit findings into [MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob `22694fd6dbfcdd1c08bddab046cd5f306cd0bb87`.
 - The register assigns MH-ARCH-001…014 priorities, evidence anchors, states, closure requirements and a staged sequence: owner/governance decisions; P0-07/P0-05/P0-04 trust and change-control; canonical ASTRA source reconciliation; duplicate-family/link/ID integrity; authorized qualification and Contour A acceptance.
 - Highest-priority dependencies remain DEC-DEV-02 lifecycle authority, main concurrency 2-vs-3 drift, P0-07 trusted-context and revision binding, actual qualified independent D2 review, and the Contour A→B gate.
 - Static path inventory covered all 798 entries at main tree SHA `cbb1862fcb4aa22ba24fea4ff12b580ffb305593`; this does not mean all files were semantically reviewed. The report explicitly classifies same-basename collisions rather than treating all as defects.
 - No tests/qualification or runtime operations were run. No main files or normative contracts changed. The docs branch remains diverged from main; no branch integration is authorized by this update.
 - Next: use the plan as the single prioritized cross-cutting register, obtain the administrative dispositions and independent D2 review, then perform one bounded, explicitly authorized source change at a time. Keep Baseline 2.0 canonical and all unproven gates fail-closed.
+
+## 19. Execution update — ASTRA test-contract alignment (2026-10-14)
+
+- Added MH-ARCH-015 to the unified remediation plan, current blob `22694fd6dbfcdd1c08bddab046cd5f306cd0bb87`: an existing drift test asserts A0-ASTRA as `state_authority` and `single_coordination_authority`, encoding an unresolved DEC-DEV-02 decision.
+- This is a static test-contract finding, not proof of runtime behavior. Resolve owner authority first; update normative source and tests together only through authorized change control.
+- Paired ASTRA Markdown/YAML model versions are 1.0 and 1.1; relationship remains ambiguous and is tracked under MH-ARCH-004.
+- Inspected docs-branch concurrency assertions without running tests. No tests, qualification, runtime operations or main-branch edits. Current qualification remains NOT_PROVEN / BLOCKED.
 
