@@ -629,3 +629,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Consolidated duplicate MH-ARCH-045 rows and duplicate §9.32/§9.33 finding headings in the remediation plan without changing the historical finding ID; MH-ARCH-045 now has one register row/detail, the survey remains §9.33, and the Ollama finding is §9.34.
 - Updated the upstream OpenShell description to reflect conflicting official maturity/version signals; candidate status remains unaccepted. No code, component manifest or normative contract changed. No tests, provider/model calls, installation, runtime/host inspection, deployment or qualification occurred.
 - Next bounded step: continue the P0-07 → P0-05 trusted-context/authorization evidence track and route-policy scope trace. Formal design and runtime implementation remain gated by owner review, DEC-DEV-02/DEC-DEV-05 dispositions and explicit authorization.
+
+
+## 43. Execution update — P0-07 to P0-05 trusted-context trace / MH-ARCH-047 (2026-10-14)
+
+- Read current main sources for the security trust chain, authorization seam, consumer boundary, identity-boundary schema, ASTRA governance/current-truth and the manual P0-07 workflow.
+- Recorded MH-ARCH-047 in the unified remediation plan §9.35 and map §20.228. Finding is a targeted static context-binding gap: the inspected AuthorizationContext carries only principal/capability and its binding to the separate identity/correlation schema and trusted issuer is not established. This is not a system-wide absence claim or evidence of a live bypass.
+- ASTRA G0–G11 remain BLOCKED / overall NOT_PROVEN; the P0-07 workflow was not dispatched. No runtime code changed, no tests/provider calls/credentials/host inspection/install/infrastructure/deployment/qualification occurred.
+- Next: obtain owner/governance decision on trusted context issuer/binding and independent D2 reviewer. Preserve DEC-DEV-02 and DEC-DEV-05 as open dependencies; no implementation before design and implementation authorization.
