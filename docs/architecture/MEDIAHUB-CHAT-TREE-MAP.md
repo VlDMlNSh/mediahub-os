@@ -5095,3 +5095,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 
 - Navigation-ID correction history: MH-ARCH-046 keeps its historical `20.227` ID. The autonomous-controller review was initially reassigned to `20.229`, but a concurrent MH-ARCH-048 entry also claimed `20.229`; this review is now uniquely indexed as `20.231` after fresh read-back.
+
+
+## 20.234 — Owner-confirmed component manifest scope (2026-10-14)
+
+- Owner selected option B: `oss/manifests/components.yaml` is a scoped runtime/deployment admission subset, not an exhaustive projection of the canonical text catalogue.
+- Crosswalk decision and evidence: [Component Admission Crosswalk, Wave 01 §7.3](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
+- YAML metadata on this documentation branch now declares `scope: runtime-deployment-admission-subset`, source text-manifest path/ref, `status_semantics: admission-readiness-only`, and `omission_semantics: omission-does-not-imply-exclusion`. Read-back blob SHA: `e3cf487bcf43ecb92cd110b5af2660c066b58e2a`.
+- Branch boundary: `main` still has the prior YAML blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`; the documentation branch is diverged and ahead. No merge/cherry-pick was performed, so the change is not yet on `main`.
+- This is scope clarification only. No component admission, qualification, test/CI run or runtime implementation is implied.
