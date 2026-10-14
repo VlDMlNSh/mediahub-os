@@ -718,3 +718,14 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Status unchanged: research pin only; not selected, not admitted, not ready for installation/runtime evaluation. No download/install/import/execution, test, scan, model/provider call, host inspection, deployment or manifest change occurred.
 - **Next:** owner decision A/B/C in Crosswalk §7.5 (defer/reject; continue paper review only; or authorize a separately scoped evaluation plan after the existing authority and sandbox gates close). No option is presumed accepted.
 
+
+
+## 51. Execution update — OpenHands SDK lock, licence sample and telemetry boundary (2026-10-14)
+
+- Re-read the official OpenHands Software Agent SDK source at commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`, including its workspace `uv.lock`, SDK package metadata, LLM implementation, Laminar/OpenTelemetry initializer, LocalWorkspace, Agent Server README and AgentSandboxWorkspace README.
+- Recorded a bounded direct-dependency/telemetry trace in Component Admission Crosswalk §7.6, read-back blob `17ae42d6bb863919c159e6a8c0461854f9e0e0ed`; indexed as map §20.238, read-back blob `98d0fb1d362df48ad49197e3d7a77e64fd1bb109`.
+- The lock resolves LiteLLM 1.93.0, FastMCP 3.2.0, fakeredis 2.34.1, agent-client-protocol 0.12.1 and LMNR 0.7.60. Selected official PyPI licence metadata identifies LiteLLM as MIT, FastMCP as Apache-2.0 and LMNR as Apache-2.0. Exact-version licensing for fakeredis 2.34.1 and agent-client-protocol 0.12.1 remains open; the transitive closure is not a complete SBOM.
+- Static source evidence shows LiteLLM is imported by the core provider-call implementation; Laminar/OpenTelemetry can initialize when environment keys/endpoints are configured; LocalWorkspace executes on the host; Agent Server binds to 0.0.0.0 by default and accesses its configured workspace. Kubernetes AgentSandboxWorkspace documents NetworkPolicy egress restrictions and optional gVisor/Kata runtimes, but no deployed MediaHub sandbox is evidenced.
+- **Disposition unchanged:** OpenHands SDK is RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Owner/governance must resolve the direct LiteLLM dependency against MediaHub's single provider-routing authority; full SBOM, exact-version licensing, provenance/advisories, telemetry/egress and sandbox evidence remain open.
+- No artifact was downloaded; no dependency installed/imported/executed; no provider/model call, tests, scanner, evaluation, qualification, host/runtime inspection, infrastructure change, deployment or branch integration occurred. DEC-DEV-02 and P0-07/P0-05/P0-04 remain gates.
+- **Next:** complete the remaining direct-dependency licence/provenance and advisory evidence, then prepare the owner decision on the direct LiteLLM dependency only when the exact scope and consequences are source-anchored. No runtime action is authorized by this documentary pass.
