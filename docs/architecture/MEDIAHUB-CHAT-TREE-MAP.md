@@ -5229,3 +5229,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - A bounded public search did not surface a published advisory specifically matching fakeredis 2.34.1. Treat this as limited search evidence only, not proof of no vulnerabilities or complete advisory coverage. The lock uses `fakeredis[lua]`; transitive/optional dependency closure, including the Lua runtime path, remains open.
 - No package download, install, test, scan, execution or runtime evaluation occurred. OpenHands remains research-only, not selected/admitted and not ready for installation/runtime evaluation.
 - Evidence: [Component Admission Crosswalk §7.13](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md); [official PyPI release](https://pypi.org/project/fakeredis/2.34.1/); [official upstream release](https://github.com/cunla/fakeredis-py/releases/tag/v2.34.1).
+
+
+## 20.251 — ACP Python SDK 0.12.1 cancellation/lifecycle evidence gap (2026-10-14)
+
+- The official ACP Python SDK Security page reports no detected security policy and no published GitHub advisories; this is limited repository metadata, not a no-vulnerability conclusion.
+- Public issue [#108](https://github.com/agentclientprotocol/python-sdk/issues/108) describes run_agent cancellation leaving connection sender/dispatcher tasks alive when close is not guaranteed; search metadata marks it closed by #113. The available evidence does not establish whether the fix is included in the exact OpenHands lock pin agent-client-protocol==0.12.1, nor whether MediaHub exercises this path.
+- Treat as an unresolved source-to-version/lifecycle review lead, not a confirmed vulnerability. Exact fix commit-to-tag comparison and runtime reachability remain unverified.
+- OpenHands remains research-only, not selected/admitted, and not ready for installation/runtime evaluation. See [Component Admission Crosswalk §7.14](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
+- No artifact download/install, tests/scans, execution, provider calls, qualification, host inspection, infrastructure change or deployment occurred.
