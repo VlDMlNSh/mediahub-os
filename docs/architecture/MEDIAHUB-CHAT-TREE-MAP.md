@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.263)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.264)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5366,3 +5366,14 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Alamo-to-Ollama identity/model provenance, FCC implementation mapping, FreeLLMAPI local-gateway versus cloud-provider semantics, router identities and Codex cloud connectivity/qualification remain unresolved or unproven.
 - No provider/model calls, credentials, installation, tests, qualification, host/runtime inspection, configuration change, infrastructure change, deployment or branch integration occurred.
 - Next: clarify “Gamma 4”; then continue source-only trace of model identity/evidence binding and route topology without promoting any status or changing normative contracts.
+
+
+## 20.264 Jarvis corporation architecture proposal crosswalk — Wave 01 (2026-10-15)
+
+- Added [Jarvis Corporation Architecture Proposal Crosswalk, Wave 01](../checkpoints/MEDIAHUB-JARVIS-CORPORATION-ARCHITECTURE-PROPOSAL-CROSSWALK-WAVE-01-2026-10-15.md).
+- Reconciles the two owner-supplied proposal messages with the distributed AI target architecture, current Jarvis adapter draft, provider/egress crosswalk, bounded local inventory and master roadmap.
+- Finding: partial coverage already exists. Jarvis controller direction, Claude Code as an engineering client/executor surface, FCC/Alamo/FreeLLMAPI routing concepts, separate Codex cloud path, per-task route evidence, local-only fail-closed, node roles, security boundaries and Contour A/B gating are documented. This does not prove deployment or qualification.
+- Proposal areas not yet represented as one accepted, complete contract: six logical planes/responsibility map, formal agent-profile schema, policy-based executor selection matrix, corporation-wide task DAG/dependency/idempotency/cancellation contract, structured result envelope, and ECC (Everything Claude Code) source/license/security/overlap assessment.
+- Mac Pro/Mac mini/MacBook placement is a target description; bounded Wave 02 inventory did not verify all three machines or prove provider route execution. Claude Code is a client/tool, not the Claude model; local backend routing must remain distinct from official cloud auth. Alamo-to-runtime and FCC/provider identity conflicts remain open.
+- No normative contract was modified and no proposal was promoted to accepted status. No ECC components installed; no model/provider calls, credentials, host/runtime inspection, tests, qualification, configuration/infrastructure change, deployment or branch integration.
+- Next: build a source-anchored responsibility/interface matrix from existing contracts; then review ECC upstream read-only against concrete gaps before recommending any reuse.
