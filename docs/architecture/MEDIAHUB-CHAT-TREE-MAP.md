@@ -5248,3 +5248,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Consolidated owner questions and conflict groups are indexed in ../checkpoints/mediahub-owner-decision-register-2026-10-14.md; status remains PROPOSED / NOT ACCEPTED.
 - Bootstrap blob before update: 49b4760b4adf4f1565fac0aa4697da000f1cf37b. Current map blob before update: 693167fbee1cf5db57a200c3987967093dba9e5a. Owner decision register blob: 37a3bcbe8fd2829397d8c50e739f7f7cfa4db386.
 - This entry documents governance workflow only; it does not close any architecture gate or change the functional baseline.
+
+
+## 20.253 — ACP Python SDK 0.12.1 cancellation fix release-history trace (2026-10-14)
+
+- Official issue #108 describes a cancellation cleanup issue in `run_agent()`. Official PR #113 is merged, closes #108, and identifies merge commit `fe643ab`.
+- The official 0.11.0 release notes explicitly list the fix from PR #113; the 0.12.1 release metadata identifies source commit `e668ed9` and follows the 0.11.0/0.12.0 release line. Release-history evidence strongly supports inclusion before 0.12.1.
+- Exact Git commit ancestry was not independently verified in this pass; no repository objects were fetched. MediaHub runtime reachability is still UNKNOWN. This is not a confirmed MediaHub defect or security clearance.
+- Crosswalk evidence recorded in §7.15. OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.
+- No download/install, tests, code execution, pin changes, provider calls, qualification, host inspection, infrastructure change, deployment or branch integration occurred.
