@@ -447,7 +447,7 @@ These questions do not create new normative DEC IDs. Existing ADMIN-01…ADMIN-0
 
 **Next bounded pass:** review remaining unreviewed MH-03 mirror pairs, then classify the two non-MH-03 schema/state pairs and launchd plist pair by references, ownership and generated/manual status. Do not delete, rename or rewrite normative sources on inference. Qualification remains NOT_PROVEN/BLOCKED; this was static document review only.
 
-### 9.23 Documentation navigation collision repairs (2026-10-14)
+### 9.24 Documentation navigation collision repairs (2026-10-14)
 
 - Post-write heading scan found duplicate numeric ID `20.213` in the project map (the health-model entry collided with the earlier evidence-register entry). Rekeyed only the health-model heading to `20.214`; map blob `31b285f02b9490bf1d57ebaaae442c559932cb46`.
 - The roadmap still had duplicate numeric H2 IDs `8` and `28`. Preserved the historical P0-07 addendum content and nested it as `### 10.5`; changed the evidence-register review heading `28`→`29`, plan-navigation repair `29`→`30`, and health-model review `30`→`31`. Roadmap blob `a84e04b2ecebb5b66c2ca7b3843bcdd08113672b`.
