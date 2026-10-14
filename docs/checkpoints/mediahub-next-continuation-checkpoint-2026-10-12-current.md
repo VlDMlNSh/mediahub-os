@@ -2353,3 +2353,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - OpenHands remains RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Exact artifact/source provenance, full transitive SBOM/license/advisory closure, target runtime/sandbox/egress and existing owner/gate decisions remain open.
 - No artifact download/install/execution, tests/scans, provider calls, qualification, host inspection, infrastructure change, deployment, or branch integration occurred.
 - Next bounded step: compare the exact ACP issue-fixing commit against the 0.12.1 tag ancestry using public source metadata only, provided this remains within the authorized source-only review. Do not install, execute, test, change pins or promote the candidate.
+
+
+## Latest /next result — owner direction recorded (2026-10-14)
+
+- Re-read live Bootstrap, map, current checkpoint and Master Development Roadmap on docs/mediahub-chat-tree-map-20261012.
+- Live blob SHAs at start of pass: Bootstrap 49b4760b4adf4f1565fac0aa4697da000f1cf37b; map 693167fbee1cf5db57a200c3987967093dba9e5a; checkpoint 31aa2fd0f8b3e373e8c80fe7e0aa5ac67db8168e; roadmap dedc6a359a9e9af0454943a2964c639329c99d69.
+- Owner direction: unify the project into one verifiable architecture without asking the owner to approve every technical detail.
+- Recorded in Bootstrap, indexed in the map, and preserved in this checkpoint. Routine engineering details are delegated to the assistant within existing contracts and permissions; material product/architecture/trust/data-egress/budget/irreversible/authority/governance decisions remain escalations.
+- The owner decision register is a proposed support document, not a normative contract. No owner decision is inferred from silence.
+- Next roadmap-directed bounded task after this documentation pass: source-only compare of the exact ACP Python SDK issue-fixing commit against the 0.12.1 tag ancestry, as already identified in Roadmap §63. No install, code execution, tests, provider calls, runtime inspection, or dependency pin changes.
+- No prohibited operations were performed in this pass.
