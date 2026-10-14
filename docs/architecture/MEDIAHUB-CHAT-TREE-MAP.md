@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.211)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.212)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -4909,3 +4909,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Classification: **ASYMMETRIC COVERAGE CONFIRMED; DIRECT CONTRADICTION NOT ESTABLISHED BY THIS PASS.** Root index remains PROPOSED and does not establish canonical authority; no nested index exists.
 - No MH-03 source was edited or deleted. Continue the 18-pair provenance review, preserve IDs/inbound references, and defer canonical-tree selection to owner/governance.
 - Current source blobs and limitations are recorded in remediation plan §9.15. No tests/qualification, runtime/host inspection, infrastructure changes, deployment, migration or branch integration were performed.
+
+## 20.212 MH-03 command-execution mirror review (2026-10-14)
+
+- Unified finding: [MH-ARCH-025 in the remediation plan §9.16](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Root `architecture/MH-03-command-execution.md` blob `b9197759e70107f1be5968e8669288d991360003`; nested `docs/architecture/mh-03/MH-03-command-execution.md` blob `8a9e1066f00cf9a7a3128c00eada857b18cef32f`. Both remain PROPOSED.
+- Shared rules include commands-as-requests, deny missing authorization, reject malformed/stale commands, forbid direct UI/AI/plugin/device/cloud mutation, and sole State Authority. Root says “Consumer Contract”; nested names the P0-05 boundary and explicitly includes an integration/capability boundary, explicit context/bounded inputs and no event/telemetry as implicit command.
+- Classification: **ASYMMETRIC COVERAGE CONFIRMED; DIRECT SEMANTIC CONTRADICTION NOT PROVEN.** Preserve both sources. Do not declare either source canonical based on path alone; the root index is PROPOSED.
+- No MH-03 normative source was changed. Continue pair-by-pair reference/provenance review under the existing owner/governance decision.
+
