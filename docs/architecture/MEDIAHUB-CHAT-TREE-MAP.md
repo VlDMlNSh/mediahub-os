@@ -5388,3 +5388,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Confirmed open items remain FreeLLMAPI gateway/upstream classification, FCC implementation mapping, Alamo/runtime/model provenance, task DAG/result schema and ECC source/license/security assessment. User-contributed workers remain future opt-in, untrusted-by-default targets.
 - No normative contract or Baseline 2.0 was changed; no components installed; no provider/model calls, credentials, tests, qualification, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
 - Next: crosswalk existing schemas/contracts for agent profiles, DAG, leases, idempotency/cancellation and result envelope; then conduct read-only ECC upstream review against concrete gaps.
+
+
+## 20.266 Distributed task DAG / executor / result contract crosswalk — Wave 01 (2026-10-15)
+
+- Added [Distributed Task DAG / Executor / Result Contract Crosswalk, Wave 01](MEDIAHUB-DISTRIBUTED-TASK-DAG-AND-RESULT-CONTRACT-CROSSWALK-WAVE-01-2026-10-15.md); documentation ref `docs/mediahub-chat-tree-map-20261012`, read-back blob `3669fb53d33d68e00186d40f3b4eaa6f9f5f0666`, creation commit `6f928cbac913f26ccc8a39e6ca7354177939045f`.
+- Bounded source-only crosswalk identified reusable existing contracts: ASTRA executor capability matrix (dependency-aware dispatch, lease/heartbeat/recovery, target-SHA isolation, bounded executor admission and independent A3 verification); AI inference request schema v1.0.0; draft component evidence record schema v0.1; MH-21 local-authority/egress invariants; and Jarvis mission-envelope draft.
+- Finding: useful pieces exist, but no single accepted corporation-wide schema was established in this pass for agent profiles, heterogeneous task DAG, idempotency/cancellation, worker admission, structured result envelope and aggregation. Do not create a duplicate schema before reviewing accepted A0 and security/identity contracts.
+- Owner direction retained as target only: local Mac Pro models preferred when suitable; Claude Code Scenario B is client-to-compatible-local-backend, not local Claude inference; concurrent decomposition is conditional on dependencies/resources/policy; future user-contributed MediaHub workers are opt-in and untrusted by default.
+- No normative contract/Baseline 2.0 changed. No tests, model/provider calls, credentials, installation, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
+- Next: source-crosswalk accepted A0 queue/lease/claim/cancellation plus security/identity contracts; reconcile existing agent/provider/task schemas; then conduct read-only ECC upstream assessment against confirmed gaps.
