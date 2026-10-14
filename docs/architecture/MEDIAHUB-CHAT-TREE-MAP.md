@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.205)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.206)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -4854,7 +4854,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Next: resolve the administrative source-of-truth choices already listed in plan §5 and §9.6; continue MH-03 reference/provenance tracing without rewriting either family before owner disposition.
 
 
-## 20.204 Unified system passport source-of-truth consolidation (2026-10-14)
+## 20.206 Unified system passport source-of-truth consolidation (2026-10-14)
 
 **Working passport:** [MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md](../checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md)  
 **Post-write blob SHA:** `2b5d81236b85d44d284015cfb02d9401ab0e7482`  
