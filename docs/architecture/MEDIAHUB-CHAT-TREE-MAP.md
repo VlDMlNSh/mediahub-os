@@ -5309,3 +5309,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Unified deployment contract and traceability matrix remain PROPOSED / NOT ACCEPTED / NOT FROZEN. No normative status promotion or branch integration occurred.
 - Next: draft Jarvis Control Plane / GitHub Adapter and a machine-readable component inventory schema; reconcile provider naming/routing conflicts against pinned source/deployment evidence first.
 
+
+## 20.259 Partial PASS evidence and portable deployment profiles — Wave 01 (2026-10-14)
+
+- Added [Partial PASS Evidence Ledger and Portable Deployment Profiles, Wave 01](../checkpoints/MEDIAHUB-PARTIAL-PASS-EVIDENCE-AND-PORTABLE-DEPLOYMENT-PROFILES-WAVE-01-2026-10-14.md).
+- Project status is explicit: ASTRA end-to-end autonomous queue has NOT ACHIEVED; some subcomponents reportedly returned PASS. Those are recorded as OWNER_REPORTED_PARTIAL_PASS / EVIDENCE_LINK_PENDING until exact gate IDs, target SHA, run IDs, artifact digests and independent verification are linked.
+- Fresh read-only worktree inventory found nine auxiliary worktree entries across Linux/macOS marked prunable due to missing gitdir targets. No cleanup was performed; check active leases before maintenance.
+- Linux services ollama/docker/caddy/fail2ban reported active; Astra agent, Ollama and runner processes observed. macOS Astra/DF3 launchd labels observed. Presence does not equal qualification.
+- Candidate deployment profiles: Mac mini 2011 i7/16 GB with clean Linux as a constrained edge/control candidate; Mac Pro 2013 as engineering/CI candidate after OS/GPU validation; future remote high-VRAM GPU host as separately admitted inference provider. Profiles are proposals only.
+- Next: map historical partial PASS artifacts to exact immutable evidence, draft Jarvis Control Plane/GitHub Adapter contract, and keep hardware installation/qualification/deployment separately gated.
+
