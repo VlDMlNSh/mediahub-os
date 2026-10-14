@@ -2112,3 +2112,10 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Reusable design-level work products: Alamo endpoint contract, Jarvis↔ASTRA task envelope, model/provider route contract, tool capability contract and dependency admission record. These are proposals, not implementation.
 - DEC-DEV-02 lifecycle-authority/Product State Authority conflict remains unresolved. No component admission, owner decision, installation, code integration, model/provider call, test, qualification, host inspection, infrastructure change or deployment performed.
 - Next step: continue source-level closure of existing Contour A P0 work items, beginning with DEC-DEV-02 and P0-07 governance/API gap, while proceeding with independent read-only traceability work.
+
+
+## Navigation-ID / concurrent-update correction (2026-10-14)
+
+- A concurrent documentation update added an external-controller crosswalk at map ID `20.234` after the component-scope entry had initially been assigned the same ID. Refreshed the live map and resolved the collision by retaining the external-controller crosswalk at `20.234` and moving the owner-confirmed component-scope entry to `20.235`.
+- Current map blob SHA after collision correction: `908a98b614530cfaeb7e05e96fb096d44db514a3` (read-back verified). This supersedes the earlier provisional map SHA recorded above.
+- Current YAML on documentation branch remains blob `e3cf487bcf43ecb92cd110b5af2660c066b58e2a`; `main` remains unchanged at `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`. No merge/cherry-pick was performed.
