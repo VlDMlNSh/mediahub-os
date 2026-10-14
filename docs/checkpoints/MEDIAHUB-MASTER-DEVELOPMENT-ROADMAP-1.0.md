@@ -496,8 +496,8 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 
 - The post-§20.207 full numeric-heading scan found one previously missed collision: the legacy top-level `## 16. Owner decision register` reused the earlier Baseline 1.0 passport section ID `16`.
 - Added MH-ARCH-023 to the unified remediation plan, preserving the earlier historical heading and changing only the later navigation heading to `20.208`. Added map record §20.209 and advanced map metadata.
-- Verified current map blob `7dea16102dbc1908906d89b4637f90f196a15f4d`: **283 numeric headings, 283 unique IDs, zero duplicate IDs**. A map-only explicit Markdown-fragment scan found no inbound link to `#16-owner-decision-register`; this is not a repository-wide link-graph audit.
-- Unified remediation plan blob after MH-ARCH-023: `0e8bfdb5af5d4e66c777e5b099687d53f8ce57be`.
+- Anchored all-level scan later confirmed the heading collision was repaired. Latest live map blob `4a8cf6d3ad4d8febde4c1a5a5a21b4392a725881` has 266 numbered headings / 266 unique IDs / zero duplicates. Earlier reports of 282/281 and 283/283 used undocumented or broader matching rules and are not comparable until reproduced; the current count uses numeric IDs at the start of Markdown headings.
+- Unified remediation plan now includes MH-ARCH-023 (repaired map heading collision) and current MH-ARCH-024/025 (MH-03 lifecycle/acceptance and command-execution coverage asymmetries); plan blob at this update `f5db88583d46aafe4fe6a46b6060b5b3840c62d6`.
 - No normative contract, Baseline, code or `main` file was changed. No tests, qualification, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick were performed.
 
 **Next bounded step:** continue source/provenance comparison of another MH-03 pair. Keep canonical-tree selection with the owner/governance authority and preserve all divergent copies until that decision is recorded.
@@ -511,3 +511,14 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - No MH-03 source was changed, deleted or promoted. No tests/qualification, runtime/host inspection, credentials/provider/model calls, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
 
 **Next bounded step:** compare the next unreviewed MH-03 root/nested pair with exact SHAs, checking direct dependencies and acceptance implications. Continue preserving all divergent copies until owner/governance selects a source model.
+
+## 28. Execution update — MH-03 command-execution mirror review (2026-10-14)
+
+- Reviewed root/nested command-execution contracts and re-read the PROPOSED MH-03 root index. Root source `architecture/MH-03-command-execution.md` SHA `b9197759e70107f1be5968e8669288d991360003`; nested source `docs/architecture/mh-03/MH-03-command-execution.md` SHA `8a9e1066f00cf9a7a3128c00eada857b18cef32f`.
+- Added MH-ARCH-025 to the [single unified remediation plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob `f5db88583d46aafe4fe6a46b6060b5b3840c62d6`. The pair shares core fail-closed and single-State-Authority invariants but has asymmetric command-path detail: nested source explicitly names the integration/capability boundary and P0-05 and requires context/bounded inputs; root source uses generic “Consumer Contract” terminology and explicitly adds stale-transaction/private-authoritative-store rules. No direct semantic contradiction established.
+- Map record §20.212 was added; map blob `4a8cf6d3ad4d8febde4c1a5a5a21b4392a725881`. The anchored current scan found 266 numeric headings and 266 unique IDs; no duplicates.
+- Root and nested MH-03 documents remain PROPOSED / NOT ACCEPTED. No source files were rewritten and no owner/governance canonical-tree decision was inferred.
+- No tests, qualification, runtime/host inspection, provider/model calls, credentials, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick. Current qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+
+**Next bounded step:** continue source/provenance review on another MH-03 mirror pair; keep direct contradiction separate from asymmetry of coverage. Preserve both trees pending owner/governance disposition.
+
