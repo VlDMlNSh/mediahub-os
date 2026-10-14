@@ -1973,3 +1973,15 @@ All listed blob SHAs were fetched after the respective writes and checked for ex
 | docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md | fa3fc1b025f4e81ced737f2401d183fb7b50adb1 | f922de0cb281b892f284cc3f44dcc02b27ede129 |
 
 The previous current-checkpoint blob read before this ledger append was 56e296940d74942076ffe534fcacd0efe237e1f8. A final read-back of this checkpoint follows the write. Live post-write branch comparison: main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8; documentation branch remains DIVERGED, 926 commits ahead / 2 behind; merge base f0f406feb9f9816b009f4e6e756813541e53b9bc. No integration was performed.
+
+
+## Latest /next result — finding-ID consolidation and Ollama model provenance (2026-10-14)
+
+- Refreshed the current project files after the ecosystem-survey writes. The prior updates had created two master-register rows for MH-ARCH-045 and repeated detail headings §9.32/§9.33 due concurrent writes. Consolidated them to one MH-ARCH-045 row/detail, retained the survey as §9.33, and placed MH-ARCH-046 at §9.34. This was navigation/register hygiene; the IDs and evidence were preserved.
+- Added map entry §20.227 for MH-ARCH-046. The finding is source-backed: `OllamaExecutor` sends class-level `qwen2.5-coder:3b`, while route metadata can reflect `MEDIAHUB_OLLAMA_MODEL(S)` or `unspecified` without passing the resolved route model into the preconstructed executor. Active runtime impact is unknown. No tests were run.
+- Corrected the OpenShell status note in the survey/register references: official upstream sources conflict between Latest v0.1.4/stable-release guidance and alpha/no-production banners, while the v0.1.0 milestone says the alpha designation was removed. Candidate-only status remains; exact release and matching security documentation must be pinned before admission.
+- Updated unified remediation plan, map, roadmap and this checkpoint. Changes remain documentary only. No product code, tests/CI, provider/model calls, credentials, host/runtime inspection, installation, infrastructure modification, deployment or qualification occurred.
+- Current blockers: P0-07/P0-05 trusted-context/authorization bridge; route-mode applicability and DEC-DEV-05 egress policy; qualified independent P0-07 D2 review; DEC-DEV-02 lifecycle-owner decision; Contour A acceptance gate.
+
+### Next bounded action
+Continue the roadmap's P0-07 → P0-05 source-evidence track; trace the accepted identity/context issuer and canonical-read/authorization call path on exact live refs. Treat MH-ARCH-045 as a dependent route-policy scope issue and MH-ARCH-046 as a separate model/evidence repair candidate. Do not implement upstream frameworks or modify runtime code until the proposed design and implementation authorization stages are completed.
