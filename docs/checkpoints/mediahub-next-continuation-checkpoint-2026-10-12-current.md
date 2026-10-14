@@ -2303,3 +2303,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Live refs before this checkpoint write: documentation branch HEAD `64a3d530c3d7f25d0c17a0b5766615c49f5c41a2`; `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; compare status `diverged`, ahead `1054`, behind `2`, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration was attempted.
 - No tests, CI, qualification, installation, artifact download, execution, provider/model calls, credentials, host/runtime inspection, infrastructure change, deployment, merge, rebase or cherry-pick occurred.
 - **Next bounded step:** continue the already scoped OpenHands source-only dependency review at one remaining unresolved exact-version provenance/advisory boundary; do not repeat FastMCP 3.2.0, ACP 0.12.1 or LMNR 0.7.60 reviews. Keep OpenHands research-only and preserve the separate LiteLLM/provider-routing owner decision and DEC-DEV-02/P0-07/P0-05/P0-04 gates.
+
+
+## Latest /next result — OpenHands LiteLLM 1.93.0 advisory gate (2026-10-14)
+
+- Live refs at pass start: main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8; docs branch HEAD e3b8ae333e8608452ca8e5fcd35840359f5ff95b. Compare: DIVERGED, docs branch 1054 ahead / 2 behind, merge base f0f406feb9f9816b009f4e6e756813541e53b9bc. No integration operation.
+- Read current bootstrap, map, checkpoint, roadmap, owner decision packet, DEC-DEV crosswalk and D2 proposal. Owner decisions remain unselected; P0-07 D2 remains NOT EVIDENCED.
+- Reviewed official PyPI metadata and official upstream security advisories for LiteLLM 1.93.0, a direct dependency in the OpenHands SDK lock snapshot. Published metadata gives MIT, Trusted Publishing and artifact hashes, but artifact bytes/source-to-artifact equivalence were not independently verified.
+- Three advisories include the pin in affected ranges: GHSA-3cv6-jpf6-8222 (>=1.93.0,<1.93.2), GHSA-7hp6-4w63-5g45 (>=1.91.0,<1.100.4), GHSA-g5ff-637f-6q2m (<1.95.0). All describe LiteLLM Proxy attack paths; applicability to SDK-side provider-abstraction use is unresolved. Treat as an admission blocker, not a confirmed MediaHub vulnerability.
+- Added Crosswalk §7.12, map §20.248 and roadmap §60; no dependency admitted, pin changed or owner decision inferred.
+- No artifact download/install/execution, tests/scans, provider calls, qualification, credentials, host inspection, infrastructure change, deployment, issue/PR mutation or branch integration.
+- Next: owner/governance should decide whether to defer/reject the OpenHands candidate or commission a separately scoped source-only reachability review for LiteLLM's proxy-only advisories. Do not install, upgrade, execute or promote the candidate pending the existing authority, dependency and qualification gates.
