@@ -652,7 +652,7 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 **Next bounded action:** source-level release/licence/security/platform review for the single preferred worker candidate and MCP interface against the existing Contour A contracts, then report a candidate recommendation for owner review. Do not write product implementation or admit any dependency until the design and separate implementation gates are satisfied.
 
 
-## 44. Execution update — MH-ARCH-048 MH-03 error-handling mirror review (2026-10-14)
+## 46. Execution update — MH-ARCH-048 MH-03 error-handling mirror review (2026-10-14)
 
 - Compared root `architecture/MH-03-error-handling.md` (blob `bd2157deb94c2823c6b6fac2988945b7bc412ef3`) with nested `docs/architecture/mh-03/MH-03-error-handling.md` (blob `a33051aabb24447cf993755e84569917fe37f037`) and re-read the PROPOSED root index (blob `b2d2eeb1b89117d10605c231e79378eebc437c5f`).
 - Recorded MH-ARCH-048 in unified remediation plan §9.36 and map §20.229. Both documents align on fail-closed handling and bounded recovery. Root more directly specifies State Authority failure/no fallback, service-crash supervision and telemetry authority boundaries; nested more directly specifies sanitized/privacy-preserving errors and prevention of partial lifecycle transitions/canonical-state corruption.
@@ -668,7 +668,7 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Next: prepare a concise owner decision record describing both options, implications and required mapping rules; continue OpenHands SDK source review only after lifecycle-owner and trusted-context prerequisites remain clearly recorded. No implementation or installation without separate authorization.
 
 
-## 45. Execution update — OpenHands SDK source-pin preflight (2026-10-14)
+## 47. Execution update — OpenHands SDK source-pin preflight (2026-10-14)
 
 - Existing Component Admission Crosswalk §7.1 records the text-manifest/YAML scope ambiguity and proposes (not decides) a narrower YAML admission subset. No owner choice is inferred.
 - Read-only upstream check resolved OpenHands to `OpenHands/OpenHands`; latest monorepo release endpoint reported `v1.27.1`, target commit `f07aebdf5cdd71f4a05ebcf30f8bef5e4e3b70b9`, but release metadata reports `immutable: false`. Root MIT license is not a substitute for package-specific SDK and transitive dependency review.
