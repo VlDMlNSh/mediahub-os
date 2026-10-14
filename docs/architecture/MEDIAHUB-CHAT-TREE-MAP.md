@@ -4783,3 +4783,11 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - CURRENT-TRUTH generated file lists G0–G11 BLOCKED and overall NOT_PROVEN/BLOCKED. Requirements (including 23 rounds per mandatory path) are not evidence that qualification ran or passed.
 - Documentary-only; no tests, drift checks, runtime inspection, qualification, credentials, provider/model calls, implementation or infrastructure/deployment action. No gate status changed.
 - Next: resolve the concurrency discrepancy through the existing governance mechanism and separately obtain qualified independent P0-07 D2 review/owner disposition.
+
+## 20.192 ASTRA cross-branch source-drift audit wave 04 (2026-10-14)
+
+- Report: [cross-branch source-drift wave 04](../checkpoints/MEDIAHUB-ASTRA-CROSS-BRANCH-SOURCE-DRIFT-WAVE-04-2026-10-14.md), blob `02c3d427ced9e994c89887b7acba7b8f8d4d9521`.
+- Confirmed docs-branch authority clarification exists in component scheme, qualification blueprint/schema and reference architecture; current `main` retains broader A0 state-authority wording. History shows commits `1ef90ec5efb0630899758e2ee3366dd88d51a54b` and `8324892c8458dcba41c1adfa045b4c51f535f112`; this proves branch content/history, not owner acceptance or global resolution.
+- Concurrency discrepancy remains on both refs: component scheme says 2; schema/governance registry say 3. No value chosen.
+- `main` CURRENT-TRUTH remains G0–G11 BLOCKED / NOT_PROVEN. No qualification, tests, or branch integration.
+- Next: establish authorized disposition of docs-branch authority clarifications and separately resolve concurrency source-of-truth discrepancy; P0-07 D2 independent review remains open.
