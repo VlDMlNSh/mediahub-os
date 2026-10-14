@@ -783,3 +783,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Recorded search scope and limitations in proposal §13.4, validation §10 and map §20.244. Keep status NOT EVIDENCED, not NOT PERFORMED; absence in search results is not proof of absence elsewhere.
 - No issue/PR created or modified; no reviewer appointed/contacted; no tests, runtime, installation, qualification, provider call, credentials, host inspection, infrastructure change or branch integration.
 - Next: owner/governance must arrange an actual qualified independent reviewer and preserve the reviewer’s identity, independence, exact proposal/source SHAs and evidence-backed R-01…R-06 dispositions. Do not self-complete the blank worksheet.
+
+
+## 58. Execution update — OpenHands LMNR 0.7.60 source/telemetry review (2026-10-14)
+
+- Performed a bounded read-only review of the exact upstream LMNR 0.7.60 source tag and its package metadata/license. The tag resolves to commit `67dea392f4961bfcf7b5cde3733aaa4a452bb9f9`; source declares Apache-2.0 and Python `>=3.10,<4`. Release metadata is mutable.
+- Upstream release notes identify a LiteLLM streaming-usage/reasoning telemetry fix. The OpenHands source already reviewed documents a configurable LMNR/OTEL outbound telemetry path. Treat this as a data-flow/egress gate, not proof that telemetry was active.
+- Exact PyPI artifact hashes/attestation for 0.7.60, full transitive SBOM/license/advisory closure and target runtime/sandbox evidence remain open. Do not infer artifact provenance from adjacent versions.
+- OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. The separate LiteLLM/provider-routing owner decision and DEC-DEV-02/P0-07/P0-05/P0-04 gates remain open.
+- No artifact download/install/execution, test/scan, provider call, qualification, host inspection, infrastructure change or deployment occurred. Evidence: Crosswalk §7.11 and map §20.245.
