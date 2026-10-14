@@ -1,6 +1,15 @@
 schema_version: 1
 status: qualification-gated
 policy: MediaHub-owned-contracts
+
+# Scope decision (owner-confirmed 2026-10-14): this is an admission subset,
+# not an exhaustive projection of the canonical component-selection catalogue.
+scope: runtime-deployment-admission-subset
+source_of_truth:
+  path: docs/checkpoints/mediahub-github-component-final-manifest-2.0.md
+  ref: main
+status_semantics: admission-readiness-only
+omission_semantics: omission-does-not-imply-exclusion
 components:
   - id: home-assistant-core
     class: smart-home-authority
