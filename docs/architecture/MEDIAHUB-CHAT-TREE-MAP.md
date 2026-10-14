@@ -4933,7 +4933,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Plan was re-read at blob `bf753b5203e938adb429af2200dc606fbe4a8974`; one `### 9.17` remains (MH-ARCH-026), and the rescan is now `### 9.18`.
 - This is a plan-navigation defect repair only; it does not alter finding severity, contract status or qualification state.
 
-## 20.213 MH-03 health-model mirror review (2026-10-14)
+## 20.214 MH-03 health-model mirror review (2026-10-14)
 
 - Compared root `architecture/MH-03-health-model.md` (SHA `a4b9e8838d6b88ea629b9ee3642b6bcc791cba47`) with nested `docs/architecture/mh-03/MH-03-health-model.md` (SHA `2f5840218dfdc0103e16721ebf467150d19cb216`); root index `architecture/MH-03-index.md` remains PROPOSED (SHA `b2d2eeb1b89117d10605c231e79378eebc437c5f`).
 - Both say health is observational and not canonical mutation authority. Nested adds lifecycle states, fail-closed readiness, critical-vs-optional dependency behavior and sensitive-data/mutable-object exposure constraints; root adds authority/lifecycle health dimensions but omits those explicit details.
