@@ -309,6 +309,13 @@ These questions do not create new normative DEC IDs. Existing ADMIN-01…ADMIN-0
 - Before-fix map blob: `e3eadac3f1f36cae870d694bb25ae2150775a726`. An anchored scan found a duplicate level-2 ID `20.185`: the original P0-07 canonical-read join trace and a newly appended MH-03 source/status drift entry. The appended section had reused a historical ID.
 - Corrected only the project map: preserved the original `20.185` heading, changed the appended MH-03 drift entry to `20.204`, updated map incremental-update metadata to `§20.205`, and added a summary of the Wave 09 unified audit at `§20.205`.
 - Read-back map blob: `020969a87b3a1701e5d484fe76c93f2db9e240b9`; update commit `1bbceb26656bb3da7fa23468ff8a2e32fd245174`.
-- The complete anchored scan after this write must find 259 numbered headings with 259 unique IDs and zero duplicates. Any broader Markdown link-graph defect remains outside this particular check.
+- The initial post-wave-09 scan exposed a second appended heading reusing `20.204` (the separate unified-passport consolidation entry added after the scan input was read). This was corrected by rekeying the passport heading to `20.206`, preserving `20.204` for the MH-03 source/status finding and `20.205` for wave 09. The final anchored read-back on map blob `261910c6a2827036dc3ecd23ed4a8aa25216768b` counted 260 numeric headings, 260 unique IDs and zero duplicates. Any broader Markdown link-graph defect remains outside this check.
 - The unified plan remains the single current remediation register. No normative MH-03 file, baseline, ASTRA gate source or `main` file was changed; this map repair does not decide which MH-03 tree is canonical.
+
+### 9.11 Final collision count after concurrent map addition (2026-10-14)
+
+- A subsequent live read found the unified-passport consolidation heading had been appended with ID `20.204`, duplicating the MH-03 mirror-family heading. The map now has monotonic terminal IDs `20.203` (Baseline 1.0 drift), `20.204` (MH-03 source/status drift), `20.205` (Wave 09 project-wide audit), and `20.206` (unified passport consolidation).
+- The duplicated passport heading was changed only to `20.206`; map metadata now identifies the latest verified incremental entry as §20.206.
+- Final map read-back blob `261910c6a2827036dc3ecd23ed4a8aa25216768b`; 260 numbered section headings across levels 2–4, all 260 IDs unique, zero collisions.
+- This resolves only the map heading-ID collision. It does not declare the complete Markdown link graph clean or any architecture accepted/frozen.
 
