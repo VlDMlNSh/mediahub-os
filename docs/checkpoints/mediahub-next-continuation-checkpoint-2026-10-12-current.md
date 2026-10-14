@@ -1557,3 +1557,13 @@ Next: request the separate owner/security/privacy disposition for D5's audit eve
 - Map updated and read back: blob SHA `bae400ecca2b3ad1d11b83bb6de0478d7e47f89d`; commit `752de4709b0b1b233f1151f246c266d3f67f0490`; new entry §20.190.
 - Documentary/read-only only. No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, implementation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next: obtain the actual qualified independent review of P0-07 D2 R-01…R-06 and separate owner/governance dispositions. Keep DEC-DEV-02 as a distinct unresolved owner/governance conflict; do not infer acceptance or implementation authorization.
+
+## Latest /next result — ASTRA GOLD qualification-contract consistency wave 03 (2026-10-14)
+
+- Live refs were refreshed before this pass: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch HEAD before this pass `7b9e0eda9768928ea75112cf78d32fbe44ee4ec4`; compare DIVERGED, ahead 777 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Read current-main qualification sources: CURRENT-TRUTH blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`; qualification blueprint `d74a3aaf06246b0de42f21b4dc8f8907948b6443`; launch schema `aef6229477ed8ec45e45170f98ea87f7ba75ca29`; governance registry `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`; component scheme `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1`.
+- Confirmed cross-document discrepancy: schema + governance registry specify `max_parallel_autonomous_claims: 3`; component scheme §14 says maximum 2. This is a documentation conflict, not proof of actual runtime enforcement. No value was chosen or altered.
+- Existing A0 “MediaHub State Authority” boundary conflict remains open. CURRENT-TRUTH lists G0–G11 BLOCKED / overall NOT_PROVEN; 23-round mandatory matrix is a requirement, not qualification evidence. No status promoted.
+- Report created and read back: [consistency wave 03](MEDIAHUB-ASTRA-GOLD-QUALIFICATION-CONSISTENCY-WAVE-03-2026-10-14.md), blob `b0ec77a7990f38851e09d6fb7b4b1837555271d1`; creation commit `9eac516f85d8af9f351af6ca781fb7595b984ff8`.
+- Documentary-only: no tests, drift check, qualification, runtime/host inspection, provider/model calls, credentials, installation, implementation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next: obtain controlled owner/governance disposition of the 2-versus-3 discrepancy without silently changing normative meaning; separately obtain qualified independent P0-07 D2 review and owner/governance dispositions.
