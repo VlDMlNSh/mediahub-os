@@ -2119,3 +2119,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - A concurrent documentation update added an external-controller crosswalk at map ID `20.234` after the component-scope entry had initially been assigned the same ID. Refreshed the live map and resolved the collision by retaining the external-controller crosswalk at `20.234` and moving the owner-confirmed component-scope entry to `20.235`.
 - Current map blob SHA after collision correction: `908a98b614530cfaeb7e05e96fb096d44db514a3` (read-back verified). This supersedes the earlier provisional map SHA recorded above.
 - Current YAML on documentation branch remains blob `e3cf487bcf43ecb92cd110b5af2660c066b58e2a`; `main` remains unchanged at `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`. No merge/cherry-pick was performed.
+
+
+## Latest /next — OpenHands SDK supply-chain paper review (2026-10-14)
+
+- Refreshed the live documentation branch and canonical manifest source. Branch status remains divergent from `main`; no merge/cherry-pick was performed. Current observed `main` HEAD: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Added supply-chain/security-process evidence to [Component Admission Crosswalk §7.5](MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), blob `844d45849f07cf1bad16ca509be0d000ffc6974e`; indexed as map §20.237. Roadmap execution update is §51.
+- Read-only upstream evidence: official OpenHands SDK v1.54.0 at source commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`; package requires Python >=3.12; root licence is MIT; workspace `uv.lock` exists; `.github/workflows/security-scan.yml` describes OSV/dependency scanning, but this pass did not inspect a release scan result. Release metadata is mutable (`immutable: false`) and PyPI metadata reports Trusted Publishing was not used.
+- Risk/gate: SDK directly depends on LiteLLM, FastMCP, fakeredis and LMNR. Full transitive license/hash/SBOM closure, target Python/OS fit, source-to-artifact provenance, security disclosure process, sandbox semantics, telemetry and egress remain unverified. No SBOM completion or vulnerability-free claim is made.
+- No artifact download, package installation/import/execution, tests/security scan, model/provider call, credentials, host/runtime inspection, infrastructure/deployment action or component-manifest change occurred.
+- Required owner decision is explicitly recorded as A/B/C in §7.5: defer/reject; continue paper review only; or later authorize a separately scoped evaluation after authority/sandbox gates close. No option is selected by this pass.
+- **Next:** pause dependency advancement pending owner disposition or continue independent read-only closure of the Contour A P0 authority conflict (DEC-DEV-02/P0-07/P0-05/P0-04). Do not install or run OpenHands without separate explicit authorization.
