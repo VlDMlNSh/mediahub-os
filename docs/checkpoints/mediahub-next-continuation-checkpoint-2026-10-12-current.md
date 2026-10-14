@@ -2270,3 +2270,15 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Status remains P0-07 D2 NOT EVIDENCED (not NOT PERFORMED); proposal NOT ACCEPTED / NOT FROZEN; implementation/mutation/publication blocked. Search results cannot prove no review exists elsewhere.
 - No issue/PR created or modified, no reviewer appointed/contacted, no tests, qualification, runtime execution, installation, provider calls, credentials, host inspection, infrastructure change, deployment or branch integration.
 - Next: arrange a real qualified independent review and capture reviewer identity/independence, exact proposal and source SHAs, evidence-backed R-01…R-06 dispositions and recommendation; owner/governance acceptance remains separate. Do not self-complete the reviewer worksheet.
+
+
+## Latest /next result — LMNR 0.7.60 source and telemetry boundary review (2026-10-14)
+
+- Live refs at pass start: documentation branch HEAD `364274cc73e78a550a0d9d8579f00425fc1c053a`; `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Compare: DIVERGED, documentation branch 1037 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Owner-selected option B for component manifests is already recorded in Crosswalk §7.3: `oss/manifests/components.yaml` is a scoped runtime/deployment admission subset, with omission not implying exclusion. This does not select OpenHands option B; the separate OpenHands A/B/C decision remains unresolved.
+- Reviewed exact LMNR 0.7.60 source tag, commit `67dea392f4961bfcf7b5cde3733aaa4a452bb9f9`, package metadata and Apache-2.0 license. The release is mutable; exact PyPI artifact hashes/attestation were not established. Release notes describe a LiteLLM streaming-usage/reasoning telemetry fix.
+- Added Crosswalk §7.11, map §20.245 and roadmap §58. Read-back verified all modified files; current blob SHAs are listed in the next checkpoint index below.
+- Security/data-flow disposition: a configurable LMNR/OTEL outbound path exists in the reviewed OpenHands source, but active MediaHub telemetry is not evidenced. Any future evaluation needs telemetry disabled by default, external egress controls and explicit prohibition on transmitting secrets/private prompts/product data.
+- OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Full transitive SBOM/license/advisory closure, exact artifact provenance, target sandbox/runtime proof, LiteLLM/provider-routing owner decision, DEC-DEV-02 and P0-07/P0-05/P0-04 gates remain open.
+- No artifact download/install/execution, tests/scans/provider calls, qualification, host inspection, infrastructure change or deployment occurred.
+- **Next bounded step:** continue source-only closure of one concrete remaining dependency provenance/advisory gap; do not repeat already reviewed LMNR/ACP/FastMCP work. If no independent gap can be closed, prepare the existing LiteLLM/provider-routing owner decision with consequences and evidence, without choosing for the owner.
