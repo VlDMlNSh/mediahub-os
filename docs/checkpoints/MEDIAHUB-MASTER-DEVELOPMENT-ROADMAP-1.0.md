@@ -399,3 +399,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Concurrency discrepancy remains on both refs: component scheme §14 = 2; schema/governance registry = 3. No normative value selected.
 - Current-main qualification truth remains BLOCKED / NOT_PROVEN; no tests/qualification executed.
 - Next bounded step: obtain authorized disposition for cross-branch authority wording and separately resolve the numeric source-of-truth discrepancy; qualified P0-07 D2 independent review remains outstanding.
+
+## 17. Execution update — ASTRA source-of-truth reconciliation wave 05 (2026-10-14)
+
+- Completed six-source cross-reference on current `main` and documentation branch for component scheme, qualification blueprint, launch schema, governance contract, reference architecture and unified autonomous development system. Report: [ASTRA source-of-truth reconciliation wave 05](MEDIAHUB-ASTRA-SOURCE-OF-TRUTH-RECONCILIATION-WAVE-05-2026-10-14.md).
+- Canonical governance contract states launch schema is the numeric source of truth and prose documents should reference it instead of repeating values. The two YAML sources and two other prose architecture sources agree on 3 parallel claims; the component scheme alone said 2.
+- Repaired the duplicated value in documentation-branch component scheme §14 by replacing it with a direct source-of-truth reference. Blob `6e723bdf557f4e3dae8f1b6795d4072b67dfe5e1`; commit `b890414af6d755d9223e1ba185212d4e63ec9735`. This was not a new policy decision and did not edit `main`.
+- Searched same source set for repeated qualification thresholds: 23 rounds/path, 115 total and 24-hour soak descriptions were consistent in inspected sections. This was static source review, not test/qualification/drift-test execution.
+- Remaining: main-vs-documentation-branch A0 authority wording drift, actual qualified independent P0-07 D2 review, and owner/governance dispositions. Current-main qualification truth remains BLOCKED / NOT_PROVEN; no gate status changed.
