@@ -4918,3 +4918,10 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Classification: **ASYMMETRIC COVERAGE CONFIRMED; DIRECT SEMANTIC CONTRADICTION NOT PROVEN.** Preserve both sources. Do not declare either source canonical based on path alone; the root index is PROPOSED.
 - No MH-03 normative source was changed. Continue pair-by-pair reference/provenance review under the existing owner/governance decision.
 
+## 20.213 MH-03 evidence-register provenance conflict review (2026-10-14)
+
+- Unified finding: [MH-ARCH-026 in the remediation plan §9.17](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Root evidence register `architecture/MH-03-evidence-register.md` blob `07dd464fe23ba91943053f658c8d804ec67b5fb6` is PROPOSED and classifies inherited P0 evidence as FROZEN / INHERITED. Nested `docs/architecture/mh-03/MH-03-evidence-register.md` blob `865a1bda46984cd8b3384aaea99ec9f9c86746d4` labels E03-01 ACCEPTED / IMPLEMENTATION AUTHORIZED and E03-02…E03-04 ACCEPTED / FROZEN.
+- This is material evidence-ID/status/provenance drift; no authority source was selected and no real-world implementation authorization is inferred. Preserve both sources pending owner/governance disposition.
+- Paired decision logs also differ on MH3-D10/D11; recovery-boundary and runtime-model pairs show asymmetric coverage. They remain open review items, not automatically proven contradictions.
+- No MH-03 source, acceptance status, implementation, or branch integration was changed.
