@@ -441,3 +441,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Scope limit: this closes navigation-ID integrity only. The project-wide Markdown link graph remains unaudited, the 18 MH-03 same-basename pairs remain semantically unresolved, and the LaunchAgent manifest intent remains unknown. No normative architecture was changed.
 - No tests, qualification, runtime/host inspection, credentials/provider/model calls, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick occurred. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Next: continue source-anchored MH-03 pair classification from the confirmed contradiction-register conflict, preserving both versions until governed source-of-truth disposition.
+
+
+## 22. Execution update — MH-03 source/status drift classification (2026-10-14)
+
+- Compared root and nested MH-03 contradiction registers, decision logs, evidence registers, and the root index. Confirmed substantive status/decision drift: root C03-08 requires governance review while nested contradiction register reports none; root decision log adds MH3-D10/D11 absent from nested; evidence registers differ in acceptance and implementation-authorization wording.
+- The root index lists root-level artifacts as required but remains PROPOSED / NOT ACCEPTED. Do not infer an accepted canonical tree from that index alone.
+- Tracked as MH-ARCH-021 in the [unified architecture remediation plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob `6b61fac41acf0bbf95393f345d3382c7987e5c91`; map section 20.185 records the finding and evidence.
+- No normative MH-03 source content was changed. Owner must select root canonical, nested canonical, or governed synchronized views before controlled reconciliation of the 18 pairs.
+- No tests, qualification, host/runtime inspection, credentials/provider/model calls, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Next: inspect reference/provenance evidence to prepare a decision packet without changing normative content.
