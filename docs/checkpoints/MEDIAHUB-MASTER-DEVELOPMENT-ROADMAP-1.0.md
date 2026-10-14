@@ -391,3 +391,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - CURRENT-TRUTH still marks G0–G11 BLOCKED / overall NOT_PROVEN; qualification requirements are not evidence of executed/passed qualification. Existing DEC-DEV-02 authority conflict and P0-07 D2 independent-review blocker remain open.
 - No tests, qualification, drift checks, implementation, runtime inspection, provider/model calls, credentials, infrastructure changes or deployment were performed.
 - Next bounded step: controlled governance disposition of the concurrency discrepancy; independently, obtain actual qualified P0-07 D2 review and separate owner/governance dispositions. Do not promote any status or edit normative sources without the required authority.
+
+## 16. Execution update — ASTRA cross-branch source-drift audit wave 04 (2026-10-14)
+
+- Completed cross-ref documentary audit of five ASTRA architecture sources. Report: [cross-branch source-drift wave 04](MEDIAHUB-ASTRA-CROSS-BRANCH-SOURCE-DRIFT-WAVE-04-2026-10-14.md).
+- Docs branch contains explicit A0 internal-state scope clarifications absent from current `main` versions of the component scheme/reference architecture and reflected as comments in qualification YAMLs. Provenance commits are `1ef90ec5efb0630899758e2ee3366dd88d51a54b` and `8324892c8458dcba41c1adfa045b4c51f535f112`; acceptance/integration status remains unproven. Do not merge or infer owner approval.
+- Concurrency discrepancy remains on both refs: component scheme §14 = 2; schema/governance registry = 3. No normative value selected.
+- Current-main qualification truth remains BLOCKED / NOT_PROVEN; no tests/qualification executed.
+- Next bounded step: obtain authorized disposition for cross-branch authority wording and separately resolve the numeric source-of-truth discrepancy; qualified P0-07 D2 independent review remains outstanding.
