@@ -1543,3 +1543,17 @@ Follow-up — exact MH-12 source anchors for P0-07 D2 handoff (2026-10-13)
 - Checkpoint prior blob before this addendum: `d935e09a947f73412312c5bcfc580cc865c8b874`.
 
 Next: request the separate owner/security/privacy disposition for D5's audit event categories, minimum provenance, authorized readers, retention/deletion owner, integrity controls and required-audit-unavailable behavior. Do not invent those decisions or treat this source trace as acceptance. Qualified independent P0-07 D2 review and owner/governance disposition remain separate blockers.
+
+
+## Latest /next result — DEC-DEV-01…08 crosswalk validation wave 01 (2026-10-14)
+
+- Live refs before this pass: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch HEAD `c84c2ab7c7be3d984d19c69674037b3317da9640`; compare DIVERGED, ahead 773 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Completed the roadmap-directed documentary revalidation of DEC-DEV-01…08. Report: [crosswalk validation wave 01](MEDIAHUB-DEC-DEV-01-08-CROSSWALK-VALIDATION-WAVE-01-2026-10-14.md). Current primary-source blob SHAs and bounded findings are recorded there.
+- Verified current source identities for Distributed AI Infrastructure, Component Manifest 2.0, MH-12, MH-15, MH-16, MH-21, ASTRA component/governance sources, Jarvis ARC contract/review, ASTRA Current Truth, placement matrix, unified traceability matrix, owner packet, P0-07 D2 proposal and D7 crosswalk.
+- Findings: DEC-DEV-01 endpoint label established but runtime composition remains open/target-gated; DEC-DEV-02 remains OPEN_CONFLICT (ASTRA A0 “MediaHub State Authority” wording vs Jarvis ARC-003/018 boundaries); DEC-DEV-03/04/07 remain evidence-gated/deferred; DEC-DEV-05/06 invariants are established but detailed routing/mobile contracts remain open; DEC-DEV-08 is a binding Contour A → Contour B gate, with required deployment/independent qualification/owner acceptance not proven.
+- Gates unchanged: P0-07 mutation/publication BLOCKED — GOVERNANCE/API GAP; D2 still requires qualified independent review of R-01…R-06; D6 owner/governance confirmation remains separate; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; ASTRA G0–G11 blocked; qualification NO-GO / NOT PROVEN.
+- Report created and read back: blob SHA `055c8766c0fccd733cc32dd0f8e37063d4619734`.
+- Roadmap updated and read back: blob SHA `9c9e8298f5e806ae91b253ecb7a893c2568810b0`; commit `b96dfe1b320c519011ee657a87982ae7b5f98b1a`.
+- Map updated and read back: blob SHA `bae400ecca2b3ad1d11b83bb6de0478d7e47f89d`; commit `752de4709b0b1b233f1151f246c266d3f67f0490`; new entry §20.190.
+- Documentary/read-only only. No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, implementation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next: obtain the actual qualified independent review of P0-07 D2 R-01…R-06 and separate owner/governance dispositions. Keep DEC-DEV-02 as a distinct unresolved owner/governance conflict; do not infer acceptance or implementation authorization.
