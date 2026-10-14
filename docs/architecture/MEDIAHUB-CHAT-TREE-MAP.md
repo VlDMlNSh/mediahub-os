@@ -5080,7 +5080,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 ## 20.232 — OpenHands SDK source and artifact pin review (2026-10-14)
 
-- Detailed package/licence/dependency evidence: [Component Admission Crosswalk, §7.4](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md); latest crosswalk blob SHA `044d6b1f48f43c5c03e186efe0f718c00be12f66`.
+- Detailed package/licence/dependency evidence: [Component Admission Crosswalk, §7.4](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md); current crosswalk blob SHA `17ae42d6bb863919c159e6a8c0461854f9e0e0ed`.
 - Canonical SDK repository is `OpenHands/software-agent-sdk`, not the umbrella `OpenHands/OpenHands` monorepo. Release `v1.54.0` points to verified-signature commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`; GitHub release metadata says `immutable: false`. PyPI `openhands-sdk==1.54.0` wheel SHA-256: `647bf83c888bc544b0500480aa8a89729f44f6db9f93ea3ba43cfc7fdf070db3`; source archive SHA-256: `431e7bc66ac5caf3a426e25bc67d3a85d5036ace61ff2c20af5a62ea16650485`. PyPI metadata says Trusted Publishing was not used for this upload.
 - Package declares Python `>=3.12`; approved Contour A runtime versions remain unknown. Direct SDK dependencies include LiteLLM, FastMCP, fakeredis, agent-client-protocol and other libraries. The separate Agent Server adds Docker, API/storage and OpenAI SDK dependencies. Complete lock/licence closure, SBOM, telemetry/egress model, target compatibility and sandbox configuration remain unreviewed.
 - **Disposition: RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.** An artifact checksum and a signed source commit are useful identity evidence, not supply-chain qualification or MediaHub compatibility evidence.
@@ -5128,7 +5128,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
  
 ## 20.237 — OpenHands SDK supply-chain and security-process review (2026-10-14)
 
-- Detailed evidence and decision gates: [Component Admission Crosswalk, §7.5](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), blob `844d45849f07cf1bad16ca509be0d000ffc6974e`.
+- Detailed evidence and decision gates: [Component Admission Crosswalk, §7.5](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), current full crosswalk blob `17ae42d6bb863919c159e6a8c0461854f9e0e0ed` (includes the current §§7.5–7.6 read-back).
 - Confirmed read-only facts: SDK requires Python >=3.12; root project licence is MIT; upstream workspace has `uv.lock`; its security-scan workflow documents OSV/dependency checks but non-release scans are opt-in and this review did not inspect a run result.
 - Material open gates: direct LiteLLM/FastMCP/fakeredis/LMNR dependencies; full transitive licence/hash/SBOM closure; actual Contour A runtime compatibility; source-to-artifact provenance; security disclosure evidence; worker sandbox, telemetry and egress boundaries.
 - Status remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. No artifact downloaded, dependency installed, code executed, tests/scans run or manifest changed.
