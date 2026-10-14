@@ -832,3 +832,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Evidence: Component Admission Crosswalk §7.14; map §20.251. OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.
 - No artifact download/install, tests/scans, execution, provider call, qualification, host inspection, infrastructure change or deployment occurred.
 - Next bounded step: if no owner/governance blocker changes priority, compare the exact issue-fixing commit and tag ancestry against ACP 0.12.1 using public source metadata only. Do not run code/tests or alter the pin.
+
+
+## 64. Execution update — ACP 0.12.1 cancellation fix release-history trace (2026-10-14)
+
+- Followed Roadmap §63 using public upstream source metadata only. Official issue #108 describes cancellation cleanup risk in `run_agent`; official PR #113 is merged on 2026-06-29, closes #108, and identifies merge commit `fe643ab`.
+- Official 0.11.0 release notes dated 2026-07-05 explicitly list “fix: close run_agent connection on cancellation” by PR #113. Official 0.12.1 release metadata identifies source commit `e668ed9`; the release line progresses through 0.11.0, 0.12.0 and 0.12.1.
+- **Finding:** release-history evidence strongly supports that the fix was included before 0.12.1. Exact Git commit ancestry was not independently established because this pass did not retrieve Git objects or use a compare API. MediaHub runtime reachability remains unknown.
+- Updated Component Admission Crosswalk §7.15 and map §20.253. This is not a confirmed MediaHub defect, a no-vulnerability conclusion, or a security clearance. OpenHands remains research-only / not selected / not admitted / not ready for installation or runtime evaluation.
+- No artifact download/install, tests, code execution, pin changes, provider calls, qualification, host inspection, infrastructure changes, deployment or branch integration occurred.
+- Next bounded roadmap step: continue source-only admission review for the next unresolved dependency/evidence item in the component crosswalk; do not install, execute, test, change pins or promote candidates.
