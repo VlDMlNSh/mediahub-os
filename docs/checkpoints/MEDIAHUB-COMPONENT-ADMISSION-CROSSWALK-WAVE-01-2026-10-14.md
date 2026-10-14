@@ -209,3 +209,40 @@ The source text manifest remains the component-selection catalogue. YAML statuse
 - **C — Authorize a separately scoped implementation-evaluation plan** only after Contour A authority, target runtime, egress/sandbox and dependency-review gates are resolved. This option is not implied by this document.
 
 No option has been selected by this review. No component manifest, code, lockfile, dependency or normative contract changed.
+
+
+## 7.6 Exact lock resolution and conditional telemetry boundary (2026-10-14)
+
+**Scope:** supplemental read-only source/metadata trace at SDK source commit 1d471742ea7be017d013eaaa3080f5d28d5490cb. This extends §7.5; it does not close the complete SBOM, licence, provenance, or security review.
+
+### Resolved direct-dependency snapshot
+
+The upstream workspace lock resolves the selected SDK dependencies as follows:
+
+| Package | Version in uv.lock | Evidence observed |
+|---|---:|---|
+| litellm | 1.93.0 | Lock records source and wheel SHA-256 values; official PyPI metadata identifies MIT. |
+| fastmcp | 3.2.0 | Lock records source and wheel SHA-256 values; official PyPI metadata identifies Apache-2.0. |
+| fakeredis | 2.34.1 | Lock records source and wheel SHA-256 values. The BSD-3-Clause metadata found during this pass was for 2.32.1, not the locked 2.34.1; exact-version licence remains unverified. |
+| agent-client-protocol | 0.12.1 | Lock records source and wheel SHA-256 values; the reviewed PyPI metadata reports Trusted Publishing was not used. Exact-version licence remains unverified in this pass. |
+| lmnr | 0.7.60 | Lock records source and wheel SHA-256 values; official PyPI project metadata identifies Apache-2.0. |
+
+This is a small sample of the lockfile, not a complete dependency inventory. A complete locked dependency/SBOM export, per-package licence and notice review, advisory review, and source-to-artifact provenance analysis remain open. No dependency was installed or downloaded and no scanner/resolver was run.
+
+### Telemetry and execution-boundary trace
+
+- At the pinned source commit, the SDK invokes maybe_init_laminar() from the agent module. The initializer skips setup when recognized observability environment variables are absent; LMNR_PROJECT_API_KEY or configured OTEL endpoints can enable instrumentation. The source documents LMNR_BASE_URL with default https://api.lmnr.ai and supports selecting instrumented integrations. This proves a configurable egress path exists in source; it does not prove telemetry was active in MediaHub.
+- The same source imports LiteLLM in the core LLM implementation. Therefore LiteLLM is an actual direct provider abstraction dependency, not only a separately deployable optional gateway. Any future use must remain subordinate to MediaHub-owned provider/data-class routing and cannot establish a parallel route authority.
+- The SDK's LocalWorkspace executes commands in the host environment. The Agent Server README says it binds to 0.0.0.0 by default and has access to its configured workspace. The AgentSandboxWorkspace documentation places network egress allow-listing in Kubernetes NetworkPolicy and describes optional gVisor/Kata runtime classes. These are upstream configuration features, not evidence of a secure deployment or a qualified MediaHub sandbox.
+
+### Disposition and next gate
+
+OpenHands remains **RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**.
+
+Before any admission proposal:
+1. Obtain an owner/governance decision on the direct LiteLLM dependency and document that it cannot override MediaHub routing policy.
+2. Complete exact-version licensing/provenance for all direct dependencies and generate/review a complete locked-dependency SBOM plus vulnerability/advisory evidence.
+3. Define explicit telemetry policy, allowed egress, disposable worker isolation, least-privilege filesystem mounts, credential isolation, cancellation/resource limits, human approval and artifact-only output.
+4. Preserve DEC-DEV-02 and P0-07/P0-05/P0-04 authorization gates. No install, execution, model/provider call, tests, sandbox evaluation, qualification, host inspection, infrastructure change or deployment is authorized by this review.
+
+No component, runtime, manifest, or normative contract was admitted or changed.
