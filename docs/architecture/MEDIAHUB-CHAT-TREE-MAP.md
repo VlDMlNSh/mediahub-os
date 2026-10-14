@@ -4965,3 +4965,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Inventory remains 24 repeated-basename groups: 18 MH-03 root/nested pairs, three non-MH-03 pairs, and the `__init__.py`, `README.md`, and `SKILL.md` groups. Same basename is not deletion evidence.
 - No source files were deleted, renamed, or promoted; no tests, host inspection, install, deployment, branch integration or qualification occurred. ASTRA remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Next: trace package/workflow references for MH-ARCH-037, schema references for MH-ARCH-038, and imports for MH-ARCH-039; then continue remaining MH-03 pairs. Use the unified remediation plan as the sole findings register.
+
+
+## 20.219 MH-ARCH-040 — LaunchAgent target/ownership reference pass (2026-10-14)
+
+- Updated finding: [MH-ARCH-037 / MH-ARCH-040 in the unified remediation plan §9.25–9.26](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Exact manifest blobs remain `deploy/com.mediahub.astra.github-agent.plist` `2cca029b502fd911ec38272871c823a8717ed8fd` and `ops/launchd/com.mediahub.astra.github-agent.plist` `d1d8aea99c2303c26e542a3d1c5e54b4596521d0`. Same launchd Label, different target paths/environments; deployment/co-installation intent is UNKNOWN.
+- Ops plist points to a user-specific bootstrap. Bootstrap blob `5f36f35ea85f55e5f49af6d3dabb5e876fffa09b` fetches/checks out the selected remote branch and uses `git reset --hard origin/$BRANCH` before launching the agent. This is a static behavior observation only, not evidence that it was run.
+- Linux systemd asset `deploy/mediahub-astra-github.service` blob `e1962e4afe5db7ac1fcb901344d9f88205de0689` is a separate deployment target, not proof of a launchd installer consumer. Code search returned no matches with an incomplete index, so consumer tracing remains incomplete; do not interpret zero results as proof of no references.
+- No files changed except documentation. No host inspection, tests, workflow execution, install, deployment, or qualification. Owner decision required on mutually exclusive profiles vs governed label/target separation; review bootstrap destructive-reset semantics before any authorized use.
