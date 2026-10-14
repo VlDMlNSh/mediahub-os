@@ -1577,3 +1577,13 @@ Next: request the separate owner/security/privacy disposition for D5's audit eve
 - Report created and read back: [source-drift wave 04](MEDIAHUB-ASTRA-CROSS-BRANCH-SOURCE-DRIFT-WAVE-04-2026-10-14.md), blob `02c3d427ced9e994c89887b7acba7b8f8d4d9521`; creation commit `c0d316351c04222ce4079c63a093ca562068998a`.
 - `main` CURRENT-TRUTH remains G0–G11 BLOCKED / overall NOT_PROVEN. Documentary-only; no tests, qualification, runtime inspection, credentials/provider calls, implementation, merge/rebase/cherry-pick or deployment.
 - Next: establish authorized disposition of the existing docs-branch authority clarification; keep concurrency reconciliation and qualified independent P0-07 D2 review as separate open blockers.
+
+## Latest /next result — ASTRA source-of-truth reconciliation wave 05 (2026-10-14)
+
+- Live state before pass: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch HEAD `4f4da081cd17c6dc9de7ada51051a01189657dde`; DIVERGED ahead 785 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Read six ASTRA source documents across both refs. Governance registry blob `1d3ac25e7817f365807ad85d0d7c9007bd48bebf` names launch schema as source of truth and prohibits prose docs from duplicating numeric thresholds. Schema and governance registry set max parallel claims to 3; reference architecture and unified development system also say 3. Component scheme alone said 2.
+- Corrected only documentation-branch `architecture/ASTRA-GOLD-COMPLETE-COMPONENT-SCHEME.md`: old blob `4c977539d837292d9a0a65435159e2b81311865a`, new blob `6e723bdf557f4e3dae8f1b6795d4072b67dfe5e1`, commit `b890414af6d755d9223e1ba185212d4e63ec9735`. Removed duplicated numeric value and referenced canonical `G5_CONCURRENCY.max_parallel_autonomous_claims`; did not change the canonical numeric limit or choose a new policy.
+- Six-source static cross-check found 23 rounds/path, 115 total rounds, and 24-hour soak consistent in the inspected sections; no claim of repo-wide validation. No tests or qualification run.
+- Report created and read back: [source-of-truth reconciliation wave 05](MEDIAHUB-ASTRA-SOURCE-OF-TRUTH-RECONCILIATION-WAVE-05-2026-10-14.md), blob `62421fecddad50941912b4be7c2ff56c90ac837b`; report creation commit `d2f13c96b51b9985b2486ae09df40759347add2f`.
+- Status remains: current-main G0–G11 BLOCKED / NOT_PROVEN; D2 independent review and owner/governance dispositions outstanding; main-vs-docs authority wording still diverges. No edit to main or branch integration.
+- Next: resolve A0 authority text through permitted review/change-control route and seek an actual qualified independent P0-07 D2 R-01…R-06 review. Do not promote gates.
