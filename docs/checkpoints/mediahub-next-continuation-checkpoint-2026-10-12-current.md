@@ -1741,3 +1741,14 @@ This verification is documentation read-back only. It does not establish semanti
 
 ### Next bounded step
 Compare one additional MH-03 root/nested pair and its acceptance/dependency references. Keep all 18 pairs intact until the owner/governance authority chooses root canonical, nested canonical, or governed synchronized views. Continue the P0-07 independent-review blocker separately.
+
+
+## Follow-up verification — project-map heading-ID collision repair (2026-10-14)
+
+- Broader scan of the map found a legacy duplicate top-level heading ID `16`: the later `Owner decision register` collided with the earlier Baseline 1.0 passport section.
+- Added MH-ARCH-023 to the unified remediation plan and rekeyed only the later navigation heading to `20.208`; the earlier section 16 and all substantive text were preserved.
+- Map post-write read-back: blob `7dea16102dbc1908906d89b4637f90f196a15f4d`; 283 numeric headings / 283 unique IDs / zero collisions. Map-only explicit fragment scan found no link to the old `#16-owner-decision-register` anchor; broader repository link graph remains unaudited.
+- Plan blob: `ce1d43de9a742e79a433bbe15de0868bb6e71c4f`; plan finding MH-ARCH-023 and §9.13 are present.
+- Roadmap update recording the repair was written; post-write read-back follows.
+
+No normative contract, Baseline, implementation, or `main` source was changed. No tests/qualification, runtime/host inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
