@@ -477,3 +477,16 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Qualification truth remains G0–G11 BLOCKED / overall NOT_PROVEN; Contour B remains gated. No tests, CI run, host/runtime inspection, credentials, provider/model calls, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
 - **Next:** continue reference/provenance inventory for the remaining MH-03 pairs; prepare a source-of-truth decision packet without rewriting normative sources; request ADMIN-01…05 and the two MH-03/LaunchAgent dispositions when owner is ready; retain P0-07 independent D2 review as separate P0 blocker.
 
+
+
+## 25. Execution update — MH-03 runtime-foundation mirror coverage review (2026-10-14)
+
+- Re-fetched the root MH-03 index, root runtime-foundation contract, nested runtime-foundation contract, current map, current checkpoint and unified remediation plan on the documentation branch.
+- Recorded **MH-ARCH-022** in the single remediation register. Both runtime-foundation files remain PROPOSED and align on sole State Authority, in-memory state, mandatory P0-05 boundary, single-node/no-HA and no unauthorized physical persistence.
+- Confirmed asymmetric coverage: root copy adds the offline-first deterministic chain, a complete command/event mutation path and enumerated acceptance prerequisites; nested copy adds shutdown ordering and explicit candidate-only technology wording. This is confirmed scope drift, not a proven semantic contradiction.
+- Exact source blobs: root index `b2d2eeb1b89117d10605c231e79378eebc437c5f`; root runtime foundation `325cf6b47e7db926b8e45d9517e3a2f1d8e7ffa2`; nested runtime foundation `2457451017daa0f91e9e978e44c91e1e49d0d7a3`.
+- The root index is PROPOSED; its root-file list does not resolve canonical authority. Both source files remain unchanged. No exhaustive inbound-reference search or owner disposition is claimed.
+- Updated the project map with §20.207 and updated the unified remediation plan §9.12. Read-back SHA verification is the immediate next step.
+- No baseline, accepted domain contract, runtime code or `main` source was changed. No tests, qualification, credentials/provider/model calls, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick were performed.
+
+**Next bounded step:** perform the same exact-source comparison on one further MH-03 root/nested pair, including its acceptance criteria and any directly declared dependencies. Continue to distinguish coverage asymmetry from semantic conflict and do not reconcile files before owner/governance selection of the canonical-tree model.
