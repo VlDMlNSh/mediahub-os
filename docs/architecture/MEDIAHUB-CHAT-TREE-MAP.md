@@ -5072,3 +5072,11 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - OpenHands Software Agent SDK is a paper-evaluation candidate only; Temporal remains future-gated; MCP is a protocol candidate, not authorization. Other agent frameworks, routers and policy/sandbox candidates remain deferred per the report.
 - Crosswalk does not modify the canonical manifest, change runtime code, or authorize installation, provider calls, tests/evaluation, qualification, host inspection, infrastructure change or deployment.
 - Branch context recorded for this pass: main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch was observed at `190e083267b4a9495fbdca484b2b09187bc5b622` before the preceding crosswalk write; compare then was DIVERGED, 945 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration performed.
+
+
+## 20.229 MH-ARCH-048 — MH-03 error-handling mirror review (2026-10-14)
+
+- Unified finding: [MH-ARCH-048, remediation plan §9.36](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Root `architecture/MH-03-error-handling.md` blob `bd2157deb94c2823c6b6fac2988945b7bc412ef3` and nested `docs/architecture/mh-03/MH-03-error-handling.md` blob `a33051aabb24447cf993755e84569917fe37f037` align on fail-closed handling and bounded recovery but differ in explicit coverage. Root explicitly names State Authority failure/no fallback authority, service-crash supervision and telemetry authority boundaries; nested explicitly requires sanitized/privacy-preserving errors and forbids partial lifecycle transitions/canonical-state corruption.
+- Root `architecture/MH-03-index.md` blob `b2d2eeb1b89117d10605c231e79378eebc437c5f` remains PROPOSED and does not establish canonical source authority. No direct contradiction or runtime defect is proven.
+- Preserve both files pending owner/governance selection of a canonical source or synchronized-view policy. Static document comparison only; no tests, CI, runtime/host inspection, implementation, deployment, qualification or branch integration.
