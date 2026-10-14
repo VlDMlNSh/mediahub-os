@@ -5124,3 +5124,11 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Candidate's direct dependencies include LiteLLM, FastMCP and LMNR; separate tools/server packages add broader dependencies and execution surface. GitHub Security page reports no detected security policy. These are review gates, not proof of a vulnerability.
 - Disposition: CANDIDATE / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. If ever advanced, keep it as one isolated coding worker returning a patch/artifact and provenance only. It must not replace Jarvis/ASTRA, own lifecycle/state/policy, merge/release or promote qualification.
 - No package installed/imported/executed, no code copied, no tests/evaluation/qualification, credentials/provider/model calls, host/runtime inspection, infrastructure change or deployment performed. DEC-DEV-02 and P0-07/P0-05/P0-04 authorization gates remain open.
+
+ 
+## 20.237 — OpenHands SDK supply-chain and security-process review (2026-10-14)
+
+- Detailed evidence and decision gates: [Component Admission Crosswalk, §7.5](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), blob `844d45849f07cf1bad16ca509be0d000ffc6974e`.
+- Confirmed read-only facts: SDK requires Python >=3.12; root project licence is MIT; upstream workspace has `uv.lock`; its security-scan workflow documents OSV/dependency checks but non-release scans are opt-in and this review did not inspect a run result.
+- Material open gates: direct LiteLLM/FastMCP/fakeredis/LMNR dependencies; full transitive licence/hash/SBOM closure; actual Contour A runtime compatibility; source-to-artifact provenance; security disclosure evidence; worker sandbox, telemetry and egress boundaries.
+- Status remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. No artifact downloaded, dependency installed, code executed, tests/scans run or manifest changed.
