@@ -892,3 +892,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Updated the proposed unified traceability matrix and deployment contract with evidence links. Their status remains PROPOSED / NOT ACCEPTED / NOT FROZEN. No tests, qualification, model/provider calls, credential access, installations, config changes, deployment or branch integration.
 - Next bounded step: draft the Jarvis Control Plane / GitHub Adapter contract and machine-readable component inventory schema. Resolve provider semantics from pinned source/deployment evidence; keep implementation and qualification blocked pending separate gates.
 
+
+## 70. Execution update — partial PASS evidence and portable deployment profiles (2026-10-14)
+
+- Captured owner-reported partial PASS state without overstating readiness: ASTRA end-to-end autonomous queue remains NOT ACHIEVED; service-level PASS claims await exact gate/run/SHA/artifact mapping.
+- Added [Partial PASS Evidence Ledger and Portable Deployment Profiles, Wave 01](MEDIAHUB-PARTIAL-PASS-EVIDENCE-AND-PORTABLE-DEPLOYMENT-PROFILES-WAVE-01-2026-10-14.md) and linked it from the proposed unified contract and traceability matrix.
+- A second read-only Desktop Commander pass found nine auxiliary worktree entries marked prunable due to missing gitdir targets. No cleanup was performed because active lease/worker ownership has not been ruled out.
+- Proposed, not accepted, target profiles: Mac mini 2011 i7/16 GB clean Linux (constrained control/edge candidate); Mac Pro 2013 (engineering/CI candidate after OS/GPU compatibility validation); future high-VRAM remote GPU host (explicitly admitted inference service).
+- No tests, qualification, provider/model calls, installation, credentials, cleanup, infrastructure changes, deployment or branch integration.
+- Next: reconcile existing PASS artifacts to immutable evidence; draft the Jarvis Control Plane/GitHub Adapter contract and machine-readable component inventory schema; prepare hardware compatibility worksheets without provisioning.
+
