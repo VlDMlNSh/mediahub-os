@@ -378,3 +378,23 @@ This addendum supersedes only the source-discovery boundary in §13.1 that said 
 | R-03 unresolved assumptions | `docs/architecture/MH-12-unknowns.md` | `97f08824fb858dd4506876729ae37d610140c3e8` | Identity/authentication/capability/PKI/recovery and deployment unknowns remain REQUIRES VERIFICATION; no assumptions may fill them. |
 
 The paths and SHAs above were freshly fetched from `main` during this pass. These source anchors improve reviewer routing only. They do not establish a qualified independent review, close R-01…R-06, approve a trusted issuer, select token/API/cryptographic design, grant implementation authority, or change any P0-07/P0-05/MH-22 gate. The §13 reviewer disposition worksheet remains for an actual independent reviewer.
+
+
+## 13.3 — Live-main authorization-context call-chain trace (2026-10-14)
+
+**Scope:** bounded static source inspection of the current main tree. This is additional internal source evidence for the proposal, not the qualified independent D2 review required by §13.
+
+| Source | Current main blob SHA | Static observation | Limit |
+|---|---|---|---|
+| runtime/mediahub_runtime/authorization.py | 4d8df5d3c1c26f7f133a8093cd270635b085f4d5 | AuthorizationContext contains only principal and capability; AuthorizationPolicy matches the exact (principal, capability, operation) tuple and an empty grant set denies. | This seam contains no issuer provenance, audience, expiry, revocation or trusted-context validation. The finding is limited to this module. |
+| runtime/mediahub_runtime/consumer_boundary.py | 98bf2da9cea85da2c82145b4baef417c20b9ae73 | ConsumerBoundary.request checks the operation string and that context is an AuthorizationContext; _require_operation checks request type/operation. Context is forwarded to the authority. | No issuer/lifecycle verification is evidenced in the inspected boundary. |
+| runtime/mediahub_runtime/in_memory_state.py | 0fbc71369d19e09944ba67a60ccb9df802f30a4b | The authority checks context type then calls its configured AuthorizationPolicy.require for operations. | The inspected authorization seam validates configured grants, not how the context was issued. |
+| runtime/mediahub_runtime/lifecycle_service.py | 0b9d3d888e988615f1ad8cd50b1bef22f2be011b | Lifecycle requests check the expected runtime.lifecycle.transition capability and forward the context through ConsumerBoundary. | Capability equality is not proof of principal authenticity or trusted issuance. |
+| runtime/mediahub_runtime/coordination_service.py | a4b81f2cfb21980af952aff26fb6e31d33b79bf7 | Coordinates typed lifecycle requests; no context issuer is visible in the inspected call path. | No claim about every possible caller or external integration. |
+| runtime/mediahub_runtime/astra_gateway.py | 10985e4ad8f682313d08e7492ecc1856a8bce20f | The gateway accepts an AstraTaskRequest with approval_state, and the inspected path classifies sensitive actions before execution. This request type is separate from AuthorizationContext. | No verified call edge from this gateway path to the P0-05 ConsumerBoundary was found in the inspected files. Do not conflate the two paths or infer that gateway approval proves P0-07 trust. |
+| runtime/mediahub_runtime/task_ingress.py | 59e1254aa61cc8f55f53bd1e179631e81c441393 | File ingress converts a task-contract file into AstraTaskRequest; context refs are data fields. | No accepted trusted-context issuer/lifecycle is evidenced by this inspected ingress. |
+| runtime/mediahub_runtime/astra_service.py | 6aa2d09fc8737ccc0ba7f05bd13a15a0ebde7129 | Service module is 22 lines and contains no matching issuer/context/authorization symbols in the inspected content. | This is a narrow file-level observation only. |
+
+**Bounded finding:** the inspected current-main path confirms the proposal's existing gap: the typed authorization context and downstream grant check are present, but an accepted trusted issuer and end-to-end issuance/expiry/revocation/restart lifecycle are not evidenced in these inspected call-chain files. The current tree filename inventory also did not expose a dedicated runtime/mediahub_runtime trusted-context issuer module; this does not prove that no relevant implementation exists elsewhere in the repository or outside it.
+
+**Disposition unchanged:** D2 remains NOT EVIDENCED; proposal remains NOT ACCEPTED / NOT FROZEN; D1 is not demonstrated; implementation and mutation/publication remain blocked. This is not a confirmed vulnerability report, does not authorize implementation, and does not replace qualified independent review of R-01…R-06 or owner/governance disposition. No tests were run.
