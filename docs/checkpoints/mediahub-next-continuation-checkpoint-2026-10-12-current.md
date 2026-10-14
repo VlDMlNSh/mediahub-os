@@ -2364,3 +2364,13 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - The owner decision register is a proposed support document, not a normative contract. No owner decision is inferred from silence.
 - Next roadmap-directed bounded task after this documentation pass: source-only compare of the exact ACP Python SDK issue-fixing commit against the 0.12.1 tag ancestry, as already identified in Roadmap §63. No install, code execution, tests, provider calls, runtime inspection, or dependency pin changes.
 - No prohibited operations were performed in this pass.
+
+
+## Latest /next result — ACP 0.12.1 cancellation fix release-history trace (2026-10-14)
+
+- Source-only review completed for the next item already identified in Roadmap §63.
+- Official issue #108 documents the reported `run_agent()` cancellation cleanup risk. Official PR #113 is merged, closes #108, and identifies merge commit `fe643ab`. The official 0.11.0 release notes list this fix; the 0.12.1 release metadata identifies source commit `e668ed9` and follows the 0.11.0/0.12.0 release line.
+- Release-history evidence strongly supports that the fix is included in the 0.12.1 release lineage. Exact Git ancestry was not independently verified; no Git object retrieval or runtime investigation was performed. MediaHub call-path reachability remains UNKNOWN.
+- Updated Crosswalk §7.15, Map §20.253 and Roadmap §64. No admission or qualification status changed; OpenHands remains research-only / not selected / not admitted / not ready for runtime evaluation.
+- No download/install, tests, code execution, dependency pin changes, provider calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment, merge, rebase or cherry-pick occurred.
+- Next: continue the next unresolved source-only dependency evidence item in the existing crosswalk, without repeating completed reviews or crossing authorization gates.
