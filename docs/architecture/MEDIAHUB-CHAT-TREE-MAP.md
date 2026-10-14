@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.209)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.210)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -4893,3 +4893,11 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Rekeyed the later `## 16. Owner decision register` to unique heading ID `20.208`; no section content or decision was changed.
 - Map-only text scan before repair found no explicit Markdown fragment reference to the generated `#16-owner-decision-register` anchor in this map. This is not a repository-wide inbound-link audit.
 - Next: re-read the map and scan all numeric heading IDs; if any explicit references are found in other documents, update only after source/target verification.
+
+## 20.210 Core-document relative-link path check (2026-10-14)
+
+- Unified register: [MEDIAHUB Unified Architecture Remediation Plan §9.13](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- On the non-truncated docs-branch tree snapshot `010546262e58c5a1b5b0fe2569b443ef6b7559a9` (904 entries / 827 blobs), checked current-at-scan versions of the remediation plan, this map, master roadmap and continuation checkpoint. Relative Markdown link targets: plan 14, map 98, roadmap 10, checkpoint 29; all 151 resolved to existing docs-tree paths.
+- The scan checked repository-relative path existence only; it did not validate fragment anchors, raw HTML links, generated links or all repository Markdown documents.
+- This does not close semantic source conflicts or acceptance gates. Current qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+
