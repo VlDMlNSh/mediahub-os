@@ -5286,3 +5286,15 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - **Primary source:** architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md@main, blob e549692f207fbc91d9b9b9b92b8e665404f07290, §§1–2, topology, responsibilities and qualification checklist. It explicitly warns that the topology is logical and does not prove deployment/compatibility; local-only mode must fail closed without silent cloud fallback.
 - ASTRA GOLD permanent Claude-bound lanes remain a separate production queue/admission scope and are not reconfigured by this correction.
 - Detailed report: [MEDIAHUB-JARVIS-ASTRA-D03-RECONCILIATION-01-2026-10-14.md](../checkpoints/MEDIAHUB-JARVIS-ASTRA-D03-RECONCILIATION-01-2026-10-14.md). Owner decision register D-03 and Roadmap §§65–67 also clarified. No runtime/installation/provider/qualification claims are made.
+
+
+## 20.257 Local component inventory across Desktop Commander nodes (2026-10-14)
+
+- Added [Local Component Inventory Wave 01](../checkpoints/MEDIAHUB-LOCAL-COMPONENT-INVENTORY-WAVE-01-2026-10-14.md) as a bounded read-only snapshot of two connected nodes: Linux `mh-dev-02` and macOS `Voktors-Mini.Dlink`.
+- Confirmed on Linux: Ollama service/process active; four model tags listed by `ollama list`; Claude Code and Codex CLIs found; Astra GitHub Agent and GitHub Actions runner processes present; Docker daemon active but `docker ps` returned no running containers.
+- Confirmed on macOS: OmniRoute, Ollama, Claude Code and Codex CLI paths found; Astra GitHub Agent and runner labels/processes present; `ollama list` could not connect to an Ollama daemon. DF3 Llama/autonomous launchd labels were observed, but their functions and health remain unverified.
+- Repository registry evidence distinguishes OmniRoute (Claude gateway, `NOT_PROVEN`), FreeLLMAPI (local-gateway entry, `PENDING`), FCC (integration/control transport, not an agent) and Ollama (local model runtime). No standalone FCC command or FreeLLMAPI service/process was identified by the bounded checks.
+- This is discovery only, not qualification or deployment acceptance. No credentials were inspected, no model/provider calls or tests/qualification were run, and no installation, configuration change or deployment occurred. Historical provider/qualification evidence is not treated as fresh.
+- Documentation branch remains diverged from `main`; no merge/integration was performed.
+- Next: draft the bounded Jarvis Control Plane / GitHub Adapter contract, using the observed node/provider state to define mission ingress, least-privilege GitHub capabilities, per-task routing/evidence and prohibited high-impact operations.
+
