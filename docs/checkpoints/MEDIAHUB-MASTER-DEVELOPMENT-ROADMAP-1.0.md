@@ -424,3 +424,10 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Paired ASTRA Markdown/YAML model versions are 1.0 and 1.1; relationship remains ambiguous and is tracked under MH-ARCH-004.
 - Inspected docs-branch concurrency assertions without running tests. No tests, qualification, runtime operations or main-branch edits. Current qualification remains NOT_PROVEN / BLOCKED.
 
+
+## 20. Execution update — Functional Baseline 1.0 cross-branch authority drift (2026-10-14)
+
+- Added MH-ARCH-016 to the [unified architecture remediation plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- The same path `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` contains materially different blobs across refs: `main` `9df4892ed0734050ac79732603d15bb414717310` (33,711 characters, 68-section historical passport) versus docs branch `1a2f06f50dd69990be58b12a98376b92f12fd14f` (14,527 characters, claims normative single-source authority).
+- Accepted Baseline 2.0 remains canonical and explicitly supersedes Baseline 1.0 as the current functional reference. Do not edit either baseline until provenance and owner disposition are recorded.
+- No tests, qualification, runtime inspection, implementation, deployment or branch integration. Main/docs remain diverged.
