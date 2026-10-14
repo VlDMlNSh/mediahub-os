@@ -67,3 +67,19 @@ Documentary/read-only source revalidation only. No tests, qualification, model/p
 ## 6. Next bounded step
 
 Continue the roadmap-directed crosswalk-validation work only where it can produce new exact-source evidence. The next high-value independent track is the **qualified external/independent review of P0-07 D2 R-01…R-06**, followed by explicit owner/governance disposition; this pass cannot substitute for either. Keep DEC-DEV-02 as a separate owner/governance conflict and do not reopen settled DEC-DEV-05/06/08 invariants as preference questions.
+
+
+## 8. DEC-DEV-02 exact-clause revalidation (2026-10-14)
+
+This is a bounded read-only refresh of the existing conflict, not a new finding and not an independent D2 review.
+
+| Source | Live ref / blob SHA | Exact clause evidence | Meaning / limit |
+|---|---|---|---|
+| `architecture/ASTRA-GOLD-COMPLETE-COMPONENT-SCHEME.md` | `main` / `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1` | §1 line 10: “A0-ASTRA = single coordination and MediaHub State Authority”; §2 line 28 assigns A0 decomposition, claims, scheduling, integration, reconciliation and state. | Normative wording creates an ambiguity/conflict with the product-state authority invariant; do not silently edit it. |
+| `docs/checkpoints/MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md` | docs branch / `c248956417cc61d66c968a4c58a56e799f653354` | ARC-003 line 39: MediaHub Product State Authority is sole canonical platform-state authority; ARC-017 line 57 limits A0-ASTRA to ASTRA queue/claim/lease/evidence/gate state and says it is not Product State Authority; ARC-018 lines 172–174 requires one engineering task-lifecycle owner before implementation. | Product authority boundary is explicit; cross-system engineering lifecycle owner remains undecided. |
+| `docs/checkpoints/MEDIAHUB-JARVIS-BUNDLE-INDEPENDENT-REVIEW-01.md` | docs branch / `022f1bd881906d4ab837b2f46c091c43546fce14` | §4 lines 49–50 separates Jarvis umbrella, ASTRA bounded subsystem and MediaHub product authority; line 57 says one authoritative lifecycle owner remains open; R-04 line 67 remains OPEN. | Existing review documents the unresolved design; it is not evidence of an independent D2 reviewer appointment or a selected owner. |
+| `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md` | docs branch / `a9f7929f9ac910c3fff1f1fb59f4ee68abf67e42` | §6.5 and §7.2 offer DEC-DEV-02 options A/B/C; §7.5 says non-response leaves fail-closed gates unchanged. | The only immediate owner question is already prepared. No option is accepted absent explicit owner selection. |
+
+**Disposition:** DEC-DEV-02 remains OPEN_CONFLICT. No owner choice can be inferred from recommendations. A0-ASTRA remains restricted to engineering workflow state; MediaHub Product State Authority remains the sole canonical product-state mutation authority. Do not edit the normative scheme, start implementation, select a second queue, or promote ASTRA runtime truth. Independent D2 review remains a separate gate.
+
+**Minimal owner response requested:** select DEC-DEV-02 A, B, or C as defined in Owner Decision Packet §7.2, and explicitly confirm that A0-ASTRA has no MediaHub Product State Authority. Separately, commission an independent qualified P0-07 D2 reviewer under §7.3 (option A recommended; B only with documented independence; C leaves D2 NOT EVIDENCED). These are governance inputs, not implementation authorization.
