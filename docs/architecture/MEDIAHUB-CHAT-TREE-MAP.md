@@ -4762,3 +4762,15 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - Current-main `diagnostics.py` blob `8d5da6b778cc2f2bf338dd7577a74724494def9a` builds an in-memory diagnostic event and applies fixed-key top-level redaction; it does not provide persistence, reader authorization, retention or audit integrity. Generic `event.schema.json` blob `e754241ddc547e50670402b2255d4c19a3df7c40` is not a P0-07 audit contract.
 - MH-12 Audit blob `ab6e1c652790fd9088ac26b595050774611da2fc` requires distinct security audit plus integrity, access control, privacy-aware retention, bounded storage and controlled export. MH-06 remains PROPOSED; MH-13 remains reconstructed/proposed and not frozen.
 - D5 remains NOT EVIDENCED for an accepted P0-07 audit/provenance contract, durable sink, authorized-reader path, retention/deletion owner, integrity controls and operation-specific audit-unavailable behavior. No audit schema or sink was invented; P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP. No tests or runtime execution.
+
+
+## 20.190 DEC-DEV-01…08 live-source crosswalk validation wave 01 (2026-10-14)
+
+- Report: [MEDIAHUB-DEC-DEV-01-08-CROSSWALK-VALIDATION-WAVE-01-2026-10-14.md](../checkpoints/MEDIAHUB-DEC-DEV-01-08-CROSSWALK-VALIDATION-WAVE-01-2026-10-14.md).
+- Status: documentary source revalidation complete for this bounded pass; not accepted/frozen; no implementation or qualification.
+- Live refs at pass start: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch HEAD `c84c2ab7c7be3d984d19c69674037b3317da9640`; DIVERGED, ahead 773 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- DEC-DEV-01: Alamo endpoint/service label is established; runtime/adapter composition remains open and target-gated.
+- DEC-DEV-02: OPEN_CONFLICT between ASTRA A0 “MediaHub State Authority” wording and Jarvis ARC-003/018 boundary/lifecycle ownership; owner/governance reconciliation required.
+- DEC-DEV-03/04/07: deferred behind physical asset, hardware/OS/security and workload evidence. DEC-DEV-05/06: fail-closed/no-silent-fallback and reachability-is-not-authorization invariants remain; detailed route/mobile contracts open. DEC-DEV-08: binding Contour A → Contour B gate, evidence and acceptance not proven.
+- P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; D2 qualified independent review remains outstanding; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Next: obtain qualified independent review of P0-07 D2 R-01…R-06 and separate owner/governance dispositions. This entry does not close either gate.
