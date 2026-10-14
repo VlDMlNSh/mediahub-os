@@ -598,3 +598,15 @@ These questions do not create new normative DEC IDs. Existing ADMIN-01…ADMIN-0
 #### Crosswalk clarification (2026-10-14)
 
 This MH-ARCH-047 source trace corroborates, rather than duplicates as a new defect, the already-existing map-selected proposal `docs/checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md` (documentation-branch blob `39400abce88da7ea54be7d9d7505f215eba43408`). That proposal already records the bounded trusted-context/lifecycle gap and the owner-selected option B: prepare a proposal for governance review only. MH-ARCH-047 is retained as a traceability identifier for this pass; it does not create a second issue, decision, authority, or implementation authorization.
+
+
+### 9.36 MH-ARCH-048 — MH-03 error-handling mirror review (2026-10-14)
+
+**Status:** shared fail-closed/error-authority principles align; coverage is asymmetric. No direct contradiction, accepted canonical source, or runtime defect is established.
+
+- Root `architecture/MH-03-error-handling.md`, blob `bd2157deb94c2823c6b6fac2988945b7bc412ef3`, classifies malformed input, ambiguity, missing authorization, stale transactions, unknown identity/device, critical versus optional dependency failure, service crash, and State Authority failure. It explicitly prohibits fallback authority and says recovery remains bounded by the normal authority model; errors must be observable without telemetry becoming mutation authority.
+- Nested `docs/architecture/mh-03/MH-03-error-handling.md`, blob `a33051aabb24447cf993755e84569917fe37f037`, shares fail-closed handling for ambiguity, malformed input, missing authorization and stale transactions; it adds stable/bounded/sanitized error output, explicit non-disclosure of credentials/secrets/private material/unnecessary paths, and prohibits partial lifecycle transitions or canonical-state corruption from service failure. It treats critical foundation failure as not-ready/controlled-stop and optional external failure as degraded operation where safe.
+- The root is more explicit about State Authority failure meaning mutations unavailable with no fallback authority, service crash supervision/isolation, and observability/recovery authority boundaries. The nested file is more explicit about sanitization/privacy and partial-lifecycle/canonical-state integrity. Both are PROPOSED and neither text proves runtime enforcement.
+- Root `architecture/MH-03-index.md`, blob `b2d2eeb1b89117d10605c231e79378eebc437c5f`, remains PROPOSED and does not settle which path is canonical.
+- **Disposition:** preserve both sources. Owner/governance should select a canonical source or synchronized-view policy, then crosswalk error classes, privacy/sanitization, partial-transition invariants, State Authority unavailability, supervision and policy-bounded recovery. Do not merge text or promote status without that decision.
+- **Verification boundary:** targeted static comparison of the two error-handling documents and root index. No tests/CI, runtime/host inspection, implementation, deployment, qualification or branch integration occurred.
