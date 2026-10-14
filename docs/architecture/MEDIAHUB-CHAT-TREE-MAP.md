@@ -5128,7 +5128,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
  
 ## 20.237 — OpenHands SDK supply-chain and security-process review (2026-10-14)
 
-- Detailed evidence and decision gates: [Component Admission Crosswalk, §7.5](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), current full crosswalk blob `99ac049df9ff0760ba350420c3be29996d6cbeda` (includes §§7.5–7.8 in the current read-back).
+- Detailed evidence and decision gates: [Component Admission Crosswalk, §7.5](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), current full crosswalk blob `99ac049df9ff0760ba350420c3be29996d6cbeda` (includes §§7.5–7.9 in the current read-back).
 - Confirmed read-only facts: SDK requires Python >=3.12; root project licence is MIT; upstream workspace has `uv.lock`; its security-scan workflow documents OSV/dependency checks but non-release scans are opt-in and this review did not inspect a run result.
 - Material open gates: direct LiteLLM/FastMCP/fakeredis/LMNR dependencies; full transitive licence/hash/SBOM closure; actual Contour A runtime compatibility; source-to-artifact provenance; security disclosure evidence; worker sandbox, telemetry and egress boundaries.
 - Status remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. No artifact downloaded, dependency installed, code executed, tests/scans run or manifest changed.
