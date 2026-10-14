@@ -5298,3 +5298,14 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Documentation branch remains diverged from `main`; no merge/integration was performed.
 - Next: draft the bounded Jarvis Control Plane / GitHub Adapter contract, using the observed node/provider state to define mission ingress, least-privilege GitHub capabilities, per-task routing/evidence and prohibited high-impact operations.
 
+
+## 20.258 Unified local inventory and verifiable component matrix — Wave 02 (2026-10-14)
+
+- Added [Unified Local Inventory and Verifiable Component Matrix, Wave 02](../checkpoints/MEDIAHUB-UNIFIED-LOCAL-INVENTORY-AND-VERIFIABLE-COMPONENT-MATRIX-WAVE-02-2026-10-14.md).
+- Desktop Commander sees two online nodes (mh-dev-02 Linux and Voktors-Mini.Dlink macOS) and one offline node (mh-dev-01). Both online checkouts report clean main at HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8.
+- Inventory records selected processes/services, CLI versions, Ollama state, runner/Astra presence, Docker/Caddy/SentinelX/fail2ban on Linux, local_autonomous_agent and DF3 labels on macOS, plus three Linux and six macOS worktree directory names. Worktree state/leases were not inspected.
+- **Open contract conflict C-01:** FreeLLMAPI is marked local_gateway in the agent/provider registries while the distributed AI architecture describes a cloud/provider route in its routing narrative. Keep unresolved until deployment boundary/upstream/egress semantics are source-anchored.
+- C-02 records distinct UnoRouter/OmniRoute/OpenRouter identities; C-03 flags same observed digest for two Linux Ollama tags as a provenance anomaly. No credentials, model inference, tests or qualification were used.
+- Unified deployment contract and traceability matrix remain PROPOSED / NOT ACCEPTED / NOT FROZEN. No normative status promotion or branch integration occurred.
+- Next: draft Jarvis Control Plane / GitHub Adapter and a machine-readable component inventory schema; reconcile provider naming/routing conflicts against pinned source/deployment evidence first.
+
