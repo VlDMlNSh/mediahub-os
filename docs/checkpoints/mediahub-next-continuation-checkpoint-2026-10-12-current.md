@@ -1843,3 +1843,26 @@ Compare one additional unreviewed MH-03 root/nested pair and its declared depend
 - Latest branch check: main `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs HEAD was `d144863ff4bd48f1737c6d8677804bf622ca60f0` at the ref scan; diverged, ahead 890 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Re-fetch refs before any future branch-sensitive operation because the branch is receiving concurrent commits.
 - The duplicate inventory is a static tree review, not a complete runtime audit. No source deletion, normative contract edit, test run, qualification, deployment or branch integration occurred. ASTRA remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Next: continue remaining MH-03 mirror pairs, then trace non-MH-03 schema/state/plist candidate pairs to references and consumers. Do not merge, delete or canonicalize without owner decision and reference evidence.
+
+
+## Latest /next result — non-MH-03 repeated-basename classification (2026-10-14)
+
+### Result
+- Read the live bootstrap, map, checkpoint, master roadmap and unified remediation plan, then refreshed the repository tree inventory and inspected the three non-MH-03 repeated-basename pairs.
+- Added MH-ARCH-037 (P1): two LaunchAgent manifests share the same label but invoke different targets and environments. This is a possible deployment collision if both are installed in the same launchd domain; actual host/install state is UNKNOWN.
+- Added MH-ARCH-038 (P2): the two `capability.schema.json` files describe different schema domains, not a proven duplicate.
+- Added MH-ARCH-039 (P2): the two `state.py` files have different responsibilities—mesh node/replica transitions vs the abstract runtime StateAuthority boundary.
+- Refreshed basename inventory: 24 groups total: 18 MH-03 root/nested families, three non-MH-03 pairs, and `__init__.py`, `README.md`, `SKILL.md` groups. Ten `__init__.py` files share the same empty blob; the group also contains non-empty initializers. No case-insensitive path collision was observed in the inspected tree.
+
+### Written artifacts
+- [Unified Architecture Remediation Plan §9.25](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md) — commit `8cd57d88132b99381fd57a0f8bf0a25c7cee9970`, blob `3d59f23b31671da01cc2139fb07e31a8f1763530`.
+- [Project map §20.218](../architecture/MEDIAHUB-CHAT-TREE-MAP.md) — commit `621f5fff7310243ff4576663b1b086f967e40637`, blob `a83ea2a92afa2c4d44206b1af2395e8e1da50303`.
+- [Master roadmap §34](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md) — commit `05bfed2cf126b59b3f2046055001e1b12547fccf`, blob `4e36c355cfe08d4326e2d0dc8d7cdc7f2d5ae5ea`.
+
+### Verification boundary and blockers
+- The three files above have been written via GitHub contents APIs; a mandatory read-back of all changed artifacts and refreshed branch refs is the immediate next action. Do not treat write-time blob identities as verified until read-back confirms them.
+- No tests, CI, qualification, host/runtime inspection, credentials/provider/model calls, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick were performed.
+- ASTRA current truth remains G0–G11 BLOCKED / overall NOT_PROVEN; Contour B remains gated. The same-label LaunchAgent impact is a risk, not an observed host failure. No schema-consumer or import graph was exhaustively checked.
+
+### Next bounded action
+Re-fetch and verify the plan, map, roadmap and checkpoint; refresh main/docs refs and divergence; then trace declared package/workflow references for MH-ARCH-037, schema references for MH-ARCH-038 and imports for MH-ARCH-039. Continue remaining MH-03 pair/reference coverage without choosing a canonical tree or deleting files absent owner/governance disposition.
