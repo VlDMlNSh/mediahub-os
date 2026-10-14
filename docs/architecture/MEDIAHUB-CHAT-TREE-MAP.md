@@ -3472,7 +3472,7 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - Next safe step: reconcile MH-23's branch-specific gate matrix with current-main MH-16/MH-22 evidence by a revision-bound crosswalk, then request governance decisions for the missing gates. Do not infer acceptance from architecture completion, source presence or workflow definitions.
 
 
-### 20.97 Unified architecture and deployment contract draft (2026-10-12)
+### 20.98.1 Unified architecture and deployment contract draft (2026-10-12)
 
 **New document:** `docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md`
 - Initial commit: `dc1421580623d30a105b9ae70f576fc9a2740411`
@@ -3491,7 +3491,7 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 **Next safe action:** perform a revision-bound source crosswalk for the draft's domain allocation, starting with MH-15/MH-16/MH-21 and component manifest, then inspect the MH-24 traceability matrix. Record conflicts/unknowns, but do not change Baseline 2.0 or activate gated components without explicit owner/governance decisions.
 
 
-### 20.98 Owner direction: Claude-centered Jarvis + local Ollama inference (2026-10-12)
+### 20.98.2 Owner direction: Claude-centered Jarvis + local Ollama inference (2026-10-12)
 
 - Unified contract updated: `docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md`.
 - Update commit: `b1fa900d8732f39d49242fccf8976d0e1a522aa1`.
@@ -4631,7 +4631,7 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - Status remains D2 `NOT EVIDENCED`; D1 `NOT DEMONSTRATED`; D3/D4 `NOT EVIDENCED`; D6 `OPEN / GOVERNANCE CONFIRMATION REQUIRED`; P0-07 mutation/publication `BLOCKED — GOVERNANCE/API GAP`; P0-05 v1.1 `NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN`; qualification `NO-GO / NOT PROVEN`.
 
 
-### 20.183 P0-07 D2 — MH-12 source-anchor verification (2026-10-13)
+### 20.184.1 P0-07 D2 — MH-12 source-anchor verification (2026-10-13)
 
 - The earlier §20.182 discovery boundary is superseded only as to whether exact MH-12 source paths were located. The complete live `main` tree at `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` is not truncated; exact anchors were fetched: identity `27eef9e23db02d6280b94a8e68bff9f73b0de88d`, authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a`, security boundaries `38a4505eef87f696748924baedd40cfa2ad07a41`, audit `ab6e1c652790fd9088ac26b595050774611da2fc`, acceptance criteria `40f37f1600c4730e622480d57bd492fa67f9ca4b`, unknowns `97f08824fb858dd4506876729ae37d610140c3e8`.
 - Existing P0-07 D2 proposal §13.2 now maps these anchors to reviewer items and states limitations. Commit `c1e9dd68e9645a2ee7413dfd70b830d66bfbadd7`; proposal blob `39400abce88da7ea54be7d9d7505f215eba43408`.
