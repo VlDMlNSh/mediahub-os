@@ -4833,3 +4833,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Same-path documents differ materially: `main` Baseline 1.0 blob `9df4892ed0734050ac79732603d15bb414717310` is a 68-section historical passport; docs-branch blob `1a2f06f50dd69990be58b12a98376b92f12fd14f` declares itself `NORMATIVE / SINGLE SOURCE OF TRUTH`. Accepted Baseline 2.0 explicitly supersedes Baseline 1.0 as the current functional reference.
 - Classified as confirmed cross-branch authority/provenance conflict, not permission to rewrite either baseline. Baseline 2.0 remains canonical; require owner/provenance disposition before relabeling or consolidation.
 - Documentary-only; no tests, qualification, runtime operations or branch integration.
+
+
+## 20.185 MH-03 mirror-family source/status drift — source-anchored classification (2026-10-14)
+
+- Live source review confirmed that the root and nested MH-03 document families differ in more than wording: the root contradiction register flags C03-08 for governance review, while the nested copy reports no current explicit contradictions; the root decision log adds MH3-D10/D11 for future-governed persistence/HA and non-authoritative technology integration; evidence registers use materially different acceptance/implementation-status language.
+- Root index `architecture/MH-03-index.md` lists root-level artifacts as required, but its own status is PROPOSED / NOT ACCEPTED. This suggests intended placement but does not authorize promoting root files to canonical status.
+- See [unified architecture remediation plan §9.9 / MH-ARCH-021](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md) for exact source blob SHAs and the required owner disposition.
+- No MH-03 source document was modified. Preserve both trees pending an explicit choice: root canonical, nested canonical, or governed synchronized views. Do not mark either family accepted before that decision and reconciliation.
+- Status: CONFIRMED SOURCE/STATUS DRIFT; OWNER DISPOSITION REQUIRED. Next: continue classification of the remaining MH-03 pairs after the source-of-truth model is decided, or independently inventory references/provenance without changing normative content.
