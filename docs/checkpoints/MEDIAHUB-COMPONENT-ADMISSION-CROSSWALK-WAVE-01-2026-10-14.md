@@ -300,3 +300,22 @@ No component, runtime, manifest, or normative contract was admitted or changed.
 | Advisory coverage | Public upstream advisory listings contain additional findings with distinct affected-version ranges and feature/configuration prerequisites. | A version-specific advisory match is not a complete SBOM scan. The full transitive graph and every advisory's applicability remain unreviewed. |
 
 **Gate disposition:** no confirmed applicable advisory for the two reviewed issues is established against the exact `3.2.0` pin, because upstream lists that version as patched. The candidate still remains **RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**. Complete transitive SBOM/licence/advisory closure, independently verified artifact provenance, sandbox/egress evidence, target runtime compatibility, and owner disposition on LiteLLM/provider-routing authority remain open. No tests, scans, installation, package execution, provider calls, qualification, host inspection, infrastructure change, or deployment occurred.
+
+## 7.10 agent-client-protocol 0.12.1 exact-tag license/provenance cross-check (2026-10-14)
+
+**Scope:** read-only review of official PyPI release metadata and the exact upstream source commit identified by the official GitHub release page. No package was downloaded, unpacked, installed, imported, executed or independently re-hashed.
+
+| Evidence | Observation | Interpretation / limit |
+|---|---|---|
+| Exact PyPI artifact identity | PyPI lists sdist SHA-256 `9963ccb590ed96d7dc542c9c023e90676fc76b1c6562e21a9ee112f4fbcb0095` and wheel SHA-256 `aaf3cc301ed87d9e2c4ccb91adfe1cd58784355f6ce7e513f50e7ca2391862ef`. | Published checksums identify expected files; artifact bytes were not downloaded or independently hashed. |
+| Publication method | PyPI reports Trusted Publishing was **not** used; upload metadata lists `uv/0.6.14` for both distributions. | There is no PyPI Trusted Publishing attestation tying these artifacts to a source commit in the evidence reviewed. This is a provenance gap, not evidence of tampering. |
+| Upstream release identity | Official GitHub release page lists version 0.12.1 at commit `e668ed9` and displays the commit signature as verified. The exact commit's `pyproject.toml` declares version `0.12.1`; the same commit contains an Apache License 2.0 `LICENSE` file. | The source tag/version and repository license are evidenced. The package metadata in that source `pyproject.toml` does not itself declare a license field. Because Trusted Publishing was not used and artifact bytes were not inspected, this does **not** prove the published wheel/sdist were built from that exact commit or that their embedded notices match the source tree. |
+| Public security-process signal | The upstream Python SDK Security page reports no detected security policy and no published advisories at review time. | Public repository configuration only; it is not proof that the package has no vulnerabilities or that all relevant advisories were assessed. |
+| Source dependency metadata | The exact source commit declares Python `>=3.10,<3.15` and direct runtime dependency `pydantic>=2.7`; optional `logfire` and `http` extras are present. | This helps scope the source package, but does not replace review of the complete locked/transitive graph and the separately resolved OpenHands environment. |
+
+### Updated gate assessment
+
+- The prior open question is narrowed: the exact upstream source revision for 0.12.1 contains an Apache-2.0 license file, and the official release page identifies a signed commit. This is stronger than relying only on the current repository's license badge.
+- **Artifact-specific license/provenance is still OPEN**: PyPI did not use Trusted Publishing, artifact bytes and embedded license/notice files were not inspected, and source-to-artifact binding was not independently established.
+- No vulnerability conclusion is drawn from the absence of published advisories or a detected security policy.
+- **Disposition unchanged:** OpenHands SDK remains **RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**. Complete transitive SBOM/licence/advisory closure, independently verified artifact provenance, target runtime and sandbox/egress evidence, and owner disposition on the direct LiteLLM/provider-routing boundary remain open. No install, package execution, tests/scans, provider calls, qualification, host inspection, infrastructure change or deployment occurred.
