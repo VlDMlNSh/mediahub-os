@@ -5238,3 +5238,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Treat as an unresolved source-to-version/lifecycle review lead, not a confirmed vulnerability. Exact fix commit-to-tag comparison and runtime reachability remain unverified.
 - OpenHands remains research-only, not selected/admitted, and not ready for installation/runtime evaluation. See [Component Admission Crosswalk §7.14](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
 - No artifact download/install, tests/scans, execution, provider calls, qualification, host inspection, infrastructure change or deployment occurred.
+
+
+## 20.252 — Owner direction: unify architecture without routine owner escalations (2026-10-14)
+
+- Owner direction: bring the project to one coherent, verifiable architecture without turning every technical detail into a separate owner approval.
+- Recorded the operating rule in Bootstrap §8: independently resolve routine technical details within accepted contracts and permissions; escalate only decisions affecting product intent, accepted architecture, trust boundaries, data egress, budget/hardware commitments, irreversible actions, authority boundaries or explicit governance gates.
+- Recommendation is not acceptance. Silence does not approve proposed architecture. Existing prohibitions on installation, tests/qualification, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment, migration and branch integration remain unchanged.
+- Consolidated owner questions and conflict groups are indexed in ../checkpoints/mediahub-owner-decision-register-2026-10-14.md; status remains PROPOSED / NOT ACCEPTED.
+- Bootstrap blob before update: 49b4760b4adf4f1565fac0aa4697da000f1cf37b. Current map blob before update: 693167fbee1cf5db57a200c3987967093dba9e5a. Owner decision register blob: 37a3bcbe8fd2829397d8c50e739f7f7cfa4db386.
+- This entry documents governance workflow only; it does not close any architecture gate or change the functional baseline.
