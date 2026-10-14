@@ -802,3 +802,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - This is a dependency admission blocker, not a confirmed MediaHub vulnerability. Do not infer that a LiteLLM Proxy is deployed or reachable. The owner must decide whether to defer/reject the OpenHands candidate or authorize a separately scoped source-only reachability review; no pin change or implementation is authorized.
 - Evidence recorded in Crosswalk §7.12 and map §20.248. OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.
 - No artifact download/install/execution, tests/scans/provider calls, qualification, host inspection, infrastructure change or deployment occurred.
+
+
+## 61. Execution update — main/documentation branch Baseline 1.0 content drift (2026-10-14)
+
+- Refreshed live refs and compared `main` with `docs/mediahub-chat-tree-map-20261012`: DIVERGED, documentation branch ahead 1059 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Reviewed the two main-only commits and exact B1/B2 source headers. Main replaces the prior B1 file with a 68-section passport and labels it “current passport edition 1.0”; the documentation branch still contains the older B1 text at the same path. The accepted B2 on main explicitly supersedes B1 as current functional reference; bootstrap/roadmap/map retain that precedence.
+- Record this as a **substantive cross-branch content drift and wording/governance ambiguity**, not proof that B2 has been superseded. B1/B2 authority is not changed by this pass. Preserve the existing accepted B2 precedence unless the owner explicitly changes it through governance/change control.
+- Evidence indexed in map §20.249. Main B1 blob `9df4892ed0734050ac79732603d15bb414717310`; documentation-branch B1 blob `1a2f06f50dd69990be58b12a98376b92f12fd14f`; B2 main blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
+- No merge, rebase, cherry-pick, baseline rewrite, tests, installation, runtime/host inspection, qualification, infrastructure change or deployment occurred.
+- Next: owner/governance should clarify whether “current passport edition 1.0” is only a document-edition label under B2 or an intended change to baseline authority. Do not integrate branches or edit normative baseline authority before that decision.
