@@ -842,3 +842,14 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Updated Component Admission Crosswalk §7.15 and map §20.253. This is not a confirmed MediaHub defect, a no-vulnerability conclusion, or a security clearance. OpenHands remains research-only / not selected / not admitted / not ready for installation or runtime evaluation.
 - No artifact download/install, tests, code execution, pin changes, provider calls, qualification, host inspection, infrastructure changes, deployment or branch integration occurred.
 - Next bounded roadmap step: continue source-only admission review for the next unresolved dependency/evidence item in the component crosswalk; do not install, execute, test, change pins or promote candidates.
+
+
+## 65. Owner decision D-03 — Jarvis top-level engineering control plane (2026-10-14)
+
+- Owner explicitly accepted D-03: Jarvis is the top-level coordination layer for distributed hybrid autonomous development, with future responsibility for coordinating the cloud development system.
+- Jarvis is to integrate directly with GitHub through a capability-scoped, least-privilege and auditable adapter. This does not bypass review/branch protections or grant self-approval for merge, release, deployment or production changes.
+- Claude is the external intelligent/engineering executor through an approved interface; Ollama is a distinct local runtime for compatible local models. A per-task routing policy selects only an allowed executor based on task/data classification and egress policy; no silent cloud fallback.
+- ASTRA remains bounded engineering coordination. Product State Authority retains exclusive authority for canonical product-state mutations.
+- Evidence is recorded in owner decision register D-03 and unified architecture/deployment contract §4.1.1. This is accepted architectural direction only: implementation, GitHub integration, provider connectivity, qualification and operational readiness remain unverified.
+- No provider/model call, credentials, tests/qualification, installation, host/runtime inspection, infrastructure change, deployment, merge or branch integration occurred.
+- Next: reconcile existing Jarvis/ASTRA primary contracts and GitHub tool permissions with D-03, identify concrete conflicts, then update only draft-level design artifacts where consistent. Keep existing authority and authorization gates intact.
