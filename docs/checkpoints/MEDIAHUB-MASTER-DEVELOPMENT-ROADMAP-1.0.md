@@ -556,3 +556,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - At the audit snapshot, branch state was diverged ahead 874 / behind 2; latest post-write verification is diverged ahead 890 / behind 2 relative to main. No integration or prohibited operation performed. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 
 **Next bounded action:** continue source-anchored review of remaining MH-03 mirrors; then audit the non-MH-03 capability-schema, runtime-state and launchd-plist path pairs for consumers, authority, generated/manual status and safe disposition. Keep the unified remediation plan as the sole findings register.
+
+
+## 34. Execution update — non-MH-03 repeated-basename classification (2026-10-14)
+
+- Added MH-ARCH-037…039 to the single unified remediation plan §9.25: same-label/different-target LaunchAgent manifests (possible deployment identity collision; host state unknown), distinct mesh/product capability schemas, and distinct mesh lifecycle/runtime StateAuthority modules.
+- Preserved all files; no duplicate deletion or canonical-path choice was inferred. The 24 basename groups remain an inventory requiring classification, not a deletion list.
+- Next: trace package/workflow references for MH-ARCH-037, schema references for MH-ARCH-038 and imports for MH-ARCH-039; continue MH-03 mirror/reference coverage and route unresolved authority choices to the owner.
+- Static documentation review only. No tests, host inspection, install, deployment, migration, branch integration or qualification. ASTRA remains NOT_PROVEN / BLOCKED; Contour B remains gated.
