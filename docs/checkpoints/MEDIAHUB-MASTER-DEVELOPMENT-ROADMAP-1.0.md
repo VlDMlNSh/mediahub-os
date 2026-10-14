@@ -383,3 +383,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - No architecture decision was accepted. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; ASTRA G0–G11 remain blocked; qualification remains NO-GO / NOT PROVEN.
 - Documentary/read-only only. No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, implementation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
 - Next: keep DEC-DEV-02 as an explicit owner/governance conflict; obtain the actual qualified independent review of P0-07 D2 R-01…R-06 and separate owner/governance dispositions. Do not treat this crosswalk pass as that review or acceptance.
+
+## 15. Execution update — ASTRA GOLD qualification-contract consistency wave 03 (2026-10-14)
+
+- Completed one documentary-only consistency pass over current-main qualification schema, governance registry, execution blueprint, generated current truth and component scheme. Report: [qualification-contract consistency wave 03](MEDIAHUB-ASTRA-GOLD-QUALIFICATION-CONSISTENCY-WAVE-03-2026-10-14.md).
+- Confirmed a numeric contradiction: schema + governance registry set max parallel autonomous claims to 3; component scheme §14 says 2. No correction was made because the authoritative disposition must follow the existing governance/source-of-truth process.
+- CURRENT-TRUTH still marks G0–G11 BLOCKED / overall NOT_PROVEN; qualification requirements are not evidence of executed/passed qualification. Existing DEC-DEV-02 authority conflict and P0-07 D2 independent-review blocker remain open.
+- No tests, qualification, drift checks, implementation, runtime inspection, provider/model calls, credentials, infrastructure changes or deployment were performed.
+- Next bounded step: controlled governance disposition of the concurrency discrepancy; independently, obtain actual qualified P0-07 D2 review and separate owner/governance dispositions. Do not promote any status or edit normative sources without the required authority.
