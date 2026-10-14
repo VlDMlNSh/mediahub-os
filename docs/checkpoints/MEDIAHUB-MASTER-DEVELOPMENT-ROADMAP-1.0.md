@@ -729,3 +729,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - **Disposition unchanged:** OpenHands SDK is RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Owner/governance must resolve the direct LiteLLM dependency against MediaHub's single provider-routing authority; full SBOM, exact-version licensing, provenance/advisories, telemetry/egress and sandbox evidence remain open.
 - No artifact was downloaded; no dependency installed/imported/executed; no provider/model call, tests, scanner, evaluation, qualification, host/runtime inspection, infrastructure change, deployment or branch integration occurred. DEC-DEV-02 and P0-07/P0-05/P0-04 remain gates.
 - **Next:** complete the remaining direct-dependency licence/provenance and advisory evidence, then prepare the owner decision on the direct LiteLLM dependency only when the exact scope and consequences are source-anchored. No runtime action is authorized by this documentary pass.
+
+
+## 53. Execution update — OpenHands exact-version dependency metadata cross-check (2026-10-14)
+
+- Official PyPI metadata reviewed for fakeredis 2.34.1 and agent-client-protocol 0.12.1; details are in Component Admission Crosswalk §7.7.
+- Fakeredis 2.34.1 exact release metadata identifies BSD-3-Clause and provides a PyPI Trusted Publishing attestation referencing upstream tag v2.34.1 and commit de4e72482402534ac0add5258f3afa9877bf61e5. Artifact bytes were not downloaded or independently verified.
+- agent-client-protocol 0.12.1 exact sdist/wheel hashes are recorded; PyPI reports Trusted Publishing was not used. The upstream Python SDK repository identifies Apache-2.0, but exact artifact license/source-to-artifact provenance remains open. Upstream ACP Security page showed no detected policy and no published advisories at review time; this is not proof of safety or vulnerability.
+- Full transitive SBOM/license closure, comprehensive advisories, OpenHands source-to-artifact provenance, direct LiteLLM owner decision, target runtime and sandbox/egress remain open. No artifact download/install/execution, test/scan/provider call, host inspection, qualification or deployment.
+- Next: complete read-only provenance/advisory closure for the pinned OpenHands release and remaining direct dependencies, then prepare an owner decision on LiteLLM only if the evidence supports a concrete choice. Do not install or execute.
