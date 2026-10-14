@@ -522,3 +522,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 
 **Next bounded step:** continue source/provenance review on another MH-03 mirror pair; keep direct contradiction separate from asymmetry of coverage. Preserve both trees pending owner/governance disposition.
 
+## 28. Execution update — MH-03 evidence-register provenance conflict review (2026-10-14)
+
+- Continued the single [Unified Architecture Remediation Plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), adding MH-ARCH-026 / §9.17.
+- Root/nested MH-03 evidence registers assign materially different status/provenance to E03-01…E03-04, including nested `ACCEPTED / IMPLEMENTATION AUTHORIZED` wording not substantiated by the root register. Paired decision logs differ on MH3-D10/D11; recovery-boundary and runtime-model pairs have asymmetric coverage.
+- Classification: confirmed evidence/status/provenance conflict for the evidence registers; coverage/lineage drift for the additional pairs. No MH-03 source was changed or promoted; owner/governance must select the source model.
+- No tests, qualification, runtime/host inspection, installation, infrastructure change, deployment, migration or branch integration occurred. ASTRA remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+
+**Next bounded action:** continue one MH-03 root/nested pair at a time and update the unified finding register, map and checkpoint only with source-backed evidence.
