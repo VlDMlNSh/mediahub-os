@@ -14,9 +14,12 @@ qualification, recovery and launch boundaries.
 The complete component inventory remains in:
 `architecture/ASTRA-GOLD-COMPLETE-COMPONENT-SCHEME.md`
 
-Machine-readable gate ids, numeric thresholds, the invariant registry, the
-credential lifecycle, the human approval record and executor classes live in:
-`architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`
+The governance registry for machine-readable gate ids, thresholds, invariants,
+credential lifecycle, human approval records and executor classes is:
+`architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`.
+Its `authority_source` and `gate_registry.source_of_truth` designate
+`architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml` as the numeric authority;
+mirrored values must not diverge. Prose refers to the registry instead of duplicating thresholds.
 
 This reference architecture does not grant qualification to any component.
 Runtime qualification requires fresh evidence at the exact source SHA.
@@ -108,16 +111,16 @@ Permanent Astra Gold production lanes:
 - mh-dev-02 -> Claude;
 - Voktors-Mac-mini.local -> Claude.
 
-G-5 permits exactly three active autonomous claims, one per permanent lane.
+The G-5 concurrency ceiling is referenced through `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` (`runtime_thresholds.max_parallel_autonomous_claims`); the registry points to the launch schema for the authoritative numeric value. One active claim per permanent lane.
 
-Broader executor/transport combinations may remain in historical or separate qualification catalogs, but they are not permanent production lanes and do not alter the three-Claude queue.
+Broader executor/transport combinations may remain in historical or separate qualification catalogs, but they are not permanent production lanes and do not alter the listed permanent Claude queue.
 
 Any contradiction between this mapping and a task, workflow, claim or evidence record is RECONCILIATION_REQUIRED -> BLOCKED.
 
 Cloud executors are an admitted extension of the execution fabric, not a new
 authority plane. A cloud executor path (for example Gemini, DeepSeek or an
 OpenRouter gateway) is subject to the same admission ladder, credential
-boundary, provider-identity preservation and 23 fresh rounds, and carries only
+boundary, provider-identity preservation and the fresh-round threshold defined by the canonical launch schema, and carries only
 executor authority. Gateway success never substitutes for native-provider
 qualification. Candidate cloud executor paths are enumerated in
 `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`.
@@ -288,7 +291,7 @@ Any contradiction produces RECONCILIATION_REQUIRED → BLOCKED. A component may 
 
 ## 9. Concurrency contract
 
-Maximum autonomous claims: 3. One active claim per permanent executor lane.
+The maximum autonomous-claim count is referenced through `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` (`runtime_thresholds.max_parallel_autonomous_claims`), whose numeric authority is the launch schema. One active claim per permanent executor lane.
 
 Rules:
 - claims must be disjoint;
@@ -399,9 +402,7 @@ Exact upstream identity must be resolved first.
 
 ## 13. Qualification gates
 
-The canonical gate ids, names and numeric thresholds are defined in
-`architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` and are mirrored by
-`architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml`.
+The governance registry defines the canonical gate lookup and mirrored threshold values. It explicitly designates `architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml` as the numeric authority; any discrepancy between registry and schema is a reconciliation blocker.
 
 G0 — Identity
 G1 — Boundary
@@ -420,7 +421,7 @@ Missing, contradictory, stale or failed mandatory evidence produces BLOCKED.
 
 ## 14. Pre-soak
 
-Required before 24h soak:
+Required before the schema-defined soak interval:
 - all mandatory execution paths;
 - recovery suite;
 - integrated A3;
@@ -449,7 +450,7 @@ Launch requires:
 - exact release SHA;
 - complete evidence bundle;
 - A3 verification record;
-- 24h soak record;
+- current fresh evidence record for the canonical `G9_24H_SOAK` gate;
 - rollback target;
 - Human authorization.
 
