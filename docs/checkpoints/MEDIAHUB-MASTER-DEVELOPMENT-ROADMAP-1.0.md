@@ -974,3 +974,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Preserve local-first/fail-closed Mac Pro route, Claude Code Scenario B via compatible local backend, conditional DAG parallelism, and future user-contributed MediaHub nodes as opt-in/untrusted-by-default.
 - No tests, installations, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration occurred. No runtime status was promoted.
 - Next bounded work: reconcile source wording and exact A0/security/capability contracts; crosswalk existing agent/provider/task schemas; continue non-secret route identity trace; assess ECC upstream read-only; then prepare the proposed versioned task/result contract.
+
+
+## 77. Execution update — Jarvis / ASTRA distributed AI corporation target architecture, Chat Synthesis Wave 01 (2026-10-15)
+
+- Added [Jarvis / ASTRA Distributed AI Corporation Target Architecture, Chat Synthesis Wave 01](MEDIAHUB-JARVIS-ASTRA-DISTRIBUTED-AI-CORPORATION-TARGET-ARCHITECTURE-WAVE-01-2026-10-15.md) in `docs/architecture/`; creation commit `06314efa89576bbb8d3677c05db87aec94af2541`; read-back blob SHA `c9f1716de8419d66f181fc0a9c465c65a81c7d5b`.
+- Consolidates the current owner-approved target direction: Option C lifecycle split; Jarvis-level corporation coordination; ASTRA remains its bounded engineering subsystem, not the entire corporation; hybrid direct dispatch/A0 route; separate external cloud executor that may later run its own ECC controller; local Mac Pro inference preferred when suitable; Claude Code Scenario B through a compatible local backend; future user-contributed workers opt-in/untrusted by default.
+- Documents target mission lifecycle, executor roles, proposed task/DAG/result contract requirements, trust/security boundaries, reusable contracts, open reconciliation and sequencing. It explicitly separates owner decisions, proposed normative schemas and unverified runtime claims.
+- ECC remains NOT ASSESSED / NOT ADOPTED. No tests, installs, provider/model calls, credentials, host inspection, qualification, infrastructure changes, deployment or branch integration.
+- Next: source-bound reconciliation of ASTRA authority wording and accepted A0/capability contracts; schema inventory without duplicate IDs; route-identity matrix; read-only authoritative ECC review; then prepare a versioned contract proposal for owner/governance review.
