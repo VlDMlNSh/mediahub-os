@@ -4950,7 +4950,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Branches remain diverged: docs ahead 874 / behind 2 from main; no branch integration. Qualification remains NOT_PROVEN / BLOCKED; no tests or runtime qualification were run.
 - Next: continue reviewing remaining root/nested pairs, then classify non-MH-03 same-name schema/state/plist paths by references and ownership. Use the unified remediation plan as the sole finding register.
 
-## 20.215 Navigation-ID collision repairs — map and roadmap (2026-10-14)
+## 20.217 Navigation-ID collision repairs — map and roadmap (2026-10-14)
 
 - Post-write scan detected the new health-model entry duplicated map heading ID `20.213` used by the prior evidence-register entry. Rekeyed the health-model entry to `20.214`; current map blob after repair `31b285f02b9490bf1d57ebaaae442c559932cb46`.
 - Repaired duplicate roadmap numeric headings without deleting content: P0-07 D1/D2 addendum `## 8` → `### 10.5`; evidence-register review `## 28` → `## 29`; plan-navigation repair `## 29` → `## 30`; health-model review `## 30` → `## 31`. Current roadmap blob `a84e04b2ecebb5b66c2ca7b3843bcdd08113672b`.
