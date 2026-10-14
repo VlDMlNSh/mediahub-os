@@ -92,3 +92,20 @@
 6. **Когда найден следующий артефакт уже созданным позднее:** не создавать дубль. Прочитать его, обновить только доказанные ошибки/статусы и сразу продолжить по его handoff.
 
 Текущий пример применения: source-anchored node/service placement matrix уже существует в `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`; следующий проход не должен повторять инвентаризацию. Используй его для точной crosswalk-сверки и подготовки owner-decision packet `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md`, сохраняя DEC-DEV-01…08 и не принимая решения за владельца.
+
+
+## 8. Owner direction: engineering autonomy and decision escalation
+
+Owner direction recorded on 2026-10-14: **bring the project to one coherent, verifiable architecture without turning every technical detail into a separate owner approval.**
+
+Operational interpretation:
+1. Resolve technical design details independently when they are within existing accepted contracts, roadmap sequencing, permissions, and safety constraints. Prefer the simplest verifiable design that preserves current invariants.
+2. Do not ask the owner to choose routine implementation mechanics, protocols, data structures, evidence formats, source-comparison methods, or ordinary engineering trade-offs. Research, compare, recommend, document, and verify those independently.
+3. Escalate only decisions that materially change product intent, accepted architecture, trust boundaries, data-egress policy, budget/hardware commitments, irreversible actions, authority boundaries, or explicit owner/governance gates.
+4. For each escalation, state the question in plain language, recommend one option, explain the consequence of alternatives, and distinguish facts from assumptions and proposals. Do not treat silence or a recommendation as acceptance.
+5. If an action is blocked by missing authorization, do independent read-only/documentation work that does not cross the blocked boundary.
+6. This direction does not grant permission for software installation, tests/qualification, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment, migration, merge, rebase, or cherry-pick. Existing prohibitions and gates remain in force.
+7. Each /next must select the next unfinished step in the live Master Development Roadmap, perform one bounded verifiable pass, read back changed artifacts, and update the map/checkpoint when relevant. Avoid duplicating existing deliverables.
+8. The owner decision register is a navigation/support artifact, not a normative contract: ../checkpoints/mediahub-owner-decision-register-2026-10-14.md.
+
+This instruction records a working method and does not itself accept any proposed architecture or change Functional Baseline 2.0.
