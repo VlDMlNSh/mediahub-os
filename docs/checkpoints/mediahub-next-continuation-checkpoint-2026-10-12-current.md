@@ -2091,3 +2091,13 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Live refs before this checkpoint write: main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch HEAD `10cbdf393408f51d94b64bb7b14e0c997ca32a43`; compare `DIVERGED`, docs branch 971 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase/cherry-pick.
 - Current next research step, per roadmap §45: identify the exact official OpenHands Software Agent SDK distribution/repository and immutable artifact pin, then review package-specific license, dependency closure, platform support and sandbox/egress model. Keep candidate-only; preserve DEC-DEV-02 and P0-07 trusted-context/authorization gates.
 - No component admitted, code/runtime modified, installation performed, model/provider invoked, tests/evaluation/qualification run, credentials used, host/runtime inspected, infrastructure changed or deployment performed.
+
+
+## Latest verified /next — owner-confirmed component admission scope (2026-10-14)
+
+- Owner explicitly selected option B: YAML `oss/manifests/components.yaml` is a scoped runtime/deployment admission subset, not an exhaustive projection of the canonical text selection catalogue.
+- Added YAML fields: `scope: runtime-deployment-admission-subset`; source link to `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` at `main`; `status_semantics: admission-readiness-only`; `omission_semantics: omission-does-not-imply-exclusion`.
+- YAML documentation-branch blob SHA: `e3cf487bcf43ecb92cd110b5af2660c066b58e2a`. Crosswalk §7.3 blob SHA: `5a88b8baa3f5cec2c90d8754a09f6a2e64755669`. Map §20.234 blob SHA: `0e2e43d403ab2fa251445c204ab84db9031c2a8a`. Roadmap §48 blob SHA: `29a4c5a17472e37ba5b21d78db6e09539f9c13f2`. Each file was read back and SHA matched.
+- Branch boundary remains important: the same YAML path on `main` still has blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`. The documentation branch is diverged; no merge/cherry-pick was performed, so the scope change exists on the documentation branch only and is not yet on `main`.
+- No component admission/qualification, tests/CI, installation, execution, deployment or infrastructure change occurred. OpenHands remains candidate-only; DEC-DEV-02 and P0-07 trusted-context/authorization gates remain unresolved.
+- Next bounded step: refresh refs and exact source evidence, then continue package-specific OpenHands SDK identity/licence/dependency/platform/sandbox paper review. Do not install or execute it.
