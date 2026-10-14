@@ -1826,3 +1826,11 @@ Compare one additional unreviewed MH-03 root/nested pair and its declared depend
 - Fixed duplicate project-map heading ID: former second `20.214` was re-keyed to `20.215`; new section is `20.216`. Map blob SHA after update: `5c97ffe3caac7100150a0d70216fa4099222b22f`.
 - No tests, qualification, host/runtime inspection, credentials/provider calls, installation, implementation, infrastructure change, deployment, migration, merge, rebase or cherry-pick. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Next bounded step: review remaining unreviewed MH-03 root/nested pairs, then classify `capability.schema.json`, `state.py` and launchd plist pairs through references, import/consumer usage, ownership and generated/manual status. Preserve sources pending owner disposition.
+
+## Follow-up verification — MH-03 health-model and navigation-ID repairs (2026-10-14)
+
+- Added MH-ARCH-030 (P2) to the sole unified remediation plan after comparing root/nested MH-03 health models. Both preserve observational-only health and non-mutation; nested adds explicit lifecycle states, fail-closed readiness, critical/optional dependency handling and sensitive-data exposure constraints. Classification: asymmetric coverage, not a proven contradiction. Plan blob after entry: `76049a6f19a2a26cceca933b696829cdd83cd607`; finding is not owner-accepted.
+- Post-write numeric-heading scan caught duplicate map ID `20.213`; health-model section was rekeyed to `20.214`. Map blob after repair: `31b285f02b9490bf1d57ebaaae442c559932cb46`; the map subsequently received a navigation-repair note at blob `3131fa08fb28f2816ab6403948a6dc572c3e0122`.
+- Repaired roadmap numeric heading collisions while preserving content: P0-07 D1/D2 addendum now `### 10.5`; evidence-register review `## 29`; plan-navigation repair `## 30`; health-model review `## 31`. Roadmap blob after repair: `a84e04b2ecebb5b66c2ca7b3843bcdd08113672b`.
+- The remediation plan records navigation repairs, blob `eb48186bdc1039a55ba56145ee122564bc8faedd`. These were documentation/navigation repairs only; no technical contract or status changed.
+- Final post-write read-back and heading scan remain required. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
