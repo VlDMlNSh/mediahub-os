@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.226)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.230)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5061,3 +5061,14 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Next: owner/governance must name the trusted issuer and binding contract and assign independent D2 review; keep implementation gated. No canonical authority or policy owner is inferred.
 
 - Clarification: MH-ARCH-047 is a source revalidation/crosswalk of the existing [P0-07 D2 trusted-context authority/lifecycle proposal](../checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md), blob `39400abce88da7ea54be7d9d7505f215eba43408`; it is not a new independent defect. That proposal remains NOT ACCEPTED / NOT FROZEN and authorizes proposal preparation only.
+
+
+## 20.230 — Component admission crosswalk, Wave 01 (2026-10-14)
+
+- Report: [MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
+- Report creation commit: `c11b8d7e30a61b6dc4585d5af0cef866f5a47c34`; live report blob SHA at map update: `22c4c12ba9ead3ca9619d9f4deeeaf368525d813`.
+- Crosswalk sources: Canonical Component Manifest 2.0 on main `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`; component reconciliation `dd69a8c1c002bbde45944ebdc3d16096d2c9cf07`; machine-readable YAML `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`; candidate survey `5c6cd19e338ed0f59823d18718a484f0129d2ef7`.
+- Key traceability gap: the survey/runtime path references Ollama, but the two inspected manifests list ONNX Runtime and llama.cpp as target-gated and do not list Ollama. Alamo remains the target endpoint/service label; DEC-DEV-01 and MH-ARCH-045/046 require reconciliation. No runtime is admitted by inference.
+- OpenHands Software Agent SDK is a paper-evaluation candidate only; Temporal remains future-gated; MCP is a protocol candidate, not authorization. Other agent frameworks, routers and policy/sandbox candidates remain deferred per the report.
+- Crosswalk does not modify the canonical manifest, change runtime code, or authorize installation, provider calls, tests/evaluation, qualification, host inspection, infrastructure change or deployment.
+- Branch context recorded for this pass: main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch was observed at `190e083267b4a9495fbdca484b2b09187bc5b622` before the preceding crosswalk write; compare then was DIVERGED, 945 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration performed.
