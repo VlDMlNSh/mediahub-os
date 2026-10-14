@@ -5193,3 +5193,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Bounded repository PR/issue search and the candidate issue #54 inspection are documented in [D2 proposal §13.4](../checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md).
 - No traceable D2 reviewer appointment or completed R-01…R-06 disposition surfaced in queried search results. Issue #54 is a development-agent lane and explicitly not an independent qualification reviewer.
 - Keep P0-07 D2 NOT EVIDENCED, not NOT PERFORMED; repository search absence is not proof of global absence. No review gate closed.
+
+
+## 20.245 — OpenHands direct dependency: LMNR 0.7.60 source, telemetry and provenance (2026-10-14)
+
+- OpenHands lock snapshot resolves `lmnr==0.7.60`. Official upstream tag `lmnr-ai/lmnr-python@0.7.60` resolves to source commit `67dea392f4961bfcf7b5cde3733aaa4a452bb9f9`; the release is mutable.
+- Exact source `pyproject.toml` declares Apache-2.0, a LICENSE file and Python `>=3.10,<4`; release notes describe a LiteLLM streaming-usage/reasoning telemetry fix. Exact PyPI artifact hashes/attestation for 0.7.60 were not established in this pass.
+- LMNR is an observability/telemetry dependency with a configurable outbound path in the OpenHands source reviewed in Crosswalk §7.6. Its presence does not authorize external transmission. Any later evaluation needs telemetry off by default, explicit egress denial/approval, and controls against sending secrets, private prompts or product data.
+- **Disposition:** source/license evidence improved; artifact provenance and full transitive SBOM/license/advisory closure remain open. OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. No artifact download, install, execution, tests/scans, provider calls, qualification, host inspection, infrastructure change or deployment occurred.
+- Detailed evidence: [Component Admission Crosswalk §7.11](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
