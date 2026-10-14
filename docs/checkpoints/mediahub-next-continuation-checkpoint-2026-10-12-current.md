@@ -1916,3 +1916,10 @@ Review one remaining MH-03 root/nested pair (recommended: acceptance criteria) a
 
 ### Next bounded action
 Inspect one remaining MH-03 pair, recommended error handling, compare source-backed content and update the single remediation register plus navigation/checkpoint as warranted. Keep both files and all acceptance states unchanged pending owner/governance decisions.
+
+
+## Latest /next result — MH-ARCH-043 runtime-observability mirror review (2026-10-14)
+- Refreshed refs: docs branch HEAD `8f499d2c3785ec22cfea61e03a2087c7ce69b33e`; `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; branches remain diverged (docs branch 913 ahead / 2 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`). No integration performed.
+- Refreshed recursive tree: 904 entries, `truncated=false`. Compared root observability blob `aa33cd18290bf486b19fad08f3a377aa5ed7a298` with nested blob `f7fba8708bc57eb8baa2d8ecc866fb58d18c9d6b`. Added MH-ARCH-043 / plan §9.30 and map §20.223. Core non-mutating observer invariant aligns; root enumerates diagnostic targets more directly, nested details bounded/sanitized collection, privacy exclusions and explicit P0-05 path. Direct contradiction/runtime bypass not proven.
+- Read-back SHA verified after each write: plan `a4133f17f9a4bffc9db86858e815794b272dd331`, map `49400d05cac1c78a78a0915d68d2f93b90b88218`, roadmap `93fff725e2e4c76a739c24f9ded63220b987d766`. No tests, CI, qualification, runtime/host inspection, installation, deployment, or merge/rebase/cherry-pick.
+- **Next:** continue one remaining MH-03 pair only after checking the remediation register for existing substantive coverage; likely service-boundaries or runtime-foundation references, then continue non-MH-03 reference classification. Keep sources unchanged pending owner/governance choice of canonical-tree or synchronized-view policy.
