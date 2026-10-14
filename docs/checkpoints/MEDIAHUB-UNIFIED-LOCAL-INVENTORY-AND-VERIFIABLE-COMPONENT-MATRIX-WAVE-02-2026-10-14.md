@@ -160,3 +160,13 @@ Missing required fields mean UNKNOWN, never implicit PASS. Status promotion must
 This is a broad-but-bounded inventory of two online nodes, repository tree and selected service/process/provider metadata. It is not a complete scan of all local servers, packages, services or network endpoints. mh-dev-01 was offline. Worktree contents, listening ports, service configuration bodies, network routes, credentials, inference, provider connectivity and host hardware/thermal data were not inspected.
 
 Next bounded step: draft the Jarvis Control Plane / GitHub Adapter contract and a machine-readable component inventory schema. Resolve C-01/C-02 at the source-contract level before any route implementation. A separate explicitly authorized read-only pass can inspect worktree HEAD/dirty status and non-secret launch/service metadata, including mapping the two DF3 labels. No installation, tests, qualification or deployment should be included.
+
+
+## Addendum — worktree metadata and owner-reported partial PASS status (2026-10-14)
+
+A second read-only Desktop Commander pass ran git worktree list --porcelain on both online nodes. The Linux checkout reports three auxiliary worktrees (/tmp/astra-gold-mh2-3, -4, -b28); the macOS checkout reports six (/private/tmp/astra-gold-mac-025, -3, -4, -b28, astra-gold-recovery-20261011, astra-nightly-recovery). All nine entries are marked prunable because the gitdir file points to a nonexistent location. Their recorded HEADs and exact paths are listed in MEDIAHUB-PARTIAL-PASS-EVIDENCE-AND-PORTABLE-DEPLOYMENT-PROFILES-WAVE-01-2026-10-14.md. No cleanup was performed; do not prune until active worker/lease ownership is independently ruled out.
+
+Read-only Linux service query returned active for ollama, docker, caddy and fail2ban. Process evidence showed sentinelx-cloud-core, astra_github_agent.py, ollama serve and Runner.Listener. macOS launchd listed com.mediahub.astra.github-agent, com.mediahub.df3-llama and com.mediahub.df3-autonomous.
+
+Owner reports that some services/gates previously returned PASS, while the complete ASTRA autonomous queue did not reach end-to-end success. Exact PASS component IDs and evidence artifacts are not yet mapped. Record as OWNER_REPORTED_PARTIAL_PASS / EVIDENCE_LINK_PENDING only; preserve any later-attributed PASS at its actual scope and never promote ASTRA end-to-end to PASS without a complete fresh evidence bundle.
+
