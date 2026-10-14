@@ -264,3 +264,24 @@ No component, runtime, manifest, or normative contract was admitted or changed.
 - No claim is made that either dependency is vulnerable. The ACP repository's lack of a detected security policy and lack of published advisories are observations about public evidence only.
 - Complete transitive SBOM/license closure, comprehensive advisory assessment, OpenHands release/source-to-artifact provenance, target runtime compatibility, telemetry/egress and sandbox review remain open. The direct LiteLLM dependency still requires an owner/governance decision against MediaHub's single provider-routing authority.
 - **Disposition unchanged:** OpenHands SDK remains RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. No dependency was admitted, downloaded, installed, imported or executed; no tests/scans/model/provider calls/qualification/host inspection/infrastructure/deployment occurred.
+
+
+## 7.8 OpenHands release provenance and security signal (2026-10-14)
+
+**Scope:** bounded, read-only review of the official PyPI page for `openhands-sdk==1.54.0`, official GitHub release metadata and upstream Security page, plus one publicly reported security-related issue. No artifact was downloaded, and no package code, scanner, test or resolver was executed.
+
+| Evidence | Verified observation | Interpretation / limit |
+|---|---|---|
+| PyPI distribution identity | The official release page lists `openhands_sdk-1.54.0-py3-none-any.whl` SHA-256 `647bf83c888bc544b0500480aa8a89729f44f6db9f93ea3ba43cfc7fdf070db3` and sdist SHA-256 `431e7bc66ac5caf3a426e25bc67d3a85d5036ace61ff2c20af5a62ea16650485`. | Hashes identify the expected published artifacts; because bytes were not downloaded, this pass did not independently recompute the hashes. |
+| Publication provenance | PyPI states Trusted Publishing was **not** used for either file; uploader metadata reports `uv/0.12.24` on Ubuntu 24.04 with CI marked true. | Publisher workflow/source-to-artifact binding is weaker than a verified Trusted Publishing attestation. This is a provenance risk, not proof of tampering. |
+| GitHub source/release | Release `v1.54.0` points to commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`; GitHub reports the commit signature as verified/valid. Release metadata says `immutable: false`. | Source commit identity is supported; mutable release metadata and absent PyPI Trusted Publishing mean the published wheel is not cryptographically proven to derive from that commit by the evidence gathered here. |
+| Public security process | Official [OpenHands Software Agent SDK Security page](https://github.com/OpenHands/software-agent-sdk/security) says no security policy is detected and no published GitHub advisories are listed at review time. | Public repository configuration only; this is not proof of no vulnerabilities or absence of private/internal security handling. |
+| Historical security-related report | Public issue [#4157](https://github.com/OpenHands/software-agent-sdk/issues/4157) described a concern that an LLM security analyzer could trust model self-assessed risk and allow actions classified LOW without human confirmation; it is marked closed as not planned. | Treat as a review lead, not a confirmed vulnerability in v1.54.0. Applicability to the pinned commit and actual configuration has not been verified. MediaHub must not delegate authorization to model-produced risk labels. |
+| Optional Agent Server binaries | The v1.54.0 GitHub release exposes platform binaries with release-provided SHA-256 digests, but this review did not download or verify any binary. | Agent Server is not required for the SDK candidate and remains excluded from the candidate scope unless a documented capability gap justifies it. |
+
+### Admission implications
+
+- Require independent artifact digest verification and source-to-artifact provenance evidence before any approved evaluation; do not infer wheel provenance solely from a signed source commit.
+- Any future worker integration must have an external, deterministic MediaHub authorization gate. LLM-produced risk labels, prompts, tool descriptions or worker self-assessments cannot grant permission or bypass human approval.
+- Preserve task-scoped capabilities, explicit filesystem/network boundaries, egress deny-by-default, credential isolation, cancellation/resource ceilings, audit logs and artifact-only output. These are required design gates, not claims that the SDK enforces them automatically.
+- **Disposition unchanged:** RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Complete dependency SBOM/licence/advisory review, target runtime proof, sandbox/egress review and the owner decision on the direct LiteLLM dependency remain open. No runtime action is authorized.
