@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.235)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.236)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5115,3 +5115,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Disposition: reuse existing llama.cpp target-gated selection; defer Temporal/NATS/etcd until a demonstrated gap; do not add overlapping agent frameworks without a unique evidenced gap; treat MCP as protocol, not authorization; preserve Home Assistant authority.
 - Includes reusable design-level work products for Alamo endpoint, Jarvis↔ASTRA task envelope, model/provider routing, tool capability boundary and dependency admission. These are not implementation or test evidence.
 - Status: PROPOSED / NOT ACCEPTED / NOT FROZEN. DEC-DEV-01 and DEC-DEV-02 remain open; no owner decisions made.
+
+
+## 20.236 — OpenHands SDK package-level pin and admission review (2026-10-14)
+
+- Detailed review: [Component Admission Crosswalk, §7.4](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
+- Exact candidate identified: official repo [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk), release v1.54.0, source commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`, Python distribution `openhands-sdk==1.54.0`, requires Python >=3.12.
+- PyPI wheel SHA-256 recorded in §7.4: `647bf83c888bc544b0500480aa8a89729f44f6db9f93ea3ba43cfc7fdf070db3`; source-distribution SHA-256 `431e7bc66ac5caf3a426e25bc67d3a85d5036ace61ff2c20af5a62ea16650485`. Hashes were read from PyPI metadata; artifacts were not downloaded or locally verified. GitHub release is marked mutable and PyPI reports no Trusted Publishing for this upload; source-to-artifact provenance remains open.
+- Candidate's direct dependencies include LiteLLM, FastMCP and LMNR; separate tools/server packages add broader dependencies and execution surface. GitHub Security page reports no detected security policy. These are review gates, not proof of a vulnerability.
+- Disposition: CANDIDATE / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. If ever advanced, keep it as one isolated coding worker returning a patch/artifact and provenance only. It must not replace Jarvis/ASTRA, own lifecycle/state/policy, merge/release or promote qualification.
+- No package installed/imported/executed, no code copied, no tests/evaluation/qualification, credentials/provider/model calls, host/runtime inspection, infrastructure change or deployment performed. DEC-DEV-02 and P0-07/P0-05/P0-04 authorization gates remain open.
