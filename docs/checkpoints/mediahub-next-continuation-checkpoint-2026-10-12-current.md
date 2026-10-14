@@ -1940,3 +1940,22 @@ Inspect one remaining MH-03 pair, recommended error handling, compare source-bac
 
 ### Next bounded action
 Continue the MH-03 source-family review with one not-yet-detailed pair, checking the unified remediation register first. Preserve both files and keep canonicalization/acceptance gated on owner/governance decision.
+
+
+## Latest /next result — agent ecosystem survey and MH-ARCH-045 route-policy gap (2026-10-14)
+
+- Re-fetched the current bootstrap, map, continuation checkpoint, master roadmap, remediation register, owner decision packet and developer-fabric planning sources. Main HEAD observed: 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8. The documentation branch and main remain diverged; no merge/rebase/cherry-pick was performed.
+- Performed a targeted public GitHub ecosystem survey spanning coding-agent SDKs, agent frameworks, durable workflows, local inference, MCP/A2A, sandboxing, policy, telemetry, memory and evaluation. New report: docs/checkpoints/MEDIAHUB-AUTONOMOUS-AGENT-ECOSYSTEM-SURVEY-2026-10-14.md. It is RESEARCH SNAPSHOT / CANDIDATE-ONLY / NOT ACCEPTED / NOT IMPLEMENTED and explicitly is not an exhaustive scan of every GitHub repository.
+- Key recommendation: evaluate OpenHands Software Agent SDK as a bounded coding-worker candidate, MCP as a tool-interface standard behind MediaHub-owned authorization, and OpenTelemetry Python instrumentation. Keep current Ollama/local inference as the initial candidate; avoid adding a competing gateway/controller. OpenShell is not production-approved in current upstream documentation; Temporal/A2A/OPA/LiteLLM remain conditional, not adopted.
+- Read-through of main source established MH-ARCH-045: gateway blob 10985e4ad8f682313d08e7492ecc1856a8bce20f and orchestrator blob 24c28197df7baca49abd81956752a7a5092506d9 show cloud-first route construction without an explicit per-task LOCAL_ONLY policy. Accepted target architecture blob e549692f207fbc91d9b9b9b92b8e665404f07290 requires local-only fail-closed operation. This is a confirmed static contract gap / potential egress risk, not evidence of current production leakage; actual deployed runtime is UNKNOWN.
+- Updated the unified remediation plan (§9.32–9.33 / MH-ARCH-045), map (§20.225–20.226), and roadmap (§40–41). All changes are documentary. No product code, component manifest or normative contract changed. No software installation, tests, evaluations, model/provider invocation, credentials, host/runtime inspection, infrastructure changes, deployment or qualification was performed.
+
+### Changed documentation — read-back required
+- Report: docs/checkpoints/MEDIAHUB-AUTONOMOUS-AGENT-ECOSYSTEM-SURVEY-2026-10-14.md
+- Remediation plan: docs/checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md
+- Map: docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Roadmap: docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md
+- Current checkpoint: docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md
+
+### Next bounded action
+Obtain owner review of the candidate architecture and route-mode gap. If approved, write a formal route-policy/agent-adapter design spec (not code) that explicitly resolves or preserves DEC-DEV-02 and DEC-DEV-05, defines LOCAL_ONLY and CLOUD_ALLOWED semantics, data-class/provider admission, same-policy failover, evidence fields, and isolated-worker permissions. Keep P0-07/P0-05 and all runtime implementation blocked until required governance/implementation authorizations are explicit.
