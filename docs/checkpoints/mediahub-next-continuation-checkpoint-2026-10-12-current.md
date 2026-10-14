@@ -1717,3 +1717,27 @@ This verification is documentation read-back only. It does not establish semanti
 - Current-main `docs/qualification/CURRENT-TRUTH.generated.md` stays G0–G11 BLOCKED / overall NOT_PROVEN. Contour A → Contour B remains gated.
 - Next bounded step: continue source/reference/provenance inventory for remaining MH-03 pairs and prepare a source-of-truth decision packet. Preserve both source families until the owner/governance route is decided; do not rewrite normative content by inference.
 
+
+
+## Latest /next result — MH-03 runtime-foundation mirror coverage review (2026-10-14)
+
+### Result
+- Re-read current bootstrap, map, checkpoint, master roadmap, unified remediation plan, root MH-03 index, root runtime-foundation contract and nested runtime-foundation contract.
+- Added **MH-ARCH-022**: both runtime-foundation files are PROPOSED and share the core authority/in-memory/P0-05/single-node/no-HA/no-persistence invariants, but their coverage differs.
+- Root file contains an explicit offline-first deterministic chain, full command/event mutation path and enumerated acceptance prerequisites. Nested file contains shutdown ordering and explicit candidate-only technology wording.
+- This is confirmed **asymmetric coverage**, not a proven direct semantic contradiction. Root index status is PROPOSED and does not settle source authority. Both normative candidates remain unchanged.
+- Added map entry §20.207. No exhaustive inbound-reference search or canonical-tree decision is claimed.
+
+### Source identities at review
+- Root index: `architecture/MH-03-index.md` — `b2d2eeb1b89117d10605c231e79378eebc437c5f`.
+- Root runtime foundation: `architecture/MH-03-runtime-foundation.md` — `325cf6b47e7db926b8e45d9517e3a2f1d8e7ffa2`.
+- Nested runtime foundation: `docs/architecture/mh-03/MH-03-runtime-foundation.md` — `2457451017daa0f91e9e978e44c91e1e49d0d7a3`.
+
+### Writes and verification boundary
+- Unified remediation plan updated with MH-ARCH-022 / §9.12; write commit `5858a696f18e75c9d58147a70b37481e1b1d74dd`, blob `a70fe1a801be33933fe825b94190a70662ebf23e`.
+- Project map updated with §20.207; write commit `01baf2a619d42f48668a6eee284cafa15a54298f`, blob `430a32472afa5df6511c6458be09b931d7b8bbba`.
+- Roadmap updated with §25; write commit `df21080844d7e0173a543b8668251be385240c59`, blob `d24965ff5ed4187c0854aea23ba1ae6e756306c9`.
+- Post-write read-back is pending and must be completed before treating those blob identities as verified.
+
+### Next bounded step
+Compare one additional MH-03 root/nested pair and its acceptance/dependency references. Keep all 18 pairs intact until the owner/governance authority chooses root canonical, nested canonical, or governed synchronized views. Continue the P0-07 independent-review blocker separately.
