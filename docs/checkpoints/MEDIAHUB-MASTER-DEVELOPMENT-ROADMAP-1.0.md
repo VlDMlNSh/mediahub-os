@@ -666,3 +666,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Added scope clarification to Component Admission Crosswalk Wave 01 §7.1 and project map §20.231. YAML does not explicitly say whether it is exhaustive or a narrower runtime/deployment subset; visible omissions and status-vocabulary differences are real, but a defect is not proven because intended scope is unspecified.
 - Recommendation B (YAML as explicitly scoped subset) is provisional only. Owner/governance must choose between exhaustive projection with parity rules and narrower subset with source/status traceability. No source manifest/YAML was changed, no component admitted, and no test/CI/qualification run.
 - Next: prepare a concise owner decision record describing both options, implications and required mapping rules; continue OpenHands SDK source review only after lifecycle-owner and trusted-context prerequisites remain clearly recorded. No implementation or installation without separate authorization.
+
+
+## 45. Execution update — OpenHands SDK source-pin preflight (2026-10-14)
+
+- Existing Component Admission Crosswalk §7.1 records the text-manifest/YAML scope ambiguity and proposes (not decides) a narrower YAML admission subset. No owner choice is inferred.
+- Read-only upstream check resolved OpenHands to `OpenHands/OpenHands`; latest monorepo release endpoint reported `v1.27.1`, target commit `f07aebdf5cdd71f4a05ebcf30f8bef5e4e3b70b9`, but release metadata reports `immutable: false`. Root MIT license is not a substitute for package-specific SDK and transitive dependency review.
+- MCP Python SDK latest release endpoint reported `v2.3.0` and root MIT license. MCP remains protocol only; neither authorization nor MediaHub compatibility is established.
+- Recorded source-pin preflight in Component Admission Crosswalk §7.2 and indexed it at map §20.232. Exact SDK package identity, immutable pin, licence/dependency closure, platform/sandbox and Contour A capability mapping remain open.
+- No install, source copy, import, execution, tests, evaluation, qualification, provider/model invocation, host/runtime inspection, infrastructure change or deployment occurred. No component was admitted.
+- **Next:** identify the exact official OpenHands Software Agent SDK distribution/repository and immutable artifact pin, then complete package-level licence/dependency/platform/security paper review. Keep it candidate-only and preserve DEC-DEV-02 and trusted-context gates.
