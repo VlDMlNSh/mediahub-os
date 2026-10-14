@@ -1590,7 +1590,7 @@ Next: request the separate owner/security/privacy disposition for D5's audit eve
 
 ## Latest /next result — unified architecture remediation plan (2026-10-14)
 
-- Created [MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob SHA `b43b67a356f4380d4561c9c013155f0f1b657162`, commit `fed0e0fe963bfc9598448bb8735f19236742ad2d`.
+- Created [MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob SHA `22694fd6dbfcdd1c08bddab046cd5f306cd0bb87`, commit `fed0e0fe963bfc9598448bb8735f19236742ad2d`.
 - Live refs at pass start: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch HEAD `0f4be9c11c9f09e1283bd03fd997ad7c0110e706`; diverged, ahead 808 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 - Static inventory: main recursive tree SHA `cbb1862fcb4aa22ba24fea4ff12b580ffb305593`, 798 entries, `truncated=false`. Findings consolidated as MH-ARCH-001…014; this is complete path inventory plus targeted source review, not semantic review of every file.
 - Confirmed: DEC-DEV-02 A0 authority wording conflict; concurrency 2 vs 3 remains on `main`; governance field-level authority wording ambiguity; design-ready YAML vs runtime `NOT_PROVEN/BLOCKED`; 18 MH-03 basename-pair collisions (four sampled pairs differ); P0-07 trusted-context/revision binding and independent D2 review remain open; Contour A→B acceptance remains a hard gate; 37 basename collisions require classification rather than deletion.
@@ -1598,4 +1598,13 @@ Next: request the separate owner/security/privacy disposition for D5's audit eve
 - Added consolidated ADMIN-01…05 options in the plan and linked existing owner packet/reports. Recommendations are not owner decisions.
 - No tests, qualification, runtime/host inspection, credentials/provider/model calls, install, infrastructure change, deployment, migration, merge, rebase or cherry-pick performed. Current overall qualification remains `NOT_PROVEN / BLOCKED`.
 - Next: obtain governed DEC-DEV-02 and source-of-truth dispositions; commission qualified independent P0-07 D2 R-01…R-06 review; then pursue narrowly scoped, separately authorized source changes and verify exact readbacks.
+
+### Follow-up /next — ASTRA test-contract alignment (2026-10-14)
+
+- Read back docs-branch ASTRA topology/drift tests and paired YAML/Markdown model; no tests were executed.
+- Added MH-ARCH-015 to the unified remediation plan: drift test asserts disputed `state_authority == A0-ASTRA` and `astra.role == single_coordination_authority`, so the test currently institutionalizes an unresolved DEC-DEV-02 authority claim. Plan blob now `22694fd6dbfcdd1c08bddab046cd5f306cd0bb87`.
+- Paired Markdown model version 1.0 and YAML model version 1.1; lineage semantics remain unclear and are tracked under MH-ARCH-004.
+- The docs-branch topology test includes source-based concurrency equality checks, but was not run. No pass claim.
+- No normative contract changes, tests, qualification, runtime/host inspection, credentials/provider calls, deployment or branch integration. Current Truth remains NOT_PROVEN / BLOCKED.
+- Next: owner must decide DEC-DEV-02 before changing A0 authority assertions; obtain qualified independent D2 review; then conduct a narrowly scoped static link/duplicate classification pass on the next set of source families.
 
