@@ -4925,3 +4925,10 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - This is material evidence-ID/status/provenance drift; no authority source was selected and no real-world implementation authorization is inferred. Preserve both sources pending owner/governance disposition.
 - Paired decision logs also differ on MH3-D10/D11; recovery-boundary and runtime-model pairs show asymmetric coverage. They remain open review items, not automatically proven contradictions.
 - No MH-03 source, acceptance status, implementation, or branch integration was changed.
+
+## 20.214 Unified remediation-plan subsection-ID collision repair (2026-10-14)
+
+- During post-write read-back, the unified remediation plan contained two `### 9.17` headings: MH-ARCH-026 evidence-register review and a concurrently appended core-link/map-ID rescan.
+- Re-keyed only the latter heading to `### 9.18 Final live core-document link-path and map-ID rescan`; content and evidence were preserved.
+- Plan was re-read at blob `bf753b5203e938adb429af2200dc606fbe4a8974`; one `### 9.17` remains (MH-ARCH-026), and the rescan is now `### 9.18`.
+- This is a plan-navigation defect repair only; it does not alter finding severity, contract status or qualification state.
