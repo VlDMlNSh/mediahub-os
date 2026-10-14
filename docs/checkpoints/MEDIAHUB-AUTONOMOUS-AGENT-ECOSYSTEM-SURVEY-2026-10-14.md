@@ -36,7 +36,7 @@ The review prioritized source role, architectural overlap, security boundary, lo
 |---|---:|---|---|---|
 | [OpenHands Software Agent SDK](https://github.com/OpenHands/software-agent-sdk) | ~1.3k stars; active 2026-10-14 | MIT | Modular coding-agent SDK, local workspaces or ephemeral workspaces through its Agent Server | **First coding-worker candidate to evaluate.** Use behind a bounded executor adapter; isolated workspace; no independent merge, release or State Authority permission. |
 | [OpenHands](https://github.com/OpenHands/OpenHands) | ~90.9k; active 2026-10-14 | MIT | Full AI-driven development environment | Reference implementation and alternative platform, but too broad to install wholesale into Jarvis/ASTRA without a documented gap. Prefer evaluating the smaller SDK first. |
-| [NVIDIA OpenShell](https://github.com/NVIDIA/OpenShell) | ~16.2k; active 2026-10-14 | Apache-2.0 | Sandboxed agent runtime with filesystem/process/network policy | **Security architecture candidate, not production-approved.** Current documentation describes it as alpha and not for production. macOS support is limited to Apple Silicon; it therefore does not fit the Intel Mac Pro 2013 as a macOS runtime. A Linux worker may be evaluated only after platform/profile validation. |
+| [NVIDIA OpenShell](https://github.com/NVIDIA/OpenShell) | ~16.2k; active 2026-10-14 | Apache-2.0 | Sandboxed agent runtime with filesystem/process/network policy | **Security architecture candidate; not admitted by MediaHub.** Upstream status sources conflict: the current support matrix labels Latest v0.1.4 and recommends stable releases for production, while Security Best Practices and a shared support-page banner still say alpha / do not use in production; the v0.1.0 release milestone says the alpha designation was removed. Treat this as upstream documentation/version-lineage drift and pin the exact release plus matching security docs before any production decision. Platform: x86_64 Linux is supported; macOS is supported only on Apple Silicon; Windows WSL 2 is experimental. It therefore does not fit an Intel Mac Pro as a macOS runtime; Linux-worker evaluation is conditional on the approved target profile and runtime prerequisites. |
 | [Pydantic AI](https://github.com/pydantic/pydantic-ai) | ~20.6k; active 2026-10-14 | MIT | Typed Python agent/tool interfaces and model adapters | Candidate for a small typed worker or adapter prototype if the existing gateway demonstrably lacks these contracts. Do not introduce it as a second top-level controller by default. |
 | [LangGraph](https://github.com/langchain-ai/langgraph) | ~43.3k; active 2026-10-14 | MIT | Stateful graph orchestration, checkpoints, interrupt/human review and durable execution patterns | Alternative orchestration candidate. Evaluate against the existing Astra bounded lifecycle; do not add in parallel with Pydantic AI/Temporal for the same responsibility without a measured need. |
 | [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) | ~14.1k; active 2026-10-14 | MIT | Python/.NET agent and workflow framework with checkpointing and human-in-the-loop patterns | Valid alternative if a standard framework is required. The older Microsoft AutoGen project is in maintenance mode and directs new projects toward this framework. |
@@ -169,3 +169,35 @@ Before any eventual code contribution or installation:
 - ASTRA Current Truth remains G0–G11 BLOCKED / overall NOT_PROVEN / BLOCKED on main at the inspected snapshot.
 - Contour B remains gated on deployment and independent acceptance of Contour A.
 - Next authorized documentary step: owner review of this candidate assessment and the route-policy gap; then write a formal design spec only after design approval. Implementation planning and execution require the subsequent review/authorization gates.
+
+
+## 9. Follow-up source-identity and routing trace (2026-10-14)
+
+This addendum revalidates selected survey claims against live main sources and reconciles the external-research findings with the single MediaHub remediation register. It does not change the canonical Component Manifest or authorize installation.
+
+### 9.1 Upstream OpenShell status drift
+
+The upstream pages inspected during follow-up do not support a single unqualified maturity statement:
+- Current Support Matrix documentation identifies Latest as v0.1.4 and says stable releases should be used for production deployments: https://docs.nvidia.com/openshell/latest/reference/support-matrix
+- Security Best Practices still carries a banner saying OpenShell is alpha and should not be used in production: https://docs.nvidia.com/openshell/latest/security/best-practices.html
+- The v0.1.0 release milestone says the alpha designation was removed and describes a stable release cadence: https://github.com/NVIDIA/OpenShell/milestone/10
+
+Therefore the project must pin the exact candidate release and review version-matched policy/security documentation before drawing a production-maturity conclusion. MediaHub admission is still NOT APPROVED. Platform scope remains material: official support documents list Linux amd64/arm64, macOS Apple Silicon, and Windows WSL 2 experimental; host-specific compatibility remains a separate gate.
+
+### 9.2 MH-ARCH-046 — Ollama selected-model identity vs executor evidence
+
+Main source blobs freshly re-read:
+- `runtime/mediahub_runtime/astra_gateway.py`: `10985e4ad8f682313d08e7492ecc1856a8bce20f`
+- `runtime/mediahub_runtime/cloud_orchestrator.py`: `24c28197df7baca49abd81956752a7a5092506d9`
+- `tests/ai/test_cloud_orchestrator_failover.py`: `c66b63b158c545ae627c596791381b83ef902c59`
+
+Static trace: `OllamaExecutor` sends its class-level model string `qwen2.5-coder:3b`. The orchestrator's default Ollama route separately reads `MEDIAHUB_OLLAMA_MODEL` / `MEDIAHUB_OLLAMA_MODELS` for the decision/evidence model field, while the default gateway injects a preconstructed `OllamaExecutor()` and the orchestrator's executor lookup returns that instance without binding the route-selected model to it. Consequently, a configured route model may differ from the model sent in the Ollama request; with no route model configured, route evidence may say `unspecified` while the executor still sends its class default. This is a **confirmed static model-identity/provenance mismatch in the inspected construction path**, not proof that a live request has used the mismatched configuration.
+
+Required disposition: resolve one actual model identity at admission, pass it to the executor and record that same identity in the selected route, events, provider qualification and result evidence. A future implementation must add focused configured/default model tests and a mismatch-negative test under explicit test authorization. No test was run in this pass.
+
+### 9.3 Crosswalk to the unified finding register
+
+- MH-ARCH-045 — explicit LOCAL_ONLY route contract is absent from the inspected AstraGateway/CloudFirstOrchestrator call path; the accepted distributed-infrastructure target requires local-only operation to fail closed without silent cloud fallback on the specified development route. The precise relationship between this gateway and the Claude Code/FCC path still requires an explicit call-path/scope crosswalk. Do not assert an observed production egress incident.
+- MH-ARCH-046 — actual Ollama executor model and selected/evidenced model can diverge as described above.
+
+Both are source-review findings only. No code changed, no tests or qualification ran, and no runtime/provider/model invocation occurred.
