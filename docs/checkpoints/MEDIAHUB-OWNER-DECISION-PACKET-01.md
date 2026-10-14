@@ -138,7 +138,7 @@ The source review narrows the conflict; it does not close it:
 
 ## 7. Supplemental project-wide integrity sweep and administrative response block (2026-10-14)
 
-- Broad audit: [MediaHub OS — project-wide architecture integrity sweep wave 06](MEDIAHUB-PROJECT-WIDE-ARCHITECTURE-INTEGRITY-WAVE-06-2026-10-14.md), latest reviewed report blob `62a2715db8dd4555946fa05b26f15ece734def79`.
+- Broad audit: [MediaHub OS — project-wide architecture integrity sweep wave 06](MEDIAHUB-PROJECT-WIDE-ARCHITECTURE-INTEGRITY-WAVE-06-2026-10-14.md).
 - The existing DEC-DEV-02 owner question in §6.5 remains the authoritative question in this packet; wave 06 does not replace the prior owner-recorded directions or create a new DEC-DEV ID.
 - For ready-to-answer options and evidence anchors, see report §9. ADMIN-01 elaborates DEC-DEV-02; ADMIN-02 concerns commissioning an actual qualified independent P0-07 D2 reviewer; ADMIN-03 asks for governed clarification of ASTRA design-status/version semantics; ADMIN-04 requests the change-control route for main-vs-documentation branch wording.
 - The report's P0-07 review/status question is cross-cutting and does not extend this packet's Contour A scope or imply permission to start Contour B.
