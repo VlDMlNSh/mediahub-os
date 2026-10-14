@@ -4933,10 +4933,19 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Plan was re-read at blob `bf753b5203e938adb429af2200dc606fbe4a8974`; one `### 9.17` remains (MH-ARCH-026), and the rescan is now `### 9.18`.
 - This is a plan-navigation defect repair only; it does not alter finding severity, contract status or qualification state.
 
-## 20.214 MH-03 health-model mirror review (2026-10-14)
+## 20.215 MH-03 health-model mirror review (2026-10-14)
 
 - Compared root `architecture/MH-03-health-model.md` (SHA `a4b9e8838d6b88ea629b9ee3642b6bcc791cba47`) with nested `docs/architecture/mh-03/MH-03-health-model.md` (SHA `2f5840218dfdc0103e16721ebf467150d19cb216`); root index `architecture/MH-03-index.md` remains PROPOSED (SHA `b2d2eeb1b89117d10605c231e79378eebc437c5f`).
 - Both say health is observational and not canonical mutation authority. Nested adds lifecycle states, fail-closed readiness, critical-vs-optional dependency behavior and sensitive-data/mutable-object exposure constraints; root adds authority/lifecycle health dimensions but omits those explicit details.
 - Classified as asymmetric coverage, not proven direct contradiction. Added MH-ARCH-030 to the sole unified remediation register, blob `76049a6f19a2a26cceca933b696829cdd83cd607`. Both source files remain unchanged; no canonical tree chosen.
 - No tests or qualification. Current qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Next: continue pairwise review of one remaining MH-03 root/nested pair and preserve both copies pending owner/governance source-model decision.
+
+
+## 20.216 MH-03 runtime-model, recovery, event, dependency and lifecycle sequence mirror review (2026-10-14)
+
+- Compared six live root/nested pairs: runtime model, recovery boundary, event model, runtime dependencies, shutdown sequence and startup sequence. Blob SHAs and exact differences are recorded in subsection 9.23 of the unified remediation plan.
+- Added MH-ARCH-031…MH-ARCH-036 (all P2 coverage/status asymmetries) to the unified remediation plan, current blob `cf43f825cbf57f25e1c8f8291ebeaa6fd41c1e36`. These are confirmed document differences; they are not automatically runtime defects or proof of normative contradiction.
+- Tree inventory at docs HEAD `8871054b96395498c99daeb9db15430e4980cc53`: 827 blobs, 24 repeated-basename groups, one group of ten identical empty `__init__.py` files, no case-insensitive path collisions. Candidate duplicates are classified in the plan; no files were deleted.
+- Branches remain diverged: docs ahead 874 / behind 2 from main; no branch integration. Qualification remains NOT_PROVEN / BLOCKED; no tests or runtime qualification were run.
+- Next: continue reviewing remaining root/nested pairs, then classify non-MH-03 same-name schema/state/plist paths by references and ownership. Use the unified remediation plan as the sole finding register.
