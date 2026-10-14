@@ -765,3 +765,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Two upstream advisories reviewed list affected versions `<3.2.0` and patched version `3.2.0`; the current pin is the stated patched floor for those findings, not a general security clearance.
 - OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Full transitive SBOM/licence/advisory closure, independently verified artifact provenance, target sandbox/egress/runtime evidence, and owner disposition on LiteLLM/provider-routing authority remain open.
 - No install, execution, test/scan, provider call, qualification, host inspection, infrastructure change or deployment occurred.
+
+
+## 57. Execution update — P0-07 D2 current-main call-chain trace (2026-10-14)
+
+- Performed a bounded read-only static trace across the current-main authorization, consumer-boundary, in-memory state, lifecycle, coordination, ASTRA gateway and task-ingress modules.
+- Confirmed the inspected P0-04/P0-05 seam carries a two-field AuthorizationContext(principal, capability) and checks explicit operation grants, while the inspected files do not evidence an accepted trusted issuer or an end-to-end expiry/revocation/restart lifecycle. The ASTRA task-gateway request path is separate; no joining call edge was evidenced in the inspected set.
+- Recorded exact current-main source SHAs and scope limitations in P0-07 D2 proposal §13.3 and indexed it in map §20.243 / DEC-DEV validation §9. This supports the existing bounded proposal finding; it is not a confirmed vulnerability or independent D2 review.
+- Status unchanged: D2 NOT EVIDENCED; proposal NOT ACCEPTED / NOT FROZEN; implementation and mutation/publication blocked. No tests, qualification, runtime execution, installation, provider call, credentials, host inspection, infrastructure change or deployment.
+- Next: qualified independent review of R-01…R-06 and separate owner/governance disposition. Internal source tracing cannot close the review gate.
