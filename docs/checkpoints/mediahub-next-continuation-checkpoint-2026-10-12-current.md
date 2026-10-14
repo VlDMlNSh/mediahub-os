@@ -5,7 +5,7 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 Repository: VlDMlNSh/mediahub-os
 Documentation branch: docs/mediahub-chat-tree-map-20261012
 Functional review ref: main
-Main HEAD observed: 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8
+Main HEAD observed: 608d7463011798ca75e36bfce4b749a9caf4f9a0 (live compare base/main HEAD on 2026-10-15)
 Map path: docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 Map blob SHA at checkpoint preparation: 66205897861a4067e797461371f0494b743df7e8
 Bootstrap blob SHA: f86014d81a2db1b5246b4fc2600812340f1c7d22
@@ -2510,3 +2510,15 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Open conflicts remain: Jarvis/ASTRA lifecycle ownership, FCC implementation mapping, FreeLLMAPI gateway-vs-cloud semantics, Alamo/runtime identity, route/provider provenance. No normative contract status promoted.
 - No model/provider calls, credential access, host/runtime inspection, installation, tests, qualification, configuration/infrastructure change, deployment, merge, rebase or cherry-pick occurred.
 - Next bounded step: create source-anchored responsibility/interface matrix from existing contracts; then conduct read-only ECC upstream assessment only against concrete gaps.
+
+
+## Latest /next result — Jarvis corporation responsibility/interface matrix, Wave 01 (2026-10-15)
+
+- Created [Jarvis Corporation Responsibility / Interface Matrix, Wave 01](MEDIAHUB-JARVIS-CORPORATION-RESPONSIBILITY-INTERFACE-MATRIX-WAVE-01-2026-10-15.md) on `docs/mediahub-chat-tree-map-20261012`; creation commit `a637a2783c2e33a41d476577330b56a0cc79fbba`; read-back blob SHA `d5934af98552ddee99ac5658dfffc8a3049f5cad`.
+- Updated project map: blob SHA `e1cdd25ab300cdd8f354531f32e8bf9a9b29a184`; updated Master Development Roadmap: blob SHA `c88c57ead4e08c509d384f1e7d5a4074ca2e98fa`; checkpoint write is being recorded here.
+- Live branch compare: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch `docs/mediahub-chat-tree-map-20261012`; status DIVERGED, docs branch ahead 1138 / behind 3; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration was performed.
+- Matrix reconciles current source contracts and records the owner’s target clarification: Mac Pro local models are the preferred primary route when suitable; Claude Code Scenario B means a compatible client route to a local backend, not Claude model inference locally. Official Anthropic auth, compatible gateway, native local LLM and other admitted executor adapters remain separate.
+- Matrix separates system roles and interfaces, including Jarvis, ASTRA A0, Product State Authority, planner/DAG, agent registry, dispatcher, Claude Code, Alamo/local runtime, FCC, provider gateway, Codex, worker pools, verification, resource/policy layers, GitHub adapter and clients.
+- Open issues remain: FreeLLMAPI gateway/upstream identity, FCC mapping, Alamo/runtime/model provenance, task DAG and result envelope contracts, ECC upstream assessment, ASTRA mission-ingress/capability issuer lifecycle and branch divergence. No normative contract/Baseline 2.0 change or status promotion.
+- No model/provider calls, credentials, installation, tests, qualification, host/runtime inspection, configuration/infrastructure change, deployment, merge, rebase or cherry-pick occurred.
+- **Next bounded step:** source-only crosswalk existing schemas/contracts for agent profiles, task DAG, leases, idempotency/cancellation, and structured result/evidence envelopes before proposing new schemas; then conduct read-only ECC review and continue non-secret route-identity tracing.
