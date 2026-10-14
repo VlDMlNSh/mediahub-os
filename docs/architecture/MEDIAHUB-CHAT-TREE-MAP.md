@@ -5178,3 +5178,11 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - The inspected authorization/consumer/state/lifecycle chain carries AuthorizationContext(principal, capability) and explicit grant checks, but the inspected seam does not evidence trusted issuer provenance or expiry/revocation/restart lifecycle validation.
 - ASTRA task ingress/gateway is a distinct request path; no call edge to ConsumerBoundary was evidenced in the inspected files. Do not equate approval_state with P0-07 trusted authorization context.
 - Scope is bounded; not proof of absence elsewhere, not a confirmed vulnerability finding, and not the required independent D2 review. D2 remains NOT EVIDENCED; proposal NOT ACCEPTED / NOT FROZEN; implementation blocked.
+
+## 20.244 — OpenHands direct dependency: ACP 0.12.1 exact-tag license and artifact-provenance trace (2026-10-14)
+
+- Official PyPI lists ACP 0.12.1 sdist SHA-256 `9963ccb590ed96d7dc542c9c023e90676fc76b1c6562e21a9ee112f4fbcb0095` and wheel SHA-256 `aaf3cc301ed87d9e2c4ccb91adfe1cd58784355f6ce7e513f50e7ca2391862ef`; Trusted Publishing was not used (upload metadata `uv/0.6.14`).
+- Official GitHub release identifies source commit `e668ed9` with a verified signature. At that exact source commit, `pyproject.toml` declares version `0.12.1` and the repository contains an Apache-2.0 LICENSE. This narrows source-license uncertainty but does not bind the published artifacts to the source commit; artifact bytes and embedded notices were not inspected.
+- Upstream Python SDK Security page showed no detected security policy/no published advisories at review time. This is not a no-vulnerability conclusion.
+- **Disposition unchanged:** OpenHands remains research-only / not selected / not admitted / not ready for runtime evaluation. Complete transitive SBOM/licence/advisory closure, artifact provenance, target runtime and sandbox/egress evidence, and the owner decision on direct LiteLLM/provider-routing remain open. No artifact download/install/execution, tests/scans, provider calls, qualification, host inspection, infrastructure change or deployment occurred.
+- Evidence details: [Component Admission Crosswalk §7.10](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), blob `ff73128f63455a6fa07cdab55ad0e52de30e8712`.
