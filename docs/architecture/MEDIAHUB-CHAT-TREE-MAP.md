@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.255)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.256)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5278,3 +5278,11 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - GitHub direct integration means capability-scoped, audited operations only; it does not grant merge/release/deployment or canonical product-state authority.
 - Status: documentary reconciliation only; no normative ASTRA contract changed, no implementation or qualification claimed.
 - Next: draft a narrow Jarvis/GitHub adapter contract and compare requested capabilities to actual repository integration permissions.
+
+
+## 20.256. Jarvis routing correction — Claude Code / FCC / FreeLLMAPI / local Ollama (2026-10-14)
+
+- **Correction to §20.255 / R-02:** do not treat Claude Code as synonymous with the hosted Anthropic model. Claude Code is the intended engineering client/agent surface; FCC is the required integration/control layer; FreeLLMAPI is a cloud-provider path; local Alamo/Ollama is the intended local inference path. Per-task routing depends on policy, task/data classification and egress authorization.
+- **Primary source:** architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md@main, blob e549692f207fbc91d9b9b9b92b8e665404f07290, §§1–2, topology, responsibilities and qualification checklist. It explicitly warns that the topology is logical and does not prove deployment/compatibility; local-only mode must fail closed without silent cloud fallback.
+- ASTRA GOLD permanent Claude-bound lanes remain a separate production queue/admission scope and are not reconfigured by this correction.
+- Detailed report: [MEDIAHUB-JARVIS-ASTRA-D03-RECONCILIATION-01-2026-10-14.md](../checkpoints/MEDIAHUB-JARVIS-ASTRA-D03-RECONCILIATION-01-2026-10-14.md). Owner decision register D-03 and Roadmap §§65–67 also clarified. No runtime/installation/provider/qualification claims are made.
