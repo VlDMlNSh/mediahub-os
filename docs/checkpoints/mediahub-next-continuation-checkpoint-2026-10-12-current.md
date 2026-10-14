@@ -2205,3 +2205,15 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. Full transitive SBOM/licence/advisory closure, target runtime, sandbox/egress, LiteLLM governance and DEC-DEV-02/P0 gates remain open.
 - No package/artifact downloaded, installed, imported or executed; no tests/scans/provider calls/qualification/host inspection/infrastructure/deployment performed.
 - Next bounded step: continue source-only dependency advisory/licence/provenance review and record the specific owner decision needed for LiteLLM only if evidence establishes a concrete routing/authority conflict. Do not install or execute.
+
+
+## Latest verified /next — FastMCP exact-version advisory/provenance review (2026-10-14)
+
+- Owner confirmation: option B for the component manifest means `oss/manifests/components.yaml` is a scoped runtime/deployment admission subset, not an exhaustive projection. Decision and scope/status/omission semantics are recorded in Component Admission Crosswalk §7.3 and map §20.235. This does not choose option B for the separate OpenHands A/B/C question.
+- Refreshed live refs at pass start: documentation branch HEAD `ddd05ff28ca959b53a16c5d0d58a9d30b39942c9`; `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; compare status DIVERGED, docs branch 1019 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Added Crosswalk §7.9 (blob `99ac049df9ff0760ba350420c3be29996d6cbeda`), map §20.242 (blob `d326acd59fcf3dd5f09b08790c45c250944804b9`), and roadmap §55 (blob `3a0b51e32da13323a8dcff8e82de2a0a9c38d867`). All three were read back and matched their returned blob SHAs.
+- Official PyPI metadata for FastMCP 3.2.0 reports Apache license classification, Trusted Publishing and published wheel/sdist hashes. No artifact was downloaded or independently re-hashed.
+- Reviewed two upstream FastMCP advisories: GHSA-vv7q-7jx5-f767 (SSRF/path traversal in OpenAPIProvider) and GHSA-m8x7-r2rg-vh5g (Windows command injection in installer flows). Both list affected versions `<3.2.0` and patched version `3.2.0`; the pinned version is not listed as affected for these two advisories. This is not a general security clearance, and installer flows remain outside the authorized scope.
+- OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Full transitive SBOM/licence/advisory closure, independently verified artifact provenance, target sandbox/egress/runtime evidence, and owner disposition on the direct LiteLLM/provider-routing boundary remain open.
+- No artifacts downloaded, installed, imported or executed; no tests/scans/provider calls/qualification, credentials, host inspection, infrastructure change, deployment or branch integration.
+- Next bounded step: continue read-only exact-version dependency/advisory review only where it closes a concrete open gate; do not install or execute OpenHands. DEC-DEV-02 and P0-07/P0-05/P0-04 remain separate blockers.
