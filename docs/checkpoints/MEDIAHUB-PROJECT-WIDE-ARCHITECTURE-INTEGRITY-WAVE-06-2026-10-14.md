@@ -178,3 +178,10 @@ This sweep made a bounded map-integrity correction and prepared a source-anchore
 - Map metadata distinguishes the original 2026-10-12 baseline inventory date from the verified incremental update date 2026-10-14.
 - All seven section bodies were preserved and the one internal self-reference was updated. The change repairs index navigation only; it does not alter the normative meaning of underlying source documents.
 - Owner-decision recommendations remain proposals only. Current-main qualification remains BLOCKED / NOT_PROVEN; no tests/qualification or runtime action was taken.
+
+## 12. Additional identifier-integrity checks
+
+- The working Verifiable Architecture Contract 01 (`c248956417cc61d66c968a4c58a56e799f653354`) contains 37 ARC headings (ARC-001 through ARC-037) and 30 V-check rows; no duplicate IDs were found in those heading/row sets.
+- The source-anchored placement/decision register (`59107fd6d7b8a73d671098adcf2824c310642907`) contains eight DEC-DEV rows and 34 NSP node/service/trace rows; no duplicate IDs were found within each ID class.
+- The owner decision packet intentionally includes DEC-DEV-01…08 in both its original summary and later triage table. Its §6 explicitly states the latter disposition table supersedes the broad §2 wording, so this is a repeated view of the same IDs, not eight new decisions. The new wave-06 admin block links the existing IDs rather than minting replacements.
+- The master roadmap's Phase 00–10 headings were found once each. The accepted Functional Baseline 2.0 remained identified as blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; no baseline content was altered.
