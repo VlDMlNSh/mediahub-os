@@ -4945,9 +4945,9 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 ## 20.216 MH-03 runtime-model, recovery, event, dependency and lifecycle sequence mirror review (2026-10-14)
 
 - Compared six live root/nested pairs: runtime model, recovery boundary, event model, runtime dependencies, shutdown sequence and startup sequence. Blob SHAs and exact differences are recorded in subsection 9.23 of the unified remediation plan.
-- Added MH-ARCH-031…MH-ARCH-036 (all P2 coverage/status asymmetries) to the unified remediation plan, current blob `cf43f825cbf57f25e1c8f8291ebeaa6fd41c1e36`. These are confirmed document differences; they are not automatically runtime defects or proof of normative contradiction.
+- Added MH-ARCH-031…MH-ARCH-036 (all P2 coverage/status asymmetries) to the unified remediation plan (blob at finding insertion: `cf43f825cbf57f25e1c8f8291ebeaa6fd41c1e36`; current blob after navigation repair: `7075844e39678b0d040bb399faed88297f0fffd3`). These are confirmed document differences; they are not automatically runtime defects or proof of normative contradiction.
 - Tree inventory at docs HEAD `8871054b96395498c99daeb9db15430e4980cc53`: 827 blobs, 24 repeated-basename groups, one group of ten identical empty `__init__.py` files, no case-insensitive path collisions. Candidate duplicates are classified in the plan; no files were deleted.
-- Branches remain diverged: docs ahead 874 / behind 2 from main; no branch integration. Qualification remains NOT_PROVEN / BLOCKED; no tests or runtime qualification were run.
+- At the audit snapshot, branches were diverged ahead 874 / behind 2; the latest post-write check is diverged ahead 890 / behind 2 from main. No branch integration. Qualification remains NOT_PROVEN / BLOCKED; no tests or runtime qualification were run.
 - Next: continue reviewing remaining root/nested pairs, then classify non-MH-03 same-name schema/state/plist paths by references and ownership. Use the unified remediation plan as the sole finding register.
 
 ## 20.217 Navigation-ID collision repairs — map and roadmap (2026-10-14)
