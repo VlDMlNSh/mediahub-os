@@ -582,3 +582,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - MH-ARCH-039: mesh registry imports node transition helper; runtime in-memory state imports/implements runtime StateAuthority. Targeted inspected files show separate responsibilities, but code search returned no results, so no exhaustive absence claim is made.
 - Details: remediation plan §9.27; navigation: map §20.220. No source/schema/test changes, CI, host/runtime actions or qualification.
 - Next: trace remaining MH-03 repeated-basename families and inbound references using direct tree/source evidence; do not run tests or qualification without explicit authorization.
+
+
+## 37. Execution update — MH-ARCH-042 acceptance-criteria mirror review (2026-10-14)
+
+- Compared root and nested MH-03 acceptance criteria using current blob identities. Root blob `e96adaac2eb52e2f8058cc889485ec982bf606e5`; nested blob `eefb645d89c7c3046636d8344515aa02b7ccebe3`.
+- Confirmed coverage asymmetry: nested criteria explicitly require P0-05/P0-06 and evidence/decision-register review; root criteria omit those explicit checklist items but state several outcome conditions more directly. Both remain PROPOSED / NOT ACCEPTED. No gate pass or acceptance is inferred.
+- Details: unified remediation plan §9.29; navigation: map §20.222. Both source files remain unchanged pending owner/governance decision on canonical source and mandatory acceptance gate set.
+- No tests, CI, qualification, runtime/host inspection, source changes, installation, deployment or branch integration.
+- Next: inspect one remaining MH-03 mirror pair (error handling) and continue evidence-led classification; do not canonicalize or change acceptance status without authorization.
