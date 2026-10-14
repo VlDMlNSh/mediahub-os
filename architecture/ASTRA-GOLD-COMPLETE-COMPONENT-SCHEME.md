@@ -145,7 +145,7 @@ All are REVIEW/QUALIFICATION candidates unless independently qualified.
 4. Claude Code + OmniRoute
 5. Claude Code direct/native
 
-23 fresh successful isolated rounds per path = 115 mandatory rounds.
+The canonical launch schema defines the minimum fresh-round threshold per mandatory path; the execution blueprint defines the complete qualification matrix and aggregate. Do not duplicate these numeric thresholds in this inventory.
 
 Per round:
 fresh command ID, exact source SHA, executor identity, provider/transport identity, isolated workspace, exit status, timeout, marker and schema-valid result.
@@ -156,7 +156,7 @@ Required:
 command contract, claim/lease, queue progress, duplicate suppression, heartbeat, result publication, stale-claim handling, worker restart, duplicate-controller rejection and replay idempotency.
 
 Concurrency:
-The concurrency ceiling is defined by `architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml` (`G5_CONCURRENCY.max_parallel_autonomous_claims`), mirrored by `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`; do not duplicate the numeric limit here. Claims must be disjoint; shared surfaces are serialized.
+The concurrency ceiling is referenced through `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` (`runtime_thresholds.max_parallel_autonomous_claims`); that registry designates `architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml` as the numeric authority. Do not restate the numeric limit here. Claims must be disjoint; shared surfaces are serialized.
 
 ## 15. Recovery
 
@@ -233,5 +233,5 @@ G11 is HUMAN_ONLY.
 - No A2 self-verification.
 - No launch without independent A3.
 - No launch without recovery.
-- No launch without 24h soak.
+- No launch without current fresh PASS evidence for the canonical `G9_24H_SOAK` gate.
 - Missing/contradictory evidence => BLOCKED.
