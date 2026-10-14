@@ -119,13 +119,13 @@ CLI   Code    Stagewise Harness  │      │      │        │        │    
 
 ## 2.2 Current permanent production executor topology
 
-The canonical Astra Gold production queue has exactly three permanent executor lanes:
+The target Astra Gold production queue has the following permanent executor lanes (lane identities are topology; numeric qualification thresholds are defined by the canonical machine-readable contracts):
 
 - mh-dev-01 -> Claude
 - mh-dev-02 -> Claude
 - Voktors-Mac-mini.local -> Claude
 
-G-5 is exactly 3 active autonomous claims, with at most one active claim per permanent lane.
+The G-5 concurrency ceiling is referenced through `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` (`runtime_thresholds.max_parallel_autonomous_claims`); the registry designates the launch schema as the numeric authority. At most one active claim per permanent lane.
 
 Codex, OpenCode, Ollama and other execution surfaces may exist elsewhere in the repository as historical, candidate or separately qualified capabilities, but they are **not permanent Astra Gold queue executors** and must not appear as active members of this production pool.
 
@@ -283,7 +283,7 @@ ECC can assist with analysis where explicitly allowed, but it cannot:
 - evidence freshness
 - timeout/retry state
 - restart/recovery
-- 24h soak
+- schema-defined soak interval (`G9_24H_SOAK`)
 - failure injection
 
 ## 5. Hybrid admission model
@@ -339,9 +339,7 @@ No state may transition to GOLD_ACTIVE using historical evidence.
 
 ## 8. Qualification model
 
-Qualification is a system qualification. The canonical gate ids, names and
-numeric thresholds live in the single machine-readable source
-`architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`; this section summarizes it.
+Qualification is a system qualification. The governance contract is the canonical registry for gate ids, mirrored thresholds and invariants. Its `authority_source` and `gate_registry.source_of_truth` designate `architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml` as numeric authority; disagreements are reconciliation blockers. This section summarizes the registry without duplicating thresholds.
 
 ### G0_IDENTITY — Identity
 - canonical node identity
@@ -381,7 +379,7 @@ For each current Claude Code path:
 - result schema validation
 
 ### G4_23_WAVE_QUALIFICATION — 23-Wave Qualification
-Minimum 23 fresh rounds for every mandatory execution path:
+The minimum fresh-round threshold per mandatory path is defined by `architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml` and mirrored in the governance registry. Each mandatory path requires fresh evidence:
 1. CLAUDE_FCC
 2. CLAUDE_OMNIROUTE
 3. CLAUDE_CODE_DIRECT
@@ -389,7 +387,7 @@ Minimum 23 fresh rounds for every mandatory execution path:
 A missing launcher is BLOCKED, not PASS.
 
 ### G5_CONCURRENCY — Concurrency
-- maximum three concurrent autonomous claims by default (G-5), one per permanent executor lane
+- concurrency ceiling from the governance registry's `runtime_thresholds.max_parallel_autonomous_claims` (numeric authority: the launch schema); at most one active claim per permanent executor lane
 - disjoint write boundaries required
 - shared surfaces serialized
 - collision detection
@@ -559,9 +557,9 @@ ASTRA GOLD is **qualification-ready** when:
 3. all executor paths are explicitly classified;
 4. qualification gates are machine-readable;
 5. the controller can ingest and publish commands/results;
-6. 23-wave evidence can be generated fresh;
+6. fresh-round evidence can be generated for every mandatory path;
 7. recovery tests are defined;
-8. 24h soak is explicitly gated;
+8. the schema-defined soak interval is explicitly gated;
 9. no component can silently acquire authority outside its role.
 
 ASTRA GOLD is **GOLD_ACTIVE** only after actual execution proves those properties.
@@ -572,6 +570,6 @@ As of 2026-10-02 the architecture is being normalized to this unified ASTRA GOLD
 
 The repository already contains substantial pieces: Astra coordination, A1/A2/A3 role contracts, autonomous queue, provider routing, qualification workflows, pre-soak/GOLD workflows, evidence contracts and recovery mechanisms.
 
-The current runtime qualification is not yet PASS because the canonical GitHub Actions execution has been observed pending with no executing job, and fresh 23-wave executor evidence has not been produced.
+Do not infer current workflow execution state from this dated design document or historical workflow observations. The current runtime gate state is reported only by the generated `docs/qualification/CURRENT-TRUTH.generated.md` at `main`, which is derived from the governance contract and current gate evidence. This document defines the target qualification surface; it does not convert unverified runtime behavior into PASS.
 
 This document therefore defines the target qualification surface; it does not convert unverified runtime behavior into PASS.
