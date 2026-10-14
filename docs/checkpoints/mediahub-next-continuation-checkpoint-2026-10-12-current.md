@@ -2101,3 +2101,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Branch boundary remains important: the same YAML path on `main` still has blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`. The documentation branch is diverged; no merge/cherry-pick was performed, so the scope change exists on the documentation branch only and is not yet on `main`.
 - No component admission/qualification, tests/CI, installation, execution, deployment or infrastructure change occurred. OpenHands remains candidate-only; DEC-DEV-02 and P0-07 trusted-context/authorization gates remain unresolved.
 - Next bounded step: refresh refs and exact source evidence, then continue package-specific OpenHands SDK identity/licence/dependency/platform/sandbox paper review. Do not install or execute it.
+
+
+## Latest verified continuation — external controller component crosswalk (2026-10-14)
+
+- Added `docs/checkpoints/MEDIAHUB-EXTERNAL-CONTROLLER-COMPONENT-CROSSWALK-01.md`; creation commit `fc4d37b8793ade95e88c68b722d2afc54227deb7`.
+- Live-read Canonical Component Manifest 2.0 on `main`, blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`; Distributed AI Infrastructure on `main`, blob `e549692f207fbc91d9b9b9b92b8e665404f07290`; Baseline 2.0 on `main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
+- Canonical manifest path is `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md@main`; the previously assumed `docs/architecture/MEDIAHUB-CANONICAL-COMPONENT-MANIFEST-2.0.md` path returns 404.
+- Existing manifest already lists llama.cpp as TARGET-GATED and Temporal, NATS JetStream and etcd as FUTURE-GATED only after demonstrated gaps. Additional orchestration frameworks are not justified by current evidence. Ollama remains a target-direction reference requiring DEC-DEV-01, not an admitted runtime.
+- Reusable design-level work products: Alamo endpoint contract, Jarvis↔ASTRA task envelope, model/provider route contract, tool capability contract and dependency admission record. These are proposals, not implementation.
+- DEC-DEV-02 lifecycle-authority/Product State Authority conflict remains unresolved. No component admission, owner decision, installation, code integration, model/provider call, test, qualification, host inspection, infrastructure change or deployment performed.
+- Next step: continue source-level closure of existing Contour A P0 work items, beginning with DEC-DEV-02 and P0-07 governance/API gap, while proceeding with independent read-only traceability work.
