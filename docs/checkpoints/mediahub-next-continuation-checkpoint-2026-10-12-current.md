@@ -2177,3 +2177,12 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - **Disposition:** OpenHands remains **RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**. Separate owner A/B/C decision remains open in Crosswalk §7.5; the prior option B decision applied only to the YAML manifest scope and must not be treated as choosing option B for OpenHands.
 - No artifact was downloaded or installed; no dependency executed, code imported, model/provider called, tests/scans/evaluation/qualification run, credentials used, host/runtime inspected, or infrastructure/deployment changed. DEC-DEV-02 and P0-07/P0-05/P0-04 remain gates.
 - **Next bounded step:** continue read-only exact-version licence/provenance/advisory review or request the explicit A/B/C owner disposition before any evaluation plan. No runtime action is authorized.
+
+
+## Latest /next result — OpenHands direct-dependency metadata cross-check (2026-10-14)
+
+- Refreshed live refs: main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch HEAD before this pass `dd24716a09b88fe73a2d8144272cd0314fbfe7a8`. The branches remain diverged; no integration operation was performed.
+- Read-only official PyPI/upstream review recorded in Component Admission Crosswalk §7.7. fakeredis 2.34.1 exact-version metadata identifies BSD-3-Clause and includes a Trusted Publishing attestation tied to `cunla/fakeredis-py@de4e72482402534ac0add5258f3afa9877bf61e5`. agent-client-protocol 0.12.1 hashes are recorded, but Trusted Publishing was not used and artifact-specific license/provenance remains open despite Apache-2.0 metadata in the upstream Python SDK repository.
+- The upstream ACP Security page showed no detected security policy and no published advisories at review time; this is an evidence observation, not a safety guarantee or vulnerability finding.
+- OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. Full transitive SBOM/license closure, comprehensive advisories, OpenHands source-to-artifact provenance, direct LiteLLM owner decision, target runtime and sandbox/egress remain open.
+- No artifact downloaded/installed/imported/executed; no tests/scans/provider calls/qualification/host inspection/infrastructure/deployment. Next: continue bounded read-only provenance/advisory review; no runtime action is authorized.
