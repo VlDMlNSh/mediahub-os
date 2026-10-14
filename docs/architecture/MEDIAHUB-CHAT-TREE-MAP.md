@@ -5329,3 +5329,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Open blockers: FreeLLMAPI local_gateway vs cloud/provider wording; OmniRoute/UnoRouter/OpenRouter identity; Ollama tag provenance and Alamo mapping; exact hardware/OS compatibility; authenticated capability/issuer lifecycle; historical partial-PASS artifact linkage.
 - Drafts are not accepted, implemented, qualified or deployed. Next: source-anchor identity/provider semantics and map any historical PASS evidence to exact immutable artifacts.
 
+
+## 20.261 Provider identity and egress contract crosswalk — Wave 05 (2026-10-14)
+
+- Added [Provider Identity and Egress Contract Crosswalk, Wave 05](../checkpoints/MEDIAHUB-PROVIDER-IDENTITY-AND-EGRESS-CONTRACT-CROSSWALK-WAVE-05-2026-10-14.md).
+- Source-anchored conflict: distributed AI architecture calls FreeLLMAPI a cloud-model provider path; provider/agent registries classify it as `local_gateway` / `PENDING`. This may describe local gateway + cloud upstream, but that topology is not pinned by deployment evidence. Conflict remains OPEN.
+- Preserved distinct `freellmapi`, `omniroute`, `unorouter`, `fcc`, `ollama`, `alamo`, and `claude-code` identities. No credential values or provider calls.
+- Added route-record requirements for task/data class, allowed egress, each gateway/upstream hop, exact executor/provider/model identity, policy/config revision, capability reference, budget, fallback, and immutable evidence. Local-only must fail closed.
+- Options A/B/C for FreeLLMAPI are analysis only; recommended next action is source/deployment identity verification before owner/governance selection. No registry semantic rewrite or status promotion.
+- Unified contract and matrix remain PROPOSED / NOT ACCEPTED / NOT FROZEN. Next: source-only identity/config history and exact linkage of owner-reported partial PASS evidence.
+
