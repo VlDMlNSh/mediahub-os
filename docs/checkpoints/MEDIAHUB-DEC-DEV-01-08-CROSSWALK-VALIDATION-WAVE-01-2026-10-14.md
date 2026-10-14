@@ -83,3 +83,12 @@ This is a bounded read-only refresh of the existing conflict, not a new finding 
 **Disposition:** DEC-DEV-02 remains OPEN_CONFLICT. No owner choice can be inferred from recommendations. A0-ASTRA remains restricted to engineering workflow state; MediaHub Product State Authority remains the sole canonical product-state mutation authority. Do not edit the normative scheme, start implementation, select a second queue, or promote ASTRA runtime truth. Independent D2 review remains a separate gate.
 
 **Minimal owner response requested:** select DEC-DEV-02 A, B, or C as defined in Owner Decision Packet §7.2, and explicitly confirm that A0-ASTRA has no MediaHub Product State Authority. Separately, commission an independent qualified P0-07 D2 reviewer under §7.3 (option A recommended; B only with documented independence; C leaves D2 NOT EVIDENCED). These are governance inputs, not implementation authorization.
+
+
+## 9. P0-07 D2 current-main call-chain trace (2026-10-14)
+
+A bounded static trace was added to the D2 proposal §13.3. Current-main source blobs inspected: authorization.py 4d8df5d3c1c26f7f133a8093cd270635b085f4d5; consumer_boundary.py 98bf2da9cea85da2c82145b4baef417c20b9ae73; in_memory_state.py 0fbc71369d19e09944ba67a60ccb9df802f30a4b; lifecycle_service.py 0b9d3d888e988615f1ad8cd50b1bef22f2be011b; coordination_service.py a4b81f2cfb21980af952aff26fb6e31d33b79bf7; astra_gateway.py 10985e4ad8f682313d08e7492ecc1856a8bce20f; task_ingress.py 59e1254aa61cc8f55f53bd1e179631e81c441393; astra_service.py 6aa2d09fc8737ccc0ba7f05bd13a15a0ebde7129.
+
+The inspected P0-04/P0-05 seam represents context as (principal, capability), checks explicit operation grants and forwards the context, but does not itself evidence a trusted issuer, audience binding, expiry, revocation, or restart lifecycle. The ASTRA task-gateway request path is a separate request type; no call edge joining it to ConsumerBoundary was evidenced in the inspected files. Do not treat its approval_state field as P0-07 trusted context.
+
+This strengthens source support for the existing bounded D2 proposal, not a new confirmed vulnerability or a completed independent review. D2 remains NOT EVIDENCED / proposal NOT ACCEPTED / NOT FROZEN; implementation and mutation/publication remain blocked. No tests, qualification, runtime calls, installation, credentials or infrastructure changes.
