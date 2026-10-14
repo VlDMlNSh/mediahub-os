@@ -1,6 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
-- Дата инвентаризации: 2026-10-12
+- Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.201)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -3835,7 +3836,7 @@ Key current consequence: for P0-05 status, verify whether acceptance evidence co
 - **Status:** P0-05 baseline contract acceptance is supported by the governance tree/packet, with a stale-header discrepancy to reconcile; P0-07 mutation publication remains **BLOCKED — GOVERNANCE/API GAP**. The non-normative v1.1 candidate remains not accepted/frozen; its D1–D5 and D7 remain open pending owner/security/governance decisions. No code, protected contract, tests or runtime were changed or executed.
 
 
-## 20.117 P0-07 audit/privacy/authorization governance crosswalk (2026-10-12)
+## 20.194 P0-07 audit/privacy/authorization governance crosswalk (2026-10-12)
 
 **Artifact:** `docs/checkpoints/p0-07-audit-privacy-governance-crosswalk-2026-10-12.md` (NON-NORMATIVE / FOR OWNER + GOVERNANCE REVIEW / NO IMPLEMENTATION AUTHORIZATION). It crosswalks MH-06 Observability, MH-12 Authorization and contradiction register, MH-13 Privacy/Data Governance and reconstruction/governance records against candidate P0-05 v1.1 D1–D5/D7. It proposes decision options and recommendations without selecting an API design on the owner's behalf.
 
@@ -3846,7 +3847,7 @@ Key current consequence: for P0-05 status, verify whether acceptance evidence co
 **Current gate:** P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP. Candidate and this packet remain non-normative. No tests, implementation, runtime execution, qualification or production authorization occurred.
 
 
-## 20.118 Owner disposition for P0-05 v1.1 candidate D1–D7 (2026-10-12)
+## 20.195 Owner disposition for P0-05 v1.1 candidate D1–D7 (2026-10-12)
 
 **Owner-recorded choices:** D1 **C→A**; D2 **C**; D3 **C→A**; D4 **C→B**; D5 **C→B**; D6 **B→A after confirmation**; D7 **C→B**. Detailed scope, conditions and limitations are recorded in [Owner Decision Register](../checkpoints/mediahub-owner-decisions-2026-10-12.md), blob SHA `62831d23c5e6bbddc707ec5b197cffba57d6139a`, and [Unified Traceability Matrix, Section 36](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob SHA `30dd68e26f6741a29cd9986b94a253cb61d8ec22`.
 
@@ -3857,7 +3858,7 @@ Key current consequence: for P0-05 status, verify whether acceptance evidence co
 **Hard blocker unchanged:** P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. No tests, implementation, runtime execution, qualification, deployment, migration, infrastructure change or merge was performed.
 
 
-## 20.119 P0-07 trusted caller/context provenance and operation authority map (2026-10-13)
+## 20.196 P0-07 trusted caller/context provenance and operation authority map (2026-10-13)
 
 **Status:** SOURCE-BOUND / PARTIAL / GOVERNANCE OPEN. Detailed traceability is recorded in [Unified Traceability Matrix, Section 37](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob SHA `e6252150b049eb0e1aae098cdabb727df919e773`.
 
@@ -3878,7 +3879,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 ## 20.120 P0-07 context issuer, canonical-read semantics and versioning evidence (2026-10-13)
 
-**Status:** SOURCE-BOUND / PARTIAL / GOVERNANCE OPEN. This pass deepened the Section 20.119 review using immutable source blobs; it does not choose an API bridge or authorize implementation.
+**Status:** SOURCE-BOUND / PARTIAL / GOVERNANCE OPEN. This pass deepened the Section 20.196 review using immutable source blobs; it does not choose an API bridge or authorize implementation.
 
 **Additional primary sources inspected:**
 - P0-04/P0-05 `AuthorizationContext` implementation blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`.
@@ -4412,7 +4413,7 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Safety:** documentary source reconciliation only; no tests, host/runtime inspection, inventory, credentials, installation, infrastructure change, deployment, migration, merge or rebase.
 
 
-## 20.156 DEC-DEV-04 — Mac mini Server 2011 evidence gate (2026-10-13)
+## 20.198 DEC-DEV-04 — Mac mini Server 2011 evidence gate (2026-10-13)
 
 - **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “DEC-DEV-04 — Mac mini Server 2011 evidence-gate reconciliation”; commit `ceecad3c75ffb1ff0e7d1e1a064fc329fea8db0a`, blob `f3fbf18e35949cd2ac31f6dcbfa3802c8f94d86c`.
 - **Primary sources re-read:** MH-15 architecture on `main`, blob `f817925c69ce4484713f952e47aacad283af8eeb` (WORK IN PROGRESS; acceptance/freeze NOT AUTHORIZED; implementation authorization NONE); MH-15 acceptance criteria on `main`, blob `082642e67dc66cb359a5566773c143854cafaa00` (NOT ACCEPTED).
@@ -4423,7 +4424,7 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Next:** continue P0-07 → P0-05 trusted context/canonical-read work per Roadmap §9 independently; revisit DEC-DEV-04 only after separately authorized read-only evidence collection. No host/runtime inspection, tests, qualification, credentials, deployment, migration, merge or rebase.
 
 
-## 20.157 P0-04 context issuer reachability and MH-04 governance gate (2026-10-13)
+## 20.199 P0-04 context issuer reachability and MH-04 governance gate (2026-10-13)
 
 - **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “P0-04 context issuer reachability and MH-04 governance gate”; commit `d3d43130a05bd7c81d270c7cbb0da18bf4b4aea4`, blob `b7cadb3066f9d512b0bcfd4f0abd65eaa9d0f0e4`.
 - **Governance/privacy crosswalk:** Section 17 in `p0-07-audit-privacy-governance-crosswalk-2026-10-12.md`, commit `d9ac63fefc1548b3f2537536e38fdb6e88d1cce2`, blob `858d579af8dc0fb57948d183dab23e3e6528b650`.
@@ -4497,7 +4498,7 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Disposition:** D5 remains open; no audit schema, storage, API or technology selected. Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; no implementation or qualification claimed.
 
 
-## 20.141 P0-07 D7 — canonical state-version and change-control crosswalk (2026-10-13)
+## 20.197 P0-07 D7 — canonical state-version and change-control crosswalk (2026-10-13)
 
 - **Artifact:** [P0-07 D7 canonical state-version crosswalk](../checkpoints/P0-07-D7-CANONICAL-STATE-VERSION-CHANGE-CONTROL-CROSSWALK-2026-10-13.md).
 - **Status:** READ-ONLY SOURCE CROSSWALK / PARTIAL / NOT ACCEPTED / NOT FROZEN.
@@ -4764,7 +4765,7 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - D5 remains NOT EVIDENCED for an accepted P0-07 audit/provenance contract, durable sink, authorized-reader path, retention/deletion owner, integrity controls and operation-specific audit-unavailable behavior. No audit schema or sink was invented; P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP. No tests or runtime execution.
 
 
-## 20.190 DEC-DEV-01…08 live-source crosswalk validation wave 01 (2026-10-14)
+## 20.200 DEC-DEV-01…08 live-source crosswalk validation wave 01 (2026-10-14)
 
 - Report: [MEDIAHUB-DEC-DEV-01-08-CROSSWALK-VALIDATION-WAVE-01-2026-10-14.md](../checkpoints/MEDIAHUB-DEC-DEV-01-08-CROSSWALK-VALIDATION-WAVE-01-2026-10-14.md).
 - Status: documentary source revalidation complete for this bounded pass; not accepted/frozen; no implementation or qualification.
@@ -4800,3 +4801,13 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - Post-write read-back verified the exact blob and replacement. This resolves the contradictory duplicated number on the documentation branch only; current `main` still has the older component scheme and broader A0 “MediaHub State Authority” wording. No main edit or integration.
 - Static checks found 23 rounds per mandatory path / 115 total rounds and 24-hour soak consistently described in the six inspected ASTRA sources. This was not a repository-wide drift test or qualification run.
 - Current-main CURRENT-TRUTH still marks G0–G11 BLOCKED / overall NOT_PROVEN. P0-07 D2 qualified independent review, owner/governance dispositions and cross-branch authority alignment remain open.
+
+## 20.201 Project-wide architecture integrity sweep wave 06 (2026-10-14)
+
+- Report: [project-wide architecture integrity sweep wave 06](../checkpoints/MEDIAHUB-PROJECT-WIDE-ARCHITECTURE-INTEGRITY-WAVE-06-2026-10-14.md), blob `55cc4be43dedd973705e6215a11b946243e1145e`.
+- Static review covered live main/docs refs, Baseline 2.0, ASTRA machine/prose gate contracts, P0-04/P0-05/P0-07 source paths, owner directions, Jarvis semantic status, and current-main tree path evidence. This is broad targeted coverage, not a full semantic review of every repository file.
+- Corrected seven duplicate section IDs by preserving the earlier IDs and assigning the later colliding headings unique IDs: `20.194`–`20.200`; updated the self-reference formerly pointing to the duplicated `20.119`. Collision map and exact titles are in the report.
+- Static integrity checks: ASTRA schema/governance/unified YAML each declare identical G0–G11 IDs with no duplicates/missing IDs; all five distinct test files named by 16 governance invariant references exist in the 798-entry non-truncated main tree. No tests were run; these are path/structure checks only.
+- Confirmed open issues: main still has the superseded concurrency prose value 2 where canonical schema/governance/reference sources say 3; A0 product-state wording remains out of alignment across main/docs; unified YAML readiness-status/version lineage is ambiguous; trusted-context/approval provenance and P0-07→P0-05→P0-04 implementation evidence is incomplete; D2 independent review remains outstanding.
+- P0-05 D6 owner direction remains defer pending further evidence; Baseline 2.0 remains accepted/canonical/immutable; crosswalk semantic acceptance and Contour A→B acceptance remain open/gated.
+- Administrative answer choices are in the report §9 and existing owner packet update (if/when added); recommendations are not owner decisions. No normative source/main file was altered and no gate was promoted.
