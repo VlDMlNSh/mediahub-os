@@ -708,3 +708,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Map section `20.232` records the package-level research pin; section `20.234` records the refreshed external-controller crosswalk; current map blob SHA at this step `25993aa32794f5a262e627e21d38c4c7b4a7c98b`. Current main HEAD remains `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; current docs branch must be re-read after this write.
 - No package downloaded or installed, no code copied/imported/executed, no model/provider invoked, no tests/evaluation/qualification run, no credentials/host/runtime inspected, and no infrastructure/deployment/branch integration occurred. DEC-DEV-02 and P0-07/P0-05/P0-04 remain gates.
 - **Next:** read-only closure of package supply-chain evidence (dependency lock/SBOM and dependency-license mapping; provenance and applicable advisories), then submit an owner decision if the SDK's direct LiteLLM dependency or Python >=3.12 requirement conflicts with approved Contour A constraints. Candidate stays research-only; no runtime action is authorized here.
+
+ 
+## 51. Execution update — OpenHands SDK supply-chain/security paper review (2026-10-14)
+
+- Completed a read-only inspection of the pinned upstream source commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`, SDK/workspace metadata, root MIT license, v1.54.0 release metadata and the upstream security-scan workflow.
+- Updated Component Admission Crosswalk §7.5 (blob `844d45849f07cf1bad16ca509be0d000ffc6974e`) and indexed it at map §20.237. The upstream workspace has `uv.lock`, but no complete transitive license/SBOM closure or scan result was verified. Non-release security scans are described as opt-in; release immutability is false and PyPI Trusted Publishing was not used for this upload.
+- Key gate: `openhands-sdk` directly requires LiteLLM (workspace constraint `litellm==1.93.0`), FastMCP, fakeredis and LMNR. MediaHub has not admitted LiteLLM as an independent gateway; owner review must establish whether this transitive dependency is acceptable and cannot override MediaHub-owned local-only/data-class routing policy.
+- Status unchanged: research pin only; not selected, not admitted, not ready for installation/runtime evaluation. No download/install/import/execution, test, scan, model/provider call, host inspection, deployment or manifest change occurred.
+- **Next:** owner decision A/B/C in Crosswalk §7.5 (defer/reject; continue paper review only; or authorize a separately scoped evaluation plan after the existing authority and sandbox gates close). No option is presumed accepted.
+
