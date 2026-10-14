@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.212)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.218)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -4956,3 +4956,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Repaired duplicate roadmap numeric headings without deleting content: P0-07 D1/D2 addendum `## 8` → `### 10.5`; evidence-register review `## 28` → `## 29`; plan-navigation repair `## 29` → `## 30`; health-model review `## 30` → `## 31`. Current roadmap blob `a84e04b2ecebb5b66c2ca7b3843bcdd08113672b`.
 - The unified remediation plan records MH-ARCH-030 and navigation repair details (blob `eb48186bdc1039a55ba56145ee122564bc8faedd`). No normative source or acceptance status changed.
 - Final read-back and full numeric-heading scan are required before considering the navigation repair verified.
+
+
+## 20.218 Non-MH-03 repeated-basename classification (2026-10-14)
+
+- Unified findings: [MH-ARCH-037…039, remediation plan §9.25](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Classified the three remaining non-MH-03 repeated-basename pairs by current content: same-label/different-target LaunchAgent manifests (deployment collision risk, runtime impact unknown); two distinct capability schemas; two distinct state modules.
+- Inventory remains 24 repeated-basename groups: 18 MH-03 root/nested pairs, three non-MH-03 pairs, and the `__init__.py`, `README.md`, and `SKILL.md` groups. Same basename is not deletion evidence.
+- No source files were deleted, renamed, or promoted; no tests, host inspection, install, deployment, branch integration or qualification occurred. ASTRA remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Next: trace package/workflow references for MH-ARCH-037, schema references for MH-ARCH-038, and imports for MH-ARCH-039; then continue remaining MH-03 pairs. Use the unified remediation plan as the sole findings register.
