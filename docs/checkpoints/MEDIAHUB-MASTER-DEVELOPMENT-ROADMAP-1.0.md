@@ -530,3 +530,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - No tests, qualification, runtime/host inspection, installation, infrastructure change, deployment, migration or branch integration occurred. ASTRA remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 
 **Next bounded action:** continue one MH-03 root/nested pair at a time and update the unified finding register, map and checkpoint only with source-backed evidence.
+
+## 29. Execution update — unified remediation-plan subsection ID repair (2026-10-14)
+
+- Post-write read-back detected a duplicate `### 9.17` subsection ID in the single unified remediation plan, introduced by concurrent documentation appends.
+- Re-keyed only the later core-link/map-ID rescan to `### 9.18`; retained MH-ARCH-026 evidence-register review at `### 9.17`.
+- Verified plan blob `bf753b5203e938adb429af2200dc606fbe4a8974`. This is navigation maintenance; no contract or status changed.
+
+**Next bounded action:** continue source-anchored MH-03 pair review, keeping the remediation plan as the sole finding register.
