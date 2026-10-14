@@ -2463,3 +2463,13 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - No tests/qualification, model/provider invocation, credentials, installation, host configuration changes, deployment, merge or release. The contract/schema remain drafts, not accepted or implemented.
 - Next: source-only search existing repository history and artifacts for attributable historical PASS evidence, then reconcile provider identity/classification from pinned non-secret source/config. Keep all runtime/qualification claims evidence-gated.
 
+
+## Latest /next result — provider identity and egress contract crosswalk, Wave 05 (2026-10-14)
+
+- Added [Provider Identity and Egress Contract Crosswalk, Wave 05](MEDIAHUB-PROVIDER-IDENTITY-AND-EGRESS-CONTRACT-CROSSWALK-WAVE-05-2026-10-14.md).
+- Live source comparison: `architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md` blob `e549692f207fbc91d9b9b9b92b8e665404f07290` describes FreeLLMAPI as a cloud-model provider path. `profiles/providers/astra-gold-hybrid-agent-fabric.yaml` blob `acf3ad43e68bf49ffa5a1d2c89f64bd363c0e181` classifies it as `local_gateway` / `PENDING`; `profiles/agent-registry.json` blob `993cbbe1b2b2a88da7d8884a897b404f055981a8` retains separate provider entries and the OmniRoute gateway reference.
+- Conflict stays OPEN; local gateway + cloud upstream is a hypothesis, not a decision. OmniRoute, UnoRouter, FreeLLMAPI, FCC, Ollama, Alamo and Claude Code remain separate identities.
+- Route evidence requirements now explicitly cover each hop's locality, upstream provider, egress class, actual model identity, policy/config revision, budget/capability and fallback. local-only remains fail-closed.
+- Unified contract/matrix remain PROPOSED / NOT ACCEPTED / NOT FROZEN. No provider calls, credentials, tests, qualification, registry rewrite or deployment.
+- Next: source-only implementation/config-history identity trace and exact immutable linkage for owner-reported partial PASS evidence; do not invent gate/run/artifact details.
+
