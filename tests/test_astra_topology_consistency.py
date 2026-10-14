@@ -26,8 +26,8 @@ class AstraTopologyConsistencyTests(unittest.TestCase):
         self.assertIn("runtime_thresholds.max_parallel_autonomous_claims", reference)
         self.assertIn("runtime_thresholds.max_parallel_autonomous_claims", unified)
         self.assertIn("runtime_thresholds.max_parallel_autonomous_claims", component)
-        self.assertNotRegex(reference, r"Maximum autonomous claims:\\s*\\d+")
-        self.assertNotRegex(unified, r"maximum (?:three|\\d+) concurrent autonomous claims")
+        self.assertNotIn("Maximum autonomous claims:", reference)
+        self.assertNotRegex(unified, r"maximum (?:three|[0-9]+) concurrent autonomous claims")
 
     def test_permanent_pool_and_queue_contracts_are_three_claude_lanes(self):
         queue = (ROOT / "runtime/mediahub_runtime/autonomous_queue.py").read_text()
