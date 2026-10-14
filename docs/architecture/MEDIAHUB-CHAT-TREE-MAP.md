@@ -5080,7 +5080,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 ## 20.232 — OpenHands SDK source and artifact pin review (2026-10-14)
 
-- Detailed package/licence/dependency evidence: [Component Admission Crosswalk, §7.4](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md); current crosswalk blob SHA `d1ab75d039bf8384ea19259cbbe43f6e41619882`.
+- Detailed package/licence/dependency evidence: [Component Admission Crosswalk, §7.4](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md); current crosswalk blob SHA `99ac049df9ff0760ba350420c3be29996d6cbeda`.
 - Canonical SDK repository is `OpenHands/software-agent-sdk`, not the umbrella `OpenHands/OpenHands` monorepo. Release `v1.54.0` points to verified-signature commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`; GitHub release metadata says `immutable: false`. PyPI `openhands-sdk==1.54.0` wheel SHA-256: `647bf83c888bc544b0500480aa8a89729f44f6db9f93ea3ba43cfc7fdf070db3`; source archive SHA-256: `431e7bc66ac5caf3a426e25bc67d3a85d5036ace61ff2c20af5a62ea16650485`. PyPI metadata says Trusted Publishing was not used for this upload.
 - Package declares Python `>=3.12`; approved Contour A runtime versions remain unknown. Direct SDK dependencies include LiteLLM, FastMCP, fakeredis, agent-client-protocol and other libraries. The separate Agent Server adds Docker, API/storage and OpenAI SDK dependencies. Complete lock/licence closure, SBOM, telemetry/egress model, target compatibility and sandbox configuration remain unreviewed.
 - **Disposition: RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.** An artifact checksum and a signed source commit are useful identity evidence, not supply-chain qualification or MediaHub compatibility evidence.
@@ -5128,7 +5128,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
  
 ## 20.237 — OpenHands SDK supply-chain and security-process review (2026-10-14)
 
-- Detailed evidence and decision gates: [Component Admission Crosswalk, §7.5](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), current full crosswalk blob `d1ab75d039bf8384ea19259cbbe43f6e41619882` (includes §§7.5–7.8 in the current read-back).
+- Detailed evidence and decision gates: [Component Admission Crosswalk, §7.5](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), current full crosswalk blob `99ac049df9ff0760ba350420c3be29996d6cbeda` (includes §§7.5–7.8 in the current read-back).
 - Confirmed read-only facts: SDK requires Python >=3.12; root project licence is MIT; upstream workspace has `uv.lock`; its security-scan workflow documents OSV/dependency checks but non-release scans are opt-in and this review did not inspect a run result.
 - Material open gates: direct LiteLLM/FastMCP/fakeredis/LMNR dependencies; full transitive licence/hash/SBOM closure; actual Contour A runtime compatibility; source-to-artifact provenance; security disclosure evidence; worker sandbox, telemetry and egress boundaries.
 - Status remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. No artifact downloaded, dependency installed, code executed, tests/scans run or manifest changed.
@@ -5136,7 +5136,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 ## 20.238 — OpenHands SDK dependency lock and telemetry trace (2026-10-14)
 
-- Detailed evidence: [Component Admission Crosswalk Wave 01 §7.6](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), current full-file blob `d1ab75d039bf8384ea19259cbbe43f6e41619882`.
+- Detailed evidence: [Component Admission Crosswalk Wave 01 §7.6](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), current full-file blob `99ac049df9ff0760ba350420c3be29996d6cbeda`.
 - At pinned upstream source commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`, the workspace lock resolves LiteLLM 1.93.0, FastMCP 3.2.0, fakeredis 2.34.1, agent-client-protocol 0.12.1 and LMNR 0.7.60. Selected PyPI licence metadata was verified for LiteLLM (MIT), FastMCP (Apache-2.0) and LMNR (Apache-2.0); exact-version licence closure for fakeredis 2.34.1 and agent-client-protocol 0.12.1 remains open. The transitive dependency closure is not yet a complete SBOM.
 - Static source trace: core SDK imports LiteLLM for provider calls; Laminar/OpenTelemetry instrumentation can initialize when environment keys/endpoints are configured; LocalWorkspace executes commands on the host. Agent Server binds to 0.0.0.0 by default and has access to its configured workspace; AgentSandboxWorkspace documents NetworkPolicy-based egress restriction and optional gVisor/Kata runtime classes. No MediaHub runtime telemetry or deployed sandbox state is inferred.
 - **Disposition:** research pin only / candidate / not selected / not admitted / not ready for runtime evaluation. Direct LiteLLM dependency requires owner/governance disposition against MediaHub's single provider-routing authority. Full SBOM, exact-version licences, provenance/advisories, explicit telemetry/egress policy and sandbox admission evidence remain open. DEC-DEV-02 and P0-07/P0-05/P0-04 remain gates.
@@ -5147,7 +5147,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 - Component Admission Crosswalk §7.7 records official PyPI evidence for the two remaining direct dependencies: fakeredis 2.34.1 license metadata is BSD-3-Clause and PyPI shows Trusted Publishing attestation; agent-client-protocol 0.12.1 hashes are recorded but PyPI says Trusted Publishing was not used and artifact-specific license/provenance remains open.
 - Official ACP upstream repository metadata identifies Apache-2.0 and its Security page reports no detected security policy/no published advisories at review time. This is not a vulnerability finding or artifact-level license attestation.
-- Crosswalk current blob after read-back: `d1ab75d039bf8384ea19259cbbe43f6e41619882`. OpenHands remains research pin only / not admitted / not ready for runtime evaluation. No artifact downloaded, tests/scans or runtime actions performed.
+- Crosswalk current blob after read-back: `99ac049df9ff0760ba350420c3be29996d6cbeda`. OpenHands remains research pin only / not admitted / not ready for runtime evaluation. No artifact downloaded, tests/scans or runtime actions performed.
 
 
 ## 20.240 — DEC-DEV-02 exact-clause revalidation
@@ -5161,7 +5161,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 - Official PyPI page confirms `openhands-sdk==1.54.0` wheel SHA-256 `647bf83c888bc544b0500480aa8a89729f44f6db9f93ea3ba43cfc7fdf070db3` and sdist SHA-256 `431e7bc66ac5caf3a426e25bc67d3a85d5036ace61ff2c20af5a62ea16650485`; Trusted Publishing was not used. Release v1.54.0 points to verified-signature source commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`, but GitHub marks the release mutable. Artifact bytes were not independently downloaded or rehashed.
 - Public upstream Security page shows no detected security policy and no published advisories at review time. Public issue #4157 reported a concern about LLM self-assessed risk labels and confirmation behavior; applicability to pinned v1.54.0 is **unverified**, not a confirmed vulnerability. MediaHub must retain deterministic external authorization and never treat model-generated risk labels as permission.
-- Full dependency SBOM/licence/advisory closure, source-to-artifact provenance, target runtime, sandbox/egress and direct LiteLLM dependency decision remain open. OpenHands stays **RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION**. Evidence and gates: [Component Admission Crosswalk §7.8](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), blob `d1ab75d039bf8384ea19259cbbe43f6e41619882`.
+- Full dependency SBOM/licence/advisory closure, source-to-artifact provenance, target runtime, sandbox/egress and direct LiteLLM dependency decision remain open. OpenHands stays **RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION**. Evidence and gates: [Component Admission Crosswalk §7.8](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), current crosswalk blob `99ac049df9ff0760ba350420c3be29996d6cbeda`.
 - No artifact downloaded, installed, imported or executed; no tests/scans/provider calls/qualification/host inspection/infrastructure/deployment occurred.
 
 
