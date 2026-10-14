@@ -4791,3 +4791,12 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - Concurrency discrepancy remains on both refs: component scheme says 2; schema/governance registry say 3. No value chosen.
 - `main` CURRENT-TRUTH remains G0–G11 BLOCKED / NOT_PROVEN. No qualification, tests, or branch integration.
 - Next: establish authorized disposition of docs-branch authority clarifications and separately resolve concurrency source-of-truth discrepancy; P0-07 D2 independent review remains open.
+
+## 20.193 ASTRA source-of-truth reconciliation wave 05 (2026-10-14)
+
+- Report: [source-of-truth reconciliation wave 05](../checkpoints/MEDIAHUB-ASTRA-SOURCE-OF-TRUTH-RECONCILIATION-WAVE-05-2026-10-14.md), blob `62421fecddad50941912b4be7c2ff56c90ac837b`.
+- Canonical governance registry explicitly names the qualification launch schema as authority for numeric runtime thresholds and says prose docs should reference it, not restate values. Launch schema, governance registry, reference architecture and unified development system all specify/affirm 3 autonomous claims.
+- Corrected docs-branch component scheme §14 by replacing its duplicate “maximum 2” with a direct reference to `G5_CONCURRENCY.max_parallel_autonomous_claims`; disjoint claims/shared-surface serialization preserved. New component-scheme blob `6e723bdf557f4e3dae8f1b6795d4072b67dfe5e1`, commit `b890414af6d755d9223e1ba185212d4e63ec9735`.
+- Post-write read-back verified the exact blob and replacement. This resolves the contradictory duplicated number on the documentation branch only; current `main` still has the older component scheme and broader A0 “MediaHub State Authority” wording. No main edit or integration.
+- Static checks found 23 rounds per mandatory path / 115 total rounds and 24-hour soak consistently described in the six inspected ASTRA sources. This was not a repository-wide drift test or qualification run.
+- Current-main CURRENT-TRUTH still marks G0–G11 BLOCKED / overall NOT_PROVEN. P0-07 D2 qualified independent review, owner/governance dispositions and cross-branch authority alignment remain open.
