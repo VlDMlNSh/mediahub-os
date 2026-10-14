@@ -20,6 +20,8 @@ This is architecture direction only; it does not claim implementation or qualifi
 
 ## 2. Source anchors read on the documentation branch
 
+Additional cross-ref checked for the R-02 correction: architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md on main, blob e549692f207fbc91d9b9b9b92b8e665404f07290. Its §§1–2, topology diagram, component responsibilities and qualification checklist explicitly cover FCC, FreeLLMAPI, Claude Code, local Alamo/Ollama, local-only fail-closed behavior, and the fact that the topology is logical rather than deployment evidence.
+
 | Source | Read-back blob SHA | Relevant current wording |
 |---|---|---|
 | `architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md` | `b354acfa4cff595583a7f1778371143e9868f293` | §1 calls A0-ASTRA the single ASTRA GOLD engineering coordination authority and limits its state to ASTRA queue/claim/gate state; §3.3 lists permanent production lanes mh-dev-01 → Claude, mh-dev-02 → Claude, Voktors-Mac-mini.local → Claude; §3.4 lists GitHub Transport. |
@@ -37,12 +39,20 @@ D-03 places Jarvis at the system-wide engineering orchestration layer. ASTRA GOL
 
 **Recommended draft wording:** “Jarvis owns system-level mission coordination and policy selection; ASTRA A0 owns ASTRA-internal queue/claim/lease/gate state and enforces ASTRA execution admission. Jarvis submits bounded missions through the ASTRA contract; it does not bypass A0.”
 
-### R-02 — D-03 per-task Claude/Ollama routing vs permanent Claude production lanes
-**Classification: REAL SCOPE/TOPOLOGY TENSION; no silent change authorized.**
+### R-02 — Claude Code, FCC, FreeLLMAPI and local Ollama routing vs ASTRA permanent lanes
+**Classification: PREVIOUS TENSION WAS OVERSTATED; THE REPOSITORY ALREADY DEFINES A ROUTING TOPOLOGY, WHILE RUNTIME/ADMISSION STATUS REMAINS UNVERIFIED.**
 
-ASTRA GOLD reference architecture and executor capability matrix name three permanent production lanes, all bound to Claude. The unified system explicitly says Ollama and other surfaces are not permanent queue executors. D-03 establishes a broader Jarvis target in which policy can choose Claude or a compatible local Ollama model per task. The new target must not be treated as already changing the qualified/current ASTRA production pool.
+The owner clarified on 2026-10-14 that Claude Code is the Jarvis engineering client/path and is intended to work through the project's FCC and FreeLLMAPI components with local Ollama available as a route. This clarification is consistent with the accepted target architecture in architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md on main (blob e549692f207fbc91d9b9b9b92b8e665404f07290): §§1–2 identify FCC as a required Claude Code integration/control layer, FreeLLMAPI as a cloud-model/provider path, and require local-only mode not to fall back silently to Anthropic; the logical topology depicts Claude Code → FCC → local Alamo/Ollama and/or FreeLLMAPI/provider routes. The source explicitly labels this topology logical and says it does not prove the components are deployed or every edge is compatible.
 
-**Recommended disposition:** preserve the current permanent Claude lane contract for ASTRA GOLD until a separate, evidence-backed executor admission and qualification path authorizes a change. Model the Jarvis-wide local Ollama route as a target/candidate path outside the permanent ASTRA pool until that gate is met. No Ollama lane is admitted by this document.
+Important distinction: **Claude Code is the client/agent surface, not proof that every request executes on Anthropic's hosted Claude model.** The actual model/provider is determined by the configured and policy-approved route (for example, local Ollama via the local inference endpoint, or an explicitly allowed FreeLLMAPI cloud provider). Codex is documented as a separate cloud-authenticated path and must not be conflated with the Claude Code/FCC route.
+
+ASTRA GOLD's three permanent production lanes remain documented as bound to Claude in architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md (§3.3; blob b354acfa4cff595583a7f1778371143e9868f293). That lane statement is scoped to the current ASTRA GOLD production queue; it does not disprove the broader Jarvis/FCC routing architecture, and the routing architecture does not automatically reconfigure or qualify ASTRA's permanent lanes.
+
+**Corrected disposition:**
+1. Treat Claude Code + FCC as the intended engineering-client/integration path; treat FreeLLMAPI as a cloud-provider route and local Alamo/Ollama as the local inference route, subject to exact configuration and compatibility evidence.
+2. Keep task/data classification, egress policy, provider/model identity, budget/quota, and explicit fallback policy in the routing decision record. Local-only mode must fail closed and must never silently route to Anthropic/another cloud provider.
+3. Preserve the existing ASTRA permanent Claude-lane contract unless and until its own documented admission/qualification process changes it. This is not a reason to block the intended Jarvis-level routing design.
+4. Do not claim FCC, FreeLLMAPI, Claude Code, Alamo/Ollama, or any routing edge is currently installed, connected, compatible, tested, or qualified without fresh evidence.
 
 ### R-03 — Direct GitHub management vs GitHub as transport/evidence substrate
 **Classification: RECONCILABLE BY CAPABILITY BOUNDARY; implementation details remain open.**
@@ -63,7 +73,7 @@ Routing should be deterministic and auditable per task: task class, data classif
 
 ## 4. Bounded disposition
 
-- D-03 remains OWNER-ACCEPTED as an architecture direction.
+- D-03 remains OWNER-ACCEPTED as an architecture direction; this pass records the owner's clarification that Claude Code is the client/agent path and FCC/FreeLLMAPI provide the intended routing integration, with local Ollama/Alamo as a target route.
 - Existing ASTRA GOLD normative lane, A0 authority, qualification and GitHub workflow constraints remain in force; this review does not rewrite them.
 - Jarvis-to-ASTRA mission interface, GitHub adapter capability list, write scopes, branch/PR lifecycle, policy schema and audit record remain engineering design items.
 - The unified v0.1 and v3 integration contracts remain drafts; this document does not accept either as a global baseline.
