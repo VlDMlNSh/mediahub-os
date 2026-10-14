@@ -497,7 +497,7 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - The post-§20.207 full numeric-heading scan found one previously missed collision: the legacy top-level `## 16. Owner decision register` reused the earlier Baseline 1.0 passport section ID `16`.
 - Added MH-ARCH-023 to the unified remediation plan, preserving the earlier historical heading and changing only the later navigation heading to `20.208`. Added map record §20.209 and advanced map metadata.
 - Verified current map blob `7dea16102dbc1908906d89b4637f90f196a15f4d`: **283 numeric headings, 283 unique IDs, zero duplicate IDs**. A map-only explicit Markdown-fragment scan found no inbound link to `#16-owner-decision-register`; this is not a repository-wide link-graph audit.
-- Unified remediation plan blob after MH-ARCH-023: `ce1d43de9a742e79a433bbe15de0868bb6e71c4f`.
+- Unified remediation plan blob after MH-ARCH-023: `0e8bfdb5af5d4e66c777e5b099687d53f8ce57be`.
 - No normative contract, Baseline, code or `main` file was changed. No tests, qualification, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick were performed.
 
 **Next bounded step:** continue source/provenance comparison of another MH-03 pair. Keep canonical-tree selection with the owner/governance authority and preserve all divergent copies until that decision is recorded.
