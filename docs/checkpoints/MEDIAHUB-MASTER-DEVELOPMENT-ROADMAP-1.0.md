@@ -676,3 +676,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Recorded source-pin preflight in Component Admission Crosswalk §7.2 and indexed it at map §20.232. Exact SDK package identity, immutable pin, licence/dependency closure, platform/sandbox and Contour A capability mapping remain open.
 - No install, source copy, import, execution, tests, evaluation, qualification, provider/model invocation, host/runtime inspection, infrastructure change or deployment occurred. No component was admitted.
 - **Next:** identify the exact official OpenHands Software Agent SDK distribution/repository and immutable artifact pin, then complete package-level licence/dependency/platform/security paper review. Keep it candidate-only and preserve DEC-DEV-02 and trusted-context gates.
+
+
+## 48. Execution update — owner confirms scoped component admission manifest (2026-10-14)
+
+- Owner selected option B: `oss/manifests/components.yaml` is a scoped runtime/deployment admission subset, not a complete projection of the canonical component-selection catalogue.
+- Added scope/source/status/omission semantics to YAML on the documentation branch and recorded the decision in Component Admission Crosswalk §7.3 and map §20.234.
+- YAML branch blob SHA: `e3cf487bcf43ecb92cd110b5af2660c066b58e2a`; crosswalk blob SHA: `5a88b8baa3f5cec2c90d8754a09f6a2e64755669`; map blob SHA: `0e2e43d403ab2fa251445c204ab84db9031c2a8a`.
+- `main` still has the prior YAML blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`; the branches are diverged, and no merge/cherry-pick was performed. This change is committed and read-back verified on the documentation branch only.
+- No component was admitted or qualified; no tests, CI, runtime execution, installation, deployment or infrastructure changes occurred.
+- Next: record this boundary in the current checkpoint, refresh refs and source SHA evidence, then continue the existing OpenHands SDK package-identity/security paper review without installing or executing it. DEC-DEV-02 and P0-07 remain gates.
