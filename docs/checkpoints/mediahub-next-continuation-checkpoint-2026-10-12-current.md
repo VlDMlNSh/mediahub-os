@@ -2403,3 +2403,11 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Created [Jarvis/ASTRA D-03 reconciliation report](MEDIAHUB-JARVIS-ASTRA-D03-RECONCILIATION-01-2026-10-14.md), commit `20923da2c71e4dd985871ddd806d80364b1feefc`. Source-only findings: (1) Jarvis top-level coordination vs A0 single ASTRA controller is reconcilable only via bounded mission submission and a single-writer boundary; (2) D-03 Claude/Ollama routing conflicts in scope with ASTRA's existing permanent Claude-only production lanes unless kept outside the qualified pool; (3) direct GitHub integration must not bypass path/branch capabilities, review, A3 or human release gates; (4) Product State Authority remains unchanged; (5) routing and fallback need deterministic audit records.
 - No normative ASTRA docs were changed. No code execution, tests, installation, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure change, merge, rebase, cherry-pick or deployment occurred.
 - Next bounded step: draft a narrow Jarvis control-plane/GitHub adapter contract (mission interface to A0, capability-scoped repo operations, per-task route record, evidence and prohibited actions), then compare its scopes to actual GitHub integration permissions before implementation.
+
+
+### D-03 reconciliation final read-back anchors (2026-10-14)
+
+- Reconciliation report blob: `0e069ef1026b5e8cc4e4749a984aeae957d82baa`.
+- Master roadmap after §66: `98a25034e73fb825d120cd433b315be78238ea54`.
+- Project map after §20.255 and latest-update pointer refresh: `bc0712ad5ee9efe09eedc6e8ba5d098f828ea5a7`.
+- This checkpoint is updated after the prior read-back; verify its resulting blob SHA after this write.
