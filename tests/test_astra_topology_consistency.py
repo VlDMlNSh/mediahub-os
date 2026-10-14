@@ -2,20 +2,32 @@ import json
 import re
 import unittest
 from pathlib import Path
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class AstraTopologyConsistencyTests(unittest.TestCase):
-    def test_canonical_concurrency_is_three(self):
-        governance = (ROOT / "architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml").read_text()
-        qualification = (ROOT / "architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml").read_text()
+    def test_concurrency_authority_and_mirrors_are_consistent(self):
+        governance = yaml.safe_load((ROOT / "architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml").read_text())
+        qualification = yaml.safe_load((ROOT / "architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml").read_text())
+        unified_model = yaml.safe_load((ROOT / "architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml").read_text())
         reference = (ROOT / "architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md").read_text()
         unified = (ROOT / "architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.md").read_text()
-        self.assertIn("max_parallel_autonomous_claims: 3", governance)
-        self.assertIn("max_parallel_autonomous_claims: 3", qualification)
-        self.assertIn("Maximum autonomous claims: 3", reference)
-        self.assertIn("maximum three concurrent autonomous claims", unified)
+        component = (ROOT / "architecture/ASTRA-GOLD-COMPLETE-COMPONENT-SCHEME.md").read_text()
+
+        schema_path = "architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml"
+        self.assertEqual(governance["authority_source"], schema_path)
+        self.assertEqual(governance["gate_registry"]["source_of_truth"], schema_path)
+        canonical_limit = qualification["gates"]["G5_CONCURRENCY"]["max_parallel_autonomous_claims"]
+        self.assertEqual(governance["runtime_thresholds"]["max_parallel_autonomous_claims"], canonical_limit)
+        self.assertEqual(unified_model["qualification"]["concurrency"]["max_parallel"], canonical_limit)
+
+        self.assertIn("runtime_thresholds.max_parallel_autonomous_claims", reference)
+        self.assertIn("runtime_thresholds.max_parallel_autonomous_claims", unified)
+        self.assertIn("runtime_thresholds.max_parallel_autonomous_claims", component)
+        self.assertNotRegex(reference, r"Maximum autonomous claims:\\s*\\d+")
+        self.assertNotRegex(unified, r"maximum (?:three|\\d+) concurrent autonomous claims")
 
     def test_permanent_pool_and_queue_contracts_are_three_claude_lanes(self):
         queue = (ROOT / "runtime/mediahub_runtime/autonomous_queue.py").read_text()
