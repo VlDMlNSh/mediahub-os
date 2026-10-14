@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.221)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.226)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5017,3 +5017,16 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Root `architecture/MH-03-service-boundaries.md` blob `02672aa1c377d04a3a7e0a7cff5b767a89ee0fcb` and nested `docs/architecture/mh-03/MH-03-service-boundaries.md` blob `cb9e5800d20ab3ee463bc30446419c95d556a87c` preserve the same non-authoritative runtime boundary but differ in explicitness. Nested text names P0-05/P0-04 access, no self-granted capabilities, P0-07-scoped configuration and policy-approved recovery; root text provides a responsibility/authority table and says logical boundaries do not imply separate processes/containers/technologies.
 - Both remain PROPOSED. This is asymmetric coverage, not a proven runtime defect. Preserve both pending owner/governance choice of canonical source or synchronized-view policy.
 - Read-only document pass; no tests, CI, runtime/host inspection, implementation, deployment, qualification or branch integration.
+
+
+## 20.225 MH-ARCH-045 — explicit local-only routing contract gap (2026-10-14)
+
+- Unified finding: [MH-ARCH-045, remediation plan §9.32](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Main source blobs: Astra gateway 10985e4ad8f682313d08e7492ecc1856a8bce20f; cloud orchestrator 24c28197df7baca49abd81956752a7a5092506d9; accepted target architecture e549692f207fbc91d9b9b9b92b8e665404f07290. The inspected request path is cloud-first and lacks explicit LOCAL_ONLY mode wiring, while the target contract requires local-only fail-closed behaviour.
+- Classify as a confirmed static contract mismatch / potential data-egress risk; actual runtime and deployment are UNKNOWN. No production leakage is asserted. Owner/design decision and separately authorized verification remain required; no runtime code changed.
+
+## 20.226 Autonomous agent ecosystem survey — candidate-only (2026-10-14)
+
+- Report: [MEDIAHUB-AUTONOMOUS-AGENT-ECOSYSTEM-SURVEY-2026-10-14.md](../checkpoints/MEDIAHUB-AUTONOMOUS-AGENT-ECOSYSTEM-SURVEY-2026-10-14.md).
+- Targeted GitHub/upstream-doc scan covering coding agents, agent SDKs, workflow engines, local inference, MCP/A2A protocols, sandboxing, policy, telemetry, memory and evaluation. This is not an exhaustive GitHub scan.
+- The report recommends evaluating bounded OpenHands coding workers, MCP tool adapters, current Ollama/local-inference composition and OTel/Python instrumentation; all remain candidates only. It does not amend the canonical Component Manifest, install software, copy code or change accepted contracts.
