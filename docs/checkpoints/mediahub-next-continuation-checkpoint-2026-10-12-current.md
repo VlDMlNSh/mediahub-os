@@ -1985,3 +1985,25 @@ The previous current-checkpoint blob read before this ledger append was 56e29694
 
 ### Next bounded action
 Continue the roadmap's P0-07 → P0-05 source-evidence track; trace the accepted identity/context issuer and canonical-read/authorization call path on exact live refs. Treat MH-ARCH-045 as a dependent route-policy scope issue and MH-ARCH-046 as a separate model/evidence repair candidate. Do not implement upstream frameworks or modify runtime code until the proposed design and implementation authorization stages are completed.
+
+
+### Post-write read-back ledger — ecosystem source reconciliation / MH-ARCH-046 (2026-10-14)
+
+The listed blobs were freshly fetched after their respective writes and checked for required headings, finding IDs, and expected content. Current post-write checkpoint identity is intentionally recorded in the final report rather than self-referenced here.
+
+| Artifact | Verified blob SHA | Write commit |
+|---|---|---|
+| `docs/checkpoints/MEDIAHUB-AUTONOMOUS-AGENT-ECOSYSTEM-SURVEY-2026-10-14.md` | `5c6cd19e338ed0f59823d18718a484f0129d2ef7` | `51c35222b1eb06a884a8edca1227cb3d62c1bc1b` |
+| `docs/checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md` | `63ff6d48b63914abf2e3d6ac77df18eebf70346e` | `0f9921152fd7788a870eee6fa4e1ed1f478d9301` |
+| `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md` | `b34121e173ff71e8283786fb19849ac4fd92ec42` | `2e5818ad3765ff64f195309edee26102a9244505` |
+| `docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md` | `12cdf37b7cf382b70d78294cde174bdddaf2162f` | `ec621fa32725a0ec6770a8d4cb2f7a150f9867ce` |
+| Current checkpoint before this ledger append | `036a9fdc2e0dac21664c7aacd609fded23925c6f` | `2b646fbfc7cb807b21e08f00dbca3cfbd0324671` |
+
+Structural verification on the pre-ledger read-back:
+- Unified finding register now has exactly one row each for MH-ARCH-045 and MH-ARCH-046.
+- Remediation subsections §9.32 (MH-ARCH-045), §9.33 (ecosystem survey), and §9.34 (MH-ARCH-046) are unique.
+- Numeric H2 IDs scanned in the project map, numbered roadmap updates, and §9 subsections of the remediation plan have no duplicate values in their respective checked sets.
+- OpenShell status is described as an upstream documentation/version-lineage conflict, not as a categorical current alpha status.
+- Main HEAD remains `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; before this ledger append, the docs branch HEAD was `2b646fbfc7cb807b21e08f00dbca3cfbd0324671`, diverged 933 ahead / 2 behind with merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration occurred.
+
+No tests/CI, provider/model calls, credentials, runtime/host inspection, installation, infrastructure changes, deployment, migration, or qualification were performed.
