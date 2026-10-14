@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.218)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.221)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -4982,3 +4982,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - MH-ARCH-038: mesh capability schema is consumed by mesh inventory/validator/admission paths; the product-domain capability schema is directly referenced by its domain schema test. Their IDs and fields represent different domains; no shared producer/consumer was established in inspected files. Keep both; no rename/merge. Mesh schema declares optional `sandbox`, while validator checks a subset of JSON Schema constraints; flagged only for later contract review, not declared a proven defect.
 - MH-ARCH-039: `ops/mesh/registry.py` imports the mesh transition helper from `ops/mesh/state.py`; runtime `in_memory_state.py` imports/implements the abstract `StateAuthority` contract from `runtime/mediahub_runtime/state.py`. Targeted evidence indicates separate domains; no direct cross-import was found in inspected files.
 - Docs branch tree snapshot: commit `73fa626723e4cff7b1c888cc1f2e8da461a94055`, 904 entries, not truncated. GitHub code search returned zero results; consumer coverage remains incomplete, so absence of other references is not claimed. No tests or CI executed; no source files changed. Both findings remain OPEN / PARTIAL TRACE.
+
+
+## 20.221 MH-ARCH-041 — MH-03 command-execution mirror comparison (2026-10-14)
+
+- Unified finding: [MH-ARCH-041, remediation plan §9.28](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Root `architecture/MH-03-command-execution.md` blob `b9197759e70107f1be5968e8669288d991360003` and nested `docs/architecture/mh-03/MH-03-command-execution.md` blob `8a9e1066f00cf9a7a3128c00eada857b18cef32f` share the sole-State-Authority/fail-closed intent, but the nested flow explicitly includes Integration/Capability and P0-05 Consumer boundaries omitted from the root flow.
+- Root index `architecture/MH-03-index.md` is PROPOSED; its listing of the root file does not establish canonical acceptance. Preserve both files until owner/governance confirms source authority and required command-path steps.
+- Tree snapshot at docs HEAD `ba8c6016101a7a0b9a6d69107567b58ada25a164`: 827 blobs, `truncated=false`. Inbound textual-reference coverage is not exhaustive. No tests/CI, runtime inspection, implementation, deployment, or qualification occurred.
+- Next: inspect the next unreviewed MH-03 pair (acceptance criteria or error handling) and record only source-backed differences; no canonicalization without owner decision.
