@@ -328,7 +328,7 @@ No tests, qualification, provider/model calls, credentials, host/runtime inspect
 Placement matrix создан и проиндексирован: `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`. Консолидированный пакет решений создан: `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md`. Следующий шаг — crosswalk-validation, а не повторная инвентаризация: перепроверить DEC-DEV-01…08 по exact primary clauses/live refs/SHA; обновить только подтверждённую трассировку в unified matrix и working Passport; подготовить минимальный owner questionnaire с вариантами, последствиями и рекомендацией. Не выбирать вместо владельца Alamo/Ollama/ONNX Runtime/llama.cpp, не назначать единого Jarvis/ASTRA lifecycle owner и не снимать Contour A → Contour B gate.
 
 
-## 8. Execution update — P0-07 D1/D2 source revalidation and decision gate (2026-10-13)
+### 10.5 Execution update — P0-07 D1/D2 source revalidation and decision gate (2026-10-13)
 
 This update preserves the existing sequence; it does not change any architecture decision or authorize implementation.
 
@@ -522,7 +522,7 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 
 **Next bounded step:** continue source/provenance review on another MH-03 mirror pair; keep direct contradiction separate from asymmetry of coverage. Preserve both trees pending owner/governance disposition.
 
-## 28. Execution update — MH-03 evidence-register provenance conflict review (2026-10-14)
+## 29. Execution update — MH-03 evidence-register provenance conflict review (2026-10-14)
 
 - Continued the single [Unified Architecture Remediation Plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), adding MH-ARCH-026 / §9.17.
 - Root/nested MH-03 evidence registers assign materially different status/provenance to E03-01…E03-04, including nested `ACCEPTED / IMPLEMENTATION AUTHORIZED` wording not substantiated by the root register. Paired decision logs differ on MH3-D10/D11; recovery-boundary and runtime-model pairs have asymmetric coverage.
@@ -531,7 +531,7 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 
 **Next bounded action:** continue one MH-03 root/nested pair at a time and update the unified finding register, map and checkpoint only with source-backed evidence.
 
-## 29. Execution update — unified remediation-plan subsection ID repair (2026-10-14)
+## 30. Execution update — unified remediation-plan subsection ID repair (2026-10-14)
 
 - Post-write read-back detected a duplicate `### 9.17` subsection ID in the single unified remediation plan, introduced by concurrent documentation appends.
 - Re-keyed only the later core-link/map-ID rescan to `### 9.18`; retained MH-ARCH-026 evidence-register review at `### 9.17`.
@@ -539,7 +539,7 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 
 **Next bounded action:** continue source-anchored MH-03 pair review, keeping the remediation plan as the sole finding register.
 
-## 30. Execution update — MH-03 health-model mirror review (2026-10-14)
+## 31. Execution update — MH-03 health-model mirror review (2026-10-14)
 
 - Reviewed the live root/nested MH-03 health-model pair. Both preserve observational-only health and non-mutation; nested provides explicit lifecycle states, fail-closed readiness, critical/optional dependency handling and sensitive-data exposure restrictions omitted from the root version. This is asymmetric coverage, not a proven direct contradiction.
 - Added MH-ARCH-030 (P2) to the [unified remediation plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob `76049a6f19a2a26cceca933b696829cdd83cd607`. Both health-model sources remain unchanged and PROPOSED; no root/nested canonical authority selected.
