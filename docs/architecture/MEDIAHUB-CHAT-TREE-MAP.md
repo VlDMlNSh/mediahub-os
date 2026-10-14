@@ -5319,3 +5319,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Candidate deployment profiles: Mac mini 2011 i7/16 GB with clean Linux as a constrained edge/control candidate; Mac Pro 2013 as engineering/CI candidate after OS/GPU validation; future remote high-VRAM GPU host as separately admitted inference provider. Profiles are proposals only.
 - Next: map historical partial PASS artifacts to exact immutable evidence, draft Jarvis Control Plane/GitHub Adapter contract, and keep hardware installation/qualification/deployment separately gated.
 
+
+## 20.260 Jarvis Control Plane / GitHub Adapter contract draft and evidence schema — Wave 04 (2026-10-14)
+
+- Added [Jarvis Control Plane and GitHub Adapter Contract, Draft 01](../checkpoints/MEDIAHUB-JARVIS-CONTROL-PLANE-GITHUB-ADAPTER-CONTRACT-DRAFT-01-2026-10-14.md).
+- Added machine-readable draft [Component Evidence Record JSON Schema](../../schemas/mediahub-component-evidence-record.schema.json).
+- Contract boundaries: Jarvis submits bounded missions to A0-ASTRA but does not mutate ASTRA's queue/claim/lease/gate state; Product State Authority remains the sole canonical product-state writer; GitHub permissions are path/branch/operation-scoped; local-only routing fails closed; merge/release/deployment/production mutation require separate explicit authorization.
+- The owner-reported partial PASS ledger remains evidence-link-pending; no gate/run/target SHA/artifact was invented. ASTRA end-to-end autonomous queue remains NOT ACHIEVED.
+- Open blockers: FreeLLMAPI local_gateway vs cloud/provider wording; OmniRoute/UnoRouter/OpenRouter identity; Ollama tag provenance and Alamo mapping; exact hardware/OS compatibility; authenticated capability/issuer lifecycle; historical partial-PASS artifact linkage.
+- Drafts are not accepted, implemented, qualified or deployed. Next: source-anchor identity/provider semantics and map any historical PASS evidence to exact immutable artifacts.
+
