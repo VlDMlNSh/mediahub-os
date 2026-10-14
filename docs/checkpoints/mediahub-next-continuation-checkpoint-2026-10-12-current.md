@@ -2186,3 +2186,12 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - The upstream ACP Security page showed no detected security policy and no published advisories at review time; this is an evidence observation, not a safety guarantee or vulnerability finding.
 - OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. Full transitive SBOM/license closure, comprehensive advisories, OpenHands source-to-artifact provenance, direct LiteLLM owner decision, target runtime and sandbox/egress remain open.
 - No artifact downloaded/installed/imported/executed; no tests/scans/provider calls/qualification/host inspection/infrastructure/deployment. Next: continue bounded read-only provenance/advisory review; no runtime action is authorized.
+
+
+## Latest /next result — DEC-DEV-02 exact-clause revalidation (2026-10-14)
+
+- Live refs refreshed: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch HEAD before this pass `57d391d625d910832a232f44f223e33f2e7d6115`. Branches remain diverged; no integration operation.
+- Bounded source revalidation recorded in DEC-DEV-01…08 Crosswalk Validation Wave 01 §8. Live blobs: ASTRA Complete Component Scheme @main `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1`; Verifiable Architecture Contract @docs `c248956417cc61d66c968a4c58a56e799f653354`; Jarvis Bundle Independent Review @docs `022f1bd881906d4ab837b2f46c091c43546fce14`; Owner Decision Packet @docs `a9f7929f9ac910c3fff1f1fb59f4ee68abf67e42`.
+- Result: confirmed existing DEC-DEV-02 conflict, not a new defect. ASTRA scheme calls A0 “MediaHub State Authority”; accepted project invariant limits A0 to ASTRA-internal engineering state and leaves cross-system lifecycle ownership unresolved. DEC-DEV-02 remains OPEN_CONFLICT; P0-07 D2 independent review remains a separate gate.
+- No normative source edit, runtime action, test, qualification, installation, provider/model call, credentials, host inspection, infrastructure change or branch integration.
+- Next: owner explicitly selects DEC-DEV-02 A/B/C and confirms product-authority exclusion; separately commission the independent qualified D2 reviewer. No implementation before those governance/evidence gates close.
