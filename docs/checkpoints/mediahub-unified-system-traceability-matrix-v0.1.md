@@ -1790,3 +1790,12 @@ See [Partial PASS Evidence Ledger and Portable Deployment Profiles, Wave 01](MED
 
 The proposed hardware target profiles cover Mac mini 2011 (Intel i7, 16 GB, clean Linux) as a candidate control/edge node, Mac Pro 2013 as a candidate engineering/CI worker, and a future remote high-VRAM GPU server as an explicitly admitted inference provider. These are proposals, not accepted placements or deployment readiness claims. Hardware/driver support and security boundary are unresolved. This matrix remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
 
+
+## Wave 04 — Jarvis Control Plane/GitHub Adapter draft and evidence schema (2026-10-14)
+
+- Draft contract: [MEDIAHUB-JARVIS-CONTROL-PLANE-GITHUB-ADAPTER-CONTRACT-DRAFT-01-2026-10-14.md](MEDIAHUB-JARVIS-CONTROL-PLANE-GITHUB-ADAPTER-CONTRACT-DRAFT-01-2026-10-14.md).
+- Machine-readable draft schema: [mediahub-component-evidence-record.schema.json](../../schemas/mediahub-component-evidence-record.schema.json).
+- The contract specifies authority boundaries, mission envelope, GitHub least-privilege capabilities, routing/egress record, workspace/lease admission, lifecycle/evidence gates and proposed portable deployment profiles.
+- Owner-reported partial PASS remains OWNER_REPORTED_PARTIAL_PASS / EVIDENCE_LINK_PENDING without exact gate/run/target-SHA/artifact linkage. ASTRA end-to-end autonomous queue remains NOT ACHIEVED. The draft does not change qualification status.
+- FreeLLMAPI classification, router identity mapping, model provenance, exact target hardware compatibility and identity/capability issuance remain open. Both artifacts are drafts and do not authorize implementation, tests, provider calls or deployment.
+
