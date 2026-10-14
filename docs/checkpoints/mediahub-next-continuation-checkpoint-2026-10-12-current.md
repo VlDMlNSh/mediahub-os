@@ -1626,3 +1626,13 @@ Next: request the separate owner/security/privacy disposition for D5's audit eve
 - This closes only the navigation-ID repair. The 18 MH-03 mirror pairs remain byte-different and not fully semantically classified; the project-wide Markdown link graph remains unaudited; same-label LaunchAgent manifests still need owner classification; Baseline 1.0 cross-branch drift and DEC-DEV-02/P0-07 blockers remain open.
 - No tests, qualification, host/runtime inspection, credentials/provider/model calls, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick occurred. Current qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Next bounded step: continue the source-anchored MH-03 pair classification, starting with the already confirmed contradiction-register conflict; do not select a canonical tree or rewrite either side without governed disposition.
+
+
+## Latest /next result — MH-03 source/status drift classification (2026-10-14)
+
+- Live refs rechecked: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch remains diverged, ahead 825 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Compared root/nested MH-03 contradiction registers, decision logs, evidence registers, and root index. Confirmed that C03-08 is governance-review-required in the root register but absent from the nested register's current contradiction list; root decision log includes MH3-D10/D11 absent from nested; evidence registers differ materially in status/authorization wording.
+- Root index lists root-level artifacts as required, but it is PROPOSED / NOT ACCEPTED. It is evidence of intended placement, not enough authority to declare the root tree canonical.
+- Added MH-ARCH-021 to the [unified remediation plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), plan blob `6b61fac41acf0bbf95393f345d3382c7987e5c91`, update commit `637a045374abfc04c23adf27fb020b2c318d1c8c`. Added map section 20.185; map blob `e3eadac3f1f36cae870d694bb25ae2150775a726`, map update commit `1a6c5d00bb24c8fb1bf4122af4d642911343fab6`.
+- No MH-03 normative source was edited. Preserve both trees pending owner decision: root canonical, nested canonical, or governed synchronized views. No tests, qualification, runtime/host inspection, credentials/provider/model calls, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Next bounded step: inspect references and provenance for the MH-03 family to prepare a source-of-truth decision packet; do not reconcile or delete content until the owner decides.
