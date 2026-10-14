@@ -686,3 +686,14 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - `main` still has the prior YAML blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`; the branches are diverged, and no merge/cherry-pick was performed. This change is committed and read-back verified on the documentation branch only.
 - No component was admitted or qualified; no tests, CI, runtime execution, installation, deployment or infrastructure changes occurred.
 - Next: record this boundary in the current checkpoint, refresh refs and source SHA evidence, then continue the existing OpenHands SDK package-identity/security paper review without installing or executing it. DEC-DEV-02 and P0-07 remain gates.
+
+
+## 49. Execution update — OpenHands SDK exact package pin and admission limits (2026-10-14)
+
+- Read-only upstream identity confirmed at official repository `OpenHands/software-agent-sdk`; this is distinct from the `OpenHands/OpenHands` umbrella monorepo considered in §47.
+- Release `v1.54.0` published 2026-10-09; source commit `1d471742ea7be017d013eaaa3080f5d28d5490cb` has a valid GitHub-verified signature. GitHub release metadata says `immutable: false`, so pin the full commit/artifact digest rather than relying on the release tag.
+- PyPI `openhands-sdk==1.54.0`: wheel SHA-256 `647bf83c888bc544b0500480aa8a89729f44f6db9f93ea3ba43cfc7fdf070db3`; sdist SHA-256 `431e7bc66ac5caf3a426e25bc67d3a85d5036ace61ff2c20af5a62ea16650485`. PyPI reports Trusted Publishing was not used. These hashes are research pins, not a complete provenance or safety verdict.
+- Package requires Python `>=3.12`. Contour A's approved target Python versions and resource profile remain unknown. The SDK directly depends on LiteLLM, FastMCP, fakeredis and other libraries; the separate Agent Server adds Docker, API/storage services and the OpenAI SDK. LiteLLM dependency policy, full dependency-license closure, SBOM, package advisories, telemetry/egress and worker sandbox semantics remain open.
+- Updated Component Admission Crosswalk §7.4 (read-back blob `044d6b1f48f43c5c03e186efe0f718c00be12f66`) and map §20.232 (map read-back SHA `9035fea8927501699b54130dee4b48bc066a8983`). Exact source/package identity is now known; candidate remains **RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**.
+- No package installed/downloaded/imported/executed, no provider/model called, no tests/evaluation/qualification run, and no host/runtime, infrastructure or deployment action occurred. DEC-DEV-02 and P0-07/P0-05/P0-04 remain mandatory authority gates.
+- **Next:** update the external-controller crosswalk to point from its generic OpenHands row to this exact SDK candidate and its remaining gates; then continue read-only license/SBOM/security evidence collection or prepare the owner decision on the direct LiteLLM dependency. Do not admit or execute the SDK under this roadmap update.
