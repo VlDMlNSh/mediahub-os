@@ -2314,3 +2314,13 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Added Crosswalk §7.12, map §20.248 and roadmap §60; no dependency admitted, pin changed or owner decision inferred.
 - No artifact download/install/execution, tests/scans, provider calls, qualification, credentials, host inspection, infrastructure change, deployment, issue/PR mutation or branch integration.
 - Next: owner/governance should decide whether to defer/reject the OpenHands candidate or commission a separately scoped source-only reachability review for LiteLLM's proxy-only advisories. Do not install, upgrade, execute or promote the candidate pending the existing authority, dependency and qualification gates.
+
+
+## Latest verified continuation — B1/B2 cross-branch drift review (2026-10-14)
+
+- Re-fetched live refs, bootstrap, map, current checkpoint, roadmap, B1 on both refs, and B2 on main.
+- Live refs: main `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch `9199a7f09e58b47dd9e11c86d676aee05feb9967`; compare DIVERGED, docs ahead 1059 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Found substantive B1 content drift at the same path: main blob `9df4892ed0734050ac79732603d15bb414717310` is the 68-section passport, while documentation-branch blob `1a2f06f50dd69990be58b12a98376b92f12fd14f` is the older normative text. Main’s two unique commits are `dc5ca59e0df9dfc385fa66c26edc08be27073c15` and `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Accepted B2 on main (blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`) explicitly supersedes B1 as current functional reference. The new B1 wording “current passport edition 1.0” is ambiguous but does not alone prove an authority change. Keep B2 canonical pending owner/governance clarification.
+- Recorded evidence and disposition in map §20.249 and roadmap §61. No merge/rebase/cherry-pick, baseline rewrite, tests, installation, runtime/host inspection, qualification, infrastructure change or deployment.
+- **Next justified step:** owner/governance clarifies whether the main B1 wording is a document-edition label only or intended to change baseline authority. Until then, preserve both records and do not integrate branches or edit normative authority.
