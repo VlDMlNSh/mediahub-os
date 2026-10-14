@@ -407,3 +407,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Repaired the duplicated value in documentation-branch component scheme §14 by replacing it with a direct source-of-truth reference. Blob `6e723bdf557f4e3dae8f1b6795d4072b67dfe5e1`; commit `b890414af6d755d9223e1ba185212d4e63ec9735`. This was not a new policy decision and did not edit `main`.
 - Searched same source set for repeated qualification thresholds: 23 rounds/path, 115 total and 24-hour soak descriptions were consistent in inspected sections. This was static source review, not test/qualification/drift-test execution.
 - Remaining: main-vs-documentation-branch A0 authority wording drift, actual qualified independent P0-07 D2 review, and owner/governance dispositions. Current-main qualification truth remains BLOCKED / NOT_PROVEN; no gate status changed.
+
+## 18. Execution update — unified architecture remediation plan (2026-10-14)
+
+- Consolidated the current cross-cutting audit findings into [MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob `b43b67a356f4380d4561c9c013155f0f1b657162`.
+- The register assigns MH-ARCH-001…014 priorities, evidence anchors, states, closure requirements and a staged sequence: owner/governance decisions; P0-07/P0-05/P0-04 trust and change-control; canonical ASTRA source reconciliation; duplicate-family/link/ID integrity; authorized qualification and Contour A acceptance.
+- Highest-priority dependencies remain DEC-DEV-02 lifecycle authority, main concurrency 2-vs-3 drift, P0-07 trusted-context and revision binding, actual qualified independent D2 review, and the Contour A→B gate.
+- Static path inventory covered all 798 entries at main tree SHA `cbb1862fcb4aa22ba24fea4ff12b580ffb305593`; this does not mean all files were semantically reviewed. The report explicitly classifies same-basename collisions rather than treating all as defects.
+- No tests/qualification or runtime operations were run. No main files or normative contracts changed. The docs branch remains diverged from main; no branch integration is authorized by this update.
+- Next: use the plan as the single prioritized cross-cutting register, obtain the administrative dispositions and independent D2 review, then perform one bounded, explicitly authorized source change at a time. Keep Baseline 2.0 canonical and all unproven gates fail-closed.
+
