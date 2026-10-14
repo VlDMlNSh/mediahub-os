@@ -5046,8 +5046,10 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Review commit: `0bba89c40b6e57663ab0e8212e077eb12b13c60a`; external candidates are **CANDIDATE / NOT ADMITTED** only.
 - Reviewed themes: agent orchestration, durable workflows, local inference, provider routing, MCP tool boundaries and Home Assistant authority preservation.
 - No code/runtime component integrated; no installation, model/provider invocation, tests, qualification, host inspection, infrastructure change, deployment or merge performed.
-- Limits: bounded GitHub discovery, not exhaustive; candidate selection and compatibility remain pending manifest crosswalk, upstream license/security/release review and owner approval.
+- Manifest crosswalk completed in report §8 against `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` on `main`, blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`. Candidate selection and compatibility still require upstream licence/security/release review and owner approval; this is not exhaustive GitHub coverage.
 
+
+- Navigation repair: the later duplicate heading `20.227` was reassigned to `20.229`; the original MH-ARCH-046 section keeps its historical `20.227` ID.
 
 ## 20.228 MH-ARCH-047 — P0-07 to P0-05 trusted-context binding trace (2026-10-14)
 
