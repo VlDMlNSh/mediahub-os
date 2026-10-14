@@ -1737,7 +1737,7 @@ This verification is documentation read-back only. It does not establish semanti
 - Unified remediation plan updated with MH-ARCH-022 / §9.12; write commit `5858a696f18e75c9d58147a70b37481e1b1d74dd`, blob `a70fe1a801be33933fe825b94190a70662ebf23e`.
 - Project map updated with §20.207; write commit `01baf2a619d42f48668a6eee284cafa15a54298f`, blob `430a32472afa5df6511c6458be09b931d7b8bbba`.
 - Roadmap updated with §25; write commit `df21080844d7e0173a543b8668251be385240c59`, blob `d24965ff5ed4187c0854aea23ba1ae6e756306c9`.
-- Post-write read-back is pending and must be completed before treating those blob identities as verified.
+- Post-write read-back completed: all three section markers were present in the live files and the returned blob SHAs matched the write responses. Current verified SHAs: plan `6d0a1ed2720c7256e4043d01b6f75a7ac1f05bec`; map `430a32472afa5df6511c6458be09b931d7b8bbba`; roadmap `d24965ff5ed4187c0854aea23ba1ae6e756306c9`. Map numeric-heading scan after §20.207: 220 headings / 206 unique / 14 duplicate IDs.
 
 ### Next bounded step
 Compare one additional MH-03 root/nested pair and its acceptance/dependency references. Keep all 18 pairs intact until the owner/governance authority chooses root canonical, nested canonical, or governed synchronized views. Continue the P0-07 independent-review blocker separately.
