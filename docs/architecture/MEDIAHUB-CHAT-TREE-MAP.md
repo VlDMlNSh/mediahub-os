@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.233)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.235)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5078,12 +5078,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Owner/governance decision required: (A) exhaustive projection with stable IDs and parity rules, or (B) explicitly scoped subset with source linkage/status translation. Recommendation B is provisional only. No manifest/schema change or component admission occurred.
 
 
-## 20.232 — OpenHands SDK source-pin preflight (2026-10-14)
+## 20.232 — OpenHands SDK source and artifact pin review (2026-10-14)
 
-- Detailed evidence and disposition: [Component Admission Crosswalk, §7.2](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
-- Official OpenHands repository resolves to `OpenHands/OpenHands`; latest monorepo release metadata observed `v1.27.1`, target commit `f07aebdf5cdd71f4a05ebcf30f8bef5e4e3b70b9`, with `immutable: false`. Root MIT license does not establish package-specific SDK/transitive licensing.
-- MCP Python SDK latest release metadata observed `v2.3.0`; its root MIT license does not make MCP an authorization layer or prove compatibility.
-- **Disposition:** OpenHands remains candidate/not admitted. Exact SDK package identity, immutable package pin, transitive licensing, platform/sandbox, authority and capability mapping remain unverified. No install, import, execution, tests, qualification or integration.
+- Detailed package/licence/dependency evidence: [Component Admission Crosswalk, §7.4](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md); latest crosswalk blob SHA `044d6b1f48f43c5c03e186efe0f718c00be12f66`.
+- Canonical SDK repository is `OpenHands/software-agent-sdk`, not the umbrella `OpenHands/OpenHands` monorepo. Release `v1.54.0` points to verified-signature commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`; GitHub release metadata says `immutable: false`. PyPI `openhands-sdk==1.54.0` wheel SHA-256: `647bf83c888bc544b0500480aa8a89729f44f6db9f93ea3ba43cfc7fdf070db3`; source archive SHA-256: `431e7bc66ac5caf3a426e25bc67d3a85d5036ace61ff2c20af5a62ea16650485`. PyPI metadata says Trusted Publishing was not used for this upload.
+- Package declares Python `>=3.12`; approved Contour A runtime versions remain unknown. Direct SDK dependencies include LiteLLM, FastMCP, fakeredis, agent-client-protocol and other libraries. The separate Agent Server adds Docker, API/storage and OpenAI SDK dependencies. Complete lock/licence closure, SBOM, telemetry/egress model, target compatibility and sandbox configuration remain unreviewed.
+- **Disposition: RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.** An artifact checksum and a signed source commit are useful identity evidence, not supply-chain qualification or MediaHub compatibility evidence.
+- Preserve DEC-DEV-02 single lifecycle-owner and P0-07/P0-05/P0-04 trusted-context/authorization gates. No dependency was installed/imported/executed, no model/provider called, no tests or evaluation run, and no runtime/infrastructure changed.
 
 ## 20.233 — Autonomous controller ecosystem review (2026-10-14)
 
@@ -5094,7 +5095,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Manifest crosswalk completed in report §8 against `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` on `main`, blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`. Candidate selection and compatibility still require upstream licence/security/release review and owner approval; this is not exhaustive GitHub coverage.
 
 
-- Navigation-ID correction history: MH-ARCH-046 keeps its historical `20.227` ID. The autonomous-controller review was initially reassigned to `20.229`, but a concurrent MH-ARCH-048 entry also claimed `20.229`; this review is now uniquely indexed as `20.231` after fresh read-back.
+- Navigation-ID correction history: MH-ARCH-046=`20.227`, MH-ARCH-047=`20.228`, MH-ARCH-048=`20.229`; component admission crosswalk=`20.230`, manifest/YAML scope decision=`20.235`, external-controller crosswalk=`20.234`, autonomous-controller review=`20.233`. This corrects the earlier stale collision note; no architectural finding ID was changed.
 
 
 ## 20.235 — Owner-confirmed component manifest scope (2026-10-14)
