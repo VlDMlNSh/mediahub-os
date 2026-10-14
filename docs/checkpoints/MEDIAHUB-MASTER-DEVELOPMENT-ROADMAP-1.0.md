@@ -871,3 +871,14 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - ASTRA GOLD permanent production lanes remain separately documented as Claude-bound; this does not negate the Jarvis routing topology and this clarification does not alter or qualify those lanes.
 - No provider/model calls, credentials, tests, installations, host/runtime inspection, infrastructure changes, qualification, merge or deployment occurred.
 - Next: draft the bounded Jarvis control-plane/GitHub adapter contract, explicitly including route-selection and local-only fail-closed records; keep all implementation/qualification claims evidence-gated.
+
+
+## 68. Execution update — read-only local component inventory wave 01 (2026-10-14)
+
+- Performed a bounded Desktop Commander inventory of the two online nodes `mh-dev-02` (Linux) and `Voktors-Mini.Dlink` (macOS), with selected process/service/executable checks, a read-only Linux Ollama model listing, and repository registry review. No inventory or qualification script was executed.
+- Linux: Ollama service/process active; four model tags listed; Claude Code and Codex CLIs found; Astra GitHub Agent and Actions runner present; Docker daemon active but no running containers were returned by `docker ps`.
+- macOS: OmniRoute, Ollama, Claude Code and Codex CLI executables found; Astra agent/runner and DF3 Llama/autonomous launchd labels observed. Ollama daemon was unavailable to `ollama list`; OmniRoute runtime/provider connectivity was not demonstrated.
+- Registry status remains OmniRoute `NOT_PROVEN`, FreeLLMAPI `PENDING`, and FCC's exact implementation mapping unresolved. Historical evidence is not fresh qualification. See [Local Component Inventory Wave 01](MEDIAHUB-LOCAL-COMPONENT-INVENTORY-WAVE-01-2026-10-14.md).
+- No secrets were read, no provider/model inference, tests or qualification were run, and no install, config change, infrastructure mutation, deployment or branch integration occurred.
+- Next bounded step: draft the Jarvis Control Plane / GitHub Adapter contract: A0-ASTRA mission ingress and single-writer boundary, least-privilege GitHub scopes, auditable task routing records and explicit prohibited actions. Reconcile against existing permission/source contracts before any implementation.
+
