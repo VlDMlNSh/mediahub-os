@@ -4808,3 +4808,14 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Confirmed open issues: main still has the superseded concurrency prose value 2 where canonical schema/governance/reference sources say 3; A0 product-state wording remains out of alignment across main/docs; unified YAML readiness-status/version lineage is ambiguous; trusted-context/approval provenance and P0-07→P0-05→P0-04 implementation evidence is incomplete; D2 independent review remains outstanding.
 - P0-05 D6 owner direction remains defer pending further evidence; Baseline 2.0 remains accepted/canonical/immutable; crosswalk semantic acceptance and Contour A→B acceptance remain open/gated.
 - Administrative answer choices are in report §9 and are linked from the existing [owner decision packet](../checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md); recommendations are not owner decisions. No normative source/main file was altered and no gate was promoted.
+
+## 20.202 Unified architecture remediation plan (2026-10-14)
+
+- Single prioritized register: [MEDIAHUB Unified Architecture Remediation Plan](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob `b43b67a356f4380d4561c9c013155f0f1b657162`.
+- Consolidates current static findings MH-ARCH-001…014, severity, source SHAs, remediation actions, blockers and ADMIN-01…05 options. It distinguishes confirmed static conflicts, divergent document families, governance decisions, unverified runtime risks and documentation-branch-only repairs.
+- Audit boundary: complete 798-entry main tree path inventory (tree SHA `cbb1862fcb4aa22ba24fea4ff12b580ffb305593`, not truncated) plus targeted source review; not a semantic review of every file and not runtime qualification.
+- Highest-priority blockers: DEC-DEV-02 Jarvis/ASTRA lifecycle authority; main concurrency wording 2 vs canonical 3; P0-07 D1/D2/D3/D5/D6/D7 trust/change-control gaps and missing independent D2 review; Contour A → B acceptance gate.
+- Confirmed duplication risk: 18 MH-03 case-insensitive basename pairs exist across `architecture/` and `docs/architecture/mh-03/`; four sampled pairs have divergent content. All 37 basename collisions need classification, not blanket deletion.
+- Current qualification remains `NOT_PROVEN / BLOCKED`; no tests, qualification, runtime inspection, credentials/provider calls, main edits, branch integration or deployment were performed.
+- Next: obtain owner/governance dispositions and a qualified independent D2 reviewer; then perform narrowly scoped, explicitly authorized source reconciliation. Preserve Baseline 2.0 and existing owner directions.
+
