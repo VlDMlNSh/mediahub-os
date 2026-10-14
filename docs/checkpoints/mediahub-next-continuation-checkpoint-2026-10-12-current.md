@@ -1807,3 +1807,12 @@ Compare one additional unreviewed MH-03 root/nested pair and its declared depend
 - Re-keyed the later “Final live core-document link-path and map-ID rescan” subsection to `### 9.18`, preserving the MH-ARCH-026 evidence-register review at `### 9.17`.
 - Verified current plan blob `bf753b5203e938adb429af2200dc606fbe4a8974`: exactly one `### 9.17` and the rescan is `### 9.18`.
 - No normative source, finding status or qualification state changed. No tests/qualification or prohibited operational action was performed.
+
+## Latest /next result — MH-03 health-model mirror review (2026-10-14)
+
+- Refreshed live GitHub state. `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch was `b061b07a08ec4d322e591df3f14de2a8d02f666b` at initial check; DIVERGED ahead 873 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Re-read root/nested health model and root index. Root `architecture/MH-03-health-model.md` SHA `a4b9e8838d6b88ea629b9ee3642b6bcc791cba47`; nested `docs/architecture/mh-03/MH-03-health-model.md` SHA `2f5840218dfdc0103e16721ebf467150d19cb216`; root index SHA `b2d2eeb1b89117d10605c231e79378eebc437c5f`, status PROPOSED.
+- Both health models preserve observational-only health and non-mutation of canonical state. Nested adds explicit lifecycle states, fail-closed readiness for missing critical foundation, optional-dependency degraded reporting and sensitive-data/mutable-object exposure restrictions. Root adds authority-health/lifecycle-health dimensions but omits the nested detail. Classified as asymmetric coverage, not proven contradiction.
+- Added MH-ARCH-030 (P2) to the unified remediation plan: blob `76049a6f19a2a26cceca933b696829cdd83cd607`, commit `8871054b96395498c99daeb9db15430e4980cc53`. No MH-03 source modified or promoted.
+- No tests, qualification, runtime/host inspection, credentials/provider calls, installation, infrastructure changes, deployment, migration or branch integration. Current qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Next: compare another unreviewed MH-03 root/nested pair, then read back all modified documentation and verify current SHAs.
