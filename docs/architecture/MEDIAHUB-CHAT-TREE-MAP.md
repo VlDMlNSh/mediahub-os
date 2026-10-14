@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.241)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.242)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5163,3 +5163,10 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Public upstream Security page shows no detected security policy and no published advisories at review time. Public issue #4157 reported a concern about LLM self-assessed risk labels and confirmation behavior; applicability to pinned v1.54.0 is **unverified**, not a confirmed vulnerability. MediaHub must retain deterministic external authorization and never treat model-generated risk labels as permission.
 - Full dependency SBOM/licence/advisory closure, source-to-artifact provenance, target runtime, sandbox/egress and direct LiteLLM dependency decision remain open. OpenHands stays **RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION**. Evidence and gates: [Component Admission Crosswalk §7.8](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), blob `d1ab75d039bf8384ea19259cbbe43f6e41619882`.
 - No artifact downloaded, installed, imported or executed; no tests/scans/provider calls/qualification/host inspection/infrastructure/deployment occurred.
+
+
+## 20.242 — OpenHands direct dependency: FastMCP 3.2.0 advisory/provenance trace (2026-10-14)
+
+- The reviewed OpenHands SDK lock snapshot lists FastMCP 3.2.0 as a direct dependency. Official PyPI reports Apache license classification, Trusted Publishing for wheel/sdist, and published hashes; artifact bytes/attestations were not independently verified.
+- Two upstream advisories reviewed for FastMCP—GHSA-vv7q-7jx5-f767 (SSRF/path traversal in OpenAPIProvider) and GHSA-m8x7-r2rg-vh5g (Windows command injection in installer flows)—list affected versions as `<3.2.0` and patched version `3.2.0`. The exact pin is the stated patched floor for these findings; this is not a general security clearance.
+- Full transitive SBOM/licence/advisory closure, independent artifact provenance verification, target sandbox/egress and runtime proof, and owner disposition on the direct LiteLLM/provider-routing boundary remain open. OpenHands remains research-only and not admitted. Evidence details: [Component Admission Crosswalk §7.9](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
