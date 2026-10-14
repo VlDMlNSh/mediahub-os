@@ -5104,3 +5104,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - YAML metadata on this documentation branch now declares `scope: runtime-deployment-admission-subset`, source text-manifest path/ref, `status_semantics: admission-readiness-only`, and `omission_semantics: omission-does-not-imply-exclusion`. Read-back blob SHA: `e3cf487bcf43ecb92cd110b5af2660c066b58e2a`.
 - Branch boundary: `main` still has the prior YAML blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`; the documentation branch is diverged and ahead. No merge/cherry-pick was performed, so the change is not yet on `main`.
 - This is scope clarification only. No component admission, qualification, test/CI run or runtime implementation is implied.
+
+
+## 20.234 — External controller component crosswalk (2026-10-14)
+
+- Added source-anchored crosswalk: [MEDIAHUB-EXTERNAL-CONTROLLER-COMPONENT-CROSSWALK-01.md](../checkpoints/MEDIAHUB-EXTERNAL-CONTROLLER-COMPONENT-CROSSWALK-01.md).
+- Creation commit: `fc4d37b8793ade95e88c68b722d2afc54227deb7`.
+- Crosswalk checked candidates against `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md@main` (blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`) and accepted target architecture `architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md@main` (blob `e549692f207fbc91d9b9b9b92b8e665404f07290`).
+- Disposition: reuse existing llama.cpp target-gated selection; defer Temporal/NATS/etcd until a demonstrated gap; do not add overlapping agent frameworks without a unique evidenced gap; treat MCP as protocol, not authorization; preserve Home Assistant authority.
+- Includes reusable design-level work products for Alamo endpoint, Jarvis↔ASTRA task envelope, model/provider routing, tool capability boundary and dependency admission. These are not implementation or test evidence.
+- Status: PROPOSED / NOT ACCEPTED / NOT FROZEN. DEC-DEV-01 and DEC-DEV-02 remain open; no owner decisions made.
