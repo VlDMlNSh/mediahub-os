@@ -5023,10 +5023,18 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 - Unified finding: [MH-ARCH-045, remediation plan §9.32](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
 - Main source blobs: Astra gateway 10985e4ad8f682313d08e7492ecc1856a8bce20f; cloud orchestrator 24c28197df7baca49abd81956752a7a5092506d9; accepted target architecture e549692f207fbc91d9b9b9b92b8e665404f07290. The inspected request path is cloud-first and lacks explicit LOCAL_ONLY mode wiring, while the target contract requires local-only fail-closed behaviour.
-- Classify as a confirmed static contract mismatch / potential data-egress risk; actual runtime and deployment are UNKNOWN. No production leakage is asserted. Owner/design decision and separately authorized verification remain required; no runtime code changed.
+- The inspected gateway path lacks explicit LOCAL_ONLY wiring; precise applicability to the named Claude Code/FCC path, deployed runtime and data-egress impact remain UNKNOWN. This is a static design gap/potential risk, not an observed production leak. See unified finding MH-ARCH-045 / §9.32.
 
 ## 20.226 Autonomous agent ecosystem survey — candidate-only (2026-10-14)
 
 - Report: [MEDIAHUB-AUTONOMOUS-AGENT-ECOSYSTEM-SURVEY-2026-10-14.md](../checkpoints/MEDIAHUB-AUTONOMOUS-AGENT-ECOSYSTEM-SURVEY-2026-10-14.md).
 - Targeted GitHub/upstream-doc scan covering coding agents, agent SDKs, workflow engines, local inference, MCP/A2A protocols, sandboxing, policy, telemetry, memory and evaluation. This is not an exhaustive GitHub scan.
-- The report recommends evaluating bounded OpenHands coding workers, MCP tool adapters, current Ollama/local-inference composition and OTel/Python instrumentation; all remain candidates only. It does not amend the canonical Component Manifest, install software, copy code or change accepted contracts.
+- The report recommends evaluating a bounded OpenHands coding worker, MCP as a tool protocol (not authorization), existing Ollama/local composition and OTel/Python instrumentation; Inspect AI is evaluation-only after authorization. All remain candidates. OpenShell's latest support matrix and security-page maturity banner conflict, so pin a release and matching security docs before any admission. The report does not amend the Component Manifest or accepted contracts.
+
+
+## 20.227 MH-ARCH-046 — Ollama model identity / evidence mismatch (2026-10-14)
+
+- Unified finding: [MH-ARCH-046, remediation plan §9.34](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Main source blobs: `runtime/mediahub_runtime/astra_gateway.py` `10985e4ad8f682313d08e7492ecc1856a8bce20f`; `runtime/mediahub_runtime/cloud_orchestrator.py` `24c28197df7baca49abd81956752a7a5092506d9`; targeted routing tests `tests/ai/test_cloud_orchestrator_failover.py` `c66b63b158c545ae627c596791381b83ef902c59`.
+- Static trace: the executor sends hard-coded `qwen2.5-coder:3b`, while route/evidence metadata can reflect `MEDIAHUB_OLLAMA_MODEL(S)` or `unspecified` without binding the selected model to the preconstructed executor. This is a confirmed static provenance mismatch in the inspected path, not proof of active runtime impact. No tests were run.
+- Disposition: one resolved model identity must flow from route admission through executor invocation to qualification and result evidence; implementation/tests require separate authorization.
