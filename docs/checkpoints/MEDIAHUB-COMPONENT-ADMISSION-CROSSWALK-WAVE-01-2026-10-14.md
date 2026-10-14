@@ -132,3 +132,22 @@ Recommendation: B is less disruptive if YAML is intended only for runtime/deploy
 **Required before advancing:** identify the exact OpenHands SDK package name and official package/repository path; pin a release and immutable commit or artifact digest; inspect package-specific license/notices and transitive dependency metadata; establish supported OS/CPU and sandbox model; map every tool/network/filesystem capability to Contour A's task-scoped authorization, human approval, egress, audit, cancellation and artifact-only return contracts. The worker must not own queue/lease lifecycle, canonical product state, policy, merge/release or qualification promotion. MCP must remain an interface protocol behind MediaHub-owned authorization.
 
 **Recommendation:** do not choose the OpenHands monorepo tag as an SDK pin. Continue as research only until exact SDK identity and the owner-approved capability gap are established. No component manifest or owner decision is changed by this note.
+
+
+## 7.3 Owner decision — YAML is a scoped admission subset (2026-10-14)
+
+**Decision status: OWNER-CONFIRMED in conversation on 2026-10-14.**
+
+The owner selected option B: `oss/manifests/components.yaml` is a **runtime/deployment admission subset**, not an exhaustive projection of the canonical text component-selection manifest.
+
+Applied to the documentation branch:
+- Declared `scope: runtime-deployment-admission-subset`.
+- Linked the source of truth to `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` at `main`.
+- Declared `status_semantics: admission-readiness-only`.
+- Declared `omission_semantics: omission-does-not-imply-exclusion`.
+
+The source text manifest remains the component-selection catalogue. YAML statuses must not be treated as a lossless translation of text-manifest modes, and YAML omission must not be interpreted as EXCLUDED. This change clarifies scope; it does not admit or qualify any component and does not establish runtime readiness.
+
+**Branch boundary:** YAML edit was committed only to `docs/mediahub-chat-tree-map-20261012`. The same path on `main` remains unchanged because the branches are diverged; no merge/cherry-pick or main-branch deployment was performed. The branch change is therefore documented and read-back verified, but is not yet present on `main`.
+
+**Verification:** read-back of `oss/manifests/components.yaml` on the documentation branch returned blob SHA `e3cf487bcf43ecb92cd110b5af2660c066b58e2a`. No tests, CI, qualification or runtime execution were run.
