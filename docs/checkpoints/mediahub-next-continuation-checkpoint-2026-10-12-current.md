@@ -1752,3 +1752,28 @@ Compare one additional MH-03 root/nested pair and its acceptance/dependency refe
 - Roadmap update recording the repair was written; post-write read-back follows.
 
 No normative contract, Baseline, implementation, or `main` source was changed. No tests/qualification, runtime/host inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
+
+
+## Latest /next result — MH-03 lifecycle/acceptance mirror coverage review (2026-10-14)
+
+### Result
+- Refreshed live GitHub refs before this bounded pass: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch HEAD at pass start `547f8558f5f56d7eab15433974d9cc28909eef37`. Comparison was DIVERGED, ahead 854 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Added **MH-ARCH-024** to the unified remediation plan: MH-03 root/nested lifecycle and acceptance criteria have asymmetric coverage. The reviewed pair does not establish a direct semantic contradiction; both copies and the root index remain PROPOSED / NOT ACCEPTED. No canonical-tree decision was inferred.
+- Unified remediation plan post-write blob: `aa342c02f2d3dd0eee5e021bd34f2d612119460e`.
+- Project map entry §20.211 post-write blob: `7f2dea2adcdbc154b880e9dd7c6fcecd910a936a`.
+- Master roadmap §27 post-write blob: `d5fc52ce95c7ae1a6fe243bc3995d984d4f952de`.
+
+### Source evidence
+- Root lifecycle: `architecture/MH-03-lifecycle.md` — `300363a06fe678d3511c2a4b843678bf200df5f0`.
+- Nested lifecycle: `docs/architecture/mh-03/MH-03-lifecycle.md` — `41baa81406dcd25b8b1537adf9c8b1289c38edcd`.
+- Root acceptance criteria: `architecture/MH-03-acceptance-criteria.md` — `e96adaac2eb52e2f8058cc889485ec982bf606e5`.
+- Nested acceptance criteria: `docs/architecture/mh-03/MH-03-acceptance-criteria.md` — `eefb645d89c7c3046636d8344515aa02b7ccebe3`.
+- Root index: `architecture/MH-03-index.md` — `b2d2eeb1b89117d10605c231e79378eebc437c5f`, PROPOSED; no nested index exists.
+
+### Verification and guardrails
+- All four tracked documentation artifacts were written to the documentation branch. Immediate next action is read-back of all four, verify exact blob SHAs and confirm the new finding/section markers.
+- No MH-03 normative candidate, Baseline, implementation or `main` source was changed. No tests/qualification, runtime/host inspection, credentials/provider/model calls, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
+- Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+
+### Next bounded step
+Compare one additional unreviewed MH-03 root/nested pair and its declared dependencies. Preserve both copies until owner/governance chooses root canonical, nested canonical, or governed synchronized views. Continue to keep P0-07 independent D2 review and other owner decisions open.
