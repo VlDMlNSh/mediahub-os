@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.258)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.263)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5354,3 +5354,15 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Primary linked records: [D-03 reconciliation](MEDIAHUB-JARVIS-ASTRA-D03-RECONCILIATION-01-2026-10-14.md), [Jarvis/GitHub Adapter Draft 01](MEDIAHUB-JARVIS-CONTROL-PLANE-GITHUB-ADAPTER-CONTRACT-DRAFT-01-2026-10-14.md), and [Provider Identity/Egress Crosswalk Wave 05](MEDIAHUB-PROVIDER-IDENTITY-AND-EGRESS-CONTRACT-CROSSWALK-WAVE-05-2026-10-14.md).
 - Remaining blockers: (1) source/deployment-bound identity for FreeLLMAPI and its upstream/egress topology; (2) exact FCC implementation mapping; (3) distinct OmniRoute/UnoRouter/OpenRouter mapping; (4) Alamo-to-Ollama endpoint identity and model provenance; (5) immutable historical partial-PASS evidence; (6) accepted ASTRA mission-ingress/API and capability issuer lifecycle. No credentials, provider calls, tests, installation, host/runtime inspection, qualification, infrastructure changes, merge or deployment were performed in this synchronization.
 - Next bounded step: source-only trace of non-secret configuration/source history for FCC, FreeLLMAPI and router identity; record evidence and unresolved edges without promoting any status or changing normative contracts.
+
+
+## 20.263 Chat-to-GitHub model routing synchronization audit — Wave 01 (2026-10-15)
+
+- Added [Model Routing Synchronization Audit, Wave 01](../checkpoints/MEDIAHUB-CHAT-TO-GITHUB-MODEL-ROUTING-SYNC-AUDIT-WAVE-01-2026-10-15.md).
+- Scope explicitly checked the user-mentioned “Gamma 4”, Qwen, Alamo, Codex Cloud and Jarvis against the current project map, roadmap, distributed AI target architecture, local component inventory, provider/egress crosswalk and Jarvis adapter draft.
+- Finding: synchronization is **partial, not exhaustive**. Core target architecture is documented for Alamo as the intended local inference endpoint, Codex as a separate cloud-authenticated development path, Jarvis as system-level engineering coordinator, and local/cloud routing with local-only fail-closed behavior. This is target architecture, not proof of runtime qualification.
+- “Gamma 4” / “Gamma-4” was not found in the checked canonical documents. “G4” in the roadmap/map refers to qualification paths/stages, not an established model identity. Do not conflate these terms; owner clarification required.
+- Qwen tags are documented in Local Inventory Wave 02. The roadmap §9.34/map §20.227 record a static mismatch: `OllamaExecutor` hard-codes `qwen2.5-coder:3b`, while route/evidence metadata may name another model or `unspecified`; runtime impact is not established.
+- Alamo-to-Ollama identity/model provenance, FCC implementation mapping, FreeLLMAPI local-gateway versus cloud-provider semantics, router identities and Codex cloud connectivity/qualification remain unresolved or unproven.
+- No provider/model calls, credentials, installation, tests, qualification, host/runtime inspection, configuration change, infrastructure change, deployment or branch integration occurred.
+- Next: clarify “Gamma 4”; then continue source-only trace of model identity/evidence binding and route topology without promoting any status or changing normative contracts.
