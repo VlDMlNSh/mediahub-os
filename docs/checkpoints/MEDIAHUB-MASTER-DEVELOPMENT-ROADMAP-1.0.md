@@ -564,3 +564,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Preserved all files; no duplicate deletion or canonical-path choice was inferred. The 24 basename groups remain an inventory requiring classification, not a deletion list.
 - Next: trace package/workflow references for MH-ARCH-037, schema references for MH-ARCH-038 and imports for MH-ARCH-039; continue MH-03 mirror/reference coverage and route unresolved authority choices to the owner.
 - Static documentation review only. No tests, host inspection, install, deployment, migration, branch integration or qualification. ASTRA remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+
+
+## 35. Execution update — LaunchAgent manifest/reference pass (2026-10-14)
+
+- Re-read the two same-label launchd manifests, adjacent bootstrap script and Linux systemd service. Refined MH-ARCH-037 and added MH-ARCH-040 in the unified remediation plan §9.26; no product/runtime source was changed.
+- Confirmed static source behavior: the ops LaunchAgent targets a user-specific bootstrap which fetches/checks out a remote branch and then performs `git reset --hard origin/$BRANCH`; this can discard local worktree changes if executed. No evidence that the bootstrap has run or that either plist is installed was collected.
+- GitHub code-search responses were empty with an incomplete index, so package/workflow consumer tracing remains incomplete. The systemd service is a separate Linux target and does not establish the launchd manifests' intended relationship.
+- No host inspection, workflow run, tests, installation, deployment, qualification or branch integration. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Next bounded step: inspect declared schema producers/consumers for MH-ARCH-038 and import references for MH-ARCH-039; keep launchd owner/governance disposition open.
