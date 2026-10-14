@@ -311,3 +311,11 @@ This draft does not authorize software installation, package upgrades, tests/qua
 6. Only then create/execute separately authorized implementation slices and deployment runbooks.
 
 **Current conclusion:** Baseline 2.0 is accepted as the functional reference. This deployment contract is a proposed bridge, not an accepted or implementation-verified contract. Architecture remains not fully deployment-qualified.
+
+
+## Wave 02 local inventory evidence supplement (2026-10-14)
+
+The live, bounded inventory is indexed in [MEDIAHUB-UNIFIED-LOCAL-INVENTORY-AND-VERIFIABLE-COMPONENT-MATRIX-WAVE-02-2026-10-14.md](MEDIAHUB-UNIFIED-LOCAL-INVENTORY-AND-VERIFIABLE-COMPONENT-MATRIX-WAVE-02-2026-10-14.md). It does not change this document's PROPOSED / NOT ACCEPTED / NOT FROZEN status. It distinguishes declarations, installed CLIs, process/service presence, runtime route evidence, qualification and acceptance.
+
+Open documentary conflict C-01: FreeLLMAPI is classified as local_gateway in the agent/provider registries while the distributed AI architecture describes a cloud/provider route in its routing narrative. Resolve service location, upstream provider and egress boundary against pinned source/deployment evidence before route implementation. No authority or admission is granted by this supplement.
+
