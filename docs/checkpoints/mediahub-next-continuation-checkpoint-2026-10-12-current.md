@@ -1866,3 +1866,12 @@ Compare one additional unreviewed MH-03 root/nested pair and its declared depend
 
 ### Next bounded action
 Re-fetch and verify the plan, map, roadmap and checkpoint; refresh main/docs refs and divergence; then trace declared package/workflow references for MH-ARCH-037, schema references for MH-ARCH-038 and imports for MH-ARCH-039. Continue remaining MH-03 pair/reference coverage without choosing a canonical tree or deleting files absent owner/governance disposition.
+
+
+## Latest /next result — LaunchAgent manifest/reference pass (2026-10-14)
+
+- Re-read both same-label LaunchAgent manifests and their adjacent bootstrap/systemd assets. Confirmed the manifests have the same label but distinct execution targets; the ops plist invokes a user-specific bootstrap which performs `git reset --hard origin/$BRANCH` after fetch/checkout. This is static source behavior, not evidence of installation or execution.
+- Refined MH-ARCH-037 and added MH-ARCH-040 in the unified remediation plan §9.26. Manifest blobs: deploy plist `2cca029b502fd911ec38272871c823a8717ed8fd`; ops plist `d1d8aea99c2303c26e542a3d1c5e54b4596521d0`; bootstrap `5f36f35ea85f55e5f49af6d3dabb5e876fffa09b`; systemd service `e1962e4afe5db7ac1fcb901344d9f88205de0689`.
+- GitHub code-search queries returned zero matches with an incomplete index; consumer/reference tracing is not complete and absence of consumers is not established. No owner intent or mutually exclusive deployment policy was inferred.
+- No manifests/source code changed. No host/runtime inspection, workflow execution, tests, installation, deployment, credentials, infrastructure change, branch integration or qualification occurred. ASTRA remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Next: trace MH-ARCH-038 schema references and MH-ARCH-039 imports via directly declared producers/consumers, while preserving all candidate files and requesting owner disposition for launchd deployment intent and bootstrap reset semantics.
