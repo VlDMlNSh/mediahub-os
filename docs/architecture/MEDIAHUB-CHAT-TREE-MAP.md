@@ -5109,13 +5109,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 ## 20.234 — External controller component crosswalk (2026-10-14)
 
-- Added source-anchored crosswalk: [MEDIAHUB-EXTERNAL-CONTROLLER-COMPONENT-CROSSWALK-01.md](../checkpoints/MEDIAHUB-EXTERNAL-CONTROLLER-COMPONENT-CROSSWALK-01.md).
-- Creation commit: `fc4d37b8793ade95e88c68b722d2afc54227deb7`.
-- Crosswalk checked candidates against `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md@main` (blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`) and accepted target architecture `architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md@main` (blob `e549692f207fbc91d9b9b9b92b8e665404f07290`).
-- Disposition: reuse existing llama.cpp target-gated selection; defer Temporal/NATS/etcd until a demonstrated gap; do not add overlapping agent frameworks without a unique evidenced gap; treat MCP as protocol, not authorization; preserve Home Assistant authority.
-- Includes reusable design-level work products for Alamo endpoint, Jarvis↔ASTRA task envelope, model/provider routing, tool capability boundary and dependency admission. These are not implementation or test evidence.
-- Status: PROPOSED / NOT ACCEPTED / NOT FROZEN. DEC-DEV-01 and DEC-DEV-02 remain open; no owner decisions made.
-
+- Source-anchored crosswalk: [MEDIAHUB-EXTERNAL-CONTROLLER-COMPONENT-CROSSWALK-01.md](../checkpoints/MEDIAHUB-EXTERNAL-CONTROLLER-COMPONENT-CROSSWALK-01.md); creation commit `fc4d37b8793ade95e88c68b722d2afc54227deb7`; current blob SHA `d6b2a09f5281b7c843f85f3b50264259af16548f`.
+- Crosswalk compares candidates with Canonical Component Manifest 2.0 on `main` (blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`) and accepted target architecture `architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md@main` (blob `e549692f207fbc91d9b9b9b92b8e665404f07290`). Existing llama.cpp remains TARGET-GATED; Temporal/NATS/etcd remain FUTURE-GATED pending proven capability gaps. No parallel task/state authority is admitted.
+- The OpenHands row now points to exact SDK candidate `OpenHands/software-agent-sdk`, `openhands-sdk==1.54.0`, source commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`, PyPI wheel SHA-256 `647bf83c888bc544b0500480aa8a89729f44f6db9f93ea3ba43cfc7fdf070db3`. Detailed disposition is in [Component Admission Crosswalk §7.4](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), blob `044d6b1f48f43c5c03e186efe0f718c00be12f66`.
+- SDK disposition remains **RESEARCH PIN ONLY / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION**: release is marked mutable; PyPI says Trusted Publishing not used; Python >=3.12; direct LiteLLM/FastMCP/fakeredis dependencies; full SBOM/licence/security, target compatibility and sandbox/egress review are open.
+- MCP is protocol-only, not authorization. Preserve Home Assistant as smart-home authority, Product State Authority as MediaHub product-state authority, and Jarvis/ASTRA as non-authoritative engineering coordination/execution components.
+- Status: PROPOSED / NOT ACCEPTED / NOT FROZEN. DEC-DEV-01/02 remain gates. No install, execution, provider/model invocation, tests, qualification, host/runtime inspection, infrastructure change or deployment occurred.
 
 ## 20.236 — OpenHands SDK package-level pin and admission review (2026-10-14)
 
