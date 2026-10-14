@@ -746,3 +746,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Confirmed the existing conflict at exact clause level: ASTRA scheme §1 line 10 assigns “MediaHub State Authority” to A0; ARC-003 and ARC-017 reserve canonical product-state authority to MediaHub Product State Authority and limit A0 to ASTRA engineering state; ARC-018 and the Jarvis review leave the single cross-system engineering lifecycle owner open.
 - Added the live ref/blob anchors and bounded disposition to DEC-DEV validation §8 and indexed it in map §20.240. This is source revalidation, not a new defect, owner decision or independent D2 review.
 - Next: obtain explicit DEC-DEV-02 A/B/C owner selection and separately commission a qualified independent P0-07 D2 reviewer per the existing packet. Until then, no normative scheme edit, implementation, second queue, qualification or status promotion.
+
+
+## 54. Execution update — OpenHands artifact provenance and authorization-risk gate (2026-10-14)
+
+- Recorded the official PyPI artifact hashes for `openhands-sdk==1.54.0`, but PyPI reports Trusted Publishing was not used; the GitHub release is mutable despite the source commit's valid signature. No artifact bytes were downloaded or independently rehashed, so source-to-artifact provenance remains unproven.
+- The upstream Security page showed no detected policy and no published advisories at review time. Public issue #4157 is a historical security-related report concerning LLM self-assessed risk/confirmation behavior; applicability to the pinned release remains unverified. This is not a confirmed vulnerability finding.
+- Crosswalk §7.8 current blob SHA: `d1ab75d039bf8384ea19259cbbe43f6e41619882`; map §20.241 current blob SHA: `024a7c33fbd75d7258f5f68941d641e71c286925`.
+- Design gate: worker/model-generated risk labels must never authorize their own actions. MediaHub authorization, least privilege, egress policy, credential isolation, cancellation, audit and human approval remain external enforced controls.
+- Status remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. No install, execution, scan, test, provider call, qualification, host inspection or deployment occurred.
+- Next: continue read-only closure of dependency advisories/licensing and the LiteLLM authority decision; keep all runtime steps blocked pending explicit owner authorization and the required governance gates.
