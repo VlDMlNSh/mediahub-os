@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.265)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.267)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5398,3 +5398,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Owner direction retained as target only: local Mac Pro models preferred when suitable; Claude Code Scenario B is client-to-compatible-local-backend, not local Claude inference; concurrent decomposition is conditional on dependencies/resources/policy; future user-contributed MediaHub workers are opt-in and untrusted by default.
 - No normative contract/Baseline 2.0 changed. No tests, model/provider calls, credentials, installation, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
 - Next: source-crosswalk accepted A0 queue/lease/claim/cancellation plus security/identity contracts; reconcile existing agent/provider/task schemas; then conduct read-only ECC upstream assessment against confirmed gaps.
+
+
+## 20.267 Corporation contract reconciliation — Wave 02 (2026-10-15)
+
+- Added [Corporation Contract Reconciliation, Wave 02](../checkpoints/MEDIAHUB-CORPORATION-CONTRACT-RECONCILIATION-WAVE-02-2026-10-15.md); documentation ref `docs/mediahub-chat-tree-tree-map-20261012` (intended branch `docs/mediahub-chat-tree-map-20261012`), read-back blob `4dcabff5c4eda918a08ffc3cb3a58ff1a122c802`, creation commit `a02cf6e6c9ad7b23150b31d8d8be7a97bd748868`.
+- Re-read the live accepted distributed AI target architecture on `main` (`e549692f207fbc91d9b9b9b92b8e665404f07290`), the corporation proposal crosswalk on `main` (`721e4c994d4800df4605af52630ea75339971a27`), responsibility/interface matrix (`d5934af98552ddee99ac5658dfffc8a3049f5cad`), DAG/result crosswalk (`3669fb53d33d68e00186d40f3b4eaa6f9f5f0666`), Jarvis adapter draft (`e112cc73178eef5f71b8a814296e4902c2e80390`) and canonical ASTRA executor capability matrix (`9ad83781a8da53d1a8f540ede54eba95281f01c0`).
+- Finding: local-first/fail-closed routing, Mac Pro central target, Alamo/FCC/Codex separation and future user-worker trust boundary already exist in the accepted target architecture; the corporation matrix and DAG crosswalk already cover responsibilities and partial contract gaps. Do not create duplicate controllers or repurpose inference/evidence schemas as task DAGs.
+- ECC upstream review remains blocked: expected upstream file retrieval did not return authoritative file metadata; search results included mirror/fork material rather than revision-pinned source. ECC remains NOT ASSESSED / NOT ADOPTED; no install/import or license/security claim.
+- Open work: source-crosswalk exact A0 ingress/claim/lease/cancellation and security/identity contracts; reconcile existing agent/provider schemas; continue non-secret FCC/FreeLLMAPI/router/Alamo/runtime/Codex route identity trace; then prepare a proposed task/result contract for owner/governance review.
+- No normative contract/Baseline 2.0 changed. No model/provider calls, credentials, host/runtime inspection, installation, tests, qualification, infrastructure changes, deployment or branch integration.
