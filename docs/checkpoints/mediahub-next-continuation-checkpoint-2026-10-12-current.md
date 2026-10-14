@@ -2342,3 +2342,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - No package download/install/execution, tests/scans/provider calls, qualification, host inspection, infrastructure change, deployment or branch integration occurred.
 - Existing blockers remain: owner/governance clarification of B1 “current passport edition 1.0” versus accepted B2 authority; owner decision or separately authorized source-only reachability review for LiteLLM proxy advisories; full dependency/SBOM, target runtime, sandbox/egress, DEC-DEV-02 and P0-07/P0-05/P0-04 gates.
 - Next bounded step: another independent, source-only dependency evidence gap only if it does not require runtime execution or an unapproved review scope. Do not change pins, install, execute or promote the candidate.
+
+
+## Latest /next result — ACP Python SDK 0.12.1 lifecycle issue signal (2026-10-14)
+
+- Refreshed current refs before the pass: main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8; documentation branch HEAD 083c654e4d9a3d1119be142815127d3553d5b23b. Compare: DIVERGED, documentation branch ahead 1067 / behind 2; merge base f0f406feb9f9816b009f4e6e756813541e53b9bc. No branch integration performed.
+- Re-read current bootstrap, map, checkpoint, roadmap and component crosswalk. The prior checkpoint recorded fakeredis 2.34.1 as the latest dependency pass; this pass took the next bounded source-only review lead for ACP 0.12.1.
+- The official ACP Python SDK Security page reports no detected security policy and no published GitHub advisories. Public issue [#108](https://github.com/agentclientprotocol/python-sdk/issues/108) describes run_agent cancellation potentially leaving sender/dispatcher tasks alive; search metadata marks it closed by #113. Exact fix-to-tag inclusion for agent-client-protocol==0.12.1 and MediaHub call-path reachability remain unverified.
+- Recorded the evidence and limitations in Component Admission Crosswalk §7.14, map §20.251 and roadmap §63. This is a lifecycle/source-review lead, not a confirmed vulnerability or proof that the fix is absent.
+- OpenHands remains RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Exact artifact/source provenance, full transitive SBOM/license/advisory closure, target runtime/sandbox/egress and existing owner/gate decisions remain open.
+- No artifact download/install/execution, tests/scans, provider calls, qualification, host inspection, infrastructure change, deployment, or branch integration occurred.
+- Next bounded step: compare the exact ACP issue-fixing commit against the 0.12.1 tag ancestry using public source metadata only, provided this remains within the authorized source-only review. Do not install, execute, test, change pins or promote the candidate.
