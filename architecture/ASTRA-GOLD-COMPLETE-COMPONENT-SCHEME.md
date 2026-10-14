@@ -156,7 +156,7 @@ Required:
 command contract, claim/lease, queue progress, duplicate suppression, heartbeat, result publication, stale-claim handling, worker restart, duplicate-controller rejection and replay idempotency.
 
 Concurrency:
-maximum 2 autonomous claims; claims disjoint; shared surfaces serialized.
+The concurrency ceiling is defined by `architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml` (`G5_CONCURRENCY.max_parallel_autonomous_claims`), mirrored by `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`; do not duplicate the numeric limit here. Claims must be disjoint; shared surfaces are serialized.
 
 ## 15. Recovery
 
