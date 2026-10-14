@@ -4801,7 +4801,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Next: obtain qualified independent review of P0-07 D2 R-01…R-06 and separate owner/governance dispositions. This entry does not close either gate.
 ## 20.201 Project-wide architecture integrity sweep wave 06 (2026-10-14)
 
-- Report: [project-wide architecture integrity sweep wave 06](../checkpoints/MEDIAHUB-PROJECT-WIDE-ARCHITECTURE-INTEGRITY-WAVE-06-2026-10-14.md), blob `55cc4be43dedd973705e6215a11b946243e1145e`.
+- Report: [project-wide architecture integrity sweep wave 06](../checkpoints/MEDIAHUB-PROJECT-WIDE-ARCHITECTURE-INTEGRITY-WAVE-06-2026-10-14.md).
 - Static review covered live main/docs refs, Baseline 2.0, ASTRA machine/prose gate contracts, P0-04/P0-05/P0-07 source paths, owner directions, Jarvis semantic status, and current-main tree path evidence. This is broad targeted coverage, not a full semantic review of every repository file.
 - Corrected seven duplicate section IDs by preserving the earlier IDs and assigning the later colliding headings unique IDs: `20.194`–`20.200`; updated the self-reference formerly pointing to the duplicated `20.119`. Collision map and exact titles are in the report.
 - Static integrity checks: ASTRA schema/governance/unified YAML each declare identical G0–G11 IDs with no duplicates/missing IDs; all five distinct test files named by 16 governance invariant references exist in the 798-entry non-truncated main tree. No tests were run; these are path/structure checks only.
