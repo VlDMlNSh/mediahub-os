@@ -635,6 +635,7 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 
 - Read current main sources for the security trust chain, authorization seam, consumer boundary, identity-boundary schema, ASTRA governance/current-truth and the manual P0-07 workflow.
 - Recorded MH-ARCH-047 in the unified remediation plan §9.35 and map §20.228. Finding is a targeted static context-binding gap: the inspected AuthorizationContext carries only principal/capability and its binding to the separate identity/correlation schema and trusted issuer is not established. This is not a system-wide absence claim or evidence of a live bypass.
+- Cross-branch corroboration: `integration/p0-07-runtime-reconciled` HEAD `b54f5c389513998dfb6e6e362b62ff5d07430995` preserves the same minimal `AuthorizationContext` and includes an explicit P0-07 → P0-05 adapter contract marked implementation-blocked for a governance/API gap. The contract keeps P0-07 domain authorization separate from P0-04 transaction authorization; no adapter implementation is inferred or authorized.
 - ASTRA G0–G11 remain BLOCKED / overall NOT_PROVEN; the P0-07 workflow was not dispatched. No runtime code changed, no tests/provider calls/credentials/host inspection/install/infrastructure/deployment/qualification occurred.
 - Next: obtain owner/governance decision on trusted context issuer/binding and independent D2 reviewer. Preserve DEC-DEV-02 and DEC-DEV-05 as open dependencies; no implementation before design and implementation authorization.
 
