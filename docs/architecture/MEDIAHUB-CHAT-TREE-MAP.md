@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.201)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.205)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -4835,10 +4835,20 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Documentary-only; no tests, qualification, runtime operations or branch integration.
 
 
-## 20.185 MH-03 mirror-family source/status drift — source-anchored classification (2026-10-14)
+## 20.204 MH-03 mirror-family source/status drift — source-anchored classification (2026-10-14)
 
 - Live source review confirmed that the root and nested MH-03 document families differ in more than wording: the root contradiction register flags C03-08 for governance review, while the nested copy reports no current explicit contradictions; the root decision log adds MH3-D10/D11 for future-governed persistence/HA and non-authoritative technology integration; evidence registers use materially different acceptance/implementation-status language.
 - Root index `architecture/MH-03-index.md` lists root-level artifacts as required, but its own status is PROPOSED / NOT ACCEPTED. This suggests intended placement but does not authorize promoting root files to canonical status.
 - See [unified architecture remediation plan §9.9 / MH-ARCH-021](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md) for exact source blob SHAs and the required owner disposition.
 - No MH-03 source document was modified. Preserve both trees pending an explicit choice: root canonical, nested canonical, or governed synchronized views. Do not mark either family accepted before that decision and reconciliation.
 - Status: CONFIRMED SOURCE/STATUS DRIFT; OWNER DISPOSITION REQUIRED. Next: continue classification of the remaining MH-03 pairs after the source-of-truth model is decided, or independently inventory references/provenance without changing normative content.
+
+## 20.205 Project-wide duplicate and qualification-contract audit wave 09 (2026-10-14)
+
+- Unified register: [MEDIAHUB Unified Architecture Remediation Plan](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), current audited plan blob at pass start `6b61fac41acf0bbf95393f345d3382c7987e5c91` (Wave 09, §9; findings MH-ARCH-001…021).
+- Live recursive inventory: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`, 798 entries/721 blobs; docs branch HEAD `9279e14791509bb97b3f6dc5e47b042e6b4072b4` at refresh, 904 entries/827 blobs; DIVERGED ahead 829 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Complete path inventory, not semantic line-by-line audit.
+- Confirmed: 24 basename-collision groups/44 repeated path occurrences beyond each group's first path; 10 empty `__init__.py` files are the only same-blob duplicate group. All 18 MH-03 root/nested pairs have different blob SHAs; MH-03 decision/evidence/contradiction registers have confirmed status/decision drift, including C03-08 governance status. See plan §9.3/§9.9 and finding MH-ARCH-021.
+- Confirmed additional risks in the plan: G4 prose lists 3 Claude paths while the canonical launch schema defines 5 mandatory qualification paths (MH-ARCH-017); two different LaunchAgent plists share the same label but target different programs/environments (MH-ARCH-018; co-installation unknown); B1.0 same-path branch content/authority drift (MH-ARCH-016); A0 authority/test-contract conflict (MH-ARCH-001/015); current-main concurrency text 2 vs schema/governance 3 (MH-ARCH-002).
+- Fixed a newly rediscovered map navigation collision by rekeying the appended MH-03 source/status section from duplicate `20.185` to `20.204`. The earlier historical `20.185` section is preserved. Full read-back scan follows after commit. No MH-03 source file or `main` file was changed.
+- Current qualification remains G0–G11 BLOCKED / NOT_PROVEN; Contour B remains gated. No tests, CI, runtime/host inspection, provider/model calls, credentials, installation, deployment, infrastructure change, migration or branch integration.
+- Next: resolve the administrative source-of-truth choices already listed in plan §5 and §9.6; continue MH-03 reference/provenance tracing without rewriting either family before owner disposition.
