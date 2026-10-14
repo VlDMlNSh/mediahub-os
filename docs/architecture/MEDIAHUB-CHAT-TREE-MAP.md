@@ -5170,3 +5170,11 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - The reviewed OpenHands SDK lock snapshot lists FastMCP 3.2.0 as a direct dependency. Official PyPI reports Apache license classification, Trusted Publishing for wheel/sdist, and published hashes; artifact bytes/attestations were not independently verified.
 - Two upstream advisories reviewed for FastMCP—GHSA-vv7q-7jx5-f767 (SSRF/path traversal in OpenAPIProvider) and GHSA-m8x7-r2rg-vh5g (Windows command injection in installer flows)—list affected versions as `<3.2.0` and patched version `3.2.0`. The exact pin is the stated patched floor for these findings; this is not a general security clearance.
 - Full transitive SBOM/licence/advisory closure, independent artifact provenance verification, target sandbox/egress and runtime proof, and owner disposition on the direct LiteLLM/provider-routing boundary remain open. OpenHands remains research-only and not admitted. Evidence details: [Component Admission Crosswalk §7.9](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
+
+
+## 20.243 — P0-07 D2 current-main call-chain trace (2026-10-14)
+
+- Static source evidence and exact current-main blob anchors are recorded in [P0-07 D2 proposal §13.3](../checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md).
+- The inspected authorization/consumer/state/lifecycle chain carries AuthorizationContext(principal, capability) and explicit grant checks, but the inspected seam does not evidence trusted issuer provenance or expiry/revocation/restart lifecycle validation.
+- ASTRA task ingress/gateway is a distinct request path; no call edge to ConsumerBoundary was evidenced in the inspected files. Do not equate approval_state with P0-07 trusted authorization context.
+- Scope is bounded; not proof of absence elsewhere, not a confirmed vulnerability finding, and not the required independent D2 review. D2 remains NOT EVIDENCED; proposal NOT ACCEPTED / NOT FROZEN; implementation blocked.
