@@ -650,3 +650,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - No software installation, source copy, code integration, tests, qualification, provider/model invocation, credentials, runtime/host inspection, infrastructure changes, deployment or branch integration occurred. External scan remains targeted, not exhaustive GitHub-wide coverage.
 
 **Next bounded action:** source-level release/licence/security/platform review for the single preferred worker candidate and MCP interface against the existing Contour A contracts, then report a candidate recommendation for owner review. Do not write product implementation or admit any dependency until the design and separate implementation gates are satisfied.
+
+
+## 44. Execution update — MH-ARCH-048 MH-03 error-handling mirror review (2026-10-14)
+
+- Compared root `architecture/MH-03-error-handling.md` (blob `bd2157deb94c2823c6b6fac2988945b7bc412ef3`) with nested `docs/architecture/mh-03/MH-03-error-handling.md` (blob `a33051aabb24447cf993755e84569917fe37f037`) and re-read the PROPOSED root index (blob `b2d2eeb1b89117d10605c231e79378eebc437c5f`).
+- Recorded MH-ARCH-048 in unified remediation plan §9.36 and map §20.229. Both documents align on fail-closed handling and bounded recovery. Root more directly specifies State Authority failure/no fallback, service-crash supervision and telemetry authority boundaries; nested more directly specifies sanitized/privacy-preserving errors and prevention of partial lifecycle transitions/canonical-state corruption.
+- Preserved both source documents and their statuses. No runtime defect or accepted canonical source is inferred. No tests/CI, runtime/host inspection, implementation, installation, deployment, qualification or branch integration occurred.
+- Next: continue only with a remaining, not-yet-covered MH-03 mirror or source-reference trace after checking the remediation register; preserve governance authority over canonicalization.
