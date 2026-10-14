@@ -384,7 +384,7 @@ These questions do not create new normative DEC IDs. Existing ADMIN-01…ADMIN-0
 - Added **MH-ARCH-026 (P1)**: MH-03 evidence-register pair contains a material evidence-ID/status/provenance conflict, including a nested implementation-authorization label that is not substantiated by the paired root register. Required action: preserve both sources; owner/governance must select root canonical, nested canonical, or governed synchronized views; reconcile ID meanings, evidence provenance and acceptance labels before either register is cited as accepted authority.
 - No MH-03 source was changed, deleted, synchronized or promoted. No tests/qualification, runtime/host inspection, credentials/provider/model calls, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
 
-### 9.17 Final live core-document link-path and map-ID rescan (2026-10-14)
+### 9.18 Final live core-document link-path and map-ID rescan (2026-10-14)
 
 - Refreshed the live docs-branch tree at `beaa981fd4e159a6ada5d55c2035332599d7f0f5`: 904 entries / 827 blobs, not truncated. At scan time, `main` was `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch was DIVERGED, ahead 863 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 - Live core documents re-fetched: plan `f5db88583d46aafe4fe6a46b6060b5b3840c62d6`, map `4a8cf6d3ad4d8febde4c1a5a5a21b4392a725881`, roadmap `8a189fdb4ad8d7bf33a6d4318ec3cc34e186ab83`, checkpoint `bc85e35edf3638c2152f597768e0174d63352374`, bootstrap `49b4760b4adf4f1565fac0aa4697da000f1cf37b`.
