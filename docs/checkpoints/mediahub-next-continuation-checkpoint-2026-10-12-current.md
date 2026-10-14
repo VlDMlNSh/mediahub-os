@@ -1875,3 +1875,11 @@ Re-fetch and verify the plan, map, roadmap and checkpoint; refresh main/docs ref
 - GitHub code-search queries returned zero matches with an incomplete index; consumer/reference tracing is not complete and absence of consumers is not established. No owner intent or mutually exclusive deployment policy was inferred.
 - No manifests/source code changed. No host/runtime inspection, workflow execution, tests, installation, deployment, credentials, infrastructure change, branch integration or qualification occurred. ASTRA remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Next: trace MH-ARCH-038 schema references and MH-ARCH-039 imports via directly declared producers/consumers, while preserving all candidate files and requesting owner disposition for launchd deployment intent and bootstrap reset semantics.
+
+
+## Latest /next result — MH-ARCH-038/039 targeted reference trace (2026-10-14)
+
+- Read the current docs-branch tree (commit `73fa626723e4cff7b1c888cc1f2e8da461a94055`, 904 entries, `truncated=false`) and targeted primary source/test files. Recorded findings in remediation plan §9.27 and map §20.220.
+- MH-ARCH-038: mesh capability schema is used by mesh inventory, validation and admission paths; domain capability schema is loaded by its domain schema test. They have different IDs and contracts; no shared producer/consumer was established in inspected files. Mesh validator checks a subset of schema constraints; this is a review flag, not a confirmed defect or qualification result.
+- MH-ARCH-039: mesh registry imports mesh lifecycle transitions; runtime in-memory authority imports and implements the separate runtime StateAuthority interface. No direct cross-import was found in inspected files. Broader references are not ruled out because GitHub code search returned no results.
+- No tests/CI, source changes, runtime, host inspection, installation, or qualification. Both findings remain OPEN / PARTIAL TRACE. Next: trace remaining MH-03 repeated-basename families and inbound references; refresh refs/tree before any qualification proposal.
