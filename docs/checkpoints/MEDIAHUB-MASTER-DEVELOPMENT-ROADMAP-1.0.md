@@ -738,3 +738,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - agent-client-protocol 0.12.1 exact sdist/wheel hashes are recorded; PyPI reports Trusted Publishing was not used. The upstream Python SDK repository identifies Apache-2.0, but exact artifact license/source-to-artifact provenance remains open. Upstream ACP Security page showed no detected policy and no published advisories at review time; this is not proof of safety or vulnerability.
 - Full transitive SBOM/license closure, comprehensive advisories, OpenHands source-to-artifact provenance, direct LiteLLM owner decision, target runtime and sandbox/egress remain open. No artifact download/install/execution, test/scan/provider call, host inspection, qualification or deployment.
 - Next: complete read-only provenance/advisory closure for the pinned OpenHands release and remaining direct dependencies, then prepare an owner decision on LiteLLM only if the evidence supports a concrete choice. Do not install or execute.
+
+
+## 54. Execution update — DEC-DEV-02 exact-clause revalidation (2026-10-14)
+
+- Re-read current main ASTRA Complete Component Scheme and the documentation-branch Verifiable Architecture Contract, Jarvis independent review, owner decision packet, node/service matrix and DEC-DEV crosswalk validation.
+- Confirmed the existing conflict at exact clause level: ASTRA scheme §1 line 10 assigns “MediaHub State Authority” to A0; ARC-003 and ARC-017 reserve canonical product-state authority to MediaHub Product State Authority and limit A0 to ASTRA engineering state; ARC-018 and the Jarvis review leave the single cross-system engineering lifecycle owner open.
+- Added the live ref/blob anchors and bounded disposition to DEC-DEV validation §8 and indexed it in map §20.240. This is source revalidation, not a new defect, owner decision or independent D2 review.
+- Next: obtain explicit DEC-DEV-02 A/B/C owner selection and separately commission a qualified independent P0-07 D2 reviewer per the existing packet. Until then, no normative scheme edit, implementation, second queue, qualification or status promotion.
