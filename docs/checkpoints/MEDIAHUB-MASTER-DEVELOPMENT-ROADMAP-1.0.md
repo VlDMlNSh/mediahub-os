@@ -822,3 +822,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. No install, artifact download, test/scan, execution, provider call, qualification, host inspection, infrastructure change or deployment occurred.
 - Evidence: Component Admission Crosswalk §7.13; map §20.250.
 - Next: retain the owner/governance decision on LiteLLM/provider-routing and the B1/B2 authority wording as explicit blockers. Do not promote OpenHands; continue only with another independent source-only dependency gap that does not require unapproved runtime work.
+
+
+## 63. Execution update — ACP Python SDK 0.12.1 lifecycle issue signal (2026-10-14)
+
+- Reviewed the official ACP Python SDK public Security page and release index, plus public issue #108, which reports that cancellation during run_agent/AgentSideConnection.listen() could leave sender/dispatcher tasks alive; search metadata marks the issue closed by #113.
+- The public Security page reports no detected security policy and no published advisories. This is not proof of no vulnerabilities or complete advisory coverage.
+- The exact fix-to-0.12.1 tag relationship and MediaHub call-path reachability were not established. Record this as a source-only dependency-review lead, not a confirmed vulnerability and not evidence that the fix is absent from the pin.
+- Evidence: Component Admission Crosswalk §7.14; map §20.251. OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.
+- No artifact download/install, tests/scans, execution, provider call, qualification, host inspection, infrastructure change or deployment occurred.
+- Next bounded step: if no owner/governance blocker changes priority, compare the exact issue-fixing commit and tag ancestry against ACP 0.12.1 using public source metadata only. Do not run code/tests or alter the pin.
