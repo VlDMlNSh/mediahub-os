@@ -5070,12 +5070,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Root `architecture/MH-03-index.md` blob `b2d2eeb1b89117d10605c231e79378eebc437c5f` remains PROPOSED and does not establish canonical source authority. No direct contradiction or runtime defect is proven.
 - Preserve both files pending owner/governance selection of a canonical source or synchronized-view policy. Static document comparison only; no tests, CI, runtime/host inspection, implementation, deployment, qualification or branch integration.
 
-## 20.231 Component manifest/YAML scope ambiguity (2026-10-14)
+## 20.231 Component manifest/YAML scope decision and branch boundary (2026-10-14)
 
-- Crosswalk: [Component Admission Crosswalk, Wave 01 §7.1](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
-- Canonical text manifest on `main` blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` calls itself the single component-selection input and spans foundation, whole-product candidates, target/future-gated entries and exclusions. `oss/manifests/components.yaml` on `main`, blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`, does not declare whether its shorter list is exhaustive or a narrower runtime/deployment subset.
-- Confirmed ambiguity: omissions and status-vocabulary differences are visible, but intentional scope difference versus defect is not established. No automatic parity or status mapping may be inferred.
-- Owner/governance decision required: (A) exhaustive projection with stable IDs and parity rules, or (B) explicitly scoped subset with source linkage/status translation. Recommendation B is provisional only. No manifest/schema change or component admission occurred.
+- Decision record: [Component Admission Crosswalk, Wave 01 §7.3](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), current blob SHA `e075a5fc17587c43d99ec43cc9a5fdaf2c901381`.
+- Owner explicitly selected **Option B**: `oss/manifests/components.yaml` is a scoped runtime/deployment admission subset, not an exhaustive projection of the canonical text component-selection catalogue.
+- The documentation-branch YAML declares `scope: runtime-deployment-admission-subset`, points to `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md@main` as source of truth, sets `status_semantics: admission-readiness-only`, and `omission_semantics: omission-does-not-imply-exclusion`. YAML blob SHA: `e3cf487bcf43ecb92cd110b5af2660c066b58e2a`.
+- The text manifest remains the selection catalogue. YAML status values are not a lossless translation of catalogue modes; omission is not exclusion. This decision clarifies scope only and does not admit, qualify, or establish readiness for any component.
+- **Branch boundary:** the YAML edit is present on `docs/mediahub-chat-tree-map-20261012`; the same path on `main` remains unchanged at blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`. The branches are diverged; no merge/cherry-pick or main update was performed.
 
 
 ## 20.232 — OpenHands SDK source and artifact pin review (2026-10-14)
