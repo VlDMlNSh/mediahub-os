@@ -5088,3 +5088,11 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Canonical text manifest on `main` blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` calls itself the single component-selection input and spans foundation, whole-product candidates, target/future-gated entries and exclusions. `oss/manifests/components.yaml` on `main`, blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`, does not declare whether its shorter list is exhaustive or a narrower runtime/deployment subset.
 - Confirmed ambiguity: omissions and status-vocabulary differences are visible, but intentional scope difference versus defect is not established. No automatic parity or status mapping may be inferred.
 - Owner/governance decision required: (A) exhaustive projection with stable IDs and parity rules, or (B) explicitly scoped subset with source linkage/status translation. Recommendation B is provisional only. No manifest/schema change or component admission occurred.
+
+
+## 20.232 — OpenHands SDK source-pin preflight (2026-10-14)
+
+- Detailed evidence and disposition: [Component Admission Crosswalk, §7.2](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
+- Official OpenHands repository resolves to `OpenHands/OpenHands`; latest monorepo release metadata observed `v1.27.1`, target commit `f07aebdf5cdd71f4a05ebcf30f8bef5e4e3b70b9`, with `immutable: false`. Root MIT license does not establish package-specific SDK/transitive licensing.
+- MCP Python SDK latest release metadata observed `v2.3.0`; its root MIT license does not make MCP an authorization layer or prove compatibility.
+- **Disposition:** OpenHands remains candidate/not admitted. Exact SDK package identity, immutable package pin, transitive licensing, platform/sandbox, authority and capability mapping remain unverified. No install, import, execution, tests, qualification or integration.
