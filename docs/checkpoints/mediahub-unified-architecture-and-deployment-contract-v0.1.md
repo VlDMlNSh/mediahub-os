@@ -122,14 +122,29 @@ No component becomes active merely because it appears here. Do not install/deplo
 ### Required decisions/evidence before activation
 
 - Exact Claude access mode (Claude Code, approved API integration or other named interface), supported authentication and permitted data classes.
-- Whether the target is Claude as the engineering operator with Ollama as a separate local inference tool, or a router that chooses Claude/Ollama per task. These are distinct designs.
+- Owner decision D-03 (2026-10-14): use a Jarvis policy-routing/orchestration layer that selects an allowed Claude or Ollama execution path per task. Claude is an external executor; Ollama is a separate local runtime. The detailed adapters and routing enforcement remain to be designed and verified.
 - Exact Ollama host hardware/OS/runtime and per-model compatibility, license, provenance, memory/context and latency results.
 - Model-routing contract, failure/fallback semantics, local-only mode, egress-denial evidence and provider retention/privacy terms.
 - Tool authorization, sandbox/worktree boundaries, approval gates, audit schema and independent verification.
 - Explicit MH-10/MH-21 ownership reconciliation and current MH-22 qualification evidence.
 - Owner/governance approval before any model runtime, provider credential, API integration or production route is activated.
 
-**Status:** OWNER DIRECTION RECORDED / DESIGN PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED / NOT ACCEPTED AS GLOBAL BASELINE. No installation, provider call, credential use, test, qualification or runtime change was performed.
+**Status:** OWNER-ACCEPTED ARCHITECTURE DIRECTION D-03 (2026-10-14) / DESIGN DETAILS PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED. Acceptance is limited to the role and topology direction; this v0.1 contract remains a cross-domain draft and is NOT accepted/frozen as a whole. No installation, provider call, credential use, test, qualification or runtime change was performed.
+
+
+### 4.1.1 Owner-accepted Jarvis control-plane direction (D-03, 2026-10-14)
+
+The owner explicitly accepts the following architectural direction:
+
+- **Jarvis is the top-level coordination layer** for distributed, hybrid, autonomous engineering. It decomposes and coordinates tasks, chooses the permitted execution method and later coordinates the cloud development system.
+- **GitHub is a directly integrated engineering control surface** for Jarvis. All repository actions must pass through a capability-scoped adapter with explicit identity, least privilege, audit, branch/review protections and evidence-bound verification. Direct GitHub management does not authorize bypassing review/branch protection or self-authorizing merge, release, deployment or production changes.
+- **Claude** is an external intelligent/engineering executor through an approved interface.
+- **Ollama** is a separate local inference runtime for compatible local models. Claude is not hosted inside Ollama.
+- **Routing policy** chooses only an eligible executor per task based on task class, data classification, destination policy, local capability, budget and explicit authorization. No silent local-to-cloud fallback.
+- **ASTRA** coordinates autonomous engineering only within granted capabilities and existing governance gates.
+- **Product State Authority remains the exclusive authority for canonical product-state changes.** Jarvis, ASTRA, model providers and GitHub adapters cannot acquire or infer that authority.
+
+This is an owner-accepted architecture direction, not evidence of implementation, GitHub permissions, provider connectivity, cloud deployment, qualification or operational readiness. Existing non-authorizations remain in force, including provider calls, credential use, tests/qualification, host/runtime inspection, infrastructure changes, deployment and merge absent separate authorization.
 
 ## 5. Deployment profiles
 
