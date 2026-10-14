@@ -5047,3 +5047,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Reviewed themes: agent orchestration, durable workflows, local inference, provider routing, MCP tool boundaries and Home Assistant authority preservation.
 - No code/runtime component integrated; no installation, model/provider invocation, tests, qualification, host inspection, infrastructure change, deployment or merge performed.
 - Limits: bounded GitHub discovery, not exhaustive; candidate selection and compatibility remain pending manifest crosswalk, upstream license/security/release review and owner approval.
+
+
+## 20.228 MH-ARCH-047 — P0-07 to P0-05 trusted-context binding trace (2026-10-14)
+
+- Unified finding: [MH-ARCH-047, remediation plan §9.35](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Targeted main source trace: security contract blob 8d831c2a8fa333977dd86524099568bae2a8db0e; authorization seam 4d8df5d3c1c26f7f133a8093cd270635b085f4d5; consumer boundary 98bf2da9cea85da2c82145b4baef417c20b9ae73; identity schema 1d085bb1f2c458faaeff23bd92d83aa5d1bd3879.
+- Confirmed targeted gap: the inspected AuthorizationContext contains only principal/capability and the consumer boundary accepts it; no issuer/device/workload/request/correlation/policy-version/freshness binding is represented in that dataclass. A separate schema defines identity identifiers, but their validated binding into this authorization path was not established. This is not proof that every upstream caller lacks separate controls or that a deployed bypass exists.
+- ASTRA G0–G11 remain BLOCKED / NOT_PROVEN. P0-07 workflow is manual-only and was not dispatched. No tests, runtime/host inspection, credentials, install, infrastructure change, deployment or qualification occurred.
+- Next: owner/governance must name the trusted issuer and binding contract and assign independent D2 review; keep implementation gated. No canonical authority or policy owner is inferred.
