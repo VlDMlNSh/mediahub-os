@@ -324,3 +324,8 @@ Open documentary conflict C-01: FreeLLMAPI is classified as local_gateway in the
 
 The current evidence ledger and candidate hardware profiles are documented in [Partial PASS Evidence Ledger and Portable Deployment Profiles, Wave 01](MEDIAHUB-PARTIAL-PASS-EVIDENCE-AND-PORTABLE-DEPLOYMENT-PROFILES-WAVE-01-2026-10-14.md). Owner-reported subcomponent PASS results are not promoted to verified PASS without artifact linkage. ASTRA end-to-end autonomous queue remains NOT ACHIEVED. Mac mini 2011, Mac Pro 2013 and a future remote high-VRAM GPU server are candidate deployment targets only; no provisioning, hardware compatibility, qualification or deployment is claimed. This contract remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
 
+
+## Wave 05 provider identity and egress crosswalk (2026-10-14)
+
+See [Provider Identity and Egress Contract Crosswalk, Wave 05](MEDIAHUB-PROVIDER-IDENTITY-AND-EGRESS-CONTRACT-CROSSWALK-WAVE-05-2026-10-14.md). The conflict between FreeLLMAPI's cloud-provider wording in the distributed AI architecture and `local_gateway` registry classification remains OPEN. No source classification is silently normalized. Local-only remains fail-closed; each gateway/upstream hop must be separately identified and policy-bound. This supplement does not alter this draft's PROPOSED / NOT ACCEPTED / NOT FROZEN status.
+
