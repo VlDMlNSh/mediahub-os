@@ -1783,3 +1783,10 @@ The bounded live host inventory and the component-level observed/declared/target
 
 Material findings: mh-dev-01 is offline; two online nodes are at main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8; Linux Ollama is running while macOS Ollama daemon is unavailable; OmniRoute CLI is present on macOS but route connectivity is not proven; FCC runtime mapping is unknown; FreeLLMAPI is marked local_gateway in provider registries while the distributed AI architecture's routing narrative describes a cloud/provider route. This is an open semantic contract conflict, not an approved interpretation. No inference, credentials, tests, qualification or deployment were used to generate the inventory.
 
+
+## Wave 03 partial PASS and portable deployment linkage — 2026-10-14
+
+See [Partial PASS Evidence Ledger and Portable Deployment Profiles, Wave 01](MEDIAHUB-PARTIAL-PASS-EVIDENCE-AND-PORTABLE-DEPLOYMENT-PROFILES-WAVE-01-2026-10-14.md). Owner-reported individual service/gate PASS results are preserved as OWNER_REPORTED_PARTIAL_PASS / EVIDENCE_LINK_PENDING until each is linked to a stable gate ID, exact target SHA, run ID, artifact digest, freshness and independent verifier. The overall ASTRA autonomous queue remains NOT ACHIEVED; do not infer whole-system PASS from partial results.
+
+The proposed hardware target profiles cover Mac mini 2011 (Intel i7, 16 GB, clean Linux) as a candidate control/edge node, Mac Pro 2013 as a candidate engineering/CI worker, and a future remote high-VRAM GPU server as an explicitly admitted inference provider. These are proposals, not accepted placements or deployment readiness claims. Hardware/driver support and security boundary are unresolved. This matrix remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
+
