@@ -599,3 +599,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Result: aligned non-mutating observability/authority invariant, but asymmetric coverage for diagnostic targets versus bounded/sanitized collection, privacy and explicit P0-05 path. Both sources remain PROPOSED; no canonical source, implementation or qualification status was inferred.
 - Verification: docs branch recursive tree at HEAD `8f499d2c3785ec22cfea61e03a2087c7ce69b33e`, 904 entries, `truncated=false`; read-back SHA checked for plan and map after each write. No tests/CI/runtime/host/deployment/qualification or integration performed.
 - Next: select a remaining MH-03 mirror family not already substantively covered by the remediation register, compare its current sources, and record only source-backed deltas. Preserve owner/governance gates.
+
+
+## 39. Execution update — MH-ARCH-044 MH-03 service-boundary mirror review (2026-10-14)
+
+- Compared root `architecture/MH-03-service-boundaries.md` (blob `02672aa1c377d04a3a7e0a7cff5b767a89ee0fcb`) with nested `docs/architecture/mh-03/MH-03-service-boundaries.md` (blob `cb9e5800d20ab3ee463bc30446419c95d556a87c`) and re-read the PROPOSED root index.
+- Added MH-ARCH-044 to the unified remediation register (§2) and detailed §9.31; added project-map entry §20.224. Finding: same non-authoritative runtime boundary, but nested text is more explicit about P0-05/P0-04, capability self-grant prohibition, P0-07 configuration scope and policy-approved recovery; root uniquely makes topology neutrality explicit. Direct contradiction is not proven.
+- Preserved both source files and all statuses. Branch compare immediately before the pass: docs branch 917 ahead / 2 behind `main`, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No tests/CI, runtime/host inspection, installation, deployment, qualification, merge/rebase/cherry-pick or product implementation.
+- Next: continue with a remaining MH-03 pair or source-reference pass only after checking existing remediation entries; do not canonicalize or delete either tree without owner/governance disposition.
