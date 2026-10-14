@@ -1923,3 +1923,20 @@ Inspect one remaining MH-03 pair, recommended error handling, compare source-bac
 - Refreshed recursive tree: 904 entries, `truncated=false`. Compared root observability blob `aa33cd18290bf486b19fad08f3a377aa5ed7a298` with nested blob `f7fba8708bc57eb8baa2d8ecc866fb58d18c9d6b`. Added MH-ARCH-043 / plan §9.30 and map §20.223. Core non-mutating observer invariant aligns; root enumerates diagnostic targets more directly, nested details bounded/sanitized collection, privacy exclusions and explicit P0-05 path. Direct contradiction/runtime bypass not proven.
 - Read-back SHA verified after each write: plan `a4133f17f9a4bffc9db86858e815794b272dd331`, map `49400d05cac1c78a78a0915d68d2f93b90b88218`, roadmap `93fff725e2e4c76a739c24f9ded63220b987d766`. No tests, CI, qualification, runtime/host inspection, installation, deployment, or merge/rebase/cherry-pick.
 - **Next:** continue one remaining MH-03 pair only after checking the remediation register for existing substantive coverage; likely service-boundaries or runtime-foundation references, then continue non-MH-03 reference classification. Keep sources unchanged pending owner/governance choice of canonical-tree or synchronized-view policy.
+
+
+## Latest /next result — MH-ARCH-044 service-boundary mirror review (2026-10-14)
+
+- Re-fetched bootstrap, map, continuation checkpoint and master roadmap; refreshed the unified remediation register and the two service-boundary source files. Root and nested service-boundary files remain PROPOSED and have different blob SHAs.
+- Added MH-ARCH-044 / remediation plan §9.31 and project-map §20.224. The shared sole-State-Authority invariant aligns; nested text explicitly names P0-05/P0-04 access, prohibits self-granted capabilities, scopes configuration to P0-07 and requires policy-approved recovery. Root supplies a role/authority table and clarifies that logical boundaries do not imply separate processes/containers/technologies. This is asymmetric explicitness, not a proven runtime defect.
+- Live branch comparison immediately before this pass: docs branch base commit `cae8dd3dde43c206b8c047f6c29c5a636a849a2c`; `main` is 2 commits ahead and 917 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration was performed.
+- Documentation-only pass. No tests, CI, runtime/host inspection, credentials/provider/model calls, installation, infrastructure changes, deployment, migration, qualification or product implementation.
+
+### Changed documentation — awaiting mandatory read-back
+- `docs/checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md` — new §2 finding MH-ARCH-044 and §9.31 detail.
+- `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md` — new §20.224 navigation entry.
+- `docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md` — new §39 execution update.
+- `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md` — this continuation record.
+
+### Next bounded action
+Continue the MH-03 source-family review with one not-yet-detailed pair, checking the unified remediation register first. Preserve both files and keep canonicalization/acceptance gated on owner/governance decision.
