@@ -465,3 +465,88 @@ No implementation, testing, qualification, installation, host/runtime inspection
 - **Finding:** P0-04's local commit path checks current-version freshness and generation compatibility, and P0-07 has bounded typed requests and explicit capability grants. The inspected sources do not demonstrate an authenticated caller binding, trusted context issuance/revocation/replay lifecycle, authorized read composition, or an end-to-end binding of the P0-07 decision/resource/payload to the same P0-04 canonical revision through P0-05.
 - **Disposition:** D3 remains NOT EVIDENCED / DEPENDENT ON D1/D2. Do not translate P0-07 ALLOW into P0-04 transaction authority. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN.
 - No implementation, tests, runtime qualification, provider/model calls, credentials, host inspection, deployment or merge performed.
+
+
+## 21. Unified passport control plane and source-of-truth register — 2026-10-14
+
+**Status of this section:** `DOCUMENTARY CONSOLIDATION / SOURCE-ANCHORED / NOT OWNER-ACCEPTED`.  
+**Purpose:** make this existing passport the single working overview for system-level navigation and contract traceability without creating another passport copy or silently promoting a draft into a normative contract.
+
+### 21.1 What this passport controls — and what it does not
+
+This file is the **working consolidated system passport** for cross-domain orientation, source routing, current evidence state, and open-contract tracking. It is not itself the product's accepted normative contract and does not replace:
+- Functional Baseline 2.0 for current accepted product semantics;
+- accepted/frozen domain contracts and designated machine-readable schema authorities within their declared scope;
+- attributable owner/governance decisions;
+- generated qualification Current Truth and immutable qualification evidence for live qualification status;
+- the Master Development Roadmap for work sequencing.
+
+No requirement becomes accepted merely because it is summarized here. When this passport conflicts with a higher-authority source, preserve the discrepancy, cite both source identities, and route the conflict to governance; do not resolve it by paraphrase.
+
+### 21.2 Authority and evidence routing
+
+| Layer | Source / ref | Authority in scope | Current handling |
+|---|---|---|---|
+| Product functional semantics | [Functional Baseline 2.0](mediahub-functional-baseline-2.0.md) on `main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | Accepted current functional reference | Canonical; immutable unless separately governed |
+| Historical requirement provenance | `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` on `main`, blob `9df4892ed0734050ac79732603d15bb414717310` | Historical B1 passport/provenance | Preserve; do not merge implicitly with B2 |
+| Domain contracts and schema sources | Per-domain accepted/frozen primary source and designated schema on its exact ref | Only the contract/field scope actually accepted | Verify exact source, scope, status and SHA; proposals are not promoted |
+| Component admission | `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` on `main`, blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` | Component selection/admission intent | Selection does not prove installation or qualification |
+| Live qualification truth | `docs/qualification/CURRENT-TRUTH.generated.md` on `main`, blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731` at the inspected snapshot | Reported qualification gate state | G0–G11 blocked; overall NOT_PROVEN / BLOCKED; re-fetch before relying on the snapshot |
+| Work sequencing | [Master Development Roadmap 1.0](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md) on this documentation ref | Sole working development sequence | Does not override accepted contracts or grant execution permission |
+| Cross-domain traceability | [Unified System Traceability Matrix v0.1](mediahub-unified-system-traceability-matrix-v0.1.md) | Working crosswalk | PROPOSED / NOT ACCEPTED / NOT FROZEN |
+| Node/service placement | [Node/service placement and decision register 01](MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md) | Source-anchored placement crosswalk | PROPOSED / NOT ACCEPTED / NOT FROZEN |
+| Cross-domain integration | [Unified Architecture/Deployment Contract v0.1](mediahub-unified-architecture-and-deployment-contract-v0.1.md) and [Architecture Integration Contract v3 draft](../architecture/MEDIAHUB-UNIFIED-ARCHITECTURE-CONTRACT-V3-DRAFT-01.md) | Proposed composition/crosswalk only | Not accepted/frozen; cannot authorize implementation |
+| Verification/control checklist | [Verifiable Architecture Contract 01](MEDIAHUB-OS-VERIFIABLE-ARCHITECTURE-CONTRACT-01.md) | Working architecture review checklist | 37 ARC requirements / 30 verification checks in the referenced snapshot; full acceptance OPEN |
+| Conflict remediation | [Unified Architecture Remediation Plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md) | Prioritized defect/conflict register | Working plan, not normative contract |
+| Navigation and resume | [Project map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md) and [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md) | Navigation and evidence/resume trail | Must be live-read; neither replaces primary sources |
+
+The SHAs above are evidence anchors from the inspected snapshot, not a promise that the same blob remains current forever. Re-fetch each source on its declared ref before a decision or change.
+
+### 21.3 Live repository state and branch boundary
+
+At this consolidation pass:
+- `main` HEAD: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Documentation ref: `docs/mediahub-chat-tree-map-20261012`.
+- Compare result: **DIVERGED**, documentation ref ahead by 829 commits and behind by 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- No branch integration is authorized or performed. The passport and supporting documentary edits stay on the documentation branch.
+- The branch-local working passport at this path is distinct from `specification/MEDIAHUB-SYSTEM-PASSPORT-V3-DRAFT-01.md`; the latter remains a related draft/provenance artifact, not an independently accepted competing authority. Do not delete or rewrite it without inbound-reference and provenance review.
+
+### 21.4 Unified contract truth — confirmed invariants versus open gates
+
+**Confirmed controlling invariants**
+1. Baseline 2.0 is the accepted current functional reference; Baseline 1.0 remains historical provenance.
+2. MediaHub Product State Authority remains the sole canonical product-state mutation authority in its accepted scope; engineering workflow state must not be mislabeled as product-state authority.
+3. Local-only behavior must fail closed; no silent cloud/provider fallback.
+4. Design, implementation, test, verification, qualification, release, deployment, observation and production acceptance are distinct statuses.
+5. Contour B product implementation remains blocked until Contour A is deployed, independently qualified and explicitly accepted with traceable evidence.
+6. A document, branch, manifest selection, draft, workflow definition, or blank review worksheet is not proof of implementation, successful testing, qualification, deployment, or acceptance.
+
+**Open / blocked items that must remain visible in the passport**
+- **MH-ARCH-001 / DEC-DEV-02:** Jarvis/ASTRA engineering lifecycle ownership and the conflicting “MediaHub State Authority” wording require owner/governance disposition. Do not amend the normative ASTRA sources by inference.
+- **MH-ARCH-006/007 / P0-07 D2:** trusted-context issuer/lifecycle is not evidenced and the qualified independent review worksheet R-01…R-06 remains uncompleted; P0-07 mutation/publication stays BLOCKED — GOVERNANCE/API GAP.
+- **P0-05 D6:** implementation-tree acceptance and normative-contract acceptance wording conflict; scope needs explicit governance confirmation. P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN.
+- **MH-ARCH-008 / DEC-DEV-08:** Contour A → Contour B gate is binding and not closed.
+- **MH-ARCH-009:** traceability matrix and placement register remain proposals, not accepted implementation contracts.
+- **MH-ARCH-010 / MH-ARCH-016:** documentation branch divergence and Baseline 1.0 cross-branch authority drift remain open; no broad merge/rebase/cherry-pick.
+- **MH-ARCH-019 / MH-ARCH-021:** map section-ID repair was read-back verified; MH-03 duplicate/mirror family still has confirmed source/status drift and requires owner choice of root canonical, nested canonical, or governed synchronized views. Preserve both trees pending disposition.
+- **Qualification:** ASTRA G0–G11 and overall qualification remain NOT_PROVEN / BLOCKED. No runtime-health or production-readiness claim is made.
+
+For the complete evidence, exact source anchors and prescribed actions, use the linked remediation register and map entries rather than duplicating every wave report here.
+
+### 21.5 Traceability completion rule
+
+The passport is not a completed unified contract until every in-scope requirement/contract atom has a row or an explicit gap record with:
+`stable ID → exact source path/ref/commit/blob SHA → clause/requirement → domain owner and authority → dependencies → implementation status → acceptance criteria → evidence artifact and target SHA → verification/qualification/release/deployment status → conflict/decision ID → next action`.
+
+A thematic heading-to-heading crosswalk is preliminary only. A missing row is a traceability gap, not evidence that the requirement is absent. Conflicting rows remain CONFLICT until the appropriate owner/governance authority resolves them. Historical IDs must be preserved; proposed IDs must be collision-checked before assignment.
+
+### 21.6 Controlled consolidation sequence
+
+1. Complete source-anchored crosswalks against Baseline 2.0 and accepted domain contracts; reuse existing evidence rather than regenerate duplicate matrices.
+2. Resolve or formally defer the owner/governance decisions that block normative convergence, beginning with the exact P0-07/P0-05 authority bridge and the Jarvis/ASTRA lifecycle wording.
+3. Classify duplicate document families, starting with the 18 MH-03 pairs; record inbound references, provenance, authority, status and owner disposition before any synchronization/deletion.
+4. Establish one accepted field-level authority for each machine-readable value and ensure prose mirrors are explicitly non-authoritative or mechanically checked.
+5. Obtain independent review and explicit governance acceptance of the unified cross-domain contract; freeze a revision only after exact-SHA review and all required sign-offs.
+6. Keep installation, testing, qualification, deployment, merge and Contour B work separately gated by explicit authorization and evidence.
+
+**Current conclusion:** a single *working passport view* is now defined and source-routed here; a single *accepted normative system contract* has **not** yet been achieved. This is an explicit, evidence-based status, not a claim of project-wide closure.
