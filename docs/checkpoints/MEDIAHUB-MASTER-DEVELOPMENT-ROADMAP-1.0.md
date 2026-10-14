@@ -501,3 +501,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - No normative contract, Baseline, code or `main` file was changed. No tests, qualification, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick were performed.
 
 **Next bounded step:** continue source/provenance comparison of another MH-03 pair. Keep canonical-tree selection with the owner/governance authority and preserve all divergent copies until that decision is recorded.
+
+
+## 27. Execution update — MH-03 lifecycle/acceptance mirror coverage review (2026-10-14)
+
+- Continued the [Unified Architecture Remediation Plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md) as the single cross-cutting finding register; added MH-ARCH-024 / §9.15.
+- Compared exact root/nested lifecycle and acceptance-criteria sources plus the proposed root index. The source pairs differ in explicit transition/failure semantics and in the enumeration of acceptance gates/evidence review. Classification is asymmetric coverage, not a proven direct contradiction; all compared documents remain PROPOSED / NOT ACCEPTED.
+- Plan blob after write: `aa342c02f2d3dd0eee5e021bd34f2d612119460e`. Project map updated with §20.211; map blob after write: `7f2dea2adcdbc154b880e9dd7c6fcecd910a936a`.
+- No MH-03 source was changed, deleted or promoted. No tests/qualification, runtime/host inspection, credentials/provider/model calls, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
+
+**Next bounded step:** compare the next unreviewed MH-03 root/nested pair with exact SHAs, checking direct dependencies and acceptance implications. Continue preserving all divergent copies until owner/governance selects a source model.
