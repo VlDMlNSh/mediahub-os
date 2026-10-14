@@ -2155,3 +2155,12 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - DEC-DEV-02 and P0-07/P0-05/P0-04 remain blockers. No product authority, provider-routing authority or runtime admission was changed.
 
 **Next bounded step:** do not infer an OpenHands choice. Continue independent read-only dependency-license/provenance/advisory evidence collection, or ask the owner to choose among Crosswalk §7.5 options before any advancement beyond paper review. Preserve all installation, execution, provider-call, test, qualification and deployment prohibitions.
+
+
+## /next read-back correction — concurrent OpenHands evidence pass (2026-10-14)
+
+- Current crosswalk blob after concurrent updates: `17ae42d6bb863919c159e6a8c0461854f9e0e0ed`; §7.5 contains the supply-chain/security-process review and §7.6 contains further dependency/telemetry evidence.
+- Current map blob: `98d0fb1d362df48ad49197e3d7a77e64fd1bb109`; map IDs §20.237 and §20.238 are present.
+- Current roadmap blob: `80d0247f4da5ad71cf0e3e50bf93e0be77b75d4e`; top-level numeric section scan found no duplicate IDs after preserving §51 and rekeying the later lock/licence/telemetry entry to §52.
+- Current observed `main` HEAD: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch remains divergent (`ahead_by=997`, `behind_by=2` at last compare). No merge/cherry-pick.
+- No install/download/execution, tests/scans, model/provider call, host inspection, deployment or component admission. OpenHands remains candidate-only pending owner decision and authority/security gates.
