@@ -4826,3 +4826,10 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Confirmed paired Markdown/YAML model versions are 1.0/1.1; lineage remains ambiguous, tracked under MH-ARCH-004. Topology test changes on docs branch were inspected but not run.
 - No tests, qualification, runtime inspection, normative-contract edits or branch integration performed. Current Truth remains NOT_PROVEN / BLOCKED.
 
+
+## 20.203 Functional Baseline 1.0 cross-branch authority drift wave 08 (2026-10-14)
+
+- Updated the [unified architecture remediation plan](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), adding MH-ARCH-016.
+- Same-path documents differ materially: `main` Baseline 1.0 blob `9df4892ed0734050ac79732603d15bb414717310` is a 68-section historical passport; docs-branch blob `1a2f06f50dd69990be58b12a98376b92f12fd14f` declares itself `NORMATIVE / SINGLE SOURCE OF TRUTH`. Accepted Baseline 2.0 explicitly supersedes Baseline 1.0 as the current functional reference.
+- Classified as confirmed cross-branch authority/provenance conflict, not permission to rewrite either baseline. Baseline 2.0 remains canonical; require owner/provenance disposition before relabeling or consolidation.
+- Documentary-only; no tests, qualification, runtime operations or branch integration.
