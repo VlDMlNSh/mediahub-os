@@ -1834,3 +1834,12 @@ Compare one additional unreviewed MH-03 root/nested pair and its declared depend
 - Repaired roadmap numeric heading collisions while preserving content: P0-07 D1/D2 addendum now `### 10.5`; evidence-register review `## 29`; plan-navigation repair `## 30`; health-model review `## 31`. Roadmap blob after repair: `a84e04b2ecebb5b66c2ca7b3843bcdd08113672b`.
 - The remediation plan records navigation repairs, blob `eb48186bdc1039a55ba56145ee122564bc8faedd`. These were documentation/navigation repairs only; no technical contract or status changed.
 - Final post-write read-back and heading scan remain required. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+
+
+## Final read-back — repository inventory and navigation collision repair (2026-10-14)
+
+- Re-read the unified remediation plan, project map and master roadmap after concurrent documentation appends. Current blobs at this checkpoint: plan `7075844e39678b0d040bb399faed88297f0fffd3`; map `23f2e23d6036966882be379040dedd121f2bc5f5`; roadmap `56ebe28e37ed7d1f81ef79d5847190af0ad9278e`.
+- Verified numeric heading IDs: no duplicates among scanned plan subsections `9.x`, project-map sections `20.x`, or roadmap H2 sections. Repaired only navigation labels: plan collision entry `9.23`→`9.24`, map navigation-repair entry `20.215`→`20.217`, and newest roadmap execution entry `31`→`32`. Historical text was retained.
+- Latest branch check: main `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs HEAD was `d144863ff4bd48f1737c6d8677804bf622ca60f0` at the ref scan; diverged, ahead 890 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Re-fetch refs before any future branch-sensitive operation because the branch is receiving concurrent commits.
+- The duplicate inventory is a static tree review, not a complete runtime audit. No source deletion, normative contract edit, test run, qualification, deployment or branch integration occurred. ASTRA remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Next: continue remaining MH-03 mirror pairs, then trace non-MH-03 schema/state/plist candidate pairs to references and consumers. Do not merge, delete or canonicalize without owner decision and reference evidence.
