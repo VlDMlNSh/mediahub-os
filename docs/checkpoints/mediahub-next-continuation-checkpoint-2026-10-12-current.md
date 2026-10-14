@@ -2411,3 +2411,12 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Master roadmap after §66: `98a25034e73fb825d120cd433b315be78238ea54`.
 - Project map after §20.255 and latest-update pointer refresh: `bc0712ad5ee9efe09eedc6e8ba5d098f828ea5a7`.
 - This checkpoint is updated after the prior read-back; verify its resulting blob SHA after this write.
+
+
+## Latest /next result — owner correction to Jarvis R-02 routing interpretation (2026-10-14)
+
+- Owner clarified that Claude Code is Jarvis's engineering client/agent path, with FCC and FreeLLMAPI in the project architecture and local Ollama intended as an execution route.
+- Read architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md@main, blob e549692f207fbc91d9b9b9b92b8e665404f07290: FCC is required integration/control layer; FreeLLMAPI is a cloud-provider path; local-only mode must fail closed; topology is logical, not deployment evidence.
+- Corrected reconciliation report R-02, owner decision register D-03 wording, roadmap §§65–67 and map §20.256. The former characterization of a direct Jarvis Claude/Ollama-vs-ASTRA-lane contradiction is replaced: Jarvis-level client/provider routing and ASTRA's permanent Claude-bound production lanes are distinct scopes.
+- ASTRA lanes, normative contracts and qualification status were not changed. No provider/model calls, credentials, tests, installation, runtime/host inspection, infrastructure changes, qualification, merge, rebase, cherry-pick or deployment occurred.
+- **Next:** draft the bounded Jarvis control-plane/GitHub adapter contract with explicit Claude Code/FCC route semantics, per-task provider/model evidence, and local-only fail-closed behavior.
