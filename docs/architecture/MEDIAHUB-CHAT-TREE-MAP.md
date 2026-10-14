@@ -5000,3 +5000,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - This is confirmed gate-coverage asymmetry, not evidence that any gate passed. Preserve both until owner/governance establishes source authority and the required gate set.
 - Tree snapshot at docs HEAD `2f3724adcf8b3e6ea10d83ef2ca7c2f04cdf1610`: 827 blobs, `truncated=false`. Textual inbound-reference coverage is not exhaustive. No tests/CI, runtime inspection, implementation, deployment or qualification occurred.
 - Next: inspect one remaining MH-03 pair (recommended: error handling), keeping canonicalization and acceptance status gated on explicit governance.
+
+
+## 20.223 MH-ARCH-043 — MH-03 runtime-observability mirror review (2026-10-14)
+
+- Root `architecture/MH-03-runtime-observability.md` blob: `aa33cd18290bf486b19fad08f3a377aa5ed7a298`; nested `docs/architecture/mh-03/MH-03-runtime-observability.md` blob: `f7fba8708bc57eb8baa2d8ecc866fb58d18c9d6b`.
+- Confirmed complementary coverage asymmetry: root more directly enumerates runtime failures/transitions that must be diagnosable; nested more explicitly requires bounded/sanitized collection, privacy/secret non-disclosure, and names P0-05 in the response path. Both prohibit observability becoming mutation authority. Direct contradiction and runtime bypass are not proven; both remain PROPOSED.
+- Disposition and limits: preserve both until owner/governance chooses canonical source or synchronized-view policy. Static document review only; no tests, CI, runtime/host inspection, deployment, qualification or acceptance.
+- Unified finding: [MH-ARCH-043, remediation plan §9.30](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Next: continue with one not-yet-detailed MH-03 mirror family and check existing remediation entries before adding any finding; retain all canonicalization/status gates.
