@@ -2226,3 +2226,13 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - No package downloaded/installed/imported/executed; no tests/scans/provider calls/qualification/host inspection/infrastructure/deployment; no branch integration.
 - Live compare at this pass: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch `DIVERGED`, 1019 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Do not merge/rebase/cherry-pick without separate authorization.
 - Next bounded step: continue source-only dependency evidence only where it closes a specific admission gap; otherwise request explicit owner disposition for the existing LiteLLM boundary and keep all runtime evaluation blocked.
+
+
+## Latest /next result — P0-07 D2 current-main call-chain trace (2026-10-14)
+
+- Live refs refreshed before this pass: main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8; documentation branch HEAD a1a29a247d1832b70f30875d5f299e0b5ba8e5b2. Compare: DIVERGED, docs branch 1027 ahead / 2 behind, merge base f0f406feb9f9816b009f4e6e756813541e53b9bc. No branch integration.
+- Added bounded current-main static trace to D2 proposal §13.3; indexed in DEC-DEV validation §9, roadmap §57 and map §20.243.
+- Exact inspected source blobs: authorization.py 4d8df5d3c1c26f7f133a8093cd270635b085f4d5; consumer_boundary.py 98bf2da9cea85da2c82145b4baef417c20b9ae73; in_memory_state.py 0fbc71369d19e09944ba67a60ccb9df802f30a4b; lifecycle_service.py 0b9d3d888e988615f1ad8cd50b1bef22f2be011b; coordination_service.py a4b81f2cfb21980af952aff26fb6e31d33b79bf7; astra_gateway.py 10985e4ad8f682313d08e7492ecc1856a8bce20f; task_ingress.py 59e1254aa61cc8f55f53bd1e179631e81c441393; astra_service.py 6aa2d09fc8737ccc0ba7f05bd13a15a0ebde7129.
+- Finding is bounded: inspected P0-04/P0-05 path validates context shape and explicit grants but does not evidence trusted issuer provenance or an end-to-end expiry/revocation/restart lifecycle. ASTRA gateway request path is distinct; no joining call edge was evidenced in inspected files. Not proof of repository-wide absence or a confirmed vulnerability.
+- Status unchanged: P0-07 D2 NOT EVIDENCED; proposal NOT ACCEPTED / NOT FROZEN; implementation/mutation/publication blocked. No tests, qualification, runtime execution, installation, provider calls, credentials, host inspection, infrastructure changes, deployment or branch integration.
+- Next: obtain qualified independent review of D2 R-01…R-06 and separate owner/governance disposition; internal source tracing cannot close that gate.
