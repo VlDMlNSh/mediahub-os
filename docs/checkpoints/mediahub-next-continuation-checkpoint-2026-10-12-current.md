@@ -2026,3 +2026,5 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Result: targeted static gap between the richer documented trust chain and the inspected AuthorizationContext(principal, capability) seam. No claim that all upstream checks are absent or that a live bypass occurred. ASTRA G0–G11 remain BLOCKED / NOT_PROVEN; P0-07 workflow was not run.
 - Documentation-only changes. No tests/CI, credentials/provider/model calls, runtime/host inspection, installation, infrastructure modification, deployment, migration, qualification or branch integration.
 - Next bounded action: owner/governance decision on trusted issuer/context binding and independent D2 reviewer; preserve DEC-DEV-02/DEC-DEV-05 gates and do not implement until explicitly authorized.
+
+- Crosswalk clarification: MH-ARCH-047 corroborates the already-existing P0-07 D2 trusted-context authority/lifecycle proposal (docs-branch blob `39400abce88da7ea54be7d9d7505f215eba43408`); it is not a separate new defect. Owner option B authorizes proposal preparation for governance review only. No implementation authorization is inferred.
