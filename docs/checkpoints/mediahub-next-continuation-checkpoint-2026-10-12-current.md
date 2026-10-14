@@ -1636,3 +1636,38 @@ Next: request the separate owner/security/privacy disposition for D5's audit eve
 - Added MH-ARCH-021 to the [unified remediation plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), plan blob `6b61fac41acf0bbf95393f345d3382c7987e5c91`, update commit `637a045374abfc04c23adf27fb020b2c318d1c8c`. Added map section 20.185; map blob `e3eadac3f1f36cae870d694bb25ae2150775a726`, map update commit `1a6c5d00bb24c8fb1bf4122af4d642911343fab6`.
 - No MH-03 normative source was edited. Preserve both trees pending owner decision: root canonical, nested canonical, or governed synchronized views. No tests, qualification, runtime/host inspection, credentials/provider/model calls, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Next bounded step: inspect references and provenance for the MH-03 family to prepare a source-of-truth decision packet; do not reconcile or delete content until the owner decides.
+
+
+## Latest /next result — system passport source-of-truth consolidation (2026-10-14)
+
+### Result
+- Re-read the live bootstrap, project map, this checkpoint, roadmap, accepted Baseline 2.0 on `main`, the current passport, Verifiable Architecture Contract 01, unified deployment contract, traceability matrix, placement register, owner decision packet, crosswalk wave 01 and unified remediation plan.
+- Consolidated the source-of-truth routing and current blocker register into §21 of the existing working passport. No second passport file was created.
+- The passport now explicitly distinguishes a single **working consolidated view** from a single **accepted normative contract**. The latter is not yet achieved.
+- No owner decision was inferred, no normative Baseline/domain contract was edited, and no execution/qualification permissions were expanded.
+
+### Live repository state
+- `main` HEAD observed: `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`.
+- Documentation ref: `docs/mediahub-chat-tree-map-20261012`.
+- Compare status: **DIVERGED**, docs branch ahead 829 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- No merge/rebase/cherry-pick or branch integration performed.
+
+### Written artifacts
+1. [Working system passport](MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md) — commit `b4a9b38b05d8fef4d3b6a3610b430e92828e1f1c`; blob `2b5d81236b85d44d284015cfb02d9401ab0e7482` at write time.
+2. [Master Development Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md) — commit `4da58dba1dc0e546218df250a3e3e78bba9d4f97`; blob `cd5f665afc814825eacd4addad9734801cad7057` at write time.
+3. [Project map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md) — commit `6b10566d4b221bcb056ac658545845d1bce29fe3`; blob `d771721d18c7bb6cbf3afdb9a969c3edaf00676b` at write time.
+
+### Open blockers
+- DEC-DEV-02 Jarvis/ASTRA lifecycle authority and conflicting A0 wording.
+- P0-07 D2 trusted-context issuer/lifecycle is not evidenced; independent R-01…R-06 review is not complete.
+- P0-05 D6 normative-contract acceptance scope requires governance confirmation.
+- MH-03 root/nested source-of-truth choice and 18 mirror pairs remain open.
+- Baseline 1.0 cross-branch authority drift and branch divergence remain; no branch integration.
+- Traceability and placement artifacts remain proposals.
+- Overall qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+
+### Verification boundary
+The three updates above were accepted by GitHub write APIs. Mandatory post-write read-back and SHA/content verification is the immediate next operation; until completed, the write-time identities above are not to be treated as fully verified. No tests, qualification, model/provider calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick were performed.
+
+### Next bounded action
+Re-fetch and verify the passport, roadmap, map and this checkpoint; verify §21 / §23 / §20.204 / this checkpoint entry and capture final blob SHAs. Then continue with a source-anchored MH-03 inbound-reference/provenance inventory or the P0-07 → P0-05 evidence bridge, without modifying normative sources or substituting for owner/independent-review gates.
