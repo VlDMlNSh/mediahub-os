@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.207)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.209)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -3818,7 +3818,7 @@ Primary sources on `main`: index SHA `d7b4673beb0fcf2407e016773507d5cf2710401d`;
 - **Next safe step:** read back changed artifacts and verify SHAs/cross-links, then obtain explicit owner/governance disposition on whether the existing acceptance record covered the DRAFT contract text and decisions D1–D7. P0-07 mutation publication remains BLOCKED — GOVERNANCE/API GAP.
 
 
-## 16. Owner decision register — 2026-10-12
+## 20.208 Owner decision register — 2026-10-12
 
 The owner has answered the 24-question architecture/governance questionnaire. The full traceable record is `docs/checkpoints/mediahub-owner-decisions-2026-10-12.md` (documentation branch `docs/mediahub-chat-tree-map-20261012`). These selections establish working rules and conditional resolution paths; they do not resolve the technical P0-05 D1–D7 questions, accept/freeze P0-05 v1.1, authorize implementation or unblock P0-07.
 
@@ -4884,3 +4884,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Classification: **ASYMMETRIC COVERAGE CONFIRMED; DIRECT SEMANTIC CONTRADICTION NOT ESTABLISHED IN THIS PASS.**
 - No MH-03 source was edited and no canonical tree was selected. The root index is PROPOSED and cannot alone settle authority. Full inbound-reference inventory remains incomplete.
 - Next: inspect another root/nested pair and continue recording path/ref/SHA/provenance. Do not synchronize or delete either copy before explicit owner/governance disposition.
+
+
+## 20.209 Project-map numeric heading ID repair — duplicate legacy `16` (2026-10-14)
+
+- **Finding:** [MH-ARCH-023, remediation plan §9.13](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Preserved the earlier `## 16. ПОЛЬЗОВАТЕЛЬСКИЙ ПАСПОРТ 1.0 СИНХРОНИЗИРОВАН С GITHUB` and its subsections 16.1–16.5.
+- Rekeyed the later `## 16. Owner decision register` to unique heading ID `20.208`; no section content or decision was changed.
+- Map-only text scan before repair found no explicit Markdown fragment reference to the generated `#16-owner-decision-register` anchor in this map. This is not a repository-wide inbound-link audit.
+- Next: re-read the map and scan all numeric heading IDs; if any explicit references are found in other documents, update only after source/target verification.
