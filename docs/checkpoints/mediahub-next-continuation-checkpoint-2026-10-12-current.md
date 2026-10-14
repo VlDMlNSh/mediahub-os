@@ -2217,3 +2217,12 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Full transitive SBOM/licence/advisory closure, independently verified artifact provenance, target sandbox/egress/runtime evidence, and owner disposition on the direct LiteLLM/provider-routing boundary remain open.
 - No artifacts downloaded, installed, imported or executed; no tests/scans/provider calls/qualification, credentials, host inspection, infrastructure change, deployment or branch integration.
 - Next bounded step: continue read-only exact-version dependency/advisory review only where it closes a concrete open gate; do not install or execute OpenHands. DEC-DEV-02 and P0-07/P0-05/P0-04 remain separate blockers.
+
+## Latest /next result — OpenHands FastMCP dependency trace (2026-10-14)
+
+- Re-read the live documentation-branch map, continuation checkpoint and Component Admission Crosswalk. Map §20.242 indexes crosswalk §7.9; exact crosswalk blob at read time: `99ac049df9ff0760ba350420c3be29996d6cbeda`. Map blob at read time: `d326acd59fcf3dd5f09b08790c45c250944804b9`.
+- FastMCP 3.2.0's reviewed upstream advisory entries list the two checked findings as patched in 3.2.0; this is a narrow version-specific observation, not a complete security clearance. PyPI publisher attestation and hashes are recorded, but artifact bytes/attestation were not independently verified.
+- OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Full transitive SBOM/licence/advisory closure, source-to-artifact verification, sandbox/egress and target-runtime evidence, and the owner decision on the direct LiteLLM/provider-routing boundary remain open.
+- No package downloaded/installed/imported/executed; no tests/scans/provider calls/qualification/host inspection/infrastructure/deployment; no branch integration.
+- Live compare at this pass: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch `DIVERGED`, 1019 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Do not merge/rebase/cherry-pick without separate authorization.
+- Next bounded step: continue source-only dependency evidence only where it closes a specific admission gap; otherwise request explicit owner disposition for the existing LiteLLM boundary and keep all runtime evaluation blocked.
