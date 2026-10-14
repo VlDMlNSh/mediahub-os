@@ -334,3 +334,12 @@ These questions do not create new normative DEC IDs. Existing ADMIN-01…ADMIN-0
 **Observed scope asymmetry:** the root file explicitly enumerates the offline-first deterministic chain, a full command → validation → authorization/policy → consumer contract → State Authority → event → observers path, and several acceptance prerequisites. The nested file adds a shutdown ordering and an explicit statement that technology choices remain CANDIDATE until evidence/compatibility/security/architecture decision. These differences are not by themselves proof of contradiction, but they mean neither file is a byte-identical mirror or complete substitute for the other.
 
 **Disposition:** MH-ARCH-022 records confirmed asymmetric coverage, not a semantic conflict. The root index's required-artifact list is evidence of intended placement only; its PROPOSED status does not confer canonical authority. Both files remain unchanged. This was not an exhaustive inbound-reference search and does not decide the canonical tree. Next: extend the provenance/reference inventory to one additional pair, while owner/governance disposition remains required before reconciliation.
+
+### 9.12 Core-document relative-link path check (2026-10-14)
+
+- Refreshed the complete, non-truncated documentation-branch tree at `010546262e58c5a1b5b0fe2569b443ef6b7559a9` (904 tree entries / 827 blobs).
+- Re-fetched the current exact blobs for the single remediation plan (`e2419c2d0dd7be7df09dcebe6e95bf1c7eb7d1b9`), map (`261910c6a2827036dc3ecd23ed4a8aa25216768b`), roadmap (`bed279bb26f6cea99a9217198ac18f0731998dba`) and checkpoint (`ac63eec13e8ce034d8e77750438159f7503d51c0`).
+- Parsed Markdown inline link targets and resolved repository-relative paths against the correct documentation-branch tree. Counts: plan 14 relative links, map 98, roadmap 10, checkpoint 29. All **151 inspected relative links resolve to existing repository paths**; no missing-path target was found in these four core documents.
+- Scope limitation: this verifies resolved path existence, not fragment/heading anchors, generated links, raw HTML links, or the complete link graph across all repository files. It is not a semantic or runtime check.
+- The single remediation plan remains the current issue register. This check created no new defect ID and does not change any acceptance/qualification status.
+
