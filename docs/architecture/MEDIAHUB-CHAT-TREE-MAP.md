@@ -5257,3 +5257,14 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Exact Git commit ancestry was not independently verified in this pass; no repository objects were fetched. MediaHub runtime reachability is still UNKNOWN. This is not a confirmed MediaHub defect or security clearance.
 - Crosswalk evidence recorded in §7.15. OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.
 - No download/install, tests, code execution, pin changes, provider calls, qualification, host inspection, infrastructure change, deployment or branch integration occurred.
+
+
+## 20.254 Owner-accepted D-03 — Jarvis top-level engineering control plane (2026-10-14)
+
+- **Decision status:** D-03 explicitly accepted by owner on 2026-10-14. Jarvis is the top-level coordination layer for distributed hybrid autonomous engineering and is intended to coordinate the future cloud development system.
+- **GitHub:** direct integration/management is an accepted target capability, implemented only through a least-privilege, capability-scoped and auditable adapter; no bypass of review/branch protections and no implied merge/release/deployment authority.
+- **Execution topology:** Claude is an external intelligent/engineering executor via an approved interface; Ollama is a separate local runtime for compatible models. A task/data-aware routing policy chooses an allowed executor; no silent cloud fallback.
+- **Authority invariant:** ASTRA coordinates engineering within granted capabilities. Product State Authority remains the sole canonical product-state mutation authority.
+- **Primary records:** owner decision register D-03 (docs/checkpoints/mediahub-owner-decision-register-2026-10-14.md); unified architecture/deployment contract §4.1.1 (docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md); master roadmap §65 (docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- **Status boundary:** OWNER-ACCEPTED ARCHITECTURE DIRECTION / IMPLEMENTATION NOT EVIDENCED / NOT QUALIFIED. This decision does not authorize provider calls, credentials, tests/qualification, host/runtime inspection, infrastructure changes, deployment, merge or production changes.
+- **Next:** reconcile Jarvis/ASTRA primary contracts and GitHub adapter permissions against D-03; record concrete conflicts without weakening Product State Authority or existing approval gates.
