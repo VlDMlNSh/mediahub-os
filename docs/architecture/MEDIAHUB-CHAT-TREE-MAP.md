@@ -5038,3 +5038,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Main source blobs: `runtime/mediahub_runtime/astra_gateway.py` `10985e4ad8f682313d08e7492ecc1856a8bce20f`; `runtime/mediahub_runtime/cloud_orchestrator.py` `24c28197df7baca49abd81956752a7a5092506d9`; targeted routing tests `tests/ai/test_cloud_orchestrator_failover.py` `c66b63b158c545ae627c596791381b83ef902c59`.
 - Static trace: the executor sends hard-coded `qwen2.5-coder:3b`, while route/evidence metadata can reflect `MEDIAHUB_OLLAMA_MODEL(S)` or `unspecified` without binding the selected model to the preconstructed executor. This is a confirmed static provenance mismatch in the inspected path, not proof of active runtime impact. No tests were run.
 - Disposition: one resolved model identity must flow from route admission through executor invocation to qualification and result evidence; implementation/tests require separate authorization.
+
+
+## 20.227 — Autonomous controller ecosystem review (2026-10-14)
+
+- Read-only candidate review: [mediahub-autonomous-controller-ecosystem-review-2026-10-14.md](../checkpoints/mediahub-autonomous-controller-ecosystem-review-2026-10-14.md).
+- Review commit: `0bba89c40b6e57663ab0e8212e077eb12b13c60a`; external candidates are **CANDIDATE / NOT ADMITTED** only.
+- Reviewed themes: agent orchestration, durable workflows, local inference, provider routing, MCP tool boundaries and Home Assistant authority preservation.
+- No code/runtime component integrated; no installation, model/provider invocation, tests, qualification, host inspection, infrastructure change, deployment or merge performed.
+- Limits: bounded GitHub discovery, not exhaustive; candidate selection and compatibility remain pending manifest crosswalk, upstream license/security/release review and owner approval.
