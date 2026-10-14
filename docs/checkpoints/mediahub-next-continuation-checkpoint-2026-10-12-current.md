@@ -2324,3 +2324,10 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Accepted B2 on main (blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`) explicitly supersedes B1 as current functional reference. The new B1 wording “current passport edition 1.0” is ambiguous but does not alone prove an authority change. Keep B2 canonical pending owner/governance clarification.
 - Recorded evidence and disposition in map §20.249 and roadmap §61. No merge/rebase/cherry-pick, baseline rewrite, tests, installation, runtime/host inspection, qualification, infrastructure change or deployment.
 - **Next justified step:** owner/governance clarifies whether the main B1 wording is a document-edition label only or intended to change baseline authority. Until then, preserve both records and do not integrate branches or edit normative authority.
+
+
+### Read-back correction — post-write ref refresh (2026-10-14)
+
+- The first read-back after recording §20.249 / §61 showed the documentation branch had advanced to `825bf167fa3cd0bed4f8334c2663b1f95762b235`; the compare then showed DIVERGED, docs ahead 1062 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- This supersedes the pre-write branch HEAD and ahead count above for current-state reporting. The two main-only commits and the B1/B2 content finding are unchanged.
+- Verified map blob `cc9bd89daff655422999ae39e0a4c6b94974b47c` and roadmap blob `c0e9deb5a64117ed25cca435106679ff470bbec7` contain the new evidence sections. This checkpoint correction is itself a new documentation commit; re-fetch the live branch ref for the final HEAD rather than hard-coding a self-referential SHA.
