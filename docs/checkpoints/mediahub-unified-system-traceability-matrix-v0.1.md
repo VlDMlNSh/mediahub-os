@@ -1775,3 +1775,11 @@ DEC-DEV-01 remains deferred until documentary compatibility narrows options; DEC
 - D4 remains a documentary candidate mapping, NOT ACCEPTED / NOT FROZEN. D1 existing compliant caller path remains NOT DEMONSTRATED; D2 trusted issuer/lifecycle remains NOT EVIDENCED; D3 end-to-end request/context/resource/revision binding remains NOT EVIDENCED; D6 remains OPEN / GOVERNANCE CONFIRMATION REQUIRED. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; qualification remains NO-GO / NOT PROVEN.
 - No tests, qualification, runtime/host inspection, provider/model calls, credentials, implementation, infrastructure change, deployment, migration, merge, rebase or cherry-pick were performed.
 - Next: retain the existing D4 mapping and route unresolved operation/resource semantics through existing owner/governance decisions; do not create duplicate decision IDs. D2 still requires a real qualified independent reviewer; this pass is not that review.
+
+
+## Wave 02 local inventory linkage — 2026-10-14
+
+The bounded live host inventory and the component-level observed/declared/target status ledger are recorded in [MEDIAHUB-UNIFIED-LOCAL-INVENTORY-AND-VERIFIABLE-COMPONENT-MATRIX-WAVE-02-2026-10-14.md](MEDIAHUB-UNIFIED-LOCAL-INVENTORY-AND-VERIFIABLE-COMPONENT-MATRIX-WAVE-02-2026-10-14.md). That record is an evidence supplement, not a status promotion or acceptance of this proposed matrix.
+
+Material findings: mh-dev-01 is offline; two online nodes are at main HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8; Linux Ollama is running while macOS Ollama daemon is unavailable; OmniRoute CLI is present on macOS but route connectivity is not proven; FCC runtime mapping is unknown; FreeLLMAPI is marked local_gateway in provider registries while the distributed AI architecture's routing narrative describes a cloud/provider route. This is an open semantic contract conflict, not an approved interpretation. No inference, credentials, tests, qualification or deployment were used to generate the inventory.
+
