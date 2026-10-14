@@ -660,12 +660,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Next: continue only with a remaining, not-yet-covered MH-03 mirror or source-reference trace after checking the remediation register; preserve governance authority over canonicalization.
 
 
-## 45. Execution update — component manifest/YAML scope clarification (2026-10-14)
+## 45. Execution update — component manifest/YAML scope clarification (2026-10-14; superseded by §48)
 
-- Re-read canonical text manifest 2.0 on `main` (blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`), machine-readable `oss/manifests/components.yaml` (blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`) and reconciliation narrative (blob `dd69a8c1c002bbde45944ebdc3d16096d2c9cf07`).
-- Added scope clarification to Component Admission Crosswalk Wave 01 §7.1 and project map §20.231. YAML does not explicitly say whether it is exhaustive or a narrower runtime/deployment subset; visible omissions and status-vocabulary differences are real, but a defect is not proven because intended scope is unspecified.
-- Recommendation B (YAML as explicitly scoped subset) is provisional only. Owner/governance must choose between exhaustive projection with parity rules and narrower subset with source/status traceability. No source manifest/YAML was changed, no component admitted, and no test/CI/qualification run.
-- Next: prepare a concise owner decision record describing both options, implications and required mapping rules; continue OpenHands SDK source review only after lifecycle-owner and trusted-context prerequisites remain clearly recorded. No implementation or installation without separate authorization.
+- The initial read-only pass identified an ambiguity between the canonical text selection catalogue on `main` (blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`) and the shorter `oss/manifests/components.yaml` on `main` (blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`). At that time the intended scope had not yet been confirmed.
+- **This provisional status is superseded.** The owner subsequently selected Option B; see §48 and Component Admission Crosswalk §7.3. YAML is a runtime/deployment admission subset, not an exhaustive projection.
+- Current documented semantics on the documentation branch: `scope: runtime-deployment-admission-subset`, `source_of_truth` points to the canonical text manifest on `main`, `status_semantics: admission-readiness-only`, and `omission_semantics: omission-does-not-imply-exclusion`.
+- The decision changes scope interpretation only. It does not admit/qualify components or establish runtime readiness. The YAML update remains documentation-branch-only because `main` and the documentation branch are diverged; no merge/cherry-pick or main update was performed. No tests, CI or qualification were run.
 
 
 ## 47. Execution update — OpenHands SDK source-pin preflight (2026-10-14)
