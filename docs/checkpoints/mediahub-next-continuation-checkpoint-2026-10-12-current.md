@@ -2080,3 +2080,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Result: package-level OpenHands SDK identity, immutable package pin, transitive licence closure, platform/sandbox and Contour A capability mapping remain unverified. The monorepo tag is not an SDK pin. OpenHands remains CANDIDATE / NOT ADMITTED; MCP remains protocol-only, not authorization.
 - No installation, code copy, import/execution, tests/evaluation, qualification, model/provider call, credentials, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
 - **Next bounded step:** identify the exact official OpenHands Software Agent SDK distribution/repository and immutable artifact pin, then inspect package-specific licence, dependencies, platform support and sandbox/egress model. Preserve DEC-DEV-02 and trusted-context/authorization gates.
+
+
+## Latest verified /next — map navigation collision closure after concurrent crosswalk updates (2026-10-14)
+
+- Re-read bootstrap, map, checkpoint, current roadmap and component crosswalk before checkpointing this correction.
+- The autonomous-controller ecosystem review is now indexed at map section `20.233`. Concurrent additions use `20.231` for the text-manifest/YAML scope ambiguity and `20.232` for the OpenHands SDK source-pin preflight; existing MH-ARCH-046/047/048 retain `20.227`/`20.228`/`20.229`; the component admission crosswalk remains `20.230`.
+- Verified map blob SHA before checkpoint write: `bf695a934ca8a9b919764266a81a4f8bcae37414`. The exact section IDs `20.227` through `20.233` were each unique in the live map read-back; no historical architecture finding ID was changed.
+- Component Admission Crosswalk current blob SHA: `be56b122d5ea8caafd0a57403e4b0778a3b4f6fa`; Master Development Roadmap current blob SHA: `632e0d3e7f4dd3e6ee2adb0e43f3ac2b5ade98bc`; bootstrap blob SHA: `49b4760b4adf4f1565fac0aa4697da000f1cf37b`.
+- Live refs before this checkpoint write: main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch HEAD `10cbdf393408f51d94b64bb7b14e0c997ca32a43`; compare `DIVERGED`, docs branch 971 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase/cherry-pick.
+- Current next research step, per roadmap §45: identify the exact official OpenHands Software Agent SDK distribution/repository and immutable artifact pin, then review package-specific license, dependency closure, platform support and sandbox/egress model. Keep candidate-only; preserve DEC-DEV-02 and P0-07 trusted-context/authorization gates.
+- No component admitted, code/runtime modified, installation performed, model/provider invoked, tests/evaluation/qualification run, credentials used, host/runtime inspected, infrastructure changed or deployment performed.
