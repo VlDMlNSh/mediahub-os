@@ -2331,3 +2331,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - The first read-back after recording §20.249 / §61 showed the documentation branch had advanced to `825bf167fa3cd0bed4f8334c2663b1f95762b235`; the compare then showed DIVERGED, docs ahead 1062 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 - This supersedes the pre-write branch HEAD and ahead count above for current-state reporting. The two main-only commits and the B1/B2 content finding are unchanged.
 - Verified map blob `cc9bd89daff655422999ae39e0a4c6b94974b47c` and roadmap blob `c0e9deb5a64117ed25cca435106679ff470bbec7` contain the new evidence sections. This checkpoint correction is itself a new documentation commit; re-fetch the live branch ref for the final HEAD rather than hard-coding a self-referential SHA.
+
+
+## Latest /next result — fakeredis 2.34.1 public advisory signal (2026-10-14)
+
+- Live refs before this pass: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch HEAD `59d066e2639a6f2db44d293bacdb9b0b8efe8fb8`. Compare: DIVERGED, docs branch 1063 ahead / 2 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Reviewed official PyPI metadata and upstream v2.34.1 release/source commit for the exact fakeredis pin in the OpenHands lock. PyPI reports BSD-3-Clause, Trusted Publishing and sdist SHA-256 `4ff55606982972eecce3ab410e03d746c11fe5deda6381d913641fbd8865ea9b`; upstream release points to signed commit `de4e72482402534ac0add5258f3afa9877bf61e5`. Artifact bytes were not downloaded or independently verified.
+- A bounded public advisory search did not surface an advisory specifically matching fakeredis 2.34.1. This is limited negative search evidence, not proof of no vulnerabilities or complete advisory coverage. The lock uses `fakeredis[lua]`; transitive/optional dependency closure remains open.
+- Added Crosswalk §7.13, map §20.250 and roadmap §62. OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.
+- No package download/install/execution, tests/scans/provider calls, qualification, host inspection, infrastructure change, deployment or branch integration occurred.
+- Existing blockers remain: owner/governance clarification of B1 “current passport edition 1.0” versus accepted B2 authority; owner decision or separately authorized source-only reachability review for LiteLLM proxy advisories; full dependency/SBOM, target runtime, sandbox/egress, DEC-DEV-02 and P0-07/P0-05/P0-04 gates.
+- Next bounded step: another independent, source-only dependency evidence gap only if it does not require runtime execution or an unapproved review scope. Do not change pins, install, execute or promote the candidate.
