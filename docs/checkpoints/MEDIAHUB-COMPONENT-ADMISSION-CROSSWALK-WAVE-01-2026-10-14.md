@@ -151,3 +151,34 @@ The source text manifest remains the component-selection catalogue. YAML statuse
 **Branch boundary:** YAML edit was committed only to `docs/mediahub-chat-tree-map-20261012`. The same path on `main` remains unchanged because the branches are diverged; no merge/cherry-pick or main-branch deployment was performed. The branch change is therefore documented and read-back verified, but is not yet present on `main`.
 
 **Verification:** read-back of `oss/manifests/components.yaml` on the documentation branch returned blob SHA `e3cf487bcf43ecb92cd110b5af2660c066b58e2a`. No tests, CI, qualification or runtime execution were run.
+
+
+## 7.4 OpenHands SDK package-specific source and artifact pin (2026-10-14)
+
+**Disposition: exact source/package/artifact identity now identified; still CANDIDATE / NOT SELECTED / NOT ADMITTED.** This addendum narrows the earlier open identity question in §7.2. It is a paper review only, not a package installation, import, execution, sandbox experiment, security assessment or qualification.
+
+### Upstream identity and immutable-content references
+
+- Canonical upstream repository: [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk), distinct from the umbrella [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) monorepo.
+- Release: [v1.54.0](https://github.com/OpenHands/software-agent-sdk/releases/tag/v1.54.0), published 2026-10-09. GitHub release metadata reports `immutable: false`; do not use a mutable tag/release pointer alone as supply-chain pin.
+- Release commit: `1d471742ea7be017d013eaaa3080f5d28d5490cb`; GitHub commit API reports a valid verified signature. Pin the full commit SHA for source review, not the tag name alone.
+- Distribution: [PyPI openhands-sdk 1.54.0](https://pypi.org/project/openhands-sdk/1.54.0/). The wheel is `openhands_sdk-1.54.0-py3-none-any.whl`, SHA-256 `647bf83c888bc544b0500480aa8a89729f44f6db9f93ea3ba43cfc7fdf070db3`. The source distribution `openhands_sdk-1.54.0.tar.gz` SHA-256 is `431e7bc66ac5caf3a426e25bc67d3a85d5036ace61ff2c20af5a62ea16650485`. These hashes identify specific artifacts; they do not by themselves establish publisher identity, safety or dependency-license closure.
+- PyPI release metadata says Trusted Publishing was **not** used for this upload. Record this as a provenance weakness to assess, not as proof of a malicious or invalid artifact.
+- The repository-root LICENSE is MIT at the inspected commit. Full transitive license closure has **not** been established. The source tree includes `uv.lock`, but the complete lock was not reviewed in this pass; an official root `SECURITY.md` was not found at the inspected root path. This does not assert that no security processes or other policy documents exist.
+
+### Package footprint and MediaHub fit
+
+- `openhands-sdk` version `1.54.0` declares `requires-python >=3.12`. Contour A's actual target Python versions are UNKNOWN in this documentary pass; no host/runtime inspection was performed. Do not claim target compatibility until an authorized, approved node profile proves it.
+- The SDK package directly requires `litellm>=1.93.0`, `fastmcp>=3.2.0,<4`, `fakeredis[lua]>=2.32.1`, `agent-client-protocol>=0.12.1,<0.13.0`, and additional libraries including httpx, jsonschema, joserfc, pydantic, websockets, tree-sitter and lmnr. This creates a material dependency/licensing and routing-policy review obligation because LiteLLM was previously deferred as a standalone gateway candidate. A library dependency is not itself approval to run a second gateway or relax MediaHub route policy.
+- The separate `openhands-agent-server` package adds Docker, FastAPI, SQLAlchemy, OpenAI SDK and server/storage/API dependencies. Its deployment would have a larger operational and network surface. Do not include Agent Server by default; a sandboxed workspace/server is a separate design choice that needs an evidenced capability gap and security/egress review.
+- Upstream README describes both direct/local workspace use and ephemeral workspaces (for example Docker/Kubernetes) through Agent Server. Local workspace access can touch the workspace and configured tools; upstream features do not replace MediaHub's task-scoped authorization, filesystem/network boundaries, human approval, audit, cancellation or result verification.
+- The source repo is active and unarchived, and the root license is MIT, but neither fact substitutes for exact wheel/source provenance, dependency SBOM, vulnerability/license review, node compatibility, network/telemetry audit or independent qualification.
+
+### Admission decision and remaining gates
+
+1. Treat `openhands-sdk==1.54.0` at source commit `1d471742ea7be017d013eaaa3080f5d28d5490cb` and wheel SHA-256 above as a **research pin only**, not as a selected product dependency.
+2. Before any admission, review all dependency licenses and hashes from a complete lock/SBOM, publisher/provenance evidence, security advisories, supported OS/runtime versions, actual CPU/RAM envelope, tool default capabilities, telemetry, filesystem/network effects and offline/local-only routing behavior.
+3. Obtain the owner decision on whether accepting this SDK's direct LiteLLM dependency is compatible with the existing provider-routing decision. Resolve DEC-DEV-02 (single Jarvis/ASTRA engineering lifecycle owner) and P0-07/P0-05/P0-04 trusted-context/authorization requirements before allocating any privileged worker capability.
+4. If subsequently authorized for implementation evaluation, the first design target should be an isolated worker producing a patch/artifact plus source provenance. It must not own queues/leases/retries, Product State Authority, policy, merge/release, or its own qualification promotion. Any install, model/provider call, sandbox run, test/evaluation, qualification, host inspection or deployment needs separate explicit authorization.
+
+**Result:** source/package/artifact identity is sufficiently specific for a further paper review, but the candidate is **NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**. No dependency was admitted, no component manifest or normative contract was changed, and no runtime/test/security execution occurred.
