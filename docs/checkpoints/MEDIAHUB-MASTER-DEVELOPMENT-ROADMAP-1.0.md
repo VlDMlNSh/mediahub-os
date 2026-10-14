@@ -451,3 +451,18 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - No normative MH-03 source content was changed. Owner must select root canonical, nested canonical, or governed synchronized views before controlled reconciliation of the 18 pairs.
 - No tests, qualification, host/runtime inspection, credentials/provider/model calls, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Next: inspect reference/provenance evidence to prepare a decision packet without changing normative content.
+
+
+## 23. Execution update — system passport source-of-truth consolidation (2026-10-14)
+
+- Re-read the live project map, current checkpoint, this roadmap, Baseline 2.0, the current system passport v3 working draft, Verifiable Architecture Contract 01, Unified Architecture/Deployment Contract v0.1, traceability matrix v0.1, placement register, owner decision packet, DEC-DEV-01…08 crosswalk wave 01 and unified remediation register.
+- Confirmed that multiple related but differently scoped artifacts already exist. The existing `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md` is retained as the single **working consolidated passport view**; no duplicate passport file was created.
+- Added passport §21 defining its non-normative scope, source/authority routing, live ref boundary, confirmed invariants, open blockers and atom-level traceability completion rule. It explicitly does not replace Baseline 2.0, accepted/frozen domain contracts, owner/governance decisions, designated schema authorities or qualification Current Truth.
+- Current live branch comparison: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs ref `docs/mediahub-chat-tree-map-20261012`; DIVERGED, ahead 829 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration performed.
+- Confirmed open blockers are not closed by consolidation: DEC-DEV-02 Jarvis/ASTRA lifecycle authority; P0-07 D2 trusted-context issuer and independent review; P0-05 D6 normative scope; MH-03 root/nested source-of-truth choice; cross-branch Baseline 1.0 drift; proposed status of traceability/placement contracts; qualification and Contour A → B gate.
+- No normative Baseline/domain contract was changed. No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick were performed.
+
+**Read-back identities at write time**
+- Passport: `docs/checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md`, commit `b4a9b38b05d8fef4d3b6a3610b430e92828e1f1c`, blob `2b5d81236b85d44d284015cfb02d9401ab0e7482` (post-write read-back required before treating this entry as verified).
+
+**Next bounded step:** continue the roadmap's P0-07 → P0-05 authority/context evidence track or complete reference/provenance inventory for MH-03, choosing the path that produces new source-anchored evidence without requiring owner decisions. Do not claim that the unified normative contract is accepted until atom-level crosswalk and governance gates are closed.
