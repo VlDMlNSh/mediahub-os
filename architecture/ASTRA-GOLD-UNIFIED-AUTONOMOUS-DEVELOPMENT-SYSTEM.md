@@ -572,4 +572,3 @@ The repository already contains substantial pieces: Astra coordination, A1/A2/A3
 
 Do not infer current workflow execution state from this dated design document or historical workflow observations. The current runtime gate state is reported only by the generated `docs/qualification/CURRENT-TRUTH.generated.md` at `main`, which is derived from the governance contract and current gate evidence. This document defines the target qualification surface; it does not convert unverified runtime behavior into PASS.
 
-This document therefore defines the target qualification surface; it does not convert unverified runtime behavior into PASS.
