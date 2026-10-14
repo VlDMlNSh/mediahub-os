@@ -1799,3 +1799,8 @@ The proposed hardware target profiles cover Mac mini 2011 (Intel i7, 16 GB, clea
 - Owner-reported partial PASS remains OWNER_REPORTED_PARTIAL_PASS / EVIDENCE_LINK_PENDING without exact gate/run/target-SHA/artifact linkage. ASTRA end-to-end autonomous queue remains NOT ACHIEVED. The draft does not change qualification status.
 - FreeLLMAPI classification, router identity mapping, model provenance, exact target hardware compatibility and identity/capability issuance remain open. Both artifacts are drafts and do not authorize implementation, tests, provider calls or deployment.
 
+
+## Wave 05 provider identity and egress contract crosswalk (2026-10-14)
+
+The source-anchored reconciliation is recorded in [Provider Identity and Egress Contract Crosswalk, Wave 05](MEDIAHUB-PROVIDER-IDENTITY-AND-EGRESS-CONTRACT-CROSSWALK-WAVE-05-2026-10-14.md). Keep `freellmapi`, `omniroute`, `unorouter`, `fcc`, `ollama`, `alamo`, and `claude-code` as distinct logical identities until source/deployment evidence supports aliasing. FreeLLMAPI's cloud-provider wording versus `local_gateway` registry classification remains an OPEN CONTRACT CONFLICT. Add per-hop locality/upstream/egress fields and immutable per-task route evidence; local-only must fail closed. This addition is evidence reconciliation only and does not accept/freeze the proposed matrix.
+
