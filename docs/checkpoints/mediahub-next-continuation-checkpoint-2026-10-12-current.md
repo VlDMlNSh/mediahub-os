@@ -1587,3 +1587,15 @@ Next: request the separate owner/security/privacy disposition for D5's audit eve
 - Report created and read back: [source-of-truth reconciliation wave 05](MEDIAHUB-ASTRA-SOURCE-OF-TRUTH-RECONCILIATION-WAVE-05-2026-10-14.md), blob `62421fecddad50941912b4be7c2ff56c90ac837b`; report creation commit `d2f13c96b51b9985b2486ae09df40759347add2f`.
 - Status remains: current-main G0–G11 BLOCKED / NOT_PROVEN; D2 independent review and owner/governance dispositions outstanding; main-vs-docs authority wording still diverges. No edit to main or branch integration.
 - Next: resolve A0 authority text through permitted review/change-control route and seek an actual qualified independent P0-07 D2 R-01…R-06 review. Do not promote gates.
+
+## Latest /next result — unified architecture remediation plan (2026-10-14)
+
+- Created [MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob SHA `b43b67a356f4380d4561c9c013155f0f1b657162`, commit `fed0e0fe963bfc9598448bb8735f19236742ad2d`.
+- Live refs at pass start: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch HEAD `0f4be9c11c9f09e1283bd03fd997ad7c0110e706`; diverged, ahead 808 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Static inventory: main recursive tree SHA `cbb1862fcb4aa22ba24fea4ff12b580ffb305593`, 798 entries, `truncated=false`. Findings consolidated as MH-ARCH-001…014; this is complete path inventory plus targeted source review, not semantic review of every file.
+- Confirmed: DEC-DEV-02 A0 authority wording conflict; concurrency 2 vs 3 remains on `main`; governance field-level authority wording ambiguity; design-ready YAML vs runtime `NOT_PROVEN/BLOCKED`; 18 MH-03 basename-pair collisions (four sampled pairs differ); P0-07 trusted-context/revision binding and independent D2 review remain open; Contour A→B acceptance remains a hard gate; 37 basename collisions require classification rather than deletion.
+- Existing map navigation IDs are repaired on docs branch. ASTRA component-scheme numeric duplication is corrected on docs branch only; `main` still carries the old value. No main normative source was changed.
+- Added consolidated ADMIN-01…05 options in the plan and linked existing owner packet/reports. Recommendations are not owner decisions.
+- No tests, qualification, runtime/host inspection, credentials/provider/model calls, install, infrastructure change, deployment, migration, merge, rebase or cherry-pick performed. Current overall qualification remains `NOT_PROVEN / BLOCKED`.
+- Next: obtain governed DEC-DEV-02 and source-of-truth dispositions; commission qualified independent P0-07 D2 R-01…R-06 review; then pursue narrowly scoped, separately authorized source changes and verify exact readbacks.
+
