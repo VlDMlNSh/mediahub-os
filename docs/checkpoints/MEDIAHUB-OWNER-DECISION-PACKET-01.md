@@ -143,3 +143,57 @@ The source review narrows the conflict; it does not close it:
 - For ready-to-answer options and evidence anchors, see report §9. ADMIN-01 elaborates DEC-DEV-02; ADMIN-02 concerns commissioning an actual qualified independent P0-07 D2 reviewer; ADMIN-03 asks for governed clarification of ASTRA design-status/version semantics; ADMIN-04 requests the change-control route for main-vs-documentation branch wording.
 - The report's P0-07 review/status question is cross-cutting and does not extend this packet's Contour A scope or imply permission to start Contour B.
 - Recommendations in the report are **not** recorded owner decisions. Existing P0-05 D1–D7 directions, including D6 defer-for-evidence, remain in force. No contract status, implementation, qualification, or deployment was accepted or authorized by this addendum.
+
+## 7. Administrative decision block — wave 06 (2026-10-14)
+
+**Purpose:** present only decisions or appointments that can now unblock the next governed step. This is a proposed decision interface, not a decision record. Reply with the existing decision name plus option letter, and add conditions where requested. Recommendations are not adopted unless the owner explicitly selects them.
+
+### 7.1 Numeric threshold authority — ASTRA GOLD source-of-truth wording
+
+**Question:** Which hierarchy should be normative for qualification gate IDs and numeric thresholds?
+
+- **A — Launch schema is the numeric authority; governance contract is the canonical registry/mirror.** Keep `architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml` as the numeric authority named by `authority_source` and `gate_registry.source_of_truth`; `ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` carries the governance registry, invariant links and equality-checked mirrored values; prose refers to the registry rather than duplicating numeric limits. A future governed edit must make the registry's broad “single machine-readable source” purpose statement consistent with this split.
+- **B — Governance contract is the sole numeric authority.** Treat its `runtime_thresholds` as normative and make the launch schema a subordinate consumer/interface; explicitly revise the existing `authority_source` and `source_of_truth` fields through governance change control.
+- **C — Keep the dual-file model, but formalize field-level ownership and fail-closed drift checks.** Name the authoritative file for every shared field and require mismatches to fail qualification before either value is consumed.
+
+**Recommendation: A.** The specific current fields designate the launch schema as source of numeric authority and describe the governance values as mirrors, although the governance contract's purpose paragraph is broader and must be reconciled by an approved change. Until that disposition is accepted, no component may silently resolve a disagreement.
+
+### 7.2 DEC-DEV-02 — Jarvis / ASTRA engineering lifecycle ownership
+
+**Question:** Which engineering lifecycle arrangement is approved, without granting ASTRA MediaHub product-state authority?
+
+- **A — Jarvis owns the cross-system task lifecycle; ASTRA is a bounded execution/qualification adapter.** One owner governs cross-system claim/lease/retry/cancel and evidence promotion.
+- **B — ASTRA owns a bounded lifecycle explicitly delegated by Jarvis.** Requires a reviewed typed delegation contract, explicit scope, revocation and conflict/fencing behavior.
+- **C — Jarvis and ASTRA retain strictly disjoint lifecycle domains.** No duplicated queue/claim/lease/retry/evidence-promotion authority; cross-system orchestration and handoff must be explicit.
+
+**Recommendation: C as the safe interim boundary** until an accepted typed lifecycle/delegation contract proves a single non-duplicated control path. A0-ASTRA remains limited to ASTRA-internal queue/claim/gate state; no option grants it MediaHub Product State Authority. This does not close DEC-DEV-02 until the selected arrangement, failure semantics and acceptance evidence are recorded.
+
+### 7.3 P0-07 D2 — appointment of the independent reviewer
+
+**Question:** How should the qualified independent review of D2 proposal R-01…R-06 be commissioned?
+
+- **A — Owner/governance nominates an independent qualified reviewer** and records competence, role, conflicts/independence, exact proposal blob SHA, source refs/SHAs, and signed or otherwise attributable R-01…R-06 dispositions.
+- **B — Assign an in-project reviewer only if independence is demonstrable.** The reviewer must not be the proposal author or the sole approver of the design, and their competence/conflicts must be documented before review.
+- **C — Defer reviewer appointment.** Keep D2 `NOT EVIDENCED`, D3 dependent on D1/D2, and P0-07 mutation/publication blocked.
+
+**Recommendation: A, or B only if documented independence criteria are met.** The review worksheet in the existing D2 proposal is a blank template, not evidence of review. This decision appoints a review route; it does not preselect a technical answer or authorize implementation.
+
+### 7.4 ASTRA unified-model status label — design readiness versus runtime truth
+
+**Question:** What should the top-level `status: QUALIFICATION_READY_HYBRID_FABRIC` mean in `ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml`?
+
+- **A — Retain the enum as design/model readiness only.** The generated `docs/qualification/CURRENT-TRUTH.generated.md` remains the exclusive live runtime-gate status source; no design status promotes a gate.
+- **B — Govern a clearer enum in a versioned revision**, such as `DESIGN_READY_RUNTIME_NOT_PROVEN`, updating any consumers and static assertions under controlled change.
+- **C — Defer enum changes and leave the status interpretation explicitly open.** Keep all runtime gates fail-closed.
+
+**Recommendation: A for the current revision.** The paired Markdown describes “qualification-ready design”, while live current truth is `NOT_PROVEN / BLOCKED`. Wave 06 added an explanatory YAML comment only; it did not change the enum or runtime status.
+
+### 7.5 Decisions deliberately not re-asked
+
+- **P0-05 D6 (normative-text acceptance/header discrepancy):** retain the existing owner direction to defer and request/retain exact evidence. Do not change the DRAFT header based only on implementation acceptance.
+- **P0-05 D1–D7:** continue the already-recorded investigation paths. No new decision IDs are created and none of the paths authorizes implementation by itself.
+- **DEC-DEV-01, DEC-DEV-03, DEC-DEV-04, DEC-DEV-05, DEC-DEV-06 and DEC-DEV-07:** preserve the deferrals and prerequisites in §6.1; ask only after the identified source/evidence dependency is ready.
+- **DEC-DEV-08:** not a discretionary owner question. Contour B remains blocked until Contour A has been deployed, independently qualified and explicitly accepted with traceable evidence.
+- **Branch integration:** no merge/rebase/cherry-pick is requested by this packet. Any future integration requires a separately authorized review path and fresh comparison.
+
+**Non-response/default:** all existing fail-closed gates remain unchanged. This block does not accept/freeze a contract, qualify a runtime, authorize implementation or deployment, or promote any status.
