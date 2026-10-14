@@ -246,3 +246,21 @@ Before any admission proposal:
 4. Preserve DEC-DEV-02 and P0-07/P0-05/P0-04 authorization gates. No install, execution, model/provider call, tests, sandbox evaluation, qualification, host inspection, infrastructure change or deployment is authorized by this review.
 
 No component, runtime, manifest, or normative contract was admitted or changed.
+
+
+## 7.7 Exact-version license, publisher provenance and advisory cross-check (2026-10-14)
+
+**Scope:** read-only review of official PyPI release pages and official upstream repository metadata for the two remaining direct dependencies identified in §7.6. No artifact download, resolver, scanner, test, import, or execution was performed.
+
+| Dependency | Exact-version evidence | Provenance / security-process evidence | Disposition |
+|---|---|---|---|
+| fakeredis 2.34.1 | Official PyPI page for 2.34.1 explicitly reports SPDX License Expression BSD-3-Clause. The sdist SHA-256 is `4ff55606982972eecce3ab410e03d746c11fe5deda6381d913641fbd8865ea9b`. | PyPI reports Trusted Publishing used; attestation points to `cunla/fakeredis-py@de4e72482402534ac0add5258f3afa9877bf61e5`, tag `v2.34.1`, workflow `publish-pypi.yml`. This is publisher provenance shown by PyPI, not a locally verified artifact hash or a complete dependency security review. | Exact-version license and publication provenance are better evidenced; artifact bytes were not downloaded/verified. |
+| agent-client-protocol 0.12.1 | Official PyPI release page exposes exact sdist and wheel hashes: sdist `9963ccb590ed96d7dc542c9c023e90676fc76b1c6562e21a9ee112f4fbcb0095`; wheel `aaf3cc301ed87d9e2c4ccb91adfe1cd58784355f6ce7e513f50e7ca2391862ef`. The official upstream Python SDK repository identifies its license as Apache-2.0, but this review did not establish version-attested license metadata for the exact 0.12.1 distribution. | PyPI reports Trusted Publishing was not used for 0.12.1. The official upstream ACP repository's Security page reports no detected SECURITY.md policy and no published advisories at the time reviewed. This is an evidence gap, not proof of a vulnerability or absence of all security practices. | Exact package hashes known; exact-version artifact license and source-to-artifact provenance remain OPEN. Do not treat the upstream repository license alone as full artifact attestation. |
+
+### Updated gate assessment
+
+- The previous §7.6 statement that fakeredis 2.34.1's exact-version license was unverified is superseded by the official PyPI metadata above: BSD-3-Clause is now evidenced for that release.
+- agent-client-protocol 0.12.1 remains less well evidenced: no Trusted Publishing, exact release hashes available, but artifact-specific license/provenance closure is incomplete. The upstream repository's Apache-2.0 license is useful context but is not, by itself, a verified license statement for every published package artifact.
+- No claim is made that either dependency is vulnerable. The ACP repository's lack of a detected security policy and lack of published advisories are observations about public evidence only.
+- Complete transitive SBOM/license closure, comprehensive advisory assessment, OpenHands release/source-to-artifact provenance, target runtime compatibility, telemetry/egress and sandbox review remain open. The direct LiteLLM dependency still requires an owner/governance decision against MediaHub's single provider-routing authority.
+- **Disposition unchanged:** OpenHands SDK remains RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. No dependency was admitted, downloaded, installed, imported or executed; no tests/scans/model/provider calls/qualification/host inspection/infrastructure/deployment occurred.
