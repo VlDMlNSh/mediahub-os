@@ -5141,3 +5141,10 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Static source trace: core SDK imports LiteLLM for provider calls; Laminar/OpenTelemetry instrumentation can initialize when environment keys/endpoints are configured; LocalWorkspace executes commands on the host. Agent Server binds to 0.0.0.0 by default and has access to its configured workspace; AgentSandboxWorkspace documents NetworkPolicy-based egress restriction and optional gVisor/Kata runtime classes. No MediaHub runtime telemetry or deployed sandbox state is inferred.
 - **Disposition:** research pin only / candidate / not selected / not admitted / not ready for runtime evaluation. Direct LiteLLM dependency requires owner/governance disposition against MediaHub's single provider-routing authority. Full SBOM, exact-version licences, provenance/advisories, explicit telemetry/egress policy and sandbox admission evidence remain open. DEC-DEV-02 and P0-07/P0-05/P0-04 remain gates.
 - No dependency was installed or downloaded; no code was executed, no model/provider invoked, no tests/evaluation/qualification, host inspection, infrastructure change or deployment occurred.
+
+
+## 20.239 — OpenHands exact-version dependency metadata cross-check (2026-10-14)
+
+- Component Admission Crosswalk §7.7 records official PyPI evidence for the two remaining direct dependencies: fakeredis 2.34.1 license metadata is BSD-3-Clause and PyPI shows Trusted Publishing attestation; agent-client-protocol 0.12.1 hashes are recorded but PyPI says Trusted Publishing was not used and artifact-specific license/provenance remains open.
+- Official ACP upstream repository metadata identifies Apache-2.0 and its Security page reports no detected security policy/no published advisories at review time. This is not a vulnerability finding or artifact-level license attestation.
+- Crosswalk blob after update: pending read-back. OpenHands remains research pin only / not admitted / not ready for runtime evaluation. No artifact downloaded, tests/scans or runtime actions performed.
