@@ -5097,7 +5097,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Navigation-ID correction history: MH-ARCH-046 keeps its historical `20.227` ID. The autonomous-controller review was initially reassigned to `20.229`, but a concurrent MH-ARCH-048 entry also claimed `20.229`; this review is now uniquely indexed as `20.231` after fresh read-back.
 
 
-## 20.234 — Owner-confirmed component manifest scope (2026-10-14)
+## 20.235 — Owner-confirmed component manifest scope (2026-10-14)
 
 - Owner selected option B: `oss/manifests/components.yaml` is a scoped runtime/deployment admission subset, not an exhaustive projection of the canonical text catalogue.
 - Crosswalk decision and evidence: [Component Admission Crosswalk, Wave 01 §7.3](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
