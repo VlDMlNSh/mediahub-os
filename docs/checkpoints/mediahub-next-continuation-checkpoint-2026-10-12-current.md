@@ -1800,3 +1800,10 @@ Compare one additional unreviewed MH-03 root/nested pair and its declared depend
 ### Next bounded step
 - Continue pair-by-pair MH-03 review with `MH-03-degraded-mode.md` or `MH-03-error-handling.md`, capturing exact SHAs and distinguishing direct contradiction from asymmetry.
 - Keep the unified remediation plan as the sole cross-cutting finding register. Do not create parallel issue lists; update map, checkpoint and roadmap as navigation/status views.
+
+## Follow-up verification — unified remediation-plan subsection ID repair (2026-10-14)
+
+- Read-back identified duplicate `### 9.17` subsection IDs in the unified remediation plan after a concurrent append.
+- Re-keyed the later “Final live core-document link-path and map-ID rescan” subsection to `### 9.18`, preserving the MH-ARCH-026 evidence-register review at `### 9.17`.
+- Verified current plan blob `bf753b5203e938adb429af2200dc606fbe4a8974`: exactly one `### 9.17` and the rescan is `### 9.18`.
+- No normative source, finding status or qualification state changed. No tests/qualification or prohibited operational action was performed.
