@@ -2195,3 +2195,13 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Result: confirmed existing DEC-DEV-02 conflict, not a new defect. ASTRA scheme calls A0 “MediaHub State Authority”; accepted project invariant limits A0 to ASTRA-internal engineering state and leaves cross-system lifecycle ownership unresolved. DEC-DEV-02 remains OPEN_CONFLICT; P0-07 D2 independent review remains a separate gate.
 - No normative source edit, runtime action, test, qualification, installation, provider/model call, credentials, host inspection, infrastructure change or branch integration.
 - Next: owner explicitly selects DEC-DEV-02 A/B/C and confirms product-authority exclusion; separately commission the independent qualified D2 reviewer. No implementation before those governance/evidence gates close.
+
+
+## Latest /next result — OpenHands release provenance and security signal (2026-10-14)
+
+- Added Component Admission Crosswalk §7.8 (blob SHA `d1ab75d039bf8384ea19259cbbe43f6e41619882`) and map section `20.241` (blob SHA `024a7c33fbd75d7258f5f68941d641e71c286925`).
+- Official PyPI confirms pinned SDK wheel and sdist SHA-256 values, but Trusted Publishing was not used. GitHub identifies a valid signed source commit, while the release is marked mutable; no artifact was independently downloaded or rehashed, so source-to-artifact provenance remains open.
+- Public upstream Security page showed no detected policy/no published advisories at review time. Public issue #4157 raised a concern about LLM self-assessed risk and confirmation behavior; applicability to v1.54.0 is unverified and it is not recorded as a confirmed vulnerability. MediaHub's authorization must remain deterministic and external to the model/worker.
+- OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. Full transitive SBOM/licence/advisory closure, target runtime, sandbox/egress, LiteLLM governance and DEC-DEV-02/P0 gates remain open.
+- No package/artifact downloaded, installed, imported or executed; no tests/scans/provider calls/qualification/host inspection/infrastructure/deployment performed.
+- Next bounded step: continue source-only dependency advisory/licence/provenance review and record the specific owner decision needed for LiteLLM only if evidence establishes a concrete routing/authority conflict. Do not install or execute.
