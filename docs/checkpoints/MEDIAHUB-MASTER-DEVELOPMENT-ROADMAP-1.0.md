@@ -431,3 +431,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - The same path `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` contains materially different blobs across refs: `main` `9df4892ed0734050ac79732603d15bb414717310` (33,711 characters, 68-section historical passport) versus docs branch `1a2f06f50dd69990be58b12a98376b92f12fd14f` (14,527 characters, claims normative single-source authority).
 - Accepted Baseline 2.0 remains canonical and explicitly supersedes Baseline 1.0 as the current functional reference. Do not edit either baseline until provenance and owner disposition are recorded.
 - No tests, qualification, runtime inspection, implementation, deployment or branch integration. Main/docs remain diverged.
+
+
+## 21. Execution update — project map heading-ID repair verification (2026-10-14)
+
+- Independently re-read the current map and scanned 257 numbered Markdown section headings; no duplicate section IDs remain. Nested IDs `20.98.1`, `20.98.2`, and `20.184.1` were confirmed. A broad-regex match on `20.68` was a section reference in a heading title, not a duplicate.
+- Updated MH-ARCH-019 in the [unified architecture remediation plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md) to READ-BACK VERIFIED. Plan blob: `13ae9bae65da08151fbe1440e03fd3e236c43f7c`; plan update commit: `090a9e98038827a169cc5860e1390b362b2548a0`.
+- Continuation checkpoint records the same verified result; checkpoint blob: `e7043c3929455efcdd93e2df8c096c66d0c7d948`.
+- Scope limit: this closes navigation-ID integrity only. The project-wide Markdown link graph remains unaudited, the 18 MH-03 same-basename pairs remain semantically unresolved, and the LaunchAgent manifest intent remains unknown. No normative architecture was changed.
+- No tests, qualification, runtime/host inspection, credentials/provider/model calls, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick occurred. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Next: continue source-anchored MH-03 pair classification from the confirmed contradiction-register conflict, preserving both versions until governed source-of-truth disposition.
