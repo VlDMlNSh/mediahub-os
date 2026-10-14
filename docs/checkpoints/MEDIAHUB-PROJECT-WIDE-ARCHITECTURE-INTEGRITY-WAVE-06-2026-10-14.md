@@ -24,9 +24,9 @@ The project map contained seven duplicate numeric section IDs. These are navigat
 | `20.117` | P0-07 audit/privacy/authorization governance crosswalk | `20.194` |
 | `20.118` | Owner disposition for P0-05 v1.1 candidate D1–D7 | `20.195` |
 | `20.119` | P0-07 trusted caller/context provenance and operation authority map | `20.196` |
-| `20.141` | P0-07 D7 canonical state-version/change-control crosswalk | `20.197` |
-| `20.156` | DEC-DEV-04 Mac mini Server 2011 evidence gate | `20.198` |
-| `20.157` | P0-04 context issuer reachability and MH-04 governance gate | `20.199` |
+| `20.141` | P0-07 D7 canonical state-version/change-control crosswalk | `20.199` |
+| `20.156` | DEC-DEV-04 Mac mini Server 2011 evidence gate | `20.197` |
+| `20.157` | P0-04 context issuer reachability and MH-04 governance gate | `20.198` |
 | `20.190` | DEC-DEV-01…08 live-source crosswalk validation wave 01 | `20.200` |
 
 A new map entry (`20.201`) records the correction and this wave. The map's original inventory date (2026-10-12) remains provenance; a separate incremental-update date clarifies that the index has received verified updates through 2026-10-14.
@@ -170,3 +170,11 @@ These are proposed answers, not decisions. Existing owner-recorded directions in
 5. Preserve the main/docs divergence and only pursue a minimal controlled source change after separate authorization.
 
 This sweep made a bounded map-integrity correction and prepared a source-anchored administrative decision block. It does **not** declare the architecture globally consistent, implemented, qualified, frozen or accepted.
+
+
+## 11. Post-write verification (2026-10-14)
+
+- Re-read the updated project map from the live documentation branch: blob SHA `261c100acf8876bdab7072b722cfbd171b35e093`, 182 numbered sections detected. The duplicate-ID scan returns zero duplicates; the ordered-heading scan returns zero non-increasing section IDs. IDs `20.194`–`20.200` are now at the end of the index immediately before wave `20.201`, preserving monotonic navigation order.
+- Map metadata distinguishes the original 2026-10-12 baseline inventory date from the verified incremental update date 2026-10-14.
+- All seven section bodies were preserved and the one internal self-reference was updated. The change repairs index navigation only; it does not alter the normative meaning of underlying source documents.
+- Owner-decision recommendations remain proposals only. Current-main qualification remains BLOCKED / NOT_PROVEN; no tests/qualification or runtime action was taken.
