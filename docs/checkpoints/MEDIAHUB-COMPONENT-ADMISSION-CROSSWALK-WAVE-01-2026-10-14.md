@@ -99,3 +99,21 @@ Existing selected or target-gated components must retain their exact source-defi
 - No component was installed, integrated, executed or invoked.
 - No tests/evaluations/qualification, model/provider calls, credentials, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
 - No owner decision, architecture acceptance or qualification status was inferred.
+
+
+## 7.1 Scope reconciliation — text manifest versus YAML admission subset (2026-10-14)
+
+**Status: confirmed scope/traceability ambiguity; not yet proven to be a defect.**
+
+Live source comparison:
+- Canonical text selection input on `main`: `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md`, blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`. It describes foundation, whole-product sidecars, target-gated candidates, future/reference-gated entries and exclusions; it explicitly calls itself the single component-selection input.
+- Machine-readable YAML on `main`: `oss/manifests/components.yaml`, blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`. It declares `schema_version: 1` and `status: qualification-gated`, but does not state whether its component list is exhaustive, deployment-scoped, or a subset of the text selection catalogue.
+- Reconciliation narrative on `main`: `docs/checkpoints/mediahub-github-component-reconciliation-2.0.md`, blob `dd69a8c1c002bbde45944ebdc3d16096d2c9cf07`, describes selection modes and a broader final implementation set, but the retrieved evidence does not establish a normative YAML-to-text-manifest mapping rule.
+
+Observed differences include absent text-manifest entries in YAML (for example Jellyfin, Music Assistant, Snapcast and several whole-product candidates), differing status vocabulary (`SELECTED` / `TARGET-GATED` / `FUTURE-GATED` versus `current-foundation` / `target-gated`), and Home Assistant Core appearing in YAML despite not being a row in the text manifest's component tables. Some differences may be intentional scope differences; they must not be normalized by inference.
+
+**Required disposition:** owner/governance should choose and document one of:
+A. YAML is the exhaustive machine-readable projection of the text manifest, with stable IDs, mapping rules and parity checks; or
+B. YAML is a narrower runtime/deployment-admission subset, with an explicit scope declaration, source-of-truth relationship, and traceability rules for omitted entries/status translation.
+
+Recommendation: B is less disruptive if YAML is intended only for runtime/deployment admission, but this remains a proposal, not an accepted decision. Until decided, neither file is automatically rewritten; no status is promoted, no component is admitted, and no test/CI/qualification run is implied. Next safe documentary step is to prepare a concise owner decision record and map the exact parity/status semantics; do not implement the YAML schema change before approval.
