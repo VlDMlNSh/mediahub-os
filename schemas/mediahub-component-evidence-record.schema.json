@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mediahub-os.invalid/schemas/mediahub-component-evidence-record.schema.json",
+  "title": "MediaHub OS Component Evidence Record",
+  "description": "Draft schema for revision-bound component, gate and deployment evidence. Does not itself qualify a component.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_schema_version",
+    "record_id",
+    "component_id",
+    "status",
+    "evidence_state",
+    "observed_at",
+    "evidence_source",
+    "authority_scope",
+    "qualification"
+  ],
+  "properties": {
+    "record_schema_version": {
+      "const": "0.1"
+    },
+    "record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "component_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable historical component ID; never silently renumber."
+    },
+    "component_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_sha": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^([0-9a-f]{40}|[0-9a-f]{64})$"
+    },
+    "node_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "node_os_arch": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "desired_role": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authority_scope": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "forbidden_operations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "data_classification": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "public",
+        "internal",
+        "confidential",
+        "restricted",
+        null
+      ]
+    },
+    "egress_policy": {
+      "enum": [
+        "local-only",
+        "approved-provider-set",
+        "no-egress",
+        "unknown"
+      ]
+    },
+    "provider_identity": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "model_identity": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "model_digest": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "configuration_revision": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Non-secret revision or digest only."
+    },
+    "secret_reference": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Identifier/reference only; never a secret value."
+    },
+    "runtime_evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidenceReference"
+      }
+    },
+    "verification_evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidenceReference"
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "gate_id",
+        "gate_revision"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "NOT_RUN",
+            "UNKNOWN",
+            "BLOCKED",
+            "OWNER_REPORTED_PARTIAL_PASS",
+            "PASS_WITH_EVIDENCE",
+            "FAIL_WITH_EVIDENCE",
+            "STALE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "gate_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "gate_revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "run_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "target_sha": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^([0-9a-f]{40}|[0-9a-f]{64})$"
+        },
+        "artifact_uri": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "artifact_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "independent_reviewer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "review_result": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fresh_until": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      }
+    },
+    "status": {
+      "enum": [
+        "TARGET",
+        "DECLARED",
+        "OBSERVED",
+        "IMPLEMENTED",
+        "TESTED",
+        "VERIFIED",
+        "QUALIFIED",
+        "RELEASED",
+        "DEPLOYED",
+        "OBSERVED_IN_OPERATION",
+        "ACCEPTED",
+        "NOT_PROVEN",
+        "BLOCKED",
+        "RETIRED"
+      ]
+    },
+    "evidence_state": {
+      "enum": [
+        "EVIDENCE_LINK_PENDING",
+        "SOURCE_DECLARATION_ONLY",
+        "OBSERVED_AT_TIME",
+        "REVISION_BOUND_EVIDENCE",
+        "INDEPENDENTLY_VERIFIED",
+        "UNKNOWN"
+      ]
+    },
+    "release_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "production_acceptance": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Separate owner/governance disposition; not inferred from qualification."
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evidence_source": {
+      "enum": [
+        "github",
+        "desktop-commander",
+        "signed-ci-artifact",
+        "owner-report",
+        "independent-review",
+        "other"
+      ]
+    },
+    "reviewer": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "evidenceReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "uri",
+        "digest",
+        "captured_at"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "commit",
+            "workflow-run",
+            "log",
+            "report",
+            "artifact",
+            "process-observation",
+            "service-observation",
+            "configuration-metadata",
+            "review"
+          ]
+        },
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "redacted": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
