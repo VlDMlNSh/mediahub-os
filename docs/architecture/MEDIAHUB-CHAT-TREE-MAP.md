@@ -5080,3 +5080,11 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 
 - Navigation-ID correction history: MH-ARCH-046 keeps its historical `20.227` ID. The autonomous-controller review was initially reassigned to `20.229`, but a concurrent MH-ARCH-048 entry also claimed `20.229`; this review is now uniquely indexed as `20.231` after fresh read-back.
+
+
+## 20.231 Component manifest/YAML scope ambiguity (2026-10-14)
+
+- Crosswalk: [Component Admission Crosswalk, Wave 01 §7.1](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
+- Canonical text manifest on `main` blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` calls itself the single component-selection input and spans foundation, whole-product candidates, target/future-gated entries and exclusions. `oss/manifests/components.yaml` on `main`, blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`, does not declare whether its shorter list is exhaustive or a narrower runtime/deployment subset.
+- Confirmed ambiguity: omissions and status-vocabulary differences are visible, but intentional scope difference versus defect is not established. No automatic parity or status mapping may be inferred.
+- Owner/governance decision required: (A) exhaustive projection with stable IDs and parity rules, or (B) explicitly scoped subset with source linkage/status translation. Recommendation B is provisional only. No manifest/schema change or component admission occurred.
