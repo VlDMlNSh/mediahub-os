@@ -591,3 +591,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Details: unified remediation plan §9.29; navigation: map §20.222. Both source files remain unchanged pending owner/governance decision on canonical source and mandatory acceptance gate set.
 - No tests, CI, qualification, runtime/host inspection, source changes, installation, deployment or branch integration.
 - Next: inspect one remaining MH-03 mirror pair (error handling) and continue evidence-led classification; do not canonicalize or change acceptance status without authorization.
+
+
+## 38. Execution update — MH-ARCH-043 runtime-observability mirror review (2026-10-14)
+
+- Compared root `architecture/MH-03-runtime-observability.md` (`aa33cd18290bf486b19fad08f3a377aa5ed7a298`) and nested `docs/architecture/mh-03/MH-03-runtime-observability.md` (`f7fba8708bc57eb8baa2d8ecc866fb58d18c9d6b`). Recorded MH-ARCH-043 in remediation plan §9.30 and map §20.223.
+- Result: aligned non-mutating observability/authority invariant, but asymmetric coverage for diagnostic targets versus bounded/sanitized collection, privacy and explicit P0-05 path. Both sources remain PROPOSED; no canonical source, implementation or qualification status was inferred.
+- Verification: docs branch recursive tree at HEAD `8f499d2c3785ec22cfea61e03a2087c7ce69b33e`, 904 entries, `truncated=false`; read-back SHA checked for plan and map after each write. No tests/CI/runtime/host/deployment/qualification or integration performed.
+- Next: select a remaining MH-03 mirror family not already substantively covered by the remediation register, compare its current sources, and record only source-backed deltas. Preserve owner/governance gates.
