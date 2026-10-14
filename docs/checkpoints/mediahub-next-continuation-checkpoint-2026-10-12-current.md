@@ -2544,3 +2544,5 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Live compare at pass start: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, ahead 1149 / behind 3; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase/cherry-pick.
 - No normative contract/Baseline 2.0 changed; no model/provider calls, credentials, host/runtime inspection, installation, tests, qualification, infrastructure changes or deployment.
 - Next: source-crosswalk accepted A0 ingress/claim/lease/cancellation and security/identity contracts; reconcile existing agent/provider/task schemas; continue non-secret route identity trace; resolve authoritative ECC upstream/ref; only then draft proposed task/result contract for owner/governance review.
+
+- Post-write map correction/read-back: corrected the documentation-ref typo in the new map entry; correction commit `f6e64f8ce034db7ee289d05ab027d5850ed0a5f9`; current map blob SHA `f243612249467b0a47cc7b8ad11739733c5d682a`. Read-back confirmed the corrected branch reference and no remaining typo.
