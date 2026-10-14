@@ -882,3 +882,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - No secrets were read, no provider/model inference, tests or qualification were run, and no install, config change, infrastructure mutation, deployment or branch integration occurred.
 - Next bounded step: draft the Jarvis Control Plane / GitHub Adapter contract: A0-ASTRA mission ingress and single-writer boundary, least-privilege GitHub scopes, auditable task routing records and explicit prohibited actions. Reconcile against existing permission/source contracts before any implementation.
 
+
+## 69. Execution update — unified local inventory and verifiable component matrix, Wave 02 (2026-10-14)
+
+- Refreshed Desktop Commander device status: mh-dev-02 and Voktors-Mini.Dlink online; mh-dev-01 offline. Read-only host checks recorded local Git HEAD/status, CLI versions, selected processes/services and model tags. Both online checkouts report clean main at 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8.
+- Created [Unified Local Inventory and Verifiable Component Matrix, Wave 02](MEDIAHUB-UNIFIED-LOCAL-INVENTORY-AND-VERIFIABLE-COMPONENT-MATRIX-WAVE-02-2026-10-14.md), documenting per-node findings, declared-vs-observed-vs-qualified states, authority boundaries and evidence schema.
+- Findings include Linux Ollama active, macOS Ollama server unavailable, macOS OmniRoute CLI v3.8.50 with connectivity untested, macOS ops.local_autonomous_agent process, Linux Caddy/SentinelX/fail2ban processes, and DF3 launchd labels requiring identity mapping. Three Linux and six macOS worktree directory names were observed; their state/leases were not inspected.
+- Open C-01: FreeLLMAPI is classified local_gateway in provider registries while the distributed AI architecture describes a cloud/provider route in its routing narrative. C-02: distinguish UnoRouter, OmniRoute and OpenRouter identities. C-03: two Linux Ollama tags share an observed digest; provenance not established.
+- Updated the proposed unified traceability matrix and deployment contract with evidence links. Their status remains PROPOSED / NOT ACCEPTED / NOT FROZEN. No tests, qualification, model/provider calls, credential access, installations, config changes, deployment or branch integration.
+- Next bounded step: draft the Jarvis Control Plane / GitHub Adapter contract and machine-readable component inventory schema. Resolve provider semantics from pinned source/deployment evidence; keep implementation and qualification blocked pending separate gates.
+
