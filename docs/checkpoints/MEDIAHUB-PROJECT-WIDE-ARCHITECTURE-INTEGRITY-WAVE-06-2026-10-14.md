@@ -174,7 +174,7 @@ This sweep made a bounded map-integrity correction and prepared a source-anchore
 
 ## 11. Post-write verification (2026-10-14)
 
-- Re-read the updated project map from the live documentation branch: blob SHA `261c100acf8876bdab7072b722cfbd171b35e093`, 182 numbered sections detected. The duplicate-ID scan returns zero duplicates; the ordered-heading scan returns zero non-increasing section IDs. IDs `20.194`–`20.200` are now at the end of the index immediately before wave `20.201`, preserving monotonic navigation order.
+- Re-read the updated project map from the live documentation branch: blob SHA `128747b623e9ca34f36796b1aa2923ab0a533895`, 182 numbered sections detected. The duplicate-ID scan returns zero duplicates; the ordered-heading scan returns zero non-increasing section IDs. IDs `20.194`–`20.200` are now at the end of the index immediately before wave `20.201`, preserving monotonic navigation order.
 - Map metadata distinguishes the original 2026-10-12 baseline inventory date from the verified incremental update date 2026-10-14.
 - All seven section bodies were preserved and the one internal self-reference was updated. The change repairs index navigation only; it does not alter the normative meaning of underlying source documents.
 - Owner-decision recommendations remain proposals only. Current-main qualification remains BLOCKED / NOT_PROVEN; no tests/qualification or runtime action was taken.
