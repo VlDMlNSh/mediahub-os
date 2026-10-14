@@ -1608,3 +1608,11 @@ Next: request the separate owner/security/privacy disposition for D5's audit eve
 - No normative contract changes, tests, qualification, runtime/host inspection, credentials/provider calls, deployment or branch integration. Current Truth remains NOT_PROVEN / BLOCKED.
 - Next: owner must decide DEC-DEV-02 before changing A0 authority assertions; obtain qualified independent D2 review; then conduct a narrowly scoped static link/duplicate classification pass on the next set of source families.
 
+
+## Latest /next result — Baseline 1.0 cross-branch authority drift (2026-10-14)
+
+- Refreshed live refs: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch HEAD before this update `b168638eba88f1874be9f60c63cb331598d2ecb3`; compare `DIVERGED`, docs ahead 816 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Compared `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md` on both refs. `main` blob `9df4892ed0734050ac79732603d15bb414717310` is a 68-section historical passport (33,711 characters); docs-branch blob `1a2f06f50dd69990be58b12a98376b92f12fd14f` is a materially different 14,527-character document labeled `NORMATIVE / SINGLE SOURCE OF TRUTH`.
+- Accepted Functional Baseline 2.0 on `main` blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` explicitly supersedes Baseline 1.0 as the current functional reference. Added MH-ARCH-016 (P1) to the unified remediation plan. No baseline source was changed; provenance/owner disposition is required.
+- Plan read-back and follow-up map/roadmap/checkpoint writes are being recorded in this pass. No tests, qualification, runtime/host inspection, implementation, deployment, migration, merge, rebase or cherry-pick performed.
+- Next: continue the planned MH-03 pair-by-pair classification or perform a read-only link/ID audit of a distinct architecture source family. Keep Baseline 2.0 canonical and all unproven gates fail-closed.
