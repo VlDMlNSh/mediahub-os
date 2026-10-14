@@ -756,3 +756,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Design gate: worker/model-generated risk labels must never authorize their own actions. MediaHub authorization, least privilege, egress policy, credential isolation, cancellation, audit and human approval remain external enforced controls.
 - Status remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. No install, execution, scan, test, provider call, qualification, host inspection or deployment occurred.
 - Next: continue read-only closure of dependency advisories/licensing and the LiteLLM authority decision; keep all runtime steps blocked pending explicit owner authorization and the required governance gates.
+
+
+## 55. Execution update — OpenHands FastMCP exact-version advisory/provenance review (2026-10-14)
+
+- Added source-only review of the pinned FastMCP 3.2.0 release to Component Admission Crosswalk §7.9 and project map §20.242.
+- Official PyPI metadata records Apache license classification, Trusted Publishing for wheel/sdist, and exact artifact hashes. No artifact was downloaded or independently re-hashed.
+- Two upstream advisories reviewed list affected versions `<3.2.0` and patched version `3.2.0`; the current pin is the stated patched floor for those findings, not a general security clearance.
+- OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Full transitive SBOM/licence/advisory closure, independently verified artifact provenance, target sandbox/egress/runtime evidence, and owner disposition on LiteLLM/provider-routing authority remain open.
+- No install, execution, test/scan, provider call, qualification, host inspection, infrastructure change or deployment occurred.
