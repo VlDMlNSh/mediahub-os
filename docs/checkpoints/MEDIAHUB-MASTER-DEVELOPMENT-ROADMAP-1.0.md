@@ -573,3 +573,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - GitHub code-search responses were empty with an incomplete index, so package/workflow consumer tracing remains incomplete. The systemd service is a separate Linux target and does not establish the launchd manifests' intended relationship.
 - No host inspection, workflow run, tests, installation, deployment, qualification or branch integration. Qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Next bounded step: inspect declared schema producers/consumers for MH-ARCH-038 and import references for MH-ARCH-039; keep launchd owner/governance disposition open.
+
+
+## 36. Execution update — MH-ARCH-038/039 targeted reference trace (2026-10-14)
+
+- Read current docs branch recursive tree at commit `73fa626723e4cff7b1c888cc1f2e8da461a94055` (904 entries, not truncated) and directly declared mesh/domain schema consumers and state-module imports.
+- MH-ARCH-038: mesh inventory/validation/admission use `mediahub.mesh.capability.v1`; domain schema test loads `mediahub://schemas/domain/capability.schema.json`. Different domain contracts remain separate. Validator/schema constraint coverage is a review flag only; no tests run and no defect is asserted.
+- MH-ARCH-039: mesh registry imports node transition helper; runtime in-memory state imports/implements runtime StateAuthority. Targeted inspected files show separate responsibilities, but code search returned no results, so no exhaustive absence claim is made.
+- Details: remediation plan §9.27; navigation: map §20.220. No source/schema/test changes, CI, host/runtime actions or qualification.
+- Next: trace remaining MH-03 repeated-basename families and inbound references using direct tree/source evidence; do not run tests or qualification without explicit authorization.
