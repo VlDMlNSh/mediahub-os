@@ -372,3 +372,14 @@ A bounded internal source-consistency desk review was recorded in [P0-07 D2 prop
 D1 remains NOT DEMONSTRATED; D2 NOT EVIDENCED / CANDIDATE DESIGN PREPARED; D3 NOT EVIDENCED / DEPENDENT ON D1/D2; D6 OPEN / GOVERNANCE CONFIRMATION REQUIRED. P0-07 remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN. No implementation or qualification was performed.
 
 Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve the review items with exact-source evidence, then seek explicit owner/governance disposition. Do not infer acceptance or implementation authorization.
+
+
+## 14. Execution update — DEC-DEV-01…08 live-source crosswalk validation (2026-10-14)
+
+- Completed one roadmap-directed documentary source-revalidation pass and recorded it in [DEC-DEV-01…08 Crosswalk Validation Wave 01](MEDIAHUB-DEC-DEV-01-08-CROSSWALK-VALIDATION-WAVE-01-2026-10-14.md).
+- Live refs at pass start: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch HEAD `c84c2ab7c7be3d984d19c69674037b3317da9640`; compare status DIVERGED, ahead 773 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Re-fetched primary sources for DEC-DEV-01…08, including Distributed AI Infrastructure, Component Manifest 2.0, MH-12, MH-15, MH-16, MH-21, ASTRA component/governance sources, Jarvis ARC contract/review, ASTRA Current Truth, placement matrix, unified traceability matrix, owner packet, P0-07 D2 proposal and D7 crosswalk. Current blob SHAs and scoped conclusions are in the report.
+- Crosswalk disposition unchanged: DEC-DEV-01 endpoint label answered / runtime composition open; DEC-DEV-02 OPEN_CONFLICT; DEC-DEV-03/04/07 deferred behind evidence; DEC-DEV-05/06 invariants established while detailed policy/contracts remain open; DEC-DEV-08 is a binding Contour A → Contour B gate, not a discretionary choice.
+- No architecture decision was accepted. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; ASTRA G0–G11 remain blocked; qualification remains NO-GO / NOT PROVEN.
+- Documentary/read-only only. No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, implementation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+- Next: keep DEC-DEV-02 as an explicit owner/governance conflict; obtain the actual qualified independent review of P0-07 D2 R-01…R-06 and separate owner/governance dispositions. Do not treat this crosswalk pass as that review or acceptance.
