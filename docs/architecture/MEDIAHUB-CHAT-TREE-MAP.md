@@ -5203,3 +5203,11 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - LMNR is an observability/telemetry dependency with a configurable outbound path in the OpenHands source reviewed in Crosswalk §7.6. Its presence does not authorize external transmission. Any later evaluation needs telemetry off by default, explicit egress denial/approval, and controls against sending secrets, private prompts or product data.
 - **Disposition:** source/license evidence improved; artifact provenance and full transitive SBOM/license/advisory closure remain open. OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. No artifact download, install, execution, tests/scans, provider calls, qualification, host inspection, infrastructure change or deployment occurred.
 - Detailed evidence: [Component Admission Crosswalk §7.11](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
+
+
+## 20.248 — OpenHands LiteLLM exact-version advisory gate (2026-10-14)
+
+- The OpenHands SDK lock snapshot resolves LiteLLM 1.93.0; official PyPI metadata declares MIT and Trusted Publishing, with published hashes recorded in [Component Admission Crosswalk §7.12](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
+- Three official upstream advisories list 1.93.0 within affected ranges: GHSA-3cv6-jpf6-8222 (line fixed at 1.93.2), GHSA-7hp6-4w63-5g45 (line fixed at 1.100.4), and GHSA-g5ff-637f-6q2m (fixed at 1.95.0).
+- Those advisories describe LiteLLM Proxy request paths. Reachability in SDK-side provider-abstraction use is not established; do not claim MediaHub is exploitable or the proxy is deployed. Treat as an admission blocker requiring owner disposition or a separate source-only reachability review.
+- OpenHands remains research-only / not selected / not admitted / not ready for runtime evaluation. No install, artifact download, tests/scans, provider calls or qualification occurred.
