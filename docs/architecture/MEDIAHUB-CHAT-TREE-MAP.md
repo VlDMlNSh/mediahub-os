@@ -4991,3 +4991,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Root index `architecture/MH-03-index.md` is PROPOSED; its listing of the root file does not establish canonical acceptance. Preserve both files until owner/governance confirms source authority and required command-path steps.
 - Tree snapshot at docs HEAD `ba8c6016101a7a0b9a6d69107567b58ada25a164`: 827 blobs, `truncated=false`. Inbound textual-reference coverage is not exhaustive. No tests/CI, runtime inspection, implementation, deployment, or qualification occurred.
 - Next: inspect the next unreviewed MH-03 pair (acceptance criteria or error handling) and record only source-backed differences; no canonicalization without owner decision.
+
+
+## 20.222 MH-ARCH-042 — MH-03 acceptance-criteria mirror review (2026-10-14)
+
+- Unified finding: [MH-ARCH-042, remediation plan §9.29](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Root `architecture/MH-03-acceptance-criteria.md` blob `e96adaac2eb52e2f8058cc889485ec982bf606e5` and nested `docs/architecture/mh-03/MH-03-acceptance-criteria.md` blob `eefb645d89c7c3046636d8344515aa02b7ccebe3` are both PROPOSED/unaccepted. The nested checklist explicitly includes P0-05/P0-06 and evidence/decision-register reviews missing from the root checklist; the root states several acceptance outcomes more directly.
+- This is confirmed gate-coverage asymmetry, not evidence that any gate passed. Preserve both until owner/governance establishes source authority and the required gate set.
+- Tree snapshot at docs HEAD `2f3724adcf8b3e6ea10d83ef2ca7c2f04cdf1610`: 827 blobs, `truncated=false`. Textual inbound-reference coverage is not exhaustive. No tests/CI, runtime inspection, implementation, deployment or qualification occurred.
+- Next: inspect one remaining MH-03 pair (recommended: error handling), keeping canonicalization and acceptance status gated on explicit governance.
