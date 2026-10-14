@@ -1687,3 +1687,33 @@ The immediate read-back requested above is complete. GitHub returned the followi
 After the three artifact commits, live compare refreshed to **DIVERGED, docs branch ahead 835 / behind 2**, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main` HEAD remains `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. This count includes the six commits since the earlier ahead-829 snapshot; it is not an integration or merge.
 
 This verification is documentation read-back only. It does not establish semantic completeness of every requirement atom, normative acceptance, test health, runtime health, qualification or deployment.
+
+## Latest /next result — project-wide duplicate and qualification-contract audit wave 09 (2026-10-14)
+
+### Result
+
+- The existing [Unified Architecture Remediation Plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md) remains the **single prioritized cross-cutting register**. Current blob after Wave 09 and final map-ID evidence: `e2419c2d0dd7be7df09dcebe6e95bf1c7eb7d1b9`. It holds findings MH-ARCH-001…021 plus consolidated remediation waves and administrative alternatives.
+- Broad static inventory was completed for both current refs; the main tree has 798 entries / 721 blobs, not truncated, and the documentation tree has 904 entries / 827 blobs, not truncated. At refresh: main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch HEAD `cb12812620f54d2324aac95734e000d25514d394`; DIVERGED, ahead 839 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. There are 106 documentation-only blob paths and no main-only path; identical path does not imply identical contents.
+- Confirmed duplicates/drift recorded in plan §9:
+  - 24 basename-collision groups / 44 repeated path occurrences beyond the first group member; the only identical-content group is ten empty `__init__.py` files. No deletion is justified by basename alone.
+  - All 18 root/nested MH-03 pairs have distinct blob SHAs. Root/nested contradiction registers, decision logs and evidence registers differ in material governance/status content. MH-ARCH-021 captures the current source/status drift; canonical tree remains a human/governance decision.
+  - G4 mandatory qualification schema has five execution paths while unified Markdown prose enumerates only three Claude paths (MH-ARCH-017). This is separate from the three permanent Claude queue lanes.
+  - Two LaunchAgent manifests use the same label but invoke different programs/environments (MH-ARCH-018); co-installation is unknown and no host/runtime inspection occurred.
+  - Main Baseline 1.0 and docs-branch same-path files differ materially, with the docs copy claiming normative authority despite accepted Baseline 2.0 superseding B1 as current functional reference (MH-ARCH-016).
+  - Main ASTRA concurrency prose still says 2 while launch schema/governance says 3; A0 scope/test assertions and YAML-vs-Markdown model status/version semantics remain governed/open (MH-ARCH-001…004, 015).
+- Project map navigation has been repaired and re-read after an additional appended-heading collision. Final map blob: `261910c6a2827036dc3ecd23ed4a8aa25216768b`; the anchored scan found 260 numbered headings, 260 unique IDs and zero duplicates. Latest map sequence: §20.204 MH-03 status drift, §20.205 Wave 09, §20.206 unified passport consolidation.
+- Master roadmap updated and read back: blob `bed279bb26f6cea99a9217198ac18f0731998dba`, §24. It points to the one remediation register rather than creating another parallel plan.
+
+### Required human/governance decisions and blockers
+
+- Existing ADMIN-01…05 remain in the unified plan. Additional questions in plan §9.6 ask whether root or nested MH-03 documents are canonical or should be governed synchronized views, and whether same-label LaunchAgent manifests are alternative profiles or separate services.
+- P0-07 D1/D2/D3/D5/D6/D7 trust/change-control chain remains open; independent qualified D2 review R-01…R-06 is outstanding. P0-07 mutation/publication remains BLOCKED; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN.
+- Baseline 2.0 remains ACCEPTED / CANONICAL / IMMUTABLE. Baseline 1.0 remains historical provenance, despite the docs-branch same-path authority drift.
+- Main remains untouched; no branch integration. The report is a broad path inventory plus targeted content review, **not semantic review of every file**. Full Markdown link graph is not yet audited.
+
+### Execution and verification boundary
+
+- Documentary GitHub reads/updates only; no tests, CI, qualification, runtime/host inspection, credentials, model/provider calls, installation, deployment, infrastructure changes, migration, merge, rebase or cherry-pick.
+- Current-main `docs/qualification/CURRENT-TRUTH.generated.md` stays G0–G11 BLOCKED / overall NOT_PROVEN. Contour A → Contour B remains gated.
+- Next bounded step: continue source/reference/provenance inventory for remaining MH-03 pairs and prepare a source-of-truth decision packet. Preserve both source families until the owner/governance route is decided; do not rewrite normative content by inference.
+
