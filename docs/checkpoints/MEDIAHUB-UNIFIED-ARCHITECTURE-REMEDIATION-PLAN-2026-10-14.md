@@ -336,7 +336,7 @@ These questions do not create new normative DEC IDs. Existing ADMIN-01…ADMIN-0
 
 **Disposition:** MH-ARCH-022 records confirmed asymmetric coverage, not a semantic conflict. The root index's required-artifact list is evidence of intended placement only; its PROPOSED status does not confer canonical authority. Both files remain unchanged. This was not an exhaustive inbound-reference search and does not decide the canonical tree. Next: extend the provenance/reference inventory to one additional pair, while owner/governance disposition remains required before reconciliation.
 
-### 9.12 Core-document relative-link path check (2026-10-14)
+### 9.13 Core-document relative-link path check (2026-10-14)
 
 - Refreshed the complete, non-truncated documentation-branch tree at `010546262e58c5a1b5b0fe2569b443ef6b7559a9` (904 tree entries / 827 blobs).
 - Re-fetched the current exact blobs for the single remediation plan (`e2419c2d0dd7be7df09dcebe6e95bf1c7eb7d1b9`), map (`261910c6a2827036dc3ecd23ed4a8aa25216768b`), roadmap (`bed279bb26f6cea99a9217198ac18f0731998dba`) and checkpoint (`ac63eec13e8ce034d8e77750438159f7503d51c0`).
