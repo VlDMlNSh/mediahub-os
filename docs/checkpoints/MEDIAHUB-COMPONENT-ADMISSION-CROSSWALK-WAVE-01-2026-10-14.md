@@ -319,3 +319,24 @@ No component, runtime, manifest, or normative contract was admitted or changed.
 - **Artifact-specific license/provenance is still OPEN**: PyPI did not use Trusted Publishing, artifact bytes and embedded license/notice files were not inspected, and source-to-artifact binding was not independently established.
 - No vulnerability conclusion is drawn from the absence of published advisories or a detected security policy.
 - **Disposition unchanged:** OpenHands SDK remains **RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**. Complete transitive SBOM/licence/advisory closure, independently verified artifact provenance, target runtime and sandbox/egress evidence, and owner disposition on the direct LiteLLM/provider-routing boundary remain open. No install, package execution, tests/scans, provider calls, qualification, host inspection, infrastructure change or deployment occurred.
+
+
+## 7.11 LMNR 0.7.60 exact-source, telemetry and provenance review (2026-10-14)
+
+**Scope:** read-only review of the exact upstream tag/commit, its project metadata and license, plus the OpenHands SDK lock rationale. No package or artifact was downloaded, installed, imported, executed or independently hashed; no scanner, resolver, test, telemetry or provider call was run.
+
+| Evidence | Observation | Interpretation / limit |
+|---|---|---|
+| Locked dependency | The OpenHands SDK lock snapshot resolves `lmnr==0.7.60`; §7.6 records it as a direct dependency. | This is an upstream SDK dependency, not a MediaHub selection or authorization to enable telemetry. |
+| Exact source identity | Official `lmnr-ai/lmnr-python` tag `0.7.60` resolves to commit `67dea392f4961bfcf7b5cde3733aaa4a452bb9f9`. The official release page says v0.7.60 was published 2026-08-22 and is not immutable. | Record the full commit as the source-review anchor; a mutable release/tag pointer alone is not a durable supply-chain guarantee. |
+| Source license/runtime metadata | At that exact commit, `pyproject.toml` declares package `lmnr` version `0.7.60`, SPDX-style `Apache-2.0`, `LICENSE`, and Python `>=3.10,<4`. The commit contains the Apache-2.0 license text. | Exact source version and repository license are evidenced; this does not by itself prove published artifact bytes, embedded notices or full transitive license closure. |
+| Release rationale | The official v0.7.60 release notes describe a fix for LiteLLM streaming usage/reasoning telemetry. | The dependency is materially connected to observability/telemetry behavior; its presence must not be interpreted as permission to transmit prompts, content, secrets or product data. |
+| Published artifact provenance | Exact PyPI 0.7.60 wheel/sdist hashes and Trusted Publishing attestation were not independently established in this pass. Other LMNR release pages do not establish provenance for 0.7.60. | Artifact-specific source binding and hashes remain OPEN; do not infer them from neighboring releases or current upstream main. |
+| Data-flow boundary | The OpenHands source reviewed in §7.6 calls an LMNR initializer conditionally and documents API-key/OTEL configuration and an LMNR endpoint. | A configurable outbound telemetry path exists in the reviewed source; this is not evidence telemetry was active in MediaHub. |
+
+### Gate disposition
+
+- LMNR 0.7.60 has a source-level Apache-2.0 license and exact source commit anchor, but artifact provenance, transitive SBOM/license/advisory closure and target behavior remain incomplete.
+- Any future evaluation must explicitly disable telemetry by default, deny outbound egress unless separately approved, prohibit secrets/private prompts/product data from telemetry, and verify these controls externally. Environment variables or worker configuration are not themselves a MediaHub authorization boundary.
+- OpenHands remains **RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**. This review admits no component and does not resolve the separate owner/governance decision on LiteLLM/provider-routing.
+- No installation, artifact download, execution, test/scan, provider call, qualification, host inspection, infrastructure change or deployment occurred.
