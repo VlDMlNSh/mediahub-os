@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.230)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.231)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5040,17 +5040,6 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Disposition: one resolved model identity must flow from route admission through executor invocation to qualification and result evidence; implementation/tests require separate authorization.
 
 
-## 20.229 — Autonomous controller ecosystem review (2026-10-14)
-
-- Read-only candidate review: [mediahub-autonomous-controller-ecosystem-review-2026-10-14.md](../checkpoints/mediahub-autonomous-controller-ecosystem-review-2026-10-14.md).
-- Review commit: `0bba89c40b6e57663ab0e8212e077eb12b13c60a`; external candidates are **CANDIDATE / NOT ADMITTED** only.
-- Reviewed themes: agent orchestration, durable workflows, local inference, provider routing, MCP tool boundaries and Home Assistant authority preservation.
-- No code/runtime component integrated; no installation, model/provider invocation, tests, qualification, host inspection, infrastructure change, deployment or merge performed.
-- Manifest crosswalk completed in report §8 against `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` on `main`, blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`. Candidate selection and compatibility still require upstream licence/security/release review and owner approval; this is not exhaustive GitHub coverage.
-
-
-- Navigation repair: the later duplicate heading `20.227` was reassigned to `20.229`; the original MH-ARCH-046 section keeps its historical `20.227` ID.
-
 ## 20.228 MH-ARCH-047 — P0-07 to P0-05 trusted-context binding trace (2026-10-14)
 
 - Unified finding: [MH-ARCH-047, remediation plan §9.35](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
@@ -5080,3 +5069,14 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Root `architecture/MH-03-error-handling.md` blob `bd2157deb94c2823c6b6fac2988945b7bc412ef3` and nested `docs/architecture/mh-03/MH-03-error-handling.md` blob `a33051aabb24447cf993755e84569917fe37f037` align on fail-closed handling and bounded recovery but differ in explicit coverage. Root explicitly names State Authority failure/no fallback authority, service-crash supervision and telemetry authority boundaries; nested explicitly requires sanitized/privacy-preserving errors and forbids partial lifecycle transitions/canonical-state corruption.
 - Root `architecture/MH-03-index.md` blob `b2d2eeb1b89117d10605c231e79378eebc437c5f` remains PROPOSED and does not establish canonical source authority. No direct contradiction or runtime defect is proven.
 - Preserve both files pending owner/governance selection of a canonical source or synchronized-view policy. Static document comparison only; no tests, CI, runtime/host inspection, implementation, deployment, qualification or branch integration.
+
+## 20.231 — Autonomous controller ecosystem review (2026-10-14)
+
+- Read-only candidate review: [mediahub-autonomous-controller-ecosystem-review-2026-10-14.md](../checkpoints/mediahub-autonomous-controller-ecosystem-review-2026-10-14.md).
+- Review commit: `0bba89c40b6e57663ab0e8212e077eb12b13c60a`; external candidates are **CANDIDATE / NOT ADMITTED** only.
+- Reviewed themes: agent orchestration, durable workflows, local inference, provider routing, MCP tool boundaries and Home Assistant authority preservation.
+- No code/runtime component integrated; no installation, model/provider invocation, tests, qualification, host inspection, infrastructure change, deployment or merge performed.
+- Manifest crosswalk completed in report §8 against `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` on `main`, blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`. Candidate selection and compatibility still require upstream licence/security/release review and owner approval; this is not exhaustive GitHub coverage.
+
+
+- Navigation-ID correction history: MH-ARCH-046 keeps its historical `20.227` ID. The autonomous-controller review was initially reassigned to `20.229`, but a concurrent MH-ARCH-048 entry also claimed `20.229`; this review is now uniquely indexed as `20.231` after fresh read-back.
