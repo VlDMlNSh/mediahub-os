@@ -812,3 +812,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Evidence indexed in map §20.249. Main B1 blob `9df4892ed0734050ac79732603d15bb414717310`; documentation-branch B1 blob `1a2f06f50dd69990be58b12a98376b92f12fd14f`; B2 main blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 - No merge, rebase, cherry-pick, baseline rewrite, tests, installation, runtime/host inspection, qualification, infrastructure change or deployment occurred.
 - Next: owner/governance should clarify whether “current passport edition 1.0” is only a document-edition label under B2 or an intended change to baseline authority. Do not integrate branches or edit normative baseline authority before that decision.
+
+
+## 62. Execution update — fakeredis 2.34.1 public advisory signal (2026-10-14)
+
+- Performed a bounded read-only review of official PyPI metadata, the upstream v2.34.1 release/source commit and public security/advisory search surfaces for the exact fakeredis pin in the OpenHands lock.
+- PyPI reports BSD-3-Clause, Trusted Publishing and sdist SHA-256 `4ff55606982972eecce3ab410e03d746c11fe5deda6381d913641fbd8865ea9b`; artifact bytes were not downloaded or re-hashed. The upstream release points to signed commit `de4e72482402534ac0add5258f3afa9877bf61e5`.
+- No public advisory specifically matching 2.34.1 surfaced in this bounded search. This is not a no-vulnerability finding or comprehensive advisory/SBOM closure. The lock uses `fakeredis[lua]`, and transitive/optional dependency review remains open.
+- OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. No install, artifact download, test/scan, execution, provider call, qualification, host inspection, infrastructure change or deployment occurred.
+- Evidence: Component Admission Crosswalk §7.13; map §20.250.
+- Next: retain the owner/governance decision on LiteLLM/provider-routing and the B1/B2 authority wording as explicit blockers. Do not promote OpenHands; continue only with another independent source-only dependency gap that does not require unapproved runtime work.
