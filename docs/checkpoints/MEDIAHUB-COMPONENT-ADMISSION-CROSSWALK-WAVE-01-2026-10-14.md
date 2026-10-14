@@ -285,3 +285,18 @@ No component, runtime, manifest, or normative contract was admitted or changed.
 - Any future worker integration must have an external, deterministic MediaHub authorization gate. LLM-produced risk labels, prompts, tool descriptions or worker self-assessments cannot grant permission or bypass human approval.
 - Preserve task-scoped capabilities, explicit filesystem/network boundaries, egress deny-by-default, credential isolation, cancellation/resource ceilings, audit logs and artifact-only output. These are required design gates, not claims that the SDK enforces them automatically.
 - **Disposition unchanged:** RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Complete dependency SBOM/licence/advisory review, target runtime proof, sandbox/egress review and the owner decision on the direct LiteLLM dependency remain open. No runtime action is authorized.
+
+
+## 7.9 FastMCP 3.2.0 exact-version advisory and provenance check (2026-10-14)
+
+**Scope:** read-only review of the official PyPI release page for `fastmcp==3.2.0` and upstream GitHub security advisories. No artifact was downloaded, unpacked, executed, or independently re-hashed.
+
+| Evidence | Observation | Interpretation / limit |
+|---|---|---|
+| Exact package/license | Official PyPI release page identifies FastMCP 3.2.0, Apache Software License classifier, wheel SHA-256 `e71aba3df16f86f546a4a9e513261d3233bcc92bef0dfa647bac3fa33623f681`, and sdist SHA-256 `d4830b8ffc3592d3d9c76dc0f398904cf41f04910e41a0de38cc1004e0903bef`. | Release identity and declared license metadata are source-observed; artifact bytes and complete license-notice contents were not independently verified. |
+| Publication provenance | PyPI reports Trusted Publishing was used for both wheel and sdist, with upload metadata naming `uv/0.11.2` and CI. | This is stronger publisher evidence than a non-attested upload, but this pass did not independently validate the attestation bundle or rebuild the artifacts. |
+| GHSA-vv7q-7jx5-f767 / CVE-2026-32871 | Upstream advisory lists affected FastMCP versions as `<3.2.0` and patched version `3.2.0`; issue concerns SSRF/path traversal in OpenAPIProvider. | The pinned version is the stated patched floor, not within the published affected range. This does not establish safety of other code paths or configuration. |
+| GHSA-m8x7-r2rg-vh5g | Upstream advisory lists affected versions as `<3.2.0` and patched version `3.2.0`; issue concerns Windows command injection in subprocess-backed installer commands. | The pinned version is the stated patched floor. MediaHub must not rely on the advisory alone; avoid invoking FastMCP installer commands and preserve the external execution boundary. |
+| Advisory coverage | Public upstream advisory listings contain additional findings with distinct affected-version ranges and feature/configuration prerequisites. | A version-specific advisory match is not a complete SBOM scan. The full transitive graph and every advisory's applicability remain unreviewed. |
+
+**Gate disposition:** no confirmed applicable advisory for the two reviewed issues is established against the exact `3.2.0` pin, because upstream lists that version as patched. The candidate still remains **RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**. Complete transitive SBOM/licence/advisory closure, independently verified artifact provenance, sandbox/egress evidence, target runtime compatibility, and owner disposition on LiteLLM/provider-routing authority remain open. No tests, scans, installation, package execution, provider calls, qualification, host inspection, infrastructure change, or deployment occurred.
