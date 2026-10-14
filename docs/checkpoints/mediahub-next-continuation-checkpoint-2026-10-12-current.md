@@ -1616,3 +1616,13 @@ Next: request the separate owner/security/privacy disposition for D5's audit eve
 - Accepted Functional Baseline 2.0 on `main` blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` explicitly supersedes Baseline 1.0 as the current functional reference. Added MH-ARCH-016 (P1) to the unified remediation plan. No baseline source was changed; provenance/owner disposition is required.
 - Plan read-back and follow-up map/roadmap/checkpoint writes are being recorded in this pass. No tests, qualification, runtime/host inspection, implementation, deployment, migration, merge, rebase or cherry-pick performed.
 - Next: continue the planned MH-03 pair-by-pair classification or perform a read-only link/ID audit of a distinct architecture source family. Keep Baseline 2.0 canonical and all unproven gates fail-closed.
+
+
+## Latest /next result — project map heading-ID repair verification (2026-10-14)
+
+- Live compare before write: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch ahead 822 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; no branch integration.
+- Re-fetched map `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md`, blob `05980cf0dcd96dffcc59aa981cd1a8e2c311ea9c`. Anchored scan of numbered Markdown section headings found 257 IDs and zero duplicate section IDs; intended nested IDs `20.98.1`, `20.98.2`, `20.184.1` are present. A broad-regex hit on `20.68` was a prose reference inside a heading, not a duplicate ID.
+- Updated unified remediation plan MH-ARCH-019 from READ-BACK PENDING to READ-BACK VERIFIED and added the scan evidence. Plan update commit `090a9e98038827a169cc5860e1390b362b2548a0`; new plan blob `13ae9bae65da08151fbe1440e03fd3e236c43f7c`. Post-write read-back confirmed the updated status and evidence.
+- This closes only the navigation-ID repair. The 18 MH-03 mirror pairs remain byte-different and not fully semantically classified; the project-wide Markdown link graph remains unaudited; same-label LaunchAgent manifests still need owner classification; Baseline 1.0 cross-branch drift and DEC-DEV-02/P0-07 blockers remain open.
+- No tests, qualification, host/runtime inspection, credentials/provider/model calls, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick occurred. Current qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Next bounded step: continue the source-anchored MH-03 pair classification, starting with the already confirmed contradiction-register conflict; do not select a canonical tree or rewrite either side without governed disposition.
