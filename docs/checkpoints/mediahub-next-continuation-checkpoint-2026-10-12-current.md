@@ -2486,3 +2486,15 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - No tests, provider/model calls, credential use, installation, host/runtime inspection, qualification, infrastructure change, deployment, merge or branch integration occurred.
 - Map update commit: `2b28e89118f230baf25dff5b4d1297911155c927`; new map blob SHA: `7a3615c05a2c09838de658a0f4b0829c982846e2`.
 - Next: perform source-only trace of non-secret FCC/FreeLLMAPI/router configuration and source history, then map each identity edge to pinned evidence without changing normative contracts.
+
+
+## Latest /next result — chat-to-GitHub model routing synchronization audit (2026-10-15)
+
+- Created [Model Routing Synchronization Audit, Wave 01](MEDIAHUB-CHAT-TO-GITHUB-MODEL-ROUTING-SYNC-AUDIT-WAVE-01-2026-10-15.md). Commit: `8ae6487f063ae09c15efaa4bffcfc46582074c62` (blob SHA recorded after read-back).
+- Checked the user-mentioned “Gamma 4”, Qwen, Alamo, Codex Cloud and Jarvis against current canonical map, roadmap, distributed AI architecture on main, local inventory, provider/egress crosswalk and Jarvis adapter draft.
+- Finding: synchronization is partial, not exhaustive. Alamo local endpoint, separate Codex cloud-authenticated path, Jarvis orchestration direction, and local/cloud routing are already documented as target design, not runtime qualification.
+- “Gamma 4” / “Gamma-4” was not found in the checked canonical documents. “G4” refers to qualification paths/stages, not an established model identity; owner clarification is required.
+- Qwen tags are in Local Inventory Wave 02. Roadmap §9.34/map §20.227 record a static executor/evidence mismatch: `OllamaExecutor` hard-codes `qwen2.5-coder:3b`, while route metadata may select another model or remain unspecified. Runtime impact not established.
+- Open items: Alamo-to-Ollama endpoint/runtime identity and model provenance; FCC mapping; FreeLLMAPI cloud-provider wording vs registry `local_gateway`/`PENDING`; router identity mapping; Codex Cloud connectivity/qualification; historical evidence binding. No status promoted.
+- No model/provider calls, credentials, installation, tests, qualification, host/runtime inspection, configuration or infrastructure changes, deployment or branch integration occurred.
+- Next bounded step: owner clarification of “Gamma 4”; continue source-only model identity/routing evidence trace. Keep normative contracts unchanged pending evidence and governance.
