@@ -2430,3 +2430,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Report: [MEDIAHUB-LOCAL-COMPONENT-INVENTORY-WAVE-01-2026-10-14.md](MEDIAHUB-LOCAL-COMPONENT-INVENTORY-WAVE-01-2026-10-14.md). Report creation commit: `3b6aec8bed917f6531ac98aca8e4407a9bb25687`.
 - Next: draft the bounded Jarvis Control Plane / GitHub Adapter contract using observed facts: A0-ASTRA mission ingress and single-writer boundary, least-privilege GitHub scopes, auditable per-task routing/evidence and prohibited high-impact operations. Do not run qualification or integrate branches.
 
+
+## Latest /next result — unified local inventory and verifiable component matrix, Wave 02 (2026-10-14)
+
+- Live Desktop Commander device list: mh-dev-02 (Linux) online; Voktors-Mini.Dlink (macOS) online; mh-dev-01 offline, last seen about 11 hours before this pass.
+- Both online local checkouts: branch main, HEAD 1d45bbccbbbd27309c39cb9e9351bb291cdb47a8, clean git status --short at observation time.
+- Version/process evidence and limits are recorded in [MEDIAHUB-UNIFIED-LOCAL-INVENTORY-AND-VERIFIABLE-COMPONENT-MATRIX-WAVE-02-2026-10-14.md](MEDIAHUB-UNIFIED-LOCAL-INVENTORY-AND-VERIFIABLE-COMPONENT-MATRIX-WAVE-02-2026-10-14.md). Linux Ollama service active; macOS Ollama server unavailable; OmniRoute CLI v3.8.50 on macOS but no route test; local autonomous agent process and DF3 labels observed; selected Caddy/SentinelX/fail2ban processes observed on Linux.
+- Documentary conflicts: C-01 FreeLLMAPI local_gateway registry classification vs cloud/provider wording in distributed AI routing narrative; C-02 UnoRouter/OmniRoute/OpenRouter identity mapping; C-03 two Linux Ollama tags show the same digest. These remain unresolved, not silently normalized.
+- The unified deployment contract and traceability matrix were linked to Wave 02 but remain PROPOSED / NOT ACCEPTED / NOT FROZEN.
+- No credentials, model inference/provider calls, tests/qualification, installations, configuration changes, deployment, merge, rebase or cherry-pick. mh-dev-01 was not inspectable; worktree contents/leases and full network/service configuration remain out of scope.
+- Next: draft the bounded Jarvis Control Plane / GitHub Adapter contract and machine-readable component inventory schema, resolve provider semantics from pinned source/deployment evidence, and keep all runtime/qualification claims evidence-gated.
+
