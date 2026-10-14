@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.238)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.239)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5147,4 +5147,4 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 - Component Admission Crosswalk §7.7 records official PyPI evidence for the two remaining direct dependencies: fakeredis 2.34.1 license metadata is BSD-3-Clause and PyPI shows Trusted Publishing attestation; agent-client-protocol 0.12.1 hashes are recorded but PyPI says Trusted Publishing was not used and artifact-specific license/provenance remains open.
 - Official ACP upstream repository metadata identifies Apache-2.0 and its Security page reports no detected security policy/no published advisories at review time. This is not a vulnerability finding or artifact-level license attestation.
-- Crosswalk blob after update: pending read-back. OpenHands remains research pin only / not admitted / not ready for runtime evaluation. No artifact downloaded, tests/scans or runtime actions performed.
+- Crosswalk current blob after read-back: `65c255b04ec809ef8dcb052d46ace3589a0acaec`. OpenHands remains research pin only / not admitted / not ready for runtime evaluation. No artifact downloaded, tests/scans or runtime actions performed.
