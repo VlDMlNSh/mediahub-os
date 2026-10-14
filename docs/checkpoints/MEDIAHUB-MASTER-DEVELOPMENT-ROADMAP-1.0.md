@@ -902,3 +902,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - No tests, qualification, provider/model calls, installation, credentials, cleanup, infrastructure changes, deployment or branch integration.
 - Next: reconcile existing PASS artifacts to immutable evidence; draft the Jarvis Control Plane/GitHub Adapter contract and machine-readable component inventory schema; prepare hardware compatibility worksheets without provisioning.
 
+
+## 70. Execution update — Jarvis Control Plane / GitHub Adapter contract draft (2026-10-14)
+
+- Created [Jarvis Control Plane and GitHub Adapter Contract, Draft 01](MEDIAHUB-JARVIS-CONTROL-PLANE-GITHUB-ADAPTER-CONTRACT-DRAFT-01-2026-10-14.md) and [component evidence record schema](../../schemas/mediahub-component-evidence-record.schema.json).
+- Defined proposed mission-envelope fields, authority boundaries, least-privilege GitHub capabilities, per-task route/egress record, workspace lease rules, evidence tuple and lifecycle separation.
+- Preserved the owner-reported subcomponent PASS assertion as OWNER_REPORTED_PARTIAL_PASS / EVIDENCE_LINK_PENDING; no invented identifiers or artifact links. ASTRA end-to-end autonomous queue remains NOT ACHIEVED.
+- Hardware profiles (Mac mini 2011 i7/16 GB clean Linux, Mac Pro 2013, future remote high-VRAM GPU) remain candidates only. No provisioning or compatibility claims.
+- Open source/contract blockers: FreeLLMAPI classification, router identity, model provenance, capability issuer lifecycle, exact hardware inventory, historical PASS artifact linkage. No implementation, tests, provider calls, credentials, deployment, merge or qualification.
+- Next bounded step: inspect repository source history/workflow artifacts for historical PASS evidence and resolve provider identity/classification from non-secret source/config references; do not invoke providers or modify host infrastructure.
+
