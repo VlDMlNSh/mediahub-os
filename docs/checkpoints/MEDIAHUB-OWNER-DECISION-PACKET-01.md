@@ -3,7 +3,7 @@
 - Date: 2026-10-13
 - Repository: `VlDMlNSh/mediahub-os`
 - Ref: `docs/mediahub-chat-tree-map-20261012`
-- Status: **OWNER DECISION PACKET / PROPOSED / NOT ACCEPTED / NOT FROZEN**
+- Status: **MIXED STATUS — DEC-DEV-02 OPTION C OWNER-APPROVED (2026-10-15); OTHER DECISIONS REMAIN AS RECORDED / NOT FROZEN**
 - Scope: Contour A only. This packet consolidates existing DEC-DEV-01…DEC-DEV-08; it does not create new decision IDs, alter Baseline 2.0, authorize implementation, or qualify any runtime.
 - Sequence authority: [Master Development Roadmap 1.0](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
 - Supporting crosswalk: [Node/service placement matrix and decision register 01](MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md).
@@ -197,3 +197,20 @@ The source review narrows the conflict; it does not close it:
 - **Branch integration:** no merge/rebase/cherry-pick is requested by this packet. Any future integration requires a separately authorized review path and fresh comparison.
 
 **Non-response/default:** all existing fail-closed gates remain unchanged. This block does not accept/freeze a contract, qualify a runtime, authorize implementation or deployment, or promote any status.
+
+
+## 8. Owner decision supplement — DEC-DEV-02 Option C (2026-10-15)
+
+**Decision status: OWNER-APPROVED.** In the current MediaHub OS conversation, the owner explicitly approved Option C: split the lifecycles into disjoint domains.
+
+- Jarvis: corporation-level mission coordination and permitted executor routing.
+- ASTRA A0: ASTRA-internal engineering workflow state only (queue, claims, leases, heartbeat, retry/cancellation and ASTRA evidence/gate state) under its accepted contract.
+- MediaHub Product State Authority: sole canonical product-state mutation authority.
+
+This supplement supersedes earlier statements in this packet that DEC-DEV-02 still awaits an owner option. It does not imply that all DEC-DEV-02 source-text conflicts are already corrected: ASTRA primary architecture/component-scheme prose still uses broader “single coordination and state authority” wording. That wording must be reconciled by a controlled, source-anchored documentation change; do not silently alter primary normative sources.
+
+The owner also approved the target hybrid execution model: bounded direct dispatch is permitted where policy allows and where the operation does not require ASTRA's engineering lifecycle controls; tasks needing ASTRA queue/lease/evidence gates must use the sourced A0 interface. This is not permission to invent an A0 endpoint, create a second ASTRA queue, bypass authorization, or mutate canonical product state outside Product State Authority.
+
+The owner clarified that the internal MediaHub corporation may add specialized roles around Jarvis and ASTRA, but ASTRA itself is not to be expanded into the entire corporation. An external cloud executor may run its own ECC multi-agent controller on the executor's side; MediaHub treats it as one bounded external executor. ECC remains NOT ASSESSED / NOT ADOPTED pending authoritative revision, license, provenance, security/side-effect and overlap review.
+
+No implementation, installation, tests, qualification, deployment or branch integration is authorized or claimed by this decision supplement. Other DEC-DEV items and the Contour A → Contour B gate remain unchanged.
