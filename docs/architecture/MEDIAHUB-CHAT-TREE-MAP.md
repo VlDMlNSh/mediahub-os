@@ -3836,47 +3836,6 @@ Key current consequence: for P0-05 status, verify whether acceptance evidence co
 - **Status:** P0-05 baseline contract acceptance is supported by the governance tree/packet, with a stale-header discrepancy to reconcile; P0-07 mutation publication remains **BLOCKED — GOVERNANCE/API GAP**. The non-normative v1.1 candidate remains not accepted/frozen; its D1–D5 and D7 remain open pending owner/security/governance decisions. No code, protected contract, tests or runtime were changed or executed.
 
 
-## 20.194 P0-07 audit/privacy/authorization governance crosswalk (2026-10-12)
-
-**Artifact:** `docs/checkpoints/p0-07-audit-privacy-governance-crosswalk-2026-10-12.md` (NON-NORMATIVE / FOR OWNER + GOVERNANCE REVIEW / NO IMPLEMENTATION AUTHORIZATION). It crosswalks MH-06 Observability, MH-12 Authorization and contradiction register, MH-13 Privacy/Data Governance and reconstruction/governance records against candidate P0-05 v1.1 D1–D5/D7. It proposes decision options and recommendations without selecting an API design on the owner's behalf.
-
-**Primary evidence:** MH-06 Observability `main` blob `a4c949d1ba21354d74f91cbb71864da3bbc13d36` is PROPOSED and requires privacy/security review for new diagnostic paths. MH-12 Authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a` requires explicit operation-specific, identity-bound, auditable, fail-closed authorization; MH-12 C-01/C-02 `4b3c101317330e47236937b17344299df53deee9` keep security-vs-transaction authorization unresolved and P0-07/P0-04 bridge blocked. MH-13 privacy blob `e732ff9cacbc9c1189bd83306cdff30906326cf0` requires purpose limitation, minimization, redaction, auditability without unnecessary payload disclosure and governed retention/deletion; governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa` accepts only a reconstruction, not freeze or production implementation authorization.
-
-**Decision disposition:** D1 recommended C→A only if evidence supports a trusted caller path; D2 C until authority/lifecycle is evidenced; D3 C→A after trust/replay analysis; D4 C→B after operation-to-canonical-state mapping; D5 C→B after MH-06/MH-12/MH-13 review; D7 C→B unless current versioning rules prove a P0-05 v1.1 change is in-scope. These are recommendations, not owner decisions. D6 exact-contract inclusion in the accepted P0-05 tree is evidenced, while the DRAFT header conflict still requires controlled reconciliation.
-
-**Current gate:** P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP. Candidate and this packet remain non-normative. No tests, implementation, runtime execution, qualification or production authorization occurred.
-
-
-## 20.195 Owner disposition for P0-05 v1.1 candidate D1–D7 (2026-10-12)
-
-**Owner-recorded choices:** D1 **C→A**; D2 **C**; D3 **C→A**; D4 **C→B**; D5 **C→B**; D6 **B→A after confirmation**; D7 **C→B**. Detailed scope, conditions and limitations are recorded in [Owner Decision Register](../checkpoints/mediahub-owner-decisions-2026-10-12.md), blob SHA `62831d23c5e6bbddc707ec5b197cffba57d6139a`, and [Unified Traceability Matrix, Section 36](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob SHA `30dd68e26f6741a29cd9986b94a253cb61d8ec22`.
-
-**Interpretation:** these are owner-authorized investigation/governance paths, not acceptance/freeze of P0-05 v1.1, not approval of a particular API signature, and not implementation authorization. D6 is explicitly conditional: obtain governance confirmation before any controlled header/status correction. The existing P0-05 acceptance-tree evidence and contradictory DRAFT header remain visible until then.
-
-**Next bounded pass:** start with D1/D2 trust-source and authorization-context provenance; trace source → identity/authority → lifecycle/freshness/revocation → operation binding → P0-05/P0-04 boundary. In parallel only where independent, build the D4 operation-to-canonical-state mapping. Keep D3 binding design dependent on trust/replay findings; keep D5 audit/privacy schema dependent on MH-06/MH-12/MH-13 review; keep D7 versioning scope open pending primary rules.
-
-**Hard blocker unchanged:** P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. No tests, implementation, runtime execution, qualification, deployment, migration, infrastructure change or merge was performed.
-
-
-## 20.196 P0-07 trusted caller/context provenance and operation authority map (2026-10-13)
-
-**Status:** SOURCE-BOUND / PARTIAL / GOVERNANCE OPEN. Detailed traceability is recorded in [Unified Traceability Matrix, Section 37](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob SHA `e6252150b049eb0e1aae098cdabb727df919e773`.
-
-**Primary immutable source revisions read:**
-- P0-07 operation boundary `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`: bounded validation, capability check and policy evaluation returning an inert decision; no persistence/publication/network/external work.
-- P0-07 authorization `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`: exact principal/capability/operation allow-list; no evidence here of who issues/trusts the principal or manages grant lifecycle.
-- P0-04/P0-05 authorization context `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`: principal + capability only in the inspected context definition.
-- P0-07→P0-05 adapter contract `22b8e1897e124578e66c8d619b3e8eaf41f69a88` and reconciliation `04381ce6e223b8632ec15d17e475b56fe1ab8772`: mutation bridge blocked; P0-07 authority is conjunctive with independent P0-04/P0-05 authorization, never a substitute.
-- MH-12 Authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a` and contradiction register `4b3c101317330e47236937b17344299df53deee9`: explicit identity-bound/fail-closed authorization; C-01 unresolved, C-02 blocked.
-
-**Finding:** inspected sources do not establish a trusted caller-to-context issuance path or prove that an independently P0-04-authorized context is available alongside the P0-07 decision. This is limited to inspected sources and does not prove no external caller exists. Consequently D1 remains in its evidence-gathering C stage; D2 remains C.
-
-**D4 operation map:** P0-07 domain operations (`read/validate/propose/update/replace/reset/delete`) are not P0-04 transaction operations (`begin/commit/abort`). The inspected boundary returns a decision and does not itself fetch canonical data or publish state. Validation and inert proposals are candidate non-mutating scope only, not declared accepted/implemented. Read needs an evidenced data path. All update/replace/reset/delete publication remains **BLOCKED** pending an accepted governance/API bridge. No operation subset is promoted to accepted API.
-
-**Next evidence gate:** locate authoritative caller/context issuer and lifecycle source; trace principal identity → grant issuance → freshness/revocation → exact domain operation → independently authorized P0-05/P0-04 transaction. Continue D4 by verifying the data path and candidate non-mutating operations against primary contracts. Do not propose API shape before this evidence is resolved.
-
-No tests, code changes, runtime execution, qualification, deployment, migration, infrastructure change or merge were performed. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains non-normative and not accepted/frozen.
-
 ## 20.120 P0-07 context issuer, canonical-read semantics and versioning evidence (2026-10-13)
 
 **Status:** SOURCE-BOUND / PARTIAL / GOVERNANCE OPEN. This pass deepened the Section 20.196 review using immutable source blobs; it does not choose an API bridge or authorize implementation.
@@ -4413,29 +4372,6 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - **Safety:** documentary source reconciliation only; no tests, host/runtime inspection, inventory, credentials, installation, infrastructure change, deployment, migration, merge or rebase.
 
 
-## 20.198 DEC-DEV-04 — Mac mini Server 2011 evidence gate (2026-10-13)
-
-- **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “DEC-DEV-04 — Mac mini Server 2011 evidence-gate reconciliation”; commit `ceecad3c75ffb1ff0e7d1e1a064fc329fea8db0a`, blob `f3fbf18e35949cd2ac31f6dcbfa3802c8f94d86c`.
-- **Primary sources re-read:** MH-15 architecture on `main`, blob `f817925c69ce4484713f952e47aacad283af8eeb` (WORK IN PROGRESS; acceptance/freeze NOT AUTHORIZED; implementation authorization NONE); MH-15 acceptance criteria on `main`, blob `082642e67dc66cb359a5566773c143854cafaa00` (NOT ACCEPTED).
-- **Existing decision/placement records:** owner decision packet 01 blob `f941d67c3d0b37b8abb1a96da02f51a494f9f2bf`; placement register 01 blob `59107fd6d7b8a73d671098adcf2824c310642907`; master roadmap blob `a65de988736b21abfe95d72c1a3cc4947c832c71`.
-- **Confirmed prerequisite classes:** exact hardware identity/inventory; supported OS/kernel and security lifecycle; workload-specific resource/capacity evidence; thermal/power and failure behavior; security/isolation baseline; workload-appropriate recovery evidence; measurable acceptance criteria and reproducible evidence.
-- **Finding:** those criteria are defined, but actual machine inventory, OS support, benchmark, thermal/power, security-lifecycle and recovery evidence are not present in the reviewed records. Owner-reported 16 GB and clean Linux do not prove compatibility. No host inspection was performed.
-- **Disposition:** DEC-DEV-04 remains **EVIDENCE-GATED / OWNER CHOICE DEFERRED**. Keep Mac mini as an optional low-resource/legacy candidate and outside critical dependencies; no installation, workload admission, implementation or qualification is authorized.
-- **Next:** continue P0-07 → P0-05 trusted context/canonical-read work per Roadmap §9 independently; revisit DEC-DEV-04 only after separately authorized read-only evidence collection. No host/runtime inspection, tests, qualification, credentials, deployment, migration, merge or rebase.
-
-
-## 20.199 P0-04 context issuer reachability and MH-04 governance gate (2026-10-13)
-
-- **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “P0-04 context issuer reachability and MH-04 governance gate”; commit `d3d43130a05bd7c81d270c7cbb0da18bf4b4aea4`, blob `b7cadb3066f9d512b0bcfd4f0abd65eaa9d0f0e4`.
-- **Governance/privacy crosswalk:** Section 17 in `p0-07-audit-privacy-governance-crosswalk-2026-10-12.md`, commit `d9ac63fefc1548b3f2537536e38fdb6e88d1cce2`, blob `858d579af8dc0fb57948d183dab23e3e6528b650`.
-- **Unified traceability matrix:** Section 62 in `mediahub-unified-system-traceability-matrix-v0.1.md`, commit `f92efbe905ef2843a7fec76c2de7eedd5761d4ab`, blob `0aa39452d54bf3f73214c03d956d0f98d30038fe`.
-- **Source refs:** `main` `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` (complete tree, 798 entries); `architecture/mh-04-security-trust-authorization` `a4fc8bd83011c8f684ecd75f9223567e2abc6277` (complete tree, 141 entries; diverged 7 ahead / 1,639 behind); `architecture/mh-7-configuration-policy` `83ccb0d4993761ffcd43146d982ff9781116c7db` (complete tree, 171 entries; diverged 143 ahead / 1,668 behind).
-- **Finding:** MH-04 defines identity/authentication/authorization/credential/trust concepts but no concrete accepted issuer/provisioner module was found in its inspected complete tree; MH-04 remains `PROPOSED / REVIEW COMPLETE`. Main has the ConsumerBoundary → injected StateAuthority read path but no dedicated context issuer or accepted composition root linking MH-04 authentication, P0-07 operation and the same authority/revision. Findings are bounded to inspected refs.
-- **Governance discrepancy:** P0-05 accepted implementation lineage and governance records exist, but contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` retains its DRAFT header. Do not edit the protected header or infer normative acceptance without explicit confirmation.
-- **Disposition:** D1 existing-context reuse NOT DEMONSTRATED; D2 trusted issuer/lifecycle NOT EVIDENCED; D6 contract status OPEN. P0-07 → P0-05 call edge/same-revision proof NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification NO-GO / NOT PROVEN.
-- **Next:** route existing D1/D2/D6 questions through owner/governance unless an accepted source closes them. No issuer, API bridge, technology or owner decision was selected. No tests, qualification, code changes, credentials, host/runtime inspection, installation, deployment, migration, merge or rebase.
-
-
 ## 20.158 P0-05 governance lineage re-check and owner decision gate (2026-10-13)
 
 - **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “P0-05 governance lineage re-check and irreducible owner gate”; new commit `f4b92621ebfe5b4e0e21297d028fbfdfc8937c19`, blob `8e8da7728ac87724e335034d2a45b161dd843bf1` (checkpoint read-back still required).
@@ -4496,16 +4432,6 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - P0-07 operation/authorization and P0-05 ConsumerBoundary sources do not evidence an accepted durable audit event contract, sink, retention authority or reader-authorization path. Sanitized error codes are not an audit trail.
 - MH-21 privacy/retention documents remain PROPOSED and provider-evidence-required.
 - **Disposition:** D5 remains open; no audit schema, storage, API or technology selected. Mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; no implementation or qualification claimed.
-
-
-## 20.197 P0-07 D7 — canonical state-version and change-control crosswalk (2026-10-13)
-
-- **Artifact:** [P0-07 D7 canonical state-version crosswalk](../checkpoints/P0-07-D7-CANONICAL-STATE-VERSION-CHANGE-CONTROL-CROSSWALK-2026-10-13.md).
-- **Status:** READ-ONLY SOURCE CROSSWALK / PARTIAL / NOT ACCEPTED / NOT FROZEN.
-- **Evidence:** `main` source files `runtime/mediahub_runtime/in_memory_state.py`, `generation.py`, `authorization.py`, `consumer_boundary.py` and `state.py`, with live SHAs recorded in the artifact.
-- **Finding:** state-version freshness, generation compatibility and restore version advancement are evidenced in the inspected in-memory implementation. Accepted ownership of generation/schema change control and complete trusted P0-07 → P0-05 → P0-04 revision binding remain NOT EVIDENCED in this bounded pass. Persistence/qualification are not proven.
-- **Gate:** P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN.
-- **Continuation:** re-read map-selected MH-14 persistence, MH-16 lifecycle/migration and MH-22 qualification primary sources to identify the accepted generation/change-control owner and evidence path. Do not implement or infer acceptance.
 
 
 ## 20.164 D7 generation/change-control dependency audit — MH-14 / MH-16 / MH-22 (2026-10-13)
@@ -4765,17 +4691,6 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - D5 remains NOT EVIDENCED for an accepted P0-07 audit/provenance contract, durable sink, authorized-reader path, retention/deletion owner, integrity controls and operation-specific audit-unavailable behavior. No audit schema or sink was invented; P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP. No tests or runtime execution.
 
 
-## 20.200 DEC-DEV-01…08 live-source crosswalk validation wave 01 (2026-10-14)
-
-- Report: [MEDIAHUB-DEC-DEV-01-08-CROSSWALK-VALIDATION-WAVE-01-2026-10-14.md](../checkpoints/MEDIAHUB-DEC-DEV-01-08-CROSSWALK-VALIDATION-WAVE-01-2026-10-14.md).
-- Status: documentary source revalidation complete for this bounded pass; not accepted/frozen; no implementation or qualification.
-- Live refs at pass start: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch HEAD `c84c2ab7c7be3d984d19c69674037b3317da9640`; DIVERGED, ahead 773 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
-- DEC-DEV-01: Alamo endpoint/service label is established; runtime/adapter composition remains open and target-gated.
-- DEC-DEV-02: OPEN_CONFLICT between ASTRA A0 “MediaHub State Authority” wording and Jarvis ARC-003/018 boundary/lifecycle ownership; owner/governance reconciliation required.
-- DEC-DEV-03/04/07: deferred behind physical asset, hardware/OS/security and workload evidence. DEC-DEV-05/06: fail-closed/no-silent-fallback and reachability-is-not-authorization invariants remain; detailed route/mobile contracts open. DEC-DEV-08: binding Contour A → Contour B gate, evidence and acceptance not proven.
-- P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; D2 qualified independent review remains outstanding; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
-- Next: obtain qualified independent review of P0-07 D2 R-01…R-06 and separate owner/governance dispositions. This entry does not close either gate.
-
 ## 20.191 ASTRA GOLD qualification-contract consistency wave 03 (2026-10-14)
 
 - Report: [qualification-contract consistency wave 03](../checkpoints/MEDIAHUB-ASTRA-GOLD-QUALIFICATION-CONSISTENCY-WAVE-03-2026-10-14.md), blob `b0ec77a7990f38851e09d6fb7b4b1837555271d1`.
@@ -4802,6 +4717,88 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - Static checks found 23 rounds per mandatory path / 115 total rounds and 24-hour soak consistently described in the six inspected ASTRA sources. This was not a repository-wide drift test or qualification run.
 - Current-main CURRENT-TRUTH still marks G0–G11 BLOCKED / overall NOT_PROVEN. P0-07 D2 qualified independent review, owner/governance dispositions and cross-branch authority alignment remain open.
 
+## 20.194 P0-07 audit/privacy/authorization governance crosswalk (2026-10-12)
+
+**Artifact:** `docs/checkpoints/p0-07-audit-privacy-governance-crosswalk-2026-10-12.md` (NON-NORMATIVE / FOR OWNER + GOVERNANCE REVIEW / NO IMPLEMENTATION AUTHORIZATION). It crosswalks MH-06 Observability, MH-12 Authorization and contradiction register, MH-13 Privacy/Data Governance and reconstruction/governance records against candidate P0-05 v1.1 D1–D5/D7. It proposes decision options and recommendations without selecting an API design on the owner's behalf.
+
+**Primary evidence:** MH-06 Observability `main` blob `a4c949d1ba21354d74f91cbb71864da3bbc13d36` is PROPOSED and requires privacy/security review for new diagnostic paths. MH-12 Authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a` requires explicit operation-specific, identity-bound, auditable, fail-closed authorization; MH-12 C-01/C-02 `4b3c101317330e47236937b17344299df53deee9` keep security-vs-transaction authorization unresolved and P0-07/P0-04 bridge blocked. MH-13 privacy blob `e732ff9cacbc9c1189bd83306cdff30906326cf0` requires purpose limitation, minimization, redaction, auditability without unnecessary payload disclosure and governed retention/deletion; governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa` accepts only a reconstruction, not freeze or production implementation authorization.
+
+**Decision disposition:** D1 recommended C→A only if evidence supports a trusted caller path; D2 C until authority/lifecycle is evidenced; D3 C→A after trust/replay analysis; D4 C→B after operation-to-canonical-state mapping; D5 C→B after MH-06/MH-12/MH-13 review; D7 C→B unless current versioning rules prove a P0-05 v1.1 change is in-scope. These are recommendations, not owner decisions. D6 exact-contract inclusion in the accepted P0-05 tree is evidenced, while the DRAFT header conflict still requires controlled reconciliation.
+
+**Current gate:** P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP. Candidate and this packet remain non-normative. No tests, implementation, runtime execution, qualification or production authorization occurred.
+
+
+## 20.195 Owner disposition for P0-05 v1.1 candidate D1–D7 (2026-10-12)
+
+**Owner-recorded choices:** D1 **C→A**; D2 **C**; D3 **C→A**; D4 **C→B**; D5 **C→B**; D6 **B→A after confirmation**; D7 **C→B**. Detailed scope, conditions and limitations are recorded in [Owner Decision Register](../checkpoints/mediahub-owner-decisions-2026-10-12.md), blob SHA `62831d23c5e6bbddc707ec5b197cffba57d6139a`, and [Unified Traceability Matrix, Section 36](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob SHA `30dd68e26f6741a29cd9986b94a253cb61d8ec22`.
+
+**Interpretation:** these are owner-authorized investigation/governance paths, not acceptance/freeze of P0-05 v1.1, not approval of a particular API signature, and not implementation authorization. D6 is explicitly conditional: obtain governance confirmation before any controlled header/status correction. The existing P0-05 acceptance-tree evidence and contradictory DRAFT header remain visible until then.
+
+**Next bounded pass:** start with D1/D2 trust-source and authorization-context provenance; trace source → identity/authority → lifecycle/freshness/revocation → operation binding → P0-05/P0-04 boundary. In parallel only where independent, build the D4 operation-to-canonical-state mapping. Keep D3 binding design dependent on trust/replay findings; keep D5 audit/privacy schema dependent on MH-06/MH-12/MH-13 review; keep D7 versioning scope open pending primary rules.
+
+**Hard blocker unchanged:** P0-07 canonical mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**. P0-05 v1.1 remains **NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN**. No tests, implementation, runtime execution, qualification, deployment, migration, infrastructure change or merge was performed.
+
+
+## 20.196 P0-07 trusted caller/context provenance and operation authority map (2026-10-13)
+
+**Status:** SOURCE-BOUND / PARTIAL / GOVERNANCE OPEN. Detailed traceability is recorded in [Unified Traceability Matrix, Section 37](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), blob SHA `e6252150b049eb0e1aae098cdabb727df919e773`.
+
+**Primary immutable source revisions read:**
+- P0-07 operation boundary `1e3578f1503d0de452b92c1a549c77e4ecddf7bb`: bounded validation, capability check and policy evaluation returning an inert decision; no persistence/publication/network/external work.
+- P0-07 authorization `260dcb2c5ab92cb319a8c20f6568a14e2cc9b5d3`: exact principal/capability/operation allow-list; no evidence here of who issues/trusts the principal or manages grant lifecycle.
+- P0-04/P0-05 authorization context `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`: principal + capability only in the inspected context definition.
+- P0-07→P0-05 adapter contract `22b8e1897e124578e66c8d619b3e8eaf41f69a88` and reconciliation `04381ce6e223b8632ec15d17e475b56fe1ab8772`: mutation bridge blocked; P0-07 authority is conjunctive with independent P0-04/P0-05 authorization, never a substitute.
+- MH-12 Authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a` and contradiction register `4b3c101317330e47236937b17344299df53deee9`: explicit identity-bound/fail-closed authorization; C-01 unresolved, C-02 blocked.
+
+**Finding:** inspected sources do not establish a trusted caller-to-context issuance path or prove that an independently P0-04-authorized context is available alongside the P0-07 decision. This is limited to inspected sources and does not prove no external caller exists. Consequently D1 remains in its evidence-gathering C stage; D2 remains C.
+
+**D4 operation map:** P0-07 domain operations (`read/validate/propose/update/replace/reset/delete`) are not P0-04 transaction operations (`begin/commit/abort`). The inspected boundary returns a decision and does not itself fetch canonical data or publish state. Validation and inert proposals are candidate non-mutating scope only, not declared accepted/implemented. Read needs an evidenced data path. All update/replace/reset/delete publication remains **BLOCKED** pending an accepted governance/API bridge. No operation subset is promoted to accepted API.
+
+**Next evidence gate:** locate authoritative caller/context issuer and lifecycle source; trace principal identity → grant issuance → freshness/revocation → exact domain operation → independently authorized P0-05/P0-04 transaction. Continue D4 by verifying the data path and candidate non-mutating operations against primary contracts. Do not propose API shape before this evidence is resolved.
+
+No tests, code changes, runtime execution, qualification, deployment, migration, infrastructure change or merge were performed. P0-07 mutation/publication remains **BLOCKED — GOVERNANCE/API GAP**; P0-05 v1.1 remains non-normative and not accepted/frozen.
+
+## 20.197 DEC-DEV-04 — Mac mini Server 2011 evidence gate (2026-10-13)
+
+- **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “DEC-DEV-04 — Mac mini Server 2011 evidence-gate reconciliation”; commit `ceecad3c75ffb1ff0e7d1e1a064fc329fea8db0a`, blob `f3fbf18e35949cd2ac31f6dcbfa3802c8f94d86c`.
+- **Primary sources re-read:** MH-15 architecture on `main`, blob `f817925c69ce4484713f952e47aacad283af8eeb` (WORK IN PROGRESS; acceptance/freeze NOT AUTHORIZED; implementation authorization NONE); MH-15 acceptance criteria on `main`, blob `082642e67dc66cb359a5566773c143854cafaa00` (NOT ACCEPTED).
+- **Existing decision/placement records:** owner decision packet 01 blob `f941d67c3d0b37b8abb1a96da02f51a494f9f2bf`; placement register 01 blob `59107fd6d7b8a73d671098adcf2824c310642907`; master roadmap blob `a65de988736b21abfe95d72c1a3cc4947c832c71`.
+- **Confirmed prerequisite classes:** exact hardware identity/inventory; supported OS/kernel and security lifecycle; workload-specific resource/capacity evidence; thermal/power and failure behavior; security/isolation baseline; workload-appropriate recovery evidence; measurable acceptance criteria and reproducible evidence.
+- **Finding:** those criteria are defined, but actual machine inventory, OS support, benchmark, thermal/power, security-lifecycle and recovery evidence are not present in the reviewed records. Owner-reported 16 GB and clean Linux do not prove compatibility. No host inspection was performed.
+- **Disposition:** DEC-DEV-04 remains **EVIDENCE-GATED / OWNER CHOICE DEFERRED**. Keep Mac mini as an optional low-resource/legacy candidate and outside critical dependencies; no installation, workload admission, implementation or qualification is authorized.
+- **Next:** continue P0-07 → P0-05 trusted context/canonical-read work per Roadmap §9 independently; revisit DEC-DEV-04 only after separately authorized read-only evidence collection. No host/runtime inspection, tests, qualification, credentials, deployment, migration, merge or rebase.
+
+
+## 20.198 P0-04 context issuer reachability and MH-04 governance gate (2026-10-13)
+
+- **Checkpoint:** [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), section “P0-04 context issuer reachability and MH-04 governance gate”; commit `d3d43130a05bd7c81d270c7cbb0da18bf4b4aea4`, blob `b7cadb3066f9d512b0bcfd4f0abd65eaa9d0f0e4`.
+- **Governance/privacy crosswalk:** Section 17 in `p0-07-audit-privacy-governance-crosswalk-2026-10-12.md`, commit `d9ac63fefc1548b3f2537536e38fdb6e88d1cce2`, blob `858d579af8dc0fb57948d183dab23e3e6528b650`.
+- **Unified traceability matrix:** Section 62 in `mediahub-unified-system-traceability-matrix-v0.1.md`, commit `f92efbe905ef2843a7fec76c2de7eedd5761d4ab`, blob `0aa39452d54bf3f73214c03d956d0f98d30038fe`.
+- **Source refs:** `main` `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8` (complete tree, 798 entries); `architecture/mh-04-security-trust-authorization` `a4fc8bd83011c8f684ecd75f9223567e2abc6277` (complete tree, 141 entries; diverged 7 ahead / 1,639 behind); `architecture/mh-7-configuration-policy` `83ccb0d4993761ffcd43146d982ff9781116c7db` (complete tree, 171 entries; diverged 143 ahead / 1,668 behind).
+- **Finding:** MH-04 defines identity/authentication/authorization/credential/trust concepts but no concrete accepted issuer/provisioner module was found in its inspected complete tree; MH-04 remains `PROPOSED / REVIEW COMPLETE`. Main has the ConsumerBoundary → injected StateAuthority read path but no dedicated context issuer or accepted composition root linking MH-04 authentication, P0-07 operation and the same authority/revision. Findings are bounded to inspected refs.
+- **Governance discrepancy:** P0-05 accepted implementation lineage and governance records exist, but contract blob `bba8dd3e8812767b6dbc8afff1bec5bd36dc828b` retains its DRAFT header. Do not edit the protected header or infer normative acceptance without explicit confirmation.
+- **Disposition:** D1 existing-context reuse NOT DEMONSTRATED; D2 trusted issuer/lifecycle NOT EVIDENCED; D6 contract status OPEN. P0-07 → P0-05 call edge/same-revision proof NOT EVIDENCED; mutation/publication BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; project qualification NO-GO / NOT PROVEN.
+- **Next:** route existing D1/D2/D6 questions through owner/governance unless an accepted source closes them. No issuer, API bridge, technology or owner decision was selected. No tests, qualification, code changes, credentials, host/runtime inspection, installation, deployment, migration, merge or rebase.
+
+## 20.199 P0-07 D7 — canonical state-version and change-control crosswalk (2026-10-13)
+
+- **Artifact:** [P0-07 D7 canonical state-version crosswalk](../checkpoints/P0-07-D7-CANONICAL-STATE-VERSION-CHANGE-CONTROL-CROSSWALK-2026-10-13.md).
+- **Status:** READ-ONLY SOURCE CROSSWALK / PARTIAL / NOT ACCEPTED / NOT FROZEN.
+- **Evidence:** `main` source files `runtime/mediahub_runtime/in_memory_state.py`, `generation.py`, `authorization.py`, `consumer_boundary.py` and `state.py`, with live SHAs recorded in the artifact.
+- **Finding:** state-version freshness, generation compatibility and restore version advancement are evidenced in the inspected in-memory implementation. Accepted ownership of generation/schema change control and complete trusted P0-07 → P0-05 → P0-04 revision binding remain NOT EVIDENCED in this bounded pass. Persistence/qualification are not proven.
+- **Gate:** P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; P0-05 v1.1 remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification remains NO-GO / NOT PROVEN.
+- **Continuation:** re-read map-selected MH-14 persistence, MH-16 lifecycle/migration and MH-22 qualification primary sources to identify the accepted generation/change-control owner and evidence path. Do not implement or infer acceptance.
+
+## 20.200 DEC-DEV-01…08 live-source crosswalk validation wave 01 (2026-10-14)
+
+- Report: [MEDIAHUB-DEC-DEV-01-08-CROSSWALK-VALIDATION-WAVE-01-2026-10-14.md](../checkpoints/MEDIAHUB-DEC-DEV-01-08-CROSSWALK-VALIDATION-WAVE-01-2026-10-14.md).
+- Status: documentary source revalidation complete for this bounded pass; not accepted/frozen; no implementation or qualification.
+- Live refs at pass start: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; docs branch HEAD `c84c2ab7c7be3d984d19c69674037b3317da9640`; DIVERGED, ahead 773 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- DEC-DEV-01: Alamo endpoint/service label is established; runtime/adapter composition remains open and target-gated.
+- DEC-DEV-02: OPEN_CONFLICT between ASTRA A0 “MediaHub State Authority” wording and Jarvis ARC-003/018 boundary/lifecycle ownership; owner/governance reconciliation required.
+- DEC-DEV-03/04/07: deferred behind physical asset, hardware/OS/security and workload evidence. DEC-DEV-05/06: fail-closed/no-silent-fallback and reachability-is-not-authorization invariants remain; detailed route/mobile contracts open. DEC-DEV-08: binding Contour A → Contour B gate, evidence and acceptance not proven.
+- P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; D2 qualified independent review remains outstanding; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
+- Next: obtain qualified independent review of P0-07 D2 R-01…R-06 and separate owner/governance dispositions. This entry does not close either gate.
 ## 20.201 Project-wide architecture integrity sweep wave 06 (2026-10-14)
 
 - Report: [project-wide architecture integrity sweep wave 06](../checkpoints/MEDIAHUB-PROJECT-WIDE-ARCHITECTURE-INTEGRITY-WAVE-06-2026-10-14.md), blob `55cc4be43dedd973705e6215a11b946243e1145e`.
