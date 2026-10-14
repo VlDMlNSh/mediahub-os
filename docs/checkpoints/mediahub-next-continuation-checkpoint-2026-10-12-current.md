@@ -2385,3 +2385,12 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Updated owner decision register, unified architecture/deployment contract draft, roadmap and map. The register, contract and roadmap were read back and contain the D-03 update; map section 20.254 was read back with matching content/blob SHA.
 - This records accepted architectural direction only. Implementation, GitHub adapter permissions, provider connectivity, cloud orchestration, qualification and runtime readiness remain unverified. No provider/model calls, credentials, tests, installation, host/runtime inspection, infrastructure change, deployment, merge or branch integration occurred.
 - **Next bounded step:** source-only reconciliation of Jarvis/ASTRA primary contracts and the existing GitHub integration/permission design against D-03; identify actual conflicts and propose draft-level edits without changing canonical authority or crossing existing authorization gates.
+
+
+### D-03 final read-back anchors (2026-10-14)
+
+- Owner decision register blob: cd45dfa6040ef60a5ef11bcc263f4313a617370c.
+- Unified architecture/deployment contract draft blob: 97827bf0e3c7d4750221bf39510bdc6725735651.
+- Master roadmap blob: 6db3d0fb4b2a58abdac2a3956c8355ba6185ed2d.
+- Project map §20.254 final blob after header-pointer refresh: 795b9b328e6309f6b7b5942185cdaf853ad45097; map commit for header-pointer refresh: 9045049bc4c68432d6de64b2ad157702ea5ee0ea.
+- Checkpoint itself is being updated after these read-backs; re-read its resulting blob SHA after write.
