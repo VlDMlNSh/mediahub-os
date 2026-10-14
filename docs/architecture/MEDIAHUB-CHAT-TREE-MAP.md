@@ -4852,3 +4852,18 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Fixed a newly rediscovered map navigation collision by rekeying the appended MH-03 source/status section from duplicate `20.185` to `20.204`. The earlier historical `20.185` section is preserved. Full read-back scan follows after commit. No MH-03 source file or `main` file was changed.
 - Current qualification remains G0–G11 BLOCKED / NOT_PROVEN; Contour B remains gated. No tests, CI, runtime/host inspection, provider/model calls, credentials, installation, deployment, infrastructure change, migration or branch integration.
 - Next: resolve the administrative source-of-truth choices already listed in plan §5 and §9.6; continue MH-03 reference/provenance tracing without rewriting either family before owner disposition.
+
+
+## 20.204 Unified system passport source-of-truth consolidation (2026-10-14)
+
+**Working passport:** [MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md](../checkpoints/MEDIAHUB-OS-SYSTEM-PASSPORT-V3.md)  
+**Post-write blob SHA:** `2b5d81236b85d44d284015cfb02d9401ab0e7482`  
+**Passport update commit:** `b4a9b38b05d8fef4d3b6a3610b430e92828e1f1c`  
+**Status:** `WORKING CONSOLIDATED VIEW / NOT OWNER-ACCEPTED AS A NORMATIVE SYSTEM CONTRACT`
+
+- Reused the existing 72 KB working passport instead of creating a duplicate. Added §21 with scoped source authority, live branch boundary, confirmed invariants, open conflict/gate register and atom-level traceability completion criteria.
+- Live comparison: `main` HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; documentation branch `docs/mediahub-chat-tree-map-20261012`; **DIVERGED**, ahead 829 / behind 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Source precedence remains scoped: Baseline 2.0 is the accepted current functional reference; Baseline 1.0 is historical provenance; accepted/frozen domain contracts and designated schema sources govern only their scope; qualification Current Truth governs reported gate state; the roadmap governs sequence; the passport is a consolidated view, not a replacement contract.
+- Still open: DEC-DEV-02 Jarvis/ASTRA lifecycle conflict; P0-07 D2 trusted-context authority and qualified independent review; P0-05 D6 normative-scope discrepancy; MH-03 root/nested canonical-source choice; Baseline 1.0 cross-branch drift; proposed traceability/placement artifacts; qualification and Contour A → B acceptance gate.
+- No normative Baseline/domain source changed. No tests, qualification, host/runtime inspection, credentials/provider/model calls, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+- **Next:** continue source-anchored crosswalk/provenance work. Do not declare a unified accepted normative contract until atom-level traceability and all required owner/governance/independent-review gates are closed.
