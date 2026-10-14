@@ -5370,7 +5370,7 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 
 ## 20.264 Jarvis corporation architecture proposal crosswalk — Wave 01 (2026-10-15)
 
-- Added [Jarvis Corporation Architecture Proposal Crosswalk, Wave 01](../checkpoints/MEDIAHUB-JARVIS-CORPORATION-ARCHITECTURE-PROPOSAL-CROSSWALK-WAVE-01-2026-10-15.md).
+- Added [Jarvis Corporation Architecture Proposal Crosswalk, Wave 01](https://github.com/VlDMlNSh/mediahub-os/blob/main/docs/checkpoints/MEDIAHUB-JARVIS-CORPORATION-ARCHITECTURE-PROPOSAL-CROSSWALK-WAVE-01-2026-10-15.md).
 - Reconciles the two owner-supplied proposal messages with the distributed AI target architecture, current Jarvis adapter draft, provider/egress crosswalk, bounded local inventory and master roadmap.
 - Finding: partial coverage already exists. Jarvis controller direction, Claude Code as an engineering client/executor surface, FCC/Alamo/FreeLLMAPI routing concepts, separate Codex cloud path, per-task route evidence, local-only fail-closed, node roles, security boundaries and Contour A/B gating are documented. This does not prove deployment or qualification.
 - Proposal areas not yet represented as one accepted, complete contract: six logical planes/responsibility map, formal agent-profile schema, policy-based executor selection matrix, corporation-wide task DAG/dependency/idempotency/cancellation contract, structured result envelope, and ECC (Everything Claude Code) source/license/security/overlap assessment.
