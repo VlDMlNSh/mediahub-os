@@ -2498,3 +2498,15 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Open items: Alamo-to-Ollama endpoint/runtime identity and model provenance; FCC mapping; FreeLLMAPI cloud-provider wording vs registry `local_gateway`/`PENDING`; router identity mapping; Codex Cloud connectivity/qualification; historical evidence binding. No status promoted.
 - No model/provider calls, credentials, installation, tests, qualification, host/runtime inspection, configuration or infrastructure changes, deployment or branch integration occurred.
 - Next bounded step: owner clarification of “Gamma 4”; continue source-only model identity/routing evidence trace. Keep normative contracts unchanged pending evidence and governance.
+
+
+## Latest /next result — Jarvis corporation architecture proposal crosswalk (2026-10-15)
+
+- Created `docs/checkpoints/MEDIAHUB-JARVIS-CORPORATION-ARCHITECTURE-PROPOSAL-CROSSWALK-WAVE-01-2026-10-15.md`; creation commit `608d7463011798ca75e36bfce4b749a9caf4f9a0`.
+- Read back current sources: bootstrap SHA `a6b9f3b48c7fd6c8e5ef2b75944affae4a73f5ea`; map before update SHA `084691d73a814c8da520a4648ba27a65e3739c54`; Jarvis draft `e112cc73178eef5f71b8a814296e4902c2e80390`; provider/egress crosswalk `01b22130e8b5de49782a7241ec14331016259de0`; local inventory `4d239780af2367fdecd00e7156521934ef2f8114`; roadmap `d70a6654d4ce1850369b0431c4e35de2aa0af36a`; distributed architecture on main `e549692f207fbc91d9b9b9b92b8e665404f07290`.
+- Finding: proposal is partially represented already, but not as one accepted, complete corporation contract. Existing documents cover Jarvis direction, Claude Code/FCC/Alamo and cloud routing concepts, separate Codex cloud path, per-task route evidence, local-only fail-closed, node-role target and Contour A/B gating.
+- Gaps recorded: one responsibility/interface matrix across the six logical planes; formal agent profile and executor eligibility schema; corporation-wide task DAG/dependency/idempotency/cancellation contract; standard structured result envelope; ECC upstream provenance/license/security/overlap assessment.
+- Node placement on Mac Pro/Mac mini/MacBook remains target architecture, not proof all three have Claude Code configured or qualified. CLI presence on two boundedly inventoried nodes does not prove the backend/provider route.
+- Open conflicts remain: Jarvis/ASTRA lifecycle ownership, FCC implementation mapping, FreeLLMAPI gateway-vs-cloud semantics, Alamo/runtime identity, route/provider provenance. No normative contract status promoted.
+- No model/provider calls, credential access, host/runtime inspection, installation, tests, qualification, configuration/infrastructure change, deployment, merge, rebase or cherry-pick occurred.
+- Next bounded step: create source-anchored responsibility/interface matrix from existing contracts; then conduct read-only ECC upstream assessment only against concrete gaps.
