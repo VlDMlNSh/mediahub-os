@@ -538,3 +538,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Verified plan blob `bf753b5203e938adb429af2200dc606fbe4a8974`. This is navigation maintenance; no contract or status changed.
 
 **Next bounded action:** continue source-anchored MH-03 pair review, keeping the remediation plan as the sole finding register.
+
+## 30. Execution update — MH-03 health-model mirror review (2026-10-14)
+
+- Reviewed the live root/nested MH-03 health-model pair. Both preserve observational-only health and non-mutation; nested provides explicit lifecycle states, fail-closed readiness, critical/optional dependency handling and sensitive-data exposure restrictions omitted from the root version. This is asymmetric coverage, not a proven direct contradiction.
+- Added MH-ARCH-030 (P2) to the [unified remediation plan](MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md), blob `76049a6f19a2a26cceca933b696829cdd83cd607`. Both health-model sources remain unchanged and PROPOSED; no root/nested canonical authority selected.
+- No tests/qualification or runtime operations. Current qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+
+**Next bounded action:** continue pairwise source/provenance review of an unreviewed MH-03 root/nested pair; use the unified remediation plan as the sole finding register and preserve both trees pending owner/governance disposition.
