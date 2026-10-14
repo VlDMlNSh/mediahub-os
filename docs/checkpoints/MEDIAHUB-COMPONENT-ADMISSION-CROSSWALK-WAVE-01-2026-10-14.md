@@ -384,3 +384,15 @@ No component, runtime, manifest, or normative contract was admitted or changed.
 | Admission relevance | ACP is a direct dependency in the reviewed OpenHands SDK lock snapshot. | Keep lifecycle/cancellation behavior as an unresolved dependency-review item. A separate source-only commit/tag comparison is the next evidence step if permitted; no pin change or runtime test is authorized. |
 
 **Disposition:** no published advisory match was established from the reviewed public Security page, but this is not a security clearance. The cancellation issue is a source-review lead requiring exact fix-to-tag traceability. Exact artifact/source provenance, full transitive SBOM/license/advisory closure, and target runtime/sandbox/egress evidence remain open. OpenHands stays RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. No download, installation, test, scan, execution, provider call, qualification or infrastructure change occurred.
+
+
+## 7.15 ACP Python SDK 0.12.1 — cancellation fix traceability (2026-10-14)
+
+**Question reviewed:** Is the cancellation cleanup fix for issue #108 included in the exact upstream release 0.12.1?
+
+- Official issue #108 documents that cancelling `run_agent()` could bypass connection cleanup and leave sender/dispatcher tasks pending. This is the reported issue description, not a finding that MediaHub currently reaches the affected path.
+- Official PR #113 is marked merged on 2026-06-29; it closes #108 and identifies merge commit `fe643ab`. The PR page shows the change title `fix: close run_agent connection on cancellation`.
+- Official release notes for 0.11.0, dated 2026-07-05, explicitly list fix #113. Official 0.12.1 release notes identify source commit `e668ed9` and follow 0.12.0/0.11.0 in the release line. This is strong release-history evidence that the fix predates 0.12.1 and is included in the published release lineage; this pass did not independently fetch Git objects or run a commit-ancestry comparison.
+- **Disposition:** the earlier uncertainty is narrowed: release notes support inclusion in 0.12.1, but exact Git ancestry was not independently verified in this source-only pass. Do not call this a confirmed MediaHub runtime defect or a security clearance. Runtime reachability remains unknown.
+- Evidence: https://github.com/agentclientprotocol/python-sdk/issues/108 ; https://github.com/agentclientprotocol/python-sdk/pull/113 ; https://github.com/agentclientprotocol/python-sdk/releases/tag/0.11.0 ; https://github.com/agentclientprotocol/python-sdk/releases.
+- No artifact download, install, code execution, tests, pin change, provider call, qualification, host/runtime inspection or infrastructure change occurred.
