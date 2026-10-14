@@ -2420,3 +2420,13 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Corrected reconciliation report R-02, owner decision register D-03 wording, roadmap §§65–67 and map §20.256. The former characterization of a direct Jarvis Claude/Ollama-vs-ASTRA-lane contradiction is replaced: Jarvis-level client/provider routing and ASTRA's permanent Claude-bound production lanes are distinct scopes.
 - ASTRA lanes, normative contracts and qualification status were not changed. No provider/model calls, credentials, tests, installation, runtime/host inspection, infrastructure changes, qualification, merge, rebase, cherry-pick or deployment occurred.
 - **Next:** draft the bounded Jarvis control-plane/GitHub adapter contract with explicit Claude Code/FCC route semantics, per-task provider/model evidence, and local-only fail-closed behavior.
+
+
+## Latest /next result — read-only local component inventory wave 01 (2026-10-14)
+
+- Refreshed the live GitHub documentation branch and compared it with `main`: branches remain `DIVERGED`, documentation branch ahead by 1097 and behind by 2; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration was performed.
+- Desktop Commander inventory covered two online nodes only. Linux `mh-dev-02`: Ollama daemon active and four model tags listed; Claude Code/Codex CLIs found; Astra GitHub Agent and runner present; Docker active with no running containers reported. macOS `Voktors-Mini.Dlink`: OmniRoute/Ollama/Claude Code/Codex executables found; Astra agent/runner and DF3 Llama/autonomous labels observed; Ollama daemon unavailable to `ollama list`.
+- Registry: OmniRoute Claude gateway `NOT_PROVEN`; FreeLLMAPI local-gateway entry `PENDING`; FCC exact runtime mapping unresolved. These are inventory findings, not qualification or proof of provider connectivity. No credentials read; no provider calls, tests/qualification, installations, configuration changes or deployment.
+- Report: [MEDIAHUB-LOCAL-COMPONENT-INVENTORY-WAVE-01-2026-10-14.md](MEDIAHUB-LOCAL-COMPONENT-INVENTORY-WAVE-01-2026-10-14.md). Report creation commit: `3b6aec8bed917f6531ac98aca8e4407a9bb25687`.
+- Next: draft the bounded Jarvis Control Plane / GitHub Adapter contract using observed facts: A0-ASTRA mission ingress and single-writer boundary, least-privilege GitHub scopes, auditable per-task routing/evidence and prohibited high-impact operations. Do not run qualification or integrate branches.
+
