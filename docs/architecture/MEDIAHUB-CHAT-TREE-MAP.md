@@ -5430,3 +5430,10 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Local Mac Pro inference remains preferred when suitable; Claude Code Scenario B uses a compatible local backend, not a locally hosted Claude model. Large tasks may be decomposed and parallelized only when dependencies, policy, capacity and integration boundaries allow it. User-contributed MediaHub nodes remain future opt-in, untrusted-by-default workers.
 - No runtime implementation or qualification is claimed. No installation, tests, provider/model calls, credentials, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
 - Next: reconcile the DEC-DEV-02 source wording and exact A0/security/capability ingress contracts; map existing schemas; trace non-secret route identities; assess ECC upstream read-only; only then propose a versioned task/result contract.
+
+
+## 20.270 Jarvis / ASTRA distributed AI corporation target architecture — Chat Synthesis Wave 01 (2026-10-15)
+
+- Added [Jarvis / ASTRA Distributed AI Corporation Target Architecture, Chat Synthesis Wave 01](MEDIAHUB-JARVIS-ASTRA-DISTRIBUTED-AI-CORPORATION-TARGET-ARCHITECTURE-WAVE-01-2026-10-15.md); documentation ref `docs/mediahub-chat-tree-map-20261012`; read-back blob SHA `c9f1716de8419d66f181fc0a9c465c65a81c7d5b`; creation commit `06314efa89576bbb8d3677c05db87aec94af2541`.
+- Consolidates owner-approved DEC-DEV-02 Option C, hybrid direct/A0 execution, Jarvis corporation mission coordination, ASTRA bounded engineering lifecycle, Product State Authority, internal specialist roles, external cloud-side ECC-controller boundary, Claude Code Scenario B/local model route, candidate local/provider executors, future user-contributed workers, task decomposition/result integration, security and roadmap sequence.
+- Status: target design / owner-direction record, not a normative contract or implementation evidence. ECC remains NOT ASSESSED / NOT ADOPTED. Source-level ASTRA authority wording reconciliation and accepted A0/capability ingress sourcing remain open.
