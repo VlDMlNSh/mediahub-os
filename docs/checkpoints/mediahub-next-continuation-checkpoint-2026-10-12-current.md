@@ -1900,3 +1900,19 @@ Re-fetch and verify the plan, map, roadmap and checkpoint; refresh main/docs ref
 
 ### Next bounded action
 Review one remaining MH-03 root/nested pair (recommended: acceptance criteria) and continue the source-model trace. Preserve both copies and do not run tests/qualification or integrate branches without explicit authorization.
+
+
+## Latest /next result — MH-ARCH-042 acceptance-criteria mirror review (2026-10-14)
+
+- Re-fetched live refs and mandatory project documents before the pass. At start, docs branch HEAD was `2f3724adcf8b3e6ea10d83ef2ca7c2f04cdf1610`, main HEAD `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`; branches were diverged, ahead 909 / behind 2, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Re-read root `architecture/MH-03-acceptance-criteria.md` blob `e96adaac2eb52e2f8058cc889485ec982bf606e5` and nested `docs/architecture/mh-03/MH-03-acceptance-criteria.md` blob `eefb645d89c7c3046636d8344515aa02b7ccebe3`. Added MH-ARCH-042 / plan §9.29: nested criteria explicitly include P0-05/P0-06 and evidence/decision-register review absent from the root checklist; root criteria more directly state several acceptance outcomes. Both remain PROPOSED / NOT ACCEPTED.
+- Updated unified plan, map, and master roadmap. Mandatory read-back of all three changed artifacts matched write-return blob SHA. This checkpoint update is now being written and must be read back before final reporting.
+- No tests/CI, qualification, runtime/host inspection, source changes, provider/model calls, credentials, installation, infrastructure change, deployment, migration, merge, rebase or cherry-pick.
+
+### Changed documentation
+- Plan: `docs/checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md` — blob `f8023e1dd36d290fdb88133035e4cf0ca5d0d07d`.
+- Map: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md` — blob `b8632b977c3228266983770e1c705517b2aaf935`.
+- Roadmap: `docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md` — blob `7b61f38a32a80d8005f9dae9ff08d025c5630607`.
+
+### Next bounded action
+Inspect one remaining MH-03 pair, recommended error handling, compare source-backed content and update the single remediation register plus navigation/checkpoint as warranted. Keep both files and all acceptance states unchanged pending owner/governance decisions.
