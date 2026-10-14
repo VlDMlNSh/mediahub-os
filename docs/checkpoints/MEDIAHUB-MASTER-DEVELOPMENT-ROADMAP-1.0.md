@@ -607,3 +607,16 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Added MH-ARCH-044 to the unified remediation register (§2) and detailed §9.31; added project-map entry §20.224. Finding: same non-authoritative runtime boundary, but nested text is more explicit about P0-05/P0-04, capability self-grant prohibition, P0-07 configuration scope and policy-approved recovery; root uniquely makes topology neutrality explicit. Direct contradiction is not proven.
 - Preserved both source files and all statuses. Branch compare immediately before the pass: docs branch 917 ahead / 2 behind `main`, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No tests/CI, runtime/host inspection, installation, deployment, qualification, merge/rebase/cherry-pick or product implementation.
 - Next: continue with a remaining MH-03 pair or source-reference pass only after checking existing remediation entries; do not canonicalize or delete either tree without owner/governance disposition.
+
+
+## 40. Execution update — MH-ARCH-045 explicit local-only route mode gap (2026-10-14)
+
+- Main source review confirmed that the inspected AstraGateway request path does not explicitly carry a route mode and defaults to cloud-first orchestration, while the accepted Distributed AI Infrastructure target requires LOCAL_ONLY to fail closed with no silent cloud fallback. Source blobs: gateway 10985e4ad8f682313d08e7492ecc1856a8bce20f; orchestrator 24c28197df7baca49abd81956752a7a5092506d9; target architecture e549692f207fbc91d9b9b9b92b8e665404f07290.
+- Recorded MH-ARCH-045 in the unified remediation plan §9.32 and map §20.225. This is a static contract gap; deployed behaviour is UNKNOWN and no production data leak is asserted.
+- Required next step is owner/design review of route mode, data classes and admitted providers. No code or normative contract change, tests, provider/model use, host/runtime inspection, installation, deployment or qualification occurred.
+
+## 41. Execution update — autonomous agent ecosystem survey (2026-10-14)
+
+- Added the targeted candidate-only survey: docs/checkpoints/MEDIAHUB-AUTONOMOUS-AGENT-ECOSYSTEM-SURVEY-2026-10-14.md. It evaluates coding-agent SDKs, orchestration, local inference, MCP/A2A, sandboxing, policy, telemetry, memory and evaluation by fit with the existing Component Manifest and authority model. Survey metadata is a snapshot, not an exhaustive GitHub census or qualification result.
+- Recommended for later evaluation: OpenHands Software Agent SDK as a bounded coding-worker adapter; MCP as a tool protocol behind explicit MediaHub authorization; existing Ollama/local route; OTel Python; Inspect AI only after a separate evaluation authorization. OpenShell remains alpha/not-for-production per current upstream docs; Temporal, OPA, A2A and additional gateways remain conditional.
+- No third-party source was copied, no software installed or invoked, and no runtime/test/qualification/deployment work occurred. Component Manifest 2.0, Baseline 2.0 and Contour A/B gates remain unchanged.
