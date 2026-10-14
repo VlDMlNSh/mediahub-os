@@ -2441,3 +2441,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - No credentials, model inference/provider calls, tests/qualification, installations, configuration changes, deployment, merge, rebase or cherry-pick. mh-dev-01 was not inspectable; worktree contents/leases and full network/service configuration remain out of scope.
 - Next: draft the bounded Jarvis Control Plane / GitHub Adapter contract and machine-readable component inventory schema, resolve provider semantics from pinned source/deployment evidence, and keep all runtime/qualification claims evidence-gated.
 
+
+## Latest /next result — partial PASS evidence and portable deployment profiles (2026-10-14)
+
+- Owner states some services/gates previously returned PASS, but ASTRA end-to-end autonomous queue was not achieved. Recorded as OWNER_REPORTED_PARTIAL_PASS / EVIDENCE_LINK_PENDING until exact component/gate IDs and immutable artifacts are linked. Do not infer whole-system PASS.
+- New ledger: [Partial PASS Evidence Ledger and Portable Deployment Profiles, Wave 01](MEDIAHUB-PARTIAL-PASS-EVIDENCE-AND-PORTABLE-DEPLOYMENT-PROFILES-WAVE-01-2026-10-14.md).
+- Read-only worktree inventory: three Linux and six macOS auxiliary worktree entries are marked prunable because their gitdir targets are missing. No cleanup performed; active lease/worker ownership must be checked before any cleanup.
+- Proposed hardware roles only: Mac mini 2011 i7/16 GB clean Linux as constrained edge/control candidate; Mac Pro 2013 as engineering/CI candidate after OS/GPU validation; future remote high-VRAM GPU server as an explicitly admitted inference provider.
+- Linux ollama/docker/caddy/fail2ban were active in read-only query; Astra, Ollama, runner and SentinelX processes observed. macOS Astra/DF3 launchd labels observed. These observations do not establish qualification.
+- Branch remains diverged from main; no integration. No tests/qualification, model/provider calls, credential use, installations, cleanup, deployment or infrastructure changes.
+- Next: reconcile historical PASS artifacts to exact gate/run/target-SHA/artifact; draft Jarvis Control Plane/GitHub Adapter contract and machine-readable inventory schema; keep hardware provisioning and system qualification separately authorized.
+
