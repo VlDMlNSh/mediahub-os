@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.210)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-14 (§20.211)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -4901,3 +4901,11 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - The scan checked repository-relative path existence only; it did not validate fragment anchors, raw HTML links, generated links or all repository Markdown documents.
 - This does not close semantic source conflicts or acceptance gates. Current qualification remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 
+
+## 20.211 MH-03 lifecycle/acceptance mirror coverage review (2026-10-14)
+
+- **Unified register:** [MH-ARCH-024, remediation plan §9.15](../checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md).
+- Root/nested lifecycle documents differ in explicit transition/failure detail; root/nested acceptance criteria differ in how acceptance gates and evidence/decision-register review are enumerated. Both sets remain PROPOSED / NOT ACCEPTED.
+- Classification: **ASYMMETRIC COVERAGE CONFIRMED; DIRECT CONTRADICTION NOT ESTABLISHED BY THIS PASS.** Root index remains PROPOSED and does not establish canonical authority; no nested index exists.
+- No MH-03 source was edited or deleted. Continue the 18-pair provenance review, preserve IDs/inbound references, and defer canonical-tree selection to owner/governance.
+- Current source blobs and limitations are recorded in remediation plan §9.15. No tests/qualification, runtime/host inspection, infrastructure changes, deployment, migration or branch integration were performed.
