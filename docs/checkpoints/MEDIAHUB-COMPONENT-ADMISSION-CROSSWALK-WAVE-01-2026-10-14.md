@@ -182,3 +182,30 @@ The source text manifest remains the component-selection catalogue. YAML statuse
 4. If subsequently authorized for implementation evaluation, the first design target should be an isolated worker producing a patch/artifact plus source provenance. It must not own queues/leases/retries, Product State Authority, policy, merge/release, or its own qualification promotion. Any install, model/provider call, sandbox run, test/evaluation, qualification, host inspection or deployment needs separate explicit authorization.
 
 **Result:** source/package/artifact identity is sufficiently specific for a further paper review, but the candidate is **NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**. No dependency was admitted, no component manifest or normative contract was changed, and no runtime/test/security execution occurred.
+
+
+### 7.5 Supply-chain and security-process paper review (2026-10-14)
+
+**Evidence scope:** immutable source commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`, root workspace `pyproject.toml`, `openhands-sdk/pyproject.toml`, GitHub release metadata for `v1.54.0`, root `LICENSE`, and `.github/workflows/security-scan.yml`. No artifact was downloaded; no dependency resolver, scanner, test, or package code was executed.
+
+| Check | Read-only evidence | Finding / status |
+|---|---|---|
+| Source identity | Official repo `OpenHands/software-agent-sdk`; v1.54.0 points to commit `1d471742ea7be017d013eaaa3080f5d28d5490cb` | Exact source identity known; release metadata says `immutable: false`. |
+| Root license | Root `LICENSE` declares MIT | Upstream project license is identifiable. This is not a transitive dependency license conclusion and does not itself authorize admission. |
+| Python compatibility | SDK metadata says `requires-python >=3.12` | MediaHub Contour A's approved Python/OS profile remains unknown; compatibility is unproven. |
+| Lockfile | Repository tree contains a workspace `uv.lock` | A lockfile exists at the upstream repository root. This pass did not retrieve/parse the full lock or verify all transitive hashes/licenses; do not label the SBOM or license closure complete. |
+| Direct dependency conflict | SDK directly requires `litellm>=1.93.0`; upstream workspace constraints pin `litellm==1.93.0` | Material governance gate: MediaHub has not admitted LiteLLM as an independent provider gateway. Decide whether a subordinate SDK dependency is acceptable, and prove that it cannot override MediaHub-owned route/data-class policy. |
+| Additional direct dependencies | `fastmcp>=3.2.0,<4`, `fakeredis[lua]>=2.32.1`, `agent-client-protocol>=0.12.1,<0.13.0`, `lmnr>=0.7.60,<0.8.0`, plus HTTP, schema, crypto/JWT, parsing and telemetry-related libraries | Dependency/licensing/network/telemetry review remains open. LMNR is an observability vendor integration candidate; no telemetry or provider call was made. |
+| Security workflow | Upstream `.github/workflows/security-scan.yml` describes an OSV/dependency and approval-drift scan; non-release PR scans are opt-in via label or manual dispatch, while release PRs are gated | Evidence of a repository security process, not evidence that this exact release passed a scan. No workflow run or result was inspected in this pass. |
+| Security policy | Root `SECURITY.md` was not present at the inspected source path; GitHub Security page was previously observed to report no detected policy | Treat as a disclosure-process evidence gap, not proof of a vulnerability or absence of all security practices. |
+| Published artifacts | GitHub release `v1.54.0` exposes platform-specific agent-server binaries and `SHA256SUMS`; release marked mutable | Checksums help identify published files but do not prove local bytes or source-to-artifact provenance. PyPI metadata previously showed Trusted Publishing was not used for this upload. |
+| Operational scope | `openhands-sdk` is the core package; `openhands-agent-server` is a separate package with Docker/API/storage dependencies | Keep the server package out of the candidate scope by default. A worker design must explicitly bound filesystem access, subprocesses, network egress, credentials, resource use, cancellation and artifact export. |
+
+**Current conclusion:** the evidence supports a better-scoped research pin, not admission. The upstream repository's security workflow is not equivalent to a verified release attestation; presence of `uv.lock` is not a completed SBOM; MIT at the root does not settle transitive licensing; and a checksum in metadata is not local checksum verification.
+
+**Owner decision needed before further advancement:** choose one of:
+- **A — Reject/defer OpenHands SDK** until MediaHub's own controller/lifecycle and local-only routing contracts are closed.
+- **B — Continue paper review only** of `openhands-sdk==1.54.0`, with an explicit decision on its LiteLLM/FastMCP/LMNR dependency footprint; no installation or execution.
+- **C — Authorize a separately scoped implementation-evaluation plan** only after Contour A authority, target runtime, egress/sandbox and dependency-review gates are resolved. This option is not implied by this document.
+
+No option has been selected by this review. No component manifest, code, lockfile, dependency or normative contract changed.
