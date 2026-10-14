@@ -1883,3 +1883,20 @@ Re-fetch and verify the plan, map, roadmap and checkpoint; refresh main/docs ref
 - MH-ARCH-038: mesh capability schema is used by mesh inventory, validation and admission paths; domain capability schema is loaded by its domain schema test. They have different IDs and contracts; no shared producer/consumer was established in inspected files. Mesh validator checks a subset of schema constraints; this is a review flag, not a confirmed defect or qualification result.
 - MH-ARCH-039: mesh registry imports mesh lifecycle transitions; runtime in-memory authority imports and implements the separate runtime StateAuthority interface. No direct cross-import was found in inspected files. Broader references are not ruled out because GitHub code search returned no results.
 - No tests/CI, source changes, runtime, host inspection, installation, or qualification. Both findings remain OPEN / PARTIAL TRACE. Next: trace remaining MH-03 repeated-basename families and inbound references; refresh refs/tree before any qualification proposal.
+
+
+## Latest /next result — MH-ARCH-041 command-execution mirror review (2026-10-14)
+
+- Refreshed live refs before review: docs branch HEAD was `ba8c6016101a7a0b9a6d69107567b58ada25a164`; `main` HEAD was `1d45bbccbbbd27309c39cb9e9351bb291cdb47a8`. Branches remain diverged; no integration performed.
+- Re-read the bootstrap instruction (blob `49b4760b4adf4f1565fac0aa4697da000f1cf37b`), map, checkpoint, remediation plan and master roadmap. Refreshed recursive docs tree: 827 blobs, `truncated=false`.
+- Compared root `architecture/MH-03-command-execution.md` blob `b9197759e70107f1be5968e8669288d991360003` with nested `docs/architecture/mh-03/MH-03-command-execution.md` blob `8a9e1066f00cf9a7a3128c00eada857b18cef32f`. Added MH-ARCH-041 / plan §9.28: the core authority/fail-closed intent aligns, but the nested flow explicitly names Integration/Capability and P0-05 Consumer boundaries omitted from the root flow. This is a confirmed document-coverage asymmetry, not proof of a runtime bypass.
+- The root index blob `b2d2eeb1b89117d10605c231e79378eebc437c5f` is PROPOSED, so its file listing does not establish accepted canonical authority. Both command-execution documents remain unchanged pending owner/governance source-model decision.
+- Updated plan and map; read-back SHA verification succeeded for both. No source changes, tests/CI, qualification, runtime/host inspection, credentials/provider/model calls, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick.
+
+### Changed documentation
+- Plan: `docs/checkpoints/MEDIAHUB-UNIFIED-ARCHITECTURE-REMEDIATION-PLAN-2026-10-14.md` — blob `fd752cd554e0b52508631f19dc3d8ef534f1208f`.
+- Map: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md` — blob `3dfe30023d7f9fe3620511eb59e058403909f39f`.
+- This checkpoint is being updated now; verify its final read-back SHA before reporting completion.
+
+### Next bounded action
+Review one remaining MH-03 root/nested pair (recommended: acceptance criteria) and continue the source-model trace. Preserve both copies and do not run tests/qualification or integrate branches without explicit authorization.
