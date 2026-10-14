@@ -792,3 +792,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Exact PyPI artifact hashes/attestation for 0.7.60, full transitive SBOM/license/advisory closure and target runtime/sandbox evidence remain open. Do not infer artifact provenance from adjacent versions.
 - OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. The separate LiteLLM/provider-routing owner decision and DEC-DEV-02/P0-07/P0-05/P0-04 gates remain open.
 - No artifact download/install/execution, test/scan, provider call, qualification, host inspection, infrastructure change or deployment occurred. Evidence: Crosswalk §7.11 and map §20.245.
+
+
+## 60. Execution update — OpenHands LiteLLM 1.93.0 advisory gate (2026-10-14)
+
+- Read official PyPI metadata and three official LiteLLM upstream advisories for the exact direct dependency version 1.93.0 resolved by the reviewed OpenHands SDK lock snapshot.
+- PyPI reports MIT, Trusted Publishing and exact published artifact hashes; artifact bytes were not downloaded/rehashed, so source-to-artifact verification remains incomplete.
+- Three advisories include 1.93.0 in affected ranges: GHSA-3cv6-jpf6-8222 (>=1.93.0,<1.93.2), GHSA-7hp6-4w63-5g45 (>=1.91.0,<1.100.4), and GHSA-g5ff-637f-6q2m (<1.95.0). Their described exploit paths are LiteLLM Proxy endpoints; reachability through SDK-side provider-abstraction use is not established.
+- This is a dependency admission blocker, not a confirmed MediaHub vulnerability. Do not infer that a LiteLLM Proxy is deployed or reachable. The owner must decide whether to defer/reject the OpenHands candidate or authorize a separately scoped source-only reachability review; no pin change or implementation is authorized.
+- Evidence recorded in Crosswalk §7.12 and map §20.248. OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.
+- No artifact download/install/execution, tests/scans/provider calls, qualification, host inspection, infrastructure change or deployment occurred.
