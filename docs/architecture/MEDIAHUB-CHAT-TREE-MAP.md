@@ -4774,3 +4774,12 @@ The documentation branch remains `docs/mediahub-chat-tree-map-20261012`. The mai
 - DEC-DEV-03/04/07: deferred behind physical asset, hardware/OS/security and workload evidence. DEC-DEV-05/06: fail-closed/no-silent-fallback and reachability-is-not-authorization invariants remain; detailed route/mobile contracts open. DEC-DEV-08: binding Contour A → Contour B gate, evidence and acceptance not proven.
 - P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; D2 qualified independent review remains outstanding; P0-05 v1.1 NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; qualification NO-GO / NOT PROVEN.
 - Next: obtain qualified independent review of P0-07 D2 R-01…R-06 and separate owner/governance dispositions. This entry does not close either gate.
+
+## 20.191 ASTRA GOLD qualification-contract consistency wave 03 (2026-10-14)
+
+- Report: [qualification-contract consistency wave 03](../checkpoints/MEDIAHUB-ASTRA-GOLD-QUALIFICATION-CONSISTENCY-WAVE-03-2026-10-14.md), blob `b0ec77a7990f38851e09d6fb7b4b1837555271d1`.
+- Confirmed source conflict: qualification schema and governance registry specify maximum 3 parallel autonomous claims, while ASTRA component scheme §14 says maximum 2. No value was selected or changed; controlled governance/source-of-truth disposition is required.
+- Existing A0 “MediaHub State Authority” wording conflict remains open against Jarvis ARC-003/018 and P0-04 product mutation boundary; no owner was selected.
+- CURRENT-TRUTH generated file lists G0–G11 BLOCKED and overall NOT_PROVEN/BLOCKED. Requirements (including 23 rounds per mandatory path) are not evidence that qualification ran or passed.
+- Documentary-only; no tests, drift checks, runtime inspection, qualification, credentials, provider/model calls, implementation or infrastructure/deployment action. No gate status changed.
+- Next: resolve the concurrency discrepancy through the existing governance mechanism and separately obtain qualified independent P0-07 D2 review/owner disposition.
