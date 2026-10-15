@@ -2777,3 +2777,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Next: source-only review of the existing component-admission crosswalk for OpenHands Software Agent SDK; keep runtime evaluation blocked absent separate authorization.
 
 Current map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), blob SHA after this pass: `5a14294cb677c33523474c73006141c1691a124b`.
+
+
+## Latest verified continuation — OpenHands SDK upstream/workspace admission refresh (2026-10-15)
+
+- Updated the existing [Component Admission Crosswalk §7.16](MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md); update commit `d28bf82d57c77209ab67a5bc3e3d259aa0f83ec6`; read-back blob SHA `82b284ea67f578332e8f57b96a3571d1ecdf827b`.
+- Official upstream identity confirmed: [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk). Official README describes both local-machine workspaces and ephemeral Docker/Kubernetes-style workspaces through Agent Server. Therefore the SDK itself is not a sandbox guarantee.
+- No immutable current upstream commit or artifact-to-source binding was established. Historical dependency/lock findings remain historical; no current compatibility or security clearance is claimed.
+- Disposition unchanged: candidate / not selected / not admitted / not ready for installation or runtime evaluation. Required gates remain immutable pin and provenance, full transitive SBOM/license/advisory closure, target runtime, explicit isolation and egress profile, LiteLLM/provider-routing owner decision, and separate authorization for execution.
+- No package download/install, tests/scans, provider/model calls, credential use, host/runtime inspection, qualification, infrastructure change, deployment or branch integration.
+- Next bounded step: continue source-only work on the existing dependency/provenance gates; do not create a duplicate catalog or execute the candidate.
+- Current map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). The crosswalk blob SHA is `82b284ea67f578332e8f57b96a3571d1ecdf827b`.
