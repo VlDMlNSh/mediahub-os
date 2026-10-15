@@ -2788,3 +2788,15 @@ Current map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.
 - No package download/install, tests/scans, provider/model calls, credential use, host/runtime inspection, qualification, infrastructure change, deployment or branch integration.
 - Next bounded step: continue source-only work on the existing dependency/provenance gates; do not create a duplicate catalog or execute the candidate.
 - Current map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). The crosswalk blob SHA is `82b284ea67f578332e8f57b96a3571d1ecdf827b`.
+
+
+## Latest continuation — ASTRA capability-matrix ref drift and MH-12 crosswalk (2026-10-15)
+
+- Live-read the current project Bootstrap, map, checkpoint, roadmap and existing source crosswalks before choosing this bounded pass. No duplicate deliverable was created.
+- Compared `docs/operations/ASTRA-EXECUTOR-CAPABILITY-MATRIX.md` across refs: `main` blob `da26185254d9954fcee204f81ecca129bf052e7c` uses `Global coordination/state` for A0; docs branch blob `9ad83781a8da53d1a8f540ede54eba95281f01c0` narrows it to ASTRA workflow/control state and explicitly excludes canonical product state. Cross-checked `MH-12-security-architecture.md@main` blob `cf4ebfd5bf471ca676f075c51d3a24906504e490` and `MH-12-security-invariants.md@main` blob `0609be9c3420070434014dad4529e4ccd46b0996`.
+- Finding: a real documentation-ref semantic drift exists; the docs-branch wording aligns with owner-approved DEC-DEV-02 Option C, but the difference remains present on `main`. It is not proof of runtime enforcement and was not silently promoted or merged.
+- Updated existing [Wave 07 source trace](MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md), commit `62b3c7ca732e9f02abd41fd3604f755431aa4508`, read-back blob `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`; updated [Corporation Contract Reconciliation Wave 02](MEDIAHUB-CORPORATION-CONTRACT-RECONCILIATION-WAVE-02-2026-10-15.md), read-back blob `472744e659dc26eb091732bf5491242f8f18f164`; updated [Master Roadmap §79](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), read-back blob `68fb5ac63cf46fe838ac6ba6801bb892b59b1eb5`; updated [Project Map §87](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), read-back blob `1d452fac6bb2bc522ebc407050160382583ea9c0`.
+- Blockers unchanged: P0-07→P0-05 accepted caller/adapter edge NOT ESTABLISHED; trusted context issuer/attester/verifier lifecycle OPEN; P0-05 D6 OPEN / OWNER-GOVERNANCE REQUIRED; P0-04 remains sole canonical product-state mutation authority. No normative contract changed.
+- No tests, installation, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure change, deployment, merge, rebase or cherry-pick occurred.
+- Next: inventory existing agent/task/provider/result schemas and stable IDs against the accepted ASTRA workflow policy and MH-12 boundaries, identifying reusable fields and collisions only; do not draft a new normative schema until accepted ingress and identity ownership are evidenced.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
