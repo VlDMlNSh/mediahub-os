@@ -6107,3 +6107,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - No workflow was invoked; no code/config was changed or removed. Retirement remains blocked on complete inbound-reference closure and owner-approved disposition.
 - Next: obtain reliable repository-wide source search/tree evidence and complete the caller/dispatcher closure before proposing retirement.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.279 Contour A WB-14H — repository search surface verification (2026-10-15)
+
+- Added [WB-14H Repository Search Surface Verification and Reverse-Reference Blocker](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14H-REPOSITORY-SEARCH-SURFACE-BLOCKER-2026-10-15.md), commit `3274f5e7bf1bad21de03199aff42facf8f24e4e1`.
+- Live GitHub connector metadata explicitly reports `is_code_search_indexed: false` for `VlDMlNSh/mediahub-os`; seven targeted searches returned no results. Treat these as non-diagnostic, not evidence of absent callers.
+- Direct known-path fetch is available, but no complete repository-tree enumeration action was available in this pass. Reverse-reference closure and retirement remain BLOCKED.
+- Next: obtain a read-only source/tree snapshot or working full-tree/code-search capability; meanwhile select a non-overlapping roadmap task independent of caller closure.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
