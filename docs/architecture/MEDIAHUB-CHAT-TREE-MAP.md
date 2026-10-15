@@ -5707,3 +5707,14 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Preserve as HISTORY: docs/checkpoints/MEDIAHUB-PARTIAL-PASS-EVIDENCE-AND-PORTABLE-DEPLOYMENT-PROFILES-WAVE-01-2026-10-14.md, which records prior observations and explicitly labels proposed hardware profiles as proposals. Do not use its observed old-node state as target evidence.
 - docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md is a cross-domain draft, not accepted/frozen; hardware and component entries are target-gated and require reconciliation rather than silent promotion.
 - This pass did not delete files: GitHub code-search results did not establish all cross-file references, and the exact retired-vs-new hardware mapping is not yet specified. Next pass must resolve references through source/tree evidence and retire only files proven exclusive to old servers. No tests, workflows, installations, credentials, runtime inspection or deployment performed.
+
+
+## 96. Clean-slate target scope and old-server artifact retirement (2026-10-15)
+
+- **Owner direction:** all work discussed since the Mac Pro, Mac mini server and remote video server appeared in the project—including Jarvis, the multi-agent system and agent corporation—is one new system being designed from the ground up for new hardware.
+- Old-server install attempts, node IDs, paths, package/model availability and observed runtime state are legacy context, not target requirements or qualification evidence.
+- Inventory and dispositions: [Agent / Task / Provider Schema Inventory, §17](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md).
+- Removed from this documentation branch only: .github/workflows/mediahub-one-time-storage-migration.yml, .github/workflows/mediahub-runner-migration-smoke.yml, ops/systemd/mediahub-astra-github-bootstrap.service. main was not changed/integrated. Historical Git blobs remain in repository history.
+- Keep Baseline 2.0 requirements and accepted security/authority invariants distinct from legacy deployment details. Mature external components remain candidates until source/license/security/interface/owner-admission and target qualification gates are satisfied.
+- Target hardware, OS, network, storage, compute and model/runtime specifications remain UNKNOWN. Do not infer them from old servers.
+- Planning estimate: 10–20 focused working days for static reconciliation artifacts (about 3–6 calendar weeks at 2–4 focused hours/day); implementation and independent Contour A acceptance are additional phases.
