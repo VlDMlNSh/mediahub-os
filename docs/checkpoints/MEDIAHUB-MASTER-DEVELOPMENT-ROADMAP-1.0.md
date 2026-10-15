@@ -30,6 +30,18 @@ The roadmap governs **work order and traceability**, not architecture authority.
 9. Default to least privilege, local-first where required, fail-closed on unknown authorization, and explicit data-egress/provider policy. Local-only inference must not silently fall back to cloud.
 10. Do not install software, run tests/qualification, invoke models/providers, use credentials, inspect host/runtime, modify infrastructure, deploy, migrate, merge, rebase or cherry-pick without the relevant explicit authorization.
 
+## Current status supersession — verified 2026-10-15
+
+This dated block supersedes older pending-status statements in the historical execution log below; it does not delete or rewrite historical evidence.
+
+- **DEC-DEV-02:** owner-approved **Option C**. Jarvis owns corporation-level mission coordination; ASTRA A0 owns ASTRA-internal engineering workflow state under its accepted contract; MediaHub Product State Authority alone owns canonical product-state mutation. The earlier entry in §8 that says detailed single-owner boundary is unresolved is historical and superseded by the owner decision record and Wave 04/05 crosswalks.
+- **ASTRA authority wording:** the documentation-branch reference architecture already narrows A0 to ASTRA GOLD engineering coordination and internal queue/claim/gate state. The documentation-branch unified YAML has now been aligned to that scoped role. Main still contains broader wording; branch divergence is not resolved and no integration is authorized.
+- **Qualification truth:** the main-generated `docs/qualification/CURRENT-TRUTH.generated.md` reports G0–G11 `BLOCKED` and overall `NOT_PROVEN / BLOCKED`. `QUALIFICATION_READY_HYBRID_FABRIC` means design/model readiness only, not passed runtime qualification.
+- **Capability issuer and A0 ingress:** exact accepted issuer lifecycle, A0 ingress API, cancellation/replay/recovery semantics remain open; do not invent endpoints, token format, or global exactly-once guarantees.
+- **Routing identities:** FreeLLMAPI/FCC/OmniRoute/UnoRouter/OpenRouter/Alamo/Ollama identities and actual upstream/egress relationships remain unresolved without pinned non-secret source/deployment evidence.
+- **Baseline and contour invariants:** Baseline 2.0 remains canonical; Baseline 1.0 remains historical. Contour B remains gated on Contour A deployment and independent acceptance evidence.
+- **Branch status at this update:** `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; documentation branch DIVERGED, 1174 ahead / 3 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase/cherry-pick performed.
+
 ## 1. Source hierarchy and status vocabulary
 
 ### 1.1 Source precedence
