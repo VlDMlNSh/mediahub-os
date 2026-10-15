@@ -2601,3 +2601,15 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Updated map in commit `89297e93d53b16c765b7b16dd22b489d3345323d`, new map blob SHA `5c86b0f559f55933d5b62db0acbfdbd61b81477f`.
 - No normative baseline/contract or implementation changed; no tests, qualification, installations, provider/model calls, credential use, host/runtime inspection, infrastructure change or deployment performed.
 - **Next bounded step:** build exact-clause ASTRA authority wording proposal against owner-approved Option C and the governance YAML; independently source-trace accepted A0 ingress/queue/claim/lease/cancellation/replay/recovery and capability issuer lifecycle. Do not edit normative ASTRA files until the proposal is mapped to accepted governance/change-control rules.
+
+
+## Latest continuation — technical conflict remediation Wave 06 (2026-10-15)
+
+- Disposition report: [MEDIAHUB-PROJECT-TECHNICAL-CONFLICT-REMEDIATION-WAVE-06-2026-10-15.md](MEDIAHUB-PROJECT-TECHNICAL-CONFLICT-REMEDIATION-WAVE-06-2026-10-15.md), creation commit `90440033140f733f103915377801b492f39f27e6`.
+- Corrected docs-branch `architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml`: A0 role now explicitly scoped to ASTRA-internal engineering workflow only. Commit `a92c402b4402841407e325a311ae81a984adcebc`; expected blob SHA `f5040aeb479176508d5b0ca35eb742a6db818867`.
+- Updated roadmap with a dated current-status supersession block, preserving historical notes. Commit `c0cf8d5da5b4f697a99e4d4e91648caa7090e364`; expected blob SHA `196bfd70d8462e3d857e65eff483d7bc9348508a`.
+- Updated map in commit `501480cdd5e9d4beb5bf5074b63c82772332da67`; expected blob SHA `e7ef4b5bb53761d5dbb5487ef6d1e5dc3155217f`.
+- Current dispositions: C-02/C-04/C-09 resolved as documentation/status guardrails; C-01 aligned on docs branch only but main still diverged; C-03 remains integration authorization blocker; C-05/C-10/C-11 remain documented invariants/gates without runtime evidence; C-06/C-07/C-08 remain open contract/source evidence gaps; C-12 current status supersession added.
+- Branch state at pass start: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1174 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- No tests, qualification, installs, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment or baseline edits.
+- Next: source-trace accepted A0 ingress/queue/claim/lease/cancellation/replay/recovery and MH-12 capability issuer lifecycle; only then draft field-level schema/proposal. Do not invent endpoint/token semantics or claim global exactly-once behavior.
