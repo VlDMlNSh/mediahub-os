@@ -178,3 +178,22 @@ A follow-up inspection of exact source contents narrows two points:
 - No accepted Jarvis→A0 ingress/issuer/fencing/cancellation/replay wire contract was found in the reviewed primary sources.
 - The A0/product-state authority contradiction remains unresolved and must be handled by controlled source reconciliation; no merge or normative edit is authorized.
 - Next independent step: trace the P0-07 → P0-05 identity/context/authorization bridge using its canonical-read trace and source clauses, then record exact producer/consumer edges where discoverable. Continue schema-ID inventory only through verifiable repository-tree/source evidence; do not represent the failed search connector as an exhaustive scan.
+## 9. Bounded schema-ID census and cross-ref comparison (2026-10-15)
+
+**Scope and method:** read-only GitHub tree census for main and docs/mediahub-chat-tree-map-20261012; fetched and inspected the 26 JSON Schema files present under schemas/ on the documentation ref and the related registry/provider/G4 artifacts already indexed above. The recursive tree response for the documentation ref was complete (truncated=false, tree SHA e1c9d45d941072641cd61ef3e8fcb13e474896fc, 930 tracked tree entries). No runtime scan, test, schema validator, or provider was run.
+
+### Confirmed results
+
+- main contains 25 files under schemas/**/*.json; the documentation ref contains those same 25 paths with identical blob SHAs plus the documentation-ref-only schemas/mediahub-component-evidence-record.schema.json (blob 2e62a9d0174e2c72e23ac88edc3094d13b4e336a). This is a real cross-ref artifact difference, not an ID collision.
+- The 26 inspected schema files have 26 distinct literal top-level $id values; no duplicate exact $id was found within this bounded schema-directory census.
+- ID namespace conventions are not uniform: observed forms include mediahub://contracts/ai/..., mediahub.ai...., mediahub://schemas/..., https://mediahub.local/..., and https://mediahub-os.invalid/.... Domain IDs are also not always a literal path mirror (for example, the desired_state filename uses a hyphenated ID segment). This is a consistency/registration risk, not proof that any one identifier is invalid.
+- Version metadata is likewise not represented by one proven repository-wide convention: the agent registry declares schema_id=mediahub.ai.agent-registry and schema_version=1.2.0; inference/provider schemas carry their own schema metadata; G4 lists the field name result_schema in required_round_fields but does not thereby define a reusable corporation-wide result schema.
+- The docs-only component-evidence schema remains a draft substrate for component/gate evidence. It is not a corporation-wide task-result envelope and must not be treated as accepted on main.
+
+### Limits and disposition
+
+- This is not a complete repository-wide collision proof for every schema-like identifier embedded in code, YAML, Markdown, generated artifacts, historical refs, or external systems. GitHub code-search results previously returned zero matches despite known files, so those negative results are non-diagnostic. Producer/consumer edges and historical ID reuse remain open outside the inspected files.
+- Do not register proposed mission/DAG/executor/result/evidence IDs or create production JSON Schemas until the naming/version convention, complete producer/consumer census, accepted Jarvis→A0 ingress, capability issuer lifecycle, and governance gates are resolved.
+- No normative schema, registry, runtime code, configuration, or contract was changed. No tests, installation, provider/model calls, credentials, host/runtime inspection, qualification, deployment, or branch integration occurred.
+
+**Next bounded step:** trace non-secret producer/consumer references for the existing agent registry, provider fabric and inference request/response contracts across the relevant source files; record only source-backed edges and leave a complete repository-wide collision claim open until the search coverage is demonstrably complete.
