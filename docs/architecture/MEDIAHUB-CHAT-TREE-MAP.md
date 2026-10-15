@@ -6060,3 +6060,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Status: **WB-14B completed as a bounded source trace; end-to-end ingress NOT ESTABLISHED**. This is a source/contract gap, not an exploitability claim or global absence proof.
 - No tests, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment or integration.
 - Next: WB-14C compare the current autonomous queue against direct-local Route B requirements, including lifecycle ownership, claim/lease, retry/cancel/recovery and result semantics.
+
+
+## 125. Contour A WB-14C — ASTRA queue vs direct-local Route B source comparison (2026-10-15)
+
+- Added [WB-14C ASTRA Queue vs Direct-Local Route B Source Comparison](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14C-ASTRA-QUEUE-VS-DIRECT-LOCAL-ROUTE-B-SOURCE-COMPARISON-2026-10-15.md), creation commit `d47426046bc65326ed372f588f763b6939b7a274`.
+- Pinned `autonomous_queue.py@main` blob `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`, `agent_fabric.py@main` blob `3c70dda5df8c6caa9411201d754ead6b3bfdf6dd`, and executor capability matrix blob `9ad83781a8da53d1a8f540ede54eba95281f01c0`.
+- Finding: ASTRA queue has a fixed three-node executor pool; Alamo is absent. Claim/lease/heartbeat primitives exist, but they do not prove an independently owned Route B queue, cross-route fencing/idempotency, cancellation, restart recovery or a qualified media backend.
+- Status: **READ-ONLY SOURCE COMPARISON / ROUTE B NOT IMPLEMENTED OR QUALIFIED**. No code changes, tests, provider calls, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next: WB-14D cross-route lifecycle controls. Preserve the owner decision on topology as open.
