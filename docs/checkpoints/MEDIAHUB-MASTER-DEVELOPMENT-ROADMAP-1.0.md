@@ -1099,3 +1099,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Deliverables: target-only project map; component allowlist; versioned contracts; requirement/component/interface/control/evidence matrix; conflict ledger with zero known untriaged conflicts.
 - Static reconciliation estimate remains 10–20 focused working days (about 3–6 calendar weeks at 2–4 focused hours/day). Implementation, qualification, deployment and independent Contour A acceptance are separate and not yet estimable without the new hardware specification and owner decisions.
 - Next: source-trace other old-node-bound active artifacts and distinguish generic reusable logic from retired deployment assumptions. Do not run tests/workflows or inspect hardware/runtime.
+
+
+## 89. Legacy executor control paths excluded from greenfield target (2026-10-15)
+
+- Added Inventory §18 and Map §97 after a source-only trace of `astra-chat-control.yml`, `astra-distributed-local-worker.yml`, `run_distributed_local_worker.py`, `distributed-runner-contract.json` and the coupled worker test.
+- Confirmed that the legacy chat-control workflow accepts multiple executor/node inputs but hardcodes the actual worker dispatch to Codex on `mh-dev-02`; the separate distributed workflow is Claude-only and bound to old runner labels, hostnames, paths and model tags. The worker itself duplicates old topology in Python literals.
+- Under the owner's clean-slate direction, these are **LEGACY / TARGET-EXCLUDED**, not routes to repair or components to carry forward by default. The observed source inconsistency is not a defect claim about the new system.
+- No workflows, workers, tests, installers or runtimes were executed; no code or non-documentation files were deleted. Any later removal requires exact reference/dependency closure. Historical provenance and Baseline 2.0/security invariants remain separate from retired deployment assumptions.
+- Next: source-only inventory of remaining active old-node-bound artifacts and dependency references; then build a target-only component allowlist against accepted requirements and fresh admission gates. Do not assume old worker logic is reusable.
