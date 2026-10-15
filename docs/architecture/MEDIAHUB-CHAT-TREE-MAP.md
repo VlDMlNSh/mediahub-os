@@ -6026,3 +6026,14 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Recommendation remains design-only: develop Option C as a bounded routing seam while Option A remains the current governed baseline. Option B remains a candidate. Owner decisions TD-01..TD-08 remain OPEN.
 - Verification, implementation, hardware/backend qualification and acceptance are NOT performed. No tests, providers/models, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next: WB-14 source-pinned contradiction/ownership matrix across canonical ASTRA contracts, reference architecture, unified model, governance and queue/ingress implementations.
+
+
+## 125. Contour A WB-13 — route-adapter requirement / contract / component / failure / evidence matrix (2026-10-15)
+
+- Added [WB-13 Route-Adapter Requirement / Contract / Component / Failure / Evidence Matrix](../checkpoints/MEDIAHUB-CONTOUR-A-WB-13-ROUTE-ADAPTER-REQUIREMENT-CONTRACT-COMPONENT-FAILURE-EVIDENCE-MATRIX-2026-10-15.md), creation commit `1108abd34a4bd1a8a0643234bfaadb7bbf261146`; read-back blob SHA `e6fd3e070abb9da21c1a98e1c661cffe86b16e6c`.
+- Produced 12 requirement rows linking invariants to source/contract evidence, component seam, failure control and required verification evidence.
+- Confirmed open gaps: Jarvis ingress and capability issuer; verifiable approval provenance; route policy/failover authority; Alamo identity/provider mode/media backend; local queue lifecycle owner; task/result envelope; retry/cancel/recovery semantics.
+- Design recommendation only: preserve ASTRA A0-governed execution as the current source-aligned route; design a narrow non-authoritative Jarvis route-adapter seam; keep Alamo direct execution optional and fail-closed. No topology accepted.
+- Main HEAD observed `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, ahead 1410 / behind 3, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration attempted.
+- No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next: WB-14 read-only reconciliation of exact Jarvis→A0 ingress and direct-local-executor candidate contracts against WB13-R01…R12; record discrepancies/owner decisions without changing normative sources. Project map: this document.
