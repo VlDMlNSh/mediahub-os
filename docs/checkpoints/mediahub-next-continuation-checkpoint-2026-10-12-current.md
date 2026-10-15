@@ -3126,3 +3126,16 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, downloads, dependency resolution, installation, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes or deployment.
 - Next bounded step: WB-02 — source-pinned contract/authority conflict register using current primary-source clauses and owner-approved DEC-DEV-02 Option C. Keep normative main edits and test execution gated by explicit authorization.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A WB-02 conflict register (2026-10-15)
+
+- Created [Contour A Contract / Authority Conflict Register, Wave 01](MEDIAHUB-CONTOUR-A-CONTRACT-AUTHORITY-CONFLICT-REGISTER-WAVE-01-2026-10-15.md); creation commit `15451f594105b61218fd8571fbaa4852e4a40e70`; read-back blob SHA `7d849adc07dc84f6fe01a47bb6bfb57659844007`.
+- Added [WB-02 Continuation Record](MEDIAHUB-CONTOUR-A-WB-02-CONTINUATION-RECORD-2026-10-15.md), read-back blob SHA `12b2d9803ffc5dc0e4f63cf0ae8d85c243c66e47`.
+- Updated map §115; map commit `ec5026716bdd21fc7d58112426e11874e6f58ef0`, map blob SHA `3da9de4e868f59e9f0927aa7c59f8a6f8c9f292b`.
+- Updated roadmap continuation pointer; roadmap commit `e05a4fcc1b999bde4e310a38c8ef481acfdef2eb`, blob SHA `130c7af2ec169d7a4cc8aae766881c437f3bd025`.
+- Live comparison: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1364 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- WB-02 source-only pass complete. Hard blockers remain Jarvis→A0 ingress/authentication/replay, capability issuer/verifier lifecycle, task/result schema governance, fencing/result publication, producer/consumer/history closure and owner-confirmed hardware/OS/topology.
+- No tests, installs, providers, credentials, host/runtime inspection, qualification, deployment, infrastructure changes or branch integration.
+- Next: WB-03, source-only ingress-contract gap packet. Do not invent API/protocol/token semantics; dispatch remains fail-closed.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
