@@ -1034,3 +1034,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Open identity conflict: architecture describes FreeLLMAPI as cloud-provider path while the runtime class is local_gateway with loopback default. Upstream/egress identity remains unresolved, not corrected by inference.
 - No schema/runtime/config change, test, provider/model call, credential read, host inspection, qualification, deployment or branch integration. No runtime status promoted.
 - Next: source-trace exact loaders/consumers for the three registries and non-secret route identity references; preserve all namespaces and existing IDs until evidenced reconciliation is possible.
+
+
+## 82. Execution update — registry loader and route-identity trace (2026-10-15)
+
+- Extended existing [Agent / Task / Provider Schema Inventory, Wave 01 §11](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md) with exact loader evidence and boundaries.
+- Confirmed source loader: `ops/qualification/qualify_execution_backends.py` blob `acf092d5dd9d67ab187f1b67ab691ca730028306` reads `ops/qualification/provider_model_registry.json` blob `62328126fd2cd8879a73bb6812adcacd3e2abe84` and contains outbound provider/model request paths. The associated workflow maps repository secrets into a self-hosted provider runner; it was not invoked.
+- `tests/test_astra_gold_registry.py` reads the agent registry but this is a test-source consumer, not proven runtime loading. No exact runtime loader was established for `profiles/providers/astra-gold-hybrid-agent-fabric.yaml` or the executor/node routing YAMLs in this pass.
+- Route layers are separated: `freellmapi` identity; loopback gateway first hop `127.0.0.1:3001/v1`; upstream/egress behind that hop remains UNKNOWN. FCC and OmniRoute are documented as transports/gateways, not agents; routing declarations are qualification-gated and not proof of active paths.
+- No provider/model calls, credential reads, tests, qualification, runtime/host inspection, config/schema edits or deployment. No status promoted.
+- Next: source-anchor a non-mutating comparison table across agent/provider/transport/model IDs, credential reference names, statuses and loader/qualification evidence; do not launch probes/workflows.
