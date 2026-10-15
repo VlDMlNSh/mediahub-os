@@ -1399,3 +1399,12 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Greenfield target remains separate from legacy operational identifiers. No old node is accepted as a target node by this scan.
 - Next bounded step: scan a distinct batch of Python/config/test candidates for indirect manifest readers and workflow dispatch references; keep retirement blocked pending closure and owner decision.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14L — supplemental non-workflow legacy reference scan (2026-10-16)
+
+- Added [WB-14L Supplemental Non-Workflow Legacy Reference Scan](MEDIAHUB-CONTOUR-A-WB-14L-SUPPLEMENTAL-NON-WORKFLOW-LEGACY-REFERENCE-SCAN-2026-10-16.md), creation commit `b5d2a85841ddda0125972f686fcd36e490cadd62`.
+- Read-only scan of 24 non-workflow Python/config/JSON candidates, pinned to the complete `main` tree `ab36db009d034db8dca723691e23b331322287e7`. The batch yielded no direct literal reference to either provider YAML filename; legacy node identifiers persist in task data and qualification contracts/evidence generators.
+- This is not complete caller closure. Dynamic YAML/config loading, unscanned candidates, external dispatchers and manifest readers remain unproven. No source changes or executions occurred; retirement is not authorized.
+- Next bounded step: inspect remaining code/config/test candidates and generic YAML/config-loader abstractions; if static closure cannot be established, prepare an owner decision packet without treating “no literal match” as “unused”.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
