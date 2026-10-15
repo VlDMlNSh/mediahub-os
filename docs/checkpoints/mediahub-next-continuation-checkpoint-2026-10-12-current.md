@@ -3334,3 +3334,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Branch comparison: docs branch ahead 1438 / behind 4 from main; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Divergence preserved; no integration attempted.
 - Next: WB-14G read-only reverse-reference and workflow-entry-point trace for the four highest-risk host-bound manifests, before any retirement proposal.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14G (2026-10-15)
+
+- Report: [WB-14G Reverse-Reference and Workflow Entry-Point Trace](MEDIAHUB-CONTOUR-A-WB-14G-REVERSE-REFERENCE-WORKFLOW-ENTRY-TRACE-2026-10-15.md), commit `c8b496cf16a6fe15f35f714d72f107072fe5c848`.
+- Direct workflow-to-runner edges are established for both `.github/workflows/astra-distributed-local-worker.yml` and `.github/workflows/astra-chat-control.yml`; the latter also dispatches `astra-autonomous-supervisor.yml` for `/astra run-gold`.
+- Inbound references/readers for `node-role-map.yaml` and `local-executor-routing-v2.yaml` remain unproven. GitHub code-search returned no indexed matches; this is a tooling coverage gap, not evidence of no callers.
+- No workflows/tests were run, no code/config was changed, and no hosts or credentials were inspected.
+- Next bounded step: establish a reliable repository-wide source tree/search surface, then close inbound references for the two YAML manifests and all callers/dispatchers of the worker script before preparing any retirement proposal.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
