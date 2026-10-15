@@ -1148,3 +1148,21 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - This is a **candidate screen only**. No upstream immutable revision was pinned; README blob SHAs are not commit SHAs. All candidates remain NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED. No installation, test, provider/model invocation, host/runtime inspection, qualification, deployment or infrastructure change occurred.
 - Architecture rule: compare overlapping agent orchestration options before choosing one; evaluate Temporal only as a separate durable-execution decision against ASTRA lifecycle overlap; keep policy, tool interfaces, telemetry and Product State Authority separate.
 - Next bounded step: pin immutable upstream revisions and perform a source-backed LangGraph vs Microsoft Agent Framework comparison, then evaluate MCP boundary/security and whether a durable workflow engine is justified. Target hardware/OS inventory remains required before compatibility claims.
+
+
+## Owner clarification — Contour A is the primary development target (2026-10-15)
+
+**Owner-directed priority clarification; planning direction, not evidence of implementation or deployment.**
+
+The immediate engineering objective is to design, assemble, verify and eventually independently accept **Contour A: Jarvis + ASTRA/Astra Gold + autonomous controllers + a hybrid, distributed, autonomous development fabric**. This fabric is intended to become the operational engineering system that, after its own deployment and independent acceptance, autonomously develops the **Contour B MediaHub OS product**.
+
+Required sequencing:
+1. Define the target system map and versioned contracts for Jarvis corporation-level mission coordination, ASTRA A0/Astra Gold engineering workflow ownership, specialized autonomous controllers/workers, task/result/evidence envelopes, trusted identity/context, authorization/capability delegation/revocation, queue/lease/heartbeat/cancellation/recovery/fencing, repository/workspace isolation, provider/model/tool routing, and audit/observability.
+2. Reconcile authority and lifecycle boundaries before selecting overlapping frameworks. Preserve Jarvis as corporation-level mission coordinator; ASTRA A0 owns only ASTRA-internal engineering workflow state within its accepted scope; MediaHub Product State Authority owns canonical product-state mutation only in Contour B. Neither Jarvis nor ASTRA becomes Product State Authority.
+3. Build a target-only component allowlist and requirement → component → interface → policy/control → evidence matrix. Pin upstream sources and artifacts; assess provenance, license/SBOM/security, target OS/hardware fit, isolation, and egress before admission.
+4. Implement Contour A only after the applicable contracts, decisions, authorization and target hardware/OS/topology are established. Verification, qualification, release, deployment and independent acceptance remain separate evidence-backed gates.
+5. **Do not start autonomous implementation of Contour B until Contour A is deployed and independently accepted.** Contour B work then proceeds under Baseline 2.0 and its own product contracts, with human/governance gates preserved where required.
+
+The roadmap's component survey is subordinate to this sequence: candidate research serves the developer fabric, not product-feature implementation. A candidate, design, document, or planned controller does not prove that a running autonomous system exists. No implementation, test, installation, model/provider call, host/runtime inspection, infrastructure change, deployment or qualification was performed by recording this clarification.
+
+Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarvis→ASTRA ingress and capability issuer/delegation/revocation contracts; task/result envelope and lifecycle cancellation/idempotency/fencing semantics; route/provider/model identities and egress policy; source/artifact supply-chain evidence; and explicit authorization for implementation/runtime stages.
