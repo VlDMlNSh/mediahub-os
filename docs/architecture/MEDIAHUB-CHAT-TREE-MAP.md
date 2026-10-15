@@ -5924,3 +5924,14 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Current branch compare: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1369 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
 - No tests, installs, providers/models, credentials, host/runtime inspection, security scan, qualification, infrastructure changes or deployment.
 - Next: WB-04 capability issuer/trusted-context lifecycle closure matrix. Jarvis→A0 ingress remains blocked until accepted authority, identity/capability, schema and replay/fencing decisions exist.
+
+
+## 117. Contour A WB-04 capability issuer / trusted-context lifecycle matrix (2026-10-15)
+
+- Added [WB-04 Capability Issuer / Trusted-Context Lifecycle Closure Matrix](../checkpoints/MEDIAHUB-CONTOUR-A-WB-04-CAPABILITY-ISSUER-TRUSTED-CONTEXT-LIFECYCLE-MATRIX-2026-10-15.md), creation commit `4016fb12146aeb6dc2c5ceef1f9ce20731b679f8`.
+- Re-read MH-12 security architecture, A0/MH-12 capability issuer source trace (Wave 07), Jarvis/ASTRA identity lifecycle trace (Wave 05), WB-03 ingress gap packet, owner DEC-DEV-02 record and previously source-pinned runtime seams.
+- Matrix covers 21 lifecycle surfaces: identity/enrollment, authentication, issuer authority, issuance/binding, audience, delegation, expiry, revocation, consumer verification, authorization, replay, propagation, in-flight revocation, audit, fail-closed behavior, A0 ingress, mutation boundary, change control and acceptance.
+- Confirmed distinction: typed `AuthorizationContext` and policy grant matching are source seams, not proof of issuer provenance, audience, freshness or revocation. P0-07→P0-05 remains NOT ESTABLISHED; P0-05→P0-04 remains an in-process source seam only.
+- No issuer, token format, protocol, endpoint, key store or vendor selected. No tests, installs, credentials, provider/model calls, host/runtime inspection, security scan, qualification, infrastructure change or deployment.
+- Start-of-pass branch comparison: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1373 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Next: owner/governance decision packet for issuer/attester authority and trusted-context ownership; then bounded producer/consumer closure. Jarvis→A0 ingress remains blocked.
