@@ -5437,3 +5437,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Added [Jarvis / ASTRA Distributed AI Corporation Target Architecture, Chat Synthesis Wave 01](MEDIAHUB-JARVIS-ASTRA-DISTRIBUTED-AI-CORPORATION-TARGET-ARCHITECTURE-WAVE-01-2026-10-15.md); documentation ref `docs/mediahub-chat-tree-map-20261012`; read-back blob SHA `c9f1716de8419d66f181fc0a9c465c65a81c7d5b`; creation commit `06314efa89576bbb8d3677c05db87aec94af2541`.
 - Consolidates owner-approved DEC-DEV-02 Option C, hybrid direct/A0 execution, Jarvis corporation mission coordination, ASTRA bounded engineering lifecycle, Product State Authority, internal specialist roles, external cloud-side ECC-controller boundary, Claude Code Scenario B/local model route, candidate local/provider executors, future user-contributed workers, task decomposition/result integration, security and roadmap sequence.
 - Status: target design / owner-direction record, not a normative contract or implementation evidence. ECC remains NOT ASSESSED / NOT ADOPTED. Source-level ASTRA authority wording reconciliation and accepted A0/capability ingress sourcing remain open.
+
+
+## 20.268 MH-20 / Jarvis–ASTRA lifecycle authority and security reconciliation — Wave 04 (2026-10-15)
+
+- Checkpoint: [MEDIAHUB-JARVIS-ASTRA-LIFECYCLE-AUTHORITY-SECURITY-RECONCILIATION-WAVE-04-2026-10-15.md](../checkpoints/MEDIAHUB-JARVIS-ASTRA-LIFECYCLE-AUTHORITY-SECURITY-RECONCILIATION-WAVE-04-2026-10-15.md)
+- Status: SOURCE RECONCILIATION / PARTIAL / NOT AN ACCEPTED NORMATIVE CONTRACT.
+- Confirmed DEC-DEV-02 Option C is owner-approved in the later owner decision record. Wave 03's “options remain open” status is historical/stale, not current decision status.
+- Primary ASTRA prose/YAML still contains broad “single MediaHub coordination and state authority” wording. This remains a controlled source-reconciliation item; no normative source was edited.
+- MH-12 security architecture retains identity/authentication/trust/capability/authorization/policy/State Authority separation. Exact accepted A0 ingress and capability issuer lifecycle remain unproven.
+- Next: source-trace accepted A0 queue/claim/lease/cancellation/replay interface and MH-12 issuer lifecycle, then draft a path/field-level reconciliation proposal.
