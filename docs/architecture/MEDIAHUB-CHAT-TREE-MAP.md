@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.272)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.275)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5488,3 +5488,14 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Fail-closed dispositions: no sourced accepted A0 ingress API or issuer lifecycle means no A0 submission or mutation; no accepted fencing primitive means no claim that stale-worker publication is prevented; route/provider identities remain UNKNOWN until source-backed.
 - Reuses existing inference, component-evidence, ASTRA executor and MH-12 contracts only within their documented scope. No existing schema or normative primary contract was modified.
 - No tests, installs, model/provider calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration occurred.
+
+
+## 20.275 Corporation task/result interface source reconciliation — Wave 02 (2026-10-15)
+
+- Updated crosswalk: [MEDIAHUB-DISTRIBUTED-TASK-DAG-AND-RESULT-CONTRACT-CROSSWALK-WAVE-01-2026-10-15.md](../checkpoints/MEDIAHUB-DISTRIBUTED-TASK-DAG-AND-RESULT-CONTRACT-CROSSWALK-WAVE-01-2026-10-15.md), update commit `6a889cac70e6553665ba33a0e7b7222664ab211e`, verified blob SHA `9cf876b094278b4b2de9851cc488a5b3dabc147b`.
+- Read-only source-bound field-group matrix covers inference request, component/gate evidence, ASTRA task lifecycle, proposed mission envelope, corporation DAG/task, executor profile, result/aggregation, capability/security and A0 ingress/fencing/cancellation.
+- Confirmed ref-specific ASTRA capability-matrix conflict: `main` blob `da26185254d9954fcee204f81ecca129bf052e7c` retains broader A0 “Global coordination/state” wording; documentation branch blob `9ad83781a8da53d1a8f540ede54eba95281f01c0` explicitly scopes state to ASTRA engineering workflow/control state. This matches owner-approved DEC-DEV-02 Option C, but the conflict remains on main because refs are diverged and integration is not authorized.
+- Fail-closed dispositions: no accepted Jarvis-facing A0 ingress/issuer lifecycle/fencing/cancellation-race contract identified; A0-managed engineering submissions remain blocked. Existing inference and component evidence schemas are reused only within scope. No corporation-wide DAG/result schema is promoted to normative.
+- Refs at review: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; documentation branch HEAD `bafe0fe4159e5117f2227bb83f676e4a9eaac64b`; DIVERGED, docs 1188 ahead / 3 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- No tests, installations, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
+- Next: inventory existing schema files/IDs/version conventions, producers/consumers and collision risks before drafting separate proposed corporation schemas.
