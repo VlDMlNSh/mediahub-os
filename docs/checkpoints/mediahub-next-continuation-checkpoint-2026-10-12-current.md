@@ -3139,3 +3139,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, installs, providers, credentials, host/runtime inspection, qualification, deployment, infrastructure changes or branch integration.
 - Next: WB-03, source-only ingress-contract gap packet. Do not invent API/protocol/token semantics; dispatch remains fail-closed.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A WB-03 ingress gap packet (2026-10-15)
+
+- Created [WB-03 Jarvis → ASTRA A0 Ingress Contract Gap Packet](MEDIAHUB-CONTOUR-A-WB-03-JARVIS-A0-INGRESS-CONTRACT-GAP-PACKET-2026-10-15.md), commit `d07856d1cd4c69d38e54ddebbfbd20237288ca8d`.
+- The packet records 16 contract surfaces and future negative-verification requirements. It remains design-only, non-normative and not accepted; no protocol, endpoint, credential technology, issuer or wire schema was invented.
+- Updated map §116; map commit `c4ab061dd861ec1835b301af5f7e203d1bff3efd`, blob SHA `3f5548adaf9668126c6b48dc2814705a67a88f8e`.
+- Updated roadmap pointer; commit `4df9b6d38193c2557342b129b9c1457cdbf58a04`, blob SHA `005971ddae1dac21291af28fc331e462b123bffe`.
+- Current branch compare at start: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1369 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Ingress remains blocked on accepted caller identity/authentication, capability issuer/verifier/delegation/revocation, request/ack/error schema, replay/idempotency, A0 handoff/fencing, result/status contract and owner-approved trust boundary.
+- No tests, installs, providers/models, credentials, host/runtime inspection, security scan, qualification, infrastructure changes or deployment.
+- Next: WB-04 source-only capability issuer/trusted-context lifecycle closure matrix. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
