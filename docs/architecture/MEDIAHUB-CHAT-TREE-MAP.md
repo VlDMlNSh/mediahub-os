@@ -5718,3 +5718,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Keep Baseline 2.0 requirements and accepted security/authority invariants distinct from legacy deployment details. Mature external components remain candidates until source/license/security/interface/owner-admission and target qualification gates are satisfied.
 - Target hardware, OS, network, storage, compute and model/runtime specifications remain UNKNOWN. Do not infer them from old servers.
 - Planning estimate: 10–20 focused working days for static reconciliation artifacts (about 3–6 calendar weeks at 2–4 focused hours/day); implementation and independent Contour A acceptance are additional phases.
+
+
+## 97. Legacy executor paths are excluded from the greenfield target (2026-10-15)
+
+- See [Agent / Task / Provider Schema Inventory, §18](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md).
+- `astra-chat-control.yml`, `astra-distributed-local-worker.yml`, `run_distributed_local_worker.py`, the distributed runner contract and its coupled test are legacy-bound to old node IDs, runner labels, users, paths and model tags. The chat-control source accepts a wider input domain than its hardcoded Codex/`mh-dev-02` dispatch; the separate worker workflow is Claude-only.
+- Treat the set as LEGACY / TARGET-EXCLUDED, not as new-system routes and not as work to repair for old hardware. Any generic algorithm is a reuse candidate only after independent review against new accepted contracts.
+- No runtime path was invoked and no code was deleted in this pass. Next: close references for remaining old-node-bound active artifacts, then assemble the target-only component allowlist from requirements.
