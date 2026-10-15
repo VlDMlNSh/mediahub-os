@@ -230,3 +230,13 @@ This pass extends the existing Wave 07 trace and does not create a parallel cont
 - No tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration. Full chat reconciliation remains PARTIALLY RECONCILED.
 
 Next bounded action: search the map-indexed owner/governance records for a disposition of D6 and accepted issuer/adapter source. If absent, record the specific blocker and continue an independent, source-backed roadmap task.
+
+
+## Incremental reconciliation — P0-05 D6 governance-disposition check (2026-10-15)
+
+The live source pass reused the existing P0-05 candidate and Wave 07 trace. Owner-approved DEC-DEV-02 Option C establishes the Jarvis/ASTRA/Product State Authority split but does not dispose of P0-05 D6. The P0-05 v1.1 candidate remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; no exact-text acceptance or authorization to change the DRAFT header was found in the bounded owner/governance source set. P0-07→P0-05 ingress and issuer/attester/verifier remain unestablished; P0-05→P0-04 is only an observed in-process seam; P0-04 remains sole canonical mutation authority. No normative contract changed.
+
+- Live compare: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1223 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Re-read blobs: P0-05 candidate `79e2b4865c47b5394ade266cd3cd7cfbe3097717`; owner packet `54900eeb040e2aa0209e02629fedc2f2fe2e487e`; owner decision record `70376a2709e055972ceddc4a280d26992977213c`; DEC-DEV crosswalk `a58437a2321b7ebc5a4a4ccfae2f0eac1dfe330f`; Wave 07 `411dbd52c92e17dff0a8bfdd077d0305b5371d04`.
+- Next bounded work: source-only review of OpenHands Software Agent SDK through the existing admission crosswalk; no installation, tests, model/provider calls or runtime evaluation.
+- Restrictions respected: no tests, installs, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick.
