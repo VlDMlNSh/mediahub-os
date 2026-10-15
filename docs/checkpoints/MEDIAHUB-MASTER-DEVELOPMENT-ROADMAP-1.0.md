@@ -1241,3 +1241,13 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 - Upstream workspace configuration is not a MediaHub target profile. Exact target hardware/OS/Python facts and a verifiable target-specific dependency lock remain prerequisites; the connector's empty `uv.lock` payload is inconclusive and must not be treated as proof that the file is absent.
 - The candidate remains unselected/unadmitted. LiteLLM 1.93.0 advisory evidence, full transitive SBOM/license/provenance closure, isolation/egress design, and owner-supplied target profile remain open. No runtime work was authorized or performed.
 - Next: continue one non-overlapping documentary admission gate only if existing crosswalk coverage supports it; otherwise record target hardware/OS/Python as an explicit owner-input blocker rather than inventing facts.
+
+## Current continuation — Contour A pre-deployment readiness work breakdown (2026-10-15)
+
+- Added [Contour A Pre-Deployment Readiness Work Breakdown, Draft 01](MEDIAHUB-CONTOUR-A-PREDEPLOYMENT-READINESS-WORK-BREAKDOWN-DRAFT-01-2026-10-15.md), creation commit `085e24c4575a2b3af3a6179315e19b8d8fb18c7b`.
+- Split the route to a justified deployment decision into ten bounded work packages (WB-01…WB-10), preserving the separation between architecture readiness, implementation, testing, qualification, deployment and independent acceptance.
+- Started WB-01 by re-reading the greenfield ledger, node/service placement register, corporation target architecture and prior bounded local inventory. The documents confirm greenfield intent but do not provide a complete authoritative exact hardware/OS/topology profile. Hardware-specific deployment planning remains blocked on owner inputs HW-01…HW-07; no facts were inferred.
+- Current refs at pass start: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1360 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- No tests, downloads, dependency resolution, installation, provider/model calls, credential use, host/runtime inspection, qualification, infrastructure changes or deployment.
+- Next bounded package: WB-02, build a source-pinned contract/authority conflict register using live primary sources and owner-approved DEC-DEV-02 Option C. Do not change normative main sources or run tests without separate explicit authorization.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
