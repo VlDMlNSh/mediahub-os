@@ -5946,3 +5946,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - No tests, installs, credentials, model/provider calls, host/runtime inspection, security scan, qualification, infrastructure change, deployment or branch integration.
 - Branch comparison at start: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1377 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 - Next: owner/governance selection; after that, bounded producer/consumer inventory of AuthorizationContext/capability construction and trust-boundary paths. Jarvis→A0 ingress remains blocked.
+
+
+## 119. Contour A WB-06 AuthorizationContext producer/consumer source inventory (2026-10-15)
+
+- Source inventory: [WB-06 AuthorizationContext Producer/Consumer Source Inventory](../checkpoints/MEDIAHUB-CONTOUR-A-WB-06-AUTHORIZATION-CONTEXT-PRODUCER-CONSUMER-SOURCE-INVENTORY-2026-10-15.md), blob SHA `9bd850e869dbd19db9bde2ce08768aaf502c95a2`.
+- Directly inspected main-source anchors: `authorization.py` `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; `consumer_boundary.py` `98bf2da9cea85da2c82145b4baef417c20b9ae73`; `in_memory_state.py` `0fbc71369d19e09944ba67a60ccb9df802f30a4b`; package exports `4ff499f8e489e60e344283ee01e4dad5e72a2646`; separate `astra_github_agent.py` command-envelope path `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`.
+- Confirmed local typed-context propagation and allow-list policy enforcement. The separate HMAC command envelope is not proven connected to `AuthorizationContext`; complete constructor/history and Jarvis→A0 issuer/verifier closure remain NOT ESTABLISHED. Search misses are not absence evidence.
+- No tests were run; no source code or normative contract changed; no issuer technology selected. Jarvis→A0 ingress remains blocked.
+- Next: bounded source-only constructor/call-site/serialization closure; keep task-routing labels distinct from security capability grants.
