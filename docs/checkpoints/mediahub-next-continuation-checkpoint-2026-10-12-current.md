@@ -2705,3 +2705,11 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Unresolved: accepted Jarvis→A0 ingress; capability issuer/delegation/expiry/revocation; fencing/stale workers; cancellation/completion/retry/idempotency; corporation-wide DAG/Task Result Envelope; schema ID/version/producer/consumer census; provider/gateway identity and egress; authoritative ECC assessment; full primary-source review of OSS candidates.
 - No tests, installs, provider/model calls, credential access, host/runtime inspection, qualification, infrastructure changes, deployment, migration or branch integration. No normative contracts changed.
 - Next bounded step: source-trace P0-07 → P0-05 identity/context/authorization and capability lifecycle from accepted primary sources, recording only proven producer/consumer edges.
+
+
+## Incremental continuation — reuse existing source traces (2026-10-15)
+
+- Live-read and reused Wave 07 A0/MH-12 capability issuer trace (blob `52dcd76e1ceaf66ccee560a34eb17b5be4f73bbf`), P0-07 D2 trusted-context proposal (blob `c0ae0d3fe340c3e50382b7d4aa8da7b6b5f56d9f`) and corporation Task/Result technical baseline Wave 09 (blob `6ab5f244cb0d4e74ac2b26013c02502832170365`). They overlap the next planned trace; extend them instead of duplicating them.
+- Current compare: docs branch 1203 ahead / 3 behind `main`; `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; diverged. No integration.
+- Open blockers remain: trusted issuer/lifecycle, accepted Jarvis→A0 ingress, storage-enforced fencing, cancellation/idempotency/retry races, and accepted cross-boundary task/result contract.
+- Next bounded step: refresh Wave 07's primary-source anchors from live refs, then map only proven context/capability producer→consumer edges P0-07 → P0-05 → P0-04. Keep proposals labelled proposals; do not edit normative contracts.
