@@ -1080,3 +1080,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Deliverables: target-only map; component allowlist/inventory; accepted versioned contracts; requirement-to-component/interface/control/evidence matrix; conflict ledger with every item dispositioned; separate implementation, qualification and acceptance gates.
 - Planning estimate: 10–20 focused working days for static reconciliation and architecture artifacts; at 2–4 hours/day approximately 3–6 calendar weeks. Implementation and independent Contour A acceptance are separate phases and not yet estimable.
 - No installs, tests, qualification, host/runtime inspection, infrastructure action or deployment. Next: source-only inventory of old-server-specific active references and classify exact paths before any removal; keep shared contracts and historical evidence intact.
+
+
+## 87. Clean-slate legacy artifact triage (2026-10-15)
+
+- Continue from Inventory §16 and Map §95.
+- Reconcile old-node-bound active workflows/services against source/tree references before removal. Priority candidates: one-time storage migration workflow (mh-dev-01, /srv/mediahub, self-removal), runner migration smoke workflow (mh-dev-01, old implementation branch), and systemd bootstrap service (mh-dev-02, old home/repository path).
+- Do not execute any workflow, service, migration, test, installer or qualification. Delete only exact active artifacts proven exclusive to retired hardware; preserve historical evidence and shared generic components.
+- Then build a target-only component allowlist, contract register, requirement/interface/evidence matrix and conflict ledger. New hardware OS/topology/node/model/storage/network facts remain UNKNOWN until supplied or explicitly accepted.
