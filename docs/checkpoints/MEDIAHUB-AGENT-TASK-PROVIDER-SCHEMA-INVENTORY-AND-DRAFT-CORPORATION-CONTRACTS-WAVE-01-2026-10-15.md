@@ -438,3 +438,26 @@ Remaining static reconciliation estimate: **10–20 focused working days** for a
 The target deliverables remain one navigable map; one component allowlist with lifecycle/disposition and evidence; a coherent versioned contract register; a requirement → component → interface → security control → verification evidence matrix; and a conflict ledger with no known untriaged entries. Current planning estimate: **10–20 focused working days** for static source reconciliation and these architecture artifacts, approximately **3–6 calendar weeks at 2–4 focused hours/day**. This is a planning range, not a guarantee of zero defects. Implementation, qualification, deployment and independent Contour A acceptance are separate, currently unestimated phases pending hardware specifications and owner decisions.
 
 No tests, workflows, installers, models/providers, credentials, host/runtime, qualification or deployment were invoked in this pass.
+
+
+## 18. Clean-slate disposition of legacy executor control paths (2026-10-15)
+
+### Bounded source evidence
+
+| Artifact | Source-backed finding | New-system disposition |
+|---|---|---|
+| `.github/workflows/astra-chat-control.yml` (blob `51b17ec2410032772f9baa1de4afedb6b000f3c4`) | Its parser accepts `codex` or `claude` and accepts `mh-dev-02` or `Voktors-Mac-mini.local`; the later execution step hardcodes `ASTRA_NODE_ID=mh-dev-02`, `ASTRA_EXECUTOR=codex`, and asserts the same node/executor. The accepted input domain is broader than the actual dispatch step. | LEGACY / TARGET-EXCLUDED. Do not repair this route for the retired target; do not use it as the new system's routing contract. |
+| `.github/workflows/astra-distributed-local-worker.yml` (blob `f650f2416c19dc75b4a0eeec037661c0c6169910`) | Dispatch offers Claude only and binds execution to `mh-dev-01`, `mh-dev-02`, or `Voktors-Mac-mini.local`, with old runner labels, hostnames, users, FCC paths and Ollama model tags. | LEGACY / TARGET-EXCLUDED. No target admission. |
+| `ops/qualification/run_distributed_local_worker.py` (blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`) | Hardcodes the same old node identities, users, model tags, pools and filesystem paths in `NODE_CONFIG`; it does not load the routing/node-role YAMLs in the inspected path. | LEGACY IMPLEMENTATION; do not carry forward by default. Any reusable algorithm must be extracted and re-reviewed independently against the new contracts. |
+| `control/qualification/distributed-runner-contract.json` (blob `993f51f07c7937165ffb3bfbe59cd0801ea71ec0`) | Names `mh-dev-01` as canonical and the other named nodes as non-authoritative; its hostname allowlist explicitly aliases two Voktors names. | LEGACY TOPOLOGY CONTRACT; not a new-hardware contract. |
+| `tests/test_distributed_local_worker.py` (blob `5fd79a665ef49e4e594a8fbccb8d77ec1f0659ae`) | Test source is coupled to the old worker implementation. | HISTORY / LEGACY TEST; not evidence of target compatibility or acceptance. Not run. |
+
+### Disposition decision for this pass
+
+- These artifacts are now classified as **LEGACY / TARGET-EXCLUDED**, not as active target components and not as a backlog to fix for old servers. This closes the question of which executor value the retired workflow should use: no value is selected for the new system from these artifacts.
+- Do not infer that the generic worker implementation is worth reusing. The new system's agent corporation, Jarvis control plane, ASTRA responsibilities, task/result contracts and component choices must be designed from accepted requirements and freshly admitted mature components.
+- The source trace establishes an internal legacy route inconsistency, but no workflow or worker was invoked and no runtime behavior was tested. This finding must not be presented as a new-system defect.
+- No source code, workflows, tests or runtime artifacts were deleted in this pass. Before deleting additional files, close repository references and dependencies, then delete only exact old-target-exclusive active artifacts in a separate bounded pass. Preserve provenance and accepted Baseline 2.0/security/authority requirements.
+- New hardware, OS, topology, node identities, model/runtime, network and storage remain UNKNOWN until owner-supplied or explicitly accepted. No component is admitted to the target by this classification alone.
+
+**Next bounded step:** inventory remaining active old-node-bound workflow/service/config artifacts and their references; retire only those proven old-target-exclusive. In parallel, start the target-only component allowlist from requirement-to-capability needs—not from the existing worker inventory.
