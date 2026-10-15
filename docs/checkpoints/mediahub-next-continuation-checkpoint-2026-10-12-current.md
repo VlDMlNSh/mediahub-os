@@ -2864,3 +2864,16 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next: source-trace control-plane selection of node/executor values and identify whether an already accepted contract settles these discrepancies; do not invoke any execution path.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — control-plane route mismatch and schedule estimate (2026-10-15)
+
+- Live GitHub refs revalidated at pass start: docs branch `b8db54e4cab1539d736c5df70af4ed1fd4cca8ec`; `main` `608d7463011798ca75e36bfce4b749a9caf4f9a0`; diverged 1255 ahead / 3 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Added [Inventory §14](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md), [Roadmap §85](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), and [Project Map §93](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Found source-level dispatch contradiction: `astra-chat-control.yml` validates selected executor/node, then hardcodes Codex + `mh-dev-02`; `astra-distributed-local-worker.yml` only exposes Claude for `mh-dev-02`. Runner contract allows two Voktors hostnames for canonical node ID `Voktors-Mac-mini.local`; worker config repeats both strings as node keys. No workflows or runtime paths were executed.
+- Estimated **10–20 focused working days (2–4 weeks)** for static reconciliation, component inventory, conflict ledger and draft contract, assuming no large new subsystem is discovered. Approved fixes, qualification and independent Contour A acceptance are separate, not yet estimable. This is a planning range, not a commitment; target is zero known untriaged conflicts, not a guarantee of zero defects.
+- No tests, workflow, qualification, provider, signer, credential, host/runtime or infrastructure operations; no code/config changes.
+- Owner decisions still needed: intended `mh-dev-02` executor policy; canonical config authority; P0-07→P0-05 ingress; capability issuer lifecycle; P0-05 D6. P0-04 remains sole canonical product-state mutation authority. Branch divergence remains.
+- Next: inventory all workflow dispatch/launch entry points that pass task/node/executor and create a route-policy comparison table; continue source-only, do not invoke any entry point.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
