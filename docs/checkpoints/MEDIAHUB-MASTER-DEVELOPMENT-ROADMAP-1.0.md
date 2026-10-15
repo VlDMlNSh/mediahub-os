@@ -1331,3 +1331,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No implementation, tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change or deployment.
 - Next bounded step: WB-13 requirement → contract → component → failure control → verification matrix for the Option C seam. Do not change normative contracts or implement the adapter in that pass.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-13 — Option C route-adapter requirement/failure/verification matrix (2026-10-15)
+
+- Added [WB-13 Option C Route-Adapter Requirement, Failure and Verification Matrix](MEDIAHUB-CONTOUR-A-WB-13-OPTION-C-ROUTE-ADAPTER-REQUIREMENT-FAILURE-VERIFICATION-MATRIX-2026-10-15.md), creation commit `dcf8c4746d2e9cb965b24f6e0d86f09f4b2cbabb`.
+- Mapped 20 proposed controls to requirements, component boundaries, failure modes and future verification evidence. Controls include route eligibility, A0 governance, Alamo host qualification, authentication/approval/capability provenance, queue ownership, lease/fencing, idempotency, egress, resource budgets, cancellation/recovery, result provenance, independent verification and product-state boundaries.
+- Design recommendation only: explore Option C as a bounded routing seam; retain Option A as current governed baseline; keep direct Alamo route as a candidate. TD-01..TD-08 remain OPEN pending explicit owner decisions.
+- Existing source facts: canonical executor policy assigns A0 coordination/admission; current queue names three other nodes, not Alamo; external Anthropic and local Ollama-backed Claude-compatible workflow patterns exist but neither is proven on Alamo.
+- No implementation, tests, qualification, provider/model calls, credential use, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next bounded step: WB-14 source-pinned contradiction/ownership matrix across canonical ASTRA policy, reference architecture, unified model, governance and queue/ingress implementations. Do not amend normative sources during that pass.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
