@@ -6166,3 +6166,16 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Status: **BROAD BOUNDED SOURCE RECONCILIATION / NOT FULL CLOSURE / NO RETIREMENT AUTHORIZED**.
 - Next: inspect remaining candidates for dynamic config path construction, imports and dispatch abstractions; if closure remains impossible from source, prepare owner decision questions rather than infer “unused”.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.285 Contour A WB-14N — broad legacy control-plane scan and branch-drift reconciliation (2026-10-16)
+
+- Report: [WB-14N Broad Legacy Control-Plane Scan and Branch-Drift Reconciliation](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14N-BROAD-LEGACY-CONTROL-PLANE-AND-BRANCH-DRIFT-RECONCILIATION-2026-10-16.md), creation commit `176bec275f70fdfb86ca7676f5f5ea62e34eccc5`, report blob SHA `1a14dcbf390cdeb6f7b1ec0c70147703dd0c2824`.
+- This pass fetched and inspected 98 unique source files from main across runtime, workflows, service definitions, profiles, contracts, task data, qualification code and tests. The full per-file blob-SHA inventory and scope limits are in WB-14N.
+- High-risk source finding: main retains .github/workflows/mediahub-one-time-storage-migration.yml with a self-path push trigger, contents:write, old-host/path gates, backup rm -rf, self-removal and push-to-main steps. Actual workflow enablement/execution is UNKNOWN; it was not run.
+- main also retains ops/systemd/mediahub-astra-github-bootstrap.service, an old mh-dev-02 auto-start/clone-to-main unit; presence in source does not prove a host unit is installed or enabled.
+- Branch discrepancy: main HEAD/tree `ab36db009d034db8dca723691e23b331322287e7`; docs ref HEAD before this report `5ee55d125b027959bf6e31c3e113c7b2c1f262e0`; refs DIVERGED (1466 ahead / 4 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`). Both flagged files exist on main but are absent from the docs ref. No integration attempted.
+- Exact readers of both legacy provider YAML manifests remain UNKNOWN; unindexed GitHub Code Search is non-diagnostic. Runtime/security/evidence/test references to old node IDs are cross-cutting.
+- Status: **SOURCE-BOUNDED READ-ONLY AUDIT / HIGH-RISK LEGACY WORKFLOW FLAGGED / NO CODE CHANGE OR EXECUTION / NO RETIREMENT AUTHORIZED BY THIS PASS**.
+- Next: WB-14O path-level reverse-reference and commit-provenance review of the migration workflow and systemd unit, then prepare a proposed controlled disposition matrix without changing main or merging branches.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
