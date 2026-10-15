@@ -1286,3 +1286,14 @@ Added [WB-07 Ingress and Command-Authority Seam Trace](MEDIAHUB-CONTOUR-A-WB-07-
 ## WB-08 continuation — caller trace and architecture-readiness estimate (2026-10-15)
 
 Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-08-CALLER-TRACE-AND-READINESS-EFFORT-ESTIMATE-2026-10-15.md), blob SHA `101f3d3352999dc7978a29b13c081adb3f3a66b7`. The workflow `.github/workflows/astra-autonomous-supervisor.yml` invokes `ops/control/sign_command.py`; `astra_github_agent.py` uses the same `mediahub.astra.control-command.v1` schema. The alternate `tools/sign_astra_command.py` remains of unknown status; no tracked caller of `FileTaskIngress` was established by the bounded trace. Planning range for architecture package readiness: 55–107 active hours including contingency (recommended planning point 75–85), excluding implementation, qualification, deployment and independent acceptance. See estimate assumptions and separate post-architecture placeholder in WB-08. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-09 continuation — owner hardware and authority direction (2026-10-15)
+
+- Recorded in [WB-09 Owner Direction, Hardware Baseline and Architecture Integrity Review](MEDIAHUB-CONTOUR-A-WB-09-OWNER-DIRECTION-HARDWARE-BASELINE-AND-ARCHITECTURE-INTEGRITY-REVIEW-2026-10-15.md), creation commit `75597c2afef49f2e55eee8960865c1925ea9d4f3`.
+- Owner-reported candidates: Mac mini 2018 / i5 (reported 6 cores) / 32 GB RAM; existing Mac mini Server 2011 / i7 (exact SKU unknown) / 16 GB RAM. OS/build, storage, network, exact CPU/model identifiers and workload envelope remain UNKNOWN. No node is hardware-qualified by this record.
+- Owner direction: developer may create Jarvis missions; Jarvis may submit bounded work requests to ASTRA A0. Preserve A0 ownership of its internal queue lifecycle; mission submission is not a security grant, and sensitive actions need verifiable approval provenance.
+- WB-09 consolidates documentary gaps in ingress, approval attestation, command envelope, capability provenance, queue/recovery, result integrity, network/egress, storage/backup and deployment/acceptance. It does not establish implementation, verification, qualification or acceptance.
+- No tests, security scans, installation, provider/model calls, credential use, host/runtime inspection, infrastructure changes, deployment or branch integration.
+- Next bounded step: WB-10 source-pinned contract graph and requirement → failure control → verification evidence matrix, starting with Jarvis→A0 ingress and queue-lifecycle ownership. Preserve Baseline 2.0 and existing DEC-DEV IDs; do not silently amend normative primary sources.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
