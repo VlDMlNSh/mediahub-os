@@ -3022,3 +3022,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No existing schema or normative main source was changed. No tests, installs, model/provider calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration occurred.
 - This dated continuation supersedes the older exact-next-action entries above where they conflict: next is the collision-aware identifier/schema-registry crosswalk, not a duplicate authority wording table. Authority wording reconciliation remains tracked as a cross-branch controlled-integration issue; no merge is authorized.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — schema/identifier census boundary crosswalk (2026-10-15)
+
+- Updated the corporation schema draft §13 and existing schema inventory §21 to reuse prior census and source-trace evidence rather than repeat it or claim repository-wide uniqueness.
+- Evidence: roadmap §80 reports 25 main / 26 documentation-ref schema JSON files, with 26 inspected $id values unique within that schema-directory census only. Main inference request/response IDs remain dedicated to inference. Agent/gateway, provider-instance, model, credential-reference and executor-transport IDs remain separate domains; name similarity is not a proven foreign key.
+- New corporation schema/object IDs remain unassigned. The repository-wide producer/consumer/history collision check and accepted namespace/version policy are still open. No existing schema/IDs were changed.
+- No tests, code execution, provider calls, credentials, host/runtime inspection, qualification, deployment or branch integration occurred.
+- Next bounded step: source-only contract/interface tracing for intended greenfield Contour A, preserving ID domains. Jarvis→ASTRA A0 ingress and capability issuer/delegation/revocation remain hard blockers.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
