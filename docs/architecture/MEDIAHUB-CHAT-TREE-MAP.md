@@ -5679,3 +5679,10 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - See [Agent / Task / Provider Schema Inventory, Wave 01 §13](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md).
 - The inspected distributed worker hardcodes `NODE_CONFIG`; it does not load `local-executor-routing-v2.yaml` or `node-role-map.yaml`. Node-role-map assigns `mh-dev-02` to Codex/3B, while the matching workflow job only allows Claude/3B. Node alias identity is also unresolved.
 - No fix applied pending owner decision on canonical config source and executor identity. Next: source-trace control-plane selection of node/executor values, without executing paths.
+
+
+## 93. Control-plane route mismatch and reconciliation estimate (2026-10-15)
+
+- See [Agent / Task / Provider Schema Inventory, Wave 01 §14](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md).
+- Chat-control validates variable task/node/executor input, but its execution step pins Codex + `mh-dev-02`; the separate distributed worker workflow offers Claude only for `mh-dev-02`. Source-level contradiction confirmed; workflows were not run.
+- Planning estimate for source reconciliation/component matrix/conflict ledger/draft contract: 10–20 focused working days; implementation and independent acceptance are separate and blocked on owner decisions and environment readiness.
