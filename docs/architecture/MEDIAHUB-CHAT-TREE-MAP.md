@@ -5656,3 +5656,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Confirmed test-source consumers for inference request/response and provider-registry schemas; no runtime validation edge was established in the inspected production paths. Agent registry, provider fabric, provider-model qualification registry and inference schemas remain distinct artifacts.
 - FreeLLMAPI architecture-vs-runtime identity remains unresolved; no route/config/provider action taken. No new schema/ID or normative contract was created.
 - Next: trace exact registry loaders/consumers and non-secret route identity source/config references; preserve open ingress/issuer/fencing and D6 blockers.
+
+
+## 90. Registry loader and route-identity trace (2026-10-15)
+
+- Source-backed details: [Agent / Task / Provider Schema Inventory, Wave 01 §11](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md).
+- One concrete provider/model catalog loader is established in `ops/qualification/qualify_execution_backends.py`; it contains outbound request paths and is wired to a self-hosted qualification workflow. Not invoked.
+- Agent registry is read by test source; no exact production loader for the hybrid fabric or executor/node YAML was established in this pass.
+- FreeLLMAPI local gateway first hop is source-declared; upstream/egress remains UNKNOWN. FCC/OmniRoute are transport identities, not agents; qualification-gated config is not proof of active routing.
+- Next: create a source-anchored identity/status comparison table without changing normative configs or invoking provider workflows.
