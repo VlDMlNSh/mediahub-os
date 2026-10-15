@@ -11,7 +11,7 @@ authority:
     role: final_architecture_production_security_authority
   astra:
     id: A0-ASTRA
-    role: single_coordination_authority
+    role: ASTRA_GOLD_engineering_coordination_authority_for_ASTRA_internal_workflow_state_only # Does not own canonical MediaHub Product State Authority.
   architect:
     id: A1
     role: architecture_contracts
