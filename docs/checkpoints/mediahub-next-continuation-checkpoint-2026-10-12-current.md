@@ -3074,3 +3074,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Qualification schema: main aef6229477ed8ec45e45170f98ea87f7ba75ca29; docs 0b86b07dfa916d4485ce1f8f54d19de136d98491. Docs branch explicitly scopes A0 state authority to ASTRA internal queue/claim/gate state, not product state. Reference architecture, component scheme and executor matrix also differ across refs.
 - No source contract, test, implementation or runtime artifact changed. No tests, installations, providers, credentials, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick occurred.
 - Next: prepare a minimal coordinated model/test/qualification-schema/reference-prose change packet, including history/consumer references and compatibility risk. Do not apply or test the change without relevant authorization.
+
+## Latest continuation — ASTRA authority model/test/schema change packet, Wave 12 (2026-10-15)
+
+- Added [MEDIAHUB-ASTRA-AUTHORITY-MODEL-TEST-SCHEMA-CHANGE-PACKET-WAVE-12-2026-10-15.md](MEDIAHUB-ASTRA-AUTHORITY-MODEL-TEST-SCHEMA-CHANGE-PACKET-WAVE-12-2026-10-15.md), creation commit `60bf69f414739a63b7a4d85b1fd1f635f564aabf`.
+- Live compare before this pass: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1340 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- The packet source-pins main/docs versions of the unified-system YAML, qualification schema, drift assertion, reference architecture, component scheme and executor capability matrix. It records the owner-approved DEC-DEV-02 Option C split and proposes coordinated semantics without applying any normative change.
+- Directly identified consumer: `tests/test_astra_gold_architecture_drift.py`, blob `d6a0e6a6d81dc6e15e343cd80ee950431b1e3b14`, line 65 asserts `single_coordination_authority`. Search queries returned no results but are non-diagnostic; producer/consumer/history closure remains NOT COMPLETE.
+- No source, schema or test changed; no tests, installation, provider calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration.
+- Next bounded step: continue read-only producer/consumer/history closure using direct tree/source/history evidence; if closure cannot be established, preserve the blocker. Do not apply or test the coordinated change without explicit authorization. Jarvis→A0 ingress/authentication/replay, capability issuer/delegation/revocation and fencing/result publication remain blocked.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
