@@ -5885,3 +5885,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Exact resolved `pydantic`/`pydantic-core` versions, target-profile lock, artifact hashes/source provenance and complete SBOM/advisory closure remain OPEN. No version was selected or changed; no artifact download, dependency resolution, test, scan, installation or runtime action occurred.
 - OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION.
 - Next: choose another non-overlapping unresolved crosswalk gate or capture owner-provided target hardware/OS facts; do not repeat the existing OpenHands sections or run runtime evaluation.
+
+## 113. OpenHands workspace guardrails and target-profile boundary — Wave 19 (2026-10-15)
+
+- Updated the existing [Component Admission Crosswalk, §7.19](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md) with source observations from OpenHands SDK v1.54.0 workspace-root and package metadata.
+- Exact SDK package metadata blob `39c3ce3b1137c59e6a24423a3d11097f446507ee` declares Python `>=3.12` and lower-bounded dependencies; workspace-root `pyproject.toml` blob `2da88a5a9f278947e6c6978ff0e0c398f27515d5` configures Python 3.13 type checking, a 7-day package freshness guardrail, a LiteLLM 1.93.0 constraint, and an Intel-macOS conditional `cryptography<49`.
+- These are upstream workspace facts, not a MediaHub target profile or resolved deployment lock. LiteLLM advisory blockers remain open; target hardware/OS/Python compatibility remains unknown.
+- The connector returned the `uv.lock` path SHA `5a4afacc446005f7c02c9606390847e73c4c9208` with an empty payload in both UTF-8 and base64 fetches. This is insufficient to infer lock absence or resolved versions; lock contents remain unverified.
+- OpenHands remains research-only, not selected/admitted/installed/qualified. No tests, scans, downloads, provider calls, host/runtime inspection, qualification, deployment or branch integration occurred.
+- Next: another non-overlapping admission gate only after checking existing sections, or owner-provided target hardware/OS/Python facts. Do not infer a target profile or begin runtime evaluation.
