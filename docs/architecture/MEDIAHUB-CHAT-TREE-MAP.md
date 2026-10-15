@@ -5583,3 +5583,12 @@ Live refresh performed against the current documentation ref. The existing surve
 - **Source anchors reused:** ecosystem survey blob 5c6cd19e338ed0f59823d18718a484f0129d2ef7; admission crosswalk blob 38967e9ed449f2214d9675d9f5987ac947a9cbda; session consolidation was live-read before this append. Refresh these SHAs before the next reliance-sensitive pass.
 
 Next bounded step: perform a source-only, exact-revision evaluation of the first queue item (OpenHands Software Agent SDK) against the existing admission crosswalk, then update that crosswalk only with verified deltas. Do not install or run tests without separate explicit authorization and required gates.
+
+## 82. P0-07 capability issuer trace — live anchor refresh (2026-10-15)
+
+- Refreshed the existing [Wave 07 source trace](../checkpoints/MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md); the new dated addendum records current source blob SHAs and supersedes only its stale branch-count snapshot.
+- Live compare: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch `DIVERGED`, 1212 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Re-read `authorization.py` (`4d8df5d3c1c26f7f133a8093cd270635b085f4d5`), `consumer_boundary.py` (`98bf2da9cea85da2c82145b4baef417c20b9ae73`), `in_memory_state.py` (`0fbc71369d19e09944ba67a60ccb9df802f30a4b`), `lifecycle_service.py` (`0b9d3d888e988615f1ad8cd50b1bef22f2be011b`) and MH-12 (`cf4ebfd5bf471ca676f075c51d3a24906504e490`). The inspected path shows typed context/grant checks, not accepted issuer provenance or end-to-end lifecycle verification.
+- Disposition unchanged: P0-07 remains proposal-only / NOT ACCEPTED; no accepted Jarvis→A0 ingress, issuer/delegation lifecycle or source-backed complete expiry/revocation/replay/fencing/cancellation contract was found in this bounded pass. Do not infer P0-07→P0-05→P0-04 trust edges from type compatibility.
+- No tests, installation, runtime/host inspection, provider/model calls, credentials, qualification, infrastructure change, deployment or branch integration.
+- Next: use the exact paths and evidence already indexed in Wave 07 to compare the accepted P0-05/P0-04 boundary contracts; add only direct, source-backed edges and leave missing authority interfaces open.
