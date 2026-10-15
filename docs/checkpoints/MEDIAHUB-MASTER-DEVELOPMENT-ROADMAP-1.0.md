@@ -1251,3 +1251,8 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 - No tests, downloads, dependency resolution, installation, provider/model calls, credential use, host/runtime inspection, qualification, infrastructure changes or deployment.
 - Next bounded package: WB-02, build a source-pinned contract/authority conflict register using live primary sources and owner-approved DEC-DEV-02 Option C. Do not change normative main sources or run tests without separate explicit authorization.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## WB-02 continuation pointer — 2026-10-15
+
+WB-02 source-only output is recorded in [Contour A Contract / Authority Conflict Register, Wave 01](MEDIAHUB-CONTOUR-A-CONTRACT-AUTHORITY-CONFLICT-REGISTER-WAVE-01-2026-10-15.md) and [WB-02 Continuation Record](MEDIAHUB-CONTOUR-A-WB-02-CONTINUATION-RECORD-2026-10-15.md). DEC-DEV-02 Option C remains owner-decided. No normative main source or runtime artifact changed. Next bounded package: WB-03, source-only Jarvis-to-A0 ingress contract gap packet; ingress/authentication/replay and capability lifecycle remain blocked. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
