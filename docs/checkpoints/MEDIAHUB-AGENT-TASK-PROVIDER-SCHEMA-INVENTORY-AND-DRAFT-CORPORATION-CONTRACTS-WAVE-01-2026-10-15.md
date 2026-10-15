@@ -251,3 +251,54 @@ A follow-up inspection of exact source contents narrows two points:
 6. No provider/model calls, credential reads, test runs, qualification, runtime/host inspection, config edits or schema changes were performed.
 
 **Next bounded step:** reconcile identity fields across the three registries and the routing declarations into a source-anchored, non-mutating comparison table (agent ID, provider ID, transport/gateway ID, model ID, credential reference name, declared status, loader evidence, qualification evidence). Keep actual upstream/egress UNKNOWN until source evidence proves it. Do not launch the qualification workflow or probes.
+
+
+## 12. Cross-registry identity/status reconciliation matrix (2026-10-15)
+
+**Source scope:** documentation branch only. This table compares declarations; it does not claim runtime loading, credentials present, endpoint reachability, or qualification success. Credential names only are recorded, never values.
+
+Source blobs: profiles/agent-registry.json 993cbbe1b2b2a88da7d8884a897b404f055981a8; profiles/providers/astra-gold-hybrid-agent-fabric.yaml acf3ad43e68bf49ffa5a1d2c89f64bd363c0e181; ops/qualification/provider_model_registry.json 62328126fd2cd8879a73bb6812adcacd3e2abe84; ops/agent-fabric/providers/local-executor-routing-v2.yaml af3d96fe91055af6ba79eded9c800d28d8c0c5c9; ops/agent-fabric/providers/node-role-map.yaml 6fab2a8513ad32ed5bb15be819ad74cc2365214b.
+
+| Comparison key (not a canonical shared ID) | Agent registry declaration | Hybrid fabric declaration | Provider/model catalog declaration |
+|---|---|---|---|
+| ollama | local; enabled=true; activation=unspecified | local_fabric/ local_model; status=unspecified | — |
+| freellmapi | local_gateway; enabled=true; activation=unspecified | gateways/ local_gateway; status= PENDING; ref= local_key_file | — |
+| gemini | external; enabled=true; activation=credentialed_only | cloud_agents/ direct_cloud; status= NOT_PROVEN; ref= GEMINI_API_KEY | gemini-1: models=gemini-3.8-flash, gemini-3.5-flash-lite; credential_env=GEMINI_API_KEY; cost=free_tier; persistence=free_tier |
+| perplexity | external; enabled=true; activation=credentialed_only | cloud_agents/ direct_cloud; status= NOT_PROVEN; ref= PERPLEXITY_API_KEY | — |
+| kimi | external; enabled=true; activation=credentialed_only | cloud_agents/ direct_cloud; status= NOT_PROVEN; ref= KIMI_API_KEY | kimi-1: models=kimi-k2.5; credential_env=KIMI_API_KEY, MOONSHOT_API_KEY; cost=free; persistence=free_tier |
+| deepseek | external; enabled=true; activation=credentialed_only | cloud_agents/ direct_cloud; status= NOT_PROVEN; ref= DEEPSEEK_API_KEY | deepseek-1: models=deepseek-chat, deepseek-reasoner; credential_env=DEEPSEEK_API_KEY; cost=trial; persistence=trial |
+| chatgpt | external; enabled=true; activation=credentialed_only | cloud_agents/ direct_cloud; status= NOT_PROVEN; ref= OPENAI_API_KEY | — |
+| openai | — | gateways/ direct_cloud; status= NOT_PROVEN; ref= OPENAI_API_KEY | — |
+| openrouter | external; enabled=true; activation=credentialed_only | gateways/ cloud_gateway; status= NOT_PROVEN; ref= OPENROUTER_API_KEY | openrouter-1: models=openai/gpt-oss-120b:free, google/gemini-2.5-flash:free; credential_env=OPENROUTER_API_KEY; cost=router; persistence=router |
+| unorouter | external_gateway; enabled=true; activation=credentialed_only; credential=UNOROUTER_API_KEY | gateways/ cloud_gateway; status= NOT_PROVEN; ref= UNOROUTER_API_KEY | unorouter-1: models=gpt-oss-120b:free; credential_env=UNOROUTER_API_KEY; cost=router; persistence=router |
+| claude | external_gateway; enabled=true; activation=credentialed_only; credential=OMNIROUTE_API_KEY | gateways/ cloud_gateway; status= NOT_PROVEN; ref= OMNIROUTE_API_KEY | — |
+| cloudflare | — | gateways/ direct_cloud; status= CANDIDATE; ref= CLOUDFLARE_API_TOKEN | cloudflare-1: models=@cf/meta/llama-3.1-8b-instruct; credential_env=CLOUDFLARE_API_TOKEN_1, CLOUDFLARE_API_TOKEN; cost=free; persistence=workers_ai<br>cloudflare-2: models=@cf/meta/llama-3.1-8b-instruct; credential_env=CLOUDFLARE_API_TOKEN_2; cost=free; persistence=workers_ai |
+| siliconflow | — | gateways/ direct_cloud; status= CANDIDATE; ref= SILICONFLOW_API_KEY | siliconflow-1: models=THUDM/glm-4-9b-chat; credential_env=SILICONFLOW_API_KEY_1, SILICONFLOW_API_KEY; cost=free; persistence=permanent_free<br>siliconflow-2: models=deepseek-ai/DeepSeek-R1-Distill-Qwen-7B, Qwen/Qwen2.5-7B-Instruct, THUDM/glm-4-9b-chat; credential_env=SILICONFLOW_API_KEY_2; cost=free; persistence=permanent_free |
+| novita | — | gateways/ direct_cloud; status= CANDIDATE; ref= NOVITA_API_KEY | novita-1: models=meta-llama/Llama-3.2-1B-Instruct, Qwen/Qwen2.5-7B-Instruct, THUDM/glm-4-9b-chat; credential_env=NOVITA_API_KEY_1, NOVITA_API_KEY; cost=free; persistence=permanent_free<br>novita-2: models=meta-llama/Llama-3.2-1B-Instruct, Qwen/Qwen2.5-7B-Instruct, THUDM/glm-4-9b-chat; credential_env=NOVITA_API_KEY_2; cost=free; persistence=permanent_free |
+| zai | — | gateways/ direct_cloud; status= CANDIDATE; ref= ZAI_API_KEY | zai-1: models=glm-4.7-flash, glm-4.5-flash; credential_env=ZAI_API_KEY_1, ZAI_API_KEY; cost=free; persistence=permanent_free<br>zai-2: models=glm-4.7-flash, glm-4.5-flash; credential_env=ZAI_API_KEY_2; cost=free; persistence=permanent_free |
+| llm7 | — | gateways/ direct_cloud; status= CANDIDATE; ref= LLM7_API_KEY | llm7-1: models=default; credential_env=LLM7_API_KEY; cost=free; persistence=free_tier |
+| sambanova | — | gateways/ direct_cloud; status= CANDIDATE; ref= SAMBANOVA_API_KEY | sambanova-1: models=DeepSeek-V3.1, Meta-Llama-3.3-70B-Instruct; credential_env=SAMBANOVA_API_KEY; cost=free; persistence=free_tier |
+| aionlabs | — | gateways/ direct_cloud; status= CANDIDATE; ref= AIONLABS_API_KEY | aionlabs-1: models=aion-labs/aion-3.5-mini, aion-labs/aion-3.5; credential_env=AIONLABS_API_KEY; cost=free; persistence=free_tier |
+| groq | — | gateways/ direct_cloud; status= CANDIDATE; ref= GROQ_API_KEY | groq-1: models=openai/gpt-oss-20b, openai/gpt-oss-120b; credential_env=GROQ_API_KEY; cost=free_tier; persistence=free_tier |
+| mistral | — | gateways/ direct_cloud; status= CANDIDATE; ref= MISTRAL_API_KEY | mistral-1: models=mistral-small-latest, mistral-large-latest; credential_env=MISTRAL_API_KEY_1; cost=free_tier; persistence=free_tier<br>mistral-2: models=mistral-small-latest, mistral-large-latest; credential_env=MISTRAL_API_KEY_2; cost=free_tier; persistence=free_tier |
+| huggingface | — | gateways/ direct_cloud; status= CANDIDATE; ref= HF_TOKEN | huggingface-1: models=openai/gpt-oss-120b:fastest, Qwen/Qwen3-Coder-480B-A35B-Instruct:fastest; credential_env=HF_TOKEN; cost=free_tier; persistence=free_tier |
+| nararouter | — | gateways/ cloud_gateway; status= CANDIDATE; ref= NARAROUTER_API_KEY | nararouter-1: models=default; credential_env=NARAROUTER_API_KEY_1, NARAROUTER_API_KEY; cost=router; persistence=router |
+| orcarouter | — | gateways/ cloud_gateway; status= CANDIDATE; ref= ORCAROUTER_API_KEY | orcarouter-1: models=default; credential_env=ORCAROUTER_API_KEY; cost=router; persistence=router |
+| zerouter | — | gateways/ cloud_gateway; status= NOT_PROVEN; ref= ZEROUTER_API_KEY | zerouter-1: models=gpt-5.4; credential_env=ZEROUTER_API_KEY; cost=router; persistence=router |
+| gigachat | — | cloud_agents/ direct_cloud; status= REGISTERED_NOT_QUALIFIED; ref= GIGACHAT_API_PERS | — |
+| kimi-k3-in-c | local; enabled=true; activation=checkpoint_required | local_fabric/ local_model; status=unspecified | — |
+| claude-code | local_tooling; enabled=true; activation=local_install_required; qualification=pending | local_fabric/ local_executor; status= NOT_PROVEN | — |
+| codex | local_tooling; enabled=true; activation=local_install_required; qualification=pending | local_fabric/ local_executor; status= NOT_PROVEN | — |
+| cursor | local_tooling; enabled=true; activation=local_install_required; qualification=pending | local_fabric/ local_tooling; status=unspecified | — |
+
+### Cross-registry discrepancies and safe interpretation
+
+1. **Identifier domains are not normalized.** The agent registry uses agent/gateway IDs (for example ollama, freellmapi, claude); the qualification registry uses provider-instance IDs (for example ollama-local-1, gemini-1, siliconflow-1) plus separate provider/family and model fields. Matching names/families are evidence of a naming relationship only, not a foreign-key contract.
+2. **Qualification status is not one field.** Agent-registry enabled/activation, hybrid-fabric status, and provider-catalog presence/selection order represent different lifecycle dimensions. Listing or enabling an entry does not establish credentials, successful authentication, model discovery, or A3 verification.
+3. **Credential reference names differ across catalogs.** Hybrid fabric uses one credential reference per declared agent/gateway, while provider-model entries can list multiple environment-variable fallbacks. No secrets were read and no credential availability is claimed.
+4. **Transport/executor IDs are a separate domain.** Routing uses CODEX_FCC, CLAUDE_FCC, CODEX_OMNIROUTE, CLAUDE_OMNIROUTE, and CLAUDE_CODE_DIRECT; node-role-map adds labels such as CLAUDE_LOCAL_FCC/CODEX_LOCAL_FCC, node IDs, executor and model fields. They are not provider-catalog IDs. Exact runtime loading and cross-file referential validation were not established.
+5. **Model disagreements must not be auto-corrected.** Node-role-map declares qwen2.5-coder:1.5b for local Claude executor pools and qwen2.5-coder:3b for a Codex pool; provider-model registry declares qwen2.5-coder:3b under ollama-local-1. These are declarations in separate artifacts, not proof that routes are connected or a confirmed defect.
+6. **FreeLLMAPI remains a three-layer unknown:** provider identity freellmapi; loopback first hop 127.0.0.1:3001/v1; upstream/egress UNKNOWN. Do not mark it local-only or cloud-backed without source/config evidence of the gateway upstream.
+7. **No normalization or ID changes made.** A future canonical crosswalk requires owner-approved namespace/authority rules and loader evidence. No runtime/config/schema code changed in this pass.
+
+**Next bounded step:** trace the declared executor IDs and provider/model IDs to exact launcher/loader call sites (source-only), prioritizing whether local-executor-routing-v2.yaml and node-role-map.yaml are read by any executable path. Do not invoke launchers, probes, providers or workflows.
