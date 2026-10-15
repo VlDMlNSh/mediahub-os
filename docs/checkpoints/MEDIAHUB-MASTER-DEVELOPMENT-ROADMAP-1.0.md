@@ -1108,3 +1108,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Under the owner's clean-slate direction, these are **LEGACY / TARGET-EXCLUDED**, not routes to repair or components to carry forward by default. The observed source inconsistency is not a defect claim about the new system.
 - No workflows, workers, tests, installers or runtimes were executed; no code or non-documentation files were deleted. Any later removal requires exact reference/dependency closure. Historical provenance and Baseline 2.0/security invariants remain separate from retired deployment assumptions.
 - Next: source-only inventory of remaining active old-node-bound artifacts and dependency references; then build a target-only component allowlist against accepted requirements and fresh admission gates. Do not assume old worker logic is reusable.
+
+
+## 90. Greenfield legacy-artifact classification — additional service/workflow paths (2026-10-15)
+
+- Added [Agent / Task / Provider Schema Inventory §19](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md), classifying additional old-node-bound service definitions, node diagnostics, and supervisor/worker workflows as **LEGACY / TARGET-EXCLUDED**.
+- The old-node-bound set includes the autonomous supervisor workflow, Voktors-specific launchd definition, Linux mesh systemd unit, mh-dev-02 path-specific diagnostic, and the already identified chat-control/distributed worker routes.
+- Generic-looking workflows and service definitions whose exclusivity was not established remain **UNADMITTED / HOLD** or **REUSE CANDIDATE**, not automatically included in the greenfield target.
+- No repository artifacts were deleted. Before deletion, close imports, workflow/service references, documentation links and tests; delete only proven old-target-exclusive active artifacts in a separate bounded change. Preserve historical evidence with explicit HISTORICAL / NOT TARGET labels.
+- Target hardware and operating-system facts remain UNKNOWN; no old node identity, path, model tag, runner label or failed installation is a new-system baseline.
+- Next: source-only reference/dependency closure, followed by a target-only component allowlist and requirements-to-component/interface/control/evidence matrix. No workflow, test, installer or runtime was invoked.
