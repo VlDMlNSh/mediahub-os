@@ -5914,3 +5914,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Live comparison at audit: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1364 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 - No tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, deployment, infrastructure changes or branch integration.
 - WB-02 source-only register is complete for this bounded pass; producer/consumer/history closure, accepted ingress/capability contracts, task/result/fencing semantics and hardware inputs remain open. Next: WB-03 ingress-contract gap packet, source-only, reusing existing edge trace and owner decision; do not invent API or authorization semantics.
+
+
+## 116. Contour A WB-03 Jarvis → ASTRA A0 ingress contract gap packet (2026-10-15)
+
+- Added [WB-03 Jarvis → ASTRA A0 Ingress Contract Gap Packet](../checkpoints/MEDIAHUB-CONTOUR-A-WB-03-JARVIS-A0-INGRESS-CONTRACT-GAP-PACKET-2026-10-15.md), creation commit `d07856d1cd4c69d38e54ddebbfbd20237288ca8d`.
+- Read and source-pinned current edge trace (Wave 10), Jarvis/ASTRA identity lifecycle trace (Wave 05), A0/MH-12 capability issuer trace (Wave 07), MH-12 security architecture, GitHub adapter draft and owner decision record.
+- The packet specifies 16 unresolved ingress contract surfaces, logical request-lifecycle review checklist and future negative-verification requirements; it deliberately selects no endpoint, protocol, credential technology, issuer or wire schema.
+- Current branch compare: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1369 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- No tests, installs, providers/models, credentials, host/runtime inspection, security scan, qualification, infrastructure changes or deployment.
+- Next: WB-04 capability issuer/trusted-context lifecycle closure matrix. Jarvis→A0 ingress remains blocked until accepted authority, identity/capability, schema and replay/fencing decisions exist.
