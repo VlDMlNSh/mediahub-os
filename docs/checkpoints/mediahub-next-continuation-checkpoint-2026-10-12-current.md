@@ -2800,3 +2800,15 @@ Current map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.
 - No tests, installation, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure change, deployment, merge, rebase or cherry-pick occurred.
 - Next: inventory existing agent/task/provider/result schemas and stable IDs against the accepted ASTRA workflow policy and MH-12 boundaries, identifying reusable fields and collisions only; do not draft a new normative schema until accepted ingress and identity ownership are evidenced.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — bounded schema-ID census and cross-ref delta (2026-10-15)
+
+- Re-read the live Bootstrap, map, checkpoint, roadmap and existing schema inventory before this pass. The documentation branch remains separate from main; no branch integration was attempted.
+- Added §9 to [Agent / Task / Provider Schema Inventory, Wave 01](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md), commit 710c1e5fcfae8864b39c69be5ef0899704e0b84f, read-back blob SHA 7471c9557e6f8d8ed26243e9a40dc65c86f397ec. Indexed in [Project Map §88](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), commit 538bc0f2461ea8f29a67eaf0b821f313b8254eeb, read-back blob SHA cdfa6faaa4ad79fc89bb418e1af39034ed97979d.
+- The complete recursive documentation-ref tree returned 930 entries (tree SHA e1c9d45d941072641cd61ef3e8fcb13e474896fc, not truncated). There are 26 schemas/**/*.json files on docs and 25 on main; the 25 shared files have identical blob SHAs and the component-evidence schema is docs-only.
+- The 26 inspected top-level JSON Schema $id values are unique within that directory census. Namespace conventions differ across files; this is a consistency/registration risk, not an observed duplicate. Repository-wide ID collisions and full producer/consumer edges remain OPEN because code/YAML/Markdown/history/external identifiers were not exhaustively content-scanned and GitHub code-search zero-results are non-diagnostic.
+- No normative schema or runtime implementation changed. No tests, installations, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment, merge, rebase or cherry-pick.
+- Next bounded step: trace non-secret producer/consumer references for agent registry, provider fabric and inference request/response contracts from exact source files. Do not register proposed corporation schema IDs until naming/version policy, complete collision coverage, accepted Jarvis→A0 ingress and capability issuer lifecycle are resolved.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
