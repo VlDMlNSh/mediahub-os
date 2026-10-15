@@ -6179,3 +6179,16 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Status: **SOURCE-BOUNDED READ-ONLY AUDIT / HIGH-RISK LEGACY WORKFLOW FLAGGED / NO CODE CHANGE OR EXECUTION / NO RETIREMENT AUTHORIZED BY THIS PASS**.
 - Next: WB-14O path-level reverse-reference and commit-provenance review of the migration workflow and systemd unit, then prepare a proposed controlled disposition matrix without changing main or merging branches.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.286 Contour A WB-14O — legacy artifact reverse references and retirement provenance (2026-10-16)
+
+- Report: [WB-14O Legacy Artifact Reverse-References and Retirement Provenance](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14O-LEGACY-ARTIFACT-REVERSE-REFERENCES-AND-RETIREMENT-PROVENANCE-2026-10-16.md), creation commit `881f4c11021fb8860afb094bde67fac3aa287ae2`, report blob SHA `7061659f1e6244b282e967ea38d9f3c28640b67c`.
+- Path history confirms documentation-branch deletion commits `8d9dc210b1347cc254dfa745221c1d7857ee1019` (storage migration workflow) and `d27962f9c69e4a7a8f2c2cc17cbd16ee61410ea1` (old systemd bootstrap). Each commit diff deletes its respective file only; neither updates the launcher guide. Both files remain on main.
+- The old launchd plist remains on main and the docs ref with SHA `d1d8aea99c2303c26e542a3d1c5e54b4596521d0`, still bound to `Voktors-Mini.Dlink` and `/Users/voktor/astra-work`. The generic launcher guide still instructs operators to install a systemd unit and launchd plist, creating an unresolved source/docs consistency gap after the two deletions.
+- `ops/astra-github-bootstrap.sh` remains shared across the old launcher definitions and two operations documents; it defaults to `main` and hard-resets an existing worktree to `origin/$BRANCH`. Classify as **SHARED-OR-UNKNOWN**, not automatically retireable with the host-bound launchers.
+- Bounded reverse-reference scan of eight other workflow files found no direct literal reference to the two retired artifact paths. These workflows retain their own legacy dispatch/node assumptions; this is not proof of complete repository caller closure. Workflow run status, service enablement/liveness and host state are UNKNOWN; nothing was executed.
+- Source ref at start: main `ab36db009d034db8dca723691e23b331322287e7`; docs branch `45fc0d39020171bb7bede69ec3cc72a7ff63eaf7`; DIVERGED 1469 ahead / 4 behind at the time of the initial check. No branch integration or source changes.
+- Status: **BOUNDED PATH HISTORY / REVERSE-REFERENCE REVIEW / DELETION CANDIDATES IDENTIFIED / SHARED BOOTSTRAP HELD / NO RUNTIME QUALIFICATION**.
+- Next: WB-14P launcher-family and bootstrap-contract reconciliation, separating host-bound mechanics from any approved reusable transport/health-evidence requirements.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
