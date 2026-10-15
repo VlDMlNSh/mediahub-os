@@ -1203,3 +1203,10 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 - YAML `authority.coordination.role: single_coordination_authority` is identified as a compatibility-sensitive proposal point. No replacement was applied pending complete producer/consumer/history reference closure and owner/governance change authorization.
 - Jarvis→A0 ingress, capability issuer/verifier lifecycle, fencing/result publication, accepted mission/task/result schema governance and target hardware/OS/topology remain open. Runtime work remains separately gated and unauthorized in this pass.
 - Next: source-only reference closure for the machine-readable authority field, followed by a minimal owner/governance review packet.
+
+## Current continuation — authority field source closure, Wave 11 (2026-10-15)
+
+- Source checkpoint: [MEDIAHUB-CONTOUR-A-AUTHORITY-FIELD-SOURCE-CLOSURE-WAVE-11-2026-10-15.md](MEDIAHUB-CONTOUR-A-AUTHORITY-FIELD-SOURCE-CLOSURE-WAVE-11-2026-10-15.md).
+- Paired refs confirm unified-system YAML on main (adc852009c3a79d0e64265a3af8a4910a1388057) still assigns single_coordination_authority, while docs branch (f5040aeb479176508d5b0ca35eb742a6db818867) scopes A0 to ASTRA-internal engineering workflow state. Drift test is identical across refs (d6a0e6a6d81dc6e15e343cd80ee950431b1e3b14) and still asserts the old role at line 65.
+- This is a source-level compatibility/test-contract inconsistency, not a test result or runtime defect finding. No test was run; no source/test file changed; no branch integration.
+- Next: package the coordinated model/test/qualification-schema/reference-prose change and trace history/consumers. Keep normative edits and test execution gated by explicit authorization; retain fail-closed behavior until reconciled.
