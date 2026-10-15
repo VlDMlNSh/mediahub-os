@@ -3217,3 +3217,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, security scans, installations, provider/model calls, credential use, host/runtime inspection, infrastructure changes or deployment.
 - Next: WB-10 source-pinned contract graph and requirement → failure control → verification evidence matrix, prioritizing Jarvis→A0 ingress and queue-lifecycle conflict.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A WB-10 direct local-executor route (2026-10-15)
+
+- Added [WB-10 Jarvis Direct Local-Executor Route and Contract Evidence Matrix](MEDIAHUB-CONTOUR-A-WB-10-JARVIS-DIRECT-LOCAL-EXECUTOR-ROUTE-AND-CONTRACT-EVIDENCE-MATRIX-2026-10-15.md), creation commit `d0c191e830c8f760b24a40e505a3ef6748a508fe`.
+- Owner direction recorded: in addition to Jarvis→A0, Jarvis may submit eligible autonomous work directly to a local-executor queue, bypassing A0 coordination. This is a separate bounded route; it does not bypass identity, authorization, sensitive approval, isolation, audit, evidence or recovery controls.
+- The matrix defines 17 required controls and failure/evidence semantics. Existing file Task Contract ingress, P0 typed authorization and HMAC operational command paths remain distinct in inspected source; no accepted end-to-end direct Jarvis→local-executor path was established.
+- Open blockers: accepted direct ingress; local queue lifecycle owner; issuer/approval/capability provenance; claim/lease/fencing/idempotency/recovery contract; signer-helper canonicality; ASTRA/Product State Authority source conflict; exact hardware profile.
+- No tests, security scans, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next: WB-11 trace concrete local executor and queue-controller candidates, pin producer/consumer/lifecycle edges and determine whether an existing component can satisfy Route B.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
