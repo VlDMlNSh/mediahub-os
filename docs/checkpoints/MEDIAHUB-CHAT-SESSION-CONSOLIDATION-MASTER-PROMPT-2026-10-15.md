@@ -216,3 +216,17 @@ The existing Wave 07 trace was reused, not duplicated. A live source-anchor refr
 The inspected code proves typed context/grant-check seams only. It does not establish an accepted Jarvis→A0 ingress, issuer/delegation lifecycle, or complete expiry/revocation/replay/fencing/cancellation contract. P0-07 remains proposal-only / NOT ACCEPTED; P0-05/P0-04 trust edges remain unasserted unless direct primary contracts prove them. Branch compare: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1212 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration or runtime/test activity occurred.
 
 Next bounded step: inspect map-indexed P0-05 and P0-04 accepted boundary contracts for direct identity/context/capability edges; keep absent interfaces open and do not duplicate existing records.
+
+## Incremental source reconciliation — P0-05/P0-04 boundary evidence (2026-10-15)
+
+This pass extends the existing Wave 07 trace and does not create a parallel contract.
+
+- **Live compare:** `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, ahead 1219 / behind 3; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase/cherry-pick.
+- **Updated source trace:** [Wave 07](MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md), commit `505e044c0279065a017585a1e8bf15d0174c4d39`, blob `411dbd52c92e17dff0a8bfdd077d0305b5371d04`.
+- **Updated navigation/checkpoint:** [Project map §84](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), commit `812170f641cc435aa87b9f0e8fd13a617a4396fd`, blob `2caeeada755d6bc837cabfc17507943d96c31c7a`; current checkpoint update commit `f026752b8d630b4f43fdde760bfac3c3ee70cdb1`, blob `ad6c2208ef8aac5eedf933e0ec4a6caff8ece0bb`.
+- **Direct evidence:** `authorization.py@main` SHA `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` defines only principal/capability context and exact grant matching; `consumer_boundary.py@main` SHA `98bf2da9cea85da2c82145b4baef417c20b9ae73` mediates operations through an injected authority. This is a P0-05→P0-04 in-process seam, not proof of a P0-07 caller edge or accepted integration contract.
+- P0-05 candidate contract SHA `79e2b4865c47b5394ade266cd3cd7cfbe3097717` remains explicitly NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN. DRAFT-header vs implementation-acceptance-record discrepancy (D6) is unresolved. Existing-context proposal SHA `fce7019b3430a95d12f723a769d39e1cd29067af` remains proposal-only.
+- **Open:** accepted P0-07→P0-05 ingress/caller adapter; trusted context issuer/attester/verifier and lifecycle; owner/governance disposition for P0-05 D6. P0-04 remains sole canonical mutation authority. Do not invent or promote interfaces.
+- No tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration. Full chat reconciliation remains PARTIALLY RECONCILED.
+
+Next bounded action: search the map-indexed owner/governance records for a disposition of D6 and accepted issuer/adapter source. If absent, record the specific blocker and continue an independent, source-backed roadmap task.
