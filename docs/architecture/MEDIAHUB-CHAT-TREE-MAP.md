@@ -5631,3 +5631,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Admission remains RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Open gates: immutable source/artifact pin and provenance; transitive SBOM/license/advisory closure; target runtime compatibility; isolated workspace/filesystem/process/network/credential/resource/cancellation profile; owner disposition on LiteLLM/provider-routing; separate execution authorization.
 - No installation, tests, scans, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration.
 - Next: independently continue source-only review of the existing crosswalk's unresolved dependency/provenance gates; do not create duplicate candidate records or perform runtime evaluation.
+
+
+## 87. ASTRA executor policy ref-drift crosswalk (2026-10-15)
+
+- Source trace updated: [Wave 07 capability issuer/source trace](../checkpoints/MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md), commit `62b3c7ca732e9f02abd41fd3604f755431aa4508`, read-back blob SHA `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`.
+- Confirmed same-path semantic drift: `main` ASTRA capability matrix (`da26185254d9954fcee204f81ecca129bf052e7c`) says A0 `Global coordination/state`; documentation branch (`9ad83781a8da53d1a8f540ede54eba95281f01c0`) scopes A0 to ASTRA workflow/control state and excludes canonical product state. MH-12 security architecture/invariants were cross-checked by blob SHA.
+- Disposition: documented ref drift, not proof of runtime enforcement. No source contract edited or merged. P0-07→P0-05 accepted ingress remains NOT ESTABLISHED; trusted issuer lifecycle and P0-05 D6 remain OPEN; P0-04 remains sole canonical mutation authority.
+- Corporation reconciliation updated with the same concise evidence; details live in the Wave 07 trace. Next: reuse existing schemas and stable IDs to map agent/task/provider/task-result boundaries; do not invent a new normative schema before accepted ingress and identity ownership are evidenced.
