@@ -1005,3 +1005,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Open gates: immutable source/artifact provenance; full transitive SBOM/license/advisory closure; target runtime compatibility; isolated workspace/filesystem/process/network/credential/resource/cancellation controls; owner decision on direct LiteLLM/provider routing; separate authorization before installation or runtime tests.
 - No install, tests, scans, provider/model calls, credentials, host inspection, qualification, infrastructure changes, deployment or branch integration. Candidate remains not selected/admitted/not ready for runtime evaluation.
 - Next: continue source-only review of the existing crosswalk's dependency/provenance gates; do not duplicate the candidate catalog or promote status without evidence.
+
+
+## 79. Execution update — ASTRA capability-matrix ref drift and security-contract crosswalk (2026-10-15)
+
+- Compared `docs/operations/ASTRA-EXECUTOR-CAPABILITY-MATRIX.md` across refs: `main` blob `da26185254d9954fcee204f81ecca129bf052e7c` describes A0 as `Global coordination/state`; documentation branch blob `9ad83781a8da53d1a8f540ede54eba95281f01c0` explicitly scopes it to ASTRA engineering workflow/control state and excludes canonical product state.
+- Cross-checked MH-12 architecture blob `cf4ebfd5bf471ca676f075c51d3a24906504e490` and security invariants blob `0609be9c3420070434014dad4529e4ccd46b0996`. The narrower docs wording is consistent with owner-approved DEC-DEV-02 Option C; the ref conflict remains real because no authorized branch integration occurred, and MH-12 invariants remain governance-review status.
+- Detailed evidence recorded in [Wave 07 source trace](MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md), commit `62b3c7ca732e9f02abd41fd3604f755431aa4508`, read-back blob `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`, and in [Corporation Contract Reconciliation Wave 02](MEDIAHUB-CORPORATION-CONTRACT-RECONCILIATION-WAVE-02-2026-10-15.md).
+- Result: documentation-ref drift is evidenced; deployed enforcement, accepted A0 ingress, trusted issuer lifecycle, fencing and cancellation/replay guarantees are not established. P0-07→P0-05 remains NOT ESTABLISHED; P0-05 D6 remains OPEN; P0-04 remains sole canonical product-state mutation authority.
+- No normative contract/source changed; no test, installation, provider/model call, credential use, host/runtime inspection, qualification, infrastructure change, deployment, merge, rebase or cherry-pick.
+- Next: inventory existing task/agent/provider schemas and stable IDs against the accepted ASTRA matrix and MH-12 boundaries; reuse only in scope and avoid a duplicate wire schema until ingress/identity gates close.
