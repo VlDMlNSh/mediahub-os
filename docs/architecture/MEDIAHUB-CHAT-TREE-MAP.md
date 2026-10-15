@@ -5869,3 +5869,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Proposed a minimal coordinated model + assertion + schema-semantics + prose change, explicitly NOT applied. Directly identified consumer is `tests/test_astra_gold_architecture_drift.py`; full producer/consumer/history closure remains incomplete because GitHub code search returned no diagnostic results.
 - Branches remain diverged (live comparison at pass start: docs branch 1340 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`). No source contract/test/schema was edited, no tests were run, and no integration occurred.
 - Next: continue read-only tree/source/history closure for the role value; do not apply or test the coordinated patch without explicit authorization. Jarvis→A0 ingress/capability lifecycle and fencing/result publication remain blockers.
+
+## 111. ASTRA authority-role reference closure — Wave 13 (2026-10-15)
+
+- Added [ASTRA authority-role reference closure, Wave 13](../checkpoints/MEDIAHUB-ASTRA-AUTHORITY-ROLE-REFERENCE-CLOSURE-WAVE-13-2026-10-15.md), commit `34eaa3cb17fc2e629338f037278b9a01983b1618`.
+- Read exact main/docs blobs for unified-system model, qualification launch schema, drift test, reference architecture, component scheme and executor capability matrix. The drift test is identical across refs and line 65 asserts the old role; qualification schema retains `A0-ASTRA` in both refs. Main prose remains broader than docs-branch prose.
+- This establishes the direct test consumer and cross-file semantic drift, not full producer/consumer/history closure. The connector did not provide a reliable exhaustive tree/history closure; search misses remain non-diagnostic.
+- No normative source/test/schema changed; no tests run and no branch integration.
+- Next: source-only review of the first component already listed in the admission crosswalk (OpenHands Software Agent SDK); preserve provenance/dependency/isolation gates and do not install or execute it.
