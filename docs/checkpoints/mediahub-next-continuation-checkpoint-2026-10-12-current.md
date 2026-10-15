@@ -2990,3 +2990,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No artifact was downloaded; no install, dependency resolution, tests, security scan, model/provider call, credential use, host/runtime inspection, qualification, deployment or infrastructure change occurred.
 - Next: continue the existing crosswalk’s source-only candidate review or prepare a documentary target hardware/OS capability worksheet from already available owner-provided data. Runtime actions remain separately authorized only.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — owner clarified Contour A developer-fabric priority (2026-10-15)
+
+- Owner clarified that the immediate target is specifically the **Jarvis + ASTRA/Astra Gold + autonomous controllers + hybrid distributed autonomous development fabric**. After Contour A is deployed and independently accepted, that system is intended to autonomously develop the Contour B MediaHub OS product.
+- Master roadmap clarification recorded in [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); project map navigation recorded in §102.
+- This sharpens sequencing, not the authority model: Jarvis coordinates corporation-level missions; ASTRA A0 owns only scoped ASTRA-internal engineering workflow state; MediaHub Product State Authority alone owns canonical product-state mutation in Contour B.
+- Next work should prioritize Contour A system map/contracts and blocker closure: trusted identity/context, authorization/capability issuer/delegation/revocation, Jarvis→ASTRA ingress, task/result/evidence envelope, queue/lease/heartbeat/cancellation/recovery/fencing, workspace/repository isolation, provider/model/tool routing and audit. Component selection remains subordinate to those contracts and target hardware/OS/topology.
+- Contour B autonomous product development remains blocked until Contour A deployment and independent acceptance are proven. No implementation, test, installation, model/provider call, host/runtime inspection, infrastructure change, deployment, qualification or branch integration occurred in this pass.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
