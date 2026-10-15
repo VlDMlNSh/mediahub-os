@@ -188,3 +188,27 @@ Before any part of this proposal can become normative, source and governance evi
 - No code, runtime, configuration, normative main-branch contract or existing schema was modified.
 - No tests, installations, model/provider calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration occurred.
 - Next bounded step: perform a collision-aware identifier/schema-registry crosswalk against existing repository schema and task/agent/component IDs, then revise this draft only with source-backed results. Keep it blocked from normative promotion until ingress and capability-authority prerequisites are accepted.
+
+
+## 13. Existing identifier/schema census crosswalk — bounded status (2026-10-15)
+
+This section reuses existing source-bound inventory evidence; it is not a new exhaustive repository scan.
+
+| Evidence | Established fact | Limit / consequence for this draft |
+|---|---|---|
+| Existing schema-directory census, roadmap §80 | 25 JSON schema files on main and 26 on the documentation ref; the 25 shared paths had identical blob SHAs; the component-evidence schema existed only on the documentation ref. The 26 inspected $id values were unique within that directory census. | This is not repository-wide collision proof and does not establish a canonical namespace/version policy. |
+| Inference request schema, main, blob SHA e59c72b4a2a62b2372da57c6699ab12ebe25122f | $id is mediahub://contracts/ai/ai-inference-request.schema.json; schema_id is mediahub.ai.ai-inference-request; schema_version is const 1.0.0. | These identifiers belong to the inference request contract and must not be repurposed for mission/task/result envelopes. |
+| Inference response schema, main, blob SHA cbd7774600aa6380d40c9a676e54583a01dfcdca | $id is mediahub://contracts/ai/ai-inference-response.schema.json; schema_id is mediahub.ai.ai-inference-response; schema_version is const 1.0.0. | Separate response contract; its status enum is not a corporation task lifecycle. |
+| Existing agent/provider cross-registry inventory, Wave 01 §12, blob SHA b4a697d06058276b6812cd53ac09af51dd5890bd | Agent/gateway IDs, provider-instance IDs, model IDs, credential-reference names and executor-transport IDs are distinct domains; similar names are not proven foreign keys. | Do not derive mission/task/executor IDs from existing provider, model, or transport names. |
+| Loader/consumer trace, Wave 01 §§11–13 | Provider/model qualification catalog has a source-level loader; the inspected agent registry has test readers; hybrid fabric and executor routing YAML remain declarative where no exact runtime loader was established. | Registry membership or a schema declaration is not evidence of runtime enforcement or a canonical ID registry. |
+| Component evidence schema, documentation ref | A draft schema exists only on this documentation ref in the earlier census. | Its component/gate evidence semantics do not define corporation mission/task IDs or an accepted evidence API. |
+
+### ID assignment decision for this draft
+
+- No new schema $id, schema_id, mission_id, task_id, dag_id, executor_id or evidence_id is assigned in this pass.
+- Existing names and values remain unchanged; no canonical namespace or format is inferred.
+- Before registration, the owner/governance process must accept a namespace/version policy and source a repository-wide reference search across schema files, source code, YAML, Markdown, historical identifiers and producer/consumer call sites. GitHub code-search zero results alone are non-diagnostic.
+- A later crosswalk must include historical-ID collisions and exact producer/consumer evidence, not merely compare strings in the schema directory.
+- No tests, code execution, schema validation, provider calls, credential access, host/runtime inspection, qualification, deployment or branch integration occurred.
+
+**Next bounded step:** continue source-only producer/consumer tracing for the identity/contract references actually used by the intended greenfield Contour A, while preserving existing IDs and keeping the proposed corporation schemas unregistered. Jarvis→A0 ingress and capability issuer lifecycle remain hard blockers.
