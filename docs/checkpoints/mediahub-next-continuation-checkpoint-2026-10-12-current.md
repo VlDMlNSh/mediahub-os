@@ -3353,3 +3353,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - WB-14G inbound-reference closure remains BLOCKED. Do not retire or edit the legacy manifests/workflows until complete source-reference evidence and owner-approved disposition exist.
 - Next bounded step: acquire a read-only source/tree snapshot or working full-tree search capability. In parallel, continue a non-overlapping roadmap task that does not require exhaustive caller closure; no runtime, credential, test, workflow or infrastructure activity.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## WB-14I continuation update (2026-10-15)
+
+- Report: [WB-14I Repository Tree and Legacy Workflow Caller Expansion](MEDIAHUB-CONTOUR-A-WB-14I-REPOSITORY-TREE-AND-LEGACY-WORKFLOW-CALLER-EXPANSION-2026-10-15.md), commit `5487ab4773482c41c246a86082f2b794d14511f7`.
+- The Git Trees API now returns a complete recursive `main` tree: 800 entries, 723 blobs, `truncated=false`; tree SHA `ab36db009d034db8dca723691e23b331322287e7`. This supersedes WB-14H's earlier tree-enumeration limitation; code search remains unindexed.
+- Additional direct caller established: `runtime/mediahub_runtime/autonomous_queue.py` dispatches `.github/workflows/astra-distributed-local-worker.yml` and polls its runs. Other legacy node assumptions are detailed in WB-14I.
+- Exact readers of the two YAML manifests and full repository-wide content scan remain open. No source files changed; no tests/workflows ran.
+- Next: deterministic content scan of remaining source/config/test files, recording scanned blob SHAs and omissions. Do not retire legacy files before dependency closure and owner decision.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
