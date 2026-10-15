@@ -3316,3 +3316,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - WB-14D status: **READ-ONLY CROSSWALK / NON-NORMATIVE / NOT IMPLEMENTED / NOT QUALIFIED**. No tests, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment or branch integration.
 - Next: WB-14E — provider identity, data locality, egress/fallback policy, media workload admission and resource/qualification evidence.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest bounded continuation — WB-14E Greenfield topology exclusion (2026-10-15)
+
+- Added [WB-14E Greenfield Topology Exclusion and Provider/Workload Admission Crosswalk](MEDIAHUB-CONTOUR-A-WB-14E-GREENFIELD-TOPOLOGY-EXCLUSION-AND-WORKLOAD-ADMISSION-2026-10-15.md), creation commit `6f34c08c9f8572c0cb64d9d3a44a316b0059e454`.
+- Owner correction reflected: prior failed deployment topology is not the target baseline. Old fixed executor pool and `github_remote_claude_only` are legacy source evidence only and excluded from the new target topology by default.
+- Alamo remains proposed, not accepted; new target inventory, actual media backend, provider/upstream identity, egress, and workload envelope remain UNKNOWN until evidenced.
+- No code/config/normative contract changed; no tests, provider/model calls, credentials, host/runtime inspection, installation, deployment, migration, deletion or branch integration.
+- Next: WB-14F source-reference census of fixed topology and legacy operational identifiers, read-only.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
