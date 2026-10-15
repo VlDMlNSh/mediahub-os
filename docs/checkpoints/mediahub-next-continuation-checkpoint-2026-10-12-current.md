@@ -2877,3 +2877,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next: inventory all workflow dispatch/launch entry points that pass task/node/executor and create a route-policy comparison table; continue source-only, do not invoke any entry point.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — clean-slate new-hardware direction (2026-10-15)
+
+- Owner explicitly directed that the target be rebuilt as a new system for new hardware. Failed old-server installation attempts and old-server runtime assumptions are not target requirements and must not be used as the deployment/component baseline.
+- Recorded [Inventory §15](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md), [Roadmap §86](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), and [Map §94](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Legacy material is to be classified path-by-path: active old-server-only artifacts are removal candidates after dependency/reference review; historical evidence is preserved as history; reusable generic components require fresh admission. No non-documentation files were deleted in this pass. New hardware specifics remain UNKNOWN.
+- Estimate for source reconciliation, target-only component inventory, coherent contract draft, traceability matrix and conflict ledger: 10–20 focused working days (about 3–6 calendar weeks at 2–4 focused hours/day). Implementation, qualification and independent Contour A acceptance are separate phases.
+- No installation, tests, qualification, credential access, host/runtime inspection, infrastructure changes or deployment.
+- Next: inventory exact old-server-specific active paths and references, disposition each as RETIRE / HISTORY / REUSE-CANDIDATE / UNKNOWN, and remove only confirmed obsolete active artifacts within the user's direction. Do not alter shared/normative contracts or erase history by inference.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
