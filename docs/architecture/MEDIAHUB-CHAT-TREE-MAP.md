@@ -5726,3 +5726,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - `astra-chat-control.yml`, `astra-distributed-local-worker.yml`, `run_distributed_local_worker.py`, the distributed runner contract and its coupled test are legacy-bound to old node IDs, runner labels, users, paths and model tags. The chat-control source accepts a wider input domain than its hardcoded Codex/`mh-dev-02` dispatch; the separate worker workflow is Claude-only.
 - Treat the set as LEGACY / TARGET-EXCLUDED, not as new-system routes and not as work to repair for old hardware. Any generic algorithm is a reuse candidate only after independent review against new accepted contracts.
 - No runtime path was invoked and no code was deleted in this pass. Next: close references for remaining old-node-bound active artifacts, then assemble the target-only component allowlist from requirements.
+
+
+## 98. Greenfield legacy artifact classification — service/workflow reference closure (2026-10-15)
+
+- Evidence and disposition: [Agent / Task / Provider Schema Inventory §19](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md).
+- Additional old-node-bound artifacts identified: old-node ASTRA autonomous supervisor workflow, Voktors-specific launchd definition, Linux mesh systemd unit, mh-dev-02 path-specific diagnostic script, plus the previously excluded chat-control and distributed worker routes.
+- Generic-looking service/workflow artifacts whose old-target exclusivity was not established remain UNADMITTED / HOLD or REUSE CANDIDATE, not approved target components.
+- No code, workflow or service artifact was deleted. Source/dependency/reference closure is required before deleting proven old-target-exclusive active artifacts.
+- Clean-slate rule: the Mac Pro/Mac mini/remote video-server discussion is target design context only; old host IDs, paths, model tags, runner labels, failed installation attempts and deployment evidence do not establish the new target baseline.
+- Next: close remaining references, then create the target-only component allowlist and a unified requirements → component → interface → control → evidence matrix.
