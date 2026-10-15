@@ -2684,3 +2684,13 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Map §20.277 updated; map blob SHA `43043e7b201b6968dd1d78b65b68a9944f9f4531`; map update commit `604809a3f08b5943980e06f544aa275765f2510a`.
 - No tests, installation, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration.
 - **Next bounded step:** trace the P0-07 → P0-05 identity/context/authorization bridge using primary-source clauses and canonical-read evidence; record only source-supported producer/consumer edges. Preserve the A0 ingress/issuer/fencing/cancellation gaps and do not edit normative contracts.
+
+
+## Chat-session consolidation — reuse strategy and master prompt (2026-10-15)
+
+- Added [MEDIAHUB-CHAT-SESSION-CONSOLIDATION-MASTER-PROMPT-2026-10-15.md](MEDIAHUB-CHAT-SESSION-CONSOLIDATION-MASTER-PROMPT-2026-10-15.md), created in commit `f05b926bacfe33233d5109f3769a828f8959f79b`. It consolidates the owner's objective to identify and compare mature upstream components, candidate groups raised in the chat, the initial five-component review priority, MediaHub authority boundaries, source-backed blockers, candidate-admission criteria and continuation protocol.
+- Candidate names are not adoption decisions. The survey is targeted, not an exhaustive scan of every GitHub repository. Exact revisions, licenses, platform support, security posture and contract overlap must be verified per candidate.
+- Current candidate comparison priority: Pydantic AI, LangGraph, Temporal, OPA and OpenTelemetry; OpenHands SDK and MCP remain additional targeted candidates. No implementation or installation is authorized by this record.
+- Live ref comparison during this pass: status `diverged`; docs ref ahead 1197 / behind 3; main SHA `608d7463011798ca75e36bfce4b749a9caf4f9a0`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Re-fetch live refs on the next pass; do not integrate branches without explicit authorization.
+- Next bounded step: source-trace P0-07 → P0-05 identity/context/authorization bridge and record only evidence-backed producer/consumer edges. Keep the A0 ingress/issuer/fencing/cancellation gaps open; do not modify normative contracts.
+- No tests, software installation, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick occurred.
