@@ -2589,3 +2589,15 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Map updated in commit `e8c47bd874426b19224dc566af83bc32a8587e70`; map blob SHA after write `c6b047cd058c915d04541b0307d81378a3cb8c3d`.
 - No normative contract, implementation, test, qualification, deployment or infrastructure was changed/performed. No branch integration.
 - Next bounded step: trace exact A0 queue/claim/lease/cancellation/replay interface and MH-12 issuer lifecycle; prepare path/field-level reconciliation proposal only after source trace.
+
+
+## Latest continuation — project-wide technical conflict/drift audit Wave 05 (2026-10-15)
+
+- Audit: [MEDIAHUB-PROJECT-WIDE-TECHNICAL-CONFLICT-DRIFT-AUDIT-WAVE-05-2026-10-15.md](MEDIAHUB-PROJECT-WIDE-TECHNICAL-CONFLICT-DRIFT-AUDIT-WAVE-05-2026-10-15.md), creation commit `4858377593cd1d37f0df6f9cd57a0c7a11fbd440`.
+- Status: wide documentary review; 12 issue classes recorded with evidence, status and remediation direction. This is not an exhaustive automated repository scan or runtime/test/qualification audit.
+- Current branch comparison: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1171 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Highest-priority confirmed conflict: ASTRA main prose/YAML still gives A0 broad “single MediaHub coordination and state authority” wording, while the owner-approved DEC-DEV-02 Option C and MH-12/MH-21 distinguish ASTRA-internal engineering state from canonical product-state mutation authority.
+- Additional open issues: accepted A0 ingress and cancellation/replay/recovery contract not yet sourced; MH-12 capability issuer lifecycle not fully specified at integration boundary; corporation DAG/result schemas remain proposed; FreeLLMAPI/FCC/router/Alamo/Ollama route identity and provenance remain unresolved; “QUALIFICATION_READY” label must not be treated as qualification evidence.
+- Updated map in commit `89297e93d53b16c765b7b16dd22b489d3345323d`, new map blob SHA `5c86b0f559f55933d5b62db0acbfdbd61b81477f`.
+- No normative baseline/contract or implementation changed; no tests, qualification, installations, provider/model calls, credential use, host/runtime inspection, infrastructure change or deployment performed.
+- **Next bounded step:** build exact-clause ASTRA authority wording proposal against owner-approved Option C and the governance YAML; independently source-trace accepted A0 ingress/queue/claim/lease/cancellation/replay/recovery and capability issuer lifecycle. Do not edit normative ASTRA files until the proposal is mapped to accepted governance/change-control rules.
