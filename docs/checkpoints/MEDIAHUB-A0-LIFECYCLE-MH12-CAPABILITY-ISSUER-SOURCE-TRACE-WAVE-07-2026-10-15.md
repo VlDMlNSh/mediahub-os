@@ -93,3 +93,27 @@ This dated addendum supersedes only the stale branch-count snapshot in §1; it p
 **Result:** no direct, accepted producer→consumer edge was established across P0-07 → P0-05 → P0-04 by these source reads. P0-05 implementation lineage and a P0-05 governance acceptance record do not resolve the separate discrepancy that the referenced consumer contract text retains a DRAFT header. Preserve D6 as OPEN; do not alter the protected contract header or infer normative acceptance. P0-07 remains proposal-only; mutation/publication remains BLOCKED — GOVERNANCE/API GAP. P0-04 remains the sole canonical transaction/state mutation authority.
 
 **Next evidence needed:** an accepted source naming the context issuer/attester and verifier, a source-backed P0-07 caller/adapter edge into the P0-05 boundary, and the exact governed P0-05 contract-status disposition. If no such source is available, route these items to owner/governance and continue only independent work. No tests, installs, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure change, deployment, merge, rebase or cherry-pick occurred.
+
+## Source-edge refresh — P0-05 contract-status and P0-04 mutation boundary (2026-10-15)
+
+**Scope:** read-only source comparison; this addendum updates evidence only and does not accept a proposal, amend a normative contract, or authorize implementation.
+
+| Source | Live ref / blob SHA | Directly established | Not established |
+|---|---|---|---|
+| `runtime/mediahub_runtime/authorization.py` | `main` / `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` | `AuthorizationContext` contains only `principal` and `capability`; policy grants are exact tuples of principal, capability and operation; absent grant denies. | Issuer/attester, audience, expiry, revocation, request/resource/payload/revision binding, signed representation or external verifier. |
+| `runtime/mediahub_runtime/consumer_boundary.py` | `main` / `98bf2da9cea85da2c82145b4baef417c20b9ae73` | P0-05 facade mediates begin/commit/abort/snapshot/restore through the injected authority; request context is typed; transaction handles are opaque at this facade. | A P0-07 caller/adapter edge, trusted context issuance, persistence or distributed fencing. The implementation file alone does not prove end-to-end caller wiring. |
+| `docs/checkpoints/p0-05-consumer-contract-v1.1-candidate-for-governance-review-2026-10-12.md` | documentation ref / `79e2b4865c47b5394ade266cd3cd7cfbe3097717` | Explicitly NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN. Records the discrepancy between DRAFT-labelled contract text and a separate implementation acceptance record; D6 requires owner/governance disposition. | Whether acceptance covered the exact contract text. Do not edit the DRAFT header or treat this candidate as normative. |
+| `docs/checkpoints/p0-05-contract-revision-proposal-p0-07-existing-context-2026-10-12.md` | documentation ref / `fce7019b3430a95d12f723a769d39e1cd29067af` | Existing-context approach remains a proposal; no source-bound caller path was established in its bounded audit. | Accepted hand-off/API, P0-04-authorized context delivery or approval of proposal clauses. |
+| P0-04 state authority implementation | `main` / `runtime/mediahub_runtime/in_memory_state.py`, blob `0fbc71369d19e09944ba67a60ccb9df802f30a4b` (previously live-read; refresh required before any future reliance) | Existing source lineage assigns canonical transaction/state mutation to the P0-04 authority; P0-05 is the facade in the current inspected path. | This pass did not re-fetch the full P0-04 source body; do not infer further transaction guarantees from the recorded SHA alone. |
+
+### Edge disposition
+
+- **P0-07 → P0-05:** `NOT ESTABLISHED` — no accepted caller/adapter contract or live source edge identified.
+- **P0-05 → P0-04:** `IMPLEMENTATION SEAM OBSERVED` — the facade invokes the injected authority; this is source-level code evidence, not an accepted cross-domain integration contract or runtime verification.
+- **Trusted context / capability issuer:** `OPEN` — principal/capability typing and grant matching do not prove issuance, attestation, audience, freshness or revocation.
+- **P0-05 governance status:** `OPEN / OWNER-GOVERNANCE REQUIRED` — DRAFT header vs implementation acceptance-record discrepancy remains unresolved.
+- **P0-04 authority:** remains the sole canonical mutation authority; no alternate authority is proposed.
+
+**Bounded result:** source anchors sharpen the distinction between an observed in-process P0-05→P0-04 code seam and the absent accepted P0-07→P0-05 trust/ingress contract. No direct edge is promoted to accepted normative status. GitHub code search returned no useful hits for P0-04/P0-05 terms; because the connector search is known to be non-diagnostic here, zero results are not evidence of absence. Exact candidate files were fetched directly.
+
+No tests, installs, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick were performed.
