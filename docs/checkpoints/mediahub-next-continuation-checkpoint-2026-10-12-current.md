@@ -3384,3 +3384,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Project map updated and read back: blob SHA `6794bf0530b32c36aef719982566dc7cea344fce`.
 - Next: continue bounded SHA-pinned scanning of non-workflow code/config/test candidates for indirect manifest readers and dispatch references.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — WB-14L (2026-10-16)
+
+- Report: [WB-14L Supplemental Non-Workflow Legacy Reference Scan](MEDIAHUB-CONTOUR-A-WB-14L-SUPPLEMENTAL-NON-WORKFLOW-LEGACY-REFERENCE-SCAN-2026-10-16.md), creation commit `b5d2a85841ddda0125972f686fcd36e490cadd62`, blob SHA `b04e66049b66cb2661f971ecb57726585c9c74a3`.
+- Fetched/scanned 24 non-workflow Python/config/JSON candidates from `main` tree `ab36db009d034db8dca723691e23b331322287e7` (800 entries, 723 blobs, `truncated=false`). No direct literal references to either provider YAML filename in this batch; old node IDs remain in task/qualification artifacts.
+- This does not prove the manifests are unused: generic/dynamic loaders, unscanned paths and external callers remain open. No source/config/workflow changed or executed; no retirement is authorized.
+- Next: inspect remaining code/config/test candidates and generic YAML/config-loader abstractions, then explicitly report any residual closure gap.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
