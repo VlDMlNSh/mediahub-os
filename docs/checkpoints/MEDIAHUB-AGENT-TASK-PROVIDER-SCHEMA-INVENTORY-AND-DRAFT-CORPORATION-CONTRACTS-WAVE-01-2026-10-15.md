@@ -302,3 +302,34 @@ Source blobs: profiles/agent-registry.json 993cbbe1b2b2a88da7d8884a897b404f05598
 7. **No normalization or ID changes made.** A future canonical crosswalk requires owner-approved namespace/authority rules and loader evidence. No runtime/config/schema code changed in this pass.
 
 **Next bounded step:** trace the declared executor IDs and provider/model IDs to exact launcher/loader call sites (source-only), prioritizing whether local-executor-routing-v2.yaml and node-role-map.yaml are read by any executable path. Do not invoke launchers, probes, providers or workflows.
+
+
+## 13. Executable loader trace: executor routing and node-role declarations (2026-10-15)
+
+### Evidence scope
+
+Source-only inspection on the documentation branch. No workflow, launcher, probe, provider, test, qualification or host operation was invoked. The files below were fetched at the listed blob SHAs; no runtime/config code was changed.
+
+| Artifact | Blob SHA | What the source establishes |
+|---|---|---|
+| `ops/agent-fabric/providers/local-executor-routing-v2.yaml` | `af3d96fe91055af6ba79eded9c800d28d8c0c5c9` | Declarative executor IDs include `CODEX_FCC`, `CLAUDE_FCC`, `CODEX_OMNIROUTE`, `CLAUDE_OMNIROUTE`, `CLAUDE_CODE_DIRECT`; all are executor-only. |
+| `ops/agent-fabric/providers/node-role-map.yaml` | `6fab2a8513ad32ed5bb15be819ad74cc2365214b` | Declares `mh-dev-02` as a `primary-local-executor-pool` with `CODEX_LOCAL_FCC`, model `qwen2.5-coder:3b`, executor `codex`; declares `Voktors-Mac-mini.local` as a fast local pool. |
+| `ops/qualification/run_distributed_local_worker.py` | `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d` | **Executable worker does not load either YAML.** It hardcodes a separate `NODE_CONFIG`: `mh-dev-02` has model `qwen2.5-coder:3b` and pool `primary_local`; it separately accepts `Voktors-Mini.Dlink` and `Voktors-Mac-mini.local`. Runtime executor input permits both `codex` and `claude`. |
+| `.github/workflows/astra-distributed-local-worker.yml` | `f650f2416c19dc75b4a0eeec037661c0c6169910` | Workflow dispatch input restricts `executor` to `claude`; its `mh-dev-02` job sets `ASTRA_EXECUTOR=claude` and checks for the 3B model. This differs from node-role-map's Codex executor declaration for that pool. Workflow was not invoked. |
+| `architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml` | `0b86b07dfa916d4485ce1f8f54d19de136d98491` | Declarative qualification contract lists five mandatory paths including both FCC and OmniRoute Codex/Claude routes plus direct Claude Code; this is a gate declaration, not evidence that these paths are loaded from the executor-routing YAML. |
+| `runtime/mediahub_runtime/agent_fabric.py` | `3c70dda5df8c6caa9411201d754ead6b3bfdf6dd` | Implements file-backed task claim/lease coordination; the inspected module does not reference either routing YAML. |
+| `astra_github_agent.py` | `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c` | Qualification path constructs isolated Codex configuration and local OmniRoute base URL in code; no reference to either routing YAML was found in the inspected file. |
+
+### Reconciliation findings
+
+1. **Loader gap confirmed within inspected executable paths:** the worker uses hardcoded `NODE_CONFIG`; the executor-routing and node-role YAML are not read by that worker. The exact authoritative runtime source for the YAML declarations is therefore **NOT ESTABLISHED** by this trace.
+2. **Executor declaration mismatch:** node-role-map assigns `mh-dev-02` to Codex (`CODEX_LOCAL_FCC`), while the distributed-local-worker workflow's `mh-dev-02` job is Claude-only. The worker code accepts either executor, so the workflow gate is the narrower policy. This is a source-level cross-artifact inconsistency; actual workflow execution/routing was not observed.
+3. **Node identity alias risk:** node-role-map names `Voktors-Mac-mini.local`, while the worker supports both that ID and `Voktors-Mini.Dlink`. No canonical alias contract or identity-equivalence proof was found in these inspected files.
+4. **Duplicated configuration drift risk:** node/model/pool values exist in both YAML and Python literals. Existing equality for the 3B model on `mh-dev-02` does not establish a shared source of truth. Do not patch one side by inference.
+5. **No runtime loader should be claimed for provider/model registry based on this trace.** The qualification script separately reads `ops/qualification/provider_model_registry.json`, but that is a different catalog and a distinct execution path.
+
+### Owner decision required before implementation
+
+Choose one explicit authority model: (A) YAML becomes the normative source and executable code consumes validated YAML; (B) Python/runtime config is normative and YAML is generated/verified derivative; or (C) retain separate artifacts with an owner-approved cross-file conformance gate. Recommendation: **A or B with one canonical source and a fail-closed conformance check**; do not choose automatically. Decide also whether `mh-dev-02` is Codex or Claude for this workflow and whether the two Voktors node IDs are aliases or distinct nodes.
+
+**Next bounded step:** inspect the source-only control plane and task/launcher contract for who selects `ASTRA_EXECUTOR` and supplies node IDs, then document the authority decision as OPEN unless an existing accepted contract resolves it. Do not invoke the workflow or worker.
