@@ -3305,3 +3305,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - WB-14C status: **BOUNDED READ-ONLY SOURCE COMPARISON; ROUTE B NOT IMPLEMENTED / NOT QUALIFIED / NOT ACCEPTED**. No tests, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment or branch integration.
 - Next: WB-14D — cross-route mission identity, idempotency, owner/lease/fencing, cancellation, retry, restart recovery and result provenance.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — WB-14D cross-route lifecycle controls (2026-10-15)
+
+- Added [WB-14D Cross-Route Lifecycle Controls and Evidence Reconciliation](MEDIAHUB-CONTOUR-A-WB-14D-CROSS-ROUTE-LIFECYCLE-CONTROLS-RECONCILIATION-2026-10-15.md), creation commit `d1f74777caff4dcb744e3fccc20a5cff6f9003c4`.
+- Reconciled existing non-normative Wave 09 lifecycle recommendations and schema draft against the source-pinned ASTRA queue, Jarvis/A0 ingress gap and Route B evidence. No new normative schema or owner decision was created.
+- Core unresolved items: accepted Jarvis→A0 ingress and issuer lifecycle; corporation-wide mission/task/attempt ID and schema registry; durable idempotent admission; storage-enforced fencing/publication; cancel/complete race; independent Route B owner/recovery; common result adapter.
+- Authority invariant retained: Jarvis coordinates missions; A0 alone owns ASTRA-internal queue/claim/lease/retry/cancellation/evidence-gate state in its scope; MediaHub Product State Authority alone mutates canonical product state.
+- WB-14D status: **READ-ONLY CROSSWALK / NON-NORMATIVE / NOT IMPLEMENTED / NOT QUALIFIED**. No tests, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment or branch integration.
+- Next: WB-14E — provider identity, data locality, egress/fallback policy, media workload admission and resource/qualification evidence.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
