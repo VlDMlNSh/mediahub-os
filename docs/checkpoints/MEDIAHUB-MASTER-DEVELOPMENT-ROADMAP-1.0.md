@@ -1256,3 +1256,8 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 ## WB-02 continuation pointer — 2026-10-15
 
 WB-02 source-only output is recorded in [Contour A Contract / Authority Conflict Register, Wave 01](MEDIAHUB-CONTOUR-A-CONTRACT-AUTHORITY-CONFLICT-REGISTER-WAVE-01-2026-10-15.md) and [WB-02 Continuation Record](MEDIAHUB-CONTOUR-A-WB-02-CONTINUATION-RECORD-2026-10-15.md). DEC-DEV-02 Option C remains owner-decided. No normative main source or runtime artifact changed. Next bounded package: WB-03, source-only Jarvis-to-A0 ingress contract gap packet; ingress/authentication/replay and capability lifecycle remain blocked. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## WB-03 continuation pointer — 2026-10-15
+
+WB-03 source-only output: [Jarvis → ASTRA A0 Ingress Contract Gap Packet](MEDIAHUB-CONTOUR-A-WB-03-JARVIS-A0-INGRESS-CONTRACT-GAP-PACKET-2026-10-15.md), creation commit `d07856d1cd4c69d38e54ddebbfbd20237288ca8d`. The packet enumerates 16 ingress contract surfaces and required future negative-verification cases without selecting protocol, endpoint, credential technology or issuer. Ingress remains blocked. Next bounded package: WB-04 capability issuer/trusted-context lifecycle closure matrix. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
