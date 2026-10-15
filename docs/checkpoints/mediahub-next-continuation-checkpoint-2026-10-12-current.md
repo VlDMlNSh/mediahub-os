@@ -3325,3 +3325,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No code/config/normative contract changed; no tests, provider/model calls, credentials, host/runtime inspection, installation, deployment, migration, deletion or branch integration.
 - Next: WB-14F source-reference census of fixed topology and legacy operational identifiers, read-only.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest bounded continuation — WB-14F legacy topology source census (2026-10-15)
+
+- Added [WB-14F Fixed-Topology and Legacy Operational Identifier Census](MEDIAHUB-CONTOUR-A-WB-14F-FIXED-TOPOLOGY-LEGACY-IDENTIFIER-CENSUS-2026-10-15.md), creation commit `83989d0d5642dcac0d031fb56e579f006959e3ab`.
+- Confirmed source-level legacy topology in runtime queue, routing YAML, node-role map, distributed-worker script/workflow, chat-control workflow, runner contract and signer. These are repository source facts only, not evidence that hosts/workflows are live.
+- No deletion, code/config changes, workflow invocation, tests, credentials/provider calls, host/runtime inspection, deployment or branch integration.
+- Branch comparison: docs branch ahead 1438 / behind 4 from main; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Divergence preserved; no integration attempted.
+- Next: WB-14G read-only reverse-reference and workflow-entry-point trace for the four highest-risk host-bound manifests, before any retirement proposal.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
