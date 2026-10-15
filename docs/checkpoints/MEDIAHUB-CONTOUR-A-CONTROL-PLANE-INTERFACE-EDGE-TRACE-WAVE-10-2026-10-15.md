@@ -30,7 +30,7 @@ A critical evidence distinction is preserved:
 | `docs/operations/ASTRA-EXECUTOR-CAPABILITY-MATRIX.md` | main / `da26185254d9954fcee204f81ecca129bf052e7c` | ASTRA-internal executor admission, dependency-aware dispatch, claims and G-5 | Not a Jarvis ingress API |
 | `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` | main / `1d3ac25e7817f365807ad85d0d7c9007bd48bebf` | ASTRA governance gates, documented timing and concurrency bounds | Contract declarations do not prove live enforcement |
 | `runtime/mediahub_runtime/authorization.py` | main / `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` | In-process AuthorizationContext has principal/capability and policy grant matching | No issuer, audience, expiry, revocation or request/resource binding evidenced by this type |
-| `runtime/mediahub_runtime/consumer_boundary.py` | main / `98bf2da9cea85da2c82145c51d3a24906504e490` | Typed context is forwarded through a consumer-boundary facade | Does not prove accepted Jarvis→A0 wiring or trusted context issuance |
+| `runtime/mediahub_runtime/consumer_boundary.py` | main / `98bf2da9cea85da2c82145b4baef417c20b9ae73` | Typed context is forwarded through a consumer-boundary facade | Does not prove accepted Jarvis→A0 wiring or trusted context issuance |
 | `runtime/mediahub_runtime/in_memory_state.py` | main / `0fbc71369d19e09944ba67a60ccb9df802f30a4b` | Prior trace identifies the canonical in-process authority seam | No distributed fencing/persistence guarantee inferred; source body not re-audited in this pass |
 
 ## 3. Producer → consumer edge matrix
