@@ -252,3 +252,12 @@ Result: a single deduplicated, role-grouped candidate/evaluation register has be
 Not done: exhaustive search of all public GitHub repositories, recovery of the exact historic 40-item list, immutable pinning for every candidate, hardware compatibility determination, installs/tests/benchmarks/provider calls, security scans, qualification, deployment or owner acceptance.
 
 Next bounded step: complete Wave 0 prerequisites and source-pin the top non-overlapping agent/tool/policy candidates. The target hardware/OS inventory and open identity/authorization contracts remain blockers. No runtime actions are authorized by this register.
+
+
+### OpenHands source-pin update (2026-10-15)
+
+- Upstream source revision identified: `OpenHands/software-agent-sdk@v1.54.0`, commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`.
+- Python requirement: `>=3.12`; repository license text is MIT. These facts do not close full transitive licensing or artifact provenance.
+- Agent Server documentation's default bind `0.0.0.0` and optional session API-key authentication are not acceptable as a default MediaHub deployment profile. SDK and server must be evaluated separately; require explicit isolation, bind/auth, egress, credential, retention and audit design before any runtime consideration.
+- Still OPEN: wheel/sdist digest and source-to-artifact provenance; locked transitive SBOM/advisory/license closure; target compatibility; isolated workspace controls; LiteLLM route/egress and LMNR telemetry privacy. Candidate remains NOT SELECTED / NOT ADMITTED / NOT QUALIFIED.
+- Source details and exact upstream file blob SHAs are maintained in [Component Admission Crosswalk Wave 01](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md) §7.17. No runtime action occurred.
