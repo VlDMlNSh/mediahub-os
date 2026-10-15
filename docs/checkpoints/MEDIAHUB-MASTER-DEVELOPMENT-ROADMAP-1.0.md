@@ -1261,3 +1261,8 @@ WB-02 source-only output is recorded in [Contour A Contract / Authority Conflict
 ## WB-03 continuation pointer — 2026-10-15
 
 WB-03 source-only output: [Jarvis → ASTRA A0 Ingress Contract Gap Packet](MEDIAHUB-CONTOUR-A-WB-03-JARVIS-A0-INGRESS-CONTRACT-GAP-PACKET-2026-10-15.md), creation commit `d07856d1cd4c69d38e54ddebbfbd20237288ca8d`. The packet enumerates 16 ingress contract surfaces and required future negative-verification cases without selecting protocol, endpoint, credential technology or issuer. Ingress remains blocked. Next bounded package: WB-04 capability issuer/trusted-context lifecycle closure matrix. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## WB-04 continuation pointer — 2026-10-15
+
+WB-04 source-only output: [Capability Issuer / Trusted-Context Lifecycle Closure Matrix](MEDIAHUB-CONTOUR-A-WB-04-CAPABILITY-ISSUER-TRUSTED-CONTEXT-LIFECYCLE-MATRIX-2026-10-15.md), creation commit `4016fb12146aeb6dc2c5ceef1f9ce20731b679f8`. The matrix records 21 lifecycle surfaces and distinguishes typed authorization-context/policy seams from proof of issuer provenance, audience, freshness or revocation. No issuer or credential technology was selected. Next: owner/governance decision packet for issuer/attester authority and trusted-context ownership, followed by producer/consumer source closure. Ingress remains blocked. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
