@@ -2826,3 +2826,17 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next bounded step: source-trace exact loaders/consumers for the three registries and non-secret route identity references; do not call providers, inspect hosts, run tests, or modify routing/configuration.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — registry loader and route-identity trace (2026-10-15)
+
+- Re-fetched live GitHub refs and re-read the current inventory, map, checkpoint and roadmap before the pass. Documentation branch HEAD at pass start: `1f545d9138be49b9e03f650363dc7ca63d34593b`; tree SHA `699905a952d8facf74a7c0c89f65b93ee6910ea3`, 930 entries, not truncated. `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; refs remain diverged, 1243 ahead / 3 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Added [Agent / Task / Provider Schema Inventory, Wave 01 §11](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md), indexed in [Project Map §90](../architecture/MEDIAHUB-CHAT-TREE-MAP.md) and [Master Roadmap §82](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Confirmed one concrete catalog loader: `ops/qualification/qualify_execution_backends.py` reads `ops/qualification/provider_model_registry.json` and contains live provider/model HTTP request paths. The linked workflow uses a self-hosted provider runner and secret environment mapping; no workflow was invoked.
+- `tests/test_astra_gold_registry.py` reads `profiles/agent-registry.json`, but that is test-source evidence only. No exact production loader was established in this bounded pass for the hybrid agent fabric YAML or executor/node routing YAMLs.
+- FreeLLMAPI identity and local loopback first hop are declared; upstream/egress behind the gateway remains UNKNOWN. FCC/OmniRoute are declared transports/gateways, not agents. Configured qualification gates do not prove active runtime routes.
+- No provider/model calls, credential reads, tests, qualification, runtime/host inspection, config/schema edits, installation, infrastructure change, deployment, merge, rebase or cherry-pick.
+- Blockers remain: P0-07→P0-05 ingress NOT ESTABLISHED; capability issuer lifecycle OPEN; P0-05 D6 OPEN / OWNER-GOVERNANCE REQUIRED; P0-04 sole canonical product-state mutation authority; branch divergence remains.
+- Next bounded step: create a source-anchored identity/status comparison table across agent/provider/transport/model IDs, credential reference names, statuses, loader evidence and qualification evidence. Keep upstream/egress UNKNOWN until proven; do not invoke probes or workflows.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
