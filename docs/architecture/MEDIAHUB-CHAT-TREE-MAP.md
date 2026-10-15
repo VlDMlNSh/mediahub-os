@@ -5447,3 +5447,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Primary ASTRA prose/YAML still contains broad “single MediaHub coordination and state authority” wording. This remains a controlled source-reconciliation item; no normative source was edited.
 - MH-12 security architecture retains identity/authentication/trust/capability/authorization/policy/State Authority separation. Exact accepted A0 ingress and capability issuer lifecycle remain unproven.
 - Next: source-trace accepted A0 queue/claim/lease/cancellation/replay interface and MH-12 issuer lifecycle, then draft a path/field-level reconciliation proposal.
+
+
+## 20.271 Project-wide technical conflict and drift audit — Wave 05 (2026-10-15)
+
+- Audit report: [MEDIAHUB-PROJECT-WIDE-TECHNICAL-CONFLICT-DRIFT-AUDIT-WAVE-05-2026-10-15.md](../checkpoints/MEDIAHUB-PROJECT-WIDE-TECHNICAL-CONFLICT-DRIFT-AUDIT-WAVE-05-2026-10-15.md), creation commit `4858377593cd1d37f0df6f9cd57a0c7a11fbd440`.
+- Status: wide documentary source review; remediation partial; not an exhaustive automated repository scan, runtime audit, qualification or acceptance.
+- Recorded 12 source-anchored issues: ASTRA A0 broad authority wording vs owner-approved DEC-DEV-02 Option C; stale historical decision status; live branch divergence; B1/B2 provenance wording; authority/storage/event/transport separation; capability issuer lifecycle gap; proposed task DAG/result/replay semantics; provider/gateway/client/model identity conflicts; qualification-ready label ambiguity; current single-node vs future distributed State Authority; Contour A/B gate; and historical continuation/status hygiene.
+- Live compare: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; documentation branch DIVERGED, 1171 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration attempted.
+- No normative contract/Baseline or implementation changed. No tests, qualification, install, model/provider call, credentials, host/runtime inspection, infrastructure change or deployment.
+- Next: exact-clause ASTRA authority reconciliation proposal; source-trace A0 ingress/queue/lease/cancellation/replay/recovery and MH-12 capability issuer lifecycle; crosswalk DAG/result schemas and resolve route identity only with pinned evidence.
