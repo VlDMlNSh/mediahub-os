@@ -1381,3 +1381,11 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Target topology and hardware facts remain UNKNOWN; Alamo/direct workload routing is still a proposal; local inference/provider/egress and media workload resource envelope remain unqualified.
 - No implementation or normative contract changed. Next: WB-14F read-only source-reference census for fixed topology and legacy operational identifiers.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Contour A WB-14F — legacy topology source census (2026-10-15)
+
+- Added [WB-14F Fixed-Topology and Legacy Operational Identifier Census](MEDIAHUB-CONTOUR-A-WB-14F-FIXED-TOPOLOGY-LEGACY-IDENTIFIER-CENSUS-2026-10-15.md), creation commit `83989d0d5642dcac0d031fb56e579f006959e3ab`.
+- Old node identities remain embedded in current source/configuration, but are excluded from greenfield target baseline. No host liveness, workflow enablement or deletion safety is inferred.
+- Preserve security-sensitive/shared code pending reference closure; do not perform bulk cleanup.
+- Next bounded step: WB-14G reverse-reference and workflow-entry-point trace for high-risk host-bound manifests.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
