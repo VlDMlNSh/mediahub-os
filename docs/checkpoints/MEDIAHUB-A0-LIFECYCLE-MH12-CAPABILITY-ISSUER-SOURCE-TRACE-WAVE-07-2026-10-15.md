@@ -117,3 +117,23 @@ This dated addendum supersedes only the stale branch-count snapshot in §1; it p
 **Bounded result:** source anchors sharpen the distinction between an observed in-process P0-05→P0-04 code seam and the absent accepted P0-07→P0-05 trust/ingress contract. No direct edge is promoted to accepted normative status. GitHub code search returned no useful hits for P0-04/P0-05 terms; because the connector search is known to be non-diagnostic here, zero results are not evidence of absence. Exact candidate files were fetched directly.
 
 No tests, installs, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick were performed.
+
+
+## Source-contract comparison — ASTRA executor capability matrix ref drift (2026-10-15)
+
+**Scope:** read-only comparison of the same canonical-path artifact across `main` and the documentation branch, alongside the current MH-12 security architecture/invariants. This addendum records the exact wording delta; it does not modify either normative/source contract.
+
+| Source | Ref / blob SHA | Direct observation |
+|---|---|---|
+| ASTRA executor capability matrix | `main` / `da26185254d9954fcee204f81ecca129bf052e7c` | Status says `CANONICAL EXECUTOR-WORKFLOW POLICY`; table row 19 says `Global coordination/state` and `autonomous queue + claim/evidence state`. This wording is broader/ambiguous against the owner-approved separation of corporation missions, ASTRA-internal workflow state and canonical product state. |
+| Same matrix | `docs/mediahub-chat-tree-map-20261012` / `9ad83781a8da53d1a8f540ede54eba95281f01c0` | Same status and core workflow policy, but row 19 narrows the capability to `ASTRA workflow/control state`, explicitly excluding MediaHub Product State Authority; lines 109–110 clarify that “state” means ASTRA engineering workflow/control state, not canonical product state. |
+| MH-12 security architecture | `main` / `cf4ebfd5bf471ca676f075c51d3a24906504e490` | States the layered identity/authentication/trust/capability/authorization/policy/consumer-boundary/state-authority path, that capability cannot self-grant, and that authorization never bypasses Consumer Boundary or State Authority. Status is architecture complete / governance review required. |
+| MH-12 security invariants | `main` / `0609be9c3420070434014dad4529e4ccd46b0996` | Labels invariants `PROPOSED → READY FOR GOVERNANCE REVIEW`; SI-01 says State Authority is sole canonical mutation authority, SI-02 distinguishes authentication from authorization, SI-04 prohibits bypassing State Authority, and SI-18/SI-19 require fail-closed handling of malformed/ambiguous security input. |
+
+### Disposition
+
+- **Confirmed documentation-ref drift:** the documentation branch contains a scope clarification absent from the `main` blob. It is consistent with owner-approved DEC-DEV-02 Option C (Jarvis corporation mission coordination; ASTRA A0 owns ASTRA-internal queue/claim/lease/retry/cancellation/evidence-gate state; Product State Authority alone mutates canonical product state).
+- **Not a runtime finding:** neither source wording nor the comparison proves deployed enforcement, accepted A0 ingress, a trusted-context issuer, fencing, cancellation/replay behavior, or end-to-end caller wiring.
+- **No automatic promotion:** the matrix's canonical-policy label and the MH-12 documents' governance-review status must be kept distinct. Do not overwrite `main`, merge branches, or treat documentation-branch wording as merged/accepted on `main` without the authorized integration/governance path.
+- **Related blockers remain open:** P0-07 → P0-05 accepted caller/adapter edge NOT ESTABLISHED; trusted-context issuer/attester/verifier lifecycle OPEN; P0-05 D6 contract-status discrepancy OPEN / OWNER-GOVERNANCE REQUIRED; P0-04 remains sole canonical mutation authority.
+- **Next:** retain the source-anchored delta in this trace and the corporation reconciliation. Continue the schema inventory only from existing files and stable IDs; do not draft a new normative wire schema until ingress/identity ownership and ref conflict are resolved. No tests, installs, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure change, deployment or branch integration occurred.
