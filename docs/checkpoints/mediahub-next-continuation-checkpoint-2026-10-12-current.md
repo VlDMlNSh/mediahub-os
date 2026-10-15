@@ -3094,3 +3094,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No normative changes, tests, installations, provider calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration.
 - Next bounded step: continue source-only review of unresolved dependency/provenance gates in the existing component-admission crosswalk. Its OpenHands SDK review is already extensive through §7.8, so do not repeat that candidate review; select only a non-overlapping, currently unresolved gate/candidate. No installation, execution, testing or qualification.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest continuation — Pydantic dependency version/provenance boundary (2026-10-15)
+
+- Live repository refs at pass start: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1352 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Updated [Component Admission Crosswalk §7.18](MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md): OpenHands SDK v1.54.0 declares `pydantic>=2.13.5`; official Pydantic releases 2.14.0 and 2.14.1 exist, so the declaration is not a reproducible exact pin. No claim is made about which version would resolve.
+- Exact Pydantic/pydantic-core resolved versions, target-specific lock, artifact hashes/source provenance and full transitive SBOM/advisory closure remain OPEN. The candidate remains NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.
+- Updated the project map at §112 and the roadmap continuation. Crosswalk section was re-read and its blob SHA verified after the write; all remaining updated documents are read back in the next verification step.
+- No package/artifact was downloaded; no dependency resolver, test, scanner, installation, provider/model call, credential use, host/runtime inspection, qualification, infrastructure change, deployment or branch integration occurred.
+- Next bounded step: select one non-overlapping unresolved dependency/provenance gate in the existing crosswalk, or use already available owner-provided hardware/OS documentation to close a target-profile fact. Do not duplicate the extensive OpenHands sections or perform runtime evaluation without explicit authorization.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
