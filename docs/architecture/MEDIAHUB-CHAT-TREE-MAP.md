@@ -5853,3 +5853,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Hard blockers remain: accepted Jarvis→A0 ingress/authentication/replay; capability issuer/verifier/delegation/revocation; fencing and authoritative result publication; corporation schema governance; target hardware/OS/topology; explicit runtime authorization.
 - No tests, installations, providers, credentials, host/runtime inspection, qualification, deployment, infrastructure changes or branch integration.
 - Next: source-only producer/consumer closure for YAML authority field `authority.coordination.role`, then prepare a minimal owner/governance review packet. No normative edits without explicit change authorization.
+
+## 109. Authority-field source closure — paired model/test drift (2026-10-15)
+
+- Added source-closure checkpoint [MEDIAHUB-CONTOUR-A-AUTHORITY-FIELD-SOURCE-CLOSURE-WAVE-11-2026-10-15.md](../checkpoints/MEDIAHUB-CONTOUR-A-AUTHORITY-FIELD-SOURCE-CLOSURE-WAVE-11-2026-10-15.md), creation commit b101e3b89e8bada5577e5f44a3a065c3af605feb.
+- Live refs show docs-branch unified-system YAML already narrows A0 role (f5040aeb479176508d5b0ca35eb742a6db818867), while main retains single_coordination_authority (adc852009c3a79d0e64265a3af8a4910a1388057).
+- The drift test is identical on both refs (d6a0e6a6d81dc6e15e343cd80ee950431b1e3b14) and still asserts the old role at line 65. Static comparison identifies a docs-branch model/assertion mismatch; no test was run.
+- Qualification schema retains A0-ASTRA identifiers on both refs; docs branch explicitly scopes state authority to ASTRA-internal queue/claim/gate state. Reference architecture, component scheme and executor matrix also show ref-specific wording drift.
+- No normative source changed and no branch integration occurred. Next: prepare a coordinated model/test/schema/prose change packet with history/consumer and compatibility evidence; keep tests and runtime actions gated.
