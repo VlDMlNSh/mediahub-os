@@ -5457,3 +5457,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Live compare: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; documentation branch DIVERGED, 1171 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration attempted.
 - No normative contract/Baseline or implementation changed. No tests, qualification, install, model/provider call, credentials, host/runtime inspection, infrastructure change or deployment.
 - Next: exact-clause ASTRA authority reconciliation proposal; source-trace A0 ingress/queue/lease/cancellation/replay/recovery and MH-12 capability issuer lifecycle; crosswalk DAG/result schemas and resolve route identity only with pinned evidence.
+
+
+## 20.272 Technical conflict remediation — Wave 06 (2026-10-15)
+
+- Disposition report: [MEDIAHUB-PROJECT-TECHNICAL-CONFLICT-REMEDIATION-WAVE-06-2026-10-15.md](../checkpoints/MEDIAHUB-PROJECT-TECHNICAL-CONFLICT-REMEDIATION-WAVE-06-2026-10-15.md), creation commit `90440033140f733f103915377801b492f39f27e6`.
+- Applied two source-supported documentation-branch repairs: (1) scoped ASTRA unified YAML A0 role to ASTRA-internal engineering workflow only; (2) added a dated roadmap status-supersession block so DEC-DEV-02 Option C is no longer presented as pending in the current status. Historical notes retained.
+- Disposition: C-02/C-04/C-09 guardrails corrected or confirmed; C-01 partially resolved on docs branch but main remains divergent; C-03 requires separate integration authorization; C-05/C-10/C-11 remain documented invariants/gates without runtime evidence; C-06/C-07/C-08 remain open source/interface gaps; C-12 current status supersession added.
+- Branch compare at pass start: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1174 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration performed.
+- No tests, qualification, installs, provider/model calls, credentials, host/runtime inspection, infrastructure changes or deployment. No main/Baseline edits.
+- Next: source-trace accepted A0 ingress/queue/lease/cancellation/replay/recovery semantics and MH-12 capability issuer lifecycle; draft a versioned schema only after source crosswalk.
