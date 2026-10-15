@@ -240,3 +240,17 @@ The live source pass reused the existing P0-05 candidate and Wave 07 trace. Owne
 - Re-read blobs: P0-05 candidate `79e2b4865c47b5394ade266cd3cd7cfbe3097717`; owner packet `54900eeb040e2aa0209e02629fedc2f2fe2e487e`; owner decision record `70376a2709e055972ceddc4a280d26992977213c`; DEC-DEV crosswalk `a58437a2321b7ebc5a4a4ccfae2f0eac1dfe330f`; Wave 07 `411dbd52c92e17dff0a8bfdd077d0305b5371d04`.
 - Next bounded work: source-only review of OpenHands Software Agent SDK through the existing admission crosswalk; no installation, tests, model/provider calls or runtime evaluation.
 - Restrictions respected: no tests, installs, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick.
+
+
+## Unified component evaluation register — continuation handoff (2026-10-15)
+
+Use [MEDIAHUB-UNIFIED-COMPONENT-CANDIDATE-AND-EVALUATION-REGISTER-2026-10-15.md](../architecture/MEDIAHUB-UNIFIED-COMPONENT-CANDIDATE-AND-EVALUATION-REGISTER-2026-10-15.md) as the single consolidated evaluation/navigation backlog for the component candidate universe evidenced in the current project records. It reconciles Manifest 2.0, the YAML admission subset, ecosystem survey, admission crosswalk, mature candidate screen and the current chat-sync ledger.
+
+Important distinctions:
+- Manifest 2.0 remains the canonical development selection input; the YAML file is explicitly an admission subset and omissions do not mean exclusion.
+- The exact historical “40 components” list has not been independently recovered. Do not invent a count or claim the new register is a verbatim reproduction of it.
+- Candidate inclusion means only “evaluate if/when prerequisites are met”; it does not mean selected, installed, tested, verified, qualified, released, deployed or accepted.
+- No runtime action is authorized by this register. Tests, benchmarks, model/provider calls, security scans, host/runtime inspection and qualification require separate explicit authorization.
+- Next: target hardware/OS/topology and accepted contract prerequisites; source-pin and provenance-review candidates; compare non-overlapping options only, and preserve all open route identity/authorization/lifecycle blockers.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
