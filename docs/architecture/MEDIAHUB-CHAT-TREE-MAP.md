@@ -5672,3 +5672,10 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - See [Agent / Task / Provider Schema Inventory, Wave 01 §12](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md) for the source-anchored comparison matrix.
 - Agent/gateway IDs, provider-instance/model IDs and executor/transport IDs are separate domains; no canonical cross-file foreign-key or runtime loader was inferred from name similarity. Statuses are not interchangeable; no IDs/statuses were edited.
 - Next: trace executable loader/launcher call sites for executor-routing and node-role YAML, without invoking any path.
+
+
+## 92. Executor YAML loader trace (2026-10-15)
+
+- See [Agent / Task / Provider Schema Inventory, Wave 01 §13](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md).
+- The inspected distributed worker hardcodes `NODE_CONFIG`; it does not load `local-executor-routing-v2.yaml` or `node-role-map.yaml`. Node-role-map assigns `mh-dev-02` to Codex/3B, while the matching workflow job only allows Claude/3B. Node alias identity is also unresolved.
+- No fix applied pending owner decision on canonical config source and executor identity. Next: source-trace control-plane selection of node/executor values, without executing paths.
