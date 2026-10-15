@@ -208,3 +208,11 @@ This refresh records the owner's request to synchronize all voice-session projec
 - **Architecture boundaries unchanged:** Jarvis coordinates corporation missions; ASTRA A0 owns ASTRA-internal engineering workflow state; Product State Authority alone mutates canonical product state. Baseline 2.0 remains canonical; Contour B remains gated on deployment and independent acceptance of Contour A.
 - **Live branch evidence:** main HEAD 608d7463011798ca75e36bfce4b749a9caf4f9a0; docs branch DIVERGED, ahead 1209 / behind 3; merge base f0f406feb9f9816b009f4e6e756813541e53b9bc. No integration performed.
 - **Next bounded step:** source-only, exact-revision OpenHands Software Agent SDK review using the existing admission crosswalk; record only verifiable new evidence and keep every unproven gate open.
+
+## Incremental source reconciliation — P0-07 issuer trace refresh (2026-10-15)
+
+The existing Wave 07 trace was reused, not duplicated. A live source-anchor refresh is recorded in [Wave 07](MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md) and indexed in [map §82](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Current reviewed SHAs: authorization `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; consumer boundary `98bf2da9cea85da2c82145b4baef417c20b9ae73`; in-memory authority `0fbc71369d19e09944ba67a60ccb9df802f30a4b`; lifecycle service `0b9d3d888e988615f1ad8cd50b1bef22f2be011b`; MH-12 `cf4ebfd5bf471ca676f075c51d3a24906504e490`.
+
+The inspected code proves typed context/grant-check seams only. It does not establish an accepted Jarvis→A0 ingress, issuer/delegation lifecycle, or complete expiry/revocation/replay/fencing/cancellation contract. P0-07 remains proposal-only / NOT ACCEPTED; P0-05/P0-04 trust edges remain unasserted unless direct primary contracts prove them. Branch compare: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1212 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration or runtime/test activity occurred.
+
+Next bounded step: inspect map-indexed P0-05 and P0-04 accepted boundary contracts for direct identity/context/capability edges; keep absent interfaces open and do not duplicate existing records.
