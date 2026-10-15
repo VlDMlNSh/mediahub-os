@@ -3186,3 +3186,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, installations, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes or deployment.
 - Next: bounded source-only constructor/call-site/serialization closure; keep routing labels distinct from security capability grants. Jarvis→A0 ingress remains blocked.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A WB-07 ingress and command-authority seam trace (2026-10-15)
+
+- Added [WB-07 Ingress and Command-Authority Seam Trace](MEDIAHUB-CONTOUR-A-WB-07-INGRESS-AND-COMMAND-AUTHORITY-SEAM-TRACE-2026-10-15.md), blob SHA `89fab594f9a9ae9a729d63ecb14dad2543edc9af`.
+- Source pins: `task_ingress.py` `59e1254aa61cc8f55f53bd1e179631e81c441393`; `astra_gateway.py` `10985e4ad8f682313d08e7492ecc1856a8bce20f`; `ops/control/sign_command.py` `fc6943a79cefdf06e59d6e32771d2df551b2f0e9`; `astra_github_agent.py` `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`; `tools/sign_astra_command.py` `a4222ac51a47cbfe8288f9af34f1e542c0a4b6a8`.
+- Distinct paths confirmed: file Task Contract ingress/gateway; P0 typed authorization; HMAC command verifier; second signer helper with different schema/key convention. The active/canonical status of the second helper, inbox writer trust, and upstream approval attestation remain unknown. This is not asserted as an exploitable vulnerability.
+- Updated map §120 and roadmap continuation pointer. No tests, security scans, qualification, provider/model calls, credentials, host/runtime inspection, infrastructure changes or deployment.
+- Next: read-only caller/reference trace for signer helpers and `FileTaskIngress`, then owner decision on approval provenance and canonical command contract. Jarvis→A0 ingress remains blocked.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
