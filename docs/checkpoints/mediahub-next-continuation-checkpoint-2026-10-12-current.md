@@ -3104,3 +3104,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No package/artifact was downloaded; no dependency resolver, test, scanner, installation, provider/model call, credential use, host/runtime inspection, qualification, infrastructure change, deployment or branch integration occurred.
 - Next bounded step: select one non-overlapping unresolved dependency/provenance gate in the existing crosswalk, or use already available owner-provided hardware/OS documentation to close a target-profile fact. Do not duplicate the extensive OpenHands sections or perform runtime evaluation without explicit authorization.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest verified continuation — OpenHands workspace guardrails (2026-10-15)
+
+- Live documentation branch: `docs/mediahub-chat-tree-map-20261012`; live comparison at continuation start: DIVERGED, 1356 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`. Recheck these values before the next action.
+- Bootstrap instruction was re-read from the docs branch; blob SHA `a3c51f3ddf17827bf6193cce52387a5daad3b6e0`.
+- Updated existing Component Admission Crosswalk §7.19 and map §113. Source review found OpenHands SDK v1.54.0 declares Python `>=3.12`; its workspace root configures Python 3.13 type checking, a 7-day freshness guardrail, a LiteLLM 1.93.0 constraint, and an Intel-macOS conditional cryptography bound. These are upstream workspace settings, not an accepted MediaHub target profile.
+- Connector fetch of upstream `uv.lock` at the pinned source ref returned blob SHA `5a4afacc446005f7c02c9606390847e73c4c9208` but empty content in both UTF-8 and base64. This does not prove lock absence and does not establish resolved dependencies; treat lock contents as UNVERIFIED.
+- OpenHands remains RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. LiteLLM advisory, transitive SBOM/provenance, exact lock, target OS/Python/hardware, isolation and egress gates remain open.
+- No normative contract, manifest, dependency pin or runtime configuration changed. No tests/scans, artifact downloads, installation, provider/model calls, credential use, host/runtime inspection, qualification, deployment or branch integration occurred.
+- Next bounded step: inspect one non-overlapping admission gate only after checking existing crosswalk coverage, or wait for owner-provided target hardware/OS/Python facts. Do not infer hardware details or begin runtime evaluation.
