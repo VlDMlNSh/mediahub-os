@@ -3000,3 +3000,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next work should prioritize Contour A system map/contracts and blocker closure: trusted identity/context, authorization/capability issuer/delegation/revocation, Jarvis→ASTRA ingress, task/result/evidence envelope, queue/lease/heartbeat/cancellation/recovery/fencing, workspace/repository isolation, provider/model/tool routing and audit. Component selection remains subordinate to those contracts and target hardware/OS/topology.
 - Contour B autonomous product development remains blocked until Contour A deployment and independent acceptance are proven. No implementation, test, installation, model/provider call, host/runtime inspection, infrastructure change, deployment, qualification or branch integration occurred in this pass.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Jarvis/ASTRA identity and lifecycle trace, Wave 05 (2026-10-15)
+
+- Added source-bound checkpoint: [MEDIAHUB-JARVIS-ASTRA-IDENTITY-LIFECYCLE-CONTRACT-TRACE-WAVE-05-2026-10-15.md](MEDIAHUB-JARVIS-ASTRA-IDENTITY-LIFECYCLE-CONTRACT-TRACE-WAVE-05-2026-10-15.md); commit `5f67b86e06f07d3f510c41edd5feb024f8cff75a`.
+- Read and recorded exact blob SHAs for the ASTRA executor capability matrix, MH-12 security architecture, ASTRA governance contract and ASTRA reference architecture on `main`.
+- Trace confirms reusable ASTRA lifecycle bounds: heartbeat 120s; lease 600s; executor timeout 900s; result publication timeout 120s; retry backoff 30s; max 3 concurrent claims. These are documented contract values, not evidence of a running system.
+- Unresolved: Jarvis→ASTRA ingress/authentication/replay; capability issuer and delegation/revocation lifecycle; accepted corporation-wide task/result/evidence envelope; statement-level reconciliation of broad A0 authority wording against owner-approved DEC-DEV-02; target hardware/OS/topology.
+- No normative main source was edited; no runtime/test/install/provider/security-scan/qualification/deployment/infra/branch-integration action occurred.
+- Next step: statement-level source/decision/proposed-wording crosswalk for the ASTRA authority wording conflict. Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
