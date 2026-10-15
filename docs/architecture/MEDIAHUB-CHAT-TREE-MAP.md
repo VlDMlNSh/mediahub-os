@@ -6016,3 +6016,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Source baseline: canonical ASTRA executor matrix assigns A0 coordination/admission; current reference queue names `mh-dev-01`, `mh-dev-02`, `Voktors-Mac-mini.local`, not Alamo. Repository has external Anthropic and local Ollama-backed Claude-compatible workflow patterns, neither proven on Alamo.
 - No implementation, tests, qualification, model/provider calls, credentials, host/runtime inspection, installation, infrastructure change or deployment.
 - Next: WB-13 source-pinned requirement → contract → component → failure control → verification matrix for Option C seam; keep Option A baseline and all owner options unaccepted. Project map: this document.
+
+
+## 124. Contour A WB-13 — Option C route-adapter requirement/failure/verification matrix (2026-10-15)
+
+- Added [WB-13 Option C Route-Adapter Requirement, Failure and Verification Matrix](../checkpoints/MEDIAHUB-CONTOUR-A-WB-13-OPTION-C-ROUTE-ADAPTER-REQUIREMENT-FAILURE-VERIFICATION-MATRIX-2026-10-15.md), creation commit `dcf8c4746d2e9cb965b24f6e0d86f09f4b2cbabb`.
+- WB-13 translates the proposed Jarvis route adapter into 20 traceable controls: versioned contracts, explicit route eligibility, A0 admission boundary, Alamo qualification gate, caller identity, sensitive approval, capability provenance, single queue owner, lease/fencing, idempotency, egress, resource budgets, cancellation, recovery, result provenance, independent verification, product-state boundary, audit, failover and qualification.
+- Source-pinned existing facts: canonical ASTRA executor policy assigns A0 coordination/admission; reference queue lists `mh-dev-01`, `mh-dev-02`, `Voktors-Mac-mini.local`, not Alamo; repository has both an external Anthropic worker path and a local Ollama-backed Claude-compatible qualification workflow, neither proven on Alamo.
+- Recommendation remains design-only: develop Option C as a bounded routing seam while Option A remains the current governed baseline. Option B remains a candidate. Owner decisions TD-01..TD-08 remain OPEN.
+- Verification, implementation, hardware/backend qualification and acceptance are NOT performed. No tests, providers/models, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next: WB-14 source-pinned contradiction/ownership matrix across canonical ASTRA contracts, reference architecture, unified model, governance and queue/ingress implementations.
