@@ -507,3 +507,12 @@ This pass does **not** delete repository artifacts. Presence in the repository, 
 ### Planning estimate (not a promise)
 
 For a repository-wide, source-backed first pass, budget roughly **2–4 focused working days** for inventory, conflict/duplicate classification, target architecture map, contract skeleton and component shortlist. Expect another **3–7+ focused working days** for owner decisions, upstream component due diligence, contract closure and remediation proposals. This excludes implementation, tests/qualification, deployment and independent acceptance; hardware/OS details, unresolved authority decisions and branch reconciliation can extend the schedule. “No conflicts/errors” can only be claimed against a defined scope and completed verification evidence, not guaranteed globally in advance.
+
+
+### 20.278 Greenfield / legacy artifact ledger pass (2026-10-15)
+
+- New ledger: [Greenfield / Legacy Artifact Ledger, Wave 01](../architecture/MEDIAHUB-GREENFIELD-LEGACY-ARTIFACT-LEDGER-WAVE-01-2026-10-15.md).
+- This pass adopts the owner's clean-slate clarification: Mac Pro, Mac mini/server, remote video server, Jarvis, Astra, multi-agent system and corporation are the new target design; prior old-server attempts are not target runtime baseline.
+- The ledger classifies known old-node routing and service artifacts as LEGACY-OPERATIONAL or SHARED-OR-UNKNOWN, while holding registries, schemas, runtime modules and normative security/baseline artifacts until their references and semantics are reviewed.
+- No repository files were deleted. A source-backed classification does not establish that a file is safe to delete; exact paths, blob SHAs, reverse references, IDs and reusable invariants must be closed first.
+- New hardware/OS/topology inventory is still absent from reviewed evidence. No hardware compatibility claim is made.
