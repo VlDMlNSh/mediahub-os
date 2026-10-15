@@ -1352,3 +1352,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No implementation, tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change or deployment.
 - This historical WB-13 entry does not supersede any newer continuation recorded elsewhere in this roadmap. Continue using the latest dated continuation as the sequence authority.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14B — Jarvis-to-A0 ingress caller and authority seam trace (2026-10-15)
+
+- Added [WB-14B Jarvis-to-A0 Ingress Caller and Authority Seam Trace](MEDIAHUB-CONTOUR-A-WB-14B-JARVIS-TO-A0-INGRESS-CALLER-AND-AUTHORITY-SEAM-TRACE-2026-10-15.md), creation commit `9e897c9c5b9bec848c075da4684df47b107d3b43`.
+- Main tree refreshed to `ab36db009d034db8dca723691e23b331322287e7`, 800 tracked paths, `truncated=false`. The current file ingress, gateway, typed authorization seam, signer/verifier, supervisor/chat workflows, mission journal and execution adapter were source-pinned.
+- Evidence confirms a local JSON Task Contract → `FileTaskIngress` → `AstraGatewayRuntime.run_bounded` path and a separate signed operational-command path. It does not establish a tracked Jarvis producer, accepted Jarvis→A0 API, trusted inbox writer, or end-to-end issuer-backed authorization context.
+- `approval_state` remains a file-supplied field with shape/enum validation in the inspected ingress; no approval attestation authority is established. The signed command envelope and Task Contract schema are separate trust domains.
+- Status: WB-14B bounded source trace complete; end-to-end ingress remains NOT ESTABLISHED. No normative source, implementation, workflow, test or runtime state changed.
+- Next: WB-14C source-only comparison of the current autonomous queue against direct-local Route B requirements, with source pins for lifecycle ownership, claim/lease, retries/cancellation/recovery and result semantics.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
