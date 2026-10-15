@@ -1408,3 +1408,12 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - This is not complete caller closure. Dynamic YAML/config loading, unscanned candidates, external dispatchers and manifest readers remain unproven. No source changes or executions occurred; retirement is not authorized.
 - Next bounded step: inspect remaining code/config/test candidates and generic YAML/config-loader abstractions; if static closure cannot be established, prepare an owner decision packet without treating “no literal match” as “unused”.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14M — broad legacy control/config-loader scan (2026-10-16)
+
+- Added [WB-14M Broad Legacy Control and Config-Loader Scan](MEDIAHUB-CONTOUR-A-WB-14M-BROAD-LEGACY-CONTROL-AND-CONFIG-LOADER-SCAN-2026-10-16.md), creation commit `9c78f841dc8148b4983aa515e2721a94a303e1ee`.
+- Core queue, agent-fabric, worker, ASTRA transport agent, signer, provider manifests, topology test and qualification/evidence sources were source-pinned. Legacy node assumptions persist across operational and security/evidence layers.
+- Manifest readers remain unresolved; GitHub code-search zero-results are non-diagnostic due to unavailable repository indexing. No code changed or execution performed; retirement remains unauthorized.
+- Next bounded step: inspect remaining dynamic config loading, import and dispatch abstractions; prepare owner decision questions if complete source closure is not achievable.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
