@@ -3032,3 +3032,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, code execution, provider calls, credentials, host/runtime inspection, qualification, deployment or branch integration occurred.
 - Next bounded step: source-only contract/interface tracing for intended greenfield Contour A, preserving ID domains. Jarvis→ASTRA A0 ingress and capability issuer/delegation/revocation remain hard blockers.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A control-plane interface edge trace, Wave 10 (2026-10-15)
+
+- Added [MEDIAHUB-CONTOUR-A-CONTROL-PLANE-INTERFACE-EDGE-TRACE-WAVE-10-2026-10-15.md](MEDIAHUB-CONTOUR-A-CONTROL-PLANE-INTERFACE-EDGE-TRACE-WAVE-10-2026-10-15.md). It maps ten source-bound producer→consumer edges and records source pins and acceptance gaps.
+- Critical dispatch path blockers remain: accepted Jarvis→ASTRA A0 ingress/authentication/replay contract; A0 fencing and result-publication authority; capability issuer/verifier/delegation/expiry/revocation lifecycle. Corporation mission/task/result schemas remain draft-only.
+- Reconfirmed main vs docs branch divergence; no integration performed. Main ASTRA authority wording still requires controlled reconciliation. No normative main source was edited.
+- No tests, installs, provider/model calls, credentials, host/runtime inspection, security scan, qualification, infrastructure changes or deployment.
+- Next bounded step: build a greenfield Contour A requirement → component candidate → interface edge → policy/control → verification evidence matrix, excluding old-host-bound artifacts as target configuration and admitting no component without source/provenance evidence.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
