@@ -59,3 +59,20 @@
 ## 6. Verification boundary
 
 This pass used GitHub source reads and branch comparison only. It did not invoke tests, qualification, models/providers, credentials, runtime/host inspection, installations, infrastructure changes, deployment or branch integration. Source-level assertions are not runtime evidence.
+
+## 7. Live source-anchor refresh — /next 2026-10-15
+
+This dated addendum supersedes only the stale branch-count snapshot in §1; it preserves the original observation as historical evidence. A fresh GitHub compare reports `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`, documentation branch `DIVERGED`, ahead 1212 / behind 3, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration was performed.
+
+### Re-read current source anchors
+
+| Source | Live ref | Blob SHA | Bounded observation |
+|---|---|---|---|
+| `runtime/mediahub_runtime/authorization.py` | `main` | `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` | `AuthorizationContext` contains `principal` and `capability`; policy matching uses principal/capability/operation. This is grant matching, not evidence of issuer provenance or lifecycle. |
+| `runtime/mediahub_runtime/consumer_boundary.py` | `main` | `98bf2da9cea85da2c82145b4baef417c20b9ae73` | Boundary accepts typed `AuthorizationContext`; inspected request seam does not itself evidence issuer, audience, expiry or revocation verification. |
+| `runtime/mediahub_runtime/in_memory_state.py` | `main` | `0fbc71369d19e09944ba67a60ccb9df802f30a4b` | Authority checks context type and uses configured authorization policy; the inspected seam does not establish how context was issued. |
+| `runtime/mediahub_runtime/lifecycle_service.py` | `main` | `0b9d3d888e988615f1ad8cd50b1bef22f2be011b` | Lifecycle request carries the typed context and declares `runtime.lifecycle.transition`; capability string equality is not proof of authenticated principal or trusted issuance. |
+| `docs/architecture/MH-12-security-architecture.md` | `main` | `cf4ebfd5bf471ca676f075c51d3a24906504e490` | Security architecture distinguishes principal, credential, session, capability and authorization, and specifies a layered trust path. It does not, by itself, instantiate the concrete issuer/API lifecycle. |
+| `docs/operations/ASTRA-EXECUTOR-CAPABILITY-MATRIX.md` | documentation branch | `9ad83781a8da53d1a8f540ede54eba95281f01c0` | Reusable ASTRA-internal workflow capability matrix; not an accepted Jarvis-facing ingress API. |
+
+**Bounded disposition:** source anchors were refreshed, but no accepted Jarvis→A0 ingress contract, concrete capability issuer/delegation lifecycle, or complete expiry/revocation/replay/fencing/cancellation semantics was established by these reads. P0-07 remains proposal-only / NOT ACCEPTED; P0-05/P0-04 edges must not be inferred from a shared context type. This is source inspection only, not a vulnerability determination, runtime verification, test or qualification. No tests, installations, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment, merge, rebase or cherry-pick occurred.
