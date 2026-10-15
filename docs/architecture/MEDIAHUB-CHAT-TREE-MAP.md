@@ -6041,7 +6041,7 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 
 ## 126. Contour A WB-14 — Jarvis/A0 and direct-local route source reconciliation (2026-10-15)
 
-- Added [WB-14 Jarvis/A0 and Direct-Local Route Source Reconciliation](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14-JARVIS-A0-AND-DIRECT-LOCAL-ROUTE-SOURCE-RECONCILIATION-2026-10-15.md), creation commit `ab36db009d034db8dca723691e23b331322287e7`.
+- Added [WB-14 Jarvis/A0 and Direct-Local Route Source Reconciliation](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14-JARVIS-A0-AND-DIRECT-LOCAL-ROUTE-SOURCE-RECONCILIATION-2026-10-15.md). Initial creation commit on `main`: `ab36db009d034db8dca723691e23b331322287e7`; mirrored to the documentation branch by commit `f5c178fbbe56ae4d848cffa108a709aea132ba73` (same blob SHA `4dead9e249603679f4193a5a0b0b0a13a04aa177`).
 - Split the continuation into WB-14A…WB-14G. WB-14A source pins and the first WB-14 reconciliation matrix are complete; next is WB-14B, a focused caller-to-consumer trace for Jarvis mission submission and the accepted A0 ingress.
 - Reconciled ASTRA A0 queue ownership, fixed three-node executor pool, file Task Contract ingress, separate typed AuthorizationContext seam, signed operational-command schema, and the second signer-helper format. These are distinct paths; an end-to-end Jarvis→A0 authenticated ingress was not established by the reviewed evidence.
 - Approval provenance, direct-route queue owner, Alamo host/provider mode/media backend, common route policy, result envelope and cross-route recovery remain open. This is a source gap, not a confirmed exploit or proof of global absence.
