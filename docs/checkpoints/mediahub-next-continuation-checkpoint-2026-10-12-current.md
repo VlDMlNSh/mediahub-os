@@ -3344,3 +3344,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No workflows/tests were run, no code/config was changed, and no hosts or credentials were inspected.
 - Next bounded step: establish a reliable repository-wide source tree/search surface, then close inbound references for the two YAML manifests and all callers/dispatchers of the worker script before preparing any retirement proposal.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14H (2026-10-15)
+
+- Report: [WB-14H Repository Search Surface Verification and Reverse-Reference Blocker](MEDIAHUB-CONTOUR-A-WB-14H-REPOSITORY-SEARCH-SURFACE-BLOCKER-2026-10-15.md), commit `3274f5e7bf1bad21de03199aff42facf8f24e4e1`.
+- Live repository metadata reports `is_code_search_indexed: false`; seven targeted code searches returned no results and are non-diagnostic. The available GitHub connector can fetch known paths but did not expose a complete repository-tree enumeration action in this pass.
+- WB-14G inbound-reference closure remains BLOCKED. Do not retire or edit the legacy manifests/workflows until complete source-reference evidence and owner-approved disposition exist.
+- Next bounded step: acquire a read-only source/tree snapshot or working full-tree search capability. In parallel, continue a non-overlapping roadmap task that does not require exhaustive caller closure; no runtime, credential, test, workflow or infrastructure activity.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
