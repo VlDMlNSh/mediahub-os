@@ -5753,3 +5753,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Classified old-node routing YAML, node-role map, distributed worker, chat-control/distributed-worker workflows, runner contract and host-specific services as legacy or shared/unknown pending reference closure. Registries, schemas, runtime modules and normative security/baseline documents are held for domain review rather than blindly deleted.
 - No deletion, tests, installation, host/runtime access, provider calls, deployment, migration or branch integration performed.
 - Next: continue reverse-reference/ID closure path by path and build the target requirements/domain map; new hardware/OS inventory remains an input blocker.
+
+
+## 99. Mature greenfield component candidate screen — Wave 01 (2026-10-15)
+
+- Candidate screen: [MEDIAHUB-MATURE-COMPONENT-CANDIDATE-SCREEN-WAVE-01-2026-10-15.md](MEDIAHUB-MATURE-COMPONENT-CANDIDATE-SCREEN-WAVE-01-2026-10-15.md).
+- Source-bounded candidates: LangGraph (stateful agent orchestration), Temporal Python SDK (optional durable workflow runtime), Microsoft Agent Framework (alternative orchestration candidate), MCP Python SDK (tool/context interface), OPA (policy decision engine), and OpenTelemetry Collector (observability pipeline). A2A remains HOLD pending full source/version review.
+- Status for all: **CANDIDATE / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED**. README blob SHAs record reviewed file contents only; no immutable upstream commit/tag pin, hardware compatibility, security review, comparative benchmark, installation or runtime qualification was established.
+- Proposed architecture keeps mission coordination, ASTRA internal workflow lifecycle, Product State Authority, policy, orchestration, durable execution, tool interfaces and telemetry as distinct concerns. This is not a component adoption decision.
+- Next: source-pin and compare LangGraph vs Microsoft Agent Framework; separately justify whether Temporal adds value beyond accepted ASTRA lifecycle contracts; review MCP boundary/security; capture target hardware/OS inventory when available.
