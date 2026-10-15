@@ -1194,3 +1194,12 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 - No component is admitted by this matrix. Existing manifest/candidate status is preserved; old-host routes are excluded from target configuration but not deleted without reverse-reference and ID/dependency review.
 - Dispatch remains blocked on accepted Jarvis→A0 ingress, capability issuer/verifier lifecycle, fencing and authoritative result publication. Target hardware/OS inventory is also open.
 - Next: statement-level controlled proposal to reconcile broad ASTRA authority wording with owner-approved DEC-DEV-02. Normative main files remain unchanged pending explicit change control. Documentation-only work; no tests or runtime operations.
+
+## Current continuation — Contour A authority wording reconciliation proposal (2026-10-15)
+
+- Added [Contour A Authority-Wording Reconciliation Proposal, Wave 01](MEDIAHUB-CONTOUR-A-AUTHORITY-WORDING-RECONCILIATION-PROPOSAL-WAVE-01-2026-10-15.md), commit `67829215f20639965eb3a967c363a6e074ff688e`, blob SHA `fbd97c6f8daae64501c7ffb8fb24058a12061dcb`.
+- Proposal crosswalk records exact main-source wording and a scope-limited proposed correction against owner-approved DEC-DEV-02 Option C. It does not reopen the owner decision or silently alter normative main sources.
+- Source pins revalidated: ASTRA reference architecture `7be5fadd3055642e7823c7233f90e978a87e5366`; executor matrix `da26185254d9954fcee204f81ecca129bf052e7c`; machine-readable unified-system YAML `adc852009c3a79d0e64265a3af8a4910a1388057`; MH-12 `cf4ebfd5bf471ca676f075c51d3a24906504e490`; owner decision record `70376a2709e055972ceddc4a280d26992977213c`.
+- YAML `authority.coordination.role: single_coordination_authority` is identified as a compatibility-sensitive proposal point. No replacement was applied pending complete producer/consumer/history reference closure and owner/governance change authorization.
+- Jarvis→A0 ingress, capability issuer/verifier lifecycle, fencing/result publication, accepted mission/task/result schema governance and target hardware/OS/topology remain open. Runtime work remains separately gated and unauthorized in this pass.
+- Next: source-only reference closure for the machine-readable authority field, followed by a minimal owner/governance review packet.
