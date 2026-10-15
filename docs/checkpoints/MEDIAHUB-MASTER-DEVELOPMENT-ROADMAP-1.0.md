@@ -1053,3 +1053,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Model declarations differ across separate artifacts (e.g. local executor pool model names versus provider catalog model names); recorded as reconciliation questions, not auto-corrected defects. Registration/enabled, qualification and runtime availability remain distinct.
 - No canonical IDs, schema, routing configuration or runtime code changed. No tests, qualification, launchers, probes, provider calls or workflow runs.
 - Next: source-trace exact launcher/loader call sites for `local-executor-routing-v2.yaml` and `node-role-map.yaml`.
+
+
+## 84. Execution update — executor YAML loader trace (2026-10-15)
+
+- Added [Agent / Task / Provider Schema Inventory, Wave 01 §13](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md), source-tracing executor-routing and node-role declarations against the worker, workflow and runtime coordination module.
+- Confirmed the distributed local worker uses a hardcoded Python `NODE_CONFIG` and does not load either routing YAML in the inspected code. The YAML authority/loader remains NOT ESTABLISHED.
+- Recorded source-level mismatch: node-role-map declares `mh-dev-02` as Codex/3B; workflow dispatch/job for `mh-dev-02` only permits Claude while checking for the 3B model. Worker code supports both executor values. Also recorded the two Voktors node identifiers without assuming they are equivalent.
+- No code/config changed and no workflow, test, qualification, launcher, provider, host or runtime was invoked. Owner decision is required on canonical config authority and `mh-dev-02` executor identity.
+- Next: trace who selects `ASTRA_EXECUTOR` and node IDs in the source-only control plane, then keep the authority decision OPEN unless an accepted contract settles it.
