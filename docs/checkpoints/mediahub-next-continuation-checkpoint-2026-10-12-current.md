@@ -2812,3 +2812,17 @@ Current map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.
 - Next bounded step: trace non-secret producer/consumer references for agent registry, provider fabric and inference request/response contracts from exact source files. Do not register proposed corporation schema IDs until naming/version policy, complete collision coverage, accepted Jarvis→A0 ingress and capability issuer lifecycle are resolved.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — agent/provider/inference producer-consumer crosswalk (2026-10-15)
+
+- Re-read the live project map, checkpoint, roadmap, existing schema inventory and exact source artifacts before this bounded pass. Current docs branch HEAD at pass start: f2f3bf985fc22d2896dd77e93e07faf8f7394f55; recursive tree SHA 6ae9b8d6c96936388840340720eeefe8ff3a2288, 930 entries, not truncated.
+- Extended existing [Agent / Task / Provider Schema Inventory, Wave 01 §10](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md) with source-backed edges and exact blob SHAs. Indexed in [Project Map §89](../architecture/MEDIAHUB-CHAT-TREE-MAP.md) and [Master Roadmap §81](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Confirmed source consumers: tests/ai/test_ai_inference.py reads inference request/response schemas; tests/ai/test_ai_provider_registry.py reads provider-registry schema. This proves test source references, not test execution or production validation. No tests were run.
+- The checked production provider path runtime/mediahub_runtime/local_providers.py directly sends OpenAI-compatible requests to FreeLLMAPI and parses a response, but does not show canonical schema validation. worker_router.py is a separate Claude Code worker path and does not establish a functioning Ollama fallback adapter.
+- Agent registry, provider fabric YAML, provider/model qualification registry and AI schemas use distinct data shapes and overlapping identifiers; canonical load/reconciliation edges were not established. Architecture-vs-runtime FreeLLMAPI identity remains unresolved (cloud path wording versus local_gateway and loopback default).
+- No schema, runtime code, configuration, or normative contract changed. No tests, provider/model calls, credentials, host/runtime inspection, qualification, installation, infrastructure change, deployment, merge, rebase or cherry-pick.
+- Blockers unchanged: P0-07→P0-05 accepted ingress NOT ESTABLISHED; capability issuer lifecycle OPEN; P0-05 D6 OPEN / OWNER-GOVERNANCE REQUIRED; P0-04 sole canonical product-state mutation authority; branch divergence remains.
+- Next bounded step: source-trace exact loaders/consumers for the three registries and non-secret route identity references; do not call providers, inspect hosts, run tests, or modify routing/configuration.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
