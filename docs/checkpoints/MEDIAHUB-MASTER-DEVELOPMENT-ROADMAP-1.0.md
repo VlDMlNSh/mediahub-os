@@ -1186,3 +1186,11 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 - Wave 10 maps ten source-bound producer→consumer seams. The critical Jarvis→A0 ingress, capability issuer/verifier lifecycle and authoritative result publication/fencing are still not accepted; dispatch remains blocked and the corporation schema set remains draft-only.
 - Main authority wording conflict remains a controlled change item; no normative main source changed and no branch integration occurred.
 - Next: construct the greenfield Contour A requirement → candidate component → interface → control → evidence matrix; old-host-bound routes are excluded as target configuration. Documentation-only scope remains in force.
+
+
+## Current continuation — Contour A requirement/component/evidence matrix (2026-10-15)
+
+- Wave 01 added a source-bound matrix of 15 greenfield Contour A requirements, candidate families, interface edges, controls and evidence gates: [matrix](MEDIAHUB-CONTOUR-A-REQUIREMENT-COMPONENT-INTERFACE-CONTROL-EVIDENCE-MATRIX-WAVE-01-2026-10-15.md), commit `f2fb5ef08ef3383fc078d0e94e273e14896b76ab`.
+- No component is admitted by this matrix. Existing manifest/candidate status is preserved; old-host routes are excluded from target configuration but not deleted without reverse-reference and ID/dependency review.
+- Dispatch remains blocked on accepted Jarvis→A0 ingress, capability issuer/verifier lifecycle, fencing and authoritative result publication. Target hardware/OS inventory is also open.
+- Next: statement-level controlled proposal to reconcile broad ASTRA authority wording with owner-approved DEC-DEV-02. Normative main files remain unchanged pending explicit change control. Documentation-only work; no tests or runtime operations.
