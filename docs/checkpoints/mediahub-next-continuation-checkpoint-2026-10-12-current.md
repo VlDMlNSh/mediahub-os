@@ -2613,3 +2613,13 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Branch state at pass start: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1174 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
 - No tests, qualification, installs, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment or baseline edits.
 - Next: source-trace accepted A0 ingress/queue/claim/lease/cancellation/replay/recovery and MH-12 capability issuer lifecycle; only then draft field-level schema/proposal. Do not invent endpoint/token semantics or claim global exactly-once behavior.
+
+
+## Wave 06 post-write verification addendum — 2026-10-15
+
+- ASTRA unified YAML: [source](../architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml), blob SHA `f5040aeb479176508d5b0ca35eb742a6db818867`; commit `a92c402b4402841407e325a311ae81a984adcebc`.
+- Master roadmap: [source](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), blob SHA `196bfd70d8462e3d857e65eff483d7bc9348508a`; commit `c0cf8d5da5b4f697a99e4d4e91648caa7090e364`.
+- Wave 06 remediation report: [source](MEDIAHUB-PROJECT-TECHNICAL-CONFLICT-REMEDIATION-WAVE-06-2026-10-15.md), latest verified blob SHA `5e73c6af6c3a5f7cf34a36c0274723f5fa06d5a8`; verification-note commit `cf555b86e3c9b100fee0f8ae0646ea52c02129bf`.
+- Project map: [current map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), latest verified blob SHA `85b4e75ccc2e8d35aa7c851906e2e3081d607492`; header pointer refreshed in commit `c3ba31f8b6b3b012ea3e4b834fba5b8ce9e99adc`.
+- This checkpoint is being updated after read-back of the above sources. The documentation branch remains diverged from main; do not merge or rebase without separate explicit authorization.
+- No tests/qualification/runtime operations were performed. Remaining C-03/C-06/C-07/C-08 blockers remain as stated in the Wave 06 report.
