@@ -5796,3 +5796,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Boundary remains: Jarvis = corporation-level mission coordination; ASTRA A0/Astra Gold = scoped engineering coordination and ASTRA-internal workflow state; Product State Authority = sole canonical MediaHub product-state mutation authority in Contour B. No role is expanded by this clarification.
 - This is planning direction, not implementation/deployment/acceptance evidence. Existing blockers remain: target hardware/OS/topology; Jarvis→ASTRA ingress and capability issuer/delegation/revocation; task/result envelope and lifecycle semantics; provider/model identity and egress policy; source/artifact provenance and security gates.
 - No tests, installs, provider calls, host/runtime inspection, infrastructure changes, deployment, qualification or branch integration performed.
+
+
+## 103. Jarvis/ASTRA identity, lifecycle and ingress contract trace — Wave 05 (2026-10-15)
+
+- New source-bound checkpoint: [MEDIAHUB-JARVIS-ASTRA-IDENTITY-LIFECYCLE-CONTRACT-TRACE-WAVE-05-2026-10-15.md](../checkpoints/MEDIAHUB-JARVIS-ASTRA-IDENTITY-LIFECYCLE-CONTRACT-TRACE-WAVE-05-2026-10-15.md), commit `5f67b86e06f07d3f510c41edd5feb024f8cff75a`.
+- Source pins recorded for `main`: executor capability matrix `da26185254d9954fcee204f81ecca129bf052e7c`; MH-12 security architecture `cf4ebfd5bf471ca676f075c51d3a24906504e490`; ASTRA governance contract `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`; ASTRA reference architecture `7be5fadd3055642e7823c7233f90e978a87e5366`.
+- Confirmed contract data includes heartbeat 120s, lease 600s, executor timeout 900s, result publication timeout 120s, retry backoff 30s and maximum 3 concurrent claims. Reuse the canonical ASTRA source; do not duplicate these values into a corporation contract.
+- Open gaps: accepted Jarvis→ASTRA ingress/authentication/replay contract; explicit capability issuer/delegation/revocation lifecycle; accepted corporation-wide task/result/evidence envelope; controlled reconciliation of broader ASTRA “single MediaHub coordination and state authority” wording against owner-approved DEC-DEV-02 responsibility split; owner-provided target hardware/OS/topology.
+- No normative main-branch source was changed. No tests, install, provider call, host/runtime inspection, qualification, deployment, infrastructure change or branch integration occurred.
+- Next bounded pass: build a statement-level reconciliation table for the authority wording conflict, clearly separating source text, owner decision, and proposed wording. Keep ingress/issuer/task-result contracts as drafts until dependencies are resolved.
