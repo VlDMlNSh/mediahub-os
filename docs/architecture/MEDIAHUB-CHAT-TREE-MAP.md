@@ -5467,3 +5467,14 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Branch compare at pass start: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1174 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration performed.
 - No tests, qualification, installs, provider/model calls, credentials, host/runtime inspection, infrastructure changes or deployment. No main/Baseline edits.
 - Next: source-trace accepted A0 ingress/queue/lease/cancellation/replay/recovery semantics and MH-12 capability issuer lifecycle; draft a versioned schema only after source crosswalk.
+
+
+## 20.273 A0 lifecycle and MH-12 capability issuer source trace — Wave 07 (2026-10-15)
+
+- Source trace: [MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md](../checkpoints/MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md), commit `2880554afb2d52fc1afc00ce29c66786f398123f`.
+- Exact trace confirms ASTRA internal queue/claim/lease/heartbeat/recovery/idempotency semantics, and MH-12 capability binding/fail-closed rules. It does not find an accepted Jarvis-facing A0 ingress API, concrete capability issuer lifecycle, claim-fencing contract, cancellation race semantics, or corporation-wide DAG/result wire schema.
+- Main ASTRA reference architecture still has broad A0 wording at blob `7be5fadd3055642e7823c7233f90e978a87e5366`; docs-branch reference is scoped at `b354acfa4cff595583a7f1778371143e9868f293`; docs-branch unified YAML role corrected at `f5040aeb479176508d5b0ca35eb742a6db818867`. Main is not modified; integration remains unauthorized.
+- Current qualification truth on main: `docs/qualification/CURRENT-TRUTH.generated.md`, SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`, G0–G11 BLOCKED, overall NOT_PROVEN/BLOCKED.
+- Branch comparison observed before this write: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1182 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- No endpoint/token defaults invented, no tests/qualification/provider calls/credentials/host inspection/install/infrastructure/deployment/merge performed.
+- Next: produce a governance decision brief for issuer + A0 ingress/fencing/cancellation semantics with explicit options, consequences and acceptance evidence; keep the interface draft-only until accepted.
