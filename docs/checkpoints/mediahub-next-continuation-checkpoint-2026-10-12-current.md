@@ -3393,3 +3393,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - This does not prove the manifests are unused: generic/dynamic loaders, unscanned paths and external callers remain open. No source/config/workflow changed or executed; no retirement is authorized.
 - Next: inspect remaining code/config/test candidates and generic YAML/config-loader abstractions, then explicitly report any residual closure gap.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — WB-14M (2026-10-16)
+
+- Report: [WB-14M Broad Legacy Control and Config-Loader Scan](MEDIAHUB-CONTOUR-A-WB-14M-BROAD-LEGACY-CONTROL-AND-CONFIG-LOADER-SCAN-2026-10-16.md), creation commit `9c78f841dc8148b4983aa515e2721a94a303e1ee`.
+- Source-pinned reconciliation covered queue dispatch, JSON claim state, worker, ASTRA GitHub agent, command signer, legacy provider manifests, topology test, task definitions and qualification/evidence producers. Old identities are cross-cutting legacy source facts, not greenfield target inventory.
+- Exact readers of `node-role-map.yaml` and `local-executor-routing-v2.yaml` remain UNKNOWN. Search zero-results are non-diagnostic because code search is unindexed. No tests/workflows/provider calls/credentials/host-runtime inspection/install/infrastructure/deployment/integration occurred.
+- Next: scan remaining candidate files for dynamic path construction/import/dispatch abstractions; if static closure cannot be established, present an owner decision packet.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
