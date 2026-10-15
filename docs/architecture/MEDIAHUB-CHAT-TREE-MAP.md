@@ -5955,3 +5955,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Confirmed local typed-context propagation and allow-list policy enforcement. The separate HMAC command envelope is not proven connected to `AuthorizationContext`; complete constructor/history and Jarvis→A0 issuer/verifier closure remain NOT ESTABLISHED. Search misses are not absence evidence.
 - No tests were run; no source code or normative contract changed; no issuer technology selected. Jarvis→A0 ingress remains blocked.
 - Next: bounded source-only constructor/call-site/serialization closure; keep task-routing labels distinct from security capability grants.
+
+
+## 120. Contour A WB-07 ingress and command-authority seam trace (2026-10-15)
+
+- Added [WB-07 Ingress and Command-Authority Seam Trace](../checkpoints/MEDIAHUB-CONTOUR-A-WB-07-INGRESS-AND-COMMAND-AUTHORITY-SEAM-TRACE-2026-10-15.md), blob SHA `89fab594f9a9ae9a729d63ecb14dad2543edc9af`.
+- Direct source pins: `task_ingress.py` `59e1254aa61cc8f55f53bd1e179631e81c441393`; `astra_gateway.py` `10985e4ad8f682313d08e7492ecc1856a8bce20f`; `ops/control/sign_command.py` `fc6943a79cefdf06e59d6e32771d2df551b2f0e9`; `astra_github_agent.py` `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`; `tools/sign_astra_command.py` `a4222ac51a47cbfe8288f9af34f1e542c0a4b6a8`.
+- Confirmed three distinct inspected seams: JSON Task Contract ingress/gateway; P0 `AuthorizationContext`/State Authority policy; signed operational command verification. A second signer helper emits a different schema/key convention; usage/canonicality remains unknown. The Task Contract path's `approval_state` is file-supplied after shape/enum checks; inbox writer trust and upstream approval attestation are not established by this trace.
+- No code or normative contract changed; no tests, qualification, runtime or infrastructure actions. No exploitable bypass is asserted. Jarvis→A0 ingress remains blocked pending authority decisions and end-to-end trace.
+- Next: read-only caller/reference trace for both signer helpers and `FileTaskIngress`, then owner decision on approval provenance and canonical command contract.
