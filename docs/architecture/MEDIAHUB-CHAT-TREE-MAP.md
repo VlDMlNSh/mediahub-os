@@ -5543,3 +5543,15 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Reused existing schema inventory, DAG/result crosswalk, Jarvis responsibility matrix and owner-decision record rather than creating duplicates. Their SHA and purpose are recorded in the consolidation ledger.
 - Completion boundary: this is a source-bounded reconciliation, not a complete verbatim transcript archive, exhaustive repository-wide OSS audit, implementation, or acceptance. Remaining gaps and next action are recorded in the consolidation ledger and checkpoint.
 - Next: source-bound P0-07 → P0-05 identity/context/authorization trace; keep A0 ingress, capability issuer, fencing, cancellation, schema-envelope and OSS review gaps open until source evidence closes them.
+
+
+## 79. Reuse crosswalk for identity/capability and task-result work (2026-10-15)
+
+Before extending P0-07 → P0-05 tracing, reuse these live-read artifacts:
+- [Wave 07 A0 lifecycle/MH-12 capability issuer source trace](../checkpoints/MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md), blob `52dcd76e1ceaf66ccee560a34eb17b5be4f73bbf` — source trace exists; issuer, ingress, fencing, cancellation/idempotency and revocation propagation gaps remain open.
+- [P0-07 D2 trusted-context authority/lifecycle proposal](../checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md), blob `c0ae0d3fe340c3e50382b7d4aa8da7b6b5f56d9f` — proposal only, not accepted.
+- [Corporation Task/Result technical baseline Wave 09](../checkpoints/MEDIAHUB-CORPORATION-TASK-RESULT-TECHNICAL-BASELINE-WAVE-09-2026-10-15.md), blob `6ab5f244cb0d4e74ac2b26013c02502832170365` — technical recommendation only, not a normative contract.
+
+The live branch comparison is now 1203 ahead / 3 behind, diverged; `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+
+Next: refresh Wave 07 source anchors and trace only evidenced identity/context/capability edges across P0-07 → P0-05 → P0-04. Do not create duplicate generic task/result or capability documents.
