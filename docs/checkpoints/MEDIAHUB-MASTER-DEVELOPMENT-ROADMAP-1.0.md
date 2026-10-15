@@ -1118,3 +1118,14 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - No repository artifacts were deleted. Before deletion, close imports, workflow/service references, documentation links and tests; delete only proven old-target-exclusive active artifacts in a separate bounded change. Preserve historical evidence with explicit HISTORICAL / NOT TARGET labels.
 - Target hardware and operating-system facts remain UNKNOWN; no old node identity, path, model tag, runner label or failed installation is a new-system baseline.
 - Next: source-only reference/dependency closure, followed by a target-only component allowlist and requirements-to-component/interface/control/evidence matrix. No workflow, test, installer or runtime was invoked.
+
+
+## 85. Owner decision — greenfield reset and revised next sequence (2026-10-15)
+
+- The target is a **new system for new hardware**, designed from scratch. Old Mac Pro/Mac mini/server/remote video server installation attempts and their host-specific state are not the target runtime baseline.
+- Jarvis, Astra, multi-agent corporation and related architecture discussions are requirements/input for the new design, not evidence of a working installation or permission to reuse old deployment assumptions.
+- New order: (1) separate target requirements from historical/legacy artifacts; (2) create a single domain/system map; (3) define one versioned contract and authority boundaries; (4) create the component candidate/admission ledger; (5) evaluate mature GitHub components against pinned upstream revisions, license, maintenance/security, dependency/SBOM, hardware/OS compatibility, isolation and interface fit; (6) create a requirement-to-evidence matrix and discrepancy register; (7) resolve owner decisions; only then implement and qualify the accepted baseline.
+- Historical IDs and audit records must be preserved where required, while old operational configuration is marked HISTORICAL / NOT TARGET CONFIGURATION. Bulk deletion is not performed before path, dependency, ID and contract impact review.
+- Estimate: about 2–4 focused working days for the first source-backed inventory/map/contract skeleton/shortlist, then 3–7+ focused working days for deeper component review, owner decisions and contract closure. Implementation, verification, qualification, deployment and independent acceptance are separate later phases; no completion date is guaranteed.
+- No installation, tests/qualification, host/runtime access, provider calls, deployment, migration, branch integration or bulk deletion in this documentation-only pass.
+- Next: build the greenfield-versus-legacy artifact ledger and identify which documents are target requirements, historical evidence, candidate designs, or obsolete host-specific operational instructions.
