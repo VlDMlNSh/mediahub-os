@@ -5877,3 +5877,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - This establishes the direct test consumer and cross-file semantic drift, not full producer/consumer/history closure. The connector did not provide a reliable exhaustive tree/history closure; search misses remain non-diagnostic.
 - No normative source/test/schema changed; no tests run and no branch integration.
 - Next: continue source-only review of unresolved dependency/provenance gates in the existing admission crosswalk, first checking current sections to avoid duplicating the extensive OpenHands review already recorded through §7.8. Do not install or execute components.
+
+## 112. OpenHands dependency provenance — Pydantic version-boundary review (2026-10-15)
+
+- Updated the existing [Component Admission Crosswalk, §7.18](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md) with a source-only review of the OpenHands SDK v1.54.0 Pydantic dependency declaration and official release/security surfaces.
+- SDK metadata declares `pydantic>=2.13.5`, a lower bound rather than an exact resolved pin. Official release history also lists Pydantic 2.14.0 (2026-10-08) and 2.14.1 (2026-10-11); this proves version-drift potential, not which artifact would be resolved.
+- Exact resolved `pydantic`/`pydantic-core` versions, target-profile lock, artifact hashes/source provenance and complete SBOM/advisory closure remain OPEN. No version was selected or changed; no artifact download, dependency resolution, test, scan, installation or runtime action occurred.
+- OpenHands remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION.
+- Next: choose another non-overlapping unresolved crosswalk gate or capture owner-provided target hardware/OS facts; do not repeat the existing OpenHands sections or run runtime evaluation.
