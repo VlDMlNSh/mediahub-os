@@ -6005,3 +6005,14 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - WB-10 updated to clarify that its generic direct-local route matrix does not accept the specific Alamo proposal; update commit `b0645e03386a8905e0fdb922696d18d556405745`.
 - No tests, qualification, model/provider calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next: WB-12 compare ASTRA-only, direct Alamo route, and shared Jarvis route-adapter options. Project map: this document.
+
+
+## 124. Contour A WB-12 — execution topology options and decision matrix (2026-10-15)
+
+- Added [WB-12 Execution Topology Options and Decision Matrix](../checkpoints/MEDIAHUB-CONTOUR-A-WB-12-EXECUTION-TOPOLOGY-OPTIONS-DECISION-MATRIX-2026-10-15.md), creation commit `553f890c4b6f29224149b0b5c601496aa55f1dbc`.
+- Compared A) ASTRA-only governed execution, B) ASTRA engineering plus direct Alamo heavy-workload route, and C) ASTRA plus Alamo behind a common Jarvis route adapter.
+- Recommendation for further design (not owner-accepted): use Option C as the seam to design, retain Option A as the current governed baseline, and keep direct Alamo routing as an optional execution-domain behavior pending host/provider/backend/queue evidence.
+- Matrix compares authority clarity, queue/recovery complexity, workload isolation, data locality, provider egress, duplicate/replay control, evidence consistency, migration cost and current source fit. Explicit owner decisions TD-01 through TD-07 remain open.
+- Source baseline: canonical ASTRA executor matrix assigns A0 coordination/admission; current reference queue names `mh-dev-01`, `mh-dev-02`, `Voktors-Mac-mini.local`, not Alamo. Repository has external Anthropic and local Ollama-backed Claude-compatible workflow patterns, neither proven on Alamo.
+- No implementation, tests, qualification, model/provider calls, credentials, host/runtime inspection, installation, infrastructure change or deployment.
+- Next: WB-13 source-pinned requirement → contract → component → failure control → verification matrix for Option C seam; keep Option A baseline and all owner options unaccepted. Project map: this document.
