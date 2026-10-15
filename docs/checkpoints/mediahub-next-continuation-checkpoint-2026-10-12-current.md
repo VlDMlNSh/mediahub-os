@@ -2852,3 +2852,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next: source-trace exact executable loader/launcher call sites for `local-executor-routing-v2.yaml` and `node-role-map.yaml`, without invoking those paths.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — executor YAML loader trace (2026-10-15)
+
+- Live refs were refreshed before the pass. Documentation branch began at `2214ae174ea00e4b309fad0dc2a305a6b0157b3c`; `main` at `608d7463011798ca75e36bfce4b749a9caf4f9a0`; branches diverged 1251 ahead / 3 behind at merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Added [Inventory §13](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md), [Roadmap §84](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), and [Project Map §92](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Source-only trace found no loader for `local-executor-routing-v2.yaml` or `node-role-map.yaml` in the inspected worker/runtime path. The distributed worker hardcodes a separate `NODE_CONFIG`; node-role-map declares `mh-dev-02` as Codex while the matching workflow dispatch/job restricts it to Claude. Worker accepts both executor values. Two Voktors node IDs are also present without a proven alias contract.
+- No code/config changes; no workflow, test, qualification, launcher, provider, host/runtime operation, credential read or deployment was performed.
+- Owner decision required: choose canonical config authority (YAML, Python/runtime, or explicitly governed conformance); settle `mh-dev-02` executor and Voktors node-ID relationship. Existing blockers unchanged: P0-07→P0-05 accepted ingress NOT ESTABLISHED; capability issuer lifecycle OPEN; P0-05 D6 OPEN / OWNER-GOVERNANCE REQUIRED; P0-04 sole canonical product-state mutation authority; branch divergence remains.
+- Next: source-trace control-plane selection of node/executor values and identify whether an already accepted contract settles these discrepancies; do not invoke any execution path.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
