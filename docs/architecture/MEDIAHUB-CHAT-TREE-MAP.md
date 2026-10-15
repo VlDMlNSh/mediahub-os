@@ -6069,3 +6069,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Finding: ASTRA queue has a fixed three-node executor pool; Alamo is absent. Claim/lease/heartbeat primitives exist, but they do not prove an independently owned Route B queue, cross-route fencing/idempotency, cancellation, restart recovery or a qualified media backend.
 - Status: **READ-ONLY SOURCE COMPARISON / ROUTE B NOT IMPLEMENTED OR QUALIFIED**. No code changes, tests, provider calls, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next: WB-14D cross-route lifecycle controls. Preserve the owner decision on topology as open.
+
+
+## 126. Contour A WB-14D — cross-route lifecycle controls reconciliation (2026-10-15)
+
+- Added [WB-14D Cross-Route Lifecycle Controls and Evidence Reconciliation](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14D-CROSS-ROUTE-LIFECYCLE-CONTROLS-RECONCILIATION-2026-10-15.md), creation commit `d1f74777caff4dcb744e3fccc20a5cff6f9003c4`.
+- Reused existing non-normative Wave 09 technical baseline, mission/task/result schema draft, DAG/result crosswalk, identity/lifecycle trace and WB-14B/C evidence; no duplicate normative contract created.
+- Key gaps: accepted Jarvis→A0 ingress/issuer, shared mission/task/attempt ID and schema registry, durable idempotency admission, storage-enforced fencing/publication, cancel/complete race semantics, Route B lifecycle owner/recovery and accepted result adapter.
+- Preserved three authority domains: Jarvis mission coordination; A0 ASTRA-internal lifecycle state; MediaHub Product State Authority for canonical product state. No second State Authority.
+- Status: **READ-ONLY CROSSWALK / NON-NORMATIVE / OWNER DECISIONS OPEN / NOT IMPLEMENTED / NOT QUALIFIED**.
+- Next: WB-14E provider, data-locality and workload admission. Project map is the navigation source.
