@@ -364,3 +364,30 @@ Choose one explicit authority model: (A) YAML becomes the normative source and e
 ### Planning estimate for reconciliation (non-binding)
 
 Static source-backed map, component inventory, cross-file conflict ledger and contract draft: **10–20 focused working days** (roughly 2–4 weeks), assuming one bounded pass per issue cluster and no new large subsystem discovery. Implementation of approved fixes, test/qualification evidence and independent Contour A acceptance are separate, currently unestimated phases because owner decisions, branch integration and local runner availability are unresolved. Zero unknown defects cannot be guaranteed; the target should be zero *known untriaged* contradictions, each dispositioned as fixed, accepted exception, blocked or owner decision.
+
+
+## 15. Owner direction — clean-slate target for new hardware (2026-10-15)
+
+### Decision recorded
+
+The owner has explicitly directed that the next target be a **new system for new hardware**. Previously attempted, unsuccessful installations on old servers are **not part of the target runtime, deployment plan, component allowlist, node inventory, or qualification baseline**. Do not spend further work making those old-server installation attempts operational or reconciling their runtime assumptions as if they were target requirements.
+
+### Required handling of legacy material
+
+1. Classify every old-server-specific reference as one of: (a) active runtime/config/deployment artifact; (b) historical evidence/provenance; (c) reusable generic design/code candidate; or (d) unknown pending path-level review.
+2. Exclude (a) from the new target. In subsequent bounded passes, identify exact paths and dependencies; remove obsolete active artifacts only when the path is demonstrably exclusive to the retired server target and removal does not erase shared contracts or working generic components.
+3. Preserve (b) as clearly marked historical audit evidence; do not silently rewrite history or confuse historical attempts with current deployment state.
+4. Admit (c) only through the component-admission gate: source/version pin, license/security review, compatibility with the new hardware, architecture ownership, and explicit status. Prior unsuccessful installation is not evidence that a component is required or useful.
+5. Do not infer the new hardware topology, OS, node identities, model inventory, storage, network, or provider policy: these remain UNKNOWN until backed by owner-supplied hardware facts or accepted target design.
+
+### Clean-slate target artifacts
+
+Build one target-only package with: (i) target system map; (ii) authoritative component inventory with role, source/pin, license, dependencies, target compatibility, status and evidence; (iii) one accepted contract set with owners and versioning; (iv) one traceability/coverage matrix from requirements to components, interfaces, controls and acceptance evidence; (v) conflict ledger whose every item is fixed, accepted exception, historical/retired, blocked, or owner decision; and (vi) a deployment/qualification plan kept separate from actual qualification evidence.
+
+### Scope and safety
+
+This entry records the owner's target direction; it does **not** claim that legacy files have already been deleted or that a new system has been implemented. No files outside documentation were deleted or changed in this pass. Broad repository deletion is deferred until an inventory identifies exact old-server-exclusive paths and their dependency/reference impact. No tests, installs, qualification, provider calls, credentials, host/runtime inspection, infrastructure changes or deployment were performed.
+
+### Estimate after scope change
+
+Planning estimate remains **10–20 focused working days** for target-only source reconciliation, legacy/target classification, component inventory, conflict ledger, one coherent draft contract set and traceability matrix, assuming bounded passes and no major new subsystem discovery. This is not elapsed calendar time: at 2–4 focused hours/day it is approximately 3–6 calendar weeks. Implementation, hardware-specific integration, tests/qualification and independent Contour A acceptance are separate phases and cannot be responsibly estimated until the target hardware facts and owner decisions are recorded. The measurable objective is zero known untriaged conflicts, not an absolute guarantee of zero defects.
