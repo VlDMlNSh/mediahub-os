@@ -5894,3 +5894,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - The connector returned the `uv.lock` path SHA `5a4afacc446005f7c02c9606390847e73c4c9208` with an empty payload in both UTF-8 and base64 fetches. This is insufficient to infer lock absence or resolved versions; lock contents remain unverified.
 - OpenHands remains research-only, not selected/admitted/installed/qualified. No tests, scans, downloads, provider calls, host/runtime inspection, qualification, deployment or branch integration occurred.
 - Next: another non-overlapping admission gate only after checking existing sections, or owner-provided target hardware/OS/Python facts. Do not infer a target profile or begin runtime evaluation.
+
+## 114. Contour A pre-deployment readiness work breakdown — Draft 01 (2026-10-15)
+
+- Added [Contour A Pre-Deployment Readiness Work Breakdown, Draft 01](../checkpoints/MEDIAHUB-CONTOUR-A-PREDEPLOYMENT-READINESS-WORK-BREAKDOWN-DRAFT-01-2026-10-15.md), commit `085e24c4575a2b3af3a6179315e19b8d8fb18c7b`.
+- Decomposed the path to a justified Contour A deployment decision into ten bounded work packages: target hardware/OS/topology; authority/conflict register; Jarvis→A0 ingress; capability lifecycle; mission/task/result schema governance; fencing/cancellation/idempotency/result publication; component admission; deployment placement; requirements-to-evidence matrix; readiness/go-no-go packet.
+- Started WB-01. Re-read the greenfield ledger (SHA `f97d44567328633602cdc2ca52bcd0b20138e082`), node/service placement register (`59107fd6d7b8a73d671098adcf2824c310642907`), corporation target architecture (`c9f1716de8419d66f181fc0a9c465c65a81c7d5b`) and bounded local inventory sources. Result: target direction is documented, but exact hardware/OS/topology facts remain OPEN INPUT; no hardware or runtime capabilities inferred.
+- Owner-input blockers are listed as HW-01…HW-07, including exact Mac Pro profile, Mac mini role, remote video server profile, node-to-service allocation, same-vs-separate production Mac Pro (DEC-DEV-03), Mac mini 2011 disposition (DEC-DEV-04) and GPU-server workload envelope (DEC-DEV-07).
+- WB-01 source audit is complete; hardware-specific placement/deployment planning remains blocked. No host/runtime inspection or infrastructure change.
+- Branch was already DIVERGED at pass start: docs branch 1360 ahead / 3 behind main; main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Next bounded package: WB-02, contract/authority conflict register from live primary-source clauses and owner-approved DEC-DEV-02 Option C. Normative main edits and tests remain gated.
