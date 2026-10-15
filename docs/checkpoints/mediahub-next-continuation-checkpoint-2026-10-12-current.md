@@ -2713,3 +2713,15 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Current compare: docs branch 1203 ahead / 3 behind `main`; `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; diverged. No integration.
 - Open blockers remain: trusted issuer/lifecycle, accepted Jarvis→A0 ingress, storage-enforced fencing, cancellation/idempotency/retry races, and accepted cross-boundary task/result contract.
 - Next bounded step: refresh Wave 07's primary-source anchors from live refs, then map only proven context/capability producer→consumer edges P0-07 → P0-05 → P0-04. Keep proposals labelled proposals; do not edit normative contracts.
+
+
+## Latest continuation — voice-session candidate synchronization (2026-10-15)
+
+- **Result:** reconciled the voice-session request with the existing survey/admission/inventory records; no duplicate survey or candidate manifest was created.
+- **Status:** PARTIALLY RECONCILED. The shared project context is not a complete verbatim transcript archive.
+- **Reused primary records:** ecosystem survey (blob `5c6cd19e338ed0f59823d18718a484f0129d2ef7`), component admission crosswalk (blob `38967e9ed449f2214d9675d9f5987ac947a9cbda`), local inventory (blob `a89c31423e1af185261340b432cc770f4300e469`), plus the existing Waves 05–09 conflict/capability/task-result records.
+- **Candidate disposition:** the known projects are carried as candidates for future review/evaluation planning, not as an approved stack or admitted components. Priority is OpenHands Software Agent SDK as a bounded worker candidate; MCP as interface protocol only; no second gateway/workflow/policy plane without demonstrated gap. Full role-grouped set is in map §80 and the session consolidation.
+- **Known source-level blockers:** MH-ARCH-045 explicit LOCAL_ONLY/fail-closed routing; MH-ARCH-046 mismatch risk between configured/evidenced and actually executed Ollama model; accepted Jarvis→A0 ingress and capability issuer lifecycle remain open. No inferred API/token format or exactly-once guarantee.
+- **Checks:** live-read bootstrap, map, checkpoint, roadmap, consolidation, ecosystem survey, admission crosswalk, local inventory; live branch compare reports docs branch DIVERGED from main (1206 ahead / 3 behind; main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`). No merge/rebase/cherry-pick.
+- **No execution claims:** no installs, tests, candidate benchmarks, model/provider calls, qualification, host/runtime inspection, infrastructure change or deployment performed.
+- **Next bounded step:** refresh candidate primary-source pins and manifest crosswalk; produce a prioritized evaluation queue with explicit gates and unresolved evidence. Execution tests remain blocked pending separate authorization.
