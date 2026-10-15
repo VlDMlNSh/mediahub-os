@@ -5602,3 +5602,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - P0-05 contract governance discrepancy remains OPEN: implementation/governance lineage coexists with a DRAFT-labelled contract; no header/status was changed. P0-07 remains NOT ACCEPTED; mutation/publication remains BLOCKED — GOVERNANCE/API GAP.
 - No tests, installations, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
 - Next: seek an accepted source for issuer/attester, verifier and P0-07 adapter/caller edge; route unresolved P0-05 D6 status through owner/governance. Do not infer the missing contract or create a duplicate proposal.
+
+## 84. P0-05/P0-04 source-edge refresh — contract status and mutation seam (2026-10-15)
+
+- Reused and extended [Wave 07 capability issuer source trace](../checkpoints/MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md), update commit `505e044c0279065a017585a1e8bf15d0174c4d39`, read-back blob SHA `411dbd52c92e17dff0a8bfdd077d0305b5371d04`.
+- Live source anchors: `runtime/mediahub_runtime/authorization.py@main` SHA `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; `runtime/mediahub_runtime/consumer_boundary.py@main` SHA `98bf2da9cea85da2c82145b4baef417c20b9ae73`; P0-05 candidate contract on docs ref SHA `79e2b4865c47b5394ade266cd3cd7cfbe3097717`; P0-05 existing-context proposal SHA `fce7019b3430a95d12f723a769d39e1cd29067af`.
+- Direct observation: authorization context holds only principal/capability with exact allow-list grant matching. P0-05 code mediates operations through an injected P0-04 authority, but this does not prove a P0-07 caller/adapter edge or trusted context issuance.
+- Status remains open: P0-05 v1.1 candidate is explicitly non-normative/not accepted/not frozen; discrepancy between DRAFT-labelled contract and implementation acceptance record requires owner/governance disposition (D6). No contract header changed. P0-07→P0-05 accepted ingress and issuer/attester/verifier lifecycle remain NOT ESTABLISHED.
+- P0-04 remains the sole canonical mutation authority. No tests, installations, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
+- Next: obtain/locate an accepted owner/governance disposition for P0-05 D6 and a source-backed trusted-context issuer plus P0-07 caller/adapter edge. If unavailable, preserve blockers and continue independent roadmap work.
