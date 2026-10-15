@@ -5775,3 +5775,14 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Open blockers include exact new hardware/OS specifications; unresolved FreeLLMAPI/FCC/OmniRoute/UnoRouter/Alamo identity/egress contracts; accepted Jarvis→ASTRA A0 ingress and capability issuer/delegation/revocation; lifecycle cancellation/idempotency/fencing/result-envelope gaps; and immutable candidate pins.
 - No installation, test, benchmark, provider/model call, credential use, host/runtime inspection, security scan, qualification, deployment or infrastructure change was performed. No product or normative contract was changed.
 - Register creation commit: `b8c8a6c9e67d7c58c91920f457a63fd1211d72fa`. Current map update follows this entry; re-read SHA recorded after write.
+
+
+## 101. OpenHands SDK exact-release source review (2026-10-15)
+
+- Updated existing admission crosswalk §7.17; do not create a duplicate OpenHands candidate record: [Component Admission Crosswalk Wave 01](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
+- Current crosswalk blob SHA: `e5be83f63e974c6eb559515c6371a93ae36b1f2b`; update commit: `e6ef3486349f66693c16f66385f2faa240610613`.
+- Exact upstream source anchor now identified: OpenHands Software Agent SDK `v1.54.0`, release commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`. SDK metadata blob `39c3ce3b1137c59e6a24423a3d11097f446507ee` declares Python `>=3.12`; upstream repository license blob `b0bd86a6335a564bd3766666bebbf014fd6a8013` is MIT. These are source observations, not package-artifact provenance or transitive license closure.
+- New security-relevant source fact: Agent Server README blob `a64ff0840230ff5ae2d7c167c824048eaf72da9f` documents default bind `0.0.0.0` and optional session API-key authentication. This is not an approved MediaHub deployment profile. No server was launched; SDK and Agent Server remain separable admission choices.
+- Candidate status remains RESEARCH CANDIDATE / NOT SELECTED / NOT ADMITTED. Artifact digest/source-to-artifact provenance, locked transitive SBOM/advisory closure, target Python/OS/hardware fit, workspace isolation, hardened server bind/auth, LiteLLM route/egress and LMNR telemetry privacy all remain OPEN.
+- No download, installation, dependency resolution, test, scan, provider/model call, credential use, host/runtime inspection, qualification or infrastructure change occurred. No runtime action is authorized.
+- Next bounded step: continue source-only review of the next non-overlapping candidate from the admission crosswalk, or complete the hardware/OS capability worksheet from already available owner-provided documentation; do not begin runtime evaluation until prerequisites and authorization are satisfied.
