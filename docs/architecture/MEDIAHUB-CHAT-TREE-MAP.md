@@ -6126,3 +6126,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Complete content scan and YAML-manifest reader closure remain open. No source files were changed and no workflows/tests were run. Preserve legacy files pending closure and owner decision.
 - Next: deterministic content scan of remaining source/config/test files, recording blob SHAs and omissions.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.281 Contour A WB-14J — targeted legacy caller expansion (2026-10-15)
+
+- Report: [WB-14J Targeted Legacy Caller Expansion](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14J-TARGETED-LEGACY-CALLER-EXPANSION-2026-10-15.md), commit `e2e42b3f489d7e498b180cf0b51cfbab0e8fda48`.
+- Confirmed direct queue dispatch and run polling for `astra-distributed-local-worker.yml`; supervisor invokes the command signer and uses old command/result paths; reaper and result-publication workflows are part of the lifecycle graph.
+- Source pins and findings are bounded to enumerated files; exact readers of `node-role-map.yaml` and `local-executor-routing-v2.yaml` remain unproven. The repository has 301 filtered non-documentation code/config candidates; this pass did not scan all of them.
+- No tests or workflows ran and no code/config was changed. Do not retire legacy paths before caller closure and owner decision.
+- Next: continue deterministic, SHA-pinned content scan of remaining source/config/test candidates in bounded batches.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
