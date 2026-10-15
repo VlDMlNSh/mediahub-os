@@ -3228,3 +3228,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, security scans, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next: WB-11 trace concrete local executor and queue-controller candidates, pin producer/consumer/lifecycle edges and determine whether an existing component can satisfy Route B.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-11 proposed Alamo/Claude heavy-local-workload route (2026-10-15)
+
+- Added [WB-11 Proposed Alamo/Claude Heavy-Local-Workload Routing and Executor Source Trace](MEDIAHUB-CONTOUR-A-WB-11-PROPOSED-ALAMO-CLAUDE-HEAVY-LOCAL-WORKLOAD-ROUTING-AND-EXECUTOR-SOURCE-TRACE-2026-10-15.md), creation commit `8a8b3b037239bceb95668ff1e5dc757e8c706ef2`.
+- Owner clarification: ASTRA is intended for engineering work (coding and related tasks); heavy local workloads such as video generation may be sent directly to Claude running on the host called Alamo. This is explicitly a **proposal, not the final topology**.
+- Source trace: ASTRA's canonical executor matrix assigns A0 coordination/admission responsibilities; the current reference queue's permanent pool names `mh-dev-01`, `mh-dev-02`, and `Voktors-Mac-mini.local`, not Alamo. Repository has both an external Anthropic API-key worker path and a local Claude-compatible Ollama endpoint; neither is proven to be deployed on Alamo. The actual video-generation backend is unknown.
+- WB-10 updated to cross-reference this proposal and clarify it is not accepted topology (update commit `b0645e03386a8905e0fdb922696d18d556405745`).
+- Recommendation: retain A0-governed ASTRA engineering execution; treat Alamo as a candidate separate execution domain only for eligible heavy jobs, with explicit route policy, queue owner, local/cloud data flow, resource admission, recovery and evidence. No final architecture decision made.
+- No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next: WB-12 compare ASTRA-only, direct Alamo execution and a shared Jarvis route-adapter option. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
