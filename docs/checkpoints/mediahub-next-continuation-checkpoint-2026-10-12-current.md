@@ -2924,3 +2924,16 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next: source-only inventory and reference closure for remaining old-node-bound active artifacts, then target-only component allowlist and requirements-to-component/interface/control/evidence matrix.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — clean-slate legacy artifact classification (2026-10-15)
+
+- Owner direction reaffirmed: design a new MediaHub/Jarvis/ASTRA multi-agent corporation for new hardware from a clean target baseline. Prior Mac Pro/Mac mini/remote video-server work is design context, not evidence that old installations, nodes or routes should be reused.
+- Added [Inventory §19](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md), [Roadmap §90](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), and [Map §98](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Source-only classification: old-node ASTRA supervisor workflow, Voktors-specific launchd definition, Linux mesh systemd unit and mh-dev-02 path-specific diagnostic are LEGACY / TARGET-EXCLUDED. The old chat-control and distributed-worker routes remain excluded. Generic-looking service/workflow artifacts without proven exclusivity remain UNADMITTED / HOLD or REUSE CANDIDATE.
+- No source or runtime artifacts were deleted in this pass. Delete only after exact reference/dependency closure and only when proven old-target-exclusive; preserve historical evidence with explicit HISTORICAL / NOT TARGET labels.
+- No workflow, test, installer, provider/model, credential, host/runtime, qualification or deployment was invoked.
+- Planning estimate still stands at **10–20 focused working days** for the static target-only reconciliation artifacts (roughly 3–6 calendar weeks at 2–4 focused hours/day). Implementation, new-hardware integration, qualification and independent Contour A acceptance are separate and not responsibly estimable until hardware/OS/topology and target choices are specified.
+- Next: source-only reference/dependency closure for the remaining old-node-bound artifacts; then produce the target-only component allowlist and unified requirements → component → interface → control → evidence matrix.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
