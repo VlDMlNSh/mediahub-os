@@ -2840,3 +2840,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next bounded step: create a source-anchored identity/status comparison table across agent/provider/transport/model IDs, credential reference names, statuses, loader evidence and qualification evidence. Keep upstream/egress UNKNOWN until proven; do not invoke probes or workflows.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — cross-registry identity/status matrix (2026-10-15)
+
+- Re-fetched live GitHub refs and re-read the current inventory, map, checkpoint and roadmap. Branch at pass start: `38095b22062a072f35bbbee941eb9429a972ebc2`; `main` remains `608d7463011798ca75e36bfce4b749a9caf4f9a0`; compare was diverged, 1247 ahead / 3 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Added [Agent / Task / Provider Schema Inventory, Wave 01 §12](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md), indexed by [Project Map §91](../architecture/MEDIAHUB-CHAT-TREE-MAP.md) and [Master Roadmap §83](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Matrix compares agent registry, hybrid fabric, provider/model qualification catalog and executor/node routing declarations using source blob SHAs. Credential references are names only; no secrets were read. Distinct namespaces and model declaration differences are documented as reconciliation questions, not fixed by assumption.
+- No runtime/config/schema changes, tests, qualification, launcher/probe/provider/workflow execution, credential reads, host inspection, installation, deployment or branch integration.
+- Blockers unchanged: P0-07→P0-05 accepted ingress NOT ESTABLISHED; capability issuer lifecycle OPEN; P0-05 D6 OPEN / OWNER-GOVERNANCE REQUIRED; P0-04 remains sole canonical product-state mutation authority; branch divergence remains.
+- Next: source-trace exact executable loader/launcher call sites for `local-executor-routing-v2.yaml` and `node-role-map.yaml`, without invoking those paths.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
