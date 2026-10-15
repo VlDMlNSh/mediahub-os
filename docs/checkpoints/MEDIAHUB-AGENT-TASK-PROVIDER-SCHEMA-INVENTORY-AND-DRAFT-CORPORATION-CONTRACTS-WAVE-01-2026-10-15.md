@@ -414,3 +414,27 @@ No files were deleted in this pass. The source tree establishes several strong r
 ### Estimate
 
 Remaining static reconciliation estimate: **10–20 focused working days** for a target-only map, component allowlist, coherent draft contract set, traceability matrix and conflict ledger, assuming no major new subsystem is discovered. At 2–4 focused hours/day: about **3–6 calendar weeks**. This is not a promise of zero defects: the defensible criterion is zero known untriaged conflicts. New-hardware implementation, qualification and independent Contour A acceptance are additional phases, currently not estimable without hardware specifications and owner decisions.
+
+
+## 17. Owner clarification — clean-slate system for new hardware (2026-10-15)
+
+**Owner direction recorded:** the system discussed since the Mac Pro, Mac mini server and remote video server entered the project—including Jarvis, the multi-agent system and the agent corporation—is one new system being designed from the ground up for new hardware. It is not a migration or continuation of the failed old-server installation attempts.
+
+### Target-state rules
+
+1. Old-server identities, observed paths, package/install attempts, runtime state, runner labels, model availability and deployment outcomes are **LEGACY / NOT TARGET EVIDENCE**. They must not determine the new topology or be reported as working components.
+2. Preserve product requirements, architecture ideas and source provenance separately from old deployment details. Mature GitHub projects/components may be considered as candidates, but each requires fresh source pinning, license/security review, interface fit, isolation, owner approval and target qualification before admission.
+3. Every artifact receives an explicit disposition: RETIRE (confirmed old-target-only active artifact), HISTORY (preserve audit provenance), REQUIREMENT-CANDIDATE (validate against Baseline 2.0 and owner decisions), REUSE-CANDIDATE (fresh admission required), or UNKNOWN (evidence insufficient). No bulk deletion by filename or age.
+4. The three confirmed old-target-bound active artifacts removed from this documentation branch in this pass are:
+   - .github/workflows/mediahub-one-time-storage-migration.yml — old mh-dev-01 /srv/mediahub migration workflow; prior blob b0f71f515419067c6b1508dc073b2dbce4f2ca7b.
+   - .github/workflows/mediahub-runner-migration-smoke.yml — fixed mh-dev-01 runner and implementation/p0-06-core-runtime-services target; prior blob 1f6682584d51b8155e66959734d1f335802dde67.
+   - ops/systemd/mediahub-astra-github-bootstrap.service — fixed mh-dev-02, /home/mediahub/astra-work and main checkout; prior blob bb88eb20bd2127c9c70a223bc07025ee9c150916.
+   These deletions affect only docs/mediahub-chat-tree-map-20261012; no merge/integration into main was performed. Git history preserves the removed blobs.
+5. Related worker/workflow code with mixed reusable logic and old node/model bindings remains TARGET-EXCLUDED / RECONCILE; it is not automatically deleted or admitted. Shared code, security invariants, Baseline 2.0 requirements and historical evidence are not legacy merely because they predate the new hardware.
+6. New hardware identity/specifications, OS, topology, network, storage, compute, model/runtime selection and deployment boundaries remain UNKNOWN until supplied by the owner or explicitly accepted through architecture governance. Do not invent a hardware bill of materials.
+
+### Reconciliation target and estimate
+
+The target deliverables remain one navigable map; one component allowlist with lifecycle/disposition and evidence; a coherent versioned contract register; a requirement → component → interface → security control → verification evidence matrix; and a conflict ledger with no known untriaged entries. Current planning estimate: **10–20 focused working days** for static source reconciliation and these architecture artifacts, approximately **3–6 calendar weeks at 2–4 focused hours/day**. This is a planning range, not a guarantee of zero defects. Implementation, qualification, deployment and independent Contour A acceptance are separate, currently unestimated phases pending hardware specifications and owner decisions.
+
+No tests, workflows, installers, models/providers, credentials, host/runtime, qualification or deployment were invoked in this pass.
