@@ -5665,3 +5665,10 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Agent registry is read by test source; no exact production loader for the hybrid fabric or executor/node YAML was established in this pass.
 - FreeLLMAPI local gateway first hop is source-declared; upstream/egress remains UNKNOWN. FCC/OmniRoute are transport identities, not agents; qualification-gated config is not proof of active routing.
 - Next: create a source-anchored identity/status comparison table without changing normative configs or invoking provider workflows.
+
+
+## 91. Cross-registry identity/status matrix (2026-10-15)
+
+- See [Agent / Task / Provider Schema Inventory, Wave 01 §12](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md) for the source-anchored comparison matrix.
+- Agent/gateway IDs, provider-instance/model IDs and executor/transport IDs are separate domains; no canonical cross-file foreign-key or runtime loader was inferred from name similarity. Statuses are not interchangeable; no IDs/statuses were edited.
+- Next: trace executable loader/launcher call sites for executor-routing and node-role YAML, without invoking any path.
