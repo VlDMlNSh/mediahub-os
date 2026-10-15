@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.275)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.276)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5499,3 +5499,16 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Refs at review: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; documentation branch HEAD `bafe0fe4159e5117f2227bb83f676e4a9eaac64b`; DIVERGED, docs 1188 ahead / 3 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 - No tests, installations, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
 - Next: inventory existing schema files/IDs/version conventions, producers/consumers and collision risks before drafting separate proposed corporation schemas.
+
+
+## 20.276 Agent / task / provider schema inventory and draft corporation contracts — Wave 01 (2026-10-15)
+
+- New inventory and design draft: [MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md).
+- Creation commit: `4fbc6fe708e8195ac712100dc2a31780167159db`; verified blob SHA: `e574338e79e1a535ccdaba81fd071911023548f8`.
+- Inventoried existing agent registry v1.2.0, provider/agent fabric, AI inference request v1.0.0, component evidence draft v0.1, ASTRA G4 qualification contract, historical provider-model evidence, component manifest, ASTRA executor matrix, MH-12 security architecture, Jarvis adapter draft and task/result baseline.
+- Confirmed reuse boundary: do not duplicate the agent registry, overload the single-inference schema, or repurpose component evidence/G4 qualification as a corporation task-result envelope. No accepted corporation-wide Mission/DAG/Executor Profile/Task Result schema was identified in checked sources; conventional candidate task/mission/result schema paths returned 404 on `main`.
+- Added a source-bound field disposition matrix and non-normative field-group outlines for Mission Envelope, Task DAG, Executor Profile, Task Result Envelope and Evidence Reference. Proposed IDs are explicitly unregistered; no JSON Schema or runtime implementation was created.
+- Refs remain diverged: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; documentation branch was `4fbc6fe708e8195ac712100dc2a31780167159db` after the inventory file creation; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration attempted.
+- Open blockers: authoritative Jarvis→A0 ingress API, capability issuer/delegation/revocation lifecycle, storage-enforced fencing semantics, cancellation/completion races, repository-wide schema ID collision scan and normative resolution of the A0 scope wording still on `main`.
+- No tests, installations, provider/model calls, credential access, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
+- Next: finish repository-wide schema-ID and producer/consumer collision search across relevant refs, then prepare proposal-only JSON Schema drafts only if existing sources do not already cover the fields. Preserve all authority and acceptance gates.
