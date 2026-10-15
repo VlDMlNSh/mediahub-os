@@ -5824,3 +5824,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Updated [Agent / Task / Provider Schema Inventory, Wave 01](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md) §21. Existing inference IDs remain dedicated to inference contracts; component evidence remains a narrower draft; agent/provider/model/transport identifiers are separate domains.
 - No new schema or object IDs assigned; no existing identifiers or normative contracts changed. No tests, execution, provider calls, credential access, host/runtime inspection, qualification, deployment or branch integration.
 - Remaining gap: complete producer/consumer/history reference closure and an accepted namespace/version policy. Next: source-only contract/interface tracing for intended greenfield Contour A; keep A0-dependent dispatch blocked until ingress and capability issuer lifecycle are accepted.
+
+
+## 106. Contour A control-plane interface edge trace — Wave 10 (2026-10-15)
+
+- Added [Contour A Control-Plane Interface Edge Trace, Wave 10](../checkpoints/MEDIAHUB-CONTOUR-A-CONTROL-PLANE-INTERFACE-EDGE-TRACE-WAVE-10-2026-10-15.md), creation commit `336045790820dc56393f3122bbb88cab114f53fd`; source pin correction committed separately.
+- Traced ten producer→consumer seams across Jarvis ingress, A0 dispatch/leases, result publication, security verification, Product State Authority and executor routing. Each seam distinguishes documented responsibility from accepted API, source-level code seam and runtime evidence.
+- Critical edges E-02 (Jarvis→A0), E-05 (result publication) and E-07 (capability issuer/verifier) remain BLOCKED/OPEN. Existing authority wording drift between main ASTRA sources and owner-approved DEC-DEV-02 remains a controlled reconciliation item.
+- No normative main source, implementation or runtime configuration changed. No tests, installs, providers, credentials, host/runtime inspection, qualification, deployment or branch integration.
+- Next bounded pass: greenfield Contour A requirement → component candidate → interface edge → control → evidence matrix; exclude old-host-specific routes as target configuration.
