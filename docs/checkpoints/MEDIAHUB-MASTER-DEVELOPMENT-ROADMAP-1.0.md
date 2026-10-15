@@ -1266,3 +1266,8 @@ WB-03 source-only output: [Jarvis → ASTRA A0 Ingress Contract Gap Packet](MEDI
 ## WB-04 continuation pointer — 2026-10-15
 
 WB-04 source-only output: [Capability Issuer / Trusted-Context Lifecycle Closure Matrix](MEDIAHUB-CONTOUR-A-WB-04-CAPABILITY-ISSUER-TRUSTED-CONTEXT-LIFECYCLE-MATRIX-2026-10-15.md), creation commit `4016fb12146aeb6dc2c5ceef1f9ce20731b679f8`. The matrix records 21 lifecycle surfaces and distinguishes typed authorization-context/policy seams from proof of issuer provenance, audience, freshness or revocation. No issuer or credential technology was selected. Next: owner/governance decision packet for issuer/attester authority and trusted-context ownership, followed by producer/consumer source closure. Ingress remains blocked. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## WB-05 continuation pointer — 2026-10-15
+
+Added [WB-05 Issuer Authority and Trusted-Context Ownership Decision Packet](MEDIAHUB-CONTOUR-A-WB-05-ISSUER-AUTHORITY-AND-TRUSTED-CONTEXT-OWNER-DECISION-PACKET-2026-10-15.md), creation commit `89c0ca1c0c19dd4b6f42baf4750cf45cf41db860`. The packet defines seven owner/governance decisions and four unselected alternatives; it is not an owner decision and does not choose an issuer, protocol, token format or key store. Direct source reads confirmed that the inspected AuthorizationContext/policy seams do not themselves prove issuer provenance, audience, expiry or revocation. Next: owner/governance selection, then bounded producer/consumer inventory. Jarvis→A0 ingress remains blocked. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
