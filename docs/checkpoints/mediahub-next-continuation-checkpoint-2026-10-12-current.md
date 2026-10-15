@@ -2623,3 +2623,15 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Project map: [current map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), latest verified blob SHA `85b4e75ccc2e8d35aa7c851906e2e3081d607492`; header pointer refreshed in commit `c3ba31f8b6b3b012ea3e4b834fba5b8ce9e99adc`.
 - This checkpoint is being updated after read-back of the above sources. The documentation branch remains diverged from main; do not merge or rebase without separate explicit authorization.
 - No tests/qualification/runtime operations were performed. Remaining C-03/C-06/C-07/C-08 blockers remain as stated in the Wave 06 report.
+
+
+## Latest continuation — A0 lifecycle / MH-12 capability issuer source trace Wave 07 (2026-10-15)
+
+- Report: [MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md](MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md), blob SHA `52dcd76e1ceaf66ccee560a34eb17b5be4f73bbf`, creation commit `2880554afb2d52fc1afc00ce29c66786f398123f`.
+- Current map: blob SHA `144a00b9239650f988dc22137e6680d4c6d8021c`; Wave 07 indexed in §20.273, map update commit `5c1c560c56c3f1ba2127836d83e8aaa9bd205b61`.
+- Live compare before latest docs write: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1182 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Recheck before any next action.
+- Source trace establishes ASTRA internal workflow policy (queue/claim/lease/heartbeat/recovery/idempotency) and MH-12 capability semantics (principal, issuer, operation, target, scope, constraints, provenance, lifetime, revocation, fail-closed). It does not identify an accepted A0 ingress API, concrete issuer lifecycle, claim-fencing contract, cancellation race semantics or corporation-wide DAG/result schema.
+- Main ASTRA reference remains broad at SHA `7be5fadd3055642e7823c7233f90e978a87e5366`; docs-branch reference is scoped at `b354acfa4cff595583a7f1778371143e9868f293`; docs-branch unified YAML is scoped at SHA `f5040aeb479176508d5b0ca35eb742a6db818867`. No main edit/integration.
+- Main qualification truth SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED; overall NOT_PROVEN/BLOCKED.
+- No tests, qualification, provider/model calls, credential use, host/runtime inspection, installs, infrastructure changes, deployment or branch integration.
+- **Next:** prepare a governance decision brief for issuer and A0 ingress/fencing/cancellation/replay semantics with options, consequences and acceptance evidence. Do not invent defaults or promote drafts to accepted contracts.
