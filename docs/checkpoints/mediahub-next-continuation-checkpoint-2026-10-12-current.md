@@ -2745,3 +2745,13 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Finding: typed `AuthorizationContext` and configured grant matching are present in inspected modules, but accepted issuer provenance, Jarvis-facing A0 ingress and complete expiry/revocation/replay/fencing/cancellation lifecycle remain NOT EVIDENCED. P0-07 proposal remains NOT ACCEPTED. Do not infer P0-07→P0-05→P0-04 edges from type compatibility.
 - No tests, installation, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment, merge, rebase or cherry-pick.
 - Next bounded step: read the map-indexed accepted P0-05 and P0-04 primary boundary contracts and add only direct, source-backed identity/context/capability edges to the existing trace. Do not create a duplicate contract.
+
+
+## Incremental continuation — P0-07/P0-05/P0-04 source-edge revalidation (2026-10-15)
+
+- Live ref compare: documentation branch is DIVERGED from `main`, 1216 ahead / 3 behind; `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration performed.
+- Bounded source comparison is recorded in [Wave 07](MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md), current blob SHA `223c5d71fceb75aa34ca3e127760192a7a9306a6`, and indexed in [map §83](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), current blob SHA `c2fa6ea2b70c8cce7ddfa396ce4f4f943b12a371`.
+- Re-read source anchors: `authorization.py@main` and `@implementation/p0-05-consumer-boundary` both `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; `consumer_boundary.py@implementation/p0-05-consumer-boundary` and `@integration/p0-07-runtime-reconciled` both `23b95f1b37cb35e311b61e3babcca4bd1aea9596`; `consumer_boundary.py@main` `98bf2da9cea85da2c82145b4baef417c20b9ae73`; MH-12 `cf4ebfd5bf471ca676f075c51d3a24906504e490`; P0-07 D2 proposal `c0ae0d3fe340c3e50382b7d4aa8da7b6b5f56d9f`.
+- Result: typed context/grant-check seams are evidenced; an accepted issuer lifecycle and direct P0-07 caller→P0-05→P0-04 source chain are not. P0-05 D6 contract-status discrepancy remains open; no protected contract was edited. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; D2 remains NOT ACCEPTED / NOT FROZEN.
+- No tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick.
+- Next: obtain source-backed issuer/attester + verifier and adapter/caller edge, or route the missing authority and P0-05 D6 disposition to owner/governance. In parallel, continue only independent non-blocked roadmap work.
