@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.276)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.277)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -5512,3 +5512,12 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Open blockers: authoritative Jarvis→A0 ingress API, capability issuer/delegation/revocation lifecycle, storage-enforced fencing semantics, cancellation/completion races, repository-wide schema ID collision scan and normative resolution of the A0 scope wording still on `main`.
 - No tests, installations, provider/model calls, credential access, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
 - Next: finish repository-wide schema-ID and producer/consumer collision search across relevant refs, then prepare proposal-only JSON Schema drafts only if existing sources do not already cover the fields. Preserve all authority and acceptance gates.
+
+
+## 20.277 Follow-up clarification — G4 result field and A0 authority conflict (2026-10-15)
+
+- Updated source inventory: [Agent / Task / Provider Schema Inventory and Draft Corporation Contracts, Wave 01](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md), new blob SHA `601676e30cebe47f02a2f1d2ddcc440725d1adfb`, commit `00bd7f68d16ab296eca579733396dbbe8ba2b5a1`.
+- Exact source correction: `control/qualification/g4-115.json@main`, SHA `d4ae8e7cc341706c2a1dd5265726ef1e045f93d1`, requires a `result_schema` field in each G4 round; it does not identify or define a reusable corporation-wide result schema. G4 therefore does not close the Task Result Envelope gap.
+- Reconfirmed normative conflict: `ASTRA-GOLD-REFERENCE-ARCHITECTURE.md` (`7be5fadd3055642e7823c7233f90e978a87e5366`) and `ASTRA-GOLD-COMPLETE-COMPONENT-SCHEME.md` (`54ba34ce53d1d7ecd97eef459be7d055b4fd19b1`) contain broad “MediaHub State Authority” wording for A0; owner-approved Option C and Product State Authority invariants separate ASTRA-internal engineering state from canonical product state. No normative source changed.
+- GitHub search connector returned zero results for ordinary terms despite known existing files; this is non-diagnostic. Complete repository-wide schema-ID/producer-consumer collision scan remains OPEN, not passed.
+- Next: trace P0-07 → P0-05 identity/context/authorization bridge from primary sources, without editing normative contracts or integrating diverged branches.
