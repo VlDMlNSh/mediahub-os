@@ -2967,3 +2967,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Updated project map §99; map read-back verified section presence, blob SHA `35f4f8cfead99d0388e96482fe999e7b70e84280`. Map commit: `da17201f915d4f83309c9f9a70aa8ee798b1858c`.
 - Target hardware/OS inventory remains an input blocker. The next bounded step is immutable upstream revision pinning and a comparison of LangGraph vs Microsoft Agent Framework; evaluate Temporal separately against ASTRA lifecycle overlap; review MCP tool-boundary security. No framework should be adopted merely because it appeared in a shortlist.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — unified greenfield component candidate register (2026-10-15)
+
+- Created [Unified Component Candidate & Evaluation Register](../architecture/MEDIAHUB-UNIFIED-COMPONENT-CANDIDATE-AND-EVALUATION-REGISTER-2026-10-15.md), commit `b8c8a6c9e67d7c58c91920f457a63fd1211d72fa`. It consolidates the canonical Manifest 2.0, runtime-admission YAML subset, ecosystem survey, admission crosswalk, mature-candidate screen and chat-session consolidation ledger.
+- Register status: research/evaluation backlog only; it is not an admission decision, test authorization, implementation plan freeze or qualification result. Manifest 2.0 remains the canonical development selection input; `oss/manifests/components.yaml` is explicitly only a runtime-deployment admission subset and omission does not mean exclusion.
+- The exact historical “40 components” list is still not proven by the available source evidence. Do not claim the new grouped register is that exact historical list or invent a count.
+- The register preserves competing frameworks and runtime candidates as alternatives, distinguishes selected development foundations from target/future-gated and research-only entries, and records role, open gate and evaluation question. No candidate was installed, tested, benchmarked, qualified or admitted by this documentation pass.
+- No test, benchmark, model/provider call, credential use, host/runtime inspection, security scan, qualification, deployment, infrastructure change or branch integration occurred. No product code or normative contract changed.
+- Next bounded step: complete Wave 0 prerequisites (owner-provided target hardware/OS/topology; accepted requirements and contract blockers; exact route/provider/model identity; immutable source/artifact pins and supply-chain evidence) before the first comparative review. Runtime execution remains separately authorized only.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
