@@ -1342,3 +1342,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No implementation, tests, qualification, provider/model calls, credential use, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next bounded step: WB-14 source-pinned contradiction/ownership matrix across canonical ASTRA policy, reference architecture, unified model, governance and queue/ingress implementations. Do not amend normative sources during that pass.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-13 — route-adapter requirement / evidence matrix (2026-10-15)
+
+- Added [WB-13 Route-Adapter Requirement / Contract / Component / Failure / Evidence Matrix](MEDIAHUB-CONTOUR-A-WB-13-ROUTE-ADAPTER-REQUIREMENT-CONTRACT-COMPONENT-FAILURE-EVIDENCE-MATRIX-2026-10-15.md), creation commit `1108abd34a4bd1a8a0643234bfaadb7bbf261146`; read-back blob SHA `e6fd3e070abb9da21c1a98e1c661cffe86b16e6c`.
+- Matrix defines 12 controls and evidence obligations for the proposed non-authoritative Jarvis route-adapter seam. ASTRA A0 remains the source-aligned governed route; direct Alamo execution remains optional and unaccepted.
+- Key blockers remain ingress/capability issuer, approval provenance, exact Alamo/provider/backend, local queue owner, lifecycle/recovery contract and owner decisions TD-01…TD-07.
+- No implementation, tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change or deployment.
+- This historical WB-13 entry does not supersede any newer continuation recorded elsewhere in this roadmap. Continue using the latest dated continuation as the sequence authority.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
