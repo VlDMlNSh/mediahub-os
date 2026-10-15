@@ -5935,3 +5935,14 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - No issuer, token format, protocol, endpoint, key store or vendor selected. No tests, installs, credentials, provider/model calls, host/runtime inspection, security scan, qualification, infrastructure change or deployment.
 - Start-of-pass branch comparison: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1373 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
 - Next: owner/governance decision packet for issuer/attester authority and trusted-context ownership; then bounded producer/consumer closure. Jarvis→A0 ingress remains blocked.
+
+
+## 118. Contour A WB-05 issuer authority and trusted-context ownership decision packet (2026-10-15)
+
+- Added [WB-05 Issuer Authority and Trusted-Context Ownership Decision Packet](../checkpoints/MEDIAHUB-CONTOUR-A-WB-05-ISSUER-AUTHORITY-AND-TRUSTED-CONTEXT-OWNER-DECISION-PACKET-2026-10-15.md), creation commit `89c0ca1c0c19dd4b6f42baf4750cf45cf41db860`.
+- Re-read MH-12 and directly fetched source anchors on `main`: `runtime/mediahub_runtime/authorization.py` blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; `consumer_boundary.py` blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`; `in_memory_state.py` blob `0fbc71369d19e09944ba67a60ccb9df802f30a4b`.
+- Confirmed source-level boundary: AuthorizationContext contains principal/capability strings and policy matches (principal, capability, operation); the inspected boundary and authority paths do not establish issuer provenance, audience, expiry or revocation. This is a bounded path read, not a full-repository producer/consumer inventory or runtime finding.
+- Packet lists seven governance decisions and four unselected ownership options (dedicated issuer, A0-scoped issuer, platform security authority, human-authorized issuance). No option or technology was selected; recommendation is to decide authority/invariants before technology selection.
+- No tests, installs, credentials, model/provider calls, host/runtime inspection, security scan, qualification, infrastructure change, deployment or branch integration.
+- Branch comparison at start: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1377 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Next: owner/governance selection; after that, bounded producer/consumer inventory of AuthorizationContext/capability construction and trust-boundary paths. Jarvis→A0 ingress remains blocked.
