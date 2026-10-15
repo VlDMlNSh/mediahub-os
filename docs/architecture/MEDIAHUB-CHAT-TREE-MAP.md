@@ -5592,3 +5592,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Disposition unchanged: P0-07 remains proposal-only / NOT ACCEPTED; no accepted Jarvis→A0 ingress, issuer/delegation lifecycle or source-backed complete expiry/revocation/replay/fencing/cancellation contract was found in this bounded pass. Do not infer P0-07→P0-05→P0-04 trust edges from type compatibility.
 - No tests, installation, runtime/host inspection, provider/model calls, credentials, qualification, infrastructure change, deployment or branch integration.
 - Next: use the exact paths and evidence already indexed in Wave 07 to compare the accepted P0-05/P0-04 boundary contracts; add only direct, source-backed edges and leave missing authority interfaces open.
+
+
+## 83. P0-07 → P0-05 → P0-04 source-edge revalidation (2026-10-15)
+
+- Updated [Wave 07 capability issuer source trace](../checkpoints/MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md), commit `64638540e0fdf58427c4d82006c94ce836cb4edd`, read-back blob SHA `223c5d71fceb75aa34ca3e127760192a7a9306a6`.
+- Re-read current `main` authorization and consumer-boundary sources, the `implementation/p0-05-consumer-boundary` source seam, the `integration/p0-07-runtime-reconciled` consumer-boundary path, MH-12 security architecture, and the existing P0-07 D2 proposal.
+- Confirmed only typed `AuthorizationContext(principal, capability)` and explicit grant matching in the inspected authorization module. The P0-05 boundary file has the same blob on the implementation and P0-07 integration refs, but file presence does not establish a caller edge. No accepted P0-07 → P0-05 → P0-04 producer/consumer chain or concrete issuer lifecycle was established.
+- P0-05 contract governance discrepancy remains OPEN: implementation/governance lineage coexists with a DRAFT-labelled contract; no header/status was changed. P0-07 remains NOT ACCEPTED; mutation/publication remains BLOCKED — GOVERNANCE/API GAP.
+- No tests, installations, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
+- Next: seek an accepted source for issuer/attester, verifier and P0-07 adapter/caller edge; route unresolved P0-05 D6 status through owner/governance. Do not infer the missing contract or create a duplicate proposal.
