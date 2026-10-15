@@ -76,3 +76,20 @@ This dated addendum supersedes only the stale branch-count snapshot in §1; it p
 | `docs/operations/ASTRA-EXECUTOR-CAPABILITY-MATRIX.md` | documentation branch | `9ad83781a8da53d1a8f540ede54eba95281f01c0` | Reusable ASTRA-internal workflow capability matrix; not an accepted Jarvis-facing ingress API. |
 
 **Bounded disposition:** source anchors were refreshed, but no accepted Jarvis→A0 ingress contract, concrete capability issuer/delegation lifecycle, or complete expiry/revocation/replay/fencing/cancellation semantics was established by these reads. P0-07 remains proposal-only / NOT ACCEPTED; P0-05/P0-04 edges must not be inferred from a shared context type. This is source inspection only, not a vulnerability determination, runtime verification, test or qualification. No tests, installations, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment, merge, rebase or cherry-pick occurred.
+
+
+## 8. Cross-ref boundary revalidation — /next 2026-10-15
+
+**Scope:** read-only comparison of the current `main` authorization/consumer seam with the `implementation/p0-05-consumer-boundary` and `integration/p0-07-runtime-reconciled` refs, plus MH-12 and the existing P0-07 proposal. This is a bounded source comparison, not an acceptance or runtime claim.
+
+| Source | Ref | Live blob SHA | Direct observation |
+|---|---|---|---|
+| `runtime/mediahub_runtime/authorization.py` | `main` and `implementation/p0-05-consumer-boundary` | `4d8df5d3c1c26f7f133a8093cd270635b085f4d5` on both | Same `AuthorizationContext(principal, capability)` and explicit grant matching by (principal, capability, operation). No issuer, audience, expiry, revocation, or request/resource/revision binding is represented in this type. |
+| `runtime/mediahub_runtime/consumer_boundary.py` | `implementation/p0-05-consumer-boundary` and `integration/p0-07-runtime-reconciled` | `23b95f1b37cb35e311b61e3babcca4bd1aea9596` on both | The refs contain the same P0-05 boundary implementation. The presence of the module on the P0-07 integration ref does not itself prove a P0-07 caller→P0-05 invocation edge or trusted context issuance. |
+| `runtime/mediahub_runtime/consumer_boundary.py` | `main` | `98bf2da9cea85da2c82145b4baef417c20b9ae73` | Main contains a nearby boundary revision; typed caller-supplied context is forwarded to the authority seam. The inspected boundary does not establish issuer lifecycle verification. |
+| `docs/architecture/MH-12-security-architecture.md` | `main` | `cf4ebfd5bf471ca676f075c51d3a24906504e490` | Defines a layered identity→authentication→trust→capability→authorization→policy→consumer-boundary→State Authority path and sole canonical mutation authority; status remains governance-review-required and does not instantiate a concrete issuer. |
+| Existing P0-07 D2 proposal | documentation ref | `c0ae0d3fe340c3e50382b7d4aa8da7b6b5f56d9f` | Explicitly proposes governance of a trusted-context lifecycle and marks D1/D2/D3/D6 open; it is not an accepted contract. |
+
+**Result:** no direct, accepted producer→consumer edge was established across P0-07 → P0-05 → P0-04 by these source reads. P0-05 implementation lineage and a P0-05 governance acceptance record do not resolve the separate discrepancy that the referenced consumer contract text retains a DRAFT header. Preserve D6 as OPEN; do not alter the protected contract header or infer normative acceptance. P0-07 remains proposal-only; mutation/publication remains BLOCKED — GOVERNANCE/API GAP. P0-04 remains the sole canonical transaction/state mutation authority.
+
+**Next evidence needed:** an accepted source naming the context issuer/attester and verifier, a source-backed P0-07 caller/adapter edge into the P0-05 boundary, and the exact governed P0-05 contract-status disposition. If no such source is available, route these items to owner/governance and continue only independent work. No tests, installs, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure change, deployment, merge, rebase or cherry-pick occurred.
