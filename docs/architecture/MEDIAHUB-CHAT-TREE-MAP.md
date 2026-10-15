@@ -5736,3 +5736,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - No code, workflow or service artifact was deleted. Source/dependency/reference closure is required before deleting proven old-target-exclusive active artifacts.
 - Clean-slate rule: the Mac Pro/Mac mini/remote video-server discussion is target design context only; old host IDs, paths, model tags, runner labels, failed installation attempts and deployment evidence do not establish the new target baseline.
 - Next: close remaining references, then create the target-only component allowlist and a unified requirements → component → interface → control → evidence matrix.
+
+
+## 93. Greenfield reset decision (2026-10-15)
+
+- Owner direction: design a new MediaHub OS for new hardware from scratch. Old-server installation attempts and host-specific runtime assumptions are not target baseline. Jarvis/Astra/multi-agent corporation are target-system concepts to design, not proof of implementation.
+- Current decision ledger and planning estimate: [Agent / Task / Provider Schema Inventory, Wave 01 §14](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md); [Master Roadmap §85](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Next: build a greenfield-vs-legacy artifact ledger, preserving historical IDs/evidence but marking old host-specific operational configuration HISTORICAL / NOT TARGET CONFIGURATION. No bulk deletion before dependency/ID/contract impact review. Then create one target system map, one versioned contract, component admission ledger and requirement-to-evidence matrix.
+- Hardware-specific compatibility remains OPEN because the new hardware/OS inventory has not yet been recorded in the reviewed source set.
