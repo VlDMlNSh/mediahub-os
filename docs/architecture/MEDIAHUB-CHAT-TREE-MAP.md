@@ -6155,3 +6155,14 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Exact manifest readers, generic/dynamic config loading, complete repository callers, and runtime activation remain UNKNOWN. No source/config/workflow changed or executed; retirement remains unauthorized.
 - Next: inspect remaining candidates and generic YAML/config-loader abstractions; document residual uncertainty and seek owner decision if static closure remains impossible.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.284 Contour A WB-14M — broad legacy control/config-loader scan (2026-10-16)
+
+- Report: [WB-14M Broad Legacy Control and Config-Loader Scan](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14M-BROAD-LEGACY-CONTROL-AND-CONFIG-LOADER-SCAN-2026-10-16.md), creation commit `9c78f841dc8148b4983aa515e2721a94a303e1ee`.
+- Cross-checked SHA-pinned queue, agent-fabric primitives, worker, ASTRA GitHub agent, signer, provider manifests, topology test, task JSON and qualification/evidence sources. Legacy node assumptions are distributed across execution, HMAC/signing, attestation, task data, qualification allow-lists and tests.
+- `agent_fabric.py` file-local inspection found JSON claim-state reads but no literal provider-manifest references. This does not establish manifest non-use; exact readers remain UNKNOWN.
+- Targeted GitHub code-search returned zero results but the repository index is unavailable; treat search output as non-diagnostic. No tests/workflows/provider calls or source-code changes occurred.
+- Status: **BROAD BOUNDED SOURCE RECONCILIATION / NOT FULL CLOSURE / NO RETIREMENT AUTHORIZED**.
+- Next: inspect remaining candidates for dynamic config path construction, imports and dispatch abstractions; if closure remains impossible from source, prepare owner decision questions rather than infer “unused”.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
