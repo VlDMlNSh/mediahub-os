@@ -5621,3 +5621,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Edge/status disposition unchanged: P0-07→P0-05 accepted caller/adapter edge NOT ESTABLISHED; trusted-context issuer/attester/verifier lifecycle OPEN; P0-05 D6 OPEN / OWNER-GOVERNANCE REQUIRED; P0-05→P0-04 remains an observed in-process implementation seam only; P0-04 remains sole canonical mutation authority. No normative contract/header edited and no acceptance inferred.
 - Verification: live-read/read-back of the named documents and branch comparison; repository code search returned no useful hits and is treated as non-diagnostic. No tests, installations, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick.
 - Next bounded action: continue an independent roadmap item, preferably the existing component-admission crosswalk's source-only OpenHands Software Agent SDK review; do not duplicate candidate catalogs or run/install anything. Keep P0-05 D6 and P0-07 ingress/issuer blockers explicit.
+
+
+## 86. OpenHands Software Agent SDK admission refresh (2026-10-15)
+
+- Updated [Component Admission Crosswalk §7.16](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), commit `d28bf82d57c77209ab67a5bc3e3d259aa0f83ec6`, read-back blob SHA `82b284ea67f578332e8f57b96a3571d1ecdf827b`.
+- Reconfirmed official upstream identity as [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk) and its documented dual workspace model: local-machine workspace or ephemeral workspace through Agent Server. This means SDK presence alone does not provide isolation; target sandbox and egress controls must be separately evidenced.
+- No immutable current upstream commit or published-artifact-to-source binding was established in this pass. Existing historical lock/dependency evidence is not promoted to a current compatible pin.
+- Admission remains RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION. Open gates: immutable source/artifact pin and provenance; transitive SBOM/license/advisory closure; target runtime compatibility; isolated workspace/filesystem/process/network/credential/resource/cancellation profile; owner disposition on LiteLLM/provider-routing; separate execution authorization.
+- No installation, tests, scans, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration.
+- Next: independently continue source-only review of the existing crosswalk's unresolved dependency/provenance gates; do not create duplicate candidate records or perform runtime evaluation.
