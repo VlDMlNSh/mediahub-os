@@ -3251,3 +3251,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No implementation, tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next: WB-13 source-pinned requirement → contract → component → failure control → verification matrix for the Option C seam, while preserving Option A as current baseline.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-13 Option C route-adapter evidence matrix (2026-10-15)
+
+- Added [WB-13 Option C Route-Adapter Requirement, Failure and Verification Matrix](MEDIAHUB-CONTOUR-A-WB-13-OPTION-C-ROUTE-ADAPTER-REQUIREMENT-FAILURE-VERIFICATION-MATRIX-2026-10-15.md), creation commit `dcf8c4746d2e9cb965b24f6e0d86f09f4b2cbabb`.
+- The matrix defines 20 future verification controls for the proposed common Jarvis routing seam: task contracts, route policy, A0 admission, Alamo qualification, identity/approval/capability, queue ownership, fencing/idempotency, egress/resource isolation, cancellation/recovery, result provenance, independent verification, product-state boundary, audit/failover and acceptance gates.
+- Recommendation remains design-only: explore Option C as a bounded adapter while retaining Option A (Jarvis → A0) as current governed baseline. Option B direct Jarvis→Alamo remains a candidate. The owner has not selected final topology; TD-01..TD-08 remain OPEN.
+- Source facts: canonical executor matrix assigns A0 global coordination/admission; current reference queue does not list Alamo. External Anthropic and local Ollama-backed Claude-compatible workflow patterns exist in source, but neither is proven deployed on Alamo.
+- No implementation, tests, qualification, provider/model calls, credential use, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next: WB-14 source-pinned contradiction and ownership matrix across canonical ASTRA contracts, reference architecture, unified model, governance and queue/ingress implementations.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
