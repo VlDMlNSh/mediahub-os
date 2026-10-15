@@ -6088,3 +6088,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Uses the existing Greenfield / Legacy Artifact Ledger classifications; no code, primary normative contract, runtime, or deployment config changed.
 - Status: **SOURCE-BOUNDED DESIGN CROSSWALK / NO TARGET NODES ACCEPTED / NOT IMPLEMENTED / NOT QUALIFIED**.
 - Next: WB-14F source-reference census of fixed topology and legacy operational identifiers. 
+
+## 128. Contour A WB-14F — fixed-topology / legacy identifier census (2026-10-15)
+
+- Added [WB-14F Fixed-Topology and Legacy Operational Identifier Census](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14F-FIXED-TOPOLOGY-LEGACY-IDENTIFIER-CENSUS-2026-10-15.md), creation commit `83989d0d5642dcac0d031fb56e579f006959e3ab`.
+- Directly fetched source files on `main` confirm prior node IDs/topology remain in `runtime/mediahub_runtime/autonomous_queue.py`, executor routing YAML, node-role map, distributed worker script/workflow, chat-control workflow, runner contract and command signer.
+- Classified host-bound manifests as LEGACY-OPERATIONAL or SHARED-OR-UNKNOWN; signer/orchestrator and ASTRA policy require controlled review, not blind deletion. No code/workflow was changed or invoked.
+- Branch state refreshed: docs branch diverged from main, ahead 1438 / behind 4; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; comparison base commit `ab36db009d034db8dca723691e23b331322287e7`. No integration attempted.
+- Status: **BOUNDED READ-ONLY CENSUS / NOT EXHAUSTIVE / NO DELETION OR CODE CHANGE**.
+- Next: WB-14G bounded reverse-reference and workflow-entry-point trace for the four highest-risk host-bound manifests.
