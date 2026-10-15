@@ -6079,3 +6079,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Preserved three authority domains: Jarvis mission coordination; A0 ASTRA-internal lifecycle state; MediaHub Product State Authority for canonical product state. No second State Authority.
 - Status: **READ-ONLY CROSSWALK / NON-NORMATIVE / OWNER DECISIONS OPEN / NOT IMPLEMENTED / NOT QUALIFIED**.
 - Next: WB-14E provider, data-locality and workload admission. Project map is the navigation source.
+
+## 127. Contour A WB-14E — Greenfield topology exclusion and workload admission (2026-10-15)
+
+- Added [WB-14E Greenfield Topology Exclusion and Provider/Workload Admission Crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14E-GREENFIELD-TOPOLOGY-EXCLUSION-AND-WORKLOAD-ADMISSION-2026-10-15.md), creation commit `6f34c08c9f8572c0cb64d9d3a44a316b0059e454`.
+- Explicitly classifies the fixed pool in `runtime/mediahub_runtime/autonomous_queue.py` and its `github_remote_claude_only` mode as legacy implementation evidence, **excluded from the greenfield target baseline**.
+- Reaffirms that Alamo/direct heavy-workload route is proposed, not accepted; actual backend/provider/egress and new target node inventory remain UNKNOWN.
+- Uses the existing Greenfield / Legacy Artifact Ledger classifications; no code, primary normative contract, runtime, or deployment config changed.
+- Status: **SOURCE-BOUNDED DESIGN CROSSWALK / NO TARGET NODES ACCEPTED / NOT IMPLEMENTED / NOT QUALIFIED**.
+- Next: WB-14F source-reference census of fixed topology and legacy operational identifiers. 
