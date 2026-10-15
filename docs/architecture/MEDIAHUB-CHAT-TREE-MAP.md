@@ -5649,3 +5649,10 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Complete repository-wide ID collision and producer/consumer census remains OPEN: the bounded scan does not prove absence of IDs in code, YAML, Markdown, generated/history artifacts or external systems, and GitHub code-search zero-results are non-diagnostic. Existing inference, agent registry, provider fabric, component evidence and G4 contracts retain their separate semantic scopes.
 - No normative schema or runtime implementation changed. No tests, installations, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick.
 - Next: trace non-secret producer/consumer references for agent registry, provider fabric and inference request/response contracts from the source files; record only evidenced edges and keep global collision status open until coverage is demonstrably complete.
+
+## 89. Agent/provider/inference producer-consumer crosswalk (2026-10-15)
+
+- Evidence is consolidated in [Agent / Task / Provider Schema Inventory, Wave 01 §10](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md).
+- Confirmed test-source consumers for inference request/response and provider-registry schemas; no runtime validation edge was established in the inspected production paths. Agent registry, provider fabric, provider-model qualification registry and inference schemas remain distinct artifacts.
+- FreeLLMAPI architecture-vs-runtime identity remains unresolved; no route/config/provider action taken. No new schema/ID or normative contract was created.
+- Next: trace exact registry loaders/consumers and non-secret route identity source/config references; preserve open ingress/issuer/fencing and D6 blockers.
