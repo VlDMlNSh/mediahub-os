@@ -3042,3 +3042,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, installs, provider/model calls, credentials, host/runtime inspection, security scan, qualification, infrastructure changes or deployment.
 - Next bounded step: build a greenfield Contour A requirement → component candidate → interface edge → policy/control → verification evidence matrix, excluding old-host-bound artifacts as target configuration and admitting no component without source/provenance evidence.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A requirement/component/evidence matrix (2026-10-15)
+
+- Added [MEDIAHUB-CONTOUR-A-REQUIREMENT-COMPONENT-INTERFACE-CONTROL-EVIDENCE-MATRIX-WAVE-01-2026-10-15.md](MEDIAHUB-CONTOUR-A-REQUIREMENT-COMPONENT-INTERFACE-CONTROL-EVIDENCE-MATRIX-WAVE-01-2026-10-15.md), commit `f2fb5ef08ef3383fc078d0e94e273e14896b76ab`.
+- Mapped 15 target requirements to component candidates, interface seams, controls and evidence gates. This is a source-bound design matrix; no component was selected/admitted and no installation/test/qualification authorization is implied.
+- Old-node routing, service and worker artifacts remain historical/legacy or shared-unknown; no blanket deletion and no inheritance into the greenfield target.
+- Hard blockers: target hardware/OS inventory; accepted Jarvis→A0 ingress/auth/replay; capability issuer/verifier/delegation/revocation; fencing/result publication; main ASTRA authority wording change control.
+- No tests, installations, providers, credentials, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
+- Next bounded step: draft a statement-level authority wording reconciliation proposal from exact source clauses, marking proposed text separately from accepted text. Do not edit normative main sources without explicit change authorization.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
