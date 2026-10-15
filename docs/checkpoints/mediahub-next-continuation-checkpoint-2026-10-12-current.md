@@ -2900,3 +2900,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next: close reference/dependency evidence for the three strong retirement candidates in Inventory §16; remove only confirmed old-target-exclusive active artifacts and reread/verify all changed documents.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — clean-slate target and legacy retirement (2026-10-15)
+
+- Owner clarified the entire system discussed since the Mac Pro, Mac mini server and remote video server—including Jarvis, multi-agent orchestration and the agent corporation—is a new system designed for new hardware. Old-server install attempts and observations are not target evidence.
+- Deleted three confirmed old-host-specific active artifacts from docs/mediahub-chat-tree-map-20261012: .github/workflows/mediahub-one-time-storage-migration.yml, .github/workflows/mediahub-runner-migration-smoke.yml, ops/systemd/mediahub-astra-github-bootstrap.service. Removed blob SHAs: b0f71f515419067c6b1508dc073b2dbce4f2ca7b, 1f6682584d51b8155e66959734d1f335802dde67, bb88eb20bd2127c9c70a223bc07025ee9c150916. GitHub delete commits: 8d9dc210b1347cc254dfa745221c1d7857ee1019, 5babc50cbf230c72fec2adbdc52c8897cc8ec564, d27962f9c69e4a7a8f2c2cc17cbd16ee61410ea1. No merge/integration was performed; main remains unchanged.
+- The inventory now defines the disposition categories RETIRE / HISTORY / REQUIREMENT-CANDIDATE / REUSE-CANDIDATE / UNKNOWN and requires fresh admission of external GitHub components. Historical provenance, Baseline 2.0 requirements and shared security invariants are not deleted by default.
+- Current static-reconciliation estimate: 10–20 focused working days (about 3–6 calendar weeks at 2–4 focused hours/day). Implementation, qualification, deployment and independent Contour A acceptance remain separate and cannot yet be estimated.
+- No tests, workflows, installs, provider calls, credentials, host/runtime inspection, qualification or deployment were performed.
+- Next: continue source-only triage of old-node-bound active artifacts; classify generic logic separately and retire only exact old-target-exclusive artifacts.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
