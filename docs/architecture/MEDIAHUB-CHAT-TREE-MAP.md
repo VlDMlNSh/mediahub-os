@@ -5833,3 +5833,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Critical edges E-02 (Jarvis→A0), E-05 (result publication) and E-07 (capability issuer/verifier) remain BLOCKED/OPEN. Existing authority wording drift between main ASTRA sources and owner-approved DEC-DEV-02 remains a controlled reconciliation item.
 - No normative main source, implementation or runtime configuration changed. No tests, installs, providers, credentials, host/runtime inspection, qualification, deployment or branch integration.
 - Next bounded pass: greenfield Contour A requirement → component candidate → interface edge → control → evidence matrix; exclude old-host-specific routes as target configuration.
+
+
+## 107. Contour A requirement-to-component admission matrix — Wave 01 (2026-10-15)
+
+- Added [Contour A Requirement / Component / Interface / Control / Evidence Matrix, Wave 01](../checkpoints/MEDIAHUB-CONTOUR-A-REQUIREMENT-COMPONENT-INTERFACE-CONTROL-EVIDENCE-MATRIX-WAVE-01-2026-10-15.md), creation commit `f2fb5ef08ef3383fc078d0e94e273e14896b76ab`.
+- Traced 15 greenfield requirements to candidate families, required interfaces, security/authority controls and evidence gates. This does not admit any component or authorize installation.
+- Preserves owner authority split, Baseline 2.0, local-only fail-closed behavior, external-controller boundary and historical treatment of old-node routes. No component is promoted beyond its documented candidate/manifest disposition.
+- Blockers: target hardware/OS inventory; accepted Jarvis→A0 ingress; capability issuer/verifier lifecycle; fencing/result publication; controlled reconciliation of main ASTRA authority wording.
+- No tests, installations, providers, credentials, host/runtime inspection, qualification, deployment or branch integration.
+- Next bounded pass: prepare a statement-level proposal for authority wording reconciliation using exact main-source statements and owner-approved DEC-DEV-02; do not edit normative main sources without authorized change control.
