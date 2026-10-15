@@ -5982,3 +5982,14 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Consolidated source-backed gaps across ingress, approval provenance, signer schema, AuthorizationContext, queue/recovery semantics, result evidence, hardware, network/egress and deployment/acceptance. This is a partial documentary integrity review, not full verification or qualification.
 - No tests, security scans, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment or branch integration.
 - Next: WB-10 source-pinned contract graph and requirement → failure control → verification evidence matrix, prioritizing Jarvis→A0 ingress and queue-lifecycle conflict.
+
+
+## 123. Contour A WB-10 — Jarvis direct local-executor route and contract evidence matrix (2026-10-15)
+
+- Added [WB-10 Jarvis Direct Local-Executor Route and Contract Evidence Matrix](../checkpoints/MEDIAHUB-CONTOUR-A-WB-10-JARVIS-DIRECT-LOCAL-EXECUTOR-ROUTE-AND-CONTRACT-EVIDENCE-MATRIX-2026-10-15.md), creation commit `d0c191e830c8f760b24a40e505a3ef6748a508fe`.
+- Recorded the owner's explicit direction for two bounded execution routes: (A) Jarvis → ASTRA A0 → A0-owned executor lanes; (B) Jarvis → a separately owned local-executor queue, bypassing A0 coordination for eligible tasks. Bypass of A0 does not bypass identity, authorization, approval, isolation, audit, evidence or recovery controls.
+- WB-10 contains a 17-row requirement/failure-evidence matrix covering mission identity, route eligibility, authenticated caller, approval attestation, queue ownership, claim/lease/fencing, replay/idempotency, capability scope, isolation, cancellation, recovery, result provenance, audit, product-state boundary, resource limits, fallback and evidence promotion.
+- Current source pins show the existing file Task Contract ingress, P0 typed authorization path and HMAC operational command path remain separate; no accepted end-to-end direct Jarvis→local-executor producer/consumer trace was established.
+- Blockers: direct-local queue lifecycle owner; trusted ingress and capability/approval provenance; signer helper canonicality; ASTRA/Product State Authority wording conflict; exact target hardware profile. Route B is owner-directed architecture, not implementation or qualification.
+- No tests, security scans, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next: WB-11 source-pinned trace of concrete local executor and queue-controller candidates; determine whether a current component meets the direct-route contract. Project map: this document.
