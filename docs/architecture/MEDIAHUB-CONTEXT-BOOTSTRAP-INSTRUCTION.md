@@ -115,3 +115,14 @@ This instruction records a working method and does not itself accept any propose
 Owner direction (2026-10-15): MediaHub OS is to be rebuilt as a new system for new hardware. Unsuccessful attempts to install/deploy on retired servers are not a source of target configuration, installed-component assumptions, host identity, runtime state, or acceptance evidence.
 
 For every legacy artifact, distinguish RETIRE (confirmed old-target-only active artifact), HISTORY (preserve provenance, never treat as target state), REUSE-CANDIDATE (generic component requiring fresh admission), and UNKNOWN (insufficient evidence). Do not erase audit history or delete shared components based only on names. Before deleting a candidate, inspect its references and dependent contracts; record exact paths and resulting blob/commit SHAs. New hardware details remain UNKNOWN until supplied or accepted explicitly. Keep Contour A setup/qualification/acceptance separate from Contour B product implementation.
+
+
+## Clean-slate target rule — new hardware (owner direction, 2026-10-15)
+
+The complete system discussed since the Mac Pro, Mac mini server and remote video server appeared in the project—including Jarvis, multi-agent orchestration and the agent corporation—is a new system to be designed from the ground up for new hardware. It is not a migration of unsuccessful old-server installation attempts.
+
+- Old server identities, paths, package/install attempts, model availability and observed runtime state are legacy context only, never target requirements or target qualification evidence.
+- Preserve provenance and valid product/security requirements. Classify artifacts as RETIRE, HISTORY, REQUIREMENT-CANDIDATE, REUSE-CANDIDATE or UNKNOWN; do not bulk-delete by name/date and do not automatically reuse components.
+- External GitHub components require fresh source pinning, license/security review, interface fit, isolation, owner admission and target qualification.
+- New hardware/OS/topology/network/storage/compute/model/runtime facts remain UNKNOWN until owner-provided or explicitly accepted. Do not infer target hardware from legacy servers.
+- Retire only source-proven old-target-exclusive active artifacts; preserve history and shared contracts. Keep Contour A build/qualification/acceptance separate from Contour B product implementation.
