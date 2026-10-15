@@ -109,3 +109,12 @@ This is a recommendation for contract closure, not a claim that the local queue 
 WB-11: trace the concrete local executor and queue-controller candidates from the repository tree, then create a source-pinned Route B producer/consumer/lifecycle trace. Determine whether an existing component can satisfy the direct-route contract or whether the architecture must specify a new bounded adapter; keep implementation and qualification gated.
 
 Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md)
+
+
+## Follow-up owner proposal clarification — WB-11 (2026-10-15)
+
+The owner subsequently clarified that the particular workload topology is **a proposal, not the final structure**: ASTRA is intended for engineering work such as coding, while heavy local jobs such as video generation may be routed directly to Claude running on the local host called “Alamo”. This is not yet a selected or accepted topology.
+
+See [WB-11 Proposed Alamo/Claude Heavy-Local-Workload Routing and Executor Source Trace](MEDIAHUB-CONTOUR-A-WB-11-PROPOSED-ALAMO-CLAUDE-HEAVY-LOCAL-WORKLOAD-ROUTING-AND-EXECUTOR-SOURCE-TRACE-2026-10-15.md), creation commit `8a8b3b037239bceb95668ff1e5dc757e8c706ef2`.
+
+Important distinction: a Claude/Claude Code client running on Alamo does not by itself prove that model inference is local; repository sources contain both an external Anthropic credential path and a Claude-compatible local endpoint backed by Ollama. Actual Alamo identity, provider/model mode, media-generation backend and direct queue lifecycle owner remain UNKNOWN. The WB-10 direct route remains a general contract matrix, not acceptance of the specific Alamo proposal.
