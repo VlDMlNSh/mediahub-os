@@ -3239,3 +3239,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Recommendation: retain A0-governed ASTRA engineering execution; treat Alamo as a candidate separate execution domain only for eligible heavy jobs, with explicit route policy, queue owner, local/cloud data flow, resource admission, recovery and evidence. No final architecture decision made.
 - No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next: WB-12 compare ASTRA-only, direct Alamo execution and a shared Jarvis route-adapter option. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-12 execution topology options and decision matrix (2026-10-15)
+
+- Added [WB-12 Execution Topology Options and Decision Matrix](MEDIAHUB-CONTOUR-A-WB-12-EXECUTION-TOPOLOGY-OPTIONS-DECISION-MATRIX-2026-10-15.md), creation commit `553f890c4b6f29224149b0b5c601496aa55f1dbc`.
+- Compared: A) ASTRA-only governed execution; B) ASTRA engineering plus direct Alamo heavy-local-workload route; C) ASTRA plus Alamo behind a common Jarvis route adapter.
+- Recommendation for further design only: develop Option C as a bounded routing seam while retaining Option A as the current governed baseline; keep direct Alamo route optional. This is NOT an owner-accepted final topology.
+- Open owner decisions: TD-01 topology; TD-02 exact Alamo host; TD-03 external Claude service versus local model runtime; TD-04 actual video-generation backend; TD-05 direct queue lifecycle owner; TD-06 eligible workload classes; TD-07 route/failover authority.
+- Evidence: canonical ASTRA executor matrix assigns A0 coordination/admission. Reference queue currently pins `mh-dev-01`, `mh-dev-02`, `Voktors-Mac-mini.local`, not Alamo. External Anthropic worker and local Ollama-backed Claude-compatible workflow patterns exist in source, but neither is proven deployed on Alamo.
+- No implementation, tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next: WB-13 source-pinned requirement → contract → component → failure control → verification matrix for the Option C seam, while preserving Option A as current baseline.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
