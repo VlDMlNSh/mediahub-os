@@ -6116,3 +6116,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Direct known-path fetch is available, but no complete repository-tree enumeration action was available in this pass. Reverse-reference closure and retirement remain BLOCKED.
 - Next: obtain a read-only source/tree snapshot or working full-tree/code-search capability; meanwhile select a non-overlapping roadmap task independent of caller closure.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.280 Contour A WB-14I — recursive tree and legacy caller expansion (2026-10-15)
+
+- Report: [WB-14I Repository Tree and Legacy Workflow Caller Expansion](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14I-REPOSITORY-TREE-AND-LEGACY-WORKFLOW-CALLER-EXPANSION-2026-10-15.md), commit `5487ab4773482c41c246a86082f2b794d14511f7`.
+- Git Trees API now returns the full `main` tree (800 entries / 723 blobs; `truncated=false`), tree SHA `ab36db009d034db8dca723691e23b331322287e7`. This supersedes the WB-14H tree-enumeration limitation; code search remains unindexed.
+- `runtime/mediahub_runtime/autonomous_queue.py` directly dispatches `.github/workflows/astra-distributed-local-worker.yml` and polls its runs. Additional legacy node assumptions are recorded in WB-14I.
+- Complete content scan and YAML-manifest reader closure remain open. No source files were changed and no workflows/tests were run. Preserve legacy files pending closure and owner decision.
+- Next: deterministic content scan of remaining source/config/test files, recording blob SHAs and omissions.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
