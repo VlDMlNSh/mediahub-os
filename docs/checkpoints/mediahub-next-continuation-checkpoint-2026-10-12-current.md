@@ -2978,3 +2978,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No test, benchmark, model/provider call, credential use, host/runtime inspection, security scan, qualification, deployment, infrastructure change or branch integration occurred. No product code or normative contract changed.
 - Next bounded step: complete Wave 0 prerequisites (owner-provided target hardware/OS/topology; accepted requirements and contract blockers; exact route/provider/model identity; immutable source/artifact pins and supply-chain evidence) before the first comparative review. Runtime execution remains separately authorized only.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — OpenHands SDK exact-release source review (2026-10-15)
+
+- Refreshed the existing [Component Admission Crosswalk Wave 01](MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md) §7.17; no duplicate candidate document created.
+- Update commit: `e6ef3486349f66693c16f66385f2faa240610613`; current crosswalk blob SHA after write: `e5be83f63e974c6eb559515c6371a93ae36b1f2b`.
+- Exact upstream source pin: OpenHands Software Agent SDK `v1.54.0`, release commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`. SDK package metadata blob `39c3ce3b1137c59e6a24423a3d11097f446507ee` requires Python `>=3.12`; repo license text blob `b0bd86a6335a564bd3766666bebbf014fd6a8013` is MIT. Full package digest/provenance, transitive SBOM/license closure and target compatibility remain unproven.
+- Agent Server source blob `a64ff0840230ff5ae2d7c167c824048eaf72da9f` documents `0.0.0.0` as default bind host and session API-key authentication as optional. Treat this as a deployment risk to close, not as an accepted MediaHub profile. SDK and server are separate admission choices.
+- Candidate remains RESEARCH CANDIDATE / NOT SELECTED / NOT ADMITTED. Workspace isolation, provider/LiteLLM egress, LMNR telemetry privacy, artifact provenance, transitive security review and target hardware/OS compatibility remain OPEN.
+- No artifact was downloaded; no install, dependency resolution, tests, security scan, model/provider call, credential use, host/runtime inspection, qualification, deployment or infrastructure change occurred.
+- Next: continue the existing crosswalk’s source-only candidate review or prepare a documentary target hardware/OS capability worksheet from already available owner-provided data. Runtime actions remain separately authorized only.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
