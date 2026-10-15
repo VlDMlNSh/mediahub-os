@@ -1088,3 +1088,14 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Reconcile old-node-bound active workflows/services against source/tree references before removal. Priority candidates: one-time storage migration workflow (mh-dev-01, /srv/mediahub, self-removal), runner migration smoke workflow (mh-dev-01, old implementation branch), and systemd bootstrap service (mh-dev-02, old home/repository path).
 - Do not execute any workflow, service, migration, test, installer or qualification. Delete only exact active artifacts proven exclusive to retired hardware; preserve historical evidence and shared generic components.
 - Then build a target-only component allowlist, contract register, requirement/interface/evidence matrix and conflict ledger. New hardware OS/topology/node/model/storage/network facts remain UNKNOWN until supplied or explicitly accepted.
+
+
+## 88. Clean-slate target scope and legacy retirement (2026-10-15)
+
+- Owner clarified that the complete system discussed since the Mac Pro, Mac mini server and remote video server—including Jarvis, multi-agent orchestration and the agent corporation—is a new system for new hardware, not continuation of old-server installation attempts.
+- Treat old node identities, paths, installed packages, model availability and runtime observations as legacy/non-target evidence. Preserve requirements and historical provenance separately; reuse candidates require fresh admission.
+- Retired from the documentation branch only: .github/workflows/mediahub-one-time-storage-migration.yml, .github/workflows/mediahub-runner-migration-smoke.yml, and ops/systemd/mediahub-astra-github-bootstrap.service. Removed blobs and evidence are recorded in Inventory §17. No branch integration was performed; main is unchanged by these deletions.
+- Do not bulk-delete historical docs or shared code. Continue dispositioning each artifact as RETIRE / HISTORY / REQUIREMENT-CANDIDATE / REUSE-CANDIDATE / UNKNOWN based on source evidence.
+- Deliverables: target-only project map; component allowlist; versioned contracts; requirement/component/interface/control/evidence matrix; conflict ledger with zero known untriaged conflicts.
+- Static reconciliation estimate remains 10–20 focused working days (about 3–6 calendar weeks at 2–4 focused hours/day). Implementation, qualification, deployment and independent Contour A acceptance are separate and not yet estimable without the new hardware specification and owner decisions.
+- Next: source-trace other old-node-bound active artifacts and distinguish generic reusable logic from retired deployment assumptions. Do not run tests/workflows or inspect hardware/runtime.
