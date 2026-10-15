@@ -6136,3 +6136,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - No tests or workflows ran and no code/config was changed. Do not retire legacy paths before caller closure and owner decision.
 - Next: continue deterministic, SHA-pinned content scan of remaining source/config/test candidates in bounded batches.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.282 Contour A WB-14K — bounded legacy workflow content scan (2026-10-16)
+
+- Report: [WB-14K Legacy Workflow Content Scan](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14K-LEGACY-WORKFLOW-CONTENT-SCAN-2026-10-16.md), creation commit `00193eba9ad4c9549f3449d1d0d306c22d69192b`.
+- Read-only SHA-pinned batch of eight workflows reconfirmed old node/host identities, legacy result branch/path usage, and the signer invocation in unified qualification workflow. Source blob SHAs and scope are recorded in the report.
+- This is not a full repository scan; manifest readers and external/indirect callers remain unresolved. No workflow/tests were run and no source/config was changed.
+- Status: **BOUNDED SOURCE SCAN / NO RETIREMENT AUTHORIZED / GREENFIELD TOPOLOGY UNCHANGED**.
+- Next: scan a separate bounded batch of remaining Python/config/test candidates for indirect manifest readers and dispatch references.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
