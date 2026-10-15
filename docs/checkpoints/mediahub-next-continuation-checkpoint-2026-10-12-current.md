@@ -2912,3 +2912,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next: continue source-only triage of old-node-bound active artifacts; classify generic logic separately and retire only exact old-target-exclusive artifacts.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — legacy executor paths excluded from greenfield target (2026-10-15)
+
+- Live refs at pass start: documentation branch `b8f88cef7f79b6f321dd0a2eb27ba11c94c978c4`; `main` `608d7463011798ca75e36bfce4b749a9caf4f9a0`; branches diverged 1276 ahead / 3 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Added Inventory §18, Roadmap §89 and Map §97. The legacy chat-control workflow accepts a broader executor/node input domain than its hardcoded actual dispatch (Codex on `mh-dev-02`); the separate distributed workflow is Claude-only and bound to old runner labels, hostnames, paths and model tags. The worker duplicates old topology in Python literals.
+- Under the owner's clean-slate direction, these artifacts are LEGACY / TARGET-EXCLUDED, not routes to repair for old servers and not components automatically carried into the new system. This source inconsistency is confined to the legacy path, not a new-system defect claim.
+- No tests, workflows, worker, installer, provider, credentials, host/runtime, qualification or deployment were invoked. No source code or non-documentation artifacts were deleted in this pass.
+- Planning estimate remains 10–20 focused working days for static target-only reconciliation artifacts (about 3–6 calendar weeks at 2–4 focused hours/day); implementation, hardware-specific integration, qualification and independent Contour A acceptance remain separate and unestimated pending hardware facts and owner decisions.
+- Next: source-only inventory and reference closure for remaining old-node-bound active artifacts, then target-only component allowlist and requirements-to-component/interface/control/evidence matrix.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
