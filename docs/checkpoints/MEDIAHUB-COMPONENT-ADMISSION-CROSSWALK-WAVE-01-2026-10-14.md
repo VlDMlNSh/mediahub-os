@@ -471,3 +471,24 @@ No package/artifact was downloaded, no code was executed, and no tests, dependen
 - OpenHands remains **RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**. No install, artifact download, dependency resolution, tests/scans, provider/model call, credentials, host/runtime inspection, qualification or deployment occurred.
 
 Official source references: [OpenHands SDK v1.54.0 dependency metadata](https://github.com/OpenHands/software-agent-sdk/blob/v1.54.0/openhands-sdk/pyproject.toml); [Pydantic release history](https://github.com/pydantic/pydantic/releases); [Pydantic security page](https://github.com/pydantic/pydantic/security).
+
+
+## 7.19 OpenHands workspace guardrails — target-profile and lock-evidence boundary (2026-10-15)
+
+**Scope:** source-only inspection of the exact OpenHands Software Agent SDK v1.54.0 release commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`, specifically the workspace-root `pyproject.toml` and SDK package metadata. No dependency resolution, package download, installation, test, scan or execution occurred.
+
+| Evidence | Observation | Interpretation / limit |
+|---|---|---|
+| SDK package requirements | `openhands-sdk/pyproject.toml`, blob SHA `39c3ce3b1137c59e6a24423a3d11097f446507ee`, declares Python `>=3.12` and lower-bounded dependency ranges including `pydantic>=2.13.5`, `litellm>=1.93.0`, `fastmcp>=3.2.0,<4`, and `lmnr>=0.7.60,<0.8.0`. | Package metadata does not alone determine a reproducible resolved environment. Prior §§7.9–7.18 record several dependency-specific unresolved gates; this pass does not close them. |
+| Workspace-level guardrails | Root `pyproject.toml`, blob SHA `2da88a5a9f278947e6c6978ff0e0c398f27515d5`, configures Python 3.13 for type checking, `exclude-newer = "7 days"`, and explicit constraints including `litellm==1.93.0`. | These are upstream workspace build/resolution settings, not an accepted MediaHub target profile or proof of the exact package environment. The LiteLLM pin is already within the published advisory ranges recorded in §7.12; do not treat the workspace guardrail as an override of that blocker. |
+| Intel macOS conditional | The same root file constrains `cryptography<49` when `sys_platform == 'darwin' and platform_machine == 'x86_64'`, with an upstream comment that v49.0.0 dropped x86_64 macOS wheels. | This proves the upstream workspace accounts for an Intel-macOS packaging boundary. It does not establish that the MediaHub target hardware is Intel, Apple Silicon, or compatible with this candidate. Target hardware/OS/Python facts remain owner-input blockers. |
+| Lockfile evidence | The connector returned the `uv.lock` path with blob SHA `5a4afacc446005f7c02c9606390847e73c4c9208` but returned an empty content payload for both UTF-8 and base64 fetches. | This retrieval is insufficient to inspect lock contents or prove lock absence. Do not infer resolved versions or reproducibility from the empty payload; retrieve/verify the exact lock content through a reliable source before using it as evidence. |
+
+### Gate disposition
+
+- Upstream workspace guardrails are now source-observed, but **they are not a MediaHub target lock** and do not establish artifact-level provenance, complete SBOM/license/advisory closure, target compatibility, or runtime isolation.
+- The exact resolved `pydantic`/`pydantic-core` versions and complete target-specific lock remain OPEN. The LiteLLM 1.93.0 advisory blocker remains OPEN; no pin or upstream file was changed.
+- OpenHands remains **RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**.
+- No normative project source, manifest, dependency pin or runtime configuration was changed. No tests, downloads, installs, provider/model calls, credentials, host/runtime inspection, qualification, deployment or branch integration occurred.
+
+**Next:** choose another non-overlapping unresolved admission gate only after checking existing sections, or wait for owner-provided target hardware/OS/Python facts. Do not infer a target profile or start runtime evaluation.
