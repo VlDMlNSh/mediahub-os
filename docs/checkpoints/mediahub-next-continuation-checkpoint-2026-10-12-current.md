@@ -3402,3 +3402,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Exact readers of `node-role-map.yaml` and `local-executor-routing-v2.yaml` remain UNKNOWN. Search zero-results are non-diagnostic because code search is unindexed. No tests/workflows/provider calls/credentials/host-runtime inspection/install/infrastructure/deployment/integration occurred.
 - Next: scan remaining candidate files for dynamic path construction/import/dispatch abstractions; if static closure cannot be established, present an owner decision packet.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14N broad legacy control-plane scan (2026-10-16)
+
+- Report: [WB-14N Broad Legacy Control-Plane Scan and Branch-Drift Reconciliation](MEDIAHUB-CONTOUR-A-WB-14N-BROAD-LEGACY-CONTROL-PLANE-AND-BRANCH-DRIFT-RECONCILIATION-2026-10-16.md), creation commit `176bec275f70fdfb86ca7676f5f5ea62e34eccc5`, report blob SHA `1a14dcbf390cdeb6f7b1ec0c70147703dd0c2824`.
+- Inspected 98 unique SHA-pinned source files from main. Found old node identity references in execution backends, profiles, command/runner contracts, attestation/evidence generators, task manifests and tests; exact provider-manifest readers remain UNKNOWN.
+- High-risk workflow: main contains .github/workflows/mediahub-one-time-storage-migration.yml with a self-path push trigger, contents:write, old host/storage paths, backup rm -rf, self-removal and push-to-main. Workflow enabled status and run history were not checked; no workflow was invoked.
+- main contains ops/systemd/mediahub-astra-github-bootstrap.service, which defines an old mh-dev-02 service using /home/mediahub/astra-work and a main-branch clone. This is source evidence only, not host/runtime evidence.
+- Branch drift rechecked: main HEAD/tree `ab36db009d034db8dca723691e23b331322287e7`; docs ref HEAD before this pass `5ee55d125b027959bf6e31c3e113c7b2c1f262e0`; 1466 ahead / 4 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. The workflow and service are present on main and absent from the docs ref. No merge/rebase/cherry-pick/ref movement occurred.
+- No tests, qualification, workflow, provider/model, credentials, host/runtime inspection, installation, infrastructure, deployment, migration, or source change occurred. Only a report and narrowly scoped map/checkpoint navigation records were written to the documentation ref.
+- Next: WB-14O path-level reverse-reference and commit-provenance review for the two divergent high-risk artifacts, then a recommendation-only controlled disposition matrix.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
