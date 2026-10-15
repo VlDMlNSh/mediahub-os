@@ -1173,3 +1173,9 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 - Wave 09's proposed next step has advanced to a documentation-only field-level draft: `docs/checkpoints/MEDIAHUB-CORPORATION-MISSION-TASK-RESULT-SCHEMA-SET-DRAFT-01-2026-10-15.md`.
 - It remains non-normative and does not establish accepted API/schema semantics or implementation. The next roadmap-aligned pass is a collision-aware crosswalk of existing schema and identifier conventions before any schema IDs are assigned.
 - Jarvis→ASTRA A0 ingress and capability issuer/delegation/revocation remain hard blockers; all A0-dependent dispatch stays fail-closed. No runtime work or branch integration was authorized or performed.
+
+
+## Current continuation — schema/identifier crosswalk boundary (2026-10-15)
+
+- Reused the existing schema census and agent/provider identity crosswalk; documented its precise scope in the corporation schema draft §13 and inventory §21. The 26 schema-directory $id values were unique only within that bounded census; no repository-wide collision proof or canonical namespace policy is claimed.
+- No new IDs assigned; inference contracts and component evidence retain their existing narrower semantics. Next work is source-only contract/interface tracing for greenfield Contour A. Jarvis→A0 ingress and capability issuer lifecycle remain blockers; no runtime or branch integration action.
