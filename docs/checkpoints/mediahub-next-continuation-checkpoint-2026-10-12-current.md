@@ -3295,3 +3295,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - WB-14B status: **COMPLETED AS BOUNDED SOURCE TRACE; END-TO-END INGRESS NOT ESTABLISHED**. No code/normative source changed; no tests, providers/models, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next bounded sub-request: **WB-14C** — compare the existing autonomous queue against direct-local Route B requirements and pin queue ownership, node binding, claim/lease, retry/cancel/recovery and result semantics.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — WB-14C ASTRA queue vs Route B (2026-10-15)
+
+- Added [WB-14C ASTRA Queue vs Direct-Local Route B Source Comparison](MEDIAHUB-CONTOUR-A-WB-14C-ASTRA-QUEUE-VS-DIRECT-LOCAL-ROUTE-B-SOURCE-COMPARISON-2026-10-15.md), creation commit `d47426046bc65326ed372f588f763b6939b7a274`.
+- Current source pins: `autonomous_queue.py@main` blob `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`; `agent_fabric.py@main` blob `3c70dda5df8c6caa9411201d754ead6b3bfdf6dd`; executor capability matrix blob `9ad83781a8da53d1a8f540ede54eba95281f01c0`.
+- ASTRA queue's fixed executor pool contains three named nodes and excludes Alamo. Existing claim/lease/heartbeat/recovery patterns are not evidence of a separate Alamo queue, cross-route fencing, cancellation, restart reconciliation, or a qualified media backend.
+- WB-14C status: **BOUNDED READ-ONLY SOURCE COMPARISON; ROUTE B NOT IMPLEMENTED / NOT QUALIFIED / NOT ACCEPTED**. No tests, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment or branch integration.
+- Next: WB-14D — cross-route mission identity, idempotency, owner/lease/fencing, cancellation, retry, restart recovery and result provenance.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
