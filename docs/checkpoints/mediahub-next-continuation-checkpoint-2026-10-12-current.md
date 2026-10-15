@@ -3373,3 +3373,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests/workflows executed; no source code/config modified; no host/runtime or credential activity.
 - Next: continue a deterministic SHA-pinned content scan of remaining source/config/test candidates in bounded batches, recording omissions. Do not retire legacy files until dependency closure and owner decision.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — WB-14K legacy workflow scan (2026-10-16)
+
+- Report: [WB-14K Legacy Workflow Content Scan](MEDIAHUB-CONTOUR-A-WB-14K-LEGACY-WORKFLOW-CONTENT-SCAN-2026-10-16.md), creation commit `00193eba9ad4c9549f3449d1d0d306c22d69192b`.
+- Scanned eight source-pinned workflow files; old node/host identities remain embedded, and the unified qualification workflow directly invokes the legacy signer and old command/result paths.
+- This was a bounded literal-string inspection only. It does not establish workflow liveness, complete caller closure, or safe retirement. The exact readers of both legacy provider YAML manifests remain unknown.
+- No source/config changed; no workflows/tests/provider calls/credentials/host-runtime inspection/install/infrastructure/deployment/integration occurred.
+- Project map updated and read back: blob SHA `6794bf0530b32c36aef719982566dc7cea344fce`.
+- Next: continue bounded SHA-pinned scanning of non-workflow code/config/test candidates for indirect manifest readers and dispatch references.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
