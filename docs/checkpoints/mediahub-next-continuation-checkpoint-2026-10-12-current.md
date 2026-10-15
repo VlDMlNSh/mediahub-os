@@ -2937,3 +2937,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next: source-only reference/dependency closure for the remaining old-node-bound artifacts; then produce the target-only component allowlist and unified requirements → component → interface → control → evidence matrix.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — owner greenfield reset decision (2026-10-15)
+
+- Owner clarified that MediaHub OS is a new system for new hardware, to be designed from scratch. Previous installation attempts and old-server runtime assumptions are not target baseline. Jarvis/Astra/multi-agent corporation concepts are requirements/input for the new target architecture, not implementation evidence.
+- Recorded in Inventory §14, Roadmap §85 and Project Map §93. Existing old executor-routing mismatch remains useful only as a legacy artifact until the reset ledger classifies it; it is no longer the next target-design task.
+- No files were bulk-deleted. Before deletion/quarantine, classify paths and dependencies, preserve required historical IDs/audit evidence, and mark old operational configuration HISTORICAL / NOT TARGET CONFIGURATION. No tests, installs, provider calls, host/runtime access, deployment, migration or branch integration occurred.
+- Planning estimate: 2–4 focused working days for the first inventory/map/contract skeleton/shortlist, then 3–7+ days for detailed component due diligence and contract closure; implementation, qualification, deployment and independent acceptance are additional phases. Estimate depends on scope and owner decisions; not a guarantee.
+- Next bounded step: create a greenfield-vs-legacy artifact ledger, separating target requirements, historical evidence, candidate designs and obsolete host-specific operational instructions. Then define target domains and the single versioned contract before admitting components.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
