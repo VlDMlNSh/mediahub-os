@@ -254,3 +254,16 @@ Important distinctions:
 - Next: target hardware/OS/topology and accepted contract prerequisites; source-pin and provenance-review candidates; compare non-overlapping options only, and preserve all open route identity/authorization/lifecycle blockers.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Continuation handoff — OpenHands exact release source pin (2026-10-15)
+
+The existing admission crosswalk §7.17 now records source-anchored OpenHands SDK v1.54.0 evidence. Upstream release commit: `1d471742ea7be017d013eaaa3080f5d28d5490cb`; SDK metadata blob `39c3ce3b1137c59e6a24423a3d11097f446507ee`; Agent Server README blob `a64ff0840230ff5ae2d7c167c824048eaf72da9f`; repository license blob `b0bd86a6335a564bd3766666bebbf014fd6a8013`.
+
+Key disposition: source revision is pinned, but package digest/source-to-artifact provenance, full transitive SBOM and license/advisory closure, Python/OS/hardware compatibility, isolated workspace profile, Agent Server hardening, LiteLLM provider/egress policy and LMNR telemetry privacy remain OPEN. Agent Server documents `0.0.0.0` as default bind and optional API-key auth; this is not an accepted deployment profile. Do not launch it or install the SDK under this pass.
+
+Crosswalk update commit: `e6ef3486349f66693c16f66385f2faa240610613`; blob SHA: `e5be83f63e974c6eb559515c6371a93ae36b1f2b`. Candidate remains NOT SELECTED / NOT ADMITTED / NOT QUALIFIED. No download, installation, tests, scans, provider calls, credentials, host inspection, qualification or infrastructure change occurred.
+
+Next bounded step: continue source-only candidate review through the existing admission crosswalk or fill target hardware/OS worksheet using already available owner-provided information; no runtime activity without separate authorization.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
