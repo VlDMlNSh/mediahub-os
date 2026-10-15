@@ -2755,3 +2755,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Result: typed context/grant-check seams are evidenced; an accepted issuer lifecycle and direct P0-07 caller→P0-05→P0-04 source chain are not. P0-05 D6 contract-status discrepancy remains open; no protected contract was edited. P0-07 mutation/publication remains BLOCKED — GOVERNANCE/API GAP; D2 remains NOT ACCEPTED / NOT FROZEN.
 - No tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick.
 - Next: obtain source-backed issuer/attester + verifier and adapter/caller edge, or route the missing authority and P0-05 D6 disposition to owner/governance. In parallel, continue only independent non-blocked roadmap work.
+
+### Latest verified continuation — P0-05/P0-04 source-edge refresh (2026-10-15)
+
+- Live branch compare: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch `DIVERGED`, 1219 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration performed.
+- Reused Wave 07 source trace and refreshed it with current source-edge/status evidence. Wave 07 commit `505e044c0279065a017585a1e8bf15d0174c4d39`, blob SHA `411dbd52c92e17dff0a8bfdd077d0305b5371d04`. Map §84 update commit `812170f641cc435aa87b9f0e8fd13a617a4396fd`, blob SHA `2caeeada755d6bc837cabfc17507943d96c31c7a`.
+- Primary source anchors read: `authorization.py@main` SHA `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; `consumer_boundary.py@main` SHA `98bf2da9cea85da2c82145b4baef417c20b9ae73`; P0-05 candidate contract on docs ref SHA `79e2b4865c47b5394ade266cd3cd7cfbe3097717`; P0-05 existing-context proposal SHA `fce7019b3430a95d12f723a769d39e1cd29067af`.
+- Finding: P0-05→P0-04 is an observed in-process code seam through an injected authority, not proof of the end-to-end integration contract. No accepted P0-07→P0-05 caller/adapter edge or trusted issuer/attester/verifier lifecycle was established. AuthorizationContext exposes only principal/capability and exact grant matching.
+- P0-05 candidate remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN. The DRAFT-header vs implementation-acceptance-record discrepancy (D6) remains owner/governance-open; no normative file/header was edited. P0-04 remains the sole canonical mutation authority. Search zero-results were treated as non-diagnostic.
+- No tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick.
+
+**Next safe action:** locate an accepted owner/governance disposition for P0-05 D6 and an accepted source for trusted-context issuance plus the P0-07 caller/adapter edge. If absent, retain the blocker and advance an independent, source-bounded roadmap item without inventing an interface.
