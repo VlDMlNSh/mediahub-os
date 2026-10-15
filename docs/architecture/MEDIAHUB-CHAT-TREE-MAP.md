@@ -6146,3 +6146,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Status: **BOUNDED SOURCE SCAN / NO RETIREMENT AUTHORIZED / GREENFIELD TOPOLOGY UNCHANGED**.
 - Next: scan a separate bounded batch of remaining Python/config/test candidates for indirect manifest readers and dispatch references.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.283 Contour A WB-14L — supplemental non-workflow legacy reference scan (2026-10-16)
+
+- Report: [WB-14L Supplemental Non-Workflow Legacy Reference Scan](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14L-SUPPLEMENTAL-NON-WORKFLOW-LEGACY-REFERENCE-SCAN-2026-10-16.md), creation commit `b5d2a85841ddda0125972f686fcd36e490cadd62`; read-back blob SHA `b04e66049b66cb2661f971ecb57726585c9c74a3`.
+- Read-only SHA-pinned scan of 24 non-workflow Python/config/JSON candidates from the complete `main` tree. No direct literal references to either provider YAML filename were found in this bounded batch; old executor IDs remain in task data and qualification contracts/evidence code.
+- Exact manifest readers, generic/dynamic config loading, complete repository callers, and runtime activation remain UNKNOWN. No source/config/workflow changed or executed; retirement remains unauthorized.
+- Next: inspect remaining candidates and generic YAML/config-loader abstractions; document residual uncertainty and seek owner decision if static closure remains impossible.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
