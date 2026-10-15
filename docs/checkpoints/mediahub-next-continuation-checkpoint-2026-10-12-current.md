@@ -3262,3 +3262,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No implementation, tests, qualification, provider/model calls, credential use, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next: WB-14 source-pinned contradiction and ownership matrix across canonical ASTRA contracts, reference architecture, unified model, governance and queue/ingress implementations.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A WB-13 route-adapter evidence matrix (2026-10-15)
+
+- Added `docs/checkpoints/MEDIAHUB-CONTOUR-A-WB-13-ROUTE-ADAPTER-REQUIREMENT-CONTRACT-COMPONENT-FAILURE-EVIDENCE-MATRIX-2026-10-15.md`; creation commit `1108abd34a4bd1a8a0643234bfaadb7bbf261146`; read-back blob SHA `e6fd3e070abb9da21c1a98e1c661cffe86b16e6c`.
+- Matrix contains 12 source-bound requirement rows spanning mission identity, route policy, ASTRA queue ownership, Alamo queue ownership, identity/capabilities, sensitive approval, provider/egress identity, media backend/resources, result evidence, lifecycle failure semantics, authority separation and Contour A/Contour B gates.
+- Status remains PARTIAL / PROPOSED / NOT ACCEPTED / NOT IMPLEMENTED / NOT QUALIFIED. ASTRA A0-governed route remains the current source-aligned reference; no final topology chosen.
+- Main HEAD observed `608d7463011798ca75e36bfce4b749a9caf4f9a0`; documentation branch DIVERGED, ahead 1410 / behind 3; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase/cherry-pick.
+- No tests, qualification, model/provider calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next bounded step: WB-14 read-only source reconciliation of Jarvis→A0 ingress and direct-local-executor candidate contracts against WB13-R01…R12; record missing contracts and owner decisions, do not invent endpoints or edit normative sources.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
