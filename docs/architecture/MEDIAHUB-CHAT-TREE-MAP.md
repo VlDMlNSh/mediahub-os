@@ -5744,3 +5744,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Current decision ledger and planning estimate: [Agent / Task / Provider Schema Inventory, Wave 01 §14](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md); [Master Roadmap §85](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
 - Next: build a greenfield-vs-legacy artifact ledger, preserving historical IDs/evidence but marking old host-specific operational configuration HISTORICAL / NOT TARGET CONFIGURATION. No bulk deletion before dependency/ID/contract impact review. Then create one target system map, one versioned contract, component admission ledger and requirement-to-evidence matrix.
 - Hardware-specific compatibility remains OPEN because the new hardware/OS inventory has not yet been recorded in the reviewed source set.
+
+
+## 94. Greenfield / legacy artifact ledger, Wave 01 (2026-10-15)
+
+- Created [Greenfield / Legacy Artifact Ledger, Wave 01](MEDIAHUB-GREENFIELD-LEGACY-ARTIFACT-LEDGER-WAVE-01-2026-10-15.md).
+- First bounded classification separates target requirements, historical evidence, old-host operational artifacts, shared/unknown artifacts, and component candidates. It is explicitly **not** a bulk-deletion manifest.
+- Classified old-node routing YAML, node-role map, distributed worker, chat-control/distributed-worker workflows, runner contract and host-specific services as legacy or shared/unknown pending reference closure. Registries, schemas, runtime modules and normative security/baseline documents are held for domain review rather than blindly deleted.
+- No deletion, tests, installation, host/runtime access, provider calls, deployment, migration or branch integration performed.
+- Next: continue reverse-reference/ID closure path by path and build the target requirements/domain map; new hardware/OS inventory remains an input blocker.
