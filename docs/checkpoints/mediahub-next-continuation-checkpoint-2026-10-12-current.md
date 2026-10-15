@@ -3053,3 +3053,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, installations, providers, credentials, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
 - Next bounded step: draft a statement-level authority wording reconciliation proposal from exact source clauses, marking proposed text separately from accepted text. Do not edit normative main sources without explicit change authorization.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest continuation — Contour A authority wording reconciliation proposal, Wave 01 (2026-10-15)
+
+- Live refs rechecked before this pass: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch was diverged from main, with previous compare at 1331 ahead / 3 behind and merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration was attempted.
+- Created [Contour A Authority-Wording Reconciliation Proposal, Wave 01](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CONTOUR-A-AUTHORITY-WORDING-RECONCILIATION-PROPOSAL-WAVE-01-2026-10-15.md), creation commit `67829215f20639965eb3a967c363a6e074ff688e`, blob SHA `fbd97c6f8daae64501c7ffb8fb24058a12061dcb`.
+- Crosswalk separates exact source statements from proposed wording and dispositions. It records DEC-DEV-02 Option C as already owner-decided, not awaiting selection. Jarvis = corporation-level mission coordination; ASTRA A0 = ASTRA-internal engineering workflow state; Product State Authority = sole canonical Contour B product-state mutation authority.
+- Re-fetched the machine-readable ASTRA unified-system YAML on `main`: blob SHA `adc852009c3a79d0e64265a3af8a4910a1388057`; line 14 uses `authority.coordination.role: single_coordination_authority`. Proposed replacement is deliberately not applied: exact consumers, compatibility and historical persisted-value impact must be closed first.
+- Main ASTRA reference architecture blob SHA `7be5fadd3055642e7823c7233f90e978a87e5366`; main executor matrix SHA `da26185254d9954fcee204f81ecca129bf052e7c`; MH-12 SHA `cf4ebfd5bf471ca676f075c51d3a24906504e490`; owner-decision record docs-branch SHA `70376a2709e055972ceddc4a280d26992977213c`.
+- No normative main file changed. No tests, code execution, installs, model/provider calls, credentials, host/runtime inspection, qualification, deployment, infrastructure changes or branch integration.
+- Remaining blockers: accepted Jarvis→A0 ingress/authentication/replay; capability issuer/verifier/delegation/revocation; fencing and authoritative result publication; accepted corporation schema/version governance; target hardware/OS/topology; explicit authorization for runtime work.
+- Next bounded step: trace all producer/consumer references for the YAML authority field and determine compatibility impact from source evidence. Then prepare a narrow owner/governance review packet; do not edit normative sources or integrate branches without explicit authorization.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
