@@ -995,3 +995,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Documents target mission lifecycle, executor roles, proposed task/DAG/result contract requirements, trust/security boundaries, reusable contracts, open reconciliation and sequencing. It explicitly separates owner decisions, proposed normative schemas and unverified runtime claims.
 - ECC remains NOT ASSESSED / NOT ADOPTED. No tests, installs, provider/model calls, credentials, host inspection, qualification, infrastructure changes, deployment or branch integration.
 - Next: source-bound reconciliation of ASTRA authority wording and accepted A0/capability contracts; schema inventory without duplicate IDs; route-identity matrix; read-only authoritative ECC review; then prepare a versioned contract proposal for owner/governance review.
+
+
+## 78. Execution update — OpenHands SDK upstream/workspace admission refresh (2026-10-15)
+
+- Updated the existing Component Admission Crosswalk §7.16 (commit `d28bf82d57c77209ab67a5bc3e3d259aa0f83ec6`, read-back blob `82b284ea67f578332e8f57b96a3571d1ecdf827b`) rather than creating a duplicate candidate inventory.
+- Official upstream README confirms the SDK supports both local-machine workspaces and ephemeral workspaces through Agent Server. This is a material trust-boundary fact: sandboxing/isolation must be configured and evidenced separately; the SDK is not itself an authorization or isolation boundary.
+- Current immutable upstream SHA and published-artifact-to-source binding were not established. Prior dependency pins and advisory observations remain historical evidence, not a current admission decision.
+- Open gates: immutable source/artifact provenance; full transitive SBOM/license/advisory closure; target runtime compatibility; isolated workspace/filesystem/process/network/credential/resource/cancellation controls; owner decision on direct LiteLLM/provider routing; separate authorization before installation or runtime tests.
+- No install, tests, scans, provider/model calls, credentials, host inspection, qualification, infrastructure changes, deployment or branch integration. Candidate remains not selected/admitted/not ready for runtime evaluation.
+- Next: continue source-only review of the existing crosswalk's dependency/provenance gates; do not duplicate the candidate catalog or promote status without evidence.
