@@ -3175,3 +3175,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Branch compare at start: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1377 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
 - No tests, installs, credentials, provider/model calls, host/runtime inspection, security scan, qualification, infrastructure change or deployment. Jarvis→A0 ingress remains blocked.
 - Next: owner/governance decision on issuer/attester authority and trusted-context ownership. Once resolved, perform bounded producer/consumer inventory. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A WB-06 AuthorizationContext source inventory (2026-10-15)
+
+- WB-06 inventory: [AuthorizationContext Producer/Consumer Source Inventory](MEDIAHUB-CONTOUR-A-WB-06-AUTHORIZATION-CONTEXT-PRODUCER-CONSUMER-SOURCE-INVENTORY-2026-10-15.md), blob SHA `9bd850e869dbd19db9bde2ce08768aaf502c95a2`.
+- Direct source pins: `authorization.py` `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; `consumer_boundary.py` `98bf2da9cea85da2c82145b4baef417c20b9ae73`; `in_memory_state.py` `0fbc71369d19e09944ba67a60ccb9df802f30a4b`; package exports `4ff499f8e489e60e344283ee01e4dad5e72a2646`; separate command envelope `astra_github_agent.py` `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`.
+- Confirmed local typed-context propagation and allow-list checks. No inspected edge connects the separate HMAC command path to `AuthorizationContext`; complete constructor/history and Jarvis→A0 issuer/verifier chain remain NOT ESTABLISHED. Search misses are not absence evidence.
+- Updated project map §119 (commit `1efd2ae15c0dd2e09427e2bf7ada37d8209350be`) and roadmap pointer (commit `2529348869c75e911810c0b6e490df3782b426a7`).
+- No tests, installations, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes or deployment.
+- Next: bounded source-only constructor/call-site/serialization closure; keep routing labels distinct from security capability grants. Jarvis→A0 ingress remains blocked.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
