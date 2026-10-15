@@ -3163,3 +3163,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No issuer/credential technology selected. No tests, installs, credentials, model/provider calls, host/runtime inspection, security scan, qualification, infrastructure change or deployment.
 - Hard blockers: issuer/attester authority, caller/issuer/verifier ownership, audience/binding, expiry/revocation propagation, replay and context propagation; P0-07→P0-05 ingress edge remains NOT ESTABLISHED.
 - Next: owner/governance decision packet for issuer/attester authority and trusted-context ownership, then bounded producer/consumer source closure. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A WB-05 issuer authority decision packet (2026-10-15)
+
+- Created [WB-05 Issuer Authority and Trusted-Context Ownership Decision Packet](MEDIAHUB-CONTOUR-A-WB-05-ISSUER-AUTHORITY-AND-TRUSTED-CONTEXT-OWNER-DECISION-PACKET-2026-10-15.md), commit `89c0ca1c0c19dd4b6f42baf4750cf45cf41db860`.
+- Packet contains seven governance decisions and four options (dedicated issuer, A0-scoped issuer, platform security authority, human-authorized issuance); none is selected. It recommends deciding authority and invariants before selecting technology, without substituting for the owner.
+- Direct source reads: `authorization.py` main blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; `consumer_boundary.py` main blob `98bf2da9cea85da2c82145b4baef417c20b9ae73`; `in_memory_state.py` main blob `0fbc71369d19e09944ba67a60ccb9df802f30a4b`. These source seams do not prove issuer provenance, audience, expiry or revocation.
+- Updated map §118; commit `eaddbaefcd651776c48309fe80d79ebb398a434f`, blob SHA `152e644442ff94869cb1c40a78495f177fa8b9a8`.
+- Updated roadmap pointer; commit `7193f3f0a815ff34c2fb84cb1ec7b16f317dcbf6`, blob SHA `64343f69b0a78fdadcd3fa0ca27f929be721353e`.
+- Branch compare at start: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1377 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- No tests, installs, credentials, provider/model calls, host/runtime inspection, security scan, qualification, infrastructure change or deployment. Jarvis→A0 ingress remains blocked.
+- Next: owner/governance decision on issuer/attester authority and trusted-context ownership. Once resolved, perform bounded producer/consumer inventory. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
