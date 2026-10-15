@@ -5806,3 +5806,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Open gaps: accepted Jarvis→ASTRA ingress/authentication/replay contract; explicit capability issuer/delegation/revocation lifecycle; accepted corporation-wide task/result/evidence envelope; controlled reconciliation of broader ASTRA “single MediaHub coordination and state authority” wording against owner-approved DEC-DEV-02 responsibility split; owner-provided target hardware/OS/topology.
 - No normative main-branch source was changed. No tests, install, provider call, host/runtime inspection, qualification, deployment, infrastructure change or branch integration occurred.
 - Next bounded pass: build a statement-level reconciliation table for the authority wording conflict, clearly separating source text, owner decision, and proposed wording. Keep ingress/issuer/task-result contracts as drafts until dependencies are resolved.
+
+
+## 104. Corporation mission/task/result schema set — Draft 01 (2026-10-15)
+
+- Added [Corporation Mission / Task / Result Schema Set Draft 01](../checkpoints/MEDIAHUB-CORPORATION-MISSION-TASK-RESULT-SCHEMA-SET-DRAFT-01-2026-10-15.md), commit `4ab26e2caf971194cd069815b4e914ac33690898`.
+- Bounded scope: field-level proposals for mission envelope, task DAG, executor profile, task result and evidence reference, with reuse crosswalk to existing inference/evidence schemas, ASTRA executor policy, MH-12 and the existing Jarvis adapter draft.
+- Preserved authority boundaries: Jarvis corporation mission coordination; ASTRA A0 internal engineering queue/claim/lease/heartbeat/retry/cancellation/evidence-gate state; Product State Authority sole canonical Contour B product-state mutator.
+- All issuer/API-dependent fields remain unresolved; this is not a callable API, accepted wire schema, authorization path or implementation. No schema IDs were assigned pending collision-aware registry review.
+- No existing schema, normative main source or runtime artifact changed. No tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration.
+- Next bounded step: source-only collision-aware crosswalk of existing schema IDs and task/agent/component identifiers; update the draft only with direct evidence. Keep dispatch BLOCKED pending accepted Jarvis→A0 ingress and capability issuer lifecycle.
