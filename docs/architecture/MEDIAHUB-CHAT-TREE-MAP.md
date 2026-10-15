@@ -6097,3 +6097,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Branch state refreshed: docs branch diverged from main, ahead 1438 / behind 4; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; comparison base commit `ab36db009d034db8dca723691e23b331322287e7`. No integration attempted.
 - Status: **BOUNDED READ-ONLY CENSUS / NOT EXHAUSTIVE / NO DELETION OR CODE CHANGE**.
 - Next: WB-14G bounded reverse-reference and workflow-entry-point trace for the four highest-risk host-bound manifests.
+
+
+## 20.278 Contour A WB-14G — reverse-reference and workflow-entry trace (2026-10-15)
+
+- Added [WB-14G Reverse-Reference and Workflow Entry-Point Trace](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14G-REVERSE-REFERENCE-WORKFLOW-ENTRY-TRACE-2026-10-15.md), creation commit `c8b496cf16a6fe15f35f714d72f107072fe5c848`.
+- Proven direct entry paths: `workflow_dispatch` → distributed worker workflow → `ops/qualification/run_distributed_local_worker.py`; issue-comment `/astra` → chat-control workflow, whose run-worker branch calls the same script and whose run-gold branch dispatches `astra-autonomous-supervisor.yml`.
+- Both YAML manifest reader/caller closures remain unknown. GitHub code-search queries returned no indexed matches and are not treated as proof of no references.
+- No workflow was invoked; no code/config was changed or removed. Retirement remains blocked on complete inbound-reference closure and owner-approved disposition.
+- Next: obtain reliable repository-wide source search/tree evidence and complete the caller/dispatcher closure before proposing retirement.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
