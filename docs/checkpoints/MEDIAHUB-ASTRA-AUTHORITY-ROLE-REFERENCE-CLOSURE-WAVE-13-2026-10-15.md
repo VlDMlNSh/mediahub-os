@@ -50,4 +50,4 @@ Independent hard blockers remain:
 
 ## 5. Next bounded step
 
-Continue independent roadmap work rather than repeating identifier census. Preferred next pass: source-only, exact-revision review of the first component in the existing admission crosswalk (OpenHands Software Agent SDK), applying its recorded provenance/dependency/isolation gates and adding only verified deltas. Do not install, run, or qualify the component.
+Continue independent roadmap work rather than repeating identifier census. The existing admission crosswalk already contains extensive OpenHands SDK source-pin/security review through §7.8; do not repeat it. Next pass: source-only review of unresolved dependency/provenance gates in the existing crosswalk, selecting only a non-overlapping unresolved item and preserving all admission gates. Do not install, run, or qualify components.
