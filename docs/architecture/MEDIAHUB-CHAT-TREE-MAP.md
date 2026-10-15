@@ -5686,3 +5686,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - See [Agent / Task / Provider Schema Inventory, Wave 01 §14](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md).
 - Chat-control validates variable task/node/executor input, but its execution step pins Codex + `mh-dev-02`; the separate distributed worker workflow offers Claude only for `mh-dev-02`. Source-level contradiction confirmed; workflows were not run.
 - Planning estimate for source reconciliation/component matrix/conflict ledger/draft contract: 10–20 focused working days; implementation and independent acceptance are separate and blocked on owner decisions and environment readiness.
+
+
+## 94. Clean-slate target decision for new hardware (2026-10-15)
+
+- Owner direction: rebuild as a new system for new hardware. Unsuccessful old-server installation attempts and old-server runtime assumptions are excluded from the new target baseline.
+- Do not confuse exclusion from the target with proof that files were deleted. Exact legacy paths must be classified and dependency-checked before removal; preserve historical audit evidence and generic reusable candidates under explicit status.
+- New hardware details remain UNKNOWN; do not infer OS, topology, nodes, models, storage or network.
+- Target deliverables: one readable map, one component inventory, one accepted contract set, one requirement/component/interface/evidence matrix and a conflict ledger with no untriaged known items.
+- Planning estimate: 10–20 focused working days for static reconciliation and target architecture artifacts; implementation, qualification and independent Contour A acceptance are separate phases.
+- See [Inventory §15](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md) and [Roadmap §86](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
