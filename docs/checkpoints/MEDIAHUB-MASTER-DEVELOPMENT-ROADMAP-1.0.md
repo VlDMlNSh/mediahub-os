@@ -1363,3 +1363,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Status: WB-14B bounded source trace complete; end-to-end ingress remains NOT ESTABLISHED. No normative source, implementation, workflow, test or runtime state changed.
 - Next: WB-14C source-only comparison of the current autonomous queue against direct-local Route B requirements, with source pins for lifecycle ownership, claim/lease, retries/cancellation/recovery and result semantics.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14D — cross-route lifecycle controls reconciliation (2026-10-15)
+
+- Added [WB-14D Cross-Route Lifecycle Controls and Evidence Reconciliation](MEDIAHUB-CONTOUR-A-WB-14D-CROSS-ROUTE-LIFECYCLE-CONTROLS-RECONCILIATION-2026-10-15.md), creation commit `d1f74777caff4dcb744e3fccc20a5cff6f9003c4`.
+- This is a read-only, non-normative crosswalk. It reuses the Wave 09 technical baseline and schema draft without promoting them to accepted contracts.
+- Confirmed open gates: Jarvis→A0 ingress/issuer, common IDs/schema registry, durable idempotency admission, A0 fencing/publication primitive, cancellation race semantics, Route B lifecycle ownership/recovery, shared result provenance contract.
+- No implementation, testing, qualification, deployment or owner decision was made.
+- Next bounded step: WB-14E provider/data-locality/workload-admission source reconciliation.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
