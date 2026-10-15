@@ -2578,3 +2578,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Explicit status boundaries: ECC NOT ASSESSED / NOT ADOPTED; corporation-wide task/DAG/result schemas remain proposed; runtime endpoints, Claude compatibility, model/video performance and worker deployment are unverified. Source-level ASTRA wording and exact accepted A0/capability ingress remain open.
 - Re-read after creation and confirmed title, status, core architecture and evidence-boundary sections. Documentation-only pass; no tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
 - Next: reconcile ASTRA authority wording through controlled source change; source exact A0 ingress/capability lifecycle; inventory existing schemas; trace route identity; perform read-only ECC source/license/security assessment; then draft versioned task/result contract.
+
+
+## Latest continuation — Jarvis / ASTRA lifecycle authority reconciliation Wave 04 (2026-10-15)
+
+- Re-read bootstrap, map, master roadmap, owner-decision record, Wave 03 crosswalk, ASTRA reference architecture/governance YAML and MH-12 security architecture.
+- New checkpoint: [MEDIAHUB-JARVIS-ASTRA-LIFECYCLE-AUTHORITY-SECURITY-RECONCILIATION-WAVE-04-2026-10-15.md](MEDIAHUB-JARVIS-ASTRA-LIFECYCLE-AUTHORITY-SECURITY-RECONCILIATION-WAVE-04-2026-10-15.md), blob SHA `ce74823f7d971d1c7d3d089160256cf2ada00295` at creation.
+- Confirmed DEC-DEV-02 Option C is owner-approved; Wave 03's statement that A/B/C remain open is historical/stale against the later explicit owner-decision record.
+- Remaining blocker is not owner selection: ASTRA primary prose/YAML still says “single MediaHub coordination and state authority,” requiring controlled source reconciliation. Exact accepted A0 ingress and MH-12 capability issuer lifecycle are still not proven by reviewed sources.
+- Map updated in commit `e8c47bd874426b19224dc566af83bc32a8587e70`; map blob SHA after write `c6b047cd058c915d04541b0307d81378a3cb8c3d`.
+- No normative contract, implementation, test, qualification, deployment or infrastructure was changed/performed. No branch integration.
+- Next bounded step: trace exact A0 queue/claim/lease/cancellation/replay interface and MH-12 issuer lifecycle; prepare path/field-level reconciliation proposal only after source trace.
