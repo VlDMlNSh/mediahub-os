@@ -1225,3 +1225,12 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 - Direct source evidence confirms the model role string is consumed by `tests/test_astra_gold_architecture_drift.py:65`; the test is identical on main/docs refs. The launch schema retains `A0-ASTRA` in both refs, while scope comments and prose differ. Exact refs/blob SHAs and observed edges are in Wave 13.
 - Full repository producer/consumer/history closure is NOT COMPLETE; connector search/tree evidence is insufficient to prove no other references. No value rename or normative edit made.
 - Next: continue source-only review of unresolved dependency/provenance gates in the existing component-admission crosswalk. Check existing evidence first; OpenHands SDK has already been reviewed through §7.8 and must not be duplicated. Do not install, run, scan or qualify without separate authorization and prerequisites.
+
+## Current continuation — OpenHands Pydantic dependency version/provenance boundary (2026-10-15)
+
+- Added a bounded source-only update to the existing [Component Admission Crosswalk §7.18](MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), examining the OpenHands SDK v1.54.0 dependency declaration and official Pydantic release/security pages.
+- OpenHands declares `pydantic>=2.13.5`; official Pydantic releases 2.14.0 and 2.14.1 are published. This means the source declaration is not an exact resolved dependency pin; it does not establish which version would be installed.
+- Exact `pydantic`/`pydantic-core` resolution, target-profile lock, artifact/source provenance, complete transitive SBOM/license/advisory closure and target OS/Python compatibility remain OPEN. No candidate was selected, admitted or installed.
+- No download, dependency resolution, tests, scans, provider calls, credential use, host/runtime inspection, qualification, infrastructure change, deployment or branch integration occurred.
+- Next: continue with one non-overlapping unresolved dependency/provenance gate in the admission crosswalk or close a target hardware/OS fact from owner-provided documentation. Keep runtime evaluation gated.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
