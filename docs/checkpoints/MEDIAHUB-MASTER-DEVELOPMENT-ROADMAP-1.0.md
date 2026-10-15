@@ -1276,3 +1276,8 @@ Added [WB-05 Issuer Authority and Trusted-Context Ownership Decision Packet](MED
 ## WB-06 continuation pointer — 2026-10-15
 
 Added [WB-06 AuthorizationContext Producer/Consumer Source Inventory](MEDIAHUB-CONTOUR-A-WB-06-AUTHORIZATION-CONTEXT-PRODUCER-CONSUMER-SOURCE-INVENTORY-2026-10-15.md), blob SHA `9bd850e869dbd19db9bde2ce08768aaf502c95a2`. Direct source evidence confirms the local typed-context/allow-list policy seam and a separate HMAC command-envelope path, but does not connect the two or establish a complete Jarvis→A0 issuer/verifier chain. Search misses are non-diagnostic. No tests were run and no issuer technology was selected. Next: continue source-only constructor/call-site/serialization closure; Jarvis→A0 ingress remains blocked. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## WB-07 continuation pointer — 2026-10-15
+
+Added [WB-07 Ingress and Command-Authority Seam Trace](MEDIAHUB-CONTOUR-A-WB-07-INGRESS-AND-COMMAND-AUTHORITY-SEAM-TRACE-2026-10-15.md), blob SHA `89fab594f9a9ae9a729d63ecb14dad2543edc9af`. Source reads distinguish the JSON Task Contract ingress/gateway, P0 typed authorization path, and signed operational command path. A second signer helper emits a different envelope/key convention; whether it is active or canonical is unknown. File-supplied `approval_state` and inbox writer trust require ownership/contract clarification, not an inferred vulnerability claim. No tests/runtime/security scans performed. Next: read-only caller/reference trace and owner decision. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
