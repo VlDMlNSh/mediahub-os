@@ -2635,3 +2635,15 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - Main qualification truth SHA `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED; overall NOT_PROVEN/BLOCKED.
 - No tests, qualification, provider/model calls, credential use, host/runtime inspection, installs, infrastructure changes, deployment or branch integration.
 - **Next:** prepare a governance decision brief for issuer and A0 ingress/fencing/cancellation/replay semantics with options, consequences and acceptance evidence. Do not invent defaults or promote drafts to accepted contracts.
+
+
+## Latest continuation — corporation task/result technical baseline Wave 09 (2026-10-15)
+
+- Re-read live bootstrap, map, checkpoint and master roadmap before acting. Current main HEAD observed: `608d7463011798ca75e36bfce4b749a9caf4f9a0`; compare `main...docs/mediahub-chat-tree-map-20261012` remains DIVERGED, documentation branch 1185 ahead / 3 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Created [MEDIAHUB-CORPORATION-TASK-RESULT-TECHNICAL-BASELINE-WAVE-09-2026-10-15.md](MEDIAHUB-CORPORATION-TASK-RESULT-TECHNICAL-BASELINE-WAVE-09-2026-10-15.md), creation commit `a2ebe36eae33771070deabbe197ffa4e85077868`, verified blob SHA `6ab5f244cb0d4e74ac2b26013c02502832170365`.
+- The brief recommends technical defaults for distinct mission/task/attempt IDs, versioned immutable DAGs, bounded idempotent admission, provenance-rich result envelopes, stale-worker fencing, cancellation races, retry attempts, aggregation, route evidence and untrusted external workers. It explicitly makes no global exactly-once claim.
+- Safely closed unresolved integration questions with fail-closed behavior: without a source-backed accepted A0 ingress API and capability issuer lifecycle, no A0 submission/mutation; without an accepted fencing primitive, no claim that stale-worker publication is prevented; unresolved route identities remain UNKNOWN. These are recommended controls, not evidence of runtime enforcement.
+- Reused existing inference request, component evidence, ASTRA executor and MH-12 security contracts within their scope; no existing schema, normative primary contract or code changed.
+- Updated map §20.274. Map commit `421a8eab430bbb80a82629b34a56ae259af556aa`; verified map blob SHA `b7408e653b93cbfa403da454189be8d0f3a17378`.
+- Current branch remains diverged. No tests, installation, model/provider calls, credential access, host/runtime inspection, qualification, infrastructure change, deployment, merge, rebase or cherry-pick occurred. No runtime/qualification status was promoted.
+- **Next bounded step:** read-only inventory of existing schema IDs, version conventions, producers/consumers and duplicate IDs; then draft separate proposal schemas for mission, task DAG, executor profile, task result and evidence reference. Keep ingress blocked and all schemas non-normative until the accepted A0 API/issuer/security lifecycle is sourced and governance gates are satisfied.
