@@ -3084,3 +3084,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No source, schema or test changed; no tests, installation, provider calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration.
 - Next bounded step: continue read-only producer/consumer/history closure using direct tree/source/history evidence; if closure cannot be established, preserve the blocker. Do not apply or test the coordinated change without explicit authorization. Jarvis→A0 ingress/authentication/replay, capability issuer/delegation/revocation and fencing/result publication remain blocked.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest continuation — ASTRA authority-role reference closure, Wave 13 (2026-10-15)
+
+- Added [MEDIAHUB-ASTRA-AUTHORITY-ROLE-REFERENCE-CLOSURE-WAVE-13-2026-10-15.md](MEDIAHUB-ASTRA-AUTHORITY-ROLE-REFERENCE-CLOSURE-WAVE-13-2026-10-15.md), commit `34eaa3cb17fc2e629338f037278b9a01983b1618`.
+- Live compare at pass start: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1344 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Read-back evidence records exact main/docs blob SHAs for unified-system model, qualification launch schema, drift test, reference architecture, component scheme and executor capability matrix. Confirmed direct consumer: `tests/test_astra_gold_architecture_drift.py:65`, unchanged across refs; qualification schema keeps `A0-ASTRA` as identifier on both refs.
+- Full producer/consumer/history closure remains NOT COMPLETE because exhaustive tree/history evidence was not available from this connector pass. No code-search zero-result was treated as proof of absence.
+- No normative changes, tests, installations, provider calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration.
+- Next bounded step: source-only review of the first existing component-admission crosswalk candidate (OpenHands Software Agent SDK), applying provenance, dependency, target compatibility and isolation gates without installation or execution.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
