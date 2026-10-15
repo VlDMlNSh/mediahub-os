@@ -2766,3 +2766,14 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - No tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick.
 
 **Next safe action:** locate an accepted owner/governance disposition for P0-05 D6 and an accepted source for trusted-context issuance plus the P0-07 caller/adapter edge. If absent, retain the blocker and advance an independent, source-bounded roadmap item without inventing an interface.
+
+
+## Latest verified continuation — P0-05 D6 governance-disposition check (2026-10-15)
+
+- Live compare: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch `docs/mediahub-chat-tree-map-20261012` DIVERGED, 1223 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Re-read P0-05 candidate (`79e2b4865c47b5394ade266cd3cd7cfbe3097717`), owner decision packet (`54900eeb040e2aa0209e02629fedc2f2fe2e487e`), owner decision record (`70376a2709e055972ceddc4a280d26992977213c`), DEC-DEV crosswalk (`a58437a2321b7ebc5a4a4ccfae2f0eac1dfe330f`) and Wave 07 (`411dbd52c92e17dff0a8bfdd077d0305b5371d04`). DEC-DEV-02 Option C does not resolve P0-05 D6. No explicit governed disposition for the exact P0-05 contract text was found in this bounded source set.
+- P0-05 candidate remains NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN; D6 remains OPEN / OWNER-GOVERNANCE REQUIRED. P0-07→P0-05 accepted ingress and issuer lifecycle remain NOT ESTABLISHED. P0-05→P0-04 is only an observed in-process seam; P0-04 remains sole canonical mutation authority. No normative contract/header changed.
+- No tests, installs, credentials, provider/model calls, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
+- Next: source-only review of the existing component-admission crosswalk for OpenHands Software Agent SDK; keep runtime evaluation blocked absent separate authorization.
+
+Current map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), blob SHA after this pass: `5a14294cb677c33523474c73006141c1691a124b`.
