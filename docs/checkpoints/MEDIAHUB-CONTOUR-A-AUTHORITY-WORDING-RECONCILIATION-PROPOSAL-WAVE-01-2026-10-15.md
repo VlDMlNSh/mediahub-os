@@ -63,3 +63,17 @@ Any approved revision must preserve all of the following:
 This proposal is based on the source pins above and the existing Wave 04 authority/security reconciliation. It records a controlled proposed interpretation, not an accepted contract revision. No source in `main` was changed by this proposal. No code was executed; no tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, deployment, infrastructure change or branch integration occurred.
 
 **Next bounded step:** independently re-fetch and close the exact field/path plus producer/consumer references for AUTH-03, then prepare a minimal owner/governance review packet. Do not edit normative sources until explicit change authorization is given.
+
+## 7. Source-closure pass — paired model/test consistency (2026-10-15)
+
+Status: SOURCE-ONLY FINDING / NO NORMATIVE EDIT / NO TEST EXECUTION.
+
+Live ref comparison confirms the documentation-branch unified-system YAML already narrows authority.astra.role from single_coordination_authority to ASTRA_GOLD_engineering_coordination_authority_for_ASTRA_internal_workflow_state_only, with a comment excluding MediaHub Product State Authority. Main remains at blob adc852009c3a79d0e64265a3af8a4910a1388057; docs branch is f5040aeb479176508d5b0ca35eb742a6db818867.
+
+The paired qualification schema is aef6229477ed8ec45e45170f98ea87f7ba75ca29 on main and 0b86b07dfa916d4485ce1f8f54d19de136d98491 on docs. Its docs-branch state_authority: A0-ASTRA value has an explicit comment limiting it to ASTRA internal queue/claim/gate state, not Product State Authority. coordination: A0-ASTRA is a separate field and does not define corporation-level Jarvis mission ownership.
+
+Confirmed compatibility dependency: tests/test_astra_gold_architecture_drift.py is byte-identical on both refs at blob d6a0e6a6d81dc6e15e343cd80ee950431b1e3b14 and asserts the old role string at line 65. Static source comparison identifies a model/assertion mismatch on the docs branch. No test was run and no pass/fail claim is made.
+
+The docs-branch reference architecture/component scheme/executor matrix already carry scoped wording (blobs b354acfa4cff595583a7f1778371143e9868f293, d321565a6e0fac1eef329adec67a35ba795b63aa and 9ad83781a8da53d1a8f540ede54eba95281f01c0), while main counterparts remain broader (7be5fadd3055642e7823c7233f90e978a87e5366, 54ba34ce53d1d7ecd97eef459be7d055b4fd19b1 and da26185254d9954fcee204f81ecca129bf052e7c). This is ref drift, not merged canonical state.
+
+Disposition: the next step is no longer merely locating the YAML role field. Prepare a minimal coordinated model/test/qualification/prose change packet and trace historical consumers and serialized values. Do not edit normative sources or run tests without authorization; branches remain diverged.
