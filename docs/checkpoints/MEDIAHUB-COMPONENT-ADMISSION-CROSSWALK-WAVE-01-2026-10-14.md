@@ -413,3 +413,41 @@ No component, runtime, manifest, or normative contract was admitted or changed.
 **Updated gate assessment:** OpenHands Software Agent SDK remains **RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**. Required before reconsideration: (1) immutable upstream source commit and exact package/artifact pin with source-to-artifact provenance; (2) full locked transitive SBOM, license/notice and advisory closure; (3) target OS/Python/runtime compatibility evidence; (4) an explicit isolated workspace/sandbox profile with filesystem, process, network/egress, credential, resource and cancellation controls; (5) owner disposition on direct LiteLLM/provider-routing boundaries; and (6) separate authorization for any installation or test. MediaHub's deterministic authorization/evidence gate must remain outside the candidate worker; MCP/tool declarations or agent-generated assessments are not authorization.
 
 **Next:** keep this source-only review in the existing crosswalk. Do not create a duplicate candidate record, change dependency pins, install, execute, test, scan or qualify the SDK in this pass.
+
+
+## 7.17 OpenHands Software Agent SDK — exact release pin and deployment-boundary delta (2026-10-15)
+
+**Status:** SOURCE-REVIEW UPDATE ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NO RUNTIME AUTHORIZATION.
+
+### Immutable source anchors checked
+
+| Upstream artifact | Ref / immutable identity | Evidence and limit |
+|---|---|---|
+| Official release | `OpenHands/software-agent-sdk@v1.54.0`; release commit `1d471742ea7be017d013eaaa3080f5d28d5490cb` | Official release page identifies v1.54.0 as latest and shows the release commit with GitHub “Verified” signature status. This is a source/release anchor, not a verified package artifact digest or complete source-to-wheel provenance. |
+| SDK package metadata | `openhands-sdk/pyproject.toml@v1.54.0`, blob SHA `39c3ce3b1137c59e6a24423a3d11097f446507ee` | Declares package version 1.54.0 and Python `>=3.12`. Dependency constraints include ACP `>=0.12.1,<0.13.0`, FastMCP `>=3.2.0,<4`, LiteLLM `>=1.93.0`, Pydantic `>=2.13.5`, and LMNR `>=0.7.60,<0.8.0`; several dependencies are lower-bounded rather than exactly locked here. Full transitive lock/SBOM and target compatibility are not established by this file. |
+| SDK README | `README.md@v1.54.0`, blob SHA `386dc8945133cb51969192b0b29c8396719cbff6` | Describes Python/TypeScript/REST interfaces and both local-machine workspaces and ephemeral workspaces through Agent Server. The SDK does not inherently provide a safe isolation boundary; MediaHub must select and evidence one. |
+| Agent Server README | `openhands-agent-server/openhands/agent_server/README.md@v1.54.0`, blob SHA `a64ff0840230ff5ae2d7c167c824048eaf72da9f` | Describes REST/WebSocket endpoints and local filesystem storage. Quick-start documents default bind host `0.0.0.0`; session API-key authentication is described as optional. These defaults are **not acceptable as a MediaHub deployment profile by assumption**. Any later evaluation must explicitly bind to a justified interface and require approved authentication, network/egress controls, workspace isolation and data-retention policy. No server was launched. |
+| Upstream license | `LICENSE@v1.54.0`, blob SHA `b0bd86a6335a564bd3766666bebbf014fd6a8013` | Repository-level license text is MIT. This does not establish the licenses/notices of every transitive dependency, optional extra, container image or model/provider. |
+
+### Reconciled assessment
+
+1. The candidate now has a concrete upstream release/source pin: v1.54.0 at commit `1d471742ea7be017d013eaaa3080f5d28d5490cb`. Do not confuse this with a fully pinned installable artifact: wheel/sdist digest, build provenance, complete dependency lock and SBOM remain OPEN.
+2. Python `>=3.12` is an explicit compatibility prerequisite. The new target OS/Python profiles are not yet proven, so compatibility remains UNKNOWN.
+3. SDK and Agent Server must be treated as separable choices. The SDK is not automatically admitted with its server. If the server is considered later, its documented `0.0.0.0` bind and optional API-key defaults require an explicit hardened deployment profile; no network reachability or session key alone substitutes for MediaHub application authorization.
+4. The SDK declares a direct LiteLLM dependency and an LMNR tracing dependency. Provider identity/egress and telemetry privacy must be independently closed; local-only routes must fail closed, and telemetry must not export sensitive prompts, source or secrets.
+5. Workspace isolation is a hard gate: no direct developer-host workspace, unrestricted shell/filesystem/network, central credentials, or product-state mutation. Agent output remains untrusted data and cannot authorize, publish, verify its own work, or bypass the MediaHub authorization/evidence gates.
+
+### Gate status after this source pass
+
+- Exact upstream release/source revision: **SOURCE-PINNED** (v1.54.0 / commit above).
+- Published package digest and source-to-artifact provenance: **OPEN**.
+- Complete locked transitive SBOM, license/notice closure and current advisory review: **OPEN**.
+- Python/OS/hardware compatibility: **UNKNOWN / OPEN**.
+- Workspace and Agent Server hardening profile: **OPEN**.
+- LiteLLM route identity, egress and fail-closed local-only behavior: **OPEN**.
+- LMNR/telemetry collection, redaction, retention and egress: **OPEN**.
+- Runtime installation, testing, scanning, qualification, selection and admission: **NOT PERFORMED / NOT AUTHORIZED**.
+
+Official upstream evidence: [release v1.54.0](https://github.com/OpenHands/software-agent-sdk/releases/tag/v1.54.0), [SDK metadata](https://github.com/OpenHands/software-agent-sdk/blob/v1.54.0/openhands-sdk/pyproject.toml), [SDK README](https://github.com/OpenHands/software-agent-sdk/blob/v1.54.0/README.md), [Agent Server README](https://github.com/OpenHands/software-agent-sdk/blob/v1.54.0/openhands-agent-server/openhands/agent_server/README.md), [license](https://github.com/OpenHands/software-agent-sdk/blob/v1.54.0/LICENSE).
+
+No package/artifact was downloaded, no code was executed, and no tests, dependency resolution, security scan, provider/model call, credential use, host/runtime inspection, qualification or infrastructure change occurred. The source review is not a security clearance and does not admit the candidate.
