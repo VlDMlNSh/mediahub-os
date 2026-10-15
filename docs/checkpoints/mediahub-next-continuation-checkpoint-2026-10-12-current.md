@@ -3277,7 +3277,7 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 
 ## Latest continuation — WB-14 source reconciliation (2026-10-15)
 
-- Added [WB-14 Jarvis/A0 and Direct-Local Route Source Reconciliation](MEDIAHUB-CONTOUR-A-WB-14-JARVIS-A0-AND-DIRECT-LOCAL-ROUTE-SOURCE-RECONCILIATION-2026-10-15.md), creation commit `ab36db009d034db8dca723691e23b331322287e7`.
+- Added [WB-14 Jarvis/A0 and Direct-Local Route Source Reconciliation](MEDIAHUB-CONTOUR-A-WB-14-JARVIS-A0-AND-DIRECT-LOCAL-ROUTE-SOURCE-RECONCILIATION-2026-10-15.md). Initial creation commit landed on `main`: `ab36db009d034db8dca723691e23b331322287e7`; the same file was then mirrored to the documentation branch by commit `f5c178fbbe56ae4d848cffa108a709aea132ba73`, blob SHA `4dead9e249603679f4193a5a0b0b0a13a04aa177`.
 - Continuation decomposed into WB-14A…WB-14G; WB-14A source baseline and first reconciliation matrix completed. Next bounded request: WB-14B, trace Jarvis mission submission to an accepted A0 ingress and establish a caller-to-consumer evidence chain or precise gap.
 - Confirmed from pinned source: ASTRA A0 owns its queue lifecycle; the reference queue's permanent pool contains three named nodes and excludes Alamo; FileTaskIngress, typed AuthorizationContext, and signed operational commands are distinct seams. The inspected evidence does not establish a trusted Jarvis→A0 ingress or approval attestation chain.
 - Identified two distinct WB-13 files with the same WB-13 identifier; preserve both and use full filenames to avoid ambiguous references. Map includes the collision note.
