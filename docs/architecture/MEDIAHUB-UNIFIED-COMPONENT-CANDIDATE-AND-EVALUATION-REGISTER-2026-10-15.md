@@ -239,7 +239,7 @@ Missing evidence means UNKNOWN / BLOCKED, never PASS. Popularity, an upstream RE
 - `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md` — canonical development selection input; blob SHA at this pass: `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`.
 - `oss/manifests/components.yaml` — explicit runtime-deployment admission subset; blob SHA: `e3cf487bcf43ecb92cd110b5af2660c066b58e2a`.
 - `docs/checkpoints/MEDIAHUB-AUTONOMOUS-AGENT-ECOSYSTEM-SURVEY-2026-10-14.md` — research snapshot; blob SHA: `5c6cd19e338ed0f59823d18718a484f0129d2ef7`.
-- `docs/checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md` — admission crosswalk; blob SHA: `82b284ea67f578332e8f57b96a3571d1ecdf827b`.
+- `docs/checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md` — admission crosswalk; blob SHA before OpenHands source refresh: `82b284ea67f578332e8f57b96a3571d1ecdf827b`; current refreshed blob SHA: `e5be83f63e974c6eb559515c6371a93ae36b1f2b`.
 - `docs/architecture/MEDIAHUB-MATURE-COMPONENT-CANDIDATE-SCREEN-WAVE-01-2026-10-15.md` — focused initial screen; blob SHA: `e20570b6f61fed2fb1232cbeb84286ce2e8dca1d`.
 - `docs/checkpoints/MEDIAHUB-CHAT-SESSION-CONSOLIDATION-MASTER-PROMPT-2026-10-15.md` — chat reconciliation ledger; blob SHA: `5f5163ca42e900fb3d90b9f8feb0ef7d8b895fa3`.
 
