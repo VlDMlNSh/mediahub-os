@@ -3010,3 +3010,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Unresolved: Jarvis→ASTRA ingress/authentication/replay; capability issuer and delegation/revocation lifecycle; accepted corporation-wide task/result/evidence envelope; statement-level reconciliation of broad A0 authority wording against owner-approved DEC-DEV-02; target hardware/OS/topology.
 - No normative main source was edited; no runtime/test/install/provider/security-scan/qualification/deployment/infra/branch-integration action occurred.
 - Next step: statement-level source/decision/proposed-wording crosswalk for the ASTRA authority wording conflict. Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — corporation mission/task/result schema set Draft 01 (2026-10-15)
+
+- Added [MEDIAHUB-CORPORATION-MISSION-TASK-RESULT-SCHEMA-SET-DRAFT-01-2026-10-15.md](MEDIAHUB-CORPORATION-MISSION-TASK-RESULT-SCHEMA-SET-DRAFT-01-2026-10-15.md); creation commit `4ab26e2caf971194cd069815b4e914ac33690898`.
+- Re-read current bootstrap, map, checkpoint, roadmap, Wave 01 schema inventory, Wave 09 technical baseline, unified component register, MH-12, ASTRA executor policy/governance and current draft evidence schema. Current source SHA pins were checked before relying on them.
+- Produced field-level design proposals for five logical envelopes: mission, task DAG, executor profile, task result and evidence reference. Existing narrower schemas are cross-referenced rather than overloaded.
+- Status remains DESIGN DRAFT / NOT NORMATIVE / NOT ACCEPTED / NOT IMPLEMENTED / NOT QUALIFIED. No schema IDs were assigned; collision-aware ID/schema-registry review is the next bounded pass.
+- Hard blockers unchanged: accepted Jarvis→ASTRA A0 ingress/authentication/replay contract; capability issuer/delegation/lifetime/revocation lifecycle; A0 fencing/publication semantics; cancellation race behavior; target hardware/OS/topology; unresolved provider/egress identities.
+- No existing schema or normative main source was changed. No tests, installs, model/provider calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration occurred.
+- This dated continuation supersedes the older exact-next-action entries above where they conflict: next is the collision-aware identifier/schema-registry crosswalk, not a duplicate authority wording table. Authority wording reconciliation remains tracked as a cross-branch controlled-integration issue; no merge is authorized.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
