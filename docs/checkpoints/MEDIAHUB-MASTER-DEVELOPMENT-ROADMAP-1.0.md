@@ -1389,3 +1389,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Preserve security-sensitive/shared code pending reference closure; do not perform bulk cleanup.
 - Next bounded step: WB-14G reverse-reference and workflow-entry-point trace for high-risk host-bound manifests.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14K — bounded legacy workflow content scan (2026-10-16)
+
+- Report: [WB-14K Legacy Workflow Content Scan](MEDIAHUB-CONTOUR-A-WB-14K-LEGACY-WORKFLOW-CONTENT-SCAN-2026-10-16.md), creation commit `00193eba9ad4c9549f3449d1d0d306c22d69192b`.
+- Scanned eight workflow files by source blob SHA. Findings reconfirm legacy node/host assertions, old result branch/path dependencies, and signer usage in the unified qualification workflow.
+- Scope is bounded and literal-string-based; it does not establish complete caller closure or retirement safety. No source/config/workflow was changed or executed.
+- Greenfield target remains separate from legacy operational identifiers. No old node is accepted as a target node by this scan.
+- Next bounded step: scan a distinct batch of Python/config/test candidates for indirect manifest readers and workflow dispatch references; keep retirement blocked pending closure and owner decision.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
