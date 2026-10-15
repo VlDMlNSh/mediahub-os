@@ -1218,3 +1218,10 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 - Main/docs refs differ: main retains `single_coordination_authority` and broader authority prose; docs branch already scopes A0 to ASTRA-internal workflow state, but the shared drift test still asserts the old string. Owner-approved DEC-DEV-02 Option C remains unchanged.
 - Direct source consumer found; repository-wide producer/consumer/history closure remains incomplete because available code-search results are non-diagnostic. No enum/value rename may be applied until persistence/history compatibility is resolved and explicit change authorization is given.
 - Next: source-only history/tree closure. Implementation/runtime and test execution remain unauthorized; Jarvis→A0 ingress/capability lifecycle, fencing/result publication, and target hardware/OS/topology remain independent blockers.
+
+## 89. Execution update — ASTRA authority-role reference closure (2026-10-15)
+
+- Added source-closure checkpoint `docs/checkpoints/MEDIAHUB-ASTRA-AUTHORITY-ROLE-REFERENCE-CLOSURE-WAVE-13-2026-10-15.md`.
+- Direct source evidence confirms the model role string is consumed by `tests/test_astra_gold_architecture_drift.py:65`; the test is identical on main/docs refs. The launch schema retains `A0-ASTRA` in both refs, while scope comments and prose differ. Exact refs/blob SHAs and observed edges are in Wave 13.
+- Full repository producer/consumer/history closure is NOT COMPLETE; connector search/tree evidence is insufficient to prove no other references. No value rename or normative edit made.
+- Next: source-only review of the existing admission crosswalk's first candidate, OpenHands Software Agent SDK. Do not install, run tests, invoke providers or qualify without separate authorization and prerequisites.
