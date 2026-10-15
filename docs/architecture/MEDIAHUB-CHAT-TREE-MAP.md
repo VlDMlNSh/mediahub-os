@@ -5861,3 +5861,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - The drift test is identical on both refs (d6a0e6a6d81dc6e15e343cd80ee950431b1e3b14) and still asserts the old role at line 65. Static comparison identifies a docs-branch model/assertion mismatch; no test was run.
 - Qualification schema retains A0-ASTRA identifiers on both refs; docs branch explicitly scopes state authority to ASTRA-internal queue/claim/gate state. Reference architecture, component scheme and executor matrix also show ref-specific wording drift.
 - No normative source changed and no branch integration occurred. Next: prepare a coordinated model/test/schema/prose change packet with history/consumer and compatibility evidence; keep tests and runtime actions gated.
+
+## 110. ASTRA authority model/test/schema change packet — Wave 12 (2026-10-15)
+
+- Added [ASTRA Authority Model/Test/Schema Change Packet, Wave 12](../checkpoints/MEDIAHUB-ASTRA-AUTHORITY-MODEL-TEST-SCHEMA-CHANGE-PACKET-WAVE-12-2026-10-15.md), creation commit `60bf69f414739a63b7a4d85b1fd1f635f564aabf`.
+- Coordinated source pins for unified-system model, drift test, qualification schema, reference architecture, component scheme, executor capability matrix and MH-12 across main/docs refs. Owner-approved DEC-DEV-02 Option C remains the semantic authority split.
+- Proposed a minimal coordinated model + assertion + schema-semantics + prose change, explicitly NOT applied. Directly identified consumer is `tests/test_astra_gold_architecture_drift.py`; full producer/consumer/history closure remains incomplete because GitHub code search returned no diagnostic results.
+- Branches remain diverged (live comparison at pass start: docs branch 1340 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`). No source contract/test/schema was edited, no tests were run, and no integration occurred.
+- Next: continue read-only tree/source/history closure for the role value; do not apply or test the coordinated patch without explicit authorization. Jarvis→A0 ingress/capability lifecycle and fencing/result publication remain blockers.
