@@ -3414,3 +3414,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, qualification, workflow, provider/model, credentials, host/runtime inspection, installation, infrastructure, deployment, migration, or source change occurred. Only a report and narrowly scoped map/checkpoint navigation records were written to the documentation ref.
 - Next: WB-14O path-level reverse-reference and commit-provenance review for the two divergent high-risk artifacts, then a recommendation-only controlled disposition matrix.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14O legacy artifact reverse references and retirement provenance (2026-10-16)
+
+- Report: [WB-14O Legacy Artifact Reverse-References and Retirement Provenance](MEDIAHUB-CONTOUR-A-WB-14O-LEGACY-ARTIFACT-REVERSE-REFERENCES-AND-RETIREMENT-PROVENANCE-2026-10-16.md), commit `881f4c11021fb8860afb094bde67fac3aa287ae2`, blob SHA `7061659f1e6244b282e967ea38d9f3c28640b67c`.
+- Reconciled file histories and diffs for the storage migration workflow and systemd bootstrap service. The documentation ref contains single-file deletion commits `8d9dc210b1347cc254dfa745221c1d7857ee1019` and `d27962f9c69e4a7a8f2c2cc17cbd16ee61410ea1`; main still contains both files. No merge/rebase/cherry-pick occurred.
+- The launchd plist `ops/launchd/com.mediahub.astra.github-agent.plist` remains on both refs and embeds `Voktors-Mini.Dlink` plus user-specific old paths. Its operator guide still calls for installing a systemd unit and launchd plist although the systemd file has been retired on this docs ref.
+- `ops/astra-github-bootstrap.sh` is referenced by the old launcher and two docs, uses `main` by default, and resets an existing worktree to the remote branch. Hold as **SHARED-OR-UNKNOWN** until bootstrap/health semantics are separated from old host configuration.
+- Eight adjacent workflow files were scanned for direct callers; no direct literal references to the two retired paths were found in that bounded subset. Legacy workflow routing remains elsewhere. This is not full source closure.
+- No source edits, test/qualification/workflow execution, credentials, provider calls, host/runtime inspection, infrastructure changes or deployment occurred.
+- Next: WB-14P launcher-family and bootstrap-contract reconciliation, with a recommendation-only disposition matrix.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
