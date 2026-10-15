@@ -1044,3 +1044,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Route layers are separated: `freellmapi` identity; loopback gateway first hop `127.0.0.1:3001/v1`; upstream/egress behind that hop remains UNKNOWN. FCC and OmniRoute are documented as transports/gateways, not agents; routing declarations are qualification-gated and not proof of active paths.
 - No provider/model calls, credential reads, tests, qualification, runtime/host inspection, config/schema edits or deployment. No status promoted.
 - Next: source-anchor a non-mutating comparison table across agent/provider/transport/model IDs, credential reference names, statuses and loader/qualification evidence; do not launch probes/workflows.
+
+
+## 83. Execution update — cross-registry identity/status matrix (2026-10-15)
+
+- Added [Agent / Task / Provider Schema Inventory, Wave 01 §12](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md): compared agent IDs, hybrid-fabric IDs/statuses, provider-instance IDs, model IDs and credential reference names without exposing secret values.
+- Confirmed distinct identifier domains: agent/gateway IDs versus provider-instance IDs such as `ollama-local-1`, `gemini-1`, `siliconflow-1`; executor transport IDs such as `CODEX_FCC`/`CLAUDE_OMNIROUTE` form another domain. Similar names are not proven foreign keys.
+- Model declarations differ across separate artifacts (e.g. local executor pool model names versus provider catalog model names); recorded as reconciliation questions, not auto-corrected defects. Registration/enabled, qualification and runtime availability remain distinct.
+- No canonical IDs, schema, routing configuration or runtime code changed. No tests, qualification, launchers, probes, provider calls or workflow runs.
+- Next: source-trace exact launcher/loader call sites for `local-executor-routing-v2.yaml` and `node-role-map.yaml`.
