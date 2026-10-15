@@ -5843,3 +5843,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Blockers: target hardware/OS inventory; accepted Jarvis→A0 ingress; capability issuer/verifier lifecycle; fencing/result publication; controlled reconciliation of main ASTRA authority wording.
 - No tests, installations, providers, credentials, host/runtime inspection, qualification, deployment or branch integration.
 - Next bounded pass: prepare a statement-level proposal for authority wording reconciliation using exact main-source statements and owner-approved DEC-DEV-02; do not edit normative main sources without authorized change control.
+
+## 108. Contour A authority wording reconciliation proposal — Wave 01 (2026-10-15)
+
+- Added [Contour A Authority-Wording Reconciliation Proposal, Wave 01](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CONTOUR-A-AUTHORITY-WORDING-RECONCILIATION-PROPOSAL-WAVE-01-2026-10-15.md), commit `67829215f20639965eb3a967c363a6e074ff688e`, current blob SHA `fbd97c6f8daae64501c7ffb8fb24058a12061dcb`.
+- Statement-level crosswalk covers ASTRA reference architecture §1, ASTRA executor capability matrix authority row, machine-readable unified-system YAML authority label, owner-approved DEC-DEV-02 Option C, and MH-12 security invariants.
+- The owner decision is already recorded as OWNER-DECIDED. Proposed wording scopes A0 to ASTRA-internal engineering workflow state, keeps Jarvis at corporation mission coordination, and preserves Product State Authority as sole canonical Contour B product-state mutator.
+- No normative main source was changed. YAML consumer/compatibility closure is still required before any proposed identifier/value edit. This is a proposal, not accepted revised contract, implementation or runtime evidence.
+- Hard blockers remain: accepted Jarvis→A0 ingress/authentication/replay; capability issuer/verifier/delegation/revocation; fencing and authoritative result publication; corporation schema governance; target hardware/OS/topology; explicit runtime authorization.
+- No tests, installations, providers, credentials, host/runtime inspection, qualification, deployment, infrastructure changes or branch integration.
+- Next: source-only producer/consumer closure for YAML authority field `authority.coordination.role`, then prepare a minimal owner/governance review packet. No normative edits without explicit change authorization.
