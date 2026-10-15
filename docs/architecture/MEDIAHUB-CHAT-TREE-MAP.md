@@ -5696,3 +5696,14 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Target deliverables: one readable map, one component inventory, one accepted contract set, one requirement/component/interface/evidence matrix and a conflict ledger with no untriaged known items.
 - Planning estimate: 10–20 focused working days for static reconciliation and target architecture artifacts; implementation, qualification and independent Contour A acceptance are separate phases.
 - See [Inventory §15](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md) and [Roadmap §86](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+
+
+## 95. Old-server artifact triage — first source-only pass (2026-10-15)
+
+- Target rule: new-hardware clean-slate rebuild; old-server installation attempts are not target baseline.
+- Strong retirement candidates requiring path/reference closure before deletion: .github/workflows/mediahub-one-time-storage-migration.yml (targets mh-dev-01, moves data to /srv/mediahub, and contains self-removal logic); .github/workflows/mediahub-runner-migration-smoke.yml (targets mh-dev-01 and checks out implementation/p0-06-core-runtime-services); ops/systemd/mediahub-astra-github-bootstrap.service (hardcodes ASTRA_NODE_ID=mh-dev-02, /home/mediahub/astra-work, and clones main). None was executed.
+- Target-excluded pending fresh admission: ops/qualification/run_distributed_local_worker.py and .github/workflows/astra-distributed-local-worker.yml; source binds to mh-dev-01, mh-dev-02, and Voktors node IDs and named Ollama model tags. The generic worker logic may be reviewed as a reuse candidate later, but its current node/model bindings are not new-hardware facts.
+- Reuse candidates, not approved target components: ops/astra-github-bootstrap.sh, deploy/mediahub-astra-github.service, deploy/com.mediahub.astra.github-agent.plist. Their names/content suggest generic bootstrap/service templates; actual compatibility with new hardware is unverified.
+- Preserve as HISTORY: docs/checkpoints/MEDIAHUB-PARTIAL-PASS-EVIDENCE-AND-PORTABLE-DEPLOYMENT-PROFILES-WAVE-01-2026-10-14.md, which records prior observations and explicitly labels proposed hardware profiles as proposals. Do not use its observed old-node state as target evidence.
+- docs/checkpoints/mediahub-unified-architecture-and-deployment-contract-v0.1.md is a cross-domain draft, not accepted/frozen; hardware and component entries are target-gated and require reconciliation rather than silent promotion.
+- This pass did not delete files: GitHub code-search results did not establish all cross-file references, and the exact retired-vs-new hardware mapping is not yet specified. Next pass must resolve references through source/tree evidence and retire only files proven exclusive to old servers. No tests, workflows, installations, credentials, runtime inspection or deployment performed.
