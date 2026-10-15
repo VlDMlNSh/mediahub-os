@@ -3065,3 +3065,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Remaining blockers: accepted Jarvis→A0 ingress/authentication/replay; capability issuer/verifier/delegation/revocation; fencing and authoritative result publication; accepted corporation schema/version governance; target hardware/OS/topology; explicit authorization for runtime work.
 - Next bounded step: trace all producer/consumer references for the YAML authority field and determine compatibility impact from source evidence. Then prepare a narrow owner/governance review packet; do not edit normative sources or integrate branches without explicit authorization.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest continuation — authority field source closure, Wave 11 (2026-10-15)
+
+- Re-read bootstrap, live map, continuation checkpoint and master roadmap on the documentation branch. Live compare: main HEAD 608d7463011798ca75e36bfce4b749a9caf4f9a0; docs branch DIVERGED, 1335 commits ahead / 3 behind; merge base f0f406feb9f9816b009f4e6e756813541e53b9bc. No integration performed.
+- Read-only source closure is recorded in [Wave 11](MEDIAHUB-CONTOUR-A-AUTHORITY-FIELD-SOURCE-CLOSURE-WAVE-11-2026-10-15.md). Docs-branch unified-system YAML f5040aeb479176508d5b0ca35eb742a6db818867 scopes A0 to ASTRA-internal engineering workflow state; main YAML adc852009c3a79d0e64265a3af8a4910a1388057 retains single_coordination_authority.
+- tests/test_astra_gold_architecture_drift.py is identical on both refs, blob d6a0e6a6d81dc6e15e343cd80ee950431b1e3b14, and line 65 asserts the old role string. Static comparison identifies a docs-branch model/assertion mismatch; no test was executed and no pass/fail is claimed.
+- Qualification schema: main aef6229477ed8ec45e45170f98ea87f7ba75ca29; docs 0b86b07dfa916d4485ce1f8f54d19de136d98491. Docs branch explicitly scopes A0 state authority to ASTRA internal queue/claim/gate state, not product state. Reference architecture, component scheme and executor matrix also differ across refs.
+- No source contract, test, implementation or runtime artifact changed. No tests, installations, providers, credentials, host/runtime inspection, qualification, infrastructure changes, deployment, merge, rebase or cherry-pick occurred.
+- Next: prepare a minimal coordinated model/test/qualification-schema/reference-prose change packet, including history/consumer references and compatibility risk. Do not apply or test the change without relevant authorization.
