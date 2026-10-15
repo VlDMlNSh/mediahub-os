@@ -2948,3 +2948,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next bounded step: create a greenfield-vs-legacy artifact ledger, separating target requirements, historical evidence, candidate designs and obsolete host-specific operational instructions. Then define target domains and the single versioned contract before admitting components.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — greenfield / legacy artifact ledger pass (2026-10-15)
+
+- Created [Greenfield / Legacy Artifact Ledger, Wave 01](../architecture/MEDIAHUB-GREENFIELD-LEGACY-ARTIFACT-LEDGER-WAVE-01-2026-10-15.md).
+- Initial classifications: old-node executor routing, node-role declarations, distributed worker, chat-control/distributed-worker workflows, runner contract and old-host service definitions are not target configuration; several remain SHARED-OR-UNKNOWN until reverse references are closed. Registries, schemas, runtime modules and accepted normative/security artifacts are not marked for deletion by assumption.
+- This is a classification pass, not a cleanup/deletion pass. No files deleted, no tests/install/provider calls/host-runtime access/workflows/deployment/migration/branch integration performed.
+- Time estimate remains **2–4 focused working days** for the first source-backed map/contract skeleton/component shortlist, then **3–7+ focused working days** for detailed component review and contract closure; implementation, qualification, deployment and independent acceptance are additional phases. This is a planning range, not a promise.
+- Next bounded step: trace inbound references and historical-ID dependencies for one old-host artifact family, then build target domains/requirements from the owner-directed greenfield vision. Hardware/OS/topology inventory is still required before hardware-specific admission.
