@@ -3273,3 +3273,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, qualification, model/provider calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next bounded step: WB-14 read-only source reconciliation of Jarvis→A0 ingress and direct-local-executor candidate contracts against WB13-R01…R12; record missing contracts and owner decisions, do not invent endpoints or edit normative sources.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14 source reconciliation (2026-10-15)
+
+- Added [WB-14 Jarvis/A0 and Direct-Local Route Source Reconciliation](MEDIAHUB-CONTOUR-A-WB-14-JARVIS-A0-AND-DIRECT-LOCAL-ROUTE-SOURCE-RECONCILIATION-2026-10-15.md), creation commit `ab36db009d034db8dca723691e23b331322287e7`.
+- Continuation decomposed into WB-14A…WB-14G; WB-14A source baseline and first reconciliation matrix completed. Next bounded request: WB-14B, trace Jarvis mission submission to an accepted A0 ingress and establish a caller-to-consumer evidence chain or precise gap.
+- Confirmed from pinned source: ASTRA A0 owns its queue lifecycle; the reference queue's permanent pool contains three named nodes and excludes Alamo; FileTaskIngress, typed AuthorizationContext, and signed operational commands are distinct seams. The inspected evidence does not establish a trusted Jarvis→A0 ingress or approval attestation chain.
+- Identified two distinct WB-13 files with the same WB-13 identifier; preserve both and use full filenames to avoid ambiguous references. Map includes the collision note.
+- No normative contract changes, tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment or branch integration.
+- Documentation branch remains diverged from main; no merge/rebase/cherry-pick attempted.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
