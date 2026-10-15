@@ -5533,3 +5533,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - This prompt is a synthesis of the chat and existing project evidence, not a verbatim transcript, exhaustive GitHub census, owner adoption decision, implementation evidence or normative contract.
 - No installation, tests, model/provider calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration occurred.
 - Next bounded step: trace P0-07 → P0-05 identity/context/authorization from primary sources and canonical-read evidence; update only supported producer/consumer edges and keep schema inventory bounded by retrievable evidence.
+
+
+## 78. Chat-to-GitHub reconciliation ledger (2026-10-15)
+
+- Added a bounded synchronization ledger to [Chat Session Consolidation](../checkpoints/MEDIAHUB-CHAT-SESSION-CONSOLIDATION-MASTER-PROMPT-2026-10-15.md), distinguishing live-verified repository records from chat-derived candidates and unresolved questions.
+- Re-fetched bootstrap, map, checkpoint, roadmap and consolidation from the documentation branch. Pre-update blob SHAs: bootstrap `a6b9f3b48c7fd6c8e5ef2b75944affae4a73f5ea`; map `9c6f2f5bd1fda710a9781866351f99c2f55af46b`; checkpoint `73ac6c43478cd2301a7a2c5d30f0a562ddf0e26d`; roadmap `196bfd70d8462e3d857e65eff483d7bc9348508a`; consolidation `207c06704d4ca1b7e4bc71aa8b86619b11d1a8f0`.
+- Live comparison: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch 1200 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; diverged. No merge/rebase/cherry-pick.
+- Reused existing schema inventory, DAG/result crosswalk, Jarvis responsibility matrix and owner-decision record rather than creating duplicates. Their SHA and purpose are recorded in the consolidation ledger.
+- Completion boundary: this is a source-bounded reconciliation, not a complete verbatim transcript archive, exhaustive repository-wide OSS audit, implementation, or acceptance. Remaining gaps and next action are recorded in the consolidation ledger and checkpoint.
+- Next: source-bound P0-07 → P0-05 identity/context/authorization trace; keep A0 ingress, capability issuer, fencing, cancellation, schema-envelope and OSS review gaps open until source evidence closes them.
