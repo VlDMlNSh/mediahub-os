@@ -1210,3 +1210,11 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 - Paired refs confirm unified-system YAML on main (adc852009c3a79d0e64265a3af8a4910a1388057) still assigns single_coordination_authority, while docs branch (f5040aeb479176508d5b0ca35eb742a6db818867) scopes A0 to ASTRA-internal engineering workflow state. Drift test is identical across refs (d6a0e6a6d81dc6e15e343cd80ee950431b1e3b14) and still asserts the old role at line 65.
 - This is a source-level compatibility/test-contract inconsistency, not a test result or runtime defect finding. No test was run; no source/test file changed; no branch integration.
 - Next: package the coordinated model/test/qualification-schema/reference-prose change and trace history/consumers. Keep normative edits and test execution gated by explicit authorization; retain fail-closed behavior until reconciled.
+
+## Current continuation — ASTRA authority model change packet (Wave 12, 2026-10-15)
+
+- Created [ASTRA Authority Model/Test/Schema Change Packet, Wave 12](MEDIAHUB-ASTRA-AUTHORITY-MODEL-TEST-SCHEMA-CHANGE-PACKET-WAVE-12-2026-10-15.md), commit `60bf69f414739a63b7a4d85b1fd1f635f564aabf`.
+- This packet operationalizes the next bounded step from Wave 11: coordinate the ASTRA unified-model role, drift assertion, qualification-schema semantics and authority prose, with source pins and compatibility gates. It is a proposal only; no normative file was changed and no tests were run.
+- Main/docs refs differ: main retains `single_coordination_authority` and broader authority prose; docs branch already scopes A0 to ASTRA-internal workflow state, but the shared drift test still asserts the old string. Owner-approved DEC-DEV-02 Option C remains unchanged.
+- Direct source consumer found; repository-wide producer/consumer/history closure remains incomplete because available code-search results are non-diagnostic. No enum/value rename may be applied until persistence/history compatibility is resolved and explicit change authorization is given.
+- Next: source-only history/tree closure. Implementation/runtime and test execution remain unauthorized; Jarvis→A0 ingress/capability lifecycle, fencing/result publication, and target hardware/OS/topology remain independent blockers.
