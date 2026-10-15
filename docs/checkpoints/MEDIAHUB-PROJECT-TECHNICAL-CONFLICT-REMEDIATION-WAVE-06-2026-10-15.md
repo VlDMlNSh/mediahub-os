@@ -75,7 +75,13 @@ This file records the 12-way disposition, exact source basis, commit refs and re
 
 - Re-read source refs and live branch comparison before editing.
 - Used exact-SHA guarded updates for the two existing files.
-- Post-write read-back and blob-SHA verification are required before treating the commits as verified; record the final read-back values in the continuation checkpoint/map.
+- Post-write read-back completed for all five changed/created documents. Verified blob SHAs:
+  - ASTRA unified YAML: `f5040aeb479176508d5b0ca35eb742a6db818867`
+  - Master roadmap: `196bfd70d8462e3d857e65eff483d7bc9348508a`
+  - Remediation report: `f56badad91dc2dcd28eb87445cd36abbc2ea197e` (this report SHA before this verification-note update)
+  - Project map: `e7ef4b5bb53761d5dbb5487ef6d1e5dc3155217f` (before header metadata correction)
+  - Continuation checkpoint: `3d94b7e8535045676d28e9ffcde5a9f602c4fb89` (before final status update)
+- The live compare after these commits is still DIVERGED; docs branch 1179 ahead / 3 behind, main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 - No tests, qualification, installs, credentials, host/runtime inspection, infrastructure change, provider/model call, deployment, merge, rebase or cherry-pick were performed.
 
 ## 6. Next bounded action
