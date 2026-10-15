@@ -3206,3 +3206,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - New hardware facts, trusted Task Contract producer/approval authority and Jarvis→A0 issuer/verifier chain remain unresolved. No tests, qualification, runtime, credential or infrastructure actions.
 - Next: complete source-only Task Contract producer/reference trace, prepare owner decisions on ingress/approval/canonical command contract, and map remaining Contour A work packages to evidence/status gates.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A WB-09 owner direction, hardware baseline and architecture integrity review (2026-10-15)
+
+- Added [WB-09 Owner Direction, Hardware Baseline and Architecture Integrity Review](MEDIAHUB-CONTOUR-A-WB-09-OWNER-DIRECTION-HARDWARE-BASELINE-AND-ARCHITECTURE-INTEGRITY-REVIEW-2026-10-15.md), creation commit `75597c2afef49f2e55eee8960865c1925ea9d4f3`.
+- Owner-reported hardware recorded: Mac mini 2018, i5 (reported 6 cores), 32 GB RAM; existing Mac mini Server 2011, i7 (exact SKU unknown), 16 GB RAM. OS/build, exact model/CPU, storage, network and workload envelope remain UNKNOWN. The 2011 machine remains optional/non-critical until compatibility/security evidence exists.
+- Owner direction recorded: the owner/developer may create Jarvis missions; Jarvis may submit bounded task requests to ASTRA A0. To preserve existing contracts, A0 owns its internal queue/claim/lease/retry/cancel/recovery lifecycle; Jarvis must not create a competing A0 queue or self-grant capability. Sensitive operations require independently verifiable approval provenance; a file-supplied `approval_state` is not proof.
+- Documentary integrity review consolidated ingress, approval, signer, capability, queue/recovery, result/evidence, hardware, network/egress and deployment/acceptance gaps. This is PARTIAL documentary review, not full verification, qualification, deployment or acceptance.
+- No tests, security scans, installations, provider/model calls, credential use, host/runtime inspection, infrastructure changes or deployment.
+- Next: WB-10 source-pinned contract graph and requirement → failure control → verification evidence matrix, prioritizing Jarvis→A0 ingress and queue-lifecycle conflict.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
