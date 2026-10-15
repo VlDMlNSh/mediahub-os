@@ -1319,3 +1319,15 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No implementation, tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change or deployment.
 - Next bounded step: WB-12 compare ASTRA-only, direct Alamo route and a shared Jarvis route-adapter option. Keep all options PROPOSED pending explicit owner selection and hardware/provider/data-flow evidence.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-12 — execution topology options (2026-10-15)
+
+- See [WB-12 Execution Topology Options and Decision Matrix](MEDIAHUB-CONTOUR-A-WB-12-EXECUTION-TOPOLOGY-OPTIONS-DECISION-MATRIX-2026-10-15.md), creation commit `553f890c4b6f29224149b0b5c601496aa55f1dbc`.
+- Compared ASTRA-only governed execution, direct Alamo heavy-local-workload execution alongside ASTRA engineering, and a common Jarvis route adapter spanning the execution domains.
+- Recommendation for design exploration only: Option C (bounded route adapter) while preserving Option A as the current governed baseline. Option B remains a candidate, not an accepted topology.
+- Explicit decisions still open: final topology; exact Alamo host; local client vs local model/provider mode; video-generation backend; local queue lifecycle owner; eligible task classes; route/failover authority.
+- Current source evidence: A0 has coordination/admission responsibilities in canonical ASTRA policy; current reference queue does not list Alamo. External Anthropic and local Ollama-backed Claude-compatible workflow patterns are present, but neither is proven on Alamo.
+- No implementation, tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change or deployment.
+- Next bounded step: WB-13 requirement → contract → component → failure control → verification matrix for the Option C seam. Do not change normative contracts or implement the adapter in that pass.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
