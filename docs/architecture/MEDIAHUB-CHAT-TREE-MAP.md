@@ -5555,3 +5555,16 @@ Before extending P0-07 → P0-05 tracing, reuse these live-read artifacts:
 The live branch comparison is now 1203 ahead / 3 behind, diverged; `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
 
 Next: refresh Wave 07 source anchors and trace only evidenced identity/context/capability edges across P0-07 → P0-05 → P0-04. Do not create duplicate generic task/result or capability documents.
+
+
+## 80. Voice-session synchronization — candidate review set and admission boundary (2026-10-15)
+
+Primary records reused: [Autonomous Agent Ecosystem Survey](../checkpoints/MEDIAHUB-AUTONOMOUS-AGENT-ECOSYSTEM-SURVEY-2026-10-14.md), [Component Admission Crosswalk](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), [Local Component Inventory](../checkpoints/MEDIAHUB-LOCAL-COMPONENT-INVENTORY-WAVE-01-2026-10-14.md), [Chat Session Consolidation](../checkpoints/MEDIAHUB-CHAT-SESSION-CONSOLIDATION-MASTER-PROMPT-2026-10-15.md).
+
+- Voice-session synchronization status: **PARTIALLY RECONCILED**. Existing project documents are reused; this is not a verbatim transcript export.
+- Candidate universe for future review/evaluation planning includes coding workers (OpenHands Software Agent SDK, OpenHands, Cline, browser-use, Letta Code, OpenClaw, Hermes Agent); SDK/orchestration (Pydantic AI, LangGraph, Microsoft Agent Framework, Google ADK, CrewAI); workflow (Temporal, Hatchet); inference (Ollama, llama.cpp, ONNX Runtime, SGLang); protocols (MCP, A2A, ACP); policy/sandbox (OPA, NVIDIA OpenShell); gateway (LiteLLM); telemetry/evaluation (OpenTelemetry, Inspect AI, Promptfoo, DeepEval, Arize Phoenix); memory/retrieval (Letta, Mem0, Graphiti, Haystack, Qdrant, pgvector); and additional candidate references recorded in the survey/crosswalk. This is **not an approved stack**.
+- Priority research direction: OpenHands Software Agent SDK as the first bounded coding-worker candidate; MCP as an interface protocol only; preserve Jarvis/ASTRA/MediaHub authority boundaries; resolve MH-ARCH-045 LOCAL_ONLY fail-closed routing and MH-ARCH-046 Ollama model identity/provenance before runtime selection.
+- No candidate was installed, tested or admitted in this pass. “Considered/evaluation candidate” is not “selected/adopted/qualified”.
+- Exact next action: refresh the component crosswalk against the current manifest and candidate primary sources, create a source-backed evaluation queue, and leave test/installation steps blocked until separately authorized.
+- Evidence: survey blob `5c6cd19e338ed0f59823d18718a484f0129d2ef7`; admission crosswalk blob `38967e9ed449f2214d9675d9f5987ac947a9cbda`; local inventory blob `a89c31423e1af185261340b432cc770f4300e469`.
+
