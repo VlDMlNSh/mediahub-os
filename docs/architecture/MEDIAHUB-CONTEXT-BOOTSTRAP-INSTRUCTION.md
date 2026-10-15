@@ -109,3 +109,9 @@ Operational interpretation:
 8. The owner decision register is a navigation/support artifact, not a normative contract: ../checkpoints/mediahub-owner-decision-register-2026-10-14.md.
 
 This instruction records a working method and does not itself accept any proposed architecture or change Functional Baseline 2.0.
+
+## Clean-slate target rule — new hardware
+
+Owner direction (2026-10-15): MediaHub OS is to be rebuilt as a new system for new hardware. Unsuccessful attempts to install/deploy on retired servers are not a source of target configuration, installed-component assumptions, host identity, runtime state, or acceptance evidence.
+
+For every legacy artifact, distinguish RETIRE (confirmed old-target-only active artifact), HISTORY (preserve provenance, never treat as target state), REUSE-CANDIDATE (generic component requiring fresh admission), and UNKNOWN (insufficient evidence). Do not erase audit history or delete shared components based only on names. Before deleting a candidate, inspect its references and dependent contracts; record exact paths and resulting blob/commit SHAs. New hardware details remain UNKNOWN until supplied or accepted explicitly. Keep Contour A setup/qualification/acceptance separate from Contour B product implementation.
