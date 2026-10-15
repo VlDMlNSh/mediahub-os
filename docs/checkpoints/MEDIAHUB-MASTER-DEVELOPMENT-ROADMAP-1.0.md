@@ -1139,3 +1139,12 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Old-node routes, runner/workflow bindings and host-specific services are LEGACY-OPERATIONAL or SHARED-OR-UNKNOWN. Registries, schemas, runtime modules, security contracts and baseline documents are held until their independent semantics and dependencies are traced.
 - No physical deletion was performed. Before removal, each path needs exact SHA, inbound-reference closure, historical-ID/evidence disposition and a reviewable action.
 - Next: source-only reverse-reference closure for one artifact family, then define target domains and a requirements catalogue. New hardware/OS/topology facts remain OPEN.
+
+
+## 91. Greenfield mature-component candidate screen (2026-10-15)
+
+- Added [Mature Component Candidate Screen, Wave 01](../architecture/MEDIAHUB-MATURE-COMPONENT-CANDIDATE-SCREEN-WAVE-01-2026-10-15.md).
+- First upstream README review covers LangGraph, Temporal Python SDK, Microsoft Agent Framework, MCP Python SDK, OPA and OpenTelemetry Collector. A2A remains HOLD pending a complete source/revision review.
+- This is a **candidate screen only**. No upstream immutable revision was pinned; README blob SHAs are not commit SHAs. All candidates remain NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED. No installation, test, provider/model invocation, host/runtime inspection, qualification, deployment or infrastructure change occurred.
+- Architecture rule: compare overlapping agent orchestration options before choosing one; evaluate Temporal only as a separate durable-execution decision against ASTRA lifecycle overlap; keep policy, tool interfaces, telemetry and Product State Authority separate.
+- Next bounded step: pin immutable upstream revisions and perform a source-backed LangGraph vs Microsoft Agent Framework comparison, then evaluate MCP boundary/security and whether a durable workflow engine is justified. Target hardware/OS inventory remains required before compatibility claims.
