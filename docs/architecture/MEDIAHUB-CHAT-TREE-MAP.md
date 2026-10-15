@@ -5521,3 +5521,15 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Reconfirmed normative conflict: `ASTRA-GOLD-REFERENCE-ARCHITECTURE.md` (`7be5fadd3055642e7823c7233f90e978a87e5366`) and `ASTRA-GOLD-COMPLETE-COMPONENT-SCHEME.md` (`54ba34ce53d1d7ecd97eef459be7d055b4fd19b1`) contain broad “MediaHub State Authority” wording for A0; owner-approved Option C and Product State Authority invariants separate ASTRA-internal engineering state from canonical product state. No normative source changed.
 - GitHub search connector returned zero results for ordinary terms despite known existing files; this is non-diagnostic. Complete repository-wide schema-ID/producer-consumer collision scan remains OPEN, not passed.
 - Next: trace P0-07 → P0-05 identity/context/authorization bridge from primary sources, without editing normative contracts or integrating diverged branches.
+
+
+## 20.278 Chat-session consolidation: upstream reuse candidates and continuation prompt (2026-10-15)
+
+- Consolidated the current chat's reuse strategy, candidate groups, contract boundaries, confirmed blockers, evaluation matrix, operational limits and next bounded action into [MEDIAHUB-CHAT-SESSION-CONSOLIDATION-MASTER-PROMPT-2026-10-15.md](../checkpoints/MEDIAHUB-CHAT-SESSION-CONSOLIDATION-MASTER-PROMPT-2026-10-15.md), commit `f05b926bacfe33233d5109f3769a828f8959f79b`.
+- The candidate inventory includes orchestration, durable workflows, coding workers, policy, observability, tool protocols, memory/retrieval, evaluation, local inference, sandboxing and secrets-management candidates raised in the conversation. It is explicitly candidate-only, not an adopted stack or an exhaustive scan of GitHub.
+- Initial comparison priority remains Pydantic AI, LangGraph, Temporal, OPA and OpenTelemetry. No candidate is admitted merely by appearing in the list; exact upstream revision/license/platform/security/contract overlap must be evidenced.
+- Reaffirmed the hard gates: P0-07 → P0-05 identity/context/authorization trace; accepted A0 ingress and capability issuer lifecycle; storage-enforced fencing; cancellation/completion semantics; complete schema-ID/producer-consumer scan; controlled reconciliation of A0 authority wording; no integration of diverged refs.
+- Live compare during this pass: `main` vs `docs/mediahub-chat-tree-map-20261012` = `diverged`, docs branch ahead 1197 / behind 3, main SHA `608d7463011798ca75e36bfce4b749a9caf4f9a0`, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Re-fetch before next action.
+- This prompt is a synthesis of the chat and existing project evidence, not a verbatim transcript, exhaustive GitHub census, owner adoption decision, implementation evidence or normative contract.
+- No installation, tests, model/provider calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration occurred.
+- Next bounded step: trace P0-07 → P0-05 identity/context/authorization from primary sources and canonical-read evidence; update only supported producer/consumer edges and keep schema inventory bounded by retrievable evidence.
