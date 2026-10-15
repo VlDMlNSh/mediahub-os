@@ -1373,3 +1373,11 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No implementation, testing, qualification, deployment or owner decision was made.
 - Next bounded step: WB-14E provider/data-locality/workload-admission source reconciliation.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Contour A WB-14E — Greenfield topology exclusion (2026-10-15)
+
+- Added [WB-14E Greenfield Topology Exclusion and Provider/Workload Admission Crosswalk](MEDIAHUB-CONTOUR-A-WB-14E-GREENFIELD-TOPOLOGY-EXCLUSION-AND-WORKLOAD-ADMISSION-2026-10-15.md), creation commit `6f34c08c9f8572c0cb64d9d3a44a316b0059e454`.
+- The legacy fixed executor pool and `github_remote_claude_only` mode are source evidence from the existing implementation, not target deployment requirements. They are excluded from greenfield target baseline unless separately reviewed and accepted.
+- Target topology and hardware facts remain UNKNOWN; Alamo/direct workload routing is still a proposal; local inference/provider/egress and media workload resource envelope remain unqualified.
+- No implementation or normative contract changed. Next: WB-14F read-only source-reference census for fixed topology and legacy operational identifiers.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
