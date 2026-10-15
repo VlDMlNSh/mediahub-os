@@ -1234,3 +1234,10 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 - No download, dependency resolution, tests, scans, provider calls, credential use, host/runtime inspection, qualification, infrastructure change, deployment or branch integration occurred.
 - Next: continue with one non-overlapping unresolved dependency/provenance gate in the admission crosswalk or close a target hardware/OS fact from owner-provided documentation. Keep runtime evaluation gated.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Continuation record — Contour A candidate admission / workspace dependency gate (2026-10-15)
+
+- The next bounded Phase 06 pass is recorded in Component Admission Crosswalk §7.19 and map §113: source-only review of OpenHands SDK v1.54.0 workspace-level Python/dependency guardrails.
+- Upstream workspace configuration is not a MediaHub target profile. Exact target hardware/OS/Python facts and a verifiable target-specific dependency lock remain prerequisites; the connector's empty `uv.lock` payload is inconclusive and must not be treated as proof that the file is absent.
+- The candidate remains unselected/unadmitted. LiteLLM 1.93.0 advisory evidence, full transitive SBOM/license/provenance closure, isolation/egress design, and owner-supplied target profile remain open. No runtime work was authorized or performed.
+- Next: continue one non-overlapping documentary admission gate only if existing crosswalk coverage supports it; otherwise record target hardware/OS/Python as an explicit owner-input blocker rather than inventing facts.
