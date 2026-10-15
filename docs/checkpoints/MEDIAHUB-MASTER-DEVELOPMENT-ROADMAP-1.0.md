@@ -1129,3 +1129,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Estimate: about 2–4 focused working days for the first source-backed inventory/map/contract skeleton/shortlist, then 3–7+ focused working days for deeper component review, owner decisions and contract closure. Implementation, verification, qualification, deployment and independent acceptance are separate later phases; no completion date is guaranteed.
 - No installation, tests/qualification, host/runtime access, provider calls, deployment, migration, branch integration or bulk deletion in this documentation-only pass.
 - Next: build the greenfield-versus-legacy artifact ledger and identify which documents are target requirements, historical evidence, candidate designs, or obsolete host-specific operational instructions.
+
+
+## 86. Greenfield / legacy ledger — first classification pass (2026-10-15)
+
+- Added [Greenfield / Legacy Artifact Ledger, Wave 01](../architecture/MEDIAHUB-GREENFIELD-LEGACY-ARTIFACT-LEDGER-WAVE-01-2026-10-15.md).
+- Initial source-backed classification is complete for the listed artifact families; repository-wide reverse-reference closure is not complete.
+- Target requirements include the owner-directed Mac Pro/Mac mini/remote-video-server/Jarvis/Astra/multi-agent-corporation vision, but none of the old deployment attempts or old host values is target runtime evidence.
+- Old-node routes, runner/workflow bindings and host-specific services are LEGACY-OPERATIONAL or SHARED-OR-UNKNOWN. Registries, schemas, runtime modules, security contracts and baseline documents are held until their independent semantics and dependencies are traced.
+- No physical deletion was performed. Before removal, each path needs exact SHA, inbound-reference closure, historical-ID/evidence disposition and a reviewable action.
+- Next: source-only reverse-reference closure for one artifact family, then define target domains and a requirements catalogue. New hardware/OS/topology facts remain OPEN.
