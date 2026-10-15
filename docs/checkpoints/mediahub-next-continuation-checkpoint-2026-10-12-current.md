@@ -3196,3 +3196,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Updated map §120 and roadmap continuation pointer. No tests, security scans, qualification, provider/model calls, credentials, host/runtime inspection, infrastructure changes or deployment.
 - Next: read-only caller/reference trace for signer helpers and `FileTaskIngress`, then owner decision on approval provenance and canonical command contract. Jarvis→A0 ingress remains blocked.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A WB-08 caller trace and readiness estimate (2026-10-15)
+
+- Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-08-CALLER-TRACE-AND-READINESS-EFFORT-ESTIMATE-2026-10-15.md), blob SHA `101f3d3352999dc7978a29b13c081adb3f3a66b7`.
+- Caller trace: `.github/workflows/astra-autonomous-supervisor.yml` invokes `ops/control/sign_command.py`; `astra_github_agent.py` uses the same command schema. The alternate `tools/sign_astra_command.py` has no established caller in this bounded trace. No tracked caller of `FileTaskIngress` established; this is not proof of non-use outside the inspected tree/context.
+- Effort estimate: **55–107 focused active hours** including contingency for a source-backed Contour A architecture package ready for a controlled deployment decision; planning point 75–85 hours. This excludes implementation, qualification, deployment and independent acceptance. Separate provisional post-architecture allowance: 20–50+ hours, dependent on target hardware and permissions.
+- New hardware facts, trusted Task Contract producer/approval authority and Jarvis→A0 issuer/verifier chain remain unresolved. No tests, qualification, runtime, credential or infrastructure actions.
+- Next: complete source-only Task Contract producer/reference trace, prepare owner decisions on ingress/approval/canonical command contract, and map remaining Contour A work packages to evidence/status gates.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
