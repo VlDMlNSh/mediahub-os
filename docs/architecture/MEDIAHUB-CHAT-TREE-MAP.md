@@ -6037,3 +6037,15 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Main HEAD observed `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, ahead 1410 / behind 3, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration attempted.
 - No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next: WB-14 read-only reconciliation of exact Jarvis→A0 ingress and direct-local-executor candidate contracts against WB13-R01…R12; record discrepancies/owner decisions without changing normative sources. Project map: this document.
+
+
+## 126. Contour A WB-14 — Jarvis/A0 and direct-local route source reconciliation (2026-10-15)
+
+- Added [WB-14 Jarvis/A0 and Direct-Local Route Source Reconciliation](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14-JARVIS-A0-AND-DIRECT-LOCAL-ROUTE-SOURCE-RECONCILIATION-2026-10-15.md), creation commit `ab36db009d034db8dca723691e23b331322287e7`.
+- Split the continuation into WB-14A…WB-14G. WB-14A source pins and the first WB-14 reconciliation matrix are complete; next is WB-14B, a focused caller-to-consumer trace for Jarvis mission submission and the accepted A0 ingress.
+- Reconciled ASTRA A0 queue ownership, fixed three-node executor pool, file Task Contract ingress, separate typed AuthorizationContext seam, signed operational-command schema, and the second signer-helper format. These are distinct paths; an end-to-end Jarvis→A0 authenticated ingress was not established by the reviewed evidence.
+- Approval provenance, direct-route queue owner, Alamo host/provider mode/media backend, common route policy, result envelope and cross-route recovery remain open. This is a source gap, not a confirmed exploit or proof of global absence.
+- Found a documentation identity collision: the map already listed another WB-13 artifact created by `dcf8c4746d2e9cb965b24f6e0d86f09f4b2cbabb`, while a second distinct WB-13 artifact was added by `1108abd34a4bd1a8a0643234bfaadb7bbf261146`. Preserve both files and historical IDs; cite by full filename. No renumbering or deletion performed.
+- Main HEAD observed `608d7463011798ca75e36bfce4b749a9caf4f9a0`; documentation branch was DIVERGED, ahead 1410 / behind 3, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration attempted.
+- No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next: WB-14B caller-to-consumer trace; keep all normative contracts unchanged and do not invent endpoints. Project map: this document.
