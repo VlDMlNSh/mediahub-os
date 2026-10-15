@@ -1297,3 +1297,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No tests, security scans, installation, provider/model calls, credential use, host/runtime inspection, infrastructure changes, deployment or branch integration.
 - Next bounded step: WB-10 source-pinned contract graph and requirement → failure control → verification evidence matrix, starting with Jarvis→A0 ingress and queue-lifecycle ownership. Preserve Baseline 2.0 and existing DEC-DEV IDs; do not silently amend normative primary sources.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-10 continuation — Jarvis direct local-executor route (2026-10-15)
+
+- Added [WB-10 Jarvis Direct Local-Executor Route and Contract Evidence Matrix](MEDIAHUB-CONTOUR-A-WB-10-JARVIS-DIRECT-LOCAL-EXECUTOR-ROUTE-AND-CONTRACT-EVIDENCE-MATRIX-2026-10-15.md), creation commit `d0c191e830c8f760b24a40e505a3ef6748a508fe`.
+- Owner-directed dual route recorded: Jarvis → ASTRA A0 for A0-owned queue lifecycle, and Jarvis → separately owned local-executor queue for eligible tasks that explicitly bypass A0 coordination. Direct execution remains subject to identity, authorization, approval, isolation, audit, recovery and evidence controls.
+- WB-10 pins the existing ingress, typed authorization and signed-command source seams and defines 17 route-contract requirements. No accepted end-to-end direct local-executor producer/consumer contract was established.
+- Remaining gates include direct queue owner, issuer/approval provenance, fencing/idempotency/recovery, command-schema canonicality, ASTRA/Product State Authority conflict and hardware profile.
+- No implementation, tests, qualification, installation, provider/model call, credentials, host/runtime inspection, infrastructure change or deployment.
+- Next: WB-11 trace concrete local executor and queue-controller candidates from tracked source; determine whether a candidate meets the direct route contract without inventing existing functionality.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
