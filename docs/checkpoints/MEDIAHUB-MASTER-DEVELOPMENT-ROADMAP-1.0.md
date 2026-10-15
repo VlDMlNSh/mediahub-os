@@ -1166,3 +1166,10 @@ Required sequencing:
 The roadmap's component survey is subordinate to this sequence: candidate research serves the developer fabric, not product-feature implementation. A candidate, design, document, or planned controller does not prove that a running autonomous system exists. No implementation, test, installation, model/provider call, host/runtime inspection, infrastructure change, deployment or qualification was performed by recording this clarification.
 
 Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarvis→ASTRA ingress and capability issuer/delegation/revocation contracts; task/result envelope and lifecycle cancellation/idempotency/fencing semantics; route/provider/model identities and egress policy; source/artifact supply-chain evidence; and explicit authorization for implementation/runtime stages.
+
+
+## Current continuation update — corporation schema draft (2026-10-15)
+
+- Wave 09's proposed next step has advanced to a documentation-only field-level draft: `docs/checkpoints/MEDIAHUB-CORPORATION-MISSION-TASK-RESULT-SCHEMA-SET-DRAFT-01-2026-10-15.md`.
+- It remains non-normative and does not establish accepted API/schema semantics or implementation. The next roadmap-aligned pass is a collision-aware crosswalk of existing schema and identifier conventions before any schema IDs are assigned.
+- Jarvis→ASTRA A0 ingress and capability issuer/delegation/revocation remain hard blockers; all A0-dependent dispatch stays fail-closed. No runtime work or branch integration was authorized or performed.
