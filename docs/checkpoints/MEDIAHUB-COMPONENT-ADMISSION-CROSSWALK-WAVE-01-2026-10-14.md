@@ -451,3 +451,23 @@ No component, runtime, manifest, or normative contract was admitted or changed.
 Official upstream evidence: [release v1.54.0](https://github.com/OpenHands/software-agent-sdk/releases/tag/v1.54.0), [SDK metadata](https://github.com/OpenHands/software-agent-sdk/blob/v1.54.0/openhands-sdk/pyproject.toml), [SDK README](https://github.com/OpenHands/software-agent-sdk/blob/v1.54.0/README.md), [Agent Server README](https://github.com/OpenHands/software-agent-sdk/blob/v1.54.0/openhands-agent-server/openhands/agent_server/README.md), [license](https://github.com/OpenHands/software-agent-sdk/blob/v1.54.0/LICENSE).
 
 No package/artifact was downloaded, no code was executed, and no tests, dependency resolution, security scan, provider/model call, credential use, host/runtime inspection, qualification or infrastructure change occurred. The source review is not a security clearance and does not admit the candidate.
+
+## 7.18 Pydantic direct-dependency constraint and release-provenance boundary (2026-10-15)
+
+**Scope:** source-only review of the OpenHands SDK v1.54.0 dependency declaration and official Pydantic release/security surfaces. No artifact was downloaded, dependency resolved, scanner or test run, package imported, or runtime/provider/host accessed.
+
+| Evidence | Observation | Interpretation / limit |
+|---|---|---|
+| Consumer dependency declaration | OpenHands SDK v1.54.0 `openhands-sdk/pyproject.toml` declares `pydantic>=2.13.5` (source blob already pinned in §7.17: `39c3ce3b1137c59e6a24423a3d11097f446507ee`). | This is a lower bound, not an exact resolved dependency pin. The declaration alone does not identify the actual installed version, transitive `pydantic-core` version, artifact hashes or full lock closure. |
+| Release history | Official Pydantic release history lists v2.13.5 (2026-08-28), v2.14.0 (2026-10-08) and v2.14.1 (2026-10-11). v2.13.5 release notes describe several fixes; v2.14.1 release notes describe further fixes. | Multiple releases exist above the declared lower bound. This demonstrates version drift potential, not that any particular version is resolved or preferred for MediaHub. No pin change is proposed. |
+| Public security surface | The official `pydantic/pydantic` Security page exposes a security policy and, at review time, no published advisories on the reviewed page. | This bounded public-page observation is not a vulnerability-free conclusion, does not cover every transitive dependency or private report, and is not a substitute for a complete advisory/SBOM review. |
+| Artifact provenance | This pass did not independently establish exact PyPI artifact hashes, attestations, source-to-artifact binding or a complete locked dependency graph for the version that OpenHands would resolve. | Artifact-level provenance and reproducibility remain OPEN. Source release metadata is not a lockfile or an SBOM. |
+
+### Disposition
+
+- Pydantic remains an **unresolved transitive/direct dependency-admission gate** for the OpenHands research candidate: declared lower bound is known, exact resolution and complete lock/SBOM are not.
+- Do not infer that v2.13.5 or v2.14.1 is the selected dependency; do not edit pins or manifests from this source-only review.
+- Before any candidate admission, obtain an immutable complete lock for the chosen target profile; identify exact `pydantic` and `pydantic-core` artifacts, hashes, license notices, source/provenance and advisory coverage; then reconcile compatibility with the approved Python/OS target.
+- OpenHands remains **RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION**. No install, artifact download, dependency resolution, tests/scans, provider/model call, credentials, host/runtime inspection, qualification or deployment occurred.
+
+Official source references: [OpenHands SDK v1.54.0 dependency metadata](https://github.com/OpenHands/software-agent-sdk/blob/v1.54.0/openhands-sdk/pyproject.toml); [Pydantic release history](https://github.com/pydantic/pydantic/releases); [Pydantic security page](https://github.com/pydantic/pydantic/security).
