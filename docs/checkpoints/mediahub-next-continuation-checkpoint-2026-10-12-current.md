@@ -2737,3 +2737,11 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - **No execution claims:** no installation, tests, benchmark, model/provider call, credential use, host/runtime inspection, qualification, infrastructure change, deployment or branch integration. No normative contract was changed.
 - **Blockers:** no accepted Jarvis→A0 ingress/capability issuer lifecycle evidence; MH-ARCH-045/046 remain open; docs/main refs diverged; candidate admission remains unapproved.
 - **Next bounded step:** source-only exact-revision review of OpenHands Software Agent SDK within the existing admission crosswalk; update it only with evidence-backed deltas. Runtime testing remains gated on separate explicit authorization and prerequisites.
+
+### Latest verified continuation — P0-07 source-anchor refresh (/next, 2026-10-15)
+
+- Refreshed the existing Wave 07 capability issuer/source trace using live `main` reads of authorization, consumer boundary, in-memory state authority, lifecycle service and MH-12 security architecture. Exact SHAs and bounded observations are in Wave 07's dated addendum and map §82.
+- Live branch compare: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch `DIVERGED`, 1212 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Finding: typed `AuthorizationContext` and configured grant matching are present in inspected modules, but accepted issuer provenance, Jarvis-facing A0 ingress and complete expiry/revocation/replay/fencing/cancellation lifecycle remain NOT EVIDENCED. P0-07 proposal remains NOT ACCEPTED. Do not infer P0-07→P0-05→P0-04 edges from type compatibility.
+- No tests, installation, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment, merge, rebase or cherry-pick.
+- Next bounded step: read the map-indexed accepted P0-05 and P0-04 primary boundary contracts and add only direct, source-backed identity/context/capability edges to the existing trace. Do not create a duplicate contract.
