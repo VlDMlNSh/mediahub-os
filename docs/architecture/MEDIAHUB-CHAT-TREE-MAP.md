@@ -5964,3 +5964,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Confirmed three distinct inspected seams: JSON Task Contract ingress/gateway; P0 `AuthorizationContext`/State Authority policy; signed operational command verification. A second signer helper emits a different schema/key convention; usage/canonicality remains unknown. The Task Contract path's `approval_state` is file-supplied after shape/enum checks; inbox writer trust and upstream approval attestation are not established by this trace.
 - No code or normative contract changed; no tests, qualification, runtime or infrastructure actions. No exploitable bypass is asserted. Jarvis→A0 ingress remains blocked pending authority decisions and end-to-end trace.
 - Next: read-only caller/reference trace for both signer helpers and `FileTaskIngress`, then owner decision on approval provenance and canonical command contract.
+
+
+## 121. Contour A WB-08 caller trace and readiness effort estimate (2026-10-15)
+
+- Added [WB-08 Caller Trace and Readiness Effort Estimate](../checkpoints/MEDIAHUB-CONTOUR-A-WB-08-CALLER-TRACE-AND-READINESS-EFFORT-ESTIMATE-2026-10-15.md), blob SHA `101f3d3352999dc7978a29b13c081adb3f3a66b7`.
+- Confirmed source-level caller alignment between `.github/workflows/astra-autonomous-supervisor.yml` (`a0209a2d01122354d19e95d2f362a6ecfa3d6186`), `ops/control/sign_command.py` (`fc6943a79cefdf06e59d6e32771d2df551b2f0e9`) and `astra_github_agent.py` (`dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`) for `mediahub.astra.control-command.v1`. `tools/sign_astra_command.py` (`a4222ac51a47cbfe8288f9af34f1e542c0a4b6a8`) has a different envelope; active status/caller not established. No tracked caller of `FileTaskIngress` established in the bounded trace.
+- Planning estimate for a source-backed Contour A architecture package ready for a controlled deployment decision: **55–107 focused active hours** including contingency; recommended planning point 75–85 hours. This excludes implementation closure, qualification, deployment and independent acceptance. Separate provisional post-architecture placeholder: 20–50+ hours, to be recalculated when target hardware is known.
+- Estimate is not measured historical time or a guarantee. Target hardware facts and approval/ingress authority decisions remain blockers. No tests or qualification run.
