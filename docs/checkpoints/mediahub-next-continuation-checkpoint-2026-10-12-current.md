@@ -3151,3 +3151,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Ingress remains blocked on accepted caller identity/authentication, capability issuer/verifier/delegation/revocation, request/ack/error schema, replay/idempotency, A0 handoff/fencing, result/status contract and owner-approved trust boundary.
 - No tests, installs, providers/models, credentials, host/runtime inspection, security scan, qualification, infrastructure changes or deployment.
 - Next: WB-04 source-only capability issuer/trusted-context lifecycle closure matrix. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Contour A WB-04 capability/trusted-context lifecycle matrix (2026-10-15)
+
+- Created [WB-04 Capability Issuer / Trusted-Context Lifecycle Closure Matrix](MEDIAHUB-CONTOUR-A-WB-04-CAPABILITY-ISSUER-TRUSTED-CONTEXT-LIFECYCLE-MATRIX-2026-10-15.md), commit `4016fb12146aeb6dc2c5ceef1f9ce20731b679f8`.
+- Matrix covers 21 lifecycle surfaces and 10 contract-closure questions. It explicitly distinguishes typed AuthorizationContext/policy grant matching from evidence of issuer authority, provenance, audience, freshness, revocation and replay protection.
+- Updated map §117; commit `b1f6600f0a7ccdb9b577338da151e1edc8b5b613`, blob SHA `971cf4cfea088e982e967f39110d44611aba1f1b`.
+- Updated roadmap pointer; commit `791e712f99d13ed862fd38edb22aa4ce3db67be8`, blob SHA `c2e97f3ac27bbf03e8f8326e0730fccd2a501684`.
+- Live compare at start: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1373 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- No issuer/credential technology selected. No tests, installs, credentials, model/provider calls, host/runtime inspection, security scan, qualification, infrastructure change or deployment.
+- Hard blockers: issuer/attester authority, caller/issuer/verifier ownership, audience/binding, expiry/revocation propagation, replay and context propagation; P0-07→P0-05 ingress edge remains NOT ESTABLISHED.
+- Next: owner/governance decision packet for issuer/attester authority and trusted-context ownership, then bounded producer/consumer source closure. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
