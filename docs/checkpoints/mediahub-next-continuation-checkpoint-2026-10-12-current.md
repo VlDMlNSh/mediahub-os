@@ -3284,3 +3284,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No normative contract changes, tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment or branch integration.
 - Documentation branch remains diverged from main; no merge/rebase/cherry-pick attempted.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — WB-14B Jarvis-to-A0 ingress caller/authority trace (2026-10-15)
+
+- Added [WB-14B Jarvis-to-A0 Ingress Caller and Authority Seam Trace](MEDIAHUB-CONTOUR-A-WB-14B-JARVIS-TO-A0-INGRESS-CALLER-AND-AUTHORITY-SEAM-TRACE-2026-10-15.md), creation commit `9e897c9c5b9bec848c075da4684df47b107d3b43`.
+- Main source tree refreshed to HEAD `ab36db009d034db8dca723691e23b331322287e7`, 800 entries, `truncated=false`. Source pins and limits are documented in WB-14B.
+- Established source path: local JSON Task Contract → `FileTaskIngress` → `AstraGatewayRuntime.run_bounded`. Separately, the autonomous supervisor workflow creates/signs an operational command, and the verifier checks that command format. No end-to-end Jarvis producer → accepted A0 ingress → trusted authorization issuer chain was established in this bounded trace.
+- Sensitive approval provenance and trusted inbox writer remain unresolved; a file-provided `approval_state` is not an attestation. Signed operational commands and Task Contract JSON remain separate trust domains.
+- WB-14B status: **COMPLETED AS BOUNDED SOURCE TRACE; END-TO-END INGRESS NOT ESTABLISHED**. No code/normative source changed; no tests, providers/models, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next bounded sub-request: **WB-14C** — compare the existing autonomous queue against direct-local Route B requirements and pin queue ownership, node binding, claim/lease, retry/cancel/recovery and result semantics.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
