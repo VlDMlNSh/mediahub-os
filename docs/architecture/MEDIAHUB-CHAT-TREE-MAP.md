@@ -6049,3 +6049,14 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Main HEAD observed `608d7463011798ca75e36bfce4b749a9caf4f9a0`; documentation branch was DIVERGED, ahead 1410 / behind 3, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration attempted.
 - No tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next: WB-14B caller-to-consumer trace; keep all normative contracts unchanged and do not invent endpoints. Project map: this document.
+
+
+## 124. Contour A WB-14B — Jarvis-to-A0 ingress caller and authority seam trace (2026-10-15)
+
+- Added [WB-14B Jarvis-to-A0 Ingress Caller and Authority Seam Trace](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14B-JARVIS-TO-A0-INGRESS-CALLER-AND-AUTHORITY-SEAM-TRACE-2026-10-15.md), creation commit `9e897c9c5b9bec848c075da4684df47b107d3b43`.
+- Refreshed main tree to HEAD `ab36db009d034db8dca723691e23b331322287e7`, 800 entries, `truncated=false`. Pinned `task_ingress.py`, `astra_gateway.py`, `authorization.py`, both command-signing formats, the autonomous supervisor and chat-control workflows, `mission_journal.py`, `execution_adapter.py`, and the conceptual agent-system contract.
+- Confirmed a local JSON Task Contract → `FileTaskIngress` → `AstraGatewayRuntime.run_bounded` path and a separate signed operational-command workflow/verifier path. No tracked end-to-end Jarvis producer → accepted A0 ingress → issuer-backed authorization chain was established in this bounded trace.
+- File-supplied `approval_state` is shape/enum checked but no attestation issuer/trusted inbox writer was established. The signed command envelope and Task Contract remain distinct; do not conflate their signatures/authority.
+- Status: **WB-14B completed as a bounded source trace; end-to-end ingress NOT ESTABLISHED**. This is a source/contract gap, not an exploitability claim or global absence proof.
+- No tests, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment or integration.
+- Next: WB-14C compare the current autonomous queue against direct-local Route B requirements, including lifecycle ownership, claim/lease, retry/cancel/recovery and result semantics.
