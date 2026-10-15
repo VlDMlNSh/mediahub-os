@@ -55,3 +55,12 @@
 ## 6. Restrictions and verification boundary
 
 This pass was read-only source analysis plus documentation planning. No model/provider calls, credential access, host/runtime inspection, installation, tests, qualification, configuration or infrastructure changes, deployment, merge, rebase or cherry-pick occurred. No normative contract or Baseline 2.0 was modified; no status was promoted.
+
+
+## 7. ASTRA capability-matrix ref drift — source-backed delta (2026-10-15)
+
+- Compared the same path on live refs: `main` blob `da26185254d9954fcee204f81ecca129bf052e7c` labels A0 `Global coordination/state`; documentation branch blob `9ad83781a8da53d1a8f540ede54eba95281f01c0` narrows this to `ASTRA workflow/control state` and explicitly excludes canonical MediaHub product state.
+- Cross-checked `MH-12-security-architecture.md@main` blob `cf4ebfd5bf471ca676f075c51d3a24906504e490` and `MH-12-security-invariants.md@main` blob `0609be9c3420070434014dad4529e4ccd46b0996`: they specify a layered authorization path and sole canonical mutation authority, while the invariants document remains proposed/ready for governance review.
+- Disposition: confirmed documentation-ref drift, not a runtime defect or evidence of deployed enforcement. The docs clarification is consistent with owner-approved DEC-DEV-02 Option C, but it is not merged into `main`. No source contract was rewritten and no branch integration occurred.
+- Keep P0-07→P0-05 caller/adapter edge NOT ESTABLISHED, issuer/attester/verifier lifecycle OPEN, and P0-05 D6 OPEN. See the detailed source trace in [Wave 07](MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md), blob `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`.
+- Next: continue existing schema/ID inventory only from exact source files; do not draft a normative corporation wire schema before ingress/identity ownership and branch conflict are resolved. No tests, installation, provider calls, credentials, host/runtime inspection, qualification, infrastructure changes, deployment or branch integration.
