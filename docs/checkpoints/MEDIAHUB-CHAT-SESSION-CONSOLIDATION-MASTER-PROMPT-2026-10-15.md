@@ -164,3 +164,34 @@ Additional primary-document readback confirmed bootstrap SHA `a6b9f3b48c7fd6c8e5
 
 ### Next non-duplicative action
 Refresh the Wave 07 primary-source anchors (especially MH-12 security and ASTRA governance/reference architecture) against current live refs, then add only the missing source-bound edges for trusted context issuance → P0-05 consumer boundary → P0-04 mutation authority. Keep issuer/API/token/revocation/fencing semantics open where no accepted contract exists.
+
+
+## Voice-session synchronization — candidate disposition and evidence boundary (2026-10-15)
+
+This record reconciles the voice-driven requests available in the current shared project context with the existing upstream survey and admission crosswalk. It is an incremental synchronization, not a claim that every utterance was recovered verbatim.
+
+- Reuse primary records rather than duplicate their findings:
+  - `docs/checkpoints/MEDIAHUB-AUTONOMOUS-AGENT-ECOSYSTEM-SURVEY-2026-10-14.md` — upstream research snapshot, candidates only.
+  - `docs/checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md` — component-manifest and admission traceability; no component admitted.
+  - `docs/checkpoints/MEDIAHUB-LOCAL-COMPONENT-INVENTORY-WAVE-01-2026-10-14.md` and `docs/checkpoints/MEDIAHUB-UNIFIED-LOCAL-INVENTORY-AND-VERIFIABLE-COMPONENT-MATRIX-WAVE-02-2026-10-14.md` — historical point-in-time local inventory, not fresh runtime evidence.
+  - `docs/checkpoints/MEDIAHUB-PROJECT-WIDE-TECHNICAL-CONFLICT-DRIFT-AUDIT-WAVE-05-2026-10-15.md`, `MEDIAHUB-PROJECT-TECHNICAL-CONFLICT-REMEDIATION-WAVE-06-2026-10-15.md`, Wave 07 capability issuer trace and Wave 09 task/result baseline remain the relevant conflict and contract records.
+- Candidate set already surfaced for **review/evaluation planning**, grouped by role (not a selected implementation stack):
+  - Coding/agent workers: OpenHands Software Agent SDK, OpenHands, Cline, browser-use, Letta Code, OpenClaw, Hermes Agent.
+  - Agent SDK/orchestration: Pydantic AI, LangGraph, Microsoft Agent Framework, Google Agent Development Kit, CrewAI.
+  - Durable workflow: Temporal; Hatchet was also mentioned in the wider conversation candidate list.
+  - Local inference/runtime: Ollama, llama.cpp, ONNX Runtime, SGLang; Alamo remains an intended endpoint/service label, not proof of a selected runtime.
+  - Gateways/routing: LiteLLM; FreeLLMAPI, FCC, OmniRoute, UnoRouter and Alamo/Ollama identity relations remain unresolved and must not be conflated.
+  - Tool/agent protocols: Model Context Protocol (MCP), Agent2Agent (A2A), Agent Client Protocol (ACP).
+  - Policy/sandbox/security: Open Policy Agent (OPA), NVIDIA OpenShell; Pydantic/standard auth primitives, Vault/Infisical and related mechanisms remain candidates pending source-backed selection.
+  - Telemetry/evaluation: OpenTelemetry, Inspect AI, Promptfoo, DeepEval, Arize Phoenix.
+  - Memory/retrieval/knowledge: Letta, Mem0, Graphiti, Haystack, Qdrant, pgvector.
+  - Other previously surfaced candidates: Protobuf/gRPC, Home Assistant Core, OpenTelemetry-related components, and Everything Claude Code (ECC). ECC remains **NOT ASSESSED / NOT ADOPTED** unless a distinct source review is recorded.
+- Disposition language:
+  - “Found / considered” means a research candidate exists in a source record.
+  - “Accepted for evaluation” means it may enter a future bounded, authorized source review; it does **not** mean installed, tested, compatible, secure, qualified, selected, admitted or adopted.
+  - Existing upstream source survey is documentary and did not clone full source trees, install candidates, execute candidate code, invoke models/providers or run tests.
+  - No component is newly admitted by this synchronization. Candidate evaluation remains gated by exact pinned revision, licence/SBOM, security/advisory review, supported platform, resource budget, isolation/egress controls, overlap with existing MediaHub controls, acceptance criteria and owner/change-control requirements.
+- Current high-priority source-backed candidate direction remains: evaluate OpenHands Software Agent SDK first as a bounded replaceable coding-worker candidate; treat MCP as a tool-interface protocol rather than authorization; retain the existing local-inference route as a candidate while resolving MH-ARCH-045 (LOCAL_ONLY/fail-closed routing) and MH-ARCH-046 (selected-versus-executed Ollama model identity); do not add another gateway/workflow/policy plane without a demonstrated gap.
+- Explicitly **not performed in this pass**: installation, runtime/host inspection, tests, benchmark/evaluation execution, model/provider calls, qualification, infrastructure changes, deployment or branch integration. The voice request to synchronize candidate decisions is not evidence that those activities occurred.
+- Next bounded step: source-only refresh of the exact candidate/admission matrix and primary-source anchors, then prepare a per-candidate evaluation queue with pinned revision, license, security, platform, resource, isolation/egress, overlap, evidence and decision status. Run no tests or installs unless the applicable scope is explicitly authorized.
+
