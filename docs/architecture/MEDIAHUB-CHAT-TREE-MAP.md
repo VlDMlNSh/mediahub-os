@@ -5816,3 +5816,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - All issuer/API-dependent fields remain unresolved; this is not a callable API, accepted wire schema, authorization path or implementation. No schema IDs were assigned pending collision-aware registry review.
 - No existing schema, normative main source or runtime artifact changed. No tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration.
 - Next bounded step: source-only collision-aware crosswalk of existing schema IDs and task/agent/component identifiers; update the draft only with direct evidence. Keep dispatch BLOCKED pending accepted Jarvis→A0 ingress and capability issuer lifecycle.
+
+
+## 105. Existing schema and identifier census crosswalk — bounded follow-up (2026-10-15)
+
+- Updated [Corporation Mission / Task / Result Schema Set Draft 01](../checkpoints/MEDIAHUB-CORPORATION-MISSION-TASK-RESULT-SCHEMA-SET-DRAFT-01-2026-10-15.md) §13 to reuse the already-recorded schema census and agent/provider/executor namespace findings without claiming repository-wide collision proof.
+- Updated [Agent / Task / Provider Schema Inventory, Wave 01](../checkpoints/MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md) §21. Existing inference IDs remain dedicated to inference contracts; component evidence remains a narrower draft; agent/provider/model/transport identifiers are separate domains.
+- No new schema or object IDs assigned; no existing identifiers or normative contracts changed. No tests, execution, provider calls, credential access, host/runtime inspection, qualification, deployment or branch integration.
+- Remaining gap: complete producer/consumer/history reference closure and an accepted namespace/version policy. Next: source-only contract/interface tracing for intended greenfield Contour A; keep A0-dependent dispatch blocked until ingress and capability issuer lifecycle are accepted.
