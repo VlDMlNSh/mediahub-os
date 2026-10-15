@@ -161,3 +161,20 @@ Prefer referencing the existing component evidence record by stable record ID, U
 ## 7. Next step
 
 Read the live schema and ID conventions across all relevant refs, including the existing registry and G4 result references; trace producers/consumers; search for any less-obvious task/agent/provider-fabric/result schema and historical ID collisions. Then, if no existing contract covers the gap, create JSON Schema drafts in a dedicated proposal-only namespace and add a field-to-source traceability table. Do not promote them to normative, change runtime code, install components, call providers, or integrate diverged branches in this pass.
+
+
+## 8. Follow-up source clarification — ASTRA result-schema field and authority wording
+
+A follow-up inspection of exact source contents narrows two points:
+
+1. `control/qualification/g4-115.json@main` (blob SHA `d4ae8e7cc341706c2a1dd5265726ef1e045f93d1`) declares schema identifier `mediahub.astra-gold.g4-115-contract.v1` and lists the string `result_schema` in `required_round_fields`. It does **not** name a JSON Schema URI, define the corporation-wide result-envelope structure, or establish a shared task-result contract. Therefore G4 coverage is only a required qualification-evidence field, not an existing reusable task-result schema. This supersedes any broader interpretation of “G4 result-schema reference” in earlier notes.
+2. `architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md@main` (SHA `7be5fadd3055642e7823c7233f90e978a87e5366`, §1) says “A0-ASTRA is the single MediaHub coordination and state authority”; `architecture/ASTRA-GOLD-COMPLETE-COMPONENT-SCHEME.md@main` (SHA `54ba34ce53d1d7ecd97eef459be7d055b4fd19b1`, §1) says “A0-ASTRA = single coordination and MediaHub State Authority”; and `architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml@main` (SHA `adc852009c3a79d0e64265a3af8a4910a1388057`, lines 11–14) assigns separate final architecture/security and single coordination authority roles. These statements remain in conflict with owner-approved DEC-DEV-02 Option C and the documented Product State Authority invariant. No normative source was changed. Treat as an open controlled-reconciliation blocker.
+3. `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml@main` (SHA `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`) defines numeric lifecycle bounds (heartbeat 120s, lease 600s, retry backoff 30s, max three concurrent autonomous claims) and lists revocation support in the qualification/governance model. Those declarations do not identify the concrete Jarvis-facing A0 ingress, issuer service, credential/capability representation, revocation propagation procedure or storage-enforced fencing semantics.
+4. The GitHub file-search connector returned zero matches for multiple ordinary terms (`agent-registry`, `result_schema`, `task_id`, `mediahub-component-evidence-record`, `provider-model`) despite known existing files. This search result is non-diagnostic and **cannot** be used as evidence that no additional schemas or ID collisions exist. The repository-wide collision scan remains open; this pass only records direct reads of the listed files and known-path probes.
+
+### Corrected disposition
+
+- G4 is not a corporation-wide task-result schema.
+- No accepted Jarvis→A0 ingress/issuer/fencing/cancellation/replay wire contract was found in the reviewed primary sources.
+- The A0/product-state authority contradiction remains unresolved and must be handled by controlled source reconciliation; no merge or normative edit is authorized.
+- Next independent step: trace the P0-07 → P0-05 identity/context/authorization bridge using its canonical-read trace and source clauses, then record exact producer/consumer edges where discoverable. Continue schema-ID inventory only through verifiable repository-tree/source evidence; do not represent the failed search connector as an exhaustive scan.
