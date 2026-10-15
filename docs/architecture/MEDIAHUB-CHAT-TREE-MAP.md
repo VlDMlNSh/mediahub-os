@@ -5904,3 +5904,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - WB-01 source audit is complete; hardware-specific placement/deployment planning remains blocked. No host/runtime inspection or infrastructure change.
 - Branch was already DIVERGED at pass start: docs branch 1360 ahead / 3 behind main; main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
 - Next bounded package: WB-02, contract/authority conflict register from live primary-source clauses and owner-approved DEC-DEV-02 Option C. Normative main edits and tests remain gated.
+
+
+## 115. Contour A contract / authority conflict register — WB-02 (2026-10-15)
+
+- Added [Contour A Contract / Authority Conflict Register, Wave 01](../checkpoints/MEDIAHUB-CONTOUR-A-CONTRACT-AUTHORITY-CONFLICT-REGISTER-WAVE-01-2026-10-15.md), creation commit `15451f594105b61218fd8571fbaa4852e4a40e70`.
+- Source-pinned eight conflict/gap entries: main/docs ASTRA authority-role drift; model/test mismatch; qualification-schema scope; executor capability wording; Jarvis→A0 ingress/capability lifecycle; fencing/result publication and corporation task/result governance; target hardware/OS/topology; and branch divergence.
+- DEC-DEV-02 Option C remains OWNER-DECIDED. Register does not change normative sources or promote docs-branch wording into main.
+- Live comparison at audit: main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1364 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- No tests, installs, provider/model calls, credentials, host/runtime inspection, qualification, deployment, infrastructure changes or branch integration.
+- WB-02 source-only register is complete for this bounded pass; producer/consumer/history closure, accepted ingress/capability contracts, task/result/fencing semantics and hardware inputs remain open. Next: WB-03 ingress-contract gap packet, source-only, reusing existing edge trace and owner decision; do not invent API or authorization semantics.
