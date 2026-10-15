@@ -146,3 +146,21 @@ This prompt consolidates the conversation’s expressed goal to identify mature 
 - Open gaps retained: (1) source-text reconciliation of broad ASTRA authority wording with owner-approved Option C; (2) accepted Jarvis→A0 ingress; (3) capability issuer/delegation/expiry/revocation; (4) storage-enforced fencing and stale-worker protection; (5) cancellation/completion/retry/idempotency semantics; (6) corporation-wide Task Result Envelope and DAG schema; (7) schema ID/version/producer/consumer collision census; (8) non-secret provider/gateway route identity and egress semantics; (9) authoritative ECC upstream revision/license/security/overlap assessment; (10) complete primary-source review of OSS candidates.
 - Safety/evidence boundary: no tests, qualification, software installation, model/provider invocation, credentials, host/runtime inspection, infrastructure changes, deployment, migration or branch integration in this reconciliation pass. No normative contract was edited. No implementation/verification/qualification/acceptance status was promoted.
 - Next bounded step: continue source-bound P0-07 → P0-05 identity/context/authorization tracing, checking producer→consumer edges and capability lifecycle against accepted sources; record only evidenced edges. Keep open gaps open.
+
+
+## Incremental source crosswalk — reuse existing Waves 07/09 (2026-10-15)
+
+This pass checked the already-existing source-trace and task/result baseline before proposing new work. These records materially overlap the planned P0-07 → P0-05 trace, so the next pass must extend them, not create a parallel report.
+
+| Existing artifact | Live blob SHA | Evidence/status | Reuse rule |
+|---|---|---|---|
+| `docs/checkpoints/MEDIAHUB-A0-LIFECYCLE-MH12-CAPABILITY-ISSUER-SOURCE-TRACE-WAVE-07-2026-10-15.md` | `52dcd76e1ceaf66ccee560a34eb17b5be4f73bbf` | Reviewed source trace; A0 ingress, issuer representation, fencing, idempotency scope, cancellation race and revocation propagation remain open. Document’s embedded branch counts are stale versus current live comparison. | Continue from its evidence table; refresh ref/SHA for any cited primary sources before reliance. |
+| `docs/checkpoints/P0-07-D2-TRUSTED-CONTEXT-AUTHORITY-LIFECYCLE-PROPOSAL-2026-10-13.md` | `c0ae0d3fe340c3e50382b7d4aa8da7b6b5f56d9f` | Proposal only; owner selected proposal option B, not implementation. It records caller-supplied P0-05 context and lack of an evidenced trusted issuer in its bounded source set. | Do not promote to accepted contract; trace exact current P0-04/P0-05/P0-07 refs and governance evidence. |
+| `docs/checkpoints/MEDIAHUB-CORPORATION-TASK-RESULT-TECHNICAL-BASELINE-WAVE-09-2026-10-15.md` | `6ab5f244cb0d4e74ac2b26013c02502832170365` | Technical recommendation, not normative acceptance. Separates Jarvis mission coordination, ASTRA A0 internal workflow state, and Product State Authority. | Reuse recommendations as design input only; do not create another generic task/result baseline. |
+
+Fresh live comparison after the three reconciliation commits: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch ahead 1203 / behind 3; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; status `diverged`. No integration performed.
+
+Additional primary-document readback confirmed bootstrap SHA `a6b9f3b48c7fd6c8e5ef2b75944affae4a73f5ea` and roadmap SHA `196bfd70d8462e3d857e65eff483d7bc9348508a`. The map and checkpoint themselves have live post-update SHAs recorded in the response to this pass.
+
+### Next non-duplicative action
+Refresh the Wave 07 primary-source anchors (especially MH-12 security and ASTRA governance/reference architecture) against current live refs, then add only the missing source-bound edges for trusted context issuance → P0-05 consumer boundary → P0-04 mutation authority. Keep issuer/API/token/revocation/fencing semantics open where no accepted contract exists.
