@@ -5993,3 +5993,15 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Blockers: direct-local queue lifecycle owner; trusted ingress and capability/approval provenance; signer helper canonicality; ASTRA/Product State Authority wording conflict; exact target hardware profile. Route B is owner-directed architecture, not implementation or qualification.
 - No tests, security scans, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
 - Next: WB-11 source-pinned trace of concrete local executor and queue-controller candidates; determine whether a current component meets the direct-route contract. Project map: this document.
+
+
+## 124. Contour A WB-11 — proposed Alamo/Claude heavy-local-workload route (2026-10-15)
+
+- Added [WB-11 Proposed Alamo/Claude Heavy-Local-Workload Routing and Executor Source Trace](../checkpoints/MEDIAHUB-CONTOUR-A-WB-11-PROPOSED-ALAMO-CLAUDE-HEAVY-LOCAL-WORKLOAD-ROUTING-AND-EXECUTOR-SOURCE-TRACE-2026-10-15.md), creation commit `8a8b3b037239bceb95668ff1e5dc757e8c706ef2`.
+- Owner clarified this is a **proposal, not the final structure**: ASTRA for engineering work; a direct Alamo-hosted execution route is a candidate for heavy local jobs such as video generation. Actual media backend and Alamo host identity are UNKNOWN.
+- Source trace distinguishes Claude Code/client on a local host from the actual model/provider: repository contains both an Anthropic API-key workflow and a Claude-compatible Ollama-backed local endpoint. Neither is tied by evidence to Alamo. Do not label the proposed route fully local until inference and data-egress paths are established.
+- Existing `autonomous_queue.py` permanent pool pins `mh-dev-01`, `mh-dev-02`, and `Voktors-Mac-mini.local`; Alamo is not present in the inspected pool. Workflow/source presence does not prove runtime availability or qualification.
+- WB-11 defines route eligibility, queue ownership, security, resource admission, recovery, provenance and evidence prerequisites. Recommendation: keep ASTRA engineering queue governed by A0; treat Alamo as a candidate separate execution domain; avoid final placement until hardware, model/provider mode and media backend are identified.
+- WB-10 updated to clarify that its generic direct-local route matrix does not accept the specific Alamo proposal; update commit `b0645e03386a8905e0fdb922696d18d556405745`.
+- No tests, qualification, model/provider calls, credentials, host/runtime inspection, installation, infrastructure changes or deployment.
+- Next: WB-12 compare ASTRA-only, direct Alamo route, and shared Jarvis route-adapter options. Project map: this document.
