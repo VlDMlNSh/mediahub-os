@@ -1179,3 +1179,10 @@ Current blockers remain: exact new hardware/OS/topology inventory; accepted Jarv
 
 - Reused the existing schema census and agent/provider identity crosswalk; documented its precise scope in the corporation schema draft §13 and inventory §21. The 26 schema-directory $id values were unique only within that bounded census; no repository-wide collision proof or canonical namespace policy is claimed.
 - No new IDs assigned; inference contracts and component evidence retain their existing narrower semantics. Next work is source-only contract/interface tracing for greenfield Contour A. Jarvis→A0 ingress and capability issuer lifecycle remain blockers; no runtime or branch integration action.
+
+
+## Current continuation — Contour A interface edge trace (2026-10-15)
+
+- Wave 10 maps ten source-bound producer→consumer seams. The critical Jarvis→A0 ingress, capability issuer/verifier lifecycle and authoritative result publication/fencing are still not accepted; dispatch remains blocked and the corporation schema set remains draft-only.
+- Main authority wording conflict remains a controlled change item; no normative main source changed and no branch integration occurred.
+- Next: construct the greenfield Contour A requirement → candidate component → interface → control → evidence matrix; old-host-bound routes are excluded as target configuration. Documentation-only scope remains in force.
