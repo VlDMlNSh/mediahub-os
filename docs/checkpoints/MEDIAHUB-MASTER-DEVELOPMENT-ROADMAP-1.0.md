@@ -1070,3 +1070,13 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Confirmed source-level contradiction: chat-control validates variable executor/node inputs but later pins execution to Codex + `mh-dev-02`; the separate distributed-worker workflow offers Claude only for `mh-dev-02`. Voktors hostname allowlist is explicit, but duplicate node keys in worker config remain a drift surface.
 - No implementation changes. Owner decision required on `mh-dev-02` executor policy. Recommended future invariant: one validated route tuple `(task_id,node_id,executor,target_sha)` must control both admission and execution.
 - Planning-only estimate for static source reconciliation, component inventory, conflict ledger and draft contract: 10–20 focused working days (2–4 weeks). Fix implementation, qualification and independent Contour A acceptance are separate phases and cannot be estimated responsibly until owner decisions, branch integration and local runner availability are resolved. Target zero known untriaged conflicts, not an unprovable claim of zero defects.
+
+
+## 86. Owner direction — rebuild target for new hardware, exclude old-server attempts (2026-10-15)
+
+- Owner direction: design a clean-slate new system for new hardware; unsuccessful installation attempts and old-server runtime assumptions are not target requirements and must not be used as the target deployment/component baseline.
+- Do not blindly delete historical audit evidence. Classify old-server-specific references as active legacy artifacts, historical evidence, reusable candidates or unknown; then remove only exact active artifacts proven exclusive to the retired target after reference/dependency review. No non-documentation files were deleted in this pass.
+- New hardware topology/OS/nodes/models/storage/network remain UNKNOWN until sourced from owner-provided facts or accepted design. Do not invent them.
+- Deliverables: target-only map; component allowlist/inventory; accepted versioned contracts; requirement-to-component/interface/control/evidence matrix; conflict ledger with every item dispositioned; separate implementation, qualification and acceptance gates.
+- Planning estimate: 10–20 focused working days for static reconciliation and architecture artifacts; at 2–4 hours/day approximately 3–6 calendar weeks. Implementation and independent Contour A acceptance are separate phases and not yet estimable.
+- No installs, tests, qualification, host/runtime inspection, infrastructure action or deployment. Next: source-only inventory of old-server-specific active references and classify exact paths before any removal; keep shared contracts and historical evidence intact.
