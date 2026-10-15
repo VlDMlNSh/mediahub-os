@@ -1271,3 +1271,8 @@ WB-04 source-only output: [Capability Issuer / Trusted-Context Lifecycle Closure
 ## WB-05 continuation pointer — 2026-10-15
 
 Added [WB-05 Issuer Authority and Trusted-Context Ownership Decision Packet](MEDIAHUB-CONTOUR-A-WB-05-ISSUER-AUTHORITY-AND-TRUSTED-CONTEXT-OWNER-DECISION-PACKET-2026-10-15.md), creation commit `89c0ca1c0c19dd4b6f42baf4750cf45cf41db860`. The packet defines seven owner/governance decisions and four unselected alternatives; it is not an owner decision and does not choose an issuer, protocol, token format or key store. Direct source reads confirmed that the inspected AuthorizationContext/policy seams do not themselves prove issuer provenance, audience, expiry or revocation. Next: owner/governance selection, then bounded producer/consumer inventory. Jarvis→A0 ingress remains blocked. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## WB-06 continuation pointer — 2026-10-15
+
+Added [WB-06 AuthorizationContext Producer/Consumer Source Inventory](MEDIAHUB-CONTOUR-A-WB-06-AUTHORIZATION-CONTEXT-PRODUCER-CONSUMER-SOURCE-INVENTORY-2026-10-15.md), blob SHA `9bd850e869dbd19db9bde2ce08768aaf502c95a2`. Direct source evidence confirms the local typed-context/allow-list policy seam and a separate HMAC command-envelope path, but does not connect the two or establish a complete Jarvis→A0 issuer/verifier chain. Search misses are non-diagnostic. No tests were run and no issuer technology was selected. Next: continue source-only constructor/call-site/serialization closure; Jarvis→A0 ingress remains blocked. Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
