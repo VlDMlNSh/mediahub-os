@@ -1062,3 +1062,11 @@ Next: obtain an actual independent MH-12/MH-13 and architecture review, resolve 
 - Recorded source-level mismatch: node-role-map declares `mh-dev-02` as Codex/3B; workflow dispatch/job for `mh-dev-02` only permits Claude while checking for the 3B model. Worker code supports both executor values. Also recorded the two Voktors node identifiers without assuming they are equivalent.
 - No code/config changed and no workflow, test, qualification, launcher, provider, host or runtime was invoked. Owner decision is required on canonical config authority and `mh-dev-02` executor identity.
 - Next: trace who selects `ASTRA_EXECUTOR` and node IDs in the source-only control plane, then keep the authority decision OPEN unless an accepted contract settles it.
+
+
+## 85. Execution update — control-plane route tuple and project time estimate (2026-10-15)
+
+- Added [Inventory §14](MEDIAHUB-AGENT-TASK-PROVIDER-SCHEMA-INVENTORY-AND-DRAFT-CORPORATION-CONTRACTS-WAVE-01-2026-10-15.md) after tracing `astra-chat-control.yml`, `astra-distributed-local-worker.yml`, the distributed-runner contract, signer node mapping and worker `NODE_CONFIG`.
+- Confirmed source-level contradiction: chat-control validates variable executor/node inputs but later pins execution to Codex + `mh-dev-02`; the separate distributed-worker workflow offers Claude only for `mh-dev-02`. Voktors hostname allowlist is explicit, but duplicate node keys in worker config remain a drift surface.
+- No implementation changes. Owner decision required on `mh-dev-02` executor policy. Recommended future invariant: one validated route tuple `(task_id,node_id,executor,target_sha)` must control both admission and execution.
+- Planning-only estimate for static source reconciliation, component inventory, conflict ledger and draft contract: 10–20 focused working days (2–4 weeks). Fix implementation, qualification and independent Contour A acceptance are separate phases and cannot be estimated responsibly until owner decisions, branch integration and local runner availability are resolved. Target zero known untriaged conflicts, not an unprovable claim of zero defects.
