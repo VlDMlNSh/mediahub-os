@@ -3363,3 +3363,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Exact readers of the two YAML manifests and full repository-wide content scan remain open. No source files changed; no tests/workflows ran.
 - Next: deterministic content scan of remaining source/config/test files, recording scanned blob SHAs and omissions. Do not retire legacy files before dependency closure and owner decision.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## WB-14J continuation update (2026-10-15)
+
+- Report: [WB-14J Targeted Legacy Caller Expansion](MEDIAHUB-CONTOUR-A-WB-14J-TARGETED-LEGACY-CALLER-EXPANSION-2026-10-15.md), commit `e2e42b3f489d7e498b180cf0b51cfbab0e8fda48`.
+- Confirmed direct legacy lifecycle edges: `autonomous_queue.py` dispatches/polls the distributed worker workflow; supervisor calls the command signer and uses old command/result paths; reaper and result-publication workflows depend on legacy run/node conventions.
+- Full closure is not established. Exact readers of the two provider YAML manifests remain unknown; only a bounded subset of the 301 filtered non-documentation code/config candidates was inspected. GitHub code search is unindexed.
+- No tests/workflows executed; no source code/config modified; no host/runtime or credential activity.
+- Next: continue a deterministic SHA-pinned content scan of remaining source/config/test candidates in bounded batches, recording omissions. Do not retire legacy files until dependency closure and owner decision.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
