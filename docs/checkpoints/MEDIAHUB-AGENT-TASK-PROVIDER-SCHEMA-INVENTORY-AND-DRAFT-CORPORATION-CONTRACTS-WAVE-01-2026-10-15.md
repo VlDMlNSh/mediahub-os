@@ -516,3 +516,12 @@ For a repository-wide, source-backed first pass, budget roughly **2–4 focused 
 - The ledger classifies known old-node routing and service artifacts as LEGACY-OPERATIONAL or SHARED-OR-UNKNOWN, while holding registries, schemas, runtime modules and normative security/baseline artifacts until their references and semantics are reviewed.
 - No repository files were deleted. A source-backed classification does not establish that a file is safe to delete; exact paths, blob SHAs, reverse references, IDs and reusable invariants must be closed first.
 - New hardware/OS/topology inventory is still absent from reviewed evidence. No hardware compatibility claim is made.
+
+
+## 21. Corporation schema draft — identifier crosswalk disposition (2026-10-15)
+
+- Reused the existing schema census in roadmap §80 and source crosswalks in Inventory §§10–13; did not repeat or overstate them as a repository-wide collision proof.
+- The 26 inspected schema $id values were unique within the schema-directory census, but naming conventions vary. Existing evidence separately distinguishes agent/gateway IDs, provider-instance IDs, model IDs, credential-reference names and executor-transport IDs; matching names are not established foreign keys.
+- Main-branch inference request/response schema identifiers remain dedicated to those contracts. The documentation-ref component evidence schema remains a draft with narrower semantics. Neither family is promoted to a corporation mission/task/result API.
+- The new corporation schema draft therefore assigns no new schema/object IDs until namespace/version governance and broader producer/consumer/history cross-reference evidence are established.
+- No existing IDs, schemas, runtime code, configuration or infrastructure changed. No tests, provider calls, credentials, host/runtime inspection, qualification, deployment or branch integration.
