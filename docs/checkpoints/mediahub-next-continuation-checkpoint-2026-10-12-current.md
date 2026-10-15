@@ -2725,3 +2725,15 @@ No tests/CI, provider/model calls, credentials, runtime/host inspection, install
 - **Checks:** live-read bootstrap, map, checkpoint, roadmap, consolidation, ecosystem survey, admission crosswalk, local inventory; live branch compare reports docs branch DIVERGED from main (1206 ahead / 3 behind; main HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`). No merge/rebase/cherry-pick.
 - **No execution claims:** no installs, tests, candidate benchmarks, model/provider calls, qualification, host/runtime inspection, infrastructure change or deployment performed.
 - **Next bounded step:** refresh candidate primary-source pins and manifest crosswalk; produce a prioritized evaluation queue with explicit gates and unresolved evidence. Execution tests remain blocked pending separate authorization.
+
+
+## Latest continuation — voice-session synchronization refresh (2026-10-15)
+
+- **Result:** refreshed the durable record of projects raised in voice-driven work and the intended evaluation queue. Reused the existing ecosystem survey, component admission crosswalk, local inventory and chat consolidation; no duplicate catalog was created.
+- **User direction:** continue considering/evaluating the surfaced projects. Interpreted as permission to continue documentary/source review planning, not as authorization to install software, execute tests, benchmarks, model/provider calls or runtime qualification.
+- **Candidate disposition:** candidates are grouped in map §81 and the session consolidation. None is newly selected/admitted by this pass. OpenHands Software Agent SDK remains the first bounded documentary review candidate; MCP is an interface protocol, not an authorization system. ECC remains NOT ASSESSED / NOT ADOPTED.
+- **Priority queue:** (1) OpenHands SDK exact revision/artifact, dependency, license/SBOM, advisory, platform, sandbox and egress gates; (2) MCP fit and trust boundary; (3) MH-ARCH-045 LOCAL_ONLY fail-closed routing; (4) MH-ARCH-046 actual Ollama executor model vs selected/evidenced model; (5) ACP cancellation/lifecycle; (6) compare Temporal/Hatchet against the existing ASTRA lifecycle before considering another workflow owner.
+- **Checks:** live-read bootstrap, map, checkpoint, roadmap, consolidation, ecosystem survey and admission crosswalk. Live compare: docs branch DIVERGED, ahead 1209 / behind 3; main HEAD 608d7463011798ca75e36bfce4b749a9caf4f9a0; merge base f0f406feb9f9816b009f4e6e756813541e53b9bc.
+- **No execution claims:** no installation, tests, benchmark, model/provider call, credential use, host/runtime inspection, qualification, infrastructure change, deployment or branch integration. No normative contract was changed.
+- **Blockers:** no accepted Jarvis→A0 ingress/capability issuer lifecycle evidence; MH-ARCH-045/046 remain open; docs/main refs diverged; candidate admission remains unapproved.
+- **Next bounded step:** source-only exact-revision review of OpenHands Software Agent SDK within the existing admission crosswalk; update it only with evidence-backed deltas. Runtime testing remains gated on separate explicit authorization and prerequisites.
