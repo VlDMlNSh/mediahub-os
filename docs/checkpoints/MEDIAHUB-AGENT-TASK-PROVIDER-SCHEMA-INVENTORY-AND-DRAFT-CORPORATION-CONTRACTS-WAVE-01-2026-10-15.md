@@ -333,3 +333,34 @@ Source-only inspection on the documentation branch. No workflow, launcher, probe
 Choose one explicit authority model: (A) YAML becomes the normative source and executable code consumes validated YAML; (B) Python/runtime config is normative and YAML is generated/verified derivative; or (C) retain separate artifacts with an owner-approved cross-file conformance gate. Recommendation: **A or B with one canonical source and a fail-closed conformance check**; do not choose automatically. Decide also whether `mh-dev-02` is Codex or Claude for this workflow and whether the two Voktors node IDs are aliases or distinct nodes.
 
 **Next bounded step:** inspect the source-only control plane and task/launcher contract for who selects `ASTRA_EXECUTOR` and supplies node IDs, then document the authority decision as OPEN unless an existing accepted contract resolves it. Do not invoke the workflow or worker.
+
+
+## 14. Control-plane input versus worker-dispatch contract (2026-10-15)
+
+### Source evidence
+
+| Artifact | Blob SHA | Evidence |
+|---|---|---|
+| `.github/workflows/astra-chat-control.yml` | `51b17ec2410032772f9baa1de4afedb6b000f3c4` | Parser accepts executor `codex|claude` and node `mh-dev-02|Voktors-Mac-mini.local`; task validation checks task executor/node against those selected inputs. The execution step then hardcodes `ASTRA_NODE_ID=mh-dev-02`, `ASTRA_EXECUTOR=codex`, and asserts parsed node/executor are exactly `mh-dev-02`/`codex`. |
+| `.github/workflows/astra-distributed-local-worker.yml` | `f650f2416c19dc75b4a0eeec037661c0c6169910` | Separate workflow offers `claude` as its only executor option; its `mh-dev-02` job sets `ASTRA_EXECUTOR=claude`. |
+| `control/qualification/distributed-runner-contract.json` | `993f51f07c7937165ffb3bfbe59cd0801ea71ec0` | Canonical node ID `Voktors-Mac-mini.local` explicitly allows hostnames `Voktors-Mac-mini.local` and `Voktors-Mini.Dlink`; this supports a hostname allowlist relationship but does not make these two strings interchangeable node IDs in every contract. |
+| `ops/qualification/run_distributed_local_worker.py` | `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d` | Hardcoded `NODE_CONFIG` includes both Voktors strings and node `mh-dev-02`; it does not load either executor-routing YAML. |
+| `ops/control/sign_command.py` | `fc6943a79cefdf06e59d6e32771d2df551b2f0e9` | Node-key name mapping supports `mh-dev-02` and `Voktors-Mac-mini.local`; signing requires credentials by environment-variable name when invoked. No key values were read and signer was not invoked. |
+
+### Confirmed source-level inconsistencies
+
+1. **Input/execution mismatch:** the chat-control workflow accepts a selected Claude or Voktors node at validation, but the worker step is pinned to Codex on `mh-dev-02`. A Voktors/Claude or `mh-dev-02`/Claude request is therefore inconsistent with the later hard-coded checks; source inspection predicts rejection at those checks, but no workflow was run.
+2. **Two dispatch contracts disagree:** `astra-chat-control.yml` hardcodes Codex for `mh-dev-02`, while `astra-distributed-local-worker.yml` only exposes Claude for `mh-dev-02`. This is a real cross-workflow policy contradiction in source, not evidence of which route has been used operationally.
+3. **Node ID versus hostname:** the distributed runner contract has one canonical Voktors node ID and a two-entry hostname allowlist. Worker `NODE_CONFIG` also contains both strings as keys. The hostname alias is documented, but the duplicate worker keys remain a drift surface.
+4. **Task selection is not a single validated route object end-to-end:** input task/node/executor are checked, then execution values are hardcoded separately. The inspected path has no single normalized route object consumed through dispatch and worker.
+
+### Required disposition
+
+- Do not patch one workflow to guess the intended executor. Owner must select the supported executor policy for `mh-dev-02` and whether the chat-control route is intentionally Codex-only.
+- Normalize the accepted request into one route tuple `(task_id, node_id, executor, target_sha)`; ensure the exact same validated tuple controls admission and execution, and ensure task contract and runner policy agree. This is a design recommendation, not an accepted implementation contract.
+- Keep Voktors node ID canonical as `Voktors-Mac-mini.local` unless an owner-approved contract says otherwise; treat `Voktors-Mini.Dlink` as a hostname alias only where the runner contract explicitly allows it.
+- No code, workflow, schema or runtime files changed. No workflow, tests, qualification, signer, provider, credentials or host/runtime was invoked/read.
+
+### Planning estimate for reconciliation (non-binding)
+
+Static source-backed map, component inventory, cross-file conflict ledger and contract draft: **10–20 focused working days** (roughly 2–4 weeks), assuming one bounded pass per issue cluster and no new large subsystem discovery. Implementation of approved fixes, test/qualification evidence and independent Contour A acceptance are separate, currently unestimated phases because owner decisions, branch integration and local runner availability are unresolved. Zero unknown defects cannot be guaranteed; the target should be zero *known untriaged* contradictions, each dispositioned as fixed, accepted exception, blocked or owner decision.
