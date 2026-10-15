@@ -2889,3 +2889,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Next: inventory exact old-server-specific active paths and references, disposition each as RETIRE / HISTORY / REUSE-CANDIDATE / UNKNOWN, and remove only confirmed obsolete active artifacts within the user's direction. Do not alter shared/normative contracts or erase history by inference.
 
 Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — old-server path triage (2026-10-15)
+
+- Re-read live refs and canonical map/checkpoint/roadmap/inventory before the pass. Docs branch was a73fec6e29d038c64aae3cabd89510e8f3032eba; main was 608d7463011798ca75e36bfce4b749a9caf4f9a0; branch remains diverged (1263 ahead / 3 behind, merge base f0f406feb9f9816b009f4e6e756813541e53b9bc).
+- Added Inventory §16, Roadmap §87, Map §95, and the clean-slate rule to the bootstrap instruction.
+- First triage identifies old-node-bound workflow/service artifacts, reusable-but-unapproved templates, and historical evidence. No files were deleted because cross-file reference closure and exact old/new hardware mapping are not yet established. No workflows or tests were run.
+- Planning estimate remains 10–20 focused working days for source reconciliation and architecture artifacts; at 2–4 hours/day this is about 3–6 calendar weeks. Hardware-specific implementation, qualification and independent Contour A acceptance remain separate and cannot be estimated until the new hardware specification and owner decisions are known.
+- Next: close reference/dependency evidence for the three strong retirement candidates in Inventory §16; remove only confirmed old-target-exclusive active artifacts and reread/verify all changed documents.
+
+Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
