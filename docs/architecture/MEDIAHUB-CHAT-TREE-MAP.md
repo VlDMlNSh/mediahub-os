@@ -5478,3 +5478,13 @@ No tests, code changes, runtime execution, qualification, deployment, migration,
 - Branch comparison observed before this write: `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; docs branch DIVERGED, 1182 ahead / 3 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 - No endpoint/token defaults invented, no tests/qualification/provider calls/credentials/host inspection/install/infrastructure/deployment/merge performed.
 - Next: produce a governance decision brief for issuer + A0 ingress/fencing/cancellation semantics with explicit options, consequences and acceptance evidence; keep the interface draft-only until accepted.
+
+
+## 20.274 Corporation task/result technical baseline — Wave 09 (2026-10-15)
+
+- Report: [MEDIAHUB-CORPORATION-TASK-RESULT-TECHNICAL-BASELINE-WAVE-09-2026-10-15.md](../checkpoints/MEDIAHUB-CORPORATION-TASK-RESULT-TECHNICAL-BASELINE-WAVE-09-2026-10-15.md), creation commit `a2ebe36eae33771070deabbe197ffa4e85077868`, read-back blob SHA `6ab5f244cb0d4e74ac2b26013c02502832170365`.
+- Records recommended technical defaults for mission/task/attempt IDs, schema versioning, idempotent admission, immutable DAGs, executor identity/provenance, result envelope, fencing, cancellation, retries, recovery, aggregation, route evidence and worker trust.
+- Status remains TECHNICAL RECOMMENDATION / DESIGN INPUT / NOT AN ACCEPTED NORMATIVE CONTRACT. It does not invent an A0 endpoint, capability issuer, token format, storage primitive or global exactly-once guarantee.
+- Fail-closed dispositions: no sourced accepted A0 ingress API or issuer lifecycle means no A0 submission or mutation; no accepted fencing primitive means no claim that stale-worker publication is prevented; route/provider identities remain UNKNOWN until source-backed.
+- Reuses existing inference, component-evidence, ASTRA executor and MH-12 contracts only within their documented scope. No existing schema or normative primary contract was modified.
+- No tests, installs, model/provider calls, credentials, host/runtime inspection, qualification, infrastructure change, deployment or branch integration occurred.
