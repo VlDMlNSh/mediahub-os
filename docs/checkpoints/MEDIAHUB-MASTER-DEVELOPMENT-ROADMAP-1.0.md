@@ -1417,3 +1417,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Manifest readers remain unresolved; GitHub code-search zero-results are non-diagnostic due to unavailable repository indexing. No code changed or execution performed; retirement remains unauthorized.
 - Next bounded step: inspect remaining dynamic config loading, import and dispatch abstractions; prepare owner decision questions if complete source closure is not achievable.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14O — legacy artifact reverse-reference and retirement-provenance audit (2026-10-16)
+
+- Added [WB-14O Legacy Artifact Reverse-References and Retirement Provenance](MEDIAHUB-CONTOUR-A-WB-14O-LEGACY-ARTIFACT-REVERSE-REFERENCES-AND-RETIREMENT-PROVENANCE-2026-10-16.md), commit `881f4c11021fb8860afb094bde67fac3aa287ae2`, report blob SHA `7061659f1e6244b282e967ea38d9f3c28640b67c`.
+- Provenance check confirms docs-branch deletion commits `8d9dc210b1347cc254dfa745221c1d7857ee1019` and `d27962f9c69e4a7a8f2c2cc17cbd16ee61410ea1` each remove only the old storage migration workflow or old systemd service. They have not been reflected in main. No integration was attempted because refs remain diverged.
+- Reverse-reference findings: old launchd plist survives on both refs and still contains an old host identity/user path; operator documentation continues to describe systemd/launchd installation. Bootstrap shell remains a shared dependency with `git reset --hard origin/$BRANCH`; it is not classified as safe to delete with the service.
+- No implementation or runtime action occurred; workflow/service live status unknown. Direct-caller scan is bounded and non-exhaustive.
+- Next bounded work item: WB-14P launcher-family and bootstrap-contract reconciliation, separating legacy operational values from potentially reusable transport/health requirements before any source retirement.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
