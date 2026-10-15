@@ -1308,3 +1308,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No implementation, tests, qualification, installation, provider/model call, credentials, host/runtime inspection, infrastructure change or deployment.
 - Next: WB-11 trace concrete local executor and queue-controller candidates from tracked source; determine whether a candidate meets the direct route contract without inventing existing functionality.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-11 — proposed Alamo/Claude heavy-local-workload route (2026-10-15)
+
+- Added [WB-11 Proposed Alamo/Claude Heavy-Local-Workload Routing and Executor Source Trace](MEDIAHUB-CONTOUR-A-WB-11-PROPOSED-ALAMO-CLAUDE-HEAVY-LOCAL-WORKLOAD-ROUTING-AND-EXECUTOR-SOURCE-TRACE-2026-10-15.md), creation commit `8a8b3b037239bceb95668ff1e5dc757e8c706ef2`.
+- This is explicitly a **proposal, not a final topology**: ASTRA for engineering tasks; a direct Alamo-hosted execution route is a candidate for eligible heavy local workloads such as video generation.
+- Source evidence distinguishes Claude Code client execution from model/provider execution. The repository contains an external Anthropic credential path and a Claude-compatible Ollama-backed endpoint, but neither is proven to run on Alamo. Actual host identity and media-generation backend remain unknown.
+- Existing ASTRA executor policy assigns A0 coordination/admission and its reference permanent queue names `mh-dev-01`, `mh-dev-02`, and `Voktors-Mac-mini.local`; no accepted Alamo registration/direct route was established.
+- No implementation, tests, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change or deployment.
+- Next bounded step: WB-12 compare ASTRA-only, direct Alamo route and a shared Jarvis route-adapter option. Keep all options PROPOSED pending explicit owner selection and hardware/provider/data-flow evidence.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
