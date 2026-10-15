@@ -461,3 +461,33 @@ No tests, workflows, installers, models/providers, credentials, host/runtime, qu
 - New hardware, OS, topology, node identities, model/runtime, network and storage remain UNKNOWN until owner-supplied or explicitly accepted. No component is admitted to the target by this classification alone.
 
 **Next bounded step:** inventory remaining active old-node-bound workflow/service/config artifacts and their references; retire only those proven old-target-exclusive. In parallel, start the target-only component allowlist from requirement-to-capability needs—not from the existing worker inventory.
+
+
+## 19. Additional legacy-bound workflow and service references (2026-10-15)
+
+Status: **SOURCE-ONLY CLASSIFICATION / TARGET EXCLUSION; no runtime or deployment claim**.
+
+The greenfield direction is now explicit: the MediaHub/Jarvis/ASTRA multi-agent corporation discussed around the prior Mac Pro, Mac mini and remote video-server setup is a newly designed target for new hardware. Old-server installation attempts and their node-specific execution topology are not the target baseline. Existing repository artifacts are not automatically valid simply because they are present.
+
+| Artifact | Source evidence | Greenfield disposition |
+|---|---|---|
+| `.github/workflows/astra-autonomous-supervisor.yml` (blob `a0209a2d01122354d19e95d2f362a6ecfa3d6186`) | Hardcodes `mh-dev-01`, `mediahub-runner`, `/home/mediahub/astra-work`, old command/result paths and old-node HMAC secret mapping. | **LEGACY-BOUND / TARGET-EXCLUDED** as an execution route. Do not repair for old hardware. Reuse generic patterns only after contract/security review. |
+| `ops/launchd/com.mediahub.astra.github-agent.plist` (blob `d1d8aea99c2303c26e542a3d1c5e54b4596521d0`) | Hardcodes `/Users/voktor/astra-work`, `/Users/voktor/astra-state`, and `Voktors-Mini.Dlink`. | **LEGACY-BOUND / TARGET-EXCLUDED** deployment definition. |
+| `ops/systemd/mediahub-mesh.service` (blob `bfa8b075229385ac14b8ba34dccad84275d1c474`) | Hardcodes `/home/mediahub/astra-work`. | **LEGACY-BOUND / TARGET-EXCLUDED** deployment definition. |
+| `deploy/mediahub-astra-github.service` (blob `e1962e4afe5db7ac1fcb901344d9f88205de0689`) and `deploy/com.mediahub.astra.github-agent.plist` (blob `2cca029b502fd911ec38272871c823a8717ed8fd`) | Service/launch-agent artifacts exist; the first has a systemd unit shape, while the fetched plist did not expose old-node strings in the bounded search. | **UNADMITTED / HOLD** pending full path/dependency closure; do not label both definitively old-node-exclusive based on filename alone. |
+| `ops/node/mh-dev-02-mesh-check.sh` (blob `e588f8d07922ebfe1ad1322d2702c08b2b7eb702`) | Hardcodes Linux user paths under `/home/mediahub` and old FCC/llama.cpp executable locations. | **LEGACY-BOUND / TARGET-EXCLUDED** diagnostic script. |
+| `.github/workflows/astra-chat-control.yml` and `.github/workflows/astra-distributed-local-worker.yml` | Prior §18/§97 trace established fixed old node IDs, runner labels, executor restrictions, hostnames, model tags and hardcoded dispatch/worker values. | **LEGACY-BOUND / TARGET-EXCLUDED** execution routes. Do not fix by reconciling old hardware configurations. |
+| `.github/workflows/mediahub-claude-worker.yml` (blob `e1260cfef88ac02bcc9d0cce67bb497820f5f63c`) | Contains a dependency installation step and bounded Claude invocation; no old host identity was found in the inspected lines. | **UNADMITTED REUSE CANDIDATE**, not a selected target component. Requires independent review of external model/provider use, permissions, supply chain, isolation and the new execution contract. |
+| `.github/workflows/mediahub-agent-fabric-verify.yml` (blob `2cec0ba1f02018f7037417363c707a13bc673117`) | Verification workflow installs pytest; no target hardware identity was established in the inspected lines. | **UNADMITTED VERIFICATION CANDIDATE** only. It is not proof of passing checks and was not invoked. |
+
+### Deletion and evidence rule
+
+This pass does **not** delete repository artifacts. Presence in the repository, a legacy-looking filename, or old deployment evidence alone is insufficient to prove that a file is safe to delete: first close tracked and textual references, imports, workflow calls, service references, docs links and tests; then delete only exact old-target-exclusive active artifacts in a separate bounded change. Preserve historical records and provenance, but clearly label them **HISTORICAL / NOT TARGET** so they cannot be mistaken for the new system. Do not remove Baseline 2.0 or accepted security/authority invariants merely because old deployment assumptions are retired.
+
+### Target baseline consequences
+
+- No old node, server hostname, old user path, old model tag, old runner label, previously attempted installation or old deployment result is carried into the new target by default.
+- The Mac Pro / Mac mini / remote video server discussion is retained as requirements and design context, not as evidence of current hardware state or a deployment baseline.
+- Target component admission must start from capability requirements, independently reviewed mature upstream components, immutable source/version pins, license/security/supply-chain review, explicit interfaces, owner decisions and evidence gates.
+- Hardware/OS/topology, node identities, storage/network boundaries, model runtime and provider policy remain **UNKNOWN** until supplied or explicitly accepted. No component is admitted by this classification.
+- Next: close remaining old-node references with a source-only dependency map, then produce a target-only component allowlist and a single requirements → component → interface → control → evidence matrix.
