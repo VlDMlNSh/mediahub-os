@@ -1564,3 +1564,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No normative source edit or branch integration. Main-source correction requires explicit owner/change-control authorization.
 - Next: seek the required explicit disposition; otherwise continue an independent source-only task without assuming branch integration.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Component Manifest ↔ YAML Scope Reconciliation, Wave 02 (2026-10-16)
+
+- Report: [Component Manifest ↔ YAML Scope Reconciliation, Wave 02](MEDIAHUB-COMPONENT-MANIFEST-YAML-SCOPE-RECONCILIATION-WAVE-02-2026-10-16.md), commit `d8670a680aafa24214cfba65ef29ae47e53e62b1`, blob SHA `66961a4abc698c5d9e1318ff2d4f186e1c67b9a4`.
+- Compared main canonical manifest `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` with YAML `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`. Scope and status mapping are not explicit; no silent normalization performed.
+- Three possible relationships documented: derived subset, complete mirror, or target-profile manifest. Recommendation remains non-binding.
+- No changes to main sources, no component admission, tests, qualification, installation, infrastructure changes or deployment.
+- Next: owner/governance disposition of YAML consumer/scope and selected option; preserve both sources unchanged until accepted.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
