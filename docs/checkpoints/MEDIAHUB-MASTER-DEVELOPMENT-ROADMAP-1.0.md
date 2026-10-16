@@ -1574,3 +1574,15 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No changes to main sources, no component admission, tests, qualification, installation, infrastructure changes or deployment.
 - Next: owner/governance disposition of YAML consumer/scope and selected option; preserve both sources unchanged until accepted.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — canonical source registry and security evidence ledger, Wave 03 (2026-10-16)
+
+- Report: [Canonical Source Registry and Security Evidence Ledger — Wave 03](MEDIAHUB-CANONICAL-SOURCE-REGISTRY-AND-SECURITY-EVIDENCE-LEDGER-WAVE-03-2026-10-16.md), creation commit `18b023f126bb9f5e2ef9e538c0e28182878c2585`, report blob SHA `552ad971a2aa867757821a244c304545b9b31022`.
+- Established a source-anchored registry of 16 authority-bearing/control sources and a 15-item security evidence ledger. Each entry separates source authority, status, dependencies, and evidence required for closure.
+- Confirmed Baseline 2.0 remains the accepted functional reference; Baseline 1.0 remains historical provenance; component selection remains distinct from production qualification.
+- Branch-protection and security-alert evidence remains UNKNOWN where authoritative data was unavailable through the connected integration. No clean-security or qualification claim is made.
+- Map section 20.326 update commit: `1b320c357489366d121c6e52e49f7b6075ea0f12`; checkpoint update commit: `432a0c87d7303e402fdf08abec57abb4f2aa714a`.
+- No code, workflow, or normative contract changed. No tests/scanners, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment, migration, or branch integration occurred.
+- Next bounded step: source-only per-job authority review of Astra chat-control and autonomous-supervisor workflows; preserve current files and branches.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
