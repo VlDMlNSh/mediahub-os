@@ -132,3 +132,45 @@ This wave records the current source state and a portable topology. It does not 
 Next: complete source-bound static review of the current Gemini workflow and the actual OpenHands Agent Server workspace/tool boundary; reconcile these with A0, MH-12 and R-06; then prepare a narrowly scoped implementation/qualification proposal. The fresh post-merge provider smoke test remains pending an authorized eligible run.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 9. Latest post-merge diagnostic and Wave 38 PR (2026-10-17)
+
+### Fresh run evidence
+
+- Latest retrieved main SHA: `6c2e8dbdee81c798b64e65546e7ded07093f100a`.
+- [Gemini Autonomous Engineering Dispatch run 38977205621](https://github.com/VlDMlNSh/mediahub-os/actions/runs/38977205621) completed with `failure` at the final “Validate Gemini produced an actionable PR result” step. The Gemini CLI wrapper step itself concluded `success`.
+- Artifact `gemini-output`, ID `12079328104`, is 1,714 bytes with GitHub-reported digest `sha256:2411b20d32d6e68ce21f9bae75282416f101df55028e7b052fbb931a73e0854a`.
+- Its JSON response is non-empty and records 3 model requests, 0 API errors, 2 tool calls, 0 successful calls, 2 failed calls, no branch, no PR and no commit.
+- The stderr log shows registration/overwrite warnings for the allowed `mcp_github_*` tools, followed by “Tool ... not found” for `mcp_github_get_me` and `mcp_github_get_file_contents`.
+
+### Refined root-cause classification
+
+The current workflow sets `"tools": { "core": [] }` while selecting Gemini CLI `0.64.0`. Upstream [run-gemini-cli issue #532](https://github.com/google-github-actions/run-gemini-cli/issues/532) and Gemini CLI issue [#28361](https://github.com/google-gemini/gemini-cli/issues/28361) document that an explicitly empty `tools.core` allowlist emits a wildcard deny that also excludes MCP tools in Gemini CLI versions from 0.41.0 onward. The observed MediaHub configuration and the failed runtime tool lookup match that documented mechanism. This is stronger evidence than the earlier naming-only hypothesis.
+
+The direct task prompt already uses fully qualified tool names, in accordance with the official Gemini CLI MCP naming reference. The action also copies upstream custom command prompts into the workspace; those templates contain stale/unqualified MCP references, as documented in issue #510. That is an adjacent defect surface for slash-command-driven tasks, while the latest failing task used its own direct prompt.
+
+### Bounded source change prepared
+
+PR [#307 — allowlist GitHub MCP tools without enabling core tools](https://github.com/VlDMlNSh/mediahub-os/pull/307) proposes a one-line workflow change:
+
+- Before: `"tools": { "core": [] }`
+- Proposed: `"tools": { "core": ["mcp_github_*"] }`
+
+The server-side `includeTools` allowlist, workflow permissions, output validator, provider/model settings and PR-only behavior are unchanged. This preserves the core-tool deny-by-default stance while admitting only GitHub MCP tools by fully qualified prefix.
+
+- Branch: `fix/gemini-mcp-core-allowlist-wave-38`
+- Head commit: `5ae969763ff7ccbd22052efbd2661cf7bbdd7fd3`
+- Workflow blob after read-back: `ed1ec965abc70041024afd4a1fc6ab17c6594fe7`
+- PR base is `main` at `6c2e8dbdee81c798b64e65546e7ded07093f100a`.
+- PR #307 remains open and unmerged. Standard pull-request checks and reviewer acceptance are pending. This report does not claim runtime repair until successful MCP calls, final output validation and an actual PR artifact are independently evidenced.
+
+### Independent CI state
+
+[Astra Verify run 38976598150](https://github.com/VlDMlNSh/mediahub-os/actions/runs/38976598150), attempt 2, completed successfully on the same main SHA. All 11 workflow steps passed, including compilation, cloud admission unit tests and signed command smoke test. This validates that CI workflow only; it does not qualify Gemini provider interaction or the cloud-agent fabric.
+
+### Boundary
+
+No fresh Gemini/model-provider call or Gemini dispatch was initiated by this continuation. The existing failed run was inspected as evidence. No secret value was accessed. No merge, deployment, infrastructure mutation, agent activation or qualification occurred. PR #307 is a source-level remediation proposal pending CI/review and a separately authorized provider-runtime acceptance event.
+
+Next: review PR #307 checks and inspect its resulting merge-free source tree; then reconcile Google Action's copied command templates with the current fully-qualified tool names as a distinct follow-up, while preserving the least-privilege allowlist.
