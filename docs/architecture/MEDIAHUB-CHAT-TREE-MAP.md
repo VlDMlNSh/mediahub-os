@@ -6790,3 +6790,22 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: TARGET UNKNOWN / BLOCKED; MH-15 NOT ACCEPTED / NOT FROZEN; implementation authorization NONE. No host/runtime inspection, tests, provider calls, credentials, installation, infrastructure changes, qualification, deployment or branch integration occurred.
 - Next: continue source-bound CAF admission evidence while retaining UNKNOWN until an accepted target manifest and independent evidence exist.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.339 — Hybrid Distributed Agent Fabric Component Reference Architecture, Wave 11 (2026-10-16)
+
+- Report: [Hybrid Distributed Agent Fabric Component Reference Architecture — Wave 11](../checkpoints/MEDIAHUB-HYBRID-DISTRIBUTED-AGENT-FABRIC-COMPONENT-REFERENCE-ARCHITECTURE-WAVE-11-2026-10-16.md), creation commit `1bbb4056b1b72935ca2a502cb03f34e87f104e18`.
+- Composes GitHub Actions, Temporal, LangGraph, Dagger, NATS JetStream, Protobuf/gRPC + Buf/Protovalidate, OpenTelemetry and content-addressed artifacts behind MediaHub-owned task/admission/evidence/promotion contracts.
+- Status: DOCUMENTARY DESIGN / PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED. A0, R-06, component manifest, YAML scope, target manifest and independent security/qualification gates remain open.
+- Next: close source authority and task-envelope/admission contracts before implementation.
+
+## 20.340 — Cloud-Agent Task Contract and Documentary Activation Queue, Wave 11 (2026-10-16)
+
+- Report: [Cloud-Agent Fabric Queue and Task Contract — Wave 11](../checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-QUEUE-AND-TASK-CONTRACT-WAVE-11-2026-10-16.md), creation commit `78fa1a835fb0c12084cb2a6932b24cd4d600f1d1`.
+- Machine-readable task envelope: [Schema v0.1](../checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json), creation commit `8edbf7aa8897b0701c9e461cd8dce5e73d3d2bdf`.
+- Documentary activation queue: [CAF-Q-001…CAF-Q-010](../checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json), creation commit `e2920288b6295379ecfd61db0335b15e10969f26`.
+- Extended the Unified System Traceability Matrix with CAF-15…CAF-19, commit `15b6c369908530ecacc17601f34b68baad2ea26c`; extended the source registry with SRC-045…SRC-048 and EVD-023, commit `3618f60f823cedf3d72e84972abb81471d863683`; added the sequence to the Master Roadmap, commit `2d9f4755b78a9c29b5287cee4a989220f12aa8b4`.
+- Queue priorities: P0 A0 issuer/ingress/lifecycle, R-06 audit/privacy, Gemini workflow hardening proposal and schema review; P1 evidence manifest, agent registry, target manifest, PR promotion and provider/quota policy; P2 capacity/recovery.
+- Status: PROPOSED / DOCUMENTARY QUEUE / NOT ACCEPTED / NOT IMPLEMENTED / NOT QUALIFIED. Queue records are not live scheduling or dispatch. Existing Gemini run evidence proves one historical read-only execution only.
+- Next: source-bound CAF-Q-003 workflow patch proposal and CAF-Q-007 target-manifest discovery; A0 and R-06 remain hard gates for live queue operation.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
