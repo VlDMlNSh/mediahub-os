@@ -4100,3 +4100,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Status: STATIC SOURCE REVIEW / PATCH PLAN PROPOSED / NOT QUALIFIED. No workflows were edited or dispatched; no provider/model calls, credentials, tests/scanners, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
 - Next: retrieve exact target manifest and primary R-06/A0 decision sources; prepare the P0/P1 patch proposal after source closure. Implementation, test, provider and deployment gates remain separate.
 - Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest bounded continuation — clean target manifest authority reconciliation, Wave 10 (2026-10-16)
+
+- Created [Clean Target Manifest Authority Reconciliation, Wave 10](MEDIAHUB-CLEAN-TARGET-MANIFEST-AUTHORITY-RECONCILIATION-WAVE-10-2026-10-16.md), commit `012efaea1d85895d0694c510748086af41ada6e6`, read-back blob SHA `1f748bf80e08067fd85a7e1b0821cc4d12bda676`.
+- Reviewed the canonical component manifest on `main` (`45988bf9da202c9597d0ca2de50e92e5c2e6ed55`), component/YAML scope reconciliation (`66961a4abc698c5d9e1318ff2d4f186e1c67b9a4`), proposed portable profiles (`529eed85da2828c9b062c8ef86de07b01ba9746e`), Jarvis clean-target boundary (`916df43726fb8f41038d5e9896be7e205284416f`), MH-15 architecture/criteria (`f817925c69ce4484713f952e47aacad283af8eeb` / `082642e67dc66cb359a5566773c143854cafaa00`) and proposed deployment contract (`71ae0e68cc6ad494f85f33f64cde09ef5c4273d7`).
+- Bounded determination: no owner-accepted exact clean target manifest appears in the reviewed set. Component selection, target-role definition, physical host identity, compatibility, worker isolation and deployment acceptance remain separate gates.
+- Extended the existing Unified System Traceability Matrix with CTM-01…CTM-05; commit `99b05c1b9edd4a9ead13e72de6a7ed699c7cd962`, blob SHA `56a32d0759372647c83c8e12c70f04397bb8e386`. Extended the existing source registry with SRC-039…SRC-040 and EVD-019; commit `21dfde634b8712c5f30146adb099915bc6084091`, blob SHA `1ee4b312a87bd0c10b724abeab9240cd9573e393`.
+- Status: TARGET UNKNOWN / BLOCKED; MH-15 NOT ACCEPTED / NOT FROZEN; implementation authorization NONE; CAF-04 remains blocked. Historical machine references remain provenance only.
+- Documentation-only. No host/runtime inspection, credentials, provider calls, tests/scanners, installation, infrastructure change, deployment, qualification or branch integration occurred.
+- Next: continue source-only CAF admission evidence without repeating the completed Gemini Wave 09 source review or A0 WB-14AA–WB-14AF source series absent new evidence.
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
