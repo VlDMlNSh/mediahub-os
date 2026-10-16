@@ -3687,3 +3687,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No schema/enum/transport/issuer/crypto/persistence/TTL selected; no tests, validators, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration or branch integration occurred.
 - **Next:** await explicit owner/governance disposition on [WB-14AD](MEDIAHUB-CONTOUR-A-WB-14AD-A0-INGRESS-GOVERNANCE-REQUEST-2026-10-16.md). If it arrives, update only affected decision/contract records using exact accepted revision/SHA and acceptance evidence. Until then, avoid duplicate broad source-only passes and keep ingress design non-normative.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — Jarvis adapter draft clean-target reconciliation (2026-10-16)
+
+- Updated [Jarvis Control Plane and GitHub Adapter Contract Draft 01](MEDIAHUB-JARVIS-CONTROL-PLANE-GITHUB-ADAPTER-CONTRACT-DRAFT-01-2026-10-14.md), commit `4460207c6e75ae16750e28b143257a488fa19a0c`, blob SHA `916df43726fb8f41038d5e9896be7e205284416f`.
+- Replaced its stale hardware-placement guidance with the current clean-target boundary: old hostnames and machine profiles are historical provenance only and are not deployment targets. Kept target-role concepts unbound; exact machines/OS/resources/compatibility remain UNKNOWN pending fresh evidence.
+- Reclassified the earlier nine-worktree inventory as a stale historical snapshot, not current host/runtime state; no cleanup or inspection occurred.
+- The draft remains non-normative and unaccepted. No software/host/route selection, code implementation, tests, credentials/provider calls, installation, infrastructure change, qualification, deployment or branch integration occurred.
+- **Next:** explicit owner/governance disposition on WB-14AD if supplied. If unavailable, continue independent documentation-only work; do not repeat the completed WB-14AA–WB-14AF cross-route and source-series reconciliations.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
