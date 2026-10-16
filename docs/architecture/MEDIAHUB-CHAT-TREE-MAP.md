@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-16 (§20.327)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-16 (§20.331)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -6676,7 +6676,7 @@ WB-14AA и приложение остаются не-нормативными. 
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 
 
-## 20.329 — Free cloud agent onboarding, Wave 01 (2026-10-16)
+## 20.330 — Free cloud agent onboarding, Wave 01 (2026-10-16)
 
 - Added [Free Cloud Agent Onboarding — Wave 01](../checkpoints/MEDIAHUB-FREE-CLOUD-AGENT-ONBOARDING-WAVE-01-2026-10-16.md), commit `f4eea7db0697e802f6b28cd444933b0fd5875f00`.
 - Confirmed existing `main` entry points by source read: `.github/workflows/gemini-readonly-audit.yml` blob `0d10efdda251f2ceca43175981c919102303572b`; `.github/workflows/gemini-readonly-audit-retry.yml` blob `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`.
@@ -6695,3 +6695,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - No workflow dispatch, external provider call, credential use, scanner, test, installation or infrastructure action occurred.
 - Next action: owner-visible GitHub UI evidence for secret metadata and security alerts; then one bounded read-only Gemini run with run ID, source SHA, artifact digest and redaction review.
 - Project map status remains inventory / incomplete acceptance.
+
+
+## 20.331 — Canonical authority inventory and project-wide matrix integration, Wave 06 (2026-10-16)
+
+- Extended the existing [Unified System Traceability Matrix v0.1](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), rather than creating a competing matrix. Integration commit: `e499b3d217a3c65234815278fc39fed2c217306c`; matrix blob SHA: `af813446ce65846189a249dab05c933daf238cec`.
+- Added a source-backed initial coverage matrix across 20 project domains, source authority/status rules, six cross-domain conflict records, and evidence/closure expectations. Baseline 2.0 remains the accepted functional authority; Baseline 1.0 remains historical provenance.
+- Extended the existing [Canonical Source Registry and Security Evidence Ledger](../checkpoints/MEDIAHUB-CANONICAL-SOURCE-REGISTRY-AND-SECURITY-EVIDENCE-LEDGER-WAVE-03-2026-10-16.md) through SRC-028. Latest registry blob SHA: `c6d8f973f5073961ccb7ad7c0016e336f4f2d158`.
+- Corrected the duplicate map section number: Wave 06 remains §20.329; the free cloud-agent onboarding entry is §20.330. This is a navigation correction only.
+- Matrix and source registry remain PROPOSED / NOT ACCEPTED / NOT FROZEN. The inventory is a bounded source-backed pass, not an exhaustive repository census or deployment acceptance.
+- No code/workflow edits, tests/scanners, workflow dispatch, provider/model calls, credential use, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
+- Next: parallel documentary resolution of provider identity/egress, component manifest/YAML scope, A0 external/internal lifecycle boundary, audit/privacy R-06 and target manifest unknowns.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
