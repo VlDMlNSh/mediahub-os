@@ -243,3 +243,16 @@ These records are proposed schemas. They define data shapes and mandatory refere
 ### Wave 14 evidence boundary
 
 The design removes a user-owned permanent server from the default credential/network path. It does not remove the need for outbound network access, guarantee fixed IPs, bypass provider account/region rules, or establish an active provider route. Registry and queue entries remain documentary until the corresponding accepted authority and runtime evidence exist.
+
+
+## Wave 15 — Cloud-Agent Schema Semantic Review
+
+| ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on |
+|---|---|---|---|---|---|
+| SRC-056 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-SEMANTIC-REVIEW-WAVE-15-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `67411c653326c750dc45b235689f90e98cde9d7d`; read-back pending | Static review of task-envelope, registry and evidence-manifest schemas | FINDINGS RECORDED / REMEDIATION PROPOSAL / NO SCHEMA PATCH | v0.2 schema proposal, standards validator, A0/MH-12/R-06 authority |
+| SRC-057 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Update commit `fb6285bf8c67c20d1a7829de730a8900baa7bd83`; blob `b22a601ac4d0ff392e7689a6b3cd86dfca979439` | Queue CAF-Q-001…CAF-Q-013, including schema semantic remediation | DOCUMENTARY QUEUE ONLY | Accepted A0 lifecycle and separately qualified scheduler |
+| EVD-028 | Static schema semantic findings CAS-01…CAS-10 | Wave 15 review report tied to exact source blob SHAs | REVIEW EVIDENCE ONLY | Versioned schema proposal, validator/negative-fixture evidence and independent review |
+
+### Wave 15 evidence boundary
+
+These entries index review findings and planning state only. No v0.1 schema was changed, no standards validator was installed or run, and no live agent registry or scheduler was established.
