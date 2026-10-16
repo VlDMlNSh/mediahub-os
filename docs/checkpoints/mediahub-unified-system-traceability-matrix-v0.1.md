@@ -1901,3 +1901,29 @@ Supporting evidence: [Provider Identity, Age Eligibility and Egress Decision Pac
 | Evidence provenance | Invocation record binds task, source, provider/model, policy, destination and result | Require immutable source SHA, policy revision, route, status, output digest and independent reviewer outcome | DESIGN DEFINED; implementation absent |
 
 The Wave 03 router design is subordinate to the canonical architecture contract's explicit per-task destination authorization. No provider, model or account was enabled by this documentary update. No runtime evidence was created.
+
+
+## 17. Autonomous Cloud-Agent Development Fabric — Wave 08 (2026-10-16)
+
+Supporting design: [Autonomous Cloud-Agent Development Fabric Reference Architecture — Wave 08](MEDIAHUB-AUTONOMOUS-CLOUD-AGENT-FABRIC-REFERENCE-ARCHITECTURE-WAVE-08-2026-10-16.md), initial creation commit `1bb6b285fcfd330ccc9485036df97adb59695cdf`.
+
+| Control ID | Control / requirement | Source-backed target disposition | Current state | Closure evidence |
+|---|---|---|---|---|
+| CAF-01 | Agent admission and revocation | Versioned registry, evidence-backed identity/capabilities, expiry, explicit task authorization and revocation | PROPOSED / DESIGN ONLY | Accepted A0 lifecycle, provider eligibility record, admission schema and independent review |
+| CAF-02 | Immutable task envelope | Bind task ID, source SHA, paths, data class, capabilities, provider allowlist, budget, deadlines, retry and output schema | PROPOSED / DESIGN ONLY | Versioned schema, collision check, adversarial validation evidence |
+| CAF-03 | Durable queue and lease lifecycle | A0-owned queue/claim/lease/heartbeat/cancel/recovery semantics; avoid a second authority | BLOCKED / A0 CONTRACT OPEN | Exact accepted issuer/API/lifecycle source and independent end-to-end evidence |
+| CAF-04 | Hosted runner isolation | Ephemeral workers, least privilege, bounded filesystem/network, short-lived credentials and cleanup evidence | PROPOSED / TARGET UNKNOWN | Authoritative target manifest and source-level workflow qualification |
+| CAF-05 | Provider route and quota | Exact task-level destination authorization; provider eligibility and data policy checked per hop; paid fallback disabled by default | BLOCKED / ELIGIBILITY UNKNOWN | Current terms, authorized account evidence, route/quota identity and privacy decision |
+| CAF-06 | Workflow supply-chain security | Full-SHA action pins, minimum job permissions, immutable source ref, path allowlist, sanitized logs and secret isolation | REQUIRED / SOURCE QUALIFICATION OPEN | Exact workflow SHAs, per-job authority map and approved remediation evidence |
+| CAF-07 | Evidence provenance | Bind task, source commit/file digests, agent/provider/model, run/job, policy revision, output digest and reviewer | PROPOSED / DESIGN ONLY | Evidence schema, validated manifest and immutable artifact/run reference |
+| CAF-08 | PR promotion and independent review | Generated work stays isolated; protected-branch integration requires required checks and authorized review | PROPOSED / GOVERNANCE EVIDENCE OPEN | Repository ruleset/branch-protection evidence and promotion contract |
+| CAF-09 | Audit/privacy | Durable operation-intent/outcome evidence, data minimization, access controls, retention and reconciliation | BLOCKED / R-06 OPEN | Accountable decision, accepted schema/sink/outage/retention policy |
+| CAF-10 | Capacity and retry safety | Bounded concurrency, per-provider quota bucket, jittered backoff, circuit breaker, idempotency and quarantine | PROPOSED / INPUTS UNKNOWN | Workload/capacity evidence and provider quota policy |
+| CAF-11 | Autonomous work queue | CAF-Q-001…CAF-Q-010 are documentary queue entries only | QUEUED IN DOCUMENTATION / NO LIVE SCHEDULER CLAIM | Authorized implementation, queue persistence and verified scheduler lifecycle |
+| CAF-12 | Contour sequencing | Contour B remains gated on Contour A deployment and independent acceptance | BLOCKED / GATE PRESERVED | Contour A deployment record plus independent acceptance evidence |
+
+### Wave 08 closure boundary
+
+The design defines the target contracts and a ten-item documentary queue. It does not establish a live agent registry, scheduler, queue, runner isolation, provider connection, workflow implementation, tests, qualification or deployment. All controls remain proposed or blocked until their specific evidence and authorization gates close. Existing stable IDs and the accepted Baseline 2.0 remain unchanged.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
