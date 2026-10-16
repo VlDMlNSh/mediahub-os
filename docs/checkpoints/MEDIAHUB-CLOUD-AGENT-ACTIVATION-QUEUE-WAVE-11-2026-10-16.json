@@ -3,7 +3,7 @@
   "status": "DOCUMENTARY_QUEUE_ONLY",
   "created_at": "2026-10-16",
   "governing_design": "docs/checkpoints/MEDIAHUB-AUTONOMOUS-CLOUD-AGENT-FABRIC-REFERENCE-ARCHITECTURE-WAVE-08-2026-10-16.md",
-  "task_envelope_schema": "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json",
+  "task_envelope_schema": "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
   "activation_invariant": "A task is dispatchable only after its admission contract, identity/authorization, target SHA, data policy, provider destination, budget, evidence requirements and promotion boundary are validated. Missing or ambiguous fields block dispatch.",
   "items": [
     {
@@ -65,6 +65,8 @@
       "agent_class": "verification_review",
       "allowed_effect": "schema_review_only",
       "source_files": [
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
         "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json",
         "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json"
       ],
@@ -101,6 +103,7 @@
         "negative fixtures and independent review"
       ],
       "source_files": [
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
         "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json"
       ]
     },
@@ -221,7 +224,8 @@
         "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
         "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
         "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
-        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
       ],
       "exit_evidence": [
         "versioned v0.2 schema proposal",
@@ -231,7 +235,8 @@
         "Draft 2020-12 validator evidence and independent review",
         "20/20 bounded structural assertions read-back",
         "full Draft 2020-12 meta-validation",
-        "semantic negative fixtures and independent review"
+        "semantic negative fixtures and independent review",
+        "task-envelope manifest_schema reference matches evidence-manifest v0.2"
       ]
     },
     {
@@ -244,17 +249,19 @@
       "source_files": [
         "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-V0.2-CANDIDATES-WAVE-16-2026-10-16.md",
         "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
-        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
       ],
       "exit_evidence": [
         "Draft 2020-12 schema meta-validation with format assertion",
         "positive and negative fixture results",
         "semantic time/reference/capability validation evidence",
-        "independent reviewer disposition"
+        "independent reviewer disposition",
+        "cross-schema version coherence check across task, registry and evidence manifest"
       ]
     }
   ],
-  "latest_wave": "WAVE_16_V0_2_SCHEMA_CANDIDATES_CREATED_20_OF_20_STRUCTURAL_ASSERTIONS_PASSED",
+  "latest_wave": "WAVE_16_SCHEMA_REFERENCE_COHERENCE_REMEDIATION_RECORDED_VALIDATOR_EVIDENCE_PENDING",
   "latest_wave_refs": [
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
@@ -262,6 +269,7 @@
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-SEMANTIC-REVIEW-WAVE-15-2026-10-16.md",
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-V0.2-CANDIDATES-WAVE-16-2026-10-16.md",
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
-    "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+    "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
+    "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
   ]
 }
