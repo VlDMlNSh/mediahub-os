@@ -147,3 +147,17 @@ Wave 09 is source-only. Findings do not establish exploitability or runtime beha
 | EVD-020 | Cloud-agent fabric readiness | Wave 08 architecture, documentary queue and one successful read-only Gemini workflow run | DESIGN + SINGLE WORKFLOW EXECUTION / FABRIC-WIDE QUALIFICATION OPEN | Accepted A0/R-06 contracts, task/agent/evidence schemas, isolated patch worker, promotion gate, target manifest and authorized qualification |
 
 Wave 10 corrects the operational status without promoting source-hardening findings to closed. A successful run proves the workflow worked for that execution; broader autonomous development remains subject to its own gates.
+
+
+## Wave 10 — Clean target manifest authority reconciliation
+
+| ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
+|---|---|---|---|---|---|
+| SRC-039 | `docs/checkpoints/MEDIAHUB-CLEAN-TARGET-MANIFEST-AUTHORITY-RECONCILIATION-WAVE-10-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | `1f748bf80e08067fd85a7e1b0821cc4d12bda676` | Bounded source reconciliation for clean deployment target authority | SOURCE REVIEW / TARGET UNKNOWN / ACCEPTANCE OPEN | Target-role ownership, exact target evidence and MH-15 acceptance |
+| SRC-040 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | `56a32d0759372647c83c8e12c70f04397bb8e386` | Unified cross-domain matrix including CTM-01…CTM-05 | PROPOSED / NOT ACCEPTED / NOT FROZEN | Source-bound target manifest, governance disposition and independent qualification |
+
+| Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
+|---|---|---|---|---|
+| EVD-019 | Accepted clean deployment-target manifest | Reviewed canonical component manifest, proposed portable profiles, Jarvis clean-target boundary, MH-15 architecture/criteria and proposed deployment contract; none is an accepted exact target manifest | UNKNOWN / BLOCKED | Owner-accepted versioned target-role manifest, source/provenance, exact hardware/OS/network/storage/trust/recovery fields, authorized evidence collection and independent qualification |
+
+The bounded Wave 10 review distinguishes component catalogue, YAML scope, proposed role profiles and physical target identity. It does not register a new manifest schema or select a host.
