@@ -231,3 +231,10 @@ Source-only checks completed:
 Next bounded step: **WB-14T — prepare a decision packet with options and consequences for service principal/capability issuer, authentication profile, durable admission/idempotency authority, freshness policy and health vocabulary reconciliation.** Do not create final JSON Schema files or select transport until these governance blockers are resolved.
 
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 12. Same-wave schema inventory documentation correction
+
+- The recursive tree at documentation ref a73073974e2a80b544f024ca47f278e20af01d41 listed 26 JSON schemas beneath schemas/, while contracts/README.md previously stated 25.
+- Corrected only this stale count in contracts/README.md. Prior blob SHA: 2a84e1ceee9e4294cade0cd2825c41fda309f9b8. Correction commit: b8c868f86667b95ca58fe03d1e5789ab20884f28. New blob SHA: 0c5a6c2d76558a285e49187f563f9e9c8056d34e.
+- The existing validator computes file count dynamically; this was a source read only. No validator or test command was executed. The 9 metadata-envelope figure was left unchanged based on the schema inventory, not an executed validator result.
