@@ -1502,3 +1502,11 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No final schema, enum, transport, crypto profile, issuer, persistence or TTL was selected. No implementation, tests, validation, qualification or operational actions occurred.
 - Next: WB-14W decision-register ownership and accountable acceptance-path reconciliation for the three split decisions.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14X — A0 ingress prior-decision crosswalk (2026-10-16)
+
+- Report: [WB-14X A0 Ingress Prior-Decision Crosswalk](MEDIAHUB-CONTOUR-A-WB-14X-A0-INGRESS-PRIOR-DECISION-CROSSWALK-2026-10-16.md), commit `5994832bf82d356c8cab604d56e8e04dfee94e7e`.
+- Reconciled prior constraints: owner-approved DEC-DEV-02 authority split, MH-12 identity/authorization invariants, accepted MH-06 ADR-001 scope. Owner-register D-03 is not D-ING-03 and must not be conflated.
+- Remaining ingress gaps are distinct: issuer/verifier lifecycle, accepted P0-07→P0-05 caller edge and P0-05 contract-status disposition, durable admission/idempotency, freshness/replay, health probe, health vocabulary mapping and A0 lifecycle transitions. D-ING-01…04, D-ING-05a/05b and D-ING-06 remain OPEN.
+- No normative schema/contract changed; no tests, implementation, qualification or runtime action. Next: inspect exact DEC-DEV-02 and P0-05/P0-07 primary sources on their owning refs; prepare only a minimal evidence request for remaining gaps.
