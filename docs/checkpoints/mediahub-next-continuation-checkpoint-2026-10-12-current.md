@@ -4437,3 +4437,27 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Wave 37 status: documentation and source-evidence synthesis only. No workflow dispatch, provider/model call, credential operation, project tests, qualification, host/runtime inspection, installation, infrastructure update, deployment or branch integration occurred.
 - Next bounded action: inspect the pinned OpenHands Agent Server route/configuration and workspace/tool enforcement against accepted A0, MH-12 and R-06 contracts; record source digests and admission gaps. Keep live activation blocked until the relevant gates are accepted.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — Gemini MCP PR Review and Command-Surface Reconciliation, Wave 39 (2026-10-17)
+
+### Live repository state and evidence
+
+- Re-read the current bootstrap instruction: blob SHA `aa77ba6850f3b3cf51fcf5fae491b2998a276321`.
+- Live `main` HEAD: `6c2e8dbdee81c798b64e65546e7ded07093f100a`.
+- Live documentation branch HEAD at the start of this pass: `207e5a951081bbe825d13a6b0de18a2853887bcb`. Wave 39 documentation commits then advanced the branch.
+- Current compare at pass start: `DIVERGED`, documentation branch ahead 1,966 / behind 14, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- PR #307 head `5ae969763ff7ccbd22052efbd2661cf7bbdd7fd3`, base main `6c2e8dbdee81c798b64e65546e7ded07093f100a`, state OPEN / UNMERGED / mergeable.
+- Existing PR checks: `validate` run 38977903775 PASS; `verify` run 38977903690 PASS. The GitHub main-branch endpoint reports `protected: false`; no merge performed.
+- Wave 39 report: `docs/checkpoints/MEDIAHUB-GEMINI-MCP-PR-REVIEW-AND-COMMAND-SURFACE-RECONCILIATION-WAVE-39-2026-10-17.md`, creation commit `c1d43b8dc4c1e27a25c6365656a705fb2599b00e`.
+- Map addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-39-2026-10-17.md`, creation commit `6027504faebe6765c79eee2f6021c1a897355f49`.
+- The proposed PR change is consistent with the documented `tools.core: []` MCP-exclusion failure mode. The PR checks are CI evidence only; runtime repair remains pending.
+- The resolved action tag `google-github-actions/run-gemini-cli@v0` pointed to `f77273f4c914e4bf38440cf36a0369cb64a37489` during this pass. The action copies bundled slash-command prompts, and upstream issue #510 records stale/bare MCP tool names. This is a separate remediation lane from the current direct-prompt fix.
+- The activation queue has 16 entries and remains `DOCUMENTARY_QUEUE_ONLY`. The proposed task, registry and evidence schemas remain unqualified. A0, MH-12, R-06, target manifest, standards-compliant schema validation and independent qualification remain open.
+- No workflow dispatch, model/provider invocation, credential use, tests, installation, host/runtime inspection, infrastructure change, deployment, merge, rebase or cherry-pick occurred in this pass.
+
+### Next bounded action
+
+Read the immutable OpenHands SDK source pin `6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1` and map Agent Server authentication, route exposure, workspace isolation, tool execution and cleanup against the accepted A0, MH-12 and R-06 requirements. Record exact source digests and distinguish code-level controls from target/runtime qualification. Keep cloud-agent activation blocked until the authority and target gates close.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
