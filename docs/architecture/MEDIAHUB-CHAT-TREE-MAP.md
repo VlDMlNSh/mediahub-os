@@ -6743,3 +6743,16 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: DOCUMENTARY DECISION PACKET / PROPOSED / RUNTIME-UNVERIFIED. No credentials, provider accounts, workflow dispatches, model calls, tests, scanners, installations, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
 - Next: continue the master roadmap's remaining documentary lanes—component manifest/YAML scope, A0 ingress issuer/lifecycle, audit/privacy R-06 and exact-target manifest—while preserving UNKNOWN fields and historical IDs.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.335 — Autonomous Cloud-Agent Development Fabric, Reference Architecture, Wave 08 (2026-10-16)
+
+- Added [Autonomous Cloud-Agent Development Fabric Reference Architecture — Wave 08](../checkpoints/MEDIAHUB-AUTONOMOUS-CLOUD-AGENT-FABRIC-REFERENCE-ARCHITECTURE-WAVE-08-2026-10-16.md), creation commit `1bb6b285fcfd330ccc9485036df97adb59695cdf`.
+- Defined a GitHub-centered ephemeral-worker / PR-first target, agent admission and revocation lifecycle, immutable task envelope, A0 queue boundary, quota/provider routing, evidence manifest, promotion ladder and documentary queue CAF-Q-001…CAF-Q-010.
+- Added the Wave 08 work sequence to the [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), commit `e9a58865e6a5f28eb33af3158f29ba926f9facad`.
+- Extended the existing [Unified System Traceability Matrix](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md) with CAF-01…CAF-12, commit `d86e4def7586fbdfe5cb47b56ba35b5368cdac29`.
+- Extended the [Canonical Source Registry and Security Evidence Ledger](../checkpoints/MEDIAHUB-CANONICAL-SOURCE-REGISTRY-AND-SECURITY-EVIDENCE-LEDGER-WAVE-03-2026-10-16.md) with SRC-033…SRC-035 and EVD-017, commit `411548d02a5aa5884352a39046eb5ecadf4a877a`.
+- Status: DOCUMENTARY DESIGN / PROPOSED / NOT IMPLEMENTED / RUNTIME-UNVERIFIED. Existing Gemini audit workflows remain candidate advisory workers pending source-level qualification; the live queue, registry, scheduler, provider connection, tests, qualification and deployment remain unproven.
+- No workflow edits or dispatches, model/provider calls, credential use, tests/scanners, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
+- Next: source-bound closure of A0 issuer/lifecycle and R-06; source-level review of current Gemini workflows; locate an authoritative target manifest; then prepare a separately authorized first read-only implementation slice.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
