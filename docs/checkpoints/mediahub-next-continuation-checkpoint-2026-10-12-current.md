@@ -3582,3 +3582,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Recorded docs/main executor-matrix wording drift; no merge/integration or normative edits performed. No validators, tests, workflows, runtime probes or qualification performed.
 - WB-14AA remains PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED. Next: prepare a source-linked governance request to appoint accountable owners and confirm the approval workflow; do not choose the open technical options or authorize implementation.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14AD A0 ingress governance request (2026-10-16)
+
+- Request: [WB-14AD ASTRA A0 Ingress Governance Request](MEDIAHUB-CONTOUR-A-WB-14AD-A0-INGRESS-GOVERNANCE-REQUEST-2026-10-16.md), creation commit `d32e0dce23bfb577836b4ef861bf33be0361fbf8`; verified blob SHA `a2367eff5ca2092fa12bda0be4cab75bf4e2ba9d`.
+- Prepared a source-linked request for accountable contract/security/lifecycle owners and the formal acceptance workflow. It is a request artifact, not an owner decision or appointment.
+- The existing WB-14AA proposal remains PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED. D-ING-01…04, D-ING-05a, D-ING-05b and D-ING-06 remain OPEN; A0-ING-01…09 remain proposal-local. DEC-DEV-02 Option C remains owner-approved and was not reopened.
+- No transport/issuer/schema/crypto/persistence/TTL/status choice was made. No implementation, tests, qualification, runtime/host inspection, provider/credential calls, installation, infrastructure changes, deployment, migration or branch integration occurred.
+- Next: record explicit owner/governance appointments and approval path when evidenced; meanwhile continue independent source-only work without promoting WB-14AA.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
