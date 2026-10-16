@@ -6707,3 +6707,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - No code/workflow edits, tests/scanners, workflow dispatch, provider/model calls, credential use, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
 - Next: parallel documentary resolution of provider identity/egress, component manifest/YAML scope, A0 external/internal lifecycle boundary, audit/privacy R-06 and target manifest unknowns.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.332 — Free Cloud Agent Router and Quota Failover Design, Wave 03 (2026-10-16)
+
+- Added [Free Cloud Agent Router and Quota Failover Design — Wave 03](../checkpoints/MEDIAHUB-FREE-CLOUD-AGENT-ROUTER-DESIGN-WAVE-03-2026-10-16.md), creation commit `d2f663c90ca3618f27b689fc4a7eb380465ba05e`, document blob SHA `7cf6d7a4ca68d9c3413601780d4e1c0be0c7b48c`.
+- Evaluated candidate cloud-agent paths: existing Gemini workflow pair (first candidate), GroqCloud, OpenRouter free models, and unverified GitHub Models/Cerebras candidates. Provider quotas, account entitlements, key existence and data terms remain account-specific UNKNOWN.
+- Defined a serverless GitHub-hosted runner topology, provider registry contract, quota state machine, zero-paid-fallback guard, compliant provider failover, secret isolation, evidence manifest and rollout gates.
+- Explicitly prohibits key cycling to evade provider quotas, regional restrictions, billing controls or abuse prevention. Multiple keys may share a quota bucket; the router must model the provider's actual quota scope.
+- Existing Gemini workflows remain the only source-confirmed hosted-model integration. The new router is design-only; no workflow source, secret, provider account, key, runner, infrastructure or deployment was changed. No model calls, workflow dispatches, tests or scanners were run.
+- Status: DESIGN / PROPOSED / RUNTIME-UNVERIFIED / NO PROVIDER ENABLEMENT. See the Wave 03 artifact for official provider references and detailed acceptance gates.
+- Next: collect owner-visible secret-name metadata and account-specific provider quota/data-policy evidence; after explicit implementation authorization, prepare a separate-branch patch for the isolated router and one-provider proof.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
