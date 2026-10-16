@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-16 (§20.317)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-16 (§20.326)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -6624,3 +6624,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - Secret, CodeQL, Dependabot and scanner status remains UNKNOWN where evidence could not be retrieved or tools were not run. No clean bill of health is claimed.
 - Status: STATIC REVIEW / FINDINGS REQUIRE OWNER TRIAGE / NO SECURITY QUALIFICATION CLAIM.
 - Next: Wave 03 canonical source registry and security evidence ledger; first workflow review targets are `astra-chat-control.yml` and `astra-autonomous-supervisor.yml`.
+
+
+## 20.326 — Canonical source registry and security evidence ledger, Wave 03 (2026-10-16)
+
+- Report: [Canonical Source Registry and Security Evidence Ledger — Wave 03](../checkpoints/MEDIAHUB-CANONICAL-SOURCE-REGISTRY-AND-SECURITY-EVIDENCE-LEDGER-WAVE-03-2026-10-16.md).
+- Report creation commit: `18b023f126bb9f5e2ef9e538c0e28182878c2585`; report blob SHA after read-back: `552ad971a2aa867757821a244c304545b9b31022`.
+- Registered 16 authority-bearing or control sources with exact live blob SHAs where retrieved; recorded Baseline 2.0 as accepted functional authority, Baseline 1.0 as historical provenance, and component manifest as development input rather than qualification.
+- Created a 15-item security evidence ledger. Branch protection, code-scanning, Dependabot and secret-scanning evidence remain UNKNOWN where the connected integration could not retrieve proof. Source presence is separated from scanner execution and qualification.
+- Live branch compare remains DIVERGED: documentation ref ahead 1,649 / behind 10, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; no integration occurred.
+- No source contract or workflow changed; no tests/scanners, provider/model calls, credential use, host/runtime inspection, installation, infrastructure, deployment, migration, merge, rebase or cherry-pick occurred.
+- Next: source-only per-job authority review of `astra-chat-control.yml` and `astra-autonomous-supervisor.yml`, covering trigger, issuer checks, permissions, untrusted inputs, dispatch, credential lifetime, target binding and evidence gaps.
+- Status: PROPOSED CONTROL ARTIFACT / NOT NORMATIVE / NO SECURITY QUALIFICATION CLAIM.
