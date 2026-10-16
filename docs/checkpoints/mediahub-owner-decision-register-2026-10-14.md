@@ -104,3 +104,12 @@ D-03 явно принят владельцем 2026-10-14 и больше не 
 - GitHub branch search вернул множество ASTRA и архитектурных веток, но полное сравнение branch trees не выполнялось.
 - Поиск GitHub по тексту реестров в этом вызове не дал пригодных результатов; конфликты собраны из доступных сводных документов, а не объявлены результатом полного поиска всех документов.
 - Не выполнялись тесты, квалификация, установка, вызов провайдеров, использование credentials, исследование runtime/host, изменение инфраструктуры, deployment, merge, rebase или cherry-pick.
+
+
+## Contour A D-ING ingress decision register cross-reference (2026-10-16)
+
+- Related decision-path analysis: [WB-14W A0 Ingress Decision-Register Ownership and Acceptance Paths](MEDIAHUB-CONTOUR-A-WB-14W-A0-INGRESS-DECISION-REGISTER-OWNERSHIP-AND-ACCEPTANCE-PATHS-2026-10-16.md).
+- D-ING-01…04 and D-ING-05a, D-ING-05b, D-ING-06 remain OPEN. These are cross-referenced here for visibility; this entry does not accept any option or alter the normative contracts.
+- The reviewed sources do not name accountable individuals or establish a formal approval workflow for these decisions. WB-14W proposes role-level owners for explicit confirmation only. Recommendations, silence, or an architecture document are not owner acceptance.
+- MH-06 ADR-001 remains ACCEPTED / GOVERNANCE ACCEPTED for its stated Core Runtime Services scope; implementation authorization remains NO. The generic domain-health mapping, A0 probe contract and A0 lifecycle transition table are separate unresolved decisions.
+- No implementation, schema registration, tests, qualification, deployment or runtime action is authorized by this cross-reference.
