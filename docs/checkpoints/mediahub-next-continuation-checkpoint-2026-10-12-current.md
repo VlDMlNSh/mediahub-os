@@ -3438,3 +3438,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, qualification, workflow dispatch, credentials/provider calls, host/runtime inspection, source-code edits, install, infrastructure change, deployment, migration or branch integration occurred.
 - Next: WB-14Q contract-only target ingress decision and requirement matrix (security, capability, source/worktree, command, freshness, evidence and result contracts), with owner choice A/B/C left explicitly unresolved.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14Q formal ASTRA A0 ingress interface design (2026-10-16)
+
+- Report: [WB-14Q ASTRA A0 Ingress Interface Design](MEDIAHUB-CONTOUR-A-WB-14Q-ASTRA-A0-INGRESS-INTERFACE-DESIGN-2026-10-16.md), commit `0d82e6ccbb63ffe851009c676c577b4173969cc8`, report blob SHA `2b0cf853a7b5eefe9e75fccdcfed130d53f417c8`.
+- The requested architecture direction is captured as a **non-normative interface proposal**: Jarvis → authenticated A0 ingress adapter → A0-owned admission/lifecycle. Logical operations: submit task, query status, request cancellation, retrieve result; a separate nonce-correlated health challenge/response is proposed.
+- The interface preserves Jarvis corporation-level mission authority, ASTRA A0 engineering lifecycle ownership, and MediaHub Product State Authority for canonical product mutations. The separately bounded direct-local executor route remains separate. No legacy host/node names are target requirements.
+- Proposals include request/ack/result envelopes, immutable target-SHA and payload digest, replay/idempotency, capability-scope checks, health freshness/correlation, fencing, failure matrix and owner decisions. All new schema IDs and shapes are illustrative and unregistered.
+- Open: wire transport, capability issuer and key lifecycle, durable idempotency boundary, schema governance, clock/freshness policy, exact A0 status/query contract and controlled authority-wording reconciliation.
+- No tests, qualification, source-code edits, credentials/provider calls, host/runtime inspection, install, infrastructure change, deployment, migration or branch integration occurred.
+- Next: WB-14R statement-level authority wording reconciliation plus field-level crosswalk to existing schemas. Keep transport and issuer decisions open; do not alter normative contracts without accepted authority.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
