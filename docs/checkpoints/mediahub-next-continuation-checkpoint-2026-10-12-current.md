@@ -4199,3 +4199,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No workflow edit or dispatch occurred; no provider calls, credentials, host/runtime inspection, infrastructure change, qualification, deployment or branch integration occurred.
 - Next: review the exact-source Wave 12 proposal, then request a minimal patch on an explicitly authorized working ref; preserve A0 and R-06 gates for live scheduling.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 14 — Cloud-native credential injection and provider egress (2026-10-16)
+
+- Architecture: `docs/checkpoints/MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md`, creation commit `195a796bcc2b197b3bdd7eac8ec729aac70be4a6`.
+- Activation queue updated with CAF-Q-011 and CAF-Q-012; commit `1140f33791f3a9ce5fb10a736d99a120afec56fb`; blob `0d751edc2b52085781eddb8e2e5ce638d93e5f88`.
+- Default architecture: direct outbound HTTPS from ephemeral GitHub-hosted workers; provider credentials injected only into the runtime step; no user-owned permanent server or user-device egress dependency. Hosted-runner egress IPs remain dynamic/shared by default. Provider eligibility and regional requirements remain independent of the network route.
+- Master Roadmap, Unified Matrix and Canonical Source Registry extended with Wave 14; read-back and exact blob binding pending.
+- Status: REFERENCE DESIGN / PROPOSED / IMPLEMENTATION AND RUNTIME QUALIFICATION OPEN. No secrets accessed, provider calls, workflow dispatches, workflow-source edits, tests, qualification, deployment or branch integration occurred.
+- Next: source-bound review of Wave 13 schemas and Wave 12 patch proposal; continue A0 issuer/lifecycle, R-06 and authoritative target-manifest closure.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
