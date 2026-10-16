@@ -2208,3 +2208,15 @@ Wave 22 source report: [Jarvis Upstream Candidate Intake](MEDIAHUB-JARVIS-UPSTRE
 Decision boundary: Personal Jarvis and OpenHands are candidates for different subsystem roles. Neither is selected, pinned, installed, qualified or deployed by this documentary pass. The legacy `sukeesh/jarvis` CLI is low-fit for the intended autonomous engineering architecture. Exact owner-intended upstream identity remains open.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+## 32. Reuse-first stage-entry gate — Wave 23 (2026-10-17)
+
+| Control ID | Requirement | Evidence | State | Closure evidence |
+|---|---|---|---|---|
+| CAF-63 | Every new development stage performs GitHub-first component discovery before implementation | Wave 23 report blob `e09a4e3f3d1681350de47b8adcaea2bc80d46a6c`; Canonical Component Manifest 2.0 §9 | PROCESS PROPOSAL RECORDED / ADOPTION TRACKING OPEN | CDR linked from the stage issue, exact queries/results, candidate comparison and reviewer sign-off |
+| CAF-64 | New implementation requires a documented capability gap after reuse, composition, configuration and adapter options are assessed | Wave 23 report §2–§4 | PROCESS PROPOSAL RECORDED / GAP EVIDENCE OPEN | Candidate disposition and explicit uncovered acceptance criteria tied to architecture/contract IDs |
+| CAF-65 | Component readiness separates upstream existence, source pin, license/security review, target compatibility and MediaHub qualification | Wave 23 report §3–§6; Canonical Component Manifest 2.0 §8 | QUALIFICATION-GATED | Immutable source identity, SBOM/provenance, contract adapter, authorized tests, independent qualification and removal plan |
+
+Wave 23 policy: [Reuse-First Upstream Discovery Gate](MEDIAHUB-REUSE-FIRST-UPSTREAM-DISCOVERY-GATE-WAVE-23-2026-10-17.md), blob SHA `e09a4e3f3d1681350de47b8adcaea2bc80d46a6c`.
+
+This policy operationalizes the existing reuse-first rule; it does not change the canonical component selection or waive qualification.
