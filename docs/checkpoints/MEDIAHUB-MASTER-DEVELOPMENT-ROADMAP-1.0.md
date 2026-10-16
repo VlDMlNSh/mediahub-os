@@ -1813,3 +1813,17 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Status: V0.2 CANDIDATES / REVIEW REQUIRED / RUNTIME-UNVERIFIED. v0.1 remains preserved; no agent was registered or authorized.
 - Next: full standards-compliant validation and negative fixtures, followed by independent review; A0 issuer/lifecycle, MH-12 authority, R-06 and target manifest remain runtime-admission gates.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Cloud-Agent Schema Coherence and Map Recovery, Wave 17 (2026-10-16)
+
+- Added [Cloud-Agent Schema Coherence and Map Recovery — Wave 17](MEDIAHUB-CLOUD-AGENT-SCHEMA-COHERENCE-AND-MAP-RECOVERY-WAVE-17-2026-10-16.md), creation commit `1bd00b5a9c1979db02ede3d44dd350ec22e752ea`.
+- Corrected the task-envelope v0.2 candidate so `evidence.manifest_schema` binds to `mediahub.cloud-agent-evidence-manifest.v0.2`; task schema blob `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`.
+- Updated the documentary activation queue to point to task-envelope v0.2 and added cross-schema coherence exit evidence; queue blob `1ef28af318a4be6618e0d9703a3e8d208a807206`.
+- Ran 23 bounded read-back assertions across task, registry, evidence-manifest schemas and the queue: **23/23 passed**. The check includes version coherence, Draft 2020-12 declarations, separate execution/verification/qualification states, action SHA constraints, collection bounds, queue status and ID uniqueness.
+- A first assertion pass reported 22/23 because the test expected artifact-array maxItems=100. Direct read-back showed the candidate uses the stricter bound 20; the assertion was corrected to verify the actual bound and the rerun passed 23/23.
+- Repaired project-map integrity using the latest known complete predecessor blob `6b98de335da9fadc0f92900deff260a8bef6830a` (6,812 lines), then appended the Wave 15, Wave 16 and Wave 17 navigation entries. Map read-back and section collision review remain required.
+- Status: SCHEMA REFERENCE COHERENCE REPAIRED / STRUCTURAL SMOKE PASS / FULL JSON SCHEMA VALIDATION OPEN / RUNTIME-UNVERIFIED.
+- No schema validator was installed; no provider call, credential access, workflow dispatch, project-runtime inspection, infrastructure change, deployment or branch integration occurred.
+- Next: read back the restored map and all changed documents; conduct full Draft 2020-12 validation and negative fixtures with an approved validator; then independent review. A0 issuer/lifecycle, MH-12 authority, R-06 and the authoritative target manifest remain admission gates.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
