@@ -44,3 +44,19 @@ Related control/evidence sources:
 The current GitHub contents connector returns the large canonical map blob SHA but an empty body, including ranged content reads. The parent map remains unchanged and authoritative. This addendum preserves navigation until a safe full-body revision procedure is available.
 
 Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Agent-browser operational verification and registry admission route
+
+Additional bounded pass on 2026-10-17:
+- Installed `agent-browser` CLI version `0.27.0` was invoked directly.
+- `agent-browser skills get core` returned the installed CLI workflow guide.
+- A public GitHub checkpoint page opened; `get url` returned the target URL; `snapshot -i -d 2` exposed the checkpoint title and latest commit link.
+- Use `agent-browser` as the default browser automation CLI for future browser tasks, with fresh snapshots after navigation and existing authorization gates retained.
+- Primary evidence: [Agent Browser Operational Verification and Registry Admission Inventory, Wave 37](../checkpoints/MEDIAHUB-AGENT-BROWSER-OPERATIONAL-VERIFICATION-AND-REGISTRY-INVENTORY-WAVE-37-2026-10-17.md).
+
+Registry admission crosswalk:
+- `profiles/agent-registry.json` v1.2.0, blob `993cbbe1b2b2a88da7d8884a897b404f055981a8`.
+- `schemas/ai/ai-provider-registry.schema.json` is a distinct provider-registry contract, not an agent-profile schema.
+- `.github/workflows/mediahub-agent-fabric-verify.yml` has no visible direct path trigger or validation step for the agent profile catalog.
+- Full consumer inventory remains OPEN because GitHub code search returned incomplete results. Complete source-tree crosswalk before proposing a schema or validator.
