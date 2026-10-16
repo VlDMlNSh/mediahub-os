@@ -2321,3 +2321,19 @@ Status: **SOURCE-BOUND TRACEABILITY ADDENDUM / PROPOSED / NOT ACCEPTED / RUNTIME
 - No workflow dispatch, provider invocation, credential operation, test or qualification was performed in this wave.
 
 Wave 37 primary report: [Post-Merge Gemini Diagnostic and Cloud-Agent Portability](MEDIAHUB-POST-MERGE-GEMINI-DIAGNOSTIC-AND-CLOUD-AGENT-PORTABILITY-WAVE-37-2026-10-17.md).
+
+
+## Wave 39 — Gemini MCP PR Review and Command-Surface Reconciliation (2026-10-17)
+
+| Control ID | Requirement / invariant | Source evidence | Current disposition | Closure evidence |
+|---|---|---|---|---|
+| CAF-90 | PR-level CI evidence is distinct from source merge and runtime acceptance | PR #307 open/unmerged; `validate` and `verify` passed; `main` reports `protected: false` | CI PASS / merge and runtime acceptance OPEN | Authorized integration decision, required review evidence, exact resulting main SHA |
+| CAF-91 | Gemini MCP tools must remain visible under the selected CLI policy without granting broad core tools | Wave 38 source review; Gemini CLI issue #28361; Google Action issue #532 | One-line allowlist proposal consistent with documented root cause; PR #307 OPEN | Post-integration read-back and authorized runtime evidence of successful fully qualified MCP call |
+| CAF-92 | Bundled slash-command prompts must use registered MCP tool names and correct consolidated-tool method parameters | Resolved action ref `v0` → `f77273f4c914e4bf38440cf36a0369cb64a37489`; action copies `.github/commands/*`; upstream issue #510 | Separate source-remediation lane OPEN | Pinned source diff, exact name/method crosswalk, independent review, negative checks |
+| CAF-93 | Third-party action supply-chain identity must be revision-bound | Current workflow uses `google-github-actions/run-gemini-cli@v0`; current tag resolution observed in Wave 39 | Mutable-tag risk recorded; remediation OPEN | Audited full commit SHA pin, provenance, controlled update/rollback procedure |
+| CAF-94 | Cloud-worker credential identity remains independent of a persistent owner-operated host | GitHub OIDC docs; existing provider/egress decision packets | Reference architecture retained; target and provider gates OPEN | Destination-specific trust policy or job-scoped secret evidence, data-class/egress approval, target manifest |
+| CAF-95 | Autonomous queue activation requires accepted authority, privacy, target and schema gates | Activation queue v0.1 contains 16 items and status `DOCUMENTARY_QUEUE_ONLY`; A0/MH-12/R-06/target/schema gates remain open | FAIL-CLOSED / NO ACTIVE AGENT PROVEN | Accepted A0 lifecycle, MH-12 capability/credential semantics, R-06 disposition, target manifest, Draft 2020-12 validation, independent qualification |
+
+Primary report: [Wave 39 Gemini MCP PR Review and Command-Surface Reconciliation](MEDIAHUB-GEMINI-MCP-PR-REVIEW-AND-COMMAND-SURFACE-RECONCILIATION-WAVE-39-2026-10-17.md).
+
+Evidence boundary: PR checks are existing CI results, not a new runtime test. No provider invocation, workflow dispatch, credential operation, deployment, merge or qualification occurred in this wave.
