@@ -2220,3 +2220,14 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 Wave 23 policy: [Reuse-First Upstream Discovery Gate](MEDIAHUB-REUSE-FIRST-UPSTREAM-DISCOVERY-GATE-WAVE-23-2026-10-17.md), blob SHA `e09a4e3f3d1681350de47b8adcaea2bc80d46a6c`.
 
 This policy operationalizes the existing reuse-first rule; it does not change the canonical component selection or waive qualification.
+
+
+## 33. Jarvis source pin and capability crosswalk — Wave 24 (2026-10-17)
+
+| Control ID | Requirement | Evidence | State | Closure evidence |
+|---|---|---|---|---|
+| CAF-66 | Pin upstream source and read its actual license before evaluating integration | Wave 24 report blob `8d701fca6e2b0a60052b7c18e5a40af7afbfd8d1`; OpenHands SDK commit `6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1` | SOURCE-PINNED CANDIDATE / QUALIFICATION OPEN | Source provenance, SBOM, dependency/security review, target compatibility and independent qualification |
+| CAF-67 | Resolve canonical Personal Jarvis identity where public lookalikes have materially different source/license states | Wave 24 report §3; candidate URLs and source blob SHAs recorded there | IDENTITY/PROVENANCE OPEN | Authoritative upstream URL, immutable revision, matching LICENSE/NOTICE and dependency inventory |
+| CAF-68 | Keep coding-agent execution behind MediaHub task, workspace, A0 and evidence boundaries | Wave 24 report §2 and §5; task-envelope v0.2 SHA `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; agent-registry v0.2 SHA `b49b89b8fbdfc180862e3dc78f8198f35e486035` | CONTRACT CROSSWALK OPEN / RUNTIME BLOCKED | Accepted A0/MH-12/R-06 contracts, target manifest, adapter specification and separately authorized qualification |
+
+Wave 24 source intake: [Jarvis Source Pin and Capability Crosswalk](MEDIAHUB-JARVIS-SOURCE-PIN-AND-CAPABILITY-CROSSWALK-WAVE-24-2026-10-17.md), blob SHA `8d701fca6e2b0a60052b7c18e5a40af7afbfd8d1`.
