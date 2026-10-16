@@ -1683,7 +1683,7 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 
 - Created [Clean Target Manifest Authority Reconciliation, Wave 10](MEDIAHUB-CLEAN-TARGET-MANIFEST-AUTHORITY-RECONCILIATION-WAVE-10-2026-10-16.md), commit `012efaea1d85895d0694c510748086af41ada6e6`, blob SHA `1f748bf80e08067fd85a7e1b0821cc4d12bda676`.
 - Reconciled the canonical component catalogue, unresolved YAML consumer/scope options, proposed portable deployment profiles, clean-target adapter boundary and MH-15 acceptance criteria. The bounded source set contains no owner-accepted exact target manifest.
-- Extended the existing Unified System Traceability Matrix with CTM-01…CTM-05 (blob `56a32d0759372647c83c8e12c70f04397bb8e386`) and the source registry through SRC-040 / EVD-019 (blob `daf21daa86188792dee71284f66207974ccff150`).
+- Extended the existing Unified System Traceability Matrix with CTM-01…CTM-05 (current blob `ae79021f6e96935f82730ecf2fed1fd79b9d6680`) and the source registry through SRC-040 / EVD-019 (current blob `daf21daa86188792dee71284f66207974ccff150`).
 - Status: TARGET UNKNOWN / BLOCKED; MH-15 NOT ACCEPTED / NOT FROZEN; implementation authorization NONE. Component selection does not establish physical target identity or qualification.
 - Documentation-only; no host/runtime inspection, tests, provider calls, credentials, installation, infrastructure changes, qualification, deployment or branch integration.
 - Next: continue source-bound CAF admission evidence without repeating the completed Gemini Wave 09 or A0 WB-14AA–WB-14AF passes absent new evidence. Retain UNKNOWN until an accepted target manifest and independent evidence are available.
