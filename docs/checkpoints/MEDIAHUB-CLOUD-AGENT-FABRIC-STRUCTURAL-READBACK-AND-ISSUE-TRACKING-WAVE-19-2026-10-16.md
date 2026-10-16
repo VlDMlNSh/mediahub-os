@@ -101,3 +101,20 @@ The issue and queue are planning/control records. They do not activate an agent 
 No provider calls, secret access, workflow dispatch, tests against the repository, installations, host/runtime inspection, infrastructure changes, deployment or merge occurred in this pass.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Addendum — post-queue-update read-back, 24/24 assertions (2026-10-16)
+
+After CAF-Q-016 and Issue #301 were added, a second source-bound read-back fetched the current queue, all three v0.2 schemas, Wave 19 report, roadmap, matrix, source registry and checkpoint, plus the full map blob.
+
+**Result: 24/24 bounded assertions passed.**
+
+Additional coverage:
+- queue now has 16 unique IDs, including CAF-Q-016 linked to Issue #301;
+- queue remains `DOCUMENTARY_QUEUE_ONLY`;
+- the current task schema still points to evidence-manifest v0.2;
+- all source documents reference the current Wave 19 state;
+- complete map blob `c2cdb85f835394672ad4393ccdb10b40351c897d` returns 6,902 lines / 1,010,821 characters and contains §20.347;
+- live branch comparison remains `diverged`: 1,831 commits ahead / 10 behind `main`, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`, main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`.
+
+This remains a bounded JSON-parse/source-assertion pass. A standards-compliant Draft 2020-12 validator, format assertion, negative fixtures and semantic reference resolution remain open. No workflow or provider was run in this pass.
