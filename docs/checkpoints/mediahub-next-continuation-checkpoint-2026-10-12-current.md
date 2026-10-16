@@ -3819,3 +3819,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No workflow dispatch or Gemini API call was performed by the assistant; secret contents, presence and validity were not inspected. Connection success remains unverified until the user manually launches the retry workflow and shares its run result.
 - Manual launch: https://github.com/VlDMlNSh/mediahub-os/actions/workflows/gemini-readonly-audit-retry.yml
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest bounded continuation — P0-07 D2 R-06 operation inventory source reconciliation, Wave 02 (2026-10-16)
+
+- Created [R-06 Operation Inventory Source Reconciliation, Wave 02](MEDIAHUB-P0-07-D2-R06-OPERATION-INVENTORY-SOURCE-RECONCILIATION-WAVE-02-2026-10-16.md), blob SHA `c3fc203413728556d32b3861f3a2202744228ee1`.
+- Source discovery identified six downstream P0-03/P0-04 State Authority operations: `read`, `begin`, `commit`, `abort`, `snapshot`, `restore`. P0-04 acceptance evidence says ACCEPTED/FROZEN within bounded in-memory scope, but P0-03's header still says Draft; P0-05's header says Draft while its governance packet says implementation authorized. Status conflicts remain recorded, not normalized.
+- The six names do not establish a complete P0-07 domain-capability inventory or accepted mapping from P0-07 to P0-05/P0-04. Whether audit evidence is mandatory and what happens when it cannot be emitted remain UNKNOWN per operation. R-06 stays GOVERNANCE DECISION REQUIRED; all D1/D2/D3/D6/qualification statuses unchanged.
+- Live refs: documentation branch HEAD `b4e6d850b1ebfb435130361d1c86b5a32fab654e`; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`; compare DIVERGED, 1613 ahead / 10 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration attempted.
+- Next: locate canonical P0-07 operation/capability inventory on its actual owning ref and check for an accepted mapping to P0-05/P0-04. Do not infer a mapping from names or implementation code.
