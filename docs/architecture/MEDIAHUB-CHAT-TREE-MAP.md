@@ -6340,3 +6340,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - D-ING-01…04, D-ING-05a/05b and D-ING-06 remain OPEN. WB-14AA and proposal-local A0-ING-01…09 remain non-normative. No transport, issuer, schema, crypto profile, persistence, TTL or lifecycle enum selected.
 - No implementation, tests, qualification, credentials/provider calls, host/runtime inspection, installation, infrastructure, deployment, migration or branch integration.
 - Next: await/record explicit owner/governance dispositions; independently continue source-only work where it does not assume these decisions.
+
+
+## 20.302 Contour A WB-14AE — executor capability matrix authority-drift reconciliation (2026-10-16)
+
+- Report: [WB-14AE Executor Capability Matrix Authority-Drift Reconciliation](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14AE-EXECUTOR-CAPABILITY-MATRIX-AUTHORITY-DRIFT-RECONCILIATION-2026-10-16.md), creation commit `01aeaf874dba72a55940f718cc1b74e50a17f448`.
+- Re-read exact blobs: docs branch `9ad83781a8da53d1a8f540ede54eba95281f01c0` says A0 owns “ASTRA workflow/control state” only and explicitly excludes MediaHub Product State Authority; main `da26185254d9954fcee204f81ecca129bf052e7c` still says “Global coordination/state” without the matching scope clarification.
+- DEC-DEV-02 Option C remains OWNER-APPROVED. This is a source-text reconciliation gap, not a reason to reopen the semantic authority split. No normative source changed and no branch integration occurred.
+- Next: route the narrow main-source wording correction through explicit owner/change-control approval; absent that approval, continue source-only work.
