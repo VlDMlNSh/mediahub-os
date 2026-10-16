@@ -6422,3 +6422,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - WB-14AD remains a prepared request, not evidence of owner/governance disposition. No further broad source-only re-analysis is justified absent new evidence.
 - No schema/enum/transport/issuer/persistence/crypto/TTL was selected. No tests, qualification, runtime/provider/credential activity, installation, infrastructure change, deployment or branch integration occurred.
 - **Next:** await explicit owner/governance disposition on WB-14AD; then update only affected records with exact accepted revision/SHA and acceptance evidence.
+
+
+## 20.310 Jarvis adapter draft — clean target deployment reconciliation (2026-10-16)
+
+- Updated [Jarvis Control Plane and GitHub Adapter Contract Draft 01](../checkpoints/MEDIAHUB-JARVIS-CONTROL-PLANE-GITHUB-ADAPTER-CONTRACT-DRAFT-01-2026-10-14.md), commit `4460207c6e75ae16750e28b143257a488fa19a0c`, blob SHA `916df43726fb8f41038d5e9896be7e205284416f`.
+- Reconciled its former Section 8 hardware placement list and Section 10 action item with the current owner direction for a clean, reproducible new deployment. Legacy hostnames and prior hardware placements are now explicitly historical provenance only, not target inventory or deployment instructions.
+- Preserved target-role concepts (developer workstation, low-resource auxiliary/control server, optional owned GPU/video server, developer clients, restricted API-key workflow host) as unbound roles. Physical identity, OS, resources, security posture and compatibility remain UNKNOWN pending fresh evidence.
+- Marked the old auxiliary-worktree inventory as stale historical snapshot, not current filesystem/runtime evidence. No host/worktree inspection or cleanup was performed.
+- The adapter draft remains DESIGN DRAFT / NOT ACCEPTED / NOT IMPLEMENTED / NOT QUALIFIED. No normative contract, architecture decision, target host, software component or deployment topology was selected.
+- No tests, credentials/provider calls, host/runtime inspection, installation, infrastructure change, qualification, deployment or branch integration occurred.
+- **Next:** record explicit owner/governance disposition on WB-14AD if supplied; otherwise continue an independent documentation-only task without reopening already completed WB-14AA–WB-14AF source analysis.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
