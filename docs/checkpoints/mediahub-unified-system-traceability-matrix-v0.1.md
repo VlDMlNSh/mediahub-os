@@ -2137,3 +2137,10 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 The 18/18 result is a bounded JSON-parse and explicit structural-assertion pass performed against GitHub source read-back. It is not a full schema qualification, live workflow test, provider-call test or agent-fabric acceptance. The map blob is intact at `92e9f2befd0bdb8a78140588929eaa119dda2110`; the Contents API returned an empty body while blob retrieval returned the complete 6,888-line document, so future map edits must use the full blob content.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20. Cloud-Agent Fabric Post-Queue Read-back — Wave 19 Addendum
+
+| Control ID | Claim | Evidence | State | Boundary / next action |
+|---|---|---|---|---|
+| CAF-19 | Current cloud-agent artifacts and navigation remain internally coherent after CAF-Q-016 | 24/24 bounded source assertions passed; queue blob `0d4d591f464b976d6920bbd39c87a45a9d4fda59`; Wave 19 report update commit `b741ba46c5ae9df2aed6dab977b05afa8482069a`; map blob `c2cdb85f835394672ad4393ccdb10b40351c897d` | STRUCTURAL READ-BACK PASS | Full JSON Schema Draft 2020-12 validation, negative fixtures, semantic reference resolution and runtime qualification remain open |
