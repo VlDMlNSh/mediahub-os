@@ -4325,3 +4325,17 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Status: DOCUMENTARY DESIGN / PROPOSED / RUNTIME-UNVERIFIED. No provider call, secret access, workflow dispatch, tests, installation, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
 - Next: close accepted A0 issuer/lifecycle, R-06 governance, authoritative target manifest and full v0.2 schema validation; then complete exact-source workflow hardening and obtain separate authorization for implementation/execution.
 - Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 18 read-back closure — 2026-10-16
+
+- Direct-egress decision: `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-DIRECT-EGRESS-DECISION-WAVE-18-2026-10-16.md`, blob `d7730895d97f84fc8ff25d1fdda61558dbd50696`.
+- Documentary queue with CAF-Q-015: blob `802ff16cfbdfad6497bcd932add07b3bb4fc8475`; queue contains 15 unique task IDs.
+- Master Roadmap blob `792621a1e5ebc07654f801ff9bca9c73ed54b7c9`.
+- Unified Matrix blob `c48087de03c5d79acec137165fc0455aaecdf773`.
+- Source Registry Wave 18 update commit `47b68b9a4547471bec09daef81cb7d96643a22d1`; new registry blob SHA is read back in the following pass.
+- Project map section `20.346` was read back through GitHub Contents API; map blob SHA `92e9f2befd0bdb8a78140588929eaa119dda2110`, 6,888 lines, including Wave 18 navigation.
+- Branch comparison: `docs/mediahub-chat-tree-map-20261012` remains DIVERGED from `main`, 1,821 ahead / 10 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No merge or integration performed.
+- State: DOCUMENTARY DESIGN / PROPOSED / RUNTIME-UNVERIFIED. No provider calls, credential access, workflow dispatch, tests, installation, host/runtime inspection, infrastructure changes, deployment or qualification occurred.
+- Next: close accepted A0 issuer/lifecycle, R-06 governance, authoritative runner/workspace/network manifest and full v0.2 schema validation; then source-qualify workflow hardening and obtain separate authorization for implementation/execution.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
