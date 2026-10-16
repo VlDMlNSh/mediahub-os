@@ -15,11 +15,11 @@ The five-day target is achievable only if it means **a coherent, source-traceabl
 The five-day target is **not a credible commitment for an implemented, deployable, independently qualified and owner-accepted hybrid autonomous distributed development fabric** based on the current source state. The master roadmap explicitly separates documentary phases, authorized deployment (Phase 08), independent qualification (Phase 09), and the gated start of Contour B (Phase 10). Current source says the unified deployment contract and traceability matrix remain PROPOSED / NOT ACCEPTED / NOT FROZEN; MH-15 acceptance/implementation authorization is absent; MH-16 remains proposed; ASTRA G0–G11 and MH-22 G1–G9 are blocked; global qualification is NO-GO / NOT PROVEN.
 
 **Planning estimate (person-hours):**
-- Architecture + unified contract + unified matrix, review-ready candidate: **70–110 h**.
+- Architecture + unified contract + unified matrix, review-ready candidate: **70–130 h**.
 - Implementation and reproducible deployment packaging after design/gates: **80–150 h**.
 - Authorized verification, qualification evidence, independent review and repair: **50–100 h**.
 - Integration contingency for source conflicts, compatibility and evidence gaps: **20–40 h**.
-- **Total to a credible Contour A deployable and independently reviewed candidate: 220–400 person-hours.**
+- **Total to a credible Contour A deployable and independently reviewed candidate: 220–420 person-hours.**
 - Contour B product development is excluded; it starts only after Contour A deployment and independent acceptance.
 
 These are engineering estimates derived from the documented scope and known open gates, not measured project velocity or a vendor commitment. Confidence is medium-low until hardware profiles, implementation status and owner/governance decision latency are evidenced.
@@ -29,8 +29,8 @@ These are engineering estimates derived from the documented scope and known open
 | Target | Meaning | Estimate | Five-day outlook |
 |---|---|---:|---|
 | T1 — Architecture/contract/matrix candidate | One consistent draft package with source citations, conflicts, decisions, component provenance, service placement, acceptance criteria and evidence mapping | 70–110 person-hours | Possible only with focused scope and parallel documentary review; acceptance still depends on governance |
-| T2 — Deployable Contour A candidate | T1 plus implementation/integration, version-pinned components, reproducible install/update/rollback/recovery bundle, secrets/egress boundaries, operational diagnostics | 150–260 cumulative person-hours before contingency | Unlikely in five calendar days under current gates |
-| T3 — Independently qualified and accepted Contour A | T2 plus authorized tests/qualification, exact build/config/hardware evidence, independent reviewer and explicit owner acceptance | 220–400 cumulative person-hours including contingency | Not credible in five days under current evidence and authorization state |
+| T2 — Deployable Contour A candidate | T1 plus implementation/integration, version-pinned components, reproducible install/update/rollback/recovery bundle, secrets/egress boundaries, operational diagnostics | 150–280 cumulative person-hours before contingency | Unlikely in five calendar days under current gates |
+| T3 — Independently qualified and accepted Contour A | T2 plus authorized tests/qualification, exact build/config/hardware evidence, independent reviewer and explicit owner acceptance | 220–420 cumulative person-hours including contingency | Not credible in five days under current evidence and authorization state |
 | T4 — Contour B product implementation | Baseline 2.0 product work after Contour A acceptance | Separate estimate required after the gate passes | Excluded from five-day target |
 
 “Ready to deploy” here means a reproducible, reviewed release candidate with approved profiles and rollback/recovery instructions. It does not mean deployed or accepted. Those are separate states.
@@ -51,7 +51,7 @@ Ranges are person-hours, not elapsed clock hours. Work packages can overlap only
 | H. Verification/qualification and independent review | 35 | 60 | 100 | Authorized checks, gate-by-gate evidence, negative cases, reviewer findings and repair |
 | I. Integration contingency | 20 | 30 | 40 | Unexpected contract conflict, compatibility, workflow or evidence repair |
 
-The planning case totals approximately 299 person-hours. The full range is approximately 185–438 person-hours if every optimistic/conservative bound is added mechanically. For commitment planning, use **220–400 hours** after allowing overlap among documentary work packages and reserving contingency; this remains a planning range, not a guaranteed completion interval.
+The planning case totals approximately 299 person-hours. The work-package arithmetic spans 167–438 hours when every optimistic/conservative bound is added mechanically. For commitment planning, use **220–420 hours** after allowing overlap among documentary work packages and reserving contingency; this remains a planning range, not a guaranteed completion interval.
 
 ## 4. Why this is more than document consolidation
 
@@ -71,7 +71,7 @@ Five calendar days provide 120 elapsed hours, but not 120 focused engineering ho
 
 | Staffing scenario | Nominal focused capacity over 5 days | Practical implication |
 |---|---:|---|
-| One engineer/agent, 8–10 focused hours/day | 40–50 person-hours | Insufficient for the full 70–110 h architecture/contract/matrix candidate; can complete a narrow tranche |
+| One engineer/agent, 8–10 focused hours/day | 40–50 person-hours | Insufficient for the full 70–130 h architecture/contract/matrix candidate; can complete a narrow tranche |
 | Two parallel workers, 8 focused hours/day each | 80 person-hours | Can approach the low end of T1 if workstreams are independent and a reviewer/owner resolves conflicts quickly |
 | Three parallel workers, 8 focused hours/day each | 120 person-hours | T1 is plausible; integration/review and governance bottlenecks still constrain completion |
 | Three workers, 10 focused hours/day each | 150 nominal person-hours | Additional capacity helps T1 and limited implementation preparation; does not establish T3 because qualification and authorization are separate gates |
@@ -111,7 +111,7 @@ Primary schedule risks:
 - **Probably not:** an implementation-complete, reproducibly deployable, independently qualified and owner-accepted Contour A system in five days. The current record has multiple hard gates and open technical contracts, and no authorized runtime qualification evidence.
 - **Definitely outside this estimate:** Contour B product development and production acceptance.
 
-Recommended planning commitment: five days for T1; then a provisional **3–6 additional focused engineering weeks** for T2/T3 with 2–3 effective contributors, prompt decisions and no major hardware/provider surprises. The calendar range can expand with owner wait time, qualification failures or access/eligibility restrictions. The 3–6 week projection is a coarse scheduling inference from 220–400 person-hours, parallelism and serial gates, not a guarantee.
+Recommended planning commitment: five days for T1; then a provisional **3–6 additional focused engineering weeks** for T2/T3 with 2–3 effective contributors, prompt decisions and no major hardware/provider surprises. The calendar range can expand with owner wait time, qualification failures or access/eligibility restrictions. The 3–6 week projection is a coarse scheduling inference from 220–420 person-hours, parallelism and serial gates, not a guarantee.
 
 ## 9. Evidence boundary and next step
 
