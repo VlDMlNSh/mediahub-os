@@ -1894,3 +1894,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No credentials, provider calls, workflow dispatches, host/runtime inspection, tests, installation, infrastructure changes, qualification, deployment or branch integration occurred.
 - Next: reconcile exact A0 issuer/lifecycle and R-06; bind the proposed fields to canonical task schema and traceability matrix. Target manifest remains UNKNOWN until accepted evidence is available.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Credential Reference and Schema-Gap Crosswalk, Wave 20 (2026-10-16)
+
+- Added [Credential Reference and Schema-Gap Crosswalk — Wave 20](MEDIAHUB-CREDENTIAL-REFERENCE-AND-SCHEMA-GAP-CROSSWALK-WAVE-20-2026-10-16.md), creation commit `36512c3c3c345581fa699f5e6c9a5bba49b02fc4`, current blob SHA `13c9cb5a16323a7bd28c6564009f6f123f710f2e`.
+- Source-bound comparison found that task-envelope v0.2 has provider/model and authorization/eligibility/data-policy/quota references but no explicit opaque credential reference; agent-registry v0.2 models agent admission, rather than a dedicated credential record or vault secret-version reference.
+- Recommended separation: credential record, agent admission record and task envelope remain distinct; raw secret values stay in the approved vault path, while tasks carry opaque credential references only. Existing v0.2 schemas remain unchanged pending accepted A0/MH-12/R-06 contracts and independent review.
+- Reaffirmed gates: A0 issuer/ingress/lease/revocation/replay lifecycle OPEN; R-06 audit/privacy disposition OPEN; accepted runner/workspace/network target manifest UNKNOWN; full Draft 2020-12 validation and negative fixtures OPEN under separate authorization.
+- Status: DOCUMENTARY CROSSWALK / PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED. No secrets, providers, workflow dispatches, tests, host/runtime inspection, installation, infrastructure change, deployment or branch integration occurred.
+- Next: close CAF-Q-014 and governance/target gates through their authorized paths; then prepare a versioned credential-record schema and compatible task/agent schema proposal for independent review.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
