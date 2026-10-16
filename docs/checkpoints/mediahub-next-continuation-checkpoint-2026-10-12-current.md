@@ -4048,3 +4048,11 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Status: DOCUMENTARY DECISION PACKET / PROPOSED / RUNTIME-UNVERIFIED.
 - Next: continue the master roadmap's remaining documentary lanes—component manifest/YAML scope, A0 ingress issuer/lifecycle, audit/privacy R-06 and exact-target manifest—using source-bound evidence and preserving UNKNOWN fields.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Source-registry read-back — Wave 04
+
+- Extended the existing Canonical Source Registry and Security Evidence Ledger with SRC-031 (Wave 04 provider/egress packet), SRC-032 (matrix after Wave 04 integration) and EVD-016 (provider eligibility/data-egress evidence gate).
+- Registry update commit `36470305180725bdd29d9c3b02f9b3699f21520c`; resulting registry blob SHA `940c5aba5a99c43e8ca324bc362e5e628cbf187f`.
+- Current branch compare: documentation ref DIVERGED from `main`, ahead 1,692 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. Branches remain separate.
+- Current map blob SHA: `08353d8ecd7e52495e8a67b8ec849d6068129e57`.
