@@ -48,3 +48,12 @@ Inspect the exact DEC-DEV-02 primary record and P0-05/P0-07 contract sources on 
 No tests, validators, code edits, credentials/provider calls, host/runtime inspection, installs, infrastructure changes, deployment, migration or branch integration occurred.
 
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## WB-14Y boundary correction — engineering ingress vs canonical product mutation (2026-10-16)
+
+This addendum supersedes only the inference in WB-14X that could place the P0-07 → P0-05 caller gap and P0-05 contract-status issue as direct acceptance gates for all Jarvis → ASTRA A0 engineering ingress. They are distinct routes:
+
+- Jarvis → A0 is bounded engineering-mission ingress and ASTRA-internal lifecycle. The owner-approved DEC-DEV-02 Option C is already recorded in [the owner decision packet](MEDIAHUB-OWNER-DECISION-PACKET-01.md), §8. Its API/issuer/verification/idempotency/cancel/status/result contract is still not established.
+- P0-07 → P0-05 → P0-04 concerns canonical product-state mutation. Its caller edge remains NOT ESTABLISHED and the P0-05 DRAFT-header disposition remains at the owner-directed defer/governance-evidence gate. These issues block relevant product mutation, not automatically every engineering task submission.
+
+MH-12 security principles can inform both trust boundaries, but neither path may assume the other's issuer, audience, context or protocol. A0 must never bypass P0-05/P0-04 or acquire canonical product-state authority. See WB-14Y for the source-pinned correction and separate evidence matrix.
