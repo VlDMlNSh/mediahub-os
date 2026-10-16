@@ -1754,3 +1754,17 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Canonical Source Registry update commit `2c163c45f9ef2babf57d786f3a95203c3c44631b`, blob SHA `8009abcfc1f0a8a83512e7321d9765ccca828068`.
 - Project map update commit `dc78ced5549d54a5c9cd1cfc68678a6081964e07`, blob SHA `febcd37109c237bb301d487201e2ecb5aeadeb36`, §20.341.
 - Validation result: 13/13 bounded structural assertions passed; full JSON Schema validator, workflow tests and provider-backed dispatch remain open.
+
+
+## Contour A — Agent Registry and Evidence Manifest Schemas, Wave 13 (2026-10-16)
+
+- Created [Cloud-Agent Registry and Evidence Schemas — Wave 13](MEDIAHUB-CLOUD-AGENT-REGISTRY-AND-EVIDENCE-SCHEMAS-WAVE-13-2026-10-16.md), commit `ca313bdb3e1099ba97e966404b8bd6f7202630f6`.
+- Created proposed [Agent Registry Record Schema v0.1](MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json), blob SHA `449a38bc84283f720fe723ea8e3587e6082fdbb4`.
+- Created proposed [Execution Evidence Manifest Schema v0.1](MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json), blob SHA `9714fd2dd04d401a9a3d1a800cb19d7b69e7e73f`.
+- Updated the documentary activation queue, preserving CAF-Q-001…CAF-Q-010 and linking CAF-Q-004/005/006 to the schema review work; queue blob SHA `d6b01b23885d35d30f5f0460b899e073cefd6027`, update commit `9c72154485da216bad8a9c08ba9037f23c37423e`.
+- Extended the Unified System Traceability Matrix with CAF-23…CAF-25; matrix blob SHA `c97d50bb10c4373ebb8c58fa6487b3d69954200b`, update commit `1f613c3a26a5183989349a5bee3bd97d3ca6aa0f`.
+- Extended the Canonical Source Registry with SRC-045…SRC-046 and EVD-023; SHA correction commit `9cdaa738fe604207e06f13928670b9439d569709`. Registry blob SHA after the correction is recorded by the subsequent read-back.
+- Performed 15 bounded structural assertions against the two new schemas, existing task schema and activation queue: 15/15 passed. This is a structural smoke check, not full JSON Schema meta-validation or workflow qualification.
+- Status: SCHEMA ARTIFACTS CREATED / REVIEW REQUIRED / RUNTIME-UNVERIFIED. A0 issuer/lifecycle, R-06, MH-12 authority and target manifest remain open. No new agent connection, provider call, workflow dispatch, workflow-source edit, installation, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
+- Next: independently review schemas; continue authoritative target-manifest discovery; then prepare a minimal workflow implementation patch only after source-edit and execution gates are explicitly cleared.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
