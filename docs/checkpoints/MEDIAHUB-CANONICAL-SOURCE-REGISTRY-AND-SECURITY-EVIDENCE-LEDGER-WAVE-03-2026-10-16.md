@@ -264,6 +264,13 @@ These entries index review findings and planning state only. No v0.1 schema was 
 |---|---|---|---|---|---|
 | SRC-058 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `b49b89b8fbdfc180862e3dc78f8198f35e486035` | Candidate provider-backed agent registry record | PROPOSED / REVIEW REQUIRED | Draft 2020-12 validation, semantic grant resolution, A0/MH-12 |
 | SRC-059 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `40c402432fd0f3899d45fde0fa0a8af4d34c593a` | Candidate execution/verification/qualification evidence manifest | PROPOSED / REVIEW REQUIRED | Full validator, negative fixtures, R-06 and independent review |
-| SRC-060 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-V0.2-CANDIDATES-WAVE-16-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `438d9321ef68caa32c4842e116f6c5d61ec663cc`; read-back pending | Wave 16 candidate description and structural review | CANDIDATE DOCUMENT / RUNTIME-UNVERIFIED | Read-back and independent review |
+| SRC-060 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-V0.2-CANDIDATES-WAVE-16-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `438d9321ef68caa32c4842e116f6c5d61ec663cc`; live blob SHA `6c32f0d88a01e2fd2beb546f31b601f4efe13c0d` | Wave 16 candidate description and structural review | CANDIDATE DOCUMENT / RUNTIME-UNVERIFIED | Read-back and independent review |
 | SRC-061 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Update commit `ce9a4a2d9bd740afe3ad27186117994c7289a7a3`; blob `4482cecf502a3c769ab55edfb005a3fc88e1975b` | Documentary queue CAF-Q-001…CAF-Q-014 | DOCUMENTARY ONLY | Accepted A0 lifecycle and separately qualified scheduler |
 | EVD-029 | v0.2 candidate structural assertions | 20/20 bounded assertions against GitHub read-back content | STRUCTURAL SMOKE EVIDENCE ONLY | Full standards validator, negative fixtures and independent review |
+
+
+### Wave 16 final read-back — 2026-10-16
+
+- Wave 16 candidate report blob SHA: `6c32f0d88a01e2fd2beb546f31b601f4efe13c0d`.
+- Restored full project map from prior full blob `6c971574ad5edb7bd0cfb87c57d9dbd5cc986304`, then preserved Wave 14–16 index entries. Restoration commit: `0bae4b0409ef43e3b1837bac054e517496dd7076`; live map blob SHA: `bf1d7e0cdfa84be8e0cec85fba3f4c03b96d9f1a`; read-back length 1,004,471 bytes; confirmed base inventory plus §§20.342–20.344.
+- The map’s large contents exceeded the regular contents endpoint’s returned body size; restoration used the exact Git blob and a subsequent full-blob read-back.
