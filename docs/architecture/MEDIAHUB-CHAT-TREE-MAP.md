@@ -6316,3 +6316,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Status: PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED. Transport-neutral logical operations, request trust envelope, admission/idempotency, lifecycle/fencing/cancellation/result/evidence, failure semantics and nine open decision rows are documented.
 - No endpoint, transport, schema ID, issuer, crypto profile, persistence or external TTL selected. Local proposal IDs are not canonical IDs and require collision check before promotion.
 - Next: source-only collision-check the proposal decision IDs and map unresolved questions to explicit owners and acceptance evidence; prepare a compact decision packet without changing normative status.
+
+## 20.299 Contour A WB-14AB — A0 ingress proposal-ID/owner crosswalk (2026-10-16)
+
+- Report: [WB-14AB A0 Ingress Proposal-ID Collision Audit and Decision-Owner Crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14AB-A0-INGRESS-ID-COLLISION-AND-DECISION-OWNER-CROSSWALK-2026-10-16.md), commit `fee7c7b732bb1974e453fc0d023b1ec739eed2e1`.
+- Bounded collision scan found no exact `A0-ING-01…09` matches in map/checkpoint/roadmap/owner registers/packet/MH-12/ASTRA governance and reference architecture. This does not prove uniqueness across all branches. Keep IDs proposal-local and do not register canonically yet.
+- Mapping: A0-ING-02 ↔ D-ING-01/02; A0-ING-04 ↔ D-ING-03; A0-ING-06 ↔ D-ING-04; A0-ING-07 ↔ D-ING-05b; A0-ING-05 ↔ D-ING-06. Keep D-ING-05a separate. A0-ING-01/03/08/09 have cross-cutting owner, API, evidence or qualification dependencies.
+- WB-14W role assignments remain proposed; named accountable owners, delegated authority and formal acceptance workflow are not evidenced. WB-14AA remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
+- Next: prepare compact owner/governance request for accountable-owner appointments and acceptance-path confirmation; preserve no-implementation/no-qualification gates.
