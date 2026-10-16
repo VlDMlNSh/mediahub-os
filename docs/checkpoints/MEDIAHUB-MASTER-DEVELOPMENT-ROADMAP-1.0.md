@@ -1448,3 +1448,16 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Preserves the owner-approved separation: Jarvis mission coordination; A0 internal queue/claim/lease/retry/cancellation/recovery/gates; Product State Authority for canonical product-state mutation. Direct-local execution remains a separate route.
 - Next bounded work item WB-14R: reconcile exact ASTRA authority wording and crosswalk proposed fields against existing schemas/owners. Do not edit normative contracts or choose a transport without explicit accepted decisions.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14R — ASTRA A0 authority reconciliation and ingress schema crosswalk (2026-10-16)
+
+- Report: [WB-14R A0 Ingress Authority and Schema Crosswalk](MEDIAHUB-CONTOUR-A-WB-14R-A0-INGRESS-AUTHORITY-AND-SCHEMA-CROSSWALK-2026-10-16.md), commit `6441ea7f6d08b5a07e46748cdde43a703fda8fc1`, blob SHA `ec783cb5432c68436c1c451c29dd6fa007b7d8d3`.
+- Authority crosswalk: Jarvis owns corporation missions/routes/results; ASTRA A0 owns ASTRA-internal lifecycle; MediaHub Product State Authority alone owns canonical product-state mutations. Main still contains broad A0 authority statements, while some docs-branch source prose/YAML is already scoped and unified Markdown remains ambiguous.
+- Topology conflict: old identities mh-dev-01, mh-dev-02 and Voktors-Mac-mini.local are still called permanent ASTRA lanes in reference/unified docs, conflicting with greenfield bootstrap rules. Target inventory remains UNKNOWN/BLOCKED pending source reconciliation; no replacement hosts were invented.
+- Field mapping covered mission/task/DAG IDs, principal/issuer/audience, capability, signature/freshness, target SHA/digest, route/egress/scope, idempotency, health nonce, admission/status/cancellation/result/evidence. Existing schema-set draft remains the candidate field inventory, not a normative schema set.
+- Command signer formats conflict; the health command example is not aligned with the node-specific signer contract. FileTaskIngress and AstraGatewayRuntime are separate application-runtime paths, not proof of the Jarvis→A0 ingress API. Device/model/mesh capabilities are not authorization capability tokens.
+- The main-only WB-14 source reconciliation and corporation architecture crosswalk were read to avoid duplicating earlier source inventory. Branches remain diverged; no branch integration was performed and the main-only Baseline 1.0 change was not imported.
+- Status: design/source crosswalk only; no code/schema implementation, tests, qualification, host/runtime inspection or deployment occurred.
+- Next bounded work: WB-14S strict schema ownership and operation-specific field mapping. Keep issuer, transport, auth/crypto, freshness and persistence choices open until approved.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
