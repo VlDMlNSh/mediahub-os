@@ -6514,3 +6514,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Checkpoint: [Gemini Read-only Audit Retry Workflow — Checkpoint](../checkpoints/MEDIAHUB-GEMINI-READONLY-AUDIT-RETRY-WORKFLOW-CHECKPOINT-2026-10-16.md), latest blob SHA `61fce11fa737ce5dc58d472fb8f6e925322308eb`, update commit `83023b108010c0ac78e80188b712e28bfa99dcad`.
 - Manual launch: [open workflow Actions page](https://github.com/VlDMlNSh/mediahub-os/actions/workflows/gemini-readonly-audit-retry.yml).
 - No workflow dispatch, Gemini API call, tests, qualification, deployment, or acceptance was performed by this documentation/configuration pass. Next: user manually dispatches the retry workflow and shares the run URL/log; sanitized error metadata should identify the next diagnostic path.
+
+
+## 20.318 P0-07 D2 R-06 — operation inventory source reconciliation, Wave 02 (2026-10-16)
+
+- Report: [R-06 Operation Inventory Source Reconciliation, Wave 02](../checkpoints/MEDIAHUB-P0-07-D2-R06-OPERATION-INVENTORY-SOURCE-RECONCILIATION-WAVE-02-2026-10-16.md), blob SHA `c3fc203413728556d32b3861f3a2202744228ee1`.
+- Located source-pinned P0-03/P0-04/P0-05 artifacts. The downstream State Authority contract explicitly names `read`, `begin`, `commit`, `abort`, `snapshot`, `restore`. P0-04 acceptance record says ACCEPTED/FROZEN in bounded in-memory scope, but the P0-03 contract header remains Draft; P0-05 contract header remains Draft while its governance packet authorizes implementation. Both status discrepancies are recorded, not silently resolved.
+- These six downstream operation names are not a complete P0-07 domain-operation inventory. No accepted P0-07 → P0-05/P0-04 operation mapping was evidenced. Audit-mandatory status and behavior when required evidence cannot be emitted remain UNKNOWN per operation.
+- R-06 remains UNKNOWN / GOVERNANCE DECISION REQUIRED; D1 NOT DEMONSTRATED; D2 NOT EVIDENCED / NOT ACCEPTED / NOT FROZEN; D3 NOT EVIDENCED; D6 OPEN; P0-07 mutation/publication BLOCKED; qualification NO-GO / NOT PROVEN.
+- No code, normative contract, tests, qualification, provider/model call, credentials, runtime, infrastructure or deployment work. No branch integration.
+- Next: locate the canonical P0-07 operation/capability inventory on its owning ref and check for an accepted mapping to P0-05/P0-04; do not infer mappings.
+- Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
