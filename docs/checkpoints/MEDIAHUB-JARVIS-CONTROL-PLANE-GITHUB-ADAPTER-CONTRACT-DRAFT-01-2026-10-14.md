@@ -87,7 +87,7 @@ Before dispatch, Jarvis must create an immutable routing decision record bound t
 - Each mission targets an immutable source SHA and a unique isolated workspace.
 - A worker must have a valid lease before writing; stale lease or expired claim means stop/hold and reconcile with ASTRA's single writer.
 - A directory named as a worktree is not proof it exists, is clean, belongs to a live worker or holds a valid lease.
-- Existing inventory records nine auxiliary worktree entries marked prunable because their gitdir targets were missing: three on Linux and six on macOS. No cleanup was performed. Do not remove or repurpose them until active worker/lease ownership is verified under explicit authorization.
+- Historical inventory note (2026-10-14): an earlier snapshot recorded nine auxiliary worktree entries as prunable. This is stale historical provenance only; it is not a statement about the clean target, current filesystem, or current worker/lease state. Do not inspect, clean up, restore or repurpose any legacy worktree as part of this design. The new target inventory must be established independently under separately authorized read-only inspection.
 - A worker may produce a patch and evidence but cannot self-approve, merge, release or mark system qualification PASS.
 
 ## 7. Evidence and lifecycle state machine
@@ -113,18 +113,23 @@ A component/gate PASS is independently attributable only when the record binds:
 
 The owner reported on 2026-10-14 that some individual services/gates had returned PASS, while ASTRA end-to-end autonomous queue completion had not been achieved. Until exact identifiers and artifacts are linked, preserve these as `OWNER_REPORTED_PARTIAL_PASS / EVIDENCE_LINK_PENDING`. Do not invent missing gate IDs, run IDs, SHAs or logs. Overall ASTRA queue, worker dispatch, lease integrity, A3 and end-to-end completion remain NOT ACHIEVED / NOT PROVEN on the current evidence record.
 
-## 8. Portable deployment profile boundary
+## 8. Clean target deployment boundary
 
-Hardware profiles are placement candidates, not implicit commitments:
+The current owner direction is a **new, clean, reproducible deployment**. Historical hostnames, legacy node identities, prior failed installations, old worktree records and earlier hardware-placement suggestions are not target inventory, deployment instructions, or proof of current hardware/runtime state.
 
-- **Mac mini 2011, Intel i7 / 16 GB / clean Linux:** candidate constrained control/edge/evidence node. Verify exact CPU instruction set, supported OS/kernel, network/firmware, storage health, thermals, recovery, security maintenance and runtime compatibility before deciding suitability. Do not assume large-model inference capacity.
-- **Mac Pro 2013:** candidate engineering/CI worker or secondary orchestrator. Exact CPU/RAM/GPU/VRAM/storage/OS are unknown. Validate OS support, AMD GPU/driver/runtime compatibility, sustained performance, thermals and power before any workload assignment; do not assume CUDA support.
-- **Future remote high-VRAM GPU server:** optional inference provider behind a separate trust and egress boundary. No connection by default. Require explicit owner-approved budget/location/data policy, identity and transport security, model provenance/license, GPU/runtime compatibility, quotas, retention policy, audit and fail-closed route policy.
-- **Existing mh-dev-02 and Voktors-Mini.Dlink:** evidence/reference nodes, not automatically production authority.
-- **mh-dev-01:** offline at the latest inventory; component state unknown.
+The previous hardware list in this draft is retained only as historical provenance and is superseded for target planning by this section. Do not use Mac Pro 2013, Mac mini 2011, mh-dev-01, mh-dev-02, Voktors-Mini.Dlink, Voktors-Mac-mini.local, or any other legacy identity as a deployment target merely because it appears in older records.
 
-No provisioning, hardware qualification, installation or deployment is authorized by this draft.
+Current target-role concepts, pending owner confirmation and fresh evidence:
 
+- developer workstation;
+- low-resource auxiliary/control server;
+- optional future owned GPU/video-generation server;
+- developer clients;
+- restricted API-key workflow host.
+
+These are role categories, not identified or qualified machines. Exact hardware identity, OS/build, CPU/GPU/accelerator, memory, storage, firmware, network, security-maintenance status, workload suitability and resource envelope remain **UNKNOWN until independently evidenced for the new target**. Do not infer a physical machine from an old nickname or map a role to a legacy host.
+
+Any future host inspection, provisioning, installation, qualification or deployment requires its own explicit authorization. This draft authorizes none of those activities.
 ## 9. Acceptance gates before implementation
 
 | Gate | Required evidence | Current disposition |
@@ -145,7 +150,7 @@ No provisioning, hardware qualification, installation or deployment is authorize
 1. Map historical service/gate PASS artifacts to exact IDs and immutable evidence, preserving their original scope.
 2. Resolve provider semantic conflict and component identities by source/config inspection without reading secrets or invoking providers.
 3. Complete the machine-readable evidence schema and align the project-wide matrix to it.
-4. Prepare exact-hardware worksheets for Mac Pro and Mac mini; collect host details only under the separately authorized read-only inspection scope.
+4. Prepare a clean target-role inventory worksheet with explicit UNKNOWN fields; bind any later physical host only after owner identification and separately authorized read-only inspection.
 5. Keep installation, tests, qualification, provider calls, infrastructure changes, deployment, merge and release separately authorized.
 
 **Conclusion:** this draft provides a proposed control-plane/GitHub Adapter contract and deployment boundary. It is not accepted, implemented, qualified or deployed. ASTRA end-to-end autonomous queue remains NOT ACHIEVED on current evidence.
