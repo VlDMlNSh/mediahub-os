@@ -3760,3 +3760,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Statuses remain: D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3 NOT EVIDENCED / dependent on D1/D2; D6 OPEN; P0-07 mutation/publication BLOCKED; qualification NO-GO / NOT PROVEN.
 - **Next:** prepare a narrow R-06 owner-decision table from operations explicitly enumerated in accepted source contracts. If those contracts do not enumerate operations, record the gap as UNKNOWN and request owner/security/privacy disposition rather than inventing the operation list.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest bounded continuation — P0-07 D2 R-06 operation-scoped audit-unavailable decision table (2026-10-16)
+
+- Created [R-06 Operation-Scoped Audit-Unavailable Owner Decision Table, Wave 01](MEDIAHUB-P0-07-D2-R06-OPERATION-SCOPED-AUDIT-UNAVAILABLE-OWNER-DECISION-TABLE-WAVE-01-2026-10-16.md), current blob SHA `9acc0188c9d7db12ec3331d84aa070f3f9646661`.
+- Operation inventory result: **UNKNOWN**. The reviewed accepted sources provide general operation-specific authorization/audit boundary principles but no closed named operation inventory was identified in this pass. No operations were invented. Repository search silence is not proof of absence.
+- R-06 remains UNKNOWN / GOVERNANCE DECISION REQUIRED. No global fail-open/fail-closed behavior selected; no owner decision or independent reviewer disposition implied. All D1/D2/D3/D6 and qualification statuses unchanged.
+- Refs refreshed: docs branch compare against main reports DIVERGED, 1598 ahead / 4 behind; main HEAD `ab36db009d034db8d8ca723691e23b331322287e7`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration attempted.
+- Next: find exact accepted P0-05/P0-04 primary contract paths on their owning refs and extract only the explicitly named operation inventory; if absent, ask the owner to identify the canonical operation contract.
