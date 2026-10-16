@@ -3805,3 +3805,17 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Latest user-provided run log before the change showed HTTP 503 after four attempts. Post-change behavior remains unverified; Actions secret value/presence/validity was not inspected.
 - Retry checkpoint blob SHA: `8e396be8ee47f988b2e572a969d8b1d3602def61`. Project map §20.317 blob SHA: `b3fad95d83fbadc74631484038c1efd035ab9a71`.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — Gemini connection troubleshooting (2026-10-16)
+
+- User requested completing the necessary work to connect Gemini after no historical HTTP 200 evidence was found.
+- Updated primary workflow `.github/workflows/gemini-readonly-audit.yml` on `main`: blob SHA `0d10efdda251f2ceca43175981c919102303572b`, commit `c8890ae7f0d7ce1521f65a819d5ad564acb3f590`.
+- Updated retry workflow `.github/workflows/gemini-readonly-audit-retry.yml` on `main`: blob SHA `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`, commit `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- Both workflows now default to `gemini-3.5-flash-lite`; explicit `temperature: 0.2` was removed from generation configuration. The retry workflow emits selected, capped, sanitized API error metadata and an optional request ID while suppressing raw response bodies.
+- GitHub read-back verified both workflow blobs, model ID occurrences, removal of the prior model string and sampling parameter, and presence of the sanitized diagnostic code. No test suite was run.
+- Updated retry checkpoint: blob SHA `61fce11fa737ce5dc58d472fb8f6e925322308eb`, commit `83023b108010c0ac78e80188b712e28bfa99dcad`.
+- Updated project map §20.317: blob SHA `7f3b113ab3bd926d6194ca3a33176b57bbc35b01`, commit `d1b1863f356d77a11f9dce8bf40bb5fbe0617776`.
+- No workflow dispatch or Gemini API call was performed by the assistant; secret contents, presence and validity were not inspected. Connection success remains unverified until the user manually launches the retry workflow and shares its run result.
+- Manual launch: https://github.com/VlDMlNSh/mediahub-os/actions/workflows/gemini-readonly-audit-retry.yml
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
