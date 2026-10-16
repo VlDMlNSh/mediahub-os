@@ -1953,7 +1953,7 @@ The two files on `main` were read at blob SHAs `0d10efdda251f2ceca43175981c91910
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 
 
-## 18. Gemini operational evidence — Wave 10 (2026-10-16)
+## 19. Gemini operational evidence — Wave 10 (2026-10-16)
 
 | Control ID | Claim | Evidence | State | Boundary / next action |
 |---|---|---|---|---|
@@ -1968,7 +1968,7 @@ A successful historical Gemini API step is positive operational evidence and rep
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 
 
-## 19. Clean target manifest authority reconciliation — Wave 10 (2026-10-16)
+## 20. Clean target manifest authority reconciliation — Wave 10 (2026-10-16)
 
 Supporting review: [Clean Target Manifest Authority Reconciliation, Wave 10](MEDIAHUB-CLEAN-TARGET-MANIFEST-AUTHORITY-RECONCILIATION-WAVE-10-2026-10-16.md), blob SHA `1f748bf80e08067fd85a7e1b0821cc4d12bda676`.
 
