@@ -3720,3 +3720,23 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment, migration or branch integration occurred.
 - **Next:** perform a bounded source-by-source coverage pass over concrete Jarvis/ASTRA/A0 artifacts referenced by the current consolidated export; add only material omissions and avoid duplicating indexed work.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest verified continuation — P0-07 D2 R-01…R-06 source reconciliation (2026-10-16)
+
+- Scope: read-only source reconciliation plus this checkpoint update. No code edits, tests, qualification, issuer/technology selection, implementation authorization, merge or deployment.
+- Live compare at this pass: `main` HEAD `ab36db009d034db8d8ca723691e23b331322287e7`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; documentation ref `docs/mediahub-chat-tree-map-20261012` compares as DIVERGED, 1,592 ahead / 4 behind. The earlier WB-14N report recorded 1,466 ahead / 4 behind at its own observation; this is a ref-state discrepancy over time, not grounds to merge. No merge attempted.
+- Re-read blob SHAs on the documentation ref: bootstrap `a3c51f3ddf17827bf6193cce52387a5daad3b6e0`; map `774009588685a434d89e8b52d419c5102991c643`; this checkpoint before update `1d9f59b95b006acb5bb16a9d9d0dd3284abacd6c`; P0-07 D2 proposal `c0ae0d3fe340c3e50382b7d4aa8da7b6b5f56d9f`.
+- Exact D2 R-item meanings confirmed from proposal §13.1/§13.2:
+  - R-01 canonical security-flow mapping;
+  - R-02 principal and delegation scope;
+  - R-03 lifecycle failure semantics;
+  - R-04 privacy and audit minimization;
+  - R-05 MH-13 governance/status boundary;
+  - R-06 required audit unavailable.
+  Any summary redefining these as JWT issuer, jti/replay, scope, signature, revocation and logging is not faithful to the source IDs and must not be used as the D2 review matrix.
+- Primary source anchors re-read on `main`: MH-12 identity `27eef9e23db02d6280b94a8e68bff9f73b0de88d`; MH-12 authorization `c48641861691714017aa5b1f99fe8eee8ea0e76a`; MH-12 security boundaries `38a4505eef87f696748924baedd40cfa2ad07a41`; MH-12 audit `ab6e1c652790fd9088ac26b595050774611da2fc`; MH-12 unknowns `97f08824fb858dd4506876729ae37d610140c3e8`.
+- Existing source-trace artifacts re-read on documentation ref: WB-05 issuer authority / owner decision packet blob `1b562c6546b1216f2ee89095cd6a78427a967dc5`, status OPTIONS NOT SELECTED / NON-NORMATIVE / NOT IMPLEMENTED; WB-06 AuthorizationContext producer/consumer inventory blob `9bd850e869dbd19db9bde2ce08768aaf502c95a2`, status BOUNDED SOURCE INVENTORY / PARTIAL CLOSURE / NOT IMPLEMENTED / NOT QUALIFIED. WB-06 establishes a local typed in-process context and tuple allow-list checks, but does not establish issuer provenance, an authenticated wire/ingress contract, audience/resource binding, expiry/revocation freshness, or a proven Jarvis→A0 path. A separate HMAC command-envelope path is not evidence that these seams are connected.
+- Governance alternatives remain unselected. The WB-05 packet records GOV-CAP-01…GOV-CAP-07 as owner/governance decisions required; no source read here established a subsequent owner decision. D2 remains NOT ACCEPTED / NOT FROZEN; D1 NOT DEMONSTRATED; D2 trusted issuer/lifecycle NOT EVIDENCED; D3 end-to-end binding NOT EVIDENCED / dependent on D1/D2; D6 OPEN; P0-07 mutation/publication BLOCKED; qualification NO-GO / NOT PROVEN.
+- Independent-review status: the proposal's bounded issue-search record says no traceable appointment or completed R-01…R-06 disposition was surfaced in the queried results. This does not prove that no reviewer exists outside those results. No reviewer was contacted or appointed.
+- Next bounded step: continue source-only closure of directly referenced MH-12/MH-13 primary artifacts and existing issuer/lifecycle matrices; keep a requirement-to-evidence crosswalk separate from technology proposals. Escalate unresolved authority/ownership and operation-specific audit-unavailable behavior for owner/governance disposition. Do not select JWT/OAuth/mTLS or revise P0-05 without explicit decision.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
