@@ -6546,3 +6546,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - This updates working method and decision delegation only; Functional Baseline 2.0 and normative contracts are not changed by this instruction update.
 - Next: autonomously prepare the recommended technical design for the open P0-07 R-06 audit policy and P0-07 → P0-05/P0-04 authorization composition gap, with source-backed rationale and explicit unresolved formal gates; do not ask the owner to choose routine technical alternatives.
 - Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+
+
+## 20.321 P0-07 R-06 — recommended audit policy and authorization composition, Wave 04 (2026-10-16)
+
+- Report: [P0-07 R-06 — Recommended Audit Policy and Mutation Authorization Composition, Wave 04](../checkpoints/MEDIAHUB-P0-07-D2-R06-AUDIT-POLICY-AND-AUTHORIZATION-COMPOSITION-WAVE-04-2026-10-16.md), creation commit `a4cc49804ac9a093caeac0a090899682423c4b55`.
+- Following the owner’s explicit delegation of technical decisions, selected a source-backed target direction as **PROPOSED / NOT ACCEPTED / NOT FROZEN**: minimal durable audit-intent/decision evidence for all seven P0-07 operations; fail closed if required pre-action evidence cannot be accepted; mutation intent must precede publication; unresolved post-commit outcome must be reconciled, not represented as rollback.
+- Recommended conjunctive authorization composition at the P0-05 boundary: P0-07 domain capability ALLOW AND P0-07 policy ALLOW AND independently authorized P0-04/P0-05 transaction authority ALLOW. No capability translation, context minting, direct P0-07 mutation call, or alternate State Authority.
+- Rationale: the existing-context-only path relies on a trusted issuer/lifecycle not evidenced as accepted; changing P0-05/P0-04 contracts broadens normative change. A governed composition adapter best preserves the current authority hierarchy, but the adapter contract remains BLOCKED — GOVERNANCE/API GAP.
+- Audit sink durability/interface, schema, privacy classification, retention/access, trusted context lifecycle, and exact adapter interface remain open acceptance gates. No code or normative contract changed; no tests, qualification, provider/model calls, credentials, runtime/host inspection, infrastructure, deployment, migration, merge, rebase, or cherry-pick.
+- Next: source-only reconciliation against canonical MH-12 security and MH-13 privacy contracts; verify the proposed audit fields and lifecycle against accepted requirements before any implementation.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
