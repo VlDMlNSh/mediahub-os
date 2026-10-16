@@ -1621,3 +1621,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Documentation/planning only; no workflow source edits, tests, qualification, provider calls, credentials, runner/host inspection, infrastructure changes, deployment or branch integration.
 - Next: Wave 07 — canonical authority inventory and project-wide matrix integration, Day 1. Workflow source changes and verification execution retain separate authorization gates.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Canonical Authority Inventory and Project-Wide Matrix Integration, Wave 06 (2026-10-16)
+
+- Extended the existing Unified System Traceability Matrix v0.1 with a 20-domain source-backed coverage matrix, six explicit cross-domain conflict records and required evidence/closure semantics. Commit `e499b3d217a3c65234815278fc39fed2c217306c`; blob SHA `af813446ce65846189a249dab05c933daf238cec`.
+- Extended the existing Canonical Source Registry and Security Evidence Ledger through SRC-028; latest blob SHA `c6d8f973f5073961ccb7ad7c0016e336f4f2d158`.
+- Map §20.331 commit `1e6a7e9307f9a12fe25ee4ccc5746f36c7c418f3`; map blob SHA `c6b050b94835da2889e3e59f2d90189a9077941f`.
+- Preserved accepted Baseline 2.0, historical Baseline 1.0, source-specific authority boundaries, unresolved conflicts and UNKNOWN target/evidence fields. The matrix and contract drafts remain proposed.
+- Documentation only; no source/workflow edits, tests, qualification, provider calls, credentials, runner/host inspection, infrastructure change, deployment or branch integration.
+- Next: resolve the five highest-impact documentary lanes—provider/egress, component manifest/YAML, ASTRA A0 lifecycle/issuer, audit/privacy R-06 and clean target manifest—then integrate their source-bound outcomes into the existing matrix.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
