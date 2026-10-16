@@ -371,3 +371,8 @@ Registry boundary: owner intent and design documents establish neither credentia
 | EVD-038 | A0/MH-12 issuer and lifecycle readiness | Wave 07 source trace `49ca0b69737bf8d44fe3a42daa47fd9157c9097d` | OPEN / NOT ACCEPTED | Accepted contract and revision-bound independent review |
 | EVD-039 | R-06 audit/privacy governance | Unfilled template `834fd1ab70eee88355844ba2ebba6c2b6c47ecdb` | OPEN / NOT ACCEPTED | Completed governance decision and independent verification |
 | EVD-040 | Authoritative execution target | Wave 10 target reconciliation `1f748bf80e08067fd85a7e1b0821cc4d12bda676` | UNKNOWN / BLOCKED | Owner-accepted target manifest with runner/workspace/network evidence |
+
+
+
+| SRC-086 | `docs/checkpoints/MEDIAHUB-JARVIS-REPOSITORY-REUSE-AND-INTEGRATION-DECISION-WAVE-21-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Creation commit `8e69da7251610f95c5ca70699d33bbaa4a66ab51`; current blob SHA `e8a0bafa1a6ee0269adbc4b678e94c2ba6f0b274` | Documents reuse-first policy, exact Jarvis upstream identity gap, component intake and separate install/qualification gates | DOCUMENTARY / PROPOSED / NO INSTALLATION | Exact intended upstream URL, immutable pin, license/provenance/security review, capability crosswalk and target qualification |
+| EVD-041 | Jarvis upstream identity and reuse decision | Wave 21 report blob `e8a0bafa1a6ee0269adbc4b678e94c2ba6f0b274`; Jarvis blueprint blob `39720b11e5e6777b86ffd71e0fec1214982e0d95`; Passport v3 blob `2b5d81236b85d44d284015cfb02d9401ab0e7482`; component manifest blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` | SOURCE-BOUND DOCUMENTARY EVIDENCE / UPSTREAM ID UNKNOWN | Owner-intended exact repository and bounded read-only intake
