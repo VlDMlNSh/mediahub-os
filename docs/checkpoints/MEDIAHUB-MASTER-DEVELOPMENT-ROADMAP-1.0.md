@@ -1696,3 +1696,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Canonical Source Registry current blob SHA: `22c90af91b7156d48871d910e1305c420594d844`. Target-manifest entries use SRC-039…SRC-040 / EVD-019; operational Gemini evidence uses SRC-042…SRC-044 / EVD-021…EVD-022 after collision correction.
 - Continuation checkpoint correction commit `99da489b53d2a3140153fdd285ee721f147afb82`, blob SHA `5fd36ea99dac835d9825031df1bb091f09820055`.
 - Map §20.338 was added in commit `db217de5857f1d87ac9d2b148b0c0020e11bc872`, map blob SHA `9ea36a1c90ceb4b8a71badfaca07b4b27089365d`. The content connector returned an empty body for this large map blob, so full-body read-back is limited; the write response supplied the resulting blob SHA.
+
+
+## Contour A — Hybrid Distributed Agent Fabric Component Reference Architecture, Wave 11 (2026-10-16)
+
+- Created [Hybrid Distributed Agent Fabric Component Reference Architecture — Wave 11](MEDIAHUB-HYBRID-DISTRIBUTED-AGENT-FABRIC-COMPONENT-REFERENCE-ARCHITECTURE-WAVE-11-2026-10-16.md), commit `1bbb4056b1b72935ca2a502cb03f34e87f104e18`.
+- Composes bounded strengths from GitHub Actions, Temporal, LangGraph, Dagger, NATS JetStream, Protobuf/gRPC + Buf/Protovalidate, OpenTelemetry and content-addressed artifacts behind MediaHub-owned task, admission, evidence and promotion contracts.
+- Preserves A0 queue boundary, Product State Authority, accepted Baseline 2.0, immutable task/source identity, isolated workers, quarantine, independent verification, least privilege and per-task provider/egress policy.
+- Status: DOCUMENTARY DESIGN ONLY / PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED. Existing component manifest, YAML scope, A0 governance, R-06 and target-manifest decisions remain open. No workflow edits, tests, provider calls, credentials, host/runtime inspection, installation, infrastructure change, qualification, deployment or branch integration occurred.
+- Next: reconcile exact canonical component manifest and YAML consumer/scope with direct source evidence; preserve both sources until governing disposition.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
