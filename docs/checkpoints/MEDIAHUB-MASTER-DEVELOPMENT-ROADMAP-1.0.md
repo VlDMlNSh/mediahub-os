@@ -1939,3 +1939,9 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Controls CAF-59…CAF-62 and source registry SRC-087 / EVD-042 record the candidate intake. Exact owner-intended Jarvis upstream identity remains OPEN; the three-server topology remains unchanged.
 - No repository clone/install, tests, qualification, provider calls, credential use, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+### Wave 22 navigation and continuation pointers
+
+- Supplemental map navigation: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-22-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-22-2026-10-17.md), creation commit `20044a5222aeecd2353b4e9ced765e506464d409`.
+- Supplemental continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-17-wave22.md](mediahub-next-continuation-checkpoint-2026-10-17-wave22.md), creation commit `e436a3786892f21e7b7c3741d573704ddc286e6e`.
+- Canonical map remains authoritative; the addendum preserves Wave 22 navigation and candidate status without replacing it.
