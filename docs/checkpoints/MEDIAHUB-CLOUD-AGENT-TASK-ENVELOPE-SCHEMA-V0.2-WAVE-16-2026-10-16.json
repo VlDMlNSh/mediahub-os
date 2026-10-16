@@ -1,0 +1,446 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
+  "title": "MediaHub Cloud Agent Task Envelope v0.2",
+  "description": "PROPOSED ONLY. Versioned candidate adding explicit semantic-validation profile binding. It grants no authority by itself.",
+  "$comment": "Requires accepted A0 issuer/lifecycle, MH-12 authority, R-06 policy, provider/egress policy and independent review before runtime use.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "task_type",
+    "authority",
+    "source",
+    "scope",
+    "data_policy",
+    "routing",
+    "budget",
+    "deadline",
+    "retry",
+    "output",
+    "review",
+    "evidence",
+    "semantic_validation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "mediahub.cloud-agent-task-envelope.v0.2"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^CAF-[A-Z0-9][A-Z0-9-]{2,63}$",
+      "maxLength": 68
+    },
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "source_audit",
+        "documentation",
+        "design_proposal",
+        "patch_proposal",
+        "test_plan",
+        "verification_review"
+      ]
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contour",
+        "admission_contract_ref",
+        "requester_identity_ref",
+        "authorization_ref"
+      ],
+      "properties": {
+        "contour": {
+          "const": "A"
+        },
+        "admission_contract_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "requester_identity_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "authorization_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "ref",
+        "commit_sha"
+      ],
+      "properties": {
+        "repository": {
+          "const": "VlDMlNSh/mediahub-os"
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_paths",
+        "forbidden_paths",
+        "deliverable",
+        "max_changed_files"
+      ],
+      "properties": {
+        "allowed_paths": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        },
+        "forbidden_paths": {
+          "type": "array",
+          "maxItems": 100,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        },
+        "deliverable": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "max_changed_files": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "data_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "purpose",
+        "egress_policy_ref",
+        "retention_policy_ref"
+      ],
+      "properties": {
+        "classification": {
+          "type": "string",
+          "enum": [
+            "public",
+            "internal",
+            "confidential",
+            "restricted",
+            "unknown"
+          ]
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "egress_policy_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "retention_policy_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "routing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorized_destinations",
+        "fallback_mode"
+      ],
+      "properties": {
+        "authorized_destinations": {
+          "type": "array",
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "provider_id",
+              "model_id",
+              "authorization_ref",
+              "eligibility_evidence_ref",
+              "data_policy_revision",
+              "quota_bucket"
+            ],
+            "properties": {
+              "provider_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "model_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "authorization_ref": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "eligibility_evidence_ref": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "data_policy_revision": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "quota_bucket": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            }
+          }
+        },
+        "fallback_mode": {
+          "type": "string",
+          "enum": [
+            "disabled",
+            "preauthorized_only"
+          ]
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_attempts",
+        "max_duration_seconds",
+        "max_input_bytes",
+        "max_output_bytes",
+        "cost_ceiling_minor_units"
+      ],
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "max_duration_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400
+        },
+        "max_input_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2000000
+        },
+        "max_output_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "cost_ceiling_minor_units": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000
+        }
+      }
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "retry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "retryable_classes",
+        "backoff_profile",
+        "idempotency_key"
+      ],
+      "properties": {
+        "retryable_classes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "rate_limit",
+              "transient_5xx",
+              "network_timeout",
+              "runner_unavailable"
+            ]
+          }
+        },
+        "backoff_profile": {
+          "type": "string",
+          "enum": [
+            "none",
+            "bounded_exponential_jitter"
+          ]
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 16,
+          "maxLength": 256
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "max_artifacts",
+        "artifact_classification",
+        "write_mode"
+      ],
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": [
+            "markdown_report",
+            "json_report",
+            "patch_bundle",
+            "pull_request"
+          ]
+        },
+        "max_artifacts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "artifact_classification": {
+          "type": "string",
+          "enum": [
+            "public",
+            "internal",
+            "confidential",
+            "restricted"
+          ]
+        },
+        "write_mode": {
+          "type": "string",
+          "enum": [
+            "read_only",
+            "isolated_branch",
+            "draft_pr"
+          ]
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "independent_review_required",
+        "required_checks",
+        "promotion_authority_ref"
+      ],
+      "properties": {
+        "independent_review_required": {
+          "const": true
+        },
+        "required_checks": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 50,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        },
+        "promotion_authority_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_schema",
+        "required_fields"
+      ],
+      "properties": {
+        "manifest_schema": {
+          "type": "string",
+          "const": "mediahub.cloud-agent-evidence-manifest.v0.1"
+        },
+        "required_fields": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 50,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      }
+    },
+    "semantic_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "profile_revision",
+        "policy_bundle_sha256"
+      ],
+      "properties": {
+        "profile_id": {
+          "const": "mediahub.cloud-agent-semantic-validation.v0.2"
+        },
+        "profile_revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "description": "Immutable commit/blob or accepted release reference for the validator contract."
+        },
+        "policy_bundle_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}
