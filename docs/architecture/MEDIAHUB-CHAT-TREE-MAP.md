@@ -6251,3 +6251,15 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Source anchors refreshed against current refs. Main/docs branches remain diverged; no integration, tests, runtime actions or normative/code/schema edits occurred.
 - Next: WB-14U source-only closure of health/readiness vocabulary and A0 lifecycle-status transition ownership; escalate only irreducible contradictions to owner/governance.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.292 Contour A WB-14U — health/readiness and A0 lifecycle-status ownership closure (2026-10-16)
+
+- Report: [WB-14U Health/Readiness and A0 Lifecycle-Status Ownership Closure](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14U-HEALTH-READINESS-AND-A0-LIFECYCLE-STATUS-OWNERSHIP-2026-10-16.md), commit `83e9c881ebba1ce168d23d34ebbbb40648ce1eb0`.
+- Corrected the source-status interpretation: MH-06 ADR-001 is explicitly ACCEPTED / GOVERNANCE ACCEPTED for MH-06 Core Runtime Services; implementation authorization remains NO. WB-14T's claim that MH-06 itself remains proposed is contradicted by the accepted ADR.
+- Confirmed a separate unresolved health vocabulary discrepancy: generic `schemas/domain/health.schema.json` includes WARNING and omits QUARANTINED, while accepted MH-06 health semantics include QUARANTINED and omit WARNING. No accepted mapping or shared scope was evidenced; no enum was edited.
+- Confirmed that ASTRA governance establishes the A0 authority boundary and numeric controls but not a complete ingress-facing A0 lifecycle enum/transition table. Corporation mission_status/attempt_status are non-normative drafts; `runtime/mediahub_runtime/astra_lifecycle.py` concerns memory provenance, not A0 task lifecycle.
+- Proposed split decision work: D-ING-05a domain-health/MH-06 scope mapping; D-ING-05b A0 health challenge/response; D-ING-06 A0 lifecycle transition ownership. All remain OPEN; no final schema or enum selected.
+- No code/schema/runtime files changed; no tests/validators/qualification or operational actions occurred.
+- Next: WB-14V correct WB-14T's status wording and update decision register with D-ING-05a/05b and D-ING-06, preserving OPEN status pending owner acceptance.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
