@@ -3776,7 +3776,7 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - PR [#300](https://github.com/VlDMlNSh/mediahub-os/pull/300) is now verified CLOSED / MERGED. Merge commit: `506372737aeee145394a16705bf403d7aa975210`.
 - Workflow verified on `main`: `.github/workflows/gemini-readonly-audit.yml`, blob SHA `b2d1e65e04f4b00a6d86e7f227675a25cdd70bec`. Manual-only `workflow_dispatch`; `contents: read`; checkout credentials not persisted; result output is a bounded artifact and Actions summary.
 - Created [Gemini Read-only Audit Workflow — Activation Checkpoint](MEDIAHUB-GEMINI-READONLY-AUDIT-WORKFLOW-ACTIVATION-CHECKPOINT-2026-10-16.md), blob SHA `e5e977833211c7639e9e747c1265fc077772afb9`; indexed as map section 20.316.
-- Current official Gemini model documentation confirms `gemini-3.8-flash` as a model ID. This does not confirm that the repository's Actions secret exists or is valid.
+- Current official Gemini model documentation confirms `gemini-3.6-flash` as a model ID. This does not confirm that the repository's Actions secret exists or is valid.
 - The available workflow-run query returned no runs associated with the merge commit. No Gemini API call, result, successful execution, test, qualification or acceptance is claimed.
 - Blocker: the available GitHub connector exposes no workflow-dispatch operation, and available browser profiles have no recorded GitHub sign-in. Do not use an unauthenticated assumption or claim the agent has launched. First launch must occur in an authenticated GitHub Actions session; then capture run ID, result status and artifact.
 - No source contracts, product code or infrastructure changed. No tests or qualification were run.
@@ -3794,3 +3794,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Manual launch: https://github.com/VlDMlNSh/mediahub-os/actions/workflows/gemini-readonly-audit-retry.yml
 - Next: launch manually in an authenticated GitHub session and capture run ID/status/artifact. A successful response is independent analysis only, not implementation or acceptance evidence.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest bounded continuation — Gemini audit model switch (2026-10-16)
+
+- Owner requested switching the read-only Gemini audit workflows to Gemini 3.6. Google's official model documentation identifies the stable API model ID as `gemini-3.6-flash`.
+- Updated `.github/workflows/gemini-readonly-audit.yml` on `main`: blob SHA `a2d9e8c65d3b2dca6810178383fcd646620aab31`.
+- Updated `.github/workflows/gemini-readonly-audit-retry.yml` on `main`: blob SHA `84112cddc5ed41674bdd5e2c535db6219ee248c6`.
+- Both files were read back from GitHub; model string verified as `gemini-3.6-flash`. No workflow dispatch or API call was performed as part of this change.
+- Latest user-provided run log before the change showed HTTP 503 after four attempts. Post-change behavior remains unverified; Actions secret value/presence/validity was not inspected.
+- Retry checkpoint blob SHA: `8e396be8ee47f988b2e572a969d8b1d3602def61`. Project map §20.317 blob SHA: `b3fad95d83fbadc74631484038c1efd035ab9a71`.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
