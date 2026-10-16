@@ -2005,3 +2005,21 @@ Supporting records:
 The schema and queue are versioned documentary artifacts. They do not constitute a live queue, registry, scheduler, connected agent or accepted ingress contract. Existing Gemini run evidence remains valid for one historical read-only execution. No status upgrade is inferred for general autonomous development.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 22. Gemini workflow hardening proposal and schema/queue checks — Wave 12 (2026-10-16)
+
+Supporting proposal: [Gemini Read-only Workflow Hardening Patch Proposal — Wave 12](MEDIAHUB-GEMINI-WORKFLOW-HARDENING-PATCH-PROPOSAL-WAVE-12-2026-10-16.md), creation commit `95c62d6a64490bc3607e4c41be69ae2b15e0d43d`.
+
+| Control ID | Requirement / evidence | Current state | Closure evidence |
+|---|---|---|---|
+| GWF-12 | Source-bound remediation proposal for current Gemini workflow blobs `0d10efdda251f2ceca43175981c919102303572b` and `96fcc9ed4e45659d0118f0b9f3593a0c736200f0` | PROPOSAL CREATED / NOT APPLIED | Explicit source-edit authorization, patch review, static workflow validation, negative-path tests and independent review |
+| CAF-20 | Task-envelope/queue structural sanity checks | 13/13 bounded structural checks passed; full JSON Schema meta-validation pending | Independent schema validator and contract review |
+| CAF-21 | CAF-Q-003 queue progression | PATCH PROPOSAL CREATED / REVIEW REQUIRED | Reviewed patch proposal, explicit source-edit authorization, independent review |
+| CAF-22 | Workflow hardening execution | NOT STARTED | Approved patch, authorized tests and separately authorized provider workflow dispatch |
+
+### Wave 12 boundary
+
+The proposal binds recommendations to exact workflow blobs and preserves read-only permissions. No workflow source change or dispatch occurred. The 13 checks covered JSON parsing, required schema keys, key bounds, authorization fields, independent review, ten unique queue IDs and evidence fields; they were structural assertions, not a full JSON Schema validator or workflow test suite.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
