@@ -6357,3 +6357,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Candidate remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. Artifact provenance, exact lock/resolved dependencies, transitive SBOM/license/advisory closure, target OS/Python/hardware, workspace isolation, provider egress and telemetry privacy remain OPEN.
 - No install, download, dependency resolution, tests/scans, provider/model calls, credentials, host/runtime inspection, qualification, deployment or branch integration occurred.
 - Next: another distinct unresolved admission gate or wait for owner-provided target hardware/OS/Python facts; do not repeat the same source-pin pass.
+
+
+## 20.304 Contour A — OPA policy-engine source/authority preflight (2026-10-16)
+
+- Extended the existing [Component Admission Crosswalk §7.21](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md); commit `7456e5ed7f5af1f1c331db813d2eca162433d47c`, read-back pending at map update. Current crosswalk content SHA from write response: `8e8f32a8aa751385e0d9245b725b65dd5c78c8c4`.
+- Official upstream [open-policy-agent/opa](https://github.com/open-policy-agent/opa) paper-review source ref: commit `fdf6011f57fdc25f01de1982e296bb402cf37625`. Inspected README blob `860399b5b7ac265f89508796831990a45eb485c4`, Apache-2.0 LICENSE blob `8f71f43fee3f78649d238238cbde51e6d7055c82`, go.mod blob `bb894fcce89f7f52f72d2a174711172a660451e0` (declares Go 1.26.0), and SECURITY.md blob `ffc134070059b814cd9061cf50cdc3a866b186d6`.
+- Preliminary fit only: OPA could be a policy decision point if an owner-approved capability gap is established. It must not replace MediaHub-owned identity/capability issuance, authorization enforcement, ASTRA lifecycle authority or Product State Authority. A decision returned by OPA is not, by itself, an authorization grant.
+- Candidate remains RESEARCH-CANDIDATE / SOURCE-PINNED FOR PAPER REVIEW ONLY / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED. Artifact provenance, complete dependency/SBOM/advisory review, policy ownership/signing/versioning/rollback, fail-closed behavior, decision-log privacy, API/network controls, target OS/toolchain/resources and independent review remain open.
+- No build, download, installation, policy evaluation, tests/scans, provider calls, credentials, host/runtime inspection, qualification, deployment or infrastructure change occurred.
+- Next: do not duplicate candidate research without a distinct capability question; wait for owner disposition on policy-authority gap and target-profile prerequisites where needed.
