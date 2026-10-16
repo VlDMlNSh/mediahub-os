@@ -4281,3 +4281,20 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Runtime boundary: no provider call, workflow dispatch, secret access, workflow-source edit, test suite, installation, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
 - Next: standards-compliant schema validation and negative fixtures; source-bound A0 issuer/lifecycle, R-06 and target-manifest closure; then a minimal workflow patch on a specifically authorized working ref.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 17 — Cloud-Agent Schema Coherence and Map Recovery (2026-10-16)
+
+- Report: `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-COHERENCE-AND-MAP-RECOVERY-WAVE-17-2026-10-16.md`, creation commit `1bd00b5a9c1979db02ede3d44dd350ec22e752ea`.
+- Task-envelope v0.2 corrected to reference evidence-manifest v0.2; blob SHA `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`.
+- Documentary activation queue points to task-envelope v0.2; blob SHA `1ef28af318a4be6618e0d9703a3e8d208a807206`.
+- Bounded structural assertions: 23/23 passed on read-back of task, registry, evidence-manifest schemas and queue. Full Draft 2020-12 meta-validation, format assertion, negative fixtures and semantic reference resolution remain open.
+- Matrix update commit `8b8b5a6faad141eb8e81252b9b9770862c437d2f`, matrix blob SHA `0f323b3edc3b3d65d45d0a48073c866098919167`.
+- Master Roadmap update commit `496d4b3367300622d2966a5f906e670e21de2b80`, roadmap blob SHA `4e3f699df27e7fe4c9d3e2ddc86c1d0bb5bf64c1`.
+- Source Registry update commit `7a882c1c8d9baa76cc22438fc37c65a27cf69171`, registry blob SHA `84466e901df9f9591abf3155b4707905c41fe04e`.
+- Wave 16 report addendum commit `97223c97a94b11bde52c8e41a502bdcd117eab73`, report blob SHA `a065e1f1f341de5c4b4ae0764610dd5198ad4fd6`.
+- Map integrity finding: active map blob `53837c0fe721945072772d68c3b2ffdea5dd22c0` contained only 23 lines/two entries. Last known complete predecessor `6b98de335da9fadc0f92900deff260a8bef6830a` contains 6,812 lines. Wave 17 restores the complete predecessor, appends existing Wave 15/16 entries and the new Wave 17 entry, and preserves all historical sections.
+- State: SCHEMA REFERENCE COHERENCE REPAIRED / STRUCTURAL SMOKE PASS / FULL VALIDATION OPEN / RUNTIME-UNVERIFIED.
+- No schema validator was installed; no provider call, credential access, workflow dispatch, project-runtime inspection, infrastructure change, deployment or branch integration occurred.
+- Next: verify the map repair and changed-document SHAs, then continue CAF-Q-014 standards validation/negative fixtures and independent review. A0 issuer/lifecycle, MH-12, R-06 and the authoritative runner/workspace/network target manifest remain admission gates.
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
