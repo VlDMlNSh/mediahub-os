@@ -45,3 +45,14 @@ After the model switch, manually launch the workflow from an authenticated GitHu
 - Updated both `.github/workflows/gemini-readonly-audit.yml` and `.github/workflows/gemini-readonly-audit-retry.yml` on `main` to use `gemini-3.6-flash` as the configured/default model.
 - Workflow files were read back from GitHub after each update. No workflow dispatch or API call was performed by this change.
 - The previously reported HTTP 503 remains unexplained; switching models has not yet been verified by a new run. Secret presence/validity was not inspected.
+
+
+## Connection troubleshooting update — Flash-Lite and sanitized diagnostics (2026-10-16)
+
+- To avoid repeatedly retrying the same unexplained HTTP 503 without useful evidence, both manual workflows on `main` now default to `gemini-3.5-flash-lite`, a distinct model ID. This is a configuration change only; the model has not been called by this update.
+- Primary workflow: `.github/workflows/gemini-readonly-audit.yml`, blob SHA `0d10efdda251f2ceca43175981c919102303572b`, commit `c8890ae7f0d7ce1521f65a819d5ad564acb3f590`.
+- Retry workflow: `.github/workflows/gemini-readonly-audit-retry.yml`, blob SHA `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`, commit `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- The retry workflow now logs only selected, bounded, sanitized error metadata (HTTP status, API status, a capped/scrubbed error message, selected reason/domain/type fields, and request ID if present). It does not print the raw response body or key.
+- Removed explicit `temperature: 0.2` from both generation configurations to avoid sending an unnecessary sampling parameter to the newer model family.
+- GitHub read-back confirmed both workflow files contain `gemini-3.5-flash-lite`, contain no `gemini-3.6-flash`, and contain no explicit `temperature: 0.2`. Retry file contains the sanitized diagnostic step.
+- No workflow dispatch, provider/API call, test, qualification, deployment, or acceptance was performed by this update. The user must manually run the retry workflow from an authenticated GitHub session. Its result will determine whether the cause is model availability, provider-side service, project/API configuration, or another upstream condition; HTTP 503 alone is insufficient to decide.
