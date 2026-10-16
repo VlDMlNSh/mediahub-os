@@ -4339,3 +4339,18 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - State: DOCUMENTARY DESIGN / PROPOSED / RUNTIME-UNVERIFIED. No provider calls, credential access, workflow dispatch, tests, installation, host/runtime inspection, infrastructure changes, deployment or qualification occurred.
 - Next: close accepted A0 issuer/lifecycle, R-06 governance, authoritative runner/workspace/network manifest and full v0.2 schema validation; then source-qualify workflow hardening and obtain separate authorization for implementation/execution.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 19 — Cloud-Agent Structural Read-back and Issue #301 (2026-10-16)
+
+- Created `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-STRUCTURAL-READBACK-AND-ISSUE-TRACKING-WAVE-19-2026-10-16.md`, commit `7cec1bc39c3a692e45cec31ca571a87582515b0b`.
+- Created durable GitHub tracker [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301) for the cloud-agent fabric implementation sequence.
+- Executed bounded source read-back of queue + task-envelope v0.2 + registry v0.2 + evidence-manifest v0.2. JSON parse succeeded for all four artifacts; 18/18 explicit structural assertions passed. This does not replace standards-compliant Draft 2020-12 meta-validation, format assertions, negative fixtures or semantic reference resolution.
+- Extended activation queue with CAF-Q-016; commit `29969fa58d2a5d30ae93f332f2c6cf70124f2523`; current queue blob SHA `0d4d591f464b976d6920bbd39c87a45a9d4fda59`. Queue has 16 unique IDs and remains documentary only.
+- Updated Master Roadmap (commit `ace633854e0c8661ae8a6b375fdd50a87a433f6c`), Unified Matrix (commit `50f65180d4a9d8a6609c0b3051b62ed36f8bbb63`), Source Registry (commit `71743224d5e691756605bd967080c28e4ed61a57`) and map (commit `204226076a982ed1f19e71c0790998c56ac3ad8f`).
+- The project map update used exact blob `92e9f2befd0bdb8a78140588929eaa119dda2110` (6,888 lines / 1,008,275 characters) after Contents API returned an empty body; the complete map content was preserved and Wave 19 appended as §20.347. New map blob SHA: `c2cdb85f835394672ad4393ccdb10b40351c897d`.
+- Architecture remains owner-server-independent by default: hosted ephemeral workers, no public inbound listener for ordinary jobs, runtime-only scoped credential injection, direct outbound HTTPS, no assumed fixed source IP, no location-control bypass. Provider account, regional, quota and data-handling rules remain independently applicable.
+- Current status: STRUCTURAL READ-BACK PASS / STANDARDS VALIDATION OPEN / RUNTIME UNQUALIFIED. No provider calls, credential access, workflow dispatch, repository test run, installation, host/runtime inspection, infrastructure change, deployment, merge or branch integration occurred.
+- Branch comparison before Wave 19: documentation branch DIVERGED from `main`, 1,823 ahead / 10 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No merge performed.
+- Next: CAF-Q-014 standards-compliant schema validation and negative fixtures; in parallel, close accepted A0 issuer/ingress/lease/cancellation/recovery contract, R-06 governance and authoritative runner/workspace/network target manifest. Then review the smallest source-bound implementation slice through Issue #301.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
