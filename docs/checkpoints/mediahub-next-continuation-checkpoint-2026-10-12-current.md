@@ -4088,3 +4088,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Live branch compare rechecked: docs ref DIVERGED from `main`, 1,701 ahead / 10 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No branch integration performed.
 - Verification is documentary read-back only. No workflow source edits, workflow dispatches, tests, provider calls, credentials, host/runtime inspection, infrastructure changes, deployment or qualification occurred.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Gemini workflow source review, Wave 09 (2026-10-16)
+
+- Created `docs/checkpoints/MEDIAHUB-GEMINI-WORKFLOW-SOURCE-QUALIFICATION-PLAN-WAVE-09-2026-10-16.md`, commit `1d8daf408435b4bdaa467917ec6e38be3666aa32`, blob SHA `fa34037409b3aa118cd606de673bce0a577b834f`.
+- Source-only review of current `main` workflow blobs `0d10efdda251f2ceca43175981c919102303572b` and `96fcc9ed4e45659d0118f0b9f3593a0c736200f0` found ten control gaps/risks, with top priorities immutable source provenance, full-SHA action pins, task-specific context allowlists, model allowlisting, output quarantine and an evidence manifest.
+- Matrix update commit `eef4dee4f8291e97ed9fe682caddfe3914f0d249`, blob SHA `be472028cc1754e2e71d404bcc7f1ff276c508d1`; roadmap update commit `b0b663b0cd2ea4515689ba4a1a774b791d285cb2`, blob SHA `6843e49c9f0f169e8c626db1d3e6b0fd52804fde`; registry update commit `c35410476ba7283c26d12e386ddf05a6c21e219d`, blob SHA `b76f9e06dbe14ce0b4ab1cddcce9d2ebdce6f387`; map update commit `1e1f5f8272850a1cb02e770b141b5e0a70639575`, blob SHA `6903fa28020d19814c2946294b0fc065a8fb5241`.
+- A0 primary proposal WB-14AA read-back SHA `030273bfe9fd6d44e78b611c011af95d08c88a45`; WB-14AD governance request SHA `a2367eff5ca2092fa12bda0be4cab75bf4e2ba9d`; WB-14AC evidence crosswalk SHA `d642311d5a487981b6ba79eeb1a49abbb26fd4d3`. These sources confirm that the external Jarvis-to-A0 contract and accountable acceptance path remain open.
+- R-06 disposition template SHA `834fd1ab70eee88355844ba2ebba6c2b6c47ecdb` remains unfilled; it is a template, not an accepted policy.
+- Status: STATIC SOURCE REVIEW / PATCH PLAN PROPOSED / NOT QUALIFIED. No workflows were edited or dispatched; no provider/model calls, credentials, tests/scanners, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
+- Next: retrieve exact target manifest and primary R-06/A0 decision sources; prepare the P0/P1 patch proposal after source closure. Implementation, test, provider and deployment gates remain separate.
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
