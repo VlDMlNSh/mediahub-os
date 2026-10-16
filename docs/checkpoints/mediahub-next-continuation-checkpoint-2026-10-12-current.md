@@ -3667,3 +3667,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Branch HEAD at start of this update: `48e66c621c3946262640cb2c3d80ed83846e1e31`. The branch remains divergent from main; no merge/rebase/cherry-pick attempted.
 - **Next bounded step:** derive a field/state reconciliation appendix for WB-14AA using only accepted internal semantics and marking external choices OPEN; preserve D-ING-01…04, D-ING-05a, D-ING-05b and D-ING-06 as OPEN until owner/governance evidence exists.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — WB-14AA field/state reconciliation appendix (2026-10-16)
+
+- Added `docs/checkpoints/MEDIAHUB-CONTOUR-A-WB-14AA-FIELD-STATE-RECONCILIATION-APPENDIX-2026-10-16.md` (creation commit `0f204f8a597ab8bd22e41753c691ea47717d41f2`).
+- Reconciles candidate request fields to documented ASTRA concepts and offers a non-normative status projection. Internal lifecycle policy is distinguished from unresolved external ingress choices; no enums or schema are frozen.
+- D-ING-01…04, D-ING-05a, D-ING-05b and D-ING-06 remain OPEN. WB-14AD is a prepared governance request, not an accepted decision. No owners/approval workflow are established by the available evidence.
+- No implementation, tests, qualification, runtime/provider/credential activity, installation, infrastructure change, deployment or branch integration occurred.
+- Next: seek explicit owner/governance disposition on WB-14AD; if unavailable, source-only reconcile exact primary contract text for D-ING-01…04, D-ING-05a/05b and D-ING-06.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
