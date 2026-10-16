@@ -3740,3 +3740,10 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Independent-review status: the proposal's bounded issue-search record says no traceable appointment or completed R-01…R-06 disposition was surfaced in the queried results. This does not prove that no reviewer exists outside those results. No reviewer was contacted or appointed.
 - Next bounded step: continue source-only closure of directly referenced MH-12/MH-13 primary artifacts and existing issuer/lifecycle matrices; keep a requirement-to-evidence crosswalk separate from technology proposals. Escalate unresolved authority/ownership and operation-specific audit-unavailable behavior for owner/governance disposition. Do not select JWT/OAuth/mTLS or revise P0-05 without explicit decision.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+### Post-write verification — P0-07 D2 source reconciliation (2026-10-16)
+
+- Map section `20.313` is present after read-back. Current map blob SHA: `14e4e8cd3d2e39acc58e18d6b3a57ff58af26bc9`; map update commit: `79a7b41c8a8d2e4dbe56bbd9cc44977e5f36e599`.
+- This checkpoint's D2 continuation entry was re-read and verified before this addendum. Checkpoint blob SHA immediately before this addendum: `b243c0731d4a6a2aa5f090137fb1b024a2cd50c4`.
+- Final live compare after both documentation commits: `docs/mediahub-chat-tree-map-20261012` is DIVERGED, 1,594 ahead / 4 behind `main`; `main` HEAD `ab36db009d034db8d8ca723691e23b331322287e7`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/integration was attempted.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
