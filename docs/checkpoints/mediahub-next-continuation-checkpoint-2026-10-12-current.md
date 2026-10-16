@@ -3487,3 +3487,16 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Source reads only; no tests/validators, security scan, qualification, provider/model calls, credentials, host/runtime inspection, installs, infrastructure change, deployment, migration or branch integration. No code/normative schema changes.
 - Next bounded step: WB-14U source-only closure of health/readiness vocabulary and A0 lifecycle-status transition ownership; record precise owner decision only if accepted source cannot resolve the conflict.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14U health/readiness and A0 lifecycle-status ownership closure (2026-10-16)
+
+- Report: [WB-14U Health/Readiness and A0 Lifecycle-Status Ownership Closure](MEDIAHUB-CONTOUR-A-WB-14U-HEALTH-READINESS-AND-A0-LIFECYCLE-STATUS-OWNERSHIP-2026-10-16.md), commit `83e9c881ebba1ce168d23d34ebbbb40648ce1eb0`.
+- Refreshed live branch/tree state: main `ab36db009d034db8dca723691e23b331322287e7`; docs ref/tree at start of pass `0e818a81acbc34d5485b3115c7a621354666d07a`; compare diverged, docs ahead 1499 / behind 4, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- MH-06 ADR-001 is already ACCEPTED / GOVERNANCE ACCEPTED for its scoped Core Runtime Services semantics; implementation authorization is explicitly NO. WB-14T's sentence that MH-06 itself remains proposed is incorrect and is queued for documentary correction in WB-14V.
+- A distinct unresolved schema mismatch remains: domain health schema status enum HEALTHY/DEGRADED/WARNING/FAILED/UNKNOWN vs accepted MH-06 health UNKNOWN/HEALTHY/DEGRADED/FAILED/QUARANTINED. No accepted mapping or identical scope was established; no enum was changed.
+- No accepted corporation-facing A0 lifecycle enum/transition table was found. ASTRA governance bounds and authority statements do not constitute a complete state machine. Mission/attempt status lists in the schema-set draft remain non-normative; `astra_lifecycle.py` is about memory provenance, not A0 task lifecycle.
+- Proposed open decision split: D-ING-05a domain-health/MH-06 scope mapping; D-ING-05b A0 probe/health-response contract; D-ING-06 A0 lifecycle transitions. All remain OPEN pending owner/governance acceptance.
+- Documentation-only pass. No code/schema/runtime edits, tests, validators, qualification, credentials/providers, host/runtime inspection, install, infrastructure, deployment, migration or branch integration.
+- Next: WB-14V correct WB-14T status wording and record the split decisions without selecting enums or promoting recommendations to accepted decisions.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
