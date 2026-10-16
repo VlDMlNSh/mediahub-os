@@ -1472,3 +1472,12 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No implementation, tests, qualification, runtime/host inspection, credentials/provider calls, deployment or branch integration occurred.
 - Next bounded work item WB-14T: decision options and consequences for service principal/issuer, authentication profile, admission/idempotency authority, freshness policy and health vocabulary. No final schema creation until accepted security/governance decisions.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14T — ASTRA A0 ingress owner/governance decision packet (2026-10-16)
+
+- Evidence: [WB-14T decision packet](MEDIAHUB-CONTOUR-A-WB-14T-A0-INGRESS-OWNER-GOVERNANCE-DECISION-PACKET-2026-10-16.md), commit `f67c69e309f1fdb871bd83df26713aa11a65d3b5`.
+- Decision-ready options and consequences drafted for service principal/issuer, authentication/integrity, durable A0 admission/idempotency, freshness/replay and health/readiness semantics. Recommendations are not approvals; all remain OPEN.
+- No normative contract/schema or implementation changed. No test, qualification or runtime action. Main/docs remain diverged; no integration performed.
+- Next bounded task: WB-14U, source-only status-vocabulary and lifecycle-transition ownership closure; final schema registration remains blocked on owner/governance decisions.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
