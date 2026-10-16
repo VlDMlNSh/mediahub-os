@@ -10,7 +10,7 @@ The conflict is resolved in favour of a single canonical source:
 
 - `schemas/` is the canonical schema tree and the only place schemas are
   authored or edited.
-- `tools/validate_contracts.py` validates `schemas/` (25 files, 9 metadata
+- `tools/validate_contracts.py` validates `schemas/` (26 files, 9 metadata
   envelope contracts).
 - `tests/static/test_cross_contract.py` fails closed if a second schema tree
   reappears here.
