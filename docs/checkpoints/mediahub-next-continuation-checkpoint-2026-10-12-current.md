@@ -3523,3 +3523,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, validators, implementation, qualification, provider calls, credentials, host/runtime inspection, installs, infrastructure changes, deployment, migration or branch integration occurred.
 - Next: obtain explicit accountable-owner confirmation and the governance acceptance record for each open D-ING decision; keep ingress design proposed and implementation blocked until the relevant contracts are accepted.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14X A0 ingress prior-decision crosswalk (2026-10-16)
+
+- Report: [WB-14X A0 Ingress Prior-Decision Crosswalk](MEDIAHUB-CONTOUR-A-WB-14X-A0-INGRESS-PRIOR-DECISION-CROSSWALK-2026-10-16.md), commit `5994832bf82d356c8cab604d56e8e04dfee94e7e`.
+- Narrowed prior-decision gap: DEC-DEV-02 Option C already settles the broad Jarvis/A0/Product State Authority split; MH-12 supplies identity and fail-closed authorization constraints; MH-06 ADR-001 remains accepted for its defined scope. Owner-register D-03 is distinct from ingress decision D-ING-03.
+- Open evidence gaps remain issuer/verifier lifecycle, accepted P0-07→P0-05 caller edge and P0-05 contract-status disposition, plus D-ING-01…04, D-ING-05a/05b and D-ING-06 contract choices. No blanket approval or implementation is inferred.
+- Next: inspect exact DEC-DEV-02 and P0-05/P0-07 primary sources on owning refs; ask only for the missing evidence/decisions. No tests, code edits, qualification, runtime, credentials, installs, infrastructure or branch integration.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
