@@ -3677,3 +3677,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No implementation, tests, qualification, runtime/provider/credential activity, installation, infrastructure change, deployment or branch integration occurred.
 - Next: seek explicit owner/governance disposition on WB-14AD; if unavailable, source-only reconcile exact primary contract text for D-ING-01…04, D-ING-05a/05b and D-ING-06.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — WB-14AA cross-series reconciliation (2026-10-16)
+
+- Re-read the existing WB-14Q/R/S/T/U/V/W/Z source-pinned ingress design series and reconciled it against the newly drafted WB-14AA field/state appendix. Updated the appendix to identify the older/more detailed source artifacts as primary references rather than duplicate their work.
+- Key evidence: WB-14Q logical interface design (`2b0cf853a7b5eefe9e75fccdcfed130d53f417c8`); WB-14R schema/authority crosswalk (`dc827eb6ad53c03c0bb26a2989e4646f6f5a6b1d`); WB-14S operation/schema map (`6b5159fdbe0c99d34e754047dd7c0a8afde8c61c`); WB-14T corrected decision packet (`023f44b6712450a8b84e2e99e716fd3cbb2d593e`); WB-14U status-domain separation (`1cd8e23f0f534bcfdc4d4b1d060248adb7705b1f`); WB-14V health-decision split (`00cd42afedfb0c52561d967c7c40609f2a4c55fc`); WB-14W ownership/acceptance paths (`c5920437c02d98b3f4bec6a356b590a7bef9ce4e`); WB-14Z source-contract census (`95f3af63705f4ad7cd24405df9c7c396886cb3a3`).
+- Finding: the appendix is consistent as a non-normative derivative crosswalk. It does not supersede WB-14Q–WB-14Z. D-ING-01…04, D-ING-05a, D-ING-05b and D-ING-06 remain OPEN; MH-06 ADR-001 acceptance is limited to its stated scope; no accepted Jarvis→A0 wire/API contract, named owners or governance acceptance record is established by these sources.
+- No schema/enum/transport/issuer/crypto/persistence/TTL selected; no tests, validators, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration or branch integration occurred.
+- **Next:** await explicit owner/governance disposition on [WB-14AD](MEDIAHUB-CONTOUR-A-WB-14AD-A0-INGRESS-GOVERNANCE-REQUEST-2026-10-16.md). If it arrives, update only affected decision/contract records using exact accepted revision/SHA and acceptance evidence. Until then, avoid duplicate broad source-only passes and keep ingress design non-normative.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
