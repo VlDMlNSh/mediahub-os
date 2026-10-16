@@ -4253,3 +4253,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - State: STATIC REVIEW / REMEDIATION PROPOSAL / NO SCHEMA PATCH APPLIED. Bounded structural checks remain distinct from full Draft 2020-12 validation, negative-fixture tests and qualification.
 - Next: prepare v0.2 schemas, then obtain standards-validator evidence and independent review after the execution authorization gates are cleared.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 16 — Cloud-Agent Schema v0.2 Candidates (2026-10-16)
+
+- Candidate report: `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-V0.2-CANDIDATES-WAVE-16-2026-10-16.md`, creation commit `438d9321ef68caa32c4842e116f6c5d61ec663cc`.
+- Registry Schema v0.2: blob `b49b89b8fbdfc180862e3dc78f8198f35e486035`; Evidence Manifest Schema v0.2: blob `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
+- Bounded structural review: 20/20 assertions passed. This is structural smoke evidence only; full Draft 2020-12 meta-validation, format assertion, negative fixtures and semantic reference-resolution checks remain open.
+- Activation queue update: commit `ce9a4a2d9bd740afe3ad27186117994c7289a7a3`, blob `4482cecf502a3c769ab55edfb005a3fc88e1975b`; CAF-Q-014 tracks full validator and negative-fixture work.
+- Matrix adds CAF-36…CAF-39; source registry adds SRC-058…SRC-061 and EVD-029. v0.1 schema files remain unchanged.
+- Status: CANDIDATE SCHEMAS / REVIEW REQUIRED / RUNTIME-UNVERIFIED. No agent registration, credential access, provider call, workflow dispatch, workflow-source edit, installation, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
+- Next: full validator and negative-fixture evidence, independent schema review, then source-bound A0/R-06/target-manifest closure.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
