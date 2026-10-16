@@ -167,9 +167,9 @@ The bounded Wave 10 review distinguishes component catalogue, YAML scope, propos
 
 | ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
 |---|---|---|---|---|---|
-| SRC-045 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-QUEUE-AND-TASK-CONTRACT-WAVE-11-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Creation commit `78fa1a835fb0c12084cb2a6932b24cd4d600f1d1`; read-back pending | Candidate admission/state machine and queue policy | PROPOSED / NOT ACCEPTED / NOT IMPLEMENTED | Accepted A0 issuer/lifecycle and R-06 |
-| SRC-046 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Creation commit `8edbf7aa8897b0701c9e461cd8dce5e73d3d2bdf`; read-back pending | Candidate machine-readable task envelope | PROPOSED / VALIDATOR REVIEW PENDING | Schema validation, collision check, accepted A0 contract |
-| SRC-047 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Creation commit `e2920288b6295379ecfd61db0335b15e10969f26`; read-back pending | Documentary priority queue CAF-Q-001…CAF-Q-010 | DOCUMENTARY ONLY / NO LIVE SCHEDULER | A0-owned queue lifecycle, authorized runtime implementation |
+| SRC-045 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-QUEUE-AND-TASK-CONTRACT-WAVE-11-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Creation commit `78fa1a835fb0c12084cb2a6932b24cd4d600f1d1`; live blob SHA `07c8bce182c5e7c87ab963f83169f562f5543e3c` | Candidate admission/state machine and queue policy | PROPOSED / NOT ACCEPTED / NOT IMPLEMENTED | Accepted A0 issuer/lifecycle and R-06 |
+| SRC-046 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Creation commit `8edbf7aa8897b0701c9e461cd8dce5e73d3d2bdf`; live blob SHA `64148c96c056e8c1fc7a79072862a79cb1c837eb` | Candidate machine-readable task envelope | PROPOSED / VALIDATOR REVIEW PENDING | Schema validation, collision check, accepted A0 contract |
+| SRC-047 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Creation commit `e2920288b6295379ecfd61db0335b15e10969f26`; live blob SHA `c9821fbe26735982521edff5bcc81630ae2a0473` | Documentary priority queue CAF-Q-001…CAF-Q-010 | DOCUMENTARY ONLY / NO LIVE SCHEDULER | A0-owned queue lifecycle, authorized runtime implementation |
 | SRC-048 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | Update commit `15b6c369908530ecacc17601f34b68baad2ea26c`; read-back pending | CAF-15…CAF-19 cross-domain traceability | PROPOSED / NOT ACCEPTED / NOT FROZEN | Independent evidence and authority closure |
 
 | Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
@@ -177,3 +177,15 @@ The bounded Wave 10 review distinguishes component catalogue, YAML scope, propos
 | EVD-023 | Task envelope and activation queue are ready for runtime use | Proposed JSON Schema, ten-item documentary queue and Wave 11 design | DESIGN ARTIFACTS CREATED / RUNTIME READINESS UNKNOWN | Schema-validator result; ID collision scan; accepted A0/R-06/target contracts; authorized implementation and independent qualification |
 
 Registry entries index proposals only. Queue creation does not dispatch tasks, connect agents or grant provider permissions.
+
+
+### Wave 11 read-back addendum
+
+- Queue/task contract live blob SHA: `07c8bce182c5e7c87ab963f83169f562f5543e3c`.
+- Task-envelope schema live blob SHA: `64148c96c056e8c1fc7a79072862a79cb1c837eb`; JSON text parses successfully; JSON Schema validator review remains pending.
+- Documentary activation queue live blob SHA: `c9821fbe26735982521edff5bcc81630ae2a0473`; JSON text parses successfully and contains ten queue entries.
+- Unified matrix live blob SHA: `489e7a8268e70ad702925f31257129b69f3e9f53`.
+- Master Roadmap live blob SHA: `772137ea8eca3c7c277b8be8ef680c10db327225`.
+- Continuation checkpoint before this registry addendum: `4db8e2444d34ab16f6738cd674458f19a11ce98c`.
+- Project map live blob SHA after §§20.339–20.340: `6b98de335da9fadc0f92900deff260a8bef6830a`; map update commit `68e7f1af30e62678dcfb6e516c4beac2a42d779f`.
+- GitHub compare: documentation branch remains DIVERGED from `main`, ahead 1,744 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No branch integration occurred.
