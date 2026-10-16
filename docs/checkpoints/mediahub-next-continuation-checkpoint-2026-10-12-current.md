@@ -4035,3 +4035,16 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Documentation-only. No code/workflow changes, tests/scanners, workflow dispatch, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
 - Next: retrieve exact primary R-06 and A0 governance artifacts; inspect non-secret provider/deployment descriptors; obtain the authoritative target manifest where available; continue direct-source closure in the existing matrix.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Provider Identity, Age Eligibility and Egress Decision Packet, Wave 04 (2026-10-16)
+
+- Created `docs/checkpoints/MEDIAHUB-PROVIDER-IDENTITY-EGRESS-DECISION-WAVE-04-2026-10-16.md`; current blob SHA read-back `ca0bc24585018191c67d9413514ca39d79adef32`. Creation commit originally returned by GitHub: `b92d615a95eece66195237d366fb6c4548561047`.
+- Reviewed the latest bootstrap, roadmap, Wave 03 router design, unified architecture/deployment contract, Baseline 2.0, existing traceability matrix, Wave 07 cross-domain closure report, and current official provider terms/data-policy pages.
+- Resolved the design conflict: every fallback destination requires prior task-level authorization for the same task and data class. Provider age/account/region eligibility is a hard gate; unknown or unmet eligibility blocks provider use.
+- Integrated the outcome into the existing Unified System Traceability Matrix; update commit `5950d1e5053c7f0f39b65420dcb0d921783cff3d`, current matrix blob SHA `b43d5b4f962fecc78b313266f4bf00533f5130ed`.
+- Map index collision detected and corrected: Wave 07 is §20.333; provider/egress Wave 04 is §20.334. Map correction commit `823bca28f452acf9d122c7773d7af9260fb5e694`, resulting map blob SHA `08353d8ecd7e52495e8a67b8ec849d6068129e57`.
+- No provider accounts or credentials were accessed; no provider/model calls, workflow dispatches, tests, scanners, installations, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
+- Status: DOCUMENTARY DECISION PACKET / PROPOSED / RUNTIME-UNVERIFIED.
+- Next: continue the master roadmap's remaining documentary lanes—component manifest/YAML scope, A0 ingress issuer/lifecycle, audit/privacy R-06 and exact-target manifest—using source-bound evidence and preserving UNKNOWN fields.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
