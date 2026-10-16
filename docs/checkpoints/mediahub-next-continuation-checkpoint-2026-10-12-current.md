@@ -3961,3 +3961,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No workflow dispatch, tests/scanners, provider/model calls, credential use, runner/host inspection, infrastructure changes, deployment, migration, merge, rebase or cherry-pick occurred.
 - Next bounded step: prepare the exact P0 source patch plan with proposed line-level changes, threat/control mapping, rollback path and verification gates. Source edits and execution remain subject to separate authorization.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest verified continuation — accelerated integrated contract and deployment-readiness plan, Wave 06 (2026-10-16)
+
+- Created [Accelerated Integrated Contract and Deployment-Readiness Plan — Wave 06](MEDIAHUB-ACCELERATED-INTEGRATED-CONTRACT-AND-DEPLOYMENT-READINESS-WAVE-06-2026-10-16.md), creation commit `b879dde4c23b666afb0fd3a35c23a1c7befaf213`, read-back blob SHA `5ef7713c509e003c138fd87ce7eaeeb857df2383`.
+- Source-anchored P0 patch design covers approved-ref/immutable-target fence, actor/capability/replay binding, provider-secret allowlisting and canonical target/executor consistency. P1/P2 planning covers HMAC authority isolation, job-level token permissions, checkout credential scope, action SHA pins and schedule guardrails.
+- Defines a canonical project-wide matrix schema, 20 domain areas, stable-ID and conflict reconciliation rules, integrated contract outline, nine parallel work lanes, 16 deployment-readiness gates and a five-day target convergence plan.
+- Map section 20.329 updated; map commit `52aa69f6af8384efd9c5849002ca80e35c433bb0`, map blob SHA `d6c6dd8cbef2bb61b79cb7a10dc50298420ffff4`.
+- Live compare snapshot before map/checkpoint/roadmap updates: docs ref DIVERGED, ahead 1,662 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- Status: PLAN / SOURCE-ANCHORED / NOT ACCEPTED / NOT FROZEN. No workflow edits, tests/scanners, workflow dispatch, provider/model calls, credential or secret access, runner/host inspection, infrastructure changes, deployment or branch integration occurred.
+- Next: Wave 07 — canonical authority inventory and project-wide matrix integration, Day 1; reconcile existing matrices instead of creating a competing register.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
