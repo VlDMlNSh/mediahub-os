@@ -1780,3 +1780,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - State: REFERENCE DESIGN / PROPOSED / IMPLEMENTATION AND RUNTIME QUALIFICATION OPEN. No secret was accessed; no provider call, workflow dispatch, workflow-source edit, test, qualification, deployment or branch integration occurred.
 - Next: independent review of the Wave 13 schemas and Wave 12 patch proposal; continue exact-source discovery for A0 issuer/lifecycle, R-06 and the canonical runner/workspace/network manifest; then prepare a bounded implementation diff for explicit review.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+### Wave 13 read-back, collision repair and map integrity addendum (2026-10-16)
+
+- Registry live blob SHA: `012f8c2877e5ab158b2f2e5a23d43204c368e505`. Wave 13 uses collision-safe SRC-052, SRC-053 and EVD-026 after a fresh scan found earlier SRC-045, SRC-046 and EVD-023 already assigned; Wave 14 collisions were similarly corrected to SRC-054, SRC-055 and EVD-027. Latest registry scan: no duplicate SRC/EVD IDs.
+- Map integrity repair commit: `5b9af34edfed4253483cc389dc5791bf93aacbff`; full map blob SHA `67df345a0c067553f67d3e2efda61ac96cbdce32`. Blob read-back verified full content and sections §20.341–§20.342.
+- Continuation checkpoint update commit: `1102830587662a94098e2be41a3015e35cefe9a5`; checkpoint blob SHA `910cf0eabb669336416f9a245df1f2a69eadf3e1`.
+- Current activation queue contains CAF-Q-001…CAF-Q-012 after Wave 14; the original ten IDs remain stable and the queue remains documentary. No live queue/scheduler is asserted.
+- Wave 13 structural check remains 15/15. Full JSON Schema validation, independent review and runtime qualification remain open.
+- Current map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
