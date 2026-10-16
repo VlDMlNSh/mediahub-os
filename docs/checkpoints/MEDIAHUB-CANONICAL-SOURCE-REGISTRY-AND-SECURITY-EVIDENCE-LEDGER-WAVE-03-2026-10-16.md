@@ -336,3 +336,20 @@ The source read-back pass did not install a validator or run repository tests. T
 | SRC-078 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | `8e91e42887c402cba709259d5ba7fa3d65957f3b` | CAF-19 post-queue structural read-back control | READ-BACK VERIFIED / ACCEPTANCE OPEN | Full schema validation, negative fixtures and runtime evidence |
 | SRC-079 | `docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md@docs/mediahub-chat-tree-map-20261012` | `53fefb64f0c6962d1dfcf5cfa3bcf826f503774c` | Latest continuation state for Wave 19 final live-state reconciliation | READ-BACK VERIFIED | Next bounded pass |
 | EVD-036 | Wave 19 post-queue source assertions | 24/24 bounded assertions passed; queue `0d4d591f464b976d6920bbd39c87a45a9d4fda59`; Wave 19 report `cce52dd0a6247d8df39c068e98d084810642081e`; map `fcef1bf0c8329b76ad640f774d23493cfa9157a5` | STRUCTURAL READ-BACK PASS ONLY | Standards-compliant Draft 2020-12 validation, format assertions, positive/negative fixtures, semantic reference resolution and independent review |
+
+
+## Wave 11 — three-server cloud-agent credential enrollment and chat continuity
+
+| ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
+|---|---|---|---|---|---|
+| SRC-036 | `docs/checkpoints/MEDIAHUB-THREE-SERVER-CLOUD-AGENT-KEY-ENROLLMENT-AND-CHAT-CONTINUITY-WAVE-11-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `2982357fc48ca0b01cef0ddb8e3b6cfb55847170`; read-back SHA pending in this wave | Owner direction for preserving the three-server topology and adding cloud-agent credential/queue design | DOCUMENTARY DESIGN / PROPOSED / RUNTIME-UNVERIFIED | Target manifest, A0 lifecycle, R-06, provider-specific credential and egress policies |
+| SRC-037 | `docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md@docs/mediahub-chat-tree-map-20261012` | Update commit `ef98652fce3d9bfa49b3dbb65a64efb6fe51e50d`; blob SHA `781cead3966c21197f4c68cf5f2385dd11fea0e1` | Plan of record for Wave 11 and CAF-Q-001…CAF-Q-010 | OWNER-DIRECTED WORKING PLAN; no implementation authority | Map/checkpoint/matrix; authorized A0 queue implementation |
+| SRC-038 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | Update commit `9e41bb36a25d3348e4e285ec37509ac2e0a91ce4`; blob SHA `360e2a6bb5661633d9ba6745f24e123b6774c03b` | Cross-domain controls CAF-15…CAF-20 for topology, credential custody, request egress, queue admission and continuity | PROPOSED / NOT ACCEPTED / NOT FROZEN | Source-bound closure, owner/governance decisions, direct runtime evidence |
+
+| Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
+|---|---|---|---|---|
+| EVD-018 | Owner direction preserves Mac mini 2018/macOS, Mac mini 2011/Linux and remote video server while adding cloud agents | Wave 11 owner-direction record; no target runtime inspected | OWNER DIRECTION RECORDED / TARGET UNVERIFIED | Canonical target manifest and accepted role/capability/network evidence |
+| EVD-019 | Provider credential enrollment should be independent of a particular server | Wave 11 design: policy-controlled secret references separated from execution placement | DESIGN ONLY | Accepted credential-reference, secret-custody, rotation/revocation and audit contract |
+| EVD-020 | Provider request location and account eligibility still follow actual provider/runtime policy | Wave 11 explicit egress distinction; historical Gemini run evidence is separate | DESIGN ONLY / PROVIDER-SPECIFIC | Provider-specific official policy, eligible account/project, authorized route and revision-bound request evidence |
+
+Registry boundary: owner intent and design documents establish neither credentials, active agent registrations nor an operational queue. Do not claim those components are live without direct evidence.
