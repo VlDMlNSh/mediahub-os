@@ -14,7 +14,7 @@
 - Merge base: `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 - WB-14AA blob on documentation ref: `030273bfe9fd6d44e78b611c011af95d08c88a45`.
 - WB-14Z blob on documentation ref: `95f3af63705f4ad7cd24405df9c7c396886cb3a3`.
-- WB-14Y blob on documentation ref: `[SOURCE_BLOB_WB14Y]`.
+- WB-14Y blob on documentation ref: `409e3851b27dd0187b6a56b6a050fc3785f4900f`.
 - Owner decision record / DEC-DEV-02 blob: `70376a2709e055972ceddc4a280d26992977213c`.
 - Canonical ASTRA GOLD unified architecture on main: `e2067dc41b52983fc4e0b2549fb6af3c099cbc60`.
 - Canonical ASTRA GOLD governance contract on main: `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`.
