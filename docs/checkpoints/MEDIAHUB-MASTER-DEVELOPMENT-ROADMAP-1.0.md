@@ -1972,3 +1972,9 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - A0 issuer/lifecycle, MH-12, R-06 and authoritative target manifest remain open. The v0.2 task and agent schemas remain proposed-only.
 - Next: continue pinned OpenHands module-to-contract mapping and resolve canonical Personal Jarvis identity before any integration proposal.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+### Wave 24 navigation and continuation pointers
+
+- Supplemental map navigation: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-24-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-24-2026-10-17.md), creation commit `3dd6957d87c5f8f66c25d8709d7a261d05f1b66e`.
+- Supplemental continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-17-wave24.md](mediahub-next-continuation-checkpoint-2026-10-17-wave24.md), creation commit `5c54ba5ab694c264895cb91c0d1f0caafd927a90`.
+- Canonical map remains authoritative; this addendum preserves Wave 24 navigation without replacing it.
