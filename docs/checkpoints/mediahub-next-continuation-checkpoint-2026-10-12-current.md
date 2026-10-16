@@ -4381,3 +4381,19 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Remaining gates: full Draft 2020-12 meta-validation and negative fixtures; accepted A0 issuer/ingress/lease/cancel/recovery; R-06 governance; authoritative runner/workspace/network target manifest; independent source-bound workflow review.
 - No provider call, secret access, workflow dispatch, repository test run, install, host/runtime inspection, infrastructure change, deployment, merge or branch integration occurred.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — three-server cloud-agent credential enrollment and chat continuity, Wave 11 (2026-10-16)
+
+- Owner direction recorded in `docs/checkpoints/MEDIAHUB-THREE-SERVER-CLOUD-AGENT-KEY-ENROLLMENT-AND-CHAT-CONTINUITY-WAVE-11-2026-10-16.md`; creation commit `2982357fc48ca0b01cef0ddb8e3b6cfb55847170`.
+- Preserve existing topology: Mac mini 2018/macOS; Mac mini 2011/Linux; remote video server. Cloud agents and GitHub-hosted ephemeral runners are additive lanes; this wave changes no server roles.
+- Core design distinction: provider/account/project identity and secret custody are separate from execution placement and actual request egress. A credential reference should be policy-controlled rather than hard-wired to one host. Provider-side checks can still evaluate actual request origin, account/project region and applicable terms; this design does not promise location-blind requests or bypass provider restrictions.
+- Gemini remains operationally proven for historical read-only run `38952885501`, job `117148417231`, artifact `12069128185`, digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d`. No new provider call occurred.
+- Master Roadmap update commit `ef98652fce3d9bfa49b3dbb65a64efb6fe51e50d`, blob SHA `781cead3966c21197f4c68cf5f2385dd11fea0e1`.
+- Unified matrix update commit `9e41bb36a25d3348e4e285ec37509ac2e0a91ce4`, blob SHA `360e2a6bb5661633d9ba6745f24e123b6774c03b`; added CAF-15…CAF-20.
+- Canonical source registry update commit `cf75effd32c5312590e91b213d17950abba32ff2`, blob SHA `e9898394e266f04d2509166f7752c60599e115a4`; added SRC-036…SRC-038 and EVD-018…EVD-020.
+- Backlog CAF-Q-001…CAF-Q-010 is documentary planning, not a live task queue. Registry, scheduler, A0 admission, R-06 audit sink, isolated patch worker and promotion pipeline remain unqualified.
+- Map fetch through the connected GitHub contents path returned the current map blob SHA `fcef1bf0c8329b76ad640f774d23493cfa9157a5` but empty file content, and raw retrieval reported the file as too large. The canonical map was therefore not edited in this pass. Wave 11 itself contains a navigation link; a supplemental map addendum is the next safe documentation action.
+- This pass used documentation writes and read-only GitHub metadata only. No credentials, secrets, provider calls, workflow dispatches, tests/scanners, installations, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
+- Next: create a small map addendum, verify Wave 11/matrix/roadmap/registry/checkpoint by read-back, then reconcile A0 issuer/lifecycle, R-06 and target-manifest evidence.
+- Current canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
