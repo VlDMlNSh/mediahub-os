@@ -6561,7 +6561,7 @@ WB-14AA и приложение остаются не-нормативными. 
 
 ## 20.322 P0-07 R-06 — MH-12 security audit × MH-13 privacy crosswalk, Wave 05 (2026-10-16)
 
-- Report: [P0-07 R-06 — MH-12 Security Audit × MH-13 Privacy Crosswalk, Wave 05](../checkpoints/MEDIAHUB-P0-07-D2-R06-MH12-MH13-AUDIT-PRIVACY-CROSSWALK-WAVE-05-2026-10-16.md), blob SHA `PENDING_READBACK`.
+- Report: [P0-07 R-06 — MH-12 Security Audit × MH-13 Privacy Crosswalk, Wave 05](../checkpoints/MEDIAHUB-P0-07-D2-R06-MH12-MH13-AUDIT-PRIVACY-CROSSWALK-WAVE-05-2026-10-16.md), blob SHA `099ad9f6a85bd4764dd16ccbfa9695c2abd6d5bd`.
 - Source-only reconciliation read MH-12 Audit (`ab6e1c652790fd9088ac26b595050774611da2fc`), MH-13 Privacy/Data Governance (`e732ff9cacbc9c1189bd83306cdff30906326cf0`), MH-13 Governance State (`7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`), reconstruction registers (`8c66fb49bbe011d8ef5dd78287c72efdad77a8fe`), Wave 01 crosswalk and Wave 04 recommendation.
 - Recommendation remains PROPOSED: explicit minimal-field allowlist, opaque references, bounded reason/result codes, no raw payloads/secrets/auth context, least-privilege audit readers, integrity protection, bounded storage, governed retention/deletion and controlled export. Clock source, sink durability, schema registration, retention periods and reader policy remain open gates.
 - MH-13 governance status is layered: accepted reconstruction, historical original unrecovered, freeze NO, production implementation unauthorized; its reconstruction register still records an independent-verification gate. Preserve both status dimensions.
