@@ -20,7 +20,7 @@ on:
       model:
         description: "Gemini API model ID"
         required: true
-        default: "gemini-3.6-flash"
+        default: "gemini-3.5-flash-lite"
         type: string
 
 permissions:
@@ -104,10 +104,10 @@ jobs:
           const https = require('node:https');
           const prompt = fs.readFileSync('agent-output/prompt.txt', 'utf8');
           const key = process.env.GEMINI_API_KEY;
-          const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
+          const model = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite';
           const body = JSON.stringify({
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.2, maxOutputTokens: 8192 }
+            generationConfig: { maxOutputTokens: 8192 }
           });
           const retryable = new Set([429, 500, 502, 503, 504]);
           const maxAttempts = 4;
@@ -131,6 +131,7 @@ jobs:
                 res.on('end', () => resolve({
                   status: res.statusCode || 0,
                   retryAfter: res.headers['retry-after'],
+                  requestId: res.headers['x-request-id'] || res.headers['x-goog-request-id'] || '',
                   data
                 }));
               });
@@ -160,8 +161,34 @@ jobs:
               }
 
               if (response.status >= 200 && response.status < 300) break;
+              let diagnostic = { status: '', message: '', reasons: [] };
+              try {
+                const errorPayload = JSON.parse(response.data);
+                const apiError = errorPayload && typeof errorPayload.error === 'object' ? errorPayload.error : {};
+                const rawMessage = String(apiError.message || '');
+                diagnostic = {
+                  status: String(apiError.status || ''),
+                  message: rawMessage
+                    .replace(/AIza[0-9A-Za-z_-]{20,}/g, '[REDACTED_API_KEY]')
+                    .replace(/Bearer\s+\S+/gi, 'Bearer [REDACTED]')
+                    .replace(/([?&]key=)[^&\s]+/gi, '$1[REDACTED]')
+                    .replace(/\s+/g, ' ')
+                    .slice(0, 400),
+                  reasons: (Array.isArray(apiError.details) ? apiError.details : [])
+                    .map(item => item && (item.reason || item.domain || item['@type']))
+                    .filter(value => typeof value === 'string')
+                    .slice(0, 5)
+                };
+              } catch {}
+              console.error('Gemini sanitized error metadata: ' + JSON.stringify({
+                http_status: response.status,
+                api_status: diagnostic.status || undefined,
+                message: diagnostic.message || undefined,
+                details: diagnostic.reasons.length ? diagnostic.reasons : undefined,
+                request_id: String(response.requestId || '').slice(0, 120) || undefined
+              }));
               if (!retryable.has(response.status)) {
-                console.error(`Gemini API returned non-retryable HTTP ${response.status}; response body suppressed.`);
+                console.error(`Gemini API returned non-retryable HTTP ${response.status}; raw response body suppressed.`);
                 process.exitCode = response.status === 401 || response.status === 403 ? 16 : 11;
                 return;
               }
