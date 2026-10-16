@@ -114,3 +114,29 @@ WB-14AA proposal-local labels A0-ING-01…09 remain noncanonical. Do not registe
 Wait for an explicit owner/governance disposition on WB-14AD or independently reconcile the exact primary source text for D-ING-01…04, D-ING-05a/05b and D-ING-06. If governance remains pending, keep this appendix non-normative; do not select transport, schema, enums, TTLs, persistence or crypto profile by inference.
 
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 8. Reconciliation with the existing WB-14Q–WB-14Z design series
+
+A source-only follow-up read the existing design/decision series after this appendix was drafted. This appendix is a derivative crosswalk, not a replacement for those earlier, more detailed source-pinned artifacts. Do not re-run their analysis or treat this appendix as a newer normative authority.
+
+| Existing artifact | Current docs-branch blob SHA | Relevant established boundary |
+|---|---|---|
+| WB-14Q — logical interface design | `2b0cf853a7b5eefe9e75fccdcfed130d53f417c8` | Transport-neutral logical seam; no accepted wire/API contract; no second A0 queue; direct Jarvis local route remains distinct. |
+| WB-14R — authority/schema crosswalk | `dc827eb6ad53c03c0bb26a2989e4646f6f5a6b1d` | Existing schemas and command formats cannot be reused as the external A0 wire contract without resolving field/authority collisions. |
+| WB-14S — schema ownership and operation map | `6b5159fdbe0c99d34e754047dd7c0a8afde8c61c` | Separate operation-specific submit/admission, status, cancel, result and health response candidates; these are not registered schema IDs. |
+| WB-14T — owner/governance decision packet (corrected revision) | `023f44b6712450a8b84e2e99e716fd3cbb2d593e` | Recommendations only; no issuer, transport, persistence, freshness threshold or lifecycle enum selected. |
+| WB-14U — health/readiness and lifecycle status ownership | `1cd8e23f0f534bcfdc4d4b1d060248adb7705b1f` | Admission, lifecycle, attempt, verification, qualification, health/readiness, trust and authorization are distinct status domains. |
+| WB-14V — MH-06 status correction and decision split | `00cd42afedfb0c52561d967c7c40609f2a4c55fc` | MH-06 ADR-001 is accepted only within its stated scope; D-ING-05a (generic health mapping) and D-ING-05b (A0 challenge/response) remain separate; D-ING-06 lifecycle contract remains OPEN. |
+| WB-14W — decision register ownership/acceptance paths | `c5920437c02d98b3f4bec6a356b590a7bef9ce4e` | Proposed roles are not appointments; named accountable owners and formal approval workflow are not evidenced in the reviewed source set. |
+| WB-14Z — source-contract census | `95f3af63705f4ad7cd24405df9c7c396886cb3a3` | Existing local file task ingress and signed operational-command path are not proven to be the accepted Jarvis producer → A0 consumer contract; internal policy values do not define external TTLs. |
+
+### Reconciliation outcome
+
+- This appendix is consistent with the existing series when read as non-normative field/state traceability. It does not supersede WB-14Q–WB-14Z or establish an accepted contract.
+- Keep D-ING-01…04, D-ING-05a, D-ING-05b and D-ING-06 OPEN. Keep WB-14AA and this appendix PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED.
+- Preserve the distinction between the owner-approved DEC-DEV-02 authority split and still-open A0 wire-contract decisions. Preserve the separate Jarvis → A0 engineering route and P0-07 → P0-05 → P0-04 product-mutation route.
+- No final schema, enum, transport, issuer, crypto profile, persistence mechanism, TTL or implementation choice follows from the source comparison.
+- No tests, validators, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure change, deployment, migration or branch integration occurred.
+
+**Next bounded step:** no further broad source-only re-analysis is justified absent new evidence. Wait for an explicit owner/governance disposition to WB-14AD. Once provided, update only the affected decision/contract records with exact source revision and acceptance evidence; until then keep this work proposal-only.
