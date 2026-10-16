@@ -6324,3 +6324,10 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Mapping: A0-ING-02 ↔ D-ING-01/02; A0-ING-04 ↔ D-ING-03; A0-ING-06 ↔ D-ING-04; A0-ING-07 ↔ D-ING-05b; A0-ING-05 ↔ D-ING-06. Keep D-ING-05a separate. A0-ING-01/03/08/09 have cross-cutting owner, API, evidence or qualification dependencies.
 - WB-14W role assignments remain proposed; named accountable owners, delegated authority and formal acceptance workflow are not evidenced. WB-14AA remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
 - Next: prepare compact owner/governance request for accountable-owner appointments and acceptance-path confirmation; preserve no-implementation/no-qualification gates.
+
+## 20.300 Contour A WB-14AC — A0 ingress evidence/qualification boundary crosswalk (2026-10-16)
+
+- Report: [WB-14AC A0 Ingress Evidence and Qualification-Boundary Crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14AC-A0-INGRESS-EVIDENCE-AND-QUALIFICATION-BOUNDARY-CROSSWALK-2026-10-16.md), commit `8b92df9305869f93e4691ea948413c4418a6d2a7`.
+- Canonical ASTRA GOLD schema/reference architecture/governance sources establish internal target-SHA-bound evidence, immutability, metadata, fresh evidence, independent A3 verification and fail-closed/block-on-conflict semantics. They do not establish the Jarvis-facing A0 API, issuer, external admission/idempotency contract, result schema or owner acceptance workflow.
+- Executor capability matrix has docs/main wording drift (docs SHA `9ad83781a8da53d1a8f540ede54eba95281f01c0`, main SHA `da26185254d9954fcee204f81ecca129bf052e7c`); recorded without integration. No tests/validators/runtime/qualification performed.
+- WB-14AA remains proposal-only. Next: source-linked governance request for accountable-owner appointments and approval workflow.
