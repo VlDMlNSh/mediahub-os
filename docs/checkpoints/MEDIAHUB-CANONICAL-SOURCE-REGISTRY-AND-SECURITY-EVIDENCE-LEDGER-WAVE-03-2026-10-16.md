@@ -430,3 +430,28 @@ Registry boundary: owner intent and design documents establish neither credentia
 | EVD-053 | Wave 37 portable credentials and hosted-runner topology | DESIGN PROPOSED | A0, MH-12, R-06, provider eligibility, target manifest and runtime evidence remain open |
 
 The stable IDs above follow the live registry's verified maximum `SRC-095` / `EVD-049`. The local `W36-SRC-*` and `W36-EVD-*` labels remain local to their addendum and are not canonical IDs.
+
+
+## Wave 39 — Gemini MCP PR Review and Command-Surface Reconciliation
+
+### Source registry additions
+
+| ID | Source / ref | Revision or URL | Authority scope | Status / acceptance boundary |
+|---|---|---|---|---|
+| SRC-101 | MediaHub PR #307 — Gemini MCP core allowlist | Head `5ae969763ff7ccbd22052efbd2661cf7bbdd7fd3`; https://github.com/VlDMlNSh/mediahub-os/pull/307 | Proposed one-line workflow policy change | Open/unmerged; source proposal only |
+| SRC-102 | Google Gemini CLI issue #28361 | https://github.com/google-gemini/gemini-cli/issues/28361 | Core-tool allowlist behavior affecting MCP registry | Upstream issue evidence; verify current behavior against pinned CLI revision |
+| SRC-103 | Google Action issue #532 | https://github.com/google-github-actions/run-gemini-cli/issues/532 | Empty core allowlist and MCP-tool exclusion | Upstream issue evidence; distinct from MediaHub runtime qualification |
+| SRC-104 | Google Action issue #510 | https://github.com/google-github-actions/run-gemini-cli/issues/510 | Bundled slash-command MCP tool-name/method mismatch | Separate source-remediation lane OPEN |
+| SRC-105 | Google Action tag `v0` resolution | `f77273f4c914e4bf38440cf36a0369cb64a37489` observed during Wave 39 | Current action source identity for this observation | Mutable tag; future hardening should pin an audited full SHA |
+| SRC-106 | GitHub OIDC documentation | https://docs.github.com/en/actions/concepts/security/openid-connect | Short-lived federated credentials for supported destinations | Requires explicit destination trust policy; no general credential-free assumption |
+
+### Evidence ledger additions
+
+| ID | Evidence | Disposition | Limitation |
+|---|---|---|---|
+| EVD-054 | PR #307 checks: `validate` run 38977903775 and `verify` run 38977903690 both completed successfully | PR CI PASS | PR remains open/unmerged; no provider runtime acceptance |
+| EVD-055 | PR #307 remains open; `main` branch endpoint reports `protected: false` | Integration control gap recorded | No merge or branch-rule change performed |
+| EVD-056 | Pinned current `v0` action source copies bundled `.github/commands/*`; source-pinned prompts include bare/stale MCP references; upstream issue #510 reports the mismatch | Separate command-surface remediation OPEN | Direct MediaHub prompt uses fully qualified MCP names; issue does not prove the direct prompt caused the latest failure |
+| EVD-057 | Activation queue contains 16 entries and status `DOCUMENTARY_QUEUE_ONLY` | No active queue consumer proven | A0, MH-12, R-06, target manifest and schema validation remain open |
+
+Stable IDs continue from the latest verified canonical registry maximum SRC-100 / EVD-053. These entries document evidence and gaps; they do not authorize merge, workflow dispatch, provider invocation, credential access, activation or deployment.
