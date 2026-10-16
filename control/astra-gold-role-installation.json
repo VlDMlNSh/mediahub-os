@@ -1,0 +1,48 @@
+{
+  "schema": "mediahub.astra-gold.role-installation.v1",
+  "roles": {
+    "mh-dev-01": [
+      "Astra GitHub Agent",
+      "Astra Command Bus",
+      "Astra Orchestrator",
+      "Hybrid Orchestrator",
+      "Node.js",
+      "Bun"
+    ],
+    "mh-dev-02": [
+      "Codex CLI",
+      "Claude Code",
+      "free-claude-code",
+      "free-claude-code server",
+      "OmniRoute",
+      "OpenFlux",
+      "free-coding-models",
+      "Ollama",
+      "llama.cpp",
+      "bubblewrap",
+      "FFmpeg",
+      "OpenCV",
+      "PaddleOCR"
+    ],
+    "mh-dev-03": [
+      "G4 verifier",
+      "A3 verifier",
+      "Prometheus",
+      "PostgreSQL",
+      "pgvector",
+      "NATS",
+      "etcd",
+      "protobuf",
+      "restic",
+      "OpenBao",
+      "SOPS",
+      "age",
+      "Cosign",
+      "Syft",
+      "Trivy",
+      "OpenTelemetry",
+      "RAUC"
+    ]
+  },
+  "rule": "Installed != qualified; each component requires presence/version/runtime/security/recovery evidence."
+}
