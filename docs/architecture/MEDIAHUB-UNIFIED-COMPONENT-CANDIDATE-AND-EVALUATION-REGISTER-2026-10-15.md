@@ -272,3 +272,13 @@ Next bounded step: complete Wave 0 prerequisites and source-pin the top non-over
 - Status remains **FUTURE-GATED / SOURCE-PINNED FOR PAPER REVIEW ONLY / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED**. Require an owner-approved gap beyond ASTRA A0 lifecycle/queue/recovery, exact release/artifact provenance, complete dependency/SBOM/advisory review, server/persistence/backup plan, isolation/auth/TLS/egress/retention, retry/cancel/idempotency semantics, and target OS/toolchain/resource fit before selection.
 - If reconsidered, Temporal must remain a bounded execution substrate under ASTRA-owned mission and authority contracts; do not create a second canonical mission registry or competing queue/lifecycle/Product State Authority. Do not select Temporal and Hatchet by default.
 - No download/build/install, workflow execution, tests, scans, provider calls, credentials, host/runtime inspection, qualification or deployment occurred. See [Component Admission Crosswalk §7.22](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
+
+
+### Temporal decision gate — ASTRA lifecycle/recovery gap discrimination (2026-10-16)
+
+- Crosswalk §7.23 reconciles source-backed ASTRA internal lifecycle design against the proposed value of Temporal.
+- ASTRA governance/reference sources already describe internal queue/claim/lease/heartbeat, bounded retry, cancellation/recovery, stale-claim handling, result publication and evidence/gate state. They do not prove implementation conformance, target deployment or runtime reliability.
+- The outstanding proven documentary gaps are primarily Jarvis→A0 ingress acceptance, caller/issuer/verifier lifecycle, durable external admission/idempotency semantics, corporation task/result/evidence envelope and governance ownership. Temporal does not resolve those contract/authority gaps.
+- **Disposition unchanged:** FUTURE-GATED / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED. Current evidence does not justify adding Temporal, but also does not prove all durability requirements are implemented.
+- Reconsider only after a source-backed, owner-approved residual durability/recovery requirement remains after the lifecycle contract reconciliation. Keep old node labels/topology as historical evidence only, never as new deployment targets.
+- Crosswalk: [§7.23 ASTRA lifecycle/recovery contract versus Temporal](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md).
