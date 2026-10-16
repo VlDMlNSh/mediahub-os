@@ -3554,3 +3554,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No schema IDs, endpoint, transport, issuer, crypto profile or persistence design selected. No tests, implementation, qualification, runtime/host access, provider calls, credentials, install, infrastructure, deployment or branch integration.
 - Next: prepare a transport-neutral A0 ingress contract candidate clearly marked PROPOSED / NOT ACCEPTED, with traceability and unresolved decisions. Do not register schemas or implement until owners/governance accept the necessary contracts.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest continuation — WB-14AA transport-neutral A0 ingress contract candidate (2026-10-16)
+
+- Proposal: [WB-14AA ASTRA A0 Ingress Contract Candidate](MEDIAHUB-CONTOUR-A-WB-14AA-ASTRA-A0-INGRESS-CONTRACT-CANDIDATE-2026-10-16.md), creation commit `d05462b3c39ad5d08fad0ebde07e76158df361ba`; blob SHA to verify after write.
+- Status is strictly PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED. It is a transport-neutral review artifact, not a normative contract.
+- Includes logical SubmitMission/GetMissionStatus/GetMissionResult/RequestCancellation operations, optional ProbeA0 and ReconcileAdmission semantics, minimum trust/request envelope, durable admission/idempotency, lifecycle/fencing/cancellation/result/evidence, failure dispositions, and nine local unresolved decision rows.
+- Explicitly leaves owner, transport, caller edge, issuer/attester/verifier, persistence, external expiry/replay policy, status vocabulary and qualification acceptance open. Proposal IDs are not canonical registry IDs and must be collision-checked before promotion.
+- No endpoint, transport, schema ID, crypto profile, issuer, storage or TTL was selected. No implementation, tests, qualification, credentials/provider calls, host/runtime inspection, install, infrastructure, deployment or branch integration occurred.
+- Next: source-only collision check and evidence-owner mapping for the nine proposal decisions; then present a compact owner/governance decision packet without promoting the proposal to normative status.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
