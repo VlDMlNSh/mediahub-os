@@ -1801,3 +1801,15 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Status: STATIC REVIEW / REMEDIATION PROPOSAL / NO SCHEMA PATCH APPLIED. Existing v0.1 artifacts remain unchanged; previous structural assertions are smoke evidence only.
 - Next: prepare versioned v0.2 schema candidates with explicit separation of execution, verification and qualification; then use an approved Draft 2020-12 validator, negative fixtures and independent review after the relevant execution authorization.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Cloud-Agent Schema v0.2 Candidates, Wave 16 (2026-10-16)
+
+- Added [Cloud-Agent Schema v0.2 Candidates — Wave 16](MEDIAHUB-CLOUD-AGENT-SCHEMA-V0.2-CANDIDATES-WAVE-16-2026-10-16.md), creation commit `438d9321ef68caa32c4842e116f6c5d61ec663cc`.
+- Added [Agent Registry Schema v0.2](MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json), blob `b49b89b8fbdfc180862e3dc78f8198f35e486035`, and [Execution Evidence Manifest Schema v0.2](MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json), blob `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
+- Addressed the Wave 15 P0/P1 schema findings in candidate artifacts: execution status is distinct from verification/qualification, provider routes and evidence arrays are bounded, action SHAs are constrained, schema references are captured, and the registry requires a provider route and isolated workspace.
+- Structural review: 20/20 bounded assertions passed on GitHub read-back. Full Draft 2020-12 meta-validation, format assertion, negative fixtures, semantic reference validation and independent review remain open.
+- Updated [Activation Queue](MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json) with CAF-Q-014 for full validation; queue commit `ce9a4a2d9bd740afe3ad27186117994c7289a7a3`, blob `4482cecf502a3c769ab55edfb005a3fc88e1975b`.
+- Status: V0.2 CANDIDATES / REVIEW REQUIRED / RUNTIME-UNVERIFIED. v0.1 remains preserved; no agent was registered or authorized.
+- Next: full standards-compliant validation and negative fixtures, followed by independent review; A0 issuer/lifecycle, MH-12 authority, R-06 and target manifest remain runtime-admission gates.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
