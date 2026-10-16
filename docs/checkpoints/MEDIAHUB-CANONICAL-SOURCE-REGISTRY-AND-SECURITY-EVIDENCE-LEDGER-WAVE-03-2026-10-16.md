@@ -220,8 +220,8 @@ The checks in EVD-024 are bounded structural assertions, not a full JSON Schema 
 
 | ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
 |---|---|---|---|---|---|
-| SRC-045 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `bafc9f9c3f2c1c7f61a5f8b1b9d88c6db2f83d2a` | Candidate Contour A agent identity/capability/provider-route/expiry/revocation record | PROPOSED / SCHEMA CREATED / REVIEW REQUIRED; no agent registration or grant implied | A0 issuer/admission/lifecycle, MH-12 authority, R-06 and target manifest |
-| SRC-046 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `d0a72b8f5e0f10db95f30bba4cbba95b8e3d60b1` | Candidate run/task/source/input/agent/policy/artifact/review provenance manifest | PROPOSED / SCHEMA CREATED / REVIEW REQUIRED; no execution evidence asserted | R-06 audit/privacy, workflow provenance, artifact digest validation and independent review |
+| SRC-045 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `449a38bc84283f720fe723ea8e3587e6082fdbb4` | Candidate Contour A agent identity/capability/provider-route/expiry/revocation record | PROPOSED / SCHEMA CREATED / REVIEW REQUIRED; no agent registration or grant implied | A0 issuer/admission/lifecycle, MH-12 authority, R-06 and target manifest |
+| SRC-046 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `9714fd2dd04d401a9a3d1a800cb19d7b69e7e73f` | Candidate run/task/source/input/agent/policy/artifact/review provenance manifest | PROPOSED / SCHEMA CREATED / REVIEW REQUIRED; no execution evidence asserted | R-06 audit/privacy, workflow provenance, artifact digest validation and independent review |
 
 | Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
 |---|---|---|---|---|
