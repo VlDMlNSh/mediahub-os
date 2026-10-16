@@ -113,3 +113,10 @@ D-03 явно принят владельцем 2026-10-14 и больше не 
 - The reviewed sources do not name accountable individuals or establish a formal approval workflow for these decisions. WB-14W proposes role-level owners for explicit confirmation only. Recommendations, silence, or an architecture document are not owner acceptance.
 - MH-06 ADR-001 remains ACCEPTED / GOVERNANCE ACCEPTED for its stated Core Runtime Services scope; implementation authorization remains NO. The generic domain-health mapping, A0 probe contract and A0 lifecycle transition table are separate unresolved decisions.
 - No implementation, schema registration, tests, qualification, deployment or runtime action is authorized by this cross-reference.
+
+## Contour A route-boundary clarification — WB-14Y (2026-10-16)
+
+- See [WB-14Y ASTRA A0 Ingress vs Product-Mutation Boundary Correction](MEDIAHUB-CONTOUR-A-WB-14Y-A0-INGRESS-VS-PRODUCT-MUTATION-BOUNDARY-CORRECTION-2026-10-16.md).
+- Do not conflate owner-register D-03, project DEC-DEV-02, or ingress D-ING-03. DEC-DEV-02 Option C is owner-approved in the owner decision packet §8; the stale §6.1 summary was corrected without changing primary normative sources.
+- Jarvis → ASTRA A0 engineering ingress and P0-07 → P0-05 → P0-04 product mutation are distinct routes. The latter's caller/header issues do not automatically decide the former's API or block all engineering submissions; product mutations remain blocked by their own gates.
+- Existing D-ING-01…04, D-ING-05a/05b and D-ING-06 remain OPEN; no new option, issuer, protocol, schema, or implementation status was accepted.
