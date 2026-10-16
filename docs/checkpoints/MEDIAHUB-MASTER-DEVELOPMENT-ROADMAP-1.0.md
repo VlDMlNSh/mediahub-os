@@ -1978,3 +1978,16 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Supplemental map navigation: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-24-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-24-2026-10-17.md), creation commit `3dd6957d87c5f8f66c25d8709d7a261d05f1b66e`.
 - Supplemental continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-17-wave24.md](mediahub-next-continuation-checkpoint-2026-10-17-wave24.md), creation commit `5c54ba5ab694c264895cb91c0d1f0caafd927a90`.
 - Canonical map remains authoritative; this addendum preserves Wave 24 navigation without replacing it.
+
+
+## Contour A — OpenHands Task / Registry / Evidence Contract Crosswalk, Wave 25 (2026-10-17)
+
+- Completed a source-only mapping of the pinned OpenHands SDK abstractions to the proposed MediaHub task-envelope, agent-registry and evidence-manifest v0.2 schemas.
+- Report: [OpenHands Task / Registry / Evidence Contract Crosswalk](MEDIAHUB-OPENHANDS-TASK-REGISTRY-EVIDENCE-CONTRACT-CROSSWALK-WAVE-25-2026-10-17.md), blob `d9679e8f40d78404251ad82eaaa9e5811be72f1d`.
+- The SDK provides reusable agent/tool/workspace/remote-execution abstractions; reviewed README evidence does not establish native conformance to MediaHub schemas. Proposed integration shape is a narrow adapter, with MediaHub retaining task, identity, authorization, policy and canonical evidence authority.
+- Added traceability controls CAF-69…CAF-71 and source/evidence records SRC-091/EVD-045.
+- OpenHands remains a source-pinned candidate only. Task/registry/evidence schemas remain PROPOSED ONLY; runtime admission remains BLOCKED.
+- A0 issuer/ingress/lease/fencing/replay/cancellation, MH-12 capability semantics, R-06 audit/privacy disposition and accepted target manifest remain open. Personal Jarvis authoritative upstream identity remains unresolved.
+- No implementation, install, test, qualification, provider/model call, credential use, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
+- Next: inspect the actual OpenHands Agent Server route/configuration and workspace/tool enforcement at the same immutable commit; compare source behavior against accepted A0/MH-12/R-06 requirements. Keep all runtime and target gates closed pending accepted contracts and independently authorized qualification.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
