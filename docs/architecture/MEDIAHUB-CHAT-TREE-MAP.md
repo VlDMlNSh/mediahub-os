@@ -6309,3 +6309,10 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Internal lease/retry values must not be repurposed as external request/token/probe/idempotency limits. No transport, issuer, schema ID, cryptographic profile or storage technology was selected.
 - WB-14Y distinction continues to apply: engineering ingress and P0-07→P0-05→P0-04 product mutation are separate routes; no authority bypass allowed.
 - Next: draft a transport-neutral, version-neutral A0 ingress contract candidate with exact source links, ownership fields, operation/request-response matrix, failure semantics and explicit unresolved decisions. Keep PROPOSED / NOT ACCEPTED; no schema registration or implementation yet.
+
+## 20.298 Contour A WB-14AA — ASTRA A0 ingress contract candidate (2026-10-16)
+
+- Proposal: [WB-14AA ASTRA A0 Ingress Contract Candidate](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14AA-ASTRA-A0-INGRESS-CONTRACT-CANDIDATE-2026-10-16.md), commit `d05462b3c39ad5d08fad0ebde07e76158df361ba`.
+- Status: PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED. Transport-neutral logical operations, request trust envelope, admission/idempotency, lifecycle/fencing/cancellation/result/evidence, failure semantics and nine open decision rows are documented.
+- No endpoint, transport, schema ID, issuer, crypto profile, persistence or external TTL selected. Local proposal IDs are not canonical IDs and require collision check before promotion.
+- Next: source-only collision-check the proposal decision IDs and map unresolved questions to explicit owners and acceptance evidence; prepare a compact decision packet without changing normative status.
