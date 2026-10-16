@@ -4112,3 +4112,18 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Documentation-only. No host/runtime inspection, credentials, provider calls, tests/scanners, installation, infrastructure change, deployment, qualification or branch integration occurred.
 - Next: continue source-only CAF admission evidence without repeating the completed Gemini Wave 09 source review or A0 WB-14AA–WB-14AF source series absent new evidence.
 - Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 10 — Gemini operational evidence and correction of status (2026-10-16)
+
+- Verified GitHub Actions run `38952885501`: `completed / success`; source commit `b45324009ac3aa65322a702c28069b12190bc4b8`; job `117148417231`; Gemini API call step completed successfully; artifact `12069128185` uploaded with digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d`.
+- Wave 10 evidence packet: `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-GEMINI-OPERATIONAL-EVIDENCE-WAVE-10-2026-10-16.md`; verified blob SHA `2cd73c2f9a541631718be088ced6cd93cfb03e5f`; creation commit `1f5f896cdbf50429e3a09e1f8232d13db2821359`.
+- Wave 09 source-review addendum commit `aa8592cae61d743e0fd579df74216af2ff3a6902`; current blob SHA `accbe4d3725ac308378b73ed78d9ecf10dc8b19e`.
+- Master Roadmap Wave 10 update commit `0532c636f64352cc38fb0cd1af20b267992e0ef8`; blob SHA `265b2d6eff407a33852bd6ee97f5815074c9657b`.
+- Unified matrix Wave 10 update commit `06479d8214b578fb8a5d38e15eeb7c90a1d3d2f9`; blob SHA `a567571b33c6ea50448930455dafc7df7f0fd263`.
+- Map Wave 10 update commit `89e94874b3d5aff99660a5a516f92838a7006de4`; blob SHA `934765be210264fe975d07b0a1db83afa412ebd3`.
+- Registry Wave 10 update and collision correction commit `b1fa28f709f37f7268f1a082a3dd02d1cf0c4637`; current blob SHA to be refreshed after concurrent update. Operational evidence entries use SRC-042…SRC-044 and EVD-021…EVD-022 to avoid collision with concurrently added target-manifest Wave 10 records.
+- Status correction: Gemini integration is proven for at least one historical read-only workflow run. Source hardening remains proposed; the complete autonomous fabric remains unqualified.
+- No new workflow dispatch, provider call, credential use, tests/scanners, host/runtime inspection, infrastructure changes, deployment or branch integration occurred in this pass.
+- Next: continue exact A0 issuer/lifecycle and R-06 source closure; reconcile target-manifest authority; prepare task-envelope/evidence schemas and exact workflow patch proposal. Any implementation/test execution remains subject to applicable authorization.
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
