@@ -300,3 +300,7 @@ The Wave 17 record confirms consistency of selected version and bound checks in 
 | SRC-067 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `802ff16cfbdfad6497bcd932add07b3bb4fc8475` | Documentary queue CAF-Q-001…CAF-Q-015 | DOCUMENTARY ONLY / NO LIVE SCHEDULER | Accepted A0 lifecycle and separately qualified scheduler |
 
 | EVD-031 | Owner-server-independent provider topology | Wave 14 and Wave 18 reference designs; CAF-Q-015 recorded | DESIGN EVIDENCE ONLY | Target manifest, workflow source review, accepted provider policy, runtime evidence and independent acceptance |
+
+
+| SRC-068 | `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md@docs/mediahub-chat-tree-map-20261012` | `92e9f2befd0bdb8a78140588929eaa119dda2110` | Current project map with Wave 18 section 20.346 | READ-BACK VIA CONTENTS API / 6,888 LINES | Preserve complete map content and current SHA on subsequent edits |
+| EVD-032 | Wave 18 cross-artifact read-back | Decision blob `d7730895d97f84fc8ff25d1fdda61558dbd50696`; queue blob `802ff16cfbdfad6497bcd932add07b3bb4fc8475`; roadmap blob `792621a1e5ebc07654f801ff9bca9c73ed54b7c9`; matrix blob `c48087de03c5d79acec137165fc0455aaecdf773`; map blob `92e9f2befd0bdb8a78140588929eaa119dda2110` | DOCUMENT READ-BACK VERIFIED | Runtime and qualification evidence remain open |
