@@ -4395,5 +4395,18 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Backlog CAF-Q-001…CAF-Q-010 is documentary planning, not a live task queue. Registry, scheduler, A0 admission, R-06 audit sink, isolated patch worker and promotion pipeline remain unqualified.
 - Map fetch through the connected GitHub contents path returned the current map blob SHA `fcef1bf0c8329b76ad640f774d23493cfa9157a5` but empty file content, and raw retrieval reported the file as too large. The canonical map was therefore not edited in this pass. Wave 11 itself contains a navigation link; a supplemental map addendum is the next safe documentation action.
 - This pass used documentation writes and read-only GitHub metadata only. No credentials, secrets, provider calls, workflow dispatches, tests/scanners, installations, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
-- Next: create a small map addendum, verify Wave 11/matrix/roadmap/registry/checkpoint by read-back, then reconcile A0 issuer/lifecycle, R-06 and target-manifest evidence.
+- Next: reconcile A0 issuer/lifecycle, R-06 and target-manifest evidence; integrate the supplemental Wave 11 map entry into the canonical map when complete map content is available.
 - Current canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+### Wave 11 final read-back evidence
+
+- Wave 11 primary record blob SHA: `8467ad1dbe349ea12cb735da3542b73df68b7446`.
+- Supplemental map addendum blob SHA: `ef606b2a48634321da653a1af646d586be2be445`; creation commit `0dddfa9bc91dca20c7acaadeae5539dafa47aaa8`.
+- Master Roadmap blob SHA after Wave 11: `781cead3966c21197f4c68cf5f2385dd11fea0e1`; update commit `ef98652fce3d9bfa49b3dbb65a64efb6fe51e50d`.
+- Unified matrix blob SHA after Wave 11: `360e2a6bb5661633d9ba6745f24e123b6774c03b`; update commit `9e41bb36a25d3348e4e285ec37509ac2e0a91ce4`.
+- Canonical registry blob SHA after SHA correction: `2005e2b30c16214e41b26d73f8895ee4ee725c84`; correction commit `08c1d9990b5db1aa1bc2e8bd0be3e6f861e5a659`.
+- Checkpoint blob SHA before this final addendum: `4485c1d0234478164665fa803c08212e96875ef7`.
+- Canonical map blob SHA observed: `fcef1bf0c8329b76ad640f774d23493cfa9157a5`; content retrieval returned empty, and raw retrieval reported the file as too large. A separate addendum provides navigation; the canonical map itself remains unchanged and authoritative.
+- Live branch compare from this pass: docs branch DIVERGED from `main`, 1,839 ahead / 10 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No merge or branch integration performed.
+- Wave 11 state remains documentary design; no provider call, credential operation, workflow dispatch, tests/scanners, installation, host/runtime inspection, infrastructure change, deployment or qualification occurred.
