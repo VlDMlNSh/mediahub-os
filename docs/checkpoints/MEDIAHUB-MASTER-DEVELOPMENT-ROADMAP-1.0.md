@@ -1961,3 +1961,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Supplemental map navigation: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-23-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-23-2026-10-17.md), creation commit `537fbf0f980dceb58db81a7521b65612c58ca1f5`.
 - Supplemental continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-17-wave23.md](mediahub-next-continuation-checkpoint-2026-10-17-wave23.md), creation commit `de70f83f653e3a48695aa09a6821af9373fae7c9`.
 - Canonical map remains authoritative; the addendum preserves Wave 23 navigation without replacing the canonical map.
+
+
+## Contour A — Jarvis Source Pin and Capability Crosswalk, Wave 24 (2026-10-17)
+
+- Added [Jarvis Source Pin and Capability Crosswalk — Wave 24](MEDIAHUB-JARVIS-SOURCE-PIN-AND-CAPABILITY-CROSSWALK-WAVE-24-2026-10-17.md), blob SHA `8d701fca6e2b0a60052b7c18e5a40af7afbfd8d1`.
+- OpenHands Software Agent SDK source pin recorded at `6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`; its MIT license and workspace modules were read from source. Upstream documentation states the Agent Server binds to `0.0.0.0` by default and has full access to its configured workspace, so ingress and isolation hardening are admission gates.
+- Personal Jarvis identity remains unresolved: public lookalikes show materially different version/license states; neither is accepted as the canonical upstream. Exact upstream identity, license, provenance and immutable pin remain required.
+- Controls CAF-66…CAF-68 and source registry SRC-089 / SRC-090 / EVD-044 record the bounded intake. No component selection, installation or runtime status changed.
+- A0 issuer/lifecycle, MH-12, R-06 and authoritative target manifest remain open. The v0.2 task and agent schemas remain proposed-only.
+- Next: continue pinned OpenHands module-to-contract mapping and resolve canonical Personal Jarvis identity before any integration proposal.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
