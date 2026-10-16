@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://contracts/ai/ai-agent-task-authorization.schema.json",
+  "title": "MediaHub AI Agent Task Authorization",
+  "description": "PROPOSED task-scoped authorization envelope. It is separate from agent catalog/admission and must be created only under the accepted A0 authority contract. It binds an immutable repository revision, allowed context/paths, an explicit provider-route allowlist, a request/cost budget, output mode and independent verifier. No credential value or arbitrary endpoint URL belongs in this record.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": { "type": "string", "const": "mediahub.ai.agent-task-authorization" },
+    "schema_version": { "type": "string", "const": "0.1.0" },
+    "authorization_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "task_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "agent_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$" },
+    "admission_record_ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "catalog_blob_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "full_name": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
+        "base_ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "base_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "work_branch_prefix": { "type": "string", "pattern": "^[a-z0-9][a-z0-9/_-]{0,63}$" }
+      },
+      "required": ["full_name", "base_ref", "base_sha", "work_branch_prefix"]
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requester_ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "approver_ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "authority_record_ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "policy_revision": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "audit_profile_ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "issued_at": { "type": "string", "format": "date-time" },
+        "expires_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["requester_ref", "approver_ref", "authority_record_ref", "policy_revision", "audit_profile_ref", "issued_at", "expires_at"]
+    },
+    "purpose_ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "data_class_ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "context_paths": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 512 }
+    },
+    "read_paths": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 512 }
+    },
+    "write_paths": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 512 }
+    },
+    "capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["read_repository", "inspect_public_docs", "run_approved_tests", "create_topic_branch", "create_pull_request", "write_allowlisted_paths"]
+      }
+    },
+    "allowed_routes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "route_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+          "provider_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$" },
+          "model_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "endpoint_policy_ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+          "region_policy_ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+          "data_class_ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+          "terms_evidence_ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+          "max_requests": { "type": "integer", "minimum": 1, "maximum": 1000 }
+        },
+        "required": ["route_id", "provider_id", "model_id", "endpoint_policy_ref", "region_policy_ref", "data_class_ref", "terms_evidence_ref", "max_requests"]
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_attempts": { "type": "integer", "minimum": 1, "maximum": 8 },
+        "max_provider_requests": { "type": "integer", "minimum": 1, "maximum": 1000 },
+        "input_token_budget": { "type": "integer", "minimum": 0 },
+        "output_token_budget": { "type": "integer", "minimum": 0 },
+        "timeout_seconds": { "type": "integer", "minimum": 1, "maximum": 900 },
+        "cost_ceiling_usd": { "type": "number", "minimum": 0 },
+        "paid_fallback_allowed": { "type": "boolean" }
+      },
+      "required": ["max_attempts", "max_provider_requests", "input_token_budget", "output_token_budget", "timeout_seconds", "cost_ceiling_usd", "paid_fallback_allowed"]
+    },
+    "output_mode": { "type": "string", "enum": ["report_only", "topic_branch_pr"] },
+    "deadline_at": { "type": "string", "format": "date-time" },
+    "cancellation_ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "idempotency_key": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "independent_verifier_ref": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "verification_profile_ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "evidence_schema_ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "audit_required": { "type": "boolean", "const": true }
+  },
+  "required": ["schema_id", "schema_version", "authorization_id", "task_id", "agent_id", "admission_record_ref", "catalog_blob_sha", "repository", "authorization", "purpose_ref", "data_class_ref", "context_paths", "read_paths", "write_paths", "capabilities", "allowed_routes", "limits", "output_mode", "deadline_at", "cancellation_ref", "idempotency_key", "independent_verifier_ref", "verification_profile_ref", "evidence_schema_ref", "audit_required"],
+  "allOf": [
+    {
+      "if": { "properties": { "output_mode": { "const": "report_only" } }, "required": ["output_mode"] },
+      "then": {
+        "properties": {
+          "write_paths": { "maxItems": 0 },
+          "capabilities": {
+            "not": { "contains": { "enum": ["create_topic_branch", "create_pull_request", "write_allowlisted_paths"] } }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "output_mode": { "const": "topic_branch_pr" } }, "required": ["output_mode"] },
+      "then": {
+        "properties": {
+          "write_paths": { "minItems": 1 },
+          "capabilities": {
+            "allOf": [
+              { "contains": { "const": "create_topic_branch" } },
+              { "contains": { "const": "create_pull_request" } },
+              { "contains": { "const": "write_allowlisted_paths" } }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "limits": { "properties": { "paid_fallback_allowed": { "const": false } }, "required": ["paid_fallback_allowed"] } }, "required": ["limits"] },
+      "then": { "properties": { "limits": { "properties": { "cost_ceiling_usd": { "const": 0 } } } }
+    },
+    {
+      "if": { "properties": { "limits": { "properties": { "paid_fallback_allowed": { "const": true } }, "required": ["paid_fallback_allowed"] } }, "required": ["limits"] },
+      "then": { "properties": { "limits": { "properties": { "cost_ceiling_usd": { "exclusiveMinimum": 0 } } } }
+    }
+  ]
+}
