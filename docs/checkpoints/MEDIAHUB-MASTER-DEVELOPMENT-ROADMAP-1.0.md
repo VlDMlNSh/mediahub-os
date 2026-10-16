@@ -2009,3 +2009,17 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No runtime code, workflow settings, credentials, account configuration, agent registry, queue implementation or infrastructure was changed. No tests, qualification or deployment were run in Wave 37.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Next: source-bound review of the pinned OpenHands Agent Server route/configuration and workspace/tool enforcement; reconcile with A0/MH-12/R-06 before proposing a bounded implementation slice.
+
+
+## Contour A — Gemini MCP PR Review and Command-Surface Reconciliation, Wave 39 (2026-10-17)
+
+- Primary report: [Gemini MCP PR Review and Command-Surface Reconciliation](MEDIAHUB-GEMINI-MCP-PR-REVIEW-AND-COMMAND-SURFACE-RECONCILIATION-WAVE-39-2026-10-17.md), creation commit `c1d43b8dc4c1e27a25c6365656a705fb2599b00e`.
+- Navigation addendum: [Project Map Addendum — Wave 39](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-39-2026-10-17.md), creation commit `6027504faebe6765c79eee2f6021c1a897355f49`.
+- Live `main` HEAD `6c2e8dbdee81c798b64e65546e7ded07093f100a`; documentation branch HEAD at the start of the pass `207e5a951081bbe825d13a6b0de18a2853887bcb`; branches remain diverged (docs ahead 1,966 / behind 14; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`).
+- PR #307 remains open/unmerged. Its `validate` and `verify` checks both passed (runs 38977903775 and 38977903690). GitHub reports `main` as unprotected, so successful checks alone do not establish a required-review gate. No merge was performed.
+- Source review confirmed that the one-line `tools.core` allowlist proposal matches the documented Gemini CLI MCP exclusion behavior. The official action at the currently resolved `v0` ref copies bundled slash-command prompts into the workspace; those prompts contain stale or bare MCP tool references documented in upstream issue #510. This remains a separate follow-up from the direct-prompt fix.
+- The GitHub-hosted ephemeral-worker topology remains the preferred cloud lane. Credential identity is independent of a persistent owner-operated server; OIDC applies only to destinations with an explicit trust relationship. No fixed egress-IP or provider-region assumption is made.
+- Activation queue remains `DOCUMENTARY_QUEUE_ONLY` with 16 entries. Task/registry/evidence v0.2 schemas remain proposed. A0, MH-12, R-06, target manifest, standards-compliant schema validation, and runtime qualification remain open.
+- No provider call, workflow dispatch, credential access, local test, install, host/runtime inspection, infrastructure change, deployment or merge occurred in this wave. The PR's existing checks passed; no new test run was launched.
+- Next bounded pass: source-review the pinned OpenHands Agent Server routes/configuration and workspace/tool enforcement against accepted A0, MH-12 and R-06 requirements. Keep autonomous activation blocked pending accepted authority and target evidence.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
