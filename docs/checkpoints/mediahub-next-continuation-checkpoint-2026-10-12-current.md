@@ -3888,3 +3888,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No code or normative contract/schema changed. No tests, qualification, provider/model calls, credentials, runtime/host inspection, infrastructure, deployment, migration or branch integration occurred.
 - Next: populate the template only after an authorized governance path is evidenced; otherwise proceed with a separate source-only task.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — Gemini API connection verified (2026-10-16)
+
+- Inspected GitHub Actions run [38940264004](https://github.com/VlDMlNSh/mediahub-os/actions/runs/38940264004): run conclusion `success`, job and Gemini API request step completed successfully on `main` at `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- Artifact ID `12062861465` was downloaded and inspected. It contains a non-empty generated Markdown architecture audit (4,296 bytes), confirming successful API request and text generation using the configured `gemini-3.5-flash-lite` model.
+- The generated response is an architecture audit rather than the intended `MEDIAHUB_GEMINI_CONNECTED_OK` marker. Connection is verified at request/generation level; exact smoke-marker verification remains pending.
+- This evidence does not establish architecture qualification, implementation verification, release, deployment, or product acceptance. No secret value was accessed or recorded.
+- Gemini checkpoint: [MEDIAHUB-GEMINI-READONLY-AUDIT-RETRY-WORKFLOW-CHECKPOINT-2026-10-16.md](MEDIAHUB-GEMINI-READONLY-AUDIT-RETRY-WORKFLOW-CHECKPOINT-2026-10-16.md).
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
