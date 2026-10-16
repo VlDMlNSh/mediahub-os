@@ -1452,7 +1452,7 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 
 ## Contour A WB-14R — ASTRA A0 authority reconciliation and ingress schema crosswalk (2026-10-16)
 
-- Report: [WB-14R A0 Ingress Authority and Schema Crosswalk](MEDIAHUB-CONTOUR-A-WB-14R-A0-INGRESS-AUTHORITY-AND-SCHEMA-CROSSWALK-2026-10-16.md), commit `6441ea7f6d08b5a07e46748cdde43a703fda8fc1`, blob SHA `ec783cb5432c68436c1c451c29dd6fa007b7d8d3`.
+- Report: [WB-14R A0 Ingress Authority and Schema Crosswalk](MEDIAHUB-CONTOUR-A-WB-14R-A0-INGRESS-AUTHORITY-AND-SCHEMA-CROSSWALK-2026-10-16.md), created commit `6441ea7f6d08b5a07e46748cdde43a703fda8fc1`, corrective commit `f11bd7a1bfafa4bced83dc7ccf8089b21dd1ecbf`, current blob SHA `dc827eb6ad53c03c0bb26a2989e4646f6f5a6b1d`.
 - Authority crosswalk: Jarvis owns corporation missions/routes/results; ASTRA A0 owns ASTRA-internal lifecycle; MediaHub Product State Authority alone owns canonical product-state mutations. Main still contains broad A0 authority statements, while some docs-branch source prose/YAML is already scoped and unified Markdown remains ambiguous.
 - Topology conflict: old identities mh-dev-01, mh-dev-02 and Voktors-Mac-mini.local are still called permanent ASTRA lanes in reference/unified docs, conflicting with greenfield bootstrap rules. Target inventory remains UNKNOWN/BLOCKED pending source reconciliation; no replacement hosts were invented.
 - Field mapping covered mission/task/DAG IDs, principal/issuer/audience, capability, signature/freshness, target SHA/digest, route/egress/scope, idempotency, health nonce, admission/status/cancellation/result/evidence. Existing schema-set draft remains the candidate field inventory, not a normative schema set.
