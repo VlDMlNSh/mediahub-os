@@ -44,6 +44,7 @@ jobs:
         env:
           TASK: ${{ inputs.task }}
           CONTEXT_PATHS: ${{ inputs.context_paths }}
+          CONTEXT_REF: ${{ inputs.context_ref }}
         run: |
           set -euo pipefail
           mkdir -p agent-output
@@ -53,7 +54,7 @@ jobs:
             printf '%s\n' 'Do not claim implementation, tests, qualification, deployment, or acceptance without direct evidence.'
             printf '%s\n' 'Separate facts, assumptions, conflicts, risks, and recommendations. Do not make changes.'
             printf '\nTASK:\n%s\n' "$TASK"
-            printf '\nCONTEXT REF: %s\n' "${{ inputs.context_ref }}"
+            printf '\nCONTEXT REF: %s\n' "$CONTEXT_REF"
             IFS=',' read -r -a paths <<< "$CONTEXT_PATHS"
             for path in "${paths[@]}"; do
               path="$(printf '%s' "$path" | xargs)"
@@ -77,7 +78,7 @@ jobs:
             echo '### Gemini read-only audit'
             echo
             echo "- Task: provided at dispatch"
-            echo "- Context ref: ${{ inputs.context_ref }}"
+            echo "- Context ref: $CONTEXT_REF"
             echo "- Selected files:"
             IFS=',' read -r -a paths <<< "$CONTEXT_PATHS"
             for path in "${paths[@]}"; do printf '  - `%s`\n' "$(printf '%s' "$path" | xargs)"; done
@@ -88,7 +89,7 @@ jobs:
       - name: Call Gemini API
         shell: bash
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || secrets.GOOGLE_API_KEY }}
           GEMINI_MODEL: gemini-3.8-flash
         run: |
           set -euo pipefail
