@@ -128,3 +128,10 @@ D-03 явно принят владельцем 2026-10-14 и больше не 
 - The local file task ingress and signed operational-command path remain separate and are not evidence of a connected authenticated Jarvis producer. Internal lease/retry values are not external TTL/idempotency policy.
 - Product mutation remains a separate P0-07→P0-05→P0-04 route. No A0 ingress permission bypasses it. All D-ING decisions remain OPEN where previously recorded.
 - Next: prepare a transport-neutral, clearly PROPOSED A0 ingress contract candidate from the source-backed requirements; do not register schema IDs or implement before explicit owner/governance acceptance.
+
+## Contour A A0 ingress contract candidate — WB-14AA (2026-10-16)
+
+- Proposal: [WB-14AA ASTRA A0 Ingress Contract Candidate](MEDIAHUB-CONTOUR-A-WB-14AA-ASTRA-A0-INGRESS-CONTRACT-CANDIDATE-2026-10-16.md), status PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED.
+- Provides a transport-neutral logical operation inventory, minimum request envelope, durable admission/idempotency requirements, lifecycle/fencing/cancellation/result semantics, trust-boundary requirements, failure matrix and nine local proposal decisions.
+- Does not select transport, endpoint, schema ID, issuer, crypto profile, storage or numeric TTLs. Proposal decision IDs are not canonical registry IDs; collision-check before promotion.
+- No implementation, tests, qualification or runtime activity. All A0 ingress-specific owner/governance questions remain OPEN.
