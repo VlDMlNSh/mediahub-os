@@ -2297,3 +2297,27 @@ Wave 28 report: [OpenHands Route-to-Capability Matrix](MEDIAHUB-OPENHANDS-ROUTE-
 | CAF-83 | Path, redirect, WebSocket expiry/revocation and extension lifecycle | bridge `7a73dccb24c3895993ed08212eac239020e2712a`; extension router `c0d8f9020435e980ec98ef6ab5938d17b08e3d66`; backend manager `bd69ac58fd35b9cf0354b47ae27f5d97f4a3a54e` | Source controls observed; independent negative-path qualification and MediaHub audit/egress controls remain open |
 
 Wave 29 report: [OpenHands App-Backend Bridge Threat Crosswalk](MEDIAHUB-OPENHANDS-APP-BACKEND-BRIDGE-THREAT-CROSSWALK-WAVE-29-2026-10-17.md). Source inventory only; no deployment or qualification claim.
+
+
+## Wave 37 — Post-Merge Gemini Diagnostics and Portable Cloud-Agent Fabric (2026-10-17)
+
+Status: **SOURCE-BOUND TRACEABILITY ADDENDUM / PROPOSED / NOT ACCEPTED / RUNTIME-UNVERIFIED**. Stable control IDs were collision-checked against the live matrix maximum CAF-83.
+
+| Control ID | Requirement / invariant | Revision-bound evidence | Current state | Closure evidence required |
+|---|---|---|---|---|
+| CAF-84 | Gemini dispatch outcome must be determined from final structured output and PR evidence, not action-step status alone | `.github/workflows/gemini-autonomous-engineering.yml@main` blob `9be13613ae79f316ca410c16c6e69e2aea7283a4`; run `38976095754`; artifact `12079316446` | FAIL-CLOSED VALIDATOR PRESENT / POST-MERGE DISPATCH UNVERIFIED | Authorized eligible smoke run after merge; response, tool-call, artifact and PR evidence bound to exact SHA |
+| CAF-85 | MCP tool invocation errors and malformed model streams must remain distinguishable from credential failures | Run `38976095754` artifact ZIP digest `sha256:ce21ad7455c719db9e75cfa60bea503cca9b7e247f90fcea4ffbd8ddc473fb4a`; error `MALFORMED_FUNCTION_CALL`, `INVALID_STREAM`, “Tool ... not found” | HISTORICAL FAILURE CLASSIFIED | Regression evidence for each error category with sanitized artifacts |
+| CAF-86 | Provider/account credential identity is independent of a permanent worker host, while actual request egress remains explicit | Wave 12 credential registration, Wave 14 native credential/egress architecture, Wave 35 queue architecture, Wave 37 primary report | OWNER DIRECTION RECORDED / DESIGN PROPOSED | Accepted secret-store ADR, supported OIDC trust where applicable, job-scoped injection, actual runner-egress and provider-policy evidence |
+| CAF-87 | Agent admission, queue authority, provider routing and adapter health are distinct state fields | Wave 36 admission traceability; existing catalog, provider schemas and 23-lane manifest | PROPOSED / SOURCE-ANCHORED | Accepted A0 issuer/lease/cancel/revocation contract, schema validation and cross-runner atomicity proof |
+| CAF-88 | Read-only audit, patch production, independent verification and release/qualification are separate capabilities | Wave 35 architecture and Wave 36 admission crosswalk; G0–G11 remain blocked | REQUIRED INVARIANT / RUNTIME UNVERIFIED | Capability-level permissions, immutable source SHA, path allowlist, isolated workspace and independently verified evidence |
+| CAF-89 | Hosted-runner portability must not be represented as zero egress, fixed source location, or eligibility bypass | Official GitHub-hosted runner reference; provider privacy/terms references in Wave 37 | ARCHITECTURAL LIMIT RECORDED | Per-provider/model regional eligibility and data-use decision plus route-denial evidence |
+
+### Wave 37 gate disposition
+
+- The current main SHA is `6c2e8dbdee81c798b64e65546e7ded07093f100a`; current Gemini workflow blob is `9be13613ae79f316ca410c16c6e69e2aea7283a4`.
+- Astra Verify run `38976598150` succeeded on current main, while a post-merge Gemini dispatch success has yet to be established.
+- The JSON activation queue remains `DOCUMENTARY_QUEUE_ONLY`; no agent was promoted to `ACTIVE`.
+- A0 issuer/lifecycle, R-06 audit/privacy, accepted target manifest, full v0.2 schema validation, cross-runner claim fencing, and provider-specific eligibility remain open.
+- No workflow dispatch, provider invocation, credential operation, test or qualification was performed in this wave.
+
+Wave 37 primary report: [Post-Merge Gemini Diagnostic and Cloud-Agent Portability](MEDIAHUB-POST-MERGE-GEMINI-DIAGNOSTIC-AND-CLOUD-AGENT-PORTABILITY-WAVE-37-2026-10-17.md).
