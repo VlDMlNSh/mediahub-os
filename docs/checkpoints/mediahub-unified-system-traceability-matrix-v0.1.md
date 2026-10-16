@@ -2104,3 +2104,20 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 Wave 17 closes a cross-schema version mismatch and records 23 bounded structural assertions. These checks establish neither standards conformance nor runtime readiness. A0 issuer/lifecycle, MH-12 authority, R-06 audit/privacy and authoritative runner/workspace/network target manifest remain hard gates for live agent activation.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 28. Cloud-agent direct-egress and owner-server independence — Wave 18 (2026-10-16)
+
+| Control ID | Requirement | Evidence / decision | State | Closure evidence |
+|---|---|---|---|---|
+| CAF-44 | Default provider path avoids an owner-operated persistent server and public inbound listener | Wave 18 direct-egress decision; Wave 14 cloud-native credential/egress architecture | REFERENCE DESIGN / PROPOSED | Accepted target manifest and implementation evidence |
+| CAF-45 | Provider credentials are provider-account/project scoped and injected at runtime with minimal exposure | Wave 14 credential model; Wave 18 topology clarification | DESIGN RECORDED / RUNTIME UNVERIFIED | Source-reviewed workflow, secret-scope evidence, log/artifact review |
+| CAF-46 | Egress identity and source location are represented accurately | Hosted worker makes outbound HTTPS requests; runner source IP may be dynamic/shared; provider may apply source-IP, account and region policy | DESIGN RECORDED | Exact runner profile, provenance manifest and provider-side policy evidence |
+| CAF-47 | Newly authorized agents enter through a reviewed lifecycle | Documentary queue CAF-Q-015 plus existing CAF-Q-001…CAF-Q-014 | DOCUMENTARY ONLY | Accepted A0 issuer/lifecycle, R-06, target manifest, validated schemas, direct workflow review and independent acceptance |
+| CAF-48 | Provider/model/data routes remain task-scoped and bounded | Wave 18 onboarding procedure and existing task-envelope v0.2 candidate | PROPOSED / REVIEW REQUIRED | Full Draft 2020-12 validation, negative fixtures, policy-reference resolution and authorization evidence |
+
+### Wave 18 boundary
+
+The owner-server-independent topology removes the user's device as a network hop. It does not remove outbound network traffic or conceal the hosted worker's network origin. A successful historical Gemini run remains valid evidence for that run; it does not qualify the general agent fabric. No live queue, agent activation, provider call, workflow dispatch, test, qualification or deployment was performed in this pass.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
