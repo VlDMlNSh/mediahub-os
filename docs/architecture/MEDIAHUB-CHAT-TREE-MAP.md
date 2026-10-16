@@ -6469,3 +6469,16 @@ WB-14AA и приложение остаются не-нормативными. 
 - No tests, runtime/host inspection, credentials/provider calls, installations, infrastructure changes, deployment, migration or branch integration occurred.
 - **Next:** continue source-only review of MH-13's exact primary privacy/audit requirements and their relationship to R-04/R-05/R-06; keep unresolved operation-specific audit-unavailable behavior for explicit owner/security/privacy disposition.
 - Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+
+## 20.314 P0-07 D2 — MH-13 privacy/audit requirement crosswalk, Wave 01 (2026-10-16)
+
+- Report: [P0-07 D2 — MH-13 Privacy/Audit Requirement Crosswalk, Wave 01](../checkpoints/MEDIAHUB-P0-07-D2-MH13-PRIVACY-AUDIT-REQUIREMENT-CROSSWALK-WAVE-01-2026-10-16.md), creation commit `32672da6b453b306e067fac5a2ee03a27e69f3b2`, blob SHA `1ebe0f06bf4a3105c6520a76fa516200ab0818f7`.
+- Source-only comparison of exact MH-13 §§2.3–2.9, governance-state record, reconstruction registers, and MH-12 Audit against D2 R-04/R-05/R-06.
+- **R-04:** privacy/audit minimization is source-backed; implementation-level event schema, authorized readers, retention mapping and runtime evidence are not demonstrated by this documentary pass.
+- **R-05:** status boundary is explicit: MH-13 reconstruction accepted as reconstruction, not frozen; production implementation not authorized. This does not accept/freeze P0-07 D2 or authorize P0-05 changes. Historical MH-13 original remains NOT RECOVERED.
+- **R-06:** operation-specific behavior when required audit evidence cannot be emitted remains UNKNOWN / GOVERNANCE DECISION REQUIRED. MH-12 Audit requires integrity, access control, privacy-aware retention, bounded storage and controlled export but does not select fail-open/fail-closed/degraded behavior.
+- No issuer, protocol, token format, audit endpoint, retention duration or outage behavior was selected. No source contract/code changed; no tests, qualification, runtime inspection, installation, infrastructure change, deployment or branch integration occurred.
+- D1 NOT DEMONSTRATED; D2 NOT EVIDENCED; D3 NOT EVIDENCED / dependent on D1/D2; D6 OPEN; P0-07 mutation/publication BLOCKED; qualification NO-GO / NOT PROVEN.
+- Live ref compare after report creation: documentation branch DIVERGED, 1,596 ahead / 4 behind `main`; observed `main` HEAD `ab36db009d034db8d8ca723691e23b331322287e7`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration attempted.
+- **Next:** prepare an operation-by-operation R-06 owner decision table only from operations already enumerated in accepted source contracts; if the contracts do not enumerate them, record that as UNKNOWN rather than inventing an operation list.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
