@@ -1927,3 +1927,27 @@ Supporting design: [Autonomous Cloud-Agent Development Fabric Reference Architec
 The design defines the target contracts and a ten-item documentary queue. It does not establish a live agent registry, scheduler, queue, runner isolation, provider connection, workflow implementation, tests, qualification or deployment. All controls remain proposed or blocked until their specific evidence and authorization gates close. Existing stable IDs and the accepted Baseline 2.0 remain unchanged.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 18. Gemini read-only workflow source review — Wave 09 (2026-10-16)
+
+Supporting source review: [Gemini Read-only Workflow Source Review, Wave 09](MEDIAHUB-GEMINI-WORKFLOW-SOURCE-QUALIFICATION-PLAN-WAVE-09-2026-10-16.md), blob SHA `fa34037409b3aa118cd606de673bce0a577b834f`.
+
+| Control ID | Source-backed finding | Current disposition | Required closure |
+|---|---|---|---|
+| GWF-01 | Gemini workflow context ref is caller-selectable and checkout uses a mutable ref | HIGH / PATCH PROPOSED | Resolve once to immutable SHA; bind selected-file digests and run provenance |
+| GWF-02 | Third-party actions use version tags rather than full commit-SHA pins | HIGH / PATCH PROPOSED | Verify upstream action revisions; pin full SHA and record version |
+| GWF-03 | Context paths are bounded for traversal/size but lack a task-specific path allowlist and aggregate context budget | HIGH / PATCH PROPOSED | Allowlisted paths, file count/aggregate-byte bounds and data classification |
+| GWF-04 | Retry workflow accepts a caller-selected model identifier | HIGH / PATCH PROPOSED | Reviewed model allowlist bound to provider eligibility and task authorization |
+| GWF-05 | Model output is appended directly as Markdown in the step summary | MEDIUM / PATCH PROPOSED | Treat as untrusted advisory; bound/sanitize presentation and preserve digest |
+| GWF-06 | No complete provenance manifest binds source, file digests, action SHAs, model/provider, policy revision and output digest | HIGH / PATCH PROPOSED | Versioned evidence manifest plus independent validation |
+| GWF-07 | Runner uses `ubuntu-latest` | MEDIUM / QUALIFICATION OPEN | Record runner image metadata and qualify image updates |
+| GWF-08 | Input schema and aggregate limits are incomplete | MEDIUM / PATCH PROPOSED | Strict normalized input schema and bounded lengths/counts/bytes |
+| GWF-09 | Two workflows duplicate policy; retry behavior differs | MEDIUM / MAINTENANCE RISK | Consolidate only after compatibility review and approved patch plan |
+| GWF-10 | No accepted A0 issuer, R-06 sink, task envelope or promotion contract is established by the workflow sources | P0 / HARD GATE | Preserve read-only advisory boundary; close governance and authority contracts before write-capable agents |
+
+### Source-review boundary
+
+The two files on `main` were read at blob SHAs `0d10efdda251f2ceca43175981c919102303572b` and `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`. Source-level controls include read-only repository permissions, disabled checkout credential persistence, bounded path/file checks, suppressed raw error bodies and 14-day artifacts. Findings above are static review results only. No workflow dispatch, provider call, test, scanner, patch or qualification was performed.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
