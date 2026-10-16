@@ -386,3 +386,11 @@ Registry boundary: owner intent and design documents establish neither credentia
 | SRC-089 | `OpenHands/software-agent-sdk@6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1` | Commit URL https://github.com/OpenHands/software-agent-sdk/commit/6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1; LICENSE blob `b0bd86a6335a564bd3766666bebbf014fd6a8013`; README blob `386dc8945133cb51969192b0b29c8396719cbff6`; pyproject blob `2da88a5a9f278947e6c6978ff0e0c398f27515d5` | Source-pinned execution-subsystem candidate; MIT; Agent Server default bind/workspace constraints documented upstream | CANDIDATE / QUALIFICATION OPEN | Complete dependency/SBOM/provenance review, source-bound adapter, target and security gates |
 | SRC-090 | Personal Jarvis identity/provenance comparison | Wave 24 report blob `8d701fca6e2b0a60052b7c18e5a40af7afbfd8d1`; lookalike source links and blob SHAs in §3 | PUBLIC SOURCE IDENTITY DISCREPANCY | Resolve authoritative upstream URL and immutable release before any source pin |
 | EVD-044 | Jarvis candidate crosswalk evidence | Wave 24 report blob `8d701fca6e2b0a60052b7c18e5a40af7afbfd8d1`; task-envelope/agent-registry v0.2 remain proposed; A0/MH-12/R-06/target gates open | DOCUMENTARY / SOURCE-REVIEW ONLY | Accepted contracts and independently qualified evidence required before runtime use |
+
+
+## Wave 25 — OpenHands contract crosswalk
+
+| ID | Source / evidence | Revision-bound observation | Status / closure requirement |
+|---|---|---|---|
+| SRC-091 | OpenHands SDK + MediaHub task/registry/evidence v0.2 crosswalk | Wave 25 report; OpenHands README blob `386dc8945133cb51969192b0b29c8396719cbff6`; task schema `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; registry schema `b49b89b8fbdfc180862e3dc78f8198f35e486035`; evidence schema `40c402432fd0f3899d45fde0fa0a8af4d34c593a` | SOURCE-BOUND CROSSWALK / CANDIDATE ONLY; adapter contract, immutable schema resolution, target/security qualification remain open |
+| EVD-045 | Wave 25 adapter-boundary and admission-gap evidence | [Wave 25 report](MEDIAHUB-OPENHANDS-TASK-REGISTRY-EVIDENCE-CONTRACT-CROSSWALK-WAVE-25-2026-10-17.md); A0 trace `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`; target reconciliation `1f748bf80e08067fd85a7e1b0821cc4d12bda676`; R-06 template `834fd1ab70eee88355844ba2ebba6c2b6c47ecdb` | DOCUMENTARY ONLY; no runtime, verification or qualification claim |
