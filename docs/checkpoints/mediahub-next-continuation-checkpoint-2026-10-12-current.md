@@ -3641,3 +3641,17 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Branch comparison remains diverged based on the last live comparison before this pass: main HEAD ab36db009d034db8dca723691e23b331322287e7, merge base f0f406feb9f9816b009f4e6e756813541e53b9bc. Ahead/behind counts must be refreshed because these documentation commits advanced the branch. No integration attempted.
 - **Next bounded step:** source-only reconcile ASTRA queue, cancellation, retry/idempotency and durable-recovery contracts to decide whether a distinct requirement gap exists; do not install or evaluate Temporal. If no gap is evidenced, leave Temporal future-gated.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — ASTRA lifecycle/recovery versus Temporal gap discrimination (2026-10-16)
+
+- Reconciled the already-pinned ASTRA governance/reference contracts and lifecycle/ingress traces against Temporal's proposed durable-execution role. See [Crosswalk §7.23](MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), commit 2203e2089d9d6f098de9819d498a7cc94c362f6d, blob SHA 6550062d5fe5af206df5ea987f4c8d8ad287d11e.
+- Updated the [Unified Component Candidate Register](../architecture/MEDIAHUB-UNIFIED-COMPONENT-CANDIDATE-AND-EVALUATION-REGISTER-2026-10-15.md), commit 638638b3c3426b706879643404833434d4fb53d7, blob SHA 619964539914415891a548a74a1a13b4f05083b6.
+- Indexed in [Project Map §20.306](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), commit 5783c518aa9e30b002e7c611300f656dd15cbbfb, blob SHA b170bb9869a8626f562659321468def2053e0873.
+- Finding: ASTRA governance/reference sources already describe internal queue/claim/lease/heartbeat, bounded retry, cancellation/recovery, stale-claim handling, result publication and evidence/gate state. This is design/policy evidence only; it does not prove implementation conformance, new-target deployment or runtime reliability.
+- The unresolved documentary gaps are the accepted Jarvis→A0 ingress, caller/issuer/verifier lifecycle, external durable admission/idempotency, corporation task/result/evidence envelope and formal contract governance. Temporal does not itself solve these authority/interface gaps.
+- **Temporal disposition unchanged:** FUTURE-GATED / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED. Current evidence does not justify adding it, but does not prove all ASTRA durability is implemented. Reconsider only if a distinct, source-backed, owner-approved durability/recovery requirement remains after contract reconciliation.
+- Legacy executor node labels/topology are historical source context, not targets for the clean new deployment. No runtime/host inspection, tests, validators, scans, installations, provider/model calls, credentials, qualification, deployment, infrastructure changes or branch integration occurred.
+- Branch comparison before this pass showed docs branch diverged from main (1570 ahead / 4 behind, merge base f0f406feb9f9816b009f4e6e756813541e53b9bc); refresh counts after these commits. No merge/rebase/cherry-pick attempted.
+- **Next bounded step:** use the existing WB-14 lifecycle traces to reconcile cross-route identity/idempotency/lease-fencing/cancellation/retry/restart-recovery/result provenance, distinguishing accepted ASTRA internal semantics from proposal-only external ingress. Keep WB-14AA non-normative and do not create a second queue/mission authority.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
