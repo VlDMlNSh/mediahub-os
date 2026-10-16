@@ -1643,3 +1643,15 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Documentation only; no code/workflow edits, tests/scanners, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment or branch integration.
 - Next: locate exact primary R-06 and A0 governance artifacts; inspect non-secret provider/deployment descriptors; retrieve an authoritative target manifest if available; bind direct evidence and owner decisions into existing matrix rows.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Autonomous Cloud-Agent Development Fabric, Wave 08 (2026-10-16)
+
+- Created [Autonomous Cloud-Agent Development Fabric Reference Architecture — Wave 08](MEDIAHUB-AUTONOMOUS-CLOUD-AGENT-FABRIC-REFERENCE-ARCHITECTURE-WAVE-08-2026-10-16.md), commit `1bb6b285fcfd330ccc9485036df97adb59695cdf`.
+- Defined a GitHub-centered, ephemeral-worker, PR-first reference architecture; agent admission and revocation lifecycle; immutable task envelope; ASTRA A0 queue boundary; provider/quota failover controls; evidence manifest; promotion ladder; and ten documentary queue items CAF-Q-001…CAF-Q-010.
+- Reviewed public GitHub Actions security guidance, GitHub Copilot code-review documentation, VS Code agent trust/sandboxing guidance, and official Gemini, GroqCloud and OpenRouter terms/data-policy documentation.
+- Existing Gemini read-only workflow remains a candidate advisory worker pending source-level qualification. Provider eligibility, task-level destination authorization, R-06, A0 issuer/lifecycle, target manifest and independent security/qualification gates remain open.
+- State: DOCUMENTARY DESIGN ONLY / PROPOSED / NOT IMPLEMENTED / RUNTIME-UNVERIFIED. No workflows were edited or dispatched; no tests/scanners, model/provider calls, credentials, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
+- This Wave 08 plan is added to the Master Roadmap and remains subordinate to accepted Baseline 2.0, accepted domain contracts, the canonical component manifest and existing authority boundaries.
+- Next: continue source-bound closure of CAF-Q-001…CAF-Q-008; first priority is exact A0 lifecycle/issuer sources, R-06 authority, Gemini workflow source review and authoritative target manifest. Implementation and tests require their separate explicit authorization.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
