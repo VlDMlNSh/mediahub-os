@@ -4107,7 +4107,7 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Created [Clean Target Manifest Authority Reconciliation, Wave 10](MEDIAHUB-CLEAN-TARGET-MANIFEST-AUTHORITY-RECONCILIATION-WAVE-10-2026-10-16.md), commit `012efaea1d85895d0694c510748086af41ada6e6`, read-back blob SHA `1f748bf80e08067fd85a7e1b0821cc4d12bda676`.
 - Reviewed the canonical component manifest on `main` (`45988bf9da202c9597d0ca2de50e92e5c2e6ed55`), component/YAML scope reconciliation (`66961a4abc698c5d9e1318ff2d4f186e1c67b9a4`), proposed portable profiles (`529eed85da2828c9b062c8ef86de07b01ba9746e`), Jarvis clean-target boundary (`916df43726fb8f41038d5e9896be7e205284416f`), MH-15 architecture/criteria (`f817925c69ce4484713f952e47aacad283af8eeb` / `082642e67dc66cb359a5566773c143854cafaa00`) and proposed deployment contract (`71ae0e68cc6ad494f85f33f64cde09ef5c4273d7`).
 - Bounded determination: no owner-accepted exact clean target manifest appears in the reviewed set. Component selection, target-role definition, physical host identity, compatibility, worker isolation and deployment acceptance remain separate gates.
-- Extended the existing Unified System Traceability Matrix with CTM-01…CTM-05; commit `99b05c1b9edd4a9ead13e72de6a7ed699c7cd962`, blob SHA `ae79021f6e96935f82730ecf2fed1fd79b9d6680`. Extended the existing source registry with SRC-039…SRC-040 and EVD-019; commit `21dfde634b8712c5f30146adb099915bc6084091`, blob SHA `daf21daa86188792dee71284f66207974ccff150`.
+- Extended the existing Unified System Traceability Matrix with CTM-01…CTM-05; commit `99b05c1b9edd4a9ead13e72de6a7ed699c7cd962`, blob SHA `ae79021f6e96935f82730ecf2fed1fd79b9d6680`. Extended the existing source registry with SRC-039…SRC-040 and EVD-019; commit `21dfde634b8712c5f30146adb099915bc6084091`, blob SHA `22c90af91b7156d48871d910e1305c420594d844`.
 - Status: TARGET UNKNOWN / BLOCKED; MH-15 NOT ACCEPTED / NOT FROZEN; implementation authorization NONE; CAF-04 remains blocked. Historical machine references remain provenance only.
 - Documentation-only. No host/runtime inspection, credentials, provider calls, tests/scanners, installation, infrastructure change, deployment, qualification or branch integration occurred.
 - Next: continue source-only CAF admission evidence without repeating the completed Gemini Wave 09 source review or A0 WB-14AA–WB-14AF source series absent new evidence.
@@ -4127,3 +4127,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No new workflow dispatch, provider call, credential use, tests/scanners, host/runtime inspection, infrastructure changes, deployment or branch integration occurred in this pass.
 - Next: continue exact A0 issuer/lifecycle and R-06 source closure; reconcile target-manifest authority; prepare task-envelope/evidence schemas and exact workflow patch proposal. Any implementation/test execution remains subject to applicable authorization.
 - Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 10 source-index read-back correction (2026-10-16)
+
+- Clean-target report read-back blob SHA: `1f748bf80e08067fd85a7e1b0821cc4d12bda676`; creation commit `012efaea1d85895d0694c510748086af41ada6e6`.
+- Unified System Traceability Matrix read-back blob SHA: `ae79021f6e96935f82730ecf2fed1fd79b9d6680`; section numbering is 18 (Gemini source review), 19 (Gemini operational evidence), 20 (clean target manifest authority).
+- Canonical Source Registry current read-back blob SHA: `22c90af91b7156d48871d910e1305c420594d844`. Target-manifest entries retain SRC-039…SRC-040 and EVD-019; operational Gemini evidence uses SRC-042…SRC-044 and EVD-021…EVD-022, avoiding ID collision.
+- Map update commit `db217de5857f1d87ac9d2b148b0c0020e11bc872`, map blob SHA `9ea36a1c90ceb4b8a71badfaca07b4b27089365d`; added §20.338 for clean-target reconciliation. GitHub content read-back for this large map blob returned an empty body through the connector, so full-content re-read remains limited; the update API returned the exact resulting blob SHA.
+- Branch compare after these changes: docs branch DIVERGED from `main`, ahead 1,730 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No integration performed.
