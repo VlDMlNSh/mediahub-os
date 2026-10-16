@@ -3512,3 +3512,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Documentation only. No tests, validators, implementation, runtime/host access, credentials/providers, install, infrastructure, deployment or migration.
 - Next: WB-14W reconcile decision-register ownership and accountable acceptance paths for D-ING-05a, D-ING-05b and D-ING-06; do not choose on behalf of the owner.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14W A0 ingress decision-register ownership and acceptance paths (2026-10-16)
+
+- Report: [WB-14W A0 Ingress Decision-Register Ownership and Acceptance Paths](MEDIAHUB-CONTOUR-A-WB-14W-A0-INGRESS-DECISION-REGISTER-OWNERSHIP-AND-ACCEPTANCE-PATHS-2026-10-16.md), creation commit `343162c1274eefccb4eb07899f1030f7e5366542`.
+- Reconciled WB-14V's split with the project owner-decision register and reviewed MH-06 ADR-001, MH-12 security architecture and bootstrap instruction. Sources reviewed do not name accountable individuals or establish a formal acceptance workflow for D-ING-01…04, D-ING-05a, D-ING-05b and D-ING-06.
+- WB-14W proposes role-level ownership and acceptance evidence only; those roles are NOT established assignments and require owner/governance confirmation. All decisions remain OPEN. MH-06 remains ACCEPTED for its scoped semantics; implementation authorization remains NO.
+- Added a visibility cross-reference to `mediahub-owner-decision-register-2026-10-14.md`; no option was accepted and no normative contract/schema was changed.
+- No tests, validators, implementation, qualification, provider calls, credentials, host/runtime inspection, installs, infrastructure changes, deployment, migration or branch integration occurred.
+- Next: obtain explicit accountable-owner confirmation and the governance acceptance record for each open D-ING decision; keep ingress design proposed and implementation blocked until the relevant contracts are accepted.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
