@@ -4314,3 +4314,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Execution boundary: no provider calls, credential access, workflow dispatch, software installation, project-runtime inspection, infrastructure changes, deployment or branch integration occurred.
 - Next: independent review of schema candidates; authorized standards validator and negative-fixture suite; source-bound A0 issuer/lifecycle, R-06 and target-manifest closure.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 18 — Cloud-Agent Direct-Egress Decision (2026-10-16)
+
+- Created [Cloud-Agent Direct-Egress Decision — Wave 18](MEDIAHUB-CLOUD-AGENT-DIRECT-EGRESS-DECISION-WAVE-18-2026-10-16.md); creation commit `1a348c2a6c0e595ac1342f2df0a40066605ccadc`; read-back blob SHA `d7730895d97f84fc8ff25d1fdda61558dbd50696`.
+- Updated documentary activation queue with CAF-Q-015; commit `61f54da69652ff31b69d9ca30f09cc30882b81c8`; blob SHA `802ff16cfbdfad6497bcd932add07b3bb4fc8475`; 15 queue items.
+- Wave 18 records a direct hosted-worker path with runtime-only provider credentials, no owner-operated persistent server, no inbound public listener for ordinary jobs, and no assumed fixed egress IP.
+- Clarification: provider credentials are generally provider-account/project scoped; provider requests still originate from the cloud worker and can be subject to source-IP, account and region controls. No claim of zero egress or region independence.
+- Status: DOCUMENTARY DESIGN / PROPOSED / RUNTIME-UNVERIFIED. No provider call, secret access, workflow dispatch, tests, installation, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
+- Next: close accepted A0 issuer/lifecycle, R-06 governance, authoritative target manifest and full v0.2 schema validation; then complete exact-source workflow hardening and obtain separate authorization for implementation/execution.
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
