@@ -6389,3 +6389,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - **Decision:** no source-backed owner-approved residual durability gap has yet justified adding Temporal. Retain it as FUTURE-GATED / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED; this is not a claim that all ASTRA durability is implemented.
 - Old executor node labels/topology are historical source context only and are not new deployment targets. No runtime, test, installation or deployment activity occurred.
 - Next: use the existing WB-14 lifecycle traces to reconcile cross-route identity/idempotency/lease-fencing/cancellation/retry/restart-recovery/result provenance, separating accepted internal semantics from proposal-only external ingress.
+
+
+## 20.307 Contour A — ASTRA lifecycle cross-route trace WB-14AF (2026-10-16)
+
+- Trace: [WB-14AF — ASTRA lifecycle cross-route trace](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14AF-ASTRA-LIFECYCLE-CROSS-ROUTE-TRACE-2026-10-16.md), blob SHA `2fe531e302679f6f16d827fd71002460658b8598`.
+- Reconciles six concerns: request/mission/attempt identity; idempotent admission and lost acknowledgements; internal lease versus external fencing; cancellation races; retry/restart recovery; result/evidence provenance.
+- Finding: ASTRA internal lifecycle policy is documented, but this does not prove implementation or runtime conformance. The external Jarvis→A0 contract, durable admission semantics, identity trust chain, external result envelope and governance acceptance remain OPEN.
+- Internal timing values are not external TTLs. A0 remains the sole internal lifecycle/queue authority; product-state mutation remains on P0-07 → P0-05 → P0-04.
+- Temporal remains FUTURE-GATED / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED; no distinct owner-approved durability gap was established.
+- No tests, runtime inspection, installation, qualification, deployment or branch integration occurred.

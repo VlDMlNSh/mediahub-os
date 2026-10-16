@@ -3655,3 +3655,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Branch comparison before this pass showed docs branch diverged from main (1570 ahead / 4 behind, merge base f0f406feb9f9816b009f4e6e756813541e53b9bc); refresh counts after these commits. No merge/rebase/cherry-pick attempted.
 - **Next bounded step:** use the existing WB-14 lifecycle traces to reconcile cross-route identity/idempotency/lease-fencing/cancellation/retry/restart-recovery/result provenance, distinguishing accepted ASTRA internal semantics from proposal-only external ingress. Keep WB-14AA non-normative and do not create a second queue/mission authority.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — WB-14AF ASTRA lifecycle cross-route trace (2026-10-16)
+
+- Created [WB-14AF — ASTRA lifecycle cross-route trace](MEDIAHUB-CONTOUR-A-WB-14AF-ASTRA-LIFECYCLE-CROSS-ROUTE-TRACE-2026-10-16.md), commit `48e66c621c3946262640cb2c3d80ed83846e1e31`, blob SHA `2fe531e302679f6f16d827fd71002460658b8598`.
+- Reconciled six concerns across ASTRA internal policy and the proposal-only Jarvis→A0 ingress: identity mapping; idempotency/uncertain ACK; queue lease/fencing; cancellation race; retry/restart recovery; result/evidence provenance.
+- Finding: internal ASTRA policy is documented; implementation conformance, new-target deployment and runtime reliability are not established. External ingress semantics, trusted issuer/verifier, durable admission, result envelope and contract governance remain OPEN.
+- No source-backed owner-approved residual durability gap justifies selecting Temporal. Keep FUTURE-GATED / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED.
+- No tests, validators, provider calls, credentials, host/runtime inspection, installation, qualification, deployment, infrastructure change or branch integration occurred.
+- Branch HEAD at start of this update: `48e66c621c3946262640cb2c3d80ed83846e1e31`. The branch remains divergent from main; no merge/rebase/cherry-pick attempted.
+- **Next bounded step:** derive a field/state reconciliation appendix for WB-14AA using only accepted internal semantics and marking external choices OPEN; preserve D-ING-01…04, D-ING-05a, D-ING-05b and D-ING-06 as OPEN until owner/governance evidence exists.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
