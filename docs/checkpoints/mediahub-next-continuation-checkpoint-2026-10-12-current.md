@@ -3840,3 +3840,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No code or normative contracts changed. No tests, qualification, provider/model calls, credential inspection, runtime/host inspection, infrastructure, deployment, migration, merge, rebase, or cherry-pick.
 - Next: prepare an owner decision packet separating operation-scoped audit requirements/outage behavior from the P0-07-to-P0-05/P0-04 mutation authorization composition decision. Do not select either decision.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest bounded continuation — autonomous technical decision delegation (2026-10-16)
+
+- Owner explicitly directed that technical questions be resolved by the assistant using the overall MediaHub OS concept, without requiring the owner to make routine or substantive engineering choices.
+- Updated canonical bootstrap §8: [MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md](../architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md), commit `bcc9a03d367e72e4654b9533dd5ceecba3d2347e`, blob SHA `aa77ba6850f3b3cf51fcf5fae491b2998a276321`.
+- The new rule delegates technical option selection, interface/protocol/data-model choices, operation mapping, error/evidence design, and engineering trade-offs. The assistant should select a best-fit direction, record rationale and risks, and proceed rather than return technical options to the owner.
+- Formal governance/contract gates remain evidence-based: a chosen direction must not be falsely labelled accepted, and accepted normative contracts must not be silently changed. If a gate blocks implementation, prepare the recommended source-backed design and continue all independent permitted work.
+- Explicit action restrictions remain unchanged: no software installation, tests/qualification, model/provider calls, credential use, host/runtime inspection, infrastructure changes, deployment, migration, merge, rebase, or cherry-pick without separate authorization. Escalate only owner-reserved product, material privacy/data-egress/trust-boundary, external budget/hardware, irreversible/destructive, or explicit higher-authority gate matters.
+- Updated project map §20.320: commit `9ea7325d19c908b7a4f5c1ad7d9c9c9464f4c078`, blob SHA `c2334d9d707b46f543fd32e07b9c27be509ba7b0`.
+- This change updates working method and decision delegation; it does not amend Functional Baseline 2.0 or automatically accept/change normative contracts.
+- Next: independently formulate the recommended technical design for P0-07 R-06 audit policy and the P0-07 → P0-05/P0-04 authorization composition gap, grounding the recommendation in live primary sources and clearly separating technical recommendation from formal acceptance.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
