@@ -3922,3 +3922,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Status is static review only. Scanner execution, tests, provider calls, credentials, runtime inspection, infrastructure changes and branch integration were outside this pass.
 - Next: Wave 03 canonical source registry and security evidence ledger, then targeted review of Astra chat-control and autonomous-supervisor workflow contracts.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest verified continuation — canonical source registry and security evidence ledger, Wave 03 (2026-10-16)
+
+- Created [Canonical Source Registry and Security Evidence Ledger — Wave 03](MEDIAHUB-CANONICAL-SOURCE-REGISTRY-AND-SECURITY-EVIDENCE-LEDGER-WAVE-03-2026-10-16.md), creation commit `18b023f126bb9f5e2ef9e538c0e28182878c2585`, read-back blob SHA `552ad971a2aa867757821a244c304545b9b31022`.
+- Registered 16 authority-bearing/control sources, with exact live blob SHAs for the retrieved paths and explicit authority scope, status, and downstream dependencies. Baseline 2.0 remains the accepted functional reference; Baseline 1.0 remains historical provenance; component selection remains separate from qualification.
+- Added 15 security evidence ledger entries. Branch protection, code scanning, Dependabot and secret-scanning status remains UNKNOWN where the connected integration could not retrieve authoritative evidence. Scanner execution and security qualification remain unperformed.
+- Live docs/main compare: DIVERGED, docs ref ahead 1,649 / behind 10, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Map updated in commit `1b320c357489366d121c6e52e49f7b6075ea0f12`, blob SHA `5e1d4e6727929c234bcaa74eafaaa45644494c59`, section 20.326.
+- No source contract or workflow changed; no tests/scanners, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure, deployment, migration, merge, rebase or cherry-pick.
+- Next bounded step: source-only per-job authority review of `astra-chat-control.yml` and `astra-autonomous-supervisor.yml` covering trigger, issuer checks, token permissions, untrusted inputs, dispatch targets, credential lifetime, target binding and evidence gaps.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
