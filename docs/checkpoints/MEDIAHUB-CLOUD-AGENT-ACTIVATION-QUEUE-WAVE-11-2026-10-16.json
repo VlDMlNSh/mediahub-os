@@ -259,9 +259,30 @@
         "independent reviewer disposition",
         "cross-schema version coherence check across task, registry and evidence manifest"
       ]
+    },
+    {
+      "id": "CAF-Q-015",
+      "priority": "P1",
+      "title": "Owner-server-independent credential and direct provider egress profile",
+      "state": "REFERENCE_DECISION_RECORDED_IMPLEMENTATION_GATES_OPEN",
+      "agent_class": "architecture_review",
+      "allowed_effect": "documentation_only",
+      "source_files": [
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-DIRECT-EGRESS-DECISION-WAVE-18-2026-10-16.md",
+        "docs/checkpoints/MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md"
+      ],
+      "exit_evidence": [
+        "accepted A0 issuer/ingress/queue/lifecycle contract",
+        "accepted R-06 audit/privacy disposition",
+        "accepted runner/workspace/network target manifest",
+        "full Draft 2020-12 validation and negative fixtures for v0.2 schemas",
+        "direct source review of the exact workflow revision",
+        "separate authorization for source edits, workflow dispatch and provider calls",
+        "provider egress/source-location semantics documented without a fixed-IP assumption"
+      ]
     }
   ],
-  "latest_wave": "WAVE_16_SCHEMA_REFERENCE_COHERENCE_REMEDIATION_RECORDED_VALIDATOR_EVIDENCE_PENDING",
+  "latest_wave": "WAVE_18_DIRECT_EGRESS_DECISION_RECORDED_A0_R06_TARGET_AND_SCHEMA_GATES_OPEN",
   "latest_wave_refs": [
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
@@ -270,6 +291,7 @@
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-V0.2-CANDIDATES-WAVE-16-2026-10-16.md",
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
-    "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+    "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
+    "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-DIRECT-EGRESS-DECISION-WAVE-18-2026-10-16.md"
   ]
 }
