@@ -3567,7 +3567,7 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 
 ## Latest continuation — WB-14AB ID collision and owner/acceptance crosswalk (2026-10-16)
 
-- Report: [WB-14AB A0 Ingress Proposal-ID Collision Audit and Decision-Owner Crosswalk](MEDIAHUB-CONTOUR-A-WB-14AB-A0-INGRESS-ID-COLLISION-AND-DECISION-OWNER-CROSSWALK-2026-10-16.md), creation commit `fee7c7b732bb1974e453fc0d023b1ec739eed2e1`; blob SHA to verify after write.
+- Report: [WB-14AB A0 Ingress Proposal-ID Collision Audit and Decision-Owner Crosswalk](MEDIAHUB-CONTOUR-A-WB-14AB-A0-INGRESS-ID-COLLISION-AND-DECISION-OWNER-CROSSWALK-2026-10-16.md), creation commit `fee7c7b732bb1974e453fc0d023b1ec739eed2e1`; verified blob SHA `2c87f5549609dc5298e0a5117ec46a2331972ba8`.
 - Compared proposal-local `A0-ING-01…09` against the current map, checkpoint, roadmap, owner-decision register/packet, owner working decisions, MH-12 and ASTRA governance/reference files. No exact matches were found in that bounded set; repository-wide/all-branch absence is NOT claimed. Keep proposal IDs local; do not register them canonically yet.
 - Mapped existing dependencies: A0-ING-02 ↔ D-ING-01/02; A0-ING-04 ↔ D-ING-03; A0-ING-06 ↔ D-ING-04; A0-ING-07 ↔ D-ING-05b; A0-ING-05 ↔ D-ING-06. Keep D-ING-05a (generic health mapping) separate from D-ING-05b (A0 challenge/response). Other labels remain cross-cutting contract/acceptance prerequisites.
 - WB-14W names only proposed role-level paths; named accountable people, delegated authority and a formal acceptance workflow remain NOT ESTABLISHED. No owner decision is invented or re-asked; WB-14AA remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
