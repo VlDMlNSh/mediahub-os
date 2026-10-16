@@ -117,7 +117,7 @@ Source pins used:
 ### COLL-01 — Two operational command signers are not one contract
 
 - ops/control/sign_command.py, SHA fc6943a79cefdf06e59d6e32771d2df551b2f0e9, declares mediahub.astra.control-command.v1 and requires schema_version, command_id, node_id, operation, target_sha, workflow_only, owned_paths, title, description, exclusive_actions and issued_at. It uses per-node HMAC environment keys for old identities and freshness validation.
-- tools/sign_astra_command.py, SHA a4222ac51a47cbfe8288f9af34f1e542a47cbfe8288f9, emits schema: 1, command_id, node_id, operation, issued_at and signature using generic ASTRA_COMMAND_HMAC_KEY.
+- tools/sign_astra_command.py, SHA a4222ac51a47cbfe8288f9af34f1e542c0a4b6a8, emits schema: 1, command_id, node_id, operation, issued_at and signature using generic ASTRA_COMMAND_HMAC_KEY.
 - docs/qualification/ASTRA-HEALTH-COMMAND-CONTRACT.md, SHA 5a06ec6a649c378793063d0f4f9a8a532621c11d, documents a schema: 1 health example without several fields required by the node-specific signer.
 
 These sources demonstrate distinct command conventions and a documentation alignment gap. The sources do not establish that the generic signer is canonical/active. Do not delete, consolidate, execute or wire either into Jarvis ingress from this finding. Reconcile operational command history separately from the new corporation ingress contract.
