@@ -2072,3 +2072,19 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 The review changes no v0.1 schema and grants no runtime authority. CAF-Q-013 tracks the proposed v0.2 remediation. Full JSON Schema validation, semantic validation, workflow tests and independent qualification remain open.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 26. Cloud-agent schema v0.2 candidates — Wave 16
+
+| Control ID | Requirement | Candidate evidence | State | Closure evidence |
+|---|---|---|---|---|
+| CAF-36 | Execution status is distinct from verification and qualification | Evidence Manifest Schema v0.2 separates execution.status, verification and qualification | CANDIDATE CREATED / REVIEW REQUIRED | Full schema validation, negative fixtures and independent review |
+| CAF-37 | Registry admission requires provider-route and isolated-workspace declarations | Registry Schema v0.2 bounds unique provider routes and mandates isolated workspace | CANDIDATE CREATED / REVIEW REQUIRED | Semantic authorization checks and A0/MH-12 acceptance |
+| CAF-38 | Evidence provenance is bounded and source/action revisions are constrained | Manifest v0.2 adds bounded input/artifact lists, action SHA constraints and schema refs | CANDIDATE CREATED / REVIEW REQUIRED | Validator profile, positive/negative fixtures and semantic evidence checks |
+| CAF-39 | Full validator and negative-fixture evidence is tracked | CAF-Q-014 added to the documentary queue | QUEUED / NO LIVE VALIDATOR CLAIM | Draft 2020-12 meta-validation, format assertion, fixture results and independent disposition |
+
+### Wave 16 boundary
+
+The v0.2 artifacts are candidate schemas. The 20/20 checks are bounded structural assertions only. They do not prove standards conformance, semantic correctness, live agent registration, authorization, workflow operation or qualification.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
