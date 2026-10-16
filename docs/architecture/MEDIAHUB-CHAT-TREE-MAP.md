@@ -6216,3 +6216,16 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Status: **DESIGN PROPOSAL ONLY / NOT ACCEPTED AS NORMATIVE / NOT IMPLEMENTED / NOT QUALIFIED**.
 - Next: WB-14R statement-level authority wording reconciliation and field-level crosswalk to existing schemas; do not select transport or amend normative contracts by inference.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.289 Contour A WB-14R — ASTRA A0 authority reconciliation and field-level ingress crosswalk (2026-10-16)
+
+- Report: [WB-14R A0 Ingress Authority and Schema Crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14R-A0-INGRESS-AUTHORITY-AND-SCHEMA-CROSSWALK-2026-10-16.md), commit `6441ea7f6d08b5a07e46748cdde43a703fda8fc1`, blob SHA `ec783cb5432c68436c1c451c29dd6fa007b7d8d3`.
+- Compared the owner-approved DEC-DEV-02 lifecycle split against ASTRA reference architecture, complete component scheme, unified markdown/YAML and qualification launch schema on both refs. Docs versions scope A0 more narrowly in several places, while main retains broad authority language; unified markdown remains ambiguous on both refs.
+- Critical target contradiction: ASTRA reference/unified docs still describe mh-dev-01, mh-dev-02 and Voktors-Mac-mini.local as permanent lanes, despite the bootstrap instruction that old host identities are historical only. No new target inventory was inferred.
+- Field crosswalk covers identity/request IDs, mission/DAG, principal/issuer/audience, capability, signature, timestamp/freshness, target SHA/digests, route, paths/actions, egress, deadlines/retries, idempotency, health nonce, status/cancel/result and evidence.
+- Found two operational command signer conventions and a health-command sample mismatch; FileTaskIngress/AstraGatewayRuntime is a distinct app-runtime path, not proof of a Jarvis→A0 contract. Device/model/mesh “capability” schemas are not security capability tokens. Health/readiness and task/admission/result status domains must remain typed separately.
+- Main-only WB-14 packet and corporation proposal crosswalk were read to avoid duplicating their prior inventory. Branches remain diverged; no integration was attempted. No tests, code edits, qualification or runtime actions occurred.
+- Status: **SOURCE-BOUND CROSSWALK / PROPOSAL ONLY / NOT IMPLEMENTED / NOT QUALIFIED**.
+- Next: WB-14S strict schema ownership and operation-specific field mapping, while keeping issuer, transport, auth profile, freshness and persistence choices open until approved.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
