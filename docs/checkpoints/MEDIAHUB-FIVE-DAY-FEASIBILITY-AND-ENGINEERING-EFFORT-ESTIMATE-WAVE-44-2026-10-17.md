@@ -41,17 +41,17 @@ Ranges are person-hours, not elapsed clock hours. Work packages can overlap only
 
 | Work package | Optimistic | Planning case | Conservative | Evidence / exit condition |
 |---|---:|---:|---:|---|
-| A. Source/ref reconciliation, baseline and current-truth ledger | 8 | 12 | 18 | Live refs/SHAs, branch state, canonical source hierarchy and explicit status ledger |
-| B. Architecture and responsibility boundary consolidation | 10 | 16 | 24 | Component topology, service placement, trust boundaries, Jarvis/ASTRA lifecycle ownership and explicit open decisions |
-| C. Unified verifiable contract | 14 | 22 | 32 | Stable IDs, typed interfaces, lifecycle/error/retry/cancel semantics, auth/context/egress, evidence and acceptance clauses |
-| D. Unified project/component/dependency matrix | 12 | 18 | 28 | Component pins, upstream reuse, platform/license/provenance, dependencies, owner, status, blockers and evidence links |
-| E. Provider/security/data-egress matrix | 8 | 14 | 22 | Exact credential references, provider eligibility/region, quota/reset, retention, failover and secret-scope remediation design |
-| F. Deployment profiles and operational package design | 10 | 16 | 24 | macOS/Linux profiles, preflight, idempotency, config/secrets, health, diagnostics, backup/restore, rollback and recovery |
-| G. Implementation and integration | 50 | 95 | 150 | Only after applicable implementation authorization; reuse pinned mature upstreams; no unnecessary custom replacements |
-| H. Verification/qualification and independent review | 35 | 60 | 100 | Authorized checks, gate-by-gate evidence, negative cases, reviewer findings and repair |
+| A. Source/ref reconciliation, baseline and current-truth ledger | 10 | 14 | 18 | Live refs/SHAs, branch state, canonical source hierarchy and explicit status ledger |
+| B. Architecture and responsibility boundary consolidation | 12 | 16 | 20 | Component topology, service placement, trust boundaries, Jarvis/ASTRA lifecycle ownership and explicit open decisions |
+| C. Unified verifiable contract | 16 | 22 | 28 | Stable IDs, typed interfaces, lifecycle/error/retry/cancel semantics, auth/context/egress, evidence and acceptance clauses |
+| D. Unified project/component/dependency matrix | 14 | 18 | 24 | Component pins, upstream reuse, platform/license/provenance, dependencies, owner, status, blockers and evidence links |
+| E. Provider/security/data-egress matrix | 8 | 12 | 18 | Exact credential references, provider eligibility/region, quota/reset, retention, failover and secret-scope remediation design |
+| F. Deployment profiles and operational package design | 10 | 14 | 20 | macOS/Linux profiles, preflight, idempotency, config/secrets, health, diagnostics, backup/restore, rollback and recovery |
+| G. Implementation and integration | 80 | 110 | 150 | Only after applicable implementation authorization; reuse pinned mature upstreams; no unnecessary custom replacements |
+| H. Verification/qualification and independent review | 50 | 70 | 100 | Authorized checks, gate-by-gate evidence, negative cases, reviewer findings and repair |
 | I. Integration contingency | 20 | 30 | 40 | Unexpected contract conflict, compatibility, workflow or evidence repair |
 
-The planning case totals approximately 299 person-hours. The work-package arithmetic spans 167–438 hours when every optimistic/conservative bound is added mechanically. For commitment planning, use **220–420 hours** after allowing overlap among documentary work packages and reserving contingency; this remains a planning range, not a guaranteed completion interval.
+The revised work-package table totals approximately 220 hours at the optimistic bound, 306 hours in the planning case, and 418 hours at the conservative bound. For commitment planning, round this to **220–420 person-hours**; this remains a planning range, not a guaranteed completion interval.
 
 ## 4. Why this is more than document consolidation
 
