@@ -67,3 +67,8 @@ No MediaHub source code, workflow, registry, credentials, runtime, infrastructur
 Prepare a narrowly scoped adapter/qualification proposal that maps the unchanged upstream route families to MediaHub-owned A0/MH-12/R-06 enforcement and lists the minimum accepted target manifest. Reuse OpenHands routing, workspace, event, tool and provider abstractions where qualified; keep the adapter and runtime blocked until the authority and target contracts are accepted.
 
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 6. Browser tooling evidence
+
+The installed `agent-browser` core guide was loaded on the connected workstation. The CLI opened the public MediaHub repository root and returned a usable accessibility snapshot with repository navigation, root files, directories and recent commit summaries. This confirms a successful current browser-navigation/extraction pass. It does not establish authenticated writes, full-site availability or execution of the repository code.
