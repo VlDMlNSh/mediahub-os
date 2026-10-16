@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import urllib.error
 import urllib.request
 from collections.abc import Callable
@@ -48,6 +49,7 @@ class AstraTaskRequest:
     project_id: str | None = None
     task_id: str | None = None
     approval_state: str = "not_required"
+    approval_token: str | None = None
     context_refs: tuple[str, ...] = ()
     client_platform: str = "unknown"
     client_version: str = "unknown"
@@ -186,6 +188,8 @@ class AstraGatewayRuntime:
     SENSITIVE_ACTIONS = frozenset(
         {"host_install", "credential_change", "production_deploy", "destructive_action"}
     )
+    APPROVAL_TOKEN_ENV = "ASTRA_APPROVAL_TOKEN"
+    SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 
     def __init__(self, executor: Callable[[str], str] | None = None, registry: AgentRegistry | None = None, orchestrator: CloudFirstOrchestrator | None = None, memory=None):
         self._legacy_executor = executor
@@ -206,7 +210,7 @@ class AstraGatewayRuntime:
         self._emit(events, task, execution_id, "task.accepted", {"route": "cloud_first"})
         self._emit(events, task, execution_id, "task.planned", {"strategy": "cloud_first_local_extension"})
         sensitive = self._classify(task.user_command)
-        if sensitive and task.approval_state != "approved":
+        if sensitive and not self._approval_is_trusted(task, sensitive):
             self._emit(events, task, execution_id, "policy.checked", {"allowed": False})
             self._emit(events, task, execution_id, "approval.required", {"action": sensitive})
             return AstraTaskResult(task.request_id, task.session_id, execution_id, "failed", None, None, None, None, tuple(events), "approval_required")
@@ -316,6 +320,19 @@ class AstraGatewayRuntime:
             raise AstraGatewayError("invalid_context")
         if any(not isinstance(ref, str) or not ref.strip() for ref in task.context_refs):
             raise AstraGatewayError("invalid_context")
+        if task.approval_state == "approved" and (not isinstance(task.approval_token, str) or not task.approval_token):
+            raise AstraGatewayError("approval_proof_missing")
+
+    @classmethod
+    def _approval_is_trusted(cls, task: AstraTaskRequest, action: str) -> bool:
+        if task.approval_state != "approved":
+            return False
+        token = os.environ.get(cls.APPROVAL_TOKEN_ENV, "")
+        supplied = getattr(task, "approval_token", None)
+        if not token or not supplied or not isinstance(supplied, str):
+            return False
+        expected = hashlib.sha256(f"{task.request_id}:{action}:{token}".encode("utf-8")).hexdigest()
+        return supplied == expected
 
     @classmethod
     def _classify(cls, command: str) -> str | None:
