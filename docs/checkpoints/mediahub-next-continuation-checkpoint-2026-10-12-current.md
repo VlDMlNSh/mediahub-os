@@ -3996,3 +3996,17 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No workflow dispatch, provider call, credential access, scanner, test, installation, runtime inspection, infrastructure change or deployment occurred. Security alert counts, secret metadata and live provider success remain UNKNOWN.
 - Next action: capture owner-visible GitHub UI evidence for Actions secret metadata and Security-tab alerts; dispatch one bounded read-only Gemini audit; preserve run ID, resolved source SHA, artifact digest and redaction review.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — canonical authority inventory and project-wide matrix integration, Wave 06 (2026-10-16)
+
+- Extended the existing [Unified System Traceability Matrix v0.1](mediahub-unified-system-traceability-matrix-v0.1.md) with a source-backed initial coverage matrix across 20 project domains, six cross-domain conflict records, evidence closure requirements and explicit status semantics. Integration commit `e499b3d217a3c65234815278fc39fed2c217306c`; matrix blob SHA `af813446ce65846189a249dab05c933daf238cec`.
+- Extended the existing [Canonical Source Registry and Security Evidence Ledger — Wave 03](MEDIAHUB-CANONICAL-SOURCE-REGISTRY-AND-SECURITY-EVIDENCE-LEDGER-WAVE-03-2026-10-16.md) through SRC-028. Latest blob SHA `c6d8f973f5073961ccb7ad7c0016e336f4f2d158`.
+- Map updated at §20.331; commit `1e6a7e9307f9a12fe25ee4ccc5746f36c7c418f3`, blob SHA `c6b050b94835da2889e3e59f2d90189a9077941f`. Corrected duplicate section numbering: Wave 06 is §20.329 and free cloud-agent onboarding is §20.330.
+- Reconfirmed Baseline 2.0 as ACCEPTED / CANONICAL / IMMUTABLE functional authority; Baseline 1.0 remains historical provenance. Component manifest selection remains distinct from production qualification.
+- Identified six cross-domain conflicts covering component-manifest/YAML scope, provider identity/egress, MH-13 reconstruction/production boundary, ASTRA A0 proposal vs internal lifecycle, main/docs divergence and bounded Gemini evidence scope.
+- Status remains PROPOSED / NOT ACCEPTED / NOT FROZEN. This was a bounded source-backed inventory, not an exhaustive all-file audit or deployment acceptance.
+- No code/workflow edits, tests/scanners, workflow dispatch, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
+- Live branch compare at start of pass: DIVERGED, ahead 1,668 / behind 10; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Branches remain separate.
+- Next: parallel documentary closure of provider identity/egress, component manifest/YAML scope, A0 external/internal lifecycle boundary, audit/privacy R-06 and target-manifest unknowns, integrating each lane into this matrix by source SHA and stable ID.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
