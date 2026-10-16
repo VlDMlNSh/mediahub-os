@@ -6204,3 +6204,15 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Status: **SOURCE-BOUNDED LAUNCHER/CONTRACT AUDIT / HEALTH VERIFIER GAP RECORDED / NO IMPLEMENTATION OR RUNTIME ACTION**.
 - Next: WB-14Q contract-only Contour A command-ingress decision and requirements matrix; keep owner choice explicit and do not change main until target ingress and branch strategy are resolved.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.288 Contour A WB-14Q — formal ASTRA A0 ingress interface design (2026-10-16)
+
+- Report: [WB-14Q ASTRA A0 Ingress Interface Design](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14Q-ASTRA-A0-INGRESS-INTERFACE-DESIGN-2026-10-16.md), commit `0d82e6ccbb63ffe851009c676c577b4173969cc8`, report blob SHA `2b0cf853a7b5eefe9e75fccdcfed130d53f417c8`.
+- Records the requested design direction as a **non-normative contract proposal**: Jarvis → authenticated A0 ingress adapter → A0-owned admission/lifecycle. It does not select the transport, issuer, credential mechanism or implementation.
+- Proposed logical operations: submit task, query status, request cancellation and retrieve result; separate nonce-correlated health challenge/response. Includes illustrative request/ack/result envelopes, authority boundary, replay/idempotency, target SHA, capability scope, health freshness and failure matrix.
+- Explicitly preserves the Jarvis / ASTRA A0 / MediaHub Product State Authority split and the separately bounded direct-local route. Existing schemas and tests were read as evidence only; no tests run and no source code changed.
+- Open decisions: transport, capability issuer/key lifecycle, durable idempotency boundary, exact schema governance, freshness/clock policy, A0 lifecycle/query semantics and source authority wording reconciliation.
+- Status: **DESIGN PROPOSAL ONLY / NOT ACCEPTED AS NORMATIVE / NOT IMPLEMENTED / NOT QUALIFIED**.
+- Next: WB-14R statement-level authority wording reconciliation and field-level crosswalk to existing schemas; do not select transport or amend normative contracts by inference.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
