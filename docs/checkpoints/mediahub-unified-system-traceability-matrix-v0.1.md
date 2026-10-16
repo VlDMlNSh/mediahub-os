@@ -2162,3 +2162,22 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 Provider key registration and provider request origin are distinct controls. The design removes unnecessary dependency on a specific server for credential custody; it does not promise that provider requests are location-independent or bypass provider-side restrictions. No provider request, credential operation, test or deployment occurred in this wave.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 29. Location-independent credential reference and schema-gap crosswalk — Wave 20 (2026-10-16)
+
+| Control ID | Requirement / finding | Source evidence | State | Closure evidence |
+|---|---|---|---|---|
+| CAF-49 | Credential identity is independent of physical host and mandatory public ingress | Wave 12 credential registration design; Wave 14 credential/egress design; Wave 18 direct-egress decision | DESIGN PROPOSED | Accepted credential-record and registration contracts; source-bound implementation and independent review |
+| CAF-50 | Task envelope carries an explicit opaque credential reference distinct from authorization reference | Task Envelope v0.2 has provider/model and authorization/eligibility/data-policy/quota references but no `credential_id` or `credential_ref` | SCHEMA GAP IDENTIFIED / CANDIDATE UNCHANGED | Versioned schema change proposal, A0 compatibility decision, R-06 disposition and independent review |
+| CAF-51 | Agent admission record and provider credential record remain separate authorities | Agent Registry v0.2 describes agent identity/capabilities/routes/grant/expiry/revocation; no dedicated credential record or vault-version reference | SCHEMA GAP IDENTIFIED / CANDIDATE UNCHANGED | Separate credential registry contract, schema and lifecycle review |
+| CAF-52 | A0/MH-12 issuer and lifecycle authority gates credential resolution | Wave 07 source trace leaves ingress, issuer, audience, expiry, revocation, replay and caller interface open | BLOCKED / SOURCE-TRACE GAP OPEN | Accepted A0 issuer/ingress/lease/cancellation/recovery contract and independent review |
+| CAF-53 | R-06 and exact target manifest gate runtime credential use | R-06 template remains unfilled; Wave 10 target reconciliation reports target UNKNOWN | BLOCKED / GOVERNANCE AND TARGET OPEN | Accountable R-06 disposition, accepted runner/workspace/network target manifest, full schema validation and independent review |
+
+### Wave 20 boundary
+
+The schema findings are documentary and apply to proposed v0.2 candidates. No schema was edited and no runtime authority was created. Raw secrets remain vault-only; task and agent records may carry opaque references only. The three-server topology is preserved, and provider egress remains subject to actual runner origin and provider-side controls.
+
+Source report: [Credential Reference and Schema-Gap Crosswalk, Wave 20](MEDIAHUB-CREDENTIAL-REFERENCE-AND-SCHEMA-GAP-CROSSWALK-WAVE-20-2026-10-16.md), blob SHA `13c9cb5a16323a7bd28c6564009f6f123f710f2e`.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
