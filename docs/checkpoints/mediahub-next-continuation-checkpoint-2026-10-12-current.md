@@ -4056,3 +4056,11 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Registry update commit `36470305180725bdd29d9c3b02f9b3699f21520c`; resulting registry blob SHA `940c5aba5a99c43e8ca324bc362e5e628cbf187f`.
 - Current branch compare: documentation ref DIVERGED from `main`, ahead 1,692 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. Branches remain separate.
 - Current map blob SHA: `08353d8ecd7e52495e8a67b8ec849d6068129e57`.
+
+
+## Map index correction — Wave 07 duplicate entry consolidation (2026-10-16)
+
+- A concurrent documentation update introduced a duplicate §20.333 heading for the same Wave 07 report. Consolidated the duplicate entry while preserving the detailed entry and the following provider/egress §20.334 record.
+- Map correction commit `bb80a7903dff739d2d2d1d276836159456f660d4`; resulting map blob SHA `5c8b49854a7d67a5320f4a33b8d955cca40f5cef`.
+- The map now has one §20.333 Wave 07 entry followed by §20.334 provider/egress. No project source, workflow or runtime state was changed.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
