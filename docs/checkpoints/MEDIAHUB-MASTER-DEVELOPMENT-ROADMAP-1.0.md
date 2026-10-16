@@ -1905,3 +1905,9 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Status: DOCUMENTARY CROSSWALK / PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED. No secrets, providers, workflow dispatches, tests, host/runtime inspection, installation, infrastructure change, deployment or branch integration occurred.
 - Next: close CAF-Q-014 and governance/target gates through their authorized paths; then prepare a versioned credential-record schema and compatible task/agent schema proposal for independent review.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+### Wave 20 navigation and continuation pointers
+
+- Supplemental map navigation: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-20-2026-10-16.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-20-2026-10-16.md), creation commit `9ce684b648e30d981f263b5059cebb5690ac46d8`.
+- Supplemental continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-16-wave20.md](mediahub-next-continuation-checkpoint-2026-10-16-wave20.md), creation commit `606bf4800ff74d6d0aa49a3d375aaf6c8817eefb`.
+- The canonical map remains authoritative; exact blob retrieval works, while the Contents API response is empty and a full-file replacement was blocked. The supplemental addendum preserves Wave 20 navigation without replacing the canonical map.
