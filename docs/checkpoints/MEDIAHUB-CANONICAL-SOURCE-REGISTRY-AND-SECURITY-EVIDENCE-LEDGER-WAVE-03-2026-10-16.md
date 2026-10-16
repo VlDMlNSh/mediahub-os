@@ -294,3 +294,9 @@ The Wave 17 record confirms consistency of selected version and bound checks in 
 
 
 | EVD-030 | Wave 17 schema and queue coherence assertions | 23/23 bounded assertions passed; map blob `a24ef7f13777ed38ff26e1cb0febbc42713f541f` read back with 6,876 lines and preserved historical sections | STRUCTURAL SMOKE + MAP READ-BACK | Draft 2020-12 meta-validation, negative fixtures and independent review |
+
+
+| SRC-066 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-DIRECT-EGRESS-DECISION-WAVE-18-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | `d7730895d97f84fc8ff25d1fdda61558dbd50696` | Owner-server-independent cloud-agent credential topology and direct egress | PROPOSED / DOCUMENTARY / RUNTIME-UNVERIFIED | A0/R-06/target-manifest/schema/workflow qualification gates |
+| SRC-067 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `802ff16cfbdfad6497bcd932add07b3bb4fc8475` | Documentary queue CAF-Q-001…CAF-Q-015 | DOCUMENTARY ONLY / NO LIVE SCHEDULER | Accepted A0 lifecycle and separately qualified scheduler |
+
+| EVD-031 | Owner-server-independent provider topology | Wave 14 and Wave 18 reference designs; CAF-Q-015 recorded | DESIGN EVIDENCE ONLY | Target manifest, workflow source review, accepted provider policy, runtime evidence and independent acceptance |
