@@ -6284,3 +6284,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - The owner-decision register now cross-references the open D-ING records without accepting options. MH-06 ADR-001 remains ACCEPTED for its defined scope; implementation authorization is NO. Generic domain-health mapping, A0 health challenge/response and A0 lifecycle transition table remain separate OPEN decisions.
 - No normative schema/contract or implementation changed. No tests, qualification, runtime/host action, credentials/provider calls, install, infrastructure change, deployment, migration or branch integration occurred.
 - Next: obtain explicit accountable-owner confirmation and governance acceptance evidence for each open D-ING decision before schema registration or implementation.
+
+
+## 20.295 Contour A WB-14X — A0 ingress prior-decision crosswalk (2026-10-16)
+
+- Report: [WB-14X A0 Ingress Prior-Decision Crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14X-A0-INGRESS-PRIOR-DECISION-CROSSWALK-2026-10-16.md), commit `5994832bf82d356c8cab604d56e8e04dfee94e7e`.
+- Reuses rather than reopens owner-approved DEC-DEV-02 Option C authority split, MH-12 identity/authorization invariants, and accepted MH-06 ADR-001 semantics within scope. Owner-register D-03 is not ingress D-ING-03.
+- P0-07→P0-05 accepted caller edge and exact P0-05 contract-status disposition remain NOT ESTABLISHED / OWNER-GOVERNANCE REQUIRED; issuer/verifier, durable admission/idempotency, freshness/replay, probe, health mapping and A0 lifecycle decisions remain open. No normative contract or schema changed.
+- Next: inspect exact DEC-DEV-02 and P0-05/P0-07 primary sources on their owning refs; prepare a minimal evidence request for unresolved items only.
