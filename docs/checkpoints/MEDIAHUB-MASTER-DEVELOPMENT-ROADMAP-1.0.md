@@ -1555,3 +1555,12 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - D-ING-01…04, D-ING-05a/05b and D-ING-06 remain OPEN; WB-14AA remains non-normative. No implementation or qualification gate was crossed.
 - Next: record explicit owner/governance disposition when available; otherwise proceed with independent source-only contract/evidence reconciliation without repeating WB-14AA/AB/AC.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14AE — executor capability matrix authority-drift reconciliation (2026-10-16)
+
+- Report: [WB-14AE Executor Capability Matrix Authority-Drift Reconciliation](MEDIAHUB-CONTOUR-A-WB-14AE-EXECUTOR-CAPABILITY-MATRIX-AUTHORITY-DRIFT-RECONCILIATION-2026-10-16.md), creation commit `01aeaf874dba72a55940f718cc1b74e50a17f448`, report blob SHA `ba655f1af358f97634cfc5d1402ac60c25d7b0d5`.
+- Exact source blobs confirm the docs-branch executor matrix has the owner-approved A0 scope clarification; main remains broader/ambiguous. DEC-DEV-02 Option C is already OWNER-APPROVED and is not reopened.
+- No normative source edit or branch integration. Main-source correction requires explicit owner/change-control authorization.
+- Next: seek the required explicit disposition; otherwise continue an independent source-only task without assuming branch integration.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
