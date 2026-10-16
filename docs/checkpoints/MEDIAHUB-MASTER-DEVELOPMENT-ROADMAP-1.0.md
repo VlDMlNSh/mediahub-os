@@ -1666,3 +1666,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Status: STATIC SOURCE REVIEW / PATCH PLAN PROPOSED / NOT QUALIFIED. No workflow edits or dispatches, provider/model calls, credential use, tests/scanners, host/runtime inspection, infrastructure changes, deployment or branch integration.
 - Next: reconcile A0 issuer/lifecycle and R-06 governance sources; identify the authoritative target manifest; then prepare a separately authorized P0/P1 workflow patch proposal.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Gemini Operational Evidence and Cloud-Agent Status Correction, Wave 10 (2026-10-16)
+
+- Added [Cloud-Agent Fabric Operational Evidence and Status Correction — Wave 10](MEDIAHUB-CLOUD-AGENT-FABRIC-GEMINI-OPERATIONAL-EVIDENCE-WAVE-10-2026-10-16.md), creation commit `1f5f896cdbf50429e3a09e1f8232d13db2821359`.
+- Queried GitHub run `38952885501`: `completed / success`; job `117148417231` confirms the Gemini API call step completed successfully; artifact `12069128185` was uploaded with digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d`. Source commit: `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- Corrected the Wave 09 interpretation: Gemini is operationally proven for at least one historical read-only audit run. GWF-01…GWF-10 remain source-hardening and qualification findings; they do not negate that successful execution.
+- The broader cloud-agent fabric remains a reference design; a durable general-purpose queue, agent registry, scheduler, isolated patch worker and promotion pipeline require their own implementation and evidence.
+- Status: HISTORICAL GEMINI RUN VERIFIED / FABRIC-WIDE QUALIFICATION OPEN. This pass inspected run/job/artifact metadata and updated documentation only; no new workflow dispatch, provider call, credential use, tests/scanners, host/runtime inspection, infrastructure change, deployment or merge occurred.
+- Next: reconcile exact A0 ingress/issuer/lifecycle, R-06 governance and target manifest; then prepare the P0/P1 workflow patch proposal and task/evidence schemas.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
