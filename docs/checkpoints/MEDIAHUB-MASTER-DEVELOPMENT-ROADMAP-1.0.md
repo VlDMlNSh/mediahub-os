@@ -1461,3 +1461,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Status: design/source crosswalk only; no code/schema implementation, tests, qualification, host/runtime inspection or deployment occurred.
 - Next bounded work: WB-14S strict schema ownership and operation-specific field mapping. Keep issuer, transport, auth/crypto, freshness and persistence choices open until approved.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14S — formal ASTRA A0 ingress schema ownership and operation map (2026-10-16)
+
+- Created [WB-14S A0 Ingress Schema Ownership and Operation Map](MEDIAHUB-CONTOUR-A-WB-14S-A0-INGRESS-SCHEMA-OWNERSHIP-AND-OPERATION-MAP-2026-10-16.md), latest report update commit `cb6f0a66050fb12d40cd39e73ef5b1bbb7f432ea`, blob SHA `6b5159fdbe0c99d34e754047dd7c0a8afde8c61c`.
+- Defined five operation-specific request/response pairs, field authority/mutability and separate status domains. The IDs and paths are candidates only; no schema or callable API was created and no transport was selected.
+- Open issues: service principal/capability issuer and lifecycle, auth/crypto profile, freshness, durable admission/idempotency storage, cancellation/fencing, A0 lifecycle state vocabulary and MH-06/domain health vocabulary reconciliation. Old node identities remain historical-only.
+- Counted 26 JSON schemas in the canonical schemas/ tree and corrected contracts/README.md from 25 to 26 (commit `b8c868f86667b95ca58fe03d1e5789ab20884f28`, blob `0c5a6c2d76558a285e49187f563f9e9c8056d34e`). Source was read only; validator/tests not run.
+- No implementation, tests, qualification, runtime/host inspection, credentials/provider calls, deployment or branch integration occurred.
+- Next bounded work item WB-14T: decision options and consequences for service principal/issuer, authentication profile, admission/idempotency authority, freshness policy and health vocabulary. No final schema creation until accepted security/governance decisions.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
