@@ -2253,3 +2253,14 @@ Wave 25 crosswalk: [OpenHands Task / Registry / Evidence Contract Crosswalk](MED
 | CAF-74 | Privileged init/environment and container workspace | init router blob `aae09786c40388b371cc5060a90a9a67bfbf4f3d`; Docker workspace blob `64ea81d2d4d7dfedcd8c6fea6081e75049edf782` | BLOCKED; strict init-field allowlist, secret separation, immutable image, mount/egress controls and accepted target manifest required |
 
 Wave 26 report: [OpenHands Agent Server Security Boundary Crosswalk](MEDIAHUB-OPENHANDS-AGENT-SERVER-SECURITY-BOUNDARY-CROSSWALK-WAVE-26-2026-10-17.md), blob `b940a2c440a610baf6d1bd7390214baccbb8541c`. Findings refine README-level claims; they establish source behavior only, not deployed behavior or qualification. A0/MH-12/R-06 and target-manifest gates remain open.
+
+
+## Wave 26 — OpenHands Agent Server security boundary
+
+| Control ID | Source / evidence | Revision-bound observation | Status / closure requirement |
+|---|---|---|---|
+| CAF-72 | Agent Server bind/auth behavior | Pin `6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`; entrypoint blob `226f43dca5a2d1799c84199bbd85bd07bfc98339`; config blob `a5830083eb110eadc6262287c5242f50e2296b66` | SOURCE REVIEW; pin effective bind/auth configuration and keep ingress MediaHub-owned |
+| CAF-73 | Workspace cookie/CORS/file serving | middleware `d2c4edec9742fd8c287ef4e258acad33340bdb5a`; dependencies `d1d2a6aece2056adc15824aed6cdccc4c3c33ead`; router `e38f5f99e6efb8b464c31c8e06fcdf4e06ce064c` | REVIEW REQUIRED; cookie attributes, ownership, origin policy and tenant isolation require review |
+| CAF-74 | Privileged init and container workspace | init router `aae09786c40388b371cc5060a90a9a67bfbf4f3d`; Docker workspace `64ea81d2d4d7dfedcd8c6fea6081e75049edf782` | BLOCKED; strict init allowlist, secret separation, immutable image, mount/egress controls and target manifest required |
+
+Wave 26 report: [OpenHands Agent Server Security Boundary Crosswalk](MEDIAHUB-OPENHANDS-AGENT-SERVER-SECURITY-BOUNDARY-CROSSWALK-WAVE-26-2026-10-17.md), blob `b940a2c440a610baf6d1bd7390214baccbb8541c`. Source behavior only; deployment and qualification remain unproven. A0/MH-12/R-06 and target gates remain open.
