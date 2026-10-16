@@ -20,3 +20,13 @@ Reconcile endpoint allowlisting, task-scoped credential delivery and workflow se
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 Wave 30 map addendum: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-30-2026-10-17.md
+
+## Verified GitHub read-back
+
+- Report blob SHA: `28a5152b60b0809a90a0c938b81439b8a19852b7`.
+- Map addendum blob SHA: `f97701416cd3fdde8241eec86944fd34c07cbfe7`.
+- Roadmap execution addendum blob SHA: `b6c842a1b8af503fb094cb49698e0904934ac232`.
+- Checkpoint blob SHA before this read-back ledger update: `36e805c694c6720c81f0c6a604f324b6c3d5b6cd`.
+- Latest documentation-branch commit after Wave 30 writes: `7e404809263dc97f221b59f87b065635c176b946`.
+- Main HEAD observed for this pass: `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- The canonical map remains authoritative. Its full content endpoint returned an empty body in this pass; the Wave 30 addendum provides the verified navigation entry. No canonical-map rewrite or branch integration occurred.
