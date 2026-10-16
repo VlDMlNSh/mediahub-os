@@ -1706,3 +1706,18 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Status: DOCUMENTARY DESIGN ONLY / PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED. Existing component manifest, YAML scope, A0 governance, R-06 and target-manifest decisions remain open. No workflow edits, tests, provider calls, credentials, host/runtime inspection, installation, infrastructure change, qualification, deployment or branch integration occurred.
 - Next: reconcile exact canonical component manifest and YAML consumer/scope with direct source evidence; preserve both sources until governing disposition.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Cloud-Agent Task Contract and Activation Queue, Wave 11 (2026-10-16)
+
+- Created [Cloud-Agent Fabric Queue and Task Contract — Wave 11](MEDIAHUB-CLOUD-AGENT-FABRIC-QUEUE-AND-TASK-CONTRACT-WAVE-11-2026-10-16.md), commit `78fa1a835fb0c12084cb2a6932b24cd4d600f1d1`.
+- Created machine-readable proposed [Task Envelope JSON Schema v0.1](MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json), commit `8edbf7aa8897b0701c9e461cd8dce5e73d3d2bdf`.
+- Created documentary [Activation Queue CAF-Q-001…CAF-Q-010](MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json), commit `e2920288b6295379ecfd61db0335b15e10969f26`.
+- Extended the Unified System Traceability Matrix with CAF-15…CAF-19, update commit recorded by GitHub write result.
+- Admission design binds requester/issuer authority, immutable source SHA, path scope, data classification, per-destination provider authorization, budget/retry, quarantined outputs, independent review and evidence manifest.
+- Queue order: P0 A0 issuer/ingress/lifecycle; P0 R-06 audit/privacy; P0 Gemini workflow hardening proposal; P0 task-envelope schema review; P1 evidence manifest, agent registry, target manifest, PR promotion and provider/quota policy; P2 capacity/recovery.
+- Status: PROPOSED / DOCUMENTARY QUEUE / NOT ACCEPTED / NOT IMPLEMENTED / NOT QUALIFIED. No live scheduler, agent registry or new agent connection is claimed. Gemini remains operationally proven for one historical read-only run only.
+- Public evidence considered: GitHub Actions secure-use guidance (least privilege, full-SHA action pins, isolated ephemeral runners) and GitHub Copilot cloud-agent docs (issue/prompt-driven work, branches/PRs and agent availability constraints).
+- No workflow was edited or dispatched; no provider/model calls, credentials, tests/scanners, host/runtime inspection, infrastructure change, qualification, deployment or branch integration occurred in this wave.
+- Next: source-bound CAF-Q-003 patch proposal and CAF-Q-007 target-manifest discovery, while A0 and R-06 remain hard gates for any live queue.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
