@@ -2121,3 +2121,19 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 The owner-server-independent topology removes the user's device as a network hop. It does not remove outbound network traffic or conceal the hosted worker's network origin. A successful historical Gemini run remains valid evidence for that run; it does not qualify the general agent fabric. No live queue, agent activation, provider call, workflow dispatch, test, qualification or deployment was performed in this pass.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 19. Cloud-Agent Fabric Structural Read-back — Wave 19 (2026-10-16)
+
+| Control ID | Claim | Evidence | State | Boundary / next action |
+|---|---|---|---|---|
+| CAF-15 | Cloud-agent task, registry and evidence schemas parse as JSON and satisfy bounded cross-reference assertions | Read-back of queue blob `802ff16cfbdfad6497bcd932add07b3bb4fc8475`, task schema `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`, registry schema `b49b89b8fbdfc180862e3dc78f8198f35e486035`, manifest schema `40c402432fd0f3899d45fde0fa0a8af4d34c593a`; 18/18 assertions passed | STRUCTURAL READ-BACK PASS | Full Draft 2020-12 validator, format assertions, negative fixtures and semantic reference resolution remain open |
+| CAF-16 | Operationalization work has a durable GitHub tracker | Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301) | TRACKED / GATES OPEN | Issue tracks A0, R-06, target manifest, schema validation, workflow hardening and first read-only worker |
+| CAF-17 | Activation queue remains fail-closed and documentary | Queue update commit `29969fa58d2a5d30ae93f332f2c6cf70124f2523`, queue blob `0d4d591f464b976d6920bbd39c87a45a9d4fda59`, 16 unique IDs through CAF-Q-016 | DOCUMENTARY ONLY | No live scheduler, agent registration or task dispatch implied |
+| CAF-18 | Default credential path is independent of an owner-operated persistent server | Wave 14 credential/egress architecture and Wave 18 direct-egress decision; official GitHub secure-use/OIDC and provider policy documentation | REFERENCE DECISION | Hosted worker initiates outbound HTTPS; source IP may vary; provider sees network origin and retains its own account/region/data controls |
+
+### Wave 19 qualification boundary
+
+The 18/18 result is a bounded JSON-parse and explicit structural-assertion pass performed against GitHub source read-back. It is not a full schema qualification, live workflow test, provider-call test or agent-fabric acceptance. The map blob is intact at `92e9f2befd0bdb8a78140588929eaa119dda2110`; the Contents API returned an empty body while blob retrieval returned the complete 6,888-line document, so future map edits must use the full blob content.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
