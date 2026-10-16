@@ -1525,3 +1525,10 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - The local JSON Task Contract consumer and signed operational-command path are separate; no authenticated Jarvis producer-to-A0 chain is established. Do not infer API, trust context, queue schema, or TTL from either path or from internal numeric policy values.
 - Preserves WB-14Y separation: product mutation via P0-07→P0-05→P0-04 has distinct gates and cannot be bypassed through ASTRA.
 - Next: a transport-neutral A0 ingress contract candidate with traceable requirements, options and open decisions, marked PROPOSED / NOT ACCEPTED. No schema registration or implementation until explicit owner/governance acceptance.
+
+## Contour A WB-14AA — transport-neutral ASTRA A0 ingress contract candidate (2026-10-16)
+
+- Proposal: [WB-14AA ASTRA A0 Ingress Contract Candidate](MEDIAHUB-CONTOUR-A-WB-14AA-ASTRA-A0-INGRESS-CONTRACT-CANDIDATE-2026-10-16.md), commit `d05462b3c39ad5d08fad0ebde07e76158df361ba`.
+- Prepared a transport-neutral PROPOSED / NOT ACCEPTED / NOT FROZEN candidate with logical operations, request envelope, durable admission/idempotency, lifecycle/fencing/cancellation/result/evidence semantics, failure matrix and open decisions.
+- No transport, endpoint, issuer, schema ID, crypto profile, persistence or TTL chosen. No implementation or qualification.
+- Next bounded step: source-only collision-check proposal IDs and map each open decision to an evidenced owner/acceptance path; prepare a compact owner/governance packet, without promoting the proposal to normative status.
