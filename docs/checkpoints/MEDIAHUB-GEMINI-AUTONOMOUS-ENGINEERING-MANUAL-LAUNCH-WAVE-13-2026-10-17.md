@@ -24,6 +24,8 @@ The logs show the GitHub MCP server's startup instruction requested `get_me`, wh
 
 ## Manual launch
 
+The revised workflow must first be reviewed and merged into `main` through normal governance. Runtime behavior remains pending until a new run produces a non-empty response, passes the validator, and creates a reviewable PR.
+
 1. Open https://github.com/VlDMlNSh/mediahub-os/actions/workflows/gemini-autonomous-engineering.yml
 2. Select **Run workflow** and choose branch `main`.
 3. Keep `base_ref=main` and `scope=contour-a`.
