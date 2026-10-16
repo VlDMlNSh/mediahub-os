@@ -120,3 +120,11 @@ D-03 явно принят владельцем 2026-10-14 и больше не 
 - Do not conflate owner-register D-03, project DEC-DEV-02, or ingress D-ING-03. DEC-DEV-02 Option C is owner-approved in the owner decision packet §8; the stale §6.1 summary was corrected without changing primary normative sources.
 - Jarvis → ASTRA A0 engineering ingress and P0-07 → P0-05 → P0-04 product mutation are distinct routes. The latter's caller/header issues do not automatically decide the former's API or block all engineering submissions; product mutations remain blocked by their own gates.
 - Existing D-ING-01…04, D-ING-05a/05b and D-ING-06 remain OPEN; no new option, issuer, protocol, schema, or implementation status was accepted.
+
+## Contour A A0 ingress source-contract census — WB-14Z (2026-10-16)
+
+- Report: [WB-14Z ASTRA A0 Ingress Source-Contract Census](MEDIAHUB-CONTOUR-A-WB-14Z-A0-INGRESS-SOURCE-CONTRACT-CENSUS-2026-10-16.md).
+- WB-14Z source-pinned the Jarvis adapter draft, WB-14B caller trace, Wave 07 A0/MH-12 trace, executor capability matrix, ASTRA GOLD internal design and governance contract. Existing sources establish internal A0 lifecycle policy but do not establish an accepted Jarvis→A0 API/issuer/idempotency/status/result contract.
+- The local file task ingress and signed operational-command path remain separate and are not evidence of a connected authenticated Jarvis producer. Internal lease/retry values are not external TTL/idempotency policy.
+- Product mutation remains a separate P0-07→P0-05→P0-04 route. No A0 ingress permission bypasses it. All D-ING decisions remain OPEN where previously recorded.
+- Next: prepare a transport-neutral, clearly PROPOSED A0 ingress contract candidate from the source-backed requirements; do not register schema IDs or implement before explicit owner/governance acceptance.
