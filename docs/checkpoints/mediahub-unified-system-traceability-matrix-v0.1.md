@@ -2242,3 +2242,14 @@ Wave 24 source intake: [Jarvis Source Pin and Capability Crosswalk](MEDIAHUB-JAR
 | CAF-71 | Enforce isolated workspace, minimal tool authority, provider egress policy and target binding for candidate execution | Wave 24 pinned source review; A0/MH-12 trace blob `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`; target reconciliation blob `1f748bf80e08067fd85a7e1b0821cc4d12bda676`; R-06 template blob `834fd1ab70eee88355844ba2ebba6c2b6c47ecdb` | SECURITY/TARGET/GOVERNANCE GATES OPEN | Accepted target manifest, A0/MH-12/R-06 dispositions, source-bound adapter, negative/degraded-mode evidence and independent qualification |
 
 Wave 25 crosswalk: [OpenHands Task / Registry / Evidence Contract Crosswalk](MEDIAHUB-OPENHANDS-TASK-REGISTRY-EVIDENCE-CONTRACT-CROSSWALK-WAVE-25-2026-10-17.md). OpenHands remains a candidate only; no implementation or qualification state changed.
+
+
+## Wave 26 — OpenHands Agent Server security boundary
+
+| Control ID | Source / evidence | Revision-bound observation | Status / closure requirement |
+|---|---|---|---|
+| CAF-72 | OpenHands Agent Server bind/auth behavior | Source pin `6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`; `__main__.py` blob `226f43dca5a2d1799c84199bbd85bd07bfc98339`; config blob `a5830083eb110eadc6262287c5242f50e2296b66` | SOURCE REVIEW; effective bind/auth configuration must be pinned per target and ingress owned by MediaHub |
+| CAF-73 | Workspace cookie/CORS/file serving | middleware blob `d2c4edec9742fd8c287ef4e258acad33340bdb5a`; dependencies blob `d1d2a6aece2056adc15824aed6cdccc4c3c33ead`; workspace router blob `e38f5f99e6efb8b464c31c8e06fcdf4e06ce064c` | REVIEW REQUIRED; cookie attributes, ownership checks, origin policy and tenant isolation require independent source/target review |
+| CAF-74 | Privileged init/environment and container workspace | init router blob `aae09786c40388b371cc5060a90a9a67bfbf4f3d`; Docker workspace blob `64ea81d2d4d7dfedcd8c6fea6081e75049edf782` | BLOCKED; strict init-field allowlist, secret separation, immutable image, mount/egress controls and accepted target manifest required |
+
+Wave 26 report: [OpenHands Agent Server Security Boundary Crosswalk](MEDIAHUB-OPENHANDS-AGENT-SERVER-SECURITY-BOUNDARY-CROSSWALK-WAVE-26-2026-10-17.md), blob `b940a2c440a610baf6d1bd7390214baccbb8541c`. Findings refine README-level claims; they establish source behavior only, not deployed behavior or qualification. A0/MH-12/R-06 and target-manifest gates remain open.
