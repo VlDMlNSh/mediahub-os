@@ -6241,3 +6241,13 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Status: **CONTRACT DESIGN ONLY / NO IMPLEMENTATION / NO TESTS / NO QUALIFICATION**.
 - Next: WB-14T decision packet for service principal/issuer, auth profile, durable admission/idempotency, freshness and health vocabulary. Transport and issuer remain unselected.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.291 Contour A WB-14T — ASTRA A0 ingress owner/governance decision packet (2026-10-16)
+
+- Report: [WB-14T A0 Ingress Owner/Governance Decision Packet](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14T-A0-INGRESS-OWNER-GOVERNANCE-DECISION-PACKET-2026-10-16.md), commit `f67c69e309f1fdb871bd83df26713aa11a65d3b5`.
+- Converted the open blockers into five option/consequence decisions: D-ING-01 service principals/issuer; D-ING-02 authentication/integrity profile; D-ING-03 A0 durable admission/idempotency authority; D-ING-04 separate freshness/expiry/replay policies; D-ING-05 probe/health/readiness vocabulary.
+- Recommendations only; every decision remains OPEN. No protocol, issuer, credential/crypto profile, store, TTL, status enum or endpoint was selected. DEC-DEV-02, no-silent-cloud-fallback, clean-slate target and Contour A→B acceptance gate remain unchanged.
+- Source anchors refreshed against current refs. Main/docs branches remain diverged; no integration, tests, runtime actions or normative/code/schema edits occurred.
+- Next: WB-14U source-only closure of health/readiness vocabulary and A0 lifecycle-status transition ownership; escalate only irreducible contradictions to owner/governance.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
