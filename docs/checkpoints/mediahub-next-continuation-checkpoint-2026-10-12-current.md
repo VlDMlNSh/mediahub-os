@@ -4146,3 +4146,16 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Existing blockers retained: A0 issuer/lifecycle, R-06, owner-accepted target manifest, canonical component manifest/YAML scope, independent security and qualification evidence.
 - Documentation only. No code/workflow edits, test/scanner runs, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, qualification, deployment or branch integration.
 - Map blob read attempt returned an empty body for the large file; preserving/updating the map safely remains blocked until full current content can be retrieved. Current map URL: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 11 — Cloud-Agent Task Contract and Activation Queue (2026-10-16)
+
+- Queue/task contract report: `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-QUEUE-AND-TASK-CONTRACT-WAVE-11-2026-10-16.md`, creation commit `78fa1a835fb0c12084cb2a6932b24cd4d600f1d1`.
+- Task envelope JSON Schema: `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json`, creation commit `8edbf7aa8897b0701c9e461cd8dce5e73d3d2bdf`.
+- Documentary activation queue: `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json`, creation commit `e2920288b6295379ecfd61db0335b15e10969f26`.
+- Matrix update commit: `15b6c369908530ecacc17601f34b68baad2ea26c`; registry update commit: `3618f60f823cedf3d72e84972abb81471d863683`; roadmap update commit: `2d9f4755b78a9c29b5287cee4a989220f12aa8b4`.
+- Queue order: P0 A0 issuer/ingress/lifecycle, R-06 audit/privacy, Gemini source-hardening proposal, schema review; P1 evidence manifest, agent registry, target manifest, PR promotion and provider/quota policy; P2 capacity/recovery.
+- The task schema is a candidate only; no JSON Schema validator was run. The queue is documentary and has no scheduler. No new agent was connected or dispatched.
+- Branch divergence remains preserved. No branch integration was performed.
+- Next bounded work: CAF-Q-003 source-bound Gemini workflow patch proposal and CAF-Q-007 authoritative target manifest discovery. Keep A0 and R-06 as blocking gates for live queue operation.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
