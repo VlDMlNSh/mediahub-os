@@ -6649,3 +6649,16 @@ WB-14AA и приложение остаются не-нормативными. 
 - Branch compare snapshot at this pass: docs ref DIVERGED from main, ahead 1,653 / behind 10, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`.
 - Next: produce a P0 remediation patch plan only; implementation remains subject to the project's authorization constraints.
 - Status: SOURCE-ONLY SECURITY REVIEW / FINDINGS REQUIRE TRIAGE / NO WORKFLOW CHANGES.
+
+
+## 20.328 — Unified security control matrix and verifiable workflow contract, Wave 05 (2026-10-16)
+
+- Artifact: [Unified Security Control Matrix and Verifiable Workflow Contract — Wave 05](../checkpoints/MEDIAHUB-UNIFIED-SECURITY-CONTROL-MATRIX-AND-VERIFIABLE-CONTRACT-WAVE-05-2026-10-16.md).
+- Artifact blob SHA: `ea9e9b0743d45fd9e29299642bd9a4b5d223097e`; creation commit: `e69ec5b0e282b787d82093e9ab4a70048bf1e1e2`.
+- Composes the ten Wave 04 Astra workflow findings and four cross-cutting evidence/change-control requirements into a single traceability matrix: requirement → source/finding → control → revision-bound evidence → gate outcome.
+- Defines proposed fail-closed preconditions for immutable approved-ref/target binding, actor/capability/replay protection, explicit provider-secret allowlists, least-privilege permissions, HMAC isolation, target/executor consistency, credential lifetime, action pinning, evidence provenance, branch-governance proof and rollback.
+- Defines a verifiable evidence envelope, ten acceptance gates, failure semantics, change-control fields, rollback expectations and an ordered P0/P1/P2 remediation sequence.
+- Status remains PROPOSED / NOT ACCEPTED / NOT FROZEN. This document is a review contract; it does not amend Functional Baseline 2.0, authorize workflow source edits, or claim tests, qualification, deployment or production acceptance.
+- No workflow dispatch, tests, scanners, provider/model calls, credentials, runner/host inspection, infrastructure changes, deployment, migration or branch integration occurred.
+- Live compare after the Wave 05 artifact creation: docs ref DIVERGED, ahead 1658, behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. Branches remain separate.
+- Next: prepare the exact P0 source patch plan and rollback map. Source changes and verification execution remain subject to their separate authorization gates.
