@@ -2144,3 +2144,21 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 | Control ID | Claim | Evidence | State | Boundary / next action |
 |---|---|---|---|---|
 | CAF-19 | Current cloud-agent artifacts and navigation remain internally coherent after CAF-Q-016 | 24/24 bounded source assertions passed; queue blob `0d4d591f464b976d6920bbd39c87a45a9d4fda59`; Wave 19 report update commit `b741ba46c5ae9df2aed6dab977b05afa8482069a`; map blob `c2cdb85f835394672ad4393ccdb10b40351c897d` | STRUCTURAL READ-BACK PASS | Full JSON Schema Draft 2020-12 validation, negative fixtures, semantic reference resolution and runtime qualification remain open |
+
+
+## 19. Three-server cloud-agent credential enrollment and continuity — Wave 11 (2026-10-16)
+
+| Control ID | Requirement / claim | Design / evidence | State | Closure criteria |
+|---|---|---|---|---|
+| CAF-15 | Preserve selected three-server topology | Mac mini 2018/macOS; Mac mini 2011/Linux; remote video server; cloud runners are additive | OWNER DIRECTION RECORDED / TARGET EVIDENCE OPEN | Resolve canonical target manifest, roles, network boundaries and capability evidence without replacing topology |
+| CAF-16 | Separate provider credential custody from execution placement | Policy-controlled secret reference; provider/account/project identity; runner/host execution lane and actual egress recorded separately | DESIGN PROPOSED | Accepted secret reference contract, provider allowlist, least privilege, rotation/revocation and audit evidence |
+| CAF-17 | Model location-sensitive provider checks correctly | Credential is not hard-wired to one host; provider can still evaluate actual request origin, account/project region and terms | DESIGN PROPOSED | Route/data-class authorization and eligible execution location per provider |
+| CAF-18 | Admit agents through registry and queue | Versioned agent record, capabilities, allowed repos/refs/paths/data classes/providers, bounded concurrency, revocation and provenance | DOCUMENTARY BACKLOG | Accepted A0 lifecycle, registry/task schemas, lease/idempotency/cancellation contract and direct runtime evidence |
+| CAF-19 | Preserve Gemini operational evidence | Run `38952885501`, job `117148417231`, artifact `12069128185`, digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d` | HISTORICAL READ-ONLY RUN VERIFIED | Repeatability, complete provenance and independent review remain separate |
+| CAF-20 | Synchronize cross-chat decisions | Wave 11 consolidates owner direction, topology, credential/ejection distinction and CAF-Q-001…CAF-Q-010 | DOCUMENTED IN WAVE 11 | Update map/checkpoint/source registry; each downstream implementation must consume current sources |
+
+### Wave 11 invariant
+
+Provider key registration and provider request origin are distinct controls. The design removes unnecessary dependency on a specific server for credential custody; it does not promise that provider requests are location-independent or bypass provider-side restrictions. No provider request, credential operation, test or deployment occurred in this wave.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
