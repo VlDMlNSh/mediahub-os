@@ -1481,3 +1481,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No normative contract/schema or implementation changed. No test, qualification or runtime action. Main/docs remain diverged; no integration performed.
 - Next bounded task: WB-14U, source-only status-vocabulary and lifecycle-transition ownership closure; final schema registration remains blocked on owner/governance decisions.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14U — health/readiness and A0 lifecycle-status ownership closure (2026-10-16)
+
+- Report: [WB-14U Health/Readiness and A0 Lifecycle-Status Ownership Closure](MEDIAHUB-CONTOUR-A-WB-14U-HEALTH-READINESS-AND-A0-LIFECYCLE-STATUS-OWNERSHIP-2026-10-16.md), commit `83e9c881ebba1ce168d23d34ebbbb40648ce1eb0`.
+- Source correction: MH-06 ADR-001 is already ACCEPTED / GOVERNANCE ACCEPTED for its scoped semantic contract; implementation authorization remains NO. Do not describe MH-06 itself as pending acceptance.
+- Remaining blockers: (a) owner decision on the scope/mapping between generic domain health schema and accepted MH-06 health semantics; (b) A0-specific probe-response contract; (c) accepted corporation-facing A0 lifecycle/status transition table. The generic domain enum and MH-06 enum differ; no enum change was made.
+- Mission/task/attempt status candidates remain non-normative. ASTRA governance bounds and authority statements do not define the complete A0 ingress-facing state machine. Keep admission, A0 lifecycle, attempt outcome, verifier, qualification, probe, entity health, readiness, trust and authorization status domains separate.
+- Next bounded work item: WB-14V, documentary correction of WB-14T and decision-register split D-ING-05a / D-ING-05b / D-ING-06. No final JSON Schema registration until responsible owners accept the mapping and lifecycle transitions.
+- Change boundary: documentation-only; no tests, validators, implementation, runtime or operational action.
