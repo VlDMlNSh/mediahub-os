@@ -4298,3 +4298,19 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No schema validator was installed; no provider call, credential access, workflow dispatch, project-runtime inspection, infrastructure change, deployment or branch integration occurred.
 - Next: verify the map repair and changed-document SHAs, then continue CAF-Q-014 standards validation/negative fixtures and independent review. A0 issuer/lifecycle, MH-12, R-06 and the authoritative runner/workspace/network target manifest remain admission gates.
 - Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+### Wave 17 final read-back — 2026-10-16
+
+- Restored full project map blob: `a24ef7f13777ed38ff26e1cb0febbc42713f541f`; 6,876 lines; sections 20.343, 20.344 and 20.345 present. Map commit: `825e017631871564808f1329b5e668214054a623`.
+- Task-envelope v0.2 blob: `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; evidence-manifest pointer now matches v0.2.
+- Activation queue blob: `1ef28af318a4be6618e0d9703a3e8d208a807206`; documentary queue points to task-envelope v0.2 and retains unique CAF-Q-001…CAF-Q-014.
+- Wave 17 report blob: `8392c8fe20a2a9f00aafe85b915e06ca8e81b39f`.
+- Matrix blob after CAF-42 read-back closure: `fce9949ad3ad570425fa63b99aa22f4c4979b4a6`.
+- Master Roadmap latest update commit: `8e7f8863bbade6456d24d44f029f58824a268f6c`, blob `44804d0bf908a92306444e36e42a15cf4414ffc5`.
+- Source Registry latest update commit: `df473b3f58e34743f47665250d9a97e46e4e39c6`, blob `35f0bee415b900fbeeb353d65f0a8a49c3ba76ea`.
+- Structural checks: 23/23 passed. Full Draft 2020-12 meta-validation, format assertion, negative fixtures, semantic reference resolution and independent review remain open.
+- Live branch comparison at Wave 17 read-back: `docs/mediahub-chat-tree-map-20261012` DIVERGED from `main`, 1,810 ahead / 10 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No merge or integration occurred.
+- Execution boundary: no provider calls, credential access, workflow dispatch, software installation, project-runtime inspection, infrastructure changes, deployment or branch integration occurred.
+- Next: independent review of schema candidates; authorized standards validator and negative-fixture suite; source-bound A0 issuer/lifecycle, R-06 and target-manifest closure.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
