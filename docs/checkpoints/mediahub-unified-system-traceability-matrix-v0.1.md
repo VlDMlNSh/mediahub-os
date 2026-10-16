@@ -2023,3 +2023,18 @@ Supporting proposal: [Gemini Read-only Workflow Hardening Patch Proposal — Wav
 The proposal binds recommendations to exact workflow blobs and preserves read-only permissions. No workflow source change or dispatch occurred. The 13 checks covered JSON parsing, required schema keys, key bounds, authorization fields, independent review, ten unique queue IDs and evidence fields; they were structural assertions, not a full JSON Schema validator or workflow test suite.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 23. Agent registry and evidence-manifest schema artifacts — Wave 13 (2026-10-16)
+
+| Control ID | Component / requirement | Source artifact | Current state | Closure evidence |
+|---|---|---|---|---|
+| CAF-23 | Evidence-backed agent registry record: stable identity, workflow SHA, task/data capabilities, provider routes, concurrency, authorization, expiry and revocation | [Registry Schema v0.1](MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json) | SCHEMA CREATED / PROPOSED / REVIEW REQUIRED | Independent schema validation, ID collision scan, accepted A0 issuer and MH-12 authority |
+| CAF-24 | Execution evidence manifest binding task envelope, source commit, workflow blob, inputs, run/job, agent/provider/model, policy, artifacts and review | [Evidence Manifest Schema v0.1](MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json) | SCHEMA CREATED / PROPOSED / REVIEW REQUIRED | Independent schema validation, historical run mapping, digest reproducibility and R-06 disposition |
+| CAF-25 | Documentary activation queue tracks newly created schemas and their acceptance gates | [Activation Queue](MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json) | UPDATED / DOCUMENTARY ONLY | Queue read-back, unique stable IDs, accepted A0 queue lifecycle and live scheduler evidence |
+
+### Wave 13 boundaries
+
+The two schemas define candidate data structures only. They create no live registry, authorization grant, queue, credential, provider connection, scheduler, worker or promotion permission. Registry status `authorized` is a data value that requires external accepted authority evidence; writing such a value alone grants no permission. The evidence manifest records execution facts and reviewer disposition, while keeping execution success, verification, qualification and acceptance distinct.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
