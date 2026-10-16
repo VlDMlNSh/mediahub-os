@@ -6607,8 +6607,20 @@ WB-14AA и приложение остаются не-нормативными. 
 - Report: [MEDIAHUB Unified Contract and Traceability Matrix — Wave 01](../checkpoints/MEDIAHUB-UNIFIED-CONTRACT-AND-TRACEABILITY-MATRIX-WAVE-01-2026-10-16.md).
 - Report commit: `bdab9d96757cb166e59cda972cd5d39a593b43da`.
 - Scope: live repository metadata, paginated branch samples, recent commit search, open PR search, current bootstrap/map/checkpoint/roadmap and Baseline 2.0; documentation ref compared against main.
-- Live compare: docs ref vs main is DIVERGED, docs ref ahead 1,640 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Live compare: docs ref vs main is DIVERGED, docs ref ahead 1,643 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
 - Baseline 2.0 remains canonical accepted functional reference; Baseline 1.0 remains historical provenance. Main compare surfaced a substantial Baseline 1.0 modification for separate provenance review.
 - Proposed matrix schema and priority risks recorded in the report. ASTRA A0 ingress stays proposed pending governance decisions; P0-07 product-mutation gates remain distinct from engineering ingress.
 - Status: ANALYSIS / PROPOSED CONTROL ARTIFACT / NOT ACCEPTED AS NORMATIVE. This pass is broad but not a complete all-branch/all-file census.
 - Next: Wave 02 canonical source registry with exact owner, ref, commit/blob SHA, authority scope and acceptance path.
+
+
+## 20.319 — GitHub security review and unified matrix, Wave 02 (2026-10-16)
+
+- Report: [GitHub Security Review and Unified Contract Matrix — Wave 02](../checkpoints/MEDIAHUB-GITHUB-SECURITY-AND-UNIFIED-MATRIX-WAVE-02-2026-10-16.md).
+- Report creation commit: `d13b375e22f62b150a63783cf5a2b6d259c67800`.
+- Main tree snapshot: `b45324009ac3aa65322a702c28069b12190bc4b8`; 802 entries / 725 files / 77 directories, tree response not truncated; 32 GitHub Actions workflow files.
+- Connector-visible owner inventory returned `VlDMlNSh/mediahub-os` as the only repository in the owner-filtered and owner-affiliation result sets. This describes connector visibility.
+- Static review prioritized the issue-comment Astra controller, autonomous supervisor permissions, stale node identity references, branch protection visibility gap, unavailable security alert endpoints, and missing dedicated SAST/SCA/secret-scan workflow files in the inspected main tree.
+- Secret, CodeQL, Dependabot and scanner status remains UNKNOWN where evidence could not be retrieved or tools were not run. No clean bill of health is claimed.
+- Status: STATIC REVIEW / FINDINGS REQUIRE OWNER TRIAGE / NO SECURITY QUALIFICATION CLAIM.
+- Next: Wave 03 canonical source registry and security evidence ledger; first workflow review targets are `astra-chat-control.yml` and `astra-autonomous-supervisor.yml`.
