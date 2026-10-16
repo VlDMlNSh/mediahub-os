@@ -75,3 +75,14 @@ Wave 16 creates two versioned schema candidates and performs a bounded structura
 Next: record these candidates in the activation queue, complete full validator/negative-fixture evidence under the applicable authorization, and obtain independent review before any runtime adoption.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 17 addendum — task-envelope v0.2 and cross-schema coherence
+
+The task-envelope v0.2 candidate was also created in Wave 16's working sequence and is now explicitly indexed with the other v0.2 schemas. Its evidence-manifest reference was corrected to `mediahub.cloud-agent-evidence-manifest.v0.2` to match the manifest schema version. The activation queue's top-level `task_envelope_schema` now points to this v0.2 candidate.
+
+- Task-envelope v0.2 blob SHA after correction: `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`.
+- Activation queue blob SHA after coherence update: `1ef28af318a4be6618e0d9703a3e8d208a807206`.
+- Read-back structural checks: 23/23 passed after correcting an assertion that expected an artifact-array maximum of 100 rather than checking the actual stricter bound of 20.
+- This remains structural smoke evidence. Full Draft 2020-12 meta-validation, format assertion, negative fixtures, semantic reference resolution and independent review remain open.
+- Wave 17 report: [Cloud-Agent Schema Coherence and Map Recovery](MEDIAHUB-CLOUD-AGENT-SCHEMA-COHERENCE-AND-MAP-RECOVERY-WAVE-17-2026-10-16.md).
