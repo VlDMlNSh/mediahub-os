@@ -4410,3 +4410,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Canonical map blob SHA observed: `fcef1bf0c8329b76ad640f774d23493cfa9157a5`; content retrieval returned empty, and raw retrieval reported the file as too large. A separate addendum provides navigation; the canonical map itself remains unchanged and authoritative.
 - Live branch compare from this pass: docs branch DIVERGED from `main`, 1,839 ahead / 10 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No merge or branch integration performed.
 - Wave 11 state remains documentary design; no provider call, credential operation, workflow dispatch, tests/scanners, installation, host/runtime inspection, infrastructure change, deployment or qualification occurred.
+
+
+## Wave 12 — Location-Independent Cloud-Agent Credential Registration (2026-10-16)
+
+- Created `docs/checkpoints/MEDIAHUB-LOCATION-INDEPENDENT-CLOUD-AGENT-CREDENTIAL-REGISTRATION-WAVE-12-2026-10-16.md`; creation commit `dcccae4b7ee0bbf720e9eb52bb9d8259e7b256dc`.
+- Master Roadmap update commit: `473bd22d611c106362400233d27696fb7fdf9c41`.
+- Explicit owner requirement preserved: the existing three-server topology remains Mac mini 2018/macOS, Mac mini 2011/Linux and remote video server. API key registration has logical credential identity independent of permanent host binding; no mandatory single public ingress is introduced.
+- Defined vault-held secret references, A0 admission, task-scoped just-in-time resolution, lease/expiry/revocation/rotation, provider-aware egress policy, and denial when provider IP/region constraints conflict with a runtime.
+- Status: documentary design only; A0, R-06, vault choice and accepted target manifest remain open. No secrets or providers accessed; no runtime actions or qualification occurred.
+- Map URL: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md (current map content retrieval remains empty; map preserved unchanged).
