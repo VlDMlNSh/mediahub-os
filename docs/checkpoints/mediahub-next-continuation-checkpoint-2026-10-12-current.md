@@ -3573,3 +3573,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - WB-14W names only proposed role-level paths; named accountable people, delegated authority and a formal acceptance workflow remain NOT ESTABLISHED. No owner decision is invented or re-asked; WB-14AA remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
 - Next: prepare a concise governance-request artifact requesting accountable-owner appointments and acceptance-path confirmation, while preserving all current non-authorizations; alternatively continue independent documentary work on exact A0 qualification/evidence sources without changing normative status.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest continuation — WB-14AC evidence/qualification boundary crosswalk (2026-10-16)
+
+- Report: [WB-14AC A0 Ingress Evidence and Qualification-Boundary Crosswalk](MEDIAHUB-CONTOUR-A-WB-14AC-A0-INGRESS-EVIDENCE-AND-QUALIFICATION-BOUNDARY-CROSSWALK-2026-10-16.md), creation commit `8b92df9305869f93e4691ea948413c4418a6d2a7`; blob SHA to verify after write.
+- Source-pinned canonical ASTRA GOLD qualification schema (`main` blob `aef6229477ed8ec45e45170f98ea87f7ba75ca29`), reference architecture (`7be5fadd3055642e7823c7233f90e978a87e5366`), governance contract (`1d3ac25e7817f365807ad85d0d7c9007bd48bebf`) and executor matrix (docs blob `9ad83781a8da53d1a8f540ede54eba95281f01c0`, main blob `da26185254d9954fcee204f81ecca129bf052e7c`). They establish target-SHA-bound, immutable evidence, required metadata, fresh qualification evidence, independent A3 verification and fail-closed/block-on-conflict rules within ASTRA GOLD qualification scope.
+- Those internal rules do not establish a Jarvis-facing A0 API, trusted issuer/caller chain, external admission/idempotency contract, result schema or accountable acceptance authority. Internal evidence freshness is not automatically request/token/probe TTL or dedup retention.
+- Recorded docs/main executor-matrix wording drift; no merge/integration or normative edits performed. No validators, tests, workflows, runtime probes or qualification performed.
+- WB-14AA remains PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED. Next: prepare a source-linked governance request to appoint accountable owners and confirm the approval workflow; do not choose the open technical options or authorize implementation.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
