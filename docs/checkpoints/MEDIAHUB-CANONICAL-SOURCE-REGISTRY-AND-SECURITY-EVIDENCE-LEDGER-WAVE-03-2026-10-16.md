@@ -274,3 +274,17 @@ These entries index review findings and planning state only. No v0.1 schema was 
 - Wave 16 candidate report blob SHA: `6c32f0d88a01e2fd2beb546f31b601f4efe13c0d`.
 - Restored full project map from prior full blob `6c971574ad5edb7bd0cfb87c57d9dbd5cc986304`, then preserved Wave 14–16 index entries. Restoration commit: `0bae4b0409ef43e3b1837bac054e517496dd7076`; live map blob SHA: `bf1d7e0cdfa84be8e0cec85fba3f4c03b96d9f1a`; read-back length 1,004,471 bytes; confirmed base inventory plus §§20.342–20.344.
 - The map’s large contents exceeded the regular contents endpoint’s returned body size; restoration used the exact Git blob and a subsequent full-blob read-back.
+
+
+## Wave 17 — Cloud-Agent Schema Coherence and Map Recovery
+
+| ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on |
+|---|---|---|---|---|---|
+| SRC-062 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a` | Candidate task envelope with semantic-validation profile and evidence-manifest version binding | PROPOSED / REVIEW REQUIRED | Full Draft 2020-12 validation, semantic validator, accepted A0/MH-12/R-06 |
+| SRC-063 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-COHERENCE-AND-MAP-RECOVERY-WAVE-17-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `1bd00b5a9c1979db02ede3d44dd350ec22e752ea`; read-back pending | Cross-schema reference coherence and project-map integrity repair | STRUCTURAL REVIEW / PROPOSED / RUNTIME-UNVERIFIED | Read-back, full schema validation and independent review |
+| SRC-064 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `1ef28af318a4be6618e0d9703a3e8d208a807206` | Documentary queue CAF-Q-001…CAF-Q-014, now pointing to task-envelope v0.2 | DOCUMENTARY ONLY / NO LIVE SCHEDULER CLAIM | Accepted A0 lifecycle and separately qualified scheduler |
+| EVD-030 | Cross-schema version-coherence assertions | 23/23 bounded assertions passed on current GitHub read-back | STRUCTURAL SMOKE EVIDENCE ONLY | Full Draft 2020-12 meta-validation, format assertion, negative fixtures and independent review |
+
+### Wave 17 evidence boundary
+
+The Wave 17 record confirms consistency of selected version and bound checks in the current read-back. It does not certify JSON Schema conformance, semantic reference validity, live agent authorization, provider connectivity, scheduler operation or qualification. Project-map restoration is a documentation-integrity repair that preserves the latest known complete predecessor and adds the newer Wave 15–17 navigation entries.
