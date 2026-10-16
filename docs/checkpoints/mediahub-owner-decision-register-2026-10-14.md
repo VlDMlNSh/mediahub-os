@@ -148,3 +148,10 @@ D-03 явно принят владельцем 2026-10-14 и больше не 
 - Report: [WB-14AC A0 Ingress Evidence and Qualification-Boundary Crosswalk](MEDIAHUB-CONTOUR-A-WB-14AC-A0-INGRESS-EVIDENCE-AND-QUALIFICATION-BOUNDARY-CROSSWALK-2026-10-16.md).
 - ASTRA GOLD qualification schema/reference architecture/governance contract establish internal evidence integrity, exact-SHA binding, freshness in qualification scope, independent A3 verification and fail-closed handling. They do not supply the accepted Jarvis-facing A0 API/issuer/admission/result contract or named acceptance authority.
 - Executor matrix docs/main wording drift is documented, not integrated. No owner option was selected; WB-14AA remains PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED.
+
+
+## WB-14AD — A0 ingress governance request (2026-10-16)
+
+- Request: [WB-14AD ASTRA A0 Ingress Governance Request](MEDIAHUB-CONTOUR-A-WB-14AD-A0-INGRESS-GOVERNANCE-REQUEST-2026-10-16.md).
+- This is a prepared request, not an owner decision or named assignment. It asks for accountable contract/security/lifecycle owners and confirmation of the approval workflow; no technical option is selected.
+- D-ING-01…04, D-ING-05a/05b and D-ING-06 remain OPEN. Keep A0-ING-01…09 proposal-local. DEC-DEV-02 Option C remains OWNER-APPROVED; not reopened.
