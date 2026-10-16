@@ -6434,3 +6434,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - No tests, credentials/provider calls, host/runtime inspection, installation, infrastructure change, qualification, deployment or branch integration occurred.
 - **Next:** record explicit owner/governance disposition on WB-14AD if supplied; otherwise continue an independent documentation-only task without reopening already completed WB-14AA–WB-14AF source analysis.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.311 Component Manifest ↔ YAML Scope Reconciliation, Wave 02 (2026-10-16)
+
+- Report: [Component Manifest ↔ YAML Scope Reconciliation, Wave 02](../checkpoints/MEDIAHUB-COMPONENT-MANIFEST-YAML-SCOPE-RECONCILIATION-WAVE-02-2026-10-16.md), creation commit `d8670a680aafa24214cfba65ef29ae47e53e62b1`, report blob SHA `66961a4abc698c5d9e1318ff2d4f186e1c67b9a4`.
+- Compared canonical text manifest on `main` (blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`) with `oss/manifests/components.yaml` (blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`). The text manifest calls itself the single component-selection input; YAML has a smaller set, different status vocabulary and unexplained scope.
+- Findings include implicit status translations, grouped-vs-split rows (SOPS + age), S3-compatible interface marked SELECTED in text but only FUTURE-GATED in YAML, YAML-only Home Assistant/OpenBao records, and many text-only whole-product/target/future candidates. These differences are not automatically defects or admissions.
+- Options A (derived subset), B (complete mirror), C (target-profile manifest) are presented for owner disposition. Option A is a recommendation only; no choice accepted.
+- Both canonical files on `main` remain unchanged. No component was selected/admitted/installed/tested/qualified; no tests, host/runtime/provider/credential activity, infrastructure change, deployment or branch integration occurred.
+- **Next:** obtain explicit owner/governance disposition on the YAML's intended consumer/scope and Option A/B/C; then edit only approved sources and perform validation only if separately authorized.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
