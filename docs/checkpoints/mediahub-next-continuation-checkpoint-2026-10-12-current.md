@@ -3454,7 +3454,7 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 
 ## Latest continuation — WB-14R ASTRA A0 authority reconciliation and ingress schema crosswalk (2026-10-16)
 
-- Report: [WB-14R A0 Ingress Authority and Schema Crosswalk](MEDIAHUB-CONTOUR-A-WB-14R-A0-INGRESS-AUTHORITY-AND-SCHEMA-CROSSWALK-2026-10-16.md), commit `6441ea7f6d08b5a07e46748cdde43a703fda8fc1`, report blob SHA `ec783cb5432c68436c1c451c29dd6fa007b7d8d3`.
+- Report: [WB-14R A0 Ingress Authority and Schema Crosswalk](MEDIAHUB-CONTOUR-A-WB-14R-A0-INGRESS-AUTHORITY-AND-SCHEMA-CROSSWALK-2026-10-16.md), created commit `6441ea7f6d08b5a07e46748cdde43a703fda8fc1`, corrective commit `f11bd7a1bfafa4bced83dc7ccf8089b21dd1ecbf`, current blob SHA `dc827eb6ad53c03c0bb26a2989e4646f6f5a6b1d`.
 - At pass start: main HEAD/tree `ab36db009d034db8dca723691e23b331322287e7`; docs branch HEAD `3ca310c94f8746e2b47a8927ce66ec881484105d`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; docs branch ahead 1481 / behind 4. No branch integration.
 - Reconciled source wording for Jarvis corporation-level mission coordination, ASTRA A0 internal queue/claim/lease/retry/cancel/recovery/gate state and MediaHub Product State Authority. Several docs-branch ASTRA sources already scope A0; main still contains broad “single MediaHub coordination and state authority” phrasing; unified markdown is ambiguous on both refs.
 - Target contradiction remains: reference architecture and unified ASTRA model label mh-dev-01, mh-dev-02 and Voktors-Mac-mini.local as permanent executor lanes. Bootstrap rule says old identities are history only. Target executor/node inventory stays UNKNOWN/BLOCKED; no replacement identities inferred.
