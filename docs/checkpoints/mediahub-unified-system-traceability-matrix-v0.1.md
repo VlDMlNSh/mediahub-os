@@ -1870,3 +1870,19 @@ This pass reconciles existing source registers into the current traceability mat
 **Next bounded pass:** Wave 07 — resolve the highest-impact matrix integration blockers in parallel documentary lanes: (1) provider identity/egress conflict and source authority; (2) component manifest/YAML scope and admission evidence; (3) A0 ingress external-vs-internal lifecycle/issuer boundary; (4) audit/privacy R-06 evidence/decision packet; (5) exact-target deployment manifest with UNKNOWN fields preserved. Merge each lane by source SHA and stable ID into this matrix; do not create another master inventory.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 07 — Cross-domain conflict closure, five documentary lanes (2026-10-16)
+
+**Status:** SOURCE-ANCHORED RECONCILIATION / PROPOSED / NOT ACCEPTED / NOT FROZEN. Full report: [MEDIAHUB-CROSS-DOMAIN-CONFLICT-CLOSURE-WAVE-07-2026-10-16.md](MEDIAHUB-CROSS-DOMAIN-CONFLICT-CLOSURE-WAVE-07-2026-10-16.md), blob SHA `0bc48ff39564b61a736e8418a57059f4f69a44cf`.
+
+| Lane | Matrix anchor | Reconciled disposition | Required closure evidence |
+|---|---|---|---|
+| L07-01 provider identity/egress | D10 / MAT-CF-02 | Keep `freellmapi`, `omniroute`, `unorouter`, `fcc`, `ollama`, `alamo` and `claude-code` distinct until direct evidence supports aliasing. Local-only fails closed while any hop is unresolved. | Non-secret source/config and deployment descriptors; per-hop locality/upstream/egress/data-class record; immutable per-task route evidence and cost/quota policy. |
+| L07-02 component manifest/YAML | D11 / MAT-CF-01 | Text manifest remains canonical selection input; YAML remains a documented qualification-gated subset. Selection is distinct from admission and qualification. | Owner-approved scope rule; collision-checked IDs; exact provenance, license/SBOM/advisory, adapter, recovery/rollback and independent qualification evidence. |
+| L07-03 A0 issuer/lifecycle | D07 / D08 / MAT-CF-04 | External A0 proposal envelope remains separate from accepted internal ASTRA queue/claim/lease/heartbeat/gate semantics. | Accepted issuer/capability trust chain, schema/version, idempotency/replay, cancellation/recovery semantics and independent end-to-end evidence. |
+| L07-04 audit/privacy R-06 | D05 / D15 / MAT-CF-03 | R-06 remains OPEN. Candidate Wave 07 checkpoint path returned 404 on the reviewed ref; this is a path retrieval result, not proof of absent equivalent authority. | Exact authoritative governance artifact, operation-specific audit-unavailable behavior, minimized event schema, integrity, readers, retention/deletion, durability and independent disposition. |
+| L07-05 clean target manifest | D14 / MAT-CF-05 | Target hardware/OS/network/storage/topology remain UNKNOWN; historical hostnames remain provenance only. | Owner-accepted target-role manifest with source/provenance and explicit hardware, OS/toolchain, network/egress, persistence, trust-zone and recovery fields. |
+
+Stable historical IDs D01–D20 and MAT-CF-01–06 are preserved. L07-01…L07-05 are report-local tracking IDs only. No domain gate is closed by this documentary pass. The five lane outcomes and evidence conditions are detailed in the linked report. No tests, scanners, workflow dispatch, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
+
