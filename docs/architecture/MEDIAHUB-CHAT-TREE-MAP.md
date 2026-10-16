@@ -6493,3 +6493,12 @@ WB-14AA и приложение остаются не-нормативными. 
 - No code, normative contract, tests, qualification, runtime, infrastructure or deployment work was performed. No branch integration attempted.
 - Next: identify exact accepted P0-05/P0-04 primary contract paths on owning refs and extract their explicit operation inventory; if none exists, request owner identification of the canonical contract.
 - Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+
+
+## 20.316 Gemini read-only audit workflow — activation checkpoint (2026-10-16)
+
+- Checkpoint: [Gemini Read-only Audit Workflow — Activation Checkpoint](../checkpoints/MEDIAHUB-GEMINI-READONLY-AUDIT-WORKFLOW-ACTIVATION-CHECKPOINT-2026-10-16.md), blob SHA `e5e977833211c7639e9e747c1265fc077772afb9`.
+- PR #300 is merged; merge commit `506372737aeee145394a16705bf403d7aa975210`. Workflow exists on `main` at `.github/workflows/gemini-readonly-audit.yml`, blob SHA `b2d1e65e04f4b00a6d86e7f227675a25cdd70bec`.
+- Workflow is manual-only (`workflow_dispatch`) and read-only (`contents: read`). The Actions secret and API connectivity remain unverified.
+- No workflow run was found for the merge commit in the available query. No Gemini call or result is claimed.
+- Launch blocker: connected GitHub tools do not expose workflow dispatch; available browser profiles do not record GitHub sign-in. Use an authenticated GitHub Actions session for the first bounded run, then capture run ID, status and artifact evidence.
