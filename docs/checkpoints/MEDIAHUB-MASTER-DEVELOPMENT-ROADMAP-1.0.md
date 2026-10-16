@@ -1532,3 +1532,10 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Prepared a transport-neutral PROPOSED / NOT ACCEPTED / NOT FROZEN candidate with logical operations, request envelope, durable admission/idempotency, lifecycle/fencing/cancellation/result/evidence semantics, failure matrix and open decisions.
 - No transport, endpoint, issuer, schema ID, crypto profile, persistence or TTL chosen. No implementation or qualification.
 - Next bounded step: source-only collision-check proposal IDs and map each open decision to an evidenced owner/acceptance path; prepare a compact owner/governance packet, without promoting the proposal to normative status.
+
+## Contour A WB-14AB — A0 ingress proposal-ID and owner crosswalk (2026-10-16)
+
+- Report: [WB-14AB A0 Ingress Proposal-ID Collision Audit and Decision-Owner Crosswalk](MEDIAHUB-CONTOUR-A-WB-14AB-A0-INGRESS-ID-COLLISION-AND-DECISION-OWNER-CROSSWALK-2026-10-16.md), commit `fee7c7b732bb1974e453fc0d023b1ec739eed2e1`.
+- No exact `A0-ING-01…09` matches were found in the bounded set of current project/owner/governance artifacts. All-branch uniqueness is not proven; keep identifiers proposal-local pending canonical registry review.
+- Crosswalk associates existing D-ING dependencies without merging their scope. Role-level acceptance paths remain proposed; accountable individuals/delegated authority are not established.
+- Next: prepare a compact governance request for owner/authority appointments and accepted review path; no implementation, tests, qualification or schema registration.
