@@ -4136,3 +4136,13 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Canonical Source Registry current read-back blob SHA: `22c90af91b7156d48871d910e1305c420594d844`. Target-manifest entries retain SRC-039…SRC-040 and EVD-019; operational Gemini evidence uses SRC-042…SRC-044 and EVD-021…EVD-022, avoiding ID collision.
 - Map update commit `db217de5857f1d87ac9d2b148b0c0020e11bc872`, map blob SHA `9ea36a1c90ceb4b8a71badfaca07b4b27089365d`; added §20.338 for clean-target reconciliation. GitHub content read-back for this large map blob returned an empty body through the connector, so full-content re-read remains limited; the update API returned the exact resulting blob SHA.
 - Branch compare after these changes: docs branch DIVERGED from `main`, ahead 1,730 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No integration performed.
+
+
+## Wave 11 — Hybrid Distributed Agent Fabric Component Reference Architecture (2026-10-16)
+
+- Created `docs/checkpoints/MEDIAHUB-HYBRID-DISTRIBUTED-AGENT-FABRIC-COMPONENT-REFERENCE-ARCHITECTURE-WAVE-11-2026-10-16.md`; creation commit `1bbb4056b1b72935ca2a502cb03f34e87f104e18`.
+- Master Roadmap Wave 11 update commit: `3bc13d1c0a33300626ec6b37751899efcaad6b55`.
+- Decision status: proposed composition only. GitHub remains source/review plane; A0 remains engineering coordination boundary; Product State Authority remains sole canonical product-state mutation authority. Temporal, LangGraph, Dagger, NATS JetStream and contract/telemetry components remain candidates unless separately admitted and qualified.
+- Existing blockers retained: A0 issuer/lifecycle, R-06, owner-accepted target manifest, canonical component manifest/YAML scope, independent security and qualification evidence.
+- Documentation only. No code/workflow edits, test/scanner runs, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, qualification, deployment or branch integration.
+- Map blob read attempt returned an empty body for the large file; preserving/updating the map safely remains blocked until full current content can be retrieved. Current map URL: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
