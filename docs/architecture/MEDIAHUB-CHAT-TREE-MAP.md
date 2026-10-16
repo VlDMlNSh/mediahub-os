@@ -6292,3 +6292,11 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Reuses rather than reopens owner-approved DEC-DEV-02 Option C authority split, MH-12 identity/authorization invariants, and accepted MH-06 ADR-001 semantics within scope. Owner-register D-03 is not ingress D-ING-03.
 - P0-07→P0-05 accepted caller edge and exact P0-05 contract-status disposition remain NOT ESTABLISHED / OWNER-GOVERNANCE REQUIRED; issuer/verifier, durable admission/idempotency, freshness/replay, probe, health mapping and A0 lifecycle decisions remain open. No normative contract or schema changed.
 - Next: inspect exact DEC-DEV-02 and P0-05/P0-07 primary sources on their owning refs; prepare a minimal evidence request for unresolved items only.
+
+## 20.296 Contour A WB-14Y — ingress route-boundary correction (2026-10-16)
+
+- Report: [WB-14Y ASTRA A0 Ingress vs Product-Mutation Boundary Correction](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14Y-A0-INGRESS-VS-PRODUCT-MUTATION-BOUNDARY-CORRECTION-2026-10-16.md).
+- Corrected WB-14X route inference: Jarvis→A0 engineering ingress is separate from P0-07→P0-05→P0-04 product mutation. P0-05 D6 and the absent P0-07→P0-05 caller edge block relevant product mutation, not automatically every A0 engineering task submission. A0 cannot bypass P0-05/P0-04 or acquire canonical product-state authority.
+- Owner packet §8 records DEC-DEV-02 Option C as OWNER-APPROVED (2026-10-15); §6.1 stale summary corrected in that packet. Primary ASTRA wording and runtime enforcement remain separate evidence/change-control items.
+- WB-14X received a route-boundary corrective addendum. D-ING-01…04, D-ING-05a/05b and D-ING-06 remain OPEN; no transport, issuer, schema or implementation was selected.
+- Next: source-only inspection of the exact A0-facing contract references in the ASTRA lifecycle trace and Jarvis adapter draft. Keep the product mutation flow separately blocked by its own accepted-contract/evidence gates.
