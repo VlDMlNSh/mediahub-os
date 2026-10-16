@@ -1955,3 +1955,9 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Controls CAF-63…CAF-65 and source registry SRC-088 / EVD-043 record the policy proposal. Adoption should be tracked through a Component Discovery Record linked to each implementation-bound stage issue.
 - Next: apply the CDR to the Personal Jarvis and OpenHands SDK intake and the next implementation-bound roadmap item; only then propose a bounded integration slice.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+### Wave 23 navigation and continuation pointers
+
+- Supplemental map navigation: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-23-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-23-2026-10-17.md), creation commit `537fbf0f980dceb58db81a7521b65612c58ca1f5`.
+- Supplemental continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-17-wave23.md](mediahub-next-continuation-checkpoint-2026-10-17-wave23.md), creation commit `de70f83f653e3a48695aa09a6821af9373fae7c9`.
+- Canonical map remains authoritative; the addendum preserves Wave 23 navigation without replacing the canonical map.
