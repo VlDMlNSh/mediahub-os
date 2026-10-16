@@ -1911,3 +1911,15 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Supplemental map navigation: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-20-2026-10-16.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-20-2026-10-16.md), creation commit `9ce684b648e30d981f263b5059cebb5690ac46d8`.
 - Supplemental continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-16-wave20.md](mediahub-next-continuation-checkpoint-2026-10-16-wave20.md), creation commit `606bf4800ff74d6d0aa49a3d375aaf6c8817eefb`.
 - The canonical map remains authoritative; exact blob retrieval works, while the Contents API response is empty and a full-file replacement was blocked. The supplemental addendum preserves Wave 20 navigation without replacing the canonical map.
+
+
+
+
+## Contour A — Jarvis Repository Reuse and Integration, Wave 21 (2026-10-16)
+
+- Added [Jarvis Repository Reuse and Integration Decision — Wave 21](MEDIAHUB-JARVIS-REPOSITORY-REUSE-AND-INTEGRATION-DECISION-WAVE-21-2026-10-16.md), creation commit `8e69da7251610f95c5ca70699d33bbaa4a66ab51`, current blob SHA `e8a0bafa1a6ee0269adbc4b678e94c2ba6f0b274`.
+- Clarified that Jarvis is the owner-defined umbrella architecture, while the exact upstream repository intended as its implementation remains unresolved in the inspected source set. This is a repository-identity/intake gap, not a plan to implement every subsystem from scratch.
+- Reuse-first policy stands: select an existing repository only after exact identity, capability fit, lifecycle ownership, authority/security boundaries, license/provenance, dependency posture, platform support and replacement strategy are source-bound. The prior seven candidates (Temporal, LangGraph, Microsoft Agent Framework, Pydantic AI, OpenHands application, OpenHands SDK, AutoGen) are subsystem candidates, not interchangeable complete Jarvis distributions.
+- Matrix controls CAF-54…CAF-58 and source registry entries SRC-086 / EVD-041 record the decision. No clone, installation, test, qualification, host/runtime inspection or deployment occurred.
+- Next: exact upstream identity resolution, then read-only source intake and module-to-contract crosswalk. Three-server topology remains unchanged.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
