@@ -52,6 +52,8 @@
 
 | SRC-029 | `docs/checkpoints/MEDIAHUB-CROSS-DOMAIN-CONFLICT-CLOSURE-WAVE-07-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | `0bc48ff39564b61a736e8418a57059f4f69a44cf` | Five-lane source-backed reconciliation: provider/egress, component manifest/YAML, A0 issuer/lifecycle, audit/privacy R-06, clean target manifest | PROPOSED / NOT ACCEPTED / NOT FROZEN; documentation only | Unified traceability matrix Wave 07; exact primary artifacts, owner/governance decisions, target manifest and independent evidence |
 | SRC-030 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | `6127e600544a9c007685cd06e6aeb276026bf262` | Existing project integration matrix, extended with Wave 07 five-lane dispositions | PROPOSED / NOT ACCEPTED / NOT FROZEN | Stable domain/conflict IDs, source-bound status, evidence closure and readiness gates |
+| SRC-031 | `docs/checkpoints/MEDIAHUB-PROVIDER-IDENTITY-EGRESS-DECISION-WAVE-04-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | `ca0bc24585018191c67d9413514ca39d79adef32` | Provider age/account/region eligibility, per-task egress authorization and explicit quota-fallback destinations | DOCUMENTARY DECISION PACKET / PROPOSED / RUNTIME-UNVERIFIED | Provider eligibility evidence, route-level data policy, authorized task envelope and bounded runtime evidence |
+| SRC-032 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | `b43d5b4f962fecc78b313266f4bf00533f5130ed` | Existing traceability matrix after provider/egress Wave 04 integration | PROPOSED / NOT ACCEPTED / NOT FROZEN | Stable IDs, source-bound status, owner decisions and evidence closure |
 
 ## 3. Security evidence ledger
 
@@ -72,6 +74,7 @@
 | EVD-013 | Synthetic HMAC exception scope | Astra verification workflow contains a synthetic smoke value; hygiene test exception is file-level | FOLLOW-UP | Narrow exception to exact test fixture or generate ephemeral value; preserve reproducible test semantics |
 | EVD-014 | Gemini API generation | Existing checkpoint records successful run `38940264004` and non-empty artifact, with marker mismatch | REQUEST/GENERATION VERIFIED IN PRIOR CHECKPOINT; MARKER UNVERIFIED | Read-only artifact/run provenance check if refreshed evidence is required; do not infer product qualification |
 | EVD-015 | Repository-wide scanner clean status | No SAST/SCA/secret scan executed in this pass; alert endpoints unavailable | UNKNOWN | Evidence from each scanner and alert source, tied to immutable commit and scope |
+| EVD-016 | Hosted provider eligibility and data-egress policy | Official provider terms reviewed; account age/region, active key metadata, quota and route-specific settings remain UNKNOWN | BLOCKED / UNKNOWN | Owner-authorized eligibility evidence, exact provider/model/route, data classification, task-level destination allowlist, retention/training controls and reviewer record |
 
 ## 4. Recommended sequence (technical recommendation; formal gates preserved)
 
