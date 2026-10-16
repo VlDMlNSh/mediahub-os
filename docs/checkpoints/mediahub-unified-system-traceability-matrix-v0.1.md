@@ -2193,3 +2193,18 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 | CAF-58 | Three-server topology remains unchanged during repository intake | Wave 21 decision | PRESERVED / TARGET QUALIFICATION OPEN | Per-target compatibility evidence for macOS 2018, Linux 2011 and remote video server |
 
 Wave 21 source report: [Jarvis Repository Reuse and Integration Decision](MEDIAHUB-JARVIS-REPOSITORY-REUSE-AND-INTEGRATION-DECISION-WAVE-21-2026-10-16.md), blob SHA `e8a0bafa1a6ee0269adbc4b678e94c2ba6f0b274`.
+
+## 31. Jarvis upstream candidate intake — Wave 22 (2026-10-17)
+
+| Control ID | Requirement / finding | Evidence | State | Closure evidence |
+|---|---|---|---|---|
+| CAF-59 | Apply reuse-first intake to an exact Jarvis upstream candidate | Wave 22 report blob `689f80eedb9204e7fb71558ac3f528295b4eb04c`; Personal Jarvis README, architecture, security and licensing pages | CANDIDATE / SOURCE REVIEW OPEN | Exact immutable pin, module-to-MH-01…MH-25 crosswalk, license/provenance/dependency/security review |
+| CAF-60 | Evaluate Personal Jarvis as a personal-agent/desktop interaction subsystem, not an automatic replacement for the full MediaHub engineering control plane | Personal Jarvis public architecture overview and security policy; Wave 21 Jarvis umbrella decision | CANDIDATE / AUTHORITY REVIEW OPEN | Adapter boundary, tool allowlist, data-flow review, lifecycle ownership and independent qualification |
+| CAF-61 | Evaluate OpenHands SDK/Agent Server as a bounded developer-agent execution substrate | OpenHands SDK README, MIT LICENSE, Agent Server README; Wave 22 report | CANDIDATE / TARGET COMPATIBILITY OPEN | Immutable pin, Python/platform compatibility, workspace/network/authentication hardening, SBOM and independent qualification |
+| CAF-62 | Preserve MediaHub-owned mission, evidence and product-state authority when integrating upstream agent repositories | Canonical Component Manifest 2.0 and Wave 21/22 source reports | ARCHITECTURE GATE OPEN | Accepted adapter contract, single lifecycle owner, task/provenance/evidence binding and Contour A acceptance |
+
+Wave 22 source report: [Jarvis Upstream Candidate Intake](MEDIAHUB-JARVIS-UPSTREAM-CANDIDATE-INTAKE-WAVE-22-2026-10-17.md), blob SHA `689f80eedb9204e7fb71558ac3f528295b4eb04c`.
+
+Decision boundary: Personal Jarvis and OpenHands are candidates for different subsystem roles. Neither is selected, pinned, installed, qualified or deployed by this documentary pass. The legacy `sukeesh/jarvis` CLI is low-fit for the intended autonomous engineering architecture. Exact owner-intended upstream identity remains open.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
