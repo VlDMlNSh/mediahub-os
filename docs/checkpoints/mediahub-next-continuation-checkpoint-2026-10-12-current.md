@@ -3557,7 +3557,7 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 
 ## Latest continuation — WB-14AA transport-neutral A0 ingress contract candidate (2026-10-16)
 
-- Proposal: [WB-14AA ASTRA A0 Ingress Contract Candidate](MEDIAHUB-CONTOUR-A-WB-14AA-ASTRA-A0-INGRESS-CONTRACT-CANDIDATE-2026-10-16.md), creation commit `d05462b3c39ad5d08fad0ebde07e76158df361ba`; blob SHA to verify after write.
+- Proposal: [WB-14AA ASTRA A0 Ingress Contract Candidate](MEDIAHUB-CONTOUR-A-WB-14AA-ASTRA-A0-INGRESS-CONTRACT-CANDIDATE-2026-10-16.md), creation commit `d05462b3c39ad5d08fad0ebde07e76158df361ba`; verified blob SHA `030273bfe9fd6d44e78b611c011af95d08c88a45`.
 - Status is strictly PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED. It is a transport-neutral review artifact, not a normative contract.
 - Includes logical SubmitMission/GetMissionStatus/GetMissionResult/RequestCancellation operations, optional ProbeA0 and ReconcileAdmission semantics, minimum trust/request envelope, durable admission/idempotency, lifecycle/fencing/cancellation/result/evidence, failure dispositions, and nine local unresolved decision rows.
 - Explicitly leaves owner, transport, caller edge, issuer/attester/verifier, persistence, external expiry/replay policy, status vocabulary and qualification acceptance open. Proposal IDs are not canonical registry IDs and must be collision-checked before promotion.
