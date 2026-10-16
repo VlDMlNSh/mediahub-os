@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-15 (§20.277)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-16 (§20.317)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -6502,3 +6502,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Workflow is manual-only (`workflow_dispatch`) and read-only (`contents: read`). The Actions secret and API connectivity remain unverified.
 - No workflow run was found for the merge commit in the available query. No Gemini call or result is claimed.
 - Launch blocker: connected GitHub tools do not expose workflow dispatch; available browser profiles do not record GitHub sign-in. Use an authenticated GitHub Actions session for the first bounded run, then capture run ID, status and artifact evidence.
+
+
+## 20.317 Gemini read-only audit retry workflow (2026-10-16)
+
+- Added manual alternative workflow on `main`: [Gemini Read-only Architecture Audit (Retry)](https://github.com/VlDMlNSh/mediahub-os/blob/main/.github/workflows/gemini-readonly-audit-retry.yml), blob SHA `159d20ad572d074ff6528bbb2b51ddb65e4ba0f1`, creation commit `ee5e2222e7d28c5a76334000e502c3fac1af9550`.
+- Workflow is triggered manually (`workflow_dispatch`), read-only (`contents: read`), takes explicit task/context/ref/model inputs, and uses `GEMINI_API_KEY` with `GOOGLE_API_KEY` fallback. No secret value or validity was inspected.
+- Adds bounded retries for transient HTTP 429/500/502/503/504 and transport errors (maximum four attempts); 401/403 are non-retryable. Response bodies are suppressed in logs.
+- User reports that a new API key was generated and added to GitHub Actions secrets; this is not independently verified. Earlier job log reported HTTP 503; exact upstream cause remains unknown.
+- New workflow has not been dispatched. No Gemini call, tests, qualification, deployment, or acceptance is claimed.
+- Checkpoint: [Gemini Read-only Audit Retry Workflow — Checkpoint](../checkpoints/MEDIAHUB-GEMINI-READONLY-AUDIT-RETRY-WORKFLOW-CHECKPOINT-2026-10-16.md).
+- Manual launch: [open workflow Actions page](https://github.com/VlDMlNSh/mediahub-os/actions/workflows/gemini-readonly-audit-retry.yml).
