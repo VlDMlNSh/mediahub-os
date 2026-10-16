@@ -97,3 +97,22 @@
 Read the exact full source and relevant permission context for `astra-chat-control.yml` and `astra-autonomous-supervisor.yml`; create a source-only per-job authority table with trigger, issuer check, token permissions, untrusted inputs, dispatch targets, credential lifetime, target binding and evidence gaps. Preserve both workflows and all branches unchanged during that review.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 08 — Autonomous Cloud-Agent Development Fabric
+
+| ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
+|---|---|---|---|---|---|
+| SRC-033 | `docs/checkpoints/MEDIAHUB-AUTONOMOUS-CLOUD-AGENT-FABRIC-REFERENCE-ARCHITECTURE-WAVE-08-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `1bb6b285fcfd330ccc9485036df97adb59695cdf`; current blob SHA to be read back | Contour A cloud-agent reference architecture, admission, queue contract, provider routing, evidence and promotion gates | PROPOSED / NOT IMPLEMENTED / RUNTIME-UNVERIFIED | A0 issuer/lifecycle, R-06, target manifest, provider eligibility, workflow qualification |
+| SRC-034 | `docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md@docs/mediahub-chat-tree-map-20261012` | Commit `e9a58865e6a5f28eb33af3158f29ba926f9facad`; current blob SHA to be read back | Working plan of record and sequencing for Wave 08 | OWNER-DIRECTED WORKING PLAN; no implementation authority | Map, matrix, checkpoint and future implementation authorization |
+| SRC-035 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | Commit `d86e4def7586fbdfe5cb47b56ba35b5368cdac29`; current blob SHA to be read back | Cross-domain traceability for CAF-01…CAF-12 | PROPOSED / NOT ACCEPTED / NOT FROZEN | Evidence closure, gate ownership and revision-bound qualification records |
+
+| Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
+|---|---|---|---|---|
+| EVD-017 | Autonomous cloud-agent fabric operational readiness | Wave 08 reference design and documentary queue CAF-Q-001…CAF-Q-010; no implementation, dispatch, tests or runtime evidence in this pass | DESIGN ONLY / RUNTIME UNKNOWN | Explicit implementation/test authorization; accepted A0 and R-06 contracts; source-qualified workflows; target manifest; revision-bound execution evidence and independent acceptance |
+
+### Wave 08 evidence boundary
+
+The registry entries above index design and planning artifacts only. They do not certify a live scheduler, registered agent, provider access, runner isolation, automated code integration or deployment. Keep all runtime claims UNKNOWN until direct revision-bound evidence is retrieved and independently reviewed.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
