@@ -61,42 +61,52 @@
       "id": "CAF-Q-004",
       "priority": "P0",
       "title": "Task envelope and agent registry schema review",
-      "state": "PROPOSED_SCHEMA_CREATED_REVIEW_REQUIRED",
+      "state": "SCHEMA_REVIEW_REQUIRED",
       "agent_class": "verification_review",
       "allowed_effect": "schema_review_only",
       "source_files": [
-        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json"
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json",
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json"
       ],
       "exit_evidence": [
         "schema review",
         "historical ID collision scan",
-        "A0 compatibility decision"
+        "A0 compatibility decision",
+        "registry schema review; scope/expiry/revocation consistency; historical ID collision scan"
       ]
     },
     {
       "id": "CAF-Q-005",
       "priority": "P1",
       "title": "Evidence manifest schema",
-      "state": "QUEUED_AFTER_Q004",
+      "state": "SCHEMA_CREATED_REVIEW_REQUIRED",
       "agent_class": "design_proposal",
       "allowed_effect": "documentation_only",
       "exit_evidence": [
         "versioned manifest schema",
         "run/job/source/artifact digest binding",
-        "integrity verification plan"
+        "integrity verification plan",
+        "schema review; digest/provenance field consistency; no-secret-data review"
+      ],
+      "source_files": [
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json"
       ]
     },
     {
       "id": "CAF-Q-006",
       "priority": "P1",
       "title": "Agent registry and admission/revocation lifecycle",
-      "state": "BLOCKED_ON_A0_AND_SECURITY_AUTHORITY",
+      "state": "PROPOSED_SCHEMA_CREATED_BLOCKED_ON_A0_AND_SECURITY_AUTHORITY",
       "agent_class": "design_proposal",
       "allowed_effect": "documentation_only",
       "exit_evidence": [
         "issuer/trust/revocation contract",
         "capability scope model",
-        "expiry and revocation evidence"
+        "expiry and revocation evidence",
+        "independent schema review; accepted A0 issuer/lifecycle and MH-12 authority"
+      ],
+      "source_files": [
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json"
       ]
     },
     {
@@ -153,5 +163,10 @@
         "circuit-breaker/recovery evidence"
       ]
     }
+  ],
+  "latest_wave": "WAVE_13_SCHEMA_ARTIFACTS_CREATED_REVIEW_REQUIRED",
+  "latest_wave_refs": [
+    "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
+    "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json"
   ]
 }
