@@ -6263,3 +6263,15 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - No code/schema/runtime files changed; no tests/validators/qualification or operational actions occurred.
 - Next: WB-14V correct WB-14T's status wording and update decision register with D-ING-05a/05b and D-ING-06, preserving OPEN status pending owner acceptance.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.293 Contour A WB-14V — MH-06 status correction and ingress decision split (2026-10-16)
+
+- Report: [WB-14V MH-06 Status Correction and Ingress Decision Split](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14V-MH06-STATUS-CORRECTION-AND-INGRESS-DECISION-SPLIT-2026-10-16.md), creation commit `9114f1e63febff203d6ba3d66ceaf60ffd23be16`.
+- Corrected WB-14T's false “MH-06 itself remains proposed” statement. MH-06 ADR-001 is ACCEPTED / GOVERNANCE ACCEPTED for scoped Core Runtime Services semantics; implementation authorization remains NO. Generic domain-health schema mapping is a separate unresolved question.
+- Split D-ING-05 into D-ING-05a (domain-health/MH-06 scope mapping), D-ING-05b (A0 ingress challenge/response), and D-ING-06 (A0 lifecycle transitions). All remain OPEN; D-ING-01…04 also remain OPEN. No enum, mapping, transport, issuer, crypto profile, TTL, state machine or schema was selected.
+- WB-14T correction addendum commit `4aab6d0e71ece8dea3c451b26d06139c0f15fadb`, blob `023f44b6712450a8b84e2e99e716fd3cbb2d593e`.
+- Checkpoint updated in commit `a494d45b4c36a35a790cc3ee0b9989df88c9c213`; roadmap updated in commit `e5ec5af2192f306a8dfc78b20d0b1016aba65077`.
+- Source-only/documentation-only. No tests, validators, code/schema implementation, qualification, runtime/host actions, credentials/providers, installs, infrastructure, deployment, migration or branch integration.
+- Next: WB-14W reconcile accountable decision owners and acceptance paths for D-ING-05a, D-ING-05b and D-ING-06; request explicit owner/governance input only where current sources do not assign authority.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
