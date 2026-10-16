@@ -6275,3 +6275,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Source-only/documentation-only. No tests, validators, code/schema implementation, qualification, runtime/host actions, credentials/providers, installs, infrastructure, deployment, migration or branch integration.
 - Next: WB-14W reconcile accountable decision owners and acceptance paths for D-ING-05a, D-ING-05b and D-ING-06; request explicit owner/governance input only where current sources do not assign authority.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.294 Contour A WB-14W — ingress decision-register ownership and acceptance paths (2026-10-16)
+
+- Report: [WB-14W A0 Ingress Decision-Register Ownership and Acceptance Paths](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14W-A0-INGRESS-DECISION-REGISTER-OWNERSHIP-AND-ACCEPTANCE-PATHS-2026-10-16.md), creation commit `343162c1274eefccb4eb07899f1030f7e5366542`.
+- Reconciled D-ING-01…04 plus split D-ING-05a, D-ING-05b and D-ING-06 with the owner-decision register. Reviewed sources do not assign named accountable owners or establish a formal acceptance workflow; proposed role ownership remains unaccepted pending owner/governance confirmation.
+- The owner-decision register now cross-references the open D-ING records without accepting options. MH-06 ADR-001 remains ACCEPTED for its defined scope; implementation authorization is NO. Generic domain-health mapping, A0 health challenge/response and A0 lifecycle transition table remain separate OPEN decisions.
+- No normative schema/contract or implementation changed. No tests, qualification, runtime/host action, credentials/provider calls, install, infrastructure change, deployment, migration or branch integration occurred.
+- Next: obtain explicit accountable-owner confirmation and governance acceptance evidence for each open D-ING decision before schema registration or implementation.
