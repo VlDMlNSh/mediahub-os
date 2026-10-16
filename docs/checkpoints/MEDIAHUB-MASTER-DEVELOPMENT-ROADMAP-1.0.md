@@ -1991,3 +1991,21 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No implementation, install, test, qualification, provider/model call, credential use, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
 - Next: inspect the actual OpenHands Agent Server route/configuration and workspace/tool enforcement at the same immutable commit; compare source behavior against accepted A0/MH-12/R-06 requirements. Keep all runtime and target gates closed pending accepted contracts and independently authorized qualification.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Post-Merge Gemini Diagnostic and Portable Cloud-Agent Fabric, Wave 37 (2026-10-17)
+
+- Primary report: [Post-Merge Gemini Diagnostic and Cloud-Agent Portability](MEDIAHUB-POST-MERGE-GEMINI-DIAGNOSTIC-AND-CLOUD-AGENT-PORTABILITY-WAVE-37-2026-10-17.md), blob `b13a347b904de03393a393f72942cae67bf3acf8`.
+- Unified traceability matrix: `mediahub-unified-system-traceability-matrix-v0.1.md`, Wave 37 controls CAF-84…CAF-89; blob after update `cfc56fa4142b051e9ad48265e190c65d9dccaf1c`.
+- Canonical source/evidence registry: added SRC-096…SRC-100 and EVD-050…EVD-053; blob after update `db6ca40d5c12a0d87323604dfd955e14da35ac41`.
+- Live main HEAD read at start of this pass: `6c2e8dbdee81c798b64e65546e7ded07093f100a`; Gemini workflow blob: `9be13613ae79f316ca410c16c6e69e2aea7283a4`.
+- PR #305 (MCP tool names) and PR #306 (token expansion) are merged. The current-main Astra Verify run #38976598150 passed. The Gemini dispatch run #38976095754 failed the final validator; its artifact includes empty response, `INVALID_STREAM`, `MALFORMED_FUNCTION_CALL`, and MCP “Tool ... not found” errors. Earlier dispatch #38972774167 reported wrapper success while its artifact carried invalid-stream/tool errors, and is retained as a false-positive outcome.
+- Decision: classify the failure as an MCP tool-registration/name plus malformed stream outcome. The evidence alone does not prove API-key failure. A fresh post-merge provider smoke test is pending; this wave performed no provider invocation or workflow dispatch.
+- Portable target remains the existing three-node topology (Mac mini 2018/macOS; Mac mini 2011/Linux; remote video server) plus ephemeral GitHub-hosted compute as an additive lane. Provider/account credential identity is decoupled from a permanent host; job-scoped injection, rotation and revocation are required. Actual runner egress, region, terms and data-use policies remain explicit admission inputs.
+- Existing agent catalog, roles, provider schemas, 23-lane manifest, and v0.2 schema candidates are reuse-first starting points. The activation queue still has 16 documentary entries and no qualified live scheduler.
+- Gate order retained: CAF-Q-001 A0 lifecycle; CAF-Q-002 R-06 audit/privacy; CAF-Q-003 exact-SHA workflow review; CAF-Q-004 schema validation/negative fixtures; CAF-Q-005 provenance; CAF-Q-007 accepted runner/workspace/network manifest; CAF-Q-008 PR promotion/independent review; CAF-Q-009 provider-specific quota/privacy/failover; CAF-Q-010 queue recovery/concurrency.
+- OpenHands remains a pinned source candidate pending route/configuration/workspace/tool boundary review against A0, MH-12 and R-06.
+- Current documentation-branch comparison at this update: `diverged`, docs branch ahead 1959, behind 14, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`, main `6c2e8dbdee81c798b64e65546e7ded07093f100a`; latest docs commit observed `f797337452bd01d45c49d64e3deca199d879b98f`. No integration is performed.
+- No runtime code, workflow settings, credentials, account configuration, agent registry, queue implementation or infrastructure was changed. No tests, qualification or deployment were run in Wave 37.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Next: source-bound review of the pinned OpenHands Agent Server route/configuration and workspace/tool enforcement; reconcile with A0/MH-12/R-06 before proposing a bounded implementation slice.
