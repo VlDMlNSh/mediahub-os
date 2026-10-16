@@ -3,7 +3,7 @@
   "$id": "https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
   "title": "MediaHub Cloud Agent Task Envelope v0.2",
   "description": "PROPOSED ONLY. Versioned candidate adding explicit semantic-validation profile binding. It grants no authority by itself.",
-  "$comment": "Requires accepted A0 issuer/lifecycle, MH-12 authority, R-06 policy, provider/egress policy and independent review before runtime use.",
+  "$comment": "Requires accepted A0 issuer/lifecycle, MH-12 authority, R-06 policy, provider/egress policy and independent review before runtime use. Task envelope evidence.manifest_schema must match the v0.2 manifest schema; runtime consumers must resolve schema refs to immutable SHAs.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -403,7 +403,8 @@
       "properties": {
         "manifest_schema": {
           "type": "string",
-          "const": "mediahub.cloud-agent-evidence-manifest.v0.1"
+          "const": "mediahub.cloud-agent-evidence-manifest.v0.2",
+          "description": "Must match the versioned evidence-manifest schema referenced by this task and bound in the evidence manifest schema_refs array."
         },
         "required_fields": {
           "type": "array",
