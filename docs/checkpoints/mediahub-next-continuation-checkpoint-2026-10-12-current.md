@@ -3781,3 +3781,16 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Blocker: the available GitHub connector exposes no workflow-dispatch operation, and available browser profiles have no recorded GitHub sign-in. Do not use an unauthenticated assumption or claim the agent has launched. First launch must occur in an authenticated GitHub Actions session; then capture run ID, result status and artifact.
 - No source contracts, product code or infrastructure changed. No tests or qualification were run.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest verified continuation — Gemini read-only audit retry workflow (2026-10-16)
+
+- Added `.github/workflows/gemini-readonly-audit-retry.yml` on `main`; creation commit `ee5e2222e7d28c5a76334000e502c3fac1af9550`; blob SHA verified by read-back: `159d20ad572d074ff6528bbb2b51ddb65e4ba0f1`.
+- The new workflow is manual-only, read-only (`contents: read`), accepts bounded task/context/ref/model inputs, and has bounded retry handling for transient API statuses and transport failures. It uses the configured Actions secret `GEMINI_API_KEY` or fallback `GOOGLE_API_KEY`; secret contents/presence/validity were not inspected.
+- User reports a replacement API key was generated and added to GitHub Actions secrets. Previous user-provided log showed HTTP 503; the upstream cause remains unverified.
+- Created checkpoint `docs/checkpoints/MEDIAHUB-GEMINI-READONLY-AUDIT-RETRY-WORKFLOW-CHECKPOINT-2026-10-16.md`, commit `be05f66a4a043175545c1a6c073fc07255e8fcd2`.
+- Updated map section 20.317; map blob SHA after write: `3ca92f6449c05afc34416debb279ead508fab105`; map update commit `1d0540adc7b68142b460af7d6e15148ede408626`.
+- No workflow dispatch, Gemini API call, test, qualification, deployment, or product acceptance was performed by this pass.
+- Manual launch: https://github.com/VlDMlNSh/mediahub-os/actions/workflows/gemini-readonly-audit-retry.yml
+- Next: launch manually in an authenticated GitHub session and capture run ID/status/artifact. A successful response is independent analysis only, not implementation or acceptance evidence.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
