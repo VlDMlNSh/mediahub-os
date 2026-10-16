@@ -3697,3 +3697,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - The draft remains non-normative and unaccepted. No software/host/route selection, code implementation, tests, credentials/provider calls, installation, infrastructure change, qualification, deployment or branch integration occurred.
 - **Next:** explicit owner/governance disposition on WB-14AD if supplied. If unavailable, continue independent documentation-only work; do not repeat the completed WB-14AA–WB-14AF cross-route and source-series reconciliations.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — component manifest/YAML scope reconciliation (2026-10-16)
+
+- Created [Component Manifest ↔ YAML Scope Reconciliation, Wave 02](MEDIAHUB-COMPONENT-MANIFEST-YAML-SCOPE-RECONCILIATION-WAVE-02-2026-10-16.md), commit `d8670a680aafa24214cfba65ef29ae47e53e62b1`, blob SHA `66961a4abc698c5d9e1318ff2d4f186e1c67b9a4`.
+- Source pins: canonical text manifest on `main` `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`; YAML `oss/manifests/components.yaml` on `main` `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`; Wave 01 admission crosswalk on docs branch `6550062d5fe5af206df5ea987f4c8d8ad287d11e`.
+- Identified scope ambiguity, implicit status mapping, grouped/split rows, interface-vs-implementation status mismatch and presence/absence differences. Did not infer a defect, component admission, or intended consumer.
+- Owner disposition is required among Option A (derived subset), B (complete mirror), or C (target-profile manifest). Option A is only a recommendation, not accepted.
+- Canonical text manifest and YAML were not modified. No tests, qualification, provider/credential activity, host/runtime inspection, installation, infrastructure changes, deployment, migration or branch integration occurred.
+- **Next:** obtain explicit owner/governance decision on YAML scope/consumer; only then update approved sources and validate if separately authorized.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
