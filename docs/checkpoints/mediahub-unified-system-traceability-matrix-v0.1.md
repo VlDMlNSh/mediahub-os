@@ -2038,3 +2038,20 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 The two schemas define candidate data structures only. They create no live registry, authorization grant, queue, credential, provider connection, scheduler, worker or promotion permission. Registry status `authorized` is a data value that requires external accepted authority evidence; writing such a value alone grants no permission. The evidence manifest records execution facts and reviewer disposition, while keeping execution success, verification, qualification and acceptance distinct.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 24. Cloud-native credential injection and network egress — Wave 14
+
+| Control ID | Control | Target disposition | Current state | Closure evidence |
+|---|---|---|---|---|
+| CAF-26 | Provider credentials remain provider-scoped and injected only into the authorized runtime step | GitHub Actions secrets/environment secrets where applicable; OIDC only for targets explicitly supporting federation | PROPOSED / REVIEW REQUIRED | Secret scope review, provider-specific auth documentation, log/artifact negative checks |
+| CAF-27 | Default provider access uses direct outbound HTTPS from ephemeral hosted workers | No user-owned always-on server or user-device egress required | REFERENCE DESIGN | Authoritative target manifest, workflow source review and runtime network evidence |
+| CAF-28 | Hosted-runner egress identity is represented accurately | Dynamic/shared source IP by default; fixed-IP exception requires separate approved architecture | DOCUMENTED / TARGET UNKNOWN | Runner class evidence and provider-specific network policy |
+| CAF-29 | Provider eligibility, task authorization and regional policy remain separate from network routing | Fail closed on unknown eligibility or explicit policy denial; no location evasion | REQUIRED / ROUTE REVIEW OPEN | Provider/task policy evidence and route-level negative tests |
+| CAF-30 | Queue tracks credential/egress and target-manifest work | CAF-Q-011 and CAF-Q-012 added to documentary queue | DOCUMENTARY ONLY | Queue read-back, accepted A0 lifecycle and live scheduler evidence |
+
+### Wave 14 boundary
+
+This matrix records a target architecture. It establishes no credential, provider connection, runner configuration, live queue, or authorization grant. The successful historical Gemini run remains the available operational evidence for that workflow; broader fabric qualification is still open.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
