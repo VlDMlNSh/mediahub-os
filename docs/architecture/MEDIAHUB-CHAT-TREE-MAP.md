@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-16 (§20.326)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-16 (§20.327)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -6636,3 +6636,16 @@ WB-14AA и приложение остаются не-нормативными. 
 - No source contract or workflow changed; no tests/scanners, provider/model calls, credential use, host/runtime inspection, installation, infrastructure, deployment, migration, merge, rebase or cherry-pick occurred.
 - Next: source-only per-job authority review of `astra-chat-control.yml` and `astra-autonomous-supervisor.yml`, covering trigger, issuer checks, permissions, untrusted inputs, dispatch, credential lifetime, target binding and evidence gaps.
 - Status: PROPOSED CONTROL ARTIFACT / NOT NORMATIVE / NO SECURITY QUALIFICATION CLAIM.
+
+
+## 20.327 — Astra workflow authority review, Wave 04 (2026-10-16)
+
+- Report: [Astra Workflow Authority Review — Wave 04](../checkpoints/MEDIAHUB-ASTRA-WORKFLOW-AUTHORITY-REVIEW-WAVE-04-2026-10-16.md).
+- Report creation commit: `1f32bd72582fe4d71c02fe3f5e3cdf3573d6199b`.
+- Main source blob identities reviewed: chat-control `51b17ec2410032772f9baa1de4afedb6b000f3c4`; autonomous supervisor `a0209a2d01122354d19e95d2f362a6ecfa3d6186`; distributed verification `648f56badd2b919b822b4fe4b61f285cca99ed93`; provider qualification `d3160088fbef4fce152ed7335f0acaa3bb440378`; local Claude qualification `7f7dc2d65481e2cc80a1db94b41a1e60ed117ffd`; controller `astra_github_agent.py` `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`; command signer `ops/control/sign_command.py` `fc6943a79cefdf06e59d6e32771d2df551b2f0e9`.
+- Recorded ten source-level findings, including supervisor manual-dispatch ref fencing, coarse issue-comment authorization, workflow-wide write scopes, provider `secrets: inherit`, HMAC key concentration, persisted checkout credentials, parser/executor target mismatch, recurring autonomous execution, mutable action tags, and actor/ref/target binding.
+- Priority recommendation: P0 main-ref and immutable-target fence; P0 explicit provider-secret allowlist; P0 actor/capability and replay-safe command binding; P1 token and HMAC scope reduction. This is a recommendation, not an applied patch.
+- No workflow, product source or normative contract changed. No workflow dispatch, tests, scanners, provider/model calls, secret access, host/runtime inspection, runner inspection, infrastructure change, deployment, migration, merge, rebase or cherry-pick occurred.
+- Branch compare snapshot at this pass: docs ref DIVERGED from main, ahead 1,653 / behind 10, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- Next: produce a P0 remediation patch plan only; implementation remains subject to the project's authorization constraints.
+- Status: SOURCE-ONLY SECURITY REVIEW / FINDINGS REQUIRE TRIAGE / NO WORKFLOW CHANGES.
