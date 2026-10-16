@@ -304,3 +304,21 @@ The Wave 17 record confirms consistency of selected version and bound checks in 
 
 | SRC-068 | `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md@docs/mediahub-chat-tree-map-20261012` | `92e9f2befd0bdb8a78140588929eaa119dda2110` | Current project map with Wave 18 section 20.346 | READ-BACK VIA CONTENTS API / 6,888 LINES | Preserve complete map content and current SHA on subsequent edits |
 | EVD-032 | Wave 18 cross-artifact read-back | Decision blob `d7730895d97f84fc8ff25d1fdda61558dbd50696`; queue blob `802ff16cfbdfad6497bcd932add07b3bb4fc8475`; roadmap blob `792621a1e5ebc07654f801ff9bca9c73ed54b7c9`; matrix blob `c48087de03c5d79acec137165fc0455aaecdf773`; map blob `92e9f2befd0bdb8a78140588929eaa119dda2110` | DOCUMENT READ-BACK VERIFIED | Runtime and qualification evidence remain open |
+
+
+## Wave 19 — Cloud-Agent Structural Read-back and Implementation Tracker
+
+| ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
+|---|---|---|---|---|---|
+| SRC-069 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-STRUCTURAL-READBACK-AND-ISSUE-TRACKING-WAVE-19-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `7cec1bc39c3a692e45cec31ca571a87582515b0b`; read-back SHA to bind in follow-up | Wave 19 structural source-readback record and implementation sequencing | 18/18 bounded assertions passed / full standards validation open / runtime unqualified | CAF-Q-014, A0, R-06, target manifest |
+| SRC-070 | `https://github.com/VlDMlNSh/mediahub-os/issues/301` | Issue #301; GitHub issue URL is the stable reference | Owner-visible tracking for Contour A cloud-agent fabric operationalization | OPEN / TRACKING ONLY; no execution authority granted | CAF-Q-001…CAF-Q-016; staged implementation |
+| SRC-071 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Update commit `29969fa58d2a5d30ae93f332f2c6cf70124f2523`; live blob SHA `0d4d591f464b976d6920bbd39c87a45a9d4fda59` | CAF-Q-016 issue linkage and fail-closed queue disposition | DOCUMENTARY QUEUE ONLY / 16 unique items | A0 lifecycle, R-06, target manifest, schema validation |
+
+| Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
+|---|---|---|---|---|
+| EVD-033 | v0.2 schema and queue structural consistency | Four GitHub source artifacts parsed; 18/18 bounded source assertions passed; exact blob SHAs recorded in Wave 19 | STRUCTURAL READ-BACK PASS ONLY | Standards-compliant Draft 2020-12 meta-validation with format assertion, positive/negative fixtures, semantic reference resolution and independent review |
+| EVD-034 | No-owner-server cloud credential path and implementation tracking | Wave 14 credential/egress architecture, Wave 18 direct-egress decision, GitHub Issue #301 | DESIGN / TRACKED / RUNTIME-UNVERIFIED | Accepted A0/R-06/target manifest, authorized implementation, controlled execution and independent qualification |
+
+### Wave 19 registry boundary
+
+The source read-back pass did not install a validator or run repository tests. The map's exact blob SHA `92e9f2befd0bdb8a78140588929eaa119dda2110` remains intact; use blob retrieval for the complete 6,888-line map because the Contents API response returned an empty body in this pass.
