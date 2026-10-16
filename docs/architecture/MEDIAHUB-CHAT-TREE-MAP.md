@@ -6731,3 +6731,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Documentation-only pass. No tests/scanners, workflow dispatch, provider/model calls, credential use, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
 - Next: retrieve the exact primary R-06 and A0 governance artifacts; inspect non-secret provider/deployment descriptors; obtain an authoritative target manifest if available; then update existing matrix rows with direct evidence and owner decisions.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.333 — Provider Identity, Age Eligibility and Egress Decision Packet, Wave 04 (2026-10-16)
+
+- Added [Provider Identity, Age Eligibility and Egress Decision Packet — Wave 04](../checkpoints/MEDIAHUB-PROVIDER-IDENTITY-EGRESS-DECISION-WAVE-04-2026-10-16.md), creation commit `b92d615a95eece66195237d366fb6c4548561047`.
+- Reconciled the Wave 03 router design with the canonical unified architecture/deployment contract and Functional Baseline 2.0: every hosted-provider destination, including each fallback, requires explicit task-level authorization for its data class and route.
+- Reviewed official provider terms/data-policy pages. The packet records age/account/region eligibility as hard admission gates; provider access is blocked while eligibility remains unknown or unmet. No age, identity or regional restriction bypass is permitted.
+- Integrated the outcome into the existing Unified System Traceability Matrix v0.1, update commit `5950d1e5053c7f0f39b65420dcb0d921783cff3d`, matrix blob SHA `b43d5b4f962fecc78b313266f4bf00533f5130ed`. No competing master matrix was created.
+- Status: DOCUMENTARY DECISION PACKET / PROPOSED / RUNTIME-UNVERIFIED. No credentials, provider accounts, workflow dispatches, model calls, tests, scanners, installations, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
+- Next: continue the master roadmap's remaining documentary lanes—component manifest/YAML scope, A0 ingress issuer/lifecycle, audit/privacy R-06 and exact-target manifest—while preserving UNKNOWN fields and historical IDs.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
