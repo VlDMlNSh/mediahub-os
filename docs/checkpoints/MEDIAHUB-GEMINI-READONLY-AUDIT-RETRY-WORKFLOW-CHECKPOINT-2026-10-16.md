@@ -2,7 +2,7 @@
 
 Date: 2026-10-16
 Repository: VlDMlNSh/mediahub-os
-Status: workflow file created and read back from GitHub; manual run not performed.
+Status: workflow created, manually run by the user, and subsequently updated to use Gemini 3.6 Flash; latest run outcome remains HTTP 503 per user-provided log.
 
 ## Verified repository changes
 
@@ -20,7 +20,7 @@ Status: workflow file created and read back from GitHub; manual run not performe
 - The previous workflow attempt returned HTTP 503 according to the user-provided job log. The exact upstream reason cannot be established because the workflow intentionally suppresses the response body.
 - The user reports generating a new API key and adding it to GitHub Actions secrets. This is user-reported and not independently verified; no secret was read.
 - No API call, workflow dispatch, test, qualification, deployment, or product acceptance was performed in this documentation pass.
-- The new workflow is an alternative manual launcher; it does not replace or modify the original workflow.
+- The retry workflow is an alternative manual launcher. The original workflow's configured model was also updated to keep both launch paths aligned.
 
 ## Manual launch
 
@@ -37,3 +37,11 @@ Suggested context paths should be selected after reviewing the current map and p
 ## Next step
 
 Manually launch the workflow from an authenticated GitHub session, then inspect the run summary, status, logs, and artifact. Record the run ID and outcome in a follow-up checkpoint. A successful model response is analysis evidence only, not implementation, qualification, or acceptance evidence.
+
+
+## Model change — Gemini 3.6 Flash (2026-10-16)
+
+- Owner requested changing the model to Gemini 3.6. The canonical Gemini API model ID is `gemini-3.6-flash`, confirmed in Google's official model documentation.
+- Updated both `.github/workflows/gemini-readonly-audit.yml` and `.github/workflows/gemini-readonly-audit-retry.yml` on `main` to use `gemini-3.6-flash` as the configured/default model.
+- Workflow files were read back from GitHub after each update. No workflow dispatch or API call was performed by this change.
+- The previously reported HTTP 503 remains unexplained; switching models has not yet been verified by a new run. Secret presence/validity was not inspected.
