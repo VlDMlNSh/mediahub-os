@@ -1655,3 +1655,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - This Wave 08 plan is added to the Master Roadmap and remains subordinate to accepted Baseline 2.0, accepted domain contracts, the canonical component manifest and existing authority boundaries.
 - Next: continue source-bound closure of CAF-Q-001…CAF-Q-008; first priority is exact A0 lifecycle/issuer sources, R-06 authority, Gemini workflow source review and authoritative target manifest. Implementation and tests require their separate explicit authorization.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Gemini Read-only Workflow Source Review, Wave 09 (2026-10-16)
+
+- Created [Gemini Read-only Workflow Source Review — Wave 09](MEDIAHUB-GEMINI-WORKFLOW-SOURCE-QUALIFICATION-PLAN-WAVE-09-2026-10-16.md), commit `1d8daf408435b4bdaa467917ec6e38be3666aa32`, blob SHA `fa34037409b3aa118cd606de673bce0a577b834f`.
+- Reviewed the exact `main` workflow blobs: `.github/workflows/gemini-readonly-audit.yml` `0d10efdda251f2ceca43175981c919102303572b`; `.github/workflows/gemini-readonly-audit-retry.yml` `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`.
+- Recorded ten findings, prioritizing immutable source provenance, full-SHA action pins, task-specific context allowlists, model-ID allowlisting, output quarantine, evidence manifests and the missing A0/R-06/promotion contracts.
+- Extended the existing Unified System Traceability Matrix with GWF-01…GWF-10; matrix update commit `eef4dee4f8291e97ed9fe682caddfe3914f0d249`, blob SHA `be472028cc1754e2e71d404bcc7f1ff276c508d1`.
+- Status: STATIC SOURCE REVIEW / PATCH PLAN PROPOSED / NOT QUALIFIED. No workflow edits or dispatches, provider/model calls, credential use, tests/scanners, host/runtime inspection, infrastructure changes, deployment or branch integration.
+- Next: reconcile A0 issuer/lifecycle and R-06 governance sources; identify the authoritative target manifest; then prepare a separately authorized P0/P1 workflow patch proposal.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
