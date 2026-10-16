@@ -26,3 +26,12 @@
 Build a closure matrix linking endpoint policy and task-bound credential delivery to exact A0, MH-12, R-06 and authoritative target-manifest sources. Separate upstream capability, adapter enforcement, infrastructure enforcement, governance acceptance and independent evidence. Preserve all runtime gates.
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Post-write live-state refresh
+
+- Fresh compare after Wave 31 documentation writes: documentation branch remains `DIVERGED`, ahead 1930 / behind 11.
+- Current `main` HEAD: `149f5af85962a7a1219a4012e1f4b0b8b335a0a3`; merge base remains `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- The new main commit adds a bounded Gemini autonomous engineering workflow, `GEMINI.md`, and a manual launch guide. These are newer than the source ref used for the Wave 31 provider crosswalk and require a separate source-bound workflow review before activation or dispatch.
+- Wave 31 provider-source findings remain pinned to `main@b45324009ac3aa65322a702c28069b12190bc4b8`; no source claim in that report is silently rebased to the newer main HEAD.
+- Canonical map remains: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
