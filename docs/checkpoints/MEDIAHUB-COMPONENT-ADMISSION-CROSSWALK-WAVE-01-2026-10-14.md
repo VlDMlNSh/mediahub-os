@@ -514,3 +514,27 @@ Official source references: [OpenHands SDK v1.54.0 dependency metadata](https://
 - No component manifest, normative contract, upstream pin, dependency or runtime configuration changed. No test, scan, artifact download, installation, provider/model call, credential use, host/runtime inspection, qualification, deployment or branch integration occurred.
 
 **Next:** do not repeat the same source-pin review. Continue only with a distinct unresolved admission gate or wait for owner-provided target hardware/OS/Python facts. Runtime evaluation remains blocked.
+
+
+## 7.21 Open Policy Agent (OPA) — source-pin and authority-boundary preflight (2026-10-16)
+
+**Scope:** read-only source inspection of the official `open-policy-agent/opa` repository at upstream commit `fdf6011f57fdc25f01de1982e296bb402cf37625`. Inspected README, LICENSE, go.mod and SECURITY.md by immutable commit ref. No OPA binary, package or source was downloaded, built, installed or executed; no policy was evaluated and no scanner/test/runtime/provider/host action occurred.
+
+| Evidence | Observation | MediaHub interpretation |
+|---|---|---|
+| Upstream identity and pin | Official repository: https://github.com/open-policy-agent/opa; source commit `fdf6011f57fdc25f01de1982e296bb402cf37625`. README blob SHA `860399b5b7ac265f89508796831990a45eb485c4`. | Immutable source reference for paper evaluation only; not a release selection or a binary/artifact pin. |
+| Function and integration | README blob describes OPA as a general-purpose policy engine and its example as a service asking OPA for an allow/deny decision. It points to Go SDK and REST API integration. | Potentially reusable as a policy decision point (PDP). MediaHub's deterministic enforcement point must authenticate the request, validate context and apply the decision. OPA must not become identity issuer, capability issuer, workflow/lifecycle authority or Product State Authority. |
+| License | `LICENSE` blob SHA `8f71f43fee3f78649d238238cbde51e6d7055c82` contains Apache License 2.0 text. | Preliminary license signal only; binary distribution, notices and complete dependency licensing remain unreviewed. |
+| Build/runtime requirement signal | `go.mod` blob SHA `bb894fcce89f7f52f72d2a174711172a660451e0` declares Go `1.26.0`. | The source branch's Go requirement is not a target compatibility finding. Contour A target OS, toolchain and deployment mode are UNKNOWN; no toolchain installation or build is authorized. |
+| Security process | `SECURITY.md` blob SHA `ffc134070059b814cd9061cf50cdc3a866b186d6` directs reporters to the official OPA security policy. | A published reporting route is present in source; this does not replace an advisory review, threat model or MediaHub vulnerability-response process. |
+| Policy/evidence controls | The source preflight did not evaluate policy bundle signatures, policy revision pinning, decision-log content/privacy, API authentication, transport protection, outage behavior or policy-update rollback. | All remain open. Unknown, malformed, stale or unavailable policy decisions must not silently authorize privileged actions. Fail-closed behavior must be enforced and tested by MediaHub-owned boundary contracts, not inferred from the existence of OPA. |
+
+### Candidate disposition
+
+- **OPA: RESEARCH-CANDIDATE / SOURCE-PINNED FOR PAPER REVIEW ONLY / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED.**
+- **Potential fit:** policy decision support for task-scoped authorization only if a demonstrated gap exists in the accepted MediaHub authorization contracts.
+- **Do not duplicate authority:** existing MediaHub issuer, trusted-context, capability and Product State Authority contracts remain controlling. OPA output is an input to an enforcement decision, not a grant of authority by itself.
+- **Open gates:** owner-approved capability gap; exact release/artifact digest and source-to-artifact provenance; full dependency/license/SBOM/advisory review; policy ownership/signing/versioning/rollback; authenticated and bounded input schema; fail-closed behavior; decision-log privacy/retention; API/network/egress design; target OS/toolchain/resource fit; independent security review; separate authorization for any build, install or test.
+- No architecture or owner decision was changed. This preflight does not recommend adding OPA alongside an existing accepted policy/enforcement mechanism unless a concrete gap is documented.
+
+**Next:** continue source-only inventory of a distinct shortlisted candidate only if it addresses a separate unresolved capability; otherwise wait for owner disposition on policy authority and target-profile gates. Do not install, build, evaluate policies or run tests without separate authorization.
