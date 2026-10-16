@@ -6331,3 +6331,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Canonical ASTRA GOLD schema/reference architecture/governance sources establish internal target-SHA-bound evidence, immutability, metadata, fresh evidence, independent A3 verification and fail-closed/block-on-conflict semantics. They do not establish the Jarvis-facing A0 API, issuer, external admission/idempotency contract, result schema or owner acceptance workflow.
 - Executor capability matrix has docs/main wording drift (docs SHA `9ad83781a8da53d1a8f540ede54eba95281f01c0`, main SHA `da26185254d9954fcee204f81ecca129bf052e7c`); recorded without integration. No tests/validators/runtime/qualification performed.
 - WB-14AA remains proposal-only. Next: source-linked governance request for accountable-owner appointments and approval workflow.
+
+
+## 20.301 Contour A WB-14AD — A0 ingress governance request (2026-10-16)
+
+- Request: [WB-14AD ASTRA A0 Ingress Governance Request](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14AD-A0-INGRESS-GOVERNANCE-REQUEST-2026-10-16.md), creation commit `d32e0dce23bfb577836b4ef861bf33be0361fbf8`.
+- Prepared a source-linked request for accountable contract/security/lifecycle owners and explicit approval-workflow confirmation. Role slots are not appointments; this artifact is not a submitted/accepted owner decision.
+- D-ING-01…04, D-ING-05a/05b and D-ING-06 remain OPEN. WB-14AA and proposal-local A0-ING-01…09 remain non-normative. No transport, issuer, schema, crypto profile, persistence, TTL or lifecycle enum selected.
+- No implementation, tests, qualification, credentials/provider calls, host/runtime inspection, installation, infrastructure, deployment, migration or branch integration.
+- Next: await/record explicit owner/governance dispositions; independently continue source-only work where it does not assume these decisions.
