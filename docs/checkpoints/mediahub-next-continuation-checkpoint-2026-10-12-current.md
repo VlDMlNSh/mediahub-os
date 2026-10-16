@@ -4173,3 +4173,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Branch comparison: documentation ref DIVERGED from `main`, ahead 1,744 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No branch integration performed.
 - Current state remains DOCUMENTARY DESIGN / PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED. No live queue, scheduler, agent registration or new connection is claimed.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 12 — Gemini workflow hardening proposal and structural checks (2026-10-16)
+
+- Patch proposal: `docs/checkpoints/MEDIAHUB-GEMINI-WORKFLOW-HARDENING-PATCH-PROPOSAL-WAVE-12-2026-10-16.md`, creation commit `95c62d6a64490bc3607e4c41be69ae2b15e0d43d`.
+- Exact source blobs reviewed: primary workflow `0d10efdda251f2ceca43175981c919102303572b`; retry workflow `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`.
+- Documentary queue CAF-Q-003 updated to `PATCH_PROPOSAL_CREATED_REVIEW_REQUIRED`; queue blob `b15d57d201b8acc8a298c0bf6110473cd614d685`.
+- Structural checks: 13/13 passed across schema/queue JSON parsing, required keys, authorization and review fields, ten unique queue IDs and exit-evidence presence. Full JSON Schema validator and workflow tests remain pending.
+- Matrix update commit `8344b86d5ed7f7dbbbfdb3c4efa1c9b9004c3161`; roadmap update commit `ff6a99355ef4d0e7412f8f0cf0bd14d3ee2b07ef`; registry update commit `2cb01c65a473bd46b4594c072810c8934d2f8190`.
+- Status: patch proposal only; workflow source unchanged and no workflow dispatch occurred. No provider calls, credentials, tests/scanners, host/runtime inspection, infrastructure changes, qualification, deployment or branch integration.
+- Next: independent review of the patch proposal; then a minimal patch on an explicitly authorized working ref, followed by separately authorized workflow tests. Provider-backed dispatch remains a distinct action.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
