@@ -1883,3 +1883,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - This is a documentary design pass. No credentials, new provider calls, workflow dispatches, tests/scanners, host/runtime inspection, installation, infrastructure changes, deployment or branch integration occurred.
 - Next: reconcile A0 issuer/lifecycle and R-06; prepare exact source-bound workflow patch and task/agent schemas; resolve the authoritative target manifest for the three servers and hosted runners.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Location-Independent Cloud-Agent Credential Registration, Wave 12 (2026-10-16)
+
+- Created [Location-Independent Cloud-Agent Credential Registration — Wave 12](MEDIAHUB-LOCATION-INDEPENDENT-CLOUD-AGENT-CREDENTIAL-REGISTRATION-WAVE-12-2026-10-16.md), commit `dcccae4b7ee0bbf720e9eb52bb9d8259e7b256dc`.
+- Preserved the selected three-server topology: Mac mini 2018/macOS, Mac mini 2011/Linux, and remote video server. Credential registration and logical identity are decoupled from permanent host binding and any mandatory single public ingress.
+- Defined metadata-only credential records, secret-vault references, A0 admission, just-in-time scoped resolution, leases, rotation/revocation, audit, provider-policy-aware egress selection and explicit handling of IP/region constraints.
+- Status: DOCUMENTARY DESIGN ONLY / PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED. Provider restrictions remain enforceable; location-independent registration does not guarantee provider acceptance from every egress location.
+- No credentials, provider calls, workflow dispatches, host/runtime inspection, tests, installation, infrastructure changes, qualification, deployment or branch integration occurred.
+- Next: reconcile exact A0 issuer/lifecycle and R-06; bind the proposed fields to canonical task schema and traceability matrix. Target manifest remains UNKNOWN until accepted evidence is available.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
