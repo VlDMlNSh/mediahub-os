@@ -1871,3 +1871,15 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Current map blob: `c2cdb85f835394672ad4393ccdb10b40351c897d`, 6,902 lines / 1,010,821 characters; §20.347 present.
 - Current Wave 19 report is being amended with this result; full Draft 2020-12 validation and negative fixtures remain open.
 - Live branch compare: DIVERGED, 1,831 ahead / 10 behind `main`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No integration performed.
+
+
+## Contour A — Three-Server Cloud-Agent Credential Enrollment and Chat Continuity, Wave 11 (2026-10-16)
+
+- Added [Three-Server and Cloud-Agent Key Enrollment / Chat Continuity — Wave 11](MEDIAHUB-THREE-SERVER-CLOUD-AGENT-KEY-ENROLLMENT-AND-CHAT-CONTINUITY-WAVE-11-2026-10-16.md), commit `2982357fc48ca0b01cef0ddb8e3b6cfb55847170`.
+- Owner direction recorded: preserve Mac mini 2018/macOS, Mac mini 2011/Linux and remote video server; add cloud agents as a complementary execution lane.
+- Provider credential enrollment is separated from execution placement. A provider credential is held in an approved secret store and selected by policy-controlled reference, rather than hard-wired to one of the three hosts. The actual request still originates from the selected runner/host, and provider policies may evaluate request origin, account region, project configuration and eligibility.
+- Defined agent admission fields, queue lifecycle, CAF-Q-001…CAF-Q-010 planning backlog, promotion ladder L0–L6, secret custody and revocation controls, provenance manifest requirements, and explicit status boundaries.
+- Gemini remains operationally proven for historical run `38952885501`; the overall durable queue, registry, isolated patch worker and promotion pipeline remain unqualified.
+- This is a documentary design pass. No credentials, new provider calls, workflow dispatches, tests/scanners, host/runtime inspection, installation, infrastructure changes, deployment or branch integration occurred.
+- Next: reconcile A0 issuer/lifecycle and R-06; prepare exact source-bound workflow patch and task/agent schemas; resolve the authoritative target manifest for the three servers and hosted runners.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
