@@ -1683,8 +1683,16 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 
 - Created [Clean Target Manifest Authority Reconciliation, Wave 10](MEDIAHUB-CLEAN-TARGET-MANIFEST-AUTHORITY-RECONCILIATION-WAVE-10-2026-10-16.md), commit `012efaea1d85895d0694c510748086af41ada6e6`, blob SHA `1f748bf80e08067fd85a7e1b0821cc4d12bda676`.
 - Reconciled the canonical component catalogue, unresolved YAML consumer/scope options, proposed portable deployment profiles, clean-target adapter boundary and MH-15 acceptance criteria. The bounded source set contains no owner-accepted exact target manifest.
-- Extended the existing Unified System Traceability Matrix with CTM-01…CTM-05 (current blob `ae79021f6e96935f82730ecf2fed1fd79b9d6680`) and the source registry through SRC-040 / EVD-019 (current blob `daf21daa86188792dee71284f66207974ccff150`).
+- Extended the existing Unified System Traceability Matrix with CTM-01…CTM-05 (current blob `ae79021f6e96935f82730ecf2fed1fd79b9d6680`) and the source registry through SRC-040 / EVD-019 (current blob `22c90af91b7156d48871d910e1305c420594d844`).
 - Status: TARGET UNKNOWN / BLOCKED; MH-15 NOT ACCEPTED / NOT FROZEN; implementation authorization NONE. Component selection does not establish physical target identity or qualification.
 - Documentation-only; no host/runtime inspection, tests, provider calls, credentials, installation, infrastructure changes, qualification, deployment or branch integration.
 - Next: continue source-bound CAF admission evidence without repeating the completed Gemini Wave 09 or A0 WB-14AA–WB-14AF passes absent new evidence. Retain UNKNOWN until an accepted target manifest and independent evidence are available.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Wave 10 source-index read-back correction (2026-10-16)
+
+- Unified System Traceability Matrix current blob SHA: `ae79021f6e96935f82730ecf2fed1fd79b9d6680`; section numbering is 18 (Gemini source review), 19 (Gemini operational evidence), 20 (clean target manifest authority).
+- Canonical Source Registry current blob SHA: `22c90af91b7156d48871d910e1305c420594d844`. Target-manifest entries use SRC-039…SRC-040 / EVD-019; operational Gemini evidence uses SRC-042…SRC-044 / EVD-021…EVD-022 after collision correction.
+- Continuation checkpoint correction commit `99da489b53d2a3140153fdd285ee721f147afb82`, blob SHA `5fd36ea99dac835d9825031df1bb091f09820055`.
+- Map §20.338 was added in commit `db217de5857f1d87ac9d2b148b0c0020e11bc872`, map blob SHA `9ea36a1c90ceb4b8a71badfaca07b4b27089365d`. The content connector returned an empty body for this large map blob, so full-body read-back is limited; the write response supplied the resulting blob SHA.
