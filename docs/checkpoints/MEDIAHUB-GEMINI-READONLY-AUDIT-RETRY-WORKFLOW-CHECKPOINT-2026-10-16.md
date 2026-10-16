@@ -36,7 +36,7 @@ Suggested context paths should be selected after reviewing the current map and p
 
 ## Next step
 
-Manually launch the workflow from an authenticated GitHub session, then inspect the run summary, status, logs, and artifact. Record the run ID and outcome in a follow-up checkpoint. A successful model response is analysis evidence only, not implementation, qualification, or acceptance evidence.
+After the model switch, manually launch the workflow from an authenticated GitHub session, then inspect the run summary, status, logs, and artifact. Record the run ID and outcome in a follow-up checkpoint. A successful model response is analysis evidence only, not implementation, qualification, or acceptance evidence.
 
 
 ## Model change — Gemini 3.6 Flash (2026-10-16)
