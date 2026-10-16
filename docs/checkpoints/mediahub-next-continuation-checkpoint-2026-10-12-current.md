@@ -3464,3 +3464,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, security scans, qualification, providers/models, credentials, host/runtime inspection, install, infrastructure change, deployment, migration or branch integration occurred. No code or normative schema changed.
 - Next: WB-14S strict schema ownership and operation-specific field mapping. Keep capability issuer, transport, authentication/crypto profile, freshness and durable admission/idempotency choices open pending accepted decisions.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14S ASTRA A0 ingress schema ownership and operation map (2026-10-16)
+
+- Report: [WB-14S A0 Ingress Schema Ownership and Operation Map](MEDIAHUB-CONTOUR-A-WB-14S-A0-INGRESS-SCHEMA-OWNERSHIP-AND-OPERATION-MAP-2026-10-16.md), current blob SHA `6b5159fdbe0c99d34e754047dd7c0a8afde8c61c`, latest report-update commit `cb6f0a66050fb12d40cd39e73ef5b1bbb7f432ea`.
+- Drafted the strict type family as separate SubmitRequest/AdmissionResponse, StatusQueryRequest/StatusResponse, CancelRequest/CancelResponse, ResultQueryRequest/ResultResponse and HealthChallenge/HealthResponse shapes. They remain proposed; no JSON Schema files or API were created.
+- Field ownership distinguishes Jarvis mission/DAG intent, A0 admission and lifecycle, executor-produced untrusted result, A3 independent verification, and Product State Authority. Admission, lifecycle, attempt, verifier, qualification, health, readiness, trust and authorization remain separate status domains.
+- Read capability-issuer sources WB-03/WB-04/WB-07, MH-12 and canonical schema metadata. Issuer, service identity, crypto/auth profile, freshness, persistence/idempotency and cancellation/fencing remain OPEN. MH-06 readiness and domain health vocabularies have a source conflict.
+- Read-only inventory found 26 JSON schemas under schemas/. Updated contracts/README.md from 25 to 26: commit `b8c868f86667b95ca58fe03d1e5789ab20884f28`, blob `0c5a6c2d76558a285e49187f563f9e9c8056d34e`. No validator or tests run.
+- No runtime/source-code changes, credentials, provider calls, host inspection, installation, infrastructure, deployment, migration or branch integration occurred.
+- Next: WB-14T owner/governance decision packet for ingress service principal/issuer, authentication profile, idempotency/admission persistence, freshness and health vocabulary; do not create final schemas until these are resolved.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
