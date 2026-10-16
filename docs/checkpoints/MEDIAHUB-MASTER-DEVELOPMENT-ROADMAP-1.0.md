@@ -1838,3 +1838,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Live branch comparison remains DIVERGED from `main`; no merge or integration occurred.
 - Next: independent review of the v0.2 schema candidates, full Draft 2020-12 meta-validation and negative fixtures; then continue A0/R-06/target-manifest source closure.
 - Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Direct-Egress Cloud-Agent Decision, Wave 18 (2026-10-16)
+
+- Added [Cloud-Agent Direct-Egress Decision — Wave 18](MEDIAHUB-CLOUD-AGENT-DIRECT-EGRESS-DECISION-WAVE-18-2026-10-16.md), initial commit `1a348c2a6c0e595ac1342f2df0a40066605ccadc`, read-back blob SHA `d7730895d97f84fc8ff25d1fdda61558dbd50696`.
+- Reaffirmed the default: GitHub-hosted ephemeral workers, direct outbound HTTPS to authorized provider endpoints, no owner-operated persistent server or public inbound listener in the normal provider path, runtime-only secret injection.
+- Clarified that API credentials are generally provider-account/project scoped, while provider requests still originate from the hosted worker's network. Runner egress is dynamic/shared by default; fixed source IP and region independence are not assumed.
+- Added documentary queue item CAF-Q-015; queue update commit `61f54da69652ff31b69d9ca30f09cc30882b81c8`, current blob SHA `802ff16cfbdfad6497bcd932add07b3bb4fc8475`. Total queue items: 15.
+- Status: ARCHITECTURE DECISION RECORDED / PROPOSED / RUNTIME-UNVERIFIED. No agent was activated and no live scheduler was created.
+- Next: complete accepted A0 lifecycle, R-06 governance, authoritative runner/workspace/network manifest and full v0.2 schema validation; then source-bound workflow hardening and independently reviewed, separately authorized implementation.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
