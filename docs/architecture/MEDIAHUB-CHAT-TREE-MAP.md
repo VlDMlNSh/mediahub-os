@@ -6399,3 +6399,17 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Internal timing values are not external TTLs. A0 remains the sole internal lifecycle/queue authority; product-state mutation remains on P0-07 → P0-05 → P0-04.
 - Temporal remains FUTURE-GATED / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED; no distinct owner-approved durability gap was established.
 - No tests, runtime inspection, installation, qualification, deployment or branch integration occurred.
+
+
+## 20.308 WB-14AA field/state reconciliation appendix
+
+**Артефакт:** `docs/checkpoints/MEDIAHUB-CONTOUR-A-WB-14AA-FIELD-STATE-RECONCILIATION-APPENDIX-2026-10-16.md`  
+**Ref:** `docs/mediahub-chat-tree-map-20261012`  
+**Creation commit:** `0f204f8a597ab8bd22e41753c691ea47717d41f2`  
+**Статус:** `SOURCE-BOUND PROPOSAL / NON-NORMATIVE / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED`.
+
+Составлено приложение к WB-14AA: сопоставление кандидатов внешних полей с документированными внутренними концепциями ASTRA; семантическая проекция внешних статусов без закрепления enum; разграничение внутренних policy semantics и открытых внешних решений; матрица D-ING-01…04, D-ING-05a/05b и D-ING-06 с требуемыми владельцами/доказательствами. Внутренние имена не трактуются как реализационные классы, а внутренние тайминги не превращаются в внешние TTL.
+
+WB-14AA и приложение остаются не-нормативными. Владельцы и формальный approval workflow не подтверждены; WB-14AD — подготовленный запрос, не свидетельство подачи/принятия. D-ING-01…04, D-ING-05a, D-ING-05b и D-ING-06 остаются OPEN. Schema/enum/transport/issuer/persistence/crypto/TTL не выбраны; реализация, тесты, qualification и runtime не подтверждены.
+
+**Следующий шаг:** получить явное owner/governance disposition по WB-14AD; если его пока нет — source-only сверить точные первичные формулировки D-ING-01…04, D-ING-05a/05b и D-ING-06, не повторяя уже завершённый cross-route анализ.
