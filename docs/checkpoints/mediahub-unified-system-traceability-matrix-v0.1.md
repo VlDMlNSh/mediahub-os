@@ -1804,3 +1804,69 @@ The proposed hardware target profiles cover Mac mini 2011 (Intel i7, 16 GB, clea
 
 The source-anchored reconciliation is recorded in [Provider Identity and Egress Contract Crosswalk, Wave 05](MEDIAHUB-PROVIDER-IDENTITY-AND-EGRESS-CONTRACT-CROSSWALK-WAVE-05-2026-10-14.md). Keep `freellmapi`, `omniroute`, `unorouter`, `fcc`, `ollama`, `alamo`, and `claude-code` as distinct logical identities until source/deployment evidence supports aliasing. FreeLLMAPI's cloud-provider wording versus `local_gateway` registry classification remains an OPEN CONTRACT CONFLICT. Add per-hop locality/upstream/egress fields and immutable per-task route evidence; local-only must fail closed. This addition is evidence reconciliation only and does not accept/freeze the proposed matrix.
 
+
+
+## Wave 06 — Canonical authority inventory and project-wide matrix integration, Day 1 (2026-10-16)
+
+**Status:** SOURCE-ANCHORED INVENTORY INCREMENT / PROPOSED / NOT ACCEPTED / NOT FROZEN. This section extends this existing matrix as the integration register; it creates no competing master matrix and does not promote proposed contracts into normative authority.
+
+### A. Authority and evidence rules applied
+
+1. Functional authority: `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`, status ACCEPTED / CANONICAL / IMMUTABLE. Baseline 1.0 remains historical provenance.
+2. Component selection authority: `docs/checkpoints/mediahub-github-component-final-manifest-2.0.md@main`, blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`, status CANONICAL DEVELOPMENT INPUT. Component selection does not establish production admission or qualification.
+3. Machine-readable component admission view: `oss/manifests/components.yaml@main`, blob `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`. The existing component crosswalk says its scope is a qualification-gated subset; retain the documented relationship rather than treating YAML as a full replacement for the text manifest.
+4. Security and privacy authority is split across MH-12, MH-13, domain-specific P0 contracts and governance records. No single source silently supersedes all these scopes.
+5. The source registry has been extended through SRC-028. Its current blob SHA is `c6d8f973f5073961ccb7ad7c0016e336f4f2d158`. The registry remains an index/evidence ledger, not a substitute for the primary contracts.
+6. Every row below describes source coverage and integration gaps, not implementation completion. UNKNOWN means missing revision-bound evidence in this bounded review, not a clean result.
+
+### B. Project-wide domain coverage matrix — initial source-backed pass
+
+| Domain | Primary source / current evidence anchor | Authority / status | Matrix integration requirement | Current evidence disposition |
+|---|---|---|---|---|
+| D01 Product function and acceptance | Baseline 2.0, `main`, `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` | ACCEPTED CANONICAL | Trace each functional requirement to its implementation and acceptance evidence | Baseline authority confirmed; downstream completion remains separate |
+| D02 System architecture and ownership | Baseline 2.0 plus unified deployment contract `71ae0e68cc6ad494f85f33f64cde09ef5c4273d7` | Baseline accepted; cross-domain contract proposed | Bind every component/interface to one authority owner and bounded responsibility | Contract remains PROPOSED / NOT FROZEN |
+| D03 Identity, authentication and authorization | `docs/architecture/MH-12-security-architecture.md@main`, `cf4ebfd5bf471ca676f075c51d3a24906504e490` | ARCHITECTURE COMPLETE / GOVERNANCE REVIEW REQUIRED | Link principals, capabilities, delegation, expiry, revocation and operation scope to enforcement evidence | Governance/runtime evidence gaps remain |
+| D04 Security and threat controls | MH-12 plus Wave 05 security matrix `ea9e9b0743d45fd9e29299642bd9a4b5d223097e` | Source-backed proposed controls | Each threat maps to preventive/detective/recovery control and revision-bound evidence | ASTRA P0 fixes remain proposed |
+| D05 Privacy and data governance | `docs/architecture/MH-13-master-prompt.md@main`, `de00bea7f972fca30295c0855b0d324f845c0bc4`; MH-13 governance state `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa` | Architecture reference; ACCEPTED RECONSTRUCTION; production implementation NOT AUTHORIZED | Bind data class, permitted purpose, egress, readers, retention and deletion to evidence | R-06 audit/privacy disposition remains OPEN |
+| D06 State and data contracts | Unified deployment contract `71ae0e68cc6ad494f85f33f64cde09ef5c4273d7`; source-registry P0 references | Multiple scoped contracts; some status drift recorded | Preserve operation authority and transaction boundaries; map each mutation route and recovery outcome | P0-03/P0-05 header/governance discrepancies require source-specific resolution |
+| D07 ASTRA A0 ingress | WB-14AA candidate `d05462b3c39ad5d08fad0ebde07e76158df361ba`; WB-14AD governance request `a2367eff5ca2092fa12bda0be4cab75bf4e2ba9d` | PROPOSED / NOT ACCEPTED / NOT IMPLEMENTED | Bind request identity, issuer, durable admission, idempotency, health, lifecycle, result and evidence | D-ING-01…04, D-ING-05a/05b and D-ING-06 remain OPEN |
+| D08 Jarvis orchestration and mission lifecycle | Jarvis Control Plane/GitHub Adapter Draft 01, `916df43726fb8f41038d5e9896be7e205284416f` | DESIGN DRAFT / NOT ACCEPTED / NOT IMPLEMENTED / NOT QUALIFIED | Trace mission → A0 → dispatch → worker → result → independent evidence | End-to-end authenticated producer/consumer path is not established by this document |
+| D09 Developer Fabric and worker isolation | Jarvis adapter draft and component admission crosswalk `6550062d5fe5af206df5ea987f4c8d8ad287d11e` | Proposed design / candidate evaluation | Bind worker lease, workspace, target SHA, capabilities, isolation and artifact provenance | Target-specific qualification remains OPEN |
+| D10 Model/provider routing and egress | Provider identity/egress crosswalk referenced by the existing matrix; Wave 06 contract | Proposed cross-domain policy; conflict preserved | Record provider identity, upstream, locality, egress, data class, cost and immutable per-task route evidence | FreeLLMAPI cloud wording versus `local_gateway` registry classification remains OPEN |
+| D11 Component admission and supply chain | Canonical manifest `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`; YAML `7141dd16e9ce9dba3440b1799a56e2ac4da4106d`; crosswalk `6550062d5fe5af206df5ea987f4c8d8ad287d11e` | Selection closed; implementation OPEN; production admission qualification-gated | Pin source/version, license, SBOM, vulnerability evidence, adapter, negative tests and rollback per component | No component is admitted by this inventory pass |
+| D12 Contour A bootstrap/build/CI | Wave 06 deployment-readiness plan `5ef7713c509e003c138fd87ce7eaeeb857df2383` | Plan only | Capture reproducible source/toolchain/artifact provenance and independent qualification | Bootstrap/build qualification evidence remains UNKNOWN |
+| D13 Contour B product deployment | Unified deployment contract `71ae0e68cc6ad494f85f33f64cde09ef5c4273d7` and Baseline 2.0 | Contract proposed; product deployment gated by Contour A acceptance | Require accepted Contour A, target profile, product admission, rollout and rollback evidence | Contour B admission gate remains closed |
+| D14 Target hardware, OS and topology | Clean-slate target rule in bootstrap `aa77ba6850f3b3cf51fcf5fae491b2998a276321` | Owner direction; target facts UNKNOWN | Store exact hardware/OS/network/storage/topology manifest; classify retired hosts as HISTORY | No target may be inferred from legacy hostnames |
+| D15 Observability, audit and incident evidence | MH-12/MH-13 and P0-07 R-06 crosswalk chain | Requirements source-backed; policy and implementation details unresolved | Correlate request/run/artifact IDs; define minimal fields, integrity, readers, durability and retention | R-06 remains OPEN; audit-unavailable behavior unresolved per operation |
+| D16 Performance, capacity and cost | Wave 06 readiness gates and provider routing contract | Proposed target-specific gate | Define queue latency, resource ceiling, provider budget, timeout and stop conditions | No accepted target-specific capacity/cost envelope evidenced |
+| D17 API/interface/schema compatibility | Jarvis adapter draft; WB-14AA proposal and field/state appendix | Proposed/non-normative external ingress contract | Assign stable schema IDs only after collision check and owner acceptance; preserve distinct status domains | External A0 schema/transport/issuer remains OPEN |
+| D18 Mobile/remote access boundary | Baseline 2.0 plus unified deployment contract | Baseline accepted; cross-domain mapping incomplete | Trace clients to authorized APIs; clients must not acquire State Authority | Per-interface evidence map pending |
+| D19 Operations, update and recovery | Unified deployment contract gates and component admission crosswalk | Draft gates; target-specific qualification pending | Require backup/restore, rollback, interrupted-job recovery, rotation and decommission evidence | Documentary design exists; execution evidence absent |
+| D20 Governance, release and independent acceptance | Owner decision register `d4d9a5aa3c1578fa0f345de704dd2c7bcda017a8`; Wave 06 readiness gates | Support register; proposed gates | Bind every acceptance to accountable authority, exact artifact/source/target SHA and reviewer | Role placeholders do not establish appointments or delegated authority |
+
+### C. Cross-domain conflicts retained as first-class records
+
+| Conflict ID | Source-backed discrepancy | Interim treatment | Closure evidence |
+|---|---|---|---|
+| MAT-CF-01 | Canonical text component manifest versus qualification-gated YAML subset | Preserve both and use the documented scoped-subset relationship; avoid implicit status translation | Owner-approved scope rule plus source SHA and generated/validation evidence if generation is selected |
+| MAT-CF-02 | FreeLLMAPI cloud-provider wording versus `local_gateway` registry classification | Keep identities distinct; local-only claims fail closed | Per-hop upstream/locality/egress record and immutable route evidence |
+| MAT-CF-03 | MH-13 accepted reconstruction versus unrecovered historical original and production implementation authorization | Preserve reconstruction acceptance scope; freeze and production authorization remain separate | Independent verification and explicit governance disposition |
+| MAT-CF-04 | A0 proposal fields/statuses versus accepted internal ASTRA lifecycle semantics | Keep A0 proposal-local IDs and external states non-normative | Owner-approved ingress contract, issuer trust chain, schema/version and independent verification |
+| MAT-CF-05 | Main/docs branch divergence and document status drift | Keep refs and SHAs separate; no automatic reconciliation or merge | Controlled change record and verified target ref after authorized integration |
+| MAT-CF-06 | Gemini workflow source exists and a prior API generation run is documented, while current agent-onboarding runbook says its own dispatch was NOT RUN | Treat prior run proof as limited to its exact run/artifact; do not infer current secret inventory or additional agents | Exact run ID, head SHA, artifact digest and redaction review for each claimed execution |
+
+### D. Source provenance, status transitions and next integration rules
+
+- Stable historical IDs remain unchanged. New local matrix identifiers are provisional until collision-checked against the existing register and owner/governance sources.
+- Each future row must include: requirement/control ID, primary source path and ref, blob SHA, authority scope, implementation status, verification method/status, evidence digest/run ID, qualification/release gate, dependencies, reviewer and explicit UNKNOWN/BLOCKED reason.
+- Use the matrix as the integration register; use the source registry as its compact authority/evidence index; keep the architecture/deployment contract as the normative-contract candidate; keep domain primary sources authoritative within their accepted scopes.
+- Preserve state distinctions: PROPOSED, IMPLEMENTED, VERIFIED, QUALIFIED, RELEASED, DEPLOYED and ACCEPTED are separate states. A source document or plan cannot promote itself to a later state.
+- Source coverage in this section is a bounded initial pass across 20 domains. It is not an exhaustive repository-wide audit and does not imply any missing source is absent.
+
+### E. Wave 06 completion boundary and next action
+
+This pass reconciles existing source registers into the current traceability matrix and identifies the first 20 domain coverage states. It does not change Baseline 2.0, accept/freeze a proposed contract, implement code, execute tests/scanners, dispatch workflows, invoke providers, use credentials, inspect hosts/runtimes, change infrastructure, deploy or integrate branches.
+
+**Next bounded pass:** Wave 07 — resolve the highest-impact matrix integration blockers in parallel documentary lanes: (1) provider identity/egress conflict and source authority; (2) component manifest/YAML scope and admission evidence; (3) A0 ingress external-vs-internal lifecycle/issuer boundary; (4) audit/privacy R-06 evidence/decision packet; (5) exact-target deployment manifest with UNKNOWN fields preserved. Merge each lane by source SHA and stable ID into this matrix; do not create another master inventory.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
