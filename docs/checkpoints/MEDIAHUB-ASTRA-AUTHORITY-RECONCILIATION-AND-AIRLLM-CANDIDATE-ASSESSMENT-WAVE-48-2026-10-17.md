@@ -19,10 +19,10 @@ Project source anchors:
 - Owner decision record / DEC-DEV-02: docs-ref blob `70376a2709e055972ceddc4a280d26992977213c`.
 - Canonical ASTRA GOLD unified architecture on main: blob `e2067dc41b52983fc4e0b2549fb6af3c099cbc60`.
 - Canonical ASTRA GOLD governance contract on main: blob `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`.
-- MH-21 local model security: docs-ref blob `[MH21_SECURITY_SHA]`.
-- MH-21 model qualification: docs-ref blob `[MH21_QUALIFICATION_SHA]`.
-- MH-21 model routing policy: docs-ref blob `[MH21_ROUTING_SHA]`.
-- Canonical Component Manifest 2.0: docs-ref blob `[MANIFEST_SHA]`.
+- MH-21 local model security: docs-ref blob `2ada0dbbe99a86b7b185272467359c7c3a2acf52`.
+- MH-21 model qualification: docs-ref blob `daf2801b0fa930634b4e4c73eb0f1aca184b05ea`.
+- MH-21 model routing policy: docs-ref blob `a1ac5afa4f6cd20d384b027df5eab9095efc2bcb`.
+- Canonical Component Manifest 2.0: docs-ref blob `45988bf9da202c9597d0ca2de50e92e5c2e6ed55`.
 - Wave 47 source delta: docs-ref blob `37845de1be1136dbfcafb8c3951a087b061832a6`.
 
 ## 2. ASTRA authority wording reconciliation proposal
