@@ -3909,3 +3909,16 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Wave 01 is an analysis/control artifact, not a normative contract and not a complete all-branch/all-file census.
 - No tests, qualification, provider/model calls, credential use, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick occurred.
 - Next bounded task: Wave 02 canonical source registry with source owner, authority scope, exact ref/commit/blob SHA, dependencies, acceptance authority and evidence status.
+
+
+## Latest verified continuation — GitHub security review and unified matrix Wave 02 (2026-10-16)
+
+- Report: [MEDIAHUB GitHub Security Review and Unified Contract Matrix — Wave 02](MEDIAHUB-GITHUB-SECURITY-AND-UNIFIED-MATRIX-WAVE-02-2026-10-16.md).
+- Report creation commit: `d13b375e22f62b150a63783cf5a2b6d259c67800`.
+- Map index update commit: `98a38ac48e2bd0a0d399a0e7a189315e73494f7f`.
+- Main snapshot: `b45324009ac3aa65322a702c28069b12190bc4b8`; recursive tree: 802 entries, 725 files, 77 directories, response not truncated; 32 workflow files.
+- Live branch compare: documentation ref DIVERGED from main, ahead 1,643 / behind 10, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration.
+- Highest-priority review items: comment-driven Astra control workflow with broad token permissions; autonomous supervisor write/dispatch surface; legacy target identities; unknown branch-protection state; unavailable security-alert API evidence; absent dedicated SAST/SCA/secret-scan workflow files in main tree inventory.
+- Status is static review only. Scanner execution, tests, provider calls, credentials, runtime inspection, infrastructure changes and branch integration were outside this pass.
+- Next: Wave 03 canonical source registry and security evidence ledger, then targeted review of Astra chat-control and autonomous-supervisor workflow contracts.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
