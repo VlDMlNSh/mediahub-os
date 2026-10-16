@@ -104,8 +104,8 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 | ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
 |---|---|---|---|---|---|
 | SRC-033 | `docs/checkpoints/MEDIAHUB-AUTONOMOUS-CLOUD-AGENT-FABRIC-REFERENCE-ARCHITECTURE-WAVE-08-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `1bb6b285fcfd330ccc9485036df97adb59695cdf`; live blob SHA `712faccec5a35f2ed56b86f23a42cd4a1a5b4710` | Contour A cloud-agent reference architecture, admission, queue contract, provider routing, evidence and promotion gates | PROPOSED / NOT IMPLEMENTED / RUNTIME-UNVERIFIED | A0 issuer/lifecycle, R-06, target manifest, provider eligibility, workflow qualification |
-| SRC-034 | `docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md@docs/mediahub-chat-tree-map-20261012` | Commit `e9a58865e6a5f28eb33af3158f29ba926f9facad`; live blob SHA `801c874558f61385f57172d98b874876ce7a3488` | Working plan of record and sequencing for Wave 08 | OWNER-DIRECTED WORKING PLAN; no implementation authority | Map, matrix, checkpoint and future implementation authorization |
-| SRC-035 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | Commit `d86e4def7586fbdfe5cb47b56ba35b5368cdac29`; live blob SHA `5c9727991960f655b7b2fd6389a6ff2ce1d3f9a2` | Cross-domain traceability for CAF-01…CAF-12 | PROPOSED / NOT ACCEPTED / NOT FROZEN | Evidence closure, gate ownership and revision-bound qualification records |
+| SRC-034 | `docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md@docs/mediahub-chat-tree-map-20261012` | Commit `b0b663b0cd2ea4515689ba4a1a774b791d285cb2`; live blob SHA `6843e49c9f0f169e8c626db1d3e6b0fd52804fde` | Working plan of record and sequencing for Wave 08 | OWNER-DIRECTED WORKING PLAN; no implementation authority | Map, matrix, checkpoint and future implementation authorization |
+| SRC-035 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | Commit `eef4dee4f8291e97ed9fe682caddfe3914f0d249`; live blob SHA `be472028cc1754e2e71d404bcc7f1ff276c508d1` | Cross-domain traceability for CAF-01…CAF-12 | PROPOSED / NOT ACCEPTED / NOT FROZEN | Evidence closure, gate ownership and revision-bound qualification records |
 
 | Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
 |---|---|---|---|---|
@@ -116,3 +116,18 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 The registry entries above index design and planning artifacts only. They do not certify a live scheduler, registered agent, provider access, runner isolation, automated code integration or deployment. Keep all runtime claims UNKNOWN until direct revision-bound evidence is retrieved and independently reviewed.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 09 — Gemini workflow source qualification plan
+
+| ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
+|---|---|---|---|---|---|
+| SRC-036 | `docs/checkpoints/MEDIAHUB-GEMINI-WORKFLOW-SOURCE-QUALIFICATION-PLAN-WAVE-09-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | `fa34037409b3aa118cd606de673bce0a577b834f` | Static source review and remediation plan for the existing Gemini read-only workflow pair | STATIC REVIEW / PATCH PLAN PROPOSED / NOT QUALIFIED | Workflow SHA-bound patch, source provenance, input policy, model allowlist, independent qualification |
+| SRC-037 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | `be472028cc1754e2e71d404bcc7f1ff276c508d1` | Matrix after CAF and Gemini workflow findings | PROPOSED / NOT ACCEPTED / NOT FROZEN | Source-bound remediation, owner/gov gates and evidence closure |
+| SRC-038 | `docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md@docs/mediahub-chat-tree-map-20261012` | `6843e49c9f0f169e8c626db1d3e6b0fd52804fde` | Plan of record after Wave 09 | OWNER-DIRECTED WORKING PLAN | Map, checkpoint and separately authorized implementation sequence |
+
+| Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
+|---|---|---|---|---|
+| EVD-018 | Gemini workflow source qualification | Exact source blobs read; ten static findings recorded in Wave 09 | STATIC REVIEW COMPLETE / RUNTIME AND QUALIFICATION UNKNOWN | Authorized patch, immutable provenance, approved inputs/model policy, tests/scanners, provider eligibility and independent review |
+
+Wave 09 is source-only. Findings do not establish exploitability or runtime behavior without further verification. No workflow execution or provider call was performed.
