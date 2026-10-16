@@ -72,3 +72,7 @@ A recommendation, silence, a branch artifact, accepted internal policy, or owner
 - **Next bounded step:** package the unresolved *owner appointments and contract acceptance path* as a short governance request with the proposed roles/options, or continue an independent source-only review of the exact A0 qualification/evidence contract where no owner decision is needed. Do not promote proposal IDs to canonical status yet.
 
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Follow-on source pass — WB-14AC
+
+WB-14AC crosswalks ASTRA GOLD's qualification schema, reference architecture, governance contract and executor matrix against the proposed ingress result/evidence boundary. The canonical internal evidence rules constrain but do not define the Jarvis-facing A0 API or acceptance authority. See [WB-14AC report](MEDIAHUB-CONTOUR-A-WB-14AC-A0-INGRESS-EVIDENCE-AND-QUALIFICATION-BOUNDARY-CROSSWALK-2026-10-16.md), commit `8b92df9305869f93e4691ea948413c4418a6d2a7`. No schema registration or qualification activity occurred.
