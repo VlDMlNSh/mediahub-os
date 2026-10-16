@@ -3476,3 +3476,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No runtime/source-code changes, credentials, provider calls, host inspection, installation, infrastructure, deployment, migration or branch integration occurred.
 - Next: WB-14T owner/governance decision packet for ingress service principal/issuer, authentication profile, idempotency/admission persistence, freshness and health vocabulary; do not create final schemas until these are resolved.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14T ASTRA A0 ingress owner/governance decision packet (2026-10-16)
+
+- Report: [WB-14T A0 Ingress Owner/Governance Decision Packet](MEDIAHUB-CONTOUR-A-WB-14T-A0-INGRESS-OWNER-GOVERNANCE-DECISION-PACKET-2026-10-16.md), commit `f67c69e309f1fdb871bd83df26713aa11a65d3b5`.
+- Live refs at pass start: main `ab36db009d034db8dca723691e23b331322287e7`; docs branch `b49be25266e1dc5b4c9fe8cb7726d50d2ff4c3b8`; compare diverged, docs ahead 1495 / behind 4; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Prepared options/consequences for five open decisions: service principal/issuer, auth/integrity profile, A0 durable admission/idempotency authority, per-contract freshness policy, and health/readiness vocabulary. Recommended directions are not accepted owner decisions; all five remain OPEN.
+- Preserved approved DEC-DEV-02 lifecycle split and existing project invariants. No final schema, endpoint, transport, issuer, key profile, storage mechanism, numeric TTL or universal status enum was selected.
+- Source reads only; no tests/validators, security scan, qualification, provider/model calls, credentials, host/runtime inspection, installs, infrastructure change, deployment, migration or branch integration. No code/normative schema changes.
+- Next bounded step: WB-14U source-only closure of health/readiness vocabulary and A0 lifecycle-status transition ownership; record precise owner decision only if accepted source cannot resolve the conflict.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
