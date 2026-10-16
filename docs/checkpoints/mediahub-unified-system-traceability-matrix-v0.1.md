@@ -2264,3 +2264,14 @@ Wave 26 report: [OpenHands Agent Server Security Boundary Crosswalk](MEDIAHUB-OP
 | CAF-74 | Privileged init and container workspace | init router `aae09786c40388b371cc5060a90a9a67bfbf4f3d`; Docker workspace `64ea81d2d4d7dfedcd8c6fea6081e75049edf782` | BLOCKED; strict init allowlist, secret separation, immutable image, mount/egress controls and target manifest required |
 
 Wave 26 report: [OpenHands Agent Server Security Boundary Crosswalk](MEDIAHUB-OPENHANDS-AGENT-SERVER-SECURITY-BOUNDARY-CROSSWALK-WAVE-26-2026-10-17.md), blob `b940a2c440a610baf6d1bd7390214baccbb8541c`. Source behavior only; deployment and qualification remain unproven. A0/MH-12/R-06 and target gates remain open.
+
+
+## Wave 27 — OpenHands cookie, tenant and tool-control boundaries
+
+| Control ID | Source / evidence | Revision-bound observation | Status / closure requirement |
+|---|---|---|---|
+| CAF-75 | Workspace cookie issuance and proxy trust | `auth_router.py` blob `6549bb7403656a5a6cf96fbd3ce3a8382e9b5397`; source pin `6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1` | BLOCKED; cookie carries downstream session key with nominal 10-year Max-Age; require short-lived scoped capability, revocation and trusted-proxy normalization |
+| CAF-76 | Workspace resource/tenant authorization | `dependencies.py` blob `d1d2a6aece2056adc15824aed6cdccc4c3c33ead`; `workspace_router.py` blob `e38f5f99e6efb8b464c31c8e06fcdf4e06ce064c` | SOURCE REVIEW; session membership/path containment visible; explicit caller-to-tenant/conversation binding unproven in reviewed route; require complete route authorization matrix |
+| CAF-77 | Tool preset and capability admission | `default.py` blob `d70b10f95435faac5d0cfa527ccd15c74a25fe30`; Agent Server API blob `1916fd4b00e798e27f85f37db1e634bbef6a48c2` | BLOCKED; terminal/file/browser/MCP/plugin/sub-agent capability map, deny-by-default policy, target isolation and audit enforcement required |
+
+Wave 27 report: [OpenHands Workspace Cookie and Tool Control Crosswalk](MEDIAHUB-OPENHANDS-WORKSPACE-COOKIE-AND-TOOL-CONTROL-CROSSWALK-WAVE-27-2026-10-17.md), blob `c5380aa274a8f156e668eafd0d28e4e1ed059e03`; map addendum blob `8f80d1fa0325fce5dfe0254a20f3b3ab310e7b1e`. Source behavior only; runtime configuration and qualification remain unproven.
