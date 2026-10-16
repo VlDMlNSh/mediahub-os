@@ -1427,3 +1427,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No implementation or runtime action occurred; workflow/service live status unknown. Direct-caller scan is bounded and non-exhaustive.
 - Next bounded work item: WB-14P launcher-family and bootstrap-contract reconciliation, separating legacy operational values from potentially reusable transport/health requirements before any source retirement.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14P — launcher-family and bootstrap-contract reconciliation (2026-10-16)
+
+- Added [WB-14P Launcher-Family and Bootstrap-Contract Reconciliation](MEDIAHUB-CONTOUR-A-WB-14P-LAUNCHER-FAMILY-AND-BOOTSTRAP-CONTRACT-RECONCILIATION-2026-10-16.md), commit `7912300171bc1bece01106354a5314779a087182`, report blob SHA `0c54386545395a81e0bf0fc1b0ba11913d3203ac`.
+- Static source evidence shows duplicate launchers: deploy templates directly execute a fixed `/opt/mediahub/astra/astra_github_agent.py`, while ops templates use a bootstrap helper; old host-bound ops templates are only partially retired on the docs branch. The agent default worktree differs from deploy service paths unless an external environment file supplies a value, which was not inspected.
+- The shared bootstrap helper resets an existing worktree to `origin/main`; the agent combines polling, legacy HMAC node identity, broad operation dispatch, claims and result publication. Keep as SHARED-OR-UNKNOWN, not automatically reusable in target Contour A.
+- Health verifier source does not enforce the freshness precondition stated in the health gate documentation. Add explicit capture-age, request correlation, expected executor identity and readiness-state requirements before any new-target qualification use.
+- No implementation, tests, qualification, host/runtime actions, install or deployment occurred. Source and path findings are not live-state evidence.
+- Next bounded work item: WB-14Q contract-only target ingress decision/requirements matrix; present alternatives and consequences without recording an owner choice as accepted.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
