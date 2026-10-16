@@ -3613,3 +3613,16 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No artifact download, dependency resolution, installation, tests/scans, provider/model calls, credentials, host/runtime inspection, qualification, deployment, infrastructure change or branch integration occurred.
 - Next bounded step: choose a distinct unresolved admission gate only after checking existing crosswalk coverage, or wait for owner-provided target hardware/OS/Python facts. Do not repeat the same source-pin review or begin runtime evaluation without separate authorization.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest bounded continuation — OPA policy-engine source/authority preflight (2026-10-16)
+
+- Added source-only OPA assessment to the existing [Component Admission Crosswalk §7.21](MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md); commit `7456e5ed7f5af1f1c331db813d2eca162433d47c`, content SHA `8e8f32a8aa751385e0d9245b725b65dd5c78c8c4`.
+- Indexed the result in [Project Map §20.304](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); commit `ce5f4af6c87cf8baecec6ad63e35e3f4ba977d28`, content SHA `bfbe3aa6fabd5431af7ec813bf00b1f515159be8`.
+- Upstream source reviewed: official `open-policy-agent/opa` commit `fdf6011f57fdc25f01de1982e296bb402cf37625`; README blob `860399b5b7ac265f89508796831990a45eb485c4`; Apache-2.0 license blob `8f71f43fee3f78649d238238cbde51e6d7055c82`; go.mod blob `bb894fcce89f7f52f72d2a174711172a660451e0` (Go `1.26.0)); SECURITY.md blob `ffc134070059b814cd9061cf50cdc3a866b186d6`.
+- Finding: OPA is a plausible research candidate for policy decision support only if an owner-approved capability gap exists. It must not replace MediaHub-owned identity/capability issuance, deterministic enforcement, ASTRA lifecycle authority or Product State Authority. OPA output alone is not authorization. Candidate remains NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED.
+- Open: exact release/artifact provenance, complete dependency/SBOM/advisory review, policy ownership/signing/versioning/rollback, fail-closed behavior, decision-log privacy/retention, API/network/egress controls, target OS/toolchain/resources and independent security review.
+- No download, build, install, policy evaluation, tests/scans, model/provider calls, credential use, host/runtime inspection, qualification, deployment, infrastructure change or branch integration occurred.
+- Current branch comparison rechecked: `main` HEAD `ab36db009d034db8dca723691e23b331322287e7`; docs branch remains DIVERGED, 1563 commits ahead / 4 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase/cherry-pick or integration was attempted.
+- Next bounded step: check existing crosswalk coverage before any further component pass; if no distinct source-only gap remains, pause component research pending owner disposition and target-profile facts. Do not repeat OpenHands source review or run OPA.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
