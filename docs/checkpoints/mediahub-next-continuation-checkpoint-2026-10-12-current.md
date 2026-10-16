@@ -3426,3 +3426,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No source edits, test/qualification/workflow execution, credentials, provider calls, host/runtime inspection, infrastructure changes or deployment occurred.
 - Next: WB-14P launcher-family and bootstrap-contract reconciliation, with a recommendation-only disposition matrix.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14P launcher-family and bootstrap-contract reconciliation (2026-10-16)
+
+- Report: [WB-14P Launcher-Family and Bootstrap-Contract Reconciliation](MEDIAHUB-CONTOUR-A-WB-14P-LAUNCHER-FAMILY-AND-BOOTSTRAP-CONTRACT-RECONCILIATION-2026-10-16.md), creation commit `7912300171bc1bece01106354a5314779a087182`, blob SHA `0c54386545395a81e0bf0fc1b0ba11913d3203ac`.
+- Newly surfaced duplicate launch family: `deploy/mediahub-astra-github.service` and `deploy/com.mediahub.astra.github-agent.plist` remain on both refs and directly launch `/opt/mediahub/astra/astra_github_agent.py`, bypassing the documented bootstrap helper. The agent default worktree is `/opt/mediahub/astra-worktree`; service config uses `/opt/mediahub/astra`, with an external optional environment file whose contents are unknown.
+- Legacy ops launchers are inconsistent across refs: systemd helper-unit absent from docs ref but present in main; launchd plist persists on both refs with the old Mac identity and fixed paths. Adjacent mesh service remains bound to `/home/mediahub/astra-work` in its checked-in template.
+- Static contract gap: `verify_transport_health.py` does not enforce freshness age/request correlation, readiness status, or an expected node ID despite docs requiring a fresh health result. Legacy source snapshots remain BLOCKED/NOT_PASS; do not treat as current target evidence.
+- Shared helper/agent contain potentially reusable semantics but also legacy HMAC identities, broad command dispatch, and hard-reset source synchronization; neither is accepted wholesale for greenfield Contour A.
+- No tests, qualification, workflow dispatch, credentials/provider calls, host/runtime inspection, source-code edits, install, infrastructure change, deployment, migration or branch integration occurred.
+- Next: WB-14Q contract-only target ingress decision and requirement matrix (security, capability, source/worktree, command, freshness, evidence and result contracts), with owner choice A/B/C left explicitly unresolved.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
