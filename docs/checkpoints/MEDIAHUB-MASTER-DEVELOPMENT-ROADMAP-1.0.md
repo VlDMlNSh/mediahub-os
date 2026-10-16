@@ -1539,3 +1539,10 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No exact `A0-ING-01…09` matches were found in the bounded set of current project/owner/governance artifacts. All-branch uniqueness is not proven; keep identifiers proposal-local pending canonical registry review.
 - Crosswalk associates existing D-ING dependencies without merging their scope. Role-level acceptance paths remain proposed; accountable individuals/delegated authority are not established.
 - Next: prepare a compact governance request for owner/authority appointments and accepted review path; no implementation, tests, qualification or schema registration.
+
+## Contour A WB-14AC — ingress evidence and qualification boundary (2026-10-16)
+
+- Report: [WB-14AC A0 Ingress Evidence and Qualification-Boundary Crosswalk](MEDIAHUB-CONTOUR-A-WB-14AC-A0-INGRESS-EVIDENCE-AND-QUALIFICATION-BOUNDARY-CROSSWALK-2026-10-16.md), commit `8b92df9305869f93e4691ea948413c4418a6d2a7`.
+- ASTRA GOLD's canonical evidence/qualification rules can constrain a future ingress contract but do not define or accept the Jarvis-facing API, issuer, external admission/idempotency or result contract. Internal evidence freshness is not an external request/token/probe TTL.
+- Docs/main executor-matrix scope wording drift remains recorded and unintegrated. No runtime/test/qualification action occurred.
+- Next: prepare a source-linked governance request to identify accountable owners and confirm approval workflow; keep WB-14AA non-normative.
