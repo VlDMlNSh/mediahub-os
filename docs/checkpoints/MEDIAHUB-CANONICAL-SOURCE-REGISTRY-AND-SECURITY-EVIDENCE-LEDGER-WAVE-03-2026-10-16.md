@@ -170,7 +170,7 @@ The bounded Wave 10 review distinguishes component catalogue, YAML scope, propos
 | SRC-045 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-QUEUE-AND-TASK-CONTRACT-WAVE-11-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Creation commit `78fa1a835fb0c12084cb2a6932b24cd4d600f1d1`; live blob SHA `07c8bce182c5e7c87ab963f83169f562f5543e3c` | Candidate admission/state machine and queue policy | PROPOSED / NOT ACCEPTED / NOT IMPLEMENTED | Accepted A0 issuer/lifecycle and R-06 |
 | SRC-046 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Creation commit `8edbf7aa8897b0701c9e461cd8dce5e73d3d2bdf`; live blob SHA `64148c96c056e8c1fc7a79072862a79cb1c837eb` | Candidate machine-readable task envelope | PROPOSED / VALIDATOR REVIEW PENDING | Schema validation, collision check, accepted A0 contract |
 | SRC-047 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Creation commit `e2920288b6295379ecfd61db0335b15e10969f26`; live blob SHA `c9821fbe26735982521edff5bcc81630ae2a0473` | Documentary priority queue CAF-Q-001…CAF-Q-010 | DOCUMENTARY ONLY / NO LIVE SCHEDULER | A0-owned queue lifecycle, authorized runtime implementation |
-| SRC-048 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | Update commit `15b6c369908530ecacc17601f34b68baad2ea26c`; read-back pending | CAF-15…CAF-19 cross-domain traceability | PROPOSED / NOT ACCEPTED / NOT FROZEN | Independent evidence and authority closure |
+| SRC-048 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | Update commit `8344b86d5ed7f7dbbbfdb3c4efa1c9b9004c3161`; live blob SHA `58aea5ca614790503c96f2c8996fc09cc06476b5` | CAF-15…CAF-19 cross-domain traceability | PROPOSED / NOT ACCEPTED / NOT FROZEN | Independent evidence and authority closure |
 
 | Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
 |---|---|---|---|---|
@@ -195,7 +195,7 @@ Registry entries index proposals only. Queue creation does not dispatch tasks, c
 
 | ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
 |---|---|---|---|---|---|
-| SRC-049 | `docs/checkpoints/MEDIAHUB-GEMINI-WORKFLOW-HARDENING-PATCH-PROPOSAL-WAVE-12-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Creation commit `95c62d6a64490bc3607e4c41be69ae2b15e0d43d`; read-back pending | Source-bound patch plan for two read-only Gemini workflows | PROPOSED / NOT APPLIED / NOT TESTED | Explicit source-edit authorization, patch review, workflow validation |
+| SRC-049 | `docs/checkpoints/MEDIAHUB-GEMINI-WORKFLOW-HARDENING-PATCH-PROPOSAL-WAVE-12-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Creation commit `95c62d6a64490bc3607e4c41be69ae2b15e0d43d`; live blob SHA `11106dcbb26c2a54643c8727732ef56c63510c7f` | Source-bound patch plan for two read-only Gemini workflows | PROPOSED / NOT APPLIED / NOT TESTED | Explicit source-edit authorization, patch review, workflow validation |
 | SRC-050 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Update commit `21de50d46b033a1ea0fdc250fdc2730771502488`; read-back blob `b15d57d201b8acc8a298c0bf6110473cd614d685` | Documentary task queue with CAF-Q-003 state updated | DOCUMENTARY ONLY / NO LIVE DISPATCH | Reviewed proposal, authorization, accepted A0 lifecycle |
 | SRC-051 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | Update commit `8344b86d5ed7f7dbbbfdb3c4efa1c9b9004c3161`; read-back pending | GWF-12 and CAF-20…CAF-22 traceability | PROPOSED / NOT ACCEPTED / NOT FROZEN | Independent review, full schema/workflow validation and authorized execution |
 
@@ -205,3 +205,12 @@ Registry entries index proposals only. Queue creation does not dispatch tasks, c
 | EVD-025 | Gemini workflow remediation readiness | Wave 12 proposal bound to exact current workflow blobs; no patch applied | PATCH PLAN READY FOR REVIEW / IMPLEMENTATION NOT STARTED | Approved patch, source-level review, static validation and authorized tests |
 
 The checks in EVD-024 are bounded structural assertions, not a full JSON Schema conformance result or workflow qualification.
+
+
+### Wave 12 read-back addendum
+
+- Gemini hardening proposal blob SHA: `11106dcbb26c2a54643c8727732ef56c63510c7f`.
+- Updated activation queue blob SHA: `b15d57d201b8acc8a298c0bf6110473cd614d685`; CAF-Q-003 is `PATCH_PROPOSAL_CREATED_REVIEW_REQUIRED`.
+- Unified matrix blob SHA: `58aea5ca614790503c96f2c8996fc09cc06476b5`.
+- Project map update commit: `dc78ced5549d54a5c9cd1cfc68678a6081964e07`; map blob SHA: `febcd37109c237bb301d487201e2ecb5aeadeb36`; §20.341 records Wave 12.
+- Structural evidence EVD-024 remains limited to 13 bounded assertions; full JSON Schema validation and workflow tests remain open.
