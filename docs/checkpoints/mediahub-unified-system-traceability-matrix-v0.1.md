@@ -2088,3 +2088,19 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 The v0.2 artifacts are candidate schemas. The 20/20 checks are bounded structural assertions only. They do not prove standards conformance, semantic correctness, live agent registration, authorization, workflow operation or qualification.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 27. Cloud-agent schema coherence and map recovery — Wave 17 (2026-10-16)
+
+| Control ID | Requirement | Evidence / change | State | Closure evidence |
+|---|---|---|---|---|
+| CAF-40 | Task-envelope and evidence-manifest versions must agree | Task Envelope v0.2 now binds `mediahub.cloud-agent-evidence-manifest.v0.2`; blob `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a` | COHERENCE REPAIRED / CANDIDATE | Full Draft 2020-12 validation and independent review |
+| CAF-41 | Documentary queue must use the current candidate schema | Queue top-level `task_envelope_schema` points to task-envelope v0.2; blob `1ef28af318a4be6618e0d9703a3e8d208a807206` | DOCUMENTARY QUEUE UPDATED | Accepted A0 lifecycle and separately qualified scheduler |
+| CAF-42 | Current project map must preserve its full historical navigation | Restored from last known complete map blob `6b98de335da9fadc0f92900deff260a8bef6830a`, then appended Wave 15–17 entries | DOCUMENTATION REPAIR / READ-BACK REQUIRED | Full map read-back, section/ID collision check and branch comparison |
+| CAF-43 | Structural consistency checks | 23/23 bounded assertions passed on current GitHub read-back | STRUCTURAL SMOKE ONLY | Standards-compliant meta-validation, negative fixtures and independent review |
+
+### Wave 17 boundary
+
+Wave 17 closes a cross-schema version mismatch and records 23 bounded structural assertions. These checks establish neither standards conformance nor runtime readiness. A0 issuer/lifecycle, MH-12 authority, R-06 audit/privacy and authoritative runner/workspace/network target manifest remain hard gates for live agent activation.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
