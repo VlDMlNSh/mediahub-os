@@ -135,3 +135,10 @@ D-03 явно принят владельцем 2026-10-14 и больше не 
 - Provides a transport-neutral logical operation inventory, minimum request envelope, durable admission/idempotency requirements, lifecycle/fencing/cancellation/result semantics, trust-boundary requirements, failure matrix and nine local proposal decisions.
 - Does not select transport, endpoint, schema ID, issuer, crypto profile, storage or numeric TTLs. Proposal decision IDs are not canonical registry IDs; collision-check before promotion.
 - No implementation, tests, qualification or runtime activity. All A0 ingress-specific owner/governance questions remain OPEN.
+
+## Contour A A0 ingress ID and decision-owner crosswalk — WB-14AB (2026-10-16)
+
+- Report: [WB-14AB A0 Ingress Proposal-ID Collision Audit and Decision-Owner Crosswalk](MEDIAHUB-CONTOUR-A-WB-14AB-A0-INGRESS-ID-COLLISION-AND-DECISION-OWNER-CROSSWALK-2026-10-16.md).
+- Bounded scan found no exact `A0-ING-01…09` hits in the reviewed map, checkpoint, roadmap, owner records, MH-12 and ASTRA governance/source files. This is not an all-branch absence proof; retain these labels as proposal-local, not canonical decision IDs.
+- Crosswalk maps A0-ING-02 to D-ING-01/02, A0-ING-04 to D-ING-03, A0-ING-06 to D-ING-04, A0-ING-07 to D-ING-05b, A0-ING-05 to D-ING-06; A0-ING-01/03/08/09 retain cross-cutting acceptance dependencies. Keep D-ING-05a and D-ING-05b separate.
+- WB-14W's role-level acceptance paths remain proposals; accountable individuals/delegated authority and formal approval workflow are NOT ESTABLISHED. No options selected; WB-14AA remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
