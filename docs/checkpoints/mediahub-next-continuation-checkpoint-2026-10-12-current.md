@@ -3769,3 +3769,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - R-06 remains UNKNOWN / GOVERNANCE DECISION REQUIRED. No global fail-open/fail-closed behavior selected; no owner decision or independent reviewer disposition implied. All D1/D2/D3/D6 and qualification statuses unchanged.
 - Refs refreshed: docs branch compare against main reports DIVERGED, 1598 ahead / 4 behind; main HEAD `ab36db009d034db8d8ca723691e23b331322287e7`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration attempted.
 - Next: find exact accepted P0-05/P0-04 primary contract paths on their owning refs and extract only the explicitly named operation inventory; if absent, ask the owner to identify the canonical operation contract.
+
+
+## Latest bounded continuation — Gemini read-only audit workflow activation (2026-10-16)
+
+- PR [#300](https://github.com/VlDMlNSh/mediahub-os/pull/300) is now verified CLOSED / MERGED. Merge commit: `506372737aeee145394a16705bf403d7aa975210`.
+- Workflow verified on `main`: `.github/workflows/gemini-readonly-audit.yml`, blob SHA `b2d1e65e04f4b00a6d86e7f227675a25cdd70bec`. Manual-only `workflow_dispatch`; `contents: read`; checkout credentials not persisted; result output is a bounded artifact and Actions summary.
+- Created [Gemini Read-only Audit Workflow — Activation Checkpoint](MEDIAHUB-GEMINI-READONLY-AUDIT-WORKFLOW-ACTIVATION-CHECKPOINT-2026-10-16.md), blob SHA `e5e977833211c7639e9e747c1265fc077772afb9`; indexed as map section 20.316.
+- Current official Gemini model documentation confirms `gemini-3.8-flash` as a model ID. This does not confirm that the repository's Actions secret exists or is valid.
+- The available workflow-run query returned no runs associated with the merge commit. No Gemini API call, result, successful execution, test, qualification or acceptance is claimed.
+- Blocker: the available GitHub connector exposes no workflow-dispatch operation, and available browser profiles have no recorded GitHub sign-in. Do not use an unauthenticated assumption or claim the agent has launched. First launch must occur in an authenticated GitHub Actions session; then capture run ID, result status and artifact.
+- No source contracts, product code or infrastructure changed. No tests or qualification were run.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
