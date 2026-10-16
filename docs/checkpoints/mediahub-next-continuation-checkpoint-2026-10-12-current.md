@@ -3450,3 +3450,17 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, qualification, source-code edits, credentials/provider calls, host/runtime inspection, install, infrastructure change, deployment, migration or branch integration occurred.
 - Next: WB-14R statement-level authority wording reconciliation plus field-level crosswalk to existing schemas. Keep transport and issuer decisions open; do not alter normative contracts without accepted authority.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14R ASTRA A0 authority reconciliation and ingress schema crosswalk (2026-10-16)
+
+- Report: [WB-14R A0 Ingress Authority and Schema Crosswalk](MEDIAHUB-CONTOUR-A-WB-14R-A0-INGRESS-AUTHORITY-AND-SCHEMA-CROSSWALK-2026-10-16.md), commit `6441ea7f6d08b5a07e46748cdde43a703fda8fc1`, report blob SHA `ec783cb5432c68436c1c451c29dd6fa007b7d8d3`.
+- At pass start: main HEAD/tree `ab36db009d034db8dca723691e23b331322287e7`; docs branch HEAD `3ca310c94f8746e2b47a8927ce66ec881484105d`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; docs branch ahead 1481 / behind 4. No branch integration.
+- Reconciled source wording for Jarvis corporation-level mission coordination, ASTRA A0 internal queue/claim/lease/retry/cancel/recovery/gate state and MediaHub Product State Authority. Several docs-branch ASTRA sources already scope A0; main still contains broad “single MediaHub coordination and state authority” phrasing; unified markdown is ambiguous on both refs.
+- Target contradiction remains: reference architecture and unified ASTRA model label mh-dev-01, mh-dev-02 and Voktors-Mac-mini.local as permanent executor lanes. Bootstrap rule says old identities are history only. Target executor/node inventory stays UNKNOWN/BLOCKED; no replacement identities inferred.
+- Field crosswalk covers IDs/mission DAG, authenticated principal/issuer/audience, capability, signature, timestamp/freshness, target SHA/digest, route, scope/egress, idempotency, nonce health, acknowledgement/status/cancel/result and evidence. Existing schema-set draft remains the non-normative field inventory; do not create a competing mission/task/result set.
+- Command-contract issue: ops/control/sign_command.py and tools/sign_astra_command.py emit different envelope/key conventions; the documented health-command example aligns with neither fully. FileTaskIngress/AstraGatewayRuntime is an application-runtime path, not evidence of the new Jarvis→A0 API. Domain/device, model and mesh capability schemas are not security capability tokens.
+- Main-only WB-14 source packet and corporation proposal crosswalk were read to avoid repeating prior inventory. Main-only Baseline 1.0 modification was not imported; Baseline 2.0 remains canonical.
+- No tests, security scans, qualification, providers/models, credentials, host/runtime inspection, install, infrastructure change, deployment, migration or branch integration occurred. No code or normative schema changed.
+- Next: WB-14S strict schema ownership and operation-specific field mapping. Keep capability issuer, transport, authentication/crypto profile, freshness and durable admission/idempotency choices open pending accepted decisions.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
