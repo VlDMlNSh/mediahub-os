@@ -3973,3 +3973,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Status: PLAN / SOURCE-ANCHORED / NOT ACCEPTED / NOT FROZEN. No workflow edits, tests/scanners, workflow dispatch, provider/model calls, credential or secret access, runner/host inspection, infrastructure changes, deployment or branch integration occurred.
 - Next: Wave 07 — canonical authority inventory and project-wide matrix integration, Day 1; reconcile existing matrices instead of creating a competing register.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — free cloud agent onboarding, Wave 01 (2026-10-16)
+
+- Added `docs/checkpoints/MEDIAHUB-FREE-CLOUD-AGENT-ONBOARDING-WAVE-01-2026-10-16.md`; creation commit `f4eea7db0697e802f6b28cd444933b0fd5875f00`.
+- Existing Gemini manual workflows were read from `main`: primary workflow blob `0d10efdda251f2ceca43175981c919102303572b`; bounded-retry workflow blob `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`. Both use `GEMINI_API_KEY` or `GOOGLE_API_KEY`.
+- Security Wave 02 report read from the documentation branch: blob `5d7484a0dac931a6e6f671df1a1749bacc242982`. Secret-scanning, code-scanning and Dependabot alert counts remain UNKNOWN. The report records 32 workflow files on the inspected main tree.
+- GitHub's documented Actions secret API returns metadata, not plaintext values. The connected GitHub tool surface for this pass has no repository-secret listing or workflow-dispatch action.
+- Created a manual runbook and indexed it in map section 20.329. Map read-back SHA after update: `5cbf987fcd59c3c067d00f606c0fbeb238e3b217`; map update commit: `63d380a3aceedccbf94342f73a6e73401f8f0492`.
+- No secrets were read or printed; no provider API call, workflow dispatch, scanner, test, installation, infrastructure change or deployment occurred. Runtime success and security acceptance remain UNKNOWN.
+- Next action: manually inspect Actions secret metadata in GitHub UI and dispatch one bounded read-only Gemini audit; capture run ID, resolved commit SHA, artifact digest and redaction review. Consider additional providers only after individual free-tier, data-egress and least-privilege review.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
