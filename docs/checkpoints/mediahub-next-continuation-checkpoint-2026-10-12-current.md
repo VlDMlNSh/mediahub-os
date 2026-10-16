@@ -4010,3 +4010,16 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Live branch compare at start of pass: DIVERGED, ahead 1,668 / behind 10; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Branches remain separate.
 - Next: parallel documentary closure of provider identity/egress, component manifest/YAML scope, A0 external/internal lifecycle boundary, audit/privacy R-06 and target-manifest unknowns, integrating each lane into this matrix by source SHA and stable ID.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — Free Cloud Agent Router and Quota Failover Design, Wave 03 (2026-10-16)
+
+- Added `docs/checkpoints/MEDIAHUB-FREE-CLOUD-AGENT-ROUTER-DESIGN-WAVE-03-2026-10-16.md`; creation commit `d2f663c90ca3618f27b689fc4a7eb380465ba05e`, document blob SHA `7cf6d7a4ca68d9c3413601780d4e1c0be0c7b48c`.
+- Re-read current source refs: map blob before this update `c6b050b94835da2889e3e59f2d90189a9077941f`; bootstrap blob `aa77ba6850f3b3cf51fcf5fae491b2998a276321); Gemini primary workflow blob `0d10efdda251f2ceca43175981c919102303572b`; retry workflow blob `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`; Astra controller blob `51b17ec2410032772f9baa1de4afedb6b000f3c4`; Astra supervisor blob `a0209a2d01122354d19e95d2f362a6ecfa3d6186`.
+- Documented the existing Gemini path plus GroqCloud and OpenRouter as free-tier candidates; GitHub Models and Cerebras remain unverified candidates. Account-specific key presence, current quotas, model availability and data-use terms remain UNKNOWN.
+- Designed a hosted-runner router, free-only model allowlist, quota-scope registry, bounded retries, compliant provider failover, zero-cost guard, evidence envelope and rollout gates. The design explicitly rejects key cycling intended to bypass quotas, account restrictions or provider controls.
+- The current connector exposes no repository-secret listing or workflow-dispatch action. No secret values were read; no provider/model calls, workflow dispatch, tests, scanners, installation, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
+- Status: DESIGN / PROPOSED / RUNTIME-UNVERIFIED. No agent has been newly enabled by this pass.
+- Map updated with §20.332; map update commit `b4865360167c23b810d938c0a0cda55f39c4f3ac`, map blob SHA `3116d71365890cfdd27357d6ad6dbc6d21eff92d`.
+- Next: obtain owner-visible Actions secret-name metadata and provider account evidence; after separate explicit implementation authorization, prepare a separate-branch patch and perform a bounded first-provider proof under the project authorization protocol.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
