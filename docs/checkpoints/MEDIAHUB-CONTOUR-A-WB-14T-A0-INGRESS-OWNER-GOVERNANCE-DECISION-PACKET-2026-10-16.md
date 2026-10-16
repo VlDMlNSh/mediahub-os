@@ -252,3 +252,15 @@ Not performed:
 Next bounded step: **WB-14U — source-only closure of health/readiness vocabulary ownership and lifecycle-status transition ownership**, using existing MH-06/domain schema and A0 lifecycle sources. If the conflicting status vocabularies cannot be reconciled from accepted source, record a precise owner decision rather than selecting an enum. In parallel, preserve D-ING-01…05 as OPEN pending explicit approval.
 
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## WB-14V documentary correction — 2026-10-16
+
+The sentence in the original decision analysis stating that “MH-06 itself remains proposed pending full reconciliation/governance acceptance” is incorrect and is superseded by this correction. `docs/architecture/MH-06-ADR-001-health-readiness-semantic-contract.md` is explicitly ACCEPTED / GOVERNANCE ACCEPTED for the scoped MH-06 Core Runtime Services semantics; implementation authorization remains NO. The mismatch between the accepted MH-06 vocabulary and the generic domain health schema is a separate unresolved scope/mapping issue, not pending acceptance of MH-06 itself.
+
+Decision split (all OPEN; recommendations are not decisions):
+- **D-ING-05a:** generic domain health schema ↔ MH-06 scope/mapping.
+- **D-ING-05b:** A0 ingress health challenge/response contract, including freshness and responder correlation.
+- **D-ING-06:** corporation-facing A0 lifecycle states and transition authority.
+
+D-ING-01 through D-ING-04 remain OPEN. No enum, lifecycle transition, transport, crypto profile, issuer, persistence mechanism or freshness threshold was selected. See [WB-14V correction and split packet](MEDIAHUB-CONTOUR-A-WB-14V-MH06-STATUS-CORRECTION-AND-INGRESS-DECISION-SPLIT-2026-10-16.md).
