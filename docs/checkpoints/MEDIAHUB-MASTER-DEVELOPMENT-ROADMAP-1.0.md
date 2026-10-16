@@ -1546,3 +1546,12 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - ASTRA GOLD's canonical evidence/qualification rules can constrain a future ingress contract but do not define or accept the Jarvis-facing API, issuer, external admission/idempotency or result contract. Internal evidence freshness is not an external request/token/probe TTL.
 - Docs/main executor-matrix scope wording drift remains recorded and unintegrated. No runtime/test/qualification action occurred.
 - Next: prepare a source-linked governance request to identify accountable owners and confirm approval workflow; keep WB-14AA non-normative.
+
+
+## Contour A WB-14AD — A0 ingress governance request (2026-10-16)
+
+- Created [WB-14AD ASTRA A0 Ingress Governance Request](MEDIAHUB-CONTOUR-A-WB-14AD-A0-INGRESS-GOVERNANCE-REQUEST-2026-10-16.md), commit `d32e0dce23bfb577836b4ef861bf33be0361fbf8`, blob SHA `a2367eff5ca2092fa12bda0be4cab75bf4e2ba9d`.
+- Request prepared for accountable owner appointments and approval-workflow confirmation, sourced to WB-14AA/AB/AC. It does not assign roles, choose technical options, or constitute owner acceptance.
+- D-ING-01…04, D-ING-05a/05b and D-ING-06 remain OPEN; WB-14AA remains non-normative. No implementation or qualification gate was crossed.
+- Next: record explicit owner/governance disposition when available; otherwise proceed with independent source-only contract/evidence reconciliation without repeating WB-14AA/AB/AC.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
