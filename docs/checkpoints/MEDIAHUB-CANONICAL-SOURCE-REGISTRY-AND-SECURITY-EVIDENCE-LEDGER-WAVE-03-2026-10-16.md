@@ -230,3 +230,16 @@ The checks in EVD-024 are bounded structural assertions, not a full JSON Schema 
 ### Wave 13 evidence boundary
 
 These records are proposed schemas. They define data shapes and mandatory references; they do not establish authorization, live registry storage, a scheduler, worker isolation, a provider connection, execution, qualification or acceptance. Never treat a schema field value as an authorization grant without the accepted authority and corresponding evidence.
+
+
+## Wave 14 — Cloud-Native Credential and Egress Architecture
+
+| ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on |
+|---|---|---|---|---|---|
+| SRC-047 | `docs/checkpoints/MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `195a796bcc2b197b3bdd7eac8ec729aac70be4a6`; read-back pending | Contour A credential injection, provider egress, quota/fallback and agent onboarding reference design | PROPOSED / RUNTIME-UNVERIFIED | A0 issuer/lifecycle, R-06, target manifest, provider/task route authorization |
+| SRC-048 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Update commit `1140f33791f3a9ce5fb10a736d99a120afec56fb`; blob `0d751edc2b52085781eddb8e2e5ce638d93e5f88` | Documentary queue CAF-Q-001…CAF-Q-012 | DOCUMENTARY ONLY / NO LIVE SCHEDULER | Accepted A0 lifecycle and separately qualified scheduler |
+| EVD-025 | Direct cloud-runner provider-egress design | Wave 14 architecture plus official GitHub runner/security and provider-policy docs | DESIGN EVIDENCE ONLY | Target manifest, source review and authorized runtime evidence |
+
+### Wave 14 evidence boundary
+
+The design removes a user-owned permanent server from the default credential/network path. It does not remove the need for outbound network access, guarantee fixed IPs, bypass provider account/region rules, or establish an active provider route. Registry and queue entries remain documentary until the corresponding accepted authority and runtime evidence exist.
