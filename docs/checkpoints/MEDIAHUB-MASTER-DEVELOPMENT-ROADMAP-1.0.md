@@ -1768,3 +1768,15 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Status: SCHEMA ARTIFACTS CREATED / REVIEW REQUIRED / RUNTIME-UNVERIFIED. A0 issuer/lifecycle, R-06, MH-12 authority and target manifest remain open. No new agent connection, provider call, workflow dispatch, workflow-source edit, installation, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
 - Next: independently review schemas; continue authoritative target-manifest discovery; then prepare a minimal workflow implementation patch only after source-edit and execution gates are explicitly cleared.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Cloud-Native Credentials and Egress, Wave 14 (2026-10-16)
+
+- Added [Cloud-Native Credential and Network-Egress Architecture — Wave 14](MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md), creation commit `195a796bcc2b197b3bdd7eac8ec729aac70be4a6`.
+- Defined direct outbound provider access from ephemeral hosted workers, runtime-only secret injection, independent provider/task/data authorization, no user-owned always-on server in the default path, dynamic hosted-runner egress, fixed-IP exception handling, quota/failover semantics and immediate agent-onboarding stages.
+- Updated [Activation Queue](MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json) with CAF-Q-011 (credential/egress review) and CAF-Q-012 (authoritative runner/workspace/network target manifest), update commit `1140f33791f3a9ce5fb10a736d99a120afec56fb`, queue blob `0d751edc2b52085781eddb8e2e5ce638d93e5f88`.
+- Architecture choice: direct HTTPS from GitHub-hosted ephemeral runners is the default; user-owned permanent server and user-device egress are excluded. Hosted runner IP is dynamic/shared by default; no fixed-IP or region-independence claim is made. Any provider-specific IP allowlist requirement needs a separate evidence-based decision.
+- Public source basis includes GitHub secure-use guidance, hosted-runner reference, OIDC documentation, Gemini API terms, and OpenRouter provider-routing/logging docs; exact links are in Wave 14.
+- State: REFERENCE DESIGN / PROPOSED / IMPLEMENTATION AND RUNTIME QUALIFICATION OPEN. No secret was accessed; no provider call, workflow dispatch, workflow-source edit, test, qualification, deployment or branch integration occurred.
+- Next: independent review of the Wave 13 schemas and Wave 12 patch proposal; continue exact-source discovery for A0 issuer/lifecycle, R-06 and the canonical runner/workspace/network manifest; then prepare a bounded implementation diff for explicit review.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
