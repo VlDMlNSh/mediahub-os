@@ -4159,3 +4159,17 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Branch divergence remains preserved. No branch integration was performed.
 - Next bounded work: CAF-Q-003 source-bound Gemini workflow patch proposal and CAF-Q-007 authoritative target manifest discovery. Keep A0 and R-06 as blocking gates for live queue operation.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 11 verified read-back — 2026-10-16
+
+- Queue/task contract: commit `78fa1a835fb0c12084cb2a6932b24cd4d600f1d1`, live blob `07c8bce182c5e7c87ab963f83169f562f5543e3c`.
+- Task envelope JSON Schema v0.1: commit `8edbf7aa8897b0701c9e461cd8dce5e73d3d2bdf`, live blob `64148c96c056e8c1fc7a79072862a79cb1c837eb`; JSON syntax parses; full JSON Schema validator review remains pending.
+- Documentary activation queue: commit `e2920288b6295379ecfd61db0335b15e10969f26`, live blob `c9821fbe26735982521edff5bcc81630ae2a0473`; JSON syntax parses and ten entries were read back.
+- Unified matrix: commit `15b6c369908530ecacc17601f34b68baad2ea26c`, blob `489e7a8268e70ad702925f31257129b69f3e9f53`.
+- Master Roadmap: Wave 11 addition commit `2d9f4755b78a9c29b5287cee4a989220f12aa8b4`, current blob before this read-back note `772137ea8eca3c7c277b8be8ef680c10db327225`.
+- Source registry SHA-binding commit `c5bd3a267e676d6e9c593e5892c047152c2e6546`, blob `4e0bea0b31f64d611c3fc2cf2ad73a3081d5a043`.
+- Project map §§20.339–20.340: commit `68e7f1af30e62678dcfb6e516c4beac2a42d779f`, blob `6b98de335da9fadc0f92900deff260a8bef6830a`; API read-back confirmed both section anchors.
+- Branch comparison: documentation ref DIVERGED from `main`, ahead 1,744 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No branch integration performed.
+- Current state remains DOCUMENTARY DESIGN / PROPOSED / NOT IMPLEMENTED / NOT QUALIFIED. No live queue, scheduler, agent registration or new connection is claimed.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
