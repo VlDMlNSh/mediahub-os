@@ -6192,3 +6192,15 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Status: **BOUNDED PATH HISTORY / REVERSE-REFERENCE REVIEW / DELETION CANDIDATES IDENTIFIED / SHARED BOOTSTRAP HELD / NO RUNTIME QUALIFICATION**.
 - Next: WB-14P launcher-family and bootstrap-contract reconciliation, separating host-bound mechanics from any approved reusable transport/health-evidence requirements.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.287 Contour A WB-14P — launcher-family and bootstrap-contract reconciliation (2026-10-16)
+
+- Report: [WB-14P Launcher-Family and Bootstrap-Contract Reconciliation](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14P-LAUNCHER-FAMILY-AND-BOOTSTRAP-CONTRACT-RECONCILIATION-2026-10-16.md), creation commit `7912300171bc1bece01106354a5314779a087182`, report blob SHA `0c54386545395a81e0bf0fc1b0ba11913d3203ac`.
+- Main and docs refs both contain duplicate launcher families: `deploy/mediahub-astra-github.service` (`e1962e4afe5db7ac1fcb901344d9f88205de0689`) and `deploy/com.mediahub.astra.github-agent.plist` (`2cca029b502fd911ec38272871c823a8717ed8fd`) start a static agent path directly, bypassing the documented bootstrap contract. The deploy systemd WorkingDirectory/PYTHONPATH use `/opt/mediahub/astra`, while the agent default ROOT is `/opt/mediahub/astra-worktree` unless an external env file overrides it (unknown; not inspected).
+- The old `ops/systemd` unit is absent from the docs ref but remains in main; the old `ops/launchd` plist persists on both refs with `Voktors-Mini.Dlink` and user-specific paths. `ops/systemd/mediahub-mesh.service` is another adjacent old-worktree service. No installed/running state is known.
+- Shared `ops/astra-github-bootstrap.sh` and `astra_github_agent.py` are not accepted target components: helper resets existing worktree to `origin/main`; agent couples transport, HMAC keys for legacy node IDs, broad command operations, claim/journal and result publication. Keep as SHARED-OR-UNKNOWN until ingress and security contracts are chosen.
+- The transport health verifier requires static path/hash identity but does not enforce capture age, request correlation, readiness status, or expected target node ID. “Fresh” is only a documentation precondition, not an enforced verifier property. Existing health evidence is BLOCKED/NOT_PASS legacy snapshot, not target qualification.
+- Status: **SOURCE-BOUNDED LAUNCHER/CONTRACT AUDIT / HEALTH VERIFIER GAP RECORDED / NO IMPLEMENTATION OR RUNTIME ACTION**.
+- Next: WB-14Q contract-only Contour A command-ingress decision and requirements matrix; keep owner choice explicit and do not change main until target ingress and branch strategy are resolved.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
