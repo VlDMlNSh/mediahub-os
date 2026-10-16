@@ -1,12 +1,12 @@
 # MediaHub Chat Tree Map — Wave 41 Addendum
 
 - Date: 2026-10-17
-- Status: RUSSIA-HOSTED RUNNER / PROVIDER-GEOGRAPHY ADMISSION GATE
+- Status: MANUAL PROVIDER ENROLLMENT BOUNDARY DOCUMENTED
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
-- Primary report: [Russia-Hosted Runner Boundary and Provider-Key Enrollment Design, Wave 41](../checkpoints/MEDIAHUB-RUSSIA-HOSTED-RUNNER-AND-PROVIDER-KEY-ENROLLMENT-WAVE-41-2026-10-17.md)
+- Primary report: [Manual Provider Enrollment and Phone-Originated Secret Handoff, Wave 41](../checkpoints/MEDIAHUB-MANUAL-PROVIDER-ENROLLMENT-AND-PHONE-SECRET-HANDOFF-WAVE-41-2026-10-17.md)
 
-## Navigation decision
+## Operational rule
 
-Separate human provider account/key enrollment from runtime provider invocation. The Russian-hosted runner must not be expected to open registration or key-management pages. The operator can use a browser from a provider-authorized location and enter the key directly into an approved secret store.
+Owner reports that provider enrollment/API-key pages may be unavailable from the Russia-hosted server. Until provider-specific eligibility is verified, the owner manually performs enrollment and key creation on a phone. VPN use is conditional on provider terms and applicable law; it must not be used to falsify eligibility facts.
 
-This does not prove that calls from the Russian runner are allowed. Provider-specific geography, actual execution egress, contractual terms, data residency and account eligibility remain admission gates. No proxy, VPN, relay or alternate target may be used to disguise origin or bypass restrictions.
+Keys are entered directly into the intended GitHub Actions secret or approved secret manager UI. Keys must stay out of chat, repository files, commits, logs, artifacts and command-line arguments. This is a documented process decision only; no credential or provider was accessed.
