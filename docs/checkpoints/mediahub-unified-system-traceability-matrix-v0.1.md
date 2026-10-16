@@ -1966,3 +1966,20 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 A successful historical Gemini API step is positive operational evidence and replaces any broad characterization of the integration as wholly unverified. It does not establish the complete autonomous fabric, recurring availability, accepted task authorization, full artifact provenance, source-hardening closure or qualification. This entry adds evidence without changing Baseline 2.0 or existing domain authorities.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 19. Clean target manifest authority reconciliation — Wave 10 (2026-10-16)
+
+Supporting review: [Clean Target Manifest Authority Reconciliation, Wave 10](MEDIAHUB-CLEAN-TARGET-MANIFEST-AUTHORITY-RECONCILIATION-WAVE-10-2026-10-16.md), blob SHA `1f748bf80e08067fd85a7e1b0821cc4d12bda676`.
+
+| Control ID | Source-backed disposition | Current state | Closure evidence |
+|---|---|---|---|
+| CTM-01 | Canonical text component manifest is a component-selection catalogue, not a physical deployment-target manifest. | SOURCE SCOPE CONFIRMED | Keep component selection and physical target identity separate. |
+| CTM-02 | YAML intended consumer/scope remains open among the previously recorded options; it cannot silently become an accepted target profile. | OWNER/GOVERNANCE DECISION OPEN | Accepted scope/consumer disposition with source revision and ID crosswalk. |
+| CTM-03 | Portable hardware examples remain proposals; the Jarvis adapter draft explicitly leaves physical target roles unbound. | TARGET UNKNOWN / BLOCKED | Owner-accepted target-role manifest and separately authorized evidence gathering. |
+| CTM-04 | MH-15 architecture and acceptance remain open; the reviewed sources provide no accepted exact target profile. | NOT ACCEPTED / NOT FROZEN | Exact hardware/OS/security/compatibility evidence, governance acceptance and qualification gates. |
+| CTM-05 | Existing deployment contract and matrix remain proposed integration artifacts. | PROPOSED / NOT ACCEPTED / NOT FROZEN | Revision-bound authority, implementation, verification, qualification and acceptance evidence. |
+
+The reviewed source set contains no owner-accepted exact clean target manifest. Preserve UNKNOWN for target identity, hardware, firmware, OS/toolchain, network/egress, storage/persistence, trust zones, worker isolation and recovery. Legacy hosts remain historical provenance only. No gate closes through this documentary finding.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
