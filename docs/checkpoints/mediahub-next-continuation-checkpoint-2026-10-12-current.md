@@ -3904,7 +3904,7 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 
 - Report: [MEDIAHUB Unified Contract and Traceability Matrix — Wave 01](MEDIAHUB-UNIFIED-CONTRACT-AND-TRACEABILITY-MATRIX-WAVE-01-2026-10-16.md), creation commit `bdab9d96757cb166e59cda972cd5d39a593b43da`.
 - Map index updated in commit `f22d0230b9c2912d2588d16f39945d4d457fc780`; the map update was made on `docs/mediahub-chat-tree-map-20261012` only.
-- Live comparison of documentation ref against `main`: DIVERGED, documentation ref ahead 10 / behind 1,640; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration occurred.
+- Live comparison of documentation ref against `main`: DIVERGED, documentation ref ahead 1,643 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration occurred.
 - Baseline 2.0 remains canonical accepted functional reference; Baseline 1.0 remains historical provenance. The compare result surfaced a substantial main-side Baseline 1.0 edit requiring separate provenance review.
 - Wave 01 is an analysis/control artifact, not a normative contract and not a complete all-branch/all-file census.
 - No tests, qualification, provider/model calls, credential use, host/runtime inspection, installation, infrastructure changes, deployment, migration, merge, rebase or cherry-pick occurred.
