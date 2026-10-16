@@ -6482,3 +6482,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Live ref compare after report creation: documentation branch DIVERGED, 1,596 ahead / 4 behind `main`; observed `main` HEAD `ab36db009d034db8d8ca723691e23b331322287e7`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration attempted.
 - **Next:** prepare an operation-by-operation R-06 owner decision table only from operations already enumerated in accepted source contracts; if the contracts do not enumerate them, record that as UNKNOWN rather than inventing an operation list.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.315 P0-07 D2 R-06 — operation-scoped audit-unavailable owner decision table (2026-10-16)
+
+- Report: [R-06 Operation-Scoped Audit-Unavailable Owner Decision Table, Wave 01](../checkpoints/MEDIAHUB-P0-07-D2-R06-OPERATION-SCOPED-AUDIT-UNAVAILABLE-OWNER-DECISION-TABLE-WAVE-01-2026-10-16.md); current blob SHA `9acc0188c9d7db12ec3331d84aa070f3f9646661`.
+- Result: **operation inventory UNKNOWN**. The reviewed accepted sources state operation-specific behavior but did not provide a closed named operation list that this pass could safely populate. Do not invent operations from implementation names or infer from search silence.
+- Decision table intentionally contains one UNKNOWN inventory row. Required audit-unavailable behavior remains unresolved; no global fail-open/fail-closed policy is selected. Owner/security/privacy decision and a traceable independent D2 reviewer disposition remain separate gates.
+- Status unchanged: R-06 UNKNOWN / GOVERNANCE DECISION REQUIRED; D1 NOT DEMONSTRATED; D2 NOT EVIDENCED / NOT ACCEPTED / NOT FROZEN; D3 NOT EVIDENCED; D6 OPEN; P0-07 mutation/publication BLOCKED; qualification NO-GO / NOT PROVEN.
+- No code, normative contract, tests, qualification, runtime, infrastructure or deployment work was performed. No branch integration attempted.
+- Next: identify exact accepted P0-05/P0-04 primary contract paths on owning refs and extract their explicit operation inventory; if none exists, request owner identification of the canonical contract.
+- Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
