@@ -4241,3 +4241,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Execution boundary: these checks are bounded structural assertions, not standards-compliant JSON Schema meta-validation, workflow tests, provider-backed execution or qualification. No credentials or secret values were accessed. No workflow source was edited or dispatched; no provider call, installation, host/runtime inspection, infrastructure change, deployment or merge occurred.
 - Current next priorities: (1) independent review of Wave 13 schemas and Wave 12 patch proposal; (2) exact-source A0 issuer/lifecycle and R-06 authority closure; (3) authoritative runner/workspace/network target manifest; (4) implementation diff on an explicitly authorized working ref; (5) separately authorized tests and provider-backed workflow dispatch.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 15 — Cloud-Agent Schema Semantic Review (2026-10-16)
+
+- Review report: `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-SEMANTIC-REVIEW-WAVE-15-2026-10-16.md`, creation commit `67411c653326c750dc45b235689f90e98cde9d7d`.
+- Exact schema blobs reviewed: task envelope `64148c96c056e8c1fc7a79072862a79cb1c837eb`; registry `449a38bc84283f720fe723ea8e3587e6082fdbb4`; evidence manifest `9714fd2dd04d401a9a3d1a800cb19d7b69e7e73f`.
+- Ten findings CAS-01…CAS-10 recorded. Highest priority: execution status currently admits `verified` and `qualified`, which must be represented as separate evidence-linked lifecycle outcomes. Registry authorization and reviewer approval values remain descriptive data unless verified against accepted authority sources.
+- Queue updated: CAF-Q-004/005 now record semantic findings; CAF-Q-013 added for versioned v0.2 schema remediation. Commit `fb6285bf8c67c20d1a7829de730a8900baa7bd83`; queue blob `b22a601ac4d0ff392e7689a6b3cd86dfca979439`.
+- Matrix extends CAF-31…CAF-35. v0.1 schemas remain unchanged.
+- State: STATIC REVIEW / REMEDIATION PROPOSAL / NO SCHEMA PATCH APPLIED. Bounded structural checks remain distinct from full Draft 2020-12 validation, negative-fixture tests and qualification.
+- Next: prepare v0.2 schemas, then obtain standards-validator evidence and independent review after the execution authorization gates are cleared.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
