@@ -538,3 +538,28 @@ Official source references: [OpenHands SDK v1.54.0 dependency metadata](https://
 - No architecture or owner decision was changed. This preflight does not recommend adding OPA alongside an existing accepted policy/enforcement mechanism unless a concrete gap is documented.
 
 **Next:** continue source-only inventory of a distinct shortlisted candidate only if it addresses a separate unresolved capability; otherwise wait for owner disposition on policy authority and target-profile gates. Do not install, build, evaluate policies or run tests without separate authorization.
+
+
+## 7.22 Temporal Python SDK + Temporal Server — durable-execution fit and authority-boundary preflight (2026-10-16)
+
+**Owner direction:** The owner explicitly confirms the user-authored MediaHub master prompt in this conversation as the project direction. This confirms the architectural direction and workflow priorities; it does **not** select or admit Temporal, approve a second workflow/state authority, or establish target runtime facts.
+
+**Scope:** read-only source inspection of official upstream repositories at immutable commit refs. No source/binary download, build, installation, runtime evaluation, workflow execution, tests, credentials, host/runtime inspection or deployment occurred.
+
+| Evidence | Observation | MediaHub interpretation |
+|---|---|---|
+| Python SDK source | Official repository: https://github.com/temporalio/sdk-python; inspected commit `346d4dcd0863657c3a33283c952a296762059339`. README blob `81d40696956098ae2ec62695bef46076e41b30ef`; `pyproject.toml` blob `f803404db6d065deec6575daafac6480a12cb0d8` declares package version `1.34.0`, Python `>=3.10`, and MIT license; LICENSE blob `c7f1b9e7e809f4134614fdd5bd1b00c5e3a8df87`. | The inspected commit's package metadata identifies 1.34.0, but this pass did not establish an immutable release tag or a wheel/sdist digest. A request for ref `v1.34.0` returned no matching commit; do not treat the inspected moving-branch commit as an admitted release pin. |
+| SDK role | README describes Temporal as a durable, scalable workflow engine and the Python SDK as the framework for authoring workflows and activities. | Plausible substrate for long-running/recoverable activity execution, but not proof that MediaHub needs it. ASTRA A0 already has lifecycle/queue authority contracts under reconciliation. |
+| Server dependency | Official server repository: https://github.com/temporalio/temporal; inspected commit `dcd360f177a1238c6f7c59ef5889613b7e243a03`. README blob `d89e30ebb9863ea82c9203e1e696170ea9484af9`; LICENSE blob `3349f76795f4409cba6ae18ea56adf9fbd8346f3` contains MIT license text; `go.mod` blob `1bc4ab1e6cd4eac8a5aee1c07d7b2a8f86b91fad` declares Go `1.27.0`. | The SDK is not a self-contained durable execution service. A server, persistence, operational monitoring, backup/recovery and security profile would need separate evaluation. The source branch's Go requirement is not target compatibility evidence; Contour A OS/toolchain/topology remain UNKNOWN. |
+| Security policy source | Root `SECURITY.md` was not found at either inspected repository ref. | This is only a source-path observation, not a conclusion that no security process or vulnerabilities exist. Advisory history, supported release policy, transitive SBOM and vulnerability response require independent review. |
+| Architecture boundary | Temporal's workflow execution primitives may overlap with ASTRA queue, retry, cancellation, durable lifecycle and recovery responsibilities. | If considered later, Temporal must be a bounded execution substrate under ASTRA-owned mission/authority contracts, not a second canonical mission registry, Product State Authority, capability issuer or competing owner of accepted task lifecycle. No dual-queue design is implied. |
+
+### Candidate disposition and open gates
+
+- **Temporal Python SDK + Server: FUTURE-GATED / SOURCE-PINNED FOR PAPER REVIEW ONLY / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED.** This is consistent with the existing component register's `FUTURE-GATED` status.
+- **Potential value:** durable execution/recovery for long-running activities, but only if an evidenced lifecycle/recovery requirement cannot be met by the accepted ASTRA A0 design without duplicating its authority.
+- **Required before any selection:** owner-approved gap statement; comparison against ASTRA A0 queue/lifecycle/recovery contracts; supported release/tag and exact SDK/server artifact digests; source-to-artifact provenance; dependency/SBOM/license/advisory closure; persistence and backup/recovery design; worker trust/isolation and credential/egress boundaries; server authentication/TLS and data retention; operational footprint and target hardware/OS/toolchain fit; failure, cancellation, retry and idempotency semantics; independent review.
+- Do not choose both Temporal and Hatchet by default. Compare only if durable execution is established as a distinct required capability.
+- No owner architecture decision was changed; no runtime activity was performed.
+
+**Next:** retain Temporal as a future-gated candidate. Do not proceed to installation or runtime evaluation. First reconcile the accepted ASTRA lifecycle/queue contracts and determine whether a specific durable-execution gap exists; otherwise do not add a second orchestration engine.
