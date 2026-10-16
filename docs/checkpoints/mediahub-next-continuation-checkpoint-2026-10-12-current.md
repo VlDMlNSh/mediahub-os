@@ -4185,3 +4185,17 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Status: patch proposal only; workflow source unchanged and no workflow dispatch occurred. No provider calls, credentials, tests/scanners, host/runtime inspection, infrastructure changes, qualification, deployment or branch integration.
 - Next: independent review of the patch proposal; then a minimal patch on an explicitly authorized working ref, followed by separately authorized workflow tests. Provider-backed dispatch remains a distinct action.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 12 final read-back — 2026-10-16
+
+- Gemini workflow hardening proposal: commit `95c62d6a64490bc3607e4c41be69ae2b15e0d43d`, blob `11106dcbb26c2a54643c8727732ef56c63510c7f`.
+- Activation queue updated: commit `21de50d46b033a1ea0fdc250fdc2730771502488`, blob `b15d57d201b8acc8a298c0bf6110473cd614d685`; CAF-Q-003 now awaits proposal review.
+- Unified matrix: commit `8344b86d5ed7f7dbbbfdb3c4efa1c9b9004c3161`, blob `58aea5ca614790503c96f2c8996fc09cc06476b5`.
+- Canonical Source Registry: commit `2c163c45f9ef2babf57d786f3a95203c3c44631b`, blob `8009abcfc1f0a8a83512e7321d9765ccca828068`.
+- Project map: commit `dc78ced5549d54a5c9cd1cfc68678a6081964e07`, blob `febcd37109c237bb301d487201e2ecb5aeadeb36`; API read-back confirms §20.341.
+- Master Roadmap read-back follow-up commit: `09920beab0399322b554de09bb9c96cfe86cac41`, blob `1759845042b5479e22b4df2b090b80f06a0ff73f`.
+- 13/13 bounded structural assertions passed; full JSON Schema conformance and workflow testing remain pending.
+- No workflow edit or dispatch occurred; no provider calls, credentials, host/runtime inspection, infrastructure change, qualification, deployment or branch integration occurred.
+- Next: review the exact-source Wave 12 proposal, then request a minimal patch on an explicitly authorized working ref; preserve A0 and R-06 gates for live scheduling.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
