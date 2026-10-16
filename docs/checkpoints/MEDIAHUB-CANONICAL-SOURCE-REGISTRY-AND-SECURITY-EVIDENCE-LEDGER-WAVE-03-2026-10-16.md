@@ -50,6 +50,9 @@
 | SRC-027 | `docs/architecture/MH-12-security-architecture.md@main` | `cf4ebfd5bf471ca676f075c51d3a24906504e490` | Security identity, trust, capability, authorization and audit architecture | ARCHITECTURE COMPLETE / GOVERNANCE REVIEW REQUIRED | P0-07/P0-05/P0-04 authorization composition, audit and least privilege |
 | SRC-028 | `docs/architecture/MH-13-master-prompt.md@main` | `de00bea7f972fca30295c0855b0d324f845c0bc4` | Privacy and data-governance operating boundary | Architecture reference; reconstruction acceptance and production authorization remain distinct | Data classification, egress, retention, audit minimization and independent verification |
 
+| SRC-029 | `docs/checkpoints/MEDIAHUB-CROSS-DOMAIN-CONFLICT-CLOSURE-WAVE-07-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | `0bc48ff39564b61a736e8418a57059f4f69a44cf` | Five-lane source-backed reconciliation: provider/egress, component manifest/YAML, A0 issuer/lifecycle, audit/privacy R-06, clean target manifest | PROPOSED / NOT ACCEPTED / NOT FROZEN; documentation only | Unified traceability matrix Wave 07; exact primary artifacts, owner/governance decisions, target manifest and independent evidence |
+| SRC-030 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | `6127e600544a9c007685cd06e6aeb276026bf262` | Existing project integration matrix, extended with Wave 07 five-lane dispositions | PROPOSED / NOT ACCEPTED / NOT FROZEN | Stable domain/conflict IDs, source-bound status, evidence closure and readiness gates |
+
 ## 3. Security evidence ledger
 
 | Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
