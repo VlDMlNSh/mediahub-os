@@ -455,3 +455,21 @@ The stable IDs above follow the live registry's verified maximum `SRC-095` / `EV
 | EVD-057 | Activation queue contains 16 entries and status `DOCUMENTARY_QUEUE_ONLY` | No active queue consumer proven | A0, MH-12, R-06, target manifest and schema validation remain open |
 
 Stable IDs continue from the latest verified canonical registry maximum SRC-100 / EVD-053. These entries document evidence and gaps; they do not authorize merge, workflow dispatch, provider invocation, credential access, activation or deployment.
+
+
+## Wave 40 — OpenHands Agent Server admission review
+
+### Source registry additions
+
+| ID | Source / ref | Revision or URL | Authority scope | Status / acceptance boundary |
+|---|---|---|---|---|
+| SRC-107 | `docs/checkpoints/MEDIAHUB-OPENHANDS-AGENT-SERVER-ADMISSION-REVIEW-WAVE-40-2026-10-17.md@docs/mediahub-chat-tree-map-20261012` | Blob `e9b1fba5abc1432b86f973becd75fd55be72f246` | Exact-source review of OpenHands Agent Server authentication, routes, workspace/tool isolation, egress, telemetry and cleanup | SOURCE-ONLY REVIEW / CANDIDATE BLOCKED / RUNTIME-UNVERIFIED |
+| SRC-108 | `docs/checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md@docs/mediahub-chat-tree-map-20261012`, §7.24 | Blob `02b6dfa5c8ff8e12dc80f382244cafbcf5d24b1d` | Existing component-admission crosswalk updated with Wave 40 findings | DOCUMENTARY CROSSWALK / OWNER APPROVAL AND ADMISSION OPEN |
+
+### Evidence ledger addition
+
+| ID | Evidence | Disposition | Limitation |
+|---|---|---|---|
+| EVD-058 | OpenHands Software Agent SDK immutable source commit `6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`; commit API reports a verified signature; Agent Server source blobs and route/runtime controls recorded in Wave 40 | SOURCE IDENTITY PINNED FOR REVIEW; AUTH / WORKSPACE / EGRESS / PRIVACY GATES OPEN | Signature verifies the source commit only. It does not establish artifact provenance, dependency closure, target compatibility, runtime isolation, qualification or owner admission. |
+
+Stable IDs continue from SRC-106 / EVD-057. These entries record source evidence and open gates; they grant no installation, test, scan, credential, provider, runtime, qualification, deployment or integration permission.
