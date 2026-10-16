@@ -6774,8 +6774,19 @@ WB-14AA и приложение остаются не-нормативными. 
 
 - Added [Cloud-Agent Fabric Operational Evidence and Status Correction — Wave 10](../checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-GEMINI-OPERATIONAL-EVIDENCE-WAVE-10-2026-10-16.md), creation commit `1f5f896cdbf50429e3a09e1f8232d13db2821359`.
 - Verified GitHub Actions run `38952885501` as `completed / success`; job `117148417231` shows the Gemini API call step succeeded; artifact `12069128185` was uploaded with digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d`. Source commit `b45324009ac3aa65322a702c28069b12190bc4b8`.
-- Added the run evidence to the Master Roadmap and unified matrix; extended the source registry with SRC-039…SRC-041 and EVD-019…EVD-020.
+- Added the run evidence to the Master Roadmap and unified matrix; after ID-collision reconciliation, the source registry uses SRC-042…SRC-044 and EVD-021…EVD-022 (current registry blob SHA `daf21daa86188792dee71284f66207974ccff150`).
 - Corrected the status: Gemini is operationally proven for at least one historical read-only workflow run. Source-hardening findings remain actionable; they do not invalidate the successful run. The full autonomous fabric remains unqualified.
 - This pass read public GitHub run/job/artifact metadata and updated documentation only. No new workflow dispatch/provider call, credential access, tests/scanners, host/runtime inspection, infrastructure change, deployment or merge occurred.
 - Next: reconcile A0 ingress/issuer/lifecycle and R-06 governance, retrieve the authoritative target manifest, then prepare the exact workflow hardening patch proposal and task/evidence schemas.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.338 — Clean Target Manifest Authority Reconciliation, Wave 10 (2026-10-16)
+
+- Report: [Clean Target Manifest Authority Reconciliation, Wave 10](../checkpoints/MEDIAHUB-CLEAN-TARGET-MANIFEST-AUTHORITY-RECONCILIATION-WAVE-10-2026-10-16.md), creation commit `012efaea1d85895d0694c510748086af41ada6e6`, read-back blob SHA `1f748bf80e08067fd85a7e1b0821cc4d12bda676`.
+- Reconciled the canonical component catalogue (`45988bf9da202c9597d0ca2de50e92e5c2e6ed55`), YAML scope report (`66961a4abc698c5d9e1318ff2d4f186e1c67b9a4`), proposed portable profiles (`529eed85da2828c9b062c8ef86de07b01ba9746e`), clean-target adapter boundary (`916df43726fb8f41038d5e9896be7e205284416f`) and MH-15 architecture/criteria (`f817925c69ce4484713f952e47aacad283af8eeb` / `082642e67dc66cb359a5566773c143854cafaa00`).
+- Determination: no owner-accepted exact clean target manifest appears in the bounded source set. Component selection, YAML scope, target-role definition, physical host identity and qualification remain separate.
+- Integrated CTM-01…CTM-05 in the Unified System Traceability Matrix; current matrix blob SHA `ae79021f6e96935f82730ecf2fed1fd79b9d6680`. Extended the source registry with SRC-039…SRC-040 and EVD-019; current registry blob SHA `daf21daa86188792dee71284f66207974ccff150`.
+- Status: TARGET UNKNOWN / BLOCKED; MH-15 NOT ACCEPTED / NOT FROZEN; implementation authorization NONE. No host/runtime inspection, tests, provider calls, credentials, installation, infrastructure changes, qualification, deployment or branch integration occurred.
+- Next: continue source-bound CAF admission evidence while retaining UNKNOWN until an accepted target manifest and independent evidence exist.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
