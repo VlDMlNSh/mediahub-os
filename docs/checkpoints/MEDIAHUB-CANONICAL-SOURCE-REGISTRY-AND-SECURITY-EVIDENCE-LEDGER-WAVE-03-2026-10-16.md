@@ -410,3 +410,23 @@ Registry boundary: owner intent and design documents establish neither credentia
 
 | SRC-095 | OpenHands Canvas app-backend bridge source pin | `OpenHands/software-agent-sdk@6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`; bridge `7a73dccb24c3895993ed08212eac239020e2712a`; bridge router `2b16348eb9c99a07725aa01a2301b5b030045169`; extension router `c0d8f9020435e980ec98ef6ab5938d17b08e3d66`; backend manager `bd69ac58fd35b9cf0354b47ae27f5d97f4a3a54e` | Source-bound session, Origin, ingress, target, path and lifecycle controls | CANDIDATE ONLY; deployed config, tenant binding, sandboxing, egress and independent qualification remain open |
 | EVD-049 | Wave 29 app-backend bridge threat crosswalk | [Wave 29 report](MEDIAHUB-OPENHANDS-APP-BACKEND-BRIDGE-THREAT-CROSSWALK-WAVE-29-2026-10-17.md), source pin above | READ-ONLY SOURCE REVIEW; no runtime evidence | Qualify Origin/proxy spoofing, expiry/revocation, path traversal, target substitution, tenant isolation, egress and audit on accepted target |
+
+
+## Wave 37 — Post-Merge Gemini Diagnostic and Cloud-Agent Portability (2026-10-17)
+
+| Source ID | Source / revision | Supported claim | Limitation |
+|---|---|---|---|
+| SRC-096 | [Wave 37 primary report](docs/checkpoints/MEDIAHUB-POST-MERGE-GEMINI-DIAGNOSTIC-AND-CLOUD-AGENT-PORTABILITY-WAVE-37-2026-10-17.md); documentation ref `docs/mediahub-chat-tree-map-20261012`; blob `b13a347b904de03393a393f72942cae67bf3acf8` | Reconciles post-merge Gemini dispatch evidence and specifies a portable cloud-agent reference topology | Documentary proposal; no new provider invocation or runtime qualification |
+| SRC-097 | `.github/workflows/gemini-autonomous-engineering.yml@main`; blob `9be13613ae79f316ca410c16c6e69e2aea7283a4` | Current post-merge Gemini dispatch workflow source reviewed | Source read only; fresh provider smoke test remains pending |
+| SRC-098 | [PR #306](https://github.com/VlDMlNSh/mediahub-os/pull/306); merged head `1af3037570268cf5ab6b97502a5ac3165af3d134`; current main `6c2e8dbdee81c798b64e65546e7ded07093f100a` | MCP token-expansion change was merged and current main SHA is observable | Merge and Astra CI do not prove Gemini tool invocation end-to-end |
+| SRC-099 | [GitHub-hosted runners reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners); [GitHub secure-use reference](https://docs.github.com/en/actions/reference/security/secure-use) | Hosted compute is transient placement; egress ranges vary; full-length action SHA pinning is recommended | Actual runner configuration and provider path require revision-bound verification |
+| SRC-100 | [Wave 37 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-37-2026-10-17.md) | Navigation for the current diagnostic and portability decision | Parent map body could not be retrieved through the contents connector; parent map remains unchanged |
+
+| Evidence ID | Evidence record | State | Closure boundary |
+|---|---|---|---|
+| EVD-050 | Run `38976095754`, artifact `12079316446`, uploaded ZIP SHA-256 `ce21ad7455c719db9e75cfa60bea503cca9b7e247f90fcea4ffbd8ddc473fb4a`; structured output reports empty response, `INVALID_STREAM`, `MALFORMED_FUNCTION_CALL`, and missing MCP tools | SOURCE-VERIFIED HISTORICAL DIAGNOSTIC | Artifact supports MCP name/stream mismatch; it does not independently prove an API-key failure |
+| EVD-051 | Run `38976598150` at current main `6c2e8dbdee81c798b64e65546e7ded07093f100a` | ASTRA CI PASS | CI success only; fresh Gemini dispatch and PR creation remain unverified |
+| EVD-052 | Run `38972774167` reported wrapper success while the uploaded JSON recorded empty response and invalid stream | HISTORICAL FALSE-POSITIVE OUTCOME | Preserve final structured-output validation; action-step success alone is insufficient |
+| EVD-053 | Wave 37 portable credentials and hosted-runner topology | DESIGN PROPOSED | A0, MH-12, R-06, provider eligibility, target manifest and runtime evidence remain open |
+
+The stable IDs above follow the live registry's verified maximum `SRC-095` / `EVD-049`. The local `W36-SRC-*` and `W36-EVD-*` labels remain local to their addendum and are not canonical IDs.
