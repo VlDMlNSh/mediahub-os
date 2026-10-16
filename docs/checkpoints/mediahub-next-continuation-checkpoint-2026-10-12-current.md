@@ -3535,7 +3535,7 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 
 ## Latest continuation — WB-14Y route-boundary correction (2026-10-16)
 
-- Report: [WB-14Y ASTRA A0 Ingress vs Product-Mutation Boundary Correction](MEDIAHUB-CONTOUR-A-WB-14Y-A0-INGRESS-VS-PRODUCT-MUTATION-BOUNDARY-CORRECTION-2026-10-16.md), blob SHA to verify after write.
+- Report: [WB-14Y ASTRA A0 Ingress vs Product-Mutation Boundary Correction](MEDIAHUB-CONTOUR-A-WB-14Y-A0-INGRESS-VS-PRODUCT-MUTATION-BOUNDARY-CORRECTION-2026-10-16.md), verified blob SHA `409e3851b27dd0187b6a56b6a050fc3785f4900f`.
 - Identified an over-broad inference in WB-14X: the P0-07 → P0-05 caller gap and P0-05 D6 status issue are blockers for relevant canonical product-mutation flows, not automatically direct gates for all Jarvis → ASTRA A0 engineering-task ingress.
 - Read owner packet §8: DEC-DEV-02 Option C was already OWNER-APPROVED on 2026-10-15. Corrected its stale §6.1 summary in the non-normative owner decision packet; did not amend primary ASTRA contracts or merge branches. This settles the owner choice, not source-text drift or implementation evidence.
 - Appended a WB-14Y corrective addendum to WB-14X, preserving the historical report while superseding only the route-coupling inference.
