@@ -1598,3 +1598,15 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Map section 20.327 update commit: `b26d360c57ae01ae78044729c96b93d9b830e6ee`; checkpoint update commit: `4094433c262d44e5a2a303b844d03d64dfdc8144`.
 - Next bounded step: write a P0 remediation patch plan only, with exact proposed edits, threat-control mapping, rollback path and authorized verification gates. Workflow changes remain gated by the project authorization rules.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Unified Security Control Matrix and Verifiable Workflow Contract, Wave 05 (2026-10-16)
+
+- Created [Unified Security Control Matrix and Verifiable Workflow Contract — Wave 05](MEDIAHUB-UNIFIED-SECURITY-CONTROL-MATRIX-AND-VERIFIABLE-CONTRACT-WAVE-05-2026-10-16.md), commit `e69ec5b0e282b787d82093e9ab4a70048bf1e1e2`, blob SHA `ea9e9b0743d45fd9e29299642bd9a4b5d223097e`.
+- Connected ten source-level Astra workflow findings plus four evidence/change-control requirements to required controls, revision-bound verification evidence, gate semantics and remediation priority.
+- Proposed contract covers approved-ref/immutable-target fencing, actor/capability/replay protection, provider-secret allowlisting, job-level least privilege, HMAC isolation, target/executor consistency, credential lifetime, action pinning, schedule guardrails, evidence provenance, authoritative governance evidence and rollback.
+- Defined the evidence envelope, ten acceptance gates, fail-closed preconditions, failure semantics and bounded remediation sequence.
+- Status remains PROPOSED / NOT ACCEPTED / NOT FROZEN; this work changes documentation only. No workflow/source edits, tests, qualification, provider calls, credentials, runner/host inspection, infrastructure changes, deployment or branch integration.
+- Map section 20.328 update commit: `0a6c25321fa004c407d80b2a5de5f12a30881278`, blob SHA `5297e505faf874d853378c8577b2192528607839`.
+- Next: prepare exact P0 patch plan and rollback map; workflow edits and verification execution require their separate authorization gates.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
