@@ -6907,3 +6907,16 @@ WB-14AA и приложение остаются не-нормативными. 
 - Queue blob SHA `0d4d591f464b976d6920bbd39c87a45a9d4fda59`; 16 unique entries; documentary-only status.
 - Wave 19 report update commit `b741ba46c5ae9df2aed6dab977b05afa8482069a`, blob SHA `cce52dd0a6247d8df39c068e98d084810642081e`.
 - Full Draft 2020-12 meta-validation, format assertions, negative fixtures, semantic reference resolution, accepted A0/R-06/target-manifest gates and runtime qualification remain open.
+
+
+## 20.348 — OpenHands Agent Server authentication, workspace and egress admission review, Wave 40 (2026-10-17)
+
+- Report: [OpenHands Agent Server Admission Review — Wave 40](../checkpoints/MEDIAHUB-OPENHANDS-AGENT-SERVER-ADMISSION-REVIEW-WAVE-40-2026-10-17.md), blob SHA `e9b1fba5abc1432b86f973becd75fd55be72f246`.
+- Exact upstream source pin: `OpenHands/software-agent-sdk@6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`; signed commit verified by the GitHub commit API; tree `54c039b002905c0c7c4db7c9f8d7a6c7cd5b46c4`.
+- SDK metadata at this pin declares version 1.55.1 and Python `>=3.12`; repository LICENSE is MIT. Exact distribution hashes, source-to-artifact provenance, readable lockfile, transitive SBOM/license/advisory closure and target compatibility remain OPEN.
+- Source review found optional session-key authentication; local runtime as the configuration default; Docker runtime controls for user, capabilities, no-new-privileges, resource bounds, per-conversation mounts and loopback port publication; no explicit egress allowlist in the inspected Docker launch command; separate product telemetry, completion logging and tracing channels.
+- Agent Server README bind-host guidance conflicts with the pinned entrypoint's loopback default when no key exists. MediaHub must specify bind, authentication, proxy/TLS, route access, runtime mode, egress and telemetry policy explicitly in an accepted target profile.
+- Updated Component Admission Crosswalk §7.24; current crosswalk blob SHA `02b6dfa5c8ff8e12dc80f382244cafbcf5d24b1d`. Updated Canonical Source Registry with SRC-107/SRC-108 and EVD-058; registry blob SHA `d51d8788bae07b534132aa67ad1dcf8cb84c342f`.
+- Status: **SOURCE-ONLY REVIEW COMPLETE / CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED**. A0 issuer/lifecycle, MH-12 authorization, R-06 audit/privacy, target manifest, artifact provenance and qualification gates remain open.
+- No installation, tests, scans, dependency resolution, model/provider call, credential use, host/runtime inspection, qualification, deployment or branch integration occurred.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
