@@ -6506,10 +6506,11 @@ WB-14AA и приложение остаются не-нормативными. 
 
 ## 20.317 Gemini read-only audit retry workflow (2026-10-16)
 
-- Added manual alternative workflow on `main`: [Gemini Read-only Architecture Audit (Retry)](https://github.com/VlDMlNSh/mediahub-os/blob/main/.github/workflows/gemini-readonly-audit-retry.yml), blob SHA `84112cddc5ed41674bdd5e2c535db6219ee248c6`, creation commit `ee5e2222e7d28c5a76334000e502c3fac1af9550`.
-- Workflow is triggered manually (`workflow_dispatch`), read-only (`contents: read`), takes explicit task/context/ref/model inputs; default model is `gemini-3.6-flash`, and uses `GEMINI_API_KEY` with `GOOGLE_API_KEY` fallback. No secret value or validity was inspected.
-- Adds bounded retries for transient HTTP 429/500/502/503/504 and transport errors (maximum four attempts); 401/403 are non-retryable. Response bodies are suppressed in logs.
-- User reports that a new API key was generated and added to GitHub Actions secrets; this is not independently verified. Earlier job log reported HTTP 503; exact upstream cause remains unknown.
-- User-provided run log reported HTTP 503 after four attempts. Both workflow files were subsequently changed to `gemini-3.6-flash`; no post-change dispatch/API call, tests, qualification, deployment, or acceptance is claimed.
-- Checkpoint: [Gemini Read-only Audit Retry Workflow — Checkpoint](../checkpoints/MEDIAHUB-GEMINI-READONLY-AUDIT-RETRY-WORKFLOW-CHECKPOINT-2026-10-16.md), blob SHA `8e396be8ee47f988b2e572a969d8b1d3602def61`.
+- Manual alternative workflow on `main`: [Gemini Read-only Architecture Audit (Retry)](https://github.com/VlDMlNSh/mediahub-os/blob/main/.github/workflows/gemini-readonly-audit-retry.yml), blob SHA `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`, latest workflow update commit `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- Primary workflow on `main`: [Gemini Read-only Architecture Audit](https://github.com/VlDMlNSh/mediahub-os/blob/main/.github/workflows/gemini-readonly-audit.yml), blob SHA `0d10efdda251f2ceca43175981c919102303572b`, latest workflow update commit `c8890ae7f0d7ce1521f65a819d5ad564acb3f590`.
+- Both workflows are manual-only (`workflow_dispatch`) and read-only (`contents: read`). Both now configure `gemini-3.5-flash-lite`; explicit `temperature: 0.2` was removed. No API key value/presence/validity was inspected.
+- Retry workflow retains bounded retries for transient HTTP 429/500/502/503/504 and transport errors (maximum four attempts); it now logs selected bounded/sanitized structured error metadata and optional request ID while suppressing raw response bodies.
+- User-provided previous logs showed HTTP 503 after four attempts on `gemini-3.6-flash`. The new model/configuration has not yet been run, so connection success remains unverified.
+- Checkpoint: [Gemini Read-only Audit Retry Workflow — Checkpoint](../checkpoints/MEDIAHUB-GEMINI-READONLY-AUDIT-RETRY-WORKFLOW-CHECKPOINT-2026-10-16.md), latest blob SHA `61fce11fa737ce5dc58d472fb8f6e925322308eb`, update commit `83023b108010c0ac78e80188b712e28bfa99dcad`.
 - Manual launch: [open workflow Actions page](https://github.com/VlDMlNSh/mediahub-os/actions/workflows/gemini-readonly-audit-retry.yml).
+- No workflow dispatch, Gemini API call, tests, qualification, deployment, or acceptance was performed by this documentation/configuration pass. Next: user manually dispatches the retry workflow and shares the run URL/log; sanitized error metadata should identify the next diagnostic path.
