@@ -3532,3 +3532,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Open evidence gaps remain issuer/verifier lifecycle, accepted P0-07→P0-05 caller edge and P0-05 contract-status disposition, plus D-ING-01…04, D-ING-05a/05b and D-ING-06 contract choices. No blanket approval or implementation is inferred.
 - Next: inspect exact DEC-DEV-02 and P0-05/P0-07 primary sources on owning refs; ask only for the missing evidence/decisions. No tests, code edits, qualification, runtime, credentials, installs, infrastructure or branch integration.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest continuation — WB-14Y route-boundary correction (2026-10-16)
+
+- Report: [WB-14Y ASTRA A0 Ingress vs Product-Mutation Boundary Correction](MEDIAHUB-CONTOUR-A-WB-14Y-A0-INGRESS-VS-PRODUCT-MUTATION-BOUNDARY-CORRECTION-2026-10-16.md), blob SHA to verify after write.
+- Identified an over-broad inference in WB-14X: the P0-07 → P0-05 caller gap and P0-05 D6 status issue are blockers for relevant canonical product-mutation flows, not automatically direct gates for all Jarvis → ASTRA A0 engineering-task ingress.
+- Read owner packet §8: DEC-DEV-02 Option C was already OWNER-APPROVED on 2026-10-15. Corrected its stale §6.1 summary in the non-normative owner decision packet; did not amend primary ASTRA contracts or merge branches. This settles the owner choice, not source-text drift or implementation evidence.
+- Appended a WB-14Y corrective addendum to WB-14X, preserving the historical report while superseding only the route-coupling inference.
+- Route A remains design-only: accepted Jarvis→A0 API/issuer/auth/idempotency/lifecycle contract not established. Route B remains blocked for product mutation: P0-07→P0-05 accepted caller edge NOT ESTABLISHED; P0-05 exact-text/header disposition remains at the owner-directed governance-evidence gate.
+- No tests, validators, implementation, qualification, credentials/provider calls, host/runtime inspection, installs, infrastructure, deployment, migration or branch integration occurred.
+- Next: continue source-only inspection of exact A0-facing contract references in the ASTRA lifecycle trace and Jarvis adapter draft; maintain strict separation from product-mutation status work.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
