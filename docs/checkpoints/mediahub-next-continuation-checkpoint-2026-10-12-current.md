@@ -4210,3 +4210,19 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Status: REFERENCE DESIGN / PROPOSED / IMPLEMENTATION AND RUNTIME QUALIFICATION OPEN. No secrets accessed, provider calls, workflow dispatches, workflow-source edits, tests, qualification, deployment or branch integration occurred.
 - Next: source-bound review of Wave 13 schemas and Wave 12 patch proposal; continue A0 issuer/lifecycle, R-06 and authoritative target-manifest closure.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 13 — Agent Registry and Evidence Manifest Schemas (2026-10-16)
+
+- Created [Cloud-Agent Registry and Evidence Schemas — Wave 13](MEDIAHUB-CLOUD-AGENT-REGISTRY-AND-EVIDENCE-SCHEMAS-WAVE-13-2026-10-16.md), creation commit `ca313bdb3e1099ba97e966404b8bd6f7202630f6`; read-back blob SHA `9496dca37333f6869dce4aff58226268910c3df3`.
+- Agent registry schema blob SHA `449a38bc84283f720fe723ea8e3587e6082fdbb4`; evidence-manifest schema blob SHA `9714fd2dd04d401a9a3d1a800cb19d7b69e7e73f`.
+- Updated documentary queue with schema-review references; current queue blob SHA `d6b01b23885d35d30f5f0460b899e073cefd6027`. Wave 14 subsequently added CAF-Q-011 and CAF-Q-012; queue is still documentary and contains no live scheduler claim.
+- Unified matrix current blob SHA `09039830e7d51025a667f4e76045beb982bd3f63`; Wave 13 adds CAF-23…CAF-25.
+- Canonical Source Registry current blob SHA `012f8c2877e5ab158b2f2e5a23d43204c368e505`; collision-safe Wave 13 IDs are SRC-052, SRC-053 and EVD-026. A live duplicate-ID scan after Wave 14 updates returned no duplicates.
+- 15/15 bounded structural assertions passed against the two new schemas, existing task-envelope schema and the queue at the time of the check. Full JSON Schema conformance and independent review remain pending.
+- Map restoration and Wave 13/Wave 14 index preservation commit: `5b9af34edfed4253483cc389dc5791bf93aacbff`; map blob SHA `67df345a0c067553f67d3e2efda61ac96cbdce32`. Read-back via blob retrieval confirmed the full map content (about 1,002,496 characters), sections §20.341 and §20.342, and preserved the Wave 14 entry after an intervening map read returned only the Wave 14 fragment.
+- Roadmap current blob SHA `3a9e8737ac43449042d7ebf93039c377da53669c`; Wave 13 recorded, with registry-ID collision correction.
+- Current branch compare: DIVERGED from `main`, 1,777 ahead / 10 behind; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No integration performed.
+- State: SCHEMA ARTIFACTS CREATED / REVIEW REQUIRED / RUNTIME-UNVERIFIED. A0 issuer/lifecycle, R-06, MH-12 authority and authoritative target manifest remain open. No agent connection, provider call, workflow dispatch/source edit, installation, host/runtime inspection, infrastructure change or deployment occurred.
+- Next: independent schema review and exact-source reconciliation for A0/R-06/target manifest; prepare a bounded implementation proposal only after the applicable source-edit and execution gates are cleared.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
