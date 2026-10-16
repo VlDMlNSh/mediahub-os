@@ -1,0 +1,32 @@
+{
+  "schema": "mediahub.astra-gold.runtime-observation.v1",
+  "status": "BLOCKED",
+  "gate": "RUNTIME_PREREQUISITE",
+  "source_sha": "9e1ca6533a5347a101b27a9bec114e790c5a35b3",
+  "node": "mh-dev-02",
+  "executor": "codex",
+  "transport": "FCC",
+  "model": "ollama/qwen2.5-coder:3b",
+  "observations": {
+    "fcc_binary_present": true,
+    "fcc_server_running": true,
+    "fcc_health": true,
+    "fcc_http_messages_inference": false,
+    "fcc_http_messages_timeout_seconds": 30,
+    "direct_ollama_inference": true,
+    "direct_ollama_marker": "DIRECT_OLLAMA_QWEN3B_PASS",
+    "codex_to_ollama_qwen3b_prior_smoke": true
+  },
+  "evidence": {
+    "fcc_health_http_status": 200,
+    "fcc_listener": "127.0.0.1:8093",
+    "fcc_pid": 3779,
+    "direct_ollama_model": "qwen2.5-coder:3b",
+    "direct_ollama_done": true
+  },
+  "blocked_reasons": [
+    "fcc_v1_messages_inference_did_not_complete_within_30_seconds"
+  ],
+  "secret_values": "SUPPRESSED",
+  "qualification_statement": "This observation is not G4/115 qualification evidence and must not be counted as a passed qualification round."
+}
