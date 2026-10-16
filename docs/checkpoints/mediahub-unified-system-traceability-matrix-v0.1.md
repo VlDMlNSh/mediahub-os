@@ -1886,3 +1886,18 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 
 Stable historical IDs D01–D20 and MAT-CF-01–06 are preserved. L07-01…L07-05 are report-local tracking IDs only. No domain gate is closed by this documentary pass. The five lane outcomes and evidence conditions are detailed in the linked report. No tests, scanners, workflow dispatch, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
 
+
+
+## 16. Provider identity, age eligibility and egress decision — Wave 04 (2026-10-16)
+
+Supporting evidence: [Provider Identity, Age Eligibility and Egress Decision Packet — Wave 04](MEDIAHUB-PROVIDER-IDENTITY-EGRESS-DECISION-WAVE-04-2026-10-16.md), creation commit `b92d615a95eece66195237d366fb6c4548561047`.
+
+| Stable concern | Source constraint | Wave 04 resolution | Status |
+|---|---|---|---|
+| Provider eligibility | Official terms, account eligibility, available region and model identity must be established | Provider remains blocked when age/account/region eligibility is unknown or unmet; no identity or regional restriction bypass | BLOCKED / UNKNOWN |
+| Data egress | Default-deny; classify, minimize, authorize, record destination and retention | Every task lists exact provider/model/route destinations and permitted data class | DESIGN DEFINED; implementation absent |
+| Quota fallback | Every fallback is a new provider/destination decision | Only a pre-authorized alternate for the same task/data class can be selected after a quota/outage event; no silent destination switching | DESIGN RESOLVED; runtime unverified |
+| Free-tier privacy | Free label does not establish acceptable retention/training policy | Review official terms and route-level policy; exclude sensitive/private data by default; retain current account controls as UNKNOWN until evidenced | PARTIAL / ACCOUNT SETTINGS UNKNOWN |
+| Evidence provenance | Invocation record binds task, source, provider/model, policy, destination and result | Require immutable source SHA, policy revision, route, status, output digest and independent reviewer outcome | DESIGN DEFINED; implementation absent |
+
+The Wave 03 router design is subordinate to the canonical architecture contract's explicit per-task destination authorization. No provider, model or account was enabled by this documentary update. No runtime evidence was created.
