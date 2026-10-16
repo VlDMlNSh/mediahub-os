@@ -3592,3 +3592,12 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No transport/issuer/schema/crypto/persistence/TTL/status choice was made. No implementation, tests, qualification, runtime/host inspection, provider/credential calls, installation, infrastructure changes, deployment, migration or branch integration occurred.
 - Next: record explicit owner/governance appointments and approval path when evidenced; meanwhile continue independent source-only work without promoting WB-14AA.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14AE executor capability matrix authority-drift reconciliation (2026-10-16)
+
+- Report: [WB-14AE Executor Capability Matrix Authority-Drift Reconciliation](MEDIAHUB-CONTOUR-A-WB-14AE-EXECUTOR-CAPABILITY-MATRIX-AUTHORITY-DRIFT-RECONCILIATION-2026-10-16.md), creation commit `01aeaf874dba72a55940f718cc1b74e50a17f448`; verified report blob SHA `ba655f1af358f97634cfc5d1402ac60c25d7b0d5`.
+- Exact-blob comparison reconfirmed authority-row drift: docs branch `9ad83781a8da53d1a8f540ede54eba95281f01c0` scopes A0 to ASTRA workflow/control state; main `da26185254d9954fcee204f81ecca129bf052e7c` retains broader “Global coordination/state” wording. Owner-approved DEC-DEV-02 Option C is the semantic authority and remains approved.
+- No normative source edit, merge/rebase/cherry-pick, test, qualification, runtime action, installation, infrastructure change or deployment occurred.
+- Next: obtain explicit owner/change-control authorization before correcting the main source. Until then, preserve the drift and continue independent source-only work. The WB-14AD governance request remains a request, not an owner disposition.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
