@@ -1951,3 +1951,18 @@ Supporting source review: [Gemini Read-only Workflow Source Review, Wave 09](MED
 The two files on `main` were read at blob SHAs `0d10efdda251f2ceca43175981c919102303572b` and `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`. Source-level controls include read-only repository permissions, disabled checkout credential persistence, bounded path/file checks, suppressed raw error bodies and 14-day artifacts. Findings above are static review results only. No workflow dispatch, provider call, test, scanner, patch or qualification was performed.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 18. Gemini operational evidence — Wave 10 (2026-10-16)
+
+| Control ID | Claim | Evidence | State | Boundary / next action |
+|---|---|---|---|---|
+| GWF-11 | Gemini read-only workflow executed successfully | GitHub run `38952885501`, source SHA `b45324009ac3aa65322a702c28069b12190bc4b8`, successful job `117148417231`, successful Gemini API step, artifact `12069128185`, digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d` | HISTORICAL RUN VERIFIED | Confirms this execution only; retain GWF-01…GWF-10 for source hardening and qualification |
+| CAF-13 | Gemini integration operational status | Run/job/artifact metadata retrieved from GitHub Actions API | OPERATIONAL FOR AT LEAST ONE READ-ONLY RUN | Repeatability, complete provenance, audit correctness and fabric-wide qualification remain open |
+| CAF-14 | Full autonomous development fabric | Wave 08 reference design, documentary queue CAF-Q-001…CAF-Q-010, Wave 10 run evidence | DESIGN + ONE WORKFLOW RUN; FABRIC-WIDE QUALIFICATION OPEN | A0, R-06, task queue, agent registry, isolated patch worker, evidence manifest and promotion gates require separate closure |
+
+### Wave 10 interpretation
+
+A successful historical Gemini API step is positive operational evidence and replaces any broad characterization of the integration as wholly unverified. It does not establish the complete autonomous fabric, recurring availability, accepted task authorization, full artifact provenance, source-hardening closure or qualification. This entry adds evidence without changing Baseline 2.0 or existing domain authorities.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
