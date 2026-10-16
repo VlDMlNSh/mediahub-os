@@ -4023,3 +4023,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Map updated with §20.332; map update commit `b4865360167c23b810d938c0a0cda55f39c4f3ac`, map blob SHA `3116d71365890cfdd27357d6ad6dbc6d21eff92d`.
 - Next: obtain owner-visible Actions secret-name metadata and provider account evidence; after separate explicit implementation authorization, prepare a separate-branch patch and perform a bounded first-provider proof under the project authorization protocol.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — cross-domain conflict closure, Wave 07 (2026-10-16)
+
+- Created `docs/checkpoints/MEDIAHUB-CROSS-DOMAIN-CONFLICT-CLOSURE-WAVE-07-2026-10-16.md`; creation commit `eccd5e20d3a6933aaafc0146bf25565fd5d3ea0a`, blob SHA `0bc48ff39564b61a736e8418a57059f4f69a44cf`.
+- Updated the existing Unified System Traceability Matrix with five lane dispositions: provider identity/egress, component manifest/YAML subset, A0 issuer/lifecycle, privacy/audit R-06, and clean target manifest. Matrix commit `774b386c05d1b4c220f809e620ac0c02149d2c48`, blob SHA `6127e600544a9c007685cd06e6aeb276026bf262`.
+- Extended the existing source registry through SRC-030. Registry commit `8e00f0a4c980c6f1b79ca1628af1ec93239baa77`, blob SHA `ba10013c017e7a24cec7ad7427a2e3e6c9e4312b`.
+- Map §20.333 commit `85edba7203d036b28ab757899221e02667543b06`, blob SHA `3d4e4c23d24e8088f84394e9302e17407ad56957`.
+- All five lanes remain OPEN/UNKNOWN or owner-gated. The R-06 candidate checkpoint path returned 404 on the reviewed ref; equivalent primary authority remains to be located. Target hardware/OS/network/topology remain UNKNOWN. Historical IDs and Baseline 2.0 authority are preserved.
+- Documentation-only. No code/workflow changes, tests/scanners, workflow dispatch, provider/model calls, credentials, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
+- Next: retrieve exact primary R-06 and A0 governance artifacts; inspect non-secret provider/deployment descriptors; obtain the authoritative target manifest where available; continue direct-source closure in the existing matrix.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
