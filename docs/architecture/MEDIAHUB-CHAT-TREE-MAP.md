@@ -6756,3 +6756,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - No workflow edits or dispatches, model/provider calls, credential use, tests/scanners, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
 - Next: source-bound closure of A0 issuer/lifecycle and R-06; source-level review of current Gemini workflows; locate an authoritative target manifest; then prepare a separately authorized first read-only implementation slice.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.336 — Gemini Read-only Workflow Source Review, Wave 09 (2026-10-16)
+
+- Added [Gemini Read-only Workflow Source Review — Wave 09](../checkpoints/MEDIAHUB-GEMINI-WORKFLOW-SOURCE-QUALIFICATION-PLAN-WAVE-09-2026-10-16.md), creation commit `1d8daf408435b4bdaa467917ec6e38be3666aa32`, blob SHA `fa34037409b3aa118cd606de673bce0a577b834f`.
+- Reviewed `main` workflow blobs `0d10efdda251f2ceca43175981c919102303572b` and `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`. Ten source-level findings cover immutable ref provenance, action SHA pinning, context allowlists, model allowlisting, output quarantine, evidence manifest, runner image and authority gates.
+- Extended the existing Unified System Traceability Matrix with GWF-01…GWF-10, commit `eef4dee4f8291e97ed9fe682caddfe3914f0d249`, blob SHA `be472028cc1754e2e71d404bcc7f1ff276c508d1`.
+- Added Wave 09 to the Master Roadmap, commit `b0b663b0cd2ea4515689ba4a1a774b791d285cb2`, blob SHA `6843e49c9f0f169e8c626db1d3e6b0fd52804fde`.
+- Extended source registry through SRC-036…SRC-038 and EVD-018, registry commit `c35410476ba7283c26d12e386ddf05a6c21e219d`, blob SHA `b76f9e06dbe14ce0b4ab1cddcce9d2ebdce6f387`.
+- Status: STATIC SOURCE REVIEW / PATCH PLAN PROPOSED / NOT QUALIFIED. No workflow edits/dispatches, provider calls, credentials, tests/scanners, host/runtime inspection, infrastructure changes, deployment or branch integration.
+- Next: exact A0 issuer/lifecycle reconciliation, R-06 governance disposition and target-manifest retrieval; then prepare the separately authorized P0/P1 workflow patch.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
