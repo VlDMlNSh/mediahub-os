@@ -3985,3 +3985,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No secrets were read or printed; no provider API call, workflow dispatch, scanner, test, installation, infrastructure change or deployment occurred. Runtime success and security acceptance remain UNKNOWN.
 - Next action: manually inspect Actions secret metadata in GitHub UI and dispatch one bounded read-only Gemini audit; capture run ID, resolved commit SHA, artifact digest and redaction review. Consider additional providers only after individual free-tier, data-egress and least-privilege review.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Cloud Agent Readiness and Security Evidence Matrix, Wave 02 (2026-10-16)
+
+- Created `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-READINESS-AND-SECURITY-EVIDENCE-MATRIX-WAVE-02-2026-10-16.md`; creation commit `39af2fc5027da8023a96418f5af3b0cf98de3f3b`.
+- Re-read current bootstrap blob `aa77ba6850f3b3cf51fcf5fae491b2998a276321`, map blob `5cbf987fcd59c3c067d00f606c0fbeb238e3b217`, Wave 01 runbook blob `18d99ea96e0f51d9dcd2245b46594371e29a0f56`, Wave 02 security report blob `5d7484a0dac931a6e6f671df1a1749bacc242982`, Gemini primary workflow blob `0d10efdda251f2ceca43175981c919102303572b`, retry workflow blob `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`.
+- New document contains agent admission matrix, eight Gemini workflow hardening requirements, ten security evidence ledger controls and the next-pass sequence.
+- Map entry 20.330 added and read back; map update commit `98c9b9f5f1c78605e43eabe33c926b0595f98756`, resulting blob SHA `a0db296c45d41b7d8299bc17772d88d642df8872`.
+- No workflow dispatch, provider call, credential access, scanner, test, installation, runtime inspection, infrastructure change or deployment occurred. Security alert counts, secret metadata and live provider success remain UNKNOWN.
+- Next action: capture owner-visible GitHub UI evidence for Actions secret metadata and Security-tab alerts; dispatch one bounded read-only Gemini audit; preserve run ID, resolved source SHA, artifact digest and redaction review.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
