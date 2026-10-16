@@ -6378,3 +6378,14 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Candidate remains FUTURE-GATED / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED. A concrete owner-approved durability/recovery gap beyond ASTRA A0 lifecycle and queue contracts must be demonstrated before considering it. If ever selected, Temporal must be a bounded execution substrate, not a competing mission registry, canonical lifecycle authority, capability issuer or Product State Authority. Avoid dual queues and do not select Temporal plus Hatchet by default.
 - The owner-confirmed master prompt establishes the architectural direction, not approval of Temporal or permission for runtime evaluation. No installation, build, execution, tests, scans, credentials, host/runtime inspection, qualification or deployment occurred.
 - Next: reconcile existing ASTRA lifecycle/queue/recovery contracts and determine whether a distinct durable-execution gap exists; otherwise retain the future gate.
+
+
+## 20.306 Contour A — ASTRA lifecycle/recovery contract versus Temporal gap discrimination (2026-10-16)
+
+- Crosswalk: [Component Admission Crosswalk §7.23](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), commit `2203e2089d9d6f098de9819d498a7cc94c362f6d`, blob SHA `6550062d5fe5af206df5ea987f4c8d8ad287d11e`.
+- Candidate register: [Unified Component Candidate & Evaluation Register](MEDIAHUB-UNIFIED-COMPONENT-CANDIDATE-AND-EVALUATION-REGISTER-2026-10-15.md), commit `638638b3c3426b706879643404833434d4fb53d7`, blob SHA `619964539914415891a548a74a1a13b4f05083b6`.
+- ASTRA governance/reference sources already specify internal lifecycle responsibilities: queue/claim/lease/heartbeat, bounded retry, cancellation/recovery, stale-claim handling, result publication and evidence/gate state. This is architecture/policy evidence, not proof of implementation, deployment or runtime conformance.
+- External gaps remain: accepted Jarvis→A0 ingress, trusted caller/issuer/verifier lifecycle, external durable admission/idempotency, corporation task/result/evidence envelope, and formal ownership/approval. Temporal does not close these authority/interface gaps.
+- **Decision:** no source-backed owner-approved residual durability gap has yet justified adding Temporal. Retain it as FUTURE-GATED / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED; this is not a claim that all ASTRA durability is implemented.
+- Old executor node labels/topology are historical source context only and are not new deployment targets. No runtime, test, installation or deployment activity occurred.
+- Next: use the existing WB-14 lifecycle traces to reconcile cross-route identity/idempotency/lease-fencing/cancellation/retry/restart-recovery/result provenance, separating accepted internal semantics from proposal-only external ingress.
