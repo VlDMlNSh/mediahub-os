@@ -1862,3 +1862,12 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - State: DOCUMENTARY DESIGN / 18-ASSERTION STRUCTURAL PASS / STANDARDS VALIDATION OPEN / RUNTIME UNQUALIFIED. No provider call, credential access, workflow dispatch, installation, infrastructure change, deployment, merge or branch integration occurred.
 - Next: CAF-Q-014 standards-compliant schema validation and negative fixtures; concurrently close accepted A0 lifecycle, R-06 governance and authoritative target manifest. Then prepare a source-bound implementation slice under Issue #301.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+### Wave 19 read-back addendum — current queue and cross-artifact state
+
+- Second source-bound pass after CAF-Q-016 was added: **24/24 bounded assertions passed**.
+- Current queue blob: `0d4d591f464b976d6920bbd39c87a45a9d4fda59`, 16 unique IDs, CAF-Q-016 linked to [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301), status remains `DOCUMENTARY_QUEUE_ONLY`.
+- Current map blob: `c2cdb85f835394672ad4393ccdb10b40351c897d`, 6,902 lines / 1,010,821 characters; §20.347 present.
+- Current Wave 19 report is being amended with this result; full Draft 2020-12 validation and negative fixtures remain open.
+- Live branch compare: DIVERGED, 1,831 ahead / 10 behind `main`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No integration performed.
