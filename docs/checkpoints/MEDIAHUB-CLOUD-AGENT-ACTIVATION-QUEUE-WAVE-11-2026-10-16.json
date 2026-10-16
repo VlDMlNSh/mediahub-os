@@ -280,9 +280,42 @@
         "separate authorization for source edits, workflow dispatch and provider calls",
         "provider egress/source-location semantics documented without a fixed-IP assumption"
       ]
+    },
+    {
+      "id": "CAF-Q-016",
+      "priority": "P0",
+      "title": "Operationalize Contour A cloud-agent fabric through GitHub issue #301",
+      "state": "TRACKED_BLOCKED_ON_A0_R06_TARGET_AND_SCHEMA_VALIDATION",
+      "agent_class": "implementation_coordination",
+      "allowed_effect": "planning_and_source_review_only_until_gates_close",
+      "tracking_issue": "https://github.com/VlDMlNSh/mediahub-os/issues/301",
+      "source_files": [
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-STRUCTURAL-READBACK-AND-ISSUE-TRACKING-WAVE-19-2026-10-16.md",
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-DIRECT-EGRESS-DECISION-WAVE-18-2026-10-16.md",
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json",
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+      ],
+      "exit_evidence": [
+        "accepted A0 issuer/ingress/lease/cancellation/recovery contract",
+        "R-06 accountable authority and approved audit/privacy disposition",
+        "authoritative runner/workspace/network target manifest",
+        "Draft 2020-12 meta-validation with format assertions and positive/negative fixtures",
+        "independent review of schema and semantic-reference resolution",
+        "source-bound Gemini workflow patch plan and independent review",
+        "separate authorization and revision-bound evidence for implementation, tests, workflow dispatch and provider calls"
+      ],
+      "network_invariants": [
+        "no owner-operated persistent server in default provider path",
+        "no public inbound listener for ordinary agent jobs",
+        "runtime-only scoped credential injection",
+        "direct outbound HTTPS from hosted worker to authorized endpoints",
+        "no fixed source-IP assumption or location-control bypass",
+        "fail closed on unknown provider eligibility, data policy, destination or budget"
+      ]
     }
   ],
-  "latest_wave": "WAVE_18_DIRECT_EGRESS_DECISION_RECORDED_A0_R06_TARGET_AND_SCHEMA_GATES_OPEN",
+  "latest_wave": "WAVE_19_STRUCTURAL_READBACK_18_OF_18_PASSED_ISSUE_301_TRACKED_STANDARDS_VALIDATION_OPEN",
   "latest_wave_refs": [
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
