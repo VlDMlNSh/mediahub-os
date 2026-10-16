@@ -9,8 +9,8 @@
 ## Latest completed pass
 
 - Wave 20 source report: [Credential Reference and Schema-Gap Crosswalk](MEDIAHUB-CREDENTIAL-REFERENCE-AND-SCHEMA-GAP-CROSSWALK-WAVE-20-2026-10-16.md), blob SHA `13c9cb5a16323a7bd28c6564009f6f123f710f2e`; creation commit `36512c3c3c345581fa699f5e6c9a5bba49b02fc4`.
-- Unified System Traceability Matrix update commit: `2ff326379071328ead33c0416ddd95f5c2b0ff8b`; blob SHA `2ff326379071328ead33c0416ddd95f5c2b0ff8b` (re-fetch for authoritative content SHA; this field records the commit returned during update verification).
-- Canonical Source Registry update commit: `9dc3c9c7d9d4a415d799d76fcf94aea0489bb1c5`; current blob SHA `9dc3c9c7d9d4a415d799d76fcf94aea0489bb1c5` (re-fetch for authoritative content SHA; this field records the blob returned by read-back).
+- Unified System Traceability Matrix current blob SHA: `2ff326379071328ead33c0416ddd95f5c2b0ff8b`; Wave 20 rows CAF-49…CAF-53 verified by read-back.
+- Canonical Source Registry current blob SHA: `9dc3c9c7d9d4a415d799d76fcf94aea0489bb1c5`; entries SRC-080…SRC-085 and EVD-037…EVD-040 verified by read-back.
 - Master Roadmap update commit: `892a1783de51056f94279f258ec6d406a0252b65`; current blob SHA `e59fe659eafcaad04e3621dfa5c52b3d093b0ef9`.
 - Current map blob SHA before this pass: `fcef1bf0c8329b76ad640f774d23493cfa9157a5`. Exact blob retrieval returns the complete map (6,910 lines, 1,011,547 characters); Contents API retrieval returns an empty body. A full-file update was blocked, so this addendum preserves the Wave 20 navigation entry.
 - Current branch comparison observed: docs branch DIVERGED from main, 1,851 ahead / 10 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No branch integration occurred.
