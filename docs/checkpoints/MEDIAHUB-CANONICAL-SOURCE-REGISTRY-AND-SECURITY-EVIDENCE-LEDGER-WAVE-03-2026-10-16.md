@@ -131,3 +131,19 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 | EVD-018 | Gemini workflow source qualification | Exact source blobs read; ten static findings recorded in Wave 09 | STATIC REVIEW COMPLETE / RUNTIME AND QUALIFICATION UNKNOWN | Authorized patch, immutable provenance, approved inputs/model policy, tests/scanners, provider eligibility and independent review |
 
 Wave 09 is source-only. Findings do not establish exploitability or runtime behavior without further verification. No workflow execution or provider call was performed.
+
+
+## Wave 10 — Verified Gemini operational run and fabric status correction
+
+| ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
+|---|---|---|---|---|---|
+| SRC-039 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-GEMINI-OPERATIONAL-EVIDENCE-WAVE-10-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `1f5f896cdbf50429e3a09e1f8232d13db2821359`; read-back pending | Historical Gemini run/job/artifact evidence and cloud-agent status correction | HISTORICAL RUN VERIFIED / FABRIC-WIDE QUALIFICATION OPEN | A0, R-06, evidence manifest, workflow hardening, target manifest |
+| SRC-040 | `.github/workflows/gemini-readonly-audit-retry.yml@main` | `96fcc9ed4e45659d0118f0b9f3593a0c736200f0` | Source workflow revision associated with the historical run family | SOURCE REVIEWED; ONE HISTORICAL RUN SUCCEEDED | Immutable provenance, strict task/path/model policy, independent qualification |
+| SRC-041 | GitHub Actions run `38952885501` | Run API: `https://api.github.com/repos/VlDMlNSh/mediahub-os/actions/runs/38952885501` | Direct execution result for source SHA `b45324009ac3aa65322a702c28069b12190bc4b8` | COMPLETED / SUCCESS | Job `117148417231`; artifact `12069128185`; digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d` |
+
+| Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
+|---|---|---|---|---|
+| EVD-019 | Gemini operational connection | Successful workflow run, successful API-call step, uploaded artifact and digest from GitHub Actions API | VERIFIED FOR ONE HISTORICAL RUN | Further run evidence for repeatability; complete provenance and independent audit correctness review |
+| EVD-020 | Cloud-agent fabric readiness | Wave 08 architecture, documentary queue and one successful read-only Gemini workflow run | DESIGN + SINGLE WORKFLOW EXECUTION / FABRIC-WIDE QUALIFICATION OPEN | Accepted A0/R-06 contracts, task/agent/evidence schemas, isolated patch worker, promotion gate, target manifest and authorized qualification |
+
+Wave 10 corrects the operational status without promoting source-hardening findings to closed. A successful run proves the workflow worked for that execution; broader autonomous development remains subject to its own gates.
