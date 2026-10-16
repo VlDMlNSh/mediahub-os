@@ -1491,3 +1491,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Mission/task/attempt status candidates remain non-normative. ASTRA governance bounds and authority statements do not define the complete A0 ingress-facing state machine. Keep admission, A0 lifecycle, attempt outcome, verifier, qualification, probe, entity health, readiness, trust and authorization status domains separate.
 - Next bounded work item: WB-14V, documentary correction of WB-14T and decision-register split D-ING-05a / D-ING-05b / D-ING-06. No final JSON Schema registration until responsible owners accept the mapping and lifecycle transitions.
 - Change boundary: documentation-only; no tests, validators, implementation, runtime or operational action.
+
+
+## Contour A WB-14V — MH-06 status correction and ingress decision split (2026-10-16)
+
+- Report: [WB-14V MH-06 Status Correction and Ingress Decision Split](MEDIAHUB-CONTOUR-A-WB-14V-MH06-STATUS-CORRECTION-AND-INGRESS-DECISION-SPLIT-2026-10-16.md), commit `9114f1e63febff203d6ba3d66ceaf60ffd23be16`.
+- Corrected WB-14T wording: MH-06 ADR-001 is ACCEPTED / GOVERNANCE ACCEPTED within its defined Core Runtime Services scope; implementation authorization remains NO. The generic domain health schema mismatch remains a separate unresolved mapping/scope issue.
+- Split the former D-ING-05 umbrella into D-ING-05a (domain health ↔ MH-06 scope/mapping), D-ING-05b (A0 ingress health challenge/response) and D-ING-06 (A0 lifecycle states/transitions). All remain OPEN; D-ING-01…04 remain OPEN.
+- Corrective addendum to WB-14T: commit `4aab6d0e71ece8dea3c451b26d06139c0f15fadb`, blob `023f44b6712450a8b84e2e99e716fd3cbb2d593e`.
+- No final schema, enum, transport, crypto profile, issuer, persistence or TTL was selected. No implementation, tests, validation, qualification or operational actions occurred.
+- Next: WB-14W decision-register ownership and accountable acceptance-path reconciliation for the three split decisions.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
