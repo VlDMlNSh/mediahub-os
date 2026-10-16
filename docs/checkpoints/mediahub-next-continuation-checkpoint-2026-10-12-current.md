@@ -3543,3 +3543,14 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No tests, validators, implementation, qualification, credentials/provider calls, host/runtime inspection, installs, infrastructure, deployment, migration or branch integration occurred.
 - Next: continue source-only inspection of exact A0-facing contract references in the ASTRA lifecycle trace and Jarvis adapter draft; maintain strict separation from product-mutation status work.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+## Latest continuation — WB-14Z A0 ingress source-contract census (2026-10-16)
+
+- Report: [WB-14Z ASTRA A0 Ingress Source-Contract Census](MEDIAHUB-CONTOUR-A-WB-14Z-A0-INGRESS-SOURCE-CONTRACT-CENSUS-2026-10-16.md), creation commit `62c388b3b8ef028623c7529574912c447c8d063c`.
+- Read the exact Jarvis Control Plane/GitHub Adapter draft (`e112cc73178eef5f71b8a814296e4902c2e80390`), WB-14B ingress caller trace (`25e8416db8e5a8ae81557ac5b4d8c0314b906893`), Wave 07 A0/MH-12 source trace (`49ca0b69737bf8d44fe3a42daa47fd9157c9097d`), ASTRA executor capability matrix (`9ad83781a8da53d1a8f540ede54eba95281f01c0`), ASTRA GOLD internal design on `main` (`e2067dc41b52983fc4e0b2549fb6af3c099cbc60`) and governance contract on `main` (`1d3ac25e7817f365807ad85d0d7c9007bd48bebf`).
+- Result: internal A0 workflow policy exists, but accepted Jarvis→A0 wire/API, issuer/verifier lifecycle, durable ingress admission/idempotency, fencing/cancellation/status/result and health-probe contracts are NOT ESTABLISHED by these sources. Local file Task Contract ingestion and signed operational-command automation are separate, unjoined paths.
+- Internal lease/retry numeric values are not external request freshness, capability expiry, health challenge TTL or deduplication retention policy.
+- WB-14Y boundary correction remains in force: Jarvis→A0 engineering ingress is separate from P0-07→P0-05→P0-04 product mutation. The product-mutation route remains separately blocked as applicable; it is not an automatic blanket gate for all A0 engineering missions.
+- No schema IDs, endpoint, transport, issuer, crypto profile or persistence design selected. No tests, implementation, qualification, runtime/host access, provider calls, credentials, install, infrastructure, deployment or branch integration.
+- Next: prepare a transport-neutral A0 ingress contract candidate clearly marked PROPOSED / NOT ACCEPTED, with traceability and unresolved decisions. Do not register schemas or implement until owners/governance accept the necessary contracts.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
