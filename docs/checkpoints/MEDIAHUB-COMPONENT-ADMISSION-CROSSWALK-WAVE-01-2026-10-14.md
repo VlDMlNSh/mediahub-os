@@ -492,3 +492,25 @@ Official source references: [OpenHands SDK v1.54.0 dependency metadata](https://
 - No normative project source, manifest, dependency pin or runtime configuration was changed. No tests, downloads, installs, provider/model calls, credentials, host/runtime inspection, qualification, deployment or branch integration occurred.
 
 **Next:** choose another non-overlapping unresolved admission gate only after checking existing sections, or wait for owner-provided target hardware/OS/Python facts. Do not infer a target profile or start runtime evaluation.
+
+
+## 7.20 OpenHands SDK live upstream revision and security-policy surface refresh (2026-10-16)
+
+**Scope:** read-only revalidation of upstream package metadata at the already recorded v1.54.0 pin, the current upstream `main` package metadata, repository license, lockfile retrieval, and security-policy surface. No dependency resolution, download, scan, installation, execution, test or runtime evaluation occurred.
+
+| Evidence | Observation | Interpretation / limit |
+|---|---|---|
+| Pinned SDK metadata | `OpenHands/software-agent-sdk@v1.54.0`, `openhands-sdk/pyproject.toml`, blob SHA `39c3ce3b1137c59e6a24423a3d11097f446507ee`, declares package version `1.54.0`, Python `>=3.12`, and lower-bounded dependency ranges including `pydantic>=2.13.5`, `litellm>=1.93.0`, `fastmcp>=3.2.0,<4`, and `lmnr>=0.7.60,<0.8.0`. | This is source metadata at the pinned tag, not an artifact digest, resolved environment or MediaHub target lock. |
+| Moving upstream main | `openhands-sdk/pyproject.toml@main`, blob SHA `160610fcba9b379a10340f16ab77c3bf504f2609`, declares version `1.55.1`, Python `>=3.12`, and `pydantic>=2.13.5`. | Do not substitute moving `main` for the immutable v1.54.0 pin. Any future revision change requires an explicit re-review of source, artifact and dependency evidence. |
+| Comparison tag | `openhands-sdk/pyproject.toml@v1.50.1`, blob SHA `ab83f196c70a0732cff40b6d616a730a83db9b2d`, declares version `1.50.1` and `pydantic>=2.12.5`. | The dependency floor varies by version; this is further evidence that the exact revision must be pinned rather than inferred from the repository name or current branch. |
+| License | `LICENSE@v1.54.0`, blob SHA `b0bd86a6335a564bd3766666bebbf014fd6a8013`, contains MIT License text. | This confirms the upstream repository license text only. It does not close notices, optional modules, transitive dependency licenses or redistribution obligations for a resolved artifact. |
+| Lockfile | `uv.lock@v1.54.0` resolves to blob SHA `5a4afacc446005f7c02c9606390847e73c4c9208`, but the connector again returned an empty content payload. | Lock contents and resolved versions remain UNVERIFIED; empty retrieval is not evidence that the lockfile is absent. |
+| Security policy | The pinned ref has no readable root `SECURITY.md` at that path; the upstream GitHub Security overview reports “No security policy detected” and no published advisories at the time it was viewed: https://github.com/OpenHands/software-agent-sdk/security. | Absence of a published policy/advisory is not evidence of absence of vulnerabilities. Require independent dependency/advisory review and a documented MediaHub vulnerability-response path before admission. |
+
+### Gate disposition
+
+- **Candidate status unchanged:** RESEARCH PIN ONLY / CANDIDATE / NOT SELECTED / NOT ADMITTED / NOT READY FOR INSTALLATION OR RUNTIME EVALUATION.
+- Open: immutable package artifact and digest; source-to-artifact provenance; readable exact lock and resolved dependency set; transitive SBOM/license/advisory closure; target OS/Python/hardware fit; isolated workspace profile; provider/egress controls; telemetry privacy; independent security review.
+- No component manifest, normative contract, upstream pin, dependency or runtime configuration changed. No test, scan, artifact download, installation, provider/model call, credential use, host/runtime inspection, qualification, deployment or branch integration occurred.
+
+**Next:** do not repeat the same source-pin review. Continue only with a distinct unresolved admission gate or wait for owner-provided target hardware/OS/Python facts. Runtime evaluation remains blocked.
