@@ -56,3 +56,14 @@ After the model switch, manually launch the workflow from an authenticated GitHu
 - Removed explicit `temperature: 0.2` from both generation configurations to avoid sending an unnecessary sampling parameter to the newer model family.
 - GitHub read-back confirmed both workflow files contain `gemini-3.5-flash-lite`, contain no `gemini-3.6-flash`, and contain no explicit `temperature: 0.2`. Retry file contains the sanitized diagnostic step.
 - No workflow dispatch, provider/API call, test, qualification, deployment, or acceptance was performed by this update. The user must manually run the retry workflow from an authenticated GitHub session. Its result will determine whether the cause is model availability, provider-side service, project/API configuration, or another upstream condition; HTTP 503 alone is insufficient to decide.
+
+
+## Verified Gemini connection — workflow run 38940264004 (2026-10-16)
+
+- GitHub Actions run: https://github.com/VlDMlNSh/mediahub-os/actions/runs/38940264004
+- Run ID: `38940264004`; workflow: `Gemini Read-only Architecture Audit (Retry)`; branch: `main`; head SHA: `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- GitHub API reports run conclusion `success`; job `Read-only Gemini audit with bounded retry` and its Gemini API step completed successfully.
+- The run uploaded artifact `gemini-readonly-audit-retry-38940264004`, artifact ID `12062861465`, SHA-256 `cfcf94343e4675413b6bc045169a4bb8c0d25f49dceb888ebd9bc994fc9feeed`.
+- Artifact inspection confirmed a non-empty generated Markdown response (4,296 bytes). The response is an architecture audit report, rather than the intended `MEDIAHUB_GEMINI_CONNECTED_OK` smoke-test marker; therefore this proves a successful provider request and text generation, while exact marker verification remains pending.
+- This is connection evidence only. It does not constitute architecture qualification, implementation verification, release, deployment, or product acceptance.
+- No secret value was accessed or recorded. No additional provider call was made during this inspection.
