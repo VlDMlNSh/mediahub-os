@@ -4461,3 +4461,30 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 Read the immutable OpenHands SDK source pin `6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1` and map Agent Server authentication, route exposure, workspace isolation, tool execution and cleanup against the accepted A0, MH-12 and R-06 requirements. Record exact source digests and distinguish code-level controls from target/runtime qualification. Keep cloud-agent activation blocked until the authority and target gates close.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — OpenHands Agent Server admission review, Wave 40 (2026-10-17)
+
+### Live repository state
+
+- Functional review ref: `main`; current `main` HEAD at the live compare: `6c2e8dbdee81c798b64e65546e7ded07093f100a`.
+- Documentation ref: `docs/mediahub-chat-tree-map-20261012`.
+- Live compare before this pass's documentary commits: **DIVERGED**, docs ahead 1,973 / behind 14; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge, rebase or cherry-pick.
+- The map Contents API returned an empty body; exact blob retrieval returned the complete 1,011,547-character document. The map was updated by read-modify-write from the verified full blob.
+
+### Result and evidence
+
+- Created [OpenHands Agent Server Admission Review — Wave 40](MEDIAHUB-OPENHANDS-AGENT-SERVER-ADMISSION-REVIEW-WAVE-40-2026-10-17.md), creation commit `89ef0295590f5cafbcd3437e4f487e776fc8351b`, blob SHA `e9b1fba5abc1432b86f973becd75fd55be72f246`.
+- Reviewed immutable upstream `OpenHands/software-agent-sdk@6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`, tree `54c039b002905c0c7c4db7c9f8d7a6c7cd5b46c4`; GitHub commit API reports a verified signature. SDK metadata blob `160610fcba9b379a10340f16ab77c3bf504f2609` declares version 1.55.1 and Python `>=3.12`; repository license blob `b0bd86a6335a564bd3766666bebbf014fd6a8013` is MIT.
+- Findings: optional session-key auth and unauthenticated mode; README/entrypoint bind-host discrepancy; local execution as default; Docker isolation controls with no explicit egress allowlist in the inspected launch command; separate telemetry, completion logging and tracing channels; incomplete artifact/lock/SBOM provenance and unqualified cleanup behavior.
+- Updated existing Component Admission Crosswalk §7.24, commit `70a6e117c759498271ee809fd077ec86cfc713cb`, blob SHA `02b6dfa5c8ff8e12dc80f382244cafbcf5d24b1d`.
+- Updated Canonical Source Registry with SRC-107/SRC-108 and EVD-058, commit `b3d496c444c06f8201623194ab1cd1492ad9cb75`, blob SHA `d51d8788bae07b534132aa67ad1dcf8cb84c342f`.
+- Updated project map §20.348, commit `041226e1f24d11f81bfbd991f92835b04a446cc2`, blob SHA `0141454f29b3da6c84488f9464be30812e0b13a3`.
+- OpenHands SDK and Agent Server remain **CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED**. A0 issuer/lifecycle, MH-12 authorization, R-06 audit/privacy, accepted target manifest, exact artifact provenance, dependency closure, egress and independent qualification remain open.
+- No package download/install, dependency resolution, tests, scans, provider/model calls, credential use, host/runtime inspection, qualification, infrastructure change, deployment or branch integration occurred.
+
+### Next bounded action
+
+Continue the existing admission crosswalk with a distinct source-only gate: inspect the exact pinned Agent Server's telemetry/completion logging and secret-retention semantics against R-06 and the current MH-13 reconstruction/governance state. Preserve the R-06 owner-decision gate; source review cannot substitute for an accepted governance disposition. Runtime tests and candidate execution remain subject to separate explicit authorization.
+
+Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
