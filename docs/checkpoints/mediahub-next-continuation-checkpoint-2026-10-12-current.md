@@ -4064,3 +4064,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Map correction commit `bb80a7903dff739d2d2d1d276836159456f660d4`; resulting map blob SHA `5c8b49854a7d67a5320f4a33b8d955cca40f5cef`.
 - The map now has one §20.333 Wave 07 entry followed by §20.334 provider/egress. No project source, workflow or runtime state was changed.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Autonomous Cloud-Agent Development Fabric, Wave 08 (2026-10-16)
+
+- Created `docs/checkpoints/MEDIAHUB-AUTONOMOUS-CLOUD-AGENT-FABRIC-REFERENCE-ARCHITECTURE-WAVE-08-2026-10-16.md`; creation commit `1bb6b285fcfd330ccc9485036df97adb59695cdf`. Read-back SHA recorded in the next verification pass.
+- Defined the target GitHub-centered, ephemeral-worker, PR-first architecture; agent admission/revocation lifecycle; immutable task envelope; A0 queue boundary; provider/quota controls; evidence manifest; promotion gates; and documentary queue CAF-Q-001…CAF-Q-010.
+- Updated Master Roadmap commit `e9a58865e6a5f28eb33af3158f29ba926f9facad`; matrix commit `d86e4def7586fbdfe5cb47b56ba35b5368cdac29`; source registry commit `411548d02a5aa5884352a39046eb5ecadf4a877a`; map update commit `e15598056e29223386ff01700ab07627879bba56`.
+- Map section: §20.335. The existing unified matrix remains the sole cross-domain traceability inventory; the Master Development Roadmap remains the single working plan of record.
+- State: DOCUMENTARY DESIGN ONLY / PROPOSED / NOT IMPLEMENTED / RUNTIME-UNVERIFIED. CAF-Q-001…CAF-Q-010 are documentary queue entries, not live agent dispatches. No provider was connected; no workflow source was edited or dispatched; no model calls, credentials, tests/scanners, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
+- Public source basis: GitHub Actions secure-use guidance; GitHub Copilot code-review docs; VS Code agent trust/sandbox guidance; official Gemini API terms; GroqCloud data controls/services agreement; OpenRouter provider logging and routing docs. Exact links are in the Wave 08 architecture document.
+- Next: close A0 issuer/lifecycle source reconciliation and R-06 authority; source-review the current Gemini audit workflows; find the authoritative target manifest; then prepare a separate implementation proposal for one read-only worker. Implementation, test execution, provider calls and deployment retain separate explicit authorization gates.
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
