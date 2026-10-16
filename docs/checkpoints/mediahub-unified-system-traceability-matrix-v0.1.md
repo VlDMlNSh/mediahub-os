@@ -2096,7 +2096,7 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 |---|---|---|---|---|
 | CAF-40 | Task-envelope and evidence-manifest versions must agree | Task Envelope v0.2 now binds `mediahub.cloud-agent-evidence-manifest.v0.2`; blob `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a` | COHERENCE REPAIRED / CANDIDATE | Full Draft 2020-12 validation and independent review |
 | CAF-41 | Documentary queue must use the current candidate schema | Queue top-level `task_envelope_schema` points to task-envelope v0.2; blob `1ef28af318a4be6618e0d9703a3e8d208a807206` | DOCUMENTARY QUEUE UPDATED | Accepted A0 lifecycle and separately qualified scheduler |
-| CAF-42 | Current project map must preserve its full historical navigation | Restored from last known complete map blob `6b98de335da9fadc0f92900deff260a8bef6830a`, then appended Wave 15–17 entries | DOCUMENTATION REPAIR / READ-BACK REQUIRED | Full map read-back, section/ID collision check and branch comparison |
+| CAF-42 | Current project map must preserve its full historical navigation | Restored full map read-back: blob `a24ef7f13777ed38ff26e1cb0febbc42713f541f`, 6,876 lines; includes sections 20.343–20.345 | READ-BACK VERIFIED / DOCUMENTATION REPAIR | Preserve full blob on future edits; section/ID collision scan remains part of each update |
 | CAF-43 | Structural consistency checks | 23/23 bounded assertions passed on current GitHub read-back | STRUCTURAL SMOKE ONLY | Standards-compliant meta-validation, negative fixtures and independent review |
 
 ### Wave 17 boundary
