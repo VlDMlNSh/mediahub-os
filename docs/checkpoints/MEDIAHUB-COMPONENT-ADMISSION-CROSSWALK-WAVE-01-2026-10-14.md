@@ -563,3 +563,32 @@ Official source references: [OpenHands SDK v1.54.0 dependency metadata](https://
 - No owner architecture decision was changed; no runtime activity was performed.
 
 **Next:** retain Temporal as a future-gated candidate. Do not proceed to installation or runtime evaluation. First reconcile the accepted ASTRA lifecycle/queue contracts and determine whether a specific durable-execution gap exists; otherwise do not add a second orchestration engine.
+
+
+## 7.23 ASTRA lifecycle/recovery contract versus Temporal — gap-discrimination pass (2026-10-16)
+
+**Status:** SOURCE-BOUND CONTRACT RECONCILIATION / DOCUMENTARY ONLY. No component selection, implementation, runtime qualification or acceptance.
+
+### Source basis and limits
+
+| Source | Ref/blob evidence | What it establishes | What it does not establish |
+|---|---|---|---|
+| ASTRA Executor Capability Matrix | `main`, blob `da26185254d9954fcee204f81ecca129bf052e7c`; docs-branch counterpart `9ad83781a8da53d1a8f540ede54eba95281f01c0` | ASTRA-internal dependency-aware dispatch, executor admission/binding, queue/claim/lease/heartbeat/recovery and evidence/gate ownership; source wording differs between refs. | A single branch-integrated contract, runtime conformance, accepted Jarvis-facing ingress, or a corporation-wide durable mission service. |
+| ASTRA GOLD Governance Contract | `main`, blob `1d3ac25e7817f365807ad85d0d7c9007bd48bebf` | Internal policy bounds: heartbeat 120 s, lease 600 s, executor timeout 900 s, result publication timeout 120 s, retry backoff 30 s, maximum 3 concurrent autonomous claims; human creation authority and audit/rotation/revocation requirements. | External request TTL, capability expiry, idempotency retention, proof of an operational queue, or target-hardware compatibility. |
+| ASTRA GOLD Reference Architecture | `main`, blob `7be5fadd3055642e7823c7233f90e978a87e5366` | Architecture-level responsibilities include command ingestion, mission decomposition, queue/claim/lease, heartbeat, duplicate-controller rejection, stale-claim detection, result publication and recovery; ambiguous broad authority wording is separately tracked. | Accepted Jarvis→A0 API/issuer lifecycle, complete external state mapping, or runtime evidence that recovery is implemented and works. |
+| Jarvis/ASTRA Identity-Lifecycle Contract Trace Wave 05 | docs branch, blob `dc60ccc0af29a74ca3cf88584d66821350b20b9f` | Ingress, capability issuer/delegation/revocation lifecycle, corporation task/result envelope and authority wording remain open/draft-only; ASTRA internal lifecycle requirements are bounded and source-backed. | Admission of Temporal or proof that it closes any of those external contract gaps. |
+| WB-14AA / WB-14AC | docs branch, blobs `030273bfe9fd6d44e78b611c011af95d08c88a45` / `d642311d5a487981b6ba79eeb1a49abbb26fd4d3` | Proposal-level ingress semantics include durable admission, idempotency, fencing, cancellation, uncertain-commit reconciliation, result/evidence separation; evidence/qualification boundaries are documented. | Normative acceptance, selected transport/issuer/persistence, or completed implementation/qualification. |
+| Temporal source review §7.22 | docs branch crosswalk preceding section | Temporal SDK + server is a potential durable-execution substrate with additional server/persistence/operational requirements. | Evidence that a distinct durability gap remains after the accepted ASTRA lifecycle design is reconciled, or that Temporal would close ingress/security/schema gaps. |
+
+### Gap discrimination
+
+1. **Existing design coverage:** ASTRA sources already describe the internal engineering lifecycle at architecture/policy level, including queue/claim/lease/heartbeat, bounded retry, cancellation/recovery, stale-claim handling, result publication and evidence/gate state. The governance numeric limits are internal controls; they must not be copied as external API/token/idempotency TTLs.
+2. **Unproven implementation/runtime:** these documents do not prove the current queue implementation is conformant, reliable, deployed on the new target, or qualified. No runtime claim is made here.
+3. **External contract gap:** accepted Jarvis→A0 ingress, trusted caller/issuer/verifier lifecycle, durable external admission/idempotency semantics, corporation task/result/evidence envelope, and owner/approval workflow remain open. Temporal does not itself resolve those authority and interface decisions.
+4. **New target boundary:** legacy executor host/node labels and old deployment topology are historical source context only, not targets for the clean new deployment. This pass does not reuse them as target identities.
+5. **Decision:** the reviewed evidence does **not** justify adding Temporal now. It also does not prove that all durability requirements are implemented. Keep Temporal **FUTURE-GATED / NOT SELECTED / NOT ADMITTED / NOT IMPLEMENTED / NOT QUALIFIED** until a source-backed, owner-approved residual durability/recovery requirement is isolated after contract reconciliation.
+6. **Next evidence:** use existing WB-14 governance and lifecycle traces to complete the cross-route identity/idempotency/lease-fencing/cancellation/retry/restart-recovery/result-provenance matrix. Keep proposed rows distinct from accepted internal ASTRA semantics; do not mint a second queue or mission authority.
+
+### Verification boundary
+
+This pass compared already-pinned repository documents only. No source code was executed, no runtime or host was inspected, no test/schema validator/security scan was run, and no installation, model/provider call, credential use, qualification, deployment or branch integration occurred.
