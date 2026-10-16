@@ -1744,3 +1744,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Status: SOURCE-BOUND PATCH PROPOSAL / NOT APPLIED / NOT TESTED / NOT QUALIFIED. No workflow edits or dispatches, provider calls, credential use, tests/scanners, host/runtime inspection, infrastructure change, qualification, deployment or branch integration occurred.
 - Next: independent review of the Wave 12 proposal, then prepare a minimal patch on an explicitly authorized working ref; separately authorize workflow tests and any provider-backed dispatch.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+### Wave 12 read-back correction — 2026-10-16
+
+- Gemini hardening proposal blob SHA: `11106dcbb26c2a54643c8727732ef56c63510c7f`.
+- Activation queue current blob SHA: `b15d57d201b8acc8a298c0bf6110473cd614d685`; CAF-Q-003 state `PATCH_PROPOSAL_CREATED_REVIEW_REQUIRED`.
+- Unified matrix blob SHA: `58aea5ca614790503c96f2c8996fc09cc06476b5`.
+- Canonical Source Registry update commit `2c163c45f9ef2babf57d786f3a95203c3c44631b`, blob SHA `8009abcfc1f0a8a83512e7321d9765ccca828068`.
+- Project map update commit `dc78ced5549d54a5c9cd1cfc68678a6081964e07`, blob SHA `febcd37109c237bb301d487201e2ecb5aeadeb36`, §20.341.
+- Validation result: 13/13 bounded structural assertions passed; full JSON Schema validator, workflow tests and provider-backed dispatch remain open.
