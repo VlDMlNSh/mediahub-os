@@ -6220,7 +6220,7 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 
 ## 20.289 Contour A WB-14R — ASTRA A0 authority reconciliation and field-level ingress crosswalk (2026-10-16)
 
-- Report: [WB-14R A0 Ingress Authority and Schema Crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14R-A0-INGRESS-AUTHORITY-AND-SCHEMA-CROSSWALK-2026-10-16.md), commit `6441ea7f6d08b5a07e46748cdde43a703fda8fc1`, blob SHA `ec783cb5432c68436c1c451c29dd6fa007b7d8d3`.
+- Report: [WB-14R A0 Ingress Authority and Schema Crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14R-A0-INGRESS-AUTHORITY-AND-SCHEMA-CROSSWALK-2026-10-16.md), created commit `6441ea7f6d08b5a07e46748cdde43a703fda8fc1`, corrective commit `f11bd7a1bfafa4bced83dc7ccf8089b21dd1ecbf`, current blob SHA `dc827eb6ad53c03c0bb26a2989e4646f6f5a6b1d`.
 - Compared the owner-approved DEC-DEV-02 lifecycle split against ASTRA reference architecture, complete component scheme, unified markdown/YAML and qualification launch schema on both refs. Docs versions scope A0 more narrowly in several places, while main retains broad authority language; unified markdown remains ambiguous on both refs.
 - Critical target contradiction: ASTRA reference/unified docs still describe mh-dev-01, mh-dev-02 and Voktors-Mac-mini.local as permanent lanes, despite the bootstrap instruction that old host identities are historical only. No new target inventory was inferred.
 - Field crosswalk covers identity/request IDs, mission/DAG, principal/issuer/audience, capability, signature, timestamp/freshness, target SHA/digests, route, paths/actions, egress, deadlines/retries, idempotency, health nonce, status/cancel/result and evidence.
