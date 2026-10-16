@@ -3934,3 +3934,16 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - No source contract or workflow changed; no tests/scanners, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure, deployment, migration, merge, rebase or cherry-pick.
 - Next bounded step: source-only per-job authority review of `astra-chat-control.yml` and `astra-autonomous-supervisor.yml` covering trigger, issuer checks, token permissions, untrusted inputs, dispatch targets, credential lifetime, target binding and evidence gaps.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest verified continuation — Astra workflow authority review, Wave 04 (2026-10-16)
+
+- Report: [Astra Workflow Authority Review — Wave 04](MEDIAHUB-ASTRA-WORKFLOW-AUTHORITY-REVIEW-WAVE-04-2026-10-16.md), creation commit `1f32bd72582fe4d71c02fe3f5e3cdf3573d6199b`.
+- Reviewed current `main` source blobs for chat-control, autonomous supervisor, distributed verification, provider qualification, local Claude qualification, `astra_github_agent.py`, and `ops/control/sign_command.py`.
+- Ten findings recorded. Highest priority: supervisor manual-dispatch ref fencing before secret-bearing/self-hosted jobs; explicit provider-secret allowlist replacing `secrets: inherit`; actor/capability and replay-safe binding for chat control; narrow token and HMAC scopes.
+- Chat-control parser accepts node/executor combinations that later fail against hard-coded `mh-dev-02` / `codex` execution values. Supervisor also has a ten-minute scheduled trigger and workflow-wide `actions: write`; source justification for this scope requires review.
+- Report is source-only. No workflows were dispatched; no tests/scanners, provider/model calls, secret access, host/runtime or runner inspection, infrastructure change, deployment, migration, or branch integration occurred.
+- Map section 20.327 updated in commit `b26d360c57ae01ae78044729c96b93d9b830e6ee`, blob SHA `4f4a6acfe4d96b64cbb2a4f335fa57b7d84e982e`.
+- Current compare snapshot: docs ref DIVERGED, ahead 1,653 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- Next bounded step: produce a P0 remediation patch plan only, with exact file/line targets and verification gates. Any workflow edits remain subject to project authorization constraints.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
