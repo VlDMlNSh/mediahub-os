@@ -38,3 +38,7 @@ No tests, provider calls, credentials, install, host/runtime inspection, infrast
 Prepare a source-backed, narrowly scoped MediaHub adapter and qualification proposal mapping upstream route families to A0/MH-12/R-06 controls and the minimum accepted target manifest. Keep runtime and qualification gates closed pending separate authorization.
 
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+## Browser tooling evidence
+
+The installed `agent-browser` core guide loaded, the public repository root opened, and an accessibility snapshot exposed repository navigation and root entries. Browser navigation/extraction succeeded for this target. Authenticated write capability and general site availability remain outside this evidence.
