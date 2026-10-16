@@ -6662,3 +6662,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - No workflow dispatch, tests, scanners, provider/model calls, credentials, runner/host inspection, infrastructure changes, deployment, migration or branch integration occurred.
 - Live compare after the Wave 05 artifact creation: docs ref DIVERGED, ahead 1658, behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. Branches remain separate.
 - Next: prepare the exact P0 source patch plan and rollback map. Source changes and verification execution remain subject to their separate authorization gates.
+
+
+## 20.329 — Accelerated integrated contract, project-wide matrix and deployment-readiness plan, Wave 06 (2026-10-16)
+
+- Artifact: [Accelerated Integrated Contract and Deployment-Readiness Plan — Wave 06](../checkpoints/MEDIAHUB-ACCELERATED-INTEGRATED-CONTRACT-AND-DEPLOYMENT-READINESS-WAVE-06-2026-10-16.md).
+- Artifact blob SHA: `5ef7713c509e003c138fd87ce7eaeeb857df2383`; creation commit: `b879dde4c23b666afb0fd3a35c23a1c7befaf213`.
+- Captures the exact source-anchored P0 patch design for supervisor ref/target fencing, actor/capability/replay binding, provider-secret allowlisting and target/executor consistency; adds P1 HMAC/permission/credential design and P2 action/schedule controls.
+- Defines one canonical project-wide matrix schema, 20 domain areas, cross-document conflict/ID rules, top-level integrated contract structure, parallel work lanes, 16 deployment-readiness gates, and an accelerated five-day target plan.
+- Status: PLAN / SOURCE-ANCHORED / NOT ACCEPTED / NOT FROZEN. Documentation only; no workflow edits, tests, workflow dispatch, provider/model calls, secret use, runner/host inspection, infrastructure change, deployment or branch integration.
+- Live compare snapshot after Wave 06 artifact creation: docs ref DIVERGED, ahead 1,662 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- Next: Wave 07 — project-wide canonical authority inventory and matrix integration, Day 1; reconcile existing registers and preserve historical IDs rather than creating competing inventories.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
