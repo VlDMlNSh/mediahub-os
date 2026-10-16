@@ -6733,7 +6733,17 @@ WB-14AA и приложение остаются не-нормативными. 
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 
 
-## 20.333 — Provider Identity, Age Eligibility and Egress Decision Packet, Wave 04 (2026-10-16)
+
+## 20.333 — Cross-Domain Conflict Closure, Wave 07 (2026-10-16)
+
+- Added [Cross-Domain Conflict Closure — Wave 07](../checkpoints/MEDIAHUB-CROSS-DOMAIN-CONFLICT-CLOSURE-WAVE-07-2026-10-16.md), creation commit `eccd5e20d3a6933aaafc0146bf25565fd5d3ea0a`, blob SHA `0bc48ff39564b61a736e8418a57059f4f69a44cf`.
+- Integrated five documentary lanes into the existing Unified System Traceability Matrix: provider identity/egress, component manifest/YAML subset, A0 issuer/lifecycle, audit/privacy R-06 and clean target manifest.
+- Extended the canonical source registry through SRC-030. The report preserves UNKNOWN states and owner-gated decisions; no acceptance gate was closed by documentary evidence alone.
+- Status: SOURCE-ANCHORED DOCUMENTARY RECONCILIATION / PROPOSED / NOT ACCEPTED / NOT FROZEN.
+- Next: retrieve exact primary R-06 and A0 artifacts; inspect non-secret provider/deployment descriptors; locate the authoritative target manifest where available.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+## 20.334 — Provider Identity, Age Eligibility and Egress Decision Packet, Wave 04 (2026-10-16)
 
 - Added [Provider Identity, Age Eligibility and Egress Decision Packet — Wave 04](../checkpoints/MEDIAHUB-PROVIDER-IDENTITY-EGRESS-DECISION-WAVE-04-2026-10-16.md), creation commit `b92d615a95eece66195237d366fb6c4548561047`.
 - Reconciled the Wave 03 router design with the canonical unified architecture/deployment contract and Functional Baseline 2.0: every hosted-provider destination, including each fallback, requires explicit task-level authorization for its data class and route.
