@@ -4420,3 +4420,20 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Defined vault-held secret references, A0 admission, task-scoped just-in-time resolution, lease/expiry/revocation/rotation, provider-aware egress policy, and denial when provider IP/region constraints conflict with a runtime.
 - Status: documentary design only; A0, R-06, vault choice and accepted target manifest remain open. No secrets or providers accessed; no runtime actions or qualification occurred.
 - Map URL: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md (current map content retrieval remains empty; map preserved unchanged).
+
+
+## Latest verified continuation — Wave 37 post-merge Gemini diagnostic and portable cloud-agent fabric (2026-10-17)
+
+- Primary report: [Wave 37](MEDIAHUB-POST-MERGE-GEMINI-DIAGNOSTIC-AND-CLOUD-AGENT-PORTABILITY-WAVE-37-2026-10-17.md), blob `b13a347b904de03393a393f72942cae67bf3acf8`.
+- Current main HEAD observed at start of the pass: `6c2e8dbdee81c798b64e65546e7ded07093f100a`. Current `.github/workflows/gemini-autonomous-engineering.yml@main` blob: `9be13613ae79f316ca410c16c6e69e2aea7283a4`.
+- PR #305 and #306 are merged. Astra Verify run #38976598150 succeeded on current main; that is CI evidence only.
+- Run #38976095754 failed final structured-output validation. Artifact #12079316446 records empty `.response`, `INVALID_STREAM`, `MALFORMED_FUNCTION_CALL`, and three unrecognized MCP tool names. Run #38972774167 had a green wrapper outcome but invalid stream/tool-call evidence, so it is classified as a historical false positive. Fresh post-merge Gemini tool invocation/PR creation remains UNVERIFIED.
+- Wave 37 created the primary diagnostic and portable topology report, added matrix controls CAF-84…CAF-89, and added canonical registry SRC-096…SRC-100 / EVD-050…EVD-053. Registry blob after Wave 37 update: `db6ca40d5c12a0d87323604dfd955e14da35ac41`; matrix blob: `cfc56fa4142b051e9ad48265e190c65d9dccaf1c`.
+- Portable credential rule: secret identity is provider/account/project or approved repository/environment scoped, not tied to a permanent machine. Use short-lived OIDC only with an explicit supported trust relationship; otherwise a scoped secret store and just-in-time injection. Actual hosted-runner egress/location and provider-specific terms remain admission inputs.
+- The three-node topology is preserved: Mac mini 2018/macOS, Mac mini 2011/Linux, remote video server. GitHub-hosted ephemeral runner is an additive execution lane.
+- Existing activation queue remains `DOCUMENTARY_QUEUE_ONLY`, 16 entries. Existing catalog, role registry, provider schemas, 23-lane queue, and v0.2 schema candidates are reuse-first; no agent was promoted to ACTIVE.
+- P0 gates remain A0 issuer/lifecycle and R-06 audit/privacy, followed by exact workflow review, complete schema validation/negative fixtures, evidence manifest, authoritative runner/workspace/network manifest, PR promotion policy, provider route/quota/data policy, then cross-runner recovery/fencing.
+- Current branch comparison from this pass: docs ref `docs/mediahub-chat-tree-map-20261012` vs main = `diverged`, ahead 1959, behind 14, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`, main `6c2e8dbdee81c798b64e65546e7ded07093f100a`; latest docs commit observed at comparison `f797337452bd01d45c49d64e3deca199d879b98f`. No merge, rebase or cherry-pick performed.
+- Wave 37 status: documentation and source-evidence synthesis only. No workflow dispatch, provider/model call, credential operation, project tests, qualification, host/runtime inspection, installation, infrastructure update, deployment or branch integration occurred.
+- Next bounded action: inspect the pinned OpenHands Agent Server route/configuration and workspace/tool enforcement against accepted A0, MH-12 and R-06 contracts; record source digests and admission gaps. Keep live activation blocked until the relevant gates are accepted.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
