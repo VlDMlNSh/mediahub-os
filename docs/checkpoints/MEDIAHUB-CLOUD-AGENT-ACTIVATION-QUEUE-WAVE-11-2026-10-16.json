@@ -1,0 +1,151 @@
+{
+  "schema_version": "mediahub.cloud-agent-activation-queue.v0.1",
+  "status": "DOCUMENTARY_QUEUE_ONLY",
+  "created_at": "2026-10-16",
+  "governing_design": "docs/checkpoints/MEDIAHUB-AUTONOMOUS-CLOUD-AGENT-FABRIC-REFERENCE-ARCHITECTURE-WAVE-08-2026-10-16.md",
+  "task_envelope_schema": "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json",
+  "activation_invariant": "A task is dispatchable only after its admission contract, identity/authorization, target SHA, data policy, provider destination, budget, evidence requirements and promotion boundary are validated. Missing or ambiguous fields block dispatch.",
+  "items": [
+    {
+      "id": "CAF-Q-001",
+      "priority": "P0",
+      "title": "A0 issuer, ingress, queue and lifecycle contract reconciliation",
+      "state": "BLOCKED_ON_ACCEPTED_CONTRACT",
+      "agent_class": "source_audit",
+      "allowed_effect": "documentation_only",
+      "exit_evidence": [
+        "accepted A0 issuer/ingress/lifecycle contract",
+        "source SHA crosswalk",
+        "independent review"
+      ]
+    },
+    {
+      "id": "CAF-Q-002",
+      "priority": "P0",
+      "title": "R-06 audit/privacy governance disposition",
+      "state": "BLOCKED_ON_ACCOUNTABLE_AUTHORITY",
+      "agent_class": "documentation",
+      "allowed_effect": "documentation_only",
+      "exit_evidence": [
+        "named authority and reviewers",
+        "filled decision record",
+        "retention/outage/reconciliation disposition"
+      ]
+    },
+    {
+      "id": "CAF-Q-003",
+      "priority": "P0",
+      "title": "Gemini read-only workflow hardening patch proposal",
+      "state": "READY_FOR_SOURCE_REVIEW_ONLY",
+      "agent_class": "patch_proposal",
+      "allowed_effect": "proposal_only",
+      "source_files": [
+        ".github/workflows/gemini-readonly-audit.yml",
+        ".github/workflows/gemini-readonly-audit-retry.yml"
+      ],
+      "exit_evidence": [
+        "immutable SHA provenance plan",
+        "strict ref/path/model allowlists",
+        "full-SHA action pin plan",
+        "output quarantine",
+        "evidence manifest"
+      ]
+    },
+    {
+      "id": "CAF-Q-004",
+      "priority": "P0",
+      "title": "Task envelope and agent registry schema review",
+      "state": "PROPOSED_SCHEMA_CREATED_REVIEW_REQUIRED",
+      "agent_class": "verification_review",
+      "allowed_effect": "schema_review_only",
+      "source_files": [
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json"
+      ],
+      "exit_evidence": [
+        "schema review",
+        "historical ID collision scan",
+        "A0 compatibility decision"
+      ]
+    },
+    {
+      "id": "CAF-Q-005",
+      "priority": "P1",
+      "title": "Evidence manifest schema",
+      "state": "QUEUED_AFTER_Q004",
+      "agent_class": "design_proposal",
+      "allowed_effect": "documentation_only",
+      "exit_evidence": [
+        "versioned manifest schema",
+        "run/job/source/artifact digest binding",
+        "integrity verification plan"
+      ]
+    },
+    {
+      "id": "CAF-Q-006",
+      "priority": "P1",
+      "title": "Agent registry and admission/revocation lifecycle",
+      "state": "BLOCKED_ON_A0_AND_SECURITY_AUTHORITY",
+      "agent_class": "design_proposal",
+      "allowed_effect": "documentation_only",
+      "exit_evidence": [
+        "issuer/trust/revocation contract",
+        "capability scope model",
+        "expiry and revocation evidence"
+      ]
+    },
+    {
+      "id": "CAF-Q-007",
+      "priority": "P1",
+      "title": "Authoritative runner/workspace/network target manifest",
+      "state": "SOURCE_DISCOVERY_REQUIRED",
+      "agent_class": "source_audit",
+      "allowed_effect": "read_only",
+      "exit_evidence": [
+        "canonical target manifest path and SHA",
+        "workspace/network/cleanup bounds",
+        "runner class decision"
+      ]
+    },
+    {
+      "id": "CAF-Q-008",
+      "priority": "P1",
+      "title": "Pull-request promotion and independent verification",
+      "state": "GOVERNANCE_EVIDENCE_OPEN",
+      "agent_class": "documentation",
+      "allowed_effect": "documentation_only",
+      "exit_evidence": [
+        "branch/ruleset evidence",
+        "required checks",
+        "review authority",
+        "no-auto-merge proof"
+      ]
+    },
+    {
+      "id": "CAF-Q-009",
+      "priority": "P1",
+      "title": "Provider adapter eligibility, quota and failover controls",
+      "state": "ROUTE_POLICY_REQUIRED",
+      "agent_class": "source_audit",
+      "allowed_effect": "read_only",
+      "exit_evidence": [
+        "per-task destination authorization",
+        "quota policy",
+        "privacy/retention policy",
+        "no implicit paid fallback"
+      ]
+    },
+    {
+      "id": "CAF-Q-010",
+      "priority": "P2",
+      "title": "Capacity, retry, cancellation and recovery policy",
+      "state": "WORKLOAD_INPUTS_UNKNOWN",
+      "agent_class": "design_proposal",
+      "allowed_effect": "documentation_only",
+      "exit_evidence": [
+        "bounded concurrency model",
+        "idempotency and retry semantics",
+        "circuit-breaker/recovery evidence"
+      ]
+    }
+  ]
+}
