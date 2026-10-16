@@ -3947,3 +3947,17 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Current compare snapshot: docs ref DIVERGED, ahead 1,653 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`.
 - Next bounded step: produce a P0 remediation patch plan only, with exact file/line targets and verification gates. Any workflow edits remain subject to project authorization constraints.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest verified continuation — unified security control matrix and verifiable workflow contract, Wave 05 (2026-10-16)
+
+- Created [Unified Security Control Matrix and Verifiable Workflow Contract — Wave 05](MEDIAHUB-UNIFIED-SECURITY-CONTROL-MATRIX-AND-VERIFIABLE-CONTRACT-WAVE-05-2026-10-16.md), creation commit `e69ec5b0e282b787d82093e9ab4a70048bf1e1e2`, read-back blob SHA `ea9e9b0743d45fd9e29299642bd9a4b5d223097e`.
+- Unified the ten Wave 04 source-level findings and four cross-cutting evidence/change-control requirements in one matrix: requirement → source/finding → required control → verifiable evidence → acceptance gate.
+- Defined a proposed fail-closed workflow contract covering approved immutable ref/target binding, actor/capability/replay resistance, explicit provider-secret allowlists, per-job least privilege, node HMAC isolation, target/executor consistency, credential lifetime, action SHA pinning, schedule controls, evidence provenance and rollback.
+- Added a required evidence envelope, ten acceptance gates, pass/fail/blocked/unknown semantics and an ordered P0/P1/P2 remediation sequence.
+- Status: PROPOSED / NOT ACCEPTED / NOT FROZEN. No accepted baseline was changed and no workflow/source edits were made.
+- Map updated at [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), section 20.328; map commit `0a6c25321fa004c407d80b2a5de5f12a30881278`, map blob SHA `5297e505faf874d853378c8577b2192528607839`.
+- Live compare snapshot after report creation: docs ref DIVERGED, ahead 1,658 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No branch integration.
+- No workflow dispatch, tests/scanners, provider/model calls, credential use, runner/host inspection, infrastructure changes, deployment, migration, merge, rebase or cherry-pick occurred.
+- Next bounded step: prepare the exact P0 source patch plan with proposed line-level changes, threat/control mapping, rollback path and verification gates. Source edits and execution remain subject to separate authorization.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
