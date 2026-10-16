@@ -1721,3 +1721,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No workflow was edited or dispatched; no provider/model calls, credentials, tests/scanners, host/runtime inspection, infrastructure change, qualification, deployment or branch integration occurred in this wave.
 - Next: source-bound CAF-Q-003 patch proposal and CAF-Q-007 target-manifest discovery, while A0 and R-06 remain hard gates for any live queue.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+### Wave 11 read-back correction — 2026-10-16
+
+- Queue/task contract blob SHA: `07c8bce182c5e7c87ab963f83169f562f5543e3c`.
+- Task-envelope schema blob SHA: `64148c96c056e8c1fc7a79072862a79cb1c837eb`; JSON syntax parses; full JSON Schema validator review remains pending.
+- Documentary activation queue blob SHA: `c9821fbe26735982521edff5bcc81630ae2a0473`; JSON syntax parses; ten queue entries read back.
+- Unified matrix blob SHA: `489e7a8268e70ad702925f31257129b69f3e9f53`.
+- Source registry update commit `c5bd3a267e676d6e9c593e5892c047152c2e6546`, blob SHA `4e0bea0b31f64d611c3fc2cf2ad73a3081d5a043`.
+- Project map update commit `68e7f1af30e62678dcfb6e516c4beac2a42d779f`, blob SHA `6b98de335da9fadc0f92900deff260a8bef6830a`, sections §20.339–§20.340.
+- Documentation branch remains DIVERGED from `main`, ahead 1,744 / behind 10, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; current main HEAD observed `b45324009ac3aa65322a702c28069b12190bc4b8`. No integration.
