@@ -6536,3 +6536,13 @@ WB-14AA и приложение остаются не-нормативными. 
 - No code, normative contract, tests, qualification, provider/model call, credential inspection, runtime/host inspection, infrastructure, deployment, migration, merge, rebase, or cherry-pick.
 - Next: prepare an owner decision packet separating (1) operation-scoped audit requirements/outage behavior and (2) P0-07-to-P0-05/P0-04 mutation authorization composition. Do not select either decision.
 - Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+
+## 20.320 Owner direction — autonomous technical decision-making (2026-10-16)
+
+- Updated canonical bootstrap instruction §8 to delegate technical decision-making to the assistant: choose the best-fit technical direction from the overall MediaHub OS concept, accepted Baseline 2.0, contracts, evidence, security, reversibility, and maintainability; do not ask the owner to resolve routine or substantive engineering trade-offs.
+- Bootstrap: [MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md), blob SHA `aa77ba6850f3b3cf51fcf5fae491b2998a276321`.
+- The assistant must select and justify a recommended technical direction even when a gap exists, then continue independent work. If a formal contract/governance gate is still required, the selected direction remains a proposal until that gate is satisfied; do not misstate acceptance or silently change accepted contracts.
+- Explicit execution restrictions remain unchanged: no install, tests/qualification, provider/model calls, credentials, host/runtime inspection, infrastructure, deployment, migration, merge, rebase, or cherry-pick without separate authorization. Owner escalation is reserved for product-intent changes, material privacy/data-egress/trust-boundary changes, external budget/hardware commitments, irreversible/destructive actions, and explicit higher-authority gates.
+- This updates working method and decision delegation only; Functional Baseline 2.0 and normative contracts are not changed by this instruction update.
+- Next: autonomously prepare the recommended technical design for the open P0-07 R-06 audit policy and P0-07 → P0-05/P0-04 authorization composition gap, with source-backed rationale and explicit unresolved formal gates; do not ask the owner to choose routine technical alternatives.
+- Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
