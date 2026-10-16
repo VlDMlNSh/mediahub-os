@@ -1945,3 +1945,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Supplemental map navigation: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-22-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-22-2026-10-17.md), creation commit `20044a5222aeecd2353b4e9ced765e506464d409`.
 - Supplemental continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-17-wave22.md](mediahub-next-continuation-checkpoint-2026-10-17-wave22.md), creation commit `e436a3786892f21e7b7c3741d573704ddc286e6e`.
 - Canonical map remains authoritative; the addendum preserves Wave 22 navigation and candidate status without replacing it.
+
+
+## Contour A — Reuse-First Upstream Discovery Gate, Wave 23 (2026-10-17)
+
+- Added [Reuse-First Upstream Discovery Gate — Wave 23](MEDIAHUB-REUSE-FIRST-UPSTREAM-DISCOVERY-GATE-WAVE-23-2026-10-17.md), read-back blob SHA `e09a4e3f3d1681350de47b8adcaea2bc80d46a6c`.
+- Formalized the per-stage rule: GitHub-first discovery → source and license verification → candidate comparison → contract/target fit → reuse or adapter decision → documented capability gap before bespoke implementation.
+- The existing Canonical Component Manifest 2.0 already requires reuse over reimplementation and defines a 17-point qualification gate. Wave 23 operationalizes discovery at every stage; it does not alter component selection or authorize installation/runtime activity.
+- Controls CAF-63…CAF-65 and source registry SRC-088 / EVD-043 record the policy proposal. Adoption should be tracked through a Component Discovery Record linked to each implementation-bound stage issue.
+- Next: apply the CDR to the Personal Jarvis and OpenHands SDK intake and the next implementation-bound roadmap item; only then propose a bounded integration slice.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
