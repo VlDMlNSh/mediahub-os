@@ -1983,3 +1983,25 @@ Supporting review: [Clean Target Manifest Authority Reconciliation, Wave 10](MED
 The reviewed source set contains no owner-accepted exact clean target manifest. Preserve UNKNOWN for target identity, hardware, firmware, OS/toolchain, network/egress, storage/persistence, trust zones, worker isolation and recovery. Legacy hosts remain historical provenance only. No gate closes through this documentary finding.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 21. Cloud-agent task contract and documentary activation queue — Wave 11 (2026-10-16)
+
+Supporting records:
+- [Queue and Task Contract](MEDIAHUB-CLOUD-AGENT-FABRIC-QUEUE-AND-TASK-CONTRACT-WAVE-11-2026-10-16.md)
+- [Task Envelope Schema v0.1](MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.1-WAVE-11-2026-10-16.json)
+- [Activation Queue](MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json)
+
+| Control ID | Requirement | Current state | Closure evidence |
+|---|---|---|---|
+| CAF-15 | Versioned task-envelope schema | PROPOSED / CREATED / VALIDATOR REVIEW PENDING | JSON Schema validation, ID collision scan, accepted A0 compatibility decision |
+| CAF-16 | Documentary activation queue CAF-Q-001…CAF-Q-010 | CREATED / NO LIVE SCHEDULER | Accepted A0 queue contract, persistence/lifecycle implementation, authorized runtime evidence |
+| CAF-17 | Task-specific agent/provider admission | PROPOSED / BLOCKED ON AUTHORITY AND POLICY | Agent identity/capability record, requester authorization, source SHA, data/egress policy, provider eligibility and budget |
+| CAF-18 | Output quarantine and independent promotion | PROPOSED / NOT IMPLEMENTED | Isolated worker, evidence manifest, required checks, independent review and repository governance evidence |
+| CAF-19 | Agent activation after authorization | LIFECYCLE SPECIFIED / AUTOMATIC CONNECTION ABSENT | Authorized identity/capability evidence, reviewed registry entry, narrow task grant and independently verified first execution |
+
+### Wave 11 disposition
+
+The schema and queue are versioned documentary artifacts. They do not constitute a live queue, registry, scheduler, connected agent or accepted ingress contract. Existing Gemini run evidence remains valid for one historical read-only execution. No status upgrade is inferred for general autonomous development.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
