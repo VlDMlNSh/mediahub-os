@@ -36,7 +36,7 @@
       "id": "CAF-Q-003",
       "priority": "P0",
       "title": "Gemini read-only workflow hardening patch proposal",
-      "state": "READY_FOR_SOURCE_REVIEW_ONLY",
+      "state": "PATCH_PROPOSAL_CREATED_REVIEW_REQUIRED",
       "agent_class": "patch_proposal",
       "allowed_effect": "proposal_only",
       "source_files": [
@@ -48,8 +48,14 @@
         "strict ref/path/model allowlists",
         "full-SHA action pin plan",
         "output quarantine",
-        "evidence manifest"
-      ]
+        "evidence manifest",
+        "reviewed source-bound patch proposal; explicit source-edit authorization; independent review"
+      ],
+      "proposal_ref": "docs/checkpoints/MEDIAHUB-GEMINI-WORKFLOW-HARDENING-PATCH-PROPOSAL-WAVE-12-2026-10-16.md",
+      "source_sha_map": {
+        ".github/workflows/gemini-readonly-audit.yml": "0d10efdda251f2ceca43175981c919102303572b",
+        ".github/workflows/gemini-readonly-audit-retry.yml": "96fcc9ed4e45659d0118f0b9f3593a0c736200f0"
+      }
     },
     {
       "id": "CAF-Q-004",
