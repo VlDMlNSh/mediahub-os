@@ -6809,3 +6809,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: PROPOSED / DOCUMENTARY QUEUE / NOT ACCEPTED / NOT IMPLEMENTED / NOT QUALIFIED. Queue records are not live scheduling or dispatch. Existing Gemini run evidence proves one historical read-only execution only.
 - Next: source-bound CAF-Q-003 workflow patch proposal and CAF-Q-007 target-manifest discovery; A0 and R-06 remain hard gates for live queue operation.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.341 — Gemini Read-only Workflow Hardening Patch Proposal, Wave 12 (2026-10-16)
+
+- Report: [Gemini Read-only Workflow Hardening Patch Proposal — Wave 12](../checkpoints/MEDIAHUB-GEMINI-WORKFLOW-HARDENING-PATCH-PROPOSAL-WAVE-12-2026-10-16.md), creation commit `95c62d6a64490bc3607e4c41be69ae2b15e0d43d`, blob SHA `11106dcbb26c2a54643c8727732ef56c63510c7f`.
+- Reviewed exact `main` workflow blobs: `.github/workflows/gemini-readonly-audit.yml` `0d10efdda251f2ceca43175981c919102303572b`; `.github/workflows/gemini-readonly-audit-retry.yml` `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`.
+- Updated documentary queue CAF-Q-003 to `PATCH_PROPOSAL_CREATED_REVIEW_REQUIRED`; current queue blob SHA `b15d57d201b8acc8a298c0bf6110473cd614d685`.
+- Ran 13 bounded structural assertions across the proposed task schema and queue; all passed. Full JSON Schema validator and workflow test suite remain pending.
+- Status: SOURCE-BOUND PATCH PROPOSAL / NOT APPLIED / NOT TESTED / NOT QUALIFIED. Existing Gemini workflow remains operationally proven for one historical read-only run.
+- Next: independent proposal review, then a minimal patch on an explicitly authorized working ref; workflow tests and provider-backed dispatch retain separate authorization gates.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
