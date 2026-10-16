@@ -6348,3 +6348,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Re-read exact blobs: docs branch `9ad83781a8da53d1a8f540ede54eba95281f01c0` says A0 owns “ASTRA workflow/control state” only and explicitly excludes MediaHub Product State Authority; main `da26185254d9954fcee204f81ecca129bf052e7c` still says “Global coordination/state” without the matching scope clarification.
 - DEC-DEV-02 Option C remains OWNER-APPROVED. This is a source-text reconciliation gap, not a reason to reopen the semantic authority split. No normative source changed and no branch integration occurred.
 - Next: route the narrow main-source wording correction through explicit owner/change-control approval; absent that approval, continue source-only work.
+
+
+## 20.303 Contour A — OpenHands SDK live upstream revision/security-policy refresh (2026-10-16)
+
+- Updated the existing [Component Admission Crosswalk, §7.20](../checkpoints/MEDIAHUB-COMPONENT-ADMISSION-CROSSWALK-WAVE-01-2026-10-14.md), commit `a9727e966a1922a63ba3cb0098b5a34175db8e1b`, read-back blob SHA `4436c63588d1e0485fc871d35ec2da458ecb3897`.
+- Re-read upstream `OpenHands/software-agent-sdk` metadata: pinned tag `v1.54.0` package metadata blob `39c3ce3b1137c59e6a24423a3d11097f446507ee`; moving `main` declares `1.55.1` at blob `160610fcba9b379a10340f16ab77c3bf504f2609`; tag `v1.50.1` declares a different Pydantic floor at blob `ab83f196c70a0732cff40b6d616a730a83db9b2d`. Repository license text is MIT. The `uv.lock` blob is addressable but returned no content; resolved dependency evidence remains unavailable. Upstream GitHub Security overview reports no detected security policy; that is not a clean vulnerability finding.
+- Candidate remains RESEARCH PIN ONLY / NOT SELECTED / NOT ADMITTED / NOT READY FOR RUNTIME EVALUATION. Artifact provenance, exact lock/resolved dependencies, transitive SBOM/license/advisory closure, target OS/Python/hardware, workspace isolation, provider egress and telemetry privacy remain OPEN.
+- No install, download, dependency resolution, tests/scans, provider/model calls, credentials, host/runtime inspection, qualification, deployment or branch integration occurred.
+- Next: another distinct unresolved admission gate or wait for owner-provided target hardware/OS/Python facts; do not repeat the same source-pin pass.
