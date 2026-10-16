@@ -90,7 +90,7 @@ jobs:
         shell: bash
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || secrets.GOOGLE_API_KEY }}
-          GEMINI_MODEL: gemini-3.8-flash
+          GEMINI_MODEL: gemini-3.6-flash
         run: |
           set -euo pipefail
           [[ -n "${GEMINI_API_KEY:-}" ]] || { echo "Required Actions secret GEMINI_API_KEY is not configured." >&2; exit 10; }
@@ -99,7 +99,7 @@ jobs:
           const https = require('node:https');
           const prompt = fs.readFileSync('agent-output/prompt.txt', 'utf8');
           const key = process.env.GEMINI_API_KEY;
-          const model = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
+          const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
           const body = JSON.stringify({
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
             generationConfig: { temperature: 0.2, maxOutputTokens: 8192 }
