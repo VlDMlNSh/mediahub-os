@@ -1827,3 +1827,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No schema validator was installed; no provider call, credential access, workflow dispatch, project-runtime inspection, infrastructure change, deployment or branch integration occurred.
 - Next: read back the restored map and all changed documents; conduct full Draft 2020-12 validation and negative fixtures with an approved validator; then independent review. A0 issuer/lifecycle, MH-12 authority, R-06 and the authoritative target manifest remain admission gates.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+### Wave 17 read-back closure — 2026-10-16
+
+- Restored project map read-back SHA: `a24ef7f13777ed38ff26e1cb0febbc42713f541f`, 6,876 lines; sections 20.343–20.345 are present. Map update commit `825e017631871564808f1329b5e668214054a623`.
+- Wave 17 report read-back blob SHA: `8392c8fe20a2a9f00aafe85b915e06ca8e81b39f`.
+- Source Registry update commit `df473b3f58e34743f47665250d9a97e46e4e39c6`, blob SHA `35f0bee415b900fbeeb353d65f0a8a49c3ba76ea`; SRC-063/SRC-065 and EVD-030 now reference the report, map and bounded checks.
+- Matrix update commit `9c326ec93ad63332d8d380a72190ba58520b3c37`, blob SHA `fce9949ad3ad570425fa63b99aa22f4c4979b4a6`; CAF-42 map read-back status is closed.
+- Live branch comparison remains DIVERGED from `main`; no merge or integration occurred.
+- Next: independent review of the v0.2 schema candidates, full Draft 2020-12 meta-validation and negative fixtures; then continue A0/R-06/target-manifest source closure.
+- Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
