@@ -2181,3 +2181,15 @@ The schema findings are documentary and apply to proposed v0.2 candidates. No sc
 Source report: [Credential Reference and Schema-Gap Crosswalk, Wave 20](MEDIAHUB-CREDENTIAL-REFERENCE-AND-SCHEMA-GAP-CROSSWALK-WAVE-20-2026-10-16.md), blob SHA `13c9cb5a16323a7bd28c6564009f6f123f710f2e`.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+## 30. Jarvis upstream repository reuse and intake — Wave 21 (2026-10-16)
+
+| Control ID | Requirement / finding | Evidence | State | Closure evidence |
+|---|---|---|---|---|
+| CAF-54 | Jarvis is the umbrella engineering architecture; an upstream repository identity must be explicit before adoption | Jarvis blueprint reconciliation SHA `39720b11e5e6777b86ffd71e0fec1214982e0d95`; System Passport v3 SHA `2b5d81236b85d44d284015cfb02d9401ab0e7482` | WORKING DESIGN / UPSTREAM ID UNKNOWN | Exact owner-intended repository URL, immutable source pin and read-only intake record |
+| CAF-55 | Reuse existing code before reimplementation where capability and governance gates pass | Canonical Component Manifest 2.0 SHA `45988bf9da202c9597d0ca2de50e92e5c2e6ed55` | REUSE-FIRST POLICY | Capability crosswalk, license/provenance/dependency/security review, target compatibility and independent qualification |
+| CAF-56 | Avoid competing lifecycle owners across Jarvis and ASTRA | Jarvis blueprint AG-11 and §16 candidate snapshot | ARCHITECTURE GATE OPEN | One accepted scheduler/lifecycle owner, adapters and explicit authority boundaries |
+| CAF-57 | Repository selection, dependency admission, packaging, installation and deployment are distinct states | Jarvis Repository Reuse and Integration Decision, Wave 21 | DOCUMENTARY / NO INSTALLATION | Immutable pin, SBOM/license evidence, reproducible package, approved target manifest and separately authorized execution |
+| CAF-58 | Three-server topology remains unchanged during repository intake | Wave 21 decision | PRESERVED / TARGET QUALIFICATION OPEN | Per-target compatibility evidence for macOS 2018, Linux 2011 and remote video server |
+
+Wave 21 source report: [Jarvis Repository Reuse and Integration Decision](MEDIAHUB-JARVIS-REPOSITORY-REUSE-AND-INTEGRATION-DECISION-WAVE-21-2026-10-16.md), blob SHA `e8a0bafa1a6ee0269adbc4b678e94c2ba6f0b274`.
