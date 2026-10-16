@@ -61,7 +61,7 @@
       "id": "CAF-Q-004",
       "priority": "P0",
       "title": "Task envelope and agent registry schema review",
-      "state": "SCHEMA_REVIEW_REQUIRED",
+      "state": "STATIC_REVIEW_FINDINGS_RECORDED_REMEDIATION_REQUIRED",
       "agent_class": "verification_review",
       "allowed_effect": "schema_review_only",
       "source_files": [
@@ -72,21 +72,27 @@
         "schema review",
         "historical ID collision scan",
         "A0 compatibility decision",
-        "registry schema review; scope/expiry/revocation consistency; historical ID collision scan"
+        "registry schema review; scope/expiry/revocation consistency; historical ID collision scan",
+        "Wave 15 semantic review disposition",
+        "v0.2 versioned schema remediation proposal",
+        "Draft 2020-12 validator and negative-fixture evidence"
       ]
     },
     {
       "id": "CAF-Q-005",
       "priority": "P1",
       "title": "Evidence manifest schema",
-      "state": "SCHEMA_CREATED_REVIEW_REQUIRED",
+      "state": "STATIC_REVIEW_FINDINGS_RECORDED_REMEDIATION_REQUIRED",
       "agent_class": "design_proposal",
       "allowed_effect": "documentation_only",
       "exit_evidence": [
         "versioned manifest schema",
         "run/job/source/artifact digest binding",
         "integrity verification plan",
-        "schema review; digest/provenance field consistency; no-secret-data review"
+        "schema review; digest/provenance field consistency; no-secret-data review",
+        "Wave 15 evidence-manifest semantic review",
+        "bounded array/action-SHA constraints",
+        "separate execution versus verification/qualification states"
       ],
       "source_files": [
         "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json"
@@ -196,12 +202,33 @@
         "egress destinations and cleanup bounds",
         "fixed-IP need assessment based on provider requirements"
       ]
+    },
+    {
+      "id": "CAF-Q-013",
+      "priority": "P0",
+      "title": "Cloud-agent schema v0.2 semantic remediation and validation",
+      "state": "FINDINGS_RECORDED_PROPOSAL_REQUIRED",
+      "agent_class": "design_proposal",
+      "allowed_effect": "documentation_only",
+      "source_files": [
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-SEMANTIC-REVIEW-WAVE-15-2026-10-16.md",
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
+        "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json"
+      ],
+      "exit_evidence": [
+        "versioned v0.2 schema proposal",
+        "execution/verification/qualification state separation",
+        "action SHA and cardinality bounds",
+        "semantic authorization/reference validation contract",
+        "Draft 2020-12 validator evidence and independent review"
+      ]
     }
   ],
-  "latest_wave": "WAVE_14_CLOUD_NATIVE_CREDENTIAL_AND_EGRESS_REFERENCE_DESIGN",
+  "latest_wave": "WAVE_15_SCHEMA_SEMANTIC_REVIEW_FINDINGS_RECORDED",
   "latest_wave_refs": [
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
-    "docs/checkpoints/MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md"
+    "docs/checkpoints/MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md",
+    "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-SEMANTIC-REVIEW-WAVE-15-2026-10-16.md"
   ]
 }
