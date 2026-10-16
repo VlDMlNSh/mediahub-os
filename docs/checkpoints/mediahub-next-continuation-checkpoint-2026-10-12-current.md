@@ -4076,3 +4076,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Public source basis: GitHub Actions secure-use guidance; GitHub Copilot code-review docs; VS Code agent trust/sandbox guidance; official Gemini API terms; GroqCloud data controls/services agreement; OpenRouter provider logging and routing docs. Exact links are in the Wave 08 architecture document.
 - Next: close A0 issuer/lifecycle source reconciliation and R-06 authority; source-review the current Gemini audit workflows; find the authoritative target manifest; then prepare a separate implementation proposal for one read-only worker. Implementation, test execution, provider calls and deployment retain separate explicit authorization gates.
 - Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 08 read-back and registry SHA binding — 2026-10-16
+
+- Wave 08 architecture read-back SHA: `712faccec5a35f2ed56b86f23a42cd4a1a5b4710`.
+- Master Roadmap read-back SHA: `801c874558f61385f57172d98b874876ce7a3488`.
+- Unified System Traceability Matrix read-back SHA: `5c9727991960f655b7b2fd6389a6ff2ce1d3f9a2`.
+- Canonical Source Registry SHA-binding update commit: `baf42ce189383be052e8c3e7278172bb9928f386`; registry read-back SHA: `a752c0a8de254fd5a1a0211eb14643d6c5e939de`.
+- Map entry read-back update commit: `cd0e90405a174ae5a7e2ddcff2148976a5484fa0`; map blob SHA: `19f4fb7cc40be3085e6a9cc5b6be22b45775fd6d`.
+- Live branch compare rechecked: docs ref DIVERGED from `main`, 1,701 ahead / 10 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No branch integration performed.
+- Verification is documentary read-back only. No workflow source edits, workflow dispatches, tests, provider calls, credentials, host/runtime inspection, infrastructure changes, deployment or qualification occurred.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
