@@ -6568,3 +6568,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - R-06 remains PROPOSED / GOVERNANCE GATE OPEN; P0-07 mutation publication remains BLOCKED — GOVERNANCE/API GAP; qualification NO-GO / NOT PROVEN. No protected contract or code changed; no tests, provider calls, runtime/host inspection, infrastructure or branch integration.
 - Next: inspect existing owner/governance records for a formal acceptance route and accountable role for the audit/privacy decision, while preserving the recommendation as non-normative.
 - Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+
+
+## 20.323 P0-07 R-06 — audit/privacy governance route reconciliation, Wave 06 (2026-10-16)
+
+- Report: [P0-07 R-06 — Audit/Privacy Governance Route Reconciliation, Wave 06](../checkpoints/MEDIAHUB-P0-07-R06-AUDIT-PRIVACY-GOVERNANCE-ROUTE-RECONCILIATION-WAVE-06-2026-10-16.md), blob SHA `452d3531c9897679d52cedc7b5311234f98b8fa8`, creation commit `1692521fa00f2fb80e05108df94c70d46108bafc`.
+- Read the owner decision register, MH-12 Audit, MH-13 Governance State and reconstruction registers, and Wave 05 crosswalk. The records establish audit/privacy constraints but no named accountable person, delegated authority or formal R-06 approval workflow.
+- Recommended a role-based acceptance route across security, privacy/data governance, P0-07/P0-05 contract ownership, governance authority and independent verification. These are proposed role categories, not appointments or proof of authority.
+- R-06 remains OPEN; Wave 05 allowlist/lifecycle remains PROPOSED / NOT ACCEPTED / NOT FROZEN; MH-13 remains ACCEPTED RECONSTRUCTION with historical original unrecovered, freeze NO and production implementation unauthorized; P0-07 mutation publication remains BLOCKED — GOVERNANCE/API GAP.
+- No normative contract/schema or code changed. No tests, qualification, provider/model calls, credentials, runtime/host inspection, infrastructure, deployment, migration or branch integration.
+- Next: prepare a governance disposition template capturing the actual authority, decision, scope, evidence and exceptions once an authorized reviewer/owner is established.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
