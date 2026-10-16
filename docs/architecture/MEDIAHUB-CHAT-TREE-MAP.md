@@ -6600,3 +6600,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - The generated content is an architecture audit report rather than the expected `MEDIAHUB_GEMINI_CONNECTED_OK` smoke-test marker. Record connection as **VERIFIED — API request and text generation succeeded**; exact smoke-test marker as **NOT VERIFIED**.
 - Scope boundary: connection proof only; no implementation qualification, acceptance, release, deployment, or product-state claim. No secret value was accessed or recorded.
 - Evidence checkpoint: [Gemini workflow checkpoint](../checkpoints/MEDIAHUB-GEMINI-READONLY-AUDIT-RETRY-WORKFLOW-CHECKPOINT-2026-10-16.md).
+
+
+## 20.318 — Unified contract and traceability matrix, Wave 01 (2026-10-16)
+
+- Report: [MEDIAHUB Unified Contract and Traceability Matrix — Wave 01](../checkpoints/MEDIAHUB-UNIFIED-CONTRACT-AND-TRACEABILITY-MATRIX-WAVE-01-2026-10-16.md).
+- Report commit: `bdab9d96757cb166e59cda972cd5d39a593b43da`.
+- Scope: live repository metadata, paginated branch samples, recent commit search, open PR search, current bootstrap/map/checkpoint/roadmap and Baseline 2.0; documentation ref compared against main.
+- Live compare: docs ref vs main is DIVERGED, docs ref ahead 10 / behind 1,640; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Baseline 2.0 remains canonical accepted functional reference; Baseline 1.0 remains historical provenance. Main compare surfaced a substantial Baseline 1.0 modification for separate provenance review.
+- Proposed matrix schema and priority risks recorded in the report. ASTRA A0 ingress stays proposed pending governance decisions; P0-07 product-mutation gates remain distinct from engineering ingress.
+- Status: ANALYSIS / PROPOSED CONTROL ARTIFACT / NOT ACCEPTED AS NORMATIVE. This pass is broad but not a complete all-branch/all-file census.
+- Next: Wave 02 canonical source registry with exact owner, ref, commit/blob SHA, authority scope and acceptance path.
