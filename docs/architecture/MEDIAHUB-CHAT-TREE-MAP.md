@@ -6685,3 +6685,13 @@ WB-14AA и приложение остаются не-нормативными. 
 - Gemini workflow execution, scanner execution, provider calls and credential use remain NOT RUN in this pass. This is an inventory/runbook result, not a successful runtime test or security acceptance.
 - Next step: owner manually reviews Actions secret metadata, dispatches one bounded read-only Gemini audit, and records run ID, resolved source SHA, artifact digest and redaction review. Then assess any additional provider individually under the data-egress and least-privilege gates.
 - Project map status remains inventory / incomplete acceptance.
+
+
+## 20.330 — Cloud agent readiness and security evidence matrix, Wave 02 (2026-10-16)
+
+- Added [Cloud Agent Readiness and Security Evidence Matrix — Wave 02](../checkpoints/MEDIAHUB-CLOUD-AGENT-READINESS-AND-SECURITY-EVIDENCE-MATRIX-WAVE-02-2026-10-16.md), creation commit `39af2fc5027da8023a96418f5af3b0cf98de3f3b`.
+- Read current bootstrap, map, Wave 01 runbook, Wave 02 static security report and both Gemini workflow sources. The matrix records agent admission states, workflow hardening requirements and a unified security evidence ledger.
+- Existing Gemini workflows remain the only source-confirmed hosted-agent integration in this pass; provider execution remains RUNTIME-UNVERIFIED. Other hosted providers and local inference remain candidates pending current terms, permissions, and separate qualification.
+- No workflow dispatch, external provider call, credential use, scanner, test, installation or infrastructure action occurred.
+- Next action: owner-visible GitHub UI evidence for secret metadata and security alerts; then one bounded read-only Gemini run with run ID, source SHA, artifact digest and redaction review.
+- Project map status remains inventory / incomplete acceptance.
