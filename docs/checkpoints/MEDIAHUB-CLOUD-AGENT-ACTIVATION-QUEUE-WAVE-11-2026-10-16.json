@@ -162,11 +162,46 @@
         "idempotency and retry semantics",
         "circuit-breaker/recovery evidence"
       ]
+    },
+    {
+      "id": "CAF-Q-011",
+      "priority": "P0",
+      "title": "Cloud-native credential injection and provider egress policy",
+      "state": "REFERENCE_DESIGN_CREATED_REVIEW_REQUIRED",
+      "agent_class": "verification_review",
+      "allowed_effect": "documentation_only",
+      "source_files": [
+        "docs/checkpoints/MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md"
+      ],
+      "exit_evidence": [
+        "reviewed secret-scope and runtime-injection contract",
+        "provider-specific eligibility and data-policy evidence",
+        "explicit direct-egress and fixed-IP exception decision",
+        "independent security review"
+      ]
+    },
+    {
+      "id": "CAF-Q-012",
+      "priority": "P1",
+      "title": "Authoritative hosted runner, workspace and network target manifest",
+      "state": "SOURCE_DISCOVERY_REQUIRED",
+      "agent_class": "source_audit",
+      "allowed_effect": "read_only",
+      "source_files": [
+        "docs/checkpoints/MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md"
+      ],
+      "exit_evidence": [
+        "canonical target manifest path and blob SHA",
+        "runner class and workspace isolation evidence",
+        "egress destinations and cleanup bounds",
+        "fixed-IP need assessment based on provider requirements"
+      ]
     }
   ],
-  "latest_wave": "WAVE_13_SCHEMA_ARTIFACTS_CREATED_REVIEW_REQUIRED",
+  "latest_wave": "WAVE_14_CLOUD_NATIVE_CREDENTIAL_AND_EGRESS_REFERENCE_DESIGN",
   "latest_wave_refs": [
     "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
-    "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json"
+    "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json",
+    "docs/checkpoints/MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md"
   ]
 }
