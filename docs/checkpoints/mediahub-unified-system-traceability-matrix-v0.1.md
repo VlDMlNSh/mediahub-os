@@ -2275,3 +2275,14 @@ Wave 26 report: [OpenHands Agent Server Security Boundary Crosswalk](MEDIAHUB-OP
 | CAF-77 | Tool preset and capability admission | `default.py` blob `d70b10f95435faac5d0cfa527ccd15c74a25fe30`; Agent Server API blob `1916fd4b00e798e27f85f37db1e634bbef6a48c2` | BLOCKED; terminal/file/browser/MCP/plugin/sub-agent capability map, deny-by-default policy, target isolation and audit enforcement required |
 
 Wave 27 report: [OpenHands Workspace Cookie and Tool Control Crosswalk](MEDIAHUB-OPENHANDS-WORKSPACE-COOKIE-AND-TOOL-CONTROL-CROSSWALK-WAVE-27-2026-10-17.md), blob `c5380aa274a8f156e668eafd0d28e4e1ed059e03`; map addendum blob `8f80d1fa0325fce5dfe0254a20f3b3ab310e7b1e`. Source behavior only; runtime configuration and qualification remain unproven.
+
+
+## Wave 28 — OpenHands route-to-capability matrix
+
+| Control ID | Source / evidence | Revision-bound observation | Status / closure requirement |
+|---|---|---|---|
+| CAF-78 | Top-level route mounting and auth groups | `api.py` blob `1916fd4b00e798e27f85f37db1e634bbef6a48c2`; init `aae09786c40388b371cc5060a90a9a67bfbf4f3d`; server details `5f7187ea3d4bce7f1725f8e7d72ddbeefce5d928`; sockets `33d7a4b1666e9cdcf004b157470e9be16cdfe693` | SOURCE REVIEW; public details, separate init key, session-key groups and WebSocket-specific auth require per-route ingress and identity contract |
+| CAF-79 | Runtime, events, tools and external capability surfaces | runtime router `fddc306f933c5a9fd28ff31589d0b08864e7cd19`; event router `6c17e33dbfe8ccc7a7691e7b1f18cd0fbb1885a6`; tool router `fadc4c14b1970f81266c1c9acaedadd3199014d3`; MCP `71e3fb649fb41a857a7d83f0ff75996ab3f09073`; plugin router `f2a766e0d0bad3e0b063fad535eb37f3554522b0`; skills `7b53f010d66b041a87c707f73a105eb18aca9def`; sub-agents `da5c09b9e52be2353f8e209557ff63261a87ddb5` | BLOCKED; task-class deny-by-default allowlist, egress/secret policy, tenant ownership, isolated execution target and audit enforcement required |
+| CAF-80 | Browser app backend, provider/secrets and runtime proxy | bridge router `2b16348eb9c99a07725aa01a2301b5b030045169`; OpenAI router `05183baaae77a8e27cad7c2ea03c5060c5a9443c`; provider connections `58a5653caf2e8280d60c2374f63c9d4c448a4469`; settings `4b909015ed53dbea46ca3ee313c2fd67adc40e9a`; workspaces `5ee50edc58774be6a7c0b07c0e5b7dc1f6bc0a56` | REVIEW REQUIRED; app-session issuance/proxy/revocation, provider credentials, origin binding, egress and target isolation need separate threat review |
+
+Wave 28 report: [OpenHands Route-to-Capability Matrix](MEDIAHUB-OPENHANDS-ROUTE-TO-CAPABILITY-MATRIX-WAVE-28-2026-10-17.md), blob `fc60bf2fda5f1cc2d2ac20112279cd260baab4a8`; map addendum blob `9fac7bb00c4dde1b84a87706a6b36a2fd16d5930`. Source inventory only; no deployment or qualification claim.
