@@ -6820,3 +6820,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: SOURCE-BOUND PATCH PROPOSAL / NOT APPLIED / NOT TESTED / NOT QUALIFIED. Existing Gemini workflow remains operationally proven for one historical read-only run.
 - Next: independent proposal review, then a minimal patch on an explicitly authorized working ref; workflow tests and provider-backed dispatch retain separate authorization gates.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.341 — Cloud-Agent Registry and Evidence Schemas, Wave 13 (2026-10-16)
+
+- Added [Cloud-Agent Registry and Evidence Schemas — Wave 13](../checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-AND-EVIDENCE-SCHEMAS-WAVE-13-2026-10-16.md), commit `ca313bdb3e1099ba97e966404b8bd6f7202630f6`.
+- Added [Agent Registry Record Schema v0.1](../checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json), blob `449a38bc84283f720fe723ea8e3587e6082fdbb4`, and [Execution Evidence Manifest Schema v0.1](../checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json), blob `9714fd2dd04d401a9a3d1a800cb19d7b69e7e73f`.
+- Updated [Activation Queue](../checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json) preserving CAF-Q-001…CAF-Q-010; queue blob `d6b01b23885d35d30f5f0460b899e073cefd6027`.
+- Unified matrix now traces CAF-23…CAF-25, blob `c97d50bb10c4373ebb8c58fa6487b3d69954200b`. Canonical source registry records SRC-045…SRC-046 and EVD-023; corrected registry blob is pending final read-back.
+- A bounded structural pass completed 15/15 assertions across both new schemas, the task schema and queue. Full JSON Schema validation and independent review remain pending.
+- Status: PROPOSED SCHEMAS / REVIEW REQUIRED / RUNTIME-UNVERIFIED. A0 issuer/lifecycle, R-06, MH-12 security authority and target manifest remain open. No agent was connected; no provider call, workflow dispatch, workflow source edit, installation, runtime inspection, infrastructure change, deployment or branch integration occurred.
+- Next: independent schema review and source-bound target-manifest discovery, then prepare an explicitly authorized minimal implementation proposal.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
