@@ -6300,3 +6300,12 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Owner packet §8 records DEC-DEV-02 Option C as OWNER-APPROVED (2026-10-15); §6.1 stale summary corrected in that packet. Primary ASTRA wording and runtime enforcement remain separate evidence/change-control items.
 - WB-14X received a route-boundary corrective addendum. D-ING-01…04, D-ING-05a/05b and D-ING-06 remain OPEN; no transport, issuer, schema or implementation was selected.
 - Next: source-only inspection of the exact A0-facing contract references in the ASTRA lifecycle trace and Jarvis adapter draft. Keep the product mutation flow separately blocked by its own accepted-contract/evidence gates.
+
+## 20.297 Contour A WB-14Z — ASTRA A0 ingress source-contract census (2026-10-16)
+
+- Report: [WB-14Z ASTRA A0 Ingress Source-Contract Census](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14Z-A0-INGRESS-SOURCE-CONTRACT-CENSUS-2026-10-16.md), creation commit `62c388b3b8ef028623c7529574912c447c8d063c`.
+- The Jarvis adapter contract is a design draft; WB-14B establishes a local file-based Task Contract consumer and a separate signed operational-command path but no authenticated Jarvis producer-to-A0 chain. Wave 07, the executor matrix and ASTRA internal design specify useful internal lifecycle/security constraints, not an accepted Jarvis-facing wire/API contract.
+- Missing A0-facing artifacts: accepted request/ACK/status/result/cancel contract; trusted service principal and issuer/verifier lifecycle; durable idempotent admission; fencing/cancellation/recovery/result semantics; separate freshness/replay and correlated health-probe contracts.
+- Internal lease/retry values must not be repurposed as external request/token/probe/idempotency limits. No transport, issuer, schema ID, cryptographic profile or storage technology was selected.
+- WB-14Y distinction continues to apply: engineering ingress and P0-07→P0-05→P0-04 product mutation are separate routes; no authority bypass allowed.
+- Next: draft a transport-neutral, version-neutral A0 ingress contract candidate with exact source links, ownership fields, operation/request-response matrix, failure semantics and explicit unresolved decisions. Keep PROPOSED / NOT ACCEPTED; no schema registration or implementation yet.
