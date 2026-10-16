@@ -20,7 +20,7 @@ on:
       model:
         description: "Gemini API model ID"
         required: true
-        default: "gemini-3.8-flash"
+        default: "gemini-3.6-flash"
         type: string
 
 permissions:
@@ -104,7 +104,7 @@ jobs:
           const https = require('node:https');
           const prompt = fs.readFileSync('agent-output/prompt.txt', 'utf8');
           const key = process.env.GEMINI_API_KEY;
-          const model = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
+          const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
           const body = JSON.stringify({
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
             generationConfig: { temperature: 0.2, maxOutputTokens: 8192 }
