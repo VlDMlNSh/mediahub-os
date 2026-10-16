@@ -6229,3 +6229,15 @@ Next bounded step: perform a source-only, exact-revision evaluation of the first
 - Status: **SOURCE-BOUND CROSSWALK / PROPOSAL ONLY / NOT IMPLEMENTED / NOT QUALIFIED**.
 - Next: WB-14S strict schema ownership and operation-specific field mapping, while keeping issuer, transport, auth profile, freshness and persistence choices open until approved.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.290 Contour A WB-14S — ASTRA A0 ingress schema ownership and operation map (2026-10-16)
+
+- Report: [WB-14S A0 Ingress Schema Ownership and Operation Map](../checkpoints/MEDIAHUB-CONTOUR-A-WB-14S-A0-INGRESS-SCHEMA-OWNERSHIP-AND-OPERATION-MAP-2026-10-16.md), report update commit `cb6f0a66050fb12d40cd39e73ef5b1bbb7f432ea`, current blob SHA `6b5159fdbe0c99d34e754047dd7c0a8afde8c61c`.
+- Defines a strict, non-normative family of separate request/response types: Submit/Admission, StatusQuery/StatusResponse, Cancel/CancelResponse, ResultQuery/ResultResponse and HealthChallenge/HealthResponse. Proposed paths are only candidates; no schema file or callable API was created.
+- Establishes a proposed owner/producer/validator/mutability map and separates admission disposition, A0 lifecycle, attempt result, verifier disposition, qualification gates, health, readiness, trust and authorization states.
+- Confirms unresolved issuer/service principal, auth/crypto profile, freshness, persistence/idempotency, cancellation/fencing, schema registry and target identity choices. Notes MH-06 health/readiness vocabulary conflicts with the domain health schema; this needs owner reconciliation.
+- Static inventory found 26 JSON schemas under canonical schemas/. Corrected stale count in contracts/README.md: commit `b8c868f86667b95ca58fe03d1e5789ab20884f28`, current blob `0c5a6c2d76558a285e49187f563f9e9c8056d34e`. Validator/tests were read, not executed.
+- Status: **CONTRACT DESIGN ONLY / NO IMPLEMENTATION / NO TESTS / NO QUALIFICATION**.
+- Next: WB-14T decision packet for service principal/issuer, auth profile, durable admission/idempotency, freshness and health vocabulary. Transport and issuer remain unselected.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
