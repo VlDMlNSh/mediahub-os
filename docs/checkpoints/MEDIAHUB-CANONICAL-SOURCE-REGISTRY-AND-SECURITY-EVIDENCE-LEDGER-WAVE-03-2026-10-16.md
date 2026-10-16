@@ -236,7 +236,7 @@ These records are proposed schemas. They define data shapes and mandatory refere
 
 | ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on |
 |---|---|---|---|---|---|
-| SRC-047 | `docs/checkpoints/MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `195a796bcc2b197b3bdd7eac8ec729aac70be4a6`; read-back pending | Contour A credential injection, provider egress, quota/fallback and agent onboarding reference design | PROPOSED / RUNTIME-UNVERIFIED | A0 issuer/lifecycle, R-06, target manifest, provider/task route authorization |
+| SRC-047 | `docs/checkpoints/MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Created in commit `195a796bcc2b197b3bdd7eac8ec729aac70be4a6`; live blob SHA `21ab57f932594bed670583d0eb66d4abb076755f` | Contour A credential injection, provider egress, quota/fallback and agent onboarding reference design | PROPOSED / RUNTIME-UNVERIFIED | A0 issuer/lifecycle, R-06, target manifest, provider/task route authorization |
 | SRC-048 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Update commit `1140f33791f3a9ce5fb10a736d99a120afec56fb`; blob `0d751edc2b52085781eddb8e2e5ce638d93e5f88` | Documentary queue CAF-Q-001…CAF-Q-012 | DOCUMENTARY ONLY / NO LIVE SCHEDULER | Accepted A0 lifecycle and separately qualified scheduler |
 | EVD-025 | Direct cloud-runner provider-egress design | Wave 14 architecture plus official GitHub runner/security and provider-policy docs | DESIGN EVIDENCE ONLY | Target manifest, source review and authorized runtime evidence |
 
