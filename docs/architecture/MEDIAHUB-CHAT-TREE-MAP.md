@@ -6768,3 +6768,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: STATIC SOURCE REVIEW / PATCH PLAN PROPOSED / NOT QUALIFIED. No workflow edits/dispatches, provider calls, credentials, tests/scanners, host/runtime inspection, infrastructure changes, deployment or branch integration.
 - Next: exact A0 issuer/lifecycle reconciliation, R-06 governance disposition and target-manifest retrieval; then prepare the separately authorized P0/P1 workflow patch.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.337 — Gemini Operational Evidence and Cloud-Agent Status Correction, Wave 10 (2026-10-16)
+
+- Added [Cloud-Agent Fabric Operational Evidence and Status Correction — Wave 10](../checkpoints/MEDIAHUB-CLOUD-AGENT-FABRIC-GEMINI-OPERATIONAL-EVIDENCE-WAVE-10-2026-10-16.md), creation commit `1f5f896cdbf50429e3a09e1f8232d13db2821359`.
+- Verified GitHub Actions run `38952885501` as `completed / success`; job `117148417231` shows the Gemini API call step succeeded; artifact `12069128185` was uploaded with digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d`. Source commit `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- Added the run evidence to the Master Roadmap and unified matrix; extended the source registry with SRC-039…SRC-041 and EVD-019…EVD-020.
+- Corrected the status: Gemini is operationally proven for at least one historical read-only workflow run. Source-hardening findings remain actionable; they do not invalidate the successful run. The full autonomous fabric remains unqualified.
+- This pass read public GitHub run/job/artifact metadata and updated documentation only. No new workflow dispatch/provider call, credential access, tests/scanners, host/runtime inspection, infrastructure change, deployment or merge occurred.
+- Next: reconcile A0 ingress/issuer/lifecycle and R-06 governance, retrieve the authoritative target manifest, then prepare the exact workflow hardening patch proposal and task/evidence schemas.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
