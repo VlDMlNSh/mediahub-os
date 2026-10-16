@@ -2231,3 +2231,14 @@ This policy operationalizes the existing reuse-first rule; it does not change th
 | CAF-68 | Keep coding-agent execution behind MediaHub task, workspace, A0 and evidence boundaries | Wave 24 report §2 and §5; task-envelope v0.2 SHA `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; agent-registry v0.2 SHA `b49b89b8fbdfc180862e3dc78f8198f35e486035` | CONTRACT CROSSWALK OPEN / RUNTIME BLOCKED | Accepted A0/MH-12/R-06 contracts, target manifest, adapter specification and separately authorized qualification |
 
 Wave 24 source intake: [Jarvis Source Pin and Capability Crosswalk](MEDIAHUB-JARVIS-SOURCE-PIN-AND-CAPABILITY-CROSSWALK-WAVE-24-2026-10-17.md), blob SHA `8d701fca6e2b0a60052b7c18e5a40af7afbfd8d1`.
+
+
+## 34. OpenHands task / registry / evidence contract crosswalk — Wave 25 (2026-10-17)
+
+| Control ID | Requirement | Evidence | State | Closure evidence |
+|---|---|---|---|---|
+| CAF-69 | Map upstream SDK/tool/workspace/Agent Server abstractions to MediaHub-owned task, authority and scope contracts | [Wave 25 crosswalk](docs/checkpoints/MEDIAHUB-OPENHANDS-TASK-REGISTRY-EVIDENCE-CONTRACT-CROSSWALK-WAVE-25-2026-10-17.md), report blob to be recorded after read-back; task envelope v0.2 blob `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a` | ADAPTER DESIGN ONLY | Immutable adapter contract, source-bound routes/configuration, accepted A0 ingress and independent review |
+| CAF-70 | Preserve separation between agent registry declaration, authorization, execution, verification, qualification and acceptance | Registry v0.2 blob `b49b89b8fbdfc180862e3dc78f8198f35e486035`; evidence manifest v0.2 blob `40c402432fd0f3899d45fde0fa0a8af4d34c593a` | SCHEMAS PROPOSED / RUNTIME BLOCKED | Accepted schemas and policy refs; resolved immutable SHAs; issuer/revocation and audit controls; separate evidence for every lifecycle stage |
+| CAF-71 | Enforce isolated workspace, minimal tool authority, provider egress policy and target binding for candidate execution | Wave 24 pinned source review; A0/MH-12 trace blob `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`; target reconciliation blob `1f748bf80e08067fd85a7e1b0821cc4d12bda676`; R-06 template blob `834fd1ab70eee88355844ba2ebba6c2b6c47ecdb` | SECURITY/TARGET/GOVERNANCE GATES OPEN | Accepted target manifest, A0/MH-12/R-06 dispositions, source-bound adapter, negative/degraded-mode evidence and independent qualification |
+
+Wave 25 crosswalk: [OpenHands Task / Registry / Evidence Contract Crosswalk](MEDIAHUB-OPENHANDS-TASK-REGISTRY-EVIDENCE-CONTRACT-CROSSWALK-WAVE-25-2026-10-17.md). OpenHands remains a candidate only; no implementation or qualification state changed.
