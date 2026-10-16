@@ -220,12 +220,12 @@ The checks in EVD-024 are bounded structural assertions, not a full JSON Schema 
 
 | ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
 |---|---|---|---|---|---|
-| SRC-045 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `449a38bc84283f720fe723ea8e3587e6082fdbb4` | Candidate Contour A agent identity/capability/provider-route/expiry/revocation record | PROPOSED / SCHEMA CREATED / REVIEW REQUIRED; no agent registration or grant implied | A0 issuer/admission/lifecycle, MH-12 authority, R-06 and target manifest |
-| SRC-046 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `9714fd2dd04d401a9a3d1a800cb19d7b69e7e73f` | Candidate run/task/source/input/agent/policy/artifact/review provenance manifest | PROPOSED / SCHEMA CREATED / REVIEW REQUIRED; no execution evidence asserted | R-06 audit/privacy, workflow provenance, artifact digest validation and independent review |
+| SRC-052 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `449a38bc84283f720fe723ea8e3587e6082fdbb4` | Candidate Contour A agent identity/capability/provider-route/expiry/revocation record | PROPOSED / SCHEMA CREATED / REVIEW REQUIRED; no agent registration or grant implied | A0 issuer/admission/lifecycle, MH-12 authority, R-06 and target manifest |
+| SRC-053 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `9714fd2dd04d401a9a3d1a800cb19d7b69e7e73f` | Candidate run/task/source/input/agent/policy/artifact/review provenance manifest | PROPOSED / SCHEMA CREATED / REVIEW REQUIRED; no execution evidence asserted | R-06 audit/privacy, workflow provenance, artifact digest validation and independent review |
 
 | Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
 |---|---|---|---|---|
-| EVD-023 | Registry and evidence-manifest schema artifacts exist | GitHub creation commits: registry `4c85035df5ba2d20fbfcffb5df2ab0dabc2c0327`; manifest `b54b02c9f91d1ebfe60ea45588b767fb5c3f0ed7`; queue update commit `9c72154485da216bad8a9c08ba9037f23c37423e` | ARTIFACT EXISTENCE RECORDED / SCHEMA VALIDATION OPEN | Read-back SHA verification, full JSON Schema validation, cross-schema consistency review and ID collision scan |
+| EVD-026 | Registry and evidence-manifest schema artifacts exist | GitHub creation commits: registry `4c85035df5ba2d20fbfcffb5df2ab0dabc2c0327`; manifest `b54b02c9f91d1ebfe60ea45588b767fb5c3f0ed7`; queue update commit `9c72154485da216bad8a9c08ba9037f23c37423e` | ARTIFACT EXISTENCE RECORDED / SCHEMA VALIDATION OPEN | Read-back SHA verification, full JSON Schema validation, cross-schema consistency review and ID collision scan |
 
 ### Wave 13 evidence boundary
 
