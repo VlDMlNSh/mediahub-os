@@ -6590,3 +6590,13 @@ WB-14AA и приложение остаются не-нормативными. 
 - No code or normative contract/schema changed; no tests, qualification, provider/model calls, credentials, runtime/host inspection, infrastructure, deployment, migration or branch integration.
 - Next: if an authorized governance path is recorded, populate the template with exact source revisions and decisions; otherwise continue an independent source-only task without treating the template as approval.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.325 Gemini API connection — successful manual run (2026-10-16)
+
+- GitHub Actions run [38940264004](https://github.com/VlDMlNSh/mediahub-os/actions/runs/38940264004) completed with conclusion `success` on `main`, head SHA `b45324009ac3aa65322a702c28069b12190bc4b8`.
+- Job `Read-only Gemini audit with bounded retry` completed successfully, including the Gemini API request step. Artifact ID `12062861465` was uploaded; SHA-256: `cfcf94343e4675413b6bc045169a4bb8c0d25f49dceb888ebd9bc994fc9feeed`.
+- Downloaded artifact contains a non-empty generated Markdown architecture audit (4,296 bytes). This establishes successful API request and text generation for `gemini-3.5-flash-lite`.
+- The generated content is an architecture audit report rather than the expected `MEDIAHUB_GEMINI_CONNECTED_OK` smoke-test marker. Record connection as **VERIFIED — API request and text generation succeeded**; exact smoke-test marker as **NOT VERIFIED**.
+- Scope boundary: connection proof only; no implementation qualification, acceptance, release, deployment, or product-state claim. No secret value was accessed or recorded.
+- Evidence checkpoint: [Gemini workflow checkpoint](../checkpoints/MEDIAHUB-GEMINI-READONLY-AUDIT-RETRY-WORKFLOW-CHECKPOINT-2026-10-16.md).
