@@ -1586,3 +1586,15 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No code, workflow, or normative contract changed. No tests/scanners, qualification, provider/model calls, credentials, host/runtime inspection, installation, infrastructure changes, deployment, migration, or branch integration occurred.
 - Next bounded step: source-only per-job authority review of Astra chat-control and autonomous-supervisor workflows; preserve current files and branches.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Astra workflow authority review, Wave 04 (2026-10-16)
+
+- Report: [Astra Workflow Authority Review — Wave 04](MEDIAHUB-ASTRA-WORKFLOW-AUTHORITY-REVIEW-WAVE-04-2026-10-16.md), creation commit `1f32bd72582fe4d71c02fe3f5e3cdf3573d6199b`.
+- Source review covers chat-control, autonomous supervisor, distributed verification, provider qualification, local Claude qualification, controller and HMAC signer; exact source blob SHAs are in the report.
+- P0 recommendations: fence privileged supervisor execution to approved default-branch immutable SHA before secret access; replace provider `secrets: inherit` with explicit secret allowlist; strengthen chat-control actor/capability and replay-safe command binding.
+- P1 recommendations: narrow per-job GITHUB_TOKEN permissions and HMAC key distribution; review checkout credential persistence; reconcile executor/target aliases; pin third-party actions to full commit SHAs.
+- No workflow or product source changed. No workflow dispatch, tests/scanners, provider/model calls, secret access, host/runtime or runner inspection, infrastructure changes, deployment, migration or branch integration occurred.
+- Map section 20.327 update commit: `b26d360c57ae01ae78044729c96b93d9b830e6ee`; checkpoint update commit: `4094433c262d44e5a2a303b844d03d64dfdc8144`.
+- Next bounded step: write a P0 remediation patch plan only, with exact proposed edits, threat-control mapping, rollback path and authorized verification gates. Workflow changes remain gated by the project authorization rules.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
