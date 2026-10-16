@@ -1,0 +1,58 @@
+name: MediaHub Anthropic provider smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  anthropic-smoke:
+    name: Validate Anthropic secret and bounded inference path
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      ANTHROPIC_ENDPOINT: https://api.anthropic.com/v1/messages
+      ANTHROPIC_MODEL: claude-opus-5
+      ANTHROPIC_VERSION: 2023-06-01
+    steps:
+      - name: Validate secret presence without exposing it
+        shell: bash
+        run: |
+          set -eu
+          test -n "${ANTHROPIC_API_KEY:-}"
+          echo 'anthropic_secret=present'
+
+      - name: Execute bounded Messages API probe
+        shell: bash
+        run: |
+          set -eu
+          response_file="$(mktemp)"
+          trap 'rm -f "$response_file"' EXIT
+          payload='{"model":"claude-opus-5","max_tokens":8,"messages":[{"role":"user","content":"Return exactly OK."}]}'
+          status="$(curl -sS -o "$response_file" -w '%{http_code}' \
+            -X POST \
+            -H "x-api-key: $ANTHROPIC_API_KEY" \
+            -H "anthropic-version: $ANTHROPIC_VERSION" \
+            -H 'content-type: application/json' \
+            -H 'accept: application/json' \
+            --data "$payload" \
+            "$ANTHROPIC_ENDPOINT")"
+          test "$status" = '200'
+          python3 - "$response_file" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          payload = json.loads(Path(sys.argv[1]).read_text())
+          content = payload.get('content', [])
+          assert isinstance(content, list) and content, 'Anthropic returned no content'
+          text = ''.join(
+              part.get('text', '')
+              for part in content
+              if isinstance(part, dict) and part.get('type') == 'text'
+          ).strip()
+          assert text, 'Anthropic returned empty inference content'
+          print(f"anthropic_inference=PASS selected_model={payload.get('model', 'unknown')}")
+          PY
