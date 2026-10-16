@@ -3884,7 +3884,7 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Created [P0-07 R-06 — Audit/Privacy Governance Disposition Template, Wave 07](MEDIAHUB-P0-07-R06-GOVERNANCE-DISPOSITION-TEMPLATE-WAVE-07-2026-10-16.md), commit `3bf827076bb913ef304c39a049548df00bb9b83b`, blob SHA `834fd1ab70eee88355844ba2ebba6c2b6c47ecdb`.
 - Template covers named authority and delegation evidence, security/privacy/contract review, event schema and classification, durability, operation-specific outage semantics, access, retention/deletion, integrity, clock/correlation, post-commit reconciliation, exceptions and independent verification.
 - All decision fields and approval gates remain OPEN. R-06 remains OPEN; Wave 05 remains PROPOSED / NOT ACCEPTED / NOT FROZEN; P0-07 mutation publication remains BLOCKED — GOVERNANCE/API GAP.
-- Map §20.324 update commit: `1d73e2423b9f5f450acca7e03748555de58a7032`. Checkpoint update and read-back are pending in this pass.
+- Map §20.324 update commit: `1d73e2423b9f5f450acca7e03748555de58a7032`; map read-back blob SHA `aa85711cb99e1d52821dbf86a4cfd4a4cb989d28`. Checkpoint update commit: `f94a85b97db8083f873ef4efa196a35b93123bbe`; checkpoint read-back blob SHA `6c1551aeacff14a21232d3a8ce84609450460796`.
 - No code or normative contract/schema changed. No tests, qualification, provider/model calls, credentials, runtime/host inspection, infrastructure, deployment, migration or branch integration occurred.
 - Next: populate the template only after an authorized governance path is evidenced; otherwise proceed with a separate source-only task.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
