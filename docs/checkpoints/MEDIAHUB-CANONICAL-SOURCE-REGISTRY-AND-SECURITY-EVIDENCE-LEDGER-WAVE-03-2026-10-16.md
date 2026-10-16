@@ -214,3 +214,19 @@ The checks in EVD-024 are bounded structural assertions, not a full JSON Schema 
 - Unified matrix blob SHA: `58aea5ca614790503c96f2c8996fc09cc06476b5`.
 - Project map update commit: `dc78ced5549d54a5c9cd1cfc68678a6081964e07`; map blob SHA: `febcd37109c237bb301d487201e2ecb5aeadeb36`; §20.341 records Wave 12.
 - Structural evidence EVD-024 remains limited to 13 bounded assertions; full JSON Schema validation and workflow tests remain open.
+
+
+## Wave 13 — Agent Registry and Evidence Manifest Schemas
+
+| ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
+|---|---|---|---|---|---|
+| SRC-045 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.1-WAVE-13-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `bafc9f9c3f2c1c7f61a5f8b1b9d88c6db2f83d2a` | Candidate Contour A agent identity/capability/provider-route/expiry/revocation record | PROPOSED / SCHEMA CREATED / REVIEW REQUIRED; no agent registration or grant implied | A0 issuer/admission/lifecycle, MH-12 authority, R-06 and target manifest |
+| SRC-046 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.1-WAVE-13-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | `d0a72b8f5e0f10db95f30bba4cbba95b8e3d60b1` | Candidate run/task/source/input/agent/policy/artifact/review provenance manifest | PROPOSED / SCHEMA CREATED / REVIEW REQUIRED; no execution evidence asserted | R-06 audit/privacy, workflow provenance, artifact digest validation and independent review |
+
+| Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
+|---|---|---|---|---|
+| EVD-023 | Registry and evidence-manifest schema artifacts exist | GitHub creation commits: registry `4c85035df5ba2d20fbfcffb5df2ab0dabc2c0327`; manifest `b54b02c9f91d1ebfe60ea45588b767fb5c3f0ed7`; queue update commit `9c72154485da216bad8a9c08ba9037f23c37423e` | ARTIFACT EXISTENCE RECORDED / SCHEMA VALIDATION OPEN | Read-back SHA verification, full JSON Schema validation, cross-schema consistency review and ID collision scan |
+
+### Wave 13 evidence boundary
+
+These records are proposed schemas. They define data shapes and mandatory references; they do not establish authorization, live registry storage, a scheduler, worker isolation, a provider connection, execution, qualification or acceptance. Never treat a schema field value as an authorization grant without the accepted authority and corresponding evidence.
