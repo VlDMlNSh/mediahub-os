@@ -1923,3 +1923,9 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Matrix controls CAF-54…CAF-58 and source registry entries SRC-086 / EVD-041 record the decision. No clone, installation, test, qualification, host/runtime inspection or deployment occurred.
 - Next: exact upstream identity resolution, then read-only source intake and module-to-contract crosswalk. Three-server topology remains unchanged.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+### Wave 21 navigation and continuation pointers
+
+- Supplemental map navigation: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-21-2026-10-16.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-21-2026-10-16.md), creation commit `e977c4128b764dadf7518ff4f1c76a4d54feb6b6`.
+- Supplemental continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-16-wave21.md](mediahub-next-continuation-checkpoint-2026-10-16-wave21.md), creation commit `698e360155634b87c084230cda7ed28dfd5953a8`.
+- Canonical map remains authoritative; addendum preserves Wave 21 navigation and does not replace it.
