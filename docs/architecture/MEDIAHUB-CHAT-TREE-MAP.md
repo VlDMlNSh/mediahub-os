@@ -6579,3 +6579,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - No normative contract/schema or code changed. No tests, qualification, provider/model calls, credentials, runtime/host inspection, infrastructure, deployment, migration or branch integration.
 - Next: prepare a governance disposition template capturing the actual authority, decision, scope, evidence and exceptions once an authorized reviewer/owner is established.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## 20.324 P0-07 R-06 — audit/privacy governance disposition template, Wave 07 (2026-10-16)
+
+- Template: [P0-07 R-06 — Audit/Privacy Governance Disposition Template, Wave 07](../checkpoints/MEDIAHUB-P0-07-R06-GOVERNANCE-DISPOSITION-TEMPLATE-WAVE-07-2026-10-16.md), creation commit `3bf827076bb913ef304c39a049548df00bb9b83b`, blob SHA `834fd1ab70eee88355844ba2ebba6c2b6c47ecdb`.
+- Provides an unfilled decision record for authority, security/privacy review, P0-07/P0-05 contract ownership, event schema/classification, durability, outage semantics, retention/deletion, access, integrity, clock/correlation, reconciliation, exceptions and independent verification.
+- Every approval gate remains OPEN. The template grants no authority and accepts no schema, policy, implementation or qualification.
+- R-06 remains OPEN; Wave 05 remains PROPOSED / NOT ACCEPTED / NOT FROZEN; MH-13 remains ACCEPTED RECONSTRUCTION with historical original unrecovered, freeze NO and production implementation unauthorized; P0-07 mutation publication remains BLOCKED — GOVERNANCE/API GAP.
+- No code or normative contract/schema changed; no tests, qualification, provider/model calls, credentials, runtime/host inspection, infrastructure, deployment, migration or branch integration.
+- Next: if an authorized governance path is recorded, populate the template with exact source revisions and decisions; otherwise continue an independent source-only task without treating the template as approval.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
