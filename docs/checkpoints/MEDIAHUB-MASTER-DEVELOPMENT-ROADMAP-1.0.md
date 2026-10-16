@@ -1732,3 +1732,15 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Source registry update commit `c5bd3a267e676d6e9c593e5892c047152c2e6546`, blob SHA `4e0bea0b31f64d611c3fc2cf2ad73a3081d5a043`.
 - Project map update commit `68e7f1af30e62678dcfb6e516c4beac2a42d779f`, blob SHA `6b98de335da9fadc0f92900deff260a8bef6830a`, sections §20.339–§20.340.
 - Documentation branch remains DIVERGED from `main`, ahead 1,744 / behind 10, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; current main HEAD observed `b45324009ac3aa65322a702c28069b12190bc4b8`. No integration.
+
+
+## Contour A — Gemini Workflow Hardening Proposal and Structural Checks, Wave 12 (2026-10-16)
+
+- Created [Gemini Read-only Workflow Hardening Patch Proposal — Wave 12](MEDIAHUB-GEMINI-WORKFLOW-HARDENING-PATCH-PROPOSAL-WAVE-12-2026-10-16.md), commit `95c62d6a64490bc3607e4c41be69ae2b15e0d43d`.
+- Source revisions: `.github/workflows/gemini-readonly-audit.yml` blob `0d10efdda251f2ceca43175981c919102303572b`; retry workflow blob `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`.
+- Updated documentary queue CAF-Q-003 to `PATCH_PROPOSAL_CREATED_REVIEW_REQUIRED`; queue update commit `21de50d46b033a1ea0fdc250fdc2730771502488`, blob `b15d57d201b8acc8a298c0bf6110473cd614d685`.
+- Ran 13 bounded structural assertions across the task schema and queue: all passed. This covers JSON parsing, draft declaration, required fields, authorization fields, independent-review requirement, ten unique queue IDs and exit-evidence presence. A full JSON Schema validator and workflow test suite remain pending.
+- Proposal priorities: immutable checkout provenance; strict path/ref/size allowlists; provider/model authorization; verified full-SHA action pins; output quarantine and digest-linked evidence manifest; bounded retries/timeouts; shared security logic after parity review.
+- Status: SOURCE-BOUND PATCH PROPOSAL / NOT APPLIED / NOT TESTED / NOT QUALIFIED. No workflow edits or dispatches, provider calls, credential use, tests/scanners, host/runtime inspection, infrastructure change, qualification, deployment or branch integration occurred.
+- Next: independent review of the Wave 12 proposal, then prepare a minimal patch on an explicitly authorized working ref; separately authorize workflow tests and any provider-backed dispatch.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
