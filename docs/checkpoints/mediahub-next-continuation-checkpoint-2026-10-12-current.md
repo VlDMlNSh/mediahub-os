@@ -3500,3 +3500,15 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Documentation-only pass. No code/schema/runtime edits, tests, validators, qualification, credentials/providers, host/runtime inspection, install, infrastructure, deployment, migration or branch integration.
 - Next: WB-14V correct WB-14T status wording and record the split decisions without selecting enums or promoting recommendations to accepted decisions.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Latest continuation — WB-14V MH-06 status correction and ingress decision split (2026-10-16)
+
+- Report: [WB-14V MH-06 Status Correction and Ingress Decision Split](MEDIAHUB-CONTOUR-A-WB-14V-MH06-STATUS-CORRECTION-AND-INGRESS-DECISION-SPLIT-2026-10-16.md), creation commit `9114f1e63febff203d6ba3d66ceaf60ffd23be16`.
+- Corrected WB-14T's erroneous statement that MH-06 itself remained proposed. The accepted source is ACCEPTED / GOVERNANCE ACCEPTED for its scoped Core Runtime Services semantics; implementation authorization remains NO. The generic-domain-health mapping remains unresolved separately.
+- Split overloaded D-ING-05 into D-ING-05a (domain-health/MH-06 scope mapping), D-ING-05b (A0 challenge/response), and D-ING-06 (A0 lifecycle states/transitions). All remain OPEN; no enum, mapping, transition table or implementation was selected.
+- WB-14T received a corrective addendum, commit `4aab6d0e71ece8dea3c451b26d06139c0f15fadb`, current blob `023f44b6712450a8b84e2e99e716fd3cbb2d593e`.
+- Current live refs before this pass: main `ab36db009d034db8dca723691e23b331322287e7`; docs branch `1c3720692cbbcf976ef99f94b9474850f934624c`; compare diverged, docs ahead 1503 / behind 4; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration.
+- Documentation only. No tests, validators, implementation, runtime/host access, credentials/providers, install, infrastructure, deployment or migration.
+- Next: WB-14W reconcile decision-register ownership and accountable acceptance paths for D-ING-05a, D-ING-05b and D-ING-06; do not choose on behalf of the owner.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
