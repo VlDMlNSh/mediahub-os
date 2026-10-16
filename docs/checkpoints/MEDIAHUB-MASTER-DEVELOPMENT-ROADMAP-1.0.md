@@ -1610,3 +1610,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Map section 20.328 update commit: `0a6c25321fa004c407d80b2a5de5f12a30881278`, blob SHA `5297e505faf874d853378c8577b2192528607839`.
 - Next: prepare exact P0 patch plan and rollback map; workflow edits and verification execution require their separate authorization gates.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Accelerated Integrated Contract and Deployment-Readiness Plan, Wave 06 (2026-10-16)
+
+- Created [Accelerated Integrated Contract and Deployment-Readiness Plan — Wave 06](MEDIAHUB-ACCELERATED-INTEGRATED-CONTRACT-AND-DEPLOYMENT-READINESS-WAVE-06-2026-10-16.md), commit `b879dde4c23b666afb0fd3a35c23a1c7befaf213`, blob SHA `5ef7713c509e003c138fd87ce7eaeeb857df2383`.
+- Prepared exact source-anchored P0 patch design for approved-ref/target fencing, actor/capability/replay protection, provider-secret allowlisting and target/executor consistency; documented P1 HMAC/permissions/credential controls and P2 immutable action/schedule controls.
+- Defined the canonical matrix schema and 20 domain areas, contract structure, conflict/ID governance, parallel lanes, 16 deployment-readiness gates and five-day target convergence plan.
+- Map section 20.329 commit: `52aa69f6af8384efd9c5849002ca80e35c433bb0`; map blob SHA `d6c6dd8cbef2bb61b79cb7a10dc50298420ffff4`.
+- Documentation/planning only; no workflow source edits, tests, qualification, provider calls, credentials, runner/host inspection, infrastructure changes, deployment or branch integration.
+- Next: Wave 07 — canonical authority inventory and project-wide matrix integration, Day 1. Workflow source changes and verification execution retain separate authorization gates.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
