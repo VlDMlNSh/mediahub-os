@@ -6873,3 +6873,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: CANDIDATE SCHEMA COHERENCE REPAIRED / STRUCTURAL SMOKE PASS / FULL VALIDATION OPEN / RUNTIME-UNVERIFIED. No provider call, secret access, workflow dispatch, installation, project-runtime inspection, infrastructure change, deployment or branch integration occurred.
 - Next: standards-compliant validation and negative fixtures under the applicable authorization; independent review; then close A0 issuer/lifecycle, MH-12, R-06 and target-manifest evidence.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.346 — Cloud-Agent Direct-Egress Decision, Wave 18 (2026-10-16)
+
+- Added [Cloud-Agent Direct-Egress Decision — Wave 18](../checkpoints/MEDIAHUB-CLOUD-AGENT-DIRECT-EGRESS-DECISION-WAVE-18-2026-10-16.md), commit `1a348c2a6c0e595ac1342f2df0a40066605ccadc`, blob `d7730895d97f84fc8ff25d1fdda61558dbd50696`.
+- Reaffirmed a GitHub-hosted ephemeral worker as the default: runtime-only provider credential injection, direct outbound HTTPS, no owner-operated persistent server and no inbound public listener for ordinary jobs.
+- Clarified network semantics: provider credentials are generally account/project scoped; provider requests still originate from the cloud worker and may be subject to source-IP, account, quota and region controls. No stable egress IP or region independence is assumed.
+- Added documentary queue item CAF-Q-015; queue commit `61f54da69652ff31b69d9ca30f09cc30882b81c8`, blob `802ff16cfbdfad6497bcd932add07b3bb4fc8475`. Queue remains documentary-only.
+- Updated Master Roadmap (commit `7fcfad1a77a39223d324badff9aa4b2a7c32e7c5`, blob `792621a1e5ebc07654f801ff9bca9c73ed54b7c9`), Unified Matrix (commit `d4cc1825f94c4593599fbff13f27aca45b78e3e4`, blob `c48087de03c5d79acec137165fc0455aaecdf773`), Source Registry (commit `f584c7f19c9ede3ab19449d3745dda64dc6d15b9`, blob `482012d5ddbda2215c9cf561dbeba57729fb6707`) and continuation checkpoint (commit `961a2a3e5d5ae58440d5b00c7b3025d1a1d89f95`, blob `55b86ac5271cf4da9c72269eba4f9fe0d5ae0355`).
+- Status: PROPOSED / DOCUMENTARY / RUNTIME-UNVERIFIED. A0 lifecycle, R-06, accepted target manifest and full v0.2 schema validation remain open.
+- Next: close those admission gates, then source-qualify workflow hardening and obtain separate authorization for implementation, dispatch and provider calls.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
