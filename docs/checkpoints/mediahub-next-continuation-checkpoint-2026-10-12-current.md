@@ -4265,3 +4265,19 @@ Current project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-T
 - Status: CANDIDATE SCHEMAS / REVIEW REQUIRED / RUNTIME-UNVERIFIED. No agent registration, credential access, provider call, workflow dispatch, workflow-source edit, installation, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
 - Next: full validator and negative-fixture evidence, independent schema review, then source-bound A0/R-06/target-manifest closure.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 16 final read-back and map integrity — 2026-10-16
+
+- Wave 16 candidate report blob SHA: `6c32f0d88a01e2fd2beb546f31b601f4efe13c0d`.
+- Registry Schema v0.2 blob SHA: `b49b89b8fbdfc180862e3dc78f8198f35e486035`.
+- Evidence Manifest Schema v0.2 blob SHA: `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
+- Activation Queue blob SHA: `4482cecf502a3c769ab55edfb005a3fc88e1975b`; CAF-Q-001…CAF-Q-014 are present and unique; CAF-Q-014 tracks standards-compliant validation and negative fixtures.
+- Master Roadmap blob SHA: `f009e59de28dcb5ee605f420aa67424dd0de68b7`.
+- Unified System Traceability Matrix blob SHA: `3852ad0e37394ed7b65aa6809c17f6bf534f1222`.
+- Canonical Source Registry after Wave 16 read-back binding: commit `36f60de74d357dbc952034d2ff284b521f039422`, blob SHA `96c8050d168f9543fb2df24af8644d5f73043c6c`.
+- Project map integrity repair: restoration commit `0bae4b0409ef43e3b1837bac054e517496dd7076`; full blob SHA `bf1d7e0cdfa84be8e0cec85fba3f4c03b96d9f1a`; read-back length 1,004,471 bytes. Confirmed original base inventory and Wave 14/15/16 sections §§20.342–20.344.
+- Structural review of v0.2 candidates: 20/20 assertions passed. This remains smoke evidence; full Draft 2020-12 validation, format assertion, negative fixtures, semantic reference validation and independent review are pending.
+- Runtime boundary: no provider call, workflow dispatch, secret access, workflow-source edit, test suite, installation, host/runtime inspection, infrastructure change, deployment or branch integration occurred.
+- Next: standards-compliant schema validation and negative fixtures; source-bound A0 issuer/lifecycle, R-06 and target-manifest closure; then a minimal workflow patch on a specifically authorized working ref.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
