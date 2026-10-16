@@ -1929,3 +1929,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Supplemental map navigation: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-21-2026-10-16.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-21-2026-10-16.md), creation commit `e977c4128b764dadf7518ff4f1c76a4d54feb6b6`.
 - Supplemental continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-16-wave21.md](mediahub-next-continuation-checkpoint-2026-10-16-wave21.md), creation commit `698e360155634b87c084230cda7ed28dfd5953a8`.
 - Canonical map remains authoritative; addendum preserves Wave 21 navigation and does not replace it.
+
+
+## Contour A — Jarvis Upstream Candidate Intake, Wave 22 (2026-10-17)
+
+- Added [Jarvis Upstream Candidate Intake — Wave 22](MEDIAHUB-JARVIS-UPSTREAM-CANDIDATE-INTAKE-WAVE-22-2026-10-17.md), creation commit `da9796881b5615f2ad592d033f8182693cf30e47`, current blob SHA `689f80eedb9204e7fb71558ac3f528295b4eb04c`.
+- New candidate shortlist: Personal Jarvis for personal-agent/desktop UX, voice, memory and provider-facing interactions; OpenHands Software Agent SDK for developer-agent execution and isolated workspaces. The older `sukeesh/jarvis` CLI has low fit for the autonomous engineering architecture.
+- Recommendation: read-only intake and capability crosswalk for the first two candidates; retain MediaHub-owned mission, A0, evidence/promotion and product-state authority. Candidate discovery does not select an upstream, pin a release, admit a dependency or authorize installation.
+- Controls CAF-59…CAF-62 and source registry SRC-087 / EVD-042 record the candidate intake. Exact owner-intended Jarvis upstream identity remains OPEN; the three-server topology remains unchanged.
+- No repository clone/install, tests, qualification, provider calls, credential use, host/runtime inspection, infrastructure changes, deployment or branch integration occurred.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
