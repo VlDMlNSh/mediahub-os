@@ -2286,3 +2286,14 @@ Wave 27 report: [OpenHands Workspace Cookie and Tool Control Crosswalk](MEDIAHUB
 | CAF-80 | Browser app backend, provider/secrets and runtime proxy | bridge router `2b16348eb9c99a07725aa01a2301b5b030045169`; OpenAI router `05183baaae77a8e27cad7c2ea03c5060c5a9443c`; provider connections `58a5653caf2e8280d60c2374f63c9d4c448a4469`; settings `4b909015ed53dbea46ca3ee313c2fd67adc40e9a`; workspaces `5ee50edc58774be6a7c0b07c0e5b7dc1f6bc0a56` | REVIEW REQUIRED; app-session issuance/proxy/revocation, provider credentials, origin binding, egress and target isolation need separate threat review |
 
 Wave 28 report: [OpenHands Route-to-Capability Matrix](MEDIAHUB-OPENHANDS-ROUTE-TO-CAPABILITY-MATRIX-WAVE-28-2026-10-17.md), blob `fc60bf2fda5f1cc2d2ac20112279cd260baab4a8`; map addendum blob `9fac7bb00c4dde1b84a87706a6b36a2fd16d5930`. Source inventory only; no deployment or qualification claim.
+
+
+## Wave 29 — OpenHands app-backend bridge threat controls (2026-10-17)
+
+| Control ID | Control surface | Source-bound evidence | Disposition |
+|---|---|---|---|
+| CAF-81 | Canvas app-backend session issuance and credential scope | bridge `7a73dccb24c3895993ed08212eac239020e2712a`; bridge router `2b16348eb9c99a07725aa01a2301b5b030045169` | Candidate control; bind MediaHub tenant/task/issuer and capability lifecycle before admission |
+| CAF-82 | Origin, ingress, cookie and backend-target restrictions | bridge `7a73dccb24c3895993ed08212eac239020e2712a`; API router `1916fd4b00e798e27f85f37db1e634bbef6a48c2` | Review required; trusted-proxy config, explicit origin policy and deployed values remain unverified |
+| CAF-83 | Path, redirect, WebSocket expiry/revocation and extension lifecycle | bridge `7a73dccb24c3895993ed08212eac239020e2712a`; extension router `c0d8f9020435e980ec98ef6ab5938d17b08e3d66`; backend manager `bd69ac58fd35b9cf0354b47ae27f5d97f4a3a54e` | Source controls observed; independent negative-path qualification and MediaHub audit/egress controls remain open |
+
+Wave 29 report: [OpenHands App-Backend Bridge Threat Crosswalk](MEDIAHUB-OPENHANDS-APP-BACKEND-BRIDGE-THREAT-CROSSWALK-WAVE-29-2026-10-17.md). Source inventory only; no deployment or qualification claim.
