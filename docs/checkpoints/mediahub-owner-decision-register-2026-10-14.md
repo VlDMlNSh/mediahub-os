@@ -142,3 +142,9 @@ D-03 явно принят владельцем 2026-10-14 и больше не 
 - Bounded scan found no exact `A0-ING-01…09` hits in the reviewed map, checkpoint, roadmap, owner records, MH-12 and ASTRA governance/source files. This is not an all-branch absence proof; retain these labels as proposal-local, not canonical decision IDs.
 - Crosswalk maps A0-ING-02 to D-ING-01/02, A0-ING-04 to D-ING-03, A0-ING-06 to D-ING-04, A0-ING-07 to D-ING-05b, A0-ING-05 to D-ING-06; A0-ING-01/03/08/09 retain cross-cutting acceptance dependencies. Keep D-ING-05a and D-ING-05b separate.
 - WB-14W's role-level acceptance paths remain proposals; accountable individuals/delegated authority and formal approval workflow are NOT ESTABLISHED. No options selected; WB-14AA remains PROPOSED / NOT ACCEPTED / NOT FROZEN.
+
+## A0 ingress evidence and qualification boundary — WB-14AC (2026-10-16)
+
+- Report: [WB-14AC A0 Ingress Evidence and Qualification-Boundary Crosswalk](MEDIAHUB-CONTOUR-A-WB-14AC-A0-INGRESS-EVIDENCE-AND-QUALIFICATION-BOUNDARY-CROSSWALK-2026-10-16.md).
+- ASTRA GOLD qualification schema/reference architecture/governance contract establish internal evidence integrity, exact-SHA binding, freshness in qualification scope, independent A3 verification and fail-closed handling. They do not supply the accepted Jarvis-facing A0 API/issuer/admission/result contract or named acceptance authority.
+- Executor matrix docs/main wording drift is documented, not integrated. No owner option was selected; WB-14AA remains PROPOSED / NOT ACCEPTED / NOT FROZEN / NOT IMPLEMENTED.
