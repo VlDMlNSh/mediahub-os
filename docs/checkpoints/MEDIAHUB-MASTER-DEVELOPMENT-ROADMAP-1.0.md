@@ -1517,3 +1517,11 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Corrected WB-14X's route-level inference: Jarvis→A0 engineering ingress and P0-07→P0-05→P0-04 product mutation are different routes. P0-05 D6 and the P0-07 caller edge remain hard gates for relevant canonical product mutation, not automatically for all engineering-mission ingress.
 - Reconciled DEC-DEV-02: the owner packet §8 already records Option C as OWNER-APPROVED; §6.1's stale OPEN_CONFLICT summary was corrected. Primary ASTRA source wording still requires controlled reconciliation; no normative source was altered and no branch integration occurred.
 - No implementation, tests, qualification or runtime activity. Next bounded step: source-only inspection of exact A0-facing contract references in the ASTRA lifecycle trace and Jarvis adapter draft; keep product-mutation gates separate.
+
+## Contour A WB-14Z — ASTRA A0 ingress source-contract census (2026-10-16)
+
+- Report: [WB-14Z ASTRA A0 Ingress Source-Contract Census](MEDIAHUB-CONTOUR-A-WB-14Z-A0-INGRESS-SOURCE-CONTRACT-CENSUS-2026-10-16.md), commit `62c388b3b8ef028623c7529574912c447c8d063c`.
+- Fetched and compared the exact Jarvis adapter draft, WB-14B caller trace, Wave 07 issuer trace, executor capability matrix and ASTRA GOLD internal design/governance sources. Internal A0 queue/claim/lease/recovery policy exists; an accepted Jarvis→A0 API/issuer/admission/result contract does not appear in the bounded evidence set.
+- The local JSON Task Contract consumer and signed operational-command path are separate; no authenticated Jarvis producer-to-A0 chain is established. Do not infer API, trust context, queue schema, or TTL from either path or from internal numeric policy values.
+- Preserves WB-14Y separation: product mutation via P0-07→P0-05→P0-04 has distinct gates and cannot be bypassed through ASTRA.
+- Next: a transport-neutral A0 ingress contract candidate with traceable requirements, options and open decisions, marked PROPOSED / NOT ACCEPTED. No schema registration or implementation until explicit owner/governance acceptance.
