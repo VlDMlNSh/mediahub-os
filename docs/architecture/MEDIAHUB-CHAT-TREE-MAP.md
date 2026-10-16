@@ -6861,3 +6861,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: CANDIDATE SCHEMAS / FULL VALIDATION OPEN / RUNTIME-UNVERIFIED. The 20/20 bounded structural assertions are smoke evidence only.
 - Next: standards-compliant validation, negative fixtures and independent review; keep A0/R-06/MH-12/target-manifest gates in force.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+
+## 20.345 — Cloud-Agent Schema Coherence and Map Recovery, Wave 17 (2026-10-16)
+
+- Added [Cloud-Agent Schema Coherence and Map Recovery — Wave 17](../checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-COHERENCE-AND-MAP-RECOVERY-WAVE-17-2026-10-16.md), creation commit `1bd00b5a9c1979db02ede3d44dd350ec22e752ea`.
+- Corrected task-envelope v0.2's evidence-manifest reference to v0.2; task schema blob `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`. Updated the documentary activation queue to use task-envelope v0.2; queue blob `1ef28af318a4be6618e0d9703a3e8d208a807206`.
+- Bounded read-back assertions passed 23/23 across task, registry and evidence-manifest schemas plus the queue. Full Draft 2020-12 meta-validation, format assertion, negative fixtures and semantic reference resolution remain open.
+- Updated [Wave 16 schema candidate report](../checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-V0.2-CANDIDATES-WAVE-16-2026-10-16.md), [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), [Unified System Traceability Matrix](../checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md), [Canonical Source Registry](../checkpoints/MEDIAHUB-CANONICAL-SOURCE-REGISTRY-AND-SECURITY-EVIDENCE-LEDGER-WAVE-03-2026-10-16.md) and continuation checkpoint.
+- Status: CANDIDATE SCHEMA COHERENCE REPAIRED / STRUCTURAL SMOKE PASS / FULL VALIDATION OPEN / RUNTIME-UNVERIFIED. No provider call, secret access, workflow dispatch, installation, project-runtime inspection, infrastructure change, deployment or branch integration occurred.
+- Next: standards-compliant validation and negative fixtures under the applicable authorization; independent review; then close A0 issuer/lifecycle, MH-12, R-06 and target-manifest evidence.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
