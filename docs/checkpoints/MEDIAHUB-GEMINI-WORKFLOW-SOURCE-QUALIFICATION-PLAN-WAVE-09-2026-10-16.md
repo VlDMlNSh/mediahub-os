@@ -96,3 +96,12 @@ The current Gemini workflow pair is a candidate for a **read-only advisory worke
 Next: prepare the exact P0/P1 patch proposal after A0 issuer/lifecycle, R-06 and target-manifest evidence is reconciled. Keep all implementation and execution gates explicit.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Addendum — historical execution evidence verified in Wave 10
+
+GitHub run metadata was subsequently retrieved for [run 38952885501](https://github.com/VlDMlNSh/mediahub-os/actions/runs/38952885501). It completed with `conclusion=success`; job `117148417231` shows the step **Call Gemini API with bounded retry** completed successfully, and artifact `12069128185` was uploaded with digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d`. The run used source commit `b45324009ac3aa65322a702c28069b12190bc4b8`.
+
+This direct run evidence establishes that the Gemini integration worked for that execution. The title and scope of this Wave 09 source review remain accurate: the ten findings concern source provenance, input bounds, action pinning, output handling and governance qualification. Those findings are remediation candidates, not a claim that the integration is nonfunctional. The broader autonomous fabric remains unqualified until its queue, agent registry, A0/R-06 authority, evidence manifest, isolated patch worker and promotion gates are established.
+
+See [Wave 10 — Operational Evidence and Status Correction](MEDIAHUB-CLOUD-AGENT-FABRIC-GEMINI-OPERATIONAL-EVIDENCE-WAVE-10-2026-10-16.md) for the exact run/job/artifact metadata.
