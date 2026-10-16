@@ -1438,3 +1438,13 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No implementation, tests, qualification, host/runtime actions, install or deployment occurred. Source and path findings are not live-state evidence.
 - Next bounded work item: WB-14Q contract-only target ingress decision/requirements matrix; present alternatives and consequences without recording an owner choice as accepted.
 - Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A WB-14Q — formal ASTRA A0 ingress interface design (2026-10-16)
+
+- Created [WB-14Q ASTRA A0 Ingress Interface Design](MEDIAHUB-CONTOUR-A-WB-14Q-ASTRA-A0-INGRESS-INTERFACE-DESIGN-2026-10-16.md), commit `0d82e6ccbb63ffe851009c676c577b4173969cc8`, report blob SHA `2b0cf853a7b5eefe9e75fccdcfed130d53f417c8`.
+- Proposed the transport-neutral logical boundary Jarvis → authenticated ingress adapter → ASTRA A0 admission/lifecycle. It defines illustrative submit/status/cancel/result operations, a nonce-correlated health challenge/response, proposed request/ack/result fields, authority and security invariants, and a failure matrix.
+- Status remains design proposal only. No new schema IDs are registered or accepted, no transport/issuer is selected, and no implementation, tests, qualification or runtime work occurred.
+- Preserves the owner-approved separation: Jarvis mission coordination; A0 internal queue/claim/lease/retry/cancellation/recovery/gates; Product State Authority for canonical product-state mutation. Direct-local execution remains a separate route.
+- Next bounded work item WB-14R: reconcile exact ASTRA authority wording and crosswalk proposed fields against existing schemas/owners. Do not edit normative contracts or choose a transport without explicit accepted decisions.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
