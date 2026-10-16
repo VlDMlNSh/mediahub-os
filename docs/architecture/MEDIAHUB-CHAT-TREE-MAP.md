@@ -6674,3 +6674,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Live compare snapshot after Wave 06 artifact creation: docs ref DIVERGED, ahead 1,662 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`.
 - Next: Wave 07 — project-wide canonical authority inventory and matrix integration, Day 1; reconcile existing registers and preserve historical IDs rather than creating competing inventories.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.329 — Free cloud agent onboarding, Wave 01 (2026-10-16)
+
+- Added [Free Cloud Agent Onboarding — Wave 01](../checkpoints/MEDIAHUB-FREE-CLOUD-AGENT-ONBOARDING-WAVE-01-2026-10-16.md), commit `f4eea7db0697e802f6b28cd444933b0fd5875f00`.
+- Confirmed existing `main` entry points by source read: `.github/workflows/gemini-readonly-audit.yml` blob `0d10efdda251f2ceca43175981c919102303572b`; `.github/workflows/gemini-readonly-audit-retry.yml` blob `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`.
+- Reviewed Wave 02 security report blob `5d7484a0dac931a6e6f671df1a1749bacc242982`. It reports 32 workflows on the inspected `main` tree, but secret-scanning, code-scanning and Dependabot alert inventories remain UNKNOWN because the connector rejected those endpoints.
+- GitHub Actions secret values are not returned by the documented secret metadata API. This session's GitHub connector also exposes no repository-secret listing or workflow-dispatch action.
+- Gemini workflow execution, scanner execution, provider calls and credential use remain NOT RUN in this pass. This is an inventory/runbook result, not a successful runtime test or security acceptance.
+- Next step: owner manually reviews Actions secret metadata, dispatches one bounded read-only Gemini audit, and records run ID, resolved source SHA, artifact digest and redaction review. Then assess any additional provider individually under the data-egress and least-privilege gates.
+- Project map status remains inventory / incomplete acceptance.
