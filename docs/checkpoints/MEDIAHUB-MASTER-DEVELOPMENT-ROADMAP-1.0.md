@@ -1790,3 +1790,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - Current activation queue contains CAF-Q-001…CAF-Q-012 after Wave 14; the original ten IDs remain stable and the queue remains documentary. No live queue/scheduler is asserted.
 - Wave 13 structural check remains 15/15. Full JSON Schema validation, independent review and runtime qualification remain open.
 - Current map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Contour A — Cloud-Agent Schema Semantic Review, Wave 15 (2026-10-16)
+
+- Added [Cloud-Agent Schema Semantic Review — Wave 15](MEDIAHUB-CLOUD-AGENT-SCHEMA-SEMANTIC-REVIEW-WAVE-15-2026-10-16.md), creation commit `67411c653326c750dc45b235689f90e98cde9d7d`.
+- Reviewed exact Wave 11 task-envelope, Wave 13 registry and evidence-manifest schema blobs. Recorded ten findings CAS-01…CAS-10.
+- P0 findings: execution status currently includes verification/qualification labels; syntactic status values must never serve as authority grants. P1 findings cover lifecycle timestamp invariants, action SHA shape, bounded evidence arrays, capability intersections, provider-reference resolution, validator format assertion and immutable schema provenance.
+- Updated the [Activation Queue](MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json): CAF-Q-004 and CAF-Q-005 now record semantic review findings; added CAF-Q-013 for versioned v0.2 remediation and standards-compliant validation. Queue update commit `fb6285bf8c67c20d1a7829de730a8900baa7bd83`, blob `b22a601ac4d0ff392e7689a6b3cd86dfca979439`.
+- Status: STATIC REVIEW / REMEDIATION PROPOSAL / NO SCHEMA PATCH APPLIED. Existing v0.1 artifacts remain unchanged; previous structural assertions are smoke evidence only.
+- Next: prepare versioned v0.2 schema candidates with explicit separation of execution, verification and qualification; then use an approved Draft 2020-12 validator, negative fixtures and independent review after the relevant execution authorization.
+- Project map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
