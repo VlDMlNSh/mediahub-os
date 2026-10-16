@@ -189,3 +189,19 @@ Registry entries index proposals only. Queue creation does not dispatch tasks, c
 - Continuation checkpoint before this registry addendum: `4db8e2444d34ab16f6738cd674458f19a11ce98c`.
 - Project map live blob SHA after §§20.339–20.340: `6b98de335da9fadc0f92900deff260a8bef6830a`; map update commit `68e7f1af30e62678dcfb6e516c4beac2a42d779f`.
 - GitHub compare: documentation branch remains DIVERGED from `main`, ahead 1,744 / behind 10; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; `main` HEAD `b45324009ac3aa65322a702c28069b12190bc4b8`. No branch integration occurred.
+
+
+## Wave 12 — Gemini Workflow Hardening Proposal and Structural Checks
+
+| ID | Source / ref | Live blob SHA | Authority scope | Status / acceptance boundary | Depends on / downstream use |
+|---|---|---|---|---|---|
+| SRC-049 | `docs/checkpoints/MEDIAHUB-GEMINI-WORKFLOW-HARDENING-PATCH-PROPOSAL-WAVE-12-2026-10-16.md@docs/mediahub-chat-tree-map-20261012` | Creation commit `95c62d6a64490bc3607e4c41be69ae2b15e0d43d`; read-back pending | Source-bound patch plan for two read-only Gemini workflows | PROPOSED / NOT APPLIED / NOT TESTED | Explicit source-edit authorization, patch review, workflow validation |
+| SRC-050 | `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json@docs/mediahub-chat-tree-map-20261012` | Update commit `21de50d46b033a1ea0fdc250fdc2730771502488`; read-back blob `b15d57d201b8acc8a298c0bf6110473cd614d685` | Documentary task queue with CAF-Q-003 state updated | DOCUMENTARY ONLY / NO LIVE DISPATCH | Reviewed proposal, authorization, accepted A0 lifecycle |
+| SRC-051 | `docs/checkpoints/mediahub-unified-system-traceability-matrix-v0.1.md@docs/mediahub-chat-tree-map-20261012` | Update commit `8344b86d5ed7f7dbbbfdb3c4efa1c9b9004c3161`; read-back pending | GWF-12 and CAF-20…CAF-22 traceability | PROPOSED / NOT ACCEPTED / NOT FROZEN | Independent review, full schema/workflow validation and authorized execution |
+
+| Evidence ID | Control / claim | Evidence presently available | Status | Evidence required to close |
+|---|---|---|---|---|
+| EVD-024 | Task schema and documentary queue structural integrity | 13 bounded JavaScript assertions passed; JSON parse and unique queue IDs verified | STRUCTURAL SANITY PASS / FULL SCHEMA VALIDATION PENDING | Full draft 2020-12 validator, negative cases and independent review |
+| EVD-025 | Gemini workflow remediation readiness | Wave 12 proposal bound to exact current workflow blobs; no patch applied | PATCH PLAN READY FOR REVIEW / IMPLEMENTATION NOT STARTED | Approved patch, source-level review, static validation and authorized tests |
+
+The checks in EVD-024 are bounded structural assertions, not a full JSON Schema conformance result or workflow qualification.
