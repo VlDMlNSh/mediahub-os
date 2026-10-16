@@ -6525,3 +6525,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - No code, normative contract, tests, qualification, provider/model call, credentials, runtime, infrastructure or deployment work. No branch integration.
 - Next: locate the canonical P0-07 operation/capability inventory on its owning ref and check for an accepted mapping to P0-05/P0-04; do not infer mappings.
 - Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+
+## 20.319 P0-07 D2 R-06 — domain operation/capability reconciliation, Wave 03 (2026-10-16)
+
+- Report: [P0-07 D2 R-06 — Domain Operation / Capability Reconciliation, Wave 03](../checkpoints/MEDIAHUB-P0-07-D2-R06-P0-07-DOMAIN-OPERATION-CAPABILITY-RECONCILIATION-WAVE-03-2026-10-16.md), blob SHA `1345219021f6eda191ec9561332f8c717580ef63`.
+- The P0-07 Governance Decision v1.0 on `codex/p0-07-configuration-policy-architecture` (`9ff8ad6115a9c0a5182a84a1f4d3d8c85995a96e)) explicitly identifies seven v1 domain operations (`read`, `validate`, `propose`, `update`, `replace`, `reset`, `delete`) and fourteen exact device-local capabilities. Inventory status is now SOURCE-IDENTIFIED for this bounded scope.
+- The P0-07 architecture header still says PROPOSED / GOVERNANCE REVIEW REQUIRED, while its separate governance decision says architecture ACCEPTED and implementation AUTHORIZED within exact v1 scope. Record this source-status discrepancy; do not normalize either document silently.
+- P0-07 domain operations are not aliases for P0-03 State Authority operations. The implementation-side P0-07 → P0-05 Mutation Adapter Contract (`22b8e1897e124578e66c8d619b3e8eaf41f69a88`) explicitly marks mutation integration BLOCKED — GOVERNANCE/API GAP and lists three unselected governance directions. No capability translation or mutation bridge is inferred.
+- Audit-evidence mandatory status and behavior when required evidence cannot be emitted remain UNKNOWN for each of the seven P0-07 domain operations. R-06 remains GOVERNANCE DECISION REQUIRED; D1 NOT DEMONSTRATED; D2 NOT EVIDENCED / NOT ACCEPTED / NOT FROZEN; D3 NOT EVIDENCED; D6 OPEN; P0-07 mutation/publication BLOCKED; qualification NO-GO / NOT PROVEN.
+- No code, normative contract, tests, qualification, provider/model call, credential inspection, runtime/host inspection, infrastructure, deployment, migration, merge, rebase, or cherry-pick.
+- Next: prepare an owner decision packet separating (1) operation-scoped audit requirements/outage behavior and (2) P0-07-to-P0-05/P0-04 mutation authorization composition. Do not select either decision.
+- Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
