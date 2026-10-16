@@ -2055,3 +2055,20 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 This matrix records a target architecture. It establishes no credential, provider connection, runner configuration, live queue, or authorization grant. The successful historical Gemini run remains the available operational evidence for that workflow; broader fabric qualification is still open.
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 25. Cloud-agent schema semantic review — Wave 15
+
+| Control ID | Requirement | Finding / current state | Closure evidence |
+|---|---|---|---|
+| CAF-31 | Keep execution, verification and qualification distinct | CAS-01: evidence-manifest v0.1 execution status currently includes `verified` and `qualified`; remediation required | Versioned v0.2 state model and negative fixtures |
+| CAF-32 | Registry state and reviewer disposition must be backed by accepted authority evidence | CAS-02: values such as `authorized` and `approved` are data only | Accepted A0/MH-12 issuer contract and reference-resolution evidence |
+| CAF-33 | Enforce cross-field lifecycle, capability and provider-route semantics | CAS-03, CAS-06, CAS-07 recorded | Semantic validator contract and negative-path evidence |
+| CAF-34 | Bound and verify execution provenance | CAS-04, CAS-05, CAS-08, CAS-09 recorded | Strict action SHA/array bounds, format assertion, immutable schema digest and validator evidence |
+| CAF-35 | Decide representation for local/no-provider executors | CAS-10 open | Accepted executor model or versioned discriminated schema |
+
+### Wave 15 boundary
+
+The review changes no v0.1 schema and grants no runtime authority. CAF-Q-013 tracks the proposed v0.2 remediation. Full JSON Schema validation, semantic validation, workflow tests and independent qualification remain open.
+
+Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
