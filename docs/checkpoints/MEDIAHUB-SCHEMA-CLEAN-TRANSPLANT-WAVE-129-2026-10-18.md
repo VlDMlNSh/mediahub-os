@@ -19,7 +19,7 @@ Two read-only GitHub Actions workflows, hash-locked runtime and lock-generation 
 
 ## CI and review state
 
-At report creation, exact-head PR workflow run [39078203138](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078203138) was `in_progress`; no passing result is claimed. PR #351 is OPEN, DRAFT, UNMERGED, GitHub currently reports mergeable=true, and there are no submitted reviews. Independent review remains pending.
+Exact-head PR workflow run [39078203138](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078203138) completed with conclusion `success` on head `6fc49b3de45c396d79c4470157374ea8b159fda1`. The `validate` job passed dependency installation, source revision checks, Draft 2020-12 schema and regression fixtures, semantic fixtures, machine-readable report checks, and evidence upload. Artifact [12117319479](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078203138) is SHA-256 `41ad07d946bad3b9233b8aa3f084436394a21b608e0855066ab88f549e12c065`. PR #351 remains OPEN, DRAFT, UNMERGED; GitHub's mergeability signal has varied between reads, so it is not treated as a merge authorization. No submitted reviews; independent review remains pending.
 
 ## Boundaries and unresolved gates
 
