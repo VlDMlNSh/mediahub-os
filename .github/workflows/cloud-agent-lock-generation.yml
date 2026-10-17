@@ -1,0 +1,66 @@
+name: Generate cloud-agent schema dependency lock
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["contour-a-schema-validation-wave81-20261017"]
+    paths:
+      - "requirements/cloud-agent-schema-validation.in"
+      - ".github/workflows/cloud-agent-lock-generation.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloud-agent-lock-generation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # Make package-source selection explicit and ignore ambient runner pip configuration.
+      PIP_CONFIG_FILE: /dev/null
+      PIP_INDEX_URL: https://pypi.org/simple
+    steps:
+      - name: Checkout immutable event commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
+        with:
+          python-version: "3.12"
+      - name: Pin a pip version compatible with the lock generator
+        run: python -m pip install --disable-pip-version-check --no-input --upgrade pip==24.3.1
+      - name: Install pinned lock generator
+        run: python -m pip install --disable-pip-version-check --no-input pip-tools==7.4.1
+      - name: Generate hash-locked requirements
+        run: |
+          env -u PIP_NO_INDEX PIP_CONFIG_FILE=/dev/null PIP_INDEX_URL=https://pypi.org/simple \
+            CUSTOM_COMPILE_COMMAND='env -u PIP_NO_INDEX PIP_CONFIG_FILE=/dev/null PIP_INDEX_URL=https://pypi.org/simple python -m piptools compile --no-config --index-url=https://pypi.org/simple --resolver=backtracking --generate-hashes --strip-extras --output-file=requirements/cloud-agent-schema-validation.lock requirements/cloud-agent-schema-validation.in' \
+            python -m piptools compile \
+            --no-config \
+            --index-url=https://pypi.org/simple \
+            --verbose \
+            --resolver=backtracking \
+            --generate-hashes \
+            --strip-extras \
+            --output-file=requirements/cloud-agent-schema-validation.lock \
+            requirements/cloud-agent-schema-validation.in
+          python -m pip config debug
+          python -m piptools compile --version
+          python --version
+          python -m pip --version
+          sha256sum requirements/cloud-agent-schema-validation.in requirements/cloud-agent-schema-validation.lock
+      - name: Publish generated lock as workflow artifact
+        uses: actions/upload-artifact@65462800FD760344B1A7B4382951275A0ABB4808
+        with:
+          name: cloud-agent-schema-validation-lock-${{ github.sha }}
+          path: requirements/cloud-agent-schema-validation.lock
+          if-no-files-found: error
+          retention-days: 7
+      - name: Emit lock for auditable retrieval
+        run: cat requirements/cloud-agent-schema-validation.lock
