@@ -4630,3 +4630,13 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Recommended direction: one consolidated workflow preserving PR #335's reviewable Python scripts, checked-in regression fixtures, source-SHA assertions and machine-readable reports, combined with PR #337's hash-locked dependency installation and controlled lock generation.
 - Current PR #337 comparison against canonical docs branch: 53 ahead / 18 behind; merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. Do not merge blindly.
 - Issue #301 remains open: A0 issuer/verifier lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent schema/authority review, and bounded worker/queue qualification remain gates. CI success is not Contour A acceptance.
+
+
+## /next Wave 95 — cloud-agent CI and PR reconciliation (2026-10-17)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-CI-AND-PR-STATE-AUDIT-2026-10-17-WAVE-95.md](MEDIAHUB-CLOUD-AGENT-CI-AND-PR-STATE-AUDIT-2026-10-17-WAVE-95.md).
+- Latest observed PR #337 CI run [39050957165](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39050957165) completed successfully for head `5ff2dbcc32d4949f4ce045164d110233cef980ba`; run evidence does not constitute independent review or acceptance.
+- PR #337 remains Draft/open, mergeable=true. PR #333 remains Draft/open, mergeable=false at head `a83030bc6449109626b072dc0a090a59709b4a5b`. No merge or deployment performed.
+- Issue #301 remains open. A0 issuer/verifier lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent review, and bounded worker/queue qualification remain open.
+- Report commit: `1b7935999bd73636f7d069bd24475ae550df8933`; map update commit: `7e1487a1b1f6fb6b8e8e5969fdec89624c407fc9`; map blob SHA: `ade6dacbe2878d96b66f334316cb8d6a1358beb7`.
+- Next: inspect exact PR #335/#337 patches and divergence, design one consolidated workflow, then run positive/negative fixture tests and fresh CI. Keep acceptance gates separate.
