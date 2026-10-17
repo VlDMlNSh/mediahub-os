@@ -4574,3 +4574,13 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Wave 81 report updated on working branch; update commit `63c42a1208bdc9d2a47703d61393c4c732fbd6e2`, blob SHA `f5b75b239bef9fecfe1e54f39aa6390e4ca25569`.
 - Canonical map updated with §20.354; update commit `3418816591885fc17472e3db47ae469ba5497f85`, blob SHA `2e5e067a5aaf1edd6fc26133a410a5b85b6694c1`.
 - PR #337 remains Draft and unmerged. Next: add positive fixtures for each schema and malformed date-time/deeper negative cases, run CI again, independently review, then consider merge only after all architecture and acceptance gates pass. A0 issuer/verifier, R-06 and target manifest remain open.
+
+
+### Wave 82 — generated positive and negative schema fixtures
+
+- Workflow updated on working branch; head commit `bc1d69d1f8758d584d96fe4224394db4e9fcfb79`, workflow blob SHA `105ccb3c3bd4ddc04178ef14e8f3f1f07382eca0`.
+- Successful CI run https://github.com/VlDMlNSh/mediahub-os/actions/runs/39041807077; job `117422642538`; conclusion `success`.
+- Each schema accepted a generated representative positive fixture and rejected empty object, unknown top-level property, and invalid enum. Invalid date-time was rejected for each schema that declares date-time.
+- Initial run failed on repeated generated `schema_refs` entries due to a schema uniqueness constraint; fixture generation was corrected with deterministic variation and the next run passed.
+- Updated report commit `6d9cb8fe91f7ff417c227bafdf4eb679ca57b54c`, blob SHA `7582d047faae02d53b6bb38fd9096ab111571897`. Canonical map update commit `d4fcba33be75b19b235ade98f7779b94fdea92e2`, blob SHA `eff144cc15344da88b56ef67901fc7ba0e570c8b`.
+- Remaining: curated full fixtures, nested-negative coverage, cross-artifact semantic validation, transitive dependency locking, independent review, A0 issuer/verifier, R-06 and accepted target manifest. PR #337 remains Draft/unmerged.
