@@ -1,0 +1,93 @@
+{
+  "schema_version": "mediahub.cloud-agent-evidence-manifest.v0.2",
+  "task": {
+    "task_id": "CAF-Q-017",
+    "task_envelope_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "attempt": 1,
+    "idempotency_key_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  },
+  "execution": {
+    "provider_run_id": "fixture-run-id",
+    "job_id": "fixture-job-id",
+    "started_at": "2026-10-17T10:00:00Z",
+    "finished_at": "2026-10-17T10:00:01Z",
+    "status": "completed",
+    "retry_count": 0,
+    "timeout_seconds": 60,
+    "sanitized_error_class": null,
+    "provider_request_id": null
+  },
+  "source": {
+    "repository": "VlDMlNSh/mediahub-os",
+    "requested_ref": "docs/mediahub-chat-tree-map-20261012",
+    "resolved_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "workflow_path": ".github/workflows/cloud-agent-schema-validation.yml",
+    "workflow_blob_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "action_shas": [
+      "cccccccccccccccccccccccccccccccccccccccc"
+    ],
+    "runner_image": "ubuntu-22.04",
+    "runtime_metadata_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "inputs": [],
+  "agent": {
+    "agent_id": "CAF-AGENT-READONLY",
+    "provider_id": "test-only",
+    "model_id": "not-invoked",
+    "registry_record_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "policy": {
+    "task_authorization_ref": "authorization://fixture",
+    "provider_policy_ref": "provider-policy://fixture",
+    "data_policy_ref": "data-policy://fixture",
+    "audit_policy_ref": "audit-policy://fixture",
+    "policy_bundle_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "artifacts": [
+    {
+      "name": "schema-validation-report.json",
+      "media_type": "application/json",
+      "sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "bytes": 0,
+      "retention_class": "ephemeral"
+    }
+  ],
+  "disposition": {
+    "executor_result": "success",
+    "promotion_state": "awaiting_review"
+  },
+  "review": {
+    "required": true,
+    "reviewer_identity_ref": "reviewer://not-yet-assigned",
+    "decision": "pending",
+    "evidence_ref": "evidence://schema-fixture"
+  },
+  "schema_refs": [
+    {
+      "name": "task_envelope",
+      "version": "0.2",
+      "sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "name": "agent_registry",
+      "version": "0.2",
+      "sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    {
+      "name": "evidence_manifest",
+      "version": "0.2",
+      "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    }
+  ],
+  "verification": {
+    "status": "not_run",
+    "criteria_ref": "criteria://schema-fixture",
+    "reviewer_identity_ref": null,
+    "evidence_ref": "evidence://schema-fixture"
+  },
+  "qualification": {
+    "status": "pending",
+    "profile_ref": "qualification://not-performed",
+    "decision_ref": null
+  }
+}
