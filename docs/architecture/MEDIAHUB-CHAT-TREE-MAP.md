@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.364)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.365)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7171,8 +7171,19 @@ WB-14AA и приложение остаются не-нормативными. 
 
 - Report: [Exact-Head Evidence and Integration Gate Audit, Wave 112](../checkpoints/MEDIAHUB-EXACT-HEAD-EVIDENCE-AND-INTEGRATION-GATE-AUDIT-WAVE-112-2026-10-17.md).
 - Addendum: [Wave 112](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-112-2026-10-17.md).
-- - PR #339 remains OPEN / DRAFT / UNMERGED at head `20eb4b2e0b7c30b1bce081dc29d6a7dc826da33f`, 45 ahead / 0 behind canonical docs branch (`97d19bc423caca159c916ca9112eee77a18d10cd`); exact-head PR-triggered workflow lookup returned zero runs and review APIs returned zero reviews/threads.
-- - PR #338 remains OPEN / DRAFT / UNMERGED at `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`; compare against canonical docs branch remains diverged 20 ahead / 24 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; independent review remains absent. Historical schema/lock checks are candidate-scoped only.
-- - Issue #301 remains open without accountable disposition for D-CA-01…D-CA-06.
+- PR #339 remains OPEN / DRAFT / UNMERGED at head `20eb4b2e0b7c30b1bce081dc29d6a7dc826da33f`, 45 ahead / 0 behind canonical docs branch (`97d19bc423caca159c916ca9112eee77a18d10cd`); exact-head PR-triggered workflow lookup returned zero runs and review APIs returned zero reviews/threads.
+- PR #338 remains OPEN / DRAFT / UNMERGED at `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`; compare against canonical docs branch remains diverged 20 ahead / 24 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; independent review remains absent. Historical schema/lock checks are candidate-scoped only.
+- Issue #301 remains open without accountable disposition for D-CA-01…D-CA-06.
 - Canonical map was read by exact blob after the Contents API returned an empty response; canonical branch unchanged.
 - No runtime, secret, provider, dispatch, merge, deployment or acceptance action occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+
+
+## 20.365 — bounded runtime and exact-head recheck (Wave 113, 2026-10-17)
+
+- Report: [Bounded Runtime and Exact-Head Recheck, Wave 113](../checkpoints/MEDIAHUB-BOUNDED-RUNTIME-AND-EXACT-HEAD-RECHECK-WAVE-113-2026-10-17.md).
+- Addendum: [Wave 113](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-113-2026-10-17.md).
+- PR #339 refreshed to head 26a9af006546b67189d1728f5b65bd685c2ad509, OPEN/DRAFT/UNMERGED, 46 ahead / 0 behind canonical docs branch 97d19bc423caca159c916ca9112eee77a18d10cd; no exact-head PR-triggered workflow runs and no submitted reviews.
+- PR #338 remains at fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21, OPEN/DRAFT/UNMERGED, diverged 20 ahead / 24 behind; merge base 2bd41b5f71006597a7669a4b7154abc58f87af5d. Its successful schema run is candidate-scoped only; no independent review.
+- Isolated SentinelX workspace: static assertions for read-only permissions, immutable checkout, disabled checkout credential persistence, and full-SHA action pins passed. Local validators not executed: Python 3.9.6, jsonschema missing, workflow target Python 3.12. Gemini CLI/npx unavailable; no provider invocation or auth attempt.
+- Issue #301 remains OPEN without accountable disposition for D-CA-01…D-CA-06. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- No integration, dispatch, secret access, merge, deployment, or production acceptance occurred.
