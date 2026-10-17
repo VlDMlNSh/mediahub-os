@@ -39,7 +39,8 @@ jobs:
     if: ${{ inputs.node_id == 'mh-dev-01' && inputs.executor == 'claude' }}
     name: Controller-host local Claude executor on mh-dev-01
     runs-on: [self-hosted, linux, x64, mediahub-control]
-    timeout-minutes: 30
+    # Bounds: <=30m total builder budget + <=15m tests + <=4m verifier and evidence finalization.
+    timeout-minutes: 60
     env:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
@@ -80,7 +81,8 @@ jobs:
     if: ${{ inputs.node_id == 'mh-dev-02' && inputs.executor == 'claude' }}
     name: Local Claude executor on mh-dev-02
     runs-on: [self-hosted, linux, x64, mediahub-provider]
-    timeout-minutes: 30
+    # Bounds: <=30m total builder budget + <=15m tests + <=4m verifier and evidence finalization.
+    timeout-minutes: 60
     env:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}
@@ -121,7 +123,8 @@ jobs:
     if: ${{ inputs.node_id == 'Voktors-Mac-mini.local' && inputs.executor == 'claude' }}
     name: Fast local worker on Voktors-Mini.Dlink
     runs-on: [self-hosted, macOS, ARM64, astra-control]
-    timeout-minutes: 30
+    # Bounds: <=30m total builder budget + <=15m tests + <=4m verifier and evidence finalization.
+    timeout-minutes: 60
     env:
       ASTRA_COMMAND_ID: ${{ inputs.command_id }}
       ASTRA_TARGET_SHA: ${{ inputs.target_sha }}

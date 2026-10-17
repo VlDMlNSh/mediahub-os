@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 from mediahub_runtime import autonomous_queue
+from mediahub_runtime.agent_fabric import AgentFabricError, ClaimStore
 
 def test_load_tasks_prefers_ready(monkeypatch, tmp_path: Path):
     task_dir = tmp_path / "tasks"; task_dir.mkdir()
@@ -58,13 +59,50 @@ def test_main_returns_idle_when_no_ready_tasks(monkeypatch, tmp_path: Path, caps
     assert payload["reason"] == "no_ready_tasks"
     assert payload["base_sha"] == "b" * 40
     assert payload["discovered_tasks"] == []
-def test_claim_uses_task_boundary(monkeypatch):
-    class R: stdout = "abc123\n"
-    monkeypatch.setattr(autonomous_queue, "run", lambda *a, **k: R())
-    claim = autonomous_queue.claim_for({"task_id":"T1","mission":"m","boundary":["docs/a","ops/b"]}, "targetsha")
+def test_claim_uses_task_boundary_and_permanent_lane(monkeypatch):
+    claim = autonomous_queue.claim_for({
+        "task_id": "T1", "mission": "m", "boundary": ["docs/a", "ops/b"],
+        "node_id": "mh-dev-01", "executor": "claude",
+    }, "targetsha")
     assert claim.base_sha == "targetsha"
-    assert claim.paths == ("docs/a","ops/b")
+    assert claim.paths == ("docs/a", "ops/b", "__astra_executor_lanes__/mh-dev-01")
     assert claim.agent == "A2-BUILDER"
+
+
+def test_concurrent_claims_cannot_use_the_same_executor_lane(monkeypatch, tmp_path: Path):
+    store = ClaimStore(tmp_path / "claims")
+    first = autonomous_queue.claim_for({
+        "task_id": "T1", "mission": "first", "boundary": ["docs/one.md"],
+        "node_id": "mh-dev-01", "executor": "claude",
+    }, "targetsha")
+    same_lane = autonomous_queue.claim_for({
+        "task_id": "T2", "mission": "second", "boundary": ["docs/two.md"],
+        "node_id": "mh-dev-01", "executor": "claude",
+    }, "targetsha")
+    other_lane = autonomous_queue.claim_for({
+        "task_id": "T3", "mission": "third", "boundary": ["docs/three.md"],
+        "node_id": "mh-dev-02", "executor": "claude",
+    }, "targetsha")
+    store.acquire(first)
+    try:
+        store.acquire(same_lane)
+    except AgentFabricError as exc:
+        assert str(exc) == "claim_collision"
+    else:
+        raise AssertionError("a second task must not claim the same permanent executor lane")
+    store.acquire(other_lane)
+
+
+def test_claim_rejects_executor_lane_substitution():
+    try:
+        autonomous_queue.claim_for({
+            "task_id": "T1", "mission": "m", "boundary": ["docs/a"],
+            "node_id": "mh-dev-02", "executor": "codex",
+        }, "targetsha")
+    except ValueError as exc:
+        assert str(exc) == "invalid_executor_lane_binding"
+    else:
+        raise AssertionError("non-canonical executor binding must be rejected")
 
 
 def test_worktree_path_is_task_scoped_and_deterministic(monkeypatch, tmp_path: Path):
@@ -285,7 +323,8 @@ def test_task_id_cannot_escape_queue_state(monkeypatch, tmp_path: Path):
 def test_remote_finalization_errors_cannot_remain_verified():
     source = Path(autonomous_queue.__file__).read_text(encoding="utf-8")
     assert 'record["status"] = "BLOCKED"' in source
-    assert '"ClaimReleaseError:" + repr(exc)' in source
+    assert '_invalidate_completion(task_key, "claim_release_failed")' in source
+    assert 'record["error"] = "claim_release_failed"' in source
     assert '"remote_evidence_claim_release_error"' in source
 
 
@@ -358,3 +397,87 @@ def test_permanent_executor_pool_matches_canonical_three_lane_topology():
         "Voktors-Mac-mini.local": "claude",
     }
     assert autonomous_queue.bounded_worker_count(3) == 3
+
+def test_invalid_executor_lane_is_returned_as_blocked_not_uncaught(monkeypatch, tmp_path: Path):
+    monkeypatch.setattr(autonomous_queue, "STATE", tmp_path / "state")
+    monkeypatch.setattr(autonomous_queue, "CLAIMS", tmp_path / "state" / "claims")
+    result = autonomous_queue.process_task_remote({
+        "task_id": "BAD-LANE", "node_id": "unknown-node", "executor": "claude",
+        "verifier": "claude", "boundary": ["docs/safe.md"],
+    }, "a" * 40)
+    assert result["status"] == "BLOCKED"
+    assert result["error"] == "invalid_executor_lane_binding"
+
+
+def test_queue_lifecycle_journal_is_append_only_and_secret_free(monkeypatch, tmp_path: Path):
+    monkeypatch.setattr(autonomous_queue, "STATE", tmp_path / "state")
+    monkeypatch.setenv("ASTRA_COMMAND_ID", "CMD-JOURNAL-1")
+    task = {
+        "task_id": "TASK-JOURNAL", "node_id": "mh-dev-01", "executor": "claude",
+        "prompt": "PRIVATE_PROMPT_MUST_NOT_BE_JOURNALED",
+        "token": "PRIVATE_TOKEN_MUST_NOT_BE_JOURNALED",
+    }
+    autonomous_queue.journal_event("CLAIM_ACQUIRED", task, "a" * 40, "ACTIVE")
+    autonomous_queue.journal_event("WORKER_DISPATCHED", task, "a" * 40, "ACTIVE", 12345)
+    journal = tmp_path / "state" / "events.jsonl"
+    rows = [json.loads(line) for line in journal.read_text(encoding="utf-8").splitlines()]
+    assert [row["event"] for row in rows] == ["CLAIM_ACQUIRED", "WORKER_DISPATCHED"]
+    assert all(row["command_id"] == "CMD-JOURNAL-1" for row in rows)
+    assert all(row["target_sha"] == "a" * 40 for row in rows)
+    assert rows[1]["worker_run_id"] == 12345
+    assert "PRIVATE_PROMPT_MUST_NOT_BE_JOURNALED" not in journal.read_text(encoding="utf-8")
+    assert "PRIVATE_TOKEN_MUST_NOT_BE_JOURNALED" not in journal.read_text(encoding="utf-8")
+
+
+def test_claim_release_error_downgrades_persisted_completion(monkeypatch, tmp_path: Path):
+    state = tmp_path / "state"
+    monkeypatch.setattr(autonomous_queue, "STATE", state)
+    completion = state / "completed" / "TASK.json"
+    completion.parent.mkdir(parents=True)
+    completion.write_text(json.dumps({"task_id": "TASK", "status": "VERIFIED", "base_sha": "a" * 40}))
+    autonomous_queue._invalidate_completion("TASK", "claim_release_failed")
+    payload = json.loads(completion.read_text(encoding="utf-8"))
+    assert payload["status"] == "BLOCKED"
+    assert payload["claim_release_error"] is True
+    assert not autonomous_queue.completed("TASK", "a" * 40)
+
+
+def test_worker_run_matching_requires_complete_identity(monkeypatch):
+    class R:
+        returncode = 0
+        stdout = "[]"
+    monkeypatch.setattr(autonomous_queue, "run", lambda *args, **kwargs: R())
+    try:
+        autonomous_queue.matching_worker_runs({}, ["", "TASK", "mh-dev-01", "claude"])
+    except ValueError as exc:
+        assert str(exc) == "worker_run_identity_incomplete"
+    else:
+        raise AssertionError("empty command ID must not match arbitrary historical worker runs")
+
+
+def test_worker_run_matching_fails_closed_if_github_listing_fails(monkeypatch):
+    class R:
+        returncode = 1
+        stdout = ""
+        stderr = "network error"
+    monkeypatch.setattr(autonomous_queue, "run", lambda *args, **kwargs: R())
+    try:
+        autonomous_queue.matching_worker_runs({}, ["CMD-1", "TASK", "mh-dev-01", "claude"])
+    except RuntimeError as exc:
+        assert str(exc) == "worker_run_reconciliation_failed"
+    else:
+        raise AssertionError("failed listing cannot be interpreted as no existing worker run")
+
+
+def test_worker_run_matching_selects_latest_exact_identity(monkeypatch):
+    rows = [
+        {"databaseId": 1, "displayTitle": "Astra distributed worker / CMD-1 / TASK / mh-dev-01 / claude", "createdAt": "2026-01-01T00:00:00Z"},
+        {"databaseId": 2, "displayTitle": "Astra distributed worker / CMD-1 / TASK / mh-dev-01 / claude", "createdAt": "2026-01-02T00:00:00Z"},
+        {"databaseId": 3, "displayTitle": "Astra distributed worker / CMD-2 / TASK / mh-dev-01 / claude", "createdAt": "2026-01-03T00:00:00Z"},
+    ]
+    class R:
+        returncode = 0
+        stdout = json.dumps(rows)
+    monkeypatch.setattr(autonomous_queue, "run", lambda *args, **kwargs: R())
+    matches = autonomous_queue.matching_worker_runs({}, ["CMD-1", "TASK", "mh-dev-01", "claude"])
+    assert [item["databaseId"] for item in matches] == [2, 1]

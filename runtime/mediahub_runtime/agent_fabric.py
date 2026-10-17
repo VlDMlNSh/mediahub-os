@@ -9,7 +9,9 @@ import json
 import os
 import time
 import fcntl
-from dataclasses import asdict, dataclass
+import uuid
+from contextlib import contextmanager
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 
 
@@ -30,6 +32,7 @@ class AgentClaim:
     updated: float
     expiry: float
     base_sha: str
+    lease_id: str = ""
 
 
 class ClaimStore:
@@ -81,85 +84,105 @@ class ClaimStore:
             and self._overlap(tuple(paths), c.paths)
         )
 
-    def acquire(self, claim: AgentClaim) -> None:
-        if claim.status not in {"ASSIGNED", "ACTIVE"}:
-            raise AgentFabricError("invalid_claim_status")
-        if claim.expiry <= time.time():
-            raise AgentFabricError("claim_expired")
+    @contextmanager
+    def _locked(self):
+        """Serialize every claim mutation, not only initial acquisitions."""
         lock_path = self.root / ".acquire.lock"
         with lock_path.open("a+", encoding="utf-8") as lock_handle:
             fcntl.flock(lock_handle.fileno(), fcntl.LOCK_EX)
             try:
-                if self.conflicts(claim.paths, exclude_task_id=claim.task_id):
-                    raise AgentFabricError("claim_collision")
-                path = self._path(claim.task_id)
-                payload = json.dumps(asdict(claim), sort_keys=True, separators=(",", ":")) + "\n"
-                try:
-                    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-                except FileExistsError as exc:
-                    try:
-                        existing = json.loads(path.read_text(encoding="utf-8"))
-                    except (OSError, json.JSONDecodeError, TypeError) as read_exc:
-                        raise AgentFabricError("invalid_claim_store") from read_exc
-                    if existing.get("expiry", 0) > time.time():
-                        raise AgentFabricError("claim_exists") from exc
-                    try:
-                        path.unlink()
-                    except OSError as unlink_exc:
-                        raise AgentFabricError("expired_claim_reclaim_failed") from unlink_exc
-                    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-                try:
-                    with os.fdopen(fd, "w", encoding="utf-8") as handle:
-                        handle.write(payload)
-                except Exception:
-                    try:
-                        path.unlink()
-                    except OSError:
-                        pass
-                    raise
+                yield
             finally:
                 fcntl.flock(lock_handle.fileno(), fcntl.LOCK_UN)
 
-    def heartbeat(self, task_id: str, *, now: float | None = None, lease_seconds: float = 900.0) -> AgentClaim:
-        path = self._path(task_id)
+    @staticmethod
+    def _read_claim(path: Path) -> dict:
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            raise AgentFabricError("claim_not_found") from exc
-        current = time.time() if now is None else now
-        if data.get("status") not in {"ASSIGNED", "ACTIVE"}:
-            raise AgentFabricError("claim_not_active")
-        data["status"] = "ACTIVE"
-        data["updated"] = current
-        data["expiry"] = current + max(1.0, lease_seconds)
-        tmp = path.with_suffix(".tmp")
+        except (OSError, json.JSONDecodeError, TypeError) as exc:
+            raise AgentFabricError("claim_not_found_or_invalid") from exc
+        if not isinstance(data, dict):
+            raise AgentFabricError("invalid_claim_store")
+        return data
+
+    @staticmethod
+    def _write_claim_atomic(path: Path, payload: dict) -> None:
+        """Publish complete claim JSON atomically; readers never see a partial write."""
+        tmp = path.with_name(path.name + f".{os.getpid()}.tmp")
         try:
-            tmp.write_text(json.dumps(data, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
+            fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n")
+                handle.flush()
+                os.fsync(handle.fileno())
             os.replace(tmp, path)
         finally:
             try:
                 tmp.unlink()
             except FileNotFoundError:
                 pass
-        return AgentClaim(**data)
 
-    def release(self, task_id: str, status: str = "CLOSED") -> None:
+    def acquire(self, claim: AgentClaim) -> AgentClaim:
+        """Acquire a new fenced lease and return the persisted generation identity."""
+        if claim.status not in {"ASSIGNED", "ACTIVE"}:
+            raise AgentFabricError("invalid_claim_status")
+        now = time.time()
+        if claim.expiry <= now:
+            raise AgentFabricError("claim_expired")
+        with self._locked():
+            path = self._path(claim.task_id)
+            if path.exists():
+                existing = self._read_claim(path)
+                existing_status = existing.get("status")
+                existing_expiry = existing.get("expiry", 0)
+                if existing_status in {"ASSIGNED", "ACTIVE", "READY_FOR_VERIFY"} and existing_expiry > now:
+                    raise AgentFabricError("claim_exists")
+            if self.conflicts(claim.paths, exclude_task_id=claim.task_id):
+                raise AgentFabricError("claim_collision")
+            acquired = replace(claim, lease_id=uuid.uuid4().hex)
+            self._write_claim_atomic(path, asdict(acquired))
+            return acquired
+
+    def heartbeat(
+        self,
+        task_id: str,
+        lease_id: str,
+        *,
+        now: float | None = None,
+        lease_seconds: float = 900.0,
+    ) -> AgentClaim:
+        """Renew only the exact current lease generation; expired/stale workers fail closed."""
+        current = time.time() if now is None else now
+        with self._locked():
+            path = self._path(task_id)
+            data = self._read_claim(path)
+            if not lease_id or data.get("lease_id") != lease_id:
+                raise AgentFabricError("stale_claim_lease")
+            if data.get("status") not in {"ASSIGNED", "ACTIVE"}:
+                raise AgentFabricError("claim_not_active")
+            if float(data.get("expiry", 0)) <= current:
+                raise AgentFabricError("claim_expired")
+            data["status"] = "ACTIVE"
+            data["updated"] = current
+            data["expiry"] = current + max(1.0, lease_seconds)
+            self._write_claim_atomic(path, data)
+            return AgentClaim(**data)
+
+    def release(self, task_id: str, status: str = "CLOSED", *, lease_id: str) -> None:
+        """Release only the current lease generation, never a later owner's claim."""
         if status not in {"VERIFIED", "INTEGRATED", "CLOSED", "REJECTED", "DEFERRED"}:
             raise AgentFabricError("invalid_release_status")
-        path = self._path(task_id)
-        try:
-            data = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            raise AgentFabricError("claim_not_found") from exc
-        data["status"] = status
-        data["updated"] = time.time()
-        data["expiry"] = data["updated"]
-        tmp = path.with_suffix(".tmp")
-        try:
-            tmp.write_text(json.dumps(data, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
-            os.replace(tmp, path)
-        finally:
-            try:
-                tmp.unlink()
-            except FileNotFoundError:
-                pass
+        current = time.time()
+        with self._locked():
+            path = self._path(task_id)
+            data = self._read_claim(path)
+            if not lease_id or data.get("lease_id") != lease_id:
+                raise AgentFabricError("stale_claim_lease")
+            if data.get("status") not in {"ASSIGNED", "ACTIVE", "READY_FOR_VERIFY"}:
+                raise AgentFabricError("claim_not_active")
+            if float(data.get("expiry", 0)) <= current:
+                raise AgentFabricError("claim_expired")
+            data["status"] = status
+            data["updated"] = current
+            data["expiry"] = current
+            self._write_claim_atomic(path, data)

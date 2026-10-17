@@ -31,9 +31,10 @@ permissions:
   actions: write
 
 concurrency:
-  # Serialize retries of the same immutable target without cancelling an active controller.
-  # The dedicated stale-run reaper is the only cancellation authority for obsolete source SHAs.
-  group: astra-autonomous-supervisor-v2-${{ github.sha }}
+  # One canonical queue/controller invocation across commits and event types.
+  # Never cancel an active controller; a single pending run will reconcile to the newest target.
+  # Without a repository-wide key, different SHAs could execute overlapping controller runs.
+  group: astra-autonomous-supervisor-v3-${{ github.repository }}
   cancel-in-progress: false
 
 jobs:
@@ -131,6 +132,7 @@ jobs:
       ASTRA_AUTONOMOUS_RETRY_SECONDS: "30"
       ASTRA_QUALIFICATION_TIMEOUT: "87000"
       ASTRA_STATE_DIR: "${{ github.workspace }}/.astra-state"
+      ASTRA_QUEUE_STATE_DIR: "/var/lib/mediahub-astra/queue"
       ASTRA_PROVIDER_EVIDENCE_PATH: "${{ github.workspace }}/.astra-state/provider-qualification/provider-model.json"
       ASTRA_PROVIDER_TARGET_SHA: "${{ github.sha }}"
       ASTRA_DEFER_RESULT_PUBLICATION: "1"
@@ -151,6 +153,14 @@ jobs:
           user="$(id -un)"
           test "$host" = "mh-dev-01"
           test "$user" = "mediahub-runner"
+          test -d "$ASTRA_QUEUE_STATE_DIR"
+          test -d "$ASTRA_QUEUE_STATE_DIR/claims"
+          # The claim store must survive workflow jobs and controller restarts.
+          # Never silently fall back to the per-run workspace for distributed claims.
+          probe="$ASTRA_QUEUE_STATE_DIR/claims/.astra-write-probe-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          trap 'rm -f "$probe"' EXIT
+          (umask 077; : > "$probe")
+          rm -f "$probe"
           {
             echo "ASTRA_NODE_ID=mh-dev-01"
             echo "ASTRA_CANONICAL_WORKTREE=/home/mediahub/astra-work"

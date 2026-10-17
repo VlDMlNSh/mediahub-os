@@ -16,6 +16,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 MARKER = "MEDIAHUB_DISTRIBUTED_LOCAL_EXECUTOR_OK"
 VERDICT_MARKER = "ASTRA_VERDICT: PASS"
+
+
+def verifier_passed(stdout: str) -> bool:
+    """Accept only the exact machine verdict, not a substring or mixed output."""
+    return stdout.strip() == VERDICT_MARKER
 NODE_CONFIG = {
     "mh-dev-01": {
         "user": "mediahub-runner",
@@ -53,6 +58,35 @@ def run(argv: list[str], timeout: int, cwd: Path = ROOT, env: dict[str, str] | N
         argv, cwd=cwd, env=env, text=True, capture_output=True,
         stdin=subprocess.DEVNULL, timeout=timeout, check=False,
     )
+
+
+def terminate_process(process: subprocess.Popen[str] | None) -> None:
+    """Stop a child owned by this worker and reap it without hanging forever."""
+    if process is None or process.poll() is not None:
+        return
+    try:
+        process.terminate()
+    except ProcessLookupError:
+        return
+    try:
+        process.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        try:
+            process.kill()
+        except ProcessLookupError:
+            return
+        try:
+            process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            pass
+
+
+
+
+def remaining_budget(deadline: float, *, now: float | None = None) -> int:
+    """Return whole seconds left in a monotonic total budget, never a negative value."""
+    current = time.monotonic() if now is None else now
+    return max(0, int(deadline - current))
 
 
 def safe_id(value: str) -> str:
@@ -144,40 +178,21 @@ def start_fcc(env_file: Path, model: str, server_path: str | None = None) -> tup
                     return process, env
         except Exception:
             time.sleep(1)
-    process.terminate()
+    terminate_process(process)
     raise RuntimeError("fcc_server_health_timeout")
 
 
-def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
-    codex = shutil.which("codex") or "/usr/local/bin/codex"
-    with tempfile.TemporaryDirectory(prefix="astra-distributed-codex-") as home:
-        config = Path(home) / "config.toml"
-        config.write_text(
-            f'model_provider = "ollama"\nmodel = "{model}"\n'
-            'model_reasoning_effort = "none"\n'
-            'approval_policy = "never"\nweb_search = "disabled"\n'
-            '[features]\nmulti_agent = false\napps = false\ntool_search = false\nplugins = false\n',
-            encoding="utf-8",
-        )
-        env = os.environ.copy()
-        env["CODEX_HOME"] = home
-        sandbox = os.environ.get("ASTRA_CODEX_SANDBOX_MODE", "").strip() if writable else "read-only"
-        if writable and sandbox not in {"workspace-write", "danger-full-access"}:
-            sandbox = "workspace-write"
-        p = run([codex, "exec", "--oss", "--local-provider", "ollama", "--model", model, "--sandbox", sandbox,
-                 "--skip-git-repo-check", prompt], timeout, ROOT, env)
-        return {
-            "returncode": p.returncode,
-            "stdout": p.stdout[-16000:],
-            "stderr": p.stderr[-8000:],
-        }
-
-
-def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048, max_turns: int = 4, structured_schema: dict | None = None, tools_mode: str = "Read,Edit,Bash") -> tuple[dict, subprocess.Popen[str] | None]:
+def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_tokens: int = 2048, max_turns: int = 4, structured_schema: dict | None = None, tools_mode: str = "Read,Edit") -> tuple[dict, subprocess.Popen[str] | None]:
     """Run the real Claude Code client through the node-local FCC transport."""
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
         raise RuntimeError("fcc_model_binding_mismatch")
+    token = env_updates.get("ANTHROPIC_AUTH_TOKEN", "")
+    if not token:
+        raise RuntimeError("fcc_auth_token_missing")
+    claude = shutil.which("claude")
+    if not claude:
+        raise RuntimeError("claude_cli_missing")
     host = env_updates.get("HOST", "127.0.0.1")
     port = env_updates.get("PORT", "8093")
     health = f"http://{host}:{port}/health"
@@ -188,12 +203,6 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
                 raise RuntimeError("fcc_health_not_ok")
     except Exception:
         server, _ = start_fcc(env_file, model)
-    token = env_updates.get("ANTHROPIC_AUTH_TOKEN", "")
-    if not token:
-        raise RuntimeError("fcc_auth_token_missing")
-    claude = shutil.which("claude")
-    if not claude:
-        raise RuntimeError("claude_cli_missing")
     env = os.environ.copy()
     env.update(env_updates)
     env["ANTHROPIC_BASE_URL"] = f"http://{host}:{port}"
@@ -212,8 +221,10 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     env["MAX_THINKING_TOKENS"] = "0"
     isolated_config = tempfile.mkdtemp(prefix="astra-claude-config-")
     env["CLAUDE_CONFIG_DIR"] = isolated_config
+    result: dict
     try:
         command = [claude, "-p", prompt, "--max-turns", str(max_turns)]
+        selected_tools = [name.strip() for name in tools_mode.split(",") if name.strip()]
         if structured_schema is not None:
             command.extend([
                 "--output-format", "json",
@@ -225,12 +236,27 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
                 "--output-format", "text",
                 "--permission-mode", "acceptEdits",
                 "--tools", tools_mode,
-                "--allowedTools", "Read", "Edit", "Bash(git *)", "Bash(python *)",
             ])
-        p = run(command, timeout, ROOT, env)
+        if selected_tools:
+            command.extend(["--allowedTools", *selected_tools])
+        try:
+            p = run(command, timeout, ROOT, env)
+            result = {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}
+        except subprocess.TimeoutExpired as exc:
+            stdout = exc.stdout or ""
+            stderr = exc.stderr or ""
+            if isinstance(stdout, bytes):
+                stdout = stdout.decode("utf-8", errors="replace")
+            if isinstance(stderr, bytes):
+                stderr = stderr.decode("utf-8", errors="replace")
+            result = {
+                "returncode": 124,
+                "stdout": str(stdout)[-16000:],
+                "stderr": ("claude_execution_timeout:" + str(stderr))[-8000:],
+            }
     finally:
         shutil.rmtree(isolated_config, ignore_errors=True)
-    return {"returncode": p.returncode, "stdout": p.stdout[-16000:], "stderr": p.stderr[-8000:]}, server
+    return result, server
 
 def scope_paths(task: dict, changed: set[str]) -> list[str]:
     boundary = tuple(str(x) for x in task.get("boundary", []))
@@ -343,22 +369,43 @@ def verify_executor(task: dict, diff_text: str, test_text: str, model: str) -> d
         "\nReturn exactly: ASTRA_VERDICT: PASS or ASTRA_VERDICT: BLOCKED."
     )
     verifier = task["verifier"]
-    if verifier == "codex":
-        return exec_codex(prompt, False, model, 240)
-    if verifier == "claude":
-        env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
-        return exec_claude(prompt, model, 240, env_file, 128, max_turns=2)[0]
-    raise RuntimeError("unsupported_verifier")
+    if verifier != "claude":
+        raise RuntimeError("permanent_verifier_policy_violation")
+    env_file = Path(os.environ["ASTRA_FCC_ENV_FILE"])
+    result, verifier_server = exec_claude(prompt, model, 240, env_file, 128, max_turns=2, tools_mode="Read")
+    terminate_process(verifier_server)
+    return result
+
+
+def contains_secret(text: str) -> bool:
+    """Detect common assignment-style secrets and PEM private-key headers."""
+    patterns = (
+        re.compile(r'''(?i)(api[_-]?key|access[_-]?token|secret|private[_-]?key|bearer)\s*[:=]\s*['"][^'"]{12,}'''),
+        re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
+    )
+    return any(pattern.search(text) for pattern in patterns)
+
+
+def validate_execution_binding(task: dict, node_id: str, configured_executor: str) -> dict:
+    """Reject task/environment mismatches before branch creation or model invocation."""
+    cfg = NODE_CONFIG.get(node_id)
+    if not cfg:
+        raise RuntimeError("unsupported_node")
+    if task.get("node_id") != node_id:
+        raise RuntimeError("task_node_binding_mismatch")
+    if configured_executor != "claude":
+        raise RuntimeError("permanent_executor_policy_violation")
+    if task.get("executor") != configured_executor:
+        raise RuntimeError("task_executor_binding_mismatch")
+    if task.get("verifier") != "claude":
+        raise RuntimeError("permanent_verifier_policy_violation")
+    return cfg
 
 
 def security_gate(changed: set[str], task: dict) -> list[str]:
     """Bounded pre-verifier security gate inspired by ECC security-review patterns."""
     forbidden = tuple(str(x) for x in task.get("forbidden", task.get("forbidden_surfaces", [])))
     findings: list[str] = []
-    secret_patterns = [
-        re.compile(r"(?i)(api[_-]?key|access[_-]?token|secret|private[_-]?key|bearer)\\s*[:=]\\s*['\\\"][^'\\\"]{12,}"),
-        re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
-    ]
     for path in sorted(changed):
         normalized = path.lstrip("./")
         if any(normalized == root or normalized.startswith(root.rstrip("/") + "/") for root in forbidden):
@@ -372,10 +419,8 @@ def security_gate(changed: set[str], task: dict) -> list[str]:
         except OSError:
             findings.append("unreadable_changed_file:" + normalized)
             continue
-        for pattern in secret_patterns:
-            if pattern.search(text):
-                findings.append("possible_secret:" + normalized)
-                break
+        if contains_secret(text):
+            findings.append("possible_secret:" + normalized)
         if normalized in {".env", ".env.local", ".env.production"} or normalized.endswith(".pem"):
             findings.append("sensitive_file:" + normalized)
     return sorted(set(findings))
@@ -386,14 +431,8 @@ def main() -> int:
     target_sha = os.environ.get("ASTRA_TARGET_SHA", "")
     command_id = os.environ.get("ASTRA_COMMAND_ID", "")
     node_id = os.environ.get("ASTRA_NODE_ID", "")
-    executor = task["executor"]
-    cfg = NODE_CONFIG.get(node_id)
-    if not cfg:
-        raise RuntimeError("unsupported_node")
-    if task["node_id"] != node_id:
-        raise RuntimeError("task_node_binding_mismatch")
-    if executor not in {"codex", "claude"}:
-        raise RuntimeError("unsupported_executor")
+    executor = os.environ.get("ASTRA_EXECUTOR", "")
+    cfg = validate_execution_binding(task, node_id, executor)
     if not re.fullmatch(r"[0-9a-f]{40}", target_sha or ""):
         raise RuntimeError("invalid_target_sha")
     current = run(["git", "rev-parse", "HEAD"], 30).stdout.strip()
@@ -430,11 +469,17 @@ def main() -> int:
     server = None
     try:
         builder_prompt_text = task_prompt(task, "A2 Builder")
-        builder_timeout = int(task.get("timeout_seconds", 1800))
+        builder_budget_seconds = max(1, min(int(task.get("timeout_seconds", 1800)), 7200))
+        builder_deadline = time.monotonic() + builder_budget_seconds
         builder_attempts = max(1, min(int(task.get("builder_attempts", 2)), 3))
         build = {"returncode": 1, "stdout": "", "stderr": "builder_not_run"}
         attempt_records = []
         for attempt in range(1, builder_attempts + 1):
+            attempt_timeout = remaining_budget(builder_deadline)
+            if attempt_timeout <= 0:
+                build = {"returncode": 124, "stdout": "", "stderr": "builder_total_timeout_budget_exhausted"}
+                attempt_records.append({"attempt": attempt, "returncode": 124, "stderr": "builder_total_timeout_budget_exhausted"})
+                break
             attempt_prompt = builder_prompt_text
             if attempt > 1:
                 attempt_prompt += (
@@ -444,16 +489,15 @@ def main() -> int:
                     "do not merely explain what should be changed. Finish only after the file "
                     "contains the requested regression coverage."
                 )
-            if executor == "codex":
-                build = exec_codex(attempt_prompt, True, cfg["model"], builder_timeout)
-            else:
-                build, server = exec_claude(
-                    attempt_prompt,
-                    cfg["model"],
-                    builder_timeout,
-                    Path(os.environ["ASTRA_FCC_ENV_FILE"]),
-                    max_turns=6,
-                )
+            build, builder_server = exec_claude(
+                attempt_prompt,
+                cfg["model"],
+                attempt_timeout,
+                Path(os.environ["ASTRA_FCC_ENV_FILE"]),
+                max_turns=6,
+            )
+            if builder_server is not None:
+                server = builder_server
             attempt_records.append({
                 "attempt": attempt,
                 "returncode": build.get("returncode"),
@@ -491,17 +535,30 @@ def main() -> int:
                         "required": ["markdown"],
                         "additionalProperties": False,
                     }
-                    artifact, server = exec_claude(
+                    artifact_timeout = remaining_budget(builder_deadline)
+                    if artifact_timeout <= 0:
+                        artifact = {"returncode": 124, "stdout": "", "stderr": "builder_total_timeout_budget_exhausted"}
+                        attempt_records.append({
+                            "attempt": attempt,
+                            "mode": "artifact_fallback",
+                            "returncode": 124,
+                            "stderr": "builder_total_timeout_budget_exhausted",
+                        })
+                        build = artifact
+                        break
+                    artifact, artifact_server = exec_claude(
                         artifact_prompt
                         + "\nReturn a single JSON object matching the schema; put the complete Markdown document in the markdown field. "
                         + "Do not call tools and do not include any other fields.",
                         cfg["model"],
-                        builder_timeout,
+                        artifact_timeout,
                         Path(os.environ["ASTRA_FCC_ENV_FILE"]),
                         max_turns=3,
                         structured_schema=artifact_schema,
                         tools_mode="",
                     )
+                    if artifact_server is not None:
+                        server = artifact_server
                     attempt_records.append({
                         "attempt": attempt,
                         "mode": "artifact_fallback",
@@ -650,7 +707,7 @@ def main() -> int:
             task, diff.stdout, record["tests"]["stdout"] + record["tests"]["stderr"], cfg["model"]
         )
         record["verifier"] = verifier
-        if verifier["returncode"] != 0 or VERDICT_MARKER not in verifier["stdout"]:
+        if verifier["returncode"] != 0 or not verifier_passed(verifier["stdout"]):
             raise RuntimeError("verifier_failed")
 
         if not run(["git", "status", "--porcelain"], 30).stdout.strip():
@@ -685,11 +742,7 @@ def main() -> int:
         record["completed_at"] = int(time.time())
         record["error"] = type(exc).__name__ + ":" + str(exc)
     finally:
-        if server is not None:
-            try:
-                server.terminate()
-            except Exception:
-                pass
+        terminate_process(server)
 
     canonical = json.dumps(record, sort_keys=True, separators=(",", ":"))
     record["evidence_digest"] = "sha256:" + hashlib.sha256(canonical.encode()).hexdigest()

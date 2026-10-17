@@ -44,28 +44,59 @@ class AgentFabricTests(unittest.TestCase):
     def test_heartbeat(self):
         with tempfile.TemporaryDirectory() as td, mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=100.0):
             s = ClaimStore(Path(td))
-            s.acquire(mk("A", ["src/a.py"]))
-            c = s.heartbeat("A", now=200.0, lease_seconds=300)
+            claim = s.acquire(mk("A", ["src/a.py"]))
+            c = s.heartbeat("A", claim.lease_id, now=200.0, lease_seconds=300)
             self.assertEqual((c.status, c.expiry), ("ACTIVE", 500.0))
+            self.assertEqual(c.lease_id, claim.lease_id)
 
     def test_release(self):
         with tempfile.TemporaryDirectory() as td, mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=100.0):
             s = ClaimStore(Path(td))
-            s.acquire(mk("A", ["src/a.py"]))
-            s.release("A")
+            claim = s.acquire(mk("A", ["src/a.py"]))
+            s.release("A", lease_id=claim.lease_id)
             self.assertEqual(s.list_claims()[0].status, "CLOSED")
 
     def test_expired_same_task_can_reacquire(self):
         with tempfile.TemporaryDirectory() as td:
             s = ClaimStore(Path(td))
             with mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=100.0):
-                s.acquire(mk("A", ["src/a.py"], now=100.0))
+                old_claim = s.acquire(mk("A", ["src/a.py"], now=100.0))
             with mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=1000.0):
-                s.acquire(mk("A", ["src/a.py"], now=1000.0))
+                new_claim = s.acquire(mk("A", ["src/a.py"], now=1000.0))
             with mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=1000.0):
                 claims = s.list_claims()
             self.assertEqual(len(claims), 1)
             self.assertEqual((claims[0].status, claims[0].base_sha), ("ACTIVE", "base"))
+            self.assertTrue(new_claim.lease_id)
+            self.assertNotEqual(old_claim.lease_id, new_claim.lease_id)
+            with mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=1000.0):
+                with self.assertRaisesRegex(AgentFabricError, "stale_claim_lease"):
+                    s.heartbeat("A", old_claim.lease_id, now=1000.0, lease_seconds=300)
+                with self.assertRaisesRegex(AgentFabricError, "stale_claim_lease"):
+                    s.release("A", "REJECTED", lease_id=old_claim.lease_id)
+
+    def test_expired_lease_cannot_be_resurrected(self):
+        with tempfile.TemporaryDirectory() as td:
+            s = ClaimStore(Path(td))
+            with mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=100.0):
+                claim = s.acquire(mk("A", ["src/a.py"], now=100.0))
+            with mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=1000.0):
+                with self.assertRaisesRegex(AgentFabricError, "claim_expired"):
+                    s.heartbeat("A", claim.lease_id, now=1000.0, lease_seconds=900)
+                with self.assertRaisesRegex(AgentFabricError, "claim_expired"):
+                    s.release("A", "REJECTED", lease_id=claim.lease_id)
+
+    def test_claim_mutations_require_the_current_lease_id(self):
+        with tempfile.TemporaryDirectory() as td, mock.patch("mediahub_runtime.agent_fabric.time.time", return_value=100.0):
+            s = ClaimStore(Path(td))
+            claim = s.acquire(mk("A", ["src/a.py"]))
+            with self.assertRaisesRegex(AgentFabricError, "stale_claim_lease"):
+                s.heartbeat("A", "not-the-current-lease", now=200.0, lease_seconds=300)
+            with self.assertRaisesRegex(AgentFabricError, "stale_claim_lease"):
+                s.release("A", "REJECTED", lease_id="not-the-current-lease")
+            latest = s.list_claims()[0]
+            self.assertEqual(latest.lease_id, claim.lease_id)
+            self.assertEqual(latest.status, "ACTIVE")
 
     def test_lease_expiry_allows_reacquire(self):
         with tempfile.TemporaryDirectory() as td:
