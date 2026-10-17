@@ -41,6 +41,7 @@ jobs:
       - name: Generate hash-locked requirements
         run: |
           env -u PIP_NO_INDEX PIP_CONFIG_FILE=/dev/null PIP_INDEX_URL=https://pypi.org/simple \
+            CUSTOM_COMPILE_COMMAND='env -u PIP_NO_INDEX PIP_CONFIG_FILE=/dev/null PIP_INDEX_URL=https://pypi.org/simple python -m piptools compile --no-config --index-url=https://pypi.org/simple --resolver=backtracking --generate-hashes --strip-extras --output-file=requirements/cloud-agent-schema-validation.lock requirements/cloud-agent-schema-validation.in' \
             python -m piptools compile \
             --no-config \
             --index-url=https://pypi.org/simple \
