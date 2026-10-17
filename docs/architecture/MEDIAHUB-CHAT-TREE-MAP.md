@@ -6940,3 +6940,11 @@ WB-14AA и приложение остаются не-нормативными. 
 - Updated checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
 - Current cloud-fabric handoff remains Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301): Draft 2020-12 schema meta-validation and positive/negative fixtures are open. PR [#333](https://github.com/VlDMlNSh/mediahub-os/pull/333) was observed open, Draft and unmerged during this pass.
 - Status: DOCUMENTATION ALIGNMENT RECORDED; implementation/qualification/acceptance are not implied.
+
+
+## 20.98 — Wave 80 cloud-agent schema validation intake (2026-10-17)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-SCHEMA-VALIDATION-INTAKE-WAVE-80-2026-10-17.md](../checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-VALIDATION-INTAKE-WAVE-80-2026-10-17.md), commit `d5c5e8b0e785c834a4ee01c07d9f45d7df283d0d`.
+- Three v0.2 schema candidates and the documentary queue were fetched by live ref and parsed as JSON. Schema blob SHAs: task `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`, registry `b49b89b8fbdfc180862e3dc78f8198f35e486035`, evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a`; queue `0d4d591f464b976d6920bbd39c87a45a9d4fda59`.
+- Syntax/structural intake only. Draft 2020-12 meta-validation, format assertions, positive/negative fixtures, semantic reference resolution and qualification remain OPEN. Queue remains documentary only.
+- Handoff: implement/identify a pinned validator workflow and record fresh run/job/artifact evidence; Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
