@@ -19,8 +19,8 @@
 ## Live status checked
 
 - Issue #301: OPEN; the Wave 107 request comment `6239264841` exists, and no later owner disposition was found in the current seven-comment list.
-- PR #339: OPEN / DRAFT / UNMERGED; compare from canonical docs branch reports 24 commits ahead / 0 behind, merge base `97d19bc423caca159c916ca9112eee77a18d10cd`. This is not approval to merge.
-- Exact working-branch commit `6080b562002bde5ab5f6117baac907603bd736d7`: workflow-run lookup returned no PR-triggered runs. No CI success is claimed.
+- PR #339: OPEN / DRAFT / UNMERGED; compare from canonical docs branch reports 29 commits ahead / 0 behind, merge base `97d19bc423caca159c916ca9112eee77a18d10cd`. This is not approval to merge.
+- Exact working-branch commit `d19f63b3037ad0e37da7f72595082624c7fb61af`: workflow-run lookup returned no PR-triggered runs. No CI success is claimed.
 - PR #338 remains OPEN / DRAFT / UNMERGED. Its historical schema/lock runs are candidate-scoped and do not qualify runtime behavior or resolve branch-drift/review gates.
 - Wave 105 post-report integration experiment remains explicitly incomplete, not a PR, and not for integration.
 
