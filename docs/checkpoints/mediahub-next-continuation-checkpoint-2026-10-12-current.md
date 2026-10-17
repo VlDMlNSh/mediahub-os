@@ -4570,3 +4570,16 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Candidate remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. R-06, exact target manifest and source-to-artifact binding remain OPEN.
 - No tests, install, provider calls, credentials, dispatch, runtime inspection, infrastructure changes, merge, rebase or deployment occurred.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest completed continuation — Wave 75 (2026-10-17)
+
+- Re-read the canonical bootstrap, current PR #333 metadata, working-branch checkpoint, Master Roadmap, Wave 74 report, and branch comparison before this pass. Working branch HEAD before the documentation write was `dca2fdd2a47d5d91a287c84b7ff5624d4e73e463`; PR #333 remains open, Draft, unmerged; branch remains 25 ahead / 0 behind canonical.
+- Added source-only Wave 75 report: `docs/checkpoints/MEDIAHUB-OPENHANDS-ROUTER-AUTH-AND-DELETE-FAILURE-PATH-WAVE-75-2026-10-17.md`; create commit `520ec8a6fad1cea55b21af0960db91f6e9398a28`.
+- Added navigation addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-75-2026-10-17.md`; create commit `6093deda542a51eb00041992c1fb02646d7d55e3`.
+- Exact pinned router evidence confirms the conversation REST routes inherit `/api` dependencies, but the shared API-key check allows an empty session-key configuration. Actual target configuration is not known. Exact deletion-service evidence confirms the return from `safe_rmtree` is ignored; a successful logical DELETE is not proof of physical erasure. The separate `Trash` helper is not used by this conversation deletion path.
+- Candidate source pin is 48 commits behind upstream `main`; API, dependency and deletion-service blobs have changed. Spot-check of upstream-main blobs shows the same empty-key conditional and ignored deletion result in the inspected source.
+- Status remains **CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED**. R-06, fail-closed target config, accepted target manifest, source-to-artifact binding and qualification remain open.
+- No tests, installation, provider/model calls, credentials, workflow dispatch, runtime inspection, infrastructure changes, merge, rebase, cherry-pick or deployment occurred.
+- Next bounded step: source-review WebSocket auth/replay at the pinned and current-head refs, then turn confirmed findings into explicit R-06/target-manifest control and negative-test requirements. Testing remains unauthorized absent separate explicit permission.
+- Canonical project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
