@@ -1,0 +1,3 @@
+# Direct runtime dependencies for the Cloud Agent Fabric schema-validation workflow.
+# Generate requirements.lock with the pinned pip-tools workflow; do not hand-edit transitive pins.
+jsonschema[format]==4.23.0
