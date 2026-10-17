@@ -206,7 +206,40 @@ jobs:
                       assert manifest["source"]["requested_ref"] == task["source"]["ref"]
                       assert manifest["source"]["resolved_sha"] == task["source"]["commit_sha"]
                       assert manifest["policy"]["policy_bundle_sha256"] == task["semantic_validation"]["policy_bundle_sha256"]
-                      print("PASS cross-artifact reference fixture: task ID, envelope digest, agent/provider/model, registry digest, source provenance, and policy digest")
+
+                      def semantic_errors(task_value, registry_value, manifest_value):
+                          issues = []
+                          if manifest_value["task"]["task_id"] != task_value["task_id"]:
+                              issues.append("task_id mismatch")
+                          if manifest_value["task"]["task_envelope_sha256"] != digest(task_value):
+                              issues.append("task envelope digest mismatch")
+                          if manifest_value["agent"]["agent_id"] != registry_value["agent_id"]:
+                              issues.append("agent_id mismatch")
+                          if manifest_value["agent"]["provider_id"] != registry_value["identity"]["provider_id"]:
+                              issues.append("provider_id mismatch")
+                          if manifest_value["agent"]["model_id"] != registry_value["identity"]["model_id"]:
+                              issues.append("model_id mismatch")
+                          if manifest_value["agent"]["registry_record_sha256"] != digest(registry_value):
+                              issues.append("registry digest mismatch")
+                          if manifest_value["source"]["repository"] != task_value["source"]["repository"]:
+                              issues.append("repository mismatch")
+                          if manifest_value["source"]["requested_ref"] != task_value["source"]["ref"]:
+                              issues.append("requested ref mismatch")
+                          if manifest_value["source"]["resolved_sha"] != task_value["source"]["commit_sha"]:
+                              issues.append("resolved SHA mismatch")
+                          if manifest_value["policy"]["policy_bundle_sha256"] != task_value["semantic_validation"]["policy_bundle_sha256"]:
+                              issues.append("policy bundle digest mismatch")
+                          return issues
+
+                      if semantic_errors(task, registry, manifest):
+                          raise AssertionError("consistent cross-artifact fixture rejected: " + "; ".join(semantic_errors(task, registry, manifest)))
+                      mismatched = json.loads(json.dumps(manifest))
+                      mismatched["task"]["task_id"] = "CAF-TEST-MISMATCH"
+                      mismatch_errors = semantic_errors(task, registry, mismatched)
+                      if not mismatch_errors or "task_id mismatch" not in mismatch_errors:
+                          raise AssertionError("cross-artifact negative fixture did not detect task ID mismatch")
+                      print("PASS cross-artifact reference fixture: task ID/digest, agent/provider/model/registry digest, source provenance, and policy digest")
+                      print("PASS cross-artifact mismatch negative fixture: task ID mismatch rejected")
                   except Exception as exc:
                       failed = True
                       print("FAIL cross-artifact semantic fixture:", repr(exc), file=sys.stderr)
