@@ -4924,3 +4924,13 @@ Clean schema-validation transplant recorded in [Wave 129 report](MEDIAHUB-SCHEMA
 - Map update commit `9414bb1b6d7a2124ca80574edba3a41233eea8d2`; map blob SHA `d408ef7e9e44a0aebcaf198a881c602116e3a372`.
 - No provider invocation, credential read, queue admission, dispatch, merge, deployment, or Contour A acceptance. Independent review and A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority, and accepted runner/workspace/network target manifest remain open gates.
 - Next: read the primary A0 and R-06 contracts from the canonical map and audit one bounded issuer/lifecycle path; keep PR #350 Draft until independent review and acceptance gates pass.
+
+
+### Wave 131 post-write reconciliation evidence
+
+- Candidate branch `contour-a-schema-clean-integration-wave129-20261018` advanced without force to `4c1ebafc5d33e8ae075a5bba85771d14aed4ac96`. Its first parent is prior candidate head `b3b730ea061faf9c975b63fa8019541df4578a96`; second parent is latest canonical docs head at reconciliation `801d7d212fc114919bcec84faddd153548ec5d14`.
+- Rebuilt tree from canonical docs plus the exact same 12 candidate file blobs; compare: 17 ahead / 0 behind, 12 added files, zero deletions.
+- Fresh exact-head [CI run #39078844123](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078844123) passed all substantive schema, semantic, provenance/report and artifact-upload steps. PR #350 now reports `mergeable=true`, but remains Draft / unmerged with no independent review.
+- Duplicate PR #351 remains closed / unmerged. No provider invocation, secret access, queue admission, dispatch, deployment or Contour A acceptance.
+- Report addendum is recorded in [Wave 131 report](MEDIAHUB-SCHEMA-CANDIDATE-DEDUPLICATION-WAVE-131-2026-10-18.md); canonical map updated with the reconciliation.
+- Next: audit primary A0 issuer/ingress/lease/cancel/recovery and R-06 authority/privacy contracts. Do not merge PR #350 until independent review and all applicable acceptance gates pass.
