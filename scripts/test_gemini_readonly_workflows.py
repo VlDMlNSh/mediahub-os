@@ -86,7 +86,7 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertIn("response byte limit exceeded", source)
                 self.assertIn("res.destroy()", source)
                 self.assertIn("res.on('aborted',() => reject(new Error('response aborted before completion')))", source)
-                self.assertLess(source.index("res.on('end'"), source.index("fs.writeFileSync(outputPath")))
+                self.assertLess(source.index("res.on('end'"), source.index("fs.writeFileSync(outputPath"))
 
     def test_artifact_retention_is_bounded(self) -> None:
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
