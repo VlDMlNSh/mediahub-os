@@ -1,3 +1,5 @@
+                if path == RETRY:
+                    self.assertIn("${manifest.attempts} (automatic POST retry disabled)", source)
 #!/usr/bin/env python3
 """Fast regression tests for the read-only Gemini workflow security contract.
 
@@ -123,7 +125,7 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
             with self.subTest(workflow=path.name):
                 self.assertIn(r"join('\n').trim()", source)
                 self.assertIn(r"\n## Gemini read-only evidence", source)
-                self.assertIn(r"--> \n'+text+'\n'", source)
+                self.assertIn(r"-->\n'+text+'\n'", source)
 
     def test_artifact_retention_is_bounded(self) -> None:
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
