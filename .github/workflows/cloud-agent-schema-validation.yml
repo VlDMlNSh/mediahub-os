@@ -1,4 +1,4 @@
-name: Cloud-agent schema validation (Wave 81)
+name: Cloud-agent schema validation (Wave 94 consolidation candidate)
 
 on:
   pull_request:
@@ -8,8 +8,18 @@ on:
       - "requirements/cloud-agent-schema-validation.lock"
       - ".github/workflows/cloud-agent-schema-validation.yml"
       - ".github/workflows/cloud-agent-lock-generation.yml"
+      - "scripts/validate_cloud_agent_*.py"
+      - "tests/fixtures/cloud-agent-schemas/**"
   push:
     branches: ["contour-a-schema-validation-wave81-20261017"]
+    paths:
+      - "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-*-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+      - "requirements/cloud-agent-schema-validation.in"
+      - "requirements/cloud-agent-schema-validation.lock"
+      - ".github/workflows/cloud-agent-schema-validation.yml"
+      - ".github/workflows/cloud-agent-lock-generation.yml"
+      - "scripts/validate_cloud_agent_*.py"
+      - "tests/fixtures/cloud-agent-schemas/**"
   workflow_dispatch:
 
 permissions:
@@ -21,7 +31,7 @@ concurrency:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
     steps:
       - name: Checkout immutable event commit
@@ -29,292 +39,80 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
+
       - name: Set up Python
         uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
         with:
           python-version: "3.12"
+
       - name: Install hash-locked validator dependencies
         run: python -m pip install --disable-pip-version-check --no-input --require-hashes -r requirements/cloud-agent-schema-validation.lock
-      - name: Validate schemas with positive and negative fixtures
-        shell: bash
+
+      - name: Verify environment and source revision
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
         run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          python --version
+          python -m pip --version
+          python -m pip check
+          python -m pip freeze
+          mkdir -p artifacts
           python - <<'PY'
-          import hashlib
-          import json
-          import re
-          import sys
-          from datetime import datetime, timezone
-          from pathlib import Path
-          from jsonschema import Draft202012Validator, FormatChecker
-
-          paths = [
-              Path("docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json"),
-              Path("docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json"),
-              Path("docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json"),
-          ]
-          FORMAT_VALUE = "2026-10-17T00:00:00Z"
-          HEX40 = "a" * 40
-          HEX64 = "b" * 64
-
-          def sample(schema, seed=0):
-              if "const" in schema:
-                  return schema["const"]
-              if "enum" in schema:
-                  return schema["enum"][seed % len(schema["enum"])]
-              typ = schema.get("type")
-              if isinstance(typ, list):
-                  # Prefer a non-null alternative so the sample exercises constraints.
-                  typ = next((t for t in typ if t != "null"), typ[0])
-              if schema.get("format") == "date-time":
-                  return FORMAT_VALUE
-              if typ == "object":
-                  props = schema.get("properties", {})
-                  required = schema.get("required", [])
-                  return {key: sample(props[key], seed + index) for index, key in enumerate(required) if key in props}
-              if typ == "array":
-                  count = schema.get("minItems", 0)
-                  return [sample(schema["items"], seed + index) for index in range(count)] if count else []
-              if typ == "integer":
-                  return schema.get("minimum", 0)
-              if typ == "number":
-                  return schema.get("minimum", 0)
-              if typ == "boolean":
-                  return True
-              if typ == "null":
-                  return None
-              if typ == "string":
-                  pattern = schema.get("pattern", "")
-                  if "CAF-AGENT-" in pattern:
-                      return "CAF-AGENT-TEST-01"
-                  if "CAF-" in pattern:
-                      return "CAF-TEST-001"
-                  if "sha256:" in pattern:
-                      return "sha256:" + ("abcdef0123456789"[seed % 16]) * 64
-                  if "40" in pattern or "[a-f0-9]{40}" in pattern:
-                      return ("abcdef0123456789"[seed % 16]) * 40
-                  if "repository" in pattern or "[A-Za-z0-9_.-]+/" in pattern:
-                      return "VlDMlNSh/mediahub-os"
-                  base = chr(ord("a") + (seed % 26))
-                  return base * max(1, schema.get("minLength", 1))
-              return None
-
-          def paths_for_format(schema, fmt, prefix=()):
-              found = []
-              if schema.get("format") == fmt and schema.get("type") == "string":
-                  found.append(prefix)
-              for key, child in schema.get("properties", {}).items():
-                  found.extend(paths_for_format(child, fmt, prefix + (key,)))
-              if isinstance(schema.get("items"), dict):
-                  found.extend(paths_for_format(schema["items"], fmt, prefix + (0,)))
-              return found
-
-          def replace_at(instance, path, value):
-              target = instance
-              for part in path[:-1]:
-                  target = target[part]
-              target[path[-1]] = value
-
-          def main():
-              failed = False
-              instances = {}
-              schemas = {}
-              for path in paths:
-                  try:
-                      schema = json.loads(path.read_text(encoding="utf-8"))
-                      schemas[path.name] = schema
-                      if schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema":
-                          raise ValueError("unexpected or missing $schema")
-                      Draft202012Validator.check_schema(schema)
-                      validator = Draft202012Validator(schema, format_checker=FormatChecker())
-                      valid = sample(schema)
-                      errors = list(validator.iter_errors(valid))
-                      if errors:
-                          raise AssertionError("generated positive fixture rejected: " + "; ".join(e.message for e in errors[:5]))
-                      print("PASS positive fixture:", path)
-                      instances[path.name] = valid
-                      empty_errors = list(validator.iter_errors({}))
-                      if not empty_errors:
-                          raise AssertionError("empty-object negative fixture unexpectedly passed")
-                      print("PASS empty-object negative fixture:", path, "errors=", len(empty_errors))
-
-                      # Deterministically remove one present nested required property at a time.
-                      def nested_required_paths(node, instance, prefix=()):
-                          found = []
-                          if not isinstance(node, dict):
-                              return found
-                          # Traverse array items as well as object properties so required
-                          # fields inside object-valued arrays receive negative fixtures.
-                          if isinstance(instance, list):
-                              item_schema = node.get("items")
-                              if isinstance(item_schema, dict):
-                                  for index, item in enumerate(instance):
-                                      found.extend(nested_required_paths(item_schema, item, prefix + (index,)))
-                              return found
-                          if not isinstance(instance, dict):
-                              return found
-                          props = node.get("properties", {})
-                          for key in node.get("required", []):
-                              if key in props and key in instance:
-                                  child_path = prefix + (key,)
-                                  if prefix:
-                                      found.append(child_path)
-                                  found.extend(nested_required_paths(props[key], instance[key], child_path))
-                          return found
-
-                      def remove_at(instance, path):
-                          target = instance
-                          for part in path[:-1]:
-                              target = target[part]
-                          del target[path[-1]]
-
-                      required_paths = nested_required_paths(schema, valid)
-                      if required_paths:
-                          for required_path in required_paths:
-                              missing = json.loads(json.dumps(valid))
-                              remove_at(missing, required_path)
-                              if validator.is_valid(missing):
-                                  raise AssertionError("missing nested required property unexpectedly accepted at " + repr(required_path))
-                          print("PASS nested-required negative fixtures:", path, "cases=", len(required_paths))
-                      else:
-                          print("INFO no present nested required properties:", path)
-
-                      extra = dict(valid)
-                      extra["__unexpected_wave82_property__"] = True
-                      if validator.is_valid(extra):
-                          raise AssertionError("unknown top-level property unexpectedly accepted")
-                      print("PASS additional-property negative fixture:", path)
-                      enum_paths = []
-                      def find_enum(s, p=()):
-                          if isinstance(s.get("enum"), list) and s.get("enum") and all(isinstance(x, str) for x in s["enum"]):
-                              enum_paths.append((p, s["enum"]))
-                          for k, v in s.get("properties", {}).items():
-                              find_enum(v, p + (k,))
-                          if isinstance(s.get("items"), dict):
-                              find_enum(s["items"], p + (0,))
-                      find_enum(schema)
-                      if enum_paths:
-                          p, allowed = enum_paths[0]
-                          bad = json.loads(json.dumps(valid))
-                          replace_at(bad, p, "__invalid_enum_value__")
-                          if validator.is_valid(bad):
-                              raise AssertionError("invalid enum negative fixture unexpectedly passed at " + repr(p))
-                          print("PASS enum negative fixture:", path, "path=", ".".join(map(str,p)))
-                      format_paths = paths_for_format(schema, "date-time")
-                      if format_paths:
-                          p = format_paths[0]
-                          bad = json.loads(json.dumps(valid))
-                          replace_at(bad, p, "not-a-date-time")
-                          if validator.is_valid(bad):
-                              raise AssertionError("invalid date-time unexpectedly accepted at " + repr(p))
-                          print("PASS invalid date-time negative fixture:", path, "path=", ".".join(map(str,p)))
-                      else:
-                          print("INFO no date-time field in schema:", path)
-                  except Exception as exc:
-                      failed = True
-                      print("FAIL:", path, repr(exc), file=sys.stderr)
-              if not failed:
-                  try:
-                      task_name = paths[0].name
-                      registry_name = paths[1].name
-                      manifest_name = paths[2].name
-                      task = json.loads(json.dumps(instances[task_name]))
-                      registry = json.loads(json.dumps(instances[registry_name]))
-                      manifest = json.loads(json.dumps(instances[manifest_name]))
-
-                      def digest(value):
-                          encoded = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
-                          return "sha256:" + hashlib.sha256(encoded).hexdigest()
-
-                      # Bind shared identifiers and source provenance across the three artifacts.
-                      manifest["task"]["task_id"] = task["task_id"]
-                      manifest["task"]["task_envelope_sha256"] = digest(task)
-                      manifest["agent"]["agent_id"] = registry["agent_id"]
-                      manifest["agent"]["provider_id"] = registry["identity"]["provider_id"]
-                      manifest["agent"]["model_id"] = registry["identity"]["model_id"]
-                      manifest["agent"]["registry_record_sha256"] = digest(registry)
-                      manifest["source"]["repository"] = task["source"]["repository"]
-                      manifest["source"]["requested_ref"] = task["source"]["ref"]
-                      manifest["source"]["resolved_sha"] = task["source"]["commit_sha"]
-                      manifest["policy"]["policy_bundle_sha256"] = task["semantic_validation"]["policy_bundle_sha256"]
-
-                      for name, schema in zip(paths, [schemas[p.name] for p in paths]):
-                          Draft202012Validator.check_schema(schema)
-                      manifest_validator = Draft202012Validator(schemas[manifest_name], format_checker=FormatChecker())
-                      manifest_errors = list(manifest_validator.iter_errors(manifest))
-                      if manifest_errors:
-                          raise AssertionError("cross-artifact fixture does not validate as evidence manifest: " + "; ".join(e.message for e in manifest_errors[:5]))
-                      assert manifest["task"]["task_id"] == task["task_id"]
-                      assert manifest["agent"]["agent_id"] == registry["agent_id"]
-                      assert manifest["agent"]["provider_id"] == registry["identity"]["provider_id"]
-                      assert manifest["agent"]["model_id"] == registry["identity"]["model_id"]
-                      assert manifest["source"]["repository"] == task["source"]["repository"]
-                      assert manifest["source"]["requested_ref"] == task["source"]["ref"]
-                      assert manifest["source"]["resolved_sha"] == task["source"]["commit_sha"]
-                      assert manifest["policy"]["policy_bundle_sha256"] == task["semantic_validation"]["policy_bundle_sha256"]
-
-                      def semantic_errors(task_value, registry_value, manifest_value):
-                          issues = []
-                          if manifest_value["task"]["task_id"] != task_value["task_id"]:
-                              issues.append("task_id mismatch")
-                          if manifest_value["task"]["task_envelope_sha256"] != digest(task_value):
-                              issues.append("task envelope digest mismatch")
-                          if manifest_value["agent"]["agent_id"] != registry_value["agent_id"]:
-                              issues.append("agent_id mismatch")
-                          if manifest_value["agent"]["provider_id"] != registry_value["identity"]["provider_id"]:
-                              issues.append("provider_id mismatch")
-                          if manifest_value["agent"]["model_id"] != registry_value["identity"]["model_id"]:
-                              issues.append("model_id mismatch")
-                          if manifest_value["agent"]["registry_record_sha256"] != digest(registry_value):
-                              issues.append("registry digest mismatch")
-                          if manifest_value["source"]["repository"] != task_value["source"]["repository"]:
-                              issues.append("repository mismatch")
-                          if manifest_value["source"]["requested_ref"] != task_value["source"]["ref"]:
-                              issues.append("requested ref mismatch")
-                          if manifest_value["source"]["resolved_sha"] != task_value["source"]["commit_sha"]:
-                              issues.append("resolved SHA mismatch")
-                          if manifest_value["policy"]["policy_bundle_sha256"] != task_value["semantic_validation"]["policy_bundle_sha256"]:
-                              issues.append("policy bundle digest mismatch")
-                          return issues
-
-                      if semantic_errors(task, registry, manifest):
-                          raise AssertionError("consistent cross-artifact fixture rejected: " + "; ".join(semantic_errors(task, registry, manifest)))
-                      # Each mutation is schema-valid in isolation and must fail its specific
-                      # cross-artifact invariant. This prevents one mismatch check from masking
-                      # untested relationships in the semantic validator.
-                      mismatch_cases = [
-                          (("task", "task_id"), "CAF-TEST-MISMATCH", "task_id mismatch"),
-                          (("task", "task_envelope_sha256"), "sha256:" + "c" * 64, "task envelope digest mismatch"),
-                          (("agent", "agent_id"), "CAF-AGENT-MISMATCH", "agent_id mismatch"),
-                          (("agent", "provider_id"), str(manifest["agent"]["provider_id"]) + "-mismatch", "provider_id mismatch"),
-                          (("agent", "model_id"), str(manifest["agent"]["model_id"]) + "-mismatch", "model_id mismatch"),
-                          (("agent", "registry_record_sha256"), "sha256:" + "d" * 64, "registry digest mismatch"),
-                          (("source", "repository"), "example/other-repo", "repository mismatch"),
-                          (("source", "requested_ref"), "refs/heads/other", "requested ref mismatch"),
-                          (("source", "resolved_sha"), "c" * 40, "resolved SHA mismatch"),
-                          (("policy", "policy_bundle_sha256"), "sha256:" + "e" * 64, "policy bundle digest mismatch"),
-                      ]
-                      for mismatch_path, replacement, expected_issue in mismatch_cases:
-                          mismatched = json.loads(json.dumps(manifest))
-                          replace_at(mismatched, mismatch_path, replacement)
-                          schema_errors = list(manifest_validator.iter_errors(mismatched))
-                          if schema_errors:
-                              raise AssertionError(
-                                  "semantic negative fixture is not schema-valid at "
-                                  + repr(mismatch_path) + ": "
-                                  + "; ".join(error.message for error in schema_errors[:3])
-                              )
-                          mismatch_errors = semantic_errors(task, registry, mismatched)
-                          if expected_issue not in mismatch_errors:
-                              raise AssertionError(
-                                  "cross-artifact negative fixture did not detect "
-                                  + expected_issue + "; got " + repr(mismatch_errors)
-                              )
-                          print("PASS cross-artifact mismatch negative fixture:", expected_issue)
-                      print("PASS cross-artifact reference fixture: consistent task/digest, agent/provider/model/registry digest, source provenance, and policy digest")
-                  except Exception as exc:
-                      failed = True
-                      print("FAIL cross-artifact semantic fixture:", repr(exc), file=sys.stderr)
-              if failed:
-                  raise SystemExit(1)
-          main()
+          import json, os, platform, subprocess, sys
+          from importlib.metadata import version
+          evidence = {
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "event_name": os.environ["GITHUB_EVENT_NAME"],
+              "ref": os.environ["GITHUB_REF"],
+              "commit_sha": os.environ["EXPECTED_SHA"],
+              "run_id": os.environ["RUN_ID"],
+              "run_attempt": os.environ["RUN_ATTEMPT"],
+              "python": sys.version,
+              "platform": platform.platform(),
+              "jsonschema_version": version("jsonschema"),
+              "pip_version": subprocess.check_output([sys.executable, "-m", "pip", "--version"], text=True).strip(),
+          }
+          with open("artifacts/cloud-agent-ci-provenance.json", "w", encoding="utf-8") as handle:
+              json.dump(evidence, handle, indent=2, sort_keys=True)
+              handle.write("\n")
+          print(json.dumps(evidence, indent=2, sort_keys=True))
           PY
+
+      - name: Validate Draft 2020-12 schemas and regression fixtures
+        run: python scripts/validate_cloud_agent_schemas.py
+
+      - name: Validate cross-artifact semantic fixtures
+        run: python scripts/validate_cloud_agent_semantics.py
+
+      - name: Verify machine-readable reports
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = [
+              Path("artifacts/cloud-agent-schema-validation-report.json"),
+              Path("artifacts/cloud-agent-semantic-validation-report.json"),
+              Path("artifacts/cloud-agent-ci-provenance.json"),
+          ]
+          for path in expected:
+              if not path.is_file():
+                  raise SystemExit(f"Missing required evidence artifact: {path}")
+              data = json.loads(path.read_text(encoding="utf-8"))
+              if path.name != "cloud-agent-ci-provenance.json" and data.get("status") != "PASS":
+                  raise SystemExit(f"Report is not PASS: {path}")
+              print(f"PASS {path} ({path.stat().st_size} bytes)")
+          PY
+          sha256sum artifacts/*.json
+
+      - name: Upload validation reports and provenance
+        uses: actions/upload-artifact@65462800FD760344B1A7B4382951275A0ABB4808
+        with:
+          name: cloud-agent-schema-validation-evidence-${{ github.sha }}-run-${{ github.run_id }}
+          path: artifacts/*.json
+          if-no-files-found: error
+          retention-days: 14
