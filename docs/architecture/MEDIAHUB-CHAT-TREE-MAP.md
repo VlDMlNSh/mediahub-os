@@ -6931,3 +6931,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: SOURCE-BOUND RECONCILIATION / DOCUMENTATION ONLY / ACCEPTANCE OPEN. No tests, qualification, provider calls, credentials, dispatch, installation, runtime inspection, infrastructure change, merge or deployment occurred.
 - Next: reconcile accepted A0/MH-12 authority wording, establish accountable R-06 decision authority/reviewers, and identify the owner-accepted target manifest before implementation.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/contour-a-a0-r06-evidence-reconciliation-wave68-20261017/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.350 — A0 Issuer and Jarvis Ingress Decision Proposal, Wave 69 (2026-10-17)
+
+- Proposal: [A0 Issuer and Jarvis Ingress Decision Proposal — Wave 69](../checkpoints/MEDIAHUB-A0-ISSUER-AND-JARVIS-INGRESS-DECISION-PROPOSAL-WAVE-69-2026-10-17.md), commit `c043949308bc2cbbbd3cbdecc99f926ff1ab01a5`, blob SHA `79b1699675768de2de4a1abc42da5965741b4883`.
+- Reconciles Wave 07 A0/MH-12 source trace (`49ca0b69737bf8d44fe3a42daa47fd9157c9097d`), MH-12 security architecture (`cf4ebfd5bf471ca676f075c51d3a24906504e490`), ASTRA GOLD reference architecture (`7be5fadd3055642e7823c7233f90e978a87e5366`), executor capability matrix (`9ad83781a8da53d1a8f540ede54eba95281f01c0`), Jarvis adapter draft (`916df43726fb8f41038d5e9896be7e205284416f`) and open Issue #301.
+- Recommendation for governance review: A0-owned capability issuer with GitHub Actions as transport, conditional on an accepted issuer/verifier lifecycle; workflow identity and inputs alone are insufficient authorization. No issuer or protocol is accepted by this proposal.
+- A0 ingress/issuer, R-06, accepted target manifest, schema validation, implementation, qualification and dispatch gates remain OPEN.
+- Status: DECISION PROPOSAL / NON-NORMATIVE / NOT ACCEPTED / NOT IMPLEMENTED. No tests, provider calls, credentials, workflow dispatch, runtime inspection, infrastructure changes, merge or deployment.
+- Next: identify a source-pinned reusable issuer/verifier; establish decision authority and R-06 reviewers; accept exact target manifest.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/contour-a-a0-r06-evidence-reconciliation-wave68-20261017/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
