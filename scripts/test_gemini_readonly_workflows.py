@@ -169,6 +169,8 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         for path in (
             "scripts/mark_gemini_missing_credential.js",
             "scripts/test_gemini_missing_credential.js",
+            "scripts/gemini_provider_outcome.js",
+            "scripts/test_gemini_provider_outcome.js",
         ):
             with self.subTest(path=path):
                 self.assertEqual(source.count(f'      - "{path}"'), 2)
