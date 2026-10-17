@@ -216,7 +216,7 @@ jobs:
               process.exitCode=result.exitCode; return;
             }
             fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
-              `\\n## Gemini read-only evidence (single attempt; no automatic POST retry)\\n\\n- Status: COMPLETED\\n- Commit: ${manifest.resolved_commit_sha}\\n- Workflow blob SHA: ${manifest.workflow_blob_sha}\\n- Context profile: ${manifest.context_profile}\\n- Model: ${model}\\n- Attempts: ${manifest.attempts} (automatic POST retry disabled)\\n- Output SHA-256: ${manifest.output_sha256}\\n- Output bytes: ${manifest.output_bytes}\\n- Provider response ID: ${manifest.provider_request_id || 'not supplied'}\\n\\nModel output is untrusted advisory content; inspect the artifact before use.\\n`);
+              `\n## Gemini read-only evidence (single attempt; no automatic POST retry)\n\n- Status: COMPLETED\n- Commit: ${manifest.resolved_commit_sha}\n- Workflow blob SHA: ${manifest.workflow_blob_sha}\n- Context profile: ${manifest.context_profile}\n- Model: ${model}\n- Attempts: ${manifest.attempts} (automatic POST retry disabled)\n- Output SHA-256: ${manifest.output_sha256}\n- Output bytes: ${manifest.output_bytes}\n- Provider response ID: ${manifest.provider_request_id || 'not supplied'}\n\nModel output is untrusted advisory content; inspect the artifact before use.\n`);
           })().catch(err => {
             const result = finalizeTransportError({manifest,manifestPath,error:err,providerStatus:'UNEXPECTED_ERROR',failureClass:'unexpected_error'});
             console.error('Gemini wrapper failed: '+result.message); process.exitCode=35;
