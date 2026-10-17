@@ -140,7 +140,11 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           set -euo pipefail
-          [[ -n "${GEMINI_API_KEY:-}" ]] || { echo "::error::Required provider secret is not configured."; exit 30; }
+          if [[ -z "${GEMINI_API_KEY:-}" ]]; then
+            node scripts/mark_gemini_missing_credential.js agent-output/evidence-manifest.json
+            echo "::error::Required provider secret is not configured."
+            exit 30
+          fi
           node <<'NODE'
           const fs = require('node:fs');
           const https = require('node:https');
