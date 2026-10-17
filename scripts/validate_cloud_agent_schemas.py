@@ -71,22 +71,51 @@ def mutate(instance: Any, operation: dict[str, Any]) -> Any:
         raise ValueError(f"Negative case {operation.get('id')} has an empty path.")
     parent = result
     for part in path[:-1]:
-        if not isinstance(parent, dict) or part not in parent:
+        if isinstance(parent, dict) and part in parent:
+            parent = parent[part]
+        elif isinstance(parent, list) and isinstance(part, int) and 0 <= part < len(parent):
+            parent = parent[part]
+        else:
             raise KeyError(f"Path {path!r} does not exist in fixture.")
-        parent = parent[part]
     key = path[-1]
     op = operation["op"]
     if op == "remove":
-        if not isinstance(parent, dict) or key not in parent:
+        if isinstance(parent, dict) and key in parent:
+            del parent[key]
+        elif isinstance(parent, list) and isinstance(key, int) and 0 <= key < len(parent):
+            del parent[key]
+        else:
             raise KeyError(f"Cannot remove absent path {path!r}.")
-        del parent[key]
     elif op == "set":
-        if not isinstance(parent, dict):
-            raise TypeError(f"Parent of path {path!r} is not an object.")
-        parent[key] = operation["value"]
+        if isinstance(parent, dict):
+            parent[key] = operation["value"]
+        elif isinstance(parent, list) and isinstance(key, int) and 0 <= key < len(parent):
+            parent[key] = operation["value"]
+        else:
+            raise TypeError(f"Parent of path {path!r} cannot accept the requested key.")
     else:
         raise ValueError(f"Unsupported mutation operation: {op}")
     return result
+
+
+def nested_required_paths(schema: Any, instance: Any, prefix: tuple[Any, ...] = ()) -> list[tuple[Any, ...]]:
+    """Enumerate required-property paths in concrete objects, including array items."""
+    paths: list[tuple[Any, ...]] = []
+    if isinstance(instance, list):
+        item_schema = schema.get("items", {}) if isinstance(schema, dict) else {}
+        for index, item in enumerate(instance):
+            paths.extend(nested_required_paths(item_schema, item, prefix + (index,)))
+        return paths
+    if not isinstance(instance, dict) or not isinstance(schema, dict):
+        return paths
+    properties = schema.get("properties", {})
+    for key in schema.get("required", []):
+        if key in instance:
+            paths.append(prefix + (key,))
+    for key, child in properties.items():
+        if key in instance and isinstance(child, dict):
+            paths.extend(nested_required_paths(child, instance[key], prefix + (key,)))
+    return paths
 
 
 def error_summaries(errors: list[Any], limit: int = 3) -> list[dict[str, str]]:
@@ -226,6 +255,39 @@ def main() -> int:
                 report["failures"].append(
                     f"{case_id}: intentionally invalid instance unexpectedly passed validation."
                 )
+
+        # Independently synthesize a missing-required negative for every required
+        # property present in the fixture. This traversal includes object-valued
+        # array items and records concrete numeric indices in mutation paths.
+        generated_count = 0
+        for schema_name, spec in SCHEMAS.items():
+            schema = read_json(spec["path"])
+            fixture = fixtures[schema_name]
+            for path in nested_required_paths(schema, fixture):
+                generated_count += 1
+                generated_id = f"generated-required-{schema_name}-{generated_count:04d}"
+                candidate = mutate(fixture, {"id": generated_id, "op": "remove", "path": list(path)})
+                errors = sorted(
+                    validators[schema_name].iter_errors(candidate),
+                    key=lambda error: (str(error.json_path), error.message),
+                )
+                rejected = bool(errors)
+                report["checks"].append({
+                    "kind": "generated_nested_required_negative",
+                    "id": generated_id,
+                    "schema": schema_name,
+                    "result": "PASS" if rejected else "FAIL",
+                    "mutation": {"op": "remove", "path": list(path)},
+                    "errors": error_summaries(errors),
+                })
+                if rejected:
+                    report["counts"]["negative_cases_rejected"] += 1
+                else:
+                    report["failures"].append(
+                        f"{generated_id}: missing-required mutation unexpectedly passed validation."
+                    )
+        report["counts"]["generated_required_cases"] = generated_count
+        report["counts"]["negative_cases_expected"] += generated_count
 
     except Exception as exc:  # preserve report evidence for parse/meta-validation/runtime errors
         report["failures"].append(f"validator_exception: {type(exc).__name__}: {str(exc)[:1000]}")
