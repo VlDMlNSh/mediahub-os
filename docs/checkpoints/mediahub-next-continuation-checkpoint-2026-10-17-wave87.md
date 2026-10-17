@@ -81,3 +81,14 @@ See [Cloud-Agent Lock Reproducibility and CI Verification — Wave 87](MEDIAHUB-
 - Added [Wave 91 lock-generation trigger correction report](MEDIAHUB-CLOUD-AGENT-LOCK-TRIGGER-CORRECTION-WAVE-91-2026-10-17.md), blob `2fc44560273e3da4b4a124e0d8249a46aab60d4f`, report commit `dcfa4d359a58e8df4ca4d0d6e6f2c7068c6a89ed`.
 - Report content was read back and matched the submitted text. Fresh CI on the correction/report commits must still be checked.
 - The PR #335/#337 workflow collision and branch divergence remain unresolved. Keep PR #337 Draft and unmerged pending fresh CI, consolidation decision, independent review and Issue #301 governance gates.
+
+
+## Wave 92 — dual-PR consolidation and current-head CI audit (2026-10-17)
+
+- Read back the canonical map by blob SHA after the Contents endpoint returned an empty body: map blob `e1eb74740b2429b10a6025fcb1a8289f5958316d`, 1,028,034 bytes. It remains an inventory, not full acceptance.
+- Read Functional Baseline 2.0 from `main`: blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; Bootstrap blob `fe9f09ff6b1913bab833db93d442111062b2fd15`.
+- PR #335 exact head `44e2bc7c735ad7f70294d66de8e08eb1da612e0d): [CI run 39044583119 passed](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39044583119). Compare vs canonical docs branch: 25 ahead / 20 behind.
+- PR #337 exact head `4e9ecc102c60402a9733539debe142d7e486c5d8): [CI run 39048595408](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39048595408) and [39048589712](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39048589712) passed. Compare vs canonical docs branch: 68 ahead / 20 behind.
+- Both PRs remain open/Draft/unmerged; zero submitted review records observed for each. Both add the same `.github/workflows/cloud-agent-schema-validation.yml` with materially different designs. Do not merge either independently.
+- Wave 92 report: [Dual-PR Consolidation and Head-CI Audit](MEDIAHUB-DUAL-PR-CONSOLIDATION-AND-HEAD-CI-AUDIT-WAVE-92-2026-10-17.md). Report commit: `4e5f4da9a42f51f4af52727531c8de9ba0b908b1`.
+- Next step: build one consolidated candidate preserving PR #335's reviewable scripts/fixtures and semantic tests plus PR #337's hash-locked dependencies, immutable checkout, full-SHA Actions pins, least privilege, source-SHA assertions and machine-readable evidence. Keep all validation test-only; resolve the 20-commit base lag deliberately; require independent review and Issue #301 gates before any merge/qualification.
