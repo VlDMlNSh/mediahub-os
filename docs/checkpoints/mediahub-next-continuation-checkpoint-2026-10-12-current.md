@@ -4730,3 +4730,16 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority, accepted runner/workspace/network target manifest, independent review and bounded worker/queue qualification remain open. Queue remains documentary. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
 - No provider/model call, secret access, workflow dispatch, install, runtime test, merge, deployment, or acceptance occurred.
 - Next: obtain independent review; reconcile PR #338 losslessly against the current docs branch; in parallel build a source-linked clause-level acceptance matrix for A0/MH-12/R-06 and the clean target manifest. Do not collapse Jarvis, ASTRA A0 and Product State Authority.
+
+
+## /next Wave 106 — Contour A clause-level acceptance matrix (2026-10-17)
+
+- Report: [Contour A Acceptance-Matrix Engineering Wave 106](MEDIAHUB-CONTOUR-A-ACCEPTANCE-MATRIX-WAVE-106-2026-10-17.md).
+- Map addendum: [Wave 106](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-106-2026-10-17.md).
+- Existing Unified Contract and Project Traceability Matrix was extended, rather than duplicating the cross-domain register. Update commit `91555d160e184202592949780837e005f3564994`; current matrix blob SHA `099df3001a41ea7f86a54c032d254b55efd4c158`. Read-back verified 14 unique Contour A acceptance rows.
+- Rows distinguish PASS-SCOPED fixture/lock evidence from OPEN/BLOCKED/UNKNOWN architecture and runtime gates. They link authority boundaries, schema/semantic validators, A0 issuer and lifecycle, capability semantics, R-06 audit/privacy, accepted target manifest, worker isolation, provenance, queue, supply-chain review and promotion states.
+- Map updated at §20.357, commit `ba5af4b9e586ba7f25fb0560e8389f6c2e9be2ba`, new map blob `6098781e6332bc7842e63868fbaad5bc7ae02544`.
+- Existing successful candidate schema run `39058425661` and lock run `39058422263` are carried forward as historical PASS-SCOPED evidence; they were not rerun during this wave.
+- A0 ingress/issuer/fencing/recovery; R-06 sink, retention/residency/time governance; exact accepted target manifest; independent schema/security/supply-chain review; worker qualification; and live queue/dispatch remain open or blocked. Contour A is still NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- No provider/model call, secret access, workflow dispatch, install, runtime test, merge, deployment, or acceptance occurred.
+- Next: review the A0/MH-12/R-06 primary clauses independently and reconcile PR #338 losslessly against the latest documentation branch. Do not select a token/wire protocol or target profile by assumption.
