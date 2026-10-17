@@ -1,7 +1,7 @@
 # MediaHub OS — Wave 83: nested required-field negative fixtures
 
 - Date: 2026-10-17
-- Status: IMPLEMENTED ON PR BRANCH; CI RESULT PENDING VERIFICATION
+- Status: IMPLEMENTED ON PR BRANCH; WORKFLOW CHANGE CI PASSED; FINAL HEAD FOLLOW-UP RUN TO VERIFY
 - PR: https://github.com/VlDMlNSh/mediahub-os/pull/337
 - Governing issue: https://github.com/VlDMlNSh/mediahub-os/issues/301
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
@@ -21,7 +21,8 @@ Extended `.github/workflows/cloud-agent-schema-validation.yml` to discover prese
 - Workflow commit: `69c073e4d1696078235bc4f42ba155d78fe59401`.
 - Workflow blob SHA after edit: `c0bca0c1994e9888b223c316f1bc3e7b50f5097e`.
 - This report is committed separately on the same PR branch; exact report blob and final branch head must be read back after commit.
-- CI for the new head is not claimed until the check-run conclusion and logs are inspected.
+- Run: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39043767078; tested workflow commit `69c073e4d1696078235bc4f42ba155d78fe59401`; job `117428303398`, conclusion `success`.
+- All job steps completed successfully, including `Validate schemas with positive and negative fixtures`. This run tested the workflow-edit commit before the subsequent documentation-only commit `9c2413ec4b86939865e271fbbc9046f5178abf37`; the latest branch-head run must still be checked separately.
 
 ## Limitations and gates
 
