@@ -31,7 +31,9 @@ Verify GitHub MCP tool availability and execution stability, record empirical ev
    - Created `recovery/caf-q-003-mcp-recovery-evidence.md`.
 
 5. **`mcp_github_create_pull_request`**:
-   - Status: Pending / Conditional.
+   - Status: Succeeded
+   - Evidence: workflow run [39019037870](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39019037870) created [PR #310](https://github.com/VlDMlNSh/mediahub-os/pull/310).
+   - PR head commit: `acf66bcc35f8a0eae454271d6210f7d97d38fe4b`.
 
 ## Acceptance Criteria Status
 - GitHub MCP calls evaluated and documented.
@@ -44,3 +46,5 @@ Verify GitHub MCP tool availability and execution stability, record empirical ev
 
 ## Verification Status
 - Evidence artifact established and committed to branch `caf-q-003-mcp-recovery-pass`.
+- Workflow run `39019037870` and job `117356960181` completed with conclusion `success`; PR #310 was created successfully.
+- This proves one successful bounded run, not durable repeatability or provider quota availability.
