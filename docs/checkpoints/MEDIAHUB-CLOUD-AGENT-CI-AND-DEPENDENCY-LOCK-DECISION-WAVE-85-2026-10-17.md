@@ -8,14 +8,15 @@
 
 ## 1. Fresh evidence
 
-- PR #337 live snapshot: open, Draft, unmerged, GitHub reports mergeable=true; current head observed as `96963cb2701021d7eda85285d9bad1f2f42fa080`.
+- PR #337 live snapshot at the Wave 85 write: open, Draft, unmerged, GitHub reported mergeable=true; head observed as `96963cb2701021d7eda85285d9bad1f2f42fa080`. This was the PR snapshot before the Wave 85 report commit.
 - PR base: `docs/mediahub-chat-tree-map-20261012`, base SHA `8083cd61dbe348e18ab7db3e09b2769529bdcfda`.
-- Fresh compare against the actual PR base: **17 commits ahead / 18 behind**, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. The earlier Wave 84 report's 16-ahead count was superseded by later report commits. Do not equate this count with divergence against `main`.
-- `main` HEAD observed as `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`; GitHub branch API reports `protected=false`.
+- Fresh compare against the actual PR base on the subsequent Wave 86 check: **18 commits ahead / 18 behind**, status `diverged`, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. This supersedes the earlier 17-ahead count. Do not equate this count with divergence against `main`.
+- `main` HEAD observed as `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`; a previous branch API read reported `protected=false`.
 - PR review endpoint returned an empty array: no submitted review is recorded.
 - Final-head run https://github.com/VlDMlNSh/mediahub-os/actions/runs/39043810272 is `completed / success`, job `117428432389`. The schema validation step, including positive and negative fixtures, completed successfully.
-- Workflow file: `.github/workflows/cloud-agent-schema-validation.yml`; read-back blob SHA previously observed as `c0bca0c1994e9888b223c316f1bc3e7b50f5097e`.
-- Latest Wave 84 report: https://github.com/VlDMlNSh/mediahub-os/blob/contour-a-schema-validation-wave81-20261017/docs/checkpoints/MEDIAHUB-CLOUD-AGENT-FINAL-HEAD-CI-AND-BRANCH-RECONCILIATION-WAVE-84-2026-10-17.md
+- Wave 85 report commit `7776c02ae54f712ba0da4ee7a38e11d0293475d9` triggered run https://github.com/VlDMlNSh/mediahub-os/actions/runs/39044943058, which completed `success`; job `117431696468`, including schema validation, succeeded.
+- Workflow file: `.github/workflows/cloud-agent-schema-validation.yml`; read-back blob SHA observed before the report-only commits: `c0bca0c1994e9888b223c316f1bc3e7b50f5097e`.
+- Wave 85 report blob SHA before this correction: `0169143a3f7240e650aaf979bef9c6f391ecef6d`.
 
 ## 2. Interpretation
 
@@ -37,15 +38,15 @@ This report does not claim that a lockfile has been created or that dependency i
 
 ## 4. Integration and qualification gates
 
-- Do not merge PR #337: it remains Draft, has no independent review, and diverges from its base (17 ahead / 18 behind).
+- Do not merge PR #337: it remains Draft, has no independent review, and diverges from its base (18 ahead / 18 behind at the latest compare).
 - Resolve branch history only after a file-level comparison and preservation check; do not rebase/merge solely to reduce the ahead/behind count.
-- Main branch protection remains disabled at the observed ref. This is a governance risk, not permission to merge without review.
+- Main branch protection was reported disabled by the branch API; recheck before any future integration.
 - Issue #301 gates remain open: A0 issuer/verifier lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent schema review, and qualification of the bounded read-only worker/queue path.
 - No provider invocation, credential access, dispatch, deployment, or Contour B work is authorized by this validation result.
 
 ## 5. Read-back / source integrity limitation
 
-The map's Contents API read returned an empty body while exposing blob SHA `e1eb74740b2429b10a6025fcb1a8289f5958316d`. The Bootstrap requires reading the blob/raw content before map edits. This wave therefore does not modify the canonical map or checkpoint. The report is an evidence record on the PR branch only, not canonical acceptance.
+The canonical map was successfully retrieved by its Git blob SHA `e1eb74740b2429b10a6025fcb1a8289f5958316d`; the Contents API wrapper had returned an empty body. The map identifies itself as an inventory, not full acceptance. This wave does not modify the canonical map or checkpoint. The report is an evidence record on the PR branch only, not canonical acceptance.
 
 ## 6. Next step
 
