@@ -4557,3 +4557,16 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Candidate remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. Proposed baseline: disable completion logging; separately qualify event persistence, WebSocket authorization, log sinks, retention and deletion. R-06, source-to-artifact binding and target manifest remain OPEN.
 - No install, tests, qualification, provider calls, credentials, dispatch, runtime inspection, infrastructure changes, merge, rebase, deployment or branch integration occurred.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — event store, WebSocket authorization and deletion semantics, Wave 74 (2026-10-17)
+
+- Report: `docs/checkpoints/MEDIAHUB-OPENHANDS-EVENT-STORE-WEBSOCKET-AUTH-DELETION-SEMANTICS-WAVE-74-2026-10-17.md`; create commit `9c56666d3e78d2e0b86a5573cf6a426b6f43056a`.
+- Map addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-74-2026-10-17.md`; create commit `e1b71f1d05d19b0b2156ab739035e45b54b397f5`.
+- Pinned EventLog is persistent/append-only; F06 documents restart persistence and raw-JSON replay. No event-level TTL/deletion API was found in the inspected EventLog class.
+- WebSocket supports recommended first-frame auth plus legacy query/header auth and history replay. Shared session-key checks do not by themselves evidence per-principal/per-conversation authorization. Effective REST router auth wiring and no-key startup behavior remain to be verified against exact artifact.
+- Conversation deletion calls `safe_rmtree`, but source permits logical deletion to proceed when directory removal fails. Successful DELETE therefore does not prove physical erasure; backup, downstream collector and client copies are not covered.
+- Admission requirements: principal/capability/conversation binding, fail-closed auth configuration, disable query-string credential transport, keep completion logging disabled, and independently verify deletion/retention across all storage copies.
+- Candidate remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. R-06, exact target manifest and source-to-artifact binding remain OPEN.
+- No tests, install, provider calls, credentials, dispatch, runtime inspection, infrastructure changes, merge, rebase or deployment occurred.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
