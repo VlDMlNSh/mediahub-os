@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.357)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.359)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7105,7 +7105,7 @@ WB-14AA и приложение остаются не-нормативными. 
 - Next: independent review and lossless PR #338 reconciliation; source-linked clause-level acceptance matrix for A0/MH-12/R-06 and the clean target manifest. Preserve Jarvis / ASTRA A0 / Product State Authority separation.
 
 
-## 20.357 — Contour A clause-level acceptance matrix (Wave 106, 2026-10-17)
+## 20.358 — Contour A clause-level acceptance matrix (Wave 106, 2026-10-17)
 
 - Report: [Contour A Acceptance-Matrix Engineering Wave 106](../checkpoints/MEDIAHUB-CONTOUR-A-ACCEPTANCE-MATRIX-WAVE-106-2026-10-17.md).
 - Existing control register extended: [Unified Contract and Project Traceability Matrix](../checkpoints/MEDIAHUB-UNIFIED-CONTRACT-AND-TRACEABILITY-MATRIX-WAVE-01-2026-10-16.md), update commit `91555d160e184202592949780837e005f3564994`, blob SHA `099df3001a41ea7f86a54c032d254b55efd4c158`.
@@ -7115,7 +7115,7 @@ WB-14AA и приложение остаются не-нормативными. 
 - No provider/model call, secret access, dispatch, runtime test, merge or deployment occurred.
 
 
-## 20.358 — Contour A governance decision packet (Wave 107, 2026-10-17)
+## 20.359 — Contour A governance decision packet (Wave 107, 2026-10-17)
 
 - Report: [Contour A Governance Decision Packet, Wave 107](../checkpoints/MEDIAHUB-CONTOUR-A-GOVERNANCE-DECISION-PACKET-WAVE-107-2026-10-17.md).
 - Governance gates were separated into six decision requests: D-CA-01 ingress/caller identity; D-CA-02 capability issuer/verification/revocation; D-CA-03 lease/fencing/cancellation/replay; D-CA-04 R-06 audit/privacy; D-CA-05 exact clean runner/workspace/network target; D-CA-06 promotion authority.
