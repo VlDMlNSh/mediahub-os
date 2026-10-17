@@ -149,3 +149,12 @@ A real shared router requires accepted ingress/authorization, durable task state
 - [Issue #301 — Contour A qualification and operationalization](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 
 Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 45 addendum — GitHub-only cloud execution constraint
+
+The owner clarified that cloud API-key routing and all cloud model work must run exclusively on GitHub; servers are reserved for local computation only. The resulting architecture decision is documented in [GitHub Actions-only Cloud Router ADR — Wave 45](../architecture/MEDIAHUB-GITHUB-ACTIONS-ONLY-CLOUD-ROUTER-ADR-WAVE-45-2026-10-17.md).
+
+This excludes a deployed LiteLLM proxy, Supabase Edge Functions/Postgres, owner-operated gateways and self-hosted runners from the cloud model path. Existing Gemini Agent 2/3 workflows already use GitHub-hosted runners; the existing provider qualification workflow uses a self-hosted runner and therefore cannot serve as the cloud provider executor. The recommended control plane uses GitHub Issues as the durable task queue, a serialized Actions coordinator, a redacted state branch for quota/cooldown metadata, and Actions artifacts for per-run evidence. Actions concurrency alone is not treated as a durable FIFO queue.
+
+No secret values were read, no provider call or workflow dispatch was made, and no tests, qualification or deployment occurred.
