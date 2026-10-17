@@ -29,3 +29,13 @@
 ## Next step
 
 Inspect the final branch HEAD and checks after this addendum, then continue with independent schema/authority review and file-level branch reconciliation. Do not merge until all required provenance, CI, review and governance gates are satisfied.
+
+
+## Wave 88 navigation update (2026-10-17, 15:55 UTC)
+
+- Current controlled lock reproducibility report: [Wave 88 report](../checkpoints/MEDIAHUB-CONTROLLED-PYPI-LOCK-REPRODUCIBILITY-WAVE-88-2026-10-17.md).
+- Current implementation HEAD at review: `7697165ba8c2b0f24bef0ad00fbf34e6483841f0`.
+- Current lock blob: `6a232e27c644ec1a46ddebc21a4a27c1d26ca781`; generator workflow blob: `951631787208740daf7999e71df24beb625b9910`.
+- Schema CI passed on current HEAD: [39047028293](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047028293), [39047025408](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047025408).
+- Newly highlighted integration hazard: PR #335 and PR #337 both add `.github/workflows/cloud-agent-schema-validation.yml`. Keep both Draft; select and review one canonical implementation before integrating.
+- PR #337 comparison currently reports 47 ahead / 18 behind the canonical docs branch. This addendum is still on the working branch and does not replace the canonical map.
