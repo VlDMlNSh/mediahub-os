@@ -30,3 +30,12 @@ No provider invocation, credential read, queue admission, agent dispatch, merge,
 ## Next
 
 Continue the open Issue #301 gates with a bounded primary-contract audit, prioritizing the A0 issuer/ingress/lease/cancel/recovery path and R-06 authority/privacy. Keep PR #350 as the sole active schema-validation candidate; do not merge on CI alone.
+
+
+## Post-write reconciliation addendum (same pass)
+
+The documentation branch advanced while recording this report, making the PR temporarily non-mergeable. To avoid leaving the candidate stale, rebuilt its tree from the latest canonical docs tree and re-applied only the same 12 candidate blobs. The reconciliation commit is `4c1ebafc5d33e8ae075a5bba85771d14aed4ac96`, with the previous candidate head `b3b730ea061faf9c975b63fa8019541df4578a96` as first parent and docs head `801d7d212fc114919bcec84faddd153548ec5d14` as second parent. No force update was used; the compare is 17 ahead / 0 behind and shows 12 added files, zero deletions.
+
+- Fresh exact-head run [#39078844123](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078844123) passed on `4c1ebafc5d33e8ae075a5bba85771d14aed4ac96`; all schema, semantic, report/provenance and artifact-upload steps passed.
+- GitHub now reports PR #350 OPEN / DRAFT / UNMERGED and `mergeable=true`; no independent review submissions are present.
+- The reconciliation restores candidate freshness but does not authorize merge or acceptance.
