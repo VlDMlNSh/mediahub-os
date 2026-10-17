@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   generate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
       # Make package-source selection explicit and ignore ambient runner pip configuration.
