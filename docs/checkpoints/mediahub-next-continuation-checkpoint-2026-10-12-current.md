@@ -4596,8 +4596,8 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 ## Wave 76 continuation — 2026-10-17
 
 - Completed source-only review: WebSocket authorization, replay and GitHub execution-tool inventory.
-- Report: [Wave 76](MEDIAHUB-OPENHANDS-WEBSOCKET-AUTH-REPLAY-AND-GITHUB-EXECUTION-TOOL-INVENTORY-WAVE-76-2026-10-17.md), blob SHA pending final read-back.
-- Map addendum: [Wave 76](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-76-2026-10-17.md), blob SHA pending final read-back.
+- Report: [Wave 76](MEDIAHUB-OPENHANDS-WEBSOCKET-AUTH-REPLAY-AND-GITHUB-EXECUTION-TOOL-INVENTORY-WAVE-76-2026-10-17.md), blob SHA `1bc5dcf73914488873ad75867ed2da84192b4bf8`.
+- Map addendum: [Wave 76](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-76-2026-10-17.md), blob SHA `c2b6ff8357813f8ad66c2d7ea76d44b5d683e0e1`.
 - PR #333 remains open, Draft, unmerged. Pre-pass working HEAD was `9129f9bc708200952e8a759c47fc26cb12916041`; base `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; 29 ahead / 0 behind. Recheck PR HEAD after this checkpoint write.
 - OpenHands source blobs: `sockets.py` `33d7a4b1666e9cdcf004b157470e9be16cdfe693`; `session_socket.py` `4e02c35e6e4fd67ca5adea31e3f9346f59a29f38`; pinned `api.py` `1916fd4b00e798e27f85f37db1e634bbef6a48c2`; pinned `dependencies.py` `d1d2a6aece2056adc15824aed6cdccc4c3c33ead`. The socket files match at the reviewed pin and current upstream main.
 - Tool inventory: GitHub file/branch/commit/PR operations, search, compare, Actions logs/artifacts and reruns for existing failed runs are exposed. No dedicated fresh workflow-dispatch action was found in the exposed GitHub connector catalog. Browser profiles list no signed-in sites; authenticated browser execution is unverified.
