@@ -4808,3 +4808,16 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - Current PR HEAD `b8938e2c8a6b53a9856611beb4e2c91b9b47e7eb`; observed `main` HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`; branch compare diverged 39 ahead / 2 behind; merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
 - Exact-head CI passed: contract #39070239298, Astra Verify #39070239407, Cloud Runtime Validation #39070239344. PR remains OPEN / DRAFT / UNMERGED; no independent review returned; protection/rulesets unverified.
 - Next: reconcile branch divergence losslessly, review exact diff, rerun checks, and obtain independent security review/protection read-back. No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance.
+
+
+## Latest verified continuation — Gemini read-only workflow lifecycle follow-up, Wave 117 (2026-10-18)
+
+- Report: [MEDIAHUB-GEMINI-READONLY-LIFECYCLE-FOLLOWUP-REVIEW-WAVE-117-2026-10-18.md](MEDIAHUB-GEMINI-READONLY-LIFECYCLE-FOLLOWUP-REVIEW-WAVE-117-2026-10-18.md).
+- Map navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-117-2026-10-18.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-117-2026-10-18.md).
+- Canonical map blob re-read at start: `4798bd288451000d6eff5bcb8f7f0855942f7181`; large map was read through blob fetch because Contents API returned empty. Checkpoint source blob before this append: `a1437086c2e98c743d3d2f0b17a3bd37c9fae7a8`.
+- PR #334 current HEAD `b8938e2c8a6b53a9856611beb4e2c91b9b47e7eb`; live compare to `main` HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`: DIVERGED, 39 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
+- Current-head runs #39070239298, #39070239407 and #39070239344 succeeded. Combined status endpoint returned no statuses; workflow-run evidence is linked in the report.
+- Follow-up COMMENT #5560263950 records a real local HTTP helper harness improvement and the remaining gaps: missing-secret path can upload a PREPARED/NOT_STARTED manifest; inline provider outcomes are not exhaustively tested against manifest terminal-state invariants; branch drift still requires lossless reconciliation and exact-head CI.
+- Issue #301 remains OPEN. No provider call, secret read, manual dispatch, merge, deployment, or Contour A acceptance occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: implement a secret-independent terminal-state finalizer and executable provider-outcome/manifest tests on PR #334, then reconcile branch drift, rerun exact-head checks and obtain independent review.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
