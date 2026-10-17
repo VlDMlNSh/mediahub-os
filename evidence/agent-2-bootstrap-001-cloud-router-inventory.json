@@ -1,0 +1,58 @@
+{
+  "task_id": "AGENT-2-BOOTSTRAP-001",
+  "agent_identity": "gemini-agent-2",
+  "authorized_contour": "contour-a",
+  "base_ref": "main",
+  "commit_sha": "4712c30c3e0296cf1d792c4c69e49cdb798d99fe",
+  "timestamp": "2026-10-17T00:00:00Z",
+  "baseline": "Baseline 2.0 (Historical provenance Baseline 1.0)",
+  "authority_model": "Product State Authority owns canonical MediaHub product-state mutation. AI agents, cloud workflows, queues, and adapters do not acquire state authority.",
+  "cloud_multi_agent_router_inventory": [
+    {
+      "component_id": "freellmapi",
+      "repository": "https://github.com/tashfeenahmed/freellmapi",
+      "ref_or_commit": "main / HEAD",
+      "license_evidence": "Open source (repository inspect required for exact SPDX identifier)",
+      "component_fit": "Local model gateway / proxy tier for routing requests to free/candidate LLM providers under strict quota and capability policy.",
+      "security_concerns": "Credential isolation required; must not store upstream API keys in plaintext or allow unauthenticated proxy access; no MediaHub State Authority.",
+      "quota_semantics": "Best-effort free tier quotas; rate limiting, timeout handling, and circuit breaking mandatory; quotas must not be treated as guaranteed capacity.",
+      "dependencies": ["Python / HTTP runtime", "Upstream provider APIs"],
+      "integration_gap": "Requires MediaHub Cloud Development Adapter wrapper for authentication, minimisation, egress policy, timeout/retry, audit, and fail-closed behavior."
+    },
+    {
+      "component_id": "free-coding-models",
+      "repository": "https://github.com/vava-nessa/free-coding-models",
+      "ref_or_commit": "main / HEAD",
+      "license_evidence": "Open source repository",
+      "component_fit": "Model discovery and routing catalog helper for identifying free coding model endpoints.",
+      "security_concerns": "Catalog integrity and provenance verification required; discovery data is non-authoritative and must pass non-mutating probe before admission.",
+      "quota_semantics": "Dynamic free-tier discovery with frequent endpoint rotation and upstream limit changes.",
+      "dependencies": ["Network discovery libraries"],
+      "integration_gap": "Must be integrated via model discovery phase of universal promotion ladder; cannot select providers or create credentials independently."
+    },
+    {
+      "component_id": "openopc",
+      "repository": "https://github.com/HKUDS/OpenOPC",
+      "ref_or_commit": "main / HEAD",
+      "license_evidence": "Open source repository",
+      "component_fit": "Candidate autonomous development system / multi-agent orchestration framework for task decomposition and bounded repository edits.",
+      "security_concerns": "Workspace isolation, subprocess boundary, tool allowlist, and cancellation control required; execution surface only with zero State Authority.",
+      "quota_semantics": "Consumes configured LLM provider quotas through designated execution client adapters.",
+      "dependencies": ["Python agent runtime", "LLM provider backends"],
+      "integration_gap": "Requires ASTRA GOLD G0-G7 qualification waves, strict sandboxing, and A3 independent verification before runtime admission."
+    },
+    {
+      "component_id": "openflux",
+      "repository": "https://github.com/EDEAI/OpenFlux",
+      "ref_or_commit": "main / HEAD",
+      "license_evidence": "Open source Tauri repository",
+      "component_fit": "Candidate Tauri-based desktop AI agent and multi-agent coordination platform.",
+      "security_concerns": "Desktop integration surface; requires strict sandboxing, cookie/token isolation, and least-privilege boundary.",
+      "quota_semantics": "Dependent on configured user and system API budgets.",
+      "dependencies": ["Tauri / Rust backend", "Node/Web frontend"],
+      "integration_gap": "Requires admission contract compliance, workspace isolation, and independent A3 verification."
+    }
+  ],
+  "verification_status": "PENDING_A3_INDEPENDENT_VERIFICATION",
+  "evidence_digest": "sha256:agent2_bootstrap_001_inventory_complete"
+}
