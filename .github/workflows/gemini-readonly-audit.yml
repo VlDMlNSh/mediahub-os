@@ -199,13 +199,13 @@ jobs:
               manifest.status='FAILED'; manifest.provider_status='INVALID_JSON'; save();
               console.error('Gemini response was invalid JSON; body suppressed.'); process.exitCode=32; return;
             }
-            const text=(parsed.candidates||[]).flatMap(c=>c.content?.parts||[]).map(p=>p.text||'').join('\\n').trim();
+            const text=(parsed.candidates||[]).flatMap(c=>c.content?.parts||[]).map(p=>p.text||'').join('\n').trim();
             const bytes=Buffer.byteLength(text,'utf8');
             if (!text || bytes > 100000) {
               manifest.status='FAILED'; manifest.provider_status=text?'OUTPUT_TOO_LARGE':'EMPTY_OUTPUT'; save();
               console.error('Gemini returned empty or over-limit output.'); process.exitCode=33; return;
             }
-            fs.writeFileSync(outputPath,'<!-- Untrusted model-generated advisory output; not execution authority. -->\\n'+text+'\\n',{mode:0o600});
+            fs.writeFileSync(outputPath,'<!-- Untrusted model-generated advisory output; not execution authority. -->\n'+text+'\n',{mode:0o600});
             manifest.status='COMPLETED';
             manifest.output_sha256=`sha256:${crypto.createHash('sha256').update(fs.readFileSync(outputPath)).digest('hex')}`;
             manifest.output_bytes=fs.statSync(outputPath).size;
