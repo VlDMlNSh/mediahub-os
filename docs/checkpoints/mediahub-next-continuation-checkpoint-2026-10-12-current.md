@@ -4670,3 +4670,13 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Artifact read-back: schema validation PASS (3/3 schemas, 3/3 positive fixtures, 179/179 negative cases, 166 generated nested-required negatives, zero failures); semantic validation PASS (1/1 positive bundle, 26/26 semantic negatives, zero failures); all schema source pins match.
 - Remaining: verify reproducible, integrity-controlled pip/pip-tools bootstrap and byte-for-byte lock regeneration. PR #338 remains Draft/unmerged; Issue #301 A0, R-06, target manifest, independent review and queue qualification gates remain open.
 - No provider calls, secret access, dispatch, deployment, merge or Contour A acceptance. Next step: harden and verify lock-generation bootstrap/reproducibility, then inspect fresh workflow evidence.
+
+
+## /next Wave 100 — lock regeneration guard (2026-10-17)
+
+- Report: [MEDIAHUB-LOCK-REGENERATION-GUARD-WAVE-100-2026-10-17.md](MEDIAHUB-LOCK-REGENERATION-GUARD-WAVE-100-2026-10-17.md).
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-100-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-100-2026-10-17.md).
+- Candidate PR #338 change commit `29d72044ae77086df3380358816da2e15a940725`; workflow blob SHA `bc6a50bb93ec8ba32aacc7e3b7f973a6311cb072`.
+- Added lock-regeneration diff capture, artifact publication, and a byte-for-byte assertion. Exact-head validation run [39053283811](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39053283811) was in progress at the last observation; result is not yet claimed.
+- Bootstrap integrity remains open because pinned pip/pip-tools are not separately hash-locked. PR #338 remains Draft/unmerged and Issue #301 acceptance gates remain open.
+- Next: inspect run 39053283811 and lock-generation artifact; diagnose any drift, then harden bootstrap integrity.
