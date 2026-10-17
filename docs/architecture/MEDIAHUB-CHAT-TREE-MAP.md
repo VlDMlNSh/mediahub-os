@@ -7113,3 +7113,13 @@ WB-14AA и приложение остаются не-нормативными. 
 - Existing CI remains PASS-SCOPED only: schema run [39058425661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058425661); hash-lock regeneration [39058422263](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058422263). Wave 106 did not rerun these workflows.
 - Blocking/unknown gates remain: A0 issuer/ingress and fencing/recovery; R-06 event sink, privacy retention, residency and clock; owner-accepted clean target manifest; independent review; and qualified read-only worker/queue. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
 - No provider/model call, secret access, dispatch, runtime test, merge or deployment occurred.
+
+
+## 20.358 — Contour A governance decision packet (Wave 107, 2026-10-17)
+
+- Report: [Contour A Governance Decision Packet, Wave 107](../checkpoints/MEDIAHUB-CONTOUR-A-GOVERNANCE-DECISION-PACKET-WAVE-107-2026-10-17.md).
+- Governance gates were separated into six decision requests: D-CA-01 ingress/caller identity; D-CA-02 capability issuer/verification/revocation; D-CA-03 lease/fencing/cancellation/replay; D-CA-04 R-06 audit/privacy; D-CA-05 exact clean runner/workspace/network target; D-CA-06 promotion authority.
+- Primary source revisions: A0 source trace `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`; R-06 crosswalk `099ad9f6a85bd4764dd16ccbfa9695c2abd6d5bd`; target reconciliation `1f748bf80e08067fd85a7e1b0821cc4d12bda676`; integrated architecture contract `c248956417cc61d66c968a4c58a56e799f653354`.
+- Candidate options remain explicitly unselected. The packet grants no authority, does not amend Baseline 2.0, and does not authorize workflow dispatch or runtime changes.
+- Current status: decisions OPEN/UNKNOWN; target BLOCKED/UNKNOWN; Contour A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: request owner/governance disposition in Issue #301; bind accepted decisions to exact source SHAs before implementation.
