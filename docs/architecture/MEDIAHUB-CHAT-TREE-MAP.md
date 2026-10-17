@@ -7169,3 +7169,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - PR #334 remains OPEN / DRAFT / UNMERGED. Compared with live main, candidate is diverged 39 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`; observed main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`.
 - Independent security review remains outstanding. Branch protection/ruleset configuration remains UNVERIFIED because the available integration has no authorized read action. No provider call, credential read, workflow dispatch, queue admission, merge, deployment or Contour A acceptance occurred.
 - Next: obtain independent review and authorized protection-rule read-back; reconcile divergence without loss, then rerun checks on the reconciled exact head.
+
+
+## 20.362 — Schema candidate revalidation (Wave 112, 2026-10-18)
+
+- Report: [MEDIAHUB-SCHEMA-CANDIDATE-REVALIDATION-WAVE-112-2026-10-18.md](../checkpoints/MEDIAHUB-SCHEMA-CANDIDATE-REVALIDATION-WAVE-112-2026-10-18.md).
+- Candidate PR #338 remains OPEN / DRAFT / UNMERGED at HEAD `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`; exact-head schema/semantic CI run #39058425661 succeeded, artifact digest `sha256:7957517179ce91c469e851996d2141410640c008da90c6f0c35f879ac185bb3c`. Lock-generation run #39058422263 was recorded successful with `LOCK_REGENERATION_MATCH=true`.
+- Current compare: candidate diverged from canonical docs branch, 20 ahead / 61 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; observed docs branch HEAD `8a4664ab48327a99195471d73602dc4a2f4e40f3`. No independent review was present before this pass.
+- Bootstrap `setuptools==84.0.0` publisher provenance remains unresolved; hashes alone do not establish publisher identity. A source-bound COMMENT review was posted to PR #338 (review ID `5560179504`).
+- No merge, provider call, secret read, workflow dispatch, deployment or Contour A acceptance. Next: losslessly reconcile against current docs HEAD, disposition bootstrap provenance, and rerun exact-head CI.
