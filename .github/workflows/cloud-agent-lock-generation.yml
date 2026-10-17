@@ -41,6 +41,7 @@ jobs:
       - name: Generate hash-locked requirements
         run: |
           python -m piptools compile \
+            --index-url=https://pypi.org/simple \
             --resolver=backtracking \
             --generate-hashes \
             --strip-extras \
