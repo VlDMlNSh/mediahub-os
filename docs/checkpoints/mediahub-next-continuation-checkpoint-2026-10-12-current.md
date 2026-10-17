@@ -4659,3 +4659,14 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Found and repaired missing generated nested-required negative coverage for array items in candidate commit `472acc92fb811f2ca36117cda3b2317ed186f63c`, blob `02c326da8cf90d2e5253dff3c1a5b90d72f6e18d`.
 - Exact-head validation run [39052849876](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39052849876) was queued at last inspection. Do not claim CI success until its final conclusion and artifact contents are inspected.
 - Next: inspect exact-head CI, verify generated nested-required case counts and JSON reports, then verify lock regeneration and bootstrap integrity. PR #338 remains Draft/unmerged; Issue #301 acceptance gates remain open.
+
+
+## /next Wave 99 — consolidation CI verification (2026-10-17)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-CONSOLIDATION-CI-VERIFICATION-WAVE-99-2026-10-17.md](MEDIAHUB-CLOUD-AGENT-CONSOLIDATION-CI-VERIFICATION-WAVE-99-2026-10-17.md).
+- Project map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-99-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-99-2026-10-17.md), commit `9b051edd109a0309e101ab30dc52948928aa4d07`.
+- Candidate PR #338 head `472acc92fb811f2ca36117cda3b2317ed186f63c`; validation merge commit `f8cbd9aa1564cc70c63e7f8335baebeb2e018d0f`.
+- Exact candidate validation run [39052849876](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39052849876), job `117454771288`, completed successfully. Evidence artifact `12108541496`, ZIP digest `sha256:20778dcfd8f4f2a8b656e972c0868ba282da35b1ba429aa634e464a1b148d5b0`.
+- Artifact read-back: schema validation PASS (3/3 schemas, 3/3 positive fixtures, 179/179 negative cases, 166 generated nested-required negatives, zero failures); semantic validation PASS (1/1 positive bundle, 26/26 semantic negatives, zero failures); all schema source pins match.
+- Remaining: verify reproducible, integrity-controlled pip/pip-tools bootstrap and byte-for-byte lock regeneration. PR #338 remains Draft/unmerged; Issue #301 A0, R-06, target manifest, independent review and queue qualification gates remain open.
+- No provider calls, secret access, dispatch, deployment, merge or Contour A acceptance. Next step: harden and verify lock-generation bootstrap/reproducibility, then inspect fresh workflow evidence.
