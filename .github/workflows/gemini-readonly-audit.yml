@@ -149,6 +149,7 @@ jobs:
           const https = require('node:https');
           const crypto = require('node:crypto');
           const { readBoundedResponse } = require('./scripts/gemini_http_response');
+          const { finalizeProviderResponse, finalizeTransportError } = require('./scripts/gemini_provider_outcome');
           const manifestPath = 'agent-output/evidence-manifest.json';
           const outputPath = 'agent-output/gemini-audit.md';
           const manifest = JSON.parse(fs.readFileSync(manifestPath,'utf8'));
@@ -159,18 +160,13 @@ jobs:
             contents: [{role:'user',parts:[{text:prompt}]}],
             generationConfig: {maxOutputTokens:4096}
           });
-          const save = () => fs.writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n',{mode:0o600});
           let settled = false;
           const reject = err => {
             if (settled) return;
             settled = true;
-            manifest.status='FAILED';
-            manifest.provider_status='TRANSPORT_ERROR';
-            manifest.failure_class=String(err && err.message || 'transport error').includes('byte limit') ? 'response_too_large' : 'incomplete_or_failed_response';
-            manifest.finished_at=new Date().toISOString();
-            save();
-            console.error('Gemini response failed before complete validation: '+String(err && err.message || 'transport error').slice(0,160));
-            process.exitCode=34;
+            const result = finalizeTransportError({manifest,manifestPath,error:err});
+            console.error('Gemini response failed before complete validation: '+result.message);
+            process.exitCode=result.exitCode;
           };
           const req = https.request({
             hostname:'generativelanguage.googleapis.com',
@@ -188,34 +184,16 @@ jobs:
             }
             if (settled) return;
             settled = true;
-            manifest.provider_status = `HTTP_${response.statusCode || 0}`;
-            manifest.provider_request_id = response.headers['x-goog-request-id'] || response.headers['x-request-id'] || null;
-            manifest.finished_at = new Date().toISOString();
-            if (response.statusCode < 200 || response.statusCode >= 300) {
-              manifest.status = 'FAILED';
-              save();
-              console.error(`Gemini API returned HTTP ${response.statusCode}; response body suppressed.`);
-              process.exitCode=31;
+            const result = finalizeProviderResponse({response,manifest,manifestPath,outputPath});
+            if (!result.ok) {
+              if (result.reason === 'non_2xx') console.error(`Gemini API returned HTTP ${response.statusCode}; response body suppressed.`);
+              else if (result.reason === 'invalid_json') console.error('Gemini response was invalid JSON; body suppressed.');
+              else console.error('Gemini returned empty or over-limit output.');
+              process.exitCode=result.exitCode;
               return;
             }
-            let parsed;
-            try { parsed=JSON.parse(response.body); } catch {
-              manifest.status='FAILED'; manifest.provider_status='INVALID_JSON'; save();
-              console.error('Gemini response was invalid JSON; body suppressed.'); process.exitCode=32; return;
-            }
-            const text=(parsed.candidates||[]).flatMap(c=>c.content?.parts||[]).map(p=>p.text||'').join('\n').trim();
-            const bytes=Buffer.byteLength(text,'utf8');
-            if (!text || bytes > 100000) {
-              manifest.status='FAILED'; manifest.provider_status=text?'OUTPUT_TOO_LARGE':'EMPTY_OUTPUT'; save();
-              console.error('Gemini returned empty or over-limit output.'); process.exitCode=33; return;
-            }
-            fs.writeFileSync(outputPath,'<!-- Untrusted model-generated advisory output; not execution authority. -->\n'+text+'\n',{mode:0o600});
-            manifest.status='COMPLETED';
-            manifest.output_sha256=`sha256:${crypto.createHash('sha256').update(fs.readFileSync(outputPath)).digest('hex')}`;
-            manifest.output_bytes=fs.statSync(outputPath).size;
-            save();
             fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
-              `\n## Gemini read-only evidence\n\n- Status: COMPLETED\n- Commit: ${manifest.resolved_commit_sha}\n- Workflow blob SHA: ${manifest.workflow_blob_sha}\n- Context profile: ${manifest.context_profile}\n- Model: ${model}\n- Output SHA-256: ${manifest.output_sha256}\n- Output bytes: ${manifest.output_bytes}\n- Provider response ID: ${manifest.provider_request_id || 'not supplied'}\n\nModel output is untrusted advisory content; inspect the artifact before use.\n`);
+              `\\n## Gemini read-only evidence\\n\\n- Status: COMPLETED\\n- Commit: ${manifest.resolved_commit_sha}\\n- Workflow blob SHA: ${manifest.workflow_blob_sha}\\n- Context profile: ${manifest.context_profile}\\n- Model: ${model}\\n- Output SHA-256: ${manifest.output_sha256}\\n- Output bytes: ${manifest.output_bytes}\\n- Provider response ID: ${manifest.provider_request_id || 'not supplied'}\\n\\nModel output is untrusted advisory content; inspect the artifact before use.\\n`);
           });
           req.on('timeout',()=>req.destroy(new Error('request timed out')));
           req.on('error',reject);
