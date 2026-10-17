@@ -4,9 +4,21 @@ on:
   push:
     branches:
       - test/cloud-agent-schema-validation-20261017
+    paths:
+      - ".github/workflows/cloud-agent-schema-validation.yml"
+      - "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-*-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+      - "requirements-cloud-agent-schema-validation.txt"
+      - "scripts/validate_cloud_agent_*.py"
+      - "tests/fixtures/cloud-agent-schemas/**"
   pull_request:
     branches:
       - docs/mediahub-chat-tree-map-20261012
+    paths:
+      - ".github/workflows/cloud-agent-schema-validation.yml"
+      - "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-*-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+      - "requirements-cloud-agent-schema-validation.txt"
+      - "scripts/validate_cloud_agent_*.py"
+      - "tests/fixtures/cloud-agent-schemas/**"
 
 permissions:
   contents: read
@@ -30,6 +42,11 @@ jobs:
           persist-credentials: false
           fetch-depth: 1
 
+      - name: Set up Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
+        with:
+          python-version: "3.12"
+
       - name: Verify dependency and source provenance
         shell: bash
         run: |
@@ -44,7 +61,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m venv .venv
+          python -m venv .venv
           .venv/bin/python -m pip install --disable-pip-version-check --no-input -r requirements-cloud-agent-schema-validation.txt
 
       - name: Meta-validate schemas and exercise positive/negative fixtures
