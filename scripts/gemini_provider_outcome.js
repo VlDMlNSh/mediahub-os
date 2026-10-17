@@ -18,11 +18,11 @@ function persistManifest(manifestPath, manifest) {
   }
 }
 
-function finalizeTransportError({ manifest, manifestPath, error, now = () => new Date().toISOString() }) {
+function finalizeTransportError({ manifest, manifestPath, error, now = () => new Date().toISOString(), providerStatus = 'TRANSPORT_ERROR', failureClass = null }) {
   const message = String(error && error.message || 'transport error').slice(0, 160);
   manifest.status = 'FAILED';
-  manifest.provider_status = 'TRANSPORT_ERROR';
-  manifest.failure_class = message.includes('byte limit') ? 'response_too_large' : 'incomplete_or_failed_response';
+  manifest.provider_status = providerStatus;
+  manifest.failure_class = failureClass || (message.includes('byte limit') ? 'response_too_large' : 'incomplete_or_failed_response');
   manifest.output_sha256 = null;
   manifest.output_bytes = null;
   manifest.finished_at = now();
