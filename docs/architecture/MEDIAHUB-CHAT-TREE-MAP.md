@@ -6920,3 +6920,78 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: **SOURCE-ONLY REVIEW COMPLETE / CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED**. A0 issuer/lifecycle, MH-12 authorization, R-06 audit/privacy, target manifest, artifact provenance and qualification gates remain open.
 - No installation, tests, scans, dependency resolution, model/provider call, credential use, host/runtime inspection, qualification, deployment or branch integration occurred.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.350 — API credential reference audit and free-agent pool plan, Wave 44 (2026-10-17)
+
+- Report: [API Secret Reference Audit and Free-Agent Pool Plan — Wave 44](../checkpoints/MEDIAHUB-API-SECRET-REFERENCE-AND-FREE-AGENT-POOL-WAVE-44-2026-10-17.md).
+- Live refs at start: `main` `4712c30c3e0296cf1d792c4c69e49cdb798d99fe`; documentation branch `a0c432273914fa5c4bd9e756736f9c9b72b41a77`. Registry blob `62328126fd2cd8879a73bb6812adcacd3e2abe84`; agent registry blob `993cbbe1b2b2a88da7d8884a897b404f055981a8`; provider qualification workflow blob `d3160088fbef4fce152ed7335f0acaa3bb440378`.
+- Source review found 24 provider/local entries in the existing provider-model registry and credential references across current workflows. GitHub Actions secret values remain unavailable to the repository-content read path; the inventory distinguishes code references from verified configured-secret presence.
+- Free-pool recommendation: Gemini workflow pool, Cloudflare Workers AI, Groq, and candidate routes for SiliconFlow, Novita, Z.ai, Mistral, OpenRouter, Hugging Face, Kimi/Moonshot, LLM7, AionLabs, UnoRouter and SambaNova only after provider/account policy and exact free-tier eligibility are established. Cloudflare documents 10,000 free Neurons/day reset at 00:00 UTC; Gemini quotas are project-scoped and RPD resets at midnight Pacific; Groq limits are organization/model scoped; OpenRouter free models are limited to 20 RPM / 50 RPD; Hugging Face free-user inference credits are $0.10/month. See report for official sources and exclusions.
+- Important credential mapping discrepancy: the SiliconFlow probe workflows reference `SILICON_KEY_2`, while the provider registry and qualification workflow use `SILICONFLOW_API_KEY_2`. The alias mapping requires owner-side reconciliation; no secret was read or changed.
+- Routing rule: quota rotation is allowed only across independently eligible quota scopes under provider terms. Same-project/same-account keys share quota where the provider defines the quota at that scope. Exhaustion leads to a permitted provider fallback or durable defer-until-reset, never quota circumvention.
+- Status: **SOURCE AUDIT COMPLETE / POOL PROPOSED / RUNTIME CONNECTION PENDING**. No credentials accessed, provider/model calls, workflow dispatch, tests, qualification, infrastructure changes or deployment occurred.
+- Next: close A0/R-06/target-manifest gates, reconcile the SiliconFlow secret alias, then perform explicitly authorized read-only connectivity qualification on a GitHub-hosted isolated runner and implement the smallest provider-routing slice against an accepted durable state store.
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.351 — GitHub Actions-only cloud model routing boundary, Wave 45 (2026-10-17)
+
+- Decision record: [GitHub Actions-only Cloud Router ADR — Wave 45](../architecture/MEDIAHUB-GITHUB-ACTIONS-ONLY-CLOUD-ROUTER-ADR-WAVE-45-2026-10-17.md).
+- Implementation boundary: all cloud model execution and API-key routing occur in ephemeral GitHub-hosted Actions runners. No owner-operated server, self-hosted runner, Supabase function, external database, or always-on gateway participates in cloud routing. Existing local machines remain eligible only for local model computation.
+- Existing Gemini Agent 2/3 workflows already use `ubuntu-latest` and explicitly mapped repository secrets. The current `.github/workflows/astra-provider-qualification.yml` uses `[self-hosted, linux, x64, mediahub-provider]`; it is excluded from the cloud-provider lane and remains a separate local-node path.
+- Reuse-first result: `BerriAI/litellm` is a self-hosted proxy/gateway and is unsuitable as a deployed cloud router under this constraint. `sampath-M0/ai-router` offers useful provider adapter/cooldown patterns, but its durable edition requires Supabase Edge Functions and Postgres, and its Express edition requires a persistent process. Reuse concepts only; do not deploy either runtime.
+- Proposed GitHub-native control plane: approved GitHub Issues as durable task envelopes; a single coordinator workflow with a global concurrency group; periodic reconciliation that rescans every eligible open task; a dedicated versioned state branch for redacted quota/cooldown ledger; Actions artifacts for per-run evidence; PRs for code changes. The issue queue remains authoritative because Actions concurrency may coalesce pending runs.
+- Quota state keys use provider/account-or-project/model/metric/reset-window scope, not just credential alias. Keys that share an upstream quota scope share the same ledger. On 429, honor provider reset/Retry-After; try another independently eligible, policy-approved provider or defer until reset. Paid routes remain disabled.
+- Credential injection stays explicit per workflow/provider. Only GitHub repository Actions secrets are used by cloud jobs. Raw keys, auth headers, full credential-bearing URLs and provider request bodies stay out of issue comments, artifacts and PRs. Untrusted issue/PR content is data, never workflow code or shell input.
+- Current documentation branch remains materially divergent from `main`; no branch integration is performed. This PR targets the documentation branch only.
+- Status: **ARCHITECTURE DECISION RECORDED / IMPLEMENTATION NOT ACTIVATED**. No secret values read, no provider calls, no workflow dispatch, no tests, no qualification and no deployment.
+- Next bounded step: prepare the GitHub-hosted coordinator/router implementation behind manual dispatch only, with explicit provider allowlist, issue-backed queue, atomic state-branch updates and no paid fallback; keep invocation disabled until A0/MH-12/R-06 and target-manifest admission gates are satisfied.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 45A — Geolocation and Internet egress clarification
+
+- The user's device location, mobile carrier, home/office network, and local public IP are outside the cloud execution path and are not routing inputs.
+- Cloud API calls originate from the outbound network path of the selected GitHub-hosted Actions runner. Therefore the design has no dependency on the user's geolocation or internet exit point, while a provider can still apply its own IP/region/account eligibility rules to GitHub runner egress. This provider-side condition must be checked during account/provider admission.
+- Do not attempt to disguise or rotate egress locations, use proxies to evade regional policy, or route around provider eligibility controls. If a provider rejects the GitHub runner's egress region/IP, quarantine that provider for this route and select another policy-approved eligible provider or defer the task.
+- Cloud execution remains GitHub-hosted Actions only. Owner-operated servers and self-hosted runners are excluded from cloud model/API-key routing. Servers are reserved for explicitly selected local inference and local computation, using local model runtimes and local resources.
+- Local fallback is a separate execution target with an explicit task-routing decision and data-egress review; it is never a hidden retry for a cloud provider error.
+- This is an architecture clarification, not a claim that current provider accounts are region-independent or already qualified.
+
+
+## 20.352 — GitHub-hosted key routing and provider egress policy, Wave 60 (2026-10-17)
+
+- Primary report: [Gemini Key Rotation and GitHub-Hosted Egress Design — Wave 60](../checkpoints/MEDIAHUB-GITHUB-HOSTED-KEY-ROTATION-AND-EGRESS-DESIGN-WAVE-60-2026-10-17.md).
+- Map navigation: [Wave 60 Addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-60-2026-10-17.md).
+- Decision boundary: cloud API-key selection, quota accounting, provider calls, retries, and cloud-agent execution belong exclusively to GitHub-hosted Actions runners. User geolocation, mobile/home/office network, and the user's internet exit point are outside routing inputs. Provider policy may still evaluate the GitHub runner's egress IP/region.
+- Current Gemini workflows bind one secret each (GEMINI_API_KEY, GEMINI_API_KEY_2, GEMINI_API_KEY_3). They do not implement shared cross-key rotation or provider-aware quota failover. Their concurrency group includes github.run_id, so it does not serialize independent runs across agents.
+- Routing design: explicit provider allowlist; fixed secret mappings in reviewed workflow branches/jobs; provider/account/project/model/metric/reset-scoped ledger; Retry-After/reset-aware cooldowns; bounded idempotent retries; cross-provider failover only when task egress policy permits; fail-closed on unknown quota state; paid routes disabled by default.
+- GitHub Issues remain the durable task inventory; a GitHub-hosted coordinator and reconciliation runs scan eligible tasks. A versioned state branch stores redacted quota metadata. GitHub Actions concurrency is a guardrail, not a durable FIFO queue. State conflicts or missing state cause defer/quarantine.
+- Local servers participate only in explicitly selected local inference/computation. Local fallback requires a separate task route and data-egress approval; it never occurs implicitly after a cloud error.
+- Source inspection only. No provider call, workflow dispatch, test, qualification, credential read, infrastructure change, or deployment occurred.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 46 — Master continuation prompt and history-preservation contract (2026-10-17)
+
+- Added `docs/architecture/MEDIAHUB-MASTER-CONTINUATION-PROMPT-2026-10-17.md` as the handoff entry point for a new chat.
+- The prompt establishes the live-source order, current ref/PR refresh, architecture invariants, GitHub-hosted-only cloud routing independent of owner geolocation/egress, local-only server compute, authority gates and the required `/next` protocol.
+- History model: GitHub stores durable development evidence, decisions and checkpoints. Full ChatGPT transcripts require a user-supplied or verifiably archived export; no transcript was fabricated or claimed transferred.
+- Existing project history remains append-only. This wave adds navigation and handoff rules; it does not replace earlier checkpoints or decisions.
+- Validation: source files read from the current working branch; final file read-back and commit/PR state must be confirmed after the write.
+- No provider calls, workflow dispatch, tests, qualification, credential reads, infrastructure changes, deployment or merge were performed in this documentation pass.
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.353 — GitHub-hosted cloud router coordinator proposal, Wave 61 (2026-10-17)
+
+- Proposal: [GitHub-Hosted Cloud Router Coordinator Proposal — Wave 61](../checkpoints/MEDIAHUB-GITHUB-HOSTED-CLOUD-ROUTER-COORDINATOR-PROPOSAL-WAVE-61-2026-10-17.md).
+- Roadmap addendum: [Wave 61 execution addendum](../checkpoints/MEDIAHUB-MASTER-ROADMAP-EXECUTION-ADDENDUM-WAVE-61-2026-10-17.md).
+- First implementation slice is manual-dispatch-only and plan-only: one approved GitHub Issue per run, strict task envelope, existing provider registry, redacted quota plan, optimistic state-branch update, and no provider executor or schedule.
+- The planner receives zero provider secrets. Any later provider-specific job must use a statically declared secret mapping and receive only its own credential.
+- GitHub Issues remain the durable task inventory; the state branch stores redacted quota/cooldown metadata. Missing, stale, corrupt or conflicting state causes defer/quarantine.
+- Same upstream quota scopes share state; key aliases alone do not imply independent capacity. Paid fallback remains disabled.
+- User geolocation/local network egress are excluded from route selection. Provider policy for GitHub runner egress remains an admission gate. Local servers are local-compute-only.
+- A0, MH-12, R-06, target-manifest, provider evidence and separate authorization gates remain open. No workflow, provider executor, tests, qualification, dispatch or provider calls were added.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
