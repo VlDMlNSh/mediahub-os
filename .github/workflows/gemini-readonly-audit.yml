@@ -177,6 +177,7 @@ jobs:
               }
               data += chunk;
             });
+            res.on('aborted',() => reject(new Error('response aborted before completion')));
             res.on('error',err => reject(responseTooLarge ? new Error('response byte limit exceeded') : err));
             res.on('end',() => {
               manifest.provider_status = `HTTP_${res.statusCode || 0}`;
