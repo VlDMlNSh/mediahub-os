@@ -104,3 +104,10 @@ See [Cloud-Agent Lock Reproducibility and CI Verification — Wave 87](MEDIAHUB-
 - Wave 93 report: [Lock Trigger and Dual-PR Reconciliation](MEDIAHUB-WAVE-93-LOCK-TRIGGER-AND-DUAL-PR-RECONCILIATION-2026-10-17.md).
 - Canonical map remains on the documentation branch and is not replaced by this checkpoint: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Next: compare PR #335/#337 overlapping patches and assemble one minimal consolidation candidate, preserving scripts/fixtures, hash-locked install, immutable SHA checkout, full-SHA Actions pins, least privilege and provenance. Require exact-head CI and independent review before deliberate branch reconciliation.
+
+
+## Wave 93 operational correction
+
+- During report creation, the first create-file call landed on `main` despite the intended branch argument. The mismatch was detected by checking commit ancestry and the working-branch tree.
+- The unintended report file was deleted from `main`; corrective commit `c06015e0b1526e0aaa6a522306052b077455aba5`. Current `main` contents no longer contain that file; the add/delete commits remain in history. No product/workflow/secrets/runtime configuration on `main` was changed.
+- The report was recreated on the working branch and the correction documented: [Wave 93 report](MEDIAHUB-WAVE-93-LOCK-TRIGGER-AND-DUAL-PR-RECONCILIATION-2026-10-17.md). Verify the final branch HEAD and checks before any further integration.
