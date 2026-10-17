@@ -4594,3 +4594,11 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Recovered canonical map from verified full blob `2e5e067a5aaf1edd6fc26133a410a5b85b6694c1` after the current Contents endpoint exposed an empty blob. Restored map read-back is 1,025,177 characters, includes Wave 82 §20.355, blob SHA `59a6e5b8fcc2b2e4ffd22f40199926ed44881c7f`, update commit `3ef00c7669fb562fae34f5feca8061de546f430b`.
 - PR #337 remains OPEN / DRAFT; latest observed head `0f8c1b4ac363b12f3f72efe531487298314b8041`, mergeability currently false. Do not merge until latest head CI and base drift are reconciled, independent review is complete, and project acceptance gates pass.
 - Next: inspect latest PR-head run; investigate mergeability/base SHA drift and required checks; add curated nested-invalid fixtures and independent semantic review. Do not close Issue #301 or qualify Contour A based on these fixture results.
+
+
+### Wave 82 latest-head CI and PR disposition
+
+- PR #337 latest read head `0f8c1b4ac363b12f3f72efe531487298314b8041`; run https://github.com/VlDMlNSh/mediahub-os/actions/runs/39042087469, job `117423452084`, success. Logs reconfirmed all positive/negative fixture categories and explicit cross-artifact semantic fixture pass.
+- GitHub reports PR #337 `mergeable=false`; PR base SHA `8083cd61dbe348e18ab7db3e09b2769529bdcfda` predates recent canonical map/checkpoint commits. Integration is deferred until current branch divergence/conflict state is inspected; do not merge on the basis of CI alone.
+- Canonical map now has §20.356; update commit `fbdabf43fc00d379169dc14a869ae301051ff235`, blob SHA `9dfe3d8f402c0c8d2bdb114b9069a3666d0eb0b9`.
+- Next: inspect exact PR diff and branch compare, resolve only verified conflicts with lossless read-back, then run independent review. Continue work on curated nested-negative fixtures and transitive dependency reproducibility. A0 issuer/verifier, R-06 and target manifest remain open.
