@@ -7,6 +7,7 @@ YAML syntax and GitHub Actions expression validation is delegated to actionlint.
 from __future__ import annotations
 
 import re
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -14,6 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW_DIR = ROOT / ".github" / "workflows"
 AUDIT = WORKFLOW_DIR / "gemini-readonly-audit.yml"
 RETRY = WORKFLOW_DIR / "gemini-readonly-audit-retry.yml"
+HTTP_HELPER = ROOT / "scripts" / "gemini_http_response.js"
+HTTP_HARNESS = ROOT / "scripts" / "test_gemini_http_response.js"
 MODEL = "gemini-3.5-flash-lite"
 PINNED_ACTION = re.compile(r"^\s*uses:\s*[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+@([0-9a-f]{40})\s*$")
 
@@ -79,14 +82,17 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         self.assertNotIn("OPENROUTER_API_KEY", self.audit + self.retry)
 
     def test_response_body_is_streamed_with_a_hard_byte_cap(self) -> None:
-        for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
-            with self.subTest(workflow=path.name):
-                self.assertIn("maxResponseBytes=2*1024*1024", source)
-                self.assertIn("responseBytes > maxResponseBytes", source)
-                self.assertIn("response byte limit exceeded", source)
-                self.assertIn("res.destroy()", source)
-                self.assertIn("res.on('aborted',() => reject(new Error('response aborted before completion')))", source)
-                self.assertLess(source.index("res.on('end'"), source.index("fs.writeFileSync(outputPath"))
+        self.assertIn("maxResponseBytes=2*1024*1024", self.retry)
+        self.assertIn("responseBytes > maxResponseBytes", self.retry)
+        self.assertIn("response byte limit exceeded", self.retry)
+        self.assertIn("res.destroy()", self.retry)
+        self.assertIn("res.on('aborted',() => reject(new Error('response aborted before completion')))", self.retry)
+        self.assertIn("require('./scripts/gemini_http_response')", self.audit)
+        self.assertIn("await readBoundedResponse(res, req, 2*1024*1024)", self.audit)
+        self.assertIn("DEFAULT_MAX_RESPONSE_BYTES = 2 * 1024 * 1024", HTTP_HELPER.read_text(encoding="utf-8"))
+        self.assertIn("response byte limit exceeded", HTTP_HELPER.read_text(encoding="utf-8"))
+        self.assertLess(self.audit.index("await readBoundedResponse"), self.audit.index("fs.writeFileSync(outputPath"))
+        self.assertLess(HTTP_HELPER.read_text(encoding="utf-8").index("res.on('end'"), HTTP_HELPER.read_text(encoding="utf-8").index("resolve({"))
 
     def test_primary_workflow_handles_abort_and_transport_errors_without_undefined_reject(self) -> None:
         reject_definition = self.audit.index("const reject = err =>")
@@ -97,7 +103,20 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         self.assertIn("req.on('error',reject)", self.audit)
         self.assertIn("if (settled) return;", self.audit)
         self.assertLess(response_end, output_write)
+        self.assertLess(self.audit.index("await readBoundedResponse"), output_write)
         self.assertNotIn("req.on('error',err=>{", self.audit)
+
+    def test_local_http_regression_harness(self) -> None:
+        result = subprocess.run(
+            ["node", str(HTTP_HARNESS)],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=20,
+        )
+        self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+        self.assertIn("complete valid response writes output", result.stdout)
 
     def test_artifact_retention_is_bounded(self) -> None:
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
