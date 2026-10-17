@@ -46,3 +46,11 @@ The map blob SHA resolves to `0141454f29b3da6c84488f9464be30812e0b13a3`, but the
 Restore map read-back, trace both configuration consumers to a named in-repository or external owner, and update the patch blueprint only with evidence. Hold canonical source migration until contract acceptance.
 
 Canonical project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## End-of-pass refs and new recovery evidence
+
+- New `main` HEAD: `72cd8b66d5544b89a26275cd67312584c793ff02`, `docs(recovery): record Gemini MCP runtime blockers (#309)`.
+- The new recovery record documents a schema mismatch for `mcp_github_list_commits` and HTTP 403 on PR creation due to GitHub Actions token permissions. Other recorded calls (read file, create branch, create file) succeeded. This is recorded empirical evidence, not independent verification by this pass.
+- Recovery branch `caf-q-003-runtime-recovery` remains separate; no integration performed.
+- At the time of final ref refresh, docs branch was ahead 2064 / behind 19; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
