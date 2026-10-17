@@ -36,6 +36,7 @@ jobs:
         shell: bash
         run: |
           python - <<'PY'
+          import hashlib
           import json
           import re
           import sys
@@ -112,9 +113,12 @@ jobs:
 
           def main():
               failed = False
+              instances = {}
+              schemas = {}
               for path in paths:
                   try:
                       schema = json.loads(path.read_text(encoding="utf-8"))
+                      schemas[path.name] = schema
                       if schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema":
                           raise ValueError("unexpected or missing $schema")
                       Draft202012Validator.check_schema(schema)
@@ -124,6 +128,7 @@ jobs:
                       if errors:
                           raise AssertionError("generated positive fixture rejected: " + "; ".join(e.message for e in errors[:5]))
                       print("PASS positive fixture:", path)
+                      instances[path.name] = valid
                       empty_errors = list(validator.iter_errors({}))
                       if not empty_errors:
                           raise AssertionError("empty-object negative fixture unexpectedly passed")
@@ -162,6 +167,49 @@ jobs:
                   except Exception as exc:
                       failed = True
                       print("FAIL:", path, repr(exc), file=sys.stderr)
+              if not failed:
+                  try:
+                      task_name = paths[0].name
+                      registry_name = paths[1].name
+                      manifest_name = paths[2].name
+                      task = json.loads(json.dumps(instances[task_name]))
+                      registry = json.loads(json.dumps(instances[registry_name]))
+                      manifest = json.loads(json.dumps(instances[manifest_name]))
+
+                      def digest(value):
+                          encoded = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+                          return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+                      # Bind shared identifiers and source provenance across the three artifacts.
+                      manifest["task"]["task_id"] = task["task_id"]
+                      manifest["task"]["task_envelope_sha256"] = digest(task)
+                      manifest["agent"]["agent_id"] = registry["agent_id"]
+                      manifest["agent"]["provider_id"] = registry["identity"]["provider_id"]
+                      manifest["agent"]["model_id"] = registry["identity"]["model_id"]
+                      manifest["agent"]["registry_record_sha256"] = digest(registry)
+                      manifest["source"]["repository"] = task["source"]["repository"]
+                      manifest["source"]["requested_ref"] = task["source"]["ref"]
+                      manifest["source"]["resolved_sha"] = task["source"]["commit_sha"]
+                      manifest["policy"]["policy_bundle_sha256"] = task["semantic_validation"]["policy_bundle_sha256"]
+
+                      for name, schema in zip(paths, [schemas[p.name] for p in paths]):
+                          Draft202012Validator.check_schema(schema)
+                      manifest_validator = Draft202012Validator(schemas[manifest_name], format_checker=FormatChecker())
+                      manifest_errors = list(manifest_validator.iter_errors(manifest))
+                      if manifest_errors:
+                          raise AssertionError("cross-artifact fixture does not validate as evidence manifest: " + "; ".join(e.message for e in manifest_errors[:5]))
+                      assert manifest["task"]["task_id"] == task["task_id"]
+                      assert manifest["agent"]["agent_id"] == registry["agent_id"]
+                      assert manifest["agent"]["provider_id"] == registry["identity"]["provider_id"]
+                      assert manifest["agent"]["model_id"] == registry["identity"]["model_id"]
+                      assert manifest["source"]["repository"] == task["source"]["repository"]
+                      assert manifest["source"]["requested_ref"] == task["source"]["ref"]
+                      assert manifest["source"]["resolved_sha"] == task["source"]["commit_sha"]
+                      assert manifest["policy"]["policy_bundle_sha256"] == task["semantic_validation"]["policy_bundle_sha256"]
+                      print("PASS cross-artifact reference fixture: task ID, envelope digest, agent/provider/model, registry digest, source provenance, and policy digest")
+                  except Exception as exc:
+                      failed = True
+                      print("FAIL cross-artifact semantic fixture:", repr(exc), file=sys.stderr)
               if failed:
                   raise SystemExit(1)
           main()
