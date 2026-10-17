@@ -30,3 +30,15 @@
 - No merge, test, provider call, installation, qualification, deployment, credential change, host/runtime inspection or infrastructure change occurred.
 
 This addendum supplements the canonical map. It does not replace the canonical map, alter accepted Baseline 2.0, authorize runtime activation, or close acceptance gates.
+
+
+## Wave 41 — Gemini Working Configuration Runbook
+
+- Runbook proposed in [PR #313](https://github.com/VlDMlNSh/mediahub-os/pull/313): `docs/operations/GEMINI-AUTONOMOUS-ENGINEERING-RUNBOOK.md`.
+- Wave 41 checkpoint: [MEDIAHUB-GEMINI-WORKING-CONFIGURATION-WAVE-41-2026-10-17.md](../checkpoints/MEDIAHUB-GEMINI-WORKING-CONFIGURATION-WAVE-41-2026-10-17.md), creation commit `a79f9c13565bd71cc27edaae0bfbce87cbc7d0a2`.
+- Runtime evidence: [run #39019625087](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39019625087), job [117358659831](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39019625087/job/117358659831), conclusion `success`; output validator accepted JSON, confirmed successful MCP operations and successful PR creation. Run created [PR #312](https://github.com/VlDMlNSh/mediahub-os/pull/312).
+- Runbook read-back blob SHA: `f08589cdde314dba7b92a32e513ef3f53e82867c`. Runbook commit: `e45499ffc8c32ecf2f79cbe26d21aebf83bb30e7` on PR branch `docs/gemini-autonomous-engineering-runbook-wave41`.
+- Recorded exact observed workflow settings, GitHub Actions permission prerequisite, model fallback, CLI/MCP versions, dispatch steps, success criteria, stderr warning interpretation, artifact digest, provider quota limit, and mutable action-reference hardening item.
+- Status: runbook documentation and read-back verified; PR #313 open and merge pending. Repeatability/qualification remains pending. No tests, qualification, additional workflow dispatch, merge, deployment, credential change, or infrastructure change occurred.
+
+This entry records a reusable operational reference; it does not change Baseline 2.0 or authorize Contour B work.
