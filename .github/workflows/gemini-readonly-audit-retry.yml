@@ -180,6 +180,7 @@ jobs:
                   }
                   data += chunk;
                 });
+                res.on('aborted',() => reject(new Error('response aborted before completion')));
                 res.on('error',err => reject(responseTooLarge ? new Error('response byte limit exceeded') : err));
                 res.on('end',() => resolve({
                   status:res.statusCode || 0,
