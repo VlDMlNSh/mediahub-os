@@ -6991,11 +6991,11 @@ WB-14AA и приложение остаются не-нормативными. 
 - Wave 81 report now includes the exact run and limitations. PR #337 remains OPEN / DRAFT; do not merge until expanded fixtures, independent review and applicable checks/gates are satisfied.
 
 
-## §20.355 — Wave 82 positive/negative schema fixtures (2026-10-17)
+## §20.355 — Wave 82 cross-artifact semantic fixture (2026-10-17)
 
-- Expanded the Wave 81 workflow with generated positive fixtures and fail-closed negatives for empty object, unknown top-level property, invalid enum, and malformed date-time values where applicable.
-- An initial test caught a fixture generator defect: duplicate generated entries violated the schema_refs uniqueness constraint. The generator was corrected to produce deterministic distinct array samples.
-- Successful CI: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39041807077; head `bc1d69d1f8758d584d96fe4224394db4e9fcfb79`; job `117422642538`; conclusion `success`.
-- All three schemas passed positive fixtures and four categories of assertions (date-time applies to schemas containing that format). This remains representative test coverage, not full schema qualification.
-- Wave 81 report updated; latest report blob SHA `7582d047faae02d53b6bb38fd9096ab111571897`.
-- PR #337 remains Draft and unmerged. Open: cross-artifact semantic consistency, broader nested-invalid cases, dependency lock, independent review, A0 issuer/verifier, R-06, accepted target manifest.
+- PR #337: https://github.com/VlDMlNSh/mediahub-os/pull/337 remains OPEN / DRAFT. Working branch `contour-a-schema-validation-wave81-20261017`.
+- Added cross-artifact fixture assertions in `.github/workflows/cloud-agent-schema-validation.yml`, blob SHA `bb27dd42e2b8ad5b19de3508e86fa7fe917c1b4d`.
+- Successful run https://github.com/VlDMlNSh/mediahub-os/actions/runs/39042019814; tested head `04e984f8dd4cc3410f1e4beb5ff39b1f3fb73768`, job `117423260638`, conclusion `success`. Logs confirm the cross-artifact fixture passed for task ID/digest, agent/provider/model and registry digest, source provenance and policy digest; existing positive/negative schema tests also passed.
+- Wave 82 report: https://github.com/VlDMlNSh/mediahub-os/blob/contour-a-schema-validation-wave81-20261017/docs/checkpoints/MEDIAHUB-CLOUD-AGENT-CROSS-ARTIFACT-SEMANTIC-FIXTURE-WAVE-82-2026-10-17.md, blob SHA `7b073f8bcf32ac3e870930051f1e0987715e26ac`.
+- This remains generated fixture-level consistency testing, not a general production semantic validator or qualification. Curated fixture suite, deeper nested-invalid cases, fully locked dependencies and independent review remain open; A0 issuer/verifier, R-06 and accepted target manifest remain open under Issue #301.
+- Map read-back note: the contents endpoint returned an empty body/blob for a previous map update. This entry restores the map from the verified non-empty full blob `2e5e067a5aaf1edd6fc26133a410a5b85b6694c1` (1,023,535 characters) and appends Wave 82 evidence. Verify the resulting blob and length immediately after write.
