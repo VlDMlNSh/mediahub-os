@@ -2112,3 +2112,6 @@ Alignment audit and navigation: [canonical project map §20.351](../architecture
 - Exact workflow/validator source blobs are recorded in the report. Schema and semantic fixture passes are not live authorization, runtime admission, worker qualification or production acceptance.
 - PR #338 remains Draft/unmerged and diverged 20 ahead / 24 behind the canonical documentation branch. No independent reviews were returned. Do not merge on historical CI alone.
 - Resolve `setuptools==84.0.0` publisher-provenance concern and obtain independent schema/security review; separately close Issue #301 governance/target gates. No integration or runtime action in this wave.
+
+
+- Wave 111 integrity note: working map was restored from prior exact blob after detecting a truncated Contents API read; verified restored blob `9cd1b43e0443b7c94d46d8fef9e30eea2a89af46`, with canonical docs branch unchanged. Details in the [Wave 111 report](MEDIAHUB-PR338-STATIC-REVIEW-WAVE-111-2026-10-17.md).
