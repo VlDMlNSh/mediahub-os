@@ -7123,3 +7123,12 @@ WB-14AA и приложение остаются не-нормативными. 
 - Exact-head CI passed: [Gemini Read-only Workflow Contract #39068814327](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814327), [Astra Verify #39068814332](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814332), [Astra Cloud Runtime Validation #39068814337](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814337).
 - PR #334 remains OPEN / DRAFT / UNMERGED. Independent security review is still outstanding. No provider call, secret access, queue admission, merge, deployment or Contour A acceptance.
 - Next: independent security review and verification of branch protection/review gates.
+
+
+## 20.360 — Shared bounded HTTP response reader (Wave 108, 2026-10-18)
+
+- Report: [MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md](../checkpoints/MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md), Wave 108 section.
+- Navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-18.md](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-18.md).
+- Candidate HEAD: `e1f35cb47eab05f573c38a4c2a507c9d832ca3cc`; retry workflow blob `ad6d82b6eca40b4c9923ac5fc6485fa103e4d24b`; contract tests blob `f3ebfab5e0729e498872cceedc0ed3c0dc89c0d4`; shared reader blob `adb3d27307cd5ad078a8c622cbeaaebd40f903ec`.
+- Both workflows use the same bounded HTTP response reader. Exact-head CI passed: [Gemini Read-only Workflow Contract #39069449788](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449788), [Astra Verify #39069449749](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449749), [Astra Cloud Runtime Validation #39069449848](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449848).
+- PR #334 remains OPEN / DRAFT / UNMERGED; independent security review and protection-rule verification remain outstanding.
