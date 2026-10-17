@@ -39,3 +39,13 @@ See [Cloud-Agent Lock Reproducibility and CI Verification — Wave 87](MEDIAHUB-
 - Validation runs [39046513729](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39046513729) and [39046516128](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39046516128) passed.
 - Workflow now includes the lock file in its push path filter and explicitly sets the PyPI index. The generated command comment still shows `--no-index` while `PIP_NO_INDEX` is empty; resolve this configuration ambiguity before full qualification.
 - Wave 87 report follow-up: [Cloud-Agent Lock Reproducibility and CI Verification](MEDIAHUB-CLOUD-AGENT-LOCK-REPRODUCIBILITY-AND-CI-VERIFICATION-WAVE-87-2026-10-17.md).
+
+
+## Wave 88 current-head update (2026-10-17, 15:54 UTC)
+
+- Latest implementation HEAD observed: `7697165ba8c2b0f24bef0ad00fbf34e6483841f0`.
+- Current lock-generation workflow blob: `951631787208740daf7999e71df24beb625b9910`; lock blob: `6a232e27c644ec1a46ddebc21a4a27c1d26ca781`. The prior `--no-index` concern is resolved in the current workflow: it explicitly neutralizes pip configuration and pins `--index-url=https://pypi.org/simple`.
+- Current-head schema-validation runs [39047028293](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047028293) and [39047025408](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047025408) passed.
+- PR #337 is 47 ahead / 18 behind the canonical documentation branch, with merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`; it remains Draft, unmerged, and without independent reviews.
+- **Integration blocker:** PR #335 and PR #337 both add `.github/workflows/cloud-agent-schema-validation.yml`. They must not be merged independently; compare their full implementations and select one canonical workflow before any integration.
+- Detailed evidence: [Wave 88 controlled PyPI lock reproducibility report](MEDIAHUB-CONTROLLED-PYPI-LOCK-REPRODUCIBILITY-WAVE-88-2026-10-17.md).
