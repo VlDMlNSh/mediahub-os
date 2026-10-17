@@ -138,8 +138,8 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
 
     def test_both_workflows_emit_real_newlines_in_advisory_artifacts(self) -> None:
         outcome = OUTCOME_HELPER.read_text(encoding="utf-8")
-        self.assertIn(r"join('\\n').trim()", outcome)
-        self.assertIn(r"-->\\n", outcome)
+        self.assertIn(r"join('\n').trim()", outcome)
+        self.assertIn(r"-->\n", outcome)
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
             with self.subTest(workflow=path.name):
                 self.assertIn(r"\n## Gemini read-only evidence", source)
