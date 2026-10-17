@@ -106,6 +106,7 @@ jobs:
           const manifest = {
             schema_version: 'mediahub.gemini-readonly-evidence.v1',
             status: 'PREPARED',
+            retry_policy: 'non-idempotent-generation-post-no-automatic-retry',
             repository: process.env.GITHUB_REPOSITORY,
             run_id: process.env.GITHUB_RUN_ID,
             run_attempt: Number(process.env.GITHUB_RUN_ATTEMPT),
@@ -154,8 +155,8 @@ jobs:
             contents: [{role:'user',parts:[{text:prompt}]}],
             generationConfig: {maxOutputTokens:4096}
           });
-          const maxAttempts = 3;
-          const retryableServerStatuses = new Set([500, 502, 503, 504]);
+          const maxAttempts = 1; // Non-idempotent generation POST: fail closed; never replay automatically.
+          const retryableServerStatuses = new Set(); // No automatic POST retry without a documented provider idempotency contract.
           const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
           const save = () => fs.writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n',{mode:0o600});
           function requestOnce() {
@@ -168,8 +169,21 @@ jobs:
                 timeout:120000
               }, res => {
                 let data='';
+                let responseBytes=0;
+                let responseTooLarge=false;
+                const maxResponseBytes=2*1024*1024;
                 res.setEncoding('utf8');
-                res.on('data',chunk => { data += chunk; });
+                res.on('data',chunk => {
+                  responseBytes += Buffer.byteLength(chunk,'utf8');
+                  if (responseBytes > maxResponseBytes) {
+                    responseTooLarge=true;
+                    res.destroy();
+                    req.destroy(new Error('response byte limit exceeded'));
+                    return;
+                  }
+                  data += chunk;
+                });
+                res.on('error',err => reject(responseTooLarge ? new Error('response byte limit exceeded') : err));
                 res.on('end',() => resolve({
                   status:res.statusCode || 0,
                   retryAfter:res.headers['retry-after'],
@@ -229,7 +243,7 @@ jobs:
               manifest.status='FAILED';
               manifest.failure_class=response.status===429 ? 'quota_or_rate_limit' : 'provider_http_error';
               save();
-              console.error(`Gemini API returned HTTP ${response.status}; response body suppressed. HTTP 429 is not automatically retried.`);
+              console.error(`Gemini API returned HTTP ${response.status}; response body suppressed. No HTTP status is automatically retried.`);
               process.exitCode=31; return;
             }
             let parsed;
@@ -249,7 +263,7 @@ jobs:
             manifest.output_bytes=fs.statSync(outputPath).size;
             save();
             fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
-              `\n## Gemini read-only evidence (bounded retry)\n\n- Status: COMPLETED\n- Commit: ${manifest.resolved_commit_sha}\n- Workflow blob SHA: ${manifest.workflow_blob_sha}\n- Context profile: ${manifest.context_profile}\n- Model: ${model}\n- Attempts: ${attempts}\n- Output SHA-256: ${manifest.output_sha256}\n- Output bytes: ${manifest.output_bytes}\n- Provider response ID: ${manifest.provider_request_id || 'not supplied'}\n\nModel output is untrusted advisory content; inspect the artifact before use.\n`);
+              `\n## Gemini read-only evidence (single attempt; no automatic POST retry)\n\n- Status: COMPLETED\n- Commit: ${manifest.resolved_commit_sha}\n- Workflow blob SHA: ${manifest.workflow_blob_sha}\n- Context profile: ${manifest.context_profile}\n- Model: ${model}\n- Attempts: ${attempts} (automatic POST retry disabled)\n- Output SHA-256: ${manifest.output_sha256}\n- Output bytes: ${manifest.output_bytes}\n- Provider response ID: ${manifest.provider_request_id || 'not supplied'}\n\nModel output is untrusted advisory content; inspect the artifact before use.\n`);
           })().catch(err => {
             manifest.status='FAILED'; manifest.provider_status='UNEXPECTED_ERROR'; manifest.failure_class='unexpected_error';
             manifest.finished_at=new Date().toISOString(); save();
