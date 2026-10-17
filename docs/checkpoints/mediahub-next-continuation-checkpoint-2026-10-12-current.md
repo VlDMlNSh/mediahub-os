@@ -4488,3 +4488,15 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 Continue the existing admission crosswalk with a distinct source-only gate: inspect the exact pinned Agent Server's telemetry/completion logging and secret-retention semantics against R-06 and the current MH-13 reconstruction/governance state. Preserve the R-06 owner-decision gate; source review cannot substitute for an accepted governance disposition. Runtime tests and candidate execution remain subject to separate explicit authorization.
 
 Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — A0/R-06 admission gate evidence reconciliation, Wave 68 (2026-10-17)
+
+- Source-only reconciliation checkpoint: `docs/checkpoints/MEDIAHUB-A0-R06-ADMISSION-GATE-EVIDENCE-RECONCILIATION-WAVE-68-2026-10-17.md`, blob SHA `45752646a61acea7d6ad31b83993917847ba8082`, commit `09cb48df8c72e9e0901236560fc2bfd92606ab45`.
+- Updated map §20.349; map blob SHA `a81ab040bd56c502fb39ce947a33741198baf991`; map update commit `16adf20de788af2f0adc4860925fc73710b133d8`.
+- Re-read A0/MH-12 issuer trace, WB-07 ingress trace, WB-08 caller trace, R-06 disposition template, target-manifest reconciliation, credential/schema crosswalk, activation queue and canonical source registry.
+- Findings: accepted A0 issuer/ingress/lifecycle contract remains OPEN; R-06 template remains UNFILLED; owner-accepted exact runner/workspace/network target remains UNKNOWN/BLOCKED; v0.2 schemas remain candidates and the activation queue remains documentary-only.
+- Independently reviewed Gemini run `39029470935`, job `117386851191`, artifact `12099542430` (SHA-256 `2a47d15d309c0ce75c3476b23ea4453f555911fd5bf84ae6e5392a4b72ee195b`) and PR #332. Artifact records failed MCP reads and a Gemini free-tier quota error. No test step appears in the run; PR #332's “16 invariant tests verified” statement lacks support from this execution record.
+- Status: DOCUMENTATION ONLY / ACCEPTANCE OPEN. No tests, qualification, provider calls, credentials, dispatch, installation, runtime inspection, infrastructure changes, merge or deployment.
+- Next bounded action: reconcile accepted A0/MH-12 authority wording; establish accountable R-06 decision authority and reviewers; locate the accepted target manifest before implementation.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/contour-a-a0-r06-evidence-reconciliation-wave68-20261017/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
