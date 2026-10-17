@@ -1,0 +1,116 @@
+# MediaHub OS — ASTRA Authority Boundary Contract v2 Candidate
+# REVIEW ARTIFACT ONLY. This file is not canonical, accepted, or runtime-enforced.
+schema: mediahub.astra-authority-boundary.v2-draft
+version: 2.0.0-draft
+status: PROPOSAL_ONLY
+canonical: false
+effective: false
+acceptance:
+  source_owner_review: PENDING
+  contract_acceptance: PENDING
+  independent_verification: PENDING
+  runtime_qualification: PENDING
+basis:
+  owner_decision_record: docs/checkpoints/MEDIAHUB-CHAT-TO-GITHUB-OWNER-DECISIONS-AND-CORPORATION-DIRECTION-WAVE-01-2026-10-15.md
+  decision_option: DEC-DEV-02_OPTION_C
+  route_a: "Jarvis -> accepted A0 engineering ingress"
+  route_b: "P0-07 -> P0-05 -> P0-04 canonical product-state mutation"
+compatibility:
+  v1_contracts_remain_historical_inputs: true
+  migration_mode: EXPLICIT_DUAL_READ
+  a_v1_reader_may_ignore_v2_fields: true
+  v2_consumer_must_validate_this_contract: true
+  missing_required_scope: BLOCKED
+  conflicting_v1_v2_semantics: RECONCILIATION_REQUIRED
+  unknown_fields_in_v2_authority_block: REJECT
+  legacy_role_retained_during_transition: single_coordination_authority
+authority_domains:
+  corporation_mission_coordination:
+    authority_id: JARVIS
+    scope: CORPORATION_LEVEL_MISSIONS
+    allowed:
+      - goal_intake
+      - mission_planning
+      - permitted_route_selection
+      - eligible_executor_selection
+      - mission_result_tracking
+      - bounded_submission_to_accepted_a0_ingress
+    prohibited:
+      - direct_astra_queue_mutation
+      - direct_astra_claim_or_lease_mutation
+      - canonical_product_state_mutation
+  astra_internal_engineering_workflow:
+    authority_id: A0-ASTRA
+    scope: ASTRA_INTERNAL_CONTROL_PLANE
+    allowed:
+      - admitted_engineering_work_queue
+      - claims_and_leases
+      - heartbeat_and_liveness
+      - retry_cancellation_and_recovery
+      - qualification_and_gate_state
+      - astra_specific_evidence_transitions
+      - bounded_work_item_decomposition_after_admission
+    prohibited:
+      - corporation_level_mission_route_selection
+      - canonical_product_state_mutation
+  canonical_mediahub_product_state:
+    authority_id: MEDIAHUB_PRODUCT_STATE_AUTHORITY
+    scope: CANONICAL_MEDIAHUB_PRODUCT_STATE
+    mutation_authority: SOLE
+    route_reference: "P0-07 -> P0-05 -> P0-04"
+  role_scoped_participants:
+    architect:
+      authority_id: A1
+      scope: ARCHITECTURE_AND_CONTRACT_PROPOSALS
+    builder:
+      authority_id: A2
+      scope: BOUNDED_IMPLEMENTATION
+    verifier:
+      authority_id: A3
+      scope: INDEPENDENT_VERIFICATION
+    executor_provider_model_gateway_transport:
+      authority: NONE_BY_IMPLICATION
+      rule: ONLY_EXPLICITLY_ADMITTED_ROLE_CAPABILITIES
+compatibility_mapping:
+  legacy_fields:
+    unified_model_role:
+      field: authority.astra.role
+      current_value: single_coordination_authority
+      v2_scope: astra_internal_engineering_workflow
+    qualification_coordination:
+      field: authority.coordination
+      current_value: A0-ASTRA
+      v2_scope: ASTRA_INTERNAL_ENGINEERING_WORKFLOW
+    qualification_state:
+      field: authority.state_authority
+      current_value: A0-ASTRA
+      v2_scope: ASTRA_INTERNAL_CONTROL_PLANE
+    authorized_schemes:
+      field: authority
+      current_value: A0-ASTRA-coordination
+      v2_scope: ASTRA_INTERNAL_QUALIFICATION_COORDINATION
+required_consistency_checks:
+  - DEC-DEV-02_option_c_mapping
+  - route_a_is_distinct_from_route_b
+  - A0_state_authority_is_limited_to_astra_internal_control_plane
+  - jarvis_cannot_mutate_astra_owned_queue_claim_or_lease_state
+  - A0_cannot_mutate_canonical_product_state_by_implication
+  - product_state_authority_is_explicit_and_singular
+  - human_final_architecture_security_production_and_launch_authority_preserved
+  - A3_independent_verification_preserved
+  - executor_provider_model_gateway_and_transport_authority_exclusions_preserved
+  - missing_or_contradictory_evidence_fails_closed
+consumer_migration_requirements:
+  require_version_field: true
+  require_authority_scope_fields: true
+  dual_read_must_compare_semantics: true
+  silent_legacy_fallback_for_v2: false
+  mismatched_contracts_result: BLOCKED
+  required_artifact_groups:
+    - astra_primary_architecture
+    - github_agent_system_registry_and_frontmatter
+    - central_agent_registry_and_provider_profile
+    - qualification_and_authorized_schemes
+    - governance_verifier_and_current_truth_renderer
+    - architecture_drift_governance_schema_and_registry_tests
+  unknown_indirect_consumers: MUST_BE_INVENTORIED
