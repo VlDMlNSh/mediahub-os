@@ -4767,3 +4767,13 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Map §20.358 updated at commit `2e32d169e8884b5f46f18a63aeb969b4c05e89d8`, new map blob `4e4c35dcdbbac37458d70d318f2b1d8738336c66`.
 - Decisions remain PROPOSED/OPEN; owner identity remains UNKNOWN where not evidenced. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. No runtime/provider/secret/dispatch/merge/deployment action occurred.
 - Next: attach packet to Issue #301 for governance disposition; once decisions are accepted, bind them to exact source SHAs and update the matrix before dependent implementation.
+
+## /next Wave 108 — documentation integrity and governance status (2026-10-17)
+
+- Report: [Documentation Integrity and Governance Status, Wave 108](MEDIAHUB-DOCUMENTATION-INTEGRITY-AND-GOVERNANCE-STATUS-WAVE-108-2026-10-17.md), blob SHA `c8c8a4451b2bf3f585206ba3e8a6843e4d3be7e4`.
+- Verified Issue #301 remains OPEN; governance request comment [#6239264841](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6239264841) has no subsequent owner disposition in the current comments.
+- PR #339 remains OPEN/DRAFT/UNMERGED; exact head `3e5c26a5e3a02bcf12ef0d13828fbdeedacc13fb` has no PR-triggered workflow runs in the connector result. Do not infer CI success.
+- Working map blob before this reconciliation: `04e61b6fb8189a77cbc64b2e5c794359aa5e39bc`; canonical map blob read by SHA: `5a94a4e22e0c636aba2a6f1efc48cacd69c7fc93`. Canonical documentation branch remains unchanged.
+- Corrected index/navigation is documentation-only. Wave 105 integration experiment remains incomplete/not a PR/not for integration.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. No runtime/provider/secret/dispatch/merge/deployment action occurred.
+- Next: obtain governance disposition for D-CA-01…D-CA-06 and conduct independent, lossless PR #338 reconciliation against a refreshed exact base/head.
