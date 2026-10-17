@@ -24,8 +24,6 @@ jobs:
       # Make package-source selection explicit and ignore ambient runner pip configuration.
       PIP_CONFIG_FILE: /dev/null
       PIP_INDEX_URL: https://pypi.org/simple
-      # Click-style boolean environment flags treat any non-empty value as enabled.
-      PIP_NO_INDEX: ""
     steps:
       - name: Checkout immutable event commit
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -42,8 +40,11 @@ jobs:
         run: python -m pip install --disable-pip-version-check --no-input pip-tools==7.4.1
       - name: Generate hash-locked requirements
         run: |
-          python -m piptools compile \
+          env -u PIP_NO_INDEX PIP_CONFIG_FILE=/dev/null PIP_INDEX_URL=https://pypi.org/simple \
+            python -m piptools compile \
+            --no-config \
             --index-url=https://pypi.org/simple \
+            --verbose \
             --resolver=backtracking \
             --generate-hashes \
             --strip-extras \
