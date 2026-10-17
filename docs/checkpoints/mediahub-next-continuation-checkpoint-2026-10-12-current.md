@@ -4737,3 +4737,14 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Successful PR merge-ref validation commit: `6d13d5156855a81c522bd33e29ba9fb5eb2aee3d`. Passing runs: Gemini Read-only Workflow Contract [39068528671](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528671), Astra Cloud Runtime Validation [39068528613](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528613), Astra Verify [39068528583](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528583).
 - PR #334 remains OPEN / DRAFT / UNMERGED. No provider calls, secret reads, queue admission, merge, deployment or Contour A acceptance.
 - Next: obtain independent security review and verify repository review/branch-protection requirements. CI and local response tests are not independent qualification or acceptance.
+
+
+## /next Wave 107 — artifact newline correction (2026-10-17)
+
+- Report: [MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md](MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md), follow-up section Wave 107.
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-107-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-107-2026-10-17.md).
+- Candidate HEAD: `1e052519f85afb1e9d3b58eb6d05cb45e81c2d73`; workflow blob `7465ad56496669ea576822109ca34afb47632596`; harness blob `ade921ade649ddfda42c280759c8455d5e502304`; contract test blob `809a1ddcf07f40af297182576f1a13fb652243e1`.
+- Fixed double-escaped newline sequences in candidate text joining and Markdown artifact framing. Strengthened local HTTP harness to use two response parts and assert an actual newline in output.
+- All three exact-head CI runs passed: Gemini Read-only Workflow Contract [39068814327](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814327), Astra Verify [39068814332](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814332), Astra Cloud Runtime Validation [39068814337](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814337).
+- PR #334 remains OPEN / DRAFT / UNMERGED; no independent review submissions or threads were present at audit time. No provider call, secret access, queue admission, merge, deployment, or Contour A acceptance.
+- Next: independent security review and repository protection/review-gate verification.
