@@ -7194,3 +7194,10 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Exact-head run `39078203138` was in progress when recorded; no current pass claimed. PR remains draft/unmerged and has no submitted reviews.
 - No provider invocation, secret access, dispatch, queue admission, merge, or deployment. A0 issuer/ingress/lease/cancel/recovery, R-06 authority/privacy, and accepted runner/workspace/network manifest remain independent gates.
 - Next: finish exact-head CI evidence and independent review before any integration.
+
+
+### Wave 129 CI addendum — terminal evidence
+
+- Exact-head run [39078203138](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078203138) completed `success` on `6fc49b3de45c396d79c4470157374ea8b159fda1`; all nine substantive validation/evidence steps passed.
+- Artifact [12117319479](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078203138) SHA-256: `41ad07d946bad3b9233b8aa3f084436394a21b608e0855066ab88f549e12c065`.
+- PR #351 remains draft and unmerged; no independent review is recorded. CI success is validation evidence, not Contour A acceptance or merge authorization.
