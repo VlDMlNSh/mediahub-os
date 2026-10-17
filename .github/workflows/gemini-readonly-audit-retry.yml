@@ -144,6 +144,7 @@ jobs:
           node <<'NODE'
           const fs = require('node:fs');
           const https = require('node:https');
+          const { readBoundedResponse } = require('./scripts/gemini_http_response');
           const crypto = require('node:crypto');
           const manifestPath = 'agent-output/evidence-manifest.json';
           const outputPath = 'agent-output/gemini-audit.md';
@@ -164,30 +165,18 @@ jobs:
                 method:'POST',
                 headers:{'Content-Type':'application/json','Content-Length':Buffer.byteLength(body),'x-goog-api-key':key},
                 timeout:120000
-              }, res => {
-                let data='';
-                let responseBytes=0;
-                let responseTooLarge=false;
-                const maxResponseBytes=2*1024*1024;
-                res.setEncoding('utf8');
-                res.on('data',chunk => {
-                  responseBytes += Buffer.byteLength(chunk,'utf8');
-                  if (responseBytes > maxResponseBytes) {
-                    responseTooLarge=true;
-                    res.destroy();
-                    req.destroy(new Error('response byte limit exceeded'));
-                    return;
-                  }
-                  data += chunk;
-                });
-                res.on('aborted',() => reject(new Error('response aborted before completion')));
-                res.on('error',err => reject(responseTooLarge ? new Error('response byte limit exceeded') : err));
-                res.on('end',() => resolve({
-                  status:res.statusCode || 0,
-                  retryAfter:res.headers['retry-after'],
-                  requestId:res.headers['x-goog-request-id'] || res.headers['x-request-id'] || null,
-                  data
-                }));
+              }, async res => {
+                try {
+                  const bounded = await readBoundedResponse(res, req, 2*1024*1024);
+                  resolve({
+                    status:bounded.statusCode,
+                    retryAfter:bounded.headers['retry-after'],
+                    requestId:bounded.headers['x-goog-request-id'] || bounded.headers['x-request-id'] || null,
+                    data:bounded.body
+                  });
+                } catch (err) {
+                  reject(err);
+                }
               });
               req.on('timeout',()=>req.destroy(new Error('request timed out')));
               req.on('error',reject);
