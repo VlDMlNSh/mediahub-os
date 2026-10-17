@@ -43,3 +43,16 @@ The first CI attempt on the intermediate ref failed because the static test stil
 - The local harness proves behavior of the shared response reader plus the workflow-equivalent output gate. It does not invoke the Gemini provider, inspect secrets, exercise the hosted workflow's secret environment, or prove all production socket schedules.
 - No provider calls, credential reads, queue admission, merge, deployment, or Contour A acceptance occurred.
 - Next: request independent security review of PR #334 and confirm branch protection / required review state. Do not promote this draft solely on green CI.
+
+
+## Follow-up correction — Wave 107 (2026-10-17)
+
+A post-wave source audit found that the JavaScript template embedded in the primary workflow used double-escaped newline sequences for joining candidate text and framing the Markdown artifact. That would preserve literal backslash-`n` text rather than write actual line breaks. Corrected both expressions and strengthened the local HTTP harness to return two text parts and assert the artifact contains an actual newline between them.
+
+- Current PR candidate head: `1e052519f85afb1e9d3b58eb6d05cb45e81c2d73`.
+- Primary workflow blob: `7465ad56496669ea576822109ca34afb47632596`.
+- HTTP harness blob: `ade921ade649ddfda42c280759c8455d5e502304`.
+- The earlier Wave 106 CI results apply to merge-ref `6d13d5156855a81c522bd33e29ba9fb5eb2aee3d`, not to this follow-up head. CI for the follow-up head has not yet been confirmed in the available workflow-run query; do not treat the earlier green runs as evidence for this revision.
+- PR #334 remains OPEN / DRAFT / UNMERGED; no provider calls, secret access, queue admission, merge, deployment, or Contour A acceptance.
+
+Next: confirm CI on the exact follow-up head and continue seeking independent security review.
