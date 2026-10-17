@@ -67,7 +67,7 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertIn(MODEL, source)
                 self.assertNotIn("inputs.model", source)
                 self.assertIn("maxOutputTokens:4096", source)
-                self.assertIn("bytes > 100000", OUTCOME_HELPER.read_text(encoding="utf-8"))
+                self.assertIn("MAX_OUTPUT_BYTES = 100000", OUTCOME_HELPER.read_text(encoding="utf-8"))
                 if path == RETRY:
                     self.assertIn("${manifest.attempts} (automatic POST retry disabled)", source)
                 self.assertIn("Untrusted model-generated advisory output", source)
@@ -142,7 +142,7 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         self.assertIn(r"-->\\n", outcome)
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
             with self.subTest(workflow=path.name):
-                self.assertIn(r"\\n## Gemini read-only evidence", source)
+                self.assertIn(r"\n## Gemini read-only evidence", source)
 
     def test_missing_credential_finalizes_terminal_manifest_without_provider_access(self) -> None:
         result = subprocess.run(
