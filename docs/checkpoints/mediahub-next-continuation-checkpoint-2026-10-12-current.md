@@ -4837,3 +4837,16 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - All three exact-head checks on `822cd...` completed successfully: Gemini Read-only Workflow Contract #39076160930, Astra Verify #39076160923, Astra Cloud Runtime Validation #39076160964. PR #334 remains OPEN/DRAFT/UNMERGED; refreshed API now reports mergeable=true.
 - Independent security approval remains unverified. Branch protection endpoint returned 403/resource not accessible; ruleset/protection state remains unknown. No provider call, secret read, dispatch, queue admission, PR merge, deployment, or Contour A acceptance.
 - Next: inspect current review submissions and obtain independent security review plus authorized protection-rule read-back before any PR merge.
+
+
+## Wave 127 — Gemini executable regression CI (2026-10-18)
+
+- Report: [Wave 127](MEDIAHUB-GEMINI-CI-EXECUTABLE-REGRESSION-WAVE-127-2026-10-18.md); canonical map indexed the same report.
+- Re-read Bootstrap, canonical map, this checkpoint and Master Roadmap before the change. The map Contents response was empty; read the actual map blob by its live SHA `b76d457418aabb5b30157fc01ec29b05c19df80d`.
+- PR #334 branch HEAD before this pass was `822cd023015f72002b850ee20f8047aff24080fe`; main HEAD was `c06015e0b1526e0aaa6a522306052b077455aba5`.
+- Source inspection found the validation workflow ran Python source-contract checks but did not execute the existing Node.js HTTP-response, missing-credential finalizer or provider-outcome regression tests.
+- Updated `.github/workflows/gemini-readonly-workflow-validation.yml` to run all three Node suites. Commit: `8b75963be33425718f381390bfcfdf997ab3b3ca`; workflow blob after read-back: `4a365141243d60e5c3cf2815aaede8857b55346f`.
+- All exact-head workflows passed: [Gemini Read-only Workflow Contract #39076578738](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39076578738), [Astra Verify #39076578839](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39076578839), [Astra Cloud Runtime Validation #39076578899](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39076578899). The contract run confirms actionlint, Python contract tests and the executable Node regression step all succeeded.
+- Candidate now compares 71 ahead / 0 behind main, merge base main HEAD. PR #334 remains OPEN / DRAFT / UNMERGED; independent security approval is not evidenced.
+- Rulesets endpoint returned an empty list; branch protection endpoint returned 403/resource not accessible. Applicable protection requirements remain unknown. No provider call, secret read, workflow dispatch, queue admission, merge, deployment or Contour A acceptance.
+- Next: continue the highest-value bounded Contour A gap under Issue #301; keep PR #334 in Draft until independent review and authorized protection-rule evidence are available.
