@@ -6,8 +6,8 @@ Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md), branch `d
 - Candidate PR [#338](https://github.com/VlDMlNSh/mediahub-os/pull/338) remains Draft/open/unmerged.
 - Commit [`9e1a59278dfee164635457ff9cd2ce2145ceafc0`](https://github.com/VlDMlNSh/mediahub-os/commit/9e1a59278dfee164635457ff9cd2ce2145ceafc0) changes only the lock-generation workflow runner label to `ubuntu-24.04`.
 - Workflow blob SHA after read-back: `0574ac933d8ccfa70e447f203aa3bf775cc2dd63`.
-- Run #16 for this commit was still in progress at the last status check. Qualification is pending; do not treat it as passed until a terminal run result is confirmed.
-- Baseline run [#15](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39053279868) passed lock regeneration for the previous commit, but does not qualify the new runner change.
+- Workflow history subsequently confirmed run #16 for this commit completed successfully in 19 seconds. Numeric run ID and run-specific annotations were not exposed by the history-page fetch, so inspect annotations if available before concluding the warning status.
+- Baseline run [#15](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39053279868) passed lock regeneration for the previous commit; run #16 also completed successfully after the runner pin.
 - The prior run reported Node.js 20 deprecation warnings for the pinned checkout/setup-python/upload-artifact actions. Runner pinning does not resolve those warnings.
 - Bootstrap hash integrity remains open: pip and pip-tools are pinned by version, not by independently verified hashes.
 - Detailed evidence: [Wave 103 report](../checkpoints/MEDIAHUB-RUNNER-PIN-QUALIFICATION-WAVE-103-2026-10-17.md).
