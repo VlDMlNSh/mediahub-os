@@ -30,8 +30,8 @@ jobs:
         uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
         with:
           python-version: "3.12"
-      - name: Install pinned validator
-        run: python -m pip install --disable-pip-version-check --no-input jsonschema[format]==4.23.0
+      - name: Install hash-locked validator dependencies
+        run: python -m pip install --disable-pip-version-check --no-input --require-hashes -r requirements/cloud-agent-schema-validation.lock
       - name: Validate schemas with positive and negative fixtures
         shell: bash
         run: |
