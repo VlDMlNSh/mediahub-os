@@ -2,29 +2,30 @@
 
 - Date: 2026-10-17
 - Documentation ref: `docs/mediahub-chat-tree-map-20261012`
-- Status: **SECRET ROTATION GAP CONFIRMED / TWO CONFIG CONSUMERS STILL UNRESOLVED / MAP API READ BLOCKED**
+- Status: **PER-WORKFLOW KEY MAPPING CONFIRMED / RUNTIME ROTATION UNPROVEN / TWO CONFIG CONSUMERS UNRESOLVED**
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Prior checkpoint: [Wave 58](mediahub-next-continuation-checkpoint-2026-10-17-wave58.md)
 
 ## 1. Live refs and branch topology
 
-- Current `main` HEAD: `9e8b44367897a6805ba88a7ff79ed9fd8715271b`, commit title: `docs(gemini): record working autonomous engineering configuration (#313)`.
-- Compare `main...docs/mediahub-chat-tree-map-20261012`: **DIVERGED**, docs ahead 2078 / behind 21; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Current `main` HEAD at final refresh: `4f2788058a98d84a6189651364e154dfb21c2899`, `feat(agents): add two Gemini agent workflows and router plan (#314)`.
+- Compare `main...docs/mediahub-chat-tree-map-20261012`: **DIVERGED**, docs ahead 2083 / behind 22 at final observed compare; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 - Reverse compare confirms the same topology. No branch integration was attempted.
 - Current checkpoint read-back SHA: `8a3989156ddb6e9c8265ff5c05054489d44252a9`.
 - Bootstrap read-back SHA: `aa77ba6850f3b3cf51fcf5fae491b2998a276321`.
 - Master Roadmap read-back SHA: `22fc463f40fb9b8360b5bd15cbfe1edc97844699`.
 - Canonical map path on the documentation ref returned 404 through the file-content adapter, while the checkpoint and prior map addendum record canonical map blob `0141454f29b3da6c84488f9464be30812e0b13a3`. Treat this as a retrieval/path/ref discrepancy requiring follow-up; do not infer deletion or an empty map from one adapter response.
 
-## 2. Confirmed Gemini credential wiring gap
+## 2. Gemini per-workflow credential mapping
 
 Source: [`.github/workflows/gemini-autonomous-engineering.yml`](https://github.com/VlDMlNSh/mediahub-os/blob/main/.github/workflows/gemini-autonomous-engineering.yml), blob SHA `09523d809530ae5b7bf528eab5fa53bc5deaf92d`.
 
 - Workflow passes only `${{ secrets.GEMINI_API_KEY }}` to `gemini_api_key`.
 - The workflow's MCP allowlist currently contains `create_branch`, `create_or_update_file`, `create_pull_request`, and `get_file_contents`.
 - The configured model variable falls back to `gemini-3.5-flash-lite`.
-- This source establishes a single secret reference in this workflow. It does not establish whether `GEMINI_API_KEY_2` or `GEMINI_API_KEY_3` exist in repository settings, nor does it establish any runtime rotation/failover behavior.
-- Therefore, extra key names are **not wired by this workflow as currently read**. A future implementation must define explicit key-selection, retry classification, quota/error detection, secret isolation, audit redaction, and deterministic fail-closed behavior before adding fallback logic. Do not put key material in workflow inputs, logs, artifacts, prompts, or commits.
+- Dedicated workflows are present on `main`: [Agent 2](https://github.com/VlDMlNSh/mediahub-os/blob/main/.github/workflows/gemini-agent-2.yml), SHA `6c59d42f0777ffbe4528594a756f9839e81a6726`, maps `GEMINI_API_KEY_2`; [Agent 3](https://github.com/VlDMlNSh/mediahub-os/blob/main/.github/workflows/gemini-agent-3.yml), SHA `44ef9aeb8bcc8607bc4c07fe62fc4c56baa69d1e`, maps `GEMINI_API_KEY_3`.
+- Per-workflow secret references are source-confirmed. Repository secret existence/validity, workflow dispatch, provider authentication, quota availability, and runtime key rotation/failover remain unverified.
+- A future shared router still requires explicit key-selection, retry classification, quota/error detection, secret isolation, audit redaction, and deterministic fail-closed behavior. Keep key material out of inputs, logs, artifacts, prompts, and commits.
 
 ## 3. Registry consumer trace
 
@@ -55,7 +56,7 @@ Source: [`ops/qualification/authorized-schemes.yaml`](https://github.com/VlDMlNS
 
 - Bootstrap content was retrieved successfully from the documentation branch.
 - The Wave 58 checkpoint and addendum were retrieved successfully.
-- The canonical map fetch at the exact documentation ref returned 404 in this pass, a different adapter symptom from the previously observed empty body. The last known canonical map blob SHA is `0141454f29b3da6c84488f9464be30812e0b13a3`.
+- The canonical map fetch at the exact documentation ref returned an empty body while preserving blob SHA `0141454f29b3da6c84488f9464be30812e0b13a3`. A prior fetch attempt returned 404; path/ref/content-adapter behavior remains inconsistent.
 - No map mutation was attempted. Continue using append-only addenda until exact path/ref/blob retrieval is reconciled.
 
 ## 7. Verification and permissions boundary
