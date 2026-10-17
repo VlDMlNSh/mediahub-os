@@ -7157,3 +7157,15 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Exact-head CI: Contract #39069711066, Astra Verify #39069710934, Cloud Runtime Validation #39069711045 — all successful.
 - Independent review submissions/threads not present in GitHub responses. Branch protection/ruleset configuration remains unverified because the available integration has no read action for those settings.
 - No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance. Do not merge/promote on CI alone; next gate is independent security review and authorized protection-rule read-back.
+
+
+## 20.361 — Gemini explicit provider-secret identity (Wave 109, 2026-10-18)
+
+- Evidence report: [MEDIAHUB-GEMINI-EXPLICIT-SECRET-IDENTITY-WAVE-109-2026-10-18.md](../checkpoints/MEDIAHUB-GEMINI-EXPLICIT-SECRET-IDENTITY-WAVE-109-2026-10-18.md).
+- Navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-109-2026-10-18.md](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-109-2026-10-18.md).
+- Corrected a source-contract mismatch: both Gemini read-only workflows now consume only `secrets.GEMINI_API_KEY`; no `GOOGLE_API_KEY` fallback remains.
+- Added contract regression coverage for explicit provider-secret identity. Candidate PR #334 HEAD `b8938e2c8a6b53a9856611beb4e2c91b9b47e7eb`; workflow/test blobs are recorded in the report.
+- Exact-head CI passed: Gemini Read-only Workflow Contract #39070239298, Astra Verify #39070239407, Astra Cloud Runtime Validation #39070239344.
+- PR #334 remains OPEN / DRAFT / UNMERGED. Compared with live main, candidate is diverged 39 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`; observed main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`.
+- Independent security review remains outstanding. Branch protection/ruleset configuration remains UNVERIFIED because the available integration has no authorized read action. No provider call, credential read, workflow dispatch, queue admission, merge, deployment or Contour A acceptance occurred.
+- Next: obtain independent review and authorized protection-rule read-back; reconcile divergence without loss, then rerun checks on the reconciled exact head.
