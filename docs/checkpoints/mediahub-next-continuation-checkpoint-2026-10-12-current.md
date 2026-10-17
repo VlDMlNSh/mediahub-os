@@ -4817,3 +4817,13 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - Shared provider-outcome helper now rejects missing/non-integer/out-of-range HTTP status before parsing; regression cases cover absent status and values 99/600. CI validates source contract; no provider call is evidenced.
 - PR remains OPEN / DRAFT / UNMERGED. Live compare: diverged 69 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`; main HEAD observed `c06015e0b1526e0aaa6a522306052b077455aba5`. Returned review records contain only owner-authored COMMENTED reviews; independent approval is not evidenced. Protection/ruleset read-back remains unverified.
 - No credential read, Gemini dispatch, queue admission, merge, deployment, or Contour A acceptance. Next: inspect/reconcile the two main-side commits losslessly, obtain independent security review and authorized protection-rule read-back, and rerun checks on any reconciled exact head.
+
+
+## Wave 126 — main-history reconciliation (2026-10-18)
+
+- Report: [Wave 126](MEDIAHUB-MAIN-HISTORY-RECONCILIATION-WAVE-126-2026-10-18.md); map addendum: [Wave 126](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-126-2026-10-18.md).
+- PR #334 candidate branch advanced from `80c733dc18b79f2b0e77853222bbd02edd562d2e` to merge commit `822cd023015f72002b850ee20f8047aff24080fe`. Merge tree stayed exactly `97076455ee4988c10912d41373f9806758a348b6`; parents are the prior candidate and main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`.
+- The current main tree and prior merge-base tree were both `6fcf4a54edcee793e86ab3510f6b110fdc3644bc`, proving the two main-side commits had no net tree delta. Ref update used expected old HEAD and was read back. Branch compare now reports 70 ahead / 0 behind.
+- Exact-head CI on parent `80c733...` passed all three workflows, but checks on merge HEAD `822cd...` are not yet confirmed. PR remains OPEN/DRAFT/UNMERGED; immediately after ref update the PR API reported `mergeable=false`, pending refresh.
+- Independent review is still unverified. Branch protection read returned 403/resource not accessible; protection/ruleset state remains unknown. No provider call, secret read, dispatch, queue admission, PR merge, deployment, or Contour A acceptance.
+- Next: verify exact-head checks and refreshed PR/reviews, obtain independent security review and authorized protection-rule read-back.
