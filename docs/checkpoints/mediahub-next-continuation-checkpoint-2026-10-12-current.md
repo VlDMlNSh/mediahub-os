@@ -4510,3 +4510,16 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Recommendation is a proposal only: A0-owned issuer with GitHub Actions as transport, conditional on accepted issuer/verifier lifecycle. Workflow identity and inputs alone are insufficient authorization.
 - A0 issuer/ingress, R-06, target manifest, standards schema validation and runtime admission remain OPEN. No tests, provider calls, credentials, dispatch, runtime inspection, infrastructure change, merge or deployment.
 - Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/contour-a-a0-r06-evidence-reconciliation-wave68-20261017/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — Wave 70 source-pinned issuer/verifier reuse inventory (2026-10-17)
+
+- Report: [A0 Issuer/Verifier Reuse Inventory — Wave 70](MEDIAHUB-A0-ISSUER-VERIFIER-REUSE-INVENTORY-WAVE-70-2026-10-17.md); creation commit `5f76c106f605aee97e8766a67a09ac431bae0291`.
+- Map addendum: [Chat Tree Map Addendum — Wave 70](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-70-2026-10-17.md); creation commit `96c7277c556ba0b0d1fa4937364b95e5aacfa73d`.
+- Source README blob SHAs read: cosign `293d76bc813a579636e1030575ce604959b17615`; sigstore `c5ad9511694219b85ddbe3bf7951784c50303407`; OPA `860399b5b7ac265f89508796831990a45eb485c4`; SPIRE `95ba30aa3dcd011dc79babaa472ec94c31f76a9c`.
+- Finding: these projects provide distinct candidate primitives for artifact signatures/provenance, policy evaluation and workload identity. The reviewed README sources do not establish a complete MediaHub A0 capability issuer/verifier lifecycle. No component selected or admitted.
+- Proposed reuse boundary remains conditional: GitHub Actions transport; A0-owned issuer after accepted authority/trust-root decision; independent verifier; OPA and Sigstore as optional primitives; SPIRE only if compatibility with ephemeral GitHub runners is evidenced.
+- A0 issuer/delegation, R-06, accepted runner/workspace/network target, schema validation and qualification remain OPEN.
+- No install, tests, qualification, provider/model call, credentials, workflow dispatch, runtime inspection, infrastructure change, merge or deployment occurred.
+- Current canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md. The Wave 70 navigation addendum is on the working PR branch; the canonical map remains unchanged.
+
