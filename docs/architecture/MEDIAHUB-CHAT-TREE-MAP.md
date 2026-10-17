@@ -6930,3 +6930,13 @@ WB-14AA и приложение остаются не-нормативными. 
 - No authority transfer: Product State Authority remains the sole canonical product-state mutation authority; Jarvis and ASTRA A0 remain within their respective engineering roles. Provider policy, budget, secret isolation, audit, issuer/capability and Contour A acceptance gates remain binding.
 - Source links: [Bootstrap](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md), [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301), [PR #333](https://github.com/VlDMlNSh/mediahub-os/pull/333).
 - Status: documentation alignment recorded; this entry does not claim Contour A implementation or qualification has passed.
+
+
+## 20.97 — Wave 79 autonomous instruction alignment (2026-10-17)
+
+- Full Bootstrap instruction reconciled with the standing autonomous-execution mandate: [MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md), blob `fe9f09ff6b1913bab833db93d442111062b2fd15`, commit `2c244d4a2c557f6d9131849d37fc0519e8e0aab9`.
+- Contradictory blanket prohibitions on routine dependency installation, tests/qualification, authorized provider/model calls, runtime inspection, infrastructure/code work and merge/rebase/cherry-pick were removed. Execution remains subject to actual capability/issuer, budget, provider policy, security, repository protections, provenance, data-loss checks and architecture/acceptance gates.
+- Report: [MEDIAHUB-AUTONOMOUS-INSTRUCTION-ALIGNMENT-WAVE-79-2026-10-17.md](../checkpoints/MEDIAHUB-AUTONOMOUS-INSTRUCTION-ALIGNMENT-WAVE-79-2026-10-17.md).
+- Updated checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Current cloud-fabric handoff remains Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301): Draft 2020-12 schema meta-validation and positive/negative fixtures are open. PR [#333](https://github.com/VlDMlNSh/mediahub-os/pull/333) was observed open, Draft and unmerged during this pass.
+- Status: DOCUMENTATION ALIGNMENT RECORDED; implementation/qualification/acceptance are not implied.
