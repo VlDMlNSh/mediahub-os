@@ -88,6 +88,17 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertIn("res.on('aborted',() => reject(new Error('response aborted before completion')))", source)
                 self.assertLess(source.index("res.on('end'"), source.index("fs.writeFileSync(outputPath"))
 
+    def test_primary_workflow_handles_abort_and_transport_errors_without_undefined_reject(self) -> None:
+        reject_definition = self.audit.index("const reject = err =>")
+        abort_handler = self.audit.index("res.on('aborted'")
+        response_end = self.audit.index("res.on('end'")
+        output_write = self.audit.index("fs.writeFileSync(outputPath")
+        self.assertLess(reject_definition, abort_handler)
+        self.assertIn("req.on('error',reject)", self.audit)
+        self.assertIn("if (settled) return;", self.audit)
+        self.assertLess(response_end, output_write)
+        self.assertNotIn("req.on('error',err=>{", self.audit)
+
     def test_artifact_retention_is_bounded(self) -> None:
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
             with self.subTest(workflow=path.name):
