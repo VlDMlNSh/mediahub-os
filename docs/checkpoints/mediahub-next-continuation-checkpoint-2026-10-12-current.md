@@ -4827,3 +4827,13 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - Exact-head CI on parent `80c733...` passed all three workflows, but checks on merge HEAD `822cd...` are not yet confirmed. PR remains OPEN/DRAFT/UNMERGED; immediately after ref update the PR API reported `mergeable=false`, pending refresh.
 - Independent review is still unverified. Branch protection read returned 403/resource not accessible; protection/ruleset state remains unknown. No provider call, secret read, dispatch, queue admission, PR merge, deployment, or Contour A acceptance.
 - Next: verify exact-head checks and refreshed PR/reviews, obtain independent security review and authorized protection-rule read-back.
+
+
+## Wave 126 — main-history reconciliation (2026-10-18)
+
+- Report: [Wave 126](MEDIAHUB-MAIN-HISTORY-RECONCILIATION-WAVE-126-2026-10-18.md); map addendum: [Wave 126](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-126-2026-10-18.md).
+- Candidate branch advanced from `80c733dc18b79f2b0e77853222bbd02edd562d2e` to merge commit `822cd023015f72002b850ee20f8047aff24080fe`. Merge tree stayed exactly `97076455ee4988c10912d41373f9806758a348b6`; parents are prior candidate and main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`.
+- Current main tree and prior merge-base tree are identical (`6fcf4a54edcee793e86ab3510f6b110fdc3644bc`), proving the two main-side commits had no net tree delta. Expected-head ref update succeeded and was read back. Compare now reports 70 ahead / 0 behind.
+- All three exact-head checks on `822cd...` completed successfully: Gemini Read-only Workflow Contract #39076160930, Astra Verify #39076160923, Astra Cloud Runtime Validation #39076160964. PR #334 remains OPEN/DRAFT/UNMERGED; refreshed API now reports mergeable=true.
+- Independent security approval remains unverified. Branch protection endpoint returned 403/resource not accessible; ruleset/protection state remains unknown. No provider call, secret read, dispatch, queue admission, PR merge, deployment, or Contour A acceptance.
+- Next: inspect current review submissions and obtain independent security review plus authorized protection-rule read-back before any PR merge.
