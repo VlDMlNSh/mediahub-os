@@ -39,3 +39,10 @@ Read the exact candidate revision's:
 **STATIC REVIEW ONLY / CANDIDATE CI PASS IS SCOPED / SUPPLY-CHAIN AND AUTHORITY REVIEW OPEN.** Do not merge PR #338 on historical CI alone. First reconcile its 13-file diff losslessly against refreshed refs, obtain independent schema/security/supply-chain review, and close Issue #301's A0 issuer/ingress/lifecycle, R-06 governance, and accepted target-manifest gates. Keep Jarvis mission coordination, ASTRA A0 workflow state, and MediaHub Product State Authority canonical mutation separated.
 
 Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED**.
+
+
+## Integrity correction during this wave
+
+- Read-back detected that an incomplete Contents API response had been used as if it were the full working map, creating a temporarily truncated map revision in commit `a31f070a712f776ca73bae7cdf64157c6018440a`. This was a documentation-write error, not a canonical-branch change.
+- Recovery source was the exact pre-error map blob `b74ec44ff5ccc3e1fcfbd3df93a0bb2c644dfeae` fetched through the Git blob API. The complete map was restored, the Wave 111 §20.363 entry appended, and the working branch advanced through commit `485dd2fca1811b876845519389191d3460f0f597` using a tree update based on the then-current head (no history rewrite).
+- Post-recovery read-back verified restored map blob `9cd1b43e0443b7c94d46d8fef9e30eea2a89af46`, 1,047,210 characters, original title, and preserved sections §20.357–§20.363. The canonical docs branch remains unchanged.
