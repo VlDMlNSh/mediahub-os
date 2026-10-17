@@ -144,6 +144,7 @@ jobs:
           const fs = require('node:fs');
           const https = require('node:https');
           const crypto = require('node:crypto');
+          const { readBoundedResponse } = require('./scripts/gemini_http_response');
           const manifestPath = 'agent-output/evidence-manifest.json';
           const outputPath = 'agent-output/gemini-audit.md';
           const manifest = JSON.parse(fs.readFileSync(manifestPath,'utf8'));
@@ -173,56 +174,44 @@ jobs:
             method:'POST',
             headers:{'Content-Type':'application/json','Content-Length':Buffer.byteLength(body),'x-goog-api-key':key},
             timeout:120000
-          }, res => {
-            let data='';
-            let responseBytes=0;
-            let responseTooLarge=false;
-            const maxResponseBytes=2*1024*1024;
-            res.setEncoding('utf8');
-            res.on('data',chunk => {
-              responseBytes += Buffer.byteLength(chunk,'utf8');
-              if (responseBytes > maxResponseBytes) {
-                responseTooLarge=true;
-                res.destroy();
-                req.destroy(new Error('response byte limit exceeded'));
-                return;
-              }
-              data += chunk;
-            });
-            res.on('aborted',() => reject(new Error('response aborted before completion')));
-            res.on('error',err => reject(responseTooLarge ? new Error('response byte limit exceeded') : err));
-            res.on('end',() => {
-              if (settled) return;
-              settled = true;
-              manifest.provider_status = `HTTP_${res.statusCode || 0}`;
-              manifest.provider_request_id = res.headers['x-goog-request-id'] || res.headers['x-request-id'] || null;
-              manifest.finished_at = new Date().toISOString();
-              if (res.statusCode < 200 || res.statusCode >= 300) {
-                manifest.status = 'FAILED';
-                save();
-                console.error(`Gemini API returned HTTP ${res.statusCode}; response body suppressed.`);
-                process.exitCode=31;
-                return;
-              }
-              let parsed;
-              try { parsed=JSON.parse(data); } catch {
-                manifest.status='FAILED'; manifest.provider_status='INVALID_JSON'; save();
-                console.error('Gemini response was invalid JSON; body suppressed.'); process.exitCode=32; return;
-              }
-              const text=(parsed.candidates||[]).flatMap(c=>c.content?.parts||[]).map(p=>p.text||'').join('\n').trim();
-              const bytes=Buffer.byteLength(text,'utf8');
-              if (!text || bytes > 100000) {
-                manifest.status='FAILED'; manifest.provider_status=text?'OUTPUT_TOO_LARGE':'EMPTY_OUTPUT'; save();
-                console.error('Gemini returned empty or over-limit output.'); process.exitCode=33; return;
-              }
-              fs.writeFileSync(outputPath,'<!-- Untrusted model-generated advisory output; not execution authority. -->\n'+text+'\n',{mode:0o600});
-              manifest.status='COMPLETED';
-              manifest.output_sha256=`sha256:${crypto.createHash('sha256').update(fs.readFileSync(outputPath)).digest('hex')}`;
-              manifest.output_bytes=fs.statSync(outputPath).size;
+          }, async res => {
+            let response;
+            try {
+              response = await readBoundedResponse(res, req, 2*1024*1024);
+            } catch (err) {
+              reject(err);
+              return;
+            }
+            if (settled) return;
+            settled = true;
+            manifest.provider_status = `HTTP_${response.statusCode || 0}`;
+            manifest.provider_request_id = response.headers['x-goog-request-id'] || response.headers['x-request-id'] || null;
+            manifest.finished_at = new Date().toISOString();
+            if (response.statusCode < 200 || response.statusCode >= 300) {
+              manifest.status = 'FAILED';
               save();
-              fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
-                `\n## Gemini read-only evidence\n\n- Status: COMPLETED\n- Commit: ${manifest.resolved_commit_sha}\n- Workflow blob SHA: ${manifest.workflow_blob_sha}\n- Context profile: ${manifest.context_profile}\n- Model: ${model}\n- Output SHA-256: ${manifest.output_sha256}\n- Output bytes: ${manifest.output_bytes}\n- Provider response ID: ${manifest.provider_request_id || 'not supplied'}\n\nModel output is untrusted advisory content; inspect the artifact before use.\n`);
-            });
+              console.error(`Gemini API returned HTTP ${response.statusCode}; response body suppressed.`);
+              process.exitCode=31;
+              return;
+            }
+            let parsed;
+            try { parsed=JSON.parse(response.body); } catch {
+              manifest.status='FAILED'; manifest.provider_status='INVALID_JSON'; save();
+              console.error('Gemini response was invalid JSON; body suppressed.'); process.exitCode=32; return;
+            }
+            const text=(parsed.candidates||[]).flatMap(c=>c.content?.parts||[]).map(p=>p.text||'').join('\\n').trim();
+            const bytes=Buffer.byteLength(text,'utf8');
+            if (!text || bytes > 100000) {
+              manifest.status='FAILED'; manifest.provider_status=text?'OUTPUT_TOO_LARGE':'EMPTY_OUTPUT'; save();
+              console.error('Gemini returned empty or over-limit output.'); process.exitCode=33; return;
+            }
+            fs.writeFileSync(outputPath,'<!-- Untrusted model-generated advisory output; not execution authority. -->\\n'+text+'\\n',{mode:0o600});
+            manifest.status='COMPLETED';
+            manifest.output_sha256=`sha256:${crypto.createHash('sha256').update(fs.readFileSync(outputPath)).digest('hex')}`;
+            manifest.output_bytes=fs.statSync(outputPath).size;
+            save();
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+              `\\n## Gemini read-only evidence\\n\\n- Status: COMPLETED\\n- Commit: ${manifest.resolved_commit_sha}\\n- Workflow blob SHA: ${manifest.workflow_blob_sha}\\n- Context profile: ${manifest.context_profile}\\n- Model: ${model}\\n- Output SHA-256: ${manifest.output_sha256}\\n- Output bytes: ${manifest.output_bytes}\\n- Provider response ID: ${manifest.provider_request_id || 'not supplied'}\\n\\nModel output is untrusted advisory content; inspect the artifact before use.\\n`);
           });
           req.on('timeout',()=>req.destroy(new Error('request timed out')));
           req.on('error',reject);
