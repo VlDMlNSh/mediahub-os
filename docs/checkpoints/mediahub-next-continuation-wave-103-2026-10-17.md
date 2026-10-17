@@ -6,7 +6,7 @@ This note supplements the [current continuation checkpoint](mediahub-next-contin
 - PR [#338](https://github.com/VlDMlNSh/mediahub-os/pull/338) is Draft/open/unmerged.
 - Candidate commit [`9e1a59278dfee164635457ff9cd2ce2145ceafc0`](https://github.com/VlDMlNSh/mediahub-os/commit/9e1a59278dfee164635457ff9cd2ce2145ceafc0) pins `.github/workflows/cloud-agent-lock-generation.yml` to `ubuntu-24.04` instead of `ubuntu-latest`.
 - Read-back workflow blob SHA: `0574ac933d8ccfa70e447f203aa3bf775cc2dd63`.
-- Run #16 for this commit was still in progress at last observation; recheck its terminal result before claiming qualification.
+- Workflow history later confirmed run #16 completed successfully in 19 seconds. The numeric run ID and run-specific annotations were not exposed by the history-page fetch; inspect annotations if available.
 - Previous successful baseline: [run #15 / 39053279868](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39053279868), with lock regeneration byte-for-byte verified for commit `29d72044ae77086df3380358816da2e15a940725`.
 
 ## Outstanding work
