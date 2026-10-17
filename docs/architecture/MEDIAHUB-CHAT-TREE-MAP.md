@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.359)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.360)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7123,3 +7123,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Candidate options remain explicitly unselected. The packet grants no authority, does not amend Baseline 2.0, and does not authorize workflow dispatch or runtime changes.
 - Current status: decisions OPEN/UNKNOWN; target BLOCKED/UNKNOWN; Contour A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
 - Next: request owner/governance disposition in Issue #301; bind accepted decisions to exact source SHAs before implementation.
+
+
+## 20.360 — Documentation integrity and governance status (Wave 108, 2026-10-17)
+
+- Report: [Documentation Integrity and Governance Status, Wave 108](../checkpoints/MEDIAHUB-DOCUMENTATION-INTEGRITY-AND-GOVERNANCE-STATUS-WAVE-108-2026-10-17.md).
+- Addendum: [Wave 108](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-17.md).
+- Reconciles the navigation index after read-back found Wave 108 report/addendum existed but were not indexed by the working map. This is an index-only update; it does not amend contracts or acceptance status.
+- Issue #301 remains OPEN without owner disposition for D-CA-01…D-CA-06. PR #339 remains OPEN/DRAFT/UNMERGED; no PR-triggered workflow runs were returned for exact head `3e5c26a5e3a02bcf12ef0d13828fbdeedacc13fb`.
+- PR #338 remains OPEN/DRAFT/UNMERGED with unresolved branch drift and independent review. Wave 105's incomplete integration experiment is not a PR and must not be integrated.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. No provider invocation, secret access, dispatch, merge, deployment or acceptance occurred.
+- Next: obtain accountable governance decisions; then reconcile PR #338 losslessly against a refreshed base/head and run exact-head CI before considering integration.
