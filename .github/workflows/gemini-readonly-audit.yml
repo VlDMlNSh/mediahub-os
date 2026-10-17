@@ -163,8 +163,21 @@ jobs:
             timeout:120000
           }, res => {
             let data='';
+            let responseBytes=0;
+            let responseTooLarge=false;
+            const maxResponseBytes=2*1024*1024;
             res.setEncoding('utf8');
-            res.on('data',chunk => { data += chunk; });
+            res.on('data',chunk => {
+              responseBytes += Buffer.byteLength(chunk,'utf8');
+              if (responseBytes > maxResponseBytes) {
+                responseTooLarge=true;
+                res.destroy();
+                req.destroy(new Error('response byte limit exceeded'));
+                return;
+              }
+              data += chunk;
+            });
+            res.on('error',err => reject(responseTooLarge ? new Error('response byte limit exceeded') : err));
             res.on('end',() => {
               manifest.provider_status = `HTTP_${res.statusCode || 0}`;
               manifest.provider_request_id = res.headers['x-goog-request-id'] || res.headers['x-request-id'] || null;
