@@ -70,7 +70,7 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertIn("MAX_OUTPUT_BYTES = 100000", OUTCOME_HELPER.read_text(encoding="utf-8"))
                 if path == RETRY:
                     self.assertIn("${manifest.attempts} (automatic POST retry disabled)", source)
-                self.assertIn("Untrusted model-generated advisory output", source)
+                self.assertIn("Untrusted model-generated advisory output", OUTCOME_HELPER.read_text(encoding="utf-8"))
                 self.assertIn("evidence-manifest.json", source)
                 self.assertIn("output_sha256", source)
                 self.assertNotRegex(source, r"(?i)echo\s+.*(?:GEMINI_API_KEY|GOOGLE_API_KEY)")
