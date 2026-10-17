@@ -4525,3 +4525,13 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - No runtime code, credentials, provider calls, workflow dispatch, deployment or branch integration was performed as part of this documentation alignment.
 - Next: proceed with the next unfinished Contour A gate under Issue #301 and Master Roadmap; update other active blanket-approval wording when encountered, without rewriting historical evidence.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+### Wave 80 final read-back and live ref snapshot
+
+- Canonical map: blob SHA `e501b50e6ab3bdcdf2e67640402140ae99bc0436`; the Contents API returned an empty body, so verification used blob retrieval by SHA. Retrieved map length: 1,020,395 characters; §20.351 was present in the retrieved blob.
+- Master Development Roadmap: blob SHA `89fc7df39f3b9661a08a232f0a7679ba22df367e`; full content read-back length 288,658 characters; Phase 08 heading and current execution-authority interpretation are present.
+- Bootstrap unchanged during this pass: blob SHA `fe9f09ff6b1913bab833db93d442111062b2fd15`; current autonomy rule is present.
+- PR #333 description read-back: OPEN / DRAFT; stale blanket sentence removed and replaced with normal CI/review/provenance/architecture gate language. No merge was performed.
+- Live compare after documentation updates: docs ref `docs/mediahub-chat-tree-map-20261012` vs `main` = DIVERGED, ahead 2,104 / behind 25, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; current main commit reported by compare `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`. This large divergence is recorded, not silently resolved in this alignment pass; before any integration, inspect the full branch diff and the 25 main-only commits for loss/conflict and run applicable CI/protection checks.
+- Scope caveat: this was a targeted alignment of the four canonical instruction/navigation documents plus Issue #301 and PR #333, not an exhaustive search of every repository artifact. Older pass records and reports remain historical unless an active handoff is shown to be current.
