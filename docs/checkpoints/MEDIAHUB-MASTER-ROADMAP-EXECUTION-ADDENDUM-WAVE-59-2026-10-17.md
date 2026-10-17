@@ -8,14 +8,14 @@
 ## Bounded execution result
 
 1. Refreshed live GitHub branch metadata and compare. Documentation branch remains diverged from `main`; no integration attempted.
-2. Confirmed the Gemini workflow source references a single secret name, `GEMINI_API_KEY`. Additional key wiring and quota-aware fallback remain unproven.
+2. Confirmed per-workflow credential mapping on current `main`: the original workflow uses `GEMINI_API_KEY`, Agent 2 uses `GEMINI_API_KEY_2`, and Agent 3 uses `GEMINI_API_KEY_3`. Runtime dispatch, credential validity, quota-aware rotation and shared-router fallback remain unverified.
 3. Re-read registry, claim/lease implementation, qualification readers and adjacent enforcement workflow. Direct loaders for registry and authorization-scheme YAML remain unresolved.
 4. Canonical map retrieval returned 404 at its exact documented path/ref in this pass. The last recorded blob SHA remains a historical reference pending reconciliation; canonical map content was preserved.
 5. Added source-bound evidence and navigation addenda. No product source or runtime configuration was changed.
 
 ## Gate disposition
 
-- Gemini multi-key failover: **DESIGN REQUIRED / IMPLEMENTATION OPEN**.
+- Gemini per-workflow key mapping: **SOURCE CONFIRMED**; quota-aware rotation/failover: **DESIGN REQUIRED / IMPLEMENTATION OPEN**.
 - Registry loader / runtime authority: **OPEN**.
 - Authorization-scheme direct consumer: **OPEN**.
 - Qualification state: **FAIL_CLOSED / BLOCKED**.
