@@ -49,3 +49,14 @@ See [Cloud-Agent Lock Reproducibility and CI Verification — Wave 87](MEDIAHUB-
 - PR #337 is 47 ahead / 18 behind the canonical documentation branch, with merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`; it remains Draft, unmerged, and without independent reviews.
 - **Integration blocker:** PR #335 and PR #337 both add `.github/workflows/cloud-agent-schema-validation.yml`. They must not be merged independently; compare their full implementations and select one canonical workflow before any integration.
 - Detailed evidence: [Wave 88 controlled PyPI lock reproducibility report](MEDIAHUB-CONTROLLED-PYPI-LOCK-REPRODUCIBILITY-WAVE-88-2026-10-17.md).
+
+
+## Wave 88 — PR validation path-filter coverage (2026-10-17)
+
+- Added the validator dependency input, generated lock, and lock-generation workflow to the `pull_request.paths` filter in `.github/workflows/cloud-agent-schema-validation.yml`. This closes a trigger-coverage gap where dependency-only PR changes could skip the schema-validation workflow.
+- Change commit: `56e329676e373fe621b53d81daddf50882246a90`; workflow blob: `31aaa4f2a35df446bae0b49e1bf4dc4f2daaed10`.
+- Report: [Wave 88 — PR validation path-filter coverage](MEDIAHUB-CLOUD-AGENT-PR-PATH-FILTER-COVERAGE-WAVE-88-2026-10-17.md).
+- Report commit: `e252c854882e48fdbd23baf209a9a11a80f3a0ba`.
+- At change-commit verification, workflow run [39047324292](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047324292) was in progress and [39047328133](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047328133) queued; do not infer success from queued/in-progress states.
+- PR #337 remains Draft and unmerged; branch divergence was 51 ahead / 18 behind canonical docs branch. Issue #301 remains open.
+- Next: verify CI on the final report commit, then proceed with independent schema/authority review and file-level branch reconciliation. Canonical map remains on `docs/mediahub-chat-tree-map-20261012`: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
