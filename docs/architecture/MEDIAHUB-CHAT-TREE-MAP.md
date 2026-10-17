@@ -7022,3 +7022,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Latest documentation-push run https://github.com/VlDMlNSh/mediahub-os/actions/runs/39042325574 completed successfully on head `53df0cb7ebb15786b64b6088f3aee8c9892e937b`; job `117424142606`, conclusion `success`.
 - Read-back of job logs confirms 3 schema positive fixtures, empty-object/additional-property/enum/date-time negative fixtures, a consistent cross-artifact reference fixture and a negative task-ID mismatch fixture. Explicit log markers for both cross-artifact cases are present.
 - PR #337 remains OPEN / DRAFT and GitHub reports `mergeable=false`. Compare still reports 12 commits ahead / 14 behind, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. No merge performed.
+
+
+## §20.359 — Wave 89 dual-PR schema-validation workflow consolidation (2026-10-17)
+
+- Comparison report (working branch, not canonical until reviewed): https://github.com/VlDMlNSh/mediahub-os/blob/contour-a-schema-validation-wave81-20261017/docs/checkpoints/MEDIAHUB-CLOUD-AGENT-DUAL-PR-WORKFLOW-CONSOLIDATION-WAVE-89-2026-10-17.md
+- PR #335 head `44e2bc7c735ad7f70294d66de8e08eb1da612e0d` has successful schema-validation run [39044583119](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39044583119).
+- PR #337 head `1bc17e3d5a52975e988d50789ca8de291c55d590` has two successful exact-head validation runs [39047378737](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047378737) and [39047374968](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047374968), plus successful controlled lock generation [39046901040](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39046901040).
+- Both PRs define `.github/workflows/cloud-agent-schema-validation.yml`; both remain Draft/unmerged and have no independent review submissions. Recommend one consolidated workflow: maintainable scripts and named fixtures from #335, hash-locked dependencies and controlled generation from #337, plus combined source provenance and machine-readable reports.
+- Current PR #337 divergence: 53 ahead / 18 behind canonical docs branch, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. No merge performed.
+- Issue #301 gates remain open: A0 issuer/verifier lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent schema/authority review, bounded worker/queue qualification.
+- This is inventory/evidence, not acceptance. The canonical map itself remains an inventory and does not authorize production or Contour B.
