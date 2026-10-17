@@ -1,0 +1,64 @@
+name: Cloud Agent Schema Validation
+
+on:
+  push:
+    branches:
+      - test/cloud-agent-schema-validation-20261017
+  pull_request:
+    branches:
+      - docs/mediahub-chat-tree-map-20261012
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloud-agent-schema-validation-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-v0-2-schemas:
+    name: Draft 2020-12 meta-validation and fixtures
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout immutable source revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Verify dependency and source provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual_sha="$(git rev-parse HEAD)"
+          [[ "$actual_sha" == "$GITHUB_SHA" ]] || { echo "::error::Checkout SHA differs from event SHA."; exit 2; }
+          echo "source_commit_sha=$actual_sha" >> "$GITHUB_STEP_SUMMARY"
+          echo "python_version=$(python3 --version)" >> "$GITHUB_STEP_SUMMARY"
+          echo "workflow_blob_sha=$(git rev-parse "${GITHUB_SHA}:.github/workflows/cloud-agent-schema-validation.yml")" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Install exact-version schema validator dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv .venv
+          .venv/bin/python -m pip install --disable-pip-version-check --no-input -r requirements-cloud-agent-schema-validation.txt
+
+      - name: Meta-validate schemas and exercise positive/negative fixtures
+        id: validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          .venv/bin/python scripts/validate_cloud_agent_schemas.py
+
+      - name: Upload machine-readable validation evidence
+        if: always() && hashFiles('artifacts/cloud-agent-schema-validation-report.json') != ''
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cloud-agent-schema-validation-${{ github.run_id }}
+          path: artifacts/cloud-agent-schema-validation-report.json
+          if-no-files-found: error
+          retention-days: 14
