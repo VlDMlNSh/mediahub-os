@@ -32,7 +32,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout immutable dispatch SHA
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
@@ -119,8 +119,8 @@ jobs:
             task_sha256: `sha256:${crypto.createHash('sha256').update(task).digest('hex')}`,
             model_id: 'gemini-3.5-flash-lite',
             action_pins: {
-              checkout: '11d5960a326750d5838078e36cf38b85af677262',
-              upload_artifact: 'ea165f8d65b6e75b540449e92b4886f43607fa02'
+              checkout: '3d3c42e5aac5ba805825da76410c181273ba90b1',
+              upload_artifact: 'bbbca2ddaa5d8feaa63e36b76fdaad77386f024f'
             },
             runner: {image_os: process.env.ImageOS || null, image_version: process.env.ImageVersion || null, node: process.version},
             inputs,
@@ -206,7 +206,7 @@ jobs:
 
       - name: Upload revision-bound audit evidence
         if: always() && hashFiles('agent-output/evidence-manifest.json') != ''
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
           name: gemini-readonly-audit-${{ github.run_id }}
           path: |
