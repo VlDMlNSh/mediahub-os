@@ -52,3 +52,13 @@ This review did not merge or rebase branches, access secrets, invoke model provi
 ## Next step
 
 Create one reviewed consolidation PR or a narrowly scoped successor branch that owns the single canonical schema-validation workflow. Before integration, verify all source/blob SHAs, lock reproducibility, all CI checks, independent review, and branch divergence. Keep PR #335 and PR #337 unmerged until that review is complete.
+
+
+## Final branch-head revalidation (2026-10-17)
+
+- The report commit moved PR #337 to head `9fa4134a4d59599789a9e86fd4f11732672085d8`.
+- Exact-head schema-validation runs [39047869086](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047869086) and [39047864279](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047864279) both completed successfully.
+- PR #337 remains OPEN / DRAFT / unmerged; GitHub reports `mergeable=false`.
+- Fresh comparison after the canonical map/checkpoint updates and the report commit: **54 commits ahead / 20 behind**, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. This is an evolving compare snapshot, not merge permission.
+- Canonical map blob after Wave 89 entry: `9a8add794ae4b9124d06444de7761a5152f63d67`. Canonical checkpoint blob after Wave 89 entry: `6a2e8b04c2957827996597b74b42877da6b8f97d`.
+- Consolidation remains a design/review task. Neither PR has independent review, and Issue #301 gates remain open. Do not merge both workflow candidates.
