@@ -7182,3 +7182,5 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 
 
 - Wave 129 (2026-10-18): [Clean schema-validation integration candidate](../checkpoints/MEDIAHUB-CLEAN-SCHEMA-INTEGRATION-WAVE-129-2026-10-18.md). New Draft PR #350 carries only 13 schema-validation assets onto a branch rooted at the then-current canonical docs HEAD; 0 deletions, 1,773 additions. Exact-head schema/semantic/report/provenance workflow run #39077570671 passed on `92c5528b9fe0736ab316c3a3760a1db7bac1843a`; artifact digest `sha256:db1a387ed590e006a406d1e3bf076b3a1b4d827b1613408eb85352fb90dbb518`. PR remains Draft pending independent review and remaining Contour A acceptance gates.
+
+- Wave 129 post-write recheck: the canonical docs branch advanced after the clean candidate was opened; PR #350 now compares 13 ahead / 6 behind and GitHub reports `mergeable=false`. Exact-head schema CI still passes, but the branch must be reconciled with the latest canonical docs HEAD before mergeability or integration can be claimed. See the post-write recheck in the Wave 129 report.
