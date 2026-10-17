@@ -7137,3 +7137,13 @@ WB-14AA и приложение остаются не-нормативными. 
 ### Wave 108 latest exact-head verification (2026-10-18)
 
 Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob `831d59559eef41783f3758ce883d895acc1526b0`; retry workflow blob `df8c2cdf5a344f400cdbbd9997aec82cf38870f2`. Exact-head CI passed: Gemini Read-only Workflow Contract [39069711066](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711066), Astra Verify [39069710934](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069710934), Astra Cloud Runtime Validation [39069711045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711045). PR #334 remains OPEN / DRAFT / UNMERGED; independent security review and protection-rule verification remain outstanding. See [Wave 108 addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-18.md).
+
+
+## 20.360 — Gemini workflow response and summary correctness (Wave 108, 2026-10-18)
+
+- Report: [MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md](../checkpoints/MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md), Wave 108 follow-up.
+- Navigation: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-18.md](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-18.md).
+- Candidate HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`; primary workflow blob `cb42b1094adbad802bbc764f7a36b453fcb518ea`; retry workflow blob `df8c2cdf5a344f400cdbbd9997aec82cf38870f2`; contract test blob `831d59559eef41783f3758ce883d895acc1526b0`.
+- Both workflows use the shared bounded HTTP reader; primary step-summary line breaks and retry attempt-count interpolation corrected. Regression tests cover newline framing and the recorded attempt count.
+- Exact-head CI passed: [Gemini Read-only Workflow Contract #39069711066](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711066), [Astra Verify #39069710934](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069710934), [Astra Cloud Runtime Validation #39069711045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711045).
+- PR #334 remains OPEN / DRAFT / UNMERGED; independent security review and branch protection/ruleset verification remain outstanding. No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance.
