@@ -4583,3 +4583,11 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - No tests, installation, provider/model calls, credentials, workflow dispatch, runtime inspection, infrastructure changes, merge, rebase, cherry-pick or deployment occurred.
 - Next bounded step: source-review WebSocket auth/replay at the pinned and current-head refs, then turn confirmed findings into explicit R-06/target-manifest control and negative-test requirements. Testing remains unauthorized absent separate explicit permission.
 - Canonical project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+### Wave 75 read-back identities
+
+- Report blob SHA: `263454fb996be15f695a7f624d7d8249d068e9a9`.
+- Map addendum blob SHA: `bfcb6ceab50e15bdbd30da9f7998443e2f04a3e7`; it exists on the working documentation branch and is included in PR #333.
+- PR #333 remains open / Draft / unmerged. Current verified head before this checkpoint identity note: `7a34870aa017738a860505c597c4ba0d3c823b6c`; compare remains 28 ahead / 0 behind canonical.
+- An intermediate addendum write landed on the default branch by mistake; that exact file was then deleted there and the absence was confirmed by a 404 read-back. The retained addendum is on the working documentation branch only.
