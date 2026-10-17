@@ -7132,3 +7132,8 @@ WB-14AA и приложение остаются не-нормативными. 
 - Candidate HEAD: `e1f35cb47eab05f573c38a4c2a507c9d832ca3cc`; retry workflow blob `ad6d82b6eca40b4c9923ac5fc6485fa103e4d24b`; contract tests blob `f3ebfab5e0729e498872cceedc0ed3c0dc89c0d4`; shared reader blob `adb3d27307cd5ad078a8c622cbeaaebd40f903ec`.
 - Both workflows use the same bounded HTTP response reader. Exact-head CI passed: [Gemini Read-only Workflow Contract #39069449788](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449788), [Astra Verify #39069449749](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449749), [Astra Cloud Runtime Validation #39069449848](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449848).
 - PR #334 remains OPEN / DRAFT / UNMERGED; independent security review and protection-rule verification remain outstanding.
+
+
+### Wave 108 latest exact-head verification (2026-10-18)
+
+Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob `831d59559eef41783f3758ce883d895acc1526b0`; retry workflow blob `df8c2cdf5a344f400cdbbd9997aec82cf38870f2`. Exact-head CI passed: Gemini Read-only Workflow Contract [39069711066](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711066), Astra Verify [39069710934](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069710934), Astra Cloud Runtime Validation [39069711045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711045). PR #334 remains OPEN / DRAFT / UNMERGED; independent security review and protection-rule verification remain outstanding. See [Wave 108 addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-18.md).
