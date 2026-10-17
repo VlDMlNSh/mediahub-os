@@ -82,11 +82,10 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         self.assertNotIn("OPENROUTER_API_KEY", self.audit + self.retry)
 
     def test_response_body_is_streamed_with_a_hard_byte_cap(self) -> None:
-        self.assertIn("maxResponseBytes=2*1024*1024", self.retry)
-        self.assertIn("responseBytes > maxResponseBytes", self.retry)
-        self.assertIn("response byte limit exceeded", self.retry)
-        self.assertIn("res.destroy()", self.retry)
-        self.assertIn("res.on('aborted',() => reject(new Error('response aborted before completion')))", self.retry)
+        self.assertIn("require('./scripts/gemini_http_response')", self.retry)
+        self.assertIn("await readBoundedResponse(res, req, 2*1024*1024)", self.retry)
+        self.assertNotIn("responseBytes > maxResponseBytes", self.retry)
+        self.assertNotIn("res.on('end',() => resolve({", self.retry)
         self.assertIn("require('./scripts/gemini_http_response')", self.audit)
         self.assertIn("await readBoundedResponse(res, req, 2*1024*1024)", self.audit)
         self.assertIn("DEFAULT_MAX_RESPONSE_BYTES = 2 * 1024 * 1024", HTTP_HELPER.read_text(encoding="utf-8"))
