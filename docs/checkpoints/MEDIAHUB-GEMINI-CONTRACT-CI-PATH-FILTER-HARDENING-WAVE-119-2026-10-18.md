@@ -52,3 +52,13 @@ The path-filter/test change is implemented and read back from GitHub. The dedica
 Poll the exact-head Gemini contract run and the generic checks. If the dedicated run remains pending with no jobs, investigate its workflow/trigger/concurrency state without manually dispatching the provider workflow. Once contract CI is green, expand executable provider-result/manifest tests, then obtain independent review and reconcile the 47-ahead / 2-behind branch losslessly.
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Final exact-head CI read-back (2026-10-18)
+
+After the earlier pending poll, the workflow run records were fetched again. On candidate HEAD `1e66aae968c51dc232acc07723a965c3bd80cb6d`, all three runs completed successfully:
+- [Gemini Read-only Workflow Contract #39073129356](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39073129356) — job `actionlint and security-contract regressions` completed/success; checkout SHA verification, actionlint, and the Python least-privilege/workflow invariant tests all passed.
+- [Astra Cloud Runtime Validation #39073129357](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39073129357) — completed/success.
+- [Astra Verify #39073129372](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39073129372) — completed/success.
+
+This verifies the path-filter regression and the existing contract suite on the exact candidate SHA. It does not execute a Gemini provider call or close the missing provider-outcome/manifest matrix, independent review, branch-reconciliation, or Issue #301 admission gates.
