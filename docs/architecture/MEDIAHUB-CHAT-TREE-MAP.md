@@ -10,6 +10,8 @@
 
 - Wave 125 (2026-10-18): [Gemini provider-status regression report](../checkpoints/MEDIAHUB-GEMINI-PROVIDER-STATUS-REGRESSION-WAVE-125-2026-10-18.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-125-2026-10-18.md).
 
+- Wave 126 (2026-10-18): [lossless main-history reconciliation report](../checkpoints/MEDIAHUB-MAIN-HISTORY-RECONCILIATION-WAVE-126-2026-10-18.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-126-2026-10-18.md).
+
 ## 1. Правила интерпретации
 
 1. Номер MH обозначает архитектурный/рабочий домен. Сам по себе номер не доказывает существование отдельного чата, его закрытие или принятие архитектуры.
