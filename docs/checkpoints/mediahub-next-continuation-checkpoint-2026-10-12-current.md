@@ -4511,3 +4511,17 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Live-read and JSON-syntax parsed task-envelope v0.2 (`6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`), registry v0.2 (`b49b89b8fbdfc180862e3dc78f8198f35e486035`), evidence manifest v0.2 (`40c402432fd0f3899d45fde0fa0a8af4d34c593a`) and documentary activation queue (`0d4d591f464b976d6920bbd39c87a45a9d4fda59`). All four parsed as JSON; the three schema candidates declare Draft 2020-12 and top-level required keys correspond to declared properties. No `$ref` keywords found in these schema documents.
 - This is syntax/structural intake only, not standards-compliant JSON Schema meta-validation, format assertions, instance-fixture validation, semantic reference resolution or qualification. Queue remains `DOCUMENTARY_QUEUE_ONLY` with 16 entries.
 - Next: pinned Draft 2020-12 validator, format assertions, positive/negative fixtures and revision-bound workflow evidence; keep A0/R-06/target-manifest gates open.
+
+
+## Wave 80 — project instruction drift audit (2026-10-17)
+
+- Compared the current standing instruction with the Bootstrap, canonical map, continuation checkpoint, Master Development Roadmap, Issue #301 and PR #333.
+- Bootstrap current blob at audit start: `fe9f09ff6b1913bab833db93d442111062b2fd15`; its §8 and action protocol already support autonomous routine engineering within the project mandate and all applicable gates.
+- Corrected Master Roadmap Phase 08 from a blanket “explicit authorization required / actions after separate authorization only” label to execution within the standing mandate when target, capability/issuer, security, budget, provider-policy, rollback and architecture/acceptance gates pass. Historical Mac Pro/Mac mini references are explicitly not accepted target evidence.
+- Updated canonical map §20.351 to record the audit scope and findings. Map update must be read back and SHA-verified after this checkpoint commit.
+- Historical checkpoint entries documenting past non-execution and earlier restrictions were not rewritten. The current supersession rule at the top of the checkpoint remains authoritative for current routine engineering execution.
+- Issue #301 remains open; its “does not itself authorize” language is interpreted as issue-local scope clarification, not a blanket override of the standing project instruction. Required capability/issuer, provider, budget, security, repository and architecture gates remain mandatory.
+- PR #333 remains Draft; its body contains a stale “Do not merge without separate authorization” sentence. This pass did not merge the PR. Keep its normal CI/review/acceptance gates; update the PR body on a later focused pass if needed.
+- No runtime code, credentials, provider calls, workflow dispatch, deployment or branch integration was performed as part of this documentation alignment.
+- Next: proceed with the next unfinished Contour A gate under Issue #301 and Master Roadmap; update other active blanket-approval wording when encountered, without rewriting historical evidence.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
