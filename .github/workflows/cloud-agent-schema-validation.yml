@@ -32,12 +32,14 @@ jobs:
           python-version: "3.12"
       - name: Install pinned validator
         run: python -m pip install --disable-pip-version-check --no-input jsonschema[format]==4.23.0
-      - name: Validate Draft 2020-12 meta-schema and fail-closed negative fixture
+      - name: Validate schemas with positive and negative fixtures
         shell: bash
         run: |
           python - <<'PY'
           import json
+          import re
           import sys
+          from datetime import datetime, timezone
           from pathlib import Path
           from jsonschema import Draft202012Validator, FormatChecker
 
@@ -46,21 +48,119 @@ jobs:
               Path("docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json"),
               Path("docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json"),
           ]
-          failed = False
-          for path in paths:
-              try:
-                  schema = json.loads(path.read_text(encoding="utf-8"))
-                  if schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema":
-                      raise ValueError("unexpected or missing $schema")
-                  Draft202012Validator.check_schema(schema)
-                  validator = Draft202012Validator(schema, format_checker=FormatChecker())
-                  errors = list(validator.iter_errors({}))
-                  if not errors:
-                      raise AssertionError("negative fixture {} unexpectedly passed".format(path))
-                  print("PASS schema-meta + empty-object negative fixture:", path, "errors=", len(errors))
-              except Exception as exc:
-                  failed = True
-                  print("FAIL:", path, repr(exc), file=sys.stderr)
-          if failed:
-              raise SystemExit(1)
+          FORMAT_VALUE = "2026-10-17T00:00:00Z"
+          HEX40 = "a" * 40
+          HEX64 = "b" * 64
+
+          def sample(schema):
+              if "const" in schema:
+                  return schema["const"]
+              if "enum" in schema:
+                  return schema["enum"][0]
+              typ = schema.get("type")
+              if isinstance(typ, list):
+                  # Prefer a non-null alternative so the sample exercises constraints.
+                  typ = next((t for t in typ if t != "null"), typ[0])
+              if schema.get("format") == "date-time":
+                  return FORMAT_VALUE
+              if typ == "object":
+                  props = schema.get("properties", {})
+                  required = schema.get("required", [])
+                  return {key: sample(props[key]) for key in required if key in props}
+              if typ == "array":
+                  return [sample(schema["items"])] * schema.get("minItems", 0) if schema.get("minItems", 0) else []
+              if typ == "integer":
+                  return schema.get("minimum", 0)
+              if typ == "number":
+                  return schema.get("minimum", 0)
+              if typ == "boolean":
+                  return True
+              if typ == "null":
+                  return None
+              if typ == "string":
+                  pattern = schema.get("pattern", "")
+                  if "CAF-AGENT-" in pattern:
+                      return "CAF-AGENT-TEST-01"
+                  if "CAF-" in pattern:
+                      return "CAF-TEST-001"
+                  if "sha256:" in pattern:
+                      return "sha256:" + HEX64
+                  if "40" in pattern or "[a-f0-9]{40}" in pattern:
+                      return HEX40
+                  if "repository" in pattern or "[A-Za-z0-9_.-]+/" in pattern:
+                      return "VlDMlNSh/mediahub-os"
+                  return "x" * max(1, schema.get("minLength", 1))
+              return None
+
+          def paths_for_format(schema, fmt, prefix=()):
+              found = []
+              if schema.get("format") == fmt and schema.get("type") == "string":
+                  found.append(prefix)
+              for key, child in schema.get("properties", {}).items():
+                  found.extend(paths_for_format(child, fmt, prefix + (key,)))
+              if isinstance(schema.get("items"), dict):
+                  found.extend(paths_for_format(schema["items"], fmt, prefix + (0,)))
+              return found
+
+          def replace_at(instance, path, value):
+              target = instance
+              for part in path[:-1]:
+                  target = target[part]
+              target[path[-1]] = value
+
+          def main():
+              failed = False
+              for path in paths:
+                  try:
+                      schema = json.loads(path.read_text(encoding="utf-8"))
+                      if schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema":
+                          raise ValueError("unexpected or missing $schema")
+                      Draft202012Validator.check_schema(schema)
+                      validator = Draft202012Validator(schema, format_checker=FormatChecker())
+                      valid = sample(schema)
+                      errors = list(validator.iter_errors(valid))
+                      if errors:
+                          raise AssertionError("generated positive fixture rejected: " + "; ".join(e.message for e in errors[:5]))
+                      print("PASS positive fixture:", path)
+                      empty_errors = list(validator.iter_errors({}))
+                      if not empty_errors:
+                          raise AssertionError("empty-object negative fixture unexpectedly passed")
+                      print("PASS empty-object negative fixture:", path, "errors=", len(empty_errors))
+                      extra = dict(valid)
+                      extra["__unexpected_wave82_property__"] = True
+                      if validator.is_valid(extra):
+                          raise AssertionError("unknown top-level property unexpectedly accepted")
+                      print("PASS additional-property negative fixture:", path)
+                      enum_paths = []
+                      def find_enum(s, p=()):
+                          if isinstance(s.get("enum"), list) and s.get("enum") and all(isinstance(x, str) for x in s["enum"]):
+                              enum_paths.append((p, s["enum"]))
+                          for k, v in s.get("properties", {}).items():
+                              find_enum(v, p + (k,))
+                          if isinstance(s.get("items"), dict):
+                              find_enum(s["items"], p + (0,))
+                      find_enum(schema)
+                      if enum_paths:
+                          p, allowed = enum_paths[0]
+                          bad = json.loads(json.dumps(valid))
+                          replace_at(bad, p, "__invalid_enum_value__")
+                          if validator.is_valid(bad):
+                              raise AssertionError("invalid enum negative fixture unexpectedly passed at " + repr(p))
+                          print("PASS enum negative fixture:", path, "path=", ".".join(map(str,p)))
+                      format_paths = paths_for_format(schema, "date-time")
+                      if format_paths:
+                          p = format_paths[0]
+                          bad = json.loads(json.dumps(valid))
+                          replace_at(bad, p, "not-a-date-time")
+                          if validator.is_valid(bad):
+                              raise AssertionError("invalid date-time unexpectedly accepted at " + repr(p))
+                          print("PASS invalid date-time negative fixture:", path, "path=", ".".join(map(str,p)))
+                      else:
+                          print("INFO no date-time field in schema:", path)
+                  except Exception as exc:
+                      failed = True
+                      print("FAIL:", path, repr(exc), file=sys.stderr)
+              if failed:
+                  raise SystemExit(1)
+          main()
           PY
