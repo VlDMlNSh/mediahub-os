@@ -4539,3 +4539,14 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Local servers participate only in explicitly selected local inference/computation. Local fallback requires a separate task route and data-egress approval; it never occurs implicitly after a cloud error.
 - Source inspection only. No provider call, workflow dispatch, test, qualification, credential read, infrastructure change, or deployment occurred.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 46 — Master continuation prompt and history-preservation contract (2026-10-17)
+
+- Added `docs/architecture/MEDIAHUB-MASTER-CONTINUATION-PROMPT-2026-10-17.md` as the handoff entry point for a new chat.
+- The prompt establishes the live-source order, current ref/PR refresh, architecture invariants, GitHub-hosted-only cloud routing independent of owner geolocation/egress, local-only server compute, authority gates and the required `/next` protocol.
+- History model: GitHub stores durable development evidence, decisions and checkpoints. Full ChatGPT transcripts require a user-supplied or verifiably archived export; no transcript was fabricated or claimed transferred.
+- Existing project history remains append-only. This wave adds navigation and handoff rules; it does not replace earlier checkpoints or decisions.
+- Validation: source files read from the current working branch; final file read-back and commit/PR state must be confirmed after the write.
+- No provider calls, workflow dispatch, tests, qualification, credential reads, infrastructure changes, deployment or merge were performed in this documentation pass.
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md

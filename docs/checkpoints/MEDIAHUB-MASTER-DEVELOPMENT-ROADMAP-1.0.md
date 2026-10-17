@@ -2023,3 +2023,14 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No provider call, workflow dispatch, credential access, local test, install, host/runtime inspection, infrastructure change, deployment or merge occurred in this wave. The PR's existing checks passed; no new test run was launched.
 - Next bounded pass: source-review the pinned OpenHands Agent Server routes/configuration and workspace/tool enforcement against accepted A0, MH-12 and R-06 requirements. Keep autonomous activation blocked pending accepted authority and target evidence.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Contour A — Master New-Chat Continuity Contract, Wave 46 (2026-10-17)
+
+- Master prompt: `docs/architecture/MEDIAHUB-MASTER-CONTINUATION-PROMPT-2026-10-17.md`.
+- Purpose: restore current project context from live GitHub refs while retaining the traceable history of decisions, implementation evidence and checkpoints.
+- Full ChatGPT transcript continuity depends on a user-provided or verifiably archived export; GitHub development records remain the authoritative engineering ledger.
+- Binding cloud route: GitHub-hosted Actions only, independent of owner geolocation and internet egress; owner servers/local machines are reserved for local computation.
+- This wave records the continuation contract only. It does not activate cloud routing or change runtime behavior.
+- Next step: refresh live refs and PR states, then continue the next open roadmap item through the mandatory `/next` protocol.
+- Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
