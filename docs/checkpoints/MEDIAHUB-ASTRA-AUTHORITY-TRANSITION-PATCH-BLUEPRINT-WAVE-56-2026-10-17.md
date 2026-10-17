@@ -110,3 +110,14 @@ Next bounded pass: pursue exact consumer ownership and map read-back; if either 
 - No software installation, model/provider calls, credential use, host/runtime inspection, infrastructure change, deployment, merge, rebase or cherry-pick.
 - No assertion of implementation, runtime verification, qualification, release or acceptance.
 - Canonical project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## End-of-pass main update — 2026-10-17
+
+A newer `main` commit appeared during the pass: `72cd8b66d5544b89a26275cd67312584c793ff02`, title `docs(recovery): record Gemini MCP runtime blockers (#309)`. Its recovery record reports:
+- `mcp_github_list_commits` failed with structured-content input-schema mismatch (`expected record, received array`).
+- `mcp_github_get_file_contents`, branch creation and file creation succeeded in the recorded run.
+- PR creation failed with HTTP 403 because the GitHub Actions token lacks permission to create or approve pull requests.
+- Recovery branch: `caf-q-003-runtime-recovery`; no integration was performed in this pass.
+
+End-of-pass refs: `main` HEAD `72cd8b66d5544b89a26275cd67312584c793ff02`; docs branch HEAD before this note `3fc111a71436d2d4f791f0f42ec51d9609d84f5a`; compare remained **DIVERGED**, docs ahead 2064 / behind 19; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No branch integration action was taken.
