@@ -4640,3 +4640,12 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Issue #301 remains open. A0 issuer/verifier lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent review, and bounded worker/queue qualification remain open.
 - Report commit: `1b7935999bd73636f7d069bd24475ae550df8933`; map update commit: `7e1487a1b1f6fb6b8e8e5969fdec89624c407fc9`; map blob SHA: `ade6dacbe2878d96b66f334316cb8d6a1358beb7`.
 - Next: inspect exact PR #335/#337 patches and divergence, design one consolidated workflow, then run positive/negative fixture tests and fresh CI. Keep acceptance gates separate.
+
+
+## /next Wave 97 — exact dual-PR patch reconciliation (2026-10-17)
+
+- Report: [MEDIAHUB-DUAL-PR-EXACT-PATCH-RECONCILIATION-WAVE-97-2026-10-17.md](MEDIAHUB-DUAL-PR-EXACT-PATCH-RECONCILIATION-WAVE-97-2026-10-17.md).
+- PR #335 head `44e2bc7c735ad7f70294d66de8e08eb1da612e0d`, PR #337 head `5ff2dbcc32d4949f4ce045164d110233cef980ba`; both Open/Draft, GitHub reports mergeable=true. Eight changed paths overlap, including both validators, fixture files and the same workflow path.
+- #337 branch comparison against canonical docs branch: diverged, 83 ahead / 23 behind, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. Latest observed #337 validation run [39050957165](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39050957165) passed; #335 current-head CI not independently confirmed this pass.
+- No merge/force-update performed. Next: create a clean consolidation branch from canonical base, port verified validator scripts and fixtures plus hash-locked dependency/lock-generation controls, audit workflow path filters and run fresh CI. Do not treat this as Contour A acceptance.
+- Report commit: `df86343213672c2ecefeef0879364602e0c913b6`; map commit: `97977c8f094c2a7c6e435a8bafd058e1d7495d80`; map blob: `d9461c87aab1114c3288b4433dd8a3d1a9033f71`.
