@@ -11,6 +11,8 @@ on:
       - "scripts/test_gemini_readonly_workflows.py"
       - "scripts/mark_gemini_missing_credential.js"
       - "scripts/test_gemini_missing_credential.js"
+      - "scripts/gemini_provider_outcome.js"
+      - "scripts/test_gemini_provider_outcome.js"
   pull_request:
     branches:
       - main
