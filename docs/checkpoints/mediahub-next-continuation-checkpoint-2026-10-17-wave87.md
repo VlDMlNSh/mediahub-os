@@ -29,3 +29,13 @@ Inspect the latest HEAD and all check runs after the Wave 87 report/checkpoint c
 ## Wave report
 
 See [Cloud-Agent Lock Reproducibility and CI Verification — Wave 87](MEDIAHUB-CLOUD-AGENT-LOCK-REPRODUCIBILITY-AND-CI-VERIFICATION-WAVE-87-2026-10-17.md).
+
+
+## Subsequent revalidation (2026-10-17, 15:46 UTC)
+
+- Latest implementation HEAD observed: `91f28b32829e3c581b8c05a75238b0a3e276c669`.
+- Current lock blob: `4273a245d10425f3270b30de054a76b545c2e935`; current generator workflow blob: `89a0a3ee07ee72b10c790af94f9561f54b5ae751`.
+- Generator run [39046513655](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39046513655) succeeded and its emitted lock matches the committed file byte-for-byte. Artifact ID `12105873011`, ZIP digest `sha256:21b4c123d1c4a3e3d5ee3a103bfec21ab892e79421a9fb0c831677125203aacb`.
+- Validation runs [39046513729](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39046513729) and [39046516128](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39046516128) passed.
+- Workflow now includes the lock file in its push path filter and explicitly sets the PyPI index. The generated command comment still shows `--no-index` while `PIP_NO_INDEX` is empty; resolve this configuration ambiguity before full qualification.
+- Wave 87 report follow-up: [Cloud-Agent Lock Reproducibility and CI Verification](MEDIAHUB-CLOUD-AGENT-LOCK-REPRODUCIBILITY-AND-CI-VERIFICATION-WAVE-87-2026-10-17.md).
