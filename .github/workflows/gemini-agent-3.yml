@@ -92,7 +92,7 @@ jobs:
 
             Agent identity: gemini-agent-3
             Credential reference: GEMINI_API_KEY_3
-Authorized contour: ${{ inputs.scope }}
+            Authorized contour: ${{ inputs.scope }}
             Base ref: ${{ inputs.base_ref }}
             Bounded task:
             ${{ inputs.task }}
