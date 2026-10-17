@@ -22,3 +22,14 @@ Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
 - Contract test blob: `831d59559eef41783f3758ce883d895acc1526b0`; retry workflow blob: `df8c2cdf5a344f400cdbbd9997aec82cf38870f2`.
 - After correcting an intermediate test-file header/expectation issue, exact-head CI passed: Gemini Read-only Workflow Contract [39069711066](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711066), Astra Verify [39069710934](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069710934), Astra Cloud Runtime Validation [39069711045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711045).
 - Intermediate failed CI is not counted as successful verification. PR remains OPEN / DRAFT / UNMERGED; independent review and protection-rule verification are outstanding.
+
+## Additional review corrections — exact verified candidate
+
+- Latest verified candidate HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`.
+- Primary workflow blob: `cb42b1094adbad802bbc764f7a36b453fcb518ea`.
+- Retry workflow blob: `df8c2cdf5a344f400cdbbd9997aec82cf38870f2`.
+- Contract test blob: `831d59559eef41783f3758ce883d895acc1526b0`.
+- Primary step-summary template corrected to use real newline escapes; retry step-summary fixed to use `manifest.attempts` instead of undefined `attempts`.
+- Shared reader verifies HTTP message completion and byte limit for both workflows. The contract suite checks newline framing and the retry attempt-count interpolation.
+- Exact-head CI passed: [Gemini Read-only Workflow Contract #39069711066](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711066), [Astra Verify #39069710934](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069710934), [Astra Cloud Runtime Validation #39069711045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711045).
+- No independent review submissions or inline review threads were present. Branch-protection/ruleset settings remain unverified because available integration actions do not expose those settings.
