@@ -73,3 +73,15 @@ Both logs show `Using indexes: https://pypi.org/simple`; both report input SHA-2
 - [Master Development Roadmap](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md)
 - [PR #337](https://github.com/VlDMlNSh/mediahub-os/pull/337)
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
+
+
+## Current-head revalidation (2026-10-17, 15:54 UTC)
+
+This follow-up supersedes the earlier head/divergence figures above for navigation; it does not rewrite the historical evidence captured by the original pass.
+
+- Current PR #337 head: `7697165ba8c2b0f24bef0ad00fbf34e6483841f0`; current lock-generation workflow blob: `951631787208740daf7999e71df24beb625b9910`; lock blob: `6a232e27c644ec1a46ddebc21a4a27c1d26ca781`.
+- The workflow now explicitly neutralizes pip environment/configuration and uses `--no-config --index-url=https://pypi.org/simple`; the current lock header reproduces that exact command context. The earlier `--no-index` ambiguity is not present in the current file.
+- Current-head schema-validation runs [39047028293](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047028293) and [39047025408](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047025408) both completed successfully. The generator run [39046901040](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39046901040) also completed successfully on prior head `9898787e5ef9e5f045a0f644c070165973fd19a6).
+- The PR branch is now 47 commits ahead / 18 behind the canonical documentation branch, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`.
+- **Integration hazard:** PR #335 (`test/cloud-agent-schema-validation-20261017`, head `44e2bc7c735ad7f70294d66de8e08eb1da612e0d`) and PR #337 both add `.github/workflows/cloud-agent-schema-validation.yml`. Both remain Draft and unmerged. Do not merge these PRs independently or assume their workflow implementations are interchangeable; perform an explicit file-level design comparison and choose one canonical workflow path before integration.
+- PR #337 has no independent review submissions at this observation. Issue #301 remains open. CI success here qualifies only the observed schema workflow on the cited commits, not the complete Contour A environment.
