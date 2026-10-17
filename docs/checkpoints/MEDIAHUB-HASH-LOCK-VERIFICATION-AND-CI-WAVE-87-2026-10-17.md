@@ -4,7 +4,7 @@
 - Work branch: `contour-a-schema-validation-wave81-20261017`
 - PR: [#337 — Wave 81: Add pinned cloud-agent schema validation workflow](https://github.com/VlDMlNSh/mediahub-os/pull/337)
 - Scope: verify Wave 86 lock-generation evidence, read back the lock and workflow, confirm current-head CI, and record remaining integration gates.
-- Status: dependency lock generation and hash-enforced schema CI verified on the current PR head; PR remains unmerged and unqualified.
+- Status: committed lock text matches successful generator output, and hash-enforced schema CI passes on the current PR head; lock-generation provenance has an unresolved `--no-index` configuration discrepancy, so full reproducibility is not yet qualified.
 
 ## 1. Evidence checked
 
@@ -43,7 +43,11 @@
 
 The Wave 86 report was accurate at the time it was written, but its statement that no lock had been read back or committed is now superseded by the evidence in this Wave 87 report. Keep Wave 86 as a historical snapshot; use this report for the later verified state.
 
-## 4. What is still not proven
+## 4. Lock-generation provenance caveat
+
+The generated lock header emitted by the successful generator run records a `pip-compile` command containing `--no-index`, while the checked-in workflow's visible compile invocation does not pass that flag. The workflow log also shows the generated lock was emitted and its logged SHA-256 was recorded, and the committed file matches that emitted text byte-for-byte; however, the source of the effective `--no-index` option has not been explained. Before calling dependency generation reproducible, inspect runner-level pip configuration/environment and the complete `pip-compile` invocation/environment, then regenerate in a controlled environment with explicit index policy and compare results. The hash-locked install passing proves the current lock can be installed in the observed runner, not that lock generation is independent of hidden runner configuration.
+
+## 5. What is still not proven
 
 - The artifact ZIP was not downloaded and independently unpacked; the current lock was matched to the complete lock text emitted by the successful generator log, and artifact metadata was verified.
 - No independent code/security review of PR #337 is recorded.
@@ -51,9 +55,9 @@ The Wave 86 report was accurate at the time it was written, but its statement th
 - This does not qualify the full autonomous environment, authorize provider dispatch, prove secret-hygiene across every workflow, or close Issue #301.
 - No merge, deployment, credential access, external model invocation, task dispatch, or Contour B work was performed.
 
-## 5. Next bounded step
+## 6. Next bounded step
 
-1. Download and inspect artifact `12105503066` if the available GitHub connector exposes a safe artifact-download path; compare the extracted file with the committed lock and the recorded SHA-256.
+1. Explain and eliminate the `--no-index` provenance discrepancy; explicitly define the package-index policy and regenerate the lock under a controlled environment. Download and inspect artifact `12105503066` if the available GitHub connector exposes a safe artifact-download path; compare the extracted file with the committed lock and the recorded SHA-256.
 2. Review the full PR diff file-by-file, especially schema-validator behavior, workflow triggers, token permissions, action pins, and dependency provenance.
 3. Reconcile the 27/18 branch divergence only after a file-level conflict/loss review; re-run CI on the resulting head.
 4. Obtain independent review and resolve Issue #301 authority/runner qualification gates before any promotion or merge decision.
