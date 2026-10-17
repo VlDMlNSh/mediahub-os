@@ -4523,3 +4523,15 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - No install, tests, qualification, provider/model call, credentials, workflow dispatch, runtime inspection, infrastructure change, merge or deployment occurred.
 - Current canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md. The Wave 70 navigation addendum is on the working PR branch; the canonical map remains unchanged.
 
+
+
+## Latest verified continuation — Agent Server telemetry/completion logging/secret-retention review, Wave 71 (2026-10-17)
+
+- Report: `docs/checkpoints/MEDIAHUB-AGENT-SERVER-TELEMETRY-RETENTION-REVIEW-WAVE-71-2026-10-17.md`; creation commit `1d0205eebe74a823c7574fdbe166b21e5e31f1f2`.
+- Map navigation addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-71-2026-10-17.md`; creation commit `046d2fa6f9380f0d421c74874cd0166271200568`.
+- Reviewed official OpenHands Agent Server README and event-service/telemetry source pages on upstream `main` for discovery. Exact upstream commit/tag/image digest associated with the MediaHub candidate remains unlocated; moving `main` references are not treated as pin evidence.
+- Source-level findings: telemetry is documented as opt-in with an allowlisted event schema; completion logging is a separate local-disk surface containing full prompts/responses/raw provider payloads; conversations/events/workspaces are filesystem-backed; no bounded retention or complete deletion/backup-erasure guarantee was established from the reviewed README; `OH_SECRET_KEY` protects selected persisted secret fields only.
+- Read `docs/architecture/MH-13-privacy-data-governance.md@main`, blob `e732ff9cacbc9c1189bd83306cdff30906326cf0`, and `docs/architecture/MH-13-governance-state.md@main`, blob `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`. MH-13 is an accepted reconstruction with partial historical fidelity, not frozen; production implementation remains unauthorized.
+- Disposition: OpenHands Agent Server remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. R-06 and accepted target manifest remain open. Proposed conservative defaults only: completion logging off, telemetry exporter `none`, no User Domain data, explicit retention/deletion contract, authenticated access and isolated ephemeral workspace.
+- No installation, tests, qualification, provider/model calls, credential use, workflow dispatch, runtime/host inspection, infrastructure changes, merge, rebase, deployment or branch integration occurred.
+- Canonical map remains on `docs/mediahub-chat-tree-map-20261012`; Wave 71 navigation is an addendum on the working PR branch. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
