@@ -73,3 +73,11 @@ See [Cloud-Agent Lock Reproducibility and CI Verification — Wave 87](MEDIAHUB-
 - PR #337 remains Draft/unmerged. Current observed compare against `docs/mediahub-chat-tree-map-20261012`: 56 ahead / 20 behind; merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. No integration performed.
 - Remaining gates in [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301) are unchanged: A0 issuer/verifier lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent schema review, and bounded worker/queue qualification.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 91 continuation update (2026-10-17)
+
+- Corrected the lock-generator workflow path filter: generated lock file is no longer a trigger input. Workflow blob read-back: `c22d820ccb59bcbdbaf4bfa40125063f2c68d8e0`; correction commit `d493b042bdf5bb0259b84f69dc48b43875d77474`.
+- Added [Wave 91 lock-generation trigger correction report](MEDIAHUB-CLOUD-AGENT-LOCK-TRIGGER-CORRECTION-WAVE-91-2026-10-17.md), blob `2fc44560273e3da4b4a124e0d8249a46aab60d4f`, report commit `dcfa4d359a58e8df4ca4d0d6e6f2c7068c6a89ed`.
+- Report content was read back and matched the submitted text. Fresh CI on the correction/report commits must still be checked.
+- The PR #335/#337 workflow collision and branch divergence remain unresolved. Keep PR #337 Draft and unmerged pending fresh CI, consolidation decision, independent review and Issue #301 governance gates.
