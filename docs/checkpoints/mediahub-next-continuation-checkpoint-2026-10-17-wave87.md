@@ -123,3 +123,14 @@ See [Cloud-Agent Lock Reproducibility and CI Verification — Wave 87](MEDIAHUB-
 - Limit: generator run is from an earlier commit than the current PR head; trigger/verify generation on the latest candidate head and compare artifact bytes with the committed lock before declaring reproducibility fully qualified.
 - PR #337 remains Draft and unmerged. Last observed divergence from canonical docs branch: 76 ahead / 20 behind, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. No merge performed.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 95 update — pip package-source audit (2026-10-17)
+
+- Completed small step 1: inspected the current generator workflow, lock header, generator job logs and the latest schema-validation run. The earlier Wave 87 `--no-index` concern is stale and resolved on the current branch.
+- Generator workflow blob: `c22d820ccb59bcbdbaf4bfa40125063f2c68d8e0`; it neutralizes ambient pip configuration with `PIP_CONFIG_FILE=/dev/null`, sets `PIP_INDEX_URL=https://pypi.org/simple`, unsets `PIP_NO_INDEX`, and uses `--no-config --index-url=https://pypi.org/simple`.
+- Lock blob: `6a232e27c644ec1a46ddebc21a4a27c1d26ca781`; generated header contains the explicit index URL and no `--no-index` marker.
+- Generator run [39048549631](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39048549631) passed; artifact `12106523853`, digest `sha256:ea02c0e7433c2722edea55eb75827beb66bb822d86faaeec4a78589e426f43e4`. Job logs confirm the effective configuration; emitted lock matches the committed lock apart from the final newline removed by log framing.
+- Latest observed validation run [39050070467](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39050070467) passed on PR head `250214fef305f1dbd073f175f768fe275f1352cb`; validation artifact `12107770418`, digest `sha256:b5e62b066f9f20d26100cf1799887f31ff5a96de33a17310b216a77207e83151`.
+- Wave 95 report: [MEDIAHUB-PIP-INDEX-SOURCE-AUDIT-WAVE-95-2026-10-17.md](MEDIAHUB-PIP-INDEX-SOURCE-AUDIT-WAVE-95-2026-10-17.md).
+- Small-step sequence: (1) source configuration/provenance audit — complete; (2) inspect validation artifact and embedded source SHA/test counts; (3) review authority/schema contracts against Baseline 2.0 and Issue #301; (4) independent review; (5) file-level branch reconciliation and final-SHA CI. PR #337 remains Draft and unmerged.
