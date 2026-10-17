@@ -4622,3 +4622,18 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Next: prepare an exact source-bound hardening proposal for Gemini read-only workflow (immutable SHA, strict context/path/model policy, full-SHA action pins, provenance manifest) without modifying workflow source or dispatching. Explicit authorization remains required for implementation, provider call and execution.
 
 - Final Wave 77 post-checkpoint read-back: PR #333 HEAD `0facb2f04dcc7dbeef23c0f8371d178ef6bf81b9`, base `a0c432273914fa5c4bd9e756736f9c9b72b41a77`, open / Draft / unmerged, 37 ahead / 0 behind, 20 changed files. Checkpoint blob SHA at this read-back: `30f4476818227c0a605aa33d1a578492ea4e1f36`.
+
+
+## Latest verified continuation — Wave 78 cloud-model invocation readiness (2026-10-17)
+
+- Owner explicitly authorized cloud-model invocation for this /next pass.
+- PR #333 re-read: open, Draft, unmerged. Working branch HEAD `4458751d07e64c44d950591b78ef31681bc9dc37`; canonical base SHA `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; compare 38 ahead / 0 behind.
+- Live `main` HEAD: `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
+- Issue #301, bootstrap, Master Roadmap, current checkpoint and both Gemini workflow sources were re-read.
+- Gemini retry workflow `main` blob SHA `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`; non-retry workflow `main` blob SHA `0d10efdda251f2ceca43175981c919102303572b`. Known source gaps remain: mutable context ref, tag-based action pins, caller-selected context paths, free-form model selection in retry, and incomplete evidence manifest.
+- Historical run `38952885501` is `completed/success`, source SHA `b45324009ac3aa65322a702c28069b12190bc4b8`, artifact `12069128185`, digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d`. It does not prove current repeatability or qualification.
+- Connected GitHub tools have no fresh workflow-dispatch operation. Browser profile discovery showed no GitHub signed-in site for either available profile; authenticated browser dispatch is unverified. No workflow was rerun as a substitute.
+- Report: `docs/checkpoints/MEDIAHUB-CLOUD-MODEL-INVOCATION-READINESS-WAVE-78-2026-10-17.md`; creation commit `ec305ce5d75e776780ef9d155a546d5d54def2b9`.
+- Map addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-78-2026-10-17.md`; creation commit `becbda1743d434b8c1d2e67ac196e08dc1532bc6`.
+- Disposition: **MODEL CALL AUTHORIZED / NOT EXECUTED / DISPATCH ACCESS BLOCKED / FABRIC NOT QUALIFIED**. No model call, dispatch/rerun, credential access, tests, installation, qualification, host/runtime inspection, infrastructure change, merge, rebase, cherry-pick or deployment occurred.
+- Next: ask whether an existing browser profile is signed in to the intended GitHub account, or obtain authorization to establish a GitHub browser session. Keep provider invocation read-only, source-bound, no paid fallback, no self-hosted/privileged Astra route. If the workflow hardening gates are not met, present the exact source patch for separate authorization.
