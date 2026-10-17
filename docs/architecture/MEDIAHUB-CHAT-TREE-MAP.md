@@ -6920,3 +6920,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: **SOURCE-ONLY REVIEW COMPLETE / CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED**. A0 issuer/lifecycle, MH-12 authorization, R-06 audit/privacy, target manifest, artifact provenance and qualification gates remain open.
 - No installation, tests, scans, dependency resolution, model/provider call, credential use, host/runtime inspection, qualification, deployment or branch integration occurred.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.349 — A0/R-06 Admission Gate Evidence Reconciliation, Wave 68 (2026-10-17)
+
+- Report: [A0/R-06 Admission Gate Evidence Reconciliation — Wave 68](../checkpoints/MEDIAHUB-A0-R06-ADMISSION-GATE-EVIDENCE-RECONCILIATION-WAVE-68-2026-10-17.md), report commit `09cb48df8c72e9e0901236560fc2bfd92606ab45`, blob SHA `45752646a61acea7d6ad31b83993917847ba8082`.
+- Re-read A0/MH-12 issuer trace (`49ca0b69737bf8d44fe3a42daa47fd9157c9097d`), WB-07 ingress trace (`89fab594f9a9ae9a729d63ecb14dad2543edc9af`), WB-08 caller trace (`101f3d3352999dc7978a29b13c081adb3f3a66b7`), unfilled R-06 template (`834fd1ab70eee88355844ba2ebba6c2b6c47ecdb`), target-manifest reconciliation (`1f748bf80e08067fd85a7e1b0821cc4d12bda676`), credential/schema crosswalk (`13c9cb5a16323a7bd28c6564009f6f123f710f2e`), activation queue (`0d4d591f464b976d6920bbd39c87a45a9d4fda59`) and source registry (`d51d8788bae07b534132aa67ad1dcf8cb84c342f`).
+- Determination: A0 issuer/ingress/lifecycle, R-06 audit/privacy and accepted runner/workspace/network target remain OPEN / BLOCKED. v0.2 schemas remain candidates; queue remains documentary-only.
+- Independently reviewed Gemini run `39029470935`, job `117386851191`, artifact `12099542430` (SHA-256 `2a47d15d309c0ce75c3476b23ea4453f555911fd5bf84ae6e5392a4b72ee195b`) and PR #332. Artifact records failed MCP reads and a free-tier quota error; workflow steps contain no test step. PR #332's claim that 16 invariant tests were verified is unsupported by this run's evidence.
+- Status: SOURCE-BOUND RECONCILIATION / DOCUMENTATION ONLY / ACCEPTANCE OPEN. No tests, qualification, provider calls, credentials, dispatch, installation, runtime inspection, infrastructure change, merge or deployment occurred.
+- Next: reconcile accepted A0/MH-12 authority wording, establish accountable R-06 decision authority/reviewers, and identify the owner-accepted target manifest before implementation.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/contour-a-a0-r06-evidence-reconciliation-wave68-20261017/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
