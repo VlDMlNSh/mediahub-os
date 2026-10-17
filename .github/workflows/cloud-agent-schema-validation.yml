@@ -6,6 +6,7 @@ on:
       - "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-*-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
       - "requirements/cloud-agent-schema-validation.in"
       - "requirements/cloud-agent-schema-validation.lock"
+      - "requirements/cloud-agent-lock-generation-bootstrap.lock"
       - ".github/workflows/cloud-agent-schema-validation.yml"
       - ".github/workflows/cloud-agent-lock-generation.yml"
       - "scripts/validate_cloud_agent_*.py"
@@ -15,6 +16,7 @@ on:
       - "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-*-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
       - "requirements/cloud-agent-schema-validation.in"
       - "requirements/cloud-agent-schema-validation.lock"
+      - "requirements/cloud-agent-lock-generation-bootstrap.lock"
       - ".github/workflows/cloud-agent-schema-validation.yml"
       - ".github/workflows/cloud-agent-lock-generation.yml"
       - "scripts/validate_cloud_agent_*.py"
@@ -30,17 +32,17 @@ concurrency:
 
 jobs:
   validate:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Checkout immutable event commit
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.12"
 
@@ -109,7 +111,7 @@ jobs:
           sha256sum artifacts/*.json
 
       - name: Upload validation reports and provenance
-        uses: actions/upload-artifact@65462800FD760344B1A7B4382951275A0ABB4808
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
           name: cloud-agent-schema-validation-evidence-${{ github.sha }}-run-${{ github.run_id }}
           path: artifacts/*.json
