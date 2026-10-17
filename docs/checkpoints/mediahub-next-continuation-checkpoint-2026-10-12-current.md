@@ -4850,3 +4850,31 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - Candidate now compares 71 ahead / 0 behind main, merge base main HEAD. PR #334 remains OPEN / DRAFT / UNMERGED; independent security approval is not evidenced.
 - Rulesets endpoint returned an empty list; branch protection endpoint returned 403/resource not accessible. Applicable protection requirements remain unknown. No provider call, secret read, workflow dispatch, queue admission, merge, deployment or Contour A acceptance.
 - Next: continue the highest-value bounded Contour A gap under Issue #301; keep PR #334 in Draft until independent review and authorized protection-rule evidence are available.
+
+
+## Wave 128 — schema candidate integration-risk audit (2026-10-18)
+
+- Report: [Wave 128](MEDIAHUB-SCHEMA-CANDIDATE-INTEGRATION-RISK-WAVE-128-2026-10-18.md); canonical map indexes the same report.
+- Read Bootstrap, map, this checkpoint, Master Roadmap and Baseline 2.0. Map content was retrieved via blob SHA `4ad5a78ec5336173a235a88dcb174ad34cbff301` after the Contents API returned empty.
+- Live refs: main `c06015e0b1526e0aaa6a522306052b077455aba5`; canonical docs branch at start `485540e75be44244599643734d502ade91eb48e2`; PR #338 candidate `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`.
+- PR #338 already implements Draft 2020-12 schema meta-validation with format checking, positive/negative fixtures, cross-artifact semantic checks, pinned schema blob SHAs, hash-locked dependencies and machine-readable evidence. Exact-head run [#39058425661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058425661) succeeded; schema/semantic/report/artifact steps all passed; recorded evidence digest `sha256:7957517179ce91c469e851996d2141410640c008da90c6f0c35f879ac185bb3c`.
+- Candidate is 20 ahead / 73 behind current canonical docs branch, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. PR #338 base is stale; comparison to main reports 2,151 ahead / 27 behind due branch ancestry. PR #335 and #337 also remain Draft/unmerged and GitHub reports mergeable=false. Do not merge the stale candidate as-is.
+- Independent review is not evidenced; current PR #338 review submissions are owner-authored comments. Contour A acceptance remains blocked on A0 issuer/ingress/lease/cancel/recovery, R-06 authority/privacy and accepted runner/workspace/network target manifest. No provider call, secret read, dispatch, queue admission, merge or deployment.
+- Next: create a clean integration candidate from current canonical docs branch, preserve only the reviewed schema-validation assets, exclude unrelated historical removals, rerun exact-head CI and request independent review.
+
+
+## Wave 129 — clean schema-validation integration (2026-10-18)
+
+- Report: [Wave 129](MEDIAHUB-CLEAN-SCHEMA-INTEGRATION-WAVE-129-2026-10-18.md); canonical map indexes the report.
+- Created `contour-a-schema-clean-integration-wave129-20261018` from canonical docs commit `485540e75be44244599643734d502ade91eb48e2`, carrying forward only 13 schema-validation files from source candidate `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`. Source blob SHAs were preserved; all 13 files are additions; no deletions.
+- Draft PR #350: `92c5528b9fe0736ab316c3a3760a1db7bac1843a`, tree `d94fd2f1feec1bbb103a6b77ea4de374d75f4119`; 13 files, 1,773 additions, 0 deletions. PR is OPEN / DRAFT / UNMERGED; GitHub reports mergeable=true. The docs branch advanced three commits after branch creation (13 ahead / 3 behind), ordinary base drift from report/map/checkpoint updates.
+- Exact-head [schema validation run #39077570671](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39077570671) passed all steps: Draft 2020-12 schema/regression fixtures, cross-artifact semantic fixtures, machine-readable reports and evidence upload. Artifact ID `12117537626`, digest `sha256:db1a387ed590e006a406d1e3bf076b3a1b4d827b1613408eb85352fb90dbb518`.
+- Independent review remains unproven. Schema CI does not qualify issuer/capability, ingress, lease/cancel/recovery, R-06 authority/privacy or accepted runner/workspace/network targets. No provider call, secret read, dispatch, queue admission, merge or deployment.
+- Next: request independent review of PR #350, verify applicable protection requirements when authorized, and continue the remaining Issue #301 acceptance gates. Keep Draft until acceptance evidence is complete.
+
+
+### Wave 129 post-write ref recheck
+
+- After Wave 129 map/checkpoint/report commits, the candidate branch is now 13 ahead / 6 behind the live canonical docs branch; merge base remains `485540e75be44244599643734d502ade91eb48e2`.
+- GitHub currently reports PR #350 `mergeable=false`; the earlier `mergeable=true` snapshot was transient and is not current. Exact-head schema CI run #39077570671 remains successful on `92c5528b9fe0736ab316c3a3760a1db7bac1843a`.
+- Next: reconcile the candidate to the latest canonical docs HEAD, then re-run or verify exact-head CI and inspect current mergeability before any integration decision. Keep PR Draft.
