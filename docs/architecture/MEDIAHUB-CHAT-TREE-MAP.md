@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.332)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.357)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7103,3 +7103,13 @@ WB-14AA и приложение остаются не-нормативными. 
 - PR #334 and #336 remain open/Draft/unmerged and currently non-mergeable; earlier CI evidence is historical until exact-head revalidation.
 - A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority, accepted target manifest, independent review and bounded worker/queue qualification remain open. No model/provider call, secret access, workflow dispatch, runtime test, merge, deployment or acceptance occurred.
 - Next: independent review and lossless PR #338 reconciliation; source-linked clause-level acceptance matrix for A0/MH-12/R-06 and the clean target manifest. Preserve Jarvis / ASTRA A0 / Product State Authority separation.
+
+
+## 20.357 — Contour A clause-level acceptance matrix (Wave 106, 2026-10-17)
+
+- Report: [Contour A Acceptance-Matrix Engineering Wave 106](../checkpoints/MEDIAHUB-CONTOUR-A-ACCEPTANCE-MATRIX-WAVE-106-2026-10-17.md).
+- Existing control register extended: [Unified Contract and Project Traceability Matrix](../checkpoints/MEDIAHUB-UNIFIED-CONTRACT-AND-TRACEABILITY-MATRIX-WAVE-01-2026-10-16.md), update commit `91555d160e184202592949780837e005f3564994`, blob SHA `099df3001a41ea7f86a54c032d254b55efd4c158`.
+- Fourteen acceptance rows now cover authority separation, schema and semantic validation, A0 ingress/issuer and lifecycle/fencing, capability binding, R-06 audit/privacy, clean target identity, worker isolation, provenance, queue admission, supply-chain provenance and separate promotion states.
+- Existing CI remains PASS-SCOPED only: schema run [39058425661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058425661); hash-lock regeneration [39058422263](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058422263). Wave 106 did not rerun these workflows.
+- Blocking/unknown gates remain: A0 issuer/ingress and fencing/recovery; R-06 event sink, privacy retention, residency and clock; owner-accepted clean target manifest; independent review; and qualified read-only worker/queue. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- No provider/model call, secret access, dispatch, runtime test, merge or deployment occurred.
