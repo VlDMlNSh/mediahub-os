@@ -39,6 +39,21 @@ This addendum supplements the canonical map. It does not replace the canonical m
 - Runtime evidence: [run #39019625087](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39019625087), job [117358659831](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39019625087/job/117358659831), conclusion `success`; output validator accepted JSON, confirmed successful MCP operations and successful PR creation. Run created [PR #312](https://github.com/VlDMlNSh/mediahub-os/pull/312).
 - Runbook read-back blob SHA: `f08589cdde314dba7b92a32e513ef3f53e82867c`. Runbook commit: `e45499ffc8c32ecf2f79cbe26d21aebf83bb30e7` on PR branch `docs/gemini-autonomous-engineering-runbook-wave41`.
 - Recorded exact observed workflow settings, GitHub Actions permission prerequisite, model fallback, CLI/MCP versions, dispatch steps, success criteria, stderr warning interpretation, artifact digest, provider quota limit, and mutable action-reference hardening item.
-- Status: runbook documentation and read-back verified; PR #313 open and merge pending. Repeatability/qualification remains pending. No tests, qualification, additional workflow dispatch, merge, deployment, credential change, or infrastructure change occurred.
+- Status: runbook documentation and read-back verified; PR #313 merged as `9e8b44367897a6805ba88a7ff79ed9fd8715271b`. Repeatability/qualification remains pending. The merge occurred after the original checkpoint was written; no runtime qualification is implied.
 
 This entry records a reusable operational reference; it does not change Baseline 2.0 or authorize Contour B work.
+
+
+## Wave 42 — Gemini Agent Pool and Cloud Router Design
+
+- Implementation proposal: [PR #314](https://github.com/VlDMlNSh/mediahub-os/pull/314), branch `automation/gemini-agent-pool-wave42`, current head `eb607a8e0ffca712cd941d91d7545d6357f12486`; PR remains open and unmerged.
+- Proposed Agent 2 workflow: [gemini-agent-2.yml](https://github.com/VlDMlNSh/mediahub-os/blob/automation/gemini-agent-pool-wave42/.github/workflows/gemini-agent-2.yml), secret reference `GEMINI_API_KEY_2`, blob SHA `6c59d42f0777ffbe4528594a756f9839e81a6726`.
+- Proposed Agent 3 workflow: [gemini-agent-3.yml](https://github.com/VlDMlNSh/mediahub-os/blob/automation/gemini-agent-pool-wave42/.github/workflows/gemini-agent-3.yml), secret reference `GEMINI_API_KEY_3`, blob SHA `44ef9aeb8bcc8607bc4c07fe62fc4c56baa69d1e`.
+- Operations guide: [GEMINI-AGENT-POOL-AND-ROUTER-RUNBOOK-WAVE-42.md](https://github.com/VlDMlNSh/mediahub-os/blob/automation/gemini-agent-pool-wave42/docs/operations/GEMINI-AGENT-POOL-AND-ROUTER-RUNBOOK-WAVE-42.md), blob SHA `790abd4ba42080754403b975a4138451248f1d9e`.
+- Router ADR: [MEDIAHUB-CLOUD-MULTIAGENT-ROUTER-ADR-WAVE-42-2026-10-17.md](https://github.com/VlDMlNSh/mediahub-os/blob/automation/gemini-agent-pool-wave42/docs/architecture/MEDIAHUB-CLOUD-MULTIAGENT-ROUTER-ADR-WAVE-42-2026-10-17.md), blob SHA `f445e2ab6b43dfcae275ffa598e44ab18049e504`.
+- Source evidence: both workflow files and both documents were read back from GitHub. Workflow YAML indentation was corrected before read-back.
+- Execution status: workflows are manual-dispatch proposals; no workflow dispatch or provider call occurred. Router remains design-only. The connected Supabase account listed zero projects; no cloud project, database, function, schedule, secret transfer, or deployment was created.
+- Routing policy: respect actual provider/account/project/model quota scope, 429 and Retry-After/reset guidance, bounded backoff, and data-egress policy. Credential rotation is not a quota-bypass mechanism.
+- Next: review PR #314; after merge, run Agent 2 with the source inventory task, then Agent 3 for independent review. Keep router implementation and runtime activation behind contract/security review and separate authorization.
+
+This entry extends the navigation addendum; it does not change Baseline 2.0, close P0-07, authorize runtime activation, or establish agent/router qualification.
