@@ -2028,3 +2028,10 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 ## Owner-directed autonomous execution clarification — 2026-10-17
 
 The standing project instruction authorizes continuous autonomous engineering without repeated confirmation for each ordinary action. Historical entries describing earlier restrictions remain historical; they must not be interpreted as blanket prohibitions on current work. Perform required branch integration when CI, provenance, branch protection, architecture contracts and loss-prevention checks pass. This does not collapse design, implementation, verification, qualification, release, deployment or acceptance into one state, and does not transfer Product State Authority to Jarvis or ASTRA A0.
+
+
+## Current execution-authority interpretation — 2026-10-17 (Wave 80)
+
+The standing project instruction authorizes autonomous routine engineering across the roadmap without repeated per-action confirmation, provided the action is within project scope and all applicable capability/issuer, security, budget, provider-policy, repository-protection, provenance, rollback and architecture/acceptance gates pass. This rule supersedes older blanket “separate authorization” wording only where it referred to routine engineering execution. It does not waive genuinely reserved governance/product decisions, missing provider permissions, external budget commitments, destructive-action safeguards, or Contour A acceptance criteria. Entries in earlier wave logs describing what was not done or what authorization was missing at that time remain historical evidence; they are not current blanket prohibitions. Current next step is controlled by the latest continuation checkpoint and open Issue #301 gates.
+
+Alignment audit and navigation: [canonical project map §20.351](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [current continuation checkpoint — Wave 80](mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301); [current work PR #333](https://github.com/VlDMlNSh/mediahub-os/pull/333).
