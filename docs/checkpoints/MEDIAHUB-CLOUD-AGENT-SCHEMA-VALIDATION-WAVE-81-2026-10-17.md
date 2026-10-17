@@ -53,3 +53,12 @@ Open a draft PR for this bounded validation workflow, obtain a fresh CI run, ins
 - Log evidence: setup-python failed because `cache: pip` requires a `requirements.txt` or `pyproject.toml`, neither of which exists in the repository checkout. Schema validation steps were skipped; this run provides no schema-validation result.
 - Corrective change: removed pip cache configuration to avoid assuming a dependency manifest. Workflow correction commit: `80b104b5abd26154bb86ade0d9929de6f6c184fb`, updated workflow blob SHA `de67071b599bd58db9220a9dd546e7a47666aec4`.
 - A new pull-request run is expected from the workflow change; its status must be inspected before claiming success.
+
+
+## Corrected CI result — run 39041494852
+
+- GitHub Actions run: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39041494852
+- Head commit: `7dda8247bc66178b3797cb152fda7752dfdbfd89`; job ID `117421751596`; job conclusion `success`.
+- Log output confirms all three schemas passed Draft 2020-12 meta-schema validation and each rejected the empty-object negative fixture: task envelope 15 validation errors, registry 10, evidence manifest 13.
+- The run does **not** yet demonstrate valid positive instances, invalid `date-time` rejection, deeper negative fixtures, cross-artifact semantics, full transitive dependency locking, independent review or Contour A qualification. The FormatChecker was enabled, but no invalid-format fixture was executed.
+- CI success is limited to the exact PR head/run and these assertions. PR #337 remains Draft; no merge or qualification.
