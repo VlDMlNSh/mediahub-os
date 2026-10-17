@@ -52,11 +52,11 @@ jobs:
           HEX40 = "a" * 40
           HEX64 = "b" * 64
 
-          def sample(schema):
+          def sample(schema, seed=0):
               if "const" in schema:
                   return schema["const"]
               if "enum" in schema:
-                  return schema["enum"][0]
+                  return schema["enum"][seed % len(schema["enum"])]
               typ = schema.get("type")
               if isinstance(typ, list):
                   # Prefer a non-null alternative so the sample exercises constraints.
@@ -66,9 +66,10 @@ jobs:
               if typ == "object":
                   props = schema.get("properties", {})
                   required = schema.get("required", [])
-                  return {key: sample(props[key]) for key in required if key in props}
+                  return {key: sample(props[key], seed + index) for index, key in enumerate(required) if key in props}
               if typ == "array":
-                  return [sample(schema["items"])] * schema.get("minItems", 0) if schema.get("minItems", 0) else []
+                  count = schema.get("minItems", 0)
+                  return [sample(schema["items"], seed + index) for index in range(count)] if count else []
               if typ == "integer":
                   return schema.get("minimum", 0)
               if typ == "number":
@@ -84,12 +85,13 @@ jobs:
                   if "CAF-" in pattern:
                       return "CAF-TEST-001"
                   if "sha256:" in pattern:
-                      return "sha256:" + HEX64
+                      return "sha256:" + ("abcdef0123456789"[seed % 16]) * 64
                   if "40" in pattern or "[a-f0-9]{40}" in pattern:
-                      return HEX40
+                      return ("abcdef0123456789"[seed % 16]) * 40
                   if "repository" in pattern or "[A-Za-z0-9_.-]+/" in pattern:
                       return "VlDMlNSh/mediahub-os"
-                  return "x" * max(1, schema.get("minLength", 1))
+                  base = chr(ord("a") + (seed % 26))
+                  return base * max(1, schema.get("minLength", 1))
               return None
 
           def paths_for_format(schema, fmt, prefix=()):
