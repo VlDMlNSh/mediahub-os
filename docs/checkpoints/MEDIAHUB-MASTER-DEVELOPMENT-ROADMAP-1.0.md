@@ -193,17 +193,17 @@ Every phase has an output, an exit gate and a no-go condition. Phases may overla
 **Exit:** complete deployment/rollback/restore/evidence design accepted by the owner and applicable architecture governance.
 **No-go:** MH-15/MH-16 authorization missing, destructive behavior ambiguous, or rollback violates security/data invariants.
 
-### Phase 08 — Authorized deployment of Contour A (P0; explicit authorization required)
-**Actions after separate authorization only**
-- Deploy the Mac Pro profile and Mac mini profile independently, respecting compatibility and security gates.
+### Phase 08 — Contour A deployment (P0; gated by accepted readiness evidence)
+**Actions within the standing project mandate, when all applicable gates pass**
+- Prepare and execute the approved deployment profiles independently when the target manifest, authorization/capability, security, rollback and acceptance prerequisites are satisfied; the historical Mac Pro/Mac mini references are not evidence that these targets are currently accepted.
 - Keep optional GPU server disconnected from initial critical path until its profile is accepted.
-- Deploy developer mobile client only after API and identity contracts are accepted.
+- Deploy developer mobile client only after API and identity contracts are accepted and deployment-specific gates pass.
 - Keep VPS, customer-site prototype, test hosts and contributed pool in their own trust boundaries.
 - Capture exact artifact/build/config identity and evidence per node; never record secret values.
 
 **Outputs:** per-node deployment record, exact versions, approved configuration hashes, readiness evidence, diagnostics and rollback record.
 **Exit:** every in-scope node passes its approved deployment gate and owner accepts the resulting evidence.
-**No-go:** missing authorization, failed preflight, unknown identity/configuration, or failed security/health gate.
+**No-go:** missing required capability/issuer or governance acceptance, failed preflight, unknown identity/configuration, budget/policy violation, or failed security/health gate. Routine engineering steps do not require repeated per-action confirmation when all applicable gates pass.
 
 ### Phase 09 — Independent Developer Fabric qualification (P0; not yet passed)
 **Required evidence families**
