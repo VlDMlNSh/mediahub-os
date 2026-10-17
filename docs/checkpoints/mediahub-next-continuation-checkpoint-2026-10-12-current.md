@@ -4878,3 +4878,14 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - After Wave 129 map/checkpoint/report commits, the candidate branch is now 13 ahead / 6 behind the live canonical docs branch; merge base remains `485540e75be44244599643734d502ade91eb48e2`.
 - GitHub currently reports PR #350 `mergeable=false`; the earlier `mergeable=true` snapshot was transient and is not current. Exact-head schema CI run #39077570671 remains successful on `92c5528b9fe0736ab316c3a3760a1db7bac1843a`.
 - Next: reconcile the candidate to the latest canonical docs HEAD, then re-run or verify exact-head CI and inspect current mergeability before any integration decision. Keep PR Draft.
+
+
+## Wave 129 — 2026-10-18
+
+Clean schema-validation transplant recorded in [Wave 129 report](MEDIAHUB-SCHEMA-CLEAN-TRANSPLANT-WAVE-129-2026-10-18.md) and indexed in the [canonical chat tree map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md#20351--wave-129-clean-schema-validation-transplant-2026-10-18).
+
+- Draft PR #351: https://github.com/VlDMlNSh/mediahub-os/pull/351
+- Branch: `contour-a-schema-validation-clean-wave129-20261018`; head `6fc49b3de45c396d79c4470157374ea8b159fda1`; based on docs branch head `0289a1b932468de300cdfcc7110873d159cd7978`.
+- 12 files / 1,713 additions / zero deletions; the three pinned schema blobs match the canonical base.
+- CI run `39078203138` was in progress at report time; review is pending. No merge or runtime activation.
+- Next: inspect the run to terminal status, verify artifacts and final file SHAs, then obtain independent review. Keep A0/R-06/target-manifest acceptance gates separate.
