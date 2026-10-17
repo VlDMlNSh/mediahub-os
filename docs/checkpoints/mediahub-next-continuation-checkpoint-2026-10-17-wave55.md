@@ -43,3 +43,12 @@
 Identify the registry loader/owner and the authorized-schemes consumer or record an owner-approved intentional-unconsumed disposition. Prepare a single coordinated patch proposal including CI literal-token updates, then hold for contract acceptance.
 
 Canonical project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## End-of-pass ref refresh
+
+- `main` HEAD after the Wave 55 documentation writes: `1b6386c4edddc70c91ecc5c31a6956d943682ebf`, commit `fix(gemini): reduce MCP quota pressure and preserve diagnostics (#308)`.
+- Documentation branch HEAD before this checkpoint refresh: `ee49f620e22450b37f949e154f66d590021c3405`.
+- Latest compare: **DIVERGED**, documentation branch ahead 2059 / behind 18.
+- Merge base remains `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- No integration action was taken. The new `main` commit arrived during the bounded pass; the next pass must start by rereading its changed surface.
