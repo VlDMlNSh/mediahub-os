@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.361)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.362)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7144,3 +7144,13 @@ WB-14AA и приложение остаются не-нормативными. 
 - Current refs verified: Issue #301 OPEN; PR #339 OPEN/DRAFT/UNMERGED, 29 commits ahead / 0 behind canonical docs branch; no PR-triggered workflow runs for exact commit `d19f63b3037ad0e37da7f72595082624c7fb61af`.
 - PR #338 remains open and unaccepted; its prior CI is candidate-scoped only. No provider, secret, dispatch, merge, deployment or acceptance action occurred.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. Next: obtain governance disposition and independently reconcile PR #338 losslessly after refreshing refs.
+
+
+## 20.362 — Exact ref freshness audit (Wave 110, 2026-10-17)
+
+- Report: [Exact Ref Freshness Audit, Wave 110](../checkpoints/MEDIAHUB-EXACT-REF-FRESHNESS-AUDIT-WAVE-110-2026-10-17.md).
+- Addendum: [Wave 110](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-110-2026-10-17.md).
+- Refreshes stale Wave 109 references: PR #339 is OPEN/DRAFT/UNMERGED at head `b0c07b5f205de460ab266483627d8d47a378a07b`, 31 commits ahead / 0 behind canonical docs branch; exact-head PR-triggered workflow lookup returned no runs, and review APIs returned no reviews/threads.
+- PR #338 remains OPEN/DRAFT/UNMERGED at `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, diverged 20 ahead / 24 behind current docs base, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; no independent review recorded.
+- Issue #301 remains OPEN without disposition for D-CA-01…D-CA-06. Wave 105 incomplete integration experiment remains not for integration.
+- Canonical map branch is unchanged. No provider/model call, secret access, dispatch, merge, deployment or production acceptance occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
