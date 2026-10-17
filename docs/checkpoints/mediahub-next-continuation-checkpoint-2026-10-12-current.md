@@ -4584,3 +4584,13 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Initial run failed on repeated generated `schema_refs` entries due to a schema uniqueness constraint; fixture generation was corrected with deterministic variation and the next run passed.
 - Updated report commit `6d9cb8fe91f7ff417c227bafdf4eb679ca57b54c`, blob SHA `7582d047faae02d53b6bb38fd9096ab111571897`. Canonical map update commit `d4fcba33be75b19b235ade98f7779b94fdea92e2`, blob SHA `eff144cc15344da88b56ef67901fc7ba0e570c8b`.
 - Remaining: curated full fixtures, nested-negative coverage, cross-artifact semantic validation, transitive dependency locking, independent review, A0 issuer/verifier, R-06 and accepted target manifest. PR #337 remains Draft/unmerged.
+
+
+### Wave 82 — cross-artifact semantic fixture and canonical-map recovery (2026-10-17)
+
+- Added deterministic cross-artifact fixture assertions to the Wave 81 validation workflow. Workflow blob SHA `bb27dd42e2b8ad5b19de3508e86fa7fe917c1b4d`; working-branch report `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-CROSS-ARTIFACT-SEMANTIC-FIXTURE-WAVE-82-2026-10-17.md`, blob SHA `7b073f8bcf32ac3e870930051f1e0987715e26ac`.
+- Successful run https://github.com/VlDMlNSh/mediahub-os/actions/runs/39042019814; tested commit `04e984f8dd4cc3410f1e4beb5ff39b1f3fb73768`, job `117423260638`, conclusion `success`. Logs show positive and negative fixtures for all three schemas and explicit `PASS cross-artifact reference fixture` for task ID/envelope digest, agent/provider/model/registry digest, source provenance and policy digest.
+- The fixture tests generated representative values only; this is not a production validator for arbitrary artifacts. Curated acceptance fixtures, deeper nested negatives, hermetic dependency locking and independent review remain open. A0 issuer/verifier, R-06 and accepted target manifest remain open under Issue #301.
+- Recovered canonical map from verified full blob `2e5e067a5aaf1edd6fc26133a410a5b85b6694c1` after the current Contents endpoint exposed an empty blob. Restored map read-back is 1,025,177 characters, includes Wave 82 §20.355, blob SHA `59a6e5b8fcc2b2e4ffd22f40199926ed44881c7f`, update commit `3ef00c7669fb562fae34f5feca8061de546f430b`.
+- PR #337 remains OPEN / DRAFT; latest observed head `0f8c1b4ac363b12f3f72efe531487298314b8041`, mergeability currently false. Do not merge until latest head CI and base drift are reconciled, independent review is complete, and project acceptance gates pass.
+- Next: inspect latest PR-head run; investigate mergeability/base SHA drift and required checks; add curated nested-invalid fixtures and independent semantic review. Do not close Issue #301 or qualify Contour A based on these fixture results.
