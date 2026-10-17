@@ -20,7 +20,10 @@ class AutonomousQueueContractTests(unittest.TestCase):
 
     def test_workers_remain_bound_to_fixed_target_sha(self):
         self.assertIn("expected_base_sha: str", self.source)
-        self.assertIn("claim_for(task, expected_base_sha)", self.source)
+        self.assertIn("claim_for(", self.source)
+        self.assertIn("command_id=command_id", self.source)
+        self.assertIn("node_id=node_id", self.source)
+        self.assertIn("executor=executor", self.source)
         self.assertIn("queue_target_sha_not_current_head", self.source)
         self.assertNotIn('remote_main.stdout.strip() != base_sha', self.source)
 

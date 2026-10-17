@@ -2,6 +2,30 @@ schema_version: 1
 status: qualification-gated
 policy: MediaHub-owned-contracts
 components:
+  - id: langgraph
+    class: agent-workflow-graph
+    status: installed-isolated-feature-gated
+    version: 1.2.14
+    license: MIT
+    provenance: https://github.com/langchain-ai/langgraph
+    adapter: runtime/mediahub_runtime/oss_adapters/orchestration.py
+    authority: mediahub-contracts-only
+  - id: temporalio
+    class: durable-workflow-sdk
+    status: installed-isolated-feature-gated
+    version: 1.34.0
+    license: MIT
+    provenance: https://github.com/temporalio/sdk-python
+    adapter: runtime/mediahub_runtime/oss_adapters/orchestration.py
+    authority: mediahub-contracts-only
+  - id: opentelemetry-python
+    class: tracing-and-observability
+    status: installed-isolated-feature-gated
+    version: 1.45.1
+    license: Apache-2.0
+    provenance: https://github.com/open-telemetry/opentelemetry-python
+    adapter: runtime/mediahub_runtime/oss_adapters/orchestration.py
+    authority: telemetry-only
   - id: home-assistant-core
     class: smart-home-authority
     status: target-gated

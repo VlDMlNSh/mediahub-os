@@ -101,6 +101,7 @@ jobs:
     with:
       command_id: ${{ needs.prepare-command.outputs.command_id }}
       target_sha: ${{ github.sha }}
+      evidence_suffix: prequeue
     secrets:
       ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
       ASTRA_NODE_HMAC_KEY_MH_DEV_02: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
@@ -118,11 +119,107 @@ jobs:
       target_sha: ${{ github.sha }}
     secrets: inherit
 
-  supervise:
+  autonomous-queue:
+    name: Autonomous queue controller on the authority runner (self lane excluded)
     needs:
+      - prepare-command
       - distributed-verification
       - local-claude-qualification
       - provider-qualification
+    # GitHub-hosted ubuntu-latest was not assigned a runner. Use the single-slot
+    # authority runner; the queue excludes mh-dev-01 so child work runs elsewhere.
+    runs-on: [self-hosted, linux, x64, mediahub-control]
+    timeout-minutes: 180
+    permissions:
+      contents: read
+      actions: write
+    env:
+      ASTRA_COMMAND_ID: ${{ needs.prepare-command.outputs.command_id }}
+      ASTRA_TARGET_SHA: ${{ github.sha }}
+      ASTRA_QUEUE_STATE_DIR: ${{ github.workspace }}/.astra-state/queue
+      ASTRA_QUEUE_MAX_WORKERS: "3"
+      ASTRA_REMOTE_WORKER_WAIT_SECONDS: "4200"
+      # Controller jobs share this unique single-slot runner, so a second
+      # controller cannot dispatch concurrently. Cross-run waiting here would
+      # deadlock against pre/post-queue jobs that also need this runner.
+      ASTRA_SINGLE_CONTROLLER_RUN: "0"
+      ASTRA_CONTROLLER_NODE_ID: "mh-dev-01"
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 50
+          persist-credentials: true
+
+      - name: Validate immutable queue dispatch binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$ASTRA_TARGET_SHA"
+          test -n "$ASTRA_COMMAND_ID"
+          [[ "$ASTRA_COMMAND_ID" =~ ^[A-Za-z0-9._-]{1,128}$ ]]
+          test -n "$GH_TOKEN"
+          mkdir -p "$ASTRA_QUEUE_STATE_DIR"
+
+      - name: Dispatch and independently validate worker queue
+        shell: bash
+        run: |
+          set -euo pipefail
+          stdout_path="$RUNNER_TEMP/astra-queue.stdout"
+          stderr_path="$RUNNER_TEMP/astra-queue.stderr"
+          set +e
+          PYTHONPATH=runtime python3 -m mediahub_runtime.autonomous_queue >"$stdout_path" 2>"$stderr_path"
+          queue_rc=$?
+          set -e
+          set +e
+          python3 ops/qualification/validate_autonomous_queue_summary.py \
+            --source "$stdout_path" \
+            --output "$GITHUB_WORKSPACE/autonomous-queue-result.json" \
+            --returncode "$queue_rc" \
+            --command-id "$ASTRA_COMMAND_ID" \
+            --target-sha "$ASTRA_TARGET_SHA"
+          validation_rc=$?
+          set -e
+          exit "$validation_rc"
+
+      - name: Upload sanitized autonomous queue result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-autonomous-queue-result-${{ github.run_id }}-${{ github.run_attempt }}
+          path: autonomous-queue-result.json
+          if-no-files-found: error
+          retention-days: 30
+
+  distributed-verification-postqueue:
+    name: Fresh post-queue distributed verification
+    needs:
+      - prepare-command
+      - distributed-verification
+      - local-claude-qualification
+      - provider-qualification
+      - autonomous-queue
+    if: ${{ always() && needs.prepare-command.result == 'success' && needs.distributed-verification.result == 'success' && needs.local-claude-qualification.result == 'success' && needs.provider-qualification.result == 'success' }}
+    uses: ./.github/workflows/astra-distributed-verification.yml
+    with:
+      command_id: ${{ needs.prepare-command.outputs.command_id }}
+      target_sha: ${{ github.sha }}
+      evidence_suffix: postqueue
+    secrets:
+      ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
+      ASTRA_NODE_HMAC_KEY_MH_DEV_02: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_02 }}
+      ASTRA_NODE_HMAC_KEY_VOKTORS_MAC: ${{ secrets.ASTRA_NODE_HMAC_KEY_VOKTORS_MAC }}
+
+  supervise:
+    needs:
+      - prepare-command
+      - distributed-verification
+      - local-claude-qualification
+      - provider-qualification
+      - autonomous-queue
+      - distributed-verification-postqueue
+    if: ${{ always() && needs.prepare-command.result == 'success' && needs.distributed-verification.result == 'success' && needs.local-claude-qualification.result == 'success' && needs.provider-qualification.result == 'success' && needs.distributed-verification-postqueue.result == 'success' }}
     runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 90
     env:
@@ -207,8 +304,38 @@ jobs:
       - name: Download verified distributed evidence
         uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.distributed-verification.outputs.evidence_artifact }}
+          name: ${{ needs.distributed-verification-postqueue.outputs.evidence_artifact }}
           path: .astra-state
+
+      - name: Download sanitized autonomous queue result
+        uses: actions/download-artifact@v4
+        with:
+          name: astra-autonomous-queue-result-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .astra-state/autonomous-queue
+
+      - name: Refresh signed command for finalization phase
+        shell: bash
+        env:
+          ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, re, time
+          from pathlib import Path
+          p=Path("control/commands/mh-dev-01.json")
+          d=json.loads(p.read_text(encoding="utf-8"))
+          expected=f"MH-AUTONOMOUS-GOLD-mh-dev-01-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}"
+          assert d.get("command_id") == expected
+          assert d.get("node_id") == "mh-dev-01"
+          assert d.get("operation") == "autonomous_gold_mission"
+          assert d.get("target_sha") == os.environ["GITHUB_SHA"]
+          assert isinstance(d.get("signature"), str) and re.fullmatch(r"[0-9a-f]{64}", d["signature"])
+          # This is the same signed command continuing into its finalization phase;
+          # only the issue timestamp and HMAC signature are refreshed.
+          d["issued_at"]=int(time.time())
+          p.write_text(json.dumps(d, indent=2, sort_keys=True)+"\n", encoding="utf-8")
+          PY
+          python3 ops/control/sign_command.py control/commands/mh-dev-01.json
 
       - name: Execute autonomous qualification wave
         shell: bash
@@ -216,6 +343,7 @@ jobs:
           ASTRA_WORKTREE: "${{ github.workspace }}"
           ASTRA_WORKFLOW_ONLY: "1"
           ASTRA_DISTRIBUTED_EVIDENCE_DIR: "${{ github.workspace }}/.astra-state"
+          ASTRA_PRECOMPUTED_QUEUE_RESULT_PATH: "${{ github.workspace }}/.astra-state/autonomous-queue/autonomous-queue-result.json"
           ASTRA_NODE_HMAC_KEY_MH_DEV_01: ${{ secrets.ASTRA_NODE_HMAC_KEY_MH_DEV_01 }}
         run: |
           set -euo pipefail
@@ -230,15 +358,24 @@ jobs:
           import json, os
           d=json.load(open("control/results/mh-dev-01.json"))
           result=d.get("result",{})
+          queue=result.get("queue")
+          if not isinstance(queue, dict) or not queue:
+              queue=next((
+                  step.get("autonomous_queue",{}).get("payload")
+                  for step in reversed(result.get("steps",[]))
+                  if isinstance(step,dict)
+                  and isinstance(step.get("autonomous_queue"),dict)
+                  and isinstance(step.get("autonomous_queue",{}).get("payload"),dict)
+              ), {})
           print("ASTRA_CONTROLLER_RESULT_SUMMARY=" + json.dumps({
               "returncode": d.get("returncode"),
               "result_status": result.get("status"),
               "phase": result.get("phase"),
-              "queue_status": result.get("queue",{}).get("status"),
-              "workers": result.get("queue",{}).get("workers"),
+              "queue_status": queue.get("status"),
+              "workers": queue.get("workers"),
               "queue_results": [
                   {k: item.get(k) for k in ("task_id","status","head_sha","remote_head","error","failure_reason")}
-                  for item in result.get("queue",{}).get("results",[])
+                  for item in queue.get("results",[])
               ],
               "last_queue_step": next((
                   {
@@ -259,10 +396,11 @@ jobs:
           assert d.get("returncode") == 0
           assert result.get("phase") == "autonomous_queue"
           assert result.get("status") == "PASS"
-          queue=result.get("queue",{})
           assert queue.get("status") == "PASS"
           assert int(queue.get("workers",0)) >= 1
-          assert all(item.get("status") == "VERIFIED" for item in queue.get("results",[]))
+          queue_results=queue.get("results")
+          assert isinstance(queue_results, list) and queue_results, "queue must report at least one task result"
+          assert all(isinstance(item, dict) and item.get("status") == "VERIFIED" for item in queue_results)
           print("ASTRA_AUTONOMOUS_QUEUE_PASS")
           PY
 

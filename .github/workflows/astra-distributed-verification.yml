@@ -9,6 +9,11 @@ on:
       target_sha:
         required: true
         type: string
+      evidence_suffix:
+        description: "Unique suffix for repeated attestation waves in one workflow run"
+        required: false
+        type: string
+        default: default
     secrets:
       ASTRA_NODE_HMAC_KEY_MH_DEV_01:
         required: true
@@ -64,7 +69,7 @@ jobs:
       - name: Upload node attestation
         uses: actions/upload-artifact@v4
         with:
-          name: astra-distributed-attestation-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
+          name: astra-distributed-attestation-${{ inputs.evidence_suffix }}-mh-dev-01-${{ github.run_id }}-${{ github.run_attempt }}
           path: .astra-state/distributed-attestation/mh-dev-01.json
           if-no-files-found: error
 
@@ -100,7 +105,7 @@ jobs:
       - name: Upload node attestation
         uses: actions/upload-artifact@v4
         with:
-          name: astra-distributed-attestation-mh-dev-02-${{ github.run_id }}-${{ github.run_attempt }}
+          name: astra-distributed-attestation-${{ inputs.evidence_suffix }}-mh-dev-02-${{ github.run_id }}-${{ github.run_attempt }}
           path: .astra-state/distributed-attestation/mh-dev-02.json
           if-no-files-found: error
 
@@ -138,7 +143,7 @@ jobs:
       - name: Upload node attestation
         uses: actions/upload-artifact@v4
         with:
-          name: astra-distributed-attestation-voktors-mac-${{ github.run_id }}-${{ github.run_attempt }}
+          name: astra-distributed-attestation-${{ inputs.evidence_suffix }}-voktors-mac-${{ github.run_id }}-${{ github.run_attempt }}
           path: .astra-state/distributed-attestation/Voktors-Mac-mini.local.json
           if-no-files-found: error
 
@@ -165,7 +170,7 @@ jobs:
       ASTRA_DISTRIBUTED_MAX_AGE_SECONDS: "1200"
     outputs:
       status: ${{ steps.aggregate.outputs.status }}
-      evidence_artifact: astra-distributed-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+      evidence_artifact: astra-distributed-evidence-${{ inputs.evidence_suffix }}-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -180,7 +185,7 @@ jobs:
       - name: Download fresh node attestations
         uses: actions/download-artifact@v4
         with:
-          pattern: astra-distributed-attestation-*-${{ github.run_attempt }}
+          pattern: astra-distributed-attestation-${{ inputs.evidence_suffix }}-*-${{ github.run_attempt }}
           path: .astra-state/distributed-verification
           merge-multiple: true
       - name: Aggregate fresh distributed evidence
@@ -205,7 +210,7 @@ jobs:
       - name: Upload aggregate evidence
         uses: actions/upload-artifact@v4
         with:
-          name: astra-distributed-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          name: astra-distributed-evidence-${{ inputs.evidence_suffix }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             .astra-state/distributed-verification/*.json
             .astra-state/distributed-verification-result.json

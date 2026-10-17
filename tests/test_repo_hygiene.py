@@ -20,12 +20,13 @@ import glob
 import json
 import os
 import re
+import subprocess
 import unittest
 import yaml
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKIP_DIRS = {".git", "build", "dist", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
+SKIP_DIRS = {".git", ".ecc", "build", "dist", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
 WORKFLOW_DIR = ROOT / ".github" / "workflows"
 
 # Dispatch-only verification procedures whose dependencies (P0-07/P0-08
@@ -235,12 +236,29 @@ class TestDiscoveryHygieneTests(unittest.TestCase):
     TESTS_DIR = ROOT / "tests"
 
     def _test_subdirectories(self):
-        for path in sorted(self.TESTS_DIR.iterdir()):
-            if not path.is_dir() or path.name.startswith("."):
-                continue
-            if path.name in SKIP_DIRS:
-                continue
-            yield path
+        """Inspect repository test packages, not ignored local scratch trees."""
+        try:
+            result = subprocess.run(
+                ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z", "--", "tests/"],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            tracked_or_unignored = result.stdout.split("\0")
+        except (OSError, subprocess.CalledProcessError):
+            tracked_or_unignored = [
+                str(path.relative_to(ROOT)) for path in self.TESTS_DIR.rglob("*.py")
+            ]
+        names = set()
+        for value in tracked_or_unignored:
+            parts = Path(value).parts
+            if len(parts) > 2 and parts[0] == "tests" and parts[1] not in SKIP_DIRS:
+                names.add(parts[1])
+        for name in sorted(names):
+            path = self.TESTS_DIR / name
+            if path.is_dir() and not name.startswith("."):
+                yield path
 
     def test_every_test_subdirectory_is_a_package(self):
         """A missing __init__.py makes unittest discover skip the whole directory."""

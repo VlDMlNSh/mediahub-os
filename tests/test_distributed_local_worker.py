@@ -30,7 +30,9 @@ def test_node_config_has_primary_and_fast_pools():
     assert worker.NODE_CONFIG["mh-dev-02"]["pool"] == "primary_local"
     assert worker.NODE_CONFIG["mh-dev-02"]["model"] == "qwen2.5-coder:3b"
     assert worker.NODE_CONFIG["Voktors-Mac-mini.local"]["pool"] == "fast_local"
-    assert worker.NODE_CONFIG["Voktors-Mac-mini.local"]["model"] == "qwen2.5-coder:1.5b"
+    assert worker.NODE_CONFIG["Voktors-Mac-mini.local"]["model"] == "qwen2.5-coder:3b"
+    assert worker.NODE_CONFIG["mh-dev-01"]["model"] == "qwen2.5-coder:3b"
+    assert worker.NODE_CONFIG["mh-dev-01"]["fcc_env"] == "/home/mediahub/.config/mediahub/fcc.env"
 
 
 def test_canonical_three_executor_tasks_are_ready_and_disjoint():
@@ -71,7 +73,9 @@ def test_claude_worker_uses_isolated_config_directory():
 
 def test_23wave_codex_qualification_is_not_unbounded():
     workflow = Path(".github/workflows/mh25-dual-local-23wave.yml").read_text(encoding="utf-8")
-    assert "--sandbox workspace-write" in workflow
+    # This workflow measures bounded local inference and must not grant write access.
+    assert "--sandbox read-only" in workflow
+    assert "--sandbox workspace-write" not in workflow
     assert "--sandbox danger-full-access" not in workflow
 
 
@@ -82,12 +86,33 @@ def test_codex_worker_disables_reasoning_for_local_models():
 
 def test_distributed_selection_allows_one_claim_per_executor_lane():
     tasks = [
-        {"task_id": "codex-a", "priority": "P0", "node_id": "mh-dev-02", "executor": "codex"},
-        {"task_id": "codex-b", "priority": "P0", "node_id": "mh-dev-02", "executor": "codex"},
+        {"task_id": "unsupported-codex", "priority": "P0", "node_id": "mh-dev-02", "executor": "codex"},
         {"task_id": "claude-mh1", "priority": "P0", "node_id": "mh-dev-01", "executor": "claude"},
+        {"task_id": "claude-mh2", "priority": "P0", "node_id": "mh-dev-02", "executor": "claude"},
         {"task_id": "claude-mac", "priority": "P1", "node_id": "Voktors-Mac-mini.local", "executor": "claude"},
     ]
     selected = __import__("mediahub_runtime.autonomous_queue", fromlist=["select_distributed_tasks"]).select_distributed_tasks(tasks, 3)
-    assert [t["task_id"] for t in selected] == ["codex-a", "claude-mh1", "claude-mac"]
+    assert [t["task_id"] for t in selected] == ["claude-mh1", "claude-mh2", "claude-mac"]
     assert len({t["node_id"] for t in selected}) == len(selected)
-    assert len({t["executor"] for t in selected}) == len(selected)
+    assert all(t["executor"] == "claude" for t in selected)
+
+
+def test_all_distributed_worker_jobs_publish_the_controller_expected_artifact_name():
+    workflow = Path('.github/workflows/astra-distributed-local-worker.yml').read_text(encoding='utf-8')
+    assert workflow.count('name: astra-distributed-worker-${{ github.run_id }}') == 3
+    assert 'astra-distributed-worker-mh-dev-01-claude-' not in workflow
+    assert 'astra-distributed-worker-mh-dev-02-claude-' not in workflow
+    queue = Path('runtime/mediahub_runtime/autonomous_queue.py').read_text(encoding='utf-8')
+    assert 'f"astra-distributed-worker-{run_id}"' in queue
+
+
+def test_admission_failure_artifact_contains_secret_safe_ollama_diagnostics_for_each_lane():
+    workflow = Path('.github/workflows/astra-distributed-local-worker.yml').read_text(encoding='utf-8')
+    assert workflow.count('"runtime_diagnostics": {') == 3
+    assert workflow.count('"claude_path_found": bool(claude)') == 3
+    assert workflow.count('"ollama_path_found": bool(ollama)') == 3
+    assert workflow.count('"ollama_model_names": model_names') == 3
+    assert 'ollama or "/usr/local/bin/ollama"' not in workflow
+    assert workflow.count('"runner_user": getpass.getuser()') == 3
+    assert 'os.environ.copy()' not in workflow
+    assert 'ANTHROPIC_AUTH_TOKEN' not in workflow

@@ -18,7 +18,9 @@ concurrency:
 jobs:
   publish:
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure' }}
-    runs-on: ubuntu-latest
+    # Hosted jobs are failing before runner acquisition in this repository.
+    # The controller runner is released before workflow_run publication starts.
+    runs-on: [self-hosted, Linux, X64, mediahub-control]
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4

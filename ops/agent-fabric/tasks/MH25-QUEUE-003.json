@@ -4,7 +4,7 @@
   "status": "READY",
   "priority": "P0",
   "role": "builder",
-  "mission": "Qualify the third permanent local executor lane: Claude on mh-dev-01 using the node-local qwen2.5-coder:1.5b backend. Prove executor-only operation, exact target-SHA binding, isolated branch execution, and independent Claude verification. Do not alter controller authority, control state, credentials, or production infrastructure.",
+  "mission": "Qualify the third permanent local executor lane: Claude on mh-dev-01 using the node-local qwen2.5-coder:3b backend. Prove executor-only operation, exact target-SHA binding, isolated branch execution, and independent Claude verification. Do not alter controller authority, control state, credentials, or production infrastructure.",
   "boundary": [
     "docs/operations/ASTRA-MH-DEV-01-CLAUDE-EXECUTOR.md"
   ],
@@ -26,7 +26,7 @@
   "allow_no_changes": false,
   "acceptance": [
     "Create or update exactly one document at docs/operations/ASTRA-MH-DEV-01-CLAUDE-EXECUTOR.md.",
-    "The document states the exact node identity mh-dev-01, executor identity claude, local model qwen2.5-coder:1.5b, verifier identity claude, and executor-only authority boundary.",
+    "The document states the exact node identity mh-dev-01, executor identity claude, local model qwen2.5-coder:3b, verifier identity claude, and executor-only authority boundary.",
     "The document states that the worker is target-SHA bound, branch isolated, fail-closed, and never writes directly to main.",
     "The document contains no credentials or secrets.",
     "The scoped Agent Fabric regression suite tests/test_agent_fabric.py passes.",
@@ -35,7 +35,7 @@
   "test_paths": [
     "tests/test_agent_fabric.py"
   ],
-  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-MH-DEV-01-CLAUDE-EXECUTOR.md. Use shell/editor directly; do not ask for more context. State exact node mh-dev-01, executor Claude, model qwen2.5-coder:1.5b, verifier Claude, executor-only authority, target-SHA binding, isolated branch, fail-closed promotion, no direct main writes, and no secrets. Keep it concise.",
+  "builder_instructions": "Create the single boundary file docs/operations/ASTRA-MH-DEV-01-CLAUDE-EXECUTOR.md. Use shell/editor directly; do not ask for more context. State exact node mh-dev-01, executor Claude, model qwen2.5-coder:3b, verifier Claude, executor-only authority, target-SHA binding, isolated branch, fail-closed promotion, no direct main writes, and no secrets. Keep it concise.",
   "required_capabilities": [
     "implementation",
     "testing",
