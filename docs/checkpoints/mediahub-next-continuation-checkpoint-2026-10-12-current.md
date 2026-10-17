@@ -4865,3 +4865,15 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - No provider invocation, secret access, dispatch, queue admission, merge, deployment or Contour A acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
 - Canonical map (unchanged): https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Next: independent security review of exact HEAD and authorized branch-protection/ruleset evidence; keep PR Draft until gates are met.
+
+
+## Wave 123 — precise Gemini CI event-filter regression (2026-10-18)
+
+- Report: [Wave 123](MEDIAHUB-GEMINI-CI-EVENT-FILTER-REGRESSION-WAVE-123-2026-10-18.md); map addendum: [Wave 123](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-123-2026-10-18.md).
+- Code candidate HEAD: `16b3b2ee73bc12ac213818cf0ad22abedafd50ad`; contract test blob `b130261a2c12608614780a1ab2f8f05483e1180e`; validation workflow blob `fcbe964602bff7e03ed38632dc18066efad4d99c`.
+- Regression now verifies both HTTP helper paths occur exactly once separately in `push.paths` and `pull_request.paths`.
+- Exact-head checks passed: Gemini Read-only Workflow Contract #39074978642; Astra Cloud Runtime Validation #39074978634; Astra Verify #39074978856.
+- PR #334 remains OPEN / DRAFT / UNMERGED. Existing reviews are owner-authored COMMENTs, not independent approval; authorized branch-protection/ruleset read-back remains outstanding. No provider call, secret access, dispatch, queue admission, merge, deployment, or acceptance.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Canonical map (unchanged): https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Next: independent security review of exact HEAD and authorized protection-rule evidence; preserve Draft until gates are met.
