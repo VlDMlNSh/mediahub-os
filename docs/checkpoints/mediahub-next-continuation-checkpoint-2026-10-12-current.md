@@ -4913,3 +4913,14 @@ Clean schema-validation transplant recorded in [Wave 129 report](MEDIAHUB-SCHEMA
 - The candidate was 16 ahead / 0 behind canonical docs HEAD `e869232ae5018a24bd1450a5c9ea4fa36e5b6b8a` at that check. Documentation records of this CI result now advance the docs branch; recheck refs and reconcile those documentation-only commits before the next integration decision.
 - PR #350 remains Draft/unmerged; no independent reviews. Duplicate PR #351 remains open on the older base; no PR was merged or closed.
 - Next: re-fetch live refs/PR statuses, decide duplicate disposition based on current evidence, reconcile candidate with current canonical docs if useful, and request independent review. Keep A0/R-06/target-manifest acceptance gates separate.
+
+
+## Wave 131 — schema candidate deduplication (2026-10-18)
+
+- Live refs checked: `main` = `c06015e0b1526e0aaa6a522306052b077455aba5`; canonical docs branch at pass start = `e869232ae5018a24bd1450a5c9ea4fa36e5b6b8a`.
+- Closed duplicate [PR #351](https://github.com/VlDMlNSh/mediahub-os/pull/351) as `closed`, `merged=false`; its exact 12 changed paths match active [Draft PR #350](https://github.com/VlDMlNSh/mediahub-os/pull/350). No files were deleted or merged. PR #350 remains the sole active candidate.
+- Exact-head [workflow run #39078628962](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078628962) succeeded on `b3b730ea061faf9c975b63fa8019541df4578a96`; all nine substantive validation/evidence steps passed. PR #350 has no submitted review records.
+- Report: [MEDIAHUB-SCHEMA-CANDIDATE-DEDUPLICATION-WAVE-131-2026-10-18.md](MEDIAHUB-SCHEMA-CANDIDATE-DEDUPLICATION-WAVE-131-2026-10-18.md).
+- Map update commit `9414bb1b6d7a2124ca80574edba3a41233eea8d2`; map blob SHA `d408ef7e9e44a0aebcaf198a881c602116e3a372`.
+- No provider invocation, credential read, queue admission, dispatch, merge, deployment, or Contour A acceptance. Independent review and A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority, and accepted runner/workspace/network target manifest remain open gates.
+- Next: read the primary A0 and R-06 contracts from the canonical map and audit one bounded issuer/lifecycle path; keep PR #350 Draft until independent review and acceptance gates pass.
