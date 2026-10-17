@@ -4649,3 +4649,13 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - #337 branch comparison against canonical docs branch: diverged, 83 ahead / 23 behind, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. Latest observed #337 validation run [39050957165](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39050957165) passed; #335 current-head CI not independently confirmed this pass.
 - No merge/force-update performed. Next: create a clean consolidation branch from canonical base, port verified validator scripts and fixtures plus hash-locked dependency/lock-generation controls, audit workflow path filters and run fresh CI. Do not treat this as Contour A acceptance.
 - Report commit: `df86343213672c2ecefeef0879364602e0c913b6`; map commit: `97977c8f094c2a7c6e435a8bafd058e1d7495d80`; map blob: `d9461c87aab1114c3288b4433dd8a3d1a9033f71`.
+
+
+## /next Wave 98 — schema validation consolidation candidate (2026-10-17)
+
+- Draft candidate PR [#338](https://github.com/VlDMlNSh/mediahub-os/pull/338): `contour-a-schema-validation-consolidation-wave98-20261017`, based on canonical commit `2bd41b5f71006597a7669a4b7154abc58f87af5d`.
+- Report: [MEDIAHUB-CLOUD-AGENT-CONSOLIDATION-CANDIDATE-WAVE-98-2026-10-17.md](MEDIAHUB-CLOUD-AGENT-CONSOLIDATION-CANDIDATE-WAVE-98-2026-10-17.md).
+- Consolidated #335 validator scripts and fixtures with #337 hash-locked runtime requirements and lock-generation workflow. Fixed hard-coded push-branch filters.
+- Found and repaired missing generated nested-required negative coverage for array items in candidate commit `472acc92fb811f2ca36117cda3b2317ed186f63c`, blob `02c326da8cf90d2e5253dff3c1a5b90d72f6e18d`.
+- Exact-head validation run [39052849876](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39052849876) was queued at last inspection. Do not claim CI success until its final conclusion and artifact contents are inspected.
+- Next: inspect exact-head CI, verify generated nested-required case counts and JSON reports, then verify lock regeneration and bootstrap integrity. PR #338 remains Draft/unmerged; Issue #301 acceptance gates remain open.
