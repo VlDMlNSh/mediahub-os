@@ -4602,3 +4602,12 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - GitHub reports PR #337 `mergeable=false`; PR base SHA `8083cd61dbe348e18ab7db3e09b2769529bdcfda` predates recent canonical map/checkpoint commits. Integration is deferred until current branch divergence/conflict state is inspected; do not merge on the basis of CI alone.
 - Canonical map now has §20.356; update commit `fbdabf43fc00d379169dc14a869ae301051ff235`, blob SHA `9dfe3d8f402c0c8d2bdb114b9069a3666d0eb0b9`.
 - Next: inspect exact PR diff and branch compare, resolve only verified conflicts with lossless read-back, then run independent review. Continue work on curated nested-negative fixtures and transitive dependency reproducibility. A0 issuer/verifier, R-06 and target manifest remain open.
+
+
+### Wave 82 mismatch-negative semantic test
+
+- Workflow commit `87c7078fbf1eb43a82943f45613cae7b4ed8742c` passed run `39042273337`, job `117423994181`; logs explicitly show a consistent cross-artifact fixture and rejection of a mismatched task ID.
+- Wave 82 report latest blob SHA `3dca6a1e4378c2fe88599f31ab787b57ab6ccac2`.
+- Latest docs-push run `39042325574` for head `53df0cb7ebb15786b64b6088f3aee8c9892e937b` was still in progress at the time of this checkpoint update; inspect before claiming latest-head success.
+- Canonical map updated with §20.357; commit `8ec8269b5fbee47e33ee3e35587874a1d4143e66`, blob SHA `5f2e68d1920bb1578ed4895b13cc407ebe5e489a`.
+- PR #337 remains Draft; branch comparison shows 12 ahead / 14 behind, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. Do not merge until divergence/conflicts, checks and independent review are reconciled. A0 issuer/verifier, R-06 and accepted target manifest remain open.
