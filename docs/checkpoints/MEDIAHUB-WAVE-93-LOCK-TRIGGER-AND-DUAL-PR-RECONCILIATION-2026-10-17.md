@@ -31,3 +31,8 @@ No secrets accessed, provider invoked, task dispatched, merge or deployment perf
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-17-wave87.md](mediahub-next-continuation-checkpoint-2026-10-17-wave87.md)
 - Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-93-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-93-2026-10-17.md)
+
+
+## Repository-write correction
+
+The first report-creation call unexpectedly landed on the default `main` branch despite specifying the working branch. This was detected by inspecting commit ancestry and the branch tree. The unintended file was immediately deleted from `main`; corrective deletion commit: `c06015e0b1526e0aaa6a522306052b077455aba5`. The report was then recreated on the intended working branch (commit `ca6ad206838f99dfe3e11f1316b9a688e7ddbe3e`, parent `a0e792df23c638527cbd1ecfbd0910c9559998dc`). The file is absent from current `main` contents; the two commits remain in its history. No product, workflow, secret, or runtime configuration on `main` was changed.
