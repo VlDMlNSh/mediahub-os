@@ -73,3 +73,11 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/test_gemini_readonly_workflows.py
+
+      - name: Run executable provider and lifecycle regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/test_gemini_http_response.js
+          node scripts/test_gemini_missing_credential.js
+          node scripts/test_gemini_provider_outcome.js
