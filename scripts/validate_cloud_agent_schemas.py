@@ -12,6 +12,7 @@ import json
 import subprocess
 import sys
 from datetime import datetime, timezone
+from importlib.metadata import version as package_version
 from pathlib import Path
 from typing import Any
 
@@ -135,7 +136,7 @@ def main() -> int:
         import jsonschema
         report["validator"] = {
             "implementation": "python-jsonschema",
-            "version": jsonschema.__version__ if hasattr(jsonschema, "__version__") else "unknown",
+            "version": package_version("jsonschema"),
             "draft": "2020-12",
             "format_assertions": "FormatChecker enabled",
         }
@@ -198,8 +199,12 @@ def main() -> int:
                 report["failures"].append(f"Negative case has missing/duplicate id: {case_id!r}")
                 continue
             seen_ids.add(case_id)
-            if schema_name not in validators or fixture_name != SCHEMAS[schema_name]["fixture"]:
-                report["failures"].append(f"{case_id}: unknown schema or mismatched base fixture.")
+            if schema_name not in validators:
+                report["failures"].append(f"{case_id}: unknown schema.")
+                continue
+            expected_fixture_name = Path(SCHEMAS[schema_name]["fixture"]).name
+            if fixture_name != expected_fixture_name:
+                report["failures"].append(f"{case_id}: mismatched base fixture; expected {expected_fixture_name}.")
                 continue
             candidate = mutate(fixtures[schema_name], case)
             errors = sorted(
