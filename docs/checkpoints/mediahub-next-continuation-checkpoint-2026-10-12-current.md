@@ -4808,3 +4808,72 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - Current PR HEAD `b8938e2c8a6b53a9856611beb4e2c91b9b47e7eb`; observed `main` HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`; branch compare diverged 39 ahead / 2 behind; merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
 - Exact-head CI passed: contract #39070239298, Astra Verify #39070239407, Cloud Runtime Validation #39070239344. PR remains OPEN / DRAFT / UNMERGED; no independent review returned; protection/rulesets unverified.
 - Next: reconcile branch divergence losslessly, review exact diff, rerun checks, and obtain independent security review/protection read-back. No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance.
+
+
+## Latest verified continuation — Gemini contract CI path-filter hardening, Wave 119 (2026-10-18)
+
+- Report: [MEDIAHUB-GEMINI-CONTRACT-CI-PATH-FILTER-HARDENING-WAVE-119-2026-10-18.md](MEDIAHUB-GEMINI-CONTRACT-CI-PATH-FILTER-HARDENING-WAVE-119-2026-10-18.md).
+- Map navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-119-2026-10-18.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-119-2026-10-18.md).
+- PR #334 candidate HEAD `1e66aae968c51dc232acc07723a965c3bd80cb6d`; live compare to `main` HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`: DIVERGED, 47 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
+- Contract workflow path filters now include the missing-credential finalizer and its standalone test for both push and pull_request. Workflow blob `c64504ed0107a63898c162405ed7d3fcfe70722b`; Python contract-test blob `9585f9a091a881a51a4dfd28294dbb5847674d47`.
+- Exact-head CI at last poll: Gemini contract run #39073129356 pending with no jobs returned; Astra Verify #39073129372 and Cloud Runtime Validation #39073129357 in progress. Targeted contract tests/actionlint are NOT VERIFIED.
+- Issue #301 remains OPEN. No provider call, secret read, manual dispatch, merge, deployment, queue admission or Contour A acceptance occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: poll exact-head CI; investigate why the dedicated contract run has no jobs if it remains pending, without manually dispatching Gemini. Then add provider-outcome/manifest tests and seek independent review before lossless branch reconciliation.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 119 final CI conclusion (2026-10-18)
+
+- Exact candidate HEAD `1e66aae968c51dc232acc07723a965c3bd80cb6d` passed: Gemini Read-only Workflow Contract #39073129356, Astra Cloud Runtime Validation #39073129357, Astra Verify #39073129372.
+- Contract job passed immutable checkout SHA verification, actionlint, and Python security-contract tests including the new assertion that the finalizer/helper paths trigger contract CI.
+- This is CI qualification of the current source only; it does not qualify Gemini provider execution, complete provider-result manifest coverage, independent review, or Contour A. PR #334 remains OPEN / DRAFT / UNMERGED and 47 ahead / 2 behind main.
+- Next: add executable provider-outcome/manifest tests and obtain independent security review; reconcile branch drift losslessly and rerun exact-head checks before any promotion.
+- Report: [Wave 119](MEDIAHUB-GEMINI-CONTRACT-CI-PATH-FILTER-HARDENING-WAVE-119-2026-10-18.md). Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 120 — provider outcome and manifest matrix (2026-10-18)
+
+- Report: [MEDIAHUB-GEMINI-PROVIDER-OUTCOME-MANIFEST-MATRIX-WAVE-120-2026-10-18.md](MEDIAHUB-GEMINI-PROVIDER-OUTCOME-MANIFEST-MATRIX-WAVE-120-2026-10-18.md); map addendum: [Wave 120](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-120-2026-10-18.md).
+- PR #334 candidate HEAD `5f97db332e817169f9b138f3958e2db1c64086ad`. Added shared provider-outcome finalizer used by both Gemini workflows and executable matrix for HTTP 429/503, invalid JSON, empty/oversized output, transport errors and success digest/byte count.
+- Exact-head CI passed: Gemini Read-only Workflow Contract #39073826467, Astra Cloud Runtime Validation #39073826470, Astra Verify #39073826473.
+- Read-back blob SHAs are in the Wave 120 report. Source-bound COMMENT review ID `5560323518` is not independent approval.
+- PR #334 remains OPEN / DRAFT / UNMERGED; live compare to main: 63 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`. Issue #301 remains OPEN; A0 and queue/authority acceptance gates remain.
+- No provider call, secret read, manual dispatch, queue admission, merge, deployment or Contour A acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: obtain independent security review, reconcile branch drift losslessly, and rerun exact-head CI after reconciliation.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 121 — PR #334 drift classification (2026-10-18)
+
+- Report: [PR #334 drift classification](MEDIAHUB-PR334-DRIFT-CLASSIFICATION-WAVE-121-2026-10-18.md); map addendum: [Wave 121](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-121-2026-10-18.md).
+- Live PR #334: OPEN / DRAFT / UNMERGED; candidate HEAD `5f97db332e817169f9b138f3958e2db1c64086ad`; current main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`.
+- PR compare remains 63 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`. A separate compare from merge base to current main returns two commits and zero changed files; commit history shows the two commits add and then remove the misplaced Wave 93 report. This establishes a net-zero cumulative tree delta for those commits, not an integration or protection guarantee.
+- Exact-head Wave 120 CI evidence is retained in the Wave 120 report. The current connector returned no new workflow runs for the candidate SHA in Wave 121; do not claim a fresh rerun.
+- PR #334 review-list and review-thread reads returned no independent review evidence. The prior source-bound COMMENT is not approval. Independent security review and authorized branch-protection/ruleset read-back remain gates.
+- No provider/model invocation, secret access, manual dispatch, queue admission, merge, deployment, or Contour A acceptance occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Canonical map (unchanged; current read returned empty Contents payload, blob SHA `4798bd288451000d6eff5bcb8f7f0855942f7181`): https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Next: obtain independent security review and authorized protection-rule read-back; preserve the candidate SHA unless a material source/base/policy change requires reconciliation, then rerun checks on the exact resulting SHA.
+
+
+## Wave 122 — Gemini HTTP helper CI path coverage (2026-10-18)
+
+- Report: [Wave 122](MEDIAHUB-GEMINI-HTTP-HELPER-CI-PATH-COVERAGE-WAVE-122-2026-10-18.md); map addendum: [Wave 122](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-122-2026-10-18.md).
+- PR #334 candidate HEAD: `b6ef967590a5e9cdaa4800a17e10e3c5b3ab6b66`. Added `scripts/gemini_http_response.js` and `scripts/test_gemini_http_response.js` to both validation workflow path filters; added regression assertions requiring both paths in push and pull_request filters.
+- Read-back blobs: workflow `fcbe964602bff7e03ed38632dc18066efad4d99c`; contract test `e1f6995cad1b0fece8ce02b31d50d2f82dcfd5c3`.
+- Exact-head CI all succeeded: contract #39074597908, Astra Cloud Runtime Validation #39074597910, Astra Verify #39074597915.
+- PR #334 remains OPEN / DRAFT / UNMERGED, 65 ahead / 2 behind `main`, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`. No independent security approval or authorized protection/ruleset read-back is evidenced.
+- No provider invocation, secret access, dispatch, queue admission, merge, deployment or Contour A acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Canonical map (unchanged): https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Next: independent security review of exact HEAD and authorized branch-protection/ruleset evidence; keep PR Draft until gates are met.
+
+
+## Wave 123 — precise Gemini CI event-filter regression (2026-10-18)
+
+- Report: [Wave 123](MEDIAHUB-GEMINI-CI-EVENT-FILTER-REGRESSION-WAVE-123-2026-10-18.md); map addendum: [Wave 123](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-123-2026-10-18.md).
+- Code candidate HEAD: `16b3b2ee73bc12ac213818cf0ad22abedafd50ad`; contract test blob `b130261a2c12608614780a1ab2f8f05483e1180e`; validation workflow blob `fcbe964602bff7e03ed38632dc18066efad4d99c`.
+- Regression now verifies both HTTP helper paths occur exactly once separately in `push.paths` and `pull_request.paths`.
+- Exact-head checks passed: Gemini Read-only Workflow Contract #39074978642; Astra Cloud Runtime Validation #39074978634; Astra Verify #39074978856.
+- PR #334 remains OPEN / DRAFT / UNMERGED. Existing reviews are owner-authored COMMENTs, not independent approval; authorized branch-protection/ruleset read-back remains outstanding. No provider call, secret access, dispatch, queue admission, merge, deployment, or acceptance.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Canonical map (unchanged): https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Next: independent security review of exact HEAD and authorized protection-rule evidence; preserve Draft until gates are met.
