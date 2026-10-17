@@ -4808,3 +4808,16 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - Current PR HEAD `b8938e2c8a6b53a9856611beb4e2c91b9b47e7eb`; observed `main` HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`; branch compare diverged 39 ahead / 2 behind; merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
 - Exact-head CI passed: contract #39070239298, Astra Verify #39070239407, Cloud Runtime Validation #39070239344. PR remains OPEN / DRAFT / UNMERGED; no independent review returned; protection/rulesets unverified.
 - Next: reconcile branch divergence losslessly, review exact diff, rerun checks, and obtain independent security review/protection read-back. No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance.
+
+
+## Latest verified continuation — Gemini missing-credential manifest finalization, Wave 118 (2026-10-18)
+
+- Report: [MEDIAHUB-GEMINI-MISSING-CREDENTIAL-MANIFEST-FINALIZATION-WAVE-118-2026-10-18.md](MEDIAHUB-GEMINI-MISSING-CREDENTIAL-MANIFEST-FINALIZATION-WAVE-118-2026-10-18.md).
+- Map navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-118-2026-10-18.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-118-2026-10-18.md).
+- PR #334 candidate HEAD after implementation: `e195849fcd8174e6fad87da28c7b42e2256b82f4`; compare to `main` DIVERGED 44 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
+- Both workflows call `scripts/mark_gemini_missing_credential.js` before exiting when `GEMINI_API_KEY` is absent. Helper blob `359c7d1f96ee8753da373fd5de6d77e6b7be6aac`; test blob `a3090be9e605a9cd1ee2dd5c085be7ff4712962b`; workflow test blob `3d1ed3bc1c059f8219cea7f0287bf39c551170e0`; workflow blobs `0ba7c6590bef30b600920274729f5d9c8a1f50fe` and `dc1b31d101cd5f1961a047621d1503a697e24a89`.
+- Exact-head CI at last poll: Astra Cloud Runtime Validation #39072860900 succeeded; Astra Verify #39072860885 in progress; Gemini Read-only Workflow Contract #39072860984 pending. Final CI/test result is not yet verified.
+- Canonical map blob `4798bd288451000d6eff5bcb8f7f0855942f7181` was read via blob API (1,048,405 chars / 7,172 lines); Contents API returned empty and the map is at its payload ceiling, so this pass did not rewrite/truncate it. Use the Wave 118 addendum for the supplemental navigation.
+- Issue #301 remains OPEN. No provider call, secret read, manual dispatch, merge, deployment, queue admission or Contour A acceptance occurred. PR #334 remains Draft and divergent. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: poll exact-head CI; if green, add provider-outcome/manifest tests and seek independent review, then reconcile branch drift losslessly.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
