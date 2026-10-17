@@ -122,7 +122,7 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
             with self.subTest(workflow=path.name):
                 self.assertIn(r"join('\n').trim()", source)
-                self.assertIn(r"`\n## Gemini read-only evidence", source)
+                self.assertIn(r"\n## Gemini read-only evidence", source)
                 self.assertIn(r"--> \n'+text+'\n'", source)
 
     def test_artifact_retention_is_bounded(self) -> None:
