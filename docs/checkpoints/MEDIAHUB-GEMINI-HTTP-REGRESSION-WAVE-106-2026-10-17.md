@@ -58,3 +58,25 @@ A post-wave source audit found that the JavaScript template embedded in the prim
 Next: confirm CI on the exact follow-up head and continue seeking independent security review.
 
 - Follow-up exact-head CI passed on `1e052519f85afb1e9d3b58eb6d05cb45e81c2d73`: [Gemini Read-only Workflow Contract #39068814327](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814327), [Astra Verify #39068814332](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814332), and [Astra Cloud Runtime Validation #39068814337](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814337) all succeeded.
+
+
+## Wave 108 — shared HTTP response reader across both workflows (2026-10-18)
+
+Source audit found that the retry workflow maintained a second response-body parser. It enforced a byte cap and handled `aborted`, but did not explicitly verify `res.complete` before resolving on `end`. This was a consistency and fail-closed assurance gap; it was not confirmed as an exploitable vulnerability.
+
+Changes:
+- Retry workflow now imports and uses the shared `scripts/gemini_http_response.js` bounded reader, matching the primary workflow.
+- Removed duplicate inline stream parsing from the retry workflow.
+- Updated contract tests to require both workflows to use the shared helper and prohibit reintroduction of the old inline response parser.
+
+Evidence on exact candidate HEAD `e1f35cb47eab05f573c38a4c2a507c9d832ca3cc`:
+- Retry workflow blob: `ad6d82b6eca40b4c9923ac5fc6485fa103e4d24b`.
+- Contract tests blob: `f3ebfab5e0729e498872cceedc0ed3c0dc89c0d4`.
+- Shared reader blob: `adb3d27307cd5ad078a8c622cbeaaebd40f903ec`.
+- [Gemini Read-only Workflow Contract #39069449788](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449788) — success.
+- [Astra Verify #39069449749](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449749) — success.
+- [Astra Cloud Runtime Validation #39069449848](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449848) — success.
+
+PR #334 remains OPEN / DRAFT / UNMERGED. No review submissions or inline review threads were present in the latest review audit. Repository collaborator permission metadata confirms administrator access for the authenticated owner, but the available GitHub integration does not expose branch protection/ruleset read endpoints; required-review protection is therefore unverified, not assumed absent or present. No provider calls, secret reads, workflow dispatch, queue admission, merge, deployment, or Contour A acceptance.
+
+Next: obtain independent security review; verify branch protection through an authorized GitHub settings/API path before considering readiness changes.
