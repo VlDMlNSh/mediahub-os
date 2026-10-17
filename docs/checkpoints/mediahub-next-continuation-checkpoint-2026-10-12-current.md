@@ -4556,3 +4556,11 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Updated Wave 81 report on working branch; latest report commit `7dda8247bc66178b3797cb152fda7752dfdbfd89`, blob SHA `bc3ad858c5c36f003ed1d60268bf572d20371f75`.
 - Canonical map was restored from original full blob `e501b50e6ab3bdcdf2e67640402140ae99bc0436` after a Contents API empty-body response, then Wave 81 entry appended. Verified full blob length 1,021,919 characters; canonical map update commit `6495411a6fbe5b0a3a9822458e205bf17b69305e`, blob SHA `b42b3800f401e41e7acb69ff85997b76337d5964`. A previous checkpoint line pointing to the superseded intermediate map update is historical and corrected by this entry.
 - Next: inspect fresh PR run after workflow correction; schema validation is still unverified until validator step completes successfully.
+
+
+### Wave 81 latest CI and map read-back — final correction
+
+- Corrected workflow run `39041494852` was last observed `in_progress` for PR head `7dda8247bc66178b3797cb152fda7752dfdbfd89`; conclusion must be checked live.
+- Canonical map now includes §20.353; update commit `831be08c555570ba19c420ecaa26e6b3c9693c97`, blob SHA `83dfd4667068c4895a0620b4d52b9b37075fb9ba`. Full read-back length after Wave 81 entries: 1,022,520 characters.
+- Workflow blob SHA `de67071b599bd58db9220a9dd546e7a47666aec4`; report blob SHA `bc3ad858c5c36f003ed1d60268bf572d20371f75`.
+- No schema-validation pass claimed until run completion and log inspection. Keep PR #337 Draft; add positive and invalid-format fixtures after resolving current CI result.
