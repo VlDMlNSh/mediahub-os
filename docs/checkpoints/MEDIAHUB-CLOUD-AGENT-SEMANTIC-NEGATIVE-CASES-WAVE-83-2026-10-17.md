@@ -1,7 +1,7 @@
 # MediaHub OS — Cloud-agent semantic negative-case hardening, Wave 83
 
 - Date: 2026-10-17
-- Status: **IMPLEMENTED ON PR BRANCH; NEW HEAD CI NOT YET VERIFIED**
+- Status: **IMPLEMENTED; CURRENT PR-HEAD MERGE-REF CI PASS; INDEPENDENT REVIEW AND INTEGRATION OPEN**
 - PR: https://github.com/VlDMlNSh/mediahub-os/pull/335
 - Governing tracker: https://github.com/VlDMlNSh/mediahub-os/issues/301
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
@@ -53,3 +53,13 @@ The previously in-progress workflow has now completed successfully:
 - The semantic report in the job log reports `status=PASS`, `schemas_meta_validated=3`, `bundle_positive_passed=1`, and all `25/25` semantic negative mutations rejected. All three reviewed schema Git blob pins matched; positive fixture had no schema errors or semantic issues.
 
 This upgrades the test status from pending to **CI PASS for the PR merge-ref snapshot**. It does not mean the branch is merged, the semantic fixture profile is accepted for production, issuer/grant/revocation references are resolved, or Contour A is qualified. PR #335 remains draft and its head/target branches are diverged (18 commits ahead and 18 behind at the latest comparison); integration/rebase review and independent schema/authority review remain open.
+
+
+## Current-head CI confirmation — Wave 84, 2026-10-17
+
+- Current PR #335 head at verification: `d6388ebd54607560cc6db8c3f4794212ee57b0f3`; branch comparison remains diverged: 19 commits ahead / 18 behind the canonical documentation branch, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. GitHub reports mergeable=true, but that is not a substitute for resolving the documented branch drift and reviewing the combined diff.
+- Current-head associated workflow run: [Cloud Agent Schema Validation #39042526531](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39042526531), job [117424711109](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39042526531/job/117424711109), conclusion `success`.
+- Read-back of the current run's logs confirms 3 Draft 2020-12 schemas meta-validated; 3 positive schema fixtures passed; 13 schema negative cases rejected; the semantic validator reports 26 expected / 26 rejected semantic negative mutations, zero failures, one positive bundle passed, and no schema validation errors or semantic issues in the positive bundle. The five newly added mutations (aggregate input bytes, output artifact bytes, zero artifact count, missing revocation evidence, missing independent authorization/security-review evidence) each report `PASS`.
+- Evidence artifact: [cloud-agent-schema-and-semantic-validation-39042526531](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39042526531/artifacts/12104436794), artifact ID `12104436794`, 5,084 bytes, archive SHA-256 `b5621e7b9a93c08815f27e1c66ee58ef3e106b5ca6d445f4ec26d340913942b8`, 14-day retention.
+- The workflow is triggered by pull-request context and the reported job checks out the immutable event SHA. The evidence is therefore recorded as successful CI for the current PR validation snapshot, not as proof that the branch is merged or accepted. No independent review has been recorded on PR #335.
+- Status distinction: schema/semantic fixture CI **PASS**; independent review **OPEN**; merge/integration **OPEN**; issuer/grant/revocation authority, R-06 privacy/audit, accepted runner/workspace/network manifest, and Contour A qualification **OPEN**.
