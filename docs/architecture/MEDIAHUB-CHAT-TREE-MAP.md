@@ -6920,3 +6920,26 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: **SOURCE-ONLY REVIEW COMPLETE / CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED**. A0 issuer/lifecycle, MH-12 authorization, R-06 audit/privacy, target manifest, artifact provenance and qualification gates remain open.
 - No installation, tests, scans, dependency resolution, model/provider call, credential use, host/runtime inspection, qualification, deployment or branch integration occurred.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Gemini Agent 2/3 output reconciliation, Wave 43 (2026-10-17)
+
+- Live refs read before update: documentation branch HEAD `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; main HEAD `4712c30c3e0296cf1d792c4c69e49cdb798d99fe`. Map blob before update `0141454f29b3da6c84488f9464be30812e0b13a3`; continuation checkpoint blob before update `84f7e7acb98dab0d5eaeb53296a4603d7e82938e`.
+- Successful Actions runs: [Agent 2 run 39022345688](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39022345688), artifact SHA-256 `6fa28efe800e97daccebbd89cc852a8a2bf09c0a56b596c1560d13a6a5af2243`; [Agent 3 run 39022690344](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39022690344), artifact SHA-256 `53f69852c7df54763d518cd987e863ec04758717575373ac4dba98e7343265e9`.
+- Agent 2 evidence PR [#317](https://github.com/VlDMlNSh/mediahub-os/pull/317), head `7cb1dd161b4e8a6acffec5e9774b1eae9cd89998`, is OPEN / UNMERGED. Agent 3 review PR [#318](https://github.com/VlDMlNSh/mediahub-os/pull/318), head `a39d4b1d28a6e557d1aa6dff0e244a967e8fd889`, is OPEN / UNMERGED.
+- Reconciliation report: [docs/checkpoints/MEDIAHUB-GEMINI-AGENT-2-3-OUTPUT-RECONCILIATION-WAVE-43-2026-10-17.md](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-GEMINI-AGENT-2-3-OUTPUT-RECONCILIATION-WAVE-43-2026-10-17.md).
+- Material findings: Agent 2's JSON uses the non-digest literal `sha256:agent2_bootstrap_001_inventory_complete`; candidate scope differs between the JSON, checkpoint Markdown and PR description; most candidate refs remain `main / HEAD` rather than immutable commits; source/license evidence is incomplete. Independent GitHub metadata confirms FreeLLMAPI commit `369c47128edf92d30abb59d7b7c0e46c43e1ce57` with MIT license metadata; free-coding-models commit `5b7823f1f40b41b58ddd355c1188297b26cd58fd` has API license metadata `NOASSERTION` despite an MIT-with-enhanced-disclaimers LICENSE file; OpenFlux commit `06d5c5d1357dfe58e906fb2c4985c149eec9ba2c` with MIT license metadata. The submitted OpenOPC URL redirects; canonical repository identity, ref and license remain unresolved.
+- Agent 3's checkpoint contains useful risk requirements for Retry-After/backoff, quota and financial gates, egress, concurrency and fresh qualification. Its broad PASS statements exceed the per-candidate evidence shown in the submitted artifacts; it did not reconcile the malformed digest or scope discrepancy. Disposition: PARTIAL REVIEW / RECONCILIATION REQUIRED.
+- Both PRs remain unmerged. No tests, qualification, provider calls, secret operations, deployment, migration or merge was performed in this pass.
+- Next: require immutable source pins, per-candidate license/provenance evidence, a real SHA-256 artifact digest, consistent inventory scope and evidence-linked severity/disposition; then reconcile against Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301) and the accepted Contour A admission contracts.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.349 — Gemini Agent 2/3 output reconciliation, Wave 43 (2026-10-17)
+
+- Reconciliation report: [Gemini Agent 2/3 Output Reconciliation — Wave 43](../checkpoints/MEDIAHUB-GEMINI-AGENT-2-3-OUTPUT-RECONCILIATION-WAVE-43-2026-10-17.md).
+- Agent 2 PR [#317](https://github.com/VlDMlNSh/mediahub-os/pull/317) and Agent 3 PR [#318](https://github.com/VlDMlNSh/mediahub-os/pull/318) are OPEN / UNMERGED. Their workflow runs succeeded and artifacts were published; artifact SHA-256 digests and exact source refs are recorded in the report.
+- Review found an invalid placeholder instead of a real SHA-256 digest, inconsistent inventory scope, unpinned source refs, a license metadata/document discrepancy for free-coding-models, unresolved OpenOPC source identity, and review PASS statements broader than attached evidence.
+- Disposition: **PARTIAL REVIEW / RECONCILIATION REQUIRED**. No component admitted; no tests, qualification, provider calls, secret changes, deployment, migration or merge performed.
+- Next: correct provenance/inventory, pin exact upstream source SHAs and license blobs, resolve candidate identity, and bind independent review findings to evidence. Continue under Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
