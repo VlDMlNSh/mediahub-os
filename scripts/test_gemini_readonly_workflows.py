@@ -72,6 +72,13 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertNotRegex(source, r"(?i)echo\s+.*(?:GEMINI_API_KEY|GOOGLE_API_KEY)")
                 self.assertNotIn("text.slice(0,45000)", source)
 
+    def test_provider_secret_identity_is_explicit_without_fallback(self) -> None:
+        for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
+            with self.subTest(workflow=path.name):
+                self.assertIn("GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}", source)
+                self.assertNotIn("secrets.GOOGLE_API_KEY", source)
+                self.assertNotIn("secrets.GEMINI_API_KEY ||", source)
+
     def test_non_idempotent_generation_post_is_never_retried_automatically(self) -> None:
         self.assertIn("non-idempotent-generation-post-no-automatic-retry", self.retry)
         self.assertIn("manifest.attempts = 1", self.retry)
