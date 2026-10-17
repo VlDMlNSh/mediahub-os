@@ -45,3 +45,11 @@ A0 issuer/verifier and capability lifecycle, R-06 audit/privacy authority, accep
 ## Next step
 
 Open a draft PR for this bounded validation workflow, obtain a fresh CI run, inspect job logs and negative-fixture behavior, add positive fixtures and invalid-format tests, then update the canonical map and continuation checkpoint with verified run/job evidence. Keep PR #333 separate until its branch divergence, mergeability and checks are independently reconciled.
+
+
+## First CI attempt and correction
+
+- Initial PR run: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39041398274; run ID `39041398274`, job ID `117421459939`, conclusion `failure`.
+- Log evidence: setup-python failed because `cache: pip` requires a `requirements.txt` or `pyproject.toml`, neither of which exists in the repository checkout. Schema validation steps were skipped; this run provides no schema-validation result.
+- Corrective change: removed pip cache configuration to avoid assuming a dependency manifest. Workflow correction commit: `80b104b5abd26154bb86ade0d9929de6f6c184fb`, updated workflow blob SHA `de67071b599bd58db9220a9dd546e7a47666aec4`.
+- A new pull-request run is expected from the workflow change; its status must be inspected before claiming success.
