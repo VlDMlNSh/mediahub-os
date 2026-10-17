@@ -41,3 +41,11 @@ Inspect run `39042019814` and confirm the cross-artifact fixture passes. If it f
 - Job logs explicitly contain `PASS cross-artifact reference fixture` for task ID, task-envelope digest, agent/provider/model, registry-record digest, source provenance and policy digest.
 - Same run passed generated positive fixtures and negative checks for empty objects, unexpected top-level properties, invalid enum values, and malformed date-time values on all three schemas.
 - Scope is test-fixture consistency only; it does not validate arbitrary production artifact pairs or grant execution authority.
+
+
+## Cross-artifact mismatch rejection added
+
+- Extended the workflow to run a semantic link-check function across task, registry and manifest, then mutate the manifest task ID and require the semantic check to reject the mismatch.
+- Successful run for workflow commit `87c7078fbf1eb43a82943f45613cae7b4ed8742c`: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39042273337, job `117423994181`, conclusion `success`.
+- Logs explicitly include both `PASS cross-artifact reference fixture` and `PASS cross-artifact mismatch negative fixture`, in addition to positive and existing schema-negative fixtures.
+- This is still a workflow-local test harness, not a reusable production admission/semantic validator. No issuer/capability authority or runtime admission was implemented.
