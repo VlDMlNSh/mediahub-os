@@ -4550,3 +4550,16 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Validation: source files read from the current working branch; final file read-back and commit/PR state must be confirmed after the write.
 - No provider calls, workflow dispatch, tests, qualification, credential reads, infrastructure changes, deployment or merge were performed in this documentation pass.
 - Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — GitHub-hosted cloud router coordinator proposal, Wave 61 (2026-10-17)
+
+- Proposal: [GitHub-Hosted Cloud Router Coordinator Proposal — Wave 61](MEDIAHUB-GITHUB-HOSTED-CLOUD-ROUTER-COORDINATOR-PROPOSAL-WAVE-61-2026-10-17.md).
+- Working branch before this wave: `81b42688df8c05484700faac2f555d431cc2f9a4`; canonical documentation branch base remains `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; main HEAD observed `4712c30c3e0296cf1d792c4c69e49cdb798d99fe`.
+- Source conclusion: the provider qualification script is a probe utility, not a production router; it selects the first present credential alias, uses short fixed retries and has no persistent per-scope quota/cooldown ledger.
+- Decision: first implementation slice is a manually dispatched, plan-only GitHub Actions workflow. The planner receives zero provider secrets; future provider execution uses static provider-specific secret mappings.
+- Queue: approved GitHub Issues. Quota state: dedicated versioned state branch with redacted scope metadata and optimistic ref updates. Fail closed on missing, corrupt or conflicting state.
+- Cloud routing excludes user geolocation and local network egress as inputs. Provider-side GitHub runner egress policy remains an admission gate. Local servers are local-compute-only.
+- Status: **PROPOSAL RECORDED / IMPLEMENTATION OPEN / LIVE PROVIDER INVOCATION GATED**. No workflow, tests, qualification, dispatch or provider calls were added.
+- Next: implement the plan-only workflow and strict task/state schemas on a dedicated branch; preserve explicit authorization gates.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md

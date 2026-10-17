@@ -6982,3 +6982,16 @@ WB-14AA и приложение остаются не-нормативными. 
 - Validation: source files read from the current working branch; final file read-back and commit/PR state must be confirmed after the write.
 - No provider calls, workflow dispatch, tests, qualification, credential reads, infrastructure changes, deployment or merge were performed in this documentation pass.
 - Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.353 — GitHub-hosted cloud router coordinator proposal, Wave 61 (2026-10-17)
+
+- Proposal: [GitHub-Hosted Cloud Router Coordinator Proposal — Wave 61](../checkpoints/MEDIAHUB-GITHUB-HOSTED-CLOUD-ROUTER-COORDINATOR-PROPOSAL-WAVE-61-2026-10-17.md).
+- Roadmap addendum: [Wave 61 execution addendum](../checkpoints/MEDIAHUB-MASTER-ROADMAP-EXECUTION-ADDENDUM-WAVE-61-2026-10-17.md).
+- First implementation slice is manual-dispatch-only and plan-only: one approved GitHub Issue per run, strict task envelope, existing provider registry, redacted quota plan, optimistic state-branch update, and no provider executor or schedule.
+- The planner receives zero provider secrets. Any later provider-specific job must use a statically declared secret mapping and receive only its own credential.
+- GitHub Issues remain the durable task inventory; the state branch stores redacted quota/cooldown metadata. Missing, stale, corrupt or conflicting state causes defer/quarantine.
+- Same upstream quota scopes share state; key aliases alone do not imply independent capacity. Paid fallback remains disabled.
+- User geolocation/local network egress are excluded from route selection. Provider policy for GitHub runner egress remains an admission gate. Local servers are local-compute-only.
+- A0, MH-12, R-06, target-manifest, provider evidence and separate authorization gates remain open. No workflow, provider executor, tests, qualification, dispatch or provider calls were added.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
