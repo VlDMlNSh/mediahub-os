@@ -4748,3 +4748,15 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - All three exact-head CI runs passed: Gemini Read-only Workflow Contract [39068814327](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814327), Astra Verify [39068814332](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814332), Astra Cloud Runtime Validation [39068814337](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814337).
 - PR #334 remains OPEN / DRAFT / UNMERGED; no independent review submissions or threads were present at audit time. No provider call, secret access, queue admission, merge, deployment, or Contour A acceptance.
 - Next: independent security review and repository protection/review-gate verification.
+
+
+## /next Wave 108 — shared HTTP response reader (2026-10-18)
+
+- Report: [MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md](MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md), Wave 108 section.
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-18.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-18.md).
+- Candidate HEAD: `e1f35cb47eab05f573c38a4c2a507c9d832ca3cc`.
+- Retry workflow blob: `ad6d82b6eca40b4c9923ac5fc6485fa103e4d24b`; contract tests blob: `f3ebfab5e0729e498872cceedc0ed3c0dc89c0d4`; shared reader blob: `adb3d27307cd5ad078a8c622cbeaaebd40f903ec`.
+- Both workflows now use the same bounded HTTP reader; regression tests enforce this contract.
+- Exact-head CI passed: Gemini Read-only Workflow Contract [39069449788](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449788), Astra Verify [39069449749](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449749), Astra Cloud Runtime Validation [39069449848](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069449848).
+- PR #334 remains OPEN / DRAFT / UNMERGED; independent review is outstanding. Branch protection/ruleset could not be verified with available integration actions. No provider calls, secret reads, dispatch, queue admission, merge, deployment or Contour A acceptance.
+- Next: independent security review and authorized verification of branch protection/review gates.
