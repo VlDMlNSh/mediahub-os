@@ -4765,3 +4765,14 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 ### Wave 108 follow-up verification (2026-10-18)
 
 Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `831d59559eef41783f3758ce883d895acc1526b0`; retry workflow blob `df8c2cdf5a344f400cdbbd9997aec82cf38870f2`. After fixing an intermediate malformed test-file prefix and correcting the newline assertion, all exact-head CI checks passed: Gemini Read-only Workflow Contract [39069711066](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711066), Astra Verify [39069710934](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069710934), Astra Cloud Runtime Validation [39069711045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711045). The failed intermediate run is not counted as a pass. PR #334 remains OPEN / DRAFT / UNMERGED; independent review and branch-protection verification remain unresolved.
+
+
+## /next Wave 108 — shared HTTP reader and output-summary fixes (2026-10-18)
+
+- Report: [MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md](MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md), Wave 108 follow-up.
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-18.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-18.md).
+- Latest verified PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`; primary workflow blob `cb42b1094adbad802bbc764f7a36b453fcb518ea`; retry workflow blob `df8c2cdf5a344f400cdbbd9997aec82cf38870f2`; contract test blob `831d59559eef41783f3758ce883d895acc1526b0`.
+- Both workflows now use the shared bounded HTTP reader, rejecting incomplete/aborted responses. Fixed primary step-summary newline escapes and retry summary's undefined attempt-count variable. Tests cover both workflows' newline framing and retry attempt count.
+- Exact-head CI passed: Gemini Read-only Workflow Contract [39069711066](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711066), Astra Verify [39069710934](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069710934), Astra Cloud Runtime Validation [39069711045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711045).
+- PR #334 remains OPEN / DRAFT / UNMERGED. No independent review submissions or inline review threads were present. Branch protection/ruleset could not be verified through the available integration actions. No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance.
+- Next: independent security review and authorized verification of branch protection/review gates.
