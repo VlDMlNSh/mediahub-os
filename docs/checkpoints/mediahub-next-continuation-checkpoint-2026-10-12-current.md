@@ -4535,3 +4535,14 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Disposition: OpenHands Agent Server remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. R-06 and accepted target manifest remain open. Proposed conservative defaults only: completion logging off, telemetry exporter `none`, no User Domain data, explicit retention/deletion contract, authenticated access and isolated ephemeral workspace.
 - No installation, tests, qualification, provider/model calls, credential use, workflow dispatch, runtime/host inspection, infrastructure changes, merge, rebase, deployment or branch integration occurred.
 - Canonical map remains on `docs/mediahub-chat-tree-map-20261012`; Wave 71 navigation is an addendum on the working PR branch. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — OpenHands pinned-to-head telemetry/error-path delta, Wave 72 (2026-10-17)
+
+- Report: `docs/checkpoints/MEDIAHUB-OPENHANDS-PINNED-HEAD-TELEMETRY-ERROR-DELTA-WAVE-72-2026-10-17.md`; commit `688e8fa8e6ea9cabb6100d35eb12042d2775cd63`.
+- Map addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-72-2026-10-17.md`; commit `f17660f2bfba264cb1cbcb1924aa7f426c43d17a`.
+- Source pin: `OpenHands/software-agent-sdk@6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`; current `main` is 48 commits ahead / 0 behind. Telemetry policy/model blobs are unchanged; subscriber, event service, config and persistence store differ.
+- Current-head event-service error path formats chained tracebacks to a string for logging and can publish detailed error events; treat this as a separate diagnostic sink needing redaction, destination, access and retention evidence. Current config documents telemetry salt fallback to `OH_SECRET_KEY`, which may fall back to a session API key; stable pseudonyms may be linkable across restarts. Workspace persistence changes do not establish TTL or complete deletion/backup-erasure.
+- Disposition remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. Source-to-artifact binding, R-06 and accepted target runtime manifest remain OPEN.
+- No install, tests, qualification, provider calls, credentials, workflow dispatch, runtime inspection, infrastructure changes, merge, rebase, deployment or branch integration occurred.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
