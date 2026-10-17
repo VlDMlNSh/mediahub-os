@@ -4591,3 +4591,15 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Map addendum blob SHA: `bfcb6ceab50e15bdbd30da9f7998443e2f04a3e7`; it exists on the working documentation branch and is included in PR #333.
 - PR #333 remains open / Draft / unmerged. Current verified head before this checkpoint identity note: `7a34870aa017738a860505c597c4ba0d3c823b6c`; compare remains 28 ahead / 0 behind canonical.
 - An intermediate addendum write landed on the default branch by mistake; that exact file was then deleted there and the absence was confirmed by a 404 read-back. The retained addendum is on the working documentation branch only.
+
+
+## Wave 76 continuation — 2026-10-17
+
+- Completed source-only review: WebSocket authorization, replay and GitHub execution-tool inventory.
+- Report: [Wave 76](MEDIAHUB-OPENHANDS-WEBSOCKET-AUTH-REPLAY-AND-GITHUB-EXECUTION-TOOL-INVENTORY-WAVE-76-2026-10-17.md), blob SHA pending final read-back.
+- Map addendum: [Wave 76](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-76-2026-10-17.md), blob SHA pending final read-back.
+- PR #333 remains open, Draft, unmerged. Pre-pass working HEAD was `9129f9bc708200952e8a759c47fc26cb12916041`; base `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; 29 ahead / 0 behind. Recheck PR HEAD after this checkpoint write.
+- OpenHands source blobs: `sockets.py` `33d7a4b1666e9cdcf004b157470e9be16cdfe693`; `session_socket.py` `4e02c35e6e4fd67ca5adea31e3f9346f59a29f38`; pinned `api.py` `1916fd4b00e798e27f85f37db1e634bbef6a48c2`; pinned `dependencies.py` `d1d2a6aece2056adc15824aed6cdccc4c3c33ead`. The socket files match at the reviewed pin and current upstream main.
+- Tool inventory: GitHub file/branch/commit/PR operations, search, compare, Actions logs/artifacts and reruns for existing failed runs are exposed. No dedicated fresh workflow-dispatch action was found in the exposed GitHub connector catalog. Browser profiles list no signed-in sites; authenticated browser execution is unverified.
+- Issue #301 remains governing. No workflow dispatch, provider/model call, credential access, test, installation, qualification, runtime/host inspection, infrastructure change, merge, rebase, cherry-pick or deployment occurred.
+- Next bounded pass: inspect existing GitHub Actions workflow files, permission boundaries and recorded Gemini evidence; determine a minimal read-only entrypoint. Do not dispatch without separate explicit authorization.
