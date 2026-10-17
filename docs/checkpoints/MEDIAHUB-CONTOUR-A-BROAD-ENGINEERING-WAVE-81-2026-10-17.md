@@ -35,12 +35,14 @@ PR #332 remains OPEN and unmerged. Its earlier REQUEST_CHANGES review requires i
 
 PR: https://github.com/VlDMlNSh/mediahub-os/pull/334  
 Branch: security/gemini-readonly-hardening-20261017  
-Current head observed: 4ff0194c04e0b95e146cac46fdb8461d93372d5f  
+Latest head observed: 517b76d7f52f05fa145ae7fb44b3bba541f72267  
 Status: OPEN / DRAFT / UNMERGED.
 
 Changed files:
 - .github/workflows/gemini-readonly-audit.yml
 - .github/workflows/gemini-readonly-audit-retry.yml
+- .github/workflows/gemini-readonly-workflow-validation.yml
+- scripts/test_gemini_readonly_workflows.py
 
 The workflows now resolve the job from immutable github.sha, validate checkout identity, require manual dispatch from main, use fixed reviewed context profiles rather than caller-selected path lists/ref, reject symlink/out-of-workspace paths and bound task/context bytes. Model selection is fixed; no automatic provider/model/key fallback is enabled. The response is treated as untrusted advisory data, saved to a bounded artifact rather than injected into the Actions summary. A machine-readable evidence manifest contains source/workflow/context/output digests, run identity, action SHAs, model, provider status and bounded retry metadata. The retry variant only retries transient 5xx/transport failures; HTTP 429 is not automatically retried.
 
@@ -48,7 +50,7 @@ Actions pinned and independently checked against the upstream repositories:
 - actions/checkout v7.0.1: commit 3d3c42e5aac5ba805825da76410c181273ba90b1; upstream action.yml declares Node 24.
 - actions/upload-artifact v7.0.0: commit bbbca2ddaa5d8feaa63e36b76fdaad77386f024f; upstream action.yml declares Node 24.
 
-For this PR head, GitHub reported the two generic checks Astra Cloud Runtime Validation (run #39038377632) and Astra Verify (run #39038377657) as completed/success. Those checks do not prove that a manual Gemini workflow dispatch or provider call succeeded. No dispatch, provider call, credential read, merge or deployment was performed in this pass.
+For the latest PR head, the dedicated gate [Workflow Contract push run #39039096661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39039096661), job `117414754005`, completed/success on SHA `517b76d7f52f05fa145ae7fb44b3bba541f72267`. `actionlint@v1.7.7` lint passed and all six `GeminiReadOnlyWorkflowContractTests` passed. The PR-event gate [run #39039099296](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39039099296), job `117414761716`, also completed/success for the same head. Generic checks [Astra Verify #39039099324](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39039099324) and [Astra Cloud Runtime Validation #39039099350](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39039099350) passed as well. These validate workflow syntax/static contract and repository tests; they do not prove a manual Gemini dispatch/provider call succeeded. No dispatch, provider call, credential read, merge or deployment was performed in this pass.
 
 ## 4. JSON Schema Draft 2020-12 — PR #335
 
@@ -104,3 +106,10 @@ At report preparation:
 6. Only after target, issuer, privacy, budget, provider policy and output quarantine are accepted should a controlled read-only execution be dispatched. No paid fallback, key rotation or provider switching is implied by a quota error.
 
 **Disposition:** concrete, repeatable schema validation is now implemented and has a successful exact-run artifact. Workflow-hardening and authority corrections are in open PRs. Contour A is still NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+
+
+## 7. Repository protection visibility
+
+- A read of `GET /repos/VlDMlNSh/mediahub-os/rulesets` returned an empty array at this snapshot.
+- The GitHub integration returned `403 Resource not accessible by integration` for the classic `main` branch-protection endpoint. Therefore this pass **could not independently verify or modify classic branch-protection settings**. Older roadmap text saying `main` is unprotected is a historical finding, not freshly verified in this pass.
+- Before release, a repository administrator should confirm required-review/status-check protection on `main`. No rules were changed here.
