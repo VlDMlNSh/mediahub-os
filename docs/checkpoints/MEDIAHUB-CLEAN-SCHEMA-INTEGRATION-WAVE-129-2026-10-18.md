@@ -35,3 +35,8 @@ This is a clean integration candidate, not a merge or Contour A acceptance. PR r
 Request independent security/schema review of PR #350 and validate the full Contour A acceptance matrix against Issue #301. Keep the PR Draft until the review, repository-protection requirements and all non-schema gates have evidence.
 
 Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md) on [`docs/mediahub-chat-tree-map-20261012`](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Post-documentation ref recheck
+
+After this report, map and checkpoint commits advanced the canonical docs branch again. Final live comparison now reports candidate 13 ahead / 6 behind (merge base still `485540e75be44244599643734d502ade91eb48e2`) and GitHub currently reports PR #350 `mergeable=false`. The exact-head schema workflow remains successful, but integration is blocked until the branch is reconciled with the latest canonical docs HEAD and mergeability is rechecked. Do not interpret the earlier mergeable=true snapshot as current.
