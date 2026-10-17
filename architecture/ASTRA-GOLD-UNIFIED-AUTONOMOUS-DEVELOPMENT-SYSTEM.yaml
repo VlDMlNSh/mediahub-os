@@ -3,6 +3,35 @@ reference_architecture: architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md
 qualification_contract: architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml
 contract_alignment: CANONICAL_SEMANTIC_ALIGNMENT
 status: QUALIFICATION_READY_HYBRID_FABRIC
+hardware_topology:
+  status: TARGET_PLAN_NOT_YET_COMMISSIONED
+  plan_date: 2026-10-12
+  current_test_lab:
+    linux_test_nodes: [mh-dev-01, mh-dev-02]
+    mediahub_prototype: Voktors-Mac-mini.local
+    note: Existing machines are test equipment and do not define final deployment hardware.
+  target_developer_hosts:
+    - id: mac-pro-dev
+      hardware: purchased Mac Pro, exact generation/specifications pending acquisition
+      role: primary MediaHub target and developer host 1
+    - id: mac-mini-2011-linux-dev
+      hardware: Mac mini Mid-2011 running Linux; planned 16 GB RAM, verify on receipt
+      role: developer host 2 and Linux executor
+  prototype:
+    id: Voktors-Mac-mini.local
+    hardware: Mac mini M2, 8 GB RAM
+    role: first working MediaHub product prototype; not a permanent developer lane
+  future_compute:
+    - id: gpu-video-server
+      role: optional future model inference and media/video compute pool
+      status: FUTURE_NOT_DEPLOYED
+  commissioning_requirements:
+    - record_exact_hardware_and_os
+    - verify_mac_mini_2011_ram_storage_linux_network_and_firmware
+    - remap_queue_registry_tasks_workflows_and_topology_tests
+    - set_initial_concurrency_to_two_physical_development_hosts
+    - allow_additional_logical_lanes_only_after_isolation_and_capacity_tests
+    - keep_m2_prototype_out_of_permanent_astra_developer_pool
 version: 1.1
 name: ASTRA_GOLD
 definition: "Unified distributed autonomous hybrid development system for MediaHub"
