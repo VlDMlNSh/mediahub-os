@@ -265,13 +265,39 @@ jobs:
 
                       if semantic_errors(task, registry, manifest):
                           raise AssertionError("consistent cross-artifact fixture rejected: " + "; ".join(semantic_errors(task, registry, manifest)))
-                      mismatched = json.loads(json.dumps(manifest))
-                      mismatched["task"]["task_id"] = "CAF-TEST-MISMATCH"
-                      mismatch_errors = semantic_errors(task, registry, mismatched)
-                      if not mismatch_errors or "task_id mismatch" not in mismatch_errors:
-                          raise AssertionError("cross-artifact negative fixture did not detect task ID mismatch")
-                      print("PASS cross-artifact reference fixture: task ID/digest, agent/provider/model/registry digest, source provenance, and policy digest")
-                      print("PASS cross-artifact mismatch negative fixture: task ID mismatch rejected")
+                      # Each mutation is schema-valid in isolation and must fail its specific
+                      # cross-artifact invariant. This prevents one mismatch check from masking
+                      # untested relationships in the semantic validator.
+                      mismatch_cases = [
+                          (("task", "task_id"), "CAF-TEST-MISMATCH", "task_id mismatch"),
+                          (("task", "task_envelope_sha256"), "sha256:" + "c" * 64, "task envelope digest mismatch"),
+                          (("agent", "agent_id"), "CAF-AGENT-MISMATCH", "agent_id mismatch"),
+                          (("agent", "provider_id"), str(manifest["agent"]["provider_id"]) + "-mismatch", "provider_id mismatch"),
+                          (("agent", "model_id"), str(manifest["agent"]["model_id"]) + "-mismatch", "model_id mismatch"),
+                          (("agent", "registry_record_sha256"), "sha256:" + "d" * 64, "registry digest mismatch"),
+                          (("source", "repository"), "example/other-repo", "repository mismatch"),
+                          (("source", "requested_ref"), "refs/heads/other", "requested ref mismatch"),
+                          (("source", "resolved_sha"), "c" * 40, "resolved SHA mismatch"),
+                          (("policy", "policy_bundle_sha256"), "sha256:" + "e" * 64, "policy bundle digest mismatch"),
+                      ]
+                      for mismatch_path, replacement, expected_issue in mismatch_cases:
+                          mismatched = json.loads(json.dumps(manifest))
+                          replace_at(mismatched, mismatch_path, replacement)
+                          schema_errors = list(manifest_validator.iter_errors(mismatched))
+                          if schema_errors:
+                              raise AssertionError(
+                                  "semantic negative fixture is not schema-valid at "
+                                  + repr(mismatch_path) + ": "
+                                  + "; ".join(error.message for error in schema_errors[:3])
+                              )
+                          mismatch_errors = semantic_errors(task, registry, mismatched)
+                          if expected_issue not in mismatch_errors:
+                              raise AssertionError(
+                                  "cross-artifact negative fixture did not detect "
+                                  + expected_issue + "; got " + repr(mismatch_errors)
+                              )
+                          print("PASS cross-artifact mismatch negative fixture:", expected_issue)
+                      print("PASS cross-artifact reference fixture: consistent task/digest, agent/provider/model/registry digest, source provenance, and policy digest")
                   except Exception as exc:
                       failed = True
                       print("FAIL cross-artifact semantic fixture:", repr(exc), file=sys.stderr)
