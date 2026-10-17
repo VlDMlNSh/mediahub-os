@@ -4835,3 +4835,16 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Issue #301 remains OPEN without accountable dispositions for D-CA-01…D-CA-06. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
 - No branch integration, workflow dispatch, secret access, merge, deployment or production acceptance occurred.
 - Next: current-head CI and independent review for PR #339; lossless reconciliation and independent supply-chain review for PR #338; governance dispositions before runtime admission.
+
+
+## /next Wave 114 — SentinelX-backed schema CI recheck (2026-10-17)
+
+- Report: [SentinelX-backed Schema CI Recheck, Wave 114](MEDIAHUB-SENTINELX-BACKED-SCHEMA-CI-RECHECK-WAVE-114-2026-10-17.md).
+- Map addendum: [Wave 114](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-114-2026-10-17.md).
+- SentinelX host `Voktors-Mac-mini.local` is operational; the original checkout outside the configured allowlist was not accessed or changed. Two other enrolled hosts are disabled.
+- Selected local contract tests: 45 passed. Exact-head GitHub Actions schema run [39065457522](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39065457522) succeeded for PR #338 candidate SHA `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, job `117492060688`.
+- Artifact `12112628870`, API digest `sha256:020bb79d34970f37856ec8a9f7c5058c6830d7a7e383613322eff85d86c51804`. Schema: 3/3 meta-validations, 3/3 positive fixtures, 179/179 negative cases rejected (166 generated required-field cases); semantic: 1/1 positive bundle, 26/26 negative cases rejected; zero reported failures.
+- Semantic evidence still marks P0 `AUTHORITY_REFERENCES_UNRESOLVED`; synthetic validation does not prove live issuer/grant/policy resolution, revocation, runtime admission, or Contour A acceptance.
+- PR #338 remains OPEN/DRAFT/UNMERGED without independent review; PR #339 remains OPEN/DRAFT/UNMERGED at `5dc8917b6925e05ebea0b7375d3aab5980133233`, 47 ahead / 0 behind canonical docs HEAD `97d19bc423caca159c916ca9112eee77a18d10cd`. Issue #301 remains OPEN without accountable dispositions for D-CA-01…D-CA-06.
+- No Gemini/model/provider invocation, secret access, merge, deployment or production acceptance occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: reconcile PR #338 losslessly against refreshed canonical refs and obtain independent schema/security/supply-chain review.

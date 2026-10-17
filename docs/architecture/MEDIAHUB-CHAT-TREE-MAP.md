@@ -7187,3 +7187,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - Isolated SentinelX workspace: static assertions for read-only permissions, immutable checkout, disabled checkout credential persistence, and full-SHA action pins passed. Local validators not executed: Python 3.9.6, jsonschema missing, workflow target Python 3.12. Gemini CLI/npx unavailable; no provider invocation or auth attempt.
 - Issue #301 remains OPEN without accountable disposition for D-CA-01…D-CA-06. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
 - No integration, dispatch, secret access, merge, deployment, or production acceptance occurred.
+
+
+## 20.366 — SentinelX-backed schema CI recheck, Wave 114 (2026-10-17)
+
+- Report: [SentinelX-backed Schema CI Recheck, Wave 114](../checkpoints/MEDIAHUB-SENTINELX-BACKED-SCHEMA-CI-RECHECK-WAVE-114-2026-10-17.md).
+- Addendum: [Wave 114](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-114-2026-10-17.md).
+- On operational SentinelX host `Voktors-Mac-mini.local`, 45 selected local contract tests passed. The user's original checkout outside the host allowlist was not modified.
+- Exact-head schema workflow run [39065457522](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39065457522) succeeded for PR #338 head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`; artifact `12112628870`, digest `sha256:020bb79d34970f37856ec8a9f7c5058c6830d7a7e383613322eff85d86c51804`.
+- Evidence: 3/3 schemas, 3/3 positive fixtures, 179/179 negative schema cases (166 generated nested-required cases), 1/1 semantic positive bundle, 26/26 semantic negatives; zero reported failures. Semantic report retains P0 `AUTHORITY_REFERENCES_UNRESOLVED`; this is synthetic fixture evidence only.
+- PR #338 remains OPEN/DRAFT/UNMERGED without independent review. PR #339 remains OPEN/DRAFT/UNMERGED, 47 ahead / 0 behind canonical docs HEAD `97d19bc423caca159c916ca9112eee77a18d10cd`. Issue #301 remains open without accountable dispositions for D-CA-01…D-CA-06.
+- No model/provider invocation, secret read, merge, deployment or Contour A acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: lossless PR #338 reconciliation and independent schema/security/supply-chain review against refreshed refs.
