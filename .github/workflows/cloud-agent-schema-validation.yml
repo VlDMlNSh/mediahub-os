@@ -4,7 +4,10 @@ on:
   pull_request:
     paths:
       - "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-*-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+      - "requirements/cloud-agent-schema-validation.in"
+      - "requirements/cloud-agent-schema-validation.lock"
       - ".github/workflows/cloud-agent-schema-validation.yml"
+      - ".github/workflows/cloud-agent-lock-generation.yml"
   push:
     branches: ["contour-a-schema-validation-wave81-20261017"]
   workflow_dispatch:
