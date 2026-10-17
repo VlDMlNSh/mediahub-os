@@ -17,6 +17,7 @@ AUDIT = WORKFLOW_DIR / "gemini-readonly-audit.yml"
 RETRY = WORKFLOW_DIR / "gemini-readonly-audit-retry.yml"
 HTTP_HELPER = ROOT / "scripts" / "gemini_http_response.js"
 HTTP_HARNESS = ROOT / "scripts" / "test_gemini_http_response.js"
+MANIFEST_FINALIZER_TEST = ROOT / "scripts" / "test_gemini_missing_credential.js"
 MODEL = "gemini-3.5-flash-lite"
 PINNED_ACTION = re.compile(r"^\s*uses:\s*[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+@([0-9a-f]{40})\s*$")
 
@@ -133,6 +134,27 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertIn(r"join('\n').trim()", source)
                 self.assertIn(r"\n## Gemini read-only evidence", source)
                 self.assertIn(r"-->\n'+text+'\n'", source)
+
+    def test_missing_credential_finalizes_terminal_manifest_without_provider_access(self) -> None:
+        result = subprocess.run(
+            ["node", str(MANIFEST_FINALIZER_TEST)],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=20,
+        )
+        self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+        self.assertIn("terminal manifest atomically", result.stdout)
+        for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
+            with self.subTest(workflow=path.name):
+                guard = source.index('if [[ -z "${GEMINI_API_KEY:-}" ]]; then')
+                finalizer = source.index("node scripts/mark_gemini_missing_credential.js agent-output/evidence-manifest.json", guard)
+                failure = source.index("exit 30", finalizer)
+                self.assertLess(guard, finalizer)
+                self.assertLess(finalizer, failure)
+                self.assertIn("if: always() && hashFiles('agent-output/evidence-manifest.json') != ''", source)
+                self.assertIn("BLOCKED_MISSING_CREDENTIAL", (ROOT / "scripts" / "mark_gemini_missing_credential.js").read_text(encoding="utf-8"))
 
     def test_artifact_retention_is_bounded(self) -> None:
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
