@@ -177,6 +177,13 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertEqual(source.count(f'      - "{path}"'), 2)
         self.assertIn('branches:\n      - security/gemini-readonly-hardening-20261017', source)
         self.assertIn('branches:\n      - main', source)
+        for path in (
+            "scripts/gemini_http_response.js",
+            "scripts/test_gemini_http_response.js",
+        ):
+            with self.subTest(http_path=path):
+                self.assertEqual(source.count(f'      - "{path}"'), 2)
+
 
     def test_provider_outcome_manifest_matrix(self) -> None:
         result = subprocess.run(
