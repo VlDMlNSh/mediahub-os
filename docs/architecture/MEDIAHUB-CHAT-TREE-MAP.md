@@ -7044,3 +7044,15 @@ WB-14AA и приложение остаются не-нормативными. 
 - Issue #301 remains open; A0 issuer/verifier lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent review and bounded worker/queue qualification remain gates.
 - Recommended next step: inspect and reconcile #335/#337 exact patches into one validation workflow, preserve positive/negative fixtures, source provenance, hash-lock controls and machine-readable evidence; rerun CI and independent review before integration.
 - Status: **CI EVIDENCE CONFIRMED / CONTOUR A ACCEPTANCE OPEN**.
+
+
+## 20.352 — Dual-PR exact-patch reconciliation, Wave 97 (2026-10-17)
+
+- Report: [MEDIAHUB-DUAL-PR-EXACT-PATCH-RECONCILIATION-WAVE-97-2026-10-17.md](../checkpoints/MEDIAHUB-DUAL-PR-EXACT-PATCH-RECONCILIATION-WAVE-97-2026-10-17.md).
+- Report commit: `df86343213672c2ecefeef0879364602e0c913b6`.
+- PR #335 and PR #337 remain Open/Draft. Current reported heads: #335 `44e2bc7c735ad7f70294d66de8e08eb1da612e0d`; #337 `5ff2dbcc32d4949f4ce045164d110233cef980ba`; both report mergeable=true, but eight changed paths overlap, including the schema-validation workflow.
+- Branch compare for #337 working branch vs canonical docs branch: diverged, 83 ahead / 23 behind, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. No merge or force update performed.
+- #337 current-head validation run [39050957165](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39050957165) succeeded. #335 current-head CI was not independently confirmed by the commit-run query in this pass.
+- Consolidation direction: retain #335's reviewable scripts/fixtures/semantic checks; retain #337's hash-locking, controlled lock generation and nested-required negative coverage; audit triggers and source provenance on a fresh canonical-base branch.
+- Issue #301 acceptance gates remain open; no provider calls, secret access, dispatch, deployment or qualification.
+- Status: **PATCH OVERLAP CONFIRMED / INTEGRATION DEFERRED PENDING CONSOLIDATION AND REVIEW**.
