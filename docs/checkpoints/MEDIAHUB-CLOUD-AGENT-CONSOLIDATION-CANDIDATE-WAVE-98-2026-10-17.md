@@ -48,3 +48,13 @@ The three target schema files already exist at the canonical base with the exact
 3. Confirm nested-required negative coverage survives in the selected script version; the Wave 90 array-item traversal fix must be retained if absent from PR #335's current script.
 4. Resolve the bootstrap toolchain integrity limitation and verify lock regeneration byte-for-byte.
 5. Keep Contour A acceptance gates open until independent schema/security review and Issue #301's A0/R-06/runner/queue gates are satisfied.
+
+
+## Wave 98 follow-up — nested-required array coverage
+
+After opening Draft PR [#338](https://github.com/VlDMlNSh/mediahub-os/pull/338), review found the imported #335 schema validator did not synthesize nested-required negative cases for object-valued array items. Updated `scripts/validate_cloud_agent_schemas.py` in candidate commit `472acc92fb811f2ca36117cda3b2317ed186f63c` (blob `02c326da8cf90d2e5253dff3c1a5b90d72f6e18d`) to traverse concrete array indices and generate a missing-required mutation for every required property present in the three valid fixtures. The mutation helper now supports list-index path traversal as well as object keys.
+
+- Candidate PR #338 head observed after the change: `472acc92fb811f2ca36117cda3b2317ed186f63c`.
+- Fresh validation run [39052849876](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39052849876) was **queued** at the time of inspection; no pass is claimed.
+- Script syntax/runtime and the generated negative-case counts remain to be established by the exact-head CI result.
+- Candidate PR remains Draft. No merge, deployment or Contour A acceptance.
