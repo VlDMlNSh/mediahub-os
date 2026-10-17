@@ -4691,3 +4691,26 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Lock-generation run/artifact could not be enumerated through the available run-list integration; execution and byte-for-byte reproducibility remain unverified. The workflow still installs version-pinned but unhashed pip/pip-tools bootstrap dependencies.
 - PR #338 remains Draft/open/unmerged; Issue #301 remains open and A0/R-06/manifest/review/qualification gates remain open. No provider calls, secret access, dispatch, deployment, merge or Contour A acceptance occurred.
 - Next: use an authorized Actions run-list/dispatch interface to capture lock-generation run and artifact evidence for the current candidate SHA; inspect exact diff, then harden bootstrap integrity separately.
+
+
+## /next Wave 102 — lock regeneration verified (2026-10-17)
+
+- Report: [MEDIAHUB-LOCK-REGENERATION-VERIFIED-WAVE-102-2026-10-17.md](MEDIAHUB-LOCK-REGENERATION-VERIFIED-WAVE-102-2026-10-17.md), blob SHA `f547b64e4a376407a2eb2e917d5176a65f64062b`.
+- On candidate `29d72044ae77086df3380358816da2e15a940725`, lock generation run [39053279868](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39053279868), job `117456037581`, succeeded. The workflow recorded an empty lock diff and passed `git diff --exit-code`; artifact `12108193539`, digest `sha256:ea7a0a91247045a83a78f2ad254bf8c046a0b4f78a11e95ce38fbfeb690b0c62`.
+- Scope is the recorded candidate and runner/index; bootstrap package integrity was still open at that point. No merge, provider call or Contour A acceptance.
+
+## /next Wave 103 — runner pin and action runtime alignment (2026-10-17)
+
+- Report: [MEDIAHUB-RUNNER-PIN-QUALIFICATION-WAVE-103-2026-10-17.md](MEDIAHUB-RUNNER-PIN-QUALIFICATION-WAVE-103-2026-10-17.md), blob SHA `def39b8c8fe8cfcfcc3dab75d43aeba430af00b6`.
+- Lock-generation workflow pins `ubuntu-24.04`; candidate commit `6fa5decdb84c5538aa8d1e32cd41026fd5f875e0` aligned the schema workflow and moved checkout/setup-python/upload-artifact to Node 24-compatible full-SHA pins. Exact-head follow-up is in Wave 104; this entry preserves the historical snapshot.
+
+## /next Wave 104 — hash-locked bootstrap and current-head validation (2026-10-17)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-BOOTSTRAP-LOCK-AND-CURRENT-HEAD-CI-WAVE-104-2026-10-17.md](MEDIAHUB-CLOUD-AGENT-BOOTSTRAP-LOCK-AND-CURRENT-HEAD-CI-WAVE-104-2026-10-17.md), blob SHA `6e9e8520122108fba943ee0665f6f816d56277d4`, creation commit `0e0e672a3fb6eddd36db924582e29d3b765ff052`.
+- Candidate PR #338 current head: `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`. Bootstrap lock blob `2cb89e822dabbe54a11e6b718ec8443b8891c926`; lock-generation workflow blob `22ed52a9252630bfa62b5fbb7d37ea79c84f8b82`; schema workflow blob `f58add06b86b9f816e641ca1aea7d343e9662765`.
+- Lock generation [39058422263](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058422263), job `117471074334`, completed success on the current candidate SHA. Logs verify the hash-locked toolchain, `LOCK_REGENERATION_MATCH=true`, and successful `git diff --exit-code`. Artifact `12110905625`, digest `sha256:c94ead52345eba9d652a0107c611eb67dca46e39f0ce0b49b40d1938e54ad224`.
+- Exact-head PR schema run [39058425661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058425661), job `117471084337`, completed success. The report records 3/3 schema meta-validation, 3/3 positive fixtures, 179/179 negative schema cases rejected (166 generated missing-required cases), 26/26 semantic negatives rejected, and zero failures. Its checked-out GitHub PR merge SHA was `dce0bc01c04020560b2842de6ab5cf190348f0fa`; source PR head was `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`. Artifact `12110676230`, digest `sha256:7957517179ce91c469e851996d2141410640c008da90c6f0c35f879ac185bb3c`.
+- Bootstrap file uses `--require-hashes --only-binary=:all:` for eight pinned wheel distributions; their SHA-256 values were compared with the official PyPI release-file metadata. Residual provenance risk: PyPI's setuptools 84.0.0 entry says Trusted Publishing was not used; independent supply-chain review remains necessary.
+- PR #338 remains OPEN / DRAFT / UNMERGED with no independent reviews observed. Compare with current docs branch at Wave 104 was diverged 20 ahead / 20 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; verify fresh state before any integration. Current docs branch and `main` remain highly diverged; do not wholesale merge.
+- Issue #301 remains open. A0 issuer/verifier/lifecycle, R-06, accepted runner/workspace/network manifest, independent review and bounded queue-worker qualification remain open. Status remains **CONTOUR A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED**.
+- No provider calls, secret reads, cloud-agent dispatch, merge, deployment or acceptance occurred. The map indexes this result at §20.356.
