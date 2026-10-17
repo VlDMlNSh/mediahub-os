@@ -32,3 +32,13 @@
 The Bootstrap edit was performed against the live blob SHA and the GitHub Contents API returned commit and new blob SHA. The file must be read back and checked for all obsolete blanket prohibitions before this pass is considered complete. The canonical map is larger than the ordinary file-fetch response; its content was retrieved through the Git blob endpoint rather than interpreting an empty Contents response as an empty file.
 
 No model/provider invocation or workflow dispatch is claimed by this documentation-alignment pass. The next implementation step is to locate the current schema artifacts and perform standards-compliant JSON Schema Draft 2020-12 validation with positive and negative fixtures, then record tool/version, source SHAs and results under Issue #301.
+
+
+## Final read-back — 2026-10-17
+
+- Bootstrap re-read blob SHA: `fe9f09ff6b1913bab833db93d442111062b2fd15`; search of the current full text found no remaining blanket phrases requiring separate permission for routine installation/tests/merge or prohibiting those actions categorically.
+- Canonical map re-read via Git blob API (Contents API returned an empty body): blob SHA `e743c4b0a669d55fb4758f67938ee2888f8660d4`; Wave 79 entry `20.97` is present in the blob content.
+- Continuation checkpoint re-read blob SHA after supersession cleanup: `876f5d3ef4106da83153d9492807a9f2cfae2899`. The remaining older blanket prohibition was explicitly marked historical and superseded by the 2026-10-17 owner instruction.
+- This report's previous blob SHA before this final evidence append: `f299ec79ab3d96c55e704cf8b583ecebcdf770af`.
+- CI status endpoint returned no status checks for the documentation branch HEAD at verification time; this is not evidence of a passing CI run. PR #333 remains separately unmerged/Draft as last observed; recheck before any integration.
+- Next engineering handoff: schema validation work under Issue #301. Schema files are identified in map §20.344 and subsequent cloud-agent schema entries; full JSON Schema Draft 2020-12 validation, format assertions, positive/negative fixtures and semantic reference resolution remain open. Do not claim qualification from the prior bounded 18/18 or 23/23 structural assertions.
