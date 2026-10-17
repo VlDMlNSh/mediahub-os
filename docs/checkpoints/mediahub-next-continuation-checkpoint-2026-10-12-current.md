@@ -4680,3 +4680,14 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Added lock-regeneration diff capture, artifact publication, and a byte-for-byte assertion. Exact-head validation run [39053283811](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39053283811) was in progress at the last observation; result is not yet claimed.
 - Bootstrap integrity remains open because pinned pip/pip-tools are not separately hash-locked. PR #338 remains Draft/unmerged and Issue #301 acceptance gates remain open.
 - Next: inspect run 39053283811 and lock-generation artifact; diagnose any drift, then harden bootstrap integrity.
+
+
+## /next Wave 101 — lock-generation evidence gap (2026-10-17)
+
+- Report: [MEDIAHUB-LOCK-GENERATION-EVIDENCE-GAP-WAVE-101-2026-10-17.md](MEDIAHUB-LOCK-GENERATION-EVIDENCE-GAP-WAVE-101-2026-10-17.md).
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-101-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-101-2026-10-17.md).
+- Candidate workflow commit `29d72044ae77086df3380358816da2e15a940725`; lock workflow blob `bc6a50bb93ec8ba32aacc7e3b7f973a6311cb072`.
+- Exact-head schema-validation run [39053283811](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39053283811) succeeded; artifact digest `sha256:898ffd15cc92d639116f873a046de7a192adcd07a7d3e31165579f20bb235476`. This artifact is not proof of lock regeneration.
+- Lock-generation run/artifact could not be enumerated through the available run-list integration; execution and byte-for-byte reproducibility remain unverified. The workflow still installs version-pinned but unhashed pip/pip-tools bootstrap dependencies.
+- PR #338 remains Draft/open/unmerged; Issue #301 remains open and A0/R-06/manifest/review/qualification gates remain open. No provider calls, secret access, dispatch, deployment, merge or Contour A acceptance occurred.
+- Next: use an authorized Actions run-list/dispatch interface to capture lock-generation run and artifact evidence for the current candidate SHA; inspect exact diff, then harden bootstrap integrity separately.
