@@ -39,8 +39,8 @@ Verify GitHub MCP tool availability and execution stability, record empirical ev
 - Dedicated branch and recovery evidence artifact created.
 
 ## Known Gaps & Blockers
-- `list_commits` MCP tool requires input/output schema reconciliation.
-- GitHub Actions token scope restrictions on automated PR creation if applicable.
+- `list_commits` MCP tool has a response adapter schema mismatch (`Invalid input: expected record, received array`); follow-up remediation is proposed in [PR #311](https://github.com/VlDMlNSh/mediahub-os/pull/311).
+- The earlier GitHub Actions PR-creation permission blocker was resolved sufficiently for run `39019037870` to create PR #310; durable behavior still requires a successful run after the proposed allowlist change.
 
 ## Verification Status
 - Evidence artifact established and committed to branch `caf-q-003-mcp-recovery-pass`.
