@@ -7147,3 +7147,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Both workflows use the shared bounded HTTP reader; primary step-summary line breaks and retry attempt-count interpolation corrected. Regression tests cover newline framing and the recorded attempt count.
 - Exact-head CI passed: [Gemini Read-only Workflow Contract #39069711066](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711066), [Astra Verify #39069710934](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069710934), [Astra Cloud Runtime Validation #39069711045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711045).
 - PR #334 remains OPEN / DRAFT / UNMERGED; independent security review and branch protection/ruleset verification remain outstanding. No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance.
+
+
+## 20.361 — Current-state security-gate revalidation (Wave 109, 2026-10-18)
+
+- Report: [MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md](../checkpoints/MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md), Wave 109.
+- Navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-109-2026-10-18.md](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-109-2026-10-18.md).
+- PR #334 exact HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`; current disposition OPEN / DRAFT / UNMERGED.
+- Exact-head CI: Contract #39069711066, Astra Verify #39069710934, Cloud Runtime Validation #39069711045 — all successful.
+- Independent review submissions/threads not present in GitHub responses. Branch protection/ruleset configuration remains unverified because the available integration has no read action for those settings.
+- No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance. Do not merge/promote on CI alone; next gate is independent security review and authorized protection-rule read-back.
