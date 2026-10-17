@@ -68,12 +68,12 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertNotIn("text.slice(0,45000)", source)
 
     def test_non_idempotent_generation_post_is_never_retried_automatically(self) -> None:
-        self.assertIn("maxAttempts = 1", self.retry)
         self.assertIn("non-idempotent-generation-post-no-automatic-retry", self.retry)
+        self.assertIn("manifest.attempts = 1", self.retry)
+        self.assertNotIn("for (let attempt=", self.retry)
         self.assertNotIn("new Set([500, 502, 503, 504])", self.retry)
         self.assertNotIn("retryableServerStatuses", self.retry)
         self.assertNotIn("retryDelay(", self.retry)
-        self.assertNotIn("bounded retry", self.retry.lower())
         self.assertNotIn("await sleep(", self.retry)
         self.assertNotIn("GEMINI_MODEL", self.audit + self.retry)
         self.assertNotIn("OPENROUTER_API_KEY", self.audit + self.retry)
