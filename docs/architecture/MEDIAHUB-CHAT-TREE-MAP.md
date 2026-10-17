@@ -7169,3 +7169,11 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - PR #334 remains OPEN / DRAFT / UNMERGED. Compared with live main, candidate is diverged 39 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`; observed main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`.
 - Independent security review remains outstanding. Branch protection/ruleset configuration remains UNVERIFIED because the available integration has no authorized read action. No provider call, credential read, workflow dispatch, queue admission, merge, deployment or Contour A acceptance occurred.
 - Next: obtain independent review and authorized protection-rule read-back; reconcile divergence without loss, then rerun checks on the reconciled exact head.
+
+
+## Wave 116 — current-base schema pin revalidation (2026-10-18)
+
+- Report: [Wave 116 schema pin review](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-wave116-schema-pin-review-20261018/docs/checkpoints/MEDIAHUB-SCHEMA-PIN-CURRENT-BASE-REVALIDATION-WAVE-116-2026-10-18.md).
+- All three schema blob pins in PR #338 still match files fetched from canonical docs HEAD `8a4664ab48327a99195471d73602dc4a2f4e40f3`: task `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`, registry `b49b89b8fbdfc180862e3dc78f8198f35e486035`, evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
+- Candidate #338 remains diverged 20 ahead / 61 behind; merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Existing successful run #39058425661 is on the unreconciled candidate SHA only.
+- COMMENT review #5560217619 confirms pin matches but leaves bootstrap publisher provenance, semantic authority resolution, independent review and Issue #301 gates open. No dispatch, merge, deployment or Contour A acceptance.

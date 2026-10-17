@@ -4808,3 +4808,12 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - Current PR HEAD `b8938e2c8a6b53a9856611beb4e2c91b9b47e7eb`; observed `main` HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`; branch compare diverged 39 ahead / 2 behind; merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
 - Exact-head CI passed: contract #39070239298, Astra Verify #39070239407, Cloud Runtime Validation #39070239344. PR remains OPEN / DRAFT / UNMERGED; no independent review returned; protection/rulesets unverified.
 - Next: reconcile branch divergence losslessly, review exact diff, rerun checks, and obtain independent security review/protection read-back. No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance.
+
+
+## Wave 116 — current-base schema pin revalidation (2026-10-18)
+
+- Report: [Wave 116 schema pin revalidation](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-wave116-schema-pin-review-20261018/docs/checkpoints/MEDIAHUB-SCHEMA-PIN-CURRENT-BASE-REVALIDATION-WAVE-116-2026-10-18.md); map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Current canonical docs HEAD observed `8a4664ab48327a99195471d73602dc4a2f4e40f3`; all three schema blob pins match the candidate validators.
+- PR #338 remains diverged 20 ahead / 61 behind with merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; prior successful schema CI is not fresh evidence on a reconciled head. COMMENT review #5560217619 posted.
+- Publisher provenance for `setuptools==84.0.0`, live authority-reference resolution, independent review and Issue #301 A0/queue gates remain open. No provider call, secret read, dispatch, merge, deployment or Contour A acceptance.
+- Next: independently resolve bootstrap provenance, reconcile losslessly, inspect exact diff and rerun CI on the reconciled head.
