@@ -165,8 +165,8 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         ):
             with self.subTest(path=path):
                 self.assertEqual(source.count(f'      - "{path}"'), 2)
-        self.assertIn('branches:\\n      - security/gemini-readonly-hardening-20261017', source)
-        self.assertIn('branches:\\n      - main', source)
+        self.assertIn('branches:\n      - security/gemini-readonly-hardening-20261017', source)
+        self.assertIn('branches:\n      - main', source)
 
     def test_artifact_retention_is_bounded(self) -> None:
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
