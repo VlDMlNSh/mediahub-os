@@ -18,4 +18,15 @@
 - Queue status: 16 documentary items; no qualified live scheduler or active autonomous agent proven.
 - Next: inspect the pinned OpenHands Agent Server route/configuration and workspace/tool enforcement against A0, MH-12 and R-06.
 
+
+## Wave 40 — Gemini MCP Adapter Remediation
+
+- Report: [Gemini MCP Adapter Remediation — Wave 40](../checkpoints/MEDIAHUB-GEMINI-MCP-ADAPTER-REMEDIATION-WAVE-40-2026-10-17.md), creation commit `a0c1e276018c5e9514bedf47386b84a7138b7022`.
+- Evidence run: [39019037870](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39019037870), job [117356960181](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39019037870/job/117356960181), conclusion `success`; generated [PR #310](https://github.com/VlDMlNSh/mediahub-os/pull/310).
+- Empirical defect: `mcp_github_list_commits` failed with `Invalid input: expected record, received array`; file reads, branch/file writes, and PR creation succeeded.
+- Remediation proposed in [PR #311](https://github.com/VlDMlNSh/mediahub-os/pull/311): remove `list_commits` from the MCP allowlist and use the already successful `get_file_contents` operation for the initial connectivity check.
+- Workflow file and recovery artifact were read back from the proposed branch. Runtime confirmation of the revised configuration is pending an authorized manual dispatch after review/merge.
+- Free-tier quota remains provider-controlled. The current mutable `google-github-actions/run-gemini-cli@v0` reference is a separate source-pinning hardening item.
+- No merge, test, provider call, installation, qualification, deployment, credential change, host/runtime inspection or infrastructure change occurred.
+
 This addendum supplements the canonical map. It does not replace the canonical map, alter accepted Baseline 2.0, authorize runtime activation, or close acceptance gates.
