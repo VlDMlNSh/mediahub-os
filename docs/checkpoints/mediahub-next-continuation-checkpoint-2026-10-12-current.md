@@ -4637,3 +4637,19 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Map addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-78-2026-10-17.md`; creation commit `becbda1743d434b8c1d2e67ac196e08dc1532bc6`.
 - Disposition: **MODEL CALL AUTHORIZED / NOT EXECUTED / DISPATCH ACCESS BLOCKED / FABRIC NOT QUALIFIED**. No model call, dispatch/rerun, credential access, tests, installation, qualification, host/runtime inspection, infrastructure change, merge, rebase, cherry-pick or deployment occurred.
 - Next: ask whether an existing browser profile is signed in to the intended GitHub account, or obtain authorization to establish a GitHub browser session. Keep provider invocation read-only, source-bound, no paid fallback, no self-hosted/privileged Astra route. If the workflow hardening gates are not met, present the exact source patch for separate authorization.
+
+
+## Latest verified continuation — Wave 79 Gemini capability and quota review (2026-10-17)
+
+- Live PR #333 remains open/Draft/unmerged. Compare with canonical docs branch is now **DIVERGED, 41 ahead / 18 behind**, merge base `a0c432273914fa5c4bd9e756736f9c9b72b41a77`. This supersedes Wave 78's 0-behind snapshot; verify current refs before any integration.
+- Live `main` HEAD: `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`. Canonical map Contents API returned empty content with blob SHA `e501b50e6ab3bdcdf2e67640402140ae99bc0436`; do not infer map emptiness from this response.
+- Re-read Bootstrap, canonical map ref, Master Roadmap, checkpoint and Issue #301. Ordered gates remain A0 issuer/ingress/lease/cancel/recovery and R-06; accepted target manifest; standards-compliant Draft 2020-12 validation with negative fixtures; source-bound Gemini workflow hardening; then controlled dispatch and provenance.
+- Directly inspected run `39029470935`, job `117386851191`, artifact `12099542430`. Workflow source `.github/workflows/gemini-autonomous-engineering.yml@main` blob `09523d809530ae5b7bf528eab5fa53bc5deaf92d`.
+- Source grants job-level `contents: write` and `pull-requests: write`; its GitHub MCP tools can create branches/files/PRs; prompt directs the model to open a PR. Artifact log says “YOLO mode is enabled. All tool calls will be automatically approved.” This is write-capable autonomous engineering, not a read-only audit.
+- Artifact digest `sha256:2a47d15d309c0ce75c3476b23ea4453f555911fd5bf84ae6e5392a4b72ee195b`. Logs show a free-tier quota error for `gemini-3.5-flash-lite` followed by retry; statistics report 13 model requests, 1 API error, 334,443 prompt tokens, and 4 tool failures among 18 calls. Run eventually succeeded and opened PR #332.
+- PR #332 is open/unmerged. Its “16 invariant tests verified” claim is unsupported by this run because the workflow has no test step; final validation checks nonempty output and successful tool/PR creation, not the referenced test suites.
+- Report: `docs/checkpoints/MEDIAHUB-GEMINI-WRITE-CAPABILITY-AND-QUOTA-REVIEW-WAVE-79-2026-10-17.md`; creation commit `5819aa88ceca59872aa6a5eaba7bdfe76a6ef240`.
+- Map addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-79-2026-10-17.md`; creation commit `a37c3945d11b4b4215dfe69558a3ca01c1965a69`.
+- No new model call, dispatch/rerun, credential access, test execution, installation, qualification, host/runtime inspection, infrastructure change, merge, rebase, cherry-pick or deployment occurred.
+- Disposition: **HISTORICAL MODEL EXECUTION VERIFIED / WRITE-CAPABLE WORKFLOW CONFIRMED / QUOTA ERROR OBSERVED / PR #332 TEST CLAIM UNSUPPORTED BY THIS RUN / CONTOUR A NOT QUALIFIED**.
+- Next: prepare a source-bound hardening proposal for the separate Gemini read-only audit workflow; keep write-capable workflows separate, remove automatic tool approval, and do not initiate browser dispatch until GitHub sign-in/access is explicitly resolved.
