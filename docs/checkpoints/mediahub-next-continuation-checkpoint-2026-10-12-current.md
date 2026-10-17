@@ -4548,3 +4548,14 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - PR #333 remains OPEN/DRAFT/UNMERGED, with `mergeable=false`; do not integrate it without source-diff analysis. The documentation branch versus main is DIVERGED 2,105 ahead / 25 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; no mass merge/rebase occurred.
 - Overall Contour A disposition remains **NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED**. Open P0 gates: accepted A0 issuer/ingress/lease/cancel/recovery contract; R-06 audit/privacy authority; authoritative runner/workspace/network target manifest; semantic reference validation; independent review; controlled read-only runtime execution and qualification.
 - Changes are staged on review branches and are not merged. This checkpoint records evidence and next steps; it does not grant authority, qualify runtime behavior, or authorize production promotion.
+
+
+### Wave 81 post-PR final ref reconciliation (2026-10-17)
+
+- Documentation review PR: [#336 — broad Contour A engineering Wave 81](https://github.com/VlDMlNSh/mediahub-os/pull/336), base `docs/mediahub-chat-tree-map-20261012`, head `4bc34aa76fc69a94ab219809796f22e2c21fda68`, OPEN / DRAFT / UNMERGED at last live read. It carries the dated report, map entry and this checkpoint continuation; it does not target main.
+- Report: [MEDIAHUB-CONTOUR-A-BROAD-ENGINEERING-WAVE-81-2026-10-17.md](MEDIAHUB-CONTOUR-A-BROAD-ENGINEERING-WAVE-81-2026-10-17.md), blob `ff4d283f62790ae410aa43a118aa5fb3e358a8e4`.
+- Project map: full Git blob retrieval confirms Wave 81 section 20.352 exists; current map blob SHA `ead48dd57843343d73fccbaf81444a07fe40301b`, retrieved length 1,022,788 characters. The Contents API again returned an empty body; do not infer the map is empty from that response.
+- Map update commit adding PR #336 direct link: `b99ef2c928403ff0f4be9009449baf1cde068b96`.
+- Issue #301 received Wave 81 evidence comment `6234775954`; it points to PR #336 and the successful schema validation evidence.
+- Latest successful schema validation remains run #39038451255 / job #117412908148 at checkout merge SHA `444fb34938c6785882070f34189b3f9ec7521f4d`, report 3/3 schemas, 3/3 positives, 13/13 negatives, 0 failures; artifact #12102957938, digest `sha256:633e1417aa41fc844b5d1c67c3ff2be417a98f72bcc6f055119023565d710e07`.
+- The canonical docs ref remains DIVERGED from main by 2,105 ahead / 25 behind with merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No bulk merge/rebase was attempted. PR #332 retains the need for independent re-review; PRs #334, #335, and #336 remain draft/open. Overall Contour A is NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
