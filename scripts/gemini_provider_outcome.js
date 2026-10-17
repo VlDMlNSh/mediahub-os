@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 
-const OUTPUT_PREFIX = '<!-- Untrusted model-generated advisory output; not execution authority. -->\n';
+const OUTPUT_PREFIX = '<!-- Untrusted model-generated advisory output; not execution authority -->\n';
 const MAX_OUTPUT_BYTES = 100000;
 
 function persistManifest(manifestPath, manifest) {
@@ -31,13 +31,24 @@ function finalizeTransportError({ manifest, manifestPath, error, now = () => new
 }
 
 function finalizeProviderResponse({ response, manifest, manifestPath, outputPath, now = () => new Date().toISOString(), maxOutputBytes = MAX_OUTPUT_BYTES }) {
-  manifest.provider_status = `HTTP_${response.statusCode || 0}`;
-  manifest.provider_request_id = response.requestId || response.headers?.['x-goog-request-id'] || response.headers?.['x-request-id'] || null;
+  const statusCode = response?.statusCode;
+  manifest.provider_request_id = response?.requestId || response?.headers?.['x-goog-request-id'] || response?.headers?.['x-request-id'] || null;
   manifest.finished_at = now();
 
-  if (response.statusCode < 200 || response.statusCode >= 300) {
+  if (!Number.isInteger(statusCode) || statusCode < 100 || statusCode > 599) {
     manifest.status = 'FAILED';
-    manifest.failure_class = response.statusCode === 429 ? 'quota_or_rate_limit' : 'provider_http_error';
+    manifest.provider_status = 'INVALID_STATUS';
+    manifest.failure_class = 'invalid_status';
+    manifest.output_sha256 = null;
+    manifest.output_bytes = null;
+    persistManifest(manifestPath, manifest);
+    return { ok: false, exitCode: 32, reason: 'invalid_status' };
+  }
+
+  manifest.provider_status = `HTTP_${statusCode}`;
+  if (statusCode < 200 || statusCode >= 300) {
+    manifest.status = 'FAILED';
+    manifest.failure_class = statusCode === 429 ? 'quota_or_rate_limit' : 'provider_http_error';
     manifest.output_sha256 = null;
     manifest.output_bytes = null;
     persistManifest(manifestPath, manifest);
