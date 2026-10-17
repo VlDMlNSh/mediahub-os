@@ -7090,3 +7090,16 @@ WB-14AA и приложение остаются не-нормативными. 
 - The eight bootstrap wheel hashes were compared to official PyPI file metadata. Residual supply-chain concern remains: PyPI records for `setuptools==84.0.0` report Trusted Publishing was not used. Hash-locking confirms bytes against the selected metadata, not independent approval or full publisher assurance.
 - PR #338 remains OPEN / DRAFT / UNMERGED; no independent review was returned. Candidate vs current documentation branch remains diverged (20 ahead / 20 behind; merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; verify live before any integration). Issue #301 remains open; A0 issuer/verifier/lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent review and queue qualification remain open.
 - Disposition: **SCHEMA CI AND LOCK REGENERATION PASS / SUPPLY-CHAIN REVIEW AND CONTOUR A ACCEPTANCE OPEN**. No provider call, secret read, cloud-agent dispatch, merge or deployment performed.
+
+
+## 20.357 — Broad Contour A engineering and integration reconciliation, Wave 105 (2026-10-17)
+
+- Report: [Broad Contour A Engineering Wave 105](../checkpoints/MEDIAHUB-BROAD-CONTOUR-A-ENGINEERING-WAVE-105-2026-10-17.md).
+- Addendum: [Wave 105](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-105-2026-10-17.md).
+- Fresh docs-vs-main comparison: diverged, docs branch 2,155 ahead / 27 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Do not wholesale merge the branches.
+- PR #338 candidate `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`: open/Draft/unmerged, no independent review recorded, 20 ahead / 24 behind current docs branch; merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`.
+- Existing schema run #39058425661 passed 3/3 Draft 2020-12 meta-validations, 3/3 positive fixtures, 179/179 negative schema cases, 26/26 semantic negatives; artifact #12110676230 digest `sha256:7957517179ce91c469e851996d2141410640c008da90c6f0c35f879ac185bb3c`. Existing lock-generation run #39058422263 passed byte-for-byte regeneration; artifact #12110905625 digest `sha256:c94ead52345eba9d652a0107c611eb67dca46e39f0ce0b49b40d1938e54ad224`.
+- Source review confirms fixture validation does not qualify live issuer/policy resolution or runtime admission. Independent schema/supply-chain review remains open, including the `setuptools==84.0.0` publisher provenance concern.
+- PR #334 and #336 remain open/Draft/unmerged and currently non-mergeable; earlier CI evidence is historical until exact-head revalidation.
+- A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority, accepted target manifest, independent review and bounded worker/queue qualification remain open. No model/provider call, secret access, workflow dispatch, runtime test, merge, deployment or acceptance occurred.
+- Next: independent review and lossless PR #338 reconciliation; source-linked clause-level acceptance matrix for A0/MH-12/R-06 and the clean target manifest. Preserve Jarvis / ASTRA A0 / Product State Authority separation.
