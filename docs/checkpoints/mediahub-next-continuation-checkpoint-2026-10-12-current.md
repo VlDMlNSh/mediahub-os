@@ -4829,3 +4829,15 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - This is CI qualification of the current source only; it does not qualify Gemini provider execution, complete provider-result manifest coverage, independent review, or Contour A. PR #334 remains OPEN / DRAFT / UNMERGED and 47 ahead / 2 behind main.
 - Next: add executable provider-outcome/manifest tests and obtain independent security review; reconcile branch drift losslessly and rerun exact-head checks before any promotion.
 - Report: [Wave 119](MEDIAHUB-GEMINI-CONTRACT-CI-PATH-FILTER-HARDENING-WAVE-119-2026-10-18.md). Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 120 — provider outcome and manifest matrix (2026-10-18)
+
+- Report: [MEDIAHUB-GEMINI-PROVIDER-OUTCOME-MANIFEST-MATRIX-WAVE-120-2026-10-18.md](MEDIAHUB-GEMINI-PROVIDER-OUTCOME-MANIFEST-MATRIX-WAVE-120-2026-10-18.md); map addendum: [Wave 120](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-120-2026-10-18.md).
+- PR #334 candidate HEAD `5f97db332e817169f9b138f3958e2db1c64086ad`. Added shared provider-outcome finalizer used by both Gemini workflows and executable matrix for HTTP 429/503, invalid JSON, empty/oversized output, transport errors and success digest/byte count.
+- Exact-head CI passed: Gemini Read-only Workflow Contract #39073826467, Astra Cloud Runtime Validation #39073826470, Astra Verify #39073826473.
+- Read-back blob SHAs are in the Wave 120 report. Source-bound COMMENT review ID `5560323518` is not independent approval.
+- PR #334 remains OPEN / DRAFT / UNMERGED; live compare to main: 63 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`. Issue #301 remains OPEN; A0 and queue/authority acceptance gates remain.
+- No provider call, secret read, manual dispatch, queue admission, merge, deployment or Contour A acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: obtain independent security review, reconcile branch drift losslessly, and rerun exact-head CI after reconciliation.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
