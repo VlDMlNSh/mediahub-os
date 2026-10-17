@@ -7184,3 +7184,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Wave 129 (2026-10-18): [Clean schema-validation integration candidate](../checkpoints/MEDIAHUB-CLEAN-SCHEMA-INTEGRATION-WAVE-129-2026-10-18.md). New Draft PR #350 carries only 13 schema-validation assets onto a branch rooted at the then-current canonical docs HEAD; 0 deletions, 1,773 additions. Exact-head schema/semantic/report/provenance workflow run #39077570671 passed on `92c5528b9fe0736ab316c3a3760a1db7bac1843a`; artifact digest `sha256:db1a387ed590e006a406d1e3bf076b3a1b4d827b1613408eb85352fb90dbb518`. PR remains Draft pending independent review and remaining Contour A acceptance gates.
 
 - Wave 129 post-write recheck: the canonical docs branch advanced after the clean candidate was opened; PR #350 now compares 13 ahead / 6 behind and GitHub reports `mergeable=false`. Exact-head schema CI still passes, but the branch must be reconciled with the latest canonical docs HEAD before mergeability or integration can be claimed. See the post-write recheck in the Wave 129 report.
+
+
+## 20.351 — Wave 129 clean schema-validation transplant (2026-10-18)
+
+- Report: [MEDIAHUB-SCHEMA-CLEAN-TRANSPLANT-WAVE-129-2026-10-18.md](../checkpoints/MEDIAHUB-SCHEMA-CLEAN-TRANSPLANT-WAVE-129-2026-10-18.md)
+- Draft candidate: [PR #351](https://github.com/VlDMlNSh/mediahub-os/pull/351), branch `contour-a-schema-validation-clean-wave129-20261018`, head `6fc49b3de45c396d79c4470157374ea8b159fda1`; based on canonical docs head `0289a1b932468de300cdfcc7110873d159cd7978`.
+- Scope is a clean 12-file / 1,713-addition transplant, zero deletions; three schema source blob SHAs match the candidate pins. Stale Wave 98 history and unrelated changes excluded.
+- Exact-head run `39078203138` was in progress when recorded; no current pass claimed. PR remains draft/unmerged and has no submitted reviews.
+- No provider invocation, secret access, dispatch, queue admission, merge, or deployment. A0 issuer/ingress/lease/cancel/recovery, R-06 authority/privacy, and accepted runner/workspace/network manifest remain independent gates.
+- Next: finish exact-head CI evidence and independent review before any integration.
