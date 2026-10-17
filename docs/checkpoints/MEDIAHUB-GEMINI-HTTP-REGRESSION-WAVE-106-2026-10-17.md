@@ -82,15 +82,22 @@ PR #334 remains OPEN / DRAFT / UNMERGED. No review submissions or inline review 
 Next: obtain independent security review; verify branch protection through an authorized GitHub settings/API path before considering readiness changes.
 
 
-### Wave 108 follow-up — exact latest candidate verification (2026-10-18)
+### Wave 108 follow-up — shared response contract and summary correctness (2026-10-18)
 
-Concurrent branch updates introduced a temporary malformed prefix in the Python contract test and a mismatched newline assertion. The failing runs were inspected via job logs; the malformed prefix was removed and the assertion was aligned with the workflow's actual source representation. This intermediate failure is not counted as a pass.
+A deeper review of both manual audit workflows found that the retry workflow still had a separate inline HTTP reader. It could accept an incomplete response at the `end` event without checking HTTP message completion. Both workflows now use `scripts/gemini_http_response.js`, which rejects aborted/incomplete responses and enforces the same hard response-byte cap.
+
+The pass also corrected two output-format/runtime defects:
+- The primary workflow's GitHub step-summary template used double-escaped newlines; it now emits actual Markdown line breaks.
+- The retry workflow's summary referenced an undefined `attempts` variable; it now uses the recorded `manifest.attempts` value.
+
+Regression coverage checks the shared reader is used by both workflows, both artifacts use real newlines, and the retry summary references the recorded attempt count. The local HTTP harness remains provider-free.
 
 Latest verified PR head: `eab691df37b1e9d0a54d67a80c8c558a40d685df`.
-- Contract test blob: `831d59559eef41783f3758ce883d895acc1526b0`.
+- Primary workflow blob: `cb42b1094adbad802bbc764f7a36b453fcb518ea`.
 - Retry workflow blob: `df8c2cdf5a344f400cdbbd9997aec82cf38870f2`.
-- [Gemini Read-only Workflow Contract #39069711066](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711066) — success.
+- Contract test blob: `831d59559eef41783f3758ce883d895acc1526b0`.
+- [Gemini Read-only Workflow Contract #39069711066](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711066) — success (10 tests passed).
 - [Astra Verify #39069710934](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069710934) — success.
 - [Astra Cloud Runtime Validation #39069711045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39069711045) — success.
 
-The current retry workflow still imports the shared HTTP reader; the contract test verifies both workflows emit the expected real-newline artifact framing. PR #334 remains OPEN / DRAFT / UNMERGED. Independent security review and branch-protection/ruleset verification remain unresolved.
+The earlier intermediate failing runs were inspected and are not counted as passes. PR #334 remains OPEN / DRAFT / UNMERGED. No independent security review submissions or inline review threads were present. Branch protection/ruleset settings remain unverified because the available GitHub integration actions do not expose those settings. No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance.
