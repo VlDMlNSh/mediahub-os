@@ -7033,3 +7033,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Current PR #337 divergence: 53 ahead / 18 behind canonical docs branch, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. No merge performed.
 - Issue #301 gates remain open: A0 issuer/verifier lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent schema/authority review, bounded worker/queue qualification.
 - This is inventory/evidence, not acceptance. The canonical map itself remains an inventory and does not authorize production or Contour B.
+
+
+## 20.351 — Cloud-agent CI and PR state audit, Wave 95 (2026-10-17)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-CI-AND-PR-STATE-AUDIT-2026-10-17-WAVE-95.md](../checkpoints/MEDIAHUB-CLOUD-AGENT-CI-AND-PR-STATE-AUDIT-2026-10-17-WAVE-95.md).
+- Report creation commit: `1b7935999bd73636f7d069bd24475ae550df8933`.
+- PR #337 head `5ff2dbcc32d4949f4ce045164d110233cef980ba`: GitHub Actions run [39050957165](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39050957165) completed successfully. CI green is not independent review, qualification or acceptance.
+- PR #337 remains Draft/open and mergeable=true. PR #333 remains Draft/open and mergeable=false at `a83030bc6449109626b072dc0a090a59709b4a5b`. No merge performed.
+- Issue #301 remains open; A0 issuer/verifier lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent review and bounded worker/queue qualification remain gates.
+- Recommended next step: inspect and reconcile #335/#337 exact patches into one validation workflow, preserve positive/negative fixtures, source provenance, hash-lock controls and machine-readable evidence; rerun CI and independent review before integration.
+- Status: **CI EVIDENCE CONFIRMED / CONTOUR A ACCEPTANCE OPEN**.
