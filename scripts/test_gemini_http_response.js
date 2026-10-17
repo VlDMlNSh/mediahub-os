@@ -85,7 +85,7 @@ async function main() {
     const validPath = path.join(tempDir, 'valid.md');
     const valid = await requestAndMaybeWrite(port, '/valid', validPath, 8192);
     assert.equal(valid.ok, true, 'complete valid response should produce an artifact');
-    assert.equal(fs.readFileSync(validPath, 'utf8'), 'audit\\ncomplete');
+    assert.equal(fs.readFileSync(validPath, 'utf8'), 'audit\ncomplete');
 
     for (const route of ['/non-2xx', '/over-limit', '/truncated']) {
       const outputPath = path.join(tempDir, route.slice(1) + '.md');
