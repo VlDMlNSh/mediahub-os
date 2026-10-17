@@ -4492,3 +4492,14 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 Continue the existing admission crosswalk with a distinct source-only gate: inspect the exact pinned Agent Server's telemetry/completion logging and secret-retention semantics against R-06 and the current MH-13 reconstruction/governance state. Preserve the R-06 owner-decision gate; source review cannot substitute for an accepted governance disposition. Runtime tests and candidate execution remain subject to separate explicit authorization.
 
 Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 79 — autonomous instruction alignment (2026-10-17)
+
+- Full Bootstrap instruction updated to align with the standing owner mandate for autonomous engineering: `docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md`, blob `fe9f09ff6b1913bab833db93d442111062b2fd15`, write commit `2c244d4a2c557f6d9131849d37fc0519e8e0aab9`.
+- Removed contradictory blanket language that required separate approval for routine installation, tests/qualification, authorized provider/model calls, runtime inspection, infrastructure/code work and Git integration. These actions now proceed autonomously when in project scope and applicable capability/issuer, provider-policy, budget, security, repository-protection, provenance and architecture gates pass.
+- Preserved non-bypassable authority boundaries: Product State Authority, secret isolation, approved budget, issuer/capability, repository protections, acceptance evidence and provider/data-route policy.
+- Wave 79 report: [MEDIAHUB-AUTONOMOUS-INSTRUCTION-ALIGNMENT-WAVE-79-2026-10-17.md](MEDIAHUB-AUTONOMOUS-INSTRUCTION-ALIGNMENT-WAVE-79-2026-10-17.md), creation commit `e4f9be440940d3cfb5a0cf1e44dc13ce91f9bb76`.
+- Live audit found PR #333 open/Draft/unmerged, head `cd96a27eb21ae472b3af3bd20dc2f3d864688c2d`; Issue #301 open. The current cloud-fabric implementation next step is standards-compliant JSON Schema Draft 2020-12 validation with positive/negative fixtures and source-bound evidence.
+- Map blob at start of pass: `6de3bba18d34946a071e30377851cc4894d8f3fb`; its ordinary Contents response is empty, so use the Git blob API for content and never infer the file is empty.
+- Verification requirement: re-read Bootstrap, checkpoint, map and report after writes; confirm no stale blanket restrictions remain in the current operational sections. Historical pass records are historical evidence, not current instructions.
