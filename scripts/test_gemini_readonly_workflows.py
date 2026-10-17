@@ -1,5 +1,3 @@
-                if path == RETRY:
-                    self.assertIn("${manifest.attempts} (automatic POST retry disabled)", source)
 #!/usr/bin/env python3
 """Fast regression tests for the read-only Gemini workflow security contract.
 
