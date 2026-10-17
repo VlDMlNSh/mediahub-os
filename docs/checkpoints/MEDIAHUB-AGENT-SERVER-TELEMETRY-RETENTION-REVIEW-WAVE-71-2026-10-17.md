@@ -61,7 +61,7 @@ The reconstructed MH-13 artifact is recorded as an accepted reconstruction, but 
 3. Do not pass user-domain data, production secrets or unsanitized prompts into the candidate. Use only approved synthetic/minimized engineering context until MH-13/R-06 and the target manifest permit otherwise.
 4. Require explicit retention and deletion contracts for conversation metadata, event logs, completion logs, traces, workspace artifacts, backups and derived artifacts. “Local disk only” does not satisfy retention or deletion requirements.
 5. Require session authentication, loopback/private binding or equivalent network isolation, dedicated ephemeral workspace, no ambient secret inheritance, and a documented outbound allowlist before any execution.
-6. Pin the exact upstream commit/tag and image/package digest before continuing the source review. Reconcile that pin with the existing component crosswalk; do not infer the pin from upstream `main`.
+6. Preserve the established source pin `6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`; next compare the 48-commit upstream delta for telemetry/completion logging, retention, deletion and secret handling. Separately obtain exact package/container digest and source-to-artifact binding before artifact admission; do not infer either from upstream `main`.
 7. Keep implementation, installation, test execution, provider calls, credentials, runtime inspection and qualification behind their existing separate authorization gates.
 
 ## 5. Verification and disposition
@@ -69,6 +69,6 @@ The reconstructed MH-13 artifact is recorded as an accepted reconstruction, but 
 - Read the official Agent Server README and relevant telemetry/event-service source pages for source discovery.
 - Read the current `main` MH-13 governance reconstruction and governance-state artifacts by GitHub path; blob SHAs recorded above.
 - No package was installed; no test or qualification was run; no provider/model call or credential was used; no workflow was dispatched; no runtime/host or infrastructure was inspected or changed; no merge, rebase or deployment occurred.
-- **Disposition: SOURCE-LEVEL PRIVACY/OBSERVABILITY REVIEW COMPLETE FOR THIS PASS / EXACT UPSTREAM PIN UNRESOLVED / R-06 AND TARGET GATES OPEN.**
+- **Disposition: PINNED-SOURCE REVIEW RECONCILED WITH PRIOR WAVES / 48-COMMIT CURRENT-HEAD DELTA IDENTIFIED / ARTIFACT PROVENANCE, R-06 AND TARGET GATES OPEN.**
 
 Canonical project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
