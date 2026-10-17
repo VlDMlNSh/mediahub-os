@@ -6,7 +6,6 @@ on:
     branches: ["contour-a-schema-validation-wave81-20261017"]
     paths:
       - "requirements/cloud-agent-schema-validation.in"
-      - "requirements/cloud-agent-schema-validation.lock"
       - ".github/workflows/cloud-agent-lock-generation.yml"
 
 permissions:
