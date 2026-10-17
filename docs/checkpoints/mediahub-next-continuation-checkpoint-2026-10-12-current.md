@@ -4714,3 +4714,19 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - PR #338 remains OPEN / DRAFT / UNMERGED with no independent reviews observed. Compare with current docs branch at Wave 104 was diverged 20 ahead / 20 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; verify fresh state before any integration. Current docs branch and `main` remain highly diverged; do not wholesale merge.
 - Issue #301 remains open. A0 issuer/verifier/lifecycle, R-06, accepted runner/workspace/network manifest, independent review and bounded queue-worker qualification remain open. Status remains **CONTOUR A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED**.
 - No provider calls, secret reads, cloud-agent dispatch, merge, deployment or acceptance occurred. The map indexes this result at §20.356.
+
+
+## /next Wave 105 — broad Contour A engineering and integration reconciliation (2026-10-17)
+
+- Report: [Broad Contour A Engineering Wave 105](MEDIAHUB-BROAD-CONTOUR-A-ENGINEERING-WAVE-105-2026-10-17.md).
+- Map addendum: [Wave 105](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-105-2026-10-17.md).
+- Working documentation branch: `docs/mediahub-broad-contour-a-wave105-20261017`, based on canonical documentation HEAD `97d19bc423caca159c916ca9112eee77a18d10cd`.
+- Current `main` HEAD observed: `c06015e0b1526e0aaa6a522306052b077455aba5`. Docs branch vs main remains diverged 2,155 ahead / 27 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; no wholesale integration.
+- PR #338 head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21` remains open/Draft/unmerged with no independent review recorded. Fresh compare against the current docs branch is diverged 20 ahead / 24 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; supersedes earlier 20/20 snapshots.
+- Existing exact-candidate schema run `39058425661` passed 3/3 Draft 2020-12 schema meta-validations, 3/3 positive fixtures, 179/179 negative schema cases rejected, 26/26 semantic negatives rejected and zero reported failures. Artifact `12110676230`, digest `sha256:7957517179ce91c469e851996d2141410640c008da90c6f0c35f879ac185bb3c`.
+- Existing exact-candidate lock-generation run `39058422263` passed hash-locked bootstrap installation and lock regeneration. Artifact `12110905625`, digest `sha256:c94ead52345eba9d652a0107c611eb67dca46e39f0ce0b49b40d1938e54ad224`.
+- Source inspection confirms fixture-based validators do not prove live issuer/grant/policy resolution or runtime admission. Independent schema and supply-chain review remains open, including the `setuptools==84.0.0` publisher-provenance concern.
+- PR #334 head `517b76d7f52f05fa145ae7fb44b3bba541f72267` and PR #336 head `db9b143afd88b7562a66bc762f35983721013c65` remain open/Draft/unmerged; GitHub reports both non-mergeable. Earlier checks are historical until exact-head CI is refreshed.
+- A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority, accepted runner/workspace/network target manifest, independent review and bounded worker/queue qualification remain open. Queue remains documentary. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- No provider/model call, secret access, workflow dispatch, install, runtime test, merge, deployment, or acceptance occurred.
+- Next: obtain independent review; reconcile PR #338 losslessly against the current docs branch; in parallel build a source-linked clause-level acceptance matrix for A0/MH-12/R-06 and the clean target manifest. Do not collapse Jarvis, ASTRA A0 and Product State Authority.
