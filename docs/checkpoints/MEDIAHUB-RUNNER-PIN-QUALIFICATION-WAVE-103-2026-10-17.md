@@ -13,7 +13,7 @@ Pin the dependency-lock generation workflow to a deliberate GitHub-hosted runner
 ## Verification
 - GitHub commit diff confirms exactly one line replaced.
 - Read-back from the candidate branch confirms `runs-on: ubuntu-24.04` and the blob SHA above.
-- Workflow history page showed run [#16 for commit `9e1a592`](https://github.com/VlDMlNSh/mediahub-os/actions/workflows/cloud-agent-lock-generation.yml) as **in progress** at the last check. Therefore this change is committed, but its CI qualification is **pending**, not passed.
+- Workflow history now confirms run [#16 for commit `9e1a592`](https://github.com/VlDMlNSh/mediahub-os/actions/workflows/cloud-agent-lock-generation.yml) **completed successfully in 19 seconds**. The workflow-history page exposed the run number and conclusion but did not expose its numeric run ID through this fetch. This qualifies the pinned-runner workflow execution; it does not independently prove the absence of action annotations on run #16.
 - Baseline run [#15 / `39053279868`](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39053279868) remains successful and had verified byte-for-byte lock reproducibility for its earlier commit; that result does not qualify this runner change.
 - PR [#338](https://github.com/VlDMlNSh/mediahub-os/pull/338) remains Draft/open/unmerged. Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301) remains open.
 
