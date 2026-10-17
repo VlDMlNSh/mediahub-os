@@ -4503,3 +4503,11 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Live audit found PR #333 open/Draft/unmerged, head `cd96a27eb21ae472b3af3bd20dc2f3d864688c2d`; Issue #301 open. The current cloud-fabric implementation next step is standards-compliant JSON Schema Draft 2020-12 validation with positive/negative fixtures and source-bound evidence.
 - Map blob at start of pass: `6de3bba18d34946a071e30377851cc4894d8f3fb`; its ordinary Contents response is empty, so use the Git blob API for content and never infer the file is empty.
 - Verification requirement: re-read Bootstrap, checkpoint, map and report after writes; confirm no stale blanket restrictions remain in the current operational sections. Historical pass records are historical evidence, not current instructions.
+
+
+## Wave 80 — cloud-agent schema validation intake (2026-10-17)
+
+- Added [schema validation intake report](MEDIAHUB-CLOUD-AGENT-SCHEMA-VALIDATION-INTAKE-WAVE-80-2026-10-17.md), commit `d5c5e8b0e785c834a4ee01c07d9f45d7df283d0d`.
+- Live-read and JSON-syntax parsed task-envelope v0.2 (`6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`), registry v0.2 (`b49b89b8fbdfc180862e3dc78f8198f35e486035`), evidence manifest v0.2 (`40c402432fd0f3899d45fde0fa0a8af4d34c593a`) and documentary activation queue (`0d4d591f464b976d6920bbd39c87a45a9d4fda59`). All four parsed as JSON; the three schema candidates declare Draft 2020-12 and top-level required keys correspond to declared properties. No `$ref` keywords found in these schema documents.
+- This is syntax/structural intake only, not standards-compliant JSON Schema meta-validation, format assertions, instance-fixture validation, semantic reference resolution or qualification. Queue remains `DOCUMENTARY_QUEUE_ONLY` with 16 entries.
+- Next: pinned Draft 2020-12 validator, format assertions, positive/negative fixtures and revision-bound workflow evidence; keep A0/R-06/target-manifest gates open.
