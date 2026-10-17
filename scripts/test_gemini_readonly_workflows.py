@@ -19,6 +19,8 @@ HTTP_HELPER = ROOT / "scripts" / "gemini_http_response.js"
 HTTP_HARNESS = ROOT / "scripts" / "test_gemini_http_response.js"
 VALIDATION = WORKFLOW_DIR / "gemini-readonly-workflow-validation.yml"
 MANIFEST_FINALIZER_TEST = ROOT / "scripts" / "test_gemini_missing_credential.js"
+OUTCOME_HELPER = ROOT / "scripts" / "gemini_provider_outcome.js"
+OUTCOME_TEST = ROOT / "scripts" / "test_gemini_provider_outcome.js"
 MODEL = "gemini-3.5-flash-lite"
 PINNED_ACTION = re.compile(r"^\s*uses:\s*[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+@([0-9a-f]{40})\s*$")
 
@@ -101,7 +103,8 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         self.assertIn("await readBoundedResponse(res, req, 2*1024*1024)", self.audit)
         self.assertIn("DEFAULT_MAX_RESPONSE_BYTES = 2 * 1024 * 1024", HTTP_HELPER.read_text(encoding="utf-8"))
         self.assertIn("response byte limit exceeded", HTTP_HELPER.read_text(encoding="utf-8"))
-        self.assertLess(self.audit.index("await readBoundedResponse"), self.audit.index("fs.writeFileSync(outputPath"))
+        self.assertLess(self.audit.index("await readBoundedResponse"), self.audit.index("finalizeProviderResponse"))
+        self.assertLess(OUTCOME_HELPER.read_text(encoding="utf-8").index("const outputBytes = Buffer.byteLength"), OUTCOME_HELPER.read_text(encoding="utf-8").index("fs.writeFileSync(outputPath"))
         self.assertLess(HTTP_HELPER.read_text(encoding="utf-8").index("res.on('end'"), HTTP_HELPER.read_text(encoding="utf-8").index("resolve({"))
 
     def test_primary_workflow_handles_abort_and_transport_errors_without_undefined_reject(self) -> None:
@@ -109,12 +112,16 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         helper = HTTP_HELPER.read_text(encoding="utf-8")
         abort_handler = helper.index("res.on('aborted'")
         response_end = helper.index("res.on('end'")
-        output_write = self.audit.index("fs.writeFileSync(outputPath")
+        outcome = OUTCOME_HELPER.read_text(encoding="utf-8")
+        output_write = outcome.index("fs.writeFileSync(outputPath")
         self.assertLess(reject_definition, self.audit.index("await readBoundedResponse"))
         self.assertIn("req.on('error',reject)", self.audit)
         self.assertIn("if (settled) return;", self.audit)
         self.assertLess(response_end, helper.index("resolve({"))
-        self.assertLess(self.audit.index("await readBoundedResponse"), output_write)
+        self.assertLess(self.audit.index("await readBoundedResponse"), self.audit.index("finalizeProviderResponse"))
+        self.assertLess(outcome.index("const outputBytes = Buffer.byteLength"), output_write)
+        self.assertIn("finalizeProviderResponse", self.retry)
+        self.assertIn("finalizeTransportError", self.audit + self.retry)
         self.assertNotIn("req.on('error',err=>{", self.audit)
 
     def test_local_http_regression_harness(self) -> None:
@@ -167,6 +174,21 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertEqual(source.count(f'      - "{path}"'), 2)
         self.assertIn('branches:\n      - security/gemini-readonly-hardening-20261017', source)
         self.assertIn('branches:\n      - main', source)
+
+    def test_provider_outcome_manifest_matrix(self) -> None:
+        result = subprocess.run(
+            ["node", str(OUTCOME_TEST)],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=20,
+        )
+        self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+        self.assertIn("HTTP 429", result.stdout)
+        self.assertIn("exact digest and byte count", result.stdout)
+        self.assertIn("finalizeProviderResponse", self.audit)
+        self.assertIn("finalizeProviderResponse", self.retry)
 
     def test_artifact_retention_is_bounded(self) -> None:
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
