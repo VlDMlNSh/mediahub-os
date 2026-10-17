@@ -4889,3 +4889,19 @@ Clean schema-validation transplant recorded in [Wave 129 report](MEDIAHUB-SCHEMA
 - 12 files / 1,713 additions / zero deletions; the three pinned schema blobs match the canonical base.
 - CI run `39078203138` was in progress at report time; review is pending. No merge or runtime activation.
 - Next: inspect the run to terminal status, verify artifacts and final file SHAs, then obtain independent review. Keep A0/R-06/target-manifest acceptance gates separate.
+
+
+### Wave 129 CI terminal update — 2026-10-18
+
+- Exact-head run [39078203138](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078203138) succeeded on candidate head `6fc49b3de45c396d79c4470157374ea8b159fda1`; artifact SHA-256 `41ad07d946bad3b9233b8aa3f084436394a21b608e0855066ab88f549e12c065`.
+- Report updated: [Wave 129](MEDIAHUB-SCHEMA-CLEAN-TRANSPLANT-WAVE-129-2026-10-18.md); map index: [§20.351](../architecture/MEDIAHUB-CHAT-TREE-MAP.md#20351--wave-129-clean-schema-validation-transplant-2026-10-18).
+- PR #351 remains draft/unmerged, with independent review pending. Next: obtain independent review, then separately qualify A0/R-06/target-manifest gates; no dispatch or runtime activation.
+
+
+### Wave 130 — schema-candidate reconciliation (2026-10-18)
+
+- Report: [Wave 130 reconciliation](MEDIAHUB-SCHEMA-CANDIDATE-RECONCILIATION-WAVE-130-2026-10-18.md); map index §20.352.
+- PR #350 head `f9e05125621955b75bb9b58758586f1c6b658adf`; the 12 selected schema assets are additive, with zero deletions. The tree was reconstructed from the canonical docs tree plus preserved source blobs, retaining the old PR head and the latest docs head as parents.
+- Exact-head schema workflow run #39078419667 succeeded on that head; schema meta-validation, regression fixtures, cross-artifact semantic validation, machine-readable reports and evidence upload all passed.
+- PR #350 remains Draft/unmerged and has no review submissions. PR #351 is a duplicate stale-base candidate; no merge, dispatch, provider call, secret read or deployment occurred.
+- Next: after this documentation update, re-read live refs and reconcile the active candidate to the resulting canonical docs HEAD; verify exact-head CI and artifact digests again. Then resolve duplicate PR disposition and request independent review. Keep A0/R-06/target-manifest acceptance gates separate.

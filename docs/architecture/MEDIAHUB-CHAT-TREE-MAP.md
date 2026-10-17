@@ -7194,3 +7194,21 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Exact-head run `39078203138` was in progress when recorded; no current pass claimed. PR remains draft/unmerged and has no submitted reviews.
 - No provider invocation, secret access, dispatch, queue admission, merge, or deployment. A0 issuer/ingress/lease/cancel/recovery, R-06 authority/privacy, and accepted runner/workspace/network manifest remain independent gates.
 - Next: finish exact-head CI evidence and independent review before any integration.
+
+
+### Wave 129 CI addendum — terminal evidence
+
+- Exact-head run [39078203138](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078203138) completed `success` on `6fc49b3de45c396d79c4470157374ea8b159fda1`; all nine substantive validation/evidence steps passed.
+- Artifact [12117319479](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078203138) SHA-256: `41ad07d946bad3b9233b8aa3f084436394a21b608e0855066ab88f549e12c065`.
+- PR #351 remains draft and unmerged; no independent review is recorded. CI success is validation evidence, not Contour A acceptance or merge authorization.
+
+
+## 20.352 — Wave 130 schema-candidate reconciliation (2026-10-18)
+
+- Report: [MEDIAHUB-SCHEMA-CANDIDATE-RECONCILIATION-WAVE-130-2026-10-18.md](../checkpoints/MEDIAHUB-SCHEMA-CANDIDATE-RECONCILIATION-WAVE-130-2026-10-18.md).
+- Draft PR [#350](https://github.com/VlDMlNSh/mediahub-os/pull/350), current head at report creation `f9e05125621955b75bb9b58758586f1c6b658adf`; 12 additive schema-validation files, zero deletions. Tree was rebuilt from canonical docs tree plus exact source blob SHAs; previous candidate head and latest docs head are both parents, and ref update used a fast-forward (no force).
+- Post-write compare at reconciliation: canonical docs head `5a0f354dafcf1cd501e28e333286332722c812ef` is merge base; candidate was 15 ahead / 0 behind.
+- Exact-head [schema validation run #39078419667](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078419667) completed success on `f9e05125621955b75bb9b58758586f1c6b658adf`; all validation, semantic-fixture, report/provenance and artifact-upload steps passed.
+- Independent review submissions absent. PR #350 remains Draft / unmerged. A0 issuer/ingress/lease/cancel/recovery, R-06 authority/privacy, and accepted runner/workspace/network target-manifest gates remain open.
+- PR #351 is a duplicate candidate with the same 12-file implementation, but its base is older and it currently diverges from the canonical docs branch. Resolve duplicate-PR disposition after the current candidate's post-write refs and CI are rechecked; do not merge on CI alone.
+- No provider invocation, secret access, queue admission, dispatch, deployment, or Contour A acceptance.
