@@ -7212,3 +7212,6 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Independent review submissions absent. PR #350 remains Draft / unmerged. A0 issuer/ingress/lease/cancel/recovery, R-06 authority/privacy, and accepted runner/workspace/network target-manifest gates remain open.
 - PR #351 is a duplicate candidate with the same 12-file implementation, but its base is older and it currently diverges from the canonical docs branch. Resolve duplicate-PR disposition after the current candidate's post-write refs and CI are rechecked; do not merge on CI alone.
 - No provider invocation, secret access, queue admission, dispatch, deployment, or Contour A acceptance.
+
+
+- Wave 131 (2026-10-18): [Schema candidate deduplication](../checkpoints/MEDIAHUB-SCHEMA-CANDIDATE-DEDUPLICATION-WAVE-131-2026-10-18.md). Closed duplicate Draft PR #351 without merging; its exact 12 changed paths are preserved in active Draft PR #350. Current PR #350 head `b3b730ea061faf9c975b63fa8019541df4578a96` passed exact-head workflow run [#39078628962](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078628962); 12 additive files, zero deletions. PR #350 has no submitted reviews. No provider invocation, secret access, dispatch, merge, deployment, or Contour A acceptance. Next: audit primary A0 issuer/lifecycle and R-06 authority/privacy contracts.

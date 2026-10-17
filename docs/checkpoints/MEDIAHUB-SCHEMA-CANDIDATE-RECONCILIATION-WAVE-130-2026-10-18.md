@@ -45,3 +45,13 @@ No provider was invoked, no secret was read, no queue admission or dispatch was 
 ## Next
 
 Verify exact-head run #39078419667 and read back its job/artifact evidence. Then request independent review and continue the remaining Issue #301 acceptance gates. Keep PR #350 Draft until independent review and acceptance gates are complete.
+
+
+## Final exact-head CI addendum
+
+- After syncing the candidate to canonical docs head `e869232ae5018a24bd1450a5c9ea4fa36e5b6b8a`, candidate HEAD became `b3b730ea061faf9c975b63fa8019541df4578a96`.
+- Exact-head run [#39078628962](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078628962) completed success. All substantive steps passed: immutable SHA checkout, hash-locked dependency install, environment/source revision verification, Draft 2020-12 schema and regression fixtures, cross-artifact semantic fixtures, machine-readable report checks, and evidence upload.
+- Artifact [12117708847](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078628962) digest: `sha256:eb87e02b43b8442dbe8e54d3653d9adc90b23df747cb02d45fdf86c1db163a11`; artifact is unexpired at time of check.
+- Post-sync compare confirmed canonical docs HEAD `e869232ae5018a24bd1450a5c9ea4fa36e5b6b8a` as merge base and candidate 16 ahead / 0 behind. PR #350 was OPEN / DRAFT / UNMERGED and GitHub reported mergeable at the read-back; independent review list remains empty.
+- The map/checkpoint/report updates below advance the canonical docs branch again, so the candidate will be behind by documentation-only commits until the next bounded reconciliation. Do not treat the earlier compare as a current ref comparison.
+- Duplicate PR #351 remains open on the older base; no duplicate was closed in this pass.
