@@ -4603,3 +4603,8 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Tool inventory: GitHub file/branch/commit/PR operations, search, compare, Actions logs/artifacts and reruns for existing failed runs are exposed. No dedicated fresh workflow-dispatch action was found in the exposed GitHub connector catalog. Browser profiles list no signed-in sites; authenticated browser execution is unverified.
 - Issue #301 remains governing. No workflow dispatch, provider/model call, credential access, test, installation, qualification, runtime/host inspection, infrastructure change, merge, rebase, cherry-pick or deployment occurred.
 - Next bounded pass: inspect existing GitHub Actions workflow files, permission boundaries and recorded Gemini evidence; determine a minimal read-only entrypoint. Do not dispatch without separate explicit authorization.
+
+## Wave 76 final GitHub state read-back
+
+- After the Wave 76 report/addendum/checkpoint writes, PR #333 was re-fetched: open, Draft, unmerged; verified HEAD before this final checkpoint note `3c95ecbc7c319a8874938f7dded413e3e421ca16`; base `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; compare `ahead`, 33 ahead / 0 behind. The checkpoint note itself advances the working branch by one further documentation commit, so fetch PR #333 again before the next `/next` pass.
+- Verified final documentation blobs before this note: report `1bc5dcf73914488873ad75867ed2da84192b4bf8`; addendum `c2b6ff8357813f8ad66c2d7ea76d44b5d683e0e1`; checkpoint pre-note blob `83dca2bbe3eac5e7b0373ee2c0a9ea1e5fdfb45c`.
