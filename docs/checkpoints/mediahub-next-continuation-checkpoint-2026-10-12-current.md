@@ -4714,3 +4714,13 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - PR #338 remains OPEN / DRAFT / UNMERGED with no independent reviews observed. Compare with current docs branch at Wave 104 was diverged 20 ahead / 20 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; verify fresh state before any integration. Current docs branch and `main` remain highly diverged; do not wholesale merge.
 - Issue #301 remains open. A0 issuer/verifier/lifecycle, R-06, accepted runner/workspace/network manifest, independent review and bounded queue-worker qualification remain open. Status remains **CONTOUR A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED**.
 - No provider calls, secret reads, cloud-agent dispatch, merge, deployment or acceptance occurred. The map indexes this result at §20.356.
+
+
+## Wave 111 — SentinelX host and Gemini read-only workflow audit (2026-10-17)
+
+- Report: [MEDIAHUB-SENTINELX-GEMINI-READONLY-WORKFLOW-AUDIT-WAVE-111-2026-10-17.md](MEDIAHUB-SENTINELX-GEMINI-READONLY-WORKFLOW-AUDIT-WAVE-111-2026-10-17.md).
+- Canonical docs branch HEAD at review: `97d19bc423caca159c916ca9112eee77a18d10cd`. Map blob before update `5a94a4e22e0c636aba2a6f1efc48cacd69c7fc93`; checkpoint blob before update `6a4fe5955389e961585de31ef8eb0053abf0f174`; roadmap blob `462466162f23242e170cd1f25395e6c899b5ddc3`; Bootstrap blob `fe9f09ff6b1913bab833db93d442111062b2fd15`.
+- SentinelX host `Voktors-Mac-mini.local` is reachable. Local Gemini CLI 0.64.0 is cached, but Node is absent from PATH and standard local auth files are absent. No host allowlist expansion or repository mutation on the Mac was performed.
+- PR #334 head `517b76d7f52f05fa145ae7fb44b3bba541f72267`: contract CI `39039099296`, Astra Verify `39039099324`, and runtime validation `39039099350` succeeded. No independent review was recorded; branch is 6 ahead / 2 behind `main`, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`. Source hardening is a candidate, not accepted implementation.
+- PR #333 remains OPEN/DRAFT/UNMERGED/DIRTY at `a83030bc6449109626b072dc0a090a59709b4a5b`, with no checks reported. Issue #301 remains OPEN; D-CA-01…D-CA-06 remain unresolved. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: independently review PR #334; decide explicit credential-source semantics and retry statuses; add executable manifest/error-path tests; reconcile branch divergence only after provenance and CI checks. No provider invocation, secret access, dispatch, rerun, merge, deployment or host-policy change occurred.
