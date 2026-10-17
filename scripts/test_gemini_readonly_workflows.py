@@ -118,6 +118,13 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
         self.assertIn("complete valid response writes output", result.stdout)
 
+    def test_both_workflows_emit_real_newlines_in_advisory_artifacts(self) -> None:
+        for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
+            with self.subTest(workflow=path.name):
+                self.assertIn(r"join('\\n').trim()", source)
+                self.assertIn("fs.writeFileSync(outputPath", source)
+                self.assertIn("Untrusted model-generated advisory output", source)
+
     def test_artifact_retention_is_bounded(self) -> None:
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
             with self.subTest(workflow=path.name):
