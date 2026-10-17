@@ -4786,3 +4786,17 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - Re-fetched review submissions and inline review threads: none returned. Branch-protection/ruleset settings remain unverified through available GitHub integration actions.
 - Source spot-check reconfirmed read-only permissions, main-only dispatch, immutable SHA checkout, fixed context profiles, and shared bounded HTTP reader. No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance.
 - Next gate: independent security review of this exact HEAD and authorized read-back of branch protection/rulesets. Do not promote draft or merge solely on CI success.
+
+
+## Wave 109 — explicit provider-secret identity (2026-10-18)
+
+- Corrected both Gemini read-only workflows to use only `secrets.GEMINI_API_KEY`; removed the undocumented `GEMINI_API_KEY || GOOGLE_API_KEY` fallback.
+- Added a contract regression test that requires the explicit secret and rejects either fallback form.
+- Candidate PR #334 HEAD: `b8938e2c8a6b53a9856611beb4e2c91b9b47e7eb`.
+- Source blobs after read-back: primary workflow `f2183d1ee19af66f4669b70f38a762ede4c4239f`; retry workflow `0909d6039875bb33033a618dbb4b672ce1a85ead`; contract tests `f6b2ea1e8d7bd45f0c96c0b8a3f1a9058506e59d`.
+- Exact-head CI passed: [Gemini Read-only Workflow Contract #39070239298](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39070239298), [Astra Verify #39070239407](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39070239407), [Astra Cloud Runtime Validation #39070239344](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39070239344).
+- PR #334 remains OPEN / DRAFT / UNMERGED. Candidate vs live main is diverged, 39 ahead / 2 behind; merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`; observed main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`.
+- Independent review is still absent from the returned review records. Branch protection/ruleset remains UNVERIFIED because the available integration exposes no read action for these settings.
+- No provider call, secret read, dispatch, queue admission, merge, deployment or Contour A acceptance occurred.
+- Report: [Wave 109 explicit secret identity](MEDIAHUB-GEMINI-EXPLICIT-SECRET-IDENTITY-WAVE-109-2026-10-18.md). Map addendum: [Wave 109](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-109-2026-10-18.md).
+- Next: independent security review and authorized protection-rule read-back; reconcile the branch divergence losslessly and rerun checks before considering promotion.
