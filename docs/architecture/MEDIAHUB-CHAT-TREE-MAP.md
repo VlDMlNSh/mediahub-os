@@ -6989,3 +6989,13 @@ WB-14AA и приложение остаются не-нормативными. 
 - Logs confirm Draft 2020-12 meta-validation and empty-object negative rejection for all three schema candidates: task envelope (15 errors), agent registry (10), evidence manifest (13).
 - The workflow enabled FormatChecker but did not test invalid-format instances; no positive fixtures or semantic cross-artifact checks yet. This result is bounded verification, not qualification/acceptance.
 - Wave 81 report now includes the exact run and limitations. PR #337 remains OPEN / DRAFT; do not merge until expanded fixtures, independent review and applicable checks/gates are satisfied.
+
+
+## §20.355 — Wave 82 positive/negative schema fixtures (2026-10-17)
+
+- Expanded the Wave 81 workflow with generated positive fixtures and fail-closed negatives for empty object, unknown top-level property, invalid enum, and malformed date-time values where applicable.
+- An initial test caught a fixture generator defect: duplicate generated entries violated the schema_refs uniqueness constraint. The generator was corrected to produce deterministic distinct array samples.
+- Successful CI: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39041807077; head `bc1d69d1f8758d584d96fe4224394db4e9fcfb79`; job `117422642538`; conclusion `success`.
+- All three schemas passed positive fixtures and four categories of assertions (date-time applies to schemas containing that format). This remains representative test coverage, not full schema qualification.
+- Wave 81 report updated; latest report blob SHA `7582d047faae02d53b6bb38fd9096ab111571897`.
+- PR #337 remains Draft and unmerged. Open: cross-artifact semantic consistency, broader nested-invalid cases, dependency lock, independent review, A0 issuer/verifier, R-06, accepted target manifest.
