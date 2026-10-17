@@ -133,6 +133,38 @@ jobs:
                       if not empty_errors:
                           raise AssertionError("empty-object negative fixture unexpectedly passed")
                       print("PASS empty-object negative fixture:", path, "errors=", len(empty_errors))
+
+                      # Deterministically remove one present nested required property at a time.
+                      def nested_required_paths(node, instance, prefix=()):
+                          found = []
+                          if not isinstance(node, dict) or not isinstance(instance, dict):
+                              return found
+                          props = node.get("properties", {})
+                          for key in node.get("required", []):
+                              if key in props and key in instance:
+                                  child_path = prefix + (key,)
+                                  if prefix:
+                                      found.append(child_path)
+                                  found.extend(nested_required_paths(props[key], instance[key], child_path))
+                          return found
+
+                      def remove_at(instance, path):
+                          target = instance
+                          for part in path[:-1]:
+                              target = target[part]
+                          del target[path[-1]]
+
+                      required_paths = nested_required_paths(schema, valid)
+                      if required_paths:
+                          for required_path in required_paths:
+                              missing = json.loads(json.dumps(valid))
+                              remove_at(missing, required_path)
+                              if validator.is_valid(missing):
+                                  raise AssertionError("missing nested required property unexpectedly accepted at " + repr(required_path))
+                          print("PASS nested-required negative fixtures:", path, "cases=", len(required_paths))
+                      else:
+                          print("INFO no present nested required properties:", path)
+
                       extra = dict(valid)
                       extra["__unexpected_wave82_property__"] = True
                       if validator.is_valid(extra):
