@@ -2035,3 +2035,24 @@ The standing project instruction authorizes continuous autonomous engineering wi
 The standing project instruction authorizes autonomous routine engineering across the roadmap without repeated per-action confirmation, provided the action is within project scope and all applicable capability/issuer, security, budget, provider-policy, repository-protection, provenance, rollback and architecture/acceptance gates pass. This rule supersedes older blanket “separate authorization” wording only where it referred to routine engineering execution. It does not waive genuinely reserved governance/product decisions, missing provider permissions, external budget commitments, destructive-action safeguards, or Contour A acceptance criteria. Entries in earlier wave logs describing what was not done or what authorization was missing at that time remain historical evidence; they are not current blanket prohibitions. Current next step is controlled by the latest continuation checkpoint and open Issue #301 gates.
 
 Alignment audit and navigation: [canonical project map §20.351](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [current continuation checkpoint — Wave 80](mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301); [current work PR #333](https://github.com/VlDMlNSh/mediahub-os/pull/333).
+
+
+## Contour A — Schema-validation consolidation and bootstrap lock (Waves 102–104, 2026-10-17)
+
+- Evidence report: [MEDIAHUB-CLOUD-AGENT-BOOTSTRAP-LOCK-AND-CURRENT-HEAD-CI-WAVE-104-2026-10-17.md](MEDIAHUB-CLOUD-AGENT-BOOTSTRAP-LOCK-AND-CURRENT-HEAD-CI-WAVE-104-2026-10-17.md), blob SHA `6e9e8520122108fba943ee0665f6f816d56277d4`.
+- Canonical navigation: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), sections 20.354–20.356. Current continuation checkpoint includes Waves 102–104.
+
+### Verified engineering state
+
+- Candidate PR [#338](https://github.com/VlDMlNSh/mediahub-os/pull/338), current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, remains Open/Draft/Unmerged.
+- Hash-locked bootstrap requirements now pin eight versions with wheel SHA-256s and install with `--require-hashes --only-binary=:all:`. Lock-generation run [39058422263](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058422263), job `117471074334`, passed version checks and byte-for-byte lock regeneration (`LOCK_REGENERATION_MATCH=true`, `git diff --exit-code` pass); artifact `12110905625`, digest `sha256:c94ead52345eba9d652a0107c611eb67dca46e39f0ce0b49b40d1938e54ad224`.
+- Exact-head PR schema workflow [39058425661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058425661), job `117471084337`, passed 3/3 schema meta-validation, 3/3 positive fixtures, 179/179 negative schema cases rejected (166 generated missing-required cases), 26/26 semantic negatives rejected and zero failures; artifact `12110676230`, digest `sha256:7957517179ce91c469e851996d2141410640c008da90c6f0c35f879ac185bb3c`.
+- Ubuntu 24.04 and Node 24-compatible full-SHA checkout/setup-python/upload-artifact action pins are used by both workflows.
+
+### Remaining gates / sequencing
+
+- Hash checks validate bytes against PyPI release metadata but are not equivalent to an independent supply-chain review. PyPI reports no Trusted Publishing for `setuptools==84.0.0`; explicitly resolve or accept this residual publisher-provenance risk under independent review.
+- PR #338 still has no recorded independent review. Although the PR metadata currently says mergeable, its base SHA is stale and live branch compare is diverged 20 ahead / 20 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Inspect a fresh exact diff and reconcile losslessly against the current docs branch before any integration; do not merge on CI alone.
+- Issue #301 remains open. A0 issuer/verifier/ingress/lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network target manifest, independent schema/authority review and bounded worker/queue qualification remain open.
+- Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED**. No provider call, secret access, cloud-agent dispatch, merge or deployment was performed in these waves.
+- Next authorized engineering step: obtain independent supply-chain/schema review and reconcile PR #338's base/head divergence; then continue the Issue #301 admission/qualification sequence without crossing the Jarvis/A0/Product State Authority boundary.
