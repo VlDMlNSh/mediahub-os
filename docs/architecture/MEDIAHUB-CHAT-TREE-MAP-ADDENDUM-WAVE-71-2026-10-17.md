@@ -14,7 +14,7 @@ Primary report: [MEDIAHUB-AGENT-SERVER-TELEMETRY-RETENTION-REVIEW-WAVE-71-2026-1
 - OpenHands Agent Server documentation describes telemetry as opt-in/disabled by default with an allowlisted event schema; completion logging is a separate local-disk surface containing full prompts, responses and raw provider payloads.
 - Stored conversations/events and workspaces use local filesystem paths. The README does not establish a bounded retention period or complete deletion/backup-erasure guarantee.
 - `OH_SECRET_KEY` protects specified persisted secret fields, but is not evidence of general workspace/log redaction or lifecycle deletion.
-- The upstream `main` ref was reviewed for discovery; the exact commit/tag/image digest previously proposed for MediaHub could not be established in this pass. This is a blocking provenance gap, not evidence that the candidate lacks such a pin elsewhere.
+- Prior Waves 26–30 and 40 establish source pin `OpenHands/software-agent-sdk@6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`; pinned README SHA `a64ff0840230ff5ae2d7c167c824048eaf72da9f`, telemetry policy SHA `64e3b567352d4b3fef36327b5d8c5d8b30613403`, event service SHA `7323213c8a9eddb414b54996398a6bd3ca1c2ea9`. Fresh compare reports upstream `main` 48 commits ahead / 0 behind. README, policy and telemetry models are unchanged by blob SHA; event service and telemetry subscriber have changed and need a focused source delta review. Exact package/container digest and source-to-artifact binding remain unverified.
 - MH-13 on `main` remains an accepted reconstruction with partial historical fidelity, not frozen; production implementation is not authorized. R-06 remains open.
 
 ### Disposition
