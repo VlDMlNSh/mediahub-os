@@ -134,7 +134,7 @@ jobs:
           fs.writeFileSync('agent-output/evidence-manifest.json', JSON.stringify(manifest,null,2)+'\n', {mode:0o600});
           NODE
 
-      - name: Call fixed Gemini model with quota-safe bounded retry
+      - name: Call fixed Gemini model once; never replay generation POST
         shell: bash
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || secrets.GOOGLE_API_KEY }}
@@ -155,9 +155,6 @@ jobs:
             contents: [{role:'user',parts:[{text:prompt}]}],
             generationConfig: {maxOutputTokens:4096}
           });
-          const maxAttempts = 1; // Non-idempotent generation POST: fail closed; never replay automatically.
-          const retryableServerStatuses = new Set(); // No automatic POST retry without a documented provider idempotency contract.
-          const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
           const save = () => fs.writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n',{mode:0o600});
           function requestOnce() {
             return new Promise((resolve,reject) => {
@@ -196,38 +193,15 @@ jobs:
               req.write(body); req.end();
             });
           }
-          function retryDelay(response, attempt) {
-            const raw = Number(response && response.retryAfter);
-            if (Number.isFinite(raw) && raw >= 0) return Math.min(30000, raw * 1000);
-            return Math.min(30000, 2000 * (2 ** (attempt - 1)));
-          }
           (async () => {
             let response = null;
-            let attempts = 0;
             let transportError = null;
-            for (let attempt=1; attempt<=maxAttempts; attempt++) {
-              attempts = attempt;
-              try {
-                response = await requestOnce();
-                transportError = null;
-              } catch (err) {
-                transportError = String(err && err.message || 'transport error').slice(0,160);
-                if (attempt < maxAttempts) {
-                  const delay = Math.min(30000, 2000 * (2 ** (attempt - 1)));
-                  console.log(`Gemini transport failure; bounded retry ${attempt}/${maxAttempts} after ${delay}ms.`);
-                  await sleep(delay);
-                  continue;
-                }
-                break;
-              }
-              if (response.status >= 200 && response.status < 300) break;
-              // Never automatically retry quota/rate-limit responses or switch provider/model/key.
-              if (!retryableServerStatuses.has(response.status) || attempt === maxAttempts) break;
-              const delay = retryDelay(response,attempt);
-              console.log(`Gemini transient HTTP ${response.status}; bounded retry ${attempt}/${maxAttempts} after ${delay}ms.`);
-              await sleep(delay);
+            try {
+              response = await requestOnce();
+            } catch (err) {
+              transportError = String(err && err.message || 'transport error').slice(0,160);
             }
-            manifest.attempts = attempts;
+            manifest.attempts = 1;
             manifest.provider_request_id = response?.requestId || null;
             manifest.finished_at = new Date().toISOString();
             if (transportError || !response) {
@@ -235,7 +209,7 @@ jobs:
               manifest.provider_status='TRANSPORT_ERROR';
               manifest.failure_class='transport_error';
               save();
-              console.error('Gemini transport failed after bounded retries: '+(transportError || 'unknown transport error'));
+              console.error('Gemini transport failed after the single generation attempt: '+(transportError || 'unknown transport error'));
               process.exitCode=34; return;
             }
             manifest.provider_status=`HTTP_${response.status}`;
