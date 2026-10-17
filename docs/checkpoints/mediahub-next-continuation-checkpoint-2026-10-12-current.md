@@ -4500,3 +4500,13 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Status: DOCUMENTATION ONLY / ACCEPTANCE OPEN. No tests, qualification, provider calls, credentials, dispatch, installation, runtime inspection, infrastructure changes, merge or deployment.
 - Next bounded action: reconcile accepted A0/MH-12 authority wording; establish accountable R-06 decision authority and reviewers; locate the accepted target manifest before implementation.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/contour-a-a0-r06-evidence-reconciliation-wave68-20261017/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — Wave 69 A0 issuer and Jarvis ingress decision proposal (2026-10-17)
+
+- Added decision proposal: `docs/checkpoints/MEDIAHUB-A0-ISSUER-AND-JARVIS-INGRESS-DECISION-PROPOSAL-WAVE-69-2026-10-17.md`, blob SHA `79b1699675768de2de4a1abc42da5965741b4883`, creation commit `c043949308bc2cbbbd3cbdecc99f926ff1ab01a5`.
+- Updated map §20.350; map update commit `0ab0e2b9564320d21a0bb67325f6268880fd73b9`, blob SHA `376fa63b0129871125fd6ea5d7f8bc1a63f1a6a2`.
+- Source refs checked: A0/MH-12 trace `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`; MH-12 `cf4ebfd5bf471ca676f075c51d3a24906504e490`; ASTRA reference architecture `7be5fadd3055642e7823c7233f90e978a87e5366`; capability matrix `9ad83781a8da53d1a8f540ede54eba95281f01c0`; Jarvis adapter draft `916df43726fb8f41038d5e9896be7e205284416f`; R-06 template `834fd1ab70eee88355844ba2ebba6c2b6c47ecdb`; target reconciliation `1f748bf80e08067fd85a7e1b0821cc4d12bda676`.
+- Recommendation is a proposal only: A0-owned issuer with GitHub Actions as transport, conditional on accepted issuer/verifier lifecycle. Workflow identity and inputs alone are insufficient authorization.
+- A0 issuer/ingress, R-06, target manifest, standards schema validation and runtime admission remain OPEN. No tests, provider calls, credentials, dispatch, runtime inspection, infrastructure change, merge or deployment.
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/contour-a-a0-r06-evidence-reconciliation-wave68-20261017/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
