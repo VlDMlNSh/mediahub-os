@@ -158,3 +158,13 @@ The owner clarified that cloud API-key routing and all cloud model work must run
 This excludes a deployed LiteLLM proxy, Supabase Edge Functions/Postgres, owner-operated gateways and self-hosted runners from the cloud model path. Existing Gemini Agent 2/3 workflows already use GitHub-hosted runners; the existing provider qualification workflow uses a self-hosted runner and therefore cannot serve as the cloud provider executor. The recommended control plane uses GitHub Issues as the durable task queue, a serialized Actions coordinator, a redacted state branch for quota/cooldown metadata, and Actions artifacts for per-run evidence. Actions concurrency alone is not treated as a durable FIFO queue.
 
 No secret values were read, no provider call or workflow dispatch was made, and no tests, qualification or deployment occurred.
+
+
+## Wave 45A — Geolocation and Internet egress clarification
+
+- The user's device location, mobile carrier, home/office network, and local public IP are outside the cloud execution path and are not routing inputs.
+- Cloud API calls originate from the outbound network path of the selected GitHub-hosted Actions runner. Therefore the design has no dependency on the user's geolocation or internet exit point, while a provider can still apply its own IP/region/account eligibility rules to GitHub runner egress. This provider-side condition must be checked during account/provider admission.
+- Do not attempt to disguise or rotate egress locations, use proxies to evade regional policy, or route around provider eligibility controls. If a provider rejects the GitHub runner's egress region/IP, quarantine that provider for this route and select another policy-approved eligible provider or defer the task.
+- Cloud execution remains GitHub-hosted Actions only. Owner-operated servers and self-hosted runners are excluded from cloud model/API-key routing. Servers are reserved for explicitly selected local inference and local computation, using local model runtimes and local resources.
+- Local fallback is a separate execution target with an explicit task-routing decision and data-egress review; it is never a hidden retry for a cloud provider error.
+- This is an architecture clarification, not a claim that current provider accounts are region-independent or already qualified.

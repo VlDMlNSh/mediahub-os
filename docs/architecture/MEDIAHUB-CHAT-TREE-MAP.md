@@ -6948,3 +6948,13 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: **ARCHITECTURE DECISION RECORDED / IMPLEMENTATION NOT ACTIVATED**. No secret values read, no provider calls, no workflow dispatch, no tests, no qualification and no deployment.
 - Next bounded step: prepare the GitHub-hosted coordinator/router implementation behind manual dispatch only, with explicit provider allowlist, issue-backed queue, atomic state-branch updates and no paid fallback; keep invocation disabled until A0/MH-12/R-06 and target-manifest admission gates are satisfied.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 45A — Geolocation and Internet egress clarification
+
+- The user's device location, mobile carrier, home/office network, and local public IP are outside the cloud execution path and are not routing inputs.
+- Cloud API calls originate from the outbound network path of the selected GitHub-hosted Actions runner. Therefore the design has no dependency on the user's geolocation or internet exit point, while a provider can still apply its own IP/region/account eligibility rules to GitHub runner egress. This provider-side condition must be checked during account/provider admission.
+- Do not attempt to disguise or rotate egress locations, use proxies to evade regional policy, or route around provider eligibility controls. If a provider rejects the GitHub runner's egress region/IP, quarantine that provider for this route and select another policy-approved eligible provider or defer the task.
+- Cloud execution remains GitHub-hosted Actions only. Owner-operated servers and self-hosted runners are excluded from cloud model/API-key routing. Servers are reserved for explicitly selected local inference and local computation, using local model runtimes and local resources.
+- Local fallback is a separate execution target with an explicit task-routing decision and data-egress review; it is never a hidden retry for a cloud provider error.
+- This is an architecture clarification, not a claim that current provider accounts are region-independent or already qualified.

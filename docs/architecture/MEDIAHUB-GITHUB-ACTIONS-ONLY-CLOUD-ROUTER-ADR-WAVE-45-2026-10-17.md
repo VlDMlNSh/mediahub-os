@@ -12,6 +12,14 @@ All cloud-agent orchestration, API-key selection, quota tracking, provider reque
 
 Local machines/servers are a separate execution contour for local model inference and local compute only. A cloud task may fall back to local compute only through a separately authorized task route; it must never silently redirect cloud credentials or cloud task payloads to a local node.
 
+## 1A. User location independence and provider-facing egress
+
+The user's device location, mobile carrier, home/office network, and local public IP are not routing inputs. Cloud API calls originate from the outbound network path of the selected GitHub-hosted Actions runner, so the architecture is independent of the user's location and internet exit point.
+
+A provider may still apply its own IP, region, account, or service-availability controls to GitHub runner egress. Admission must check this condition against current provider documentation and account behavior. If a provider rejects the runner's egress IP/region, quarantine that provider route and select another approved route or defer. Do not disguise egress, use proxies to evade regional restrictions, or rotate locations to bypass provider policy.
+
+Owner-operated servers and self-hosted runners are excluded from cloud model/API-key routing. Servers participate only in explicitly selected local inference and local computation. Local fallback is a separate task-routing target, with its own authorization and data-egress review.
+
 ## 2. Current source evidence
 
 - `.github/workflows/gemini-agent-2.yml` and `.github/workflows/gemini-agent-3.yml` use `runs-on: ubuntu-latest`, explicit GitHub Actions secret mappings, bounded timeouts and restricted GitHub MCP tool allowlists.
@@ -100,3 +108,13 @@ Create a manual-dispatch-only coordinator with no schedule trigger initially. It
 - LiteLLM: https://github.com/BerriAI/litellm
 - AI Router candidate: https://github.com/sampath-M0/ai-router
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 45A — Geolocation and Internet egress clarification
+
+- The user's device location, mobile carrier, home/office network, and local public IP are outside the cloud execution path and are not routing inputs.
+- Cloud API calls originate from the outbound network path of the selected GitHub-hosted Actions runner. Therefore the design has no dependency on the user's geolocation or internet exit point, while a provider can still apply its own IP/region/account eligibility rules to GitHub runner egress. This provider-side condition must be checked during account/provider admission.
+- Do not attempt to disguise or rotate egress locations, use proxies to evade regional policy, or route around provider eligibility controls. If a provider rejects the GitHub runner's egress region/IP, quarantine that provider for this route and select another policy-approved eligible provider or defer the task.
+- Cloud execution remains GitHub-hosted Actions only. Owner-operated servers and self-hosted runners are excluded from cloud model/API-key routing. Servers are reserved for explicitly selected local inference and local computation, using local model runtimes and local resources.
+- Local fallback is a separate execution target with an explicit task-routing decision and data-egress review; it is never a hidden retry for a cloud provider error.
+- This is an architecture clarification, not a claim that current provider accounts are region-independent or already qualified.
