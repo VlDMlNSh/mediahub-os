@@ -58,7 +58,7 @@ function requestAndMaybeWrite(port, route, outputPath, maxBytes = 128) {
 }
 
 async function main() {
-  const validBody = JSON.stringify({ candidates: [{ content: { parts: [{ text: 'audit complete' }] } }] });
+  const validBody = JSON.stringify({ candidates: [{ content: { parts: [{ text: 'audit' }, { text: 'complete' }] } }] });
   const server = http.createServer((req, res) => {
     if (req.url === '/valid') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -85,7 +85,7 @@ async function main() {
     const validPath = path.join(tempDir, 'valid.md');
     const valid = await requestAndMaybeWrite(port, '/valid', validPath, 8192);
     assert.equal(valid.ok, true, 'complete valid response should produce an artifact');
-    assert.equal(fs.readFileSync(validPath, 'utf8'), 'audit complete');
+    assert.equal(fs.readFileSync(validPath, 'utf8'), 'audit\\ncomplete');
 
     for (const route of ['/non-2xx', '/over-limit', '/truncated']) {
       const outputPath = path.join(tempDir, route.slice(1) + '.md');
