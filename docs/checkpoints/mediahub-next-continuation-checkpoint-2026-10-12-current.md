@@ -4488,3 +4488,152 @@ Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tre
 Continue the existing admission crosswalk with a distinct source-only gate: inspect the exact pinned Agent Server's telemetry/completion logging and secret-retention semantics against R-06 and the current MH-13 reconstruction/governance state. Preserve the R-06 owner-decision gate; source review cannot substitute for an accepted governance disposition. Runtime tests and candidate execution remain subject to separate explicit authorization.
 
 Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — A0/R-06 admission gate evidence reconciliation, Wave 68 (2026-10-17)
+
+- Source-only reconciliation checkpoint: `docs/checkpoints/MEDIAHUB-A0-R06-ADMISSION-GATE-EVIDENCE-RECONCILIATION-WAVE-68-2026-10-17.md`, blob SHA `45752646a61acea7d6ad31b83993917847ba8082`, commit `09cb48df8c72e9e0901236560fc2bfd92606ab45`.
+- Updated map §20.349; map blob SHA `a81ab040bd56c502fb39ce947a33741198baf991`; map update commit `16adf20de788af2f0adc4860925fc73710b133d8`.
+- Re-read A0/MH-12 issuer trace, WB-07 ingress trace, WB-08 caller trace, R-06 disposition template, target-manifest reconciliation, credential/schema crosswalk, activation queue and canonical source registry.
+- Findings: accepted A0 issuer/ingress/lifecycle contract remains OPEN; R-06 template remains UNFILLED; owner-accepted exact runner/workspace/network target remains UNKNOWN/BLOCKED; v0.2 schemas remain candidates and the activation queue remains documentary-only.
+- Independently reviewed Gemini run `39029470935`, job `117386851191`, artifact `12099542430` (SHA-256 `2a47d15d309c0ce75c3476b23ea4453f555911fd5bf84ae6e5392a4b72ee195b`) and PR #332. Artifact records failed MCP reads and a Gemini free-tier quota error. No test step appears in the run; PR #332's “16 invariant tests verified” statement lacks support from this execution record.
+- Status: DOCUMENTATION ONLY / ACCEPTANCE OPEN. No tests, qualification, provider calls, credentials, dispatch, installation, runtime inspection, infrastructure changes, merge or deployment.
+- Next bounded action: reconcile accepted A0/MH-12 authority wording; establish accountable R-06 decision authority and reviewers; locate the accepted target manifest before implementation.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/contour-a-a0-r06-evidence-reconciliation-wave68-20261017/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — Wave 69 A0 issuer and Jarvis ingress decision proposal (2026-10-17)
+
+- Added decision proposal: `docs/checkpoints/MEDIAHUB-A0-ISSUER-AND-JARVIS-INGRESS-DECISION-PROPOSAL-WAVE-69-2026-10-17.md`, blob SHA `79b1699675768de2de4a1abc42da5965741b4883`, creation commit `c043949308bc2cbbbd3cbdecc99f926ff1ab01a5`.
+- Updated map §20.350; map update commit `0ab0e2b9564320d21a0bb67325f6268880fd73b9`, blob SHA `376fa63b0129871125fd6ea5d7f8bc1a63f1a6a2`.
+- Source refs checked: A0/MH-12 trace `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`; MH-12 `cf4ebfd5bf471ca676f075c51d3a24906504e490`; ASTRA reference architecture `7be5fadd3055642e7823c7233f90e978a87e5366`; capability matrix `9ad83781a8da53d1a8f540ede54eba95281f01c0`; Jarvis adapter draft `916df43726fb8f41038d5e9896be7e205284416f`; R-06 template `834fd1ab70eee88355844ba2ebba6c2b6c47ecdb`; target reconciliation `1f748bf80e08067fd85a7e1b0821cc4d12bda676`.
+- Recommendation is a proposal only: A0-owned issuer with GitHub Actions as transport, conditional on accepted issuer/verifier lifecycle. Workflow identity and inputs alone are insufficient authorization.
+- A0 issuer/ingress, R-06, target manifest, standards schema validation and runtime admission remain OPEN. No tests, provider calls, credentials, dispatch, runtime inspection, infrastructure change, merge or deployment.
+- Current map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/contour-a-a0-r06-evidence-reconciliation-wave68-20261017/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — Wave 70 source-pinned issuer/verifier reuse inventory (2026-10-17)
+
+- Report: [A0 Issuer/Verifier Reuse Inventory — Wave 70](MEDIAHUB-A0-ISSUER-VERIFIER-REUSE-INVENTORY-WAVE-70-2026-10-17.md); creation commit `5f76c106f605aee97e8766a67a09ac431bae0291`.
+- Map addendum: [Chat Tree Map Addendum — Wave 70](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-70-2026-10-17.md); creation commit `96c7277c556ba0b0d1fa4937364b95e5aacfa73d`.
+- Source README blob SHAs read: cosign `293d76bc813a579636e1030575ce604959b17615`; sigstore `c5ad9511694219b85ddbe3bf7951784c50303407`; OPA `860399b5b7ac265f89508796831990a45eb485c4`; SPIRE `95ba30aa3dcd011dc79babaa472ec94c31f76a9c`.
+- Finding: these projects provide distinct candidate primitives for artifact signatures/provenance, policy evaluation and workload identity. The reviewed README sources do not establish a complete MediaHub A0 capability issuer/verifier lifecycle. No component selected or admitted.
+- Proposed reuse boundary remains conditional: GitHub Actions transport; A0-owned issuer after accepted authority/trust-root decision; independent verifier; OPA and Sigstore as optional primitives; SPIRE only if compatibility with ephemeral GitHub runners is evidenced.
+- A0 issuer/delegation, R-06, accepted runner/workspace/network target, schema validation and qualification remain OPEN.
+- No install, tests, qualification, provider/model call, credentials, workflow dispatch, runtime inspection, infrastructure change, merge or deployment occurred.
+- Current canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md. The Wave 70 navigation addendum is on the working PR branch; the canonical map remains unchanged.
+
+
+
+## Latest verified continuation — Agent Server telemetry/completion logging/secret-retention review, Wave 71 (2026-10-17)
+
+- Report: `docs/checkpoints/MEDIAHUB-AGENT-SERVER-TELEMETRY-RETENTION-REVIEW-WAVE-71-2026-10-17.md`; creation commit `1d0205eebe74a823c7574fdbe166b21e5e31f1f2`.
+- Map navigation addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-71-2026-10-17.md`; creation commit `046d2fa6f9380f0d421c74874cd0166271200568`.
+- Reviewed official OpenHands Agent Server README and event-service/telemetry source pages on upstream `main` for discovery. Prior Waves 26–30 and 40 establish source pin `OpenHands/software-agent-sdk@6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`; a fresh compare reports upstream `main` 48 commits ahead / 0 behind. Exact package/container digest and source-to-artifact binding remain unverified.
+- Source-level findings: telemetry is documented as opt-in with an allowlisted event schema; completion logging is a separate local-disk surface containing full prompts/responses/raw provider payloads; conversations/events/workspaces are filesystem-backed; no bounded retention or complete deletion/backup-erasure guarantee was established from the reviewed README; `OH_SECRET_KEY` protects selected persisted secret fields only.
+- Read `docs/architecture/MH-13-privacy-data-governance.md@main`, blob `e732ff9cacbc9c1189bd83306cdff30906326cf0`, and `docs/architecture/MH-13-governance-state.md@main`, blob `7bd2624c3072ecf0a08a430bb8b8214b3d55d3fa`. MH-13 is an accepted reconstruction with partial historical fidelity, not frozen; production implementation remains unauthorized.
+- Disposition: OpenHands Agent Server remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. R-06 and accepted target manifest remain open. Proposed conservative defaults only: completion logging off, telemetry exporter `none`, no User Domain data, explicit retention/deletion contract, authenticated access and isolated ephemeral workspace.
+- No installation, tests, qualification, provider/model calls, credential use, workflow dispatch, runtime/host inspection, infrastructure changes, merge, rebase, deployment or branch integration occurred.
+- Canonical map remains on `docs/mediahub-chat-tree-map-20261012`; Wave 71 navigation is an addendum on the working PR branch. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — OpenHands pinned-to-head telemetry/error-path delta, Wave 72 (2026-10-17)
+
+- Report: `docs/checkpoints/MEDIAHUB-OPENHANDS-PINNED-HEAD-TELEMETRY-ERROR-DELTA-WAVE-72-2026-10-17.md`; commit `688e8fa8e6ea9cabb6100d35eb12042d2775cd63`.
+- Map addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-72-2026-10-17.md`; commit `f17660f2bfba264cb1cbcb1924aa7f426c43d17a`.
+- Source pin: `OpenHands/software-agent-sdk@6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1`; current `main` is 48 commits ahead / 0 behind. Telemetry policy/model blobs are unchanged; subscriber, event service, config and persistence store differ.
+- Current-head event-service error path formats chained tracebacks to a string for logging and can publish detailed error events; treat this as a separate diagnostic sink needing redaction, destination, access and retention evidence. Current config documents telemetry salt fallback to `OH_SECRET_KEY`, which may fall back to a session API key; stable pseudonyms may be linkable across restarts. Workspace persistence changes do not establish TTL or complete deletion/backup-erasure.
+- Disposition remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. Source-to-artifact binding, R-06 and accepted target runtime manifest remain OPEN.
+- No install, tests, qualification, provider calls, credentials, workflow dispatch, runtime inspection, infrastructure changes, merge, rebase, deployment or branch integration occurred.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — completion-log event and diagnostic sink crosswalk, Wave 73 (2026-10-17)
+
+- Report: `docs/checkpoints/MEDIAHUB-OPENHANDS-COMPLETION-LOG-EVENT-AND-DIAGNOSTIC-SINK-CROSSWALK-WAVE-73-2026-10-17.md`; commit `93b7a21d7885f26e2716a773334d277a8e9df6c4`.
+- Map addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-73-2026-10-17.md`; commit `14107f84d42dfc2f29e534878635c59df4094f8a`.
+- Pinned source inspection confirms completion logging can place raw `log_data` in `LLMCompletionLogEvent`, send it through the normal conversation event path (source says persisted and sent to WebSocket subscribers), then have the remote SDK write it to client-side disk. This expands the sensitive-data path beyond a simple local-disk description; it is distinct from product telemetry.
+- Pinned `ConversationErrorEvent.detail` is free-form; error classification does not establish redaction. Current-head traceback behavior remains version-specific and was recorded in Wave 72.
+- Candidate remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. Proposed baseline: disable completion logging; separately qualify event persistence, WebSocket authorization, log sinks, retention and deletion. R-06, source-to-artifact binding and target manifest remain OPEN.
+- No install, tests, qualification, provider calls, credentials, dispatch, runtime inspection, infrastructure changes, merge, rebase, deployment or branch integration occurred.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — event store, WebSocket authorization and deletion semantics, Wave 74 (2026-10-17)
+
+- Report: `docs/checkpoints/MEDIAHUB-OPENHANDS-EVENT-STORE-WEBSOCKET-AUTH-DELETION-SEMANTICS-WAVE-74-2026-10-17.md`; create commit `9c56666d3e78d2e0b86a5573cf6a426b6f43056a`.
+- Map addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-74-2026-10-17.md`; create commit `e1b71f1d05d19b0b2156ab739035e45b54b397f5`.
+- Pinned EventLog is persistent/append-only; F06 documents restart persistence and raw-JSON replay. No event-level TTL/deletion API was found in the inspected EventLog class.
+- WebSocket supports recommended first-frame auth plus legacy query/header auth and history replay. Shared session-key checks do not by themselves evidence per-principal/per-conversation authorization. Effective REST router auth wiring and no-key startup behavior remain to be verified against exact artifact.
+- Conversation deletion calls `safe_rmtree`, but source permits logical deletion to proceed when directory removal fails. Successful DELETE therefore does not prove physical erasure; backup, downstream collector and client copies are not covered.
+- Admission requirements: principal/capability/conversation binding, fail-closed auth configuration, disable query-string credential transport, keep completion logging disabled, and independently verify deletion/retention across all storage copies.
+- Candidate remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. R-06, exact target manifest and source-to-artifact binding remain OPEN.
+- No tests, install, provider calls, credentials, dispatch, runtime inspection, infrastructure changes, merge, rebase or deployment occurred.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest completed continuation — Wave 75 (2026-10-17)
+
+- Re-read the canonical bootstrap, current PR #333 metadata, working-branch checkpoint, Master Roadmap, Wave 74 report, and branch comparison before this pass. Working branch HEAD before the documentation write was `dca2fdd2a47d5d91a287c84b7ff5624d4e73e463`; PR #333 remains open, Draft, unmerged; branch remains 25 ahead / 0 behind canonical.
+- Added source-only Wave 75 report: `docs/checkpoints/MEDIAHUB-OPENHANDS-ROUTER-AUTH-AND-DELETE-FAILURE-PATH-WAVE-75-2026-10-17.md`; create commit `520ec8a6fad1cea55b21af0960db91f6e9398a28`.
+- Added navigation addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-75-2026-10-17.md`; create commit `6093deda542a51eb00041992c1fb02646d7d55e3`.
+- Exact pinned router evidence confirms the conversation REST routes inherit `/api` dependencies, but the shared API-key check allows an empty session-key configuration. Actual target configuration is not known. Exact deletion-service evidence confirms the return from `safe_rmtree` is ignored; a successful logical DELETE is not proof of physical erasure. The separate `Trash` helper is not used by this conversation deletion path.
+- Candidate source pin is 48 commits behind upstream `main`; API, dependency and deletion-service blobs have changed. Spot-check of upstream-main blobs shows the same empty-key conditional and ignored deletion result in the inspected source.
+- Status remains **CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED**. R-06, fail-closed target config, accepted target manifest, source-to-artifact binding and qualification remain open.
+- No tests, installation, provider/model calls, credentials, workflow dispatch, runtime inspection, infrastructure changes, merge, rebase, cherry-pick or deployment occurred.
+- Next bounded step: source-review WebSocket auth/replay at the pinned and current-head refs, then turn confirmed findings into explicit R-06/target-manifest control and negative-test requirements. Testing remains unauthorized absent separate explicit permission.
+- Canonical project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+### Wave 75 read-back identities
+
+- Report blob SHA: `263454fb996be15f695a7f624d7d8249d068e9a9`.
+- Map addendum blob SHA: `bfcb6ceab50e15bdbd30da9f7998443e2f04a3e7`; it exists on the working documentation branch and is included in PR #333.
+- PR #333 remains open / Draft / unmerged. Current verified head before this checkpoint identity note: `7a34870aa017738a860505c597c4ba0d3c823b6c`; compare remains 28 ahead / 0 behind canonical.
+- An intermediate addendum write landed on the default branch by mistake; that exact file was then deleted there and the absence was confirmed by a 404 read-back. The retained addendum is on the working documentation branch only.
+
+
+## Wave 76 continuation — 2026-10-17
+
+- Completed source-only review: WebSocket authorization, replay and GitHub execution-tool inventory.
+- Report: [Wave 76](MEDIAHUB-OPENHANDS-WEBSOCKET-AUTH-REPLAY-AND-GITHUB-EXECUTION-TOOL-INVENTORY-WAVE-76-2026-10-17.md), blob SHA `1bc5dcf73914488873ad75867ed2da84192b4bf8`.
+- Map addendum: [Wave 76](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-76-2026-10-17.md), blob SHA `c2b6ff8357813f8ad66c2d7ea76d44b5d683e0e1`.
+- PR #333 remains open, Draft, unmerged. Pre-pass working HEAD was `9129f9bc708200952e8a759c47fc26cb12916041`; base `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; 29 ahead / 0 behind. Recheck PR HEAD after this checkpoint write.
+- OpenHands source blobs: `sockets.py` `33d7a4b1666e9cdcf004b157470e9be16cdfe693`; `session_socket.py` `4e02c35e6e4fd67ca5adea31e3f9346f59a29f38`; pinned `api.py` `1916fd4b00e798e27f85f37db1e634bbef6a48c2`; pinned `dependencies.py` `d1d2a6aece2056adc15824aed6cdccc4c3c33ead`. The socket files match at the reviewed pin and current upstream main.
+- Tool inventory: GitHub file/branch/commit/PR operations, search, compare, Actions logs/artifacts and reruns for existing failed runs are exposed. No dedicated fresh workflow-dispatch action was found in the exposed GitHub connector catalog. Browser profiles list no signed-in sites; authenticated browser execution is unverified.
+- Issue #301 remains governing. No workflow dispatch, provider/model call, credential access, test, installation, qualification, runtime/host inspection, infrastructure change, merge, rebase, cherry-pick or deployment occurred.
+- Next bounded pass: inspect existing GitHub Actions workflow files, permission boundaries and recorded Gemini evidence; determine a minimal read-only entrypoint. Do not dispatch without separate explicit authorization.
+
+## Wave 76 final GitHub state read-back
+
+- After the Wave 76 report/addendum/checkpoint writes, PR #333 was re-fetched: open, Draft, unmerged; verified HEAD before this final checkpoint note `3c95ecbc7c319a8874938f7dded413e3e421ca16`; base `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; compare `ahead`, 33 ahead / 0 behind. The checkpoint note itself advances the working branch by one further documentation commit, so fetch PR #333 again before the next `/next` pass.
+- Verified final documentation blobs before this note: report `1bc5dcf73914488873ad75867ed2da84192b4bf8`; addendum `c2b6ff8357813f8ad66c2d7ea76d44b5d683e0e1`; checkpoint pre-note blob `83dca2bbe3eac5e7b0373ee2c0a9ea1e5fdfb45c`.
+
+
+## Wave 77 continuation — 2026-10-17
+
+- Completed read-only review of actual GitHub Actions entry points and historical Gemini run evidence.
+- Report: [Wave 77 GitHub Actions entrypoint and Gemini provenance review](MEDIAHUB-GITHUB-ACTIONS-ENTRYPOINT-AND-GEMINI-PROVENANCE-REVIEW-WAVE-77-2026-10-17.md), verified blob SHA `0fd0e28716a1200e928c4863036ac2f74a8d6628`.
+- Map addendum: [Wave 77](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-77-2026-10-17.md), verified blob SHA `2cd56d1e46cfbd7a814df3b1f6428d3d7cb226be`.
+- PR #333 was re-fetched before checkpoint update: open / Draft / unmerged; working HEAD `4b3d5c4c67f4b15fb0573c714d2906cb61642739`; base `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; 36 ahead / 0 behind; 20 changed files. Checkpoint write will advance the branch, so fetch PR HEAD again at end.
+- Workflow inventory: 28 workflows on canonical documentation ref and working documentation branch; 35 on `main`. Gemini workflows exist on `main` and support manual `workflow_dispatch`; this session's connected GitHub catalog has no dedicated fresh dispatch action and authenticated browser dispatch is unverified.
+- Historical run `38952885501` on source SHA `b45324009ac3aa65322a702c28069b12190bc4b8` completed successfully; Gemini API and artifact upload steps succeeded. Artifact ID `12069128185`, digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d`.
+- The Astra chat-control and autonomous supervisor are privileged/self-hosted execution paths, not harmless probes. No dispatch/rerun, provider call, credential access, test, runtime inspection, infrastructure change, merge, rebase, cherry-pick or deployment occurred.
+- Next: prepare an exact source-bound hardening proposal for Gemini read-only workflow (immutable SHA, strict context/path/model policy, full-SHA action pins, provenance manifest) without modifying workflow source or dispatching. Explicit authorization remains required for implementation, provider call and execution.
+
+- Final Wave 77 post-checkpoint read-back: PR #333 HEAD `0facb2f04dcc7dbeef23c0f8371d178ef6bf81b9`, base `a0c432273914fa5c4bd9e756736f9c9b72b41a77`, open / Draft / unmerged, 37 ahead / 0 behind, 20 changed files. Checkpoint blob SHA at this read-back: `30f4476818227c0a605aa33d1a578492ea4e1f36`.
+
+
+## Latest verified continuation — Wave 78 cloud-model invocation readiness (2026-10-17)
+
+- Owner explicitly authorized cloud-model invocation for this /next pass.
+- PR #333 re-read: open, Draft, unmerged. Working branch HEAD `4458751d07e64c44d950591b78ef31681bc9dc37`; canonical base SHA `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; compare 38 ahead / 0 behind.
+- Live `main` HEAD: `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
+- Issue #301, bootstrap, Master Roadmap, current checkpoint and both Gemini workflow sources were re-read.
+- Gemini retry workflow `main` blob SHA `96fcc9ed4e45659d0118f0b9f3593a0c736200f0`; non-retry workflow `main` blob SHA `0d10efdda251f2ceca43175981c919102303572b`. Known source gaps remain: mutable context ref, tag-based action pins, caller-selected context paths, free-form model selection in retry, and incomplete evidence manifest.
+- Historical run `38952885501` is `completed/success`, source SHA `b45324009ac3aa65322a702c28069b12190bc4b8`, artifact `12069128185`, digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d`. It does not prove current repeatability or qualification.
+- Connected GitHub tools have no fresh workflow-dispatch operation. Browser profile discovery showed no GitHub signed-in site for either available profile; authenticated browser dispatch is unverified. No workflow was rerun as a substitute.
+- Report: `docs/checkpoints/MEDIAHUB-CLOUD-MODEL-INVOCATION-READINESS-WAVE-78-2026-10-17.md`; creation commit `ec305ce5d75e776780ef9d155a546d5d54def2b9`.
+- Map addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-78-2026-10-17.md`; creation commit `becbda1743d434b8c1d2e67ac196e08dc1532bc6`.
+- Disposition: **MODEL CALL AUTHORIZED / NOT EXECUTED / DISPATCH ACCESS BLOCKED / FABRIC NOT QUALIFIED**. No model call, dispatch/rerun, credential access, tests, installation, qualification, host/runtime inspection, infrastructure change, merge, rebase, cherry-pick or deployment occurred.
+- Next: ask whether an existing browser profile is signed in to the intended GitHub account, or obtain authorization to establish a GitHub browser session. Keep provider invocation read-only, source-bound, no paid fallback, no self-hosted/privileged Astra route. If the workflow hardening gates are not met, present the exact source patch for separate authorization.
