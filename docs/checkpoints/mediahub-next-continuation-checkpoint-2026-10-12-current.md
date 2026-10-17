@@ -4725,3 +4725,15 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Exact-head CI passed: Gemini Read-only Workflow Contract [39068081607](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081607), Astra Cloud Runtime Validation [39068081597](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081597), Astra Verify [39068081606](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081606).
 - PR #334 remains OPEN / DRAFT / UNMERGED. No provider call, secret access, queue admission, merge, deployment, or Contour A acceptance.
 - Residual gap: the regression is static, not socket-level. Next: build a provider-free local HTTP harness covering valid complete, non-2xx, over-limit, and truncated/aborted responses, then obtain independent security review.
+
+
+## /next Wave 106 — provider-free HTTP response regression (2026-10-17)
+
+- Report: [MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md](MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md).
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-106-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-106-2026-10-17.md).
+- PR #334 head: `166c49bd5231c4ab94fce02ebd2c2ed6ceb35b7b`; workflow blob `e233f808077a622b9ac51b1cf3be7ccc3259eb82`; shared HTTP reader blob `adb3d27307cd5ad078a8c622cbeaaebd40f903ec`; local HTTP harness blob `5656d2563676d85ff83ed99905c5d4d0216c648f`; Python contract tests blob `809a1ddcf07f40af297182576f1a13fb652243e1`.
+- Extracted bounded response collection into a shared module and wired the primary workflow to await it before output validation/write. Added a local loopback HTTP harness for complete valid, non-2xx, over-limit, and truncated responses. The valid response writes output; the other three must not create an artifact.
+- First intermediate CI attempt failed because a static assertion still expected the abort listener inline after extraction; updated the assertion to inspect the shared module and await/write ordering.
+- Successful PR merge-ref validation commit: `6d13d5156855a81c522bd33e29ba9fb5eb2aee3d`. Passing runs: Gemini Read-only Workflow Contract [39068528671](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528671), Astra Cloud Runtime Validation [39068528613](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528613), Astra Verify [39068528583](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528583).
+- PR #334 remains OPEN / DRAFT / UNMERGED. No provider calls, secret reads, queue admission, merge, deployment or Contour A acceptance.
+- Next: obtain independent security review and verify repository review/branch-protection requirements. CI and local response tests are not independent qualification or acceptance.
