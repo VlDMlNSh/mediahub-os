@@ -91,3 +91,8 @@ No schema, queue, model workflow, or agent should be allowed to collapse these r
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - [PR #338](https://github.com/VlDMlNSh/mediahub-os/pull/338)
 - [PR #334](https://github.com/VlDMlNSh/mediahub-os/pull/334)
+
+
+## Post-report integration experiment — disposition
+
+After the Wave 105 report was drafted, a separate branch `contour-a-schema-consolidation-rebased-wave105-20261017` was created from the same current docs base to test a lossless transplant of PR #338's 13 added files, avoiding a wholesale merge of its diverged branch. Eight files were written before subsequent GitHub file-write calls were blocked by platform safety controls. The branch is **INCOMPLETE / NOT A PR / NOT FOR INTEGRATION**; six required files remain absent, so its workflow/test result is not valid evidence. No attempt was made to bypass the block. Keep PR #338 unchanged and do not merge or dispatch this incomplete branch. Resume only through an allowed, reviewable GitHub change path that can atomically preserve the complete candidate file set, then run exact-head CI.
