@@ -4535,3 +4535,15 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - PR #333 description read-back: OPEN / DRAFT; stale blanket sentence removed and replaced with normal CI/review/provenance/architecture gate language. No merge was performed.
 - Live compare after documentation updates: docs ref `docs/mediahub-chat-tree-map-20261012` vs `main` = DIVERGED, ahead 2,104 / behind 25, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; current main commit reported by compare `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`. This large divergence is recorded, not silently resolved in this alignment pass; before any integration, inspect the full branch diff and the 25 main-only commits for loss/conflict and run applicable CI/protection checks.
 - Scope caveat: this was a targeted alignment of the four canonical instruction/navigation documents plus Issue #301 and PR #333, not an exhaustive search of every repository artifact. Older pass records and reports remain historical unless an active handoff is shown to be current.
+
+
+### Wave 81 — schema-validation workflow implementation (2026-10-17)
+
+- Source schema paths recovered from source blob `$id` values; exact source blob SHAs: task envelope `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`, agent registry `b49b89b8fbdfc180862e3dc78f8198f35e486035`, evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
+- Added workflow `.github/workflows/cloud-agent-schema-validation.yml` (blob SHA `21837ff07aa3351fbf234e14694777bb228dfc3e`) and report `docs/checkpoints/MEDIAHUB-CLOUD-AGENT-SCHEMA-VALIDATION-WAVE-81-2026-10-17.md` (blob SHA `901551288ad8e76ec5387eeee5cc3c9ec8c5ff59`).
+- PR #337: https://github.com/VlDMlNSh/mediahub-os/pull/337 — OPEN / DRAFT; head commit `36d445ae5065af938c2d92ee1c320b7028ad79aa`; no merge.
+- Fresh workflow run `39041398274` observed in `queued` state. No test pass claimed. Combined status endpoint returned no statuses.
+- Implementation pins checkout and setup-python actions by full SHA and jsonschema 4.23.0, performs Draft 2020-12 schema meta-validation with format checking, and expects empty-object rejection. CI behavior remains unverified until the run completes and logs are inspected. Positive fixtures, invalid-format fixtures and full dependency locking remain open.
+- Canonical map updated in commit `4802d58a08800aa83ac947bfd6762d7e895ec09b`, blob SHA `1444740421164f915ceab5341f83c8ee74b33302`. This update was made to the canonical documentation branch only; working PR remains separate.
+- A0 issuer/verifier lifecycle, R-06 audit/privacy authority and accepted target manifest remain open. No provider calls, secrets, dispatch, merge, deployment, qualification or acceptance.
+- Next: poll run `39041398274`, inspect jobs/logs, fix workflow failures if any, add positive/invalid-format fixtures, then update this checkpoint and map with read-back SHAs. Keep PR #333 separate until its branch divergence and CI/protection state are reconciled.
