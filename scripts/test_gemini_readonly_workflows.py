@@ -67,7 +67,7 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertIn(MODEL, source)
                 self.assertNotIn("inputs.model", source)
                 self.assertIn("maxOutputTokens:4096", source)
-                self.assertIn("bytes > 100000", source)
+                self.assertIn("bytes > 100000", OUTCOME_HELPER.read_text(encoding="utf-8"))
                 if path == RETRY:
                     self.assertIn("${manifest.attempts} (automatic POST retry disabled)", source)
                 self.assertIn("Untrusted model-generated advisory output", source)
@@ -103,7 +103,7 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         self.assertIn("await readBoundedResponse(res, req, 2*1024*1024)", self.audit)
         self.assertIn("DEFAULT_MAX_RESPONSE_BYTES = 2 * 1024 * 1024", HTTP_HELPER.read_text(encoding="utf-8"))
         self.assertIn("response byte limit exceeded", HTTP_HELPER.read_text(encoding="utf-8"))
-        self.assertLess(self.audit.index("await readBoundedResponse"), self.audit.index("finalizeProviderResponse"))
+        self.assertLess(self.audit.index("await readBoundedResponse"), self.audit.index("const result = finalizeProviderResponse"))
         self.assertLess(OUTCOME_HELPER.read_text(encoding="utf-8").index("const outputBytes = Buffer.byteLength"), OUTCOME_HELPER.read_text(encoding="utf-8").index("fs.writeFileSync(outputPath"))
         self.assertLess(HTTP_HELPER.read_text(encoding="utf-8").index("res.on('end'"), HTTP_HELPER.read_text(encoding="utf-8").index("resolve({"))
 
@@ -118,7 +118,7 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         self.assertIn("req.on('error',reject)", self.audit)
         self.assertIn("if (settled) return;", self.audit)
         self.assertLess(response_end, helper.index("resolve({"))
-        self.assertLess(self.audit.index("await readBoundedResponse"), self.audit.index("finalizeProviderResponse"))
+        self.assertLess(self.audit.index("await readBoundedResponse"), self.audit.index("const result = finalizeProviderResponse"))
         self.assertLess(outcome.index("const outputBytes = Buffer.byteLength"), output_write)
         self.assertIn("finalizeProviderResponse", self.retry)
         self.assertIn("finalizeTransportError", self.audit + self.retry)
@@ -137,11 +137,12 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         self.assertIn("complete valid response writes output", result.stdout)
 
     def test_both_workflows_emit_real_newlines_in_advisory_artifacts(self) -> None:
+        outcome = OUTCOME_HELPER.read_text(encoding="utf-8")
+        self.assertIn(r"join('\\n').trim()", outcome)
+        self.assertIn(r"-->\\n", outcome)
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
             with self.subTest(workflow=path.name):
-                self.assertIn(r"join('\n').trim()", source)
-                self.assertIn(r"\n## Gemini read-only evidence", source)
-                self.assertIn(r"-->\n'+text+'\n'", source)
+                self.assertIn(r"\\n## Gemini read-only evidence", source)
 
     def test_missing_credential_finalizes_terminal_manifest_without_provider_access(self) -> None:
         result = subprocess.run(
