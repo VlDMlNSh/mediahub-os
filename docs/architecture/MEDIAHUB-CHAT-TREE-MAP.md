@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.332)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.365)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7090,3 +7090,112 @@ WB-14AA и приложение остаются не-нормативными. 
 - The eight bootstrap wheel hashes were compared to official PyPI file metadata. Residual supply-chain concern remains: PyPI records for `setuptools==84.0.0` report Trusted Publishing was not used. Hash-locking confirms bytes against the selected metadata, not independent approval or full publisher assurance.
 - PR #338 remains OPEN / DRAFT / UNMERGED; no independent review was returned. Candidate vs current documentation branch remains diverged (20 ahead / 20 behind; merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; verify live before any integration). Issue #301 remains open; A0 issuer/verifier/lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent review and queue qualification remain open.
 - Disposition: **SCHEMA CI AND LOCK REGENERATION PASS / SUPPLY-CHAIN REVIEW AND CONTOUR A ACCEPTANCE OPEN**. No provider call, secret read, cloud-agent dispatch, merge or deployment performed.
+
+
+## 20.357 — Broad Contour A engineering and integration reconciliation, Wave 105 (2026-10-17)
+
+- Report: [Broad Contour A Engineering Wave 105](../checkpoints/MEDIAHUB-BROAD-CONTOUR-A-ENGINEERING-WAVE-105-2026-10-17.md).
+- Addendum: [Wave 105](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-105-2026-10-17.md).
+- Fresh docs-vs-main comparison: diverged, docs branch 2,155 ahead / 27 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Do not wholesale merge the branches.
+- PR #338 candidate `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`: open/Draft/unmerged, no independent review recorded, 20 ahead / 24 behind current docs branch; merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`.
+- Existing schema run #39058425661 passed 3/3 Draft 2020-12 meta-validations, 3/3 positive fixtures, 179/179 negative schema cases, 26/26 semantic negatives; artifact #12110676230 digest `sha256:7957517179ce91c469e851996d2141410640c008da90c6f0c35f879ac185bb3c`. Existing lock-generation run #39058422263 passed byte-for-byte regeneration; artifact #12110905625 digest `sha256:c94ead52345eba9d652a0107c611eb67dca46e39f0ce0b49b40d1938e54ad224`.
+- Source review confirms fixture validation does not qualify live issuer/policy resolution or runtime admission. Independent schema/supply-chain review remains open, including the `setuptools==84.0.0` publisher provenance concern.
+- PR #334 and #336 remain open/Draft/unmerged and currently non-mergeable; earlier CI evidence is historical until exact-head revalidation.
+- A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority, accepted target manifest, independent review and bounded worker/queue qualification remain open. No model/provider call, secret access, workflow dispatch, runtime test, merge, deployment or acceptance occurred.
+- Next: independent review and lossless PR #338 reconciliation; source-linked clause-level acceptance matrix for A0/MH-12/R-06 and the clean target manifest. Preserve Jarvis / ASTRA A0 / Product State Authority separation.
+
+
+## 20.358 — Contour A clause-level acceptance matrix (Wave 106, 2026-10-17)
+
+- Report: [Contour A Acceptance-Matrix Engineering Wave 106](../checkpoints/MEDIAHUB-CONTOUR-A-ACCEPTANCE-MATRIX-WAVE-106-2026-10-17.md).
+- Existing control register extended: [Unified Contract and Project Traceability Matrix](../checkpoints/MEDIAHUB-UNIFIED-CONTRACT-AND-TRACEABILITY-MATRIX-WAVE-01-2026-10-16.md), update commit `91555d160e184202592949780837e005f3564994`, blob SHA `099df3001a41ea7f86a54c032d254b55efd4c158`.
+- Fourteen acceptance rows now cover authority separation, schema and semantic validation, A0 ingress/issuer and lifecycle/fencing, capability binding, R-06 audit/privacy, clean target identity, worker isolation, provenance, queue admission, supply-chain provenance and separate promotion states.
+- Existing CI remains PASS-SCOPED only: schema run [39058425661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058425661); hash-lock regeneration [39058422263](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058422263). Wave 106 did not rerun these workflows.
+- Blocking/unknown gates remain: A0 issuer/ingress and fencing/recovery; R-06 event sink, privacy retention, residency and clock; owner-accepted clean target manifest; independent review; and qualified read-only worker/queue. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- No provider/model call, secret access, dispatch, runtime test, merge or deployment occurred.
+
+
+## 20.359 — Contour A governance decision packet (Wave 107, 2026-10-17)
+
+- Report: [Contour A Governance Decision Packet, Wave 107](../checkpoints/MEDIAHUB-CONTOUR-A-GOVERNANCE-DECISION-PACKET-WAVE-107-2026-10-17.md).
+- Governance gates were separated into six decision requests: D-CA-01 ingress/caller identity; D-CA-02 capability issuer/verification/revocation; D-CA-03 lease/fencing/cancellation/replay; D-CA-04 R-06 audit/privacy; D-CA-05 exact clean runner/workspace/network target; D-CA-06 promotion authority.
+- Primary source revisions: A0 source trace `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`; R-06 crosswalk `099ad9f6a85bd4764dd16ccbfa9695c2abd6d5bd`; target reconciliation `1f748bf80e08067fd85a7e1b0821cc4d12bda676`; integrated architecture contract `c248956417cc61d66c968a4c58a56e799f653354`.
+- Candidate options remain explicitly unselected. The packet grants no authority, does not amend Baseline 2.0, and does not authorize workflow dispatch or runtime changes.
+- Current status: decisions OPEN/UNKNOWN; target BLOCKED/UNKNOWN; Contour A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: request owner/governance disposition in Issue #301; bind accepted decisions to exact source SHAs before implementation.
+
+
+## 20.360 — Documentation integrity and governance status (Wave 108, 2026-10-17)
+
+- Report: [Documentation Integrity and Governance Status, Wave 108](../checkpoints/MEDIAHUB-DOCUMENTATION-INTEGRITY-AND-GOVERNANCE-STATUS-WAVE-108-2026-10-17.md).
+- Addendum: [Wave 108](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-108-2026-10-17.md).
+- Reconciles the navigation index after read-back found Wave 108 report/addendum existed but were not indexed by the working map. This is an index-only update; it does not amend contracts or acceptance status.
+- Issue #301 remains OPEN without owner disposition for D-CA-01…D-CA-06. PR #339 remains OPEN/DRAFT/UNMERGED; no PR-triggered workflow runs were returned for exact head `3e5c26a5e3a02bcf12ef0d13828fbdeedacc13fb`.
+- PR #338 remains OPEN/DRAFT/UNMERGED with unresolved branch drift and independent review. Wave 105's incomplete integration experiment is not a PR and must not be integrated.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. No provider invocation, secret access, dispatch, merge, deployment or acceptance occurred.
+- Next: obtain accountable governance decisions; then reconcile PR #338 losslessly against a refreshed base/head and run exact-head CI before considering integration.
+
+
+## 20.361 — Documentation index reconciliation (Wave 109, 2026-10-17)
+
+- Report: [Documentation Index Reconciliation, Wave 109](../checkpoints/MEDIAHUB-DOCUMENTATION-INDEX-RECONCILIATION-WAVE-109-2026-10-17.md).
+- Addendum: [Wave 109](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-109-2026-10-17.md).
+- Reconciles the working map index after Wave 108 report/addendum existed without a map entry. The canonical map was read by exact blob SHA and left unchanged.
+- Current refs verified: Issue #301 OPEN; PR #339 OPEN/DRAFT/UNMERGED, 29 commits ahead / 0 behind canonical docs branch; no PR-triggered workflow runs for exact commit `d19f63b3037ad0e37da7f72595082624c7fb61af`.
+- PR #338 remains open and unaccepted; its prior CI is candidate-scoped only. No provider, secret, dispatch, merge, deployment or acceptance action occurred.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. Next: obtain governance disposition and independently reconcile PR #338 losslessly after refreshing refs.
+
+
+## 20.362 — Exact ref freshness audit (Wave 110, 2026-10-17)
+
+- Report: [Exact Ref Freshness Audit, Wave 110](../checkpoints/MEDIAHUB-EXACT-REF-FRESHNESS-AUDIT-WAVE-110-2026-10-17.md).
+- Addendum: [Wave 110](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-110-2026-10-17.md).
+- Refreshes stale Wave 109 references: PR #339 is OPEN/DRAFT/UNMERGED at head `b0c07b5f205de460ab266483627d8d47a378a07b`, 31 commits ahead / 0 behind canonical docs branch; exact-head PR-triggered workflow lookup returned no runs, and review APIs returned no reviews/threads.
+- PR #338 remains OPEN/DRAFT/UNMERGED at `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, diverged 20 ahead / 24 behind current docs base, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; no independent review recorded.
+- Issue #301 remains OPEN without disposition for D-CA-01…D-CA-06. Wave 105 incomplete integration experiment remains not for integration.
+- Canonical map branch is unchanged. No provider/model call, secret access, dispatch, merge, deployment or production acceptance occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+
+
+## 20.363 — PR #338 bounded static review (Wave 111, 2026-10-17)
+
+- Report: [PR #338 Static Review, Wave 111](../checkpoints/MEDIAHUB-PR338-STATIC-REVIEW-WAVE-111-2026-10-17.md).
+- Addendum: [Wave 111](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-111-2026-10-17.md).
+- PR #338 is OPEN / DRAFT / UNMERGED; candidate head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`; comparison with canonical docs branch is diverged 20 ahead / 24 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`.
+- Static review inspected the schema and lock workflows plus schema/semantic validators by exact blob SHA. Source records that synthetic checks do not establish live issuer/grant/policy authority, revocation, runtime admission or dispatch readiness.
+- Historical schema run [39058425661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058425661) remains candidate-scoped. No new test execution or independent review is claimed.
+- Supply-chain review remains open for `setuptools==84.0.0` publisher provenance; no integration/rebase/merge was attempted.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+
+
+## 20.364 — Exact-head evidence and integration gate audit, Wave 112 (2026-10-17)
+
+- Report: [Exact-Head Evidence and Integration Gate Audit, Wave 112](../checkpoints/MEDIAHUB-EXACT-HEAD-EVIDENCE-AND-INTEGRATION-GATE-AUDIT-WAVE-112-2026-10-17.md).
+- Addendum: [Wave 112](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-112-2026-10-17.md).
+- PR #339 remains OPEN / DRAFT / UNMERGED at head `20eb4b2e0b7c30b1bce081dc29d6a7dc826da33f`, 45 ahead / 0 behind canonical docs branch (`97d19bc423caca159c916ca9112eee77a18d10cd`); exact-head PR-triggered workflow lookup returned zero runs and review APIs returned zero reviews/threads.
+- PR #338 remains OPEN / DRAFT / UNMERGED at `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`; compare against canonical docs branch remains diverged 20 ahead / 24 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; independent review remains absent. Historical schema/lock checks are candidate-scoped only.
+- Issue #301 remains open without accountable disposition for D-CA-01…D-CA-06.
+- Canonical map was read by exact blob after the Contents API returned an empty response; canonical branch unchanged.
+- No runtime, secret, provider, dispatch, merge, deployment or acceptance action occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+
+
+## 20.365 — bounded runtime and exact-head recheck (Wave 113, 2026-10-17)
+
+- Report: [Bounded Runtime and Exact-Head Recheck, Wave 113](../checkpoints/MEDIAHUB-BOUNDED-RUNTIME-AND-EXACT-HEAD-RECHECK-WAVE-113-2026-10-17.md).
+- Addendum: [Wave 113](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-113-2026-10-17.md).
+- PR #339 refreshed to head 26a9af006546b67189d1728f5b65bd685c2ad509, OPEN/DRAFT/UNMERGED, 46 ahead / 0 behind canonical docs branch 97d19bc423caca159c916ca9112eee77a18d10cd; no exact-head PR-triggered workflow runs and no submitted reviews.
+- PR #338 remains at fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21, OPEN/DRAFT/UNMERGED, diverged 20 ahead / 24 behind; merge base 2bd41b5f71006597a7669a4b7154abc58f87af5d. Its successful schema run is candidate-scoped only; no independent review.
+- Isolated SentinelX workspace: static assertions for read-only permissions, immutable checkout, disabled checkout credential persistence, and full-SHA action pins passed. Local validators not executed: Python 3.9.6, jsonschema missing, workflow target Python 3.12. Gemini CLI/npx unavailable; no provider invocation or auth attempt.
+- Issue #301 remains OPEN without accountable disposition for D-CA-01…D-CA-06. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- No integration, dispatch, secret access, merge, deployment, or production acceptance occurred.
+
+
+## 20.366 — SentinelX-backed schema CI recheck, Wave 114 (2026-10-17)
+
+- Report: [SentinelX-backed Schema CI Recheck, Wave 114](../checkpoints/MEDIAHUB-SENTINELX-BACKED-SCHEMA-CI-RECHECK-WAVE-114-2026-10-17.md).
+- Addendum: [Wave 114](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-114-2026-10-17.md).
+- On operational SentinelX host `Voktors-Mac-mini.local`, 45 selected local contract tests passed. The user's original checkout outside the host allowlist was not modified.
+- Exact-head schema workflow run [39065457522](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39065457522) succeeded for PR #338 head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`; artifact `12112628870`, digest `sha256:020bb79d34970f37856ec8a9f7c5058c6830d7a7e383613322eff85d86c51804`.
+- Evidence: 3/3 schemas, 3/3 positive fixtures, 179/179 negative schema cases (166 generated nested-required cases), 1/1 semantic positive bundle, 26/26 semantic negatives; zero reported failures. Semantic report retains P0 `AUTHORITY_REFERENCES_UNRESOLVED`; this is synthetic fixture evidence only.
+- PR #338 remains OPEN/DRAFT/UNMERGED without independent review. PR #339 remains OPEN/DRAFT/UNMERGED, 47 ahead / 0 behind canonical docs HEAD `97d19bc423caca159c916ca9112eee77a18d10cd`. Issue #301 remains open without accountable dispositions for D-CA-01…D-CA-06.
+- No model/provider invocation, secret read, merge, deployment or Contour A acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: lossless PR #338 reconciliation and independent schema/security/supply-chain review against refreshed refs.

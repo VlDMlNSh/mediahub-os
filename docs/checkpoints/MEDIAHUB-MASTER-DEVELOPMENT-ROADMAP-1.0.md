@@ -2056,3 +2056,71 @@ Alignment audit and navigation: [canonical project map §20.351](../architecture
 - Issue #301 remains open. A0 issuer/verifier/ingress/lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network target manifest, independent schema/authority review and bounded worker/queue qualification remain open.
 - Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED**. No provider call, secret access, cloud-agent dispatch, merge or deployment was performed in these waves.
 - Next authorized engineering step: obtain independent supply-chain/schema review and reconcile PR #338's base/head divergence; then continue the Issue #301 admission/qualification sequence without crossing the Jarvis/A0/Product State Authority boundary.
+
+
+## Wave 106 — Contour A acceptance traceability (2026-10-17)
+
+- Recorded implementation/verification status in [Contour A Acceptance-Matrix Engineering Wave 106](MEDIAHUB-CONTOUR-A-ACCEPTANCE-MATRIX-WAVE-106-2026-10-17.md) and the existing [Unified Contract and Project Traceability Matrix](MEDIAHUB-UNIFIED-CONTRACT-AND-TRACEABILITY-MATRIX-WAVE-01-2026-10-16.md).
+- Added a source-bound set of 14 acceptance rows; matrix blob SHA `099df3001a41ea7f86a54c032d254b55efd4c158`. Map §20.357 links the report and evidence.
+- The candidate schema/semantic fixture and lock-regeneration CI remain PASS-SCOPED for their recorded candidate revision only. No new CI was run in Wave 106; no runtime qualification is inferred.
+- P0 remains open for A0 ingress/issuer and lifecycle fencing/recovery, R-06 audit/privacy governance, accepted target manifest and workspace isolation, independent schema/security/supply-chain review, and qualified read-only worker/queue.
+- Dependency order: close/accept authority, audit/privacy, and target contracts; independently review schema/supply-chain artifacts; then qualify a bounded least-privilege read-only worker; only thereafter consider queue dispatch or broader agent admission.
+- Status: **CONTOUR A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED**. No provider call, secret access, dispatch, merge, deployment, or acceptance occurred in this wave.
+
+
+## Wave 107 — Contour A governance decision packet (2026-10-17)
+
+- Published [Contour A Governance Decision Packet, Wave 107](MEDIAHUB-CONTOUR-A-GOVERNANCE-DECISION-PACKET-WAVE-107-2026-10-17.md) and indexed it at map §20.358 (map blob `4e4c35dcdbbac37458d70d318f2b1d8738336c66`).
+- Six governance decisions are now explicit: ingress/caller contract, capability issuer/revocation, lease/fencing/cancel/replay, R-06 audit/privacy, accepted clean target manifest, and promotion authority.
+- Options are proposals only. No API, issuer technology, target, audit sink, retention period or accountable owner was inferred. The packet grants no authority and does not amend Baseline 2.0.
+- Blocking gates remain open/unknown. No implementation, provider invocation, secret access, dispatch, qualification, merge, deployment or acceptance occurred.
+- Next: request accountable governance disposition through Issue #301; bind accepted decisions to exact source SHAs before implementing dependent behavior.
+
+## Wave 108 — documentation integrity and governance status (2026-10-17)
+
+- Re-read canonical map by exact blob SHA after Contents API returned empty content; confirmed canonical map remains at `docs/mediahub-chat-tree-map-20261012` and is not modified by this working pass.
+- Working map read-back showed the index at §20.359 but no Wave 108 entry despite the Wave 108 addendum/report. Reconcile navigation to §20.360 and update the top-line index; this does not change acceptance status.
+- Governance disposition remains open on Issue #301; comment #6239264841 is present and no subsequent owner decision was found in the current comment list.
+- PR #339 remains OPEN/DRAFT/UNMERGED; exact head `3e5c26a5e3a02bcf12ef0d13828fbdeedacc13fb` has no PR-triggered workflow runs in the connector result. PR #338 remains open/draft/unmerged; previous CI is historical candidate-scoped evidence only.
+- Wave 105's post-report integration experiment is explicitly incomplete, not a PR, and not for integration. No bypass or merge attempted.
+- Status: CONTOUR A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. Next: governance disposition; independent review and lossless exact-diff reconciliation of PR #338.
+
+
+## Wave 109 — documentation index reconciliation (2026-10-17)
+
+- Report: [Documentation Index Reconciliation, Wave 109](MEDIAHUB-DOCUMENTATION-INDEX-RECONCILIATION-WAVE-109-2026-10-17.md).
+- Reconciled working map index to §20.361 and added the Wave 109 navigation addendum. Canonical map was read by exact blob SHA and not changed.
+- Read-back confirmed Wave 108 report/addendum navigation gap; checkpoint and roadmap were updated to preserve Wave 108 evidence before this pass.
+- PR #339 remains OPEN/DRAFT/UNMERGED, 24 commits ahead / 0 behind the canonical docs branch. No exact-head PR-triggered CI runs were returned for commit `6080b562002bde5ab5f6117baac907603bd736d7`; no CI success is claimed.
+- Issue #301 remains OPEN with no accountable disposition for D-CA-01…D-CA-06. PR #338 remains open and requires independent review and lossless exact-diff reconciliation.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. Next: governance disposition, then refresh PR #338 refs and perform review/reconciliation.
+
+
+## Wave 110 — exact ref freshness audit (2026-10-17)
+
+- Report: [Exact Ref Freshness Audit, Wave 110](MEDIAHUB-EXACT-REF-FRESHNESS-AUDIT-WAVE-110-2026-10-17.md).
+- Working map index advanced to §20.362; canonical map branch remains unchanged.
+- PR #339 refreshed to exact head `b0c07b5f205de460ab266483627d8d47a378a07b`, 31 ahead / 0 behind; exact-head PR-triggered workflow lookup returned no runs and review APIs returned no reviews/threads.
+- PR #338 refreshed to exact head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, diverged 20 ahead / 24 behind canonical docs branch, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; independent review remains absent.
+- Issue #301 remains OPEN with D-CA-01…D-CA-06 awaiting disposition. No provider call, secret access, dispatch, merge, deployment or production acceptance occurred.
+- Status: CONTOUR A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. Next: governance disposition; independent review and lossless reconciliation of PR #338.
+
+
+## Wave 111 — PR #338 static review (2026-10-17)
+
+- Evidence: [Wave 111 report](MEDIAHUB-PR338-STATIC-REVIEW-WAVE-111-2026-10-17.md); indexed at map §20.363.
+- Exact workflow/validator source blobs are recorded in the report. Schema and semantic fixture passes are not live authorization, runtime admission, worker qualification or production acceptance.
+- PR #338 remains Draft/unmerged and diverged 20 ahead / 24 behind the canonical documentation branch. No independent reviews were returned. Do not merge on historical CI alone.
+- Resolve `setuptools==84.0.0` publisher-provenance concern and obtain independent schema/security review; separately close Issue #301 governance/target gates. No integration or runtime action in this wave.
+
+
+- Wave 111 integrity note: working map was restored from prior exact blob after detecting a truncated Contents API read; verified restored blob `9cd1b43e0443b7c94d46d8fef9e30eea2a89af46`, with canonical docs branch unchanged. Details in the [Wave 111 report](MEDIAHUB-PR338-STATIC-REVIEW-WAVE-111-2026-10-17.md).
+
+
+## Wave 112 — Exact-head evidence and integration gate audit (2026-10-17)
+
+- Evidence report: [Exact-Head Evidence and Integration Gate Audit, Wave 112](MEDIAHUB-EXACT-HEAD-EVIDENCE-AND-INTEGRATION-GATE-AUDIT-WAVE-112-2026-10-17.md).
+- PR #339 is OPEN / DRAFT / UNMERGED at `20eb4b2e0b7c30b1bce081dc29d6a7dc826da33f`; 45 ahead / 0 behind canonical docs branch. Exact-head PR-triggered workflow lookup returned zero runs; independent review is absent.
+- PR #338 remains OPEN / DRAFT / UNMERGED at `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`; compare remains diverged 20 ahead / 24 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Historical CI is candidate-scoped only.
+- Issue #301 decisions D-CA-01…D-CA-06 remain unresolved. Independent supply-chain review and target/issuer/lifecycle/audit qualification remain gates.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. No runtime, provider, secret, dispatch, merge or deployment action occurred.
