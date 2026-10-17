@@ -2,7 +2,7 @@
 - Date: 2026-10-13
 - Owner direction: user explicitly directs that this roadmap be the single working plan of record for subsequent development sequencing.
 - Ref: `docs/mediahub-chat-tree-map-20261012`
-- Status: **OWNER-DIRECTED MASTER PLAN / WORKING CONTROL DOCUMENT**. This is not a replacement for accepted architecture, Baseline 2.0, domain contracts, or governance decisions. It grants no permission to install software, inspect hosts/runtime, run tests/qualification, invoke models/providers, change infrastructure, deploy, merge, rebase, or cherry-pick.
+- Status: **OWNER-DIRECTED MASTER PLAN / WORKING CONTROL DOCUMENT**. This is not a replacement for accepted architecture, Baseline 2.0, domain contracts, or governance decisions. The owner directs autonomous project execution: routine engineering work within the project scope does not require repeated per-action confirmation. This standing direction does not replace architectural authority, repository protection, security, budget, or acceptance gates.
 - Navigation authority: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md` on the same ref.
 - Supporting initial plan: `docs/checkpoints/MEDIAHUB-DEVELOPER-FABRIC-UNIFIED-PLAN-2026-10-13.md`.
 - Functional authority: `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
@@ -20,7 +20,7 @@ The roadmap governs **work order and traceability**, not architecture authority.
 ### Non-negotiable operating rules
 
 1. Read this roadmap, the current project map, latest continuation checkpoint and linked primary sources before each material action.
-2. Check branch/ref, blob SHA, relevant commit, status, dependencies and current `main HEAD`; record divergences and never merge/rebase to “fix” them without separate authorization.
+2. Check branch/ref, blob SHA, relevant commit, status, dependencies and current `main HEAD`; record divergences. Autonomously perform necessary merge/rebase/cherry-pick and conflict resolution when CI, provenance, repository protections, architecture gates and no-data-loss checks pass; do not request repeated confirmation for routine integration.
 3. Preserve historical IDs. Check identifier collisions before minting any new stable ID.
 4. Baseline 2.0 is the current canonical functional reference. Baseline 1.0 is historical provenance only unless the owner explicitly directs otherwise.
 5. The map is an index; it is not a replacement for source contracts or evidence.
@@ -28,7 +28,7 @@ The roadmap governs **work order and traceability**, not architecture authority.
 7. Separate reported, observed, desired, policy-allowed, commanded, committed, applied, confirmed and predicted states.
 8. Product State Authority alone owns canonical MediaHub product-state mutation. Jarvis/ASTRA are engineering coordination/execution components, not Product State Authority. Home Assistant Core remains the Smart Home authority within approved boundaries.
 9. Default to least privilege, local-first where required, fail-closed on unknown authorization, and explicit data-egress/provider policy. Local-only inference must not silently fall back to cloud.
-10. Do not install software, run tests/qualification, invoke models/providers, use credentials, inspect host/runtime, modify infrastructure, deploy, migrate, merge, rebase or cherry-pick without the relevant explicit authorization.
+10. Execute installation, tests, qualification, provider/model invocation, credential use, runtime inspection, infrastructure changes, deployment, migration and Git integration autonomously when they are within the project mandate and relevant capability, policy and architecture gates are satisfied. Never expose secrets, exceed the approved budget, bypass issuer/capability, or claim acceptance without evidence. Preserve separate product-state and production acceptance authority.
 
 ## Current status supersession — verified 2026-10-15
 
@@ -2023,3 +2023,8 @@ Added [WB-08 Caller Trace and Readiness Effort Estimate](MEDIAHUB-CONTOUR-A-WB-0
 - No provider call, workflow dispatch, credential access, local test, install, host/runtime inspection, infrastructure change, deployment or merge occurred in this wave. The PR's existing checks passed; no new test run was launched.
 - Next bounded pass: source-review the pinned OpenHands Agent Server routes/configuration and workspace/tool enforcement against accepted A0, MH-12 and R-06 requirements. Keep autonomous activation blocked pending accepted authority and target evidence.
 - Project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Owner-directed autonomous execution clarification — 2026-10-17
+
+The standing project instruction authorizes continuous autonomous engineering without repeated confirmation for each ordinary action. Historical entries describing earlier restrictions remain historical; they must not be interpreted as blanket prohibitions on current work. Perform required branch integration when CI, provenance, branch protection, architecture contracts and loss-prevention checks pass. This does not collapse design, implementation, verification, qualification, release, deployment or acceptance into one state, and does not transfer Product State Authority to Jarvis or ASTRA A0.
