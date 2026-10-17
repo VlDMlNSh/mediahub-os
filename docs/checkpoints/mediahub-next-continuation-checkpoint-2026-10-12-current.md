@@ -4853,3 +4853,15 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - No provider/model invocation, secret access, manual dispatch, queue admission, merge, deployment, or Contour A acceptance occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
 - Canonical map (unchanged; current read returned empty Contents payload, blob SHA `4798bd288451000d6eff5bcb8f7f0855942f7181`): https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Next: obtain independent security review and authorized protection-rule read-back; preserve the candidate SHA unless a material source/base/policy change requires reconciliation, then rerun checks on the exact resulting SHA.
+
+
+## Wave 122 — Gemini HTTP helper CI path coverage (2026-10-18)
+
+- Report: [Wave 122](MEDIAHUB-GEMINI-HTTP-HELPER-CI-PATH-COVERAGE-WAVE-122-2026-10-18.md); map addendum: [Wave 122](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-122-2026-10-18.md).
+- PR #334 candidate HEAD: `b6ef967590a5e9cdaa4800a17e10e3c5b3ab6b66`. Added `scripts/gemini_http_response.js` and `scripts/test_gemini_http_response.js` to both validation workflow path filters; added regression assertions requiring both paths in push and pull_request filters.
+- Read-back blobs: workflow `fcbe964602bff7e03ed38632dc18066efad4d99c`; contract test `e1f6995cad1b0fece8ce02b31d50d2f82dcfd5c3`.
+- Exact-head CI all succeeded: contract #39074597908, Astra Cloud Runtime Validation #39074597910, Astra Verify #39074597915.
+- PR #334 remains OPEN / DRAFT / UNMERGED, 65 ahead / 2 behind `main`, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`. No independent security approval or authorized protection/ruleset read-back is evidenced.
+- No provider invocation, secret access, dispatch, queue admission, merge, deployment or Contour A acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Canonical map (unchanged): https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Next: independent security review of exact HEAD and authorized branch-protection/ruleset evidence; keep PR Draft until gates are met.
