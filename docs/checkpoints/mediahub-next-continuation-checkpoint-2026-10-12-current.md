@@ -4564,3 +4564,13 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Canonical map now includes §20.353; update commit `831be08c555570ba19c420ecaa26e6b3c9693c97`, blob SHA `83dfd4667068c4895a0620b4d52b9b37075fb9ba`. Full read-back length after Wave 81 entries: 1,022,520 characters.
 - Workflow blob SHA `de67071b599bd58db9220a9dd546e7a47666aec4`; report blob SHA `bc3ad858c5c36f003ed1d60268bf572d20371f75`.
 - No schema-validation pass claimed until run completion and log inspection. Keep PR #337 Draft; add positive and invalid-format fixtures after resolving current CI result.
+
+
+### Wave 81 — bounded schema validation passed
+
+- Corrected run https://github.com/VlDMlNSh/mediahub-os/actions/runs/39041494852 completed successfully on PR head `7dda8247bc66178b3797cb152fda7752dfdbfd89`; job ID `117421751596`, conclusion `success`.
+- Logs prove Draft 2020-12 meta-validation and empty-object negative rejection for all three schemas: task envelope 15 errors, registry 10, evidence manifest 13.
+- Limits: no positive valid-instance fixtures, no invalid-`date-time` fixture (FormatChecker is enabled but that path was not exercised), no deeper negative cases, no semantic cross-artifact checks or full transitive lock. This is bounded verification only; no qualification/acceptance.
+- Wave 81 report updated on working branch; update commit `63c42a1208bdc9d2a47703d61393c4c732fbd6e2`, blob SHA `f5b75b239bef9fecfe1e54f39aa6390e4ca25569`.
+- Canonical map updated with §20.354; update commit `3418816591885fc17472e3db47ae469ba5497f85`, blob SHA `2e5e067a5aaf1edd6fc26133a410a5b85b6694c1`.
+- PR #337 remains Draft and unmerged. Next: add positive fixtures for each schema and malformed date-time/deeper negative cases, run CI again, independently review, then consider merge only after all architecture and acceptance gates pass. A0 issuer/verifier, R-06 and target manifest remain open.
