@@ -4547,3 +4547,12 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Canonical map updated in commit `4802d58a08800aa83ac947bfd6762d7e895ec09b`, blob SHA `1444740421164f915ceab5341f83c8ee74b33302`. This update was made to the canonical documentation branch only; working PR remains separate.
 - A0 issuer/verifier lifecycle, R-06 audit/privacy authority and accepted target manifest remain open. No provider calls, secrets, dispatch, merge, deployment, qualification or acceptance.
 - Next: poll run `39041398274`, inspect jobs/logs, fix workflow failures if any, add positive/invalid-format fixtures, then update this checkpoint and map with read-back SHAs. Keep PR #333 separate until its branch divergence and CI/protection state are reconciled.
+
+
+### Wave 81 CI failure and corrective workflow fix
+
+- Run `39041398274` / job `117421459939` failed at setup-python because pip caching requires a repository `requirements.txt` or `pyproject.toml`; neither exists. Validator steps were skipped. This is a workflow setup failure, not a schema validation result.
+- Removed `cache: pip` from the working-branch workflow. Fix commit `80b104b5abd26154bb86ade0d9929de6f6c184fb`; updated workflow blob SHA `de67071b599bd58db9220a9dd546e7a47666aec4`.
+- Updated Wave 81 report on working branch; latest report commit `7dda8247bc66178b3797cb152fda7752dfdbfd89`, blob SHA `bc3ad858c5c36f003ed1d60268bf572d20371f75`.
+- Canonical map was restored from original full blob `e501b50e6ab3bdcdf2e67640402140ae99bc0436` after a Contents API empty-body response, then Wave 81 entry appended. Verified full blob length 1,021,919 characters; canonical map update commit `6495411a6fbe5b0a3a9822458e205bf17b69305e`, blob SHA `b42b3800f401e41e7acb69ff85997b76337d5964`. A previous checkpoint line pointing to the superseded intermediate map update is historical and corrected by this entry.
+- Next: inspect fresh PR run after workflow correction; schema validation is still unverified until validator step completes successfully.
