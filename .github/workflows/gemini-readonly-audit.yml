@@ -136,7 +136,7 @@ jobs:
       - name: Call fixed Gemini model (no automatic fallback)
         shell: bash
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || secrets.GOOGLE_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           set -euo pipefail
           [[ -n "${GEMINI_API_KEY:-}" ]] || { echo "::error::Required provider secret is not configured."; exit 30; }
