@@ -4889,3 +4889,10 @@ Clean schema-validation transplant recorded in [Wave 129 report](MEDIAHUB-SCHEMA
 - 12 files / 1,713 additions / zero deletions; the three pinned schema blobs match the canonical base.
 - CI run `39078203138` was in progress at report time; review is pending. No merge or runtime activation.
 - Next: inspect the run to terminal status, verify artifacts and final file SHAs, then obtain independent review. Keep A0/R-06/target-manifest acceptance gates separate.
+
+
+### Wave 129 CI terminal update — 2026-10-18
+
+- Exact-head run [39078203138](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078203138) succeeded on candidate head `6fc49b3de45c396d79c4470157374ea8b159fda1`; artifact SHA-256 `41ad07d946bad3b9233b8aa3f084436394a21b608e0855066ab88f549e12c065`.
+- Report updated: [Wave 129](MEDIAHUB-SCHEMA-CLEAN-TRANSPLANT-WAVE-129-2026-10-18.md); map index: [§20.351](../architecture/MEDIAHUB-CHAT-TREE-MAP.md#20351--wave-129-clean-schema-validation-transplant-2026-10-18).
+- PR #351 remains draft/unmerged, with independent review pending. Next: obtain independent review, then separately qualify A0/R-06/target-manifest gates; no dispatch or runtime activation.
