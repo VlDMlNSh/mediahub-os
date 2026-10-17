@@ -4546,3 +4546,14 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Disposition remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. Source-to-artifact binding, R-06 and accepted target runtime manifest remain OPEN.
 - No install, tests, qualification, provider calls, credentials, workflow dispatch, runtime inspection, infrastructure changes, merge, rebase, deployment or branch integration occurred.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — completion-log event and diagnostic sink crosswalk, Wave 73 (2026-10-17)
+
+- Report: `docs/checkpoints/MEDIAHUB-OPENHANDS-COMPLETION-LOG-EVENT-AND-DIAGNOSTIC-SINK-CROSSWALK-WAVE-73-2026-10-17.md`; commit `93b7a21d7885f26e2716a773334d277a8e9df6c4`.
+- Map addendum: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-73-2026-10-17.md`; commit `14107f84d42dfc2f29e534878635c59df4094f8a`.
+- Pinned source inspection confirms completion logging can place raw `log_data` in `LLMCompletionLogEvent`, send it through the normal conversation event path (source says persisted and sent to WebSocket subscribers), then have the remote SDK write it to client-side disk. This expands the sensitive-data path beyond a simple local-disk description; it is distinct from product telemetry.
+- Pinned `ConversationErrorEvent.detail` is free-form; error classification does not establish redaction. Current-head traceback behavior remains version-specific and was recorded in Wave 72.
+- Candidate remains CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED. Proposed baseline: disable completion logging; separately qualify event persistence, WebSocket authorization, log sinks, retention and deletion. R-06, source-to-artifact binding and target manifest remain OPEN.
+- No install, tests, qualification, provider calls, credentials, dispatch, runtime inspection, infrastructure changes, merge, rebase, deployment or branch integration occurred.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
