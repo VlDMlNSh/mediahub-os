@@ -62,3 +62,12 @@ Open a draft PR for this bounded validation workflow, obtain a fresh CI run, ins
 - Log output confirms all three schemas passed Draft 2020-12 meta-schema validation and each rejected the empty-object negative fixture: task envelope 15 validation errors, registry 10, evidence manifest 13.
 - The run does **not** yet demonstrate valid positive instances, invalid `date-time` rejection, deeper negative fixtures, cross-artifact semantics, full transitive dependency locking, independent review or Contour A qualification. The FormatChecker was enabled, but no invalid-format fixture was executed.
 - CI success is limited to the exact PR head/run and these assertions. PR #337 remains Draft; no merge or qualification.
+
+
+## Wave 82 fixture expansion and CI evidence (2026-10-17)
+
+- Added generated positive fixtures for each v0.2 schema plus fail-closed negative cases for empty object, unknown top-level property, an invalid enum value, and malformed `date-time` values where the schema declares that format.
+- An initial Wave 82 attempt failed because the generated `schema_refs` array repeated identical items and the schema correctly enforced uniqueness. The generator now varies deterministic values by array index/seed; this exposed and fixed a fixture-generation defect, not a schema defect.
+- Successful run: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39041807077 — head `bc1d69d1f8758d584d96fe4224394db4e9fcfb79`, job `117422642538`, conclusion `success`.
+- Logs show all three schemas passed positive fixture validation, empty-object rejection, unknown-property rejection and enum rejection. Invalid date-time rejected at `deadline`, `lifecycle.issued_at`, and `execution.started_at` respectively.
+- Scope remains bounded: these are generated representative fixtures, not a curated full acceptance suite. Cross-artifact semantic consistency, additional nested invalid cases, fully locked transitive dependencies, independent review, A0 issuer/verifier, R-06 and accepted target manifest remain open. PR remains Draft/unmerged.
