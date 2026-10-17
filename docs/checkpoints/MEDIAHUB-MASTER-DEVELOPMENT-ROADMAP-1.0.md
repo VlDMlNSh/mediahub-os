@@ -2075,3 +2075,12 @@ Alignment audit and navigation: [canonical project map §20.351](../architecture
 - Options are proposals only. No API, issuer technology, target, audit sink, retention period or accountable owner was inferred. The packet grants no authority and does not amend Baseline 2.0.
 - Blocking gates remain open/unknown. No implementation, provider invocation, secret access, dispatch, qualification, merge, deployment or acceptance occurred.
 - Next: request accountable governance disposition through Issue #301; bind accepted decisions to exact source SHAs before implementing dependent behavior.
+
+## Wave 108 — documentation integrity and governance status (2026-10-17)
+
+- Re-read canonical map by exact blob SHA after Contents API returned empty content; confirmed canonical map remains at `docs/mediahub-chat-tree-map-20261012` and is not modified by this working pass.
+- Working map read-back showed the index at §20.359 but no Wave 108 entry despite the Wave 108 addendum/report. Reconcile navigation to §20.360 and update the top-line index; this does not change acceptance status.
+- Governance disposition remains open on Issue #301; comment #6239264841 is present and no subsequent owner decision was found in the current comment list.
+- PR #339 remains OPEN/DRAFT/UNMERGED; exact head `3e5c26a5e3a02bcf12ef0d13828fbdeedacc13fb` has no PR-triggered workflow runs in the connector result. PR #338 remains open/draft/unmerged; previous CI is historical candidate-scoped evidence only.
+- Wave 105's post-report integration experiment is explicitly incomplete, not a PR, and not for integration. No bypass or merge attempted.
+- Status: CONTOUR A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. Next: governance disposition; independent review and lossless exact-diff reconciliation of PR #338.
