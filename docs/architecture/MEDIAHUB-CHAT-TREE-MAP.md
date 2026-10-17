@@ -7007,3 +7007,11 @@ WB-14AA и приложение остаются не-нормативными. 
 - Re-read job logs confirms positive fixtures (3 schema fixtures plus the cross-artifact fixture), and negative checks for empty objects, additional properties, invalid enums and invalid date-time. The explicit `PASS cross-artifact reference fixture` line is present.
 - PR #337 remains Draft/open and GitHub currently reports `mergeable=false`; base SHA shown by PR is `8083cd61dbe348e18ab7db3e09b2769529bdcfda`, while the canonical map/checkpoint have since advanced. Do not merge until current base/head divergence and conflict status are reconciled.
 - No independent schema review, Contour A qualification, issuer/verifier closure, R-06 closure or accepted target manifest is evidenced by this run.
+
+
+## §20.357 — Wave 82 mismatch-negative semantic test (2026-10-17)
+
+- Workflow now tests both a consistent cross-artifact fixture and rejection of a manifest whose task ID disagrees with the task envelope. Workflow commit `87c7078fbf1eb43a82943f45613cae7b4ed8742c` passed in run `39042273337`, job `117423994181`; logs include `PASS cross-artifact mismatch negative fixture`.
+- The Wave 82 report was updated to record that evidence (blob SHA `3dca6a1e4378c2fe88599f31ab787b57ab6ccac2`). A documentation-only push triggered run `39042325574` on HEAD `53df0cb7ebb15786b64b6088f3aee8c9892e937b`; at this entry's creation the run was still in progress, so its result is not claimed here.
+- PR #337 remains Draft. Latest observed branch comparison: canonical base vs working branch = diverged, 12 commits ahead / 14 behind, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. Do not merge until exact base drift and any conflicts are resolved and reviewed.
+- This is workflow-local fixture logic, not a production semantic admission service. A0 issuer/verifier, R-06, accepted target manifest and independent review remain open.
