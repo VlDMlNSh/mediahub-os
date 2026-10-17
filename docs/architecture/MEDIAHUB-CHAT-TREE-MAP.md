@@ -7101,3 +7101,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Exact-head CI passed: [Gemini Read-only Workflow Contract #39068081607](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081607), [Astra Cloud Runtime Validation #39068081597](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081597), [Astra Verify #39068081606](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081606).
 - PR #334 remains OPEN / DRAFT / UNMERGED. Socket-level regression and independent security review remain outstanding. No provider call, secret access, queue admission, merge, deployment, or Contour A acceptance.
 - Next: provider-free local HTTP harness for complete valid, non-2xx, over-limit, and truncated/aborted responses.
+
+
+## 20.358 — Provider-free Gemini HTTP response regression (Wave 106, 2026-10-17)
+
+- Report: [MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md](../checkpoints/MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md).
+- Navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-106-2026-10-17.md](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-106-2026-10-17.md).
+- PR #334 head: `166c49bd5231c4ab94fce02ebd2c2ed6ceb35b7b`; shared HTTP reader blob `adb3d27307cd5ad078a8c622cbeaaebd40f903ec`; local HTTP harness blob `5656d2563676d85ff83ed99905c5d4d0216c648f`; Python contract test blob `809a1ddcf07f40af297182576f1a13fb652243e1`.
+- The primary workflow now awaits the shared bounded response reader before validating and writing output. A local loopback HTTP harness tests complete valid, non-2xx, over-limit, and truncated responses. Only the valid complete case may create an artifact.
+- Passing PR merge-ref validation commit: `6d13d5156855a81c522bd33e29ba9fb5eb2aee3d`; successful runs: [Gemini Read-only Workflow Contract #39068528671](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528671), [Astra Cloud Runtime Validation #39068528613](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528613), [Astra Verify #39068528583](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528583).
+- PR #334 remains OPEN / DRAFT / UNMERGED; independent security review remains outstanding. No provider call, secret read, queue admission, merge, deployment or Contour A acceptance.
+- Next: independent security review and repository protection/review-gate verification.
