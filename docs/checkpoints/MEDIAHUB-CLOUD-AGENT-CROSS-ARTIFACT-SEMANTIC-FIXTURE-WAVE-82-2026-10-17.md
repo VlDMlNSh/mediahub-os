@@ -32,3 +32,12 @@ The assembled evidence manifest is validated against the Draft 2020-12 schema af
 ## Next step
 
 Inspect run `39042019814` and confirm the cross-artifact fixture passes. If it fails, repair the fixture generator rather than weakening schema constraints. Then record exact CI evidence, perform independent review, and keep PR #337 Draft until all applicable gates are satisfied. Do not merge merely because this bounded workflow passes.
+
+
+## Verified CI result
+
+- Run: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39042019814
+- Tested head commit: `04e984f8dd4cc3410f1e4beb5ff39b1f3fb73768`; job `117423260638`, conclusion `success`.
+- Job logs explicitly contain `PASS cross-artifact reference fixture` for task ID, task-envelope digest, agent/provider/model, registry-record digest, source provenance and policy digest.
+- Same run passed generated positive fixtures and negative checks for empty objects, unexpected top-level properties, invalid enum values, and malformed date-time values on all three schemas.
+- Scope is test-fixture consistency only; it does not validate arbitrary production artifact pairs or grant execution authority.
