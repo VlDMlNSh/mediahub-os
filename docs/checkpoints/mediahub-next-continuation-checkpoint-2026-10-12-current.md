@@ -4905,3 +4905,11 @@ Clean schema-validation transplant recorded in [Wave 129 report](MEDIAHUB-SCHEMA
 - Exact-head schema workflow run #39078419667 succeeded on that head; schema meta-validation, regression fixtures, cross-artifact semantic validation, machine-readable reports and evidence upload all passed.
 - PR #350 remains Draft/unmerged and has no review submissions. PR #351 is a duplicate stale-base candidate; no merge, dispatch, provider call, secret read or deployment occurred.
 - Next: after this documentation update, re-read live refs and reconcile the active candidate to the resulting canonical docs HEAD; verify exact-head CI and artifact digests again. Then resolve duplicate PR disposition and request independent review. Keep A0/R-06/target-manifest acceptance gates separate.
+
+
+### Wave 130 terminal CI and current disposition
+
+- Exact-head [run #39078628962](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39078628962) succeeded on candidate head `b3b730ea061faf9c975b63fa8019541df4578a96`; artifact `12117708847`, digest `sha256:eb87e02b43b8442dbe8e54d3653d9adc90b23df747cb02d45fdf86c1db163a11`.
+- The candidate was 16 ahead / 0 behind canonical docs HEAD `e869232ae5018a24bd1450a5c9ea4fa36e5b6b8a` at that check. Documentation records of this CI result now advance the docs branch; recheck refs and reconcile those documentation-only commits before the next integration decision.
+- PR #350 remains Draft/unmerged; no independent reviews. Duplicate PR #351 remains open on the older base; no PR was merged or closed.
+- Next: re-fetch live refs/PR statuses, decide duplicate disposition based on current evidence, reconcile candidate with current canonical docs if useful, and request independent review. Keep A0/R-06/target-manifest acceptance gates separate.
