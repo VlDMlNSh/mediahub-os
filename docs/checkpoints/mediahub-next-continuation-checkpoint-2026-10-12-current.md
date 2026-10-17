@@ -4608,3 +4608,15 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 
 - After the Wave 76 report/addendum/checkpoint writes, PR #333 was re-fetched: open, Draft, unmerged; verified HEAD before this final checkpoint note `3c95ecbc7c319a8874938f7dded413e3e421ca16`; base `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; compare `ahead`, 33 ahead / 0 behind. The checkpoint note itself advances the working branch by one further documentation commit, so fetch PR #333 again before the next `/next` pass.
 - Verified final documentation blobs before this note: report `1bc5dcf73914488873ad75867ed2da84192b4bf8`; addendum `c2b6ff8357813f8ad66c2d7ea76d44b5d683e0e1`; checkpoint pre-note blob `83dca2bbe3eac5e7b0373ee2c0a9ea1e5fdfb45c`.
+
+
+## Wave 77 continuation — 2026-10-17
+
+- Completed read-only review of actual GitHub Actions entry points and historical Gemini run evidence.
+- Report: [Wave 77 GitHub Actions entrypoint and Gemini provenance review](MEDIAHUB-GITHUB-ACTIONS-ENTRYPOINT-AND-GEMINI-PROVENANCE-REVIEW-WAVE-77-2026-10-17.md), verified blob SHA `0fd0e28716a1200e928c4863036ac2f74a8d6628`.
+- Map addendum: [Wave 77](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-77-2026-10-17.md), verified blob SHA `2cd56d1e46cfbd7a814df3b1f6428d3d7cb226be`.
+- PR #333 was re-fetched before checkpoint update: open / Draft / unmerged; working HEAD `4b3d5c4c67f4b15fb0573c714d2906cb61642739`; base `a0c432273914fa5c4bd9e756736f9c9b72b41a77`; 36 ahead / 0 behind; 20 changed files. Checkpoint write will advance the branch, so fetch PR HEAD again at end.
+- Workflow inventory: 28 workflows on canonical documentation ref and working documentation branch; 35 on `main`. Gemini workflows exist on `main` and support manual `workflow_dispatch`; this session's connected GitHub catalog has no dedicated fresh dispatch action and authenticated browser dispatch is unverified.
+- Historical run `38952885501` on source SHA `b45324009ac3aa65322a702c28069b12190bc4b8` completed successfully; Gemini API and artifact upload steps succeeded. Artifact ID `12069128185`, digest `sha256:a31c7a5036f003e6918c4c6a3ab0ad7f82c8c6c5fb10afde77f8a39d0d8b4d7d`.
+- The Astra chat-control and autonomous supervisor are privileged/self-hosted execution paths, not harmless probes. No dispatch/rerun, provider call, credential access, test, runtime inspection, infrastructure change, merge, rebase, cherry-pick or deployment occurred.
+- Next: prepare an exact source-bound hardening proposal for Gemini read-only workflow (immutable SHA, strict context/path/model policy, full-SHA action pins, provenance manifest) without modifying workflow source or dispatching. Explicit authorization remains required for implementation, provider call and execution.
