@@ -4808,3 +4808,15 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - Current PR HEAD `b8938e2c8a6b53a9856611beb4e2c91b9b47e7eb`; observed `main` HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`; branch compare diverged 39 ahead / 2 behind; merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
 - Exact-head CI passed: contract #39070239298, Astra Verify #39070239407, Cloud Runtime Validation #39070239344. PR remains OPEN / DRAFT / UNMERGED; no independent review returned; protection/rulesets unverified.
 - Next: reconcile branch divergence losslessly, review exact diff, rerun checks, and obtain independent security review/protection read-back. No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance.
+
+
+## Latest verified continuation — Gemini contract CI path-filter hardening, Wave 119 (2026-10-18)
+
+- Report: [MEDIAHUB-GEMINI-CONTRACT-CI-PATH-FILTER-HARDENING-WAVE-119-2026-10-18.md](MEDIAHUB-GEMINI-CONTRACT-CI-PATH-FILTER-HARDENING-WAVE-119-2026-10-18.md).
+- Map navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-119-2026-10-18.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-119-2026-10-18.md).
+- PR #334 candidate HEAD `1e66aae968c51dc232acc07723a965c3bd80cb6d`; live compare to `main` HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`: DIVERGED, 47 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
+- Contract workflow path filters now include the missing-credential finalizer and its standalone test for both push and pull_request. Workflow blob `c64504ed0107a63898c162405ed7d3fcfe70722b`; Python contract-test blob `9585f9a091a881a51a4dfd28294dbb5847674d47`.
+- Exact-head CI at last poll: Gemini contract run #39073129356 pending with no jobs returned; Astra Verify #39073129372 and Cloud Runtime Validation #39073129357 in progress. Targeted contract tests/actionlint are NOT VERIFIED.
+- Issue #301 remains OPEN. No provider call, secret read, manual dispatch, merge, deployment, queue admission or Contour A acceptance occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
+- Next: poll exact-head CI; investigate why the dedicated contract run has no jobs if it remains pending, without manually dispatching Gemini. Then add provider-outcome/manifest tests and seek independent review before lossless branch reconciliation.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
