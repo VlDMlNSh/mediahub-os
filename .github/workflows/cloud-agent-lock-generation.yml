@@ -54,12 +54,34 @@ jobs:
           python --version
           python -m pip --version
           sha256sum requirements/cloud-agent-schema-validation.in requirements/cloud-agent-schema-validation.lock
-      - name: Publish generated lock as workflow artifact
+      - name: Capture lock regeneration diff
+        if: always()
+        run: |
+          mkdir -p artifacts
+          : > artifacts/cloud-agent-schema-validation-lock.diff
+          if ! git diff --quiet -- requirements/cloud-agent-schema-validation.lock; then
+            git diff --no-ext-diff -- requirements/cloud-agent-schema-validation.lock > artifacts/cloud-agent-schema-validation-lock.diff
+            echo "LOCK_REGENERATION_MATCH=false"
+          else
+            echo "LOCK_REGENERATION_MATCH=true"
+          fi
+      - name: Publish regenerated lock and comparison evidence
+        if: always()
         uses: actions/upload-artifact@65462800FD760344B1A7B4382951275A0ABB4808
         with:
           name: cloud-agent-schema-validation-lock-${{ github.sha }}
-          path: requirements/cloud-agent-schema-validation.lock
+          path: |
+            requirements/cloud-agent-schema-validation.lock
+            artifacts/cloud-agent-schema-validation-lock.diff
           if-no-files-found: error
           retention-days: 7
+      - name: Require byte-for-byte lock reproducibility
+        if: success()
+        run: |
+          git diff --check
+          git diff --exit-code -- requirements/cloud-agent-schema-validation.lock
       - name: Emit lock for auditable retrieval
-        run: cat requirements/cloud-agent-schema-validation.lock
+        if: always()
+        run: |
+          cat requirements/cloud-agent-schema-validation.lock
+          sha256sum requirements/cloud-agent-schema-validation.in requirements/cloud-agent-schema-validation.lock
