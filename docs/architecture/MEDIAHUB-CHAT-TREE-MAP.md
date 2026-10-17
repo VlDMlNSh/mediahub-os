@@ -7090,3 +7090,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - The eight bootstrap wheel hashes were compared to official PyPI file metadata. Residual supply-chain concern remains: PyPI records for `setuptools==84.0.0` report Trusted Publishing was not used. Hash-locking confirms bytes against the selected metadata, not independent approval or full publisher assurance.
 - PR #338 remains OPEN / DRAFT / UNMERGED; no independent review was returned. Candidate vs current documentation branch remains diverged (20 ahead / 20 behind; merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; verify live before any integration). Issue #301 remains open; A0 issuer/verifier/lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent review and queue qualification remain open.
 - Disposition: **SCHEMA CI AND LOCK REGENERATION PASS / SUPPLY-CHAIN REVIEW AND CONTOUR A ACCEPTANCE OPEN**. No provider call, secret read, cloud-agent dispatch, merge or deployment performed.
+
+
+## 20.357 — Gemini read-only workflow incomplete-response fail-closed fix (Wave 105, 2026-10-17)
+
+- Report: [MEDIAHUB-GEMINI-READONLY-INCOMPLETE-RESPONSE-FAIL-CLOSED-WAVE-105-2026-10-17.md](../checkpoints/MEDIAHUB-GEMINI-READONLY-INCOMPLETE-RESPONSE-FAIL-CLOSED-WAVE-105-2026-10-17.md).
+- Navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-105-2026-10-17.md](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-105-2026-10-17.md).
+- PR #334 candidate head: `3b19bae1b6a19da1c46fff5ced8b6c60c8f8e15d`; workflow blob `4cbeff07f20e698d2c2d26118743c754271e0042`; test blob `5c0e178e5180ab7adfcfb69a84132e31a4d984f4`.
+- Defect: primary workflow response abort/error handlers referenced undefined `reject`. A scoped idempotent failure handler, settled guard, unified request-error handling, and static regression assertion now fail closed.
+- Exact-head CI passed: [Gemini Read-only Workflow Contract #39068081607](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081607), [Astra Cloud Runtime Validation #39068081597](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081597), [Astra Verify #39068081606](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081606).
+- PR #334 remains OPEN / DRAFT / UNMERGED. Socket-level regression and independent security review remain outstanding. No provider call, secret access, queue admission, merge, deployment, or Contour A acceptance.
+- Next: provider-free local HTTP harness for complete valid, non-2xx, over-limit, and truncated/aborted responses.
