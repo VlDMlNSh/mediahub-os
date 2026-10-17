@@ -419,6 +419,7 @@ def main() -> int:
             "workflow_run_attempt": __import__("os").environ.get("GITHUB_RUN_ATTEMPT"),
         },
         "schema_bindings": {},
+        "failures": [],
         "counts": {
             "schemas_meta_validated": 0,
             "bundle_positive_expected": 1,
