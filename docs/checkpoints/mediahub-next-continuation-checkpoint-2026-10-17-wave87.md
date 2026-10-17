@@ -111,3 +111,15 @@ See [Cloud-Agent Lock Reproducibility and CI Verification — Wave 87](MEDIAHUB-
 - During report creation, the first create-file call landed on `main` despite the intended branch argument. The mismatch was detected by checking commit ancestry and the working-branch tree.
 - The unintended report file was deleted from `main`; corrective commit `c06015e0b1526e0aaa6a522306052b077455aba5`. Current `main` contents no longer contain that file; the add/delete commits remain in history. No product/workflow/secrets/runtime configuration on `main` was changed.
 - The report was recreated on the working branch and the correction documented: [Wave 93 report](MEDIAHUB-WAVE-93-LOCK-TRIGGER-AND-DUAL-PR-RECONCILIATION-2026-10-17.md). Verify the final branch HEAD and checks before any further integration.
+
+
+## Wave 95 — No-index configuration investigation (2026-10-17)
+
+- Finding: the `--no-index` marker from the earlier Wave 87 snapshot is stale for the current working branch. Current lock blob `6a232e27c644ec1a46ddebc21a4a27c1d26ca781` contains zero `--no-index` markers and has 162 SHA-256 hash lines.
+- Current generator workflow blob: `c22d820ccb59bcbdbaf4bfa40125063f2c68d8e0`; it sets `PIP_CONFIG_FILE=/dev/null`, explicitly sets `PIP_INDEX_URL=https://pypi.org/simple`, removes `PIP_NO_INDEX`, and invokes pip-compile with `--no-config --index-url=https://pypi.org/simple`.
+- Successful generator evidence: [run 39048549631](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39048549631), source SHA `d493b042bdf5bb0259b84f69dc48b43875d77474`. Its logs show the explicit index settings and no `--no-index`.
+- Current PR head validation succeeded: [39049839864](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39049839864) and [39049836265](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39049836265).
+- Wave 95 investigation report: [MEDIAHUB-NO-INDEX-INVESTIGATION-WAVE-95-2026-10-17.md](MEDIAHUB-NO-INDEX-INVESTIGATION-WAVE-95-2026-10-17.md).
+- Limit: generator run is from an earlier commit than the current PR head; trigger/verify generation on the latest candidate head and compare artifact bytes with the committed lock before declaring reproducibility fully qualified.
+- PR #337 remains Draft and unmerged. Last observed divergence from canonical docs branch: 76 ahead / 20 behind, merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. No merge performed.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
