@@ -96,13 +96,14 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
 
     def test_primary_workflow_handles_abort_and_transport_errors_without_undefined_reject(self) -> None:
         reject_definition = self.audit.index("const reject = err =>")
-        abort_handler = self.audit.index("res.on('aborted'")
-        response_end = self.audit.index("res.on('end'")
+        helper = HTTP_HELPER.read_text(encoding="utf-8")
+        abort_handler = helper.index("res.on('aborted'")
+        response_end = helper.index("res.on('end'")
         output_write = self.audit.index("fs.writeFileSync(outputPath")
-        self.assertLess(reject_definition, abort_handler)
+        self.assertLess(reject_definition, self.audit.index("await readBoundedResponse"))
         self.assertIn("req.on('error',reject)", self.audit)
         self.assertIn("if (settled) return;", self.audit)
-        self.assertLess(response_end, output_write)
+        self.assertLess(response_end, helper.index("resolve({"))
         self.assertLess(self.audit.index("await readBoundedResponse"), output_write)
         self.assertNotIn("req.on('error',err=>{", self.audit)
 
