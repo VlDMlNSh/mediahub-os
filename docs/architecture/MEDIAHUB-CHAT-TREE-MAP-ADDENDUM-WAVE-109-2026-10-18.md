@@ -17,3 +17,15 @@
 Do not promote PR #334 out of draft or merge it based solely on green CI. The next gating action is an independent security review of the current exact HEAD plus authorized read-back of branch protection/rulesets through a suitable GitHub UI/API identity. Continue provider-free regression work while those gates remain blocked.
 
 Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md). Current checkpoint: [mediahub-next-continuation-checkpoint-2026-10-12-current.md](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+
+
+## Wave 109 implementation follow-up — explicit provider-secret identity
+
+- Found a mismatch between PR #334's stated no-key-fallback contract and both workflow sources: each used `secrets.GEMINI_API_KEY || secrets.GOOGLE_API_KEY`.
+- Replaced the expression in both workflows with the single explicit `secrets.GEMINI_API_KEY` reference and added a contract test prohibiting the old fallback.
+- Candidate HEAD after changes: `b8938e2c8a6b53a9856611beb4e2c91b9b47e7eb`.
+- Read-back blobs: primary workflow `f2183d1ee19af66f4669b70f38a762ede4c4239f`; retry workflow `0909d6039875bb33033a618dbb4b672ce1a85ead`; tests `f6b2ea1e8d7bd45f0c96c0b8a3f1a9058506e59d`.
+- Exact-head CI passed: [Gemini Read-only Workflow Contract #39070239298](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39070239298), [Astra Verify #39070239407](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39070239407), [Astra Cloud Runtime Validation #39070239344](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39070239344).
+- Live `main` comparison: diverged, 39 ahead / 2 behind; merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`; observed main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`.
+- PR #334 remains OPEN / DRAFT / UNMERGED. Independent review and branch-protection/ruleset read-back remain outstanding. No provider call, credential read, dispatch, queue admission, merge, deployment or Contour A acceptance occurred.
+- Detailed evidence: [Wave 109 report](../checkpoints/MEDIAHUB-GEMINI-EXPLICIT-SECRET-IDENTITY-WAVE-109-2026-10-18.md).
