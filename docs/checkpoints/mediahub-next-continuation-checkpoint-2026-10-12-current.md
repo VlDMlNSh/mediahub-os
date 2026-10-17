@@ -4619,3 +4619,14 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Logs confirm schema positive and negative fixtures plus both cross-artifact consistency and mismatched-task-ID rejection.
 - Canonical map updated with §20.358; commit `373c304c749dca15264b44f79c448d077a7e9fec`, blob SHA `e1eb74740b2429b10a6025fcb1a8289f5958316d`.
 - PR #337 remains Draft and currently `mergeable=false`, with branch compare 12 ahead / 14 behind. Integration remains deferred until divergence/conflicts and independent review are reconciled. Schema fixture success does not close A0 issuer/verifier, R-06 or target-manifest gates.
+
+
+## Wave 89 — duplicate schema-validation workflow consolidation (2026-10-17)
+
+- Comparison report: https://github.com/VlDMlNSh/mediahub-os/blob/contour-a-schema-validation-wave81-20261017/docs/checkpoints/MEDIAHUB-CLOUD-AGENT-DUAL-PR-WORKFLOW-CONSOLIDATION-WAVE-89-2026-10-17.md
+- PR #335 candidate head: `44e2bc7c735ad7f70294d66de8e08eb1da612e0d`; successful workflow run [39044583119](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39044583119).
+- PR #337 candidate head: `1bc17e3d5a52975e988d50789ca8de291c55d590`; exact-head schema validation runs [39047378737](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047378737) and [39047374968](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047374968) passed. Controlled hash-lock generation run [39046901040](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39046901040) passed.
+- Both PRs are still Draft, unmerged and without independent review submissions. They both define `.github/workflows/cloud-agent-schema-validation.yml`; merge collision is unresolved.
+- Recommended direction: one consolidated workflow preserving PR #335's reviewable Python scripts, checked-in regression fixtures, source-SHA assertions and machine-readable reports, combined with PR #337's hash-locked dependency installation and controlled lock generation.
+- Current PR #337 comparison against canonical docs branch: 53 ahead / 18 behind; merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. Do not merge blindly.
+- Issue #301 remains open: A0 issuer/verifier lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent schema/authority review, and bounded worker/queue qualification remain gates. CI success is not Contour A acceptance.
