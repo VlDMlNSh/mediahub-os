@@ -38,7 +38,7 @@ The documentation-only scope stated here described the historical pass at checkp
 5. Keep Baseline 1.0 and Baseline 2.0 provenance separate. Do not silently merge or reinterpret them.
 6. Do not claim PASS/VERIFIED/ACCEPTED/FROZEN/QUALIFIED/PRODUCTION READY without revision-bound evidence.
 7. Do not treat branch-specific architecture packages as canonical on main; verify branch divergence before any branch-level action.
-8. Do not run tests/qualification, install software, deploy, change infrastructure, execute migration or merge branches under this checkpoint.
+8. Historical restriction superseded by the owner instruction in “Current owner instruction supersession — 2026-10-17”: do not treat the historical pass restriction as current blanket prohibition. Execute tests/qualification, installation, deployment, infrastructure/migration work and merge/rebase/cherry-pick autonomously when within project scope and when the relevant capability/issuer, budget, security, repository-protection, architecture and acceptance gates pass. Historical pass records remain evidence of what was or was not done at that time.
 
 ## Current map navigation and prior checkpoints
 
