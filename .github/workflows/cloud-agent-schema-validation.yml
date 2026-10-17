@@ -54,11 +54,20 @@ jobs:
           set -euo pipefail
           .venv/bin/python scripts/validate_cloud_agent_schemas.py
 
-      - name: Upload machine-readable validation evidence
-        if: always() && hashFiles('artifacts/cloud-agent-schema-validation-report.json') != ''
+      - name: Validate cross-schema semantic invariants
+        id: semantic
+        shell: bash
+        run: |
+          set -euo pipefail
+          .venv/bin/python scripts/validate_cloud_agent_semantics.py
+
+      - name: Upload machine-readable schema and semantic evidence
+        if: always() && (hashFiles('artifacts/cloud-agent-schema-validation-report.json') != '' || hashFiles('artifacts/cloud-agent-semantic-validation-report.json') != '')
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
-          name: cloud-agent-schema-validation-${{ github.run_id }}
-          path: artifacts/cloud-agent-schema-validation-report.json
-          if-no-files-found: error
+          name: cloud-agent-schema-and-semantic-validation-${{ github.run_id }}
+          path: |
+            artifacts/cloud-agent-schema-validation-report.json
+            artifacts/cloud-agent-semantic-validation-report.json
+          if-no-files-found: warn
           retention-days: 14
