@@ -134,3 +134,13 @@ See [Cloud-Agent Lock Reproducibility and CI Verification — Wave 87](MEDIAHUB-
 - Latest observed validation run [39050070467](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39050070467) passed on PR head `250214fef305f1dbd073f175f768fe275f1352cb`; validation artifact `12107770418`, digest `sha256:b5e62b066f9f20d26100cf1799887f31ff5a96de33a17310b216a77207e83151`.
 - Wave 95 report: [MEDIAHUB-PIP-INDEX-SOURCE-AUDIT-WAVE-95-2026-10-17.md](MEDIAHUB-PIP-INDEX-SOURCE-AUDIT-WAVE-95-2026-10-17.md).
 - Small-step sequence: (1) source configuration/provenance audit — complete; (2) inspect validation artifact and embedded source SHA/test counts; (3) review authority/schema contracts against Baseline 2.0 and Issue #301; (4) independent review; (5) file-level branch reconciliation and final-SHA CI. PR #337 remains Draft and unmerged.
+
+
+## Wave 96 — validation artifact audit (2026-10-17)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-VALIDATION-ARTIFACT-AUDIT-WAVE-96-2026-10-17.md](MEDIAHUB-CLOUD-AGENT-VALIDATION-ARTIFACT-AUDIT-WAVE-96-2026-10-17.md).
+- PR #337 head at audit: `2e6a7505eb74a67df7de13d2c6ed160cd2843604`; successful validation run [39050770034](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39050770034).
+- The run tested the pull-request merge ref `7a0b11c1b38cb3fb532101f2713c4a394105a07d`, which is what provenance records as `github.sha`; the PR head SHA is distinct and recorded separately in run metadata.
+- Artifact `12107711298`, digest `sha256:a446bc175c61d9e92e861a589dbc5165582247b492e90e15bca2f3d7b2b78d7a`. Job output reports 3/3 positive fixtures passed, 13/13 negative mutations rejected, schema and semantic reports PASS, provenance recorded.
+- Semantic report is explicitly `PROPOSED_FIXTURE_ONLY_NOT_ACCEPTED`; this does not qualify A0 issuer/authority or queue execution.
+- Next: inspect provenance schema and PR event payload contracts, then decide whether additive PR-head/base SHA fields can be introduced without violating an accepted contract. Keep PR Draft; no merge.
