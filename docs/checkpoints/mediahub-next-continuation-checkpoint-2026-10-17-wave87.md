@@ -92,3 +92,15 @@ See [Cloud-Agent Lock Reproducibility and CI Verification — Wave 87](MEDIAHUB-
 - Both PRs remain open/Draft/unmerged; zero submitted review records observed for each. Both add the same `.github/workflows/cloud-agent-schema-validation.yml` with materially different designs. Do not merge either independently.
 - Wave 92 report: [Dual-PR Consolidation and Head-CI Audit](MEDIAHUB-DUAL-PR-CONSOLIDATION-AND-HEAD-CI-AUDIT-WAVE-92-2026-10-17.md). Report commit: `4e5f4da9a42f51f4af52727531c8de9ba0b908b1`.
 - Next step: build one consolidated candidate preserving PR #335's reviewable scripts/fixtures and semantic tests plus PR #337's hash-locked dependencies, immutable checkout, full-SHA Actions pins, least privilege, source-SHA assertions and machine-readable evidence. Keep all validation test-only; resolve the 20-commit base lag deliberately; require independent review and Issue #301 gates before any merge/qualification.
+
+
+## Wave 93 continuation — 2026-10-17
+
+- Current observed starting HEAD: `559700815424c58adc03c8f602c6fb6a985f5d5e`; Wave 93 report commit: `b8cfe5d93efb84aba17eb966b58f4235f70ef5db`.
+- Current generator workflow blob `c22d820ccb59bcbdbaf4bfa40125063f2c68d8e0` intentionally watches the direct dependency input and workflow, not the generated lock output. The lock is an output; a lock edit should trigger validation, not automatically regenerate/overwrite it. This corrects stale Wave 87 follow-up wording.
+- Current lock blob `6a232e27c644ec1a46ddebc21a4a27c1d26ca781` uses explicit PyPI index and neutralized ambient pip configuration in its generated command header. Current validation workflow blob `87db0e3fcfba9cf7373b7ba673325fc01eec6216` uses `--require-hashes`.
+- Current PR #337 head has successful schema-validation runs [39048903303](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39048903303) and [39048900960](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39048900960).
+- PR #335 and PR #337 both remain Draft/open/unmerged and overlap on the schema-validation workflow. PR #337 is 70 commits ahead / 20 behind the canonical docs branch at merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. Do not merge either independently.
+- Wave 93 report: [Lock Trigger and Dual-PR Reconciliation](MEDIAHUB-WAVE-93-LOCK-TRIGGER-AND-DUAL-PR-RECONCILIATION-2026-10-17.md).
+- Canonical map remains on the documentation branch and is not replaced by this checkpoint: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Next: compare PR #335/#337 overlapping patches and assemble one minimal consolidation candidate, preserving scripts/fixtures, hash-locked install, immutable SHA checkout, full-SHA Actions pins, least privilege and provenance. Require exact-head CI and independent review before deliberate branch reconciliation.
