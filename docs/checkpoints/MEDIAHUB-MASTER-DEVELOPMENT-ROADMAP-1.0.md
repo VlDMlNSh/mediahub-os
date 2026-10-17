@@ -2066,3 +2066,12 @@ Alignment audit and navigation: [canonical project map §20.351](../architecture
 - P0 remains open for A0 ingress/issuer and lifecycle fencing/recovery, R-06 audit/privacy governance, accepted target manifest and workspace isolation, independent schema/security/supply-chain review, and qualified read-only worker/queue.
 - Dependency order: close/accept authority, audit/privacy, and target contracts; independently review schema/supply-chain artifacts; then qualify a bounded least-privilege read-only worker; only thereafter consider queue dispatch or broader agent admission.
 - Status: **CONTOUR A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED**. No provider call, secret access, dispatch, merge, deployment, or acceptance occurred in this wave.
+
+
+## Wave 107 — Contour A governance decision packet (2026-10-17)
+
+- Published [Contour A Governance Decision Packet, Wave 107](MEDIAHUB-CONTOUR-A-GOVERNANCE-DECISION-PACKET-WAVE-107-2026-10-17.md) and indexed it at map §20.358 (map blob `4e4c35dcdbbac37458d70d318f2b1d8738336c66`).
+- Six governance decisions are now explicit: ingress/caller contract, capability issuer/revocation, lease/fencing/cancel/replay, R-06 audit/privacy, accepted clean target manifest, and promotion authority.
+- Options are proposals only. No API, issuer technology, target, audit sink, retention period or accountable owner was inferred. The packet grants no authority and does not amend Baseline 2.0.
+- Blocking gates remain open/unknown. No implementation, provider invocation, secret access, dispatch, qualification, merge, deployment or acceptance occurred.
+- Next: request accountable governance disposition through Issue #301; bind accepted decisions to exact source SHAs before implementing dependent behavior.
