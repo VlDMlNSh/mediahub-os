@@ -6973,3 +6973,11 @@ WB-14AA и приложение остаются не-нормативными. 
 - Source schema blobs and exact paths are recorded in the Wave 81 report. Validator uses jsonschema 4.23.0 with Draft 2020-12 meta-validation and empty-object negative fixtures. Positive fixtures and deeper invalid-format cases remain open.
 - Remaining gates: inspect run/job logs after completion; add positive and deeper negative fixtures; independently review workflow and dependency reproducibility; close A0 issuer/verifier, R-06 and target-manifest gates under Issue #301.
 - No merge, provider dispatch, credentials, deployment, qualification or acceptance performed.
+
+
+## §20.353 — Wave 81 CI correction status (2026-10-17)
+
+- First run `39041398274`, job `117421459939`, failed because setup-python pip caching expected a requirements/pyproject file that this repository does not have; validator steps were skipped.
+- Removed `cache: pip`; workflow blob SHA `de67071b599bd58db9220a9dd546e7a47666aec4`. Wave 81 report blob SHA `bc3ad858c5c36f003ed1d60268bf572d20371f75` documents the failure and fix.
+- Latest observed PR run: `39041494852`, status `in_progress`, conclusion unset, for head `7dda8247bc66178b3797cb152fda7752dfdbfd89`. No successful validation claim yet.
+- PR #337 remains OPEN / DRAFT and must not be merged until the latest run is inspected and required fixtures/review gates are satisfied.
