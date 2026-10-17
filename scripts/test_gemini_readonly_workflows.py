@@ -67,13 +67,20 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertNotRegex(source, r"(?i)echo\s+.*(?:GEMINI_API_KEY|GOOGLE_API_KEY)")
                 self.assertNotIn("text.slice(0,45000)", source)
 
-    def test_quota_retry_is_bounded_and_does_not_retry_http_429(self) -> None:
-        self.assertIn("maxAttempts = 3", self.retry)
-        self.assertIn("new Set([500, 502, 503, 504])", self.retry)
-        self.assertIn("HTTP 429 is not automatically retried", self.retry)
-        self.assertNotIn("429,", self.retry)
+    def test_non_idempotent_generation_post_is_never_retried_automatically(self) -> None:
+        self.assertIn("maxAttempts = 1", self.retry)
+        self.assertIn("non-idempotent-generation-post-no-automatic-retry", self.retry)
+        self.assertNotIn("new Set([500, 502, 503, 504])", self.retry)
         self.assertNotIn("GEMINI_MODEL", self.audit + self.retry)
         self.assertNotIn("OPENROUTER_API_KEY", self.audit + self.retry)
+
+    def test_response_body_is_streamed_with_a_hard_byte_cap(self) -> None:
+        for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
+            with self.subTest(workflow=path.name):
+                self.assertIn("maxResponseBytes=2*1024*1024", source)
+                self.assertIn("responseBytes > maxResponseBytes", source)
+                self.assertIn("response byte limit exceeded", source)
+                self.assertIn("res.destroy()", source)
 
     def test_artifact_retention_is_bounded(self) -> None:
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
