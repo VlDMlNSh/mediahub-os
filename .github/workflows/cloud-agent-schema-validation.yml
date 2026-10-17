@@ -140,7 +140,17 @@ jobs:
                       # Deterministically remove one present nested required property at a time.
                       def nested_required_paths(node, instance, prefix=()):
                           found = []
-                          if not isinstance(node, dict) or not isinstance(instance, dict):
+                          if not isinstance(node, dict):
+                              return found
+                          # Traverse array items as well as object properties so required
+                          # fields inside object-valued arrays receive negative fixtures.
+                          if isinstance(instance, list):
+                              item_schema = node.get("items")
+                              if isinstance(item_schema, dict):
+                                  for index, item in enumerate(instance):
+                                      found.extend(nested_required_paths(item_schema, item, prefix + (index,)))
+                              return found
+                          if not isinstance(instance, dict):
                               return found
                           props = node.get("properties", {})
                           for key in node.get("required", []):
