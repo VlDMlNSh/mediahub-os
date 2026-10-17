@@ -4871,3 +4871,10 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - Exact-head [schema validation run #39077570671](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39077570671) passed all steps: Draft 2020-12 schema/regression fixtures, cross-artifact semantic fixtures, machine-readable reports and evidence upload. Artifact ID `12117537626`, digest `sha256:db1a387ed590e006a406d1e3bf076b3a1b4d827b1613408eb85352fb90dbb518`.
 - Independent review remains unproven. Schema CI does not qualify issuer/capability, ingress, lease/cancel/recovery, R-06 authority/privacy or accepted runner/workspace/network targets. No provider call, secret read, dispatch, queue admission, merge or deployment.
 - Next: request independent review of PR #350, verify applicable protection requirements when authorized, and continue the remaining Issue #301 acceptance gates. Keep Draft until acceptance evidence is complete.
+
+
+### Wave 129 post-write ref recheck
+
+- After Wave 129 map/checkpoint/report commits, the candidate branch is now 13 ahead / 6 behind the live canonical docs branch; merge base remains `485540e75be44244599643734d502ade91eb48e2`.
+- GitHub currently reports PR #350 `mergeable=false`; the earlier `mergeable=true` snapshot was transient and is not current. Exact-head schema CI run #39077570671 remains successful on `92c5528b9fe0736ab316c3a3760a1db7bac1843a`.
+- Next: reconcile the candidate to the latest canonical docs HEAD, then re-run or verify exact-head CI and inspect current mergeability before any integration decision. Keep PR Draft.
