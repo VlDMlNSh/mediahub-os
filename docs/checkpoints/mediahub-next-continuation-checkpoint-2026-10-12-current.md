@@ -4756,3 +4756,14 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - Current `main` vs canonical documentation branch: DIVERGED, docs 2,155 ahead / 27 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`. Keep canonical docs work separate from main; no wholesale integration.
 - PR #338 remains OPEN / DRAFT / UNMERGED without independent review. Fresh compare to canonical docs branch remains DIVERGED 20 ahead / 24 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Its PR metadata says mergeable=true, but this does not remove branch-drift review or lossless reconciliation requirements.
 - Wave 106 is a documentation and source-traceability pass only. No code/workflow changes, provider call, secret access, dispatch, runtime qualification, merge, deployment or acceptance.
+
+
+## /next Wave 107 — Contour A governance decision packet (2026-10-17)
+
+- Report: [Contour A Governance Decision Packet, Wave 107](MEDIAHUB-CONTOUR-A-GOVERNANCE-DECISION-PACKET-WAVE-107-2026-10-17.md).
+- Map addendum: [Wave 107](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-107-2026-10-17.md).
+- Added six decision requests without selecting technology or inferring ownership: ingress/caller identity; capability issuer/revocation; fencing/cancel/replay; R-06 audit/privacy; clean runner/workspace/network target; promotion authority.
+- Primary sources read: A0 trace blob `49ca0b69737bf8d44fe3a42daa47fd9157c9097d`; R-06 crosswalk blob `099ad9f6a85bd4764dd16ccbfa9695c2abd6d5bd`; target reconciliation blob `1f748bf80e08067fd85a7e1b0821cc4d12bda676`; architecture contract blob `c248956417cc61d66c968a4c58a56e799f653354`.
+- Map §20.358 updated at commit `2e32d169e8884b5f46f18a63aeb969b4c05e89d8`, new map blob `4e4c35dcdbbac37458d70d318f2b1d8738336c66`.
+- Decisions remain PROPOSED/OPEN; owner identity remains UNKNOWN where not evidenced. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. No runtime/provider/secret/dispatch/merge/deployment action occurred.
+- Next: attach packet to Issue #301 for governance disposition; once decisions are accepted, bind them to exact source SHAs and update the matrix before dependent implementation.
